@@ -977,8 +977,6 @@ maven.jar.override = on
         #
         return ( classpath.getFlattened(), bootclasspath.getFlattened() )
 
-
-
     #
     # Maybe this is dodgy (it is inefficient) but we need some
     # way to get the sun tools for a javac compiler for ant and
@@ -1022,6 +1020,9 @@ maven.jar.override = on
         #
         srcdir=self.getModule().getSourceDirectory()
           
+        #
+        # Add the work directories
+        #
         for work in self.xml.work:
             path=None
             if work.nested:
@@ -1064,8 +1065,9 @@ maven.jar.override = on
     def getDependOutputList(self,dependency,visited,depth=0,debug=0):      
         """Get a classpath of outputs for a project (including its dependencies)"""            
    
-        # Don't loop...
-        if dependency in visited:  
+        # Don't loop, and skip ones that aren't here to
+        # affect the classpath
+        if (dependency in visited) or dependency.isNoClasspath():  
             # beneficiary.addInfo("Duplicated dependency [" + str(depend) + "]")          
             if debug:
                 print str(depth) + ") Already Visited : " + str(depend)

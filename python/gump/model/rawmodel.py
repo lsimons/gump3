@@ -78,7 +78,7 @@ class XMLWorkspace(Named,GumpXMLModelObject):
     self.server=Multiple(XMLServer)
     self.tracker=Multiple(XMLTracker)
     self.profile=Multiple(XMLProfile)
-    self.nag=Multiple(XMLWorkspaceNag)
+    self.nag=Single(XMLWorkspaceNag)
     self.version=Single(GumpXMLModelObject)
 
     

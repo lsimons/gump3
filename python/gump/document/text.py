@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/text.py,v 1.13 2004/03/16 23:56:41 ajack Exp $
-# $Revision: 1.13 $
-# $Date: 2004/03/16 23:56:41 $
+# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/text.py,v 1.14 2004/03/18 23:24:55 ajack Exp $
+# $Revision: 1.14 $
+# $Date: 2004/03/18 23:24:55 $
 #
 # ====================================================================
 #
@@ -99,6 +99,8 @@ class TextDocumenter(Documenter):
         #
         #
         quick=run.getOptions().isQuick()
+        verbose=run.getOptions().isVerbose()
+        debug=run.getOptions().isDebug()
         
         #
         # Where to write this.
@@ -144,20 +146,20 @@ class TextDocumenter(Documenter):
                 else:
                     if not gumpSet.inProjectSequence(project): continue
             
-                self.documentProject(indent,project)
+                self.documentProject(indent,project,debug,verbose)
                 
-    def documentProject(self, indent, project):
+    def documentProject(self, indent, project, debug, verbose):
         indent += ' '
         output=self.output    
         output.write(indent + "Project [" + project.getName() 	\
                     + "] State: " + project.getStateDescription() + "\n")
         
-        
-        self.documentDependenciesList(indent, "Project Dependees",		\
-                project.getDirectDependees(), 1, project)
+        if verbose:
+            self.documentDependenciesList(indent, "Project Dependees",		\
+                    project.getDirectDependees(), 1, project)
             
-        self.documentDependenciesList(indent, "Project Dependencies",	\
-                project.getDirectDependencies(), 0, project)
+            self.documentDependenciesList(indent, "Project Dependencies",	\
+                    project.getDirectDependencies(), 0, project)
         
         self.documentAnnotations(indent,project)
         self.documentWork(indent,project)

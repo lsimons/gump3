@@ -108,12 +108,15 @@ class Nagger:
                                 log.error("Failed to send nag e-mails for project " + project.getName()\
                                             + " : " + str(details), exc_info=1)
                 
+        
+        # Workspace can override...
+        (wsTo, wsFrom) = self.workspace.getOverrides()        
                 
         # Belt and braces (nag to us if not nag to them)
         if self.hasUnwanted():
             log.info('We have some unwanted\'s to send to list...')
             
-            self.sendEmail(self.workspace.mailinglist,self.workspace.email,	\
+            self.sendEmail(wsTo or self.workspace.mailinglist,wsFrom or self.workspace.email,	\
                         'BATCH: All dressed up, with nowhere to go...',\
                         self.getUnwantedContent())
                         
@@ -128,7 +131,7 @@ class Nagger:
         # Belt and braces (nag to us if not nag to them)
         if self.hasUnsent():
             log.info('We have some unsented\'s to send to list...')    
-            self.sendEmail(self.workspace.mailinglist,self.workspace.email,	\
+            self.sendEmail(wsTo or self.workspace.mailinglist,wsFrom or self.workspace.email,	\
                         'BATCH: Unable to send...',\
                          self.getUnsentContent())
                         
@@ -250,22 +253,20 @@ The following %s nag%s should have been sent
         # Send those e-mails
         self.sendEmails(self.getAddressPairs(project),subject,content)
     
+    def g
+    
     def getAddressPairs(self, object):
         nags=[]
         
-        if self.workspace.xml.nag:
-            #
-            # Overrides
-            #
-            wstoaddr=getattr(self.workspace.xml.nag,'to','')
-            wsfromaddr=getattr(self.workspace.xml.nag,'from','')   
+        # Workspace can override...
+        (wsTo, wsFrom) = self.workspace.getOverrides()
         
         for nagEntry in object.xml.nag:
             #
             # Determine where to send
             #
-            toaddr=wstoaddr or getattr(nagEntry,'to',self.workspace.mailinglist)
-            fromaddr=wsfromaddr or getattr(nagEntry,'from',self.workspace.email)   
+            toaddr=wsTo or getattr(nagEntry,'to',self.workspace.mailinglist)
+            fromaddr=wsFrom or getattr(nagEntry,'from',self.workspace.email)   
             
             # Somewhat bogus, but (I think) due to how the XML
             # objects never admit to not having something

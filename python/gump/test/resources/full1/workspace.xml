@@ -10,5 +10,6 @@
 
   <profile href="profile.xml"/>
 
-  <nag/>
+  <nag to='test@apache.org' from='test@apache.org'/>
+  
 </workspace>

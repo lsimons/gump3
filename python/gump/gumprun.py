@@ -318,8 +318,25 @@ class GumpSet:
 
     def dump(self, indent=0, output=sys.stdout):
         """ Display the contents of this object """
-        output.write(getIndent(indent)+'GumpSet: ' + self.getProjectExpression() + '\n')        
-
+        i=getIndent(indent)
+        output.write(i+'Expression: ' + self.getProjectExpression() + '\n')   
+        
+        self.dumpList(self.projects,'Projects :',indent+1,output)
+        self.dumpList(self.projectSequence,'Projects :',indent+1,output)
+        self.dumpList(self.modules,'Modules :',indent+1,output)
+        self.dumpList(self.moduleSequence,'Module Sequence :',indent+1,output)
+        self.dumpList(self.repositories,'Repositories :',indent+1,output)
+            
+    def dumpList(self,list,title,indent=0,output=sys.stdout):
+        """ Display a single list """  
+        i=getIndent(indent)              
+        output.write(i + title + '[' + str(len(list)) + '] : \n') 
+        idx=0  
+        for object in list:
+            idx+=1
+            output.write(i+str(idx)+': '+object.getName() + '\n')
+            
+            
 class GumpRunOptions:
     """
     
@@ -438,3 +455,15 @@ class GumpRun(Workable,Annotatable,Stateful):
         
     def getOutputsRepository(self):
         return self.outputsRepository
+        
+    def dump(self, indent=0, output=sys.stdout):
+        """ Display the contents of this object """
+        
+        i=getIndent(indent)
+        #output.write(i+'Expression: ' + self.gumpSet. + '\n')
+        output.write(i+'Gump Set:\n')
+        
+        self.gumpSet.dump(indent+1,output)
+        
+        
+        

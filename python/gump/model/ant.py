@@ -97,7 +97,7 @@ class Builder(ModelObject, PropertyContainer):
             # Add a dependency (to bring property)
             dependency=ProjectDependency(project, 	\
                             workspace.getProject(property.project),	\
-                            INHERIT_ALL,	\
+                            INHERIT_NONE,	\
                             runtime,
                             0,	\
                             ids,

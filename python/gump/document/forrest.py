@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/forrest.py,v 1.109 2004/03/17 20:55:22 ajack Exp $
-# $Revision: 1.109 $f
-# $Date: 2004/03/17 20:55:22 $
+# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/forrest.py,v 1.110 2004/03/18 23:24:55 ajack Exp $
+# $Revision: 1.110 $f
+# $Date: 2004/03/18 23:24:55 $
 #
 # ====================================================================
 #
@@ -139,9 +139,9 @@ class ForrestDocumenter(Documenter):
         fdir=os.path.abspath(os.path.join(workspace.getBaseDirectory(),'forrest'))
         return fdir
         
-    def getForrestOutputDirectory(self,workspace):
+    def getForrestStagingDirectory(self,workspace):
         """ Staging Area for built output """
-        fdir=os.path.abspath(os.path.join(workspace.getBaseDirectory(),'forrest-site'))
+        fdir=os.path.abspath(os.path.join(workspace.getBaseDirectory(),'forrest-staging'))
         return fdir
         
     def getForrestTemplateDirectory(self):
@@ -166,7 +166,7 @@ class ForrestDocumenter(Documenter):
         forrestWorkDir=self.getForrestDirectory(workspace)
         wipeDirectoryTree(forrestWorkDir)
                     
-        # Copy in the defaults        
+        # Sync in the defaults [i.e. cleans also]
         forrestTemplate=self.getForrestTemplateDirectory()   
         syncDirectories(	forrestTemplate,	\
                             forrestWorkDir,	\
@@ -180,19 +180,18 @@ class ForrestDocumenter(Documenter):
                             workspace)                               
                              
         #    
-        # Delete the output tree
+        # Wipe the staging tree
         #   
-        outputDirectory=self.getForrestOutputDirectory(workspace)
-        wipeDirectoryTree(outputDirectory)
-        
-         
+        stagingDirectory=self.getForrestStagingDirectory(workspace)
+        wipeDirectoryTree(stagingDirectory)
+                 
     def executeForrest(self,workspace):
         # The project tree
         xdocs=self.resolver.getDirectory(workspace)      
         
         # The three dirs, work, output (staging), public
         forrestWorkDir=self.getForrestDirectory(workspace)
-        outputDirectory=self.getForrestOutputDirectory(workspace)
+        stagingDirectory=self.getForrestStagingDirectory(workspace)
         logDirectory=workspace.getLogDirectory()
         
         # Generate...        
@@ -200,9 +199,9 @@ class ForrestDocumenter(Documenter):
       
         forrest.addPrefixedParameter('-D','java.awt.headless','true','=')
         forrest.addPrefixedParameter('-D','project.site-dir',  \
-            outputDirectory, '=')
+            stagingDirectory, '=')
                 
-        # Temporary
+        # Temporary:   
         # Too verbose ... forrest.addParameter('-debug')
         #forrest.addParameter('-verbose')
         
@@ -230,13 +229,13 @@ class ForrestDocumenter(Documenter):
                 #
                 # Sync over public pages...
                 #
-                syncDirectories(outputDirectory,logDirectory)
+                syncDirectories(stagingDirectory,logDirectory)
                 # 
                 # Clean up
-                wipeDirectoryTree(outputDirectory)
+                wipeDirectoryTree(stagingDirectory)
                 wipeDirectoryTree(forrestWorkDir)
             except:        
-                log.error('--- Failed to sync or clean-up')
+                log.error('--- Failed to staging->log sync and/or clean-up', exc_info=1)
                 success=0
         
         return success

@@ -521,6 +521,34 @@ class Workspace(NamedModelObject, PropertyContainer, Statable, Resultable):
     def isNag(self):
         return self.xml.nag
         
+    def hasNagToOverride(self):
+        return self.isNag() and hasattr(self.workspace.xml.nag,'to')
+        
+    def getNagToOverride(self):
+        return getattr(self.workspace.xml.nag,'to')
+        
+    def hasNagFromOverride(self):
+        return self.isNag() and hasattr(self.workspace.xml.nag,'from')
+        
+    def getNagFromOverride(self):
+        return getattr(self.workspace.xml.nag,'from')
+        
+    def getNagOverrides(self):
+          
+        #
+        # Nag Overrides
+        #
+        wsNagToOverrideAddr=None
+        wsNagFromOverrideAddr=None
+        
+        if self.workspace.hasNagToOverride():
+            wsNagToOverrideAddr=self.workspace.getNagToOverride()
+            
+        if self.workspace.hasNagFromOverride():
+            wsNagFromOverrideAddr=self.workspace.getNagFromOverride()
+        
+        return ( wsNagToOverrideAddr, wsNagFromOverrideAddr)
+             
     def getVersion(self):
         return self.xml.version
 

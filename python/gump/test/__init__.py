@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/test/__init__.py,v 1.8 2004/02/24 19:32:28 ajack Exp $
-# $Revision: 1.8 $
-# $Date: 2004/02/24 19:32:28 $
+# $Header: /home/stefano/cvs/gump/python/gump/test/__init__.py,v 1.9 2004/03/18 23:24:56 ajack Exp $
+# $Revision: 1.9 $
+# $Date: 2004/03/18 23:24:56 $
 #
 # ====================================================================
 #
@@ -75,12 +75,9 @@ from gump.output.statsdb import StatisticsDB
 from gump.utils.tools import listDirectoryToFileHolder
 
 def getTestWorkspace(xml=None):
-    if not xml: xml='gump/test/resources/full1/workspace.xml'
-    
-    print "Workspace File: " + str(xml)
-    #
+    if not xml: xml='gump/test/resources/full1/workspace.xml'    
+    #print "Workspace File: " + str(xml)    
     workspace = WorkspaceLoader().load(xml)
-
     return workspace
     
 def getWorkedTestWorkspace(xml=None):

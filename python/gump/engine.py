@@ -77,7 +77,8 @@ class GumpEngine:
         return self.perform(run, GumpTaskList(['update','build','document']) )
     
     def performIntegrate(self,run):
-        return self.perform(run, GumpTaskList(['update','build','document','outputs','notify']) )
+        return self.perform(run, \
+                GumpTaskList(['update','build','syndicate','generateResults','document','notify']) )
         
     def performCheck(self,run):
         return self.perform(run, GumpTaskList(['check','document']) )
@@ -768,8 +769,6 @@ class GumpEngine:
             
             projectNo+=1
 
-        
-    
                                    
     """
     
@@ -994,22 +993,20 @@ class GumpTaskList(list):
             task=GumpTask(name,['preprocess',])   
         elif 'document'==name:
             # Perform actual documentation
-            task=GumpTask(name,['preprocess','loadStatistics','prepareDocumentation','gatherResults'])    
+            task=GumpTask(name,	\
+                    ['preprocess','loadStatistics','prepareDocumentation','gatherResults','updateStatistics',])    
         elif 'notify'==name:
             # Was once called 'nag'...
             task=GumpTask(name,['preprocess','loadStatistics'])  
         elif 'syndicate'==name:
             # Syndicate to news feeds
-            task=GumpTask(name,['preprocess','loadStatistics'])  
+            task=GumpTask(name,['preprocess','loadStatistics','prepareDocumentation'])  
         elif 'gatherResults'==name:
             # Gather results.xml from other servers 
             task=GumpTask(name,['preprocess'])   
         elif 'generateResults'==name:
             # Generate the results.xml for this server/workspace
-            task=GumpTask(name,['preprocess','loadStatistics'])  
-        elif 'outputs'==name:
-            # Publish the stuff out the door            
-            task=GumpTask(name,['syndicate','generateResults','updateStatistics','notify'])  
+            task=GumpTask(name,['preprocess','loadStatistics','prepareDocumentation'])   
         else:
             raise RuntimeError, 'Unknown task name ['+name+']'            
         return task

@@ -338,13 +338,10 @@ class Dependable:
     # 
     def hasFullDependencyOnNamedProject(self,name):
         for dependency in self.getDirectDependencies():
-            if dependency.getProject().getName()==name: 
+            if dependency.getProject().getName()==name	\
+                and not dependency.isNoClasspath() :
                 return 1
-                
-# :TODO:        
-#           and not dependency.noclasspath: return 1
-#:TODO: noclasspath????
-
+            
         return 0
 
     # determine if this project is a prereq of any project on the todo list
@@ -359,7 +356,3 @@ class Dependable:
     def hasDependee(self,project):
         for dependee in self.getFullDependees():
             if dependee.getOwnerProject()==project: return 1
-                    
-        
-        
-        

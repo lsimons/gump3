@@ -132,7 +132,7 @@ def runCommand(command,args='',dir=None,outputFile=None):
                 catFile(log,outputFile)            
             os.remove(outputFile)
         
-        log.write('Exit Code : ' + `exit_code`)
+        log.write('Exit Code : ' + `exit_code` + '\n')
     
     finally:
         if originalCWD: os.chdir(originalCWD)
@@ -233,8 +233,10 @@ try:
         mailserver=wsw.getAttribute('mailserver')
         mailport=wsw.getAttribute('mailport') or 25
         mailto=wsw.getAttribute('mailinglist')        
-        mailfrom=wsw.getAttribute('email')     
-        logurl=wsw.getAttribute('logurl')
+        mailfrom=wsw.getAttribute('email')  
+        # Log (site) location(s)   
+        logurl=wsw.getAttribute('logurl')   
+        logdir=wsw.getAttribute('logdir') or os.path.join(basePath,'log')
         # Extract the mail server/address
         ws.unlink()
         
@@ -276,6 +278,7 @@ try:
         if cvsExit:
             result=1
             
+        #
         # :TODO: Is this a CVS thing, or a Gump historical thing?
         #
         if os.path.exists('.timestamp'): 
@@ -303,12 +306,18 @@ try:
             if integrationExit:
                 result=1
 
-            # Copy outputs (especially forrest) into log...
+            # :TODO: Copy outputs (especially forrest) into log...
 
 
     except KeyboardInterrupt:    
         log.write('Terminated by user interrupt...\n')
         result = 1
+        raise
+        
+    except:    
+        log.write('Terminated unintentionally...\n')
+        result = 1
+        raise
     
 finally:
     # Close the log
