@@ -39,7 +39,7 @@
     <option project="javamail"/>
 
     <!--home nested="dist"/-->
-    <jar  name="log4j-@@DATE@@.jar"/>
+    <jar  name="dist/lib/log4j-@@DATE@@.jar"/>
     
     <nag to="log4j-dev@jakarta.apache.org"
          subject="Build Failure 1.2 branch"
