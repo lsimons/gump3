@@ -16,6 +16,7 @@
 -->
   <project name="ant">
     <package>org.apache.tools.ant</package>
+    <repository href="repositories/apr.xml"/><!-- demonstrate repos can be defined elsewhere -->
 
     <ant target="dist-lite">
       <property name="ant.home" reference="home" project="ant"/>

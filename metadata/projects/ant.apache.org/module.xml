@@ -25,7 +25,5 @@
 
   <project href="projects/ant.apache.org/ant.xml"/>
   <project href="projects/ant.apache.org/bootstrap-ant.xml"/>
-  <project href="failure"/>
-
 </module>
 
