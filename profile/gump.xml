@@ -41,11 +41,12 @@
   <module href="project/jakarta-tools.xml"/>
 
   <!-- Turbine projects taken from cvs -->
-  <module href="http://cvs.apache.org/viewcvs/~checkout~/jakarta-turbine-2/jakarta-turbine-2.xml"/>
-  <module href="http://cvs.apache.org/viewcvs/~checkout~/jakarta-turbine-3/jakarta-turbine-3.xml"/>
-  <module href="http://cvs.apache.org/viewcvs/~checkout~/jakarta-turbine-fulcrum/jakarta-turbine-fulcrum.xml"/>
-  <module href="http://cvs.apache.org/viewcvs/~checkout~/jakarta-turbine-stratum/jakarta-turbine-stratum.xml"/>
-  <module href="http://cvs.apache.org/viewcvs/~checkout~/jakarta-turbine-torque/jakarta-turbine-torque.xml"/>
+  <module href="http://cvs.apache.org/viewcvs/~checkout~/jakarta-turbine-2/gump.xml"/>
+  <module href="http://cvs.apache.org/viewcvs/~checkout~/jakarta-turbine-3/gump.xml"/>
+  <module href="http://cvs.apache.org/viewcvs/~checkout~/jakarta-turbine-fulcrum/gump.xml"/>
+  <module href="http://cvs.apache.org/viewcvs/~checkout~/jakarta-turbine-jcs/gump.xml"/>
+  <module href="http://cvs.apache.org/viewcvs/~checkout~/jakarta-turbine-stratum/gump.xml"/>
+  <module href="http://cvs.apache.org/viewcvs/~checkout~/jakarta-turbine-torque/gump.xml"/>
   
   <!-- Turbine projects not fully mavenized -->
   <module href="project/jakarta-turbine-flux.xml"/>
