@@ -478,9 +478,7 @@
         <package>org.apache.avalon.excalibur.event</package>
 
         <ant basedir="event">
-            <depend property="excalibur-collections.jar" project="excalibur-collections"/>
             <depend property="excalibur-pool.jar" project="excalibur-pool"/>
-            <depend property="excalibur-concurrent.jar" project="excalibur-concurrent"/>
             <depend property="excalibur-threadcontext.jar" project="excalibur-threadcontext"/>
             <depend property="excalibur-thread.jar" project="excalibur-thread"/>
             <depend property="excalibur-util.jar" project="excalibur-util"/>
@@ -549,9 +547,9 @@
         <depend project="excalibur-instrument" runtime="true"/>
         <depend property="excalibur-instrument-manager.jar" project="excalibur-instrument-manager"/>
         <depend property="excalibur-instrument-manager-interfaces.jar" project="excalibur-instrument-manager"/>
-        <depend project="excalibur-collections" runtime="true"/>
+        <depend project="commons-collections" runtime="true"/>
+        <depend project="concurrent" runtime="true"/>
         <depend project="excalibur-container" runtime="true"/>
-        <depend project="excalibur-concurrent" runtime="true"/>
         <depend project="excalibur-event" runtime="true"/>
         <depend project="excalibur-logger" runtime="true"/>
         <depend project="excalibur-meta" runtime="true"/>
