@@ -15,9 +15,26 @@
         <title><xsl:value-of select="title/."/></title>
         <meta http-equiv="Content-Type"
               content="text/html; charset=iso-8859-1"/>
+        <style type="text/css">
+          body {
+            background-color: #ffffff;
+            color: #000000;
+            font-family: arial, helvetica, sanserif }
+          :link { color: #525D76 }
+          div.copyright {
+            color: #525D76;
+            font-size: 80%;
+            text-align: center;
+            font-weight: bold; }
+          td.title {
+            background-color: #525D76;
+            color: #ffffff;
+            font-weight: bold; }
+          a.title { font-weight: bold; }
+        </style>
       </head>
 
-      <body bgcolor="#ffffff" text="#000000" link="#525D76">
+      <body>
 
         <table border="0" width="100%" cellspacing="0">
           <tr>
@@ -42,12 +59,8 @@
             <td align="left" valign="top">
               <table border="0" cellspacing="0" cellpadding="2" width="100%">
                 <tr>
-                  <td bgcolor="#525D76">
-                    <font color="#ffffff" face="arial,helvetica,sanserif">
-                      <strong>
-                        <xsl:apply-templates select="title/*|title/text()"/>
-                      </strong>
-                    </font>
+                  <td class="title">
+                    <xsl:apply-templates select="title/*|title/text()"/>
                   </td>
                 </tr>
               </table>
@@ -62,12 +75,8 @@
           </tr>
           <tr>
             <td colspan="2">
-              <div align="center">
-                <font color="#525D76" size="-1">
-                  <em>
-                    Copyright &amp;#169; 2001, Apache Software Foundation
-                  </em>
-                </font>
+              <div align="center" class="copyright">
+                Copyright &amp;#169; 2001, Apache Software Foundation
               </div>
             </td>
           </tr>
