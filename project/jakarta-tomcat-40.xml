@@ -35,7 +35,7 @@
       <depend property="commons-logging.jar" project="commons-logging"
         runtime="true" id="commons-logging"/>
       <depend property="commons-logging-api.jar" project="commons-logging"
-        runtime="true" id="api"/>
+        runtime="true" id="commons-logging-api"/>
       <property name="regexp.jar"
         reference="jarpath" id="regexp" project="jakarta-regexp"/>
       <property name="jtc.home" reference="srcdir"
@@ -101,7 +101,7 @@
       <depend property="commons-logging.jar" project="commons-logging"
         runtime="true" id="commons-logging"/>
       <depend property="commons-logging-api.jar" project="commons-logging"
-        runtime="true" id="api"/>
+        runtime="true" id="commons-logging-api"/>
     </ant>
 
     <depend project="ant"/>
