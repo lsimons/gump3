@@ -51,15 +51,15 @@
     <depend project="commons-jelly"/>
     <depend project="commons-jelly-tags-ant"/>
     <depend project="commons-jelly-tags-define"/>
-    <depend project="commons-grant"/>
+    <!-- depend project="commons-grant"/ -->
     <depend project="commons-graph"/>
     <depend project="commons-io"/>
     <depend project="jdepend"/>
 
     <work nested="bootstrap/bootstrap-classes"/>
     
-    <nag from="dIon Gillard &lt;dion@multitask.com.au&gt;"
-         to="dev@maven.apache.org"/>
+    <!-- nag from="dIon Gillard &lt;dion@multitask.com.au&gt;"
+         to="dev@maven.apache.org"/ -->
   </project>
 
   <!-- This is really the cvs module. We need to change this but -->
@@ -86,7 +86,7 @@
     <depend project="commons-cli"/>
     <depend project="commons-collections"/>
     <depend project="commons-digester"/>
-    <depend project="commons-grant"/>
+    <!-- depend project="commons-grant"/ -->
     <depend project="commons-graph"/>
     <depend project="commons-io"/>
     <depend project="commons-jelly"/>
@@ -112,8 +112,8 @@
     <jar name="maven-@@DATE@@.jar"/>
     <javadoc nested="docs/apidocs"/>
     
-    <nag from="dIon Gillard &lt;dion@multitask.com.au&gt;"
-         to="dev@maven.apache.org"/>
+    <!-- nag from="dIon Gillard &lt;dion@multitask.com.au&gt;"
+         to="dev@maven.apache.org"/ -->
   </project>
   
 </module>
