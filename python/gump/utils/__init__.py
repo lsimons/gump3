@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/utils/__init__.py,v 1.22 2004/02/23 23:11:22 ajack Exp $
-# $Revision: 1.22 $
-# $Date: 2004/02/23 23:11:22 $
+# $Header: /home/stefano/cvs/gump/python/gump/utils/__init__.py,v 1.23 2004/02/23 23:29:39 ajack Exp $
+# $Revision: 1.23 $
+# $Date: 2004/02/23 23:29:39 $
 #
 # ====================================================================
 #
@@ -371,11 +371,30 @@ def logResourceUtilization(message=None,):
         if not message:
             message=''
             
-        resources=resource.getrusage(resource.RUSAGE_SELF)
-        log.debug('My Resources ' + message + ' ' + `resources`)
+        myresources=resource.getrusage(resource.RUSAGE_SELF)
+        
+        # Extract the pieces
+        (my_ru_utime, my_ru_stime, my_ru_maxrss, \
+            my_ru_ixrss, my_ru_idrss, my_ru_isrss, 	\
+            my_ru_minflt, my_ru_majflt, my_ru_nswap, \
+            my_ru_inblock, my_ru_oublock, my_ru_msgsnd, \
+            my_ru_msgrcv, my_ru_nsignals, my_ru_nvcsw, 	\
+            my_ru_nivcsw)=myresources
     
-        resources=resource.getrusage(resource.RUSAGE_CHILDREN)
-        log.debug('Child Resources ' + message + ' ' + `resources`)        
+        kidresources=resource.getrusage(resource.RUSAGE_CHILDREN)
+        
+        # Extract the pieces
+        (kid_ru_utime, kid_ru_stime, kid_ru_maxrss, \
+            kid_ru_ixrss, kid_ru_idrss, kid_ru_isrss, 	\
+            kid_ru_minflt, kid_ru_majflt, kid_ru_nswap, \
+            kid_ru_inblock, kid_ru_oublock, kid_ru_msgsnd, \
+            kid_ru_msgrcv, kid_ru_nsignals, kid_ru_nvcsw, 	\
+            kid_ru_nivcsw)=kidresources
+            
+        log.info('My Memory ' + message + ' ' + `my_ru_maxrss`)
+        log.info('My Resources ' + message + ' ' + `myresources`)
+        log.info('Child Memory ' + message + ' ' + `kid_ru_maxrss`)
+        log.info('Child Resources ' + message + ' ' + `kidresources`)        
     
         #resources=resource.getrusage(resource.RUSAGE_BOTH)
         #log.debug('All Resources ' + message  + ' ' + `resources`)
