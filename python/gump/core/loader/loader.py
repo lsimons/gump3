@@ -56,24 +56,21 @@ class XmlLoader:
             from gump.util.http import cacheHTTP
             urlFile=cacheHTTP(url,optimize=self.cache)
         
-        log.debug('Launch XML/DOM parser onto \'URL\' [%s] [Base:%s] ' \
-                    % (url,basedir))   
+        dom = self.load(urlFile,tag)
+
+        log.info('Parsed file %s/%s ' % (basedir,url))
         
-        return self.load(urlFile,tag)
+        return dom
         
     def load(self,file,tag=None):
         """
-        
-            Builds in memory from the xml file.
-            
+            Builds in memory from the xml file. 
         """
 
         if not os.path.exists(file):
-            log.error('Metadata file ['+file+'] not found')
+            log.error('Metadata file [' + file + '] not found')
             raise IOError, 'Metadata File %s not found.' % file 
             
-        log.debug("Launch XML/DOM Parser onto : " + file);
-              
         dom=xml.dom.minidom.parse(file)
         
         # We normalize the thing, 'cos we don't care about
@@ -91,8 +88,6 @@ class XmlLoader:
                 dom.unlink()
                 raise IOError, 'Incorrect XML Element, expected %s found %s.' % (tag,xtag)        
                 
-        log.debug("Parsed : " + file);
-        
         return dom
     
 class XmlResult:

@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/python
 
 # Copyright 2003-2004 The Apache Software Foundation
 #
@@ -14,21 +14,36 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-__revision__  = "$Rev: 36667 $"
-__date__      = "$Date: 2004-08-20 08:55:45 -0600 (Fri, 20 Aug 2004) $"
+"""
+usage: check [workspace]
+
+  Perform the integration build.
+
+Valid options:
+  workspace
+"""
+
+__description__ = "Check the gump metadata for validity and consistency"
+
+__revision__  = "$Rev: 54600 $"
+__date__      = "$Date: 2004-10-11 12:50:02 -0400 (Mon, 11 Oct 2004) $"
 __copyright__ = "Copyright (c) 1999-2004 Apache Software Foundation"
 __license__   = "http://www.apache.org/licenses/LICENSE-2.0"
 
-#
-# $Header: /home/stefano/cvs/gump/python/gump/__init__.py,v 1.25 2004/07/19 16:07:53 ajack Exp $
-# 
-
-# Either python-2.3 [or http://www.red-dove.com/python_logging.html]
+import socket
 import logging
-import logging.config
+from gump import log
+from gump.core.loader.loader import WorkspaceLoader
 
-# configure the logger
-logging.config.fileConfig("gump.log.config")
+def process(options,arguments):
 
-# base gump logger
-log = logging.getLogger("root")
+    if len(arguments) > 0:
+        ws = arguments[0]
+    else:
+        ws = "./metadata/" + socket.gethostname() + ".xml"
+
+    log.setLevel(logging.DEBUG)
+    
+    workspace = WorkspaceLoader().load(ws)    
+    
+    workspace.dump()

@@ -15,9 +15,7 @@
 # limitations under the License.
 
 """
-
     Executing processes (CVS, ant, etc.) and capturing results
-    
 """
 
 import os
@@ -31,68 +29,54 @@ from gump import log
 from gump.core.config import dir
 from gump.util import *
 from gump.util.timing import *
-
-import gump.util.process.command
-
-LAUNCHER=os.path.join(os.path.join(os.path.join(os.path.join('python','gump'),'util'),'process'),'launcher.py')
+from gump.util.process import command
+    
+LAUNCHER = os.path.join(os.path.join(os.path.join(os.path.join('python','gump'),'util'),'process'),'launcher.py')
 
 def execute(cmd,tmp=dir.tmp):
-    res=gump.util.process.command.CmdResult(cmd)
+    res = command.CmdResult(cmd)
     return executeIntoResult(cmd,res,tmp)
 	
 def executeIntoResult(cmd,result,tmp=dir.tmp):
     """
-    
     	Execute a command and capture the result
-   
-   	"""	
-    
-    outputFile=None
-    start=getLocalNow()
+   	"""
+    outputFile = None
+    start = getLocalNow()
     try:
       try:          
  
         # The command line
-        execString=cmd.formatCommandLine()        
+        execString = cmd.formatCommandLine()        
         
         # Exec File
-        execFile=os.path.abspath(os.path.join(tmp,gumpSafeName(cmd.name)+'.exec'))
+        execFile = os.path.abspath(os.path.join(tmp,gumpSafeName(cmd.name)+'.exec'))
         if os.path.exists(execFile): os.remove(execFile)
         
         # Output
-        outputFile=os.path.abspath(os.path.join(tmp,gumpSafeName(cmd.name)+'.txt'))
+        outputFile = os.path.abspath(os.path.join(tmp,gumpSafeName(cmd.name)+'.txt'))
         if os.path.exists(outputFile): os.remove(outputFile)
     
         try:            
-            f=open(execFile, 'w')
-            
+            f = open(execFile, 'w')
             # The CMD
             f.write( 'CMD: %s\n' % (execString))
-                
             # Dump the TMP
-            if tmp:
-                f.write( 'TMP: %s\n' % (tmp))
-                
+            if tmp: f.write( 'TMP: %s\n' % (tmp))
             # Dump the cwd (if specified)
-            if cmd.cwd:
-                f.write( 'CWD: %s\n' % (cmd.cwd))
-                     
+            if cmd.cwd: f.write( 'CWD: %s\n' % (cmd.cwd))
             # Write the TIMEOUT
-            if cmd.timeout:
-                f.write( 'TIMEOUT: %s\n' % (cmd.timeout))    
-                
+            if cmd.timeout: f.write( 'TIMEOUT: %s\n' % (cmd.timeout))    
             # Write ENV over-writes...
-            for envKey in cmd.env.iterkeys():
-                f.write('%s: %s\n' % (envKey, cmd.env[envKey]))    
- 
+            for envKey in cmd.env.iterkeys(): f.write('%s: %s\n' % (envKey, cmd.env[envKey]))    
         finally:
             # Since we may exit via an exception, close explicitly.
             if f: f.close()    
+        
+        # make sure that the python path includes the gump modules
+        os.environ['PYTHONPATH'] = os.path.abspath(os.path.join(os.getcwd(),'./python'))
             
-        #############################################################          
-           
-        fullExec = sys.executable + ' ' + LAUNCHER + ' ' + execFile + \
-                                    ' >>' + str(outputFile) + ' 2>&1'
+        fullExec = sys.executable + ' ' + LAUNCHER + ' ' + execFile + ' >>' + str(outputFile) + ' 2>&1'
                                     
         #log.debug('Executing: ' + execString)
         #log.debug('     Exec: ' + str(execFile))
@@ -100,59 +84,51 @@ def executeIntoResult(cmd,result,tmp=dir.tmp):
         #log.debug('Full Exec: ' + fullExec)
         
         # Execute Command & Wait
-        systemReturn=os.system(fullExec)
+        systemReturn = os.system(fullExec)
         
         if not os.name == 'dos' and not os.name == 'nt':
-            waitcode=systemReturn
-        
-            #
+            waitcode = systemReturn
             # The return code (from system = from wait) is (on Unix):
-            #
             #	a 16 bit number
             #	top byte	=	exit status
             #	low byte	=	signal that killed it
-            #
-            result.signal=(waitcode & 0xFF)
-            result.exit_code=(((waitcode & 0xFF00) >> 8) & 0xFF)
-        
+            result.signal = (waitcode & 0xFF)
+            result.exit_code = (((waitcode & 0xFF00) >> 8) & 0xFF)
         else:
-            
-            result.signal=0
-            result.exit_code=systemReturn
+            result.signal = 0
+            result.exit_code = systemReturn
             
         #log.debug('Command returned [' + str(systemReturn)+ '] [Sig:' + str(result.signal) + ' / Exit:' + str(result.exit_code) + '].')
         
-        #
         # Assume timed out if signal terminated
-        #
         if result.signal > 0:
-            result.state=gump.util.process.command.CMD_STATE_TIMED_OUT
-            log.warn('Command timed out. [' + execString + '] [' + str(timeout) + '] seconds.')
+            result.state = command.CMD_STATE_TIMED_OUT
+            #log.warn('Command timed out. [' + execString + '] [' + str(timeout) + '] seconds.')
         # Process Outputs (exit_code and stderr/stdout)
         elif result.exit_code > 0:    
-            result.state=gump.util.process.command.CMD_STATE_FAILED
-            log.warn('Command failed. [' + execString + ']. ExitCode: ' + str(result.exit_code))
+            result.state = command.CMD_STATE_FAILED
+            #log.warn('Command failed. [' + execString + ']. ExitCode: ' + str(result.exit_code))
         else:
-            result.state=gump.util.process.command.CMD_STATE_SUCCESS                
+            result.state = command.CMD_STATE_SUCCESS                
      
       except Exception, details :
         log.error('Failed to launch command. Details: ' + str(details))
         
-        result.exit_code=-1
-        result.state=gump.util.process.command.CMD_STATE_FAILED
+        result.exit_code = -1
+        result.state = command.CMD_STATE_FAILED
         
     finally:
       # Clean Up Empty Output Files
       if outputFile and os.path.exists(outputFile):
           if os.path.getsize(outputFile) > 0:
-              result.output=outputFile
+              result.output = outputFile
           else:
               os.remove(outputFile)
         
       # Keep time information
-      end=getLocalNow()
-      result.start=start
-      result.end=end 
+      end = getLocalNow()
+      result.start = start
+      result.end = end 
 	  
     return result
     
@@ -160,7 +136,7 @@ def shutdownProcesses():
     """
     Kill this (and all child processes).
     """
-    gumpid=default.gumpid
+    gumpid = default.gumpid
     log.warn('Kill all child processed (anything launched by PID' + str(gumpid) + ')')    
     try:
         os.kill(gumpid,signal.SIGKILL)
@@ -170,45 +146,43 @@ def shutdownProcesses():
           
 def runProcess(execFilename):
     """
-    
     Read an 'exec file' (formatted by Gump) to detect what to run,
     and how to run it.
-    
     """
-    execFile=None
+    execFile = None
     try:
-        execFile=file(execFilename,'r')
+        execFile = file(execFilename,'r')
     
         # Split into a dict of NAME: VALUE (from file)
-        execInfo=dict(re.findall('(.*?): (.*)', execFile.read()))
+        execInfo = dict(re.findall('(.*?): (.*)', execFile.read()))
         
         #print execInfo
         #for key in execInfo.iterkeys():
         #    print 'KEY : ' + key  + ' -> ' + execInfo[key]
         
-        cmd=execInfo['CMD']
-        cwd=None
-        if execInfo.has_key('CWD'):cwd=execInfo['CWD']
-        tmp=execInfo['TMP']
-        timeout=0
-        if execInfo.has_key('TIMEOUT'):timeout=int(execInfo['TIMEOUT'])
+        cmd = execInfo['CMD']
+        cwd = None
+        if execInfo.has_key('CWD'): cwd = execInfo['CWD']
+        tmp = execInfo['TMP']
+        timeout = 0
+        if execInfo.has_key('TIMEOUT'): timeout = int(execInfo['TIMEOUT'])
        
         # Make the TMP if needed
         if not os.path.exists(tmp): os.makedirs(tmp)
        
         # Make the CWD if needed
         if cwd: 
-          cwdpath=os.path.abspath(cwd)
+          cwdpath = os.path.abspath(cwd)
           if not os.path.exists(cwdpath): os.makedirs(cwdpath)
           os.chdir(cwdpath)
        
         # Write ENV over-writes...
         for envKey in execInfo.iterkeys():
             if not envKey in ['CMD','TMP','CWD']:
-                os.environ[envKey]=execInfo[envKey]
+                os.environ[envKey] = execInfo[envKey]
                
         # Timeout support
-        timer=None
+        timer = None
         if timeout:
             import threading
             timer = threading.Timer(timeout, shutdownProcesses)
@@ -216,44 +190,36 @@ def runProcess(execFilename):
             timer.start()
             
         # Run the command
-        systemReturn=os.system(cmd)
+        systemReturn = os.system(cmd)
                   
         # Stop timer (if still running)
         if timer: timer.cancel() 
         
         if not os.name in ['dos','nt']:
-            waitcode=systemReturn
-        
-            #
+            waitcode = systemReturn
             # The return code (from system = from wait) is (on Unix):
-            #
             #    a 16 bit number
             #    top byte    =    exit status
             #    low byte    =    signal that killed it
-            #
-            signal=(waitcode & 0xFF)
-            exit_code=(((waitcode & 0xFF00) >> 8) & 0xFF)
-        
+            signal = (waitcode & 0xFF)
+            exit_code = (((waitcode & 0xFF00) >> 8) & 0xFF)
         else:
-            signal=0
-            exit_code=systemReturn
+            signal = 0
+            exit_code = systemReturn
             
     finally:
         if execFile: execFile.close()
         
     return exit_code
-           
+
 if __name__=='__main__':
     import re
     
-    exit_code=0
-    execFilename=sys.argv[1]
+    exit_code = 0
+    execFilename = sys.argv[1]
     
     # Run the information within this file...
-    exit_code=runProcess(execFilename)
+    exit_code = runProcess(execFilename)
         
     # print 'Exit: ' + `exit_code`
     sys.exit(exit_code)
-        
-  
-  

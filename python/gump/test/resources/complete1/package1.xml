@@ -1,6 +1,6 @@
 <module name="package1">
 
-  <url  href="http://jakarta.apache.org/gump/index.html"/>
+  <url href="http://gump.apache.org/"/>
   <description>
     Package #1
   </description>

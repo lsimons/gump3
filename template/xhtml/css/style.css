@@ -4,20 +4,26 @@ body, td
     margin: 3;
     padding: 3;
     font-family: Verdana, Tahoma, Helvetica, Sans-Serif;
+    font-size: 12px;
 }
-
-th, td
-{ 
-    text-align: left; 
-    vertical-align: top; 
-} 
 
 img
 {
     border: 0 
 }
 
-HR 
+a 
+{
+    font-weight: bold;
+    color: #021DC5;
+}
+
+a:hover
+{
+    color:#C50202;
+}
+
+hr 
 { 
     color: #8EB4D9; 
     height: 1px; 
@@ -26,25 +32,42 @@ HR
     position: relative;
 }
 
-TABLE.TRANSPARENT
+table.TRANSPARENT
 {
-    border: none; 
-    width: 100%
+    width: 100%;
+    border: 0px;
 }
 
-TABLE
+table
 {  
     border: solid;
     border-width: 1px;
     border-color: black;
-    width: 100%
+    width: 100%;
+    border-collapse: collapse;
 }
 
+th, td
+{ 
+    text-align: left; 
+    vertical-align: top; 
+    margin: 0px;
+    border: 0px;
+    padding: 1px;
+} 
+
+th 
+{
+    border-bottom: 1px solid black;
+    padding: 3px 1px 3px 1px;
+}
+
+    
 /* Annotations */
 
 .DEBUG
 {
-    background-color: #F8F8F8; 
+    background-color: #E5E5E5; 
 }
 
 .INFO
@@ -53,51 +76,49 @@ TABLE
 
 .WARNING
 {
-    background-color: #FFFF99
+    background-color: #E5DAB8
 }
 
 .ERROR
 {
-    background-color: #CC0000;
-    color: #FFFFFF
+    background-color: #E5B8B8;
 }
 
 /* Note and Warning boxes, (WARN from above) */
 
 .NOTE
 {
-    background-color: #9999FF
+    background-color: #B8D6E5
 }              
 
 .WARN
 {
-    background-color: #FFFF99
+    background-color: #E5DAB8
 }
 
 /* State */
 
 .SUCCESS
 {
-    background-color: #99CC66
+    background-color: #CFE5B8
 }
 
 .FAILED
 {
-    background-color: #CC0000; 
-    color: #FFFFFF
+    background-color: #E5B8B8; 
 }
 
 .PREREQFAILED
 {
-    background-color: #FFFF99
+    background-color: #E5DAB8
 }
 
 .COMPLETE
 {
-    background-color: #00CCFF
+    background-color: #B8D6E5
 }
 
 .UNSET
 {
-    background-color: #CCCCCC 
+    background-color: #E5E5E5 
 }

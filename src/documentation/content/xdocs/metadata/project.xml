@@ -42,9 +42,10 @@
     the output files.</li>
     </ul>
 
-    <p>Note that &lt;depend&gt; elements nested within &lt;ant&gt;
+    <note>Note that &lt;depend&gt; elements nested within &lt;ant&gt;
     elements are precisely equivalent to specifying both a property to be
-    passed to Ant, as well as a separate depend element.</p>
+    passed to Ant, as well as a separate depend element. 
+	See <link href="builder.html#depend">here</link>.</note>
 
     <table>
       <tr>
@@ -134,11 +135,8 @@
       specified project as outputs are added to the CLASSPATH prior to
       invoking the build operation, unless you nest a
       &lt;noclasspath&gt; element into the &lt;depend&gt; element.</p>
-
-	<warning>
-          <link href="../python/index.html">Python Gump</link> does
-          NOT (currently) support the &lt;noclasspath&gt; feature.
-  	</warning>
+	  
+	  <note>See <link href="builder.html#depend">here</link> for a &lt;depend&gt; within a builder, e.g. Ant.</note>
 
       <table>
         <tr>
@@ -189,11 +187,6 @@
       invoking the build operation, unless you nest a
       &lt;noclasspath&gt; element into the &lt;option&gt; element.  If
       the files are not present, this will have little effect.</p>
-
-	<warning>
-          <link href="../python/index.html">Python Gump</link> does
-          NOT (currently) support the &lt;noclasspath&gt; feature.
-  	</warning>
 
       <table>
         <tr>

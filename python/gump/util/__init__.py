@@ -30,15 +30,29 @@ import urllib
 from gump import log
 from gump.core.config import default, setting
 
+def banner():
+    print "      _____"
+    print "     |   __|_ Apache_ ___"
+    print "     |  |  | | |     | . |"
+    print "     |_____|___|_|_|_|  _|"
+    print "                     |_|     ~ v. " + setting.VERSION + " ~"
+    print
 
 def gumpSafeName(name):
   """returns a file system safe name"""  
-  #
   return urllib.quote_plus(name)
 
-###############################################################################
-# Dump an object (as best possible generically)
-###############################################################################
+def getModule(modulePath):
+    try:
+        aMod = sys.modules[modulePath]
+        if not isinstance(aMod, types.ModuleType):
+            raise KeyError
+    except KeyError:
+        # The last [''] is very important!
+        aMod = __import__(modulePath, globals(), locals(), [''])
+        sys.modules[modulePath] = aMod
+    return aMod
+    
 def dump(obj,indent="",visited=None):
     
     print indent+"Object: ["+str(obj.__class__)+"] "+str(obj)
@@ -139,19 +153,6 @@ def createOrderedList(disorderedList,sortfunc=None):
         sorted.sort()        
     # Return it sorted
     return sorted   
-
-def banner():
-    printSeparator()
-    print
-    print "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
-    print "Apache Python Gump (" + setting.VERSION + "), a multi-project builder."
-    print  
-    print "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
-    print
-    print "Copyright (C) 2003/2004 Apache Software Foundation. All rights reserved."
-    print "See the Apache Software License 1.1 for more details."
-    print "http://www.apache.org/"
-    print
     
 def printSeparator(indent=''):
     printSeparatorToFile(None,indent)

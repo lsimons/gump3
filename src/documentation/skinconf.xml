@@ -99,9 +99,9 @@ be used to configure the chosen Forrest skin.
 
   <!-- optional group logo
        skin: forrest-site renders it at the top-left corner -->
-  <!-- group-name>Apache</group-name>
-  <group-url>http://www.apache.org</group-url>
-  <group-logo>images/apache.png</group-logo -->
+  <group-name>ApacheCon</group-name>
+  <group-url>http://ApacheCon.Com/2004/US/</group-url>
+  <group-logo>http://ApacheCon.Com/2004/US/logos/logo_only.gif</group-logo>
  
   <!-- optional host logo (e.g. sourceforge logo)
        skin: forrest-site renders it at the bottom-left corner -->

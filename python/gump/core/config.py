@@ -36,8 +36,7 @@ EXIT_CODE_BAD_ENVIRONMENT=3
 class dir:
     """Configuration of paths"""
 
-    cmdpath   = os.path.abspath(sys.argv[0])
-    base      = os.path.abspath(os.path.join(os.path.dirname(cmdpath),'..'))  
+    base      = os.path.abspath(os.getcwd())  
     
     cache     = os.path.abspath(os.path.join(base,'cache'))
     work      = os.path.abspath(os.path.join(base,'work'))
@@ -54,7 +53,7 @@ def gumpPath(path,basedir=None):
 class setting:    
     """Configuration of hardcoded settings"""
     
-    VERSION='2.1.0-alpha-0003'
+    VERSION='2.2'
     
     WS_VERSION="0.4"
     WS_MINIMUM_VERSION="0.3"
@@ -75,12 +74,12 @@ class setting:
 class default:
     """Configuration of default settings"""
     
-    gumpfullhost   = socket.gethostname()   
-    gumphost   = socket.gethostname().split('.')[0]
-    gumpid	   = os.getpid()    
-    workspace  = os.path.abspath('%s/%s.xml' % (dir.base, gumphost))
-    globalws   = os.path.abspath('%s/%s' % (dir.base, 'global-workspace.xml'))
-    merge      = os.path.abspath('%s/%s' % (dir.work, 'merge.xml'))
+    gumpfullhost = socket.gethostname()   
+    gumphost     = socket.gethostname().split('.')[0]
+    gumpid       = os.getpid()    
+    workspace    = os.path.abspath('%s/%s.xml' % (dir.base, gumphost))
+    globalws     = os.path.abspath('%s/%s' % (dir.base, 'global-workspace.xml'))
+    merge        = os.path.abspath('%s/%s' % (dir.work, 'merge.xml'))
     
     # Note, these can be updated by gumpinit
     timestamp    = time.time()
@@ -88,11 +87,10 @@ class default:
     datetime_str = datetime.strftime(setting.DATETIME_FORMAT)
     date_str     = datetime.strftime(setting.DATE_FORMAT)
     
-    logLevel   = logging.INFO # logging.DEBUG
-    classpath = (os.getenv('CLASSPATH') or '').split(os.pathsep)  
+    logLevel     = logging.INFO # logging.DEBUG
+    classpath    = (os.getenv('CLASSPATH') or '').split(os.pathsep)  
     
-    logurl		=	'http://cvs.apache.org/builds/gump/nightly/'
-    bannerimage = 'http://gump.apache.org/images/gump-logo.gif'
+    bannerimage  = 'http://gump.apache.org/images/gump-logo.png'
     
     email = 'gump@' + gumpfullhost
     administrator = 'general@gump.apache.org'
@@ -101,7 +99,6 @@ class default:
     prefix = '[GUMP@' + gumphost + ']'
     signature="\r\n--\r\nApache Gump\nhttp://gump.apache.org/ " \
         + '[Instance: ' + gumpfullhost + "]\n"
-        
         
     # Information for portability
     if not os.name == 'dos' and not os.name == 'nt':
@@ -113,12 +110,11 @@ class default:
         shellQuote='"'
         shellEscape='\\'
 
-    
 class switch:
     """Configuration of switches """   
-    optimize=False # Optimize (at risk to exact correctness) anywhere one can
-    optimizenetwork=False # Do least network traffic 
-    debugging=False # Not debugging..
+    optimize        = False # Optimize (at risk to exact correctness) anywhere one can
+    optimizenetwork = False # Do least network traffic 
+    debugging       = False # Not debugging..
     
 def basicConfig():
     if not os.path.exists(dir.cache): os.mkdir(dir.cache)
