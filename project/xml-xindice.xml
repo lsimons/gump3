@@ -16,6 +16,7 @@
     <depend project="ant" inherit="runtime"/>
     <depend project="xml-xerces"/>
     <depend project="xmldb"/>
+    <depend project="junitperf"/>
     <depend project="xml-xalan2"/>
     <depend project="xml-rpc"/>
     <depend project="commons-logging"/>
