@@ -18,9 +18,20 @@
     <depend project="jakarta-ant"/>
     <depend project="xml-xerces"/>
     <depend project="jsse"/>
+    <depend project="edu.concurrent"/>
 
     <home nested="build/beepcore-@@DATE@@"/>
     <jar name="lib/beepcore.jar"/>
+  </project>
+
+  <project name="edu.concurrent">
+    <url href="http://gee.cs.oswego.edu/dl/classes/EDU/oswego/cs/dl/util/concurrent/intro.html"/>
+    <description>
+      Doug Lea's concurrent programming classes, renamed from EDU to edu
+    </description>
+  
+    <package>edu.oswego.cs.dl.util.concurrent</package>
+    <jar name="lib/concurrent.jar"/>
   </project>
 
 </module>
