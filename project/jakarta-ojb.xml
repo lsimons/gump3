@@ -18,6 +18,7 @@
     <depend project="antlr"/>
     <depend project="commons-beanutils"/>
     <depend project="commons-logging"/>
+    <depend project="commons-pool"/>
     <depend project="hsqldb"/>
     <depend project="j2ee-connector" />
     <depend project="jaas" />
