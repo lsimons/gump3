@@ -12,6 +12,7 @@
   <module href="project/jakarta-avalon-testlet.xml"/>
   <module href="project/jakarta-avalon-site.xml"/>
   <module href="project/jakarta-avalon.xml"/>
+  <module href="project/jakarta-bcel.xml"/>
   <module href="project/jakarta-cactus.xml"/>
   <module href="project/jakarta-commons.xml"/>
   <module href="project/jakarta-commons-sandbox.xml"/>

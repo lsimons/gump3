@@ -1,0 +1,20 @@
+<module name="jakarta-bcel">
+
+  <url href="http://jakarta.apache.org/bcel"/>
+  <description>
+     Byte Code Engineering Library
+  </description>
+
+  <cvs repository="jakarta"/>
+  
+  <project name="jakarta-bcel">
+    <ant/>
+
+    <depend project="jakarta-ant"/>
+    <depend project="xml-xerces"/>
+    <depend project="jakarta-regexp"/>
+
+    <jar name="bin/bcel.jar"/>
+  </project>
+
+</module>

@@ -1,23 +1,23 @@
 <module name="bcel">
 
-  <url href="http://jakarta.apache.org/bcel"/>
+  <url href="http://bcel.sourceforge.net"/>
   <description>
      Byte Code Engineering Library
   </description>
 
-  <cvs repository="jakarta"/>
+  <cvs repository="sourceforge" 
+     host-prefix="cvs.bcel" dir="bcel" module="BCEL"/>
   
   <project name="bcel">
-    <ant>
+    <ant target="dist">
       <property name="version" value="gump"/>
     </ant>
 
     <depend project="jakarta-ant"/>
     <depend project="xml-xerces"/>
-    <depend project="jakarta-regexp"/>
 
     <home nested="BCEL-gump"/>
-    <jar name="bin/bcel.jar"/>
+    <jar name="lib/bcel.jar"/>
     <javadoc nested="BCEL-gump/docs/apiDocs"/>
   </project>
 
