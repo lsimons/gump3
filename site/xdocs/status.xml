@@ -14,23 +14,20 @@
     release, in other cases they may represent an abject failure to
     communicate.</p>
 
-    <subsection name="openejb">
-      <p>In Junit 3.7, a previously protected method was made public,
-      impacting extenders of junit.textui.TestRunner.  A 
-      <a href="http://openejb.exolab.org/list-archive/msg01404.html">patch</a>
-      was provided to them that worked with both the release that they are 
-      using (3.5) and the current release.  No acknowledgement of the patch was
-      received.</p>
+    <subsection name="jakarta-avalon-cornerstone">
+      <p>The default target appears to attempt to build tests that don't
+      exist.</p>
     </subsection>
 
     <subsection name="tyrex">
-      <p>Tyrex has standardized on log4j 1.0.4.  The current release is 1.1.3
-      and introduced a number of APIs in the process, and deprecated a number
-      in the process.  Release 1.2 is in its second alpha release and has
-      removed some of the APIs that Tyrex continues to use.</p>
+      <p>Tyrex has customer requirements to be compatible on log4j 1.0.4.  The 
+      current log4j release is 1.1.3 and it introduced a number of APIs, and 
+      deprecated a number in the process.  Release 1.2 is in its second alpha 
+      release and has removed some of the APIs that Tyrex continues to use.
+      A <a href="http://tyrex.exolab.org/list-archive-dev/msg00223.html">
+      patch</a> using reflection was provided but not yet integrated.</p>
     </subsection>
 
-<!--
     <subsection name="xml-fop">
       <p>Batik is in the process of correcting what they have described as
       a fairly fundamental design error.  This should only affect a small
@@ -41,7 +38,6 @@
       They have already resynched twice, and will try to track to the
       release.</p>
     </subsection>
--->
   </section>
 
   <section name="Other Issues">
