@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/model/Attic/ant.py,v 1.14 2004/02/05 05:43:56 ajack Exp $
-# $Revision: 1.14 $
-# $Date: 2004/02/05 05:43:56 $
+# $Header: /home/stefano/cvs/gump/python/gump/model/Attic/ant.py,v 1.15 2004/02/10 00:25:34 ajack Exp $
+# $Revision: 1.15 $
+# $Date: 2004/02/10 00:25:34 $
 #
 # ====================================================================
 #
@@ -76,16 +76,16 @@ from gump.model.rawmodel import XMLProperty
        
 
 # represents an <ant/> element
-class AntBuilder(ModelObject, PropertyContainer):
+class Builder(ModelObject, PropertyContainer):
     """ An Ant command (within a project)"""
     def __init__(self,xml,project):
     	ModelObject.__init__(self,xml,project)
     	PropertyContainer.__init__(self)
-        	    
-    	    
+            
+        self.basedir=None
+        
         # Store owning project
         self.project=project
-    	
     	
     #
     # expand properties - in other words, do everything to complete the
@@ -188,6 +188,11 @@ class AntBuilder(ModelObject, PropertyContainer):
     	
     	# Complete them all
         self.completeProperties(workspace)
+        
+        # Set this up...
+        self.basedir = os.path.abspath(os.path.join(	\
+                                self.project.getModule().getSourceDirectory() or dir.base,	\
+                                self.xml.basedir or self.project.getBaseDirectory() or ''))
                 
         self.setComplete(1)
                     
@@ -201,15 +206,16 @@ class AntBuilder(ModelObject, PropertyContainer):
         # Dump all properties...
         #
         PropertyContainer.dump(self,indent+1,output)
- 
- 
+
+    def getBaseDirectory(self):
+         return self.basedir
        
 
 # represents an <ant/> element
-class Ant(AntBuilder):
+class Ant(Builder):
     """ An Ant command (within a project)"""
     def __init__(self,xml,project):
-    	AntBuilder.__init__(self,xml,project)
+    	Builder.__init__(self,xml,project)
       
         # Import the target
     	self.target='gump'
@@ -228,10 +234,10 @@ class Ant(AntBuilder):
         return self.buildfile
 
 # represents an <maven/> element
-class Maven(AntBuilder):
+class Maven(Builder):
     """ A Maven command (within a project)"""
     def __init__(self,xml,project):
-    	AntBuilder.__init__(self,xml,project)
+    	Builder.__init__(self,xml,project)
     	
         # Import the goal
     	self.goal='jar'
@@ -240,4 +246,12 @@ class Maven(AntBuilder):
             	    
     def getGoal(self):
         return self.goal
+    	
+
+# represents an <script/> element
+class Script(Builder):
+    """ A script command (within a project)"""
+    def __init__(self,xml,project):
+    	Builder.__init__(self,xml,project)
+    
     	

@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/model/project.py,v 1.34 2004/02/09 22:00:55 ajack Exp $
-# $Revision: 1.34 $
-# $Date: 2004/02/09 22:00:55 $
+# $Header: /home/stefano/cvs/gump/python/gump/model/project.py,v 1.35 2004/02/10 00:25:34 ajack Exp $
+# $Revision: 1.35 $
+# $Date: 2004/02/10 00:25:34 $
 #
 # ====================================================================
 #
@@ -187,6 +187,9 @@ class Project(NamedModelObject, Statable):
         self.module=None # Module has to claim ownership
         self.workspace=workspace
     	
+    	self.home=None
+    	self.basedir=None
+    	
     	#############################################################
     	# Dependency Trees
     	#
@@ -238,7 +241,6 @@ class Project(NamedModelObject, Statable):
         if hasattr(self,'script') and self.script: return 1
         return 0
     
-      
     def getAnt(self):
         return self.ant
         
@@ -417,9 +419,22 @@ class Project(NamedModelObject, Statable):
         # Import any <maven part [if not packaged]
         if self.xml.maven and not packaged:
             self.maven = Maven(self.xml.maven,self)
+            
+        # Import any <maven part [if not packaged]
+        if self.xml.maven and not packaged:
+            self.maven = Maven(self.xml.maven,self)
+            
+        # Import any <script part [if not packaged]
+        if self.xml.script and not packaged:
+            self.script = Script(self.xml.script,self)
         
-        # :TODO: Scripts
-        
+        # Set this up to be the base directory of this project,
+        # if one is set
+        if self.xml.basedir:
+            self.basedir = os.path.abspath(os.path.join(	\
+                                self.getModule().getSourceDirectory() or dir.base,	\
+                                self.xml.asedir))
+         
         # Compute home directory
         if self.isPackaged():
             # Installed below package directory
@@ -508,7 +523,11 @@ class Project(NamedModelObject, Statable):
             
         if self.maven: 
             self.maven.complete(self,workspace)
-            transferAnnotations(self.maven, self)              
+            transferAnnotations(self.maven, self)    
+            
+        if self.script: 
+            self.script.complete(self,workspace)
+            transferAnnotations(self.script, self)              
             
         if not packaged:    
             #
@@ -653,6 +672,13 @@ class Project(NamedModelObject, Statable):
         for dependee in self.getFullDependees():
             if dependee.getOwnerProject()==project: return 1
             
+    def hasBaseDirectory(self):
+        if hasattr(self,'basedir') and self.basedir: return 1
+        return 0
+        
+    def getBaseDirectory(self):
+         return self.basedir
+         
     def hasHomeDirectory(self):
         if hasattr(self,'home') and self.home: return 1
         return 0
@@ -683,10 +709,10 @@ class Project(NamedModelObject, Statable):
 
     def getBuildCommand(self):
 
-        # get the ant element (if it exests)
+        # get the ant element (if it exists)
         ant=self.xml.ant
 
-        # get the maven element (if it exests)
+        # get the maven element (if it exists)
         maven=self.xml.maven
 
         # get the script element (if it exists)
@@ -696,9 +722,9 @@ class Project(NamedModelObject, Statable):
           #  log.debug('Not building ' + project.name + ' (no <ant/> or <maven/> or <script/> specified)')
           return None
 
-        if script and script.name:
+        if self.hasScript():
             return self.getScriptCommand()
-        elif maven :
+        elif self.hasMaven() :
             return self.getMavenCommand()
         else:
             return self.getAntCommand()
@@ -707,27 +733,24 @@ class Project(NamedModelObject, Statable):
     # Build an ANT command for this project
     #        
     def getAntCommand(self):
-        ant=self.xml.ant
+        
+        ant=self.ant
+        antxml=self.xml.ant
     
         # The ant target (or none == ant default target)
-        target= ant.target or ''
+        target= antxml.target or ''
     
         # The ant build file (or none == build.xml)
-        buildfile = ant.buildfile or ''
+        buildfile = antxml.buildfile or ''
     
         # Optional 'verbose' or 'debug'
-        verbose=ant.verbose
-        debug=ant.debug
+        verbose=antxml.verbose
+        debug=antxml.debug
     
         #
         # Where to run this:
         #
-        #	The module src directory (if exists) or Gump base
-        #	plus:
-        #	The specifier for ANT, or nothing.
-        #
-        basedir = os.path.normpath(os.path.join(self.getModule().getSourceDirectory() or dir.base,	\
-                                                    ant.basedir or ''))
+        basedir = ant.getBaseDirectory() or self.getBaseDirectory()
     
         #
         # Build a classpath (based upon dependencies)
@@ -799,24 +822,20 @@ class Project(NamedModelObject, Statable):
     # Build an ANT command for this project
     #        
     def getMavenCommand(self):
-        maven=self.xml.maven
+        maven=self.maven
+        mavenxml=self.xml.maven
     
         # The ant goal (or none == ant default goal)
-        goal=self.maven.getGoal()
+        goal=maven.getGoal()
     
         # Optional 'verbose' or 'debug'
-        verbose=maven.verbose
-        debug=maven.debug
+        verbose=mavenxml.verbose
+        debug=mavenxml.debug
     
         #
         # Where to run this:
         #
-        #	The module src directory (if exists) or Gump base
-        #	plus:
-        #	The specifier for Maven, or nothing.
-        #
-        basedir = os.path.abspath(os.path.join(self.getModule().getSourceDirectory() or dir.base,	\
-                                                    maven.basedir or ''))
+        basedir = maven.getBaseDirectory() or self.getBaseDirectory()
     
         #
         # Build a classpath (based upon dependencies)
@@ -829,7 +848,7 @@ class Project(NamedModelObject, Statable):
         #jvmargs=self.getJVMArgs()
    
         #
-        # Run java on apache Ant...
+        # Run Maven...
         #
         cmd=Cmd('maven','build_'+self.getModule().getName()+'_'+self.getName(),\
             basedir,{'CLASSPATH':classpath})
@@ -867,13 +886,62 @@ class Project(NamedModelObject, Statable):
         #cmd.addPrefixedParameter('-D','build.sysclasspath','only','=')
     
         # End with the goal...
-        if goal: 
-            cmd.addParameter(goal)
-        else:
-            cmd.addParameter('jar')
+        cmd.addParameter(goal)
     
         return cmd
+  
+    def getScriptCommand(self):
+        """ Return the command object for a <script entry """
+        script=self.script
+        scriptxml=self.xml.script 
+           
+        #
+        # Where to run this:
+        #
+        basedir = script.getBaseDirectory() or self.getBaseDirectory()
 
+        # Add .sh  or .bat as appropriate to platform
+        scriptfullname=script.getName()
+        if not os.name == 'dos' and not os.name == 'nt':
+            scriptfullname += '.sh'
+        else:
+            scriptfullname += '.bat'
+      
+        # Optional 'verbose' or 'debug'
+        verbose=scriptxml.verbose
+        debug=scriptxml.debug
+       
+        scriptfile=os.path.abspath(os.path.join(basedir, scriptfullname))
+        
+        # Not sure this is relevent...
+        (classpath,bootclasspath)=self.getClasspaths()
+
+        cmd=Cmd(scriptfile,'buildscript_'+self.getModule().getName()+'_'+self.getName(),\
+            basedir,{'CLASSPATH':classpath})    
+            
+        # Set this as a system property. Setting it here helps JDK1.4+
+        # AWT implementations cope w/o an X11 server running (e.g. on
+        # Linux)
+        #    
+        cmd.addPrefixedParameter('-D','java.awt.headless','true','=')
+    
+        #
+        # Add BOOTCLASSPATH
+        #
+        if bootclasspath:
+            cmd.addPrefixedParameter('-X','bootclasspath/p',bootclasspath,':')
+                    
+        #
+        # Allow ant-level debugging...
+        #
+        if self.getWorkspace().isDebug() or debug:
+            cmd.addParameter('-debug')  
+        if self.getWorkspace().isVerbose() or verbose:
+            cmd.addParameter('-verbose')  
+        
+        return cmd
+    
+                
 
     def getJVMArgs(self):
         """Get JVM arguments for a project"""
@@ -926,7 +994,7 @@ class Project(NamedModelObject, Statable):
         # Output classpath properties
         #
         props.write("""
-        # ------------------------------------------------------------------------
+# ------------------------------------------------------------------------
 # M A V E N  J A R  O V E R R I D E
 # ------------------------------------------------------------------------
 maven.jar.override = on
@@ -946,54 +1014,7 @@ maven.jar.override = on
                 props.write(('maven.jar.%s=%s\n') % (id,path))
 
         return propertiesFile
-        
-    def getScriptCommand(self):
-        """ Return the command object for a <script entry """
-        script=self.xml.script 
-           
-        basedir=os.path.abspath(os.path.join(self.getModule().getSourceDirectory() or dir.base,\
-                        script.basedir or ''))
-
-        # Add .sh  or .bat as appropriate to platform
-        scriptfullname=script.name
-        if not os.name == 'dos' and not os.name == 'nt':
-            scriptfullname += '.sh'
-        else:
-            scriptfullname += '.bat'
       
-        # Optional 'verbose' or 'debug'
-        verbose=script.verbose
-        debug=script.debug
-       
-        scriptfile=os.path.abspath(os.path.join(basedir, scriptfullname))
-        (classpath,bootclasspath)=self.getClasspaths()
-
-        cmd=Cmd(scriptfile,'buildscript_'+self.getModule().getName()+'_'+self.getName(),\
-            basedir,{'CLASSPATH':classpath})    
-            
-        # Set this as a system property. Setting it here helps JDK1.4+
-        # AWT implementations cope w/o an X11 server running (e.g. on
-        # Linux)
-        #    
-        cmd.addPrefixedParameter('-D','java.awt.headless','true','=')
-    
-        #
-        # Add BOOTCLASSPATH
-        #
-        if bootclasspath:
-            cmd.addPrefixedParameter('-X','bootclasspath/p',bootclasspath,':')
-                    
-        #
-        # Allow ant-level debugging...
-        #
-        if self.getWorkspace().isDebug() or debug:
-            cmd.addParameter('-debug')  
-        if self.getWorkspace().isVerbose() or verbose:
-            cmd.addParameter('-verbose')  
-        
-        return cmd
-    
-                
     def dump(self, indent=0, output=sys.stdout):
         """ Display the contents of this object """
         output.write(getIndent(indent)+'Project: ' + self.getName() + '\n')

@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/forrest.py,v 1.65 2004/02/09 19:09:36 ajack Exp $
-# $Revision: 1.65 $f
-# $Date: 2004/02/09 19:09:36 $
+# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/forrest.py,v 1.66 2004/02/10 00:25:34 ajack Exp $
+# $Revision: 1.66 $f
+# $Date: 2004/02/10 00:25:34 $
 #
 # ====================================================================
 #
@@ -802,6 +802,13 @@ class ForrestDocumenter(Documenter):
         if server.hasTitle():
             detailList.createEntry('Title: ', server.getTitle())
     
+        if server.hasUrl():
+            detailList.createEntry('URL: ').createFork(repo.getUrl())
+    
+            # Parent 'site' (owner reference)
+            if server.hasSite() and not server.getSite() == server.getUrl():
+                detailList.createEntry('Site: ').createFork(repo.getSite())
+            
         self.documentXML(document,server)
         
         self.documentWorkList(document,server,'Server-level Work')
@@ -1018,11 +1025,13 @@ class ForrestDocumenter(Documenter):
         
         detailsList=detailsSection.createList()
             
-        self.insertLink(project.getModule(),project,detailsList.createEntry('Module: '))
-        
+        self.insertLink(project.getModule(),project,detailsList.createEntry('Containing Module: '))        
         
         if project.hasHomeDirectory():
             detailsList.createEntry('Home Directory: ', project.getHomeDirectory())
+            
+        if project.hasBaseDirectory():
+            detailsList.createEntry('Base Directory: ', project.getBaseDirectory())
             
         if project.hasCause() and not project==project.getCause():
             self.insertTypedLink(project.getCause(),project,detailsList.createEntry('Root Cause: '))
