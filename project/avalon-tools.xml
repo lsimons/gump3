@@ -45,11 +45,12 @@
 
   <project name="avalon-tools-magic">
     <license name="central/system/license/LICENSE.TXT"/>
+    <mkdir dir="tools/magic/target/classes"/>
+    <mkdir dir="tools/magic/target/test-classes"/>
     <ant basedir="tools/magic">
       <!-- for magic -->
       <property name="magic.home" reference="home" project="magic"/>
       <property name="gump.signature" value="@@DATE@@"/>
-      <property name="build.sysclasspath" value="dark-arts-volume-one"/>
       <!-- external references -->
       <depend property="gump.resource.ant" project="ant" id="ant"/>
       <depend property="gump.resource.junit" project="junit"/>
@@ -58,6 +59,8 @@
       <!-- end for -->
     </ant>
     <depend project="magic" runtime="true" inherit="runtime"/> 
+    <work nested="tools/magic/target/classes"/>
+    <work nested="tools/magic/target/test-classes"/>
     <home nested="tools/magic/target/deliverables"/>
     <jar name="jars/avalon-tools-magic-@@DATE@@.jar"/>
     <nag to="dev@avalon.apache.org"
