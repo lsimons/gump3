@@ -209,7 +209,7 @@
     <package>org.apache.taglibs.log</package>
     <description>Log Taglib</description>
     <ant basedir="log" target="dist">
-      <depend property="log4j-core.jar" project="jakarta-log4j"/>
+      <depend property="commons-logging.jar" project="commons-logging"/>
       <depend property="servlet.jar" project="jakarta-servletapi-4"/>
       <property name="build.dir" path="build"/>
       <property name="dist.dir" path="dist"/>
