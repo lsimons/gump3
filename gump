@@ -99,7 +99,8 @@ function delegate
 # Use Apache Forrest to build the documentation.
 function site
 {
-  local forrest=`bin/PrintPath forrest forrest.sh forrest.bat`
+  echo "$0: WARNING -- latest Forrest doesn't seem to be working properly..."
+  local forrest=`bin/PrintPath forrest $FORREST_HOME/bin/forrest`
   if [[ -z "$forrest" ]]; then
     error 'Cannot find forrest. Please retrieve it from 
 
@@ -135,8 +136,11 @@ and install it.'
         
 and install it.'
   fi
-  $svn commit -m "Publishing site..." build/site
-  $ssh minotaur.apache.org '/home/leosimons/bin/gump-site-up.sh'
+
+  error 'This functionality is not yet implemented!'
+
+  #$svn commit -m "Publishing site..." build/site
+  #$ssh minotaur.apache.org '/home/leosimons/bin/gump-site-up.sh'
 }
 
 # Figure out then run the appropriate function
