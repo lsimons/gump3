@@ -461,6 +461,12 @@ From: Peter Donald <peter@apache.org>
 Subject: [GUMP] Build Failure - XDoclet
 Regex: /BUILD FAILED/
 -------
+Project: xdoclet-examples
+To: xdoclet-devel@lists.sourceforge.net
+From: Peter Donald <peter@apache.org>
+Subject: [GUMP] Build Failure - XDoclet Examples
+Regex: /BUILD FAILED/
+-------
 Project: xml-axis
 To: axis-dev@xml.apache.org
 From: Sam Ruby <rubys@us.ibm.com>
