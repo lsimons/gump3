@@ -419,7 +419,7 @@ Subject: [GUMP] Build Failure - Axis
 Regex: /BUILD FAILED/
 ------
 Project: xml-batik
-To: axis-dev@xml.apache.org
+To: batik-dev@xml.apache.org
 From: Sam Ruby <rubys@us.ibm.com>
 Subject: [GUMP] Build Failure - Batik
 Regex: /BUILD FAILED/
