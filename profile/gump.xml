@@ -292,13 +292,13 @@
   <project name="jms"              package="jms1.0.2"/>
   <project name="jmx"              package="jmx-1_2-ri"/>
   <project name="jndi"             package="jndi1_2_1"/>
-  <project name="jsch"             package="jsch-0.1.13"/>
+  <project name="jsch"             package="jsch-0.1.14"/>
   <project name="jsse"             package="jsse1.0.3"/>
   <project name="jta"              package="jta-spec1_0_1"/>
   <project name="junitperf"        package="junitperf-1.8"/>
   <!--project name="jts"              package="jts1_0"/-->
   <project name="ldap"             package="ldap-1_2_4"/>
-  <project name="nekohtml"         package="nekohtml-0.9.1"/>
+  <project name="nekohtml"         package="nekohtml-0.9.2"/>
   <project name="mockobjects"      package="mockobjects-0.09"/>
   <!--project name="mockobjects-j2ee-13" package="mockobjects-0.09"/>
   <project name="mockobjects-j2ee-14" package="mockobjects-0.09"/-->
