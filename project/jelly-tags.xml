@@ -320,4 +320,30 @@
          to="commons-dev@jakarta.apache.org"/>
   </project>
 
+  <project name="commons-jelly-tags-validate">
+    <package>org.apache.commons.jelly.tags.validate</package>
+    <description>This is a Jelly interface for XML validation.</description>
+
+    <ant basedir="jelly/jelly-tags/validate" target="jar">
+      <property name="final.name"  value="commons-jelly-tags-validate-@@DATE@@"/>
+    </ant>
+
+    <depend project="commons-jelly" inherit="all"/>
+    
+    <depend project="iso-relax"/>
+    <depend project="msv"/>
+    <depend project="relaxng"/>
+    <!-- will probably fail because of missing dependency xsdlib
+        <depend project="xsdlib"/>
+    -->
+
+    <work nested="jelly/jelly-tags/validate/target/classes"/>
+    <work nested="jelly/jelly-tags/validate/target/test-classes"/>
+
+    <jar name="jelly/jelly-tags/validate/target/commons-jelly-tags-validate-@@DATE@@.jar"/>
+ 
+    <nag from="Morgan Delagrange &lt;mdelagra@yahoo.com&gt;"
+         to="commons-dev@jakarta.apache.org"/>
+  </project>  
+  
 </module>
