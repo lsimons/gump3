@@ -420,7 +420,7 @@ function check_environment
 {
   # PrintPath doesn't deal with absolute paths properly
   #check_command $GUMP_PYTHON "http://www.python.org/"
-  check_command "pkill" "http://sourceforge.net/projects/proctools"
+  #check_command "pkill" "http://sourceforge.net/projects/proctools"
   check_command "mysql" "http://www.mysql.com/"
   check_command "mysqladmin" "http://www.mysql.com/"
   check_command "ssh" "http://www.openssh.org/"
@@ -749,4 +749,4 @@ check_environment
 delegate $@
 
 # Attempt to clean up leftover commands
-pkill -KILL -P $$
+#pkill -KILL -P $$
