@@ -30,6 +30,7 @@
   <project href="project/jakarta-tomcat.xml"/>
   <project href="project/jakarta-tools.xml"/>
   <project href="project/jakarta-turbine.xml"/>
+  <project href="project/jakarta-turbine-flux.xml"/>
   <project href="project/jakarta-turbine-torque.xml"/>
   <project href="project/jakarta-velocity.xml"/>
   <project href="project/jakarta-watchdog.xml"/>

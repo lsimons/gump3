@@ -1,0 +1,23 @@
+<project name="jakarta-turbine-flux">
+
+  <url href="http://jakarta.apache.org/turbine/"/>
+  <description>
+    Servlet based framework
+  </description>
+
+  <cvs repository="jakarta"/>
+
+  <ant basedir="build">
+    <property name="version" value="gump"/>
+  </ant>
+
+  <depend project="jakarta-ant"/>
+  <depend project="xml-xerces"/>
+  <depend project="jakarta-turbine"/>
+  <depend project="jakarta-velocity"/>
+  <depend project="jakarta-servletapi"/>
+
+  <home nested="bin"/>
+  <jar name="flux-gump.jar"/>
+
+</project>
