@@ -241,7 +241,7 @@
     <description>Commons resources</description>
 
     <ant basedir="resources" target="dist">
-      <property name="component.version" value="@@DATE@@" />
+      <property name="final.name" value="commons-resources-@@DATE@@" />
     </ant>
 
     <depend project="ant" inherit="runtime"/>
@@ -253,8 +253,12 @@
     <depend project="commons-logging"/>
     <depend project="jakarta-servletapi-4"/>
     <depend project="xml-xalan2"/>
+    <depend project="junit"/>
 
-    <jar name="resources/dist/commons-resources.jar"/>
+    <work nested="resources/target/classes"/>
+    <work nested="resources/target/test-classes"/>
+
+    <jar name="resources/dist/commons-resources-@@DATE@@.jar"/>
     <javadoc nested="resources/dist/docs/api"/>
 
     <nag to="commons-dev@jakarta.apache.org"
