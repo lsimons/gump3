@@ -345,11 +345,8 @@
     </section>
 
     <section><title>nag</title>
-      <p>Gump will create a file called naglist in the work
-      subdirectory that can be used together with nag.pl to send email
-      reports of build failures to a list of recipients.
-      <strong>Note:</strong> reports will not be sent automatically, you have to
-      run nag.pl yourself.</p>
+      <p>Gump will send email reports of first time build successes/failures to a list of recipients.		
+      <strong>Note:</strong> reminder failure reports will be sent on <strong>--oficial</strong> runs.</p>
 
       <p>A nag element in the workspace can be used to override some
       values in project's <link href="project.html#nag">nag</link>
@@ -364,7 +361,13 @@
         </tr>
         <tr>
           <td>to</td>
-          <td>Overrides the to attributes of the nag elements in all
+          <td>Overrides the <strong>to</strong> attributes of the nag elements in all
+          projects.</td>
+          <td>No</td>
+        </tr>
+        <tr>
+          <td>from</td>
+          <td>Overrides the <strong>from</strong> attributes of the nag elements in all
           projects.</td>
           <td>No</td>
         </tr>
@@ -372,6 +375,51 @@
           <td>prefix</td>
           <td>A prefix to put into the subject of all generated nag
           mails, defaults to "[GUMP]".</td>
+          <td>No</td>
+        </tr>
+      </table>
+    </section>
+	
+	
+    <section><title>database</title>
+      <p>Gump will utilize a <fork href="http://mysql.org">MySQL</fork> database
+		for storing statistics and run information. Without this element Gump
+		will default to using a DBM database (not currently available on with Python on Microsoft &trade; platforms)
+		for statistics.
+		
+      <strong>Note:</strong> MySQL SQL scripts for creating the database tables
+	  are to be found in ./mysql.</p>
+
+
+      <table>
+        <tr>
+          <th>Attribute</th>
+          <th>Description</th>
+		  <th>Default</th>
+          <th>Required?</th>
+        </tr>
+        <tr>
+          <td>host</td>
+          <td>The hostname that the MySQL server resides upon</td>
+		  <td>localhost</td>
+          <td>No</td>
+        </tr>
+        <tr>
+          <td>user</td>
+          <td>The username Gump uses to log in with</td>
+		  <td>root</td>
+          <td>No</td>
+        </tr>
+        <tr>
+          <td>passwd</td>
+          <td>The passwd Gump uses to log in with</td>
+		  <td></td>
+          <td>No</td>
+        </tr>
+        <tr>
+          <td>database</td>
+          <td>The database Gump uses</td>
+		  <td>gump</td>
           <td>No</td>
         </tr>
       </table>

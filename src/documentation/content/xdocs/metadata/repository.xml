@@ -154,7 +154,7 @@
         </tr>
         <tr>
           <td>clientspec</td>
-          <td>A Perforce clientspec is a set of mappings from server paths to local paths.  The Perforce server keeps track of what files are "current" in a particular clientspec; as a result, a clientspec cannot be shared across Gump instances.  It is recommended to set the <samp>allwrite</samp> option in the clientspec.</td>
+          <td>A Perforce clientspec is a set of mappings from server paths to local paths.  The Perforce server keeps track of what files are "current" in a particular clientspec; as a result, a clientspec cannot be shared across Gump instances.  It is recommended to set the &lt;samp&gt;allwrite&lt;/samp&gt; option in the clientspec.</td>
           <td>Yes</td>
         </tr>
         <tr>
