@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/model/project.py,v 1.32 2004/02/09 18:25:59 ajack Exp $
-# $Revision: 1.32 $
-# $Date: 2004/02/09 18:25:59 $
+# $Header: /home/stefano/cvs/gump/python/gump/model/project.py,v 1.33 2004/02/09 20:19:52 ajack Exp $
+# $Revision: 1.33 $
+# $Date: 2004/02/09 20:19:52 $
 #
 # ====================================================================
 #
@@ -826,7 +826,7 @@ class Project(NamedModelObject, Statable):
         #
         # Get properties
         #
-        jvmargs=self.getJVMArgs()
+        #jvmargs=self.getJVMArgs()
    
         #
         # Run java on apache Ant...
@@ -837,18 +837,18 @@ class Project(NamedModelObject, Statable):
         # Set this as a system property. Setting it here helps JDK1.4+
         # AWT implementations cope w/o an X11 server running (e.g. on
         # Linux)
-        cmd.addPrefixedParameter('-D','java.awt.headless','true','=')
+        # cmd.addPrefixedParameter('-D','java.awt.headless','true','=')
     
         #
         # Add BOOTCLASSPATH
         #
-        if bootclasspath:
-            cmd.addPrefixedParameter('-X','bootclasspath/p',bootclasspath,':')
+        #if bootclasspath:
+        #    cmd.addPrefixedParameter('-X','bootclasspath/p',bootclasspath,':')
             
-        if jvmargs:
-            cmd.addParameters(jvmargs)
+        #if jvmargs:
+        #    cmd.addParameters(jvmargs)
             
-        cmd.addParameter('org.apache.maven.cli.App')  
+        # cmd.addParameter('org.apache.maven.cli.App')  
     
         #
         # Allow maven-level debugging...
@@ -864,10 +864,13 @@ class Project(NamedModelObject, Statable):
         #
         #	This sets the *defaults*, a workspace could override them.
         #
-        cmd.addPrefixedParameter('-D','build.sysclasspath','only','=')
+        #cmd.addPrefixedParameter('-D','build.sysclasspath','only','=')
     
         # End with the goal...
-        if goal: cmd.addParameter(goal)
+        if goal: 
+            cmd.addParameter(goal)
+        else:
+            cmd.addParameter('jar')
     
         return cmd
 
