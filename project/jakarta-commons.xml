@@ -16,6 +16,7 @@
     <depend project="jakarta-ant"/>
     <depend project="xml-xerces"/>
     <depend project="commons-collections"/>
+    <depend project="commons-logging"/>
     <depend project="junit"/>
     <home nested="beanutils/dist"/>
     <jar name="commons-beanutils.jar"/>
