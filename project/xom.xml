@@ -6,7 +6,7 @@
   <cvs repository="java.net"/>
 
   <project name="xom">
-    <package>no.xom</package>
+    <package>nu.xom</package>
     <ant target="jar">
       <property name="version" value="@@DATE@@"/>
     </ant>
