@@ -141,8 +141,8 @@ def tailFile(file,lines):
                 
         finally:
             if o: o.close()
-    except:
-        x.write('Failed to tail :' + file)    
+    except Exception, details:
+        log.error('Failed to tail :' + file + ' : ' + str(details))    
                             
     return taillines
 

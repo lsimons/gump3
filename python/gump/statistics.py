@@ -259,6 +259,7 @@ def statistics(workspace,context,projectFilterList=None):
                 s.sequenceInState += 1
             else:
                 s.sequenceInState = 1
+                
             s.previousState=s.currentState
             s.currentState=projectcontext.status
             

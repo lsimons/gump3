@@ -619,7 +619,12 @@ class ModuleContext(Context):
             self.subcontexts[projectname] =  ProjectContext(projectname,self)
         return self.subcontexts[projectname]
         
+    #
+    # Get a full list of all the projects that depend
+    # upon projects in this module 
+    #
     def getDependees(self):   
+        # Calculated once only...
         if self.totalDependees: return self.totalDependees
                 
         for pctxt in self:
@@ -627,7 +632,9 @@ class ModuleContext(Context):
                 self.totalDependees.append(pctxt)
                 for ppctxt in pctxt.getDependees():
                     if not ppctxt in self.totalDependees:
-                        self.totalDependees.append(ppctxt)                        
+                        self.totalDependees.append(ppctxt)   
+                        
+        # Sort for prettiness...                     
         self.totalDependees.sort()
         return self.totalDependees
             

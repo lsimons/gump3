@@ -18,7 +18,7 @@ import sys
 import logging
 
 from gump import log, load
-from gump.conf import dir, default, handleArgv
+from gump.conf import dir, default, handleArgv, basicConfig
 from gump.model import Workspace, Module, Project
 from gump.check import checkEnvironment, check
 from gump.context import *
@@ -113,10 +113,15 @@ if __name__=='__main__':
     #set verbosity to show all messages of severity >= default.logLevel
     log.setLevel(default.logLevel)
 
+    # Process command line
     args = handleArgv(sys.argv)
     ws=args[0]
     ps=args[1]
   
+    # Ensure dirs exists,
+    basicConfig()
+
+    # A place to write into...
     context=GumpContext()
  
     # get parsed workspace definition

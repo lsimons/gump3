@@ -1,8 +1,8 @@
 #!/usr/bin/python
 
-# $Header: /home/stefano/cvs/gump/python/gump/check.py,v 1.28 2003/10/21 19:40:56 ajack Exp $
-# $Revision: 1.28 $
-# $Date: 2003/10/21 19:40:56 $
+# $Header: /home/stefano/cvs/gump/python/gump/check.py,v 1.29 2003/10/29 18:36:31 ajack Exp $
+# $Revision: 1.29 $
+# $Date: 2003/10/29 18:36:31 $
 #
 # ====================================================================
 #
@@ -142,7 +142,7 @@ def checkEnvironment(workspace, context=GumpContext(), exitOnError=1):
     checkExecutable(workspace, context, 'env','',0)
     checkExecutable(workspace, context, context.javaCommand,'-version',exitOnError)
     checkExecutable(workspace, context, 'javac','-help',exitOnError)
-    checkExecutable(workspace, context, 'java com.sun.tools.javac.Main','-help',exitOnError,'check_java_compiler')    
+    checkExecutable(workspace, context, 'java com.sun.tools.javac.Main','-help',exitOnError,0,'check_java_compiler')    
     checkExecutable(workspace, context, 'cvs','--version',exitOnError)
     if not context.noForrest and not checkExecutable(workspace, context, 'forrest','-projecthelp',0): 
         context.noForrest=1
@@ -158,7 +158,7 @@ def checkEnvironment(workspace, context=GumpContext(), exitOnError=1):
     
     context.setState(STATUS_SUCCESS);
     
-def checkExecutable(workspace,context,command,options,mandatory,name=None):
+def checkExecutable(workspace,context,command,options,mandatory,logOutput=0,name=None):
     ok=0
     try:
         if not name: name='check_'+command
@@ -166,7 +166,7 @@ def checkExecutable(workspace,context,command,options,mandatory,name=None):
         result=execute(cmd)
         ok=result.status==CMD_STATUS_SUCCESS 
         if not ok:
-            log.error('Failed to detect [' + command + ']')     
+            log.error('Failed to detect [' + command + ']')   
     except Exception, details:
         ok=0
         log.error('Failed to detect [' + command + '] : ' + str(details))
@@ -182,7 +182,11 @@ def checkExecutable(workspace,context,command,options,mandatory,name=None):
         for p in sys.path:
             print "  " + str(os.path.normpath(p))
         sys.exit(2)
-    
+        
+    if logOutput and result.output:
+        out=tailFileToString(result.output,10)
+        context.addInfo(name + 'produce:\n' + out)
+            
     return ok
     
 def checkEnvVariable(workspace, context,env,mandatory=1):

@@ -1,8 +1,8 @@
 #!/usr/bin/python
 
-# $Header: /home/stefano/cvs/gump/python/gump/build.py,v 1.27 2003/10/17 18:33:12 ajack Exp $
-# $Revision: 1.27 $
-# $Date: 2003/10/17 18:33:12 $
+# $Header: /home/stefano/cvs/gump/python/gump/build.py,v 1.28 2003/10/29 18:36:31 ajack Exp $
+# $Revision: 1.28 $
+# $Date: 2003/10/29 18:36:31 $
 #
 # ====================================================================
 #
@@ -240,13 +240,16 @@ def buildProjects( workspace, sequence, context ):
                                 if not dir in dirs and os.path.exists(dir):
                                     dircnt += 1
                                     listDirectoryAsWork(pctxt,dir,\
-                                        'list_'+project.name+'_'+str(dircnt)+'_'+os.path.basename(dir))
+                                        'list_'+project.name+'_dir'+str(dircnt)+'_'+os.path.basename(dir))
                                     dirs.append(dir)
                                 else:
                                     pctxt.addWarning("No such directory (where output is expect) : " + dir)
                 else:
                     pctxt.status=STATUS_SUCCESS  
-
+    
+        if not pctxt.status == STATUS_SUCCESS:
+            log.warn('Failed to build project [' + pctxt.name + ']')
+            
 # static void main()
 if __name__=='__main__':
 

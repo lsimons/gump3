@@ -334,6 +334,14 @@ def executeIntoResult(cmd,result,tmp=dir.tmp):
     start_time=time.time()
     try:
       try:          
+        # Make the TMP if needed
+        try:
+            if not os.path.exists(tmp): os.mkdir(tmp)
+        except Exception, details :
+            # Log the problem and re-raise
+            log.error('Failed to create TMP [' + tmp + ']. Details: ' + str(details))
+            raise
+              
         # Make the CWD if needed
         if cmd.cwd: 
           try:
@@ -342,7 +350,7 @@ def executeIntoResult(cmd,result,tmp=dir.tmp):
               os.chdir(cwdpath)
           except Exception, details :
               # Log the problem and re-raise
-              log.error('Failed to create CWD. Details: ' + str(details))
+              log.error('Failed to create CWD [' + cwdpath + ']. Details: ' + str(details))
               raise
         
         # The command line
@@ -378,7 +386,7 @@ def executeIntoResult(cmd,result,tmp=dir.tmp):
                 if f: f.close()    
             
         #############################################################                
-        log.info('Executing: ' + execString + ' (Output to ' + str(outputFile) + ')')
+        log.debug('Executing: ' + execString + ' (Output to ' + str(outputFile) + ')')
     
         # Set the signal handler and an N-second alarm
         timeout=cmd.timeout or setting.timeout
@@ -419,14 +427,7 @@ def executeIntoResult(cmd,result,tmp=dir.tmp):
         #
         timer.cancel()            
                   
-        #
-        # Clean Up Empty Output Files
-        #
-        if os.path.exists(outputFile):
-            if os.path.getsize(outputFile) > 0:
-                result.output=outputFile
-            else:
-                os.remove(outputFile)
+    
                 
       except Exception, details :
         log.error('Failed to launch command. Details: ' + str(details))
@@ -435,8 +436,14 @@ def executeIntoResult(cmd,result,tmp=dir.tmp):
         result.status=CMD_STATUS_FAILED
         
     finally:
+      #
+      # Clean Up Empty Output Files
+      #
       if outputFile and os.path.exists(outputFile):
-          result.output=outputFile
+          if os.path.getsize(outputFile) > 0:
+              result.output=outputFile
+          else:
+              os.remove(outputFile)
         
       # Keep time information
       end_time=time.time()
