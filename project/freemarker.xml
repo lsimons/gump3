@@ -20,6 +20,7 @@
     <depend project="jdom"/>
     <depend project="jakarta-servletapi"/>
     <depend project="junit"/>
+    <depend project="jython"/>
     <depend project="jakarta-log4j"/>
     <depend project="jakarta-oro"/>
     <depend project="werken.xpath"/>
