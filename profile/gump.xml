@@ -127,7 +127,7 @@
   <module href="project/xmlunit.xml"/>
   <module href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/*checkout*/ant-contrib/ant-contrib/src/etc/gump-descriptor.xml" />
   <module href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/*checkout*/ant-contrib/cpptasks/src/etc/gump-descriptor.xml" />
-  <module href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/*checkout*/spice/spice-lib/module.xml" />
+  <module href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/*checkout*/spice/spice/module.xml" />
   <module href="project/forehead.xml"/>
   <module href="project/werkz.xml"/>
   <!-- module href="http://cvs.werken.com/viewcvs.cgi/werkz/gump.xml?rev=HEAD&cvsroot=werkz"/ -->
