@@ -119,7 +119,6 @@
   <module href="project/xml-fop-maintenance.xml"/>
   <module href="project/xml-site.xml"/>
   <module href="project/xml-security.xml"/>
-  <module href="project/xml-soap.xml"/>
   <module href="project/xml-stylebook.xml"/>
   <module href="project/xml-xalan.xml"/>
   <module href="project/xml-xerces.xml"/>
