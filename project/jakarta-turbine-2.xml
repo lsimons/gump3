@@ -34,11 +34,13 @@
   <jar name="turbine-gump.jar"/>
 
   <project name="webmacro">
+    <url href="http://www.webmacro.org/"/>
     <home nested="lib"/>
     <jar name="webmacro-0.94.jar"/>
   </project>
 
   <project name="helma-xmlrpc">
+    <url href="http://xmlrpc.helma.org/"/>
     <home nested="lib"/>
     <jar name="xmlrpc.jar"/>
   </project>
