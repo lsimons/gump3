@@ -28,7 +28,15 @@
   
     <ant target="dist">
       <property name="version" value="@@DATE@@"/>
+      
+      <!-- Start of ARBJ experiment... -->
+      <!-- Since mm.mysql is no more, am trying a normal
+      	JDBC interface, which possible need not be used
+      	at compile time. -->      	
       <depend property="database.jar" project="mm.mysql"/>
+      <depend project="jdbc" runtime="true"/>          
+      <!-- End of ARBJ experiment... -->
+      
       <depend property="jaf.jar" project="jaf"/>
       <depend property="jakarta-oro.jar" project="jakarta-oro"/>
       <depend property="javamail.jar" project="javamail"/>

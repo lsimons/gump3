@@ -58,10 +58,4 @@
          from="Jon Stevens &lt;jon@latchkey.com&gt;"/>
   </project>
 
-  <project name="mm.mysql">
-    <url href="http://mmmysql.sourceforge.net/"/>
-    <description>JDBC driver for MySQL</description>
-    <jar name="lib/mm.mysql-2.0.14-bin.jar"/>
-  </project>
-
 </module>
