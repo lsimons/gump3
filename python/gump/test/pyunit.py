@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/test/pyunit.py,v 1.10 2003/12/01 17:34:08 ajack Exp $
-# $Revision: 1.10 $
-# $Date: 2003/12/01 17:34:08 $
+# $Header: /home/stefano/cvs/gump/python/gump/test/pyunit.py,v 1.11 2003/12/02 00:45:40 ajack Exp $
+# $Revision: 1.11 $
+# $Date: 2003/12/02 00:45:40 $
 #
 # ====================================================================
 #
@@ -325,6 +325,9 @@ if __name__=='__main__':
     
     from gump.test.maven import MavenTestSuite  
     runner.addSuite(MavenTestSuite())
+    
+    from gump.test.xref import XRefTestSuite  
+    runner.addSuite(XRefTestSuite())
     
     #from gump.test.integrator import IntegratorTestSuite  
     #runner.addSuite(IntegratorTestSuite())

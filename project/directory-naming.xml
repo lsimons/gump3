@@ -4,7 +4,7 @@
   <description>Apache Directory Naming Component</description>
   <url href="http://incubator.apache.org/directory/naming/"/>
   
-  <svn repository="apache-incubator-svn" dir="directory/naming"/>
+  <svn repository="apache-incubator-svn" dir="naming"/>
   
   <project name="directory-naming">
     <ant buildfile="build.xml" target="dist">

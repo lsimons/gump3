@@ -39,6 +39,7 @@
   <stats label="XRef" tab="xref">
     <index label="Index" href="gump_xref/index.html"/>
     <index label="by Repository" href="gump_xref/repo_module.html"/>
+    <index label="by Package" href="gump_xref/package_module.html"/>
   </stats>
 
   <external-refs>

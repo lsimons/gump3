@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/model/project.py,v 1.19 2003/12/01 20:48:12 ajack Exp $
-# $Revision: 1.19 $
-# $Date: 2003/12/01 20:48:12 $
+# $Header: /home/stefano/cvs/gump/python/gump/model/project.py,v 1.20 2003/12/02 00:45:41 ajack Exp $
+# $Revision: 1.20 $
+# $Date: 2003/12/02 00:45:41 $
 #
 # ====================================================================
 #
@@ -843,7 +843,7 @@ maven.jar.override = on
             if isinstance(annotatedPath,AnnotatedPath):
                 id=annotatedPath.getId()
                 path=annotatedPath.getPath()
-                props.write(('maven.jar.%s=%s') % (id,path))
+                props.write(('maven.jar.%s=%s\n') % (id,path))
 
 
     def getScriptCommand(self):

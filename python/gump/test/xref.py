@@ -1,7 +1,6 @@
 #!/usr/bin/env python
-
-# $Header: /home/stefano/cvs/gump/python/gump/output/Attic/xref.py,v 1.2 2003/12/02 00:45:40 ajack Exp $
-# $Revision: 1.2 $
+# $Header: /home/stefano/cvs/gump/python/gump/test/xref.py,v 1.1 2003/12/02 00:45:40 ajack Exp $
+# $Revision: 1.1 $
 # $Date: 2003/12/02 00:45:40 $
 #
 # ====================================================================
@@ -59,60 +58,33 @@
 # <http://www.apache.org/>.
 
 """
-    Statistics gathering/manipulation
+    Model Testing
 """
 
-import time
 import os
-import sys
 import logging
+import types, StringIO
 
 from gump import log
-from gump.config import *
-from gump.model.project import Project
+import gump.config
 from gump.model.state import *
-            
-class XRefGuru:
-    """ Know it all ... """
-    
-    def __init__(self,workspace):
-        self.workspace=workspace
-    
-        self.repositoryToModule={}
-        self.packageToModule={}
+from gump.model.loader import WorkspaceLoader
+from gump.output.xref import XRefGuru
+from gump.utils import *
+from gump.test import getWorkedTestWorkspace
+from gump.test.pyunit import UnitTestSuite
+
+class XRefTestSuite(UnitTestSuite):
+    def __init__(self):
+        UnitTestSuite.__init__(self)
         
-        # Build Information Maps
-        self.mapRepositories()
-        self.mapPackages()
-        
-    def mapRepositories(self):
-        for module in self.workspace.getModules():
-            repository=module.getRepository()
-            if repository:
-                if not self.repositoryToModule.has_key(repository):
-                    self.repositoryToModule[repository]=[]
-                
-                # Store
-                self.repositoryToModule[repository].append(module)
-    
-    def mapPackages(self):
-        for module in self.workspace.getModules():
-            for project in module.getProjects():
-                for package in project.xml.package:
-                    if package:
-                        packageName=str(package)
-            
-                        if not self.packageToModule.has_key(packageName):
-                                self.packageToModule[packageName]=[]
-                
-                        # Store
-                        self.packageToModule[packageName].append(module)
-    
-    def getRepositoryToModuleMap(self):
-        return self.repositoryToModule
+    def suiteSetUp(self):
+        #
+        # Load a decent Workspace
+        #
+        self.workspace=getWorkedTestWorkspace() 
+        self.assertNotNone('Needed a workspace', self.workspace)    
         
         
-    def getPackageToModuleMap(self):
-        return self.packageToModule
-        
-        
+    def testXRefGuru(self):
+        gug=XRefGuru(self.workspace)

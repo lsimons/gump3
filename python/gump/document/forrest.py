@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/forrest.py,v 1.20 2003/12/01 17:34:07 ajack Exp $
-# $Revision: 1.20 $f
-# $Date: 2003/12/01 17:34:07 $
+# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/forrest.py,v 1.21 2003/12/02 00:45:41 ajack Exp $
+# $Revision: 1.21 $f
+# $Date: 2003/12/02 00:45:41 $
 #
 # ====================================================================
 #
@@ -1429,13 +1429,12 @@ class ForrestDocumenter(Documenter):
         
          # Individual Pages...
         self.documentModulesByRepository(xref, run, workspace, gumpSet)
+        self.documentModulesByPackage(xref, run, workspace, gumpSet)
         
         
     def documentModulesByRepository(self,xref,run,workspace,gumpSet):
         document=XDocDocument('Modules By Repository',	\
             self.resolver.getFile(xref,'repo_module.xml'))
-        
-        elapsedTable=document.createTable(['Modules By Repository'])
         
         repoMap=xref.getRepositoryToModuleMap()
         for repo in repoMap.keys():
@@ -1448,6 +1447,25 @@ class ForrestDocumenter(Documenter):
                 if not gumpSet.inModules(module): continue
                 moduleRepoRow=moduleRepoTable.createRow()
                 self.insertLink( module, xref, moduleRepoRow.createData())
+          
+        document.serialize()    
+        
+    def documentModulesByPackage(self,xref,run,workspace,gumpSet):
+        document=XDocDocument('Modules By Package',	\
+            self.resolver.getFile(xref,'package_module.xml'))
+        
+        packageTable=document.createTable(['Modules By Package'])
+        
+        packageMap=xref.getPackageToModuleMap()
+        for package in packageMap.keys():
+            
+            packageTable.createRow().createHeader('Package: ' + package)
+            
+            moduleList=createOrderedList(packageMap.get(package)) 
+            
+            for module in moduleList:        
+                if not gumpSet.inModules(module): continue
+                self.insertLink( module, xref,packageTable.createRow().createData())
           
         document.serialize()
  
