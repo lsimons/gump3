@@ -10,7 +10,7 @@ from xml.sax.handler import ContentHandler
 # http://wxpython.org/
 from wxPython.wx import *
 
-from gumpcore import load,Module,Project
+from gumpcore import load,Module,Project,buildSequence
 from gen import xmlize
 from gumpconf import *
 
@@ -115,7 +115,18 @@ class gumpview(wxApp):
     self.data.ShowPosition(0)
 
     # gather a list of project dependencies unrolled to build
-    self.build_sequence = project.buildSequence()
+    self.build_sequence = []
+    try:
+      todo=[]
+      project.addToTodoList(todo)
+      todo.sort()
+      self.build_sequence = buildSequence(todo)
+    except:
+      message=str(sys.exc_type)
+      if sys.exc_value: message+= ": " + str(sys.exc_value)
+      dlg=wxMessageDialog(None, message, "Error", wx.wxOK)
+      dlg.ShowModal()
+      dlg.Destroy()
 
     # display the project dependencies
     self.dependencies.DeleteAllItems()

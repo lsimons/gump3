@@ -303,30 +303,27 @@ class Project(Named):
 	if depend.project==self.name: return 1
     return 0
 
-  # determine the build sequence
-  def buildSequence(self):
-    result=[]
-    todo=[]
-    self.addToTodoList(todo)
-    todo.sort()
-    while todo:
-      # one by one, remove the first ready project and append it to the result
-      for project in todo:
-	if project.isReady(todo):
-	  todo.remove(project)
-	  if project.ant or project.script: result.append(project)
-	  break
-      else:
-        # we have a circular dependency, remove all innocent victims
-	while todo:
-	  for project in todo:
-	    if project.isPrereq(todo):
-	      todo.remove(project)
-	      break
-          else:
-	    for project in todo: print project.name
-	    raise "circular dependency"
-    return result
+# determine the build sequence
+def buildSequence(todo):
+  result=[]
+  while todo:
+    # one by one, remove the first ready project and append it to the result
+    for project in todo:
+      if project.isReady(todo):
+        todo.remove(project)
+	if project.ant or project.script: result.append(project)
+	break
+    else:
+      # we have a circular dependency, remove all innocent victims
+      while todo:
+	for project in todo:
+	  if not project.isPrereq(todo):
+	    todo.remove(project)
+	    break
+        else:
+	  loop=", ".join([project.name for project in todo])
+	  raise "circular dependency loop: " + str(loop)
+  return result
 
 # represents an <ant/> element
 class Ant(GumpBase): 
