@@ -32,8 +32,8 @@
     <work nested="classes/tools"/>
  
     <home nested="dist"/>
-    <jar name="lib/openjmx.jar"/>
-    <jar name="lib/openjmx-tools.jar"/>
+    <jar name="lib/mx4j-jmx.jar" />
+    <jar name="lib/mx4j-tools.jar" />
   </project>
 
   <project name="saxon">
