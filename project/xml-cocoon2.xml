@@ -23,15 +23,23 @@
     <depend project="bsf"/>
     <depend project="jakarta-velocity"/>
     <depend project="resolver"/>
+    <depend project="hsqldb"/>
     <option project="xml-fop"/>
     <option project="jtidy"/>
     <option project="phpservlt"/>
     <option project="jakarta-servletapi-4"/>
     <option project="xt"/>
-    <option project="xml-batik"/>
     <option project="rhino"/>
     <option project="jstyle"/>
     <work nested="bin"/>
+  </project>
+
+  <project name="hsqldb">
+    <url href="http://sourceforge.net/projects/hsqldb/"/>
+    <description>
+      Relational database engine written in Java
+    </description>
+    <jar name="lib/hsqldb-1.61.jar"/>
   </project>
 
   <project name="jstyle">
