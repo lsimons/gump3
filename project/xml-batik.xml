@@ -27,6 +27,7 @@
     <jar name="lib/batik-gvt.jar"/>
     <jar name="lib/batik-parser.jar"/>
     <jar name="lib/batik-svg-dom.jar"/>
+    <jar name="lib/batik-svggen.jar"/>
     <jar name="lib/batik-transcoder.jar"/>
     <jar name="lib/batik-util.jar"/>
   </project>
