@@ -532,11 +532,11 @@
         </ant>
 
         <depend project="ant" inherit="runtime"/>
-        <depend project="excalibur-i18n" inherit="runtime"/>
+        <depend project="excalibur-i18n" inherit="runtime" runtime="true"/>
         <option project="checkstyle" inherit="runtime"/>
         <depend project="junit"/>
         <depend project="avalon" runtime="true"/>
-        <depend project="jakarta-log4j"/>
+        <depend project="jakarta-log4j" runtime="true"/>
         <depend project="xml-xerces"/>
         <depend project="xml-xalan2"/>
 
