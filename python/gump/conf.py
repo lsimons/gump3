@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/Attic/conf.py,v 1.1 2003/04/28 20:27:48 leosimons Exp $
-# $Revision: 1.1 $
-# $Date: 2003/04/28 20:27:48 $
+# $Header: /home/stefano/cvs/gump/python/gump/Attic/conf.py,v 1.2 2003/04/28 21:38:02 rubys Exp $
+# $Revision: 1.2 $
+# $Date: 2003/04/28 21:38:02 $
 #
 # ====================================================================
 #
@@ -73,7 +73,7 @@ class dir:
     """Configuration of paths"""
 
     cmdpath   = os.path.abspath(sys.argv[0])
-    base      = os.path.normpath('%s/%s' % (os.path.dirname(cmdpath),'../../..'))
+    base      = os.path.normpath('%s/%s' % (os.path.dirname(cmdpath),'../..'))
     cache     = os.path.normpath('%s/%s' % (base,'cache'))
     work      = os.path.normpath('%s/%s' % (base,'work'))
 

@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/__init__.py,v 1.1 2003/04/28 20:27:48 leosimons Exp $
-# $Revision: 1.1 $
-# $Date: 2003/04/28 20:27:48 $
+# $Header: /home/stefano/cvs/gump/python/gump/__init__.py,v 1.2 2003/04/28 21:38:02 rubys Exp $
+# $Revision: 1.2 $
+# $Date: 2003/04/28 21:38:02 $
 #
 # ====================================================================
 #
@@ -102,7 +102,7 @@ from gump.conf import dir, default
 ###############################################################################
 
 # tell python what modules make up the gump package
-__all__ = ["conf", "rss", "view", "build", "gen"]
+__all__ = ["conf", "view", "build", "gen"]
 
 # init logging
 logging.basicConfig()
@@ -183,9 +183,9 @@ class GumpBase(object):
       attr=self.__getattribute__(name)
       if isinstance(attr,Single): return attr(attrs)
       if isinstance(attr,Multiple): return attr(attrs)
-    except:
-      # shouldn't happen?
-      log.warn("Not handling attribute in GumpBase.startElement related to " +
+    except AttributeError:
+      # shouldn't happen? - it actually is OK if people extend the GOM -- rubys
+      log.debug("Not handling attribute in GumpBase.startElement related to " +
                 "name %s; current class is %s" % (name, self.__class__))
 
   def characters(self,string):
@@ -553,7 +553,7 @@ class Work(GumpBase): pass
 def gumpPath(path):
   """returns the path absolutized relative to the base gump dir"""
   
-  return os.path.normpath('%s/%s' % (dir.base,path))
+  return os.path.normpath(os.path.join(dir.base,path))
 
 def gumpCache(href):
   """returns the path of the file in the href, cached if remote"""

@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/Attic/view.py,v 1.1 2003/04/28 20:27:48 leosimons Exp $
-# $Revision: 1.1 $
-# $Date: 2003/04/28 20:27:48 $
+# $Header: /home/stefano/cvs/gump/python/gump/Attic/view.py,v 1.2 2003/04/28 21:38:02 rubys Exp $
+# $Revision: 1.2 $
+# $Date: 2003/04/28 21:38:02 $
 #
 # ====================================================================
 #
@@ -62,6 +62,7 @@
   Graphic GUI to navigate a Gump workspace
 """
 
+import os
 import sys
 import logging
 
