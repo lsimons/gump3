@@ -143,7 +143,7 @@
   <project name="commons-id">
     <package>org.apache.commons.id</package>
     <description>Commons Identifier Package</description>
-    <maven basedir="id" goal="default">
+    <maven basedir="id" goal="jar">
       <property name="component.version"  value="@@DATE@@"/>
     </maven>
     <depend project="commons-discovery"/>
