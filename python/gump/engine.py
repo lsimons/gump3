@@ -108,7 +108,7 @@ class GumpEngine:
         #	Nag
         #	Provide RSS
         #
-        if gumpSet.isFull():
+        if run.getGumpSet().isFull():
             # Update Statistics
             self.updateStatistics(run)
     
@@ -127,7 +127,8 @@ class GumpEngine:
             rss(run)
 
         # Return an exit code based off success
-        if workspace.isSuccess():
+        # :TODO: Move onto run
+        if run.getWorkspace().isSuccess():
             result = SUCCESS 
         else: 
             result = FAILED

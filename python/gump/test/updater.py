@@ -1,7 +1,7 @@
 #!/usr/bin/env python
-# $Header: /home/stefano/cvs/gump/python/gump/test/updater.py,v 1.2 2003/11/23 06:16:39 ajack Exp $
-# $Revision: 1.2 $
-# $Date: 2003/11/23 06:16:39 $
+# $Header: /home/stefano/cvs/gump/python/gump/test/updater.py,v 1.3 2003/11/24 23:05:37 ajack Exp $
+# $Revision: 1.3 $
+# $Date: 2003/11/24 23:05:37 $
 #
 # ====================================================================
 #
@@ -97,7 +97,7 @@ class UpdaterTestSuite(UnitTestSuite):
         (repo, url, cmd) = command=self.svnModule1.getUpdateCommand(0)  
         
         # Updates
-        (repo, root, cmd) = command=self.module1.getUpdateCommand(1)  
+        (repo, root, cmd) = command=self.module1.getUpdateCommand(0)  
         
-        (repo, url, cmd) = command=self.svnModule1.getUpdateCommand(1)  
+        (repo, url, cmd) = command=self.svnModule1.getUpdateCommand(0)  
         

@@ -1,7 +1,7 @@
 #!/usr/bin/env python
-# $Header: /home/stefano/cvs/gump/python/gump/test/model.py,v 1.6 2003/11/24 01:45:16 ajack Exp $
-# $Revision: 1.6 $
-# $Date: 2003/11/24 01:45:16 $
+# $Header: /home/stefano/cvs/gump/python/gump/test/model.py,v 1.7 2003/11/24 23:05:37 ajack Exp $
+# $Revision: 1.7 $
+# $Date: 2003/11/24 23:05:37 $
 #
 # ====================================================================
 #
@@ -157,7 +157,8 @@ class ModelTestSuite(UnitTestSuite):
         
         self.assertTrue('Module has SVN', svnmodule1.hasSvn())
         self.assertFalse('Module has NOT CVS', svnmodule1.hasCvs())
-        self.assertNonZeroString('SVN URL',svnmodule1.svn.getUrl())
+        self.assertNonZeroString('SVN URL',svnmodule1.svn.getRootUrl())
+        self.assertTrue('SVN Dir',svnmodule1.svn.hasDir())
     
     def testDependencyMapping(self):
         
