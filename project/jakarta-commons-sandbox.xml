@@ -267,6 +267,13 @@
     <depend project="jakarta-servletapi-4"/>
     <depend project="xml-xalan2"/>
     <depend project="junit"/>
+    <depend project="hibernate"/>
+
+    <!-- needed by hibernate test -->
+    <depend project="dom4j"/>
+    <depend project="cglib"/>
+    <depend project="hsqldb"/>
+    <depend project="jta"/>
 
     <work nested="resources/target/classes"/>
     <work nested="resources/target/test-classes"/>
