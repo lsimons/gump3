@@ -106,9 +106,9 @@ class MavenBuilder(AbstractJavaBuilder):
     #
     # Build an ANT command for this project
     #        
-    def getMavenCommand(self):
-        maven=self.maven
-        mavenxml=self.xml.maven
+    def getMavenCommand(self,project):
+        maven=project.maven
+        mavenxml=project.xml.maven
     
         # The ant goal (or none == ant default goal)
         goal=maven.getGoal()
@@ -120,22 +120,22 @@ class MavenBuilder(AbstractJavaBuilder):
         #
         # Where to run this:
         #
-        basedir = maven.getBaseDirectory() or self.getBaseDirectory()
+        basedir = maven.getBaseDirectory() or project.getBaseDirectory()
     
         #
         # Build a classpath (based upon dependencies)
         #
-        (classpath,bootclasspath)=self.getClasspaths()
+        (classpath,bootclasspath)=project.getClasspaths()
     
         #
         # Get properties
         #
-        #jvmargs=self.getJVMArgs()
+        #jvmargs=project.getJVMArgs()
    
         #
         # Run Maven...
         #
-        cmd=Cmd('maven','build_'+self.getModule().getName()+'_'+self.getName(),\
+        cmd=Cmd('maven','build_'+project.getModule().getName()+'_'+project.getName(),\
             basedir,{'CLASSPATH':classpath})
             
         # Set this as a system property. Setting it here helps JDK1.4+
@@ -157,9 +157,9 @@ class MavenBuilder(AbstractJavaBuilder):
         #
         # Allow maven-level debugging...
         #
-        if self.getWorkspace().isDebug() or self.isDebug() or debug: 
+        if project.getWorkspace().isDebug() or project.isDebug() or debug: 
             cmd.addParameter('--debug')  
-        if self.getWorkspace().isVerbose()  or self.isVerbose() or verbose: 
+        if project.getWorkspace().isVerbose()  or project.isVerbose() or verbose: 
             cmd.addParameter('--exception') 
         
         #
