@@ -8,7 +8,7 @@
   <cvs repository="sourceforge" host-prefix="cvs.mockobjects" 
        dir="mockobjects" module="mockobjects-java"/>
 
-  <project name="mockobjects">
+  <project name="mockobjects-cvs-head">
     <package>com.mockobjects</package>
     <mkdir dir="out/core/classes"/>
     <mkdir dir="out/jdk/classes"/>
@@ -28,12 +28,9 @@
     <jar name="mockobjects-core-@@DATE@@.jar" id="core"/>
     <jar name="mockobjects-jdk1.4-@@DATE@@.jar" id="jdk"/>
     <jar name="mockobjects-alt-jdk1.4-@@DATE@@.jar" id="alt-jdk"/>
-
-    <nag from="Jeff Martin&lt;jeff@custommonkey.org&gt;"
-      to="mockobjects-java-dev@lists.sourceforge.net"/>
   </project>
 
-  <project name="mockobjects-j2ee-13">
+  <project name="mockobjects-j2ee-13-cvs-head">
     <package>com.mockobjects</package>
     <!-- clean up earlier build -->
     <delete dir="out/j2ee/classes"/>
@@ -46,7 +43,7 @@
     <depend project="ant" inherit="runtime"/>
     <depend project="xml-xerces"/>
     <depend project="junit" runtime="true"/>
-    <depend project="mockobjects" runtime="true"/>
+    <depend project="mockobjects-cvs-head" runtime="true"/>
 
     <!-- mocked parts of J2EE -->
     <depend project="jaf"/>
@@ -60,12 +57,9 @@
     <home nested="out"/>
     <jar name="mockobjects-jdk1.4-j2ee1.3-@@DATE@@.jar" id="j2ee"/>
     <jar name="mockobjects-alt-jdk1.4-j2ee1.3-@@DATE@@.jar" id="alt-j2ee"/>
-
-    <nag from="Jeff Martin&lt;jeff@custommonkey.org&gt;"
-      to="mockobjects-java-dev@lists.sourceforge.net"/>
   </project>
 
-  <project name="mockobjects-j2ee-14">
+  <project name="mockobjects-j2ee-14-cvs-head">
     <package>com.mockobjects</package>
     <!-- clean up earlier build -->
     <delete dir="out/j2ee/classes"/>
@@ -78,7 +72,7 @@
     <depend project="ant" inherit="runtime"/>
     <depend project="xml-xerces"/>
     <depend project="junit" runtime="true"/>
-    <depend project="mockobjects" runtime="true"/>
+    <depend project="mockobjects-cvs-head" runtime="true"/>
 
     <!-- mocked parts of J2EE -->
     <depend project="jaf"/>
@@ -93,9 +87,22 @@
     <home nested="out"/>
     <jar name="mockobjects-jdk1.4-j2ee1.4-@@DATE@@.jar" id="j2ee"/>
     <jar name="mockobjects-alt-jdk1.4-j2ee1.4-@@DATE@@.jar" id="alt-j2ee"/>
+  </project>
 
-    <nag from="Jeff Martin&lt;jeff@custommonkey.org&gt;"
-      to="mockobjects-java-dev@lists.sourceforge.net"/>
+  <project name="mockobjects">
+    <jar name="mockobjects-core-0.09.jar" id="core"/>
+    <jar name="mockobjects-jdk1.4-0.09.jar" id="jdk"/>
+    <jar name="mockobjects-alt-jdk1.4-0.09.jar" id="alt-jdk"/>
+  </project>
+
+  <project name="mockobjects-j2ee-13">
+    <jar name="mockobjects-jdk1.4-j2ee1.3-0.09.jar" id="j2ee"/>
+    <jar name="mockobjects-alt-jdk1.4-j2ee1.3-0.09.jar" id="alt-j2ee"/>
+  </project>
+
+  <project name="mockobjects-j2ee-14">
+    <jar name="mockobjects-jdk1.4-j2ee1.4-0.09.jar" id="j2ee"/>
+    <jar name="mockobjects-alt-jdk1.4-j2ee1.4-0.09.jar" id="alt-j2ee"/>
   </project>
 
 </module>

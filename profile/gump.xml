@@ -275,6 +275,7 @@
   <!--project name="jts"              package="jts1_0"/-->
   <project name="ldap"             package="ldap-1_2_4"/>
   <project name="nekohtml"         package="nekohtml-0.8.2"/>
+  <project name="mockobjects"      package="mockobjects-0.09"/>
   <project name="msv"              package="msv-20020414"/>
   <project name="multipartrequest" package="MultipartRequest-1.30b4"/>
   <project name="relaxng"          package="relaxngDatatype-1.0"/>
