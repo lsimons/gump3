@@ -196,6 +196,10 @@ def executeForrest(workspace,context):
         content, '=')    
     forrest.addPrefixedParameter('-D','project.xdocs-dir',  \
         xdocs, '=')
+        
+    forrest.addPrefixedParameter('-D','project.site-dir',  \
+        workspace.logdir, '=')
+        
     #forrest.addPrefixedParameter('-D','project.sitemap-dir',  \
     #    docroot, '=')    
     #forrest.addPrefixedParameter('-D','project.stylesheets-dir',  \
@@ -335,9 +339,11 @@ def documentModule(workspace,wdir,modulename,modulecontext,db,projectFilterList=
     endSectionXDoc(x)
     
     startSectionXDoc(x,'Module Details')
-    paragraphXDoc(x,"Status: " + stateName(modulecontext.status))
+    startListXDoc(x)
+    addItemXDoc(x,"Status: " + stateName(modulecontext.status))
     if modulecontext.cause:
-        addItemXDoc(x, "Cause:", "<link href='%s'>%s</link>" % (getContextUrl(modulecontext.cause), modulecontext.cause.name))
+        addItemXDoc(x, "Cause:", "<link href='%s'>%s</link>" % (getContextUrl(modulecontext.cause), modulecontext.cause.name))    
+    endListXDoc(x)
     endSectionXDoc(x)
        
     documentWorkList(x,workspace,modulecontext.worklist,'Module-level Work',mdir)
@@ -664,10 +670,10 @@ def documentModulesByDependees(stats,sdir,moduleFilterList=None):
 # Helper Methods
 #           
  
-def getWorkspaceSiteDir(workspace):
-    sdir=os.path.normpath(os.path.join(workspace.logdir,'site'))
-    if not os.path.exists(sdir): os.mkdir(sdir)
-    return sdir    
+#def getWorkspaceSiteDir(workspace):
+#    sdir=os.path.normpath(os.path.join(workspace.logdir,'site'))
+#    if not os.path.exists(sdir): os.mkdir(sdir)
+#    return sdir    
     
 def getForrestTemplateDir():
     fdir=os.path.normpath(os.path.join(dir.template,'forrest'))
