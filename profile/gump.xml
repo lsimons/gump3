@@ -44,7 +44,7 @@
 
   <!-- Turbine projects taken from cvs -->
   <module href="http://cvs.apache.org/viewcvs/~checkout~/jakarta-turbine-2/gump.xml"/>
-  <module href="http://cvs.apache.org/viewcvs/~checkout~/jakarta-turbine-3/gump.xml"/>
+  <!-- module href="http://cvs.apache.org/viewcvs/~checkout~/jakarta-turbine-3/gump.xml" -->
   <module href="http://cvs.apache.org/viewcvs/~checkout~/jakarta-turbine-fulcrum/gump.xml"/>
   <module href="http://cvs.apache.org/viewcvs/~checkout~/jakarta-turbine-jcs/gump.xml"/>
   <module href="http://cvs.apache.org/viewcvs/~checkout~/jakarta-turbine-stratum/gump.xml"/>
