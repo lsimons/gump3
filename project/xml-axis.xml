@@ -33,7 +33,10 @@
     <home nested="java/build"/>
     <jar name="lib/axis.jar"/>
     <jar name="lib/jaxrpc.jar"/>
+    <jar name="lib/saaj.jar"/>
+
     <javadoc nested="java/build/javadocs"/>
+
     <nag from="Sam Ruby &lt;rubys@us.ibm.com&gt;"
          to="axis-dev@xml.apache.org">
       <regexp  subject="Build Failure - Axis"/>
