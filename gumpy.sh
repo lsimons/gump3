@@ -1,8 +1,15 @@
 #!/bin/bash
 #
 # $Header: $
-
-export GUMP_HOST=`hostname -s`
+cygwin=false;
+case "`uname`" in
+  CYGWIN*) cygwin=true ;;
+esac
+if $cygwin; then
+   export GUMP_HOST=`hostname`
+else
+    export GUMP_HOST=`hostname -s`
+fi
 export LOCAL_ENV=local-env-py.sh
 if [ -e  $LOCAL_ENV ] ; then
 	. $LOCAL_ENV
