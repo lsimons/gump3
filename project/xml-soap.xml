@@ -30,7 +30,7 @@
     <javadoc nested="java/build/javadocs"/>
 
     <nag from="Sam Ruby &lt;rubys@us.ibm.com&gt;"
-         to="soap-dev@xml.apache.org"/>
+         to="soap-dev@ws.apache.org"/>
   </project>
 
 </module>

@@ -22,7 +22,7 @@
     <work nested="java/build/classes"/>
 
     <nag from="Sam Ruby &lt;rubys@us.ibm.com&gt;"
-         to="axis-dev@xml.apache.org">
+         to="axis-dev@ws.apache.org">
       <regexp  subject="Build Failure - WSIL"/>
     </nag>
   </project>

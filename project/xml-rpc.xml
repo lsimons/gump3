@@ -28,7 +28,7 @@
     <license name="LICENSE.txt"/>
 
     <nag from="Sam Ruby &lt;rubys@us.ibm.com&gt;"
-         to="rpc-dev@xml.apache.org"/>
+         to="rpc-dev@ws.apache.org"/>
   </project>
 
 </module>
