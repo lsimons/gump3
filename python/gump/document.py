@@ -469,7 +469,7 @@ def documentProject(workspace,modulename,mdir,projectname,projectcontext,db):
         startSectionXDoc(x,"Project Dependencies")
         startListXDoc(x)
         for depend in projectcontext.depends:
-            addXItemXDoc(x,getContextLink(depend))
+            addXItemXDoc(x,getContextLink(depend),getContextStateDescription(depend))
         endListXDoc(x)
         endSectionXDoc(x)
             
@@ -477,7 +477,7 @@ def documentProject(workspace,modulename,mdir,projectname,projectcontext,db):
         startSectionXDoc(x,"Optional Project Dependencies")
         startListXDoc(x)
         for option in projectcontext.options:
-            addXItemXDoc(x,getContextLink(option))
+            addXItemXDoc(x,getContextLink(option),getContextStateDescription(option))
         endListXDoc(x)
         endSectionXDoc(x)
                       
@@ -485,7 +485,7 @@ def documentProject(workspace,modulename,mdir,projectname,projectcontext,db):
         startSectionXDoc(x,"Project Dependees")
         startListXDoc(x)
         for depend in projectcontext.dependees:
-            addXItemXDoc(x,getContextLink(depend))
+            addXItemXDoc(x,getContextLink(depend),getContextStateDescription(depend))
         endListXDoc(x)
         endSectionXDoc(x)
             
@@ -493,7 +493,7 @@ def documentProject(workspace,modulename,mdir,projectname,projectcontext,db):
         startSectionXDoc(x,"Optional Project Dependees")
         startListXDoc(x)
         for option in projectcontext.optionees:     
-            addXItemXDoc(x,getContextLink(option))
+            addXItemXDoc(x,getContextLink(option),getContextStateDescription(option))
         endListXDoc(x)
         endSectionXDoc(x)
                   
@@ -902,6 +902,12 @@ def getContextUrl(context,depth=1):
 def getContextLink(context,depth=1):
     return getLink(getContextUrl(context,depth),context.name)
     
+def getContextStateDescription(context):
+    xdoc=stateName(context.status)
+    if not context.reason==REASON_UNSET: xdoc+='/'+reasonString(context.reason)
+    if context.cause:
+        xdoc+=getContextLink(context.cause)
+
 def getWorkspaceRelativeUrl(depth=0):
     return getUp(depth)+'index.html'
     
@@ -1034,8 +1040,11 @@ def startListXDoc(f, title=None):
 def addItemXDoc(f,t,i=''):
     f.write('      <li><strong>%s</strong>%s</li>\n' % (t,i))
     
-def addXItemXDoc(f,t):
-    f.write('      <li>%s</li>\n' % (t))
+def addXItemXDoc(f,t,i=None):
+    if i:
+        f.write('      <li>%s - <strong>%s</strong></li>\n' % (t, i))    
+    else:
+        f.write('      <li>%s</li>\n' % (t))
     
 def addLinkXDoc(f,url,title):
     f.write('       <link href=\'%s\'>%s</link>' % (url,title))    
