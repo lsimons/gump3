@@ -610,7 +610,8 @@
   <xsl:template name="escape">
     <xsl:param name="string"/>
 
-    <xsl:variable name="work" select="translate($string,'(){&amp;#',';;;;;')"/>
+    <xsl:variable name="work" 
+      select="translate($string,'(){&amp;#"',';;;;;;')"/>
 
     <xsl:choose>
       <xsl:when test="contains($work,';')">
