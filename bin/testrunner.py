@@ -647,7 +647,7 @@ def main(args):
     if not (test_all or pathname or filename):
         err_exit('must specify one of: -a -d -f')
 
-    # testrunner.py lives in ZOPE_HOME/utilities (or ZOPE_HOME/bin)
+    # testrunner.py lives in GUMP_HOME/utilities (or GUMP_HOME/bin)
     script = sys.argv[0]
     script_dir = os.path.dirname(realpath(script))
     zope_home = os.path.dirname(script_dir)

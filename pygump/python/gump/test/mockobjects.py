@@ -54,7 +54,7 @@ class MockOptions:
     def __init__(self):
         pass
 
-class MockGumpSet:
+class Mock:
     def __init__(self):
         pass
 
