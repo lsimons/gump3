@@ -16,6 +16,7 @@
       <depend property="avalon-excalibur.jar" project="jakarta-avalon-excalibur"/>
       <depend property="avalon-framework.jar" project="jakarta-avalon"/>
       <depend property="jakarta-oro.jar" project="jakarta-oro"/>
+      <depend property="junit.jar" project="junit"/>
       <depend property="logkit.jar" project="jakarta-avalon-logkit"/>
       <depend property="xalan.jar" project="xml-xalan2"/>
       <depend property="xerces.jar" project="xml-xerces" id="parser"/>
@@ -28,7 +29,6 @@
     <depend project="javamail" />
     <depend project="jsse" />
     <depend project="jtidy" />
-    <depend project="junit" />
     <depend project="excalibur-cli" />
 
     <work nested="build/core"/>
