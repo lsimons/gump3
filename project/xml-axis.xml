@@ -28,6 +28,7 @@
   <project name="test-axis">
     <ant basedir="java" target="functional-tests">
       <property name="test.functional.usefile" value="false"/>
+      <depend name="wsdl4j.jar" project="wsdl4j"/>
     </ant>
     <depend project="xml-xerces"/>
     <depend project="jakarta-ant"/>
