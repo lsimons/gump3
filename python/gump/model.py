@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/Attic/model.py,v 1.3 2003/05/01 02:56:42 rubys Exp $
-# $Revision: 1.3 $
-# $Date: 2003/05/01 02:56:42 $
+# $Header: /home/stefano/cvs/gump/python/gump/Attic/model.py,v 1.4 2003/05/01 17:24:15 rubys Exp $
+# $Revision: 1.4 $
+# $Date: 2003/05/01 17:24:15 $
 #
 # ====================================================================
 #
@@ -65,7 +65,7 @@
 # above, allowing the actual model to be rather simple and compact.
 ###############################################################################
 
-import os
+import os,types
 from gump import GumpBase, Named, Single, Multiple
 
 class Workspace(GumpBase):
@@ -167,7 +167,11 @@ class Project(Named):
         self.home=os.path.normpath(os.path.join(srcdir,self.home.nested))
       elif self.home.parent:
         self.home=os.path.normpath(os.path.join(workspace.basedir,self.home.parent))
-    elif not self.home: self.home=os.path.join(workspace.basedir,self.name)
+    elif not self.home: 
+      if type(self.package) in types.StringTypes:
+        self.home=os.path.join(workspace.pkgdir,self.package)
+      else:
+        self.home=os.path.join(workspace.basedir,self.name)
 
     # resolve jars
     for jar in self.jar:

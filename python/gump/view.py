@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/Attic/view.py,v 1.9 2003/05/01 11:52:00 rubys Exp $
-# $Revision: 1.9 $
-# $Date: 2003/05/01 11:52:00 $
+# $Header: /home/stefano/cvs/gump/python/gump/Attic/view.py,v 1.10 2003/05/01 17:24:15 rubys Exp $
+# $Revision: 1.10 $
+# $Date: 2003/05/01 17:24:15 $
 #
 # ====================================================================
 #
@@ -109,6 +109,7 @@ class gumpview(wxApp):
     self.tree=wxTreeCtrl(split1,-1)
     self.list=wxListCtrl(notebook,-1,style=wxLC_REPORT|wxSUNKEN_BORDER)
     self.dependencies=wxListCtrl(notebook,-1,style=wxLC_REPORT|wxSUNKEN_BORDER)
+    self.prereqs=wxListCtrl(notebook,-1,style=wxLC_REPORT|wxSUNKEN_BORDER)
     self.classpath=wxListCtrl(notebook,-1,style=wxLC_REPORT|wxSUNKEN_BORDER)
     self.property=wxListCtrl(notebook,-1,style=wxLC_REPORT|wxSUNKEN_BORDER)
     self.data=wxTextCtrl(split2,-1,style=wxTE_MULTILINE)
@@ -117,6 +118,7 @@ class gumpview(wxApp):
     split1.SplitVertically(self.tree, split2)
     notebook.AddPage(self.list, 'referenced')
     notebook.AddPage(self.dependencies, 'dependencies')
+    notebook.AddPage(self.prereqs, 'prereqs')
     notebook.AddPage(self.classpath, 'classpath')
     notebook.AddPage(self.property, 'property')
     split2.SplitHorizontally(notebook, self.data)
@@ -131,8 +133,9 @@ class gumpview(wxApp):
 
     # wire up the events
     EVT_TREE_SEL_CHANGED(self, self.tree.GetId(), self.selectTree)
-    EVT_LIST_ITEM_SELECTED(self, self.list.GetId(), self.selectItem)
-    EVT_LIST_ITEM_SELECTED(self, self.dependencies.GetId(), self.selectItem2)
+    EVT_LIST_ITEM_SELECTED(self, self.list.GetId(), self.selectProject)
+    EVT_LIST_ITEM_SELECTED(self, self.dependencies.GetId(), self.selectProject)
+    EVT_LIST_ITEM_SELECTED(self, self.prereqs.GetId(), self.selectProject)
     EVT_KEY_UP(self, self.OnKeyUp)
     return true
 
@@ -228,10 +231,31 @@ class gumpview(wxApp):
       self.dependencies.InsertColumn(0, 'Build sequence')
 
     for i in range(0,len(self.build_sequence)):
-      row=self.dependencies.InsertStringItem(i,self.build_sequence[i].name)
+      build=Project.list[self.build_sequence[i].name]
+      row=self.dependencies.InsertStringItem(i,build.name)
       self.dependencies.SetItemData(row,i)
+      for jar in build.jar:
+	if jar.path and not os.path.exists(jar.path):
+          self.dependencies.SetItemBackgroundColour(row,wxRED)
 
     self.dependencies.SetColumnWidth(0,wxLIST_AUTOSIZE_USEHEADER)
+
+    # display the prereqs
+    self.prereqs.DeleteAllItems()
+    if not self.prereqs.GetColumn(0):
+      self.prereqs.InsertColumn(0, 'Prerequisites')
+
+    i=0
+    for depend in project.depend+project.option:
+      prereq=Project.list[depend.project]
+      if prereq.ant or prereq.script: continue
+      row=self.prereqs.InsertStringItem(i,prereq.name)
+      for jar in prereq.jar:
+	if not os.path.exists(jar.path):
+          self.prereqs.SetItemBackgroundColour(row,wxRED)
+      i=i+1
+
+    self.prereqs.SetColumnWidth(0,wxLIST_AUTOSIZE_USEHEADER)
 
     # display the classpath
     self.classpath.DeleteAllItems()
@@ -261,17 +285,9 @@ class gumpview(wxApp):
     self.property.SetColumnWidth(1,wxLIST_AUTOSIZE_USEHEADER)
 
   # show the xml description for a single item
-  def selectItem(self, event):
-    project=Project.list[self.items[event.GetItem().GetData()]]
-    self.showProject(project)
-
-    # expand the associated module and select the project
-    self.tree.Expand(self.mItem[project.module])
-    self.tree.SelectItem(self.pItem[project.name])
-
-  # show the xml description for a single item
-  def selectItem2(self, event):
-    project=Project.list[self.build_sequence[event.GetItem().GetData()].name]
+  def selectProject(self, event):
+    projname=event.GetEventObject().GetItem(event.GetIndex(),0).GetText()
+    project=Project.list[projname]
     self.showProject(project)
 
     # expand the associated module and select the project
