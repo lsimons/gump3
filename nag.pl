@@ -13,8 +13,8 @@
 
 ($sec,$min,$hour,$mday,$mon,$year) = localtime;
 $date=sprintf("%d-%2.2d-%2.2d", $year+1900, $mon+1, $mday);
-$url = "http://cvs.apache.org/builds/gump/$date";
-$home = "/www/cvs.apache.org/builds/gump/$date";
+$url = "http://gump.covalent.net/log";
+$home = "/data/gump/log";
 
 $sentto = {};
 
