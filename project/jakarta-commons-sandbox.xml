@@ -10,6 +10,8 @@
 
     <ant basedir="util" target="dist">
       <property name="component.version"  value="gump"/>
+      <property name="minml2.jar" 
+        reference="jarpath" project="minml2" id="minml2"/>
       <property name="junit.jar" 
         reference="jarpath" project="junit" id="junit"/>
     </ant>
@@ -19,6 +21,29 @@
     <depend project="junit"/>
 
     <jar id="util" name="util/commons-util-gump.jar"/>
+  </project>
+
+  <project name="commons-jjar">
+    <ant basedir="jjar" target="dist">
+      <property name="minml2.jar" 
+        reference="jarpath" project="minml2" id="minml2"/>
+      <property name="junit.jar" 
+        reference="jarpath" project="junit" id="junit"/>
+    </ant>
+
+    <depend project="jakarta-ant"/>
+    <depend project="xml-xerces"/>
+    <depend project="minml2"/>
+    <depend project="junit"/>
+    <work nested="jjar/classes"/>
+    <work nested="jjar/tests"/>
+
+    <jar id="jjar" name="jjar/commons-jjar.jar"/>
+  </project>
+
+  <project name="minml2">
+    <url href="http://www.wilson.co.uk/xml/minml2.htm"/>
+    <jar id="minml2" name="jjar/lib/MinML2.jar"/>
   </project>
 
 </project>
