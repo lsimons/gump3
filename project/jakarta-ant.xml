@@ -28,10 +28,14 @@
     <option project="xml-xalan2"/>
     <option project="xml-xalan1-compat"/>
     <option project="xml-stylebook1"/>
+    <option project="xml-stylebook2"/>
     <option project="bsf"/>
     <option project="junit"/>
     <option project="jakarta-regexp"/>
     <option project="jakarta-oro"/>
+    <option project="jakarta-log4j"/>
+    <option project="jaf"/>
+    <option project="javamail"/>
 
     <ant target="distribution"/>
 
