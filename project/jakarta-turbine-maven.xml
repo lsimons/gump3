@@ -27,6 +27,7 @@
     <depend project="dom4j"/>
     <depend project="commons-cli"/>
     <depend project="commons-lang"/>
+    <depend project="commons-logging"/>
     <depend project="commons-io"/>
     <!-- depend project="commons-jelly"/ -->
     <depend project="commons-jexl"/>
@@ -36,6 +37,9 @@
     <depend project="jdepend"/>
     <depend project="checkstyle"/>
     <depend project="antlr"/>
+    <depend project="forehead"/>
+    <depend project="werkz"/>
+    <depend project="xml-commons-which"/>
     <depend project="commons-betwixt"/>
 
     <work nested="target/classes"/>

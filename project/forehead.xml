@@ -7,12 +7,18 @@
   <cvs module="forehead" repository="werken" dir="forehead">
   </cvs>
   <project name="forehead">
-    <ant buildfile="build.xml" target="dist"/>
     <package>com.werken.forehead</package>
+
+    <ant buildfile="build.xml" target="dist">
+      <property name="final.name" value="forehead-@@DATE@@" />
+    </ant>
+
     <depend project="jakarta-ant"/>
     <depend project="xml-xerces"/>
+    <depend project="junit"/>
+
+    <home nested="target"/>
     <jar name="forehead-@@DATE@@.jar"/>
-    <javadoc nested="target/docs/apidocs"/>
     <nag to="bob@eng.werken.com" from="forehead development &lt;bob@eng.werken.com&gt;">
     </nag>
   </project>
