@@ -66,7 +66,7 @@ class Builder(ModelObject, PropertyContainer):
         #
         for sysproperty in self.xml.sysproperty:
             self.expandProperty(sysproperty,project,workspace)       
-            self.importSystemProperty(sysproperty)
+            self.importSysProperty(sysproperty)
     
     #
     # Expands
