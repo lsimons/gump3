@@ -1,6 +1,8 @@
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0">
   <xsl:output indent="yes"/>
 
+	<xsl:variable name="image">images/jakarta-logo.gif</xsl:variable>
+
   <xsl:template match="*|@*|text()">
     <xsl:copy>
       <xsl:apply-templates select="*|@*|text()"/>
@@ -23,8 +25,7 @@
           <tr>
             <td colspan="2">
               <a href="http://jakarta.apache.org">
-                <img src="http://jakarta.apache.org/images/jakarta-logo.gif"
-                     align="left" border="0"/>
+                <img src="$image" align="left" border="0"/>
               </a>
             </td>
           </tr>

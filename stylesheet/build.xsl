@@ -8,6 +8,22 @@
     </xsl:copy>
   </xsl:template>
 
+  <xsl:variable name="basedir"
+    select="translate(/workspace/@basedir, '\', '/')"/>
+
+  <xsl:variable name="cvsdir"
+		select="translate(/workspace/@cvsdir, '\', '/')"/>
+
+	<xsl:variable name="logdir">
+		<xsl:choose>
+			<xsl:when test="/workspace/@logdir"><xsl:value-of
+				select="translate(/workspace/@logdir, '\', '/')"/></xsl:when>
+			<xsl:otherwise><xsl:value-of select="$basedir"/>
+				<xsl:text>/log</xsl:text>
+			</xsl:otherwise>
+		</xsl:choose>
+	</xsl:variable>
+
   <!-- =================================================================== -->
   <!-- provide support for specifying desired projects on the command line -->
   <!-- =================================================================== -->
@@ -16,18 +32,18 @@
 
     <build>
 
-      <chdir dir="{@basedir}"/>
-      <mkdir dir="log"/>
+      <chdir dir="{$basedir}"/>
+      <mkdir dir="{$logdir}"/>
       <delete dir="build"/>
       <delete dir="dist"/>
 
       <xsl:for-each select="project[cvs]">
-        <delete dir="{/workspace/@basedir}/{@name}"/>
-        <copy fromdir="{/workspace/@cvsdir}/{@name}"
-              todir="{/workspace/@basedir}/{@name}"/>
+        <delete dir="{$basedir}/{@name}"/>
+        <copy fromdir="{$cvsdir}/{@name}"
+              todir="{$basedir}/{@name}"/>
       </xsl:for-each>
 
-      <html log="{/workspace/@basedir}/log/index.html">
+      <html log="{$logdir}/index.html">
         <title>
           <xsl:text>Build status - </xsl:text>
           <date/>
@@ -74,7 +90,7 @@
       <xsl:copy-of select="@*"/>
       <xsl:variable name="srcdir" select="@srcdir"/>
 
-      <html log="{/workspace/@basedir}/log/{@name}.html">
+      <html log="{$logdir}/{@name}.html">
         <title>
           <xsl:text>Build </xsl:text>
           <xsl:value-of select="@name"/>
@@ -150,10 +166,8 @@
           </xsl:for-each>
 
           <logic>
-            <xsl:variable name="basedir" select="/workspace/@basedir"/>
-
             <initdir dir="{$basedir}/{$srcdir}"
-                     basedon="{/workspace/@cvsdir}/{$srcdir}"/>
+                     basedon="{$cvsdir}/{$srcdir}"/>
             <chdir dir="{$basedir}/{$srcdir}"/>
             <classpath>
 
@@ -242,7 +256,7 @@
           </xsl:when>
 
           <xsl:when test="@path">
-            <property name="{$name}" value="{ancestor::workspace/@basedir}/{ancestor::project/@srcdir}/{@path}"/>
+            <property name="{$name}" value="{$basedir}/{ancestor::project/@srcdir}/{@path}"/>
           </xsl:when>
 
           <xsl:otherwise>

@@ -1,5 +1,18 @@
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0">
 
+  <xsl:variable name="basedir"
+    select="translate(/workspace/@basedir, '\', '/')"/>
+
+	<xsl:variable name="logdir">
+		<xsl:choose>
+			<xsl:when test="/workspace/@logdir"><xsl:value-of
+				select="translate(/workspace/@logdir, '\', '/')"/></xsl:when>
+			<xsl:otherwise><xsl:value-of select="$basedir"/>
+				<xsl:text>/log</xsl:text>
+			</xsl:otherwise>
+		</xsl:choose>
+	</xsl:variable>
+
   <!-- =================================================================== -->
   <!--         Produce a cross reference of project dependencies           -->
   <!-- =================================================================== -->
@@ -8,7 +21,7 @@
 
     <xref>
 
-      <html log="{/workspace/@basedir}/log/xref.html">
+      <html log="{$logdir}/xref.html">
         <title>Cross Reference</title>
 
         <sidebar>

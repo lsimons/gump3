@@ -1,6 +1,22 @@
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0">
   <xsl:strip-space elements="*"/>
 
+  <xsl:variable name="basedir"
+    select="translate(/workspace/@basedir, '/', '\')"/>
+
+  <xsl:variable name="cvsdir"
+		select="translate(/workspace/@cvsdir, '/', '\')"/>
+
+	<xsl:variable name="logdir">
+		<xsl:choose>
+			<xsl:when test="/workspace/@logdir"><xsl:value-of
+				select="translate(/workspace/@logdir, '/', '\')"/></xsl:when>
+			<xsl:otherwise><xsl:value-of select="$basedir"/>
+				<xsl:text>\log</xsl:text>
+			</xsl:otherwise>
+		</xsl:choose>
+	</xsl:variable>
+
   <!-- =================================================================== -->
   <!--                               build                                 -->
   <!-- =================================================================== -->
@@ -80,7 +96,7 @@
     <xsl:text>if not "%1"=="" goto top&#10;</xsl:text>
 
     <xsl:text>chdir /d </xsl:text>
-    <xsl:value-of select="translate(@basedir,'/','\')"/>
+    <xsl:value-of select="$basedir"/>
     <xsl:text>&#10;</xsl:text>
 
     <xsl:text>ENDLOCAL&#10;</xsl:text>
@@ -132,15 +148,15 @@
     <xsl:text>@echo off&#10;</xsl:text>
 
     <xsl:text>if not exist </xsl:text>
-    <xsl:value-of select="translate(@basedir,'/','\')"/>
+    <xsl:value-of select="$basedir"/>
     <xsl:text> mkdir </xsl:text>
-    <xsl:value-of select="translate(@basedir,'/','\')"/>
+    <xsl:value-of select="$basedir"/>
     <xsl:text>&#10;</xsl:text>
 
     <xsl:text>if not exist </xsl:text>
-    <xsl:value-of select="translate(@basedir,'/','\')"/>
+    <xsl:value-of select="$basedir"/>
     <xsl:text>\log  mkdir </xsl:text>
-    <xsl:value-of select="translate(@basedir,'/','\')"/>
+    <xsl:value-of select="$basedir"/>
     <xsl:text>\log &#10;</xsl:text>
 
     <xsl:text>if not exist </xsl:text>
@@ -246,7 +262,7 @@
   </xsl:template>
 
   <!-- =================================================================== -->
-  <!--                        create the claspath                          -->
+  <!--                        create the classpath                         -->
   <!-- =================================================================== -->
 
   <xsl:template match="classpath">

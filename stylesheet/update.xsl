@@ -2,6 +2,22 @@
 
   <xsl:output indent="yes"/>
 
+  <xsl:variable name="basedir"
+    select="translate(/workspace/@basedir, '\', '/')"/>
+
+  <xsl:variable name="cvsdir"
+		select="translate(/workspace/@cvsdir, '\', '/')"/>
+
+	<xsl:variable name="logdir">
+		<xsl:choose>
+			<xsl:when test="/workspace/@logdir"><xsl:value-of
+				select="translate(/workspace/@logdir, '\', '/')"/></xsl:when>
+			<xsl:otherwise><xsl:value-of select="$basedir"/>
+				<xsl:text>/log</xsl:text>
+			</xsl:otherwise>
+		</xsl:choose>
+	</xsl:variable>
+
   <xsl:template match="*|@*">
     <xsl:copy>
       <xsl:apply-templates select="*|@*"/>
@@ -17,11 +33,11 @@
     <update>
       <xsl:copy-of select="@*"/>
 
-      <mkdir dir="{@basedir}"/>
-      <mkdir dir="{@basedir}/log"/>
-      <mkdir dir="{@cvsdir}"/>
+      <mkdir dir="{$basedir}"/>
+      <mkdir dir="{$logdir}"/>
+      <mkdir dir="{$cvsdir}"/>
 
-      <html log="{/workspace/@basedir}/log/cvs_index.html">
+      <html log="{$logdir}/cvs_index.html">
         <title>
           <xsl:text>CVS update - </xsl:text>
           <date/>
@@ -57,7 +73,7 @@
         </content>
       </html>
 
-      <chdir dir="{@basedir}"/>
+      <chdir dir="{$basedir}"/>
     </update>
 
   </xsl:template>
@@ -67,7 +83,7 @@
     <xsl:copy>
       <xsl:copy-of select="@*"/>
 
-      <html log="{/workspace/@basedir}/log/cvs_{@name}.html">
+      <html log="{$logdir}/cvs_{@name}.html">
         <title>
           <xsl:text>cvs update </xsl:text>
           <xsl:value-of select="@name"/>
