@@ -40,6 +40,7 @@ def _do_drop(to_remove, dropped_nodes=None):
     
     node_to_remove_element_from = to_remove.parentNode
     node_to_remove_element_from.removeChild(to_remove)
+    
     if dropped_nodes:
         dropped_nodes.append(to_remove)
 
@@ -87,8 +88,8 @@ def _import_node(target_node, new_node):
     The second argument is merged into the first argument, which is then
     returned.
     """
-    self._import_attributes(target_node, new_node)
-    self._import_children(target_node, new_node)
+    _import_attributes(target_node, new_node)
+    _import_children(target_node, new_node)
 
     
 def _import_attributes(target_node, new_node):
@@ -128,8 +129,8 @@ class _TagNameFilter:
     def __init__(self, excludedTags):
         self.excludedTags = excludedTags
 
-    def exclude(node):
-        if not child.nodeType == dom.Node.ELEMENT_NODE:
+    def exclude(self, node):
+        if not node.nodeType == dom.Node.ELEMENT_NODE:
             return False
         if node.tagName in self.excludedTags:
             return True
@@ -391,7 +392,7 @@ class Normalizer:
         self.oldroot = olddoc.documentElement
         self.impl = dom.getDOMImplementation()
         self.newdoc = self.impl.createDocument(None, "workspace", None)
-        self.newroot = newdoc.documentElement
+        self.newroot = self.newdoc.documentElement
         
         self._copy_workspace_root_stuff()
         self._populate_newroot()
@@ -403,6 +404,8 @@ class Normalizer:
         
         self._normalize_dependencies()
         
+        self._pretty_xml()
+        
         doc = self.newdoc
         # allow GC
         self.repositories = None
@@ -412,7 +415,7 @@ class Normalizer:
         self.olddoc = None
         self.oldroot = None
         self.newroot = None
-        self.newdoc = none
+        self.newdoc = None
         
         return doc
     
@@ -440,13 +443,13 @@ class Normalizer:
         
     def _populate_newroot(self):
         """Creates the main containers like <repositories/>."""
-        self.repositories = self.impl.createElement("repositories")
+        self.repositories = self.newdoc.createElement("repositories")
         self.newroot.appendChild(self.repositories)
 
-        self.modules = self.impl.createElement("modules")
+        self.modules = self.newdoc.createElement("modules")
         self.newroot.appendChild(self.modules)
         
-        self.projects = self.impl.createElement("projects")
+        self.projects = self.newdoc.createElement("projects")
         self.newroot.appendChild(self.projects)
     
     def _parse_maven_projects(self):
@@ -500,7 +503,7 @@ class Normalizer:
         repos = self._get_list_merged_by_name("repository")
         exclude = ["project", "module", "repository"];
         for repo in repos:
-            clone = repo.clone(True)
+            clone = repo.cloneNode(True)
             self._clean_out_by_tag(clone, exclude)
             self.repositories.appendChild(clone)
     
@@ -515,13 +518,13 @@ class Normalizer:
                 self.log.warn("Dropping module '%s' because no corresponding repository could be found!" % name)
                 continue
             
-            clone = module.clone(True)
+            clone = module.cloneNode(True)
             self._clean_out_by_tag( clone, exclude )
             reporef = self.newdoc.createElement("repository")
             reporef.setAttribute("name", repository.getAttribute("name") )
-            module.appendChild(reporef)
+            clone.insertBefore(reporef, clone.firstChild)
             
-            self.modules.appendChild(module)
+            self.modules.appendChild(clone)
 
     def _find_repository_for_module(self, module):
         repo = None
@@ -538,19 +541,19 @@ class Normalizer:
         projects = self._get_list_merged_by_name("project")
         exclude = ["project", "module", "repository"];
         for project in projects:
-            module = self._find_module_for_project(module)
+            module = self._find_module_for_project(project)
             if not module:
                 name = project.getAttribute("name")
                 self.log.warn("Dropping project '%s' because no corresponding module could be found!" % name)
                 continue
             
-            clone = project.clone(True)
+            clone = project.cloneNode(True)
             self._clean_out_by_tag( clone, exclude )
             moduleref = self.newdoc.createElement("module")
             moduleref.setAttribute("name", module.getAttribute("name") )
-            project.appendChild(moduleref)
+            clone.insertBefore(moduleref, clone.firstChild)
             
-            self.projects.appendChild(project)
+            self.projects.appendChild(clone)
     
     def _find_module_for_project(self, project):
         repo = None
@@ -565,7 +568,7 @@ class Normalizer:
 
     def _normalize_dependencies(self):
         """Converts <depend/> and <option/> elements into normalized form."""
-        for project in self.projects:
+        for project in self.projects.getElementsByTagName("project"):
             self._normalize_optional_depend(project)
             dependencies = project.getElementsByTagName("depend")
             if dependencies.length > 0:
@@ -587,7 +590,7 @@ class Normalizer:
         """Split <depend/> inside <ant/> out into a <depend/> and a <property/>."""
         for dependency in dependencies:
             if dependency.parentNode.tagName in ["ant","maven"]:
-                new_dependency = dependency.clone(True)
+                new_dependency = dependency.cloneNode(True)
                 new_dependency.removeAttribute("property")
                 project.appendChild(new_dependency)
                 
@@ -603,6 +606,7 @@ class Normalizer:
 
     def _normalize_depend_on_multiple_ids(self, project, dependencies):
         """Split one <depend/> out into multiple, one for each id."""
+        #TODO: reverse that!
         for dependency in dependencies:
             ids = dependency.getAttribute("name")
             if not ids: continue
@@ -611,7 +615,7 @@ class Normalizer:
             project.removeChild(dependency)
             list = ids.split(",")
             for id in list:
-                new_dependency = dependency.clone(True)
+                new_dependency = dependency.cloneNode(True)
                 new_dependency.setAttribute("ids",id)
                 project.appendChild(new_dependency)
 
@@ -634,11 +638,29 @@ class Normalizer:
             if newlist.has_key(name):
                 _import_node(newlist[name], elem)
             else:
-                clone = elem.clone(True)
+                clone = elem.cloneNode(True)
                 newlist[name] = clone
         
-        return newlist.values
+        return newlist.values()
+    
+    def _pretty_xml(self):
+        """Adds in some newlines."""
+        
+        self.newroot.insertBefore(self.newdoc.createTextNode("\n"), self.modules)
+        self.newroot.insertBefore(self.newdoc.createTextNode("\n"), self.modules)
+        self.newroot.insertBefore(self.newdoc.createTextNode("\n"), self.modules)
+        self.newroot.insertBefore(self.newdoc.createTextNode("\n"), self.projects)
+        self.newroot.insertBefore(self.newdoc.createTextNode("\n"), self.projects)
+        self.newroot.insertBefore(self.newdoc.createTextNode("\n"), self.projects)
 
+        self.repositories.insertBefore(self.newdoc.createTextNode("\n"), self.repositories.firstChild)
+        self.repositories.appendChild(self.newdoc.createTextNode("\n"))
+
+        self.modules.insertBefore(self.newdoc.createTextNode("\n"), self.modules.firstChild)
+        self.modules.appendChild(self.newdoc.createTextNode("\n"))
+
+        self.projects.insertBefore(self.newdoc.createTextNode("\n"), self.projects.firstChild)
+        self.projects.appendChild(self.newdoc.createTextNode("\n"))
 
 class Objectifier:
     """Turns a *normalized* gump DOM workspace into a pythonified workspace.
@@ -825,6 +847,7 @@ class Objectifier:
         
     def _create_module(self, module_definition):
         name = module_definition.getAttribute("name")
+        self.log.debug("Converting module definition '%s' into object form." % name)
         repository = self._find_repository_for_module(module_definition)
         
         # parse the attributes and elements common to all modules
@@ -882,6 +905,7 @@ class Objectifier:
         
     def _create_project(self, project_definition):
         name = project_definition.getAttribute("name")
+        self.log.debug("Converting project definition '%s' into object form." % name)
         module = self._find_module_for_project(project_definition)
         
         project = Project(module, name)
@@ -952,111 +976,6 @@ class Objectifier:
         project.add_dependency(Dependency(dependency_project,project,optional,runtime,inherit,id))
 
 
-class Visitor:
-    def __init__(self):
-        # we keep a stack of the dependencies of a particular project,
-        # adding an item as we traverse the graph. In the case of a cycle,
-        # we track back through that stack to find it completely
-        self.groups = []
-        
-        # we keep a flat list of all the projects we visit. IF we visit
-        # a project twice, that indicates a cycle, since the topological
-        # sort must have failed
-        self.visited = []
-        
-        # when we find cycles, we store all the projects involved in this
-        # array
-        self.cycles = []
-        
-    def visit(self, project):
-        if project in self.visited:
-            self._find_cycle(project, [project], project)
-        else:
-            self.visited.append(project)
-            self.groups.append(project.dependencies)
-    
-    def done(self, numberOfProjects):
-        # check whether we visited all projects. If not,
-        # the stack in the Verifier was empty before its
-        # time, hence there were projects lying around
-        # with dependencies that weren't satisfied, hence
-        # we must have found a cycle!
-        assert (numberOfProjects > self.visited) == \
-               (len(self.cycles) > 0)
-        
-        if len(self.cycles) > 0:
-            self._handle_cycles()
-    
-    def _find_cycle(self, project, cycle, first):
-        group = self.groups.pop
-        for dependency in group:
-            if dependency.dependee == first:
-                # that completes the cycle
-                self.cycles.append(cycle)
-                break
-            if dependency.dependee == project:
-                # this is the project that references us
-                project_in_cycle = dependency.dependency
-                cycle.append(project_in_cycle)
-                self._handle_cycle(project_in_cycle, cycle, first)
-    
-    def _handle_cycles(self):
-        pass # TODO: remove these projects and their dependendees
-
 class Verifier:
-    """Verifies an objectified gump workspace."""
-
-    def verify(self, workspace):
-        if True: return # TODO
-
-        visitor = Visitor()
-        self.topsortedTravesal(workspace, visitor)
-    
-    def topsortedTravesal(self, workspace, visitor):
-        self._set_indegrees(workspace)
-        # using a stack *should* ensure depth-first
-        stack = self._get_initial_stack(workspace)
-
-        while len(queue) > 0:
-            project = stack.pop
-            visitor.visit(project)
-            
-            for dependency in project.dependencies:
-                dependency.dependency.indegree -= 1
-                if dependency.dependency.indegrees == 0:
-                    stack.append(dependency.dependency)
-        
-        visitor.done(len(workspace.projects))
-        self._clear_indegrees(workspace)
-    
-    def _set_indegrees(projects):
-        """Set the number of in-degrees for each project.
-        
-        The number of in-degrees is a measure of how many
-        dependees a project has. The key bit is that the
-        verifier decreases the number of in-degrees for each
-        project as a dependency is handled.
-        """
-        for project in workspace.projects:
-            project.indegree = 0
-        
-        for dependency in workspace.dependencies:
-            dependency.dependency.indegree += 1
-    
-    def _clear_indegrees(projects):
-        """Removes the in-degrees property from each project."""
-        
-        for project in workspace.proejcts:
-            del project.indegree
-
-    def _get_initial_stack(self, workspace):
-        """Get the projects with an in-degree of 0.
-        
-        In other words, get the projects without dependees.
-        """
-        stack = []
-        for project in workspace.projects:
-            if project.indegree == 0:
-                stack.append(project) 
-        
-        return stack
+    def verify(self, domtree):
+        pass # TODO!

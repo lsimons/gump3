@@ -86,6 +86,7 @@ function usage
       argument is the "project expression" detailing what to run. You
       will usually want "all" here.
 "
+# TODO: document Pygump CLI args!
       ;;
     kill)
       echo "
