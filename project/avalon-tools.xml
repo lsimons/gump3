@@ -28,7 +28,8 @@
       <property name="gump.signature" value="@@DATE@@"/>
     </ant>
     <depend project="junit" runtime="true"/>
-    <depend project="ant" ids="ant junit nodeps ant-launcher" runtime="true"/>
+    <!--<depend project="ant" ids="ant junit nodeps ant-launcher" runtime="true"/>-->
+    <depend project="ant" runtime="true"/>
     <home nested="tools/magic/target/@@DATE@@"/>
     <jar name="../deliverables/jars/avalon-tools-magic-@@DATE@@.jar"/>
     <nag to="dev@avalon.apache.org"
@@ -45,8 +46,10 @@
     <ant basedir="tools/magic">
       <!-- for magic -->
       <property name="gump.signature" value="@@DATE@@"/>
+      <!--<depend name="magic.home" reference="home"
+          project="magic" inherit="runtime"/> -->
       <depend name="magic.home" reference="home"
-          project="magic" inherit="runtime"/>
+          project="magic" inherit="runtime" runtime="true"/>
       <!-- external references -->
       <depend property="gump.resource.ant" project="ant" id="ant"/>
       <depend property="gump.resource.junit" project="junit"/>
@@ -59,5 +62,6 @@
     <nag to="dev@avalon.apache.org"
        from="Magic Integration &lt;dev@avalon.apache.org&gt;"/>
   </project>
+
 
 </module>
