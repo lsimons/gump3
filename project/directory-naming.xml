@@ -15,7 +15,7 @@
     <depend project="commons-dbcp"/>
     <depend project="commons-pool"/>
     <depend project="commons-logging"/>
-    <depend project="hsqldb"/>
+    <option project="hsqldb"/>
     <depend project="ant" inherit="runtime"/>
     <depend project="junit"/>
     <depend project="mx4j"/>
