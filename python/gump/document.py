@@ -253,6 +253,7 @@ def documentWorkspace(workspace,context,db,moduleFilterList=None,projectFilterLi
             titledDataInTableXDoc(x,'Description', workspace.description)
     if workspace.version: 
         titledDataInTableXDoc(x,'Workspace Version', workspace.version)
+    titledDataInTableXDoc(x,'Gump Preferred Workspace Version', setting.ws_version)
     titledDataInTableXDoc(x,'Java Command', context.javaCommand)
     titledDataInTableXDoc(x,'@@DATE@@', str(default.date))
     
@@ -381,9 +382,9 @@ def documentModule(workspace,wdir,modulename,modulecontext,db,projectFilterList=
     
     if module.description or module.url:
         startSectionXDoc(x,'Description')     
-        if module.description
+        if module.description:
             paragraphXDoc(x,module.description)
-        if module.url
+        if module.url:
             paragraphXDoc(x,getLink(module.url))
         endSectionXDoc(x)
     
