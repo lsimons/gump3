@@ -12,6 +12,7 @@
       <depend project="avalon-phoenix" inherit="jars"/>
     </project>
 
+
   <project name="avalon-phoenix">
     <package>org.apache.avalon.phoenix</package>
 
@@ -46,7 +47,6 @@
     <depend project="dist-bsf" runtime="true"/>
     <depend project="rhino" runtime="true"/>
     <depend project="phoenix-qdox" runtime="true"/>
-    <depend project="jarv" runtime="true"/>
     <depend project="jakarta-site2" inherit="all" />
     <option project="jakarta-servletapi-4" runtime="true"/>
     <depend project="junit"/>
@@ -78,7 +78,53 @@
     <jar name="lib/tools/qdox-1.1.jar"/>
   </project>
 
-  <project name="jarv">
-    <jar name="lib/container/isorelax.jar"/>
-  </project>
+    <project name="phoenix-example-demo">
+        <package>org.apache.avalon.demos</package>
+
+        <mkdir dir="examples/demo/build/classes"/>
+        <ant basedir="examples/demo"/>
+
+        <depend project="junit"/>
+        <depend project="ant"/>
+        <depend project="xml-xerces" id="parser" runtime="true"/>
+        <depend project="xml-xalan2" id="transformer" runtime="true"/>
+        <option project="checkstyle" inherit="runtime"/>
+        <depend project="avalon"/>
+        <depend project="avalon-phoenix" inherit="all"/>
+        <depend project="avalon-cornerstone"/>
+        <depend project="incubator-altrmi" runtime="true"/>
+
+        <home nested="examples/demo"/>
+
+        <work nested="examples/demo/build/classes"/>
+
+        <jar name="build/lib/avalon-demo-@@DATE@@.jar"/>
+
+        <nag from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"
+            to="dev@avalon.apache.org"/>
+    </project>
+
+    <project name="phoenix-example-testserver">
+        <package>org.apache.avalon.testserver</package>
+
+        <ant basedir="examples/testserver"/>
+
+        <depend project="junit"/>
+        <depend project="ant"/>
+        <depend project="xml-xerces"/>
+        <depend project="avalon"/>
+        <depend project="avalon-phoenix" inherit="all"/>
+        <depend project="avalon-cornerstone"/>
+        <depend project="excalibur-thread"/>
+
+        <option project="checkstyle" inherit="runtime"/>
+
+        <home nested="examples/testserver"/>
+
+        <jar name="build/lib/testserver-@@DATE@@.sar"/>
+
+        <nag from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"
+            to="dev@avalon.apache.org"/>
+    </project>
+
 </module>
