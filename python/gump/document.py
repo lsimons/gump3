@@ -507,7 +507,7 @@ def documentModule(workspace,context,wdir,modulename,modulecontext,db,projectFil
     
     # Provide a description/link back to the module site.
     startSectionXDoc(x,'Description') 
-    description=str(module.description)    
+    description=escape(str(module.description))
     if not description.strip().endswith('.'):
         description+='. '    
     if not description:
@@ -517,7 +517,7 @@ def documentModule(workspace,context,wdir,modulename,modulecontext,db,projectFil
     else:
         description+=' (No module URL provided).'
             
-    paragraphXDoc(x,description)
+    xparagraphXDoc(x,description)
     endSectionXDoc(x)
     
         
@@ -623,7 +623,7 @@ def documentProject(workspace,context,modulename,mdir,projectname,projectcontext
      
     # Provide a description/link back to the module site.
     startSectionXDoc(x,'Description') 
-    description=str(project.description) or str(module.description)
+    description=escape(str(project.description) or str(module.description))
     if not description.strip().endswith('.'):
         description+='. '
     if not description:
@@ -633,7 +633,7 @@ def documentProject(workspace,context,modulename,mdir,projectname,projectcontext
     else:        
         description=' (No project URL provided.)'   
             
-    paragraphXDoc(x,description)
+    xparagraphXDoc(x,description)
     endSectionXDoc(x)
 
     documentAnnotations(x,projectcontext.annotations)
@@ -758,6 +758,10 @@ def documentWork(workspace,work,dir):
         headerXDoc(x, workTypeName(work.type) + ' : ' + work.command.name)
         startSectionXDoc(x,'Details')
         paragraphXDoc(x,"Status: " + stateName(work.status))
+        paragraphXDoc(x,"Start Time" + time.strftime(setting.datetimeformat, \
+                    time.localtime(work.result.start_time)))
+        paragraphXDoc(x,"End Time" + time.strftime(setting.datetimeformat, \
+                    time.localtime(work.result.end_time)))
         endSectionXDoc(x)
         
         startListXDoc(x)
@@ -799,7 +803,10 @@ def documentWork(workspace,work,dir):
                 x.write(name)
                 x.write('</td><td>')
                 if value:
-                    x.write(value)
+                    # :TODO: Hack for CLASSPATH
+                    if name == "CLASSPATH":
+                        value=': '.join(value.split(':'))
+                    x.write(escape(value))
                 else:
                     x.write('N/A')
                 x.write('</td></tr>\n')        
@@ -1265,6 +1272,9 @@ def startSectionXDoc(f, title):
     
 def paragraphXDoc(f, content):
     f.write('    <p>%s</p>\n' % (escape(content)))
+    
+def xparagraphXDoc(f, content):
+    f.write('    <p>%s</p>\n' % (content))
     
 def endSectionXDoc(f):
     f.write('    </section>\n')
