@@ -29,6 +29,7 @@
       <depend property="servlet.jar" project="jakarta-servletapi-4"/>
       <depend property="tyrex.jar" project="tyrex"/>
       <depend property="xerces.jar" project="xml-xerces"/>
+      <depend property="tomcat-util.jar" project="jakarta-tomcat-util"/>
     </ant>
 
     <depend project="jaf"/>

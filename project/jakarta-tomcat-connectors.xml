@@ -6,6 +6,17 @@
   <url href="http://jakarta.apache.org/tomcat/index.html"/>
 
   <cvs repository="jakarta" />
+
   <project name="jakarta-tomcat-connectors"/>
+
+  <project name="jakarta-tomcat-util">
+    <ant basedir="util"/>
+
+    <depend project="jakarta-ant"/>
+    <depend project="xml-xerces"/>
+
+    <home nested="build"/>
+    <jar name="lib/tomcat-util.jar"/>
+  </project>
   
 </module>
