@@ -2554,7 +2554,7 @@ This page helps Gumpmeisters (and others) observe community progress.
             diagram=ScaleDiagram([stats.successes,stats.prereqs,stats.failures])
             diagram.generateDiagram().serializeToFile(svgFile)
             
-            fileBasename=pngBaseName
+            fileBasename=pngBasename
             if self.config.isXhtml():
                 fileBasename=svgBasename
             
