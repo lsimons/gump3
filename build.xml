@@ -42,6 +42,8 @@
   <!-- Merge the xml sources, resolving references -->
   <target name="gen" depends="compile" unless="uptodate">
     <java classname="Jenny" fork="yes" failonerror="true" classpath="jenny.jar">
+      <jvmarg value="-Dhttp.proxyHost=${http.proxyHost}"/>
+      <jvmarg value="-Dhttp.proxyPort=${http.proxyPort}"/>
       <arg value="${workspace}"/>
     </java>
   </target>
