@@ -45,6 +45,30 @@
          to="commons-dev@jakarta.apache.org"/>
   </project>
 
+  <project name="commons-jelly-tags-avalon">
+    <package>org.apache.commons.jelly.tags.avalon</package>
+    <description>This is a Jelly interface for avalon.</description>
+    
+    <!-- maven-generated ant scripts don't work if there is no test directory -->
+    <mkdir dir="jelly/jelly-tags/avalon/src/test/"/>
+
+    <ant basedir="jelly/jelly-tags/avalon" target="jar">
+      <property name="final.name"  value="commons-jelly-tags-avalon-@@DATE@@"/>
+    </ant>
+
+    <depend project="commons-jelly" inherit="all"/>
+    <depend project="commons-cli"/>
+    <depend project="jakarta-avalon"/>
+
+    <work nested="jelly/jelly-tags/avalon/target/classes"/>
+    <work nested="jelly/jelly-tags/avalon/target/test-classes"/>
+
+    <jar name="jelly/jelly-tags/avalon/target/commons-jelly-tags-avalon-@@DATE@@.jar"/>
+ 
+    <nag from="Morgan Delagrange &lt;mdelagra@yahoo.com&gt;"
+         to="commons-dev@jakarta.apache.org"/>
+  </project>
+  
   <project name="commons-jelly-tags-bean">
     <package>org.apache.commons.jelly.tags.bean</package>
     <description> A tag library for mapping tags to beans using a similar approach to Ant.</description>
