@@ -83,6 +83,10 @@ def get_plugins(config):
     The config argument provided is an instance of the _Config class that is
     returned from the get_config method below.
     """
+    
+    pre_process_plugins = []
+    # TODO: append more plugins here...
+    
     plugins = []
 
     from gump.plugins import LoggingPlugin
@@ -93,10 +97,12 @@ def get_plugins(config):
     db = get_db(config)
     log = get_logger(config.log_level, "plugin-dynagumper")
     plugins.append(Dynagumper(db, log))
-
     # TODO: append more plugins here...
     
-    return plugins
+    post_process_plugins = []
+    # TODO: append more plugins here...
+    
+    return (pre_process_plugins, plugins, post_process_plugins)
 
 
 def get_error_handler(config):
@@ -206,7 +212,9 @@ def get_plugin(config):
     """Provide a Plugin implementation."""
     from gump.plugins import MulticastPlugin
     
-    plugins = get_plugins(config)
+    (pre_process_plugins, plugins, post_process_plugins) = get_plugins(config)
     error_handler = get_error_handler(config)
     
-    return MulticastPlugin(plugins, error_handler)
+    return (MulticastPlugin(pre_process_plugins, error_handler),
+            MulticastPlugin(plugins, error_handler),
+            MulticastPlugin(post_process_plugins, error_handler))

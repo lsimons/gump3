@@ -46,27 +46,36 @@ class AbstractPlugin:
     
     To create a concrete plugin, implement one or more of these methods:
         
+        - initialize()
         - visit_workspace(workspace)
         - visit_repository(repository)
         - visit_module(module)
         - visit_project(project)
+        - finalize()
     
     Each of these methods will be called in a "topologically sorted" order.
     Concretely, this means that:
         
+        * initialize will be called first;
         * visit_workspace will be called first;
         * visit_repository will be called before any contained module or
           project is visited;
         * visit_module will be called before any contained project is
           visited;
         * visit_project will be called only after all dependencies of that
-          project have already been visited.
+          project have already been visited;
+        * finalize will be called last.
     
     More concretely, this means plugins usually do not have to worry about
     the correct ordering of events, since this is usually what you want.
     """
     def __init__(self, log):
         self.log = log
+    
+    def _initialize(self):
+        if not hasattr(self,'initialize'): return        
+        if not callable(self.initialize): return        
+        self.initialize()
     
     def _visit_workspace(self, workspace):
         if not hasattr(self,'visit_workspace'): return        
@@ -88,12 +97,22 @@ class AbstractPlugin:
         if not callable(self.visit_project): return        
         self.visit_project(project)
 
+    def _finalize(self):
+        if not hasattr(self,'finalize'): return        
+        if not callable(self.finalize): return        
+        self.finalize()
+    
 class MulticastPlugin(AbstractPlugin):
     """Core plugin that redirects visit_XXX calls to other plugins."""
     def __init__(self, plugin_list, error_handler=BaseErrorHandler()):
         self.list = plugin_list
         self.error_handler = error_handler
     
+    def initialize(self):
+        for visitor in self.list:
+            try: visitor._initialize()
+            except: self.error_handler.handle(visitor, error, "{{{initialization stage}}}")
+
     def visit_workspace(self, workspace):
         for visitor in self.list:
             try: visitor._visit_workspace(workspace)
@@ -114,10 +133,18 @@ class MulticastPlugin(AbstractPlugin):
             try: visitor._visit_project(project)
             except: self.error_handler.handle(visitor, error, project)
 
+    def finalize(self):
+        for visitor in self.list:
+            try: visitor._finalize()
+            except: self.error_handler.handle(visitor, error, "{{{finalization stage}}}")
+
 class LoggingPlugin(AbstractPlugin):
     """Plugin that prints debug messages as it visits model objects."""
     def __init__(self, log):
         self.log = log
+    
+    def initialize(self):
+        self.log.debug("Initializing...")
     
     def visit_workspace(self, workspace):
         self.log.debug("Visiting workspace.")
@@ -130,3 +157,7 @@ class LoggingPlugin(AbstractPlugin):
     
     def visit_project(self, project):
         self.log.debug("Visiting project '%s'." % project.name)
+
+    def finalize(self):
+        self.log.debug("Finishing up...")
+    

@@ -41,6 +41,7 @@ class Walker:
         Returns a tuple containing the repositories visited, the modules
         visited, and the projects visited, in the order they were visited.
         """
+        visitor._initialize()
         visitor._visit_workspace(workspace)
         
         list = self._topsort_projects(workspace)
@@ -60,6 +61,7 @@ class Walker:
             visitor._visit_project(project)
             visited_projects.append(project)
         
+        visitor._finalize()
         return (visited_repositories, visited_modules, visited_projects)
     
     def _topsort_projects(self, workspace):

@@ -84,11 +84,12 @@ def main(settings):
     dropfile = os.path.join(config.paths_work, "dropped.xml")
     
     walker = get_walker()
-    visitor = get_plugin(config)
+    (pre_process_visitor, visitor, post_process_visitor) = get_plugin(config)
     
     # create engine
     engine = _Engine(log, modeller_loader, modeller_normalizer,
-                     modeller_objectifier, modeller_verifier, walker, visitor,
+                     modeller_objectifier, modeller_verifier, walker,
+                     pre_process_visitor, visitor, post_process_visitor,
                      config.paths_workspace, mergefile, dropfile)
     
     # run it
@@ -115,7 +116,8 @@ class _Engine:
     """This is the core of the core of the pygump application."""
     
     def __init__(self, log, workspace_loader, workspace_normalizer,
-                 workspace_objectifier, workspace_verifier, walker, visitor,
+                 workspace_objectifier, workspace_verifier, walker,
+                 pre_process_visitor, visitor, post_process_visitor,
                  workspace, merge_to=None, drop_to=None):
         """Store all config and dependencies as properties.
         
@@ -131,8 +133,14 @@ class _Engine:
                 is correct
             - walker -- the component that knows how to traverse the gump
                 model in dependency order
+            - pre_process_visitor -- the component that gets called by the
+                walker while visiting parts of the model during the
+                pre-processing stage
             - visitor -- the component that gets called by the walker while
-                visiting parts of the model
+                visiting parts of the model during the build stage
+            - post_process_visitor -- the component that gets called by the
+                walker while visiting parts of the model during the
+                pre-processing stage
 
             - workspace -- the resource containing the workspace xml.
             - merge_to -- the resource to write the merged workspace xml to.
@@ -144,7 +152,10 @@ class _Engine:
         self.workspace_objectifier = workspace_objectifier
         self.workspace_verifier = workspace_verifier
         self.walker = walker
+
+        self.pre_process_visitor = pre_process_visitor
         self.visitor = visitor
+        self.post_process_visitor = post_process_visitor
 
         self.workspace = open_file_or_stream(workspace,'r')
         self.merge_to = open_file_or_stream(merge_to,'w')
@@ -175,7 +186,10 @@ class _Engine:
             self.workspace_verifier.verify(domtree)
             
             # * Pfew! All done. Now actually start *doing* stuff.
+            self.walker.walk(workspace, self.pre_process_visitor)
+            # (visited_repositories, visited_modules, visited_projects) = \
             self.walker.walk(workspace, self.visitor)
+            self.walker.walk(workspace, self.post_process_visitor)
             
             # That's it? Yeah! All other functionality is in the visitors :-D
         except:

@@ -35,6 +35,10 @@ class Dynagumper(AbstractPlugin):
         """
         self.db = db
         self.log = log
+        
+    def initialize(self):
+        #TODO call ensureThisHostIsInDatabase
+        pass
     
     def ensureThisHostIsInDatabase(self):
         """Adds information about this server to the hosts table."""
@@ -48,13 +52,15 @@ class Dynagumper(AbstractPlugin):
         
     def visit_workspace(self, workspace):
         """Add information about the workspace to the database."""
+        pass
         #TODO do the actual work right here...
-        #TODO call ensureThisHostIsInDatabase
     
     def visit_module(self, module):    
         """Add information about a module to the database."""
+        pass
         #TODO do the actual work
     
     def visit_project(self, project):    
         """Add information about a project to the database."""
+        pass
         #TODO do the actual work right here...
