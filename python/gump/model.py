@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/Attic/model.py,v 1.19 2003/09/25 17:04:52 ajack Exp $
-# $Revision: 1.19 $
-# $Date: 2003/09/25 17:04:52 $
+# $Header: /home/stefano/cvs/gump/python/gump/Attic/model.py,v 1.20 2003/09/29 23:20:00 ajack Exp $
+# $Revision: 1.20 $
+# $Date: 2003/09/29 23:20:00 $
 #
 # ====================================================================
 #
@@ -241,17 +241,17 @@ class Project(Named):
     # complete properties
     if self.ant: self.ant.complete(self)
     # compute home directory
-    if self.home and isinstance(self.home,Single):
+    from gump.logic import isPackaged    
+    if isPackaged(self):
+        self.home=os.path.abspath(os.path.join(workspace.pkgdir,self.package))
+    elif self.home and isinstance(self.home,Single):
       if self.home.nested:
         srcdir=Module.list[self.module].srcdir
         self.home=os.path.abspath(os.path.join(srcdir,self.home.nested))
       elif self.home.parent:
         self.home=os.path.abspath(os.path.join(workspace.basedir,self.home.parent))
     elif not self.home:
-      from gump.logic import isPackaged    
-      if isPackaged(self):
-        self.home=os.path.abspath(os.path.join(workspace.pkgdir,self.package))
-      elif self.module:
+      if self.module:
         self.home=os.path.abspath(Module.list[self.module].srcdir)
       else:
         self.home=os.path.abspath(os.path.join(workspace.basedir,self.name))
