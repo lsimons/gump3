@@ -3,12 +3,14 @@
 	Configuration for Gump, done as Python classes
 """
 
+import socket
+
 class dir:
    base      = ".."
    cache     = "cache"
 
 class default:
-  workspace  = "rubix.xml"
+  workspace  = socket.gethostname().split('.')[0] + ".xml"
   project    = "krysalis-ruper-test"
   merge      = "merge.xml"
 
