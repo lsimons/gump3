@@ -125,7 +125,7 @@ if __name__=='__main__':
     #
     # Check Environment (eventually not do this each time)
     #
-    checkEnvironment(workspace,context)
+    checkEnvironment(workspace,context,0)
         
     #
     # Check projects (and such) in workspace...

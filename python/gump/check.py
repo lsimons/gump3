@@ -1,8 +1,8 @@
 #!/usr/bin/python
 
-# $Header: /home/stefano/cvs/gump/python/gump/check.py,v 1.27 2003/10/20 18:20:34 ajack Exp $
-# $Revision: 1.27 $
-# $Date: 2003/10/20 18:20:34 $
+# $Header: /home/stefano/cvs/gump/python/gump/check.py,v 1.28 2003/10/21 19:40:56 ajack Exp $
+# $Revision: 1.28 $
+# $Date: 2003/10/21 19:40:56 $
 #
 # ====================================================================
 #
@@ -210,7 +210,7 @@ def checkEnvVariable(workspace, context,env,mandatory=1):
     
     return ok
     
-def check(workspace, expr='*', context=GumpContext()):
+def check(workspace, expr='*', context=GumpContext(),display=1):
   """dump all dependencies to build a project to the output"""
 
   projects=getProjectsForProjectExpression(expr)
@@ -228,12 +228,16 @@ def check(workspace, expr='*', context=GumpContext()):
     for depend in project.depend:
       # if the dependency is not present in the projects, it's missing
       if depend.project not in Project.list:
-        if not printed_header: 
-          printHeader(project)
-          printed_header=1    
         projectmissing+=1
         message="  Missing dependency: " + depend.project + " on project " + project.name
-        print message
+        
+        if display:
+            if not printed_header: 
+              printHeader(project)
+              printed_header=1            
+            print message
+        
+        # Store message into context...
         context.addWarning(message)
         if depend.project not in missing:
           missing.append(depend.project)  
@@ -241,34 +245,37 @@ def check(workspace, expr='*', context=GumpContext()):
     for depend in project.option:
       # if the dependency is not present in the projects, it's missing
       if depend.project not in Project.list:
-        if not printed_header: 
-          printHeader(project)
-          printed_header=1    
         projectmissing+=1
         message="  Missing optional dependency: " + depend.project + " on project " + project.name
-        print message
+
+        if display:
+            if not printed_header: 
+              printHeader(project)
+              printed_header=1    
+            print message
         context.addWarning(message)
         if depend.project not in optionalMissing:
           optionalMissing.append(depend.project)
             
-    if projectmissing>0:
+    if display and projectmissing>0:
         print "  total errors: " , projectmissing
 
-  if len(optionalMissing)>0:     
-    print
-    print " ***** MISSING OPTIONAL *ONLY* PROJECTS THAT ARE REFERENCED ***** "
-    print
-    for missed in optionalMissing:
-      if missed not in missing:
-        optionalOnlyMissing.append(missed)
-        print "  " + missed
+  if display:
+      if len(optionalMissing)>0:     
+        print
+        print " ***** MISSING OPTIONAL *ONLY* PROJECTS THAT ARE REFERENCED ***** "
+        print
+        for missed in optionalMissing:
+          if missed not in missing:
+            optionalOnlyMissing.append(missed)
+            print "  " + missed
               
-  if len(missing)>0:
-    print
-    print " ***** MISSING PROJECTS THAT ARE REFERENCED ***** "
-    print
-    for missed in missing:
-      print "  " + missed
+      if len(missing)>0:
+        print
+        print " ***** MISSING PROJECTS THAT ARE REFERENCED ***** "
+        print
+        for missed in missing:
+          print "  " + missed
 
   # Comment out for now ...
   # 'cos loading a new workspace overwrites
@@ -284,25 +291,29 @@ def check(workspace, expr='*', context=GumpContext()):
   #  print 
   #  traceback.print_exc()    
   #  print
+    
+  if display:  
+      print
+      print " ***** WORKSPACE RESULT ***** "  
+      print
       
-  print
-  print " ***** WORKSPACE RESULT ***** "  
-  print
   if len(missing)>0:
-    context.addError("Some projects that were referenced are missing in the workspace.")
-    print
-    print "  - ERROR - Some projects that were referenced are missing in the workspace. "  
-    print "    See the above messages for more detailed info."
-  else:
+    context.addError("Some projects that were referenced are missing in the workspace.")    
+    if display:
+      print
+      print "  - ERROR - Some projects that were referenced are missing in the workspace. "  
+      print "    See the above messages for more detailed info."
+  elif display:
     print "  -  OK - All projects that are referenced are present in the workspace."  
 
   if len(optionalOnlyMissing)>0:
     context.addWarning("Some projects that were referenced as optional are missing in the workspace.");
-    print  
-    print "  - WARNING - Some projects that were referenced as optional only are "
-    print "    missing in the workspace. "  
-    print "    See the above messages for more detailed info."
-  else:
+    if display:
+        print  
+        print "  - WARNING - Some projects that were referenced as optional only are "
+        print "    missing in the workspace. "  
+        print "    See the above messages for more detailed info."
+  elif display:
     print "  -  OK - All OPTIONAL projects that are referenced are present in the workspace."  
     print " ***** RESULT ***** "
     
@@ -373,7 +384,7 @@ if __name__=='__main__':
   checkEnvironment(workspace,context,0)
 
   # check
-  result = check(workspace, ps)
+  result = check(workspace, ps, context, 1)
 
   # bye!
   sys.exit(result)

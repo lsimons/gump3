@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/Attic/logic.py,v 1.35 2003/10/21 19:03:08 ajack Exp $
-# $Revision: 1.35 $
-# $Date: 2003/10/21 19:03:08 $
+# $Header: /home/stefano/cvs/gump/python/gump/Attic/logic.py,v 1.36 2003/10/21 19:40:56 ajack Exp $
+# $Revision: 1.36 $
+# $Date: 2003/10/21 19:40:56 $
 #
 # ====================================================================
 #
@@ -472,7 +472,7 @@ def getDependOutputList(parent,parentctxt,depend,context,visited):
       #    print " - " + str(v)
       return []
   visited.append(depend)
-  print "Perform : " + str(depend) + " in " + parent.name
+  # print "Perform : " + str(depend) + " in " + parent.name
           
   #
   # Check we can get the project...
