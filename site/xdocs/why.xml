@@ -26,11 +26,13 @@
   </ul>
 
   <subsection name="1999">
-    <p>First you have to realize that at this time, the ink was hardly dry
-    on the XML specifications; and what is now known as XSLT, FOP, and XPath
-    were all interwoven in a confused jumble.</p>
+    <p>To help set the context, in 1999 the ink was hardly dry on the XML 
+    specifications; and what is now known as XSLT, FOP, and XPath were all 
+    interwoven in a confused jumble.  JDK 1.2 was only recently introduced
+    and wouldn't be widely adopted for many years (to this day, a number
+    of projects retain JDK 1.1 compatibility).</p>
 
-    <p>In harsh environment, it is amazing that open source software grew
+    <p>In this harsh environment, it is amazing that open source software grew
     at all.  In order to make progress, early versions of Xalan required
     specific versions of Xerces.  Cocoon required specific versions
     of both.  Cocoon also depended on other projects which were two years
@@ -48,7 +50,7 @@
   </subsection>
 
   <subsection name="2000">
-    <p>During this period, Ant got the ability to control one's classpath.
+    <p>In 2000, Ant developed the ability to control one's classpath.
     This completely defeated my ability to select which versions I wanted
     to use.  At first, this was done on projects I wasn't active in, but
     eventually it encroached everywhere.</p>
@@ -59,10 +61,10 @@
 
     <p>So I did the only thing I could think of.  I hacked Ant so that I 
     could tell it to ignore the classpath elements in build scripts.  All of 
-    them.  This was and is a dirty, nasty hack.  It meant that test cases
-    could not be run using the recently compiled classes unless I knew in
-    advance where the classes were to be placed.  It means that cactus can't
-    be built in one run against both Tomcat 3 and Tomcat 4.</p>
+    them.  This was then and remains now a dirty, nasty hack.  It meant that 
+    test cases could not be run using the recently compiled classes unless I 
+    knew in advance where the classes were to be placed.  It means that cactus 
+    can't be built in one run against both Tomcat 3 and Tomcat 4.</p>
 
     <p>But it was the only way I could regain control.</p>
   </subsection>
@@ -96,20 +98,20 @@
 
   <subsection name="2002">
     <p>There is a growing trend for projects to split into multiple cvs trees -
-    Avalon, Tomcat, and Turbine are examples.  Also the creation of "commons"
+    Avalon, Tomcat, and Turbine are examples.  The creation of "commons"
     areas shared between projects makes it more and more likely that other
     developers are interested in multiple code bases and face some of the same
     problems that I have faced.</p>
 
-    <p>I'd like to see Gump evolve into an developer tool.  One describes
-    using simple XML constructs the combination of projects and versions
-    thereof that one desires in their workspace, and customized scripts are
-    built to order.  The results of one's builds are conveniently published
-    as HTML.</p>
+    <p>For these reasons, I'd like to see Gump evolve into an developer tool.  
+    The overall concept is as follows: one describes using simple XML 
+    constructs the combination of projects and versions thereof that one 
+    desires in their workspace, and customized scripts are built to order.  
+    The results of one's builds are conveniently published as HTML.</p>
 
     <p>Perhaps even with a GUI.</p>
 
-    <p>With Ant becoming stable and backwards compatible, I'd like to
+    <p>With Ant becoming stable and backwards compatible, I'd also like to
     see a movement towards it becoming something that you install and
     occasionally upgrade, as opposed to something that you download with
     each and every project.</p>
