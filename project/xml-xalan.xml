@@ -11,67 +11,47 @@
     <ant basedir="java"/>
 
     <depend project="bootstrap-ant"/>
-    <depend project="xml-xerces"/>
+    <depend project="xml-xerces2"/>
     <depend project="xml-apis" inherit="jars"/>
 
     <home nested="java/build"/>
     <jar  name="xalan.jar" type="boot"/>
   </project>
 
-  <project name="xml-xalan1-compat">
-    <ant basedir="java" target="compat.jar">
-      <property name="version" value="@@DATE@@"/>
-    </ant>
-
-    <depend project="bootstrap-ant"/>
-    <depend project="xml-xerces"/>
-    <depend project="xml-xalan2"/>
-
-    <home nested="java/build"/>
-    <jar  name="xalanj1compat.jar" id="xalan1"/>
-    <javadoc nested="java/build/xalan-j_@@DATE@@/docs/compat_apidocs"/>
-  </project>
-
-  <project name="xml-xalan2-smoketest-tools">
-    <ant basedir="test" buildfile="qetest.xml" target="jar"/>
-
-    <depend project="jakarta-ant"/>
-    <depend project="xml-xerces"/>
-  </project>
-
   <project name="dist-xalan2">
     <ant basedir="java" target="dist">
       <depend property="bsf.jar" project="bsf"/>
-      <depend property="xerces.jar" project="xml-xerces"/>
+      <depend property="xercesImpl.jar" project="xml-xerces2"/>
       <property name="version" value="@@DATE@@"/>
     </ant>
 
     <depend project="jakarta-ant"/>
-    <depend project="xml-xerces"/>
+    <depend project="xml-xerces2"/>
     <depend project="jakarta-servletapi"/>
     <depend project="xml-xalan2"/>
-    <depend project="xml-xalan1-compat"/>
     <depend project="xml-stylebook2"/>
     <option project="bsf"/>
     <depend project="bcel"/>
     <depend project="java_cup"/>
     <depend project="jlex"/>
-    <depend project="xml-xalan2-smoketest-tools"/>
     <depend project="xalan2jdoc"/>
     <work nested="java/build/classes"/>
 
     <home nested="java/build/xalan-j_@@DATE@@"/>
     <jar  name="bin/xalan.jar" type="boot"/>
-    <jar  name="bin/xml-apis.jar" type="boot"/>
     <javadoc nested="java/build/xalan-j_@@DATE@@/docs/apidocs" 
       project="xml-xalan2"/>
   </project>
 
   <project name="xml-xalan2-smoketest">
+    <url href="http://xml.apache.org/xalan-j/test/"/>
+    <description>
+      Automated smoketests for Xalan-J 2.x
+    </description>
     <ant basedir="test" target="smoketest.gump"/>
  
     <depend project="jakarta-ant"/>
-    <depend project="xml-xerces"/>
+    <depend project="xml-xerces2"/>
     <depend project="xml-xalan2"/>
     <work nested="test/java/build"/>
     <work nested="test/tests/extensions/java/build"/>

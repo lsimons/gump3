@@ -15,8 +15,6 @@
       <depend property="xerces.jar" project="xml-xerces"/>
       <depend property="crimson.jar" project="xml-xerces"/>
       <depend property="jaxp.jar" project="xml-xerces"/>
-      <depend property="xalan1.jar" project="xml-xalan1-compat"/>
-      <depend property="xalanj1compat.jar" project="xml-xalan1-compat"/>
       <depend property="xalan.jar" project="xml-xalan2"/>
       <depend property="servlet.jar"   project="jakarta-servletapi-4"/>
       <depend property="servlet23.jar" project="jakarta-servletapi-4"/>

@@ -27,7 +27,6 @@
     <ant target="distribution"/>
 
     <depend project="jakarta-ant" inherit="all"/>
-    <option project="xml-xalan1-compat"/>
     <option project="bsf"/>
     <option project="jakarta-regexp"/>
     <option project="jakarta-oro"/>
