@@ -23,6 +23,7 @@
     <depend project="excalibur-collections"/>
     <depend project="excalibur-datasource"/>
     <depend project="excalibur-extension"/>
+    <depend project="excalibur-pool"/>
     <depend project="excalibur-i18n"/>
     <depend project="excalibur-thread"/>
     <depend project="avalon-logkit" />
