@@ -28,7 +28,7 @@
   <project name="antworks-importer" fullname="Antworks Importer">
     <package>org.krysalis.antworks.importer</package>
 
-    <ant buildfile="build-bootstrap.xml" target="jar">
+    <ant buildfile="build-bootstrap.xml" target="gump">
       <property name="project.version" value="0.1-gump-@@DATE@@"/>
     </ant>
 
