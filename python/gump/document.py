@@ -275,6 +275,17 @@ def documentWorkspace(workspace,context,db,moduleFilterList=None,projectFilterLi
     titledDataInTableXDoc(x,"Status : ", stateName(context.status))    
     (hours, mins, secs) 	= context.elapsedTime();
     titledDataInTableXDoc(x,"Elapsed Time : ", str(hours) + ':' + str(mins) + ':' + str(secs))
+    titledDataInTableXDoc(x,"Base Directory : ", str(workspace.basedir))
+    titledDataInTableXDoc(x,"Temporary Directory : ", str(workspace.tmpdir))
+    titledDataInTableXDoc(x,"Scratch Directory : ", str(workspace.scratchdir))    
+    # :TODO: We have duplicate dirs? tmp = scratch?
+    titledDataInTableXDoc(x,"Log Directory : ", str(workspace.logdir))
+    titledDataInTableXDoc(x,"CVS Directory : ", str(workspace.cvsdir))
+    titledDataInTableXDoc(x,"Package Directory : ", str(workspace.pkgdir))
+    titledDataInTableXDoc(x,"Email Address: ", str(workspace.email))
+    titledDataInTableXDoc(x,"Email Server: ", str(workspace.mailserver))
+    titledDataInTableXDoc(x,"Prefix: ", str(workspace.prefix))
+    titledDataInTableXDoc(x,"Signature: ", str(workspace.signature))
     endTableXDoc(x)
     endSectionXDoc(x)       
     
@@ -380,7 +391,7 @@ def documentProject(workspace,modulename,mdir,projectname,projectcontext,db):
         addItemXDoc(x,"Cause:", "<link href='%s'>%s</link>" % \
             (getContextUrl(projectcontext.cause), projectcontext.cause.name))
     addItemXDoc(x,"Elapsed: ", str(projectcontext.elapsedSecs()))
-    addItemXDoc(x,"FOG Factor: ", str(stats.getFOGFactor()))
+    addItemXDoc(x,"FOG Factor: ", str(round(stats.getFOGFactor(),2)))
     addItemXDoc(x,"Successes: ", str(stats.successes))
     addItemXDoc(x,"Failures: ", str(stats.failures))
     addItemXDoc(x,"Prerequisite Failures: ", str(stats.prereqs))
@@ -555,6 +566,9 @@ def documentStatistics(workspace,context,db,moduleFilterList=None,projectFilterL
     
     
     x.write('    <p>\n')
+    addLinkXDoc(x, 'fogfactor.html', 'Modules By FOG Factor') 
+    x.write('    </p>\n')
+    x.write('    <p>\n')
     addLinkXDoc(x, 'elapsed.html', 'Modules By Elapsed Time') 
     x.write('    </p>\n')
     x.write('    <p>\n')
@@ -574,6 +588,7 @@ def documentStatistics(workspace,context,db,moduleFilterList=None,projectFilterL
     documentModulesByProjects(stats, sdir, moduleFilterList)
     documentModulesByDependencies(stats, sdir, moduleFilterList)
     documentModulesByDependees(stats, sdir, moduleFilterList)
+    documentModulesByFOGFactor(stats, sdir, moduleFilterList)
     
 
 def documentModulesByElapsed(stats,sdir,moduleFilterList=None):
@@ -656,6 +671,31 @@ def documentModulesByDependees(stats,sdir,moduleFilterList=None):
         for pctxt in mctxt.getDependees():
             projectsString+=pctxt.name
             projectsString+=' '            
+        insertTableDataXDoc(x, projectsString)
+        
+        endTableRowXDoc(x)
+    endTableXDoc(x)
+    
+    footerXDoc(x)
+    endXDoc(x)
+    
+def documentModulesByFOGFactor(stats,sdir,moduleFilterList=None):
+    x=startXDoc(os.path.join(sdir,'fogfactor.xml'))
+    headerXDoc(x, 'Modules By FOG Factor')
+    
+    startTableXDoc(x,'Modules By FOG Factor')
+    for mctxt in stats.modulesByFOGFactor:        
+        if moduleFilterList and not mctxt.module in moduleFilterList: continue    
+        startTableRowXDoc(x)
+        insertTableHeaderXDoc(x,mctxt.name)
+        insertTableDataXDoc(x, str(round(mctxt.getFOGFactor(),2)))
+        
+        projectsString=''
+        for pctxt in mctxt.getDependees():
+            projectsString+=pctxt.name
+            projectsString+='='            
+            projectsString+=str(round(pctxt.getFOGFactor(),2))
+            projectsString+='  '            
         insertTableDataXDoc(x, projectsString)
         
         endTableRowXDoc(x)
@@ -866,7 +906,7 @@ def endTableRowXDoc(f):
 def titledDataInTableXDoc(f,title,data):
     startTableRowXDoc(f)
     insertTableDataXDoc(f,'<strong>%s</strong>' % (title))
-    insertTableDataXDoc(f, data)
+    insertTableDataXDoc(f, escape(data))
     endTableRowXDoc(f)
     
 def endTableXDoc(f):

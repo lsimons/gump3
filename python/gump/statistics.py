@@ -301,7 +301,12 @@ def sortByDependencyCount(mctxt1,mctxt2):
 def sortByDependeeCount(mctxt1,mctxt2):
     count1=mctxt1.dependeeCount()
     count2=mctxt2.dependeeCount()
-    return count2 - count1                
+    return count2 - count1          
+    
+def sortByFOGFactor(mctxt1,mctxt2):
+    fog1=mctxt1.getFOGFactor()
+    fog2=mctxt2.getFOGFactor()
+    return int(round(fog2 - fog1,0))                
             
 class StatisticsGuru:
     """ Know it all ... """
@@ -317,6 +322,7 @@ class StatisticsGuru:
         self.modulesByProjectCount=orderedList(context.subcontexts.values(),sortByProjectCount)
         self.modulesByTotalDependencies=orderedList(context.subcontexts.values(),sortByDependencyCount)
         self.modulesByTotalDependees=orderedList(context.subcontexts.values(),sortByDependeeCount)
+        self.modulesByFOGFactor=orderedList(context.subcontexts.values(),sortByFOGFactor)
    
         
 #        calculate()

@@ -481,6 +481,13 @@ class ProjectContext(Context):
     def dependeeCount(self):         
         return len(self.getDependees())   
              
+    def getFOGFactor(self):
+        fogFactor=0
+        if hasattr(self,'stats'):
+             fogFactor = self.stats.getFOGFactor()
+        return fogFactor
+            
+        return round(fogFactor/fogFactors,2)
     def propagateState(self,state,reason=REASON_UNSET,cause=None):
         if stateUnsetOrOk(self.status):
             Context.propagateState(self,state,reason,cause)
@@ -558,6 +565,18 @@ class ModuleContext(Context):
             
     def dependencyCount(self):         
         return len(self.getDepends())   
+        
+    def getFOGFactor(self):
+        fogFactor=0
+        fogFactors=0
+        for ctxt in self:
+                subFOGFactor = ctxt.getFOGFactor()
+                fogFactors += 1
+                
+        if not fogFactors:
+            fogFactors=1 # 0/1 is better than 0/0
+            
+        return round(fogFactor/fogFactors,2)
         
 class GumpContext(Context):
     """Gump Run Context"""
