@@ -2,12 +2,12 @@
 
   <url  href="http://www.beanshell.org/"/>
   <description>
-    
+
   </description>
 
-  <cvs repository="sourceforge" host-prefix="cvs.beanshell" 
+  <cvs repository="sourceforge" host-prefix="cvs.beanshell"
        module="BeanShell" dir="beanshell"/>
-  
+
   <project name="beanshell">
     <package>bsh</package>
 
@@ -31,6 +31,9 @@
     <jar name="bsh-reflect-@@DATE@@.jar" id="bsh-reflect"/>
     <jar name="bsh-util-@@DATE@@.jar" id="bsh-util"/>
     <javadoc nested="javadoc" />
+
+    <nag from="Conor MacNeill &lt;conor@apache.org&gt;"
+         to="pat@pat.net"/>
   </project>
 
 </module>
