@@ -16,7 +16,19 @@
       <xsl:copy-of select="*[not(self::project)]"/>
       <xsl:text>&#10;</xsl:text>
       <xsl:call-template name="sort-dependencies">
-        <xsl:with-param name="done" select="':'"/>
+
+        <!-- treat unresolved options as done -->
+        <xsl:with-param name="done">
+          <xsl:text>:</xsl:text>
+          <xsl:for-each select= "//project/option">
+            <xsl:sort select="@project"/>
+            <xsl:variable name="project" select="@project"/>
+            <xsl:if test="not(preceding::option[@project=$project])">
+              <xsl:value-of select="concat(@project,':')"/>
+            </xsl:if>
+          </xsl:for-each>
+        </xsl:with-param>
+
       </xsl:call-template>
     </xsl:copy>
   </xsl:template>

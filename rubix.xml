@@ -5,11 +5,7 @@
 
   <profile href="profile/gump.xml"/>
 
-  <!-- Additional dependencies -->
-
-  <project name="xml-cocoon2">
-    <option project="phpservlet"/>
-  </project>
+  <!-- Additional projects -->
 
   <project name="phpservlet" home="/home/rubys/php">
     <jar name="lib/php/phpsrvlt.jar"/>
