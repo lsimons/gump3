@@ -22,7 +22,7 @@ from unittest import TestCase
 
 from gump.test.mockobjects import *
 
-from gump.actor.dynagumper import *
+from gump.plugins.dynagumper import *
 
 mock = MockObjects()
 

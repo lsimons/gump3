@@ -362,6 +362,8 @@ def main():
     options.starttime = time.strftime('%d %b %Y %H:%M:%S', time.localtime())
     options.starttimeutc = time.strftime('%d %b %Y %H:%M:%S', time.gmtime())
     
+    options.version = GUMP_VERSION
+    
     # create logger
     log = _Logger(options.logdir)
     try:
@@ -369,7 +371,7 @@ def main():
             log.level = DEBUG
     
         # print some basic debug info...
-        log.info("Pyump version %s starting..." % (GUMP_VERSION) )
+        log.info("Pyump version %s starting..." % (options.version) )
         log.info("  (the detailed log is written to %s)" % (log.filename) )
         log.debug('  - hostname           : ' + options.hostname)
         log.debug('  - homedir            : ' + options.homedir)

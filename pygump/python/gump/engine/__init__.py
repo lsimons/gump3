@@ -38,15 +38,11 @@ _get_logger() function in this module.
 __copyright__ = "Copyright (c) 2004-2005 The Apache Software Foundation"
 __license__   = "http://www.apache.org/licenses/LICENSE-2.0"
 
-import logging
 import os
 
 from xml import dom
 from xml.dom import minidom
 
-from gump.engine.workspace import WorkspaceLoader, WorkspaceObjectifier
-from gump.engine.vfs import VFS
-       
 def main(settings):
     """
     Controls the big pygump beast. This function is called from the main.main()
@@ -60,6 +56,9 @@ def main(settings):
       - settings -- everything the engine needs to know about the environment.
     """
     
+    # ooh...ah...fancy :-D
+    _banner(settings.version)
+    
     # get engine config
     config = get_config(settings)
     
@@ -69,12 +68,12 @@ def main(settings):
     vfsdir = os.path.join(config.paths_work, "vfs-cache" )
     if not os.path.isdir(vfsdir):
         os.mkdir(vfsdir);
-    vfs = get_vfs(config.paths_home, vfsdir)
-    workspace_loader = get_workspace_loader(vfs, log)
-    workspace_objectifier = get_workspace_objectifier()
+    vfs = get_vfs(config.paths_metadata, vfsdir)
+    modeller_loader = get_modeller_loader(vfs, log)
+    modeller_objectifier = get_modeller_objectifier()
     
     # create engine
-    engine = Engine(config, log, db, workspace_loader, workspace_objectifier)
+    engine = Engine(config, log, db, modeller_loader, modeller_objectifier)
     
     # run it
     engine.initialize()
@@ -141,6 +140,7 @@ def get_config(settings):
     return config
 
 def get_logger(level, name):
+    import logging
     logging.basicConfig()
     log = logging.getLogger(name)
     log.setLevel(level)
@@ -152,13 +152,16 @@ def get_db(config):
     return db
 
 def get_vfs(filesystem_root, cache_dir):
+    from gump.engine.vfs import VFS
     return VFS(filesystem_root, cache_dir)
 
-def get_workspace_loader(vfs, log):
-    return WorkspaceLoader(vfs, log)
+def get_modeller_loader(vfs, log):
+    from gump.engine.modeller import Loader
+    return Loader(vfs, log)
 
-def get_workspace_objectifier():
-    return WorkspaceObjectifier
+def get_modeller_objectifier():
+    from gump.engine.modeller import Objectifier
+    return Objectifier()
 
 ###
 ### Classes

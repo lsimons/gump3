@@ -25,12 +25,12 @@ import os
 from xml import dom
 from xml.dom import minidom
 
-from gump.model import Workspace # TODO
+from gump.model import Workspace
 
-class WorkspaceError(Exception):
+class ModellerError(Exception):
     pass
 
-class WorkspaceLoader:
+class Loader:
     """
     Parses XML, resolves HREFs, creates a big DOM tree.
     """
@@ -104,16 +104,18 @@ class WorkspaceLoader:
         
         # copy attributes from the new node to the target node
         new_attributes = new_node.attributes
-        length = new_attributes.length
-        i = 0
-        while i < length:
-            attribute = new_attributes.item(i)
-            target_node.setAttributeNode(attribute)
+        if new_attributes:
+            length = len(new_attributes)
+            i = 0
+            while i < length:
+                attribute = new_attributes.item(i)
+                target_node.setAttributeNode(attribute)
         
         # copy elements from the new node to the target node
         new_elements = new_node.childNodes
-        for child in new_elements:
-            target_node.appendChild( child )
+        if new_elements:
+            for child in new_elements:
+                target_node.appendChild( child )
         
         return target_node
     
@@ -140,27 +142,27 @@ class WorkspaceLoader:
 
         if not parent:
             # TODO provide more info
-            raise WorkspaceError, "Unresolvable HREF found outside a <project/> or <module/>: %s." % (node)
+            raise ModellerError, "Unresolvable HREF found outside a <project/> or <module/>: %s." % (node)
         
         # remove that project or module from its parent
         node_to_remove_element_from = parent.parentNode
         if not node_to_remove_element_from:
             # TODO provide more info
-            raise WorkspaceError, "Rogue <project/> or <module/> (without a parent): %s." % (parent)
+            raise ModellerError, "Rogue <project/> or <module/> (without a parent): %s." % (parent)
         node_to_remove_element_from.removeChild(parent)
         
         # but save it off for error reporting
         dropped_nodes.append(parent)
 
-class WorkspaceObjectifier:
+class Objectifier:
     """
     Turns DOM workspace into Pythonified workspace.
     """
-    def get_workspace(self, config, dom):
-        workspace = self._create_workspace(dom, config)
-        workspace.profile = self._create_profile(dom)
+    def get_workspace(self, dom):
+        workspace = self._create_workspace(dom)
         
         raise RuntimeError, "not implemented!" # TODO
     
     def _create_workspace(self, dom):
-        workspace = Workspace()
+        root = dom.getElementsByTagName('workspace').item(0)
+        workspace = Workspace(root.getAttribute('name'))
