@@ -43,8 +43,6 @@
     <depend project="avalon-exceptionutil"/>
     <depend project="xml-xerces"/>
     <depend project="avalon"/>
-    <depend project="xml-stylebook2"/>
-    <depend project="xml-xalan2"/>
 
     <option project="jdbc" runtime="true"/>
     <option project="jms" runtime="true"/>
