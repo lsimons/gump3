@@ -49,7 +49,7 @@
       An implementation of DNS in Java
     </description>
 
-    <jar name="lib/dnsjava-1.3.2.jar" />
+    <jar name="lib/dnsjava-1.4.3.jar" />
   </project>
 
 </module>
