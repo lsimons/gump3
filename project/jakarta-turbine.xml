@@ -7,7 +7,7 @@
 
   <cvs repository="jakarta"/>
 
-  <ant basedir="build" target="package">
+  <ant basedir="build">
     <property name="version" value="gump"/>
   </ant>
 
