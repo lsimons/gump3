@@ -33,6 +33,15 @@ class SAXDispatcher(ContentHandler):
     self.topOfStack=self.elementStack[-1]
 
 def load(file):
+  if not os.path.exists(file):
+    print
+    print 'You need to specify a valid workspace for Gump to run'
+    print 'If you are new to Gump, simply copy minimal-workspace.xml'
+    print ' to a file with the name of your computer (mycomputer.xml)'
+    print ' and rerun this program.'
+    print
+    raise IOError, 'workspace '+file+' not found'
+    
   workspace=SAXDispatcher(file,'workspace',Workspace).docElement
   workspace.complete()
   for module in Module.list.values(): module.complete(workspace)
