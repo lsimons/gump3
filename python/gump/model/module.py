@@ -470,7 +470,7 @@ class Module(NamedModelObject, Statable, Resultable, Positioned):
         
     def isRedistributable(self):
         # Existence means 'true'
-        return self.hasDomAttribute('redistributable') \
+        return self.hasDomChild('redistributable') \
             or (self.repository and self.repository.isRedistributable())
         
     #

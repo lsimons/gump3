@@ -106,8 +106,7 @@ class Repository(NamedModelObject, Statable):
 
     def isRedistributable(self):
         # Existence means 'true'
-        return self.hasDomAttribute('redistributable')
-        
+        return self.hasDomChild('redistributable')
         
     def hasUser(self): return hasattr(self,'user')
     def hasPassword(self): return hasattr(self,'password')
