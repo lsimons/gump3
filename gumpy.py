@@ -191,6 +191,7 @@ mailport=None
 mailfrom=None
 mailto=None
         
+args=sys.argv
 try:
 
     try:
@@ -206,17 +207,25 @@ try:
         
         for envkey in os.environ.keys():
             envval=os.environ[envkey]
-            log.write('   ' + envkey + ' -> [' + envval + ']\n')
+            log.write('      ' + envkey + ' -> [' + envval + ']\n')
         
+        # Workspace is the hostname, unless overridden
         workspaceName = hostname + '.xml'
         if os.environ.has_key('GUMP_WORKSPACE'):        
-            workspaceName = os.environ['GUMP_WORKSPACE'] + '.xml'        
+            workspaceName = os.environ['GUMP_WORKSPACE'] + '.xml'   
+        if len(args)>2 and args[1] in ['-w','--workspace']:
+            workspaceName=args[2]
+            del args[1:3]     
         workspacePath = os.path.abspath(workspaceName)
             
         projectsExpr='all'
         if os.environ.has_key('GUMP_PROJECTS'):        
-            projectsExpr = os.environ['GUMP_PROJECTS']       
+            projectsExpr = os.environ['GUMP_PROJECTS']        
+        if len(args)>1:
+            projectsExpr=args[1]
+            del args[1:2]      
             
+        # Nope, can't find the workspace...
         if not os.path.exists(workspacePath):
             raise RuntimeError('No such workspace at ' + str(workspacePath))
         
@@ -224,7 +233,11 @@ try:
         # Process the workspace...
         #     
         ws = minidom.parse(workspacePath)
-        wsw=ws.firstChild
+        workspaceElementList=ws.getElementsByTagName('workspace')
+        if not workspaceElementList.length == 1:
+            raise RuntimeError('Need one (only) <workspace> tag. Found ' + \
+                       ` workspaceElementList.length` + '.')    
+        wsw=workspaceElementList.item(0)
         wsName=wsw.getAttribute('name')
         # Extract the base directory
         baseDir=wsw.getAttribute('basedir')      
@@ -289,11 +302,11 @@ try:
             #
             # Process/build command line
             #        
-            iargs = '-w ../' + workspaceName + ' ' + projectsExpr + ' ' + ' '.join(sys.argv[1:])
-  
+            iargs = '-w ../' + workspaceName + ' ' + projectsExpr + ' ' + ' '.join(args[1:])
+            
             # Allow a check not an integrate
             check=0
-            if '--check' in sys.argv:
+            if '--check' in args:
                 check=0
             
             #
