@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/forrest.py,v 1.81 2004/02/24 20:18:30 ajack Exp $
-# $Revision: 1.81 $f
-# $Date: 2004/02/24 20:18:30 $
+# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/forrest.py,v 1.82 2004/02/24 20:25:21 ajack Exp $
+# $Revision: 1.82 $f
+# $Date: 2004/02/24 20:25:21 $
 #
 # ====================================================================
 #
@@ -1660,7 +1660,8 @@ class ForrestDocumenter(Documenter):
                 directory=fileReference.getPath()
                 
                 # Change to os.walk once we can move to Python 2.3
-                files=os.listdir(directory).sort()
+                files=os.listdir(directory)
+                files.sort()
                 for file in files:
                     listingRow=listingTable.createRow()
                     listingRow.createData(file)                                    
