@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/Attic/view.py,v 1.41 2003/05/09 06:40:05 nicolaken Exp $
-# $Revision: 1.41 $
-# $Date: 2003/05/09 06:40:05 $
+# $Header: /home/stefano/cvs/gump/python/gump/Attic/view.py,v 1.42 2003/05/09 13:02:02 nicolaken Exp $
+# $Revision: 1.42 $
+# $Date: 2003/05/09 13:02:02 $
 #
 # ====================================================================
 #
@@ -78,6 +78,7 @@ from gump import load, buildSequence, log
 from gump.conf import dir, default, handleArgv
 from gump.gen import xmlize
 from gump.model import Module, Project
+from gump.update import update
 
 ###############################################################################
 # Initialize
@@ -100,9 +101,11 @@ class gumpview(wxApp):
 
   # item IDs:
   menu_BACK=10001 
-  menu_RUN=10002
-  menu_CONSOLE=10003
-  menu_HELP=10004
+  menu_UPDATE=10002
+  menu_GEN=10003
+  menu_RUN=10004
+  menu_CONSOLE=10005
+  menu_HELP=10006
   
   # view
   frame=None
@@ -134,7 +137,19 @@ class gumpview(wxApp):
                                      wxBitmap("gump/images/back.bmp",
                                               wxBITMAP_TYPE_BMP),
                                      "Back")
-      
+  
+    self.frame.toolbar.AddSeparator()
+
+    self.frame.toolbar.AddSimpleTool(self.menu_UPDATE,
+                                     wxBitmap("gump/images/update.bmp",
+                                              wxBITMAP_TYPE_BMP),
+                                     "Update from VCS")
+                                     
+    self.frame.toolbar.AddSimpleTool(self.menu_GEN,
+                                     wxBitmap("gump/images/gen.bmp",
+                                              wxBITMAP_TYPE_BMP),
+                                     "Generate XML merged descriptor")
+                                     
     self.frame.toolbar.AddSimpleTool(self.menu_RUN,
                                      wxBitmap("gump/images/run.bmp",
                                               wxBITMAP_TYPE_BMP),
@@ -225,6 +240,8 @@ class gumpview(wxApp):
     EVT_KEY_UP(self, self.OnKeyUp)
 
     EVT_MENU(self, self.menu_BACK, self.backAction)
+    EVT_MENU(self, self.menu_UPDATE,  self.updateAction )
+    EVT_MENU(self, self.menu_GEN,  self.genAction )
     EVT_MENU(self, self.menu_RUN,  self.runAction )
     EVT_TOOL(self, self.menu_CONSOLE, self.consoleAction)
     #        EVT_TOOL(self, 50, self.OnToolClick)
@@ -248,7 +265,9 @@ class gumpview(wxApp):
     self.tree.SetItemImage(root, idx_workspace, wx.wxTreeItemIcon_Normal)
     self.tree.SetItemImage(root, idx_workspace, wx.wxTreeItemIcon_Expanded)
     self.tree.SetItemImage(root, idx_workspace, wx.wxTreeItemIcon_SelectedExpanded)
+    
     self.workspace = load(files[0])
+    
     names=Module.list.keys()
     names.sort()
     for name in names:
@@ -280,6 +299,21 @@ class gumpview(wxApp):
     if len(self.history)>1:
       self.history.pop()
       self.showProject(self.history[-1])
+    
+  # updates CVS
+  def updateAction(self,event):
+    print "INUPDATE "
+    if self.history[-1]:
+      project=self.history[-1].name 
+    else:
+       project='all'
+    
+    print "INUPDATE " + project
+    updateThread(self.workspace,project).Start()
+    
+  # run the selected project xml gen
+  def genAction(self,event):
+    genThread(self.workspace).Start()
     
   # run the selected project
   def runAction(self,event):
@@ -587,7 +621,33 @@ class GumpLogView(wxListCtrl):
         else:
             return None
 
+class genThread:
+  def __init__(self,workspace):
+    self.workspace=workspace
+  def Start(self):
+    self.running = 1
+    thread.start_new_thread(self.Run,())
+  def Stop(self):
+    self.running = 0
+  def Run(self):      
+    f=open( default.merge, 'w')
+    try:
+      xmlize('workspace',self.workspace,f)
+    finally:
+      # Since we may exit via an exception, close fp explicitly.
+      f.close()
 
+class updateThread:
+  def __init__(self,workspace,project):
+    self.workspace=workspace
+    self.project=project
+  def Start(self):
+    self.running = 1
+    thread.start_new_thread(self.Run,())
+  def Stop(self):
+    self.running = 0
+  def Run(self):
+    update(self.workspace,self.project)
 
 class compileThread:
   def __init__(self,project,view):
@@ -621,8 +681,7 @@ class compileThread:
 if __name__ == '__main__':
 
   # init logging and add specific Gui handler
-  #logging.config.fileConfig("gump/logconf.ini")
-  logging.basicConfig();
+  logging.config.fileConfig("gump/logconf.ini")
   
   # load app
   app = gumpview(0)
