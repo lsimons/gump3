@@ -1,8 +1,8 @@
 #!/usr/bin/python
 
-# $Header: /home/stefano/cvs/gump/python/gump/check.py,v 1.31 2003/10/29 19:34:05 ajack Exp $
-# $Revision: 1.31 $
-# $Date: 2003/10/29 19:34:05 $
+# $Header: /home/stefano/cvs/gump/python/gump/check.py,v 1.32 2003/11/02 21:45:59 ajack Exp $
+# $Revision: 1.32 $
+# $Date: 2003/11/02 21:45:59 $
 #
 # ====================================================================
 #
@@ -186,7 +186,7 @@ def checkExecutable(workspace,context,command,options,mandatory,logOutput=0,name
         
     if logOutput and result.output:
         out=tailFileToString(result.output,10)
-        context.addInfo(name + 'produce:\n' + out)
+        context.addInfo(name + ' produced: \n' + out)
             
     return ok
     

@@ -263,8 +263,10 @@ def documentWorkspace(workspace,context,db,moduleFilterList=None,projectFilterLi
             titledDataInTableXDoc(x,'Description', workspace.description)
     if workspace.version: 
         titledDataInTableXDoc(x,'Workspace Version', workspace.version)
-    titledDataInTableXDoc(x,'Gump Preferred Workspace Version', setting.ws_version)
+    if not workspace.version or not workspace.version == setting.ws_version:
+        titledDataInTableXDoc(x,'Gump Preferred Workspace Version', setting.ws_version)
     titledDataInTableXDoc(x,'Java Command', context.javaCommand)
+    titledDataInTableXDoc(x,'Python', str(sys.version))
     titledDataInTableXDoc(x,'@@DATE@@', str(default.date))
     titledDataInTableXDoc(x,'Start Date/Time', context.startdatetime)
     titledDataInTableXDoc(x,'Timezone', context.timezone)

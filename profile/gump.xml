@@ -165,6 +165,7 @@
 
   <!-- krysalis@sf -->
 
+  <module href="project/krysalis-barcode.xml" />
   <module href="project/krysalis-version.xml" />
   <module href="project/krysalis-ruper.xml"/>
   <module href="project/ruper2.xml"/>
