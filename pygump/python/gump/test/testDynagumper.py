@@ -18,35 +18,49 @@ __copyright__ = "Copyright (c) 2004-2005 The Apache Software Foundation"
 __license__   = "http://www.apache.org/licenses/LICENSE-2.0"
 
 import unittest
+import pmock
+from pmock import *
 
-from gump.test.mockobjects import *
 from gump.plugins.dynagumper import Dynagumper
-from gump.model import Project
 
-mock = MockObjects()
-
-class DynagumperTestCase(unittest.TestCase):
+class DynagumperTestCase(pmock.MockTestCase):
     def setUp(self):
-        self.dynagumper = Dynagumper(mock.database,mock.log)
-        self.project = Project("blah", "blah")
+        self.log = self.mock()
+        self.log.stubs().method("debug")
+        self.log.stubs().method("info")
+        self.log.stubs().method("warning")
+        self.log.stubs().method("error")
+        self.log.stubs().method("critical")
+        self.log.stubs().method("log")
+        self.log.stubs().method("exception")
+        self.log.stubs().method("close")
+        self.db = self.mock()
+    
+    def test_ensureThisHostIsInDatabase(self):
+        #TODO actual tests
+        db = self.mock()
+        db.expects(once()).method("execute")
+        dynagumper = Dynagumper(db,self.log)
+        dynagumper.ensureThisHostIsInDatabase()
+
+    def test_visit_workspace(self):
+        #TODO
+        dynagumper = Dynagumper(self.db,self.log)
+        dynagumper.visit_workspace("blah")
+    
+    def test_visit_module(self):
+        #TODO
+        dynagumper = Dynagumper(self.db,self.log)
+        dynagumper.visit_module("blah")
+    
+    def test_visit_project(self):
+        #TODO
+        dynagumper = Dynagumper(self.db,self.log)
+        self.project = self.mock()
+        self.project.name = "blah"
         self.project.startdate = "21 June 2005"
         self.project.enddate = "22 June 2005"
-    
-    def testEnsureThisHostIsInDatabase(self):
-        #TODO actual tests
-        self.dynagumper.ensureThisHostIsInDatabase()
-
-    def testVisitWorkSpace(self):
-        #TODO
-        self.dynagumper.visit_workspace("blah")
-    
-    def testVisitModule(self):
-        #TODO
-        self.dynagumper.visit_module("blah")
-    
-    def testVisitProject(self):
-        #TODO
-        self.dynagumper.visit_project(self.project)
+        dynagumper.visit_project(self.project)
 
 # this is used by testrunner.py to determine what tests to run
 def test_suite():

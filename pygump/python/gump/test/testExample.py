@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-# Copyright 2004-2005 The Apache Software Foundation
+# Copyright 2005 The Apache Software Foundation
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -39,7 +39,7 @@ class ExampleTestCase(TestCase):
         # clean up after tests here
         pass
         
-    def testSomething(self):
+    def test_something(self):
         # you can do anything inside a test
         # use the assertXXX methods on TestCase
         # to check conditions

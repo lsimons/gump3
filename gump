@@ -575,6 +575,7 @@ function kill
 # Run pygump unit tests
 function test
 {
+  check_pylib "pmock" "http://pmock.sourceforge.net/"
   lock
   
   # add pygump to python path
@@ -584,6 +585,7 @@ function test
   else
     export PYTHONPATH="$GUMP_HOME/pygump/python:$GUMP_HOME/pygump:$PYTHONPATH"
   fi
+  
 
   local current=`pwd`
   cd "$GUMP_HOME/pygump/python"
