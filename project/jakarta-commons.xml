@@ -37,6 +37,7 @@
     
     <ant basedir="betwixt" target="jar">
       <property name="final.name" value="commons-betwixt-@@DATE@@"/>
+      <property name="resourcedir" path="betwixt"/>
     </ant>
     
     <!-- All Maven projects need Ant and Xerces to build. -->
@@ -47,8 +48,10 @@
     <depend project="commons-collections"/>
     <depend project="commons-beanutils"/>
     <depend project="commons-logging"/>
+    <depend project="junit"/>
 
-    <work nested="target/classes"/>
+    <work nested="betwixt/target/classes"/>
+    <work nested="betwixt/target/test-classes"/>
     <home nested="betwixt/target"/>
     <jar name="commons-betwixt-@@DATE@@.jar"/>
 
