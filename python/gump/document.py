@@ -196,16 +196,16 @@ def executeForrest(workspace,context):
     forrest=Cmd('forrest','forrest',forrest)
     
     # Temporary
-    forrest.addParameter('-debug')
+    # Too verbose ... forrest.addParameter('-debug')
     
     forrest.addPrefixedParameter('-D','java.awt.headless','true','=')
-    forrest.addPrefixedParameter('-D','project.content-dir',  \
-        content, '=')    
-    forrest.addPrefixedParameter('-D','project.xdocs-dir',  \
-        xdocs, '=')
+    #forrest.addPrefixedParameter('-D','project.content-dir',  \
+    #    content, '=')    
+    #forrest.addPrefixedParameter('-D','project.xdocs-dir',  \
+    #    xdocs, '=')
         
-    forrest.addPrefixedParameter('-D','project.site-dir',  \
-        workspace.logdir, '=')
+    #forrest.addPrefixedParameter('-D','project.site-dir',  \
+    #    workspace.logdir, '=')
      
     #   
     # Do we just tweak forrest.properties?
@@ -806,7 +806,11 @@ def getForrestDir(workspace):
     
 def getContentDir(workspace,forrestdir=None):
     fdir=forrestdir or getForrestDir(workspace)
-    cdir=os.path.abspath(os.path.join(fdir,'content'))
+    sdir=os.path.abspath(os.path.join(fdir,'src'))
+    if not os.path.exists(sdir): os.mkdir(sdir)
+    ddir=os.path.abspath(os.path.join(sdir,'documentation'))
+    if not os.path.exists(ddir): os.mkdir(ddir)
+    cdir=os.path.abspath(os.path.join(ddir,'content'))
     if not os.path.exists(cdir): os.mkdir(cdir)
     return cdir  
     
