@@ -8,7 +8,7 @@
   <cvs repository="xml"/>
 
   <project name="xml-rpc">
-    <ant basedir="build"/>
+    <ant/>
     <depend project="xml-xerces"/>
     <depend project="jakarta-ant"/>
     <option project="jakarta-servletapi"/>
