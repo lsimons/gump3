@@ -207,11 +207,11 @@
         <depend project="commons-logging" runtime="true"/>
         <depend project="commons-vfs" runtime="true"/>
 
-        <jar name="dist/depot-update-gump-@@DATE@@.jar"/>
+        <jar name="dist/depot-update-0.1-gump-@@DATE@@.jar"/>
 
         <ant basedir="update" buildfile="build.xml" target="gump" vm="1.4">
           <property name="ant.home" project="ant" reference="home" />
-          <property name="DATE_STAMP" value="@@DATE@@"/>        	
+           <property name="project.version" value="0.1-gump-@@DATE@@"/>       	
         </ant>
 
         <nag 
