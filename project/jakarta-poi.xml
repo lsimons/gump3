@@ -25,7 +25,7 @@
         <ant buildfile="build.xml" target="gump">
         </ant>
         <package>org.apache.poi</package>
-        <depend project="dist-ant"/>
+        <depend project="ant"/>
         <depend project="logging-log4j"/>
         <depend project="commons-logging"/>
         <depend project="commons-beanutils-core"/>
@@ -45,7 +45,7 @@
         <javadoc module="jakarta-poi" nested="build/tmp/site/build/site/apidocs"/>
 
         <nag to="poi-dev@jakarta.apache.org"
-		from="&quot;Gump [REL_2_BRANCH] :-(&quot; &lt;general@gump.apache.org&gt;"/>
+			from="&quot;Gump [REL_2_BRANCH] :-(&quot; &lt;general@gump.apache.org&gt;"/>
     </project>
 </module>
 

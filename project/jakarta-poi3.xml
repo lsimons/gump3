@@ -25,7 +25,7 @@
         <ant buildfile="build.xml" target="gump">
         </ant>
         <package>org.apache.poi</package>
-        <depend project="dist-ant"/>
+        <depend project="ant"/>
         <depend project="logging-log4j"/>
         <depend project="commons-logging"/>
         <depend project="commons-beanutils-core"/>
