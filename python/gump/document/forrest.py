@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/forrest.py,v 1.121 2004/03/30 19:19:34 ajack Exp $
-# $Revision: 1.121 $f
-# $Date: 2004/03/30 19:19:34 $
+# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/forrest.py,v 1.122 2004/03/31 17:41:41 ajack Exp $
+# $Revision: 1.122 $f
+# $Date: 2004/03/31 17:41:41 $
 #
 # ====================================================================
 #
@@ -2538,8 +2538,13 @@ This page helps Gumpmeisters (and others) observe community progress.
         pxrefRow=pxrefTable.createRow()
         pxrefRow.createData().createLink(pByO, 'Projects By Output')
         pxrefRow.createData('The outputs for the project, e.g. jars.')
-        
-                
+             
+        # Projects By Output Ids
+        pByOI=self.documentProjectsByOutputId(xref, run, workspace, gumpSet)                
+        pxrefRow=pxrefTable.createRow()
+        pxrefRow.createData().createLink(pByOI, 'Projects By Output Identifier')
+        pxrefRow.createData('The identifiers for outputs for the project, e.g. jars.')
+             
         # Projects By Descriptor Location
         pByDL=self.documentProjectsByDescriptorLocation(xref, run, workspace, gumpSet)                
         pxrefRow=pxrefTable.createRow()
@@ -2721,7 +2726,38 @@ This page helps Gumpmeisters (and others) observe community progress.
             if hasSome:
                 outputRow=outputTable.createRow()
                 outputRow.createData(output)
+                
+                projectData=outputRow.createData()
+                for project in projectList:        
+                    if not gumpSet.inProjectSequence(project): continue                
+                    self.insertLink(project, xref, projectData)
+                    projectData.createText(' ')
+          
+        document.serialize()
+        
+        return fileName + '.html'
+        
+    def documentProjectsByOutputId(self,xref,run,workspace,gumpSet):
+        fileName='output_id_project'
+        file=self.resolver.getFile(xref,fileName)            
+        document=XDocDocument('Projects By Output Identifiers',	file)
+        
+        outputTable=document.createTable(['Projects By Output Identifiers'])
+        
+        outputMap=xref.getOutputIdToProjectMap()
+        for outputId in createOrderedList(outputMap.keys()):
+                            
+            projectList=createOrderedList(outputMap.get(outputId)) 
             
+            hasSome=0
+            for project in projectList:        
+                if not gumpSet.inProjectSequence(project): continue
+                hasSome=1
+                
+            if hasSome:
+                outputRow=outputTable.createRow()
+                outputRow.createData(outputId)
+                
                 projectData=outputRow.createData()
                 for project in projectList:        
                     if not gumpSet.inProjectSequence(project): continue                

@@ -419,9 +419,10 @@ class GumpEngine:
                             reason=REASON_BUILD_TIMEDOUT
                         project.changeState(STATE_FAILED,reason)
                         
-                        # Display...
-                        project.addInfo('Enable "debug" output, due to build failure.')
-                        project.setDebug(1)
+                        if not project.isDebug():
+                            # Display...
+                            project.addInfo('Enable "debug" output, due to build failure.')
+                            project.setDebug(1)
                         
                     else:                         
                         # For now, things are going good...
@@ -535,6 +536,7 @@ class GumpEngine:
                 
                 try:
                     catFileToFileHolder(project,propertiesFile,	\
+                        FILE_TYPE_CONFIG,	\
                         project.getName() + ' ' + os.path.basename(propertiesFile))
                 except:
                     log.error('Display Properties [ ' + propertiesFile + '] Failed', exc_info=1)   
@@ -650,10 +652,10 @@ class GumpEngine:
         # Display report output, even if failed...
         #
         if project.hasReports() and wasBuilt:
-            project.addInfo('Project produces reports')    
+            #project.addInfo('Project produces reports')    
             for report in project.getReports():
                 reportDir=report.getResolvedPath() 
-                project.addInfo('Reports in: ' + reportDir)
+                project.addInfo('Project Reports in: ' + reportDir)
                 catDirectoryContentsToFileHolder(project,reportDir,FILE_TYPE_OUTPUT)
     
         # Maven generates a maven.log...
@@ -663,7 +665,7 @@ class GumpEngine:
                 project.addDebug('Maven Log in: ' + logFile)                
                 try:
                     catFileToFileHolder(project,logFile,	\
-                        FILE_TYPE_LOG,
+                        FILE_TYPE_LOG,	\
                         project.getName() + ' ' + os.path.basename(logFile))
                 except:
                     log.error('Display Log [ ' + logFile + '] Failed', exc_info=1)   

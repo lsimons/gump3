@@ -228,6 +228,9 @@ class DependSet:
     def getDepends(self):
         return self.depends
         
+    def getUniqueProjectDependList(self):
+        return self.projectMap.keys()
+        
     def getUniqueProjectDependCount(self):
         return len(self.projectMap)
     	
@@ -300,6 +303,11 @@ class Dependable:
     def getFullDependencyCount(self):
         self.getFullDependencies()
         return self.fullDependencies.getUniqueProjectDependCount()
+        
+    def getFullDependencyProjectList(self):
+        self.getFullDependencies()
+        return self.fullDependencies.getUniqueProjectDependList()        
+        
 
     #
     # Depth
@@ -356,7 +364,6 @@ class Dependable:
     def getDirectDependees(self):
         return self.directDependees.getDepends()
         
-        
     def getFullDependees(self):
         if self.fullDependees: return self.fullDependees.getDepends()
         
@@ -386,6 +393,9 @@ class Dependable:
         self.getFullDependees()
         return self.fullDependees.getUniqueProjectDependCount()
         
+    def getFullDependeeProjectList(self):
+        self.getFullDependees()
+        return self.fullDependees.getUniqueProjectDependList()        
         
     def buildDependenciesMap(self,workspace):        
         

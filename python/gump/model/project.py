@@ -272,17 +272,11 @@ class Project(NamedModelObject, Statable, Resultable, Dependable):
         if self.affected: return self.affected
         
         # Look through all dependees
-        for dependee in self.getFullDependees():
-            project=dependee.getOwnerProject()
-            
+        for project in self.getFullDependeeProjectList():
             cause=project.getCause()
-            #
             # Something caused this some grief
-            #
             if cause:
-                #
-                # The something was this module or one of its projects
-                #
+                # The something was this project
                 if cause == self:
                     self.affected += 1            
         
@@ -300,9 +294,9 @@ class Project(NamedModelObject, Statable, Resultable, Dependable):
             dependeeProject=dependee.getOwnerProject()
         
             if dependee.isOptional():
-                dependeeProject.addWarning("Optional dependency " + self.name + " " + message)
+                dependeeProject.addInfo("Optional dependency " + self.name + " " + message)
             else:
-                dependee.addError("Dependency " + self.name + " " + message)
+                dependee.addInfo("Dependency " + self.name + " " + message)
                 dependeeProject.changeState(STATE_PREREQ_FAILED,reason,cause)
     #
     # We have a potential clash between the <project package attribute and
@@ -410,7 +404,7 @@ class Project(NamedModelObject, Statable, Resultable, Dependable):
             if 1 == self.getJarCount():
                 jar=self.getJarAt(0)
                 if not jar.hasId():
-                    self.addInfo('Sole jar [' + jar.getPath() + '] identifier set to project name')
+                    self.addInfo('Sole jar [' + os.path.basename(jar.getPath()) + '] identifier set to project name')
                     jar.setId(self.getName())    
             else:
                 #

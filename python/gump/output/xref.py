@@ -41,6 +41,7 @@ class XRefGuru:
         self.descriptionToProject={}
         
         self.outputToProject={}
+        self.outputIdToProject={}
         
         self.descriptorLocationToProject={}
         
@@ -111,12 +112,22 @@ class XRefGuru:
             for project in module.getProjects():                
                 if project.hasJars():
                     for jar in project.getJars():  
-                        jarName=os.path.basename(jar.getName())            
+                        jarName=os.path.basename(jar.getName())  
+                        jarId=jar.getId() or 'No Identifier'
+                        
+                        # Create a list to hold multiple (if needed)          
                         if not self.outputToProject.has_key(jarName):
                             self.outputToProject[jarName]=[]
+                        
+                        # Create a list to hold multiple (if needed)          
+                        if not self.outputIdToProject.has_key(jarId):
+                            self.outputIdToProject[jarId]=[]
                     
+                        # Store the Project
                         if not project in self.outputToProject[jarName]:
                             self.outputToProject[jarName].append(project)
+                        if not project in self.outputIdToProject[jarId]:
+                            self.outputIdToProject[jarId].append(project)
     
     def mapDescriptorLocations(self):
         for module in self.workspace.getModules():            
@@ -149,6 +160,9 @@ class XRefGuru:
         
     def getOutputToProjectMap(self):
         return self.outputToProject
+        
+    def getOutputIdToProjectMap(self):
+        return self.outputIdToProject
         
     def getDescriptorLocationToProjectMap(self):
         return self.descriptorLocationToProject

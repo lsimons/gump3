@@ -58,7 +58,7 @@ class Propogatable(Stateful):
                     message = lower(stateDescription(state))
                     if not REASON_UNSET == reason:
                         message += " with reason " + lower(reasonDescription(reason))            
-                self.addError(capitalize(message))
+                self.addInfo(capitalize(message))
         
                 # Send on the changes...
                 self.propagateErrorStateChange(state,reason,cause,message)
