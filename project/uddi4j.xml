@@ -12,7 +12,8 @@
 
     <depend project="xml-xerces"/>
     <depend project="jakarta-ant"/>
-    <depend project="xml-soap"/>
+    <option project="xml-soap"/>
+    <option project="xml-axis"/>
     <depend project="jsse"/>
     <work nested="build/classes"/>
 
