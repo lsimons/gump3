@@ -14,7 +14,7 @@
 #   See the License for the specific language governing permissions and
 #   limitations under the License.
 #
-# $Header: /home/stefano/cvs/gump/python/gmp.py,v 1.2 2004/04/10 11:16:50 nicolaken Exp $
+# $Header: /home/stefano/cvs/gump/python/gmp.py,v 1.3 2004/04/14 17:48:45 ajack Exp $
 
 """
   This is the commandline entrypoint into Python Gump as a
@@ -39,7 +39,7 @@ def ignoreHangup(signum):
     pass
 
 def glog(descr, what):
-    log.write('- GUMP ' + descr + ' :['+ what + ']\n')
+    print '- GUMP ' + descr + ' :['+ what + ']'
     
 def runCommand(command,args='',dir=None,outputFile=None):
     """ Run a command, and check the result... """
@@ -60,12 +60,8 @@ def runCommand(command,args='',dir=None,outputFile=None):
             return 0
               
     try:
-        
-        #
-        if not outputFile:
-            outputFile='out.tmp'
-        
-        fullCommand = command + ' ' + args + ' >' + outputFile + ' 2>&1'    
+    
+        fullCommand = command + ' ' + args    
         glog('Execute', fullCommand)
        
         #
@@ -88,11 +84,6 @@ def runCommand(command,args='',dir=None,outputFile=None):
         else:
             exit_code=systemReturn
     
-        if os.path.exists(outputFile):
-            if os.path.getsize(outputFile) > 0:
-                catFile(log,outputFile)            
-            os.remove(outputFile)
-        
         glog('Exit Code', `exit_code`)
     
     finally:
@@ -114,6 +105,8 @@ def catFile(output,file,title=None):
         line = input.readline()
 
 def callGmpCommand(ws,command,projects,iargs):
+    
+    iargs+=' --text'
 
     glog('ws',ws)
     glog('command',command)
@@ -130,6 +123,10 @@ def callGmpCommand(ws,command,projects,iargs):
         result=1
 
 
+if not os.environ.has_key('GUMP_HOME'):
+    print 'Please set GUMP_HOME to where Gump is installed.'
+    sys.exit(1)
+        
 # Allow a lock
 lockFile=os.path.abspath('gmp.lock')
 if os.path.exists(lockFile):
@@ -156,15 +153,12 @@ lock=open(lockFile,'w')
 lock.write(`os.getpid()`)
 lock.close()
 
-# Enable a log
-logFile=os.path.abspath('gmp.log')
-log=open(logFile,'w',0) # Unbuffered...
-
 result=0
         
 args=sys.argv
 try:
 
+        
     try:
         # Process Environment
         hostname = socket.gethostname()
@@ -187,7 +181,7 @@ try:
         workspaceName = 'workspace.xml'
         if len(args)>1 and args[0] in ['-w','--workspace']:
             workspaceName=args[1]
-            del args[0:1]     
+            del args[0:2]
         workspacePath = os.path.abspath(workspaceName)
 
         # Nope, can't find the workspace...
@@ -250,32 +244,19 @@ try:
         callGmpCommand(workspacePath,command,projectsExpr,iargs)
 
     except KeyboardInterrupt:    
-        log.write('Terminated by user interrupt...\n')
+        print 'Terminated by user interrupt...'
         result = 1
         raise
         
     except:    
-        log.write('Terminated unintentionally...\n')
+        print 'Terminated unintentionally...'
         result = 1
         raise
     
 finally:
-    # Close the log
-    log.close()
-    
     # :TODO: We have issues when python is killed, we get a lock
     # left around despite this finally.
     os.remove(lockFile)
-    
-    if 1 or result:
-        logTitle='The Apache Gump log...'
-        
-        # :TODO: Need to check if stdout is a plain terminal? Not sure, see next.
-        # :TODO: On some cron set-ups this will mail the log, on
-        # others it won't.
-        #
-        # Cat log if failed...
-        catFile(sys.stdout, logFile, logTitle)
 
 # bye!
 sys.exit(result)
