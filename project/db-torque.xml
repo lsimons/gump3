@@ -64,6 +64,7 @@
 
     <depend project="commons-collections"/>
     <depend project="commons-lang"/>
+    <depend project="commons-logging"/>
     <depend project="ant"/>
 
     <depend project="jakarta-log4j"/>
