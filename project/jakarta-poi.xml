@@ -17,7 +17,8 @@
         <depend project="commons-collections"/>
         <depend project="commons-lang"/>
         <depend project="junit"/>
-        <depend project="xml-xerces"/>
+	<depend project="xml-xerces"/>
+	<depend project="jdepend"/>
         <work nested="build/classes"/>
         <work nested="build/contrib-classes"/>
         <work nested="build/scratchpad-classes"/>
