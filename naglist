@@ -84,7 +84,7 @@ Subject: [GUMP] Build Failure - Velocity
 Regex: /BUILD FAILED/
 ------
 Project: jetspeed
-To: jetspeed@list.working-dogs.com
+To: jetspeed-dev@jakarta.apache.org
 From: Jon Stevens <jon@latchkey.com>
 Subject: [GUMP] Build Failure - Jetspeed
 Regex: /BUILD FAILED/
@@ -102,7 +102,7 @@ Subject: [GUMP] Build Failure - Scarab
 Regex: /BUILD FAILED/
 -------
 Project: turbine
-To: turbine@list.working-dogs.com
+To: turbine-dev@jakarta.apache.org
 From: Jon Stevens <jon@latchkey.com>
 Subject: [GUMP] Build Failure - Turbine
 Regex: /BUILD FAILED/
