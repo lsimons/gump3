@@ -495,6 +495,8 @@
         <depend project="jakarta-avalon" runtime="true"/>
         <depend project="xml-xerces"/>
         <depend project="xml-xalan2"/>
+        <depend project="commons-collections"/>
+        <depend project="concurrent"/>
         <work nested="event/build/classes"/>
 
         <home nested="event"/>
