@@ -7,7 +7,7 @@
 
   <cvs repository="jakarta"/>
 
-  <ant buildfile="build/build.xml">
+  <ant basedir="build">
     <property name="JAVAC" value="classic"/>
   </ant>
 

@@ -6,7 +6,7 @@
 
   <cvs repository="jakarta" />
 
-  <ant buildfile="moo/build.xml" target="dist"/>
+  <ant basedir="moo" target="dist"/>
 
   <depend project="xml-xerces"/>
   <depend project="jakarta-ant"/>

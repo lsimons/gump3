@@ -7,7 +7,7 @@
 
   <cvs repository="xml"/>
 
-  <ant buildfile="java/build.xml" target="dist"/>
+  <ant basedir="java" target="dist"/>
 
   <depend project="xml-xerces"/>
   <depend project="jakarta-ant"/>
