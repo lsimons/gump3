@@ -85,42 +85,42 @@ class CommandLine:
             if arg in ['-d','--debug']:
                 removers.append(arg) 
                 log.info('Setting log level to DEBUG')
-                self.options.setVerbose(1) # Sub-set of debug
-                self.options.setDebug(1)
+                self.options.setVerbose(True) # Sub-set of debug
+                self.options.setDebug(True)
                 log.setLevel(logging.DEBUG) 
             elif arg in ['-v','--verbose']: 
                 removers.append(arg) 
                 log.info('Setting log level to VERBOSE')
-                self.options.setVerbose(1)
+                self.options.setVerbose(True)
                 # :TODO: VERBOSE doesn't exist within logging...
                 log.setLevel(logging.DEBUG)  
             elif arg in ['-l','--latest']:
                 removers.append(arg)
-                self.options.setCache(0)
-                self.options.setQuick(0)
+                self.options.setCache(False)
+                self.options.setQuick(False)
                 log.info('Absolute Latest [no use of cache, don\'t skip stack]')
             elif arg in ['-D','--dated']:
                 removers.append(arg)    
                 #
                 # Dated means add the date to the log dir...
                 #
-                self.options.setDated(1)                    
+                self.options.setDated(True)                    
                 log.info('Dated Operation (add date to log dir)')
             elif arg in ['-O','--official']:
                 removers.append(arg)    
-                self.options.setOfficial(1)                    
+                self.options.setOfficial(True)                    
                 log.info('Official run (publish notifications, etc.)')
             elif arg in ['-c','--cache']:
                 removers.append(arg)        
-                self.options.setCache(1)
+                self.options.setCache(True)
                 log.info('Use cache (do not download latest over HTTP).')
             elif arg in ['-t','--text']:
                 removers.append(arg)        
-                self.options.setText(1)
+                self.options.setText(True)
                 log.info('Use text (not xdocs).')
             elif arg in ['-x','--xdocs']:
                 removers.append(arg)        
-                self.options.setXDocs(1)
+                self.options.setXDocs(True)
                 log.info('Output xdocs (not XHTML).')
                 
         # Remove 
@@ -156,15 +156,14 @@ class CommandLine:
                 #sys.exit(1)
                 self.args.append('*')
              
-        # Remove 
-        for arg in removers:
-            argv.remove(arg)
+        # Remove those used
+        for arg in removers: argv.remove(arg)
             
         for arg in argv:
             log.debug("Unused command line argument : " + arg)
             
         for arg in self.args:
-            log.debug("Argument : " + arg)
+            log.debug("Produced Argument : " + arg)
 
     def getArguments(self):
         return self.args

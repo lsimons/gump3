@@ -187,11 +187,7 @@ class GumpBuilder(RunSpecific):
     
         if project.isFailed():
             log.warn('Failed to build project #[' + `project.getPosition()` + '] : [' + project.getName() + '], state:' \
-                    + project.getStateDescription())                           
-                    
-        # Generate/process the project event...
-        self.run.generateEvent(project)      
-
+                    + project.getStateDescription())                                              
 
     def performDelete(self,project,delete,index=0):
         """ Return the delete command for a <delete entry """

@@ -434,10 +434,9 @@ class Project(NamedModelObject, Statable, Resultable, Dependable, Positioned):
             fromaddr=getDomAttributeValue(notifyEntry,'from',workspace.email)   
             self.notifys.append(
                     AddressPair(
-                        getStringFromUnicode(toaddr),	\
+                        getStringFromUnicode(toaddr),
                         getStringFromUnicode(fromaddr)))  
         
-
         # Build Dependencies Map [including depends from <ant|maven/<property/<depend
         if not packaged:
             (badDepends, badOptions) = self.importDependencies(workspace)                        

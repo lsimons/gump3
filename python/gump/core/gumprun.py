@@ -713,7 +713,7 @@ class GumpRun(Workable,Annotatable,Stateful):
     	"""
         log.debug('Dispatch Event : ' + `event`)        
         for actor in self.actors:
-            #log.debug('Dispatch Event : ' + `event` + ' to ' + `actor`)     
+            log.debug('Dispatch Event : ' + `event` + ' to ' + `actor`)     
             actor._processEvent(event)
         inspectGarbageCollection(`event`)
             

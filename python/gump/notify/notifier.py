@@ -206,11 +206,11 @@ The following %s notify%s should have been sent
         if self.unsent: return 1
         return 0
     
-    
     def notifyWorkspace(self,notification):
         """ Notify for the workspace """
         
         content=notification.resolveContent(self.resolver, self.id)
+        self.id+=1 
         
         subject=self.workspace.prefix+': Gump Workspace ' + self.workspace.getName()
         
@@ -223,6 +223,7 @@ The following %s notify%s should have been sent
         
         # Form the content...
         content=notification.resolveContent(self.resolver, self.id)
+        self.id+=1 
                 
         # Form the subject
         subject=self.workspace.prefix+	\
@@ -240,6 +241,7 @@ The following %s notify%s should have been sent
         # Form the content...
         #
         content=notification.resolveContent(self.resolver, self.id)
+        self.id+=1 
                 
         # Form the subject
         subject=self.workspace.prefix+': '	\
@@ -295,10 +297,8 @@ The following %s notify%s should have been sent
     
         sent=False
         try:
-            log.info('Send Notify e-mail (#' + `self.id` + ') :\n To: ' + str(toaddr) + \
-                '\n From: ' + str(fromaddr) + \
-                '\n Subject: ' + str(subject))
-            self.id+=1 
+            log.info('Send Notify To: ' + str(toaddr) + 
+                ' From: ' + str(fromaddr) + ' Subject: ' + str(subject))
            
             # Form the user visable part ...
             email=EmailMessage( toaddrs, 

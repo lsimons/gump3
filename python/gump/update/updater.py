@@ -135,8 +135,6 @@ class GumpUpdater(RunSpecific):
             if ok:
                 self.syncModule(module)     
                     
-        # Generate/process the module event...
-        self.run.generateEvent(module)      
 
     
     def syncModule(self,module):
