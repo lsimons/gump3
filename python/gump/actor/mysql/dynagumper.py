@@ -20,6 +20,8 @@ __license__   = "http://www.apache.org/licenses/LICENSE-2.0"
 import MySQLdb
 import MySQLdb.cursors
 
+import platform
+
 from gump import log
 from gump.core.run.gumprun import *
 import gump.core.run.actor
@@ -29,69 +31,57 @@ class Dynagumper(gump.core.run.actor.AbstractRunActor):
     Populate the DynaGump run metadata database.
     """
     
-    def __init__(self,run):              
+    def __init__(self,run,conn):
         gump.core.run.actor.AbstractRunActor.__init__(self,run)    
-        self.dbInfo=self.workspace.getDatabaseInformation()
+        self.conn = conn
+
+    def _execute(self, cmd):
+        cursor = self.conn.cursor()
+        cursor.execute(cmd)
+        #try:
+        #    cursor = None    
+        #    try:
+        #        cursor = self.conn.cursor()
+        #        try:
+        #            cursor.execute(cmd)
+        #        except Exception, details:
+        #            log.error('SQL Error on [%s] : %s' % (cmd, details), exc_info=1)
+        #    finally:
+        #        if cursor: cursor.close()
+        #except Exception, details:
+        #    log.error('SQL Connection Error: %s' % (details), exc_info=1)
+    
+    def ensureThisHostIsInDatabase(self):
+        (system, host, release, version, machine, processor) = platform.uname()
+        tablename = "hosts"
+        description = "%s (%s,%s,%s,%s,%s)" % (host, system, release, version, machine, processor)
+        cmd = "INSERT INTO %s (address, name, cpu_arch, description) VALUES ('%s', '%s', '%s', '%s')" \
+                % (tablename, host, host, processor, description)
+        
+        self._execute(cmd)
         
     def processOtherEvent(self,event):   
-        conn=None
-        helper=None
-        try:
-            conn=self.getConnected()
-            # do the actual work right here...
-            log.warning('dynagumper.py line 42: need to implement event processing')
-        finally:
-            if conn: conn.close()
+        # do the actual work right here...
+        log.warning('dynagumper.py processOtherEvent(): need to implement event processing')
                       
     def processWorkspace(self):
         """
         Add information about the workspace to the database.
         """
-        conn=None
-        helper=None
-        try:
-            conn=self.getConnected()
-            # do the actual work right here...
-            log.warning('dynagumper.py line 56: need to implement workspace event processing')
-        finally:
-            if conn: conn.close()
+        # do the actual work right here...
+        self.ensureThisHostIsInDatabase()
+        log.warning('dynagumper.py processWorkspace: need to implement workspace event processing')
     
     def processModule(self,module):    
         """
         Add information about the module to the database.
         """
-        conn=None
-        helper=None
-        try:
-            conn=self.getConnected()
-            # do the actual work
-            log.warning('dynagumper.py line 68: need to implement module event processing')
-        finally:
-            if conn: conn.close()
+        # do the actual work
+        log.warning('dynagumper.py processModule: need to implement module event processing')
     
     def processProject(self,project):    
         """
         Add information about the project to the database.
         """
-        conn=None
-        helper=None
-        try:
-            conn=self.getConnected()
-            # do the actual work right here...
-            log.warning('dynagumper.py line 82: need to implement project event processing')
-        finally:
-            if conn: conn.close()
-        
-        
-    def getConnected(self):
-        """
-        Get a database connection.
-        """
-                
-        return MySQLdb.Connect(
-                    host=self.dbInfo.getHost(), 
-                    user=self.dbInfo.getUser(),
-                    passwd=self.dbInfo.getPasswd(), 
-                    db=self.dbInfo.getDatabase(),
-                    compress=1,
-                    cursorclass=MySQLdb.cursors.DictCursor)
+        # do the actual work right here...
+        log.warning('dynagumper.py processProject: need to implement project event processing')

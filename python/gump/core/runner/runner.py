@@ -155,11 +155,27 @@ class GumpRunner(RunSpecific):
                 log.warning('Unable to register Historical Database Actor :  %s ' % details,
                             exc_info=1)
 
-        # Add DynaGump database populator
+        # Add Dynagump database populator
         if self.run.getWorkspace().hasDatabaseInformation():
             try:
-                import gump.actor.mysql.dynagumper
-                self.run.registerActor(gump.actor.mysql.dynagumper.Dynagumper(self.run))
+                conn = None
+                try:
+                    # create the database connection
+                    dbInfo = self.run.getWorkspace().getDatabaseInformation()
+                    import MySQLdb
+                    conn = MySQLdb.Connect(
+                        host=self.dbInfo.getHost(), 
+                        user=self.dbInfo.getUser(),
+                        passwd=self.dbInfo.getPasswd(), 
+                        db=self.dbInfo.getDatabase(),
+                        compress=1,
+                        cursorclass=MySQLdb.cursors.DictCursor)
+    
+                    # now create the Dynagumper
+                    import gump.actor.mysql.dynagumper
+                    self.run.registerActor(gump.actor.mysql.dynagumper.Dynagumper(self.run,conn))
+                finally:
+                    if conn: conn.close()
             except Exception, details:
                 log.warning('Unable to register Dynagump Database Actor :  %s ' % details,
                             exc_info=1)
