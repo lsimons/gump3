@@ -180,7 +180,7 @@ class ResultsSet(dict):
         
     def containsState(self,state):
         for result in self.values():
-            if state == results.getState():
+            if state == result.getState():
                 return 1
         return 0
      
