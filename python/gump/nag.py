@@ -133,7 +133,7 @@ def nagProject(workspace,context,module,mctxt,project,pctxt):
             # Fire ...
             mail(toaddrs,fromaddr,email,workspace.mailserver) 
         except:
-            log.error("Failed to send nag e-mail for project " + pname)
+            log.error("Failed to send nag e-mail for project " + project.name)
             log.error(context)
     
 def getContent(workspace,context,message=''):
