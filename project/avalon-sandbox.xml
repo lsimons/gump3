@@ -7,6 +7,122 @@
 
     <cvs repository="jakarta"/>
 
+    <project name="avalon-lifecycle">
+        <package>org.apache.avalon.lifecycle</package>
+
+        <ant basedir="lifecycle">
+            <property name="version" value="@@DATE@@"/>
+            <property name="junit.failonerror" value="true"/>
+            <property name="jakarta-site.dir" project="jakarta-site2" 
+                      reference="home" />
+        </ant>
+
+        <depend project="jakarta-ant" inherit="runtime"/>
+        <depend project="jakarta-avalon" runtime="true"/>
+        <work nested="lifecycle/build/classes"/>
+
+        <home nested="lifecycle"/>
+        <jar name="build/lib/avalon-lifecycle-@@DATE@@.jar"/>
+
+        <nag from="Gump Integration Build &lt;avalon-dev@jakarta.apache.org&gt;"
+             to="avalon-dev@jakarta.apache.org"/>
+    </project>
+
+    <project name="avalon-meta">
+        <package>org.apache.avalon.meta</package>
+
+        <ant basedir="meta">
+            <property name="version" value="@@DATE@@"/>
+            <property name="junit.failonerror" value="true"/>
+            <property name="do.checkstyle" value="false"/>
+            <property name="skip.dependencies" value="true"/>
+        </ant>
+
+        <depend project="jakarta-ant" inherit="runtime"/>
+        <depend project="jakarta-avalon" runtime="true"/>
+        <depend project="excalibur-i18n" runtime="true"/>
+        <depend project="excalibur-configuration" runtime="true"/>
+        <depend project="xml-xerces"/>
+        <depend project="xml-xalan2"/>
+        <work nested="meta/build/classes"/>
+
+        <home nested="meta"/>
+        <jar name="build/lib/avalon-meta-@@DATE@@.jar"/>
+
+        <nag from="Gump Integration Build &lt;avalon-dev@jakarta.apache.org&gt;"
+             to="avalon-dev@jakarta.apache.org"/>
+    </project>
+
+    <project name="avalon-assembly">
+        <package>org.apache.avalon.assembly</package>
+
+        <ant basedir="assembly" target="jar">
+            <depend property="logkit.jar" project="jakarta-avalon-logkit" runtime="true"/>
+            <property name="version" value="@@DATE@@"/>
+            <property name="junit.failonerror" value="true"/>
+            <property name="do.checkstyle" value="false"/>
+            <property name="skip.dependencies" value="true"/>
+        </ant>
+
+        <depend project="jakarta-ant" inherit="runtime"/>
+        <depend project="jakarta-avalon" runtime="true"/>
+        <depend project="avalon-lifecycle" runtime="true"/>
+        <depend project="avalon-meta" runtime="true"/>
+        <depend project="excalibur-i18n" runtime="true"/>
+        <depend project="excalibur-configuration" runtime="true"/>
+        <depend project="excalibur-logger" runtime="true"/>
+        <depend project="excalibur-extension" runtime="true"/>
+        <depend project="excalibur-event" runtime="true"/>
+        <depend project="excalibur-collections" runtime="true"/>
+        <depend project="excalibur-thread" runtime="true"/>
+        <depend project="xml-xerces"/>
+        <depend project="xml-xalan2"/>
+        <work nested="assembly/build/classes"/>
+
+        <home nested="assembly"/>
+        <jar name="build/lib/avalon-assembly-@@DATE@@.jar"/>
+
+        <nag from="Gump Integration Build &lt;avalon-dev@jakarta.apache.org&gt;"
+             to="avalon-dev@jakarta.apache.org"/>
+    </project>
+
+    <project name="avalon-merlin">
+        <package>org.apache.avalon.merlin</package>
+
+        <ant basedir="assembly" target="jar">
+            <depend property="logkit.jar" project="jakarta-avalon-logkit" runtime="true"/>
+            <property name="version" value="@@DATE@@"/>
+            <property name="junit.failonerror" value="true"/>
+            <property name="do.checkstyle" value="false"/>
+            <property name="skip.dependencies" value="true"/>
+        </ant>
+
+        <depend project="jakarta-ant" inherit="runtime"/>
+        <depend project="jakarta-avalon" runtime="true"/>
+        <depend project="avalon-lifecycle" runtime="true"/>
+        <depend project="avalon-meta" runtime="true"/>
+        <depend project="avalon-assembly" runtime="true"/>
+        <depend project="excalibur-i18n" runtime="true"/>
+        <depend project="excalibur-configuration" runtime="true"/>
+        <depend project="excalibur-logger" runtime="true"/>
+        <depend project="excalibur-extension" runtime="true"/>
+        <depend project="excalibur-event" runtime="true"/>
+        <depend project="excalibur-collections" runtime="true"/>
+        <depend project="excalibur-thread" runtime="true"/>
+        <depend project="excalibur-threadcontext" runtime="true"/>
+        <depend project="excalibur-pool" runtime="true"/>
+        <depend project="xml-xerces"/>
+        <depend project="xml-xalan2"/>
+        <work nested="merlin/build/classes"/>
+
+        <home nested="merlin"/>
+        <jar name="build/lib/avalon-merlin-@@DATE@@.jar"/>
+
+        <nag from="Gump Integration Build &lt;avalon-dev@jakarta.apache.org&gt;"
+             to="avalon-dev@jakarta.apache.org"/>
+    </project>
+
+
     <project name="excalibur-containerkit">
         <package>org.apache.excalibur.containerkit</package>
 
