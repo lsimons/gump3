@@ -356,6 +356,11 @@ class GumpRunOptions:
         # Default is Text unless Forrest is in the environment,
         # but can also force text with --text 
         self.text=0      
+        # If using Forrest, this say leave xdocs, do NOT run
+        # the 'forrest' build inlined.
+        self.xdoc=0
+        
+        # The implementation that will do it...
         self.documenter=TextDocumenter()
 
     def setDocumenter(self, documenter):
@@ -386,6 +391,12 @@ class GumpRunOptions:
         
     def setText(self,text):
         self.text=text
+        
+    def isXDoc(self):
+        return self.xdoc
+        
+    def setXDoc(self,xdoc):
+        self.xdoc=xdoc
         
     def isCache(self):
         return self.cache
