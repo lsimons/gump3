@@ -1,0 +1,31 @@
+<module name="xml-axis-wsil">
+
+  <url href="http://xml.apache.org/axis/"/>
+  <description>
+    Web Services Inspection Language 
+  </description>
+
+  <cvs repository="xml"/>
+
+  <!-- build -->
+
+  <project name="xml-axis-wsil">
+    <package>org.apache.wsil</package>
+
+    <ant basedir="java" target="all"/>
+
+    <depend project="jakarta-ant"/>
+    <depend project="xml-xerces"/>
+    <depend project="uddi4j"/>
+    <depend project="wsdl4j"/>
+
+    <work nested="java/build/classes"/>
+
+    <nag from="Sam Ruby &lt;rubys@us.ibm.com&gt;"
+         to="axis-dev@xml.apache.org">
+      <regexp  subject="Build Failure - Axis"/>
+      <regexp pattern="/timed out/" subject="Build timed out - Axis"/>
+    </nag>
+  </project>
+
+</module>

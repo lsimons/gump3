@@ -64,6 +64,7 @@
   <!-- Apache.XML -->
 
   <module href="project/xml-axis.xml"/>
+  <module href="project/xml-axis-wsil.xml"/>
   <module href="project/xml-batik.xml"/>
   <module href="project/xml-cocoon2.xml"/>
   <module href="project/xml-commons.xml"/>

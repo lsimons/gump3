@@ -1,6 +1,6 @@
 <module name="xml-axis">
 
-  <url href="http://xml.apache.org/soap/index.html"/>
+  <url href="http://xml.apache.org/axis/"/>
   <description>
     Simple Object Access Protocol
   </description>
@@ -13,7 +13,6 @@
     <package>org.apache.axis</package>
 
     <ant basedir="java" target="all">
-      <property name="test.functional.usefile" value="false"/>
       <depend name="wsdl4j.jar" project="wsdl4j"/>
       <depend name="log4j-core.jar" project="jakarta-log4j"/>
       <depend name="clutil.jar" project="excalibur-cli"/>
