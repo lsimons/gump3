@@ -35,7 +35,7 @@
     <home nested="dist"/>
     <jar name="lib/struts.jar"/>
 
-    <license name="LICENSE"/>
+    <license name="LICENSE.txt"/>
 
     <javadoc nested="target">
       <description dir="documentation/api">Struts Framework</description>
