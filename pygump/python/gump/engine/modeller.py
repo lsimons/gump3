@@ -51,6 +51,13 @@ class Loader:
         dropped_nodes = []
         self._resolve_hrefs_in_workspace(dom, dropped_nodes)
         
+        pretty = dom.toprettyxml()
+        self.log.debug("Merged XML:")
+        self.log.debug("----------------------------------------------------")
+        self.log.debug(pretty)
+        self.log.debug("----------------------------------------------------")
+        
+        
         return (dom, dropped_nodes)
     
     def _resolve_hrefs_in_workspace(self, dom, dropped_nodes):
@@ -73,6 +80,13 @@ class Loader:
 
                 # now recurse to resolve any hrefs within this child
                 self._resolve_hrefs_in_children(child, dropped_nodes)
+                
+                if child.tagName == 'repository' and child.getAttribute('name'):
+                    self.log.debug( "Processed repository %s" % child.getAttribute('name') )
+                if child.tagName == 'module' and child.getAttribute('name'):
+                    self.log.debug( "Processed module %s" % child.getAttribute('name') )
+                if child.tagName == 'project' and child.getAttribute('name'):
+                    self.log.debug( "Processed project %s" % child.getAttribute('name') )
         
         return node
     
@@ -83,15 +97,18 @@ class Loader:
         node will be removed. The modified node is then returned.
         """
         href = node.getAttribute('href')
+        self.log.debug("Resolving HREF: %s" % href)
         try:
-            stream = self.vfs.get_as_stream(href) #TODO
+            stream = self.vfs.get_as_stream(href)
         except Exception, details:
             self.log.exception("VFS error while merging in a node!")
             self._drop_module_or_project(node, dropped_nodes)
+            return
             
         new_node = minidom.parse(stream)
         new_node.normalize()
         stream.close()
+        new_node = new_node.getElementsByTagName(node.tagName).item(0)
         
         node.removeAttribute('href')
         return self._merge_nodes(node, new_node)
@@ -109,12 +126,17 @@ class Loader:
             i = 0
             while i < length:
                 attribute = new_attributes.item(i)
-                target_node.setAttributeNode(attribute)
+                attname = attribute.name
+                attvalue = new_node.getAttribute(attname)
+                #if target_node.getAttributeNode(attname):
+                #    target_node.removeAttribute(attname)
+                target_node.setAttribute(attname, attvalue)
         
         # copy elements from the new node to the target node
         new_elements = new_node.childNodes
         if new_elements:
             for child in new_elements:
+                self.log.debug( "Appending child:\n%s" % child.toprettyxml() )
                 target_node.appendChild( child )
         
         return target_node
@@ -142,16 +164,17 @@ class Loader:
 
         if not parent:
             # TODO provide more info
-            raise ModellerError, "Unresolvable HREF found outside a <project/> or <module/>: %s." % (node)
+            raise ModellerError, "Unresolvable HREF found outside a <project/> or <module/>: %s." % (node.toprettyxml())
         
         # remove that project or module from its parent
         node_to_remove_element_from = parent.parentNode
         if not node_to_remove_element_from:
             # TODO provide more info
-            raise ModellerError, "Rogue <project/> or <module/> (without a parent): %s." % (parent)
+            raise ModellerError, "Rogue <project/> or <module/> (without a parent): %s." % (parent.toprettyxml())
         node_to_remove_element_from.removeChild(parent)
         
         # but save it off for error reporting
+        self.log.warning("Dropping because of href resolution error:\n%s" % (parent.toprettyxml()))
         dropped_nodes.append(parent)
 
 class Objectifier:
