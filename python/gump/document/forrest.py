@@ -1791,7 +1791,7 @@ This page helps Gumpmeisters (and others) observe community progress.
                 if statePair:
                     xdocNode.createBreak()
                     # Insert the Icon...
-                    if -1 <> depth:
+                    if -1 == depth:
                         depth=getDepthForObject(linkable)
                     self.insertStatePairIconAtDepth(xdocNode,statePair,depth)      
                     
