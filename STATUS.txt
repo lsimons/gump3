@@ -47,7 +47,7 @@ Proposed board resolution to create an Apache Gump Project
 [Issue: decide on PMC chair]
  
        * Sam Ruby (still has to accept nomination)
-         +1 nicolaken,stefano,leosimons,mvdb,bodewig
+         +1 stefano,leosimons,mvdb,bodewig
        * Stefan Bodewig
          +1 nicolaken,stefano,leosimons,sanders,mvdb
        * Stefano Mazzocchi
