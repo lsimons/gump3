@@ -32,7 +32,7 @@
     
     <project name="avalon-framework">
         <package>org.apache.avalon.framework</package>
-        <ant target="dist" basedir="avalon/framework">
+        <ant target="dist" basedir="framework">
             <property name="project.version" value="@@DATE@@"></property>
         </ant>
 
@@ -289,7 +289,7 @@
     <project name="avalon-logging-logkit-api">
         <package>org.apache.avalon.logging.logkit</package>
 
-        <ant basedir="logging/logkit/api" >
+        <ant basedir="logging/logkit/api"  target="jar">
             <property name="project.version" value="@@DATE@@"/>
         </ant>
 
@@ -560,7 +560,7 @@
     
     <project name="avalon-meta-api">
         <package>org.apache.avalon.meta</package>
-        <ant basedir="meta/api">
+        <ant basedir="meta/api"  target="jar">
             <property name="project.version" value="@@DATE@@"/>
         </ant>
         <depend project="ant" inherit="runtime"/>
@@ -577,7 +577,7 @@
   
     <project name="avalon-meta-spi">
         <package>org.apache.avalon.meta.spi</package>
-        <ant basedir="meta/spi">
+        <ant basedir="meta/spi"  target="jar">
             <property name="project.version" value="@@DATE@@"/>
         </ant>
         <depend project="ant" inherit="runtime"/>
@@ -594,7 +594,7 @@
   
     <project name="avalon-meta-tools">
         <package>org.apache.avalon.meta.tools</package>
-        <ant basedir="meta/tools">
+        <ant basedir="meta/tools"  target="jar">
             <property name="project.version" value="@@DATE@@"></property>
         </ant>
         <depend project="ant" inherit="runtime"/>
@@ -617,7 +617,7 @@
   
     <project name="avalon-meta-plugin">
         <package>org.apache.avalon.meta.plugin</package>
-        <ant basedir="meta/plugin">
+        <ant basedir="meta/plugin" target="jar">
             <property name="project.version" value="@@DATE@@"/>
         </ant>
         <depend project="ant" inherit="runtime"/>
@@ -647,7 +647,7 @@
   
     <project name="avalon-meta-impl">
         <package>org.apache.avalon.impl</package>
-        <ant basedir="meta/impl">
+        <ant basedir="meta/impl" target="jar">
             <property name="project.version" value="@@DATE@@"/>
         </ant>
         <depend project="ant" inherit="runtime"/>
@@ -669,7 +669,7 @@
     
     <project name="avalon-repository-api">
         <package>org.apache.avalon.repository</package>
-        <ant basedir="repository/api">
+        <ant basedir="repository/api" target="jar">
             <property name="project.version" value="@@DATE@@"/>
         </ant>
         <depend project="ant" inherit="runtime"/>
@@ -684,7 +684,7 @@
     
     <project name="avalon-repository-cli">
         <package>org.apache.avalon.repository.cli</package>
-        <ant basedir="repository/cli">
+        <ant basedir="repository/cli" target="jar">
             <property name="project.version" value="@@DATE@@"/>
         </ant>
         <depend project="ant" inherit="runtime"/>
@@ -702,7 +702,7 @@
     
     <project name="avalon-repository-impl">
         <package>org.apache.avalon.repository.impl</package>
-        <ant basedir="repository/impl">
+        <ant basedir="repository/impl" target="jar">
             <property name="project.version" value="@@DATE@@"/>
         </ant>
         <depend project="ant" inherit="runtime"/>
@@ -727,7 +727,7 @@
     
     <project name="avalon-repository-main">
         <package>org.apache.avalon.repository.main</package>
-        <ant basedir="repository/main">
+        <ant basedir="repository/main" target="jar">
             <property name="project.version" value="@@DATE@@"/>
         </ant>
         <depend project="ant" inherit="runtime"/>
@@ -751,7 +751,7 @@
     
     <project name="avalon-repository-spi">
         <package>org.apache.avalon.repository</package>
-        <ant basedir="repository/spi">
+        <ant basedir="repository/spi" target="jar">
             <property name="project.version" value="@@DATE@@"/>
         </ant>
         <depend project="ant" inherit="runtime"/>
@@ -767,7 +767,7 @@
     
     <project name="avalon-repository-util">
         <package>org.apache.avalon.repository.util</package>
-        <ant basedir="repository/util">
+        <ant basedir="repository/util" target="jar">
             <property name="project.version" value="@@DATE@@"/>
         </ant>
         <depend project="ant" inherit="runtime"/>
@@ -783,7 +783,7 @@
     
     <project name="avalon-util-criteria">
         <package>org.apache.avalon.util.criteria</package>
-        <ant basedir="util/criteria">
+        <ant basedir="util/criteria" target="jar">
             <property name="project.version" value="@@DATE@@"/>
         </ant>
         <depend project="ant" inherit="runtime"/>
@@ -798,7 +798,7 @@
 
     <project name="avalon-util-defaults">
         <package>org.apache.avalon.util.defaults</package>
-        <ant basedir="util/defaults">
+        <ant basedir="util/defaults" target="jar">
             <property name="project.version" value="@@DATE@@"/>
         </ant>
         <depend project="ant" inherit="runtime"/>
@@ -814,7 +814,7 @@
 
     <project name="avalon-util-env">
         <package>org.apache.avalon.util.env</package>
-        <ant basedir="util/env">
+        <ant basedir="util/env" target="jar">
             <property name="project.version" value="@@DATE@@"/>
         </ant>
         <depend project="ant" inherit="runtime"/>
@@ -829,7 +829,7 @@
 
     <project name="avalon-util-exception">
         <package>org.apache.avalon.util.exception</package>
-        <ant basedir="util/exception">
+        <ant basedir="util/exception" target="jar">
             <property name="project.version" value="@@DATE@@"/>
         </ant>
         <depend project="ant" inherit="runtime"/>
@@ -844,7 +844,7 @@
 
     <project name="avalon-util-extension-api">
         <package>org.apache.avalon.extension</package>
-        <ant basedir="util/extension/api">
+        <ant basedir="util/extension/api" target="jar">
             <property name="project.version" value="@@DATE@@"/>
         </ant>
         <depend project="ant" inherit="runtime"/>
@@ -859,7 +859,7 @@
 
     <project name="avalon-util-extension-impl">
         <package>org.apache.avalon.extension.manager.impl</package>
-        <ant basedir="util/extension/impl">
+        <ant basedir="util/extension/impl" target="jar">
             <property name="project.version" value="@@DATE@@"/>
         </ant>
         <depend project="ant" inherit="runtime"/>
@@ -875,7 +875,7 @@
 
     <project name="avalon-util-i18n">
         <package>org.apache.avalon.meta</package>
-        <ant basedir="util/i18n">
+        <ant basedir="util/i18n" target="jar">
             <property name="project.version" value="@@DATE@@"/>
         </ant>
         <depend project="ant" inherit="runtime"/>
