@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/Attic/view.py,v 1.10 2003/05/01 17:24:15 rubys Exp $
-# $Revision: 1.10 $
-# $Date: 2003/05/01 17:24:15 $
+# $Header: /home/stefano/cvs/gump/python/gump/Attic/view.py,v 1.11 2003/05/01 19:55:22 rubys Exp $
+# $Revision: 1.11 $
+# $Date: 2003/05/01 19:55:22 $
 #
 # ====================================================================
 #
@@ -86,7 +86,7 @@ class gumpview(wxApp):
   mySubs=None
   items=None
   build_sequence=None
-  project=None
+  history=[]
 
   # view
   frame=None
@@ -156,28 +156,28 @@ class gumpview(wxApp):
     self.tree.Expand(root)
 
   def OnKeyUp(self,event):
-    if not event.GetKeyCode()==WXK_F5: return
-    if not self.project or not self.project.ant: return
-    module=Module.list[self.project.module]
+    if event.GetKeyCode()==WXK_BACK:
+      if len(self.history)>1:
+        self.history.pop()
+        self.showProject(self.history[-1])
 
-    os.chdir(os.path.join(module.srcdir,self.project.ant.basedir or ''))
-    os.environ['CLASSPATH']=os.pathsep.join(classpath+self.project.classpath())
-    cmd="java org.apache.tools.ant.Main"
-    for property in self.workspace.property+self.project.ant.property:
-      cmd+=" -D"+property.name+"="+property.value
-    if self.project.ant.target: cmd+=" "+self.project.ant.target
+    if event.GetKeyCode()==WXK_F5:
+      if not self.history: return
+      project=self.history[-1]
+      if not project.ant: return
 
-    self.data.Clear()
-    compileThread(cmd,self.data).Start()
+      compileThread(project,self).Start()
     
   # select a single feed and display titles from each item
   def selectTree(self, event):
-    self.showProject(self.tree.GetPyData(event.GetItem()))
+    project=self.tree.GetPyData(event.GetItem())
+    if project and isinstance(project,Project):
+      if not self.history or self.history[-1]<>project:
+        self.showProject(project)
+        self.history.append(project)
 
   def showProject(self,project):
-    if not project or not isinstance(project,Project): return
-    if self.project: self.project['viewdata']=self.data.GetValue()
-    self.project=project
+    if self.history: self.history[-1]['viewdata']=self.data.GetValue()
     self.frame.SetTitle(project.name)
 
     # gather a list of projects which reference this project
@@ -289,6 +289,7 @@ class gumpview(wxApp):
     projname=event.GetEventObject().GetItem(event.GetIndex(),0).GetText()
     project=Project.list[projname]
     self.showProject(project)
+    self.history.append(project)
 
     # expand the associated module and select the project
     self.tree.Expand(self.mItem[project.module])
@@ -300,21 +301,32 @@ class gumpview(wxApp):
     self.pItem.clear()
 
 class compileThread:
-  def __init__(self,cmd,data):
-    self.cmd=cmd
-    self.data=data
+  def __init__(self,project,view):
+    self.project=project
+    self.view=view
   def Start(self):
     self.running = 1
     thread.start_new_thread(self.Run,())
   def Stop(self):
     self.running = 0
   def Run(self):
-    (stdout,stdin)=popen2.popen2(self.cmd + ' 2>&1')
+    module=Module.list[self.project.module]
+  
+    os.chdir(os.path.join(module.srcdir,self.project.ant.basedir or ''))
+    os.environ['CLASSPATH']=os.pathsep.join(classpath+self.project.classpath())
+    cmd="java org.apache.tools.ant.Main"
+    for property in self.view.workspace.property+self.project.ant.property:
+      cmd+=" -D"+property.name+"="+property.value
+    if self.project.ant.target: cmd+=" "+self.project.ant.target
+ 
+    (stdout,stdin)=popen2.popen2(cmd + ' 2>&1')
     stdin.close()
-    while 1:
+    self.view.data.Clear()
+    while self.running:
       line = stdout.readline()
       if not line: break
-      self.data.AppendText(line)
+      self.view.data.AppendText(line)
+    self.view.showProject(self.project)
 
 if __name__ == '__main__':
   app = gumpview(0)
