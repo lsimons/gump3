@@ -1,0 +1,37 @@
+<project name="openejb">
+
+  <url href="http://openejb.exolab.org/"/>
+  <description>
+    EJB container
+  </description>
+
+  <cvs repository="exolab" host-prefix="openejb" dir="openejb"/>
+
+  <ant basedir="src" target="jar"/>
+
+  <depend project="jakarta-ant"/>
+  <depend project="xml-xerces"/>
+  <depend project="j2ee-connector"/>
+  <depend project="jta"/>
+  <depend project="ejb"/>
+  <depend project="jaas"/>
+  <depend project="opentools.minerva"/>
+  <depend project="jms"/>
+  <depend project="jdbc"/>
+  <depend project="opentools.jedi"/>
+  <depend project="opentools.proxies"/>
+
+  <project name="opentools.minerva">
+    <jar name="lib/minerva.jar"/>
+  </project>
+
+  <project name="opentools.jedi">
+    <jar name="lib/jedi-1_0.jar"/>
+    <jar name="lib/jedi-plugin-j2ee12.jar"/>
+  </project>
+
+  <project name="opentools.proxies">
+    <jar name="lib/jdk12-proxies.jar"/>
+  </project>
+
+</project>

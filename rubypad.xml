@@ -60,6 +60,9 @@
   <project href="project/jdom.xml"/>
   <project href="project/jtidy.xml"/>
   <project href="project/junit.xml"/>
+  <project href="project/openejb.xml"/>
+  <project href="project/openjms.xml"/>
+  <project href="project/openorb.xml"/>
   <project href="project/rhino.xml"/>
   <project href="project/scarab.xml"/>
   <project href="project/tyrex.xml"/>
@@ -67,7 +70,7 @@
 
   <!-- Sun -->
 
-  <project href="project/ejb.xml"      home="C:\ejb-1_1"/>
+  <project href="project/ejb.xml"      home="C:\ejb-2_0-pfd"/>
   <project href="project/j2ee-connector.xml" home="C:\j2ee_connector-1_0-pfd2"/>
   <project href="project/jaas.xml"     home="C:\jaas1_0"/>
   <project href="project/jaf.xml"      home="C:\jaf-1.0.1"/>

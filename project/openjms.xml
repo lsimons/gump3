@@ -1,0 +1,37 @@
+<project name="openjms">
+
+  <url href="http://openjms.exolab.org/"/>
+  <description>
+    EJB container
+  </description>
+
+  <cvs repository="exolab" host-prefix="openjms" dir="openjms"/>
+
+  <ant basedir="src" target="jar"/>
+
+  <depend project="jakarta-ant"/>
+  <depend project="xml-xerces"/>
+  <depend project="openjms.ant.extensions"/>
+  <depend project="antlr"/>
+  <depend project="castor"/>
+  <depend project="openjms.exolab.core"/>
+  <depend project="jms"/>
+  <depend project="jtf"/> <!-- from castor -->
+  <depend project="jta"/>
+  <depend project="jdbc"/>
+  <depend project="tyrex"/>
+
+  <project name="antlr">
+    <jar name="lib/antlrall_2.7.1.jar"/>
+    <jar name="lib/antlr_2.7.1.jar"/>
+  </project>
+
+  <project name="openjms.ant.extensions">
+    <jar name="lib/ant-extension.jar"/>
+  </project>
+
+  <project name="openjms.exolab.core">
+    <jar name="lib/exolabcore-0.2.jar"/>
+  </project>
+
+</project>
