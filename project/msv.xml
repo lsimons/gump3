@@ -1,0 +1,15 @@
+<module name="msv">
+
+  <url href="http://wwws.sun.com/software/xml/developers/multischema/"/>
+  <description>
+    Sun Multi-Schema XML Validator 
+  </description>
+
+  <project name="msv">
+    <package>com.sun.msv</package>
+
+    <jar name="msv.jar" id="msv"/>
+    <jar name="xsdlib.jar" id="xsdlib"/>
+  </project>
+
+</module>

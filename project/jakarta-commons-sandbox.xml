@@ -123,7 +123,11 @@
   </project>
 
   <!--
-     werkz needs Maven to build: http://werkz.sf.net
+      missing from Gump for now:
+      werks == requires Maven to build
+      ojb, isorelax == cannot connect to sourceforge since hours
+
+      also, relaxng is referenced as the jar from dom4j, change that later
   <project name="commons-jelly">
     <package>org.apache.commons.jelly</package>
     <description>Commons Jelly Package</description>
@@ -141,7 +145,7 @@
     <depend project="commons-digester"/>
     <depend project="dom4j"/>
     <depend project="commons-jexl"/>
-    <depend project="velocity"/>
+    <depend project="jakarta-velocity"/>
     <depend project="jdbc"/>
     <depend project="werkz"/>
     <depend project="beanshell"/>
@@ -152,8 +156,7 @@
     <depend project="commons-httpclient"/>
     <depend project="isorelax"/>
     <depend project="msv"/>
-    <depend project="xsdlib"/>
-    <depend project="relaxngDatatype"/>
+    <depend project="relaxng"/>
     <depend project="hsqldb"/>
 
     <work nested="jelly/target/classes"/>

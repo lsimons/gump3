@@ -154,3 +154,4 @@ fi
 
 test -z "$FAIL" || echo "*** FAILED ***"
 
+test -z "$FAIL" || exit 1

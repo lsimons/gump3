@@ -37,17 +37,6 @@
     <jar name="lib/PullParser2.jar"/>
   </project>
 
-  <project name="msv">
-    <package>com.sun.msv</package>
-
-    <description>
-      Sun Multi-Schema XML Validator 
-    </description>
-    <url href="http://www.sun.com/software/xml/defelopers/mulwischema/"/>
-    <jar name="lib/msv.jar"/>
-    <jar name="lib/xsdlib.jar"/>
-  </project>
-
   <project name="relaxng">
     <package>org.relaxng</package>
 
