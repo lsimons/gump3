@@ -46,7 +46,7 @@
     <depend project="xml-fop" inherit="runtime"/>
     <depend project="jtidy"/>
     <depend project="junitperf"/>
-    <junitreport nested="build/test-results"/>
+    <junitreport nested="build/test-results/xml"/>
     <jar name="build/dom4j.jar" id="dom4j"/>
     <license name="LICENSE.txt"/>
     <nag from="Maarten Coene &lt;MacBelgium@toughguy.net&gt;" to="dom4j-dev@lists.sourceforge.net" />
