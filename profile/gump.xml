@@ -104,6 +104,7 @@
   <module href="project/xml-commons.xml"/>
   <module href="project/xml-crimson.xml"/>
   <module href="project/xml-fop.xml"/>
+  <module href="project/xml-fop-maintenance.xml"/>
   <module href="project/xml-rpc.xml"/>
   <module href="project/xml-site.xml"/>
   <module href="project/xml-security.xml"/>
