@@ -119,6 +119,51 @@
          from="Ted Husted &lt;ted@husted.com&gt;"/>
   </project>
 
+  <project name="commons-jelly">
+    <package>org.apache.commons.jelly</package>
+    <description>Commons Jelly Package</description>
+    
+    <ant basedir="jelly" buildfile="build-gump.xml" target="jar">
+      <property name="maven.final.name" value="commons-jelly-@@DATE@@"/>
+    </ant>
+    
+    <depend project="jakarta-ant"/>
+    <depend project="xml-xerces"/>
+
+    <depend project="jaxen" />
+    <depend project="jdbc" />
+    <depend project="dom4j" />
+    <depend project="werken.xpath" />
+
+    <depend project="commons-beanutils" />
+    <depend project="commons-collections" />
+    <depend project="commons-logging" />
+    <depend project="commons-jexl" />
+
+    <home nested="jelly/target"/>
+    <jar name="commons-jelly-@@DATE@@.jar"/>
+
+    <nag to="commons-dev@jakarta.apache.org"
+         from="James Strachan &lt;jstrachan@apache.org&gt;"/>
+  </project>
+  
+  <project name="commons-jexl">
+    <package>org.apache.commons.jexl</package>
+    <description>Commons Jexl Package</description>
+    <ant basedir="jexl" target="dist">
+      <property name="component.version"  value="@@DATE@@"/>
+    </ant>
+    <depend project="jakarta-ant"/>
+    <depend project="xml-xerces"/>
+    <depend project="jakarta-velocity"/>
+    <depend project="commons-logging"/>
+    <jar name="jexl/dist/commons-jexl.jar"/>
+    <javadoc nested="jexl/dist/docs/api"/>
+
+    <nag to="commons-dev@jakarta.apache.org"
+         from="Ted Husted &lt;ted@husted.com&gt;"/>
+  </project>
+
   <project name="commons-jjar">
     <package>org.apache.commons.jjar</package>
     <description>Jakarta Jar Archive Repository</description>
