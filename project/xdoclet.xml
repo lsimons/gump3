@@ -23,6 +23,9 @@
     <depend project="xjavadoc" inherit="jars" runtime="true"/>
     <depend project="commons-logging" runtime="true" />
     <depend project="junit"/>
+
+    <nag from="Peter Donald &lt;peter@apache.org&gt;"
+         to="xdoclet-devel@lists.sourceforge.net"/>
   </project>
 
   <project name="xdoclet-xdoclet-module-prepare">
@@ -35,6 +38,9 @@
     <depend project="xdoclet-compile-core" inherit="all" />
 
     <work nested="core/build/classes" />
+
+    <nag from="Peter Donald &lt;peter@apache.org&gt;"
+         to="xdoclet-devel@lists.sourceforge.net"/>
   </project>
 
   <project name="xdoclet">
@@ -90,12 +96,8 @@
 
     <javadoc nested="dist/docs/api" />
 
-    <!--
     <nag from="Peter Donald &lt;peter@apache.org&gt;"
          to="xdoclet-devel@lists.sourceforge.net"/>
-    --> 
-    <nag from="Peter Donald &lt;peter@apache.org&gt;"
-         to="alexandria-dev@jakarta.apache.org"/>
   </project>
   
   <project name="xdoclet-examples">
