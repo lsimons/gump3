@@ -30,8 +30,9 @@ It works fine with version 2.0 of commons-httpclient but not with the
 latest version from HEAD. Now, the hard part, is trying to understand
 why httpclient has changed some API. Then the Cactus project will need
 to decide whether it has to use the new way (thus forcing users to use
-httpclient from HEAD) or ask nicely some Gump admin to install
-commons-httpclient 2.0 and have the Cactus build depend on that.
+httpclient from HEAD) or have the Cactus build depend on 
+<a href="http://lsd.student.utwente.nl/gump/commons-httpclient-20-branch/"
+>commons-httpclient-20-branch</a>.
 </p>
 
 
