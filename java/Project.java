@@ -402,9 +402,9 @@ public class Project {
                 value = module.getSrcDir();
                 property.setAttribute("type", "path");
             } else if (property.getAttributeNode("path") != null) {
-                Module module = Module.find(this.get("module"));
-                require (module, "module", this.get("module"));
-                value = module.getSrcDir();
+                Project project = (Project) projects.get(projectName);
+                if (project == null) project=this;
+                value = project.get("srcdir");
                 value += "/" + property.getAttribute("path");
                 property.setAttribute("type", "path");
             }
