@@ -183,7 +183,7 @@
     <depend project="commons-collections"/>
     <depend project="commons-digester"/>
     <depend project="commons-logging"/>
-    <depend project="jakarta-regexp"/>
+    <depend project="jakarta-oro"/>
     <home nested="validator/dist"/>
     <jar name="commons-validator.jar"/>
     <javadoc nested="validator/dist/docs/api"/>
