@@ -35,6 +35,7 @@ Proposed board resolution to create an Apache Gump Project
        * Leo Simons <leosimons@apache.org>
        * Nicola Ken Barozzi <nicolaken@apache.org>
        * Nick Chalko <nickchalko@apache.org>
+       * Stefano Mazzocchi <stefano@apache.org>
        * others ?
        
        NOW, THEREFORE, BE IT FURTHER RESOLVED, that
@@ -42,9 +43,9 @@ Proposed board resolution to create an Apache Gump Project
 [Issue: decide on PMC chair]
  
        * Sam Ruby (still has to accept nomination)
-         +1 nicolaken,
+         +1 nicolaken,stefano
        * Stefan Bodewig (still has to accept nomination)
-         +1 nicolaken,
+         +1 nicolaken,stefano
        * Stefano Mazzocchi
        
        * others ?
