@@ -46,6 +46,9 @@
     <home nested="dist"/>
     <jar name="bin/bootstrap.jar"/>
     <jar name="server/lib/catalina.jar"/>
+    <jar name="server/lib/servlets-common.jar"/>
+    <jar name="server/lib/servlets-default.jar"/>
+    <jar name="server/lib/servlets-invoker.jar"/>
     <jar name="common/lib/naming-common.jar"/>
     <jar name="common/lib/naming-resources.jar"/>
   </project>
