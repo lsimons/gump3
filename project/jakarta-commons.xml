@@ -411,6 +411,8 @@
     <depend project="ant" inherit="runtime"/>
     <depend project="jakarta-site2" inherit="all"/>
     <depend project="commons-beanutils-core" runtime="true"/>
+    <work nested="jxpath/target/classes"/>
+    <work nested="jxpath/target/test-classes"/>
     <home nested="jxpath/dist"/>
     <jar name="commons-jxpath.jar"/>
     <javadoc nested="jxpath/dist/docs/api"/>
