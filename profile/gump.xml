@@ -212,7 +212,7 @@
 <!-- CodeHaus -->
 
   <module href="project/werkz.xml"/>
-  <module href="http://cvs.codehaus.org/viewcvs.cgi/*checkout*/jcontainer/module.xml?rev=1.1&amp;root=jcontainer"/>
+  <module href="http://cvs.codehaus.org/viewcvs.cgi/*checkout*/jcontainer/module.xml?root=jcontainer"/>
   
 <!-- Sun -->
 
