@@ -2,58 +2,6 @@
 
   <cvs repository="xml"/>
 
-  <!--- ================================================= -->
-  <!---                     Version 1                     -->
-  <!--- ================================================= -->
-
-  <!-- bootstrap -->
-  <project name="xml-xalan1">
-    <url href="http://xml.apache.org/xalan/index.html"/>
-    <description>
-      Release 1.x of the Xalan-Java XSLT processor
-    </description>
-
-    <ant>
-      <property name="bsf.jar"
-         reference="jarpath" id="bsf" project="bsf"/>
-      <property name="xerces.jar"
-         reference="jarpath" id="xerces" project="xml-xerces"/>
-    </ant>
-
-    <depend project="jakarta-ant"/>
-    <depend project="xml-xerces"/>
-    <depend project="bsf"/>
-
-    <home nested="build"/>
-    <jar  name="xalan.jar" id="xalan"/>
-  </project>
-
-  <project name="dist-xalan1">
-    <url href="http://xml.apache.org/xalan/index.html"/>
-    <description>
-      Release 1.x of the Xalan-Java XSLT processor
-    </description>
-
-    <ant target="dist">
-      <property name="bsf.jar"
-         reference="jarpath" id="bsf" project="bsf"/>
-      <property name="xerces.jar"
-         reference="jarpath" id="xerces" project="xml-xerces"/>
-    </ant>
-
-    <depend project="jakarta-ant"/>
-    <depend project="xml-xerces"/>
-    <depend project="xml-xalan1"/>
-    <depend project="xml-site"/>
-    <depend project="xml-stylebook1"/>
-    <depend project="bsf"/>
-    <depend project="jakarta-servletapi"/>
-  </project>
-
-  <!--- ================================================= -->
-  <!---                     Version 2                     -->
-  <!--- ================================================= -->
-
   <project name="xml-xalan2">
     <url href="http://xml.apache.org/xalan-j/index.html"/>
     <description>

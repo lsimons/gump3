@@ -37,7 +37,6 @@
 
   <project href="project/xml-axis.xml"/>
   <project href="project/xml-batik.xml"/>
-  <project href="project/xml-cocoon.xml"/>
   <project href="project/xml-cocoon2.xml"/>
   <project href="project/xml-commons.xml"/>
   <project href="project/xml-crimson.xml"/>

@@ -23,7 +23,6 @@
   <project name="dist-ant">
     <depend project="bootstrap-ant"/>
     <depend project="xml-xerces"/>
-    <option project="xml-xalan1"/>
     <option project="xml-xalan2"/>
     <option project="xml-stylebook1"/>
     <option project="bsf"/>

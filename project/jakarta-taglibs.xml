@@ -11,7 +11,7 @@
     <property name="oro.jar"
        reference="jarpath" id="oro" project="jakarta-oro"/>
     <property name="xalan.jar"
-       reference="jarpath" id="xalan" project="xml-xalan1"/>
+       reference="jarpath" id="xalan" project="xml-xalan2"/>
     <property name="env.SERVLET_JAR"
        reference="jarpath" id="servlet" project="jakarta-servletapi-4"/>
   </ant>
@@ -23,7 +23,7 @@
   <depend project="jakarta-servletapi-4"/>
   <depend project="jdbc"/>
   <option project="bsf"/>
-  <option project="xml-xalan1"/>
+  <option project="xml-xalan2"/>
   <option project="javamail"/>
   <depend project="dom4j"/>
   <depend project="jakarta-log4j"/>
