@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/syndication/__init__.py,v 1.1 2003/12/04 23:16:24 ajack Exp $
-# $Revision: 1.1 $
-# $Date: 2003/12/04 23:16:24 $
+# $Header: /home/stefano/cvs/gump/python/gump/syndication/__init__.py,v 1.2 2003/12/04 23:26:01 ajack Exp $
+# $Revision: 1.2 $
+# $Date: 2003/12/04 23:26:01 $
 #
 # ====================================================================
 #
@@ -164,6 +164,7 @@ class Syndicator:
     
 def syndicate(run):
     
+    from gump.syndication.rss import RSSSyndicator
     simple=RSSSyndicator()
     simple.syndicate(run)
     
