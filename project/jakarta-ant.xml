@@ -98,7 +98,7 @@
       <regexp />      
     </nag>
   </project>
-
+<!--
   <project name="jakarta-ant-myrmidon">
     <ant basedir="proposal/myrmidon" target="jars"/>
 
@@ -133,7 +133,7 @@
     <nag from="Peter Donald &lt;peter@apache.org&gt;"
          to="ant-dev@jakarta.apache.org"/>
   </project>
-
+-->
   <project name="jakarta-ant-mutant">
     <ant basedir="proposal/mutant"/>
 
