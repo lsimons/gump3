@@ -24,6 +24,9 @@
   <project name="commons-jelly-tags-antlr">
     <package>org.apache.commons.jelly.tags.antlr</package>
     <description>This is a Jelly interface for Antlr.</description>
+    
+    <!-- maven-generated ant scripts don't work if there is no test directory -->
+    <mkdir dir="jelly/jelly-tags/antlr/src/test/"/>
 
     <ant basedir="jelly/jelly-tags/antlr" target="jar">
       <property name="final.name"  value="commons-jelly-tags-antlr-@@DATE@@"/>
@@ -146,6 +149,9 @@
   <project name="commons-jelly-tags-interaction">
     <package>org.apache.commons.jelly.tags.interaction</package>
     <description>This is a Jelly interface to the user.</description>
+    
+    <!-- maven-generated ant scripts don't work if there is no test directory -->
+    <mkdir dir="jelly/jelly-tags/ojb/src/test/"/>
 
     <ant basedir="jelly/jelly-tags/interaction" target="jar">
       <property name="final.name"  value="commons-jelly-tags-http-@@DATE@@"/>
@@ -234,6 +240,9 @@
     <package>org.apache.commons.jelly.tags.ojb</package>
     <description>A variety of tags for working with the ObjectBridge persistence engine</description>
 
+    <!-- maven-generated ant scripts don't work if there is no test directory -->
+    <mkdir dir="jelly/jelly-tags/ojb/src/test/"/>
+    
     <ant basedir="jelly/jelly-tags/ojb" target="jar">
       <property name="final.name"  value="commons-jelly-tags-ojb-@@DATE@@"/>
     </ant>
