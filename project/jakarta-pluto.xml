@@ -50,7 +50,7 @@
 
     <jar name="container/target/pluto-1.0.jar" id="container"/>
     <jar name="api/target/portlet-api-1.0.jar" id="api"/>
-    <jar name="portal/target/pluto-portal-impl-1.0.jar" id="portal"/>
+    <jar name="portal/target/pluto-portal-1.0.jar" id="portal"/>
 
     <license name="LICENSE"/>
 
