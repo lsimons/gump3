@@ -30,8 +30,6 @@ Proposed board resolution to create an Apache Gump Project
        hereby are appointed to serve as the initial members of the
        Gump PMC:
 
-[Issue: fill out PMC roster]
-
        * Adam Jack <ajack@apache.org>
        * Davanum Srinivas <dims@apache.org>
        * Leo Simons <leosimons@apache.org>
@@ -43,8 +41,6 @@ Proposed board resolution to create an Apache Gump Project
        * Stefano Mazzocchi <stefano@apache.org>
        * others ?
        
-       NOW, THEREFORE, BE IT FURTHER RESOLVED, that
-
 [Issue: decide on PMC chair]
  
        * Sam Ruby (still has to accept nomination)
@@ -54,11 +50,6 @@ Proposed board resolution to create an Apache Gump Project
        * Stefano Mazzocchi
          +1 bodewig
        
-       * others ?
-       
-       [Adam,Nicola Ken have declined]
-
-
        be
        and hereby is appointed to the office of Vice President, Gump,
        to serve in accordance with and subject to the direction of the
