@@ -147,7 +147,7 @@
         <jar name="build/lib/excalibur-containerkit-@@DATE@@.jar"/>
 
         <nag from="Peter Donald &lt;peter@apache.org&gt;"
-            to="excalibur-dev@jakarta.apache.org"/>
+            to="avalon-dev@jakarta.apache.org"/>
     </project>
 
     <project name="excalibur-info">
