@@ -20,7 +20,8 @@
 
     <home nested="anttasks/dist"/>
     <jar name="lib/cactus-ant.jar"/>
-    <javadoc nested="doc/api" title="Cactus Custom Ant tasks API"/>
+    <javadoc nested="anttasks/dist/doc/api"
+             title="Cactus Custom Ant tasks API"/>
 
   </project>
 
@@ -49,7 +50,8 @@
 
     <home nested="framework/dist"/>
     <jar name="lib/cactus.jar"/>
-    <javadoc nested="doc/api" title="Cactus Framework for J2EE 1.2 API"/>
+    <javadoc nested="framework/dist/doc/api"
+             title="Cactus Framework for J2EE 1.2 API"/>
   </project>
 
   <!-- Build the Cactus Servlet Sample for J2EE 1.2 -->
@@ -104,7 +106,8 @@
 
     <home nested="framework/dist"/>
     <jar name="lib/cactus.jar"/>
-    <javadoc nested="doc/api" title="Cactus Framework for J2EE 1.3 API"/>
+    <javadoc nested="framework/dist/doc/api"
+             title="Cactus Framework for J2EE 1.3 API"/>
   </project>
 
   <!-- Build the Cactus Servlet Sample for J2EE 1.3 -->
@@ -147,7 +150,7 @@
     <depend project="xml-xalan2"/>
 
     <home nested="documentation/dist"/>
-    <javadoc nested="doc" title="Cactus Documentation"/>
+    <javadoc nested="documentation/dist/doc" title="Cactus Documentation"/>
 
   </project>
 
