@@ -11,10 +11,10 @@
     <ant target="dist">
       <depend property="xerces.jar" project="xml-xerces" id="parser"/>
       <depend property="logkit.jar" project="jakarta-avalon-logkit"/>
-      <depend property="avalon-framework.jar" project="jakarta-avalon"/>
-      <depend property="avalon-excalibur.jar" 
+      <depend property="framework.jar" project="jakarta-avalon"/>
+      <depend property="excalibur.jar" 
         project="jakarta-avalon-excalibur" id="avalon-excalibur"/>
-      <depend property="avalon-scratchpad.jar" 
+      <depend property="scratchpad.jar" 
         project="jakarta-avalon-excalibur" id="avalon-scratchpad"/>
     </ant>
 
