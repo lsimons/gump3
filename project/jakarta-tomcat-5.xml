@@ -86,6 +86,7 @@
     <depend project="jakarta-regexp"/>
     <depend project="commons-el"/>
     <depend project="commons-modeler"/>
+    <depend project="txt2html-task" />
     <!-- depend project="mx4j"/ -->
     <option project="junit" />
     <work nested="catalina/build/server/classes"/>
