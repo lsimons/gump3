@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/model/project.py,v 1.11 2003/11/20 21:30:06 ajack Exp $
-# $Revision: 1.11 $
-# $Date: 2003/11/20 21:30:06 $
+# $Header: /home/stefano/cvs/gump/python/gump/model/project.py,v 1.12 2003/11/21 00:27:58 ajack Exp $
+# $Revision: 1.12 $
+# $Date: 2003/11/21 00:27:58 $
 #
 # ====================================================================
 #
@@ -202,7 +202,7 @@ class Project(NamedModelObject, Statable):
     	#############################################################
     	# Outputs
     	#
-        self.jars={}
+        self.jars={}        
         
     def getAnt(self):
         return self.ant
@@ -310,15 +310,14 @@ class Project(NamedModelObject, Statable):
             else:
                 dependee.addError("Dependency " + self.name + " " + message)
                 dependeeProject.changeState(STATE_PREREQ_FAILED,reason,cause)
-                                    
     #
     # We have a potential clash between the <project package attribute and
     # the <project <package element. The former indicates a packages install
     # the latter the (Java) package name for the project contents. As such
     # we test the attribute for type.
-    #
+    #                                      
     def isPackaged(self):
-        return type(self.xml.package) in types.StringTypes
+        return (type(self.xml.package) in types.StringTypes)
     
     # provide elements when not defined in xml
     def complete(self,workspace):
@@ -327,7 +326,8 @@ class Project(NamedModelObject, Statable):
         if not self.inModule():
             self.addWarning("Not in a module")
             return
-            
+    
+        #
         # Packaged Projects don't need the full treatment..
         #
         packaged=self.isPackaged()
@@ -402,10 +402,40 @@ class Project(NamedModelObject, Statable):
 
                 for xmloption in badOptions:                
                     self.addWarning("Bad *Optional* Dependency. Project: " + xmloption.project + " unknown to *this* workspace")
-                    #log.warn("Unknown *Optional* Dependency [" + xmloption.project + "] on [" + self.getName() + "]")    
+                    #log.warn("Unknown *Optional* Dependency [" + xmloption.project + "] on [" + self.getName() + "]")   
+        else:
+            self.addInfo("This is a packaged project, location: " + str(self.home))
         
         self.setComplete(1)
 
+    def  checkPackage(self):
+        if self.okToPerformWork():
+            #
+            # Check the package was installed correctly...
+            #
+            outputsOk=1
+            for jar in self.getJars():
+                jarpath=jar.getPath()
+                if jarpath:
+                    if not os.path.exists(jarpath):
+                        self.changeState(STATE_FAILED,REASON_PACKAGE_BAD)
+                        outputsOk=0
+                        self.addError("Missing Packaged Jar: " + str(jarpath))
+    
+            if outputsOk:
+                self.changeState(STATE_COMPLETE,REASON_PACKAGE)
+            else:
+                # Just in case it was so bad it thougt it had no
+                # jars to check
+                self.changeState(STATE_FAILED,REASON_PACKAGE_BAD)
+                
+                #
+                # List them, why not...
+                #            
+                from gump.utils.tools import listDirectoryAsWork
+                listDirectoryAsWork(self,self.getHomeDirectory(),	\
+                    'list_package_'+self.getName())                                            
+        
     def buildDependenciesMap(self,workspace):        
         badDepends=[]
         # Walk the XML parts converting

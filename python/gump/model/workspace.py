@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/model/workspace.py,v 1.5 2003/11/20 20:51:48 ajack Exp $
-# $Revision: 1.5 $
-# $Date: 2003/11/20 20:51:48 $
+# $Header: /home/stefano/cvs/gump/python/gump/model/workspace.py,v 1.6 2003/11/21 00:27:58 ajack Exp $
+# $Revision: 1.6 $
+# $Date: 2003/11/21 00:27:58 $
 #
 # ====================================================================
 #
@@ -235,8 +235,7 @@ class Workspace(ModelObject,PropertyContainer):
         if not self.xml.signature: 
             self.signature = default.signature
         else:
-            self.signature=self.xml.signature
-      
+            self.signature=self.xml.signature          
       
         #
         # Import all repositories
@@ -272,7 +271,7 @@ class Workspace(ModelObject,PropertyContainer):
                 # Duplicate, uh oh...
                 self.addError("Duplicate Project name [" + projectName + "]")
             else:        
-                self.projects[projectName] = project
+                self.projects[projectName] = project 
 
         # Complete the modules
         for module in self.getModules():
@@ -300,12 +299,17 @@ class Workspace(ModelObject,PropertyContainer):
                 unnamedModule.addProject(project)
             
             # Complete the project
-            project.complete(self)        
+            project.complete(self)   
+        
+        for project in self.getProjects():
+            if not project.isPackaged(): continue
+            project.checkPackage()                   
                                                              
         # Complete the properies
         self.completeProperties()
                                         
         self.setComplete(1)
+
             
     def addModule(self,module):
         self.modules[module.getName()]=module                         

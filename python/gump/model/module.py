@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/model/module.py,v 1.7 2003/11/20 20:51:48 ajack Exp $
-# $Revision: 1.7 $
-# $Date: 2003/11/20 20:51:48 $
+# $Header: /home/stefano/cvs/gump/python/gump/model/module.py,v 1.8 2003/11/21 00:27:58 ajack Exp $
+# $Revision: 1.8 $
+# $Date: 2003/11/21 00:27:58 $
 #
 # ====================================================================
 #
@@ -81,6 +81,7 @@ class ModuleCVS(ModelObject):
         self.module			=	xml.module
         self.hostPrefix 	=   xml['host-prefix']
         self.dir			=	xml.dir    
+        
                 
     def getCVSRoot(self):
         # Form the CVS root
@@ -125,8 +126,7 @@ class ModuleCVS(ModelObject):
         
     def getModule(self):
         return self.module
-        
- 
+         
 def createUnnamedModule(workspace):
     #
     # Create an Unnamed Module (for projects not in modules)
@@ -150,45 +150,120 @@ class Module(NamedModelObject, Statable):
     	
     	self.repository=None
     	
-    	self.updated=0
+        self.packaged		=	0
+        self.packageComplete=	0
+    	self.updated		=	0
 
     # provide default elements when not defined in xml
     def complete(self,workspace):
       
         if self.isComplete(): return
+           
         
-        # We have a CVS entry, expand it...
-        if self.xml.cvs:
-            repoName=self.xml.cvs.repository
-            if workspace.hasRepository(repoName):
-                # It references this repository...
-                repo=workspace.getRepository(repoName)
-                self.repository=repo
-                repo.addModule(self)
-                self.cvs=ModuleCVS(self.xml.cvs,repo)
+        packaged=0
+                
+        # Claim ownership & check for packages
+        # ###################################################
+        # A module which contains only packaged projects might as
+        # well be considered packages, no need to update from CVS
+        # since we won't be building.
+        packageCount=0
+        allPackaged=1
+                        
+        for xmlproject in self.xml.project:
+            if workspace.hasProject(xmlproject.name):
+                
+                #
+                # The project pretty much better be in the
+                # workspace, but avoid crashing...
+                #
+                project=workspace.getProject(xmlproject.name)
+                
+                #
+                # Claim ownership
+                #
+                self.addProject(project)
+                
+                #
+                # Check for packaged
+                #
+                if not project.isPackaged():
+                    allPackaged=0  
+                else:
+                    self.addInfo('Packaged Project: ' + project.getName())
+                    packageCount+=1                
             else:
-                self.changeState(STATE_FAILED,REASON_CONFIG_FAILED)               
-                log.error(':TODO: No such repository in w/s ['+ repoName +'] on [' \
-                        + self.getName() + ']')
-            
+                log.error(':TODO: No such project in w/s ['+ `xmlproject.name` +'] on [' \
+                      + self.getName() + ']')
+                
+            # Must be one to be all
+            if not packageCount: allPackaged=0
+    
+            #
+            # Give this module a second try,  if some are packaged, and
+            # check if the others have no outputs, then call them good.
+            #
+            if packageCount and not allPackaged:
+                allPackaged=1
+                for project in self.getProjects():
+                    if not project.isPackaged():
+                        if not project.hasOutputs():
+                            # 
+                            # Honorary package (allow folks to only mark the main
+                            # project in a module as a package, and those that do
+                            # not product significant outputs (e.g. test projects)
+                            # will be asssumed to be packages.
+                            #                            
+                            project.changeState(STATE_COMPLETE,REASON_PACKAGE)    
+                            packageCount+=1
+                        else:    
+                            allPackaged=0  
+                            if packageCount:
+                                self.addWarning('Incomplete \'Packaged\' Module. Project: ' + \
+                                        project.getName() + ' is not packaged')  
+               
+            # If packages module, accept it... 
+            if allPackaged:
+                packaged=1
+                self.setPackaged(1)                
+                self.changeState(STATE_COMPLETE,REASON_PACKAGE)  
+                self.addInfo("\'Packaged\' Module. (Packaged projects: " + \
+                                    str(packageCount) + '.)')                                            
+
     
         # Determine source directory
         self.srcdir=self.xml.srcdir or self.xml.name        
         self.absSrcDir=os.path.join(workspace.getBaseDirectory(),self.srcdir)
-        
-        # Claim ownership
-        for xmlproject in self.xml.project:
-            if workspace.hasProject(xmlproject.name):
-                project=workspace.getProject(xmlproject.name)
-                self.addProject(project)
-            else:
-                log.error(':TODO: No such project in w/s ['+ `xmlproject.name` +'] on [' \
-                        + self.getName() + ']')
+                                    
+        if not packaged:
+            # We have a CVS entry, expand it...
+            if self.xml.cvs:
+                repoName=self.xml.cvs.repository
+                if workspace.hasRepository(repoName):
+                    # It references this repository...
+                    repo=workspace.getRepository(repoName)
+                    self.repository=repo
+                    repo.addModule(self)
+                    self.cvs=ModuleCVS(self.xml.cvs,repo)
+                else:
+                    self.changeState(STATE_FAILED,REASON_CONFIG_FAILED)               
+                    log.error(':TODO: No such repository in w/s ['+ repoName +'] on [' \
+                            + self.getName() + ']')
+            
+     
                     
         self.setComplete(1)
             
 
-
+    def completePackagedModule(self):
+        # If so far so good, check packages
+        if not self.isPackaged(): return
+        if self.packageComplete: return        
+        
+        self.addInfo("This is a packaged module")
+                        
+        self.packageComplete=1
+        
     def addProject(self,project):
         project.setModule(self)
         self.projects[project.getName()]=project
@@ -200,7 +275,13 @@ class Module(NamedModelObject, Statable):
         return self.projects.values()
   
     def getChildren(self):
-        return self.getProjects()
+        return self.getProjects()        
+        
+    def isPackaged(self):
+        return self.packaged
+                
+    def setPackaged(self,packaged):
+        self.packaged=packaged
         
     #
     # Get a full list of all the projects that depend
