@@ -74,6 +74,7 @@
 
     <depend project="textmining-word-extractor"/>
     <depend project="pdfbox"/>
+	<depend project="ehcache"/>
     <depend project="commons-httpclient-contrib"/>
 
     <work nested="build/classes"/>
@@ -123,6 +124,16 @@
     <description>PDFBox is a Java PDF Library.</description>
     <jar name="lib/PDFBox-0.6.5.jar"/>
   </project>
+  
+  <!-- This is (should be?) inheritted from Cocoon's definition.
+       Uncomment if build still fails -->
+  <!--
+  <project name="ehcache">
+    <url href="http://ehcache.sourceforge.net"/>
+    <description>A simple, fast and thread safe cache for Java</description>
+    <jar name="lib/ehcache-0.8.jar"/>
+  </project>
+  -->
 
   <!-- FIXME 
 
