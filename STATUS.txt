@@ -31,13 +31,14 @@ Proposed board resolution to create an Apache Gump Project
 
 [Issue: fill out PMC roster]
 
+       * Adam Jack <ajack@apache.org>
        * Davanum Srinivas <dims@apache.org>
        * Leo Simons <leosimons@apache.org>
+       * Martin van den Bemt <mvdb@apache.org>       
        * Nicola Ken Barozzi <nicolaken@apache.org>
        * Nick Chalko <nickchalko@apache.org>
        * Stefano Mazzocchi <stefano@apache.org>
        * Scott Sanders <sanders@apache.org> 
-       * Martin van den Bemt <mvdb@apache.org>
        * others ?
        
        NOW, THEREFORE, BE IT FURTHER RESOLVED, that
