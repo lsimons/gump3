@@ -17,494 +17,736 @@
 -->
 
 <module name="avalon">
-  <url href="http://avalon.apache.org/"/>
-  <description>
-    Avalon's main repository.
-  </description>
-  <cvs repository="avalon"/>
+    <url href="http://avalon.apache.org/"/>
+    <description>
+        Avalon's main repository.
+    </description>
+    <cvs repository="avalon"/>
 
-  <project name="avalon">
-    <!-- deprecated! -->
-
-    <!-- can't just reference the new avalon-framework project here
-    because we go from 1 to multiple jars. This is a copied
-    descriptor. -->
-
-    <package>org.apache.avalon</package>
-    <mkdir dir="framework/api/target/classes"/>
-    <mkdir dir="framework/api/target/test-classes"/>
-    <mkdir dir="framework/impl/target/classes"/>
-    <mkdir dir="framework/impl/target/test-classes"/>
-    <ant target="dist" basedir="framework">
-      <property name="project.version" value="@@DATE@@"></property>
-    </ant>
-
-    <depend project="ant" inherit="runtime"/>
-    <depend project="xml-xalan2"/>
-    <depend project="xml-xerces"/>
-
-    <depend runtime="true" project="junit"/>
-    <depend runtime="true" project="jakarta-log4j"/>
-    <depend runtime="true" project="avalon-logkit"/>
-
-    <work nested="framework/api/target/classes"/>
-    <work nested="framework/api/target/test-classes"/>
-    <work nested="framework/impl/target/classes"/>
-    <work nested="framework/impl/target/test-classes"/>
-
-    <home nested="framework"/>
-    <jar name="target/avalon-framework-@@DATE@@.jar" id="combined"/>
-    <javadoc nested="framework/api/target/docs/apidocs"/>
-
-    <nag to="dev@avalon.apache.org" from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"/>
-  </project>
-
-  <project name="avalon-framework">
-    <package>org.apache.avalon</package>
-    <ant target="dist" basedir="framework">
-      <property name="project.version" value="@@DATE@@"></property>
-    </ant>
-
-    <depend project="ant" inherit="runtime"/>
-    <depend project="xml-xalan2"/>
-    <depend project="xml-xerces"/>
-    <depend runtime="true" project="junit"/>
-
-    <depend runtime="true" project="jakarta-log4j"/>
-    <depend runtime="true" project="avalon-logkit"/>
-
-    <work nested="framework/api/target/classes"/>
-    <work nested="framework/impl/target/classes"/>
-    <!--<work nested="framework/api/target/test-classes"/>-->
-    <work nested="framework/impl/target/test-classes"/>
-
-    <home nested="framework"/>
-    <jar name="target/avalon-framework-@@DATE@@.jar" id="combined"/>
-    <jar name="api/target/avalon-framework-api-@@DATE@@.jar" id="api"/>
-    <jar name="impl/target/avalon-framework-impl-@@DATE@@.jar" id="impl"/>
-    <javadoc nested="framework/target/docs/apidocs"/>
-    <junitreport nested="framework/target/docs/junitreports"/>
-
-    <nag to="dev@avalon.apache.org" from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"/>
-  </project>
-
-  <project name="avalon-fortress-container">
-    <package>org.apache.avalon</package>
-    <ant target="dist" basedir="fortress/container">
-      <property name="project.version" value="@@DATE@@"></property>
-    </ant>
-
-    <depend project="ant" inherit="runtime"></depend>
-    <depend project="xml-xalan2"></depend>
-    <depend project="xml-xerces"></depend>
-    <depend runtime="true" project="jakarta-bcel"></depend>
-    <depend runtime="true" project="commons-collections"></depend>
-    <depend runtime="true" project="concurrent"></depend>
-    <depend runtime="true" project="excalibur-event"></depend>
-    <depend runtime="true" project="excalibur-i18n"></depend>
-    <depend runtime="true" project="excalibur-instrument"></depend>
-    <depend runtime="true" project="excalibur-instrument-manager"></depend>
-    <depend runtime="true" project="excalibur-lifecycle-api"></depend>
-    <depend runtime="true" project="excalibur-logger"></depend>
-    <depend runtime="true" project="excalibur-sourceresolve"></depend>
-    <depend runtime="true" project="avalon-framework"></depend>
-    <depend runtime="true" project="junit"></depend>
-    <depend runtime="true" project="avalon-logkit"></depend>
-    <depend runtime="true" project="qdox"></depend>
-
-    <work nested="fortress/container/target/classes"></work>
-    <work nested="fortress/container/target/api-classes"></work>
-    <work nested="fortress/container/target/impl-classes"></work>
-    <work nested="fortress/container/target/test-classes"></work>
-
-    <home nested="fortress/container"></home>
-
-    <jar name="target/avalon-fortress-container-@@DATE@@.jar" id="combined"></jar>
-    <jar name="target/avalon-fortress-container-@@DATE@@-api.jar" id="api"></jar>
-    <jar name="target/avalon-fortress-container-@@DATE@@-impl.jar" id="impl"></jar>
-    <javadoc nested="fortress/container/target/docs/apidocs"></javadoc>
-    <junitreport nested="fortress/container/target/docs/junitreports"></junitreport>
-
-    <nag to="dev@avalon.apache.org" from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"></nag>
-  </project>
-
-  <project name="avalon-fortress-tools">
-    <package>org.apache.avalon</package>
-    <ant target="dist" basedir="fortress/tools">
-      <property name="project.version" value="@@DATE@@"></property>
-    </ant>
-
-    <depend project="ant" inherit="runtime"></depend>
-    <depend project="xml-xalan2"></depend>
-    <depend project="xml-xerces"></depend>
-
-    <depend runtime="true" inherit="runtime" project="avalon-fortress-container"></depend>
-    <depend runtime="true" project="junit"></depend>
-    <depend runtime="true" project="qdox"></depend>
-
-    <work nested="fortress/tools/target/classes"></work>
-
-    <home nested="fortress/tools"></home>
-    <jar name="target/avalon-fortress-tools-@@DATE@@.jar"></jar>
-
-    <javadoc nested="fortress/tools/target/docs/apidocs"></javadoc>
-
-    <nag to="dev@avalon.apache.org" from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"></nag>
-  </project>
-
-  <project name="avalon-fortress-examples">
-    <package>org.apache.avalon</package>
-    <ant target="dist" basedir="fortress/examples">
-      <property name="project.version" value="@@DATE@@"></property>
-    </ant>
-
-    <depend project="ant" inherit="runtime"></depend>
-    <depend project="xml-xalan2"></depend>
-    <depend project="xml-xerces"></depend>
-
-    <depend runtime="true" project="avalon-fortress-container"></depend>
-    <depend runtime="true" project="jakarta-bcel"></depend>
-    <depend runtime="true" project="commons-collections"></depend>
-    <depend runtime="true" project="concurrent"></depend>
-    <depend runtime="true" project="excalibur-event"></depend>
-    <depend runtime="true" project="excalibur-i18n"></depend>
-    <depend runtime="true" project="excalibur-instrument"></depend>
-    <depend runtime="true" project="excalibur-lifecycle-api"></depend>
-    <depend runtime="true" project="excalibur-logger"></depend>
-    <depend runtime="true" project="excalibur-sourceresolve"></depend>
-    <depend runtime="true" project="avalon-framework"></depend>
-    <depend runtime="true" project="junit"></depend>
-    <depend runtime="true" project="avalon-logkit"></depend>
-    <depend runtime="true" project="qdox"></depend>
-    <depend runtime="true" project="jakarta-servletapi-4"></depend>
-
-    <work nested="fortress/examples/target/classes"></work>
-
-    <home nested="fortress/examples"></home>
-    <jar name="target/avalon-fortress-examples-@@DATE@@.jar"></jar>
-
-    <javadoc nested="fortress/examples/target/docs/apidocs"></javadoc>
-
-    <nag to="dev@avalon.apache.org" from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"></nag>
-  </project>
-
-  <project name="avalon-logging-api">
-    <package>org.apache.avalon.lifecycle</package>
-
-    <ant basedir="logging/api" target="jar">
-      <property name="project.version" value="@@DATE@@"/>
-    </ant>
-
-    <!-- runtime dependencies -->
-    <depend property="avalon-framework.jar" project="avalon-framework" runtime="true" id="api"/>
-
-    <!-- test-time dependencies -->
-    <depend project="junit"/>
-
-    <!-- build-time dependencies -->
-    <depend project="ant" inherit="runtime"/>
-    <depend project="xml-xerces"/>
-    <depend project="xml-xalan2"/>
-
-    <!-- optional dependencies -->
-    <option project="checkstyle" inherit="runtime"/>
-
-    <mkdir dir="logging/api/target/classes"/>
-    <mkdir dir="logging/api/target/test-classes"/>
+    <project name="avalon">
+      <depend project="avalon-framework" inherit="jars" id="api"/>
+    </project>
     
-    <work nested="logging/api/target/classes"/>
-    <work nested="logging/api/target/test-classes"/>
+    <project name="avalon-framework">
+        <package>org.apache.avalon.framework</package>
+        <ant target="dist" basedir="avalon/framework">
+            <property name="project.version" value="@@DATE@@"></property>
+        </ant>
 
-    <home nested="logging/api"/>
+        <depend project="ant" inherit="runtime"/>
+        <depend project="xml-xalan2"/>
+        <depend project="xml-xerces"/>
+        <depend runtime="true" project="junit"/>
+
+        <depend runtime="true" project="jakarta-log4j"/>
+        <depend runtime="true" project="avalon-logkit"/>
+
+        <work nested="avalon/framework/api/target/classes"/>
+        <work nested="avalon/framework/impl/target/classes"/>
+        <!--<work nested="avalon/framework/api/target/test-classes"/>-->
+        <work nested="avalon/framework/impl/target/test-classes"/>
+
+        <home nested="avalon/framework"/>
+        <jar name="target/avalon-framework-@@DATE@@.jar" id="combined"/>
+        <jar name="api/target/avalon-framework-api-@@DATE@@.jar" id="api"/>
+        <jar name="impl/target/avalon-framework-impl-@@DATE@@.jar" id="impl"/>
+        <javadoc nested="avalon/framework/target/docs/apidocs"/>
+        <junitreport nested="avalon/framework/target/docs/junitreports"/>
+
+        <nag to="dev@avalon.apache.org" from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"/>
+    </project>
+
+    <project name="avalon-fortress-container">
+        <package>org.apache.avalon</package>
+        <ant target="dist" basedir="fortress/container">
+            <property name="project.version" value="@@DATE@@"></property>
+        </ant>
+
+        <depend project="ant" inherit="runtime"></depend>
+        <depend project="xml-xalan2"></depend>
+        <depend project="xml-xerces"></depend>
+        <depend runtime="true" project="jakarta-bcel"></depend>
+        <depend runtime="true" project="commons-collections"></depend>
+        <depend runtime="true" project="concurrent"></depend>
+        <depend runtime="true" project="excalibur-event"></depend>
+        <depend runtime="true" project="excalibur-i18n"></depend>
+        <depend runtime="true" project="excalibur-instrument"></depend>
+        <depend runtime="true" project="excalibur-instrument-manager"></depend>
+        <depend runtime="true" project="excalibur-lifecycle-api"></depend>
+        <depend runtime="true" project="excalibur-logger"></depend>
+        <depend runtime="true" project="excalibur-sourceresolve"></depend>
+        <depend runtime="true" project="avalon-framework"></depend>
+        <depend runtime="true" project="junit"></depend>
+        <depend runtime="true" project="avalon-logkit"></depend>
+        <depend runtime="true" project="qdox"></depend>
+
+        <work nested="fortress/container/target/classes"></work>
+        <work nested="fortress/container/target/api-classes"></work>
+        <work nested="fortress/container/target/impl-classes"></work>
+        <work nested="fortress/container/target/test-classes"></work>
+
+        <home nested="fortress/container"></home>
+
+        <jar name="target/avalon-fortress-container-@@DATE@@.jar" id="combined"></jar>
+        <jar name="target/avalon-fortress-container-@@DATE@@-api.jar" id="api"></jar>
+        <jar name="target/avalon-fortress-container-@@DATE@@-impl.jar" id="impl"></jar>
+        <javadoc nested="fortress/container/target/docs/apidocs"></javadoc>
+        <junitreport nested="fortress/container/target/docs/junitreports"></junitreport>
+
+        <nag to="dev@avalon.apache.org" from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"></nag>
+    </project>
+
+    <project name="avalon-fortress-tools">
+        <package>org.apache.avalon</package>
+        <ant target="dist" basedir="fortress/tools">
+            <property name="project.version" value="@@DATE@@"></property>
+        </ant>
+
+        <depend project="ant" inherit="runtime"></depend>
+        <depend project="xml-xalan2"></depend>
+        <depend project="xml-xerces"></depend>
+
+        <depend runtime="true" inherit="runtime" project="avalon-fortress-container"></depend>
+        <depend runtime="true" project="junit"></depend>
+        <depend runtime="true" project="qdox"></depend>
+
+        <work nested="fortress/tools/target/classes"></work>
+
+        <home nested="fortress/tools"></home>
+        <jar name="target/avalon-fortress-tools-@@DATE@@.jar"></jar>
+
+        <javadoc nested="fortress/tools/target/docs/apidocs"></javadoc>
+
+        <nag to="dev@avalon.apache.org" from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"></nag>
+    </project>
+
+    <project name="avalon-fortress-examples">
+        <package>org.apache.avalon</package>
+        <ant target="dist" basedir="fortress/examples">
+            <property name="project.version" value="@@DATE@@"></property>
+        </ant>
+
+        <depend project="ant" inherit="runtime"></depend>
+        <depend project="xml-xalan2"></depend>
+        <depend project="xml-xerces"></depend>
+
+        <depend runtime="true" project="avalon-fortress-container"></depend>
+        <depend runtime="true" project="jakarta-bcel"></depend>
+        <depend runtime="true" project="commons-collections"></depend>
+        <depend runtime="true" project="concurrent"></depend>
+        <depend runtime="true" project="excalibur-event"></depend>
+        <depend runtime="true" project="excalibur-i18n"></depend>
+        <depend runtime="true" project="excalibur-instrument"></depend>
+        <depend runtime="true" project="excalibur-lifecycle-api"></depend>
+        <depend runtime="true" project="excalibur-logger"></depend>
+        <depend runtime="true" project="excalibur-sourceresolve"></depend>
+        <depend runtime="true" project="avalon-framework"></depend>
+        <depend runtime="true" project="junit"></depend>
+        <depend runtime="true" project="avalon-logkit"></depend>
+        <depend runtime="true" project="qdox"></depend>
+        <depend runtime="true" project="jakarta-servletapi-4"></depend>
+
+        <work nested="fortress/examples/target/classes"></work>
+
+        <home nested="fortress/examples"></home>
+        <jar name="target/avalon-fortress-examples-@@DATE@@.jar"></jar>
+
+        <javadoc nested="fortress/examples/target/docs/apidocs"></javadoc>
+
+        <nag to="dev@avalon.apache.org" from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"></nag>
+    </project>
     
-    <jar name="target/avalon-logging-api-@@DATE@@.jar" />
+    <project name="avalon-logging-api">
+        <package>org.apache.avalon.logging.data</package>
 
-    <junitreport nested="logging/api/target/test-reports"/>
+        <ant basedir="logging/api" target="jar">
+            <property name="project.version" value="@@DATE@@"/>
+        </ant>
 
-    <nag from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"
-      to="dev@avalon.apache.org"/>
-  </project>
+        <!-- runtime dependencies -->
+        <depend property="avalon-framework.jar" project="avalon-framework" runtime="true" id="api"/>
 
-  <project name="avalon-logging-spi">
-    <package>org.apache.avalon.lifecycle</package>
+        <!-- test-time dependencies -->
+        <depend project="junit"/>
 
-    <ant basedir="logging/api" target="jar">
-      <property name="project.version" value="@@DATE@@"/>
-    </ant>
+        <!-- build-time dependencies -->
+        <depend project="ant" inherit="runtime"/>
+        <depend project="xml-xerces"/>
+        <depend project="xml-xalan2"/>
 
-    <!-- runtime dependencies -->
-    <depend property="avalon-framework.jar" project="avalon-framework" runtime="true" id="api"/>
-    <depend project="avalon-logging-api" runtime="true"/>
-    <!--depend project="avalon-repository-api" runtime="true"/>
-    <depend project="avalon-repository-spi" runtime="true"/>
-    <depend project="avalon-repository-main" runtime="true"/>
-    <depend project="avalon-util-criteria" runtime="true"/>
-    <depend project="avalon-util-i18n" runtime="true"/>
-    <depend project="avalon-util-defaults" runtime="true"/-->
-    <depend project="excalibur-configuration" runtime="true"/>
+        <!-- optional dependencies -->
+        <option project="checkstyle" inherit="runtime"/>
 
-    <!-- test-time dependencies -->
-    <depend property="junit.jar" project="junit"/>
+        <mkdir dir="logging/api/target/classes"/>
+        <mkdir dir="logging/api/target/test-classes"/>
+        
+        <work nested="logging/api/target/classes"/>
+        <work nested="logging/api/target/test-classes"/>
 
-    <!-- build-time dependencies -->
-    <depend project="ant" inherit="runtime"/>
-    <depend project="xml-xerces"/>
-    <depend project="xml-xalan2"/>
+        <home nested="logging/api"/>
+        
+        <jar name="target/avalon-logging-api-@@DATE@@.jar" />
 
-    <!-- optional dependencies -->
-    <option project="checkstyle" inherit="runtime"/>
+        <junitreport nested="logging/api/target/test-reports"/>
 
-    <mkdir dir="logging/api/target/classes"/>
-    <mkdir dir="logging/api/target/test-classes"/>
+        <nag from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"
+                to="dev@avalon.apache.org"/>
+    </project>
+
+    <project name="avalon-logging-spi">
+        <package>org.apache.avalon.logging.provider</package>
+
+        <ant basedir="logging/spi" target="jar">
+            <property name="project.version" value="@@DATE@@"/>
+        </ant>
+
+        <!-- runtime dependencies -->
+        <depend property="avalon-framework.jar" project="avalon-framework" runtime="true" id="api"/>
+        <depend project="avalon-logging-api" runtime="true"/>
+        <depend project="avalon-repository-api" runtime="true"/>
+        <depend project="avalon-repository-spi" runtime="true"/>
+        <depend project="avalon-repository-main" runtime="true"/>
+        <depend project="avalon-util-criteria" runtime="true"/>
+        <depend project="avalon-util-i18n" runtime="true"/>
+        <depend project="avalon-util-defaults" runtime="true"/>
+        <depend project="excalibur-configuration" runtime="true"/>
+
+        <!-- test-time dependencies -->
+        <depend property="junit.jar" project="junit"/>
+
+        <!-- build-time dependencies -->
+        <depend project="ant" inherit="runtime"/>
+        <depend project="xml-xerces"/>
+        <depend project="xml-xalan2"/>
+
+        <!-- optional dependencies -->
+        <option project="checkstyle" inherit="runtime"/>
+
+        <mkdir dir="logging/spi/target/classes"/>
+        <mkdir dir="logging/spi/target/test-classes"/>
+        
+        <work nested="logging/spi/target/classes"/>
+        <work nested="logging/spi/target/test-classes"/>
+
+        <home nested="logging/spi"/>
+        
+        <jar name="target/avalon-logging-spi-@@DATE@@.jar" />
+
+        <junitreport nested="logging/spi/target/test-reports"/>
+
+        <nag from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"
+                to="dev@avalon.apache.org"/>
+    </project>
+
+    <project name="avalon-logging-impl">
+        <package>org.apache.avalon.logginf.impl</package>
+
+        <ant basedir="logging/impl" target="jar">
+            <property name="project.version" value="@@DATE@@"/>
+        </ant>
+
+        <!-- runtime dependencies -->
+        <depend project="avalon-framework" runtime="true" id="api"/>
+        <depend project="avalon-logging-api" runtime="true"/>
+        <depend project="avalon-logging-spi" runtime="true"/>
+        <depend project="avalon-repository-api" runtime="true"/>
+        <depend project="avalon-repository-spi" runtime="true"/>
+        <depend project="avalon-util-criteria" runtime="true"/>
+        <depend project="avalon-util-i18n" runtime="true"/>
+        <depend project="avalon-util-defaults" runtime="true"/>
+        <depend project="excalibur-configuration" runtime="true"/>
+
+        <!-- test-time dependencies -->
+        <depend property="junit.jar" project="junit"/>
+
+        <!-- build-time dependencies -->
+        <depend project="ant" inherit="runtime"/>
+        <depend project="xml-xerces"/>
+        <depend project="xml-xalan2"/>
+
+        <!-- optional dependencies -->
+        <option project="checkstyle" inherit="runtime"/>
+
+        <mkdir dir="logging/impl/target/classes"/>
+        <mkdir dir="logging/impl/target/test-classes"/>
+        
+        <work nested="logging/impl/target/classes"/>
+        <work nested="logging/impl/target/test-classes"/>
+
+        <home nested="logging/impl"/>
+        
+        <jar name="target/avalon-logging-impl-@@DATE@@.jar" />
+
+        <junitreport nested="logging/impl/target/test-reports"/>
+
+        <nag from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"
+                to="dev@avalon.apache.org"/>
+    </project>
     
-    <work nested="logging/api/target/classes"/>
-    <work nested="logging/api/target/test-classes"/>
+    <project name="avalon-logging-logkit-api">
+        <package>org.apache.avalon.lifecycle</package>
 
-    <home nested="logging/api"/>
+        <ant basedir="logging/logkit/api" >
+            <property name="project.version" value="@@DATE@@"/>
+        </ant>
+
+        <!-- runtime dependencies -->
+        <depend project="avalon-framework" runtime="true" id="api"/>
+        <depend project="avalon-logging-api" runtime="true"/>
+        <depend project="avalon-logging-spi" runtime="true"/>
+        <depend project="avalon-repository-api" runtime="true"/>
+        <depend project="avalon-repository-spi" runtime="true"/>
+        <depend project="avalon-util-criteria" runtime="true"/>
+        <depend project="avalon-util-i18n" runtime="true"/>
+        <depend project="avalon-util-defaults" runtime="true"/>
+        <depend project="excalibur-configuration" runtime="true"/>
+
+        <!-- test-time dependencies -->
+        <depend property="junit.jar" project="junit"/>
+
+        <!-- build-time dependencies -->
+        <depend project="ant" inherit="runtime"/>
+        <depend project="xml-xerces"/>
+        <depend project="xml-xalan2"/>
+
+        <!-- optional dependencies -->
+        <option project="checkstyle" inherit="runtime"/>
+
+        <mkdir dir="logging/logkit/api/target/classes"/>
+        <mkdir dir="logging/logkit/api/target/test-classes"/>
+        
+        <work nested="logging/logkit/api/target/classes"/>
+        <work nested="logging/logkit/api/target/test-classes"/>
+
+        <home nested="logging/logkit/api"/>
+        
+        <jar name="target/avalon-logging-logkit-api-@@DATE@@.jar" />
+
+        <junitreport nested="logging/logkit/api/target/test-reports"/>
+
+        <nag from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"
+                to="dev@avalon.apache.org"/>
+    </project>
     
-    <jar name="target/avalon-logging-api-@@DATE@@.jar" />
+    <project name="avalon-logging-logkit-impl">
+        <package>org.apache.avalon.lifecycle</package>
 
-    <junitreport nested="logging/api/target/test-reports"/>
+        <ant basedir="logging/logkit/impl" target="jar">
+            <property name="project.version" value="@@DATE@@"/>
+        </ant>
 
-    <nag from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"
-      to="dev@avalon.apache.org"/>
-  </project>
+        <!-- runtime dependencies -->
+        <depend project="avalon-framework" runtime="true" id="api"/>
+        <depend project="avalon-logging-api" runtime="true"/>
+        <depend project="avalon-logging-spi" runtime="true"/>
+        <depend project="avalon-repository-api" runtime="true"/>
+        <depend project="avalon-repository-spi" runtime="true"/>
+        <depend project="avalon-util-criteria" runtime="true"/>
+        <depend project="avalon-util-i18n" runtime="true"/>
+        <depend project="avalon-util-defaults" runtime="true"/>
+        <depend project="excalibur-configuration" runtime="true"/>
 
-  <project name="avalon-logging-impl">
-    <package>org.apache.avalon.lifecycle</package>
+        <!-- test-time dependencies -->
+        <depend property="junit.jar" project="junit"/>
 
-    <ant basedir="logging/impl" target="jar">
-      <property name="project.version" value="@@DATE@@"/>
-    </ant>
+        <!-- build-time dependencies -->
+        <depend project="ant" inherit="runtime"/>
+        <depend project="xml-xerces"/>
+        <depend project="xml-xalan2"/>
 
-    <!-- runtime dependencies -->
-    <depend project="avalon-framework" runtime="true" id="api"/>
-    <depend project="avalon-logging-api" runtime="true"/>
-    <depend project="avalon-logging-spi" runtime="true"/>
-    <!--depend project="avalon-repository-api" runtime="true"/>
-    <depend project="avalon-repository-spi" runtime="true"/>
-    <depend project="avalon-util-criteria" runtime="true"/>
-    <depend project="avalon-util-i18n" runtime="true"/>
-    <depend project="avalon-util-defaults" runtime="true"/-->
-    <depend project="excalibur-configuration" runtime="true"/>
+        <!-- optional dependencies -->
+        <option project="checkstyle" inherit="runtime"/>
 
-    <!-- test-time dependencies -->
-    <depend property="junit.jar" project="junit"/>
+        <mkdir dir="logging/logkit/impl/target/classes"/>
+        <mkdir dir="logging/logkit/impl/target/test-classes"/>
+        
+        <work nested="logging/logkit/impl/target/classes"/>
+        <work nested="logging/logkit/impl/target/test-classes"/>
 
-    <!-- build-time dependencies -->
-    <depend project="ant" inherit="runtime"/>
-    <depend project="xml-xerces"/>
-    <depend project="xml-xalan2"/>
+        <home nested="logging/logkit/impl"/>
+        
+        <jar name="target/avalon-logging-logkit-impl-@@DATE@@.jar" />
 
-    <!-- optional dependencies -->
-    <option project="checkstyle" inherit="runtime"/>
+        <junitreport nested="logging/logkit/impl/target/test-reports"/>
 
-    <mkdir dir="logging/impl/target/classes"/>
-    <mkdir dir="logging/impl/target/test-classes"/>
+        <nag from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"
+                to="dev@avalon.apache.org"/>
+    </project>
     
-    <work nested="logging/impl/target/classes"/>
-    <work nested="logging/impl/target/test-classes"/>
+    <project name="avalon-logging-logkit-datagram">
+        <package>org.apache.avalon.lifecycle</package>
 
-    <home nested="logging/impl"/>
+        <ant basedir="logging/logkit/plugins/datagram" target="jar">
+            <property name="project.version" value="@@DATE@@"/>
+        </ant>
+
+        <!-- runtime dependencies -->
+        <depend project="avalon-framework" runtime="true" id="api"/>
+        <depend project="avalon-logging-api" runtime="true"/>
+        <depend project="avalon-logging-spi" runtime="true"/>
+        <depend project="avalon-repository-api" runtime="true"/>
+        <depend project="avalon-repository-spi" runtime="true"/>
+        <depend project="avalon-util-criteria" runtime="true"/>
+        <depend project="avalon-util-i18n" runtime="true"/>
+        <depend project="avalon-util-defaults" runtime="true"/>
+        <depend project="excalibur-configuration" runtime="true"/>
+
+        <!-- test-time dependencies -->
+        <depend property="junit.jar" project="junit"/>
+
+        <!-- build-time dependencies -->
+        <depend project="ant" inherit="runtime"/>
+        <depend project="xml-xerces"/>
+        <depend project="xml-xalan2"/>
+
+        <!-- optional dependencies -->
+        <option project="checkstyle" inherit="runtime"/>
+
+        <mkdir dir="logging/logkit/plugins/datagram/target/classes"/>
+        <mkdir dir="logging/logkit/plugins/datagram/target/test-classes"/>
+        
+        <work nested="logging/logkit/plugins/datagram/target/classes"/>
+        <work nested="logging/logkit/plugins/datagram/target/test-classes"/>
+
+        <home nested="logging/logkit/plugins/datagram"/>
+        
+        <jar name="target/avalon-logging-logkit-datagram-@@DATE@@.jar" />
+
+        <junitreport nested="logging/logkit/plugins/datagram/target/test-reports"/>
+
+        <nag from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"
+                to="dev@avalon.apache.org"/>
+    </project>
     
-    <jar name="target/avalon-logging-impl-@@DATE@@.jar" />
+    <project name="avalon-logging-logkit-socket">
+        <package>org.apache.avalon.lifecycle</package>
 
-    <junitreport nested="logging/impl/target/test-reports"/>
+        <ant basedir="logging/logkit/plugins/socket" target="jar">
+            <property name="project.version" value="@@DATE@@"/>
+        </ant>
 
-    <nag from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"
-      to="dev@avalon.apache.org"/>
-  </project>
+        <!-- runtime dependencies -->
+        <depend project="avalon-framework" runtime="true" id="api"/>
+        <depend project="avalon-logging-api" runtime="true"/>
+        <depend project="avalon-logging-spi" runtime="true"/>
+        <depend project="avalon-repository-api" runtime="true"/>
+        <depend project="avalon-repository-spi" runtime="true"/>
+        <depend project="avalon-util-criteria" runtime="true"/>
+        <depend project="avalon-util-i18n" runtime="true"/>
+        <depend project="avalon-util-defaults" runtime="true"/>
+        <depend project="excalibur-configuration" runtime="true"/>
+
+        <!-- test-time dependencies -->
+        <depend property="junit.jar" project="junit"/>
+
+        <!-- build-time dependencies -->
+        <depend project="ant" inherit="runtime"/>
+        <depend project="xml-xerces"/>
+        <depend project="xml-xalan2"/>
+
+        <!-- optional dependencies -->
+        <option project="checkstyle" inherit="runtime"/>
+
+        <mkdir dir="logging/logkit/plugins/socket/target/classes"/>
+        <mkdir dir="logging/logkit/plugins/socket/target/test-classes"/>
+        
+        <work nested="logging/logkit/plugins/socket/target/classes"/>
+        <work nested="logging/logkit/plugins/socket/target/test-classes"/>
+
+        <home nested="logging/logkit/plugins/socket"/>
+        
+        <jar name="target/avalon-logging-logkit-socket-@@DATE@@.jar" />
+
+        <junitreport nested="logging/logkit/plugins/socket/target/test-reports"/>
+
+        <nag from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"
+                to="dev@avalon.apache.org"/>
+    </project>
+    
+    <project name="avalon-logging-logkit-syslog">
+        <package>org.apache.avalon.lifecycle</package>
+
+        <ant basedir="logging/logkit/plugins/syslog" target="jar">
+            <property name="project.version" value="@@DATE@@"/>
+        </ant>
+
+        <!-- runtime dependencies -->
+        <depend project="avalon-framework" runtime="true" id="api"/>
+        <depend project="avalon-logging-api" runtime="true"/>
+        <depend project="avalon-logging-spi" runtime="true"/>
+        <depend project="avalon-repository-api" runtime="true"/>
+        <depend project="avalon-repository-spi" runtime="true"/>
+        <depend project="avalon-util-criteria" runtime="true"/>
+        <depend project="avalon-util-i18n" runtime="true"/>
+        <depend project="avalon-util-defaults" runtime="true"/>
+        <depend project="excalibur-configuration" runtime="true"/>
+
+        <!-- test-time dependencies -->
+        <depend property="junit.jar" project="junit"/>
+
+        <!-- build-time dependencies -->
+        <depend project="ant" inherit="runtime"/>
+        <depend project="xml-xerces"/>
+        <depend project="xml-xalan2"/>
+
+        <!-- optional dependencies -->
+        <option project="checkstyle" inherit="runtime"/>
+
+        <mkdir dir="logging/logkit/plugins/syslog/target/classes"/>
+        <mkdir dir="logging/logkit/plugins/syslog/target/test-classes"/>
+        
+        <work nested="logging/logkit/plugins/syslog/target/classes"/>
+        <work nested="logging/logkit/plugins/syslog/target/test-classes"/>
+
+        <home nested="logging/logkit/plugins/syslog"/>
+        
+        <jar name="target/avalon-logging-logkit-syslog-@@DATE@@.jar" />
+
+        <junitreport nested="logging/logkit/plugins/syslog/target/test-reports"/>
+
+        <nag from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"
+                to="dev@avalon.apache.org"/>
+    </project>
+    
+    <project name="avalon-logging-log4j">
+        <package>org.apache.avalon.lifecycle</package>
+
+        <ant basedir="logging/log4j" target="jar">
+            <property name="project.version" value="@@DATE@@"/>
+        </ant>
+
+        <!-- runtime dependencies -->
+        <depend project="avalon-framework" id="api"/>
+        <depend project="avalon-framework" id="impl"/>
+        <depend project="avalon-logging-api" />
+        <depend project="avalon-logging-spi" />
+        <depend project="avalon-logging-impl" />
+        <depend project="avalon-repository-api" />
+        <depend project="avalon-repository-spi" />
+        <depend project="avalon-repository-main" />
+        <depend project="avalon-util-i18n" />
+        <depend project="excalibur-configuration" />
+        <depend project="logging-log4j" />
+
+        <!-- test-time dependencies -->
+        <depend property="junit.jar" project="junit"/>
+
+        <!-- build-time dependencies -->
+        <depend project="ant" inherit="runtime"/>
+        <depend project="xml-xerces"/>
+        <depend project="xml-xalan2"/>
+
+        <!-- optional dependencies -->
+        <option project="checkstyle" inherit="runtime"/>
+
+        <mkdir dir="logging/log4j/target/classes"/>
+        <mkdir dir="logging/log4j/target/test-classes"/>
+        
+        <work nested="logging/log4j/target/classes"/>
+        <work nested="logging/log4j/target/test-classes"/>
+
+        <home nested="logging/log4j"/>
+        
+        <jar name="target/avalon-logging-log4j-@@DATE@@.jar" />
+
+        <junitreport nested="logging/log4j/target/test-reports"/>
+
+        <nag from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"
+                to="dev@avalon.apache.org"/>
+    </project>
+    
+    <project name="avalon-meta-api">
+        <package>org.apache.avalon.meta</package>
+        <ant basedir="meta/api">
+            <property name="project.version" value="@@DATE@@"/>
+        </ant>
+        <depend project="avalon-framework" id="api" />
+        <depend project="avalon-framework" id="impl" />
+        <work nested="meta/api/target/classes"/>
+        <home nested="meta/api"/>
+        <jar name="target/jars/avalon-meta-api-@@DATE@@.jar" id="api"/>
+        <javadoc nested="meta/api/target/docs/apidocs"/>
+        <junitreport nested="meta/api/target/test-reports"/>
+        <nag to="dev@avalon.apache.org" from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"/>
+    </project>
   
-  <project name="avalon-logging-logkit">
-    <package>org.apache.avalon.lifecycle</package>
-
-    <ant basedir="logging/impl" target="jar">
-      <property name="project.version" value="@@DATE@@"/>
-    </ant>
-
-    <!-- runtime dependencies -->
-    <depend project="avalon-framework" runtime="true" id="api"/>
-    <depend project="avalon-logging-api" runtime="true"/>
-    <depend project="avalon-logging-spi" runtime="true"/>
-    <!--depend project="avalon-repository-api" runtime="true"/>
-    <depend project="avalon-repository-spi" runtime="true"/>
-    <depend project="avalon-util-criteria" runtime="true"/>
-    <depend project="avalon-util-i18n" runtime="true"/>
-    <depend project="avalon-util-defaults" runtime="true"/-->
-    <depend project="excalibur-configuration" runtime="true"/>
-
-    <!-- test-time dependencies -->
-    <depend property="junit.jar" project="junit"/>
-
-    <!-- build-time dependencies -->
-    <depend project="ant" inherit="runtime"/>
-    <depend project="xml-xerces"/>
-    <depend project="xml-xalan2"/>
-
-    <!-- optional dependencies -->
-    <option project="checkstyle" inherit="runtime"/>
-
-    <mkdir dir="logging/impl/target/classes"/>
-    <mkdir dir="logging/impl/target/test-classes"/>
-    
-    <work nested="logging/impl/target/classes"/>
-    <work nested="logging/impl/target/test-classes"/>
-
-    <home nested="logging/impl"/>
-    
-    <jar name="target/avalon-logging-impl-@@DATE@@.jar" />
-
-    <junitreport nested="logging/impl/target/test-reports"/>
-
-    <nag from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"
-      to="dev@avalon.apache.org"/>
-  </project>
+    <project name="avalon-meta-spi">
+        <package>org.apache.avalon.meta.spi</package>
+        <ant basedir="meta/spi">
+            <property name="project.version" value="@@DATE@@"/>
+        </ant>
+        <depend project="avalon-framework" id="api" />
+        <depend project="avalon-meta-api" />
+        <work nested="meta/spi/target/classes"/>
+        <home nested="meta/spi"/>
+        <jar name="target/jars/avalon-meta-spi-@@DATE@@.jar" id="spi"/>
+        <javadoc nested="meta/spi/target/docs/apidocs"/>
+        <junitreport nested="meta/spi/target/test-reports"/>
+        <nag to="dev@avalon.apache.org" from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"/>
+    </project>
   
-  <project name="avalon-logging-log4j">
-    <package>org.apache.avalon.lifecycle</package>
+    <project name="avalon-meta-tools">
+        <package>org.apache.avalon.meta.tools</package>
+        <ant basedir="meta/tools">
+            <property name="project.version" value="@@DATE@@"></property>
+        </ant>
+        <depend project="avalon-framework" id="api" />
+        <depend project="avalon-framework" id="impl" />
+        <depend project="avalon-meta-api" />
+        <depend project="avalon-meta-spi" />
+        <depend project="avalon-meta-impl" />
+        <depend project="excalibur-configuration" />
+        <depend project="qdox" />
 
-    <ant basedir="logging/impl" target="jar">
-      <property name="project.version" value="@@DATE@@"/>
-    </ant>
+        <work nested="meta/tools/target/classes"/>
+        <home nested="meta/tools"/>
+        <jar name="target/jars/avalon-meta-tools-@@DATE@@.jar" id="tools"/>
+        <javadoc nested="meta/tools/target/docs/apidocs"/>
+        <junitreport nested="meta/tools/target/test-reports"/>
+        <nag to="dev@avalon.apache.org" from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"/>
+    </project>
+  
+    <project name="avalon-meta-plugin">
+        <package>org.apache.avalon.meta.plugin</package>
+        <ant basedir="meta/plugin">
+            <property name="project.version" value="@@DATE@@"/>
+        </ant>
+        <depend project="avalon-framework" id="api" />
+        <depend project="avalon-framework" id="impl" />
+        <depend project="avalon-meta-api" />
+        <depend project="avalon-meta-spi" />
+        <depend project="avalon-meta-impl" />
+        <depend project="avalon-meta-tools" />
+        <depend project="commons-collection" />
+        <depend project="commons-logging" />
+        <depend project="logging-log4j" />
+        <depend project="xdoclet" />
+        <!-- What is these dependencies
+            xdoclet+xdoclet-module
+            xdoclet+xjavadoc
+            xdoclet+jmx-module
+        -->    
+        <work nested="meta/plugin/target/classes"></work>
+        <home nested="meta/plugin"></home>
+        <jar name="target/jars/avalon-meta-plugin-@@DATE@@.jar" id="plugin"/>
+        <javadoc nested="meta/plugin/target/docs/apidocs"/>
+        <junitreport nested="meta/plugin/target/test-reports"/>
+        <nag to="dev@avalon.apache.org" from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"></nag>
+    </project>
+  
+    <project name="avalon-meta-impl">
+        <package>org.apache.avalon.impl</package>
+        <ant basedir="meta/impl">
+            <property name="project.version" value="@@DATE@@"/>
+        </ant>
+        <depend project="ant" inherit="runtime"/>
+        <depend project="xml-xalan2"/>
+        <depend project="xml-xerces"/>
+        <depend project="avalon-framework"/>
+        <depend project="excalibur-i18n"/>
+        <depend project="excalibur-configuration"/>
+        <depend runtime="true" project="junit"/>
+        <depend runtime="true" project="avalon-logkit"/>
 
-    <!-- runtime dependencies -->
-    <depend project="avalon-framework" runtime="true" id="api"/>
-    <depend project="avalon-logging-api" runtime="true"/>
-    <depend project="avalon-logging-spi" runtime="true"/>
-    <!--depend project="avalon-repository-api" runtime="true"/>
-    <depend project="avalon-repository-spi" runtime="true"/>
-    <depend project="avalon-util-criteria" runtime="true"/>
-    <depend project="avalon-util-i18n" runtime="true"/>
-    <depend project="avalon-util-defaults" runtime="true"/-->
-    <depend project="excalibur-configuration" runtime="true"/>
-
-    <!-- test-time dependencies -->
-    <depend property="junit.jar" project="junit"/>
-
-    <!-- build-time dependencies -->
-    <depend project="ant" inherit="runtime"/>
-    <depend project="xml-xerces"/>
-    <depend project="xml-xalan2"/>
-
-    <!-- optional dependencies -->
-    <option project="checkstyle" inherit="runtime"/>
-
-    <mkdir dir="logging/impl/target/classes"/>
-    <mkdir dir="logging/impl/target/test-classes"/>
+        <work nested="meta/impl/target/classes"/>
+        <home nested="meta/impl"/>
+        <jar name="target/jars/avalon-meta-impl-@@DATE@@.jar" id="impl"/>
+        <javadoc nested="meta/impl/target/docs/apidocs"/>
+        <junitreport nested="meta/impl/target/test-reports"/>
+        <nag to="dev@avalon.apache.org" from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"/>
+    </project>
     
-    <work nested="logging/impl/target/classes"/>
-    <work nested="logging/impl/target/test-classes"/>
+    <project name="avalon-util-criteria">
+        <package>org.apache.avalon.util.criteria</package>
+        <ant basedir="util/criteria">
+            <property name="project.version" value="@@DATE@@"/>
+        </ant>
+        <work nested="util/criteria/target/classes"/>
+        <home nested="util/criteria"/>
+        <jar name="target/jars/avalon-util-criteria-@@DATE@@.jar"/>
+        <javadoc nested="util/criteria/target/docs/apidocs"/>
+        <junitreport nested="util/criteria/target/test-reports"/>
+        <nag to="dev@avalon.apache.org" from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"/>
+    </project>
 
-    <home nested="logging/impl"/>
-    
-    <jar name="target/avalon-logging-impl-@@DATE@@.jar" />
+    <project name="avalon-util-defaults">
+        <package>org.apache.avalon.util.defaults</package>
+        <ant basedir="util/defaults">
+            <property name="project.version" value="@@DATE@@"/>
+        </ant>
+        <depend project="avalon-util-env" />
+        <work nested="util/defaults/target/classes"/>
+        <home nested="util/defaults"/>
+        <jar name="target/jars/avalon-util-defaults-@@DATE@@.jar"/>
+        <javadoc nested="util/defaults/target/docs/apidocs"/>
+        <junitreport nested="util/defaults/target/test-reports"/>
+        <nag to="dev@avalon.apache.org" from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"/>
+    </project>
 
-    <junitreport nested="logging/impl/target/test-reports"/>
+    <project name="avalon-util-env">
+        <package>org.apache.avalon.util.env</package>
+        <ant basedir="util/env">
+            <property name="project.version" value="@@DATE@@"/>
+        </ant>
+        <work nested="util/env/target/classes"/>
+        <home nested="util/env"/>
+        <jar name="target/jars/avalon-util-env-@@DATE@@.jar"/>
+        <javadoc nested="util/env/target/docs/apidocs"/>
+        <junitreport nested="util/env/target/test-reports"/>
+        <nag to="dev@avalon.apache.org" from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"/>
+    </project>
 
-    <nag from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"
-      to="dev@avalon.apache.org"/>
-  </project>
+    <project name="avalon-util-exception">
+        <package>org.apache.avalon.util.exception</package>
+        <ant basedir="util/exception">
+            <property name="project.version" value="@@DATE@@"/>
+        </ant>
+        <work nested="util/exception/target/classes"/>
+        <home nested="util/exception"/>
+        <jar name="target/jars/avalon-util-exception-@@DATE@@.jar"/>
+        <javadoc nested="util/exception/target/docs/apidocs"/>
+        <junitreport nested="util/exception/target/test-reports"/>
+        <nag to="dev@avalon.apache.org" from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"/>
+    </project>
 
-  <project name="avalon-meta-api">
-    <package>org.apache.avalon.meta</package>
-    <ant basedir="meta">
-        <property name="project.version" value="@@DATE@@"/>
-    </ant>
-    <depend project="avalon-framework" id="api" />
-    <depend project="avalon-framework" id="impl" />
-    <work nested="meta/api/target/classes"/>
-    <home nested="meta/api"/>
-    <jar name="target/jars/avalon-meta-api-@@DATE@@.jar" id="api"/>
-    <javadoc nested="meta/api/target/docs/apidocs"/>
-    <junitreport nested="meta/api/target/test-reports"/>
-    <nag to="dev@avalon.apache.org" from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"/>
-  </project>
-  
-  <project name="avalon-meta-spi">
-    <package>org.apache.avalon.meta.spi</package>
-    <ant basedir="meta">
-        <property name="project.version" value="@@DATE@@"/>
-    </ant>
-    <depend project="avalon-framework" id="api" />
-    <depend project="avalon-meta-api" />
-    <work nested="meta/spi/target/classes"/>
-    <home nested="meta/spi"/>
-    <jar name="target/jars/avalon-meta-spi-@@DATE@@.jar" id="spi"/>
-    <javadoc nested="meta/spi/target/docs/apidocs"/>
-    <junitreport nested="meta/spi/target/test-reports"/>
-    <nag to="dev@avalon.apache.org" from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"/>
-    <work nested="meta/plugin/target/classes"/>
-  </project>
-  
-  <project name="avalon-meta-tools">
-    <package>org.apache.avalon.meta.tools</package>
-    <ant basedir="meta">
-        <property name="project.version" value="@@DATE@@"></property>
-    </ant>
-    <depend project="avalon-framework" id="api" />
-    <depend project="avalon-framework" id="impl" />
-    <depend project="avalon-meta-api" />
-    <depend project="avalon-meta-spi" />
-    <depend project="avalon-meta-impl" />
-    <depend project="excalibur-configuration" />
-    <depend project="qdox" />
-    
-    <work nested="meta/tools/target/classes"/>
-    <home nested="meta/tools"/>
-    <jar name="target/jars/avalon-meta-tools-@@DATE@@.jar" id="tools"/>
-    <javadoc nested="meta/tools/target/docs/apidocs"/>
-    <junitreport nested="meta/tools/target/test-reports"/>
-    <nag to="dev@avalon.apache.org" from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"/>
-  </project>
-  
-  <project name="avalon-meta-plugin">
-    <package>org.apache.avalon.meta.plugin</package>
-    <ant basedir="meta">
-        <property name="project.version" value="@@DATE@@"/>
-    </ant>
-    <depend project="avalon-framework" id="api" />
-    <depend project="avalon-framework" id="impl" />
-    <depend project="avalon-meta-api" />
-    <depend project="avalon-meta-spi" />
-    <depend project="avalon-meta-impl" />
-    <depend project="avalon-meta-tools" />
-    <depend project="commons-collections" />
-    <depend project="commons-logging" />
-    <depend project="logging-log4j" />
-    <depend project="xdoclet" />
-    <!-- What is these dependencies
-        xdoclet+xdoclet-module
-        xdoclet+xjavadoc
-        xdoclet+jmx-module
-    -->    
-    <work nested="meta/plugin/target/classes"></work>
-    <home nested="meta/plugin"></home>
-    <jar name="target/jars/avalon-meta-plugin-@@DATE@@.jar" id="plugin"/>
-    <javadoc nested="meta/plugin/target/docs/apidocs"/>
-    <junitreport nested="meta/plugin/target/test-reports"/>
-    <nag to="dev@avalon.apache.org" from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"></nag>
-  </project>
-  
-  <project name="avalon-meta-impl">
-    <package>org.apache.avalon.impl</package>
-    <ant basedir="meta">
-        <property name="project.version" value="@@DATE@@"/>
-    </ant>
-    <depend project="ant" inherit="runtime"/>
-    <depend project="xml-xalan2"/>
-    <depend project="xml-xerces"/>
-    <depend project="avalon-framework"/>
-    <depend project="excalibur-i18n"/>
-    <depend project="excalibur-configuration"/>
-    <depend runtime="true" project="junit"/>
-    <depend runtime="true" project="avalon-logkit"/>
+    <project name="avalon-util-extension-api">
+        <package>org.apache.avalon.extension</package>
+        <ant basedir="util/extension/api">
+            <property name="project.version" value="@@DATE@@"/>
+        </ant>
+        <work nested="util/extension/api/target/classes"/>
+        <home nested="util/extension/api"/>
+        <jar name="target/jars/avalon-util-extension-api-@@DATE@@.jar"/>
+        <javadoc nested="util/extension/api/target/docs/apidocs"/>
+        <junitreport nested="util/extension/api/target/test-reports"/>
+        <nag to="dev@avalon.apache.org" from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"/>
+    </project>
 
-    <work nested="meta/impl/target/classes"/>
-    <home nested="meta/impl"/>
-    <jar name="target/jars/avalon-meta-impl-@@DATE@@.jar" id="impl"/>
-    <javadoc nested="meta/impl/target/docs/apidocs"/>
-    <junitreport nested="meta/impl/target/test-reports"/>
-    <nag to="dev@avalon.apache.org" from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"/>
-  </project>
- 
+    <project name="avalon-util-extension-impl">
+        <package>org.apache.avalon.extension.manager.impl</package>
+        <ant basedir="util/extension/impl">
+            <property name="project.version" value="@@DATE@@"/>
+        </ant>
+        <depend project="avalon-util-extension-api" />
+        <work nested="util/extension/impl/target/classes"/>
+        <home nested="util/extension/impl"/>
+        <jar name="target/jars/avalon-util-extension-impl-@@DATE@@.jar"/>
+        <javadoc nested="util/extension/impl/target/docs/apidocs"/>
+        <junitreport nested="util/extension/impl/target/test-reports"/>
+        <nag to="dev@avalon.apache.org" from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"/>
+    </project>
+
+    <project name="avalon-util-i18n">
+        <package>org.apache.avalon.meta</package>
+        <ant basedir="util/i18n">
+            <property name="project.version" value="@@DATE@@"/>
+        </ant>
+        <work nested="util/i18n/target/classes"/>
+        <home nested="util/i18n"/>
+        <jar name="target/jars/avalon-util-i18n-@@DATE@@.jar"/>
+        <javadoc nested="util/i18n/target/docs/apidocs"/>
+        <junitreport nested="util/i18n/target/test-reports"/>
+        <nag to="dev@avalon.apache.org" from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"/>
+    </project>
+
 </module>
