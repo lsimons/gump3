@@ -13,10 +13,7 @@
     <depend project="xml-xerces"/>
     <depend project="jakarta-log4j"/>
     <depend project="jmx"/>
-    <depend project="ejb"/>
-    <!-- Really should be using
-     depend project="ejb2"/ 
-    -->
+    <depend project="ejb2"/>
     <depend project="jms"/>
     <depend project="openjmx"/>
     <depend project="jrefactory-pretty"/>
@@ -33,6 +30,10 @@
     <work nested="core/build/jmx"/>
     <work nested="core/build/ejb/classes"/>
     <work nested="core/build/web/WEB-INF/classes"/>
+  </project>
+
+  <project name="ejb2">
+    <jar id="xdoclet" name="lib/ejb.jar"/>
   </project>
 
 </module>
