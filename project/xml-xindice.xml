@@ -26,7 +26,7 @@
   <project name="xml-xindice">
     <package>org.apache.xindice</package>
 
-    <mdir dir="build/classes"/>
+    <mkdir dir="build/classes"/>
     <ant>
       <property name="project.version" value="@@DATE@@"/>
     </ant>
