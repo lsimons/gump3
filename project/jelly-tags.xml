@@ -332,6 +332,25 @@
          to="commons-dev@jakarta.apache.org"/>
   </project>  
 
+  <project name="commons-jelly-tags-log">
+    <package>org.apache.commons.jelly.tags.log</package>
+    <description>The Jelly Logging Tags</description>
+
+    <ant basedir="jelly/jelly-tags/log" target="jar">
+      <property name="final.name"  value="commons-jelly-tags-log-@@DATE@@"/>
+    </ant>
+
+    <depend project="commons-jelly" inherit="all"/>
+
+    <work nested="jelly/jelly-tags/log/target/classes"/>
+    <work nested="jelly/jelly-tags/log/target/test-classes"/>
+
+    <jar name="jelly/jelly-tags/log/target/commons-jelly-tags-log-@@DATE@@.jar"/>
+ 
+    <nag from="Morgan Delagrange &lt;mdelagra@yahoo.com&gt;"
+         to="commons-dev@jakarta.apache.org"/>
+  </project>
+  
   <project name="commons-jelly-tags-ojb">
     <package>org.apache.commons.jelly.tags.ojb</package>
     <description>A variety of tags for working with the ObjectBridge persistence engine</description>
