@@ -15,5 +15,22 @@
     <depend project="jakarta-site2"/>
     <depend project="castor"/>
   </project>
+  
+  <project name="maven">
+    <ant basedir="proposal/maven" target="jar">
+      <depend name="velocity.jar" project="jakarta-velocity"/>
+      <depend name="commons-digester.jar" project="commons-digester"/>
+      <depend name="commons-beanutils.jar" project="commons-beanutils"/>
+      <depend name="xerces.jar" project="xml-xerces"/>
+      <depend name="ant.jar" project="jakarta-ant"/>
+      <depend name="log4j.jar" project="jakarta-log4j"/>
+
+      <property name="version" value="gump"/>
+      <property name="deprecation" value="on"/>
+    </ant>
+
+    <home nested="proposal/maven"/>
+    <jar name="bin/maven-gump.jar"/>
+  </project>
 
 </module>
