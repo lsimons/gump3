@@ -36,6 +36,9 @@ import sys
 import time
 from xml.dom import minidom
 import smtplib
+from subprocess import Popen
+from subprocess import PIPE
+from subprocess import STDOUT
 
 # for log messages...
 SEP = "------------------------------------------------------------------------------\n"
@@ -220,8 +223,8 @@ class _Logger:
 def _check_version():
     """Raises exception if python version < 2.3."""
     (major, minor, micro, releaselevel, serial) = sys.version_info
-    if not major >=2 and minor >= 3:
-        raise Error, 'CRITICAL: Gump requires Python 2.3 or above. The ' + \
+    if not major >=2 and minor >= 4:
+        raise Error, 'CRITICAL: Gump requires Python 2.4 or above. The ' + \
                 'current version is %s.' % sys.version()
 
 
@@ -268,36 +271,19 @@ def _parse_workspace(filename, options):
 
 def _svn_update(log, options):
     """Updates pygump itself from SVN."""
-    command = "sh -c 'svn update --non-interactive "
-    if not options.debug: command += "-q " # suppress output
-    svnlogfile = os.path.join( options.logdir, "svnuplog.txt" )
+    command = ["svn", "update", "--non-interactive"]
+    if not options.debug: command.append("-q") # suppress output
     
-    command += os.path.join(options.homedir,'pygump')
-    
-    command += " >" + svnlogfile + " 2>&1'"
-
-    try:
-        result = os.system(command)
-        if not os.name == 'dos' and not os.name == 'nt':
-            result = (((result & 0xFF00) >> 8) & 0xFF)
-            
-        if result: # any not 0 is bad...
-            msg = "An error occurred while self-updating pygump from svn"
-            log.error( msg + ":")
-            log.target.write(SEP); print SEP,
-            
-            svnlog=open(svnlogfile,'r')
-            line = svnlog.readline()
-            while line:
-                log.target.write(line); print line,
-                line = svnlog.readline()
-    
-            svnlog.close()
-            log.target.write(SEP); print SEP,
-            raise Error, msg
-    finally:
-        os.remove(svnlogfile)
-
+    p = Popen(command,stdout=PIPE,stderr=STDOUT)
+    p.wait()
+    if p.returncode:
+        msg = "An error occurred while self-updating pygump from svn"
+        log.error( msg + ":")
+        log.target.write(SEP); print SEP,
+        svnlog = p.communicate()[0]
+        log.target.write(svnlog); print svnlog
+        log.target.write(SEP); print SEP,
+        raise Error, msg
 
 def _send_email(toaddr,fromaddr,subject,data,server,port=25):
     """Utility method for sending out e-mails."""

@@ -75,6 +75,10 @@ def get_config(settings):
     config.database_user = settings.databaseuser
     config.database_password = settings.databasepassword
     
+    # set up logging
+    from logging.config import fileConfig
+    fileConfig('gump.log.config')
+    
     return config
 
 
@@ -104,7 +108,7 @@ def get_plugins(config):
     # TODO: append more plugins here...
 
     from gump.plugins import LoggingPlugin
-    log = get_logger(config, "plugin-log")
+    log = get_logger(config, "plugin")
     plugins.append(LoggingPlugin(log))
     
     post_process_plugins = []
@@ -112,9 +116,9 @@ def get_plugins(config):
     post_process_plugins.append(TimerPlugin("run_end"))
 
     from gump.plugins.dynagumper import Dynagumper
-    log = get_logger(config, "util-db")
+    log = get_logger(config, "util")
     db = get_db(log,config)
-    log = get_logger(config, "plugin-dynagumper")
+    log = get_logger(config, "plugin.dynagumper")
     post_process_plugins.append(Dynagumper(db, log))
     
     return (pre_process_plugins, plugins, post_process_plugins)
@@ -136,7 +140,7 @@ def get_error_handler(config):
     # TODO: implement an error handler that does actual recovery...
     
     from gump.plugins import LoggingErrorHandler
-    log = get_logger(config, "plugin-error-handler")
+    log = get_logger(config, "plugin.error-handler")
     return LoggingErrorHandler(log)
 
 ###
