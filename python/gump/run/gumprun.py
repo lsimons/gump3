@@ -102,6 +102,23 @@ class GumpRun(gump.utils.work.Workable,gump.utils.note.Annotatable,Stateful):
         
         # Actor Queue
         self.actors=list()
+        
+        # Main players
+        self.builder=None
+        self.updater=None
+        
+        
+    def setBuilder(self,builder):
+        self.builder=builder
+        
+    def getBuilder(self):
+        return self.builder
+        
+    def setUpdater(self,updater):
+        self.updater=updater
+        
+    def getUpdater(self):
+        return self.updater
 
     def getRunGuid(self):
         return self.guid

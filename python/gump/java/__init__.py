@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 
-#!/usr/bin/env python
 # Copyright 2003-2004 The Apache Software Foundation
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -15,7 +14,15 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# tell Python what modules make up the gump.test package
-__all__ = ["builder", "ant","script","maven", "java"]
+#
+# $Header: /home/stefano/cvs/gump/python/gump/java/__init__.py,v 1.1 2004/07/28 01:26:09 ajack Exp $
+# 
 
-    
+"""
+
+  Gump Java Components.
+  
+"""
+
+# tell Python what modules make up the gump.core package
+__all__ = ["cp","helper"]

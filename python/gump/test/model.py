@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/test/model.py,v 1.24 2004/07/23 15:23:33 ajack Exp $
-# $Revision: 1.24 $
+# $Header: /home/stefano/cvs/gump/python/gump/test/model.py,v 1.25 2004/07/28 01:26:08 ajack Exp $
+# $Revision: 1.25 $
 #!/usr/bin/env python
 # Copyright 2003-2004 The Apache Software Foundation
 #
@@ -28,7 +28,7 @@ from gump import log
 import gump.core.config
 from gump.model.state import *
 from gump.utils import *
-from gump.test import getWorkedTestWorkspace
+from gump.test import getWorkedTestRun
 from gump.test.pyunit import UnitTestSuite
 
 class ModelTestSuite(UnitTestSuite):
@@ -37,12 +37,13 @@ class ModelTestSuite(UnitTestSuite):
         
     def suiteSetUp(self):
         #
-        # Load a decent Workspace
+        # Load a decent Run/Workspace
         #
-        self.workspace=getWorkedTestWorkspace() 
-         
+        self.run=getWorkedTestRun()  
+        self.assertNotNone('Needed a run', self.run)
+        self.workspace=self.run.getWorkspace()          
         self.assertNotNone('Needed a workspace', self.workspace)
-        
+ 
         self.repo1=self.workspace.getRepository('repository1')  
                     
         self.package1=self.workspace.getProject('package1')
@@ -62,7 +63,7 @@ class ModelTestSuite(UnitTestSuite):
         self.module4=self.workspace.getModule('module4')
         self.module5=self.workspace.getModule('module5')
         
-    def setTearDown(self):
+    def suiteTearDown(self):
         self.workspace=None
         self.repo1=None
 
@@ -192,63 +193,10 @@ class ModelTestSuite(UnitTestSuite):
         
         self.assertNotEmpty('Ought have a location', module1.getMetadataLocation() )
         self.assertNotEmpty('Ought have a location', project1.getMetadataLocation() )
-        
-    def testClasspaths(self):
-        
-        (classpath,bootclasspath)=self.project1.getClasspaths()
-        (classpath,bootclasspath)=self.project4.getClasspaths()
-        (classpath,bootclasspath)=self.alias1.getClasspaths()
-        (classpath,bootclasspath)=self.project5.getClasspaths(1)        
-        #print "Classpath:" + classpath     
-        #print "Bootclasspath:" + bootclasspath
-        
+    
     def testMaven(self):                
         self.assertTrue('Maven project has a Maven object', self.maven1.hasMaven())
-                 
-    def testNoClasspath(self):
-        
-        tested=False
-        for depend in self.project5.getDirectDependencies():
-            if self.project4 == depend.getProject():
-                tested=True
-                self.assertTrue('NoClasspath', depend.isNoClasspath())
-        self.assertTrue('Did a NoClasspath test', tested)
-                
-        tested=False          
-        for depend in self.project4.getDirectDependencies():
-            tested=True           
-            self.assertFalse('Not NoClasspath', depend.isNoClasspath())
-        self.assertTrue('Did a NOT NoClasspath test', tested)
-        
-    def testNoClasspathOnProperty(self):  
-        self.assertFalse('<ant <property does NOT gives full dependency (noclasspath)',	\
-                self.project3.hasFullDependencyOnNamedProject('project2'))
-                
-        (classpath,bootclasspath)=self.project3.getClasspathObjects()
-        
-        for pathPart in classpath.getSimpleClasspathList():
-            #print "pathPart:" + `pathPart`
-            self.assertNotSubstring('Ought not get output2.jar from project2',	\
-                    'output2.jar',	\
-                    pathPart)
-        
-    def testClasspathOnDepend(self):
-        for depend in self.project3.getDirectDependencies():
-            print "Depend:" + `depend`        
-        else:
-            print 'No p3 deps:'
-            
-        self.assertTrue('<ant <depend gives full dependency (classpath)', \
-                self.project3.hasFullDependencyOnNamedProject('project1'))
-                
-        (classpath,bootclasspath)=self.project3.getClasspathObjects()
-        
-        found=0
-        for pathPart in classpath.getSimpleClasspathList():
-            if not -1 == pathPart.find('output1.jar'):
-                found=1
-            
-        self.assertTrue('Ought find output1.jar', found)
+ 
         
     def testJunitReport(self):
                 

@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/gui/view.py,v 1.14 2004/07/19 16:07:57 ajack Exp $
-# $Revision: 1.14 $
-# $Date: 2004/07/19 16:07:57 $
+# $Header: /home/stefano/cvs/gump/python/gump/gui/view.py,v 1.15 2004/07/28 01:26:09 ajack Exp $
+# $Revision: 1.15 $
+# $Date: 2004/07/28 01:26:09 $
 #
 # ====================================================================
 #
@@ -418,7 +418,7 @@ class gumpview(wxApp):
     if not self.classpath.GetColumn(0):
       self.classpath.InsertColumn(0, 'Path')
 
-    (classpath, bootclasspath)=project.getClasspathObjects()
+    (classpath, bootclasspath)=project.getClasspathObjects(run)
     for i in range(0,len(classpath)):
       self.classpath.InsertStringItem(i,classpath[i])
 

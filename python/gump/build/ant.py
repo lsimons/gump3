@@ -26,7 +26,7 @@ from gump import log
 from gump.run.gumprun import *
 from gump.core.config import dir, default, basicConfig
 
-import gump.build.abstract
+import gump.build.builder
 
 from gump.utils.note import Annotatable
 from gump.utils.work import *
@@ -40,15 +40,15 @@ from gump.model.depend import  ProjectDependency
 from gump.model.stats import *
 from gump.model.state import *
 
-class AntBuilder(gump.build.abstract.AbstractJavaBuilder):
+class AntBuilder(gump.run.gumprun.RunSpecific):
     
     def __init__(self,run):
         """
         	The Ant Builder is a Java Builder
     	""" 
-        gump.build.abstract.AbstractJavaBuilder.__init__(self,run)
+        gump.run.gumprun.RunSpecific.__init__(self,run)
 
-    def buildProject(self,project,stats):
+    def buildProject(self,project,language,stats):
         """
         	Build a project using Ant, based off the <ant metadata.
         	
@@ -61,7 +61,7 @@ class AntBuilder(gump.build.abstract.AbstractJavaBuilder):
         log.info('Run Ant on Project: #[' + `project.getPosition()` + '] : ' + project.getName())
     
         # Get the appropriate build command...
-        cmd=self.getAntCommand(project, self.run.getEnvironment().getJavaCommand())
+        cmd=self.getAntCommand(project, language, self.run.getEnvironment().getJavaCommand())
 
         if cmd:
             # Execute the command ....
@@ -82,7 +82,7 @@ class AntBuilder(gump.build.abstract.AbstractJavaBuilder):
                 # For now, things are going good...
                 project.changeState(STATE_SUCCESS)
     
-    def getAntCommand(self,project,javaCommand='java'):
+    def getAntCommand(self,project,language,javaCommand='java'):
         """
         	Build an ANT command for this project, based on the <ant metadata
    			select targets and build files as appropriate.     	
@@ -104,7 +104,7 @@ class AntBuilder(gump.build.abstract.AbstractJavaBuilder):
         basedir = ant.getBaseDirectory() or project.getBaseDirectory()
     
         # Build a classpath (based upon dependencies)
-        (classpath,bootclasspath)=project.getClasspaths()
+        (classpath,bootclasspath)=language.getClasspaths(project)
     
         # Get properties
         properties=self.getAntProperties(project)
@@ -113,7 +113,7 @@ class AntBuilder(gump.build.abstract.AbstractJavaBuilder):
         sysproperties=self.getAntSysProperties(project)
    
         # Run java on apache Ant...
-        cmd=Cmd(javaCommand,'build_'+project.getModule().getName()+'_'+project.getName(),\
+        cmd=Cmd(javaCommand,'build_'+project.getModule().getName()+'_'+project.getName(),
             basedir,{'CLASSPATH':classpath})
             
         # These are workspace + project system properties
@@ -124,7 +124,7 @@ class AntBuilder(gump.build.abstract.AbstractJavaBuilder):
             cmd.addPrefixedParameter('-X','bootclasspath/p',bootclasspath,':')
             
         # Get/set JVM properties
-        jvmargs=self.getJVMArgs(project)
+        jvmargs=language.getJVMArgs(project)
         if jvmargs:
             cmd.addParameters(jvmargs)
             
@@ -172,10 +172,10 @@ class AntBuilder(gump.build.abstract.AbstractJavaBuilder):
             properties.addPrefixedNamedParameter('-D',property.name,property.value,'=')
         return properties
                 
-    def preview(self,project,stats):        
+    def preview(self,project,language,stats):        
         """
         	Preview what an Ant build would look like.
         """
-        command=self.getAntCommand(project) 
+        command=self.getAntCommand(project,language) 
         command.dump()
  

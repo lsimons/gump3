@@ -15,7 +15,9 @@
 # limitations under the License.
 
 """
-    This module contains information on
+
+    Classpaths
+    
 """
 
 import os

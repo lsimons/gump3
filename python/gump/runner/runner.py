@@ -55,6 +55,10 @@ class GumpRunner(RunSpecific):
         self.updater=GumpUpdater(run)
         self.builder=GumpBuilder(run)
         
+        # Stash them for reference...
+        run.setUpdater(self.updater)
+        run.setBuilder(self.builder)
+        
     def initialize(self,exitOnError=True):
         
         logResourceUtilization('Before initialize')
@@ -67,6 +71,9 @@ class GumpRunner(RunSpecific):
             logResourceUtilization('Before check environment')            
             self.run.getEnvironment().checkEnvironment(exitOnError)
             logResourceUtilization('After check environment')
+        
+        # Now, force cetain things (like blanking CLASSPATH)
+        self.run.getEnvironment().setEnvironment()
         
         # Modify the log location on the fly, if --dated
         if self.run.getOptions().isDated():

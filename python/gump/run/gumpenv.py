@@ -66,24 +66,21 @@ class GumpEnvironment(Annotatable,Workable,Propogatable):
         Propogatable.__init__(self)
         Stateful.__init__(self)
         
-        #
-    	# Set to true if not found, see checkEnvironment
-    	#
-    	self.checked=False
+        self.checked=False
+        self.set=False
     	
     	self.noMaven=False    	 
     	self.noDepot=False    	
     	self.noUpdate=False    
     	self.noSvn=False    	
-    	self.noCvs=False    	
-        self.noJavaHome=False
-        self.noClasspath=False
+    	self.noCvs=False   
         self.noJava=False
         self.noJavac=False
         
         self.javaProperties=None
     
     	# JAVACMD can override this, see checkEnvironment
+    	self.javaHome = None
         self.javaCommand = 'java'
         
         # DEPOT_HOME
@@ -94,7 +91,7 @@ class GumpEnvironment(Annotatable,Workable,Propogatable):
         
     def checkEnvironment(self,exitOnError=False):
         """ 
-        Check Things That are Required 
+        Check things that are required/optional 
         """
         
         if self.checked: return
@@ -110,29 +107,20 @@ class GumpEnvironment(Annotatable,Workable,Propogatable):
         # - Others?
     
         #
-        #	Directories...
-    
-    
-        #
+        #    Directories...
+     
         # JAVACMD can be set (perhaps for JRE verse JDK)
-        #
         if os.environ.has_key('JAVACMD'):        
             self.javaCommand  = os.environ['JAVACMD']
             self.addInfo('JAVACMD environmental variable setting java command to ' \
-                + self.javaCommand )
+                + self.javaCommand )      
     
-    
-        #	Envs:
-        #	JAVA_HOME for bootstrap ant?
-        #	CLASSPATH
-    
-        if not self.noJavaHome and not self._checkEnvVariable('JAVA_HOME',False):    
-            self.noJavaHome=True    
-            self.addWarning('JAVA_HOME environmental variable not found. Might not be needed.')
+        self._checkEnvVariable('JAVA_HOME')
                 
-        if not self.noClasspath and not self._checkEnvVariable('CLASSPATH',False):
-            self.noClasspath=True    
-            self.addWarning('CLASSPATH environmental variable not found. Might not be needed.')
+        if os.environ.has_key('JAVA_HOME'):        
+            self.javaHome  = os.environ['JAVA_HOME']
+            self.addInfo('JAVA_HOME environmental variable setting java home to ' \
+                + self.javaHome )      
                 
         if not self.noMaven and not self._checkEnvVariable('MAVEN_HOME',False): 
             self.noMaven=True
@@ -147,10 +135,10 @@ class GumpEnvironment(Annotatable,Workable,Propogatable):
         #
         # Check for executables:
         #
-        #	java
-        #	javac (for bootstrap ant & beyond)
-        #	cvs
-        #	svn
+        #    java
+        #    javac (for bootstrap ant & beyond)
+        #    cvs
+        #    svn
         #
         self._checkExecutable('env','',False)
 
@@ -185,8 +173,29 @@ class GumpEnvironment(Annotatable,Workable,Propogatable):
         self.checked=True
         
         self.changeState(STATE_SUCCESS)
-    
+        
+    def setEnvironment(self):
+        """ 
+        Set things that are required 
+        """
+        
+        if self.set: return
+        
+        # Blank the CLASSPATH
+        os.environ['CLASSPATH']=''
+  
+        self.set=True
+        
+    def getJavaHome(self):
+        # Ensure we've determined the Java Home
+        self.checkEnvironment()    
+        return self.javaHome
+        
     def getJavaProperties(self):
+        """
+        Ask the JAVA instance what it's system properties are, 
+        primarily so we can log/display them (for user review).
+        """
         if not isinstance(self.javaProperties,NoneType): 
             return self.javaProperties
 

@@ -23,6 +23,7 @@ import sys
 import logging
 import signal
 
+from types import NoneType
 from threading import Timer
     
 from string import split
@@ -56,16 +57,16 @@ class Parameter:
         
     def isRequiresQuoting(self):
         if self.name:
-            if ' ' in self.name: return 1
-            if default.shellQuote in self.name: return 1
-            if default.shellEscape in self.name: return 1
+            if ' ' in self.name: return True
+            if default.shellQuote in self.name: return True
+            if default.shellEscape in self.name: return True
                         
         if self.value:
-            if ' ' in self.value: return 1
-            if default.shellQuote in self.value: return 1
-            if default.shellEscape in self.value: return 1
+            if ' ' in self.value: return True
+            if default.shellQuote in self.value: return True
+            if default.shellEscape in self.value: return True
             
-        return 0
+        return False
                 
     
 def getParameterFromString(strp):
@@ -132,12 +133,11 @@ class Parameters:
         if param.prefix: 
           line += param.prefix
           
-        #
         # Deal w/ escaping quotes
-        #
         line += self.getEscapedEntry(param.name)
         val = param.value
-        if val:
+        
+        if not isinstance(val,NoneType):
             line += param.separator
             line += self.getEscapedEntry(val)        
             
@@ -148,7 +148,7 @@ class Parameters:
       return line
         
     def getEscapedEntry(self,entry):
-        if not entry: return
+        if not entry: return ""
         # Try without escape escape for now...
         #escapedEntry=entry.replace(default.shellEscape,default.shellEscape+default.shellEscape)        
         escapedEntry=entry.replace(default.shellQuote,default.shellEscape+default.shellQuote)

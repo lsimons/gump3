@@ -39,8 +39,10 @@ from gump.utils import *
 from gump.utils.timing import *
 from gump.utils.tools import syncDirectories,copyDirectories,wipeDirectoryTree
 
+from gump.java.cp import AnnotatedPath
+
 from gump.model.stats import *
-from gump.model.project import AnnotatedPath,  ProjectStatistics
+from gump.model.project import ProjectStatistics
 from gump.model.state import *
 from gump.model.workspace import Workspace
 from gump.model.module import Module
@@ -504,9 +506,7 @@ class XDocDocumenter(Documenter):
                 self.config,
                 spec.getRootPath())
         
-        definitionSection=document.createSection('Workspace Definition')    
-        
-        definitionSection.createNote('This install runs Python Gump, not Traditional Gump.') 
+        definitionSection=document.createSection('Workspace Definition')     
         
         definitionTable=definitionSection.createTable()
         definitionTable.createEntry('Workspace Name', 
@@ -1734,7 +1734,7 @@ This page helps Gumpmeisters (and others) observe community progress.
                 detailsList.createEntry('Containing Module: '))        
         
         if project.isSpliced():
-            detailsList.createEntry('Metadata form from multiple XML pieces: ', `project.isSpliced()`)
+            detailsList.createEntry('Metadata formed from multiple XML pieces: ', `project.isSpliced()`)
             
         if project.hasHomeDirectory():
             detailsList.createEntry('Home Directory: ', project.getHomeDirectory())
@@ -1818,9 +1818,10 @@ This page helps Gumpmeisters (and others) observe community progress.
             if project.hasAnt():                
                 self.documentProperties(miscSection, project.getAnt(), 'Ant Properties')
             
-            (classpath,bootclasspath)=project.getClasspathObjects()            
-            self.displayClasspath(miscSection, classpath,'Classpath',project)        
-            self.displayClasspath(miscSection, bootclasspath,'Boot Classpath',project) 
+            javaHelper=self.run.getBuilder().getJavaLanguageHelper()            
+            (classpath,bootclasspath)=javaHelper.getClasspathObjects(project)            
+            self.displayClasspath(miscSection, classpath, 'Classpath', project)        
+            self.displayClasspath(miscSection, bootclasspath, 'Boot Classpath', project) 
         else:
             miscSection.createParagraph('No build command (so classpaths irrelevant)')
        
@@ -1966,7 +1967,7 @@ This page helps Gumpmeisters (and others) observe community progress.
         pathTable=pathSection.createTable(['Path Entry','Contributor','Instigator','Id','Annotation'])       
         paths=0
         for path in classpath.getPathParts(): 
-            if isinstance(path,AnnotatedPath):
+            if isinstance(path,gump.java.cp.AnnotatedPath):
                 pathStr=path.getPath()
                 contributor=path.getContributor()
                 instigator=path.getInstigator()

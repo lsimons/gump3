@@ -28,6 +28,8 @@ import gump.core.config
 from gump.model.state import *
 from gump.build.maven import MavenBuilder
 
+import gump.java.helper
+
 from gump.utils import *
 from gump.test import getWorkedTestRun
 from gump.test.pyunit import UnitTestSuite
@@ -55,16 +57,17 @@ class MavenTestSuite(UnitTestSuite):
         self.assertNotNone('Needed a maven project', self.maven1)
         
         self.mavenBuilder=MavenBuilder(self.run)
+        self.javaHelper=gump.java.helper.JavaHelper(self.run)
         
     def testMavenProperties(self):
                 
         self.assertTrue('Maven project has a Maven object', self.maven1.hasMaven())        
-        self.mavenBuilder.generateMavenProperties(self.maven1, 'test/unit-testing-maven.properties')
+        self.mavenBuilder.generateMavenProperties(self.maven1, self.javaHelper, 'test/unit-testing-maven.properties')
         
     def testMavenCommand(self):                
         self.assertTrue('Maven project has a Maven object', self.maven1.hasMaven())        
   
-        cmd=self.mavenBuilder.getMavenCommand(self.maven1)
+        cmd=self.mavenBuilder.getMavenCommand(self.maven1,self.javaHelper)
         
         # cmd.dump()
         

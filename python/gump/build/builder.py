@@ -58,15 +58,17 @@ from gump.model.depend import  ProjectDependency
 from gump.model.stats import *
 from gump.model.state import *
 
+import gump.java.helper
+
 
 ###############################################################################
 # Classes
 ###############################################################################
 
-class GumpBuilder(RunSpecific):
+class GumpBuilder(gump.run.gumprun.RunSpecific):
     
     def __init__(self,run):
-        RunSpecific.__init__(self,run)
+        gump.run.gumprun.RunSpecific.__init__(self,run)
         
         self.ant=AntBuilder(run)
         self.maven=MavenBuilder(run)
@@ -74,74 +76,35 @@ class GumpBuilder(RunSpecific):
 
         # Place repository in jardir (to be renamed to repodir)
         self.repository=self.run.getOutputsRepository()
-
-    """
-    
-        ******************************************************************
         
-            THE BUILD INTERFACE
-        
-        ******************************************************************
-    
-    """
-    
-
-    def build(self):
-            
-        logResourceUtilization('Before build')
-        
-        #
-        # Doing a full build?
-        #
-        all=not self.run.getOptions().isQuick()
-        
-        #
-        # Run the build commands
-        #
-        logResourceUtilization('Before build')
-        if all:
-            self.buildAll()
-        else:
-            self.buildProjects()
-  
-        # Return an exit code based off success
-        # :TODO: Move onto self.run
-        if self.run.getWorkspace().isSuccess():
-            result = EXIT_CODE_SUCCESS 
-        else: 
-            result = EXIT_CODE_FAILED        
-        return result
-        
-    
-    def buildAll(self):
-        """ Build a GumpRun's Full Project Stack """
-        return self.buildProjectList(self.run.getGumpSet().getProjectSequence())
-  
-    def buildProjects(self):
-        """ Build a GumpRun's Projects """
-        return self.buildProjectList(self.run.getGumpSet().getProjects())
-  
-    def buildProjectList(self,list):
-    
-        workspace=self.run.getWorkspace()
-        
-        log.debug('Total Project Sequence (i.e. build order):');
-        for p in list:
-            log.debug('  To Build : ' + p.name)
-
-        log.debug('--- Building work directories with sources')
+        # A helper per language/type
+        # Note: All are Java right now...
+        self.java=gump.java.helper.JavaHelper(run)
 
 
-        # build all projects this project depends upon, then the project itself
-        for project in list:  
-            self.buildProject(project)
+    def getJavaLanguageHelper(self):
+        """
+        
+        Return the language specific helper
+         
+        """
+        return self.java
             
     def buildProject(self,project):
+        """
+        
+        Build a single project (within the overall context)
+        
+        """
         
         workspace=self.run.getWorkspace()
                  
         log.info('Build Project: #[' + `project.getPosition()` + '] : ' + project.getName())
-                    
+                  
+                  
+        # Right now everything is Java..
+        languageHelper=self.java
+          
         # Extract stats (in case we want to do conditional processing)            
         stats=None
         if project.hasStats():
@@ -149,11 +112,11 @@ class GumpBuilder(RunSpecific):
         
         # :TODO: Code this nicer, perhaps...    
         if project.isPackaged():             
-            self.performProjectPackageProcessing(project, stats)
+            self.performProjectPackageProcessing(project, languageHelper, stats)
             return
                 
         # Do this even if not ok
-        self.performPreBuild(project, stats)
+        self.performPreBuild(project, languageHelper, stats)
 
         if project.okToPerformWork():        
             log.debug('Performing Build Upon: [' + `project.getPosition()` + '] ' + project.getName())
@@ -171,11 +134,11 @@ class GumpBuilder(RunSpecific):
 
             # Pick your poison..
             if project.hasScript():
-                self.script.buildProject(project, stats)
+                self.script.buildProject(project, languageHelper, stats)
             elif project.hasAnt():
-                self.ant.buildProject(project, stats)
+                self.ant.buildProject(project, languageHelper, stats)
             elif project.hasMaven():
-                self.maven.buildProject(project, stats)
+                self.maven.buildProject(project, languageHelper, stats)
             
             if not project.okToPerformWork() and not project.isDebug():
                 # Display...
@@ -183,7 +146,7 @@ class GumpBuilder(RunSpecific):
                 project.setDebug(1)
                     
         # Do this even if not ok
-        self.performPostBuild( project, stats )
+        self.performPostBuild( project, languageHelper, stats )
     
         if project.isFailed():
             log.warn('Failed to build project #[' + `project.getPosition()` + '] : [' + project.getName() + '], state:' \
@@ -245,7 +208,7 @@ class GumpBuilder(RunSpecific):
             project.addError('   <mkdir without \'dir\' attribute.')
             raise RuntimeError('Bad <mkdir, missing \'dir\' attribute')
                
-    def performPreBuild( self, project, stats ):
+    def performPreBuild( self, project, language, stats ):
         """ 
         	Perform pre-build Actions 
         """
@@ -285,7 +248,7 @@ class GumpBuilder(RunSpecific):
         if startedOk and not project.okToPerformWork():
             log.warn('Failed to perform pre-build on project [' + project.getName() + ']')
 
-    def performPostBuild(self, project, stats):
+    def performPostBuild(self, project, language, stats):
         """
         	Perform Post-Build Actions
         """
@@ -343,7 +306,7 @@ class GumpBuilder(RunSpecific):
                         if not dir in dirs:                        
                             dircnt += 1            
                             if os.path.exists(dir):
-                                listDirectoryToFileHolder(project,dir,\
+                                listDirectoryToFileHolder(project,dir,
                                     FILE_TYPE_OUTPUT,
                                     'list_'+project.getName()+'_dir'+str(dircnt)+'_'+os.path.basename(dir))
                                 dirs.append(dir)
@@ -357,7 +320,7 @@ class GumpBuilder(RunSpecific):
                 project.changeState(STATE_SUCCESS)
         else:
             # List source directory (when failed) in case it helps debugging...
-            listDirectoryToFileHolder(project,project.getModule().getWorkingDirectory(), \
+            listDirectoryToFileHolder(project,project.getModule().getWorkingDirectory(), 
                                         FILE_TYPE_SOURCE, 'list_source_'+project.getName())           
             
         # Display JUnit report output, even if failed...
@@ -369,7 +332,7 @@ class GumpBuilder(RunSpecific):
                 catDirectoryContentsToFileHolder(project, reportDir, FILE_TYPE_OUTPUT)
     
                         
-    def performProjectPackageProcessing(self, project, stats):
+    def performProjectPackageProcessing(self, project, language, stats):
         """
         	Perform Package Processing Actions
         """
@@ -392,7 +355,7 @@ class GumpBuilder(RunSpecific):
             # If we have a <license name='...
             if project.hasLicense():
                 licensePath=os.path.abspath(	\
-                                os.path.join( project.getModule().getWorkingDirectory(),	\
+                                os.path.join( project.getModule().getWorkingDirectory(),
                                                 project.getLicense() ) )
                                           
                 # Add to list of outputs, in case we
@@ -408,7 +371,7 @@ class GumpBuilder(RunSpecific):
                 dir=os.path.dirname(output)
                 if not dir in dirs:                        
                     dircnt += 1         
-                    listDirectoryToFileHolder(project,dir,\
+                    listDirectoryToFileHolder(project,dir,
                         FILE_TYPE_PACKAGE,
                         'list_'+project.getName()+'_dir'+str(dircnt)+'_'+os.path.basename(dir))
                     dirs.append(dir)          
@@ -442,11 +405,10 @@ class GumpBuilder(RunSpecific):
                 project.changeState(STATE_FAILED,REASON_PACKAGE_BAD)
                 
                 # List them, why not...
-                listDirectoryToFileHolder(project,project.getHomeDirectory(),	\
-                    FILE_TYPE_PACKAGE, 'list_package_'+project.getName())                                            
+                listDirectoryToFileHolder(project,project.getHomeDirectory(),
+                    FILE_TYPE_PACKAGE, 'list_package_'+project.getName())                                                   
         
-        
-    def preview(self,project):
+    def preview(self,project,languageHelper):
         """
         Preview what a build would do.
         """
@@ -461,10 +423,10 @@ class GumpBuilder(RunSpecific):
         
         # Pick your poison..
         if project.hasScript():
-            self.script.preview(project, stats)
+            self.script.preview(project, languageHelper, stats)
         elif project.hasAnt():
-            self.ant.preview(project, stats)
+            self.ant.preview(project,  languageHelper, stats)
         elif project.hasMaven():
-            self.maven.preview(project, stats)
+            self.maven.preview(project,  languageHelper, stats)
         else:
             print 'No builder for project: ' + project.getName()

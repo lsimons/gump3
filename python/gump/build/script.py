@@ -45,13 +45,13 @@ from gump.model.state import *
 # Classes
 ###############################################################################
 
-class ScriptBuilder(RunSpecific):
+class ScriptBuilder(gump.run.gumprun.RunSpecific):
     
     def __init__(self,run):
         """
         A script 'builder'
         """
-        RunSpecific.__init__(self,run)
+        gump.run.gumprun.RunSpecific.__init__(self,run)
 
     def buildProject(self,project,stats):
         """
@@ -87,7 +87,7 @@ class ScriptBuilder(RunSpecific):
                 # For now, things are going good...
                 project.changeState(STATE_SUCCESS)
    
-    def getScriptCommand(self,project):
+    def getScriptCommand(self,languageHelper,project):
         """ Return the command object for a <script entry """
         script=project.script
            
@@ -104,8 +104,8 @@ class ScriptBuilder(RunSpecific):
         # The script
         scriptfile=os.path.abspath(os.path.join(basedir, scriptfullname))
         
-        # Not sure this is relevent...
-        (classpath,bootclasspath)=project.getClasspaths()
+        # Needed for (at least) a compiler...
+        (classpath,bootclasspath)=languageHelper.getClasspaths(project)
 
         cmd=Cmd(scriptfile,'buildscript_'+project.getModule().getName()+'_'+project.getName(),\
             basedir,{'CLASSPATH':classpath})    
@@ -113,7 +113,7 @@ class ScriptBuilder(RunSpecific):
         return cmd
         
         
-    def preview(self,project,stats):        
+    def preview(self,project,languageHelper,stats):        
         """
         Preview what this would do
         """

@@ -26,7 +26,7 @@ from gump import log
 from gump.run.gumprun import *
 from gump.core.config import dir, default, basicConfig
 
-from gump.build.abstract import AbstractJavaBuilder
+import gump.build
 
 from gump.utils import dump, display, getIndent, logResourceUtilization, \
                             invokeGarbageCollection
@@ -37,7 +37,7 @@ from gump.utils.tools import *
 
 from gump.model.workspace import *
 from gump.model.module import Module
-from gump.model.project import Project,AnnotatedPath
+from gump.model.project import Project
 from gump.model.depend import  ProjectDependency
 from gump.model.stats import *
 from gump.model.state import *
@@ -47,25 +47,28 @@ from gump.model.state import *
 # Classes
 ###############################################################################
 
-class MavenBuilder(AbstractJavaBuilder):
+class MavenBuilder(gump.run.gumprun.RunSpecific):
     
     def __init__(self,run):
-        AbstractJavaBuilder.__init__(self,run)
+        gump.run.gumprun.RunSpecific.__init__(self,run)
 
-    def buildProject(self,project,stats):
+    def buildProject(self,project,languageHelper,stats):
+        """
+        Build a Maven project
+        """
         
         workspace=self.run.getWorkspace()
                 
         log.debug('Run Maven on Project: #[' + `project.getPosition()` + '] ' + project.getName())
         
-        self.performPreBuild(project, stats)
+        self.performPreBuild(project, languageHelper, stats)
           
         if project.okToPerformWork():
 
             #
             # Get the appropriate build command...
             #
-            cmd=self.getMavenCommand(project)
+            cmd=self.getMavenCommand(languageHelper, project)
 
             if cmd:
                 # Execute the command ....
@@ -74,7 +77,7 @@ class MavenBuilder(AbstractJavaBuilder):
                 # Update Context    
                 work=CommandWorkItem(WORK_TYPE_BUILD,cmd,cmdResult)
                 project.performedWork(work)
-                project.setBuilt(1)
+                project.setBuilt(True)
                     
                 # Update Context w/ Results  
                 if not cmdResult.state==CMD_STATE_SUCCESS:
@@ -100,7 +103,7 @@ class MavenBuilder(AbstractJavaBuilder):
     #
     # Build an ANT command for this project
     #        
-    def getMavenCommand(self,project):
+    def getMavenCommand(self,project,languageHelper):
         maven=project.maven
     
         # The ant goal (or none == ant default goal)
@@ -118,8 +121,7 @@ class MavenBuilder(AbstractJavaBuilder):
         #
         # Build a classpath (based upon dependencies)
         #
-        (classpath,bootclasspath)=project.getClasspaths()
-    
+        (classpath,bootclasspath)=languageHelper.getClasspaths(project)
     
         # Run Maven...
         cmd=Cmd('maven','build_'+project.getModule().getName()+'_'+project.getName(),\
@@ -167,17 +169,17 @@ class MavenBuilder(AbstractJavaBuilder):
         return cmd
   
         # Do this even if not ok
-    def performPreBuild(self, project, stats):
+    def performPreBuild(self, project, languageHelper, stats):
                    
         # Maven requires a build.properties to be generated...
         if project.okToPerformWork():
             try:
-                propertiesFile=self.generateMavenProperties(project)                                
+                propertiesFile=self.generateMavenProperties(project,languageHelper)                                
                 project.addDebug('(Gump generated) Maven Properties in: ' + propertiesFile)
                 
                 try:
-                    catFileToFileHolder(project,propertiesFile,	\
-                        FILE_TYPE_CONFIG,	\
+                    catFileToFileHolder(project,propertiesFile,
+                        FILE_TYPE_CONFIG,
                         os.path.basename(propertiesFile))
                 except:
                     log.error('Display Properties [ ' + propertiesFile + '] Failed', exc_info=1)   
@@ -187,7 +189,7 @@ class MavenBuilder(AbstractJavaBuilder):
                 project.changeState(STATE_FAILED,REASON_PREBUILD_FAILED)
  
     # The propertiesFile parameter is primarily for testing.
-    def generateMavenProperties(self,project,propertiesFile=None):
+    def generateMavenProperties(self,project,languageHelper,propertiesFile=None):
         """Set properties/overrides for a Maven project"""
         
         #:TODO: Does Maven have the idea of system properties?
@@ -197,8 +199,7 @@ class MavenBuilder(AbstractJavaBuilder):
         #
         basedir = project.maven.getBaseDirectory() or project.getBaseDirectory()
         if not propertiesFile: 
-            propertiesFile=os.path.abspath(os.path.join(	\
-                    basedir,'build.properties'))
+            propertiesFile=os.path.abspath(os.path.join(basedir,'build.properties'))
         
         if os.path.exists(propertiesFile):
             project.addWarning('Overriding Maven properties: ['+propertiesFile+']')
@@ -241,14 +242,14 @@ maven.jar.override = on
 # ------------------------------------------------------------------------
 """)
         
-        (classpath,bootclasspath)=project.getClasspathObjects()
+        (classpath,bootclasspath)=languageHelper.getClasspathObjects(project)
         
         # :TODO: write...
         for annotatedPath in classpath.getPathParts():
-            if isinstance(annotatedPath,AnnotatedPath):
+            if isinstance(annotatedPath,gump.java.cp.AnnotatedPath):
                 props.write(('# Contributor: %s\nmaven.jar.%s=%s\n') % \
-                    (	annotatedPath.getContributor(),	\
-                        annotatedPath.getId(),	\
+                    (	annotatedPath.getContributor(),	
+                        annotatedPath.getId(),	
                         annotatedPath.getPath()))
 
         return propertiesFile
@@ -263,7 +264,7 @@ maven.jar.override = on
         basedir = project.maven.getBaseDirectory() or project.getBaseDirectory()
         return os.path.abspath(os.path.join(basedir,'project.xml'))  
         
-    def preview(self,project,stats):        
-        command=self.getMavenCommand(project) 
+    def preview(self,project,languageHelper,stats):        
+        command=self.getMavenCommand(project,languageHelper) 
         command.dump()
             

@@ -374,6 +374,9 @@ if __name__=='__main__':
     from gump.test.launching import LaunchingTestSuite  
     runner.addSuite(LaunchingTestSuite())
  
+    from gump.test.language import LanguageTestSuite  
+    runner.addSuite(LanguageTestSuite())
+ 
     
     # Any args are pattern matches
     patterns=list(sys.argv)
