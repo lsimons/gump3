@@ -90,6 +90,12 @@ From: Ted Husted <ted@husted.com>
 Subject: [GUMP] Build Failure - util
 Regex: /BUILD FAILED/
 ------
+Project: commons-validator
+To: commons-dev@jakarta.apache.org
+From: Ted Husted <ted@husted.com>
+Subject: [GUMP] Build Failure - validator
+Regex: /BUILD FAILED/
+------
 Project: dist-ant
 To: ant-dev@jakarta.apache.org
 From: Diane Holt <holtdl@apache.org>
