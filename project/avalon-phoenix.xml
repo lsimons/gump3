@@ -120,8 +120,12 @@
         <depend project="avalon-components"/>
 
         <home nested="examples/demo"/>
-        <work nested="examples/demo/target/classes"/>
+        <work nested="examples/demo/target"/>
 
+        <jar name="lib/avalon-demo.sar" id="demo" />
+        <jar name="lib/avalon-rmidemo.sar" id="demo-rmi" />
+        <jar name="lib/avalon-lifecycledemo.sar" id="demo-lifecycle" />
+        
         <nag from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"
             to="dev@avalon.apache.org"/>
     </project>
@@ -141,7 +145,8 @@
 
         <home nested="examples/pdk"/>
 
-        <jar name="target/lib/pdk-@@DATE@@.sar"/>
+        <work nested="examples/pdk/target"/>
+        <jar name="lib/phoenix-demo.sar"/>
 
         <nag from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"
                 to="dev@avalon.apache.org"/>
@@ -164,7 +169,8 @@
 
         <home nested="examples/testserver"/>
 
-        <jar name="target/lib/avalon-testserver.sar"/>
+        <work nested="examples/testserver/target"/>
+        <jar name="lib/avalon-testserver.sar"/>
 
         <nag from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"
             to="dev@avalon.apache.org"/>
