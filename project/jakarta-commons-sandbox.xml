@@ -53,6 +53,7 @@
     <description>Commons Email Package</description>
     <ant basedir="email" target="dist">
       <property name="component.version"  value="@@DATE@@"/>
+      <depend property="commons-util.jar" project="commons-lang"/>
     </ant>
     <depend project="jakarta-ant"/>
     <depend project="xml-xerces"/>
