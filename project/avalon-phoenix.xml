@@ -20,7 +20,6 @@
         <depend project="dist-avalon-logkit" runtime="true"/>
         <depend project="avalon" runtime="true"/>
         <depend project="excalibur-compatibility" runtime="true"/>
-        <depend project="spice-cli" runtime="true"/>
         <depend project="spice-configkit" runtime="true" inherit="runtime"/>
         <depend project="spice-classman" runtime="true" inherit="runtime"/>
         <depend project="spice-xmlpolicy" runtime="true"/>
