@@ -889,7 +889,7 @@
         <package>org.apache.excalibur.store</package>
 
         <ant basedir="store">
-            <property name="excalibur-fortress-tools.jar" project="excalibur-fortress" reference="jarpath" id="fortress-tools"/>
+            <depend property="excalibur-fortress-tools.jar" project="excalibur-fortress" reference="jarpath" id="fortress-tools"/>
             <depend property="qdox.jar" project="phoenix-qdox"/>
             <property name="version" value="@@DATE@@"/>
             <property name="junit.failonerror" value="true"/>
