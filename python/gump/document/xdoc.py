@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/xdoc.py,v 1.14 2004/03/03 01:36:01 ajack Exp $
-# $Revision: 1.14 $
-# $Date: 2004/03/03 01:36:01 $
+# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/xdoc.py,v 1.15 2004/03/03 22:09:31 ajack Exp $
+# $Revision: 1.15 $
+# $Date: 2004/03/03 22:09:31 $
 #
 # ====================================================================
 #
@@ -504,7 +504,10 @@ class XDocTableData(XDocPiece):
         return self.storePiece(XDocFork(self.createSubContext(),href,text))            
         
     def createStrong(self,text=None):
-        return self.storePiece(XDocStrong(self.createSubContext(),text))
+        return self.storePiece(XDocStrong(self.createSubContext(),text))  
+                
+    def createIcon(self,href,alt=None):
+        return self.storePiece(XDocIcon(self.createSubContext(),href,alt))   
 
 class XDocNote(XDocPiece):
     def __init__(self,context,text):
