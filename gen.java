@@ -37,6 +37,8 @@ public class gen {
     DocumentBuilderFactory dFactory = DocumentBuilderFactory.newInstance();
     TransformerFactory tFactory = TransformerFactory.newInstance();
 
+    Hashtable modules;
+
     /**
       * parse an XML source file into an DOM
       * @param name of source file
@@ -242,7 +244,7 @@ public class gen {
       */
     private void computeSrcdir(Element workspace) throws Exception {
         String basedir = workspace.getAttribute("basedir");
-        Hashtable modules = flatten("module", workspace);
+        modules = flatten("module", workspace);
         for (Enumeration e=modules.keys(); e.hasMoreElements();) {
              Element module = (Element)modules.get(e.nextElement());
              String name = module.getAttribute("name");
@@ -262,6 +264,49 @@ public class gen {
                      }
                  }
                  child=child.getNextSibling();
+             }
+        }
+    }
+
+    /**
+      * Flatten all projects, and in the process resolve all home directories.
+      */
+    private void computeHome(Element workspace) throws Exception {
+        String basedir = workspace.getAttribute("basedir");
+        String pkgdir = workspace.getAttribute("pkgdir");
+        if (pkgdir.equals("")) pkgdir = basedir;
+
+        Hashtable projects = flatten("project", workspace);
+        for (Enumeration keys=projects.keys(); keys.hasMoreElements();) {
+             String name = (String)keys.nextElement();
+             Element project = (Element)projects.get(name);
+
+             String moduleName = project.getAttribute("module");
+             Element module= (Element)modules.get(moduleName);
+             String srcdir = module.getAttribute("srcdir");
+             
+             // compute home directory
+             String home=project.getAttribute("home");
+             if (home.equals("")) {
+                 Element e = (Element)XPathAPI.selectSingleNode(project,"home");
+                 if (e != null) {
+                     String attr;
+                     if (! (attr=e.getAttribute("parent")).equals("")) {
+                         home = basedir + "/" + attr;
+                     } else if (! (attr=e.getAttribute("nested")).equals("")) {
+                         home = srcdir + "/" + attr;
+                     } else if (! (attr=e.getAttribute("dir")).equals("")) {
+                         home = attr;
+                     }
+                 }
+
+                 if (home.equals("")) {
+                     String pkg = project.getAttribute("package");
+                     if (!pkg.equals("")) home = pkgdir + "/" + pkg;
+                 }
+
+                 if (home.equals("")) home=srcdir;
+                 project.setAttribute("home", home);
              }
         }
     }
@@ -313,8 +358,8 @@ public class gen {
         workspaceDefaults(workspace);
 
         expand((Element)workspace);
-        computeSrcdir((Element) workspace);
-        flatten("project", workspace);
+        computeSrcdir(workspace);
+        computeHome(workspace);
         flatten("repository", workspace);
         antDependsToProperties(doc);
 

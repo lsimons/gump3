@@ -177,7 +177,7 @@
             <prereq project="{@project}">
               <xsl:for-each select="/workspace/project[@name=$dependent]">
                 <xsl:for-each select="jar">
-                  <file path="{../home}/{@name}"/>
+                  <file path="{../@home}/{@name}"/>
                 </xsl:for-each>
               </xsl:for-each>
             </prereq>
@@ -210,7 +210,7 @@
                 <xsl:variable name="dependent" select="@project"/>
                 <xsl:for-each select="/workspace/project[@name=$dependent]">
                   <xsl:for-each select="jar">
-                    <pathelement location="{../home}/{@name}"/>
+                    <pathelement location="{../@home}/{@name}"/>
                   </xsl:for-each>
                 </xsl:for-each>
               </xsl:for-each>
@@ -268,7 +268,7 @@
           <xsl:when test="@reference='home'">
             <xsl:variable name="project" select="@project"/>
             <xsl:for-each select="/workspace/project[@name=$project]">
-              <property name="{$name}" value="{home}" type="path"/>
+              <property name="{$name}" value="{@home}" type="path"/>
             </xsl:for-each>
           </xsl:when>
 
@@ -292,12 +292,12 @@
             <xsl:if test="@id">
               <xsl:variable name="id" select="@id"/>
               <xsl:for-each select="/workspace/project[@name=$project]">
-                <property name="{$name}" value="{home}/{jar[@id=$id]/@name}" type="path"/>
+                <property name="{$name}" value="{@home}/{jar[@id=$id]/@name}" type="path"/>
               </xsl:for-each>
             </xsl:if>
             <xsl:if test="not(@id)">
               <xsl:for-each select="/workspace/project[@name=$project]/jar">
-                <property name="{$name}" value="{../home}/{@name}" type="path"/>
+                <property name="{$name}" value="{../@home}/{@name}" type="path"/>
               </xsl:for-each>
             </xsl:if>
           </xsl:when>

@@ -18,45 +18,8 @@
 
     <xsl:variable name="project" select="@name"/>
 
-    <!-- determine the name of the module -->
-
-    <xsl:variable name="module" select="@module"/>
-    <xsl:variable name="srcdir" select="../module[@name=$module]/@srcdir"/>
-
     <xsl:copy>
-      <xsl:apply-templates select="@* | *[not(self::home)] | text()"/>
-
-      <!-- Compute fully qualified home directory -->
-
-      <home>
-        <xsl:choose>
-          <xsl:when test="@home">
-             <xsl:value-of select="@home"/>
-          </xsl:when>
-          <xsl:when test="home/@parent">
-             <xsl:value-of select="../@basedir"/>
-             <xsl:text>/</xsl:text>
-             <xsl:value-of select="home/@parent"/>
-          </xsl:when>
-          <xsl:when test="home/@nested">
-             <xsl:value-of select="$srcdir"/>
-             <xsl:text>/</xsl:text>
-             <xsl:value-of select="home/@nested"/>
-          </xsl:when>
-          <xsl:when test="home/@dir">
-             <xsl:value-of select="@dir"/>
-          </xsl:when>
-          <xsl:when test="@package">
-             <xsl:value-of select="../@pkgdir"/>
-             <xsl:text>/</xsl:text>
-             <xsl:value-of select="@package"/>
-          </xsl:when>
-          <xsl:otherwise>
-             <xsl:value-of select="$srcdir"/>
-          </xsl:otherwise>
-        </xsl:choose>
-      </home>
-      <xsl:text>&#10;</xsl:text>
+      <xsl:apply-templates select="@* | * | text()"/>
 
       <!-- Generate additional dependency entries, as needed -->
 
