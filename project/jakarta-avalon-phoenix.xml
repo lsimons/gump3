@@ -41,8 +41,7 @@
     <depend project="dist-bsf"/>
     <depend project="rhino"/>
     <depend project="mx4j"/>
-    <!-- depend project="xdoclet" inherit="jars"/ -->
-    <depend project="xdoclet-ant15" runtime="true" inherit="runtime"/>
+    <depend project="qdox"/>
     <depend project="jarv" runtime="true"/>
     <depend project="jakarta-site2" inherit="all" />
     <option project="jakarta-servletapi-4"/>
@@ -57,13 +56,10 @@
          to="avalon-phoenix-dev@jakarta.apache.org"/>
   </project>
 
-  <project name="xdoclet-ant15">
-    <depend project="jakarta-log4j" runtime="true"/>
-    <depend project="commons-logging" runtime="true"/>
-    <jar name="lib/xdoclet/xdoclet-20020825.jar"/>
-    <jar name="lib/xdoclet/xjavadoc-20020825.jar"/>
+  <project name="qdox">
+    <jar name="lib/qdox-1.0.jar"/>
   </project>
-
+  
   <project name="jarv">
     <jar name="lib/jing/isorelax.jar"/>
   </project>
