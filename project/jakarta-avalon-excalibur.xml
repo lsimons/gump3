@@ -783,7 +783,7 @@
         <option project="jms" runtime="true"/>
         <option project="javamail" runtime="true"/>
         <option project="jaf" runtime="true"/>
-	<option project="jakarta-servletapi-4" runtime="true"/>
+        <option project="jakarta-servletapi-4" runtime="true"/>
 
         <work nested="logger/build/classes"/>
 
