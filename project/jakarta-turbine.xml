@@ -16,6 +16,7 @@
   <depend project="jakarta-regexp"/>
   <option project="jakarta-log4j"/>
   <depend project="jakarta-ecs"/>
+  <depend project="jakarta-oro"/>
   <depend project="jakarta-velocity"/>
   <depend project="webmacro"/>
   <option project="freemarker"/>
