@@ -126,7 +126,7 @@
     <package>org.apache.cactus.integration.ant</package>
     <description>Cactus Ant Integration (J2EE 1.2)</description>
 
-    <ant buildfile="integration/ant/build.xml" target="dist">
+    <ant buildfile="integration/ant/build.xml" target="dist" debug="true">
 
       <property name="project.version" value="@@DATE@@"/>
 
@@ -174,7 +174,7 @@
     <package>org.apache.cactus.integration.ant</package>
     <description>Cactus Ant Integration (J2EE 1.3)</description>
 
-    <ant buildfile="integration/ant/build.xml" target="dist">
+    <ant buildfile="integration/ant/build.xml" target="dist" debug="true">
 
       <property name="project.version" value="@@DATE@@"/>
 
