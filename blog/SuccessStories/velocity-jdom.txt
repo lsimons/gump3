@@ -1,4 +1,5 @@
 Velocity adapts Anakia to changes in JDOM
+meta-blog-entry-author=antoine
 
 On the 18th of February, Stefan Bodewig wrote :
 <blockquote>
