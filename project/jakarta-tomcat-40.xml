@@ -24,6 +24,7 @@
         reference="jarpath" id="regexp" project="jakarta-regexp"/>
       <property name="jtc.home" reference="srcdir"
         project="jakarta-tomcat-connectors"/>
+      <property name="version" value="4.1.25-dev"/>
     </ant>
     <depend project="ant"/>
     <depend project="xml-xerces"/>
