@@ -51,7 +51,7 @@ class Workspace(NamedModelObject, PropertyContainer, Statable, Resultable):
             if xmlworkspace.getName():
                 name=xmlworkspace.getName()
             
-    	NamedModelObject.__init__(self,name,xmlworkspace)    	
+    	NamedModelObject.__init__(self,name,xmlworkspace)    
     	PropertyContainer.__init__(self)    
     	Statable.__init__(self)
     	Resultable.__init__(self)

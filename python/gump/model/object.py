@@ -36,11 +36,11 @@ class ModelObject(Annotatable,Workable,FileHolder,Propogatable,Ownable):
         # Can scribble on this thing...
     	Annotatable.__init__(self)
     	
-    	# Holds file references
-    	FileHolder.__init__(self)
-    	
     	# Holds work (with state)
     	Workable.__init__(self)
+    	
+    	# Holds file references
+    	FileHolder.__init__(self)
     	
     	# Can propogate states
         Propogatable.__init__(self)

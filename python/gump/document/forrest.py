@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/forrest.py,v 1.118 2004/03/28 19:04:55 ajack Exp $
-# $Revision: 1.118 $f
-# $Date: 2004/03/28 19:04:55 $
+# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/forrest.py,v 1.119 2004/03/29 19:34:19 ajack Exp $
+# $Revision: 1.119 $f
+# $Date: 2004/03/29 19:34:19 $
 #
 # ====================================================================
 #
@@ -121,6 +121,7 @@ class ForrestDocumenter(Documenter):
         gumpSet=run.getGumpSet()
         
         # Document...
+        self.documentEnvironment(run,workspace)    
         self.documentWorkspace(run,workspace,gumpSet)    
         if gumpSet.isFull():
             self.documentStatistics(run,workspace,gumpSet)
@@ -239,7 +240,29 @@ class ForrestDocumenter(Documenter):
                 success=0
         
         return success
-         
+              
+    #####################################################################           
+    #
+    # Environment
+    #      
+    def documentEnvironment(self,run,workspace):
+        
+        environment=run.getEnvironment()
+           
+        #
+        # ----------------------------------------------------------------------
+        #
+        # env.xml
+        #
+        
+        document=XDocDocument('Workspace',	\
+                self.resolver.getFile(workspace, 'environment.xml'))       
+                
+        #self.documentFileList(document,environment,'Environment-level Files')
+        self.documentWorkList(document,environment,'Environment-level Work')
+     
+        document.serialize()
+                
     #####################################################################           
     #
     # Model Pieces
@@ -291,7 +314,6 @@ class ForrestDocumenter(Documenter):
         textRow=definitionTable.createRow()
         textRow.createData('Workspace Documentation')
         textRow.createData().createLink('context.html','Text')
-                
                 
         if not workspace.private:            
             syndRow=definitionTable.createRow()
@@ -345,7 +367,7 @@ class ForrestDocumenter(Documenter):
         self.documentProperties(detailsSection, workspace, 'Workspace Properties')
         
         # Does this workspace send nag mails?
-        if workspace.xml.nag:
+        if workspace.isNag():
             nag='true'
         else:
             nag='false'
