@@ -197,12 +197,10 @@
         <depend project="excalibur-component" id="component"/>
         <depend project="excalibur-testcase"/>
         <!--<depend property="qdox.jar" project="phoenix-qdox"/>-->
-        <!--<depend property="excalibur-fortress-tools.jar" project="avalon-fortress-tools" inherit="runtime"/>-->
         <depend property="logkit.jar" project="avalon-logkit"/>
         <depend project="ant" inherit="runtime"/>
         <option project="checkstyle" inherit="runtime"/>
         <depend project="junit"/>
-        <!--depend project="avalon-fortress-tools" inherit="runtime"/-->
         <depend project="avalon-framework" runtime="true" id="combined"/>
         <depend project="xml-xerces"/>
         <depend project="xml-xalan2"/>
@@ -921,7 +919,6 @@
         <depend project="xml-xalan2"/>
 
         <!-- build-time dependencies -->
-        <!--depend project="avalon-fortress-tools" inherit="runtime"/-->
 
         <depend property="qdox.jar" project="phoenix-qdox"/>
         
@@ -1087,13 +1084,11 @@
             <property name="project.version" value="@@DATE@@"/>
         </ant>
 
-        <!--depend property="excalibur-fortress-tools.jar" project="avalon-fortress-tools" inherit="runtime"/-->
         <depend property="qdox.jar" project="phoenix-qdox"/>
         <depend project="ant" inherit="runtime"/>
         <option project="checkstyle" inherit="runtime"/>
         <depend project="junit"/>
         <depend project="avalon-framework" runtime="true" id="combined"/>
-        <!--depend project="avalon-fortress-tools" runtime="true"/-->
         <depend project="excalibur-instrument"/>
         <depend project="xml-xerces"/>
         <depend project="xml-xalan2"/>
@@ -1250,7 +1245,6 @@
         <depend property="jaxen.jar" project="jaxen"/>
         <depend property="jtidy.jar" project="jtidy"/>
         <depend property="resolver.jar" project="xml-commons-resolver"/>
-        <!--depend property="excalibur-fortress-tools.jar" project="avalon-fortress-tools" inherit="runtime"/-->
 
         <depend property="qdox.jar" project="phoenix-qdox"/>
 
