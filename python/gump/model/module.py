@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/model/module.py,v 1.25 2004/01/19 23:34:02 ajack Exp $
-# $Revision: 1.25 $
-# $Date: 2004/01/19 23:34:02 $
+# $Header: /home/stefano/cvs/gump/python/gump/model/module.py,v 1.26 2004/01/19 23:44:22 ajack Exp $
+# $Revision: 1.26 $
+# $Date: 2004/01/19 23:44:22 $
 #
 # ====================================================================
 #
@@ -339,7 +339,7 @@ class Module(NamedModelObject, Statable):
                     repo=workspace.getRepository(repoName)
                     self.repository=repo
                     repo.addModule(self)
-                    self.svn=ModuleJars(self.xml.jars,repo)
+                    self.jars=ModuleJars(self.xml.jars,repo)
                 else:
                     self.changeState(STATE_FAILED,REASON_CONFIG_FAILED)               
                     self.addError('No such repository in w/s ['+ repoName +'] on [' \
