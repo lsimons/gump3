@@ -26,8 +26,8 @@
     <javadoc nested="target/javadocs" module="avalon"/>
     <license name="LICENSE.txt"/>
 
-    <nag from="Peter Donald &lt;peter@apache.org&gt;"
-            to="dev@avalon.apache.org"/>
+        <nag from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"
+                to="dev@avalon.apache.org"/>
   </project>
 
     <project name="avalon-junitreport">

@@ -30,8 +30,9 @@
 
     <javadoc nested="build/javadocs" module="avalon"/>
     <license name="LICENSE"/>
-    <nag from="Peter Donald &lt;peter@apache.org&gt;"
-            to="dev@avalon.apache.org"/>
+        <nag from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"
+                to="dev@avalon.apache.org"/>
+
   </project>
 
   <project name="dist-avalon-logkit">
