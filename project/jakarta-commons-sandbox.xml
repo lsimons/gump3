@@ -84,8 +84,18 @@
     <depend project="xml-xerces"/>
     <work nested="jjar/classes"/>
     <work nested="jjar/tests"/>
-    <jar name="jjar/commons-jjar.jar"/>
+    <jar name="jjar/dist/jjar.jar"/>
     <javadoc nested="jjar/dist/docs/api"/>
+  </project>
+
+  <project name="commons-graph">
+    <description>Jakarta Graph Utilities</description>
+    <ant basedir="graph" target="dist"/>
+    <depend project="jakarta-ant"/>
+    <depend project="xml-xerces"/>
+    <depend project="commons-collections"/>
+    <jar name="graph/dist/commons-graph.jar"/>
+    <javadoc nested="graph/dist/docs/api"/>
   </project>
 
   <project name="commons-lang">
