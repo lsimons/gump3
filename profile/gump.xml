@@ -325,6 +325,8 @@
 
   <repository href="repository/apache-svn-sandbox.xml"/>
   <repository href="repository/apache-incubator-svn.xml"/>
+  <repository href="repository/forrest.xml"/>
+  <repository href="repository/xml-svn.xml"/>
 
 <!-- CVS Repository definitions -->
 
@@ -354,7 +356,6 @@
   <repository href="repository/w3c.xml"/>
   <repository href="repository/ws.xml"/>
   <repository href="repository/xml.xml"/>
-  <repository href="repository/xml-svn.xml"/>
 
 <!-- server definitions -->
 
