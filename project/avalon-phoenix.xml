@@ -66,7 +66,7 @@
 
         <nag>
             <regexp pattern="/^$/" from="peter@apache.org"
-                to="avalon-phoenix-dev@jakarta.apache.org"
+                to="dev@avalon.apache.org"
                 subject="PRE-REQ FAILED for avalon-phoenix"/>
         </nag>
         <nag from="Peter Donald &lt;peter@apache.org&gt;"
@@ -94,10 +94,7 @@
         <depend project="incubator-altrmi" runtime="true"/>
 
         <home nested="examples/demo"/>
-
-        <work nested="examples/demo/build/classes"/>
-
-        <jar name="build/lib/avalon-demo-@@DATE@@.jar"/>
+        <work nested="examples/demo/target/classes"/>
 
         <nag from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"
             to="dev@avalon.apache.org"/>
@@ -118,7 +115,7 @@
 
         <home nested="examples/pdk"/>
 
-        <jar name="build/lib/pdk-@@DATE@@.sar"/>
+        <jar name="target/lib/pdk-@@DATE@@.sar"/>
 
         <nag from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"
             to="dev@avalon.apache.org"/>
@@ -141,7 +138,7 @@
 
         <home nested="examples/testserver"/>
 
-        <jar name="build/lib/testserver-@@DATE@@.sar"/>
+        <jar name="target/lib/avalon-testserver.sar"/>
 
         <nag from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"
             to="dev@avalon.apache.org"/>
