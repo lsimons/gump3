@@ -26,7 +26,6 @@
     <depend project="jakarta-velocity"/>
     <depend project="resolver"/>
     <depend project="hsqldb"/>
-    <depend project="httpclient"/>
     <option project="xml-fop"/>
     <option project="jtidy"/>
     <option project="phpservlt"/>
@@ -71,14 +70,6 @@
       Maybe Upload
     </description>
     <jar name="lib/maybeupload.jar"/>
-  </project>
-
-  <project name="httpclient">
-    <url href="http://www.innovation.ch/java/HTTPClient/"/>
-    <description>
-      LGPL HTTPClient library
-    </description>
-    <jar name="lib/HTTPClient.jar"/>
   </project>
 
 </module>
