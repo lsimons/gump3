@@ -4,7 +4,7 @@ REM SET JAXP=C:\jaxp-1.1
 REM 
 REM SET CLASSPATH=%JAXP%\crimson.jar;%JAXP%\jaxp.jar;%JAXP%\xalan.jar;%CLASSPATH%
 
-SET XALAN=C:\xalan-j_2_2_D8
+SET XALAN=C:\opt\xalan-j_2_2_0
 SET CLASSPATH=%XALAN%\bin\xml-apis.jar;%XALAN%\bin\xalan.jar;%CLASSPATH%
 SET CLASSPATH=%XALAN%\bin\xerces.jar;%CLASSPATH%
 
@@ -21,7 +21,6 @@ mkdir work
 
 REM ********************************************************************
 
-echo %TIME%
 echo Merging projects into workspace
 if exist classes rmdir /s /q classes
 mkdir classes
@@ -32,7 +31,6 @@ if errorlevel 1 goto fail
 echo.
 java -Duser.home=%HOME% -classpath jenny.jar;%CLASSPATH% Jenny %SOURCE%
 if not errorlevel 0 goto fail
-echo %TIME%
 
 REM ********************************************************************
 
@@ -64,11 +62,9 @@ if not errorlevel 0 goto fail
 
 REM ********************************************************************
 
-echo %TIME%
 echo Generate crossreference data
 java org.apache.xalan.xslt.Process -xml -in work\merge.xml -xsl stylesheet\xref.xsl -out work\xref.xml
 if not errorlevel 0 goto fail
-echo %TIME%
 
 echo Applying web site stylesheet
 java org.apache.xalan.xslt.Process -EDUMP -xml -in work\xref.xml -xsl stylesheet\jakarta.xsl -out work\xrefsite.xml
@@ -102,12 +98,10 @@ if not errorlevel 0 goto fail
 
 REM ********************************************************************
 
-echo %TIME%
 echo Publishing
 cd work
 call puball %SOURCE%
 cd ..
-echo %TIME%
 
 goto eof
 :fail
