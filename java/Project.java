@@ -10,6 +10,7 @@ import java.util.Enumeration;
 import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.Set;
+import java.util.StringTokenizer;
 import java.util.TreeSet;
 import java.util.Vector;
 
@@ -276,7 +277,14 @@ public class Project {
             String name = (String)e.nextElement();
             Element depend = (Element) dependsOn.get(name);
             Project target = (Project)projects.get(name);
-            String jarIds = depend.getAttribute("ids");
+
+            String idsAttr = depend.getAttribute("ids");
+            StringTokenizer tok = new StringTokenizer(idsAttr, " ", false);
+            Vector jarIds = new Vector();
+            while (tok.hasMoreTokens()) {
+                jarIds.add(tok.nextToken());
+            }
+            
             boolean buildable = false;
 
             if (!depend.getNodeName().equals("option")) {
@@ -292,8 +300,8 @@ public class Project {
             for (; child != null; child=child.getNextSibling()) {
                 if (child.getNodeName().equals("jar")) {
                     String id = ((Element) child).getAttribute("id");
-                    if (jarIds.equals("") 
-                        || (!id.equals("") && jarIds.indexOf(id) > -1)) {
+                    if (idsAttr.equals("") 
+                        || (!id.equals("") && jarIds.contains(id))) {
                         depend.appendChild(child.cloneNode(false));
                     }
                 } else if (child.getNodeName().equals("ant")) {

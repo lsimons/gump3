@@ -13,7 +13,7 @@
     <package>org.apache.xerces</package>
 
     <ant basedir="java" target="jars"/>
-    <depend project="jaxp" ids="apis,parser" />
+    <depend project="jaxp" ids="apis parser" />
     <depend project="bootstrap-ant"/>
     <home nested="java/build"/>
     <jar  name="xercesImpl.jar" id="parser"/>
