@@ -55,13 +55,17 @@ class Logger:
     """
     
     def __init__(self, logdir, level=DEBUG, console_level=INFO):
-        if not os.path.isdir(logdir): os.mkdir(logdir)
-        self.logdir = logdir
         self.level = level
         self.console_level = console_level
+        
+        if self.console_level >= DEBUG:
+            print "DEBUG: logdir is " + logdir
 
-        rundatetime = time.strftime('%d%m%Y_%H%M%S')
-        filename = 'gump_log_' + runDateTime + '.txt'
+        if not os.path.isdir(logdir): os.mkdir(logdir)
+        self.logdir = logdir
+
+        rundatetime = time.strftime('%Y%m%d_%H%M%S')
+        filename = 'gump_log_' + rundatetime + '.txt'
         self.filename = os.path.abspath(os.path.join(logdir,filename))
         self.target = open(self.filename, 'w', 0)
     
@@ -83,35 +87,35 @@ class Logger:
         if self.level >= DEBUG:
             self.target.write(message);
         if self.console_level >= DEBUG:
-            print message
+            print message,
     
     def info(self, msg):
         message = 'INFO: %s\n' % (msg)
         if self.level >= INFO:
             self.target.write(message);
         if self.console_level >= INFO:
-            print message
+            print message,
     
     def warning(self, msg):
         message = 'WARNING: %s\n' % (msg)
         if self.level >= WARNING:
             self.target.write(message);
         if self.console_level >= WARNING:
-            print message
+            print message,
     
     def error(self, msg):
         message = 'ERROR: %s\n' % (msg)
         if self.level >= ERROR:
             self.target.write(message);
         if self.console_level >= ERROR:
-            print message
+            print message,
 
     def critical(self, msg):
         message = 'CRITICAL: %s\n' % (msg)
         if self.level >= CRITICAL:
             self.target.write(message);
         if self.console_level >= CRITICAL:
-            print message
+            print message,
 
 def check_version():
     """
@@ -162,10 +166,13 @@ def svn_update(log, options):
     
     command += os.path.join(options.homedir,'pygump')
     
-    command += "2>&1 > " + svnlogfile
+    command += " > " + svnlogfile
 
     try:
         result = os.system(command)
+        if not os.name == 'dos' and not os.name == 'nt':
+            result = (((result & 0xFF00) >> 8) & 0xFF)
+            
         if result: # any not 0 is bad...
             msg = "An error occurred while self-updating pygump from svn"
             log.error( msg + ":")
@@ -219,7 +226,7 @@ def main():
     check_version()
 
     # get basic settings from environment variables
-    _homedir = _hostname = _envfile = _workdir = _pythoncmd = _javahome = None
+    _homedir = _hostname = _envfile = _workdir = _pythoncmd = _javahome = _projects = None
     try:
         envfile   = os.environ["GUMP_ENV_FILE"]
         pythoncmd = os.environ["GUMP_PYTHON"]
@@ -227,13 +234,20 @@ def main():
 
         _homedir   = os.environ["GUMP_HOME"]
         _hostname  = os.environ["GUMP_HOSTNAME"]
-        _workdir   = os.environ["GUMP_WORKDIR"]
-        _projects  = os.environ["GUMP_PROJECTS"]
+        try:
+            _workdir   = os.environ["GUMP_WORKDIR"]
+        except:
+            _workdir = os.path.join(_homedir, "pygump", "work")
+            
+        try:
+            _projects  = os.environ["GUMP_PROJECTS"]
+        except:
+            pass
     except:
         print "pygump: environment not setup properly. Please run pygump using the 'gump' script only."
     
     # and some basic settings calculated from those
-    _logdir        = os.path.join(_workdir, "/log")
+    _logdir        = os.path.join(_workdir, "log")
     _workspace     = os.path.join(_homedir, "pygump", "metadata", "%s.xml" % (_hostname))
     
     # get basic settings from commandline arguments
@@ -242,8 +256,7 @@ def main():
     parser.add_option("--debug",
                       action="store_true",
                       default=False)
-    parser.add_option("-h",
-                      "--homedir",
+    parser.add_option("--homedir",
                       action="store",
                       default=_homedir)
     parser.add_option("--hostname",
@@ -257,7 +270,7 @@ def main():
     parser.add_option("--workdir",
                       action="store",
                       default=_workdir)
-    parser.add_option("--logfile",
+    parser.add_option("--logdir",
                       action="store",
                       default=_logdir)
     parser.add_option("-w",
@@ -265,9 +278,9 @@ def main():
                       action="store",
                       default=_workspace)
     parser.add_option("--no-updates",
-                      action="store_false",
-                      dest="do_updates",
-                      default=True)
+                      action="store_true",
+                      dest="no_updates",
+                      default=False)
     options, args = parser.parse_args()
     
     # create logger
@@ -288,39 +301,40 @@ def main():
         
         log.debug('  - environment variables:')
         for (key, val) in os.environ.items():
-            log.debug('      ' + envkey + '="' + envval + '"\n')
+            log.debug('      ' + key + '="' + val + '"')
         log.debug('')
         log.debug('  - command line arguments:')
         log.debug('      %s' % (sys.argv))
     
         # validate options and arguments
-        if not hasattr(options, "projects") or len(options.projects) == 0:
+        if not hasattr(options, "projects"):
             log.debug("No projects to build set, defaulting to 'all'")
             options.projects = ["all"]
         if not os.path.exists(options.workspace):
             log.error("Workspace not found: %s." % options.workspace)
-            exit(1)
+            sys.exit(1)
         
         # get some more options from the workspace
         parse_workspace(options.workspace, options)
 
         try:
             # self-update
-            if(options.do_updates):
+            if not options.no_updates:
                 svn_update(log, options)
                 
             # finally: fire us up!
             start_engine(log, options)
+            log.info("Run completed!")
         except Exception, details:
             # this is not good. Send e-mail to the admin, complaining rather loudly.
-            log.error("gump: an uncaught exception occurred: " + details)
+            log.error("gump: an uncaught exception occurred: %s\n%s" % (Exception, details))
             try:
                 send_error_email(Exception, details, log)
             except Exception, details:
                 log.error("gump: additionally, an error occurred sending an e-mail about that exception: " + details)
                 pass
             
-            exit(1)
+            sys.exit(1)
     finally:
         try:
             log.close()

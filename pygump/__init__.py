@@ -16,3 +16,5 @@
 
 __copyright__ = "Copyright (c) 2004-2005 The Apache Software Foundation"
 __license__   = "http://www.apache.org/licenses/LICENSE-2.0"
+
+__all__ = ["main"]

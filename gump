@@ -502,13 +502,13 @@ function do_run
 # Run pygump in normal mode
 function run
 {
-  do_run "from gump.main import main; main()" $@
+  do_run "from main import main; main()" $@
 }
 
 # Run pygump in the debugger
 function debug
 {
-  do_run "from gump.main import main; import pdb; pdb.run('main()')" $@
+  do_run "from main import main; import pdb; pdb.run('main()')" $@
 }
 
 # Prematurely shut down pygump
