@@ -16,8 +16,9 @@
 
     <subsection name="commons-latka">
       <p>Latka depends on function which was subsequently rolled back from
-      httpclient.  Latka development continues with a snapshot of a jar which
-      does not correspond to any release of latka or the current cvs head.</p>
+      httpclient.  Latka development continues with a snapshot of an 
+      httpclient jar which does not correspond to any release of httpclient or 
+      the current cvs head.</p>
     </subsection>
 
     <subsection name="dbxml">
