@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/forrest.py,v 1.94 2004/03/08 05:40:50 ajack Exp $
-# $Revision: 1.94 $f
-# $Date: 2004/03/08 05:40:50 $
+# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/forrest.py,v 1.95 2004/03/08 16:04:08 ajack Exp $
+# $Revision: 1.95 $f
+# $Date: 2004/03/08 16:04:08 $
 #
 # ====================================================================
 #
@@ -504,7 +504,7 @@ class ForrestDocumenter(Documenter):
         
         projectsSection=document.createSection('Projects with issues...')
         projectsTable=projectsSection.createTable(['Name','Affected',	\
-                    'Dependencies',	\
+                    'Dependees',	\
                     'Duration\nin state','Project State'])
         pcount=0
         for project in sortedProjectList:
