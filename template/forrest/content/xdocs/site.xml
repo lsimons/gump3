@@ -9,9 +9,10 @@
 		tab="home">
 
   <work label="Gump">
-    <index label="Workspace" href="index.html"/>
-    <index label="Environment" href="environment.html"/>
+    <index label="Run" href="index.html"/>
     <index label="Run Options" href="options.html"/>
+    <index label="Environment" href="environment.html"/>
+    <index label="Workspace" href="workspace.html"/>
     <index label="Build Log" href="buildLog.html"/>
     <index label="Notes Log" href="notesLog.html"/>
     <index label="Diffs Log" href="diffsLog.html"/>

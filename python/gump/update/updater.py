@@ -101,14 +101,8 @@ class GumpUpdater(RunSpecific):
         
         log.debug("Workspace CVS|SVN|Jars Directory: " + workspace.getSourceControlStagingDirectory())
 
-        #log.debug('Modules to update:') 
-    
-        moduleCount=len(list)
-        moduleNo=0     
         # Update all the modules that have CVS repositories
         for module in list: 
-            moduleNo+=1
-            module.setPosition(moduleNo)
             self.updateModule(module)
         
     def updateModule(self,module):

@@ -120,14 +120,7 @@ class GumpBuilder(RunSpecific):
 
 
         # build all projects this project depends upon, then the project itself
-        projectCount=len(list)
-        projectNo=0
         for project in list:  
-                        
-            projectNo+=1            
-            project.setPosition(projectNo)
-            
-            # Invoke...
             self.buildProject(project)
             
     def buildProject(self,project):
