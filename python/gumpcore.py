@@ -100,6 +100,8 @@ class GumpBase(object):
     self.__dict__[name]=value
   def __getitem__(self,name): 
     if name in self.__dict__: return self.__dict__[name]
+  def __delitem__(self,name): 
+    del self.__dict__[name]
   def __getattr__(self,name): 
     pass
   def __str__(self): 
@@ -274,24 +276,24 @@ class Project(Named):
   # provide default elements when not defined in xml
   def complete(self,workspace):
     if self.isComplete: return
-    deplist=[depend.project for depend in self.depend+self.option]
-    self.isComplete=1
 
-    for projname in deplist:
-      project=Project.list.get(projname,None)
+    # complete properties
+    if self.ant: self.ant.complete(self)
+
+    # ensure that every project that this depends on is complete
+    self.isComplete=1
+    for depend in self.depend+self.option:
+      project=Project.list.get(depend.project,None)
       if project: project.complete(workspace)
 
     # compute home directory
     if self.home and isinstance(self.home,Single):
       if self.home.nested:
         srcdir=Module.list[self.module].srcdir
-        self.home=srcdir +'/' + self.home.nested
+        self.home=srcdir + os.sep + self.home.nested
 
     # inherit dependencies:
     self.inheritDependencies()
-
-    # complete properties
-    if self.ant: self.ant.complete(self)
 
   # Determine if this project has any unsatisfied dependencies left
   # on the todo list.
@@ -379,6 +381,30 @@ class Ant(GumpBase):
 
   # provide default elements when not defined in xml
   def complete(self,project):
+
+    # convert property elements which reference a project into dependencies
+    for property in self.property:
+      if not property.project: continue
+      if property.project==project.name: continue
+      if property.reference=="srcdir": continue
+      if project.hasFullDependencyOn(property.project): continue
+
+      depend=Depend({})
+      depend['project']=property.project
+      if not property.classpath: depend['noclasspath']=Single({})
+      if property.runtime: depend['runtime']=property.runtime
+      project.depend.append(depend)
+      
+    # convert all depend elements into property elements
+    for depend in self.depend:
+      property=Property(depend.__dict__)
+      property['reference']='jarpath'
+      property['name']=depend.project
+      del property['project']
+      self.property.append(property)
+      project.depend.append(depend)
+    self.depend=None
+
     for property in self.property: property.complete(project)
 
 # represents a <nag/> element
