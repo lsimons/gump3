@@ -1,7 +1,7 @@
 /*
- * $Header: /home/stefano/cvs/gump/java/LocalCheck.java,v 1.4 2003/02/16 13:25:55 rubys Exp $
- * $Revision: 1.4 $
- * $Date: 2003/02/16 13:25:55 $
+ * $Header: /home/stefano/cvs/gump/java/LocalCheck.java,v 1.5 2003/04/05 17:41:49 stefano Exp $
+ * $Revision: 1.5 $
+ * $Date: 2003/04/05 17:41:49 $
  *
  * ====================================================================
  *
@@ -60,7 +60,6 @@
  */
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -78,7 +77,7 @@ import org.xml.sax.SAXParseException;
  * gump build.
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bent</a>
- * @version $Id: LocalCheck.java,v 1.4 2003/02/16 13:25:55 rubys Exp $
+ * @version $Id: LocalCheck.java,v 1.5 2003/04/05 17:41:49 stefano Exp $
  */
 public class LocalCheck {
     
@@ -88,7 +87,7 @@ public class LocalCheck {
     private Document profile;
     private String currentDir;
     private Map projectCache;
-    private static boolean verbose;
+
     DocumentBuilderFactory dFactory = DocumentBuilderFactory.newInstance();
     
     /**
@@ -98,9 +97,8 @@ public class LocalCheck {
         throws Exception  {
         this.workspaceFile = workSpace;
         Document doc = parse(workSpace);
-        Workspace space = new Workspace();
-        space.init(doc.getDocumentElement());
-        this.pkgDir = space.getPkgDir();
+        Workspace.init(doc.getDocumentElement());
+        this.pkgDir = Workspace.getPkgDir();
         this.pkgDir+=((pkgDir.endsWith(File.separator))?"":File.separator);
         currentDir = new File(workspaceFile).getAbsoluteFile().getParent()+File.separator;
         String profileFile = doc.getElementsByTagName("profile").item(0).getAttributes().getNamedItem("href").getNodeValue();

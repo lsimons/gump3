@@ -1,7 +1,7 @@
 /*
- * $Header: /home/stefano/cvs/gump/java/Project.java,v 1.52 2003/02/21 21:00:55 rubys Exp $
- * $Revision: 1.52 $
- * $Date: 2003/02/21 21:00:55 $
+ * $Header: /home/stefano/cvs/gump/java/Project.java,v 1.53 2003/04/05 17:41:49 stefano Exp $
+ * $Revision: 1.53 $
+ * $Date: 2003/04/05 17:41:49 $
  *
  * ====================================================================
  *
@@ -60,12 +60,6 @@
  */
 
 // DOM classes
-import org.w3c.dom.Attr;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-
-// Java classes
 import java.util.Comparator;
 import java.util.Enumeration;
 import java.util.Hashtable;
@@ -74,6 +68,11 @@ import java.util.Set;
 import java.util.StringTokenizer;
 import java.util.TreeSet;
 import java.util.Vector;
+
+import org.w3c.dom.Attr;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
 
 public class Project {
 
@@ -617,7 +616,6 @@ public class Project {
 		value = project.get("home");
 		property.setAttribute("type", "path");
 	    } else if (reference.equals("jar")) {
-		String id = property.getAttribute("id");
 		Element jar = getJar (projectName, property.getAttribute("id"));
 		value = jar.getAttribute("name");
 	    } else if (reference.equals("jarpath")) {
