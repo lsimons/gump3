@@ -22,10 +22,11 @@
     <depend project="jakarta-regexp"/>
     <depend project="jakarta-servletapi"/>
     <depend project="jdbc"/>
-    <depend project="jdo" ids="jdo"/>
+    <depend project="jdo"/>
     <depend project="jmx"/>
     <depend project="jta"/>
     <depend project="junit"/>
+    <depend project="crossdb"/>
 
     <depend project="ojb-jboss" />
 
@@ -36,6 +37,11 @@
   <project name="ojb-jboss">
     <jar name="lib/jboss-common.jar" />
     <jar name="lib/jboss-system.jar" />
+  </project>
+  
+  <!-- Mavenized build, http://sourceforge.net/projects/crossdb/ -->
+  <project name="crossdb">
+    <jar name="lib/crossdb.jar" />
   </project>
   
 </module>
