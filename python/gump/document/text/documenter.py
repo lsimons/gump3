@@ -51,7 +51,7 @@ class TextDocumenter(Documenter):
     def processModule(self,module):
         verbose=self.run.getOptions().isVerbose()
         debug=self.run.getOptions().isDebug()
-        self.documentModule('',entity,1,debug,verbose)       
+        self.documentModule('',module,1,debug,verbose)       
          
     def processProject(self,project):
         verbose=self.run.getOptions().isVerbose()
@@ -59,8 +59,6 @@ class TextDocumenter(Documenter):
         self.documentModule('',project,1,debug,verbose)  
         
         
-            
-    
     def documentRun(self):    
         indent=' '
         
