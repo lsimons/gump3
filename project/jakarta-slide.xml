@@ -2,7 +2,7 @@
 
   <url href="http://jakarta.apache.org/slide/index.html"/>
   <description>
-    WebDAV
+    Content Management System based on WebDAV technology
   </description>
 
   <cvs repository="jakarta"/>
@@ -23,17 +23,20 @@
   <depend project="xml-xerces"/>
   <depend project="xml-xalan1"/>
   <depend project="jakarta-servletapi-4"/>
-  <depend project="jmx"/>
   <depend project="jta"/>
+  <option project="jmx"/>
   <option project="junit"/>
   <option project="jakarta-log4j"/>
   <option project="framework"/>
   <option project="jakarta-tomcat-4.1"/>
+
   <work nested="build/classes"/>
   <work nested="build/client/classes"/>
 
-  <home parent="dist/slide-1.0dev"/>
+  <home nested="dist"/>
+  <jar  name="client/lib/webdavlib.jar"/>
   <jar  name="lib/manager.jar"/>
+  <jar  name="lib/roles.jar"/>
   <jar  name="lib/slide.jar"/>
   <jar  name="lib/slidestores.jar"/>
   <jar  name="lib/webdav.jar"/>
