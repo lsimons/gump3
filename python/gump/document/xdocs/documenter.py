@@ -2488,7 +2488,7 @@ This page helps Gumpmeisters (and others) observe community progress.
                 else:
                     outputSection.createParagraph('No contents in this file.')
         else:
-            fdocument.createParagraph('No such file or directory.')
+            fdocument.createWarning('No such file or directory.')
            
         fdocument.serialize()
         fdocument=None

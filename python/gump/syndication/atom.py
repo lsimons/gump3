@@ -125,7 +125,7 @@ class AtomSyndicator(AbstractSyndicator):
     def __init__(self,run):
         AbstractSyndicator.__init__(self,run)
         
-    def syndicate(self):
+    def prepareRun(self):
         
         # Main syndication document
         self.workspace=self.run.getWorkspace()   
@@ -145,10 +145,10 @@ class AtomSyndicator(AbstractSyndicator):
             
             self.syndicateModule(module,self.feed)
             
+    def completeRun(self):
         self.feed.serialize()
             
-        
-    def syndicateModule(self,module,mainFeed):
+    def syndicateModule(self,module):
                 
         feedFile=self.run.getOptions().getResolver().getFile(module,'atom','.xml',1)
         feedUrl=self.run.getOptions().getResolver().getUrl(module,'atom','.xml')
@@ -160,15 +160,11 @@ class AtomSyndicator(AbstractSyndicator):
                         moduleUrl,	\
                         escape(module.getDescription() or ''))
                     
-         
-        #           
+          
         # Get a decent description
-        #
         content=self.getModuleContent(module,self.run)
                         
-        #
         # Entry
-        #
         entry=Entry(('%s %s') % (module.getName(),module.getStateDescription()), \
                   moduleUrl, \
                   module.getName(), \
@@ -182,17 +178,17 @@ class AtomSyndicator(AbstractSyndicator):
         # State changes that are newsworthy...
         if 	self.moduleOughtBeWidelySyndicated(module):      
             log.debug("Add module to widely distributed Atom Newsfeed for : " + module.getName())      
-            mainFeed.addEntry(entry)
+            self.feed.addEntry(entry)
             
         # Syndicate each project
         for project in module.getProjects():  
             if not self.run.getGumpSet().inProjectSequence(project): continue               
             
-            self.syndicateProject(project,moduleFeed,mainFeed)      
+            self.syndicateProject(project,moduleFeed)      
                   
         moduleFeed.serialize()        
     
-    def syndicateProject(self,project,moduleFeed,mainFeed):
+    def syndicateProject(self,project,moduleFeed=None):
         
         feedFile=self.run.getOptions().getResolver().getFile(project,'atom','.xml',1)
         feedUrl=self.run.getOptions().getResolver().getUrl(project,'atom','.xml')
@@ -220,11 +216,12 @@ class AtomSyndicator(AbstractSyndicator):
         if project.getModule().isModified() and not project.getStatePair().isUnset():      
             log.debug("Add project to Atom Newsfeed for : " + project.getName())         
             projectFeed.addEntry(entry)
-            moduleFeed.addEntry(entry)  
+            if moduleFeed:
+                moduleFeed.addEntry(entry)  
 
         # State changes that are newsworthy...
         if 	self.projectOughtBeWidelySyndicated(project) :
             log.debug("Add project to widely distributed Atom Newsfeed for : " + project.getName())    
-            mainFeed.addEntry(entry)
+            self.feed.addEntry(entry)
                                                         
         projectFeed.serialize()

@@ -224,8 +224,9 @@ class GumpSet:
         # Identify the size of overall sequence
         moduleTotal=len(sequence)
         for module in sequence:
-            module.setTotal(moduleTotal)
-        
+            module.setTotal(moduleTotal)               
+            log.debug('Identify ' + module.getName() + ' at position #' + `module.getPosition()`)     
+          
         return sequence
   
     def getRepositoriesForModuleList(self,modules):
@@ -393,8 +394,12 @@ FEATURE_DIAGRAM=0x08
 FEATURE_SYNDICATE=0x10
 FEATURE_DOCUMENT=0x20
 
-FEATURE_ALL=FEATURE_STATISTICS|FEATURE_RESULTS|FEATURE_NOTIFY|FEATURE_DIAGRAM|	\
+FEATURE_DEFAULT=FEATURE_DOCUMENT
+            
+FEATURE_ALL=FEATURE_STATISTICS|FEATURE_RESULTS|FEATURE_NOTIFY|FEATURE_DIAGRAM|    \
                 FEATURE_SYNDICATE|FEATURE_DOCUMENT
+            
+FEATURE_OFFICIAL=FEATURE_ALL
             
 class GumpRunOptions:
     """
@@ -403,24 +408,23 @@ class GumpRunOptions:
     
     """
     def __init__(self):
-        self.optimize=0
  
-        self.debug=0	
-        self.verbose=0	
-        self.cache=1	# Defaults to QUICK
-        self.quick=1	# Defaults to CACHE
-        self.dated=0	# Defaults to NOT dated.
-        self.optimize=0	# Do the least ammount of work...
-        self.official=0	# Do a full run (with publishing e-mail)
+        self.debug=False	
+        self.verbose=False	
+        self.cache=True	# Defaults to CACHE
+        self.quick=True	# Defaults to QUICK
+        self.dated=False	# Defaults to NOT dated.
+        self.optimize=False	# Do the least ammount of work...
+        self.official=False	# Do a full run (with publishing e-mail)
         
         # Default is XDOCS/XHTML, but can also force text with --text 
-        self.text=0        
+        self.text=False        
         
         # Defautl for XDOCS is XHTML
-        self.xdocs=0
+        self.xdocs=False
         
         self.objectives=OBJECTIVE_INTEGRATE
-        self.features=FEATURE_ALL
+        self.features=FEATURE_DEFAULT
         
     def isDated(self):
         return self.dated
@@ -433,6 +437,7 @@ class GumpRunOptions:
         
     def setOfficial(self,official):
         self.official=official
+        self.features=FEATURE_OFFICIAL
         
     def isQuick(self):
         return self.quick

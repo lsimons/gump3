@@ -42,13 +42,23 @@ class SyndicatorTestSuite(UnitTestSuite):
         self.run=getWorkedTestRun()
         self.assertNotNone('Needed a run', self.run)
         self.workspace=self.run.getWorkspace()          
+        self.module1=self.workspace.getModule('module1')
+        self.project1=self.workspace.getProject('project1')
         self.assertNotNone('Needed a workspace', self.workspace)
         
-    def testRSS(self):
-        simple=RSSSyndicator(self.run)
-        simple.syndicate()
         
-    def testAtom(self):
-        atom=AtomSyndicator(self.run)
-        atom.syndicate()
+        self.rss=RSSSyndicator(self.run)
+        self.atom=AtomSyndicator(self.run)
+        
+    def testRSSSyndicateModule(self):
+        self.rss.syndicateModule(self.module1)
+        
+    def testAtomSyndicateModule(self):
+        self.rss.syndicateModule(self.module1)
+        
+    def testRSSSyndicateProject(self):
+        self.rss.syndicateProject(self.project1)
+        
+    def testAtomSyndicateProject(self):
+        self.rss.syndicateProject(self.project1)
         

@@ -57,7 +57,7 @@ class ResolvingTestSuite(UnitTestSuite):
         #    ' -> ' + `rpath` + ', length ' + `len(rpath)`
     
     def checkLocation(self,object1):
-        location=getLocationForObject(object1)
+        location=getLocationForObject(object1,'.test')
         #printSeparator()
         self.assertNotNone('Location: ', location)
         self.assertNotNone('Location: ', location.serialize())
@@ -65,8 +65,8 @@ class ResolvingTestSuite(UnitTestSuite):
     def checkRelativeLocation(self,object1,object2):  
         self.assertNotNone('To               : ', object1)
         self.assertNotNone('From             : ', object2)  
-        location1=getLocationForObject(object1)    
-        location2=getLocationForObject(object2)
+        location1=getLocationForObject(object1,'.test')    
+        location2=getLocationForObject(object2,'.test')
         location=getRelativeLocation(object1,object2)
         #printSeparator()
         self.assertNotNone('To       Location: ', location1)
