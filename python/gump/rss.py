@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/Attic/rss.py,v 1.2 2003/08/29 00:20:22 ajack Exp $
-# $Revision: 1.2 $
-# $Date: 2003/08/29 00:20:22 $
+# $Header: /home/stefano/cvs/gump/python/gump/Attic/rss.py,v 1.3 2003/09/09 19:37:07 ajack Exp $
+# $Revision: 1.3 $
+# $Date: 2003/09/09 19:37:07 $
 #
 # ====================================================================
 #
@@ -84,7 +84,9 @@ def rss(workspace,context):
     
     db=StatisticsDB()       
             
-    gumprss=open(workspace.logdir + '/index.rss','w')
+    rssFile=os.path.normpath(os.path.join(workspace.logdir,'index.rss'))
+    
+    gumprss = open(rssFile,'w')
     gumprss.write("""<rss version="2.0"
   xmlns:admin="http://webns.net/mvcb/" 
   xmlns:dc="http://purl.org/dc/elements/1.1/" 
@@ -115,7 +117,9 @@ def rss(workspace,context):
                       and not s.currentState == STATUS_PREREQ_FAILURE \
                       and not s.currentState == STATUS_COMPLETE :
                         project=pctxt.project
-                    
+                            
+                        log.info("RSS written for " + pctxt.name); 
+    
                         link = gumproot + '/' + mctxt.name + '/' + pctxt.name + 'index.html'                       
                         datestr=time.strftime('%Y-%m-%d')
                         timestr=time.strftime('%H%M')
@@ -138,4 +142,42 @@ def rss(workspace,context):
       </channel>
     </rss>
     """)
-    gumprss.close()                                            
+    gumprss.close()                                 
+    
+    log.info("RSS Feed written" + rssFile);           
+    
+             
+
+# static void main()
+if __name__=='__main__':
+
+  # init logging
+  logging.basicConfig()
+
+  #set verbosity to show all messages of severity >= default.logLevel
+  log.setLevel(default.logLevel)
+  
+  args = handleArgv(sys.argv,0)
+  ws=args[0]
+  ps=args[1]
+
+  context=GumpContext()
+  
+      
+  # get parsed workspace definition
+  from gump import load
+  workspace=load(ws, context)
+
+  #
+  #from gump.check import checkEnvironment
+  #checkEnvironment(workspace, context)
+  
+  #
+  # Store for later
+  #
+  from gump.logic import getGumpSetForProjectExpression
+  context.gumpset=getGumpSetForProjectExpression(ps)
+  
+  # Document
+  rss(workspace, context);
+    

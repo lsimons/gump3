@@ -82,45 +82,48 @@ from gump.logic import getPackagedProjects, getBuildSequenceForProjects,\
      isFullGumpSet
 
 def documentText(workspace,context,moduleFilterList=None,projectFilterList=None):    
+    documentTextToFile(sys.stdout,workspace,context,moduleFilterList,projectFilterList)
     
-    print "Workspace Status : " + stateName(context.status)
-    print "Workspace Secs : " + str(context.elapsedSecs())
-    print "Modules: " + str(len(context.subcontexts))
+def documentTextToFile(f,workspace,context,moduleFilterList=None,projectFilterList=None):    
+    
+    f.write("Workspace Status : " + stateName(context.status) + "\n")
+    f.write("Workspace Secs : " + str(context.elapsedSecs()) + "\n")
+    f.write("Modules: " + str(len(context.subcontexts)) + "\n")
     for note in context.annotations:
-        print " - " + str(note)
+        f.write(" - " + str(note) + "\n")
     for mctxt in context:
         mname=mctxt.name
         if moduleFilterList and not mctxt.module in moduleFilterList: continue        
         mname=mctxt.name
-        print " Module [" + mname + "] Status: " + stateName(mctxt.status)
-        print " Projects: " + str(len(mctxt.subcontexts))
+        f.write(" Module [" + mname + "] Status: " + stateName(mctxt.status) + "\n")
+        f.write(" Projects: " + str(len(mctxt.subcontexts)) + "\n")
         for note in mctxt.annotations:
-            print "  - " + str(note)
+            f.write("  - " + str(note) + "\n")
         for work in mctxt.worklist:
-            print "    Work : " + stateName(work.status)
+            f.write("    Work : " + stateName(work.status) + "\n")
             if isinstance(work,CommandWorkItem):
-                print "    Work Name : " + work.command.name
-                print "    Work Cmd  : " + work.command.formatCommandLine()
+                f.write("    Work Name : " + work.command.name + "\n")
+                f.write("    Work Cmd  : " + work.command.formatCommandLine() + "\n")
                 if work.command.cwd:
-                    print "    Work Cwd  : " + work.command.cwd
-                print "    Work Exit : " + str(work.result.exit_code)
+                    f.write("    Work Cwd  : " + work.command.cwd + "\n")
+                f.write("    Work Exit : " + str(work.result.exit_code) + "\n")
         
         for pctxt in mctxt:
             pname=pctxt.name
             if projectFilterList and not pctxt.project in projectFilterList: continue
             
-            print "  Project [" + pname + "] Status: " + stateName(pctxt.status)
-            print "   Work [" + str(len(pctxt.worklist)) + "] [" + str(pctxt.elapsedSecs()) + "] secs." 
+            f.write("  Project [" + pname + "] Status: " + stateName(pctxt.status) + "\n")
+            f.write("   Work [" + str(len(pctxt.worklist)) + "] [" + str(pctxt.elapsedSecs()) + "] secs."  + "\n")
             for note in pctxt.annotations:
-                print "   - " + str(note)
+                f.write("   - " + str(note) + "\n")
             for work in pctxt.worklist:
-                print "    Work : " + stateName(work.status)
+                f.write("    Work : " + stateName(work.status) + "\n")
                 if isinstance(work,CommandWorkItem):
-                    print "    Work Name : " + work.command.name
-                    print "    Work Cmd  : " + work.command.formatCommandLine()
+                    f.write("    Work Name : " + work.command.name + "\n")
+                    f.write("    Work Cmd  : " + work.command.formatCommandLine() + "\n")
                     if work.command.cwd:
-                        print "    Work Cwd  : " + work.command.cwd
-                    print "    Work Exit : " + str(work.result.exit_code)
+                        f.write("    Work Cwd  : " + work.command.cwd + "\n")
+                    f.write("    Work Exit : " + str(work.result.exit_code) + "\n")
 
 def document(workspace,context,full=None,moduleFilterList=None,projectFilterList=None):
     
@@ -199,7 +202,10 @@ def executeForrest(workspace,context):
         
     forrest.addPrefixedParameter('-D','project.site-dir',  \
         workspace.logdir, '=')
-        
+     
+    #   
+    # Do we just tweak forrest.properties?
+    #
     #forrest.addPrefixedParameter('-D','project.sitemap-dir',  \
     #    docroot, '=')    
     #forrest.addPrefixedParameter('-D','project.stylesheets-dir',  \
@@ -286,6 +292,7 @@ def documentWorkspace(workspace,context,db,moduleFilterList=None,projectFilterLi
     titledDataInTableXDoc(x,"Email Server: ", str(workspace.mailserver))
     titledDataInTableXDoc(x,"Prefix: ", str(workspace.prefix))
     titledDataInTableXDoc(x,"Signature: ", str(workspace.signature))
+    titledDataInTableXDoc(x,"Context Tree: ", '<link href=\'context.html\'>context</link>')
     endTableXDoc(x)
     endSectionXDoc(x)       
     
@@ -306,13 +313,24 @@ def documentWorkspace(workspace,context,db,moduleFilterList=None,projectFilterLi
     endXDoc(x)
     
     #
-    # Document 
+    # Document modules
     #
     for mctxt in context:
         mname=mctxt.name    
         if not Module.list.has_key(mname): continue        
         if moduleFilterList and not mctxt.module in moduleFilterList: continue    
         documentModule(workspace,wdir,mctxt.name,mctxt,db,projectFilterList)
+        
+        
+    # Document context
+    
+    x=startXDoc(getWorkspaceContextDocument(workspace,wdir))
+    headerXDoc(x,'Context')    
+    x.write('<source>\n')
+    documentTextToFile(x,workspace,context,moduleFilterList,projectFilterList)    
+    x.write('</source>\n')   
+    footerXDoc(x)
+    endXDoc(x)
         
 def documentModule(workspace,wdir,modulename,modulecontext,db,projectFilterList=None):
     mdir=getModuleDir(workspace,modulename,wdir)
@@ -334,8 +352,8 @@ def documentModule(workspace,wdir,modulename,modulecontext,db,projectFilterList=
     x.write('    <table>\n')
     pcount=0
     for pctxt in modulecontext:     
-        pname=pctxt.name    
         if projectFilterList and not pctxt.project in projectFilterList: continue  
+        pname=pctxt.name    
         pcount+=1
            
         (phours, pmins, psecs) 	= pctxt.elapsedTime();
@@ -771,6 +789,10 @@ def getWorkspaceDocument(workspace,workspacedir=None):
     if not workspacedir: workspacedir = getWorkspaceDir(workspace)    
     return os.path.join(workspacedir,'index.xml')
     
+def getWorkspaceContextDocument(workspace,workspacedir=None):
+    if not workspacedir: workspacedir = getWorkspaceDir(workspace)    
+    return os.path.join(workspacedir,'context.xml')
+    
 def getStatisticsDocument(workspace,statsdir=None):
     if not statsdir: statsdir = getStatisticsDir(workspace)    
     return os.path.join(statsdir,'index.xml')
@@ -784,7 +806,7 @@ def getModuleDocument(workspace, modulename,moduledir=None):
     if not moduledir: moduledir=getModuleDir(workspace, modulename)
     return os.path.join(moduledir,'index.xml')
 
-def getProjectDocument(workspace, modulename,projectname,moduledir=None):
+def getProjectDocument(workspace,modulename,projectname,moduledir=None):
     pname=gumpSafeName(projectname)
     if not moduledir: moduledir=getModuleDir(workspace, modulename)
     return os.path.join(moduledir,pname+'.xml')
