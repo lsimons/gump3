@@ -173,6 +173,12 @@ From: Craig McClanahan <craigmcc@apache.org>
 Subject: [GUMP] Build Failure - Struts
 Regex: /BUILD FAILED/
 ------
+Project: jakarta-taglibs
+To: taglibs-dev@jakarta.apache.org
+From: Ted Husted <ted@husted.com>
+Subject: [GUMP] Build Failure - Taglibs
+Regex: /BUILD FAILED/
+------
 Project: jakarta-tomcat
 To: tomcat-dev@jakarta.apache.org
 From: Craig McClanahan <craigmcc@apache.org>
