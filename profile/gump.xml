@@ -150,6 +150,7 @@
 
 <!-- SourceForge -->
 
+
   <module href="project/beanshell.xml"/>
   <module href="project/beepcore.xml"/>
   <module href="project/checkstyle.xml"/>
@@ -193,14 +194,8 @@
   <!-- krysalis@sf -->
 
   <module href="project/barcode4j.xml" />
+  <module href="project/antworks-importer.xml"/>
 
-  <!--module href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/*checkout*/krysalis/krysalis-antlibs/forrest/gump.xml"/>
-  <module href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/*checkout*/krysalis/krysalis-antlibs/junit/gump.xml"/>
-  <module href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/*checkout*/krysalis/krysalis-antlibs/java/gump.xml"/>
-  <module href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/*checkout*/krysalis/krysalis-antlibs/standard/gump.xml"/-->
-  
-  <!--module href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/*checkout*/krysalis/krysalis-template/smoke-test/gump.xml" /-->
-<!-- other -->
 
   <module href="project/antlr.xml"/>
   <module href="project/aspectj.xml"/>
