@@ -34,7 +34,7 @@
       <depend   property="xmlparser.jar" project="xml-xerces" id="parser"/>
       <depend   property="xmlapi.jar" project="xml-apis" />
       <property name="jmx.jar" reference="jarpath" project="jmx" id="jmxri"/>
-      <depend project="jdom"/>
+      <depend property="jdom.jar" project="jdom"/>
       <property name="struts.lib" project="jakarta-struts" path="dist/lib"/>
       <depend property="jta.jar"     project="jta"/>
       <depend property="junit.jar"   project="junit"/>
