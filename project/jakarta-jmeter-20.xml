@@ -15,7 +15,7 @@
   limitations under the License.
 -->
 <module name="jakarta-jmeter-20" tag="rel-2_0">
-<!-- Version $Revision: 1.6.2.1 $ Last updated $Date: 2004/06/21 04:06:09 $ -->
+<!-- Version $Revision: 1.6.2.2 $ Last updated $Date: 2004/07/01 15:49:48 $ -->
   <url href="http://jakarta.apache.org/jmeter/" />
   <description>
     Pure Java load testing and performance measurement tool.
@@ -33,8 +33,8 @@
       <property name="jmeter.version" value="2_0_@@DATE@@"/>
       <property name="gump.run" value="true"/>
       <!-- The version of this file -->
-      <property name="version.projectfile" value="$Revision: 1.6.2.1 $"/>
-      <property name="date.projectfile" value="$Date: 2004/06/21 04:06:09 $"/>
+      <property name="version.projectfile" value="$Revision: 1.6.2.2 $"/>
+      <property name="date.projectfile" value="$Date: 2004/07/01 15:49:48 $"/>
 
 		<!-- Ensure work directories don't get dropped from classpath -->
 		<mkdir dir="build/core"/>
@@ -121,8 +121,8 @@
       <property name="jmeter.version" value="2_0_@@DATE@@"/>
       <property name="gump.run" value="true"/>
       <!-- The version of this file -->
-      <property name="version.projectfile" value="$Revision: 1.6.2.1 $"/>
-      <property name="date.projectfile" value="$Date: 2004/06/21 04:06:09 $"/>
+      <property name="version.projectfile" value="$Revision: 1.6.2.2 $"/>
+      <property name="date.projectfile" value="$Date: 2004/07/01 15:49:48 $"/>
     </ant>
 
     <depend project="ant" />

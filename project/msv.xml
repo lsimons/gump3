@@ -16,16 +16,45 @@
 -->
 <module name="msv">
 
-  <url href="http://wwws.sun.com/software/xml/developers/multischema/"/>
+  <url href="https://msv.dev.java.net/"/>
   <description>
     Sun Multi-Schema XML Validator 
   </description>
 
+  <cvs repository="java.net"/>
+
+  <project name="xsdlib">
+    <package>com.sun.msv</package>
+
+    <ant basedir="xsdlib" target="release"/>
+
+    <depend project="ant"/>
+    <depend project="relaxng"/>
+    <depend project="xml-xerces"/>
+
+    <jar name="xsdlib/dist/xsdlib.jar" id="xsdlib"/>
+  </project>
+
   <project name="msv">
     <package>com.sun.msv</package>
 
-    <jar name="msv.jar" id="msv"/>
-    <jar name="xsdlib.jar" id="xsdlib"/>
+    <ant basedir="msv" target="dist"/>
+
+    <depend project="ant"/>
+    <depend project="iso-relax"/>
+    <depend project="jakarta-servletapi-5-servlet"/>
+    <depend project="relaxng"/>
+    <depend project="xml-commons-resolver"/>
+    <depend project="xml-xerces"/>
+    <depend project="xsdlib" inherit="jars"/>
+
+    <!-- I'm afraid this is going to cause problems in non-clean
+         builds, in particular on Windows.  Let's try anyway since the
+         build process deletes the compiled classes and I can't seem
+         to find a workaround. -->
+    <work nested="msv/dist/msv.jar"/>
+
+    <jar name="msv/dist/msv.jar" id="msv"/>
   </project>
 
 </module>

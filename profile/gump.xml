@@ -161,6 +161,7 @@
   <module href="project/freemarker.xml"/>
   <module href="project/hsqldb.xml"/>
   <module href="project/httpunit.xml"/>
+  <module href="project/hibernate.xml"/>
   <module href="project/iso-relax.xml"/>
   <module href="project/invicta.xml"/>
   <module href="project/javagroups.xml"/>
@@ -170,6 +171,7 @@
   <module href="project/jetty.xml"/>
   <module href="project/jfor.xml"/>
   <module href="project/jgen.xml"/>
+  <module href="project/jgroups.xml"/>
   <module href="project/jrefactory.xml"/>
   <module href="project/jtidy.xml"/>
   <module href="project/junit.xml"/>
@@ -278,6 +280,8 @@
   <project name="commons-codec-11" package="commons-codec-1.1"/>
   <project name="ejb"              package="ejb-2_0-fr"/>
   <!--project name="fesi"             package="fesi"/-->
+  <project name="hibernate"        package="hibernate-2.1"/>
+  <project name="cglib"            package="hibernate-2.1"/>
   <project name="iso-relax"        package="isorelax.20020707"/>
   <project name="j2ee-connector"   package="j2ee_connector-1_0-fr"/>
   <project name="jaas"             package="jaas1_0"/>
@@ -308,7 +312,7 @@
   <project name="mockobjects"      package="mockobjects-0.09"/>
   <!--project name="mockobjects-j2ee-13" package="mockobjects-0.09"/>
   <project name="mockobjects-j2ee-14" package="mockobjects-0.09"/-->
-  <project name="msv"              package="msv-20030225"/>
+  <!--project name="msv"              package="msv-20030225"/-->
   <project name="multipartrequest" package="MultipartRequest-1.30rc1"/>
   <project name="relaxng"          package="relaxngDatatype-1.0"/>
   <project name="eclipse"          package="eclipse-2.1"/>

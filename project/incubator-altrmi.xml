@@ -26,12 +26,7 @@
     <project name="incubator-altrmi">
         <package>org.apache.altrmi</package>
 
-        <ant target="jars">
-            <property name="version" value="@@DATE@@"/>
-            <property name="junit.failonerror" value="true"/>
-            <property name="do.checkstyle" value="true"/>
-            <property name="skip.dependencies" value="true"/>
-        </ant>
+        <maven goal="jar"/>
 
         <depend project="excalibur-pool"/>
         <depend project="ant" inherit="runtime"/>

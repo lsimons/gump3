@@ -41,6 +41,7 @@
     <depend project="jakarta-servletapi"/>
     <depend project="junit"/>
     <depend project="junit-addons"/>
+    <depend project="xmlunit"/>
     <work nested="build/classes"/>
 
     <home nested="dist"/>

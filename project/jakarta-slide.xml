@@ -72,6 +72,9 @@
     <depend project="xmlunit"/>
     <option project="jakarta-taglibs-standard" ids="jstl standard"/>
 
+    <depend project="textmining-word-extractor"/>
+    <depend project="pdfbox"/>
+
     <work nested="build/classes"/>
     <work nested="build/client/classes"/>
     <work nested="webdavclient/build/clientlib/classes"/>
@@ -106,6 +109,18 @@
 
     <nag to="slide-dev@jakarta.apache.org"
          from="Stefan Bodewig &lt;bodewig@apache.org&gt;"/>
+  </project>
+
+  <project name="textmining-word-extractor">
+    <url href="http://www.textmining.org/"/>
+    <description>TextMining.org Word 6.0/97/2000/XP/2003 Text Extractor</description>
+    <jar name="lib/tm-extractors-0.4.jar"/>
+  </project>
+
+  <project name="pdfbox">
+    <url href="http://www.pdfbox.org/"/>
+    <description>PDFBox is a Java PDF Library.</description>
+    <jar name="lib/PDFBox-0.6.5.jar"/>
   </project>
 
 </module>

@@ -43,12 +43,12 @@
     <depend project="my-axis"/>
     <depend project="commons-discovery"/>
     <depend project="commons-logging"/>
-    <depend project="my-tt-bytecode"/>
+    <depend project="tt-bytecode"/>
     <depend project="wsdl4j"/>
     <depend project="xml-apis"/>
     <depend project="xml-xerces"/>
     <depend project="my-jaxrpc"/>
-    <depend project="my-saaj"/>
+    <depend project="saaj"/>
 
     <work nested="build/ant/lib/ForeachTask.jar"/>
     <work nested="bin/classes"/>
@@ -68,17 +68,17 @@
     </nag>
   </project>
   
-  <project name="my-tt-bytecode">
+  <project name="tt-bytecode">
   	<jar name="lib/tt-bytecode.jar"/>
   </project>
   <project name="my-axis">
     <jar name="lib/axis.jar"/>
   </project>
+  <project name="saaj">
+    <jar name="lib/saaj.jar"/>
+  </project>
   <project name="my-jaxrpc">
     <jar name="lib/jaxrpc.jar"/>
-  </project>
-  <project name="my-saaj">
-    <jar name="lib/saaj.jar"/>
   </project>
   
 </module>
