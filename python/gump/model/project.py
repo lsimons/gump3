@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/model/project.py,v 1.35 2004/02/10 00:25:34 ajack Exp $
-# $Revision: 1.35 $
-# $Date: 2004/02/10 00:25:34 $
+# $Header: /home/stefano/cvs/gump/python/gump/model/project.py,v 1.36 2004/02/10 00:32:09 ajack Exp $
+# $Revision: 1.36 $
+# $Date: 2004/02/10 00:32:09 $
 #
 # ====================================================================
 #
@@ -69,7 +69,7 @@ from gump.model.object import ModelObject, NamedModelObject, Jar,	\
                                  Mkdir, Delete, JunitReport, Work
 from gump.model.stats import Statable, Statistics
 from gump.model.property import Property
-from gump.model.ant import Ant,Maven
+from gump.model.ant import Ant,Maven,Script
 from gump.model.rawmodel import Single
 from gump.utils import getIndent
 from gump.model.depend import *
