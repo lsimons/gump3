@@ -13,6 +13,7 @@
   <depend project="xml-xalan1"/>
   <depend project="xml-xerces"/>
   <depend project="turbine"/>
+  <depend project="jdbc"/>
   <depend project="jakarta-ant"/>
   <depend project="jakarta-servletapi"/>
 
