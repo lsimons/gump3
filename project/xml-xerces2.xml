@@ -29,7 +29,9 @@
   <!-- package up the distribution -->
 
   <project name="dist-xerces">
-    <ant basedir="java" target="pack-bin"/>
+    <ant basedir="java" target="pack-bin">
+      <sysproperty name="build.clonevm" value="true"/>
+    </ant>
     <depend project="ant" inherit="runtime"/>
     <depend project="xjavac"/>
     <depend project="xml-xalan2"/>
