@@ -120,27 +120,18 @@
       </property>
     </ant>
     <package>org.apache.commons.graph</package>
-    <depend project="commons-collections">
-    </depend>
-    <depend project="jakarta-ant">
-    </depend>
-    <depend project="jdepend">
-    </depend>
-    <depend project="junit">
-    </depend>
+    <depend project="commons-collections"/>
+    <depend project="jakarta-ant"/>
+    <depend project="jdepend"/>
+    <depend project="junit"/>
     <depend project="jakarta-log4j"/>
-    <depend project="nsuml" inherit="runtime">
-    </depend>
-    <depend project="xml-apis">
-    </depend>
-    <depend project="xml-xerces">
-    </depend>
-    <work nested="target/classes">
-    </work>
-    <home nested="target">
-    </home>
-    <jar name="commons-graph-@@DATE@@.jar">
-    </jar>
+    <depend project="nsuml"/>
+    <depend project="xml-apis"/>
+    <depend project="xml-xerces"/>
+    <work nested="graph2/target/classes"/>
+    <work nested="graph2/target/test-classes"/>
+    <home nested="target"/>
+    <jar name="commons-graph-@@DATE@@.jar"/>
     <javadoc module="jakarta-commons-sandbox" nested="target/docs/apidocs">
     </javadoc>
     <nag to="commons-dev@jakarta.apache.org" from="commons-graph development &lt;commons-dev@jakarta.apache.org&gt;">

@@ -1,24 +1,19 @@
 <module name="nsuml">
 
-  <url href="http://nsuml.sourceforge.net/"/>
-  <description>
-    Novosoft UML Library for Java
+ <url href="http://prdownloads.sourceforge.net/nsuml/nsuml0_4_20.zip"/>
+ <description>
+   Novosoft UML Library for Java. Please do not 
+   upgrade to the latest version, since the project
+   seems kind of dead. The project home can be found
+   an http://nsuml.sourceforget.net.
   </description>
 
-  <cvs repository="sourceforge" host-prefix="cvs.nsuml" 
-       dir="nsuml" module="nsuml1_4"/>
-  
   <project name="nsuml">
     <package>ru.novasoft.uml</package>
-    <ant/>
-    <depend project="jakarta-ant" inherit="runtime"/>
-    <depend project="xml-xerces"/>
-    <depend project="nsmdf" runtime="true"/>
-
-    <home nested="build"/>
-    <jar name="nsuml1_4.jar"/>
+    <jar name="lib/nsuml.jar"/>
   </project>
 
+<!--
   <project name="nsmdf">
     <package>ru.novasoft.mdf.generator</package>
     <url href="http://nsuml.sourceforge.net/"/>
@@ -29,4 +24,5 @@
     <jar name="nsmdf.jar"/>
     <jar name="gen/nsmdf_gen.jar"/>
   </project>
+-->
 </module>
