@@ -28,6 +28,7 @@
     <depend project="xml-axis"/>
     <depend project="cos"/>
     <depend project="commons-logging"/>
+    <depend project="mockobjects"/>
     <depend project="multipartrequest"/>
     <depend project="junit"/>
     <depend project="httpunit"/>
