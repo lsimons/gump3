@@ -13,7 +13,7 @@
     <package>org.apache.xml.security</package>
   
     <ant target="gump">
-      <depend property="lib.jce" project="jce"/>
+      <property name="lib.jce" project="jce" reference="jarpath"/>
       <property name="jce.download.md5"
         value="38C40AA5C386E3BA5FAC70916BCC5B0D"/>
       <property name="jce.download.sha1"
@@ -24,7 +24,7 @@
     <depend project="xml-xerces"/>
     <depend project="xml-xalan2" runtime="true"/>
     <depend project="jakarta-log4j"/>
-    <depend project="jce" runtime="true"/>
+    <!-- included in JDK 1.4 depend project="jce" runtime="true"/-->
     <option project="junit"/>
     <work nested="build/classes"/>
    
