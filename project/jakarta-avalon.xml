@@ -19,7 +19,7 @@
     <depend project="xml-xalan2"/>
     <option project="jakarta-log4j"/>
 
-    <home nested="build/lib"/>
+    <home nested="target/lib"/>
     <jar name="avalon-framework.jar"/>
 
     <nag from="Peter Donald &lt;peter@apache.org&gt;"
