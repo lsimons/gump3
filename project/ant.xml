@@ -205,6 +205,7 @@
     <depend project="dist-ant" inherit="all"/>
     <depend project="xml-xerces"/>
     <depend project="xdoclet" inherit="runtime"/>
+    <depend project="xjavadoc"/>
     <depend project="jakarta-velocity-dvsl" inherit="runtime"/>
     <nag to="dev@ant.apache.org"
          from="Erik Hatcher &lt;jakarta-ant@ehatchersolutions.com&gt;"/>
