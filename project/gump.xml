@@ -8,7 +8,9 @@
   <cvs repository="jakarta"/>
 
   <project name="gump">
-    <ant target="all"/>
+    <ant target="all">
+    	<property name="workspace" value="gump.xml"/>
+    </ant>
 
     <depend project="ant" inherit="runtime"/>
     <depend project="xml-xerces"/>
