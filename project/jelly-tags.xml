@@ -149,6 +149,7 @@
     <depend project="commons-jelly" inherit="all"/>
     <depend project="commons-betwixt"/>
     <depend project="commons-digester"/>
+    <depend project="commons-digester-rss"/>
     <depend project="commons-jelly-tags-junit" inherit="runtime"/>
     <depend project="commons-jelly-tags-log" inherit="runtime"/>
 
