@@ -20,8 +20,7 @@
 
   <!-- not available via CVS -->
   <project name="javacc">
-    <home nested="lib"/>
-    <jar name="JavaCC.zip"/>
+    <jar name="lib/JavaCC.zip"/>
   </project>
 
 </project>
