@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/Attic/logic.py,v 1.12 2003/10/01 18:19:13 ajack Exp $
-# $Revision: 1.12 $
-# $Date: 2003/10/01 18:19:13 $
+# $Header: /home/stefano/cvs/gump/python/gump/Attic/logic.py,v 1.13 2003/10/02 16:15:29 ajack Exp $
+# $Revision: 1.13 $
+# $Date: 2003/10/02 16:15:29 $
 #
 # ====================================================================
 #
@@ -310,10 +310,12 @@ def getSystemClasspathList():
 #
 # BOOTCLASSPATH?
 def getClasspathList(project,workspace):
-  """Get classpath for a project (including it's dependencies)"""
-  classpath=getSystemClasspathList()
+  """Get a TOTAL classpath for a project (including it's dependencies)"""
   
-  # start with the work directories
+  # Start with the system classpath (later remove this)
+  classpath=getSystemClasspathList()
+
+  # Add this project's work directories
   srcdir=Module.list[project.module].srcdir
   for work in project.work:
       if work.nested:
@@ -322,17 +324,35 @@ def getClasspathList(project,workspace):
           classpath.append(os.path.normpath(os.path.join(workspace.basedir,work.parent)))
       else:
           log.error("<work element without nested or parent attributes on " + project.name )
-          
-  # Append projects
-  for depend in project.depend:
-    for jar in depend.jars():
-      classpath.append(jar.path) 
-  
-  # Append optional projects (that may not exist)
-  for option in project.option:
-    for jar in option.jars():
-      classpath.append(jar.path)
+    
+  # Append dependent projects (including optional)
+  if project.depend:
+      for depend in project.depend:
+          classpath += getProjectTreeOutputList(depend)  
+  if project.option:    
+      for option in project.option:
+          classpath += getProjectTreeOutputList(option)
       
+  return classpath
+  
+def getProjectTreeOutputList(project):      
+  """Get a classpath of outputs for a project (including it's dependencies)"""            
+  classpath=[]
+  
+  # Append JARS for this project
+  for jar in project.jars():
+      classpath.append(jar.path) 
+      
+  # Append sub-projects outputs
+  if project.depend:
+      for depend in project.depend:
+        classpath += getProjectTreeOutputList(depend)
+  
+  # Append optional sub-project's output (that may not exist)
+  if project.option:
+      for option in project.option:
+        classpath += getProjectTreeOutputList(option)
+
   return classpath
   
 # BOOTCLASSPATH?
