@@ -85,8 +85,6 @@
 
     <nag from="Sam Ruby &lt;rubys@us.ibm.com&gt;"
          to="cocoon-dev@xml.apache.org"/>
-    <nag from="Sam Ruby &lt;rubys@us.ibm.com&gt;"
-         to="peter@apache.org"/>
   </project>
   
   <!--

@@ -38,8 +38,6 @@
     <javadoc nested="www/mailet"/>
 
     <nag from="Peter Donald &lt;peter@apache.org&gt;"
-         to="peter@apache.org"/>
-    <nag from="Peter Donald &lt;peter@apache.org&gt;"
          to="james-dev@jakarta.apache.org"/>
   </project>
 
