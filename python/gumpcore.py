@@ -1,6 +1,17 @@
 #!/usr/bin/python
 """
-	Gump core functionality. It contains a sax dispatcher tool, a dependency	walker, and an object model (GOM) which is built from an xmlfile using	the sax dispatcher.    The idea is that a subclass of GumpBase is used for each of the various    xml tags which can appear in a gump profile, with a saxdispatcher    generating a tree of GumpBase objects from the profile, dynamically    merging as it finds href references.    You can then use the dependencies() method to get an ordered, flat vector    of the projects in the profile."""
+	Gump core functionality. It contains a sax dispatcher tool, a dependency
+	walker, and an object model (GOM) which is built from an xmlfile using
+	the sax dispatcher.
+
+	The idea is that a subclass of GumpBase is used for each of the various
+	xml tags which can appear in a gump profile, with a saxdispatcher
+	generating a tree of GumpBase objects from the profile, dynamically
+	merging as it finds href references.
+
+	You can then use the dependencies() method to get an ordered, flat vector
+	of the projects in the profile.
+"""
 
 import os.path, os, time, urllib, urlparse, shutil, string, os.path
 from xml.sax import parse
@@ -53,21 +64,30 @@ def load(file):
 
 #########################################################################
 #		  Base classes for the Gump object model		#
-#                                                                       ## This is actually where most of the logic and complexity is handled,   ## allowing the actual model to be rather simple and compact. All        ## elements of the GOM should extend GumpBase or a subclass of GumpBase. #
+#                                                                       #
+# This is actually where most of the logic and complexity is handled,   #
+# allowing the actual model to be rather simple and compact. All        #
+# elements of the GOM should extend GumpBase or a subclass of GumpBase. #
 #########################################################################
 # Base class for the entire Gump object model.  Attributes become
-# properties.  Characters become the string value of the element.## An internal attribute with name '@text' is used for storing all# the characters (as opposed to xml elements and xml attributes).
+# properties.  Characters become the string value of the element.
+#
+# An internal attribute with name '@text' is used for storing all
+# the characters (as opposed to xml elements and xml attributes).
 class GumpBase(object):
   def __init__(self,attrs):
     # parse out '@@DATE@@'
     for (name,value) in attrs.items():
       self.__dict__[name]=value.replace('@@DATE@@',default.date)
-    
+      
     # setup internal character field
     if not '@text' in self.__dict__: self.init()
     self.__dict__['@text']=''
   
-  def startElement(self, name, attrs):    # possibility to customize behaviour based on    # type of the element    # TODO: can this difference just go here?
+  def startElement(self, name, attrs):
+    # possibility to customize behaviour based on
+    # type of the element
+    # TODO: can this difference just go here?
     try:
       attr=self.__getattribute__(name)
       if isinstance(attr,Single): return attr(attrs)
@@ -75,32 +95,40 @@ class GumpBase(object):
     except:
       # print self.__class__, name
       pass
+
   
   def characters(self,string):
     self.__dict__['@text']+=string
+
   
   def __setitem__(self,name,value): 
     self.__dict__[name]=value
+
   
   def __getitem__(self,name): 
     if name in self.__dict__: return self.__dict__[name]
+
   
   def __getattr__(self,name): 
     pass
+
   
   def __str__(self): 
     return self.__dict__['@text'].strip()
+
   
   def init(self):
     pass
 
 # Document root: workspaces and targets of hrefs
 class DocRoot(GumpBase):
+  
   def __init__(self,name,cls):
     GumpBase.__init__(self,{})
     self.name=name
     self.cls=cls
     self.element=None
+
   
   def startElement(self, name, attrs):
     if name<>self.name: 
@@ -134,12 +162,14 @@ class Single(object):
     self.delegate=None
     self.cls=cls
 
+
   def __call__(self,attrs):
     if self.delegate: 
       self.delegate.__dict__.update(dict(attrs))
     else:
       self.delegate=self.cls(attrs)
     return self.delegate
+
 
   def __getattr__(self,name):
     if self.delegate: 
@@ -148,9 +178,11 @@ class Single(object):
       except:
         return self.delegate[name]
 
+
   def __str__(self):
     if self.delegate: return self.delegate.__str__()
     return ''
+
 
   def __nonzero__(self):
     return self.delegate
@@ -161,13 +193,15 @@ class Multiple(list):
     list.__init__(self)
     self.cls=cls
 
+
   def __call__(self,attrs):
     result=self.cls(attrs)
     self.append(result)
     return result
 
 #########################################################################
-#			    Gump Object Model				                        #
+#			    Gump Object Model
+#
 #                                                                       #
 # All intelligence and functionality is provided in the base classes    #
 # above, allowing the actual model to be rather simple and compact.     #
@@ -263,7 +297,8 @@ class Project(Named):
     self.mkdir=Multiple(Mkdir)
     self.redistributable=Single()
 
-  # provide default elements when not defined in xml  def complete(self,workspace):
+  # provide default elements when not defined in xml
+  def complete(self,workspace):
 
     # compute home directory
     if self.home and isinstance(self.home,Single):
@@ -281,39 +316,54 @@ class Ant(GumpBase):
     self.property=Multiple(Property)
     self.jvmarg=Multiple()
 
-  # provide default elements when not defined in xml  def complete(self,project):
+  # provide default elements when not defined in xml
+  def complete(self,project):
     for property in self.property: property.complete(project)
 
-# represents a <nag/> elementclass Nag(GumpBase): 
+# represents a <nag/> element
+class Nag(GumpBase): 
   def init(self): 
     self.regexp=Multiple()
 
-# represents a <javadoc/> elementclass Javadoc(GumpBase): 
+# represents a <javadoc/> element
+class Javadoc(GumpBase): 
   def init(self): 
     self.description=Multiple()
 
-# represents a <property/> elementclass Property(GumpBase): 
-  # provide default elements when not defined in xml  def complete(self,project):
+# represents a <property/> element
+class Property(GumpBase): 
+
+  # provide default elements when not defined in xml
+  def complete(self,project):
     if self.reference=='home':
       self.value=Project.list[self.project].home
     if self.reference=='srcdir':
       module=Project.list[self.project].module
       self.value=Module.list[module].srcdir
 
+
 # TODO: set up the below elements with defaults using complete()
-# represents a <depend/> elementclass Depend(GumpBase): pass
 
-# represents a <description/> elementclass Description(GumpBase): pass
+# represents a <depend/> element
+class Depend(GumpBase): pass
 
-# represents a <home/> elementclass Home(GumpBase): pass
+# represents a <description/> element
+class Description(GumpBase): pass
 
-# represents a <jar/> elementclass Jar(GumpBase): pass
+# represents a <home/> element
+class Home(GumpBase): pass
 
-# represents a <junitreport/> elementclass JunitReport(GumpBase): pass
+# represents a <jar/> element
+class Jar(GumpBase): pass
 
-# represents a <mkdir/> elementclass Mkdir(GumpBase): pass
+# represents a <junitreport/> element
+class JunitReport(GumpBase): pass
 
-# represents a <work/> elementclass Work(GumpBase): pass
+# represents a <mkdir/> element
+class Mkdir(GumpBase): pass
+
+# represents a <work/> element
+class Work(GumpBase): pass
 
 #########################################################################
 #                     Utility functions                                 #
