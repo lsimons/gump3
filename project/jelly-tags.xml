@@ -181,6 +181,31 @@
     <nag from="Morgan Delagrange &lt;mdelagra@yahoo.com&gt;"
          to="commons-dev@jakarta.apache.org"/>
   </project>  
+
+  <project name="commons-jelly-tags-ojb">
+    <package>org.apache.commons.jelly.tags.ojb</package>
+    <description>A variety of tags for working with the ObjectBridge persistence engine</description>
+
+    <mkdir dir="jelly/jelly-tags/ojb/lib"/>
+
+    <ant basedir="jelly/jelly-tags/ojb" target="jar">
+      <property name="final.name"  value="commons-jelly-tags-ojb-@@DATE@@"/>
+    </ant>
+
+    <depend project="commons-jelly" inherit="all"/>
+    
+    <!-- ant taglib and dependencies used in tests -->
+    <depend project="jakarta-ojb"/>
+    <depend project="commons-lang"/>
+
+    <work nested="jelly/jelly-tags/ojb/target/classes"/>
+    <work nested="jelly/jelly-tags/ojb/target/test-classes"/>
+
+    <jar name="jelly/jelly-tags/ojb/target/commons-jelly-tags-ojb-@@DATE@@.jar"/>
+ 
+    <nag from="Morgan Delagrange &lt;mdelagra@yahoo.com&gt;"
+         to="commons-dev@jakarta.apache.org"/>
+  </project>  
   
   <project name="commons-jelly-tags-util">
     <package>org.apache.commons.jelly.tags.util</package>
