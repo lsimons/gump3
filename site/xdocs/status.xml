@@ -43,13 +43,11 @@
 -->
 
     <subsection name="xml-security">
-      Jakarta log4j commented out a configure method in
-      <a href="http://cvs.apache.org/viewcvs/jakarta-log4j/src/java/org/apache/log4j/xml/DOMConfigurator.java?rev=1.40&amp;content-type=text/vnd.viewcvs-markup">
-      DOMConfigurator</a>.
-<!--
-      <p>An <a href="http://nagoya.apache.org/bugzilla/show_bug.cgi?id=2650">
-      bug report</a> is open against xml-xalan2 to resolve this problem.</p>
--->
+      <p>Bug reports 
+      <a href="http://nagoya.apache.org/bugzilla/show_bug.cgi?id=2650">2650</a>
+      and
+      <a href="http://nagoya.apache.org/bugzilla/show_bug.cgi?id=4336">4336</a>
+      are open on this issue.</p>
     </subsection>
   </section>
 
