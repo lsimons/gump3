@@ -175,9 +175,15 @@ class CommandLine:
             log.debug("Produced Argument : " + arg)
 
     def getArguments(self):
+        """
+        Get the primary arguments (workspace and project expression)
+        """
         return self.args
         
     def getOptions(self):
+        """
+        Get configured options (e.g. --debug).
+        """
         return self.options
 
 def handleArgv(argv, requireProject=1):
