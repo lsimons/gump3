@@ -86,12 +86,14 @@
   <module href="project/jakarta-turbine-orgami.xml"/>
   <module href="project/jakarta-turbine-site.xml"/>
   <module href="project/jakarta-turbine-tdk.xml"/>
-  <module href="project/jakarta-turbine-maven.xml"/>
 
   <module href="project/jakarta-velocity.xml"/>
   <module href="project/jakarta-velocity-tools.xml"/>
   <module href="project/jakarta-velocity-dvsl.xml"/>
   <module href="project/jakarta-watchdog.xml"/>
+
+<!-- Apache.Maven -->
+  <module href="project/maven.xml"/>
 
 <!-- Apache.XML -->
 
@@ -291,6 +293,7 @@
   <repository href="repository/incubator.xml"/>
   <repository href="repository/jakarta.xml"/>
   <repository href="repository/jdom.xml"/>
+  <repository href="repository/maven.xml"/>
   <repository href="repository/mozilla.xml"/>
   <repository href="repository/tigris.xml"/>
   <repository href="repository/sourceforge.xml"/>

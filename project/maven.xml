@@ -1,10 +1,10 @@
-<module name="jakarta-turbine-maven">
+<module name="maven">
 
 
-  <url href="http://jakarta.apache.org/turbine/maven/"/>
+  <url href="http://maven.apache.org/"/>
   <description>Project Management Tools</description>
   
-  <cvs repository="jakarta"/>
+  <cvs repository="maven"/>
   
   <project name="maven-bootstrap">
     <ant buildfile="build-bootstrap.xml">
@@ -50,7 +50,7 @@
   <!-- This is really the cvs module. We need to change this but -->
   <!-- I will leave this for now until everything works.         -->
   
-  <project name="jakarta-turbine-maven">
+  <project name="maven">
     
     <!-- Standard Maven target to produce Javadocs, source -->
     <!-- and binary distributions.                         -->
