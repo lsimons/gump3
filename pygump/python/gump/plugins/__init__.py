@@ -19,15 +19,16 @@
 __copyright__ = "Copyright (c) 2004-2005 The Apache Software Foundation"
 __license__   = "http://www.apache.org/licenses/LICENSE-2.0"
 
+import sys
+
 class BaseErrorHandler:
     """Base error handler for use with the MulticastPlugin.
     
     This handler just re-raises a caught error.
     """
-    def handle(self, visitor, visited_model_object):
+    def handle(self, visitor, visited_model_object, type, value, traceback):
         """Override this method to be able to swallow exceptions."""
-        import sys
-        (type, value, traceback) = sys.exc_info()
+        # TODO this is not properly saving the traceback stack. Highly annoying. Fix it!
         raise type, value
 
 class LoggingErrorHandler:
@@ -38,11 +39,9 @@ class LoggingErrorHandler:
     def __init__(self, log):
         self.log = log
 
-    def handle(self, visitor, visited_model_object):
+    def handle(self, visitor, visited_model_object, type, value, traceback):
         """Override this method to be able to swallow exceptions."""
         self.log.exception("%s threw an exception while visiting %s!" % (visitor, visited_model_object))
-        import sys
-        (type, value, traceback) = sys.exc_info()
         raise type, value
 
 class AbstractPlugin:
@@ -115,32 +114,44 @@ class MulticastPlugin(AbstractPlugin):
     def initialize(self):
         for visitor in self.list:
             try: visitor._initialize()
-            except: self.error_handler.handle(visitor, "{{{initialization stage}}}")
+            except:
+                (type, value, traceback) = sys.exc_info()
+                self.error_handler.handle(visitor, "{{{initialization stage}}}", type, value, traceback)
 
     def visit_workspace(self, workspace):
         for visitor in self.list:
             try: visitor._visit_workspace(workspace)
-            except: self.error_handler.handle(visitor, workspace)
+            except:
+                (type, value, traceback) = sys.exc_info()
+                self.error_handler.handle(visitor, workspace, type, value, traceback)
 
     def visit_repository(self, repository):
         for visitor in self.list:
             try: visitor._visit_repository(repository)
-            except: self.error_handler.handle(visitor, repository)
+            except:
+                (type, value, traceback) = sys.exc_info()
+                self.error_handler.handle(visitor, repository, type, value, traceback)
 
     def visit_module(self, module):
         for visitor in self.list:
             try: visitor._visit_module(module)
-            except: self.error_handler.handle(visitor, module)
+            except:
+                (type, value, traceback) = sys.exc_info()
+                self.error_handler.handle(visitor, module, type, value, traceback)
 
     def visit_project(self, project):
         for visitor in self.list:
             try: visitor._visit_project(project)
-            except: self.error_handler.handle(visitor, project)
+            except:
+                (type, value, traceback) = sys.exc_info()
+                self.error_handler.handle(visitor, project, type, value, traceback)
 
     def finalize(self):
         for visitor in self.list:
             try: visitor._finalize()
-            except: self.error_handler.handle(visitor, "{{{finalization stage}}}")
+            except:
+                (type, value, traceback) = sys.exc_info()
+                self.error_handler.handle(visitor, "{{{finalization stage}}}", type, value, traceback)
 
 class LoggingPlugin(AbstractPlugin):
     """Plugin that prints debug messages as it visits model objects."""
