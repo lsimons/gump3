@@ -154,6 +154,12 @@
     <xsl:value-of select="translate($basedir,'\','/')"/>
     <xsl:text>/log &#10;</xsl:text>
 
+    <xsl:text>test -e </xsl:text>
+    <xsl:value-of select="translate($cvsdir,'\','/')"/>
+    <xsl:text> || mkdir </xsl:text>
+    <xsl:value-of select="translate($cvsdir,'\','/')"/>
+    <xsl:text>&#10;</xsl:text>
+
     <xsl:text>sh publish.sh $1 </xsl:text>
     <xsl:value-of select="$basedir"/>
     <xsl:text>/log/source_index.html&#10;</xsl:text>
