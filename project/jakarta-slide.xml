@@ -49,6 +49,9 @@
       <depend property="jdbc20ext.jar" project="jdbc" />
       <depend property="commons-modeler.jar" project="commons-modeler"/>
       <depend property="jndi.jar" project="jndi"/>
+      <depend project="jakarta-lucene"/>
+      <depend project="jaxen"/>
+      <depend project="saxpath"/>
       <property name="catalina.dist" project="jakarta-tomcat-4.0"
                 path="dist"/>
       <property name="version" value="@@DATE@@" />
