@@ -56,10 +56,13 @@
     <index label="Index" href="gump_xref/index.html"/>
     <index label="by Repository" href="gump_xref/repo_module.html"/>
     <index label="by Package" href="gump_xref/package_module.html"/>
+    <index label="by Description" href="gump_xref/description_module.html"/>
   </stats>
 
   <stats label="Projects" tab="xref">
     <index label="by Package" href="gump_xref/package_project.html"/>
+    <index label="by Description" href="gump_xref/description_project.html"/>
+    <index label="by Output" href="gump_xref/output_project.html"/>
   </stats>
 
   <external-refs>

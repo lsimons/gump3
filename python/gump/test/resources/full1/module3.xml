@@ -10,12 +10,9 @@
   <project name="project3">
     <package>org.apache.project3</package>
 
-    <ant target="gump">
-      <property name="ant.home" reference="home" project="project1"/>
-    </ant>
+    <ant target="gump"/>
 
     <depend project="project2" runtime="true"/>
-    <option project="random"/>
 
     <home nested="dist"/>
 	

@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/model/depend.py,v 1.6 2004/01/09 19:57:18 ajack Exp $
-# $Revision: 1.6 $
-# $Date: 2004/01/09 19:57:18 $
+# $Header: /home/stefano/cvs/gump/python/gump/model/depend.py,v 1.7 2004/01/23 23:32:26 ajack Exp $
+# $Revision: 1.7 $
+# $Date: 2004/01/23 23:32:26 $
 #
 # ====================================================================
 #
@@ -105,6 +105,10 @@ def importXMLDependency(ownerProject,dependProject,xmldepend,optional):
     elif 'none' == xmldepend.inherit:
         inherit=INHERIT_NONE
         
+    ids	=	xmldepend.ids
+    
+    annotation = 'Expressed Dependency'
+    
     #
     # Construct the dependency
     #        
@@ -112,12 +116,14 @@ def importXMLDependency(ownerProject,dependProject,xmldepend,optional):
                                 dependProject,	\
                                 inherit,		\
                                 runtime,		\
-                                optional)
+                                optional,		\
+                                ids,			\
+                                annotation)
                 
 
 class ProjectDependency(Annotatable):
     """ A dependency from one project to another """
-    def __init__(self,owner,project,inherit,runtime=0,optional=0,ids=None):
+    def __init__(self,owner,project,inherit,runtime=0,optional=0,ids=None,annotation=None):
         
         Annotatable.__init__(self)
         
@@ -127,6 +133,7 @@ class ProjectDependency(Annotatable):
         self.runtime=runtime
         self.optional=optional
         self.ids=ids
+        if annotation:	self.addInfo(annotation)
     
     # :TODO: if same ids, but different order/spacing, it ought match..
     def __eq__(self,other):

@@ -12,12 +12,11 @@
 
     <maven target="gump"/>
 
-    <depend project="project4"/>
-    <option project="random"/>
+    <depend project="alias1"/>
 
     <home nested="dist"/>
 
-    <jar name="lib/output1.jar" id="output1"/>
+    <jar name="lib/maven1.jar" id="maven1"/>
 
     <license name="LICENSE"/>
 

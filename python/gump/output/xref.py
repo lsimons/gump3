@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/output/Attic/xref.py,v 1.5 2004/01/09 19:57:18 ajack Exp $
-# $Revision: 1.5 $
-# $Date: 2004/01/09 19:57:18 $
+# $Header: /home/stefano/cvs/gump/python/gump/output/Attic/xref.py,v 1.6 2004/01/23 23:32:27 ajack Exp $
+# $Revision: 1.6 $
+# $Date: 2004/01/23 23:32:27 $
 #
 # ====================================================================
 #
@@ -79,12 +79,23 @@ class XRefGuru:
         self.workspace=workspace
     
         self.repositoryToModule={}
+        
         self.packageToModule={}
         self.packageToProject={}
+        
+        self.descriptionToModule={}
+        self.descriptionToProject={}
+        
+        self.outputToProject={}
+        
+        self.descriptorLocationToProject={}
         
         # Build Information Maps
         self.mapRepositories()
         self.mapPackages()
+        self.mapDescriptions()
+        self.mapOutputs()
+        self.mapDescriptorLocations()
         
     def mapRepositories(self):
         for module in self.workspace.getModules():
@@ -117,6 +128,60 @@ class XRefGuru:
                         if not project in self.packageToProject[packageName]:
                             self.packageToProject[packageName].append(project)
     
+    def mapDescriptions(self):
+        for module in self.workspace.getModules():
+            if module.isPackaged(): continue
+            
+            moduleDescription=module.getDescription()
+            if moduleDescription:
+                if not self.descriptionToModule.has_key(moduleDescription):
+                    self.descriptionToModule[moduleDescription]=[]
+            
+                if not module in self.descriptionToModule[moduleDescription]:
+                    self.descriptionToModule[moduleDescription].append(module)
+                    
+            for project in module.getProjects():
+                if project.isPackaged(): continue
+                
+                projectDescription=project.getDescription()
+                if projectDescription:
+                    if not self.descriptionToProject.has_key(projectDescription):
+                        self.descriptionToProject[projectDescription]=[]
+                    
+                    if not project in self.descriptionToProject[projectDescription]:
+                        self.descriptionToProject[projectDescription].append(project)
+    
+    
+    def mapOutputs(self):
+        for module in self.workspace.getModules():
+            
+            for project in module.getProjects():
+                
+                if project.hasJars():
+
+                    for jar in project.getJars():      
+                        jarName=jar.getName()                 
+                        if not self.outputToProject.has_key(jarName):
+                            self.outputToProject[jarName]=[]
+                    
+                    if not project in self.outputToProject[jarName]:
+                        self.outputToProject[jarName].append(project)
+    
+    
+    def mapDescriptorLocations(self):
+        for module in self.workspace.getModules():
+            
+            for project in module.getProjects():
+                
+                locn=str(project.xml.href)
+                    
+                if locn:          
+                    if not self.outputToProject.has_key(locn):
+                        self.outputToProject[locn]=[]
+                    
+                    if not project in self.outputToProject[locn]:
+                        self.outputToProject[locn].append(project)
+    
     def getRepositoryToModuleMap(self):
         return self.repositoryToModule
                 
@@ -125,5 +190,17 @@ class XRefGuru:
         
     def getPackageToProjectMap(self):
         return self.packageToProject
+                
+    def getDescriptionToModuleMap(self):
+        return self.descriptionToModule
+        
+    def getDescriptionToProjectMap(self):
+        return self.descriptionToProject
+        
+    def getOutputToProjectMap(self):
+        return self.outputToProject
+        
+    def getDescriptorLocationToProjectMap(self):
+        return self.descriptorLocationToProject
         
         

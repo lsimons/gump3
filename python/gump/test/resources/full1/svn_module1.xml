@@ -10,8 +10,6 @@
   <project name="svn_project1">
     <package>org.apache.tools.svn_project1</package>
     <ant target="gump"/>
-    <depend project="random"/>
-    <option project="random"/>
     <home nested="dist"/>
     <jar name="lib/outputSVN.jar" id="outputSVN"/>
     <license name="LICENSE"/>

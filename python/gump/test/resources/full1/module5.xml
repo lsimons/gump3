@@ -8,7 +8,7 @@
   <cvs repository="repository1"/>
 
   <project name="project5">
-    <package>org.apache.project5t</package>
+    <package>org.apache.project5</package>
 
     <depend project="alias1"/>
 

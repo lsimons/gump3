@@ -17,7 +17,6 @@
     </ant>
 
     <depend project="project1" inherit="runtime"/>
-    <option project="random"/>
 
     <home nested="dist"/>
     <mkdir dir="mkdir2"/>

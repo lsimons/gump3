@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/model/project.py,v 1.28 2004/01/16 23:12:10 ajack Exp $
-# $Revision: 1.28 $
-# $Date: 2004/01/16 23:12:10 $
+# $Header: /home/stefano/cvs/gump/python/gump/model/project.py,v 1.29 2004/01/23 23:32:26 ajack Exp $
+# $Revision: 1.29 $
+# $Date: 2004/01/23 23:32:26 $
 #
 # ====================================================================
 #
@@ -325,7 +325,7 @@ class Project(NamedModelObject, Statable):
             if not dependee in self.fullDependees: 
                 # We have a new dependee
                 self.fullDependees.append(dependee)
-                for subdependee in dependee.getProject().getFullDependees():
+                for subdependee in dependee.getOwnerProject().getFullDependees():
                     if not subdependee in self.fullDependees:
                         self.fullDependees.append(subdependee)
         self.fullDependees.sort()
@@ -347,10 +347,10 @@ class Project(NamedModelObject, Statable):
         affected=0
         
         # Get all dependenees (optional/otherwise)
-        dependees=self.getFullDependees()
+        fullDependees=self.getFullDependees()
         
         # Look through all dependees
-        for dependee in dependees:
+        for dependee in fullDependees:
             project=dependee.getOwnerProject()
             
             cause=project.getCause()

@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/syndication/syndicator.py,v 1.16 2004/01/16 17:37:16 ajack Exp $
-# $Revision: 1.16 $
-# $Date: 2004/01/16 17:37:16 $
+# $Header: /home/stefano/cvs/gump/python/gump/syndication/syndicator.py,v 1.17 2004/01/23 23:32:27 ajack Exp $
+# $Revision: 1.17 $
+# $Date: 2004/01/23 23:32:27 $
 #
 # ====================================================================
 #
@@ -182,24 +182,30 @@ class Syndicator:
                         + note.getLevelName() + '</td><td>' \
                         + note.getText() + '</td></tr>\n')                
             content += '<table></p>'
-            
-        if object.worklist:
-            content += '<p><table>'    
-            for work in object.worklist:
-                url=resolver.getAbsoluteUrl(work)
-                state=stateName(work.state)                 
-                content += ('<tr><td><a href=\'' + 	\
-                    url + '\'>' + work.getName() + 	\
-                    '</a></td><td>' + state + 		\
-                    '</td></tr>\n')                   
-            content += '</table></p>'
-
-# Overkill           
-#        content += ('<br><hr>\n<img align=\'left\' alt=\'Brought to you by Jakarta Gump\' src=\'%s\'/>') \
-#                        %	resolver.getImageUrl('apache.png')
+         
+        #
+        # They can come visit for this...
+        #
+           
+        #if object.worklist:
+        #    content += '<p><table>'    
+        #    for work in object.worklist:
+        #        url=resolver.getAbsoluteUrl(work)
+        #        state=stateName(work.state)                 
+        #        content += ('<tr><td><a href=\'' + 	\
+        #            url + '\'>' + work.getName() + 	\
+        #            '</a></td><td>' + state + 		\
+        #            '</td></tr>\n')                   
+        #    content += '</table></p>'
         
         return content
 
+    #
+    # Only report once per state change
+    # Don't report on prereq failed, or if just came from that
+    # Don't report on packages
+    # Don't report on bogus states (testing)
+    #
     def moduleOughtBeWidelySyndicated(self, module):
         
         stats=module.getStats()
@@ -209,8 +215,18 @@ class Syndicator:
             and not stats.currentState == STATE_UNSET \
             and not stats.currentState == STATE_NONE \
             and not stats.currentState == STATE_COMPLETE  \
+            and not ( \
+                stats.currentState == STATE_SUCCESS and	\
+                stats.previousState == STATE_PREREQ_FAILED ) \
             and not module.isPackaged()       
               
+              
+    #
+    # Only report once per state change
+    # Don't report on prereq failed, or if just came from that
+    # Don't report on packages
+    # Don't report on bogus states (testing)
+    #
     def projectOughtBeWidelySyndicated(self, project):
         
         stats=project.getStats()
@@ -220,10 +236,16 @@ class Syndicator:
             and not stats.currentState == STATE_UNSET \
             and not stats.currentState == STATE_NONE \
             and not stats.currentState == STATE_COMPLETE 	\
+            and not ( \
+                stats.currentState == STATE_SUCCESS and	\
+                stats.previousState == STATE_PREREQ_FAILED ) \
             and not project.isPackaged()    
               
 def syndicate(run):
 
+    #
+    # Produce an RSS Feed
+    #
     try:    
         from gump.syndication.rss import RSSSyndicator
         simple=RSSSyndicator()
@@ -231,6 +253,9 @@ def syndicate(run):
     except:
         log.error('Failed to generate RSS Feeds', exc_info=1)    
         
+    #
+    # Produce an Atom Feed
+    #
     try:
         from gump.syndication.atom import AtomSyndicator
         atom=AtomSyndicator()

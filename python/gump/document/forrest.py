@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/forrest.py,v 1.56 2004/01/21 21:26:02 ajack Exp $
-# $Revision: 1.56 $f
-# $Date: 2004/01/21 21:26:02 $
+# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/forrest.py,v 1.57 2004/01/23 23:32:27 ajack Exp $
+# $Revision: 1.57 $f
+# $Date: 2004/01/23 23:32:27 $
 #
 # ====================================================================
 #
@@ -1067,7 +1067,7 @@ class ForrestDocumenter(Documenter):
     def documentDependenciesList(self,xdocNode,title,dependencies,dependees,referencingObject):
       if dependencies:
             projectSection=xdocNode.createSection(title)
-            projectTable=projectSection.createTable(['Name','Type','Inheritence','Ids','State'])
+            projectTable=projectSection.createTable(['Name','Type','Inheritence','Ids','State','Notes'])
             for depend in dependencies:
                 
                 # Project/Owner
@@ -1096,8 +1096,14 @@ class ForrestDocumenter(Documenter):
                 ids = depend.getIds() or 'All'
                 projectRow.createData(ids)
                 
-                # State description
-                self.insertStateDescription(project,referencingObject,projectRow.createData())
+                # State Icon
+                self.insertStateIcon(project,referencingObject,projectRow.createData())
+                
+                # Dependency Annotations
+                noteData=projectRow.createData()
+                for note in depend.getAnnotations():
+                    noteData.createText(str(note))
+                    noteData.createBreak()
                 
     def documentAnnotations(self,xdocNode,annotatable):
         
@@ -1460,8 +1466,8 @@ class ForrestDocumenter(Documenter):
         
         document.createParagraph("""
         Statistics from Gump show the depth and health of inter-relationships. 
-        See side menu for choices.
         """)
+            
         
         overviewSection=document.createSection('Overview')
         overviewList=overviewSection.createList()
@@ -1469,6 +1475,7 @@ class ForrestDocumenter(Documenter):
         overviewList.createEntry('Projects: ', stats.wguru.projectsInWorkspace)
         overviewList.createEntry('Avg Projects Per Module: ', stats.wguru.averageProjectsPerModule)                      
           
+        self.documentSummary(overviewSection,workspace.getProjectSummary())    
         
         mstatsSection=document.createSection('Module Statistics')
         mstatsTable=mstatsSection.createTable(['Page','Description'])
@@ -1539,7 +1546,7 @@ class ForrestDocumenter(Documenter):
         # Projects By Sequence
         pBySeq=self.documentProjectsBySequenceInState(stats, run, workspace, gumpSet)           
         pstatsRow=pstatsTable.createRow()
-        pstatsRow.createData().createLink(pBySeq, 'Projects By duration in state')
+        pstatsRow.createData().createLink(pBySeq, 'Projects By Duration in state')
         pstatsRow.createData('Duration in current state.')
         
         document.serialize()  
@@ -1796,17 +1803,42 @@ class ForrestDocumenter(Documenter):
         mxrefRow.createData().createLink(mByP, 'Modules By Package')
         mxrefRow.createData('The package(s) contained in the module.')
         
+        # Modules By Description
+        mByD=self.documentModulesByDescription(xref, run, workspace, gumpSet)                
+        mxrefRow=mxrefTable.createRow()
+        mxrefRow.createData().createLink(mByD, 'Modules By Description')
+        mxrefRow.createData('The descriptions for the module.')
+        
         ##################################################################3
         # Projects ...........
         
         pxrefSection=document.createSection('Project Cross Reference')
         pxrefTable=pxrefSection.createTable(['Page','Description'])
                         
-        # Modules By Package
+        # Projects By Package
         pByP=self.documentProjectsByPackage(xref, run, workspace, gumpSet)                
         pxrefRow=pxrefTable.createRow()
         pxrefRow.createData().createLink(pByP, 'Projects By Package')
         pxrefRow.createData('The package(s) contained in the project.')
+        
+        # Projects By Description
+        pByD=self.documentProjectsByDescription(xref, run, workspace, gumpSet)                
+        pxrefRow=pxrefTable.createRow()
+        pxrefRow.createData().createLink(pByD, 'Projects By Description')
+        pxrefRow.createData('The descriptions for the project.')
+                
+        # Projects By Outputs
+        pByO=self.documentProjectsByOutput(xref, run, workspace, gumpSet)                
+        pxrefRow=pxrefTable.createRow()
+        pxrefRow.createData().createLink(pByO, 'Projects By Output')
+        pxrefRow.createData('The outputs for the project, e.g. jars.')
+        
+                
+        # Projects By Descriptor Location
+        #pByDL=self.documentProjectsByDescriptorLocation(xref, run, workspace, gumpSet)                
+        #pxrefRow=pxrefTable.createRow()
+        #pxrefRow.createData().createLink(pByDL, 'Projects By Descriptor Location')
+        #pxrefRow.createData('The descriptor for the project.')
         
         document.serialize()
         
@@ -1868,6 +1900,38 @@ class ForrestDocumenter(Documenter):
         
         return fileName + '.html'
         
+        
+    def documentModulesByDescription(self,xref,run,workspace,gumpSet):
+        fileName='description_module'
+        file=self.resolver.getFile(xref,fileName)            
+        document=XDocDocument('Modules By Description',	file)
+        
+        descriptionTable=document.createTable(['Modules By Description'])
+        
+        descriptionMap=xref.getDescriptionToModuleMap()
+        for description in createOrderedList(descriptionMap.keys()):
+            
+            moduleList=createOrderedList(descriptionMap.get(description)) 
+            
+            hasSome=0
+            for module in moduleList:        
+                if not gumpSet.inModules(module): continue
+                hasSome=1
+                
+            if hasSome:
+                descriptionRow=descriptionTable.createRow()
+                descriptionRow.createData(description)
+            
+                moduleData=descriptionRow.createData()
+                for module in moduleList:        
+                    if not gumpSet.inModules(module): continue                
+                    self.insertLink(module, xref, moduleData)
+                    moduleData.createText(' ')
+          
+        document.serialize()
+        
+        return fileName + '.html'
+        
     def documentProjectsByPackage(self,xref,run,workspace,gumpSet):
         fileName='package_project'
         file=self.resolver.getFile(xref,fileName)            
@@ -1890,6 +1954,100 @@ class ForrestDocumenter(Documenter):
                 packageRow.createData(package)
             
                 projectData=packageRow.createData()
+                for project in projectList:        
+                    if not gumpSet.inSequence(project): continue                
+                    self.insertLink(project, xref, projectData)
+                    projectData.createText(' ')
+          
+        document.serialize()
+        
+        return fileName + '.html'
+
+    def documentProjectsByDescription(self,xref,run,workspace,gumpSet):
+        fileName='description_project'
+        file=self.resolver.getFile(xref,fileName)            
+        document=XDocDocument('Projects By Description',	file)
+        
+        descriptionTable=document.createTable(['Projects By Description'])
+        
+        descriptionMap=xref.getDescriptionToProjectMap()
+        for description in createOrderedList(descriptionMap.keys()):
+                            
+            projectList=createOrderedList(descriptionMap.get(description)) 
+            
+            hasSome=0
+            for project in projectList:        
+                if not gumpSet.inSequence(project): continue
+                hasSome=1
+                
+            if hasSome:
+                descriptionRow=descriptionTable.createRow()
+                descriptionRow.createData(description)
+            
+                projectData=descriptionRow.createData()
+                for project in projectList:        
+                    if not gumpSet.inSequence(project): continue                
+                    self.insertLink(project, xref, projectData)
+                    projectData.createText(' ')
+          
+        document.serialize()
+        
+        return fileName + '.html'
+ 
+        
+    def documentProjectsByOutput(self,xref,run,workspace,gumpSet):
+        fileName='output_project'
+        file=self.resolver.getFile(xref,fileName)            
+        document=XDocDocument('Projects By Outputs (e.g. Jars)',	file)
+        
+        outputTable=document.createTable(['Projects By Outputs (e.g. Jars)'])
+        
+        outputMap=xref.getOutputToProjectMap()
+        for output in createOrderedList(outputMap.keys()):
+                            
+            projectList=createOrderedList(outputMap.get(output)) 
+            
+            hasSome=0
+            for project in projectList:        
+                if not gumpSet.inSequence(project): continue
+                hasSome=1
+                
+            if hasSome:
+                outputRow=outputTable.createRow()
+                outputRow.createData(output)
+            
+                projectData=outputRow.createData()
+                for project in projectList:        
+                    if not gumpSet.inSequence(project): continue                
+                    self.insertLink(project, xref, projectData)
+                    projectData.createText(' ')
+          
+        document.serialize()
+        
+        return fileName + '.html'
+        
+    def documentProjectsByDescriptorLocation(self,xref,run,workspace,gumpSet):
+        fileName='descriptor_project'
+        file=self.resolver.getFile(xref,fileName)            
+        document=XDocDocument('Projects By Descriptor Location',	file)
+        
+        descLocnTable=document.createTable(['Projects By Descriptor Location'])
+        
+        descLocnMap=xref.getDescriptorLocationToProjectMap()
+        for descLocn in createOrderedList(descLocnMap.keys()):
+                            
+            projectList=createOrderedList(descLocnMap.get(descLocn)) 
+            
+            hasSome=0
+            for project in projectList:        
+                if not gumpSet.inSequence(project): continue
+                hasSome=1
+                
+            if hasSome:
+                descLocnRow=descLocnTable.createRow()
+                descLocnRow.createData(descLocn)
+            
+                projectData=descLocnRow.createData()
                 for project in projectList:        
                     if not gumpSet.inSequence(project): continue                
                     self.insertLink(project, xref, projectData)

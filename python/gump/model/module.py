@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/model/module.py,v 1.28 2004/01/20 21:55:23 ajack Exp $
-# $Revision: 1.28 $
-# $Date: 2004/01/20 21:55:23 $
+# $Header: /home/stefano/cvs/gump/python/gump/model/module.py,v 1.29 2004/01/23 23:32:26 ajack Exp $
+# $Revision: 1.29 $
+# $Date: 2004/01/23 23:32:26 $
 #
 # ====================================================================
 #
@@ -393,7 +393,7 @@ class Module(NamedModelObject, Statable):
             if not project in self.totalDependees:
                 self.totalDependees.append(project)
                 for dependee in project.getFullDependees():
-                    dependeeProject=dependee.getProject()
+                    dependeeProject=dependee.getOwnerProject()
                     if not dependeeProject in self.totalDependees:
                         self.totalDependees.append(dependeeProject)   
                         

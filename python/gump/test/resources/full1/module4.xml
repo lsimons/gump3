@@ -16,7 +16,6 @@
 
     <depend project="project1"/>
     <depend project="project3"/>
-    <option project="random"/>
 
     <home nested="dist"/>
 

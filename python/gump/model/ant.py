@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/model/Attic/ant.py,v 1.12 2004/01/09 19:57:18 ajack Exp $
-# $Revision: 1.12 $
-# $Date: 2004/01/09 19:57:18 $
+# $Header: /home/stefano/cvs/gump/python/gump/model/Attic/ant.py,v 1.13 2004/01/23 23:32:26 ajack Exp $
+# $Revision: 1.13 $
+# $Date: 2004/01/23 23:32:26 $
 #
 # ====================================================================
 #
@@ -134,7 +134,8 @@ class AntBuilder(ModelObject, PropertyContainer):
                             INHERIT_ALL,	\
                             runtime,
                             0,	\
-                            ids)
+                            ids,
+                            'Property Dependency for ' + property.name)
                             
             # :TODOs:
             # if not property.classpath: depend['noclasspath']=Single({})

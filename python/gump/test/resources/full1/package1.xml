@@ -12,9 +12,6 @@
 
     <ant target="gump"/>
 
-    <depend project="random"/>
-    <option project="random"/>
-
     <home nested="dist"/>
 
     <jar name="lib/output.jar" id="output"/>
@@ -27,8 +24,6 @@
   
   <project name="honorary1">
     <package>org.apache.tools.honarary1</package>
-    <depend project="random"/>
-    <option project="random"/>
     <home nested="dist"/>
   </project>
 </module>

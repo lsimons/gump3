@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/utils/note.py,v 1.5 2004/01/09 19:57:19 ajack Exp $
-# $Revision: 1.5 $
-# $Date: 2004/01/09 19:57:19 $
+# $Header: /home/stefano/cvs/gump/python/gump/utils/note.py,v 1.6 2004/01/23 23:32:27 ajack Exp $
+# $Revision: 1.6 $
+# $Date: 2004/01/23 23:32:27 $
 #
 # ====================================================================
 #
@@ -145,7 +145,17 @@ class Annotatable:
             output.write(getIndent(indent)+'Annotations:\n')
        
             for note in self.annotations:
-                note.dump(indent+1,output)
+                note.dump(indent+1,output)    
+                    
+    
+    def getAnnotationsAsString(self,eol="\n"):
+        notes=''
+        
+        if self.annotations:
+            for note in self.annotations:
+                notes += str(note) + eol    
+    
+        return notes
                 
 def transferAnnotations(source,destination):
     for note in source.annotations:
