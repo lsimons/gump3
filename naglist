@@ -78,6 +78,12 @@ From: Diane Holt <holtdl@apache.org>
 Subject: [GUMP] Build Failure - Ant
 Regex: /BUILD FAILED/
 ------
+Project: jakarta-antidote
+To: ant-dev@jakarta.apache.org
+From: Diane Holt <holtdl@apache.org>
+Subject: [GUMP] Build Failure - Antidote
+Regex: /BUILD FAILED/
+------
 Project: jakarta-ant-mutant
 To: ant-dev@jakarta.apache.org
 From: Diane Holt <holtdl@apache.org>
