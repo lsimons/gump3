@@ -26,6 +26,8 @@ from gump import log
 import gump.core.gumprun
 import gump.core.actor
 
+from gump.utils.tools import listDirectoryToFileHolder
+
 
 class RepositoryPublisher(gump.core.actor.AbstractRunActor):
     def __init__(self,run):
