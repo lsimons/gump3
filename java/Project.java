@@ -246,23 +246,28 @@ public class Project {
             String value = null;
 
             if (reference.equals("home")) {
+                require (project, "project", projectName);
                 value = project.get("home");
                 property.setAttribute("type", "path");
             } else if (reference.equals("jar")) {
                 String id = property.getAttribute("id");
+                require (project, "project", projectName);
                 Element jar = (Element)project.jars.get(id);
                 value = jar.getAttribute("name"); 
             } else if (reference.equals("jarpath")) {
                 String id = property.getAttribute("id");
+                require (project, "project", projectName);
                 Element jar = (Element)project.jars.get(id);
                 value = project.get("home") + "/" + jar.getAttribute("name"); 
                 property.setAttribute("type", "path");
             } else if (reference.equals("srcdir")) {
                 Module module = Module.find(projectName);
+                require (module, "module", projectName);
                 value = module.getSrcDir();
                 property.setAttribute("type", "path");
             } else if (property.getAttributeNode("path") != null) {
                 Module module = Module.find(this.get("module"));
+                require (module, "module", this.get("module"));
                 value = module.getSrcDir();
                 value += "/" + property.getAttribute("path");
                 property.setAttribute("type", "path");
@@ -270,5 +275,15 @@ public class Project {
 
             if (value != null) property.setAttribute("value", value);
         }
+    }
+
+    private void require(Object object, String attr, String value) 
+        throws Exception 
+    {
+        if (object != null) return;
+
+        throw new Exception(
+           attr + " \"" + value + "\" not found processing project " + name
+        );
     }
 }
