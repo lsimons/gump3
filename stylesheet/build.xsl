@@ -268,6 +268,10 @@
       <xsl:for-each select="../depend/jar[@type='boot']">
         <bootclass location="{../@home}/{@name}"/>
       </xsl:for-each>
+
+      <xsl:for-each select="../option/jar[@type='boot']">
+        <bootclass location="{../@home}/{@name}"/>
+      </xsl:for-each>
     </xsl:copy>
   </xsl:template>
 
