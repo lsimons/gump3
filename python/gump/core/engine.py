@@ -310,7 +310,7 @@ class GumpEngine:
                                         workspace.tmpdir,	\
                                         'changes_to_'+gumpSafeName(module.getName())+'.txt'))
                     
-                    modified=syncDirectories(sourcedir,destdir,module)
+                    modified=syncDirectories(sourcedir,destdir,module,changesFile)
                     
                     # We are good to go...
                     module.changeState(STATE_SUCCESS)

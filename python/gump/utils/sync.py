@@ -52,7 +52,7 @@ class PathWalker(Annotatable):
         
     def execute(self):
         log.debug('Starting %s from [%s]' % (self.action,self.sourcedir))
-        log.debug('          target dir [' + self.targetdir + ']')
+        log.debug('      target dir [' + self.targetdir + ']')
         
         # Allow user to pass an open stream, or a filename
         # In later case control open/close.
@@ -60,7 +60,7 @@ class PathWalker(Annotatable):
         if self.output:
             if isinstance(self.output,types.StringTypes):
                 doClose=1
-                log.debug('          changes to  [' + self.output + ']')
+                log.debug('      changes to  [' + self.output + ']')
                 self.outputStream=open(self.output,'w')
             else:
                 self.outputStream=self.output
