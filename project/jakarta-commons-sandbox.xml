@@ -35,34 +35,6 @@
          to="commons-dev@jakarta.apache.org"/>
   </project>
 
-  <project name="commons-configuration">
-    
-    <!-- Standard Maven target to produce Javadocs, source -->
-    <!-- and binary distributions.                         -->
-    
-    <ant basedir="configuration" buildfile="build-gump.xml" target="jar">
-      <property name="maven.final.name" value="commons-configuration-@@DATE@@"/>
-    </ant>
-    
-    <!-- All Maven projects need Ant and Xerces to build. -->
-    <depend project="ant" inherit="runtime"/>
-    <depend project="xml-xerces"/>
- 
-    <depend project="commons-collections"/>
-    <depend project="commons-digester"/>
-    <depend project="commons-lang"/>
-    <depend project="commons-logging"/>
-    <depend project="packaged-dom4j"/>
- 
-    <work nested="target/classes"/>
-    <home nested="configuration/target"/>
-    <jar name="commons-configuration-@@DATE@@.jar"/>
-    <javadoc nested="docs/apidocs"/>
- 
-    <nag from="dIon Gillard &lt;dion@multitask.com.au&gt;"
-         to="commons-dev@jakarta.apache.org"/>
-  </project>
-
   <project name="commons-email">
     <package>org.apache.commons.email</package>
     <description>Commons Email Package</description>
