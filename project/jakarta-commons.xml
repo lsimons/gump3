@@ -147,6 +147,7 @@
     <url href="http://jakarta.apache.org/commons/"/>
     <ant basedir="jxpath" target="dist">
       <depend property="junit.jar" project="junit"/>
+      <depend property="j2ee.jar"      project="jakarta-servletapi"/>
       <depend property="jaxp.jaxp.jar" project="xml-xerces"/>
       <depend property="jaxp.xslt.jar" project="xml-xalan2"/>
     </ant>
