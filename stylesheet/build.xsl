@@ -296,7 +296,10 @@
           <xsl:when test="@reference='srcdir'">
             <xsl:variable name="project" select="@project"/>
             <xsl:for-each select="/workspace/project[@name=$project]">
-              <property name="{$name}" value="{$srcdir}" type="path"/>
+              <xsl:variable name="module" select="@module"/>
+              <xsl:for-each select="/workspace/module[@name=$module]">
+                <property name="{$name}" value="{@srcdir}" type="path"/>
+              </xsl:for-each>
             </xsl:for-each>
           </xsl:when>
 
