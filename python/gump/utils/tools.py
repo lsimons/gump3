@@ -213,11 +213,12 @@ def tailFile(file,lines,wrapLen=0,eol=None,marker=None):
 
 def tailFileToString(file,lines,wrapLen=0,eol=None,marker=None):
     return "".join(tailFile(file,lines,wrapLen,eol,marker))
-    
+
+SEPARATOR='---------------------------------------------------------------- GUMP\n'
 def catFile(output,file,title=None):
     """ Cat a file to a stream... """
     if title:
-        output.write('---------------------------------------------------------------- GUMP\n')    
+        output.write(SEPARATOR)    
         output.write(title + '\n\n')
         
     input=open(file,'r')
@@ -226,6 +227,9 @@ def catFile(output,file,title=None):
         output.write(line)
         # Next...
         line = input.readline()
+        
+    if title:
+        output.write(SEPARATOR)    
         
 if __name__=='__main__':
 

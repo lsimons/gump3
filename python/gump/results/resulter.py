@@ -16,7 +16,9 @@
 
 
 """
+
     Results (XML document containing states/dates/etc.)
+    
 """
 
 import socket
@@ -165,7 +167,11 @@ class Resulter:
         workspaceResults.startDateTimeUtc=self.workspace.getStartDateTimeUtc()
         workspaceResults.endDateTime=self.workspace.getEndDateTime()
         workspaceResults.endDateTimeUtc=self.workspace.getEndDateTimeUtc()
+        
+        # :TODO: Timezones and such are on env, not workspace [move them]
         workspaceResults.timezone=self.workspace.getTimezone()
+
+        workspaceResults.timezoneOffset=self.run.getEnvironment().getTimezoneOffset()
     
         # For all modules...
         for module in self.workspace.getModules():        

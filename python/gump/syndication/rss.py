@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/syndication/rss.py,v 1.20 2004/04/16 17:28:43 ajack Exp $
-# $Revision: 1.20 $
-# $Date: 2004/04/16 17:28:43 $
+# $Header: /home/stefano/cvs/gump/python/gump/syndication/rss.py,v 1.21 2004/04/26 16:13:56 ajack Exp $
+# $Revision: 1.21 $
+# $Date: 2004/04/26 16:13:56 $
 #
 # ====================================================================
 #
@@ -59,7 +59,9 @@
 # <http://www.apache.org/>.
 
 """
-  Highly experimental RSS feeds.
+  
+    RSS feeds.
+  
 """
 
 import os
@@ -78,7 +80,7 @@ from gump.syndication.syndicator import Syndicator
 ###############################################################################
 
 
-# Local time zone, in offset from GMT
+# Local time zone, in offset from UTC
 TZ='%+.2d:00' % (-time.timezone/3600)
 
 ###############################################################################

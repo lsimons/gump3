@@ -232,7 +232,7 @@ class GumpEngine:
                 and not module.hasSvn()	\
                 and not module.hasJars(): continue
             
-            log.debug('Perform CVS/SVN/Jars Update on #[' + `moduleNo` + \
+            log.info('Perform CVS/SVN/Jars Update on #[' + `moduleNo` + \
                         '] of [' + `moduleCount` + ']: ' + module.getName())
     
             if module.okToPerformWork():
@@ -371,7 +371,7 @@ class GumpEngine:
         projectNo=1
         for project in list:  
         
-            log.debug(' ------ Project: #[' + `projectNo` + '] of [' + `projectCount` + '] : ' + project.getName())
+            log.info(' Project: #[' + `projectNo` + '] of [' + `projectCount` + '] : ' + project.getName())
                     
             # Extract stats (in case we want to do conditional processing)            
             stats=None
@@ -504,7 +504,8 @@ class GumpEngine:
        
         log.debug(' ------ Performing pre-Build Actions (mkdir/delete) for : '+ project.getName())
         
-        
+        startedOk =  project.okToPerformWork()
+            
         #
         #
         # NOTE --------------- NOT TURNED ON YET!!!!!!
@@ -552,7 +553,7 @@ class GumpEngine:
                 log.error('Generate Maven Properties Failed', exc_info=1)    
                 project.changeState(STATE_FAILED,REASON_PREBUILD_FAILED)
             
-        if not project.okToPerformWork():
+        if startedOk and not project.okToPerformWork():
             log.warn('Failed to perform pre-build on project [' + project.getName() + ']')
 
     def performPostBuild(self, run, project, repository, wasBuilt, stats):

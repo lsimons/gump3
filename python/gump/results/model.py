@@ -127,7 +127,11 @@ class ResultModelObject(Annotatable,Ownable,Stateful):
         finally:
             # Since we may exit via an exception, close explicitly.
             if f: f.close()           
-            
+        
+    def getTimezoneOffset(self):
+        if not hasattr(self,'timezoneOffset') : 
+            return self.getOwner().getTimezoneOffset()    
+        return self.timezoneOffset
         
     def getTimezone(self):
         if not hasattr(self,'timezone') : 
@@ -201,6 +205,7 @@ class WorkspaceResult(ResultModelObject):
     	self.endDateTimeUtc=''
     	self.endDateTime=''
     	self.timezone=''
+    	self.timezoneOffset=''
 
     #
     # Lists...
@@ -263,6 +268,7 @@ class WorkspaceResult(ResultModelObject):
         topElement.setAttribute('endUtc',self.getEndDateTimeUtc())
         topElement.setAttribute('end',self.getEndDateTime())
         topElement.setAttribute('tzone',self.getTimezone())
+        topElement.setAttribute('tzoneOffset',self.getTimezoneOffset())
             
         for moduleResult in self.moduleResults.values():
             moduleResult.createDom(self.dom,topElement)        
@@ -282,6 +288,7 @@ class WorkspaceResult(ResultModelObject):
         self.endDateTimeUtc=self.dom.documentElement.getAttribute('endUtc')
         
         self.timezone=self.dom.documentElement.getAttribute('tzone')
+        self.timezoneOffset=self.dom.documentElement.getAttribute('tzoneOffset')
         
         #
         # Import all modules

@@ -41,6 +41,9 @@ from gump.model.propagation import *
 # Classes
 ###############################################################################
 
+# Local time zone, in offset from UTC
+TZ='%+.2d:00' % (-time.timezone/3600)
+
 class GumpEnvironment(Annotatable,Workable,Propogatable):
 
     def __init__(self):
@@ -69,6 +72,11 @@ class GumpEnvironment(Annotatable,Workable,Propogatable):
     	# JAVACMD can override this, see checkEnvironment
     	#
         self.javaCommand = 'java'
+        
+        #
+        # Offset from UTC
+        #
+        self.timezoneOffset=TZ
         
     def checkEnvironment(self,exitOnError=0):
         """ Check Things That are Required """
@@ -271,6 +279,9 @@ class GumpEnvironment(Annotatable,Workable,Propogatable):
         
     def getJavaCommand(self):
         return self.javaCommand
+        
+    def getTimezoneOffset(self):
+        return self.timezoneOffset
         
 if __name__ == '__main__':
   env = GumpEnvironment()

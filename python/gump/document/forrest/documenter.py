@@ -292,7 +292,18 @@ class ForrestDocumenter(Documenter):
                         
         envSection=document.createSection('Gump Environment')
         envSection.createParagraph(
-            """The environment that this Gump run was within.""")            
+            """The environment that this Gump run was within.""")     
+        
+        
+        propertiesSection=envSection.createSection('Properties')
+        envTable=propertiesSection.createTable(['Name','Value'])
+        envs=0
+        # iterate over this suites properties
+        for (name,value) in getBeanAttributes(environment).items():
+            envTable.createEntry(str(name),str(value))
+            envs+=1            
+        if not envs: envTable.createEntry('None')
+        
         
         self.documentAnnotations(document,environment)        
         #self.documentFileList(run,document,environment,'Environment-level Files')        
@@ -491,7 +502,7 @@ class ForrestDocumenter(Documenter):
             self.resolver.getFile(workspace,'servers'))
                 
         serversSection=document.createSection('All Servers')
-        serversTable=serversSection.createTable(['Name','Notes','Results','Start (Local)','Start (UTC)','End (UTC)'])
+        serversTable=serversSection.createTable(['Name','Notes','Results','Start (Local)','Start (UTC)','End (UTC)','Offset (from UTC)'])
 
         scount=0
         for server in sortedServerList:
@@ -519,7 +530,9 @@ class ForrestDocumenter(Documenter):
                 serverRow.createData(server.getResults().getStartDateTime())
                 serverRow.createData(server.getResults().getStartDateTimeUtc())
                 serverRow.createData(server.getResults().getEndDateTimeUtc())
+                serverRow.createData(server.getResults().getTimezoneOffset())
             else:
+                serverRow.createData('N/A')
                 serverRow.createData('N/A')
                 serverRow.createData('N/A')
                 serverRow.createData('N/A')
@@ -797,7 +810,7 @@ The count of affected indicates relative importance of fixing this project.""")
         self.documentSummary(document, workspace.getProjectSummary())
         
         projectsSection=document.createSection('Projects recently fixed...')
-        projectsSection.createParagraph("""These are the projects that were 'fixed' (state changed to success) within %s runs.
+        projectsSection.createParagraph("""These are the projects that were 'fixed' (state changed to success from failed) within %s runs.
 This page helps Gumpmeisters (and others) observe community progress.
         """ % INSIGNIFICANT_DURATION)      
         
@@ -809,6 +822,7 @@ This page helps Gumpmeisters (and others) observe community progress.
             if not gumpSet.inProjectSequence(project): continue       
             
             if not project.getState()==STATE_SUCCESS or \
+                not project.getStats().previousState==STATE_FAILED or \
                 not project.getStats().sequenceInState < INSIGNIFICANT_DURATION:
                 continue
                 
@@ -1201,6 +1215,9 @@ This page helps Gumpmeisters (and others) observe community progress.
             if server.hasResultsUrl():
                 detailList.createEntry('Results URL: ').createFork(	\
                         server.getResultsUrl(),server.getResultsUrl())    
+                                                
+                detailList.createEntry('Timezone Offset: ',
+                        server.getResults().getTimezoneOffset())
                                                 
                 detailList.createEntry('Start Time: ',	\
                         server.getResults().getStartDateTime() + ' ' + \
@@ -2763,8 +2780,8 @@ This page helps Gumpmeisters (and others) observe community progress.
 
     def documentProjectsByDependencyDepth(self,stats,run,workspace,gumpSet,total=0):
         if total:
-           title='Projects By Total Dependency Depth'
-           fileName='project_totdepdepth'       
+            title='Projects By Total Dependency Depth'
+            fileName='project_totdepdepth'       
         else:
             title='Projects By Dependency Depth'
             fileName='project_depdepth'       
@@ -2775,6 +2792,7 @@ This page helps Gumpmeisters (and others) observe community progress.
             list = stats.projectsByTotalDependencyDepth
         else:
             list = stats.projectsByDependencyDepth
+            
         for project in list:        
             if not gumpSet.inProjectSequence(project): continue    
             durRow=durTable.createRow()            
