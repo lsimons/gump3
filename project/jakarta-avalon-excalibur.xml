@@ -100,6 +100,7 @@
         <depend project="xml-xalan2"/>
         <depend project="jakarta-bcel"/>
         <depend project="commons-attributes" inherit="runtime"/>
+        <depend project="commons-httpclient"/>
         <work nested="altrmi/build/classes"/>
 
         <home nested="altrmi"/>
