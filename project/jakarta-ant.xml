@@ -77,6 +77,14 @@
     <work nested="proposal/myrmidon/build/tasks"/>
     <option project="xml-xalan2"/>
   </project>
+
+  <project name="jakarta-ant-myrmidon-test">
+    <ant basedir="proposal/myrmidon" target="test"/>
+
+    <depend project="jakarta-antmyrmidon" inherit="all"/>
+    <work nested="proposal/myrmidon/build/tasks"/>
+    <work nested="proposal/myrmidon/build/test/classes"/>
+  </project>
   
   <project name="jakarta-ant-mutant">
     <ant basedir="proposal/mutant"/>
