@@ -33,8 +33,7 @@
       <xsl:if test="$build-sequence = 'bulk'">
         <xsl:for-each select="project[cvs]">
           <delete dir="{$basedir}/{@name}"/>
-          <copy fromdir="{$cvsdir}/{@name}"
-                todir="{$basedir}/{@name}"/>
+          <copy fromdir="{$cvsdir}/{@name}" todir="{@srcdir}"/>
         </xsl:for-each>
       </xsl:if>
 
