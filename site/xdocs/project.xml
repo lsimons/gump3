@@ -431,7 +431,7 @@
 
       <p>A build failure is detected by matching the output of the
       build against Perl regular expressions, the default expression
-      is <code>/BUILD FAILED/</code>.  The regular expressions are
+      is <code>/BUILD FAILED/i</code>.  The regular expressions are
       specified using nested regexp elements - you can associate
       different email addresses and subjects with each expression.</p>
 
@@ -451,7 +451,7 @@
 
       <source><![CDATA[
 <nag>
-  <regexp pattern="/BUILD FAILED/"
+  <regexp pattern="/BUILD FAILED/i"
           from="from@example.org" 
           to="to@example.org" 
           subject="Build Failure - @name of project element@"/>
@@ -469,7 +469,7 @@
        </p>
       <source><![CDATA[
 <nag>
-  <!-- pattern default is /BUILD FAILED/ -->
+  <!-- pattern default is /BUILD FAILED/i -->
   <regexp from="from@example.org" 
           to="to@example.org" 
           subject="Build Failure - @name of project element@"/>
@@ -486,7 +486,7 @@
       </p>
       <source><![CDATA[
 <nag>
-  <!-- pattern default is /BUILD FAILED/ -->
+  <!-- pattern default is /BUILD FAILED/i -->
   <regexp from="from@example.org" 
           to="to@example.org" 
           subject="Build Failure - @name of project element@"/>

@@ -1,13 +1,13 @@
 /*
- * $Header: /home/stefano/cvs/gump/java/Project.java,v 1.46 2002/11/25 15:24:12 rubys Exp $
- * $Revision: 1.46 $
- * $Date: 2002/11/25 15:24:12 $
+ * $Header: /home/stefano/cvs/gump/java/Project.java,v 1.47 2003/01/16 14:53:03 bodewig Exp $
+ * $Revision: 1.47 $
+ * $Date: 2003/01/16 14:53:03 $
  *
  * ====================================================================
  *
  * The Apache Software License, Version 1.1
  *
- * Copyright (c) 1999-2002 The Apache Software Foundation.  All rights
+ * Copyright (c) 1999-2003 The Apache Software Foundation.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -91,6 +91,9 @@ public class Project {
 
     private static String nagTo = null;
     private static String nagPrefix = null;
+
+    private static String defaultNagPrefix = "[GUMP]";
+    private static String defaultNagPattern = "/BUILD FAILED/i";
 
     /**
      * Create a set of Project definitions based on XML nodes.
@@ -788,12 +791,12 @@ public class Project {
         if (nagPrefix == null) {
             Element workspaceNag = Workspace.getNag();
             if (workspaceNag == null) {
-                nagPrefix = "[GUMP]";
+                nagPrefix = defaultNagPrefix;
             } else {
                 if (!workspaceNag.getAttribute("prefix").equals("")) {
                     nagPrefix = workspaceNag.getAttribute("prefix");
                 } else {
-                    nagPrefix = "[GUMP]";
+                    nagPrefix = defaultNagPrefix;
                 }
                 if (!workspaceNag.getAttribute("to").equals("")) {
                     nagTo = workspaceNag.getAttribute("to");
@@ -817,7 +820,7 @@ public class Project {
                 regexp = (Element)child;
 
                 if (regexp.getAttribute("pattern").equals("")) {
-                    regexp.setAttribute("pattern", "/BUILD FAILED/");
+                    regexp.setAttribute("pattern", defaultNagPattern);
                 }
 
                 if (regexp.getAttribute("subject").equals("")) {
@@ -839,7 +842,7 @@ public class Project {
 
         if (regexp == null) {
             regexp = nag.getOwnerDocument().createElement("regexp");
-            regexp.setAttribute("pattern", "/BUILD FAILED/");
+            regexp.setAttribute("pattern", defaultNagPattern);
             regexp.setAttribute("subject", subject);
             regexp.setAttribute("to", to);
             regexp.setAttribute("from", from);
