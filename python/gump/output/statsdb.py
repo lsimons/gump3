@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/output/Attic/statsdb.py,v 1.15 2004/03/13 00:17:40 ajack Exp $
-# $Revision: 1.15 $
-# $Date: 2004/03/13 00:17:40 $
+# $Header: /home/stefano/cvs/gump/python/gump/output/Attic/statsdb.py,v 1.16 2004/03/13 15:53:51 ajack Exp $
+# $Revision: 1.16 $
+# $Date: 2004/03/13 15:53:51 $
 #
 # ====================================================================
 #
@@ -425,7 +425,7 @@ def compareModulesByFOGFactor(module1,module2):
 def compareModulesByLastUpdated(module1,module2):
     lu1=module1.getLastUpdated()
     lu2=module2.getLastUpdated()
-    c= int(round((lu2 - lu1)*100,0))                  
+    c= int(round(lu2 - lu1,0))                  
     if not c: c=cmp(module1,module2)
     return c             
             
@@ -467,7 +467,7 @@ def compareProjectsByFOGFactor(project1,project2):
 def compareProjectsByLastUpdated(project1,project2):
     lu1=project1.getLastUpdated()
     lu2=project2.getLastUpdated()
-    c= int(round((lu2 - lu1)*100,0))                  
+    c= int(round(lu2 - lu1,0))                  
     if not c: c=cmp(project1,project2)
     return c              
             
