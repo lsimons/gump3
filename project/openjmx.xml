@@ -19,6 +19,7 @@
     <option project="jsse"/>
     <option project="jaf"/>
     <work nested="classes/core"/>
+    <work nested="classes/examples"/>
  
     <home nested="dist"/>
     <jar name="lib/openjmx.jar"/>
