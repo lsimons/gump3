@@ -63,6 +63,7 @@ class ModelTestCase(TestCase):
         self.assertEqual([], w.dependencies)
         
         self.assertRaises(AssertionError, Workspace, None)
+        Workspace(unicode("blah")) # unicode is okay too...
         
         r = Repository(w, "booh")
         w.add_repository(r)
@@ -107,7 +108,8 @@ class ModelTestCase(TestCase):
         
         self.assertRaises(AssertionError, Repository, "test", name)
         self.assertRaises(AssertionError, Repository, "test", w)
-        
+        Repository(w,unicode("blah")) # unicode is okay too...
+
         r = Repository(w,name)
         mname="bweh"
         m = Module(r,mname)
@@ -218,6 +220,7 @@ class ModelTestCase(TestCase):
         self.assertRaises(AssertionError, Module, name, None)
         self.assertRaises(AssertionError, Module, "wrong", name)
         self.assertRaises(AssertionError, Module, r, r)
+        Module(r,unicode("blah")) # unicode is okay too...
         
         m = Module(r,name,url=url)
         self.assertEqual(url,m.url)
@@ -322,6 +325,7 @@ class ModelTestCase(TestCase):
         self.assertRaises(AssertionError, Project, name, None)
         self.assertRaises(AssertionError, Project, "wrong", name)
         self.assertRaises(AssertionError, Project, m, m)
+        Project(m,unicode("blah")) # unicode is okay too...
         
         # note that dependencies are tested in test_dependencies...
         

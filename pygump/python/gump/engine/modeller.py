@@ -61,7 +61,8 @@ def _find_document_containing_node(node):
     parent = node
     while not parent.nodeType == dom.Node.DOCUMENT_NODE:
         parent = parent.parentNode
-        if not parent: # really ought not happen I think...
+        if not parent: # this indicates a bug in the DOM implementation as
+                       # its illegal
             raise ModellerError, "Cannot find document containing this node!"
     
     return parent
@@ -94,10 +95,8 @@ def _import_node(target_node, new_node):
     
 def _import_attributes(target_node, new_node):
     """Copy all attributes from the new node to the target node."""
-    
     new_attributes = new_node.attributes
     if new_attributes:
-        #if new_attributes.length > 0:
         i = 0
         while i < new_attributes.length: # for loops gives a KeyError,
             att = new_attributes.item(i) #   seems like a minidom bug!
@@ -125,8 +124,14 @@ def _import_children(target_node, new_node, filter=None):
 ###
 
 class _TagNameFilter:
-    """Filter for use with _import_children."""
+    """Filter for use with _import_children().
+
+    This filter can be configured to filter out certain
+    elements based on the element name."""
     def __init__(self, excludedTags):
+        """Create a new instance. The excludeTags argument
+        should be an array of strings specifying element
+        names to exclude."""
         self.excludedTags = excludedTags
 
     def exclude(self, node):
@@ -182,7 +187,7 @@ class Loader:
     
     Of course, other parts of the modeller package are not so tolerant!
     """
-    def __init__(self, log, vfs=None, merge_file_or_stream=None, drop_file_or_stream=None):
+    def __init__(self, log, vfs=None):
         """
         Create a new Loader.
 
@@ -388,6 +393,7 @@ class Normalizer:
         self.log = log
     
     def normalize(self, olddoc):
+        """Turns a messy gump DOM workspace into a simplified and normalized form."""
         self.olddoc = olddoc
         self.oldroot = olddoc.documentElement
         self.impl = dom.getDOMImplementation()
@@ -463,6 +469,7 @@ class Normalizer:
             self._parse_maven_project(project)
     
     def _parse_maven_project(self, project):
+        #TODO: implement this!
         if True: return
 
         self._resolve_maven_imports(project)
@@ -497,7 +504,7 @@ class Normalizer:
         #new_project.appendChild(new_command)
     
     def _resolve_maven_imports(self, project):
-        pass #TODO
+        pass #TODO: implement this!
     
     def _normalize_repositories(self):
         repos = self._get_list_merged_by_name("repository")
@@ -977,18 +984,54 @@ class Objectifier:
         project.add_dependency(Dependency(dependency_project,project,optional,runtime,inherit,id))
 
 
-NOT_VISITED = 0
-VISITING = 1
-VISITED = 2
+class VerificationError(ModellerError):
+    """Error raised by the verifier if the model is not valid."""
+    pass
+
+class CyclicDependencyError(VerificationError):
+    """Error raised by the verifier if the model contains one or more cyclic
+    dependencies. The cycles property will contain an array of cycles, where
+    a cycle again is an array of projects that together make up a cycle."""
+    #TODO think about error hierarchies in gump and decide if this is the way
+    #     we want to implement them
+    def __init__(self, cycles):
+        self.cycles = cycles
+
+class AbstractErrorHandler:
+    """Base class for supporting configurable error recovery. Instead of
+    raising exceptions, supportive classes will pass the error to an instance
+    of this class. This allows clients to recover from errors more gracefully.
+    This default implementation tries to call a handleError() method on
+    itself, and raises the error if that is not possible.
+    
+    Subclasses should implement a handleError(error) method, where the
+    provided error argument is normally an instance of Exception.
+    
+    This setup is similar to that used by the SAX libraries."""
+    #TODO maybe move this elsewhere?
+    def _handleError(self,error):
+        if not hasattr(self,'handleError'): raise error
+        if not callable(self.handleError): raise error
+        self.handleError(error)
 
 class Verifier:
+    """Determines whether a finished gump model conforms to certain contracts.
+    
+    Those contracts are not currently completely specified, but it is somewhat
+    possible to digest them from the model documentation. However, the
+    verifier itself together with its unit tests is probably the only "hard"
+    specification of those contracts."""
     def __init__(self, walker):
         assert hasattr(walker, "walk")
         assert callable(walker.walk)
         
         self.walker = walker
         
-    def verify(self, workspace):
+    def verify(self, workspace, errorHandler=AbstractErrorHandler()):
+        """Sends VerificationError objects to the errorHandler argument if the
+        provided model contains errors. If no errorHandler is provided, the
+        exceptions are 'raise'd."""
+        # TODO: get rid of this return statement
         return
         # TODO: Test this code!!!
         from gump.plugins import AbstractPlugin
@@ -1003,10 +1046,11 @@ class Verifier:
                 if not p in visited_projects:
                     unvisited.append(p)
             
-            cycles = self.find_cycles(unvisited[:])
-            # TODO now what?
+            cycles = self._find_cycles(unvisited[:])
+            
+            errorHandler._handleError(CyclicDependencyError(cycles))
     
-    def find_cycles(self,projects):
+    def _find_cycles(self,projects):
         """Brute-force find all cycles.
         
         1) depth-first traverse all paths extending from each project
@@ -1024,11 +1068,12 @@ class Verifier:
             needle = project
             visited = []
             stack = [project]
-            visit(project,visited,stack,needle,cycles)
+            self._visit(project,visited,stack,needle,cycles)
         
         return cycles
     
-    def visit(project,visited,stack,needle,cycles):
+    def _visit(self,project,visited,stack,needle,cycles):
+        #TODO: test this
         visited.append(project)
         for relationship in project.dependencies:
             dependency = relationship.dependency
@@ -1041,7 +1086,7 @@ class Verifier:
                       # for loop iteration
             else:
                 if not dependency in visited:
-                    visit(dependency,visited,stack,needle,cycles)
+                    self._visit(dependency,visited,stack,needle,cycles)
                 # else we have a cycle not involving the needle,
                 # we'll find it later (or we've found it already)
         

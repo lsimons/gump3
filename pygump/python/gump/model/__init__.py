@@ -41,7 +41,7 @@ class Workspace(ModelObject):
         - dependencies -- list of all dependencies between projects
     """
     def __init__(self, name):
-        assert isinstance(name, str)
+        assert isinstance(name, basestring)
     
         self.name = name
         self.repositories = {}
@@ -78,7 +78,7 @@ class Repository(ModelObject):
                  cvsweb = None,
                  redistributable = False):
         assert isinstance(workspace, Workspace)
-        assert isinstance(name, str)
+        assert isinstance(name, basestring)
         
         self.workspace       = workspace
         self.name            = name
@@ -125,8 +125,8 @@ class CvsRepository(Repository):
                  method = CVS_METHOD_PSERVER,
                  user = None,
                  password = None):
-        assert isinstance(hostname,str)
-        assert isinstance(path,str)
+        assert isinstance(hostname,basestring), "Hostname should be a valid string, not '%s'" % hostname
+        assert isinstance(path,basestring)
         Repository.__init__(self, workspace, name, title, home_page, cvsweb, redistributable)
         
         self.hostname = hostname
@@ -164,7 +164,7 @@ class SvnRepository(Repository):
                  redistributable = False,
                  user = None,
                  password = None):
-        assert isinstance(url, str)
+        assert isinstance(url, basestring)
         Repository.__init__(self, workspace, name, title, home_page, cvsweb, redistributable)
         self.url      = url
         self.user     = user
@@ -190,7 +190,7 @@ class Module(ModelObject):
                  url = None,
                  description = None):
         assert isinstance(repository, Repository)
-        assert isinstance(name, str)
+        assert isinstance(name, basestring)
         self.repository  = repository
         self.name        = name
         self.url         = url
@@ -269,7 +269,7 @@ class Project(ModelObject):
 
     def __init__(self, module, name):
         assert isinstance(module, Module)
-        assert isinstance(name, str)
+        assert isinstance(name, basestring)
         
         self.module = module
         self.name   = name
@@ -395,7 +395,7 @@ class Mkdir(Command):
         - directory -- the directory to create
     """
     def __init__(self, project, directory):
-        assert isinstance(directory, str)
+        assert isinstance(directory, basestring)
         Command.__init__(self, project)
         self.directory = directory
 
@@ -411,7 +411,7 @@ class Rmdir(Command):
         - directory -- the directory to delete
     """
     def __init__(self, project, directory):
-        assert isinstance(directory,str)
+        assert isinstance(directory,basestring)
         Command.__init__(self, project)
         self.directory = directory
 
@@ -427,10 +427,10 @@ class Script(Command):
                   tuple
     """
     def __init__(self, project, name, args=[]):
-        assert isinstance(name, str)
+        assert isinstance(name, basestring)
         assert isinstance(args, list)
         for arg in args:
-            assert isinstance(arg, str)
+            assert isinstance(arg, basestring)
         Command.__init__(self, project)
         self.name = name
         self.args = args
@@ -465,7 +465,7 @@ class Homedir(Output):
                        its homedirectory
     """
     def __init__(self, project, directory):
-        assert isinstance(directory, str)
+        assert isinstance(directory, basestring)
         Output.__init__(self, project, OUTPUT_ID_HOME)
         self.directory = directory
 
@@ -481,7 +481,7 @@ class Jar(Output):
                 added 
     """
     def __init__(self, project, name, id = None, add_to_bootclass_path = False ):
-        assert isinstance(name, str)
+        assert isinstance(name, basestring)
         Output.__init__(self, project, id)
         self.name = name
         self.add_to_bootclass_path = add_to_bootclass_path

@@ -86,17 +86,17 @@ def main(settings):
     # get engine dependencies
     log = get_logger(config, _ENGINE_LOGGER_NAME)
     
-    vfsdir = os.path.join(config)
+    vfs = get_vfs(config)
+    walker = get_walker(config)
     modeller_log = get_logger(config, _MODELLER_LOGGER_NAME)
     modeller_loader = get_modeller_loader(modeller_log, vfs)
     modeller_normalizer = get_modeller_normalizer(modeller_log)
     modeller_objectifier = get_modeller_objectifier(modeller_log)
-    modeller_verifier = get_modeller_verifier()
+    modeller_verifier = get_modeller_verifier(walker)
     
     mergefile = os.path.join(config.paths_work, _MERGE_FILE_NAME)
     dropfile = os.path.join(config.paths_work, _DROPPED_FILE_NAME)
     
-    walker = get_walker(config)
     dom_implementation = get_dom_implementation()
     (pre_process_visitor, visitor, post_process_visitor) = get_plugin(config)
     

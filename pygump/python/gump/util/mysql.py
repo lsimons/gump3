@@ -100,10 +100,18 @@ class Database:
         if not self._conn:
             import MySQLdb
             import MySQLdb.cursors
-            self._conn = MySQLdb.Connect(
+            if self.password:
+                self._conn = MySQLdb.Connect(
                     host=self.host, 
                     user=self.user,
                     passwd=self.password, 
+                    db=self.db,
+                    compress=1,
+                    cursorclass=MySQLdb.cursors.DictCursor)
+            else:
+                self._conn = MySQLdb.Connect(
+                    host=self.host, 
+                    user=self.user,
                     db=self.db,
                     compress=1,
                     cursorclass=MySQLdb.cursors.DictCursor)

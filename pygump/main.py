@@ -52,7 +52,10 @@ def print_help(file=None):
     parser = get_parser()
     parser.print_help(file)
 
-def get_parser(_homedir=None, _hostname=None, _projects=None, _workdir=None, _logdir=None, _workspace=None):
+def get_parser(_homedir=None, _hostname=None, _projects=None, _workdir=None,
+               _logdir=None, _workspace=None, _databaseserver="localhost",
+               _databaseport=3306, _databasename="gump", _databaseuser="gump",
+               _databasepassword=None):
     """Pygump uses the optparse package to provide the CLI.
     
     To add new options to pygump, change this method and document the changes
@@ -101,6 +104,27 @@ def get_parser(_homedir=None, _hostname=None, _projects=None, _workdir=None, _lo
                       dest="no_updates",
                       default=False,
                       help="skip cvs and svn updates")
+    parser.add_option("--databaseserver",
+                      action="store",
+                      default=_databaseserver,
+                      help="hostname of the database server gump will connect to")
+    parser.add_option("--databaseport",
+                      action="store",
+                      default=_databaseport,
+                      help="port of the database server gump will connect to")
+    parser.add_option("--databasename",
+                      action="store",
+                      default=_databasename,
+                      help="name of the database gump will connect to")
+    parser.add_option("--databaseuser",
+                      action="store",
+                      default=_databaseuser,
+                      help="username gump will use to connect to the database")
+    parser.add_option("--databasepassword",
+                      action="store",
+                      default=_databasepassword,
+                      help="password gump will use to connect to the database")
+                      
     return parser
 
 
@@ -432,7 +456,7 @@ def main():
                 
             # finally: fire us up!
             _start_engine(log, options)
-            log.info("Run completed!")
+            log.debug("Run completed!")
         except Exception, details:
             # this is not good. Send e-mail to the admin, complaining rather loudly.
             log.exception("an uncaught exception occurred")

@@ -48,7 +48,7 @@ class Dynagumper(AbstractPlugin):
         (system, host, release, version, machine, processor) = platform.uname()
         tablename = "hosts"
         
-        cmd = "SELECT * FROM %s WHERE address = '%s' AND name = '%s';"
+        cmd = "SELECT * FROM %s WHERE address = '%s' AND name = '%s';" % (tablename, host, host)
         (rows, result) = self.db.execute(cmd)
         if rows == 0:
             memory = amount_of_memory()
@@ -56,7 +56,7 @@ class Dynagumper(AbstractPlugin):
             cpus = number_of_cpus()
             
             description = "%s (%s,%s,%s,%s,%s)" % (host, system, release, version, machine, processor)
-            cmd = """INSERT INTO %s (address, name, cpu_arch, cpu_number, cpu_speed_Mhz, memory, description)
+            cmd = """INSERT INTO %s (address, name, cpu_arch, cpu_number, cpu_speed_Mhz, memory_Mb, description)
                      VALUES ('%s', '%s', '%s', %s, %s, %s, '%s')""" \
                 % (tablename, host, host, processor, cpus, mhz, memory, description)
             self.db.execute(cmd)
@@ -74,8 +74,8 @@ class Dynagumper(AbstractPlugin):
     def visit_project(self, project):    
         """Add information about a project to the database."""
         tablename = "projects"
-        startdate = project.startdate
-        enddate = project.enddate
+        startdate = project.run_start
+        enddate = project.run_end
         name = project.name
         
         cmd = "INSERT INTO %s (project_name, start_date, end_date) VALUES ('%s', '%s', '%s')" \

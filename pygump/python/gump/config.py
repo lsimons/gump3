@@ -67,17 +67,13 @@ def get_config(settings):
     config.mail_to         = settings.mailto
     config.mail_from       = settings.mailfrom
     
-    # TODO: set defaults in main.py instead
     config.database_server = "localhost"
-    if hasattr(settings,"databaseserver"): config.database_server = settings.databaseserver
+    config.database_server = settings.databaseserver
     config.database_port   = 3306
-    if hasattr(settings,"databaseport"): config.database_port = settings.databaseport
-    config.database_name   = "gump"
-    if hasattr(settings,"databasename"): config.database_name = settings.databasename
-    config.database_user   = "gump"
-    if hasattr(settings,"databaseuser"): config.database_user = settings.databaseuser
-    config.database_password   = "gump"
-    if hasattr(settings,"databasepassword"): config.database_password = settings.databasepassword
+    config.database_port = settings.databaseport
+    config.database_name = settings.databasename
+    config.database_user = settings.databaseuser
+    config.database_password = settings.databasepassword
     
     return config
 
@@ -108,7 +104,7 @@ def get_plugins(config):
     # TODO: append more plugins here...
 
     from gump.plugins import LoggingPlugin
-    log = get_logger(config.log_level, "plugin-log")
+    log = get_logger(config, "plugin-log")
     plugins.append(LoggingPlugin(log))
     
     post_process_plugins = []
@@ -116,10 +112,10 @@ def get_plugins(config):
     post_process_plugins.append(TimerPlugin("run_end"))
 
     from gump.plugins.dynagumper import Dynagumper
-    log = get_logger(config.log_level, "util-db")
+    log = get_logger(config, "util-db")
     db = get_db(log,config)
-    log = get_logger(config.log_level, "plugin-dynagumper")
-    post_process_plugins.append(Dynagumper(db, log, "run_start", "run_end"))
+    log = get_logger(config, "plugin-dynagumper")
+    post_process_plugins.append(Dynagumper(db, log))
     
     return (pre_process_plugins, plugins, post_process_plugins)
 
@@ -140,7 +136,7 @@ def get_error_handler(config):
     # TODO: implement an error handler that does actual recovery...
     
     from gump.plugins import LoggingErrorHandler
-    log = get_logger(config.log_level, "plugin-error-handler")
+    log = get_logger(config, "plugin-error-handler")
     return LoggingErrorHandler(log)
 
 ###
@@ -208,10 +204,10 @@ def get_vfs(config):
     return VFS(config.paths_metadata, cache_dir)
 
 
-def get_modeller_loader(log, vfs=None, mergefile=None, dropfile=None):
+def get_modeller_loader(log, vfs=None):
     """Provide a Loader implementation."""
     from gump.engine.modeller import Loader
-    return Loader(log, vfs, mergefile, dropfile)
+    return Loader(log, vfs)
 
 
 def get_modeller_normalizer(log):
@@ -226,17 +222,17 @@ def get_modeller_objectifier(log):
     return Objectifier(log)
 
 
-def get_modeller_verifier():
+def get_modeller_verifier(walker):
     """Provide a Verifier implementation."""
     from gump.engine.modeller import Verifier
-    return Verifier()
+    return Verifier(walker)
 
 
 def get_walker(config):
     """Provide a Walker implementation."""
     from gump.engine.walker import Walker
     
-    log = get_logger(config.log_level, "walker")
+    log = get_logger(config, "walker")
     return Walker(log)
 
 
