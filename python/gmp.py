@@ -14,7 +14,7 @@
 #   See the License for the specific language governing permissions and
 #   limitations under the License.
 #
-# $Header: /home/stefano/cvs/gump/python/gmp.py,v 1.4 2004/04/14 22:12:58 ajack Exp $
+# $Header: /home/stefano/cvs/gump/python/gmp.py,v 1.5 2004/04/16 20:38:11 ajack Exp $
 
 """
   This is the commandline entrypoint into Python Gump as a
@@ -35,12 +35,6 @@ import smtplib
 import StringIO
 from xml.dom import minidom
 
-def ignoreHangup(signum):
-    pass
-
-def glog(descr, what):
-    print '- GUMP ' + descr + ' :['+ what + ']'
-    
 def runCommand(command,args='',dir=None,outputFile=None):
     """ Run a command, and check the result... """
     
@@ -50,20 +44,16 @@ def runCommand(command,args='',dir=None,outputFile=None):
         originalCWD=os.getcwd()
         cwdpath=os.path.abspath(dir)
         try:
-            glog('Executing with CWD', dir )    
             if not os.path.exists(cwdpath): os.makedirs(dir)
             os.chdir(cwdpath)
         except Exception, details :
             # Log the problem and re-raise
-            glog('Failed to create/change CWD', cwdpath)
-            glog('Details', str(details) )
             return 0
               
     try:
     
         fullCommand = command + ' ' + args    
-        glog('Execute', fullCommand)
-       
+        
         #
         # Execute Command & Calculate Exit Code
         #
@@ -84,8 +74,6 @@ def runCommand(command,args='',dir=None,outputFile=None):
         else:
             exit_code=systemReturn
     
-        glog('Exit Code', `exit_code`)
-    
     finally:
         if originalCWD: os.chdir(originalCWD)
       
@@ -94,11 +82,6 @@ def runCommand(command,args='',dir=None,outputFile=None):
 def callGmpCommand(ws,command,projects,iargs):
     
     iargs+=' --text'
-
-    glog('ws',ws)
-    glog('command',command)
-    glog('projects',projects)
-    glog('args',iargs)
     
     #
     # Actually run the Gump command
@@ -106,9 +89,9 @@ def callGmpCommand(ws,command,projects,iargs):
     command=os.path.join(os.environ['GUMP_HOME'],'python/gump/'+command+'.py')
 
     exitValue = runCommand('python '+command+' -w '+ws+' '+projects, iargs, 'python')
-    if exitValue:
-        result=1
-
+    
+    return exitValue
+    
 
 if not os.environ.has_key('GUMP_HOME'):
     print 'Please set GUMP_HOME to where Gump is installed.'
@@ -126,15 +109,6 @@ Please resolve this (waiting or removing the lock file) before retrying.
     """ % lockFile
     sys.exit(1)
     
-# Set the signal handler to ignore hangups
-try:
-    # Not supported by all OSs
-    # :TODO: Does the variable signal.SIG_HUP even exist? Test
-    # this code on Linux w/o the try/except.
-    signal.signal(signal.SIG_HUP, ignoreHangup)
-except:
-    pass
-    
 # Write this PID into a lock file
 lock=open(lockFile,'w')
 lock.write(`os.getpid()`)
@@ -149,16 +123,6 @@ try:
     try:
         # Process Environment
         hostname = socket.gethostname()
-
-        glog('run on host  ',hostname)
-        glog('run @        ',time.strftime('%d %b %y %H:%M:%S', time.gmtime()))
-        glog('run by Python',`sys.version`)
-        glog('run on OS    ',`os.name`)
-        glog('run in env   ','see below')
-        
-        for envkey in os.environ.keys():
-            envval=os.environ[envkey]
-            glog('  ' + envkey, envval)
 
         # The path of this command
         gmpPath = os.path.abspath(args[0])
@@ -211,11 +175,6 @@ try:
         logdir=wsw.getAttribute('logdir') or os.path.join(basePath,'log')
         # Finish parsing
         ws.unlink()
-        
-        glog('base directory', baseDir)
-        glog('base path     ',str(basePath))
-        if logurl:
-            glog('log is @  ',logurl)
 
         #
         # Add Gump to Python Path...
@@ -225,10 +184,9 @@ try:
             pythonPath=os.environ['PYTHONPATH']
             pythonPath+=os.pathsep
         pythonPath+=str(os.path.abspath(os.path.join(os.environ['GUMP_HOME'],'python')))
-        glog('PYTHONPATH', pythonPath)
         os.environ['PYTHONPATH']=pythonPath
 
-        callGmpCommand(workspacePath,command,projectsExpr,iargs)
+        result=callGmpCommand(workspacePath,command,projectsExpr,iargs)       
 
     except KeyboardInterrupt:    
         print 'Terminated by user interrupt...'

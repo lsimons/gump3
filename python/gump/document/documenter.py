@@ -37,7 +37,7 @@ class Documenter:
     def prepare(self,run):
         if not hasattr(self,'prepareRun'): return        
         if not callable(self.prepareRun):  return        
-        log.info('Prepare to document run using [' + `self` + ']')        
+        log.debug('Prepare to document run using [' + `self` + ']')        
         self.prepareRun(run)
         
     #
@@ -46,7 +46,7 @@ class Documenter:
     def entity(self,entity,run):
         if not hasattr(self,'documentEntity'): return
         if not callable(self.documentEntity): return        
-        log.info('Document entity [' + `entity` + '] using [' + `self` + ']')        
+        log.debug('Document entity [' + `entity` + '] using [' + `self` + ']')        
         self.documentEntity(entity,run)
     
     #
@@ -61,7 +61,7 @@ class Documenter:
             raise RuntimeError, \
                     'Class [' + `self.__class__` + '] needs a callable documentRun(self,run)'
         
-        log.info('Document run using [' + `self` + ']')
+        log.debug('Document run using [' + `self` + ']')
         
         self.documentRun(run)
         

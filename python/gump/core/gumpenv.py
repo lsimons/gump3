@@ -54,7 +54,7 @@ class GumpEnvironment(Annotatable,Workable,Propogatable):
     	#
     	self.noForrest=0    
     	self.noMaven=0    	
-    	self.noRuper=0    	
+    	self.noUpdate=0    	
     	self.noTimeout=0
     	self.noSvn=0    	
     	self.noCvs=0    	
@@ -157,10 +157,10 @@ class GumpEnvironment(Annotatable,Workable,Propogatable):
             else:
                 setting.timeoutCommand=1
             
-        if not self.noRuper and \
-            not self.checkExecutable('ruper','-version',0,0,'check_ruper'): 
-            self.noRuper=1
-            self.addWarning('"ruper" command not found, no package downloads')
+        if not self.noUpdate and \
+            not self.checkExecutable('python update.py','-version',0,0,'check_depot_update'): 
+            self.noUpdate=1
+            self.addWarning('"update.py" command not found, no package downloads')
         
         if not self.noMaven and \
             not self.checkExecutable('maven','--version',0,0,'check_maven'): 
