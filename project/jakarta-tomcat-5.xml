@@ -66,7 +66,8 @@
       <depend property="commons-modeler.jar" project="commons-modeler" runtime="true"/>
       <depend property="commons-daemon.jar" project="commons-daemon"/>
       <property name="commons-daemon.jsvc.tar.gz"
-                project="commons-daemon" path="daemon/dist/bin/jsvc.tar.gz"/>
+                project="commons-daemon" path="/daemon/dist/bin/jsvc.tar.gz"/>
+      <property name="struts.home" project="jakarta-struts" reference="home" />
 
     </ant>
 
@@ -87,6 +88,7 @@
     <depend project="commons-el"/>
     <depend project="commons-modeler"/>
     <depend project="txt2html-task" />
+    <depend project="jakarta-struts" />
     <!-- depend project="mx4j"/ -->
     <option project="junit" />
     <work nested="catalina/build/server/classes"/>
