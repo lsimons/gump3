@@ -224,31 +224,6 @@
         </td>
       </tr>
 
-      <tr>
-        <td><a name="11">11.</a></td>
-        <td>
-          <table>
-            <tr>
-              <th valign="top">Q:</th>
-              <td>Why is Gump merely a "proposal" and not a Jakarta subproject?
-              </td>
-            </tr>
-            <tr>
-              <th valign="top">A:</th>
-              <td><p>While it has a large user base (developers who find this
-              information helpful and base decisions on the results), Gump
-              itself does not enjoy a large development community.  Once more
-              people actually run the tool themselves and a few submit an
-              occasional patch, it will be.</p>
-              <p>And there still is a faint hope that the embers still 
-              smoldering in the Alexandria community will reignite, and a
-              merging of the two code bases will make sense.</p>
-              </td>
-            </tr>
-          </table>
-        </td>
-      </tr>
-
     </table>
 
   </section>
