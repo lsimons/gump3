@@ -75,7 +75,7 @@
         <depend project="excalibur-instrument-manager" runtime="true" inherit="jars"/>
         <depend project="excalibur-logger" runtime="true" inherit="jars"/>
         <depend project="excalibur-monitor" runtime="true" inherit="jars"/>
-        <depend project="excalibur-naming" runtime="true" inherit="jars"/>
+        <!--depend project="excalibur-naming" runtime="true" inherit="jars"/-->
         <depend project="excalibur-policy" runtime="true" inherit="jars"/>
         <depend project="excalibur-pool" runtime="true" inherit="jars"/>
         <depend project="excalibur-sourceresolve" runtime="true" inherit="jars"/>
