@@ -166,6 +166,8 @@ mailserver=None
 mailport=None
 mailfrom=None
 mailto=None
+logurl=None
+logdir=None
         
 args=sys.argv
 try:
