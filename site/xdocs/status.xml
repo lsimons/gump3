@@ -14,18 +14,10 @@
     release, in other cases they may represent an abject failure to
     communicate.</p>
 
-    <subsection name="dom4j">
-       <p>Dom4j depends on an unreleased version of jaxen contained in
-      its cvs.  Note: Excalibur optionally will use the latest (still 
-      unreleased version) incompatible version of jaxen.
-      </p>
-    </subsection>
-
-    <subsection name="jakarta-avalon-logkit">
-      <p>The AvalonFormatter utilizes a previously deprecated and now
-      removed default constructor.  See
-<a href="http://cvs.apache.org/viewcvs/jakarta-avalon/src/java/org/apache/avalon/framework/logger/AvalonFormatter.java.diff?r1=1.5&amp;r2=1.6">here</a>
-      for details.</p>
+    <subsection name="dbxml">
+      <p>dbxml depended on an undocumented Xalan API which was subsequently
+      removed.  In October, dbxml removed its use of this API, and then
+      reintroduced it in November.  DOH!</p>
     </subsection>
 
     <subsection name="tyrex">
@@ -37,6 +29,7 @@
       patch</a> using reflection was provided but not yet integrated.</p>
     </subsection>
 
+<!--
     <subsection name="xml-fop">
       <p>Batik is in the process of correcting what they have described as
       a fairly fundamental design error.  This should only affect a small
@@ -47,10 +40,16 @@
       They have already resynched twice, and will try to track to the
       release.</p>
     </subsection>
+-->
 
     <subsection name="xml-security">
+      Jakarta log4j commented out a configure method in
+      <a href="http://cvs.apache.org/viewcvs/jakarta-log4j/src/java/org/apache/log4j/xml/DOMConfigurator.java?rev=1.40&amp;content-type=text/vnd.viewcvs-markup">
+      DOMConfigurator</a>.
+<!--
       <p>An <a href="http://nagoya.apache.org/bugzilla/show_bug.cgi?id=2650">
       bug report</a> is open against xml-xalan2 to resolve this problem.</p>
+-->
     </subsection>
   </section>
 
