@@ -19,13 +19,22 @@
       <depend property="avalon-scratchpad.jar" 
         project="jakarta-avalon-excalibur" id="avalon-scratchpad"/>
     </ant>
+
     <depend project="jakarta-ant"/>
     <option project="jsse"/>
     <depend project="xml-stylebook2"/>
     <depend project="xml-xalan2"/>
+    <depend project="jesktop"/>
+    <work nested="build/classes"/>
+
     <home nested="build/lib"/>
     <jar name="cornerstone.bar"/>
   </project>
 
+  <project name="jesktop">
+    <home nested="apps/jesktop"/>
+    <jar name="lib/jesktop-api.jar"/>
+    <jar name="lib/jesktop-frimble.jar"/>
+  </project>
 </module>
 
