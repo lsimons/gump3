@@ -273,6 +273,7 @@
   <repository href="repository/avalon.xml"/>
   <repository href="repository/cocoon.xml"/>
   <repository href="repository/cocoondev.xml"/>
+  <repository href="repository/codehaus.xml"/>
   <repository href="repository/db.xml"/>
   <repository href="repository/dbxml.xml"/>
   <repository href="repository/devworks.xml"/>
