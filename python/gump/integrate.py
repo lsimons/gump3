@@ -92,7 +92,10 @@ def integrate(workspace,expr='*',context=GumpContext()):
         rss(workspace,context)
 
     # Return an exit code based off success
-    result = stateOk(context.status) ? 0 : 1
+    if stateOk(context.status):
+        result = 0 
+    else: 
+        result = 1
 
 # static void main()
 if __name__=='__main__':

@@ -1,8 +1,8 @@
 #!/usr/bin/python
 
-# $Header: /home/stefano/cvs/gump/python/gump/check.py,v 1.19 2003/09/23 23:16:20 ajack Exp $
-# $Revision: 1.19 $
-# $Date: 2003/09/23 23:16:20 $
+# $Header: /home/stefano/cvs/gump/python/gump/check.py,v 1.20 2003/09/25 20:31:43 ajack Exp $
+# $Revision: 1.20 $
+# $Date: 2003/09/25 20:31:43 $
 #
 # ====================================================================
 #
@@ -111,10 +111,18 @@ def checkEnvironment(workspace, context=GumpContext(), exitOnError=1):
     
     
     #	Envs:
-    #	JAVA_HOME for bootstrap any?
+    #	JAVA_HOME for bootstrap ant?
+    #	CLASSPATH
     #	FORREST_HOME?
     
-    checkEnvVariable(workspace, context, 'JAVA_HOME',exitOnError)
+    if not checkEnvVariable(workspace, context, 'JAVA_HOME',0):    
+        context.noJavaHome=1    
+        context.addWarning('JAVA_HOME environmental variable not found. Might not be needed.')
+                
+    if not checkEnvVariable(workspace, context, 'CLASSPATH',0):    
+        context.noClasspath=1    
+        context.addWarning('CLASSPATH environmental variable not found. Might not be needed.')
+                
     if not checkEnvVariable(workspace, context, 'FORREST_HOME',0): 
         context.noForrest=1
         context.addWarning('FORREST_HOME environmental variable not found, no xdoc output')
