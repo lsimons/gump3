@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/results/resulter.py,v 1.8 2004/03/02 21:11:39 ajack Exp $
-# $Revision: 1.8 $
-# $Date: 2004/03/02 21:11:39 $
+# $Header: /home/stefano/cvs/gump/python/gump/results/resulter.py,v 1.9 2004/03/03 00:54:43 ajack Exp $
+# $Revision: 1.9 $
+# $Date: 2004/03/03 00:54:43 $
 #
 # ====================================================================
 #
@@ -132,7 +132,7 @@ class Resulter:
                             
                 if results:
                     self.workspace.addInfo('Loaded results for server [' + str(server) + ']')
-                    self.serverResults(server, results)
+                    self.serverResults[server]=results
                     
         self.serversLoaded=1
             
