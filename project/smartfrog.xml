@@ -43,7 +43,7 @@
     <jar name="lib/sfServices.jar" id="smartfrog-services" />
     <jar name="lib/sfExamples.jar" id="smartfrog-examples" />
 
-    <license name="LICENSE.txt"/>
+    <license name="smartfrog/LICENSE.txt"/>
     <!-- <javadoc nested="doc/javadocs"/> -->
     <nag from="Smartfrog &lt;smartfrog@users.sf.net&gt;"
         to="smartfrog-developer@lists.sourceforge.net.">
