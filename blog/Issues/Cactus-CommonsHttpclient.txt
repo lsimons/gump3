@@ -22,7 +22,9 @@ on Apache Gump.
 After a few hours of debugging and thanks
 to Leo for giving Vincent access to <a href="http://lsd.student.utwente.nl/gump/">LSD</a>,
 <a href="http://www.mail-archive.com/cactus-dev%40jakarta.apache.org/msg04856.html">the cause was found</a>. The hunt is over!
-</p><p>
+</p>
+<more/>
+<p>
 The cause was: <a href="http://jakarta.apache.org/commons/httpclient/">commons-httpclient</a>
 </p><p>
 Cactus works fine with version 2.0 of commons-httpclient but not with the
