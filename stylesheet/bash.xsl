@@ -193,7 +193,7 @@
       <xsl:if test="not(preceding::project[@defined-in=$defined-in])">
         <xsl:text>bash publish.sh project/</xsl:text>
         <xsl:value-of select="@defined-in"/>
-        <xsl:text> </xsl:text>
+        <xsl:text>.xml </xsl:text>
         <xsl:value-of select="$basedir"/>
         <xsl:text>/log/project_</xsl:text>
         <xsl:value-of select="@defined-in"/>
@@ -205,7 +205,7 @@
       <xsl:sort select="defined-in"/>
       <xsl:variable name="defined-in" select="@defined-in"/>
       <xsl:if test="not(preceding::project[@defined-in=$defined-in])">
-        <xsl:text>bash publish.sh repository\</xsl:text>
+        <xsl:text>bash publish.sh repository/</xsl:text>
         <xsl:value-of select="@defined-in"/>
         <xsl:text>.xml </xsl:text>
         <xsl:value-of select="$basedir"/>
@@ -218,7 +218,7 @@
     <xsl:for-each select="profile">
       <xsl:sort select="defined-in"/>
 
-      <xsl:text>bash publish.sh profile\</xsl:text>
+      <xsl:text>bash publish.sh profile/</xsl:text>
       <xsl:value-of select="@defined-in"/>
       <xsl:text>.xml </xsl:text>
       <xsl:value-of select="$basedir"/>

@@ -3,6 +3,8 @@
 
   <build sysclasspath="only"/>
 
+  <profile href="profile/gump.xml"/>
+
   <!-- Installed packages -->
 
   <project name="ejb"            home="/opt/ejb-2_0-pfd"/>
