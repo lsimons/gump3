@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/utils/Attic/xmlutils.py,v 1.4 2003/11/19 20:09:44 ajack Exp $
-# $Revision: 1.4 $
-# $Date: 2003/11/19 20:09:44 $
+# $Header: /home/stefano/cvs/gump/python/gump/utils/Attic/xmlutils.py,v 1.5 2003/12/15 19:36:52 ajack Exp $
+# $Revision: 1.5 $
+# $Date: 2003/12/15 19:36:52 $
 #
 # ====================================================================
 #
@@ -72,18 +72,21 @@ from xml.sax.saxutils import escape
 
 from gump import log
 from gump.utils.http import cacheHTTP
+from gump.utils.note import *
 from gump.config import gumpPath
 
 ###############################################################################
 # SAX Dispatcher mechanism
 ###############################################################################
    
-class SAXDispatcher(ContentHandler,ErrorHandler):
+class SAXDispatcher(ContentHandler,ErrorHandler,Annotatable):
   """a stack of active xml elements"""
 
   def __init__(self,file,name,cls,basedir=None):
-    """
+      
+    Annotatable.__init__(self)
     
+    """    
         Creates a DocRoot and parses the specified file into a GOM tree.
 
         The GOM tree is stored in the self.docElement attribute.
@@ -110,7 +113,14 @@ class SAXDispatcher(ContentHandler,ErrorHandler):
         attributes['@basedir']=self.basedir
         
         # The newly loaded object moves to top of stack
-        self.topOfStack=self.topOfStack.startElement(name,attributes)
+        extractedObject=self.topOfStack.startElement(name,attributes)
+        if not isinstance(extractedObject,Annotation):
+            self.topOfStack=extractedObject
+        else:
+            # Nasty hack to try to return/annotate errors
+            if self.topOfStack and isinstance(self.topOfStack,Annotatable):  
+                self.topOfStack.addAnnotationObject(extractedObject)
+                self.topOfStack.dump()
         
     self.elementStack.append(self.topOfStack)
 
@@ -124,18 +134,19 @@ class SAXDispatcher(ContentHandler,ErrorHandler):
     self.topOfStack=self.elementStack[-1]
  
   def error(self, exception):
-        log.error("Handle a recoverable error.")
-        raise exception
-
+    self.addError('XML error : ' + str(exception))
+    log.error("Handle a recoverable error." + str(exception), exc_info=1)
+    raise exception
+    
   def fatalError(self, exception):
-        log.error("Handle a non-recoverable error.")
-        raise exception
+    self.addError('XML error : ' + str(exception))
+    log.error("Handle a non-recoverable error." + str(exception), exc_info=1)
+    raise exception
 
   def warning(self, exception):
-        log.warn("Handle a warning.")
-        print exception
-
-
+    self.addWarning('XML warning' + str(exception))
+    log.warn("Handle a warning." + str(exception), exc_info=1)
+    
 ###############################################################################
 # Base classes for the Gump object model
 #
@@ -143,7 +154,7 @@ class SAXDispatcher(ContentHandler,ErrorHandler):
 # allowing the actual model to be rather simple and compact. All
 # elements of the GOM should extend GumpXMLObject or a subclass of GumpXMLObject.
 ###############################################################################
-class GumpXMLObject(object):
+class GumpXMLObject(Annotatable,object):
   """Helper XML Object.
 
     Attributes become properties.  Characters become the string value
@@ -152,9 +163,12 @@ class GumpXMLObject(object):
     attributes)."""
 
   def __init__(self,attrs):
+      
+    Annotatable.__init__(self)    
+    
     # Transfer attributes
     for (name,value) in attrs.items():
-        if not name == '@basedir':
+        if not name == '@basedir' and not name=='annotations':
             self.__dict__[name]=value
     # Setup internal character field
     if not '@text' in self.__dict__: self.init()
@@ -277,20 +291,28 @@ class Named(GumpXMLObject):
             tag =  cls.__name__.lower().replace('xml','')
                         
             try:
-                element=SAXDispatcher(newHref, \
+                parser=SAXDispatcher(newHref, \
                                   tag, cls,\
-                                  basedir).docElement        
+                                  basedir)
+                                  
+                element=parser.docElement     
+                
+                # Copy over any XML errors/warnings
+                transferAnnotations(parser, element)  
+                
             except Exception, detail:
-                log.error('Failed to parse XML @ [' + newHref + ']. Details: ' + str(detail))   
-                element=None 
+                message='Failed to parse XML @ [' + newHref + ']. Details: ' + str(detail)
+                log.error(message, exc_info=1)   
+                element=Annotation(LEVEL_ERROR, message)
         else:
             # :TODO: Set any object "invalid"?
-            log.warn("HREF: ["+href+"] not loaded")
+            log.warn("HREF: ["+href+"] not loaded", exc_info=1)
+            element=Annotation(LEVEL_ERROR, message)
         
         #
         # Stash for general reference/interest
         #
-        if element:
+        if element and not isinstance(element,Annotation):
             element.href=href                    
         
         # Return the downloaded element instead...

@@ -1,8 +1,8 @@
 #!/usr/bin/python
 
-# $Header: /home/stefano/cvs/gump/python/gump/Attic/config.py,v 1.10 2003/12/11 18:56:26 ajack Exp $
-# $Revision: 1.10 $
-# $Date: 2003/12/11 18:56:26 $
+# $Header: /home/stefano/cvs/gump/python/gump/Attic/config.py,v 1.11 2003/12/15 19:36:51 ajack Exp $
+# $Revision: 1.11 $
+# $Date: 2003/12/15 19:36:51 $
 #
 # ====================================================================
 #
@@ -75,14 +75,14 @@ class dir:
     """Configuration of paths"""
 
     cmdpath   = os.path.abspath(sys.argv[0])
-    base      = os.path.normpath('%s/%s' % (os.path.dirname(cmdpath),'../..'))
+    base      = os.path.abspath('%s/%s' % (os.path.dirname(cmdpath),'../..'))
     
-    cache     = os.path.normpath('%s/%s' % (base,'cache'))
-    work      = os.path.normpath('%s/%s' % (base,'work'))
-    tmp       = os.path.normpath('%s/%s' % (base,'tmp'))
-    template  = os.path.normpath('%s/%s' % (base,'template'))
+    cache     = os.path.abspath('%s/%s' % (base,'cache'))
+    work      = os.path.abspath('%s/%s' % (base,'work'))
+    tmp       = os.path.abspath('%s/%s' % (base,'tmp'))
+    template  = os.path.abspath('%s/%s' % (base,'template'))
         
-    test      = os.path.normpath('%s/%s' % (base,'test'))
+    test      = os.path.abspath('%s/%s' % (base,'test'))
 
 def gumpPath(path,basedir=None):
   """returns the path absolutized relative to the base gump dir"""
@@ -95,9 +95,9 @@ class default:
     gumpfullhost   = socket.gethostname()   
     gumphost   = socket.gethostname().split('.')[0]
     gumpid	   = os.getpid()    
-    workspace  = os.path.normpath('%s/%s.xml' % (dir.base, gumphost))
-    globalws   = os.path.normpath('%s/%s' % (dir.base, 'global-workspace.xml'))
-    merge      = os.path.normpath('%s/%s' % (dir.work, 'merge.xml'))
+    workspace  = os.path.abspath('%s/%s.xml' % (dir.base, gumphost))
+    globalws   = os.path.abspath('%s/%s' % (dir.base, 'global-workspace.xml'))
+    merge      = os.path.abspath('%s/%s' % (dir.work, 'merge.xml'))
     date       = time.strftime('%Y%m%d')
     logLevel   = logging.INFO # logging.DEBUG
     classpath = (os.getenv('CLASSPATH') or '').split(os.pathsep)  

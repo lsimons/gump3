@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/output/Attic/repository.py,v 1.1 2003/11/17 22:10:54 ajack Exp $
-# $Revision: 1.1 $
-# $Date: 2003/11/17 22:10:54 $
+# $Header: /home/stefano/cvs/gump/python/gump/output/Attic/repository.py,v 1.2 2003/12/15 19:36:51 ajack Exp $
+# $Revision: 1.2 $
+# $Date: 2003/12/15 19:36:51 $
 #
 # ====================================================================
 #
@@ -89,7 +89,7 @@ class JarRepository:
         return cmp(self.root,other.root)
             
     def getRepositoryDir(self):
-        rdir=os.path.abspath(os.path.normpath(self.root))
+        rdir=os.path.abspath(self.root)
         if not os.path.exists(rdir): os.mkdir(rdir)
         return rdir  
     

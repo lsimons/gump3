@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/output/Attic/statsdb.py,v 1.4 2003/12/12 16:32:50 ajack Exp $
-# $Revision: 1.4 $
-# $Date: 2003/12/12 16:32:50 $
+# $Header: /home/stefano/cvs/gump/python/gump/output/Attic/statsdb.py,v 1.5 2003/12/15 19:36:51 ajack Exp $
+# $Revision: 1.5 $
+# $Date: 2003/12/15 19:36:51 $
 #
 # ====================================================================
 #
@@ -81,7 +81,7 @@ class StatisticsDB:
     def __init__(self,dbdir=None,name=None):
         if not name: name='stats.db'
         if not dbdir: dbdir=dir.work
-        self.dbpath    = os.path.normpath('%s/%s' % (dbdir,name))
+        self.dbpath    = os.path.abspath('%s/%s' % (dbdir,name))
         log.debug('Open Statistic Database:' + self.dbpath)
         if not os.name == 'dos' and not os.name == 'nt':
             self.db		=	anydbm.open(self.dbpath,'c')

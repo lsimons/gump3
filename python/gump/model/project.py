@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/model/project.py,v 1.23 2003/12/12 16:32:50 ajack Exp $
-# $Revision: 1.23 $
-# $Date: 2003/12/12 16:32:50 $
+# $Header: /home/stefano/cvs/gump/python/gump/model/project.py,v 1.24 2003/12/15 19:36:51 ajack Exp $
+# $Revision: 1.24 $
+# $Date: 2003/12/15 19:36:51 $
 #
 # ====================================================================
 #
@@ -73,6 +73,7 @@ from gump.model.ant import Ant,Maven
 from gump.model.rawmodel import Single
 from gump.utils import getIndent
 from gump.model.depend import *
+from gump.utils.note import transferAnnotations, Annotatable
 
 #
 # An annotated path has a path entry, plus the context
@@ -510,7 +511,10 @@ class Project(NamedModelObject, Statable):
                     self.addWarning("Bad *Optional* Dependency. Project: " + xmloption.project + " unknown to *this* workspace")
         else:
             self.addInfo("This is a packaged project, location: " + str(self.home))        
-            
+                                    
+        # Copy over any XML errors/warnings
+        transferAnnotations(self.xml, self)  
+                
         self.setComplete(1)
 
     def  checkPackage(self):
@@ -748,6 +752,10 @@ class Project(NamedModelObject, Statable):
         cmd.addPrefixedParameter('-D','build.sysclasspath','only','=')
         cmd.addPrefixedParameter('-D','build.clonevm','true','=')
     
+        mergeFile=self.getWorkspace().getMergeFile()
+        if mergeFile:
+            cmd.addPrefixedParameter('-D','gump.merge',str(mergeFile),'=')        
+    
         # These are module level plus project level
         cmd.addNamedParameters(properties)
     
@@ -779,7 +787,7 @@ class Project(NamedModelObject, Statable):
         #	plus:
         #	The specifier for ANT, or nothing.
         #
-        basedir = os.path.normpath(os.path.join(self.getModule().getSourceDirectory() or dir.base,	\
+        basedir = os.path.abspath(os.path.join(self.getModule().getSourceDirectory() or dir.base,	\
                                                     maven.basedir or ''))
     
         #
@@ -910,7 +918,7 @@ maven.jar.override = on
         """ Return the command object for a <script entry """
         script=self.xml.script 
            
-        basedir=os.path.normpath(os.path.join(self.getModule().getSourceDirectory() or dir.base,\
+        basedir=os.path.abspath(os.path.join(self.getModule().getSourceDirectory() or dir.base,\
                         script.basedir or ''))
 
         # Add .sh  or .bat as appropriate to platform
@@ -924,7 +932,7 @@ maven.jar.override = on
         verbose=script.verbose
         debug=script.debug
        
-        scriptfile=os.path.normpath(os.path.join(basedir, scriptfullname))
+        scriptfile=os.path.abspath(os.path.join(basedir, scriptfullname))
         (classpath,bootclasspath)=self.getClasspaths()
 
         cmd=Cmd(scriptfile,'buildscript_'+self.getModule().getName()+'_'+self.getName(),\
@@ -956,6 +964,7 @@ maven.jar.override = on
     def dump(self, indent=0, output=sys.stdout):
         """ Display the contents of this object """
         output.write(getIndent(indent)+'Project: ' + self.getName() + '\n')
+        NamedModelObject.dump(self, indent+1, output)
         
         for dependency in self.depends:
             dependency.dump(indent+1,output)

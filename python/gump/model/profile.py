@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/utils/note.py,v 1.4 2003/12/15 19:36:52 ajack Exp $
-# $Revision: 1.4 $
-# $Date: 2003/12/15 19:36:52 $
+# $Header: /home/stefano/cvs/gump/python/gump/model/profile.py,v 1.1 2003/12/15 19:36:51 ajack Exp $
+# $Revision: 1.1 $
+# $Date: 2003/12/15 19:36:51 $
 #
 # ====================================================================
 #
@@ -62,94 +62,33 @@
     This module contains information on
 """
 
-import sys
+from time import localtime, strftime, tzname
+from string import lower, capitalize
 
-from gump.utils import *
+from gump.utils.work import *
+from gump.utils.launcher import *
+from gump.utils.tools import *
 
-LEVEL_UNSET=0
-LEVEL_DEBUG=1
-LEVEL_INFO=2
-LEVEL_WARNING=3
-LEVEL_ERROR=4
-LEVEL_FATAL=5
+from gump.model.state import *
+from gump.model.object import NamedModelObject
+from gump.utils.note import transferAnnotations, Annotatable
 
-levelDescriptions = { 	LEVEL_UNSET : "Not Set",
-                    LEVEL_DEBUG : "Debug",
-                    LEVEL_INFO : "Info",
-                    LEVEL_WARNING : "Warning",
-                    LEVEL_ERROR : "Error",
-                    LEVEL_FATAL : "Fatal" }               
 
-def levelName(level):
-    return levelDescriptions.get(level,'Unknown Level:' + str(level))
-    
-class Annotation:
-    """ An annotation ... a log entry on the object ..."""
-    def __init__(self,level,text):
-        self.level=level
-        self.text=text
+class Profile(NamedModelObject):
+    """Gump Profile"""
+    def __init__(self,xml,workspace):
+    	NamedModelObject.__init__(self,xml.getName(),xml,workspace) 
+    	
+    def complete(self,workspace):        
+        if self.isComplete(): return
         
-    def __str__(self):
-        return levelName(self.level) + ":" + self.text      
-        
-    def getLevelName(self):
-        return levelName(self.level) 
-    
-    def getText(self):
-        return self.text
-    
-    def dump(self, indent=0, output=sys.stdout):        
-        output.write(getIndent(indent)+str(self)+'\n')
-        
-class Annotatable:
-    
-    def __init__(self):
-        self.annotations=[]
-
-    def addDebug(self,text):
-        self.addAnnotation(LEVEL_DEBUG, text)        
-
-    def addInfo(self,text):
-        self.addAnnotation(LEVEL_INFO, text)
-        
-    def addWarning(self,text):
-        self.addAnnotation(LEVEL_WARNING, text)
-        
-    def addError(self,text):
-        self.addAnnotation(LEVEL_ERROR, text)
-        
-    def addFatal(self,text):
-        self.addAnnotation(LEVEL_FATAL, text)
-        
-    def addAnnotation(self,level,text):
-        self.addAnnotationObject(Annotation(level,text))
-        
-    def addAnnotationObject(self,note):
-        self.annotations.append(note)
-        
-    def getAnnotations(self):
-        return self.annotations
-        
-    def containsNasties(self):
-        return self.containsOrAbove(LEVEL_WARNING)
-        
-    def containsOrAbove(self,level):
-        for note in self.annotations:
-            if note.level >= level:
-                return 1
-        return 0
+        # Copy over any XML errors/warnings
+        transferAnnotations(self.xml, workspace)  
+        # :TODO: Until we document the profile
+        # add these to workspace transferAnnotations(self.xml, self)  
                 
+        self.setComplete(1)                
+    
     def dump(self, indent=0, output=sys.stdout):
-        """ Display the contents of this object """         
-        if self.annotations:
-            output.write(getIndent(indent)+'Annotations:\n')
-       
-            for note in self.annotations:
-                note.dump(indent+1,output)
-                
-def transferAnnotations(source,destination):
-    for note in source.annotations:
-        destination.addAnnotationObject(note)
-    
-  
-        
+        output.write(getIndent(indent)+'Profile : ' + self.name + '\n')   
+        NamedModelObject.dump(self, indent+1, output)

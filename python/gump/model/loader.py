@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/model/Attic/loader.py,v 1.1 2003/11/17 22:10:50 ajack Exp $
-# $Revision: 1.1 $
-# $Date: 2003/11/17 22:10:50 $
+# $Header: /home/stefano/cvs/gump/python/gump/model/Attic/loader.py,v 1.2 2003/12/15 19:36:51 ajack Exp $
+# $Revision: 1.2 $
+# $Date: 2003/12/15 19:36:51 $
 #
 # ====================================================================
 #
@@ -68,6 +68,7 @@ from gump.model.rawmodel import XMLWorkspace,XMLProfile,XMLModule,XMLProject,XML
 from gump.model.workspace import Workspace
 from gump.model.module import Module
 from gump.utils.xmlutils import SAXDispatcher
+from gump.utils.note import transferAnnotations, Annotatable
 
 class WorkspaceLoader:
     def __init__(self):
@@ -94,13 +95,20 @@ class WorkspaceLoader:
       XMLProject.map={}
     
       log.debug("Launch SAX Dispatcher onto : " + file);
+              
+      parser=SAXDispatcher(file,'workspace',XMLWorkspace)
     
-      xmlworkspace=SAXDispatcher(file,'workspace',XMLWorkspace).docElement
+      # Extract the root XML
+      xmlworkspace=parser.docElement
     
       if not xmlworkspace:
         raise IOError, "Failed to load workspace" + file
     
+      # Construct object around XML.
       workspace=Workspace(xmlworkspace)
+      
+      # Copy over any XML errors/warnings
+      transferAnnotations(parser, workspace)
   
       #
       # Cook the raw model...

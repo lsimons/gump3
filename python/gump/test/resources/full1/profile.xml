@@ -10,6 +10,9 @@
   <module href="module4.xml"/>
   <module href="module5.xml"/>
   
+  <module href="broken1.xml"/>
+  <module href="broken2.xml"/>
+  
   <module href="svn_module1.xml"/>
   <module href="maven1.xml"/>
 

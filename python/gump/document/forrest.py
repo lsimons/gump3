@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/forrest.py,v 1.37 2003/12/14 17:57:39 ajack Exp $
-# $Revision: 1.37 $f
-# $Date: 2003/12/14 17:57:39 $
+# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/forrest.py,v 1.38 2003/12/15 19:36:52 ajack Exp $
+# $Revision: 1.38 $f
+# $Date: 2003/12/15 19:36:52 $
 #
 # ====================================================================
 #
@@ -1067,7 +1067,7 @@ class ForrestDocumenter(Documenter):
             propertyRow=propertiesTable.createRow()
             propertyRow.createData(property.getName())
             propertyRow.createData(property.getValue())
-            propertyRow.createData(property.getViewData())
+            propertyRow.createData(property.getXMLData())
                         
     def documentXML(self,xdocNode,xmlOwner):
         

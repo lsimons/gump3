@@ -57,7 +57,7 @@ def isAllProjects(pexpr):
 
 class GumpEngine:
     
-    def preprocess(self,run,exitOnError=0):
+    def preprocess(self,run,exitOnError=1):
 
         #
         # Perform start-up logic 
@@ -90,8 +90,15 @@ class GumpEngine:
             message='Workspace version ['+workspace.getVersion()+'] below expected [' + setting.ws_version + ']'
             workspace.addWarning(message)
             log.warn(message)   
+            
+        # Write workspace to a 'merge' file
+        workspace.writeXMLToFile(default.merge)
+        workspace.setMergeFile(default.merge)
 
     def continuous(self):
+        
+        
+        # :TODO: WORK IN PROGRESS NOT COMPLETE!!!
         
         while 0:
             

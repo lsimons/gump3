@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/model/workspace.py,v 1.16 2003/12/09 00:48:36 ajack Exp $
-# $Revision: 1.16 $
-# $Date: 2003/12/09 00:48:36 $
+# $Header: /home/stefano/cvs/gump/python/gump/model/workspace.py,v 1.17 2003/12/15 19:36:51 ajack Exp $
+# $Revision: 1.17 $
+# $Date: 2003/12/15 19:36:51 $
 #
 # ====================================================================
 #
@@ -73,8 +73,10 @@ from gump.model.state import *
 from gump.model.repository import Repository
 from gump.model.module import Module, createUnnamedModule
 from gump.model.project import Project, ProjectSummary
+from gump.model.profile import Profile
 from gump.model.object import ModelObject
 from gump.model.property import PropertyContainer
+from gump.utils.note import transferAnnotations, Annotatable
 
 
 class Workspace(ModelObject,PropertyContainer):
@@ -86,11 +88,13 @@ class Workspace(ModelObject,PropertyContainer):
     	#
     	# Named repositories (e.g. CVS,SVN,etc.)
     	# Named modules
-    	# named projects
+    	# Named projects
+    	# Named profiles
     	#
     	self.repositories={}
         self.modules={}
         self.projects={}
+        self.profiles={}
         
         #
     	PropertyContainer.importProperties(self,self.xml)    	
@@ -114,6 +118,9 @@ class Workspace(ModelObject,PropertyContainer):
                                 time.localtime())
         self.timezone=str(time.tzname)    
 
+        # Where the merged XML was put
+        self.mergeFile=None
+        
     def getChildren(self):
         return self.getModules() 
     
@@ -133,6 +140,20 @@ class Workspace(ModelObject,PropertyContainer):
         return self.sortedRepositories
 
 
+    # Profile Interface
+        
+    def hasProfile(self,mname):
+        return self.profiles.has_key(mname)
+        
+    def getProfile(self,mname):
+        return self.profiles.get(mname,None)
+
+    def getProfiles(self):
+        return self.profiles.values()              
+                
+    def getSortedProfiles(self):
+        return self.sortedProfiles   
+                
     # Module Interface
         
     def hasModule(self,mname):
@@ -226,6 +247,19 @@ class Workspace(ModelObject,PropertyContainer):
             self.signature=self.xml.signature          
       
         #
+        # Import all profiles
+        #  
+        for xmlprofile in xmlprofiles.values(): 
+            profile=Profile(xmlprofile,self)
+            profileName=profile.getName()
+            if profileName in self.profiles:
+                # Duplicate, uh oh...
+                self.addError("Duplicate profile name [" + profileName + "]")
+            else:        
+                profile.complete(self)
+                self.profiles[profileName] = profile
+
+        #
         # Import all repositories
         #  
         for xmlrepository in xmlrepositories.values(): 
@@ -304,7 +338,11 @@ class Workspace(ModelObject,PropertyContainer):
         self.sortedModules=createOrderedList(self.getModules())
         self.sortedProjects=createOrderedList(self.getProjects())
         self.sortedRepositories=createOrderedList(self.getRepositories())
+        self.sortedProfiles=createOrderedList(self.getProfiles())
         
+        # Copy over any XML errors/warnings
+        transferAnnotations(self.xml, self)  
+                
         self.setComplete(1)
 
     def completeDirectories(self):
@@ -392,7 +430,11 @@ class Workspace(ModelObject,PropertyContainer):
         
     def dump(self, indent=0, output=sys.stdout):
         output.write('Workspace : \n')
+        ModelObject.dump(self, indent+1, output)
         
+        for profile in self.profiles.values():
+            profile.dump(indent+1,output)
+            
         for repo in self.repositories.values():
             repo.dump(indent+1,output)
         
@@ -417,6 +459,12 @@ class Workspace(ModelObject,PropertyContainer):
             
     def getLogUrl(self):
         return self.logurl            
+        
+    def setMergeFile(self,file):
+        self.mergeFile=file
+    
+    def getMergeFile(self):
+        return self.mergeFile
     
     # :TODO: Inefficient, ought store sorted
     def getProjectIterator(self):
@@ -538,7 +586,7 @@ class Workspace(ModelObject,PropertyContainer):
             print
             print " Unable to detect/test mandatory [" + command+ "] in path (see next)."
             for p in sys.path:
-                print "  " + str(os.path.normpath(p))
+                print "  " + str(os.path.abspath(p))
             sys.exit(MISSING_UTILITY)
         
         # Store the output

@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/model/repository.py,v 1.5 2003/11/26 16:08:39 ajack Exp $
-# $Revision: 1.5 $
-# $Date: 2003/11/26 16:08:39 $
+# $Header: /home/stefano/cvs/gump/python/gump/model/repository.py,v 1.6 2003/12/15 19:36:51 ajack Exp $
+# $Revision: 1.6 $
+# $Date: 2003/12/15 19:36:51 $
 #
 # ====================================================================
 #
@@ -124,7 +124,7 @@ class Repository(NamedModelObject, Statable):
     
     def dump(self, indent=0, output=sys.stdout):
         output.write(getIndent(indent)+'Repository : ' + self.name + '\n')   
-        NamedModelObject.dump(self)
+        NamedModelObject.dump(self,indent+1,output)
         
     def hasTitle(self): 
         return hasattr(self.xml,'title') and self.xml.title

@@ -1,7 +1,7 @@
 #!/usr/bin/env python
-# $Header: /home/stefano/cvs/gump/python/gump/test/Attic/loader_tests.py,v 1.2 2003/11/21 19:04:10 ajack Exp $
-# $Revision: 1.2 $
-# $Date: 2003/11/21 19:04:10 $
+# $Header: /home/stefano/cvs/gump/python/gump/test/Attic/loader_tests.py,v 1.3 2003/12/15 19:36:52 ajack Exp $
+# $Revision: 1.3 $
+# $Date: 2003/12/15 19:36:52 $
 #
 # ====================================================================
 #
@@ -94,19 +94,19 @@ if __name__=='__main__':
 
     #testWorkspace('gump/test/resources/simple2/workspace.xml').dump()
     
-    #testWorkspace('gump/test/resources/full1/workspace.xml').dump()
+    testWorkspace('gump/test/resources/full1/workspace.xml').dump()
 
     #try:
     #    testWorkspace('gump/test/resources/broken1/broken_workspace.xml') 
     #except:
     #    print "Fixme" # :TODO: Just set status on bad sub-elements, not fail whole
     #    
-    ws = createTestWorkspace()
+    #ws = createTestWorkspace()
     
-    module=testModule('http://cvs.apache.org/viewcvs.cgi/*checkout*/avalon/buildsystem/gump-integration/project/avalon.xml',ws)
+    #module=testModule('http://cvs.apache.org/viewcvs.cgi/*checkout*/avalon/buildsystem/gump-integration/project/avalon.xml',ws)
     
-    dump(module)
+    #dump(module)
     
-    printSeparator()
-    print xmlize('module', module, ws)
+    #printSeparator()
+    #print xmlize('module', module, ws)
   

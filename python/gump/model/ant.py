@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/model/Attic/ant.py,v 1.10 2003/12/11 18:56:27 ajack Exp $
-# $Revision: 1.10 $
-# $Date: 2003/12/11 18:56:27 $
+# $Header: /home/stefano/cvs/gump/python/gump/model/Attic/ant.py,v 1.11 2003/12/15 19:36:51 ajack Exp $
+# $Revision: 1.11 $
+# $Date: 2003/12/15 19:36:51 $
 #
 # ====================================================================
 #
@@ -136,8 +136,6 @@ class AntBuilder(ModelObject, PropertyContainer):
                             0,	\
                             ids)
                             
-            dependency.addInfo("Property Based Dependency " + `property`)
-            
             # :TODOs:
             # if not property.classpath: depend['noclasspath']=Single({})
             

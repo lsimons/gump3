@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/model/module.py,v 1.21 2003/12/12 16:32:50 ajack Exp $
-# $Revision: 1.21 $
-# $Date: 2003/12/12 16:32:50 $
+# $Header: /home/stefano/cvs/gump/python/gump/model/module.py,v 1.22 2003/12/15 19:36:51 ajack Exp $
+# $Revision: 1.22 $
+# $Date: 2003/12/15 19:36:51 $
 #
 # ====================================================================
 #
@@ -69,6 +69,7 @@ from gump.model.stats import Statable, Statistics
 from gump.model.project import *
 from gump.model.object import NamedModelObject
 from gump.utils import getIndent
+from gump.utils.note import transferAnnotations, Annotatable
 
 class ModuleCvs(ModelObject):
     def __init__(self,xml,repository):
@@ -226,10 +227,13 @@ class Module(NamedModelObject, Statable):
                 #
                 project=workspace.getProject(xmlproject.name)
                 
-                #
-                # Claim ownership
-                #
-                self.addProject(project)
+                if not project.inModule():
+                    #
+                    # Claim ownership
+                    #
+                    self.addProject(project)
+                else:
+                    workspace.addError('Duplicate project [' + xmlproject.name + ']')
                 
                 #
                 # Check for packaged
@@ -332,6 +336,9 @@ class Module(NamedModelObject, Statable):
         # For prettiness
         self.sortedProjects=createOrderedList(self.getProjects())
                             
+        # Copy over any XML errors/warnings
+        transferAnnotations(self.xml, self)  
+                
         self.setComplete(1)            
         
     def addProject(self,project):
@@ -466,6 +473,7 @@ class Module(NamedModelObject, Statable):
     
     def dump(self, indent=0, output=sys.stdout):
         output.write(getIndent(indent)+'Module : ' + self.name + '\n')
+        NamedModelObject.dump(self, indent+1, output)
         
     def getSourceDirectory(self):
         return self.absSrcDir

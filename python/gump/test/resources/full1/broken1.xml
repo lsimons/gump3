@@ -1,0 +1,23 @@
+<module name="broken1">
+
+  <url  href="http://ant.apache.org/index.html"/>
+  <description>
+    Java based build tool
+  </description>
+
+  <!-- Bad repository -->
+  <cvs repository="repositoryNoSuch"/>
+
+  <!-- Duplicates -->
+  <project name="duplicateProject1">
+  	<ant />
+  </project>
+  <project name="duplicateProject1">
+  	<ant />
+  </project>
+  
+  <!-- Missing -->
+  <project href="http://no_such_url_to_test_missing" />
+  
+</module>
+

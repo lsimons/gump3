@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/model/object.py,v 1.12 2003/12/03 18:36:13 ajack Exp $
-# $Revision: 1.12 $
-# $Date: 2003/12/03 18:36:13 $
+# $Header: /home/stefano/cvs/gump/python/gump/model/object.py,v 1.13 2003/12/15 19:36:51 ajack Exp $
+# $Revision: 1.13 $
+# $Date: 2003/12/15 19:36:51 $
 #
 # ====================================================================
 #
@@ -182,18 +182,26 @@ class ModelObject(Annotatable,Workable,Propogatable,Ownable):
         """ Display the contents of this object """
         Annotatable.dump(self,indent,output)
     
-    def hasViewData(self):
-        return hasattr(self,'viewdata')
+    def hasXMLData(self):
+        return hasattr(self,'xmldata')
         
-    def getViewData(self):
-        if not self.hasViewData():
+    def getXMLData(self):
+        if not self.hasXMLData():
             stream=StringIO.StringIO() 
             xmlize(self.xml.getTagName(),self.xml,stream)
             stream.seek(0)
-            self.viewdata=stream.read()
+            self.xmldata=stream.read()
             stream.close()
     
-        return self.viewdata
+        return self.xmldata
+        
+    def writeXMLToFile(self, outputFile):
+        try:            
+            f=open(outputFile, 'w')
+            f.write(self.getXMLData())
+        finally:
+            # Since we may exit via an exception, close explicitly.
+            if f: f.close()    
         
     # Somewhat bogus...
     
@@ -257,7 +265,7 @@ class NamedModelObject(ModelObject):
     def dump(self, indent=0, output=sys.stdout):
         """ Display the contents of this object """
         output.write(getIndent(indent)+'Name: ' + self.name + '\n')
-        ModelObject.dump(self,indent,output)
+        ModelObject.dump(self,indent+1,output)
 
 # represents a <nag/> element
 class Nag(ModelObject):

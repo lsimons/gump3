@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/gui/view.py,v 1.3 2003/11/26 20:01:16 ajack Exp $
-# $Revision: 1.3 $
-# $Date: 2003/11/26 20:01:16 $
+# $Header: /home/stefano/cvs/gump/python/gump/gui/view.py,v 1.4 2003/12/15 19:36:52 ajack Exp $
+# $Revision: 1.4 $
+# $Date: 2003/12/15 19:36:52 $
 #
 # ====================================================================
 #
@@ -347,7 +347,7 @@ class gumpview(wxApp):
         self.history.append(project)
 
   def showProject(self,project):
-    if self.history: self.history[-1]['viewdata']=self.data.GetValue()
+    if self.history: self.history[-1]['xmldata']=self.data.GetValue()
     self.frame.SetTitle(project.name)
 
     # gather a list of projects which reference this project
@@ -368,13 +368,13 @@ class gumpview(wxApp):
 
     # display the project definition
     self.data.Clear()
-    #if project.viewdata:
-    #  self.data.AppendText(project.viewdata)
+    #if project.xmldata:
+    #  self.data.AppendText(project.xmldata)
     #else:
     #  self.data.AppendText(xmlize('project',project))
     #  self.data.ShowPosition(0)
     
-    self.data.AppendText(project.getViewData())
+    self.data.AppendText(project.getXMLData())
     self.data.ShowPosition(0)
 
     # gather a list of project dependencies unrolled to build

@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/model/Attic/rawmodel.py,v 1.7 2003/12/11 18:56:27 ajack Exp $
-# $Revision: 1.7 $
-# $Date: 2003/12/11 18:56:27 $
+# $Header: /home/stefano/cvs/gump/python/gump/model/Attic/rawmodel.py,v 1.8 2003/12/15 19:36:51 ajack Exp $
+# $Revision: 1.8 $
+# $Date: 2003/12/15 19:36:51 $
 #
 # ====================================================================
 #
@@ -104,7 +104,7 @@ class GumpXMLModelObject(GumpXMLObject):
     
     # parse out '@@DATE@@'
     for (name,value) in attrs.items():
-      if not name == '@basedir':
+      if not name == '@basedir' and not name == 'annotations':
           self.__dict__[name]=value.replace('@@DATE@@',gump.default.date)
       
 class XMLWorkspace(GumpXMLModelObject):
