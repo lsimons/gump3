@@ -1,7 +1,7 @@
 /*
- * $Header: /home/stefano/cvs/gump/java/Repository.java,v 1.2 2002/08/27 14:54:09 nicolaken Exp $
- * $Revision: 1.2 $
- * $Date: 2002/08/27 14:54:09 $
+ * $Header: /home/stefano/cvs/gump/java/Repository.java,v 1.3 2003/01/01 07:04:58 dion Exp $
+ * $Revision: 1.3 $
+ * $Date: 2003/01/01 07:04:58 $
  *
  * ====================================================================
  *
@@ -65,7 +65,6 @@ import org.w3c.dom.Node;
 
 // Java classes
 import java.util.Enumeration;
-import java.util.Vector;
 import java.util.Hashtable;
 
 public class Repository {
