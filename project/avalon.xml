@@ -1084,6 +1084,9 @@
         <depend project="excalibur-lifecycle-api" runtime="true"/>
         <depend project="excalibur-configuration" runtime="true"/>
 
+        <depend project="avalon-util-exception" runtime="true"/>
+        <depend project="avalon-util-env" runtime="true"/>
+
         <mkdir dir="merlin/activation/impl/target/classes"/>
         <work nested="merlin/activation/impl/target/classes"/>
         <mkdir dir="merlin/activation/impl/target/test-classes"/>
@@ -1180,6 +1183,9 @@
         <depend project="avalon-util-i18n" />
         <depend project="commons-cli" />
 
+        <depend project="avalon-util-exception" runtime="true"/>
+        <depend project="avalon-util-env" runtime="true"/>
+
         <mkdir dir="merlin/kernel/cli/target/classes"/>
         <work nested="merlin/kernel/cli/target/classes"/>
         <mkdir dir="merlin/kernel/cli/target/test-classes"/>
@@ -1205,6 +1211,9 @@
         <depend project="avalon-repository-spi"/>
         <depend project="avalon-repository-util"/>
         <depend project="avalon-repository-main"/>
+
+        <depend project="avalon-util-exception" runtime="true"/>
+        <depend project="avalon-util-env" runtime="true"/>
 
         <mkdir dir="merlin/kernel/unit/target/classes"/>
         <work nested="merlin/kernel/unit/target/classes"/>
