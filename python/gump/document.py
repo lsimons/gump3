@@ -996,7 +996,7 @@ def getUp(depth):
     return url
            
 def getLink(href,name=None):
-    if not name: name = fref
+    if not name: name = href
     link='<link href=\'%s\'>%s</link>' % (href,name)
     return link
            
