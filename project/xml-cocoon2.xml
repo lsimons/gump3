@@ -62,7 +62,7 @@
     <description>
       Maybe Upload
     </description>
-    <jar name="lib/maybeupload.jar"/>
+    <jar name="lib/maybeupload_1-0-5pre3.jar"/>
   </project>
 
 </module>
