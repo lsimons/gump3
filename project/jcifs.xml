@@ -5,7 +5,7 @@
   <project name="jcifs">
     <package>jcifs</package>
 
-    <jar name="jcifs-0.7.0b5.jar"/>
+    <jar name="jcifs-0.7.0b12.jar"/>
   </project>
 
 </module>

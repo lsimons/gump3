@@ -48,7 +48,7 @@
   <module href="project/jakarta-turbine-stratum.xml"/>
   <module href="http://cvs.apache.org/viewcvs/~checkout~/jakarta-turbine-torque/gump.xml"/>
   <module href="project/jelly-tags.xml"/>
-  
+
 
   <!-- Turbine projects not fully mavenized -->
   <module href="project/jakarta-turbine-flux.xml"/>
@@ -86,15 +86,15 @@
 
   <!-- Apache.Avalon -->
 
-  <module href="project/avalon-sandbox.xml"/> 
-  <module href="project/jakarta-avalon.xml"/> 
-  <module href="project/jakarta-avalon-apps.xml"/> 
-  <module href="project/jakarta-avalon-cornerstone.xml"/> 
-  <module href="project/jakarta-avalon-excalibur.xml"/> 
+  <module href="project/avalon-sandbox.xml"/>
+  <module href="project/jakarta-avalon.xml"/>
+  <module href="project/jakarta-avalon-apps.xml"/>
+  <module href="project/jakarta-avalon-cornerstone.xml"/>
+  <module href="project/jakarta-avalon-excalibur.xml"/>
   <module href="project/jakarta-avalon-logkit.xml"/>
   <module href="project/jakarta-avalon-phoenix.xml"/>
   <module href="project/jakarta-avalon-site.xml"/>
-  
+
   <!-- SourceForge -->
 
   <module href="project/beanshell.xml"/>
@@ -129,15 +129,15 @@
   <module href="project/forehead.xml"/>
   <module href="project/werkz.xml"/>
   <!-- module href="http://cvs.werken.com/viewcvs.cgi/werkz/gump.xml?rev=HEAD&cvsroot=werkz"/ -->
-  
+
     <!-- krysalis@sf -->
-    
+
     <module href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/*checkout*/krysalis/krysalis-ruper/module.xml"/>
     <module href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/*checkout*/krysalis/krysalis-ant-tasks/module.xml"/>
     <module href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/*checkout*/krysalis/krysalis-centipede/module.xml" />
     <module href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/*checkout*/krysalis/krysalis-cents/gump.xml" />
-    <module href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/*checkout*/krysalis/krysalis-template/smoke-test/gump.xml" />    
-   
+    <module href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/*checkout*/krysalis/krysalis-template/smoke-test/gump.xml" />
+
   <!-- other -->
 
   <module href="project/aspectj.xml"/>
@@ -200,26 +200,26 @@
   <project name="jaf"            package="jaf-1.0.1"/>
   <project name="javacc"         package="javacc2.1"/>
   <project name="javamail"       package="javamail-1.2"/>
-  <project name="jaxm"           package="java_xml_pack-summer-02"/>
-  <project name="jaxp"           package="java_xml_pack-summer-02"/>
-  <project name="jaxr"           package="java_xml_pack-summer-02"/>
-  <project name="jaxrpc"         package="java_xml_pack-summer-02"/>
+  <project name="jaxm"           package="java_xml_pack-summer-02_01"/>
+  <project name="jaxp"           package="java_xml_pack-summer-02_01"/>
+  <project name="jaxr"           package="java_xml_pack-summer-02_01"/>
+  <project name="jaxrpc"         package="java_xml_pack-summer-02_01"/>
   <project name="jce"            package="jce"/>
-  <project name="jcifs"          package="jcifs_0.7.0b5"/>
+  <project name="jcifs"          package="jcifs_0.7.0b12"/>
   <project name="jdbc"           package="jdbc2_0"/>
   <project name="jimi"           package="Jimi"/>
   <project name="jdo"            package="jdori-1_0-fcs"/>
   <project name="jms"            package="jms1.0.2"/>
   <project name="jmx"            package="jmx-1_0_1-ri_bin"/>
   <project name="jndi"           package="jndi1_2_1"/>
-  <project name="jsch"           package="jsch-0.0.9"/>
+  <project name="jsch"           package="jsch-0.0.10"/>
   <project name="jsse"           package="jsse1.0.3"/>
   <project name="jta"            package="jta-spec1_0_1"/>
   <project name="jts"            package="jts1_0"/>
   <project name="ldap"           package="ldap-1_2_3"/>
   <project name="nekohtml"       package="nekohtml-0.7.1"/>
   <project name="msv"            package="msv-20020414"/>
-  <project name="multipartrequest"            
+  <project name="multipartrequest"
            package="MultipartRequest120"/>
   <project name="relaxng"        package="relaxngDatatype-1.0"/>
   <project name="resolver"       package="resolver-0_2"/>
