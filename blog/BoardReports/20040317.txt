@@ -22,7 +22,7 @@ Most of the past few weeks has been filled with infrastructure stuff.
 We've successfully migrated 
 <a href="http://gump.apache.org">web-site</a>, 
 <a href="http://cvs.apache.org/viewcvs/gump/">CVS module</a>, 
-<a href="http://nagoya.apache.org/jira/secure/BrowseProject.jspa?id=10457"bug-tracking</a>
+<a href="http://nagoya.apache.org/jira/secure/BrowseProject.jspa?id=10457">bug-tracking</a>
  and the
 <a href="http://gump.apache.org/mail.html"> mailing list</a> 
 to gump.apache.org - many thanks to the infrastructure team for making 
