@@ -13,12 +13,13 @@
 
     <ant target="gump" debug="true">
         <property name="jar.library" value="wss4j-@DATE@.jar"/>
+        <sysproperty name="build.clonevm" value="true"/>
     </ant>
 
     <depend project="ant" inherit="runtime"/>
     <depend project="jaf"/>
     <depend project="ws-axis" inherit="runtime"/>
-    <depend project="xml-xerces" inherit="runtime"/>
+    <depend project="xml-xerces" inherit="runtime" runtime="true"/>
     <depend project="commons-discovery"/>
     <depend project="commons-logging"/>
     <depend project="cryptix"/>
