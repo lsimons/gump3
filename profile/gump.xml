@@ -262,7 +262,7 @@
   <project name="j2ee-connector"   package="j2ee_connector-1_0-fr"/>
   <project name="jaas"             package="jaas1_0"/>
   <project name="jaf"              package="jaf-1.0.1"/>
-  <project name="javacc"           package="javacc-3.0"/>
+  <project name="javacc"           package="javacc-3.1"/>
   <project name="javamail"         package="javamail-1.3"/>
   <project name="jaxm"             package="java_xml_pack-summer-02_01"/>
   <project name="jaxp"             package="java_xml_pack-summer-02_01"/>

@@ -1,12 +1,12 @@
 <module name="javacc">
 
-  <url href="http://www.experimentalstuff.com/Technologies/JavaCC/index.html"/>
+  <url href="http://javacc.dev.java.net/"/>
   <description>
     Java Compiler Compiler - The Java Parser Generator
   </description>
   
   <project name="javacc">
-    <package>org.netbeans.javacc</package>
+    <package>org.javacc</package>
     <jar name="bin/lib/javacc.jar"/>
   </project>
 
