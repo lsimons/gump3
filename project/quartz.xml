@@ -21,6 +21,7 @@
     <depend project="ejb"/>
     <depend project="xml-xerces"/>
     <depend project="jdbc"/>
+    <depend project="jmx" id="jmxri"/>
     <depend project="jta"/>
     <depend project="commons-collections" />
     <depend project="commons-dbcp" />
