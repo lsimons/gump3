@@ -42,10 +42,7 @@
 	</menu>
 	-->
 	<getinvolved label="Get Involved">
-	    <!-- overview href="http://www.apache.org/site/getinvolved.html" label="Overview"/ -->
-	    <!-- joinmailinglists href="http://www.apache.org/getinvolved/mail.html" label="Mailing List"/ -->
-	    <searchmailinglists href="http://marc.theaimsgroup.com/?l=alexandria-dev&amp;r=1&amp;w=2" label="Search List"/>
-	    <browsemailinglists href="http://nagoya.apache.org/eyebrowse/SummarizeList?listId=198" label="Browse List"/>
+            <mail href="mail.html" label="Mailing Lists"/>
 	    <wiki href="http://wiki.apache.org/gump" label="Wiki"/>
 	    <issues href="http://nagoya.apache.org/jira/secure/BrowseProject.jspa?id=10457" label="Issues"/>
 	</getinvolved>

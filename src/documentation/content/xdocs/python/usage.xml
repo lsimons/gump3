@@ -60,7 +60,7 @@ CD /d C:\gump\python
 python gump\gui\view.py -w ..\myworkspace.xml
 		</source>
 		<source>
-cd /jakarta-gump/python
+cd /gump/python
 export PYTHONPATH=`pwd`
 python gump/gui/view.py -w ../myworspace.xml
 		</source>
