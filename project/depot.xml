@@ -10,7 +10,7 @@
       Depot -- repository tools and more...
     </description>
 
-    <project name="depot-version" fullname="Depot Version">
+    <project name="depot-version" fullname="Depot Version" basedir="version">
 
         <package>org.apache.version</package>
 
@@ -20,7 +20,7 @@
 
         <depend inherit="runtime" project="ant"/>
 
-        <jar name="juddi-@@DATE@@.jar"/>
+        <jar name="version-@@DATE@@.jar"/>
 
         <ant basedir="." buildfile="build.xml" target="gump" vm="1.4">
           <property name="ant.home" project="ant" reference="home" />
@@ -33,7 +33,7 @@
               
     </project>
     
-    <project name="depot-version-test" fullname="Depot Version Test">
+    <project name="depot-version-test" fullname="Depot Version Test" basedir="version">
     	
         <package>org.apache.version.test</package>
 
