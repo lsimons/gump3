@@ -18,7 +18,8 @@ href="http://nagoya.apache.org/eyebrowse/ReadMsg?listName=gump@jakarta.apache.or
 
 msgId=1341462">broken backwards compatibility</a>. The <a 
 
-href="http://www.mozilla.org/rhino/">Rhino</a> team agreed, and commit a change to 
+href="http://www.mozilla.org/rhino/">Rhino</a> team agreed, and 
+committed a change to 
 
 <a 
 
