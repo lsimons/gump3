@@ -403,7 +403,7 @@ public class Project {
                 }
 
                 if (!javadocDir.equals("")) {
-                    desc.setAttribute("dest", javadocDir + path + append);
+                    desc.setAttribute("dest", javadocDir + "/" + path + append);
                 }
             }
         }
