@@ -250,8 +250,8 @@ class SvnUpdater(RunSpecific):
         # If module name != SVN directory, tell SVN to put it into
         # a directory named after our module
         #
-        if module.svn.hasDir():
-            if not module.svn.getDir() == module.getName():
+        if not module.svn.hasDir() or \
+           not module.svn.getDir() == module.getName():
                 cmd.addParameter(module.getName())
         
         return (module.repository, url, cmd)
