@@ -1,8 +1,8 @@
 #!/usr/bin/python
 
-# $Header: /home/stefano/cvs/gump/python/gump/build.py,v 1.16 2003/09/27 05:35:05 ajack Exp $
-# $Revision: 1.16 $
-# $Date: 2003/09/27 05:35:05 $
+# $Header: /home/stefano/cvs/gump/python/gump/build.py,v 1.17 2003/09/27 14:36:18 ajack Exp $
+# $Revision: 1.17 $
+# $Date: 2003/09/27 14:36:18 $
 #
 # ====================================================================
 #
@@ -164,8 +164,7 @@ def syncWorkDir( workspace, sequence, context=GumpContext() ):
         else:
             mctxt.status=STATUS_SUCCESS
     else:
-        # :TODO: Is the redundanct, ought it not have already be published?
-        # Does this account for the confusion?
+        # :TODO: Is this redundant, ought it not have already be published?
         mctxt.propagateErrorState(mctxt.status,mctxt.reason)
 
 def buildProjects( workspace, sequence, context=GumpContext() ):

@@ -188,10 +188,11 @@ def secsToElapsedTime(secs):
     return (hours, mins, secs)
     
 def secsToString(secs):
-    return ('%02d:%02d:%02d' % secsToElapsedTime(secs))           
+    return elapsedTimeToString(secsToElapsedTime(secs))           
     
 def elapsedTimeToString(elapsed):
-    return ('%02d:%02d:%02d' % elapsed)           
+    #:TODO: Don't show hours if 0, show mins/secs words
+    return ('%02d:%02d:%02d' % elapsed)        
     
 if __name__=='__main__':
 

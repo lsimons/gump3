@@ -277,11 +277,17 @@ def executeIntoResult(cmd,result,tmp=dir.tmp):
     start_time=time.time()
     try:
       try:          
-        # Make the CWED if needed
+        # Make the CWD if needed
         if cmd.cwd: 
-          cwdpath=os.path.abspath(cmd.cwd)
-          if not os.path.exists(cwdpath): os.mkdir(cwdpath)
-          os.chdir(cwdpath)
+          try:
+              cwdpath=os.path.abspath(cmd.cwd)
+              if not os.path.exists(cwdpath): os.mkdir(cwdpath)
+              os.chdir(cwdpath)
+          except Exception, details :
+              # Log the problem and re-raise
+              log.error('Failed to create CWD. Details: ' + str(details))
+              raise
+        
         
         # The command line
         execString=cmd.formatCommandLine()        

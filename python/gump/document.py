@@ -553,12 +553,13 @@ def documentWorkList(x,workspace,worklist,description='Work',dir='.'):
     if not worklist: return
     startSectionXDoc(x,description)
     x.write('    <table>\n')
-    x.write('      <tr><th>Name</th><th>Type</th><th>State</th><th>Elapsed Time</th></tr>')
+    x.write('      <tr><th>Name</th><th>Type</th><th>State</th><th>Start Time</th><th>Elapsed Time</th></tr>')
     for work in worklist:
         x.write('     <tr><!-- %s -->' % (workTypeName(work.type)))       
         x.write('      <td><link href=\'%s\'>%s</link></td>' % (getWorkRelativeUrl(work.type,work.command.name),work.command.name))    
         x.write('      <td>%s</td>' % (workTypeName(work.type))) 
-        x.write('      <td>%s</td><td>%s</td>' % (stateName(work.status), secsToString(work.secs)))    
+        x.write('      <td>%s</td><td>%s</td><td>%s</td>' \
+            % (stateName(work.status), str(work.start_time), secsToString(work.secs)))    
         x.write('     </tr>')
     x.write('    </table>\n')
     endSectionXDoc(x)
