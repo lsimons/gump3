@@ -22,7 +22,7 @@
   <home nested="bin"/>
   <jar  name="velocity-1.0b2-dev.jar"/>
 
-  <project name="test-velocity">
+  <project name="jakarta-velocity-test">
     <ant basedir="build" buildfile="testcases.xml"/>
     <depend project="jakarta-ant"/>
     <depend project="xml-xerces"/>
