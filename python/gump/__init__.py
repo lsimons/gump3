@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/__init__.py,v 1.8 2003/05/05 07:23:06 nicolaken Exp $
-# $Revision: 1.8 $
-# $Date: 2003/05/05 07:23:06 $
+# $Header: /home/stefano/cvs/gump/python/gump/__init__.py,v 1.9 2003/05/05 21:09:37 nicolaken Exp $
+# $Revision: 1.9 $
+# $Date: 2003/05/05 21:09:37 $
 #
 # ====================================================================
 #
@@ -352,7 +352,13 @@ def load(file):
 
     raise IOError, 'workspace '+file+' not found'
 
-  from gump.model import Workspace, Repository, Module, Project
+  from gump.model import Workspace, Repository, Module, Project, Profile
+  
+  Module.list={}
+  Project.list={}
+  Profile.list={}
+  Repository.list={}
+  
   workspace=SAXDispatcher(file,'workspace',Workspace).docElement
   workspace.complete()
 
