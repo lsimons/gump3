@@ -67,8 +67,8 @@ class setting:
     DATETIME_PRESENTATION_FORMAT='%a, %d %b %Y %H:%M:%S (%Z)'
     TIME_PRESENTATION_FORMAT='%H:%M:%S (%Z)'
     
-    UTC_DATETIME_PRESENTATION_FORMAT='%a, %d %b %Y %H:%M:%S (UTC)'
-    UTC_TIME_PRESENTATION_FORMAT='%H:%M:%S (UTC)'
+    UTC_DATETIME_PRESENTATION_FORMAT='%a, %d %b %Y %H:%M:%S (%Z)'
+    UTC_TIME_PRESENTATION_FORMAT='%H:%M:%S (%Z)'
     
     TIMEOUT=60*60 # 60 minutes (in seconds)
     

@@ -37,6 +37,7 @@ from gump.model.workspace import Workspace, WorkspaceStatistics
 from gump.model.state import *
 
 import gump.utils.mysql
+import gump.utils.timing
   
 class StatisticsDB:
     """
@@ -242,7 +243,7 @@ if __name__ == '__main__':
     # Project
     ps=stats.getProjectStats('test')
     ps.successes+=1
-    ps.first=datetime.datetime.now()
+    ps.first=getLocalNow()
     stats.putProjectStats(ps)     
     if len(sys.argv) > 1:
         stats.delProjectStats(ps)

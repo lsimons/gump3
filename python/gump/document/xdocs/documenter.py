@@ -2298,7 +2298,7 @@ This page helps Gumpmeisters (and others) observe community progress.
             workRow.setStyle(stateName(work.state).upper())
                 
             if isinstance(work,TimedWorkItem):      
-                workRow.createData(work.result.start.isoformat())
+                workRow.createData(work.getStart().getLocal())
                 workRow.createData(secsToElapsedTimeString(work.getElapsedSecs()))
             else:
                 workRow.createData('N/A')
@@ -2366,8 +2366,8 @@ This page helps Gumpmeisters (and others) observe community progress.
                 workList.createEntry("Termination Signal: ", str(work.result.signal))
             workList.createEntry("Exit Code: ", str(work.result.exit_code))
                                 
-            workList.createEntry("Start Time: ", work.result.start.isoformat())
-            workList.createEntry("End Time: ", work.result.end.isoformat())
+            workList.createEntry("Start Time: ", work.getStart().getLocal())
+            workList.createEntry("End Time: ", work.getEnd().getLocal())
             e = secsToElapsedTimeString(work.getElapsedSecs())
             if e : workList.createEntry("Elapsed Time: ", e)
                    

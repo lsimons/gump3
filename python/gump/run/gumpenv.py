@@ -48,9 +48,6 @@ from gump.integration.depot import *
 # Classes
 ###############################################################################
 
-# Local time zone, in offset from UTC
-TZ='%+.2d:00' % (-time.timezone/3600)
-
 class GumpEnvironment(Annotatable,Workable,Propogatable):
     """
     	Represents the environment that Gump is running within.
@@ -93,8 +90,8 @@ class GumpEnvironment(Annotatable,Workable,Propogatable):
         self.depotHome = None
         
         # Timezone and offset from UTC
-        self.timezone=time.timezone
-        self.timezoneOffset=TZ
+        self.timezone=time.tzname
+        self.timezoneOffset=time.timezone
         
     def checkEnvironment(self,exitOnError=False):
         """ 

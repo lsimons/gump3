@@ -30,7 +30,62 @@ import datetime
 from gump.utils import getIndent
 from gump.core.config import default, setting
 
+ZERO = datetime.timedelta(0)
+HOUR = datetime.timedelta(hours=1)
+
+class UTC(datetime.tzinfo):
+    """UTC"""
+
+    def utcoffset(self, dt):
+        return ZERO
+
+    def tzname(self, dt):
+        return "UTC"
+
+    def dst(self, dt):
+        return ZERO
+
+UTC_TIMEZONE_INFO = UTC()
+
 ZERO_DELTA=datetime.timedelta(seconds=0)
+
+STDOFFSET = datetime.timedelta(seconds = -time.timezone)
+if time.daylight:
+    DSTOFFSET = datetime.timedelta(seconds = -time.altzone)
+else:
+    DSTOFFSET = STDOFFSET
+DSTDIFF = DSTOFFSET - STDOFFSET
+
+class LocalTimezone(datetime.tzinfo):
+
+    def utcoffset(self, dt):
+        if self._isdst(dt):
+            return DSTOFFSET
+        else:
+            return STDOFFSET
+
+    def dst(self, dt):
+        if self._isdst(dt):
+            return DSTDIFF
+        else:
+            return ZERO
+
+    def tzname(self, dt):
+        return time.tzname[self._isdst(dt)]
+
+    def _isdst(self, dt):
+        tt = (dt.year, dt.month, dt.day,
+              dt.hour, dt.minute, dt.second,
+              dt.weekday(), 0, -1)
+        stamp = time.mktime(tt)
+        tt = time.localtime(stamp)
+        return tt.tm_isdst > 0
+
+LOCAL_TIMEZONE_INFO = LocalTimezone()
+
+
+def getLocalNow():
+    return datetime.datetime.now(LOCAL_TIMEZONE_INFO)
 
 def deltaToSecs(delta):
     """
@@ -166,19 +221,20 @@ class TimeStamp:
     def __init__(self,name,stamp=None):
         self.name=name               
         if not stamp:
-            stamp=datetime.datetime.now()
+            stamp=getLocalNow()
         self.timestamp=stamp       
         
-    # Representations:
+    # UTC Representation:
     def getUtc(self):
-        if hasattr(self,'utc'): return self.utc 
-        self.utc=self.timestamp.strftime(setting.UTC_DATETIME_PRESENTATION_FORMAT)
+        if hasattr(self,'utc'): return self.utc
+        utc=self.timestamp.utctimetuple()
+        self.utc=time.strftime(setting.UTC_DATETIME_PRESENTATION_FORMAT, utc)
         return self.utc
         
-    # Representations:
+    # Local Representation:
     def getLocal(self):
         if hasattr(self,'local'): return self.local 
-        self.local=self.timestamp.strftime(setting.UTC_DATETIME_PRESENTATION_FORMAT)
+        self.local=self.timestamp.strftime(setting.DATETIME_PRESENTATION_FORMAT)
         return self.local
     
     def getTimestamp(self):
@@ -189,8 +245,7 @@ class TimeStamp:
         return False
         
     def __str__(self):
-        return 'TimeStamp: '+self.name+' : '+ \
-                toDateTime(self.timestamp) 
+        return 'TimeStamp: '+self.name+' : ' + toDateTime(self.timestamp) 
                 
     def __cmp__(self,other):
         return (self.timestamp < other.timestamp)
@@ -263,14 +318,10 @@ class TimeStampSet(list):
         self.startTimeStamp=start        
         self.endTimeStamp=start
         
-    def registerStamp(self,stamp):  
-        # :TODO: don't assume stored in time order
-        self.endTimeStamp=stamp  
+    def registerStamp(self,stamp):   
         return self.store(stamp)
         
-    def registerRange(self,range):  
-        # :TODO: don't assume stored in time order
-        self.endTimeStamp=range.getEnd()         
+    def registerRange(self,range): 
         return self._store(range)
             
     def stamp(self,sname):
@@ -284,7 +335,16 @@ class TimeStampSet(list):
     def _store(self,stamp):
         # Store for posterity
         self.append(stamp) 
+        
+        # Update 
+        self._updateEnd(stamp)
+                 
         return stamp
+        
+    def _updateEnd(self,stamp):
+        # :TODO: don't assume stored in time order
+        self.endTimeStamp=stamp  
+        
         
     def getElapsedSecs(self):
         return self.endTimeStamp.getTimestamp() - self.startTimeStamp.getTimestamp()
@@ -370,7 +430,7 @@ class Timeable:
     def hasStart(self):
         return self.times.hasStart()
         
-    def setStart(self,comment=None):
+    def setStart(self,comment='Start'):
         self.times.setStart(comment)
         
     def getStart(self):
@@ -379,7 +439,7 @@ class Timeable:
     def hasEnd(self):
         return self.times.hasEnd()
         
-    def setEnd(self,comment=None):
+    def setEnd(self,comment='End'):
         self.times.setEnd(comment)
         
     def getEnd(self):

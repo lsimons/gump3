@@ -77,12 +77,6 @@ class TimingTestSuite(UnitTestSuite):
         rough=getGeneralDifferenceDescription(self.now, twoYearsBefore)
         self.assertInString('Date Diff String', '2 years', rough)
         
-    def testRandomStuff(self):
-        # :TODO: Clean this up, just moved it here so as not to lose it.
-        secsToElapsedTimeTriple(1340)
-        secsToElapsedTimeString(1340)
-        elapsedTimeTripleToString(secsToElapsedTimeTriple(1340))
-  
     def testTimeStampSet(self):
         set=TimeStampSet('Test1')
         set.stamp('Stamp1')
@@ -93,17 +87,35 @@ class TimingTestSuite(UnitTestSuite):
         time.sleep(10)
         set.stamp('Stamp3')
         
+        # Create the first range
         range1=TimeStampRange('Range1')
         time.sleep(5)
         range1.setEnd()
         range1.setExternal(True)
         set.registerRange(range1)
         
+        # Create the second range
         range2=TimeStampRange('Range2')
         time.sleep(5)
         range2.setEnd()
         range2.setExternal(False)
         set.registerRange(range2)
         
-        #set.dump()
+        set.dump()
         set.getTotalTimes()
+        
+        self.assertGreater('Time passes', range1.getStart(), range1.getEnd())        
+        self.assertGreater('Time passes', range2.getStart(), range2.getEnd())        
+        self.assertGreater('Time passes', range1.getEnd(), range2.getEnd())
+        
+        self.assertGreater('Time passes', set.getStart(), set.getEnd())
+        
+    def testUTCTimes(self):
+        stamp1=TimeStamp('S1')
+        stamp2=TimeStamp('S2')
+        
+        t1=stamp1.getUtc()
+        t2=stamp2.getUtc()
+        
+        self.assertIn('UTC', 'UTC', t1)
+        self.assertIn('UTC', 'UTC', t2)

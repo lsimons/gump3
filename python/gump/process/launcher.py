@@ -46,7 +46,7 @@ def executeIntoResult(cmd,result,tmp=dir.tmp):
    	"""	
     
     outputFile=None
-    start=datetime.datetime.now()
+    start=getLocalNow()
     try:
       try:          
  
@@ -148,7 +148,7 @@ def executeIntoResult(cmd,result,tmp=dir.tmp):
               os.remove(outputFile)
         
       # Keep time information
-      end=datetime.datetime.now()
+      end=getLocalNow()
       result.start=start
       result.end=end 
 	  
