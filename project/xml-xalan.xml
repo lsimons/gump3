@@ -14,7 +14,11 @@
 
     <depend project="bootstrap-ant"/>
     <depend project="xml-xerces"/>
+    <depend project="java_cup"/>
+    <depend project="jlex"/>
+    <depend project="jakarta-bcel"/>
     <depend project="xml-apis" inherit="jars"/>
+    <work nested="java/build/classes"/>
 
     <home nested="java/build"/>
     <jar  name="xalan.jar" type="boot" id="transformer" />
@@ -36,9 +40,6 @@
     <depend project="xml-xalan2"/>
     <depend project="xml-stylebook2"/>
     <option project="bsf"/>
-    <depend project="jakarta-bcel"/>
-    <depend project="java_cup"/>
-    <depend project="jlex"/>
     <depend project="xalan2jdoc"/>
     <work nested="java/build/classes"/>
 

@@ -13,7 +13,7 @@
     <ant basedir="build" buildfile="build.xml" target="jar">
       <property name="version" value="@@DATE@@"/>
     </ant>
-    <depend project="ant" inherit="runtime"/>
+    <depend project="bootstrap-ant" inherit="runtime"/>
     <depend project="xml-xerces"/>
     <home nested="bin"/>
     <jar name="jakarta-regexp-@@DATE@@.jar" id="regexp"/>
