@@ -21,6 +21,12 @@ from gump.utils import *
 from gump.utils.launcher import Parameters
 from gump.test.pyunit import UnitTestSuite
 
+class TestBean:
+    #def __init__(self): pass
+    def getX(self): return 1
+    def isY(self): return 0
+    def getYadaYada(self): return 'Yowzer'
+    
 class UtilsTestSuite(UnitTestSuite):
     def __init__(self):
         UnitTestSuite.__init__(self)
@@ -94,3 +100,7 @@ class UtilsTestSuite(UnitTestSuite):
         line='1234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890'
         #print wrapLine(line)
         
+    def testBeanAttributes(self):
+        attrs=getBeanAttributes(TestBean())
+        self.assertNotEmpty('Ought be some', attrs)
+        self.assertNotNone('Ought be one called X', attrs['X'])

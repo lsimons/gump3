@@ -117,7 +117,7 @@ def getPathForObject(object,visited=None):
     elif isinstance(object, Module):
         path=getPathForObject(object.getWorkspace()).getPostfixed(object.getName())
     elif isinstance(object, Project):
-        path=getPathForObject(object.getModule())
+        path=getPathForObject(object.getModule()).getPostfixed(object.getName())
     elif isinstance(object, WorkItem):
         path=getPathForObject(object.getOwner()).getPostfixed('gump_work')  
     elif isinstance(object, FileReference):
@@ -198,17 +198,18 @@ def getDocumentForObject(object, extn='.xml', visited=None):
     if not visited:visited=[] 
     visited.append(object)
             
-    if isinstance(object, Workspace) or isinstance(object, Module) \
+    if isinstance(object, Workspace) \
+        or isinstance(object, Module) \
+        or isinstance(object, Project) 	\
         or isinstance(object,StatisticsGuru) 	\
         or isinstance(object,XRefGuru) :    
         document="index"+extn
     elif isinstance(object, GumpEnvironment):
         document="environment"+extn            
-    elif isinstance(object, Project) 	\
-        or isinstance(object, Server)	\
+    elif isinstance(object, Server)	\
         or isinstance(object, Tracker)	\
         or isinstance(object, Repository)	\
-        or isinstance(object, FileReference)		\
+        or isinstance(object, FileReference) \
         or isinstance(object, WorkItem):    
         document=gumpSafeName(object.getName()) + extn
     elif isinstance(object, Ownable) :

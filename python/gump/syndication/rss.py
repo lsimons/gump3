@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/syndication/rss.py,v 1.18 2004/02/29 19:16:19 ajack Exp $
-# $Revision: 1.18 $
-# $Date: 2004/02/29 19:16:19 $
+# $Header: /home/stefano/cvs/gump/python/gump/syndication/rss.py,v 1.19 2004/04/08 18:11:43 ajack Exp $
+# $Revision: 1.19 $
+# $Date: 2004/04/08 18:11:43 $
 #
 # ====================================================================
 #
@@ -272,8 +272,8 @@ class RSSSyndicator(Syndicator):
         # Main syndication document
         self.run = run
         self.workspace=run.getWorkspace()   
-        self.rssFile=self.run.getOptions().getResolver().getFile(self.workspace,'index','.rss')      
-        self.rssUrl=self.run.getOptions().getResolver().getUrl(self.workspace,'index','.rss')
+        self.rssFile=self.run.getOptions().getResolver().getFile(self.workspace,'rss','.xml',1)      
+        self.rssUrl=self.run.getOptions().getResolver().getUrl(self.workspace,'rss','.xml')
     
         self.rss=RSS(self.rssUrl,self.rssFile,	\
             Channel('Jakarta Gump',		\
@@ -289,8 +289,8 @@ class RSSSyndicator(Syndicator):
     
     def syndicateModule(self,module,mainRSS):
         
-        rssFile=self.run.getOptions().getResolver().getFile(module,'index','.rss')
-        rssUrl=self.run.getOptions().getResolver().getUrl(module,'index','.rss')
+        rssFile=self.run.getOptions().getResolver().getFile(module,'rss','.xml',1)
+        rssUrl=self.run.getOptions().getResolver().getUrl(module,'rss','.xml')
         moduleUrl=self.run.getOptions().getResolver().getUrl(module)
         
         moduleRSS=RSS(rssUrl,rssFile,	\
@@ -333,8 +333,8 @@ class RSSSyndicator(Syndicator):
     
     def syndicateProject(self,project,moduleRSS,mainRSS):
                 
-        rssFile=self.run.getOptions().getResolver().getFile(project,project.getName(),'.rss')
-        rssUrl=self.run.getOptions().getResolver().getUrl(project,project.getName(),'.rss')
+        rssFile=self.run.getOptions().getResolver().getFile(project,'rss','.xml',1)
+        rssUrl=self.run.getOptions().getResolver().getUrl(project,'rss','.xml')
         projectUrl=self.run.getOptions().getResolver().getUrl(project)
         
         projectRSS=RSS(rssUrl, rssFile,	\

@@ -283,17 +283,8 @@ class ForrestDocumenter(Documenter):
         optTable=optSection.createTable(['Name','Value'])
         opts=0
         # iterate over this suites properties
-        for name in options.__dict__:
-            if name.startswith('__') and name.endswith('__'): continue
-            method=getattr(options,name)            
-            # avoid nulls, metadata, and methods other than (is|get)*
-            if not method: continue
-            if isinstance(method,types.TypeType): continue
-            if not isinstance(method,types.MethodType): continue
-            if not callable(method): continue
-            if not (name.startswith('get') or name.startswith('is')) : continue
-            
-            optTable.createEntry(str(name),str(method()))
+        for (name,value) in getBeanAttributes(options).items():
+            optTable.createEntry(str(name),str(value))
             opts+=1
             
         if not opts: optTable.createEntry('None')
@@ -348,10 +339,10 @@ class ForrestDocumenter(Documenter):
         
         rssSyndRow=definitionTable.createRow()
         rssSyndRow.createData('Syndication')
-        rssSyndRow.createData().createFork('index.rss','RSS')
+        rssSyndRow.createData().createFork('rss.xml','RSS')
         atomSyndRow=definitionTable.createRow()
         atomSyndRow.createData('Syndication')
-        atomSyndRow.createData().createFork('index.atom','Atom')
+        atomSyndRow.createData().createFork('atom.xml','Atom')
                 
         textRow=definitionTable.createRow()
         textRow.createData('Workspace Documentation')

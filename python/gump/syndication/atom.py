@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/syndication/atom.py,v 1.11 2004/01/20 21:55:23 ajack Exp $
-# $Revision: 1.11 $
-# $Date: 2004/01/20 21:55:23 $
+# $Header: /home/stefano/cvs/gump/python/gump/syndication/atom.py,v 1.12 2004/04/08 18:11:43 ajack Exp $
+# $Revision: 1.12 $
+# $Date: 2004/04/08 18:11:43 $
 #
 # ====================================================================
 #
@@ -175,8 +175,8 @@ class AtomSyndicator(Syndicator):
         self.run = run
         self.workspace=run.getWorkspace()   
         
-        feedFile=self.run.getOptions().getResolver().getFile(self.workspace,'index','.atom')      
-        feedUrl=self.run.getOptions().getResolver().getAbsoluteUrl(self.workspace,'index','.atom')
+        feedFile=self.run.getOptions().getResolver().getFile(self.workspace,'atom','.xml',1)      
+        feedUrl=self.run.getOptions().getResolver().getAbsoluteUrl(self.workspace,'atom','.xml')
     
         self.feed=AtomFeed(feedUrl,feedFile,	\
                         'workspace',	\
@@ -193,8 +193,8 @@ class AtomSyndicator(Syndicator):
         
     def syndicateModule(self,module,mainFeed):
                 
-        feedFile=self.run.getOptions().getResolver().getFile(module,'index','.atom')
-        feedUrl=self.run.getOptions().getResolver().getAbsoluteUrl(module,'index','.atom')
+        feedFile=self.run.getOptions().getResolver().getFile(module,'atom','.xml',1)
+        feedUrl=self.run.getOptions().getResolver().getAbsoluteUrl(module,'atom','.xml')
         moduleUrl=self.run.getOptions().getResolver().getUrl(module)
         
         moduleFeed=AtomFeed(feedUrl,feedFile,	
@@ -235,8 +235,8 @@ class AtomSyndicator(Syndicator):
     
     def syndicateProject(self,project,moduleFeed,mainFeed):
         
-        feedFile=self.run.getOptions().getResolver().getFile(project,project.getName(),'.atom')
-        feedUrl=self.run.getOptions().getResolver().getAbsoluteUrl(project,'index','.atom')
+        feedFile=self.run.getOptions().getResolver().getFile(project,'atom','.xml',1)
+        feedUrl=self.run.getOptions().getResolver().getAbsoluteUrl(project,'atom','.xml')
         projectUrl=self.run.getOptions().getResolver().getUrl(project)
         
         projectFeed=AtomFeed(feedUrl, feedFile,	\

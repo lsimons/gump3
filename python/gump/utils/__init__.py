@@ -321,6 +321,33 @@ def formatException(ei):
     if s[-1] == "\n":
         s = s[:-1]
     return s
+
+def getBeanAttributes(bean):
+    attributes={}
+    for name in bean.__class__.__dict__:
+        if name.startswith('__') and name.endswith('__'): continue
+        accessor=getattr(bean,name)            
+        # avoid nulls, metadata, and methods other than (is|get)*
+        if not accessor: continue
+        if isinstance(accessor,types.TypeType): continue
+        # Ignore non-methods
+        if not isinstance(accessor,types.MethodType): continue        
+        # Ignore non-callable methods (????)
+        if not callable(accessor): continue
+        
+        # Ignore methods not isX or getX
+        # :TODO: Ought check that the X is upper case...
+        if name.startswith('get'):
+            attrName=name[3:]
+        elif name.startswith('is'):
+            attrName=name[2:]
+        else:
+            continue
+            
+        # Get value and stash it
+        attributes[attrName]=accessor()   
+            
+    return attributes
     
 def logResourceUtilization(message=None): pass
 
