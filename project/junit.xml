@@ -11,9 +11,11 @@
     <ant>
       <property name="dist" reference="home" project="junit"/>
     </ant>
+
     <depend project="bootstrap-ant"/>
     <depend project="xml-xerces"/>
-    <work parent="junit/tests/test.jar"/>
+    <work parent="dist/junit"/>
+
     <home parent="dist/junit"/>
     <jar name="junit.jar" id="junit"/>
     <javadoc parent="dist/junit/javadoc"/>
