@@ -43,7 +43,7 @@
     <depend project="commons-httpclient"/>
     <depend project="jakarta-struts"/>
     <depend project="jakarta-oro"/>
-    <option project="jakarta-taglibs"/>
+    <option project="jakarta-taglibs" ids="jstl standard"/>
     <work nested="build/classes"/>
     <work nested="build/client/classes"/>
 

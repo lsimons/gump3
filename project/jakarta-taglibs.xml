@@ -18,6 +18,10 @@
       <depend property="xerces.jar" project="xml-xerces" id="parser"/>
       <depend property="crimson.jar" project="xml-xerces" id="parser"/>
       <depend property="jaxp.jar" project="xml-xerces" id="apis"/>
+      <depend property="jaxp-api.jar" project="jaxp-1.2" id="jaxp-api"/>
+      <depend property="dom.jar" project="jaxp-1.2" id="dom"/>
+      <depend property="sax.jar" project="jaxp-1.2" id="sax"/>
+      <depend property="xercesImpl.jar" project="xml-xerces" id="parser"/>
       <depend property="xalan.jar" project="xml-xalan2"/>
       <depend property="servlet.jar"   project="jakarta-servletapi-4"/>
       <depend property="servlet23.jar" project="jakarta-servletapi-4"/>
@@ -36,6 +40,7 @@
         runtime="true"/>
       <depend property="commons-messenger.jar" project="commons-messenger"
         runtime="true"/>
+      <depend property="commons-lang.jar" project="commons-lang" />
       <depend property="commons-logging.jar" project="commons-logging"
         runtime="true" id="all" />
       <depend property="jms.jar" project="jms"/>
@@ -75,6 +80,33 @@
       <description dir="utility-doc/javadoc">utility</description>
       <description dir="xtags-doc/javadoc">xtags</description>
     </javadoc>
+
+    <jar name="dist/application/application.jar" id="application" />
+    <jar name="dist/benchmark/benchmark.jar" id="benchmark" />
+    <jar name="dist/bsf/bsf.jar" id="bsf" />
+    <jar name="dist/cache/cache.jar" id="cache" />
+    <jar name="dist/datetime/datetime.jar" id="datetime" />
+    <jar name="dist/dbtags/dbtags.jar" id="dbtags" />
+    <jar name="dist/i18n/i18n.jar" id="i18n" />
+    <jar name="dist/input/input.jar" id="input" />
+    <jar name="dist/io/io.jar" id="io" />
+    <jar name="dist/jmstags/jmstags.jar" id="jmstags" />
+    <jar name="dist/jndi/jndi.jar" id="jndi" />
+    <jar name="dist/jsp20el/jsp20el.jar" id="jsp20el" />
+    <jar name="dist/log/log.jar" id="log" />
+    <jar name="dist/mailer/mailer.jar" id="mailer" />
+    <jar name="dist/page/page.jar" id="page" />
+    <jar name="dist/random/random.jar" id="random" />
+    <jar name="dist/regexp/regexp.jar" id="regexp" />
+    <jar name="dist/request/request.jar" id="request" />
+    <jar name="dist/response/response.jar" id="response" />
+    <jar name="dist/scrape/scrape.jar" id="scrape" />
+    <jar name="dist/session/session.jar" id="session" />
+    <jar name="dist/standard/lib/jstl.jar" id="jstl" />
+    <jar name="dist/standard/lib/standard.jar" id="standard" />
+    <jar name="dist/string/string.jar" id="string" />
+    <jar name="dist/utility/utility.jar" id="utility" />
+    <jar name="dist/xtags/xtags.jar" id="xtags" />
 
     <nag to="taglibs-dev@jakarta.apache.org"
          from="Ted Husted &lt;ted@husted.com&gt;"/>
