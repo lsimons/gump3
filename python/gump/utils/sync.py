@@ -31,7 +31,7 @@ from gump.utils.launcher import *
 from gump.utils.note import *
 
 SYNC_ACTION=1
-COPY_ACTION=2=
+COPY_ACTION=2
 
 class PathWalker(Annotatable):
 
@@ -41,9 +41,9 @@ class PathWalker(Annotatable):
         self.targetdir = targetdir
         self.action = action
         
-        if SYNC_ACTION==action
+        if SYNC_ACTION==action:
             self.actionString='Sync'
-        elif COPY_ACTION==action
+        elif COPY_ACTION==action:
             self.actionString='Copy'
             
         self.debug=debug
