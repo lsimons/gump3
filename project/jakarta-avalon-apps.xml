@@ -59,29 +59,6 @@
                 to="dev@avalon.apache.org"/>
     </project>
 
-    <project name="avalon-apps-hsql">
-        <package>org.apache.avalon.hsql</package>
-
-        <ant basedir="hsql"/>
-
-        <depend project="junit"/>
-        <depend project="ant"/>
-        <depend project="xml-xerces" id="parser" runtime="true"/>
-        <depend project="xml-xalan2" id="transformer" runtime="true"/>
-        <option project="checkstyle" inherit="runtime"/>
-        <depend project="jakarta-avalon"/>
-        <depend project="jakarta-avalon-phoenix" inherit="all"/>
-        <depend project="jakarta-avalon-cornerstone"/>
-        <depend project="hsqldb" inherit="all" runtime="true"/>
-
-        <home nested="hsql"/>
-
-        <jar name="build/lib/avalon-hsql-@@DATE@@.jar"/>
-
-        <nag from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"
-                to="dev@avalon.apache.org"/>
-    </project>
-
     <project name="avalon-apps-ftpserver">
         <package>org.apache.avalon.ftpserver</package>
 
