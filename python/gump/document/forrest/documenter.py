@@ -1640,15 +1640,17 @@ This page helps Gumpmeisters (and others) observe community progress.
                 dependencySection.createNote('No projects depend upon this project.')    
             if not depens:
                 dependencySection.createNote('This project depends upon no others.')    
-                                
-        try:
-            # Generate an SVG for FOG:
-            (pngFile,pngTitle) = self.diagramDependencies(project)
-            if pngFile:
-                para=dependencySection.createSection('Dependency Diagram').createParagraph()
-                para.createFork(pngFile).createIcon(pngFile,pngTitle)
-        except:
-            log.error('Failed to diagram dependencies for [' + project.getName() + ']', exc_info=1)
+                 
+        # Not ready for prime time...   
+        if 'gump.try' == workspace.getName():                        
+            try:
+                # Generate an SVG for FOG:
+                (pngFile,pngTitle) = self.diagramDependencies(project)
+                if pngFile:
+                    para=dependencySection.createSection('Dependency Diagram').createParagraph()
+                    para.createFork(pngFile).createIcon(pngFile,pngTitle)
+            except:
+                log.error('Failed to diagram dependencies for [' + project.getName() + ']', exc_info=1)
         
         document.serialize()
         
