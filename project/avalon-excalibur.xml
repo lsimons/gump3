@@ -649,11 +649,6 @@
                 to="dev@avalon.apache.org"/>
     </project>
 
-    <!-- moved to sandbox! -->
-    <project name="excalibur-meta">
-        <depend project="avalon-sandbox-meta" inherit="jars"/>
-    </project>
-
     <project name="excalibur-monitor">
         <package>org.apache.excalibur.monitor</package>
 
