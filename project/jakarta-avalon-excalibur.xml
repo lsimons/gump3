@@ -628,7 +628,7 @@
 
         <depend project="jakarta-ant" inherit="runtime"/>
         <depend project="jakarta-avalon" runtime="true"/>
-        <depend project="excalibur-altrmi" runtime="true"/>
+        <option project="excalibur-altrmi" runtime="true"/>
         <depend project="excalibur-instrument" runtime="true"/>
         <option project="checkstyle" inherit="runtime"/>
         <depend project="junit"/>
