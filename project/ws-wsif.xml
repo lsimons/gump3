@@ -33,7 +33,7 @@
     <depend project="jms"/>
     <depend project="wsdl4j"/>
     <depend project="ws-axis"/>
-    <depend project="xml-soap"/>
+    <depend project="ws-soap"/>
     <depend project="j2ee-connector"/>
 
     <work nested="java/build/classes"/>

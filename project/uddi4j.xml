@@ -15,7 +15,7 @@
 
     <depend project="xml-xerces"/>
     <depend project="ant" inherit="runtime"/>
-    <option project="xml-soap"/>
+    <option project="ws-soap"/>
     <option project="ws-axis"/>
     <option project="jsse"/>
     <work nested="build/classes"/>

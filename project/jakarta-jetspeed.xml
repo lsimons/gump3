@@ -32,7 +32,7 @@
     <depend project="javamail"/>
     <depend project="jaf"/>
     <depend project="jdbc"/>
-    <depend project="xml-soap"/>
+    <depend project="ws-soap"/>
     <depend project="uddi4j"/>
 
     <work nested="build/torque/templates.scratch"/>

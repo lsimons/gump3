@@ -1,13 +1,18 @@
-<module name="xml-soap">
+<module name="ws-soap">
 
-  <url href="http://xml.apache.org/soap/index.html"/>
+  <url href="http://ws.apache.org/soap/index.html"/>
   <description>
     Simple Object Access Protocol
   </description>
 
-  <cvs repository="xml"/>
+  <cvs repository="ws"/>
   
+  <!-- Temporary Alias -->
   <project name="xml-soap">
+    <depend project="ws-soap" inherit="jars"/>
+  </project>
+  
+  <project name="ws-soap">
     <package>org.apache.soap</package>
 
     <ant basedir="java" target="dist"/>
