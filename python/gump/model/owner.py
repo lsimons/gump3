@@ -82,10 +82,10 @@ class Ownable:
     def displayOwnership(self,visited=None):
         if not visited: visited=[]
         if self in visited: 
-            print "Circular path @ " + `self`
+            log.error('Circular path @ ' + `self`)
             return
         visited.append(self)
-        print getIndent(len(visited))+str(self)
+        log.info(getIndent(len(visited))+str(self))
         if self.hasOwner():
             self.getOwner().displayOwnership(visited)
         return         
