@@ -28,7 +28,7 @@
 
     <nag from="Stefan Bodewig &lt;bodewig@apache.org&gt;"
          to="xdoclet-devel@lists.sourceforge.net"
-         subject="xjavadoc build faild (Issue XJD-21)">
+         subject="xjavadoc build failed (Issue XJD-21)">
       <regexp pattern="m#NoClassDefFoundError: COM/sun/labs/#"/>
     </nag>
   </project>
