@@ -207,6 +207,7 @@
     <depend project="jakarta-log4j"/>
     <depend project="commons-logging" runtime="true"/>
     <!-- included in JDK 1.4 depend project="jce"/-->
+    <work nested="httpclient/target/classes"/>
     <home nested="httpclient/dist"/>
     <jar name="commons-httpclient.jar"/>
     <javadoc nested="httpclient/dist/docs/api"/>
