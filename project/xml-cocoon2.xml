@@ -21,6 +21,7 @@
     <depend project="jakarta-avalon-excalibur"/>
     <depend project="jakarta-regexp"/>
     <depend project="commons-httpclient"/>
+    <depend project="commons-collections"/>
     <depend project="jdom"/>
     <depend project="maybeupload"/>
     <depend project="bsf"/>
