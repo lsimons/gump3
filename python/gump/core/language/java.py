@@ -78,7 +78,8 @@ class JavaHelper(gump.core.run.gumprun.RunSpecific):
         sysClasspath=gump.core.language.path.Classpath('System Classpath')
         javaHome=self.run.getEnvironment().getJavaHome()
         syscp=os.path.join(os.path.join(javaHome,'lib'),'tools.jar')
-        sysClasspath.importFlattenedParts(syscp)        
+        if os.path.exists(syscp):
+            sysClasspath.importFlattenedParts(syscp)        
         return sysClasspath
 
     def getClasspathObjects(self,project,debug=False):
