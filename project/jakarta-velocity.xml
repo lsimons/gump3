@@ -8,6 +8,8 @@
   <cvs  repository="jakarta"/>
 
   <ant basedir="build" target="dist">
+    <property name="log.jar"
+       reference="jarpath" id="logkit" project="jakarta-avalon-logkit"/>
     <property name="version" value="gump"/>
   </ant>
 
