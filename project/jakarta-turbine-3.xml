@@ -20,7 +20,8 @@
       <depend property="torque.jar" project="jakarta-turbine-torque" version="1.0"/>
       <depend property="jaf.jar" project="jaf" version="1.0.1"/>
       <depend property="jdom.jar" project="jdom" version="b6"/>
-      <depend property="commons-util.jar" project="commons-util" version="1.0"/>
+      <depend property="commons-lang.jar" project="commons-lang"/>
+      <depend property="commons-http.jar" project="commons-http"/>
       <depend property="commons-collections.jar" project="commons-collections" version="1.0"/>
       <depend property="commons-beanutils.jar" project="commons-beanutils"/>
       <depend property="dom4j.jar" project="dom4j"/>

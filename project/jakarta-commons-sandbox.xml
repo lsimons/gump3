@@ -68,6 +68,18 @@
     <javadoc nested="email/dist/docs/api"/>
   </project>
 
+  <project name="commons-http">
+    <package>org.apache.commons.http</package>
+    <description>Commons HTTP Utility Package</description>
+    <ant basedir="http" target="dist">
+      <property name="component.version"  value="@@DATE@@"/>
+    </ant>
+    <depend project="jakarta-ant"/>
+    <depend project="xml-xerces"/>
+    <jar name="http/dist/commons-http.jar"/>
+    <javadoc nested="http/dist/docs/api"/>
+  </project>
+
   <project name="commons-io">
     <package>org.apache.commons.io</package>
     <description>Commons I/O Utility Package</description>
