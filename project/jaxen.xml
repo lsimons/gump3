@@ -1,30 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
 <module name="jaxen">
-
-  <url href="http://www.jaxen.org"/>
-  <description>
-    The flexible XML framework for Java
-  </description>
-  <redistributable/>
-
-  <cvs repository="sourceforge" host-prefix="cvs.jaxen" dir="jaxen"/>
-  
+  <description>Universal Java XPath Engine</description>
+  <url href="http://jaxen.org/">
+  </url>
+  <cvs module="jaxen" repository="werken" dir="jaxen">
+  </cvs>
   <project name="jaxen">
+    <ant buildfile="build.xml" target="dist">
+      <property name="final.name" value="jaxen-@@DATE@@">
+      </property>
+    </ant>
     <package>org.jaxen</package>
-
-    <ant buildfile="build-legacy.xml"/>
-    <depend project="ant" inherit="runtime"/>
-    <depend project="xml-xerces"/>
-    <depend project="xml-xalan2"/>
-    <depend project="saxpath" runtime="true"/>
-    <option project="jdom"/>
-
-    <home nested="build"/>
-    <jar name="jaxen-full.jar"/>
-    <license name="LICENSE"/>
-    <javadoc nested="build/doc/javadoc"/>
-
-    <nag from="Sam Ruby &lt;rubys@apache.org&gt;"
-         to="jaxen-interest@lists.sourceforge.net"/>
+    <depend project="dom4j">
+    </depend>
+    <depend project="jakarta-ant">
+    </depend>
+    <depend project="jdom">
+    </depend>
+    <depend project="junit">
+    </depend>
+    <depend project="saxpath">
+    </depend>
+    <depend project="xml-apis">
+    </depend>
+    <depend project="xml-xerces">
+    </depend>
+    <depend project="xml-xerces2">
+    </depend>
+    <work nested="target/classes">
+    </work>
+    <home nested="target">
+    </home>
+    <jar name="jaxen-@@DATE@@.jar">
+    </jar>
+    <javadoc module="jaxen" nested="target/docs/apidocs">
+    </javadoc>
+    <nag to="jaxen-interest@lists.codehaus.org" from="jaxen development &lt;jaxen-interest@lists.codehaus.org&gt;">
+    </nag>
   </project>
-
 </module>
