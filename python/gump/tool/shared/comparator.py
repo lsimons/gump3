@@ -112,6 +112,20 @@ def compareProjectsByDependeeCount(project1,project2):
     if not c: c=cmp(project1,project2)
     return c       
     
+def compareProjectsByFullDependeeCount(project1,project2):
+    count1=project1.getFullDependeeCount()
+    count2=project2.getFullDependeeCount()
+    c= count2 - count1                  
+    if not c: c=cmp(project1,project2)
+    return c       
+    
+def compareProjectsByFullDependencyCount(project1,project2):
+    count1=project1.getFullDependencyCount()
+    count2=project2.getFullDependencyCount()
+    c= count2 - count1                 
+    if not c: c=cmp(project1,project2)
+    return c        
+        
 def compareProjectsByFOGFactor(project1,project2):
     fog1=project1.getFOGFactor()
     fog2=project2.getFOGFactor()

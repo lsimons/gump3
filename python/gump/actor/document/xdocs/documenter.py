@@ -974,15 +974,15 @@ class XDocDocumenter(Documenter):
         
         projectsSection=document.createSection('Projects with issues...')
         projectsSection.createParagraph("""These are the project that need 'fixing'.
-This page helps Gumpmeisters (and others) locate the main areas to focus attention. 
-The count of affected indicates relative importance of fixing this project.""")        
-        projectsTable=projectsSection.createTable(['Name','Affected',
-                    'Dependees','Project State','Duration\nin state'])
+This page helps Gumpmeisters (and others) locate the main areas to focus attention.""")        
+        projectsTable=projectsSection.createTable(['Name',
+                        'Dependees','Affected',
+                        'Project State','Duration\nin state'])
         pcount=0
         
-        affectedOrder=createOrderedList(sortedProjectList,compareProjectsByAffected)
+        depOrder=createOrderedList(sortedProjectList,compareProjectsByFullDependeeCount)
   
-        for project in affectedOrder:
+        for project in depOrder:
             if not self.gumpSet.inProjectSequence(project): continue       
             
             if not project.getState()==STATE_FAILED:
@@ -1003,10 +1003,9 @@ The count of affected indicates relative importance of fixing this project.""")
             projectRow.createComment(project.getName())
                                     
             self.insertLink(project,self.workspace,projectRow.createData())   
-                        
-            projectRow.createData(affected)
-            
+                                    
             projectRow.createData( project.getFullDependeeCount())
+            projectRow.createData(affected)
             
             self.insertStateIcon(project,self.workspace,projectRow.createData())
             
