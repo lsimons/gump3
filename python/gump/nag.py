@@ -91,6 +91,8 @@ def nag(workspace,context,moduleFilterList=None,projectFilterList=None):
                         project=Project.list[pname]
                         if project.nag:
                             nagProject(workspace,context,module,mctxt,project,pctxt)
+                        else:
+                            log.error("Project naggable w/ nowhere to nag")
                 
 def nagWorkspace(workspace,context):
     """ Nag for the workspace """

@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/Attic/logic.py,v 1.24 2003/10/14 16:12:38 ajack Exp $
-# $Revision: 1.24 $
-# $Date: 2003/10/14 16:12:38 $
+# $Header: /home/stefano/cvs/gump/python/gump/Attic/logic.py,v 1.25 2003/10/14 23:29:06 ajack Exp $
+# $Revision: 1.25 $
+# $Date: 2003/10/14 23:29:06 $
 #
 # ====================================================================
 #
@@ -445,7 +445,8 @@ def getDependOutputList(depend,context,visited):
   
   #
   # Append JARS for this project
-  # Note: This checks "id" in "ids"
+  #
+  # Note: This checks "id" in "<depend ids="
   for jar in depend.jars():
     classpath.append(AnnotatedPath(jar.path,pctxt)) 
 
@@ -471,7 +472,8 @@ def determineDeepCopy(depend):
     """Determine if we ought deepCopy to inherit"""
     deep=0
     inherit=depend.inherit
-    if inherit == 'all' or inherit=='hard':
+    # :TODO: The 'jars' is a temporary hack.
+    if inherit == 'all' or inherit=='hard' or inherit=='jars':
         deep=1
     return deep
     

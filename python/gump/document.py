@@ -513,7 +513,7 @@ def documentModule(workspace,context,wdir,modulename,modulecontext,db,projectFil
     if not description:
         description='No description provided.'        
     if module.url:
-        description+=' For more information, see: ' + getLink(module.url.href)
+        description+=' For more information, see: ' + getFork(module.url.href)
     else:
         description+=' (No module URL provided).'
             
@@ -629,7 +629,7 @@ def documentProject(workspace,context,modulename,mdir,projectname,projectcontext
     if not description:
         description='No description provided.'        
     if project.url:
-        description+=' For more information, see: ' + getLink(project.url.href)
+        description+=' For more information, see: ' + getFork(project.url.href)
     else:        
         description=' (No project URL provided.)'   
             
@@ -1232,6 +1232,16 @@ def getXLink(href,xdata=None):
     if not xdata: xdata = escape(href)
     link='<link href=\'%s\'>%s</link>' % (escape(href),xdata)
     return link
+
+def getFork(href,name=None):
+    if not name: name = href
+    fork='<fork href=\'%s\'>%s</fork>' % (escape(href),escape(name))
+    return fork
+    
+def getXFork(href,xdata=None):
+    if not xdata: xdata = escape(href)
+    fork='<fork href=\'%s\'>%s</fork>' % (escape(href),xdata)
+    return fork
            
 #####################################################################           
 #
@@ -1323,10 +1333,7 @@ def addXItemXDoc(f,t,i=None):
     if i:
         f.write('      <li>%s - %s</li>\n' % (t, i))    
     else:
-        f.write('      <li>%s</li>\n' % (t))
-    
-def addLinkXDoc(f,url,title):
-    f.write('       <link href=\'%s\'>%s</link>' % (url,title))    
+        f.write('      <li>%s</li>\n' % (t))  
   
 def endListXDoc(f ):
     f.write('    </ul>\n')
