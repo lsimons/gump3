@@ -56,7 +56,7 @@ def cacheHTTP(href,cacheDir=dir.cache,optimize=False):
 
     #if its a local file get it locally
  
-    log.debug('Cache URL : ' + href)
+    log.debug('Cache URL (%s,%s): %s' % (cacheDir,optimize,href))
     if not os.path.exists(cacheDir):  os.mkdir(cacheDir)
 
     #the name of the cached descriptor
