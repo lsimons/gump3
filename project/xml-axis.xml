@@ -27,6 +27,7 @@
     <option project="junit"/>
     <option project="jaf"/>
     <option project="javamail"/>
+    <option project="jsse"/>
     <work nested="java/build/classes"/>
 
     <home nested="java/build"/>
@@ -51,7 +52,6 @@
     </ant>
 
     <depend project="xml-axis" inherit="all"/>
-    <depend project="jsse"/>
     <depend project="xml-security" inherit="runtime"/>
     <work nested="java/build/classes"/>
 
