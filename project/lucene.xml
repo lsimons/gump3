@@ -16,6 +16,7 @@
     <property name="javacc.home" reference="home" project="javacc"/>
   </ant>
 
+  <home nested="ant.build"/>
   <jar name="lucene-gump.jar"/>
 
   <!-- not available via CVS -->

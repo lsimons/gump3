@@ -18,5 +18,6 @@
   <depend project="jakarta-turbine"/>
   <depend project="village"/>
   <depend project="torque"/>
+  <option project="lucene"/>
 
 </project>
