@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/test/__init__.py,v 1.4 2003/11/21 19:04:10 ajack Exp $
-# $Revision: 1.4 $
-# $Date: 2003/11/21 19:04:10 $
+# $Header: /home/stefano/cvs/gump/python/gump/test/__init__.py,v 1.5 2004/01/06 23:44:25 ajack Exp $
+# $Revision: 1.5 $
+# $Date: 2004/01/06 23:44:25 $
 #
 # ====================================================================
 #
@@ -67,6 +67,7 @@ from gump.model.loader import WorkspaceLoader
 import gump
 import gump.config
 
+from gump.model.state import *
 from gump.model.rawmodel import XMLWorkspace
 from gump.model.workspace import Workspace
 
@@ -94,9 +95,28 @@ def getWorkedTestWorkspace(xml=None):
     for module in workspace.getModules():        
         listDirectoryAsWork(module,module.getSourceDirectory())
         for project in module.getProjects():
-            listDirectoryAsWork(project,project.getHomeDirectory())        
+            listDirectoryAsWork(project,project.getHomeDirectory())     
+            
+    # Try to set some statii
+        
+    m=0
+    for module in workspace.getModules():   
+        m+=1 
+        if m % 3 == 0:
+            module.changeState(STATE_FAILED)
+        else:
+            module.changeState(STATE_SUCCESS)
+        p=0
+        for project in module.getProjects():   
+            p+=1
+            if p % 3 == 0:
+                project.changeState(STATE_FAILED)
+            else:
+                project.changeState(STATE_SUCCESS)
 
     return workspace
+    
+
     
 def createTestWorkspace():
     xmlworkspace=XMLWorkspace({})

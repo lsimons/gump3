@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/syndication/syndicator.py,v 1.8 2004/01/06 21:35:45 ajack Exp $
-# $Revision: 1.8 $
-# $Date: 2004/01/06 21:35:45 $
+# $Header: /home/stefano/cvs/gump/python/gump/syndication/syndicator.py,v 1.9 2004/01/06 23:44:25 ajack Exp $
+# $Revision: 1.9 $
+# $Date: 2004/01/06 23:44:25 $
 #
 # ====================================================================
 #
@@ -214,11 +214,11 @@ def syndicate(run):
         simple=RSSSyndicator()
         simple.syndicate(run)    
     except:
-        pass
+        log.error('Failed to generate RSS Feeds', exc_info=1)    
         
     try:
         from gump.syndication.atom import AtomSyndicator
         atom=AtomSyndicator()
         atom.syndicate(run)
     except:
-        pass
+        log.error('Failed to generate Atom Feeds', exc_info=1)  

@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/syndication/atom.py,v 1.1 2004/01/06 21:35:45 ajack Exp $
-# $Revision: 1.1 $
-# $Date: 2004/01/06 21:35:45 $
+# $Header: /home/stefano/cvs/gump/python/gump/syndication/atom.py,v 1.2 2004/01/06 23:44:25 ajack Exp $
+# $Revision: 1.2 $
+# $Date: 2004/01/06 23:44:25 $
 #
 # ====================================================================
 #
@@ -63,7 +63,7 @@
 """
 
 import os
-import time
+from time import strftime, gmtime
 
 from xml.sax.saxutils import escape
 
@@ -149,12 +149,9 @@ class AtomFeed:
         
         stream = open(self.file,'w')
         
-        modified='known2bBogus'
+        modified=time.strftime('%Y-%m-%dT%H:%M:%SZ', gmtime())
         
-        try:
-            self.serializeToStream(stream,modified)
-        except:
-            pass
+        self.serializeToStream(stream,modified)
             
         # Close the file.
         stream.close()  
@@ -194,9 +191,7 @@ class AtomSyndicator(Syndicator):
                         'Gump : Module ' + escape(module.getName()),	\
                         moduleUrl,	\
                         escape(module.getDescription()))
-                      
-        datestr=time.strftime('%Y-%m-%d')
-        timestr=time.strftime('%H:%M:%S')
+                    
          
         #           
         # Get a decent description
@@ -206,7 +201,7 @@ class AtomSyndicator(Syndicator):
         #
         #
         #
-        entry=Entry(('%s %s %s') % (module.getName(),module.getStateDescription(),datestr), \
+        entry=Entry(('%s %s') % (module.getName(),module.getStateDescription()), \
                   moduleUrl, \
                   module.getName(), \
                   content)
@@ -237,9 +232,6 @@ class AtomSyndicator(Syndicator):
                     'Gump : Project ' + escape(project.getName()),	\
                     projectUrl,	\
                     escape(project.getDescription()))
-                    
-        datestr=time.strftime('%Y-%m-%d')
-        timestr=time.strftime('%H:%M:%S')
          
         #           
         # Get a decent description
@@ -248,7 +240,7 @@ class AtomSyndicator(Syndicator):
                         
         #
         #
-        entry=Entry(('%s %s %s') % (project.getName(),project.getStateDescription(),datestr), \
+        entry=Entry(('%s %s') % (project.getName(),project.getStateDescription()), \
                   projectUrl, \
                   project.getModule().getName() + ":" + project.getName(),	\
                   content )

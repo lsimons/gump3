@@ -1,7 +1,7 @@
 #!/usr/bin/env python
-# $Header: /home/stefano/cvs/gump/python/gump/test/syndicator.py,v 1.3 2004/01/06 21:35:46 ajack Exp $
-# $Revision: 1.3 $
-# $Date: 2004/01/06 21:35:46 $
+# $Header: /home/stefano/cvs/gump/python/gump/test/syndicator.py,v 1.4 2004/01/06 23:44:25 ajack Exp $
+# $Revision: 1.4 $
+# $Date: 2004/01/06 23:44:25 $
 #
 # ====================================================================
 #
@@ -91,6 +91,6 @@ class SyndicatorTestSuite(UnitTestSuite):
         simple.syndicate(self.run)
         
     def testAtom(self):
-        simple=AtomSyndicator()
-        simple.syndicate(self.run)
+        atom=AtomSyndicator()
+        atom.syndicate(self.run)
         
