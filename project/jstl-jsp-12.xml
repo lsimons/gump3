@@ -22,7 +22,7 @@
 
   <cvs repository="jakarta" module="jakarta-taglibs"/>
 
-  <project name="jstl-jsp-12">
+  <project name="jstl-jsp-12" debug="true">
     <package>org.apache.taglibs.standard</package>
     <description>Standard Taglib for JSP 1.2</description>
     <ant basedir="standard" target="library-dist">
