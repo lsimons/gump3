@@ -25,10 +25,10 @@
     <depend project="hsqldb"/>
     <depend project="j2ee-connector" />
     <depend project="jaas" />
-    <depend project="jakarta-avalon"/>
+    <depend project="avalon"/>
     <depend project="jakarta-velocity"/>
     <depend project="excalibur-component"/>
-    <depend project="jakarta-avalon-logkit"/>
+    <depend project="avalon-logkit"/>
     <depend project="jakarta-log4j"/>
     <depend project="jakarta-regexp"/>
     <depend project="jakarta-servletapi"/>
@@ -80,10 +80,10 @@
     <depend project="hsqldb"/>
     <depend project="j2ee-connector" />
     <depend project="jaas" />
-    <depend project="jakarta-avalon"/>
+    <depend project="avalon"/>
     <depend project="jakarta-velocity"/>
     <depend project="excalibur-component"/>
-    <depend project="jakarta-avalon-logkit"/>
+    <depend project="avalon-logkit"/>
     <depend project="jakarta-log4j"/>
     <depend project="jakarta-regexp"/>
     <depend project="jakarta-servletapi"/>
@@ -128,20 +128,20 @@
     <jar name="lib/jboss-common.jar" />
     <jar name="lib/jboss-system.jar" />
   </project>
-  
+
   <project name="ojb-torque">
     <jar name="lib/torque-3.0.jar" />
   </project>
-  
+
   <project name="ojb-jcs">
     <jar name="lib/jcs.jar" />
   </project>
-  
+
   <!-- Mavenized build, http://sourceforge.net/projects/crossdb/ -->
   <project name="crossdb">
     <jar name="lib/crossdb.jar" />
   </project>
-  
+
   <!-- CVS is temporarily down, this seems to be the latest released version
   <project name="hsqldb">
     <jar name="lib/hsqldb.jar" />

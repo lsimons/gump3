@@ -217,13 +217,13 @@
   <project name="commons-jelly">
     <package>org.apache.commons.jelly</package>
     <description>Commons Jelly Package</description>
-    
+
     <ant basedir="jelly" buildfile="build.xml" target="jar">
       <property name="final.name" value="commons-jelly-@@DATE@@"/>
     </ant>
-    
+
     <depend project="ant" inherit="runtime"/>
-    
+
     <!-- core jelly build dependencies -->
     <depend project="commons-beanutils" runtime="true"/>
     <depend project="commons-collections" runtime="true"/>
@@ -361,7 +361,7 @@
     <depend project="ant" inherit="runtime"/>
     <depend project="xml-xerces"/>
     <depend project="jakarta-log4j"/>
-    <depend project="jakarta-avalon-logkit"/>
+    <depend project="avalon-logkit"/>
     <home nested="logging/dist"/>
     <jar name="commons-logging.jar" id="all" />
     <jar name="commons-logging-api.jar" id="api" />

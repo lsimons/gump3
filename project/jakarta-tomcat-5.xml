@@ -6,18 +6,18 @@
   </description>
 
   <cvs repository="jakarta"/>
-  
+
   <project name="jakarta-tomcat-5">
     <package>org.apache.catalina</package>
 
 
-<!-- this is basically the release target, but without the clean - which was destroying freshly built repos. -->  
+<!-- this is basically the release target, but without the clean - which was destroying freshly built repos. -->
     <ant target="prepare-release dist dist-source installer package-zip package-tgz package-src-zip package-src-tgz">
       <property name="tomcat33.home" value=""/>
       <property name="ant.home" reference="home" project="ant"/>
       <property name="jsse.home" reference="home" project="jsse"/>
       <property name="jmx.home" reference="home" project="jmx"/>
-      <property name="jmxtools.jar" reference="jarpath" 
+      <property name="jmxtools.jar" reference="jarpath"
         project="jmx" id="jmxtools"/>
       <property name="jndi.home" reference="home" project="jndi"/>
       <property name="site2.home" reference="home" project="jakarta-site2"/>
@@ -26,9 +26,9 @@
       <property name="regexp.jar"
         reference="jarpath" id="regexp" project="jakarta-regexp"/>
       <property name="mail.home" reference="home" project="javamail"/>
-      <property name="tomcat-coyote.home" reference="home" 
+      <property name="tomcat-coyote.home" reference="home"
         project="jakarta-tomcat-coyote_tc5"/>
-      <property name="jasper.home" reference="home" 
+      <property name="jasper.home" reference="home"
         project="jakarta-tomcat-jasper_tc5"/>
       <depend property="mail.jar" project="javamail"/>
       <property name="activation.home" reference="home" project="jaf"/>
@@ -39,7 +39,7 @@
       <depend property="jmx.jar" project="jmx" reference="jarpath" id="jmxri"/>
       <depend property="jta.jar" project="jta"/>
       <depend property="ldap.jar" project="ldap"/>
-      <depend property="servlet-api.jar" 
+      <depend property="servlet-api.jar"
               project="jakarta-servletapi-5-servlet"/>
       <depend property="jsp-api.jar" project="jakarta-servletapi-5-jsp"/>
       <depend property="xercesImpl.jar" project="xml-xerces" id="parser"/>
@@ -69,8 +69,8 @@
     <depend project="jmx"/>
     <depend project="jsse" runtime="true"/>
     <depend project="xml-xalan2"/>
-    <option project="jakarta-avalon"/>
-    <option project="jakarta-avalon-phoenix"/>
+    <option project="avalon"/>
+    <option project="avalon-phoenix"/>
     <depend project="jakarta-tomcat-coyote_tc5"/>
     <depend project="jakarta-tomcat-catalina"/>
     <depend project="jakarta-tomcat-jasper_tc5"/>

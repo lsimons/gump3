@@ -6,17 +6,17 @@
   </description>
 
   <cvs repository="jakarta" />
-  
+
   <project name="jakarta-jmeter">
     <package>org.apache.jmeter</package>
 
     <ant target="dist">
       <property name="version" value="@@DATE@@"/>
 
-      <depend property="avalon-framework.jar" project="jakarta-avalon"/>
+      <depend property="avalon-framework.jar" project="avalon"/>
       <depend property="jakarta-oro.jar" project="jakarta-oro"/>
       <depend property="junit.jar" project="junit"/>
-      <depend property="logkit.jar" project="jakarta-avalon-logkit"/>
+      <depend property="logkit.jar" project="avalon-logkit"/>
       <depend property="xalan.jar" project="xml-xalan2"/>
       <depend property="xerces.jar" project="xml-xerces" id="parser"/>
       <depend property="xml-apis.jar" project="xml-apis"/>

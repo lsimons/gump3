@@ -1,13 +1,18 @@
 <module name="avalon-logkit">
 
-  <url href="http://jakarta.apache.org/avalon/"/>
+  <url href="http://avalon.apache.org/"/>
   <description>
     Fast lightweight Logging toolkit
   </description>
 
   <cvs repository="avalon"/>
 
-  <project name="jakarta-avalon-logkit">
+    <!-- deprecated! -->
+    <project name="jakarta-avalon-logkit">
+      <depend project="avalon" inherit="jars"/>
+    </project>
+
+  <project name="avalon-logkit">
     <package>org.apache.log</package>
 
     <ant>
@@ -38,9 +43,9 @@
           reference="srcdir" />
     </ant>
     <depend project="ant" inherit="runtime"/>
-    <depend project="jakarta-avalon-exceptionutil"/>
+    <depend project="avalon-exceptionutil"/>
     <depend project="xml-xerces"/>
-    <depend project="jakarta-avalon"/>
+    <depend project="avalon"/>
     <depend project="xml-stylebook2"/>
     <depend project="xml-xalan2"/>
 

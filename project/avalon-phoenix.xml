@@ -1,13 +1,18 @@
 <module name="avalon-phoenix">
 
-  <url href="http://jakarta.apache.org/avalon/"/>
+  <url href="http://avalon.apache.org/"/>
   <description>
     The Avalon Application Server Kernel
   </description>
 
   <cvs repository="avalon"/>
 
-  <project name="jakarta-avalon-phoenix">
+    <!-- deprecated! -->
+    <project name="jakarta-avalon-phoenix">
+      <depend project="avalon-phoenix" inherit="jars"/>
+    </project>
+
+  <project name="avalon-phoenix">
     <package>org.apache.avalon.phoenix</package>
 
     <ant target="jars">
@@ -19,8 +24,8 @@
     </ant>
 
     <depend property="xerces.jar" project="xml-xerces" id="parser"/>
-    <depend property="logkit.jar" project="jakarta-avalon-logkit"/>
-    <depend property="framework.jar" project="jakarta-avalon"/>
+    <depend property="logkit.jar" project="avalon-logkit"/>
+    <depend property="framework.jar" project="avalon"/>
     <depend project="bsf"/>
     <depend project="excalibur-configuration" runtime="true"/>
     <depend project="excalibur-converter" runtime="true"/>
@@ -52,15 +57,20 @@
     <work nested="build/classes"/>
 
     <home nested="build/lib"/>
-    <jar name="phoenix-client.jar"/>
-    <jar name="phoenix-metagenerate.jar"/>
+    <jar name="phoenix-client.jar" id="client"/>
+    <jar name="phoenix-metagenerate.jar" id="metagenerate"/>
+    <jar name="phoenix-loader.jar" id="loader"/>
+    <jar name="phoenix-engine.jar" id="metagenerate"/>
+    <jar name="phoenix-punit.jar" id="punit"/>
+    <jar name="phoenix-containerkit.jar" id="containerkit"/>
+
     <license name="LICENSE.txt"/>
     <javadoc nested="build/javadocs" module="avalon"/>
 
     <nag>
     <regexp pattern="/^$/" from="peter@apache.org"
             to="avalon-phoenix-dev@jakarta.apache.org"
-            subject="PRE-REQ FAILED for jakarta-avalon-phoenix"/>
+            subject="PRE-REQ FAILED for avalon-phoenix"/>
     </nag>
     <nag from="Peter Donald &lt;peter@apache.org&gt;"
             to="dev@avalon.apache.org"/>

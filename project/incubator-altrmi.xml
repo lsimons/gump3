@@ -21,13 +21,15 @@
         <depend project="ant" inherit="runtime"/>
         <option project="checkstyle" inherit="runtime"/>
         <depend project="junit"/>
-        <depend project="jakarta-avalon" runtime="true"/>
+        <depend project="avalon" runtime="true"/>
         <depend project="xml-xerces"/>
         <depend project="xml-xalan2"/>
         <depend project="jakarta-bcel"/>
         <depend project="commons-attributes" inherit="runtime"/>
         <depend project="excalibur-container"/>
-        <depend project="jakarta-avalon-phoenix"/>
+        <depend project="avalon-cornerstone"/>
+        <depend project="avalon-phoenix"/>
+
         <work nested="altrmi/build/classes"/>
 
         <home nested="altrmi"/>

@@ -6,12 +6,12 @@
   </description>
 
   <cvs  repository="jakarta"/>
-  
+
   <project name="jakarta-velocity">
     <package>org.apache.velocity</package>
 
     <ant basedir="build" target="dist">
-      <depend property="log.jar" project="jakarta-avalon-logkit" runtime="true"/>
+      <depend property="log.jar" project="avalon-logkit" runtime="true"/>
       <depend property="oro.jar" project="jakarta-oro"/>
       <property name="version" value="@@DATE@@"/>
     </ant>
@@ -31,7 +31,7 @@
     <nag to="velocity-dev@jakarta.apache.org"
          from="Geir Magnusson Jr. &lt;geirm@apache.org&gt;"/>
   </project>
-  
+
   <project name="jakarta-velocity-test">
     <ant basedir="build" buildfile="testcases.xml"/>
     <depend project="jakarta-velocity" inherit="hard"/>
@@ -60,7 +60,7 @@
   <project name="werken.xpath">
     <package>com.werken.xpath</package>
     <description>
-      werken.xpath is an implementation of the W3C XPath Recommendation, 
+      werken.xpath is an implementation of the W3C XPath Recommendation,
       on top of the JDOM library.
       <font color="red">Note: werken.xpath will soon be deprecated</font>
     </description>

@@ -87,13 +87,13 @@
   <!-- Apache.Avalon -->
 
   <module href="project/avalon-sandbox.xml"/>
-  <module href="project/jakarta-avalon.xml"/>
-  <module href="project/jakarta-avalon-apps.xml"/>
-  <module href="project/jakarta-avalon-cornerstone.xml"/>
-  <module href="project/jakarta-avalon-excalibur.xml"/>
-  <module href="project/jakarta-avalon-logkit.xml"/>
-  <module href="project/jakarta-avalon-phoenix.xml"/>
-  <module href="project/jakarta-avalon-site.xml"/>
+  <module href="project/avalon.xml"/>
+  <module href="project/avalon-apps.xml"/>
+  <module href="project/avalon-cornerstone.xml"/>
+  <module href="project/avalon-excalibur.xml"/>
+  <module href="project/avalon-logkit.xml"/>
+  <module href="project/avalon-phoenix.xml"/>
+  <module href="project/avalon-site.xml"/>
 
   <!-- Apache.Incubator -->
 
@@ -148,7 +148,7 @@
 
     <!-- cents  -->
     <module href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/*checkout*/krysalis/krysalis-cents/makecent/gump.xml"/>
-    
+
     <module href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/*checkout*/krysalis/krysalis-cents/antidote/gump.xml"/>
     <module href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/*checkout*/krysalis/krysalis-cents/jtidy/gump.xml"/>
 
@@ -181,7 +181,7 @@
     <module href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/*checkout*/krysalis/krysalis-cents/umldoclet/gump.xml"/>
     <module href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/*checkout*/krysalis/krysalis-cents/xdoclet/gump.xml"/>
     <module href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/*checkout*/krysalis/krysalis-cents/xmldoclet/gump.xml"/>
-    
+
 
 
   <!-- other -->

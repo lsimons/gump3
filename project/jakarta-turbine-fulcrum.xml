@@ -12,7 +12,7 @@
       </property>
     </ant>
     <package>org.apache.fulcrum</package>
-    <depend project="jakarta-avalon">
+    <depend project="avalon">
     </depend>
     <depend project="bsf">
     </depend>
@@ -60,7 +60,7 @@
     </depend>
     <depend project="jakarta-log4j">
     </depend>
-    <depend project="jakarta-avalon-logkit">
+    <depend project="avalon-logkit">
     </depend>
     <depend project="jakarta-regexp">
     </depend>

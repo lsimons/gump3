@@ -6,7 +6,7 @@
   </description>
 
   <cvs repository="jakarta"/>
-  
+
   <project name="jakarta-turbine-site">
     <ant>
       <property name="jakarta-site2" reference="home" project="jakarta-site2"/>
@@ -17,7 +17,7 @@
     <depend project="xml-xerces"/>
     <depend project="jakarta-velocity"/>
     <depend project="commons-collections"/>
-    <depend project="jakarta-avalon-logkit"/>
+    <depend project="avalon-logkit"/>
     <depend project="jakarta-turbine-2"/>
     <depend project="jakarta-turbine-3"/>
     <depend project="jakarta-turbine-fulcrum"/>
@@ -26,6 +26,6 @@
     <depend project="jdom"/>
     <nag to="turbine-dev@jakarta.apache.org"
          from="Jason van Zyl &lt;jvanzyl@apache.org&gt;"/>
-  </project>    
+  </project>
 
 </module>

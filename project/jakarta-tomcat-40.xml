@@ -6,7 +6,7 @@
   </description>
 
   <cvs repository="jakarta"/>
-  
+
   <project name="tomcat-catalina">
     <ant basedir="catalina" target="deploy-catalina">
       <depend property="servlet.jar" project="jakarta-servletapi-4"/>
@@ -22,7 +22,7 @@
         runtime="true" id="api"/>
       <property name="regexp.jar"
         reference="jarpath" id="regexp" project="jakarta-regexp"/>
-      <property name="jtc.home" reference="srcdir" 
+      <property name="jtc.home" reference="srcdir"
         project="jakarta-tomcat-connectors"/>
     </ant>
     <depend project="ant"/>
@@ -37,7 +37,7 @@
     <nag to="tomcat-dev@jakarta.apache.org"
          from="Craig McClanahan &lt;craigmcc@apache.org&gt;"/>
   </project>
-  
+
   <project name="jakarta-tomcat-4.0">
     <package>org.apache.catalina</package>
 
@@ -47,7 +47,7 @@
         reference="home" project="jakarta-servletapi-4"/>
       <property name="jsse.home" reference="home" project="jsse"/>
       <property name="jmx.home" reference="home" project="jmx"/>
-      <property name="jmxtools.jar" reference="jarpath" 
+      <property name="jmxtools.jar" reference="jarpath"
         project="jmx" id="jmxtools"/>
       <property name="jndi.home" reference="home" project="jndi"/>
       <property name="site2.home" reference="home" project="jakarta-site2"/>
@@ -56,9 +56,9 @@
       <property name="regexp.jar"
         reference="jarpath" id="regexp" project="jakarta-regexp"/>
       <property name="mail.home" reference="home" project="javamail"/>
-      <property name="tomcat-coyote.home" reference="home" 
+      <property name="tomcat-coyote.home" reference="home"
         project="jakarta-tomcat-coyote"/>
-      <property name="jasper.home" reference="home" 
+      <property name="jasper.home" reference="home"
         project="jakarta-tomcat-jasper_tc4"/>
       <depend property="mail.jar" project="javamail"/>
       <property name="activation.home" reference="home" project="jaf"/>
@@ -94,8 +94,8 @@
     <depend project="jmx"/>
     <depend project="jsse" runtime="true"/>
     <depend project="xml-xalan2"/>
-    <option project="jakarta-avalon"/>
-    <option project="jakarta-avalon-phoenix"/>
+    <option project="avalon"/>
+    <option project="avalon-phoenix"/>
     <depend project="jakarta-tomcat-coyote"/>
     <depend project="jakarta-tomcat-util" runtime="true"/>
     <depend project="jakarta-servletapi-4"/>

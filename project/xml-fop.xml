@@ -14,8 +14,8 @@
     <ant buildfile="buildtools.xml"/>
     <depend project="xml-xerces"/>
     <depend project="ant" inherit="runtime"/>
-    <depend project="jakarta-avalon-logkit"/>
-    <depend project="jakarta-avalon"/>
+    <depend project="avalon-logkit"/>
+    <depend project="avalon"/>
     <option project="xml-xalan2"/>
     <jar name="lib/buildtools.jar"/>
     <license name="LICENSE"/>
@@ -31,8 +31,8 @@
     <depend project="xml-xalan2"/>
     <depend project="ant" inherit="runtime"/>
     <depend project="xml-batik"/>
-    <depend project="jakarta-avalon-logkit" runtime="true"/>
-    <depend project="jakarta-avalon" runtime="true"/>
+    <depend project="avalon-logkit" runtime="true"/>
+    <depend project="avalon" runtime="true"/>
     <depend project="bsf"/>
     <depend project="fop-buildtools"/>
     <depend project="jfor"/>

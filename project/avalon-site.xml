@@ -1,13 +1,13 @@
 <module name="avalon-site">
 
-  <url href="http://jakarta.apache.org/avalon/"/>
+  <url href="http://avalon.apache.org/"/>
   <description>
     Avalon framework
   </description>
 
   <cvs repository="avalon"/>
-  
-  <project name="jakarta-avalon-site">
+
+  <project name="avalon-site">
     <home nested="docs"/>
   </project>
 

@@ -7,14 +7,14 @@
   </description>
 
   <cvs dir="jfor" host-prefix="cvs.jfor" repository="sourceforge"/>
-  
+
   <project name="jfor">
     <ant>
       <property name="dist.jar" value="dist/lib/jfor-@@DATE@@.jar"/>
     </ant>
     <depend project="ant" inherit="runtime"/>
     <depend project="xml-xerces"/>
-    <depend project="jakarta-avalon-logkit"/>
+    <depend project="avalon-logkit"/>
     <home nested="dist"/>
     <jar name="lib/jfor-@@DATE@@.jar"/>
   </project>

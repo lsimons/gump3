@@ -1,13 +1,18 @@
 <module name="avalon">
 
-  <url href="http://jakarta.apache.org/avalon/"/>
+  <url href="http://avalon.apache.org/"/>
   <description>
     Avalon framework
   </description>
 
   <cvs repository="avalon"/>
 
+  <!-- deprecated! -->
   <project name="jakarta-avalon">
+    <depend project="avalon" inherit="jars"/>
+  </project>
+
+  <project name="avalon">
     <package>org.apache.avalon.framework</package>
 
     <ant>
@@ -15,9 +20,9 @@
       <depend property="junit.jar"   project="junit"/>
     </ant>
     <depend project="ant" inherit="runtime"/>
-    <depend project="xml-xalan2"/>
+    <!-- not for jar generation <depend project="xml-xalan2"/>-->
     <option project="jakarta-log4j"/>
-    <option project="jakarta-avalon-logkit"/>
+    <option project="avalon-logkit"/>
     <option project="commons-logging"/>
 
     <home nested="target/lib"/>
@@ -29,27 +34,40 @@
             to="dev@avalon.apache.org"/>
   </project>
 
-  <project name="jakarta-avalon-dist">
+    <!-- deprecated! -->
+    <project name="jakarta-avalon-dist">
+      <depend project="avalon-dist" inherit="jars"/>
+    </project>
+
+  <project name="avalon-dist">
     <ant target="dist">
       <depend property="xerces.jar"  project="xml-xerces" id="parser"/>
-      <depend property="logkit.jar"  project="jakarta-avalon-logkit"/>
+      <depend property="logkit.jar"  project="avalon-logkit"/>
       <depend property="junit.jar"   project="junit"/>
     </ant>
     <depend project="ant" inherit="runtime"/>
-    <depend project="xml-cocoon2"/>
-    <depend project="jakarta-avalon"/>
+    <!--uses forrest now <depend project="xml-cocoon2"/>-->
+    <depend project="xml-forrest"/>
+    <depend project="avalon"/>
     <depend project="dist-avalon-logkit"/>
     <depend project="xml-xalan2"/>
-    <depend project="xml-batik"/>
+    <!-- not anymore <depend project="xml-batik"/>
     <depend project="xml-fop"/>
     <depend project="bsf"/>
     <depend project="rhino"/>
-    <depend project="jakarta-avalon-excalibur"/>
-    <depend project="jakarta-avalon-site"/>
-    <depend project="resolver"/>
+    <depend project="avalon-excalibur"/>
+    <depend project="avalon-site"/>
+    <depend project="resolver"/>-->
+
+    <license name="LICENSE.txt"/>
   </project>
 
-  <project name="jakarta-avalon-exceptionutil">
+    <!-- deprecated! -->
+    <project name="jakarta-avalon-exceptionutil">
+      <depend project="avalon-exceptionutil" inherit="jars"/>
+    </project>
+
+  <project name="avalon-exceptionutil">
     <depend project="ant" inherit="runtime"/>
     <depend project="xml-xerces"/>
     <ant target="jar-exceptionutil"/>
@@ -57,15 +75,8 @@
     <jar name="exceptionutil.jar"/>
     <nag from="Peter Donald &lt;peter@apache.org&gt;"
             to="dev@avalon.apache.org"/>
-  </project>
 
-  <project name="junitperf">
-    <description>
-       JUnit test decorators for measuring performance and scalability
-    </description>
-    <url href="http://www.clarkware.com/software/JUnitPerf.html"/>
-    <home nested="tools/lib"/>
-    <jar name="junitperf.jar"/>
+    <license name="LICENSE.txt"/>
   </project>
 
 </module>

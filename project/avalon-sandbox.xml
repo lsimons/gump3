@@ -1,6 +1,6 @@
 <module name="avalon-sandbox">
 
-    <url href="http://jakarta.apache.org/avalon/excalibur"/>
+    <url href="http://avalon.apache.org/excalibur"/>
     <description>
       A repository of reusable components
     </description>
@@ -18,7 +18,7 @@
         </ant>
 
         <depend project="ant" inherit="runtime"/>
-        <depend project="jakarta-avalon" runtime="true"/>
+        <depend project="avalon" runtime="true"/>
         <depend project="xml-xerces"/>
         <work nested="lifecycle/build/classes"/>
 
@@ -42,7 +42,7 @@
         </ant>
 
         <depend project="ant" inherit="runtime"/>
-        <depend project="jakarta-avalon" runtime="true"/>
+        <depend project="avalon" runtime="true"/>
         <depend project="excalibur-i18n" runtime="true"/>
         <depend project="excalibur-configuration" runtime="true"/>
         <depend project="xml-xerces"/>
@@ -60,7 +60,7 @@
         <package>org.apache.avalon.assembly</package>
 
         <ant basedir="assembly" target="jar">
-            <depend property="logkit.jar" project="jakarta-avalon-logkit" runtime="true"/>
+            <depend property="logkit.jar" project="avalon-logkit" runtime="true"/>
             <property name="package-version" value="@@DATE@@"/>
             <property name="junit.failonerror" value="true"/>
             <property name="do.checkstyle" value="false"/>
@@ -68,7 +68,7 @@
         </ant>
 
         <depend project="ant" inherit="runtime"/>
-        <depend project="jakarta-avalon" runtime="true"/>
+        <depend project="avalon" runtime="true"/>
         <depend project="avalon-sandbox-lifecycle" runtime="true"/>
         <depend project="avalon-sandbox-meta" runtime="true"/>
         <depend project="excalibur-i18n" runtime="true"/>
@@ -93,7 +93,7 @@
         <package>org.apache.avalon.merlin</package>
 
         <ant basedir="assembly" target="jar">
-            <depend property="logkit.jar" project="jakarta-avalon-logkit" runtime="true"/>
+            <depend property="logkit.jar" project="avalon-logkit" runtime="true"/>
             <property name="package-version" value="@@DATE@@"/>
             <property name="junit.failonerror" value="true"/>
             <property name="do.checkstyle" value="false"/>
@@ -101,7 +101,7 @@
         </ant>
 
         <depend project="ant" inherit="runtime"/>
-        <depend project="jakarta-avalon" runtime="true"/>
+        <depend project="avalon" runtime="true"/>
         <depend project="avalon-sandbox-lifecycle" runtime="true"/>
         <depend project="avalon-sandbox-meta" runtime="true"/>
         <depend project="avalon-sandbox-assembly" runtime="true"/>
@@ -141,7 +141,7 @@
         <option project="checkstyle" inherit="runtime"/>
         <depend project="junit"/>
         <depend project="excalibur-qdox" runtime="true" inherit="runtime"/>
-        <depend project="jakarta-avalon" runtime="true"/>
+        <depend project="avalon" runtime="true"/>
         <depend project="excalibur-i18n" runtime="true"/>
         <depend project="xml-xerces"/>
         <depend project="xml-xalan2"/>

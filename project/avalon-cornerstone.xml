@@ -1,19 +1,24 @@
 <module name="avalon-cornerstone">
 
-  <url href="http://jakarta.apache.org/avalon/"/>
+  <url href="http://avalon.apache.org/"/>
   <description>
     Set of default services for Avalon/Phoenix
   </description>
 
   <cvs repository="avalon"/>
 
-  <project name="jakarta-avalon-cornerstone">
+    <!-- deprecated! -->
+    <project name="jakarta-avalon-cornerstone">
+      <depend project="avalon-cornerstone" inherit="jars"/>
+    </project>
+
+  <project name="avalon-cornerstone">
     <package>org.apache.avalon.cornerstone</package>
 
     <ant />
 
-    <depend project="jakarta-avalon"/>
-    <depend project="jakarta-avalon-logkit"/>
+    <depend project="avalon"/>
+    <depend project="avalon-logkit"/>
     <depend project="xml-xerces" id="parser"/>
     <depend project="junit"/>
     <depend project="excalibur-io"/>
@@ -21,7 +26,7 @@
     <depend project="excalibur-i18n"/>
     <depend project="excalibur-thread"/>
     <depend project="excalibur-threadcontext"/>
-    <depend project="jakarta-avalon-phoenix" inherit="runtime"/>
+    <depend project="avalon-phoenix" ids="client,metagenerate"/>
     <depend project="ant" inherit="runtime"/>
     <depend project="jakarta-velocity" inherit="runtime"/>
 
