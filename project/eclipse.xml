@@ -1,0 +1,27 @@
+<module name="eclipse">
+
+  <url href="http://www.eclipse.org/"/>
+  <description>
+    The Eclipse jars
+  </description>
+
+  <project name="eclipse">
+
+    <package>org.eclipse</package>
+
+    <jar name="junit-3.8.1.jar"/>
+    <jar name="boot-2.1.0.jar"/>
+    <jar name="resources-2.1.0.jar"/>
+    <jar name="runtime-2.1.0.jar"/>
+    <jar name="dtcore-2.1.0.jar"/>
+    <jar name="dtui-2.1.0.jar"/>
+    <jar name="jdtcore-2.1.0.jar"/>
+    <jar name="launching-2.1.0.jar"/>
+    <jar id="swt" name="swt-2.1.0.jar"/>
+    <jar name="jface-2.1.0.jar"/>
+    <jar name="antsupport-2.1.0.jar"/>
+    <jar name="workbench-2.1.0.jar"/>
+
+  </project>
+
+</module>
