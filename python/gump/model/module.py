@@ -198,6 +198,8 @@ class Module(NamedModelObject, Statable, Resultable, Positioned):
         
     def resolve(self):
         
+        log.info('Resolve ' + `self`)
+        
         owner=self.getOwner()
         
         for pdom in self.getDomChildIterator('project'):
@@ -221,10 +223,13 @@ class Module(NamedModelObject, Statable, Resultable, Positioned):
                 else:
                     project=Project(name,pdom,self)
                     self.addProject(project)
+        log.info('Resolved ' + `self`)
                 
     # provide default elements when not defined in xml
     def complete(self,workspace):
       
+        log.info('Complete ' + `self`)
+        
         if self.isComplete(): return
 
         # :TODO: hacky   
@@ -517,25 +522,6 @@ class Module(NamedModelObject, Statable, Resultable, Positioned):
         
         return summary
            
-    def determineAffected(self):
-        
-        if self.affected: return self.affected
-        
-        # Look through all dependees
-        for project in self.getFullDependees():
-            cause=project.getCause()
-            #
-            # Something caused this some grief
-            #
-            if cause:
-                #
-                # The something was this module or one of its projects
-                #
-                if cause == self or cause in self.getProjects():
-                    self.affected += 1            
-        
-        return self.affected    
-          
     def getObjectForTag(self,tag,dom,name=None):
         object=None
       

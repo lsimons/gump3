@@ -217,27 +217,14 @@ class Project(NamedModelObject, Statable, Resultable, Dependable, Positioned):
     def getLastModified(self):
         return self.getModule().getStats().getLastModified()  
         
-    def determineAffected(self):
-        if self.affectedProjects: return len(self.affectedProjects)
-        self.gatherAffected()        
+    def countAffectedProjects(self):
         return len(self.affectedProjects)
         
-    def determineAffectedProjects(self):
-        if self.affectedProjects: return self.affectedProjects
-        self.gatherAffected()        
+    def getAffectedProjects(self):
         return self.affectedProjects
         
-    def gatherAffected(self):
-        # Look through all dependees
-        for project in self.getFullDependeeProjectList():
-            # Something caused that some grief
-            # The something was this project
-            cause=project.getCause()
-            if cause and cause == self:
-                if not project in self.affectedProjects:
-                    self.affectedProjects.append(project)
-    
-        # Sort whatever we got
+    def addAffected(self,project):
+        self.affectedProjects.append(project)
         self.affectedProjects.sort()
         
     def propagateErrorStateChange(self,state,reason,cause,message):
@@ -278,6 +265,8 @@ class Project(NamedModelObject, Statable, Resultable, Dependable, Positioned):
         
     # provide elements when not defined in xml
     def complete(self,workspace): 
+        log.info('Complete ' + `self`)
+        
         if self.isComplete(): return
 
         if not self.inModule():
@@ -460,7 +449,9 @@ class Project(NamedModelObject, Statable, Resultable, Dependable, Positioned):
             # Complete dependencies so properties can reference the,
             # completed metadata within a dependent project
             for dependency in self.getDirectDependencies():
-                dependency.getProject().complete(workspace)
+                depProject=dependency.getProject()
+                if not depProject.isComplete():
+                    depProject.complete(workspace)
 
             self.buildDependenciesMap(workspace)                        
         
@@ -510,6 +501,7 @@ class Project(NamedModelObject, Statable, Resultable, Dependable, Positioned):
         
         # Done, don't redo
         self.setComplete(True)
+        log.info('Complete ' + `self`)
 
     def importDependencies(self,workspace):        
         badDepends=[]

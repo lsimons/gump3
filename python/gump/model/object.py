@@ -226,6 +226,7 @@ class ModelObject(Annotatable,Workable,FileHolder,Propogatable,Ownable):
         self.spliced=spliced
         
     def splice(self,dom): 
+        log.info('Splice ' + `self`)
         spliceDom(self.element,dom)
         self.setSpliced(True) 
                             	
@@ -243,11 +244,15 @@ class NamedModelObject(ModelObject):
     def __init__(self,name,dom,owner=None):
                 
     	ModelObject.__init__(self,dom,owner)
+        
+        
     	
     	# Named
     	self.name=name
     	if not name:
     	    raise RuntimeError, self.__class__.__name__ + ' needs a name.'
+            
+        self.hash=0
       
     #
     # Same if same type, and same name
@@ -259,7 +264,9 @@ class NamedModelObject(ModelObject):
         return cmp(self.name,other.name)
         
     def __hash__(self):
-        return hash(self.name)
+        if self.hash: return self.hash
+        self.hash=hash(self.name)
+        return self.hash
         
     def __repr__(self):
         return str(self)

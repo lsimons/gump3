@@ -15,7 +15,7 @@
 # limitations under the License.
 
 #
-# $Header: /home/stefano/cvs/gump/python/gump/shared/comparator.py,v 1.4 2004/05/21 23:15:10 ajack Exp $
+# $Header: /home/stefano/cvs/gump/python/gump/shared/comparator.py,v 1.4.2.1 2004/06/25 23:08:52 ajack Exp $
 # 
             
 #
@@ -131,8 +131,8 @@ def compareProjectsByTotalDependencyDepth(project1,project2):
     return c                         
                             
 def compareProjectsByAffected(project1,project2):
-    aff1=project1.determineAffected()
-    aff2=project2.determineAffected()
+    aff1=project1.countAffectedProjects()
+    aff2=project2.countAffectedProjects()
     c= int(round(aff2 - aff1,0))                  
     if not c: c=cmp(project1,project2)
     return c                         

@@ -303,8 +303,6 @@ class GumpSet:
                         sequence.append(todoProject)
                         projectIndex += 1
                         todoProject.setPosition(projectIndex)
-   
-                        log.debug('Identify ' + todoProject.getName() + ' at position #' + `todoProject.getPosition()`)     
                     #else:
                     #    log.debug('Duplicate Result ['+todoProject.getName()+']')    
                     foundSome=1

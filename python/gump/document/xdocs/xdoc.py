@@ -66,8 +66,6 @@ class XDocContext:
                 
     def createSubContext(self,transient=False):
         if not transient:
-            # sub = XDocContext(self.stream,self.pretty,self.depth+1)
-            # Allow sharing
             sub = self
         else:              
             sub = XDocContext(None,self.pretty,self.depth+1)

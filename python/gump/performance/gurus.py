@@ -15,7 +15,7 @@
 # limitations under the License.
 
 """    
-    Does lots of xdoc stuff (for performance tuning) 
+    Does lots of guru stuff (for performance tuning) 
 """
 
 import os.path
@@ -24,31 +24,24 @@ import sys
 from gump import log
 from gump.core.gumpinit import gumpinit
 from gump.test import getWorkedTestRun
-from gump.document.xdocs.documenter import XDocDocumenter
+from gump.guru.stats import StatisticsGuru
+from gump.guru.xref import XRefGuru
 from gump.core.commandLine import handleArgv
 from gump.core.gumprun import GumpRun
 from gump.loader.loader import WorkspaceLoader
 
-def document(run,runs=1):
+def gurus(run,runs=1):
     
-    test='test'
-    if not os.path.exists(test): os.mkdir(test)
-    
-    gtest=os.path.join(test,'gump')
-    if not os.path.exists(gtest): os.mkdir(gtest)
-    
-    xwork=os.path.join(gtest,'xdocs-work')
-    if not os.path.exists(xwork): os.mkdir(xwork)
-        
-    documenter=XDocDocumenter(run,gtest,'http://someplace')
-        
     for r in range(runs):   
         print 'Perform run # ' + `r`
-        documenter.document()
+        log.info('Generate Statistic Guru')
+        stats=StatisticsGuru(run.getWorkspace())
+        log.info('Generate XRef Guru')
+        xref=XRefGuru(run.getWorkspace())    
         
 def xrun():
     gumpinit()
-  
+   
     if len(sys.argv) > 1:
         # Process command line
         (args,options) = handleArgv(sys.argv)
@@ -57,6 +50,7 @@ def xrun():
         
         # get parsed workspace definition
         workspace=WorkspaceLoader(options.isCache()).load(ws)    
+        
         
         # Load statistics for this workspace
         from gump.stats.statsdb import StatisticsDB
@@ -67,11 +61,11 @@ def xrun():
         options.setResolver(XDocResolver('./test/bogus','http://bogus.org/'))
         
         # The Run Details...
-        run=GumpRun(workspace,ps,options) 
+        run=GumpRun(workspace,ps,options)
     else:
         run=getWorkedTestRun()    
         
-    document(run,100) 
+    gurus(run,100) 
     
     # bye!
     sys.exit(0)

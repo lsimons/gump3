@@ -94,8 +94,8 @@ and/or contact folk at general@gump.apache.org.
         name=self.entity.getName()
         type=self.entity.__class__.__name__
         affected=0        
-        if not isinstance(self.entity,Workspace):
-            affected=self.entity.determineAffected()
+        if isinstance(self.entity,Project):
+            affected=self.entity.countAffectedProjects()
         duration=self.entity.getStats().sequenceInState        
                     
         stream.write(type + ' ' + name)
@@ -120,10 +120,10 @@ and/or contact folk at general@gump.apache.org.
         
         stream.write("\n")
         
-        # Show thos affected
-        if isinstance(self.entity,Project) and affected:
-            affectedProjects=self.entity.determineAffectedProjects()
-            if 1 or ((duration and duration > 3) and affectedProjects):
+        # Show those affected
+        if affected:
+            affectedProjects=self.entity.getAffectedProjects()
+            if True or ((duration and duration > 3) and affectedProjects):
                 # Show those negatively affected
                 stream.write('The following are affected:\n')
             

@@ -105,6 +105,9 @@ class ProjectDependency(Annotatable):
         
         self.owner=None
         self.project=None
+        
+    def __hash__(self):
+        return hash(self.owner) + hash(self.project)
     
     # :TODO: if same ids, but different order/spacing, it ought match..
     def __eq__(self,other):
@@ -318,24 +321,26 @@ class Dependable:
     def getFullDependencies(self):
         if self.fullDependencies: return self.fullDependencies.getDepends()
         
-        #
         # Build (once) upon demand
-        #
-        self.fullDependencies=DependSet()
-        for depend in self.directDependencies.getDepends():
-            if not self.fullDependencies.containsDepend(depend):
-                
-                dependProject=depend.getProject()
-                if not self.fullDependencies.containsProject(dependProject):
-                    # Get Sub Dependencies
-                    for subdepend in dependProject.getFullDependencies():
-                        if not self.fullDependencies.containsDepend(subdepend):   
-                            self.fullDependencies.addDepend(subdepend)
-                                            
-                self.fullDependencies.addDepend(depend)
-            
+        self.fullDependencies=DependSet()       
+        self.resolveDependencies(self.getDirectDependencies())
+        
         return self.fullDependencies.getDepends()
+        
+    def resolveDependencies(self,dependList):
                 
+        for depend in dependList:
+            # Have we travelled here before?
+            dependProject=depend.getProject()
+            if not self.fullDependencies.containsProject(dependProject):
+                    
+                # Add it now, so we don't cover this again
+                self.fullDependencies.addDepend(depend)
+                
+                self.resolveDependencies(dependProject.getDirectDependencies())
+            else:
+                self.fullDependencies.addDepend(depend)    
+                                            
     def getDependencyCount(self):
         return self.directDependencies.getUniqueProjectDependCount()
         
@@ -347,7 +352,6 @@ class Dependable:
         self.getFullDependencies()
         return self.fullDependencies.getUniqueProjectDependList()        
         
-
     #
     # Depth
     #
@@ -360,7 +364,6 @@ class Dependable:
                 maxDepth=dependencyDepth
         self.depth=maxDepth
         return self.depth
-     
      
     #
     # Total Depth
@@ -406,25 +409,25 @@ class Dependable:
     def getFullDependees(self):
         if self.fullDependees: return self.fullDependees.getDepends()
         
-        #
         # Build (once) upon demand
-        #
-        self.fullDependees=DependSet(1)
-        
-        for depend in self.directDependees.getDepends():
-            if not self.fullDependees.containsDepend(depend):  
-                
-                dependProject=depend.getOwnerProject()
-                if not self.fullDependees.containsProject(dependProject):
-                    # Get Sub Dependees
-                    for subdepend in dependProject.getFullDependees():
-                        if not self.fullDependees.containsDepend(subdepend):    
-                            self.fullDependees.addDepend(subdepend)
-                                              
-                self.fullDependees.addDepend(depend)
-            
+        self.fullDependees=DependSet(True)
+        self.resolveDependees(self.getDirectDependees())             
         return self.fullDependees.getDepends()
         
+    def resolveDependees(self,dependList):
+                
+        for depend in dependList:
+            # Have we travelled here before?
+            dependProject=depend.getOwnerProject()
+            if not self.fullDependees.containsProject(dependProject):
+                    
+                # Add it now, so we don't cover this again
+                self.fullDependees.addDepend(depend)
+                
+                self.resolveDependees(dependProject.getDirectDependees())
+            else:
+                self.fullDependees.addDepend(depend)   
+                
     def getDependeeCount(self):
         return self.directDependees.getUniqueProjectDependCount()
                 
@@ -440,7 +443,7 @@ class Dependable:
         
         #
         # Provide backwards links  [Note: ant|maven might have added some
-        # dependencies, so this is done here * not just with the direct
+        # dependencies, so this is done here & not just with the direct
         # xml depend/option elements]
         #
         for dependency in self.getDirectDependencies():
@@ -460,23 +463,23 @@ class Dependable:
     def hasDirectDependencyOn(self,project):
         """ Does this project exist as a dependency """    
         for dependency in self.getDirectDependencies():
-            if dependency.getProject()==project: return 1
+            if dependency.getProject()==project: return True
     
     # determine if this project is a prereq of any project on the todo sequence
     def hasDependencyOn(self,project):
         """ Does this project exist as any dependency """        
         for dependency in self.getFullDependencies():
-            if dependency.getProject()==project: return 1
+            if dependency.getProject()==project: return True
     
     def hasDirectDependee(self,project):
         """ Does this project exist as a direct dependee """    
         for dependee in self.getDirectDependees():
-            if dependee.getOwnerProject()==project: return 1
+            if dependee.getOwnerProject()==project: return True
             
     def hasDependee(self,project):
         """ Does this project exist as any dependee """
         for dependee in self.getFullDependees():
-            if dependee.getOwnerProject()==project: return 1
+            if dependee.getOwnerProject()==project: return True
                         
     def dump(self, indent=0, output=sys.stdout):
         self.directDependencies.dump(indent+1,output)

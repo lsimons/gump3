@@ -82,7 +82,11 @@ class Propogatable(Stateful):
         return self.cause
         
     def addCause(self,cause):
-        if not self.cause: self.cause=cause
+        if not self.cause: 
+            self.cause=cause
+            from gump.model.project import Project
+            if isinstance(cause,Project):
+                cause.addAffected(self)
         self.causes.append(cause)
         
     def getCauses(self):

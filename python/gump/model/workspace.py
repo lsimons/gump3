@@ -217,6 +217,8 @@ class Workspace(NamedModelObject, PropertyContainer, Statable, Resultable):
     def complete(self):        
         if self.isComplete(): return
         
+        log.info('Complete ' + `self`)
+                
         # Set defaults...        
         self.basedir=''
         self.bannerImnage=default.bannerimage
@@ -308,7 +310,8 @@ class Workspace(NamedModelObject, PropertyContainer, Statable, Resultable):
                 log.error('Project not in module. ' + project.getName())
             
             # Complete the project
-            project.complete(self)   
+            if not project.isComplete():
+                project.complete(self)   
                                                              
         # Complete the properies
         self.completeProperties()
@@ -326,7 +329,7 @@ class Workspace(NamedModelObject, PropertyContainer, Statable, Resultable):
         # Copy over any XML errors/warnings
         # :TODO:#1: transferAnnotations(self.xml, self)  
             
-        self.setComplete(1)
+        self.setComplete(True)
 
    
     def setDatedDirectories(self,date=None):
@@ -506,6 +509,8 @@ class Workspace(NamedModelObject, PropertyContainer, Statable, Resultable):
         
     def resolve(self):
         
+        log.info('Resolve ' + `self`)
+        
         for pdom in self.getDomChildIterator('project'):
             if hasDomAttribute(pdom,'name'):
                 name=getDomAttributeValue(pdom,'name')
@@ -515,7 +520,9 @@ class Workspace(NamedModelObject, PropertyContainer, Statable, Resultable):
                     project.splice(pdom)
                 else:
                     project=Project(name,pdom,self)
-                    self.addProject(project)        
+                    self.addProject(project)   
+        
+        log.info('Resolved ' + `self`)     
 
 class WorkspaceStatistics(Statistics):
     """Statistics Holder"""

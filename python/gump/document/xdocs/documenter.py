@@ -962,7 +962,7 @@ The count of affected indicates relative importance of fixing this project.""")
             # Determine the number of projects this module (or its projects)
             # cause not to be run.
             #
-            affected=project.determineAffected()
+            affected=project.countAffectedProjects()
             
             totalAffected += affected
             
@@ -1055,9 +1055,8 @@ This page helps Gumpmeisters (and others) observe community progress.
         
         modulesSection=document.createSection('Modules with TODOs')               
         modulesSection.createParagraph("""These are the modules that need 'fixing', or contained projects that need fixing.
-This page helps Gumpmeisters (and others) locate the main areas to focus attention. 
-The count of affected indicates relative importance of fixing this module.""")        
-        modulesTable=modulesSection.createTable(['Name','Affected','Duration\nin state','Module State',	\
+This page helps Gumpmeisters (and others) locate the main areas to focus attention.""")        
+        modulesTable=modulesSection.createTable(['Name','Duration\nin state','Module State',	\
                                     'Project State(s)','Elapsed'])
         
         mcount=0
@@ -1082,18 +1081,14 @@ The count of affected indicates relative importance of fixing this module.""")
                     stats=project.getStats()        
                     if stats.sequenceInState > seq: seq = stats.sequenceInState
     
-            #
             # Determine the number of projects this module (or its projects)
             # cause not to be run.
-            #
-            affected=module.determineAffected()
             
             # Display
             moduleRow=modulesTable.createRow()
             moduleRow.createComment(module.getName())     
             self.insertLink(module,self.workspace,moduleRow.createData())
             
-            moduleRow.createData(affected)
             moduleRow.createData(seq)
                         
             self.insertStateIcon(module,self.workspace,moduleRow.createData())
