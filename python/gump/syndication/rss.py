@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/syndication/rss.py,v 1.5 2003/12/06 18:01:48 ajack Exp $
-# $Revision: 1.5 $
-# $Date: 2003/12/06 18:01:48 $
+# $Header: /home/stefano/cvs/gump/python/gump/syndication/rss.py,v 1.6 2003/12/07 17:49:13 ajack Exp $
+# $Revision: 1.6 $
+# $Date: 2003/12/07 17:49:13 $
 #
 # ====================================================================
 #
@@ -133,7 +133,7 @@ class Item:
         <a href="http://feedvalidator.org/check?url=%s">
             <img align="right" src="http://feedvalidator.org/images/valid-rss.png" 
                 alt="[Valid RSS]" title="Validate my RSS feed" width="88" height="31" />
-        </a>""") % (self.rssUrl)
+        </a><br clear><hr>""") % (self.rssUrl)
         
         # Mandatory Fields
         self.rssStream.write(('    <title>Gump: %s</title>\n') %(escape(self.title)))
@@ -355,7 +355,6 @@ class RSSSyndicator(Syndicator):
         #
         content=self.getProjectContent(project,self.run)
                         
-        #
         #
         #
         item=Item(('%s %s %s') % (project.getName(),project.getStateDescription(),datestr), \

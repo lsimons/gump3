@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/document/resolver.py,v 1.7 2003/12/06 18:01:48 ajack Exp $
-# $Revision: 1.7 $
-# $Date: 2003/12/06 18:01:48 $
+# $Header: /home/stefano/cvs/gump/python/gump/document/resolver.py,v 1.8 2003/12/07 17:49:13 ajack Exp $
+# $Revision: 1.8 $
+# $Date: 2003/12/07 17:49:13 $
 #
 # ====================================================================
 #
@@ -368,7 +368,10 @@ class Resolver:
            
     def getAbsoluteUrl(self,object,documentName=None,extn='.html'):
         location=getLocationForObject(object,extn)
-        if documentName: location.setDocument(documentName)
+        if documentName:         
+            if not documentName.endswith(extn):
+                documentName += extn
+            location.setDocument(documentName)
         return concatenate(self.rootUrl,location.serialize())
 
     #
@@ -405,6 +408,9 @@ class Resolver:
         
         # Build the URL to the icon
         iconName=gumpSafeName(lower(replace(sname,' ','_')))
-        url = self.getAbsoluteUrlForRelative("gump_icons/"+iconName+".png")
+        url = self.getAbsoluteUrlForRelative('gump_icons/'+iconName+'.png')
         
         return (url, description)
+        
+    def getImageUrl(self,name):
+        return self.getAbsoluteUrlForRelative('gump_images/'+name)

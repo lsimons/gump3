@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/syndication/syndicator.py,v 1.4 2003/12/06 18:01:48 ajack Exp $
-# $Revision: 1.4 $
-# $Date: 2003/12/06 18:01:48 $
+# $Header: /home/stefano/cvs/gump/python/gump/syndication/syndicator.py,v 1.5 2003/12/07 17:49:13 ajack Exp $
+# $Revision: 1.5 $
+# $Date: 2003/12/07 17:49:13 $
 #
 # ====================================================================
 #
@@ -101,6 +101,8 @@ class Syndicator:
                                 
         content += self.getStateContent(project.getStatePair())
                         
+        content += 'Sequence in state: ' + stats.sequenceInState
+        
         if not stats.previousState == STATE_NONE \
             and not stats.previousState == STATE_UNSET:
             content += 'Previous state: ' \
@@ -122,6 +124,8 @@ class Syndicator:
         content='Module ' + module.getName()
                                     
         content += self.getStateContent(module.getStatePair())
+        
+        content += 'Sequence in state: ' + stats.sequenceInState
                         
         if not stats.previousState == STATE_NONE \
             and not stats.previousState == STATE_UNSET:
@@ -143,7 +147,7 @@ class Syndicator:
            content += ' with reason ' \
                 + statePair.getReasonDescription()
         
-        content += ( '&nbsp;<img href=\'%s\' alt=\'%s\'/>' ) % \
+        content += ( '&nbsp;<img src=\'%s\' alt=\'%s\'/>' ) % \
             resolver.getStateIconInformation(statePair)
             
         content += '<br><br>'
@@ -175,7 +179,8 @@ class Syndicator:
                     '</td></tr>\n')                   
             content += '<table></p>'
             
-        content += '\n\n<hr>\n<img align=\'left\' alt=\'Brought to you by Jakarta Gump\' src=\'http://jakarta.apache.org/gump/images/bench.png\'/>'
+        content += ('<br><hr>\n<img align=\'left\' alt=\'Brought to you by Jakarta Gump\' src=\'%s\'/>') \
+                        %	resolver.getImageUrl('apache.png')
         
         return content
 
