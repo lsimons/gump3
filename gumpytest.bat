@@ -6,5 +6,5 @@ REM    reserved.
 
 SET
 
-CD $GUMP_PYTHON
+CD %GUMP_PYTHON%
 python gump\test\pyunit.py
