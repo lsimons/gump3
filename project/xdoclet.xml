@@ -55,7 +55,9 @@
     <mkdir dir="modules/build/jmx/classes"/>
     <mkdir dir="modules/build/web/classes"/>
 
-    <ant target="docs" />
+    <ant target="docs">
+      <property name="version" value="@@DATE@@"/>
+    </ant>
 
     <depend project="xdoclet-compile-core" inherit="all" />
     <depend project="xdoclet-xdoclet-module-prepare" />
@@ -78,31 +80,31 @@
     <work nested="modules/xdoclet/src"/>
 
     <home nested="target"/>
-    <jar id="xdoclet-core" name="lib/xdoclet.jar"/>
-    <jar id="xdoclet-apache" name="lib/xdoclet-apache-module.jar"/>
-    <jar id="xdoclet-bea" name="lib/xdoclet-bea-module.jar"/>
-    <jar id="xdoclet-caucho" name="lib/xdoclet-caucho-module.jar"/>
-    <jar id="xdoclet-ejb" name="lib/xdoclet-ejb-module.jar"/>
-    <jar id="xdoclet-exolab" name="lib/xdoclet-exolab-module.jar"/>
-    <jar id="xdoclet-hp" name="lib/xdoclet-hp-module.jar"/>
-    <jar id="xdoclet-ibm" name="lib/xdoclet-ibm-module.jar"/>
-    <jar id="xdoclet-java" name="lib/xdoclet-java-module.jar"/>
-    <jar id="xdoclet-jboss" name="lib/xdoclet-jboss-module.jar"/>
-    <jar id="xdoclet-jdo" name="lib/xdoclet-jdo-module.jar"/>
-    <jar id="xdoclet-jmx" name="lib/xdoclet-jmx-module.jar"/>
-    <jar id="xdoclet-libelis" name="lib/xdoclet-libelis-module.jar"/>
-    <jar id="xdoclet-macromedia" name="lib/xdoclet-macromedia-module.jar"/>
-    <jar id="xdoclet-mvcsoft" name="lib/xdoclet-mvcsoft-module.jar"/>
-    <jar id="xdoclet-mx4j" name="lib/xdoclet-mx4j-module.jar"/>
-    <jar id="xdoclet-objectweb" name="lib/xdoclet-objectweb-module.jar"/>
-    <jar id="xdoclet-orion" name="lib/xdoclet-orion-module.jar"/>
-    <jar id="xdoclet-pramati" name="lib/xdoclet-pramati-module.jar"/>
-    <jar id="xdoclet-solarmetric" name="lib/xdoclet-solarmetric-module.jar"/>
-    <jar id="xdoclet-sybase" name="lib/xdoclet-sybase-module.jar"/>
-    <jar id="xdoclet-tjdo" name="lib/xdoclet-tjdo-module.jar"/>
-    <jar id="xdoclet-web" name="lib/xdoclet-web-module.jar"/>
-    <jar id="xdoclet-webwork" name="lib/xdoclet-webwork-module.jar"/>
-    <jar id="xdoclet-module" name="lib/xdoclet-xdoclet-module.jar"/>
+    <jar id="xdoclet-core" name="lib/xdoclet-@@DATE@@.jar"/>
+    <jar id="xdoclet-apache" name="lib/xdoclet-apache-module-@@DATE@@.jar"/>
+    <jar id="xdoclet-bea" name="lib/xdoclet-bea-module-@@DATE@@.jar"/>
+    <jar id="xdoclet-caucho" name="lib/xdoclet-caucho-module-@@DATE@@.jar"/>
+    <jar id="xdoclet-ejb" name="lib/xdoclet-ejb-module-@@DATE@@.jar"/>
+    <jar id="xdoclet-exolab" name="lib/xdoclet-exolab-module-@@DATE@@.jar"/>
+    <jar id="xdoclet-hp" name="lib/xdoclet-hp-module-@@DATE@@.jar"/>
+    <jar id="xdoclet-ibm" name="lib/xdoclet-ibm-module-@@DATE@@.jar"/>
+    <jar id="xdoclet-java" name="lib/xdoclet-java-module-@@DATE@@.jar"/>
+    <jar id="xdoclet-jboss" name="lib/xdoclet-jboss-module-@@DATE@@.jar"/>
+    <jar id="xdoclet-jdo" name="lib/xdoclet-jdo-module-@@DATE@@.jar"/>
+    <jar id="xdoclet-jmx" name="lib/xdoclet-jmx-module-@@DATE@@.jar"/>
+    <jar id="xdoclet-libelis" name="lib/xdoclet-libelis-module-@@DATE@@.jar"/>
+    <jar id="xdoclet-macromedia" name="lib/xdoclet-macromedia-module-@@DATE@@.jar"/>
+    <jar id="xdoclet-mvcsoft" name="lib/xdoclet-mvcsoft-module-@@DATE@@.jar"/>
+    <jar id="xdoclet-mx4j" name="lib/xdoclet-mx4j-module-@@DATE@@.jar"/>
+    <jar id="xdoclet-objectweb" name="lib/xdoclet-objectweb-module-@@DATE@@.jar"/>
+    <jar id="xdoclet-orion" name="lib/xdoclet-orion-module-@@DATE@@.jar"/>
+    <jar id="xdoclet-pramati" name="lib/xdoclet-pramati-module-@@DATE@@.jar"/>
+    <jar id="xdoclet-solarmetric" name="lib/xdoclet-solarmetric-module-@@DATE@@.jar"/>
+    <jar id="xdoclet-sybase" name="lib/xdoclet-sybase-module-@@DATE@@.jar"/>
+    <jar id="xdoclet-tjdo" name="lib/xdoclet-tjdo-module-@@DATE@@.jar"/>
+    <jar id="xdoclet-web" name="lib/xdoclet-web-module-@@DATE@@.jar"/>
+    <jar id="xdoclet-webwork" name="lib/xdoclet-webwork-module-@@DATE@@.jar"/>
+    <jar id="xdoclet-module" name="lib/xdoclet-xdoclet-module-@@DATE@@.jar"/>
 
     <javadoc nested="target/docs/api" />
 
