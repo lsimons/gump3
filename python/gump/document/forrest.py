@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/forrest.py,v 1.24 2003/12/02 20:19:54 ajack Exp $
-# $Revision: 1.24 $f
-# $Date: 2003/12/02 20:19:54 $
+# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/forrest.py,v 1.25 2003/12/03 04:29:05 ajack Exp $
+# $Revision: 1.25 $f
+# $Date: 2003/12/03 04:29:05 $
 #
 # ====================================================================
 #
@@ -1475,6 +1475,7 @@ class ForrestDocumenter(Documenter):
                 for module in moduleList:        
                     if not gumpSet.inModules(module): continue                
                     self.insertLink(module, xref, moduleData)
+                    moduleData.createText(' ')
           
         document.serialize()
  

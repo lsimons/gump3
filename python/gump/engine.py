@@ -16,7 +16,7 @@ from gump.utils import dump, display, getIndent
 from gump.utils.note import Annotatable
 from gump.utils.work import *
 
-from gump.utils.tools import listDirectoryAsWork,syncDirectories
+from gump.utils.tools import *
 
 from gump.model.workspace import Workspace
 from gump.model.module import Module

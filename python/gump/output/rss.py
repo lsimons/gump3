@@ -234,7 +234,9 @@ class RSS:
            
 class Syndicator:
     def __init__(self):
-        pass
+        self.gumpImage=Image('http://jakarta.apache.org/gump/images/bench.png',	\
+                    'Jakarta Gump', \
+                    'http://jakarta.apache.org/')
         
     def syndicate(self,run):
         
@@ -245,12 +247,10 @@ class Syndicator:
                     self.workspace.logdir,'index.rss'))
     
         self.rss=RSS(self.rssFile,	\
-            Channel(self.workspace.logurl,	\
-                    'Jakarta Gump',		\
+            Channel('Jakarta Gump',		\
+                    self.workspace.logurl,	\
                     """Life is like a box of chocolates""", \
-                Image('http://jakarta.apache.org/gump/images/bench.png',	\
-                    'Jakarta Gump', \
-                    'http://jakarta.apache.org/')))
+                self.gumpImage))
         
         # build information 
         for module in self.workspace.getModules():
@@ -264,9 +264,10 @@ class Syndicator:
         moduleURL=self.run.getOptions().getResolver().getUrl(module)
         
         moduleRSS=RSS(rssFile,	\
-            Channel(moduleURL,\
-                    'Jakarta Gump : Module ' + escape(module.getName()),	\
-                    escape(module.getDescription())))
+            Channel('Jakarta Gump : Module ' + escape(module.getName()),	\
+                    moduleURL,	\
+                    escape(module.getDescription()), \
+                    self.gumpImage))
         
         for project in module.getProjects():  
             self.syndicateProject(project,moduleRSS,mainRSS)      
@@ -279,9 +280,10 @@ class Syndicator:
         projectURL=self.run.getOptions().getResolver().getUrl(project)
         
         projectRSS=RSS(rssFile,	\
-            Channel(projectURL,\
-                    'Jakarta Gump : Project ' + escape(project.getName()),	\
-                    escape(project.getDescription())))
+            Channel('Jakarta Gump : Project ' + escape(project.getName()),	\
+                    projectURL,	\
+                    escape(project.getDescription()), \
+                    self.gumpImage))
                     
         s=project.getStats()
         datestr=time.strftime('%Y-%m-%d')
@@ -294,9 +296,10 @@ class Syndicator:
                                 + project.getReasonDescription() \
                                 + '\n\n'
                         
-        content += 'Previous state: ' \
-                                + stateName(s.previousState)  \
-                                + '\n\n'
+        if not s.previousState == STATE_NONE and not s.previousState == STATE_UNSET:
+            content += 'Previous state: ' \
+                                    + stateName(s.previousState)  \
+                                    + '\n\n'
                      
         for note in project.annotations:
                 content += ("   - " + str(note) + "\n")
@@ -307,13 +310,15 @@ class Syndicator:
                   project.getModule().getName() + ":" + project.getName(), \
                   ('%sT%s%s') % (datestr,timestr,TZ))
 
-        if not s.currentState == STATE_NONE:
+        if not s.currentState == STATE_NONE and	\
+            not s.currentState == STATE_UNSET:           
             projectRSS.addItem(item)
             moduleRSS.addItem(item)  
 
         # State changes that are newsworthy...
         if 	s.sequenceInState == 1	\
             and not s.currentState == STATE_PREREQ_FAILED \
+            and not s.currentState == STATE_UNSET \
             and not s.currentState == STATE_NONE \
             and not s.currentState == STATE_COMPLETE :       
             mainRSS.addItem(item)
