@@ -1622,13 +1622,11 @@ This page helps Gumpmeisters (and others) observe community progress.
                     repoList.createEntry( "SVN Directory: ", module.svn.getDir()) 
                 repoList.createEntry( "SVN URL: ", module.svn.getRootUrl())                 
 
+            if module.hasArtifacts():
+                if module.jars.hasUrl():
+                    repoList.createEntry( "Jars URL: ", module.jars.getUrl())   
 
-            repoList.createEntry('Redistributable: ', `module.isRedistributable()`)
-                
-            if module.isRedistributable():
-                if module.hasJars():
-                    if module.jars.hasUrl():
-                            repoList.createEntry( "Jars URL: ", module.jars.getUrl())                 
+            repoList.createEntry('Redistributable: ', `module.isRedistributable()`)              
            
         #   x.write('<p><strong>Module Config :</strong> <link href=\'xml.html\'>XML</link></p>')
             
