@@ -35,6 +35,7 @@
           <a href="modxref.html">modules by repository</a>
           <a href="packages.html">installed packages</a>
           <a href="cvsjars.html">jars by module</a>
+          <a href="bypackage.html">java package names</a>
         </menu>
 
         <content>
@@ -146,6 +147,7 @@
           <a href="xref.html">dependencies</a>
           <a href="packages.html">installed packages</a>
           <a href="cvsjars.html">jars by module</a>
+          <a href="bypackage.html">java package names</a>
         </menu>
 
         <content>
@@ -237,6 +239,7 @@
           <a href="xref.html">dependencies</a>
           <a href="modxref.html">modules by repository</a>
           <a href="cvsjars.html">jars by module</a>
+          <a href="bypackage.html">java package names</a>
         </menu>
 
         <content>
@@ -316,6 +319,7 @@
           <a href="xref.html">dependencies</a>
           <a href="modxref.html">modules by repository</a>
           <a href="packages.html">installed packages</a>
+          <a href="bypackage.html">java package names</a>
         </menu>
 
         <content>
@@ -442,16 +446,16 @@
       </html>
 
       <!-- =============================================================== -->
-      <!--         Produce a listing of modules WITHOUT javadocs           -->
+      <!--         produce a listing of modules without javadocs           -->
       <!-- =============================================================== -->
 
       <html log="{@logdir}/nojavadoc.html"
         banner-image="{@banner-image}" banner-link="{@banner-link}">
 
-        <title>List of modules WITHOUT javadocs</title>
+        <title>list of modules without javadocs</title>
 
         <sidebar>
-          <strong><a href="index.html">Build logs</a></strong>
+          <strong><a href="index.html">build logs</a></strong>
           <ul>
             <xsl:for-each select="project[ant|script]">
               <xsl:sort select="@name"/>
@@ -473,6 +477,116 @@
                  <li> <xsl:value-of select="$name"/> </li>
                </xsl:if>
              </xsl:for-each>
+          </ul>
+
+        </content>
+
+      </html>
+
+      <!-- =============================================================== -->
+      <!--            produce a listing of projects by package             -->
+      <!-- =============================================================== -->
+
+      <html log="{@logdir}/bypackage.html"
+        banner-image="{@banner-image}" banner-link="{@banner-link}">
+
+        <title>list of projects by packages</title>
+
+        <sidebar>
+          <strong><a href="index.html">build logs</a></strong>
+          <ul>
+            <xsl:for-each select="project[ant|script]">
+              <xsl:sort select="@name"/>
+              <li>
+                <a href="{@name}.html"><xsl:value-of select="@name"/></a>
+              </li>
+            </xsl:for-each>
+          </ul>
+        </sidebar>
+
+        <menu>
+          <xsl:text>Workspace: </xsl:text>
+          <a href="workspace.html">definition</a>
+          <a href="cvs_index.html">cvs logs</a>
+          <a href="index.html">build logs</a>
+          <br/>
+          <xsl:text>Cross reference: </xsl:text>
+          <a href="xref.html">dependencies</a>
+          <a href="modxref.html">modules by repository</a>
+          <a href="packages.html">installed packages</a>
+          <a href="cvsjars.html">jars by module</a>
+        </menu>
+
+        <content>
+          <p/>
+
+          <blockquote>
+            <table class="content">
+              <tr>
+                <th class="content">Java Package Name</th>
+                <th class="content">Project</th>
+              </tr>
+  
+              <xsl:for-each select="/workspace/project/package">
+                <xsl:sort select="."/>
+                <tr>
+                  <td class="content"><xsl:value-of select="."/></td>
+                  <td class="content">
+                    <xsl:choose>
+                      <xsl:when test="../ant|../script">
+                        <a href="{../@name}.html">
+                          <xsl:value-of select="../@name"/>
+                        </a>
+                      </xsl:when>
+                      <xsl:when test="../@defined-in">
+                        <a href="module_{../@defined-in}.html">
+                          <xsl:value-of select="../@name"/>
+                        </a>
+                      </xsl:when>
+                    </xsl:choose>
+                  </td>
+                </tr>
+              </xsl:for-each>
+            </table>
+          </blockquote>
+
+        </content>
+
+      </html>
+
+      <!-- =============================================================== -->
+      <!--         produce a listing of projects without packages          -->
+      <!-- =============================================================== -->
+
+      <html log="{@logdir}/nopackage.html"
+        banner-image="{@banner-image}" banner-link="{@banner-link}">
+
+        <title>list of projects without packages</title>
+
+        <sidebar>
+          <strong><a href="index.html">build logs</a></strong>
+          <ul>
+            <xsl:for-each select="project[ant|script]">
+              <xsl:sort select="@name"/>
+              <li>
+                <a href="{@name}.html"><xsl:value-of select="@name"/></a>
+              </li>
+            </xsl:for-each>
+          </ul>
+        </sidebar>
+
+        <content>
+          <ul>
+
+            <xsl:for-each select="/workspace/project[jar and not(package)]">
+              <xsl:sort select="@name"/>
+              <li>
+                <a href="module_{@defined-in}.html">
+                  <xsl:value-of select="@name"/>
+                </a>
+              </li>
+            </xsl:for-each>
+
           </ul>
 
         </content>
