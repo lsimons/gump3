@@ -32,4 +32,4 @@ import py2exe
 # 1 - install py2exe [http://starship.python.net/crew/theller/py2exe/]
 # 2 - run: python exedist.py py2exe
 
-setup(name="integrate",scripts=["integrate.py"],)
+setup(name="gump",scripts=["gump.py"],)
