@@ -280,7 +280,7 @@
   <project name="cos"              package="cos-05Nov2002"/>
   <project name="cryptix"          package="cryptix32-20001002-r3.2.0"/>
   <project name="commons-codec-11" package="commons-codec-1.1"/>
-  <project name="bsf"              package="bsf"/>
+  <project name="bsf"              package="bsf-2_2"/>
   <project name="ejb"              package="ejb-2_0-fr"/>
   <!--project name="fesi"             package="fesi"/-->
   <project name="hibernate"        package="hibernate-2.1"/>
