@@ -447,8 +447,8 @@
     <option project="logging-log4j"/>
     <option project="avalon-logkit"/>
     <home nested="logging/dist"/>
-    <jar name="commons-logging.jar" id="all" />
-    <jar name="commons-logging-api.jar" id="api" />
+    <jar name="commons-logging.jar" id="commons-logging" />
+    <jar name="commons-logging-api.jar" id="commons-logging-api" />
     <javadoc nested="logging/dist/docs/api"/>
 
     <nag to="commons-dev@jakarta.apache.org"
