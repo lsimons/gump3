@@ -16,7 +16,7 @@
     <depend project="ejb"/>
     <depend project="jms"/>
     <depend project="openjmx"/>
-    <depend project="jrefactory"/>
+    <depend project="jrefactory-pretty"/>
     <depend project="webwork"/>
     <depend project="jakarta-servletapi-4"/>
     <jar id="xdoclet" name="core/dist/lib/xdoclet.jar"/>
