@@ -33,6 +33,7 @@ from gump.model.state import *
 from gump.model.propagation import *
 
 class ModelObject(Annotatable,Workable,FileHolder,Propogatable,Ownable):
+        
     """Base model object for a single entity"""
     def __init__(self,dom,owner=None):
                 
@@ -122,7 +123,21 @@ class ModelObject(Annotatable,Workable,FileHolder,Propogatable,Ownable):
         return False   
     
     def getDomAttributeValue(self,name,default=None):
-        return getDomAttributeValue(self.element,name,default)
+        return self.expandVariables(
+                    getDomAttributeValue(self.element,name,default))
+        
+    def expandVariables(self,value):    
+        """
+        
+            Return a copy of the value with any Gump
+            variables expanded.
+            
+        """
+        if not value: return value
+        
+        # Right now just one supported
+        return value.replace('@@DATE@@',default.date)
+    
         
     def hasDomChild(self,name):
         if hasDomChild(self.element,name): return True
@@ -132,7 +147,8 @@ class ModelObject(Annotatable,Workable,FileHolder,Propogatable,Ownable):
         return getDomChild(self.element,name)
         
     def getDomChildValue(self,name,default=None):
-        return getDomChildValue(self.element,name,default)
+        return self.expandVariables(
+                    getDomChildValue(self.element,name,default))
         
     def getDomChildIterator(self,name):
         return getDomChildIterator(self.element,name)
