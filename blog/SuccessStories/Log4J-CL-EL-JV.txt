@@ -34,7 +34,7 @@ This 'took down' (stopped Gump run coverage to) roughly 250 dependee projects, a
 </P>
 
 <P>
-Unfortunately, the [GUMP] prefix didn't match the [logging] prefix that the commons-dev list requests, so failed filters sat un-noticed for a while.
+Unfortunately, the [GUMP] prefix didn't match the [logging] prefix that the commons-dev list requests, so failed to pass filters & sat un-noticed for a while.
 When enough (impatient) noise had been made, the situation was investigated & things were not so simple. 
 </P>
 <P>These issues took almost two weeks to resolve, some time lost, but much well spent on analysis/discussion/communication. Discussions occured on the commons, logging, avalon and velocity and gump lists, and ought be archived there. (This distribution might explain
@@ -63,7 +63,7 @@ feedback was taken.
 </P>
 <HR/>
 <B>SUMMARY:</B> Deprecating classes is non-trival with Java (especially when trying to maintain them for years, and use sub-classing as aliasing). 
-Deprecation <B>'overlap windows'<B> -- where a fix gets to be backwards compatible w/ a decent (most likely found) sub-set of previous releases -- are a
+Deprecation <B>'overlap windows'</B> -- where a fix gets to be backwards compatible w/ a decent (most likely found) sub-set of previous releases -- are a
 key aid. Managing these is invaluable. Deprecation only works when people work together and communicate. We still have some work to do to improve our
 group understanding/knowledge of <A HREF="http://jakarta.apache.org/commons/releases/versioning.html">version numbering</A> and what contracts we
 are making with them on each release.
