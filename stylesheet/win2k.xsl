@@ -62,6 +62,7 @@
 
   <xsl:template match="update">
     <xsl:text>@echo off&#10;</xsl:text>
+    <xsl:text>@if "%GUMP_ECHO%" == "on" echo %GUMP_ECHO%&#10;</xsl:text>
     <xsl:text>SETLOCAL&#10;</xsl:text>
 
     <xsl:text>chdir /d </xsl:text>
@@ -120,6 +121,7 @@
 
   <xsl:template match="publish">
     <xsl:text>@echo off&#10;</xsl:text>
+    <xsl:text>@if "%GUMP_ECHO%" == "on" echo %GUMP_ECHO%&#10;</xsl:text>
     <xsl:text>echo - %1&#10;</xsl:text>
     <xsl:text>SET OUT=^&gt;^&gt;%2&#10;</xsl:text>
     <xsl:apply-templates/>
@@ -145,6 +147,7 @@
     <xsl:variable name="logdir"  select="translate(@logdir,  '/', '\')"/>
 
     <xsl:text>@echo off&#10;</xsl:text>
+    <xsl:text>@if "%GUMP_ECHO%" == "on" echo %GUMP_ECHO%&#10;</xsl:text>
 
     <xsl:text>if not exist </xsl:text>
     <xsl:value-of select="$basedir"/>
