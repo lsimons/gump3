@@ -1,0 +1,15 @@
+<module name="cryptix">
+
+  <url href="http://www.cryptix.org/products/cryptix31/"/>
+  <description>
+    cleanroom implementation of Sun's Java Cryptography Extensions (JCE) version 1.1
+  </description>
+
+  <project name="cryptix">
+    <package>cryptix</package>
+
+    <jar name="cryptix32.jar"/>
+    <javadoc nested="doc" />
+  </project>
+  
+</module>
