@@ -29,6 +29,12 @@
         <td>Type of repository.</td>
         <td>Yes, though cvs is the only type supported currently.</td>
       </tr>
+      <tr>
+        <td>compress</td>
+        <td>Set the compression level.  Some CVS client/server combinations 
+          will not work with compression.</td>
+        <td>No, defaults to <code>-z3</code>.</td>
+      </tr>
     </table>
     <p/>
 

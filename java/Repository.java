@@ -1,7 +1,7 @@
 /*
- * $Header: /home/stefano/cvs/gump/java/Repository.java,v 1.3 2003/01/01 07:04:58 dion Exp $
- * $Revision: 1.3 $
- * $Date: 2003/01/01 07:04:58 $
+ * $Header: /home/stefano/cvs/gump/java/Repository.java,v 1.4 2003/01/14 15:49:51 rubys Exp $
+ * $Revision: 1.4 $
+ * $Date: 2003/01/14 15:49:51 $
  *
  * ====================================================================
  *
@@ -99,6 +99,10 @@ public class Repository {
     public Repository(Element element) throws Exception {
         this.element = element;
         name = element.getAttribute("name");
+
+        if (element.getAttributeNode("compress") == null) {
+            element.setAttribute("compress", "-z3");
+        }
 
         resolve(element);
 

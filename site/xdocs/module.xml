@@ -111,11 +111,9 @@
         </tr>
         <tr>
           <td>compress</td>
-          <td>Whether to pass the <code>-z</code> option to the CVS
-          executable or not.  Some CVS client/server combinations will
-          not work with compression.</td>
-          <td>No.  Defaults to true, which corresponds to
-          <code>-z3</code>.</td>
+          <td>Set the compression level.  Some CVS client/server combinations 
+            will not work with compression.</td>
+          <td>No.  Defaults to the compress value for the repository</td>
         </tr>
       </table>
     </subsection>

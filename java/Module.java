@@ -1,7 +1,7 @@
 /*
- * $Header: /home/stefano/cvs/gump/java/Module.java,v 1.20 2003/01/14 13:21:49 bodewig Exp $
- * $Revision: 1.20 $
- * $Date: 2003/01/14 13:21:49 $
+ * $Header: /home/stefano/cvs/gump/java/Module.java,v 1.21 2003/01/14 15:49:50 rubys Exp $
+ * $Revision: 1.21 $
+ * $Date: 2003/01/14 15:49:50 $
  *
  * ====================================================================
  *
@@ -307,7 +307,7 @@ public class Module {
             cvs.setAttribute("password", r.get("password"));
 
             if (cvs.getAttributeNode("compress") == null) {
-                cvs.setAttribute("compress", "true");
+                cvs.setAttribute("compress", r.get("compress"));
             }
         }
     }
