@@ -50,7 +50,7 @@
     <depend project="jakarta-ant"/>
     <depend project="xml-xerces"/>
     <depend project="junit"/>
-    <work nested="collections/build/classes"/>
+    <work nested="collections/dist/classes"/>
     <home nested="collections/build"/>
     <jar name="commons-collections.jar"/>
   </project>
