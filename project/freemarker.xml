@@ -1,0 +1,26 @@
+<module name="freemarker">
+
+  <url href="http://freemarker.sourceforge.net/"/>
+  <description>
+    Templating Language
+  </description>
+  
+  <cvs repository="sourceforge" host-prefix="cvs.freemarker" dir="freemarker"/>
+
+  <project name="freemarker">
+    <package>freemarker</package>
+  
+    <ant target="gump">
+
+    <depend project="jakarta-ant"/>
+    <depend project="xml-xerces"/>
+    
+    <depend project="jdom"/>
+    <depend project="jakarta-servletapi"/>
+    <depend project="junit"/>
+    <depend project="jakarta-log4j"/>
+    <depend project="jakarta-oro"/>
+
+    <jar name="lib/freemarker.jar"/>
+  </project>
+</module>
