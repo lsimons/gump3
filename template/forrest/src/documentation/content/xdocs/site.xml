@@ -11,7 +11,7 @@
   <work label="Gump">
     <index label="Workspace" href="index.html"/>
     <index label="Build Log" href="buildLog.html"/>
-    <index label="Notes Log" href="notesLog.html"/>
+    <!-- index label="Notes Log" href="notesLog.html"/ -->
   </work>
 
   <work label="Projects" tab="home">
