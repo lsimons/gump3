@@ -108,7 +108,7 @@
         <ant basedir="component">
             <depend property="excalibur-pool.jar" project="excalibur-pool"/>
             <depend property="excalibur-logger.jar" project="excalibur-logger"/>
-	    <depend project="commons-collections"/>
+	    <depend property="commons-collections" project="commons-collections"/>
             <depend property="excalibur-instrument.jar" project="excalibur-instrument"/>
             <depend property="excalibur-instrument-manager.jar" project="excalibur-instrument-manager"/>
             <depend property="excalibur-instrument-manager-interfaces.jar" project="excalibur-instrument-manager"/>
@@ -312,10 +312,10 @@
 
         <ant basedir="fortress/examples" target="jar">
             <property name="version" value="@@DATE@@"/>
-            <property name="excalibur-fortress.jar" project="excalibur-fortress" reference="jarpath"/>
-            <property name="excalibur-lifecycle.jar" project="excalibur-lifecycle" reference="jarpath"/>
-            <depend project="commons-collections"/>
-            <property name="util.concurrent.jar"
+            <depend property="excalibur-fortress.jar" project="excalibur-fortress" reference="jarpath"/>
+            <depend property="excalibur-lifecycle.jar" project="excalibur-lifecycle" reference="jarpath"/>
+            <depend property="commons-collections" project="commons-collections"/>
+            <depend property="util.concurrent.jar"
                       project="concurrent" reference="jarpath"/>
         </ant>
 
@@ -644,7 +644,7 @@
         <package>org.apache.avalon.excalibur.pool</package>
 
         <ant basedir="pool">
-            <depend project="commons-collections"/>
+            <depend property="commons-collections" project="commons-collections"/>
             <depend property="excalibur-instrument.jar" project="excalibur-instrument"/>
             <depend property="logkit.jar" project="avalon-logkit" runtime="true"/>
             <property name="package-version" value="@@DATE@@"/>
