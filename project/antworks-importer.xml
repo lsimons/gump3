@@ -17,7 +17,7 @@
 <module name="antworks-importer">
     <url href="http://antworks.sourceforge.xml/importer"/>
     <description> Autodownload and import ant build.xml's. </description>
-    <cvs repository="sourceforge" host-prefix="cvs.antworks" dir="antworks" module="importer"/>
+    <cvs repository="sourceforge" host-prefix="cvs" dir="antworks" module="importer"/>
     <project name="antworks-importer" fullname="Antworks Importer">
         <package>org.krysalis.antworks.importer</package>
         <ant buildfile="build-bootstrap.xml" target="gump">
