@@ -681,7 +681,7 @@ public class Project {
     }
 
     /**
-     * For alle deliver elements, add them to the corresponding site
+     * For all deliver elements, add them to the corresponding site
      * elements, if these are defined.
      */
     private void handleDeliver() {

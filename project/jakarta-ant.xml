@@ -47,10 +47,14 @@
              todir="ant/nightly/@@DATE@@/" />
     <deliver fromdir="distribution/bin" tosite="stefans-test"
              todir="ant/nightly/@@DATE@@/" />
+    <deliver fromdir="distribution/rpms" tosite="stefans-test"
+             todir="ant/nightly/@@DATE@@/" />
 
     <deliver fromdir="distribution/src" tosite="jakarta.apache.org"
              todir="builds/jakarta-ant/nightly/@@DATE@@/" />
     <deliver fromdir="distribution/bin" tosite="jakarta.apache.org"
+             todir="builds/jakarta-ant/nightly/@@DATE@@/" />
+    <deliver fromdir="distribution/rpms" tosite="jakarta.apache.org"
              todir="builds/jakarta-ant/nightly/@@DATE@@/" />
   </project>
 
