@@ -82,7 +82,7 @@ stateDescriptions = { STATUS_UNSET : "Unset",
            STATUS_SUCCESS : "Success",
            STATUS_FAILED : "Failed",
            STATUS_PREREQ_FAILURE : "Prerequisite Failed",
-           STATUS_COMPLETE : "Complete. Perform No Action" }
+           STATUS_COMPLETE : "Complete" }
 
 def stateName(state):
     return stateDescriptions.get(state,'Unknown State:' + str(state))
@@ -612,12 +612,7 @@ class GumpContext(Context):
     def __init__(self,name="Gump",parent=None):
     	Context.__init__(self,name,parent)
     	
-    	#
-    	# For reporting
-    	# 
-    	self.projectexpression=''    	
-    	
-    	#
+        #
     	# Set to true if not found, see checkEnvironment
     	#
     	self.noRSync=0

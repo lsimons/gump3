@@ -290,7 +290,7 @@ def executeIntoResult(cmd,result,tmp=dir.tmp):
         outputFile=os.path.abspath(os.path.join(tmp,gumpSafeName(cmd.name)+'.txt'))
         if os.path.exists(outputFile): os.remove(outputFile)
     
-        if switches.debugging:
+        if switch.debugging:
             #############################################################
             # This debug might become permenant ...
             #############################################################

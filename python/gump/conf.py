@@ -1,8 +1,8 @@
 #!/usr/bin/python
 
-# $Header: /home/stefano/cvs/gump/python/gump/Attic/conf.py,v 1.13 2003/09/24 22:50:15 ajack Exp $
-# $Revision: 1.13 $
-# $Date: 2003/09/24 22:50:15 $
+# $Header: /home/stefano/cvs/gump/python/gump/Attic/conf.py,v 1.14 2003/09/25 17:04:52 ajack Exp $
+# $Revision: 1.14 $
+# $Date: 2003/09/25 17:04:52 $
 #
 # ====================================================================
 #
@@ -103,9 +103,15 @@ class default:
     prefix = "[GUMPY]"
     signature="\r\n--\r\nGump http://jakarta.apache.org/gump"
     
+class setting:    
+    """Configuration of hardcoded settings"""
+    
     version="2.0.1-alpha-0003"
     
-class switches:
+    # :TODO: Add "minimum checks later..."
+    ws_version="0.4"
+    
+class switch:
     """Configuration of switches """    
     failtesting=0 # Not testing.. 
     debugging=0 # Not debugging..
@@ -120,7 +126,7 @@ def basicConfig():
 def banner():
   print
   print "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
-  print "Apache Python Gump (" + default.version + "), a multi-project builder."
+  print "Apache Python Gump (" + setting.version + "), a multi-project builder."
   print  
   print "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
   print

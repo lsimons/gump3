@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/Attic/model.py,v 1.18 2003/09/24 16:57:12 ajack Exp $
-# $Revision: 1.18 $
-# $Date: 2003/09/24 16:57:12 $
+# $Header: /home/stefano/cvs/gump/python/gump/Attic/model.py,v 1.19 2003/09/25 17:04:52 ajack Exp $
+# $Revision: 1.19 $
+# $Date: 2003/09/25 17:04:52 $
 #
 # ====================================================================
 #
@@ -120,6 +120,7 @@ class Workspace(GumpModelObject):
 
   # provide default elements when not defined in xml
   def complete(self):
+    
     if not self['banner-image']:
       self['banner-image']=default.bannerimage
     if not self['banner-link']: self['banner-link']="http://jakarta.apache.org"

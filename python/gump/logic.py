@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/Attic/logic.py,v 1.4 2003/09/24 16:57:12 ajack Exp $
-# $Revision: 1.4 $
-# $Date: 2003/09/24 16:57:12 $
+# $Header: /home/stefano/cvs/gump/python/gump/Attic/logic.py,v 1.5 2003/09/25 17:04:52 ajack Exp $
+# $Revision: 1.5 $
+# $Date: 2003/09/25 17:04:52 $
 #
 # ====================================================================
 #
@@ -334,6 +334,12 @@ def getAntProperties(workspace,ant):
 
 def preprocessContext(workspace,context=GumpContext()):
 
+    # Check the workspace
+    if not workspace.version >= workspace.ws_version:
+        message='Workspace version ['+workspace.version+'] below expected [' + setting.ws_version + ']'
+        context.addWarning(message)
+        log.warning(message)   
+   
     #
     # Check each project...
     #

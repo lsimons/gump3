@@ -248,7 +248,7 @@ def documentWorkspace(workspace,context,db,moduleFilterList=None,projectFilterLi
         
     startSectionXDoc(x,'Workspace Definition')    
     startTableXDoc(x)       
-    titledDataInTableXDoc(x,'Gump Version', default.version)
+    titledDataInTableXDoc(x,'Gump Version', setting.version)
     if workspace.description:
             titledDataInTableXDoc(x,'Description', workspace.description)
     if workspace.version: 
@@ -263,7 +263,7 @@ def documentWorkspace(workspace,context,db,moduleFilterList=None,projectFilterLi
         note="""This output does not represent the a complete workspace,
         but a partial one.         
         Only projects, and their dependents, matching this regular expression """ + \
-            "<strong>[" + context.projectexpression + "]</strong>."
+            "<strong>[" + context.gumpset.projectexpression + "]</strong>."
         
         note+="\n\nRequested Projects:\n"
         for project in context.gumpset.projects:
@@ -973,7 +973,7 @@ def getStatePairIcon(pair,depth=0):
     uniqueName=sname
     if not pair.reason==REASON_UNSET: 
         description+=' '+rstring
-        uniqueName+='_'+rstring
+        # Not yet, just have a few icons ... uniqueName+='_'+rstring
     
     # Build the URL
     iconName=gumpSafeName(lower(replace(uniqueName,' ','_')))

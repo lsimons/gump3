@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/update.py,v 1.10 2003/09/23 23:16:20 ajack Exp $
-# $Revision: 1.10 $
-# $Date: 2003/09/23 23:16:20 $
+# $Header: /home/stefano/cvs/gump/python/gump/update.py,v 1.11 2003/09/25 17:04:52 ajack Exp $
+# $Revision: 1.11 $
+# $Date: 2003/09/25 17:04:52 $
 #
 # ====================================================================
 #
@@ -130,7 +130,7 @@ def updateModules(workspace, modules, context=GumpContext()):
     mctxt = context.getModuleContextForModule(module)
     
     if mctxt.okToPerformWork() \
-        and not switches.failtesting:
+        and not switch.failtesting:
         try:
           log.info("CVS Update Module " + name + ", Repository Name: " + str(module.cvs.repository))
 

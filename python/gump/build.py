@@ -1,8 +1,8 @@
 #!/usr/bin/python
 
-# $Header: /home/stefano/cvs/gump/python/gump/build.py,v 1.12 2003/09/23 23:16:20 ajack Exp $
-# $Revision: 1.12 $
-# $Date: 2003/09/23 23:16:20 $
+# $Header: /home/stefano/cvs/gump/python/gump/build.py,v 1.13 2003/09/25 17:04:52 ajack Exp $
+# $Revision: 1.13 $
+# $Date: 2003/09/25 17:04:52 $
 #
 # ====================================================================
 #
@@ -148,7 +148,7 @@ def syncWorkDir( workspace, sequence, context=GumpContext() ):
       
     if mctxt.okToPerformWork() \
         and Module.list.has_key(module.name) \
-        and not switches.failtesting:
+        and not switch.failtesting:
             
         module=Module.list[module.name];
         sourcedir = os.path.abspath(os.path.join(workspace.cvsdir,module.name)) # todo allow override
