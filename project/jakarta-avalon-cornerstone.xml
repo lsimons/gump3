@@ -32,18 +32,12 @@
     <depend project="hsqldb"/>
     <depend project="bsf"/>
     <depend project="commons-altrmi"/>
-    <depend project="jesktop-frimble"/>
     <work nested="build/classes"/>
     <work nested="apps/db/build/classes"/>
     <work nested="apps/demo/build/classes"/>
 
     <home nested="build/lib"/>
     <jar name="cornerstone.jar"/>
-  </project>
-
-  <project name="jesktop-frimble">
-    <home nested="apps/ftpserver"/>
-    <jar name="lib/jesktop-frimble.jar"/>
   </project>
 
 </module>
