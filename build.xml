@@ -216,7 +216,7 @@
   </target>
 
   <!-- Do everything -->
-  <target name="all" depends="scripts,xref,javadocs,pubdocs,site,check"
+  <target name="all" depends="scripts,xref,javadocs,pubdocs,check"
     description="Generate scripts, docs, sites, and check local packages"/>
 
   <!-- Remove all outputs and intermediate results -->

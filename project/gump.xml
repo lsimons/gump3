@@ -8,17 +8,11 @@
   <cvs repository="jakarta"/>
 
   <project name="gump">
-    <ant target="all">
-      <property name="site2.dir" reference="srcdir" project="jakarta-site2"/>
-      <property name="batik.dir" reference="srcdir" project="xml-batik"/>
-    </ant>
+    <ant target="all"/>
 
     <depend project="ant" inherit="runtime"/>
-    <option project="jakarta-velocity" inherit="runtime"/>
     <depend project="xml-xerces"/>
     <depend project="xml-xalan2"/>
-    <option project="xml-batik"/>
-    <option project="xml-batik-rasterizer"/>
     <work nested="classes"/>
     <javadoc nested="javadocs"/>
 
