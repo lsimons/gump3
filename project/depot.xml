@@ -33,6 +33,7 @@
         <work nested="common/target/classes"/>
         <home nested="common/dist"/>
 
+        <depend project="ant" inherit="runtime"/>
         <depend project="antworks-importer"/>
         <depend project="antworks-antlets"/>
 
