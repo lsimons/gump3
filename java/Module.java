@@ -219,16 +219,22 @@ public class Module {
                    "\" not found processing module " + name);
             }
              
-            String cvsroot = ":" + r.get("method");
-            cvsroot += ":" + r.get("user");
+            String cvsroot = ":" + r.get("method") + ":";
 
-            cvsroot += "@";
-            if (cvs.getAttributeNode("host-prefix") != null) {
-                cvsroot += cvs.getAttribute("host-prefix") + ".";
+            if (r.get("user").length() > 0) {
+                cvsroot += r.get("user");
             }
-            cvsroot += r.get("hostname");
 
-            cvsroot += ":" + r.get("path");
+            if (r.get("hostname").length() > 0) {
+
+                cvsroot += "@";
+                if (cvs.getAttributeNode("host-prefix") != null) {
+                    cvsroot += cvs.getAttribute("host-prefix") + ".";
+                }
+                cvsroot += r.get("hostname") + ":";
+            }
+
+            cvsroot += r.get("path");
             if (cvs.getAttributeNode("dir") != null) {
                 cvsroot += "/" + cvs.getAttribute("dir");
             }

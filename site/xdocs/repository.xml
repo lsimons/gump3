@@ -79,17 +79,17 @@
         <tr>
           <td>user</td>
           <td></td>
-          <td>Yes</td>
+          <td>No</td>
         </tr>
         <tr>
           <td>password</td>
           <td></td>
-          <td>Yes</td>
+          <td>No</td>
         </tr>
         <tr>
           <td>hostname</td>
           <td></td>
-          <td>Yes</td>
+          <td>No</td>
         </tr>
         <tr>
           <td>path</td>
