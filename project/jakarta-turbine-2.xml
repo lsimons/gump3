@@ -26,6 +26,8 @@
     <depend project="jakarta-ant"/>
     <depend project="xml-xerces"/>
 
+    <depend project="cryptix"/>
+    <depend project="commons-codec"/>
     <depend project="commons-collections"/>
     <depend project="commons-configuration" runtime="true"/>
     <depend project="commons-lang" runtime="true"/>
