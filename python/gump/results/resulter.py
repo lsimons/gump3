@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/results/resulter.py,v 1.5 2004/03/01 18:58:00 ajack Exp $
-# $Revision: 1.5 $
-# $Date: 2004/03/01 18:58:00 $
+# $Header: /home/stefano/cvs/gump/python/gump/results/resulter.py,v 1.6 2004/03/01 20:47:02 ajack Exp $
+# $Revision: 1.6 $
+# $Date: 2004/03/01 20:47:02 $
 #
 # ====================================================================
 #
@@ -93,7 +93,7 @@ class Resulter:
         results = {}
         
         # Loda on demand
-        if not self.seerversLoaded:
+        if not self.serversLoaded:
             self.loadResultsForServers()
             
         # For all servers, extract any result
