@@ -179,7 +179,13 @@ class PathWalker(Annotatable):
             try:    
                 srcname = os.path.join(src, name)
                 dstname = os.path.join(dst, name)
+            
+            except Exception, why:
+                message = "Can't copy [%s] to [%s]: [%s]" % (`src`, `dst`, str(why))
+                log.exception(message)
+                raise IOError, message
                 
+            try:
                 if symlinks and os.path.islink(srcname):
                     linkto = os.readlink(srcname)
                     os.symlink(linkto, dstname)
