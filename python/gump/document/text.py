@@ -52,6 +52,7 @@ class TextDocumenter(Documenter):
         
         workspace = run.getWorkspace()
         gumpSet = run.getGumpSet()
+        gumpEnv = run.getGumpEnvironment()
         
         #
         #
@@ -65,7 +66,6 @@ class TextDocumenter(Documenter):
         #
         output=self.output
             
-            
         # Pretty sorting...
         sortedModuleList=createOrderedList(gumpSet.getModuleSequence())
         sortedProjectList=createOrderedList(gumpSet.getProjectSequence())
@@ -75,6 +75,8 @@ class TextDocumenter(Documenter):
         
         output.write(indent + "Workspace State : " + workspace.getStateDescription() + "\n")
         output.write(indent + "Workspace Secs : " + str(workspace.getElapsedSecs()) + "\n")
+    
+        self.documentEnvironment(indent,gumpEnv,debug,verbose)    
     
         output.write(indent + "Modules: " + str(len(workspace.getModules())) + "\n")
     
@@ -106,6 +108,14 @@ class TextDocumenter(Documenter):
             
                 self.documentProject(indent,project,debug,verbose)
                 
+    def documentEnvironment(self, indent, environment, debug, verbose):
+        indent += ' '
+        output=self.output    
+        output.write(indent + "Gump Environment\n")
+        
+        self.documentAnnotations(indent,environment)
+        self.documentWork(indent,environment)
+                 
     def documentProject(self, indent, project, debug, verbose):
         indent += ' '
         output=self.output    

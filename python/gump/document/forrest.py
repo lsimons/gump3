@@ -225,7 +225,8 @@ class ForrestDocumenter(Documenter):
         envSection.createParagraph(
             """The environment that this Gump run was within.""")            
         
-        #self.documentFileList(document,environment,'Environment-level Files')
+        self.documentAnnotations(document,environment)        
+        #self.documentFileList(document,environment,'Environment-level Files')        
         self.documentWorkList(document,environment,'Environment-level Work')
      
         document.serialize()
@@ -271,12 +272,10 @@ class ForrestDocumenter(Documenter):
         definitionTable.createEntry('Start Date/Time', workspace.startdatetime)
         definitionTable.createEntry('Timezone', workspace.timezone)
 
-	javaproperties=run.getEnvironment().getJavaProperties()
-	for name in ['java.vendor', 'java.version', 'os.name', 'os.arch', 'os.version']:
-	  if name in javaproperties:
-            definitionTable.createEntry(name, javaproperties[name])
-	    
-	  
+        javaproperties=run.getEnvironment().getJavaProperties()
+        for name in ['java.vendor', 'java.version', 'os.name', 'os.arch', 'os.version']:
+            if name in javaproperties:
+                definitionTable.createEntry(name, javaproperties[name])	  
         
         rssSyndRow=definitionTable.createRow()
         rssSyndRow.createData('Syndication')
