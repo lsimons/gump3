@@ -1,4 +1,4 @@
-<profile>
+<profile name="test">
 
   <project href="project/jakarta-ant.xml"/>
 
