@@ -212,12 +212,62 @@
                 to="dev@avalon.apache.org"/>
     </project>
 
+<!-- don't use this one!!!
+    Migrate to depending on excalibur-event-api and excalibur-event-impl instead... -->
     <project name="excalibur-event">
+      <depend project="excalibur-event-api" inherit="jars"/>
+      <depend project="excalibur-event-impl" inherit="jars"/>
+    </project>
+    
+    <project name="excalibur-event-api">
         <package>org.apache.excalibur.event</package>
 
-        <ant basedir="event" target="jar">
+        <ant basedir="event/api" target="jar">
             <!-- runtime dependencies -->
-            <depend property="avalon-framework.jar" project="avalon-framework" runtime="true" id="combined"/>
+            <depend project="avalon-framework" runtime="true" id="api"/>
+            
+            <!-- optional dependencies -->
+            <property name="checkstyle.jar" project="checkstyle" reference="jarpath"/>
+
+            <property name="package-version" value="@@DATE@@"/>
+            <property name="junit.failonerror" value="true"/>
+            <property name="do.checkstyle" value="true"/>
+            <property name="skip.dependencies" value="true"/>
+            <property name="project.version" value="@@DATE@@"/>
+        </ant>
+
+        <!-- build-time dependencies -->
+        <depend project="ant" inherit="runtime"/>
+        <depend project="xml-xerces"/>
+        <depend project="xml-xalan2"/>
+
+        <!-- optional dependencies -->
+        <option project="checkstyle" inherit="runtime"/>
+
+        <!--work nested="event/target/classes"/>
+        <work nested="event/target/test-classes"/-->
+
+        <home nested="event/api"/>
+        <mkdir dir="event/api/target/classes" />
+        <work nested="event/api/target/classes" />
+        
+        <jar name="build/lib/excalibur-event-api-@@DATE@@.jar"/>
+
+        <!--junitreport nested="event/target/docs/junitreports"/-->
+
+        <nag from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"
+                to="dev@avalon.apache.org"/>
+    </project>
+    
+    <project name="excalibur-event-impl">
+        <package>org.apache.excalibur.event</package>
+
+        <ant basedir="event/impl" target="jar">
+            <!-- runtime dependencies -->
+            <depend project="avalon-framework" runtime="true" id="api" />
+            <depend project="avalon-framework" runtime="true" id="impl" />
+            <depend project="excalibur-event-api" runtime="true" />
+            
             <depend property="commons-collections.jar" project="commons-collections" runtime="true"/>
             <depend property="util.concurrent.jar" project="concurrent" runtime="true"/>
 
@@ -250,7 +300,11 @@
         <!--work nested="event/target/classes"/>
         <work nested="event/target/test-classes"/-->
 
-        <home nested="event"/>
+        <home nested="event/impl"/>
+        <mkdir dir="event/impl/target/classes" />
+        
+        <work nested="event/impl/target/classes" />
+        
         <jar name="build/lib/excalibur-event-@@DATE@@.jar"/>
 
         <!--junitreport nested="event/target/docs/junitreports"/-->
