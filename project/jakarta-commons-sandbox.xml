@@ -193,6 +193,7 @@
     <depend project="jms"/>
     <depend project="junit"/>
     <depend project="msv"/>
+    <depend project="quartz"/>
     <depend project="nekohtml"/>
     <depend project="swt"/>
     <depend project="xml-axis"/>
