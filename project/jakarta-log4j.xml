@@ -8,7 +8,7 @@
   <cvs repository="jakarta"/>
   
   <project name="jakarta-log4j">
-    <ant basedir="build" target="jar">
+    <ant target="jar">
       <property name="version" value="gump"/>
     </ant>
 
