@@ -13,6 +13,4 @@
       <home nested="jasper2" />
       <jar name="lib/jsp20el.jar" />
   </project>
-
-  <depend project="commons-logging"/>
 </module>
