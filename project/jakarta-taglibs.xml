@@ -44,6 +44,9 @@
 
     <property name="servlet23.jar"
        reference="jarpath" id="servlet" project="jakarta-servletapi-4"/>
+
+    <property name="jdbc2_0-stdext.jar"
+       reference="jarpath" id="stdext" project="jdbc"/>
   </ant>
 
   <depend project="xml-xerces"/>
@@ -59,6 +62,7 @@
   <depend project="dom4j"/>
   <depend project="jakarta-log4j"/>
   <depend project="jaf"/>
+  <depend project="jdbc"/>
 
   <work nested="build/jsptl/jsptl"/>
 </project>
