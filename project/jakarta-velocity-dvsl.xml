@@ -14,7 +14,7 @@
     <depend project="jakarta-ant"/>
     <depend project="xml-xerces"/>
     <depend project="jakarta-velocity"/>
-    <depend project="dom4j"/>
+    <depend project="dom4j" runtime="true"/>
     <jar name="velocity-dvsl-@@DATE@@.jar"/>
   </project>
   
