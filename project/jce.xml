@@ -6,7 +6,7 @@
   </description>
   
   <project name="jce">
-    <jar  name="jce-jdk13-110.jar"/>
+    <jar  name="jce-jdk13-111.jar"/>
   </project>
 
 </module>
