@@ -223,9 +223,7 @@ class DependencyDiagram:
             
             # Draw lines to represent dependencies
             for dependency in project.getDirectDependencies():
-                
-                if dependency.isRuntime(): continue
-                
+                                
                 # For each dependent project
                 dependProject=dependency.getProject()
                 
@@ -245,12 +243,16 @@ class DependencyDiagram:
                     color='purple'
                 elif project.getFOGFactor() < 0.1:
                     color='red'
+            
+                attributes =	{ 'stroke':color, \
+                          'stroke-width':width, \
+                          'comment': project.getName() + ' to ' + dependProject.getName() }
+                          
+                if dependency.isRuntime(): 
+                    attributes['stroke-dasharray']='5,2'
                     
                 #print 'LINE %s,%s -> %s,%s' % (x,y,x1,y1)
-                svg.addLine(x,y,x1,y1, \
-                    { 'stroke':color, \
-                      'stroke-width':width, \
-                      'comment': project.getName() + ' to ' + dependProject.getName() } )
+                svg.addLine(x,y,x1,y1, attributes )
                                           
         #
         # The shapes and text

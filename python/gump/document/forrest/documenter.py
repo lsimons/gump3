@@ -1552,11 +1552,19 @@ This page helps Gumpmeisters (and others) observe community progress.
         self.documentFileList(run,document,project,'Project-level Files')  
         self.documentWorkList(run,document,project,'Project-level Work')  
                 
-        addnSection=document.createSection('Additional Details')
-        addnPara=addnSection.createParagraph()
-        addnPara.createLink(gumpSafeName(project.getName()) + '_details.html',	\
-                            'For additional project details (including dependencies) ...')                                                                         
+                
+        if project.isVerboseOrDebug():
+            addnSection=document.createSection('Additional Details')
+            addnPara=addnSection.createParagraph()
+            addnPara.createLink(gumpSafeName(project.getName()) + '_details.html',	\
+                                'For additional project details (including dependencies) ...')
+                                
         document.serialize()
+        
+        if project.isVerboseOrDebug():
+            self.documentProjectDetails(run,project,workspace,gumpSet)
+        
+    def documentProjectDetails(self,run,project,workspace,gumpSet):         
         
         document=XDocDocument('Project Details : ' + project.getName(),	\
                     self.resolver.getFile(project, \
@@ -1603,8 +1611,7 @@ This page helps Gumpmeisters (and others) observe community progress.
         
         deps = 0
         depens = 0
-        depees = 0
-        
+        depees = 0        
         
         #
         # The 'cause' is something upstream. Possibly a project,
@@ -2401,8 +2408,7 @@ This page helps Gumpmeisters (and others) observe community progress.
         
         document.createParagraph("""
         Statistics from Gump show the depth and health of inter-relationships. 
-        """)
-            
+        """)        
         
         overviewSection=document.createSection('Overview')
         overviewList=overviewSection.createList()
@@ -2483,6 +2489,18 @@ This page helps Gumpmeisters (and others) observe community progress.
         pstatsRow=pstatsTable.createRow()
         pstatsRow.createData().createLink(pBySeq, 'Projects By Duration in state')
         pstatsRow.createData('Duration in current state.')
+        
+        # Projects By Dependency Depth
+        pByDepD=self.documentProjectsByDependencyDepth(stats, run, workspace, gumpSet)           
+        pstatsRow=pstatsTable.createRow()
+        pstatsRow.createData().createLink(pByDepD, 'Projects By Dependency Depth')
+        pstatsRow.createData('Depth (in dependency tree) of the project.')
+        
+        # Projects By Dependency Depth
+        pByTotDepD=self.documentProjectsByDependencyDepth(stats, run, workspace, gumpSet, 1)           
+        pstatsRow=pstatsTable.createRow()
+        pstatsRow.createData().createLink(pByTotDepD, 'Projects By Total Dependency Depth')
+        pstatsRow.createData('Total Depth (sum of direct dependencies depths) of the project.')
         
         document.serialize()  
     
@@ -2719,21 +2737,47 @@ This page helps Gumpmeisters (and others) observe community progress.
         
         return fileName + '.html'
 
+    def documentProjectsByDependencyDepth(self,stats,run,workspace,gumpSet,total=0):
+        if total:
+           title='Projects By Total Dependency Depth'
+           fileName='project_totdepdepth'       
+        else:
+            title='Projects By Dependency Depth'
+            fileName='project_depdepth'       
+        documentFile=self.resolver.getFile(stats,fileName)    
+        document=XDocDocument(title, documentFile)        
+        durTable=document.createTable(['Project','Dependency Depth','Total Dependency Depth'])
+        if total: 
+            list = stats.projectsByTotalDependencyDepth
+        else:
+            list = stats.projectsByDependencyDepth
+        for project in list:        
+            if not gumpSet.inProjectSequence(project): continue    
+            durRow=durTable.createRow()            
+            self.insertLink( project, stats, durRow.createData())  
+                 
+            durRow.createData(project.getDependencyDepth())
+            durRow.createData(project.getTotalDependencyDepth())
+            
+        document.serialize()
+        
+        return fileName + '.html'
+
         
     #####################################################################           
     #
     # XRef Pages
     #           
     def documentXRef(self,run,workspace,gumpSet):
-        
-        xref=XRefGuru(workspace)
+                    
+        xref=XRefGuru(workspace)    
         
         document=XDocDocument('Cross Reference',self.resolver.getFile(xref))
     
         document.createParagraph("""
         Obscure views into projects/modules... 
         """)
-            
+                
         ##################################################################3
         # Modules ...........
         mxrefSection=document.createSection('Module Cross Reference')

@@ -55,7 +55,8 @@
     <index label="by Elapsed" href="gump_stats/project_elapsed.html"/>
     <index label="by Depends #" href="gump_stats/project_dependencies.html"/>
     <index label="by Dependees #" href="gump_stats/project_dependees.html"/>
-    <index label="by Duration" href="gump_stats/project_durstate.html"/>
+    <index label="by Depth" href="gump_stats/project_depdepth.html"/>
+    <index label="by Total Depth" href="gump_stats/project_totdepdepth.html"/>
   </stats>
 
   <stats label="XRef" tab="xref">

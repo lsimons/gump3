@@ -23,13 +23,18 @@ import logging
 import os.path
 from stat import *
 import shutil
+
 from gump import log
 from gump.utils.work import *
 from gump.utils.file import *
 from gump.utils.launcher import *
 from gump.utils.note import *
 
-class Sync(Annotatable):
+SYNC_ACTION=1
+COPY_ACTION=2
+DIFF_ACTION=3
+
+class PathWalker(Annotatable):
     """
     this class can be used to sync two directories
     x = Sync(sourcedir, targetdir) # construct
@@ -37,54 +42,77 @@ class Sync(Annotatable):
     if targetdir does not exist, it will be created
     if sourcedir does not exist, the class will raise an IOError
     the class can be also used to copy from one directory to another
-    x = Sync(sourcedir, targetdir, 1)
+    x = Sync(sourcedir, targetdir, )
     """
-    def __init__(self, sourcedir, targetdir, copyflag = 0):
+    def __init__(self, sourcedir, targetdir, action = SYNC_ACTION):
         Annotatable.__init__(self)
         self.sourcedir = sourcedir
         self.targetdir = targetdir
-        self.copyflag = copyflag
+        self.action = action
         
     def execute(self):
-        if self.copyflag:
-            action = 'copy'
-        else:
-            action = 'sync'
-        log.debug('Starting %s from [%s]' % (action,self.sourcedir))
+        log.debug('Starting %s from [%s]' % (self.action,self.sourcedir))
         log.debug('          target dir [' + self.targetdir + ']')
         if not os.path.exists(self.sourcedir):
             log.error('Exiting sync, source directory does not exist [' + self.sourcedir + ']')
             raise IOError, 'source directory does not exist [' + self.sourcedir + ']'
-            return
+
         if not os.path.isdir(self.sourcedir):
             log.error('Exiting sync, source is not a directory [' + self.sourcedir + ']')
             raise IOError, 'source is not a directory [' + self.sourcedir + ']'
-            return
+
         if not os.path.exists(self.targetdir):
             try:
                 os.makedirs(self.targetdir)
             except Exception, details:
                 log.exception('failed on ' + str(details))
                 raise IOError, 'could not create directory [' + self.targetdir + ']'
+                
         self.copytree(self.sourcedir, self.targetdir, 1)    
+        
+        
+    def isCopy(self): return (COPY_ACTION == self.action)
+    def isSync(self): return (SYNC_ACTION == self.action)
+    def isDiff(self): return (DIFF_ACTION == self.action)
             
     def copytree(self, src, dst, symlinks=0):
+        
+        #
+        # List all the files in the source location
+        #
         names = os.listdir(src)
+        
+        #
+        # Determine information about the destination (existence/type)
+        #
         try:
-            result = os.stat(dst)
+            destinationStat = os.stat(dst)
         except Exception:
-            result = None
-        # handle case where result exists but is not a directory    
-        if result and not S_ISDIR(result[ST_MODE]):
+            destinationStat = None
+         
+        #   
+        # handle case where destinationStat exists but is not a directory    
+        #
+        if destinationStat and not S_ISDIR(destinationStat[ST_MODE]):
             os.remove(dst)
-            result = None
-        if not result:    
+            destinationStat = None
+         
+        #
+        # Generate the target location (even if it means making
+        # a path of directories.)
+        #   
+        if not destinationStat:    
             os.makedirs(dst)
-        if result:
+            
+        if destinationStat:
             names2 = os.listdir(dst)            
-            if not self.copyflag:    
+            if not self.isCopy():    
                 self.removenonmatching(src, dst, names, names2)
                 self.epurate(src, dst, names, names2)    
+                
+        #
+        #
+        #
         for name in names:
             srcname = os.path.join(src, name)
             dstname = os.path.join(dst, name)
@@ -93,12 +121,13 @@ class Sync(Annotatable):
                     linkto = os.readlink(srcname)
                     os.symlink(linkto, dstname)
                 elif os.path.isdir(srcname):
+                    # Copy directories, but not CVS/SVN stuff
                     if not name in ['CVS','.svn']:
                         self.copytree(srcname, dstname, symlinks)
-                    #else:
-                    #    log.debug('Skip SVN or CVS directory ' + str(srcname))
                 else:
+                    # Selectively copy file
                     self.maybecopy(srcname, dstname)
+                    
             except (IOError, os.error), why:
                 message = "Can't copy [%s] to [%s]: [%s]" % (`srcname`, `dstname`, str(why))
                 log.exception(message)
@@ -119,13 +148,14 @@ class Sync(Annotatable):
             fulldestfile = os.path.join(destdir, afile)
             if not afile in acceptablefiles:
                 tobedeleted = os.path.join(destdir, afile)
-                result = os.stat(tobedeleted)
-                if S_ISDIR(result[ST_MODE]):
+                destinationStat = os.stat(tobedeleted)
+                if S_ISDIR(destinationStat[ST_MODE]):
                     log.debug('attempting to remove directory [%s]' % (`tobedeleted`))
                     shutil.rmtree(tobedeleted)
                 else:    
                     log.debug('attempting to remove file [%s]' % (`tobedeleted`))
                     os.remove(tobedeleted)
+                    
     def removenonmatching(self, sourcedir, destdir, acceptablefiles, existingfiles):
         """
         this routine will remove from destination
@@ -139,19 +169,24 @@ class Sync(Annotatable):
         """
         removed = []
         for afile in existingfiles:
-            fullsourcefile = os.path.join(sourcedir, afile)
-            fulldestfile = os.path.join(destdir, afile)
+            
             if afile in acceptablefiles:
+                                
+                fullsourcefile = os.path.join(sourcedir, afile)
+                fulldestfile = os.path.join(destdir, afile)
+            
                 if os.path.isdir(fullsourcefile) and not os.path.isdir(fulldestfile):
                     log.debug('removing file [%s] to be replaced by directory' 
-                    %(`fulldestfile`))
+                                %(`fulldestfile`))
                     os.remove(fulldestfile)
                     removed.append(afile)
                 elif os.path.isfile(fullsourcefile) and os.path.isdir(fulldestfile):              
                     log.debug('removing directory [%s] to be replaced by file' 
-                    %(`fulldestfile`))
+                                %(`fulldestfile`))
                     shutil.rmtree(fulldestfile)
                     removed.append(afile)
+                    
+        # Do the work
         for afile in removed:
             existingfiles.remove(afile)             
                 
@@ -162,30 +197,60 @@ class Sync(Annotatable):
         or srcname and dstname have different dates
         or srcname and dstname have different sizes
         """
-        result = os.stat(srcname)
+        sourceStat = os.stat(srcname)
         try:
-            result2 = os.stat(dstname)
-        except (Exception), details:
-            result2 = None
-        okcopy = 0
-        if not result2:
-            okcopy = 1
-        elif S_ISDIR(result2[ST_MODE]):
+            destinationStat = os.stat(dstname)
+        except:
+            destinationStat = None
+            
+        # Determine if copy is appropriate.
+        performCopy = 0
+        if not destinationStat:
+            performCopy = 1
+        elif S_ISDIR(destinationStat[ST_MODE]):
             shutil.rmtree(dstname)
-            okcopy = 1
-        elif result[ST_SIZE] != result2[ST_SIZE]:
-            okcopy = 1
-        elif result[ST_MTIME] != result2[ST_MTIME]:
-            okcopy = 1
-        if okcopy:
+            performCopy = 1
+        elif sourceStat[ST_SIZE] != destinationStat[ST_SIZE]:
+            performCopy = 1
+        elif sourceStat[ST_MTIME] != destinationStat[ST_MTIME]:
+            performCopy = 1
+            
+        if performCopy:
             log.debug("Attempting copy from [%s] to [%s]" %(`srcname`, `dstname`))    
-            shutil.copy2(srcname, dstname)        
+            shutil.copy2(srcname, dstname)    
+        else:
+            log.debug("Do not copy from [%s:%s] to [%s:%s]" \
+                        %(`srcname`, `sourceStat`, `dstname`,`destinationStat`))
+                
 
-class Copy(Sync):
+
+
+class Copy(PathWalker):
     """
     A Sync without the epurate
     """
     def __init__(self, sourcedir, targetdir):
-        Sync.__init__(self, sourcedir, targetdir, 1)
+        PathWalker.__init__(self, sourcedir, targetdir, COPY_ACTION)
                     
-            
+                    
+class Sync(PathWalker):
+    """
+    A Sync
+    """
+    def __init__(self, sourcedir, targetdir):
+        PathWalker.__init__(self, sourcedir, targetdir, SYNC_ACTION)
+                    
+                    
+#class Diff(Sync,FileHolder):
+#    """
+#    A difference analysis tool
+#    
+#     :TODO: Write it...
+#     
+#    """
+#    def __init__(self, sourcedir, targetdir):
+#        PathWalker.__init__(self, sourcedir, targetdir, DIFF_ACTION)
+#        FileHolder.__init__(self)
+#     
+#        raise IOError, 'this does not work yet ...'
+                

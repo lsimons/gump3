@@ -15,7 +15,7 @@
 # limitations under the License.
 
 #
-# $Header: /home/stefano/cvs/gump/python/gump/shared/comparator.py,v 1.1 2004/04/09 22:38:25 ajack Exp $
+# $Header: /home/stefano/cvs/gump/python/gump/shared/comparator.py,v 1.2 2004/04/22 18:24:36 ajack Exp $
 # 
             
 #
@@ -113,6 +113,21 @@ def compareProjectsBySequenceInState(project1,project2):
     seq1=project1.getStats().sequenceInState
     seq2=project2.getStats().sequenceInState
     c= int(round(seq2 - seq1,0))                  
+    if not c: c=cmp(project1,project2)
+    return c                         
+                        
+def compareProjectsByDependencyDepth(project1,project2):
+    dep1=project1.getDependencyDepth()
+    dep2=project2.getDependencyDepth()
+    c= int(round(dep2 - dep1,0))                  
+    if not c: c=cmp(project1,project2)
+    return c                         
+                               
+                        
+def compareProjectsByTotalDependencyDepth(project1,project2):
+    tot1=project1.getTotalDependencyDepth()
+    tot2=project2.getTotalDependencyDepth()
+    c= int(round(tot2 - tot1,0))                  
     if not c: c=cmp(project1,project2)
     return c                         
             

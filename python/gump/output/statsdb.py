@@ -357,7 +357,6 @@ class StatisticsGuru:
         self.modulesByLastUpdated=createOrderedList(workspace.getModules(),compareModulesByLastUpdated)
         
         
-        
         # All Projects                
         self.projectsByElapsed=createOrderedList(workspace.getProjects(),compareProjectsByElapsed)
         self.projectsByTotalDependencies=createOrderedList(workspace.getProjects(),compareProjectsByDependencyCount)
@@ -365,4 +364,6 @@ class StatisticsGuru:
         self.projectsByFOGFactor=createOrderedList(workspace.getProjects(),compareProjectsByFOGFactor)
         self.projectsByLastUpdated=createOrderedList(workspace.getProjects(),compareProjectsByLastUpdated)
         self.projectsBySequenceInState=createOrderedList(workspace.getProjects(),compareProjectsBySequenceInState)
+        self.projectsByDependencyDepth=createOrderedList(workspace.getProjects(),compareProjectsByDependencyDepth)
+        self.projectsByTotalDependencyDepth=createOrderedList(workspace.getProjects(),compareProjectsByTotalDependencyDepth)
         
