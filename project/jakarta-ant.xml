@@ -29,7 +29,7 @@
     <option project="jakarta-regexp"/>
     <option project="jakarta-oro"/>
 
-    <ant target="dist"/>
+    <ant target="distribution"/>
 
     <home nested="dist"/>
     <jar  name="lib/ant.jar"/>
