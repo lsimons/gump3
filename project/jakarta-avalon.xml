@@ -21,7 +21,7 @@
     <option project="commons-logging"/>
 
     <home nested="target/lib"/>
-    <jar name="avalon-framework-@@DATE@@.jar"/>
+    <jar name="avalon-framework.jar"/>
 
     <license name="LICENSE.txt"/>
 
