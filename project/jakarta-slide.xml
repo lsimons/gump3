@@ -31,6 +31,7 @@
     <depend project="commons-modeler"/>
     <depend project="jdbc"/>
     <depend project="antlr"/>
+    <depend project="jakarta-oro"/>
     <work nested="build/classes"/>
     <work nested="build/client/classes"/>
 
