@@ -11,8 +11,9 @@
     <package>org.apache.jetspeed</package>
 
     <ant basedir="build" target="release_binary">
-      <property name="JAVAC" value="classic"/>
-      <depend name="cactus.ant.jar" project="jakarta-cactus-anttasks"/>
+      <property name="JAVAC" value="modern"/>
+      <depend name="cactus.ant.jar"
+              project="jakarta-cactus-integration-ant-13"/>
       <depend name="cactus-22.jar" project="jakarta-cactus-framework-12"/>
       <depend name="cactus-23.jar" project="jakarta-cactus-framework-13"/>
       <depend name="junit.jar" project="junit"/>
