@@ -38,6 +38,7 @@
   <!-- RegExp packages -->
   <module href="project/jakarta-oro.xml"/>
   <module href="project/jakarta-regexp.xml"/>
+  <module href="project/jakarta-servletapi.xml"/>
   
   <!-- Commons Codec/Logging/HTTP Client/VFS etc. -->
   <module href="project/jakarta-commons.xml"/>
