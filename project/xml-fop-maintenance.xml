@@ -1,0 +1,32 @@
+<module name="xml-fop-maintenance">
+
+  <url href="http://xml.apache.org/fop/index.html"/>
+  <description>
+    XSL-FO (Formatting Objects) processor (Maintenance branch)
+  </description>
+
+  <cvs repository="xml" tag="fop-0_20_2-maintain"/>
+
+  <!-- main project -->
+
+  <project name="xml-fop-maintenance">
+    <package>org.apache.fop</package>
+
+    <mkdir dir="build/classes"/>
+    <ant target="gump"/>
+    <depend project="xml-xerces"/>
+    <depend project="xml-xalan2"/>
+    <depend project="ant" inherit="runtime"/>
+    <depend project="xml-batik"/>
+    <depend project="avalon" runtime="true"/>
+
+    <!-- for SerializeHyphPattern task -->
+    <work nested="build/classes"/>
+
+    <home nested="build"/>
+    <jar  name="fop.jar"/>
+
+    <nag from="Sam Ruby &lt;rubys@us.ibm.com&gt;" to="fop-dev@xml.apache.org"/>
+  </project>
+
+</module>
