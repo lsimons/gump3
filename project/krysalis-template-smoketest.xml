@@ -25,7 +25,9 @@
 	<project name="krysalis-template-smoketest" fullname="Krysalis Smoke Test">
 		<version major="0" minor="0" fix="1" tag="HEAD"/>
 		<package>smoketest</package>
-		<ant target="gump" vm="1.2"/>
+		<ant target="gump" vm="1.2">
+                  <property name="ant.home" reference="home" project="ant"/>
+                </ant>    
 		<depend project="jakarta-log4j" version="1.2.6"/>
 		<depend project="krysalis-template-smoketest-supplied" version="supplied" export="true"/>
 		<depend project="krysalis-centipede" inherit="all" />
