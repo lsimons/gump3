@@ -10,7 +10,7 @@
   <project name="jakarta-ecs">
     <package>org.apache.ecs</package>
 
-    <ant basedir="build" buildfile="build-ecs.xml" target="package"/>
+    <ant basedir="build" buildfile="build-ecs.xml" target="binary-package"/>
     <depend project="ant" inherit="runtime"/>
     <depend project="xml-xerces"/>
     <depend project="jakarta-regexp"/>
