@@ -3,40 +3,38 @@
 
   <title>The Jakarta Site</title>
   <logo href="images/bench.png">Gump</logo>
-    
+
   <body>
     <menu name="Gump">
-      <item name="Front Page" 
+      <item name="Front Page"
         href="/index.html"/>
-      <item name="Status"     
+      <item name="Status"
         href="/status.html"/>
-      <item name="Source"     
+      <item name="Source"
         href="http://cvs.apache.org/viewcvs/jakarta-gump/"/>
-      <item name="Usage"     
+      <item name="Usage"
         href="/usage.html"/>
-      <item name="FAQ"     
+      <item name="FAQ"
         href="/faq.html"/>
     </menu>
 
     <menu name="Results">
       <item name="Nightly"
         href="http://cvs.apache.org/builds/gump/latest/"/>
-      <item name="Java 1.4"
-        href="http://nagoya.apache.org/~rubys/gump/java14/"/>
-      <item name="Jars"     
+      <item name="Jars"
         href="http://gump.covalent.net/jars/"/>
-      <item name="Javadoc"     
+      <item name="Javadoc"
         href="http://nagoya.apache.org/~rubys/gump/javadoc.html"/>
     </menu>
 
     <menu name="Cross Reference">
-      <item name="By dependency"     
+      <item name="By dependency"
         href="http://cvs.apache.org/builds/gump/latest/xref.html"/>
-      <item name="Modules by repository"  
+      <item name="Modules by repository"
         href="http://cvs.apache.org/builds/gump/latest/modxref.html"/>
-      <item name="Installed packages"  
+      <item name="Installed packages"
         href="http://cvs.apache.org/builds/gump/latest/packages.html"/>
-      <item name="Jars by module"  
+      <item name="Jars by module"
         href="http://cvs.apache.org/builds/gump/latest/cvsjars.html"/>
       <item name="By Java package Name"
         href="http://cvs.apache.org/builds/gump/latest/bypackage.html"/>
@@ -58,11 +56,11 @@
     </menu>
 
     <menu name="Get Involved">
-      <item name="Overview"              
+      <item name="Overview"
         href="/site/getinvolved.html"/>
-      <item name="Join mailing lists"    
+      <item name="Join mailing lists"
         href="http://jakarta.apache.org/getinvolved/mail.html"/>
-      <item name="Search mailing lists"  
+      <item name="Search mailing lists"
         href="http://marc.theaimsgroup.com/?l=alexandria-dev&amp;r=1&amp;w=2"/>
     </menu>
 

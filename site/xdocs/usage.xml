@@ -20,11 +20,6 @@
       description of the data definitions used by Gump, starting with
       the <a href="overview.html">overview</a>.</p>
 
-      <p>It also would be useful to gather up a list of installed packages
-      that you will be referencing in your build.  A list of some of the
-      packages you might want can be found
-      <a href="http://jakarta.apache.org/builds/gump/latest/packages.html">
-      here</a>.</p>
     </subsection>
 
     <subsection name="Getting the source to Gump">
@@ -48,13 +43,33 @@
 
       <p>You will also need to directly modify the <code>gen.bat</code>
       or <code>gen.sh</code> scripts to specify where to find the JAXP
-      implementation to use.  At the present time, recent releases of 
+      implementation to use.  At the present time, recent releases of
       Xalan are recommended for performance reasons; but the JAXP
       reference implementation will likely catch up shortly.</p>
 
       <p><b>Note:</b> Yes, it is tacky that you should have to modify this
       file directly.  Patches are welcome.  Meanwhile, cvs does a fairly
       good job of merging changes.</p>
+    </subsection>
+
+    <subsection name="Installing Packages">
+      <p>Packages for which source is not easily accessible are not built by Gump.
+      Where such packages are required prerequisites for building other projects, Gump
+      allows binary versions of the package to be installed to satisfy the prerequisites.
+      Your workspace definition specifies where installed packages are to be found.
+      </p>
+
+      <p>A list of some of the packages you might want to install can be found
+      <a href="http://jakarta.apache.org/builds/gump/latest/packages.html">
+      here</a>.</p>
+
+      <p><b>JDK 1.4</b> includes both <code>jaxp</code> and <code>jsse</code>
+      which were previously available as separately installable packaged.
+      The dependencies on these packages are now marked as optional. If you are
+      using a JDK prior to 1.4, the packages must be installed. For JDK 1.4 and
+      later the packages need not be installed and the version provided with the
+      JDK will be utilised.
+      </p>
     </subsection>
 
     <subsection name="Generation">
@@ -89,7 +104,7 @@
          update ( all | module ... )
       </xmp>
 
-      <p>With this command you can specify you either want to update all or a 
+      <p>With this command you can specify you either want to update all or a
       specified list or modules.  If the module had not been previously
       checked out (or the target cvs directory has been removed) then a
       checkout is done instead.  If <code>all</code> is specified then a
@@ -111,7 +126,7 @@
          build ( all | clean | ( project [ target ... ] ) )
       </xmp>
 
-      <p>With this command you can specify you either want to build all or a 
+      <p>With this command you can specify you either want to build all or a
       specified project.  If <code>all</code> is specified then a
       web page containing the logs for each build is produced, as well as
       a summary page.  If <code>clean</code> is specified then the only
