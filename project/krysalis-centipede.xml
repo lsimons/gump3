@@ -97,7 +97,7 @@
     
         <depend project="ant" inherit="all"  />
         <depend project="ant-contrib" inherit="all" />
-		<depend project="ant-embed-optional" inherit="all" />
+		<!-- depend project="ant-embed-optional" inherit="all" / -->
 		<depend project="commons-jxpath" inherit="all" />
 		<depend project="commons-logging" inherit="all" />
 		<depend project="commons-vfs" inherit="all" />
