@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/output/Attic/statsdb.py,v 1.10 2004/01/09 23:28:40 ajack Exp $
-# $Revision: 1.10 $
-# $Date: 2004/01/09 23:28:40 $
+# $Header: /home/stefano/cvs/gump/python/gump/output/Attic/statsdb.py,v 1.11 2004/01/09 23:46:53 ajack Exp $
+# $Revision: 1.11 $
+# $Date: 2004/01/09 23:46:53 $
 #
 # ====================================================================
 #
@@ -161,6 +161,7 @@ class StatisticsDB:
         stats.currentState=stateForName(self.get(stats.currentStateKey()))
         stats.previousState=stateForName(self.get(stats.previousStateKey()))
         stats.startOfState=self.getDate(stats.startOfStateKey())
+        stats.sequenceInState=self.getInt(stats.sequenceInStateKey())
         
     def putBaseStats(self,stats):        
         self.put(stats.nameKey(), stats.name)
@@ -172,6 +173,7 @@ class StatisticsDB:
         self.put(stats.currentStateKey(), stateName(stats.currentState))
         self.put(stats.previousStateKey(), stateName(stats.previousState))
         self.putDate(stats.startOfStateKey(), stats.startOfState)
+        self.putInt(stats.sequenceInStateKey(), stats.sequenceInState)
 
     def delBaseStats(self,stats):
         try:
@@ -208,6 +210,10 @@ class StatisticsDB:
             """ Hopefully means it wasn't there... """        
         try:
             del self.db[stats.startOfStateKey()]
+        except:
+            """ Hopefully means it wasn't there... """        
+        try:
+            del self.db[stats.sequenceInStateKey()]
         except:
             """ Hopefully means it wasn't there... """
         
