@@ -656,6 +656,7 @@
         </ant>
         <depend project="avalon-meta-api" />
         <depend project="avalon-meta-spi" />
+        <depend project="avalon-util-i18n"/>
         <depend project="ant" inherit="runtime"/>
         <depend project="junit"/>
         <depend project="xml-xalan2"/>
