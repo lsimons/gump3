@@ -10,6 +10,7 @@
   <project name="xdoclet">
     <package>xdoclet</package>
 
+    <mkdir dir="core/build/classes"/>
     <ant basedir="script" />
     <depend project="jakarta-ant"/>
     <depend project="xml-xerces"/>
