@@ -244,9 +244,43 @@
            
     </project>
     
-    <project name="depot-update-ant-sample" fullname="Depot Update Ant Sample">    	
+    <!-- Exercise Repository Code with VFS in the environment -->
+    <project name="depot-update-ant-sample-vfs" fullname="Depot Update Ant Sample">    	
 
         <depend project="depot-update" inherit="all"/>
+        <depend project="ant" inherit="runtime"/>
+        
+        <ant  basedir="update" buildfile="build-ant-sample.xml" target="gump" vm="1.4">
+        	<property name="ant.home" project="ant" reference="home" />
+        </ant>
+
+	    <nag 
+           to="depot-dev@incubator.apache.org"
+           from="Adam Jack &lt;ajack@apache.org&gt;"/>
+           
+    </project>
+    
+	<!-- Exercise Repository Code with HTTP-Client in the environment -->
+    <project name="depot-update-ant-sample-httpclient" fullname="Depot Update Ant Sample">    	
+
+        <depend project="depot-update"/>
+        <depend project="commons-httpclient" inherit="runtime"/>
+        <depend project="ant" inherit="runtime"/>
+        
+        <ant  basedir="update" buildfile="build-ant-sample.xml" target="gump" vm="1.4">
+        	<property name="ant.home" project="ant" reference="home" />
+        </ant>
+
+	    <nag 
+           to="depot-dev@incubator.apache.org"
+           from="Adam Jack &lt;ajack@apache.org&gt;"/>
+           
+    </project>
+    
+	<!-- Exercise Repository Code with JDK HTTP in the environment -->
+    <project name="depot-update-ant-sample-jdk" fullname="Depot Update Ant Sample">    	
+
+        <depend project="depot-update"/>
         <depend project="ant" inherit="runtime"/>
         
         <ant  basedir="update" buildfile="build-ant-sample.xml" target="gump" vm="1.4">
