@@ -40,7 +40,7 @@
     <depend project="jakarta-pluto"/>
     <depend project="jakarta-regexp"/>
     <depend project="jakarta-servletapi-4"/>
-    <depend project="ws-axis"/>
+    <depend project="my-axis"/>
     <depend project="commons-discovery"/>
     <depend project="commons-logging"/>
     <depend project="tt-bytecode"/>
@@ -69,4 +69,8 @@
   <project name="tt-bytecode">
   	<jar name="lib/tt-bytecode.jar"/>
   </project>
+  <project name="my-axis">
+    <jar name="lib/axis.jar"/>
+  </project>
+  
 </module>
