@@ -41,7 +41,7 @@
   <module href="project/jakarta-turbine-flux.xml"/>
   <module href="project/jakarta-turbine-fulcrum.xml"/>
   <module href="project/jakarta-turbine-jyve.xml"/>
-  <module href="http://cvs.apache.org/viewcvs/~checkout~/jakarta-turbine-maven/jakarta-turbine-maven.xml"/>
+  <!-- module href="http://cvs.apache.org/viewcvs/~checkout~/jakarta-turbine-maven/jakarta-turbine-maven.xml"/ -->
   <module href="project/jakarta-turbine-orgami.xml"/>
   <module href="project/jakarta-turbine-site.xml"/>
   <module href="project/jakarta-turbine-stratum.xml"/>
