@@ -1,0 +1,10 @@
+<profile name="gump">
+
+<!-- Common Apache Defs -->
+
+<!-- server definitions -->
+  
+  <server href="server/daedalus.apache.org.xml"/>
+  <server href="server/icarus.apache.org.xml"/>
+
+</profile>

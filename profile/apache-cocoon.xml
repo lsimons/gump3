@@ -1,0 +1,8 @@
+<profile name="cocoon">
+
+  <!-- Apache.Cocoon -->
+  <repository href="repository/cocoon.xml"/>
+
+  <module href="http://cvs.apache.org/viewcvs/~checkout~/cocoon-2.1/gump.xml"/>
+
+</profile>

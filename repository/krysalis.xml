@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<repository name="krysalis" type="cvs">
+  <title>SourceForge</title>
+  <home-page>http://sourceforge.net/</home-page>
+  <cvsweb>http://cvs.sourceforge.net/cgi-bin/cvsweb.cgi/</cvsweb>
+
+  <root>
+    <method>pserver</method>
+    <user>anonymous</user>
+    <password></password>
+    <hostname>sourceforge.net</hostname>
+    <path>/cvsroot</path>
+  </root>
+</repository>
