@@ -25,6 +25,12 @@
         </td>
         <td>No</td>
       </tr>
+      tr>
+        <td>buildfile</td>
+        <td>The ant build file to execute.  Defaults to build.xml.
+        </td>
+        <td>No</td>
+      </tr>
       <tr>
         <td>target</td>
         <td>The ant target to invoke.</td>
