@@ -74,7 +74,7 @@
     <depend project="commons-logging"/>
  
     <work nested="target/classes"/>
-    <home nested="target"/>
+    <home nested="configuration/target"/>
     <jar name="commons-configuration-@@DATE@@.jar"/>
     <javadoc nested="docs/apidocs"/>
  
@@ -305,7 +305,7 @@
     <depend project="dom4j"/>
 
     <work nested="target/classes"/>
-    <home nested="target"/>
+    <home nested="xo/target"/>
     <jar name="commons-xo-@@DATE@@.jar"/>
     <javadoc nested="docs/apidocs"/>
     
