@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/model/module.py,v 1.1 2003/11/17 22:10:49 ajack Exp $
-# $Revision: 1.1 $
-# $Date: 2003/11/17 22:10:49 $
+# $Header: /home/stefano/cvs/gump/python/gump/model/module.py,v 1.2 2003/11/18 01:15:26 ajack Exp $
+# $Revision: 1.2 $
+# $Date: 2003/11/18 01:15:26 $
 #
 # ====================================================================
 #
@@ -160,11 +160,6 @@ class Module(NamedModelObject):
                 self.repository=repo
                 repo.addModule(self)
                 self.cvs=ModuleCVS(self.xml.cvs,repo)
-      
-                    # Populate defaults...
-                if self.xml.tag: self.cvs.tag=self.xml.tag    
-                if not self.xml.cvs.module: self.cvs.module=self.name
-
             else:
                 log.error(':TODO: No such repository in w/s ['+ repoName +'] on [' \
                         + self.getName() + ']')

@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/forrest.py,v 1.2 2003/11/18 00:29:50 ajack Exp $
-# $Revision: 1.2 $
-# $Date: 2003/11/18 00:29:50 $
+# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/forrest.py,v 1.3 2003/11/18 01:15:26 ajack Exp $
+# $Revision: 1.3 $
+# $Date: 2003/11/18 01:15:26 $
 #
 # ====================================================================
 #
@@ -355,7 +355,7 @@ class ForrestDocumenter(Documenter):
         self.documentSummary(document, workspace.getProjectSummary())
         
         projectsSection=document.createSection('Projects (in build order)')
-        projectsTable=projectsSection.createTable(['Name','Project State','Duration in state','Elapsed'])
+        projectsTable=projectsSection.createTable(['Name','Project State','Duration\nin state','Elapsed'])
         pcount=0
         for project in sortedProjectList:
             if not gumpSet.inSequence(project): continue       
@@ -440,7 +440,7 @@ class ForrestDocumenter(Documenter):
         self.documentSummary(document, workspace.getProjectSummary())
         
         modulesSection=document.createSection('Modules with TODOs')        
-        modulesTable=modulesSection.createTable(['Name','Affected','Duration in state','Module State',	\
+        modulesTable=modulesSection.createTable(['Name','Affected','Duration\nin state','Module State',	\
                                     'Project State(s)','Elapsed'])
         
         mcount=0
