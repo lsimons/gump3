@@ -124,13 +124,16 @@ if __name__=='__main__':
       
     #
     # Check Environment (eventually not do this each time)
+    # Exit if problems...
     #
-    checkEnvironment(workspace,context,0)
+    checkEnvironment(workspace,context,1)
         
     #
     # Check projects (and such) in workspace...
+    # Store results in context, do not display
+    # to screen.
     #
-    check(workspace, ps, context)    
+    check(workspace, ps, context, 0)    
     
     #
     result = integrate(workspace, ps, context)
