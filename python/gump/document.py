@@ -334,10 +334,12 @@ def documentWorkspace(workspace,context,db,moduleFilterList=None,projectFilterLi
     x=startXDoc(getWorkspaceDocument(workspace,wdir,'todos'))    
     headerXDoc(x,'Modules with TODOs')    
     
+    documentSummary(x,context.getProjectSummary())
+    
     startSectionXDoc(x,'Modules with TODOs')
     startTableXDoc(x)
     x.write('     <tr>')        
-    x.write('      <th>Name</th><th>Module State</th><th>Project State(s)</th><th>Elapsed Time</th>')
+    x.write('      <th>Name</th><th>Duration</th><th>Module State</th><th>Project State(s)</th><th>Elapsed Time</th>')
     x.write('     </tr>')
     mcount=0
     for mctxt in context:
@@ -354,13 +356,28 @@ def documentWorkspace(workspace,context,db,moduleFilterList=None,projectFilterLi
                 todos=1
                 
         if not todos: continue
-    
+
+        # Shown something...
         mcount+=1
+        
+        # Determine longest sequence in this (failed) state...
+        seq=0
+        for pctxt in mctxt:
+            if pctxt.status==STATUS_FAILED:
+                # Note: Leverages previous extraction from project statistics DB
+                if not hasattr(pctxt,'stats'):
+                    # Extract from project statistics DB
+                    stats=db.getProjectStats(pctxt.name)
+                    pctxt.stats=stats
+                stats=pctxt.stats
+    
+                if stats.sequenceInState > seq: seq = stats.sequenceInState
 
         x.write('     <tr><!-- %s -->\n' % (mname))        
-        x.write('      <td><link href=\'%s\'>%s</link></td><td>%s</td><td>%s</td>\n' % \
+        x.write('      <td><link href=\'%s\'>%s</link></td><td>%s</td><td>%s</td><td>%s</td>\n' % \
           (getModuleRelativeUrl(mname),mname,	\
-              getStatePairIcon(mctxt.getStatePair()),	\
+              seq, \
+              getStateIcon(mctxt),	\
               getStateIcons(mctxt)))    
         x.write('      <td>%s</td>\n' % elapsedTimeToString(mctxt.elapsedTime()))    
         x.write('     </tr>\n\n')
@@ -378,6 +395,8 @@ def documentWorkspace(workspace,context,db,moduleFilterList=None,projectFilterLi
     #
     x=startXDoc(getWorkspaceDocument(workspace,wdir,'modules'))      
     headerXDoc(x,'All Modules')
+    
+    documentSummary(x,context.getProjectSummary())
     
     startSectionXDoc(x,'All Modules')
     startTableXDoc(x)
@@ -398,7 +417,7 @@ def documentWorkspace(workspace,context,db,moduleFilterList=None,projectFilterLi
         x.write('     <tr><!-- %s -->\n' % (mname))        
         x.write('      <td><link href=\'%s\'>%s</link></td><td>%s</td><td>%s</td>\n' % \
           (getModuleRelativeUrl(mname),mname,\
-              getStatePairIcon(mctxt.getStatePair()),	\
+              getStateIcon(mctxt),	\
               getStateIcons(mctxt)))    
         x.write('      <td>%s</td>\n' % elapsedTimeToString(mctxt.elapsedTime()))    
         x.write('     </tr>\n\n')
@@ -499,13 +518,14 @@ def getStateIcons(modulecontext):
     for projectcontext in modulecontext:
         # :TODO: Dig in and get the first 'failed' 
         # launched task to use as link
-        
-        # :TODO: Wrap (via paragraph?) after a
-        # small number, 5 or so...
-        icon=getStatePairIcon(projectcontext.getStatePair())
-        href=getContextLink(projectcontext,0,icon)
+        href=getStateIcon(projectcontext)
         icons+=href+' '
     return icons
+    
+def getStateIcon(context):
+    icon=getStatePairIcon(context.getStatePair())
+    href=getContextLink(context,0,icon)
+    return href
     
 def documentModule(workspace,context,wdir,modulename,modulecontext,db,projectFilterList=None):
     mdir=getModuleDir(workspace,modulename,wdir)
@@ -651,9 +671,13 @@ def documentProject(workspace,context,modulename,mdir,projectname,projectcontext
 
     documentAnnotations(x,projectcontext.annotations)
     
-    # Extract from project statistics DB
-    stats=db.getProjectStats(projectname)
- 
+    # Note: Leverages previous extraction from project statistics DB
+    if not hasattr(projectcontext,'stats'):
+        # Extract from project statistics DB
+        stats=db.getProjectStats(projectname)
+        projectcontext.stats=stats
+    stats=projectcontext.stats
+    
     startSectionXDoc(x,'Details')
     startListXDoc(x)
     addItemXDoc(x,"Status: ", stateName(projectcontext.status))  
@@ -859,6 +883,8 @@ def documentWork(workspace,work,dir):
         else:
             addItemXDoc(x,"Output: None")
             
+        if work.result.signal:
+            addItemXDoc(x,"Termination Signal: ", str(work.result.signal))
         addItemXDoc(x,"Exit Code: ", str(work.result.exit_code))
         
         
@@ -889,6 +915,9 @@ def documentWork(workspace,work,dir):
                 x.write(param.name)
                 x.write('</td><td>')
                 val = param.value
+                # :TODO: Hack for BOOTCLASSPATH
+                if param.name.startswith('bootclasspath'):
+                   val=':\n'.join(val.split(':'))
                 if val:
                     x.write(val)
                 else:

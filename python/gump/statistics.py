@@ -85,6 +85,7 @@ class ProjectStatistics:
         self.last=''
         self.currentState=STATUS_UNSET
         self.previousState=STATUS_UNSET
+        self.sequenceInState=0
         
     def getFOGFactor(self):
         return (self.successes - self.failures - self.prereqs)
@@ -113,6 +114,9 @@ class ProjectStatistics:
     def previousStateKey(self):
         return self.projectname + '-previous-state'
         
+    def sequenceInStateKey(self):
+        return self.projectname + '-state-seq'
+        
 class StatisticsDB:
     """Statistics Interface"""
 
@@ -137,6 +141,7 @@ class StatisticsDB:
         s.last=self.getDate(s.lastKey())
         s.currentState=stateForName(self.get(s.currentStateKey()))
         s.previousState=stateForName(self.get(s.previousStateKey()))
+        s.sequenceInState=self.getInt(s.sequenceInStateKey())
         return s
     
     def putProjectStats(self,s):
@@ -148,6 +153,7 @@ class StatisticsDB:
         self.putDate(s.lastKey(), s.last)
         self.put(s.currentStateKey(), stateName(s.currentState))
         self.put(s.previousStateKey(), stateName(s.previousState))
+        self.putInt(s.sequenceInStateKey(), s.sequenceInState)
         
     def delProjectStats(self,s):
         try:
@@ -180,6 +186,10 @@ class StatisticsDB:
             """ Hopefully means it wasn't there... """
         try:
             del self.db[s.previousStateKey()]
+        except:
+            """ Hopefully means it wasn't there... """
+        try:
+            del self.db[s.sequenceInStateKey()]
         except:
             """ Hopefully means it wasn't there... """
         
@@ -218,8 +228,9 @@ def statistics(workspace,context,projectFilterList=None):
     db=StatisticsDB()       
     for modulecontext in context:
         for projectcontext in modulecontext:
-            if projectFilterList and not projectcontext.project in projectFilterList: continue  
+            # if projectFilterList and not projectcontext.project in projectFilterList: continue  
         
+            # Load the statistics
             s=db.getProjectStats(projectcontext.name)
             
             #
@@ -242,8 +253,12 @@ def statistics(workspace,context,projectFilterList=None):
                 s.failures += 1
                 
             #
-            # Deal with state changes...
+            # Deal with states & changes...
             #
+            if s.previousState==s.currentState:
+                s.sequenceInState += 1
+            else:
+                s.sequenceInState = 1
             s.previousState=s.currentState
             s.currentState=projectcontext.status
             

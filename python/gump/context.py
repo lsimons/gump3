@@ -663,7 +663,10 @@ class ModuleContext(Context):
         return round(fogFactor/fogFactors,2)
          
     # Get a summary of states for each project
-    def getProjectSummary(self,summary=None):            
+    def getProjectSummary(self,summary=None):  
+    
+        if hasattr(self,'summary'): return self.summary
+        
         if not summary: 
             summary=Summary()
         
@@ -672,7 +675,10 @@ class ModuleContext(Context):
         #
         for ctxt in self:
             summary.addState(ctxt.getStatePair())
-            
+        
+        # Store for later...
+        self.summary = summary
+        
         return summary
            
 class GumpContext(Context):
@@ -778,7 +784,9 @@ class GumpContext(Context):
                     print "Unknown Project : " + option.project
         
     # Get a summary of states for each project
-    def getProjectSummary(self,summary=None):            
+    def getProjectSummary(self,summary=None): 
+        if hasattr(self,'summary'): return self.summary
+                
         if not summary: 
             summary=Summary()
         
@@ -787,6 +795,9 @@ class GumpContext(Context):
         for ctxt in self:
             ctxt.getProjectSummary(summary)
             
+        # Store for later...
+        self.summary = summary
+        
         return summary
                     
 if __name__=='__main__':
