@@ -165,6 +165,7 @@
     <depend project="jsse"/>
     <depend project="jakarta-log4j"/>
     <depend project="commons-logging"/>
+    <depend project="jce"/>
     <home nested="httpclient/dist"/>
     <jar name="commons-httpclient.jar"/>
     <javadoc nested="httpclient/dist/docs/api"/>
