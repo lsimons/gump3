@@ -23,12 +23,12 @@
     <depend project="jakarta-regexp"/>
     <depend project="jakarta-servletapi-5-servlet"/>
     <depend project="ws-axis"/>
+    <depend project="jakarta-pluto"/>
 
     <work nested="build/ant/lib/ForeachTask.jar"/>
 
     <home nested="bin/lib"/>
     <jar name="wsrp4j-consumer-0.3.jar"/>
-    <jar name="wsrp4j-pluto-provider-0.3.jar"/>
     <jar name="wsrp4j-producer-0.3.jar"/>
     <jar name="wsrp4j-shared-0.3.jar"/>
     <jar name="wsrp4j-swing-consumer-0.3.jar"/>
@@ -43,5 +43,10 @@
       <regexp pattern="/timed out/" subject="Build timed out - wsrp4j"/>
     </nag>
   </project>
-
+  
+  <project name="jakarta-pluto">
+    <url href="http://jakarta.apache.org/pluto/"/>
+    <description>Reference implementation for JSR168 Portlet container</description>
+    <jar name="lib/shared/pluto-0.1-dev-unreleased.jar"/>
+  </project>
 </module>
