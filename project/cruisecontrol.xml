@@ -24,7 +24,7 @@
   </project>
 
   <project name="starteam">
-    <home nested="lib"/>
+    <home nested="main/lib"/>
     <jar name="starteam-sdk-interfaceonly.jar"/>
   </project>
 
