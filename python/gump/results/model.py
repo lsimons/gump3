@@ -154,6 +154,27 @@ class ResultModelObject(Annotatable,Ownable,Stateful):
             return self.getOwner().getEndDateTimeUtc()       
         return self.endDateTimeUtc
          
+class ResultsSet(dict):
+    def __init__(self):
+        dict.__init__(self)
+        
+        self.calculated=0
+        self.differences=0
+        
+    def hasDifferences(self):
+        if self.calculated: return self.differences
+        
+        lastPair=None
+        for result in self.values():
+            statePair=result.getStatePair()            
+            if lastPair:
+                if lastPair <> statePair:
+                    self.differences=1
+            lastPair=statePair
+            
+        self.calculated=1
+        return self.differences
+     
 
 # represents a <workspaceResult/> element
 class WorkspaceResult(ResultModelObject):

@@ -35,27 +35,7 @@ from gump.model.project import *
 from gump.results.model import *
 from gump.results.loader import *
 
-class ResultsSet(dict):
-    def __init__(self):
-        dict.__init__(self)
-        
-        self.calculated=0
-        self.differences=0
-        
-    def hasDifferences(self):
-        if self.calculated: return self.differences
-        
-        lastPair=None
-        for result in self.values():
-            statePair=result.getStatePair()            
-            if lastPair:
-                if lastPair <> statePair:
-                    self.differeces=1
-            lastPair=statePair
-            
-        self.calculated=1
-        return self.differences
-                    
+               
 class Resulter:
     
     def __init__(self,run):        

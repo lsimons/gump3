@@ -26,6 +26,8 @@ import gump.config
 from gump.gumprun import GumpRun
 from gump.test import getWorkedTestWorkspace
 from gump.test.pyunit import UnitTestSuite
+from gump.model.state import *
+from gump.results.model import *
 from gump.results.resulter import generateResults,Resulter
 from gump.results.loader import WorkspaceResultLoader
 from gump.net.mailer import *
@@ -90,4 +92,28 @@ class ResultingTestSuite(UnitTestSuite):
 
         # Load for all servers...
         resulter.loadResultsForServers()        
+        
+    def testNoDifferences(self):
+        r=ResultsSet()
+        
+        m1= ResultModelObject('a')
+        r['a']=m1
+        
+        m2= ResultModelObject('b')
+        r['b']=m2
+        
+        self.assertFalse('No Differences', r.hasDifferences())
+              
+        
+    def testDifferences(self):
+        r=ResultsSet()
+        
+        m1= ResultModelObject('a')
+        m1.setStatePair(StatePair(STATE_SUCCESS,REASON_UNSET))
+        r['a']=m1
+        
+        m2= ResultModelObject('b')
+        r['b']=m2
+        
+        self.assertTrue('Differences', r.hasDifferences())
         
