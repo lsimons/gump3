@@ -20,6 +20,7 @@
     <ant target="gump">
       <property name="ant.home" reference="home" project="ant"/>
       <property name="project.name" value="krysalis-ruper2-core"/>
+      <property name="project.part" value="core"/>
     </ant>
    
     <depend project="ant" inherit="runtime"/>
@@ -39,6 +40,23 @@
     
   </project>  
   	
+  <project name="krysalis-ruper2-core-test">
+    <package>org.krysalis.ruper.test</package>
+ 
+    <ant target="gump-test">
+      <property name="ant.home" reference="home" project="ant"/>
+      <property name="project.name" value="krysalis-ruper2-core"/>
+      <property name="project.part" value="core"/>
+    </ant>
+   
+    <depend project="krysalis-ruper2-core" inherit="all"/>
+    <depend project="junit"/>
+        
+    <nag to="krysalis-developers@lists.sourceforge.net"
+         from="Adam Jack &lt;arb_jack@users.sourceforge.net&gt;"/>    
+    
+  </project>
+  
   <project name="krysalis-ruper2-ant">
     <package>org.krysalis.ruper</package>
 
@@ -63,7 +81,24 @@
     
   </project>
   
- <project name="krysalis-ruper2-ant-test">
+  <project name="krysalis-ruper2-ant-test">
+    <package>org.krysalis.ruper.ant.test</package>
+ 
+    <ant target="gump-test">
+      <property name="ant.home" reference="home" project="ant"/>
+      <property name="project.name" value="krysalis-ruper2-ant"/>
+      <property name="project.part" value="ant"/>
+    </ant>
+   
+    <depend project="krysalis-ruper2-ant" inherit="all"/>
+    <depend project="junit"/>
+        
+    <nag to="krysalis-developers@lists.sourceforge.net"
+         from="Adam Jack &lt;arb_jack@users.sourceforge.net&gt;"/>    
+    
+  </project>
+  
+  <project name="krysalis-ruper2-ant-sample">
     <package>org.krysalis.ruper.test</package>
 
     <ant target="gump" buildfile="build-ant-test.xml">
@@ -79,6 +114,7 @@
     
   </project>
  
+  <!-- Not ready yet... 
   <project name="krysalis-ruper2">
        
       	<depend project="krysalis-centipede" inherit="all"/> 
@@ -99,8 +135,10 @@
       	<nag to="krysalis-developers@lists.sourceforge.net"
         	 from="Adam Jack &lt;arb_jack@users.sourceforge.net&gt;"/> 
   </project>  
+  -->
   
   <!-- Eclipse Plugin -->
+  <!-- Not ready yet... 
   <project name="krysalis-ruper2-eclipse">
     
     <depend project="krysalis-ruper2" inherit="all"/>
@@ -112,11 +150,11 @@
     <ant basedir="." buildfile="centibuild.xml" target="gump" vm="1.2">
       	<property name="ant.home" project="ant" reference="home"/>
        	<property name="project.name" value="krysalis-ruper-eclipse"/>
-    </ant>
-      	
+    </ant>      	
       	
     <nag to="krysalis-developers@lists.sourceforge.net"
      	from="Adam Jack &lt;arb_jack@users.sourceforge.net&gt;"/> 
   </project>  
+  -->
 
 </module>
