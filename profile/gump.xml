@@ -76,7 +76,7 @@
   <module href="project/xml-axis-wsif.xml"/>
   <module href="project/xml-axis-wsil.xml"/>
   <module href="project/xml-batik.xml"/>
-  <module href="http://cvs.apache.org/viewcvs/~checkout~/xml-cocoon2/module.xml"/>  
+  <module href="http://cvs.apache.org/viewcvs/~checkout~/xml-cocoon2/project-info.xml"/>  
   <module href="project/xml-commons.xml"/>
   <module href="project/xml-crimson.xml"/>
   <module href="project/xml-fop.xml"/>
