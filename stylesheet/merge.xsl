@@ -44,9 +44,9 @@
       </xsl:if>
 
       <!-- default build style, if not present -->
-      <xsl:if test="not(@build)">
-        <xsl:attribute name="build">
-          <xsl:text>default</xsl:text>
+      <xsl:if test="not(@build-sequence)">
+        <xsl:attribute name="build-sequence">
+          <xsl:text>bulk</xsl:text>
         </xsl:attribute>
       </xsl:if>
 

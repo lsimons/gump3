@@ -417,7 +417,7 @@
   <xsl:template match="initdir">
     <xsl:variable name="dir" select="translate(@dir,'\','/')"/>
 
-    <xsl:if test="/build/@style = 'progressive'">
+    <xsl:if test="/build/@build-sequence = 'progressive'">
       <xsl:text>test -d </xsl:text>
       <xsl:value-of select="$dir"/>
       <xsl:text> &amp;&amp; rm -rf </xsl:text>
