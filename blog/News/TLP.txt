@@ -1,24 +1,16 @@
 PREVIEW Gump is now an Apache Top Level Project
-
-Preparing the blog annoucnement of Gump as a TLP<br/>
-Please expand and edit <br/>
-view at 
-http://gump.chalko.com/gb/blog/News/?permalink=TLP.txt&preview=true&smm=y
-<br/>
-We will release when the gump website is ready.
-<hr/>
 <p>Apache 
-<a href="http://gump.apache.org">gump</a> is now a top level Apache project.   
+<a href="http://gump.apache.org">Gump</a> is now a top level Apache project.   
 Our <a href="http://gump.apache.org/#What+is+Gump%3F">mission</a>
 is still the same 
 <strong>get diverse projects to communicate early and often about integration, 
 dependencies, and versioning management</strong>.  However since gump is now primarily 
 written in python and serves a community large than Jakarta we haved moved out on our own.  
-All Apache commiters still have write access to the entire gump CVS, and our encoured to 
+All Apache commiters still have write access to the entire gump CVS, and aare encoured to 
 edit their modules cvs data to keep the builds fresh.
 </p>
 <p>To make all this official, on <a href="http://apache.org/foundation/records/minutes/2004/board_minutes_2004_02_18.txt"
->18 Feb 2004</a> The Board voted to create the  Gump PMC.
+>18 Feb 2004</a> The Board voted to create the Gump PMC.
 </p>
 <more/>
 <blockquote>
