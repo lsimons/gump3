@@ -193,7 +193,7 @@ class TimeStamp:
                 toDateTime(self.timestamp) 
                 
     def __cmp__(self,other):
-        return int(self.timestamp - other.timestamp) 
+        return (self.timestamp < other.timestamp)
         
 class TimeStampRange:       
     def __init__(self,name,start=None,end=None,external=False):

@@ -162,6 +162,30 @@
 </source>    
     </section>
 
+    <section><title>p4</title>
+
+      <p>References a <link href="http://www.perforce.com/">Perforce</link> 
+      repository in which this project resides.</p>
+
+      <table>
+        <tr>
+          <th>Attribute</th>
+          <th>Description</th>
+          <th>Required?</th>
+        </tr>
+        <tr>
+          <td>repository</td>
+          <td>The name of the repository in which this module resides.</td>
+          <td>Yes</td>
+        </tr>
+      </table>
+
+      <p>For example:</p>
+          <source>
+  &lt;p4 repository="my-p4-repository"/&gt;
+</source>    
+    </section>
+
     <section><title>project</title>
       <p>A definition of a <link href="project.html">project</link> which is
       physically contained in this module.</p>

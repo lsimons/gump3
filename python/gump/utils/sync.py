@@ -210,14 +210,17 @@ class PathWalker(Annotatable):
             fulldestfile = os.path.join(destdir, afile)
             if not afile in acceptablefiles:
                 tobedeleted = os.path.join(destdir, afile)
-                destinationStat = os.stat(tobedeleted)
-                if S_ISDIR(destinationStat[ST_MODE]):
-                    if self.isDebug(): log.debug('Attempting to remove directory [%s]' % (`tobedeleted`))
-                    self.displayAction(False,' -D ', tobedeleted)    
-                    shutil.rmtree(tobedeleted)
-                else:    
-                    if self.isDebug(): log.debug('Attempting to remove file [%s]' % (`tobedeleted`))   
-                    self.displayAction(False,' -F ', tobedeleted)    
+                try:
+                    destinationStat = os.stat(tobedeleted)
+                    if S_ISDIR(destinationStat[ST_MODE]):
+                        if self.isDebug(): log.debug('Attempting to remove directory [%s]' % (`tobedeleted`))
+                        self.displayAction(False,' -D ', tobedeleted)    
+                        shutil.rmtree(tobedeleted)
+                    else:    
+                        if self.isDebug(): log.debug('Attempting to remove file [%s]' % (`tobedeleted`))   
+                        self.displayAction(False,' -F ', tobedeleted)    
+                        os.remove(tobedeleted)
+                except (IOError, os.error), why:
                     os.remove(tobedeleted)
                     
     def removenonmatching(self, sourcedir, destdir, acceptablefiles, existingfiles):

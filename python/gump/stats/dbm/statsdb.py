@@ -208,12 +208,12 @@ class StatisticsDB:
         dateF=self._get(key)
         
         if dateF:
-            print 'dateF ' + dateF
+            #print 'dateF ' + dateF
             if not ' ' in dateF:
                 # Historical float perhaps?
                 date=datetime.datetime.utcfromtimestamp(int(dateF))
             else:
-                date=datetime.datetime.utcfromtimestamp(time.mktime(time.strptime('%Y-%m-%d %H:%M:%S')))
+                date=datetime.datetime.utcfromtimestamp(time.mktime(time.strptime(dateF,'%Y-%m-%d %H:%M:%S')))
         else:
             date=None
             

@@ -129,6 +129,62 @@ class ModuleSvn(ModelObject):
     def getViewUrl(self):
         return self.getRootUrl()
          
+class ModuleP4(ModelObject):
+    def __init__(self,dom,repository):
+        ModelObject.__init__(self,dom)
+
+        # Reference to the shared repository
+        self.repository=repository
+        self.hostname='perforce:1666'
+        if repository.hasDomChild('root'):
+            root=repository.getDomChild('root')
+            self.method=getDomChildValue(root,'method')
+            self.user=getDomChildValue(root,'user')
+            self.password=getDomChildValue(root,'password')
+            self.path=getDomChildValue(root,'path')
+            self.hostname=getDomChildValue(root,'hostname')
+            self.clientspec=getDomChildValue(root,'clientspec')
+
+        self.tag=self.getDomAttributeValue('tag')
+
+        # Extract settings
+        self.dir=self.getDomAttributeValue('dir')
+
+    def getPort(self):
+        return str(self.hostname)
+
+    def getUser(self):
+        return str(self.user)
+
+    def getPassword(self):
+        return str(self.password)
+
+    def getClientspec(self):
+        return str(self.clientspec)
+    
+    def hasTag(self):
+        if self.tag: return True
+        return False
+        
+    def getTag(self):
+        return str(self.tag)
+        
+    def getRootUrl(self):
+        url=self.repository.getUrl()
+        if self.hasDir():
+            url+=self.getDir()
+        return url
+
+    def hasDir(self):
+        if self.dir: return True
+        return False
+
+    def getDir(self):
+        return self.dir
+
+    def getViewUrl(self):
+        return self.getRootUrl()
+        
 class ModuleArtifacts(ModelObject):
     def __init__(self,dom,repository):
         ModelObject.__init__(self,dom)
@@ -176,6 +232,7 @@ class Module(NamedModelObject, Statable, Resultable, Positioned):
     	self.cvs=None
     	self.svn=None
     	self.artifacts=None
+    	self.p4=None
     	
         self.packaged		=	False 
         self.redistributable=   False
@@ -381,6 +438,21 @@ class Module(NamedModelObject, Statable, Resultable, Positioned):
                         self.addError('No such repository ['+ str(repoName) +'] in workspace on [' \
                                 + self.getName() + ']')                 
                                                 
+            elif self.hasDomChild('p4'):
+                p4dom=self.getDomChild('p4')
+                repoName=getDomAttributeValue(p4dom,'repository')
+                if repoName:
+                    if workspace.hasRepository(repoName):
+                        # It references this repository
+                        repo=workspace.getRepository(repoName)
+                        self.repository=repo
+                        repo.addModule(self)
+                        self.p4=ModuleP4(p4dom,repo)
+                    else:
+                        self.changeState(STATE_FAILED,REASON_CONFIG_FAILED)
+                        self.addError('No such repository ['+ str(repoName) + '] in workspace on [' \
+                                + self.getName() + ']')
+
             elif self.hasDomChild('artifacts'):
                 adom=self.getDomChild('artifacts')
                 repoName=getDomAttributeValue(adom,'repository')
@@ -640,6 +712,10 @@ class Module(NamedModelObject, Statable, Resultable, Positioned):
         if self.svn: return True
         return False
         
+    def hasP4(self):
+        if self.p4: return True
+        return False
+        
     def hasArtifacts(self):
         if self.artifacts: return True
         return False
@@ -669,6 +745,8 @@ class Module(NamedModelObject, Statable, Resultable, Positioned):
             return self.cvs.getViewUrl()
         elif self.hasSvn():
             return self.svn.getViewUrl()            
+        elif self.hasP4():
+            return self.p4.getViewUrl()            
 
 class ModuleStatistics(Statistics):
     """ 

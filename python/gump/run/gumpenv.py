@@ -75,6 +75,7 @@ class GumpEnvironment(Annotatable,Workable,Propogatable):
     	self.noUpdate=False    
     	self.noSvn=False    	
     	self.noCvs=False   
+    	self.noP4=False   
         self.noJava=False
         self.noJavac=False
         
@@ -168,6 +169,10 @@ class GumpEnvironment(Annotatable,Workable,Propogatable):
         if not self.noSvn and not self._checkExecutable('svn','--version',False):
             self.noSvn=True
             self.addWarning('"svn" command not found, no SVN repository updates')
+          
+        if not self.noP4 and not self._checkExecutable('p4','-V',False):
+            self.noP4=True
+            self.addWarning('"p4" command not found, no Perforce repository updates')
           
         if not self.noUpdate and \
             not self._checkExecutable(getDepotUpdateCmd(),'-version',False,False,'check_depot_update'): 

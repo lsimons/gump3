@@ -60,7 +60,7 @@ class EmailMessage:
         """E-mail"""
         # Add the From: and To: headers at the start!
         data = ("Date: %s\r\nFrom: %s\r\nTo: %s\r\nSubject: %s\r\n\r\n%s%s"
-           	% (	time.strftime('%d %b %y %H:%M:%S', time.gmtime()),
+           	% (	time.strftime('%a, %d %b %y %H:%M:%S %Z', time.localtime()),
                         #self.fromaddr.encode(),
                         self.fromaddr, 
            		string.join(self.toaddrs, ", "),
@@ -68,7 +68,6 @@ class EmailMessage:
                         self.subject,
            		self.text,
            		default.signature))
-           		
         return data;
      
 #
@@ -141,14 +140,14 @@ if __name__=='__main__':
     #set verbosity to show all messages of severity >= default.logLevel
     log.setLevel(default.logLevel)
    
-    email=EmailMessage('Adam Jack <ajack@trysybase.com>',\
-                    'Adam Jack <ajack@trysybase.com>',\
+    email=EmailMessage(['Adam Jack <ajack@trysybase.com>'],\
+                    'Adam Jack <ajack@trysybase.com>', \
                     'Hi','There')
   
-    mail([default.email],default.email,email,default.mailserver)
+    #mail([default.email],default.email,email,default.mailserver)
   
-    mail([ 'ajack@trysybase.com' ],default.email,email,default.mailserver)
+    mail(['ajack@trysybase.com'],default.email,email,default.mailserver)
   
-    print sanitizeAddress('Adam Jack <ajack@trysybase.com>')
+    print sanitizeAddress('Adam Jack <ajack@trysybase.com>') 
   
   

@@ -42,7 +42,7 @@ class Repository(NamedModelObject, Statable):
         if 'cvs'==type:
             self.type='CVS'    
             self.web=self.getDomChildValue('cvsweb') or \
-                        self.getDomChildValue('web')                            
+                        self.getDomChildValue('web')
             if self.hasDomChild('root'):
                 root=self.getDomChild('root')
                 self.method=getDomChildValue(root,'method')  
@@ -65,6 +65,14 @@ class Repository(NamedModelObject, Statable):
                 self.url=self.getDomChildValue('url')
             else:
                 raise RuntimeError, 'No URL on Jars repository: ' + self.getName()                
+            self.web=self.getDomChildValue('web')
+        elif 'p4'==type:
+            self.type='Perforce'
+            if self.hasDomChild('root'):
+                root=self.getDomChild('root')
+                self.p4port=getDomChildValue(root,'hostname')
+            else:
+                raise RuntimeError, 'No Perforce server on P4 repository: ' + self.getName()
             self.web=self.getDomChildValue('web')
         else:
             raise RuntimeError, 'Invalid Repository Type:' + str(xml.type)         
