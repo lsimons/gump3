@@ -159,7 +159,7 @@
   <module href="project/beepcore.xml"/>
   <module href="project/checkstyle.xml"/>
   <module href="project/dom4j.xml"/>
-  <module href="project/freemarker.xml"/>
+  <!--module href="project/freemarker.xml"/-->
   <module href="project/hsqldb.xml"/>
   <module href="project/httpunit.xml"/>
   <module href="project/hibernate.xml"/>
@@ -167,7 +167,7 @@
   <module href="project/invicta.xml"/>
   <module href="project/javagroups.xml"/>
   <module href="project/javassist.xml"/>
-  <module href="project/javasrc.xml"/>
+  <!--module href="project/javasrc.xml"/-->
   <module href="project/jaxen.xml"/>
   <module href="project/jetty.xml"/>
   <module href="project/jfor.xml"/>
