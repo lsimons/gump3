@@ -123,6 +123,8 @@
   
   <project name="jakarta-tomcat-jk2-native">
     <ant basedir="jk/native2" target="main" >
+        <property name="use.jni" value="false"/>
+        <property name="use.apr" value="false"/>
     </ant>
 
     <depend project="jakarta-ant" />
