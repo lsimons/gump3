@@ -24,9 +24,11 @@ class BaseErrorHandler:
     
     This handler just re-raises a caught error.
     """
-    def handle(visitor, error, visited_model_object):
+    def handle(self, visitor, visited_model_object):
         """Override this method to be able to swallow exceptions."""
-        raise error
+        import sys
+        (type, value, traceback) = sys.exc_info()
+        raise type, value
 
 class LoggingErrorHandler:
     """Logging error handler for use with the MulticastPlugin.
@@ -36,10 +38,12 @@ class LoggingErrorHandler:
     def __init__(self, log):
         self.log = log
 
-    def handle(visitor, error, visited_model_object):
+    def handle(self, visitor, visited_model_object):
         """Override this method to be able to swallow exceptions."""
         self.log.exception("%s threw an exception while visiting %s!" % (visitor, visited_model_object))
-        raise error
+        import sys
+        (type, value, traceback) = sys.exc_info()
+        raise type, value
 
 class AbstractPlugin:
     """Base class for all plugins.
@@ -111,32 +115,32 @@ class MulticastPlugin(AbstractPlugin):
     def initialize(self):
         for visitor in self.list:
             try: visitor._initialize()
-            except: self.error_handler.handle(visitor, error, "{{{initialization stage}}}")
+            except: self.error_handler.handle(visitor, "{{{initialization stage}}}")
 
     def visit_workspace(self, workspace):
         for visitor in self.list:
             try: visitor._visit_workspace(workspace)
-            except: self.error_handler.handle(visitor, error, workspace)
+            except: self.error_handler.handle(visitor, workspace)
 
     def visit_repository(self, repository):
         for visitor in self.list:
             try: visitor._visit_repository(repository)
-            except: self.error_handler.handle(visitor, error, repository)
+            except: self.error_handler.handle(visitor, repository)
 
     def visit_module(self, module):
         for visitor in self.list:
             try: visitor._visit_module(module)
-            except: self.error_handler.handle(visitor, error, module)
+            except: self.error_handler.handle(visitor, module)
 
     def visit_project(self, project):
         for visitor in self.list:
             try: visitor._visit_project(project)
-            except: self.error_handler.handle(visitor, error, project)
+            except: self.error_handler.handle(visitor, project)
 
     def finalize(self):
         for visitor in self.list:
             try: visitor._finalize()
-            except: self.error_handler.handle(visitor, error, "{{{finalization stage}}}")
+            except: self.error_handler.handle(visitor, "{{{finalization stage}}}")
 
 class LoggingPlugin(AbstractPlugin):
     """Plugin that prints debug messages as it visits model objects."""
