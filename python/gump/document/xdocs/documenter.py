@@ -1710,10 +1710,11 @@ This page helps Gumpmeisters (and others) observe community progress.
         
         statsTable=statsSection.createTable()           
         
-        # Generate an SVG for FOG:
-        (file,title) = self.diagramFOG(project)
-        if file:
-            statsTable.createEntry("FOG Factor: ").createData().createIcon(file,title)
+        if self.config.isXDocs():
+            # Generate an SVG for FOG:
+            (file,title) = self.diagramFOG(project)
+            if file:
+                statsTable.createEntry("FOG Factor: ").createData().createIcon(file,title)
             
         statsTable.createEntry("FOG Factor: ", '%02.2f' % stats.getFOGFactor())
         statsTable.createEntry('Dependency Depth: ', project.getDependencyDepth())        
@@ -1836,15 +1837,15 @@ This page helps Gumpmeisters (and others) observe community progress.
             if not depens:
                 dependencySection.createNote('This project depends upon no others.')    
                  
-        # Not ready for prime time...   
-        try:
-            # Generate an SVG for Dependencies Diagram:
-            (file,title) = self.diagramDependencies(project)
-            if file:
-                para=dependencySection.createSection('Dependency Diagram').createParagraph()
-                para.createFork(file).createIcon(file,title)
-        except:
-            log.error('Failed to diagram dependencies for [' + project.getName() + ']', exc_info=1)
+        if self.config.isXdocs():
+            try:
+                # Generate an SVG for Dependencies Diagram:
+                (file,title) = self.diagramDependencies(project)
+                if file:
+                    para=dependencySection.createSection('Dependency Diagram').createParagraph()
+                    para.createFork(file).createIcon(file,title)
+            except:
+                log.error('Failed to diagram dependencies for [' + project.getName() + ']', exc_info=1)
         
         document.serialize()
         
