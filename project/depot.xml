@@ -42,6 +42,7 @@
         <home nested="version/dist"/>
 
         <depend project="depot-version" inherit="all"/>
+        <depend project="ant-testutil"/>
         <depend project="junit"/>
 
         <ant basedir="version" buildfile="build.xml" target="test" vm="1.4">
@@ -91,6 +92,7 @@
         <home nested="ruper/dist"/>
 
         <depend project="depot-ruper" inherit="all"/>
+        <depend project="ant-testutil"/>
         <depend project="junit"/>
 
         <ant  basedir="ruper" buildfile="build.xml" target="test" vm="1.4">
