@@ -47,4 +47,22 @@
          from="Craig McClanahan &lt;craigmcc@apache.org&gt;"/>
   </project>
 
+  <project name="jakarta-struts-legacy">
+    <package>org.apache.struts.legacy</package>
+
+    <ant basedir="contrib/struts-legacy" target="dist">
+      <property name="jdk.version" value="1.4"/>
+      <depend property="jdbc20ext.jar" project="jdbc"/>
+      <depend property="commons-logging.jar"     project="commons-logging" id="all"/>
+    </ant>
+
+    <depend project="xml-xalan2"/>
+    <depend project="ant" inherit="runtime"/>
+    <depend project="xml-xerces"/>
+
+    <license name="LICENSE"/>
+    <nag to="struts-dev@jakarta.apache.org"
+         from="Craig McClanahan &lt;craigmcc@apache.org&gt;"/>
+  </project>
+
 </module>
