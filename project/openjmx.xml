@@ -11,6 +11,7 @@
     <ant basedir="build"/>
     <depend project="jakarta-ant"/>
     <depend project="xml-xerces"/>
+    <depend project="jakarta-log4j"/>
     <option project="javamail"/>
     <option project="jsse"/>
 
