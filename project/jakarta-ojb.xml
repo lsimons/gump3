@@ -22,6 +22,9 @@
     <depend project="hsqldb"/>
     <depend project="j2ee-connector" />
     <depend project="jaas" />
+    <depend project="jakarta-avalon"/>
+    <depend project="excalibur-component"/>
+    <depend project="jakarta-avalon-logkit"/>
     <depend project="jakarta-log4j"/>
     <depend project="jakarta-regexp"/>
     <depend project="jakarta-servletapi"/>
