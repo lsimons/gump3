@@ -162,6 +162,35 @@ class GumpEngine:
         
         return result
 
+       
+    def check(self,run):    
+  
+        #
+        # Prepare the context
+        #
+        self.preprocess(run, 0)
+  
+        #
+        # Check the metadata
+        #
+        self.checkWorkspace(run)
+                 
+        #   
+        # Build HTML Result (via Forrest or ...)
+        #
+        documenter=run.getOptions().getDocumenter()
+        if documenter :
+            documenter.document(run)
+
+        # Return an exit code based off success
+        # :TODO: Move onto run
+        if run.getWorkspace().isSuccess():
+            result = SUCCESS 
+        else: 
+            result = FAILED
+        
+        return result
+
 
     """
     
@@ -571,4 +600,17 @@ class GumpEngine:
             
             
         db.sync()
-            
+                
+    """
+    
+        ******************************************************************
+        
+           CHECK WORKSPACE
+        
+        ******************************************************************
+    
+    """
+    
+    def checkWorkspace(self,run): pass
+    
+        

@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/text.py,v 1.5 2004/01/09 19:57:20 ajack Exp $
-# $Revision: 1.5 $
-# $Date: 2004/01/09 19:57:20 $
+# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/text.py,v 1.6 2004/02/05 05:43:56 ajack Exp $
+# $Revision: 1.6 $
+# $Date: 2004/02/05 05:43:56 $
 #
 # ====================================================================
 #
@@ -105,21 +105,35 @@ class TextDocumenter(Documenter):
         
         indent += ' '
         for module in workspace.getModules():
-            if not gumpSet.inModules(module): continue        
+            if not gumpSet.inModules(module): continue       
             output.write(indent + "Module [" + module.getName() + "] State: " + module.getStateDescription() + "\n")
             output.write(indent + "Projects: " + str(len(module.getProjects())) + "\n")
 
             self.documentAnnotations(indent,module)
-            
+                    
             for project in module.getProjects():
                 if not gumpSet.inSequence(project): continue
             
-                output.write(indent + "Project [" + project.getName() 	\
+                self.documentProject(indent,project)
+                
+    def documentProject(self, indent, project):
+        indent += ' '
+        output=self.output    
+        output.write(indent + "Project [" + project.getName() 	\
                     + "] State: " + project.getStateDescription() + "\n")
-                self.documentAnnotations(indent,project)
-                self.documentWork(indent,project)
+        
+        
+        self.documentDependenciesList(indent, "Project Dependees",		\
+                project.getDependees(), 1, project)
+            
+        self.documentDependenciesList(indent, "Project Dependencies",	\
+                project.getDependencies(), 0, project)
+        
+        self.documentAnnotations(indent,project)
+        self.documentWork(indent,project)
 
     def documentWork(self, indent, workable):
+        indent += ' '
         output=self.output    
         output.write(indent+"Work [" + str(len(workable.worklist)) \
                 + "] [" + str(workable.getElapsedSecs()) + "] secs."  + "\n")
@@ -137,7 +151,46 @@ class TextDocumenter(Documenter):
         
 
     def documentAnnotations(self, indent, annotatable): 
+        indent += ' '
         output=self.output       
         for note in annotatable.getAnnotations():
             output.write(indent+" - " + str(note) + "\n")
+        
+        
+    def documentDependenciesList(self,indent,title,dependencies,dependees,referencingObject):
+      if dependencies:
+            indent += ' '    
+            output=self.output       
+            output.write(indent+title+'\n')            
+            indent += ' '    
+            for depend in dependencies:
+                
+                # Project/Owner
+                if not dependees:
+                    project=depend.getProject()
+                else:
+                    project=depend.getOwnerProject()
+                output.write(indent+project.getName())
+
+                # Type
+                type=''
+                if depend.isRuntime():
+                    if type: type += ' '    
+                    type+='Runtime'              
+                if depend.isOptional():
+                    if type: type += ' '
+                    type+='Optional'                
+                output.write('   '+type)
+                
+                # Inheritence
+                output.write('   '+depend.getInheritenceDescription())
+                
+                # Ids
+                ids = depend.getIds() or 'All'
+                output.write('   '+ids)
+                
+                # State Icon
+                output.write('   '+referencingObject.getStateDescription()+'\n')
+                
+                self.documentAnnotations(indent,depend)                    
         

@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/model/Attic/ant.py,v 1.13 2004/01/23 23:32:26 ajack Exp $
-# $Revision: 1.13 $
-# $Date: 2004/01/23 23:32:26 $
+# $Header: /home/stefano/cvs/gump/python/gump/model/Attic/ant.py,v 1.14 2004/02/05 05:43:56 ajack Exp $
+# $Revision: 1.14 $
+# $Date: 2004/02/05 05:43:56 $
 #
 # ====================================================================
 #
@@ -92,8 +92,8 @@ class AntBuilder(ModelObject, PropertyContainer):
     # entry that does NOT require referencing another project
     #
     def expand(self,project,workspace):
-        self.expandProperties(project,workspace)
         self.expandDependencies(project,workspace)
+        self.expandProperties(project,workspace)
         
     def expandProperties(self,project,workspace):
         #
@@ -116,7 +116,11 @@ class AntBuilder(ModelObject, PropertyContainer):
         # If the property is not as simple as srcdir
         if property.reference=="srcdir": return
         # If it isn't already a classpath dependency
-        if project.hasFullDependencyOnNamedProject(property.project): return
+        if project.hasFullDependencyOnNamedProject(property.project): 
+            self.addInfo('Dependency on ' + property.project + \
+                    ' exists, no need to add for property ' + \
+                        property.name + '.')
+            return
             
         # If there are IDs specified
         ids=''

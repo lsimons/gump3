@@ -10,7 +10,11 @@
   <project name="project3">
     <package>org.apache.project3</package>
 
-    <ant target="gump"/>
+    <ant target="gump" debug="true">      
+      <depend property="project1.jar" project="project1"/>
+    </ant>
+
+    <option project="project1" />
 
     <depend project="project2" runtime="true"/>
 

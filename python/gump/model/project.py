@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/model/project.py,v 1.30 2004/01/30 17:22:58 ajack Exp $
-# $Revision: 1.30 $
-# $Date: 2004/01/30 17:22:58 $
+# $Header: /home/stefano/cvs/gump/python/gump/model/project.py,v 1.31 2004/02/05 05:43:56 ajack Exp $
+# $Revision: 1.31 $
+# $Date: 2004/02/05 05:43:56 $
 #
 # ====================================================================
 #
@@ -485,38 +485,51 @@ class Project(NamedModelObject, Statable):
             report=JunitReport(self.xml.junitreport,self)
             self.reports.append(report)
 
+        # Build Dependencies Map [including depends from <ant|maven/<property/<depend
+        if not packaged:
+            (badDepends, badOptions) = self.importDependencies(workspace)                        
+
         # Expand <ant <depends/<properties...
         if self.ant: self.ant.expand(self,workspace)
         if self.maven: self.maven.expand(self,workspace)
 
-        # Build Dependencies Map [including depends from <ant|maven/<property/<depend
         if not packaged:
-            (badDepends, badOptions) = self.buildDependenciesMap(workspace)
-        
             # Complete dependencies so properties can reference the,
+            # completed metadata within a dependent project
             for dependency in self.getDependencies():
                 dependency.getProject().complete(workspace)
+
+            self.buildDependenciesMap(workspace)                        
         
-            # complete properties
-            if self.ant: self.ant.complete(self,workspace)
-            if self.maven: self.maven.complete(self,workspace)
-    
+        # complete properties
+        if self.ant: 
+            self.ant.complete(self,workspace)
+            transferAnnotations(self.ant, self)  
+            
+        if self.maven: 
+            self.maven.complete(self,workspace)
+            transferAnnotations(self.maven, self)              
+            
+        if not packaged:    
             #
             # TODO -- move these back?
             #
             if badDepends or badOptions: 
                 for xmldepend in badDepends:
                     self.changeState(STATE_FAILED,REASON_CONFIG_FAILED)
-                    self.addError("Bad Dependency. Project: " + xmldepend.project + " unknown to *this* workspace")
+                    self.addError("Bad Dependency. Project: " \
+                            + xmldepend.project + " unknown to *this* workspace")
 
                 for xmloption in badOptions:                
-                    self.addWarning("Bad *Optional* Dependency. Project: " + xmloption.project + " unknown to *this* workspace")
+                    self.addWarning("Bad *Optional* Dependency. Project: " \
+                            + xmloption.project + " unknown to *this* workspace")
         else:
             self.addInfo("This is a packaged project, location: " + str(self.home))        
                                     
         # Copy over any XML errors/warnings
         transferAnnotations(self.xml, self)  
-                
+        
+        # Done, don't redo
         self.setComplete(1)
 
     def  checkPackage(self):
@@ -536,7 +549,7 @@ class Project(NamedModelObject, Statable):
             if outputsOk:
                 self.changeState(STATE_COMPLETE,REASON_PACKAGE)
             else:
-                # Just in case it was so bad it thougt it had no
+                # Just in case it was so bad it thought it had no
                 # jars to check
                 self.changeState(STATE_FAILED,REASON_PACKAGE_BAD)
                 
@@ -547,7 +560,7 @@ class Project(NamedModelObject, Statable):
                 listDirectoryAsWork(self,self.getHomeDirectory(),	\
                     'list_package_'+self.getName())                                            
         
-    def buildDependenciesMap(self,workspace):        
+    def importDependencies(self,workspace):        
         badDepends=[]
         # Walk the XML parts converting
         for xmldepend in self.xml.depend:
@@ -577,6 +590,10 @@ class Project(NamedModelObject, Statable):
                 self.addDependency(dependency)                    
             else:
                 badOptions.append(xmloption)
+
+        return (badDepends, badOptions)
+        
+    def buildDependenciesMap(self,workspace):        
         
         #
         # Provide backwards links  [Note: ant|maven might have added some
@@ -588,7 +605,6 @@ class Project(NamedModelObject, Statable):
             # Add us as a dependee on them
             dependProject.addDependee(dependency)  
                         
-        return (badDepends, badOptions)
                                 
     def addDependency(self,dependency):
         #
@@ -615,10 +631,14 @@ class Project(NamedModelObject, Statable):
     # 
     def hasFullDependencyOnNamedProject(self,name):
         for dependency in self.depends:
-            if dependency.getProject().getName()==name: return 1
+            if dependency.getProject().getName()==name: 
+                return 1
+                
 # :TODO:        
 #           and not dependency.noclasspath: return 1
 #:TODO: noclasspath????
+
+        return 0
               
     # determine if this project is a prereq of any project on the todo list
     def hasDirectDependencyOn(self,project):

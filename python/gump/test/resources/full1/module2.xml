@@ -16,7 +16,7 @@
       <depend property="project1.jar" project="project1"/>
     </ant>
 
-    <depend project="project1" inherit="runtime"/>
+    <option project="project1" inherit="runtime"/>
 
     <home nested="dist"/>
     <mkdir dir="mkdir2"/>

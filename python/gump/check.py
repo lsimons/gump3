@@ -1,8 +1,8 @@
 #!/usr/bin/python
 
-# $Header: /home/stefano/cvs/gump/python/gump/check.py,v 1.35 2003/12/11 18:56:26 ajack Exp $
-# $Revision: 1.35 $
-# $Date: 2003/12/11 18:56:26 $
+# $Header: /home/stefano/cvs/gump/python/gump/check.py,v 1.36 2004/02/05 05:43:56 ajack Exp $
+# $Revision: 1.36 $
+# $Date: 2004/02/05 05:43:56 $
 #
 # ====================================================================
 #
@@ -88,159 +88,6 @@ from gump.model.loader import WorkspaceLoader
 # Functions
 ###############################################################################
 
-def check(workspace,run,display=1):
-  """dump all dependencies to build a project to the output"""
-
-  projects=getProjectsForProjectExpression(expr)
-  
-  missing=[]
-  optionalMissing=[]
-  optionalOnlyMissing=[]
-  
-  # for each project
-  for project in projects:
-    printed_header=0;    
-    projectmissing = 0
-   
-    # for each dependency in current project
-    for depend in project.depend:
-      # if the dependency is not present in the projects, it's missing
-      if depend.project not in Project.list:
-        projectmissing+=1
-        message="  Missing dependency: " + depend.project + " on project " + project.name
-        
-        if display:
-            if not printed_header: 
-              printHeader(project)
-              printed_header=1            
-            print message
-        
-        # Store message into context...
-        context.addWarning(message)
-        if depend.project not in missing:
-          missing.append(depend.project)  
-            
-    for depend in project.option:
-      # if the dependency is not present in the projects, it's missing
-      if depend.project not in Project.list:
-        projectmissing+=1
-        message="  Missing optional dependency: " + depend.project + " on project " + project.name
-
-        if display:
-            if not printed_header: 
-              printHeader(project)
-              printed_header=1    
-            print message
-        context.addWarning(message)
-        if depend.project not in optionalMissing:
-          optionalMissing.append(depend.project)
-            
-    if display and projectmissing>0:
-        print "  total errors: " , projectmissing
-
-  if display:
-      if len(optionalMissing)>0:     
-        print
-        print " ***** MISSING OPTIONAL *ONLY* PROJECTS THAT ARE REFERENCED ***** "
-        print
-        for missed in optionalMissing:
-          if missed not in missing:
-            optionalOnlyMissing.append(missed)
-            print "  " + missed
-              
-      if len(missing)>0:
-        print
-        print " ***** MISSING PROJECTS THAT ARE REFERENCED ***** "
-        print
-        for missed in missing:
-          print "  " + missed
-
-  # Comment out for now ...
-  # 'cos loading a new workspace overwrites
-  # the loaded one..
-  
-  #try:
-  #  peekInGlobalProfile(missing);
-  #except:
-  #  print
-  #  print " ***** In Global Profile... ***** "  
-  #  print
-  #  print "  Cannot load the global Gump profile, you have to install %\n  the jars by hand."  
-  #  print 
-  #  traceback.print_exc()    
-  #  print
-    
-  if display:  
-      print
-      print " ***** WORKSPACE RESULT ***** "  
-      print
-      
-  if len(missing)>0:
-    context.addError("Some projects that were referenced are missing in the workspace.")    
-    if display:
-      print
-      print "  - ERROR - Some projects that were referenced are missing in the workspace. "  
-      print "    See the above messages for more detailed info."
-  elif display:
-    print "  -  OK - All projects that are referenced are present in the workspace."  
-
-  if len(optionalOnlyMissing)>0:
-    context.addWarning("Some projects that were referenced as optional are missing in the workspace.");
-    if display:
-        print  
-        print "  - WARNING - Some projects that were referenced as optional only are "
-        print "    missing in the workspace. "  
-        print "    See the above messages for more detailed info."
-  elif display:
-    print "  -  OK - All OPTIONAL projects that are referenced are present in the workspace."  
-    print " ***** RESULT ***** "
-    
-  return 0
-  
-def printHeader(project):
-    print " *****************************************************"       
-    print " Project: " + project.name
-    
-    
-# Comment out for now ...
-# 'cos loading a new workspace overwrites
-# the loaded one..
-#def peekInGlobalProfile(missing):
-#   
-#  print  
-#  print "  *****************************************************"     
-#  print "  **** Loading global Gump workspace to find info"
-#  print "       about missing projects.   Please wait...   *****"
-#  print "  *****************************************************"    
-#  print
-#
-#  workspace=load(default.globalws)
-#  
-#  for missed in missing:
-#    print  
-#    print      
-#    print "  **** Project: " + missed
-#    print
-#    if missed in Project.list:
-#      currentproject = Project.list[missed]
-#      currentmodule = Module.list[currentproject.module]
-#      print "  ",currentmodule.description
-#      print
-#      if not currentproject.url.href == currentmodule.url.href:
-#            print "   project url: " , currentproject.url.href
-#      print "   module  url: " , currentmodule.url.href
-#      print "   module  cvs: " , currentmodule.cvsroot()
-#      if currentmodule.redistributable:
-#        print  
-#        print "   NOTE: You can also get it in the Gump jar repository." 
-#        print "         See http://jakarta.apache,org/gump/ for details."
-#        
-#    else:
-#      print "   Gump doesn't know about it. Or it's wrong, or you have to "
-#      print "   install the artifacts of " + missed +" manually."
-#            
-
-
 # static void main()
 if __name__=='__main__':
 
@@ -259,7 +106,10 @@ if __name__=='__main__':
     # The Run Details...
     run=GumpRun(workspace,ps,options)
     
-
+    #
+    #    Perform this check run...
+    #
+    result = GumpEngine().check(run)
 
     #
     log.info('Gump Integration complete. Exit code:' + str(result))
