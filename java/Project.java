@@ -25,6 +25,7 @@ public class Project {
     private Hashtable jars = new Hashtable();
     private Element description;
     private Element url;
+    private Vector deliver = new Vector();
 
     /**
      * Create a set of Project definitions based on XML nodes.
@@ -104,6 +105,8 @@ public class Project {
                 javadoc = (Element)child;
             } else if (child.getNodeName().equals("jar")) {
                 jars.put(((Element)child).getAttribute("id"), child);
+            } else if (child.getNodeName().equals("deliver")) {
+                deliver.add(child);
             }
         }
 
@@ -118,6 +121,7 @@ public class Project {
         }
 
         resolveJavadoc(javadoc);
+        handleDeliver();
 
         // if only one jar is found, make sure that it can be accessed without
         // specifying an id.
@@ -674,5 +678,24 @@ public class Project {
     private void remove() {
         projects.remove(name);
         element.getParentNode().removeChild(element);
+    }
+
+    /**
+     * For alle deliver elements, add them to the corresponding site
+     * elements, if these are defined.
+     */
+    private void handleDeliver() {
+        Enumeration elements = deliver.elements();
+        String srcdir = element.getAttribute("srcdir");
+        while (elements.hasMoreElements()) {
+            Element deliver = (Element) elements.nextElement();
+            String siteName = deliver.getAttribute("tosite");
+            Element site = Server.getSite(siteName);
+            if (site != null) {
+                String fromdir = deliver.getAttribute("fromdir");
+                deliver.setAttribute("fromdir", srcdir + "/" + fromdir);
+                site.appendChild(deliver);
+            }
+        }
     }
 }

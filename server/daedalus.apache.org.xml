@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<server name="daedalus.apache.org">
+  <site name="xml.apache.org">
+    <description>The Apache XML Project</description>
+    <docroot>/www/xml.apache.org</docroot>
+    <groupid>xml</groupid>
+  </site>
+
+  <site name="jakarta.apache.org">
+    <description>The Apache Jakarta Project</description>
+    <docroot>/www/jakarta.apache.org</docroot>
+    <groupid>jakarta</groupid>
+  </site>
+</server>

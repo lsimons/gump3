@@ -240,6 +240,7 @@ public class Jenny {
         expand(workspace);
         replaceDate(workspace, dstamp);
         Repository.load(merge("repository", workspace).elements());
+        Server.load(merge("server", workspace).elements());
         Module.load(merge("module",workspace).elements());
         Project.load(merge("project",workspace).elements());
         output (doc, "work/merge.xml");

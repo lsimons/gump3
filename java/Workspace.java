@@ -1,6 +1,8 @@
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
+import java.util.HashMap;
+
 public class Workspace {
 
     static final String GUMP_VERSION = "0.3";
@@ -8,6 +10,9 @@ public class Workspace {
     private static Element element;
     private static String basedir;
     private static Element javadoc;
+    private static Element deliver;
+    private static HashMap servers = new HashMap();
+    private static HashMap sites = new HashMap();
 
     /**
      * Static property accessor for basedir attribute.
@@ -39,6 +44,33 @@ public class Workspace {
      */
     public static Element getJavaDoc() {
         return javadoc;
+    }
+
+    /**
+     * Static accessor - do we deliver to the given site?
+     * @return true if a server of the given name is defined in the workspace.
+     */
+    public static boolean isSiteDefined(String name) {
+        return sites.containsKey(name);
+    }
+
+    /**
+     * Static accessor for deliver's scratchdir attribute.
+     * @return Deliver scratchdir associated with this workspace.
+     */
+    public static String getScratchDir() {
+        if (deliver != null) {
+            return deliver.getAttribute("scratchdir");
+        }
+        return null;
+    }
+
+    /**
+     * Static accessor for deliver's named server child.
+     * @return null if server is not defined, the server element otherwise.
+     */
+    public static Element getServer(String name) {
+        return (Element) servers.get(name);
     }
 
     /**
@@ -86,7 +118,46 @@ public class Workspace {
         for (; child != null; child=child.getNextSibling()) {
             if (child.getNodeName().equals("javadoc")) {
                 javadoc = (Element) child;
+            } else if (child.getNodeName().equals("deliver")) {
+                handleDeliver((Element) child);
+            }
+        }
+        
+        if (deliver != null) {
+            element.removeChild(deliver);
+            String scratchdir = deliver.getAttribute("scratchdir");
+            if (scratchdir.equals("")) {
+                deliver.setAttribute("scratchdir", basedir+"/scratch");
+            }
+        }
+        
+    }
+
+    /**
+     * Fill map of servers.
+     */
+    private static void handleDeliver(Element element) {
+        deliver = element;
+        Node child=element.getFirstChild();
+        for (; child != null; child=child.getNextSibling()) {
+            if (child.getNodeName().equals("server")) {
+                Element server = (Element) child;
+                servers.put(server.getAttribute("name"), server);
+                handleSites(server);
             }
         }
     }
+
+    /**
+     * Fill map of sites.
+     */
+    private static void handleSites(Element element) {
+        Node child=element.getFirstChild();
+        for (; child != null; child=child.getNextSibling()) {
+            if (child.getNodeName().equals("site")) {
+                Element site = (Element) child;
+                sites.put(site.getAttribute("name"), site);
+            }
+        }
+    }    
 }

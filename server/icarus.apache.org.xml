@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<server name="icarus.apache.org">
+  <site name="stefans-test">
+    <description>Testsite for Stefan</description>
+    <docroot>/x1/home/bodewig/public_html/gump</docroot>
+    <groupid>jakarta</groupid>
+  </site>
+</server>

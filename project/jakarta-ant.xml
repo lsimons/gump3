@@ -42,6 +42,16 @@
     <jar name="lib/ant.jar"/>
     <jar name="lib/optional.jar"/>
     <javadoc nested="build/javadocs" project="jakarta-ant"/>
+
+    <deliver fromdir="distribution/src" tosite="stefans-test"
+             todir="ant/nightly/@@DATE@@/" />
+    <deliver fromdir="distribution/bin" tosite="stefans-test"
+             todir="ant/nightly/@@DATE@@/" />
+
+    <deliver fromdir="distribution/src" tosite="jakarta.apache.org"
+             todir="builds/jakarta-ant/nightly/@@DATE@@/" />
+    <deliver fromdir="distribution/bin" tosite="jakarta.apache.org"
+             todir="builds/jakarta-ant/nightly/@@DATE@@/" />
   </project>
 
   <project name="test-ant">

@@ -217,7 +217,7 @@
     <xsl:for-each select="repository">
       <xsl:sort select="defined-in"/>
       <xsl:variable name="defined-in" select="@defined-in"/>
-      <xsl:if test="not(preceding::project[@defined-in=$defined-in])">
+      <xsl:if test="not(preceding::repository[@defined-in=$defined-in])">
         <xsl:text>bash publish.sh repository/</xsl:text>
         <xsl:value-of select="@defined-in"/>
         <xsl:text>.xml </xsl:text>
@@ -238,6 +238,20 @@
       <xsl:text>/profile_</xsl:text>
       <xsl:value-of select="@defined-in"/>
       <xsl:text>.html&#10;</xsl:text>
+    </xsl:for-each>
+
+    <xsl:for-each select="server">
+      <xsl:sort select="defined-in"/>
+      <xsl:variable name="defined-in" select="@defined-in"/>
+      <xsl:if test="not(preceding::server[@defined-in=$defined-in])">
+        <xsl:text>bash publish.sh server/</xsl:text>
+        <xsl:value-of select="@defined-in"/>
+        <xsl:text>.xml </xsl:text>
+        <xsl:value-of select="$logdir"/>
+        <xsl:text>/server_</xsl:text>
+        <xsl:value-of select="@defined-in"/>
+        <xsl:text>.html&#10;</xsl:text>
+      </xsl:if>
     </xsl:for-each>
 
     <xsl:text>for i in ../stylesheet/*.xsl; do&#10;</xsl:text>
