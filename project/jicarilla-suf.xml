@@ -34,7 +34,7 @@
         <depend project="relaxng" runtime="true" inherit="runtime" optional="false"/>
         <depend project="hsqldb" runtime="true" inherit="runtime" optional="false"/>
         <depend project="avalon-logkit" runtime="true" inherit="runtime" optional="false"/>
-        <depend project="log4j" runtime="true" inherit="runtime" optional="false"/>
+        <depend project="logging-log4j" runtime="true" inherit="runtime" optional="false"/>
         <depend project="commons-httpclient" runtime="true" inherit="runtime" optional="false"/>
         <depend project="commons-beanutils" runtime="true" inherit="runtime" optional="false"/>
         <depend project="commons-collections" runtime="true" inherit="runtime" optional="false"/>
