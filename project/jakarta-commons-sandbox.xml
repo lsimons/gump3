@@ -15,7 +15,7 @@
     <depend project="jakarta-ant" inherit="runtime"/>
     <depend project="xml-xerces"/>
     <depend project="commons-logging"/>
-    <depend project="phoenix-qdox"/>
+    <depend project="phoenix-qdox" runtime="true"/>
     <depend project="junit"/>
 
     <work nested="attributes/target/classes"/>
