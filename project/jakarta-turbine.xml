@@ -31,6 +31,7 @@
   <depend project="jdbc"/>
   <option project="jta"/> <!-- needed for javadoc purposes only -->
   <depend project="bsf"/>
+  <work nested="bin/classes"/>
 
   <home nested="bin"/>
   <jar name="turbine-gump.jar"/>
