@@ -54,8 +54,8 @@
     <home nested="dist"/>
     <jar name="bin/bootstrap.jar"/>
     <jar name="server/lib/catalina.jar"/>
-    <jar name="common/lib/naming.jar"/>
-    <jar name="common/lib/resources.jar"/>
+    <jar name="common/lib/naming-common.jar"/>
+    <jar name="common/lib/naming-resources.jar"/>
   </project>
 
 </module>
