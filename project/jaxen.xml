@@ -1,0 +1,29 @@
+<module name="jaxen">
+
+  <url href="http://www.jaxen.org"/>
+  <description>
+    The flexible XML framework for Java
+  </description>
+
+  <cvs repository="sourceforge" host-prefix="cvs.jaxen" dir="jaxen"/>
+  
+  <project name="jaxen">
+    <ant/>
+    <depend project="jakarta-ant"/>
+    <depend project="xml-xerces"/>
+    <depend project="xml-xalan2"/>
+    <depend project="saxpath"/>
+    <option project="jdom"/>
+
+<!-- option project="dom4j" type="recursive!" -->
+
+    <home nested="build"/>
+    <jar name="jaxen-full.jar"/>
+    <javadoc nested="build/doc/javadoc"/>
+  </project>
+
+  <project name="saxpath">
+    <jar name="lib/saxpath.jar"/>
+  </project>
+
+</module>

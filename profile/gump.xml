@@ -82,6 +82,7 @@
   <module href="project/dom4j.xml"/>
   <module href="project/hsqldb.xml"/>
   <module href="project/httpunit.xml"/>
+  <module href="project/jaxen.xml"/>
   <module href="project/jdom.xml"/>
   <module href="project/jce.xml"/>
   <module href="project/jtidy.xml"/>

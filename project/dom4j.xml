@@ -35,12 +35,4 @@
     <jar name="lib/msv.jar"/>
   </project>
 
-  <project name="saxpath">
-    <jar name="lib/saxpath.jar"/>
-  </project>
-
-  <project name="jaxen">
-    <jar name="lib/jaxen.jar"/>
-  </project>
-
 </module>
