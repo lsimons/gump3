@@ -42,9 +42,9 @@ from gump.model.state import *
 
 from gump.net.cvs import *
 
-from gump.document.text import TextDocumenter
-from gump.document.template import TemplateDocumenter
-from gump.document.forrest import ForrestDocumenter
+from gump.document.text.documenter import TextDocumenter
+from gump.document.template.documenter import TemplateDocumenter
+from gump.document.forrest.documenter import ForrestDocumenter
 
 from gump.output.statsdb import *
 from gump.output.repository import JarRepository
@@ -176,7 +176,6 @@ class GumpEngine:
     def update(self, run):        
         logResourceUtilization('Before update')
         
-        
         #
         # Doing a full build?
         #
@@ -191,11 +190,6 @@ class GumpEngine:
         # Checkout from source code repositories
         #
         self.updateModules(run,modules)
-  
-        #
-        # Checkout from source code repositories
-        #
-        self.syncWorkDirs(run,modules)  
   
         # Return an exit code based off success
         # :TODO: Move onto run
@@ -285,25 +279,10 @@ class GumpEngine:
                     
                     # Were the contents of the repository modified?                                        
                     module.setUpdated(cmdResult.hasOutput())
-                
-    def syncWorkDirs( self, run,list  ):
-        """copy the raw module (project) materials from source to work dir"""
-
-        workspace = run.getWorkspace()
-
-        log.debug('--- Synchronizing work directories with sources')  
-
-        for module in list:
         
-            # Packaged modules override CVS/SVN (so folks can have local
-            # Gumps that don't build everything).
-            if module.isPackaged(): 
-                continue
-            
-            # If no CVS/SVN, nothing to sync   
-            if not module.hasCvs() \
-                and not module.hasSvn(): continue
-    
+            #
+            # Sync if appropriate
+            #
             if module.okToPerformWork():
             
                 sourcedir = os.path.abspath(	\
@@ -317,6 +296,12 @@ class GumpEngine:
                     module.changeState(STATE_SUCCESS)
                 except:
                     module.changeState(STATE_FAILED,REASON_SYNC_FAILED)
+                    
+            # Incremental documentation...
+            documenter=run.getOptions().getDocumenter()        
+            if documenter :
+                documenter.entity(module,run)      
+
            
     """
     
@@ -450,6 +435,11 @@ class GumpEngine:
                         + project.getStateDescription())
                                                 
             projectNo+=1
+            
+            # Incremental documentation...
+            documenter=run.getOptions().getDocumenter()        
+            if documenter :
+                documenter.entity(project,run)
 
 
     def performDelete(self,project,delete,index=0):

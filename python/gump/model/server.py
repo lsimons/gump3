@@ -37,8 +37,8 @@ class Server(NamedModelObject):
     
         if self.hasType() and self.getType() == 'python':
             if self.hasUrl():
-                from gump.document.resolver import Resolver    
-                self.resolver=Resolver('bogus', self.getUrl())
+                from gump.document.forrest.resolver import ForrestResolver    
+                self.resolver=ForrestResolver('bogus', self.getUrl())
                      
     def check(self,workspace):
         pass

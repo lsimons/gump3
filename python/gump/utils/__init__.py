@@ -300,7 +300,7 @@ def wrapLine(line,wrapLen=100, eol='\n', marker='[WRAPPED]'):
                 wrappedLine+=eol+marker
             startPosn+=increment
             endPosn+=increment
-            print `startPosn` + " : " + `endPosn` + " : " + `totalLen` + ' : ' + `increment`
+            # print `startPosn` + " : " + `endPosn` + " : " + `totalLen` + ' : ' + `increment`
     else:
         wrappedLine=line
             

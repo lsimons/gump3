@@ -174,6 +174,15 @@ class ResultsSet(dict):
             
         self.calculated=1
         return self.differences
+        
+    def containsFailure(self):
+        return self.contains(STATE_FAILED)
+        
+    def containsState(self,state):
+        for result in self.values():
+            if state == results.getState():
+                return 1
+        return 0
      
 
 # represents a <workspaceResult/> element

@@ -24,9 +24,9 @@ from gump import log
 import gump.config
 from gump.gumprun import GumpRun
 from gump.document.documenter import Documenter
-from gump.document.text import TextDocumenter
-from gump.document.template import TemplateDocumenter
-from gump.document.forrest import ForrestDocumenter
+from gump.document.text.documenter import TextDocumenter
+from gump.document.template.documenter import TemplateDocumenter
+from gump.document.forrest.documenter import ForrestDocumenter
 from gump.output.statsdb import *
 from gump.test import getWorkedTestWorkspace
 from gump.test.pyunit import UnitTestSuite

@@ -30,15 +30,20 @@ from xml.sax.saxutils import escape
 from gump import log
 from gump.config import *
 from gump.document.documenter import Documenter
-from gump.document.text import TextDocumenter
-from gump.document.xdoc import *
-from gump.document.resolver import *
+from gump.document.text.documenter import TextDocumenter
+from gump.document.forrest.xdoc import *
+from gump.document.forrest.resolver import *
 from gump.utils import *
 from gump.utils.xmlutils import xmlize
 from gump.utils.tools import syncDirectories,copyDirectories,wipeDirectoryTree
-from gump.model import *
+
 from gump.model.stats import *
 from gump.model.project import AnnotatedPath,  ProjectStatistics
+from gump.model.state import *
+from gump.model.workspace import Workspace
+from gump.model.module import Module
+from gump.model.project import Project
+
 from gump.output.statsdb import StatisticsGuru
 from gump.output.xref import XRefGuru
 from gump.gumprun import *
@@ -55,7 +60,7 @@ class ForrestDocumenter(Documenter):
     
     def __init__(self, dirBase, urlBase):
         Documenter.__init__(self)            
-        self.resolver=Resolver(dirBase,urlBase)
+        self.resolver=ForrestResolver(dirBase,urlBase)
         
     def getResolverForRun(self,run):
         return self.resolver
@@ -69,7 +74,24 @@ class ForrestDocumenter(Documenter):
     
         # Seed with default/site skins/etc.
         self.prepareForrest(workspace)
-
+        
+    def documentEntity(self, entity, run):
+        
+        verbose=run.getOptions().isVerbose()
+        debug=run.getOptions().isDebug()
+        
+        if isinstance(entity,Workspace):
+            pass
+        elif isinstance(entity,Module):
+            pass
+        elif  isinstance(entity,Project):
+            pass
+            
+        # :TODO: A work in progress
+        # 1) Document entityi (in realtime so no lookahead links)
+        # 2) Sync
+        # 3) update build log        
+    
     def documentRun(self, run):
     
         log.debug('--- Documenting Results')
@@ -255,8 +277,8 @@ class ForrestDocumenter(Documenter):
             """The environment that this Gump run was within.""")            
         
         self.documentAnnotations(document,environment)        
-        #self.documentFileList(document,environment,'Environment-level Files')        
-        self.documentWorkList(document,environment,'Environment-level Work')
+        #self.documentFileList(run,document,environment,'Environment-level Files')        
+        self.documentWorkList(run,document,environment,'Environment-level Work')
      
         document.serialize()
                 
@@ -410,8 +432,8 @@ class ForrestDocumenter(Documenter):
         # x.write('<p><strong>Workspace Config:</strong> <link href=\'xml.txt\'>XML</link></p>')
         # x.write('<p><strong>RSS :</strong> <link href=\'index.rss\'>News Feed</link></p>')
         
-        self.documentFileList(document,workspace,'Workspace-level Files')
-        self.documentWorkList(document,workspace,'Workspace-level Work')
+        self.documentFileList(run,document,workspace,'Workspace-level Files')
+        self.documentWorkList(run,document,workspace,'Workspace-level Work')
      
         document.serialize()
           
@@ -616,7 +638,9 @@ class ForrestDocumenter(Documenter):
             if not gumpSet.inModuleSequence(module): continue               
                                 
             moduleSection=None
-            if module.hasServerResults() and module.getServerResults().hasDifferences():
+            if module.hasServerResults() \
+                and module.getServerResults().hasDifferences()	\
+                and module.getServerResults().containsFailure() :
                 moduleSection=document.createSection('Module : ' + module.getName())                
                 # Link to the module
                 self.insertLink(module,workspace,moduleSection.createParagraph()) 
@@ -628,6 +652,7 @@ class ForrestDocumenter(Documenter):
                 if not gumpSet.inProjectSequence(project): continue         
                 if not project.hasServerResults(): continue
                 if not project.getServerResults().hasDifferences(): continue
+                if not project.getServerResults().containsFailure(): continue
             
                 if not moduleSection:				
                     moduleSection=document.createSection('Module : ' + module.getName())
@@ -993,26 +1018,26 @@ This page helps Gumpmeisters (and others) observe community progress.
         #
         for repo in workspace.getRepositories():            
             if not gumpSet.inRepositories(repo): continue
-            self.documentRepository(repo,workspace,gumpSet)
+            self.documentRepository(run,repo,workspace,gumpSet)
             
         #
         # Document servers
         #
         for server in workspace.getServers():            
-            self.documentServer(server,workspace,gumpSet)
+            self.documentServer(run,server,workspace,gumpSet)
             
         #
         # Document trackers
         #
         for tracker in workspace.getTrackers():            
-            self.documentTracker(tracker,workspace,gumpSet)
+            self.documentTracker(run,tracker,workspace,gumpSet)
             
         #
         # Document modules
         #
         for module in workspace.getModules():
             if not gumpSet.inModuleSequence(module): continue  
-            self.documentModule(module,workspace,gumpSet)
+            self.documentModule(run,module,workspace,gumpSet)
             
         # Document workspace
         document=XDocDocument('Context',self.resolver.getFile(workspace,'context.xml'))
@@ -1034,7 +1059,7 @@ This page helps Gumpmeisters (and others) observe community progress.
             stream.close()
             document.serialize()
       
-    def documentRepository(self,repo,workspace,gumpSet):
+    def documentRepository(self,run,repo,workspace,gumpSet):
         
         document=XDocDocument( 'Repository : ' + repo.getName(),	\
                 self.resolver.getFile(repo))   
@@ -1094,12 +1119,12 @@ This page helps Gumpmeisters (and others) observe community progress.
     
         self.documentXML(document,repo)
         
-        self.documentFileList(document,repo,'Repository-level Files')
-        self.documentWorkList(document,repo,'Repository-level Work')
+        self.documentFileList(run,document,repo,'Repository-level Files')
+        self.documentWorkList(run,document,repo,'Repository-level Work')
 
         document.serialize()
       
-    def documentServer(self,server,workspace,gumpSet):
+    def documentServer(self,run,server,workspace,gumpSet):
         
         document=XDocDocument( 'Server : ' + server.getName(),	\
                 self.resolver.getFile(server))   
@@ -1164,13 +1189,13 @@ This page helps Gumpmeisters (and others) observe community progress.
             
         self.documentXML(document,server)
         
-        self.documentFileList(document,server,'Server-level Files')
-        self.documentWorkList(document,server,'Server-level Work')
+        self.documentFileList(run,document,server,'Server-level Files')
+        self.documentWorkList(run,document,server,'Server-level Work')
 
         document.serialize()
       
              
-    def documentTracker(self,tracker,workspace,gumpSet):
+    def documentTracker(self,run,tracker,workspace,gumpSet):
         
         document=XDocDocument( 'Tracker : ' + tracker.getName(),	\
                 self.resolver.getFile(tracker))   
@@ -1215,13 +1240,13 @@ This page helps Gumpmeisters (and others) observe community progress.
             
         self.documentXML(document,tracker)
         
-        self.documentFileList(document,tracker,'Tracker-level Files')
-        self.documentWorkList(document,tracker,'Tracker-level Work')
+        self.documentFileList(run,document,tracker,'Tracker-level Files')
+        self.documentWorkList(run,document,tracker,'Tracker-level Work')
 
         document.serialize()
       
         
-    def documentModule(self,module,workspace,gumpSet):
+    def documentModule(self,run,module,workspace,gumpSet):
         
         document=XDocDocument( 'Module : ' + module.getName(),	\
                 self.resolver.getFile(module))   
@@ -1312,8 +1337,8 @@ This page helps Gumpmeisters (and others) observe community progress.
             
         if not pcount: pallTable.createLine('None')
                            
-        self.documentFileList(document,module,'Module-level Files')
-        self.documentWorkList(document,module,'Module-level Work')
+        self.documentFileList(run,document,module,'Module-level Files')
+        self.documentWorkList(run,document,module,'Module-level Work')
         
         #addnSection=document.createSection('Additional Details')
         #addnPara=addnSection.createParagraph()
@@ -1382,7 +1407,7 @@ This page helps Gumpmeisters (and others) observe community progress.
         # Document Projects
         for project in module.getProjects():
             if not gumpSet.inProjectSequence(project): continue      
-            self.documentProject(project,workspace,gumpSet)
+            self.documentProject(run,project,workspace,gumpSet)
        
     # Document the module XML
     #    x=startXDoc(getModuleXMLDocument(workspace,modulename,mdir))
@@ -1395,7 +1420,7 @@ This page helps Gumpmeisters (and others) observe community progress.
     #    footerXDoc(x)
     #    endXDoc(x)
         
-    def documentProject(self,project,workspace,gumpSet): 
+    def documentProject(self,run,project,workspace,gumpSet): 
         
         document=XDocDocument('Project : ' + project.getName(),	\
                 self.resolver.getFile(project))       
@@ -1507,8 +1532,8 @@ This page helps Gumpmeisters (and others) observe community progress.
         if stats.last:
             statsTable.createEntry("Last Success: ", secsToDate(stats.last))
                 
-        self.documentFileList(document,project,'Project-level Files')  
-        self.documentWorkList(document,project,'Project-level Work')  
+        self.documentFileList(run,document,project,'Project-level Files')  
+        self.documentWorkList(run,document,project,'Project-level Work')  
                 
         #addnSection=document.createSection('Additional Details')
         #addnPara=addnSection.createParagraph()
@@ -1883,7 +1908,7 @@ This page helps Gumpmeisters (and others) observe community progress.
                                 ' (' + '%02.2f' % summary.packagesPercentage + '%)'] )
         
       
-    def documentWorkList(self,xdocNode,workable,description='Work'):
+    def documentWorkList(self,run,xdocNode,workable,description='Work'):
         worklist=workable.getWorkList()
         
         if not worklist: return
@@ -1924,7 +1949,7 @@ This page helps Gumpmeisters (and others) observe community progress.
         # Go document the others...
         #
         for work in worklist:
-            self.documentWork(workspace,work)
+            self.documentWork(run.getWorkspace(),work)
             
     def documentWork(self,workspace,work):
         if isinstance(work,CommandWorkItem):    
@@ -2061,7 +2086,7 @@ This page helps Gumpmeisters (and others) observe community progress.
             wdocument.serialize()
             wdocument=None
           
-    def documentFileList(self,xdocNode,holder,description='Files'):
+    def documentFileList(self,run,xdocNode,holder,description='Files'):
         filelist=holder.getFileList()
         
         if not filelist: return
@@ -2080,7 +2105,7 @@ This page helps Gumpmeisters (and others) observe community progress.
         # Go document the others...
         #
         for fileReference in filelist:
-            self.documentFile(workspace,fileReference)
+            self.documentFile(run.getWorkspace(),fileReference)
             
     def documentFile(self,workspace,fileReference):
         

@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/python
 
 # Copyright 2003-2004 The Apache Software Foundation
 #
@@ -14,7 +14,16 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+"""
 
+    Forrest Documentation (XDOCS and such)
+    
+"""
 
-# tell Python what modules make up the gump.document package
+###############################################################################
+# Initialize
+###############################################################################
+
+# tell Python what modules make up the gump.document.forrest package
 __all__ = ["documenter","resolver"]
+

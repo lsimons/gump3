@@ -104,7 +104,6 @@ class ResultingTestSuite(UnitTestSuite):
         
         self.assertFalse('No Differences', r.hasDifferences())
               
-        
     def testDifferences(self):
         r=ResultsSet()
         
@@ -116,4 +115,30 @@ class ResultingTestSuite(UnitTestSuite):
         r['b']=m2
         
         self.assertTrue('Differences', r.hasDifferences())
+              
+    def testContainsNoFailure(self):
+        r=ResultsSet()
+        
+        m1= ResultModelObject('a')
+        m1.setStatePair(StatePair(STATE_SUCCESS,REASON_UNSET))
+        r['a']=m1
+        
+        m2= ResultModelObject('b')
+        m2.setStatePair(StatePair(STATE_SUCCESS,REASON_UNSET))
+        r['b']=m2
+        
+        self.assertFalse('No Failure', r.containsFailure())
+              
+    def testContainsFailure(self):
+        r=ResultsSet()
+        
+        m1= ResultModelObject('a')
+        m1.setStatePair(StatePair(STATE_FAILED,REASON_UNSET))
+        r['a']=m1
+        
+        m2= ResultModelObject('b')
+        m2.setStatePair(StatePair(STATE_SUCCESS,REASON_UNSET))
+        r['b']=m2
+        
+        self.assertTrue('Failure', r.containsFailure())
         

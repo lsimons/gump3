@@ -20,11 +20,12 @@
 
 from gump import log
 from gump.svg.drawing import *
+from gump.svg.scale import ScaleDiagram
 from gump.svg.depdiag import DependencyDiagram
 from gump.test import getWorkedTestWorkspace
 from gump.test.pyunit import UnitTestSuite
 
-class DependencyDiagramTestSuite(UnitTestSuite):
+class DiagramTestSuite(UnitTestSuite):
     def __init__(self):
         UnitTestSuite.__init__(self)
         
@@ -37,10 +38,14 @@ class DependencyDiagramTestSuite(UnitTestSuite):
         self.project5=self.workspace.getProject('project5')
         
     def testDependencyDiagramGeneration(self):
-        diagram=DependencyDiagram(self.project5)
-        
-        diagram.compute()
-        
+        diagram=DependencyDiagram(self.project5)        
+        diagram.compute()        
         svg=diagram.generateDiagram()
+        svg.serializeToFile('x.svg')
+        
+    def testScaleDiagramGeneration(self):
+        diagram=ScaleDiagram(10,20)                
+        svg=diagram.generateDiagram()
+        svg.serialize()
         
         

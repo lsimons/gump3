@@ -41,7 +41,7 @@ from gump.model.project import Project
 from gump.model.depend import  ProjectDependency
 from gump.model.state import *
 
-from gump.document.text import TextDocumenter
+from gump.document.text.documenter import TextDocumenter
 
 from gump.output.statsdb import *
 from gump.output.repository import JarRepository

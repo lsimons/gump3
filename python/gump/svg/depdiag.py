@@ -26,13 +26,36 @@ import sys
 
 from gump import log
 from gump.shared.comparator import compareProjectsByFOGFactor
+from gump.svg.drawing import *
+from gump.svg.svg import *
 from gump.utils import getIndent,createOrderedList
 
 class DependencyNode:
     def __init__(self,project):
         self.project=project
         self.point=None
+        
+    def getProject(self):
+        return self.project
+        
+    def setRowCol(self,rowNo,colNo):
+        self.rowNo=rowNo
+        self.colNo=colNo
+        
+    def getRowCol(self):
+        return (self.rowNo,self.colNo)
 
+   
+def compareNodesByProjectFOGFactor(node1,node2):
+    project1=node1.getProject()    
+    project2=node2.getProject()
+    fog1=project1.getFOGFactor()
+    fog2=project2.getFOGFactor()
+    # Allow comparison to 2 decimal places, by *100
+    c= int(round((fog2 - fog1)*100,0))                  
+    if not c: c=cmp(project1,project2)
+    return c       
+    
 class DependencyMatrix:
     """
         This matrix
@@ -63,8 +86,15 @@ class DependencyMatrix:
         # Now re-order the rows, sorting by FOG
         for rowNo in self.depths.keys():
             row=self.depths[rowNo] 
-            newRow=createOrderedList(row,compareProjectsByFOGFactor)
+            newRow=createOrderedList(row,compareNodesByProjectFOGFactor)
             self.depths[rowNo]=newRow
+            
+        # Now fix the (x,y) for all nodes (based of this sort)
+        for rowNo in self.depths.keys():
+            colNo=0
+            for node in self.depths[rowNo]:
+                node.setRowCol(rowNo-1,colNo)
+                colNo+=1
         
     # Insert into lists 
     def insertProject(self,project):
@@ -91,11 +121,20 @@ class DependencyMatrix:
         # Max by max
         return (self.maxNumAtDepth, len(self.depths.keys()))
         
+    def getRowWidth(self,row):
+        return len(self.depths[row])
+        
+    def hasRow(self,row):
+        return row in self.getRows()
+        
+    def getRows(self):
+        return self.depths.keys()
+        
+    def getNodes(self):
+        return self.nodes.values()
+        
     def getNodeForProject(self,project):
-        return self.nodes[project]
-        
-        self.projectsByFOGFactor=createOrderedList(workspace.getProjects(),compareProjectsByFOGFactor)
-        
+        return self.nodes[project]        
         
     def dump(self, indent=0, output=sys.stdout):
         """ Display the contents of this object """
@@ -119,10 +158,113 @@ class DependencyDiagram:
         self.matrix=DependencyMatrix(self.project)
         self.matrix.compute()
         
-        
     def generateDiagram(self):
-        self.matrix.dump()
+        
+        # Get the maximum rows/cols
+        (rows, cols) = self.matrix.getExtent()
+        
+        mainContext=StandardDrawingContext('Dependencies', None,	\
+                        Rect(0,0,100*rows,100*cols))
+        
+        # Let the context define the rect.
+        rect=mainContext.realRect()
+        
+        print 'RECT: ' + str(rect)
+        
+        context=GridDrawingContext('Grid', mainContext, rows, cols )
+        
+        # Build an SVG to fit the real world size, and the
+        # context rectangle.
+        svg=SimpleSvg(rect.getWidth(),rect.getHeight())
+
+        # Draw ...
+        for node in self.matrix.getNodes():
+            project = node.getProject()
+            (row, col) = node.getRowCol()
+            
+            # Draw lines to represent dependencies
+            for dependency in project.getDirectDependencies():
+                
+                # For each dependent project
+                dependProject=dependency.getProject()
+                
+                depNode=self.matrix.getNodeForProject(dependProject)
+                (depRow,depCol) = depNode.getRowCol()                
+                
+                (x,y) = context.realPoint(col,row)
+                (x1,y1) = context.realPoint(depCol,depRow)
+                
+                print 'VIRTUAL LINE: %s,%s -> %s,%s' % (row,col,depRow,depCol),
+                print 'LINE: %s,%s -> %s,%s' % (x,y,x1,y1)
+                
+                svg.addLine(x,y,x1,y1, \
+                    { 'stroke':'black', \
+                      'comment': project.getName() + ' to ' + dependProject.getName() } )
+                            
+        for node in self.matrix.getNodes():
+            project = node.getProject()
+            (row,col) = node.getRowCol()    
+            
+            (x,y) = context.realPoint(col-0.25,row-0.25)
+            (x1,y1) = context.realPoint(col+0.25,row+0.25)
+            
+            print 'RECTANGLE %s,%s -> %s,%s' % (x,y,x1,y1)
+                
+            svg.addRect(x,y,(x1-x),(y1-y),  \
+                    { 	'fill':'green', \
+                        'comment':project.getName() } )
+            
+        for node in self.matrix.getNodes():
+            project = node.getProject()
+            (row,col) = node.getRowCol()    
+            
+             
+            (x,y) = context.realPoint(col,row)
+                
+            print 'TEXT %s,%s' % (x,y)
+            
+            svg.addText(x,y,project.getName(),  \
+                    { 	'fill':'red', \
+                        'comment':project.getName() } )
+                        
+        return svg
         
         
+# static void main()
+if __name__=='__main__':
+        
+        
+    from gump.gumprun import GumpRun, GumpRunOptions, GumpSet
+    from gump.commandLine import handleArgv
+    from gump.model.loader import WorkspaceLoader
+    from gump.output.statsdb import *
+
+    # Process command line
+    (args,options) = handleArgv(sys.argv)
+    ws=args[0]
+    ps=args[1]
+
+    # get parsed workspace definition
+    workspace=WorkspaceLoader().load(ws, options.isCache())    
+        
+    # Ensure we use text, not forrest...
+    options.setText(1)
     
+    # The Run Details...
+    run=GumpRun(workspace,ps,options)
+        
+    # Load statistics    
+    db=StatisticsDB()  
+    db.loadStatistics(workspace)  
+    
+    for project in run.getGumpSet().getProjects():
+        diagram=DependencyDiagram(project)        
+        diagram.compute()        
+        svg=diagram.generateDiagram()
+        svgName=project.getName()+'.svg'
+        svg.serializeToFile(svgName)        
+        print "Generated : " + svgName
+    
+    #
+    log.info('Dependency Generation complete.')
         

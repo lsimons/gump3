@@ -52,13 +52,18 @@ class DrawingTestSuite(UnitTestSuite):
     def testGridDrawingContext(self):
         baseContext=StandardDrawingContext(rect=Rect(0,0,100,100))
         context=GridDrawingContext('TestGrid',baseContext,10,10)
-        context.dump()
-        for row in [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9]:
-            for col in [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9]:    
+        for row in [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 ]:
+            for col in [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 ]:    
+                # Caculate generically
                 (x,y)=context.realPoint(row,col)
                 
-                expectedX=(row+1)*5
-                expectedY=(col+1)*5
+                # Calculate expected
+                expectedX=(row*10)+5
+                expectedY=(col*10)+5
                 
-                # :TODO: self.assertEqual('Grid', expectedX, x)
-                # :TODO: self.assertEqual('Grid', expectedY, y)
+                print `(row,col)`
+                print `(x,y)`
+                
+                # Check...
+                self.assertEqual('Grid', expectedX, x)
+                self.assertEqual('Grid', expectedY, y)

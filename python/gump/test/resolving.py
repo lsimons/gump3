@@ -25,7 +25,9 @@ import types, StringIO
 from gump import log
 import gump.config
 from gump.test import *
-from gump.document.resolver import *
+from gump.document.text.resolver import *
+from gump.document.forrest.resolver import *
+from gump.document.template.resolver import *
 
 from gump.test.pyunit import UnitTestSuite
 
@@ -77,8 +79,8 @@ class ResolvingTestSuite(UnitTestSuite):
         self.assertNotNone("Resolved Object: ", object)
         self.assertNotNone("Resolved Object: ", resolver.getDirectory(object))
         self.assertNotNone("Resolved Object: ", resolver.getFile(object))
-        self.assertNotNone("Resolver Object: ", resolver.getDirectoryUrl(object))
-        self.assertNotNone("Resolver Object: ", resolver.getUrl(object))
+        self.assertNotNone("Resolved Object: ", resolver.getDirectoryUrl(object))
+        self.assertNotNone("Resolved Object: ", resolver.getUrl(object))
         
     def testPaths(self):
 
@@ -120,19 +122,27 @@ class ResolvingTestSuite(UnitTestSuite):
         self.checkRelativeLocation(self.ant1,self.module1)
     
     def testResolving(self):
-        resolver=Resolver('./test','http://somewhere/something')
+        for resolver in [	TextResolver('./test','http://somewhere/something'),	\
+                            ForrestResolver('./test','http://somewhere/something'),	\
+                            TemplateResolver('./test','http://somewhere/something') ] :
 
-        #printSeparator()
-        self.assertNotNone("Resolved Module: ", resolver.getDirectory(self.module1))
-        self.assertNotNone("Resolved Module: ", resolver.getFile(self.module1))
-        self.assertNotNone("Resolver Module: ", resolver.getDirectoryUrl(self.module1))
-        self.assertNotNone("Resolver Module: ", resolver.getUrl(self.module1))
+
+            print `resolver`
+            
+            #printSeparator()
+            
+            message = "Resolver [" + resolver.__class__.__name__ + "] "
+            
+            self.assertNotNone(message + "::getDirectory", resolver.getDirectory(self.module1))
+            self.assertNotNone(message + "::getFile", resolver.getFile(self.module1))
+            self.assertNotNone(message + "::getDirectoryUrl", resolver.getDirectoryUrl(self.module1))
+            self.assertNotNone(message + "::getUrl", resolver.getUrl(self.module1))
     
-        self.assertNotEmpty('Need work on workspace', self.workspace.getWorkList())        
-        for work in self.workspace.getWorkList():
-            #printSeparator()    
-            self.assertNotNone("Resolved Work: ", work)
-            self.assertNotNone("Resolved Work: ", resolver.getDirectory(work))
-            self.assertNotNone("Resolved Work: ", resolver.getFile(work))
-            self.assertNotNone("Resolver Work: ", resolver.getDirectoryUrl(work))
-            self.assertNotNone("Resolver Work: ", resolver.getUrl(work))
+            self.assertNotEmpty('Need work on workspace', self.workspace.getWorkList())        
+            for work in self.workspace.getWorkList():
+                #printSeparator()    
+                self.assertNotNone(message + "::work", work)
+                self.assertNotNone(message + "::getDirectory", resolver.getDirectory(work))
+                self.assertNotNone(message + "::getFile", resolver.getFile(work))
+                self.assertNotNone(message + "::getDirectoryUrl", resolver.getDirectoryUrl(work))
+                self.assertNotNone(message + "::getUrl", resolver.getUrl(work))

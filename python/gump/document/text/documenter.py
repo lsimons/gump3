@@ -28,24 +28,40 @@ import logging
 
 from gump import log
 
+from gump.utils.tools import catFile
 from gump.utils.work import *
 
 from gump.model.state import *
+from gump.model.workspace import Workspace
+from gump.model.module import Module
+from gump.model.project import Project
 
 from gump.document.documenter import Documenter
-from gump.document.resolver import *
+from gump.document.text.resolver import TextResolver
 
-class TemplateDocumenter(Documenter):
+class TextDocumenter(Documenter):
     
     def __init__(self,output=sys.stdout, dirBase='.', urlBase='.'):
         Documenter.__init__(self)
         self.output=output
         
         # Hack, ought return a non-hierarchical one
-        self.resolver=Resolver(dirBase,urlBase)
+        self.resolver=TextResolver(dirBase,urlBase)
         
     def getResolverForRun(self,run):
         return self.resolver
+        
+    def documentEntity(self, entity, run):
+        
+        verbose=run.getOptions().isVerbose()
+        debug=run.getOptions().isDebug()
+        
+        if isinstance(entity,Workspace):
+            pass
+        elif isinstance(entity,Module):
+            self.documentModule('',entity,1,debug,verbose)   
+        elif  isinstance(entity,Project):
+            self.documentProject('',entity,1,debug,verbose)        
     
     def documentRun(self, run):    
         indent=' '
@@ -55,7 +71,7 @@ class TemplateDocumenter(Documenter):
         gumpEnv = run.getEnvironment()
         
         #
-        #
+        # 
         #
         quick=run.getOptions().isQuick()
         verbose=run.getOptions().isVerbose()
@@ -81,7 +97,7 @@ class TemplateDocumenter(Documenter):
         output.write(indent + "Modules: " + str(len(workspace.getModules())) + "\n")
     
         self.documentAnnotations(indent,workspace)
-        self.documentWork(indent,workspace)
+        self.documentWork(indent,workspace,0)
             
         indent += ' '
         for module in sortedModuleList:
@@ -89,24 +105,17 @@ class TemplateDocumenter(Documenter):
                 if not gumpSet.inModules(module): continue       
             else:
                 if not gumpSet.inModuleSequence(module): continue       
-            
-            output.write(indent + "Module [" + module.getName() + "] State: " + module.getStateDescription() + "\n")
-            output.write(indent + "Projects: " + str(len(module.getProjects())) + "\n")
-
-            self.documentWork(indent,module)
-        
-            #
-            # Document all the annotations
-            #
-            self.documentAnnotations(indent,module)
-                    
+                
+            self.documentModule(indent,module,0,debug,verbose)
+                  
+            # Recurse in...
             for project in module.getProjects():                
                 if quick:
                     if not gumpSet.inProjects(project): continue
                 else:
                     if not gumpSet.inProjectSequence(project): continue
             
-                self.documentProject(indent,project,debug,verbose)
+                self.documentProject(indent,project,0,debug,verbose)
                 
     def documentEnvironment(self, indent, environment, debug, verbose):
         indent += ' '
@@ -114,25 +123,39 @@ class TemplateDocumenter(Documenter):
         output.write(indent + "Gump Environment\n")
         
         self.documentAnnotations(indent,environment)
-        self.documentWork(indent,environment)
+        self.documentWork(indent,environment,0)
                  
-    def documentProject(self, indent, project, debug, verbose):
+    def documentModule(self, indent, module, realtime, debug, verbose):
+        indent += ' '
+        output=self.output   
+        output.write(indent + "Module [" + module.getName() + "] State: " + module.getStateDescription() + "\n")
+        output.write(indent + "Projects: " + str(len(module.getProjects())) + "\n")
+        
+        #
+        # Document all the annotations
+        #
+        self.documentAnnotations(indent,module)
+        self.documentWork(indent,module,realtime)
+                 
+            
+    def documentProject(self, indent, project, realtime, debug, verbose):
         indent += ' '
         output=self.output    
         output.write(indent + "Project [" + project.getName() 	\
                     + "] State: " + project.getStateDescription() + "\n")
         
-        if verbose:
-            self.documentDependenciesList(indent, "Project Dependees",		\
-                    project.getDirectDependees(), 1, project)
+        if not realtime:
+            if verbose:
+                self.documentDependenciesList(indent, "Project Dependees",		\
+                        project.getDirectDependees(), 1, project)
             
-            self.documentDependenciesList(indent, "Project Dependencies",	\
-                    project.getDirectDependencies(), 0, project)
+                self.documentDependenciesList(indent, "Project Dependencies",	\
+                        project.getDirectDependencies(), 0, project)
         
         self.documentAnnotations(indent,project)
-        self.documentWork(indent,project)
+        self.documentWork(indent,project, realtime)
 
-    def documentWork(self, indent, workable):
+    def documentWork(self, indent, workable, realtime):
         
         if not workable or not workable.worklist: return
         
@@ -151,6 +174,10 @@ class TemplateDocumenter(Documenter):
                 if work.result.signal:
                     output.write(indent+"Work Signal  : " + `work.result.signal` + "\n")
                 output.write(indent+"Work Exit : " + str(work.result.exit_code) + "\n")
+                
+                if realtime and work.result.hasOutput():
+                    catFile(output,work.result.getOutput(),work.result.getOutput())
+                    
         
 
     def documentAnnotations(self, indent, annotatable): 
@@ -158,7 +185,6 @@ class TemplateDocumenter(Documenter):
         output=self.output       
         for note in annotatable.getAnnotations():
             output.write(indent+" - " + str(note) + "\n")
-        
         
     def documentDependenciesList(self,indent,title,dependencies,dependees,referencingObject):
       if dependencies:

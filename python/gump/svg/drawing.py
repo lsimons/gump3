@@ -54,6 +54,19 @@ class Rect:
                     + `self.y` + ' '	\
 	                + `self.w` + ','	\
 	                + `self.h` + '\n')
+                	             	                
+    def __str__(self):
+        return '(' 	+ `self.x` + ',' + `self.y` + ' '	\
+	                + `self.w` + ',' + `self.h` + ')'
+	               
+# Scale a rectangle
+def getScaledRect(scalarW,scalarH,rect):    
+    return Rect(rect.getX(),rect.getY(),	\
+            float(rect.getWidth())/scalarW,float(rect.getHeight())/scalarH)
+    
+# Shift a rectangle
+def getShiftedRect(shiftX,shiftY,rect):    
+    return Rect(rect.getX()+shiftX,rect.getY()+shiftY,rect.getWidth(),rect.getHeight())
         
 class DrawingContext:
     """ The interface to a chainable context """
@@ -108,8 +121,8 @@ class DrawingContext:
 
     def dump(self, indent=0, output=sys.stdout):
         """ Display the contents of this object """
-        output.write(getIndent(indent)+'Class: ' + self.__class__.__name__ + '\n')
-        output.write(getIndent(indent)+'Name : ' + self.name + '\n')
+        output.write(getIndent(indent)+'Class   : ' + self.__class__.__name__ + '\n')
+        output.write(getIndent(indent)+'Name    : ' + self.name + '\n')
                  
 class StandardDrawingContext(DrawingContext):
     """ A drawing context, is an area width*height """
@@ -133,8 +146,8 @@ class StandardDrawingContext(DrawingContext):
         """ Display the contents of this object """
         DrawingContext.dump(self)
         if self.hasRect(): self.rect.dump(indent,output)
-        output.write(getIndent(indent)+'Width : ' + `self.getWidth()` + '\n')
-        output.write(getIndent(indent)+'Height : ' + `self.getHeight()` + '\n')
+        output.write(getIndent(indent)+'Width   : ' + `self.getWidth()` + '\n')
+        output.write(getIndent(indent)+'Height  : ' + `self.getHeight()` + '\n')
                  
 class ScaledDrawingContext(StandardDrawingContext):
     def __init__(self,name=None,context=None,rect=None,scaledWidth=1,scaledHeight=1):
@@ -158,8 +171,8 @@ class ScaledDrawingContext(StandardDrawingContext):
         StandardDrawingContext.dump(self)
         output.write(getIndent(indent)+'wScaled : ' + `self.scaledWidth` + '\n')
         output.write(getIndent(indent)+'hScaled : ' + `self.scaledHeight` + '\n')
-        output.write(getIndent(indent)+'wRatio : ' + `self.wRatio` + '\n')
-        output.write(getIndent(indent)+'hRatio : ' + `self.hRatio` + '\n')
+        output.write(getIndent(indent)+'wRatio  : ' + `self.wRatio` + '\n')
+        output.write(getIndent(indent)+'hRatio  : ' + `self.hRatio` + '\n')                        
         
 class ShiftedDrawingContext(StandardDrawingContext):
     def __init__(self,name=None,context=None,shiftedX=0,shiftedY=0):
@@ -173,6 +186,12 @@ class ShiftedDrawingContext(StandardDrawingContext):
     
     def getRealPoint(self,x,y):
         return (x + self.shiftedX, y + self.shiftedY)
+                
+    def dump(self, indent=0, output=sys.stdout):
+        """ Display the contents of this object """
+        StandardDrawingContext.dump(self)
+        output.write(getIndent(indent)+'xShift  : ' + `self.shiftedX` + '\n')
+        output.write(getIndent(indent)+'yShift  : ' + `self.shiftedY` + '\n')
         
 class GridDrawingContext(DrawingContext):
     """ 
@@ -190,21 +209,39 @@ class GridDrawingContext(DrawingContext):
         
         # Create the scale
         self.scale=ScaledDrawingContext('GridScale:'+name,context,None,rows,cols)        
-        self.scale.dump()
-        
-        # Calculatethe 1/2 unit shift
-        self.widthUnit=self.scale.getWidthUnit()
-        self.heightUnit=self.scale.getHeightUnit()
         
         # Create the shift
-        self.shift=ShiftedDrawingContext('GridShift:'+name,	\
-                            self.scale,	\
-                            self.widthUnit/2,	\
-                            self.heightUnit/2)
-        self.shift.dump()
-                
-        # Instal lthis context...
+        self.shift=ShiftedDrawingContext('GridShift:'+name,	self.scale,	0.5, 0.5)
+        
+        # Install this context...
         self.setNextContext(self.shift)
+                        
+                        
+#    def generateRowContexts(self,context):
+#        rowContexts={}
+#    
+#        rect=context.realRect()
+#        
+#        # Get the maximum rows/cols
+#        (cols, rows) = self.matrix.getExtent()
+#        
+#        # 
+#        rowHeight=rect.getHeight()/rows        
+#        
+#        print 'MAIN RECT: ' + str(rect)
+#            
+#        for row in self.matrix.getRows():
+#            
+#            colsOnRow=self.matrix.getRowWidth(row)
+#            
+#            rowRect=getShiftedRect(0,rowHeight*row,getScaledRect(1,rows,rect))
+#            rowGrid=GridDrawingContext('RowGriw ' + `row`, \
+#                        StandardDrawingContext('Row ' + `row`, context, rowRect),	\
+#                        1, colsOnRow)
+#            rowContexts[row]=rowGrid
+#            row+=1
+#        
+#        return rowContexts
                         
 class VirtualPoint:
     def __init__(self,x,y,context):

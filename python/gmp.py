@@ -14,7 +14,7 @@
 #   See the License for the specific language governing permissions and
 #   limitations under the License.
 #
-# $Header: /home/stefano/cvs/gump/python/gmp.py,v 1.3 2004/04/14 17:48:45 ajack Exp $
+# $Header: /home/stefano/cvs/gump/python/gmp.py,v 1.4 2004/04/14 22:12:58 ajack Exp $
 
 """
   This is the commandline entrypoint into Python Gump as a
@@ -90,19 +90,6 @@ def runCommand(command,args='',dir=None,outputFile=None):
         if originalCWD: os.chdir(originalCWD)
       
     return exit_code
-
-def catFile(output,file,title=None):
-    """ Cat a file to a stream... """
-    if title:
-        output.write('---------------------------------------------------------------- GUMP\n')    
-        output.write(title + '\n\n')
-        
-    input=open(file,'r')
-    line = input.readline()
-    while line:
-        output.write(line)
-        # Next...
-        line = input.readline()
 
 def callGmpCommand(ws,command,projects,iargs):
     

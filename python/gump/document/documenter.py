@@ -31,33 +31,48 @@ class Documenter:
     def __init__(self):  pass
     
     #
-    # Call a method called 'prepareRun(run)', if needed
+    # Call a method called 'prepareRun(run)', if it
+    # is available on the sub-class (i.e. if needed)
     #
     def prepare(self,run):
         if not hasattr(self,'prepareRun'): return        
         if not callable(self.prepareRun):  return        
         log.info('Prepare to document run using [' + `self` + ']')        
         self.prepareRun(run)
+        
+    #
+    # Call a method called 'documentEntity(entity,run)'
+    #
+    def entity(self,entity,run):
+        if not hasattr(self,'documentEntity'): return
+        if not callable(self.documentEntity): return        
+        log.info('Document entity [' + `entity` + '] using [' + `self` + ']')        
+        self.documentEntity(entity,run)
     
     #
     # Call a method called 'documentRun(run)'
     #
     def document(self,run):
         if not hasattr(self,'documentRun'):
-            raise RuntimeError, 'Complete [' + `self.__class__` + '] with documentRun(self,run)'
+            raise RuntimeError, \
+                    'Class [' + `self.__class__` + '] needs a documentRun(self,run)'
         
         if not callable(self.documentRun):
-            raise RuntimeError, 'Complete [' + `self.__class__` + '] with a callable documentRun(self,run)'
+            raise RuntimeError, \
+                    'Class [' + `self.__class__` + '] needs a callable documentRun(self,run)'
         
         log.info('Document run using [' + `self` + ']')
         
         self.documentRun(run)
         
+    #
+    # Get a Resolver (specifically for this run)
+    #
     def getResolver(self,run):
         if not hasattr(self,'getResolverForRun'):
-            raise RuntimeError, 'Complete [' + `self.__class__` + '] with getResolverForRun(self,run)'
+            raise RuntimeError, 'Class [' + `self.__class__` + '] needs a getResolverForRun(self,run)'
         
         if not callable(self.getResolverForRun):
-            raise RuntimeError, 'Complete [' + `self.__class__` + '] with a callable getResolverForRun(self,run)'
+            raise RuntimeError, 'Class [' + `self.__class__` + '] needs a callable getResolverForRun(self,run)'
             
         return self.getResolverForRun(run)

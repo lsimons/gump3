@@ -214,6 +214,19 @@ def tailFile(file,lines,wrapLen=0,eol=None,marker=None):
 def tailFileToString(file,lines,wrapLen=0,eol=None,marker=None):
     return "".join(tailFile(file,lines,wrapLen,eol,marker))
     
+def catFile(output,file,title=None):
+    """ Cat a file to a stream... """
+    if title:
+        output.write('---------------------------------------------------------------- GUMP\n')    
+        output.write(title + '\n\n')
+        
+    input=open(file,'r')
+    line = input.readline()
+    while line:
+        output.write(line)
+        # Next...
+        line = input.readline()
+        
 if __name__=='__main__':
 
   # init logging

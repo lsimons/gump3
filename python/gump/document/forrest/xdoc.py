@@ -597,6 +597,7 @@ class XDocLink(XDocPiece):
 class XDocFork(XDocPiece):
     def __init__(self,context,href,text=None):
         XDocPiece.__init__(self,context)
+        if not href: raise RuntimeError, 'Can not fork with nowhere to go.'
         self.href=href
         if text:
             self.createText(text)

@@ -35,14 +35,14 @@ from gump.model.state import *
 from gump.document.documenter import Documenter
 from gump.document.resolver import *
 
-class TextDocumenter(Documenter):
+class TemplateDocumenter(Documenter):
     
     def __init__(self,output=sys.stdout, dirBase='.', urlBase='.'):
         Documenter.__init__(self)
         self.output=output
         
         # Hack, ought return a non-hierarchical one
-        self.resolver=Resolver(dirBase,urlBase)
+        self.resolver=TemplateResolver(dirBase,urlBase)
         
     def getResolverForRun(self,run):
         return self.resolver

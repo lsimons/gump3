@@ -337,8 +337,8 @@ if __name__=='__main__':
     from gump.test.thomas import EngineTestSuite  
     runner.addSuite(EngineTestSuite())
     
-    from gump.test.depdiag import DependencyDiagramTestSuite  
-    runner.addSuite(DependencyDiagramTestSuite())
+    from gump.test.diagram import DiagramTestSuite  
+    runner.addSuite(DiagramTestSuite())
     
     from gump.test.svg import SvgTestSuite  
     runner.addSuite(SvgTestSuite())
