@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/Attic/logic.py,v 1.16 2003/10/06 19:39:28 ajack Exp $
-# $Revision: 1.16 $
-# $Date: 2003/10/06 19:39:28 $
+# $Header: /home/stefano/cvs/gump/python/gump/Attic/logic.py,v 1.17 2003/10/06 19:58:37 ajack Exp $
+# $Revision: 1.17 $
+# $Date: 2003/10/06 19:58:37 $
 #
 # ====================================================================
 #
@@ -492,14 +492,14 @@ def preprocessContext(workspace,context=GumpContext()):
             allPackaged=1
             for project in module.project:
                 if not isPackaged(project):
-                    if not hasOutputs(project):
+                    pctxt=context.getProjectContextForProject(project)    
+                    if not hasOutputs(project,pctxt):
                         # 
                         # Honorary package (allow folks to only mark the main
                         # project in a module as a package, and those that do
                         # not product significant outputs (e.g. test projects)
                         # will be asssumed to be packages.
                         # 
-                        pctxt=context.getProjectContextForProject(project)
                         pctxt.status=STATUS_COMPLETE
                         pctxt.reason=REASON_PACKAGE
                         packageCount+=1
