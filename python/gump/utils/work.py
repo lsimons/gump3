@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/utils/work.py,v 1.2 2003/12/02 17:36:40 ajack Exp $
-# $Revision: 1.2 $
-# $Date: 2003/12/02 17:36:40 $
+# $Header: /home/stefano/cvs/gump/python/gump/utils/work.py,v 1.3 2003/12/02 17:54:22 ajack Exp $
+# $Revision: 1.3 $
+# $Date: 2003/12/02 17:54:22 $
 #
 # ====================================================================
 #
@@ -168,12 +168,13 @@ class CommandWorkItem(TimedWorkItem):
         return self.result.tail(lines)
         
     def clone(self):
-        return CommandWorkItem(self,type,self.command,self.result,self.message)
+        return CommandWorkItem(self.type,self.command,self.result,self.message)
             
 class WorkList(list,Ownable):
     
     """List of work (in order)"""
     def __init__(self,owner=None):
+        list.__init__(self)
         Ownable.__init__(self,owner)            
         
         # Organize by name
@@ -224,6 +225,12 @@ class WorkList(list,Ownable):
         secs 	=	int(round(secs,0))        
     
         return (hours, mins, secs)
+        
+    def clone(self):
+        cloned=WorkList()
+        for item in self:
+            cloned.add(item.clone())
+        return cloned
         
 class Workable(Stateful):       
     def __init__(self):

@@ -1,7 +1,7 @@
 #!/usr/bin/env python
-# $Header: /home/stefano/cvs/gump/python/gump/test/tools.py,v 1.1 2003/12/02 17:36:40 ajack Exp $
-# $Revision: 1.1 $
-# $Date: 2003/12/02 17:36:40 $
+# $Header: /home/stefano/cvs/gump/python/gump/test/tools.py,v 1.2 2003/12/02 17:54:22 ajack Exp $
+# $Revision: 1.2 $
+# $Date: 2003/12/02 17:54:22 $
 #
 # ====================================================================
 #
@@ -64,7 +64,7 @@
 from gump.utils.tools import *
 from gump.test.pyunit import UnitTestSuite
 
-class TestWork(Workable):
+class TestWorkable(Workable):
     def __init__(self):    
         # Holds work (with state)
     	Workable.__init__(self)    
@@ -74,14 +74,18 @@ class ToolsTestSuite(UnitTestSuite):
         UnitTestSuite.__init__(self)
         
     def suiteSetUp(self):
-        self.testwork=TestWork()
+        self.testworkable=TestWorkable()
         
     def testListAsWork(self):
-        listDirectoryAsWork(self.testwork,'.','test')
+        listDirectoryAsWork(self.testworkable,'.','test')
     
     def testCatFileAsWork(self):
-        catFileAsWork(self.testwork,'./text.xml','test')
+        catFileAsWork(self.testworkable,'./text.xml','test')
         
     def testCatDirAsWork(self):
-        catDirectoryContentsAsWork(self.testwork,'.','test')
+        catDirectoryContentsAsWork(self.testworkable,'.','test')
+        
+    # :TODO: Move to work unit tests module (once written)
+    def testWorkClone(self):
+        self.testworkable.getWorkList().clone()
         
