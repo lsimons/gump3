@@ -19,7 +19,7 @@
 
     <home nested="dist"/>
 
-    <jar name="lib/output.jar" id="output"/>
+    <jar name="lib/output3.jar" id="output3"/>
 
     <license name="LICENSE"/>
 

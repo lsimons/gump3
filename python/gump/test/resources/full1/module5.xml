@@ -1,21 +1,19 @@
-<module name="download1">
+<module name="module5">
 
   <url  href="http://ant.apache.org/index.html"/>
   <description>
     Java based build tool
   </description>
 
-  <jars repository="jars_repository1"/>
+  <cvs repository="repository1"/>
 
-  <project name="download1">
+  <project name="project5">
     <package>org.apache.tools.ant</package>
 
-    <ant target="gump"/>
-
-    <depend project="random"/>
-    <option project="random"/>
+    <depend project="alias1"/>
 
     <home nested="dist"/>
+    <work nested="classes" />
 
     <jar name="lib/output.jar" id="output"/>
 
@@ -24,6 +22,5 @@
     <nag from="Gump Integration Build &lt;dev@ant.apache.org&gt;"
          to="dev@ant.apache.org"/>
   </project>
-
 </module>
 

@@ -1,0 +1,15 @@
+<module name="alias1">
+
+  <url  href="http://ant.apache.org/index.html"/>
+  <description>
+    Java based build tool
+  </description>
+
+  <jars repository="jars_repository1"/>
+
+  <project name="alias1">
+    <depend project="project4" inherit="jars"/>
+  </project>
+
+</module>
+

@@ -228,7 +228,7 @@ class GumpEngine:
 
         for module in run.getGumpSet().getModules():
     
-            # If no CVS, nothing to sync   
+            # If no CVS/SVN, nothing to sync   
             if not module.hasCvs() \
                 and not module.hasSvn(): continue
     
@@ -237,12 +237,18 @@ class GumpEngine:
                 sourcedir = os.path.abspath(os.path.join(workspace.getCvsDirectory(),module.name)) # todo allow override
                 destdir = os.path.abspath(workspace.getBaseDirectory())
         
-                work=syncDirectories(workspace.noRSync,WORK_TYPE_SYNC,\
-                dir.work,workspace.tmpdir,\
-                sourcedir,destdir,module.name)
         
                 # Perform the sync...
+                work=syncDirectories(workspace.noRSync,WORK_TYPE_SYNC,\
+                        dir.work,workspace.tmpdir,\
+                        sourcedir,destdir,module.name)
+                        
+                # :TODO: Get the repostiory & store this work there also
+                # might as well...
+                    
+                # Store the work as done on this module
                 module.performedWork(work)
+                
 
                 # Update Context w/ Results  
                 if not work.result.state==CMD_STATE_SUCCESS:
@@ -347,14 +353,20 @@ class GumpEngine:
         mkdirs=0
         for mkdir in project.xml.mkdir:   
         
+            # ----------------------------------------------------------------
             # :TODO: HACK HACK HACK HACK HACK HACK HACK
-            # Rsynch should delete these things, not allow
+            # :TODO: HACK HACK HACK HACK HACK HACK HACK
+            # :TODO: HACK HACK HACK HACK HACK HACK HACK
+            # Rsync should delete these things, not allow
             # them to exist. We should NOT do this.
             basedir=os.path.abspath(project.getModule().getSourceDirectory() \
                                         or dir.base)
             dirToMake=os.path.abspath(os.path.join(basedir,mkdir.dir))
             if os.path.exists(dirToMake): continue
             # :TODO: HACK HACK HACK HACK HACK HACK HACK
+            # :TODO: HACK HACK HACK HACK HACK HACK HACK
+            # :TODO: HACK HACK HACK HACK HACK HACK HACK
+            # ----------------------------------------------------------------
             
         
             cmd=project.getMkDirCommand(mkdir,mkdirs)

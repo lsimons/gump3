@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/model/module.py,v 1.11 2003/11/23 06:16:38 ajack Exp $
-# $Revision: 1.11 $
-# $Date: 2003/11/23 06:16:38 $
+# $Header: /home/stefano/cvs/gump/python/gump/model/module.py,v 1.12 2003/11/24 01:45:15 ajack Exp $
+# $Revision: 1.12 $
+# $Date: 2003/11/24 01:45:15 $
 #
 # ====================================================================
 #
@@ -272,7 +272,11 @@ class Module(NamedModelObject, Statable):
         # Determine source directory
         self.srcdir=self.xml.srcdir or self.xml.name        
         self.absSrcDir=os.path.join(workspace.getBaseDirectory(),self.srcdir)
-                                    
+                               
+                               
+        # :TODO: Consolidate this code, less cut-n-paste but also
+        # check the 'type' of the repository is appropriate for the
+        # use (eg. type='cvs' if refrenced by CVS).
         if not packaged:
             # We have a CVS entry, expand it...
             if self.xml.cvs:
@@ -285,7 +289,7 @@ class Module(NamedModelObject, Statable):
                     self.cvs=ModuleCvs(self.xml.cvs,repo)
                 else:
                     self.changeState(STATE_FAILED,REASON_CONFIG_FAILED)               
-                    log.error(':TODO: No such repository in w/s ['+ repoName +'] on [' \
+                    self.addError('No such repository in w/s ['+ repoName +'] on [' \
                             + self.getName() + ']')
                             
             elif self.xml.svn:                
@@ -298,7 +302,7 @@ class Module(NamedModelObject, Statable):
                     self.svn=ModuleSvn(self.xml.svn,repo)
                 else:
                     self.changeState(STATE_FAILED,REASON_CONFIG_FAILED)               
-                    log.error(':TODO: No such repository in w/s ['+ repoName +'] on [' \
+                    self.addError('No such repository in w/s ['+ repoName +'] on [' \
                             + self.getName() + ']')                 
                                                 
             elif self.xml.jars:                
@@ -311,9 +315,13 @@ class Module(NamedModelObject, Statable):
                     self.svn=ModuleJars(self.xml.jars,repo)
                 else:
                     self.changeState(STATE_FAILED,REASON_CONFIG_FAILED)               
-                    log.error(':TODO: No such repository in w/s ['+ repoName +'] on [' \
+                    self.addError('No such repository in w/s ['+ repoName +'] on [' \
                             + self.getName() + ']')                 
-                    
+
+
+        # For prettiness
+        self.sortedProjects=createOrderedList(self.getProjects())
+                            
         self.setComplete(1)            
         
     def addProject(self,project):
@@ -325,6 +333,9 @@ class Module(NamedModelObject, Statable):
         
     def getProjects(self):
         return self.projects.values()
+        
+    def getSortedProjects(self):
+        return self.sortedProjects        
   
     def getChildren(self):
         return self.getProjects()        

@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/model/depend.py,v 1.3 2003/11/20 20:51:48 ajack Exp $
-# $Revision: 1.3 $
-# $Date: 2003/11/20 20:51:48 $
+# $Header: /home/stefano/cvs/gump/python/gump/model/depend.py,v 1.4 2003/11/24 01:45:15 ajack Exp $
+# $Revision: 1.4 $
+# $Date: 2003/11/24 01:45:15 $
 #
 # ====================================================================
 #
@@ -72,12 +72,14 @@ from gump.utils import getIndent
 
 # Inheritence
 INHERIT_NONE=0
-INHERIT_RUNTIME=1
-INHERIT_ALL=2
-INHERIT_HARD=3
+INHERIT_JARS=1
+INHERIT_RUNTIME=2
+INHERIT_ALL=3
+INHERIT_HARD=4
 
 inheritDescriptions = { INHERIT_NONE : "None",
            INHERIT_RUNTIME : "Runtime",
+           INHERIT_JARS : "Jars",
            INHERIT_ALL : "All",
            INHERIT_HARD : "Hard" }
 
@@ -98,6 +100,8 @@ def importXMLDependency(ownerProject,dependProject,xmldepend,optional):
         inherit=INHERIT_ALL
     elif 'hard' == xmldepend.inherit:
         inherit=INHERIT_HARD
+    elif 'jars' == xmldepend.inherit:
+        inherit=INHERIT_JARS
     elif 'none' == xmldepend.inherit:
         inherit=INHERIT_NONE
         
@@ -140,8 +144,14 @@ class ProjectDependency(Annotatable):
         if not c: c = cmp(self.ids,other.ids)
         return c
     
+    def __repr__(self):
+        return str(self)
+        
     def __str__(self):
-        output=self.project.getName()
+        output='[owner=\''+ self.owner.getName() + '\'] '
+        
+        output+='project=\''+ self.project.getName() + '\''
+        
         if self.inherit:
             output+=' inherit=\'' + self.getInheritenceDescription() + '\''
         if self.runtime:

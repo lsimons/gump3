@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/model/workspace.py,v 1.10 2003/11/23 15:17:51 ajack Exp $
-# $Revision: 1.10 $
-# $Date: 2003/11/23 15:17:51 $
+# $Header: /home/stefano/cvs/gump/python/gump/model/workspace.py,v 1.11 2003/11/24 01:45:15 ajack Exp $
+# $Revision: 1.11 $
+# $Date: 2003/11/24 01:45:15 $
 #
 # ====================================================================
 #
@@ -113,6 +113,12 @@ class Workspace(ModelObject,PropertyContainer):
         self.startdatetime=time.strftime(setting.datetimeformat, \
                                 time.localtime())
         self.timezone=str(time.tzname)    
+
+    def getChildren(self):
+        return self.getModules() 
+    
+
+    # Repository Interface
     
     def hasRepository(self,rname):
         return self.repositories.has_key(rname)
@@ -123,17 +129,41 @@ class Workspace(ModelObject,PropertyContainer):
     def getRepositories(self):
         return self.repositories.values()
         
+    def getSortedRepositories(self):
+        return self.sortedRepositories
+
+
+    # Module Interface
+        
     def hasModule(self,mname):
         return self.modules.has_key(mname)
         
     def getModule(self,mname):
         return self.modules.get(mname,None)
-        
+
+    def getModules(self):
+        return self.modules.values()              
+                
+    def getSortedModules(self):
+        return self.sortedModules   
+                
+                
+    # All projects in the workspace (also available
+    # through the owned moduleS)
+                
     def hasProject(self,pname):
         return self.projects.has_key(pname)
         
     def getProject(self,pname):
         return self.projects[pname]
+                
+    def getProjects(self):
+        return self.projects.values() 
+                
+    def getSortedProjects(self):
+        return self.sortedProjects       
+        
+        
         
     def complete(self, xmlprofiles, xmlrepositories, xmlmodules, xmlprojects):        
         if self.isComplete(): return
@@ -311,7 +341,15 @@ class Workspace(ModelObject,PropertyContainer):
                                                              
         # Complete the properies
         self.completeProperties()
-                                        
+                                      
+                                      
+        # Sort contents (for 'prettiness')
+        
+        # Pretty sorting...
+        self.sortedModules=createOrderedList(self.getModules())
+        self.sortedProjects=createOrderedList(self.getProjects())
+        self.sortedRepositories=createOrderedList(self.getRepositories())
+        
         self.setComplete(1)
 
             
@@ -361,20 +399,11 @@ class Workspace(ModelObject,PropertyContainer):
             os.path.abspath(os.path.join(self.getBaseDirectory(),'log'))
             
     def getLogUrl(self):
-        return self.logurl
-            
-    def getProjects(self):
-        return self.projects.values()        
+        return self.logurl            
     
     # :TODO: Inefficient, ought store sorted
     def getProjectIterator(self):
-        return AlphabeticDictionaryIterator(self.projects)
-        
-    def getChildren(self):
-        return self.getModules() 
-    
-    def getModules(self):
-        return self.modules.values()    
+        return AlphabeticDictionaryIterator(self.projects)        
         
     # :TODO: Inefficient, ought store sorted
     def getModuleIterator(self):

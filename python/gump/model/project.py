@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/model/project.py,v 1.15 2003/11/21 05:06:37 ajack Exp $
-# $Revision: 1.15 $
-# $Date: 2003/11/21 05:06:37 $
+# $Header: /home/stefano/cvs/gump/python/gump/model/project.py,v 1.16 2003/11/24 01:45:15 ajack Exp $
+# $Revision: 1.16 $
+# $Date: 2003/11/24 01:45:15 $
 #
 # ====================================================================
 #
@@ -803,11 +803,11 @@ class Project(NamedModelObject, Statable):
     #
     # Return a (classpath, bootclaspath) tuple for this project
     #
-    def getClasspaths(self):
+    def getClasspaths(self,debug=0):
         #
         # Calculate classpath and bootclasspath
         #
-        (classpath, bootclasspath) = self.getClasspathLists()
+        (classpath, bootclasspath) = self.getClasspathLists(debug)
         
         #
         # Return them simple/flattened
@@ -878,7 +878,7 @@ class Project(NamedModelObject, Statable):
   
         # Does it have any depends? Process all of them...
         for dependency in self.getDependencies():
-            (subcp, subbcp) = self.getDependOutputList(dependency,visited,0,debug)
+            (subcp, subbcp) = self.getDependOutputList(dependency,visited,1,debug)
             self.importClasspaths(classpath,bootclasspath,subcp,subbcp)
     
         #
@@ -992,7 +992,7 @@ class Project(NamedModelObject, Statable):
             # If the dependent project inherited stuff, we inherit that...
             if    	(inherit==INHERIT_ALL or inherit==INHERIT_HARD) \
                     or (inherit==INHERIT_RUNTIME and subdependency.isRuntime()) \
-                    or (subdependency.inherit):      
+                    or (subdependency.inherit > INHERIT_NONE):      
                 (subcp, subbcp) = self.getDependOutputList(subdependency,visited,depth+1,debug)
                 self.importClasspaths(classpath,bootclasspath,subcp,subbcp)   
             elif debug:

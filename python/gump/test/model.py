@@ -1,7 +1,7 @@
 #!/usr/bin/env python
-# $Header: /home/stefano/cvs/gump/python/gump/test/model.py,v 1.5 2003/11/23 06:16:39 ajack Exp $
-# $Revision: 1.5 $
-# $Date: 2003/11/23 06:16:39 $
+# $Header: /home/stefano/cvs/gump/python/gump/test/model.py,v 1.6 2003/11/24 01:45:16 ajack Exp $
+# $Revision: 1.6 $
+# $Date: 2003/11/24 01:45:16 $
 #
 # ====================================================================
 #
@@ -93,6 +93,8 @@ class ModelTestSuite(UnitTestSuite):
         self.project2=self.workspace.getProject('project2')             
         self.project3=self.workspace.getProject('project3')
         self.project4=self.workspace.getProject('project4')
+        self.project5=self.workspace.getProject('project5')
+        self.alias1=self.workspace.getProject('alias1')
         
         self.packagedModule1=self.workspace.getModule('package1')        
         self.module1=self.workspace.getModule('module1')
@@ -187,4 +189,13 @@ class ModelTestSuite(UnitTestSuite):
         
         self.assertEqual('State ought propagate to here', project4.getState(), STATE_PREREQ_FAILED)
         self.assertNotEqual('State ought NOT propagate like this', project4.getState(), STATE_FAILED)
+        
+    def testClasspaths(self):
+        
+        (classpath,bootclasspath)=self.project1.getClasspaths()
+        (classpath,bootclasspath)=self.project4.getClasspaths()
+        (classpath,bootclasspath)=self.alias1.getClasspaths()
+        (classpath,bootclasspath)=self.project5.getClasspaths(1)        
+        print "Classpath:" + classpath     
+        print "Bootclasspath:" + bootclasspath
         

@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/gui/view.py,v 1.1 2003/11/17 22:10:56 ajack Exp $
-# $Revision: 1.1 $
-# $Date: 2003/11/17 22:10:56 $
+# $Header: /home/stefano/cvs/gump/python/gump/gui/view.py,v 1.2 2003/11/24 01:45:16 ajack Exp $
+# $Revision: 1.2 $
+# $Date: 2003/11/24 01:45:16 $
 #
 # ====================================================================
 #
@@ -74,12 +74,15 @@ from xml.sax.handler import ContentHandler
 # http://wxpython.org/
 from wxPython.wx import *
 
-from gump import load, log
-from gump.conf import dir, default, handleArgv
-from gump.xmlutils import xmlize
-from gump.model import Module, Project
-from gump.logic import *
-from gump.build import build
+from gump import log
+from gump.config import dir, default
+from gump.utils.xmlutils import xmlize
+from gump.utils.commandLine import handleArgv
+from gump.model.module import Module
+from gump.model.project import Project
+from gump.model.workspace import Workspace
+from gump.model.loader import WorkspaceLoader
+from gump.engine import GumpEngine
 
 ###############################################################################
 # Initialize
@@ -132,24 +135,24 @@ class gumpview(wxApp):
                                         wxNO_BORDER | wxTB_FLAT )
 
     self.frame.toolbar.AddSimpleTool(self.menu_BACK,
-                                     wxBitmap("gump/images/back.bmp",
+                                     wxBitmap("gump/gui/images/back.bmp",
                                               wxBITMAP_TYPE_BMP),
                                      "Back")
   
     self.frame.toolbar.AddSeparator()
 
     self.frame.toolbar.AddSimpleTool(self.menu_UPDATE,
-                                     wxBitmap("gump/images/update.bmp",
+                                     wxBitmap("gump/gui/images/update.bmp",
                                               wxBITMAP_TYPE_BMP),
                                      "Update from VCS")
                                      
     self.frame.toolbar.AddSimpleTool(self.menu_GEN,
-                                     wxBitmap("gump/images/gen.bmp",
+                                     wxBitmap("gump/gui/images/gen.bmp",
                                               wxBITMAP_TYPE_BMP),
                                      "Generate XML merged descriptor")
                                      
     self.frame.toolbar.AddSimpleTool(self.menu_RUN,
-                                     wxBitmap("gump/images/run.bmp",
+                                     wxBitmap("gump/gui/images/run.bmp",
                                               wxBITMAP_TYPE_BMP),
                                      "Run")
 
@@ -157,12 +160,12 @@ class gumpview(wxApp):
 
 
     self.frame.toolbar.AddCheckTool(self.menu_CONSOLE,
-                                     wxBitmap("gump/images/console.bmp",
+                                     wxBitmap("gump/gui/images/console.bmp",
                                               wxBITMAP_TYPE_BMP),
                                      shortHelp="Toggle this")
     
     self.frame.toolbar.AddSimpleTool(self.menu_HELP,
-                                     wxBitmap("gump/images/help.bmp",
+                                     wxBitmap("gump/gui/images/help.bmp",
                                               wxBITMAP_TYPE_BMP),
                                      "Help")
     
@@ -176,12 +179,12 @@ class gumpview(wxApp):
     
     #notebook images
     notebookil = wxImageList(16, 16)
-    idx_referenced = notebookil.Add(wxImage("gump/images/referenced.bmp").ConvertToBitmap())
-    idx_dependencies = notebookil.Add(wxImage("gump/images/dependencies.bmp").ConvertToBitmap())
-    idx_prereqs = notebookil.Add(wxImage("gump/images/prereqs.bmp").ConvertToBitmap())
-    idx_classpath = notebookil.Add(wxImage("gump/images/classpath.bmp").ConvertToBitmap())
-    idx_property = notebookil.Add(wxImage("gump/images/property.bmp").ConvertToBitmap())    
-    idx_exports = notebookil.Add(wxImage("gump/images/exports.bmp").ConvertToBitmap())    
+    idx_referenced = notebookil.Add(wxImage("gump/gui/images/referenced.bmp").ConvertToBitmap())
+    idx_dependencies = notebookil.Add(wxImage("gump/gui/images/dependencies.bmp").ConvertToBitmap())
+    idx_prereqs = notebookil.Add(wxImage("gump/gui/images/prereqs.bmp").ConvertToBitmap())
+    idx_classpath = notebookil.Add(wxImage("gump/gui/images/classpath.bmp").ConvertToBitmap())
+    idx_property = notebookil.Add(wxImage("gump/gui/images/property.bmp").ConvertToBitmap())    
+    idx_exports = notebookil.Add(wxImage("gump/gui/images/exports.bmp").ConvertToBitmap())    
     notebook.AssignImageList(notebookil)
     #self.SetImageList(self.il, wxIMAGE_LIST_SMALL)
 
@@ -252,11 +255,11 @@ class gumpview(wxApp):
       
     #tree images
     treeil = wxImageList(16, 16)
-    idx_workspace = treeil.Add(wxImage("gump/images/workspace.bmp").ConvertToBitmap())
-    idx_module = treeil.Add(wxImage("gump/images/module.bmp").ConvertToBitmap())
-    idx_module_ex = treeil.Add(wxImage("gump/images/module_ex.bmp").ConvertToBitmap())    
-    idx_project = treeil.Add(wxImage("gump/images/project.bmp").ConvertToBitmap())
-    idx_project_ex = treeil.Add(wxImage("gump/images/project_ex.bmp").ConvertToBitmap())
+    idx_workspace = treeil.Add(wxImage("gump/gui/images/workspace.bmp").ConvertToBitmap())
+    idx_module = treeil.Add(wxImage("gump/gui/images/module.bmp").ConvertToBitmap())
+    idx_module_ex = treeil.Add(wxImage("gump/gui/images/module_ex.bmp").ConvertToBitmap())    
+    idx_project = treeil.Add(wxImage("gump/gui/images/project.bmp").ConvertToBitmap())
+    idx_project_ex = treeil.Add(wxImage("gump/gui/images/project_ex.bmp").ConvertToBitmap())
     self.tree.AssignImageList(treeil)
     
     root = self.tree.AddRoot(files[0])
@@ -264,20 +267,20 @@ class gumpview(wxApp):
     self.tree.SetItemImage(root, idx_workspace, wx.wxTreeItemIcon_Expanded)
     self.tree.SetItemImage(root, idx_workspace, wx.wxTreeItemIcon_SelectedExpanded)
     
-    self.workspace = load(files[0])
+    # Load (and complete) the workspace
+    self.workspace = (WorkspaceLoader()).load(files[0])
     
-    names=Module.list.keys()
-    names.sort()
-    for name in names:
-      module=Module.list[name]
+    # Build the view tree of modules/projects
+    for module in self.workspace.getSortedModules():
+      name=module.getName()
       parent=self.mItem[name]=self.tree.AppendItem(root,name)
       self.tree.SetPyData(parent,module)
       self.tree.SetItemImage(parent, idx_module ,    wx.wxTreeItemIcon_Normal)
       self.tree.SetItemImage(parent, idx_module_ex , wx.wxTreeItemIcon_Expanded)
       self.tree.SetItemImage(parent, idx_module_ex , wx.wxTreeItemIcon_Selected)
       self.tree.SetItemImage(parent, idx_module_ex,  wx.wxTreeItemIcon_SelectedExpanded)
-      for project in module.project:
-        proj=self.pItem[project.name]=self.tree.AppendItem(parent,project.name)
+      for project in module.getSortedProjects():
+        proj=self.pItem[project.getName()]=self.tree.AppendItem(parent,project.getName())
         self.tree.SetPyData(self.pItem[project.name],project)
         self.tree.SetItemImage(proj, idx_project ,    wx.wxTreeItemIcon_Normal)
         self.tree.SetItemImage(proj, idx_project_ex , wx.wxTreeItemIcon_Selected)
@@ -348,11 +351,8 @@ class gumpview(wxApp):
 
     # gather a list of projects which reference this project
     self.items=[]
-    for parent in Project.list.values():
-      list=parent.depend+parent.option
-      for depend in list:
-        if depend.project==project.name:
-          self.items.append(parent.name)
+    for dependency in project.getDependees():
+        self.items.append(dependency.getOwnerProject().getName())
 
     # display the list, sorted by name
     self.list.DeleteAllItems()
@@ -508,7 +508,7 @@ class ViewHandler(logging.Handler):
         
 class GumpSplashScreen(wxSplashScreen):
   def __init__(self):
-    bmp = wxImage("gump/images/gump.bmp").ConvertToBitmap()
+    bmp = wxImage("gump/gui/images/gump.bmp").ConvertToBitmap()
     wxSplashScreen.__init__(self, bmp,
                             wxSPLASH_CENTRE_ON_SCREEN|wxSPLASH_TIMEOUT,
                             4000, None, -1,
@@ -524,11 +524,11 @@ class GumpLogView(wxListCtrl):
         self.logmsg = []
         
         self.il = wxImageList(16, 16)
-        self.idx_critical = self.il.Add(wxImage("gump/images/fatal.bmp").ConvertToBitmap())
-        self.idx_error = self.il.Add(wxImage("gump/images/error.bmp").ConvertToBitmap())
-        self.idx_warning = self.il.Add(wxImage("gump/images/warning.bmp").ConvertToBitmap())
-        self.idx_info = self.il.Add(wxImage("gump/images/info.bmp").ConvertToBitmap())
-        self.idx_debug = self.il.Add(wxImage("gump/images/debug.bmp").ConvertToBitmap())
+        self.idx_critical = self.il.Add(wxImage("gump/gui/images/fatal.bmp").ConvertToBitmap())
+        self.idx_error = self.il.Add(wxImage("gump/gui/images/error.bmp").ConvertToBitmap())
+        self.idx_warning = self.il.Add(wxImage("gump/gui/images/warning.bmp").ConvertToBitmap())
+        self.idx_info = self.il.Add(wxImage("gump/gui/images/info.bmp").ConvertToBitmap())
+        self.idx_debug = self.il.Add(wxImage("gump/gui/images/debug.bmp").ConvertToBitmap())
         self.SetImageList(self.il, wxIMAGE_LIST_SMALL)
  
         self.attr_critical = wxListItemAttr()
