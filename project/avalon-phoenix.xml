@@ -25,6 +25,17 @@
 
     <project name="avalon-phoenix-dependencies">
         <ant target="get-spice-dependencies" />
+        <depend project="ant"/>
+        <depend project="xml-xerces"/>
+        <home nested="lib/repo"/>
+        <jar name="spice-loggerstore/spice-loggerstore-0.5/spice-loggerstore-0.5.jar"
+             id="spice-loggerstore"/>
+        <jar name="spice-configkit/spice-configkit-1.1.2/spice-configkit-1.1.2.jar"
+             id="spice-configkit"/>
+        <jar name="spice-xmlpolicy/spice-xmlpolicy-1.0/spice-xmlpolicy-1.0.jar"
+             id="spice-xmlpolicy"/>
+        <jar name="spice-classman/spice-classman-1.0/spice-classman-1.0.jar"
+             id="spice-classman"/>
     </project>
     
     <project name="avalon-phoenix">
