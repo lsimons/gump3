@@ -51,6 +51,27 @@
          to="commons-dev@jakarta.apache.org"/>
   </project>
 
+  <project name="commons-compress">
+     <package>org.apache.commons.compress</package>
+     <description>Commons Compression Package</description>
+     <maven basedir="compress" goal="jar">
+       <property name="component.version"  value="@@DATE@@"/>
+     </maven>
+
+    <depend project="ant" inherit="runtime"/>
+    <depend project="junit" />
+    <depend project="xml-xerces" />
+
+    <work nested="target/classes" />
+    <home nested="compress/target" />
+
+    <jar name="compress/target/commons-compress-@@DATE@@.jar" />
+
+    <javadoc nested="target/docs/apidocs" />
+
+    <nag to="commons-dev@jakarta.apache.org" from="commons-compress development &lt;commons-dev@jakarta.apache.org&gt;" />
+  </project>
+
   <project name="commons-email">
     <package>org.apache.commons.email</package>
     <description>Commons Email Package</description>
