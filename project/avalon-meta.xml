@@ -1,0 +1,127 @@
+<?xml version="1.0" ?>
+<!--
+  Copyright 2001-2004 The Apache Software Foundation
+
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+-->
+<module name="avalon-logkit">
+
+  <url href="http://avalon.apache.org/"/>
+  <description>
+    Avalon Meta Information package.
+  </description>
+
+  <cvs repository="avalon"/>
+
+  <project name="avalon-meta-api">
+    <package>org.apache.avalon.meta</package>
+    <ant basedir="meta">
+        <property name="project.version" value="@@DATE@@"></property>
+    </ant>
+    <depend project="avalon-framework" id="api" />
+    <depend project="avalon-framework" id="impl" />
+    <work nested="meta/api/target/classes"></work>
+    <home nested="meta/api"></home>
+    <jar name="target/jars/avalon-meta-api-@@DATE@@.jar" id="api"></jar>
+    <javadoc nested="meta/api/target/docs/apidocs"></javadoc>
+    <junitreport nested="meta/api/target/test-reports"></junitreport>
+    <nag to="dev@avalon.apache.org" from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"></nag>
+  </project>
+  
+  <project name="avalon-meta-spi">
+    <package>org.apache.avalon.meta.spi</package>
+    <ant basedir="meta">
+        <property name="project.version" value="@@DATE@@"></property>
+    </ant>
+    <depend project="avalon-framework" id="api" />
+    <depend project="avalon-meta-api" />
+    <work nested="meta/spi/target/classes"></work>
+    <home nested="meta/spi"></home>
+    <jar name="target/jars/avalon-meta-spi-@@DATE@@.jar" id="spi"></jar>
+    <javadoc nested="meta/spi/target/docs/apidocs"></javadoc>
+    <junitreport nested="meta/spi/target/test-reports"></junitreport>
+    <nag to="dev@avalon.apache.org" from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"></nag>
+    <work nested="meta/plugin/target/classes"></work>
+  
+  <project name="avalon-meta-tools">
+    <package>org.apache.avalon.meta.tools</package>
+    <ant basedir="meta">
+        <property name="project.version" value="@@DATE@@"></property>
+    </ant>
+    <depend project="avalon-framework" id="api" />
+    <depend project="avalon-framework" id="impl" />
+    <depend project="avalon-meta-api" />
+    <depend project="avalon-meta-spi" />
+    <depend project="avalon-meta-impl" />
+    <depend project="excalibur-configuration" />
+    <depend project="qdox" />
+    
+    <work nested="meta/tools/target/classes"></work>
+    <home nested="meta/tools"></home>
+    <jar name="target/jars/avalon-meta-tools-@@DATE@@.jar" id="tools"></jar>
+    <javadoc nested="meta/tools/target/docs/apidocs"></javadoc>
+    <junitreport nested="meta/tools/target/test-reports"></junitreport>
+    <nag to="dev@avalon.apache.org" from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"></nag>
+  </project>
+  
+  <project name="avalon-meta-plugin">
+    <package>org.apache.avalon.meta.plugin</package>
+    <ant basedir="meta">
+        <property name="project.version" value="@@DATE@@"></property>
+    </ant>
+    <depend project="avalon-framework" id="api" />
+    <depend project="avalon-framework" id="impl" />
+    <depend project="avalon-meta-api" />
+    <depend project="avalon-meta-spi" />
+    <depend project="avalon-meta-impl" />
+    <depend project="avalon-meta-tools" />
+    <depend project="commons-collection" />
+    <depend project="commons-logging" />
+    <depend project="logging-log4j" />
+    <depend project="xdoclet" />
+    <!-- What is these dependencies
+        xdoclet+xdoclet-module
+        xdoclet+xjavadoc
+        xdoclet+jmx-module
+    -->    
+    <work nested="meta/plugin/target/classes"></work>
+    <home nested="meta/plugin"></home>
+    <jar name="target/jars/avalon-meta-plugin-@@DATE@@.jar" id="plugin"></jar>
+    <javadoc nested="meta/plugin/target/docs/apidocs"></javadoc>
+    <junitreport nested="meta/plugin/target/test-reports"></junitreport>
+    <nag to="dev@avalon.apache.org" from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"></nag>
+  </project>
+  
+  <project name="avalon-meta-impl">
+    <package>org.apache.avalon.impl</package>
+    <ant basedir="meta">
+        <property name="project.version" value="@@DATE@@"></property>
+    </ant>
+    <depend project="ant" inherit="runtime"></depend>
+    <depend project="xml-xalan2"></depend>
+    <depend project="xml-xerces"></depend>
+    <depend project="avalon-framework"></depend>
+    <depend project="excalibur-i18n"></depend>
+    <depend project="excalibur-configuration"></depend>
+    <depend runtime="true" project="junit"></depend>
+    <depend runtime="true" project="avalon-logkit"></depend>
+
+    <work nested="meta/impl/target/classes"></work>
+    <home nested="meta/impl"></home>
+    <jar name="target/jars/avalon-meta-impl-@@DATE@@.jar" id="impl"></jar>
+    <javadoc nested="meta/impl/target/docs/apidocs"></javadoc>
+    <junitreport nested="meta/impl/target/test-reports"></junitreport>
+    <nag to="dev@avalon.apache.org" from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"></nag>
+  </project>
+</module>
+ 

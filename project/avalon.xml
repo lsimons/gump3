@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<module name="avalon">
+    <url href="http://avalon.apache.org/"/>
+    <description>
+      Avalon's main repository.
+    </description>
+    <cvs repository="avalon"/>
+
+    <project name="avalon">
+        <!-- deprecated! -->
+
+        <!-- can't just reference the new avalon-framework project here
+        because we go from 1 to multiple jars. This is a copied
+        descriptor. -->
+
+        <package>org.apache.avalon</package>
+        <mkdir dir="framework/api/target/classes"/>
+        <mkdir dir="framework/api/target/test-classes"/>
+        <mkdir dir="framework/impl/target/classes"/>
+        <mkdir dir="framework/impl/target/test-classes"/>
+        <ant target="dist" basedir="framework">
+            <property name="project.version" value="@@DATE@@"></property>
+        </ant>
+
+        <depend project="ant" inherit="runtime"/>
+        <depend project="xml-xalan2"/>
+        <depend project="xml-xerces"/>
+
+        <depend runtime="true" project="junit"/>
+        <depend runtime="true" project="jakarta-log4j"/>
+        <depend runtime="true" project="avalon-logkit"/>
+
+        <work nested="framework/api/target/classes"/>
+        <work nested="framework/api/target/test-classes"/>
+        <work nested="framework/impl/target/classes"/>
+        <work nested="framework/impl/target/test-classes"/>
+
+        <home nested="framework"/>
+        <jar name="target/avalon-framework-@@DATE@@.jar" id="combined"/>
+        <javadoc nested="framework/api/target/docs/apidocs"/>
+
+        <nag to="dev@avalon.apache.org" from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"/>
+    </project>
+
+    <project href="http://cvs.apache.org/viewcvs.cgi/*checkout*/avalon/buildsystem/gump-integration/project/avalon-framework.xml"/>
+    <project href="http://cvs.apache.org/viewcvs.cgi/*checkout*/avalon/buildsystem/gump-integration/project/avalon-fortress-container.xml"/>
+    <project href="http://cvs.apache.org/viewcvs.cgi/*checkout*/avalon/buildsystem/gump-integration/project/avalon-fortress-tools.xml"/>
+    <project href="http://cvs.apache.org/viewcvs.cgi/*checkout*/avalon/buildsystem/gump-integration/project/avalon-fortress-examples.xml"/>
+
+
+</module>
