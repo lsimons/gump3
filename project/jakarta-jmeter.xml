@@ -10,19 +10,25 @@
   <project name="jakarta-jmeter">
     <package>org.apache.jmeter</package>
 
-    <ant target="dist"/>
+    <ant target="dist">
+      <property name="version" value="@@DATE@@"/>
+
+      <depend property="avalon-excalibur.jar" project="jakarta-avalon-excalibur"/>
+      <depend property="avalon-framework.jar" project="jakarta-avalon"/>
+      <depend property="jakarta-oro.jar" project="jakarta-oro"/>
+      <depend property="logkit.jar" project="jakarta-avalon-logkit"/>
+      <depend property="xalan.jar" project="xml-xalan2"/>
+      <depend property="xerces.jar" project="xml-xerces" id="parser"/>
+      <depend property="xml-apis.jar" project="xml-apis"/>
+    </ant>
 
     <depend project="jakarta-ant" />
-    <depend project="xml-xerces" />
     <depend project="pngencoder" />
     <depend project="jaf" />
     <depend project="javamail" />
     <depend project="jsse" />
-    <depend project="jakarta-oro" />
-    <depend project="jakarta-avalon-logkit" />
     <depend project="jtidy" />
     <depend project="junit" />
-    <depend project="jakarta-avalon" />
     <depend project="excalibur-cli" />
 
     <work nested="build/core"/>
