@@ -1,0 +1,14 @@
+<module name="fesi">
+
+  <url href="http://home.worldcom.ch/~jmlugrin/fesi/"/>
+  <description>
+    Free EcmaScript Interpreter.
+  </description>
+
+  <project name="fesi">
+    <package>FESI</package>
+
+    <jar name="fesi.jar"/>
+  </project>
+
+</module>

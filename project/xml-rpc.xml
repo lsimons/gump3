@@ -1,6 +1,6 @@
 <module name="xml-rpc">
 
-  <url href="http://xmlrpc.helma.org/"/>
+  <url href="http://xml.apache.org/xmlrpc/"/>
   <description>
     A Java implementation of XML-RPC
   </description>
@@ -10,21 +10,14 @@
   <project name="xml-rpc">
     <package>org.apache.xmlrpc</package>
 
-    <ant>
-      <property name="version" value="@@DATE@@"/>
-    </ant>
+    <ant/>
     <depend project="xml-xerces"/>
     <depend project="jakarta-ant" inherit="runtime"/>
     <option project="jakarta-servletapi"/>
     <option project="jsse"/>
-    <home nested="bin"/>
-    <jar name="xmlrpc-@@DATE@@.jar"/>
-
-    <nag from="Sam Ruby &lt;rubys@apache.org&gt;"
-         to="turbine-maven-dev@jakarta.apache.org"
-         subject="Build failure - XMLRPC">
-      <regexp pattern="/maven/"/>
-    </nag>
+    <depend project="fesi"/>
+    <home nested="target"/>
+    <jar name="xmlrpc-1.2-dev.jar"/>
   </project>
 
 </module>
