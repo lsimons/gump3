@@ -225,12 +225,7 @@
       <xsl:apply-templates select="@*"/>
       <xsl:apply-templates select="*[name()!='property']"/>
 
-      <xsl:if test="/workspace/build/@sysclasspath">
-        <property name="build.sysclasspath"
-          value="{/workspace/build/@sysclasspath}"/>
-      </xsl:if>
-
-      <xsl:for-each select="property">
+      <xsl:for-each select="/workspace/property|property">
         <xsl:variable name="name" select="@name"/>
         <xsl:choose>
           <xsl:when test="@reference='home'">

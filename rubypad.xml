@@ -1,6 +1,6 @@
 <workspace basedir="D:\jakarta" cvsdir="D:\jakarta\cvs" version="0.2">
 
-  <build sysclasspath="only"/>
+  <property name="build.sysclasspath" value="only"/>
 
   <profile href="profile/gump.xml"/>
 
