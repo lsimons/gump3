@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/results/resulter.py,v 1.3 2004/02/28 00:21:06 ajack Exp $
-# $Revision: 1.3 $
-# $Date: 2004/02/28 00:21:06 $
+# $Header: /home/stefano/cvs/gump/python/gump/results/resulter.py,v 1.4 2004/02/28 00:24:32 ajack Exp $
+# $Revision: 1.4 $
+# $Date: 2004/02/28 00:24:32 $
 #
 # ====================================================================
 #
@@ -170,5 +170,5 @@ def generateResults(run):
     where=run.getOptions().getResolver().getFile(run.getWorkspace(),'results','.xml',1)
     
     # Generate the output...
-    resulter.generateResults()
+    resulter.generateResults(where)
     
