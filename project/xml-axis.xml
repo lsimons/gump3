@@ -50,7 +50,8 @@
   </project>
 
   <project name="xml-axis-security">
-    <ant basedir="java" target="secure-tests">
+    <ant basedir="java" target="all">
+      <property name="lib.dir" value="lib"/>
       <property name="env.ANT_HOME" reference="home" project="jakarta-ant"/>
       <depend name="wsdl4j.jar" project="wsdl4j" id="wsdl4j"/>
       <depend name="log4j-core.jar" project="jakarta-log4j"/>
