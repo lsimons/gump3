@@ -14,11 +14,6 @@
     release, in other cases they may represent an abject failure to
     communicate.</p>
 
-    <subsection name="commons-latka">
-      <p>Latka does not work with either the (stable) 1.0 release of
-      httpclient, nor the current (CVS head) 2.0 release.</p>
-    </subsection>
-
     <subsection name="jakarta-velocity-test">
       <p><a href="http://cvs.apache.org/viewcvs/jakarta-velocity/src/java/org/apache/velocity/texen/ant/TexenTask.java.diff?r1=1.31&amp;r2=1.32">This</a>
       change apparently is not compatible with Velocity being on the
