@@ -34,6 +34,7 @@
     <option project="javamail"/>
     <depend project="jaf"/>
     <work nested="dist/standard/jstl.jar"/>
+    <work nested="dist/standard/standard.jar"/>
 
     <javadoc nested="dist/doc/doc">
       <description dir="application-doc/javadoc">application</description>
