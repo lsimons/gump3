@@ -31,7 +31,7 @@
     <depend project="bsf"/>
     <depend project="commons-altrmi"/>
     <work nested="build/classes"/>
-    <work nested="db/build/classes"/>
+    <work nested="apps/db/build/classes"/>
 
     <home nested="build/lib"/>
     <jar name="cornerstone.jar"/>
