@@ -1018,7 +1018,7 @@ def getWorkDir(rootdir,type):
  
 def getWorkspaceDocument(workspace,workspacedir=None,document=None):
     if not document: document='index.xml'
-    if not document.endwith('.xml'): document += '.xml'
+    if not document.endswith('.xml'): document += '.xml'
     if not workspacedir: workspacedir = getWorkspaceDir(workspace)    
     return os.path.join(workspacedir,document)
     
