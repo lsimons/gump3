@@ -7,7 +7,7 @@
 
   <cvs  repository="jakarta"/>
 
-  <ant buildfile="build/build-velocity.xml" target="dist"/>
+  <ant buildfile="build/build.xml" target="dist"/>
   <depend project="jakarta-ant"/>
   <depend project="xml-xerces"/>
   <depend project="jakarta-servletapi"/>
