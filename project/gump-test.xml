@@ -14,11 +14,11 @@
   See the License for the specific language governing permissions and
   limitations under the License.
 -->
-<module name="jakarta-gump-test">
+<module name="apache-gump-test">
 
-  <url href="http://jakarta.apache.org/gump/"/>
+  <url href="http://gump.apache.org/"/>
   <description>
-    Cross project build tool testing
+    Cross Project continuous integration
   </description>
 
   <svn repository="apache-svn-sandbox" dir="gump-test"/>
