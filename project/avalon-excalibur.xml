@@ -79,6 +79,7 @@
         <depend project="excalibur-monitor" runtime="true" inherit="jars"/>
         <depend project="excalibur-pool" runtime="true" inherit="jars"/>
         <depend project="excalibur-sourceresolve" runtime="true" inherit="jars"/>
+        <depend project="excalibur-meta-sourceresolve" runtim="true" inherit="jars"/>
         <depend project="excalibur-store" runtime="true" inherit="jars"/>
         <depend project="excalibur-thread" runtime="true" inherit="jars"/>
         <depend project="excalibur-xmlutil" runtime="true" inherit="jars"/>
@@ -801,7 +802,7 @@
         <depend project="ant" inherit="runtime"/>
         <depend project="avalon" runtime="true"/>
         <depend project="excalibur-pool" inherit="runtime"/>
-        <depend project="excalibur-sourceresolve" inherit="runtime"/>
+        <depend project="excalibur-meta-sourceresolve" inherit="runtime"/>
         <depend project="xml-xerces"/>
         <depend project="xml-xalan2"/>
 
@@ -991,7 +992,7 @@
             <depend property="excalibur-instrument.jar" project="excalibur-instrument"/>
             <depend property="excalibur-component.jar" project="excalibur-component" id="component"/>
             <depend property="excalibur-pool.jar" project="excalibur-pool"/>
-            <depend property="excalibur-sourceresolve.jar" project="excalibur-sourceresolve"/>
+            <depend property="excalibur-sourceresolve.jar" project="excalibur-meta-sourceresolve"/>
             <depend property="excalibur-store.jar" project="excalibur-store"/>
 
             <!-- test-time dependencies -->
