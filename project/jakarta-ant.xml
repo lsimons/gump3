@@ -89,7 +89,10 @@
   </project>
 
   <project name="test-ant">
-    <ant target="run-tests"/>
+    <ant target="run-tests">
+      <property name="test.haltonfailure" value="false"/>
+      <property nam="have.cvs" value="true"/>
+    </ant>
 
     <depend project="jakarta-ant-testutil" inherit="all"/>
     <option project="xml-commons-which"/>
