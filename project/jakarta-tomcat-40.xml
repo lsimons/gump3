@@ -34,13 +34,17 @@
       <depend property="servlet.jar" project="jakarta-servletapi-4"/>
       <depend property="xerces.jar" project="xml-xerces"/>
       <depend property="tomcat-util.jar" project="jakarta-tomcat-util"/>
-      <depend property="commons-beanutils.jar" project="commons-beanutils"/>
-      <depend property="commons-collections.jar" project="commons-collections"/>
-      <depend property="commons-digester.jar" project="commons-digester"/>
+      <depend property="commons-beanutils.jar" project="commons-beanutils"
+        runtime="true"/>
+      <depend property="commons-collections.jar" project="commons-collections"
+        runtime="true"/>
+      <depend property="commons-digester.jar" project="commons-digester"
+        runtime="true"/>
       <depend property="commons-modeler.jar" project="commons-modeler"/>
       <depend property="commons-dbcp.jar" project="commons-dbcp"/>
       <depend property="commons-pool.jar" project="commons-pool"/>
-      <depend property="commons-logging.jar" project="commons-logging"/>
+      <depend property="commons-logging.jar" project="commons-logging"
+        runtime="true"/>
     </ant>
 
     <depend project="jaf"/>

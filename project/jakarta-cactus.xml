@@ -66,11 +66,8 @@
     <depend project="xml-xerces"/>
     <depend project="xml-stylebook2"/>
     <depend project="xml-xalan2"/>
-    <depend project="jakarta-tomcat-4.0"/>
+    <depend project="jakarta-tomcat-4.0" inherit="runtime"/>
     <depend project="jakarta-cactus-ant"/>
-    <depend project="commons-beanutils"/>
-    <depend project="commons-collections"/>
-    <depend project="commons-digester"/>
     <depend project="aspectj"/>
 
     <work nested="target/classes"/>
