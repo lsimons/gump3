@@ -141,7 +141,6 @@
     <depend project="jms"/>
     <depend project="jakarta-servletapi-4"/>
     <depend project="jakarta-bcel" runtime="true"/>
-    <depend project="jakarta-site2" inherit="all"/>
     <depend project="mockobjects" inherit="runtime"/>
 
     <work nested="core/build/classes" />
