@@ -23,7 +23,7 @@
     <package>com/coyotegulch/jisp</package>
 
     <jar name="jisp.jar"/>
-    <license name="LICENSE.GPL"/>
+    <!--license name="LICENSE.GPL"/-->
   </project>
 
 </module>
