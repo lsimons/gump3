@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/utils/Attic/launcher.py,v 1.2 2003/11/20 00:57:40 ajack Exp $
-# $Revision: 1.2 $
-# $Date: 2003/11/20 00:57:40 $
+# $Header: /home/stefano/cvs/gump/python/gump/utils/Attic/launcher.py,v 1.3 2003/12/03 18:36:13 ajack Exp $
+# $Revision: 1.3 $
+# $Date: 2003/12/03 18:36:13 $
 #
 # ====================================================================
 #
@@ -240,17 +240,20 @@ class CmdResult:
         self.cmd=cmd
         self.state=CMD_STATE_NOT_YET_RUN
         self.output=None
-        self.elapsed=0
         self.signal=0
         self.exit_code=-1
+        
+        # To calculate elapsed
+        self.start_time=None
+        self.end_time=None
         
     def overview(self,indent):
         overview + indent+"State: " + states[self.state]
         overview += self.cmd.overview(indent)
         if self.output:
           overview += indent+"Output: " + self.output
-        if self.elapsed:
-          overview += indent+"Elapsed: " + str(self.elapsed)
+        if self.hasTimes():
+          overview += indent+"Elapsed: " + str(self.getElapsedTime())
         if self.signal:
           overview += indent+"Termination Signal: " + str(self.signal)
         if self.exit_code:
@@ -274,20 +277,21 @@ class CmdResult:
     def getOutput(self):
         return self.output
         
+    def hasTimes(self):
+        if self.start_time and self.end_time: return 1
+        return 0
+        
+    def getStartTimeSecs(self):
+        return self.start_time
+        
+    def getEndTimeSecs(self):
+        return self.end_time
+        
+    def getElapsedSecs(self):
+        return int(round(self.end_time-self.start_time,0))        
+        
     def dump(self,indent):
         print self.overview(indent)
-
-# Testing
-def dummyExecute(cmd,tmp=dir.tmp):
-    res=CmdResult(cmd)
-    return dummyExecuteIntoResult(cmd,res,tmp)
-	
-# Testing
-def dummyExecuteIntoResult(cmd,result,tmp=dir.tmp):
-    result.elapsed=5.1
-    result.exit_code=0
-    result.state=CMD_STATE_SUCCESS  
-    return result
 
 def killChildProcesses():
     gumpid=default.gumpid
@@ -458,8 +462,7 @@ def executeIntoResult(cmd,result,tmp=dir.tmp):
       end_time=time.time()
       result.start_time=start_time
       result.end_time=end_time
-      result.elapsed=int(round(end_time-start_time,0))
-        
+      
       # Restore environment.
       if cmd.cwd: os.chdir(originalCWD)
       for envKey in originalENV.iterkeys():

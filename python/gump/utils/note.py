@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/utils/note.py,v 1.1 2003/11/20 20:51:49 ajack Exp $
-# $Revision: 1.1 $
-# $Date: 2003/11/20 20:51:49 $
+# $Header: /home/stefano/cvs/gump/python/gump/utils/note.py,v 1.2 2003/12/03 18:36:13 ajack Exp $
+# $Revision: 1.2 $
+# $Date: 2003/12/03 18:36:13 $
 #
 # ====================================================================
 #
@@ -123,6 +123,17 @@ class Annotatable:
         
     def getAnnotations(self):
         return self.annotations
+        
+    def containsNasties(self):
+        return self.containsOrAbove(LEVEL_WARNING)
+        
+    def containsOrAbove(self,level):
+        for note in self.annotations:
+            if note.level >= level:
+                return 1
+        return 0
+        
+        
         
     def dump(self, indent=0, output=sys.stdout):
         """ Display the contents of this object """         

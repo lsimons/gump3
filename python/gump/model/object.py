@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/model/object.py,v 1.11 2003/12/02 23:58:47 ajack Exp $
-# $Revision: 1.11 $
-# $Date: 2003/12/02 23:58:47 $
+# $Header: /home/stefano/cvs/gump/python/gump/model/object.py,v 1.12 2003/12/03 18:36:13 ajack Exp $
+# $Revision: 1.12 $
+# $Date: 2003/12/03 18:36:13 $
 #
 # ====================================================================
 #
@@ -197,11 +197,11 @@ class ModelObject(Annotatable,Workable,Propogatable,Ownable):
         
     # Somewhat bogus...
     
-    def elapsedSecs(self):
-        elapsedSecs=self.worklist.elapsedSecs()
+    def getElapsedSecs(self):
+        elapsedSecs=self.worklist.getElapsedSecs()
         if hasattr(self,'getChildren'):
             for object in self.getChildren():
-                elapsedSecs += object.elapsedSecs()
+                elapsedSecs += object.getElapsedSecs()
         return int(round(elapsedSecs,0))
     
     def aggregateStates(self, states=None):

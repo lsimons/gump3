@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/utils/work.py,v 1.3 2003/12/02 17:54:22 ajack Exp $
-# $Revision: 1.3 $
-# $Date: 2003/12/02 17:54:22 $
+# $Header: /home/stefano/cvs/gump/python/gump/utils/work.py,v 1.4 2003/12/03 18:36:13 ajack Exp $
+# $Revision: 1.4 $
+# $Date: 2003/12/03 18:36:13 $
 #
 # ====================================================================
 #
@@ -127,16 +127,32 @@ class WorkItem(Ownable):
 
 class TimedWorkItem(WorkItem):
     """ Unit of Work w/ times """
-    def __init__(self,name,type,state,secs,message=''):
+    def __init__(self,name,type,state,startSecs,endSecs,message=''):
         WorkItem.__init__(self,name,type,state,message)
-        self.secs=secs
-                 
-    def elapsedTime(self):   
-        return secsToElapsedTime(self.secs or 0)
+        self.startSecs=startSecs
+        self.endSecs=endSecs
+    
+    def hasTimes(self):
+        if self.startSecs and self.endSecs: return 1
+        return 0
+        
+    def getStartTimeSecs(self):   
+        return self.startSecs
+        
+    def getEndTimeSecs(self):   
+        return self.endSecs
+        
+    def getElapsedSecs(self):   
+        if self.hasTimes():
+            return int(round(self.endSecs-self.startSecs,0))
+        return 0
+        
+    def getElapsedTime(self):   
+        return secsToElapsedTime(self.getElapsedSecs())
          
     def overview(self):
         overview=WorkItem.overview(self)
-        (hours,mins,secs)=self.elapsedTime()
+        (hours,mins,secs)=self.getElapsedTime()
         overview+='Elapsed: '
         overview+=str(hours) + ' hours, ' 
         overview+=str(mins) + ' minutes, ' 
@@ -144,14 +160,16 @@ class TimedWorkItem(WorkItem):
         return overview
         
     def clone(self):
-        return TimedWorkItem(self.name,self.type,self.state,self.secs,self.message)
+        return TimedWorkItem(self.name,self.type,self.state,self.startSecs,self.endSecs,self.message)
         
 class CommandWorkItem(TimedWorkItem):
     """ Unit of Work"""
     def __init__(self,type,command,result=None,message=''):
         if not result: result=CmdResult(command)
         TimedWorkItem.__init__(self,command.name,type,\
-                commandStateToWorkState(result.state),result.elapsed,message)
+                commandStateToWorkState(result.state),	\
+                result.getStartTimeSecs(),	\
+                result.getEndTimeSecs(),message)
         self.command=command
         self.result=result
         
@@ -202,30 +220,32 @@ class WorkList(list,Ownable):
         # Let this item know it's owner
         item.setOwner(self.getOwner())
     
-    def elapsedSecs(self):
+    def getStartSecs(self):
+        startSecs=0
+        for item in self:
+            if isinstance(item,TimedWorkItem): 
+                if not startSecs or item.getStartTimeSecs() < startSecs:
+                    startSecs=item.getStartTimeSecs()
+        if startSecs: return startSecs
+    
+    def getEndSecs(self):
+        endSecs=0
+        for item in self:
+            if isinstance(item,TimedWorkItem): 
+                if not endSecs or item.getEndSecs() < endSecs:
+                    endSecs=item.getEndSecs()
+        if endSecs: return endSecs
+    
+    def getElapsedSecs(self):
         elapsedSecs=0
         for item in self:
-            if isinstance(item,TimedWorkItem): elapsedSecs += item.secs
+            if isinstance(item,TimedWorkItem): 
+                elapsedSecs += item.getElapsedSecs()
         return elapsedSecs
     
-    def elapsedTime(self):   
-        secs 	= self.elapsedSecs();
-        if secs > 3600:
-            hours	=	int(secs / 3600)
-            secs	%=	3600
-        else:
-            hours	=	0
-            
-        if secs > 60:
-            mins	=	int(secs / 60)
-            secs	%=	60
-        else:
-            mins 	= 	0
-                    
-        secs 	=	int(round(secs,0))        
-    
-        return (hours, mins, secs)
-        
+    def getElapsedTime(self):   
+        return secsToElapsedTime(self.getElapsedSecs())
+                
     def clone(self):
         cloned=WorkList()
         for item in self:
@@ -246,24 +266,15 @@ class Workable(Stateful):
     def okToPerformWork(self):
         return self.isUnset() or self.isSuccess()        
                
-    #
-    # Return a triple of hours/minutes/seconds for total
-    # elapsed time for this context and sub-contexts.
-    #
-    def elapsedTime(self):   
-        secs 	= self.elapsedSecs();
-        if secs > 3600:
-            hours	=	int(secs / 3600)
-            secs	%=	3600
-        else:
-            hours	=	0
-            
-        if secs > 60:
-            mins	=	int(secs / 60)
-            secs	%=	60
-        else:
-            mins 	= 	0
-            
-        secs 	=	int(round(secs,0))
-        
-        return (hours, mins, secs)
+    def getStartSecs(self):
+        return self.worklist.getStartSecs()   
+          
+    def getEndSecs(self):
+        return self.worklist.getEndSecs()       
+               
+    def getElapsedSecs(self):
+        return self.worklist.getElapsedSecs()
+    
+    def getElapsedTime(self):   
+        return self.worklist.getElapsedTime()
+    

@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/utils/__init__.py,v 1.6 2003/11/24 18:32:20 ajack Exp $
-# $Revision: 1.6 $
-# $Date: 2003/11/24 18:32:20 $
+# $Header: /home/stefano/cvs/gump/python/gump/utils/__init__.py,v 1.7 2003/12/03 18:36:13 ajack Exp $
+# $Revision: 1.7 $
+# $Date: 2003/12/03 18:36:13 $
 #
 # ====================================================================
 #
@@ -190,7 +190,7 @@ def printSeparatorToFile(f=None,indent=''):
     if not f: f = sys.stdout
     f.write( '%s\n' % (indent + ' ---------------------------------------------------- Gump'))
 
-def secsToElapsedTime(secs):   
+def secsToElapsedTimeTriple(secs):   
     # Extract Hours
     if secs > 3600:
         hours	=	int(secs / 3600)
@@ -210,10 +210,10 @@ def secsToElapsedTime(secs):
         
     return (hours, mins, secs)
     
-def secsToString(secs):
-    return elapsedTimeToString(secsToElapsedTime(secs))           
+def secsToElapsedString(secs):
+    return elapsedTimeTripleToString(secsToElapsedTimeTriple(secs))           
     
-def elapsedTimeToString(elapsed):
+def elapsedTimeTripleToString(elapsed):
     elapsedString=''
     
     (hours,mins,secs) = elapsed
@@ -237,6 +237,10 @@ def elapsedTimeToString(elapsed):
     
 def secsToDate(secs):
     return time.strftime(setting.datetimeformat, \
+                    time.localtime(secs))    
+                     
+def secsToTime(secs):
+    return time.strftime(setting.timeformat, \
                     time.localtime(secs))                    
                 
 def getGeneralSinceDescription(secs, since=None):
@@ -248,6 +252,8 @@ def getGeneralDifferenceDescription(newerSecs,olderSecs):
         diffString='~ '
         diffSecs=newerSecs - olderSecs
         
+        diffSecs	=	int(diffSecs)
+        diffMins	=	int(diffSecs / 60)
         diffHours	=	int(diffSecs / 3600)
         diffDays	=	int(diffHours / 24)
         diffWeeks	=	int(diffDays / 7)
@@ -269,12 +275,18 @@ def getGeneralDifferenceDescription(newerSecs,olderSecs):
         elif diffHours:
             diffString += str(diffHours) + ' hour'
             if diffHours > 1: diffString += 's'
+        elif diffMins:
+            diffString += str(diffMins) + ' min'
+            if diffMins > 1: diffString += 's'
+        elif diffSecs:
+            diffString += str(diffSecs) + ' sec'
+            if diffSecs > 1: diffString += 's'
         else:
-            diffString = ''
+            diffString = 'This run: ' + secsToTime(newerSecs)
     elif olderSecs == newerSecs:
-        diffString = 'This run'
+        diffString = 'This run: ' + secsToTime(newerSecs)
     else:
-        diffString = ''
+        diffString = 'N/A'
     
     return diffString
     
@@ -327,9 +339,10 @@ if __name__=='__main__':
   
   #dump(log)
 
-  print "secsToElapsedTime(1340) : " + str(secsToElapsedTime(1340))
-  print "secsToString(1340) : " + secsToString(1340)
-  print "elapsedTimeToString(secsToElapsedTime(1340)) : " + elapsedTimeToString(secsToElapsedTime(1340))
+  print "secsToElapsedTimeTriple(1340) : " + str(secsToElapsedTimeTriple(1340))
+  print "secsToElapsedString(1340) : " + secsToElapsedString(1340)
+  print "secsToTime(1340) : " + secsToTime(1340)
+  print "elapsedTimeToString(secsToElapsedTime(1340)) : " + elapsedTimeTripleToString(secsToElapsedTimeTriple(1340))
   
   print "str = " + getStringFromUnicode("Ceki Gülcü")
   

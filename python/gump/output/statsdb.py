@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/output/Attic/statsdb.py,v 1.2 2003/11/20 21:30:06 ajack Exp $
-# $Revision: 1.2 $
-# $Date: 2003/11/20 21:30:06 $
+# $Header: /home/stefano/cvs/gump/python/gump/output/Attic/statsdb.py,v 1.3 2003/12/03 18:36:13 ajack Exp $
+# $Revision: 1.3 $
+# $Date: 2003/12/03 18:36:13 $
 #
 # ====================================================================
 #
@@ -355,8 +355,8 @@ class WorkspaceStatisticsGuru:
             round(self.projectsInWorkspace/self.modulesInWorkspace,2)
         
 def sortByElapsed(module1,module2):
-    elapsed1=module1.elapsedSecs()
-    elapsed2=module2.elapsedSecs()
+    elapsed1=module1.getElapsedSecs()
+    elapsed2=module2.getElapsedSecs()
     c = 0
     if elapsed1 > elapsed2: c = -1
     if elapsed1 < elapsed2: c = 1       

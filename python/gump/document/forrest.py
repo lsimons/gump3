@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/forrest.py,v 1.25 2003/12/03 04:29:05 ajack Exp $
-# $Revision: 1.25 $f
-# $Date: 2003/12/03 04:29:05 $
+# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/forrest.py,v 1.26 2003/12/03 18:36:13 ajack Exp $
+# $Revision: 1.26 $f
+# $Date: 2003/12/03 18:36:13 $
 #
 # ====================================================================
 #
@@ -299,9 +299,9 @@ class ForrestDocumenter(Documenter):
         
         detailsSection=document.createSection('Details')
         detailsTable=detailsSection.createTable()
-        detailsTable.createEntry("State : ", workspace.getStateDescription())    
-        (hours, mins, secs) 	= workspace.elapsedTime();
-        detailsTable.createEntry("Elapsed Time : ", str(hours) + ':' + str(mins) + ':' + str(secs))
+        detailsTable.createEntry("State : ", workspace.getStateDescription()) 
+        
+        detailsTable.createEntry("Elapsed Time : ", secsToElapsedString(workspace.getElapsedSecs()))
         detailsTable.createEntry("Base Directory : ", workspace.getBaseDirectory())
         detailsTable.createEntry("Temporary Directory : ", workspace.tmpdir)
         #if workspace.scratchdir:
@@ -369,7 +369,7 @@ class ForrestDocumenter(Documenter):
         self.documentSummary(document, workspace.getProjectSummary())
         
         projectsSection=document.createSection('Projects (in build order)')
-        projectsTable=projectsSection.createTable(['Name','Project State','Duration\nin state','Last Updated','Elapsed'])
+        projectsTable=projectsSection.createTable(['Time','Updated','Name','Project State','Duration\nin state','Last Updated','Elapsed'])
         pcount=0
         for project in gumpSet.getSequence():
             # :TODO: Next line irrelevent?
@@ -378,14 +378,19 @@ class ForrestDocumenter(Documenter):
             pcount+=1
     
             projectRow=projectsTable.createRow()            
-            projectRow.createComment(project.getName())              
+            projectRow.createComment(project.getName())  
+            
+            projectRow.createData(secsToTime(project.getStartSecs()))  
+            
+            projectRow.createData(secsToTime(project.getModule().getStartSecs()))             
+                        
             self.insertLink(project,workspace,projectRow.createData())   
             self.insertStateIcon(project,workspace,projectRow.createData())      
             projectRow.createData(project.getStats().sequenceInState)    
             projectRow.createData(	\
                 getGeneralSinceDescription(	\
                     project.getModule().getStats().getLastUpdated()))
-            projectRow.createData(elapsedTimeToString(project.elapsedTime())) 
+            projectRow.createData(secsToElapsedString(project.getElapsedSecs())) 
                 
         if not pcount: projectsTable.createLine('None')
         
@@ -412,7 +417,7 @@ class ForrestDocumenter(Documenter):
             projectRow.createComment(project.getName())          
             self.insertLink(project,workspace,projectRow.createData())     
             self.insertStateIcon(project,workspace,projectRow.createData())    
-            projectRow.createData(elapsedTimeToString(project.elapsedTime()))  
+            projectRow.createData(secsToElapsedString(project.getElapsedSecs()))  
             
             projectRow.createData(round(project.getFOGFactor(),2))
                 
@@ -429,7 +434,8 @@ class ForrestDocumenter(Documenter):
         self.documentSummary(document, workspace.getProjectSummary())
         
         projectsSection=document.createSection('Projects with issues...')
-        projectsTable=projectsSection.createTable(['Name','Project State','Elapsed'])
+        projectsTable=projectsSection.createTable(['Name','Affected',	\
+                    'Duration\nin state''Project State','Elapsed'])
         pcount=0
         for project in sortedProjectList:
             if not gumpSet.inSequence(project): continue       
@@ -438,12 +444,26 @@ class ForrestDocumenter(Documenter):
                 continue
                 
             pcount+=1
-      
+        
+            #
+            # Determine the number of projects this module (or it's projects)
+            # cause not to be run.
+            #
+            affected=project.determineAffected()
+            
+            # How long been like this
+            seq=stats=project.getStats().sequenceInState
+                    
             projectRow=projectsTable.createRow()
             projectRow.createComment(project.getName())
+                                    
             self.insertLink(project,workspace,projectRow.createData())   
+                        
+            projectRow.createData(affected)
+            projectRow.createData(seq)
+            
             self.insertStateIcon(project,workspace,projectRow.createData())
-            projectRow.createData(elapsedTimeToString(project.elapsedTime())) 
+            projectRow.createData(secsToElapsedString(project.getElapsedSecs())) 
                 
         if not pcount: projectsTable.createLine('None')    
         document.serialize()
@@ -453,7 +473,7 @@ class ForrestDocumenter(Documenter):
         #
         # module_todos.xml
         #
-        document=XDocDocument('Modules with TODOs',
+        document=XDocDocument('Modules with issues',
                     self.resolver.getFile(workspace,'module_todos'),)            
         self.documentSummary(document, workspace.getProjectSummary())
         
@@ -503,7 +523,7 @@ class ForrestDocumenter(Documenter):
             self.insertStateIcon(module,workspace,moduleRow.createData())
             self.insertStateIcons(gumpSet,module,workspace,moduleRow.createData())
             
-            moduleRow.createData(elapsedTimeToString(module.elapsedTime()))
+            moduleRow.createData(secsToElapsedString(module.getElapsedSecs()))
             
         if not mcount: modulesTable.createLine('None')
     
@@ -535,7 +555,7 @@ class ForrestDocumenter(Documenter):
             self.insertStateIcon(module,workspace,moduleRow.createData())
             self.insertStateIcons(gumpSet,module,workspace,moduleRow.createData())
             
-            moduleRow.createData(elapsedTimeToString(module.elapsedTime()))
+            moduleRow.createData(secsToElapsedString(module.getElapsedSecs()))
             moduleRow.createData(round(module.getFOGFactor(),2))
             
         if not mcount: modulesTable.createLine('None')
@@ -573,7 +593,7 @@ class ForrestDocumenter(Documenter):
             self.insertLink( module, workspace, moduleRow.createData())
             self.insertStateIcon(module,workspace,moduleRow.createData())
             self.insertStateIcons(gumpSet,module,workspace,moduleRow.createData())
-            moduleRow.createData(elapsedTimeToString(module.elapsedTime()))
+            moduleRow.createData(secsToElapsedString(module.getElapsedSecs()))
             
         if not mcount: mpkgTable.createLine('None')
         
@@ -711,14 +731,24 @@ class ForrestDocumenter(Documenter):
             description+=' (No module URL provided).'
                 
         descriptionSection.createParagraph().createRaw(description)
+
+        stateSection=document.createSection('State')
+        stateList=stateSection.createList()
+        stateList.createEntry("State: " + module.getStateDescription())
+        if not module.getReason() == REASON_UNSET:
+            stateList.createEntry("Reason: ", module.getReasonDescription())
+        if module.cause and not module==module.cause:
+             self.insertTypedLink( module.cause, module, stateList.createEntry( "Root Cause: ")) 
+             
+        self.documentAnnotations(stateSection,module)
         
+        projectsSection=document.createSection('Projects') 
         if (len(module.getProjects()) > 1):
-            self.documentSummary(document,module.getProjectSummary())
+            self.documentSummary(projectsSection,module.getProjectSummary())
             
-        self.documentAnnotations(document,module)
                                   
         if (len(module.getProjects()) > 1):
-            ptodosSection=document.createSection('Projects with TODOs')
+            ptodosSection=projectsSection.createSection('Projects with Issues')
             ptodosTable=ptodosSection.createTable(['Name','State','Elapsed'])
             pcount=0
             for project in module.getProjects():     
@@ -740,11 +770,11 @@ class ForrestDocumenter(Documenter):
                 projectRow.createComment(project.getName())
                 self.insertLink(project,module,projectRow.createData())  
                 self.insertStateIcon(project,module,projectRow.createData())                        
-                projectRow.createData(elapsedTimeToString(project.elapsedTime())) 
+                projectRow.createData(secsToElapsedString(project.getElapsedSecs())) 
 	            
 	        if not pcount: ptodosTable.createLine('None')
 	        
-        pallSection=document.createSection('All Projects')
+        pallSection=projectsSection.createSection('All Projects')
         pallTable=pallSection.createTable(['Name','State','Elapsed'])
         
         pcount=0
@@ -757,7 +787,7 @@ class ForrestDocumenter(Documenter):
             projectRow.createComment(project.getName())
             self.insertLink(project,module,projectRow.createData())
             self.insertStateIcon(project,module,projectRow.createData())                        
-            projectRow.createData(elapsedTimeToString(project.elapsedTime())) 
+            projectRow.createData(secsToElapsedString(project.getElapsedSecs())) 
             
         if not pcount: pallTable.createLine('None')
         
@@ -805,7 +835,7 @@ class ForrestDocumenter(Documenter):
            
     #   x.write('<p><strong>Module Config :</strong> <link href=\'xml.html\'>XML</link></p>')
             
-        self.documentXML(document,module)
+        self.documentXML(detailSection,module)
         
         self.documentWorkList(document,module,'Module-level Work')
 
@@ -847,53 +877,73 @@ class ForrestDocumenter(Documenter):
             description=' (No project URL provided.)'   
                 
         projectsSection.createParagraph().createRaw(description)
-    
-        self.documentAnnotations(document,project)
+           
+        stateSection=document.createSection('State')
         
-        # Note: Leverages previous extraction from project statistics DB
-        stats=project.getStats()
-        
+        stateList=stateSection.createList()
+        stateList.createEntry("State: ", project.getStateDescription())  
+        if not project.getReason() == REASON_UNSET:
+            stateList.createEntry("Reason: " + reasonString(project.getReason()))
+            
+        if project.cause and not project==project.cause:
+             self.insertTypedLink( project.cause, project, stateList.createEntry( "Root Cause: ")) 
+             
+        self.documentAnnotations(stateSection,project)        
+            
         detailsSection=document.createSection('Details')
+        
         detailsList=detailsSection.createList()
         detailsList.createEntry("State: ", project.getStateDescription())  
         if not project.getReason() == REASON_UNSET:
             detailsList.createEntry("Reason: " + reasonString(project.getReason()))
+            
+            
         self.insertLink(project.getModule(),project,detailsList.createEntry('Module: '))
         if project.hasCause() and not project==project.getCause():
             self.insertTypedLink(project.getCause(),project,detailsList.createEntry('Root Cause: '))
-        detailsList.createEntry("Elapsed: ", project.elapsedSecs())
-        detailsList.createEntry("FOG Factor: ", round(stats.getFOGFactor(),2))
-        detailsList.createEntry("Successes: ", stats.successes)
-        detailsList.createEntry("Failures: ", stats.failures)
-        detailsList.createEntry("Prerequisite Failures: ", stats.prereqs)
-        detailsList.createEntry("Previous State: ", stateName(stats.previousState))
-        
-        if stats.first:
-            detailsList.createEntry("First Success: ", secsToDate(stats.first))
-        if stats.last:
-            detailsList.createEntry("Last Success: ", secsToDate(stats.last))
-            
+        detailsList.createEntry("Elapsed: ", secsToElapsedString(project.getElapsedSecs()))
+                                                      
         # Display nag information
         for nagEntry in project.xml.nag:
             toaddr=getattr(nagEntry,'to') or workspace.mailinglist
             fromaddr=getStringFromUnicode(getattr(nagEntry,'from') or workspace.email)
             detailsList.createEntry("Nag To: ").createFork('mailto:'+toaddr,toaddr)
             detailsList.createEntry("Nag From: ").createFork('mailto:'+fromaddr,fromaddr)
+                             
+        # Note: Leverages previous extraction from project statistics DB
+        stats=project.getStats()
+        
+        statsSection=detailsSection.createSection('Statistics')  
+        statsTable=statsSection.createTable()           
+        statsTable.createEntry("FOG Factor: ", round(stats.getFOGFactor(),2))
+        statsTable.createEntry("Successes: ", stats.successes)
+        statsTable.createEntry("Failures: ", stats.failures)
+        statsTable.createEntry("Prerequisite Failures: ", stats.prereqs)
+        statsTable.createEntry("Previous State: ", stateName(stats.previousState))
+        
+        if stats.first:
+            statsTable.createEntry("First Success: ", secsToDate(stats.first))
+        if stats.last:
+            statsTable.createEntry("Last Success: ", secsToDate(stats.last))
             
-        self.documentProjectList(document, "Project Dependencies",	project.getDependencies(), 0, project)  
-        self.documentProjectList(document, "Project Dependees",		project.getDependees(), 1, project)
-    
-        if project.hasBuildCommand():
-            (classpath,bootclasspath)=project.getClasspathLists()            
-            self.displayClasspath(document, classpath,'Classpath',project)        
-            self.displayClasspath(document, bootclasspath,'Boot Classpath',project)    
-           
+            
+        self.documentProjectList(detailsSection, "Project Dependencies",	\
+                    project.getDependencies(), 0, project)  
+        self.documentProjectList(detailsSection, "Project Dependees",		\
+                    project.getDependees(), 1, project)
+ 
     #    x.write('<p><strong>Project Config :</strong> <link href=\'%s\'>XML</link></p>' \
     #                % (getModuleProjectRelativeUrl(modulename,project.name)) )
             
         self.documentWorkList(document,project,'Project-level Work')
-        
-        self.documentXML(document,project)
+           
+        miscSection=document.createSection('Miscellaneous')
+        if project.hasBuildCommand():
+            (classpath,bootclasspath)=project.getClasspathLists()            
+            self.displayClasspath(miscSection, classpath,'Classpath',project)        
+            self.displayClasspath(miscSection, bootclasspath,'Boot Classpath',project)    
+           
+        self.documentXML(miscSection,project)
         
         document.serialize()
         
@@ -909,7 +959,9 @@ class ForrestDocumenter(Documenter):
     #    endXDoc(x)
     
     def displayClasspath(self,document,classpath,title,referencingObject):
-         
+        
+        if not classpath.getPathParts(): return
+        
         pathSection=document.createSection(title)
         pathTable=pathSection.createTable(['Path Entry','Contributor','Instigator','Annotation'])       
         paths=0
@@ -948,9 +1000,9 @@ class ForrestDocumenter(Documenter):
         if not paths:        
             pathTable.createLine('No ' + title + ' entries')
                      
-    def documentProjectList(self,document,title,dependencies,dependees,referencingObject):
+    def documentProjectList(self,xdocNode,title,dependencies,dependees,referencingObject):
       if dependencies:
-            projectSection=document.createSection(title)
+            projectSection=xdocNode.createSection(title)
             projectTable=projectSection.createTable(['Name','Type','State'])
             for depend in dependencies:
                 if not dependees:
@@ -968,12 +1020,16 @@ class ForrestDocumenter(Documenter):
                 
                 self.insertStateDescription(project,referencingObject,projectRow.createData())
                 
-    def documentAnnotations(self,document,annotatable):
+    def documentAnnotations(self,xdocNode,annotatable):
         
         annotations=annotatable.getAnnotations()
         if not annotations: return        
         
-        annotationsSection=document.createSection('Annotations')
+        annotationsSection=xdocNode.createSection('Annotations')
+        
+        if annotatable.containsNasties():
+            annotationsSection.createWarning('Some warnings and/ or errors are present')
+        
         annotationsTable=annotationsSection.createTable()
         for note in annotations:      
             noteRow=annotationsTable.createRow()
@@ -982,12 +1038,12 @@ class ForrestDocumenter(Documenter):
             # when not string get the object link and <link it...
             noteRow.createData(note.text) 
                         
-    def documentXML(self,document,xmlOwner):
+    def documentXML(self,xdocNode,xmlOwner):
         
         xml=xmlOwner.xml
         if not xml: return        
         
-        xmlSection=document.createSection('Definition')
+        xmlSection=xdocNode.createSection('Definition')
         stream=StringIO.StringIO() 
         try:
             xmlize(xml.getTagName(),xml,stream)
@@ -997,10 +1053,10 @@ class ForrestDocumenter(Documenter):
         xmlSection.createSource(stream.read())
         stream.close()
             
-    def documentSummary(self,document,summary,description='Project Summary'):
+    def documentSummary(self,xdocNode,summary,description='Project Summary'):
         if not summary or not summary.projects: return
         
-        summarySection=document.createSection(description)
+        summarySection=xdocNode.createSection(description)
         summaryTable=summarySection.createTable(['Projects','Successes','Failures','Prereqs',	\
             'No Works','Packages'])
         
@@ -1009,12 +1065,12 @@ class ForrestDocumenter(Documenter):
                                 `summary.noworks`, `summary.packages`] )
         
       
-    def documentWorkList(self,document,workable,description='Work'):
+    def documentWorkList(self,xdocNode,workable,description='Work'):
         worklist=workable.getWorkList()
         
         if not worklist: return
         
-        workSection=document.createSection(description)        
+        workSection=xdocNode.createSection(description)        
         workTable=workSection.createTable(['Name','Type','State','Start','Elapsed'])
         
         for work in worklist:
@@ -1025,7 +1081,7 @@ class ForrestDocumenter(Documenter):
             workRow.createData(workTypeName(work.type)) 
             workRow.createData(stateName(work.state))
             workRow.createData(secsToDate(work.result.start_time))
-            workRow.createData(secsToString(work.secs))
+            workRow.createData(secsToElapsedString(work.getElapsedSecs()))
         
         #
         # Do a tail on all work that failed...
@@ -1078,7 +1134,7 @@ class ForrestDocumenter(Documenter):
                                 
             workList.createEntry("Start Time: ", secsToDate(work.result.start_time))
             workList.createEntry("End Time: ", secsToDate(work.result.end_time))
-            workList.createEntry("Elapsed Time: ", secsToString(work.secs))
+            workList.createEntry("Elapsed Time: ", secsToElapsedString(work.getElapsedSecs()))
                    
             #
             # Show parameters
@@ -1327,7 +1383,7 @@ class ForrestDocumenter(Documenter):
             if not gumpSet.inModules(module): continue
             elapsedRow=elapsedTable.createRow()
             self.insertLink( module, stats, elapsedRow.createData())
-            elapsedRow.createData(elapsedTimeToString(module.elapsedTime()))
+            elapsedRow.createData(secsToElapsedString(module.getElapsedSecs()))
             
         document.serialize()
     

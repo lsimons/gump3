@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/text.py,v 1.3 2003/12/01 17:34:07 ajack Exp $
-# $Revision: 1.3 $
-# $Date: 2003/12/01 17:34:07 $
+# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/text.py,v 1.4 2003/12/03 18:36:13 ajack Exp $
+# $Revision: 1.4 $
+# $Date: 2003/12/03 18:36:13 $
 #
 # ====================================================================
 #
@@ -97,7 +97,7 @@ class TextDocumenter(Documenter):
         output=self.output
             
         output.write(indent + "Workspace State : " + workspace.getStateDescription() + "\n")
-        output.write(indent + "Workspace Secs : " + str(workspace.elapsedSecs()) + "\n")
+        output.write(indent + "Workspace Secs : " + str(workspace.getElapsedSecs()) + "\n")
     
         output.write(indent + "Modules: " + str(len(workspace.getModules())) + "\n")
     
@@ -121,7 +121,8 @@ class TextDocumenter(Documenter):
 
     def documentWork(self, indent, workable):
         output=self.output    
-        output.write(indent+"Work [" + str(len(workable.worklist)) + "] [" + str(workable.elapsedSecs()) + "] secs."  + "\n")
+        output.write(indent+"Work [" + str(len(workable.worklist)) \
+                + "] [" + str(workable.getElapsedSecs()) + "] secs."  + "\n")
     
         for work in workable.worklist:
             output.write(indent+"Work : " + stateName(work.state) + "\n")

@@ -1,8 +1,8 @@
 #!/usr/bin/python
 
-# $Header: /home/stefano/cvs/gump/python/gump/Attic/config.py,v 1.7 2003/11/26 16:08:39 ajack Exp $
-# $Revision: 1.7 $
-# $Date: 2003/11/26 16:08:39 $
+# $Header: /home/stefano/cvs/gump/python/gump/Attic/config.py,v 1.8 2003/12/03 18:36:13 ajack Exp $
+# $Revision: 1.8 $
+# $Date: 2003/12/03 18:36:13 $
 #
 # ====================================================================
 #
@@ -126,7 +126,8 @@ class setting:
     # :TODO: Add "minimum version" checks...
     ws_version="0.4"
     
-    datetimeformat="%a, %d %b %Y %H:%M:%S (%Z)"
+    datetimeformat='%a, %d %b %Y %H:%M:%S (%Z)'
+    timeformat='%H:%M:%S (%Z)'
     
     timeout=60*60 # 60 minutes (in seconds)
     

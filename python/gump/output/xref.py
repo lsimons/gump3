@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/output/Attic/xref.py,v 1.2 2003/12/02 00:45:40 ajack Exp $
-# $Revision: 1.2 $
-# $Date: 2003/12/02 00:45:40 $
+# $Header: /home/stefano/cvs/gump/python/gump/output/Attic/xref.py,v 1.3 2003/12/03 18:36:13 ajack Exp $
+# $Revision: 1.3 $
+# $Date: 2003/12/03 18:36:13 $
 #
 # ====================================================================
 #
@@ -98,6 +98,7 @@ class XRefGuru:
     def mapPackages(self):
         for module in self.workspace.getModules():
             for project in module.getProjects():
+                if project.isPackaged(): continue
                 for package in project.xml.package:
                     if package:
                         packageName=str(package)
@@ -106,12 +107,12 @@ class XRefGuru:
                                 self.packageToModule[packageName]=[]
                 
                         # Store
-                        self.packageToModule[packageName].append(module)
+                        if not module in self.packageToModule[packageName]:
+                            self.packageToModule[packageName].append(module)
     
     def getRepositoryToModuleMap(self):
         return self.repositoryToModule
-        
-        
+                
     def getPackageToModuleMap(self):
         return self.packageToModule
         

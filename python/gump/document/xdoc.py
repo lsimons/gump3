@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/xdoc.py,v 1.4 2003/12/01 20:55:50 ajack Exp $
-# $Revision: 1.4 $
-# $Date: 2003/12/01 20:55:50 $
+# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/xdoc.py,v 1.5 2003/12/03 18:36:13 ajack Exp $
+# $Revision: 1.5 $
+# $Date: 2003/12/03 18:36:13 $
 #
 # ====================================================================
 #
@@ -269,6 +269,9 @@ class XDocSection(XDocPiece):
     def createNote(self,text=None):
         return self.storePiece(XDocNote(self.createSubContext(),text))         
             
+    def createWarning(self,text=None):
+        return self.storePiece(XDocWarning(self.createSubContext(),text))         
+            
     def createSource(self,text=None):
         return self.storePiece(XDocSource(self.createSubContext(),text))         
          
@@ -503,6 +506,27 @@ class XDocNote(XDocPiece):
         
     def end(self):
         self.context.writeLine('</note>')
+        
+    def createText(self,text=None):
+        return self.storePiece(XDocText(self.createSubContext(),text))          
+        
+    def createBreak(self):
+        return self.storePiece(XDocBreak(self.createSubContext()))    
+
+    def createStrong(self,text=None,transient=0):
+        return self.storePiece(XDocStrong(self.createSubContext(transient),text))
+
+class XDocWarning(XDocPiece):
+    def __init__(self,context,text):
+        XDocPiece.__init__(self,context)
+        if text:
+            self.createText(text)
+        
+    def start(self):
+        self.context.writeLineIndented('<warning>')
+        
+    def end(self):
+        self.context.writeLine('</warning>')
         
     def createText(self,text=None):
         return self.storePiece(XDocText(self.createSubContext(),text))          

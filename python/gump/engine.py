@@ -472,6 +472,7 @@ class GumpEngine:
                     #
                     dirs=[]
                     dircnt=0
+                    listed=0
                     for jar in project.getJars():
                         jarPath=os.path.abspath(jar.getPath())
                         dir=os.path.dirname(jarPath)
@@ -480,8 +481,12 @@ class GumpEngine:
                             listDirectoryAsWork(project,dir,\
                                 'list_'+project.getName()+'_dir'+str(dircnt)+'_'+os.path.basename(dir))
                             dirs.append(dir)
+                            listed += 1
                         else:
                             project.addWarning("No such directory (where output is expect) : " + dir)
+                            
+                    if listed:
+                        project.addError("See Directory Listing Work for Missing Outputs")
             else:
                 project.changeState(STATE_SUCCESS)
          
@@ -489,7 +494,8 @@ class GumpEngine:
         # Display report output...
         #
         for report in project.getReports():
-            reportDir=report.getResolvedPath()
+            reportDir=report.getResolvedPath() 
+            project.addInfo('Reports in: ' + reportDir)
             catDirectoryContentsAsWork(project,reportDir)
     
                 

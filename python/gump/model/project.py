@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/model/project.py,v 1.21 2003/12/02 17:36:40 ajack Exp $
-# $Revision: 1.21 $
-# $Date: 2003/12/02 17:36:40 $
+# $Header: /home/stefano/cvs/gump/python/gump/model/project.py,v 1.22 2003/12/03 18:36:13 ajack Exp $
+# $Revision: 1.22 $
+# $Date: 2003/12/03 18:36:13 $
 #
 # ====================================================================
 #
@@ -275,6 +275,10 @@ class Project(NamedModelObject, Statable):
     def getJars(self):
         return self.jars.values()
         
+    def hasReports(self):
+        if self.reports: return 1
+        return 0
+        
     def getReports(self):
         return self.reports
     
@@ -333,6 +337,29 @@ class Project(NamedModelObject, Statable):
         
     def getFOGFactor(self):
         return self.getStats().getFOGFactor()
+        
+    def determineAffected(self):
+        affected=0
+        
+        # Get all dependenees (optional/otherwise)
+        dependees=self.getFullDependees()
+        
+        # Look through all dependees
+        for dependee in dependees:
+            project=dependee.getOwnerProject()
+            
+            cause=project.getCause()
+            #
+            # Something caused this some grief
+            #
+            if cause:
+                #
+                # The something was this module or one of it's projects
+                #
+                if cause == self:
+                    affected += 1            
+        
+        return affected
         
     def propagateErrorStateChange(self,state,reason,cause,message):
         

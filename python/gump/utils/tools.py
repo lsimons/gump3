@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/utils/tools.py,v 1.4 2003/12/02 17:36:40 ajack Exp $
-# $Revision: 1.4 $
-# $Date: 2003/12/02 17:36:40 $
+# $Header: /home/stefano/cvs/gump/python/gump/utils/tools.py,v 1.5 2003/12/03 18:36:13 ajack Exp $
+# $Revision: 1.5 $
+# $Date: 2003/12/03 18:36:13 $
 #
 # ====================================================================
 #
@@ -93,7 +93,11 @@ def catDirectoryContentsAsWork(workable,directory,name=None):
             for fileName in os.listdir(directory):
                 file=os.path.abspath(os.path.join(directory,fileName))                
                 if os.path.exists(file) and os.path.isfile(file):
-                    catFileAsWork(workable,	file, name+'_'+fileName)
+                    if name: 
+                        name=name+'_'+fileName
+                    else:
+                        name=fileName
+                    catFileAsWork(workable,	file, name)
     except:
         try:
             workable.addWarning('No such directory [' + str(directory) + ']')
