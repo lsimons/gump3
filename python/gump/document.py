@@ -344,7 +344,7 @@ def documentWorkspace(workspace,context,db,moduleList,projectList):
     
     documentSummary(x,context.getProjectSummary())
     
-    startSectionXDoc(x,'Project in Build Order')
+    startSectionXDoc(x,'Projects (in Build Order)')
     startTableXDoc(x)
     x.write('     <tr>')        
     x.write('      <th>Name</th><th>Project State</th><th>Elapsed Time</th>')
@@ -380,7 +380,7 @@ def documentWorkspace(workspace,context,db,moduleList,projectList):
     
     documentSummary(x,context.getProjectSummary())
     
-    startSectionXDoc(x,'Project in Build Order')
+    startSectionXDoc(x,'Projects')
     startTableXDoc(x)
     x.write('     <tr>')        
     x.write('      <th>Name</th><th>Project State</th><th>Elapsed Time</th>')

@@ -225,6 +225,9 @@ class Named(GumpXMLObject):
       if name: cls.list[name]=element
     return element
 
+    def __cmp__(self,other):
+        return self.name < other.name
+        
 class Single(object,GumpXMLObject):
   """Properties which are only ever expected to hold a single value."""
 

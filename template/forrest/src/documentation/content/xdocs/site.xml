@@ -7,8 +7,8 @@
 <site label="Gump" href="" xmlns="http://apache.org/forrest/linkmap/1.0">
 
   <work label="Gump">
-    <index label="Index" href="index.html"/>
-    <index label="Log" href="buildLog.html"/>
+    <index label="Workspace" href="index.html"/>
+    <index label="Build Log" href="buildLog.html"/>
     <index label="Modules" href="modules.html"/>
     <index label="Module TODOs" href="module_todos.html"/>
     <index label="Projects" href="projects.html"/>
