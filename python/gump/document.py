@@ -280,7 +280,39 @@ def documentWorkspace(workspace,context,db,moduleFilterList=None,projectFilterLi
     
     documentAnnotations(x,context.annotations)
     
-    startSectionXDoc(x,'Modules')
+    startSectionXDoc(x,'Modules with TODOs')
+    startTableXDoc(x)
+    x.write('     <tr>')        
+    x.write('      <th>Name</th><th>Project State(s)</th><th>Elapsed Time</th>')
+    x.write('     </tr>')
+    mcount=0
+    for mctxt in context:
+        mname=mctxt.name
+        if not Module.list.has_key(mname): continue        
+        if moduleFilterList and not mctxt.module in moduleFilterList: continue
+        
+        #
+        # Determine if there are todos, otherwise continue
+        #
+        todos=0
+        for pair in mctxt.aggregateStates():
+            if pair.state==STATUS_FAILED:
+                todos=1
+                
+        if not todos: continue
+    
+        mcount+=1
+
+        x.write('     <tr><!-- %s -->\n' % (mname))        
+        x.write('      <td><link href=\'%s\'>%s</link></td><td>%s</td>\n' % \
+          (getModuleRelativeUrl(mname),mname,getStateIcons(mctxt.aggregateStates())))    
+        x.write('      <td>%s</td>\n' % elapsedTimeToString(mctxt.elapsedTime()))    
+        x.write('     </tr>\n\n')
+    if not mcount: x.write('	<tr><td>None</td></tr>')
+    endTableXDoc(x)
+    endSectionXDoc(x)
+    
+    startSectionXDoc(x,'All Modules')
     startTableXDoc(x)
     x.write('     <tr>')        
     x.write('      <th>Name</th><th>Project State(s)</th><th>Elapsed Time</th>')
