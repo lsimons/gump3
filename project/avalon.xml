@@ -30,7 +30,8 @@
         <depend runtime="true" project="avalon-logkit"></depend>
 
       <work nested="framework/target/classes"></work>
-      <work nested="framework/target/api-classes"></work>
+      <work nested="framework/api/target/classes"></work>
+      <work nested="framework/api/target/test-classes"></work>
       <work nested="framework/target/impl-classes"></work>
       <work nested="framework/target/test-classes"></work>
 
