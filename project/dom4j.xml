@@ -42,7 +42,6 @@
     <depend project="msv"/>
     <depend project="relaxng"/>
     <depend project="xml-fop" inherit="runtime"/>
-    <work nested="lib/saxpath.jar"/>
     <jar name="build/dom4j.jar" id="dom4j"/>
     <license name="LICENSE.txt"/>
   </project>
