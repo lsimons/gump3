@@ -316,9 +316,9 @@ def documentWorkspace(workspace,context,db,moduleFilterList=None,projectFilterLi
     //
     // ----------------------------------------------------------------------
     //
-    // Modules.xml
+    // TODOs.xml
     //
-    x=startXDoc(getWorkspaceDocument(workspace,wdir,'modules'))
+    x=startXDoc(getWorkspaceDocument(workspace,wdir,'todos'))
     
     startSectionXDoc(x,'Modules with TODOs')
     startTableXDoc(x)
@@ -352,6 +352,16 @@ def documentWorkspace(workspace,context,db,moduleFilterList=None,projectFilterLi
     endTableXDoc(x)
     endSectionXDoc(x)
     
+    footerXDoc(x)
+    endXDoc(x)
+    
+    //
+    // ----------------------------------------------------------------------
+    //
+    // Modules.xml
+    //
+    x=startXDoc(getWorkspaceDocument(workspace,wdir,'modules'))
+   
     startSectionXDoc(x,'All Modules')
     startTableXDoc(x)
     x.write('     <tr>')        
