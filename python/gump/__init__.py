@@ -1,8 +1,8 @@
 #!/usr/bin/python
 
-# $Header: /home/stefano/cvs/gump/python/gump/__init__.py,v 1.21 2004/04/12 18:57:37 ajack Exp $
-# $Revision: 1.21 $
-# $Date: 2004/04/12 18:57:37 $
+# $Header: /home/stefano/cvs/gump/python/gump/__init__.py,v 1.22 2004/04/12 19:03:56 ajack Exp $
+# $Revision: 1.22 $
+# $Date: 2004/04/12 19:03:56 $
 #
 # ====================================================================
 #
@@ -72,9 +72,8 @@ import time
 # Either python-2.3 or http://www.red-dove.com/python_logging.html
 import logging
 
-
 # tell Python what modules make up the gump package
-__all__ = ["config"]
+# __all__ = ["config"]
 
 # base gump logger
 log = logging.getLogger(__name__)

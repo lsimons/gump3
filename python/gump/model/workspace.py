@@ -88,7 +88,7 @@ class Workspace(NamedModelObject, PropertyContainer, Statable, Resultable):
                 
         # :TODO: Ensure no clock ticks between these two,
         # i.e. make one.
-        self.startDateTimeUtc=time.strftime(setting.datetimeformat, \
+        self.startDateTimeUtc=time.strftime(setting.utcdatetimeformat, \
                                             time.gmtime())
         self.startDateTime=time.strftime(setting.datetimeformat, \
                                             time.localtime())
@@ -104,7 +104,7 @@ class Workspace(NamedModelObject, PropertyContainer, Statable, Resultable):
         
         # :TODO: Ensure no clock ticks between these two,
         # i.e. make one.
-        self.endDateTimeUtc=time.strftime(setting.datetimeformat, \
+        self.endDateTimeUtc=time.strftime(setting.utcdatetimeformat, \
                                             time.gmtime())
         self.endDateTime=time.strftime(setting.datetimeformat, \
                                             time.localtime())

@@ -93,6 +93,8 @@ class setting:
     
     datetimeformat='%a, %d %b %Y %H:%M:%S (%Z)'
     timeformat='%H:%M:%S (%Z)'
+    utcdatetimeformat='%a, %d %b %Y %H:%M:%S (UTC)'
+    utctimeformat='%H:%M:%S (UTC)'
     
     timeout=60*60 # 60 minutes (in seconds)
     timeoutCommand=0
