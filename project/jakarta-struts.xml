@@ -16,10 +16,14 @@
       <depend property="commons-collections.jar" project="commons-collections"/>
       <depend property="commons-digester.jar"    project="commons-digester"/>
     </ant>
+
     <depend project="xml-xalan2"/>
     <depend project="jakarta-ant"/>
     <work nested="target/library/classes"/>
     <work nested="target/tiles/library/classes"/>
+
+    <home nested="dist"/>
+    <jar name="struts.jar"/>
   </project>
 
 </module>
