@@ -38,7 +38,7 @@
     <work nested="classes"/>
 
     <jar name="lib/org.mortbay.jetty.jar"/>
-    <license name="LICENSE.html"/>
+    <license name="LICENSE.txt"/>
   </project>
 
 </module>
