@@ -9,13 +9,15 @@
        module="JRefactory"/>
   
   <project name="jrefactory">
-    <ant/>
+    <ant>
+      <property name="version" value="0.0.0"/>
+    </ant>
     <depend project="jakarta-ant"/>
     <depend project="xml-xerces"/>
     <depend project="junit"/>
     <work nested="ant.build/classes"/>
     <work nested="test/classes"/>
-    <jar id="jrefactory" name="ant.build/lib/PrettyPrinter-@@DATE@@.jar"/>
+    <jar id="jrefactory" name="ant.build/lib/PrettyPrinter-0.0.0.jar"/>
   </project>
 
 </module>
