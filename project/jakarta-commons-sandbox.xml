@@ -9,7 +9,9 @@
   <project name="commons-altrmi">
     <package>org.apache.commons.altrmi</package>
     <description>Alternate RMI Package</description>
-    <ant basedir="altrmi" target="dist"/>
+    <ant basedir="altrmi" target="dist">
+      <depend property="avalon-framework.jar" project="jakarta-avalon"/>
+    </ant>
     <depend project="jakarta-ant"/>
     <depend project="xml-xerces"/>
     <depend project="beepcore"/>
