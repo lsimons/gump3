@@ -28,7 +28,7 @@ This version of testrunner.py supports INSTANCE_HOME installations of Zope.
 
 (c) 2002-2004, Stefan H. Holek, stefan@epy.co.at
 -----
-Copyright (c) 2004 Zope Corporation and Contributors.All Rights Reserved.This software is subject to the provisions of the Zope Public License,Version 2.1 (ZPL). A copy of the ZPL should accompany this distribution.THIS SOFTWARE IS PROVIDED "AS IS" AND ANY AND ALL EXPRESS OR IMPLIEDWARRANTIES ARE DISCLAIMED, INCLUDING, BUT NOT LIMITED TO, THE IMPLIEDWARRANTIES OF TITLE, MERCHANTABILITY, AGAINST INFRINGEMENT, AND FITNESSFOR A PARTICULAR PURPOSE. 
+Copyright (c) 2004 Zope Corporation and Contributors.All Rights Reserved.This software is subject to the provisions of the Zope Public License,Version 2.1 (ZPL). A copy of the ZPL should accompany this distribution.THIS SOFTWARE IS PROVIDED "AS IS" AND ANY AND ALL EXPRESS OR IMPLIEDWARRANTIES ARE DISCLAIMED, INCLUDING, BUT NOT LIMITED TO, THE IMPLIEDWARRANTIES OF TITLE, MERCHANTABILITY, AGAINST INFRINGEMENT, AND FITNESSFOR A PARTICULAR PURPOSE. 
 """
 
 __version__ = '0.4.0'
