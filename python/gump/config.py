@@ -110,3 +110,14 @@ def basicConfig():
 
     if dir.base not in sys.path: sys.path.insert(0, dir.base)
 
+
+if __name__ == '__main__':
+  def dump(section):
+    print
+    print "---", str(section).split('.')[-1], "---"
+    for attr in __builtins__.dir(section):
+      if attr == '__module__': continue
+      print " ", attr + ":\t" + getattr(section, attr).__repr__()
+
+  for section in sys.argv[1:] or ('dir','default','setting','switch'):
+    dump(locals()[section])
