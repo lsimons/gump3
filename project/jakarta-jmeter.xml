@@ -34,7 +34,10 @@
     -->
 
     <nag from="Geir Magnusson Jr. &lt;geirm@apache.org&gt;"
-         to="jmeter-dev@jakarta.apache.org"/>
+         to="jmeter-dev@jakarta.apache.org">
+        <regexp pattern="/BUILD FAILED/" subject="JMeter Build Failure"/>
+        <regexp pattern="/FAILURES!!!/" subject="JMeter Unit Test Failure"/>
+    </nag>
   </project>
 
   <project name="pngencoder">
