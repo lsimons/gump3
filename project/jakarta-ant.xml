@@ -93,6 +93,7 @@
 
     <depend project="jakarta-ant-testutil" inherit="all"/>
     <option project="xml-commons-which"/>
+    <option project="rhino"/>
 
     <work nested="build/testcases"/>
     <work nested="src/testcases"/>
@@ -127,11 +128,11 @@
       <property name="ant.home" reference="home" project="jakarta-ant"/>
       <depend id="api" project="commons-logging" 
               property="commons-logging.jar"/>
-      <property name="jxpath.jar" project="commons-jxpath"/> 
-      <property name="velocity.jar" project="jakarta-velocity"/>
-      <property name="velocity-dep.jar" project="jakarta-velocity"/>
-      <property name="jexl.jar" project="commons-jexl"/>
-      <property name="commons-discovery.jar" project="commons-discovery"/>
+      <depend property="jxpath.jar" project="commons-jxpath"/> 
+      <depend property="velocity.jar" project="jakarta-velocity"/>
+      <depend property="velocity-dep.jar" project="jakarta-velocity"/>
+      <depend property="jexl.jar" project="commons-jexl"/>
+      <depend property="commons-discovery.jar" project="commons-discovery"/>
     </ant>
 
     <depend project="jakarta-ant" inherit="all"/>
@@ -150,11 +151,11 @@
       <property name="ant.home" reference="home" project="jakarta-ant"/>
       <depend id="api" project="commons-logging" 
               property="commons-logging.jar"/>
-      <property name="jxpath.jar" project="commons-jxpath"/> 
-      <property name="velocity.jar" project="jakarta-velocity"/>
-      <property name="velocity-dep.jar" project="jakarta-velocity"/>
-      <property name="jexl.jar" project="commons-jexl"/>
-      <property name="commons-discovery.jar" project="commons-discovery"/>
+      <depend property="jxpath.jar" project="commons-jxpath"/> 
+      <depend property="velocity.jar" project="jakarta-velocity"/>
+      <depend property="velocity-dep.jar" project="jakarta-velocity"/>
+      <depend property="jexl.jar" project="commons-jexl"/>
+      <depend property="commons-discovery.jar" project="commons-discovery"/>
     </ant>
 
     <depend project="jakarta-ant" inherit="all"/>
