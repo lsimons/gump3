@@ -339,7 +339,7 @@
         <depend project="excalibur-instrument-manager"/>
         <depend project="excalibur-event-api"/>
         <depend project="excalibur-event-impl"/>
-        <depend project="bcel"/>
+        <depend project="jakarta-bcel"/>
         <depend project="excalibur-logger"/>
         <depend project="excalibur-sourceresolve"/>
         <depend project="excalibur-lifecycle-api"/>
@@ -385,7 +385,7 @@
         <depend project="excalibur-instrument-manager"/>
         <depend project="excalibur-event-api"/>
         <depend project="excalibur-event-impl"/>
-        <depend project="bcel"/>
+        <depend project="jakarta-bcel"/>
         <depend project="excalibur-logger"/>
         <depend project="excalibur-sourceresolve"/>
         <depend project="excalibur-lifecycle-api"/>
