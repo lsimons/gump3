@@ -8,7 +8,7 @@
 #
 # naglist format:
 #
-#         project                    email                   nag regex
+#     #   project                    email                   nag regex
 #     jakarta-alexandria alexandria-dev@jakarta.apache.org /BUILD FAILED/
 #
 
@@ -22,7 +22,7 @@ $naglist = "/home/rubys/bin/naglist";
 open (LIST, "$naglist");
 foreach (<LIST>) {
   next if /^#/;
-  ($project, $mailto, $regexp) = / (\S*) \s* (\S*) \s* (\/.*\/) /x;
+  ($project, $mailto, $regexp) = / (\S*) \s* (\S*) \s* (\/.*\/[imsx]*) /x;
 
   # if this project hasn't been read before, read it
   if (!$hash{$project}) {
@@ -34,7 +34,7 @@ foreach (<LIST>) {
     $_ = join('',<FILE>);
     close (FILE);
 
-    # extract the date and just the stuff in the pre tags
+    # extract just the stuff from inside the pre tag
     if (m! .* <pre> \s* (.*) \s* </pre> !xs) {
       $hash{$project}->{pageData} = $1;
     } else {
@@ -50,7 +50,6 @@ foreach (<LIST>) {
   if (eval "\$pageData =~ $regexp") {
 
     $hash{$project}->{sentto}->{$mailto}=1;
-    print "$project $mailto\n";
 
     open ( EMAIL, "| /usr/sbin/sendmail -i -t");
 
