@@ -72,7 +72,6 @@ from xml.sax.saxutils import escape
 
 from gump import log, gumpSafeName
 from gump.conf import *
-from gump.xdoc import *
 from gump.utils import *
 from gump.xmlutils import xmlize
 from gump.context import *

@@ -59,7 +59,7 @@
 # <http://www.apache.org/>.
 
 """
-    xdoc generation, for forrest
+    'Nag' (notification) e-mail generation...
 """
 
 import socket
