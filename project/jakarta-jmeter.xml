@@ -23,6 +23,7 @@
     </ant>
 
     <depend project="ant" />
+    <depend project="commons-collections"/>
     <depend project="jakarta-velocity" />
     <depend project="pngencoder" />
     <depend project="jaf" />
