@@ -14,6 +14,7 @@
     <depend project="jakarta-avalon-clutil"/>
     <home nested="build/lib"/>
     <jar name="testlet.jar"/>
+    <javadoc nested="build/javadocs" module="jakarta-avalon"/>
   </project>
 
 </module>

@@ -24,6 +24,7 @@
     <depend project="jaf" />
     <home nested="build" />
     <jar name="james.bar" />
+    <javadoc nested="www/mailet"/>
   </project>
 
   <project name="dnsjava">

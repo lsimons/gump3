@@ -15,6 +15,7 @@
     <depend project="xml-xerces"/>
     <depend project="jakarta-ant"/>
     <jar name="lib/servlet.jar" id="servlet"/>
+    <javadoc nested="build/docs/api" module="jakarta-tomcat-4.0"/>
   </project>
 
 </module>

@@ -16,6 +16,7 @@
     <work parent="junit/tests/test.jar"/>
     <home parent="dist/junit"/>
     <jar name="junit.jar" id="junit"/>
+    <javadoc parent="dist/junit/javadoc"/>
   </project>
 
 </module>

@@ -57,6 +57,7 @@ public class Project {
         name = element.getAttribute("name");
 
         Element home = null;
+        Element javadoc = null;
 
         Node child=element.getFirstChild();
         for (; child != null; child=child.getNextSibling()) {
@@ -72,6 +73,8 @@ public class Project {
                 description = (Element)child;
             } else if (child.getNodeName().equals("url")) {
                 url = (Element)child;
+            } else if (child.getNodeName().equals("javadoc")) {
+                javadoc = (Element)child;
             } else if (child.getNodeName().equals("jar")) {
                 jars.put(((Element)child).getAttribute("id"), child);
             }
@@ -85,6 +88,8 @@ public class Project {
             if (!get("target").equals("")) 
                 ant.setAttribute("target", get("target"));
         }
+
+        resolveJavadoc(javadoc);
 
         // if only one jar is found, make sure that it can be accessed without
         // specifying an id.
@@ -338,6 +343,52 @@ public class Project {
 
         }
 
+    }
+
+    /**
+     * If a javadoc child was found, add any missing project, module,
+     * or description information; resolve path; and copy the resulting
+     * node to the specified module.
+     * @param javadoc child XML element
+     */
+    private void resolveJavadoc(Element javadoc) throws Exception {
+        if (javadoc == null) return;
+
+        if (javadoc.getAttributeNode("project") == null)
+            javadoc.setAttribute("project", name);
+
+        String moduleName = javadoc.getAttribute("module");
+        if (moduleName.equals("")) moduleName = this.get("module");
+        Module module = Module.find(moduleName);
+        require (module, "module", moduleName);
+
+        if (!javadoc.hasChildNodes() && description!=null) {
+            javadoc.appendChild(description.cloneNode(true));
+        }
+
+        String path;
+        if (javadoc.getAttributeNode("nested") != null) {
+            path = get("srcdir");
+            path += "/" + javadoc.getAttribute("nested");
+        } else {
+            path = Workspace.getBaseDir();
+            path += "/" + javadoc.getAttribute("parent");
+        }
+
+        Node child=javadoc.getFirstChild();
+        for (; child != null; child=child.getNextSibling()) {
+            if (child.getNodeName().equals("description")) {
+                Element description = (Element) child;
+                String dir = description.getAttribute("dir");
+                if (dir.equals("")) {
+                    description.setAttribute("path", path);
+                } else {
+                    description.setAttribute("path", path + "/" + dir);
+                }
+            }
+        }
+
+        module.appendChild(javadoc);
     }
 
     /**

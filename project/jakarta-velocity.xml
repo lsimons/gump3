@@ -24,6 +24,7 @@
     <depend project="commons-collections"/>
     <home nested="bin"/>
     <jar name="velocity-gump.jar"/>
+    <javadoc nested="docs/api"/>
   </project>
   
   <project name="jakarta-velocity-test">

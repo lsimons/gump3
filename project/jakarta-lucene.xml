@@ -20,6 +20,7 @@
 
     <home nested="bin"/>
     <jar name="lucene-gump.jar"/>
+    <javadoc nested="bin/docs/api"/>
   </project>
 
   <!-- not available via CVS -->

@@ -9,6 +9,7 @@
   
   <project name="xml-soap">
     <ant basedir="java" target="dist"/>
+
     <depend project="xml-xerces"/>
     <depend project="jakarta-ant"/>
     <depend project="javamail"/>
@@ -20,8 +21,10 @@
     <option project="junit"/>
     <work nested="java/build/lib/soap.jar"/>
     <work nested="java/build"/>
+
     <home nested="java/build"/>
     <jar name="lib/soap.jar"/>
+    <javadoc nested="build/docs/api"/>
   </project>
 
 </module>

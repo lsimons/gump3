@@ -17,6 +17,7 @@
       <depend property="avalon-scratchpad.jar" 
         project="jakarta-avalon-excalibur" id="avalon-scratchpad"/>
     </ant>
+
     <depend project="jakarta-ant"/>
     <depend project="xml-stylebook2"/>
     <depend project="xml-xalan2"/>
@@ -24,8 +25,10 @@
     <depend project="bsf"/>
     <depend project="rhino"/>
     <option project="jakarta-servletapi-4"/>
+
     <home nested="build/lib"/>
     <jar name="phoenix-client.jar"/>
+    <javadoc nested="build/javadocs" module="jakarta-avalon"/>
   </project>
 
 </module>

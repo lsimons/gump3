@@ -15,6 +15,7 @@
     <depend project="xml-xerces"/>
     <home nested="jakarta-oro-gump"/>
     <jar  name="jakarta-oro-gump.jar" id="oro"/>
+    <javadoc nested="jakarta-oro-gump/docs/api"/>
   </project>
 
 </module>

@@ -8,6 +8,7 @@
   <cvs repository="jakarta"/>
 
   <project name="commons-beanutils">
+    <description>Bean Utilities</description>
     <url href="http://jakarta.apache.org/commons/beanutils.html"/>
     <ant basedir="beanutils" target="dist">
       <property name="junit.home" reference="home" project="junit"/>
@@ -18,9 +19,11 @@
     <depend project="junit"/>
     <home nested="beanutils/dist"/>
     <jar name="commons-beanutils.jar"/>
+    <javadoc nested="beanutils/dist/docs/api"/>
   </project>
 
   <project name="commons-collections">
+    <description>Collections</description>
     <url href="http://jakarta.apache.org/commons/collections.html"/>
     <ant basedir="collections" target="dist"/>
     <depend project="jakarta-ant"/>
@@ -29,9 +32,11 @@
     <work nested="collections/dist/classes"/>
     <home nested="collections/dist"/>
     <jar name="commons-collections.jar"/>
+    <javadoc nested="collections/dist/docs/api"/>
   </project>
 
   <project name="commons-dbcp">
+    <description>Database Connection Pool</description>
     <ant basedir="dbcp" target="dist"/>
     <depend project="jakarta-ant"/>
     <depend project="xml-xerces"/>
@@ -42,9 +47,11 @@
     <work nested="dbcp/dist/classes"/>
     <home nested="dbcp/build"/>
     <jar name="commons-dbcp.jar"/>
+    <javadoc nested="dbcp/dist/docs/api"/>
   </project>
 
   <project name="commons-digester">
+    <description>XML to Java Object Configuration</description>
     <url href="http://jakarta.apache.org/commons/digester.html"/>
     <ant basedir="digester" target="dist"/>
     <depend project="jakarta-ant"/>
@@ -54,9 +61,11 @@
     <depend project="commons-collections"/>
     <home nested="digester/dist"/>
     <jar name="commons-digester.jar"/>
+    <javadoc nested="digester/dist/docs/api"/>
   </project>
 
   <project name="commons-httpclient">
+    <description>HTTP Client Library</description>
     <url href="http://jakarta.apache.org/commons/httpclient/"/>
     <ant basedir="httpclient" target="dist"/>
     <depend project="jakarta-ant"/>
@@ -65,9 +74,11 @@
     <depend project="jakarta-log4j"/>
     <home nested="httpclient/dist"/>
     <jar name="commons-httpclient.jar"/>
+    <javadoc nested="httpclient/dist/docs/api"/>
   </project>
 
   <project name="commons-jxpath">
+    <description>XPath traversal of JavaBeans</description>
     <ant basedir="jxpath" target="dist">
       <property name="component.version" value="gump"/>
       <depend property="junit.jar" project="junit"/>
@@ -78,9 +89,11 @@
     <depend project="jakarta-ant"/>
     <home nested="jxpath/dist"/>
     <jar name="commons-JXPath-gump.jar"/>
+    <javadoc nested="jxpath/dist/docs/api"/>
   </project>
 
   <project name="commons-latka">
+    <description>Functional Testing Suite</description>
     <ant basedir="latka" target="dist"/>
     <depend project="jakarta-ant"/>
     <depend project="xml-xerces"/>
@@ -92,9 +105,11 @@
     <depend project="junit"/>
     <home nested="latka/dist"/>
     <jar name="commons-latka.jar"/>
+    <javadoc nested="latka/dist/docs/api"/>
   </project>
 
   <project name="commons-pool">
+    <description>Object Pooling</description>
     <ant basedir="pool" target="dist"/>
     <depend project="jakarta-ant"/>
     <depend project="xml-xerces"/>
@@ -102,6 +117,7 @@
     <depend project="commons-collections"/>
     <home nested="pool/dist"/>
     <jar name="commons-pool.jar"/>
+    <javadoc nested="pool/dist/docs/api"/>
   </project>
 
 </module>

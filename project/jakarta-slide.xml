@@ -38,6 +38,11 @@
     <jar name="lib/slide.jar"/>
     <jar name="lib/slidestores.jar"/>
     <jar name="lib/webdav.jar"/>
+
+    <javadoc nested="dist/doc">
+      <description dir="clientjavadoc">WebDAV Client </description>
+      <description dir="javadoc">Slide API</description>
+    </javadoc>
   </project>
 
 </module>

@@ -15,6 +15,7 @@
     <depend project="xml-xerces"/>
     <home nested="bin"/>
     <jar name="village-gump.jar" id="village"/>
+    <javadoc nested="docs/apidocs"/>
   </project>
 
 </module>

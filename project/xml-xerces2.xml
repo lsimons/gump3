@@ -26,6 +26,13 @@
     <depend project="xml-xerces2"/>
     <depend project="xml-stylebook2"/>
     <depend project="xml-site"/>
+
+    <javadoc nested="java/build/docs/javadocs" project="xml-xerces2">
+      <description dir="api">XML Standard API</description>
+      <description dir="xni">Xerces Native Interface</description>
+      <description dir="xerces">Xerces2 Implementation</description>
+      <description dir="other">Other Classes</description>
+    </javadoc>
   </project>
 
 </module>

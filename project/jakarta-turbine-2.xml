@@ -31,6 +31,7 @@
     <work nested="bin/classes"/>
     <home nested="bin"/>
     <jar name="turbine-gump.jar"/>
+    <javadoc nested="docs/apidocs"/>
   </project>
   
   <project name="webmacro">

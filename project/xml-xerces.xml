@@ -27,6 +27,8 @@
     <depend project="xml-xerces"/>
     <depend project="xml-stylebook2"/>
     <depend project="xml-site"/>
+
+    <javadoc nested="java/build/docs/html/apiDocs" project="xml-xerces"/>
   </project>
 
 </module>

@@ -26,6 +26,7 @@
     <depend project="jsse"/>
     <work nested="build/tomcat/classes"/>
     <home nested="dist/tomcat"/>
+    <javadoc nested="build/tomcat/webapps/ROOT/javadoc"/>
   </project>
 
 </module>

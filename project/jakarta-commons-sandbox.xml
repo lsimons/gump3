@@ -6,18 +6,8 @@
 
   <cvs repository="jakarta"/>
 
-  <project name="commons-util">
-    <ant basedir="util" target="dist">
-      <property name="component.version"  value="gump"/>
-      <property name="minml2.jar" reference="jarpath" project="minml2"/>
-      <depend property="junit.jar"  project="junit"/>
-    </ant>
-    <depend project="jakarta-ant"/>
-    <depend project="xml-xerces"/>
-    <jar name="util/dist/commons-util-gump.jar"/>
-  </project>
-
   <project name="commons-email">
+    <description>Commons Email Package</description>
     <ant basedir="email" target="dist">
       <property name="component.version"  value="gump"/>
     </ant>
@@ -27,9 +17,11 @@
     <depend project="javamail"/>
     <depend project="commons-util"/>
     <jar name="email/dist/commons-email-gump.jar"/>
+    <javadoc nested="email/dist/docs/api"/>
   </project>
 
   <project name="commons-jjar">
+    <description>Jakarta Jar Archive Repository</description>
     <ant basedir="jjar" target="dist">
       <depend property="minml2.jar"  project="minml2"/>
       <depend property="junit.jar"   project="junit"/>
@@ -39,6 +31,20 @@
     <work nested="jjar/classes"/>
     <work nested="jjar/tests"/>
     <jar name="jjar/commons-jjar.jar"/>
+    <javadoc nested="jjar/dist/docs/api"/>
+  </project>
+
+  <project name="commons-util">
+    <description>Commons Utility Package</description>
+    <ant basedir="util" target="dist">
+      <property name="component.version"  value="gump"/>
+      <property name="minml2.jar" reference="jarpath" project="minml2"/>
+      <depend property="junit.jar"  project="junit"/>
+    </ant>
+    <depend project="jakarta-ant"/>
+    <depend project="xml-xerces"/>
+    <jar name="util/dist/commons-util-gump.jar"/>
+    <javadoc nested="util/dist/docs/api"/>
   </project>
 
   <project name="minml2">

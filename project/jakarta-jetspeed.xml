@@ -26,6 +26,11 @@
     <depend project="xml-xalan2"/>
     <depend project="javamail"/>
     <depend project="jdbc"/>
+
+    <javadoc nested="proposals">
+      <description dir="persistence/javadoc">PersistenceService</description>
+      <description dir="portletAPI/javadoc">Portlet</description>
+    </javadoc>
   </project>
 
 </module>

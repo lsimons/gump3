@@ -24,6 +24,11 @@
 
     <home nested="dist"/>
     <jar name="lib/struts.jar"/>
+
+    <javadoc nested="target">
+      <description dir="document/api">Struts Framework</description>
+      <description dir="tiles/document/api">Tiles Framework</description>
+    </javadoc>
   </project>
 
 </module>

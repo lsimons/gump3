@@ -348,6 +348,88 @@
         </content>
 
       </html>
+
+      <!-- =============================================================== -->
+      <!--               Produce a listing of javadocs                     -->
+      <!-- =============================================================== -->
+
+      <html log="{@logdir}/javadoc.html"
+        banner-image="{@banner-image}" banner-link="{@banner-link}">
+
+        <title>List of javadocs</title>
+
+        <sidebar>
+          <strong><a href="index.html">Build logs</a></strong>
+          <ul>
+            <xsl:for-each select="project[ant|script]">
+              <xsl:sort select="@name"/>
+              <li>
+                <a href="{@name}.html"><xsl:value-of select="@name"/></a>
+              </li>
+            </xsl:for-each>
+          </ul>
+        </sidebar>
+
+        <content>
+
+          <blockquote>
+             <xsl:for-each select="/workspace/module[javadoc]">
+               <xsl:sort select="@name"/>
+               <xsl:variable name="name" select="@name"/>
+
+               <!-- Choose from three basic styles -->
+               <xsl:choose>
+                 <xsl:when test="count(javadoc/description)>1">
+                   <b>
+                     <xsl:value-of select="@name"/>
+                   </b>
+                   <xsl:text> - </xsl:text>
+                   <xsl:value-of select="normalize-space(description)"/>
+                   <blockquote>
+
+                     <!-- Multiple javadocs from different projects -->
+                     <xsl:if test="javadoc[@project!=$name]">
+                       <xsl:for-each select="javadoc/description">
+                         <xsl:sort select="../@project"/>
+                         <a href="{@path}/index.html">
+                           <xsl:value-of select="../@project"/>
+                         </a>
+                         <xsl:text> - </xsl:text>
+                         <xsl:value-of select="normalize-space(.)"/>
+                         <br/>
+                       </xsl:for-each>
+                     </xsl:if>
+
+                     <!-- Multiple javadocs all from the same project -->
+                     <xsl:if test="not(javadoc[@project!=$name])">
+                       <xsl:for-each select="javadoc/description">
+                         <a href="{@path}/index.html">
+                           <xsl:value-of select="normalize-space(.)"/>
+                         </a>
+                         <br/>
+                       </xsl:for-each>
+                     </xsl:if>
+                   </blockquote>
+                 </xsl:when>
+                 <xsl:otherwise>
+
+                   <!-- Single javadoc -->
+                   <a href="{javadoc/description/@path}/index.html">
+                     <xsl:value-of select="@name"/>
+                   </a>
+                   <xsl:text> - </xsl:text>
+                   <xsl:value-of select="normalize-space(description)"/>
+                   <p/>
+                 </xsl:otherwise>
+               </xsl:choose>
+             </xsl:for-each>
+
+          </blockquote>
+
+        </content>
+
+      </html>
+
     </xref>
 
   </xsl:template>

@@ -115,6 +115,14 @@ public class Module {
     }
 
     /**
+     * Append arbitrary XML data to this node.
+     * @param child Node to be deep copied to this tree.
+     */
+    public void appendChild(Node child) {
+        element.appendChild(child.cloneNode(true));
+    }
+
+    /**
      * Resolve the source directory for this module.
      */
     private void computeSrcDir() throws Exception {

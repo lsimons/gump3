@@ -12,6 +12,7 @@
     <depend project="jakarta-ant"/>
     <home parent="dist/servletapi"/>
     <jar  name="lib/servlet.jar"/>
+    <javadoc parent="build/servletapi/docs/api" module="jakarta-tomcat"/>
   </project>
 
 </module>

@@ -18,6 +18,7 @@
 
     <home nested="BCEL-gump"/>
     <jar name="lib/bcel.jar"/>
+    <javadoc nested="BCEL-gump/docs/apiDocs"/>
   </project>
 
 </module>

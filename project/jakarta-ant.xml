@@ -43,6 +43,7 @@
     <home nested="build"/>
     <jar name="lib/ant.jar"/>
     <jar name="lib/optional.jar"/>
+    <javadoc nested="build/javadocs" project="jakarta-ant"/>
   </project>
 
   <project name="test-ant">

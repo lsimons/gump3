@@ -18,6 +18,7 @@
 
     <home nested="build/rhino_gump"/>
     <jar name="js.jar"/>
+    <javadoc nested="build/rhino_gump/docs/apidocs"/>
   </project>
 
 </module>

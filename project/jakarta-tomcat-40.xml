@@ -56,6 +56,11 @@
     <jar name="server/lib/servlets-invoker.jar"/>
     <jar name="common/lib/naming-common.jar"/>
     <jar name="common/lib/naming-resources.jar"/>
+
+    <javadoc nested="dist/webapps/tomcat-docs">
+      <description dir="catalina/docs/api">Catalina API</description>
+      <description dir="jasper/docs/api">Jasper API</description>
+    </javadoc>
   </project>
 
 </module>

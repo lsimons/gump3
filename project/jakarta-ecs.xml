@@ -14,6 +14,7 @@
     <depend project="jakarta-regexp"/>
     <home nested="ecs-1.4.1"/>
     <jar name="ecs-1.4.1.jar"/>
+    <javadoc nested="ecs-1.4.1/docs/apidocs"/>
   </project>
 
 </module>

@@ -25,6 +25,7 @@
 
     <home nested="java/build"/>
     <jar name="lib/axis.jar"/>
+    <javadoc nested="java/build/javadocs"/>
   </project>
 
 </module>

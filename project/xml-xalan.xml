@@ -26,6 +26,7 @@
 
     <home nested="java/build"/>
     <jar  name="xalanj1compat.jar" id="xalan1"/>
+    <javadoc nested="java/build/xalan-j_gump/docs/compat_apidocs"/>
   </project>
 
   <project name="xml-xalan2-smoketest-tools">
@@ -57,6 +58,7 @@
 
     <home nested="java/build/xalan-j_gump"/>
     <jar  name="bin/xalan.jar" type="boot"/>
+    <javadoc nested="java/build/xalan-j_gump/docs/apidocs" project="xml-xalan2"/>
   </project>
 
   <project name="xml-xalan2-smoketest">

@@ -12,6 +12,7 @@
     <depend project="jakarta-ant"/>
     <depend project="xml-xerces"/>
     <jar name="build/Tidy.jar"/>
+    <javadoc nested="doc/api"/>
   </project>
 
 </module>

@@ -28,6 +28,7 @@
     <home nested="build/lib"/>
     <jar name="avalon-excalibur.jar" id="avalon-excalibur"/>
     <jar name="avalon-scratchpad.jar" id="avalon-scratchpad"/>
+    <javadoc nested="build/javadocs" module="jakarta-avalon"/>
   </project>
 
   <project name="jakarta-avalon-clutil">
