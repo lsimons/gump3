@@ -1,0 +1,70 @@
+<module name="jakarta-avalon-phoenix">
+
+  <url href="http://jakarta.apache.org/avalon/"/>
+  <description>
+    The Avalon Application Server Kernel
+  </description>
+
+  <cvs repository="jakarta"/>
+
+  <project name="jakarta-avalon-phoenix">
+    <package>org.apache.avalon.phoenix</package>
+
+    <ant target="dist">
+      <property name="checkstyle.failOnError" value="true"/>
+      <property name="jakarta-site.dir" project="jakarta-site2"
+                reference="home" />
+    </ant>
+
+    <depend property="xerces.jar" project="xml-xerces" id="parser"/>
+    <depend property="logkit.jar" project="jakarta-avalon-logkit"/>
+    <depend property="framework.jar" project="jakarta-avalon"/>
+    <depend project="bsf"/>
+    <depend project="excalibur-configuration" runtime="true"/>
+    <depend project="excalibur-containerkit" runtime="true" inherit="runtime"/>
+    <depend project="excalibur-converter" runtime="true"/>
+    <depend project="excalibur-io" runtime="true"/>
+    <depend project="excalibur-cli" runtime="true"/>
+    <depend project="excalibur-extension" runtime="true"/>
+    <depend project="excalibur-threadcontext" runtime="true"/>
+    <depend project="excalibur-thread" runtime="true"/>
+    <depend project="excalibur-pool" runtime="true"/>
+    <depend project="excalibur-logger" runtime="true"/>
+    <depend project="excalibur-i18n" runtime="true"/>
+    <depend project="excalibur-baxter" runtime="true"/>
+    <depend project="excalibur-util" runtime="true"/>
+    <depend project="jakarta-ant"/>
+    <depend project="mx4j"/>
+    <depend project="xml-stylebook2"/>
+    <depend project="xml-xalan2"/>
+    <depend project="jmx" runtime="true"/>
+    <depend project="dist-bsf"/>
+    <depend project="rhino"/>
+    <depend project="mx4j"/>
+    <!-- depend project="xdoclet" inherit="jars"/ -->
+    <depend project="xdoclet-ant15" runtime="true" inherit="runtime"/>
+    <depend project="jarv" runtime="true"/>
+    <depend project="jakarta-site2" inherit="all" />
+    <option project="jakarta-servletapi-4"/>
+
+    <work nested="build/classes"/>
+
+    <home nested="build/lib"/>
+    <jar name="phoenix-client.jar"/>
+    <javadoc nested="build/javadocs" module="jakarta-avalon"/>
+
+    <nag from="Peter Donald &lt;peter@apache.org&gt;"
+         to="avalon-phoenix-dev@jakarta.apache.org"/>
+  </project>
+
+  <project name="xdoclet-ant15">
+    <depend project="jakarta-log4j" runtime="true"/>
+    <depend project="commons-logging" runtime="true"/>
+    <jar name="lib/xdoclet/xdoclet-20020825.jar"/>
+    <jar name="lib/xdoclet/xjavadoc-20020825.jar"/>
+  </project>
+
+  <project name="jarv">
+    <jar name="lib/jing/isorelax.jar"/>
+  </project>
+</module>
