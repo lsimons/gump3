@@ -67,7 +67,7 @@ import time
 import os
 import sys
 import logging
-from string import lower
+from string import lower,replace
 from xml.sax.saxutils import escape
 
 from gump import log, gumpSafeName
@@ -976,7 +976,7 @@ def getStatePairIcon(pair,depth=0):
         uniqueName+='_'+rstring
     
     # Build the URL
-    iconName=gumpSafeName(lower(uniqueName))
+    iconName=gumpSafeName(lower(replace(uniqueName,' ','_'))
     url = getUp(depth)+"resources/icons/"+iconName+".png";
     
     # Build the <icon xdoc
