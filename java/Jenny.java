@@ -179,9 +179,9 @@ public class Jenny {
         Workspace.init(workspace);
 
         expand(workspace);
+        Repository.load(merge("repository", workspace).elements());
         Module.load(merge("module",workspace).elements());
         Project.load(merge("project",workspace).elements());
-        merge("repository", workspace);
         output (doc, "work/merge.xml");
 
         Node sorted   = transform(doc, "sortdep.xsl");

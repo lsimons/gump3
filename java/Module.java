@@ -43,6 +43,7 @@ public class Module {
 
         computeSrcDir();
         promoteProjects();
+        resolveRepository();
 
         modules.put(name, this);
     }
@@ -98,4 +99,39 @@ public class Module {
         }
     }
 
+    /**
+     * Resolves a repository name into a cvsroot.  In the process it also
+     * decorates the cvs tag with the module name and tag info.
+     */
+    private void resolveRepository() throws Exception {
+        Node child=element.getFirstChild();
+        for (; child != null; child=child.getNextSibling()) {
+            if (! child.getNodeName().equals("cvs")) continue;
+            Element cvs = (Element) child;
+
+            cvs.setAttribute("srcdir", name);
+            if (cvs.getAttributeNode("module") == null) {
+                cvs.setAttribute("module", name);
+            }
+
+            String tag = element.getAttribute("tag");
+            if (!tag.equals("")) cvs.setAttribute("tag", tag);
+
+            Repository r = Repository.find(cvs.getAttribute("repository"));
+            String repository = ":" + r.get("method");
+            repository += ":" + r.get("user");
+
+            repository += "@";
+            if (cvs.getAttributeNode("host-prefix") != null)
+                repository += cvs.getAttribute("host-prefix") + ".";
+            repository += r.get("hostname");
+
+            repository += ":" + r.get("path");
+            if (cvs.getAttributeNode("dir") != null)
+                repository += "/" + cvs.getAttribute("dir");
+
+            cvs.setAttribute("repository", repository);
+            cvs.setAttribute("password", r.get("password"));
+        }
+    }
 }
