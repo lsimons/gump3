@@ -161,6 +161,7 @@
   <module href="project/freemarker.xml"/>
   <module href="project/hsqldb.xml"/>
   <module href="project/httpunit.xml"/>
+  <module href="project/hibernate.xml"/>
   <module href="project/iso-relax.xml"/>
   <module href="project/invicta.xml"/>
   <module href="project/javagroups.xml"/>
@@ -279,6 +280,8 @@
   <project name="commons-codec-11" package="commons-codec-1.1"/>
   <project name="ejb"              package="ejb-2_0-fr"/>
   <!--project name="fesi"             package="fesi"/-->
+  <project name="hibernate"        package="hibernate-2.1"/>
+  <project name="cglib"            package="hibernate-2.1"/>
   <project name="iso-relax"        package="isorelax.20020707"/>
   <project name="j2ee-connector"   package="j2ee_connector-1_0-fr"/>
   <project name="jaas"             package="jaas1_0"/>
