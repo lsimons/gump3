@@ -23,7 +23,7 @@
   <redistributable/>
 
   <cvs repository="sourceforge" host-prefix="cvs.smartfrog" 
-  		dir="core"/>
+  		dir="smartfrog" module="core"/>
 
   <project name="smartfrog">
     <package>org.smartfrog</package>
