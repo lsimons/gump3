@@ -444,7 +444,8 @@
     <ant basedir="logging" target="dist"/>
     <depend project="ant" inherit="runtime"/>
     <depend project="xml-xerces"/>
-    <option project="logging-log4j"/>
+    <!-- :TODO: Temporarily avoiding log4j 'CVS HEAD' -->
+    <option project="logging-log4j-12"/>
     <option project="avalon-logkit"/>
     <home nested="logging/dist"/>
     <jar name="commons-logging.jar" id="commons-logging" />
