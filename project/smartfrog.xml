@@ -13,7 +13,7 @@
   <project name="smartfrog">
     <package>org.smartfrog</package>
 
-    <ant basedir="." target="gump-dist" />
+    <ant basedir="." target="dist" />
     <!-- <ant basedir="smartfrog" target="dist" /> -->    
     <depend project="ant" runtime="false"/>
     <depend project="junit" runtime="true"/>
