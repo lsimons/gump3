@@ -303,6 +303,12 @@ From: Sam Ruby <rubys@us.ibm.com>
 Subject: [GUMP] Build Failure - Soap
 Regex: /BUILD FAILED/
 ------
+Project: xml-xalan1-compat
+To: xalan-dev@xml.apache.org
+From: Sam Ruby <rubys@us.ibm.com>
+Subject: [GUMP] Build Failure - Xalan1 compat
+Regex: /BUILD FAILED/
+------
 Project: xml-xalan2
 To: xalan-dev@xml.apache.org
 From: Sam Ruby <rubys@us.ibm.com>
