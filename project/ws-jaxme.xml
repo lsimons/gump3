@@ -25,6 +25,7 @@
     <work nested="build/js/classes"/>
     <work nested="build/api/classes"/>
     <work nested="build/xs/classes"/>
+    <work nested="build/jm/classes"/>
 
     <home nested="dist"/>
     <jar name="jaxme2-rt.jar"/>
