@@ -146,7 +146,7 @@ def establishLock(lockFile):
             fcntl.flock(lock.fileno(), fcntl.LOCK_EX | fcntl.LOCK_NB)
         except:            
             failed=1
-            ifo=', and is locked.'
+            info=', and is locked.'
         
     else:
         if os.path.exists(lockFile):

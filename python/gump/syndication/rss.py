@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/syndication/rss.py,v 1.21 2004/04/26 16:13:56 ajack Exp $
-# $Revision: 1.21 $
-# $Date: 2004/04/26 16:13:56 $
+# $Header: /home/stefano/cvs/gump/python/gump/syndication/rss.py,v 1.22 2004/05/05 13:58:24 ajack Exp $
+# $Revision: 1.22 $
+# $Date: 2004/05/05 13:58:24 $
 #
 # ====================================================================
 #
@@ -239,7 +239,7 @@ class RSS:
         log.debug("RSS Newsfeed written to : " + self.rssFile);          
         
     def serialize(self):
-        log.debug("RSS Newsfeed to : " + self.rssFile);         
+        log.info("RSS Newsfeed to : " + self.rssFile);         
         self.rssStream = open(self.rssFile,'w')
         
         self.startRSS()

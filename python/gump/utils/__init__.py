@@ -30,6 +30,7 @@ import urllib
 from gump  import log
 from gump.core.config import default, setting
 
+
 def gumpSafeName(name):
   """returns a file system safe name"""  
   #
@@ -395,11 +396,12 @@ def logResourceUtilization(message=None): pass
 #    except Exception, details:        
 #        if not os.name == 'dos' and not os.name == 'nt':
 #            log.error("Failed get resource utilization." \
-#                        + " : " + str(details), exc_info=1)
-        
+#                   
 def invokeGarbageCollection():
     try:
         import gc
-        gc.collect()
+        unreachable = gc.collect()
+        if unreachable:
+            log.debug('Objects Unreachable by GC : ' + `unreachable`)
     except:
         raise
