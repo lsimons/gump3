@@ -72,7 +72,9 @@
     <depend project="jakarta-avalon"/>
     <depend project="jakarta-avalon-excalibur"/>
     <depend project="jakarta-avalon-logkit"/>
+    <depend project="jakarta-log4j"/>
     <depend project="xdoclet"/>
+    <work nested="proposal/myrmidon/build/tasks"/>
     <option project="xml-xalan2"/>
   </project>
   
