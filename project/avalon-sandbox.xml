@@ -7,10 +7,10 @@
 
     <cvs repository="avalon"/>
 
-    <!-- need to review - lifecycle package is being been moved to 
+    <!-- need to review - lifecycle package is being been moved to
          Excalibur or Avalon CVS -->
 
-    <project name="avlon-cache">
+    <project name="avalon-cache">
         <package>org.apache.avalon.excalibur.cache</package>
 
         <ant basedir="cache">
