@@ -127,7 +127,7 @@ class ProjectStatistics:
             # A big event...
             if not self.first:
                 self.first=self.last
-            elif project.isFailure():
+            elif project.isFailed():
                 s.failures += 1    
             elif project.isPrereqFailure():                        
                 s.prereqs  += 1

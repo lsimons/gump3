@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/model/state.py,v 1.2 2003/11/18 00:29:50 ajack Exp $
-# $Revision: 1.2 $
-# $Date: 2003/11/18 00:29:50 $
+# $Header: /home/stefano/cvs/gump/python/gump/model/state.py,v 1.3 2003/11/18 03:57:47 ajack Exp $
+# $Revision: 1.3 $
+# $Date: 2003/11/18 03:57:47 $
 #
 # ====================================================================
 #
@@ -205,7 +205,7 @@ class Stateful:
     def isSuccess(self):
         return STATE_SUCCESS == self.statePair.state
                 
-    def isFailure(self):
+    def isFailed(self):
         return STATE_FAILED == self.statePair.state
         
     def isPrereqFailure(self):
