@@ -6,28 +6,6 @@
 
   <cvs repository="jakarta"/>
 
-  <project name="commons-altrmi">
-    <package>org.apache.commons.altrmi</package>
-    <description>Alternate RMI Package</description>
-    <ant basedir="altrmi" target="dist">
-      <depend property="avalon-framework.jar" project="jakarta-avalon"/>
-    </ant>
-    <depend project="jakarta-ant"/>
-    <depend project="xml-xerces"/>
-    <depend project="beepcore"/>
-    <home nested="altrmi/dist"/>
-    <jar name="commons-altrmi-common.jar"/>
-    <jar name="commons-altrmi-client-interfaces.jar"/>
-    <jar name="commons-altrmi-client-impl.jar"/>
-    <jar name="commons-altrmi-server-interfaces.jar"/>
-    <jar name="commons-altrmi-server-impl.jar"/>
-    <jar name="commons-altrmi-generator.jar"/>
-    <javadoc nested="altrmi/dist/docs/api"/>
-
-    <nag to="commons-dev@jakarta.apache.org"
-         from="Ted Husted &lt;ted@husted.com&gt;"/>
-  </project>
-  
   <project name="commons-codec">
     <package>org.apache.commons.codec</package>
     <description>Commons Encoding/Decoding Package</description>
