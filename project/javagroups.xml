@@ -1,0 +1,20 @@
+<module name="javagroups">
+
+  <url href="http://javagroups.sourceforge.net/"/>
+  <description>
+    A Reliable Multicast Communication Toolkit for Java
+  </description>
+
+  <cvs repository="sourceforge" host-prefix="cvs.javagroups" dir="javagroups"
+    module="JavaGroups-2.0"/>
+  
+  <project name="javagroups">
+    <ant basedir="build" target="all"/>
+    <depend project="jakarta-ant"/>
+    <depend project="xml-xerces"/>
+    <depend project="junit"/>
+    <jar name="dist/javagroups.jar"/>
+    <javadoc nested="doc/javadoc"/>
+  </project>
+
+</module>
