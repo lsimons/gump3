@@ -30,7 +30,9 @@
     
     <project name="avalon-logkit" buildfile="buildsystem/gump-build.xml" target="jar">
         <package>org.apache.log</package>
-        <ant />
+        <ant>
+            <property name="project.version" value="@@DATE@@"></property>
+        </ant>
         <depend project="ant" inherit="runtime"/>
         <depend project="xml-xerces"/>
         <depend project="junit"/>
