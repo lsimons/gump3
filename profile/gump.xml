@@ -270,7 +270,7 @@
   <project name="antlr"            package="antlr-2.7.2"/>
   <project name="aspectj"          package="aspectj1.1"/>
   <project name="concurrent"       package="dougLea"/>
-  <project name="cos"              package="cos-09May2002"/>
+  <project name="cos"              package="cos-05Nov2002"/>
   <project name="cryptix"          package="cryptix32-20001002-r3.2.0"/>
   <project name="ejb"              package="ejb-2_0-fr"/>
   <!--project name="fesi"             package="fesi"/-->
@@ -303,7 +303,7 @@
   <project name="mockobjects"      package="mockobjects-0.09"/>
   <!--project name="mockobjects-j2ee-13" package="mockobjects-0.09"/>
   <project name="mockobjects-j2ee-14" package="mockobjects-0.09"/-->
-  <project name="msv"              package="msv-20020414"/>
+  <project name="msv"              package="msv-20030225"/>
   <project name="multipartrequest" package="MultipartRequest-1.30rc1"/>
   <project name="relaxng"          package="relaxngDatatype-1.0"/>
   <project name="eclipse"          package="eclipse-2.1"/>

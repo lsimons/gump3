@@ -16,7 +16,7 @@
 -->
 <module name="aspectj">
 
-  <url href="http://aspectj.org/servlets/AJSite"/>
+  <url href="http://eclipse.org/aspectj/"/>
   <description>
     Aspect-oriented programming
   </description>
