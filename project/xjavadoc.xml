@@ -17,6 +17,6 @@
     <depend project="jrefactory"/>
     <depend project="jakarta-log4j"/>
     <depend project="junit"/>
-    <jar name="xjavadoc.jar"/>
+    <jar name="dist/xjavadoc.jar"/>
   </project>
 </module>
