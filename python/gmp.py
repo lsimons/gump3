@@ -14,7 +14,7 @@
 #   See the License for the specific language governing permissions and
 #   limitations under the License.
 #
-# $Header: /home/stefano/cvs/gump/python/gmp.py,v 1.1 2004/04/10 10:35:24 nicolaken Exp $
+# $Header: /home/stefano/cvs/gump/python/gmp.py,v 1.2 2004/04/10 11:16:50 nicolaken Exp $
 
 """
   This is the commandline entrypoint into Python Gump as a
@@ -125,7 +125,7 @@ def callGmpCommand(ws,command,projects,iargs):
     #    
     command=os.path.join(os.environ['GUMP_HOME'],'python/gump/'+command+'.py')
 
-    exitValue = runCommand('python '+command+' '+projects, iargs, 'python')
+    exitValue = runCommand('python '+command+' -w '+ws+' '+projects, iargs, 'python')
     if exitValue:
         result=1
 
