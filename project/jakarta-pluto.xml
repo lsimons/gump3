@@ -21,7 +21,8 @@
     <depend project="castor"/>
     <depend project="junit"/>
     <depend project="jakarta-regexp"/>
-    <depend project="jakarta-servletapi"/>
+    <depend project="jakarta-servletapi-5-servlet"/>
+    <depend project="jakarta-servletapi-5-jsp"/>
     <depend project="xml-apis"/>
     <depend project="xml-xerces"/>
 
