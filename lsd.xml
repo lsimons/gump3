@@ -1,0 +1,21 @@
+<workspace basedir="/data/gump"
+           pkgdir="/data/gump/opt"
+           sync="rsync -r -a --delete"
+           version="0.3">
+
+  <property name="build.sysclasspath" value="only"/>
+
+  <profile href="profile/gump.xml"/>
+
+  <!-- After the bootstrap -->
+  <module href="project/gump.xml"/>
+  <project name="gump" home="/data/gump/jakarta-gump">
+    <ant>
+      <property name="workspace" value="lsd.xml"/>
+      <property name="webstyle" value="stylesheet/jakarta.xsl"/>
+      <property name="target" value="bash"/>
+      <property name="extension" value="sh"/>
+    </ant>
+  </project>
+
+</workspace>
