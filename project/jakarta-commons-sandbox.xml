@@ -21,7 +21,7 @@
     <work nested="attributes/target/classes"/>
     <work nested="attributes/target/test-classes"/>
 
-    <jar name="attributes/dist/commons-attributes-@@DATE@@.jar"/>
+    <jar name="attributes/target/commons-attributes-@@DATE@@.jar"/>
     <javadoc nested="attributes/dist/docs/api"/>
  
     <nag from="Sam Ruby &lt;rubys@us.ibm.com&gt;"
