@@ -89,6 +89,12 @@ From: Jon Stevens <jon@latchkey.com>
 Subject: [GUMP] Build Failure - James
 Regex: /BUILD FAILED/
 ------
+Project: jakarta-jetspeed
+To: jetspeed-dev@jakarta.apache.org
+From: Jon Stevens <jon@latchkey.com>
+Subject: [GUMP] Build Failure - Jetspeed
+Regex: /BUILD FAILED/
+------
 Project: jakarta-struts
 To: struts-dev@jakarta.apache.org
 From: Sam Ruby <rubys@us.ibm.com>
@@ -107,16 +113,16 @@ From: Sam Ruby <rubys@us.ibm.com>
 Subject: [GUMP] Build Failure - Tomcat 4.0
 Regex: /BUILD FAILED/
 ------
+Project: jakarta-turbine
+To: turbine-dev@jakarta.apache.org
+From: Jon Stevens <jon@latchkey.com>
+Subject: [GUMP] Build Failure - Turbine
+Regex: /BUILD FAILED/
+-------
 Project: jakarta-velocity
 To: velocity-dev@jakarta.apache.org
 From: Sam Ruby <rubys@us.ibm.com>
 Subject: [GUMP] Build Failure - Velocity
-Regex: /BUILD FAILED/
-------
-Project: jetspeed
-To: jetspeed-dev@jakarta.apache.org
-From: Jon Stevens <jon@latchkey.com>
-Subject: [GUMP] Build Failure - Jetspeed
 Regex: /BUILD FAILED/
 ------
 Project: test-ant
@@ -129,12 +135,6 @@ Project: scarab
 To: dev@scarab.tigris.org
 From: Jon Stevens <jon@latchkey.com>
 Subject: [GUMP] Build Failure - Scarab
-Regex: /BUILD FAILED/
--------
-Project: turbine
-To: turbine-dev@jakarta.apache.org
-From: Jon Stevens <jon@latchkey.com>
-Subject: [GUMP] Build Failure - Turbine
 Regex: /BUILD FAILED/
 -------
 Project: xml-axis
