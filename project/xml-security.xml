@@ -20,7 +20,7 @@
         value="f3cf2677ad8fa7a038ab3a62e05afef9615ea579"/>
     </ant>
 
-    <depend project="jakarta-ant"/>
+    <depend project="jakarta-ant" inherit="runtime"/>
     <depend project="xml-xerces"/>
     <depend project="xml-xalan2" runtime="true"/>
     <depend project="jakarta-log4j"/>

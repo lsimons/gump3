@@ -15,7 +15,7 @@
       <depend property="oro.jar" project="jakarta-oro"/>
       <property name="version" value="@@DATE@@"/>
     </ant>
-    <depend project="jakarta-ant"/>
+    <depend project="jakarta-ant" inherit="runtime"/>
     <depend project="xml-xerces"/>
     <depend project="jakarta-servletapi"/>
     <depend project="jdom" runtime="true"/>

@@ -9,7 +9,7 @@
   
   <project name="jakarta-site2">
     <ant/>
-    <depend project="jakarta-ant"/>
+    <depend project="jakarta-ant" inherit="runtime"/>
     <depend project="xml-xerces"/>
     <depend project="jdom"/>
     <depend project="jakarta-velocity"/>

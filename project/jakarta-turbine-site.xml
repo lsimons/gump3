@@ -13,7 +13,7 @@
       <property name="turbine2.home" reference="srcdir" project="jakarta-turbine-2"/>
     </ant>
 
-    <depend project="jakarta-ant"/>
+    <depend project="jakarta-ant" inherit="runtime"/>
     <depend project="xml-xerces"/>
     <depend project="jakarta-velocity"/>
     <depend project="commons-collections"/>

@@ -10,7 +10,7 @@
   <project name="jakarta-turbine-tdk-docs">
     <ant target="docs"/>
 
-    <depend project="jakarta-ant"/>
+    <depend project="jakarta-ant" inherit="runtime"/>
     <depend project="xml-xerces"/>
     <depend project="jakarta-velocity" inherit="runtime"/>
   </project>    
@@ -20,7 +20,7 @@
 
     <ant target="jar"/>
 
-    <depend project="jakarta-ant"/>
+    <depend project="jakarta-ant" inherit="runtime"/>
     <depend project="xml-xerces"/>
     <depend project="jakarta-velocity" inherit="runtime"/>
     <depend project="commons-util"/>

@@ -13,7 +13,7 @@
     <ant basedir="java" target="dist"/>
 
     <depend project="xml-xerces"/>
-    <depend project="jakarta-ant"/>
+    <depend project="jakarta-ant" inherit="runtime"/>
     <depend project="javamail"/>
     <depend project="jaf"/>
     <depend project="jakarta-servletapi"/>

@@ -16,7 +16,7 @@
       <depend property="avalonapi.jar" project="jakarta-avalon"/>
     </ant>
 
-    <depend project="jakarta-ant"/>
+    <depend project="jakarta-ant" inherit="runtime"/>
     <depend project="xml-xerces"/>
     <depend project="xml-xalan2"/>
     <depend project="xml-batik"/>

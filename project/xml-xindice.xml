@@ -12,7 +12,7 @@
 
     <ant target="examples"/>
 
-    <depend project="jakarta-ant"/>
+    <depend project="jakarta-ant" inherit="runtime"/>
     <depend project="xml-xerces"/>
     <depend project="xmldb"/>
     <depend project="infozone"/>

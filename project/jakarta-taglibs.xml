@@ -41,7 +41,7 @@
       <depend property="jms.jar" project="jms"/>
     </ant>
 
-    <depend project="jakarta-ant"/>
+    <depend project="jakarta-ant" inherit="runtime"/>
     <option project="bsf"/>
     <option project="javamail"/>
     <depend project="jaf"/>

@@ -21,7 +21,7 @@
       <depend property="velocity.jar" project="jakarta-velocity"/>
     </ant>
 
-    <depend project="jakarta-ant"/>
+    <depend project="jakarta-ant" inherit="runtime"/>
     <depend project="xml-xerces"/>
     <depend project="jakarta-servletapi"/>
     <depend project="commons-collections"/>

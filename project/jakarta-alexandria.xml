@@ -13,7 +13,7 @@
     <ant target="dist"/>
     <depend project="xml-xalan2"/>
     <depend project="xml-xerces"/>
-    <depend project="jakarta-ant"/>
+    <depend project="jakarta-ant" inherit="runtime"/>
     <depend project="jakarta-site2"/>
     <depend project="alexandria-castor"/>
 
@@ -36,7 +36,7 @@
       <property name="component.version" value="@@DATE@@"/>
     </ant>
 
-    <depend project="jakarta-ant"/>
+    <depend project="jakarta-ant" inherit="runtime"/>
     <depend project="xml-xerces"/>
     <depend project="commons-logging"/>
     <depend project="commons-collections"/>

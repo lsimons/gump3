@@ -12,7 +12,7 @@
     <package>javax.management</package>
 
     <ant basedir="build" target="release"/>
-    <depend project="jakarta-ant"/>
+    <depend project="jakarta-ant" inherit="runtime"/>
     <depend project="xml-xerces"/>
     <depend project="xmlunit"/>
     <depend project="jakarta-log4j"/>

@@ -14,7 +14,7 @@
       <property name="version" value="@@DATE@@"/>
     </ant>
     <depend project="xml-xerces"/>
-    <depend project="jakarta-ant"/>
+    <depend project="jakarta-ant" inherit="runtime"/>
     <option project="jakarta-servletapi"/>
     <option project="jsse"/>
     <home nested="bin"/>

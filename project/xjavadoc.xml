@@ -11,7 +11,7 @@
     <package>xjavadoc</package>
 
     <ant target="jar"/>
-    <depend project="jakarta-ant"/>
+    <depend project="jakarta-ant" inherit="runtime"/>
     <depend project="xml-xerces"/>
     <depend project="javacc"/>
     <depend project="jrefactory"/>

@@ -12,7 +12,7 @@
     <ant basedir="codec" target="dist">
       <property name="component.version"  value="@@DATE@@"/>
     </ant>
-    <depend project="jakarta-ant"/>
+    <depend project="jakarta-ant" inherit="runtime"/>
     <depend project="xml-xerces"/>
     <jar name="codec/dist/commons-codec-@@DATE@@.jar"/>
     <javadoc nested="codec/dist/docs/api"/>
@@ -28,7 +28,7 @@
     </ant>
     
     <!-- All Maven projects need Ant and Xerces to build. -->
-    <depend project="jakarta-ant"/>
+    <depend project="jakarta-ant" inherit="runtime"/>
     <depend project="xml-xerces"/>
  
     <depend project="commons-collections"/>
@@ -55,7 +55,7 @@
     </ant>
     
     <!-- All Maven projects need Ant and Xerces to build. -->
-    <depend project="jakarta-ant"/>
+    <depend project="jakarta-ant" inherit="runtime"/>
     <depend project="xml-xerces"/>
 
     <depend project="commons-util"/>
@@ -77,7 +77,7 @@
     <ant basedir="fileupload" target="jar" buildfile="build-gump.xml">
       <property name="maven.final.name" value="commons-fileupload-@@DATE@@"/>
     </ant>
-    <depend project="jakarta-ant"/>
+    <depend project="jakarta-ant" inherit="runtime"/>
     <depend project="xml-xerces"/>
     <depend project="jakarta-servletapi"/>
     <depend project="jaf"/>
@@ -98,7 +98,7 @@
     <ant basedir="http" target="dist">
       <property name="component.version"  value="@@DATE@@"/>
     </ant>
-    <depend project="jakarta-ant"/>
+    <depend project="jakarta-ant" inherit="runtime"/>
     <depend project="xml-xerces"/>
     <jar name="http/dist/commons-http.jar"/>
     <javadoc nested="http/dist/docs/api"/>
@@ -114,7 +114,7 @@
       <property name="component.version"  value="@@DATE@@"/>
     </ant>
 
-    <depend project="jakarta-ant"/>
+    <depend project="jakarta-ant" inherit="runtime"/>
     <depend project="xml-xerces"/>
     <work nested="io/target/classes"/>
 
@@ -133,7 +133,7 @@
       <property name="maven.final.name" value="commons-jelly-@@DATE@@"/>
     </ant>
     
-    <depend project="jakarta-ant"/>
+    <depend project="jakarta-ant" inherit="runtime"/>
     <depend project="xml-xerces"/>
 
     <depend project="commons-logging"/>
@@ -171,7 +171,7 @@
     <ant basedir="jexl" target="dist">
       <property name="component.version"  value="@@DATE@@"/>
     </ant>
-    <depend project="jakarta-ant"/>
+    <depend project="jakarta-ant" inherit="runtime"/>
     <depend project="xml-xerces"/>
     <depend project="jakarta-velocity"/>
     <depend project="commons-logging"/>
@@ -189,7 +189,7 @@
       <depend property="minml2.jar"  project="minml2"/>
       <depend property="junit.jar"   project="junit"/>
     </ant>
-    <depend project="jakarta-ant"/>
+    <depend project="jakarta-ant" inherit="runtime"/>
     <depend project="xml-xerces"/>
     <work nested="jjar/classes"/>
     <work nested="jjar/tests"/>
@@ -213,7 +213,7 @@
     </ant>
     
     <!-- All Maven projects need Ant and Xerces to build. -->
-    <depend project="jakarta-ant"/>
+    <depend project="jakarta-ant" inherit="runtime"/>
     <depend project="xml-xerces"/>
 
     <depend project="commons-digester"/>
@@ -237,7 +237,7 @@
     <description>Basic Services Architecture</description>
     <ant basedir="services" target="dist"/>
 
-    <depend project="jakarta-ant"/>
+    <depend project="jakarta-ant" inherit="runtime"/>
     <depend project="xml-xerces"/>
     <depend project="commons-beanutils"/>
     <depend project="commons-collections"/>
@@ -258,7 +258,7 @@
     <ant basedir="threading" target="dist">
       <property name="component.version"  value="@@DATE@@"/>
     </ant>
-    <depend project="jakarta-ant"/>
+    <depend project="jakarta-ant" inherit="runtime"/>
     <depend project="xml-xerces"/>
     <jar name="threading/dist/commons-threading-@@DATE@@.jar"/>
     <javadoc nested="threading/dist/docs/api"/>
@@ -279,7 +279,7 @@
     </ant>
     
     <!-- All Maven projects need Ant and Xerces to build. -->
-    <depend project="jakarta-ant"/>
+    <depend project="jakarta-ant" inherit="runtime"/>
     <depend project="xml-xerces"/>
     <depend project="jakarta-servletapi"/>
     <depend project="commons-lang"/>
@@ -304,7 +304,7 @@
     </ant>
     
     <!-- All Maven projects need Ant and Xerces to build. -->
-    <depend project="jakarta-ant"/>
+    <depend project="jakarta-ant" inherit="runtime"/>
     <depend project="xml-xerces"/>
 
     <depend project="dom4j"/>

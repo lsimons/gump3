@@ -12,7 +12,7 @@
     <package>org.javagroups</package>
 
     <ant target="all"/>
-    <depend project="jakarta-ant"/>
+    <depend project="jakarta-ant" inherit="runtime"/>
     <depend project="xml-xerces"/>
     <depend project="junit"/>
     <depend project="jms"/>

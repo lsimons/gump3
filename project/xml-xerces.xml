@@ -22,7 +22,7 @@
 
   <project name="dist-xerces1">
     <ant basedir="java" target="pack-bin"/>
-    <depend project="jakarta-ant"/>
+    <depend project="jakarta-ant" inherit="runtime"/>
     <depend project="xml-xalan2"/>
     <depend project="xml-xerces1"/>
     <depend project="xml-stylebook2"/>

@@ -12,7 +12,7 @@
     <package>org.acm.seguin</package>
 
     <ant target="jar"/>
-    <depend project="jakarta-ant"/>
+    <depend project="jakarta-ant" inherit="runtime"/>
     <depend project="xml-xerces"/>
     <depend project="junit"/>
     <option project="jrefactory-pretty"><noclasspath/></option>
@@ -26,7 +26,7 @@
     <ant target="pretty">
       <property name="version" value="0.0.0"/>
     </ant>
-    <depend project="jakarta-ant"/>
+    <depend project="jakarta-ant" inherit="runtime"/>
     <depend project="xml-xerces"/>
     <depend project="junit"/>
     <work nested="ant.build/classes"/>

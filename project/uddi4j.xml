@@ -13,7 +13,7 @@
     <ant target="dist"/>
 
     <depend project="xml-xerces"/>
-    <depend project="jakarta-ant"/>
+    <depend project="jakarta-ant" inherit="runtime"/>
     <option project="xml-soap"/>
     <option project="xml-axis"/>
     <depend project="jsse"/>

@@ -17,7 +17,7 @@
       <depend name="cactus-23.jar" project="jakarta-cactus-framework-13"/>
       <depend name="junit.jar" project="junit"/>
     </ant>
-    <depend project="jakarta-ant"/>
+    <depend project="jakarta-ant" inherit="runtime"/>
     <depend project="xml-xerces"/>
     <depend project="jakarta-turbine-2"/>
     <depend project="castor"/>
