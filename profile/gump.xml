@@ -272,7 +272,7 @@
   <project name="jms"              package="jms1.0.2"/>
   <project name="jmx"              package="jmx-1_2-ri"/>
   <project name="jndi"             package="jndi1_2_1"/>
-  <project name="jsch"             package="jsch-0.1.3"/>
+  <project name="jsch"             package="jsch-0.1.4"/>
   <project name="jsse"             package="jsse1.0.3"/>
   <project name="jta"              package="jta-spec1_0_1"/>
   <!--project name="jts"              package="jts1_0"/-->
