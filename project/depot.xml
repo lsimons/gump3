@@ -85,6 +85,7 @@
         <depend project="jakarta-regexp"/>
         <depend project="commons-httpclient"/>
         <depend project="commons-vfs"/>
+        <depend project="xml-xerces"/>
 
         <jar name="jars/apache-depot-update-@@DATE@@.jar"/>
 

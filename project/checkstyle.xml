@@ -69,7 +69,6 @@
   <project name="checkstyle-test">
     <package>com.puppycrawl.tools.checkstyle</package>
   
-    <mkdir dir="target/checkstyle"/>
     <ant target="gump.setup run.tests">
       <property name="version" value="@@DATE@@"/>
     </ant>
@@ -80,6 +79,7 @@
     <depend project="junit"/>
     
     <work nested="target/checkstyle"/>
+    <work nested="target/tests"/>
 
 	<nag from="Conor MacNeill &lt;conor@apache.org&gt;"
          to="checkstyle-devel@sourceforge.net"/>
