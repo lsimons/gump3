@@ -491,7 +491,7 @@
         <work nested="fortress/bean/target/test-classes"/>
 
         <home nested="fortress/bean"/>
-        <jar name="target/excalibur-fortress-bean-@@DATE@@.jar"/>
+        <jar name="target/excalibur-fortress-tools-@@DATE@@.jar"/>
 
         <junitreport nested="fortress/bean/target/test-reports"/>
 
