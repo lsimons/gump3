@@ -293,8 +293,8 @@ class GumpEngine:
         for project in list:  
             if project.isPackaged(): continue
             
-            if project.okToPerformWork():     
-                self.performPreBuild( run, project )
+            # Do this even if not ok
+            self.performPreBuild( run, project )
 
             if project.okToPerformWork():        
                 log.debug(' ------ Building: ' + project.getName())
@@ -319,9 +319,8 @@ class GumpEngine:
                         # For now, things are going good...
                         project.changeState(STATE_SUCCESS)
                     
-            if project.okToPerformWork():                 
-                # Double check the outputs...
-                self.performPostBuild( run, project, repository )
+            # Do this even if not ok
+            self.performPostBuild( run, project, repository )
     
             if not project.okToPerformWork():
                 log.warn('Failed to build project [' + project.getName() + '], state:' \
@@ -393,6 +392,8 @@ class GumpEngine:
                
     def performPreBuild( self, run, project ):
         """ Perform pre-build Actions """
+       
+        log.debug(' ------ Performing pre-Build Actions (mkdir/delete) for : '+ project.getName())
         
         
         #
@@ -400,10 +401,7 @@ class GumpEngine:
         # NOTE --------------- NOT TURNED ON YET!!!!!!
         #
         #
-        if 0 and project.okToPerformWork():
-        
-            log.debug(' ------ Performing pre-Build Actions (mkdir/delete) for : '+ project.getName())
-            
+        if 0 and project.okToPerformWork():        
             # Deletes...
             dels=0
             for delete in project.xml.delete:
@@ -427,7 +425,7 @@ class GumpEngine:
                     log.error('PerformMkdir Failed', exc_info=1)    
                     project.changeState(STATE_FAILED,REASON_PREBUILD_FAILED)
                 
-                
+        # Maven requires a build.properties to be generated...
         if project.okToPerformWork() and project.hasMaven():
             try:
                 project.generateMavenProperties()
@@ -491,7 +489,7 @@ class GumpEngine:
                 project.changeState(STATE_SUCCESS)
          
         #   
-        # Display report output...
+        # Display report output, even if failed...
         #
         if project.hasReports():
             project.addInfo('Project produces reports')    
