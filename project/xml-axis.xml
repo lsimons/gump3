@@ -13,6 +13,7 @@
     <package>org.apache.axis</package>
 
     <ant basedir="java" target="all">
+      <property name="env.ANT_HOME" reference="home" project="jakarta-ant"/>
       <depend name="wsdl4j.jar" project="wsdl4j" id="wsdl4j"/>
       <depend name="log4j-core.jar" project="jakarta-log4j"/>
       <depend name="clutil.jar" project="excalibur-cli"/>
@@ -47,6 +48,7 @@
 
   <project name="xml-axis-security">
     <ant basedir="java" target="secure-tests">
+      <property name="env.ANT_HOME" reference="home" project="jakarta-ant"/>
       <depend name="wsdl4j.jar" project="wsdl4j" id="wsdl4j"/>
       <depend name="log4j-core.jar" project="jakarta-log4j"/>
       <depend name="clutil.jar" project="excalibur-cli"/>
