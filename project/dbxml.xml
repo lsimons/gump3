@@ -11,19 +11,12 @@
     <ant/>
     <depend project="jakarta-ant"/>
     <depend project="xml-xerces"/>
-    <depend project="jacorb"/>
     <depend project="xmldb"/>
     <depend project="juggernaut"/>
     <depend project="infozone"/>
     <depend project="xml-xalan2"/>
     <depend project="openorb"/>
     <jar name="java/lib/dbXML.jar"/>
-  </project>
-
-  <project name="jacorb">
-    <url href="http://jacorb.inf.fu-berlin.de/"/>
-    <home nested="java/lib"/>
-    <jar name="idl-1.3.30.jar"/>
   </project>
 
   <project name="xmldb">

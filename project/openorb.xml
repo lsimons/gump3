@@ -17,6 +17,7 @@
     <work nested="build/main"/>
     <home nested="dist"/>
     <jar name="openorb-gump.jar"/>
+    <jar name="openorb_tools-gump.jar"/>
   </project>
 
 </module>
