@@ -75,7 +75,7 @@ public class Project {
             } else if (child.getNodeName().equals("ant")) {
                 if (ant != null) {
                     // multiple ant children?  Merge them!
-                    Jenny.copyChildren(ant, (Element)child);
+                    Jenny.moveChildren(ant, (Element)child);
                     element.removeChild(ant);
                 }
                 ant = (Element)child;
@@ -130,7 +130,7 @@ public class Project {
                 Element property = document.createElement("property");
                 property.setAttribute("reference", "jarpath");
                 property.setAttribute("classpath", "add");
-                Jenny.copyChildren((Element)child, property);
+                Jenny.moveChildren((Element)child, property);
     
                 // change property attribute to name attribute
                 if (property.getAttributeNode("name")==null) {
@@ -321,12 +321,11 @@ public class Project {
                     if (dependsOn.get(name) == null) {
                         Element source = (Element) p.dependsOn.get(name);
                         String type = source.getNodeName();
-                        Element clone;
+                        Element clone = (Element) source.cloneNode(true);
                         if (inherit.equals("hard") && type.equals("option")) {
-                            clone = document.createElement("depend");
-                            Jenny.copyChildren(source, clone);
-                        } else {
-                            clone = (Element) source.cloneNode(true);
+                            Element renamed = document.createElement("depend");
+                            Jenny.moveChildren(clone, renamed);
+                            clone = renamed;
                         }
                         clone.setAttribute("inherited", "true");
                         dependsOn.put(name,clone);
@@ -340,20 +339,18 @@ public class Project {
                 String type = depend.getNodeName();
                 for (Enumeration d=p.dependsOn.keys(); d.hasMoreElements(); ) {
                     String name = (String) d.nextElement();
-                    if (dependsOn.get(name) == null) {
-                        Element source = (Element) p.dependsOn.get(name);
-                        if (source.getAttribute("runtime").equals("true")) {
-                            Element clone;
-                            if (type.equals("option")) {
-                                clone = document.createElement("option");
-                                Jenny.copyChildren(source, clone);
-                            } else {
-                                clone = (Element) source.cloneNode(true);
-                            }
-                            clone.setAttribute("inherited", "true");
-                            dependsOn.put(name,clone);
-                            element.appendChild(clone);
+                    if (dependsOn.get(name) != null) continue;
+                    Element source = (Element) p.dependsOn.get(name);
+                    if (source.getAttribute("runtime").equals("true")) {
+                        Element clone = (Element) source.cloneNode(true);
+                        if (type.equals("option")) {
+                            Element renamed = document.createElement("option");
+                            Jenny.moveChildren(clone, renamed);
+                            clone = renamed;
                         }
+                        clone.setAttribute("inherited", "true");
+                        dependsOn.put(name,clone);
+                        element.appendChild(clone);
                     }
                 }
             }

@@ -59,11 +59,11 @@ public class Jenny {
     }
 
     /**
-     * Copy child nodes (attributes, elements, text, etc).
-     * @param source element to copy from
+     * Move child nodes (attributes, elements, text, etc).
+     * @param source element to move from
      * @param target element to update
      */
-    protected static void copyChildren(Element source, Element target) {
+    protected static void moveChildren(Element source, Element target) {
        Node child=source.getFirstChild();
        while (child != null) {
            Node next=child.getNextSibling();
@@ -102,12 +102,12 @@ public class Jenny {
 
            Document doc = node.getOwnerDocument();
            Element copy=(Element)doc.importNode(sub.getFirstChild(), true);
-           copyChildren(node, copy);
+           moveChildren(node, copy);
 
            Element parent = (Element)node.getParentNode();
            if (node.getNodeName().equals("profile")) {
                copy.removeAttribute("defined-in");
-               copyChildren(copy, parent);
+               moveChildren(copy, parent);
            } else {
                parent.replaceChild(copy,node);
            }
@@ -148,7 +148,7 @@ public class Jenny {
                 if (!definedIn.equals(""))
                     element.setAttribute("defined-in",definedIn);
 
-                copyChildren(priorDefinition, element);
+                moveChildren(priorDefinition, element);
                 parent.removeChild(priorDefinition);
             }
             list.put(name, element);

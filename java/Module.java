@@ -178,7 +178,7 @@ public class Module {
             if (cvs == null)  {
                 cvs = (Element) child;
             } else {
-                Jenny.copyChildren((Element) child, cvs);
+                Jenny.moveChildren((Element) child, cvs);
             }
 
         }
