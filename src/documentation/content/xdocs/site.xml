@@ -60,8 +60,7 @@
 	    <repository href="metadata/repository.html" label="Repository"/>
     	    <module href="metadata/module.html" label="Module"/>
 	    <project href="metadata/project.html" label="Project"/>
-	    <ant href="metadata/ant.html" label="Ant"/>
-	    <maven href="metadata/maven.html" label="Maven"/>
+	    <builder href="metadata/builder.html" label="Builder"/>
 	    <goodpractices href="metadata/practices.html" label="Good Practices"/>
 	</om>
 
