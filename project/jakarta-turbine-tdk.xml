@@ -45,6 +45,7 @@
       <depend property="hsqldb.jar" project="hsqldb"/>
       <depend property="httpunit.jar" project="httpunit"/>
       <depend property="jstyle.jar" project="jstyle"/>
+      <depend property="importscrubber.jar" project="importscrubber"/>
 
       <depend property="bcel.jar" project="bcel"/>
       <depend property="digester.jar" project="commons-digester"/>
