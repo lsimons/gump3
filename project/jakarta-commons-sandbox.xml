@@ -249,6 +249,26 @@
          from="Ted Husted &lt;ted@husted.com&gt;"/>
   </project>
 
+  <project name="commons-jux">
+    <package>org.apache.commons.jux</package>
+    <description>JUX: JUnit Extensions</description>
+    <url href="http://jakarta.apache.org/commons/sandbox/jux/"/>
+    <mkdir dir="jux/target/classes"/>
+    <mkdir dir="jux/target/test-classes"/>
+    <ant basedir="jux" target="dist">
+      <property name="junit.home" reference="home" project="junit"/>
+    </ant>
+    <depend project="jakarta-ant" inherit="runtime"/>
+    <depend project="junit"/>
+    <work nested="jux/target/classes"/>
+    <work nested="jux/target/test-classes"/>
+    <home nested="jux/target/dist"/>
+    <jar name="commons-jux.jar"/>
+    <javadoc nested="jux/target/dist/docs/api"/>
+    <nag to="rwaldhoff@apache.org"
+         from="rwaldhoff@apache.org"/>
+  </project>
+
   <project name="commons-net">
     <mkdir dir="net/target/classes"/>
     <mkdir dir="net/target/test-classes"/>
