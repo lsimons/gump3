@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/Attic/conf.py,v 1.3 2003/05/05 10:22:19 nicolaken Exp $
-# $Revision: 1.3 $
-# $Date: 2003/05/05 10:22:19 $
+# $Header: /home/stefano/cvs/gump/python/gump/Attic/conf.py,v 1.4 2003/05/05 21:09:02 nicolaken Exp $
+# $Revision: 1.4 $
+# $Date: 2003/05/05 21:09:02 $
 #
 # ====================================================================
 #
@@ -81,7 +81,7 @@ class default:
     """Configuration of default settings"""
     
     workspace  = os.path.normpath('%s/%s.xml' % (dir.base, socket.gethostname().split('.')[0]))
-    globalws   = os.path.normpath('%s/%s' % (dir.base, 'profile/gump.xml'))
+    globalws   = os.path.normpath('%s/%s' % (dir.base, 'global-workspace.xml'))
     project    = "krysalis-ruper-test"
     merge      = os.path.normpath('%s/%s' % (dir.work, 'merge.xml'))
     date       = time.strftime('%Y%m%d')
