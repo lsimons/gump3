@@ -150,11 +150,12 @@ class GumpEnvironment(Annotatable,Workable,Propogatable):
             self.noForrest=1
             self.addWarning('"forrest" command not found, no xdoc output')
         
-        if not self.noTimeout and not self.checkExecutable('timeout','60 env',0): 
-            self.noTimeout=1
-            self.addWarning('"timeout" command not found, no in-line command time outs')
-        else:
-            setting.timeoutCommand=1
+        if not self.noTimeout:
+            if	not self.checkExecutable('timeout','60 env',0): 
+                self.noTimeout=1
+                self.addWarning('"timeout" command not found, no in-line command time outs')
+            else:
+                setting.timeoutCommand=1
             
         if not self.noRuper and \
             not self.checkExecutable('ruper','-version',0,0,'check_ruper'): 
