@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/model/server.py,v 1.7 2004/02/10 21:01:55 ajack Exp $
-# $Revision: 1.7 $
-# $Date: 2004/02/10 21:01:55 $
+# $Header: /home/stefano/cvs/gump/python/gump/model/server.py,v 1.8 2004/02/10 21:02:40 ajack Exp $
+# $Revision: 1.8 $
+# $Date: 2004/02/10 21:02:40 $
 #
 # ====================================================================
 #
@@ -65,7 +65,6 @@
 from gump.model.state import *
 from gump.model.stats import *
 
-from gump.document.resolver import Resolver
 
 from gump.model.object import NamedModelObject
 
@@ -82,6 +81,7 @@ class Server(NamedModelObject, Statable):
     
         if self.hasType() and self.getType() == 'python':
             if self.hasUrl():
+                from gump.document.resolver import Resolver    
                 self.resolver=Resolver('bogus', self.getUrl())
                      
     def check(self,workspace):
