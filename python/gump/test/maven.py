@@ -25,12 +25,12 @@ import types, StringIO
 
 from gump import log
 import gump.core.config
-from gump.model.state import *
-from gump.build.maven import MavenBuilder
+from gump.core.model.state import *
+from gump.core.build.maven import MavenBuilder
 
-import gump.language.java
+import gump.core.language.java
 
-from gump.utils import *
+from gump.util import *
 from gump.test import getWorkedTestRun
 from gump.test.pyunit import UnitTestSuite
 
@@ -57,7 +57,7 @@ class MavenTestSuite(UnitTestSuite):
         self.assertNotNone('Needed a maven project', self.maven1)
         
         self.mavenBuilder=MavenBuilder(self.run)
-        self.javaHelper=gump.language.java.JavaHelper(self.run)
+        self.javaHelper=gump.core.language.java.JavaHelper(self.run)
         
     def testMavenProperties(self):
                 

@@ -23,14 +23,14 @@ import logging
 
 from gump import log
 import gump.core.config
-from gump.run.gumprun import GumpRun
+from gump.core.run.gumprun import GumpRun
 from gump.test import getWorkedTestRun
 from gump.test.pyunit import UnitTestSuite
-from gump.model.state import *
-from gump.results.model import *
-from gump.results.resulter import generateResults,Resulter
-from gump.results.loader import WorkspaceResultLoader
-from gump.utils.smtp import *
+from gump.core.model.state import *
+from gump.actor.results.model import *
+from gump.actor.results.resulter import generateResults,Resulter
+from gump.actor.results.loader import WorkspaceResultLoader
+from gump.util.smtp import *
 
 class ResultingTestSuite(UnitTestSuite):
     def __init__(self):

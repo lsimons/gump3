@@ -25,8 +25,8 @@ import types, StringIO
 
 from gump import log
 import gump.core.config
-from gump.run.gumprun import GumpRun
-from gump.rdf.describer import RDFDescriber
+from gump.core.run.gumprun import GumpRun
+from gump.actor.rdf.describer import RDFDescriber
 from gump.test import getWorkedTestRun
 from gump.test.pyunit import UnitTestSuite
 

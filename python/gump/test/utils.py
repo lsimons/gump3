@@ -17,7 +17,7 @@
     Utility Testing
 """
 
-from gump.utils import *
+from gump.util import *
 from gump.test.pyunit import UnitTestSuite
 
 class TestBean:

@@ -40,7 +40,7 @@ import datetime
 
 from gump import log
 from gump.core.config import dir, default, setting, switch, basicConfig
-from gump.utils import initializeGarbageCollection
+from gump.util import initializeGarbageCollection
 
 ###############################################################################
 # Initialize

@@ -19,7 +19,7 @@
     
 """
 import time
-from gump.threads.tools import *
+from gump.util.threads.tools import *
 from gump.test.pyunit import UnitTestSuite
     
 class TestWork:
