@@ -24,7 +24,7 @@
     <work nested="out/jdk/classes"/>
 
     <home nested="out"/>
-    <jar name="mockobjects-@@DATE@@-core.jar"/>
+    <jar name="mockobjects-core-@@DATE@@.jar"/>
     <jar name="mockobjects-@@DATE@@-jdk1.4.jar"/>
     <jar name="alt-@@DATE@@-jdk1.4.jar"/>
 
