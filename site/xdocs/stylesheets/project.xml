@@ -17,14 +17,20 @@
       <item name="Usage"     
         href="/usage.html"/>
     </menu>
-  
-    <menu name="Get Involved">
-      <item name="Overview"              
-        href="/site/getinvolved.html"/>
-      <item name="Join Mailing lists"    
-        href="http://jakarta.apache.org/getinvolved/mail.html"/>
-      <item name="Search Mailing lists"  
-        href="http://marc.theaimsgroup.com/?l=alexandria-dev&amp;r=1&amp;w=2"/>
+
+    <menu name="Data Definitions">
+      <item name="overview"
+        href="/overview.html"/>
+      <item name="workspace"
+        href="/workspace.html"/>
+      <item name="profile"
+        href="/profile.html"/>
+      <item name="repository"
+        href="/repository.html"/>
+      <item name="module"
+        href="/module.html"/>
+      <item name="project"
+        href="/project.html"/>
     </menu>
 
     <menu name="Cross reference">
@@ -37,6 +43,15 @@
       <item name="jars by module"  
         href="http://jakarta.apache.org/builds/gump/latest/cvsjars.html"/>
     </menu>
-  
+
+    <menu name="Get Involved">
+      <item name="Overview"              
+        href="/site/getinvolved.html"/>
+      <item name="Join Mailing lists"    
+        href="http://jakarta.apache.org/getinvolved/mail.html"/>
+      <item name="Search Mailing lists"  
+        href="http://marc.theaimsgroup.com/?l=alexandria-dev&amp;r=1&amp;w=2"/>
+    </menu>
+
   </body>
 </project>
