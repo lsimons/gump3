@@ -17,6 +17,7 @@
     <depend project="xml-apis"/>
     <depend project="jakarta-servletapi-5-servlet"/>
     <work nested="lib/normalizer.jar"/>
+    <jar name="build/xom-@@DATE@@.jar"/>
   </project>
 
 </module>
