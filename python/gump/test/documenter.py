@@ -22,7 +22,7 @@ import types, StringIO
 
 from gump import log
 import gump.core.config
-from gump.core.gumprun import GumpRun
+from gump.run.gumprun import GumpRun
 from gump.document.documenter import Documenter
 from gump.document.text.documenter import TextDocumenter
 from gump.document.xdocs.documenter import XDocDocumenter

@@ -35,6 +35,7 @@ from gump.utils.file import *
 from gump.model.depend import *
 from gump.model.cp import *
 from gump.utils.note import transferAnnotations, Annotatable
+import gump.process.command
 from gump.utils.domutils import *
 
 
@@ -76,6 +77,10 @@ class Project(NamedModelObject, Statable, Resultable, Dependable, Positioned):
         self.url=None
         self.desc=''
         
+        self.distributable=False
+        self.packageMarker=None
+        self.jvmargs=gump.process.command.Parameters()
+        
     	#############################################################
     	# Outputs
     	#
@@ -84,9 +89,8 @@ class Project(NamedModelObject, Statable, Resultable, Dependable, Positioned):
     	#############################################################
     	# Misc
     	#        
-        self.honoraryPackage=0
-        
-        self.built=0
+        self.honoraryPackage=False        
+        self.built=False
         
     def __del__(self):
         NamedModelObject.__del__(self)
@@ -190,10 +194,7 @@ class Project(NamedModelObject, Statable, Resultable, Dependable, Positioned):
         return self.jars.values()[index]
                 
     def isRedistributable(self):
-        # Existence means 'true'
-        if self.hasDomAttribute('redistributable'): return True
-        if self.module: return self.module.isRedistributable()
-        return False
+        return self.redistributable or (self.module and self.module.isRedistributable())
         
     def wasBuilt(self):
         """ Was a build attempt made? """
@@ -254,16 +255,17 @@ class Project(NamedModelObject, Statable, Resultable, Dependable, Positioned):
         return self.isPackageMarked() or self.honoraryPackage
     
     def isPackageMarked(self):
-        return self.hasDomAttribute('package')
+        if self.packageMarker: return True
+        return False        
         
-    def getPackageMarker(self):        
-        return self.getDomAttributeValue('package')
+    def getPackageMarker(self):   
+        return self.packageMarker
                   
-    def setHonoraryPackage(self,honorary):
+    def setHonoraryPackage(self,honorary=True):
         self.honoraryPackage=honorary
     
     def isGumped(self):
-        return (not self.isPackaged()) and self.hasBuildCommand()
+        return (not self.isPackaged()) and self.hasBuilder()
         
     # provide elements when not defined in xml
     def complete(self,workspace): 
@@ -279,9 +281,11 @@ class Project(NamedModelObject, Statable, Resultable, Dependable, Positioned):
         # Import overrides from DOM
         transferDomInfo(self.element, self, {})        
     
-        #
+        # Somebody overrode this as a package
+        if self.hasDomAttribute('package'):
+            self.packageMarker=self.getDomAttributeValue('package')
+        
         # Packaged Projects don't need the full treatment..
-        #
         packaged=self.isPackaged()
 
         # Import any <ant part [if not packaged]
@@ -462,6 +466,12 @@ class Project(NamedModelObject, Statable, Resultable, Dependable, Positioned):
             
         if self.hasDomChild('description'):
             self.desc=self.getDomChildValue('description')   
+    
+        for jvmarg in self.getDomChildIterator('jvmarg'):
+            if hasDomAttribute(jvmarg,'value'):                
+                self.jvmargs.addParameter(getDomAttributeValue(jvmarg,'value'))
+            else:
+                log.error('Bogus JVM Argument w/ Value')            
             
         #
         # complete properties
@@ -499,6 +509,12 @@ class Project(NamedModelObject, Statable, Resultable, Dependable, Positioned):
         
         #if not self.home:
         #    raise RuntimeError, 'A home directory is needed on ' + `self`
+        
+        # Existence means 'true'
+        self.redistributable=self.hasDomChild('redistributable')       
+                  
+        # Close down the DOM...
+        self.shutdownDom()       
         
         # Done, don't redo
         self.setComplete(True)
@@ -565,14 +581,19 @@ class Project(NamedModelObject, Statable, Resultable, Dependable, Positioned):
     def getWorkspace(self):
         return self.workspace
         
-    def hasBuildCommand(self):
+    def hasBuilder(self):
+        """
+        Does this project have a builder?
+        """
         hasBuild=0
         # I.e has an <ant or <script element
         if self.ant or self.script or self.maven: hasBuild=1    
         return hasBuild      
         
     def dump(self, indent=0, output=sys.stdout):
-        """ Display the contents of this object """
+        """ 
+        Display the contents of this object 
+        """
         i=getIndent(indent)
         i1=getIndent(indent+1)
         output.write(i+'Project: ' + self.getName() + '\n')
@@ -596,26 +617,28 @@ class Project(NamedModelObject, Statable, Resultable, Dependable, Positioned):
         for jar in self.getJars():
             jar.dump(indent+1,output)
             
-    #
-    # Return a list of the outputs this project generates
-    #    
     def getAnnotatedOutputsList(self): 
+        """
+        Return a list of the outputs this project generates
+        """
         outputs=[]
         for jar in self.getJars():
             jarpath=jar.getPath()
             outputs.append(AnnotatedPath(jar.getId(),jarpath,self,None,"Project output"))                    
         return outputs
-                 
-    #
-    # Does this project generate outputs (currently JARs)
-    #                  
+                        
     def hasOutputs(self):
+        """
+        Does this project generate outputs (currently JARs)
+        """
         return self.hasJars() or self.hasLicense()
     
-    #
-    # Return a (classpath, bootclaspath) tuple for this project
-    #
     def getClasspaths(self,debug=0):
+        """
+        Classpaths
+        
+        Return a (classpath, bootclaspath) tuple for this project
+        """
         #
         # Calculate classpath and bootclasspath
         #
@@ -627,7 +650,7 @@ class Project(NamedModelObject, Statable, Resultable, Dependable, Positioned):
         return ( classpath.getFlattened(), bootclasspath.getFlattened() )
 
     #
-    # Maybe this is dodgy (it is inefficient) but we need some
+    # :TODO: Maybe this is dodgy (it is inefficient) but we need some
     # way to get the sun tools for a javac compiler for ant and
     # I don't know a more portable way.
     #
@@ -643,11 +666,12 @@ class Project(NamedModelObject, Statable, Resultable, Dependable, Positioned):
         sysClasspath.importFlattenedParts(syscp)        
         return sysClasspath
 
-    #
-    # Return a tuple of (CLASSPATH, BOOTCLASSPATH) for a project
-    #
     def getClasspathObjects(self,debug=0):
-        """Get a TOTAL classpath for a project (including its dependencies)"""
+        """
+        Get a TOTAL classpath for a project (including its dependencies)
+        
+    	A tuple of (CLASSPATH, BOOTCLASSPATH) for a project
+    	"""
 
         #
         # Do this once only... storing it on the context. Not as nice as 
@@ -709,17 +733,17 @@ class Project(NamedModelObject, Statable, Resultable, Dependable, Positioned):
   
         return (self.resolvedClasspath ,self.resolvedBootclasspath)
 
-    #
-    # Perform this 'dependency' (mandatory or optional)
-    #
-    # 1) Bring in the JARs (or those specified by id in depend ids)
-    # 2) Do NOT bring in the working entities (directories/jars)
-    # 3) Bring in the sub-depends (or optional) if inherit='all' or 'hard'
-    # 4) Bring in the runtime sub-depends if inherit='runtime'
-    # 5) Also: *** Bring in any depenencies that the dependency inherits ***
-    #
     def getDependOutputList(self,dependency,visited,depth=0,debug=0):      
-        """Get a classpath of outputs for a project (including its dependencies)"""            
+        """
+        
+       		Perform this 'dependency' (mandatory or optional)
+    		1) Bring in the JARs (or those specified by id in depend ids)
+    		2) Do NOT bring in the working entities (directories/jars)
+    		3) Bring in the sub-depends (or optional) if inherit='all' or 'hard'
+    		4) Bring in the runtime sub-depends if inherit='runtime'
+    		5) Also: *** Bring in any depenencies that the dependency inherits ***
+    		
+       	"""            
    
         # Skip ones that aren't here to affect the classpath
         if dependency.isNoClasspath():  
@@ -774,10 +798,8 @@ class Project(NamedModelObject, Statable, Resultable, Dependable, Positioned):
             if dependStr: dependStr += ', '
             dependStr += 'Runtime'
   
-        #
         # Append JARS for this project
         #	(respect ids)
-        #
         projectIds=[]
         for jar in project.getJars():
             # Store for double checking
@@ -797,9 +819,7 @@ class Project(NamedModelObject, Statable, Resultable, Dependable, Positioned):
                     if debug:   print str(depth) + ') Append *BOOTCLASSPATH* JAR : ' + str(path)
                     bootclasspath.addPathPart(path)    
 
-        #
         # Double check IDs (to reduce stale ids in metadata)
-        #
         if ids:
             for id in ids:
                 if not id in projectIds:
@@ -824,12 +844,11 @@ class Project(NamedModelObject, Statable, Resultable, Dependable, Positioned):
 
         return (classpath, bootclasspath)
     
-
-    #
-    # Import cp and bcp into classpath and bootclasspath,
-    # but do not accept duplicates. Report duplicates.
-    #
     def importClasspaths(self,classpath,bootclasspath,cp,bcp):
+        """    
+        Import cp and bcp into classpath and bootclasspath,
+    	but do not accept duplicates. Report duplicates.
+        """
         if cp:
             classpath.importClasspath(cp)                
         if bcp:

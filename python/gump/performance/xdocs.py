@@ -26,7 +26,7 @@ from gump.core.gumpinit import gumpinit
 from gump.test import getWorkedTestRun
 from gump.document.xdocs.documenter import XDocDocumenter
 from gump.core.commandLine import handleArgv
-from gump.core.gumprun import GumpRun
+from gump.run.gumprun import GumpRun
 from gump.loader.loader import WorkspaceLoader
 
 def document(run,runs=1):

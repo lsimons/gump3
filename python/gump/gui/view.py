@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/gui/view.py,v 1.13 2004/07/14 15:47:59 ajack Exp $
-# $Revision: 1.13 $
-# $Date: 2004/07/14 15:47:59 $
+# $Header: /home/stefano/cvs/gump/python/gump/gui/view.py,v 1.14 2004/07/19 16:07:57 ajack Exp $
+# $Revision: 1.14 $
+# $Date: 2004/07/19 16:07:57 $
 #
 # ====================================================================
 #
@@ -82,7 +82,7 @@ from gump.model.project import Project
 from gump.model.workspace import Workspace
 from gump.loader.loader import WorkspaceLoader
 from gump.core.runner import GumpRunner
-from gump.core.gumpset import GumpSet
+from gump.run.gumpset import GumpSet
 
 ###############################################################################
 # Initialize

@@ -27,7 +27,7 @@ from gump.test import getWorkedTestRun
 from gump.guru.stats import StatisticsGuru
 from gump.guru.xref import XRefGuru
 from gump.core.commandLine import handleArgv
-from gump.core.gumprun import GumpRun
+from gump.run.gumprun import GumpRun
 from gump.loader.loader import WorkspaceLoader
 
 def gurus(run,runs=1):

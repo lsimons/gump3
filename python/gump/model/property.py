@@ -144,8 +144,7 @@ class PropertySet(Ownable):
         
         # Any starting properties..
         if properties:
-            self.properties=properties
-            
+            self.properties=properties            
     	
     def __del__(self):
         Ownable.__del__(self)

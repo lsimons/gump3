@@ -92,6 +92,9 @@ class Annotatable:
     def containsNasties(self):
         return self.containsOrAbove(LEVEL_WARNING)
         
+    def containsRealNasties(self):
+        return self.containsOrAbove(LEVEL_ERROR)
+        
     def containsOrAbove(self,level):
         for note in self.annotations:
             if note.level >= level:

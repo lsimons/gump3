@@ -19,6 +19,13 @@
 
  A gump run (not 'run gump')
  
+ This is the root container for information for a run.
+ 
+ It contains the gumpset (the list of projects/modules to work upon)
+ It contains the workspace (metadata)
+ It contains the tree of context (run information upon metadata items)
+  
+ 
 """
 
 import os.path
@@ -28,10 +35,10 @@ import fnmatch
 
 from gump import log
 from gump.core.config import dir, default, basicConfig
-from gump.core.gumpenv import GumpEnvironment
+from gump.run.gumpenv import GumpEnvironment
 
-import gump.core.gumpset
-import gump.core.options
+import gump.run.gumpset
+import gump.run.options
 
 import gump.utils
 import gump.utils.work
@@ -51,104 +58,11 @@ from gump.model.state import *
 # Classes
 ###############################################################################
 
-class RunSpecific:
-    """
-        A class that is it specific to an instance of a run.
-        
-        A run is so central to Gump that it is like a thread,
-        the basis for everything, so many things are specific
-        to a single run (for conveinience).
-        
-    """
-    def __init__(self, run):
-        self.run	=	run
-        
-    def getRun(self):
-        return self.run
 
-
-class RunEvent(RunSpecific):
-    """
-        An event to actors (e.g. a project built, a module updated)
-    """
-            
-    def __init__(self, run):
-        RunSpecific.__init__(self,run)
-        
-    def __repr__(self):
-        return self.__class__.__name__
-        
-class InitializeRunEvent(RunEvent): 
-    """
-    	The run is starting...
-    """
-    pass
-    
-class FinalizeRunEvent(RunEvent): 
-    """
-        The run is completed...
-    """
-    pass
-        
-class EntityRunEvent(RunEvent):
-    """
-    
-        An event to actors (e.g. a project built, a module updated)
-        
-    """
-            
-    def __init__(self, run, entity, realtime=0):
-        RunEvent.__init__(self,run)
-        
-        self.entity=entity
-        self.realtime=realtime
-            
-    def __repr__(self):
-        return self.__class__.__name__ + ':' + `self.entity`
-        
-    def getEntity(self):
-        return self.entity 
-        
-    def isRealtime(self):
-        return self.realtime    
-        
-                
-class RunRequest(RunEvent):
-    """
-    
-    	A request for some work (not used yet)
-
-    """            
-    def __init__(self, run, type):
-        RunEvent.__init__(self,run)
-        self.type=type
-        self.satisfied=False
-        
-    def getType(self):
-        return self.type
-        
-    def isSatisfied(self):
-        return self.satisfied  
-        
-class EntityRunRequest(RunEvent):
-    """
-    
-		An request regarding a known entity (e.g. Workspace/Module/Project).
-		(not used yet)
-		
-    """
-    def __init__(self, run, type, entity):
-        RunEvent.__init__(self, run, type)
-        
-        self.entity=entity
-        
-    def __repr__(self):
-        return self.__class__.__name__ + ':' + `self.entity`
-        
-    def getEntity(self):
-        return self.entity 
-                
 class GumpRun(gump.utils.work.Workable,gump.utils.note.Annotatable,Stateful):
+    """
+    The container for all information for this run
+    """
     def __init__(self,workspace,expr=None,options=None,env=None):
         
         gump.utils.work.Workable.__init__(self)
@@ -159,13 +73,13 @@ class GumpRun(gump.utils.work.Workable,gump.utils.note.Annotatable,Stateful):
         self.workspace=workspace
         
         # The set of modules/projects/repos in use
-        self.gumpSet=gump.core.gumpset.GumpSet(self.workspace,expr)
+        self.gumpSet=gump.run.gumpset.GumpSet(self.workspace,expr)
         
         # The run options
         if options:
             self.options=options
         else:
-            self.options=gump.core.options.GumpRunOptions()
+            self.options=gump.run.options.GumpRunOptions()
         
         # The environment
         if env:
@@ -256,3 +170,100 @@ class GumpRun(gump.utils.work.Workable,gump.utils.note.Annotatable,Stateful):
     		Fire off a typed request.
     	"""
         self._dispatchRequest(RunRequest(self, type))
+        
+class RunSpecific:
+    """
+        A class that is it specific to an instance of a run.
+        
+        A run is so central to Gump that it is like a thread,
+        the basis for everything, so many things are specific
+        to a single run (for conveinience).
+        
+    """
+    def __init__(self, run):
+        self.run    =    run
+        
+    def getRun(self):
+        return self.run
+
+class RunEvent(RunSpecific):
+    """
+        An event to actors (e.g. a project built, a module updated)
+    """
+            
+    def __init__(self, run):
+        RunSpecific.__init__(self,run)
+        
+    def __repr__(self):
+        return self.__class__.__name__
+        
+class InitializeRunEvent(RunEvent): 
+    """
+        The run is starting...
+    """
+    pass
+    
+class FinalizeRunEvent(RunEvent): 
+    """
+        The run is completed...
+    """
+    pass
+        
+class EntityRunEvent(RunEvent):
+    """
+    
+        An event to actors (e.g. a project built, a module updated)
+        
+    """
+            
+    def __init__(self, run, entity, realtime=0):
+        RunEvent.__init__(self,run)
+        
+        self.entity=entity
+        self.realtime=realtime
+            
+    def __repr__(self):
+        return self.__class__.__name__ + ':' + `self.entity`
+        
+    def getEntity(self):
+        return self.entity 
+        
+    def isRealtime(self):
+        return self.realtime    
+        
+                
+class RunRequest(RunEvent):
+    """
+    
+        A request for some work (not used yet)
+
+    """            
+    def __init__(self, run, type):
+        RunEvent.__init__(self,run)
+        self.type=type
+        self.satisfied=False
+        
+    def getType(self):
+        return self.type
+        
+    def isSatisfied(self):
+        return self.satisfied  
+        
+class EntityRunRequest(RunEvent):
+    """
+    
+        An request regarding a known entity (e.g. Workspace/Module/Project).
+        (not used yet)
+        
+    """
+    def __init__(self, run, type, entity):
+        RunEvent.__init__(self, run, type)
+        
+        self.entity=entity
+        
+    def __repr__(self):
+        return self.__class__.__name__ + ':' + `self.entity`
+        
+    def getEntity(self):
+        return self.entity 
+                 

@@ -15,12 +15,12 @@
 # limitations under the License.
 
 #
-# $Header: /home/stefano/cvs/gump/python/gump/__init__.py,v 1.24 2004/05/21 23:14:59 ajack Exp $
+# $Header: /home/stefano/cvs/gump/python/gump/__init__.py,v 1.25 2004/07/19 16:07:53 ajack Exp $
 # 
 
 """
 
-  Gump Basic Init.
+  Gump Basic Interfaces
   
 """
 
@@ -38,4 +38,4 @@ log.setLevel(logging.INFO) # logging.DEBUG
 
 
 # tell Python what modules make up the gump package
-__all__ = ["build","check","debug","env","integrate","preview","update"]
+__all__ = ["build","check","redo","env","integrate","preview","update"]

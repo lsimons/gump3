@@ -33,7 +33,7 @@ from gump.utils import *
 from gump.utils.work import *
 from gump.utils.file import *
 
-from gump.core.gumpenv import GumpEnvironment
+from gump.run.gumpenv import GumpEnvironment
 
 from gump.model.repository import Repository
 from gump.model.server import Server

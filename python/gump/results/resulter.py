@@ -31,7 +31,7 @@ from string import lower, capitalize
 
 from gump import log
 
-from gump.core.actor import *
+from gump.run.actor import *
 
 from gump.model.object import NamedModelObject
 from gump.model.workspace import *

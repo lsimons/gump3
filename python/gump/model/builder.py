@@ -168,12 +168,11 @@ class Builder(ModelObject, PropertyContainer):
             project.addDependency(dependency)
         else:
             project.addError('No such project [' + projectName + '] for property.')
-        
-    #
-    # complete the definition - it is safe to reference other projects
-    # at this point
-    #
+     
     def complete(self,project,workspace):
+        """
+        Complete the model from XML
+        """
         if self.isComplete(): return
         
         # Import the properties..

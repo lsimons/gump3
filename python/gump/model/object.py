@@ -77,21 +77,26 @@ class ModelObject(Annotatable,Workable,FileHolder,Propogatable,Ownable):
         
         # No longer need this...
         self.dom=None
-        
-    def shutdown(self):
+       
+    def shutdownDom(self): 
+        """       
+            Shut this object's DOM down, to conserve memory after it is 'done with'.           
         """
-        
-        	Shut this object down to the bare minimim,
-        	to conserve memory after it is 'done with'.
-        	
-        """
-        if self.dom:
-            self.dom.unlink()
+        if self.dom:            
             if self.element:
                 if not self.element is self.dom:
                     self.element.unlink()
                 self.element=None
+                
+            self.dom.unlink()
             self.dom=None
+            
+    def shutdown(self):
+        """       
+        	Shut this object down to the bare minimim,
+        	to conserve memory after it is 'done with'.       	
+        """
+     
             
         self.shutdownWork() 
     
@@ -107,17 +112,17 @@ class ModelObject(Annotatable,Workable,FileHolder,Propogatable,Ownable):
     def setComplete(self,complete=True):
         self.completionPerformed=complete
        
-    def setDebug(self,debug):
+    def setDebug(self,debug=True):
         self.debug=debug
        
     def isDebug(self):
-        return self.debug or self.hasDomAttribute('debug')
+        return self.debug
         
-    def setVerbose(self,verbose):
+    def setVerbose(self,verbose=True):
         self.verbose=verbose
        
     def isVerbose(self):
-        return self.verbose or self.hasDomAttribute('verbose')
+        return self.verbose
          
     def isVerboseOrDebug(self):
         return self.isVerbose() or self.isDebug()
@@ -266,7 +271,7 @@ class ModelObject(Annotatable,Workable,FileHolder,Propogatable,Ownable):
         
         # Done, don't redo
         self.setComplete(True)    
-              
+        
 class NamedModelObject(ModelObject):
     """Context for a single entity"""
     def __init__(self,name,dom,owner=None):

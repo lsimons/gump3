@@ -23,19 +23,19 @@ import os
 
 from gump import log
 
-import gump.core.gumprun
-import gump.core.actor
+import gump.run.gumprun
+import gump.run.actor
 
 import gump.utils.file
 from gump.utils.tools import listDirectoryToFileHolder
 
 
-class RepositoryPublisher(gump.core.actor.AbstractRunActor):
+class RepositoryPublisher(gump.run.actor.AbstractRunActor):
     def __init__(self,run):
         """
             Publish Jars to a Repository
         """
-        gump.core.actor.AbstractRunActor.__init__(self,run)
+        gump.run.actor.AbstractRunActor.__init__(self,run)
         
         self.repository=run.getOutputsRepository()
         

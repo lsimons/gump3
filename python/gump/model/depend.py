@@ -346,7 +346,7 @@ class Dependable:
         
     def getFullDependencyCount(self):
         self.getFullDependencies()
-        return self.fullDependencies.getUniqueProjectDependCount()
+        return self.fullDependencies.getUniqueProjectDependCount()       
         
     def getFullDependencyProjectList(self):
         self.getFullDependencies()

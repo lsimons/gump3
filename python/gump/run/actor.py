@@ -35,8 +35,8 @@ from fnmatch import fnmatch
 
 from gump import log
 from gump.core.config import dir, default, basicConfig
-from gump.core.gumpenv import GumpEnvironment
-from gump.core.gumprun import *
+from gump.run.gumpenv import GumpEnvironment
+from gump.run.gumprun import *
 
 
 from gump.utils.work import *

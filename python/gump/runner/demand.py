@@ -17,13 +17,17 @@
 
 """
 
+	The OnDemand runner performs a run, but does work on
+	modules as the needs of projects demands it.
+
+
 """
 
 import os.path
 import sys
 
 from gump import log
-from gump.core.gumprun import *
+from gump.run.gumprun import *
 from gump.runner.runner import *
 from gump.core.config import dir, default, basicConfig
 
@@ -68,8 +72,13 @@ class OnDemandRunner(GumpRunner):
 
     ###########################################
     def spawnUpdateThreads(self, updaters=1):
+        """
+        Fork off a bunch of threads.
+        """
         
         self.workList=ThreadWorkList('Updates')
+        
+        # Add work for each module (in order)
         for module in self.run.gumpSet.getModuleSequence():
             self.workList.addWork(UpdateWork(self,module))    
             
@@ -78,11 +87,16 @@ class OnDemandRunner(GumpRunner):
         self.group.start()
         
     def waitForThreads(self):
+        """
+        Wait for all workers to complete.
+        """
         self.group.waitForAll()
         
     def performUpdate(self,module):
         """
+        
         	Perform a module update (locking whilst doing it)	
+        	
         """
         
         # Lock the module, while we work on it...
@@ -99,7 +113,7 @@ class OnDemandRunner(GumpRunner):
                 # Fire event
                 self.run.generateEvent(module)
         
-                # Mark done in set
+                # Mark as done in set
                 self.run.gumpSet.setCompletedModule(module)
                 
                 # Mark Updated
@@ -124,10 +138,23 @@ class OnDemandRunner(GumpRunner):
     ###########################################
 
     def performRun(self):
+        """
         
+        	Perform a run, building projects (and updating modules)
+        	as needed.
+        	
+        	Basically walk the the project list (or full sequence)
+        	and for all modules that need updating, update them,
+        	then proceed to build the project.
+        	
+        	Fire events (1) before everything (2) for each entity
+        	[module or project] and (3) after everything.
+        	
+        """
+        # Initialize to run
         self.initialize(True)
         
-        printTopRefs(100,'Before Loop')
+        # printTopRefs(100,'Before Loop')
         
         # The key information
         gumpSet=self.run.getGumpSet()
@@ -149,16 +176,25 @@ class OnDemandRunner(GumpRunner):
             # The full build sequence
             sequence=gumpSet.getProjectSequence()
         
-        # In order...
+        # Number of modules not updated by a
+        # background thread.
+        inlined=0
+        
+        # In project order...
         for project in sequence:
 
             # Process the module, upon demand
             module=project.getModule()
+            
+            # If we want to be updating...
             if gumpOptions.isUpdate():
+                # W/ multiple project in one module, it may be done
                 if not module.isUpdated():
                     log.debug('Update module *inlined* ' + `module` + '.')     
+                    inlined+=1
                     self.performUpdate(module)
 
+            # If we want to be building...
             if gumpOptions.isBuild():
                 # Process the project
                 self.performBuild(project)
@@ -170,13 +206,15 @@ class OnDemandRunner(GumpRunner):
             #invokeGarbageCollection(self.__class__.__name__)
             #printTopRefs(100,'After GC')
         
-        # Kinda pointless given above
+        # Kinda pointless given the above logic,
+        # but a belt/braces to ensure all done.
         if workspace.isMultithreading() and workspace.hasUpdaters():    
             self.waitForThreads()
         
+        # Done...
         self.finalize()    
         
-        printTopRefs(100,'Done')
+        # printTopRefs(100,'Done')
                 
         # Return an exit code based off success
         # :TODO: Move onto run
@@ -184,4 +222,5 @@ class OnDemandRunner(GumpRunner):
             result = EXIT_CODE_SUCCESS 
         else: 
             result = EXIT_CODE_FAILED
+            
         return result  

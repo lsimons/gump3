@@ -17,7 +17,7 @@
 
 """
 
- A gump environment (i.e. what tools are available in this machines
+ A gump environment (i.e. what tools are available in this machine's
  environment, and so forth).
  
 """
@@ -80,7 +80,6 @@ class GumpEnvironment(Annotatable,Workable,Propogatable):
         self.noClasspath=False
         self.noJava=False
         self.noJavac=False
-        self.noPGrep=False
         
         self.javaProperties=None
     
@@ -182,11 +181,7 @@ class GumpEnvironment(Annotatable,Workable,Propogatable):
             not self._checkExecutable('maven','--version',False,False,'check_maven'): 
             self.noMaven=True
             self.addWarning('"maven" command not found, no Maven builds')
-        
-        if not self.noPGrep and not self._checkExecutable('pgrep','-help',False): 
-            self.noPGrep=True
-            self.addWarning('"pgrep" command not found, no process clean-ups can occur')        
-    
+       
         self.checked=True
         
         self.changeState(STATE_SUCCESS)

@@ -23,7 +23,7 @@ import types, StringIO
 
 from gump import log
 import gump.core.config
-from gump.core.gumprun import GumpRun
+from gump.run.gumprun import GumpRun
 from gump.stats.statistician import Statistician
 
 from gump.test import getWorkedTestRun

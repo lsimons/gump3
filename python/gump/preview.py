@@ -15,7 +15,7 @@
 # limitations under the License.
 
 #
-# $Header: /home/stefano/cvs/gump/python/gump/preview.py,v 1.7 2004/07/14 15:47:57 ajack Exp $
+# $Header: /home/stefano/cvs/gump/python/gump/preview.py,v 1.8 2004/07/19 16:07:53 ajack Exp $
 # 
 
 """
@@ -32,9 +32,9 @@ import logging
 
 from gump import log
 from gump.core.gumpinit import gumpinit
-from gump.core.gumprun import GumpRun
-from gump.core.gumpset import GumpSet
-from gump.core.options import GumpRunOptions
+from gump.run.gumprun import GumpRun
+from gump.run.gumpset import GumpSet
+from gump.run.options import GumpRunOptions
 from gump.core.commandLine import handleArgv
 from gump.loader.loader import WorkspaceLoader
 
@@ -95,7 +95,7 @@ def prun():
             if debug:
                 print project.getXml()
             project.dump()
-            if project.hasBuildCommand():
+            if project.hasBuilder():
                 builder.preview(project)
     
     # Show any nasties...

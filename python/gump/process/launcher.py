@@ -75,6 +75,10 @@ def executeIntoResult(cmd,result,tmp=dir.tmp):
             if cmd.cwd:
                 f.write( 'CWD: %s\n' % (cmd.cwd))
                      
+            # Write the TIMEOUT
+            if cmd.timeout:
+                f.write( 'TIMEOUT: %s\n' % (cmd.timeout))    
+                
             # Write ENV over-writes...
             for envKey in cmd.env.iterkeys():
                 f.write('%s: %s\n' % (envKey, cmd.env[envKey]))    
@@ -149,8 +153,19 @@ def executeIntoResult(cmd,result,tmp=dir.tmp):
       result.end_time=end_time 
 	  
     return result
-        
     
+def killChildProcesses():
+    """
+    Kill this (and all child processes).
+    """
+    gumpid=default.gumpid
+    log.warn('Kill all child processed (anything launched by PID' + str(gumpid) + ')')    
+    try:
+        os.kill(gumpid,signal.SIGKILL)
+        gumpid
+    except Exception, details:
+        log.error('Failed to dispatch signal ' + str(details), exc_info=1)
+           
 if __name__=='__main__':
     import re
     
@@ -171,6 +186,8 @@ if __name__=='__main__':
         cwd=None
         if execInfo.has_key('CWD'):cwd=execInfo['CWD']
         tmp=execInfo['TMP']
+        timeout=None
+        if execInfo.has_key('TIMEOUT'):timeout=execInfo['TIMEOUT']
        
         # Make the TMP if needed
         if not os.path.exists(tmp): os.makedirs(tmp)
@@ -185,8 +202,20 @@ if __name__=='__main__':
         for envKey in execInfo.iterkeys():
             if not envKey in ['CMD','TMP','CWD']:
                 os.environ[envKey]=execInfo[envKey]
-                
+               
+        # Timeout support
+        timer=None
+        if timeout:
+            import thread
+            timer = thread.Timer(timeout, killChildProcesses)
+            timer.setDaemon(1)
+            timer.start()
+            
+        # Run the command
         systemReturn=os.system(cmd)
+                  
+        # Stop timer (if still running)
+        if timer: timer.cancel() 
         
         if not os.name == 'dos' and not os.name == 'nt':
             waitcode=systemReturn

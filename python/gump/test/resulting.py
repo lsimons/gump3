@@ -23,7 +23,7 @@ import logging
 
 from gump import log
 import gump.core.config
-from gump.core.gumprun import GumpRun
+from gump.run.gumprun import GumpRun
 from gump.test import getWorkedTestRun
 from gump.test.pyunit import UnitTestSuite
 from gump.model.state import *

@@ -29,8 +29,8 @@ from string import lower, capitalize
 
 from gump import log
 from gump.core.config import *
-from gump.core.gumprun import *
-from gump.core.actor import AbstractRunActor
+from gump.run.gumprun import *
+from gump.run.actor import AbstractRunActor
 from gump.model.project import *
 from gump.model.module import *
 from gump.model.state import *

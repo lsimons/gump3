@@ -25,7 +25,7 @@ import types, StringIO
 
 from gump import log
 import gump.core.config
-from gump.core.gumprun import GumpRun
+from gump.run.gumprun import GumpRun
 from gump.syndication.rss import RSSSyndicator
 from gump.syndication.atom import AtomSyndicator
 from gump.test import getWorkedTestRun

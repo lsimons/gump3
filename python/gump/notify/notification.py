@@ -31,8 +31,8 @@ from string import lower, upper, capitalize
 
 from gump import log
 from gump.core.config import *
-from gump.core.gumprun import *
-from gump.core.actor import AbstractRunActor
+from gump.run.gumprun import *
+from gump.run.actor import AbstractRunActor
 from gump.model.project import *
 from gump.model.module import *
 from gump.model.state import *
@@ -44,14 +44,18 @@ from gump.utils.note import *
 LINE     ='--   --   --   --   --   --   --   --   --   --   --   --   G U M P'
 SEPARATOR='*********************************************************** G U M P'
 
-
 class Notification(RunSpecific):
+
+    UNSET_TYPE=0
+    SUCCESS_TYPE=1
+    FAILURE_TYPE=2
+    WARNING_TYPE=3    
     
-    def __init__(self,run,entity,positive=0,intro=''):      
+    def __init__(self,run,entity,type=SUCCESS_TYPE,intro=''):      
         RunSpecific.__init__(self,run)
         
         self.entity=entity
-        self.positive=positive
+        self.type=type
         self.intro=intro
         
         # Init
@@ -70,8 +74,17 @@ class Notification(RunSpecific):
         return self.intro
         
     def hasIntroduction(self):
-        if self.intro: return 1
-        return 0
+        if self.intro: return True
+        return False
+        
+    def isSuccess(self):
+        return SUCCESS_TYPE == self.type
+        
+    def isFailure(self):
+        return FAILURE_TYPE == self.type
+        
+    def isWarning(self):
+        return WARNING_TYPE == self.type
         
     def resolveContent(self,resolver,id=None,stream=None):
         
@@ -79,7 +92,7 @@ class Notification(RunSpecific):
         if not stream:
             stream=StringIO.StringIO()
    
-        if self.positive:
+        if self.isSuccess():
             stream.write('To whom it may satisfy...')
         else:
             stream.write('To whom it may engage...')
@@ -105,7 +118,7 @@ and/or contact folk at general@gump.apache.org.
         if self.hasIntroduction():
             stream.write(self.getIntroduction())
         
-        if not self.positive:        
+        if self.isFailure():        
             if affected:
                 stream.write('.\nThis issue affects ' + `affected` + ' projects')
             
@@ -244,11 +257,24 @@ and/or contact folk at general@gump.apache.org.
         stream.write(opturl)
         stream.write('\n')
         
-class PositiveNotification(Notification):
+class SuccessNotification(Notification):
+    """
+    	Congrats
+    """
     def __init__(self,run,entity,intro=' *no longer* has an issue'):
-        Notification.__init__(self,run,entity,1,intro)
+        Notification.__init__(self,run,entity,Notification.SUCCESS_TYPE,intro)
         
-class NegativeNotification(Notification):
+class FailureNotification(Notification):
+    """
+        Opps...
+    """
     def __init__(self,run,entity,intro=' has an issue affecting its community integration'):
-        Notification.__init__(self,run,entity,0,intro)
+        Notification.__init__(self,run,entity,Notification.FAILURE_TYPE,intro)
+
+class WarningNotification(Notification):
+    """
+    	Hmmm....
+    """
+    def __init__(self,run,entity,intro=' has some issues'):
+        Notification.__init__(self,run,entity,Notification.WARNING_TYPE,intro)
         

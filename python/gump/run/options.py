@@ -28,7 +28,7 @@ import fnmatch
 
 from gump import log
 from gump.core.config import dir, default, basicConfig
-from gump.core.gumpenv import GumpEnvironment
+from gump.run.gumpenv import GumpEnvironment
 
 import gump.utils
 import gump.utils.work
@@ -51,7 +51,7 @@ OBJECTIVE_BUILD=0x02
 OBJECTIVE_CHECK=0x04
 OBJECTIVE_DOCUMENT=0x08
 
-OBJECTIVE_DEBUG=OBJECTIVE_UPDATE | OBJECTIVE_BUILD
+OBJECTIVE_REDO=OBJECTIVE_UPDATE | OBJECTIVE_BUILD
 OBJECTIVE_INTEGRATE=OBJECTIVE_UPDATE | OBJECTIVE_BUILD | \
                         OBJECTIVE_DOCUMENT
 

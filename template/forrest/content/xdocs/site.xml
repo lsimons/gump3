@@ -10,8 +10,8 @@
 
   <work label="Gump">
     <index label="Run" href="index.html"/>
-    <index label="Run Options" href="options.html"/>
-    <index label="Environment" href="environment.html"/>
+    <index label="Run Options" href="index.html#Gump+Run+Options"/>
+    <index label="Environment" href="index.html#Gump+Environment"/>
     <index label="Workspace" href="workspace.html"/>
     <index label="Build Log" href="buildLog.html"/>
     <index label="Notes Log" href="notesLog.html"/>
@@ -21,6 +21,7 @@
   <work label="Projects" tab="home">
     <index label="Issues" href="project_todos.html"/>
     <index label="Fixes" href="project_fixes.html"/>
+    <index label="PreReqs" href="project_prereqs.html"/>
   </work>
   
   <work label="Modules" tab="home">

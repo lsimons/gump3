@@ -143,6 +143,9 @@ class XDocContext:
         return escape(raw.translate(STRING_MAP_TABLE))
         
 class XDocPiece:
+    """
+    A piece of an XDOC (a node)
+    """
     def __init__(self,context=None,config=None,style=None):
         if not context: context=XDocContext()
         self.context=context
@@ -185,14 +188,14 @@ class XDocPiece:
             
     def middle(self):
         if not self.subpieces:
-            log.warn('Empty [' + `self.__class__` + '] probably isn\'t good...')
+            log.warn('Empty [' + `self` + '] probably isn\'t good...')
+        else:
+            for sub in self.subpieces:
+                sub.serialize()
             
-        for sub in self.subpieces:
-            sub.serialize()
-            
-            # Gather 
-            if sub.isTransient() and sub.keeper:
-                self.context.writeContext(sub.context)
+                # Gather 
+                if sub.isTransient() and sub.keeper:
+                    self.context.writeContext(sub.context)
 
     def callEnd(self,piece=None):
         if not piece: piece = self
@@ -749,12 +752,11 @@ class XDocDocument(XDocPiece):
             self.context.writeLine('<table class="TRANSPARENT">')  
             self.context.writeLine(' <tr>')  
             self.context.writeLine(' <td><a href="%s/index.html">Run</a></td><td>|</td>' % self.rootpath) 
-            self.context.writeLine(' <td><a href="%s/options.html">Options</a></td><td>|</td>' % self.rootpath) 
             self.context.writeLine(' <td><a href="%s/workspace.html">Workspace</a></td><td>|</td>' % self.rootpath) 
-            self.context.writeLine(' <td><a href="%s/environment.html">Env</a></td><td>|</td>' % self.rootpath) 
             self.context.writeLine(' <td><a href="%s/buildLog.html">Log</a></td><td>|</td>' % self.rootpath)  
             self.context.writeLine(' <td><a href="%s/project_todos.html">Issues</a></td><td>|</td>' % self.rootpath)  
             self.context.writeLine(' <td><a href="%s/project_fixes.html">Fixes</a></td><td>|</td>' % self.rootpath)  
+            self.context.writeLine(' <td><a href="%s/project_prereqs.html">Pre-reqs</a></td><td>|</td>' % self.rootpath)  
             self.context.writeLine(' <td><a href="%s/gump_stats/index.html">Stats</a></td><td>|</td>' % self.rootpath)  
             self.context.writeLine(' <td><a href="%s/gump_xref/index.html">XRef</a></td>' % self.rootpath) 
             

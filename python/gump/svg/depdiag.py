@@ -243,7 +243,7 @@ class DependencyDiagram:
                     color='green'
                 if project.isPackaged(): 
                     color='blue'
-                elif not project.hasBuildCommand():
+                elif not project.hasBuilder():
                     color='purple'
                 elif project.getFOGFactor() < 0.1:
                     color='red'
@@ -274,7 +274,7 @@ class DependencyDiagram:
             color='green'
             if project.isPackaged(): 
                 color='blue'
-            elif not project.hasBuildCommand():
+            elif not project.hasBuilder():
                 color='purple'
             elif project.getFOGFactor() < 0.1:
                 color='red'
@@ -297,9 +297,9 @@ class DependencyDiagram:
 if __name__=='__main__':
         
         
-    from gump.core.gumprun import GumpRun
-    from gump.core.gumpset import GumpSet
-    from gump.core.options import GumpRunOptions
+    from gump.run.gumprun import GumpRun
+    from gump.run.gumpset import GumpSet
+    from gump.run.options import GumpRunOptions
     from gump.core.commandLine import handleArgv
     from gump.loader.loader import WorkspaceLoader
     from gump.output.statsdb import *

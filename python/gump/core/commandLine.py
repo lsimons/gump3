@@ -42,8 +42,8 @@ class CommandLine:
         self.args = []
         
         # For storing options
-        from gump.core.options import GumpRunOptions  
-        self.options=GumpRunOptions()
+        import gump.run.options
+        self.options=gump.run.options.GumpRunOptions()
         
         # Extract the workspace
         if len(argv)==2: 

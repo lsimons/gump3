@@ -375,10 +375,22 @@ try:
         if os.environ.has_key('PYTHONPATH'):
             pythonPath=os.environ['PYTHONPATH']
             pythonPath+=os.pathsep
-        pythonPath+=str(os.path.abspath(os.path.join(os.getcwd(),'python')))
+        pythonDir=str(os.path.abspath(os.path.join(os.getcwd(),'python')))
+        pythonPath+=pythonDir
         log.write(' - GUMP PYTHONPATH  :  ' + pythonPath + '\n')
         os.environ['PYTHONPATH']=pythonPath
 
+        #
+        # Wipe all *.pyc from the pythonPath (so we don't
+        # have old code lying around compiled)
+        #
+        for root, dirs, files in os.walk(pythonDir):
+            for name in files:
+                if name.endswith('.pyc'):
+                    fullname=os.path.join(root, name)
+                    # log.write('- Remove PYC : ' + fullname + '\n')    
+                    os.remove(fullname)       
+        
         #
         # Update Gump from CVS
         #    

@@ -75,7 +75,7 @@ import sys
 
 from gump import log
 
-from gump.core.gumprun import *
+from gump.run.gumprun import *
 from gump.runner.runner import *
 from gump.core.config import dir, default, basicConfig
 

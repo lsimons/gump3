@@ -29,13 +29,13 @@ import logging
 
 from gump import log
 from gump.core.config import *
-from gump.core.gumprun import *
+from gump.run.gumprun import *
 from gump.model.project import *
 from gump.model.module import *
 from gump.model.state import *
 from gump.utils import *
 
-from gump.notify.notification import PositiveNotification,NegativeNotification
+import gump.notify.notification
 
 class NotificationLogic(RunSpecific):
     
@@ -59,22 +59,16 @@ class NotificationLogic(RunSpecific):
             # Notify on first failure, or each official
             # run.
             if self.run.getOptions().isOfficial() \
-                or (1 == stats.sequenceInState):
-                            
-                notification=NegativeNotification(self.run,entity)
-            
+                or (1 == stats.sequenceInState):                           
+                notification=gump.notify.notification.FailureNotification(self.run,entity)            
         elif entity.isSuccess():
             if (stats.sequenceInState == 1):            
                 if not STATE_PREREQ_FAILED == stats.previousState:
                     if stats.getTotalRuns() > 1:    
-                        notification=PositiveNotification(self.run,entity)
-            # :TODO:
-            # 1) Too verbose
-            # 2) Need a warning type w/o the 'outstanding ...'
-            # else:
-            #    if self.run.getOptions().isOfficial() \
-            #        and entity.containsNasties():
-            #        notification=NegativeNotification(self.run,entity,' contains warning/error annotations')   
+                        notification=gump.notify.notification.SuccessNotification(self.run,entity)
+            else:
+                if self.run.getOptions().isOfficial() and entity.containsRealNasties():
+                    notification=gump.notify.notification.WarningNotification(self.run,entity,' contains errors')   
                         
         #elif entity.isPrereqFailed():
         #    if (stats.sequenceInState == 1):            

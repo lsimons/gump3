@@ -50,8 +50,7 @@ from gump.model.misc import Resultable
 from gump.guru.stats import StatisticsGuru
 from gump.guru.xref import XRefGuru
 
-from gump.core.gumprun import *
-from gump.core.actor import AbstractRunActor
+from gump.run.gumprun import *
 
 from gump.shared.comparator import *
     
@@ -96,9 +95,7 @@ class XDocDocumenter(Documenter):
         log.debug('--- Documenting Results')
 
         # Document...
-        self.documentRunDetails()   
-        self.documentRunOptions()  
-        self.documentEnvironment()    
+        self.documentRunDetails()    
         self.documentWorkspace()  
         self.documentEverythingElse()
         
@@ -281,25 +278,98 @@ class XDocDocumenter(Documenter):
             success=False
         
         return success
-              
+                
     #####################################################################           
     #
-    # Environment
+    # Workspace Pieces
     #      
-    def documentEnvironment(self):
-        
-        environment=self.run.getEnvironment()
-           
+    def documentRunDetails(self):
+               
         #
         # ----------------------------------------------------------------------
         #
-        # env.xml
-        #
-        spec=self.resolver.getFileSpec(self.workspace, 'environment')
+        # Index.xml
+        # 
+        spec=self.resolver.getFileSpec(self.run)
         
-        document=XDocDocument('Gump Environment',	\
-                spec.getFile(),self.config,spec.getRootPath())       
-                        
+        document=XDocDocument('Gump Run',  
+                spec.getFile() ,
+                self.config,
+                spec.getRootPath())
+        
+        definitionSection=document.createSection('Run Details')    
+        
+        if not self.gumpSet.isFull():
+            self.documentPartial(definitionSection)
+
+        definitionTable=definitionSection.createTable()
+        definitionTable.createEntry('Gump Run GUID', self.run.getRunGuid())
+        definitionTable.createEntry('Gump Run (Hex) GUID', self.run.getRunHexGuid())
+        definitionTable.createEntry('Gump Version', setting.version)
+        
+        rssSyndRow=definitionTable.createRow()
+        rssSyndRow.createData().createStrong('Syndication')
+        rssSyndRow.createData().createFork('rss.xml','RSS')
+        atomSyndRow=definitionTable.createRow()
+        atomSyndRow.createData().createStrong('Syndication')
+        atomSyndRow.createData().createFork('atom.xml','Atom')
+        
+        self.documentSummary(document,self.workspace.getProjectSummary())     
+        
+        dtSection=definitionSection.createSection('Dates/Times')            
+        dtTable=dtSection.createTable()        
+        dtTable.createEntry('@@DATE@@', str(default.date))
+        dtTable.createEntry('Start Date/Time (UTC)', self.workspace.getStartDateTimeUtc())
+        dtTable.createEntry('End Date/Time (UTC)', self.workspace.getEndDateTimeUtc())
+        dtTable.createEntry('Timezone', self.workspace.timezone)
+        dtTable.createEntry('Start Date/Time', self.workspace.getStartDateTime())
+        dtTable.createEntry('End Date/Time', self.workspace.getEndDateTime())
+
+        pythonSection=definitionSection.createSection('Python Information')            
+        pythonTable=pythonSection.createTable()
+        pythonTable.createEntry('Python', str(sys.version))
+        pythonTable.createEntry('Operating System (Name)', str(os.name)) 
+        tracked=inspectGarbageCollection()
+        if tracked:
+            pythonTable.createEntry('Garbage Collector Tracked', tracked)               
+                
+        javaSection=definitionSection.createSection('Java Information')            
+        javaTable=javaSection.createTable()
+        javaTable.createEntry('Java Command', self.run.getEnvironment().javaCommand)
+        javaproperties=self.run.getEnvironment().getJavaProperties()
+        if javaproperties:
+            for name in ['java.vendor', 'java.version', 'os.name', 'os.arch', 'os.version']:
+                if name in javaproperties:
+                    javaTable.createEntry(name, javaproperties[name])	  
+                               
+        self.documentAnnotations(document,self.run)
+    
+    
+        #
+        # RunOptions
+        #    
+        options=self.run.getOptions()
+   
+        optSection=document.createSection('Gump Run Options')
+        optSection.createParagraph(
+            """The options selected for this Gump run.""")            
+        
+        #self.documentAnnotations(document,options)        
+        
+        optTable=optSection.createTable(['Name','Value'])
+        opts=0
+        # iterate over this suites properties
+        for (name,value) in getBeanAttributes(options).items():
+            optTable.createEntry(name,value)
+            opts+=1
+            
+        if not opts: optTable.createEntry('None')
+      
+        #
+        # Environment
+        #
+        environment=self.run.getEnvironment()
+        
         envSection=document.createSection('Gump Environment')
         envSection.createParagraph(
             """The environment that this Gump run was within.""")     
@@ -329,111 +399,6 @@ class XDocDocumenter(Documenter):
         #self.documentFileList(document,environment,'Environment-level Files')        
         self.documentWorkList(document,environment,'Environment-level Work')
      
-        document.serialize()
-        
-        return spec
-                
-    #####################################################################           
-    #
-    # Options
-    #      
-    def documentRunOptions(self):
-        
-        options=self.run.getOptions()
-           
-        #
-        # ----------------------------------------------------------------------
-        #
-        # options.xml
-        #
-        spec=self.resolver.getFileSpec(self.workspace, 'options')
-        
-        document=XDocDocument('Run Options',	\
-                spec.getFile(),
-                self.config,
-                spec.getRootPath())       
-                        
-        optSection=document.createSection('Gump Run Options')
-        optSection.createParagraph(
-            """The options selected for this Gump run.""")            
-        
-        #self.documentAnnotations(document,options)        
-        
-        optTable=optSection.createTable(['Name','Value'])
-        opts=0
-        # iterate over this suites properties
-        for (name,value) in getBeanAttributes(options).items():
-            optTable.createEntry(str(name),str(value))
-            opts+=1
-            
-        if not opts: optTable.createEntry('None')
-     
-        document.serialize()
-        
-        return spec
-                
-    #####################################################################           
-    #
-    # Workspace Pieces
-    #      
-    def documentRunDetails(self):
-               
-        #
-        # ----------------------------------------------------------------------
-        #
-        # Index.xml
-        # 
-        spec=self.resolver.getFileSpec(self.run)
-        
-        document=XDocDocument('Gump Run',  
-                spec.getFile() ,
-                self.config,
-                spec.getRootPath())
-        
-        definitionSection=document.createSection('Run Details')    
-        
-        if not self.gumpSet.isFull():
-            self.documentPartial(definitionSection)
-
-        definitionTable=definitionSection.createTable()
-        definitionTable.createEntry('Gump Run GUID', self.run.getRunGuid())
-        definitionTable.createEntry('Gump Run (Hex) GUID', self.run.getRunHexGuid())
-        definitionTable.createEntry('Gump Version', setting.version)
-        definitionTable.createEntry('Python', str(sys.version))
-        definitionTable.createEntry('Operating System (Name)', str(os.name))
-        
-        tracked=inspectGarbageCollection()
-        if tracked:
-            definitionTable.createEntry('Garbage Collector Tracked', tracked)    
-            
-        rssSyndRow=definitionTable.createRow()
-        rssSyndRow.createData().createStrong('Syndication')
-        rssSyndRow.createData().createFork('rss.xml','RSS')
-        atomSyndRow=definitionTable.createRow()
-        atomSyndRow.createData().createStrong('Syndication')
-        atomSyndRow.createData().createFork('atom.xml','Atom')
-                
-        dtSection=definitionSection.createSection('Dates/Times')            
-        dtTable=dtSection.createTable()        
-        dtTable.createEntry('@@DATE@@', str(default.date))
-        dtTable.createEntry('Start Date/Time (UTC)', self.workspace.getStartDateTimeUtc())
-        dtTable.createEntry('End Date/Time (UTC)', self.workspace.getEndDateTimeUtc())
-        dtTable.createEntry('Timezone', self.workspace.timezone)
-        dtTable.createEntry('Start Date/Time', self.workspace.getStartDateTime())
-        dtTable.createEntry('End Date/Time', self.workspace.getEndDateTime())
-
-        javaSection=definitionSection.createSection('Java Information')            
-        javaTable=javaSection.createTable()
-        javaTable.createEntry('Java Command', self.run.getEnvironment().javaCommand)
-        javaproperties=self.run.getEnvironment().getJavaProperties()
-        if javaproperties:
-            for name in ['java.vendor', 'java.version', 'os.name', 'os.arch', 'os.version']:
-                if name in javaproperties:
-                    javaTable.createEntry(name, javaproperties[name])	  
-                            
-        self.documentSummary(document,self.workspace.getProjectSummary())        
-        self.documentAnnotations(document,self.run)
-    
         document.serialize()    
         document=None
         
@@ -1096,6 +1061,56 @@ This page helps Gumpmeisters (and others) observe community progress.
             projectsTable.createLine('None')   
                     
         document.serialize()
+        
+        #
+        # ----------------------------------------------------------------------
+        #
+        # project_prereqs.xml -- Projects w/ prereqs in build order
+        #
+        spec=self.resolver.getFileSpec(self.workspace, 'project_prereqs')
+        document=XDocDocument('Project Prerequisite Failures',    
+                spec.getFile() ,
+                self.config,
+                spec.getRootPath())
+        self.documentSummary(document, self.workspace.getProjectSummary())
+        
+        projectsSection=document.createSection('Projects recently fixed...')
+        projectsSection.createParagraph("""These are the projects that depend upon others being fixed before they can be built.""")      
+        
+        projectsTable=projectsSection.createTable(['Name',    \
+                    'Depends','Not-Built Depends','Project State','Duration\nin state'])
+        pcount=0
+        for project in sortedProjectList:
+            if not self.gumpSet.inProjectSequence(project): continue       
+            
+            if not project.getState()==STATE_PREREQ_FAILED:
+                continue
+                
+            pcount+=1
+            
+            projectRow=projectsTable.createRow()
+            projectRow.createComment(project.getName())
+                                    
+            self.insertLink(project,self.workspace,projectRow.createData())   
+            
+            projectRow.createData(project.getFullDependencyCount())
+            
+            unbuilt=0
+            for project in project.getFullDependencyProjectList():
+                if not project.isSuccess():
+                    unbuilt+=1
+            projectRow.createData(unbuilt)
+            
+            self.insertStateIcon(project,self.workspace,projectRow.createData())
+            
+            # How long been like this
+            seq=stats=project.getStats().sequenceInState
+            projectRow.createData(seq)
+                
+        if not pcount: 
+            projectsTable.createLine('None')   
+                    
+        document.serialize()
            
     def documentModules(self):  
      
@@ -1592,9 +1607,12 @@ This page helps Gumpmeisters (and others) observe community progress.
         #            self.resolver.getFile(module, \
         #                            'index_details'))            
              
-        detailsSection=document.createSection('Details')
+        detailsSection=None       
         
         if module.hasRepository():
+            
+            if not detailsSection:
+                detailsSection=document.createSection('Details')
             
             repoSection=detailsSection.createSection('Repository')
             repoList=repoSection.createList()
@@ -1626,12 +1644,8 @@ This page helps Gumpmeisters (and others) observe community progress.
                 if module.artifacts.hasUrl():
                     repoList.createEntry( "Jars URL: ", module.jars.getUrl())   
 
-            repoList.createEntry('Redistributable: ', `module.isRedistributable()`)              
+            repoList.createEntry('Redistributable: ', module.isRedistributable())              
            
-        #   x.write('<p><strong>Module Config :</strong> <link href=\'xml.html\'>XML</link></p>')
-            
-        self.documentXML(detailsSection,module)
-
         document.serialize()
         document=None
         
@@ -1685,7 +1699,7 @@ This page helps Gumpmeisters (and others) observe community progress.
              
         if project.isPackaged():
             document.createNote('This is a packaged project, not Gumped.')
-        elif not project.hasBuildCommand():
+        elif not project.hasBuilder():
             document.createNote('This project is not built by Gump.')        
             
         stateSection=document.createSection('State')
@@ -1743,7 +1757,7 @@ This page helps Gumpmeisters (and others) observe community progress.
                 detailsList.createEntry('Notify To: ').createFork('mailto:'+toaddr,toaddr)
                 detailsList.createEntry('Notify From: ').createFork('mailto:'+fromaddr,fromaddr)
                     
-        elif not project.isPackaged() and project.hasBuildCommand():            
+        elif not project.isPackaged() and project.hasBuilder():            
             document.createWarning('This project does not utilize Gump notification.')  
                              
         metadataLocation=project.getMetadataLocation()
@@ -1798,7 +1812,7 @@ This page helps Gumpmeisters (and others) observe community progress.
         else:
             miscSection.createWarning('No output artifacts (e.g. jars) produced')
         
-        if project.hasBuildCommand():
+        if project.hasBuilder():
             
             if project.hasAnt():                
                 self.documentProperties(miscSection, project.getAnt(), 'Ant Properties')
@@ -2078,6 +2092,9 @@ This page helps Gumpmeisters (and others) observe community progress.
         return totalDeps            
                 
     def documentAnnotations(self,xdocNode,annotatable,noWarn=0):
+        """        
+        Document the notes on an entity. Provide a table to level/message.               
+        """
         
         annotations=annotatable.getAnnotations()
         if not annotations: return        
@@ -2092,6 +2109,8 @@ This page helps Gumpmeisters (and others) observe community progress.
         annotationsTable=annotationsSection.createTable()
         for note in annotations:      
             noteRow=annotationsTable.createRow()
+            
+            # Allow style
             noteRow.setStyle(levelName(note.level).upper())
             noteRow.createData(levelName(note.level))
             # TODO if 'text' is a list go through list and
@@ -2099,6 +2118,9 @@ This page helps Gumpmeisters (and others) observe community progress.
             noteRow.createData(note.text) 
             
     def documentServerLinks(self,xdocNode,linkable,depth=-1):
+        """
+        Display links to this linkable entity but on remote servers
+        """
         
         servers=self.workspace.getPythonServers()
         if not servers: return    
@@ -2149,32 +2171,33 @@ This page helps Gumpmeisters (and others) observe community progress.
                     xdocNode.createText(utcTime)                                    
                         
     def documentProperties(self,xdocNode,propertyContainer,title='Properties'):
+        """
+        Create a table (or two) of name/value information for properties
+        
+        First system properties, second normal properties
+        
+        """
         
         properties=propertyContainer.getProperties()
         sysproperties=propertyContainer.getSysProperties()
         if not properties and not sysproperties: return        
         
+        # Start a section...
         propertiesSection=xdocNode.createSection(title)
                 
         if sysproperties:
             # System Properties
             sysPropertiesSection=propertiesSection.createSection('System Properties')  
-            syspropertiesTable=sysPropertiesSection.createTable(['Name','Value','XML'])
+            syspropertiesTable=sysPropertiesSection.createTable(['Name','Value'])
             for sysproperty in sysproperties:      
-                syspropertyRow=syspropertiesTable.createRow()
-                syspropertyRow.createData(sysproperty.getName())
-                syspropertyRow.createData(sysproperty.getValue())
-                syspropertyRow.createData(sysproperty.getXmlData())
+                syspropertiesTable.createEntry(sysproperty.getName(),sysproperty.getValue())
         
         if properties:
             # Standard Properties
             standardPropertiesSection=propertiesSection.createSection('Standard Properties')    
-            propertiesTable=standardPropertiesSection.createTable(['Name','Value','XML'])
+            propertiesTable=standardPropertiesSection.createTable(['Name','Value'])
             for property in properties:      
-                propertyRow=propertiesTable.createRow()
-                propertyRow.createData(property.getName())
-                propertyRow.createData(property.getValue())
-                propertyRow.createData(property.getXmlData())
+                propertiesTable.createEntry(property.getName(),property.getValue())
                         
     def documentXML(self,xdocNode,xmlOwner):
         
@@ -2210,6 +2233,12 @@ This page helps Gumpmeisters (and others) observe community progress.
         prereqStyle=stateName(STATE_PREREQ_FAILED).upper()
         noworkStyle=stateName(STATE_UNSET).upper()
         completeStyle=stateName(STATE_COMPLETE).upper()
+        
+        #:TODO: Link to the various pages.
+        successes=self.resolver.getUrl(self.workspace, 'project_fixes')
+        failures=self.resolver.getUrl(self.workspace, 'project_todos')
+        prereqs=self.resolver.getUrl(self.workspace, 'project_prereqs')
+        # :TODO: Work these into here somewhere....
         
         summaryTable=summarySection.createTable(['Projects',
                                 ('Successes', successStyle),

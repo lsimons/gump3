@@ -15,7 +15,7 @@
 # limitations under the License.
 
 #
-# $Header: /home/stefano/cvs/gump/python/gump/integrate.py,v 1.30 2004/07/14 15:47:57 ajack Exp $
+# $Header: /home/stefano/cvs/gump/python/gump/integrate.py,v 1.31 2004/07/19 16:07:53 ajack Exp $
 # 
 
 """
@@ -32,8 +32,8 @@ import sys
 from gump import log
 from gump.core.gumpinit import gumpinit
 from gump.runner.runner import getRunner
-import gump.core.options
-import gump.core.gumprun
+import gump.run.options
+import gump.run.gumprun
 from gump.core.commandLine import handleArgv
 from gump.utils import logResourceUtilization
 from gump.loader.loader import WorkspaceLoader
@@ -71,10 +71,10 @@ def irun():
     options.setCache(False)
     
     # 
-    options.setObjectives(gump.core.options.OBJECTIVE_INTEGRATE)    
+    options.setObjectives(gump.run.options.OBJECTIVE_INTEGRATE)    
     
     # The Run Details...
-    run=gump.core.gumprun.GumpRun(workspace,ps,options)
+    run=gump.run.gumprun.GumpRun(workspace,ps,options)
     
     #    Perform this integration run...
     result = getRunner(run).perform()

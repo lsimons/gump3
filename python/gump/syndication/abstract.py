@@ -25,7 +25,7 @@ import time
 from xml.sax.saxutils import escape
 
 from gump import log
-from gump.core.gumprun import *
+from gump.run.gumprun import *
 from gump.model.state import *
 from gump.model.project import ProjectStatistics
 

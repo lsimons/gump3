@@ -29,7 +29,7 @@ import logging
 from gump import log
 from gump.core.gumpinit import gumpinit
 from gump.runner.runner import getRunner
-from gump.core.gumprun import *
+from gump.run.gumprun import *
 from gump.core.commandLine import handleArgv
 from gump.loader.loader import WorkspaceLoader
 
@@ -59,7 +59,7 @@ if __name__=='__main__':
     options.setText(True)
     
     # 
-    options.setObjectives(OBJECTIVE_DEBUG)    
+    options.setObjectives(OBJECTIVE_REDO)    
     
     # The Run Details...
     run=GumpRun(workspace,ps,options)

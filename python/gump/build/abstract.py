@@ -22,26 +22,21 @@
 """
 
 from gump import log
-import gump.core.gumprun
+import gump.run.gumprun
 import gump.process.command
 
 ###############################################################################
 # Classes
 ###############################################################################
 
-class AbstractJavaBuilder(gump.core.gumprun.RunSpecific):
+class AbstractJavaBuilder(gump.run.gumprun.RunSpecific):
     
     def __init__(self,run):
-        gump.core.gumprun.RunSpecific.__init__(self,run)
-
+        gump.run.gumprun.RunSpecific.__init__(self,run)
+        
+        
     def getJVMArgs(self,project):
+        
         """ Get JVM arguments for a project """
-        args=gump.process.command.Parameters()
+        return project.jvmargs
         
-        for jvmarg in project.getDomChildIterator('jvmarg'):
-            if hasDomAttribute(jvmarg,'value'):                
-                args.addParameter(getDomAttributeValue(jvmarg,'value'))
-            else:
-                log.error('Bogus JVM Argument w/ Value')            
-        
-        return args
