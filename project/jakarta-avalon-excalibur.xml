@@ -54,14 +54,14 @@
         <depend project="jakarta-oro"/>
         <depend project="jakarta-velocity" inherit="runtime"/>
         <depend project="jakarta-log4j"/>
+        <depend project="xml-cocoon2"/>
 
         <option project="jdbc"/>
         <option project="jaxen"/>
         <option project="saxpath"/>
 
-        <work nested="all/build/classes"/>
-        <work nested="all/build/scratchpad"/>
-        <work nested="collections/build/testclasses"/>
+        <work nested="bzip2/build/classes"/>
+        <work nested="cli/build/classes"/>
         <work nested="monitor/build/classes"/>
 
         <jar name="avalon-excalibur.jar"/>
