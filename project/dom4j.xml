@@ -13,7 +13,6 @@
   <depend project="xml-xerces"/>
   <depend project="junit"/>
   <depend project="xml-xalan2"/>
-  <depend project="saxon"/>
   <depend project="tranquilo"/>
   <depend project="xpp"/>
   <depend project="saxpath"/>
@@ -21,10 +20,6 @@
   <depend project="xmldb"/>
 
   <jar name="build/dom4j.jar" id="dom4j"/>
-
-  <project name="saxon">
-    <jar name="lib/saxon.jar"/>
-  </project>
 
   <project name="xpp">
     <url href="http://www.extreme.indiana.edu/soap/xpp/"/>
