@@ -233,6 +233,29 @@
          from="James Strachan &lt;jstrachan@apache.org&gt;"/>
   </project>
 
+  <project name="commons-resources">
+    <package>org.apache.commons.resources</package>
+    <description>Commons resources</description>
+
+    <ant basedir="resources">
+      <property name="component.version" value="@@DATE@@" />
+    </ant>
+
+    <depend project="jakarta-ant" inherit="runtime"/>
+    <depend project="xml-xerces"/>
+    <depend project="commons-beanutils"/>
+    <depend project="commons-collections"/>
+    <depend project="commons-digester"/>
+    <depend project="commons-logging"/>
+    <depend project="jakarta-servletapi-4"/>
+
+    <jar name="resources/dist/commons-resources.jar"/>
+    <javadoc nested="resources/dist/docs/api"/>
+
+    <nag to="commons-dev@jakarta.apache.org"
+         from="Stefan Bodewig &lt;bodewig@apache.org&gt;"/>
+  </project>
+
   <project name="commons-services">
     <package>org.apache.commons.services</package>
     <description>Basic Services Architecture</description>
