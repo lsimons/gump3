@@ -567,6 +567,8 @@ class Project(NamedModelObject, Statable, Resultable, Dependable, Positioned):
         if not packaged:    
             #
             # TODO -- move these back?
+            # FIXME(SM): the code below throws an exception if the <depend
+            # element does not contain a project="" attribute!!
             #
             if badDepends or badOptions: 
                 for xmldepend in badDepends:
