@@ -20,11 +20,11 @@ http://gump.chalko.com/gb/blog/Issues?permalink=Cactus-CommonsHttpclient.txt&pre
 <p>
 <a href="http://jakarta.apache.org/cactus/">Cactus</a>
 build 
-<a href="http://lsd.student.utwente.nl/gump/jakarta-cactus/jakarta-cactus-sample-servlet-12.html">failed</a>
+<a href="http://www.mail-archive.com/cactus-dev%40jakarta.apache.org/msg04855.html">failed</a>
 on Apache Gump.
 After a few hours of debugging and thanks
 to Leo for giving Vincent access to <a href="http://lsd.student.utwente.nl/gump/">LSD</a>,
-the cause was found. The hunt is over!
+<a href="http://www.mail-archive.com/cactus-dev%40jakarta.apache.org/msg04856.html">the cause was found</a>. The hunt is over!
 </p><p>
 The cause was: <a href="http://jakarta.apache.org/commons/httpclient/">commons-httpclient</a>
 </p><p>
