@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/utils/work.py,v 1.11 2004/03/11 16:13:50 ajack Exp $
-# $Revision: 1.11 $
-# $Date: 2004/03/11 16:13:50 $
+# $Header: /home/stefano/cvs/gump/python/gump/utils/work.py,v 1.12 2004/03/14 20:16:30 ajack Exp $
+# $Revision: 1.12 $
+# $Date: 2004/03/14 20:16:30 $
 #
 # ====================================================================
 #
@@ -217,7 +217,7 @@ class WorkList(list,Ownable):
         # Store in the list
         self.append(item)
         
-        # Let this item know it's owner
+        # Let this item know its owner
         item.setOwner(self.getOwner())
     
     def getStartSecs(self):

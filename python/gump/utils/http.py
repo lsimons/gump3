@@ -1,8 +1,8 @@
 #!/usr/bin/python
 
-# $Header: /home/stefano/cvs/gump/python/gump/utils/http.py,v 1.5 2004/03/08 22:28:09 ajack Exp $
-# $Revision: 1.5 $
-# $Date: 2004/03/08 22:28:09 $
+# $Header: /home/stefano/cvs/gump/python/gump/utils/http.py,v 1.6 2004/03/14 20:16:30 ajack Exp $
+# $Revision: 1.6 $
+# $Date: 2004/03/14 20:16:30 $
 #
 # ====================================================================
 #
@@ -116,7 +116,7 @@ urllib._urlopener = GumpURLopener()
 def cacheHTTP(href,cacheDir=dir.cache,optimize=0):
     """returns the path of the file in the href, cached if remote"""
 
-    #if it's a local file get it locally
+    #if its a local file get it locally
  
     log.debug('Cache URL : ' + href)
     if not os.path.exists(cacheDir):  os.mkdir(cacheDir)

@@ -183,7 +183,7 @@ class FileList(list,Ownable):
         # Store in the list
         self.append(reference)
         
-        # Let this reference know it's owner
+        # Let this reference know its owner
         reference.setOwner(self.getOwner())
                 
     def clone(self):

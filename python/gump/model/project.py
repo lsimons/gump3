@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/model/project.py,v 1.63 2004/03/13 00:17:39 ajack Exp $
-# $Revision: 1.63 $
-# $Date: 2004/03/13 00:17:39 $
+# $Header: /home/stefano/cvs/gump/python/gump/model/project.py,v 1.64 2004/03/14 20:16:30 ajack Exp $
+# $Revision: 1.64 $
+# $Date: 2004/03/14 20:16:30 $
 #
 # ====================================================================
 #
@@ -325,7 +325,7 @@ class Project(NamedModelObject, Statable, Resultable, Dependable):
             #
             if cause:
                 #
-                # The something was this module or one of it's projects
+                # The something was this module or one of its projects
                 #
                 if cause == self:
                     self.affected += 1            
@@ -1046,11 +1046,11 @@ maven.jar.override = on
     # Return a tuple of (CLASSPATH, BOOTCLASSPATH) for a project
     #
     def getClasspathLists(self,debug=0):
-        """Get a TOTAL classpath for a project (including it's dependencies)"""
+        """Get a TOTAL classpath for a project (including its dependencies)"""
 
         #
         # Do this once only... storing it on the context. Not as nice as 
-        # doing it OO (each project context stores it's own, but a step..)
+        # doing it OO (each project context stores its own, but a step..)
         #
         if hasattr(self,'resolvedClasspath') and hasattr(self,'resolvedBootclasspath') :
           if debug: print "Classpath/Bootclasspath previously resolved..."
@@ -1106,7 +1106,7 @@ maven.jar.override = on
     # 5) Also: *** Bring in any depenencies that the dependency inherits ***
     #
     def getDependOutputList(self,dependency,visited,depth=0,debug=0):      
-        """Get a classpath of outputs for a project (including it's dependencies)"""            
+        """Get a classpath of outputs for a project (including its dependencies)"""            
    
         # Don't loop...
         if dependency in visited:  

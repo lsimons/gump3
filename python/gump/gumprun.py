@@ -283,7 +283,7 @@ class GumpSet:
             if dependency.getProject() in todo: return 0
         return 1
 
-    # add this element and all of it's dependencies to a todo list
+    # add this element and all of its dependencies to a todo list
     def addToTodoList(self,project,todo):
         # Add the project first
         if not project in todo:

@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/model/module.py,v 1.37 2004/03/09 19:57:06 ajack Exp $
-# $Revision: 1.37 $
-# $Date: 2004/03/09 19:57:06 $
+# $Header: /home/stefano/cvs/gump/python/gump/model/module.py,v 1.38 2004/03/14 20:16:30 ajack Exp $
+# $Revision: 1.38 $
+# $Date: 2004/03/14 20:16:30 $
 #
 # ====================================================================
 #
@@ -493,7 +493,7 @@ class Module(NamedModelObject, Statable, Resultable):
             #
             if cause:
                 #
-                # The something was this module or one of it's projects
+                # The something was this module or one of its projects
                 #
                 if cause == self or cause in self.getProjects():
                     self.affected += 1            

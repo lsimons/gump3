@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/forrest.py,v 1.105 2004/03/13 00:17:40 ajack Exp $
-# $Revision: 1.105 $f
-# $Date: 2004/03/13 00:17:40 $
+# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/forrest.py,v 1.106 2004/03/14 20:16:30 ajack Exp $
+# $Revision: 1.106 $f
+# $Date: 2004/03/14 20:16:30 $
 #
 # ====================================================================
 #
@@ -521,7 +521,7 @@ The count of affected indicates relative importance of fixing this project.""")
             pcount+=1
         
             #
-            # Determine the number of projects this module (or it's projects)
+            # Determine the number of projects this module (or its projects)
             # cause not to be run.
             #
             affected=project.determineAffected()
@@ -582,7 +582,7 @@ This page helps Gumpmeisters (and others) observe community progress.
             pcount+=1
         
             #
-            # Determine the number of projects this module (or it's projects)
+            # Determine the number of projects this module (or its projects)
             # cause not to be run.
             #
             affected=project.determineAffected()            
@@ -652,7 +652,7 @@ The count of affected indicates relative importance of fixing this module.""")
                     if stats.sequenceInState > seq: seq = stats.sequenceInState
     
             #
-            # Determine the number of projects this module (or it's projects)
+            # Determine the number of projects this module (or its projects)
             # cause not to be run.
             #
             affected=module.determineAffected()
@@ -719,7 +719,7 @@ This page helps Gumpmeisters (and others) observe community progress.
                     if stats.sequenceInState > seq: seq = stats.sequenceInState
     
             #
-            # Determine the number of projects this module (or it's projects)
+            # Determine the number of projects this module (or its projects)
             # cause not to be run.
             #
             affected=module.determineAffected()

@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/output/Attic/nag.py,v 1.26 2004/03/09 10:58:51 bodewig Exp $
-# $Revision: 1.26 $
-# $Date: 2004/03/09 10:58:51 $
+# $Header: /home/stefano/cvs/gump/python/gump/output/Attic/nag.py,v 1.27 2004/03/14 20:16:31 ajack Exp $
+# $Revision: 1.27 $
+# $Date: 2004/03/14 20:16:31 $
 #
 # ====================================================================
 #
@@ -393,7 +393,7 @@ and/or contact general@gump.apache.org.
         if message:
             content+=message             
             
-        content += type + ' ' + name + ' has an issue affecting it\'s community integration'
+        content += type + ' ' + name + ' has an issue affecting its community integration'
                 
         if affected:
             content += '. This issue affects ' + `affected` + ' projects'
