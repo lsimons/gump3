@@ -622,7 +622,7 @@ def getWorkspaceSiteDir(workspace):
 def getContentDir(workspace):
     cdir=os.path.normpath(os.path.join(workspace.logdir,'content'))
     if not os.path.exists(cdir): os.mkdir(cdir)
-    return xdir  
+    return cdir  
     
 def getWorkspaceDir(workspace,contentdir=None):
     cdir = contentdir or getContentDir(workspace)
