@@ -125,7 +125,11 @@ python gump/check.py -w ../${GUMP_WORKSPACE}.xml ${GUMP_TARGET} >> $GUMP_LOG 2>&
 #
 cd $GUMP_PYTHON
 echo $SEPARATOR >> $GUMP_LOG
-python gump/integrate.py -w ../${GUMP_WORKSPACE}.xml ${GUMP_TARGET} >> $GUMP_LOG 2>&1 
+python gump/integrate.py -w ../${GUMP_WORKSPACE}.xml ${GUMP_TARGET} >> $GUMP_LOG 2>&1 if [ ! $? ] ; then
+        echo "Failed to integrate, exiting..."
+        exit 1
+fi;
+
 echo >> $GUMP_LOG
 
 # 
