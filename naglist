@@ -302,12 +302,6 @@ From: Jason van Zyl <jvanzyl@apache.org>
 Subject: [GUMP] Build Failure - Torque
 Regex: /BUILD FAILED/
 -------
-Project: jakarta-turbine-torque-test
-To: turbine-dev@jakarta.apache.org
-From: Jason van Zyl <jvanzyl@apache.org>
-Subject: [GUMP] Test Failure - Torque
-Regex: /BUILD FAILED/
--------
 Project: jakarta-turbine-site
 To: turbine-dev@jakarta.apache.org
 From: Jason van Zyl <jvanzyl@apache.org>
