@@ -27,6 +27,8 @@
     <depend project="xom"/>
     <work nested="target/classes">
     </work>
+    <work nested="target/test-classes">
+    </work>
     <home nested="target">
     </home>
     <jar name="jaxen-@@DATE@@.jar">
@@ -57,6 +59,8 @@
     </depend>
     <depend project="xom"/>
     <work nested="target/classes">
+    </work>
+    <work nested="target/test-classes">
     </work>
     <home nested="target">
     </home>
