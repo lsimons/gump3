@@ -52,7 +52,7 @@
           <table border="1">
             <tr>
               <th>Start time</th>
-              <th>Project</th>
+              <th>Module</th>
               <th>Status</th>
             </tr>
 
@@ -95,6 +95,20 @@
 
         <menu>
           <date-time/>
+
+          <xsl:variable name="module" select="@name"/>
+          <xsl:if test="/workspace/project[@module=$module and (ant|script)]">
+            <br/>
+            <xsl:text>Project: </xsl:text>
+          </xsl:if>
+
+          <xsl:for-each select="/workspace/project[@module=$module]">
+            <xsl:sort select="@name"/>
+            <xsl:if test="ant|script">
+              <a href="{@name}.html"><xsl:value-of select="@name"/></a>
+            </xsl:if>
+          </xsl:for-each>
+
         </menu>
 
         <content>

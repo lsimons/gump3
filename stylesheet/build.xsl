@@ -128,7 +128,7 @@
           <date-time/>
           <br/>
 
-          <xsl:text>Project: </xsl:text>
+          <xsl:text>Module: </xsl:text>
           <xsl:if test="url">
             <a href="{url/@href}">home</a>
           </xsl:if>
@@ -136,6 +136,9 @@
           <a href="module_{@defined-in}.html">definition</a>
 
           <xsl:for-each select="/workspace/module[cvs and @name=$module]">
+            <xsl:if test="url">
+              <a href="{url/@href}">home</a>
+            </xsl:if>
             <a href="cvs_{@defined-in}.html">cvs</a>
           </xsl:for-each>
 
