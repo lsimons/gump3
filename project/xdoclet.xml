@@ -48,12 +48,79 @@
          to="xdoclet-devel@lists.sourceforge.net"/>
   </project>
 
+  <project name="xdoclet-ejb-module-prepare">
+
+    <description>Intermediate target that prepares xdoclet&apos;s
+    ejb module</description>
+
+    <ant basedir="modules/ejb" target="xdoclet-xml" />
+
+    <depend project="ejb"/>
+    <depend project="xdoclet-compile-core" inherit="all" />
+    <depend project="xdoclet-xdoclet-module-prepare" />
+
+    <work nested="core/build/classes" />
+
+    <nag from="Peter Donald &lt;peter@apache.org&gt;"
+         to="xdoclet-devel@lists.sourceforge.net"/>
+  </project>
+
+  <project name="xdoclet-web-module-prepare">
+
+    <description>Intermediate target that prepares xdoclet&apos;s
+    web module</description>
+
+    <ant basedir="modules/web" target="xdoclet-xml" />
+
+    <depend project="xdoclet-compile-core" inherit="all" />
+    <depend project="xdoclet-xdoclet-module-prepare" />
+
+    <work nested="core/build/classes" />
+
+    <nag from="Peter Donald &lt;peter@apache.org&gt;"
+         to="xdoclet-devel@lists.sourceforge.net"/>
+  </project>
+
+  <project name="xdoclet-hibernate-module-prepare">
+
+    <description>Intermediate target that prepares xdoclet&apos;s
+    hibernate module</description>
+
+    <ant basedir="modules/hibernate" target="xdoclet-xml" />
+
+    <depend project="xdoclet-compile-core" inherit="all" />
+    <depend project="xdoclet-xdoclet-module-prepare" />
+
+    <work nested="core/build/classes" />
+
+    <nag from="Peter Donald &lt;peter@apache.org&gt;"
+         to="xdoclet-devel@lists.sourceforge.net"/>
+  </project>
+
+  <project name="xdoclet-apache-module-prepare">
+
+    <description>Intermediate target that prepares xdoclet&apos;s
+    apache module - needed to run antdoclet during main
+    build</description>
+
+    <ant basedir="modules/apache" target="xdoclet-xml" />
+
+    <depend project="xdoclet-compile-core" inherit="all" />
+    <depend project="xdoclet-xdoclet-module-prepare" />
+    <depend project="xdoclet-ejb-module-prepare" />
+
+    <work nested="core/build/classes" />
+    <work nested="modules/build/xdoclet/classes"/>
+    <work nested="modules/build/ejb/classes"/>
+
+    <nag from="Peter Donald &lt;peter@apache.org&gt;"
+         to="xdoclet-devel@lists.sourceforge.net"/>
+  </project>
+
   <project name="xdoclet">
     <package>xdoclet</package>
 
-    <mkdir dir="modules/build/ejb/classes"/>
     <mkdir dir="modules/build/jmx/classes"/>
-    <mkdir dir="modules/build/web/classes"/>
 
     <ant target="docs">
       <property name="ant.home" project="jakarta-ant" reference="home"/>
@@ -62,23 +129,26 @@
 
     <depend project="jakarta-ant" inherit="all" />
     <depend project="xdoclet-compile-core" inherit="all" />
+    <depend project="xdoclet-apache-module-prepare" />
+    <depend project="xdoclet-hibernate-module-prepare" />
+    <depend project="xdoclet-web-module-prepare" />
     <depend project="xdoclet-xdoclet-module-prepare" />
 
     <depend project="xml-xalan2"/>
     <depend project="jmx"/>
-    <depend project="ejb"/>
     <depend project="jms"/>
     <depend project="jakarta-servletapi-4"/>
     <depend project="jakarta-bcel" runtime="true"/>
     <depend project="jakarta-site2" inherit="all"/>
 
     <work nested="core/build/classes" />
-    <work nested="modules/build/xdoclet/classes"/>
-    <work nested="modules/build/hibernate/classes"/>
+    <work nested="modules/build/apache/classes"/>
     <work nested="modules/build/ejb/classes"/>
+    <work nested="modules/build/hibernate/classes"/>
     <work nested="modules/build/jdo/classes"/>
     <work nested="modules/build/jmx/classes"/>
     <work nested="modules/build/web/classes"/>
+    <work nested="modules/build/xdoclet/classes"/>
 
     <!-- resources are left in src tree -->
     <work nested="modules/xdoclet/src"/>
@@ -87,9 +157,12 @@
     <jar id="xdoclet-core" name="lib/xdoclet-@@DATE@@.jar"/>
     <jar id="xdoclet-apache" name="lib/xdoclet-apache-module-@@DATE@@.jar"/>
     <jar id="xdoclet-bea" name="lib/xdoclet-bea-module-@@DATE@@.jar"/>
+    <jar id="xdoclet-borland" name="lib/xdoclet-borland-module-@@DATE@@.jar"/>
     <jar id="xdoclet-caucho" name="lib/xdoclet-caucho-module-@@DATE@@.jar"/>
     <jar id="xdoclet-ejb" name="lib/xdoclet-ejb-module-@@DATE@@.jar"/>
     <jar id="xdoclet-exolab" name="lib/xdoclet-exolab-module-@@DATE@@.jar"/>
+    <jar id="xdoclet-hibernate"
+         name="lib/xdoclet-hibernate-module-@@DATE@@.jar"/>
     <jar id="xdoclet-hp" name="lib/xdoclet-hp-module-@@DATE@@.jar"/>
     <jar id="xdoclet-ibm" name="lib/xdoclet-ibm-module-@@DATE@@.jar"/>
     <jar id="xdoclet-java" name="lib/xdoclet-java-module-@@DATE@@.jar"/>
