@@ -236,12 +236,25 @@
   <!-- =================================================================== -->
 
   <xsl:template match="prereq">
+    <xsl:variable name="project" select="@project"/>
     <xsl:for-each select="file">
-      <xsl:text>test -e </xsl:text>
+      <xsl:text>if test ! -e </xsl:text>
       <xsl:value-of select="translate(@path,'\','/')"/>
-      <xsl:text> || export STATUS="PREREQ FAILURE - </xsl:text>
-      <xsl:value-of select="@project"/>
+      <xsl:text>; then&#10;</xsl:text>
+
+      <xsl:text>  export STATUS="PREREQ FAILURE - </xsl:text>
+      <xsl:value-of select="$project"/>
       <xsl:text>"&#10;</xsl:text>
+
+      <xsl:text>  eval echo "\&lt;p\&gt;Missing prereq \&lt;code\&gt;</xsl:text>
+      <xsl:value-of select="translate(@path,'\','/')"/>
+      <xsl:text>\&lt;/code\&gt; from \&lt;a href=\"</xsl:text>
+      <xsl:value-of select="$project"/>
+      <xsl:text>.html\"\&gt;</xsl:text>
+      <xsl:value-of select="$project"/>
+      <xsl:text>\&lt;/a\&gt;\&lt;/p\&gt; $OUT"&#10;</xsl:text>
+
+      <xsl:text>fi&#10;</xsl:text>
     </xsl:for-each>
   </xsl:template>
 
