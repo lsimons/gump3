@@ -64,13 +64,9 @@
   <project href="project/jsse.xml"     home="/opt/jsse1.0.2"/>
   <project href="project/jta.xml"      home="/opt/jta-spec1_0_1"/>
 
-
   <!-- CVS Repository overrides -->
 
   <cvs-repository>
-    <tree name="alexandria"
-      root=":pserver:anon@cvs.working-dogs.com:/products/cvs/alexandria"/>
-
     <tree name="bsf"
       root=":pserver:bsfadmin@oss.software.ibm.com:/usr/cvs/bsf"/>
 
@@ -79,9 +75,6 @@
 
     <tree name="freemarker"
       root=":pserver:anonymous@cvs.freemarker.sourceforge.net:/cvsroot/freemarker"/>
-
-    <tree name="jetspeed"
-      root=":pserver:anon@cvs.working-dogs.com:/products/cvs/jetspeed"/>
 
     <tree name="jakarta"
       root=":pserver:anoncvs@jakarta.apache.org:/home/cvspublic"/>
@@ -97,14 +90,11 @@
     <tree name="jservpub"
       root=":pserver:jservpub@cvs.working-dogs.com:/products/cvs/master"/>
 
-    <tree name="turbine"
-      root=":pserver:anon@cvs.working-dogs.com:/products/cvs/turbine"/>
-
     <tree name="xml"
       root=":pserver:anoncvs@xml.apache.org:/home/cvspublic"/>
 
     <tree name="working-dogs"
-      root=":pserver:anon@cvs.working-dogs.com:/products/cvs/external"/>
+      root=":pserver:anon@cvs.working-dogs.com:/products/cvs"/>
   </cvs-repository>
 
 </workspace>

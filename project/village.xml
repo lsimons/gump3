@@ -5,7 +5,7 @@
     Database API
   </description>
 
-  <cvs repository="working-dogs"/>
+  <cvs repository="working-dogs" dir="external"/>
 
   <ant buildfile="build/build-village.xml" target="package"/>
 

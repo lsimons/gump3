@@ -5,7 +5,7 @@
     Enterprise Information Portal
   </description>
 
-  <cvs repository="jetspeed"/>
+  <cvs repository="working-dogs" dir="jetspeed"/>
 
   <ant buildfile="build/build.xml">
     <property name="JAVAC" value="classic"/>

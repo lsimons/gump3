@@ -112,10 +112,21 @@
 
   <xsl:template match="project[not(cvs)]"/>
 
+  <!-- =================================================================== -->
+  <!-- pre-resolve repository for later convenience                        -->
+  <!-- =================================================================== -->
+
   <xsl:template match="cvs">
     <xsl:variable name="repository" select="@repository"/>
-    <cvs repository="{//cvs-repository/tree[@name=$repository]/@root}"
-         srcdir="{ancestor::project/@srcdir}">
+    <cvs srcdir="{ancestor::project/@srcdir}">
+
+      <xsl:attribute name="repository">
+        <xsl:value-of select="//cvs-repository/tree[@name=$repository]/@root"/>
+        <xsl:if test="@dir">
+          <xsl:text>/</xsl:text>
+          <xsl:value-of select="@dir"/>
+        </xsl:if>
+      </xsl:attribute>
 
       <xsl:apply-templates select="@*[not(name()='repository')]"/>
 
