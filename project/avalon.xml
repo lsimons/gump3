@@ -24,7 +24,10 @@
     <cvs repository="avalon"/>
 
     <project name="avalon">
-      <depend project="avalon-framework" inherit="jars" id="api"/>
+        <!-- just make sure avalon-framework has been built -->
+        <depend project="avalon-framework"><noclasspath/></depend>
+        <!-- only publish the api jar -->
+        <jar name="framework/api/target/avalon-framework-api-@@DATE@@.jar"/>
     </project>
     
     <project name="avalon-framework">
