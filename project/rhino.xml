@@ -12,13 +12,15 @@
 
   <cvs repository="mozilla" module="mozilla/js/rhino"/>
 
-  <ant target="jar"/>
+  <ant target="jar">
+    <property name="version" value="_gump"/>
+  </ant>
 
   <depend project="jakarta-ant"/>
   <depend project="bsf"/>
   <depend project="xml-xerces"/>
 
-  <home nested="build/rhino1_5R2pre"/>
+  <home nested="build/rhino_gump"/>
   <jar name="js.jar"/>
 
 </project>
