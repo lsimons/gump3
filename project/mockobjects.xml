@@ -23,6 +23,39 @@
 
     <!-- mocked parts of J2EE -->
     <depend project="jaf"/>
+    <depend project="jakarta-servletapi-4"/>
+    <depend project="javamail"/>
+    <depend project="jms"/>
+
+    <work nested="out/core/classes"/>
+    <work nested="out/jdk/classes"/>
+
+    <home nested="out"/>
+    <jar name="mockobjects-core-@@DATE@@.jar" id="core"/>
+    <jar name="mockobjects-jdk1.4-@@DATE@@.jar" id="jdk"/>
+    <jar name="mockobjects-alt-jdk1.4-@@DATE@@.jar" id="alt-jdk"/>
+    <jar name="mockobjects-jdk1.4-j2ee1.3-@@DATE@@.jar" id="j2ee"/>
+    <jar name="mockobjects-alt-jdk1.4-j2ee1.3-@@DATE@@.jar" id="alt-j2ee"/>
+
+    <nag from="Jeff Martin&lt;jeff@custommonkey.org&gt;"
+      to="mockobjects-java-dev@lists.sourceforge.net"/>
+  </project>
+
+  <project name="mockobjects-servlet24">
+    <package>com.mockobjects</package>
+    <mkdir dir="out/core/classes"/>
+    <mkdir dir="out/jdk/classes"/>
+
+    <ant>
+      <property name="project.version" value="@@DATE@@"/>
+    </ant>
+
+    <depend project="ant" inherit="runtime"/>
+    <depend project="xml-xerces"/>
+    <depend project="junit" runtime="true"/>
+
+    <!-- mocked parts of J2EE -->
+    <depend project="jaf"/>
     <depend project="jakarta-servletapi-5-jsp"/>
     <depend project="jakarta-servletapi-5-servlet"/>
     <depend project="javamail"/>
