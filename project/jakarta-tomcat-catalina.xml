@@ -65,6 +65,7 @@
         runtime="true" id="all"/>
       <depend property="commons-logging-api.jar" project="commons-logging"
         runtime="true" id="api"/>
+      <depend property="commons-launcher.jar" project="commons-launcher"/>
     </ant>
 
     <depend project="ant"/>
