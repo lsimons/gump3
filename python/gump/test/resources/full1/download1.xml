@@ -2,18 +2,18 @@
 
   <url  href="http://ant.apache.org/index.html"/>
   <description>
-    Java based build tool
+    Test of downloading a package
   </description>
 
   <jars repository="jars_repository1"/>
 
   <project name="download1">
-    <package>org.apache.tools.ant</package>
+    <package>org.apache.download1</package>
 
     <ant target="gump"/>
 
-    <depend project="random"/>
-    <option project="random"/>
+    <depend project="project1"/>
+    <option project="project2"/>
 
     <home nested="dist"/>
 

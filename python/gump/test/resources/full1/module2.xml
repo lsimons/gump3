@@ -2,13 +2,13 @@
 
   <url  href="http://ant.apache.org/index.html"/>
   <description>
-    Java based build tool
+    Module 2
   </description>
 
   <cvs repository="repository1"/>
 
   <project name="project2">
-    <package>org.apache.tools.ant</package>
+    <package>org.apache.project2</package>
 
     <ant target="gump">
       <property name="ant.home" reference="home" project="project1"/>

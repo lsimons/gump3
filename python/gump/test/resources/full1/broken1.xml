@@ -2,7 +2,9 @@
 
   <url  href="http://ant.apache.org/index.html"/>
   <description>
-    Java based build tool
+    Broken module: 
+    1) Duplicate project definitions
+    2) Missing URL
   </description>
 
   <!-- Bad repository -->

@@ -2,13 +2,13 @@
 
   <url  href="http://ant.apache.org/index.html"/>
   <description>
-    Java based build tool
+    Test of Gump using Maven...
   </description>
 
   <cvs repository="repository1"/>
 
   <project name="maven1">
-    <package>org.apache.tools.ant</package>
+    <package>org.apache.maven</package>
 
     <maven target="gump"/>
 
