@@ -36,6 +36,7 @@
     <depend project="werken.xpath"/>
     <depend project="antlr.runtime"/>
     <depend project="jakarta-avalon-logkit"/>
+    <depend project="jakarta-log4j"/>
     <work nested="test/cpload/test1.jar"/>
     <work nested="test/cpload/test2.jar"/>
     <work nested="test/multiloader/test1.jar"/>
