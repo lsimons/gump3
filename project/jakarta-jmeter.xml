@@ -15,7 +15,7 @@
   limitations under the License.
 -->
 <module name="jakarta-jmeter">
-<!-- Version $Revision: 1.101 $ Last updated $Date: 2004/06/20 01:48:04 $ -->
+<!-- Version $Revision: 1.102 $ Last updated $Date: 2004/06/21 21:35:00 $ -->
   <url href="http://jakarta.apache.org/jmeter/" />
   <description>
     Pure Java load testing and performance measurement tool.
@@ -31,8 +31,8 @@
       <property name="jmeter.version" value="@@DATE@@"/>
       <property name="gump.run" value="true"/>
       <!-- The version of this file -->
-      <property name="version.projectfile" value="$Revision: 1.101 $"/>
-      <property name="date.projectfile" value="$Date: 2004/06/20 01:48:04 $"/>
+      <property name="version.projectfile" value="$Revision: 1.102 $"/>
+      <property name="date.projectfile" value="$Date: 2004/06/21 21:35:00 $"/>
       
       <!--
         These properties are passed to the build process, so the names need to agree with
@@ -97,11 +97,10 @@
     <work nested="build/htmlparser"/>
     <work nested="build/jorphan"/>
     
-    <!-- Not available as Gump projects -->
-    <work nested="lib/xpp3-1.1.3.4.D.jar"/>
-    <work nested="lib/xstream-1.0.1.jar"/>
-
-    <!-- Allow http to build: -->
+    <depend project="xpp3"/>
+    <depend project="xstream"/>
+    
+        <!-- Allow http to build: -->
     <work nested="build/components"/>
 
     <!-- Allow Monitor to build -->
@@ -113,8 +112,25 @@
         <regexp pattern="/BUILD FAILED/" subject="JMeter Build Failure"/>
     </nag>
   </project>
-
-  <project name="jakarta-jmeter-cvs">
+  
+  <project name="xpp3">
+  	<url href="http://www.extreme.indiana.edu/xgws/xsoap/xpp/"/>
+  	<description>
+  		Xml Pull Parser (in short XPP) is a streaming pull XML parser
+  		and should be used when there is a need to process quickly and efficiently 
+  		all input elements.
+  	</description>
+  	<jar name="lib/xpp3-1.1.3.4.D.jar" id="xpp3"/>
+  </project>
+  
+  <project name="xstream">
+  	<url href="http://xstream.codehaus.org/"/>
+  	<description>XStream is a simple library to serialize objects to XML and back again
+  	</description>
+    <jar name="lib/xstream-1.0.1.jar" id="xstream"/>
+  </project>
+  
+  	<project name="jakarta-jmeter-cvs">
         <!-- Build JMeter from CVS versions of dependencies -->
     <package>org.apache.jmeter</package>
 
@@ -122,8 +138,8 @@
       <property name="jmeter.version" value="@@DATE@@"/>
       <property name="gump.run" value="true"/>
       <!-- The version of this file -->
-      <property name="version.projectfile" value="$Revision: 1.101 $"/>
-      <property name="date.projectfile" value="$Date: 2004/06/20 01:48:04 $"/>
+      <property name="version.projectfile" value="$Revision: 1.102 $"/>
+      <property name="date.projectfile" value="$Date: 2004/06/21 21:35:00 $"/>
 
       <!-- Ensure work directories don't get dropped from classpath -->
       <mkdir dir="build/core"/>
@@ -221,8 +237,8 @@
       <!-- Temp hack to make up for missing workspace property ... -->
       <property name="java.awt.headless" value="true"/>
       <!-- The version of this file -->
-      <property name="version.projectfile" value="$Revision: 1.101 $"/>
-      <property name="date.projectfile" value="$Date: 2004/06/20 01:48:04 $"/>
+      <property name="version.projectfile" value="$Revision: 1.102 $"/>
+      <property name="date.projectfile" value="$Date: 2004/06/21 21:35:00 $"/>
     </ant>
 
     <depend project="ant" />
@@ -295,8 +311,8 @@
       <property name="jmeter.version" value="@@DATE@@"/>
       <property name="gump.run" value="true"/>
       <!-- The version of this file -->
-      <property name="version.projectfile" value="$Revision: 1.101 $"/>
-      <property name="date.projectfile" value="$Date: 2004/06/20 01:48:04 $"/>
+      <property name="version.projectfile" value="$Revision: 1.102 $"/>
+      <property name="date.projectfile" value="$Date: 2004/06/21 21:35:00 $"/>
     </ant>
 
     <depend project="ant" />
