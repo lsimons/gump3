@@ -65,7 +65,7 @@
         <depend project="commons-cli"/>
         <depend project="junit"/>        
         <depend project="xml-xerces"/>      
-        <depend project="xml-xalan"/>
+        <depend project="xml-xalan2"/>
     
 	    <jar name="krysalis-barcode-@@DATE@@.jar"/>
         
