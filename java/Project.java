@@ -295,20 +295,20 @@ public class Project {
 
             throw new Exception(
                "A jar with id \"" + id + "\" was not found in project \"" + 
-               project + "\" referenced by project " + name);
+               projectName + "\" referenced by project " + name);
 
         } else if (project.jars.size() > 1) {
 
             throw new Exception(
-               "Multiple jars defined by project \"" + project + "\" " + 
+               "Multiple jars defined by project \"" + projectName + "\" " + 
                "referenced by project \"" + name + "\"; " +
                "an id attribute is required to select the one you want.");
 
         } else {
 
             throw new Exception(
-               "Project \"" + project + "\" referenced by project " + name +
-               "defines no jars as output.");
+               "Project \"" + projectName + "\" referenced by project " + 
+               name + "defines no jars as output.");
 
         };
 
