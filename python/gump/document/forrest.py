@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/forrest.py,v 1.73 2004/02/12 00:24:16 ajack Exp $
-# $Revision: 1.73 $f
-# $Date: 2004/02/12 00:24:16 $
+# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/forrest.py,v 1.74 2004/02/15 17:32:05 ajack Exp $
+# $Revision: 1.74 $f
+# $Date: 2004/02/15 17:32:05 $
 #
 # ====================================================================
 #
@@ -239,7 +239,8 @@ class ForrestDocumenter(Documenter):
         sortedModuleList=createOrderedList(gumpSet.getModules())
         sortedProjectList=createOrderedList(gumpSet.getSequence())
         sortedRepositoryList=createOrderedList(gumpSet.getRepositories())        
-        sortedServerList=createOrderedList(workspace.getServers())
+        sortedServerList=createOrderedList(workspace.getServers())       
+        sortedTrackerList=createOrderedList(workspace.getTrackers())
         
         #
         # ----------------------------------------------------------------------
@@ -396,6 +397,31 @@ class ForrestDocumenter(Documenter):
             self.insertLink( server, workspace, serverRow.createData())
             
         if not scount: serversTable.createLine('None')
+        
+        document.serialize()
+       
+        #
+        # ----------------------------------------------------------------------
+        #
+        # Trackers.xml
+        #
+        document=XDocDocument( 'All Trackers',	\
+            self.resolver.getFile(workspace,'trackers'))
+                
+        trackersSection=document.createSection('All Trackers')
+        trackersTable=trackersSection.createTable(['Name'])
+
+        scount=0
+        for tracker in sortedTrackerList:
+            
+            scount+=1
+                    
+            trackerRow=trackersTable.createRow()
+            trackerRow.createComment(tracker.getName())
+                       
+            self.insertLink( tracker, workspace, trackerRow.createData())
+            
+        if not scount: trackersTable.createLine('None')
         
         document.serialize()
        
@@ -673,10 +699,16 @@ class ForrestDocumenter(Documenter):
             self.documentRepository(repo,workspace,gumpSet)
             
         #
-        # Document repositories
+        # Document servers
         #
         for server in workspace.getServers():            
             self.documentServer(server,workspace,gumpSet)
+            
+        #
+        # Document trackers
+        #
+        for tracker in workspace.getTrackers():            
+            self.documentTracker(tracker,workspace,gumpSet)
             
         #
         # Document modules
@@ -813,6 +845,56 @@ class ForrestDocumenter(Documenter):
         self.documentXML(document,server)
         
         self.documentWorkList(document,server,'Server-level Work')
+
+        document.serialize()
+      
+             
+    def documentTracker(self,tracker,workspace,gumpSet):
+        
+        document=XDocDocument( 'Tracker : ' + tracker.getName(),	\
+                self.resolver.getFile(tracker))   
+            
+        # Provide a description/link back to the tracker site.
+#        descriptionSection=document.createSection('Description') 
+#        description=''
+#        if tracker.hasDescription():
+#            description=escape(tracker.getDescription())
+#            if not description.strip().endswith('.'):
+#                description+='. '    
+#        if not description:
+#            description='No description provided.'        
+#        if tracker.hasURL():
+#            description+=' For more information, see: ' + self.getFork(tracker.getURL())
+#        else:
+#            description+=' (No tracker URL provided).'
+#                
+#        descriptionSection.createParagraph().createRaw(description)
+        
+        self.documentAnnotations(document,tracker)    
+        
+        detailSection=document.createSection('Tracker Details')
+        detailList=detailSection.createList()        
+        
+        detailList.createEntry('Name: ', tracker.getName())
+    
+        if tracker.hasType():
+            detailList.createEntry('Type: ', tracker.getType())
+    
+        if tracker.hasTitle():
+            detailList.createEntry('Title: ', tracker.getTitle())
+    
+        if tracker.hasUrl():
+            detailList.createEntry('URL: ').createFork(	\
+                    tracker.getUrl(),tracker.getUrl())
+    
+            # Parent 'site' (owner reference)
+            if tracker.hasSite() and not tracker.getSite() == tracker.getUrl():
+                detailList.createEntry('Site: ').createFork(	\
+                        tracker.getSite(), tracker.getSite())
+            
+        self.documentXML(document,tracker)
+        
+        self.documentWorkList(document,tracker,'Tracker-level Work')
 
         document.serialize()
       

@@ -521,37 +521,37 @@ class GumpEngine:
         log.debug(' ------ Performing post-Build Actions (check jars) for : '+ project.getName())
 
         if project.okToPerformWork():
-            if project.hasOutputs():
+            if project.hasOutputs():                
+                outputs = []
+                    
                 #
-                # Ensure the output were all generated correctly.
+                # Ensure the jar output were all generated correctly.
                 #
                 outputsOk=1
                 for jar in project.getJars():
                     jarPath=os.path.abspath(jar.getPath())
+                    # Add to list of outputs, in case we
+                    # fail to find, and need to go list 
+                    # directoiries
+                    outputs.append(jarPath)
                     if not os.path.exists(jarPath):
                         project.changeState(STATE_FAILED,REASON_MISSING_OUTPUTS)
                         outputsOk=0
                         project.addError("Missing Output: " + str(jarPath))
                             
+                                 
                 if outputsOk: 
-                    # Publish them all (if distributable)
-                    # :TODO: check for distributable...
-                    for jar in project.getJars():
-                        jarPath=os.path.abspath(jar.getPath())
-                        # Copy to repository
-                        try:
-                            repository.publish( project.getModule().getName(), jarPath )           
-                        except Exception, details:
-                            message='Failed to publish [' + jarPath + '] to repository : ' + str(details)
-                            project.addError(message)
-                            log.error(message)
-                        
                     # If we have a <license name='...
                     if project.hasLicense():
                         licensePath=os.path.abspath(	\
                                         os.path.join( project.getModule().getSourceDirectory(),	\
                                                 project.getLicense() ) )
-                                                  
+                                          
+                        # Add to list of outputs, in case we
+                        # fail to find, and need to go list 
+                        # directoiries
+                        outputs.append(licensePath)
+                            
                         if not os.path.exists(licensePath):
                             project.changeState(STATE_FAILED,REASON_MISSING_OUTPUTS)
                             outputsOk=0
@@ -566,6 +566,20 @@ class GumpEngine:
                     else:
                         project.addWarning('No license on project with outputs.')                                        
                                     
+                if outputsOk: 
+                    # Publish them all (if distributable)
+                    # :TODO: check for distributable...
+                    for jar in project.getJars():
+                        # :TODO: Relative to module source?
+                        jarPath=os.path.abspath(jar.getPath())
+                        # Copy to repository
+                        try:
+                            repository.publish( project.getModule().getName(), jarPath )           
+                        except Exception, details:
+                            message='Failed to publish [' + jarPath + '] to repository : ' + str(details)
+                            project.addError(message)
+                            log.error(message)
+                        
                     project.changeState(STATE_SUCCESS)
                     
                     # For 'fun' list repository
@@ -580,9 +594,8 @@ class GumpEngine:
                     dirs=[]
                     dircnt=0
                     listed=0
-                    for jar in project.getJars():
-                        jarPath=os.path.abspath(jar.getPath())
-                        dir=os.path.dirname(jarPath)
+                    for output in outputs:
+                        dir=os.path.dirname(output)
                         if not dir in dirs:                        
                             dircnt += 1            
                             if os.path.exists(dir):

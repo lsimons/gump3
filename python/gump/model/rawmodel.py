@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/model/Attic/rawmodel.py,v 1.13 2004/02/10 00:43:19 ajack Exp $
-# $Revision: 1.13 $
-# $Date: 2004/02/10 00:43:19 $
+# $Header: /home/stefano/cvs/gump/python/gump/model/Attic/rawmodel.py,v 1.14 2004/02/15 17:32:05 ajack Exp $
+# $Revision: 1.14 $
+# $Date: 2004/02/15 17:32:05 $
 #
 # ====================================================================
 #
@@ -117,6 +117,7 @@ class XMLWorkspace(GumpXMLModelObject):
     self.module=Multiple(XMLModule)
     self.repository=Multiple(XMLRepository)
     self.server=Multiple(XMLServer)
+    self.tracker=Multiple(XMLTracker)
     self.profile=Multiple(XMLProfile)
     self.version=Single(GumpXMLModelObject)
 
@@ -129,6 +130,7 @@ class XMLProfile(Named,GumpXMLModelObject):
     self.module=Multiple(XMLModule)
     self.repository=Multiple(XMLRepository)
     self.server=Multiple(XMLServer)
+    self.tracker=Multiple(XMLTracker)
 
 # represents a <module/> element
 class XMLModule(Named):
@@ -145,6 +147,15 @@ class XMLModule(Named):
 
 # represents a <server/> element
 class XMLServer(Named):
+  list={}
+  def init(self):
+    self.attribution=Single(GumpXMLModelObject)
+    self.title=Single(GumpXMLModelObject)
+    self.url=Single(GumpXMLModelObject)
+    self.site=Single(GumpXMLModelObject)
+    
+# represents a <tracker/> element
+class XMLTracker(Named):
   list={}
   def init(self):
     self.attribution=Single(GumpXMLModelObject)

@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/text.py,v 1.7 2004/02/05 14:50:07 ajack Exp $
-# $Revision: 1.7 $
-# $Date: 2004/02/05 14:50:07 $
+# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/text.py,v 1.8 2004/02/15 17:32:05 ajack Exp $
+# $Revision: 1.8 $
+# $Date: 2004/02/15 17:32:05 $
 #
 # ====================================================================
 #
@@ -101,7 +101,8 @@ class TextDocumenter(Documenter):
         sortedModuleList=createOrderedList(gumpSet.getModules())
         sortedProjectList=createOrderedList(gumpSet.getSequence())
         sortedRepositoryList=createOrderedList(gumpSet.getRepositories())        
-        sortedServerList=createOrderedList(workspace.getServers())
+        sortedServerList=createOrderedList(workspace.getServers())     
+        sortedTrackerList=createOrderedList(workspace.getTrackers())
         
         output.write(indent + "Workspace State : " + workspace.getStateDescription() + "\n")
         output.write(indent + "Workspace Secs : " + str(workspace.getElapsedSecs()) + "\n")

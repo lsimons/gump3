@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/model/server.py,v 1.9 2004/02/15 17:32:05 ajack Exp $
-# $Revision: 1.9 $
+# $Header: /home/stefano/cvs/gump/python/gump/model/tracker.py,v 1.1 2004/02/15 17:32:05 ajack Exp $
+# $Revision: 1.1 $
 # $Date: 2004/02/15 17:32:05 $
 #
 # ====================================================================
@@ -70,19 +70,15 @@ from gump.model.object import NamedModelObject
 
 from gump.utils import getIndent
 
-class Server(NamedModelObject):
-    """A named server"""
+class Tracker(NamedModelObject):
+    """A named Tracker"""
     def __init__(self,xml,workspace):
     	NamedModelObject.__init__(self,xml.getName(),xml,workspace)
         
         self.resolver=None
             
     def complete(self,workspace):      
-    
-        if self.hasType() and self.getType() == 'python':
-            if self.hasUrl():
-                from gump.document.resolver import Resolver    
-                self.resolver=Resolver('bogus', self.getUrl())
+        pass
                      
     def check(self,workspace):
         pass
@@ -119,7 +115,7 @@ class Server(NamedModelObject):
         return self.resolver            
     
     def dump(self, indent=0, output=sys.stdout):
-        output.write(getIndent(indent)+'Server : ' + self.name + '\n')   
+        output.write(getIndent(indent)+'Tracker : ' + self.name + '\n')   
         NamedModelObject.dump(self,indent+1,output)
 
     

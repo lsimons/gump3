@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/document/resolver.py,v 1.12 2004/02/01 18:44:44 ajack Exp $
-# $Revision: 1.12 $
-# $Date: 2004/02/01 18:44:44 $
+# $Header: /home/stefano/cvs/gump/python/gump/document/resolver.py,v 1.13 2004/02/15 17:32:05 ajack Exp $
+# $Revision: 1.13 $
+# $Date: 2004/02/15 17:32:05 $
 #
 # ====================================================================
 #
@@ -78,6 +78,7 @@ from gump.output.statsdb import StatisticsGuru
 from gump.output.xref import XRefGuru
 from gump.model.repository import Repository
 from gump.model.server import Server
+from gump.model.tracker import Tracker
 from gump.model.workspace import Workspace
 from gump.model.module import Module
 from gump.model.project import Project
@@ -144,6 +145,8 @@ def getPathForObject(object,visited=None):
         path=Path(['gump_repo'])
     elif isinstance(object, Server):
         path=Path(['gump_srv'])
+    elif isinstance(object, Tracker):
+        path=Path(['gump_track'])
     elif isinstance(object, StatisticsGuru):
         path=Path(['gump_stats'])
     elif isinstance(object, XRefGuru):
@@ -236,6 +239,7 @@ def getDocumentForObject(object, extn='.xml', visited=None):
         document="index"+extn
     elif isinstance(object, Project) 	\
         or isinstance(object, Server)	\
+        or isinstance(object, Tracker)	\
         or isinstance(object, Repository)	\
         or isinstance(object, WorkItem):    
         document=gumpSafeName(object.getName()) + extn
@@ -253,6 +257,7 @@ def getIndexForObject(object):
     
     if 	isinstance(object, Workspace)	or	\
         isinstance(object, Server)	or	\
+        isinstance(object, Tracker)	or	\
         isinstance(object, Repository)	or	\
         isinstance(object, StatisticsGuru)	or	\
         isinstance(object, XRefGuru)	or	\

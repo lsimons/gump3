@@ -8,3 +8,5 @@ test
 tmp
 x.txt
 build
+*.log
+bogus

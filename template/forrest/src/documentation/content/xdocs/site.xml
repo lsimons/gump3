@@ -24,9 +24,10 @@
   </work>
   
   <work label="Misc" tab="home">
+    <index label="Packages" href="packages.html"/>
     <index label="Servers" href="servers.html"/>
     <index label="Repositories" href="repositories.html"/>
-    <index label="Packages" href="packages.html"/>
+    <index label="Trackers" href="trackers.html"/>
     <index label="XML" href="workspace.html"/>
   </work>
   

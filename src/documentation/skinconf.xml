@@ -4,35 +4,39 @@
 Skin configuration file. This file contains details of your project, which will
 be used to configure the chosen Forrest skin.
 -->
-
 <!DOCTYPE skinconfig [
 
   <!ENTITY % links.att 'name CDATA #REQUIRED'>
   <!ENTITY % link.att 'name CDATA #REQUIRED href CDATA #REQUIRED'>
-  <!ELEMENT skinconfig (disable-search?, disable-print-link?, disable-pdf-link?,
-  disable-xml-link?, disable-compliance-links?, searchsite-domain?, searchsite-name?,
-  project-name, project-url, project-logo, group-name?, group-url?, group-logo?,
-  host-url?, host-logo?, year?, vendor?, trail?, credits?)*>
+  <!ELEMENT skinconfig (disable-lucene?, disable-search?, disable-print-link?, disable-pdf-link?,
+  disable-xml-link?, disable-compliance-links?, obfuscate-mail-links?, searchsite-domain?, searchsite-name?,
+  project-name, project-description?, project-url, project-logo, group-name?, group-description?, group-url?, group-logo?,
+  host-url?, host-logo?, favicon-url?, year?, vendor?, trail?, toc?, credits?)*>
   <!ELEMENT credits (credit*)>
   <!ELEMENT credit (name, url, image?, width?, height?)>
   <!-- id uniquely identifies the tool, and role indicates its function -->
   <!ATTLIST credit id   CDATA #IMPLIED
                    role CDATA #IMPLIED>
+  <!ELEMENT disable-lucene (#PCDATA)>
   <!ELEMENT disable-search (#PCDATA)>
   <!ELEMENT disable-print-link (#PCDATA)>
   <!ELEMENT disable-pdf-link (#PCDATA)>
   <!ELEMENT disable-xml-link (#PCDATA)>    
   <!ELEMENT disable-compliance-links (#PCDATA)>   
+  <!ELEMENT obfuscate-mail-links (#PCDATA)>   
   <!ELEMENT searchsite-domain (#PCDATA)>
   <!ELEMENT searchsite-name (#PCDATA)>  
   <!ELEMENT project-name (#PCDATA)>
+  <!ELEMENT project-description (#PCDATA)>
   <!ELEMENT project-url (#PCDATA)>
   <!ELEMENT project-logo (#PCDATA)>
   <!ELEMENT group-name (#PCDATA)>
+  <!ELEMENT group-description (#PCDATA)>
   <!ELEMENT group-url (#PCDATA)>
   <!ELEMENT group-logo (#PCDATA)>
   <!ELEMENT host-url (#PCDATA)>
   <!ELEMENT host-logo (#PCDATA)>
+  <!ELEMENT favicon-url (#PCDATA)>
   <!ELEMENT year (#PCDATA)>
   <!ELEMENT vendor (#PCDATA)>
   <!ELEMENT trail (link1, link2, link3)>
@@ -48,6 +52,8 @@ be used to configure the chosen Forrest skin.
   <!ELEMENT image (#PCDATA)>
   <!ELEMENT width (#PCDATA)>
   <!ELEMENT height (#PCDATA)>
+  <!ELEMENT toc EMPTY>
+  <!ATTLIST toc level CDATA #IMPLIED>
   ]>
 
 <skinconfig>
@@ -91,8 +97,8 @@ be used to configure the chosen Forrest skin.
   -->
   <trail>
     <link1 name="Jakarta" href="http://jakarta.apache.org/"/>
-    <link2 name="" href=""/>
     <!-- link2 name="Jakarta Gump" href="http://jakarta.apache.org/gump/"/ -->
+    <link2 name="" href=""/>
     <link3 name="" href=""/>
   </trail>
 

@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/output/Attic/nag.py,v 1.11 2004/02/13 22:12:37 ajack Exp $
-# $Revision: 1.11 $
-# $Date: 2004/02/13 22:12:37 $
+# $Header: /home/stefano/cvs/gump/python/gump/output/Attic/nag.py,v 1.12 2004/02/15 17:32:05 ajack Exp $
+# $Revision: 1.12 $
+# $Date: 2004/02/15 17:32:05 $
 #
 # ====================================================================
 #
@@ -301,8 +301,7 @@ class Nagger:
     def getNamedTypedContent(self,object,feedPrefix=None,message=None):
         content="""To whom it may engage...
         
-This is an automated request, but not an unsolicited one. For help understanding the request please visit http://jakarta.apache.org/gump/nagged.html
-and/or contact gump@jakarta.apache.org.
+This is an automated request, but not an unsolicited one. For help understanding the request please visit http://jakarta.apache.org/gump/nagged.html, and/or contact gump@jakarta.apache.org.
 
 """
     
@@ -324,7 +323,7 @@ and/or contact gump@jakarta.apache.org.
         if duration and duration > 1:
             content += ', and has been outstanding for ' + `duration` + ' runs'
         
-        content += '.\n'
+        content += '. '
             
         content += self.getGenericContent(object,feedPrefix)
         
@@ -343,7 +342,7 @@ and/or contact gump@jakarta.apache.org.
         content += 'The current state is \'' + object.getStateDescription() + '\''
     
         if object.hasReason():
-            content +=  ', for reason ' + object.getReasonDescription() + '\''
+            content +=  ', for reason \'' + object.getReasonDescription() + '\''
         
         content += '\n'
                                  

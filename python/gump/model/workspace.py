@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/model/workspace.py,v 1.27 2004/02/12 13:48:20 ajack Exp $
-# $Revision: 1.27 $
-# $Date: 2004/02/12 13:48:20 $
+# $Header: /home/stefano/cvs/gump/python/gump/model/workspace.py,v 1.28 2004/02/15 17:32:05 ajack Exp $
+# $Revision: 1.28 $
+# $Date: 2004/02/15 17:32:05 $
 #
 # ====================================================================
 #
@@ -72,6 +72,7 @@ from gump.utils.tools import *
 from gump.model.state import *
 from gump.model.repository import Repository
 from gump.model.server import Server
+from gump.model.tracker import Tracker
 from gump.model.module import Module, createUnnamedModule
 from gump.model.project import Project, ProjectSummary
 from gump.model.profile import Profile
@@ -107,6 +108,7 @@ class Workspace(ModelObject,PropertyContainer, Statable):
         self.projects={}
         self.profiles={}
         self.servers={}
+        self.trackers={}
         
         #
     	PropertyContainer.importProperties(self,self.xml)    	
@@ -168,6 +170,21 @@ class Workspace(ModelObject,PropertyContainer, Statable):
         return self.sortedServers
 
 
+    # Tracker Interface
+    
+    def hasTracker(self,rname):
+        return self.trackers.has_key(rname)
+        
+    def getTracker(self,rname):
+        return self.trackers[rname]
+        
+    def getTrackers(self):
+        return self.trackers.values()
+        
+    def getSortedTrackers(self):
+        return self.sortedTrackers
+
+
     # Profile Interface
         
     def hasProfile(self,mname):
@@ -214,7 +231,7 @@ class Workspace(ModelObject,PropertyContainer, Statable):
         
     def complete(self, xmlprofiles, xmlrepositories, \
                     xmlmodules, xmlprojects,	\
-                    xmlservers):        
+                    xmlservers, xmltrackers):        
         if self.isComplete(): return
         
         #
@@ -322,6 +339,19 @@ class Workspace(ModelObject,PropertyContainer, Statable):
                 self.servers[serverName] = server
 
         #
+        # Import all trackers
+        #  
+        for xmltracker in xmltrackers.values(): 
+            tracker=Tracker(xmltracker,self)
+            trackerName=tracker.getName()
+            if trackerName in self.trackers:
+                # Duplicate, uh oh...
+                self.addError("Duplicate tracker name [" + trackerName + "]")
+            else:        
+                tracker.complete(self)
+                self.trackers[trackerName] = tracker
+
+        #
         # Import all modules
         #  
         for xmlmodule in xmlmodules.values(): 
@@ -361,6 +391,12 @@ class Workspace(ModelObject,PropertyContainer, Statable):
         for server in self.getServers(): 
             server.check(self)            
         
+        #
+        # Check trackers.
+        #
+        for tracker in self.getTrackers(): 
+            tracker.check(self)            
+        
         # Complete the projects   
         haveUnnamedModule=0
         for project in self.getProjects():
@@ -393,7 +429,8 @@ class Workspace(ModelObject,PropertyContainer, Statable):
         self.sortedProjects=createOrderedList(self.getProjects())
         self.sortedRepositories=createOrderedList(self.getRepositories())
         self.sortedProfiles=createOrderedList(self.getProfiles())
-        self.sortedServer=createOrderedList(self.getServers())
+        self.sortedServers=createOrderedList(self.getServers())
+        self.sortedTrackers=createOrderedList(self.getTrackers())
         
         # Copy over any XML errors/warnings
         transferAnnotations(self.xml, self)  
