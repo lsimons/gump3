@@ -13,7 +13,7 @@
     <depend project="jakarta-ant"/>
     <depend project="xml-xerces"/>
 
-    <home nested="cactus/target"/>
+    <home nested="target"/>
     <jar name="jakarta-cactus-ant.jar"/>
   </project>
 
@@ -39,10 +39,10 @@
     <depend project="jakarta-tomcat"/>
     <depend project="jakarta-cactus-ant"/>
 
-    <work nested="cactus/target/classes"/>
-    <work nested="cactus/target/servlet22/classes"/>
+    <work nested="target/classes"/>
+    <work nested="target/servlet22/classes"/>
 
-    <home nested="cactus/target"/>
+    <home nested="target"/>
     <jar name="servlet22/dist/lib/jakarta-cactus.jar"/>
   </project>
 
@@ -68,10 +68,10 @@
     <depend project="jakarta-tomcat-4.0"/>
     <depend project="jakarta-cactus-ant"/>
 
-    <work nested="cactus/target/classes"/>
-    <work nested="cactus/target/servlet23/classes"/>
+    <work nested="target/classes"/>
+    <work nested="target/servlet23/classes"/>
 
-    <home nested="cactus/target"/>
+    <home nested="target"/>
     <jar name="servlet23/dist/lib/jakarta-cactus.jar"/>
   </project>
 
