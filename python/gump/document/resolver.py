@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/document/resolver.py,v 1.15 2004/02/28 00:08:49 ajack Exp $
-# $Revision: 1.15 $
-# $Date: 2004/02/28 00:08:49 $
+# $Header: /home/stefano/cvs/gump/python/gump/document/resolver.py,v 1.16 2004/03/09 23:20:32 ajack Exp $
+# $Revision: 1.16 $
+# $Date: 2004/03/09 23:20:32 $
 #
 # ====================================================================
 #
@@ -346,7 +346,7 @@ class Resolver:
         if not root: root=self.rootDir
         if not os.path.exists(root):
             log.debug('Make directory : [' + root + ']')
-            os.mkdir(root)
+            os.makedirs(root)
         for p in path:
             root=os.path.join(root,p)
             if not os.path.exists(root):

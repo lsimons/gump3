@@ -370,9 +370,10 @@ class GumpEngine:
     
             if module.okToPerformWork():
             
-                sourcedir = os.path.abspath(os.path.join(workspace.getCvsDirectory(), \
-                                        module.name)) # todo allow override
-                destdir = os.path.abspath(workspace.getBaseDirectory())
+                sourcedir = os.path.abspath(	\
+                                os.path.join(	workspace.getCvsDirectory(), \
+                                                module.name)) # todo allow override
+                destdir = module.getSourceDirectory()
                 
                 # Perform the sync...
                 try:
