@@ -86,6 +86,7 @@
 
         <depend inherit="runtime" project="ant"/>
         <depend project="depot-common" inherit="all"/>
+        <depend project="jakarta-servletapi-5" />
 
         <jar name="dist/depot-version-gump-@@DATE@@.jar"/>
 
