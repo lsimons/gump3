@@ -125,6 +125,39 @@
     </project>
 
 
+    <project name="depot-version-ant-sample" fullname="Depot Version Ant Sample" >
+    	
+        <depend project="depot-version" inherit="all"/>
+        <depend project="ant" inherit="runtime"/>
+        <depend project="xml-xerces"/>
+
+        <ant basedir="version" buildfile="build-ant-sample.xml" target="gump" vm="1.4">
+        	<property name="ant.home" project="ant" reference="home" />
+        </ant>
+
+	    <nag 
+           to="depot-dev@incubator.apache.org"
+           from="Adam Jack &lt;ajack@apache.org&gt;"/>
+           
+    </project>
+
+    <project name="depot-version-ant-test-optional-missing" fullname="Depot Version Ant Test Optional Missing" >
+    	
+    	<!-- Note: Intended NOT to have depot-version here -->
+        <depend project="ant" inherit="runtime"/>
+        <depend project="xml-xerces"/>
+
+        <ant basedir="version" buildfile="build-ant-test-optional-missing.xml" target="gump" vm="1.4">
+        	<property name="ant.home" project="ant" reference="home" />
+        </ant>
+
+	    <nag 
+           to="depot-dev@incubator.apache.org"
+           from="Adam Jack &lt;ajack@apache.org&gt;"/>
+           
+    </project>
+
+
     <project name="depot-version-antlet" fullname="Depot Version Antlet" >
        <package>org.apache.depot.version</package>
        <depend project="depot-version" inherit="all"/>
