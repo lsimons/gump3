@@ -11,7 +11,7 @@
         <package>org.apache.avalon.lifecycle</package>
 
         <ant basedir="lifecycle">
-            <property name="version" value="@@DATE@@"/>
+            <property name="package-version" value="@@DATE@@"/>
             <property name="junit.failonerror" value="true"/>
             <property name="jakarta-site.dir" project="jakarta-site2" 
                       reference="home" />
@@ -33,7 +33,7 @@
         <package>org.apache.avalon.meta</package>
 
         <ant basedir="meta">
-            <property name="version" value="@@DATE@@"/>
+            <property name="package-version" value="@@DATE@@"/>
             <property name="junit.failonerror" value="true"/>
             <property name="do.checkstyle" value="false"/>
             <property name="skip.dependencies" value="true"/>
@@ -59,7 +59,7 @@
 
         <ant basedir="assembly" target="jar">
             <depend property="logkit.jar" project="jakarta-avalon-logkit" runtime="true"/>
-            <property name="version" value="@@DATE@@"/>
+            <property name="package-version" value="@@DATE@@"/>
             <property name="junit.failonerror" value="true"/>
             <property name="do.checkstyle" value="false"/>
             <property name="skip.dependencies" value="true"/>
@@ -92,7 +92,7 @@
 
         <ant basedir="assembly" target="jar">
             <depend property="logkit.jar" project="jakarta-avalon-logkit" runtime="true"/>
-            <property name="version" value="@@DATE@@"/>
+            <property name="package-version" value="@@DATE@@"/>
             <property name="junit.failonerror" value="true"/>
             <property name="do.checkstyle" value="false"/>
             <property name="skip.dependencies" value="true"/>
