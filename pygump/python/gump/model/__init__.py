@@ -321,6 +321,16 @@ DEPENDENCY_INHERIT_HARD          = "hard"
 DEPENDENCY_INHERIT_COPY_OUTPUTS  = "copy-outputs"
 DEPENDENCY_INHERIT_JARS          = DEPENDENCY_INHERIT_COPY_OUTPUTS
 
+# TODO currently the model is one project has many dependencies which may be
+# further specified by output id, meaning a project can have multiple
+# dependencies with a different id but on the same project. This potentially
+# leads to a big performance hit on the graphing code and the like. Maybe it
+# is a better idea to have multiple (optional,runtime,inherit,id) pairs
+# associated with a (dependency,dependee) pair. Might rename "dependency" to
+# "relationship" and call "(optional,runtime,inherit,id)" the "dependency".
+#
+# That would mean a mismatch between object model and xml model that's a little
+# bigger than what we have now. Hmm.
 class Dependency(ModelObject):
     """Model a dependency.
     
