@@ -1,6 +1,6 @@
 <module name="ws-axis">
 
-  <url href="http://xml.apache.org/axis/"/>
+  <url href="http://ws.apache.org/axis/"/>
   <description>
     Simple Object Access Protocol
   </description>

@@ -1,6 +1,6 @@
 <module name="ws-wsil">
 
-  <url href="http://xml.apache.org/axis/"/>
+  <url href="http://cvs.apache.org/viewcvs.cgi/*checkout*/ws-wsil/java/README.htm"/>
   <description>
     Web Services Inspection Language 
   </description>
