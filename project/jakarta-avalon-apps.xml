@@ -29,8 +29,8 @@
 
         <jar name="build/lib/avalon-db-@@DATE@@.jar"/>
 
-        <nag from="Gump Integration Build &lt;avalon-dev@jakarta.apache.org&gt;"
-            to="avalon-dev@jakarta.apache.org"/>
+        <nag from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"
+                to="dev@avalon.apache.org"/>
     </project>
 
     <project name="avalon-apps-demo">
@@ -55,8 +55,8 @@
 
         <jar name="build/lib/avalon-demo-@@DATE@@.jar"/>
 
-        <nag from="Gump Integration Build &lt;avalon-dev@jakarta.apache.org&gt;"
-            to="avalon-dev@jakarta.apache.org"/>
+        <nag from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"
+                to="dev@avalon.apache.org"/>
     </project>
 
     <project name="avalon-apps-hsql">
@@ -78,8 +78,8 @@
 
         <jar name="build/lib/avalon-hsql-@@DATE@@.jar"/>
 
-        <nag from="Gump Integration Build &lt;avalon-dev@jakarta.apache.org&gt;"
-            to="avalon-dev@jakarta.apache.org"/>
+        <nag from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"
+                to="dev@avalon.apache.org"/>
     </project>
 
     <project name="avalon-apps-ftpserver">
@@ -98,8 +98,8 @@
 
         <jar name="build/lib/ftp-server-@@DATE@@.sar"/>
 
-        <nag from="Gump Integration Build &lt;avalon-dev@jakarta.apache.org&gt;"
-            to="avalon-dev@jakarta.apache.org"/>
+        <nag from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"
+                to="dev@avalon.apache.org"/>
     </project>
 
     <project name="avalon-apps-httpproxy">
@@ -121,8 +121,8 @@
 
         <jar name="build/lib/httpproxy-@@DATE@@.sar"/>
 
-        <nag from="Gump Integration Build &lt;avalon-dev@jakarta.apache.org&gt;"
-            to="avalon-dev@jakarta.apache.org"/>
+        <nag from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"
+                to="dev@avalon.apache.org"/>
     </project>
 
 <!-- infomover moved infomover!    <project name="avalon-apps-infomover">
@@ -143,8 +143,8 @@
 
         <jar name="build/lib/infomover-@@DATE@@.sar"/>
 
-        <nag from="Gump Integration Build &lt;avalon-dev@jakarta.apache.org&gt;"
-            to="avalon-dev@jakarta.apache.org"/>
+        <nag from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"
+                to="dev@avalon.apache.org"/>
     </project>-->
 
     <project name="avalon-apps-overlord">
@@ -165,8 +165,8 @@
 
         <jar name="build/lib/overlord-@@DATE@@.sar"/>
 
-        <nag from="Gump Integration Build &lt;avalon-dev@jakarta.apache.org&gt;"
-            to="avalon-dev@jakarta.apache.org"/>
+        <nag from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"
+                to="dev@avalon.apache.org"/>
     </project>
 
     <project name="avalon-apps-phyre">
@@ -180,7 +180,7 @@
         <depend project="jakarta-avalon"/>
         <depend project="jakarta-avalon-phoenix" inherit="all"/>
         <depend project="jakarta-avalon-cornerstone"/>
-	<depend project="excalibur-fortress" runtime="true"/>
+        <depend project="excalibur-fortress" runtime="true"/>
         <depend project="mx4j" runtime="true"/>
 
         <option project="checkstyle" inherit="runtime"/>
@@ -189,8 +189,8 @@
 
         <jar name="build/lib/phyre-@@DATE@@.sar"/>
 
-        <nag from="Gump Integration Build &lt;avalon-dev@jakarta.apache.org&gt;"
-            to="avalon-dev@jakarta.apache.org"/>
+        <nag from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"
+                to="dev@avalon.apache.org"/>
     </project>
 
     <project name="avalon-apps-sevak">
@@ -206,8 +206,8 @@
         <depend project="jakarta-avalon-cornerstone"/>
         <depend project="jetty" runtime="true"/>
         <depend project="jakarta-tomcat-catalina" runtime="true"/>
-	<depend project="commons-digester"/>
-	<!-- todo: build with jo! as well
+        <depend project="commons-digester"/>
+        <!-- todo: build with jo! as well
         <depend project="tagtraum-jo" runtime="true"/>-->
 
         <option project="checkstyle" inherit="runtime"/>
@@ -216,8 +216,8 @@
 
         <jar name="build/lib/sevak-@@DATE@@.sar"/>
 
-        <nag from="Gump Integration Build &lt;avalon-dev@jakarta.apache.org&gt;"
-            to="avalon-dev@jakarta.apache.org"/>
+        <nag from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"
+                to="dev@avalon.apache.org"/>
     </project>
 
     <project name="avalon-apps-simpleserver">
@@ -239,9 +239,10 @@
 
         <jar name="build/lib/simpleserver-@@DATE@@.sar"/>
 
-        <nag from="Gump Integration Build &lt;avalon-dev@jakarta.apache.org&gt;"
-            to="avalon-dev@jakarta.apache.org"/>
+        <nag from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"
+                to="dev@avalon.apache.org"/>
     </project>
 
 </module>
 
+

@@ -74,14 +74,14 @@
 
         <javadoc nested="build/javadocs" module="avalon"/>
 
-        <nag from="Gump Integration Build &lt;avalon-dev@jakarta.apache.org&gt;"
-            to="avalon-dev@jakarta.apache.org"
+        <nag from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"
+                to="dev@avalon.apache.org"
               subject="Audit Failure">
             <regexp pattern="/Checkstyle Failure/"/>
         </nag>
 
-        <nag from="Gump Integration Build &lt;avalon-dev@jakarta.apache.org&gt;"
-             to="avalon-dev@jakarta.apache.org"/>
+        <nag from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"
+                to="dev@avalon.apache.org"/>
     </project>
 
     <project name="excalibur-altrmi">
@@ -117,8 +117,8 @@
         <jar id="generator" name="build/lib/excalibur-altrmi-generator-@@DATE@@.jar"/>
         <jar id="server-impl" name="build/lib/excalibur-altrmi-server-impl-@@DATE@@.jar"/>
         <jar id="server-api" name="build/lib/excalibur-altrmi-server-interfaces-@@DATE@@.jar"/>
-        <nag from="Gump Integration Build &lt;avalon-dev@jakarta.apache.org&gt;"
-             to="avalon-dev@jakarta.apache.org"/>
+        <nag from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"
+                to="dev@avalon.apache.org"/>
     </project>
 
     <project name="excalibur-baxter">
@@ -141,8 +141,8 @@
 
         <home nested="baxter"/>
         <jar name="build/lib/excalibur-baxter-@@DATE@@.jar"/>
-        <nag from="Gump Integration Build &lt;avalon-dev@jakarta.apache.org&gt;"
-             to="avalon-dev@jakarta.apache.org"/>
+        <nag from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"
+                to="dev@avalon.apache.org"/>
     </project>
 
     <project name="excalibur-cache">
@@ -166,8 +166,8 @@
         <home nested="cache"/>
         <jar name="build/lib/excalibur-cache-@@DATE@@.jar"/>
 
-        <nag from="Gump Integration Build &lt;avalon-dev@jakarta.apache.org&gt;"
-             to="avalon-dev@jakarta.apache.org"/>
+        <nag from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"
+                to="dev@avalon.apache.org"/>
     </project>
 
     <project name="excalibur-cli">
@@ -190,8 +190,8 @@
         <home nested="cli"/>
         <jar name="build/lib/excalibur-cli-@@DATE@@.jar"/>
 
-        <nag from="Gump Integration Build &lt;avalon-dev@jakarta.apache.org&gt;"
-             to="avalon-dev@jakarta.apache.org"/>
+        <nag from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"
+                to="dev@avalon.apache.org"/>
     </project>
 
     <project name="excalibur-collections">
@@ -214,8 +214,8 @@
         <home nested="collections"/>
         <jar name="build/lib/excalibur-collections-@@DATE@@.jar"/>
 
-        <nag from="Gump Integration Build &lt;avalon-dev@jakarta.apache.org&gt;"
-             to="avalon-dev@jakarta.apache.org"/>
+        <nag from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"
+                to="dev@avalon.apache.org"/>
     </project>
 
     <project name="excalibur-component">
@@ -253,8 +253,8 @@
         <home nested="component"/>
         <jar name="build/lib/excalibur-component-@@DATE@@.jar"/>
 
-        <nag from="Gump Integration Build &lt;avalon-dev@jakarta.apache.org&gt;"
-             to="avalon-dev@jakarta.apache.org"/>
+        <nag from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"
+                to="dev@avalon.apache.org"/>
     </project>
 
     <project name="excalibur-concurrent">
@@ -277,8 +277,8 @@
         <home nested="concurrent"/>
         <jar name="build/lib/excalibur-concurrent-@@DATE@@.jar"/>
 
-        <nag from="Gump Integration Build &lt;avalon-dev@jakarta.apache.org&gt;"
-             to="avalon-dev@jakarta.apache.org"/>
+        <nag from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"
+                to="dev@avalon.apache.org"/>
     </project>
 
     <project name="excalibur-configuration">
@@ -305,7 +305,7 @@
         <jar name="build/lib/excalibur-configuration-@@DATE@@.jar"/>
 
         <nag from="Peter Donald &lt;peter@apache.org&gt;"
-             to="avalon-dev@jakarta.apache.org"/>
+                to="dev@avalon.apache.org"/>
     </project>
 
     <project name="excalibur-container">
@@ -328,14 +328,14 @@
         <jar name="build/lib/excalibur-container-@@DATE@@.jar"/>
 
         <nag from="Stephen McConnell &lt;mcconnell@apache.org&gt;"
-            to="avalon-dev@jakarta.apache.org"/>
+                to="dev@avalon.apache.org"/>
     </project>
 
     <project name="excalibur-converter">
         <package>org.apache.excalibur.converter</package>
 
         <ant basedir="converter">
-            <property name="jakarta-site.dir" project="jakarta-site2" 
+            <property name="jakarta-site.dir" project="jakarta-site2"
                     reference="srcdir" />
             <property name="version" value="@@DATE@@"/>
             <property name="junit.failonerror" value="true"/>
@@ -354,8 +354,8 @@
         <home nested="converter"/>
         <jar name="build/lib/excalibur-converter-@@DATE@@.jar"/>
 
-        <nag from="Gump Integration Build &lt;avalon-dev@jakarta.apache.org&gt;"
-             to="avalon-dev@jakarta.apache.org"/>
+        <nag from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"
+                to="dev@avalon.apache.org"/>
     </project>
 
     <project name="excalibur-datasource">
@@ -385,8 +385,8 @@
         <home nested="datasource"/>
         <jar name="build/lib/excalibur-datasource-@@DATE@@.jar"/>
 
-        <nag from="Gump Integration Build &lt;avalon-dev@jakarta.apache.org&gt;"
-             to="avalon-dev@jakarta.apache.org"/>
+        <nag from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"
+                to="dev@avalon.apache.org"/>
     </project>
 
     <project name="excalibur-event">
@@ -416,8 +416,8 @@
         <home nested="event"/>
         <jar name="build/lib/excalibur-event-@@DATE@@.jar"/>
 
-        <nag from="Gump Integration Build &lt;avalon-dev@jakarta.apache.org&gt;"
-             to="avalon-dev@jakarta.apache.org"/>
+        <nag from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"
+                to="dev@avalon.apache.org"/>
     </project>
 
     <project name="excalibur-extension">
@@ -440,8 +440,8 @@
         <home nested="extension"/>
         <jar name="build/lib/excalibur-extension-@@DATE@@.jar"/>
 
-        <nag from="Gump Integration Build &lt;avalon-dev@jakarta.apache.org&gt;"
-             to="avalon-dev@jakarta.apache.org"/>
+        <nag from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"
+                to="dev@avalon.apache.org"/>
     </project>
 
     <project name="excalibur-fortress">
@@ -477,8 +477,8 @@
         <home nested="fortress"/>
         <jar name="build/lib/excalibur-fortress-@@DATE@@.jar"/>
 
-        <nag from="Gump Integration Build &lt;avalon-dev@jakarta.apache.org&gt;"
-             to="avalon-dev@jakarta.apache.org"/>
+        <nag from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"
+                to="dev@avalon.apache.org"/>
     </project>
 
     <project name="excalibur-fortress-examples">
@@ -490,15 +490,15 @@
             <property name="excalibur-container.jar" project="excalibur-container" reference="jarpath"/>
         </ant>
 
-		<depend project="excalibur-fortress" inherit="all" runtime="true"/>
-		<depend project="excalibur-container" runtime="true"/>
+                <depend project="excalibur-fortress" inherit="all" runtime="true"/>
+                <depend project="excalibur-container" runtime="true"/>
         <!-- for the servlet examples -->
         <depend project="jakarta-servletapi"/>
 
         <jar name="build/lib/excalibur-fortress-examples-@@DATE@@.jar"/>
 
-        <nag from="Gump Integration Build &lt;avalon-dev@jakarta.apache.org&gt;"
-             to="avalon-dev@jakarta.apache.org"/>
+        <nag from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"
+                to="dev@avalon.apache.org"/>
     </project>
 
     <project name="excalibur-i18n">
@@ -521,8 +521,8 @@
         <home nested="i18n"/>
         <jar name="build/lib/excalibur-i18n-@@DATE@@.jar"/>
 
-        <nag from="Gump Integration Build &lt;avalon-dev@jakarta.apache.org&gt;"
-             to="avalon-dev@jakarta.apache.org"/>
+        <nag from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"
+                to="dev@avalon.apache.org"/>
     </project>
 
     <project name="excalibur-instrument">
@@ -548,8 +548,8 @@
         <home nested="instrument"/>
         <jar name="build/lib/excalibur-instrument-@@DATE@@.jar"/>
 
-        <nag from="Gump Integration Build &lt;avalon-dev@jakarta.apache.org&gt;"
-             to="avalon-dev@jakarta.apache.org"/>
+        <nag from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"
+                to="dev@avalon.apache.org"/>
     </project>
 
     <project name="excalibur-instrument-manager">
@@ -578,8 +578,8 @@
         <jar name="build/lib/excalibur-instrument-manager-@@DATE@@.jar"/>
         <jar name="build/lib/excalibur-instrument-manager-interfaces-@@DATE@@.jar"/>
 
-        <nag from="Gump Integration Build &lt;avalon-dev@jakarta.apache.org&gt;"
-             to="avalon-dev@jakarta.apache.org"/>
+        <nag from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"
+                to="dev@avalon.apache.org"/>
     </project>
 
     <project name="excalibur-instrument-client">
@@ -607,8 +607,8 @@
         <home nested="instrument-client"/>
         <jar name="build/lib/excalibur-instrument-client-@@DATE@@.jar"/>
 
-        <nag from="Gump Integration Build &lt;avalon-dev@jakarta.apache.org&gt;"
-             to="avalon-dev@jakarta.apache.org"/>
+        <nag from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"
+                to="dev@avalon.apache.org"/>
     </project>
 
     <project name="excalibur-io">
@@ -631,8 +631,8 @@
         <home nested="io"/>
         <jar name="build/lib/excalibur-io-@@DATE@@.jar"/>
 
-        <nag from="Gump Integration Build &lt;avalon-dev@jakarta.apache.org&gt;"
-             to="avalon-dev@jakarta.apache.org"/>
+        <nag from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"
+                to="dev@avalon.apache.org"/>
     </project>
 
     <project name="excalibur-loader">
@@ -659,8 +659,8 @@
         <home nested="loader"/>
         <jar name="build/lib/excalibur-loader-@@DATE@@.jar"/>
 
-        <nag from="Gump Integration Build &lt;avalon-dev@jakarta.apache.org&gt;"
-             to="avalon-dev@jakarta.apache.org"/>
+        <nag from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"
+                to="dev@avalon.apache.org"/>
     </project>
 
     <project name="excalibur-logger">
@@ -675,7 +675,7 @@
         </ant>
 
         <depend project="jakarta-ant" inherit="runtime"/>
-	<depend project="excalibur-i18n" inherit="runtime"/>
+        <depend project="excalibur-i18n" inherit="runtime"/>
         <option project="checkstyle" inherit="runtime"/>
         <depend project="junit"/>
         <depend project="jakarta-avalon" runtime="true"/>
@@ -694,8 +694,8 @@
         <home nested="logger"/>
         <jar name="build/lib/excalibur-logger-@@DATE@@.jar"/>
 
-        <nag from="Gump Integration Build &lt;avalon-dev@jakarta.apache.org&gt;"
-             to="avalon-dev@jakarta.apache.org"/>
+        <nag from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"
+                to="dev@avalon.apache.org"/>
     </project>
 
     <project name="excalibur-meta">
@@ -719,8 +719,8 @@
         <home nested="meta"/>
         <jar name="build/lib/excalibur-meta-@@DATE@@.jar"/>
 
-        <nag from="Gump Integration Build &lt;avalon-dev@jakarta.apache.org&gt;"
-             to="avalon-dev@jakarta.apache.org"/>
+        <nag from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"
+                to="dev@avalon.apache.org"/>
     </project>
 
     <project name="excalibur-monitor">
@@ -746,8 +746,8 @@
         <home nested="monitor"/>
         <jar name="build/lib/excalibur-monitor-@@DATE@@.jar"/>
 
-        <nag from="Gump Integration Build &lt;avalon-dev@jakarta.apache.org&gt;"
-             to="avalon-dev@jakarta.apache.org"/>
+        <nag from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"
+                to="dev@avalon.apache.org"/>
     </project>
 
     <project name="excalibur-naming">
@@ -770,8 +770,8 @@
         <home nested="naming"/>
         <jar name="build/lib/excalibur-naming-@@DATE@@.jar"/>
 
-        <nag from="Gump Integration Build &lt;avalon-dev@jakarta.apache.org&gt;"
-             to="avalon-dev@jakarta.apache.org"/>
+        <nag from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"
+                to="dev@avalon.apache.org"/>
     </project>
 
     <project name="excalibur-policy">
@@ -795,8 +795,8 @@
         <home nested="policy"/>
         <jar name="build/lib/excalibur-policy-@@DATE@@.jar"/>
 
-        <nag from="Gump Integration Build &lt;avalon-dev@jakarta.apache.org&gt;"
-             to="avalon-dev@jakarta.apache.org"/>
+        <nag from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"
+                to="dev@avalon.apache.org"/>
     </project>
 
     <project name="excalibur-pool">
@@ -823,8 +823,8 @@
         <home nested="pool"/>
         <jar name="build/lib/excalibur-pool-@@DATE@@.jar"/>
 
-        <nag from="Gump Integration Build &lt;avalon-dev@jakarta.apache.org&gt;"
-             to="avalon-dev@jakarta.apache.org"/>
+        <nag from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"
+                to="dev@avalon.apache.org"/>
     </project>
 
     <project name="excalibur-sourceresolve">
@@ -849,8 +849,8 @@
         <home nested="sourceresolve"/>
         <jar name="build/lib/excalibur-sourceresolve-@@DATE@@.jar"/>
 
-        <nag from="Gump Integration Build &lt;avalon-dev@jakarta.apache.org&gt;"
-             to="avalon-dev@jakarta.apache.org"/>
+        <nag from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"
+                to="dev@avalon.apache.org"/>
     </project>
 
     <project name="excalibur-store">
@@ -875,8 +875,8 @@
         <home nested="store"/>
         <jar name="build/lib/excalibur-store-@@DATE@@.jar"/>
 
-        <nag from="Gump Integration Build &lt;avalon-dev@jakarta.apache.org&gt;"
-             to="avalon-dev@jakarta.apache.org"/>
+        <nag from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"
+                to="dev@avalon.apache.org"/>
     </project>
 
     <project name="excalibur-testcase">
@@ -903,8 +903,8 @@
         <home nested="testcase"/>
         <jar name="build/lib/excalibur-testcase-@@DATE@@.jar"/>
 
-        <nag from="Gump Integration Build &lt;avalon-dev@jakarta.apache.org&gt;"
-             to="avalon-dev@jakarta.apache.org"/>
+        <nag from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"
+                to="dev@avalon.apache.org"/>
     </project>
 
     <project name="excalibur-thread">
@@ -933,8 +933,8 @@
         <home nested="thread"/>
         <jar name="build/lib/excalibur-thread-@@DATE@@.jar"/>
 
-        <nag from="Gump Integration Build &lt;avalon-dev@jakarta.apache.org&gt;"
-             to="avalon-dev@jakarta.apache.org"/>
+        <nag from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"
+                to="dev@avalon.apache.org"/>
     </project>
 
     <project name="excalibur-threadcontext">
@@ -957,8 +957,8 @@
         <home nested="threadcontext"/>
         <jar name="build/lib/excalibur-threadcontext-@@DATE@@.jar"/>
 
-        <nag from="Gump Integration Build &lt;avalon-dev@jakarta.apache.org&gt;"
-             to="avalon-dev@jakarta.apache.org"/>
+        <nag from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"
+                to="dev@avalon.apache.org"/>
     </project>
 
     <project name="excalibur-util">
@@ -982,8 +982,8 @@
 
         <home nested="util"/>
         <jar name="build/lib/excalibur-util-@@DATE@@.jar"/>
-        <nag from="Gump Integration Build &lt;avalon-dev@jakarta.apache.org&gt;"
-             to="avalon-dev@jakarta.apache.org"/>
+        <nag from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"
+                to="dev@avalon.apache.org"/>
     </project>
 
     <project name="excalibur-xmlutil">
@@ -1015,8 +1015,9 @@
         <home nested="xmlutil"/>
         <jar name="build/lib/excalibur-xmlutil-@@DATE@@.jar"/>
 
-        <nag from="Gump Integration Build &lt;avalon-dev@jakarta.apache.org&gt;"
-             to="avalon-dev@jakarta.apache.org"/>
+        <nag from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"
+                to="dev@avalon.apache.org"/>
     </project>
 
 </module>
+

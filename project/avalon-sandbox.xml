@@ -13,7 +13,7 @@
         <ant basedir="lifecycle">
             <property name="package-version" value="@@DATE@@"/>
             <property name="junit.failonerror" value="true"/>
-            <property name="jakarta-site.dir" project="jakarta-site2" 
+            <property name="jakarta-site.dir" project="jakarta-site2"
                       reference="home" />
         </ant>
 
@@ -25,8 +25,8 @@
         <home nested="lifecycle"/>
         <jar name="build/lib/avalon-lifecycle-@@DATE@@.jar"/>
 
-        <nag from="Gump Integration Build &lt;avalon-dev@jakarta.apache.org&gt;"
-             to="avalon-dev@jakarta.apache.org"/>
+        <nag from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"
+                to="dev@avalon.apache.org"/>
     </project>
 
     <project name="avalon-sandbox-meta">
@@ -50,8 +50,8 @@
         <home nested="meta"/>
         <jar name="build/lib/avalon-meta-@@DATE@@.jar"/>
 
-        <nag from="Gump Integration Build &lt;avalon-dev@jakarta.apache.org&gt;"
-             to="avalon-dev@jakarta.apache.org"/>
+        <nag from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"
+                to="dev@avalon.apache.org"/>
     </project>
 
     <project name="avalon-sandbox-assembly">
@@ -83,8 +83,8 @@
         <home nested="assembly"/>
         <jar name="build/lib/avalon-assembly-@@DATE@@.jar"/>
 
-        <nag from="Gump Integration Build &lt;avalon-dev@jakarta.apache.org&gt;"
-             to="avalon-dev@jakarta.apache.org"/>
+        <nag from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"
+                to="dev@avalon.apache.org"/>
     </project>
 
     <project name="avalon-sandbox-merlin">
@@ -119,8 +119,8 @@
         <home nested="merlin"/>
         <jar name="build/lib/avalon-merlin-@@DATE@@.jar"/>
 
-        <nag from="Gump Integration Build &lt;avalon-dev@jakarta.apache.org&gt;"
-             to="avalon-dev@jakarta.apache.org"/>
+        <nag from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"
+                to="dev@avalon.apache.org"/>
     </project>
 
     <project name="excalibur-info">
@@ -131,14 +131,14 @@
             <property name="junit.failonerror" value="true"/>
             <property name="do.checkstyle" value="true"/>
             <property name="skip.dependencies" value="true"/>
-            <property name="jakarta-site.dir" project="jakarta-site2" 
+            <property name="jakarta-site.dir" project="jakarta-site2"
                       reference="home" />
         </ant>
 
         <depend project="jakarta-ant" inherit="runtime"/>
         <option project="checkstyle" inherit="runtime"/>
         <depend project="junit"/>
-	<depend project="excalibur-qdox" runtime="true" inherit="runtime"/>
+        <depend project="excalibur-qdox" runtime="true" inherit="runtime"/>
         <depend project="jakarta-avalon" runtime="true"/>
         <depend project="excalibur-i18n" runtime="true"/>
         <depend project="xml-xerces"/>
@@ -149,7 +149,7 @@
         <jar name="build/lib/sandbox-info-@@DATE@@.jar"/>
 
         <nag from="Peter Donald &lt;peter@apache.org&gt;"
-            to="avalon-dev@jakarta.apache.org"/>
+                to="dev@avalon.apache.org"/>
     </project>
 
     <project name="excalibur-qdox">
@@ -157,3 +157,4 @@
     </project>
 
 </module>
+

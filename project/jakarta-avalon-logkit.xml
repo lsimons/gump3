@@ -6,12 +6,12 @@
   </description>
 
   <cvs repository="avalon"/>
-  
+
   <project name="jakarta-avalon-logkit">
     <package>org.apache.log</package>
 
     <ant>
-      <property name="jakarta-site.dir" project="jakarta-site2" 
+      <property name="jakarta-site.dir" project="jakarta-site2"
           reference="srcdir" />
     </ant>
     <depend project="jakarta-ant" inherit="runtime"/>
@@ -28,12 +28,12 @@
     <home nested="build/lib"/>
     <jar name="logkit.jar"/>
     <nag from="Peter Donald &lt;peter@apache.org&gt;"
-         to="avalon-dev@jakarta.apache.org"/>
+            to="dev@avalon.apache.org"/>
   </project>
 
   <project name="dist-avalon-logkit">
     <ant>
-      <property name="jakarta-site.dir" project="jakarta-site2" 
+      <property name="jakarta-site.dir" project="jakarta-site2"
           reference="srcdir" />
     </ant>
     <depend project="jakarta-ant" inherit="runtime"/>
@@ -53,7 +53,8 @@
     <jar name="logkit.jar"/>
 
     <nag from="Peter Donald &lt;peter@apache.org&gt;"
-         to="avalon-dev@jakarta.apache.org"/>
+            to="dev@avalon.apache.org"/>
   </project>
 
 </module>
+

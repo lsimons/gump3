@@ -6,7 +6,7 @@
   </description>
 
   <cvs repository="avalon"/>
-  
+
   <project name="jakarta-avalon-cornerstone">
     <package>org.apache.avalon.cornerstone</package>
 
@@ -36,8 +36,9 @@
     <jar name="cornerstone.jar"/>
 
     <nag from="Peter Donald &lt;peter@apache.org&gt;"
-         to="avalon-dev@jakarta.apache.org"/>
+            to="dev@avalon.apache.org"/>
   </project>
 
 </module>
 
+

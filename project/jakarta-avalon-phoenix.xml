@@ -57,19 +57,20 @@
     <javadoc nested="build/javadocs" module="avalon"/>
 
     <nag>
-    <regexp pattern="/^$/" from="peter@apache.org" 
+    <regexp pattern="/^$/" from="peter@apache.org"
             to="avalon-phoenix-dev@jakarta.apache.org"
             subject="PRE-REQ FAILED for jakarta-avalon-phoenix"/>
     </nag>
     <nag from="Peter Donald &lt;peter@apache.org&gt;"
-         to="avalon-dev@jakarta.apache.org"/>
+            to="dev@avalon.apache.org"/>
   </project>
 
   <project name="phoenix-qdox">
     <jar name="lib/qdox-1.1.jar"/>
   </project>
-  
+
   <project name="jarv">
     <jar name="lib/jing/isorelax.jar"/>
   </project>
 </module>
+
