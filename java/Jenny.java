@@ -35,7 +35,7 @@ public class Jenny {
     private Document parse(String source) throws Exception {
         try {
             DocumentBuilder dBuilder = dFactory.newDocumentBuilder();
-            return dBuilder.parse(new java.io.File(source));
+            return dBuilder.parse(source);
         } catch (SAXParseException e) {
             System.err.print("Error parsing file " + source);
             System.err.println(" line " + e.getLineNumber() + ": ");
