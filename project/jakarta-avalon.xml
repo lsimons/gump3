@@ -12,15 +12,16 @@
 
     <ant>
       <depend property="xerces.jar"  project="xml-xerces" id="parser"/>
-      <depend property="logkit.jar"  project="jakarta-avalon-logkit"/>
       <depend property="junit.jar"   project="junit"/>
     </ant>
     <depend project="jakarta-ant" inherit="runtime"/>
     <depend project="xml-xalan2"/>
     <option project="jakarta-log4j"/>
+    <option project="jakarta-avalon-logkit"/>
+    <option project="commons-logging"/>
 
     <home nested="target/lib"/>
-    <jar name="avalon-framework.jar"/>
+    <jar name="avalon-framework-@@DATE@@.jar"/>
 
     <license name="LICENSE.txt"/>
 
@@ -53,7 +54,7 @@
     <depend project="xml-xerces"/>
     <ant target="jar-exceptionutil"/>
     <home nested="target/lib"/>
-    <jar name="exceptionutil.jar"/>
+    <jar name="exceptionutil-@@DATE@@.jar"/>
     <nag from="Peter Donald &lt;peter@apache.org&gt;"
             to="dev@avalon.apache.org"/>
   </project>
