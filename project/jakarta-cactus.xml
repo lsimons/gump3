@@ -84,7 +84,7 @@
       <depend property="junit.jar" project="junit"/>
       <depend property="cactus.framework.jar" project="jakarta-cactus-framework-12"/>
       <depend property="cactus.ant.jar" project="jakarta-cactus-ant"/>
-      <property name="cactus.framework.web" value="framework/dist/web"/>
+      <property name="cactus.framework.web" value="framework/dist-12/web"/>
       <property name="test.port" value="8081"/>
       <property name="tomcat.home.33" reference="home" project="jakarta-tomcat"/>
       <property name="dist.dir" value="sample-servlet/dist-12"/>
@@ -143,7 +143,7 @@
       <depend property="junit.jar" project="junit"/>
       <depend property="cactus.framework.jar" project="jakarta-cactus-framework-13"/>
       <depend property="cactus.ant.jar" project="jakarta-cactus-ant"/>
-      <property name="cactus.framework.web" value="framework/dist/web"/>
+      <property name="cactus.framework.web" value="framework/dist-13/web"/>
       <property name="test.port" value="8082"/>
       <property name="tomcat.home.40" reference="home" project="jakarta-tomcat-4.0"/>
       <property name="dist.dir" value="sample-servlet/dist-13"/>
