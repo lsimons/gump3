@@ -74,15 +74,20 @@ def integrate(workspace,expr='*',context=GumpContext()):
     buildProjectSequence(workspace,sequence,context)
   
     #
-    # Only an 'all' is an official build...
+    # Only an 'all' is an official build, for them:
     #
-    if '*' == expr or 1:	# Testing
+    #	Update statistics
+    #	Provide Documentation
+    #	Nag
+    #	Provide RSS
+    #
+    if context.gumpset.isFull():
         # Update Statistics
         statistics(workspace,context)
   
         # Build HTML Result (via Forrest)
         if not context.noForrest:
-            document(workspace,context,modules,sequence)
+            document(workspace,context)
   
         #
         # Nag about failures -- only if we are allowed to

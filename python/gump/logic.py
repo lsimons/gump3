@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/Attic/logic.py,v 1.44 2003/11/04 16:15:03 ajack Exp $
-# $Revision: 1.44 $
-# $Date: 2003/11/04 16:15:03 $
+# $Header: /home/stefano/cvs/gump/python/gump/Attic/logic.py,v 1.45 2003/11/04 16:24:59 ajack Exp $
+# $Revision: 1.45 $
+# $Date: 2003/11/04 16:24:59 $
 #
 # ====================================================================
 #
@@ -118,11 +118,6 @@ class GumpSet:
             self.modules=getModulesForProjectList(self.sequence)
         else:
             self.modules=modules
-            
-        print self.projectexpression
-        print self.projects
-        print self.modules
-        print self.sequence
         
     # No Projects
     def isEmpty(self):
