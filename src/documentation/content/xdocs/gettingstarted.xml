@@ -71,10 +71,26 @@
       compliant parser, a command prompt (bash or Windows NT/2K), and Perl.
       Perl is only used at the moment for some of the publishing and
       notification, so it can be omitted.</p>
-
+      
       <p>It is highly recommended at this point that you review the
       description of the data definitions used by Gump, starting with
       the <link href="site:om/overview">overview</link>.</p>
+      
+      <section><title>Pre-requisites</title>
+      	<section><title>Source Control System</title>
+      	<p>One of these two is required.</p>
+      	<ul>
+      		<li>CVS -- Concurrent Versioning System</li>
+      		<li>SVN -- <fork href="http://subversion.tigris.org">Subversion</fork></li>
+      	</ul>
+      	</section>
+      	<section><title>Jar Download</title>
+      	<p>This is optional.</p>
+      	<ul>
+      		<li>Ruper -- <fork href="http://incubator.apache.org/projects/ruper.html">Resource Updater</fork></li>
+      	</ul>
+		</section>
+	  </section>
     </section>
 
     <section><title>Getting the source to Gump</title>

@@ -45,7 +45,7 @@
   			be Gumped, the better <em>Friend Of Gump</em> it'll be, and
   			will make a much better dependency for downstream projects.</p>
   		<p>Project often set dependencies on <em>junit</em> or <em>checkstyle</em>
-  			and then fail to even get Gumped to <b>compile</b> when those fail.
+  			and then fail to even get Gumped to <em>compile</em> when those fail.
   			Setting those two to optional, and then making the buildfile check
   			if they are available before attempting the task is a nice way
   			to go.</p>  		
