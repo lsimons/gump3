@@ -96,8 +96,7 @@
 
         <nag 
            to="depot-dev@incubator.apache.org"
-           from="Adam Jack &lt;ajack@apache.org&gt;"/>
-              
+           from="Adam Jack &lt;ajack@apache.org&gt;"/>              
     </project>
     
     
@@ -122,8 +121,7 @@
 
 	    <nag 
            to="depot-dev@incubator.apache.org"
-           from="Adam Jack &lt;ajack@apache.org&gt;"/>
-           
+           from="Adam Jack &lt;ajack@apache.org&gt;"/>           
     </project>
 
 
@@ -268,6 +266,10 @@
     	debug="true">    	
 
         <depend project="depot-update"/>
+        <depend project="depot-version" inherit="runtime"/> 
+        <depend project="depot-common" inherit="runtime"/>
+        <depend project="jakarta-regexp" inherit="runtime"/>
+        
         <depend project="commons-httpclient" inherit="runtime"/>
         <depend project="ant" inherit="runtime"/>
         
@@ -286,6 +288,9 @@
     	debug="true">    	
 
         <depend project="depot-update"/>
+        <depend project="depot-version" inherit="runtime"/> 
+        <depend project="depot-common" inherit="runtime"/>
+        <depend project="jakarta-regexp" inherit="runtime"/>
         <depend project="ant" inherit="runtime"/>
         
         <ant  basedir="update" buildfile="build-ant-sample.xml" target="gump" vm="1.4">
