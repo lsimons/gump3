@@ -23,6 +23,8 @@
         project="jakarta-avalon-excalibur" id="excalibur-scratchpad"/>
     </ant>
 
+    <depend project="bsf"/>
+    <depend project="excalibur-containerkit" runtime="true"/>
     <depend project="excalibur-io" runtime="true"/>
     <depend project="excalibur-cli" runtime="true"/>
     <depend project="excalibur-extension" runtime="true"/>
