@@ -152,7 +152,7 @@
     <depend project="xml-xerces"/>
         <depend project="junit"/>
     
-    <jar name="io/dist/commons-io.jar"/>
+    <jar name="io/dist/commons-id-0.1-dev.jar"/>
 
     <!-- nag to="commons-dev@jakarta.apache.org"
          from="Adam Jack &lt;ajack@apache.org&gt;"/ -->
