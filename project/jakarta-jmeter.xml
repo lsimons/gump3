@@ -24,6 +24,7 @@
     </ant>
 
     <depend project="jakarta-ant" />
+    <depend project="jakarta-velocity" />
     <depend project="pngencoder" />
     <depend project="jaf" />
     <depend project="javamail" />
