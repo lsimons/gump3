@@ -252,18 +252,32 @@
 
           <xsl:when test="@reference='jar'">
             <xsl:variable name="project" select="@project"/>
-            <xsl:variable name="id" select="@id"/>
-            <xsl:for-each select="/workspace/project[@name=$project]">
-              <property name="{$name}" value="{jar[@id=$id]/@name}" type="path"/>
-            </xsl:for-each>
+            <xsl:if test="@id">
+              <xsl:variable name="id" select="@id"/>
+              <xsl:for-each select="/workspace/project[@name=$project]">
+                <property name="{$name}" value="{jar[@id=$id]/@name}"/>
+              </xsl:for-each>
+            </xsl:if>
+            <xsl:if test="not(@id)">
+              <xsl:for-each select="/workspace/project[@name=$project]/jar">
+                <property name="{$name}" value="{@name}"/>
+              </xsl:for-each>
+            </xsl:if>
           </xsl:when>
 
           <xsl:when test="@reference='jarpath'">
             <xsl:variable name="project" select="@project"/>
-            <xsl:variable name="id" select="@id"/>
-            <xsl:for-each select="/workspace/project[@name=$project]">
-              <property name="{$name}" value="{home}/{jar[@id=$id]/@name}" type="path"/>
-            </xsl:for-each>
+            <xsl:if test="@id">
+              <xsl:variable name="id" select="@id"/>
+              <xsl:for-each select="/workspace/project[@name=$project]">
+                <property name="{$name}" value="{home}/{jar[@id=$id]/@name}" type="path"/>
+              </xsl:for-each>
+            </xsl:if>
+            <xsl:if test="not(@id)">
+              <xsl:for-each select="/workspace/project[@name=$project]/jar">
+                <property name="{$name}" value="{../home}/{@name}" type="path"/>
+              </xsl:for-each>
+            </xsl:if>
           </xsl:when>
 
           <xsl:when test="@path">

@@ -1,4 +1,4 @@
-// Imported TraX classes
+// TRaX classes
 import javax.xml.transform.dom.DOMResult;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.OutputKeys;
@@ -6,23 +6,26 @@ import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerFactory;
-import javax.xml.transform.stream.StreamSource;
 
-// Imported JAVA API for XML Parsing classes
+// Java API for XML Parsing classes
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
-// Imported DOM classes
+// DOM classes
 import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
-import org.w3c.dom.Node;
 import org.w3c.dom.NamedNodeMap;
+import org.w3c.dom.Node;
+import org.w3c.dom.traversal.NodeIterator;
 
-// Imported java classes
+// Java classes
 import java.io.FileOutputStream;
 import java.util.Enumeration;
 import java.util.Hashtable;
+
+// Apache xpath
+import org.apache.xpath.XPathAPI;
 
 public class gen {
 
@@ -183,6 +186,37 @@ public class gen {
     }
 
     /**
+      * Replace ant "depend" elements with "property" elements.  This is
+      * a convenience "syntatic sugar" that makes for simpler project
+      * definitions.  Attribute "property" becomes name.  Attributes
+      * reference="jarpath" and classpath="true" are added.
+      * @param document to be transformed
+      */
+    private void antDependsToProperties(Document document) throws Exception {
+        NodeIterator nl = XPathAPI.selectNodeIterator(document, "//ant/depend");
+        for (Node depend=nl.nextNode(); depend!=null; depend=nl.nextNode()) {
+
+            // create a new element based on existing element
+            Element property = document.createElement("property");
+            property.setAttribute("reference", "jarpath");
+            property.setAttribute("classpath", "add");
+            copyChildren((Element)depend, property);
+
+            // change property attribute to name attribute
+            if (property.getAttributeNode("name")==null) {
+               Attr pname = property.getAttributeNode("property");
+               if (pname != null) {
+                   property.setAttribute("name",pname.getValue());
+                   property.removeAttributeNode(pname);
+               }
+            }
+
+            // replace existing element with new one
+            depend.getParentNode().replaceChild(property, depend);
+        }
+    }
+
+    /**
       * merge, sort, and insert defaults into a workspace
       * @param DOM to be transformed
       * @param sheet to be used 
@@ -193,6 +227,7 @@ public class gen {
         expand((Element)workspace.getFirstChild());
         flatten("project", workspace.getFirstChild());
         flatten("repository", workspace.getFirstChild());
+        antDependsToProperties((Document)workspace);
 
         Node resolved = transform(workspace, "defaults.xsl");
         output (resolved, "work/merge.xml");

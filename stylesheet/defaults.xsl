@@ -163,7 +163,9 @@
           <xsl:if test="not(../property[position() &lt; $position and
                                         @project=$dependency])">
             <depend project="{$dependency}">
-              <noclasspath/>
+              <xsl:if test="not(@classpath)">
+                <noclasspath/>
+              </xsl:if>
             </depend>
             <xsl:text>&#10;</xsl:text>
 

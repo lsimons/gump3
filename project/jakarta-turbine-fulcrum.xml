@@ -8,26 +8,28 @@
   <cvs repository="jakarta"/>
 
   <ant>
-    <property name="velocity.jar"
-       reference="jarpath" id="velocity" project="jakarta-velocity"/>
-    <property name="log4j.jar"
-       reference="jarpath" id="log4j" project="jakarta-log4j"/>
-    <property name="jdom.jar"
-       reference="jarpath" id="jdom" project="jdom"/>
-    <property name="jakarta-site2"
-       reference="home" project="jakarta-site2"/>
-    <property name="torque.jar" id="torque"
-       reference="jarpath" project="jakarta-turbine-torque"/>
+    <depend property="velocity.jar" project="jakarta-velocity"/>
+    <depend property="log4j.jar"    project="jakarta-log4j" id="log4j"/>
+    <depend property="torque.jar"   project="jakarta-turbine-torque"/>
+    <depend property="jdom.jar"     project="jdom"/>
+    <depend property="bsf.jar"      project="bsf"/>
+    <depend property="servlet.jar"  project="jakarta-servletapi-4"/>
+    <depend property="javamail.jar" project="javamail"/>
+    <depend property="jaf.jar"      project="jaf"/>
+    <depend property="xalan.jar"    project="xml-xalan2"/>
+    <depend property="xmlrpc.jar"   project="xml-rpc"/>
+    <depend property="torque.jar"   project="jakarta-turbine-torque"/>
+    <depend property="village.jar"  project="village"/>
+    <depend property="commons-util.jar" project="commons-util"/>
+
+    <property name="jakarta-site2" reference="home" project="jakarta-site2"/>
 
     <property name="final.name" value="fulcrum-gump"/>
-    <property name="deprecation" path="on"/>
+    <property name="deprecation" value="on"/>
   </ant>
 
   <depend project="jakarta-ant"/>
   <depend project="xml-xerces"/>
-  <depend project="jakarta-velocity"/>
-  <depend project="jakarta-log4j"/>
-  <depend project="jakarta-turbine-torque"/>
 
   <home nested="bin"/>
   <jar name="fulcrum-gump.jar"/>
