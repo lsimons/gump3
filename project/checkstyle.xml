@@ -18,8 +18,8 @@
     <depend project="xml-xerces"/>
     <depend project="xml-xalan2"/>
     <depend project="junit"/>
-    <depend project="antlr"/>
-    <depend project="jakarta-regexp"/>
+    <depend project="antlr" inherit="jars"/>
+    <depend project="jakarta-regexp" inherit="jars"/>
     <work nested="classes/checkstyle"/>
     <work nested="classes/tests"/>
 
