@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/Attic/logic.py,v 1.13 2003/10/02 16:15:29 ajack Exp $
-# $Revision: 1.13 $
-# $Date: 2003/10/02 16:15:29 $
+# $Header: /home/stefano/cvs/gump/python/gump/Attic/logic.py,v 1.14 2003/10/03 21:10:36 ajack Exp $
+# $Revision: 1.14 $
+# $Date: 2003/10/03 21:10:36 $
 #
 # ====================================================================
 #
@@ -280,7 +280,7 @@ def getScriptCommand(workspace,module,project,script,context):
 def getOutputsList(project):
     outputs=[]
     for i in range(0,len(project.jar)):
-        # :TODO: Hack to avoid a crash
+        # :TODO: Hack to avoid a crash, don't know why it is needed...
         if project.jar[i].path:
             jar=os.path.normpath(project.jar[i].path)
             outputs.append(jar)        
@@ -440,7 +440,21 @@ def preprocessContext(workspace,context=GumpContext()):
         allPackaged=1
         for project in module.project:
             if not isPackaged(project):
-                if not hasOutputs(project):
+                allPackaged=0  
+            else:
+                mctxt.addInfo('Packaged Project: ' + project.name)
+                packageCount+=1
+                
+        # Must be one to be all
+        if not packageCount: allPackaged=0
+    
+        # Give this module a second try, and since some are packaged
+        # check if the others have no outputs, then call them good.
+        if packageCount and not allPackaged:
+            allPackaged=1
+            for project in module.project:
+                if not isPackaged(project):
+                    if not hasOutputs(project):
                         # 
                         # Honorary package (allow folks to only mark the main
                         # project in a module as a package, and those that do
@@ -455,13 +469,9 @@ def preprocessContext(workspace,context=GumpContext()):
                     allPackaged=0  
                     if packageCount:
                         mctxt.addWarning("Incomplete \'Packaged\' Module. Project: " + \
-                                    project.name + " is not packaged")   
-            else:
-                packageCount+=1
-                
-        # Must be one to be all
-        if not packageCount: allPackaged=0
-                
+                                    project.name + " is not packaged")  
+               
+        # If packages module, accept it... 
         if allPackaged:
             mctxt.status=STATUS_COMPLETE
             mctxt.reason=REASON_PACKAGE

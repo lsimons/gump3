@@ -651,6 +651,18 @@ def documentProject(workspace,modulename,mdir,projectname,projectcontext,db):
     documentProjectContextList(x,"Optional Project Dependencies",projectcontext.options)                      
     documentProjectContextList(x,"Project Dependees",projectcontext.dependees)            
     documentProjectContextList(x,"Optional Project Dependees",projectcontext.optionees)                  
+
+    startSectionXDoc(x,title)
+    startTableXDoc(x)
+    x.write('      <tr><th>Path Entry</th></tr>')
+       
+    classpath=getClasspathList(project,workspace)
+    for path in classpath:
+        startTableRowXDoc(x)    
+        insertTableDataXDoc(x,path)
+        endTableRowXDoc(x)
+    endTableXDoc(x)
+    endSectionXDoc(x)
        
 #    x.write('<p><strong>Project Config :</strong> <link href=\'%s\'>XML</link></p>' \
 #                % (getModuleProjectRelativeUrl(modulename,projectcontext.name)) )
