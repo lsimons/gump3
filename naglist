@@ -340,6 +340,12 @@ From: Geir Magnusson Jr. <geirm@apache.org>
 Subject: [GUMP] Test Failure - Velocity
 Regex: /BUILD FAILED/
 ------
+Project: scarab
+To: dev@scarab.tigris.org
+From: Jon Stevens <jon@latchkey.com>
+Subject: [GUMP] Build Failure - Scarab
+Regex: /BUILD FAILED/
+------
 Project: test-ant
 To: ant-dev@jakarta.apache.org
 From: Diane Holt <holtdl@apache.org>

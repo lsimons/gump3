@@ -1,0 +1,37 @@
+<module name="scarab">
+
+  <url href="http://scarab.tigris.org/"/>
+  <description>
+    Issue Tracking Built for the Ages
+  </description>
+
+  <cvs repository="tigris"/>
+  
+  <project name="scarab">
+    <ant basedir="build" target="dist">
+      <property name="version" value="gump"/>
+    </ant>
+
+    <depend project="jakarta-ant"/>
+    <depend project="xml-xerces"/>
+    <depend project="jdbc"/>
+    <depend project="jakarta-velocity"/>
+    <depend project="jakarta-servletapi"/>
+    <depend project="jakarta-ecs"/>
+    <depend project="jakarta-turbine-3"/>
+    <depend project="village"/>
+    <depend project="jakarta-turbine-torque"/>
+    <depend project="jaf"/>
+    <depend project="jakarta-log4j"/>
+    <option project="jakarta-lucene"/>
+    <option project="commons-util"/>
+    <depend project="jakarta-turbine-fulcrum"/>
+    <depend project="commons-collections"/>
+    <depend project="commons-digester"/>
+
+    <javadoc nested="scarab-gump/webapps/scarab/api"/>
+    <home nested="scarab-gump/webapps/scarab/WEB-INF"/>
+    <jar nested="lib/scarab-gump/jar"/>
+  </project>
+
+</module>
