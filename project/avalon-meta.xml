@@ -26,32 +26,33 @@
   <project name="avalon-meta-api">
     <package>org.apache.avalon.meta</package>
     <ant basedir="meta">
-        <property name="project.version" value="@@DATE@@"></property>
+        <property name="project.version" value="@@DATE@@"/>
     </ant>
     <depend project="avalon-framework" id="api" />
     <depend project="avalon-framework" id="impl" />
-    <work nested="meta/api/target/classes"></work>
-    <home nested="meta/api"></home>
-    <jar name="target/jars/avalon-meta-api-@@DATE@@.jar" id="api"></jar>
-    <javadoc nested="meta/api/target/docs/apidocs"></javadoc>
-    <junitreport nested="meta/api/target/test-reports"></junitreport>
-    <nag to="dev@avalon.apache.org" from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"></nag>
+    <work nested="meta/api/target/classes"/>
+    <home nested="meta/api"/>
+    <jar name="target/jars/avalon-meta-api-@@DATE@@.jar" id="api"/>
+    <javadoc nested="meta/api/target/docs/apidocs"/>
+    <junitreport nested="meta/api/target/test-reports"/>
+    <nag to="dev@avalon.apache.org" from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"/>
   </project>
   
   <project name="avalon-meta-spi">
     <package>org.apache.avalon.meta.spi</package>
     <ant basedir="meta">
-        <property name="project.version" value="@@DATE@@"></property>
+        <property name="project.version" value="@@DATE@@"/>
     </ant>
     <depend project="avalon-framework" id="api" />
     <depend project="avalon-meta-api" />
-    <work nested="meta/spi/target/classes"></work>
-    <home nested="meta/spi"></home>
-    <jar name="target/jars/avalon-meta-spi-@@DATE@@.jar" id="spi"></jar>
-    <javadoc nested="meta/spi/target/docs/apidocs"></javadoc>
-    <junitreport nested="meta/spi/target/test-reports"></junitreport>
-    <nag to="dev@avalon.apache.org" from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"></nag>
-    <work nested="meta/plugin/target/classes"></work>
+    <work nested="meta/spi/target/classes"/>
+    <home nested="meta/spi"/>
+    <jar name="target/jars/avalon-meta-spi-@@DATE@@.jar" id="spi"/>
+    <javadoc nested="meta/spi/target/docs/apidocs"/>
+    <junitreport nested="meta/spi/target/test-reports"/>
+    <nag to="dev@avalon.apache.org" from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"/>
+    <work nested="meta/plugin/target/classes"/>
+  </project>
   
   <project name="avalon-meta-tools">
     <package>org.apache.avalon.meta.tools</package>
@@ -66,18 +67,18 @@
     <depend project="excalibur-configuration" />
     <depend project="qdox" />
     
-    <work nested="meta/tools/target/classes"></work>
-    <home nested="meta/tools"></home>
-    <jar name="target/jars/avalon-meta-tools-@@DATE@@.jar" id="tools"></jar>
-    <javadoc nested="meta/tools/target/docs/apidocs"></javadoc>
-    <junitreport nested="meta/tools/target/test-reports"></junitreport>
-    <nag to="dev@avalon.apache.org" from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"></nag>
+    <work nested="meta/tools/target/classes"/>
+    <home nested="meta/tools"/>
+    <jar name="target/jars/avalon-meta-tools-@@DATE@@.jar" id="tools"/>
+    <javadoc nested="meta/tools/target/docs/apidocs"/>
+    <junitreport nested="meta/tools/target/test-reports"/>
+    <nag to="dev@avalon.apache.org" from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"/>
   </project>
   
   <project name="avalon-meta-plugin">
     <package>org.apache.avalon.meta.plugin</package>
     <ant basedir="meta">
-        <property name="project.version" value="@@DATE@@"></property>
+        <property name="project.version" value="@@DATE@@"/>
     </ant>
     <depend project="avalon-framework" id="api" />
     <depend project="avalon-framework" id="impl" />
@@ -96,32 +97,32 @@
     -->    
     <work nested="meta/plugin/target/classes"></work>
     <home nested="meta/plugin"></home>
-    <jar name="target/jars/avalon-meta-plugin-@@DATE@@.jar" id="plugin"></jar>
-    <javadoc nested="meta/plugin/target/docs/apidocs"></javadoc>
-    <junitreport nested="meta/plugin/target/test-reports"></junitreport>
+    <jar name="target/jars/avalon-meta-plugin-@@DATE@@.jar" id="plugin"/>
+    <javadoc nested="meta/plugin/target/docs/apidocs"/>
+    <junitreport nested="meta/plugin/target/test-reports"/>
     <nag to="dev@avalon.apache.org" from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"></nag>
   </project>
   
   <project name="avalon-meta-impl">
     <package>org.apache.avalon.impl</package>
     <ant basedir="meta">
-        <property name="project.version" value="@@DATE@@"></property>
+        <property name="project.version" value="@@DATE@@"/>
     </ant>
-    <depend project="ant" inherit="runtime"></depend>
-    <depend project="xml-xalan2"></depend>
-    <depend project="xml-xerces"></depend>
-    <depend project="avalon-framework"></depend>
-    <depend project="excalibur-i18n"></depend>
-    <depend project="excalibur-configuration"></depend>
-    <depend runtime="true" project="junit"></depend>
-    <depend runtime="true" project="avalon-logkit"></depend>
+    <depend project="ant" inherit="runtime"/>
+    <depend project="xml-xalan2"/>
+    <depend project="xml-xerces"/>
+    <depend project="avalon-framework"/>
+    <depend project="excalibur-i18n"/>
+    <depend project="excalibur-configuration"/>
+    <depend runtime="true" project="junit"/>
+    <depend runtime="true" project="avalon-logkit"/>
 
-    <work nested="meta/impl/target/classes"></work>
-    <home nested="meta/impl"></home>
-    <jar name="target/jars/avalon-meta-impl-@@DATE@@.jar" id="impl"></jar>
-    <javadoc nested="meta/impl/target/docs/apidocs"></javadoc>
-    <junitreport nested="meta/impl/target/test-reports"></junitreport>
-    <nag to="dev@avalon.apache.org" from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"></nag>
+    <work nested="meta/impl/target/classes"/>
+    <home nested="meta/impl"/>
+    <jar name="target/jars/avalon-meta-impl-@@DATE@@.jar" id="impl"/>
+    <javadoc nested="meta/impl/target/docs/apidocs"/>
+    <junitreport nested="meta/impl/target/test-reports"/>
+    <nag to="dev@avalon.apache.org" from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"/>
   </project>
 </module>
  
