@@ -12,7 +12,7 @@
 
     <ant target="dist">
       <property name="jdk.version" value="1.4"/>
-      <property name="struts-legacy.jar" value="contrib/struts-legacy/dist/struts-legacy.jar"/>
+      <depend property="struts-legacy.jar"       project="jakarta-struts-legacy"/>
       <depend property="jdbc20ext.jar" project="jdbc"/>
       <depend property="servlet.jar" project="jakarta-servletapi-4"/>
       <depend property="xerces.jar" project="xml-xerces" id="parser"/>
@@ -59,6 +59,11 @@
     <depend project="xml-xalan2"/>
     <depend project="ant" inherit="runtime"/>
     <depend project="xml-xerces"/>
+
+    <home nested="contrib/struts-legacy/dist"/>
+    <jar name="struts-legacy.jar"/>
+
+    <javadoc nested="contrib/struts-legacy/dist/docs/api"/>
 
     <license name="LICENSE"/>
     <nag to="struts-dev@jakarta.apache.org"
