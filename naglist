@@ -352,6 +352,18 @@ From: Diane Holt <holtdl@apache.org>
 Subject: [GUMP] Test Failure - Ant
 Regex: /BUILD FAILED/
 -------
+Project: velocity-tools-struts
+To: velocity-dev@jakarta.apache.org
+From: Geir Magnusson Jr. <geirm@apache.org>
+Subject: [GUMP] Build Failure - Velocity Tools Struts
+Regex: /BUILD FAILED/
+-------
+Project: velocity-tools-view
+To: velocity-dev@jakarta.apache.org
+From: Geir Magnusson Jr. <geirm@apache.org>
+Subject: [GUMP] Build Failure - Velocity Tools View
+Regex: /BUILD FAILED/
+-------
 Project: xml-axis
 To: axis-dev@xml.apache.org
 From: Sam Ruby <rubys@us.ibm.com>
