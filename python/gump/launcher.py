@@ -247,7 +247,7 @@ class CmdResult:
         tail = "---------------------------------------------"
         
         if self.output:
-            tail += gump.tools.tail(self.output,lines)
+            tail += gump.tools.tailFileToString(self.output,lines)
         else:
             tail += "No output"
             
