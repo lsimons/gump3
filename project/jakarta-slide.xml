@@ -5,15 +5,6 @@
     Content Management System based on WebDAV technology
   </description>
 
-  <note>
-     <ul>
-     <li>Jakarta-slide's build.xml checks for the Liaison for Xalan 1, but will
-     happily use Xalan 2.  Hence the dependency on dist-ant.</li>
-     <li>Apparently slide is now incompatible by design with servlet API 2.3,
-     but has support for Catalina.  Weird.</li>
-     </ul>
-  </note>
-
   <cvs repository="jakarta"/>
   
   <project name="jakarta-slide">
@@ -26,7 +17,7 @@
       <depend property="jta.jar"     project="jta"/>
       <depend property="junit.jar"   project="junit"/>
       <depend property="log4j.jar"   project="jakarta-log4j" id="log4j"/>
-      <depend property="servlet.jar" project="jakarta-servletapi"/>
+      <depend property="servlet.jar" project="jakarta-servletapi-4"/>
     </ant>
 
     <depend project="dist-ant"/>
