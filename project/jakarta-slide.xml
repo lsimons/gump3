@@ -11,7 +11,7 @@
   <depend project="jakarta-ant"/>
   <depend project="xml-xerces"/>
   <depend project="xml-xalan1"/>
-  <depend project="jakarta-servletapi-4.0"/>
+  <depend project="jakarta-servletapi-4"/>
   <depend project="jmx"/>
   <depend project="jta"/>
   <work nested="build/classes"/>

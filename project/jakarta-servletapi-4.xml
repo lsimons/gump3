@@ -1,22 +1,20 @@
-<project name="jakarta-servletapi-4.0">
+<project name="jakarta-servletapi-4">
 
   <description>
     Servlet 2.3 and JSP 1.2 API
   </description>
 
-  <cvs  repository="jakarta"
-     tag="SERVLET_23_JSP_12"
-     module="jakarta-servletapi"/>
+  <cvs repository="jakarta" module="jakarta-servletapi-4"/>
 
   <ant target="dist">
     <property name="servletapi.dist"
-       reference="home" project="jakarta-servletapi-4.0"/>
+       reference="home" project="jakarta-servletapi-4"/>
     <property name="servletapi.build" value="build"/>
   </ant>
   <depend project="xml-xerces"/>
   <depend project="jakarta-ant"/>
 
-  <home parent="dist/servletapi-4.0"/>
+  <home nested="dist"/>
   <jar  name="lib/servlet.jar"/>
 
 </project>

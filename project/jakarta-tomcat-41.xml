@@ -18,7 +18,7 @@
        reference="jar" id="parser" project="jaxp1.1"/>
 
     <property name="servletapi.home"
-       reference="home" project="jakarta-servletapi-4.0"/>
+       reference="home" project="jakarta-servletapi-4"/>
 
     <property name="jsse.home" reference="home" project="jsse"/>
 
@@ -28,10 +28,6 @@
        reference="home" project="jakarta-regexp"/>
     <property name="regexp.jar"
        reference="jarpath" id="regexp" project="jakarta-regexp"/>
-
-    <property name="catalina.build" path="build/catalina-4.1"/>
-    <property name="jasper.build" path="build/jasper-4.1"/>
-    <property name="webapps.build" path="build/catalina-4.1"/>
   </ant>
 
   <depend project="xml-xerces"/>
@@ -39,8 +35,6 @@
   <depend project="jmx"/>
   <depend project="jakarta-regexp"/>
   <depend project="jakarta-ant"/>
-  <depend project="jakarta-servletapi-4.0"/>
+  <depend project="jakarta-servletapi-4"/>
   <option project="framework"/>
-
-  <home parent="dist/tomcat-4.1"/>
 </project>

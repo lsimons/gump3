@@ -11,7 +11,7 @@
   <project href="project/jakarta-log4j.xml"/>
   <project href="project/jakarta-regexp.xml"/>
   <project href="project/jakarta-slide.xml"/>
-  <project href="project/jakarta-servletapi-40.xml"/>
+  <project href="project/jakarta-servletapi-4.xml"/>
   <project href="project/jakarta-servletapi.xml"/>
   <project href="project/jakarta-struts.xml"/>
   <project href="project/jakarta-taglibs.xml"/>
