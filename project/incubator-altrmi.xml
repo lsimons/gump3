@@ -44,8 +44,9 @@
         <depend project="logging-log4j"/>
         <depend project="commons-attributes" inherit="runtime"/>
         <depend project="excalibur-lifecycle-api"/>
-        <depend project="avalon-components"/>
-        <depend project="avalon-phoenix"/>
+        <depend project="avalon-components" />
+        <depend project="avalon-phoenix" id="client" />
+        <depend project="avalon-phoenix" id="metagenerate-2" />
         <depend project="commons-betwixt"/>
         <depend project="commons-digester"/>
         <!-- inserting the dependencies of phoenix-metagenerate.jar by hand here
