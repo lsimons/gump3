@@ -66,6 +66,7 @@
   <!-- other -->
 
   <project href="project/bsf.xml"/>
+  <project href="project/cruisecontrol.xml"/>
   <project href="project/dom4j.xml"/>
   <project href="project/dbxml.xml"/>
   <project href="project/httpunit.xml"/>

@@ -8,7 +8,10 @@
 
   <!-- Project overrides -->
 
-  <project name="commons-cactus-22" target="jar"/>
+  <project name="commons-cactus-22" target="jar">
+    <jar name="foo"/>
+    <jar name="bar"/>
+  </project>
 
   <!-- Repository overrides -->
 
