@@ -47,6 +47,7 @@
     <ant target="run-tests"/>
 
     <depend project="dist-ant" inherit="hard"/>
+    <option project="xml-commons-which"/>
 
     <work nested="build/classes"/>
     <work nested="build/testcases"/>
