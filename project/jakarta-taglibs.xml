@@ -25,6 +25,7 @@
       <depend property="jxpath.jar" project="commons-jxpath"/>
       <depend property="js.jar" project="rhino"/>
       <depend property="jaxen-full.jar" project="jaxen"/>
+      <depend property="commons-messenger.jar" project="commons-messenger"/>
     </ant>
 
     <depend project="jakarta-ant"/>
