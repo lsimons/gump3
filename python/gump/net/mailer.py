@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/net/Attic/mailer.py,v 1.8 2004/03/04 17:45:17 ajack Exp $
-# $Revision: 1.8 $
-# $Date: 2004/03/04 17:45:17 $
+# $Header: /home/stefano/cvs/gump/python/gump/net/Attic/mailer.py,v 1.9 2004/03/04 17:54:18 ajack Exp $
+# $Revision: 1.9 $
+# $Date: 2004/03/04 17:54:18 $
 #
 # ====================================================================
 #
@@ -131,19 +131,28 @@ def mail(toaddrs,fromaddr,message,server='localhost',port=25):
     else:
         data = EmailMessage(toaddrs,fromaddr,'',str(message)).getSerialized()
     
+    sent=0
     try:
         #
         # Attach to the SMTP server to send....
         #
         server = smtplib.SMTP(server,port)
         server.set_debuglevel(1)
-        server.sendmail(sane_fromaddr, sane_toaddrs, data)
+        failures = server.sendmail(sane_fromaddr, sane_toaddrs, data)
         server.quit()
         
+		# Note: w/o an exception it was accepted to some folk...
+		# Failures is a list of tuples of error code plus recipient
+		# that was refused.
+        if not failures: sent=1
+        
     except Exception, details:
+        sent=0
         log.error('Failed to send e-mail: ' + str(details))
         log.error(data, exc_info=1)
         log.error('Server :' + str(server) + ' From   :' + str(fromaddr) + ' To     :' + str(toaddrs))
+    
+    return sent
     
 def sanitizeAddress(addr):
     parts=addr.split('<')

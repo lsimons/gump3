@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/output/Attic/nag.py,v 1.23 2004/03/04 17:26:09 ajack Exp $
-# $Revision: 1.23 $
-# $Date: 2004/03/04 17:26:09 $
+# $Header: /home/stefano/cvs/gump/python/gump/output/Attic/nag.py,v 1.24 2004/03/04 17:54:18 ajack Exp $
+# $Revision: 1.24 $
+# $Date: 2004/03/04 17:54:18 $
 #
 # ====================================================================
 #
@@ -335,6 +335,7 @@ The following %s nag%s should have been sent
         #
         toaddrs=[ toaddr ]
     
+        sent=0
         try:
                
             log.info('Send Nag e-mail to: ' + str(toaddr) + \
@@ -356,18 +357,22 @@ The following %s nag%s should have been sent
             #print 'Server:' + `self.workspace.mailserver`
             #print 'e-mail:' + `email`    
             # Fire ...
-            mail(toaddrs,fromaddr,email,	\
-                self.workspace.mailserver,	\
-                self.workspace.mailport) 
+            sent=mail(toaddrs,fromaddr,email,	\
+                        self.workspace.mailserver,	\
+                        self.workspace.mailport) 
             
         except Exception, details:
+            sent=0
             log.error('Failed to send nag e-mail: ' + str(details), \
                         exc_info=1)
-                        
+                  
+        if not sent:
             self.addUnsent(subject,content)                
                         
             log.error('Failed with to: ['+str(toaddr)+'] from: ['+str(fromaddr)+']' )
             
+        return sent
+        
     def getNamedTypedContent(self,object,feedPrefix=None,message=None):
         content="""To whom it may engage...
         
