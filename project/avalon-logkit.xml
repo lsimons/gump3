@@ -45,7 +45,7 @@
     <home nested="build/lib"/>
     <jar name="logkit.jar"/>
 
-    <nag from="Peter Donald &lt;peter@apache.org&gt;"
+    <nag from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"
             to="dev@avalon.apache.org"/>
   </project>
 

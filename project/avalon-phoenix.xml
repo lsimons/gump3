@@ -55,11 +55,11 @@
 
         <nag>
             <regexp pattern="/Missing prereq/i"
-                from="Peter Donald &lt;peter@apache.org&gt;"
+                from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"
                 to="dev@avalon.apache.org"
                 subject="PRE-REQ FAILED for avalon-phoenix"/>
         </nag>
-        <nag from="Peter Donald &lt;peter@apache.org&gt;"
+        <nag from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"
             to="dev@avalon.apache.org"/>
     </project>
 
@@ -88,11 +88,11 @@
 
         <nag>
             <regexp pattern="/Missing prereq/i"
-                from="Peter Donald &lt;peter@apache.org&gt;"
+                from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"
                 to="dev@avalon.apache.org"
                 subject="PRE-REQ FAILED for phoenix-example-demo"/>
         </nag>
-        <nag from="Peter Donald &lt;peter@apache.org&gt;"
+        <nag from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"
             to="dev@avalon.apache.org"/>
     </project>
 
@@ -115,7 +115,7 @@
 
         <nag>
             <regexp pattern="/Missing prereq/i"
-                from="Peter Donald &lt;peter@apache.org&gt;"
+                from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"
                 to="dev@avalon.apache.org"
                 subject="PRE-REQ FAILED for phoenix-example-pdk"/>
         </nag>
@@ -144,11 +144,11 @@
 
         <nag>
             <regexp pattern="/Missing prereq/i"
-                from="Peter Donald &lt;peter@apache.org&gt;"
+                from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"
                 to="dev@avalon.apache.org"
                 subject="PRE-REQ FAILED for phoenix-example-testserver"/>
         </nag>
-        <nag from="Peter Donald &lt;peter@apache.org&gt;"
+        <nag from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"
             to="dev@avalon.apache.org"/>
     </project>
 
