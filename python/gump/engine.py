@@ -473,8 +473,11 @@ class GumpEngine:
             
             dirToMake=os.path.abspath(os.path.join(basedir,mkdir.dir))
             try:
-                os.makedirs(dirToMake)
-                project.addInfo('Made directory ['+dirToMake+']')
+                if not os.path.exists(dirToMake):
+                    os.makedirs(dirToMake)
+                    project.addInfo('Made directory ['+dirToMake+']')
+                else:
+                    project.addInfo('MkDir attempt on pre-existing directory ['+dirToMake+']')                    
             except:
                 project.addError('Failed to make directory ['+dirToMake+']')
                 raise           
