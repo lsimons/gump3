@@ -513,6 +513,9 @@
     <package>org.apache.commons.jelly.tags.xml</package>
     <description>???</description>
 
+    <mkdir dir="jelly/jelly-tags/xml/target/classes"/>
+    <mkdir dir="jelly/jelly-tags/xml/target/test-classes"/>
+
     <ant basedir="jelly/jelly-tags/xml" target="jar">
       <property name="final.name"  value="commons-jelly-tags-xml-@@DATE@@"/>
     </ant>
@@ -520,17 +523,13 @@
     <depend project="commons-jelly" inherit="all"/>
     <depend project="xml-xalan2"/>
     
-    <work nested="jelly/jelly-tags/xmlunit/target/classes"/>
-    <work nested="jelly/jelly-tags/xmlunit/target/test-classes"/>
+    <work nested="jelly/jelly-tags/xml/target/classes"/>
+    <work nested="jelly/jelly-tags/xml/target/test-classes"/>
 
-    <jar name="jelly/jelly-tags/xmlunit/target/commons-jelly-tags-xmlunit-@@DATE@@.jar"/>
+    <jar name="jelly/jelly-tags/xml/target/commons-jelly-tags-xml-@@DATE@@.jar"/>
  
     <nag from="Morgan Delagrange &lt;mdelagra@yahoo.com&gt;"
-         to="commons-dev@jakarta.apache.org">
-      <regexp pattern="/BUILD FAILED/"/>
-      <!-- Buildfile: build.xml does not exist! -->
-      <regexp pattern="/Build failed/"/>
-    </nag>
+         to="commons-dev@jakarta.apache.org"/>
   </project>  
 
   <project name="commons-jelly-tags-xmlunit">
