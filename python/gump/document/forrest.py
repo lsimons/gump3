@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/forrest.py,v 1.49 2004/01/12 18:01:36 ajack Exp $
-# $Revision: 1.49 $f
-# $Date: 2004/01/12 18:01:36 $
+# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/forrest.py,v 1.50 2004/01/12 23:24:00 ajack Exp $
+# $Revision: 1.50 $f
+# $Date: 2004/01/12 23:24:00 $
 #
 # ====================================================================
 #
@@ -988,16 +988,16 @@ class ForrestDocumenter(Documenter):
         
         dependencySection=document.createSection('Dependency')
         
-        self.documentProjectList(dependencySection, "Project Dependencies",	\
+        self.documentDependenciesList(dependencySection, "Project Dependencies",	\
                     project.getDependencies(), 0, project)  
                     
-        self.documentProjectList(dependencySection, "Project Dependees",		\
+        self.documentDependenciesList(dependencySection, "Project Dependees",		\
                     project.getDependees(), 1, project)
                     
-        self.documentProjectList(dependencySection, "Full Project Dependencies",	\
+        self.documentDependenciesList(dependencySection, "Full Project Dependencies",	\
                     project.getFullDependencies(), 0, project)  
                     
-        self.documentProjectList(dependencySection, "Full Project Dependees",		\
+        self.documentDependenciesList(dependencySection, "Full Project Dependees",		\
                     project.getFullDependees(), 1, project)                          
         
         document.serialize()
@@ -1055,11 +1055,13 @@ class ForrestDocumenter(Documenter):
         if not paths:        
             pathTable.createLine('No ' + title + ' entries')
                      
-    def documentProjectList(self,xdocNode,title,dependencies,dependees,referencingObject):
+    def documentDependenciesList(self,xdocNode,title,dependencies,dependees,referencingObject):
       if dependencies:
             projectSection=xdocNode.createSection(title)
-            projectTable=projectSection.createTable(['Name','Type','State'])
+            projectTable=projectSection.createTable(['Name','Type','Inheritence','Ids','State'])
             for depend in dependencies:
+                
+                # Project/Owner
                 if not dependees:
                     project=depend.getProject()
                 else:
@@ -1068,11 +1070,24 @@ class ForrestDocumenter(Documenter):
                 projectRow.createComment(project.getName())
                 self.insertLink( project, referencingObject, projectRow.createData())
                 
+                # Inheritence
+                projectRow.createData(depend.getInheritenceDescription())
+                
+                # Ids
+                ids = depend.getIds() or 'All'
+                projectRow.createData(ids)
+                
+                # Type
                 type=''
+                if depend.isRuntime():
+                    if type: type += ' '    
+                    type+='Runtime'              
                 if depend.isOptional():
-                    type='Optional'                
+                    if type: type += ' '
+                    type+='Optional'                
                 projectRow.createData(type)
                 
+                # State description
                 self.insertStateDescription(project,referencingObject,projectRow.createData())
                 
     def documentAnnotations(self,xdocNode,annotatable):
