@@ -144,9 +144,10 @@
     <work nested="proposal/mutant/bin/common"/>
     <work nested="proposal/mutant/bin/init"/>
     <work nested="proposal/mutant/bin/antcore"/>
+    <work nested="proposal/mutant/bin/syslibs/system"/>
     <work nested="proposal/mutant/bin/antlibs/system"/>
 
-    <nag from="Diane Holt &lt;holtdl@apache.org&gt;"
+    <nag from="Conor MacNeill &lt;conor@apache.org&gt;"
          to="ant-dev@jakarta.apache.org"/>
   </project>
 
