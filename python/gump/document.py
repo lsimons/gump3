@@ -296,7 +296,8 @@ def documentWorkspace(workspace,context,db,moduleFilterList=None,projectFilterLi
     titledDataInTableXDoc(x,"Elapsed Time : ", str(hours) + ':' + str(mins) + ':' + str(secs))
     titledDataInTableXDoc(x,"Base Directory : ", str(workspace.basedir))
     titledDataInTableXDoc(x,"Temporary Directory : ", str(workspace.tmpdir))
-    titledDataInTableXDoc(x,"Scratch Directory : ", str(workspace.scratchdir))    
+    if workspace.scratchdir:
+        titledDataInTableXDoc(x,"Scratch Directory : ", str(workspace.scratchdir))    
     # :TODO: We have duplicate dirs? tmp = scratch?
     titledDataInTableXDoc(x,"Log Directory : ", str(workspace.logdir))
     titledDataInTableXDoc(x,"Jars Repository : ", str(workspace.jardir))
@@ -339,7 +340,7 @@ def documentWorkspace(workspace,context,db,moduleFilterList=None,projectFilterLi
     startSectionXDoc(x,'Modules with TODOs')
     startTableXDoc(x)
     x.write('     <tr>')        
-    x.write('      <th>Name</th><th>Duration</th><th>Module State</th><th>Project State(s)</th><th>Elapsed Time</th>')
+    x.write('      <th>Name</th><th>Affects</th><th>Duration</th><th>Module State</th><th>Project State(s)</th><th>Elapsed Time</th>')
     x.write('     </tr>')
     mcount=0
     for mctxt in context:
@@ -361,6 +362,7 @@ def documentWorkspace(workspace,context,db,moduleFilterList=None,projectFilterLi
         mcount+=1
         
         # Determine longest sequence in this (failed) state...
+        # for any of the projects
         seq=0
         for pctxt in mctxt:
             if pctxt.status==STATUS_FAILED:
@@ -373,9 +375,17 @@ def documentWorkspace(workspace,context,db,moduleFilterList=None,projectFilterLi
     
                 if stats.sequenceInState > seq: seq = stats.sequenceInState
 
+        #
+        # Determine the number of projects this module (or it's projects)
+        # cause not to be run.
+        #
+        affected=determineAffected(mctxt)
+        
+        # Display
         x.write('     <tr><!-- %s -->\n' % (mname))        
-        x.write('      <td><link href=\'%s\'>%s</link></td><td>%s</td><td>%s</td><td>%s</td>\n' % \
+        x.write('      <td><link href=\'%s\'>%s</link></td><td>%s</td><td>%s</td><td>%s</td><td>%s</td>\n' % \
           (getModuleRelativeUrl(mname),mname,	\
+              affected, \
               seq, \
               getStateIcon(mctxt),	\
               getStateIcons(mctxt)))    
@@ -801,7 +811,7 @@ def documentAnnotations(x,annotations):
     x.write('    </table>\n')
     endSectionXDoc(x)
         
-def documentSummary(x,summary,description='Project(s) Summary'):
+def documentSummary(x,summary,description='Project Summary'):
     if not summary or not summary.projects: return
     startSectionXDoc(x,description)
     startTableXDoc(x)
@@ -813,7 +823,8 @@ def documentSummary(x,summary,description='Project(s) Summary'):
     insertTableHeaderXDoc(x, 'Prereqs')
     insertTableHeaderXDoc(x, 'No Works')
     insertTableHeaderXDoc(x, 'Packages')
-    insertTableHeaderXDoc(x, 'Others')
+    if summary.others:
+        insertTableHeaderXDoc(x, 'Others')
     endTableRowXDoc(x)
     
     startTableRowXDoc(x)        
@@ -823,7 +834,8 @@ def documentSummary(x,summary,description='Project(s) Summary'):
     insertTableDataXDoc(x, summary.prereqs)
     insertTableDataXDoc(x, summary.noworks)
     insertTableDataXDoc(x, summary.packages)
-    insertTableDataXDoc(x, summary.others)
+    if summary.others:
+        insertTableDataXDoc(x, summary.others)
     endTableRowXDoc(x)
        
     endTableXDoc(x) 

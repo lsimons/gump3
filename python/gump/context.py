@@ -637,7 +637,7 @@ class ModuleContext(Context):
     def getDepends(self):   
         if self.totalDepends: return self.totalDepends
                 
-        for pctxt in self.subcontexts.values():
+        for pctxt in self:
             if not pctxt in self.totalDepends:
                 self.totalDepends.append(pctxt)
                 for ppctxt in pctxt.getDepends():
@@ -665,7 +665,8 @@ class ModuleContext(Context):
     # Get a summary of states for each project
     def getProjectSummary(self,summary=None):  
     
-        if hasattr(self,'summary'): return self.summary
+        # Fails 'ocs count into other's summary
+        # if hasattr(self,'summary'): return self.summary
         
         if not summary: 
             summary=Summary()
@@ -676,11 +677,33 @@ class ModuleContext(Context):
         for ctxt in self:
             summary.addState(ctxt.getStatePair())
         
+        # Fails, see above.
         # Store for later...
-        self.summary = summary
+        # self.summary = summary
         
         return summary
            
+    def determineAffected(self):
+        affected=0
+        
+        # Get all dependenees (optional/otherwise)
+        dependees=self.getDependees()
+        
+        # Look through all dependees
+        for pctxt in dependees:
+            cause=pctxt.cause
+            #
+            # Something caused this some grief
+            #
+            if cause:
+                #
+                # The something was this module or one of it's projects
+                #
+                if cause == self or cause in self.subcontexts.values():
+                    affected += 1            
+        
+        return affected
+                    
 class GumpContext(Context):
     """Gump Run Context"""
     def __init__(self,name="Gump",parent=None):
