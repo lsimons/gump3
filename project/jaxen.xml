@@ -28,43 +28,43 @@
     </ant>
     
     <package>org.jaxen</package>
-	<depend project="packaged-dom4j"/>
-	<depend project="ant"/>
-	<depend project="jdom"/>
-	<depend project="xml-apis"/>
-	<depend project="xml-xerces"/>
-	<depend project="xom"/>
-	<work nested="target/classes"/>
-	<home nested="target"/>
-	<jar name="jaxen-@@DATE@@.jar"/>
-	<javadoc module="jaxen" nested="target/docs/apidocs"/>
-    
-	<nag to="jaxen-interest@lists.codehaus.org" 
-			from="Jaxen Gump &lt;scott@dotnot.org&gt;"/>
+    <depend project="packaged-dom4j"/>
+    <depend project="ant"/>
+    <depend project="jdom"/>
+    <depend project="xml-apis"/>
+    <depend project="xml-xerces"/>
+    <depend project="xom"/>
+    <work nested="target/classes"/>
+    <home nested="target"/>
+    <jar name="jaxen-@@DATE@@.jar"/>
+    <javadoc module="jaxen" nested="target/docs/apidocs"/>
+
+    <nag to="jaxen-interest@lists.codehaus.org" 
+         from="Jaxen Gump &lt;scott@dotnot.org&gt;"/>
   </project>
 
-  <project name="jaxen-from-packaged-dom4j-test">
+  <project name="jaxen-test">
     <ant buildfile="build.xml" target="test">
       <property name="final.name" value="jaxen-@@DATE@@"/>
     </ant>
     
     <package>org.jaxen</package>
-	<depend project="jaxen-from-packaged-dom4j" inherit="all"/>
-	<depend project="junit"/>
-	<work nested="target/test-classes"/>
-	<home nested="target"/>
-	<javadoc module="jaxen" nested="target/docs/apidocs"/>
-    
-	<!-- Allow viewing of failure reports -->
-	<junitreport nested="target/test-reports"/>
-       
-	<nag to="jaxen-interest@lists.codehaus.org" 
-			from="Jaxen Gump &lt;scott@dotnot.org&gt;"/>
+    <depend project="jaxen" inherit="all"/>
+    <depend project="junit"/>
+    <work nested="target/test-classes"/>
+    <home nested="target"/>
+    <javadoc module="jaxen" nested="target/docs/apidocs"/>
+
+    <!-- Allow viewing of failure reports -->
+    <junitreport nested="target/test-reports"/>
+   
+    <nag to="jaxen-interest@lists.codehaus.org" 
+         from="Jaxen Gump &lt;scott@dotnot.org&gt;"/>
   </project>
 
   <project name="jaxen">
     <delete dir="target"/>
-    <ant buildfile="build.xml" target="dist">
+    <ant buildfile="build.xml" target="gump">
       <property name="final.name" value="jaxen-@@DATE@@"/>
     </ant>
     <package>org.jaxen</package>
