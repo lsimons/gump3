@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/Attic/logic.py,v 1.45 2003/11/04 16:24:59 ajack Exp $
-# $Revision: 1.45 $
-# $Date: 2003/11/04 16:24:59 $
+# $Header: /home/stefano/cvs/gump/python/gump/Attic/logic.py,v 1.46 2003/11/05 19:09:22 ajack Exp $
+# $Revision: 1.46 $
+# $Date: 2003/11/05 19:09:22 $
 #
 # ====================================================================
 #
@@ -247,7 +247,7 @@ def getBuildCommand(workspace,module,project,context):
     script=project.script
 
     if not (script or ant):
-      log.info('   Not building ' + project.name + ' (no <ant/> or <script/> specified)')
+      log.debug('Not building ' + project.name + ' (no <ant/> or <script/> specified)')
       return None
 
     if script and script.name:
@@ -394,6 +394,10 @@ def getDeleteCommand(workspace,context,module,project,delete,index=0):
     #
     # Delete a directory and/or a file
     #
+    # :TODO: Before turning this on, we need to ensure that the command
+    # will not run wild. We need to ensure that there is no ";" and we
+    # need to ensure the directory/file is under the workspace.
+    #
     if delete.dir:
         cmd.addParameter('-rf')  
         cmd.addParameter(os.path.abspath(os.path.join(basedir,delete.dir)))
@@ -409,14 +413,13 @@ def getDeleteCommand(workspace,context,module,project,delete,index=0):
 def getMkDirCommand(workspace,context,module,project,mkdir,index=0):
     basedir=os.path.abspath(module.srcdir or dir.base)
       
-    cmd=Cmd('echo mkdir','mkdir_'+module.name+'_'+project.name+'_'+str(index+1),\
+    cmd=Cmd('mkdir','mkdir_'+module.name+'_'+project.name+'_'+str(index+1),\
             basedir)
 
     #
     # Make a directory
     #
     if mkdir.dir:
-        cmd.addParameter('-rf')  
         cmd.addParameter(os.path.abspath(os.path.join(basedir,mkdir.dir)))
     else:
         log.info('   <mkdir without \'dir\' attribute.')

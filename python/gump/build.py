@@ -1,8 +1,8 @@
 #!/usr/bin/python
 
-# $Header: /home/stefano/cvs/gump/python/gump/build.py,v 1.33 2003/11/04 17:34:13 ajack Exp $
-# $Revision: 1.33 $
-# $Date: 2003/11/04 17:34:13 $
+# $Header: /home/stefano/cvs/gump/python/gump/build.py,v 1.34 2003/11/05 19:09:22 ajack Exp $
+# $Revision: 1.34 $
+# $Date: 2003/11/05 19:09:22 $
 #
 # ====================================================================
 #
@@ -93,7 +93,7 @@ from gump.tools import listDirectoryAsWork, syncDirectories
 # Functions
 ###############################################################################
 
-def build(workspace, expr='*', context=GumpContext(), nosync=None):
+def build(workspace, expr='*', context=GumpContext()):
   """ Build a expression of projects """
 
   projects=getProjectsForProjectExpression(expr)
@@ -107,9 +107,9 @@ def build(workspace, expr='*', context=GumpContext(), nosync=None):
         print "  - " + p
     return 1
 
-  return buildProjectList(workspace,projects,context,nosync)
+  return buildProjectList(workspace,projects,context)
   
-def buildProjectList(workspace, projects, context, nosync=None):
+def buildProjectList(workspace, projects, context):
   """ Build a expression of projects """
         
   log.debug('Requests Projects')
@@ -118,7 +118,7 @@ def buildProjectList(workspace, projects, context, nosync=None):
     
   sequence=getBuildSequenceForProjects(projects)
 
-  return buildProjectSequence(workspace,sequence,context,nosync)
+  return buildProjectSequence(workspace,sequence,context)
   
 def buildProjectSequence(workspace,sequence,context):
     
@@ -286,6 +286,9 @@ if __name__=='__main__':
   # get parsed workspace definition
   workspace=load(ws,context)
   
+  module=Module.list.
+  performPreBuild( workspace, context, mctxt, module, pctxt, project ):
+    
   #
   # Perform build tasks
   #

@@ -154,12 +154,20 @@ class AlphabeticDictionaryIterator:
         key=self.iter.next()
         return self.dict[key]      
         
-def orderedList(list,sortfunc):
+def OrderedList(list,sortfunc=None):
     # Is there a better way to clone a list?    
     sorted=[]
+    
+    # Populate the list
     for value in list:
         sorted.append(value)
-    sorted.sort(sortfunc)
+        
+    # Sort it
+    if sortfunc:
+        sorted.sort(sortfunc)
+    else:
+        sorted.sort()
+        
     return sorted   
   
 def printSeparator(indent=''):

@@ -334,11 +334,11 @@ class StatisticsGuru:
         
         self.wguru=WorkspaceStatisticsGuru(workspace)
                 
-        self.modulesByElapsed=orderedList(context.subcontexts.values(),sortByElapsed)
-        self.modulesByProjectCount=orderedList(context.subcontexts.values(),sortByProjectCount)
-        self.modulesByTotalDependencies=orderedList(context.subcontexts.values(),sortByDependencyCount)
-        self.modulesByTotalDependees=orderedList(context.subcontexts.values(),sortByDependeeCount)
-        self.modulesByFOGFactor=orderedList(context.subcontexts.values(),sortByFOGFactor)
+        self.modulesByElapsed=OrderedList(context.subcontexts.values(),sortByElapsed)
+        self.modulesByProjectCount=OrderedList(context.subcontexts.values(),sortByProjectCount)
+        self.modulesByTotalDependencies=OrderedList(context.subcontexts.values(),sortByDependencyCount)
+        self.modulesByTotalDependees=OrderedList(context.subcontexts.values(),sortByDependeeCount)
+        self.modulesByFOGFactor=OrderedList(context.subcontexts.values(),sortByFOGFactor)
    
         
 #        calculate()

@@ -247,6 +247,9 @@ def executeForrest(workspace,context):
 #      
 def documentWorkspace(workspace,context,db,moduleList,projectList):
     
+    sortedModuleList=OrderedList(moduleList)
+    sortedProjectList=OrderedList(projectList)
+    
     wdir=getWorkspaceDir(workspace)
     
     #
@@ -330,13 +333,125 @@ def documentWorkspace(workspace,context,db,moduleList,projectList):
         
     footerXDoc(x)
     endXDoc(x)
-    
+ 
     #
     # ----------------------------------------------------------------------
     #
-    # TODOs.xml
+    # buildLog.xml -- Projects in build order
     #
-    x=startXDoc(getWorkspaceDocument(workspace,wdir,'todos'))    
+    x=startXDoc(getWorkspaceDocument(workspace,wdir,'buildLog'))      
+    headerXDoc(x,'Project Build Log')
+    
+    documentSummary(x,context.getProjectSummary())
+    
+    startSectionXDoc(x,'Project in Build Order')
+    startTableXDoc(x)
+    x.write('     <tr>')        
+    x.write('      <th>Name</th><th>Project State</th><th>Elapsed Time</th>')
+    x.write('     </tr>')
+    pcount=0
+    for project in projectList:
+        pctxt=context.getProjectContextForProject(project)
+        pname=pctxt.name
+        pcount+=1
+
+        x.write('     <tr><!-- %s -->\n' % (pname))        
+        x.write('      <td><link href=\'%s\'>%s</link></td><td>%s</td>\n' % \
+                      (	getModuleProjectRelativeUrl(pctxt.parent.name, pname),	\
+                        pname,	\
+                        getStateIcon(pctxt)))    
+        x.write('      <td>%s</td>\n' % elapsedTimeToString(pctxt.elapsedTime()))    
+        x.write('     </tr>\n\n')
+            
+    if not pcount: x.write('	<tr><td>None</td></tr>')
+    endTableXDoc(x)
+    endSectionXDoc(x)    
+
+    footerXDoc(x)
+    endXDoc(x)
+       
+    #
+    # ----------------------------------------------------------------------
+    #
+    # projects.xml -- Projects in build order
+    #
+    x=startXDoc(getWorkspaceDocument(workspace,wdir,'projects'))      
+    headerXDoc(x,'All Projects')
+    
+    documentSummary(x,context.getProjectSummary())
+    
+    startSectionXDoc(x,'Project in Build Order')
+    startTableXDoc(x)
+    x.write('     <tr>')        
+    x.write('      <th>Name</th><th>Project State</th><th>Elapsed Time</th>')
+    x.write('     </tr>')
+    pcount=0
+    for project in sortedProjectList:
+        pctxt=context.getProjectContextForProject(project)
+        pname=pctxt.name
+        pcount+=1
+
+        x.write('     <tr><!-- %s -->\n' % (pname))        
+        x.write('      <td><link href=\'%s\'>%s</link></td><td>%s</td>\n' % \
+                      (	getModuleProjectRelativeUrl(pctxt.parent.name, pname),	\
+                        pname,	\
+                        getStateIcon(pctxt)))    
+        x.write('      <td>%s</td>\n' % elapsedTimeToString(pctxt.elapsedTime()))    
+        x.write('     </tr>\n\n')
+            
+    if not pcount: x.write('	<tr><td>None</td></tr>')
+    endTableXDoc(x)
+    endSectionXDoc(x)    
+
+    footerXDoc(x)
+    endXDoc(x)
+       
+    #
+    # ----------------------------------------------------------------------
+    #
+    # project_todoss.xml -- Projects w/ issues in build order
+    #
+    x=startXDoc(getWorkspaceDocument(workspace,wdir,'project_todos'))      
+    headerXDoc(x,'All Projects')
+    
+    documentSummary(x,context.getProjectSummary())
+    
+    startSectionXDoc(x,'Project in Build Order')
+    startTableXDoc(x)
+    x.write('     <tr>')        
+    x.write('      <th>Name</th><th>Project State</th><th>Elapsed Time</th>')
+    x.write('     </tr>')
+    pcount=0
+    for project in sortedProjectList:
+        pctxt=context.getProjectContextForProject(project)
+        pname=pctxt.name
+        
+        if not pctxt.status==STATUS_FAILED:
+            continue
+            
+        pcount+=1
+
+        x.write('     <tr><!-- %s -->\n' % (pname))        
+        x.write('      <td><link href=\'%s\'>%s</link></td><td>%s</td>\n' % \
+                      (	getModuleProjectRelativeUrl(pctxt.parent.name, pname),	\
+                        pname,	\
+                        getStateIcon(pctxt)))    
+        x.write('      <td>%s</td>\n' % elapsedTimeToString(pctxt.elapsedTime()))    
+        x.write('     </tr>\n\n')
+            
+    if not pcount: x.write('	<tr><td>None</td></tr>')
+    endTableXDoc(x)
+    endSectionXDoc(x)    
+
+    footerXDoc(x)
+    endXDoc(x)
+       
+    #
+    # ----------------------------------------------------------------------
+    #
+    # module_todos.xml
+    #
+    x=startXDoc(getWorkspaceDocument(workspace,wdir,'module_todos'))    
     headerXDoc(x,'Modules with TODOs')    
     
     documentSummary(x,context.getProjectSummary())
@@ -442,42 +557,6 @@ def documentWorkspace(workspace,context,db,moduleList,projectList):
     footerXDoc(x)
     endXDoc(x)
    
-    #
-    # ----------------------------------------------------------------------
-    #
-    # Projects.xml
-    #
-    x=startXDoc(getWorkspaceDocument(workspace,wdir,'projects'))      
-    headerXDoc(x,'All Projects')
-    
-    documentSummary(x,context.getProjectSummary())
-    
-    startSectionXDoc(x,'All Project')
-    startTableXDoc(x)
-    x.write('     <tr>')        
-    x.write('      <th>Name</th><th>Project State</th><th>Elapsed Time</th>')
-    x.write('     </tr>')
-    pcount=0
-    for project in projectList:
-        pctxt=context.getProjectContextForProject(project)
-        pname=pctxt.name
-        pcount+=1
-
-        x.write('     <tr><!-- %s -->\n' % (pname))        
-        x.write('      <td><link href=\'%s\'>%s</link></td><td>%s</td>\n' % \
-                      (	getModuleProjectRelativeUrl(pctxt.parent.name, pname),	\
-                        pname,	\
-                        getStateIcon(pctxt)))    
-        x.write('      <td>%s</td>\n' % elapsedTimeToString(pctxt.elapsedTime()))    
-        x.write('     </tr>\n\n')
-            
-    if not pcount: x.write('	<tr><td>None</td></tr>')
-    endTableXDoc(x)
-    endSectionXDoc(x)    
-
-    footerXDoc(x)
-    endXDoc(x)
-    
     #
     # ----------------------------------------------------------------------
     #
@@ -916,7 +995,7 @@ def documentWorkList(x,workspace,workcontext,worklist,description='Work',dir='.'
     for work in worklist:
         documentWork(workspace,workcontext,work,dir)
         
-def documentWork(workspace,workcontext,work,dir):
+def documentWork(workspace,workcontext,work,dir,depth=2):
     if isinstance(work,CommandWorkItem):    
         x=startXDoc(getWorkDocument(dir,work.command.name,work.type))
         headerXDoc(x, workTypeName(work.type) + ' : ' + work.command.name)
@@ -924,7 +1003,7 @@ def documentWork(workspace,workcontext,work,dir):
         
         startListXDoc(x) 
         addItemXDoc(x,"Status: ", stateName(work.status))
-        addXItemXDoc(x,"For: ", getTypedContextLink(workcontext))
+        addXItemXDoc(x,"For: ", getTypedContextLink(workcontext,depth))
         # addItemXDoc(x,"Command: ", work.command.name)
         if work.command.cwd:
             addItemXDoc(x,"Working Directory: ", work.command.cwd)
