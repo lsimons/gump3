@@ -18,6 +18,6 @@
 <server name="covalent" type="traditional">
   <attribution>Covalent</attribution>
   <title>Covalent</title>
-  <url>http://www.covalent.com</url>
-  <site>http://gump.covalent.com/log</site>
+  <url>http://gump.covalent.com/log</url>
+  <site>http://www.covalent.com</site>
 </server>

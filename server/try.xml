@@ -15,9 +15,9 @@
   limitations under the License.
 -->
 
-<server name="dotnot" type="python" status="unstable">
-  <attribution>Scott Sanders [ssanders AT dotnot DOT org]</attribution>
-  <title>DOTNOT</title>
-  <url>http://gump.dotnot.org</url>
-  <site>http://www.dotnot.org</site>
+<server name="try" type="python" status="up">
+  <attribution>Sybase Corporation</attribution>
+  <title>TrySybase</title>
+  <url>http://gump.try.sybase.com</url>
+  <site>http://www.try.sybase.com</site>
 </server>
