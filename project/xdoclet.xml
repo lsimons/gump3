@@ -120,6 +120,7 @@
   <project name="xdoclet">
     <package>xdoclet</package>
 
+    <mkdir dir="modules/build/jdo/classes"/>
     <mkdir dir="modules/build/jmx/classes"/>
 
     <ant target="docs">
