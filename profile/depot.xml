@@ -53,8 +53,7 @@
        See http://jakarta.apache.org/gump/repository.html for more
        information. -->
     <repository href="repository/ant.xml"/>
-    <repository href="repository/devworks.xml"/>
-    <repository href="repository/incubator.xml"/>
+    <repository href="repository/xml.xml"/>
     <repository href="repository/apache-incubator-svn.xml"/>
     <repository href="repository/jakarta.xml"/>
     <repository href="repository/sourceforge.xml"/>
