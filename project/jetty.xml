@@ -15,6 +15,7 @@
     <ant target="jetty.jar"/>
 
     <depend project="ant"/>
+    <depend project="commons-logging" runtime="true"/>
     <depend project="xml-xerces"/>
     <depend project="mx4j"/>
     <work nested="classes"/>
