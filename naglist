@@ -95,6 +95,12 @@ From: Peter Donald <donaldp@apache.org>
 Subject: [GUMP] Build Failure - Testlet
 Regex: /BUILD FAILED/
 ------
+Project: jakarta-ecs
+To: ecs-dev@jakarta.apache.org
+From: Jon Stevens <jon@latchkey.com>
+Subject: [GUMP] Build Failure
+Regex: /BUILD FAILED/
+------
 Project: jakarta-log4j
 To: log4j-dev@jakarta.apache.org
 From: Ceki Gülcü <ceki@apache.org>
