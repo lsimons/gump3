@@ -436,6 +436,7 @@
         <!-- build-time dependencies -->
         <depend project="ant" inherit="runtime"/>
         <depend project="xml-xerces"/>
+        <depend project="jakarta-bcel" inherit="runtime"/>
 
         <!-- optional dependencies -->
         <option project="checkstyle" inherit="runtime"/>
