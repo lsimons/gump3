@@ -1,0 +1,37 @@
+*****************************  W A R N I N G  **********************************
+
+
+   THIS CODE DOESN'T COMPILE.              THIS CODE DOESN'T COMPILE.
+   THIS CODE DOESN'T COMPILE.              THIS CODE DOESN'T COMPILE.
+   
+   It's checked in to show what the Viprom is and to see the initial classes.
+   Work on it is going on...   
+   
+   THIS CODE DOESN'T COMPILE.              THIS CODE DOESN'T COMPILE.
+   THIS CODE DOESN'T COMPILE.              THIS CODE DOESN'T COMPILE.
+
+
+*****************************  W A R N I N G  **********************************
+*****************************  W A R N I N G  **********************************
+
+  Some user accessible points in this software package should be considered
+  ALPHA. This means that the developer team is not investing 
+  _any_ effort AT THIS TIME to make the CVS code work releases for these parts.
+  This software will continue to be released as ALPHA for developers 
+  until its code, schemas, and APIs are considered stable.
+  
+  The development team understands the importance of reliable
+  software as well protecting user investments through the creation of
+  a solid development platform that doesn't change. On the other hand, 
+  the project is a pioneer in many fields. Most of the technologies 
+  it uses are at a "working draft" phase only, even partially during BETA 
+  stages, if the BETA cycle has proved it necessary.
+  Thus, reliability cannot be guaranteed before the software achieves 
+  its FINAL status.
+  
+  Until then, no effort will be provided to guarantee functionality
+  for any parts considered ALPHA or BETA.
+  
+  You have been warned.
+
+*****************************  W A R N I N G  **********************************
