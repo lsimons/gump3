@@ -7,32 +7,6 @@
 
     <cvs repository="avalon"/>
 
-    <project name="avalon-apps-db">
-        <package>org.apache.avalon.db</package>
-
-        <ant basedir="db"/>
-
-        <depend project="junit"/>
-        <depend project="ant"/>
-        <depend project="xml-xerces" id="parser" runtime="true"/>
-        <depend project="xml-xalan2" id="transformer" runtime="true"/>
-        <option project="checkstyle" inherit="runtime"/>
-        <depend project="avalon"/>
-        <depend project="avalon-phoenix" inherit="all"/>
-        <depend project="avalon-cornerstone"/>
-        <depend project="incubator-altrmi" runtime="true"/>
-        <depend project="bsf" runtime="true"/>
-
-        <home nested="db"/>
-
-        <work nested="build/classes"/>
-
-        <jar name="build/lib/avalon-db-@@DATE@@.jar"/>
-
-        <nag from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"
-                to="dev@avalon.apache.org"/>
-    </project>
-
     <project name="avalon-apps-demo">
         <package>org.apache.avalon.demos</package>
 
