@@ -332,6 +332,7 @@
 
   <repository href="repository/apache-svn-sandbox.xml"/>
   <repository href="repository/apache-incubator-svn.xml"/>
+  <repository href="repository/avalon-svn.xml"/>
   <repository href="repository/forrest.xml"/>
   <repository href="repository/xml-svn.xml"/>
 
