@@ -23,27 +23,50 @@
 
   <cvs repository="jakarta"/>
 
-  <project name="commons-beanutils">
+  <project name="commons-beanutils-core">
     <package>org.apache.commons.beanutils</package>
-    <description>Bean Utilities</description>
+    <description>Bean Utilities (Core)</description>
     <url href="http://jakarta.apache.org/commons/beanutils.html"/>
-    <ant basedir="beanutils" target="dist">
+    <ant basedir="beanutils" target="jar">
       <property name="junit.home" reference="home" project="junit"/>
     </ant>
     <depend project="ant" inherit="runtime"/>
     <depend project="xml-xerces"/>
-    <depend project="commons-collections"/>
     <depend project="commons-logging"/>
     <depend project="junit"/>
     <home nested="beanutils/dist"/>    
     <work nested="beanutils/target/classes"/>
-    <jar name="commons-beanutils.jar"/>
+    <jar name="commons-beanutils-core.jar"/>
     <license name="LICENSE"/>
     <javadoc nested="beanutils/dist/docs/api"/>
 
     <nag to="commons-dev@jakarta.apache.org"
          from="Ted Husted &lt;ted@husted.com&gt;"/>
   </project>
+  
+  <project name="commons-beanutils-bean-collections">
+    <package>org.apache.commons.beanutils</package>
+    <description>Bean Utilities (Bean Collections)</description>
+    <url href="http://jakarta.apache.org/commons/beanutils.html"/>
+    <ant basedir="beanutils/optional/beancollections" target="jar">
+      <property name="junit.home" reference="home" project="junit"/>
+    </ant>
+    <depend project="ant" inherit="runtime"/>
+    <depend project="xml-xerces"/>
+    <depend project="commons-logging"/>
+    <depend project="commons-beanutils-core"/>
+    <depend project="commons-collections"/>
+    <depend project="junit"/>
+    <home nested="beanutils/optional/beancollections/dist"/>    
+    <work nested="beanutils/optional/beancollections/target/classes"/>
+    <jar name="commons-beanutils-bean-collections.jar"/>
+    <license name="LICENSE"/>
+    <javadoc nested="beanutils/dist/docs/api"/>
+
+    <nag to="commons-dev@jakarta.apache.org"
+         from="Robert Burrell Donkin &lt;rdonkin@apache.org&gt;"/>
+  </project>
+
 
   <project name="commons-betwixt">
     <package>org.apache.commons.betwixt</package>
@@ -65,7 +88,7 @@
 
     <depend project="commons-digester"/>
     <depend project="commons-collections"/>
-    <depend project="commons-beanutils"/>
+    <depend project="commons-beanutils-core"/>
     <depend project="commons-logging"/>
     <depend project="junit"/>
 
@@ -208,7 +231,7 @@
     <depend project="ant" inherit="runtime"/>
     <depend project="xml-xerces"/>
     <depend project="junit"/>
-    <depend project="commons-beanutils"/>
+    <depend project="commons-beanutils-core"/>
     <depend project="commons-collections"/>
     <depend project="commons-logging"/>
     <home nested="digester/dist"/>
@@ -263,7 +286,7 @@
     </ant>
     <depend project="ant" inherit="runtime"/>
     <depend project="xml-xerces"/>
-    <depend project="commons-beanutils"/>
+    <depend project="commons-beanutils-core"/>
     <depend project="jakarta-servletapi"/>
     <depend project="jaf"/>
 
@@ -330,7 +353,7 @@
     <depend project="ant" inherit="runtime"/>
 
     <!-- core jelly build dependencies -->
-    <depend project="commons-beanutils" runtime="true"/>
+    <depend project="commons-beanutils-core" runtime="true"/>
     <depend project="commons-collections" runtime="true"/>
     <depend project="commons-jexl"/>
     <depend project="commons-logging" runtime="true"/>
@@ -387,7 +410,7 @@
     </ant>
     <depend project="ant" inherit="runtime"/>
     <depend project="jakarta-site2" inherit="all"/>
-    <depend project="commons-beanutils" runtime="true"/>
+    <depend project="commons-beanutils-core" runtime="true"/>
     <home nested="jxpath/dist"/>
     <jar name="commons-jxpath.jar"/>
     <javadoc nested="jxpath/dist/docs/api"/>
@@ -539,7 +562,7 @@
     <depend project="ant" inherit="runtime"/>
     <depend project="xml-xerces"/>
     <depend project="junit"/>
-    <depend project="commons-beanutils"/>
+    <depend project="commons-beanutils-core"/>
     <depend project="commons-collections"/>
     <depend project="commons-digester"/>
     <depend project="commons-logging"/>
