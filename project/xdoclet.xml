@@ -11,9 +11,15 @@
     <package>xdoclet</package>
 
     <mkdir dir="core/build/classes"/>
+    <mkdir dir="modules/build/xdoclet/classes"/>
+    <mkdir dir="modules/build/ejb/classes"/>
+    <mkdir dir="modules/build/web/classes"/>
+
     <ant />
+
     <depend project="jakarta-ant" runtime="true"/>
     <depend project="xml-xerces"/>
+    <depend project="xml-xalan2"/>
     <depend project="jakarta-log4j" runtime="true"/>
     <depend project="jmx"/>
     <depend project="ejb"/>
@@ -25,8 +31,30 @@
     <depend project="junit"/>
     <depend project="javacc" />
     <depend project="commons-logging" />
+
     <work nested="core/build/classes"/>
-    <jar id="xdoclet" name="core/dist/lib/xdoclet.jar"/>
+    <work nested="modules/build/xdoclet/classes"/>
+    <work nested="modules/build/ejb/classes"/>
+    <work nested="modules/build/web/classes"/>
+
+    <!-- resources are left in src tree -->
+    <work nested="modules/xdoclet/src"/>
+
+    <jar id="xdoclet-core" name="dist/lib/xdoclet.jar"/>
+    <jar id="xdoclet-apache" name="dist/lib/xdoclet-apache-module.jar"/>
+    <jar id="xdoclet-caucho" name="dist/lib/xdoclet-caucho-module.jar"/>
+    <jar id="xdoclet-ejb" name="dist/lib/xdoclet-ejb-module.jar"/>
+    <jar id="xdoclet-exolab" name="dist/lib/xdoclet-exolab-module.jar"/>
+    <jar id="xdoclet-jboss" name="dist/lib/xdoclet-jboss-module.jar"/>
+    <jar id="xdoclet-jmx" name="dist/lib/xdoclet-jmx-module.jar"/>
+    <jar id="xdoclet-macromedia" name="dist/lib/xdoclet-macromedia-module.jar"/>
+    <jar id="xdoclet-module" name="dist/lib/xdoclet-xdoclet-module.jar"/>
+    <jar id="xdoclet-mvcsoft" name="dist/lib/xdoclet-mvcsoft-module.jar"/>
+    <jar id="xdoclet-orion" name="dist/lib/xdoclet-orion-module.jar"/>
+    <jar id="xdoclet-pramati" name="dist/lib/xdoclet-pramati-module.jar"/>
+    <jar id="xdoclet-web" name="dist/lib/xdoclet-web-module.jar"/>
+    <jar id="xdoclet-webwork" name="dist/lib/xdoclet-webwork-module.jar"/>
+
     <!--
     <nag from="Peter Donald &lt;peter@apache.org&gt;"
          to="xdoclet-devel@lists.sourceforge.net"/>
