@@ -206,6 +206,7 @@
     <depend project="jakarta-struts"/>
     <depend project="webwork"/>
     <depend project="mx4j"/>
+    <depend project="jakarta-velocity"/>
     <nag from="Peter Donald &lt;peter@apache.org&gt;"
          to="xdoclet-devel@lists.sourceforge.net"/>
   </project>
