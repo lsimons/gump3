@@ -15,6 +15,7 @@
     <depend project="ant" inherit="runtime"/>
     <depend project="xml-xerces"/>
     <option project="jsse"/>
+    <depend project="commons-codec" runtime="true"/>
     <depend project="commons-logging" runtime="true"/>
     <work nested="target/classes"/>
     <home nested="dist"/>

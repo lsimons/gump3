@@ -872,27 +872,4 @@
     <!-- DUMMY, remove once Cocoon has removed its dependency -->
     <project name="excalibur-naming"/>
 
-    <!-- ===================================================================
-          Binary packages
-
-    This is stuff not built from source by gump.
-    =================================================================== -->
-
-    <!-- this is temporarily in place so that we can get some clean gump
-         runs set up without having to keep up with all the altrmi
-         refactorings -->
-    <project name="excalibur-altrmi-0.9.2">
-        <package>org.apache.altrmi</package>
-
-        <jar id="client-impl" name="lib/altrmi-client-impl-0.9.6.jar"/>
-        <jar id="client-api" name="lib/altrmi-client-interfaces-0.9.6.jar"/>
-        <jar id="common" name="lib/altrmi-common-0.9.6.jar"/>
-        <jar id="generator" name="lib/altrmi-generator-0.9.6.jar"/>
-        <jar id="server-impl" name="lib/altrmi-server-impl-0.9.6.jar"/>
-        <jar id="server-api" name="lib/altrmi-server-interfaces-0.9.6.jar"/>
-
-        <nag from="Gump Integration Build &lt;general@incubator.apache.org&gt;"
-                to="dev@avalon.apache.org"/>
-    </project>
-
 </module>
