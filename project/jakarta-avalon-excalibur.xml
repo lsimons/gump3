@@ -32,12 +32,4 @@
     <javadoc nested="build/javadocs" module="jakarta-avalon"/>
   </project>
 
-  <project name="jakarta-avalon-clutil">
-    <depend project="jakarta-ant"/>
-    <depend project="xml-xerces"/>
-    <ant target="jar-clutil"/>
-    <home nested="build/lib"/>
-    <jar name="clutil.jar"/>
-  </project>
-
 </module>
