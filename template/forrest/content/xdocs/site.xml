@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+
+<!--
+Forrest site.xml
+-->
+
+<site label="Gump" href="" xmlns="http://apache.org/forrest/linkmap/1.0">
+
+  <about label="Work">
+    <index label="Index" href="index.html"/>
+  </about>
+
+  <external-refs>
+    <xml.apache.org href="http://xml.apache.org/">
+      <forrest href="forrest/">
+        <validation href="validation.html"/>
+        <webapp href="your-project.html#webapp"/>
+        <document-v11 href="document-v11.html"/>
+      </forrest>
+      <cocoon href="cocoon/"/>
+    </xml.apache.org>
+  </external-refs>
+
+</site>

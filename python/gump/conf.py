@@ -1,8 +1,8 @@
 #!/usr/bin/python
 
-# $Header: /home/stefano/cvs/gump/python/gump/Attic/conf.py,v 1.9 2003/09/05 05:20:42 ajack Exp $
-# $Revision: 1.9 $
-# $Date: 2003/09/05 05:20:42 $
+# $Header: /home/stefano/cvs/gump/python/gump/Attic/conf.py,v 1.10 2003/09/05 23:08:49 ajack Exp $
+# $Revision: 1.10 $
+# $Date: 2003/09/05 23:08:49 $
 #
 # ====================================================================
 #
@@ -82,6 +82,7 @@ class dir:
     cache     = os.path.normpath('%s/%s' % (base,'cache'))
     work      = os.path.normpath('%s/%s' % (base,'work'))
     tmp       = os.path.normpath('%s/%s' % (base,'tmp'))
+    template  = os.path.normpath('%s/%s' % (base,'template'))
 
 class default:
     """Configuration of default settings"""

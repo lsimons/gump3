@@ -125,7 +125,9 @@ def documentText(workspace,context,moduleFilterList=None,projectFilterList=None)
 def document(workspace,context,full=None,moduleFilterList=None,projectFilterList=None):
     
     log.info('--- Documenting Results')
-  
+
+    seedForrest(workspace,context)
+    
     # Testing...
     documentText(workspace,context,moduleFilterList,projectFilterList)
     
@@ -136,16 +138,64 @@ def document(workspace,context,full=None,moduleFilterList=None,projectFilterList
     if full or 1: # Testing
         documentStatistics(workspace,context,db,moduleFilterList,projectFilterList)
         #documentXRef(workspace,context)
-        
-        
-    content=getContentDir(workspace)
-    xdocs=getWorkspaceDir(workspace,content)
-    forrest=Cmd('forrest','forrest',content)
+
+    executeForrest(workspace,context)
+
+#####################################################################
+#
+# Forresting...
+def seedForrest(workspace,context):
+    forrestTemplate=getForrestTemplateDir()    
+    forrestSiteTemplate=getForrestSiteTemplateDir()    
+    forrest=getForrestDir(workspace)    
+    
+    # This gave an ugly tree (src/doc/cont../xdocs..)
+    # with sub-directories. It is a nice idea, but not
+    # quite there for us now, do a plain old tempalte
+    # copy instead.
+    
+    # First .. seed the project    
+    #forrestSeed=Cmd('forrest','forrest_seed',forrest)
+    #forrestSeed.addPrefixedParameter('-D','java.awt.headless','true','=')
+    #forrestSeed.addParameter('seed')    
+    #forrestSeedResult=execute(forrestSeed)
+    # Consider adding, but a second seed might fail, need to ignore that...
+    #work=CommandWorkItem(WORK_TYPE_DOCUMENT,forrest,forrestSeedResult)
+    #context.performedWork(work)
+    
+    # Copy in the defaults
+    forrestSeed=Cmd('cp','forrest_seed',forrest)
+    forrestSeed.addParameter('-Rf')
+    forrestSeed.addParameter(forrestTemplate)    
+    forrestSeed.addParameter(workspace.basedir)    
+    forrestSeedResult=execute(forrestSeed)
+    work=CommandWorkItem(WORK_TYPE_DOCUMENT,forrestSeed,forrestSeedResult)
+    context.performedWork(work)
+    
+    # Copy over the local site defaults (if any)
+    if os.path.exists(forrestSiteTemplate):
+        forrestSiteSeed=Cmd('cp','forrest_site_seed',forrest)
+        forrestSiteSeed.addParameter('-Rf')
+        forrestSiteSeed.addParameter(forrestSiteTemplate)    
+        forrestSiteSeed.addParameter(workspace.basedir)  
+        forrestSiteSeedResult=execute(forrestSiteSeed)
+        work=CommandWorkItem(WORK_TYPE_DOCUMENT,forrestSiteSeed,forrestSiteSeedResult)
+        context.performedWork(work)
+   
+     
+def executeForrest(workspace,context):
+    # The project tree
+    forrest=getForrestDir(workspace)
+    content=getContentDir(workspace,forrest)
+    xdocs=getWorkspaceDir(workspace,content)        
+    
+    # Then generate...        
+    forrest=Cmd('forrest','forrest',forrest)
     forrest.addPrefixedParameter('-D','java.awt.headless','true','=')
     forrest.addPrefixedParameter('-D','project.content-dir',  \
         content, '=')    
-    forrest.addPrefixedParameter('-D','project.xdocs-dir',  \
-        xdocs, '=')
+    #forrest.addPrefixedParameter('-D','project.xdocs-dir',  \
+    #    xdocs, '=')
     #forrest.addPrefixedParameter('-D','project.sitemap-dir',  \
     #    docroot, '=')    
     #forrest.addPrefixedParameter('-D','project.stylesheets-dir',  \
@@ -161,7 +211,7 @@ def document(workspace,context,full=None,moduleFilterList=None,projectFilterList
     work=CommandWorkItem(WORK_TYPE_DOCUMENT,forrest,forrestResult)
     context.performedWork(work)
     
-
+     
      
 #####################################################################           
 #
@@ -619,8 +669,22 @@ def getWorkspaceSiteDir(workspace):
     if not os.path.exists(sdir): os.mkdir(sdir)
     return sdir    
     
-def getContentDir(workspace):
-    cdir=os.path.normpath(os.path.join(workspace.logdir,'content'))
+def getForrestTemplateDir():
+    fdir=os.path.normpath(os.path.join(dir.template,'forrest'))
+    return fdir  
+    
+def getForrestSiteTemplateDir():
+    fdir=os.path.normpath(os.path.join(dir.template,'site-forrest'))
+    return fdir  
+      
+def getForrestDir(workspace):
+    fdir=os.path.normpath(os.path.join(workspace.basedir,'forrest'))
+    if not os.path.exists(fdir): os.mkdir(fdir)
+    return fdir  
+    
+def getContentDir(workspace,forrestdir=None):
+    fdir=forrestdir or getForrestDir(workspace)
+    cdir=os.path.normpath(os.path.join(fdir,'content'))
     if not os.path.exists(cdir): os.mkdir(cdir)
     return cdir  
     
@@ -632,7 +696,7 @@ def getWorkspaceDir(workspace,contentdir=None):
     
 def getStatisticsDir(workspace,workspacedir=None):
     wdir=workspacedir or getWorkspaceDir(workspace)
-    sdir=os.path.normpath(os.path.join(wdir,'stats'))
+    sdir=os.path.normpath(os.path.join(wdir,'gump_stats'))
     if not os.path.exists(sdir): os.mkdir(sdir)
     return sdir
     
@@ -829,3 +893,38 @@ def sourceXDoc(f,text):
     f.write(text)
     f.write('</source>\n')                
     
+    
+          
+
+# static void main()
+if __name__=='__main__':
+
+  # init logging
+  logging.basicConfig()
+
+  #set verbosity to show all messages of severity >= default.logLevel
+  log.setLevel(default.logLevel)
+  
+  args = handleArgv(sys.argv,0)
+  ws=args[0]
+  ps=args[1]
+
+  context=GumpContext()
+  
+      
+  # get parsed workspace definition
+  from gump import load
+  workspace=load(ws, context)
+
+  #
+  #from gump.check import checkEnvironment
+  #checkEnvironment(workspace, context)
+  
+  #
+  # Store for later
+  #
+  from gump.logic import getGumpSetForProjectExpression
+  context.gumpset=getGumpSetForProjectExpression(ps)
+  
+  # Document
+  document(workspace, context, 1);

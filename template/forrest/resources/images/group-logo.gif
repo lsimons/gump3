@@ -1,0 +1,1001 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<!-- Content Stylesheet for Site -->
+
+        
+<!-- start the processing -->
+    <!-- ====================================================================== -->
+    <!-- GENERATED FILE, DO NOT EDIT, EDIT THE XML FILE IN xdocs INSTEAD! -->
+    <!-- Main Page Section -->
+    <!-- ====================================================================== -->
+    <html>
+        <head>
+            <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1"/>
+
+                                                    <meta name="author" value="Jon S. Stevens">
+            <meta name="email" value="jon@latchkey.com">
+                                        <meta name="author" value="Ted Husted">
+            <meta name="email" value="husted@apache.org">
+            
+           
+                                    
+                        
+            <title>The Jakarta Site - The Jakarta Project -- Java Related Products</title>
+        </head>
+
+        <body bgcolor="#ffffff" text="#000000" link="#525D76">        
+            <table border="0" width="100%" cellspacing="0">
+                <!-- TOP IMAGE -->
+                <tr>
+                    <td colspan="2">
+<a href="http://jakarta.apache.org"><img src="http://jakarta.apache.org/images/jakarta-logo.gif" align="left" border="0"/></a>
+</td>
+                </tr>
+            </table>
+            <table border="0" width="100%" cellspacing="4">
+                <tr><td colspan="2">
+                    <hr noshade="" size="1"/>
+                </td></tr>
+                
+                <tr>
+                    <!-- LEFT SIDE NAVIGATION -->
+                    <td width="20%" valign="top" nowrap="true">
+                                <p><strong>About Jakarta</strong></p>
+        <ul>
+                    <li>    <a href="./index.html">Welcome</a>
+</li>
+                    <li>    <a href="http://www.apache.org/foundation/">About The ASF</a>
+</li>
+                    <li>    <a href="http://jakarta.apache.org/site/news/index.html">News & Status</a>
+</li>
+                    <li>    <a href="http://www.apache.org/">Apache Website</a>
+</li>
+                    <li>    <a href="http://www.google.com/advanced_search?q=+site:jakarta.apache.org&hl=en&as_qdr=all">Search Jakarta</a>
+</li>
+                    <li>    <a href="http://jakarta.apache.org/site/contact.html">Contacting Us</a>
+</li>
+                    <li>    <a href="http://jakarta.apache.org/site/mission.html">Our Mission</a>
+</li>
+                    <li>    <a href="http://jakarta.apache.org/site/whoweare.html">Who We Are</a>
+</li>
+                    <li>    <a href="http://jakarta.apache.org/site/acknowledgements.html">Acknowledgements</a>
+</li>
+                    <li>    <a href="http://jakarta.apache.org/site/legal.html">Legal</a>
+</li>
+                </ul>
+            <p><strong>Reference</strong></p>
+        <ul>
+                    <li>    <a href="http://jakarta.apache.org/site/faqs.html">Our FAQs</a>
+</li>
+                    <li>    <a href="http://jakarta.apache.org/site/getinvolved.html">Get Involved</a>
+</li>
+                    <li>    <a href="http://jakarta.apache.org/site/vendors.html">Vendor Support</a>
+</li>
+                    <li>    <a href="http://jakarta.apache.org/site/guidelines.html">Project Guidelines</a>
+</li>
+                    <li>    <a href="http://jakarta.apache.org/site/library.html">Reference Library</a>
+</li>
+                    <li>    <a href="http://jakarta.apache.org/site/newproject.html">New Subprojects</a>
+</li>
+                    <li>    <a href="http://jakarta.apache.org/site/jakarta-site2.html">Website Maintenance</a>
+</li>
+                    <li>    <a href="http://incubator.apache.org/drafts/glossary.html">ASF Glossary</a>
+</li>
+                    <li>    <a href="http://www.apache.org/dev/">Developer Resources</a>
+</li>
+                    <li>    <a href="http://jakarta.apache.org/site/jspa-position.html">Apache on the JSPA</a>
+</li>
+                </ul>
+            <p><strong>Support</strong></p>
+        <ul>
+                    <li>    <a href="http://jakarta.apache.org/site/mail.html">Mailing Lists</a>
+</li>
+                    <li>    <a href="http://jakarta.apache.org/site/bugs.html">Bug Database</a>
+</li>
+                    <li>    <a href="http://nagoya.apache.org/wiki">Wiki</a>
+</li>
+                </ul>
+            <p><strong>Downloads</strong></p>
+        <ul>
+                    <li>    <a href="http://jakarta.apache.org/site/binindex.cgi">Binaries</a>
+</li>
+                    <li>    <a href="http://jakarta.apache.org/site/sourceindex.cgi">Source Code</a>
+</li>
+                    <li>    <a href="http://jakarta.apache.org/site/cvsindex.html">CVS Repositories</a>
+</li>
+                </ul>
+            <p><strong>Products</strong></p>
+        <ul>
+                    <li>    <a href="./alexandria/index.html">Alexandria</a>
+</li>
+                    <li>    <a href="./bcel/index.html">BCEL</a>
+</li>
+                    <li>    <a href="./bsf/index.html">BSF</a>
+</li>
+                    <li>    <a href="./cactus/index.html">Cactus</a>
+</li>
+                    <li>    <a href="./commons/index.html">Commons</a>
+</li>
+                    <li>    <a href="./ecs/index.html">ECS</a>
+</li>
+                    <li>    <a href="./gump/index.html">Gump</a>
+</li>
+                    <li>    <a href="./jetspeed/index.html">Jetspeed</a>
+</li>
+                    <li>    <a href="./jmeter/index.html">JMeter</a>
+</li>
+                    <li>    <a href="./log4j/index.html">Log4J</a>
+</li>
+                    <li>    <a href="./lucene/index.html">Lucene</a>
+</li>
+                    <li>    <a href="./oro/index.html">ORO</a>
+</li>
+                    <li>    <a href="./poi/index.html">POI</a>
+</li>
+                    <li>    <a href="./regexp/index.html">Regexp</a>
+</li>
+                    <li>    <a href="./slide/index.html">Slide</a>
+</li>
+                    <li>    <a href="./struts/index.html">Struts</a>
+</li>
+                    <li>    <a href="./taglibs/index.html">Taglibs</a>
+</li>
+                    <li>    <a href="./tapestry/index.html">Tapestry</a>
+</li>
+                    <li>    <a href="./tomcat/index.html">Tomcat</a>
+</li>
+                    <li>    <a href="./turbine/index.html">Turbine</a>
+</li>
+                    <li>    <a href="./velocity/index.html">Velocity</a>
+</li>
+                    <li>    <a href="./watchdog/index.html">Watchdog</a>
+</li>
+                </ul>
+            <p><strong>Related</strong></p>
+        <ul>
+                    <li>    <a href="http://ant.apache.org/">Ant</a>
+</li>
+                    <li>    <a href="http://avalon.apache.org/">Avalon</a>
+</li>
+                    <li>    <a href="http://cocoon.apache.org/">Cocoon</a>
+</li>
+                    <li>    <a href="http://db.apache.org">DB</a>
+</li>
+                    <li>    <a href="http://httpd.apache.org">HTTPD</a>
+</li>
+                    <li>    <a href="http://james.apache.org/">James</a>
+</li>
+                    <li>    <a href="http://maven.apache.org/">Maven</a>
+</li>
+                    <li>    <a href="http://ws.apache.org/">Web Services</a>
+</li>
+                    <li>    <a href="http://xml.apache.org">XML</a>
+</li>
+                </ul>
+                        </td>
+                    <td width="80%" align="left" valign="top">
+                                                                    <table border="0" cellspacing="0" cellpadding="2" width="100%">
+      <tr><td bgcolor="#525D76">
+        <font color="#ffffff" face="arial,helvetica,sanserif">
+          <a name="Welcome to The Jakarta Project"><strong>Welcome to The Jakarta Project</strong></a>
+        </font>
+      </td></tr>
+      <tr><td>
+        <blockquote>
+                                    <p>
+The Jakarta Project creates and maintains open source solutions on the
+Java platform for distribution to the public at no charge.<br /> Jakarta products are
+developed by and distributed through various subprojects, which are listed under
+<b>Products</b> in the menu on the left, some other Apache Java projects which may be of interest are listed in <b>Related</b>,
+and all are summarised in the <a href="#Products">Products section</a> and <a href="#Jakarta Related Projects">Related Projects section</a> below.
+<br />Each Jakarta subproject has its own team of developers and committers, and its
+own <a href="./site/mail.html">mailing list</a>.
+<br />Related projects have their own project management, developers, committers, their own websites and mailing lists.
+</p>
+                                                <p>
+<strong>All Jakarta product support</strong> is provided through the subproject
+<a href="./site/mail.html">mailing lists</a>.<br />
+All work at Jakarta is provided on a <a href="./site/getinvolved.html">volunteer
+basis</a>. There is no paid staff. Please be considerate and do your homework
+before asking our volunteers to donate additional time and energy to your project.
+</p>
+                                                <p>
+Jakarta is a project of The Apache Software Foundation(ASF), and like all Apache Projects, encourages a collaborative, consensus-based
+development process, offers an open and pragmatic
+<a href="http://www.apache.org/foundation/licence-FAQ.html">software license</a>, and strives to
+create software of the highest quality. <br />
+The ASF is organized into several projects,
+which like Jakarta, may contain various subprojects.
+<br />
+For more about these projects and their subprojects, visit the
+<a href="http://apache.org/foundation/projects.html">ASF Project page</a>.
+</p>
+                            </blockquote>
+        </p>
+      </td></tr>
+      <tr><td><br/></td></tr>
+    </table>
+                                                <table border="0" cellspacing="0" cellpadding="2" width="100%">
+      <tr><td bgcolor="#525D76">
+        <font color="#ffffff" face="arial,helvetica,sanserif">
+          <a name="Headlines"><strong>Headlines</strong></a>
+        </font>
+      </td></tr>
+      <tr><td>
+        <blockquote>
+                                    <h4><a href="site/news.html">Jakarta Product news</a></h4>
+                                                <ul>
+                <li><a href="site/news.html#20030821.1">21 August 2003 - <b> Tomcat 5.0.9 Alpha released</b></a></li>
+                <li><a href="site/news.html#20030810.1">10 August 2003 - <b> Commons Modeler 1.1 released</b></a></li>
+                <li><a href="site/news.html#20030807.1">07 August 2003 - <b> JMeter 1.9 Final Version released</b></a></li>
+                <li><a href="site/news.html#20030801.2">01 August 2003 - <b> Commons HttpClient 2.0 Release Candidate 1 released</b></a></li>
+                <li><a href="site/news.html#20030801.1">01 August 2003 - <b> Tomcat 4.1.27 Stable released</b></a></li>
+                <li><a href="site/news.html#20030730.1">30 July 2003 - <b> POI 2.0-pre3 Released</b></a></li>
+        </ul>
+                                                <h4>Other news from <a href="site/news.html">Jakarta</a> 
+        and <a href="site/elsewhere.html">Elsewhere</a></h4>
+                                                <ul>
+                <li><a href="site/elsewhere.html#20030822.1">22 August 2003 - <b>LDAPd 0.71a Bugfix Release</b> Announced</a></li>
+                <li><a href="site/elsewhere.html#20030819.1">19 August 2003 - <b>Apache Torque-3.1-beta1</b> Released</a></li>
+                <li><a href="site/elsewhere.html#20030815.1">15 August 2003 - <b>The Apache Newsletter Issue #1</b> Released</a></li>
+                <li><a href="site/elsewhere.html#20030813.1">13 August 2003 - <b>Apache Cocoon 2.1</b> Released</a></li>
+                <li><a href="site/elsewhere.html#20030812.1">12 August 2003 - <b>Apache Ant 1.5.4</b> Released</a></li>
+                <li><a href="site/elsewhere.html#20030805.1">05 August 2003 - <b>Apache Geronimo</b> -- participation in Apache J2EE efforts</a></li>
+                <li><a href="site/elsewhere.html#20030731.1">31 July 2003 - <b>Apache Xerces-J 2.5.0</b> Released</a></li>
+                <li><a href="site/elsewhere.html#20030727.1">27 July 2003 - <b>Apache OJB 1.0 RC4</b> Released</a></li>
+        </ul>
+                            </blockquote>
+        </p>
+      </td></tr>
+      <tr><td><br/></td></tr>
+    </table>
+                                                <table border="0" cellspacing="0" cellpadding="2" width="100%">
+      <tr><td bgcolor="#525D76">
+        <font color="#ffffff" face="arial,helvetica,sanserif">
+          <a name="Products"><strong>Products</strong></a>
+        </font>
+      </td></tr>
+      <tr><td>
+        <blockquote>
+                                    <p>Jakarta groups products in four general categories:</p>
+                                                <ul>
+<li><a href="#tools">Libraries, Tools, and APIs</a></li>
+<li><a href="#frameworks">Frameworks and Engines</a></li>
+<li><a href="#servers">Server Applications</a></li>
+<li><a href="#proposals">Products in Proposal</a></li>
+</ul>
+                                                <table>
+                        <tr>
+                        <th bgcolor="#039acc" colspan="" rowspan="" valign="top" align="left">
+    <font color="#000000" size="-1" face="arial,helvetica,sanserif">
+                &nbsp;
+            </font>
+</th>
+                                <th bgcolor="#039acc" colspan="" rowspan="" valign="top" align="left">
+    <font color="#000000" size="-1" face="arial,helvetica,sanserif">
+                <font color="#ffffff"><strong><a name="tools">Libraries, Tools, and APIs</a></strong></font>
+            </font>
+</th>
+            </tr>
+                                <tr>
+                        <td bgcolor="#a0ddf0" colspan="" rowspan="" valign="top" align="left">
+    <font color="#000000" size="-1" face="arial,helvetica,sanserif">
+                
+<a href="./bcel/index.html">BCEL</a>
+
+            </font>
+</td>
+                                <td bgcolor="#a0ddf0" colspan="" rowspan="" valign="top" align="left">
+    <font color="#000000" size="-1" face="arial,helvetica,sanserif">
+                The Byte Code Engineering Library (formerly known as JavaClass) is intended to give users a convenient possibility to analyze, create, and manipulate (binary) Java class files (those ending with .class). 
+            </font>
+</td>
+            </tr>
+                                <tr>
+                        <td bgcolor="#a0ddf0" colspan="" rowspan="" valign="top" align="left">
+    <font color="#000000" size="-1" face="arial,helvetica,sanserif">
+                
+<a href="./bsf/index.html">BSF</a>
+
+            </font>
+</td>
+                                <td bgcolor="#a0ddf0" colspan="" rowspan="" valign="top" align="left">
+    <font color="#000000" size="-1" face="arial,helvetica,sanserif">
+                Bean Scripting Framework (BSF) is a set of Java classes which provides scripting language support within Java applications, and access to Java objects and methods from scripting languages.
+            </font>
+</td>
+            </tr>
+                                <tr>
+                        <td bgcolor="#a0ddf0" colspan="" rowspan="" valign="top" align="left">
+    <font color="#000000" size="-1" face="arial,helvetica,sanserif">
+                <a href="./commons/index.html">Commons</a>
+            </font>
+</td>
+                                <td bgcolor="#a0ddf0" colspan="" rowspan="" valign="top" align="left">
+    <font color="#000000" size="-1" face="arial,helvetica,sanserif">
+                Repository for small scale, reusable, code components that are useful in multiple Jakarta subprojects. -- <a href="./commons/components.html">ComponentsList</a>
+            </font>
+</td>
+            </tr>
+                                <tr>
+                        <td bgcolor="#a0ddf0" colspan="" rowspan="" valign="top" align="left">
+    <font color="#000000" size="-1" face="arial,helvetica,sanserif">
+                <a href="./ecs/index.html">ECS</a>
+            </font>
+</td>
+                                <td bgcolor="#a0ddf0" colspan="" rowspan="" valign="top" align="left">
+    <font color="#000000" size="-1" face="arial,helvetica,sanserif">
+                The Element Construction Set is a Java API for generating elements for various markup languages it directly supports HTML 4.0 and XML
+            </font>
+</td>
+            </tr>
+                                <tr>
+                        <td bgcolor="#a0ddf0" colspan="" rowspan="" valign="top" align="left">
+    <font color="#000000" size="-1" face="arial,helvetica,sanserif">
+                <a href="./jmeter/index.html">JMeter</a>
+            </font>
+</td>
+                                <td bgcolor="#a0ddf0" colspan="" rowspan="" valign="top" align="left">
+    <font color="#000000" size="-1" face="arial,helvetica,sanserif">
+                Pure Java desktop application designed to load test functional behavior and measure performance
+            </font>
+</td>
+            </tr>
+                                <tr>
+                        <td bgcolor="#a0ddf0" colspan="" rowspan="" valign="top" align="left">
+    <font color="#000000" size="-1" face="arial,helvetica,sanserif">
+                <a href="./log4j/index.html">Log4j</a>
+            </font>
+</td>
+                                <td bgcolor="#a0ddf0" colspan="" rowspan="" valign="top" align="left">
+    <font color="#000000" size="-1" face="arial,helvetica,sanserif">
+                A reliable, fast and extensible logging library for Java.
+            </font>
+</td>
+            </tr>
+                                <tr>
+                        <td bgcolor="#a0ddf0" colspan="" rowspan="" valign="top" align="left">
+    <font color="#000000" size="-1" face="arial,helvetica,sanserif">
+                <a href="./oro/index.html">ORO</a>
+            </font>
+</td>
+                                <td bgcolor="#a0ddf0" colspan="" rowspan="" valign="top" align="left">
+    <font color="#000000" size="-1" face="arial,helvetica,sanserif">
+                Set of text-processing Java classes that provide Perl5 compatible regular expressions, AWK-like regular expressions, glob expressions, and utility classes for performing substitutions, splits, filtering filenames, etc.
+            </font>
+</td>
+            </tr>
+                                <tr>
+                        <td bgcolor="#a0ddf0" colspan="" rowspan="" valign="top" align="left">
+    <font color="#000000" size="-1" face="arial,helvetica,sanserif">
+                <a href="./poi/index.html">POI</a>
+            </font>
+</td>
+                                <td bgcolor="#a0ddf0" colspan="" rowspan="" valign="top" align="left">
+    <font color="#000000" size="-1" face="arial,helvetica,sanserif">
+                Set of APIs for creating, reading, and writing files based upon the OLE 2 Compound Document Format using only Java (no native stuff).  Currently, OLE 2 Compound Document Format itself and Microsoft Excel (XLS) file formats are provided.
+            </font>
+</td>
+            </tr>
+                                <tr>
+                        <td bgcolor="#a0ddf0" colspan="" rowspan="" valign="top" align="left">
+    <font color="#000000" size="-1" face="arial,helvetica,sanserif">
+                <a href="./regexp/index.html">Regexp</a>
+            </font>
+</td>
+                                <td bgcolor="#a0ddf0" colspan="" rowspan="" valign="top" align="left">
+    <font color="#000000" size="-1" face="arial,helvetica,sanserif">
+                100% Pure Java Regular Expression package.
+            </font>
+</td>
+            </tr>
+                                <tr>
+                        <td bgcolor="#a0ddf0" colspan="" rowspan="" valign="top" align="left">
+    <font color="#000000" size="-1" face="arial,helvetica,sanserif">
+                <a href="./taglibs/index.html">Taglibs</a>
+            </font>
+</td>
+                                <td bgcolor="#a0ddf0" colspan="" rowspan="" valign="top" align="left">
+    <font color="#000000" size="-1" face="arial,helvetica,sanserif">
+                A collection of JavaServer Pages (JSP) custom tag libraries useful in building web applications
+            </font>
+</td>
+            </tr>
+                                <tr>
+                        <td bgcolor="#a0ddf0" colspan="" rowspan="" valign="top" align="left">
+    <font color="#000000" size="-1" face="arial,helvetica,sanserif">
+                <a href="./watchdog/index.html">Watchdog</a>
+            </font>
+</td>
+                                <td bgcolor="#a0ddf0" colspan="" rowspan="" valign="top" align="left">
+    <font color="#000000" size="-1" face="arial,helvetica,sanserif">
+                Compatibility tests that check a servlet/JSP container implementation of the corresponding specifications
+            </font>
+</td>
+            </tr>
+                                <tr>
+                        <th bgcolor="#039acc" colspan="" rowspan="" valign="top" align="left">
+    <font color="#000000" size="-1" face="arial,helvetica,sanserif">
+                &nbsp;
+            </font>
+</th>
+                                <th bgcolor="#039acc" colspan="" rowspan="" valign="top" align="left">
+    <font color="#000000" size="-1" face="arial,helvetica,sanserif">
+                <font color="#ffffff"><strong><a name="frameworks">Frameworks and Engines</a></strong></font>
+            </font>
+</th>
+            </tr>
+                                <tr>
+                        <td bgcolor="#a0ddf0" colspan="" rowspan="" valign="top" align="left">
+    <font color="#000000" size="-1" face="arial,helvetica,sanserif">
+                <a href="./cactus/index.html">Cactus</a>
+            </font>
+</td>
+                                <td bgcolor="#a0ddf0" colspan="" rowspan="" valign="top" align="left">
+    <font color="#000000" size="-1" face="arial,helvetica,sanserif">
+                Cactus is a simple test framework for unit testing server-side Java code (servlets, EJBs, tag libraries, filters, ...).
+            </font>
+</td>
+            </tr>
+                                <tr>
+                        <td bgcolor="#a0ddf0" colspan="" rowspan="" valign="top" align="left">
+    <font color="#000000" size="-1" face="arial,helvetica,sanserif">
+                <a href="./gump/index.html">Gump</a>
+            </font>
+</td>
+                                <td bgcolor="#a0ddf0" colspan="" rowspan="" valign="top" align="left">
+    <font color="#000000" size="-1" face="arial,helvetica,sanserif">
+                Gump is a tool for <a href="http://www.martinfowler.com/articles/continuousIntegration.html">Continuous Integration</a>.  It builds all of Jakarta and other products in <a href="#Jakarta Related Projects">Jakarta Related Projects</a> against the HEAD in CVS, <a href="http://cvs.apache.org/builds/gump/latest/">nightly</a>.
+            </font>
+</td>
+            </tr>
+                                <tr>
+                        <td bgcolor="#a0ddf0" colspan="" rowspan="" valign="top" align="left">
+    <font color="#000000" size="-1" face="arial,helvetica,sanserif">
+                <a href="./lucene/index.html">Lucene</a>
+            </font>
+</td>
+                                <td bgcolor="#a0ddf0" colspan="" rowspan="" valign="top" align="left">
+    <font color="#000000" size="-1" face="arial,helvetica,sanserif">
+                Jakarta Lucene is a high-performance, full-featured text search engine written entirely in Java. It is a technology suitable for nearly any application that requires full-text search, especially cross-platform.
+            </font>
+</td>
+            </tr>
+                                <tr>
+                        <td bgcolor="#a0ddf0" colspan="" rowspan="" valign="top" align="left">
+    <font color="#000000" size="-1" face="arial,helvetica,sanserif">
+                <a href="./struts/index.html">Struts</a>
+            </font>
+</td>
+                                <td bgcolor="#a0ddf0" colspan="" rowspan="" valign="top" align="left">
+    <font color="#000000" size="-1" face="arial,helvetica,sanserif">
+                A model-view-controller framework for constructing web applications with servlets and JavaServer Pages
+            </font>
+</td>
+            </tr>
+                                <tr>
+                        <td bgcolor="#a0ddf0" colspan="" rowspan="" valign="top" align="left">
+    <font color="#000000" size="-1" face="arial,helvetica,sanserif">
+                <a href="./tapestry/index.html">Tapestry</a>
+            </font>
+</td>
+                                <td bgcolor="#a0ddf0" colspan="" rowspan="" valign="top" align="left">
+    <font color="#000000" size="-1" face="arial,helvetica,sanserif">
+                Our newest web framework which seeks to find greater harmony between web designers and developers through a unique approach which experienced and novice developers alike will find enticing.
+            </font>
+</td>
+            </tr>
+                                <tr>
+                        <td bgcolor="#a0ddf0" colspan="" rowspan="" valign="top" align="left">
+    <font color="#000000" size="-1" face="arial,helvetica,sanserif">
+                <a href="./turbine/index.html">Turbine</a>
+            </font>
+</td>
+                                <td bgcolor="#a0ddf0" colspan="" rowspan="" valign="top" align="left">
+    <font color="#000000" size="-1" face="arial,helvetica,sanserif">
+                A model-view-controller framework for constructing web
+applications with either Velocity or JavaServer Pages. Turbine also has
+several sub-projects, such as Fulcrum which is a singleton services framework
+ (with a bunch of helpful services) etc.
+            </font>
+</td>
+            </tr>
+                                <tr>
+                        <td bgcolor="#a0ddf0" colspan="" rowspan="" valign="top" align="left">
+    <font color="#000000" size="-1" face="arial,helvetica,sanserif">
+                <a href="./velocity/index.html">Velocity</a>
+            </font>
+</td>
+                                <td bgcolor="#a0ddf0" colspan="" rowspan="" valign="top" align="left">
+    <font color="#000000" size="-1" face="arial,helvetica,sanserif">
+                
+Velocity is a general purpose Java-based template engine.  Suitable for many
+application domains including source code generation and XML transformation and
+styling, it is most often used in J2EE web applications as the
+view layer for generating dynamic content.
+
+            </font>
+</td>
+            </tr>
+                                <tr>
+                        <th bgcolor="#039acc" colspan="" rowspan="" valign="top" align="left">
+    <font color="#000000" size="-1" face="arial,helvetica,sanserif">
+                &nbsp;
+            </font>
+</th>
+                                <th bgcolor="#039acc" colspan="" rowspan="" valign="top" align="left">
+    <font color="#000000" size="-1" face="arial,helvetica,sanserif">
+                <font color="#ffffff"><strong><a name="servers">Server Applications</a></strong></font>
+            </font>
+</th>
+            </tr>
+                                <tr>
+                        <td bgcolor="#a0ddf0" colspan="" rowspan="" valign="top" align="left">
+    <font color="#000000" size="-1" face="arial,helvetica,sanserif">
+                <a href="./alexandria/index.html">Alexandria</a>
+            </font>
+</td>
+                                <td bgcolor="#a0ddf0" colspan="" rowspan="" valign="top" align="left">
+    <font color="#000000" size="-1" face="arial,helvetica,sanserif">
+                Alexandria is a CVS/Javadoc/Source code/Documentation management system meant for use within Open Source projects.
+            </font>
+</td>
+            </tr>
+                                <tr>
+                        <td bgcolor="#a0ddf0" colspan="" rowspan="" valign="top" align="left">
+    <font color="#000000" size="-1" face="arial,helvetica,sanserif">
+                <a href="./jetspeed/index.html">Jetspeed</a>
+            </font>
+</td>
+                                <td bgcolor="#a0ddf0" colspan="" rowspan="" valign="top" align="left">
+    <font color="#000000" size="-1" face="arial,helvetica,sanserif">
+                A Java user customizable portal system based on Turbine framework
+            </font>
+</td>
+            </tr>
+                                <tr>
+                        <td bgcolor="#a0ddf0" colspan="" rowspan="" valign="top" align="left">
+    <font color="#000000" size="-1" face="arial,helvetica,sanserif">
+                <a href="./slide/index.html">Slide</a>
+            </font>
+</td>
+                                <td bgcolor="#a0ddf0" colspan="" rowspan="" valign="top" align="left">
+    <font color="#000000" size="-1" face="arial,helvetica,sanserif">
+                WebDAV aware content management system
+            </font>
+</td>
+            </tr>
+                                <tr>
+                        <td bgcolor="#a0ddf0" colspan="" rowspan="" valign="top" align="left">
+    <font color="#000000" size="-1" face="arial,helvetica,sanserif">
+                <a href="./tomcat/index.html">Tomcat 3</a>
+            </font>
+</td>
+                                <td bgcolor="#a0ddf0" colspan="" rowspan="" valign="top" align="left">
+    <font color="#000000" size="-1" face="arial,helvetica,sanserif">
+                Tomcat 3 is the official Reference Implementation of the Servlet 2.2 and JavaServer Pages 1.1 technologies.
+            </font>
+</td>
+            </tr>
+                                <tr>
+                        <td bgcolor="#a0ddf0" colspan="" rowspan="" valign="top" align="left">
+    <font color="#000000" size="-1" face="arial,helvetica,sanserif">
+                <a href="./tomcat/index.html">Tomcat 4</a>
+            </font>
+</td>
+                                <td bgcolor="#a0ddf0" colspan="" rowspan="" valign="top" align="left">
+    <font color="#000000" size="-1" face="arial,helvetica,sanserif">
+                Tomcat 4 is the official Reference Implementation of the Servlet 2.3 and JavaServer Pages 1.2 technologies.
+            </font>
+</td>
+            </tr>
+                                <tr>
+                        <th bgcolor="#039acc" colspan="" rowspan="" valign="top" align="left">
+    <font color="#000000" size="-1" face="arial,helvetica,sanserif">
+                &nbsp;
+            </font>
+</th>
+                                <th bgcolor="#039acc" colspan="" rowspan="" valign="top" align="left">
+    <font color="#000000" size="-1" face="arial,helvetica,sanserif">
+                <font color="#ffffff"><strong><a name="proposals">Products in Proposal</a></strong></font>
+            </font>
+</th>
+            </tr>
+                                <tr>
+                        <td bgcolor="#a0ddf0" colspan="" rowspan="" valign="top" align="left">
+    <font color="#000000" size="-1" face="arial,helvetica,sanserif">
+                N/A
+            </font>
+</td>
+                                <td bgcolor="#a0ddf0" colspan="" rowspan="" valign="top" align="left">
+    <font color="#000000" size="-1" face="arial,helvetica,sanserif">
+                We have no products in proposal now. See <a href="http://incubator.apache.org/">Apache Incubator</a>.
+            </font>
+</td>
+            </tr>
+            </table>
+                            </blockquote>
+        </p>
+      </td></tr>
+      <tr><td><br/></td></tr>
+    </table>
+                                                <table border="0" cellspacing="0" cellpadding="2" width="100%">
+      <tr><td bgcolor="#525D76">
+        <font color="#ffffff" face="arial,helvetica,sanserif">
+          <a name="Jakarta Related Projects"><strong>Jakarta Related Projects</strong></a>
+        </font>
+      </td></tr>
+      <tr><td>
+        <blockquote>
+                                    <p>Jakarta related projects:</p>
+                                                <ul>
+<li><a href="#ant">Apache Ant Project</a></li>
+<li><a href="#avalon">Apache Avalon Project</a></li>
+<li><a href="#cocoon">Apache Cocoon Project</a></li>
+<li><a href="#db">Apache DB Project</a></li>
+<li><a href="#httpd">Apache HTTP WebServer Project</a></li>
+<li><a href="#incubator">Apache Incubator Project</a></li>
+<li><a href="#james">Apache James Project</a></li>
+<li><a href="#maven">Apache Maven Project</a></li>
+<li><a href="#ws">Apache WebService Project</a></li>
+<li><a href="#xml">Apache XML Project</a></li>
+</ul>
+                                                <table>
+                        <tr>
+                        <th bgcolor="#039acc" colspan="" rowspan="" valign="top" align="left">
+    <font color="#000000" size="-1" face="arial,helvetica,sanserif">
+                &nbsp;
+            </font>
+</th>
+                                <th bgcolor="#039acc" colspan="" rowspan="" valign="top" align="left">
+    <font color="#000000" size="-1" face="arial,helvetica,sanserif">
+                <font color="#ffffff"><strong><a name="ant" href="http://ant.apache.org/">Apache Ant Project</a></strong></font>
+            </font>
+</th>
+            </tr>
+                                <tr>
+                        <td bgcolor="#a0ddf0" colspan="" rowspan="" valign="top" align="left">
+    <font color="#000000" size="-1" face="arial,helvetica,sanserif">
+                
+<a href="http://ant.apache.org/">Ant</a>
+
+            </font>
+</td>
+                                <td bgcolor="#a0ddf0" colspan="" rowspan="" valign="top" align="left">
+    <font color="#000000" size="-1" face="arial,helvetica,sanserif">
+                Ant is a Java-based build tool.
+            </font>
+</td>
+            </tr>
+                                <tr>
+                        <th bgcolor="#039acc" colspan="" rowspan="" valign="top" align="left">
+    <font color="#000000" size="-1" face="arial,helvetica,sanserif">
+                &nbsp;
+            </font>
+</th>
+                                <th bgcolor="#039acc" colspan="" rowspan="" valign="top" align="left">
+    <font color="#000000" size="-1" face="arial,helvetica,sanserif">
+                <font color="#ffffff"><strong><a name="avalon" href="http://avalon.apache.org/">Apache Avalon Project</a></strong></font>
+            </font>
+</th>
+            </tr>
+                                <tr>
+                        <td bgcolor="#a0ddf0" colspan="" rowspan="" valign="top" align="left">
+    <font color="#000000" size="-1" face="arial,helvetica,sanserif">
+                
+<a href="http://avalon.apache.org/">Avalon</a>
+
+            </font>
+</td>
+                                <td bgcolor="#a0ddf0" colspan="" rowspan="" valign="top" align="left">
+    <font color="#000000" size="-1" face="arial,helvetica,sanserif">
+                Avalon is component-oriented programming project consisting of: Framework, the core framework for COP; Excalibur, common utilities written as components; Phoenix, a server framework; Cornerstone, blocks for use in a Phoenix server; and, Logkit, logging facilities.
+            </font>
+</td>
+            </tr>
+                                <tr>
+                        <th bgcolor="#039acc" colspan="" rowspan="" valign="top" align="left">
+    <font color="#000000" size="-1" face="arial,helvetica,sanserif">
+                &nbsp;
+            </font>
+</th>
+                                <th bgcolor="#039acc" colspan="" rowspan="" valign="top" align="left">
+    <font color="#000000" size="-1" face="arial,helvetica,sanserif">
+                <font color="#ffffff"><strong><a name="cocoon" href="http://cocoon.apache.org/">Apache Cocoon Project</a></strong></font>
+            </font>
+</th>
+            </tr>
+                                <tr>
+                        <td bgcolor="#a0ddf0" colspan="" rowspan="" valign="top" align="left">
+    <font color="#000000" size="-1" face="arial,helvetica,sanserif">
+                
+<a href="http://cocoon.apache.org/2.1/">Cocoon 2.1</a>
+
+            </font>
+</td>
+                                <td bgcolor="#a0ddf0" colspan="" rowspan="" valign="top" align="left">
+    <font color="#000000" size="-1" face="arial,helvetica,sanserif">
+                Apache Cocoon is an XML framework that raises the usage of XML and XSLT technologies for server applications to a new level. Designed for performance and scalability around pipelined SAX processing.
+            </font>
+</td>
+            </tr>
+                                <tr>
+                        <th bgcolor="#039acc" colspan="" rowspan="" valign="top" align="left">
+    <font color="#000000" size="-1" face="arial,helvetica,sanserif">
+                &nbsp;
+            </font>
+</th>
+                                <th bgcolor="#039acc" colspan="" rowspan="" valign="top" align="left">
+    <font color="#000000" size="-1" face="arial,helvetica,sanserif">
+                <font color="#ffffff"><strong><a name="db" href="http://db.apache.org/">Apache DB Project</a></strong></font>
+            </font>
+</th>
+            </tr>
+                                <tr>
+                        <td bgcolor="#a0ddf0" colspan="" rowspan="" valign="top" align="left">
+    <font color="#000000" size="-1" face="arial,helvetica,sanserif">
+                
+<a href="http://db.apache.org/torque/">Torque</a>
+
+            </font>
+</td>
+                                <td bgcolor="#a0ddf0" colspan="" rowspan="" valign="top" align="left">
+    <font color="#000000" size="-1" face="arial,helvetica,sanserif">
+                Torque is a persistence layer, which had been developed as part of Turbine Framework. Torque includes a generator to generate all the database resources required by your application and includes a runtime environment to run the generated classes.
+            </font>
+</td>
+            </tr>
+                                <tr>
+                        <td bgcolor="#a0ddf0" colspan="" rowspan="" valign="top" align="left">
+    <font color="#000000" size="-1" face="arial,helvetica,sanserif">
+                
+<a href="http://db.apache.org/ojb/">OJB</a>
+
+            </font>
+</td>
+                                <td bgcolor="#a0ddf0" colspan="" rowspan="" valign="top" align="left">
+    <font color="#000000" size="-1" face="arial,helvetica,sanserif">
+                ObJectRelationalBridge (OJB) is an Object/Relational mapping tool that allows transparent persistence for Java Objects against relational databases.
+            </font>
+</td>
+            </tr>
+                                <tr>
+                        <th bgcolor="#039acc" colspan="" rowspan="" valign="top" align="left">
+    <font color="#000000" size="-1" face="arial,helvetica,sanserif">
+                &nbsp;
+            </font>
+</th>
+                                <th bgcolor="#039acc" colspan="" rowspan="" valign="top" align="left">
+    <font color="#000000" size="-1" face="arial,helvetica,sanserif">
+                <font color="#ffffff"><strong><a name="httpd" href="http://httpd.apache.org/">Apache HTTP WebServer Project</a></strong></font>
+            </font>
+</th>
+            </tr>
+                                <tr>
+                        <td bgcolor="#a0ddf0" colspan="" rowspan="" valign="top" align="left">
+    <font color="#000000" size="-1" face="arial,helvetica,sanserif">
+                
+<a href="http://httpd.apache.org/">HTTP WebServer</a>
+
+            </font>
+</td>
+                                <td bgcolor="#a0ddf0" colspan="" rowspan="" valign="top" align="left">
+    <font color="#000000" size="-1" face="arial,helvetica,sanserif">
+                Highly acknowledged Open-source HTTP server for modern operating systems including UNIX and Windows NT. This server is a secure, efficient and extensible server that provides HTTP services in sync with the current HTTP standards.
+            </font>
+</td>
+            </tr>
+                                <tr>
+                        <th bgcolor="#039acc" colspan="" rowspan="" valign="top" align="left">
+    <font color="#000000" size="-1" face="arial,helvetica,sanserif">
+                &nbsp;
+            </font>
+</th>
+                                <th bgcolor="#039acc" colspan="" rowspan="" valign="top" align="left">
+    <font color="#000000" size="-1" face="arial,helvetica,sanserif">
+                <font color="#ffffff"><strong><a name="incubator" href="http://incubator.apache.org/">Apache Incubator Project</a></strong></font>
+            </font>
+</th>
+            </tr>
+                                <tr>
+                        <td bgcolor="#a0ddf0" colspan="" rowspan="" valign="top" align="left">
+    <font color="#000000" size="-1" face="arial,helvetica,sanserif">
+                
+<a href="http://incubator.apache.org/projects/altrmi/">AltRMI</a>
+
+            </font>
+</td>
+                                <td bgcolor="#a0ddf0" colspan="" rowspan="" valign="top" align="left">
+    <font color="#000000" size="-1" face="arial,helvetica,sanserif">
+                AltRMI is a from-scratch replacement for RMI, which has a number of different features that make it easier to use. It tries as far as possible to be transparent in use. It is also inspired by the remoting facility in .NET.
+            </font>
+</td>
+            </tr>
+                                <tr>
+                        <td bgcolor="#a0ddf0" colspan="" rowspan="" valign="top" align="left">
+    <font color="#000000" size="-1" face="arial,helvetica,sanserif">
+                
+<a href="http://incubator.apache.org/projects/ftpserver/">FTPServer</a>
+
+            </font>
+</td>
+                                <td bgcolor="#a0ddf0" colspan="" rowspan="" valign="top" align="left">
+    <font color="#000000" size="-1" face="arial,helvetica,sanserif">
+                FtpServer is a complete FTP Server component based on Avalon Phoenix that allows remote FTP client to attach and download files. The client software can be any type of FTP client written in any language.
+            </font>
+</td>
+            </tr>
+                                <tr>
+                        <td bgcolor="#a0ddf0" colspan="" rowspan="" valign="top" align="left">
+    <font color="#000000" size="-1" face="arial,helvetica,sanserif">
+                
+<a href="http://incubator.apache.org/projects/geronimo.html">Geronimo</a>
+
+            </font>
+</td>
+                                <td bgcolor="#a0ddf0" colspan="" rowspan="" valign="top" align="left">
+    <font color="#000000" size="-1" face="arial,helvetica,sanserif">
+                
+Apache Geronimo is a new effort coordinated by the Apache Software Foundation to make a J2EE compatible container.
+            </font>
+</td>
+            </tr>
+                                <tr>
+                        <td bgcolor="#a0ddf0" colspan="" rowspan="" valign="top" align="left">
+    <font color="#000000" size="-1" face="arial,helvetica,sanserif">
+                
+<a href="http://xml.apache.org/xmlbeans/">XMLBeans</a>
+
+            </font>
+</td>
+                                <td bgcolor="#a0ddf0" colspan="" rowspan="" valign="top" align="left">
+    <font color="#000000" size="-1" face="arial,helvetica,sanserif">
+                
+XMLBeans is an XML Schema-based, XML-Java binding tool with cursor-based access  to the full XML Infoset integrated with convenient, strongly typed Java classes, combining the best of low-level, full access APIs like SAX and DOM with the convenience of Java binding.
+            </font>
+</td>
+            </tr>
+                                <tr>
+                        <th bgcolor="#039acc" colspan="" rowspan="" valign="top" align="left">
+    <font color="#000000" size="-1" face="arial,helvetica,sanserif">
+                &nbsp;
+            </font>
+</th>
+                                <th bgcolor="#039acc" colspan="" rowspan="" valign="top" align="left">
+    <font color="#000000" size="-1" face="arial,helvetica,sanserif">
+                <font color="#ffffff"><strong><a name="james" href="http://james.apache.org/">Apache James Project</a></strong></font>
+            </font>
+</th>
+            </tr>
+                                <tr>
+                        <td bgcolor="#a0ddf0" colspan="" rowspan="" valign="top" align="left">
+    <font color="#000000" size="-1" face="arial,helvetica,sanserif">
+                
+<a href="http://james.apache.org/">James</a>
+
+            </font>
+</td>
+                                <td bgcolor="#a0ddf0" colspan="" rowspan="" valign="top" align="left">
+    <font color="#000000" size="-1" face="arial,helvetica,sanserif">
+                James is an email/news/messaging server written in Java. It uses the Avalon component framework. It currently supports SMTP, POP3 and NNTP with IMAP coming shortly.
+            </font>
+</td>
+            </tr>
+                                <tr>
+                        <th bgcolor="#039acc" colspan="" rowspan="" valign="top" align="left">
+    <font color="#000000" size="-1" face="arial,helvetica,sanserif">
+                &nbsp;
+            </font>
+</th>
+                                <th bgcolor="#039acc" colspan="" rowspan="" valign="top" align="left">
+    <font color="#000000" size="-1" face="arial,helvetica,sanserif">
+                <font color="#ffffff"><strong><a name="maven" href="http://maven.apache.org/">Apache Maven Project</a></strong></font>
+            </font>
+</th>
+            </tr>
+                                <tr>
+                        <td bgcolor="#a0ddf0" colspan="" rowspan="" valign="top" align="left">
+    <font color="#000000" size="-1" face="arial,helvetica,sanserif">
+                
+<a href="http://maven.apache.org/">Maven</a>
+
+            </font>
+</td>
+                                <td bgcolor="#a0ddf0" colspan="" rowspan="" valign="top" align="left">
+    <font color="#000000" size="-1" face="arial,helvetica,sanserif">
+                Maven is a Java project management and project comprehension tool, based on the concept of a project object model (POM)
+            </font>
+</td>
+            </tr>
+                                <tr>
+                        <th bgcolor="#039acc" colspan="" rowspan="" valign="top" align="left">
+    <font color="#000000" size="-1" face="arial,helvetica,sanserif">
+                &nbsp;
+            </font>
+</th>
+                                <th bgcolor="#039acc" colspan="" rowspan="" valign="top" align="left">
+    <font color="#000000" size="-1" face="arial,helvetica,sanserif">
+                <font color="#ffffff"><strong><a name="ws" href="http://ws.apache.org/">Apache WebService Project</a></strong></font>
+            </font>
+</th>
+            </tr>
+                                <tr>
+                        <td bgcolor="#a0ddf0" colspan="" rowspan="" valign="top" align="left">
+    <font color="#000000" size="-1" face="arial,helvetica,sanserif">
+                
+
+            </font>
+</td>
+                                <td bgcolor="#a0ddf0" colspan="" rowspan="" valign="top" align="left">
+    <font color="#000000" size="-1" face="arial,helvetica,sanserif">
+                Apache WebService (WS) Project is a collaborative software development project dedicated to providing robust, full-featured, commercial-quality, and freely available Web Services support on a wide variety of platforms.
+            </font>
+</td>
+            </tr>
+                                <tr>
+                        <th bgcolor="#039acc" colspan="" rowspan="" valign="top" align="left">
+    <font color="#000000" size="-1" face="arial,helvetica,sanserif">
+                &nbsp;
+            </font>
+</th>
+                                <th bgcolor="#039acc" colspan="" rowspan="" valign="top" align="left">
+    <font color="#000000" size="-1" face="arial,helvetica,sanserif">
+                <font color="#ffffff"><strong><a name="xml" href="http://xml.apache.org/">Apache XML Project</a></strong></font>
+            </font>
+</th>
+            </tr>
+                                <tr>
+                        <td bgcolor="#a0ddf0" colspan="" rowspan="" valign="top" align="left">
+    <font color="#000000" size="-1" face="arial,helvetica,sanserif">
+                
+
+            </font>
+</td>
+                                <td bgcolor="#a0ddf0" colspan="" rowspan="" valign="top" align="left">
+    <font color="#000000" size="-1" face="arial,helvetica,sanserif">
+                Apache XML Project is focusing on XML-related activities within Apache projects. Apache XML Project currently consists of Xerces, Xalan, FOP, Forrest, Xindice, etc.
+            </font>
+</td>
+            </tr>
+            </table>
+                            </blockquote>
+        </p>
+      </td></tr>
+      <tr><td><br/></td></tr>
+    </table>
+                                        </td>
+                </tr>
+
+                <!-- FOOTER -->
+                <tr><td colspan="2">
+                    <hr noshade="" size="1"/>
+                </td></tr>
+                <tr><td colspan="2">
+                    <div align="center"><font color="#525D76" size="-1"><em>
+                    Copyright &#169; 1999-2003, Apache Software Foundation
+                    </em></font></div>
+                </td></tr>
+            </table>
+        </body>
+    </html>
+<!-- end the processing -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
