@@ -43,7 +43,7 @@ public class Module {
 
         computeSrcDir();
         promoteProjects();
-        resolveRepository();
+        resolveCvsroot();
 
         modules.put(name, this);
     }
@@ -103,7 +103,7 @@ public class Module {
      * Resolves a repository name into a cvsroot.  In the process it also
      * decorates the cvs tag with the module name and tag info.
      */
-    private void resolveRepository() throws Exception {
+    private void resolveCvsroot() throws Exception {
         Node child=element.getFirstChild();
         for (; child != null; child=child.getNextSibling()) {
             if (! child.getNodeName().equals("cvs")) continue;
@@ -118,19 +118,19 @@ public class Module {
             if (!tag.equals("")) cvs.setAttribute("tag", tag);
 
             Repository r = Repository.find(cvs.getAttribute("repository"));
-            String repository = ":" + r.get("method");
-            repository += ":" + r.get("user");
+            String cvsroot = ":" + r.get("method");
+            cvsroot += ":" + r.get("user");
 
-            repository += "@";
+            cvsroot += "@";
             if (cvs.getAttributeNode("host-prefix") != null)
-                repository += cvs.getAttribute("host-prefix") + ".";
-            repository += r.get("hostname");
+                cvsroot += cvs.getAttribute("host-prefix") + ".";
+            cvsroot += r.get("hostname");
 
-            repository += ":" + r.get("path");
+            cvsroot += ":" + r.get("path");
             if (cvs.getAttributeNode("dir") != null)
-                repository += "/" + cvs.getAttribute("dir");
+                cvsroot += "/" + cvs.getAttribute("dir");
 
-            cvs.setAttribute("repository", repository);
+            cvs.setAttribute("cvsroot", cvsroot);
             cvs.setAttribute("password", r.get("password"));
         }
     }
