@@ -553,3 +553,15 @@ From: Sam Ruby <rubys@us.ibm.com>
 Subject: [GUMP] Build Failure - Xindice
 Regex: /BUILD FAILED/
 -------
+Project: ant-contrib
+To: ant-contrib-developers@lists.sourceforge.net
+From: Stefan Bodewig <bodewig@bost.de>
+Subject: [GUMP] Build Failure - Ant-Contrib
+Regex: /BUILD FAILED/
+-------
+Project: ant-contrib-cpptasks
+To: ant-contrib-developers@lists.sourceforge.net
+From: Stefan Bodewig <bodewig@bost.de>
+Subject: [GUMP] Build Failure - Cpptasks
+Regex: /BUILD FAILED/
+-------
