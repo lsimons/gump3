@@ -23,6 +23,13 @@
       received.</p>
     </subsection>
 
+    <subsection name="tyrex">
+      <p>Tyrex has standardized on log4j 1.0.4.  The current release is 1.1.3
+      and introduced a number of APIs in the process, and deprecated a number
+      in the process.  Release 1.2 is in its second alpha release and has
+      removed some of the APIs that Tyrex continues to use.</p>
+    </subsection>
+
 <!--
     <subsection name="xml-fop">
       <p>Batik is in the process of correcting what they have described as
