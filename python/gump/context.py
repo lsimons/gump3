@@ -345,12 +345,15 @@ class Context:
     def aggregateStates(self, states=None):
         if not states: states=[]
         
-        # Just do subordinates...
-        #
-        # pair=self.getStatePair()
+        pair=self.getStatePair()
         # Add state, if not already there
-        #if not stateUnset(pair.status) and not pair in states: \
-        #    states.append(pair)
+        if not stateUnset(pair.status) and not pair in states: \
+            states.append(pair)
+        
+        return states + self.getSubbordinateStates();
+        
+    def getSubbordinateStates(self, states=None):
+        if not states: states=[]
         
         # Subbordinates
         for ctxt in self:

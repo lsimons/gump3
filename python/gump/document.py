@@ -349,7 +349,7 @@ def documentWorkspace(workspace,context,db,moduleFilterList=None,projectFilterLi
         x.write('      <td><link href=\'%s\'>%s</link></td><td>%s</td><td>%s</td>\n' % \
           (getModuleRelativeUrl(mname),mname,	\
               getStatePairIcon(mctxt.getStatePair()),	\
-              getStateIcons(mctxt.aggregateStates())))    
+              getStateIcons(mctxt)))    
         x.write('      <td>%s</td>\n' % elapsedTimeToString(mctxt.elapsedTime()))    
         x.write('     </tr>\n\n')
     if not mcount: x.write('	<tr><td>None</td></tr>')
@@ -387,7 +387,7 @@ def documentWorkspace(workspace,context,db,moduleFilterList=None,projectFilterLi
         x.write('      <td><link href=\'%s\'>%s</link></td><td>%s</td><td>%s</td>\n' % \
           (getModuleRelativeUrl(mname),mname,\
               getStatePairIcon(mctxt.getStatePair()),	\
-              getStateIcons(mctxt.aggregateStates())))    
+              getStateIcons(mctxt)))    
         x.write('      <td>%s</td>\n' % elapsedTimeToString(mctxt.elapsedTime()))    
         x.write('     </tr>\n\n')
     if not mcount: x.write('	<tr><td>None</td></tr>')
@@ -430,7 +430,7 @@ def documentWorkspace(workspace,context,db,moduleFilterList=None,projectFilterLi
 
         x.write('     <tr><!-- %s -->\n' % (mname))        
         x.write('      <td><link href=\'%s\'>%s</link></td><td>%s</td>\n' % \
-          (getModuleRelativeUrl(mname),mname,getStateIcons(mctxt.aggregateStates())))    
+          (getModuleRelativeUrl(mname),mname,getStateIcons(mctxt)))    
         x.write('      <td>%s</td>\n' % elapsedTimeToString(mctxt.elapsedTime()))    
         x.write('     </tr>\n\n')
     if not mcount: x.write('	<tr><td>None</td></tr>')
@@ -482,10 +482,17 @@ def documentWorkspace(workspace,context,db,moduleFilterList=None,projectFilterLi
     xml = xmlize('workspace',workspace,f)
     f.close()  
     
-def getStateIcons(pairs):
+def getStateIcons(modulecontext):
     icons=''
-    for pair in pairs:
-        icons+=getStatePairIcon(pair)
+    for projectcontext in modulecontext:
+        # :TODO: Dig in and get the first 'failed' 
+        # launched task to use as link
+        
+        # :TODO: Wrap (via paragraph?) after a
+        # small number, 5 or so...
+        icon=getStatePairIcon(projectcontext.getStatePair())
+        href=getContextLink(projectcontext,0,icon)
+        icons+=href+' '
     return icons
     
 def documentModule(workspace,context,wdir,modulename,modulecontext,db,projectFilterList=None):
@@ -1120,20 +1127,23 @@ def getContextUrl(context,depth=1):
     return url
 
 def getTypedContextLink(context,depth=1):
-    return getContextLink(context,depth,1)
+    return getContextLink(context,depth,None,1)
 
-def getContextLink(context,depth=1,typed=0):
-    description=""
-    if typed:
-        if isinstance(context,GumpContext):
-            description="Gump: "
-        elif isinstance(context,ModuleContext):
-            description="Module: "
-        else:        
-            description="Project: "
-    description+=context.name
+def getContextLink(context,depth=1,xdata=None,typed=0):
+    if not xdata:
+        description=""
+        if typed:
+            if isinstance(context,GumpContext):
+                description="Gump: "
+            elif isinstance(context,ModuleContext):
+                description="Module: "
+            else:        
+                description="Project: "
+        description+=context.name
     
-    return getLink(getContextUrl(context,depth),description)
+        return getLink(getContextUrl(context,depth),description)
+    else:
+        return getXLink(getContextUrl(context,depth),xdata)
     
 def getContextStateDescription(context):
     xdoc=stateName(context.status)
@@ -1209,6 +1219,11 @@ def getUp(depth):
 def getLink(href,name=None):
     if not name: name = href
     link='<link href=\'%s\'>%s</link>' % (escape(href),escape(name))
+    return link
+    
+def getXLink(href,xdata=None):
+    if not xdata: xdata = escape(href)
+    link='<link href=\'%s\'>%s</link>' % (escape(href),xdata)
     return link
            
 #####################################################################           

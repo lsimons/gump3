@@ -348,10 +348,10 @@ def executeIntoResult(cmd,result,tmp=dir.tmp):
         # Process Outputs (exit_code and stderr/stdout)
         if result.exit_code < 0:
           result.status=CMD_STATUS_TIMED_OUT
-          log.error('Failed to launch/execute command. ExitCode: ' + str(result.exit_code))
+          log.error('Failed to launch/execute command. [' + execString + ']. ExitCode: ' + str(result.exit_code))
         elif result.exit_code > 0:    
           result.status=CMD_STATUS_FAILED
-          log.error('Failed to launch/execute command. ExitCode: ' + str(result.exit_code))
+          log.error('Failed to launch/execute command. [' + execString + ']. ExitCode: ' + str(result.exit_code))
         else:
           result.status=CMD_STATUS_SUCCESS
           

@@ -1,8 +1,8 @@
 #!/usr/bin/python
 
-# $Header: /home/stefano/cvs/gump/python/gump/Attic/conf.py,v 1.17 2003/10/06 14:04:15 ajack Exp $
-# $Revision: 1.17 $
-# $Date: 2003/10/06 14:04:15 $
+# $Header: /home/stefano/cvs/gump/python/gump/Attic/conf.py,v 1.18 2003/10/09 00:22:16 ajack Exp $
+# $Revision: 1.18 $
+# $Date: 2003/10/09 00:22:16 $
 #
 # ====================================================================
 #
@@ -92,7 +92,7 @@ class default:
     project    = "jakarta-gump"
     merge      = os.path.normpath('%s/%s' % (dir.work, 'merge.xml'))
     date       = time.strftime('%Y%m%d')
-    logLevel   = logging.INFO
+    logLevel   = logging.WARN
     classpath = (os.getenv('CLASSPATH') or '').split(os.pathsep)  
     
     logurl		=	'http://cvs.apache.org/builds/gump/nightly/'
