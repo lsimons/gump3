@@ -145,6 +145,8 @@
   <project name="commons-io">
     <package>org.apache.commons.io</package>
     <description>Commons I/O Utility Package</description>
+
+    <mkdir dir="io/src/examples"/>
     <ant basedir="io" target="dist">
       <property name="component.version"  value="@@DATE@@"/>
     </ant>
