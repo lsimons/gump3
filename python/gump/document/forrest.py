@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/forrest.py,v 1.7 2003/11/20 00:38:26 ajack Exp $
-# $Revision: 1.7 $
-# $Date: 2003/11/20 00:38:26 $
+# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/forrest.py,v 1.8 2003/11/20 02:01:37 ajack Exp $
+# $Revision: 1.8 $
+# $Date: 2003/11/20 02:01:37 $
 #
 # ====================================================================
 #
@@ -355,7 +355,7 @@ class ForrestDocumenter(Documenter):
         self.documentSummary(document, workspace.getProjectSummary())
         
         projectsSection=document.createSection('Projects (in build order)')
-        projectsTable=projectsSection.createTable(['Name','Project State','Duration\nin state','Elapsed'])
+        projectsTable=projectsSection.createTable(['Name','Project State','Duration\nin state','Last Modified','Elapsed'])
         pcount=0
         for project in sortedProjectList:
             if not gumpSet.inSequence(project): continue       
@@ -366,7 +366,8 @@ class ForrestDocumenter(Documenter):
             projectRow.createComment(project.getName())              
             self.insertLink(project,workspace,projectRow.createData())   
             self.insertStateIcon(project,workspace,projectRow.createData())      
-            projectRow.createData(project.getStats().sequenceInState)
+            projectRow.createData(project.getStats().sequenceInState)    
+            projectRow.createData(secsToDate(project.getStats().lastModified))
             projectRow.createData(elapsedTimeToString(project.elapsedTime())) 
                 
         if not pcount: projectsTable.createLine('None')
