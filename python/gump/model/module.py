@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/model/module.py,v 1.19 2003/12/01 17:34:07 ajack Exp $
-# $Revision: 1.19 $
-# $Date: 2003/12/01 17:34:07 $
+# $Header: /home/stefano/cvs/gump/python/gump/model/module.py,v 1.20 2003/12/01 21:23:20 ajack Exp $
+# $Revision: 1.20 $
+# $Date: 2003/12/01 21:23:20 $
 #
 # ====================================================================
 #
@@ -619,8 +619,11 @@ class Module(NamedModelObject, Statable):
         #
         # Allow trace for debug
         #
-        if self.isDebug() or  self.svn.isDebug():
-            cmd.addParameter('--verbose')
+        #
+        # SVN complains about -v|--verbose, don't ask me why
+        #
+        # if self.isDebug() or  self.svn.isDebug():
+        #    cmd.addParameter('--verbose')
             
         if exists:
 
