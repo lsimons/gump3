@@ -11,6 +11,7 @@
     <depend project="commons-jelly" inherit="all"/>
     <depend project="commons-grant"/>
     <depend project="commons-jelly-tags-util"/>
+    <depend project="commons-jelly-tags-junit"/>
 
     <work nested="jelly/jelly-tags/ant/target/classes"/>
     <work nested="jelly/jelly-tags/ant/target/test-classes"/>
@@ -189,6 +190,7 @@
 
     <depend project="commons-jelly" inherit="all"/>
     <depend project="commons-jelly-tags-xml"/>
+    <depend project="commons-jelly-tags-junit"/>
 
     <work nested="jelly/jelly-tags/html/target/classes"/>
     <work nested="jelly/jelly-tags/html/target/test-classes"/>
@@ -614,6 +616,7 @@
 
     <depend project="commons-jelly" inherit="all"/>
     <depend project="commons-jelly-tags-xml"/>
+    <depend project="commons-jelly-tags-junit"/>
     
     <depend project="xmlunit"/>
     <depend project="xml-xalan2"/>
