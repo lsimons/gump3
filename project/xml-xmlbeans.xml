@@ -25,7 +25,7 @@
     <work nested='v1/build/private/lib/xstypes.jar'/>
     <jar name="lib/xbean.jar"/> 
     <jar name="lib/xmlpublic.jar"/>
-    <nag to="xmlbean-dev@xml.apache.org"
+    <nag to="xmlbeans-dev@xml.apache.org"
       from="Robert Burrell Donkin &lt;rdonkin@apache.org&gt;"/>
   </project>
 
