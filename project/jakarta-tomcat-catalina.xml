@@ -37,7 +37,7 @@
             reference="home"/>
       <property name="tomcat.build"  project="jakarta-tomcat-catalina"
             reference="home"/>
-      <property name="tomcat33.home" value=""/>
+      <property name="tomcat33.home" value="--UnSet--"/>
       <property name="ant.home" reference="home" project="ant"/>
       <property name="jsse.home" reference="home" project="jsse"/>
       <property name="jmx.home" reference="home" project="jmx"/>
