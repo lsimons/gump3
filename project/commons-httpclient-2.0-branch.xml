@@ -15,7 +15,6 @@
     <depend project="ant" inherit="runtime"/>
     <depend project="xml-xerces"/>
     <option project="jsse"/>
-    <depend project="jakarta-log4j"/>
     <depend project="commons-logging" runtime="true"/>
     <work nested="target/classes"/>
     <home nested="dist"/>

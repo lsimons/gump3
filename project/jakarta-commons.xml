@@ -244,8 +244,8 @@
     <depend project="ant" inherit="runtime"/>
     <depend project="xml-xerces"/>
     <option project="jsse"/>
-    <depend project="jakarta-log4j"/>
     <depend project="commons-logging" runtime="true"/>
+    <depend project="commons-codec" runtime="true"/>
     <!-- included in JDK 1.4 depend project="jce"/-->
     <work nested="httpclient/target/classes"/>
     <home nested="httpclient/dist"/>
