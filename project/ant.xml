@@ -52,6 +52,7 @@
 
     <option project="antlr"/>
     <option project="commons-logging" />
+    <option project="commons-net" />
     <option project="jaf"/>
     <option project="jakarta-bcel"/>
     <option project="jakarta-bsf"/>
@@ -72,6 +73,7 @@
     <jar name="lib/ant-apache-resolver.jar" id="resolver"/>
     <jar name="lib/ant-bcel.jar" id="bcel"/>
     <jar name="lib/ant-commons-logging.jar" id="commons-logging"/>
+    <jar name="lib/ant-commons-net.jar" id="commons-net"/>
     <jar name="lib/ant-jakarta-regexp.jar" id="jakarta-regexp"/>
     <jar name="lib/ant-javamail.jar" id="javamail"/>
     <jar name="lib/ant-jdepend.jar" id="jdepend"/>
