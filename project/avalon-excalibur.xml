@@ -648,7 +648,7 @@
     <project name="excalibur-pool-api" >
         <package>org.apache.avalon.excalibur.pool</package>
 
-        <ant basedir="pool" target="jar">
+        <ant basedir="pool/api" target="jar">
             <property name="package-version" value="@@DATE@@"/>
             <property name="junit.failonerror" value="true"/>
             <property name="do.checkstyle" value="true"/>
@@ -665,7 +665,8 @@
         <depend project="junit"/>
         <depend project="junitperf"/>
 
-        <work nested="pool/target/classes"/>
+        <work nested="pool/api/target/classes"/>
+        <mkdir dir="pool/api/target/classes"/>
 
         <home nested="pool/api"/>
         <jar name="target/excalibur-pool-api-@@DATE@@.jar"/>
@@ -677,7 +678,7 @@
     <project name="excalibur-pool-impl" >
         <package>org.apache.avalon.excalibur.pool</package>
 
-        <ant basedir="pool" target="jar">
+        <ant basedir="pool/impl" target="jar">
             <property name="package-version" value="@@DATE@@"/>
             <property name="junit.failonerror" value="true"/>
             <property name="do.checkstyle" value="true"/>
@@ -685,7 +686,7 @@
             <property name="project.version" value="@@DATE@@"/>
             <property name="do.not.test" value="true"/>
         </ant>
-        <depend project="excalibur-pool-api"/>
+        <depend project="excalibur-pool-api" runtime="true"/>
         <depend project="avalon-framework" runtime="true" id="api"/>
         <depend project="avalon-framework" runtime="true" id="impl"/>
         <depend property="commons-collections" project="commons-collections"/>
@@ -699,10 +700,47 @@
         <depend project="junit"/>
         <depend project="junitperf"/>
 
-        <work nested="pool/target/classes"/>
+        <work nested="pool/impl/target/classes"/>
+        <dir mkdir="pool/impl/target/classes"/>
 
         <home nested="pool/impl"/>
         <jar name="target/excalibur-pool-impl-@@DATE@@.jar"/>
+
+        <nag from="Gump Integration Build &lt;dev@avalon.apache.org&gt;" to="dev@avalon.apache.org"/>
+    </project>
+
+    <project name="excalibur-pool-instrumented" >
+        <package>org.apache.avalon.excalibur.pool</package>
+
+        <ant basedir="pool/instrumented" target="jar">
+            <property name="package-version" value="@@DATE@@"/>
+            <property name="junit.failonerror" value="true"/>
+            <property name="do.checkstyle" value="true"/>
+            <property name="skip.dependencies" value="true"/>
+            <property name="project.version" value="@@DATE@@"/>
+            <property name="do.not.test" value="true"/>
+        </ant>
+        <depend project="excalibur-pool-api" runtime="true"/>
+        <depend project="excalibur-pool-impl" runtime="true"/>
+        <depend project="avalon-framework" runtime="true" id="api"/>
+        <depend project="avalon-framework" runtime="true" id="impl"/>
+        <depend property="commons-collections" project="commons-collections"/>
+        <depend project="excalibur-instrument" runtime="true"/>
+        
+        <depend project="ant" inherit="runtime"/>
+        <option project="checkstyle" inherit="runtime"/>
+        <depend project="concurrent"/>
+        <depend project="xml-xerces"/>
+        <depend project="xml-xalan2"/>
+
+        <depend project="junit"/>
+        <depend project="junitperf"/>
+
+        <work nested="pool/instrumented/target/classes"/>
+        <mkdir dir="pool/instrumented/target/classes"/>
+
+        <home nested="pool/instrumented"/>
+        <jar name="target/excalibur-pool-instrumented-@@DATE@@.jar"/>
 
         <nag from="Gump Integration Build &lt;dev@avalon.apache.org&gt;" to="dev@avalon.apache.org"/>
     </project>
@@ -803,9 +841,14 @@
     </project>
 
     <project name="excalibur-thread">
+      <depend project="excalibur-thread-api" inherit="jars" />
+      <depend project="excalibur-thread-impl" inherit="jars" />
+    </project>
+    
+    <project name="excalibur-thread-api">
         <package>org.apache.avalon.excalibur.thread</package>
 
-        <ant basedir="thread" target="jar">
+        <ant basedir="thread/api" target="jar">
             <property name="package-version" value="@@DATE@@"/>
             <property name="junit.failonerror" value="true"/>
             <property name="do.checkstyle" value="true"/>
@@ -815,11 +858,6 @@
 
         <option project="checkstyle" inherit="runtime"/>
         
-        <depend project="commons-collections" runtime="true"/>
-        <depend property="excalibur-pool.jar" project="excalibur-pool" runtime="true"/>
-        <depend property="excalibur-instrument.jar" project="excalibur-instrument" runtime="true"/>
-        <depend property="logkit.jar" project="avalon-logkit" runtime="true"/>
-
         <depend project="ant" inherit="runtime"/>
         <depend project="avalon-framework" runtime="true" id="combined"/>
         <depend project="xml-xerces"/>
@@ -828,19 +866,87 @@
         <!-- test-time dependencies -->
         <depend project="junit"/>
         <depend project="junitperf"/>
-        <depend project="excalibur-component" id="component"/>
+
+        <work nested="thread/api/target/classes"/>
+        <mkdir dir="thread/api/target/classes"/>
+
+        <home nested="thread/api"/>
+        <jar name="target/excalibur-thread-api-@@DATE@@.jar"/>
+        <nag from="Gump Integration Build &lt;dev@avalon.apache.org&gt;" to="dev@avalon.apache.org"/>
+    </project>
+
+    <project name="excalibur-thread-impl">
+        <package>org.apache.avalon.excalibur.thread</package>
+
+        <ant basedir="thread/impl" target="jar">
+            <property name="package-version" value="@@DATE@@"/>
+            <property name="junit.failonerror" value="true"/>
+            <property name="do.checkstyle" value="true"/>
+            <property name="skip.dependencies" value="true"/>
+            <property name="project.version" value="@@DATE@@"/>
+        </ant>
+        <depend project="avalon-framework" runtime="true" id="api"/>
+        <depend project="avalon-framework" runtime="true" id="impl"/>
+        <depend project="excalibur-thread-api" runtime="true"/>
+        <depend project="excalibur-pool-api" runtime="true"/>
+        <depend project="excalibur-pool-impl" runtime="true"/>
+        <depend project="commons-collections" runtime="true"/>
         <depend project="concurrent"/>
 
-        <work nested="thread/target/classes"/>
-        <mkdir dir="thread/target/classes"/>
-        <work nested="thread/target/test-classes"/>
-        <mkdir dir="thread/target/test-classes"/>
+        <option project="checkstyle" inherit="runtime"/>
 
-        <home nested="thread"/>
+        <depend project="ant" inherit="runtime"/>
+        <depend project="xml-xerces"/>
+        <depend project="xml-xalan2"/>
+
+        <!-- test-time dependencies -->
+        <depend project="junit"/>
+        <depend project="junitperf"/>
+
+        <work nested="thread/impl/target/classes"/>
+        <mkdir dir="thread/impl/target/classes"/>
+
+        <home nested="thread/impl"/>
         <jar name="target/excalibur-thread-@@DATE@@.jar"/>
+        <nag from="Gump Integration Build &lt;dev@avalon.apache.org&gt;" to="dev@avalon.apache.org"/>
+    </project>
 
-        <junitreport nested="thread/target/docs/junitreports"/>
+    <project name="excalibur-thread-instrumented">
+        <package>org.apache.avalon.excalibur.thread</package>
 
+        <ant basedir="thread/instrumented" target="jar">
+            <property name="package-version" value="@@DATE@@"/>
+            <property name="junit.failonerror" value="true"/>
+            <property name="do.checkstyle" value="true"/>
+            <property name="skip.dependencies" value="true"/>
+            <property name="project.version" value="@@DATE@@"/>
+        </ant>
+        <depend project="avalon-framework" runtime="true" id="api"/>
+        <depend project="avalon-framework" runtime="true" id="impl"/>
+        <depend project="excalibur-thread-api" runtime="true"/>
+        <depend project="excalibur-thread-impl" runtime="true"/>
+        <depend project="excalibur-pool-api" runtime="true"/>
+        <depend project="excalibur-pool-impl" runtime="true"/>
+        <depend project="excalibur-pool-instrumented" runtime="true"/>
+        <depend project="commons-collections" runtime="true"/>
+        <depend project="concurrent"/>
+        <depend project="excalibur-instrument" runtime="true"/>
+
+        <option project="checkstyle" inherit="runtime"/>
+
+        <depend project="ant" inherit="runtime"/>
+        <depend project="xml-xerces"/>
+        <depend project="xml-xalan2"/>
+
+        <!-- test-time dependencies -->
+        <depend project="junit"/>
+        <depend project="junitperf"/>
+
+        <work nested="thread/instrumented/target/classes"/>
+        <mkdir dir="thread/instrumented/target/classes"/>
+
+        <home nested="thread/instrumented"/>
+        <jar name="target/excalibur-thread-@@DATE@@.jar"/>
         <nag from="Gump Integration Build &lt;dev@avalon.apache.org&gt;" to="dev@avalon.apache.org"/>
     </project>
 
