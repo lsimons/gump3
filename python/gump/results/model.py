@@ -126,7 +126,34 @@ class ResultModelObject(Annotatable,Ownable,Stateful):
             f.write(self.getXMLData())
         finally:
             # Since we may exit via an exception, close explicitly.
-            if f: f.close()            
+            if f: f.close()           
+            
+        
+    def getTimezone(self):
+        if not hasattr(self,'timzone') : 
+            return self.getOwner().getTimezone()    
+        return self.timezone
+        
+    def getStartDateTime(self):
+        if not hasattr(self,'startDateTime') : 
+            return self.getOwner().getStartDateTime()
+        return self.startDateTime
+        
+    def getStartDateTimeUtc(self):
+        if not hasattr(self,'startDateTimeUtc') : 
+            return self.getOwner().getStartDateTimeUtc()    
+        return self.startDateTimeUtc
+        
+    def getEndDateTime(self):
+        if not hasattr(self,'endDateTime') : 
+            return self.getOwner().getEndDateTime()    
+        return self.endDateTime
+        
+    def getEndDateTimeUtc(self):
+        if not hasattr(self,'endDateTimeUtc') : 
+            return self.getOwner().getEndDateTimeUtc()       
+        return self.endDateTimeUtc
+         
 
 # represents a <workspaceResult/> element
 class WorkspaceResult(ResultModelObject):
@@ -160,22 +187,7 @@ class WorkspaceResult(ResultModelObject):
         return 0    
         
     def getProjectResults(self):
-        return self.projectResults.values()    
-        
-    def getTimezone(self):
-        return self.timezone
-        
-    def getStartDateTime(self):
-        return self.startDateTime
-        
-    def getStartDateTimeUtc(self):
-        return self.startDateTimeUtc
-        
-    def getEndDateTime(self):
-        return self.endDateTime
-        
-    def getEndDateTimeUtc(self):
-        return self.endDateTimeUtc
+        return self.projectResults.values()  
         
     #
     # Named...
