@@ -33,7 +33,7 @@
     <tree name="bsf"
       root=":pserver:bsfadmin@oss.software.ibm.com:/usr/cvs/bsf"/>
 
-    <tree name="jakarta" root=":ext:rubys@jakarta.apache.org:/home/cvs"/>
+    <tree name="jakarta" root=":ext:rubys@cvs.apache.org:/home/cvs"/>
 
     <tree name="jdom" root=":pserver:anonymous@cvs.jdom.org:/home/cvspublic"/>
 
@@ -45,7 +45,7 @@
     <tree name="whichever"
       root=":pserver:anoncvs@share.whichever.com:/home/cvspublic"/>
 
-    <tree name="xml" root=":ext:rubys@xml.apache.org:/home/cvs"/>
+    <tree name="xml" root=":ext:rubys@cvs.apache.org:/home/cvs"/>
   </cvs-repository>
 
 </workspace>

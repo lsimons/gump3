@@ -3,6 +3,7 @@ SETLOCAL
 SET JAXP=C:\jaxp-1.1
 
 SET CLASSPATH=%JAXP%\crimson.jar;%JAXP%\jaxp.jar;%JAXP%\xalan.jar;%CLASSPATH%
+SET CLASSPATH=D:\jakarta\xml-xalan\java\build\xalan.jar;%CLASSPATH%
 
 SET SOURCE=%1
 IF "%1"=="" SET SOURCE=%COMPUTERNAME%.xml
