@@ -14,9 +14,7 @@
 # limitations under the License.
 
 """
-
     Syndicate
-    
 """
 
 import socket
@@ -33,14 +31,10 @@ from gump.core.actor import AbstractRunActor
 
 class Syndicator(AbstractRunActor):
     
-    def __init__(self,run):      
-        
+    def __init__(self,run):              
         AbstractRunActor.__init__(self,run)              
         
-    def processOtherEvent(self,event):
-            
-        workspace=self.run.getWorkspace()        
-        
+    def processOtherEvent(self,event):            
         if isinstance(event,FinalizeRunEvent):
           
             #
@@ -55,8 +49,8 @@ class Syndicator(AbstractRunActor):
         #
         try:    
             from gump.syndication.rss import RSSSyndicator
-            simple=RSSSyndicator()
-            simple.syndicate(run)    
+            simple=RSSSyndicator(run)
+            simple.syndicate()    
         except:
             log.error('Failed to generate RSS Feeds', exc_info=1)    
         
@@ -65,8 +59,8 @@ class Syndicator(AbstractRunActor):
         #
         try:
             from gump.syndication.atom import AtomSyndicator
-            atom=AtomSyndicator()
-            atom.syndicate(run)
+            atom=AtomSyndicator(run)
+            atom.syndicate()
         except:
             log.error('Failed to generate Atom Feeds', exc_info=1)  
             

@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/syndication/rss.py,v 1.23.2.3 2004/05/18 22:37:27 ajack Exp $
-# $Revision: 1.23.2.3 $
-# $Date: 2004/05/18 22:37:27 $
+# $Header: /home/stefano/cvs/gump/python/gump/syndication/rss.py,v 1.23.2.4 2004/05/18 22:51:00 ajack Exp $
+# $Revision: 1.23.2.4 $
+# $Date: 2004/05/18 22:51:00 $
 #
 # ====================================================================
 #
@@ -263,22 +263,21 @@ class RSS:
         channel.addItem(item)
            
 class RSSSyndicator(AbstractSyndicator):
-    def __init__(self):
-        AbstractSyndicator.__init__(self)
+    def __init__(self,run):
+        AbstractSyndicator.__init__(self,run)
         self.gumpImage=Image('http://gump.apache.org/images/bench.png',	\
                     'Apache Gump', \
                     'http://gump.apache.org/')
         
-    def syndicate(self,run):
+    def syndicate(self):
         
         # Main syndication document
-        self.run = run
         self.workspace=run.getWorkspace()   
         self.rssFile=self.run.getOptions().getResolver().getFile(self.workspace,'rss','.xml',1)      
         self.rssUrl=self.run.getOptions().getResolver().getUrl(self.workspace,'rss','.xml')
     
         self.rss=RSS(self.rssUrl,self.rssFile,	\
-            Channel('Jakarta Gump',		\
+            Channel('Apache Gump',		\
                     self.workspace.logurl,	\
                     """Life is like a box of chocolates""", \
                 self.gumpImage))

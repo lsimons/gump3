@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/syndication/abstract.py,v 1.1.2.2 2004/05/18 20:10:45 ajack Exp $
-# $Revision: 1.1.2.2 $
-# $Date: 2004/05/18 20:10:45 $
+# $Header: /home/stefano/cvs/gump/python/gump/syndication/abstract.py,v 1.1.2.3 2004/05/18 22:51:00 ajack Exp $
+# $Revision: 1.1.2.3 $
+# $Date: 2004/05/18 22:51:00 $
 #
 # ====================================================================
 #
@@ -72,22 +72,23 @@ from gump.model.state import *
 from gump.model.project import ProjectStatistics
 
 
-class AbstractSyndicator:
-    def __init__(self):     pass        
+class AbstractSyndicator(RunSpecific):
+    def __init__(self,run):
+        RunSpecific.__init__(self,run)
         
     #
     # Populate a method called 'syndicateRun(run)'
     #
-    def syndicate(self,run):
+    def syndicate(self):
         if not hasattr(self,'syndicateRun'):
-            raise RuntimeError, 'Complete [' + `self.__class__` + '] with syndicateRun(self,run)'
+            raise RuntimeError, 'Complete [' + `self.__class__` + '] with syndicateRun(self)'
         
         if not callable(self.syndicateRun):
-            raise RuntimeException, 'Complete [' + `self.__class__` + '] with a callable syndicateRun(self,run)'
+            raise RuntimeException, 'Complete [' + `self.__class__` + '] with a callable syndicateRun(self)'
         
         log.info('Syndicate run using [' + `self` + ']')
         
-        self.syndicateRun(run)
+        self.syndicateRun()
 
     def getProjectContent(self,project,run):
         

@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/syndication/atom.py,v 1.16.2.3 2004/05/18 22:37:27 ajack Exp $
-# $Revision: 1.16.2.3 $
-# $Date: 2004/05/18 22:37:27 $
+# $Header: /home/stefano/cvs/gump/python/gump/syndication/atom.py,v 1.16.2.4 2004/05/18 22:51:00 ajack Exp $
+# $Revision: 1.16.2.4 $
+# $Date: 2004/05/18 22:51:00 $
 #
 # ====================================================================
 #
@@ -165,21 +165,20 @@ class AtomFeed:
         stream.close()  
         
 class AtomSyndicator(AbstractSyndicator):
-    def __init__(self):
-        AbstractSyndicator.__init__(self)
+    def __init__(self,run):
+        AbstractSyndicator.__init__(self,run)
         
-    def syndicate(self,run):
+    def syndicate(self):
         
         # Main syndication document
-        self.run = run
-        self.workspace=run.getWorkspace()   
+        self.workspace=self.run.getWorkspace()   
         
         feedFile=self.run.getOptions().getResolver().getFile(self.workspace,'atom','.xml',1)      
         feedUrl=self.run.getOptions().getResolver().getAbsoluteUrl(self.workspace,'atom','.xml')
     
         self.feed=AtomFeed(feedUrl,feedFile,	\
                         'workspace',	\
-                       'Jakarta Gump',		\
+                       'Apache Gump',		\
                         self.workspace.logurl,	\
                         """Life is like a box of chocolates""")
                     
