@@ -1,4 +1,5 @@
 @echo off
+SETLOCAL
 
 REM  Copyright 2003-2004 The Apache Software Foundation
 REM
@@ -16,5 +17,18 @@ REM  limitations under the License.
 
 SET
 
+SET GUMP_PYTHON=python
+
 CD python
-python gump\test\pyunit.py
+
+ECHO Run the unit tests
+%GUMP_PYTHON% gump\test\pyunit.py
+
+ECHO Run the environment check
+%GUMP_PYTHON% gump\env.py
+
+ECHO Run the workspace check
+%GUMP_PYTHON% gump\check.py -w ../test-workspace.xml all --debug
+
+ECHO Run the workspace preview
+%GUMP_PYTHON% gump\preview.py -w ../test-workspace.xml all --debug

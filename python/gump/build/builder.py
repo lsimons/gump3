@@ -190,13 +190,12 @@ class GumpBuilder(RunSpecific):
                     + project.getStateDescription())                                              
 
     def performDelete(self,project,delete,index=0):
-        """ Return the delete command for a <delete entry """
+        """ Perform the delete command for a <delete entry """
         
         return
         
         # :TODO: Re-instate this some time, when can delete
         # non-empty directories.
-        
         
         basedir=os.path.abspath(project.getModule().getWorkingDirectory() or dir.base)
     
@@ -225,7 +224,7 @@ class GumpBuilder(RunSpecific):
             raise RuntimeError('Bad <delete')
     
     def performMkDir(self,project,mkdir,index=0):
-        """ Return the mkdir comment for a <mkdir entry """
+        """ Perform the mkdir comment for a <mkdir entry """
         basedir=os.path.abspath(project.getModule().getWorkingDirectory() or dir.base)
          
         #
@@ -247,7 +246,9 @@ class GumpBuilder(RunSpecific):
             raise RuntimeError('Bad <mkdir, missing \'dir\' attribute')
                
     def performPreBuild( self, project, stats ):
-        """ Perform pre-build Actions """
+        """ 
+        	Perform pre-build Actions 
+        """
        
         log.debug(' ------ Performing pre-Build Actions (mkdir/delete) for : '+ project.getName())
         
@@ -285,7 +286,9 @@ class GumpBuilder(RunSpecific):
             log.warn('Failed to perform pre-build on project [' + project.getName() + ']')
 
     def performPostBuild(self, project, stats):
-        """Perform Post-Build Actions"""
+        """
+        	Perform Post-Build Actions
+        """
      
         log.debug(' ------ Performing post-Build Actions (check jars) for : '+ project.getName())
 
@@ -293,9 +296,7 @@ class GumpBuilder(RunSpecific):
             if project.hasOutputs():                
                 outputs = []
                     
-                #
                 # Ensure the jar output were all generated correctly.
-                #
                 outputsOk=1
                 for jar in project.getJars():
                     jarPath=os.path.abspath(jar.getPath())
@@ -311,8 +312,8 @@ class GumpBuilder(RunSpecific):
                 if outputsOk: 
                     # If we have a <license name='...
                     if project.hasLicense():
-                        licensePath=os.path.abspath(	\
-                                        os.path.join( project.getModule().getWorkingDirectory(),	\
+                        licensePath=os.path.abspath(
+                                        os.path.join( project.getModule().getWorkingDirectory(),
                                                 project.getLicense() ) )
                                           
                         # Add to list of outputs, in case we
@@ -323,44 +324,17 @@ class GumpBuilder(RunSpecific):
                         if not os.path.exists(licensePath):
                             project.changeState(STATE_FAILED,REASON_MISSING_OUTPUTS)
                             outputsOk=False
-                            project.addError("Missing License Output: " + str(licensePath))
-                        else:                      
-                            try:
-                                self.repository.publish( project.getModule().getName(), licensePath )            
-                            except Exception, details:
-                                message='Failed to publish license [' + licensePath + '] to repository : ' + str(details)
-                                project.addError(message)
-                                log.error(message)                     
+                            project.addError("Missing License Output: " + str(licensePath))                        
                     elif project.isRedistributable():
                         # :TODO: restore to warning. made info so
                         # annotation page was useful (and not overloaded).
                         project.addInfo('No license on redistributable project with outputs.')                                        
                                     
-                if outputsOk: 
-                    # Publish them all (if redistributable)
-                    if project.isRedistributable():
-                        for jar in project.getJars():
-                            # :TODO: Relative to module source?
-                            jarPath=os.path.abspath(jar.getPath())
-                            # Copy to repository
-                            try:
-                                self.repository.publish( project.getModule().getName(), jarPath )           
-                            except Exception, details:
-                                message='Failed to publish [' + jarPath + '] to repository : ' + str(details)
-                                project.addError(message)
-                                log.error(message)
-                        
+                if outputsOk:                     
                     project.changeState(STATE_SUCCESS)
-                    
-                    # For 'fun' list repository
-                    listDirectoryToFileHolder(project,self.repository.getGroupDir(project.getModule().getName()), \
-                                                FILE_TYPE_REPO, 'list_repo_'+project.getName())                     
-                                        
-                if not outputsOk:
-                    #
+                else:
                     # List all directories that should've contained
                     # outputs, to see what is there.
-                    #
                     dirs=[]
                     dircnt=0
                     listed=0
@@ -385,10 +359,8 @@ class GumpBuilder(RunSpecific):
             # List source directory (when failed) in case it helps debugging...
             listDirectoryToFileHolder(project,project.getModule().getWorkingDirectory(), \
                                         FILE_TYPE_SOURCE, 'list_source_'+project.getName())           
-                                        
-        #   
-        # Display report output, even if failed...
-        #
+            
+        # Display JUnit report output, even if failed...
         if project.hasReports() and project.wasBuilt():
             #project.addInfo('Project produces reports')    
             for report in project.getReports():
@@ -398,7 +370,9 @@ class GumpBuilder(RunSpecific):
     
                         
     def performProjectPackageProcessing(self, project, stats):
-        """Perform Package Processing Actions"""
+        """
+        	Perform Package Processing Actions
+        """
      
         log.debug(' ------ Performing Package Processing for : '+ project.getName())
 
@@ -425,11 +399,9 @@ class GumpBuilder(RunSpecific):
                 # fail to find, and need to go list 
                 # directories
                 outputs.append(licensePath)
-                                                            
-            #
+                                                       
             # List all directories that should've contained
             # outputs, to see what is there.
-            #
             dirs=[]
             dircnt=0
             for output in outputs:
@@ -444,6 +416,11 @@ class GumpBuilder(RunSpecific):
             
 
     def  checkPackage(self,project):
+        """
+        
+        Check if a package has the requisite files
+        
+        """
         if project.okToPerformWork():
             #
             # Check the package was installed correctly...
@@ -470,6 +447,9 @@ class GumpBuilder(RunSpecific):
         
         
     def preview(self,project):
+        """
+        Preview what a build would do.
+        """
         
         # Extract stats (in case we want to do conditional processing)            
         stats=None

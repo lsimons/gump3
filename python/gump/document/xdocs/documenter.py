@@ -1786,7 +1786,7 @@ This page helps Gumpmeisters (and others) observe community progress.
         #
         if project.hasJars():
             outputSection = miscSection.createSection('Output Artifacts')
-            outputTable = outputSection.createTable(['Name','Id'])
+            outputTable = outputSection.createTable(['Name','Artifact Id'])
             
             for jar in project.getJars():
                 outputRow=outputTable.createRow()

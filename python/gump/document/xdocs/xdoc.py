@@ -754,6 +754,7 @@ class XDocDocument(XDocPiece):
             self.context.writeLine(' <td><a href="%s/environment.html">Env</a></td><td>|</td>' % self.rootpath) 
             self.context.writeLine(' <td><a href="%s/buildLog.html">Log</a></td><td>|</td>' % self.rootpath)  
             self.context.writeLine(' <td><a href="%s/project_todos.html">Issues</a></td><td>|</td>' % self.rootpath)  
+            self.context.writeLine(' <td><a href="%s/project_fixes.html">Fixes</a></td><td>|</td>' % self.rootpath)  
             self.context.writeLine(' <td><a href="%s/gump_stats/index.html">Stats</a></td><td>|</td>' % self.rootpath)  
             self.context.writeLine(' <td><a href="%s/gump_xref/index.html">XRef</a></td>' % self.rootpath) 
             

@@ -1,0 +1,65 @@
+#!/usr/bin/env python
+# Copyright 2003-2004 The Apache Software Foundation
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+# 
+#     http://www.apache.org/licenses/LICENSE-2.0
+# 
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+   
+    
+"""
+
+    Artifact/Repository Testing
+    
+"""
+
+import os
+import logging
+
+from gump import log
+import gump.core.config
+from gump.test import getWorkedTestRun
+from gump.test.pyunit import UnitTestSuite
+
+import gump.repository.artifact
+import gump.repository.publisher
+
+class ArtifactsTestSuite(UnitTestSuite):
+    def __init__(self):
+        UnitTestSuite.__init__(self)
+        
+        self.testRepo = 'test/repo/'
+        self.license  = 'test/LICENSE'
+        self.jar1  = 'test/output1.jar'
+        
+    def suiteSetUp(self):
+        # Create a repository
+        self.repo=gump.repository.artifact.ArtifactRepository(self.testRepo)
+        
+        # Create some test files
+        file(self.license,'w').close()
+        file(self.jar1,'w').close()
+        
+        # Load a decent Run/Workspace
+        self.run=getWorkedTestRun()  
+        self.assertNotNone('Needed a run', self.run)
+        self.workspace=self.run.getWorkspace()          
+        self.assertNotNone('Needed a workspace', self.workspace)
+      
+    def testPublishLicense(self):
+        self.repo.publish('testGroup',self.license)
+    
+    def testPublishJar(self):
+        self.repo.publish('testGroup',self.jar1,'id1')
+        
+    def testPublisher(self):
+        p=gump.repository.publisher.RepositoryPublisher(self.run)
+        p.processProject(self.workspace.getProject('project1'))
+            

@@ -27,7 +27,9 @@ from gump.utils import getIndent
 from gump.utils.domutils import *
 
 class Repository(NamedModelObject, Statable):
-    """A named repository"""
+    """ 
+    A named repository (CVS|SVN|Artifacts) 
+    """
     def __init__(self,name,dom,workspace):
     	NamedModelObject.__init__(self,name,dom,workspace)
             
@@ -137,7 +139,9 @@ class Repository(NamedModelObject, Statable):
         return self.modules    
         
 class RepositoryStatistics(Statistics):
-    """Statistics Holder"""
+    """
+    	Statistics Holder
+    """
     def __init__(self,repositoryName):
         Statistics.__init__(self,repositoryName)
 

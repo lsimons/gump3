@@ -39,5 +39,15 @@ fi
 # Perform some Gumpy unit test
 #
 cd python
+
 echo "Run ... $GUMP_PYTHON gump/test/pyunit.py"
 $GUMP_PYTHON gump/test/pyunit.py
+
+echo "Run the environment check"
+$GUMP_PYTHON gump\env.py
+
+echo "Run the workspace check"
+$GUMP_PYTHON gump\check.py -w ../test-workspace.xml all --debug
+
+echo "Run the workspace preview"
+$GUMP_PYTHON gump\preview.py -w ../test-workspace.xml all --debug

@@ -36,6 +36,7 @@ from gump.repository.publisher import RepositoryPublisher
 from gump.notify.notifier import Notifier
 from gump.results.resulter import Resulter
 from gump.syndication.syndicator import Syndicator
+from gump.repository.publisher import RepositoryPublisher
 
 ###############################################################################
 # Classes
@@ -131,6 +132,10 @@ class GumpRunner(RunSpecific):
         # Syndicate once documented
         if self.run.getOptions().isSyndicate():
             self.run.registerActor(Syndicator(self.run))   
+            
+        # Publish artifacts
+        if self.run.getOptions().isPublish():
+            self.run.registerActor(RepositoryPublisher(self.run))   
             
         # Notify last
         if self.run.getOptions().isNotify() and self.run.getWorkspace().isNotify():

@@ -368,6 +368,9 @@ if __name__=='__main__':
     from gump.test.threads import ThreadingTestSuite  
     runner.addSuite(ThreadingTestSuite())
     
+    from gump.test.artifacts import ArtifactsTestSuite  
+    runner.addSuite(ArtifactsTestSuite())
+    
     # Any args are pattern matches
     patterns=list(sys.argv)
     del patterns[0:1]

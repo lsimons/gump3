@@ -29,7 +29,8 @@ import sys
 from gump import log
 from gump.core.gumpinit import gumpinit
 from gump.runner.runner import getRunner
-from gump.core.gumprun import *
+import gump.core.options
+import gump.core.gumprun
 from gump.core.commandLine import handleArgv
 from gump.loader.loader import WorkspaceLoader
 
@@ -45,10 +46,10 @@ def crun():
     workspace=WorkspaceLoader(options.isQuick()).load(ws)
     
     # 
-    options.setObjectives(OBJECTIVE_CHECK)    
+    options.setObjectives(gump.core.options.OBJECTIVE_CHECK)    
     
     # The Run Details...
-    run=GumpRun(workspace,ps,options)
+    run=gump.core.gumprun.GumpRun(workspace,ps,options)
     
     #
     #    Perform this check run...

@@ -297,7 +297,9 @@ class DependencyDiagram:
 if __name__=='__main__':
         
         
-    from gump.core.gumprun import GumpRun, GumpRunOptions, GumpSet
+    from gump.core.gumprun import GumpRun
+    from gump.core.gumpset import GumpSet
+    from gump.core.options import GumpRunOptions
     from gump.core.commandLine import handleArgv
     from gump.loader.loader import WorkspaceLoader
     from gump.output.statsdb import *

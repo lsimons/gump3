@@ -23,7 +23,9 @@ from gump.loader.loader import WorkspaceLoader
 import gump
 import gump.core.config
 
-from gump.core.gumprun import *
+import gump.core.gumprun
+import gump.core.gumpset
+import gump.core.options
 
 from gump.model.state import *
 from gump.model.workspace import Workspace
@@ -34,14 +36,14 @@ from gump.utils.work import *
 
 def getTestRun(workspaceXml=None):
     workspace=getTestWorkspace(workspaceXml)
-    return GumpRun(workspace,'*',getConfiguredOptions())
+    return gump.core.gumprun.GumpRun(workspace,'*',getConfiguredOptions())
     
 def getWorkedTestRun(workspaceXml=None):
     workspace=getWorkedTestWorkspace(workspaceXml)
-    return GumpRun(workspace,'*',getConfiguredOptions())
+    return gump.core.gumprun.GumpRun(workspace,'*',getConfiguredOptions())
     
 def getConfiguredOptions():
-    options=GumpRunOptions()
+    options=gump.core.options.GumpRunOptions()
     from gump.document.xdocs.resolver import XDocResolver
     options.setResolver(XDocResolver('./test/bogus','http://bogus.org/'))
     return options

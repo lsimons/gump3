@@ -29,7 +29,9 @@ from shutil import copyfile
 
 
 class ArtifactRepository:
-    """Contains Repository Contents"""
+    """
+    	Represents a local (Gump produced) Artifacts Repository
+    """
     def __init__(self,root):
         self.root=root
         
@@ -46,8 +48,13 @@ class ArtifactRepository:
         return cmp(self.root,other.root)
             
     def getRepositoryDir(self):
+        """
+        Returns the root directory.
+        
+        Note: Side effects, makes the directory
+        """
         rdir=os.path.abspath(self.root)
-        if not os.path.exists(rdir): os.mkdir(rdir)
+        if not os.path.exists(rdir): os.makedirs(rdir)
         return rdir  
     
     #
@@ -58,21 +65,31 @@ class ArtifactRepository:
     def getGroupDir(self,group,rdir=None):
         if not rdir: rdir=self.getRepositoryDir()
         gdir=os.path.abspath(os.path.join(rdir,group))
-        if not os.path.exists(gdir): os.mkdir(gdir)
+        if not os.path.exists(gdir): os.makedirs(gdir)
         jdir=os.path.abspath(os.path.join(gdir,'jars'))
-        if not os.path.exists(jdir): os.mkdir(jdir)
+        if not os.path.exists(jdir): os.makedirs(jdir)
         return jdir  
         
-    def publish(self,group,artifact):
+    def publish(self,group,artifact,id=None):
         
         # Locate (and make if needed) group.
         cdir=self.getGroupDir(group)
         
         # Extract name, to make relative to group
         artifactName=os.path.basename(artifact)
+        
+        # Publish under the format:
+        #
+        #	{id}-gump-@@DATE@@.{extension}
+        #
+        if id:
+            (artifactRoot, artifactExtn) = os.path.splitext(artifactName)
+            artifactName=id + '-gump-' + str(default.date) + artifactExtn
+        
         newArtifact=os.path.join(cdir,artifactName)
         
-        # Do the transfer..
+        # Do the file transfer..
         copyfile(artifact,newArtifact)
         
-  
+        log.info('Published %s to repository as %s at %s' % (artifact,artifactName, newArtifact))
+        

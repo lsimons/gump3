@@ -42,7 +42,7 @@ class CommandLine:
         self.args = []
         
         # For storing options
-        from gump.core.gumprun import GumpRunOptions  
+        from gump.core.options import GumpRunOptions  
         self.options=GumpRunOptions()
         
         # Extract the workspace
