@@ -16,7 +16,7 @@
 -->
 <module name="jdo">
 
-  <url  href="http://access1.sun.com/jdo/"/>
+  <url  href="http://jcp.org/aboutJava/communityprocess/final/jsr012/index2.html"/>
   <description>
     Java Data Objects
   </description>
@@ -24,8 +24,9 @@
   <project name="jdo">
     <package>javax.jdo</package>
 
-    <jar  name="src/jdo.jar" id="jdo"/>
-    <jar  name="src/jdori.jar" id="ri"/>
+    <jar  name="jdo.jar" id="jdo"/>
+    <jar  name="jdori.jar" id="ri"/>
+    <jar  name="jdori-enhancer.jar" id="enhancer"/>
   </project>
 
 </module>
