@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<repository name="devworks" type="cvs">
+  <title>DeveloperWorks</title>
+  <home-page>http://oss.software.ibm.com/developerworks/opensource/</home-page>
+  <cvsweb>http://oss.software.ibm.com/developerworks/opensource/cvs/</cvsweb>
+
+  <root>
+    <method>pserver</method>
+    <user>anoncvs</user>
+    <password>anoncvs</password>
+    <hostname>oss.software.ibm.com</hostname>
+    <path>/usr/cvs</path>
+  </root>
+</repository>

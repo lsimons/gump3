@@ -69,6 +69,7 @@
   <project href="project/scarab.xml"/>
   <project href="project/town.xml"/>
   <project href="project/village.xml"/>
+  <project href="project/wsdl4j.xml"/>
 
   <!-- Sun -->
 
@@ -89,6 +90,7 @@
   <project href="project/tranquilo.xml"/>
 
   <!-- CVS Repository overrides -->
+  <repository href="repository/devworks.xml"/>
   <repository href="repository/exolab.xml"/>
   <repository href="repository/sourceforge.xml"/>
 
