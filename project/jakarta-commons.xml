@@ -70,7 +70,7 @@
       Unit test framework for J2EE server-side java code
     </description>
 
-    <ant basedir="cactus" buildfile="build/build.xml" target="all">
+    <ant basedir="cactus" buildfile="build/build.xml" target="jar">
       <property name="test.port" value="8082"/>
       <property name="tomcat.home.40" reference="home"
                 project="jakarta-tomcat-4.0"/>
