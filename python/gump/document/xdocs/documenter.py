@@ -311,6 +311,7 @@ class XDocDocumenter(Documenter):
         dtTable.createEntry('Timezone', self.run.getEnvironment().getTimezone())
         dtTable.createEntry('Start Date/Time', self.run.getStart().getLocal())
         dtTable.createEntry('End Date/Time', self.run.getEnd().getLocal())
+        dtTable.createEntry('Elapsed Time', self.run.getElapsedTimeString())
 
         pythonSection=definitionSection.createSection('Python Information')            
         pythonTable=pythonSection.createTable()
@@ -540,7 +541,7 @@ class XDocDocumenter(Documenter):
         detailsTable.createEntry("State : ", 
                 self.workspace.getStateDescription()) 
 
-        e = secsToElapsedTimeString(self.workspace.getElapsedSecs())
+        e = self.workspace.getElapsedTimeString()
         if e : detailsTable.createEntry("Elapsed Time : ", e)
         detailsTable.createEntry("Base Directory : ", self.workspace.getBaseDirectory())
         detailsTable.createEntry("Temporary Directory : ", self.workspace.tmpdir)

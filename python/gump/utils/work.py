@@ -89,27 +89,18 @@ class TimedWorkItem(WorkItem):
     def __init__(self,name,type,state,start,end,message=''):
         WorkItem.__init__(self,name,type,state,message)
         self.timerange=TimeStampRange(name,
-                                TimeStamp(name,start),
-                                TimeStamp(name,end),
+                                TimeStamp('Start of ' + name, start),
+                                TimeStamp('End of ' + name,   end),
                                 True)
-    
-    def hasStart(self):
-        return self.timerange.hasStart()
+                                
+        # Proxy some methods...
+        setattr(self,'hasStart',self.timerange.hasStart)
+        setattr(self,'getStart',self.timerange.getStart)
+        setattr(self,'hasEnd',self.timerange.hasEnd)
+        setattr(self,'getEnd',self.timerange.getEnd)
         
-    def getStart(self):   
-        return self.timerange.getStart()
-        
-    def hasEnd(self):
-        return self.timerange.hasEnd()
-        
-    def getEnd(self):   
-        return self.timerange.getEnd()
-        
-    def getElapsedSecs(self):   
-        if self.timerange.hasTimes():
-            return self.timerange.getElapsedSecs()
-        return 0
-        
+        setattr(self,'getElapsedSecs',self.timerange.getElapsedSecs)
+      
     def getRange(self):
         return self.timerange
          
@@ -183,12 +174,12 @@ class WorkList(list,Ownable):
         self.nameIndex={}
         
         # Timings
-        self.timing=TimeStampSet('Named Work')  
+        self.times=TimeStampSet('Named Work')  
             	
     def __del__(self):
         Ownable.__del__(self)
         self.nameIndex=None
-        self.timing=None
+        self.times=None
         
     def shutdown(self):
         self.nameIndex=None
@@ -215,7 +206,7 @@ class WorkList(list,Ownable):
         
         # Register this time...
         if isinstance(item,TimedWorkItem):
-            self.timing.registerRange(item.getRange())
+            self.times.registerRange(item.getRange())
         
         # Let this item know its owner
         item.setOwner(self.getOwner())
@@ -254,6 +245,9 @@ class WorkList(list,Ownable):
             if isinstance(item,TimedWorkItem): 
                 elapsedSecs += item.getElapsedSecs()
         return elapsedSecs
+        
+    def getElapsedTimeString(self):
+        return secsToElapsedTimeString(self.getElapsedSecs())
                 
     def clone(self):
         cloned=WorkList()
@@ -261,13 +255,22 @@ class WorkList(list,Ownable):
             cloned.add(item.clone())
         return cloned
         
-    def getTiming(self):
-        return timing
+    def getTimes(self):
+        return times
         
 class Workable(Stateful):       
     def __init__(self):
         Stateful.__init__(self)
         self.worklist=WorkList(self)
+        
+        setattr(self, 'hasStart', self.worklist.hasStart)
+        setattr(self, 'getStart', self.worklist.getStart)
+        setattr(self, 'hasEnd', self.worklist.hasEnd)
+        setattr(self, 'getEnd', self.worklist.getEnd)
+        setattr(self, 'hasTimes', self.worklist.hasTimes)
+        setattr(self, 'getTimes', self.worklist.getTimes)
+        setattr(self, 'getElapsedSecs', self.worklist.getElapsedSecs)
+        setattr(self, 'getElapsedTimeString', self.worklist.getElapsedTimeString)
                 
     def __del__(self):
         # None @ present ... Stateful.__del__(self)
@@ -279,23 +282,6 @@ class Workable(Stateful):
     def performedWork(self,item):
     	self.worklist.add(item)           	
     
-    def hasStart(self):
-        return self.worklist.hasStart()
-          
-    def getStart(self):
-        return self.worklist.getStart()   
-          
-    def hasEnd(self):
-        return self.worklist.hasStart()
-          
-    def getEnd(self):
-        return self.worklist.getEnd()       
-               
-    def hasTimes(self):
-        return self.worklist.hasTimes()
-        
-    def getElapsedSecs(self):
-        return self.worklist.getElapsedSecs()
         
     def shutdownWork(self):
         self.worklist.shutdown()

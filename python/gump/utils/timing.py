@@ -57,6 +57,11 @@ else:
 DSTDIFF = DSTOFFSET - STDOFFSET
 
 class LocalTimezone(datetime.tzinfo):
+    """
+    
+    A timezone relying upon the local host's configuration
+    
+    """
 
     def utcoffset(self, dt):
         if self._isdst(dt):
@@ -217,7 +222,10 @@ def getGeneralDifferenceDescription(newer,older):
     
     return diffString
     
-class TimeStamp:       
+class TimeStamp: 
+    """
+    A simple timestamp (a wrapper around datetime.datetime)
+    """
     def __init__(self,name,stamp=None):
         self.name=name               
         if not stamp:
@@ -251,6 +259,9 @@ class TimeStamp:
         return (self.timestamp < other.timestamp)
         
 class TimeStampRange:       
+    """
+    A set of two TimeStamps (start -> end)
+    """
     def __init__(self,name,start=None,end=None,external=False):
         
         self.name=name
@@ -268,7 +279,7 @@ class TimeStampRange:
         return self.getElapsedSecs() > 0
         
     def __str__(self):
-        return 'TimeStamp: '+self.name+' : '+ \
+        return 'TimeStamp: ' + self.name + ' : ' + \
                 secsToElapsedTimeString(self.getElapsedSecs()) 
                 
     def setEnd(self,end=None):             
@@ -306,27 +317,37 @@ class TimeStampRange:
         return self.external
 
 class TimeStampSet(list):
-    """   
+    """ 
+      
         A named collection of timestamps                
+        
     """
     def __init__(self,name,start=None):
         list.__init__(self)
         
         self.name=name        
-        if not start:
-            start=TimeStamp('Start of ' + name)
+        if not start:start=TimeStamp('Start of ' + name)
         self.startTimeStamp=start        
         self.endTimeStamp=start
         
     def registerStamp(self,stamp):   
-        return self.store(stamp)
+        """
+        Register a TimeStamp
+        """
+        return self._store(stamp)
         
     def registerRange(self,range): 
+        """
+        Register a TimeStampRange
+        """
+        
+        
+        #:TODO: BUG!!!!
         return self._store(range)
             
     def stamp(self,sname):
         """
-        	Calculate and provide a stamp
+        	Calculate and provide a named stamp
         """
         # Stamp (end calculated)...       
         stamp=TimeStamp(sname)  
@@ -345,8 +366,18 @@ class TimeStampSet(list):
         # :TODO: don't assume stored in time order
         self.endTimeStamp=stamp  
         
-        
     def getElapsedSecs(self):
+        return deltaToSecs(self.getElapsedTime())
+        
+    def getElapsedTimeString(self):
+        return secsToElapsedTimeString(self.getElapsedSecs())         
+        
+    def getElapsedTime(self):
+        """
+        Get elapsed time as a delta between 'start' and 'end'.
+        
+        datetime.timedelta
+        """
         return self.endTimeStamp.getTimestamp() - self.startTimeStamp.getTimestamp()
         
     def getTotalTimes(self):
@@ -366,19 +397,41 @@ class TimeStampSet(list):
         elapsed=self.getElapsedSecs()
         
         return (elapsed, accounted, external)
-       
-    # :TODO: Move these to run, like much dynamic stuff on W/S
-
-    def setStart(self,comment='Start'):                                
+    
+    def hasStart(self):
+        if self.startTimeStamp: return True
+        return False
+        
+    def hasEnd(self):
+        if self.endTimeStamp: return True
+        return False
+        
+    def setStart(self,comment='Start'):
+        """
+        Set the start (first) time
+        """                            
         self.stamp(comment)
         
-    def setEnd(self,comment='End'):                             
+    def setEnd(self,comment='End'):    
+        """
+        Set the last (first) time
+        """                         
         self.stamp(comment)                                   
         
     def getStart(self):
+        """
+        Get the first time
+        
+        gump.times.TimeStamp
+        """        
         return self.startTimeStamp
         
     def getEnd(self):
+        """
+        Get the last time
+        
+        gump.times.TimeStamp
+        """            
         return self.endTimeStamp
         
     def importTimes(self,otherSet):
@@ -397,51 +450,56 @@ class TimeStampSet(list):
             output.write(spacing)
             output.write(str(entry))
             output.write('\n')
-            
-class TimeStampSetSet(list):   
-    def __init__(self):
-        list.__init__(self)
-        
-    def getTotalTimes(self):
-        
-        elapsed=0
-        accounted=0
-        external=0
-        
-        # Count external/ranges
-        for entry in self:
-            (e,a,ex)=entry.getTotalTimes()
-            
-            elapsed += e
-            accounted += a
-            external += ex
-            
-        return (elapsed, accounted, external)
+
+# Not sure we need this            
+#class TimeStampSetSet(list):   
+#    """
+#    	A set of sets
+#   	"""
+#    def __init__(self):
+#        list.__init__(self)
+#        
+#    def getTotalTimes(self):
+#        
+#        elapsed=0
+#        accounted=0
+#        external=0
+#        
+#        # Count external/ranges
+#        for entry in self:
+#            (e,a,ex)=entry.getTotalTimes()
+#            
+#            elapsed += e
+#            accounted += a
+#            external += ex
+#            
+#        return (elapsed, accounted, external)
         
 class Timeable:
-    def __init__(self,name):        
+    """
+    
+    	An entity that can hold times.
+    	
+    """
+    def __init__(self,name):     
+        # Need to name the set after 'owner'.
         if not name:
             name = self.__class__.__name__
         self.times=TimeStampSet(name)
         
+        # Proxy some methods...
+        setattr(self,'setStart', self.times.setStart)
+        setattr(self,'hasStart', self.times.hasStart)
+        setattr(self,'getStart', self.times.getStart)
+        setattr(self,'setEnd', self.times.setEnd)
+        setattr(self,'hasEnd', self.times.hasEnd)
+        setattr(self,'getEnd', self.times.getEnd)
+        
+        setattr(self,'getElapsedTimeString', self.times.getElapsedTimeString)
+        
     def getTimes(self):
+        """
+        Hands on access to the times        
+        """
         return self.times
         
-    def hasStart(self):
-        return self.times.hasStart()
-        
-    def setStart(self,comment='Start'):
-        self.times.setStart(comment)
-        
-    def getStart(self):
-        return self.times.getStart()
-    
-    def hasEnd(self):
-        return self.times.hasEnd()
-        
-    def setEnd(self,comment='End'):
-        self.times.setEnd(comment)
-        
-    def getEnd(self):
-        return self.times.getEnd()
-    
