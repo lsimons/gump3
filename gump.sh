@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# $Header: /home/cvs/jakarta-gump/gump.sh,v 1.4 2003/04/09 07:31:42 nickchalko Exp $
+# $Header: /home/cvspublic/jakarta-gump/gump.sh,v 1.4 2003/04/09 07:31:42 nickchalko Exp $
 
 if [ -e local-env.sh ] ; then
 	. local-env.sh
@@ -22,6 +22,12 @@ if [ ! $GUMP_LOG_DIR ] ; then
 fi
 
 
+if [ -n "$1" ] ; then
+	export GUMP_TARGET=$1
+else
+	export GUMP_TARGET=all
+fi
+
 
 #
 # Calculated
@@ -42,9 +48,24 @@ echo \<XMP\> > $GUMP_LOG
 echo $SEPARATOR >> $GUMP_LOG
 echo $SEPARATOR >> $GUMP_LOG
 echo "Gump run on $GUMP_HOST at $GUMP_DATE" >> $GUMP_LOG
+
+echo $SEPARATOR >> $GUMP_LOG
+echo $SEPARATOR >> $GUMP_LOG
+
+echo "Gump Target : $GUMP_TARGET" >> $GUMP_LOG
+echo "Gump Location : $GUMP" >> $GUMP_LOG
+echo "Gump Workspace : $GUMP_WS" >> $GUMP_LOG
+echo "Gump Log : $GUMP_LOG" >> $GUMP_LOG
+
 echo $SEPARATOR >> $GUMP_LOG
 echo $SEPARATOR >> $GUMP_LOG
 echo >> $GUMP_LOG
+
+#
+# Capture environment
+#
+echo $SEPARATOR >> $GUMP_LOG
+export >> $GUMP_LOG
 
 #
 # Store the profile (into a myprofile dir)
@@ -85,35 +106,26 @@ echo >> $GUMP_LOG
 # Do a clean
 #
 echo $SEPARATOR >> $GUMP_LOG
-bash $GUMP_WS/build.sh gump clean >> $GUMP_LOG
+bash $GUMP_WS/build.sh clean >> $GUMP_LOG
 echo >> $GUMP_LOG
-
-#
-# Capture environment
-#
-echo $SEPARATOR >> $GUMP_LOG
-export >> $GUMP_LOG
-
-# /usr/X11R6/bin/Xvfb :8 &
-# export DISPLAY=:8
 
 #
 # Do an update (from CVS)
 #
 cd $GUMP_WS
 echo $SEPARATOR >> $GUMP_LOG
-bash update.sh all   >> $GUMP_LOG 2>&1 
+bash update.sh $GUMP_TARGET   >> $GUMP_LOG 2>&1 
 
 #
 # Do the build
 #
 cd $GUMP_WS
 echo $SEPARATOR >> $GUMP_LOG
-bash build.sh all   >> $GUMP_LOG 2>&1 
+bash build.sh $GUMP_TARGET   >> $GUMP_LOG 2>&1 
 
 cd $GUMP
 echo $SEPARATOR >> $GUMP_LOG
-if [ -n "$STARTED_FROM_CRON" ] ; then 
+if [ -n $"STARTED_FROM_CRON" ] ; then 
 	perl nag.pl work/naglist >> $GUMP_LOG 2>&1
 fi;
 
@@ -122,7 +134,7 @@ pkill -P $$
 
 # $Log: gump.sh,v $
 # Revision 1.4  2003/04/09 07:31:42  nickchalko
-# Removed reference to tsbuild1
+# -mRemoved reference to tsbuild1
 #
 # Revision 1.3  2003/04/09 07:27:27  nickchalko
 # Moved user specific vars to local-env.sh which is not checked in.

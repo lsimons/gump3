@@ -1,9 +1,6 @@
 #!/bin/bash
-# $Header: /home/stefano/cvs/gump/Attic/gumppy.sh,v 1.1 2003/05/30 17:19:21 nickchalko Exp $
 #
-# Shell script suitable for running the python version of gump from cron
-# @author Adam Jack ajack@TrySybase.com
-#
+# $Header: /home/stefano/cvs/gump/Attic/gumppy.sh,v 1.2 2003/05/30 22:02:56 nickchalko Exp $
 
 if [ -e local-env.sh ] ; then
 	. local-env.sh
@@ -154,12 +151,10 @@ echo \</XMP\> >> $GUMP_LOG
 pkill -P $$ 
 
 # $Log: gumppy.sh,v $
-# Revision 1.1  2003/05/30 17:19:21  nickchalko
-# Shell script suitable for running the python version of gump from cron
-#
+# Revision 1.2  2003/05/30 22:02:56  nickchalko
+# Fixing incomplete update from Adam
 # PR:
 # Obtained from:
-# Submitted by:	Adam Jack ajack@TrySybase.com
+# Submitted by:Adam Jack ajack@TrySybase.com
 # Reviewed by:
 #
-
