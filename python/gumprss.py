@@ -65,6 +65,7 @@ gumprss.write("""<rss version="2.0"
 
 for (date,time,status,url,project,first) in result:
   if first: continue
+  if not project in module: continue
   link=gumproot + date + '/' + url
   print link
   if date==today:
