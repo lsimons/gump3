@@ -1,1 +1,0 @@
-python pychecker/checker.py *.py
