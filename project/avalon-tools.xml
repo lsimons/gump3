@@ -46,8 +46,7 @@
     <ant basedir="tools/magic">
       <!-- for magic -->
       <property name="gump.signature" value="@@DATE@@"/>
-      <depend name="magic.home" reference="home"
-          project="magic" inherit="runtime"/>
+      <property name="magic.home" reference="home" project="magic"/>
       <!-- external references -->
       <depend property="gump.resource.ant" project="ant" id="ant"/>
       <depend property="gump.resource.junit" project="junit"/>
@@ -55,6 +54,7 @@
       <depend property="gump.resource.ant-nodeps" project="ant" id="nodeps"/>
       <!-- end for -->
     </ant>
+    <depend project="magic" runtime="true" inherit="runtime"/>
     <home nested="tools/magic/target/deliverables"/>
     <jar name="jars/avalon-tools-magic-@@DATE@@.jar"/>
     <nag to="dev@avalon.apache.org"
