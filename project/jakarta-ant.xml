@@ -124,7 +124,7 @@
     <package>org.apache.tools.ant</package>
 
     <ant basedir="proposal/embed">
-      <property name="ant.home" value="."/>
+      <property name="ant.home" reference="home" project="jakarta-ant"/>
     </ant>
 
     <depend project="jakarta-ant" inherit="all"/>
@@ -140,7 +140,7 @@
     <package>org.apache.tools.ant</package>
 
     <ant basedir="proposal/embed" target="embed-optional" >
-      <property name="ant.home" value="."/>
+      <property name="ant.home" reference="home" project="jakarta-ant"/>
     </ant>
 
     <depend project="jakarta-ant" inherit="all"/>
