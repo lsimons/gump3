@@ -19,6 +19,7 @@
 
         <depend project="jakarta-ant" inherit="runtime"/>
         <depend project="jakarta-avalon" runtime="true"/>
+        <depend project="xml-xerces"/>
         <work nested="lifecycle/build/classes"/>
 
         <home nested="lifecycle"/>
