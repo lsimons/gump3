@@ -1,6 +1,6 @@
 PREVIEW Struts broke an interface on a non-major version change (1.1 -&gt; 1.2) and gump found it
 View at 
-http://gump.chalko.com/gb/blog/Issues?permalink=STruts-Celocity.txt&preview=true&smm=y
+http://gump.chalko.com/gb/blog/Issues?permalink=Struts-Velocity.txt&preview=true&smm=y
 <br/>
 <p>
 It looks like Struts broke an interface on a non-major version change (1.1 -&gt; 1.2)
