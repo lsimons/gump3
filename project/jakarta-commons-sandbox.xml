@@ -140,29 +140,6 @@
          from="Ted Husted &lt;ted@husted.com&gt;"/>
   </project>
 
-  <project name="commons-io">
-    <package>org.apache.commons.io</package>
-    <description>Commons I/O Utility Package</description>
-
-    <ant basedir="io" target="dist">
-      <property name="final.name"  value="jakarta-commons-io-@@DATE@@"/>
-    </ant>
-
-    <depend project="ant" inherit="runtime"/>
-    <depend project="xml-xerces"/>
-    <depend project="commons-lang"/>
-    <depend project="junit"/>
-    
-    <work nested="io/target/classes"/>
-    <work nested="io/target/test-classes"/>
-
-    <jar name="io/dist/jakarta-commons-io-@@DATE@@.jar"/>
-    <javadoc nested="io/dist/docs/api"/>
-
-    <nag to="commons-dev@jakarta.apache.org"
-         from="Ted Husted &lt;ted@husted.com&gt;"/>
-  </project>
-  
   <project name="commons-jjar">
     <package>org.apache.commons.jjar</package>
     <description>Jakarta Jar Archive Repository</description>
