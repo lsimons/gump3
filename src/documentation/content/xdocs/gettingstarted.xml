@@ -74,7 +74,7 @@
 
       <p>It is highly recommended at this point that you review the
       description of the data definitions used by Gump, starting with
-      the <link href="/metadata/index.html">overview</link>.</p>
+      the <link href="metadata/index.html">overview</link>.</p>
 
     </section>
 
@@ -93,7 +93,7 @@
       one that is closest to your needs and make a copy of it.  The suggested
       name for the file you create is your host name.</p>
 
-      <p>Again, reference the <link href="../metadata/index.html">overview</link> to see
+      <p>Again, reference the <link href="metadata/index.html">overview</link> to see
       how you can add projects, define your own profiles, and the modify
       which version of referenced projects you want to build.</p>
 

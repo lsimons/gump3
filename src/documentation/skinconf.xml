@@ -68,13 +68,13 @@ be used to configure the chosen Forrest skin.
   <!-- mandatory project logo
        skin: forrest-site renders it at the top -->
   <project-name>Jakarta Gump</project-name>
-  <project-url>http://jakarta.apache.org/gump/</project-url>
-  <project-logo>images/gump-logo.png</project-logo>
+  <project-url>http://jakarta.apache.org/gump</project-url>
+  <project-logo>images/project-logo.gif</project-logo>
 
   <!-- optional group logo
        skin: forrest-site renders it at the top-left corner -->
   <group-name>Jakarta</group-name>
-  <group-url>http://jakarta.apache.org/</group-url>
+  <group-url>http://jakarta.apache.org</group-url>
   <group-logo>images/apache-jakarta.png</group-logo>
  
   <!-- optional host logo (e.g. sourceforge logo)

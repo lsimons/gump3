@@ -63,7 +63,7 @@ More detailed information on what is being done can be found in the console wind
 
 	<section><title>Command Line Tools:</title>
 	<ul>
-		<li>install gump as per <link href="../gettignstarted.html">here</link></li>
+		<li>install gump as per <link href="../gettingstarted.html">here</link></li>
 		<li>install (or have available) Python 2.3 <fork href="http://www.activestate.com/Products/ActivePython/">e.f ActiveState Python</fork></li>
 		<li>install (or have available) <fork href="http://www.wxpython.org/">wxwindows</fork></li>
 		<li>open a shell and do or something equivalent:

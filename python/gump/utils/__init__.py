@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/utils/__init__.py,v 1.9 2003/12/03 23:02:40 ajack Exp $
-# $Revision: 1.9 $
-# $Date: 2003/12/03 23:02:40 $
+# $Header: /home/stefano/cvs/gump/python/gump/utils/__init__.py,v 1.10 2003/12/09 22:26:09 ajack Exp $
+# $Revision: 1.10 $
+# $Date: 2003/12/09 22:26:09 $
 #
 # ====================================================================
 #
@@ -221,17 +221,17 @@ def elapsedTimeTripleToString(elapsed):
     if hours:
         if elapsedString: elapsedString += ' '
         elapsedString += str(hours)+' hour'
-        if hours: elapsedString += 's'
+        if hours > 1: elapsedString += 's'
         
     if mins:
         if elapsedString: elapsedString += ' '    
         elapsedString += str(mins)+' min'
-        if mins: elapsedString += 's'
+        if mins > 1: elapsedString += 's'
         
     if secs:
         if elapsedString: elapsedString += ' '    
         elapsedString += str(secs)+' sec'
-        if secs: elapsedString += 's'
+        if secs > 1: elapsedString += 's'
     
     return elapsedString    
     
