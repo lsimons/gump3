@@ -444,7 +444,7 @@
     <xsl:text> </xsl:text><xsl:value-of select="$ant-cmd"/>
 
     <xsl:if test="@buildfile">
-      <xsl:text> -buildfile </xsl:text>
+      <xsl:text> -f </xsl:text>
       <xsl:value-of select="translate(@buildfile,'\','/')"/>
     </xsl:if>
 
