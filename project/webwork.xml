@@ -26,6 +26,8 @@
     <depend project="cos"/>
     <depend project="commons-logging"/>
     <depend project="multipartrequest"/>
+    <depend project="junit"/>
+    <depend project="httpunit"/>
     <jar id="webwork" name="build/result/web/WEB-INF/lib/webwork.jar"/>
   </project>
 
