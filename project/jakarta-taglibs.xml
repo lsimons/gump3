@@ -25,7 +25,16 @@
       <depend property="jxpath.jar" project="commons-jxpath"/>
       <depend property="js.jar" project="rhino"/>
       <depend property="jaxen-full.jar" project="jaxen"/>
-      <depend property="commons-messenger.jar" project="commons-messenger"/>
+      <depend property="commons-beanutils.jar" project="commons-beanutils"
+        runtime="true"/>
+      <depend property="commons-collections.jar" project="commons-collections"
+        runtime="true"/>
+      <depend property="commons-digester.jar" project="commons-digester"
+        runtime="true"/>
+      <depend property="commons-messenger.jar" project="commons-messenger"
+        runtime="true"/>
+      <depend property="commons-logging.jar" project="commons-logging"
+        runtime="true"/>
       <depend property="jms.jar" project="jms"/>
     </ant>
 
