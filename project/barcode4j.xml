@@ -43,7 +43,7 @@
 
     <vendor>Krysalis Community Project</vendor>
 
-    <licence legal="./legal">
+    <licence name="legal/LICENSE.krysalis-barcode" legal="./legal">
              This software is released under the Krysalis Patchy Software License 1.1_01.
              For detailed legal and licensing issues, please read the LICENSE.* files
              in the /legal directory.
