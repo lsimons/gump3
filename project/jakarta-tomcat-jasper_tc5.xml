@@ -11,6 +11,5 @@
   <cvs repository="jakarta" module="jakarta-tomcat-jasper"/>
   <project name="jakarta-tomcat-jasper_tc5">
       <home nested="jasper2" />
-      <jar name="lib/jsp20el.jar" />
   </project>
 </module>
