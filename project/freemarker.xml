@@ -10,7 +10,7 @@
   <project name="freemarker">
     <package>freemarker</package>
   
-    <ant target="gump">
+    <ant target="jar"/>
 
     <depend project="jakarta-ant"/>
     <depend project="xml-xerces"/>
