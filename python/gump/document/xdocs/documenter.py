@@ -199,23 +199,38 @@ class XDocDocumenter(Documenter):
         
         # Get relative to (1) work [source] (2) log [target] & sync
                 
-        # The move contents/xdocs from work directory to log
+        # Move xdocs from work directory to log
         xdocWorkDir=self.getXDocWorkDirectory()
         logDirectory=self.getXDocLogDirectory()
         
-        workContents=os.path.abspath(
-                        os.path.join(xdocWorkDir,objDir))
-                        
-        logContents=os.path.abspath(
-                        os.path.join(logDirectory,objDir))
+        workContents=os.path.abspath(os.path.join(xdocWorkDir,objDir))
+        logContents=os.path.abspath(os.path.join(logDirectory,objDir))
         
         success=True
         try:
-            # Sync over public pages...
-            syncDirectories(workContents,logContents) 
+            if os.path.exists(workContents):    
+                # Sync over public pages...
+                syncDirectories(workContents,logContents) 
         except:        
-            log.error('--- Failed to sync work->log ', exc_info=1)
+            log.error('--- Failed to sync ['+`objDir`+'] (work->log)', exc_info=1)
             success=False
+            
+        if self.config.isXdocs():  
+            # Move contents/xdocs from work directory to log
+            # (Note: Forrest has contents/X and contents/xdocs/X)
+            xdocWorkDir=os.path.abspath(os.path.join(xdocWorkDir,'xdocs'))
+            logDirectory=os.path.abspath(os.path.join(logDirectory,'xdocs'))
+        
+            workContents=os.path.abspath(os.path.join(xdocWorkDir,objDir))
+            logContents=os.path.abspath(os.path.join(logDirectory,objDir))
+        
+            try:
+                if os.path.exists(workContents):    
+                    # Sync over public pages...
+                    syncDirectories(workContents,logContents) 
+            except:        
+                log.error('--- Failed to sync xdocs ['+`objDir`+'] (work->log)', exc_info=1)
+                success=False    
         
         return success
         
