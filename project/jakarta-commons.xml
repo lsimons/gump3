@@ -168,6 +168,8 @@
     <home nested="httpclient/dist"/>
     <jar name="commons-httpclient.jar"/>
     <javadoc nested="httpclient/dist/docs/api"/>
+    <nag to="commons-dev@jakarta.apache.org"
+         from="Stefan Bodewig &lt;bodewig@apache.org&gt;"/>
   </project>
 
   <project name="commons-jxpath">
