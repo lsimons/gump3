@@ -966,7 +966,7 @@ def getWorkRelativeUrl(type,name):
     
 def getStatePairIcon(pair,depth=0):
 
-    sname=stateName(pair.status)
+    sname=stateName(pair.state)
     rstring=reasonString(pair.reason)    
     
     description=sname    
@@ -977,7 +977,7 @@ def getStatePairIcon(pair,depth=0):
     
     # Build the URL
     iconName=gumpSafeName(uniqueName)
-    url = getUp(depth)+"/resources/icons/"+iconName+".png";
+    url = getUp(depth)+"resources/icons/"+iconName+".png";
     
     # Build the <icon xdoc
     return '<icon src=\'' + url + '\' alt=\'' + description +'\'/>'
