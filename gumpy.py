@@ -40,7 +40,7 @@ from xml.dom import minidom
 
 LINE=' - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - GUMP'
 
-GUMPY_VERSION='2.0.2-alpha-0001'
+GUMPY_VERSION='2.0.2-alpha-0002'
 
 def ignoreHangup(signum):
     pass
@@ -241,6 +241,9 @@ logFile=os.path.abspath(logFileName)
 log=open(logFile,'w',0) # Unbuffered...
 
 result=0
+
+hostname='Unknown'
+workspaceName='Unknown'
         
 mailserver=None
 mailport=None
@@ -430,22 +433,12 @@ finally:
         if tty or not published:
             catFile(sys.stdout, logFile, logTitle)
         
-        if mailserver and mailport and mailto and mailfrom and logurl:
+        if mailserver and mailport and mailto and mailfrom:
             
-            #:TODO:
-            # We need to move the gumpy.log to the log
-            # directory, so we can mail a URL to it.
-        
-            # :TODO: Sucky to read file into memory...
-            # Need to figure out attachments, if that
-            # helps & doesn't just do same...
-            #tmpStream=StringIO.StringIO() 
-            #catFile(tmpStream, logFile, logTitle)
-            #tmpStream.seek(0)
-            #logData=tmpStream.read()
-            #tmpStream.close()
-            #tmpStream=None
-            mailData='There is a problem with the run at : ' + logurl + '\n'
+            if published and logurl:
+                mailData='There is a problem with the run at : ' + logurl + '\n'
+            else:
+                mailData='There is a problem with the run at : ' + hostname + ':' + workspaceName + '\n'
             
             #
             # :TODO: Add link to log 
