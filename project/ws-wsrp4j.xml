@@ -17,6 +17,10 @@
 
     <depend project="xml-xerces"/>
     <depend project="ant" inherit="runtime"/>
+    <depend project="junit"/>
+    <depend project="jakarta-regexp"/>
+
+    <work nested="build/ant/lib/ForeachTask.jar"/>
 
     <home nested="bin/lib"/>
     <jar name="wsrp4j-consumer-0.3.jar"/>
