@@ -58,13 +58,12 @@
     <description>Commons Email Package</description>
     <ant basedir="email" target="dist">
       <property name="component.version"  value="@@DATE@@"/>
-      <depend property="commons-util.jar" project="commons-lang"/>
+      <depend property="javamail.jar" project="javamail" />
+      <depend property="jaf.jar" project="jaf" />
+      <depend property="commons-util.jar" project="commons-util"/>
     </ant>
     <depend project="jakarta-ant"/>
     <depend project="xml-xerces"/>
-    <depend project="jaf"/>
-    <depend project="javamail"/>
-    <depend project="commons-util"/>
     <jar name="email/dist/commons-email-@@DATE@@.jar"/>
     <javadoc nested="email/dist/docs/api"/>
   </project>
