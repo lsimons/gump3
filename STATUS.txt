@@ -37,6 +37,7 @@ Proposed board resolution to create an Apache Gump Project
        * Nick Chalko <nickchalko@apache.org>
        * Stefano Mazzocchi <stefano@apache.org>
        * Scott Sanders <sanders@apache.org> 
+       * Martin van den Bemt <mvdb@apache.org>
        * others ?
        
        NOW, THEREFORE, BE IT FURTHER RESOLVED, that
@@ -44,9 +45,9 @@ Proposed board resolution to create an Apache Gump Project
 [Issue: decide on PMC chair]
  
        * Sam Ruby (still has to accept nomination)
-         +1 nicolaken,stefano,leosimons
+         +1 nicolaken,stefano,leosimons,mvdb
        * Stefan Bodewig (still has to accept nomination)
-         +1 nicolaken,stefano,leosimons,sanders
+         +1 nicolaken,stefano,leosimons,sanders,mvdb
        * Stefano Mazzocchi
        
        * others ?
