@@ -15,6 +15,7 @@
       <depend property="commons-beanutils.jar"   project="commons-beanutils"/>
       <depend property="commons-collections.jar" project="commons-collections"/>
       <depend property="commons-digester.jar"    project="commons-digester"/>
+      <depend property="commons-logging.jar"     project="commons-logging"/>
     </ant>
 
     <depend project="xml-xalan2"/>
