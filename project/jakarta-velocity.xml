@@ -17,6 +17,7 @@
   <depend project="javaclass"/>
   <depend project="junit"/>
   <depend project="jakarta-avalon-logkit"/>
+  <depend project="jakarta-log4j"/>
 
   <home nested="bin"/>
   <jar  name="velocity-0.76.jar"/>
