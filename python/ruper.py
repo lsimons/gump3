@@ -36,7 +36,14 @@ class RuperRepository(object):
     remoteurl = self.resolve(resource)
     urllib.urlretrieve(remoteurl, '%s/%s' % (destinationDir,resource.standardName()))
 
-
+  def update(self, resource, destinationDir):
+   #download the file if not present
+   if os.path.exists('%s/%s' % (destinationDir,resource.standardName())):
+     if default.debug: print 'using cached file'
+   else:
+     if default.debug: print 'caching file...'
+     download((self, resource, destinationDir))
+     if default.debug: print '...done'
 
 # Resource
 class RuperResource(object):
@@ -59,7 +66,7 @@ if __name__=='__main__':
   print resource.standardName()
   repository = RuperRepository('http://www.ibiblio.org/maven','maven')
   print repository.resolve(resource)
-  repository.download(resource,dir.cache)
+  repository.update(resource,dir.cache)
 
 
 
