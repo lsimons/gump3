@@ -649,6 +649,7 @@
         <option project="checkstyle" inherit="runtime"/>
         <depend project="avalon-framework" runtime="true" id="api"/>
         <depend project="avalon-framework" runtime="true" id="impl"/>
+        <depend project="excalibur-instrument" runtime="true"/>
         <depend property="commons-collections" project="commons-collections"/>
         
         <depend project="ant" inherit="runtime"/>
