@@ -82,7 +82,6 @@
         <depend project="excalibur-sourceresolve" runtime="true" inherit="jars"/>
         <depend project="excalibur-store" runtime="true" inherit="jars"/>
         <depend project="excalibur-thread" runtime="true" inherit="jars"/>
-        <depend project="excalibur-threadcontext" runtime="true" inherit="jars"/>
         <depend project="excalibur-xmlutil" runtime="true" inherit="jars"/>
 
         <!-- build-time dependencies -->
@@ -992,7 +991,6 @@
         <ant basedir="thread">
             <depend project="commons-collections" runtime="true"/>
             <depend property="excalibur-pool.jar" project="excalibur-pool" runtime="true"/>
-            <depend property="excalibur-threadcontext.jar" project="excalibur-threadcontext" runtime="true"/>
             <depend property="excalibur-instrument.jar" project="excalibur-instrument" runtime="true"/>
             <depend property="logkit.jar" project="avalon-logkit" runtime="true"/>
 
@@ -1019,31 +1017,6 @@
 
         <home nested="thread"/>
         <jar name="build/lib/excalibur-thread-@@DATE@@.jar"/>
-
-        <nag from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"
-                to="dev@avalon.apache.org"/>
-    </project>
-
-    <project name="excalibur-threadcontext">
-        <package>org.apache.excalibur.threadcontext</package>
-
-        <ant basedir="threadcontext">
-            <property name="package-version" value="@@DATE@@"/>
-            <property name="junit.failonerror" value="true"/>
-            <property name="do.checkstyle" value="true"/>
-            <property name="skip.dependencies" value="true"/>
-        </ant>
-
-        <depend project="ant" inherit="runtime"/>
-        <option project="checkstyle" inherit="runtime"/>
-        <depend project="junit"/>
-        <depend project="xml-xerces"/>
-        <depend project="xml-xalan2"/>
-        <work nested="threadcontext/build/classes"/>
-        <work nested="threadcontext/build/testclasses"/>
-
-        <home nested="threadcontext"/>
-        <jar name="build/lib/excalibur-threadcontext-@@DATE@@.jar"/>
 
         <nag from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"
                 to="dev@avalon.apache.org"/>
