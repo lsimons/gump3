@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/Attic/logic.py,v 1.37 2003/10/21 19:53:27 ajack Exp $
-# $Revision: 1.37 $
-# $Date: 2003/10/21 19:53:27 $
+# $Header: /home/stefano/cvs/gump/python/gump/Attic/logic.py,v 1.38 2003/10/22 21:49:39 ajack Exp $
+# $Revision: 1.38 $
+# $Date: 2003/10/22 21:49:39 $
 #
 # ====================================================================
 #
@@ -471,13 +471,13 @@ def getDependOutputList(parent,parentctxt,depend,context,visited):
    
   # Don't loop...
   if depend in visited:
-      #print "Visited : " + str(depend)
+      # print "Visited : " + str(depend)
       #print "Visits  : "
       #for v in visited:
       #    print " - " + str(v)
       return []
   visited.append(depend)
-  # print "Perform : " + str(depend) + " in " + parent.name
+  #print "Perform : " + str(depend) + " in " + parent.name
           
   #
   # Check we can get the project...
@@ -555,21 +555,25 @@ def getDependOutputList(parent,parentctxt,depend,context,visited):
   # Deep copy all/hard (or those for runtime)
   #
   # Append sub-projects outputs
-  if inherit and not inherit=='none':
-      if project.depend:
-        for subdepend in project.depend:            
-            if not inherit=='runtime' or subdepend.runtime:      
+  if project.depend:
+      for subdepend in project.depend:            
+          if (subdepend.inherit and not subdepend.inherit=='none' ) \
+                  or (inherit=='runtime' and subdepend.runtime):      
               for path in getDependOutputList(project,pctxt,subdepend,context,visited):
-                if not path in classpath:    
-                  classpath.append(path)
-  
-          # Append optional sub-project's output (that may not exist)
-      if project.option:
-        for suboption in project.option:
-            if not inherit=='runtime' or suboption.runtime:          
+                  if not path in classpath:    
+                      classpath.append(path)
+
+  #
+  # Deep copy all/hard (or those for runtime)
+  #
+  # Append sub-projects outputs
+  if project.option:
+      for suboption in project.option:            
+          if (suboption.inherit and not suboption.inherit=='none' ) \
+                  or (inherit=='runtime' and suboption.runtime):      
               for path in getDependOutputList(project,pctxt,suboption,context,visited):
-                if not path in classpath:       
-                  classpath.append(path)
+                  if not path in classpath:    
+                      classpath.append(path)
 
   return classpath
     
