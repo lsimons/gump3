@@ -164,10 +164,10 @@ class GumpRunner(RunSpecific):
                     dbInfo = self.run.getWorkspace().getDatabaseInformation()
                     import MySQLdb
                     conn = MySQLdb.Connect(
-                        host=self.dbInfo.getHost(), 
-                        user=self.dbInfo.getUser(),
-                        passwd=self.dbInfo.getPasswd(), 
-                        db=self.dbInfo.getDatabase(),
+                        host=dbInfo.getHost(), 
+                        user=dbInfo.getUser(),
+                        passwd=dbInfo.getPasswd(), 
+                        db=dbInfo.getDatabase(),
                         compress=1,
                         cursorclass=MySQLdb.cursors.DictCursor)
     
