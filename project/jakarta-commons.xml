@@ -60,6 +60,7 @@
     <depend project="junit"/>
     <depend project="commons-beanutils"/>
     <depend project="commons-collections"/>
+    <depend project="commons-logging"/>
     <home nested="digester/dist"/>
     <jar name="commons-digester.jar"/>
     <javadoc nested="digester/dist/docs/api"/>
