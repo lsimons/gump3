@@ -1,20 +1,21 @@
 <?xml version="1.0"?>
-<module name="krysalis-barcode" fullname="Krysalis BarCode">
+<module name="barcode4j" fullname="Barcode4J">
 
-    <url href="http://www.krysalis.org/barcode"/>
+    <url href="http://barcode4j.krysalis.org"/>
 
-    <site hostname="krysalis.sourceforge.net"
-        remotedir="/home/groups/k/kr/krysalis/htdocs/barcode"/>
+    <site hostname="barcode4j.sourceforge.net"
+        remotedir="/home/groups/b/ba/barcode4j/htdocs"/>
 
-    <cvs repository="sourceforge" host-prefix="cvs.krysalis" 
-        dir="krysalis"/>
+    <cvs repository="sourceforge" host-prefix="cvs.barcode4j" 
+        dir="barcode4j"/>
       
     <description>
-      Krysalis BarCode --- for generating barcodes.
+      Barcode4J --- for generating barcodes.
     </description>
 
     <detailed>
-      Barcode Generation.
+      Barcode4J is a flexible generator for barcodes written in Java. The package 
+      is part of the Krysalis Community Project.
     </detailed>
 
     <what>
@@ -39,14 +40,14 @@
         </credit>
     </credits>
 
-    <project name="krysalis-barcode" fullname="Krysalis Barcode">
+    <project name="barcode4j" fullname="Barcode4J">
 
         <barcode major="1"
             minor="0"
             fix  ="0"
             tag="HEAD"/>
 
-        <package>org.krysalis.barcode</package>
+        <package>org.krysalis.barcode4j</package>
 
         <ant target="gump" debug="true">
           <property name="DATE_STAMP" value="@@DATE@@"/>
@@ -68,7 +69,7 @@
         <depend project="xml-xerces"/>      
         <depend project="xml-xalan2"/>
 
-        <jar name="krysalis-barcode.jar"/>
+        <jar name="barcode4j.jar"/>
         
         <nag to="krysalis-developers@lists.sourceforge.net"
             from="Jeremias Maerki &lt;dev.jeremias@greenmail.ch&gt;"/>
