@@ -10,6 +10,7 @@ To: ant-dev@jakarta.apache.org
 From: Diane Holt <holtdl@apache.org>
 Subject: [GUMP] Bootstrap Failure - Ant
 Regex: /error/
+Regex: /Failed/
 Regex: /BUILD FAILED/
 ------
 Project: commons-altrmi
