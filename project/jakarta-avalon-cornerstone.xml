@@ -18,6 +18,7 @@
         project="jakarta-avalon-excalibur" id="avalon-excalibur"/>
       <depend property="avalon-scratchpad.jar" 
         project="jakarta-avalon-excalibur" id="avalon-scratchpad"/>
+      <depend property="junit.jar"   project="junit"/>
     </ant>
 
     <depend project="jakarta-ant"/>
