@@ -51,6 +51,8 @@
       <depend property="xercesImpl.jar" project="xml-xerces" id="parser"/>
       <depend property="xmlParserAPIs.jar" project="xml-xerces" id="parser"/>
       <depend property="tomcat-util.jar" project="jakarta-tomcat-util"/>
+      <property name="tomcat-coyote.home" reference="home"
+        project="jakarta-tomcat-coyote"/>
       <depend property="commons-beanutils.jar" project="commons-beanutils"
         runtime="true"/>
       <depend property="commons-collections.jar" project="commons-collections"
@@ -75,12 +77,11 @@
     <depend project="jmx"/>
     <depend project="jsse" runtime="true"/>
     <depend project="xml-xalan2"/>
-    <option project="avalon"/>
-    <option project="avalon-phoenix"/>
     <depend project="jakarta-tomcat-util" runtime="true"/>
     <depend project="jakarta-servletapi-5-servlet"/>
     <depend project="jakarta-servletapi-5-jsp"/>
     <depend project="jakarta-regexp"/>
+    <depend project="jakarta-tomcat-coyote"/>
     <option project="junit" />
     <depend project="javagroups" />
 

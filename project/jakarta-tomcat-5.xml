@@ -28,7 +28,7 @@
         reference="jarpath" id="regexp" project="jakarta-regexp"/>
       <property name="mail.home" reference="home" project="javamail"/>
       <property name="tomcat-coyote.home" reference="home"
-        project="jakarta-tomcat-coyote_tc5"/>
+        project="jakarta-tomcat-coyote"/>
       <property name="jasper.home" reference="home"
         project="jakarta-tomcat-jasper_tc5"/>
       <depend property="mail.jar" project="javamail"/>
@@ -72,9 +72,7 @@
     <depend project="jmx"/>
     <depend project="jsse" runtime="true"/>
     <depend project="xml-xalan2"/>
-    <option project="avalon"/>
-    <option project="avalon-phoenix"/>
-    <depend project="jakarta-tomcat-coyote_tc5"/>
+    <depend project="jakarta-tomcat-coyote"/>
     <depend project="jakarta-tomcat-catalina"/>
     <depend project="jakarta-tomcat-jasper_tc5"/>
     <depend project="jakarta-tomcat-util" runtime="true"/>
