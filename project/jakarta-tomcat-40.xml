@@ -32,7 +32,6 @@
       <depend property="jta.jar" project="jta"/>
       <depend property="ldap.jar" project="ldap"/>
       <depend property="servlet.jar" project="jakarta-servletapi-4"/>
-      <depend property="tyrex.jar" project="tyrex"/>
       <depend property="xerces.jar" project="xml-xerces"/>
       <depend property="tomcat-util.jar" project="jakarta-tomcat-util"/>
       <depend property="commons-beanutils.jar" project="commons-beanutils"/>
@@ -53,7 +52,6 @@
     <depend project="xml-xalan2"/>
     <option project="jakarta-avalon"/>
     <option project="jakarta-avalon-phoenix"/>
-    <option project="tyrex"/>
 
     <home nested="dist"/>
     <jar name="bin/bootstrap.jar"/>

@@ -67,10 +67,7 @@
   <!-- exolab -->
 
   <module href="project/castor.xml"/>
-  <module href="project/openejb.xml"/>
-  <module href="project/openjms.xml"/>
   <module href="project/openorb.xml"/>
-  <module href="project/tyrex.xml"/>
 
   <!-- other -->
 
