@@ -29,6 +29,10 @@
         <depend project="excalibur-container"/>
         <depend project="avalon-cornerstone"/>
         <depend project="avalon-phoenix"/>
+        <!-- inserting the dependencies of phoenix-metagenerate.jar by hand here
+             until avalon-phoenix-metagenerate becomes available seperately -->
+        <depend project="phoenix-qdox"/>
+        <depend project="excalibur-info"/>
 
         <work nested="altrmi/build/classes"/>
 

@@ -23,9 +23,9 @@
       <depend property="mx4j-tools.jar" project="mx4j" id="tools"/>
     </ant>
 
-    <depend property="xerces.jar" project="xml-xerces" id="parser"/>
-    <depend property="logkit.jar" project="avalon-logkit"/>
-    <depend property="framework.jar" project="avalon"/>
+    <depend property="xerces.jar" project="xml-xerces" id="parser" runtime="true"/>
+    <depend property="logkit.jar" project="avalon-logkit" runtime="true"/>
+    <depend property="framework.jar" project="avalon" runtime="true"/>
     <depend project="bsf"/>
     <depend project="excalibur-configuration" runtime="true"/>
     <depend project="excalibur-converter" runtime="true"/>
@@ -58,6 +58,9 @@
 
     <home nested="build/lib"/>
     <jar name="phoenix-client.jar" id="client"/>
+
+    <!-- metagenerate depends only on qdox and excalibur-info.
+         phoenix build should be updated to split this out -->
     <jar name="phoenix-metagenerate.jar" id="metagenerate"/>
     <jar name="phoenix-loader.jar" id="loader"/>
     <jar name="phoenix-engine.jar" id="metagenerate"/>
