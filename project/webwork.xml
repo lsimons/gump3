@@ -20,6 +20,7 @@
     <depend project="bsf"/>
     <depend project="jdom"/>
     <depend project="db40"/>
+    <depend project="xml-axis"/>
     <jar id="webwork" name="build/result/web/WEB-INF/lib/webwork.jar"/>
   </project>
 

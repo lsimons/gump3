@@ -29,6 +29,7 @@
     <depend project="jakarta-regexp"/>
     <depend project="commons-httpclient"/>
     <depend project="commons-collections"/>
+    <depend project="commons-jxpath"/>
     <depend project="excalibur-pool"/>
     <depend project="excalibur-datasource"/>
     <depend project="excalibur-component"/>
