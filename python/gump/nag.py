@@ -128,7 +128,7 @@ def nagProject(workspace,context,module,mctxt,project,pctxt):
             fromaddr=getattr(nagEntry,'from',workspace.mailinglist)
         
             # We send to a list, but a list of one is fine..
-            toaddrs=[ 'ajack@trysybase.com' ]
+            toaddrs=[ workspace.mailinglist ] # :TODO: toaddr -> to users...
         
             # Fire ...
             mail(toaddrs,fromaddr,email,workspace.mailserver) 
