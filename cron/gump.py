@@ -337,14 +337,17 @@ try:
             
         # Nope, can't find the workspace...
         if not os.path.exists(workspacePath):
-            raise RuntimeError('No such workspace at ' + str(workspacePath))
+            raise RuntimeError('\n  No workspace at ' + str(workspacePath) +
+              '!\n  Maybe you need to check out the metadata from CVS?\n' +
+              '  See the file metadata/FILLME for more information...')
         
         #
         # Process the workspace...
         #     
         ws = minidom.parse(workspacePath)
         workspaceElementList=ws.getElementsByTagName('workspace')
-        if not workspaceElementList.length == 1:
+        if not workspaceElementList.length == 1: # LSD: this is kinda lame way to parse this
+	                                              #      better to just validate against a DTD
             raise RuntimeError('Need one (only) <workspace> tag. Found ' + \
                        ` workspaceElementList.length` + '.')    
         wsw=workspaceElementList.item(0)

@@ -14,7 +14,9 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-
+#
+# A (supposedly ) friendly commandline interface to the common gump tasks
+#
 #############################################################################
 # Documentation
 #############################################################################
@@ -24,7 +26,7 @@ function usage
 {
   case $1 in
     run)
-      echo '
+      echo "
       Run Gumpy.
 
       Usage:
@@ -34,34 +36,50 @@ function usage
       information about the options Gumpy accepts. The one mandatory
       argument is the "project expression" detailing what to run. You
       will usually want "all" here.
-'
+"
         ;;
     test)
-      echo '
+      echo "
       Run Gumpy its unit tests.
 
       Usage:
         $0 test
-'
+"
         ;;
     site)
-      echo '
+      echo "
       Use Apache Forrest to build the documentation.
 
       Usage:
         $0 site
-'
+"
       ;;
     site-publish)
-      echo '
+      echo "
       Use svn and ssh to publish the site.
 
       Usage:
         $0 site-publish
-'
+"
+      ;;
+    get-metadata)
+      echo "
+      Use CVS to check out or update the metadata.
+
+      Usage:
+        $0 get-metadata [CVSROOT]
+"
+      ;;
+    validate)
+      echo "
+      Run the DTD validation tools on the metadata
+
+      Usage:
+        $0 validate
+"
       ;;
     *)
-      echo '
+      echo "
       Utility commandline interface for Gump.
      
       Usage:
@@ -69,6 +87,10 @@ function usage
      
       Available commands are:
      
+        run -- run Gumpy
+        test -- run Gumpy its unit tests
+        get-metadata -- Check out or update metadata from CVS
+        validate -- validate the metadata
         help -- print this information
         site -- use Apache Forrest to build the documentation
         site-publish -- use SVN and SSH to publish the site to the website
@@ -78,7 +100,7 @@ function usage
         $0 help [command]
      
       for more information about a particular command.
-    '
+"
       ;;
   esac
 }
@@ -104,7 +126,7 @@ function check_env
 {
   local cmd=`bin/PrintPath $1`;
   if [[ -z "$cmd" ]]; then
-     error "Cannot find $cmd. Please retrieve it from 
+     error "Cannot find $1. Please retrieve it from 
 
      $2
      
@@ -138,7 +160,13 @@ function delegate
     site-publish)
       site_publish $@
       ;;
-    help | usage)
+    get-metadata)
+      get_metadata $@
+      ;;
+    validate)
+      validate $0
+      ;;
+    help | usage | --help | -help | -H | -h)
       usage $@
       ;;
     '')
@@ -195,11 +223,46 @@ function site_publish
   check_env "svn" "http://subversion.tigris.org/"
   check_env "ssh" "http://www.openssh.org/"
 
-  error 'This functionality is not yet implemented!'
+  error 'This functionality is not yet tested!'
 
   cp -Rf build/site/* ../site/
-  svn commit -m "Publishing site..." ../site
-  #$ssh minotaur.apache.org '/home/leosimons/bin/gump-site-up.sh'
+  cd ../site/
+  find . -type d -or -type -f -not -path '*/.svn*' -exec svn add \{\} \;
+  svn commit -m "Publishing site..."
+  ssh minotaur.apache.org svn up /www/gump.apache.org
+  cd ../trunk/
+}
+
+# Check out or update the gump metadata.
+function get_metadata
+{
+  check_env "cvs" "http://www.cvshome.org/"
+
+  local cvsroot=$1
+  if [[ -z "$cvsroot" ]]; then
+    cvsroot=":pserver:anoncvs@cvs.apache.org:/home/cvspublic"
+  fi
+
+  if [[ -d "metadata/CVS" ]]; then
+    cvs -d $cvsroot up -Pd metadata
+  else
+    # This is not dumb. Cannot check out into an existing checkout,
+    # and cannot remove the metadata either because 'svn up' will
+    # get confused that way
+    cvs -d $cvsroot co -d gump.cvs gump
+    mv gump.cvs/* metadata/
+    rm -Rf gump.cvs
+  fi
+}
+
+function validate
+{
+  check_env "xmllint" "http://xmlsoft.org/"
+  check_env "xsltproc" "http://xmlsoft.org/"
+
+  cd metadata
+  ./validate
+  cd ..
 }
 
 
