@@ -31,6 +31,7 @@
     <depend project="xml-security" inherit="runtime"/>
 
     <work nested="build/classes"/>
+    <work nested="lib/axis-ant.jar"/>
 
     <jar name="build/wss4j-@DATE@.jar"/>
 

@@ -46,10 +46,10 @@
     <work nested="java/build/classes"/>
 
     <home nested="java/build"/>
-    <jar name="lib/axis.jar"/>
-    <jar name="lib/axis-ant.jar"/>
-    <jar name="lib/jaxrpc.jar"/>
-    <jar name="lib/saaj.jar"/>
+    <jar name="lib/axis.jar" id="axis"/>
+    <jar name="lib/axis-ant.jar" id="axis-ant"/>
+    <jar name="lib/jaxrpc.jar" id="axis-jaxrpc"/>
+    <jar name="lib/saaj.jar" id="axis-saaj"/>
 
     <license name="LICENSE"/>
 
