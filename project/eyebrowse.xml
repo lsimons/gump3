@@ -33,7 +33,7 @@
       <!-- Since mm.mysql is no more, am trying a normal
       	JDBC interface, which possible need not be used
       	at compile time. -->      	
-      <depend property="database.jar" project="mm.mysql"/>
+      <!-- depend property="database.jar" project="mm.mysql"/ -->
       <depend project="jdbc" runtime="true"/>          
       <!-- End of ARBJ experiment... -->
       
@@ -51,8 +51,8 @@
     <depend project="commons-collections"/>
 
     <javadoc nested="build/javadocs"/>
-    <home nested="eyebrowse-@@DATE@@/lib"/>
-    <jar nested="lib/eyebrowse/jar"/>
+    <home nested="eyebrowse-@@DATE@@/lib"/>    
+    <jar name="eyebrowse.jar"/>
   </project>
 
 </module>
