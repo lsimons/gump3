@@ -839,6 +839,7 @@
         <depend project="xml-xerces"/>
         <depend project="xml-xalan2"/>
         <depend project="jisp"/>
+        <depend project="concurrent"/>
 
         <work nested="store/build/classes"/>
         <work nested="store/build/testclasses"/>
