@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/utils/__init__.py,v 1.11 2003/12/11 18:56:26 ajack Exp $
-# $Revision: 1.11 $
-# $Date: 2003/12/11 18:56:26 $
+# $Header: /home/stefano/cvs/gump/python/gump/utils/__init__.py,v 1.12 2003/12/11 22:07:35 ajack Exp $
+# $Revision: 1.12 $
+# $Date: 2003/12/11 22:07:35 $
 #
 # ====================================================================
 #
@@ -312,6 +312,8 @@ def getStringFromUnicode(u):
     return s
 
 def wrapLine(line,wrapLen=100, eol='\n', marker='[WRAPPED]'):
+    
+    wrappedLine=''       
     #
     # Provide some wrapping (at ~ 100)
     #
@@ -319,8 +321,7 @@ def wrapLine(line,wrapLen=100, eol='\n', marker='[WRAPPED]'):
         startPosn=0
         endPosn=wrapLen
         increment=wrapLen
-        totalLen=len(line)
-        wrappedLine=''                                
+        totalLen=len(line)                         
         while increment > 0:
             wrappedLine+=line[startPosn:endPosn]
             if totalLen - endPosn > wrapLen:
