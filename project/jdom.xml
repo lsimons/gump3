@@ -18,4 +18,8 @@
     <jar name="jdom.jar" id="jdom"/>
   </project>
 
+  <project name="saxpath">
+    <jar name="lib/saxpath.jar"/>
+  </project>
+
 </module>
