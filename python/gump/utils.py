@@ -65,7 +65,6 @@
 import logging
 import types, StringIO
 
-
 ###############################################################################
 # Base classes for the Displayable Objects
 ###############################################################################
@@ -159,8 +158,12 @@ def orderedList(list,sortfunc):
     return sorted   
   
 def printSeparator(indent=''):
-    print indent + ' ---------------------------------------------------- Gumpy'
+    printSeparatorToFile(None,indent)
     
+def printSeparatorToFile(f=None,indent=''):    
+    if not f: f = sys.stdout
+    f.write( '%s\n' % (indent + ' ---------------------------------------------------- Gumpy'))
+
 if __name__=='__main__':
 
   # init logging

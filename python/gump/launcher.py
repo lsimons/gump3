@@ -276,37 +276,50 @@ def executeIntoResult(cmd,result,tmp=dir.tmp):
     
     start_time=time.time()
     try:
-      try:
-        # Output
-        outputFile=os.path.abspath(os.path.join(tmp,gumpSafeName(cmd.name)+'.txt'))
-        if os.path.exists(outputFile): os.remove(outputFile)
-    
-        #############################################################
-        # Possibly temporary, pos perm, for testing...
-        # Environment
-        envFile=os.path.abspath(os.path.join(tmp,gumpSafeName(cmd.name)+'.env.txt'))
-        if os.path.exists(envFile): os.remove(envFile)
-    
-        try:            
-            f=open( envFile, 'w')
-            for envKey in os.environ.iterkeys():
-                f.write('%s = %s\n' % (envKey, os.environ[envKey]))
-        finally:
-            # Since we may exit via an exception, close fp explicitly.
-            if f: f.close()    
-        #############################################################3
-        
+      try:          
+        # Make the CWED if needed
         if cmd.cwd: 
           cwdpath=os.path.abspath(cmd.cwd)
           if not os.path.exists(cwdpath): os.mkdir(cwdpath)
           os.chdir(cwdpath)
         
-        execString=cmd.formatCommandLine()
+        # The command line
+        execString=cmd.formatCommandLine()        
         
+        # Output
+        outputFile=os.path.abspath(os.path.join(tmp,gumpSafeName(cmd.name)+'.txt'))
+        if os.path.exists(outputFile): os.remove(outputFile)
+    
+        if switches.debugging:
+            #############################################################
+            # This debug might become permenant ...
+            #############################################################
+            try:            
+                f=open(outputFile, 'w')
+                # Dump the command line
+                printSeparatorToFile(f)    
+                f.write( 'Command Line: %s\n' % (execString))
+                # Dump the cwd (if specified)
+                if cmd.cwd:
+                    printSeparatorToFile(f)            
+                    f.write( 'Working Directory: %s\n' % (cmd.cwd))
+                # Dump the environment
+                printSeparatorToFile(f)
+                f.write( 'Environment:\n')
+                for envKey in os.environ.iterkeys():
+                    f.write('%s = %s\n' % (envKey, os.environ[envKey]))
+                # Gap before the real stuff...
+                printSeparatorToFile(f)
+                f.write('\n\n')
+            finally:
+                # Since we may exit via an exception, close explicitly.
+                if f: f.close()    
+            
+        #############################################################                
         log.info('Executing: ' + execString + ' (Output to ' + str(outputFile) + ')')
     
         # Execute Command & Wait
-        result.exit_code=os.system(execString + ' >' + str(outputFile) + ' 2>&1')
+        result.exit_code=os.system(execString + ' >>' + str(outputFile) + ' 2>&1')
     
         # Process Outputs (exit_code and stderr/stdout)
         if result.exit_code < 0:

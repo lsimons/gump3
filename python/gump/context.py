@@ -512,8 +512,9 @@ class ProjectContext(Context):
             #
             #
             #
-            message = "failed with: " + lower(stateName(state)) \
-                + " with reason: " + lower(reasonString(reason))            
+            message = lower(stateName(state))
+            if not REASON_UNSET == reason:
+                message += " with reason " + lower(reasonString(reason))            
             self.addError(capitalize(message))
             
             #

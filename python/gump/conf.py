@@ -1,8 +1,8 @@
 #!/usr/bin/python
 
-# $Header: /home/stefano/cvs/gump/python/gump/Attic/conf.py,v 1.11 2003/09/11 21:11:42 ajack Exp $
-# $Revision: 1.11 $
-# $Date: 2003/09/11 21:11:42 $
+# $Header: /home/stefano/cvs/gump/python/gump/Attic/conf.py,v 1.12 2003/09/23 23:16:20 ajack Exp $
+# $Revision: 1.12 $
+# $Date: 2003/09/23 23:16:20 $
 #
 # ====================================================================
 #
@@ -103,7 +103,13 @@ class default:
     prefix = "[GUMPY]"
     signature="\r\n--\r\nGump http://jakarta.apache.org/gump"
     
-    version="2.0.1-alpha-0001"
+    version="2.0.1-alpha-0002"
+    
+class switches:
+    """Configuration of switches """    
+    failtesting=0 # Not testing.. 
+    debugging=0 # Not debugging..
+    
 
 def basicConfig():
     if not os.path.exists(dir.cache): os.mkdir(dir.cache)

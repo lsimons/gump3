@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/Attic/model.py,v 1.16 2003/09/11 21:11:42 ajack Exp $
-# $Revision: 1.16 $
-# $Date: 2003/09/11 21:11:42 $
+# $Header: /home/stefano/cvs/gump/python/gump/Attic/model.py,v 1.17 2003/09/23 23:16:20 ajack Exp $
+# $Revision: 1.17 $
+# $Date: 2003/09/23 23:16:20 $
 #
 # ====================================================================
 #
@@ -243,22 +243,22 @@ class Project(Named):
     if self.home and isinstance(self.home,Single):
       if self.home.nested:
         srcdir=Module.list[self.module].srcdir
-        self.home=os.path.normpath(os.path.join(srcdir,self.home.nested))
+        self.home=os.path.abspath(os.path.join(srcdir,self.home.nested))
       elif self.home.parent:
-        self.home=os.path.normpath(os.path.join(workspace.basedir,self.home.parent))
+        self.home=os.path.abspath(os.path.join(workspace.basedir,self.home.parent))
     elif not self.home:
       from gump.logic import isPackaged    
       if isPackaged(self):
-        self.home=os.path.join(workspace.pkgdir,self.package)
+        self.home=os.path.abspath(os.path.join(workspace.pkgdir,self.package))
       elif self.module:
-        self.home=Module.list[self.module].srcdir
+        self.home=os.path.abspath(Module.list[self.module].srcdir)
       else:
-        self.home=os.path.join(workspace.basedir,self.name)
+        self.home=os.path.abspath(os.path.join(workspace.basedir,self.name))
 
     # resolve jars
     for jar in self.jar:
       if self.home and jar.name:
-        jar.path=os.path.normpath(os.path.join(self.home,jar.name))
+        jar.path=os.path.abspath(os.path.join(self.home,jar.name))
 
     # expand properties
     if self.ant: self.ant.expand(self)

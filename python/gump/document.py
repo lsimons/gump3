@@ -316,10 +316,11 @@ def documentWorkspace(workspace,context,db,moduleFilterList=None,projectFilterLi
     packages=getPackagedProjectContexts(context)
     if packages:
         startTableXDoc(x)
-        x.write('      <tr><th>Name</th><th>Location</th></tr>')
+        x.write('      <tr><th>Name</th><th>State</th><th>Location</th></tr>')
         for pctxt in packages:
             x.write('     <tr><!-- %s -->' % (pctxt.name))        
-            x.write('      <td>%s</td>' % getContextLink(pctxt))   
+            x.write('      <td>%s</td>' % getContextLink(pctxt,0))   
+            x.write('      <td>%s</td>' % getContextStateDescription(pctxt))
             x.write('      <td>%s</td>' % pctxt.project.home)    
             x.write('     </tr>')
         endTableXDoc(x)
@@ -446,6 +447,7 @@ def documentProject(workspace,modulename,mdir,projectname,projectcontext,db):
     startSectionXDoc(x,'Details')
     startListXDoc(x)
     addItemXDoc(x,"Status: ", stateName(projectcontext.status))  
+    addItemXDoc(x,"Module: ", getContextLink(projectcontext.parent))
     if projectcontext.cause and not projectcontext==projectcontext.cause:
         addItemXDoc(x,"Root Cause: ", getTypedContextLink(projectcontext.cause))
     addItemXDoc(x,"Elapsed: ", str(projectcontext.elapsedSecs()))
@@ -461,39 +463,11 @@ def documentProject(workspace,modulename,mdir,projectname,projectcontext,db):
         addItemXDoc(x,"Last Success: ", str(stats.last))
     endListXDoc(x)
     endSectionXDoc(x)
-         
-    if projectcontext.depends:
-        startSectionXDoc(x,"Project Dependencies")
-        startListXDoc(x)
-        for depend in projectcontext.depends:
-            addXItemXDoc(x,getContextLink(depend),getContextStateDescription(depend))
-        endListXDoc(x)
-        endSectionXDoc(x)
-            
-    if projectcontext.options:
-        startSectionXDoc(x,"Optional Project Dependencies")
-        startListXDoc(x)
-        for option in projectcontext.options:
-            addXItemXDoc(x,getContextLink(option),getContextStateDescription(option))
-        endListXDoc(x)
-        endSectionXDoc(x)
-                      
-    if projectcontext.dependees:
-        startSectionXDoc(x,"Project Dependees")
-        startListXDoc(x)
-        for depend in projectcontext.dependees:
-            addXItemXDoc(x,getContextLink(depend),getContextStateDescription(depend))
-        endListXDoc(x)
-        endSectionXDoc(x)
-            
-    if projectcontext.optionees:
-        startSectionXDoc(x,"Optional Project Dependees")
-        startListXDoc(x)
-        for option in projectcontext.optionees:     
-            addXItemXDoc(x,getContextLink(option),getContextStateDescription(option))
-        endListXDoc(x)
-        endSectionXDoc(x)
-                  
+    
+    documentProjectContextList(x,"Project Dependencies",projectcontext.depends)    
+    documentProjectContextList(x,"Optional Project Dependencies",projectcontext.options)                      
+    documentProjectContextList(x,"Project Dependees",projectcontext.dependees)            
+    documentProjectContextList(x,"Optional Project Dependees",projectcontext.optionees)                  
        
 #    x.write('<p><strong>Project Config :</strong> <link href=\'%s\'>XML</link></p>' \
 #                % (getModuleProjectRelativeUrl(modulename,projectcontext.name)) )
@@ -513,6 +487,19 @@ def documentProject(workspace,modulename,mdir,projectname,projectcontext,db):
 #    footerXDoc(x)
 #    endXDoc(x)
 
+def documentProjectContextList(x,title,projects):
+  if projects:
+        startSectionXDoc(x,title)
+        startTableXDoc(x)
+        x.write('      <tr><th>Name</th><th>Status</th></tr>')
+        for pctxt in projects:
+            startTableRowXDoc(x)    
+            insertTableDataXDoc(x,getContextLink(pctxt))
+            insertTableDataXDoc(x,getContextStateDescription(pctxt))
+            endTableRowXDoc(x)
+        endTableXDoc(x)
+        endSectionXDoc(x)
+            
 def documentAnnotations(x,annotations):
     if not annotations: return
     startSectionXDoc(x,'Annotations')
@@ -561,7 +548,8 @@ def documentWork(workspace,work,dir):
         endListXDoc(x)
         
         if work.command.params:
-            x.write('<table><tr><th>Parameters</th></tr><tr><th>Prefix</th><th>Name</th><th>Value</th></tr>')
+            startSectionXDoc(x,'Parameter')    
+            x.write('<table><tr><th>Prefix</th><th>Name</th><th>Value</th></tr>')
             for param in work.command.params.items():
                 x.write('<tr><td>')
                 if param.prefix: 
@@ -576,9 +564,11 @@ def documentWork(workspace,work,dir):
                     x.write('N/A')
                 x.write('</td></tr>\n')        
             x.write('</table>\n')
+            endSectionXDoc(x)
         
         if work.command.env:
-            x.write('<table><tr><th>Environment</th></tr><tr><th>Name</th><th>Value</th></tr>')
+            startSectionXDoc(x,'Environment Overrides')    
+            x.write('<table><tr><th>Name</th><th>Value</th></tr>')
             for (name, value) in work.command.env.iteritems():
                 x.write('<tr><td>')
                 x.write(name)
@@ -589,6 +579,7 @@ def documentWork(workspace,work,dir):
                     x.write('N/A')
                 x.write('</td></tr>\n')        
             x.write('</table>\n')
+            endSectionXDoc(x)
         
         startSectionXDoc(x,'Command Line')
         sourceXDoc(x,work.command.formatCommandLine())
@@ -893,7 +884,7 @@ def getContextUrl(context,depth=1):
     elif isinstance(context,ModuleContext):
         url=getModuleRelativeUrl(context.name,depth)
     else:        
-        url=getModuleProjectRelativeUrl(context.parent.name,context.name,1)
+        url=getModuleProjectRelativeUrl(context.parent.name,context.name,depth)
     return url
 
 def getTypedContextLink(context,depth=1):
@@ -914,9 +905,11 @@ def getContextLink(context,depth=1,typed=0):
     
 def getContextStateDescription(context):
     xdoc=stateName(context.status)
-    if not context.reason==REASON_UNSET: xdoc+='/'+reasonString(context.reason)
-    if context.cause:
+    if not context.reason==REASON_UNSET: xdoc+=' with reason '+reasonString(context.reason)
+    if context.cause and not context.cause == context:
+        xdoc+=", caused by "
         xdoc+=getContextLink(context.cause)
+    return xdoc
 
 def getWorkspaceRelativeUrl(depth=0):
     return getUp(depth)+'index.html'
@@ -1052,7 +1045,7 @@ def addItemXDoc(f,t,i=''):
     
 def addXItemXDoc(f,t,i=None):
     if i:
-        f.write('      <li>%s - <strong>%s</strong></li>\n' % (t, i))    
+        f.write('      <li>%s - %s</li>\n' % (t, i))    
     else:
         f.write('      <li>%s</li>\n' % (t))
     

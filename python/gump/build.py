@@ -1,8 +1,8 @@
 #!/usr/bin/python
 
-# $Header: /home/stefano/cvs/gump/python/gump/build.py,v 1.11 2003/09/23 15:13:08 ajack Exp $
-# $Revision: 1.11 $
-# $Date: 2003/09/23 15:13:08 $
+# $Header: /home/stefano/cvs/gump/python/gump/build.py,v 1.12 2003/09/23 23:16:20 ajack Exp $
+# $Revision: 1.12 $
+# $Date: 2003/09/23 23:16:20 $
 #
 # ====================================================================
 #
@@ -78,6 +78,7 @@ from gump.conf import dir, default, handleArgv
 from gump.model import Workspace, Module, Project
 from gump.launcher import Cmd, CmdResult, execute
 from gump.utils import dump
+from gump.tools import listDirectoryAsWork
 
 ###############################################################################
 # Initialize
@@ -145,7 +146,10 @@ def syncWorkDir( workspace, sequence, context=GumpContext() ):
       
     (mctxt) = context.getModuleContextForModule(module)
       
-    if mctxt.okToPerformWork() and Module.list.has_key(module.name):
+    if mctxt.okToPerformWork() \
+        and Module.list.has_key(module.name) \
+        and not switches.failtesting:
+            
         module=Module.list[module.name];
         sourcedir = os.path.abspath(os.path.join(workspace.cvsdir,module.name)) # todo allow override
         destdir = os.path.abspath(workspace.basedir)
@@ -228,7 +232,10 @@ def buildProjects( workspace, sequence, context=GumpContext() ):
                             outputsOk=0
                             pctxt.addError("Missing Output: " + str(jar))
 
-                if outputsOk: pctxt.status=STATUS_SUCCESS  
+                if outputsOk: 
+                    pctxt.status=STATUS_SUCCESS  
+                elif project.home:
+                    listDirectoryAsWork(pctxt,project.home,'list_'+project.name)      
     else:
         # :TODO: Redundant? 
         #

@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/Attic/logic.py,v 1.2 2003/09/23 15:13:08 ajack Exp $
-# $Revision: 1.2 $
-# $Date: 2003/09/23 15:13:08 $
+# $Header: /home/stefano/cvs/gump/python/gump/Attic/logic.py,v 1.3 2003/09/23 23:16:20 ajack Exp $
+# $Revision: 1.3 $
+# $Date: 2003/09/23 23:16:20 $
 #
 # ====================================================================
 #
@@ -76,6 +76,7 @@ from gump.launcher import Cmd, Parameters
 from gump.conf import dir, default, handleArgv
 from gump.model import Workspace, Module, Project
 from gump.context import *
+from gump.tools import listDirectoryAsWork
 
 ###############################################################################
 # Initialize
@@ -339,6 +340,8 @@ def preprocessContext(workspace,context=GumpContext()):
         # If so far so good, check packages
         if isPackaged(project):
             
+            pctxt.addInfo("This is a packaged project, location: " + str(project.home))
+                        
             #
             # Check the package was installed correctly...
             #
@@ -356,6 +359,11 @@ def preprocessContext(workspace,context=GumpContext()):
             if outputsOk:
                 pctxt.state=STATUS_COMPLETE
                 pctxt.reason=REASON_PACKAGE
+                
+            #
+            # List them, why not...
+            #
+            listDirectoryAsWork(pctxt,project.home,'list_package_'+project.name)                
         else:         
             # Check Dependencies Exists:
             for depend in project.depend:
@@ -382,11 +390,15 @@ def preprocessContext(workspace,context=GumpContext()):
         # well be considered complete, no need to update from CVS
         # since we won't be building.
         # :TODO: Ought we hack this as *any* not all???
+        packageCount=0
         allPackaged=1
         for project in module.project:
             if not isPackaged(project):
                 allPackaged=0  
-                mctxt.addWarning("Incomplete \'Packaged\' Module. Project: " + project.name + " is not packaged")                  
+                if packageCount:
+                    mctxt.addWarning("Incomplete \'Packaged\' Module. Project: " + project.name + " is not packaged")                  
+            else:
+                packageCount+=1
                 
         if allPackaged:
             mctxt.state=STATUS_COMPLETE

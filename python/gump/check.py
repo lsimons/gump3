@@ -1,8 +1,8 @@
 #!/usr/bin/python
 
-# $Header: /home/stefano/cvs/gump/python/gump/check.py,v 1.18 2003/09/23 15:13:08 ajack Exp $
-# $Revision: 1.18 $
-# $Date: 2003/09/23 15:13:08 $
+# $Header: /home/stefano/cvs/gump/python/gump/check.py,v 1.19 2003/09/23 23:16:20 ajack Exp $
+# $Revision: 1.19 $
+# $Date: 2003/09/23 23:16:20 $
 #
 # ====================================================================
 #
@@ -142,7 +142,7 @@ def checkEnvironment(workspace, context=GumpContext(), exitOnError=1):
         
     if not checkExecutable(workspace, context, 'rsync','-help',0): 
         context.noRSync=1
-        context.addWarning('"rsync" command not found, no using recursive copy')
+        context.addWarning('"rsync" command not found, so attempting recursive copy "cp -R"')
         
     
     # :TODO:

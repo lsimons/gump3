@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/update.py,v 1.9 2003/09/23 15:13:08 ajack Exp $
-# $Revision: 1.9 $
-# $Date: 2003/09/23 15:13:08 $
+# $Header: /home/stefano/cvs/gump/python/gump/update.py,v 1.10 2003/09/23 23:16:20 ajack Exp $
+# $Revision: 1.10 $
+# $Date: 2003/09/23 23:16:20 $
 #
 # ====================================================================
 #
@@ -119,19 +119,18 @@ def updateModules(workspace, modules, context=GumpContext()):
   log.debug("Workspace CVS Directory: " + workspace.cvsdir)
 
   log.info('Modules to update:') 
-  for module in modules:            
-    if not module.cvs: continue
-    log.info('  - ' + module.name)
     
   # Update all the modules that have CVS repositories
-  for module in modules:            
+  for module in modules:          
     if not module.cvs: continue
+    log.info('  - ' + module.name)
     
     name=module.name
 
     mctxt = context.getModuleContextForModule(module)
     
-    if mctxt.okToPerformWork():
+    if mctxt.okToPerformWork() \
+        and not switches.failtesting:
         try:
           log.info("CVS Update Module " + name + ", Repository Name: " + str(module.cvs.repository))
 
@@ -178,7 +177,6 @@ def updateModules(workspace, modules, context=GumpContext()):
           
           # Testing...
           cmdResult=execute(cmd,workspace.tmpdir)
-          #cmdResult=dummyExecute(cmd)
       
           work=CommandWorkItem(WORK_TYPE_UPDATE,cmd,cmdResult)
     
