@@ -478,6 +478,8 @@ To: axis-dev@xml.apache.org
 From: Sam Ruby <rubys@us.ibm.com>
 Subject: [GUMP] Build Failure - Axis
 Regex: /BUILD FAILED/
+Subject: [GUMP] Build timed out - Axis
+Regex: /timed out/
 ------
 Project: xml-batik
 To: batik-dev@xml.apache.org
