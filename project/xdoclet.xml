@@ -26,6 +26,7 @@
     <depend project="commons-logging" runtime="true" />
     <depend project="commons-collections" runtime="true"/>
     <depend project="junit"/>
+    <work nested="core/build/classes"/>
 
     <nag from="Peter Donald &lt;peter@apache.org&gt;"
          to="xdoclet-devel@lists.sourceforge.net"/>

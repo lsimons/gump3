@@ -12,6 +12,7 @@
 
     <ant target="jar">
       <property name="ant.home" project="jakarta-ant" reference="home"/>
+      <property name="version" value="@@DATE@@"/>
     </ant>
     <depend project="jakarta-ant" inherit="runtime"/>
     <depend project="xml-xerces"/>
@@ -21,7 +22,7 @@
     <depend project="junit"/>
     <depend project="commons-logging" runtime="true"/>
     <depend project="commons-collections" runtime="true"/>
-    <jar name="build/lib/xjavadoc.jar"/>
+    <jar name="build/lib/xdoclet-xjavadoc-@@DATE@@.jar"/>
   </project>
 
 </module>
