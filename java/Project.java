@@ -45,7 +45,7 @@ public class Project {
             
         // Resolve all references so that the XML can be processed in
         // one pass.
-        for (Enumeration e=projects.elements(); e.hasMoreElements();) {
+        for (Enumeration e=((Hashtable) projects.clone()).elements(); e.hasMoreElements();) {
             Project p = ((Project)(e.nextElement()));
             try {
                 p.expandDepends();
@@ -53,6 +53,7 @@ public class Project {
             } catch (Throwable t) {
                 System.err.println("Dropping " + p.get("name")
                                    + " because of Exception " + t);
+                p.remove();
             }
         }
         
@@ -664,5 +665,13 @@ public class Project {
         throw new Exception(
            attr + " \"" + value + "\" not found processing project " + name
         );
+    }
+
+    /**
+     * Remove this Project instance from the workspace.
+     */
+    private void remove() {
+        projects.remove(name);
+        element.getParentNode().removeChild(element);
     }
 }
