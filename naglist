@@ -55,6 +55,12 @@ From: Ted Husted <ted@husted.com>
 Subject: [GUMP] Build Failure - jxpath
 Regex: /BUILD FAILED/
 ------
+Project: commons-lang
+To: commons-dev@jakarta.apache.org
+From: Ted Husted <ted@husted.com>
+Subject: [GUMP] Build Failure - lang
+Regex: /BUILD FAILED/
+------
 Project: commons-latka
 To: commons-dev@jakarta.apache.org
 From: Ted Husted <ted@husted.com>

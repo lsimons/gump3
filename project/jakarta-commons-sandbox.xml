@@ -88,6 +88,17 @@
     <javadoc nested="jjar/dist/docs/api"/>
   </project>
 
+  <project name="commons-lang">
+    <description>utilities for the classes that are in java.lang's hierarchy</description>
+    <ant basedir="lang" target="dist">
+      <property name="component.version"  value="@@DATE@@"/>
+    </ant>
+    <depend project="jakarta-ant"/>
+    <depend project="xml-xerces"/>
+    <jar name="lang/dist/commons-lang.jar"/>
+    <javadoc nested="io/dist/docs/api"/>
+  </project>
+
   <project name="commons-messenger">
     <description>A web based JMS framework</description>
     <url href="http://jakarta.apache.org/commons/messenger.html"/>
@@ -156,6 +167,7 @@
     <depend project="jakarta-ant"/>
     <depend project="jakarta-servletapi"/>
     <depend project="xml-xerces"/>
+    <depend project="commons-lang"/>
     <jar name="util/dist/commons-util-@@DATE@@.jar"/>
     <javadoc nested="util/dist/docs/api"/>
   </project>
