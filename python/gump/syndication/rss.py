@@ -193,10 +193,10 @@ class RSS:
     def endRSS(self):                    
         # complete the rss feed
         self.rssStream.write('</rss>\n')                
-        log.info("RSS Newsfeed written to : " + self.rssFile);          
+        #log.info("RSS Newsfeed written to : " + self.rssFile);          
         
     def serialize(self):
-        log.info("RSS Newsfeed to : " + self.rssFile);         
+        #log.info("RSS Newsfeed to : " + self.rssFile);         
         self.rssStream = open(self.rssFile,'w')
         
         self.startRSS()

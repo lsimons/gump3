@@ -293,6 +293,14 @@ class XDocDocumenter(Documenter):
         atomArea.createFork('http://www.feedvalidator.org/check.cgi?url=' + atomUrl) \
                 .createIcon(self.resolver.getImageUrl('valid-atom.png'), alt='[Valid Atom]') #, title='Validate my Atom feed', width='88', height='31')
         
+        rdfSyndRow=definitionTable.createRow()
+        rdfSyndRow.createData().createStrong('Metadata')
+        rdfArea=rdfSyndRow.createData()
+        rdfArea.createFork('gump.rdf','RDF')
+        #rdfUrl=self.resolver.getUrl(self.workspace,'gump','.rdf')
+        #rdfArea.createFork('http://www.feedvalidator.org/check.cgi?url=' + rdfUrl) \
+        #        .createIcon(self.resolver.getImageUrl('valid-rdf.png'), alt='[Valid Atom]') #, title='Validate my Atom feed', width='88', height='31')
+        
         self.documentSummary(document,self.workspace.getProjectSummary())     
         
         dtSection=definitionSection.createSection('Dates/Times')            
