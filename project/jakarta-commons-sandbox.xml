@@ -229,6 +229,7 @@
     <depend project="commons-logging"/>
     <depend project="jakarta-servletapi-4"/>
     <depend project="jms"/>
+    <depend project="jta"/>
 
     <work nested="target/classes"/>
     <home nested="messenger/target"/>
