@@ -26,7 +26,9 @@
     <project name="incubator-geronimo">
         <maven goal="default">
         </maven>
-        <depend project="maven" inherit="runtime"/>
+        <!-- Since Maven is installed, not built, this
+        	isn't strictly neccessary. [yet]
+        	depend project="maven" inherit="runtime"/ -->
         <package>org.apache.geronimo</package>
         <depend project="junit"/>
         <depend project="mx4j"/>
