@@ -10,7 +10,8 @@
   <project name="jakarta-jmeter">
     <package>org.apache.jmeter</package>
 
-    <ant/>
+    <ant target="dist"/>
+
     <depend project="jakarta-ant" />
     <depend project="xml-xerces" />
     <depend project="pngencoder" />
@@ -24,12 +25,13 @@
     <depend project="jakarta-avalon" />
     <depend project="excalibur-cli" />
 
-    <work nested="build"/>
     <work nested="build/core"/>
     <work nested="build/jorphan"/>
 
+    <!-- JMeter doesn't currently export any JARs
     <home nested="bin" />
     <jar name="ApacheJMeter.jar" />
+    -->
 
     <nag from="Geir Magnusson Jr. &lt;geirm@apache.org&gt;"
          to="jmeter-dev@jakarta.apache.org"/>
