@@ -7,7 +7,10 @@
 
   <cvs  repository="jakarta"/>
 
-  <ant basedir="build" target="dist"/>
+  <ant basedir="build" target="dist">
+    <property name="version" value="gump"/>
+  </ant>
+
   <depend project="jakarta-ant"/>
   <depend project="xml-xerces"/>
   <depend project="jakarta-servletapi"/>
@@ -20,7 +23,7 @@
   <depend project="jakarta-log4j"/>
 
   <home nested="bin"/>
-  <jar  name="velocity-1.0b3-dev.jar"/>
+  <jar  name="velocity-gump.jar"/>
 
   <project name="jakarta-velocity-test">
     <ant basedir="build" buildfile="testcases.xml"/>
