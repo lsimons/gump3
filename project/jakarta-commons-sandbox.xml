@@ -204,6 +204,7 @@
   </project>
 
   <project name="commons-net">
+    <mkdir dir="net/target/classes"/>
     <package>org.apache.commons.net</package>
     <description>Commons Net</description>
     <ant basedir="net" target="dist">
@@ -212,6 +213,8 @@
     <depend project="jakarta-ant" inherit="runtime"/>
     <depend project="xml-xerces"/>
     <depend project="jakarta-oro"/>
+    <depend project="junit"/>
+    <work nested="net/target/classes"/>
     <jar name="net/dist/commons-net-@@DATE@@.jar" />
     <javadoc nested="net/dist/docs/apidocs" />
     <nag to="commons-dev@jakarta.apache.org"
