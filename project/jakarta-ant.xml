@@ -95,40 +95,5 @@
       <regexp />      
     </nag>
   </project>
-<!--
-  <project name="jakarta-ant-myrmidon">
-    <ant basedir="proposal/myrmidon" target="jars"/>
 
-    <depend project="jakarta-ant"/>
-    <depend project="xml-xerces"/>
-    <depend project="jakarta-avalon"/>
-    <depend project="excalibur-cli"/>
-    <depend project="excalibur-io"/>
-    <depend project="excalibur-tar"/>
-    <depend project="excalibur-zip"/>
-    <depend project="excalibur-extension"/>
-    <depend project="excalibur-i18n"/>
-    <depend project="excalibur-bzip2"/>
-    <depend project="jakarta-avalon-excalibur"/>
-    <depend project="jakarta-log4j"/>
-    <depend project="xdoclet"/>
-    <depend project="jakarta-oro"/>
-    <work nested="proposal/myrmidon/build/tasks"/>
-    <option project="xml-xalan2"/>
-
-    <nag from="Peter Donald &lt;peter@apache.org&gt;"
-         to="ant-dev@jakarta.apache.org"/>
-  </project>
-
-  <project name="jakarta-ant-myrmidon-test">
-    <ant basedir="proposal/myrmidon" target="test"/>
-
-    <depend project="jakarta-ant-myrmidon" inherit="all"/>
-    <work nested="proposal/myrmidon/build/tasks"/>
-    <work nested="proposal/myrmidon/build/test/classes"/>
-
-    <nag from="Peter Donald &lt;peter@apache.org&gt;"
-         to="ant-dev@jakarta.apache.org"/>
-  </project>
--->
 </module>
