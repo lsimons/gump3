@@ -20,7 +20,9 @@
   <jar name="lib/axis.jar"/>
 
   <project name="test-axis">
-    <ant basedir="java" target="functional-tests"/>
+    <ant basedir="java" target="functional-tests">
+      <property name="test.functional.usefile" value="false"/>
+    </ant>
 
     <depend project="xml-xerces"/>
     <depend project="jakarta-ant"/>
