@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/forrest.py,v 1.47 2004/01/09 21:19:39 ajack Exp $
-# $Revision: 1.47 $f
-# $Date: 2004/01/09 21:19:39 $
+# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/forrest.py,v 1.48 2004/01/09 23:02:32 ajack Exp $
+# $Revision: 1.48 $f
+# $Date: 2004/01/09 23:02:32 $
 #
 # ====================================================================
 #
@@ -806,14 +806,14 @@ class ForrestDocumenter(Documenter):
         
         addnSection=document.createSection('Additional Details')
         addnPara=addnSection.createParagraph()
-        addnPara.createLink(gumpSafeName(module.getName()) + '_details.html',	\
+        addnPara.createLink('index_details.html',	\
                             'More module details ...')
                                                                             
         document.serialize()
         
         document=XDocDocument('Module Details : ' + module.getName(),	\
                     self.resolver.getFile(module, \
-                                    module.getName() + '_details', \
+                                    'index_details', \
                                         '.xml'))
             
         detailSection=document.createSection('Module Details')

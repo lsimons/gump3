@@ -1,7 +1,7 @@
 #!/usr/bin/env python
-# $Header: /home/stefano/cvs/gump/python/gump/test/stats.py,v 1.4 2004/01/09 19:57:19 ajack Exp $
-# $Revision: 1.4 $
-# $Date: 2004/01/09 19:57:19 $
+# $Header: /home/stefano/cvs/gump/python/gump/test/stats.py,v 1.5 2004/01/09 23:02:32 ajack Exp $
+# $Revision: 1.5 $
+# $Date: 2004/01/09 23:02:32 $
 #
 # ====================================================================
 #
@@ -102,6 +102,40 @@ class StatsTestSuite(UnitTestSuite):
         self.statsDB.putProjectStats(ps1)
         self.statsDB.putModuleStats(ms1)
         self.statsDB.putRepositoryStats(rs1)
+              
+    def testGetChangePutGetCheckStats(self):
+        # Get 1
+        ps1=self.statsDB.getProjectStats(self.project1.getName())
+        ms1=self.statsDB.getModuleStats(self.module1.getName())
+        rs1=self.statsDB.getRepositoryStats(self.repo1.getName())
+                
+        # Change
+        ps1s = ps1.successes
+        ps1.successes += 1
+        
+        ps1f = ps1.failures
+        ps1.failures += 1
+        
+        ps1p = ps1.prereqs
+        ps1.prereqs += 1
+        
+        # Put        
+        self.statsDB.putProjectStats(ps1)
+        self.statsDB.putModuleStats(ms1)
+        self.statsDB.putRepositoryStats(rs1)
+        
+        # Get 2
+        ps2=self.statsDB.getProjectStats(self.project1.getName())
+        ms2=self.statsDB.getModuleStats(self.module1.getName())
+        rs2=self.statsDB.getRepositoryStats(self.repo1.getName())
+        
+        self.assertGreater('Incremented Successes', ps2.successes, ps1s )
+        self.assertGreater('Incremented Successes', ps2.failures, ps1f )
+        self.assertGreater('Incremented Successes', ps2.prereqs, ps1p )
+        
+        print str(ps1s) + ' : ' + str(ps1f) + ' : ' + str(ps1p)
+        
+        self.statsDB.sync()
         
     def testLoadAndUpdateStats(self):
         self.statsDB.loadStatistics(self.workspace)

@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/model/stats.py,v 1.2 2004/01/09 19:57:18 ajack Exp $
-# $Revision: 1.2 $
-# $Date: 2004/01/09 19:57:18 $
+# $Header: /home/stefano/cvs/gump/python/gump/model/stats.py,v 1.3 2004/01/09 23:02:32 ajack Exp $
+# $Revision: 1.3 $
+# $Date: 2004/01/09 23:02:32 $
 #
 # ====================================================================
 #
@@ -126,42 +126,39 @@ class Statistics:
     def sequenceInStateKey(self):
         return  self.getKeyBase() + '-seq-state'
         
-        
-    def update(self,project):        
-        #
-        # Update based off current run
-        #
-        if project.isSuccess():
-            self.successes += 1
-            self.last = gump.default.time
-            
-            # A big event...
-            if not self.first:
-                self.first=self.last
-            elif project.isFailed():
-                s.failures += 1    
-            elif project.isPrereqFailed():                        
-                s.prereqs  += 1
-            
-        #
-        # Deal with states & changes...
-        #
-        lastCurrentState=self.currentState
-        self.currentState=project.getState()
-        
-        if lastCurrentState==self.currentState:
-            self.startOfState = default.time            
-            self.sequenceInState += 1            
-        else:
-            self.previousState=lastCurrentState            
-            self.sequenceInState = 1
-            
+#    def update(self,project):        
+#        #
+#        # Update based off current run
+#        #
+#        if project.isSuccess():
+#
+#            self.successes += 1
+#            self.last = gump.default.time
+#            
+#            # A big event...
+#            if not self.first:
+#                self.first=self.last
+#            elif project.isFailed():
+#                s.failures += 1    
+#            elif project.isPrereqFailed():                        
+#                s.prereqs  += 1
+#            
+#        #
+#        # Deal with states & changes...
+#        #
+#        lastCurrentState=self.currentState
+#        self.currentState=project.getState()
+#        
+#        if lastCurrentState==self.currentState:
+#            self.startOfState = default.time            
+#            self.sequenceInState += 1            
+#        else:
+#            self.previousState=lastCurrentState            
+#            self.sequenceInState = 1
             
     def dump(self, indent=0, output=sys.stdout):
         gump.utils.dump(self)
-        
-    
- 
+             
             
 class Statable:
     def __init__(self): pass

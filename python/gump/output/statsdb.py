@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/output/Attic/statsdb.py,v 1.8 2004/01/09 19:57:18 ajack Exp $
-# $Revision: 1.8 $
-# $Date: 2004/01/09 19:57:18 $
+# $Header: /home/stefano/cvs/gump/python/gump/output/Attic/statsdb.py,v 1.9 2004/01/09 23:02:32 ajack Exp $
+# $Revision: 1.9 $
+# $Date: 2004/01/09 23:02:32 $
 #
 # ====================================================================
 #
@@ -332,6 +332,10 @@ class StatisticsDB:
                 # Write out the updates
                 #
                 self.putProjectStats(ps) 
+                
+    def sync(self):
+        if not os.name == 'dos' and not os.name == 'nt':    
+            self.db.sync()
                 
 class WorkspaceStatisticsGuru:                        
     """ Know it all for a workspace... """

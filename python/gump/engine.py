@@ -559,3 +559,6 @@ class GumpEngine:
             #    
             db.loadStatistics(workspace)
             
+            
+        db.sync()
+            

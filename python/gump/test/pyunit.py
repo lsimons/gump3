@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/test/pyunit.py,v 1.13 2004/01/09 19:57:19 ajack Exp $
-# $Revision: 1.13 $
-# $Date: 2004/01/09 19:57:19 $
+# $Header: /home/stefano/cvs/gump/python/gump/test/pyunit.py,v 1.14 2004/01/09 23:02:32 ajack Exp $
+# $Revision: 1.14 $
+# $Date: 2004/01/09 23:02:32 $
 #
 # ====================================================================
 #
@@ -96,6 +96,10 @@ class Testable:
     def assertEqual(self,message,object1,object2):
         if not object1 == object2:
             self.raiseIssue(['Ought evaluate as equal', message, object1, object2])
+            
+    def assertGreater(self,message,object1,object2):
+        if not object1 > object2:
+            self.raiseIssue(['Ought evaluate as greater', message, object1, object2])
             
     def assertNotEqual(self,message,object1,object2):
         if object1 == object2:
