@@ -81,7 +81,6 @@
         <depend project="avalon"/>
         <depend project="avalon-phoenix" inherit="all"/>
         <depend project="avalon-cornerstone"/>
-        <depend project="incubator-altrmi" runtime="true"/>
 
         <home nested="examples/demo"/>
         <work nested="examples/demo/target/classes"/>
