@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/forrest.py,v 1.26 2003/12/03 18:36:13 ajack Exp $
-# $Revision: 1.26 $f
-# $Date: 2003/12/03 18:36:13 $
+# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/forrest.py,v 1.27 2003/12/03 19:27:53 ajack Exp $
+# $Revision: 1.27 $f
+# $Date: 2003/12/03 19:27:53 $
 #
 # ====================================================================
 #
@@ -355,7 +355,7 @@ class ForrestDocumenter(Documenter):
                        
             self.insertLink( repo, workspace, repoRow.createData())
             
-        if not rcount: repoTable.createLine('None')
+        if not rcount: reposTable.createLine('None')
         
         document.serialize()
        
