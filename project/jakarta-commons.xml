@@ -21,7 +21,6 @@
 
   <!-- Build the Cactus project ant tasks -->
   <project name="commons-cactus-ant">
-
     <ant basedir="cactus" buildfile="build/build.xml" target="jar.ant"/>
 
     <depend project="jakarta-ant"/>
@@ -37,6 +36,7 @@
     <description>
       Unit test framework for J2EE server-side java code
     </description>
+
     <ant basedir="cactus" buildfile="build/build.xml" target="all">
       <property name="tomcat.home.33" reference="home"
                 project="jakarta-tomcat"/>
@@ -45,14 +45,18 @@
       <depend property="log4j.jar"     project="jakarta-log4j" id="log4j-core"/>
       <depend property="httpunit.jar"  project="httpunit"/>
     </ant>
+
     <depend project="jakarta-ant"/>
     <depend project="xml-xerces"/>
     <depend project="xml-stylebook2"/>
     <depend project="xml-xalan2"/>
     <depend project="jakarta-tomcat"/>
     <depend project="commons-cactus-ant"/>
-    <work nested="cactus/out/servlet22/classes/"/>
-    <work nested="cactus/out/classes/"/>
+
+    <work nested="cactus/out/servlet22/classes"/>
+    <work nested="cactus/out/classes"/>
+    <work nested="cactus/util"/>
+
     <home nested="cactus/out"/>
     <jar name="servlet22/dist/lib/commons-cactus.jar"/>
   </project>
@@ -60,9 +64,11 @@
   <!-- Build the Cactus project for Servlet API 2.3 -->
   <project name="commons-cactus-23">
     <url href="http://jakarta.apache.org/commons/cactus/index.html"/>
+
     <description>
       Unit test framework for J2EE server-side java code
     </description>
+
     <ant basedir="cactus" buildfile="build/build.xml" target="all">
       <property name="tomcat.home.40" reference="home"
                 project="jakarta-tomcat-4.0"/>
@@ -71,16 +77,20 @@
       <depend property="log4j.jar" project="jakarta-log4j" id="log4j-core"/>
       <depend property="httpunit.jar"  project="httpunit"/>
     </ant>
+
     <depend project="jakarta-ant"/>
     <depend project="xml-xerces"/>
     <depend project="xml-stylebook2"/>
     <depend project="xml-xalan2"/>
     <depend project="jakarta-tomcat-4.0"/>
     <depend project="commons-cactus-ant"/>
-    <work nested="cactus/out/servlet23/classes/"/>
-    <work nested="cactus/out/classes/"/>
+
+    <work nested="cactus/out/servlet23/classes"/>
+    <work nested="cactus/out/classes"/>
+    <work nested="cactus/util"/>
+
     <home nested="cactus/out"/>
-    <jar name="commons-cactus-ant.jar"/>
+    <jar name="servlet23/dist/lib/commons-cactus.jar"/>
   </project>
 
   <project name="commons-collections">
