@@ -209,10 +209,12 @@ class ForrestDocumenter(Documenter):
                             
     def syncXDocs(self,workspace):
         
+        
         # The three dirs, work, output (staging), public
         forrestWorkDir=self.getForrestWorkDirectory(workspace)
         logDirectory=workspace.getLogDirectory()
         
+        success=1
         try:
             #
             # Sync over public pages...
