@@ -20,5 +20,6 @@
   <depend project="jdbc"/>
   <option project="bsf"/>
   <option project="xml-xalan1"/>
+  <option project="javamail"/>
 
 </project>
