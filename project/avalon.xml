@@ -142,7 +142,7 @@
     </project>
 
     <project name="avalon-logging-impl">
-        <package>org.apache.avalon.logginf.impl</package>
+        <package>org.apache.avalon.logging.impl</package>
 
         <ant basedir="logging/impl" target="jar">
             <property name="project.version" value="@@DATE@@"/>
