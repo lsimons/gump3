@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/Attic/view.py,v 1.20 2003/05/04 21:15:42 nicolaken Exp $
-# $Revision: 1.20 $
-# $Date: 2003/05/04 21:15:42 $
+# $Header: /home/stefano/cvs/gump/python/gump/Attic/view.py,v 1.21 2003/05/04 21:50:54 nicolaken Exp $
+# $Revision: 1.21 $
+# $Date: 2003/05/04 21:50:54 $
 #
 # ====================================================================
 #
@@ -101,7 +101,9 @@ class gumpview(wxApp):
   tree=None
   list=None
   data=None
+  logsplitter=None
   logview=None
+  mainsplit=None
 
   # action views
   toolbar=None
@@ -146,13 +148,13 @@ class gumpview(wxApp):
     self.frame.toolbar.Realize()
         
     # layout
-    split0 = wxSplitterWindow(self.frame,-1,style=wxSP_NOBORDER )    
-    split1 = wxSplitterWindow(split0,-1,style=wxSP_NOBORDER)
-    split2 = wxSplitterWindow(split1,-1,style=wxSP_NOBORDER)
+    self.logsplitter = wxSplitterWindow(self.frame,-1,style=wxSP_NOBORDER )    
+    self.mainsplit = wxSplitterWindow(self.logsplitter,-1,style=wxSP_NOBORDER)
+    split2 = wxSplitterWindow(self.mainsplit,-1,style=wxSP_NOBORDER)
     notebook = wxNotebook(split2, -1, style=wxCLIP_CHILDREN )
 
     # panes
-    self.tree=wxTreeCtrl(split1,-1)
+    self.tree=wxTreeCtrl(self.mainsplit,-1)
     
     self.list=wxListCtrl(notebook,-1,style=wxLC_REPORT|wxNO_BORDER )
     self.dependencies=wxListCtrl(notebook,-1,style=wxLC_REPORT|wxNO_BORDER )
@@ -163,11 +165,11 @@ class gumpview(wxApp):
 
     self.data=wxTextCtrl(split2,-1,style=wxTE_MULTILINE)
 
-    self.logview=wxTextCtrl(split0,-1,style=wxTE_MULTILINE)    
+    self.logview=wxTextCtrl(self.logsplitter,-1,style=wxTE_MULTILINE)    
 
     # attach the panes to the frame
-    split0.SplitHorizontally(split1, self.logview)
-    split1.SplitVertically(self.tree, split2)
+    self.logsplitter.SplitHorizontally(self.mainsplit, self.logview)
+    self.mainsplit.SplitVertically(self.tree, split2)
     notebook.AddPage(self.list, 'referenced')
     notebook.AddPage(self.dependencies, 'dependencies')
     notebook.AddPage(self.prereqs, 'prereqs')
@@ -179,11 +181,11 @@ class gumpview(wxApp):
     self.frame.Show(true)
 
     # resize
-    split0.SetMinimumPaneSize(20)
-    split1.SetMinimumPaneSize(20)
+    self.logsplitter.SetMinimumPaneSize(20)
+    self.mainsplit.SetMinimumPaneSize(20)
     split2.SetMinimumPaneSize(20)
-    split0.SetSashPosition(350,true)
-    split1.SetSashPosition(300,true)
+    self.logsplitter.SetSashPosition(350,true)
+    self.mainsplit.SetSashPosition(300,true)
     split2.SetSashPosition(130)
 
     # wire up the events
@@ -247,7 +249,10 @@ class gumpview(wxApp):
 
   # help action
   def consoleAction(self,event):
-    self.msgbox("TODO")
+   if event.IsChecked():
+     self.logsplitter.Unsplit(self.logview)
+   else:
+     self.logsplitter.SplitHorizontally(self.mainsplit, self.logview)
     
   # select a single feed and display titles from each item
   def selectTree(self, event):
@@ -398,15 +403,13 @@ class gumpview(wxApp):
     dlg.Destroy()
 
 class GumpSplashScreen(wxSplashScreen):
-    def __init__(self):
-        bmp = wxImage("gump/images/gump.bmp").ConvertToBitmap()
-        wxSplashScreen.__init__(self, bmp,
-                                wxSPLASH_CENTRE_ON_SCREEN|wxSPLASH_TIMEOUT,
-                                4000, None, -1,
-                                style = wxSIMPLE_BORDER|wxFRAME_NO_TASKBAR|wxSTAY_ON_TOP)
-        wxYield()
-        
-
+  def __init__(self):
+    bmp = wxImage("gump/images/gump.bmp").ConvertToBitmap()
+    wxSplashScreen.__init__(self, bmp,
+                            wxSPLASH_CENTRE_ON_SCREEN|wxSPLASH_TIMEOUT,
+                            4000, None, -1,
+                            style = wxSIMPLE_BORDER|wxFRAME_NO_TASKBAR|wxSTAY_ON_TOP)
+    wxYield()
         
 class compileThread:
   def __init__(self,project,view):
@@ -425,6 +428,7 @@ class compileThread:
     cmd="java org.apache.tools.ant.Main"
     for property in self.view.workspace.property+self.project.ant.property:
       cmd+=" -D"+property.name+"="+property.value
+    if self.project.ant.buildfile: cmd+=" -f "+self.project.ant.buildfile 
     if self.project.ant.target: cmd+=" "+self.project.ant.target
 
     (stdout,stdin)=popen2.popen2(cmd + ' 2>&1')
