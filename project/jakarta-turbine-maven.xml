@@ -55,6 +55,9 @@
     <!-- Standard Maven target to produce Javadocs, source -->
     <!-- and binary distributions.                         -->
     
+    <mkdir dir="target/classes"/>
+    <mkdir dir="target/test-classes"/>
+
     <ant buildfile="build.xml" target="jar"/>
     
     <!-- All Maven projects need Ant and Xerces to build. -->
@@ -67,10 +70,13 @@
     <depend project="commons-betwixt"/>
     <depend project="commons-cli"/>
     <depend project="commons-collections"/>
+    <depend project="commons-digester"/>
     <depend project="commons-grant"/>
     <depend project="commons-graph"/>
     <depend project="commons-io"/>
     <depend project="commons-jelly"/>
+    <depend project="commons-jelly-tags-ant"/>
+    <depend project="commons-jelly-tags-define"/>
     <depend project="commons-jexl"/>
     <depend project="commons-lang"/>
     <depend project="commons-logging"/>
@@ -82,10 +88,12 @@
     <depend project="jakarta-velocity"/>
     <depend project="jakarta-velocity-dvsl"/>
     <depend project="jdepend"/>
+    <depend project="junit"/>
     <depend project="werkz"/>
     <depend project="xml-commons-which"/>
 
     <work nested="target/classes"/>
+    <work nested="target/test-classes"/>
     <home nested="target"/>
     <jar name="maven-@@DATE@@.jar"/>
     <javadoc nested="docs/apidocs"/>
