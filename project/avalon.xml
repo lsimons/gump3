@@ -69,6 +69,7 @@
         <depend project="xml-xalan2"></depend>
         <depend project="xml-xerces"></depend>
         <depend runtime="true" project="jakarta-bcel"></depend>
+        <depend runtime="true" project="commons-beanutils"></depend>
         <depend runtime="true" project="commons-collections"></depend>
         <depend runtime="true" project="concurrent"></depend>
         <depend runtime="true" project="excalibur-event"></depend>
@@ -76,6 +77,7 @@
         <depend runtime="true" project="excalibur-instrument"></depend>
         <depend runtime="true" project="excalibur-instrument-manager"></depend>
         <depend runtime="true" project="excalibur-lifecycle-api"></depend>
+        <depend runtime="true" project="excalibur-lifecycle-impl"></depend>
         <depend runtime="true" project="excalibur-logger"></depend>
         <depend runtime="true" project="excalibur-sourceresolve"></depend>
         <depend runtime="true" project="avalon-framework"></depend>
