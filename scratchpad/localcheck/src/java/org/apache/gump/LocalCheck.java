@@ -1,7 +1,7 @@
 /*
- * $Header: /home/stefano/cvs/gump/scratchpad/localcheck/src/java/org/apache/gump/Attic/LocalCheck.java,v 1.1 2003/01/19 22:22:10 mvdb Exp $
- * $Revision: 1.1 $
- * $Date: 2003/01/19 22:22:10 $
+ * $Header: /home/stefano/cvs/gump/scratchpad/localcheck/src/java/org/apache/gump/Attic/LocalCheck.java,v 1.2 2003/01/19 22:33:33 mvdb Exp $
+ * $Revision: 1.2 $
+ * $Date: 2003/01/19 22:33:33 $
  *
  * ====================================================================
  *
@@ -83,7 +83,7 @@ import Workspace;
  * gump build.
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bent</a>
- * @version $Id: LocalCheck.java,v 1.1 2003/01/19 22:22:10 mvdb Exp $
+ * @version $Id: LocalCheck.java,v 1.2 2003/01/19 22:33:33 mvdb Exp $
  */
 public class LocalCheck {
     
@@ -139,6 +139,7 @@ public class LocalCheck {
             }
 			doc = parse(projectFile);
             ArrayList list = getJars(doc, name);
+            String moduleURL = getModuleURL(doc);
             boolean error = false;
             for (int i = 0; i < list.size(); i++) {
                 String jar = (String) list.get(i);
@@ -146,6 +147,7 @@ public class LocalCheck {
                 if (!new File(jarFile).exists()) {
                     if (!error) {
                         System.out.println("Problems encountered in project "+name);
+                        System.out.println("You can get updates at "+moduleURL);
                         error = true;
                     }
                     System.out.println("    cannot find "+jarFile);
@@ -157,6 +159,10 @@ public class LocalCheck {
             ok =  false;
 		}
         return ok;
+    }
+    
+    private String getModuleURL(Document doc) {
+        return ((Element)doc.getElementsByTagName("url").item(0)).getAttribute("href");
     }
     
     private ArrayList getJars(Document doc, String name) {
