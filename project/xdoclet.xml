@@ -12,16 +12,16 @@
 
     <mkdir dir="core/build/classes"/>
     <ant basedir="script" />
-    <depend project="jakarta-ant"/>
+    <depend project="jakarta-ant" runtime="true"/>
     <depend project="xml-xerces"/>
-    <depend project="jakarta-log4j"/>
+    <depend project="jakarta-log4j" runtime="true"/>
     <depend project="jmx"/>
     <depend project="ejb2"/>
     <depend project="jms"/>
     <depend project="jrefactory-pretty"/>
     <depend project="jakarta-servletapi-4"/>
-    <depend project="xjavadoc" inherit="jars"/>
-    <depend project="jakarta-bcel"/>
+    <depend project="xjavadoc" inherit="jars" runtime="true"/>
+    <depend project="jakarta-bcel" runtime="true"/>
     <depend project="junit"/>
     <work nested="core/build/classes"/>
     <jar id="xdoclet" name="core/dist/lib/xdoclet.jar"/>
