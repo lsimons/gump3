@@ -11,6 +11,10 @@
   <project name="krysalis-ruper-core">
     <package>org.krysalis.ruper</package>
 
+    <!-- Work dirs to be included in classpath  -->
+    <work nested="build/ant-bootstrap/krysalis-ruper-core/classes"/>
+    <home nested="build/ant-bootstrap/krysalis-ruper-core"/>
+
     <ant target="gump">
       <property name="ant.home" reference="home" project="ant"/>
       <property name="project.name" value="krysalis-ruper-core"/>
@@ -48,7 +52,7 @@
     <depend project="krysalis-ruper-core" inherit="all"/>
     <depend project="krysalis-version-ant" inherit="all"/>
     
-    <jar name="build/krysalis-ruper-ant-@@DATE@@.jar"/>
+    <jar name="krysalis-ruper-ant-@@DATE@@.jar"/>
     
     <javadoc nested="doc/api" project="krysalis-ruper"/>
         
