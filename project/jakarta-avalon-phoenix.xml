@@ -23,7 +23,6 @@
     <depend property="framework.jar" project="jakarta-avalon"/>
     <depend project="bsf"/>
     <depend project="excalibur-configuration" runtime="true"/>
-    <depend project="excalibur-containerkit" runtime="true" inherit="runtime"/>
     <depend project="excalibur-converter" runtime="true"/>
     <depend project="excalibur-io" runtime="true"/>
     <depend project="excalibur-cli" runtime="true"/>
