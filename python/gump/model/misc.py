@@ -158,7 +158,6 @@ class Work(Resolvable):
     def __init__(self,dom,owner):
         Resolvable.__init__(self,dom,owner)    
         
-        
          
 class DirResolvable(ModelObject):
     """

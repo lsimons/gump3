@@ -175,6 +175,7 @@ class Project(NamedModelObject, Statable, Resultable, Dependable, Positioned):
         
     def getDeletes(self): return self.deletes
     def getMkDirs(self): return self.mkdirs
+    def getWorks(self): return self.works
         
     def hasJars(self):
         return self.jars
@@ -671,21 +672,28 @@ class Project(NamedModelObject, Statable, Resultable, Dependable, Positioned):
         #
         # Add the work directories
         #
-        for wdom in self.getDomChildIterator('work'):
-            path=None
-            if hasDomAttribute(wdom,'nested'):
-                nested=getDomAttributeValue(wdom,'nested')
-                path=os.path.abspath(os.path.join(workdir,nested))
-            elif hasDomAttribute(wdom,'parent'):
-                parent=getDomAttributeValue(wdom,'parent')
-                path=os.path.abspath(os.path.join(self.getWorkspace().getBaseDirectory(),parent))
+        #for wdom in self.getDomChildIterator('work'):
+        #    path=None
+        #    if hasDomAttribute(wdom,'nested'):
+        #        nested=getDomAttributeValue(wdom,'nested')
+        #        path=os.path.abspath(os.path.join(workdir,nested))
+        #    elif hasDomAttribute(wdom,'parent'):
+        #        parent=getDomAttributeValue(wdom,'parent')
+        #        path=os.path.abspath(os.path.join(self.getWorkspace().getBaseDirectory(),parent))
+        #    else:
+        #        log.error("<work element with neither 'nested' nor 'parent' attribute on " \
+        #            + self.getName() + " in " + self.getModule().getName())
+        #
+        #        if path:
+        #            if debug: print "Work Entity:   " + path               
+        #            classpath.addPathPart(AnnotatedPath('',path,self,None,'Work Entity'))
+        for work in self.getWorks():
+            path=work.getResolvedPath()
+            if path:
+                classpath.addPathPart(AnnotatedPath('',path,self,None,'Work Entity'))   
             else:
                 log.error("<work element with neither 'nested' nor 'parent' attribute on " \
-                    + self.getName() + " in " + self.getModule().getName())
-
-                if path:
-                    if debug: print "Work Entity:   " + path               
-                    classpath.addPathPart(AnnotatedPath('',path,self,None,'Work Entity'))
+                        + self.getName() + " in " + self.getModule().getName()) 
               
         # Append dependent projects (including optional)
         visited=[]
