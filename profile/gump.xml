@@ -187,7 +187,7 @@
   <module href="project/jsch.xml"/>
   <module href="project/jdepend.xml"/>
   <module href="project/nekohtml.xml"/>
-  <modele href="project/nsuml.xml"/>
+  <module href="project/nsuml.xml"/>
   <module href="project/rhino.xml"/>
   <module href="project/scarab.xml"/>
   <module href="project/swt.xml"/>
