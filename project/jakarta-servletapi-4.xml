@@ -15,6 +15,6 @@
   <depend project="jakarta-ant"/>
 
   <home nested="dist"/>
-  <jar  name="lib/servlet.jar"/>
+  <jar  name="lib/servlet.jar" id="servlet"/>
 
 </project>

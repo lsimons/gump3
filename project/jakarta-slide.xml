@@ -8,8 +8,15 @@
   <cvs repository="jakarta"/>
 
   <ant target="full-dist">
-    <property name="jta.jar" reference="jar" id="jta" project="jta"/>
-    <property name="junit.jar" reference="jar" id="junit" project="junit"/>
+    <property name="ant.home" reference="home" project="jakarta-ant"/>
+    <property name="jaxp.home" reference="home" project="jaxp1.1"/>
+    <property name="jmx.home" reference="home" project="jmx"/>
+    <property name="jta.jar" reference="jarpath" id="jta" project="jta"/>
+    <property name="junit.jar" reference="jarpath" id="junit" project="junit"/>
+    <property name="log4j.jar" reference="jarpath" id="log4j" 
+              project="jakarta-log4j"/>
+    <property name="servlet.jar" reference="jarpath" id="servlet" 
+              project="jakarta-servletapi-4"/>
   </ant>
 
   <depend project="jakarta-ant"/>
@@ -19,6 +26,7 @@
   <depend project="jmx"/>
   <depend project="jta"/>
   <option project="junit"/>
+  <option project="jakarta-log4j"/>
   <option project="framework"/>
   <option project="jakarta-tomcat-4.1"/>
   <work nested="build/classes"/>
