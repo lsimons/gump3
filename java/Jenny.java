@@ -63,9 +63,10 @@ public class Jenny {
                    Node a = attrs.item(i);
                    String v = a.getNodeValue();
                    int start = v.indexOf("@@DATE@@");
-                   if (start>=0) {
+                   while (start>=0) {
                        v = v.substring(0,start) + dstamp + v.substring(start+8);
                        ((Element)child).setAttribute(a.getNodeName(),v);
+                       start = v.indexOf("@@DATE@@");
                    }
                }
                replaceDate((Element)child, dstamp);
