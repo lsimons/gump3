@@ -16,7 +16,7 @@
         reference="home" project="jaxp1.1"/>
       <property name="jasper.jaxp.parser.jar"
         reference="jar" id="parser" project="jaxp1.1"/>
-      <property name="servletapi.home"
+      <property name="servlet.home"
         reference="home" project="jakarta-servletapi-4"/>
       <property name="jsse.home" reference="home" project="jsse"/>
       <property name="jmx.home" reference="home" project="jmx"/>
