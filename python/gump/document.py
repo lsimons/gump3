@@ -976,7 +976,7 @@ def getStatePairIcon(pair,depth=0):
         uniqueName+='_'+rstring
     
     # Build the URL
-    iconName=gumpSafeName(lower(replace(uniqueName,' ','_'))
+    iconName=gumpSafeName(lower(replace(uniqueName,' ','_')))
     url = getUp(depth)+"resources/icons/"+iconName+".png";
     
     # Build the <icon xdoc
