@@ -44,17 +44,17 @@
         <depend runtime="true" project="jakarta-log4j"/>
         <depend runtime="true" project="avalon-logkit"/>
 
-        <work nested="avalon/framework/api/target/classes"/>
-        <work nested="avalon/framework/impl/target/classes"/>
+        <work nested="framework/api/target/classes"/>
+        <work nested="framework/impl/target/classes"/>
         <!--<work nested="avalon/framework/api/target/test-classes"/>-->
-        <work nested="avalon/framework/impl/target/test-classes"/>
+        <work nested="framework/impl/target/test-classes"/>
 
-        <home nested="avalon/framework"/>
+        <home nested="framework"/>
         <jar name="target/avalon-framework-@@DATE@@.jar" id="combined"/>
         <jar name="api/target/avalon-framework-api-@@DATE@@.jar" id="api"/>
         <jar name="impl/target/avalon-framework-impl-@@DATE@@.jar" id="impl"/>
-        <javadoc nested="avalon/framework/target/docs/apidocs"/>
-        <junitreport nested="avalon/framework/target/docs/junitreports"/>
+        <javadoc nested="framework/target/docs/apidocs"/>
+        <junitreport nested="framework/target/docs/junitreports"/>
 
         <nag to="dev@avalon.apache.org" from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"/>
     </project>
