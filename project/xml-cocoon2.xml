@@ -73,7 +73,7 @@
 
     <depend project="junit"/>
 
-    <work nested="build/cocoon/classes"/>
+    <work nested="build/cocoon-@@DATE@@/classes"/>
     <work nested="tools/anttasks"/>
 
     <home nested="build/cocoon"/>
@@ -585,7 +585,7 @@
     <description>
       Delivery context library
     </description>
-    <home nested="lib/optional"/>
+    <home nested="src/blocks/deli/lib"/>
     <jar name="deli-0.9.0.jar"/>
   </project>
 
