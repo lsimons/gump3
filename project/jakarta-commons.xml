@@ -250,7 +250,7 @@
     <depend project="ant" inherit="runtime"/>
     <depend project="xml-xerces"/>
     <depend project="junit"/>
-    <depend project="commons-beanutils"/>
+    <depend project="commons-beanutils-core"/>
     <depend project="commons-digester"/>
     <depend project="commons-collections"/>
     <depend project="commons-logging"/>
