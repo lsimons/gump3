@@ -176,10 +176,7 @@
           <xsl:variable name="position" select="position()"/>
           <xsl:if test="not(../property[position() &lt; $position and
                                         @project=$dependency])">
-            <depend>
-              <xsl:attribute name="project">
-                <xsl:value-of select="$dependency"/>
-              </xsl:attribute>
+            <depend project="{$dependency}">
               <noclasspath/>
             </depend>
             <xsl:text>&#10;</xsl:text>
