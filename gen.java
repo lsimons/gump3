@@ -213,9 +213,12 @@ public class gen {
       * reference="jarpath" and classpath="true" are added.
       * @param document to be transformed
       */
-    private void antDependsToProperties(Document document) throws Exception {
-        NodeIterator nl = XPathAPI.selectNodeIterator(document, "//ant/depend");
-        for (Node depend=nl.nextNode(); depend!=null; depend=nl.nextNode()) {
+    private void antDependsToProperties(Element project) throws Exception {
+        Document document = project.getOwnerDocument();
+
+        NodeIterator nl = XPathAPI.selectNodeIterator(project, "ant/depend");
+        for (Node depend=nl.nextNode(); depend!=null;) {
+            Node next = nl.nextNode();
 
             // create a new element based on existing element
             Element property = document.createElement("property");
@@ -234,6 +237,8 @@ public class gen {
 
             // replace existing element with new one
             depend.getParentNode().replaceChild(property, depend);
+
+            depend = next;
         }
     }
 
@@ -265,6 +270,42 @@ public class gen {
                  }
                  child=child.getNextSibling();
              }
+        }
+    }
+
+    /**
+      * Flatten all projects, and in the process resolve all home directories.
+      */
+    private void genDepends(Element project) throws Exception {
+        Document document = project.getOwnerDocument();
+        String name = project.getAttribute("name");
+
+        antDependsToProperties(project);
+
+        Hashtable depends = new Hashtable();
+        NodeIterator nl = XPathAPI.selectNodeIterator(project, "depend|option");
+        for (Node child=nl.nextNode(); child!=null; child=nl.nextNode()) {
+            depends.put(((Element)child).getAttribute("project"), child);
+        }
+
+        nl = XPathAPI.selectNodeIterator(project, "ant/property");
+        for (Node child=nl.nextNode(); child!=null; child=nl.nextNode()) {
+            Element property = (Element) child;
+
+            String dependency = property.getAttribute("project");
+            if (dependency.equals("")) continue;
+            if (dependency.equals(name)) continue;
+            if (depends.get(dependency) != null) continue;
+
+            if (property.getAttribute("reference").equals("srcdir")) continue;
+
+            Element depend = document.createElement("depend");
+            depend.setAttribute("project", dependency);
+            if (property.getAttributeNode("classpath") == null)
+                depend.appendChild(document.createElement("noclasspath"));
+
+            project.appendChild(depend);
+            depends.put(dependency, depend);
         }
     }
 
@@ -308,6 +349,8 @@ public class gen {
                  if (home.equals("")) home=srcdir;
                  project.setAttribute("home", home);
              }
+
+             genDepends(project);
         }
     }
 
@@ -357,16 +400,13 @@ public class gen {
         Element workspace = (Element)doc.getFirstChild();
         workspaceDefaults(workspace);
 
-        expand((Element)workspace);
+        expand(workspace);
         computeSrcdir(workspace);
         computeHome(workspace);
         flatten("repository", workspace);
-        antDependsToProperties(doc);
+        output (doc, "work/merge.xml");
 
-        Node resolved = transform(doc, "defaults.xsl");
-        output (resolved, "work/merge.xml");
-
-        Node sorted   = transform(resolved, "sortdep.xsl");
+        Node sorted   = transform(doc, "sortdep.xsl");
         output (sorted, "work/sorted.xml");
     }
 

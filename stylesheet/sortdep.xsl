@@ -90,7 +90,7 @@
       <xsl:for-each select="/workspace/project">
         <xsl:if test="not(contains($done,concat(':',@name,':')))">
            <xsl:variable name="project" select="@name"/>
-           <xsl:for-each select="depend|option">
+           <xsl:for-each select="depend">
              <xsl:variable name="depend" select="@project"/>
              <xsl:if test="not(/workspace/project[@name=$depend])">
                <xsl:message terminate="yes">
