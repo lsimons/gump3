@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/model/workspace.py,v 1.23 2004/01/29 03:49:58 ajack Exp $
-# $Revision: 1.23 $
-# $Date: 2004/01/29 03:49:58 $
+# $Header: /home/stefano/cvs/gump/python/gump/model/workspace.py,v 1.24 2004/02/01 18:44:44 ajack Exp $
+# $Revision: 1.24 $
+# $Date: 2004/02/01 18:44:44 $
 #
 # ====================================================================
 #
@@ -71,6 +71,7 @@ from gump.utils.tools import *
 
 from gump.model.state import *
 from gump.model.repository import Repository
+from gump.model.server import Server
 from gump.model.module import Module, createUnnamedModule
 from gump.model.project import Project, ProjectSummary
 from gump.model.profile import Profile
@@ -105,6 +106,7 @@ class Workspace(ModelObject,PropertyContainer, Statable):
         self.modules={}
         self.projects={}
         self.profiles={}
+        self.servers={}
         
         #
     	PropertyContainer.importProperties(self,self.xml)    	
@@ -148,6 +150,21 @@ class Workspace(ModelObject,PropertyContainer, Statable):
         
     def getSortedRepositories(self):
         return self.sortedRepositories
+
+
+    # Server Interface
+    
+    def hasServer(self,rname):
+        return self.servers.has_key(rname)
+        
+    def getServer(self,rname):
+        return self.servers[rname]
+        
+    def getServers(self):
+        return self.servers.values()
+        
+    def getSortedServers(self):
+        return self.sortedServers
 
 
     # Profile Interface
@@ -194,7 +211,9 @@ class Workspace(ModelObject,PropertyContainer, Statable):
     def getSortedProjects(self):
         return self.sortedProjects       
         
-    def complete(self, xmlprofiles, xmlrepositories, xmlmodules, xmlprojects):        
+    def complete(self, xmlprofiles, xmlrepositories, \
+                    xmlmodules, xmlprojects,	\
+                    xmlservers):        
         if self.isComplete(): return
         
         #
@@ -289,6 +308,19 @@ class Workspace(ModelObject,PropertyContainer, Statable):
                 self.repositories[repoName] = repository
 
         #
+        # Import all servers
+        #  
+        for xmlserver in xmlservers.values(): 
+            server=Server(xmlserver,self)
+            serverName=server.getName()
+            if serverName in self.servers:
+                # Duplicate, uh oh...
+                self.addError("Duplicate server name [" + serverName + "]")
+            else:        
+                server.complete(self)
+                self.servers[serverName] = server
+
+        #
         # Import all modules
         #  
         for xmlmodule in xmlmodules.values(): 
@@ -322,6 +354,12 @@ class Workspace(ModelObject,PropertyContainer, Statable):
         for repository in self.getRepositories(): 
             repository.check(self)            
         
+        #
+        # Check servers.
+        #
+        for server in self.getServers(): 
+            server.check(self)            
+        
         # Complete the projects   
         haveUnnamedModule=0
         for project in self.getProjects():
@@ -354,6 +392,7 @@ class Workspace(ModelObject,PropertyContainer, Statable):
         self.sortedProjects=createOrderedList(self.getProjects())
         self.sortedRepositories=createOrderedList(self.getRepositories())
         self.sortedProfiles=createOrderedList(self.getProfiles())
+        self.sortedServer=createOrderedList(self.getServers())
         
         # Copy over any XML errors/warnings
         transferAnnotations(self.xml, self)  

@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/model/Attic/loader.py,v 1.4 2004/01/09 19:57:18 ajack Exp $
-# $Revision: 1.4 $
-# $Date: 2004/01/09 19:57:18 $
+# $Header: /home/stefano/cvs/gump/python/gump/model/Attic/loader.py,v 1.5 2004/02/01 18:44:44 ajack Exp $
+# $Revision: 1.5 $
+# $Date: 2004/02/01 18:44:44 $
 #
 # ====================================================================
 #
@@ -64,7 +64,8 @@
 import os, os.path
 
 from gump import log
-from gump.model.rawmodel import XMLWorkspace,XMLProfile,XMLModule,XMLProject,XMLRepository
+from gump.model.rawmodel import XMLWorkspace,XMLProfile,	\
+            XMLModule,XMLProject,XMLRepository, XMLServer
 from gump.model.workspace import Workspace
 from gump.model.module import Module
 from gump.utils.xmlutils import SAXDispatcher
@@ -94,6 +95,7 @@ class WorkspaceLoader:
       XMLRepository.map={}
       XMLModule.map={}
       XMLProject.map={}
+      XMLServer.map={}
     
       log.debug("Launch SAX Dispatcher onto : " + file);
               
@@ -115,7 +117,8 @@ class WorkspaceLoader:
       # Cook the raw model...
       #
       workspace.complete(XMLProfile.map,XMLRepository.map,	\
-                          XMLModule.map,XMLProject.map)
+                          XMLModule.map,XMLProject.map,	\
+                          XMLServer.map)
 
       #
       # Clear out the maps [so don't continue to use them]
@@ -124,6 +127,7 @@ class WorkspaceLoader:
       XMLProject.map={}
       XMLProfile.map={}
       XMLRepository.map={}
+      XMLServer.map={}
   
       return workspace      
       

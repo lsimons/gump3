@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/net/Attic/mailer.py,v 1.3 2004/01/28 22:54:50 ajack Exp $
-# $Revision: 1.3 $
-# $Date: 2004/01/28 22:54:50 $
+# $Header: /home/stefano/cvs/gump/python/gump/net/Attic/mailer.py,v 1.4 2004/02/01 18:44:44 ajack Exp $
+# $Revision: 1.4 $
+# $Date: 2004/02/01 18:44:44 $
 #
 # ====================================================================
 #
@@ -134,7 +134,7 @@ def mail(toaddrs,fromaddr,message,server='localhost',port=25):
         # Attach to the SMTP server to send....
         #
         server = smtplib.SMTP(server,port)
-        server.set_debuglevel(1)
+        # server.set_debuglevel(1)
         server.sendmail(sane_fromaddr, sane_toaddrs, data)
         server.quit()
         
@@ -144,7 +144,7 @@ def mail(toaddrs,fromaddr,message,server='localhost',port=25):
         log.error("From   :" + str(fromaddr))
         log.error("To     :" + str(toaddrs))
         log.error("------------------------------------------------------")
-        log.error(data)
+        log.error(data, exc_info=1)
     
 def sanitizeAddress(addr):
     parts=addr.split('<')

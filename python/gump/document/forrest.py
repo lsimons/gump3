@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/forrest.py,v 1.61 2004/01/30 17:22:58 ajack Exp $
-# $Revision: 1.61 $f
-# $Date: 2004/01/30 17:22:58 $
+# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/forrest.py,v 1.62 2004/02/01 18:44:44 ajack Exp $
+# $Revision: 1.62 $f
+# $Date: 2004/02/01 18:44:44 $
 #
 # ====================================================================
 #
@@ -238,7 +238,8 @@ class ForrestDocumenter(Documenter):
         # Pretty sorting...
         sortedModuleList=createOrderedList(gumpSet.getModules())
         sortedProjectList=createOrderedList(gumpSet.getSequence())
-        sortedRepositoryList=createOrderedList(gumpSet.getRepositories())
+        sortedRepositoryList=createOrderedList(gumpSet.getRepositories())        
+        sortedServerList=createOrderedList(workspace.getServers())
         
         #
         # ----------------------------------------------------------------------
@@ -371,6 +372,31 @@ class ForrestDocumenter(Documenter):
             self.insertLink( repo, workspace, repoRow.createData())
             
         if not rcount: reposTable.createLine('None')
+        
+        document.serialize()
+       
+        #
+        # ----------------------------------------------------------------------
+        #
+        # Servers.xml
+        #
+        document=XDocDocument( 'All Servers',	\
+            self.resolver.getFile(workspace,'servers'))
+                
+        serversSection=document.createSection('All Servers')
+        serversTable=serversSection.createTable(['Name'])
+
+        scount=0
+        for server in sortedServerList:
+            
+            scount+=1
+                    
+            serverRow=serversTable.createRow()
+            serverRow.createComment(server.getName())
+                       
+            self.insertLink( server, workspace, serverRow.createData())
+            
+        if not scount: serversTable.createLine('None')
         
         document.serialize()
        
@@ -648,6 +674,12 @@ class ForrestDocumenter(Documenter):
             self.documentRepository(repo,workspace,gumpSet)
             
         #
+        # Document repositories
+        #
+        for server in workspace.getServers():            
+            self.documentServer(server,workspace,gumpSet)
+            
+        #
         # Document modules
         #
         for module in workspace.getModules():
@@ -733,6 +765,41 @@ class ForrestDocumenter(Documenter):
         self.documentXML(document,repo)
         
         self.documentWorkList(document,repo,'Repository-level Work')
+
+        document.serialize()
+      
+    def documentServer(self,server,workspace,gumpSet):
+        
+        document=XDocDocument( 'Server : ' + server.getName(),	\
+                self.resolver.getFile(server))   
+            
+        # Provide a description/link back to the server site.
+#        descriptionSection=document.createSection('Description') 
+#        description=''
+#        if server.hasDescription():
+#            description=escape(server.getDescription())
+#            if not description.strip().endswith('.'):
+#                description+='. '    
+#        if not description:
+#            description='No description provided.'        
+#        if server.hasURL():
+#            description+=' For more information, see: ' + self.getFork(server.getURL())
+#        else:
+#            description+=' (No server URL provided).'
+#                
+#        descriptionSection.createParagraph().createRaw(description)
+        
+        self.documentAnnotations(document,server)    
+        
+        detailSection=document.createSection('Server Details')
+        detailList=detailSection.createList()        
+        
+        if server.hasTitle():
+            detailList.createEntry('Title: ', server.getTitle())
+    
+        self.documentXML(document,server)
+        
+        self.documentWorkList(document,server,'Server-level Work')
 
         document.serialize()
       

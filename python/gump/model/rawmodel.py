@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/model/Attic/rawmodel.py,v 1.11 2004/01/28 00:13:39 ajack Exp $
-# $Revision: 1.11 $
-# $Date: 2004/01/28 00:13:39 $
+# $Header: /home/stefano/cvs/gump/python/gump/model/Attic/rawmodel.py,v 1.12 2004/02/01 18:44:44 ajack Exp $
+# $Revision: 1.12 $
+# $Date: 2004/02/01 18:44:44 $
 #
 # ====================================================================
 #
@@ -116,6 +116,7 @@ class XMLWorkspace(GumpXMLModelObject):
     self.project=Multiple(XMLProject)
     self.module=Multiple(XMLModule)
     self.repository=Multiple(XMLRepository)
+    self.server=Multiple(XMLServer)
     self.profile=Multiple(XMLProfile)
     self.version=Single(GumpXMLModelObject)
 
@@ -127,6 +128,7 @@ class XMLProfile(Named,GumpXMLModelObject):
     self.project=Multiple(XMLProject)
     self.module=Multiple(XMLModule)
     self.repository=Multiple(XMLRepository)
+    self.server=Multiple(XMLServer)
 
 # represents a <module/> element
 class XMLModule(Named):
@@ -140,6 +142,15 @@ class XMLModule(Named):
     self.redistributable=Single(GumpXMLModelObject)
     self.nag=Multiple(XMLNag)
     self.project=Multiple(XMLProject)
+
+# represents a <server/> element
+class XMLServer(Named):
+  list={}
+  def init(self):
+    self.attribution=Single(GumpXMLModelObject)
+    self.title=Single(GumpXMLModelObject)
+    self.url=Single(GumpXMLModelObject)
+    self.site=Single(GumpXMLModelObject)
 
 # represents a <repository/> element
 class XMLRepository(Named):
@@ -160,6 +171,7 @@ class XMLRepositoryRoot(GumpXMLModelObject):
     self.password=Single(GumpXMLModelObject)
     self.hostname=Single(GumpXMLModelObject)
     self.path=Single(GumpXMLModelObject)
+    
 
 # represents a <project/> element
 class XMLProject(Named):
