@@ -1,0 +1,20 @@
+<project name="wsdl4j">
+
+  <url href="http://oss.software.ibm.com/developerworks/projects/wsdl4j"/>
+  <description>
+    JSR 110 
+  </description>
+
+  <cvs repository="devworks" dir="wsdl4j"/>
+
+  <ant target="dist">
+    <property name="version" value="gump"/>
+    <property name="version.underscore" value="gump"/>
+  </ant>
+
+  <depend project="xml-xerces"/>
+  <depend project="jakarta-ant"/>
+
+  <home nested="build"/>
+  <jar name="wsdl4j.jar"/>
+</project>
