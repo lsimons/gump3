@@ -143,6 +143,32 @@
     <jar name="commons-httpclient.jar"/>
   </project>
 
+  <project name="commons-jxpath">
+    <url href="http://jakarta.apache.org/commons/"/>
+    <ant basedir="jxpath" target="dist">
+      <depend property="junit.jar" project="junit"/>
+      <depend property="jaxp.jaxp.jar" project="xml-xerces"/>
+      <depend property="jaxp.xslt.jar" project="xml-xalan2"/>
+    </ant>
+    <depend project="jakarta-ant"/>
+    <home nested="jxpath/dist"/>
+    <jar name="commons-jxpath.jar"/>
+  </project>
+
+  <project name="commons-latka">
+    <url href="http://jakarta.apache.org/commons/"/>
+    <ant basedir="latka" target="dist"/>
+    <depend project="jakarta-ant"/>
+    <depend project="xml-xerces"/>
+    <depend project="xml-xalan2"/>
+    <depend project="commons-httpclient"/>
+    <depend project="jakarta-log4j"/>
+    <depend project="jakarta-regexp"/>
+    <depend project="jdom"/>
+    <home nested="latka/dist"/>
+    <jar name="commons-latka.jar"/>
+  </project>
+
   <project name="commons-pool">
     <url href="http://jakarta.apache.org/commons/"/>
     <ant basedir="pool" target="dist"/>
