@@ -49,6 +49,8 @@ from gump.core.build.script import ScriptBuilder
 from gump.core.build.ant import AntBuilder
 from gump.core.build.nant import NAntBuilder
 from gump.core.build.maven import MavenBuilder
+from gump.core.build.configure import ConfigureBuilder
+from gump.core.build.make import MakeBuilder
 
 from gump.util import dump, display, getIndent, logResourceUtilization, \
                             invokeGarbageCollection
@@ -81,6 +83,8 @@ class GumpBuilder(gump.core.run.gumprun.RunSpecific):
         self.nant=NAntBuilder(run)
         self.maven=MavenBuilder(run)
         self.script=ScriptBuilder(run)
+        self.configure = ConfigureBuilder(run)
+        self.make = MakeBuilder(run);
 
         # Place repository in repodir
         self.repository=self.run.getOutputsRepository()        
@@ -137,6 +141,10 @@ class GumpBuilder(gump.core.run.gumprun.RunSpecific):
                     self.nant.buildProject(project, languageHelper, stats)
                 elif project.hasMaven():
                     self.maven.buildProject(project, languageHelper, stats)
+                elif project.hasConfigure():
+                    self.configure.buildProject(project, languageHelper, stats)
+                elif project.hasMake():
+                    self.make.buildProject(project, languageHelper, stats)
               
             # Do this even if not ok
             self.performPostBuild( project, languageHelper, stats )
