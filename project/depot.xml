@@ -251,6 +251,7 @@
         <depend project="depot-update" inherit="runtime"/>
 		<depend project="commons-codec" runtime="true"/>
         <depend project="commons-logging" inherit="runtime"/>
+        <depend project="commons-httpclient" inherit="runtime"/>
         <depend project="ant" inherit="runtime"/>
         
         <ant  basedir="update" buildfile="build-ant-sample.xml" target="gump" vm="1.4">
