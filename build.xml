@@ -15,10 +15,41 @@
 
   <!-- Default properties. Define them before to override them.-->
   <property name="workspace" value="rubypad.xml"/>
-  <property name="webstyle" value="jakarta.xsl"/>
-      
+  <property name="webstyle" value="stylesheet/jakarta.xsl"/>
+
+  <target name="offline">
+    <property name="onlineflag" value="-offline"/>
+  </target>
+
+  
+  <target name="platform_props">
+    <condition property="target" value="bash">
+        <os family="unix"/>
+    </condition>
+    <condition property="target" value="win2k">
+      <and>
+        <os family="windows"/>
+        <not>
+          <os family="win9x"/>
+        </not>
+      </and>
+    </condition>
+    
+    <condition property="extension" value="sh">
+        <os family="unix"/>
+    </condition>
+    <condition property="extension" value="bat">
+      <and>
+        <os family="windows"/>
+        <not>
+          <os family="win9x"/>
+        </not>
+      </and>
+    </condition>
+  </target>
+          
   <!-- Build the code used to generate the merged xml scripts -->
-  <target name="compile">
+  <target name="compile" depends="platform_props">
     <mkdir dir="classes"/>
     <mkdir dir="work"/>
     <javac srcdir="java" destdir="classes"/>
@@ -41,10 +72,12 @@
 
   <!-- Merge the xml sources, resolving references -->
   <target name="gen" depends="compile" unless="uptodate">
+    <property name="onlineflag" value="-online"/>
     <java classname="Jenny" fork="yes" failonerror="true" classpath="jenny.jar">
       <jvmarg value="-Dhttp.proxyHost=${http.proxyHost}"/>
       <jvmarg value="-Dhttp.proxyPort=${http.proxyPort}"/>
       <arg value="${workspace}"/>
+      <arg value="${onlineflag}"/>
     </java>
   </target>
 
