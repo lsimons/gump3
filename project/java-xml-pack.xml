@@ -1,0 +1,36 @@
+<module name="java-xml-pack">
+
+  <url href="http://java.sun.com/xml/downloads/javaxmlpack.html"/>
+  <description>
+    Java XML Pack
+  </description>
+
+  <project name="jaxm">
+    <package>javax.xml.messaging</package>
+
+    <jar name="jaxm-1.1/lib/jaxm-api.jar" id="jaxm-api" />
+  </project>
+
+  <project name="jaxp-1.2">
+    <package>javax.xml</package>
+
+    <jar name="jaxp-1.2/jaxp-api.jar" id="jaxp-api" />
+    <jar name="jaxp-1.2/xercesImpl.jar" id="parser" />
+    <jar name="jaxp-1.2/xalan.jar" id="transformer" />
+  </project>
+
+  <project name="jaxr">
+    <package>javax.xml.registry</package>
+
+    <jar name="jaxr-1.0_01/lib/jaxr-api.jar" id="jaxr-api" />
+    <jar name="jaxr-1.0_01/lib/jaxr-ri.jar" id="jaxr-ri" />
+  </project>
+
+  <project name="jaxrpc">
+    <package>javax.xml.rpc</package>
+
+    <jar name="jaxrpc-1.0/lib/jaxrpc-api.jar" id="jaxrpc-api" />
+    <jar name="jaxrpc-1.0/lib/jaxrpc-ri.jar" id="jaxrpc-ri" />
+  </project>
+
+</module>

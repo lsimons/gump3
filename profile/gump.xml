@@ -140,6 +140,7 @@
   <module href="project/jaas.xml"/>
   <module href="project/jaf.xml"/>
   <module href="project/javamail.xml"/>
+  <module href="project/java-xml-pack.xml"/>
   <module href="project/jaxp.xml"/>
   <module href="project/jdbc.xml"/>
   <module href="project/jdo.xml"/>
@@ -167,6 +168,7 @@
   <project name="jaf"            package="jaf-1.0.1"/>
   <project name="javacc"         package="javacc2.1"/>
   <project name="javamail"       package="javamail-1.2"/>
+  <project name="java-xml-pack"  package="java_xml_pack-summer-02"/>
   <project name="jaxp"           package="jaxp-1.1"/>
   <project name="jce"            package="jce"/>
   <project name="jdbc"           package="jdbc2_0"/>
