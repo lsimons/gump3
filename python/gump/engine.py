@@ -338,14 +338,14 @@ class GumpEngine:
             try:
                 os.rmdir(dir)
             except:
-                project.addError('Failed to delete directory ['+dir+'])
+                project.addError('Failed to delete directory ['+dir+']')
                 raise
         elif delete.file:
             file=os.path.abspath(os.path.join(basedir,delete.file)
             try:
                 os.remove(file)
             except:
-                project.addError('Failed to delete file ['+file+'])
+                project.addError('Failed to delete file ['+file+']')
                 raise           
         else:
             project.addError('   <delete without \'file\' or \'dir\' attributes.')
@@ -375,7 +375,7 @@ class GumpEngine:
                 try:
                     os.makedirs(dirToMake)
                 except:
-                    project.addError('Failed to make directory ['+dirToMake+'])
+                    project.addError('Failed to make directory ['+dirToMake+']')
                     raise           
             else:
                 project.addError('   <mkdir without \'dir\' attribute.')
