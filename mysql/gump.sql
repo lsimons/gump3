@@ -21,7 +21,7 @@ CREATE TABLE `gump_module` (
   `module_name` varchar(100) NOT NULL default '',
   `description` varchar(100) NOT NULL default '',
   PRIMARY KEY  (`module_name`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1; 
+) ENGINE=MyISAM; 
 
 # Host: localhost
 # Database: gump
@@ -36,7 +36,7 @@ CREATE TABLE `gump_module_run` (
   `start` datetime NOT NULL default '0000-00-00 00:00:00',
   `end` datetime NOT NULL default '0000-00-00 00:00:00',
   PRIMARY KEY  (`module_name`,`run_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1; 
+) ENGINE=MyISAM; 
 
 # Host: localhost
 # Database: gump
@@ -55,7 +55,7 @@ CREATE TABLE `gump_module_stats` (
   `sequence_in_state` int(11) NOT NULL default '0',
   `last_modified` datetime NOT NULL default '0000-00-00 00:00:00',
   PRIMARY KEY  (`module_name`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1; 
+) ENGINE=MyISAM; 
 
 # Host: localhost
 # Database: gump
@@ -66,7 +66,7 @@ CREATE TABLE `gump_project` (
   `description` varchar(100) NOT NULL default '',
   `module_name` varchar(100) NOT NULL default '',
   PRIMARY KEY  (`project_name`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1; 
+) ENGINE=MyISAM; 
 
 # Host: localhost
 # Database: gump
@@ -81,7 +81,7 @@ CREATE TABLE `gump_project_run` (
   `start` datetime NOT NULL default '0000-00-00 00:00:00',
   `end` datetime NOT NULL default '0000-00-00 00:00:00',
   PRIMARY KEY  (`run_id`,`project_name`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1; 
+) ENGINE=MyISAM; 
 
 # Host: localhost
 # Database: gump
@@ -99,7 +99,7 @@ CREATE TABLE `gump_project_stats` (
   `start_of_state` datetime default '0000-00-00 00:00:00',
   `sequence_in_state` int(11) NOT NULL default '0',
   PRIMARY KEY  (`project_name`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1; 
+) ENGINE=MyISAM; 
 
 # Host: localhost
 # Database: gump
@@ -110,7 +110,7 @@ CREATE TABLE `gump_reason_code` (
   `name` varchar(100) NOT NULL default '',
   `description` varchar(100) NOT NULL default '',
   PRIMARY KEY  (`code`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1; 
+) ENGINE=MyISAM; 
 
 # Host: localhost
 # Database: gump
@@ -128,7 +128,7 @@ CREATE TABLE `gump_repository_stats` (
   `start_of_state` datetime default '0000-00-00 00:00:00',
   `sequence_in_state` int(11) NOT NULL default '0',
   PRIMARY KEY  (`repository_name`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1; 
+) ENGINE=MyISAM; 
 
 # Host: localhost
 # Database: gump
@@ -139,7 +139,7 @@ CREATE TABLE `gump_run` (
   `start` datetime NOT NULL default '0000-00-00 00:00:00',
   `end` datetime NOT NULL default '0000-00-00 00:00:00',
   PRIMARY KEY  (`run_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1; 
+) ENGINE=MyISAM; 
 
 # Host: localhost
 # Database: gump
@@ -150,7 +150,7 @@ CREATE TABLE `gump_state` (
   `name` varchar(100) NOT NULL default '',
   `description` varchar(100) NOT NULL default '',
   PRIMARY KEY  (`code`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1; 
+) ENGINE=MyISAM; 
 
 # Host: localhost
 # Database: gump
@@ -168,5 +168,5 @@ CREATE TABLE `gump_workspace_stats` (
   `start_of_state` datetime default '0000-00-00 00:00:00',
   `sequence_in_state` int(11) NOT NULL default '0',
   PRIMARY KEY  (`workspace_name`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1; 
+) ENGINE=MyISAM; 
 
