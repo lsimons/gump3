@@ -32,8 +32,14 @@
       <project name="clean">
         <html log="{$logdir}/clean.html"
           banner-image="{$banner-image}" banner-link="{$banner-link}">
+          <title>
+            <xsl:text>Clean status - </xsl:text>
+            <date/>
+          </title>
           <content>
             <logic name="clean">
+              <delete dir="build"/>
+              <delete dir="dist"/>
               <mkdir dir="trashbin"/>
               <xsl:for-each select="module[cvs]">
                 <move file="{@srcdir}" todir="trashbin" quiet="true"/>
@@ -48,6 +54,10 @@
       <project name="sync">
         <html log="{$logdir}/sync.html"
           banner-image="{$banner-image}" banner-link="{$banner-link}">
+          <title>
+            <xsl:text>Synchronization status - </xsl:text>
+            <date/>
+          </title>
           <content>
             <logic name="sync">
               <xsl:for-each select="module[cvs]">
