@@ -107,14 +107,30 @@ def check(workspace, projectname):
   return 0
   
 def peekInGlobalProfile(missing):
-
+   
   workspace=load(default.globalws)
   
   for missed in missing:
-    print "  " + missed
-    if(missed in Project.list):
-      print "found: " , missed
-  
+    print  
+    print      
+    print "  **** Project: " + missed
+    print
+    if missed in Project.list:
+      currentproject = Project.list[missed]
+      currentmodule = Module.list[currentproject.module]
+      
+      print "   Get " + missed + " here:" 
+      print "   -url: " , currentmodule.url
+      print "   -cvs: " , currentmodule.cvs
+      print "   -description: " , currentmodule.description
+      if currentmodule.redistributable:
+        print  
+        print "   NOTE: You can also get it in the Gump jar repository." 
+        
+    else:
+      print "   Gump doesn't know about it. Or it's wrong, or you have to "
+      print "   install the artifacts of " + missed +" manually."
+            
 
 # static void main()
 if __name__=='__main__':
