@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/utils/work.py,v 1.4 2003/12/03 18:36:13 ajack Exp $
-# $Revision: 1.4 $
-# $Date: 2003/12/03 18:36:13 $
+# $Header: /home/stefano/cvs/gump/python/gump/utils/work.py,v 1.5 2003/12/03 19:19:51 ajack Exp $
+# $Revision: 1.5 $
+# $Date: 2003/12/03 19:19:51 $
 #
 # ====================================================================
 #
@@ -227,6 +227,7 @@ class WorkList(list,Ownable):
                 if not startSecs or item.getStartTimeSecs() < startSecs:
                     startSecs=item.getStartTimeSecs()
         if startSecs: return startSecs
+        return -1
     
     def getEndSecs(self):
         endSecs=0
@@ -235,6 +236,7 @@ class WorkList(list,Ownable):
                 if not endSecs or item.getEndSecs() < endSecs:
                     endSecs=item.getEndSecs()
         if endSecs: return endSecs
+        return -1
     
     def getElapsedSecs(self):
         elapsedSecs=0

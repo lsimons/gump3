@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/utils/__init__.py,v 1.7 2003/12/03 18:36:13 ajack Exp $
-# $Revision: 1.7 $
-# $Date: 2003/12/03 18:36:13 $
+# $Header: /home/stefano/cvs/gump/python/gump/utils/__init__.py,v 1.8 2003/12/03 19:19:51 ajack Exp $
+# $Revision: 1.8 $
+# $Date: 2003/12/03 19:19:51 $
 #
 # ====================================================================
 #
@@ -236,10 +236,12 @@ def elapsedTimeTripleToString(elapsed):
     return elapsedString    
     
 def secsToDate(secs):
+    if -1 == secs: return 'Unset'    
     return time.strftime(setting.datetimeformat, \
                     time.localtime(secs))    
                      
 def secsToTime(secs):
+    if -1 == secs: return 'Unset'
     return time.strftime(setting.timeformat, \
                     time.localtime(secs))                    
                 
