@@ -1,0 +1,39 @@
+<module name="ws-wsrp4j">
+
+  <url href="http://ws.apache.org/wsrp4j/"/>
+  <description>
+    Open Source implementation of OASIS WSRP
+  </description>
+
+  <cvs repository="ws"/>
+
+  <!-- build -->
+  <project name="ws-wsrp4j">
+    <package>org.apache.ws.wsrp4j</package>
+
+    <ant basedir="java" target="all">
+      <property name="env.ANT_HOME" reference="home" project="ant"/>
+    </ant>
+
+    <depend project="xml-xerces"/>
+    <depend project="ant" inherit="runtime"/>
+
+    <home nested="bin/lib"/>
+    <jar name="wsrp4j-consumer-0.3.jar"/>
+    <jar name="wsrp4j-pluto-provider-0.3.jar"/>
+    <jar name="wsrp4j-producer-0.3.jar"/>
+    <jar name="wsrp4j-shared-0.3.jar"/>
+    <jar name="wsrp4j-swing-consumer-0.3.jar"/>
+
+    <license name="LICENSE"/>
+
+    <javadoc nested="docs/apidocs"/>
+
+    <nag from="Davanum Srinivas &lt;dims@yahoo.com&gt;"
+         to="wsrp4j-dev@ws.apache.org">
+      <regexp  subject="Build Failure - wsrp4j"/>
+      <regexp pattern="/timed out/" subject="Build timed out - wsrp4j"/>
+    </nag>
+  </project>
+
+</module>

@@ -18,15 +18,15 @@
     <depend project="xml-xerces"/>
     <depend project="ant" inherit="runtime"/>
     <depend project="hsqldb"/>
-    <depend project="jakarta-log4j">
+    <depend project="jakarta-log4j"/>
     <option project="junit"/>
 
     <home nested="dist"/>
-    <jar name="jaxme2-rt.jar/>
-    <jar name="jaxme2.jar/>
-    <jar name="jaxmeapi.jar/>
-    <jar name="jaxmejs.jar/>
-    <jar name="jaxmexs.jar/>
+    <jar name="jaxme2-rt.jar"/>
+    <jar name="jaxme2.jar"/>
+    <jar name="jaxmeapi.jar"/>
+    <jar name="jaxmejs.jar"/>
+    <jar name="jaxmexs.jar"/>
 
     <license name="LICENSE"/>
 

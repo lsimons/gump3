@@ -103,6 +103,7 @@
   <module href="project/ws-jaxme.xml"/>
   <module href="project/ws-wsif.xml"/>
   <module href="project/ws-wsil.xml"/>
+  <module href="project/ws-wsrp4j.xml"/>
   <module href="project/ws-xmlrpc.xml"/>
 
 <!-- Apache.XML -->
