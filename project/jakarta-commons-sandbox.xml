@@ -259,14 +259,10 @@
     <depend project="jakarta-ant"/>
     <depend project="xml-xerces"/>
 
+    <depend project="dom4j"/>
     <depend project="commons-beanutils"/>
-    <depend project="commons-betwixt"/>
-    <depend project="commons-digester"/>
-    <depend project="commons-collections"/>
     <depend project="commons-io"/>
     <depend project="commons-lang"/>
-    <depend project="commons-logging"/>
-    <depend project="dom4j"/>
 
     <work nested="target/classes"/>
     <home nested="xo/target"/>
