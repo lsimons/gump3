@@ -1,7 +1,7 @@
 /*
- * $Header: /home/stefano/cvs/gump/java/Project.java,v 1.44 2002/08/27 14:54:09 nicolaken Exp $
- * $Revision: 1.44 $
- * $Date: 2002/08/27 14:54:09 $
+ * $Header: /home/stefano/cvs/gump/java/Project.java,v 1.45 2002/11/24 21:12:05 rubys Exp $
+ * $Revision: 1.45 $
+ * $Date: 2002/11/24 21:12:05 $
  *
  * ====================================================================
  *
@@ -817,36 +817,43 @@ public class Project {
             regexp.setAttribute("to", to);
             regexp.setAttribute("from", from);
             nag.appendChild(regexp);
+        }
 
-        } else {
+        Element regexp = null;
+        Node child = nag.getFirstChild();
+        for (; child != null; child = child.getNextSibling()) {
+            if (child.getNodeName().equals("regexp")) {
+                regexp = (Element)child;
 
-            Node child = nag.getFirstChild();
-            for (; child != null; child = child.getNextSibling()) {
-                if (child.getNodeName().equals("regexp")) {
-                    Element regexp = (Element)child;
-                    if (regexp.getAttribute("pattern").equals("")) {
-                        regexp.setAttribute("pattern", "/BUILD FAILED/");
-                    }
+                if (regexp.getAttribute("pattern").equals("")) {
+                    regexp.setAttribute("pattern", "/BUILD FAILED/");
+                }
 
-                    if (regexp.getAttribute("subject").equals("")) {
-                        regexp.setAttribute("subject", subject);
-                    } else {
-                        String orig = regexp.getAttribute("subject");
-                        regexp.setAttribute("subject", nagPrefix + " " + orig);
-                        
-                    }
+                if (regexp.getAttribute("subject").equals("")) {
+                    regexp.setAttribute("subject", subject);
+                } else {
+                    String orig = regexp.getAttribute("subject");
+                    regexp.setAttribute("subject", nagPrefix + " " + orig);
+                }
 
-                    if (nagTo != null 
-                        || regexp.getAttribute("to").equals("")) {
-                        regexp.setAttribute("to", to);
-                    }
+                if (nagTo != null || regexp.getAttribute("to").equals("")) {
+                    regexp.setAttribute("to", to);
+                }
 
-                    if (regexp.getAttribute("from").equals("")) {
-                        regexp.setAttribute("from", from);
-                    }
+                if (regexp.getAttribute("from").equals("")) {
+                    regexp.setAttribute("from", from);
                 }
             }
-
         }
+
+        if (regexp == null) {
+            regexp = nag.getOwnerDocument().createElement("regexp");
+            regexp.setAttribute("pattern", "/BUILD FAILED/");
+            regexp.setAttribute("subject", subject);
+            regexp.setAttribute("to", to);
+            regexp.setAttribute("from", from);
+            nag.appendChild(regexp);
+        }
+
     }
 }
