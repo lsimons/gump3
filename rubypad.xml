@@ -6,11 +6,11 @@
 
   <project href="project/jakarta-alexandria.xml"/>
   <project href="project/jakarta-ant.xml"/>
-  <project href="project/jakarta-avalon.xml"/>
   <project href="project/jakarta-avalon-cornerstone.xml"/>
   <project href="project/jakarta-avalon-logkit.xml"/>
   <project href="project/jakarta-avalon-phoenix.xml"/>
   <project href="project/jakarta-avalon-testlet.xml"/>
+  <project href="project/jakarta-avalon.xml"/>
   <project href="project/jakarta-ecs.xml"/>
   <project href="project/jakarta-james.xml"/>
   <project href="project/jakarta-jetspeed.xml"/>
@@ -20,6 +20,7 @@
   <project href="project/jakarta-regexp.xml"/>
   <project href="project/jakarta-servletapi-4.xml"/>
   <project href="project/jakarta-servletapi.xml"/>
+  <project href="project/jakarta-site2.xml"/>
   <project href="project/jakarta-slide.xml"/>
   <project href="project/jakarta-struts.xml"/>
   <project href="project/jakarta-taglibs.xml"/>

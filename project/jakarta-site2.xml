@@ -1,0 +1,17 @@
+<project name="jakarta-site2">
+
+  <url href="http://jakarta.apache.org/site/jakarta-site2.html"/>
+  <description>
+    The Jakarta site
+  </description>
+
+  <cvs repository="jakarta"/>
+
+  <ant/>
+
+  <depend project="jakarta-ant"/>
+  <depend project="xml-xerces"/>
+  <depend project="jdom"/>
+  <depend project="jakarta-velocity"/>
+
+</project>
