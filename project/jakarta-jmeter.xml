@@ -1,5 +1,5 @@
 <module name="jakarta-jmeter">
-
+<!-- Version $Revision: 1.51 $ Last updated $Date: 2003/11/29 21:37:53 $ -->
   <url href="http://jakarta.apache.org/jmeter/" />
   <description>
     Pure Java load testing and performance measurement tool.
@@ -49,13 +49,15 @@
     <work nested="build/components"/>
 
     <!-- These are necessary to run the tests: -->
-    <work nested="lib/ext/ApacheJMeter_core.jar"/>
     <work nested="lib/ext/ApacheJMeter_components.jar"/>
+    <work nested="lib/ext/ApacheJMeter_core.jar"/>
+    <work nested="lib/ext/ApacheJMeter_ftp.jar"/>
     <work nested="lib/ext/ApacheJMeter_functions.jar"/>
     <work nested="lib/ext/ApacheJMeter_http.jar"/>
-    <work nested="lib/ext/ApacheJMeter_ftp.jar"/>
-    <work nested="lib/ext/ApacheJMeter_jdbc.jar"/>
     <work nested="lib/ext/ApacheJMeter_java.jar"/>
+    <work nested="lib/ext/ApacheJMeter_jdbc.jar"/>
+    <work nested="lib/ext/ApacheJMeter_ldap.jar"/>
+    <work nested="lib/ext/ApacheJMeter_tcp.jar"/>
 
     <!-- Temporary standalone trial build -->
     <work nested="lib/avalon-excalibur-4.1.jar"/>
