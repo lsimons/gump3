@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/Attic/model.py,v 1.32 2003/10/19 22:00:38 ajack Exp $
-# $Revision: 1.32 $
-# $Date: 2003/10/19 22:00:38 $
+# $Header: /home/stefano/cvs/gump/python/gump/Attic/model.py,v 1.33 2003/10/20 04:34:29 ajack Exp $
+# $Revision: 1.33 $
+# $Date: 2003/10/20 04:34:29 $
 #
 # ====================================================================
 #
@@ -402,7 +402,12 @@ class Ant(GumpModelObject):
       # Generate the property
       property=Property(depend.__dict__)
       property['reference']='jarpath'
-      property['name']=depend.property
+      # :TODO: AJ added this, and the 'elif' -- which seems wrong
+      # but 
+      if depend.property:
+          property['name']=depend.property
+      elif not hasattr(property,'name') or not property['name']:          
+          property['name']=depend.project
       # :TODO: AJ added this, no idea if it is right/needed.
       if depend.id: property['ids']= depend.id
       # Store it

@@ -300,10 +300,17 @@ def documentWorkspace(workspace,context,db,moduleFilterList=None,projectFilterLi
     titledDataInTableXDoc(x,"CVS Directory : ", str(workspace.cvsdir))
     titledDataInTableXDoc(x,"Package Directory : ", str(workspace.pkgdir))
     titledDataInTableXDoc(x,"List Address: ", str(workspace.mailinglist))
-    titledDataInTableXDoc(x,"Email Address: ", str(workspace.email))
-    titledDataInTableXDoc(x,"Email Server: ", str(workspace.mailserver))
+    titledDataInTableXDoc(x,"E-mail Address: ", str(workspace.email))
+    titledDataInTableXDoc(x,"E-mail Server: ", str(workspace.mailserver))
     titledDataInTableXDoc(x,"Prefix: ", str(workspace.prefix))
     titledDataInTableXDoc(x,"Signature: ", str(workspace.signature))
+    
+    # Does this workspace send nag mails?
+    if workspace.nag:
+        nag='true'
+    else:
+        nag='false'
+    titledDataInTableXDoc(x,"Send Nag E-mails: ", nag)
     endTableXDoc(x)
     endSectionXDoc(x)       
     
@@ -834,21 +841,18 @@ def documentWork(workspace,work,dir):
             startSectionXDoc(x,title)    
             x.write('<table><tr><th>Prefix</th><th>Name</th><th>Value</th></tr>')
             for param in work.command.params.items():
-                if param.name:
-                    x.write('<tr><td>')
-                    if param.prefix: 
-                      x.write(param.prefix)
-                    x.write('</td><td>')
-                    x.write(param.name)
-                    x.write('</td><td>')
-                    val = param.value
-                    if val:
-                        x.write(val)
-                    else:
-                        x.write('N/A')
-                    x.write('</td></tr>\n')  
+                x.write('<tr><td>')
+                if param.prefix: 
+                    x.write(param.prefix)
+                x.write('</td><td>')
+                x.write(param.name)
+                x.write('</td><td>')
+                val = param.value
+                if val:
+                    x.write(val)
                 else:
-                    log.error('Bogus parameter on ' + str(param))
+                    x.write('N/A')
+                x.write('</td></tr>\n')  
                     
             x.write('</table>\n')
             endSectionXDoc(x)

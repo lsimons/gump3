@@ -85,7 +85,9 @@ states = { CMD_STATUS_NOT_YET_RUN : "Not Run",
 
 class Parameter:
     """Name/Value"""
-    def __init__(self,name,value=None,separator=' ',prefix=None):
+    def __init__(self,name,value=None,separator=' ',prefix=None):        
+      if not name:
+          raise 'Unnamed parameter'
       self.name=name
       self.value=value
       self.separator=separator
@@ -162,12 +164,14 @@ class Parameters:
       
 class Cmd:
     """Command Line (executable plus parameters)"""
-    def __init__(self,command,name,cwd=None,env={}):
+    def __init__(self,command,name,cwd=None,env=None,timeout=None):
         self.cmdpath=command
         self.name=name
         self.params=Parameters()
         self.env=env
+        if not env: self.env={}
         self.cwd=cwd
+        self.timeout=timeout
 
     def addParameter(self,name,val=None,separator=' '):
         self.params.addParameter(name,val,separator)
@@ -272,7 +276,7 @@ def dummyExecuteIntoResult(cmd,result,tmp=dir.tmp):
     result.status=CMD_STATUS_SUCCESS  
     return result
 
-def killChildren():
+def killChildProcesses():
     pid=os.getpid()
     log.warn('Kill all child processed (anything launched by Gumpy) [PID' + str(pid) + ']')    
     command='pkill -KILL -P ' + str(pid)
@@ -284,7 +288,7 @@ def killChildren():
 #
 def timeoutHandler(signum, frame):
     log.info('Timeout Handler Called [Signal : ' + str(signum) + ']')
-    killChildren()
+    killChildProcesses()
     
 def execute(cmd,tmp=dir.tmp):
     res=CmdResult(cmd)
@@ -356,7 +360,8 @@ def executeIntoResult(cmd,result,tmp=dir.tmp):
         # Set the signal handler and an N-second alarm
         if not os.name == 'dos' and not os.name == 'nt':
             signal.signal(signal.SIGALRM, timeoutHandler)
-            signal.alarm(setting.timeout)
+            timeout=cmd.timeout or setting.timeout
+            signal.alarm(timeout)
 
         # Execute Command & Wait
         result.exit_code=os.system(execString + ' >>' + str(outputFile) + ' 2>&1')
@@ -431,4 +436,12 @@ if __name__=='__main__':
   cmd=Cmd('ls','ls-test')
   result = execute(cmd)  
   dump(result);
+  
+  cmd=Cmd('sleep','sleep-test')
+  cmd.addParameter("30")
+  cmd.timeout=10
+  result = execute(cmd)  
+  dump(result);
+  
+  
   

@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/Attic/logic.py,v 1.33 2003/10/19 22:00:38 ajack Exp $
-# $Revision: 1.33 $
-# $Date: 2003/10/19 22:00:38 $
+# $Header: /home/stefano/cvs/gump/python/gump/Attic/logic.py,v 1.34 2003/10/20 04:34:29 ajack Exp $
+# $Revision: 1.34 $
+# $Date: 2003/10/20 04:34:29 $
 #
 # ====================================================================
 #
@@ -760,5 +760,5 @@ if __name__=='__main__':
               print " + " + str(p)
               
       cmd=getBuildCommand(workspace,Module.list[project.module],project,context)
-
-      cmd.dump()
+      if cmd:
+          cmd.dump()
