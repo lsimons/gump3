@@ -42,6 +42,12 @@ From: Ted Husted <ted@husted.com>
 Subject: [GUMP] Build Failure - dbcp
 Regex: /BUILD FAILED/
 ------
+Project: commons-httpclient
+To: jakarta-commons@jakarta.apache.org
+From: Ted Husted <ted@husted.com>
+Subject: [GUMP] Build Failure - httpclient
+Regex: /BUILD FAILED/
+------
 Project: commons-pool
 To: jakarta-commons@jakarta.apache.org
 From: Ted Husted <ted@husted.com>
