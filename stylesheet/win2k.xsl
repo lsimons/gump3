@@ -21,7 +21,8 @@
     </xsl:for-each>
 
     <xsl:text>if not "%1"=="" echo Unknown project: %1&#10;</xsl:text>
-    <xsl:text>echo Usage: build all ^| project [target...]&#10;</xsl:text>
+    <xsl:text>echo Usage: build all ^| clean ^| </xsl:text>
+    <xsl:text>project [target...]&#10;</xsl:text>
     <xsl:text>goto eoj&#10;</xsl:text>
     <xsl:text>&#10;:header&#10;</xsl:text>
 
@@ -223,6 +224,10 @@
   <!-- =================================================================== -->
 
   <xsl:template match="logic">
+    <xsl:if test="@name='clean'">
+      <xsl:text>if "%1"=="all" goto end_clean&#10;</xsl:text>
+    </xsl:if>
+
     <xsl:text>echo ^&lt;XMP^> %OUT%&#10;</xsl:text>
 
     <xsl:text>:</xsl:text>
@@ -372,21 +377,11 @@
   <!-- =================================================================== -->
 
   <xsl:template match="delete">
-    <xsl:choose>
-      <xsl:when test="@fork='yes'">
-        <xsl:text>start </xsl:text>
-        <xsl:text>rmdir /s /q </xsl:text>
-        <xsl:value-of select="translate(@dir,'/','\')"/>
-        <xsl:text>&#10;</xsl:text>
-      </xsl:when>
-      <xsl:otherwise>
-        <xsl:text>if exist </xsl:text>
-        <xsl:value-of select="translate(@dir,'/','\')"/>
-        <xsl:text> rmdir /s /q </xsl:text>
-        <xsl:value-of select="translate(@dir,'/','\')"/>
-        <xsl:text> %OUT% 2&gt;&amp;1&#10;</xsl:text>
-      </xsl:otherwise>
-    </xsl:choose>
+    <xsl:text>if exist </xsl:text>
+    <xsl:value-of select="translate(@dir,'/','\')"/>
+    <xsl:text> rmdir /s /q </xsl:text>
+    <xsl:value-of select="translate(@dir,'/','\')"/>
+    <xsl:text> %OUT% 2&gt;&amp;1&#10;</xsl:text>
   </xsl:template>
 
   <!-- =================================================================== -->

@@ -29,14 +29,19 @@
       <delete dir="dist"/>
 
       <!-- clean up old build directories -->
-      <mkdir dir="trashbin"/>
-      <xsl:for-each select="module[cvs]">
-        <move file="{@srcdir}" todir="trashbin"/>
-      </xsl:for-each>
-      <delete dir="trashbin" fork="yes"/>
+      <project>
+        <logic name="clean">
+          <mkdir dir="trashbin"/>
+          <xsl:for-each select="module[cvs]">
+            <move file="{@srcdir}" todir="trashbin"/>
+          </xsl:for-each>
+          <delete dir="trashbin"/>
+        </logic>
+      </project>
 
       <!-- initialize new build directories -->
       <xsl:for-each select="module[cvs]">
+        <delete dir="{@srcdir}"/>
         <copy fromdir="{$cvsdir}/{@name}" todir="{@srcdir}"/>
       </xsl:for-each>
 
@@ -75,6 +80,7 @@
               <th>Project</th>
               <th>Status</th>
             </tr>
+
             <xsl:apply-templates select="project"/>
           </table>
         </content>
