@@ -60,9 +60,10 @@ def xmlize(nodeName,object,f,indent='',delta='  '):
 
   
 if __name__=='__main__':
+  # cd into the base Gump dir; all dirs are relative to it
   os.chdir(dir.base)
-  debug=True #False
 
+  # load commandline args or use default values
   if len(sys.argv)>1 :
     ws=sys.argv[1]
   else:
