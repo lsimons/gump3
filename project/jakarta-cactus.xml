@@ -53,7 +53,7 @@
       <depend property="j2ee.jar" project="jakarta-servletapi"/>
       <depend property="log4j.jar" project="logging-log4j" id="log4j"/>
       <depend property="commons.logging.jar" project="commons-logging" id="all"/>
-      <depend property="commons.httpclient.jar" project="commons-httpclient"/>
+      <depend property="commons.httpclient.jar" project="commons-httpclient-2.0-branch"/>
       <depend property="httpunit.jar" project="httpunit"/>
       <depend property="aspectjrt.jar" project="aspectj" id="aspectjrt"/>
       <depend property="junit.jar" project="junit"/>
@@ -101,7 +101,7 @@
       <depend property="j2ee.jar" project="jakarta-servletapi-4"/>
       <depend property="log4j.jar" project="logging-log4j" id="log4j"/>
       <depend property="commons.logging.jar" project="commons-logging" id="all"/>
-      <depend property="commons.httpclient.jar" project="commons-httpclient"/>
+      <depend property="commons.httpclient.jar" project="commons-httpclient-2.0-branch"/>
       <depend property="httpunit.jar" project="httpunit"/>
       <depend property="aspectjrt.jar" project="aspectj" id="aspectjrt"/>
       <depend property="junit.jar" project="junit"/>
@@ -292,7 +292,7 @@
 
       <depend property="aspectjrt.jar" project="aspectj" id="aspectjrt"/>
       <depend property="cactus.jar" project="jakarta-cactus-framework-12"/>
-      <depend property="commons.httpclient.jar" project="commons-httpclient"/>
+      <depend property="commons.httpclient.jar" project="commons-httpclient-2.0-branch"/>
       <depend property="commons.logging.jar" project="commons-logging" id="all"/>
       <depend property="eclipse.ant.core.jar" project="eclipse" id="antsupport"/>
       <depend property="eclipse.core.boot.jar" project="eclipse" id="boot"/>
@@ -356,7 +356,7 @@
 
       <depend property="aspectjrt.jar" project="aspectj" id="aspectjrt"/>
       <depend property="cactus.jar" project="jakarta-cactus-framework-12"/>
-      <depend property="commons.httpclient.jar" project="commons-httpclient"/>
+      <depend property="commons.httpclient.jar" project="commons-httpclient-2.0-branch"/>
       <depend property="commons.logging.jar" project="commons-logging" id="all"/>
       <depend property="eclipse.ant.core.jar" project="eclipse" id="antsupport"/>
       <depend property="eclipse.core.boot.jar" project="eclipse" id="boot"/>
@@ -426,7 +426,7 @@
       <depend property="log4j.jar" project="logging-log4j" id="log4j"/>
       <depend property="commons.logging.jar" project="commons-logging"
         id="all"/>
-      <depend property="commons.httpclient.jar" project="commons-httpclient"/>
+      <depend property="commons.httpclient.jar" project="commons-httpclient-2.0-branch"/>
       <depend property="httpunit.jar" project="httpunit"/>
       <depend property="aspectjrt.jar" project="aspectj" id="aspectjrt"/>
       <depend property="junit.jar" project="junit"/>
@@ -445,7 +445,7 @@
     <depend project="jakarta-tomcat" inherit="runtime"/>
     <depend project="aspectj"/>
     <depend project="jakarta-cactus-integration-ant-12"/>
-    <depend project="commons-httpclient" inherit="runtime"/>
+    <depend project="commons-httpclient-2.0-branch" inherit="runtime"/>
 
     <work nested="samples/servlet/target-12/test/classes/java"/>
     <work nested="samples/servlet/target-12/test/classes/cactus"/>
@@ -485,7 +485,7 @@
       <depend property="log4j.jar" project="logging-log4j" id="log4j"/>
       <depend property="commons.logging.jar" project="commons-logging" 
         id="all"/>
-      <depend property="commons.httpclient.jar" project="commons-httpclient"/>
+      <depend property="commons.httpclient.jar" project="commons-httpclient-2.0-branch"/>
       <depend property="httpunit.jar" project="httpunit"/>
       <depend property="aspectjrt.jar" project="aspectj" id="aspectjrt"/>
       <depend property="junit.jar" project="junit"/>
@@ -510,7 +510,7 @@
     <depend project="jakarta-tomcat-4.0" inherit="runtime"/>
     <depend project="aspectj"/>
     <depend project="jakarta-cactus-integration-ant-13"/>
-    <depend project="commons-httpclient" inherit="runtime"/>
+    <depend project="commons-httpclient-2.0-branch" inherit="runtime"/>
 
     <work nested="samples/servlet/target-13/test/classes/java"/>
     <work nested="samples/servlet/target-13/test/classes/cactus"/>
@@ -555,7 +555,7 @@
       <depend property="servlet.jar" project="jakarta-servletapi-4"/>
       <depend property="commons.logging.jar" project="commons-logging"
         id="all"/>
-      <depend property="commons.httpclient.jar" project="commons-httpclient"/>
+      <depend property="commons.httpclient.jar" project="commons-httpclient-2.0-branch"/>
       <depend property="httpunit.jar" project="httpunit"/>
       <depend property="aspectjrt.jar" project="aspectj" id="aspectjrt"/>
       <depend property="junit.jar" project="junit"/>
