@@ -18,7 +18,7 @@
     <depend project="javamail" />
     <depend project="jsse" />
     <depend project="jakarta-oro" />
-    <depend project="jakarta-log4j" />
+    <depend project="jakarta-avalon-logkit" />
     <depend project="jtidy" />
     <depend project="junit" />
     <depend project="jakarta-avalon" />
