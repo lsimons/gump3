@@ -14,7 +14,7 @@
     <mkdir dir="temp/api/classes/"/>
     <mkdir dir="temp/container/classes/"/>
 
-    <ant basedir="build" target="all">
+    <ant target="all">
       <property name="env.ANT_HOME" reference="home" project="ant"/>
       <property name="final.api.name" value="portlet-api-@@DATE@@"/>
       <property name="final.portal.name" value="pluto-portal-impl-@@DATE@@"/>
@@ -36,9 +36,9 @@
     <work nested="build/ant/lib/ForeachTask.jar"/>
 
     <home nested="temp"/>
-    <jar name="container/pluto-@@DATE@@.jar" id="container"/>
-    <jar name="api/portlet-api-@@DATE@@.jar" id="api"/>
-    <jar name="portal/pluto-portal-impl-@@DATE@@.jar" id="portal"/>
+    <jar name="container/target/pluto-@@DATE@@.jar" id="container"/>
+    <jar name="api/target/portlet-api-@@DATE@@.jar" id="api"/>
+    <jar name="portal/target/pluto-portal-impl-@@DATE@@.jar" id="portal"/>
 
     <license name="LICENSE"/>
 
