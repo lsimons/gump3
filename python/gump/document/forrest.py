@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/forrest.py,v 1.122 2004/03/31 17:41:41 ajack Exp $
-# $Revision: 1.122 $f
-# $Date: 2004/03/31 17:41:41 $
+# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/forrest.py,v 1.123 2004/03/31 18:37:51 ajack Exp $
+# $Revision: 1.123 $f
+# $Date: 2004/03/31 18:37:51 $
 #
 # ====================================================================
 #
@@ -123,10 +123,11 @@ class ForrestDocumenter(Documenter):
         
         # Document...
         self.documentEnvironment(run,workspace)    
-        self.documentWorkspace(run,workspace,gumpSet)    
-        if gumpSet.isFull():
-            self.documentStatistics(run,workspace,gumpSet)
-            self.documentXRef(run,workspace,gumpSet)
+        self.documentWorkspace(run,workspace,gumpSet)  
+        
+        # Document these (even if not a full build)
+        self.documentStatistics(run,workspace,gumpSet)
+        self.documentXRef(run,workspace,gumpSet)
 
         #
         # Launch Forrest, if we aren't just leaving xdocs...
