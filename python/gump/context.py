@@ -313,7 +313,7 @@ class Summary:
                 self.prereqs+=1
             elif STATUS_FAILED == status:
                 self.failures+=1
-            elif STATUS_NO_WORK_PERFORMED == status:
+            elif STATUS_NONE == status:
                 self.noworks+=1
             elif STATUS_STATUS_COMPLETE == status:
                 # :TODO: Accurate?
