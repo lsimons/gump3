@@ -1117,4 +1117,51 @@
           from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"/>
     </project>
 
+    <project name="merlin-impl">
+        <package>org.apache.avalon.merlin</package>
+        <ant basedir="merlin/kernel/impl" target="jar">
+            <property name="project.version" value="@@DATE@@"/>
+        </ant>
+
+        <depend project="ant" inherit="runtime"/>
+        <depend project="junit"/>
+        <depend project="xml-xerces"/>
+        <depend project="merlin-api"/>
+        <depend project="avalon-repository-api"/>
+        <depend project="avalon-repository-spi"/>
+        <depend project="avalon-repository-util"/>
+        <depend project="avalon-repository-main"/>
+        <depend project="avalon-logging-api" />
+        <depend project="avalon-logging-spi" />
+        <depend project="avalon-composition-api" />
+        <depend project="avalon-composition-spi" />
+        <depend project="avalon-composition-impl" />
+        <depend project="avalon-meta-api" />
+        <depend project="avalon-meta-spi" />
+        <depend project="avalon-meta-impl" />
+        <depend project="avalon-util-extension-api" />
+        <depend project="avalon-util-extension-impl" />
+        <depend project="avalon-framework" id="api" />
+        <depend project="avalon-framework" id="impl" />
+        <depend project="avalon-util-defaults" />
+        <depend project="avalon-util-env" />
+        <depend project="avalon-util-exception" />
+        <depend project="avalon-util-criteria" />
+        <depend project="excalibur-lifecycle-api" />
+        <depend project="avalon-util-i18n" />
+        <depend project="excalibur-configuration" />
+
+        <mkdir dir="merlin/kernel/impl/target/classes"/>
+        <work nested="merlin/kernel/impl/target/classes"/>
+        <mkdir dir="merlin/kernel/impl/target/test-classes"/>
+        <work nested="merlin/kernel/impl/target/test-classes"/>
+        <home nested="merlin/kernel/impl"/>
+        <jar name="target/merlin-impl-@@DATE@@.jar"/>
+        <javadoc nested="merlin/kernel/impl/target/docs/apidocs"/>
+        <nag to="dev@avalon.apache.org" 
+          from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"/>
+
+    </project>
+
 </module>
+
