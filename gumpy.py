@@ -75,7 +75,9 @@ import os
 import sys
 import socket
 import time
-
+import smtplib
+import StringIO
+from xml.dom import minidom
 
 LINE=' - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - GUMP'
 
@@ -150,6 +152,22 @@ def catFile(output,file,title=None):
         # Next...
         line = input.readline()
         
+def sendEmail(toaddr,fromaddr,subject,data,server,port=25):
+    rawdata = "Date: %s\r\nFrom: %s\r\nTo: %s\r\nSubject: %s\r\n\r\n%s"	\
+           	% (	time.strftime('%d %b %y %H:%M:%S', time.gmtime()),
+           	    fromaddr, toaddr,	subject,	data)
+    try:
+        #
+        # Attach to the SMTP server to send....
+        #
+        server = smtplib.SMTP(server,port)
+        #server.set_debuglevel(1)
+        server.sendmail(fromaddr, toaddr, rawdata)
+        server.quit()
+        
+    except Exception, details:
+        print 'Failed to send mail: ' + str(details)
+    
 # Allow a lock
 lockFile=os.path.abspath('gumpy.lock')
 if os.path.exists(lockFile):
@@ -167,6 +185,11 @@ logFile=os.path.abspath('gumpy.log')
 log=open(logFile,'w')
 
 result=0
+        
+mailserver=None
+mailport=None
+mailfrom=None
+mailto=None
         
 try:
 
@@ -188,11 +211,43 @@ try:
         workspaceName = hostname + '.xml'
         if os.environ.has_key('GUMP_WORKSPACE'):        
             workspaceName = os.environ['GUMP_WORKSPACE'] + '.xml'
+        
+        workspacePath = os.path.abspath(os.path.join('python',workspaceName))
             
         projectsExpr='*'
         if os.environ.has_key('GUMP_PROJECTS'):        
-            projectsExpr = os.environ['GUMP_PROJECTS']            
-
+            projectsExpr = os.environ['GUMP_PROJECTS']       
+            
+        if not os.path.exists(workspacePath):
+            raise RuntimeError('No such workspace at ' + str(workspacePath))
+        
+        #
+        # Process the workspace...
+        #     
+        ws = minidom.parse(workspacePath)
+        wsw=ws.firstChild
+        wsName=wsw.getAttribute('name')
+        # Extract the base directory
+        baseDir=wsw.getAttribute('basedir')      
+        basePath=os.path.abspath(baseDir)
+        # Mail reporting
+        mailserver=wsw.getAttribute('mailserver')
+        mailport=wsw.getAttribute('mailport') or 25
+        mailto=wsw.getAttribute('mailinglist')        
+        mailfrom=wsw.getAttribute('email')
+        # Extract the mail server/address
+        ws.unlink()
+        
+        log.write('- GUMP base directory : ' + baseDir + '\n')
+        log.write('- GUMP base path      : ' + str(basePath) + '\n')
+        if mailserver:
+            log.write('- GUMP mail server    : ' + mailserver + '\n')
+        if mailport:
+            log.write('- GUMP mail port      : ' + str(mailport) + '\n')
+        if mailfrom:
+            log.write('- GUMP mail from      : ' + mailfrom + '\n')
+        if mailto:
+            log.write('- GUMP mail to        : ' + mailto + '\n')
 
         #
         # Add Gump to Python Path...
@@ -254,9 +309,22 @@ finally:
     os.remove(lockFile)
     
     if 1 or result:
-        # Cat log if failed...
-        catFile(sys.stdout, logFile, 'The Gump log...')
+        logTitle='The Apache Gump log...'
         
+        # Cat log if failed...
+        catFile(sys.stdout, logFile, logTitle)
+        
+        if mailserver and mailport and mailto and mailfrom:
+            # :TODO: Sucky to read file into memory...
+            # Need to figure out attachments, if that
+            # helps & doesn't just do same...
+            tmpStream=StringIO.StringIO() 
+            catFile(tmpStream, logFile, logTitle)
+            tmpStream.seek(0)
+            logData=tmpStream.read()
+            tmpStream.close()
+            tmpStream=None
+            sendEmail(mailto,mailfrom,logTitle,logData,mailserver,mailport)
 
 # bye!
 sys.exit(result)
