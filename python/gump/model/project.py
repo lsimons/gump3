@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/model/project.py,v 1.38 2004/02/10 00:50:48 ajack Exp $
-# $Revision: 1.38 $
-# $Date: 2004/02/10 00:50:48 $
+# $Header: /home/stefano/cvs/gump/python/gump/model/project.py,v 1.39 2004/02/10 01:30:48 ajack Exp $
+# $Revision: 1.39 $
+# $Date: 2004/02/10 01:30:48 $
 #
 # ====================================================================
 #
@@ -970,8 +970,12 @@ class Project(NamedModelObject, Statable):
         return properties
 
     def generateMavenProperties(self):
-        """Set properties for a project"""
+        """Set properties/overrides for a Maven project"""
         
+        #
+        # Where to put this:
+        #
+        basedir = self.maven.getBaseDirectory() or self.getBaseDirectory()
         propertiesFile=os.path.abspath(os.path.join(\
                 self.getModule().getSourceDirectory(),'build.properties'))
         
