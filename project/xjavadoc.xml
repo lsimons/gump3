@@ -10,6 +10,9 @@
   <project name="xjavadoc-javacc-fails">
     <package>xjavadoc</package>
 
+    <mkdir dir="target/classes"/>
+    <mkdir dir="target/test-classes"/>
+
     <ant target="jar">
       <property name="ant.home" project="ant" reference="home"/>
       <property name="version" value="@@DATE@@"/>
@@ -24,6 +27,12 @@
     <depend project="junit"/>
     <depend project="commons-logging" runtime="true"/>
     <depend project="commons-collections" runtime="true"/>
+
+    <!-- needed for unit tests only -->
+    <depend project="bootstrap-xdoclet"/>
+    <work nested="target/classes"/>
+    <work nested="target/test-classes"/>
+
     <jar name="build/lib/xdoclet-xjavadoc-uc-@@DATE@@.jar"/>
 
     <nag from="Stefan Bodewig &lt;bodewig@apache.org&gt;"
@@ -35,6 +44,9 @@
 
   <project name="xjavadoc">
     <package>xjavadoc</package>
+
+    <mkdir dir="target/classes"/>
+    <mkdir dir="target/test-classes"/>
 
     <ant target="jar">
       <property name="ant.home" project="ant" reference="home"/>
@@ -56,6 +68,12 @@
     <depend project="junit"/>
     <depend project="commons-logging" runtime="true"/>
     <depend project="commons-collections" runtime="true"/>
+
+    <!-- needed for unit tests only -->
+    <depend project="bootstrap-xdoclet"/>
+    <work nested="target/classes"/>
+    <work nested="target/test-classes"/>
+
     <jar name="build/lib/xdoclet-xjavadoc-uc-@@DATE@@.jar"/>
 
     <nag from="Stefan Bodewig &lt;bodewig@apache.org&gt;"
@@ -64,6 +82,10 @@
 
   <project name="old-javacc">
     <jar name="lib/JavaCC.zip"/>
+  </project>
+
+  <project name="bootstrap-xdoclet">
+    <jar name="lib/xdoclet.jar"/>
   </project>
 
 </module>
