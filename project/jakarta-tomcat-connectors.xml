@@ -132,6 +132,9 @@
 
     <nag to="tomcat-dev@jakarta.apache.org"
          from="Craig McClanahan &lt;craigmcc@apache.org&gt;"/>
+      <regexp  subject="Build Failure - jk2"/>
+      <regexp pattern="/timed out/" subject="Build timed out - jk2"/>
+    </nag>
   </project>
 
   <project name="jakarta-tomcat-jk-native">
@@ -145,6 +148,9 @@
 
     <nag to="tomcat-dev@jakarta.apache.org"
          from="Craig McClanahan &lt;craigmcc@apache.org&gt;"/>
+      <regexp  subject="Build Failure - jk"/>
+      <regexp pattern="/timed out/" subject="Build timed out - jk"/>
+    </nag>
   </project>
   
 </module>
