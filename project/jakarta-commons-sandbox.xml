@@ -263,7 +263,7 @@
     <!-- and binary distributions.                         -->
     
     <ant basedir="xo" buildfile="build-gump.xml" target="jar">
-      <property name="final.name" value="commons-xo-@@DATE@@"/>
+      <property name="maven.final.name" value="commons-xo-@@DATE@@"/>
     </ant>
     
     <!-- All Maven projects need Ant and Xerces to build. -->
