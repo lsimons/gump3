@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/xdoc.py,v 1.11 2004/02/10 20:18:40 ajack Exp $
-# $Revision: 1.11 $
-# $Date: 2004/02/10 20:18:40 $
+# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/xdoc.py,v 1.12 2004/02/10 21:25:43 ajack Exp $
+# $Revision: 1.12 $
+# $Date: 2004/02/10 21:25:43 $
 #
 # ====================================================================
 #
@@ -180,10 +180,10 @@ class XDocPiece(Ownable):
         self.emptyOk=0        
         
     def __repr__(self):
-        return str(self.__class__)
+        return self.__class__.__name__
         
     def __str__(self):
-        return str(self.__class__)
+        return self.__class__.__name__
         
     def createSubContext(self,transient=0):
         #
@@ -257,10 +257,10 @@ class XDocSection(XDocPiece):
         self.title=title
         
     def __repr__(self):
-        return str(self.__class__) + ':' + self.title
+        return self.__class__.__name__ + ':' + self.title
         
     def __str__(self):
-        return str(self.__class__) + ':' + self.title
+        return self.__class__.__name__ + ':' + self.title
         
     def start(self):
         self.context.writeLineIndented('<section><title>%s</title>' % (self.title))
