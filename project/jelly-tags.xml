@@ -246,7 +246,7 @@
     <depend project="commons-jelly" inherit="all"/>
     <depend project="commons-jelly-tags-junit" inherit="runtime"/>
     <depend project="commons-jelly-tags-ant" inherit="runtime"/>
-    <depend project="commons-jelly-tags-beanshell" inherit="runtime"/>
+    <depend project="commons-grant" inherit="runtime"/>
 
     <work nested="fmt/target/classes"/>
     <work nested="fmt/target/test-classes"/>
