@@ -1,11 +1,11 @@
-<module name="jakarta-avalon-cornerstone">
+<module name="avalon-cornerstone">
 
   <url href="http://jakarta.apache.org/avalon/"/>
   <description>
     Set of default services for Avalon/Phoenix
   </description>
 
-  <cvs repository="jakarta"/>
+  <cvs repository="avalon"/>
   
   <project name="jakarta-avalon-cornerstone">
     <package>org.apache.avalon.cornerstone</package>

@@ -1,11 +1,11 @@
-<module name="jakarta-avalon-excalibur">
+<module name="avalon-excalibur">
 
     <url href="http://jakarta.apache.org/avalon/excalibur"/>
     <description>
       A repository of reusable components
     </description>
 
-    <cvs repository="jakarta"/>
+    <cvs repository="avalon"/>
 
     <project name="jakarta-avalon-excalibur">
         <!-- this basically depends on all excalibur subprojects and their dependencies.

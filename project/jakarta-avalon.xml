@@ -1,11 +1,11 @@
-<module name="jakarta-avalon">
+<module name="avalon">
 
   <url href="http://jakarta.apache.org/avalon/"/>
   <description>
     Avalon framework
   </description>
 
-  <cvs repository="jakarta"/>
+  <cvs repository="avalon"/>
   
   <project name="jakarta-avalon">
     <package>org.apache.avalon.framework</package>

@@ -1,11 +1,11 @@
-<module name="jakarta-avalon-apps">
+<module name="avalon-apps">
 
     <url href="http://jakarta.apache.org/avalon/"/>
     <description>
         Set of applications running on Avalon/Phoenix
     </description>
 
-    <cvs repository="jakarta"/>
+    <cvs repository="avalon"/>
 
     <project name="avalon-apps-db">
         <package>org.apache.avalon.db</package>

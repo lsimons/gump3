@@ -1,11 +1,11 @@
-<module name="jakarta-avalon-phoenix">
+<module name="avalon-phoenix">
 
   <url href="http://jakarta.apache.org/avalon/"/>
   <description>
     The Avalon Application Server Kernel
   </description>
 
-  <cvs repository="jakarta"/>
+  <cvs repository="avalon"/>
 
   <project name="jakarta-avalon-phoenix">
     <package>org.apache.avalon.phoenix</package>

@@ -5,7 +5,7 @@
       A repository of reusable components
     </description>
 
-    <cvs repository="jakarta"/>
+    <cvs repository="avalon"/>
 
     <project name="avalon-sandbox-lifecycle">
         <package>org.apache.avalon.lifecycle</package>

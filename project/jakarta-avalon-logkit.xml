@@ -1,11 +1,11 @@
-<module name="jakarta-avalon-logkit">
+<module name="avalon-logkit">
 
   <url href="http://jakarta.apache.org/avalon/"/>
   <description>
     Fast lightweight Logging toolkit
   </description>
 
-  <cvs repository="jakarta"/>
+  <cvs repository="avalon"/>
   
   <project name="jakarta-avalon-logkit">
     <package>org.apache.log</package>
