@@ -8,6 +8,9 @@
   <cvs repository="jakarta"/>
   
   <project name="jakarta-avalon-cornerstone">
+    <mkdir dir="apps/db/build/classes"/>
+    <mkdir dir="apps/demo/build/classes"/>
+
     <ant>
       <depend property="xerces.jar" project="xml-xerces"/>
       <depend property="logkit.jar" project="jakarta-avalon-logkit"/>
