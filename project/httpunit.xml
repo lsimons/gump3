@@ -4,6 +4,7 @@
   <description>
     framework for unit testing web sites
   </description>
+  <redistributable/>
 
   <cvs repository="sourceforge" host-prefix="cvs.httpunit" dir="httpunit"/>
   
@@ -17,6 +18,7 @@
     <depend project="junit"/>
     <depend project="nekohtml"/>
     <jar id="httpunit" name="lib/httpunit.jar"/>
+    <license name="doc/license.html"/>
   </project>
 
 </module>

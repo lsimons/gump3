@@ -4,6 +4,7 @@
   <description>
     JavaScript for Java
   </description>
+  <redistributable/>
 
   <cvs repository="mozilla" module="mozilla/js/rhino"/>
 
@@ -21,6 +22,7 @@
 
     <home nested="build/rhino_@@DATE@@"/>
     <jar name="js.jar"/>
+    <license name="README.html"/>
     <javadoc nested="build/rhino_@@DATE@@/docs/apidocs"/>
   </project>
 
