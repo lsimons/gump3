@@ -973,6 +973,7 @@ class Objectifier:
             dependency_project = dependency_name
         
         id = dependency.getAttribute("id")
+        new_dependency = Dependency(dependency_project,project,optional,runtime,inherit,id)
         project.add_dependency(Dependency(dependency_project,project,optional,runtime,inherit,id))
 
 

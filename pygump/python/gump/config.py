@@ -87,20 +87,24 @@ def get_plugins(config):
     pre_process_plugins = []
     # TODO: append more plugins here...
     
+    from gump.plugins.instrumentation import TimerPlugin
+    pre_process_plugins.append(TimerPlugin("run_start"))
+    
     plugins = []
+    # TODO: append more plugins here...
 
     from gump.plugins import LoggingPlugin
     log = get_logger(config.log_level, "plugin-log")
     plugins.append(LoggingPlugin(log))
     
+    post_process_plugins = []
+    # TODO: append more plugins here...
+    post_process_plugins.append(TimerPlugin("run_end"))
+
     from gump.plugins.dynagumper import Dynagumper
     db = get_db(config)
     log = get_logger(config.log_level, "plugin-dynagumper")
-    plugins.append(Dynagumper(db, log))
-    # TODO: append more plugins here...
-    
-    post_process_plugins = []
-    # TODO: append more plugins here...
+    post_process_plugins.append(Dynagumper(db, log, "run_start", "run_end"))
     
     return (pre_process_plugins, plugins, post_process_plugins)
 
@@ -202,10 +206,12 @@ def get_modeller_verifier():
     return Verifier()
 
 
-def get_walker():
+def get_walker(config):
     """Provide a Walker implementation."""
     from gump.engine.walker import Walker
-    return Walker()
+    
+    log = get_logger(config.log_level, "walker")
+    return Walker(log)
 
 
 def get_plugin(config):

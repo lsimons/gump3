@@ -59,6 +59,8 @@ def main(settings):
     Arguments:
       - settings -- everything the engine needs to know about the environment.
     """
+    #TODO: normalize this so that main() isn't responsible for feeding specific
+    # arguments into the _get_xxx() methods. Its annoying.
     
     # ooh...ah...fancy :-D
     _banner(settings.version)
@@ -83,7 +85,7 @@ def main(settings):
     mergefile = os.path.join(config.paths_work, "merge.xml")
     dropfile = os.path.join(config.paths_work, "dropped.xml")
     
-    walker = get_walker()
+    walker = get_walker(config)
     (pre_process_visitor, visitor, post_process_visitor) = get_plugin(config)
     
     # create engine

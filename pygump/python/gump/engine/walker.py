@@ -30,6 +30,10 @@ class Walker:
     Note that the walker will fail to visit all projects if there is a cyclic
     dependency somewhere.
     """
+    def __init__(self, log):
+        self.log = log
+        self.no_debug = False
+        self.visited_workspaces = []
     
     def walk(self, workspace, visitor):
         """Walks a gump tree using inverted topsort.
@@ -41,10 +45,28 @@ class Walker:
         Returns a tuple containing the repositories visited, the modules
         visited, and the projects visited, in the order they were visited.
         """
+        if workspace in self.visited_workspaces: # only debug once...
+            self.no_debug = True
+        self.visited_workspaces.append(workspace)
+        
         visitor._initialize()
         visitor._visit_workspace(workspace)
         
+        if not self.no_debug:
+            names = ""
+            for project in workspace.projects.values():
+                names += project.name + ", "
+            names = names[:-2]
+            self.log.debug("Projects to sort:\n%s" % names)
+        
         list = self._topsort_projects(workspace)
+        
+        if not self.no_debug:
+            names = ""
+            for project in list:
+                names += project.name + ", "
+            names = names[:-2]
+            self.log.debug("Topological sort of projects results in:\n%s" % names)
         
         visited_repositories = []
         visited_modules = []
@@ -80,10 +102,10 @@ class Walker:
             project = stack.pop()
             list.append(project)
             
-            for dependency in project.dependencies:
-                dependency.dependee.indegree -= 1
-                if dependency.dependee.indegrees == 0:
-                    stack.append(dependency.dependee)
+            for dependee in project.dependees:
+                dependee.dependee.indegree -= 1
+                if dependee.dependee.indegree == 0:
+                    stack.append(dependee.dependee)
     
         self._clear_indegrees(workspace)
         return list

@@ -26,7 +26,7 @@ class Dynagumper(AbstractPlugin):
     Populate the DynaGump run metadata database.
     """
     
-    def __init__(self, db, log):
+    def __init__(self, db, log, startdate_property_name, enddate_property_name):
         """Set up the Dynagumper.
 
         Arguments:
@@ -35,6 +35,9 @@ class Dynagumper(AbstractPlugin):
         """
         self.db = db
         self.log = log
+        
+        self.startdate_property_name = startdate_property_name
+        self.enddate_property_name = enddate_property_name
         
     def initialize(self):
         #TODO call ensureThisHostIsInDatabase
@@ -62,5 +65,16 @@ class Dynagumper(AbstractPlugin):
     
     def visit_project(self, project):    
         """Add information about a project to the database."""
-        pass
+        tablename = "projects"
+        startdate = getattr(project, self.startdate_property_name)
+        enddate = getattr(project, self.enddate_property_name)
+        name = project.name
+        
+        cmd = "INSERT INTO %s (project_name, start_date, end_date) VALUES ('%s', '%s', '%s')" \
+            % (tablename, name, startdate, enddate)
+        
+        #TODO make query fit database model
+        self.log.debug("Executing SQL: %s" % cmd)
+        # self.db.execute(cmd)
+        
         #TODO do the actual work right here...

@@ -240,9 +240,9 @@ class Project(ModelObject):
     def add_dependency(self, dependency):
         self.module.repository.workspace.dependencies.append(dependency)
         self.dependencies.append(dependency)
-        if type(dependency.dependee) == Project: # might be a string for a bad
-                                                 # dependency
-            dependency.dependee.add_dependee(dependency)
+        if type(dependency.dependency) == type(self): # might be a string for a bad
+                                                      # dependency
+            dependency.dependency.add_dependee(dependency)
     
     def add_dependee(self, dependee):
         self.dependees.append(dependee)
@@ -272,11 +272,11 @@ class Dependency(ModelObject):
     
     Has the following properties:
         
-        - dependency -- the project that is depending on the other project
-        - dependee   -- the project that is being depended on by the
+        - dependency -- the project that is being depended on by the
                         other project, or the name of that project if
                         it doesn't actually exist (ie that's an error
                         condition).
+        - dependee -- the project that is depending on the other project
         - optional   -- flag indicating whether the dependee can be built and
                         used if this dependency cannot be satisfied
         - runtime    -- flag indicating whether the dependee needs this
