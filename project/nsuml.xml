@@ -13,7 +13,7 @@
     <ant/>
     <depend project="jakarta-ant" inherit="runtime"/>
     <depend project="xml-xerces"/>
-    <depend project="nsmdf"/>
+    <depend project="nsmdf" runtime="true"/>
 
     <home nested="build"/>
     <jar name="nsuml1_4.jar"/>

@@ -109,7 +109,7 @@
     <depend project="junit">
     </depend>
     <depend project="jakarta-log4j"/>
-    <depend project="nsuml">
+    <depend project="nsuml" inherit="runtime">
     </depend>
     <depend project="xml-apis">
     </depend>
