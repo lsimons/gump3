@@ -10,8 +10,12 @@
   <ant target="dist">
     <property name="logkit.jar"
        reference="jarpath" id="logkit" project="jakarta-avalon-logkit"/>
-    <property name="avalonapi.jar"
-       reference="jarpath" id="avalonapi" project="jakarta-avalon"/>
+    <property name="avalon-framework.jar"
+       reference="jarpath" id="avalon-framework" project="jakarta-avalon"/>
+    <property name="avalon-excalibur.jar"
+       reference="jarpath" id="avalon-excalibur" project="jakarta-avalon"/>
+    <property name="avalon-scratchpad.jar"
+       reference="jarpath" id="avalon-scratchpad" project="jakarta-avalon"/>
     <property name="xerces.jar"
        reference="jarpath" id="parser" project="xml-xerces"/>
   </ant>

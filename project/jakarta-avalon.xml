@@ -28,9 +28,9 @@
   <work nested="build/classes"/>
 
   <home nested="build/lib"/>
-  <jar name="avalon-framework.jar" id="avalonapi"/>
-  <jar name="avalon-excalibur.jar"/>
-  <jar name="avalon-scratchpad.jar"/>
+  <jar name="avalon-framework.jar" id="avalon-framework"/>
+  <jar name="avalon-excalibur.jar" id="avalon-excalibur"/>
+  <jar name="avalon-scratchpad.jar" id="avalon-scratchpad"/>
 
   <!-- Anybody want to contribute an ant build.xml to Kawa ;-) -->
   <project name="kawa">
@@ -45,5 +45,13 @@
     <ant target="jar-clutil"/>
     <home nested="build/lib"/>
     <jar name="clutil.jar"/>
+  </project>
+
+  <project name="jakarta-avalon-exceptionutil">
+    <depend project="jakarta-ant"/>
+    <depend project="xml-xerces"/>
+    <ant target="jar-exceptionutil"/>
+    <home nested="build/lib"/>
+    <jar name="exceptionutil.jar"/>
   </project>
 </project>
