@@ -59,6 +59,7 @@
     <depend project="xml-axis" inherit="all"/>
     <depend project="xml-security" inherit="runtime"/>
     <work nested="java/build/classes"/>
+    <work nested="java/build/lib/axis-ant.jar"/>
 
     <home nested="java/build"/>
     <jar name="lib/axis.jar"/>
