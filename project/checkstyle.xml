@@ -74,6 +74,8 @@
       <property name="version" value="@@DATE@@"/>
     </ant>
 
+    <depend project="ant" inherit="runtime"/>
+    <depend project="xml-xerces"/>
     <depend project="checkstyle" inherit="runtime"/>
     <depend project="junit"/>
     

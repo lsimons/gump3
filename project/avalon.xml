@@ -1009,6 +1009,7 @@
         <depend project="avalon-meta-impl" />
         <depend project="avalon-composition-api" />
         <depend project="avalon-composition-spi" />
+        <depend project="avalon-util-env" />
         <depend project="avalon-util-extension-api" />
         <depend project="avalon-util-extension-impl" />
         <depend project="avalon-util-exception" />

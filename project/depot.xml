@@ -57,6 +57,7 @@
         <home nested="version/dist"/>
 
         <depend project="depot-version" inherit="all"/>
+        <depend project="xml-xerces"/>
         <depend project="ant-testutil"/>
         <depend project="junit"/>
 
