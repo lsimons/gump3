@@ -20,8 +20,8 @@
     <option project="junit"/>
 
     <home nested="dist"/>
-    <jar name="lib/ant.jar"/>
-    <jar name="lib/optional.jar"/>
+    <jar name="lib/ant.jar" id="ant"/>
+    <jar name="lib/optional.jar" id="optional"/>
   </project>
 
   <project name="dist-ant">

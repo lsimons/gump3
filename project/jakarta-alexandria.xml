@@ -22,7 +22,7 @@
       <depend name="commons-digester.jar" project="commons-digester"/>
       <depend name="commons-beanutils.jar" project="commons-beanutils"/>
       <depend name="xerces.jar" project="xml-xerces"/>
-      <depend name="ant.jar" project="jakarta-ant"/>
+      <depend name="ant.jar" project="jakarta-ant" id="ant"/>
       <depend name="log4j.jar" project="jakarta-log4j"/>
 
       <property name="version" value="gump"/>
