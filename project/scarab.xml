@@ -21,6 +21,7 @@
     <depend project="jaf"/>
     <depend project="jakarta-log4j"/>
     <option project="lucene"/>
+    <option project="commons-util"/>
   </project>
 
 </module>
