@@ -34,7 +34,7 @@
       	JDBC interface, which possible need not be used
       	at compile time. -->      	
       <!-- depend property="database.jar" project="mm.mysql"/ -->
-      <depend project="jdbc" runtime="true"/>          
+      <depend property="database.jar" project="jdbc" runtime="true"/>          
       <!-- End of ARBJ experiment... -->
       
       <depend property="jaf.jar" project="jaf"/>
