@@ -36,9 +36,8 @@
       <property name="catalina.dist" project="jakarta-tomcat-4.0"
                 path="dist"/>
       <property name="version" value="@@DATE@@" />
-      <!-- Head of Commons Httpclient is changing too fast.
-      <depend property="commons-httpclient.jar" project="commons-httpclient"/>
-      -->
+      <!-- Head of Commons Httpclient is changing too fast. -->
+      <depend property="commons-httpclient.jar" project="commons-httpclient-2.0-branch"/>
     </ant>
 
     <depend project="dist-ant" />
@@ -53,7 +52,7 @@
 
     <work nested="build/classes"/>
     <work nested="build/client/classes"/>
-    <work nested="lib/commons-httpclient.jar"/>
+    <!--work nested="lib/commons-httpclient.jar"/-->
 
     <home nested="dist"/>
 

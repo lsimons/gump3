@@ -16,7 +16,7 @@
 
     <depend project="xml-xerces"/>
     <depend project="commons-codec"/>
-    <depend project="commons-httpclient"/>
+    <depend project="commons-httpclient-2.0-branch"/>
     <depend project="ant" inherit="runtime"/>
     <option project="jakarta-servletapi"/>
     <option project="jsse"/>
