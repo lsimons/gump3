@@ -157,6 +157,7 @@
   <module href="project/quartz.xml"/>
   <module href="project/relaxng.xml"/>
   <module href="project/webwork.xml"/>
+  <module href="project/wss4j.xml"/>
   <module href="project/xdoclet.xml"/>
   <module href="project/xjavadoc.xml"/>
   <module href="project/xmlunit.xml"/>

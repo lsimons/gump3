@@ -1,0 +1,36 @@
+<module name="jtidy">
+
+  <url href="http://sourceforge.net/projects/wss4j/"/>
+  <description>
+    Web Services Security (WS-Security) Java Implemenatation
+  </description>
+  <redistributable/>
+
+  <cvs repository="sourceforge" host-prefix="cvs.wss4j" dir="wss4j"/>
+  
+  <project name="wss4j">
+    <package>org.apache.ws</package>
+
+    <ant target="gump"/>
+    <depend project="jaf"/>
+    <depend project="ws-axis"/>
+    <depend project="xml-xerces"/>
+    <depend project="commons-discovery"/>
+    <depend project="commons-logging"/>
+    <depend project="cryptix"/>
+    <depend project="jce"/>
+    <depend project="junit"/>
+    <depend property="log4j.jar" project="jakarta-log4j" id="log4j"/>
+    <depend project="javamail"/>
+    <depend project="wsdl4j"/>
+    <depend project="xml-xalan2" runtime="true"/>
+    <depend project="xml-security" inherit="runtime"/>
+
+    <jar name="build/wss4j.jar"/>
+
+    <license name="LICENSE"/>
+
+    <javadoc nested="build/doc/html/api"/>
+  </project>
+
+</module>
