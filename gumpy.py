@@ -260,10 +260,11 @@ try:
         baseDir=wsw.getAttribute('basedir')      
         basePath=os.path.abspath(baseDir)
         # Mail reporting
+        private=wsw.getAttribute('private')
         mailserver=wsw.getAttribute('mailserver')
         mailport=wsw.getAttribute('mailport') or 25
-        mailto=wsw.getAttribute('mailinglist')        
-        mailfrom=wsw.getAttribute('email')  
+        mailto=wsw.getAttribute('mailinglist') or 'general@gump.apache.org'  
+        mailfrom=wsw.getAttribute('email') or 'general@gump.apache.org'  
         # Log (site) location(s)   
         logurl=wsw.getAttribute('logurl')   
         logdir=wsw.getAttribute('logdir') or os.path.join(basePath,'log')
@@ -272,9 +273,9 @@ try:
         
         log.write('- GUMP base directory : ' + baseDir + '\n')
         log.write('- GUMP base path      : ' + str(basePath) + '\n')
-        if mailserver:
+        if mailserver and not private:
             log.write('- GUMP mail server    : ' + mailserver + '\n')
-        if mailport:
+        if mailport and not private:
             log.write('- GUMP mail port      : ' + str(mailport) + '\n')
         if mailfrom:
             log.write('- GUMP mail from      : ' + mailfrom + '\n')

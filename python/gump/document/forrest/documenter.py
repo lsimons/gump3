@@ -1502,9 +1502,10 @@ This page helps Gumpmeisters (and others) observe community progress.
                     detailsList.createEntry('Notify From: ').createFork('mailto:'+fromaddr,fromaddr)
                     
             
-            detailsList.createEntry('Notify E-mail').createLink(
-                            gumpSafeName(project.getName()) + '_notify.html',
-                            'Contents')   
+            if project.isFailed() :            
+                detailsList.createEntry('Notification E-mail: ').createLink(
+                                gumpSafeName(project.getName()) + '_notify.html',
+                                'Contents')   
         elif not project.isPackaged() and project.hasBuildCommand():            
             document.createWarning('This project does not utilize Gump nagging.')  
                              
@@ -1660,7 +1661,7 @@ This page helps Gumpmeisters (and others) observe community progress.
         
         document.serialize()
         
-        if project.xml.nag:
+        if project.xml.nag and project.isFailed():
             document=XDocDocument('Project Details : ' + project.getName(),	\
                     self.resolver.getFile(project, \
                                     project.getName() + '_notify', \
