@@ -1,0 +1,29 @@
+<?xml version="1.0?>
+  <!-- $Id: javassist.xml,v 1.1 2003/09/03 18:05:57 hlship Exp $ -->
+	<module name="javassist">
+
+  <url href="http://www.jboss.org/index.html?module=html&amp;op=userdisplay&amp;id=developers/projects/javassist"/>
+  <description>
+    Bytecode enhancement and AOP framework
+  </description>
+
+  <cvs repository="sourceforge" host-prefix="cvs.jboss" dir="jboss"
+	  module="javassist"/>
+
+  <project name="javassist">
+    <package>javassist</package>
+
+    <ant target="jar">
+      <property name="version" value="@@DATE@@"/>
+    </ant>
+
+    <depend project="ant" inherit="runtime"/>
+    
+    <jar name="javassist.jar"/>
+
+    <license name="License.html"/>
+
+    <nag to="hlship@apache.org" from="Sam Ruby &lt;rubys@apache.org&gt;"/>
+  </project>
+
+</module>
