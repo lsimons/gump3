@@ -112,7 +112,7 @@
       <source>
       export CVSROOT=:pserver:anoncvs@cvs.apache.org:/home/cvspublic
       cvs login
-      cvs co gump
+      cvs co -d metadata gump
       </source>
 
       <p>If prompted for the password, enter <strong>anoncvs</strong></p>
