@@ -933,4 +933,32 @@
         <nag to="dev@avalon.apache.org" from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"/>
     </project>
 
+    <project name="avalon-composition-api">
+        <package>org.apache.avalon.composition</package>
+        <ant basedir="merlin/composition/api" target="jar">
+            <property name="project.version" value="@@DATE@@"/>
+        </ant>
+        <depend project="ant" inherit="runtime"/>
+        <depend project="junit"/>
+        <depend project="xml-xerces"/>
+        <depend project="avalon-repository-api" />
+        <depend project="avalon-logging-api" />
+        <depend project="avalon-logging-spi" />
+        <depend project="avalon-meta-api" />
+        <depend project="avalon-util-extension-api" />
+        <depend project="avalon-framework" id="api" />
+        <depend project="avalon-framework" id="impl" />
+        <work nested="repository/main/target/classes"/>
+        <mkdir dir="merlin/composition/api/target/classes"/>
+        <mkdir dir="merlin/composition/api/target/test-classes"/>
+        <work nested="merlin/composition/api/target/test-classes"/>
+        <work nested="merlin/composition/api/target/test-classes"/>
+        <home nested="merlin/composition/api"/>
+        <jar name="target/avalon-composition-api-@@DATE@@.jar"/>
+        <javadoc nested="merlin/composition/api/target/docs/apidocs"/>
+        <junitreport nested="merlin/composition/api/target/test-reports"/>
+        <nag to="dev@avalon.apache.org" 
+          from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"/>
+    </project>
+
 </module>
