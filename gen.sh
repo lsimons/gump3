@@ -1,4 +1,4 @@
-# export JAXP=/opt/jaxp-1.1ea2
+# export JAXP=/opt/jaxp-1.1
 # export CLASSPATH=$JAXP/crimson.jar:$JAXP/jaxp.jar:$JAXP/xalan.jar:$CLASSPATH
 
 export XALAN=/opt/xalan-j_2_0_0

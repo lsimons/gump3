@@ -60,7 +60,7 @@
   <project href="project/jaf.xml"      home="/opt/jaf-1.0.1"/>
   <project href="project/javamail.xml" home="/opt/javamail-1.2"/>
   <project href="project/jaxp.xml"     home="/opt/jaxp1.0.1"/>
-  <project href="project/jaxp11.xml"   home="/opt/jaxp-1.1ea2"/>
+  <project href="project/jaxp11.xml"   home="/opt/jaxp-1.1"/>
   <project href="project/jdbc.xml"     home="/opt/jdbc2_0"/>
   <project href="project/jms.xml"      home="/opt/jms1.0.2"/>
   <project href="project/jndi.xml"     home="/opt/jndi1_2_1"/>

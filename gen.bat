@@ -1,6 +1,6 @@
 @echo off
 SETLOCAL
-SET JAXP=C:\jaxp-1.1ea2
+SET JAXP=C:\jaxp-1.1
 
 SET CLASSPATH=%JAXP%\crimson.jar;%JAXP%\jaxp.jar;%JAXP%\xalan.jar;%CLASSPATH%
 
