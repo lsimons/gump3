@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/model/module.py,v 1.29 2004/01/23 23:32:26 ajack Exp $
-# $Revision: 1.29 $
-# $Date: 2004/01/23 23:32:26 $
+# $Header: /home/stefano/cvs/gump/python/gump/model/module.py,v 1.30 2004/02/05 06:13:41 ajack Exp $
+# $Revision: 1.30 $
+# $Date: 2004/02/05 06:13:41 $
 #
 # ====================================================================
 #
@@ -308,47 +308,50 @@ class Module(NamedModelObject, Statable):
                                
         # :TODO: Consolidate this code, less cut-n-paste but also
         # check the 'type' of the repository is appropriate for the
-        # use (eg. type='cvs' if refrenced by CVS).
+        # use (eg. type='cvs' if referenced by CVS).
         if not packaged:
             # We have a CVS entry, expand it...
             if self.xml.cvs:
                 repoName=self.xml.cvs.repository
-                if workspace.hasRepository(repoName):
-                    # It references this repository...
-                    repo=workspace.getRepository(repoName)
-                    self.repository=repo
-                    repo.addModule(self)
-                    self.cvs=ModuleCvs(self.xml.cvs,repo)
-                else:
-                    self.changeState(STATE_FAILED,REASON_CONFIG_FAILED)               
-                    self.addError('No such repository in w/s ['+ repoName +'] on [' \
-                            + self.getName() + ']')
+                if repoName:
+                    if workspace.hasRepository(repoName):
+                        # It references this repository...
+                        repo=workspace.getRepository(repoName)
+                        self.repository=repo
+                        repo.addModule(self)
+                        self.cvs=ModuleCvs(self.xml.cvs,repo)
+                    else:
+                        self.changeState(STATE_FAILED,REASON_CONFIG_FAILED)               
+                        self.addError('No such repository in w/s ['+ str(repoName) +'] on [' \
+                                + self.getName() + ']')
                             
             elif self.xml.svn:                
                 repoName=self.xml.svn.repository
-                if workspace.hasRepository(repoName):
-                    # It references this repository...
-                    repo=workspace.getRepository(repoName)
-                    self.repository=repo
-                    repo.addModule(self)
-                    self.svn=ModuleSvn(self.xml.svn,repo)
-                else:
-                    self.changeState(STATE_FAILED,REASON_CONFIG_FAILED)               
-                    self.addError('No such repository in w/s ['+ repoName +'] on [' \
-                            + self.getName() + ']')                 
+                if repoName:
+                    if workspace.hasRepository(repoName):
+                        # It references this repository...
+                        repo=workspace.getRepository(repoName)
+                        self.repository=repo
+                        repo.addModule(self)
+                        self.svn=ModuleSvn(self.xml.svn,repo)
+                    else:
+                        self.changeState(STATE_FAILED,REASON_CONFIG_FAILED)               
+                        self.addError('No such repository in w/s ['+ str(repoName) +'] on [' \
+                                + self.getName() + ']')                 
                                                 
             elif self.xml.jars:                
                 repoName=self.xml.jars.repository
-                if workspace.hasRepository(repoName):
-                    # It references this repository...
-                    repo=workspace.getRepository(repoName)
-                    self.repository=repo
-                    repo.addModule(self)
-                    self.jars=ModuleJars(self.xml.jars,repo)
-                else:
-                    self.changeState(STATE_FAILED,REASON_CONFIG_FAILED)               
-                    self.addError('No such repository in w/s ['+ repoName +'] on [' \
-                            + self.getName() + ']')                 
+                if repoName:
+                    if workspace.hasRepository(repoName):
+                        # It references this repository...
+                        repo=workspace.getRepository(repoName)	
+                        self.repository=repo	
+                        repo.addModule(self)
+                        self.jars=ModuleJars(self.xml.jars,repo)
+                    else:
+                        self.changeState(STATE_FAILED,REASON_CONFIG_FAILED)               
+                        self.addError('No such repository in w/s ['+ str(repoName) +'] on [' \
+                                + self.getName() + ']')                 
 
 
         # For prettiness
