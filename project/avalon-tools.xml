@@ -46,8 +46,6 @@
     <ant basedir="tools/magic">
       <!-- for magic -->
       <property name="gump.signature" value="@@DATE@@"/>
-      <!--<depend name="magic.home" reference="home"
-          project="magic" inherit="runtime"/> -->
       <depend name="magic.home" reference="home"
           project="magic" inherit="runtime"/>
       <!-- external references -->
