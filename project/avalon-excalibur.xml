@@ -275,7 +275,7 @@
         <depend project="xml-xalan2"/>
         <work nested="container/build/classes"/>
 
-        <home nested="container"/>
+        <home nested="lifecycle"/>
 	<jar name="build/lib/excalibur-lifecycle-@@DATE@@.jar"/>
 
         <nag from="Stephen McConnell &lt;mcconnell@apache.org&gt;"
