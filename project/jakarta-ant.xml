@@ -98,6 +98,7 @@
     <work nested="proposal/mutant/bin/common"/>
     <work nested="proposal/mutant/bin/init"/>
     <work nested="proposal/mutant/bin/antcore"/>
+    <work nested="proposal/mutant/bin/antlibs/system"/>
   </project>
 
 </module>
