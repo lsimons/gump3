@@ -31,9 +31,9 @@
             <property name="junit.failonerror" value="true"/>
             <property name="do.checkstyle" value="true"/>
             <property name="skip.dependencies" value="true"/>
-            <depend property="excalibur-pool.jar" project="excalibur-pool"/>
         </ant>
 
+        <depend project="excalibur-pool"/>
         <depend project="ant" inherit="runtime"/>
         <option project="checkstyle" inherit="runtime"/>
         <depend project="junit"/>
