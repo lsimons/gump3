@@ -29,6 +29,7 @@
     <depend project="excalibur-threadcontext" runtime="true"/>
     <depend project="excalibur-thread" runtime="true"/>
     <depend project="excalibur-pool" runtime="true"/>
+    <depend project="excalibur-loader" runtime="true"/>
     <depend project="excalibur-logger" runtime="true"/>
     <depend project="excalibur-i18n" runtime="true"/>
     <depend project="excalibur-baxter" runtime="true"/>
@@ -45,6 +46,7 @@
     <depend project="jarv" runtime="true"/>
     <depend project="jakarta-site2" inherit="all" />
     <option project="jakarta-servletapi-4"/>
+    <depend project="junit"/>
 
     <work nested="build/classes"/>
 

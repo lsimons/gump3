@@ -28,6 +28,7 @@
         <depend project="excalibur-info" runtime="true" inherit="runtime"/>
         <depend project="excalibur-i18n" runtime="true"/>
         <depend project="excalibur-logger" runtime="true"/>
+        <depend project="excalibur-merlin" runtime="true"/>
         <depend project="excalibur-instrument" runtime="true"/>
         <depend project="excalibur-meta" runtime="true"/>
         <depend project="excalibur-sourceresolve"/>
@@ -786,7 +787,7 @@
         <depend project="jakarta-oro"/>
         <work nested="loader/build/classes"/>
 
-        <home nested="info"/>
+        <home nested="loader"/>
         <jar name="build/lib/excalibur-loader-@@DATE@@.jar"/>
 
         <nag from="Peter Donald &lt;peter@apache.org&gt;"
