@@ -1,8 +1,8 @@
 #!/usr/bin/python
 
-# $Header: /home/stefano/cvs/gump/python/gump/build.py,v 1.23 2003/10/14 16:12:38 ajack Exp $
-# $Revision: 1.23 $
-# $Date: 2003/10/14 16:12:38 $
+# $Header: /home/stefano/cvs/gump/python/gump/build.py,v 1.24 2003/10/14 16:58:43 ajack Exp $
+# $Revision: 1.24 $
+# $Date: 2003/10/14 16:58:43 $
 #
 # ====================================================================
 #
@@ -108,7 +108,7 @@ def build(workspace, expr='*', context=GumpContext(), nosync=None):
 
   return buildProjectList(workspace,projects,context,nosync)
   
-def buildProjectList(workspace, projects, context, nosync):
+def buildProjectList(workspace, projects, context, nosync=None):
   """ Build a expression of projects """
         
   log.debug('Requests Projects')
@@ -119,7 +119,7 @@ def buildProjectList(workspace, projects, context, nosync):
 
   return buildProjectSequence(workspace,sequence,context,nosync)
   
-def buildProjectSequence(workspace,sequence,context,nosync):
+def buildProjectSequence(workspace,sequence,context,nosync=None):
     
   log.debug('Total Project Sequence (i.e. build order):');
   for p in sequence:
