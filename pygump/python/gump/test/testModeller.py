@@ -24,6 +24,7 @@ from xml.dom import minidom
 
 from gump.engine.modeller import _find_element_text
 from gump.engine.modeller import _do_drop
+from gump.engine.modeller import _find_ancestor_by_tag
 
 class ModellerTestCase(TestCase):
     def setUp(self):
@@ -35,6 +36,23 @@ class ModellerTestCase(TestCase):
   <stuff>ignore</stuff>
   <elem>ignore</elem>
   <blah></blah>
+  <some>
+    <nested>
+      <tags>
+        <with>
+          <some>
+            <duplicate>
+              <tags>
+                <in>
+                  <there/>
+                </in>
+              </tags>
+            </duplicate>
+          </some>
+        </with>
+      </tags>
+    </nested>
+  </some>
 </root>
 """
         self.sampledom = minidom.parseString(self.samplexml)
@@ -65,6 +83,12 @@ class ModellerTestCase(TestCase):
         self.assertEqual(0, len(self.sampledom.documentElement.getElementsByTagName("stuff")))
         self.assertEqual(1, len(dropped))
         self.assertEqual(to_remove, dropped[0])
+    
+    def test_find_ancestor_by_tag(self):
+        in_elem = self.sampledom.documentElement.getElementsByTagName("in").item(0)
+        first_some_elem = in_elem.parentNode.parentNode.parentNode
+        found_some = _find_ancestor_by_tag(in_elem, "some")
+        self.assertEqual(first_some_elem, found_some)
 
 # this is used by testrunner.py to determine what tests to run
 def test_suite():
