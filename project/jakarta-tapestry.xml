@@ -11,7 +11,7 @@
   <project name="jakarta-tapestry">
     <package>org.apache.tapestry</package>
 
-    <ant buildfile="build.xml" target="jar">
+    <ant buildfile="build.xml">
       <property name="framework.version" value="@@DATE@@"/>
       <property name="jetty.dir" reference="home" project="jetty"/>
     </ant>
