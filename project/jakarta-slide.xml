@@ -14,7 +14,7 @@
   <depend project="jakarta-servletapi-4.0"/>
   <depend project="jmx"/>
   <depend project="jta"/>
-  <work parent="build/slide/classes"/>
+  <work nested="build/classes"/>
 
   <home parent="dist/slide-1.0dev"/>
   <jar  name="lib/manager.jar"/>

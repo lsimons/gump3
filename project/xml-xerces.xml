@@ -8,7 +8,7 @@
   <cvs repository="xml"/>
 
   <ant buildfile="java/build.xml" target="jar"/>
-  <depend project="jaxp"/>
+  <depend project="jaxp1.1"/>
   <depend project="bootstrap-ant"/>
 
   <home nested="java/build"/>

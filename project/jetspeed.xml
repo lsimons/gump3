@@ -20,5 +20,6 @@
   <depend project="jakarta-ecs"/>
   <depend project="xml-xalan1"/>
   <depend project="javamail"/>
+  <depend project="jdbc"/>
 
 </project>
