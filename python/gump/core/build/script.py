@@ -48,6 +48,23 @@ from gump.core.model.state import *
 
 
 ###############################################################################
+# Functions
+###############################################################################
+def getArgs(script):
+    """ Get command line args for a script builder (or other arg supporters) """
+    args = Parameters()
+    for arg in script.getProperties():
+        if arg.name.startswith('--') or not arg.name.startswith('-'):
+            if arg.value:
+                args.addNamedParameter(arg.name,arg.value,'=')
+            else:
+                args.addParameter(arg.name)
+        else:
+            args.addParameter(arg.name)
+            args.addParameter(arg.value)
+    return args
+        
+###############################################################################
 # Classes
 ###############################################################################
 
@@ -126,6 +143,8 @@ class ScriptBuilder(gump.core.run.gumprun.RunSpecific):
                  basedir,
                  {'CLASSPATH':classpath})    
         
+        cmd.addParameters(getArgs(script))
+
         return cmd
         
     def preview(self,project,languageHelper,stats):        

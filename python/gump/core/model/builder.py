@@ -255,12 +255,6 @@ class NAnt(BaseAnt):
     """ A NAnt command (within a project) """
     pass
     
-# represents a <make/> element
-# will probably need to extend Builder directly later
-class Make(BaseAnt):
-    """ A make command (within a project) """
-    pass
-
 # represents an <maven/> element
 class Maven(Builder):
     """ A Maven command (within a project)"""
@@ -279,11 +273,53 @@ class Maven(Builder):
         i=getIndent(indent+1)
         output.write(i+'Goal: ' + self.getGoal() + '\n')
 
+# represents an <configure/> element
+class Configure(Builder):
+    """ A configure command (within a project)"""
+
+    def __init__(self,dom,project):
+        Builder.__init__(self,dom,project)
+
+    def expandDomProperties(self,project,workspace):
+        #
+        # convert Ant property elements which reference a project 
+        # into dependencies
+        #
+        for pdom in self.getDomChildIterator('arg'):
+            self.expandDomProperty(pdom,project,workspace)       
+            self.importProperty(pdom)
+
+# represents a <make/> element
+# will probably need to extend Builder directly later
+class Make(Configure):
+    """ A make command (within a project) """
+
+    def __init__(self,dom,project):
+    	Configure.__init__(self,dom,project)
+        # Import the target
+        self.target=self.getDomAttributeValue('target')
+        # Import the makefile
+        self.makefile=self.getDomAttributeValue('makefile')
+            
+    def hasTarget(self):
+        if self.target: return True
+        return False
+        
+    def getTarget(self):
+        return self.target
+        
+    def hasMakeFile(self):
+        if selfmakefile: return True
+        return False
+        
+    def getMakeFile(self):
+        return self.makefile
+
 # represents an <script/> element
-class Script(Builder):
+class Script(Configure):
     """ A script command (within a project)"""
     def __init__(self,dom,project):
-    	Builder.__init__(self,dom,project)
+    	Configure.__init__(self,dom,project)
     	
     	# Get the name
     	self.name=self.getDomAttributeValue('name','unset')
@@ -291,9 +327,3 @@ class Script(Builder):
     def getName(self):
         return self.name
 
-# represents an <configure/> element
-class Configure(Builder):
-    """ A configure command (within a project)"""
-    pass
-
-    	

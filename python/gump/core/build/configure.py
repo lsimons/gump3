@@ -29,6 +29,7 @@ import sys
 
 from gump import log
 from gump.core.run.gumprun import *
+from gump.core.build.script import getArgs
 from gump.core.config import dir, default, basicConfig
 
 from gump.util import dump, display, getIndent, logResourceUtilization, \
@@ -104,9 +105,9 @@ class ConfigureBuilder(gump.core.run.gumprun.RunSpecific):
         
         cmd=Cmd(scriptfile,'buildscript_'+project.getModule().getName()+'_'+project.getName(),\
             basedir)    
+        cmd.addParameters(getArgs(configure))
         
         return cmd
-        
         
     def preview(self,project,languageHelper,stats):        
         """

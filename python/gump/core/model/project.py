@@ -555,6 +555,9 @@ class Project(NamedModelObject, Statable, Resultable, Dependable, Positioned):
         if self.ant: self.ant.expand(self,workspace)
         if self.maven: self.maven.expand(self,workspace)
         if self.script: self.script.expand(self,workspace)
+        if self.nant: self.nant.expand(self,workspace)
+        if self.make: self.make.expand(self,workspace)
+        if self.configure: self.configure.expand(self,workspace)
 
         if not packaged:
             # Complete dependencies so properties can reference the,
@@ -593,6 +596,18 @@ class Project(NamedModelObject, Statable, Resultable, Dependable, Positioned):
         if self.script: 
             self.script.complete(self,workspace)
             transferAnnotations(self.script, self)              
+            
+        if self.nant: 
+            self.nant.complete(self,workspace)
+            transferAnnotations(self.nant, self)  
+            
+        if self.make: 
+            self.make.complete(self,workspace)
+            transferAnnotations(self.make, self)  
+            
+        if self.configure: 
+            self.configure.complete(self,workspace)
+            transferAnnotations(self.configure, self)  
             
         if not packaged:    
             #
