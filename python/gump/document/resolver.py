@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/document/resolver.py,v 1.10 2004/01/09 19:57:20 ajack Exp $
-# $Revision: 1.10 $
-# $Date: 2004/01/09 19:57:20 $
+# $Header: /home/stefano/cvs/gump/python/gump/document/resolver.py,v 1.11 2004/01/21 21:26:02 ajack Exp $
+# $Revision: 1.11 $
+# $Date: 2004/01/21 21:26:02 $
 #
 # ====================================================================
 #
@@ -372,7 +372,7 @@ class Resolver:
                 documentName += extn
             location.setDocument(documentName)
         return concatenate(self.rootUrl,location.serialize())
-
+        
     #
     # Object stuff...
     #

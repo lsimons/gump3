@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/forrest.py,v 1.55 2004/01/21 18:52:30 ajack Exp $
-# $Revision: 1.55 $f
-# $Date: 2004/01/21 18:52:30 $
+# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/forrest.py,v 1.56 2004/01/21 21:26:02 ajack Exp $
+# $Revision: 1.56 $f
+# $Date: 2004/01/21 21:26:02 $
 #
 # ====================================================================
 #
@@ -1467,27 +1467,87 @@ class ForrestDocumenter(Documenter):
         overviewList=overviewSection.createList()
         overviewList.createEntry('Modules: ', stats.wguru.modulesInWorkspace)
         overviewList.createEntry('Projects: ', stats.wguru.projectsInWorkspace)
-        overviewList.createEntry('Avg Projects Per Module: ', stats.wguru.averageProjectsPerModule)
-                
-        document.serialize()        
+        overviewList.createEntry('Avg Projects Per Module: ', stats.wguru.averageProjectsPerModule)                      
+          
         
-        # Individual Pages...
-        self.documentModulesByElapsed(stats, run, workspace, gumpSet)
-        self.documentModulesByProjects(stats, run, workspace, gumpSet)
-        self.documentModulesByDependencies(stats, run, workspace, gumpSet)
-        self.documentModulesByDependees(stats, run, workspace, gumpSet)
-        self.documentModulesByFOGFactor(stats, run, workspace, gumpSet)       
-        self.documentModulesByLastUpdated(stats, run, workspace, gumpSet)        
-        # Individual Pages...
-        self.documentProjectsByElapsed(stats, run, workspace, gumpSet)
-        self.documentProjectsByDependencies(stats, run, workspace, gumpSet)
-        self.documentProjectsByDependees(stats, run, workspace, gumpSet)
-        self.documentProjectsByFOGFactor(stats, run, workspace, gumpSet)    
-        self.documentProjectsBySequenceInState(stats, run, workspace, gumpSet)
+        mstatsSection=document.createSection('Module Statistics')
+        mstatsTable=mstatsSection.createTable(['Page','Description'])
+                
+        # Modules By Elapsed Time
+        mByE=self.documentModulesByElapsed(stats, run, workspace, gumpSet)                
+        mstatsRow=mstatsTable.createRow()
+        mstatsRow.createData().createLink(mByE, 'Modules By Elapsed Time')
+        mstatsRow.createData('Time spent working on this module.')
+                
+        # Modules By Project #
+        mByP=self.documentModulesByProjects(stats, run, workspace, gumpSet)           
+        mstatsRow=mstatsTable.createRow()
+        mstatsRow.createData().createLink(mByP, 'Modules By Project #')
+        mstatsRow.createData('Number of projects within the module.')
+        
+        # Modules By Dependencies
+        mByDep=self.documentModulesByDependencies(stats, run, workspace, gumpSet)           
+        mstatsRow=mstatsTable.createRow()
+        mstatsRow.createData().createLink(mByDep, 'Modules By Dependencies #')
+        mstatsRow.createData('Number of dependencies within the module.')        
+        
+        # Modules By Dependees
+        mByDepees=self.documentModulesByDependees(stats, run, workspace, gumpSet)           
+        mstatsRow=mstatsTable.createRow()
+        mstatsRow.createData().createLink(mByDepees, 'Modules By Dependees #')
+        mstatsRow.createData('Number of dependees on the module.')
+        
+        # Modules By FOG Factor
+        mByFOG=self.documentModulesByFOGFactor(stats, run, workspace, gumpSet)           
+        mstatsRow=mstatsTable.createRow()
+        mstatsRow.createData().createLink(mByFOG, 'Modules By FOG Factor')
+        mstatsRow.createData('Friend of Gump (FOG) Factor. A measure of dependability (for other Gumpers).')
+                
+        # Modules By Last Updated
+        mByLU=self.documentModulesByLastUpdated(stats, run, workspace, gumpSet)           
+        mstatsRow=mstatsTable.createRow()
+        mstatsRow.createData().createLink(mByLU, 'Modules By Last Updated')
+        mstatsRow.createData('Best guess at last code change (in source control).')
+                                
+        pstatsSection=document.createSection('Project Statistics')
+        pstatsTable=pstatsSection.createTable(['Page','Description'])
+        
+        # Projects By Elapsed
+        pByE=self.documentProjectsByElapsed(stats, run, workspace, gumpSet)           
+        pstatsRow=pstatsTable.createRow()
+        pstatsRow.createData().createLink(pByE, 'Projects By Elapsed Time')
+        pstatsRow.createData('Time spent working on this project.')
+                                        
+        # Projects By Dependencies
+        pByDep=self.documentProjectsByDependencies(stats, run, workspace, gumpSet)           
+        pstatsRow=pstatsTable.createRow()
+        pstatsRow.createData().createLink(pByDep, 'Projects By Dependencies')
+        pstatsRow.createData('Number of dependencies for the project.')
+                                        
+        # Projects By Dependees
+        pByDepees=self.documentProjectsByDependees(stats, run, workspace, gumpSet)           
+        pstatsRow=pstatsTable.createRow()
+        pstatsRow.createData().createLink(pByDepees, 'Projects By Dependees')
+        pstatsRow.createData('Number of dependees for the project.')
+                                        
+        # Projects By FOG Factor
+        pByFOG=self.documentProjectsByFOGFactor(stats, run, workspace, gumpSet)           
+        pstatsRow=pstatsTable.createRow()
+        pstatsRow.createData().createLink(pByFOG, 'Projects By FOG Factor')
+        pstatsRow.createData('Friend of Gump (FOG) Factor. A measure of dependability (for other Gumpers).')
+                                        
+        # Projects By Sequence
+        pBySeq=self.documentProjectsBySequenceInState(stats, run, workspace, gumpSet)           
+        pstatsRow=pstatsTable.createRow()
+        pstatsRow.createData().createLink(pBySeq, 'Projects By duration in state')
+        pstatsRow.createData('Duration in current state.')
+        
+        document.serialize()  
     
     def documentModulesByElapsed(self,stats,run,workspace,gumpSet):
-        document=XDocDocument('Modules By Elapsed Time',	\
-            self.resolver.getFile(stats,'module_elapsed.xml'))
+        fileName='module_elapsed'
+        file=self.resolver.getFile(stats,fileName)
+        document=XDocDocument('Modules By Elapsed Time', file)
         
         elapsedTable=document.createTable(['Modules By Elapsed'])
         for module in stats.modulesByElapsed:        
@@ -1497,10 +1557,13 @@ class ForrestDocumenter(Documenter):
             elapsedRow.createData(secsToElapsedString(module.getElapsedSecs()))
             
         document.serialize()
+        
+        return fileName + '.html'
     
     def documentModulesByProjects(self,stats,run,workspace,gumpSet):
-        document=XDocDocument('Modules By Project Count',	\
-            self.resolver.getFile(stats,'module_projects.xml'))
+        fileName='module_projects'
+        file=self.resolver.getFile(stats,fileName)
+        document=XDocDocument('Modules By Project Count',	file)
         
         mprojsTable=document.createTable(['Modules By Project Count'])
         for module in stats.modulesByProjectCount:         
@@ -1520,10 +1583,13 @@ class ForrestDocumenter(Documenter):
             # mprojsRow.createData(projectsString)
                     
         document.serialize()
+        
+        return fileName + '.html'
      
     def documentModulesByDependencies(self,stats,run,workspace,gumpSet):
-        document=XDocDocument('Modules By Dependency Count',	\
-            self.resolver.getFile(stats,'module_dependencies.xml'))
+        fileName='module_dependencies'
+        file=self.resolver.getFile(stats,fileName)
+        document=XDocDocument('Modules By Dependency Count', file)
         
         dependenciesTable=document.createTable(['Module','Full Dependency Count'])
         for module in stats.modulesByTotalDependencies:         
@@ -1539,11 +1605,14 @@ class ForrestDocumenter(Documenter):
             #dependenciesRow.createData(projectsString)        
         
         document.serialize()
+        
+        return fileName + '.html'
              
      
     def documentModulesByDependees(self,stats,run,workspace,gumpSet):
-        document=XDocDocument('Modules By Dependee Count',
-                    self.resolver.getFile(stats,'module_dependees.xml'))
+        fileName='module_dependees'
+        file=self.resolver.getFile(stats,fileName)    
+        document=XDocDocument('Modules By Dependee Count', file)
         
         dependeesTable=document.createTable(['Module','Full Dependee Count'])
         for module in stats.modulesByTotalDependees:         
@@ -1560,9 +1629,12 @@ class ForrestDocumenter(Documenter):
         
         document.serialize()
         
+        return fileName + '.html'
+        
     def documentModulesByFOGFactor(self,stats,run,workspace,gumpSet):
-        document=XDocDocument('Modules By FOG Factor',	\
-                    self.resolver.getFile(stats,'module_fogfactor.xml'),)        
+        fileName='module_fogfactor'
+        file=self.resolver.getFile(stats,fileName)    
+        document=XDocDocument('Modules By FOG Factor',	file)        
         fogTable=document.createTable(['Module','FOG Factor'])
         for module in stats.modulesByFOGFactor:        
             if not gumpSet.inModules(module): continue    
@@ -1571,10 +1643,13 @@ class ForrestDocumenter(Documenter):
             fogRow.createData(round(module.getFOGFactor(),2))
             
         document.serialize()
+        
+        return fileName + '.html'
     
     def documentModulesByLastUpdated(self,stats,run,workspace,gumpSet):
-        document=XDocDocument('Modules By Last Updated',	\
-                    self.resolver.getFile(stats,'module_updated.xml'),)        
+        fileName='module_updated'
+        file=self.resolver.getFile(stats,fileName)    
+        document=XDocDocument('Modules By Last Updated', file)        
         updTable=document.createTable(['Module','Last Updated'])
         for module in stats.modulesByLastUpdated:        
             if not gumpSet.inModules(module): continue    
@@ -1583,10 +1658,13 @@ class ForrestDocumenter(Documenter):
             updRow.createData(secsToDate(module.getLastUpdated()))
             
         document.serialize()
+        
+        return fileName + '.html'
     
     def documentProjectsByElapsed(self,stats,run,workspace,gumpSet):
-        document=XDocDocument('Projects By Elapsed Time',	\
-            self.resolver.getFile(stats,'project_elapsed.xml'))
+        fileName='project_elapsed'
+        file=self.resolver.getFile(stats,fileName)    
+        document=XDocDocument('Projects By Elapsed Time',	file)
         
         elapsedTable=document.createTable(['Projects By Elapsed'])
         for project in stats.projectsByElapsed:        
@@ -1596,10 +1674,13 @@ class ForrestDocumenter(Documenter):
             elapsedRow.createData(secsToElapsedString(project.getElapsedSecs()))
             
         document.serialize()
+        
+        return fileName + '.html'
      
     def documentProjectsByDependencies(self,stats,run,workspace,gumpSet):
-        document=XDocDocument('Projects By Dependency Count',	\
-            self.resolver.getFile(stats,'project_dependencies.xml'))
+        fileName='project_dependencies'
+        file=self.resolver.getFile(stats,fileName)    
+        document=XDocDocument('Projects By Dependency Count',	 file)
         
         dependenciesTable=document.createTable(['Project','Direct Dependency Count', 'Full Dependency Count'])
         for project in stats.projectsByTotalDependencies:         
@@ -1616,11 +1697,14 @@ class ForrestDocumenter(Documenter):
             #dependenciesRow.createData(projectsString)        
         
         document.serialize()
+        
+        return fileName + '.html'
              
      
     def documentProjectsByDependees(self,stats,run,workspace,gumpSet):
-        document=XDocDocument('Projects By Dependee Count',
-                    self.resolver.getFile(stats,'project_dependees.xml'))
+        fileName='project_dependees'
+        file=self.resolver.getFile(stats,fileName)    
+        document=XDocDocument('Projects By Dependee Count', file)
         
         dependeesTable=document.createTable(['Project','Direct Dependee Count', 'Full Dependee Count'])
         for project in stats.projectsByTotalDependees:         
@@ -1638,9 +1722,12 @@ class ForrestDocumenter(Documenter):
         
         document.serialize()
         
+        return fileName + '.html'
+        
     def documentProjectsByFOGFactor(self,stats,run,workspace,gumpSet):
-        document=XDocDocument('Projects By FOG Factor',	\
-                    self.resolver.getFile(stats,'project_fogfactor.xml'),)        
+        fileName='project_fogfactor'
+        file=self.resolver.getFile(stats,fileName)    
+        document=XDocDocument('Projects By FOG Factor',	 file)        
         fogTable=document.createTable(['Project','Successes','Failures','Preq-Failures','FOG Factor'])
         for project in stats.projectsByFOGFactor:        
             if not gumpSet.inSequence(project): continue    
@@ -1656,9 +1743,12 @@ class ForrestDocumenter(Documenter):
             
         document.serialize()   
         
+        return fileName + '.html'
+        
     def documentProjectsBySequenceInState(self,stats,run,workspace,gumpSet):
-        document=XDocDocument('Projects By Duration In State',	\
-                    self.resolver.getFile(stats,'project_durstate.xml'),)        
+        fileName='project_durstate'
+        file=self.resolver.getFile(stats,fileName)    
+        document=XDocDocument('Projects By Duration In State',	file)        
         durTable=document.createTable(['Project','Duration\nIn State','State'])
         for project in stats.projectsBySequenceInState:        
             if not gumpSet.inSequence(project): continue    
@@ -1671,6 +1761,8 @@ class ForrestDocumenter(Documenter):
             durRow.createData(stateName(pstats.currentState))
             
         document.serialize()
+        
+        return fileName + '.html'
 
         
     #####################################################################           
@@ -1684,22 +1776,44 @@ class ForrestDocumenter(Documenter):
         document=XDocDocument('Cross Reference',self.resolver.getFile(xref))
     
         document.createParagraph("""
-        Gump is about relationships, and this section shows relationship. 
-        See side menu for choices.
+        Obscure views into projects/modules... 
         """)
-    
+            
+        ##################################################################3
+        # Modules ...........
+        mxrefSection=document.createSection('Module Cross Reference')
+        mxrefTable=mxrefSection.createTable(['Page','Description'])
+                
+        # Modules By Repository
+        mByR=self.documentModulesByRepository(xref, run, workspace, gumpSet)                
+        mxrefRow=mxrefTable.createRow()
+        mxrefRow.createData().createLink(mByR, 'Modules By Repository')
+        mxrefRow.createData('The repository that contains the module.')
+        
+        # Modules By Package
+        mByP=self.documentModulesByPackage(xref, run, workspace, gumpSet)                
+        mxrefRow=mxrefTable.createRow()
+        mxrefRow.createData().createLink(mByP, 'Modules By Package')
+        mxrefRow.createData('The package(s) contained in the module.')
+        
+        ##################################################################3
+        # Projects ...........
+        
+        pxrefSection=document.createSection('Project Cross Reference')
+        pxrefTable=pxrefSection.createTable(['Page','Description'])
+                        
+        # Modules By Package
+        pByP=self.documentProjectsByPackage(xref, run, workspace, gumpSet)                
+        pxrefRow=pxrefTable.createRow()
+        pxrefRow.createData().createLink(pByP, 'Projects By Package')
+        pxrefRow.createData('The package(s) contained in the project.')
+        
         document.serialize()
         
-         # Individual Pages...
-        self.documentModulesByRepository(xref, run, workspace, gumpSet)
-        self.documentModulesByPackage(xref, run, workspace, gumpSet)
-        
-        self.documentProjectsByPackage(xref, run, workspace, gumpSet)
-        
-        
     def documentModulesByRepository(self,xref,run,workspace,gumpSet):
-        document=XDocDocument('Modules By Repository',	\
-            self.resolver.getFile(xref,'repo_module.xml'))
+        fileName='repo_module'
+        file=self.resolver.getFile(xref,fileName)        
+        document=XDocDocument('Modules By Repository',	file)
         
         repoMap=xref.getRepositoryToModuleMap()
         repoList=createOrderedList(repoMap.keys())
@@ -1721,9 +1835,12 @@ class ForrestDocumenter(Documenter):
           
         document.serialize()    
         
+        return fileName + '.html'
+        
     def documentModulesByPackage(self,xref,run,workspace,gumpSet):
-        document=XDocDocument('Modules By Package',	\
-            self.resolver.getFile(xref,'package_module.xml'))
+        fileName='package_module'
+        file=self.resolver.getFile(xref,fileName)            
+        document=XDocDocument('Modules By Package',	file)
         
         packageTable=document.createTable(['Modules By Package'])
         
@@ -1749,9 +1866,12 @@ class ForrestDocumenter(Documenter):
           
         document.serialize()
         
+        return fileName + '.html'
+        
     def documentProjectsByPackage(self,xref,run,workspace,gumpSet):
-        document=XDocDocument('Projects By Package',	\
-            self.resolver.getFile(xref,'package_project.xml'))
+        fileName='package_project'
+        file=self.resolver.getFile(xref,fileName)            
+        document=XDocDocument('Projects By Package',	file)
         
         packageTable=document.createTable(['Projects By Package'])
         
@@ -1776,6 +1896,8 @@ class ForrestDocumenter(Documenter):
                     projectData.createText(' ')
           
         document.serialize()
+        
+        return fileName + '.html'
  
         
         

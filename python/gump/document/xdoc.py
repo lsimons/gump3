@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/xdoc.py,v 1.7 2004/01/09 19:57:20 ajack Exp $
-# $Revision: 1.7 $
-# $Date: 2004/01/09 19:57:20 $
+# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/xdoc.py,v 1.8 2004/01/21 21:26:02 ajack Exp $
+# $Revision: 1.8 $
+# $Date: 2004/01/21 21:26:02 $
 #
 # ====================================================================
 #
@@ -210,7 +210,6 @@ class XDocPiece(Ownable):
     def middle(self):
         if not self.subpieces and not self.isEmptyOk():
             log.warn('Empty [' + `self.__class__` + '] probably isn\'t good...')
-            #raise RuntimeError, "Empty [' + self.__class__ + '] probably isn't good..."
             self.displayOwnership()
             
         for sub in self.subpieces:
@@ -560,7 +559,7 @@ class XDocLink(XDocPiece):
     def __init__(self,context,href,text=None):
         XDocPiece.__init__(self,context)
         self.href=href
-        if text:
+        if text: 
             self.createText(text)
         
     def start(self):
