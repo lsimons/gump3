@@ -18,7 +18,6 @@
     <depend project="jakarta-servletapi"/>
     <depend project="jdom" runtime="true"/>
     <depend project="werken.xpath"/>
-    <depend project="bcel"/>
     <depend project="junit"/>
     <depend project="jakarta-log4j"/>
     <depend project="commons-collections" runtime="true"/>
