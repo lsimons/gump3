@@ -42,8 +42,8 @@
 
     <license name="LICENSE.txt"/>
 
-    <nag from="Peter Donald &lt;peter@apache.org&gt;"
-	    to="alexandria-dev@jakarta.apache.org"/>
+    <nag from="Gump Build Robot &lt;general@gump.apache.org&gt;"
+	    to="general@gump.apache.org"/>
 
   </project>
 

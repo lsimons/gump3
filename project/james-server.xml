@@ -54,7 +54,7 @@
     <license name="LICENSE.txt"/>
     <javadoc nested="www/mailet"/>
 
-    <nag from="Peter Donald &lt;peter@apache.org&gt;"
+    <nag from="Gump Build Robot &lt;general@gump.apache.org&gt;"
          to="james-dev@jakarta.apache.org"/>
   </project>
 
