@@ -108,6 +108,10 @@ class GumpEngine:
     
                 if outputsOk:
                     project.changeState(STATE_COMPLETE,REASON_PACKAGE)
+                else
+                    # Just in case it was so bad it thougt it had no
+                    # jars to check
+                    project.changeState(STATE_FAILED,REASON_PACKAGE_BAD)
                 
                 #
                 # List them, why not...

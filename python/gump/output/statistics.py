@@ -129,7 +129,7 @@ class ProjectStatistics:
                 self.first=self.last
             elif project.isFailed():
                 s.failures += 1    
-            elif project.isPrereqFailure():                        
+            elif project.isPrereqFailed():                        
                 s.prereqs  += 1
                 
         #

@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/utils/Attic/xmlutils.py,v 1.3 2003/11/19 19:45:32 ajack Exp $
-# $Revision: 1.3 $
-# $Date: 2003/11/19 19:45:32 $
+# $Header: /home/stefano/cvs/gump/python/gump/utils/Attic/xmlutils.py,v 1.4 2003/11/19 20:09:44 ajack Exp $
+# $Revision: 1.4 $
+# $Date: 2003/11/19 20:09:44 $
 #
 # ====================================================================
 #
@@ -424,8 +424,9 @@ def xmlize(nodeName,object,f=None,indent='',delta='  '):
   if not elements:
     # use compact form for elements without children
     if text.strip():
-      f.write( '%s<%s>%s</%s>\n' % (indent,' '.join(attrs).encode(encoding),
-        text.strip().encode(encoding),nodeName))
+      f.write( '%s<%s>%s</%s>\n' % \
+          (indent,' '.join(attrs).encode(encoding),	\
+                text.strip().encode(encoding),nodeName))
     else:
       f.write( '%s<%s/>\n' % (indent,' '.join(attrs).encode(encoding)))
   else:
