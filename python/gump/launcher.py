@@ -259,8 +259,8 @@ def dummyExecuteIntoResult(cmd,result,tmp=dir.tmp):
 
 def killChildren():
     pid=os.getpid()
-    log.info('Kill all children for ' + str(pid))    
-    os.system('pkill -P ' + str(pid) + ' -signal KILL')
+    log.info('Kill all children (anything launched by Gumpy) [PID' + str(pid) + ']')    
+    os.system('pkill -KILL -P ' + str(pid))
     
 #
 # Kill the children 
