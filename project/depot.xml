@@ -63,7 +63,7 @@
         <depend project="ant-testutil"/>
         <depend project="junit"/>
         
-        <junitreport nested="common/target/tests"/>
+        <junitreport nested="junit/results"/>
         
         <ant basedir="common" buildfile="build.xml" target="test" vm="1.4">
         	<property name="ant.home" project="ant" reference="home" />
@@ -114,6 +114,8 @@
         <depend project="ant-testutil"/>
         <depend project="junit"/>
 
+        <junitreport nested="junit/results"/>
+        
         <ant basedir="version" buildfile="build.xml" target="test" vm="1.4">
         	<property name="ant.home" project="ant" reference="home" />
         </ant>
@@ -230,6 +232,8 @@
         <depend project="junit"/>
         <depend project="xml-xerces"/>
 
+        <junitreport nested="junit/results"/>
+        
         <ant  basedir="update" buildfile="build.xml" target="test" vm="1.4">
         	<property name="ant.home" project="ant" reference="home" />
         </ant>
