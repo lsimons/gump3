@@ -490,6 +490,11 @@ function pycompile
   for i in $files; do
     python -c "import $i"
   done
+
+  # restore python path
+  if [[ ! -z "$oldpythonpath" ]]; then
+    export PYTHONPATH="$oldpythonpath"
+  fi
 }
 
 # Run pygump using the specified python command
