@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/model/module.py,v 1.24 2004/01/09 19:57:18 ajack Exp $
-# $Revision: 1.24 $
-# $Date: 2004/01/09 19:57:18 $
+# $Header: /home/stefano/cvs/gump/python/gump/model/module.py,v 1.25 2004/01/19 23:34:02 ajack Exp $
+# $Revision: 1.25 $
+# $Date: 2004/01/19 23:34:02 $
 #
 # ====================================================================
 #
@@ -684,12 +684,13 @@ class Module(NamedModelObject, Statable):
         log.debug("Jars URL: [" + url + "] on Repository: " + self.repository.getName())
      
         #
-        # Prepare SVN checkout/update command...
+        # Prepare Jars checkout/update command...
         # 
-        cmd=Cmd('java  org.krysalis.ruper2.tool.ResourceTool','update_'+self.getName(),self.getWorkspace().cvsdir)
+        cmd=Cmd('ruper',	\
+                'update_'+self.getName(),	\
+                self.getWorkspace().cvsdir)
     
-
-        if self.svn.hasUrl():
+        if self.jars.hasUrl():
             cmd.addParameter(self.jars.getUrl())
           
         #
