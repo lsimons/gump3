@@ -3,5 +3,5 @@
    <description>
      Java Transaction API
    </description>
-   <jar name="jta-spec1_0_1.jar"/>
+   <jar name="jta-spec1_0_1.jar" id="jta"/>
 </project>

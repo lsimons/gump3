@@ -7,14 +7,22 @@
 
   <cvs repository="jakarta"/>
 
-  <ant target="full-dist"/>
+  <ant target="full-dist">
+    <property name="jta.jar" reference="jar" id="jta" project="jta"/>
+    <property name="junit.jar" reference="jar" id="junit" project="junit"/>
+  </ant>
+
   <depend project="jakarta-ant"/>
   <depend project="xml-xerces"/>
   <depend project="xml-xalan1"/>
   <depend project="jakarta-servletapi-4"/>
   <depend project="jmx"/>
   <depend project="jta"/>
+  <option project="junit"/>
+  <option project="framework"/>
+  <option project="jakarta-tomcat-4.1"/>
   <work nested="build/classes"/>
+  <work nested="build/client/classes"/>
 
   <home parent="dist/slide-1.0dev"/>
   <jar  name="lib/manager.jar"/>

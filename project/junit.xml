@@ -5,6 +5,6 @@
     Unit test framework
   </description>
 
-  <jar name="junit.jar"/>
+  <jar name="junit.jar" id="junit"/>
 
 </project>
