@@ -24,8 +24,19 @@ def dumpDeps(workspace, projectname):
   print 'PROJECTS TO BUILD:'
 
   # resolve the build sequence of the specified project
-  build_sequence = dependencies(projectname, project.depend)
-
+  try:
+    todo=[]
+    project.addToTodoList(todo)
+    todo.sort()
+    build_sequence = buildSequence(todo)
+    for tproject in build_sequence:
+      print tproject.name
+  except:
+    message=str(sys.exc_type)
+    if sys.exc_value: message+= ": " + str(sys.exc_value)
+    print message
+    raise
+  
   # synchronize
   syncWorkDir( workspace, build_sequence )
 
