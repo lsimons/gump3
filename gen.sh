@@ -136,8 +136,8 @@ if test -z "$FAIL"; then
   echo Publishing
   cd work
   chmod +x *.sh
-  sh modxref.sh $SOURCE
-  sh puball.sh $SOURCE
+  bash modxref.sh
+  bash puball.sh $SOURCE
   cd ..
 fi
 

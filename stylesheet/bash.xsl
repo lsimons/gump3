@@ -51,7 +51,7 @@
   <!-- =================================================================== -->
 
   <xsl:template match="build">
-    <xsl:text>#/bin/sh&#10;</xsl:text>
+    <xsl:text>#/bin/bash&#10;</xsl:text>
 
     <xsl:if test="$cygwin=1">
       <xsl:text>export CP=`cygpath --path --unix "$CLASSPATH"`&#10;</xsl:text>
@@ -103,7 +103,7 @@
   <!-- =================================================================== -->
 
   <xsl:template match="update">
-    <xsl:text>#/bin/sh&#10;</xsl:text>
+    <xsl:text>#/bin/bash&#10;</xsl:text>
 
     <xsl:text>cd </xsl:text>
     <xsl:value-of select="translate(@cvsdir,'\','/')"/>
@@ -138,7 +138,7 @@
   <!-- =================================================================== -->
 
   <xsl:template match="xref">
-    <xsl:text>#/bin/sh&#10;</xsl:text>
+    <xsl:text>#/bin/bash&#10;</xsl:text>
     <xsl:apply-templates/>
   </xsl:template>
 
@@ -147,7 +147,7 @@
   <!-- =================================================================== -->
 
   <xsl:template match="publish">
-    <xsl:text>#/bin/sh&#10;</xsl:text>
+    <xsl:text>#/bin/bash&#10;</xsl:text>
     <xsl:text>echo - $1&#10;</xsl:text>
     <xsl:text>export OUT=\&gt;\&gt;$2&#10;</xsl:text>
     <xsl:apply-templates/>
@@ -172,7 +172,7 @@
     <xsl:variable name="cvsdir"  select="translate(@cvsdir,  '\', '/')"/>
     <xsl:variable name="logdir"  select="translate(@logdir,  '\', '/')"/>
 
-    <xsl:text>#/bin/sh&#10;</xsl:text>
+    <xsl:text>#/bin/bash&#10;</xsl:text>
 
     <xsl:text>test -d </xsl:text>
     <xsl:value-of select="$basedir"/>
