@@ -25,7 +25,7 @@
 function usage
 {
   case $1 in
-    help-variables)
+    variables)
       echo "
       Gump needs various other programs available in order to run. You
       can change which programs gump tries to use using environment variables.
@@ -193,7 +193,7 @@ Run pygump.
       
       Run
       
-        $0 help-variables
+        $0 help variables
       
       for more information about the environment variables that alter gump its
       behaviour.
