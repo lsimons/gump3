@@ -14,6 +14,7 @@
   <depend project="xml-xalan2"/>
   <depend project="xml-batik"/>
   <depend project="jakarta-servletapi-4"/>
+  <depend project="jakarta-avalon-logkit"/>
   <depend project="jakarta-avalon"/>
   <depend project="xml-fop"/>
   <depend project="jakarta-regexp"/>

@@ -12,6 +12,7 @@
   <depend project="jakarta-ant"/>
   <depend project="xml-xerces"/>
   <depend project="xml-stylebook"/>
+  <option project="jakarta-servletapi-4"/>
   <depend project="xml-xalan1"/>
 
   <home nested="build/lib"/>
