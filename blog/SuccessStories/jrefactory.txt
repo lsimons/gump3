@@ -1,0 +1,37 @@
+JRefactory adapt their code to changes in jaxen/saxpath
+
+<h1>
+issue of line ending with PrettyPrinter task
+</h1>
+
+I had found a problem with the PrettyPrinter task supplied by JRefactory.
+Without any clear announcement, the JRefactory team had changed their PrettyPrinter
+task to delegate processing of line endings to the ant fixcrlf task - which is good.
+
+As a consequence, the acceptable values for the lineending setting of PrettyPrinter
+changed to become the one's of ant's fixcrlf task.
+
+This caused the build of xdoclet to fail around mid January.
+
+I entered a bug report in the bug tracking system of JRefactory,
+and also asked the xdoclet team to adapt their build file to the new behavior of
+PrettyPrinter, which they did.
+
+<a href="http://sourceforge.net/tracker/index.php?func=detail&aid=877400&group_id=13219&atid=113219">
+pretty.settings end.line property comments need a fix</a>
+
+Mike Atkinson seems to have worked on this issue yesterday (March 25th 2004).
+
+<h1>
+jaxen/saxpath changes
+</h1>
+
+Due to changes in jaxen, which has absorbed saxpath, JRefactory had
+a compilation failure.
+
+I sent a mail to the JRefactory mailing list on the 24th of March,
+and Mike Atkinson fixed the faulty org.acm.seguin.pmd.jaxen.DocumentNavigator
+yesterday (March 25th).
+
+So, yes, human nagging is effective. When it is effective, and how you do 
+it diplomatically is another issue.
