@@ -114,8 +114,6 @@
   <module href="project/jakarta-velocity-tools.xml"/>
   <module href="project/jakarta-velocity-dvsl.xml"/>
   <module href="project/jakarta-watchdog.xml"/>
-
-  <module href="project/gump-test.xml"/>
   
 <!-- Apache.Logging -->
   <module href="project/logging-log4j.xml"/>
