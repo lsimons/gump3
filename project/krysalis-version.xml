@@ -205,7 +205,7 @@
          	from="Adam Jack &lt;arb_jack@users.sourceforge.net&gt;"/>    
     </project>
     
-       
+    <!--
     <project name="krysalis-version-antlib" 
     	fullname="Krysalis Version (Centipede) AntLib">
 
@@ -265,6 +265,7 @@
    		<nag to="krysalis-developers@lists.sourceforge.net"
          	from="Adam Jack &lt;arb_jack@users.sourceforge.net&gt;"/>    
     </project>
+    -->
     
     <project name="krysalis-version-eclipse" 
     		fullname="Krysalis Version Eclipse Plugin">
