@@ -90,7 +90,7 @@ class GumpBuilder(gump.run.gumprun.RunSpecific):
                   
                   
         # Right now everything is Java..
-        languageHelper=self.java
+        languageHelper=self.run.getJavaHelper()
           
         # Extract stats (in case we want to do conditional processing)            
         stats=None

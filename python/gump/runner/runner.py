@@ -172,7 +172,6 @@ class GumpRunner(RunSpecific):
         """
         return self.java
         
-        
     #
     # Call a method called 'documentRun(run)'
     #
