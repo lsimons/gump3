@@ -21,6 +21,7 @@
       <depend property="xerces.jar" project="xml-xerces" id="parser"/>
       <depend property="xml-apis.jar" project="xml-apis"/>
       <depend property="jdom.jar" project="jdom"/>
+      <depend property="js.jar" project="rhino"/>
     </ant>
 
     <depend project="ant" />
