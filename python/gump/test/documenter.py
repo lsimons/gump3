@@ -49,7 +49,7 @@ class DocumenterTestSuite(UnitTestSuite):
         out.close()
         
     def testXDocs(self):
-        xtest=os.path.join(dir.test,'xdocs')
+        xtest=os.path.join(gump.core.config.dir.test,'xdocs')
         if not os.path.exists(xtest): os.mkdir(xtest)
         documenter=XDocDocumenter(self.run,xtest,'http://someplace')
         documenter.document()

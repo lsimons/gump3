@@ -167,7 +167,7 @@ class MavenBuilder(gump.run.gumprun.RunSpecific):
     
         # End with the goal...
         if goal: 
-            for goalParam in goal.split():
+            for goalParam in goal.split(','):
                 cmd.addParameter(goalParam)
     
         return cmd

@@ -47,7 +47,7 @@
       <tr>
         <td>target</td>
         <td>
-        	The ant target to invoke. <em>This can be a space separated list.</em>
+        	The ant target to invoke. <em>This can be a comma separated list. Spaces are preserved.</em>
         </td>
         <td>No. Defaults to the default target defined by the build file.</td>
       </tr>
