@@ -251,13 +251,13 @@ Regex: /BUILD FAILED/
 Project: jakarta-turbine-jyve
 To: turbine-dev@jakarta.apache.org
 From: Jason van Zyl <jvanzyl@apache.org>
-Subject: [GUMP] Build Failure - Flux
+Subject: [GUMP] Build Failure - Jyve
 Regex: /BUILD FAILED/
 -------
 Project: jakarta-turbine-orgami
 To: turbine-dev@jakarta.apache.org
 From: Jason van Zyl <jvanzyl@apache.org>
-Subject: [GUMP] Build Failure - Flux
+Subject: [GUMP] Build Failure - Orgami
 Regex: /BUILD FAILED/
 -------
 Project: jakarta-turbine-torque
