@@ -1,0 +1,42 @@
+<?xml version="1.0" ?>
+
+<!--
+	See http://jakarta.apache.org/gump/workspace.html for the
+	informal dtd of this xml file and more details about the
+	possible elements.
+	
+	This is just about the most barebones workspace definition
+	possible. To get started, rename this file to be the same
+	as your machine hostname (%COMPUTERNAME% under windows),
+	then set the basedir, where gump should check out material
+	and build stuff. If you use any packages available as
+	binaries only, you need to set pkgdir as well.
+-->
+<workspace basedir="C:\jakarta" pkgdir="C:\opt" version="0.3">
+
+	<!-- this tells Ant to completely ignore all classpath
+	     elements in build scripts. This makes sure we build
+	     the latest version of everything. Note you could
+	     comment out this line and gump would still run fine.
+	     The thing you loose then is the continuous integration.
+	     See: http://jakarta.apache.org/gump/why.html for more
+	     background. -->
+	<property name="build.sysclasspath" value="only"/>
+
+	<!-- this references your profile description. A profile is a
+	     collection of projects and repositories that are logically
+	     to be considered a unit. A profile can provide a consistent
+	     set of installable dependencies, or tagged versions of cvs
+	     modules to be used.-->
+	<profile href="profile/minimal-profile.xml"/>
+
+	<!-- Repository overrides can be used to override the cvs repository
+	     definitions in the repository/ dir. This is handy if you want to
+	     check out using a different method than the default one, for
+	     example using ssh tunneling or a local machine connection.
+	     
+	     As I am a committer to parts of jakarta, I use ssh tunnelling and
+	     a different cvsroot, so the cvs checkout gives me write access to
+	     the jakarta modules. -->
+	<!--<repository name="jakarta" method="ext" user="leosimons" path="/home/cvs"/>-->
+</workspace>

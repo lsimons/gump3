@@ -1,0 +1,64 @@
+<!--
+	See http://jakarta.apache.org/gump/profile.html for the
+	informal dtd of this xml file and more details about the
+	possible elements.
+	
+	This is just about the most barebones profile definition
+	possible; it only references the couple most commonly used
+	libraries. To get started, copy additional entries from the
+	gump.xml file, and when you add new project definitions for
+	your own software, reference those from here as well.
+-->
+<profile name="minimal">
+  <!-- References to modules definitions. While a complete module
+       can be defined here, typically one is referenced via href.
+       A module is a collection of projects stored in a single cvs
+       repository. See http://jakarta.apache.org/gump/module.html
+       for more information. --> 
+
+  <module href="project/jakarta-ant.xml"/>
+  <module href="project/jakarta-ant-antidote.xml"/>
+  <module href="project/xml-commons.xml"/>
+  <module href="project/xml-crimson.xml"/>
+  <module href="project/xml-xalan.xml"/>
+  <module href="project/xml-xerces.xml"/>
+  <module href="project/xml-xerces2.xml"/>
+  <module href="http://cvs.apache.org/viewcvs/~checkout~/xml-forrest/module.xml"/>
+  <module href="project/xml-stylebook.xml"/>
+  <module href="project/junit.xml"/>
+
+  <!-- References to installed binary projects. This is used for
+       projects installed as packages rather than being built by
+       gump. Examples are binary packages distributed by sun. The
+       package attribute references the directory where you
+       installed the package relative to the workspace pkgdir
+       definition.
+       See http://jakarta.apache.org/gump/project.html for more
+       information. --> 
+  <!--<project name="aspectj"        package="aspectj1.0"/>-->
+
+  <!-- References to cvs repository definitions. You should leave
+       all of these in here and add any references to your own
+       cvs repositories.
+       See http://jakarta.apache.org/gump/repository.html for more
+       information. --> 
+  <repository href="repository/dbxml.xml"/>
+  <repository href="repository/devworks.xml"/>
+  <repository href="repository/exolab.xml"/>
+  <repository href="repository/jakarta.xml"/>
+  <repository href="repository/jdom.xml"/>
+  <repository href="repository/mozilla.xml"/>
+  <repository href="repository/tigris.xml"/>
+  <repository href="repository/sourceforge.xml"/>
+  <repository href="repository/webmacro.xml"/>
+  <repository href="repository/werken.xml"/>
+  <repository href="repository/whichever.xml"/>
+  <repository href="repository/xml.xml"/>
+
+  <!-- server definitions. I have no idea what these are for. Leaving
+       them doesn't harm. -->
+  <server href="server/daedalus.apache.org.xml"/>
+  <server href="server/icarus.apache.org.xml"/>
+
+</profile>
+
