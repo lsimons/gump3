@@ -15,7 +15,7 @@
   limitations under the License.
 -->
 <module name="jakarta-jmeter">
-<!-- Version $Revision: 1.83 $ Last updated $Date: 2004/03/18 23:02:41 $ -->
+<!-- Version $Revision: 1.84 $ Last updated $Date: 2004/03/19 13:19:30 $ -->
   <url href="http://jakarta.apache.org/jmeter/" />
   <description>
     Pure Java load testing and performance measurement tool.
@@ -31,7 +31,7 @@
       <property name="version" value="@@DATE@@"/>
       <property name="gump.run" value="true"/>
       <!-- The version of this file -->
-      <property name="version.projectfile" value="$Revision: 1.83 $"/>
+      <property name="version.projectfile" value="$Revision: 1.84 $"/>
       
       <!--
       	These properties are passed to the build process, so the names need to agree with
@@ -60,7 +60,6 @@
     <depend project="jsse" />
 
     <depend project="commons-collections"/>
-    <depend project="jakarta-velocity" />
     <depend project="jtidy" />
     <depend project="excalibur-compatibility" />
 
@@ -109,7 +108,7 @@
       <property name="version" value="@@DATE@@"/>
       <property name="gump.run" value="true"/>
       <!-- The version of this file -->
-      <property name="version.projectfile" value="$Revision: 1.83 $"/>
+      <property name="version.projectfile" value="$Revision: 1.84 $"/>
     </ant>
 
     <depend project="ant" />
@@ -146,7 +145,7 @@
     <work nested="lib/commons-logging.jar"/>
     <work nested="lib/commons-httpclient-2.0.jar"/>
 
-    <!-- needed ? -->
+    <!-- needed for documentation -->
     <work nested="lib/velocity-1.4-dev.jar"/>
     
     <!-- are these still needed ? -->
@@ -176,7 +175,7 @@
       <property name="version" value="@@DATE@@"/>
       <property name="gump.run" value="true"/>
       <!-- The version of this file -->
-      <property name="version.projectfile" value="$Revision: 1.83 $"/>
+      <property name="version.projectfile" value="$Revision: 1.84 $"/>
     </ant>
 
     <depend project="ant" />
@@ -237,7 +236,7 @@
       <property name="version" value="@@DATE@@"/>
       <property name="gump.run" value="true"/>
       <!-- The version of this file -->
-      <property name="version.projectfile" value="$Revision: 1.83 $"/>
+      <property name="version.projectfile" value="$Revision: 1.84 $"/>
     </ant>
 
     <depend project="ant" />
