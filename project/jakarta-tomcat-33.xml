@@ -33,6 +33,10 @@
     <jar name="lib/common/core_util.jar"/>
     <jar name="lib/container/container_util.jar"/>
     <jar name="lib/container/tomcat_modules.jar"/>
+    <jar name="lib/tomcat.jar"/>
+    <jar name="lib/container/tomcat_util.jar"/>
+    <jar name="lib/container/facade22.jar"/>
+    <jar name="lib/container/jasper.jar"/>
     <license name="LICENSE"/>
     <javadoc nested="build/tomcat/webapps/ROOT/javadoc"/>
 
