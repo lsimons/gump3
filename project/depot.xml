@@ -96,6 +96,7 @@
               
     </project>
     
+    
     <project name="depot-version-test" fullname="Depot Version Test" >
     	
         <package>org.apache.depot.version.test</package>
@@ -118,6 +119,39 @@
            from="Adam Jack &lt;ajack@apache.org&gt;"/>
            
     </project>
+
+
+    <project name="depot-version-antlet" fullname="Depot Version Antlet" >
+       <package>org.apache.depot.version</package>
+       <depend project="depot-version" inherit="all"/>
+       <depend project="depot-antlets" inherit="runtime"/>
+        <ant basedir="version" buildfile="build_antlet.xml" target="install-antlet" vm="1.4">
+          <property name="ant.home" project="ant" reference="home" />
+          <property name="DATE_STAMP" value="@@DATE@@"/>        	
+        </ant>
+        <nag 
+           to="depot-dev@incubator.apache.org"
+           from="Adam Jack &lt;ajack@apache.org&gt;"/>
+              
+    </project>
+
+    <project name="depot-version-antlet-test" fullname="Depot Version Antlet" >
+       <package>org.apache.depot.version</package>
+       <depend project="depot-version-antlet" inherit="all"/>
+
+        <ant basedir="version" buildfile="src/test/antlet/build.xml" target="all" vm="1.4">
+          <property name="ant.home" project="ant" reference="home" />
+          <property name="DATE_STAMP" value="@@DATE@@"/>        	
+        </ant>
+        <nag 
+           to="depot-dev@incubator.apache.org"
+           from="Adam Jack &lt;ajack@apache.org&gt;"/>
+              
+    </project>
+
+
+
+
     
     
     <project name="depot-update" fullname="Depot Update" >
