@@ -10,6 +10,7 @@
   <project name="jakarta-avalon-cornerstone">
     <package>org.apache.avalon.cornerstone</package>
 
+    <mkdir dir="gen"/>
     <ant />
 
     <depend project="jakarta-avalon"/>
