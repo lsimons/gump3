@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/text.py,v 1.11 2004/03/09 19:57:06 ajack Exp $
-# $Revision: 1.11 $
-# $Date: 2004/03/09 19:57:06 $
+# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/text.py,v 1.12 2004/03/16 23:02:50 ajack Exp $
+# $Revision: 1.12 $
+# $Date: 2004/03/16 23:02:50 $
 #
 # ====================================================================
 #
@@ -94,6 +94,15 @@ class TextDocumenter(Documenter):
         
         workspace = run.getWorkspace()
         gumpSet = run.getGumpSet()
+        
+        #
+        #
+        #
+        quick=run.getOptions().isQuick()
+        
+        #
+        # Where to write this.
+        #
         output=self.output
             
             
@@ -113,14 +122,24 @@ class TextDocumenter(Documenter):
         
         indent += ' '
         for module in sortedModuleList:
-            if not gumpSet.inModuleSequence(module): continue       
+            if quick:
+                if not gumpSet.inModules(module): continue       
+            else:
+                if not gumpSet.inModuleSequence(module): continue       
+            
             output.write(indent + "Module [" + module.getName() + "] State: " + module.getStateDescription() + "\n")
             output.write(indent + "Projects: " + str(len(module.getProjects())) + "\n")
 
+            #
+            # Document all the annotations
+            #
             self.documentAnnotations(indent,module)
                     
-            for project in module.getProjects():
-                if not gumpSet.inProjectSequence(project): continue
+            for project in module.getProjects():                
+                if quick:
+                    if not gumpSet.inProjects(project): continue
+                else:
+                    if not gumpSet.inProjectSequence(project): continue
             
                 self.documentProject(indent,project)
                 

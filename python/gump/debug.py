@@ -66,7 +66,7 @@ if __name__=='__main__':
     result = GumpEngine().performDebug(run)
 
     #
-    log.info('Gump Update complete. Exit code:' + str(result))
+    log.info('Gump Debug complete. Exit code:' + str(result))
           
     # bye!
     sys.exit(result)
