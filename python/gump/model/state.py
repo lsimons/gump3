@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/model/state.py,v 1.5 2003/11/19 19:43:53 ajack Exp $
-# $Revision: 1.5 $
-# $Date: 2003/11/19 19:43:53 $
+# $Header: /home/stefano/cvs/gump/python/gump/model/state.py,v 1.6 2003/11/19 19:56:10 ajack Exp $
+# $Revision: 1.6 $
+# $Date: 2003/11/19 19:56:10 $
 #
 # ====================================================================
 #
@@ -166,7 +166,7 @@ class StatePair:
         return self.reason
         
     def getReasonDescription(self):
-        return reasonString(self.getState())
+        return reasonString(self.getReason())
         
     #
     #
