@@ -25,7 +25,7 @@
   	<section><title>Ant</title>  	
   		<section><title>Selecting a minimal target</title> 
   			<p>Select an ant target (from your build) that minimally compiles the code, and creates output jars.
-  				Try to avoid targets the do full distributions (in numerous formats), or does unnecessary work like
+  				Try to avoid targets that create full distributions (in numerous formats), or perform unnecessary work like
   				javadoc generation. 
   			</p>
   			<p>For your *-test project (see 'Separate Test Project') do unit tests only.</p>
@@ -62,12 +62,12 @@
   			compilation/archive &amp; the other (named <em>your-project</em><strong>-test</strong>) that
   			just runs unit tests.
   		</p>
-  		<p>This require only the second to depend upon <em>junit</em>, say &amp; reduces the dependencies
+  		<p>This requires only the second to depend upon <em>junit</em>, say &amp; reduces the dependencies
   			of the first.
   		</p>
   		<p>This allows downstream dependees to select which of your projects they wish to depend upon. If they depend upon 
   			<em>your-project</em> (and <strong>perhaps optionally</strong> on <em>your-project-test</em>) then
-  			if some obscure unit test fails still get Gumped &amp; don't mis a run.</p>
+  			if some obscure unit test fails they still get Gumped &amp; don't miss a run.</p>
 	  	</section>
   	</section>
   	
