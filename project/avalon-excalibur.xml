@@ -1035,13 +1035,4 @@
                 to="dev@avalon.apache.org"/>
     </project>
 
-    <project name="junitperf">
-        <package>com.clarkware.junitperf</package>
-
-        <jar name="lib/junitperf.jar"/>
-
-        <nag from="Gump Integration Build &lt;general@incubator.apache.org&gt;"
-                to="dev@avalon.apache.org"/>
-    </project>
-
 </module>

@@ -44,12 +44,11 @@
   </project>
 
   <project name="junitperf">
+    <url href="http://www.clarkware.com/software/JUnitPerf.html"/>
     <package>com.clarkware.junitperf</package>
 
     <jar name="java/lib/junitperf-1.8.jar"/>
-
-    <nag from="Gump Integration Build &lt;general@incubator.apache.org&gt;"
-                to="xindice-dev@xml.apache.org"/>
+    <license name="java/lib/junitperf.LICENSE"/>
   </project>
 
 </module>
