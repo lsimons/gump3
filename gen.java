@@ -43,14 +43,14 @@ public class gen {
       * @return Node
       */
     private Document parse(String source) throws Exception {
-	try {
-	    DocumentBuilder dBuilder = dFactory.newDocumentBuilder();
-	    return dBuilder.parse(new java.io.File(source));
-	} catch (SAXParseException e) {
-	    System.err.print("Error parsing file " + source);
-	    System.err.println(" line " + e.getLineNumber() + ": ");
-	    throw e;
-	}
+        try {
+            DocumentBuilder dBuilder = dFactory.newDocumentBuilder();
+            return dBuilder.parse(new java.io.File(source));
+        } catch (SAXParseException e) {
+            System.err.print("Error parsing file " + source);
+            System.err.println(" line " + e.getLineNumber() + ": ");
+            throw e;
+        }
     }
 
     /**
@@ -60,11 +60,11 @@ public class gen {
       * @return Node
       */
     private Node transform(Node dom, String sheet) throws Exception {
-	StreamSource source = new StreamSource("stylesheet/"+sheet);
-	Transformer transformer = tFactory.newTransformer(source);
-	DOMResult output = new DOMResult();
-	transformer.transform(new DOMSource(dom), output);
-	return output.getNode();
+        StreamSource source = new StreamSource("stylesheet/"+sheet);
+        Transformer transformer = tFactory.newTransformer(source);
+        DOMResult output = new DOMResult();
+        transformer.transform(new DOMSource(dom), output);
+        return output.getNode();
     }
 
     /**
@@ -75,17 +75,17 @@ public class gen {
     private void copyChildren(Element source, Element target) {
        Node child=source.getFirstChild();
        while (child != null) {
-	   Node next=child.getNextSibling();
-	   target.appendChild(child);
-	   child=next;
+           Node next=child.getNextSibling();
+           target.appendChild(child);
+           child=next;
        }
 
        NamedNodeMap attrs = source.getAttributes();
        for (int i=0; i<attrs.getLength(); i++) {
-	   Node a = attrs.item(i);
-	   if (target.getAttributeNode(a.getNodeName())==null) {
-	       target.setAttribute(a.getNodeName(),a.getNodeValue());
-	   }
+           Node a = attrs.item(i);
+           if (target.getAttributeNode(a.getNodeName())==null) {
+               target.setAttribute(a.getNodeName(),a.getNodeValue());
+           }
        }
     }
 
@@ -97,38 +97,38 @@ public class gen {
        // expand hrefs
        Attr href = node.getAttributeNode("href");
        if (href != null && !node.getNodeName().equals("url")) {
-	   String source=href.getValue();
-	   Node sub = parse(source);
+           String source=href.getValue();
+           Node sub = parse(source);
 
-	   if (source.lastIndexOf(".")>0)
-	       source=source.substring(0,source.lastIndexOf("."));
+           if (source.lastIndexOf(".")>0)
+               source=source.substring(0,source.lastIndexOf("."));
 
-	   if (source.lastIndexOf("/")>0)
-	       source=source.substring(source.lastIndexOf("/")+1);
+           if (source.lastIndexOf("/")>0)
+               source=source.substring(source.lastIndexOf("/")+1);
 
-	   node.removeAttribute("href");
-	   node.setAttribute("defined-in", source);
+           node.removeAttribute("href");
+           node.setAttribute("defined-in", source);
 
-	   Document doc = node.getOwnerDocument();
-	   Element copy=(Element)doc.importNode(sub.getFirstChild(), true);
-	   copyChildren(node, copy);
+           Document doc = node.getOwnerDocument();
+           Element copy=(Element)doc.importNode(sub.getFirstChild(), true);
+           copyChildren(node, copy);
 
-	   Element parent = (Element)node.getParentNode();
-	   if (node.getNodeName().equals("profile")) {
+           Element parent = (Element)node.getParentNode();
+           if (node.getNodeName().equals("profile")) {
                copy.removeAttribute("defined-in");
-	       copyChildren(copy, parent);
-	   } else {
+               copyChildren(copy, parent);
+           } else {
 
-	       parent.replaceChild(copy,node);
-	   }
+               parent.replaceChild(copy,node);
+           }
        }
 
        // recurse through the children
        Node child=node.getFirstChild();
        while (child != null) {
-	   Node next=child.getNextSibling();
-	   if (child.getNodeType()==Node.ELEMENT_NODE) expand((Element)child);
-	   child=next;
+           Node next=child.getNextSibling();
+           if (child.getNodeType()==Node.ELEMENT_NODE) expand((Element)child);
+           child=next;
        }
     }
 
@@ -136,29 +136,29 @@ public class gen {
       * Merge the contents of nodes with the same value for the name attribute.
       * Attributes from later definitions get added (or overlay) prior
       * definitions.  Elements get appended.
-      * @param type Element localname.	Typically project or repository.
+      * @param type Element localname.  Typically project or repository.
       * @param list Hashtable used for recursion.  Must initially be empty.
       * @param Node Starting point for search.
       */
-    private void merge(String type, Hashtable list, Node document) 
+    private void merge(String type, Hashtable list, Node document)
         throws Exception
     {
-	NodeIterator nl = XPathAPI.selectNodeIterator(document, "//"+type);
-	for (Node child=nl.nextNode(); child!=null; child=nl.nextNode()) {
-	    Element element = (Element) child;
-	    String name = element.getAttribute("name");
+        NodeIterator nl = XPathAPI.selectNodeIterator(document, "//"+type);
+        for (Node child=nl.nextNode(); child!=null; child=nl.nextNode()) {
+            Element element = (Element) child;
+            String name = element.getAttribute("name");
 
-	    Element priorDefinition = (Element)list.get(name);
-	    if (priorDefinition != null && priorDefinition != element) {
-	        Element parent  = (Element)priorDefinition.getParentNode();
-	        String definedIn = parent.getAttribute("defined-in");
+            Element priorDefinition = (Element)list.get(name);
+            if (priorDefinition != null && priorDefinition != element) {
+                Element parent  = (Element)priorDefinition.getParentNode();
+                String definedIn = parent.getAttribute("defined-in");
                 if (!definedIn.equals(""))
-	            element.setAttribute("defined-in",definedIn);
+                    element.setAttribute("defined-in",definedIn);
 
-	        copyChildren(priorDefinition, element);
-	        parent.removeChild(priorDefinition);
-	    }
-	    list.put(name, element);
+                copyChildren(priorDefinition, element);
+                parent.removeChild(priorDefinition);
+            }
+            list.put(name, element);
         }
     }
 
@@ -168,28 +168,28 @@ public class gen {
       * all matching nodes which contain the same value for the name attribute.
       * For elements that get "hoisted", an additional "defined-in" attribute
       * is added indicating where the element was originally defined.
-      * @param type Element localname.	Typically project or repository.
+      * @param type Element localname.  Typically project or repository.
       * @param Node Root (workspace) node
       */
     private Hashtable flatten(String type, Node root)
         throws Exception
     {
-	Hashtable list = new Hashtable();
-	merge(type, list, root);
-	for (Enumeration e=list.keys(); e.hasMoreElements();) {
-	   Element element = (Element)list.get(e.nextElement());
-	   Element parent  = (Element)element.getParentNode();
+        Hashtable list = new Hashtable();
+        merge(type, list, root);
+        for (Enumeration e=list.keys(); e.hasMoreElements();) {
+           Element element = (Element)list.get(e.nextElement());
+           Element parent  = (Element)element.getParentNode();
 
-	   if (parent != root) {
-	       String definedIn = parent.getAttribute("defined-in");
+           if (parent != root) {
+               String definedIn = parent.getAttribute("defined-in");
                if (definedIn.equals(""))
-	           definedIn = parent.getAttribute("name");
-	       element.setAttribute("defined-in",definedIn);
+                   definedIn = parent.getAttribute("name");
+               element.setAttribute("defined-in",definedIn);
 
-	       parent.removeChild(element);
-	       root.appendChild(element);
-	   }
-	}
+               parent.removeChild(element);
+               root.appendChild(element);
+           }
+        }
         return list;
     }
 
@@ -199,40 +199,40 @@ public class gen {
       * @param destination file
       */
     private void output(Node dom, String dest) throws Exception {
-	DOMSource in = new DOMSource(dom);
-	StreamResult out = new StreamResult(dest);
-	tFactory.newTransformer().transform(in, out);
+        DOMSource in = new DOMSource(dom);
+        StreamResult out = new StreamResult(dest);
+        tFactory.newTransformer().transform(in, out);
     }
 
     /**
-      * Replace ant "depend" elements with "property" elements.	 This is
+      * Replace ant "depend" elements with "property" elements.  This is
       * a convenience "syntatic sugar" that makes for simpler project
       * definitions.  Attribute "property" becomes name.  Attributes
       * reference="jarpath" and classpath="true" are added.
       * @param document to be transformed
       */
     private void antDependsToProperties(Document document) throws Exception {
-	NodeIterator nl = XPathAPI.selectNodeIterator(document, "//ant/depend");
-	for (Node depend=nl.nextNode(); depend!=null; depend=nl.nextNode()) {
+        NodeIterator nl = XPathAPI.selectNodeIterator(document, "//ant/depend");
+        for (Node depend=nl.nextNode(); depend!=null; depend=nl.nextNode()) {
 
-	    // create a new element based on existing element
-	    Element property = document.createElement("property");
-	    property.setAttribute("reference", "jarpath");
-	    property.setAttribute("classpath", "add");
-	    copyChildren((Element)depend, property);
+            // create a new element based on existing element
+            Element property = document.createElement("property");
+            property.setAttribute("reference", "jarpath");
+            property.setAttribute("classpath", "add");
+            copyChildren((Element)depend, property);
 
-	    // change property attribute to name attribute
-	    if (property.getAttributeNode("name")==null) {
-	       Attr pname = property.getAttributeNode("property");
-	       if (pname != null) {
-		   property.setAttribute("name",pname.getValue());
-		   property.removeAttributeNode(pname);
-	       }
-	    }
+            // change property attribute to name attribute
+            if (property.getAttributeNode("name")==null) {
+               Attr pname = property.getAttributeNode("property");
+               if (pname != null) {
+                   property.setAttribute("name",pname.getValue());
+                   property.removeAttributeNode(pname);
+               }
+            }
 
-	    // replace existing element with new one
-	    depend.getParentNode().replaceChild(property, depend);
-	}
+            // replace existing element with new one
+            depend.getParentNode().replaceChild(property, depend);
+        }
     }
 
     /**
@@ -243,27 +243,27 @@ public class gen {
     private void computeSrcdir(Element workspace) throws Exception {
         String basedir = workspace.getAttribute("basedir");
         Hashtable modules = flatten("module", workspace);
-	for (Enumeration e=modules.keys(); e.hasMoreElements();) {
-	     Element module = (Element)modules.get(e.nextElement());
+        for (Enumeration e=modules.keys(); e.hasMoreElements();) {
+             Element module = (Element)modules.get(e.nextElement());
              String name = module.getAttribute("name");
 
              // compute source directory
              String srcdir=module.getAttribute("srcdir");
              if (srcdir.equals("")) srcdir=name;
-             module.setAttribute("srcdir", basedir + "/" + srcdir); 
+             module.setAttribute("srcdir", basedir + "/" + srcdir);
 
              // set module name on any projects contained herein
              Node child=module.getFirstChild();
              while (child != null) {
-	         if (child.getNodeName().equals("project")) {
+                 if (child.getNodeName().equals("project")) {
                      Element project = (Element) child;
                      if (project.getAttributeNode("module") == null) {
                          project.setAttribute("module", name);
                      }
-	         }
-	         child=child.getNextSibling();
+                 }
+                 child=child.getNextSibling();
              }
-	}
+        }
     }
 
     /**
@@ -277,14 +277,14 @@ public class gen {
       */
     private void workspaceDefaults(Element workspace) throws Exception {
         if (!workspace.getAttribute("version").equals(GUMP_VERSION)) {
-            throw new Exception("workspace version " + GUMP_VERSION + 
+            throw new Exception("workspace version " + GUMP_VERSION +
                                 " required.");
         }
 
         String basedir = workspace.getAttribute("basedir");
 
         if (workspace.getAttribute("banner-image").equals("")) {
-            workspace.setAttribute("banner-image", 
+            workspace.setAttribute("banner-image",
                 "http://jakarta.apache.org/images/jakarta-logo.gif");
         }
 
@@ -308,32 +308,32 @@ public class gen {
       * @return Node
       */
     private gen(String source) throws Exception {
-	Document doc = parse(source);
-	Element workspace = (Element)doc.getFirstChild();
+        Document doc = parse(source);
+        Element workspace = (Element)doc.getFirstChild();
         workspaceDefaults(workspace);
 
-	expand((Element)workspace);
+        expand((Element)workspace);
         computeSrcdir((Element) workspace);
-	flatten("project", workspace);
-	flatten("repository", workspace);
-	antDependsToProperties(doc);
+        flatten("project", workspace);
+        flatten("repository", workspace);
+        antDependsToProperties(doc);
 
-	Node resolved = transform(doc, "defaults.xsl");
-	output (resolved, "work/merge.xml");
+        Node resolved = transform(doc, "defaults.xsl");
+        output (resolved, "work/merge.xml");
 
-	Node sorted   = transform(resolved, "sortdep.xsl");
-	output (sorted, "work/sorted.xml");
+        Node sorted   = transform(resolved, "sortdep.xsl");
+        output (sorted, "work/sorted.xml");
     }
 
     public static void main(String[] args) {
-	try {
-	    if (args.length == 1)
-		new gen(args[0]);
-	    else
-		System.out.println("Usage: gen workspace.xml");
-	} catch (Exception e) {
-	    e.printStackTrace();
-	    System.exit(99);
-	}
+        try {
+            if (args.length == 1)
+                new gen(args[0]);
+            else
+                System.out.println("Usage: gen workspace.xml");
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.exit(99);
+        }
     }
 }
