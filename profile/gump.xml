@@ -27,7 +27,7 @@
   <module href="project/jakarta-lucene.xml"/>
   <module href="project/jakarta-ojb.xml"/>
   <module href="project/jakarta-oro.xml"/>
-  <module href="project/jakarta-poi.xml"/>
+  <module href="http://cvs.apache.org/viewcvs/~checkout~/jakarta-poi/module.xml"/>
   <module href="project/jakarta-regexp.xml"/>
   <module href="project/jakarta-servletapi-4.xml"/>
   <module href="project/jakarta-servletapi.xml"/>
