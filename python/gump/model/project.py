@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/model/project.py,v 1.47 2004/02/11 22:11:34 ajack Exp $
-# $Revision: 1.47 $
-# $Date: 2004/02/11 22:11:34 $
+# $Header: /home/stefano/cvs/gump/python/gump/model/project.py,v 1.48 2004/02/11 22:39:44 ajack Exp $
+# $Revision: 1.48 $
+# $Date: 2004/02/11 22:39:44 $
 #
 # ====================================================================
 #
@@ -1024,7 +1024,9 @@ class Project(NamedModelObject, Statable):
         # Output basic properties
         #
         for property in self.getWorkspace().getProperties()+self.getMaven().getProperties():
-            props.write(('%s=%s\n') % (property.name,property.value))            
+            # build.sysclasspath makes Maven sick.
+            if not 'build.sysclasspath' == property.name:
+                props.write(('%s=%s\n') % (property.name,property.value))            
         
         #
         # Output classpath properties
