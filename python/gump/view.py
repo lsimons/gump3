@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/Attic/view.py,v 1.37 2003/05/08 02:50:59 rubys Exp $
-# $Revision: 1.37 $
-# $Date: 2003/05/08 02:50:59 $
+# $Header: /home/stefano/cvs/gump/python/gump/Attic/view.py,v 1.38 2003/05/08 07:13:13 nicolaken Exp $
+# $Revision: 1.38 $
+# $Date: 2003/05/08 07:13:13 $
 #
 # ====================================================================
 #
@@ -75,7 +75,7 @@ from xml.sax.handler import ContentHandler
 from wxPython.wx import *
 
 from gump import load, buildSequence, log
-from gump.conf import dir, default
+from gump.conf import dir, default, handleArgv
 from gump.gen import xmlize
 from gump.model import Module, Project
 
@@ -607,9 +607,10 @@ if __name__ == '__main__':
   logger.setLevel(logging.DEBUG)
   lh = ViewHandler(app.logview)
   logger.addHandler(lh)
-  
+
   # loadspecified or default workspace
-  app.load(sys.argv[1:] or [default.workspace])
+  args = handleArgv(sys.argv)
+  app.load([args[0]])
 
   # start app
   app.MainLoop()
