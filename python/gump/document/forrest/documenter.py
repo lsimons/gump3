@@ -1577,9 +1577,9 @@ This page helps Gumpmeisters (and others) observe community progress.
         statsTable=statsSection.createTable()           
         
         # Generate an SVG for FOG:
-        (pngFile,pngTitle) = self.diagramFOG(project)
-        if pngFile:
-            statsTable.createEntry("FOG Factor: ").createData().createIcon(pngFile,pngTitle)
+        #(pngFile,pngTitle) = self.diagramFOG(project)
+        #if pngFile:
+        #    statsTable.createEntry("FOG Factor: ").createData().createIcon(pngFile,pngTitle)
             
         statsTable.createEntry("FOG Factor: ", '%02.2f' % stats.getFOGFactor())
         statsTable.createEntry('Dependency Depth: ', project.getDependencyDepth())        
@@ -2739,7 +2739,8 @@ This page helps Gumpmeisters (and others) observe community progress.
         fileName='project_fogfactor'
         documentFile=self.resolver.getFile(stats,fileName)    
         document=XDocDocument('Projects By FOG Factor',	 documentFile)        
-        fogTable=document.createTable(['Project','Successes','Failures','Preq-Failures','FOG Factor'])
+        #fogTable=document.createTable(['Project','Successes','Failures','Preq-Failures','FOG Factor'])
+        fogTable=document.createTable(['Project','Successes','Failures','Preq-Failures'])
         for project in stats.projectsByFOGFactor:        
             if not gumpSet.inProjectSequence(project): continue    
             fogRow=fogTable.createRow()            
@@ -2753,11 +2754,11 @@ This page helps Gumpmeisters (and others) observe community progress.
             fogRow.createData('%02.2f' % pstats.getFOGFactor())
                         
             # Generate an SVG for FOG:
-            (pngFile,pngTitle) = self.diagramFOG(project,stats)
-            if pngFile:
-                fogRow.createData().createIcon(pngFile,pngTitle)
-            else:
-                fogRow.createData('Not Available')                    
+            #(pngFile,pngTitle) = self.diagramFOG(project,stats)
+            #if pngFile:
+            #    fogRow.createData().createIcon(pngFile,pngTitle)
+            #else:
+            #    fogRow.createData('Not Available')                    
             
         document.serialize()   
         
