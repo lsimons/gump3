@@ -25,9 +25,9 @@
     <depend project="excalibur-extension"/>
     <depend project="excalibur-i18n"/>
     <depend project="excalibur-thread"/>
-    <depend project="jakarta-avalon-excalibur" />
+    <!-- <depend project="jakarta-avalon-excalibur" /> -->
     <depend project="jakarta-avalon-logkit" />
-    <depend project="jakarta-avalon-phoenix" />
+    <depend project="jakarta-avalon-phoenix" inherit="runtime"/>
     <depend project="jakarta-oro"/>
     <depend project="town" />
     <depend project="dnsjava" />
@@ -36,6 +36,8 @@
     <jar name="james.bar" />
     <javadoc nested="www/mailet"/>
 
+    <nag from="Peter Donald &lt;peter@apache.org&gt;"
+         to="peter@apache.org"/>
     <nag from="Peter Donald &lt;peter@apache.org&gt;"
          to="james-dev@jakarta.apache.org"/>
   </project>
