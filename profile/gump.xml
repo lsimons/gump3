@@ -22,15 +22,10 @@
   <module href="project/ant-antidote.xml"/>
 
 <!-- Apache.Avalon -->
+  <module href="project/avalon.xml"/>
   <module href="project/avalon-components.xml"/>
   <module href="project/avalon-excalibur.xml"/>
-  <module href="project/avalon-fortress-container.xml"/>
-  <module href="project/avalon-fortress-examples.xml"/>
-  <module href="project/avalon-fortress-tools.xml"/>
-  <module href="project/avalon-framework.xml"/>
-  <module href="project/avalon-logging.xml"/>
   <module href="project/avalon-logkit.xml"/>
-  <module href="project/avalon-meta.xml"/>
   <module href="project/avalon-phoenix.xml"/>
   <module href="project/avalon-sandbox.xml"/>
   <module href="project/avalon-site.xml"/>
