@@ -53,7 +53,7 @@ class ScriptBuilder(gump.run.gumprun.RunSpecific):
         """
         gump.run.gumprun.RunSpecific.__init__(self,run)
 
-    def buildProject(self,project,stats):
+    def buildProject(self,project,languageHelper,stats):
         """
         Run a project's script (a .bat or a .sh as appropriate)
         """
@@ -65,7 +65,7 @@ class ScriptBuilder(gump.run.gumprun.RunSpecific):
         #
         # Get the appropriate build command...
         #
-        cmd=self.getScriptCommand(project)
+        cmd=self.getScriptCommand(project,languageHelper)
 
         if cmd:
             # Execute the command ....
@@ -87,7 +87,7 @@ class ScriptBuilder(gump.run.gumprun.RunSpecific):
                 # For now, things are going good...
                 project.changeState(STATE_SUCCESS)
    
-    def getScriptCommand(self,languageHelper,project):
+    def getScriptCommand(self,project,languageHelper):
         """ Return the command object for a <script entry """
         script=project.script
            
@@ -117,5 +117,5 @@ class ScriptBuilder(gump.run.gumprun.RunSpecific):
         """
         Preview what this would do
         """
-        command=self.getScriptCommand(project) 
+        command=self.getScriptCommand(project,languageHelper) 
         command.dump()
