@@ -65,7 +65,10 @@
         <depend project="phoenix-excalibur-monitor" runtime="true"/>
         <depend project="ant" runtime="true"/>
 <!--        
-  This must be version 1.1.1, and not the 2.0 that gets used.
+  This must be version 1.1.1, and not the 2.0 that gets used, if 
+  a <depend> is declared. The "avalon-phoenix-dependencies" project
+  will download all the required external dependencies that can not
+  bu built from source.
   
         <depend project="mx4j" runtime="true"/>
         <depend project="mx4j-tools" runtime="true"/>
@@ -81,11 +84,10 @@
 
         <home nested="target/lib"/>
         <jar name="phoenix-client.jar" id="client"/>
-
-        <jar name="target/lib/phoenix-tools.jar" id="metagenerate"/>
-        <jar name="target/lib/phoenix-loader.jar" id="loader"/>
-        <jar name="target/lib/phoenix-engine.jar" id="metagenerate-2"/>
-        <jar name="target/lib/phoenix-punit.jar" id="punit"/>
+        <jar name="phoenix-tools.jar" id="metagenerate"/>
+        <jar name="phoenix-loader.jar" id="loader"/>
+        <jar name="phoenix-engine.jar" id="metagenerate-2"/>
+        <jar name="phoenix-punit.jar" id="punit"/>
 
         <license name="LICENSE.txt"/>
         <javadoc nested="target/javadocs" module="avalon"/>
