@@ -419,12 +419,13 @@ class GumpEngine:
         
             log.debug(' ------ Project: #[' + `projectNo` + '] of [' + `projectCount` + '] : ' + project.getName())
         
-            if project.isPackaged():             
-                self.performPackageProcessing( run, project, stats)
-                continue
             
             # Extract stats (in case we want to do conditional processing)            
             stats=project.getStats()
+            
+            if project.isPackaged():             
+                self.performPackageProcessing( run, project, stats)
+                continue
                 
             # Do this even if not ok
             self.performPreBuild( run, project, stats )
