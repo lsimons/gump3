@@ -8,8 +8,12 @@
   <cvs repository="jakarta"/>
   
   <project name="jakarta-jetspeed">
-    <ant basedir="build">
+    <ant basedir="build" target="release_binary">
       <property name="JAVAC" value="classic"/>
+      <depend name="cactus-ant.jar" project="commons-cactus-ant"/>
+      <depend name="cactus-22.jar" project="commons-cactus-22"/>
+      <depend name="cactus-23.jar" project="commons-cactus-23"/>
+      <depend name="junit.jar" project="junit"/>
     </ant>
     <depend project="jakarta-ant"/>
     <depend project="xml-xerces"/>
@@ -22,9 +26,6 @@
     <depend project="xml-xalan2"/>
     <depend project="javamail"/>
     <depend project="jdbc"/>
-    <depend project="commons-cactus-ant"/>
-    <depend project="commons-cactus-23"/>
-    <depend project="junit"/>
   </project>
 
 </module>
