@@ -40,12 +40,14 @@ class gumpview(wxApp):
     self.tree=wxTreeCtrl(split1,-1)
     self.list=wxListCtrl(notebook,-1,style=wxLC_REPORT|wxSUNKEN_BORDER)
     self.dependencies=wxListCtrl(notebook,-1,style=wxLC_REPORT|wxSUNKEN_BORDER)
+    self.classpath=wxListCtrl(notebook,-1,style=wxLC_REPORT|wxSUNKEN_BORDER)
     self.data=wxTextCtrl(split2,-1,style=wxTE_MULTILINE)
 
     # attach the panes to the frame
     split1.SplitVertically(self.tree, split2)
     notebook.AddPage(self.list, 'referenced')
     notebook.AddPage(self.dependencies, 'dependencies')
+    notebook.AddPage(self.classpath, 'classpath')
     split2.SplitHorizontally(notebook, self.data)
     self.SetTopWindow(frame)
     frame.Show(true)
@@ -138,6 +140,32 @@ class gumpview(wxApp):
       self.dependencies.SetItemData(row,i)
 
     self.dependencies.SetColumnWidth(0,wxLIST_AUTOSIZE_USEHEADER)
+
+    # display the classpath
+    self.classpath.DeleteAllItems()
+    if not self.classpath.GetColumn(0):
+      self.classpath.InsertColumn(0, 'Path')
+
+    i=0
+
+    # add in work directories
+    srcdir=Module.list[project.module].srcdir
+    for work in project.work:
+      jarpath=os.path.normpath(os.path.join(srcdir,work.nested))
+      self.classpath.InsertStringItem(i,jarpath)
+      i=i+1
+
+    # add in depends and options
+    for depend in project.depend+project.option:
+      project=Project.list[depend.project]
+      srcdir=Module.list[project.module].srcdir
+      for jar in project.jar:
+        jarpath=os.path.normpath(os.path.join(srcdir,jar.name))
+	self.classpath.InsertStringItem(i,jarpath)
+	i=i+1
+
+
+    self.classpath.SetColumnWidth(0,wxLIST_AUTOSIZE_USEHEADER)
 
 
   # show the xml description for a single item
