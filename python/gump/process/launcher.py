@@ -154,7 +154,7 @@ def executeIntoResult(cmd,result,tmp=dir.tmp):
 	  
     return result
     
-def killChildProcesses():
+def shutdownProcesses():
     """
     Kill this (and all child processes).
     """
@@ -165,12 +165,14 @@ def killChildProcesses():
         gumpid
     except Exception, details:
         log.error('Failed to dispatch signal ' + str(details), exc_info=1)
-           
-if __name__=='__main__':
-    import re
+          
+def runProcess(execFilename):
+    """
     
-    exit_code=0
-    execFilename=sys.argv[1]
+    Read an 'exec file' (formatted by Gump) to detect what to run,
+    and how to run it.
+    
+    """
     execFile=None
     try:
         execFile=file(execFilename,'r')
@@ -186,8 +188,8 @@ if __name__=='__main__':
         cwd=None
         if execInfo.has_key('CWD'):cwd=execInfo['CWD']
         tmp=execInfo['TMP']
-        timeout=None
-        if execInfo.has_key('TIMEOUT'):timeout=execInfo['TIMEOUT']
+        timeout=0
+        if execInfo.has_key('TIMEOUT'):timeout=int(execInfo['TIMEOUT'])
        
         # Make the TMP if needed
         if not os.path.exists(tmp): os.makedirs(tmp)
@@ -206,8 +208,8 @@ if __name__=='__main__':
         # Timeout support
         timer=None
         if timeout:
-            import thread
-            timer = thread.Timer(timeout, killChildProcesses)
+            import threading
+            timer = threading.Timer(timeout, shutdownProcesses)
             timer.setDaemon(1)
             timer.start()
             
@@ -236,6 +238,17 @@ if __name__=='__main__':
             
     finally:
         if execFile: execFile.close()
+        
+    return exit_code
+           
+if __name__=='__main__':
+    import re
+    
+    exit_code=0
+    execFilename=sys.argv[1]
+    
+    # Run the information within this file...
+    exit_code=runProcess(execFilename)
         
     # print 'Exit: ' + `exit_code`
     sys.exit(exit_code)
