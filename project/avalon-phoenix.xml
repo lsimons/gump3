@@ -20,10 +20,6 @@
         <depend project="dist-avalon-logkit" runtime="true"/>
         <depend project="avalon-framework" runtime="true" id="combined"/>
         <depend project="excalibur-compatibility" runtime="true"/>
-        <depend project="spice-configkit-pe" runtime="true" inherit="runtime"/>
-        <depend project="spice-classman-pe" runtime="true" inherit="runtime"/>
-        <depend project="spice-xmlpolicy-pe" runtime="true" inherit="runtime"/>
-        <depend project="spice-loggerstore-pe" runtime="true" inherit="runtime"/>
         <depend project="excalibur-logger" runtime="true"/>
         <depend project="excalibur-i18n" runtime="true"/>
         <depend project="excalibur-instrument-manager" runtime="true"/>

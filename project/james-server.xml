@@ -22,7 +22,7 @@
     <!-- <depend project="excalibur-concurrent"/> -->
     <!-- <depend project="excalibur-collections"/> -->
     <depend project="excalibur-datasource"/>
-    <depend project="excalibur-extension"/>
+    <!-- depend project="excalibur-extension" doesn't exist anymore /-->
     <depend project="excalibur-pool"/>
     <depend project="excalibur-i18n"/>
     <depend project="excalibur-thread"/>
