@@ -220,14 +220,12 @@
                 to="dev@avalon.apache.org"/>
     </project>
 
-    <project name="excalibur-extension">
+    <!--project name="excalibur-extension">
         <package>org.apache.excalibur.extension</package>
 
         <ant basedir="extension" target="jar">
-            <!-- optional dependencies -->
             <property name="checkstyle.jar" project="checkstyle" reference="jarpath"/>
 
-            <!-- test-time dependencies -->
             <depend property="junit.jar" project="junit"/>
 
             <property name="package-version" value="@@DATE@@"/>
@@ -237,12 +235,10 @@
             <property name="project.version" value="@@DATE@@"/>
         </ant>
 
-        <!-- build-time dependencies -->
         <depend project="ant" inherit="runtime"/>
         <depend project="xml-xerces"/>
         <depend project="xml-xalan2"/>
 
-        <!-- optional dependencies -->
         <option project="checkstyle" inherit="runtime"/>
 
         <work nested="extension/target/classes"/>
@@ -253,7 +249,7 @@
 
         <nag from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"
                 to="dev@avalon.apache.org"/>
-    </project>
+    </project-->
 
     <project name="excalibur-i18n">
         <package>org.apache.avalon.excalibur.i18n</package>
@@ -586,16 +582,8 @@
         <depend project="xml-xerces"/>
         <depend project="xml-xalan2"/>
 
-        <!-- test-time dependencies -->
-        <!--
-
-        circular dependency involving component & pool, so no tests
-        run.
-
         <depend project="junit"/>
         <depend project="junitperf"/>
-        <depend project="excalibur-component" id="testcase"/>
-        <depend project="avalon-logkit"/>-->
 
         <work nested="pool/target/classes"/>
         <work nested="pool/target/test-classes"/>
