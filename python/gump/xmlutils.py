@@ -278,6 +278,10 @@ def xmlize(nodeName,object,f=None,indent='',delta='  '):
 
   if f==None: f=StringIO.StringIO()
 
+  # :TODO: Do hack for when content is bad and a parse fails
+  # so the XML loader has to set element=None
+  if not object: return
+      
   attrs=[nodeName]
   elements=[]
   text=''

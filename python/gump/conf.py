@@ -1,8 +1,8 @@
 #!/usr/bin/python
 
-# $Header: /home/stefano/cvs/gump/python/gump/Attic/conf.py,v 1.14 2003/09/25 17:04:52 ajack Exp $
-# $Revision: 1.14 $
-# $Date: 2003/09/25 17:04:52 $
+# $Header: /home/stefano/cvs/gump/python/gump/Attic/conf.py,v 1.15 2003/09/26 20:35:21 ajack Exp $
+# $Revision: 1.15 $
+# $Date: 2003/09/26 20:35:21 $
 #
 # ====================================================================
 #
@@ -106,13 +106,15 @@ class default:
 class setting:    
     """Configuration of hardcoded settings"""
     
-    version="2.0.1-alpha-0003"
+    version="2.0.1-alpha-0004"
     
     # :TODO: Add "minimum checks later..."
     ws_version="0.4"
     
 class switch:
-    """Configuration of switches """    
+    """Configuration of switches """   
+    optimize=0 # Optimize (at risk to exact correctness) anywhere one can
+    optimizenetwork=1 # Do least network traffic 
     failtesting=0 # Not testing.. 
     debugging=0 # Not debugging..
     

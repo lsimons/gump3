@@ -1,8 +1,8 @@
 #!/usr/bin/python
 
-# $Header: /home/stefano/cvs/gump/python/gump/__init__.py,v 1.12 2003/09/26 19:09:52 ajack Exp $
-# $Revision: 1.12 $
-# $Date: 2003/09/26 19:09:52 $
+# $Header: /home/stefano/cvs/gump/python/gump/__init__.py,v 1.13 2003/09/26 20:35:21 ajack Exp $
+# $Revision: 1.13 $
+# $Date: 2003/09/26 20:35:21 $
 #
 # ====================================================================
 #
@@ -95,7 +95,7 @@ import logging
 log = logging.getLogger(__name__)
 
 from gump.xmlutils import SAXDispatcher
-from gump.conf import dir, default
+from gump.conf import dir, default, setting
 from gump.utils import *
 
 ###############################################################################
@@ -116,6 +116,16 @@ timestamp=os.path.join(dir.base,'.timestamp')
 if os.path.exists(timestamp):
   mtime=time.localtime(os.path.getmtime(timestamp))
   default.date = time.strftime('%Y%m%d',mtime)
+  
+#
+# Set the User Agent to be Gump...
+#
+class GumpURLopener(urllib.FancyURLopener):
+    def __init__(self, *args):
+        self.version = "Jakarta-Gump/"+setting.version
+        urllib.FancyURLopener.__init__(self, *args)
+
+urllib._urlopener = GumpURLopener()
 
 ###############################################################################
 # Functions
@@ -127,41 +137,48 @@ def gumpSafeName(name):
 def gumpPath(path):
   """returns the path absolutized relative to the base gump dir"""
 
-  return os.path.normpath(os.path.join(dir.base,path))
+  return os.path.abspath(os.path.join(dir.base,path))
 
 def gumpCache(href):
   """returns the path of the file in the href, cached if remote"""
 
   #if it's a local file get it locally
   if not href.startswith('http://'):
-    newHref=gumpPath(href);
+    cachedHrefFile=gumpPath(href);
   else:
-    log.debug('url: ' + href)
+    log.debug('Cache url: ' + href)
     if not os.path.exists(dir.cache):  os.mkdir(dir.cache)
 
     #the name of the cached descriptor
     quotedHref = urllib.quote_plus(href)
     #the path of the cached descriptor
-    newHref = dir.cache+'/'+quotedHref
+    cachedHrefFile = dir.cache+'/'+quotedHref
 
     #download the file if not present in the cache
-    if os.path.exists(newHref):
-      log.debug('using cached descriptor')
-    else:
+    usecached=0
+    if settings.optimize or settings.optimizenetwork:
+        if os.path.exists(cachedHrefFile):
+          log.info('using cached descriptor for ' + href)
+          usecached=1
+          
+    if not usecached:
       log.debug('caching...')
       log.info('downloading '+href)      
       try:
-        urllib.urlretrieve(href, newHref)
+        #
+        # urllib ought do some (timestamp oriented) caching also...
+        #
+        urllib.urlretrieve(href, cachedHrefFile)
       except IOError, detail:
-        log.error(detail)
+        log.error('Failed to download ['+href+']. Details: ' + detail)
         try:
-          os.remove(newHref)
+          os.remove(cachedHrefFile)
         except:
           log.debug('No faulty cached file to remove')
       else: 
          log.debug('...done')
 
-  return newHref
+  return cachedHrefFile
 
 from gump.context import GumpContext
 

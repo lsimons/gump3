@@ -260,7 +260,8 @@ def documentWorkspace(workspace,context,db,moduleFilterList=None,projectFilterLi
     titledDataInTableXDoc(x,'Gump Preferred Workspace Version', setting.ws_version)
     titledDataInTableXDoc(x,'Java Command', context.javaCommand)
     titledDataInTableXDoc(x,'@@DATE@@', str(default.date))
-    titledDataInTableXDoc(x,'Start Date/Time', workspace.startdatetime)
+    titledDataInTableXDoc(x,'Start Date/Time', context.startdatetime)
+    titledDataInTableXDoc(x,'Timezone', context.timezone)
     
     endTableXDoc(x)
     endSectionXDoc(x)                
@@ -364,8 +365,7 @@ def documentWorkspace(workspace,context,db,moduleFilterList=None,projectFilterLi
     footerXDoc(x)
     endXDoc(x)
         
-    # Document the workspace XML
-    
+    # Document the workspace XML    
     f=open(getWorkspaceXMLAsTextDocument(workspace), 'w')
     xml = xmlize('workspace',workspace,f)
     f.close()  
