@@ -21,6 +21,10 @@
     <ant basedir="java" target="compile">
       <property name="axis.lib.dir" value="lib"/>
       <property name="env.ANT_HOME" reference="home" project="ant"/>
+      <property name="xercesImpl.jar" value="../../xml-xerces2/java/build/xercesImpl.jar"/>
+      <property name="xmlParserAPIs.jar" value="../../xml-xerces2/java/build/xmlParserAPIs.jar"/>
+      <property name="xalan-unbundled.jar" value="../../xml-xalan/java/build/xalan-unbundled.jar"/>
+      <property name="xml-apis.jar" value="../../xml-commons/java/external/build/xml-apis.jar"/>
       <depend name="wsdl4j.jar" project="wsdl4j" id="wsdl4j"/>
       <depend name="log4j-core.jar" project="jakarta-log4j" id="log4j"/>
     </ant>
