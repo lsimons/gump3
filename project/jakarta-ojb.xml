@@ -25,6 +25,7 @@
     <depend project="j2ee-connector" />
     <depend project="jaas" />
     <depend project="jakarta-avalon"/>
+    <depend project="jakarta-velocity"/>
     <depend project="excalibur-component"/>
     <depend project="jakarta-avalon-logkit"/>
     <depend project="jakarta-log4j"/>
@@ -74,8 +75,7 @@
   
   <!-- we haven't been able to build torque for weeks -->
   <project name="ojb-torque">
-    <jar name="lib/torque-3.0-b4-dev.jar" />
-    <jar name="lib/velocity-1.3-dev.jar" />
+    <jar name="lib/torque-3.0-b4.jar" />
   </project>
   
   <!-- Mavenized build, http://sourceforge.net/projects/crossdb/ -->
