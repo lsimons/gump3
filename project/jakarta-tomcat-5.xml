@@ -77,7 +77,7 @@
       <depend property="commons-logging.jar" project="commons-logging"
         runtime="true" id="commons-logging"/>
       <depend property="commons-logging-api.jar" project="commons-logging"
-        runtime="true" id="api"/>
+        runtime="true" id="commons-logging-api"/>
       <property name="commons-modeler.home" project="commons-modeler" path="modeler"/>
       <depend property="commons-modeler.jar" project="commons-modeler" runtime="true"/>
       <depend property="commons-daemon.jar" project="commons-daemon"/>
