@@ -57,8 +57,8 @@ class PathWalker(Annotatable):
         self.cleanupActions=False
         
     def execute(self):
-        log.debug('Starting %s from [%s]' % (self.actionString,self.sourcedir))
-        log.debug('        target dir [' + self.targetdir + ']')
+        #log.debug('Starting %s from [%s]' % (self.actionString,self.sourcedir))
+        #log.debug('        target dir [' + self.targetdir + ']')
         
         # Allow user to pass an open stream, or a filename
         # In later case control open/close.

@@ -14,6 +14,12 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+__revision__  = "$Rev: 36667 $"
+__date__      = "$Date: 2004-08-20 08:55:45 -0600 (Fri, 20 Aug 2004) $"
+__copyright__ = "Copyright (c) 1999-2004 Apache Software Foundation"
+__license__   = "http://www.apache.org/licenses/LICENSE-2.0"
+
+
 """
     Resolving URLs/Files.
 """

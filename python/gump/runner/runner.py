@@ -162,6 +162,9 @@ class GumpRunner(RunSpecific):
         if self.run.getOptions().isNotify() and self.run.getWorkspace().isNotify():
             self.run.registerActor(Notifier(self.run))         
                     
+        # See what we have...            
+        self.run.logActors()
+        
     def finalize(self):            
         # About to shutdown...
         self.run._dispatchEvent(FinalizeRunEvent(self.run))

@@ -164,6 +164,12 @@ class GumpRun(gump.utils.timing.Timeable,gump.utils.work.Workable,gump.utils.not
         log.debug('Register Actor : ' + `actor`)
         self.actors.append(actor)
         
+    def logActors(self):
+        log.debug('There are %s registered actors : ' % len(self.actors))       
+        for actor in self.actors:
+            log.debug('Registered Actor : ' + `actor`)    
+            
+        
     def _dispatchEvent(self,event):    	
     	"""
     		Perform the dispatch

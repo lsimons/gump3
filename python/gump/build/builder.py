@@ -15,6 +15,12 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+__revision__  = "$Rev: 36667 $"
+__date__      = "$Date: 2004-08-20 08:55:45 -0600 (Fri, 20 Aug 2004) $"
+__copyright__ = "Copyright (c) 1999-2004 Apache Software Foundation"
+__license__   = "http://www.apache.org/licenses/LICENSE-2.0"
+
+
 """
 	
 	This is the main project builder for gump. 
@@ -88,8 +94,8 @@ class GumpBuilder(gump.run.gumprun.RunSpecific):
         
         workspace=self.run.getWorkspace()
                  
-        log.info('Build Project: #[' + `project.getPosition()` + '] : ' + project.getName())
-                  
+        log.info('Build Project: #[' + `project.getPosition()` + '] : ' + project.getName() + ' :  [state:' \
+                        + project.getStateDescription() + ']')
                   
         # Right now everything is Java..
         languageHelper=self.run.getJavaHelper()
@@ -372,9 +378,7 @@ class GumpBuilder(gump.run.gumprun.RunSpecific):
         
         """
         if project.okToPerformWork():
-            #
             # Check the package was installed correctly...
-            #
             outputsOk=1
             for jar in project.getJars():
                 jarpath=jar.getPath()
@@ -404,7 +408,7 @@ class GumpBuilder(gump.run.gumprun.RunSpecific):
         
         if not project.hasOutputs(): return
      
-        log.info(' ------ Attempt Repository Search for : '+ project.getName())
+        log.info(' ------ Perform Artifact Repository Search for : '+ project.getName())
 
         group=project.getArtifactGroup()
         
@@ -418,9 +422,11 @@ class GumpBuilder(gump.run.gumprun.RunSpecific):
         # :TODO:
         # If not artifacts, download using Depot?
         
-        artifactsOk=True
+        artifactsOk=False
             
-        if artifacts:       
+        if artifacts:    
+            # Be a positive thinker...
+            artifactsOk=True   
         
             # See if we can use 'stored' artifacts.
             for jar in project.getJars():
@@ -441,8 +447,12 @@ class GumpBuilder(gump.run.gumprun.RunSpecific):
                     artifactsOk=False
                     break
                     
-            if artifactsOk:
-                log.debug(' ------ Extracted (fallback) artifacts from Repository : '+ project.getName())                                        
+        if artifactsOk:
+            log.debug(' ------ Extracted (fallback) artifacts from Repository : '+ project.getName())  
+            project.addDebug('Extracted fallback artifacts from Gump Repository') 
+        else:                                 
+            log.error(' ------ Extracted (fallback) artifacts from Repository : '+ project.getName())  
+            project.addInfo('Failed to extract fallback artifacts from Gump Repository')  
        
     def checkUpstreamRepositories(self,project):
         """

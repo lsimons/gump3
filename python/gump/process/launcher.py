@@ -118,7 +118,7 @@ def executeIntoResult(cmd,result,tmp=dir.tmp):
             result.signal=0
             result.exit_code=systemReturn
             
-        log.debug('Command returned [' + str(systemReturn)+ '] [Sig:' + str(result.signal) + ' / Exit:' + str(result.exit_code) + '].')
+        #log.debug('Command returned [' + str(systemReturn)+ '] [Sig:' + str(result.signal) + ' / Exit:' + str(result.exit_code) + '].')
         
         #
         # Assume timed out if signal terminated

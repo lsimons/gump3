@@ -14,6 +14,12 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+__revision__  = "$Rev$"
+__date__      = "$Date$"
+__copyright__ = "Copyright (c) 1999-2004 Apache Software Foundation"
+__license__   = "http://www.apache.org/licenses/LICENSE-2.0"
+
+
 #
 # $Header: /home/stefano/cvs/gump/python/gump/preview.py,v 1.9 2004/07/28 15:50:29 ajack Exp $
 # 
