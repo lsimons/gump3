@@ -13,9 +13,9 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  *
- * $Header: /home/stefano/cvs/gump/java/Project.java,v 1.59 2004/02/27 08:31:31 bodewig Exp $
- * $Revision: 1.59 $
- * $Date: 2004/02/27 08:31:31 $
+ * $Header: /home/stefano/cvs/gump/java/Project.java,v 1.60 2004/04/13 09:20:01 bodewig Exp $
+ * $Revision: 1.60 $
+ * $Date: 2004/04/13 09:20:01 $
  */
 
 // DOM classes
@@ -48,6 +48,7 @@ public class Project {
     private Element description;
     private Element url;
     private Vector deliver = new Vector();
+    private boolean expanded = false;
 
     private static String nagTo = null;
     private static String nagPrefix = null;
@@ -312,6 +313,11 @@ public class Project {
      * self contained.
      */
     private void expandDepends() throws Exception {
+        if (expanded) {
+            return;
+        }
+        expanded = true;
+
         String jardir = Workspace.getJarDir();
 
         if (redistributable) {
@@ -337,6 +343,7 @@ public class Project {
             }
             if (target == null) continue;
 
+            target.expandDepends();
             String inheritAttr = depend.getAttribute("inherit");
             if ("jars".equals(inheritAttr)) {
                 jars.putAll(target.jars);
