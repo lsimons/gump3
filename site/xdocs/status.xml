@@ -19,12 +19,6 @@
       httpclient, nor the current (CVS head) 2.0 release.</p>
     </subsection>
 
-    <subsection name="dbxml">
-      <p>The Xalan team is in the process of changing an undocumented API that 
-      dbxml uses.  The dbxml team is aware of this pending change and intends
-      to support the new API when it becomes available.</p>
-    </subsection>
-
     <subsection name="openejb">
       <p>In Junit 3.7, a previously protected method was made public,
       impacting extenders of junit.textui.TestRunner.  A 
@@ -94,6 +88,15 @@
       <li>involved changes to one or both products</li>
       <li>the changes were done prior to release.</li>
     </ul>
+
+    <subsection name="dbxml">
+      <p>October 2001: The Xalan team is in the process of changing an 
+      undocumented API that dbxml used.  The dbxml team determined that the
+      reason that they were using that undocumented API no longer applies.
+      This was corrected after the second beta of dbXML - meaning that the
+      users of their next release will be able to upgrade smoothly to
+      Xalan 2.2 once it is released.</p>
+    </subsection>
 
     <subsection name="jakarta-log4j">
       <p>September 2001: in order to more closely resemble the JSR 47 API,
