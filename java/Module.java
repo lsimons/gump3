@@ -193,7 +193,14 @@ public class Module {
             String tag = element.getAttribute("tag");
             if (!tag.equals("")) cvs.setAttribute("tag", tag);
 
-            Repository r = Repository.find(cvs.getAttribute("repository"));
+            String value = cvs.getAttribute("repository");
+            Repository r = Repository.find(value);
+            if (r == null) {
+                throw new Exception(
+                   "repository \"" + value + 
+                   "\" not found processing module " + name);
+            }
+             
             String cvsroot = ":" + r.get("method");
             cvsroot += ":" + r.get("user");
 
