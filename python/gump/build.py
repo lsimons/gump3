@@ -1,8 +1,8 @@
 #!/usr/bin/python
 
-# $Header: /home/stefano/cvs/gump/python/gump/build.py,v 1.22 2003/10/13 18:51:20 ajack Exp $
-# $Revision: 1.22 $
-# $Date: 2003/10/13 18:51:20 $
+# $Header: /home/stefano/cvs/gump/python/gump/build.py,v 1.23 2003/10/14 16:12:38 ajack Exp $
+# $Revision: 1.23 $
+# $Date: 2003/10/14 16:12:38 $
 #
 # ====================================================================
 #
@@ -92,7 +92,7 @@ from gump.tools import listDirectoryAsWork, syncDirectories
 # Functions
 ###############################################################################
 
-def build(workspace, expr='*', context=GumpContext()):
+def build(workspace, expr='*', context=GumpContext(), nosync=None):
   """ Build a expression of projects """
 
   projects=getProjectsForProjectExpression(expr)
@@ -106,9 +106,9 @@ def build(workspace, expr='*', context=GumpContext()):
         print "  - " + p
     return 1
 
-  return buildProjectList(workspace,projects,context)
+  return buildProjectList(workspace,projects,context,nosync)
   
-def buildProjectList(workspace, projects, context=GumpContext()):
+def buildProjectList(workspace, projects, context, nosync):
   """ Build a expression of projects """
         
   log.debug('Requests Projects')
@@ -117,16 +117,16 @@ def buildProjectList(workspace, projects, context=GumpContext()):
     
   sequence=getBuildSequenceForProjects(projects)
 
-  return buildProjectSequence(workspace,sequence,context)
+  return buildProjectSequence(workspace,sequence,context,nosync)
   
-def buildProjectSequence(workspace,sequence,context=GumpContext()):
+def buildProjectSequence(workspace,sequence,context,nosync):
     
   log.debug('Total Project Sequence (i.e. build order):');
   for p in sequence:
     log.debug('  Sequence : ' + p.name)
 
   # synchronize @ module level
-  syncWorkDir( workspace, sequence, context )
+  if not nosync:  syncWorkDir( workspace, sequence, context )
 
   # build
   buildProjects( workspace, sequence, context )
@@ -134,7 +134,7 @@ def buildProjectSequence(workspace,sequence,context=GumpContext()):
   return context.status
 
 
-def syncWorkDir( workspace, sequence, context=GumpContext() ):
+def syncWorkDir( workspace, sequence, context ):
   """copy the raw module (project) materials from source to work dir (hopefully using rsync, cp is fallback)"""
 
   log.debug('--- Synchronizing work directories with sources')
@@ -167,7 +167,7 @@ def syncWorkDir( workspace, sequence, context=GumpContext() ):
         else:
             mctxt.status=STATUS_SUCCESS
 
-def buildProjects( workspace, sequence, context=GumpContext() ):
+def buildProjects( workspace, sequence, context ):
   """actually perform the build of the specified project and its deps"""
 
   log.debug('--- Building work directories with sources')
@@ -244,11 +244,20 @@ if __name__=='__main__':
   ws=args[0]
   ps=args[1]
   
-  # get parsed workspace definition
-  workspace=load(ws)
+  # Allow a nosync option
+  nosync=None
+  if len(args) > 2: nosync=args[2]
   
-  # run gump
-  result = build(workspace, ps);
+  # A context to work into...
+  context=GumpContext()
+  
+  # get parsed workspace definition
+  workspace=load(ws,context)
+  
+  #
+  # Perform build tasks
+  #
+  result = build(workspace, ps, context, nosync)
 
   # bye!
   sys.exit(result)

@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/Attic/logic.py,v 1.23 2003/10/14 14:46:32 ajack Exp $
-# $Revision: 1.23 $
-# $Date: 2003/10/14 14:46:32 $
+# $Header: /home/stefano/cvs/gump/python/gump/Attic/logic.py,v 1.24 2003/10/14 16:12:38 ajack Exp $
+# $Revision: 1.24 $
+# $Date: 2003/10/14 16:12:38 $
 #
 # ====================================================================
 #
@@ -403,38 +403,28 @@ def getClasspathList(project,workspace,context):
   
   # Does it have any depends?
   if project.depend:
-      # For each
-      for depend in project.depend:
-          # Default inherit is NONE, which means:
-          # run after that projects, but do NOT use
-          # any part of the project's CLASSPATH
-          if depend.inherit:
-              # Recurse w/ ALL or HARD, to get 
-              # it's depends. Otherwise jsut get
-              # it's JARs
-              deepCopy=determineDeepCopy(depend)
-              classpath += getDependOutputList(depend,context,visited,deepCopy)  
+    # For each
+    for depend in project.depend:
+        classpath += getDependOutputList(depend,context,visited)  
               
   # Same as above, but for optional...
   if project.option:    
-      for option in project.option:
-          if option.inherit:
-              deepCopy=determineDeepCopy(option)    
-              classpath += getDependOutputList(option,context,visited,deepCopy)
+    for option in project.option:
+        classpath += getDependOutputList(option,context,visited)
       
   return classpath
 
 #
 # :TODO: Runtime Dependncy?
 #
-def getDependOutputList(depend,context,visited,deepCopy=None):      
+def getDependOutputList(depend,context,visited):      
   """Get a classpath of outputs for a project (including it's dependencies)"""            
    
   # Don't loop...
   if depend in visited:
       return []
   visited.append(depend)
-  
+          
   #
   # Check we can get the project...
   #
@@ -462,22 +452,18 @@ def getDependOutputList(depend,context,visited,deepCopy=None):
   #
   # inherit='ALL' or 'HARD'
   #
+  deepCopy=determineDeepCopy(depend)
+  
   if deepCopy:      
       # Append sub-projects outputs
       if project.depend:
           for depend in project.depend:              
-              # If inherit != NONE (just a run order dependency)
-              if depend.inherit:
-                  deepCopy=determineDeepCopy(depend)    
-                  classpath += getDependOutputList(depend,context,visited,deepCopy)
+            classpath += getDependOutputList(depend,context,visited)
   
       # Append optional sub-project's output (that may not exist)
       if project.option:
           for option in project.option:
-              # If inherit != NONE (just a run order dependency)
-              if option.inherit:
-                  deepCopy=determineDeepCopy(option)       
-                  classpath += getDependOutputList(option,context,visited,deepCopy)
+            classpath += getDependOutputList(option,context,visited)
 
   return classpath
   

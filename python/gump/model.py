@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/Attic/model.py,v 1.25 2003/10/14 14:46:32 ajack Exp $
-# $Revision: 1.25 $
-# $Date: 2003/10/14 14:46:32 $
+# $Header: /home/stefano/cvs/gump/python/gump/Attic/model.py,v 1.26 2003/10/14 16:12:38 ajack Exp $
+# $Revision: 1.26 $
+# $Date: 2003/10/14 16:12:38 $
 #
 # ====================================================================
 #
@@ -485,6 +485,10 @@ class Depend(GumpModelObject):
         """ Return the jars reference by this dependency """
         result=[]
         
+        #
+        # IDs is a space separated list of jar ids. If specified
+        # then return those that are listed, else all.
+        #
         ids=(self.ids or '').split(' ')
         try:
             for jar in Project.list[self.project].jar:

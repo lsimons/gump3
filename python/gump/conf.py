@@ -1,8 +1,8 @@
 #!/usr/bin/python
 
-# $Header: /home/stefano/cvs/gump/python/gump/Attic/conf.py,v 1.20 2003/10/13 22:37:12 ajack Exp $
-# $Revision: 1.20 $
-# $Date: 2003/10/13 22:37:12 $
+# $Header: /home/stefano/cvs/gump/python/gump/Attic/conf.py,v 1.21 2003/10/14 16:12:38 ajack Exp $
+# $Revision: 1.21 $
+# $Date: 2003/10/14 16:12:38 $
 #
 # ====================================================================
 #
@@ -91,7 +91,6 @@ class default:
     gumphost   = socket.gethostname().split('.')[0]
     workspace  = os.path.normpath('%s/%s.xml' % (dir.base, gumphost))
     globalws   = os.path.normpath('%s/%s' % (dir.base, 'global-workspace.xml'))
-    project    = "jakarta-gump"
     merge      = os.path.normpath('%s/%s' % (dir.work, 'merge.xml'))
     date       = time.strftime('%Y%m%d')
     logLevel   = logging.INFO
@@ -144,6 +143,13 @@ def banner():
   print "http://www.apache.org/"
   print
         
+#
+# Process the command line, returning:
+#
+#	args[0]	=	workspace filename
+#	args[1] =	project specifier (expression)
+#	
+#
 def handleArgv(argv, requireProject=1):
   args = []  
   # the workspace
@@ -177,19 +183,20 @@ def handleArgv(argv, requireProject=1):
     log.info("Using default workspace: " + default.workspace)
     
   # determine which modules the user desires (wildcards are permitted)
-  if len(argv)>1:
-   args.append(argv[1] or '*')
-   if args[1]=='all': args[1]='*'
-  else:
-    if requireProject:
+  if requireProject:
+    if len(argv)>1:
+       args.append(argv[1] or '*')
+       if args[1]=='all': args[1]='*'
+       del argv[1:1]
+    else:
       banner()
       print
       print " No project specified, please supply a project expressions or 'all'."
       print " Project wildcards are accepted, e.g. \"jakarta-*\"."
-      print "  " , default.workspace
       sys.exit(1)
-    else:
-     args.append(default.project)
+     
+  # Allow extras...
+  args += argv
      
   return args
     
