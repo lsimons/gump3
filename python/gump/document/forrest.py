@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/forrest.py,v 1.14 2003/11/24 16:14:06 ajack Exp $
-# $Revision: 1.14 $f
-# $Date: 2003/11/24 16:14:06 $
+# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/forrest.py,v 1.15 2003/11/24 18:42:08 ajack Exp $
+# $Revision: 1.15 $f
+# $Date: 2003/11/24 18:42:08 $
 #
 # ====================================================================
 #
@@ -782,8 +782,9 @@ class ForrestDocumenter(Documenter):
                 repoList.createEntry( "CVSROOT: ", module.cvs.getCvsRoot()) 
 
             if module.hasSvn():
-                if module.svn.hasUrl():
-                     repoList.createEntry( "SVN URL: ", module.svn.getUrl())                 
+                if module.svn.hasDir():
+                     repoList.createEntry( "SVN Directory: ", module.svn.getDir()) 
+                repoList.createEntry( "SVN URL: ", module.svn.getRootUrl())                 
 
             if module.hasJars():
                 if module.jars.hasUrl():

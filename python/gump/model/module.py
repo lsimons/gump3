@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/model/module.py,v 1.14 2003/11/24 18:32:19 ajack Exp $
-# $Revision: 1.14 $
-# $Date: 2003/11/24 18:32:19 $
+# $Header: /home/stefano/cvs/gump/python/gump/model/module.py,v 1.15 2003/11/24 18:42:08 ajack Exp $
+# $Revision: 1.15 $
+# $Date: 2003/11/24 18:42:08 $
 #
 # ====================================================================
 #
@@ -618,7 +618,7 @@ class Module(NamedModelObject, Statable):
         #
         # Be 'quiet' (but not silent) unless requested otherwise.
         #
-        if 	and not self.isDebug() 	\
+        if 	not self.isDebug() 	\
             and not self.isVerbose() \
             and not self.svn.isDebug()	\
             and not self.svn.isVerbose():    
@@ -640,8 +640,9 @@ class Module(NamedModelObject, Statable):
         # If module name != SVN directory, tell SVN to put it into
         # a directory named after our module
         #
-        if not self.svn.getDir() == self.getName():
-            cmd.addParameter(self.getName())
+        if self.svn.hasDir():
+            if not self.svn.getDir() == self.getName():
+                cmd.addParameter(self.getName())
         
 
         return (self.repository, url, cmd)
