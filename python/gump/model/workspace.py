@@ -481,7 +481,7 @@ class Workspace(NamedModelObject, PropertyContainer, Statable, Resultable):
         if not os.path.exists(self.logdir): os.makedirs(self.logdir)
         
         # Extend Log URL
-        if not self.logurl,endswith('/'): self.logurl+='/'
+        if not self.logurl.endswith('/'): self.logurl+='/'
         self.logurl+=date
             
     def addModule(self,module):
