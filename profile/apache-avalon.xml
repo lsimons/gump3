@@ -27,5 +27,6 @@
   <module href="project/avalon-logkit.xml"/>
   <module href="project/avalon-phoenix.xml"/>
   <module href="project/avalon-site.xml"/>
+  <module href="project/avalon-legacy.xml"/>
 
 </profile>
