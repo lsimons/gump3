@@ -11,6 +11,8 @@
   <project name="jakarta-pluto">
     <package>org.apache.pluto</package>
 
+    <mkdir dir="temp/api/classes/"/>
+
     <ant basedir="build" target="all">
       <property name="env.ANT_HOME" reference="home" project="ant"/>
     </ant>
@@ -23,6 +25,7 @@
     <depend project="xml-apis"/>
     <depend project="xml-xerces"/>
 
+    <work nested="temp/api/classes/"/>
     <work nested="build/ant/lib/ForeachTask.jar"/>
 
     <home nested="temp"/>
