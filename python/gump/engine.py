@@ -343,6 +343,17 @@ class GumpEngine:
         # MkDirs...
         mkdirs=0
         for mkdir in project.xml.mkdir:   
+        
+            # :TODO: HACK HACK HACK HACK HACK HACK HACK
+            # Rsynch should delete these things, not allow
+            # them to exist. We should NOT do this.
+            basedir=os.path.abspath(project.getModule().getSourceDirectory() \
+                                        or dir.base)
+            dirToMake=os.path.abspath(os.path.join(basedir,mkdir.dir)
+            if os.path.exists(dirToMake): continue
+            # :TODO: HACK HACK HACK HACK HACK HACK HACK
+            
+        
             cmd=project.getMkDirCommand(mkdir,mkdirs)
     
             # Execute the command ....

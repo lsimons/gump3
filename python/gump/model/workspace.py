@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/model/workspace.py,v 1.8 2003/11/21 19:04:10 ajack Exp $
-# $Revision: 1.8 $
-# $Date: 2003/11/21 19:04:10 $
+# $Header: /home/stefano/cvs/gump/python/gump/model/workspace.py,v 1.9 2003/11/21 21:43:12 ajack Exp $
+# $Revision: 1.9 $
+# $Date: 2003/11/21 21:43:12 $
 #
 # ====================================================================
 #
@@ -101,6 +101,8 @@ class Workspace(ModelObject,PropertyContainer):
     	self.noRSync=0
     	self.noForrest=0    
     	self.noRuper=0    	
+    	self.noSvn=0    	
+    	self.noCvs=0    	
     	
     	#
     	# JAVACMD can override this, see checkEnvironment
@@ -440,7 +442,14 @@ class Workspace(ModelObject,PropertyContainer):
         self.checkExecutable(self.javaCommand,'-version',exitOnError,1)
         self.checkExecutable('javac','-help',exitOnError)
         self.checkExecutable('java com.sun.tools.javac.Main','-help',exitOnError,0,'check_java_compiler')    
-        self.checkExecutable('cvs','--version',exitOnError)
+
+        if not self.noCvs and not self.checkExecutable('cvs','--version',0):
+            self.noCvs=1
+            self.addWarning('"cvs" command not found, no CVS repository updates')
+        
+        if not self.noSvn and not self.checkExecutable('svn','--version',0):
+            self.noSvn=1
+            self.addWarning('"svn" command not found, no SVN repository updates')
         
         if not self.noForrest and not self.checkExecutable('forrest','-projecthelp',0): 
             self.noForrest=1
