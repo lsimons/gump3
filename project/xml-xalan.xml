@@ -12,6 +12,7 @@
 
     <depend project="bootstrap-ant"/>
     <depend project="xml-xerces"/>
+    <depend project="xml-apis"/>
 
     <home nested="java/build"/>
     <jar  name="xalan.jar" type="boot"/>
