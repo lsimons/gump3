@@ -18,11 +18,13 @@ http://gump.chalko.com/gb/blog/Issues?permalink=Cactus-CommonsHttpclient.txt&pre
   limitations under the License.
 -->
 <p>
+<a href="http://jakarta.apache.org/cactus/">Cactus</a>
+build was failing on Apache Gump.
 After a few hours of debugging and thanks
-to Leo for giving Vincent access to LSD, the cause was found. The hunt
-is over!
+to Leo for giving Vincent access to <a href="http://lsd.student.utwente.nl/gump/">LSD</a>,
+the cause was found. The hunt is over!
 </p><p>
-The cause was: commons-httpclient
+The cause was: <a href="http://jakarta.apache.org/commons/httpclient/">commons-httpclient</a>
 </p><p>
 It works fine with version 2.0 of commons-httpclient but not with the
 latest version from HEAD. Now, the hard part, is trying to understand
