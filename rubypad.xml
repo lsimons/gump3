@@ -62,6 +62,7 @@
   <project href="project/jdbc.xml"     home="C:\jdbc2_0"/>
   <project href="project/jms.xml"      home="C:\jms1.0.2"/>
   <project href="project/jmx.xml"      home="C:\jmx-1_0"/>
+  <project href="project/jndi.xml"     home="C:\jndi1_2_1"/>
   <project href="project/jsse.xml"     home="C:\jsse1.0.2"/>
   <project href="project/jta.xml"      home="C:\jta-spec1_0_1"/>
 

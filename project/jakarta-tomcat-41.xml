@@ -24,6 +24,8 @@
 
     <property name="jmx.home" reference="home" project="jmx"/>
 
+    <property name="jndi.home" reference="home" project="jndi"/>
+
     <property name="regexp.home"
        reference="home" project="jakarta-regexp"/>
     <property name="regexp.jar"

@@ -1,0 +1,10 @@
+<project name="jndi">
+
+  <url href="http://java.sun.com/products/jndi/"/>
+  <description>
+    Java Naming and Directory Interface
+  </description>
+
+  <jar name="lib/jndi.jar"/>
+
+</project>
