@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/Attic/model.py,v 1.36 2003/10/20 16:37:17 ajack Exp $
-# $Revision: 1.36 $
-# $Date: 2003/10/20 16:37:17 $
+# $Header: /home/stefano/cvs/gump/python/gump/Attic/model.py,v 1.37 2003/10/20 19:12:08 ajack Exp $
+# $Revision: 1.37 $
+# $Date: 2003/10/20 19:12:08 $
 #
 # ====================================================================
 #
@@ -406,7 +406,7 @@ class Ant(GumpModelObject):
       # Name the property...
       if depend.property:
         property['name']=depend.property
-      elif not hasattr(property,'name'):
+      elif not hasattr(property,'name') or not property['name']:
         # :TODO: Reconsider later, but default to project name for now...
         property['name']=depend.project
         log.warn('Unnamed property in depend for: ' + depend.project + ' on ' + project.name)
