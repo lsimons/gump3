@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/model/object.py,v 1.20 2004/03/07 22:22:35 ajack Exp $
-# $Revision: 1.20 $
-# $Date: 2004/03/07 22:22:35 $
+# $Header: /home/stefano/cvs/gump/python/gump/model/object.py,v 1.21 2004/03/09 19:57:06 ajack Exp $
+# $Revision: 1.21 $
+# $Date: 2004/03/09 19:57:06 $
 #
 # ====================================================================
 #
@@ -189,7 +189,10 @@ class ModelObject(Annotatable,Workable,FileHolder,Propogatable,Ownable):
         self.verbose=verbose
        
     def isVerbose(self):
-        return self.verbose or self.xml.verbose      
+        return self.verbose or self.xml.verbose  
+         
+    def isVerboseOrDebug(self):
+        return self.isVerbose() or self.isDebug()
         
     def dump(self, indent=0, output=sys.stdout):
         """ Display the contents of this object """

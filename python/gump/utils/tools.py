@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/utils/tools.py,v 1.15 2004/03/07 22:22:35 ajack Exp $
-# $Revision: 1.15 $
-# $Date: 2004/03/07 22:22:35 $
+# $Header: /home/stefano/cvs/gump/python/gump/utils/tools.py,v 1.16 2004/03/09 19:57:06 ajack Exp $
+# $Revision: 1.16 $
+# $Date: 2004/03/09 19:57:06 $
 #
 # ====================================================================
 #
@@ -69,6 +69,7 @@ from gump import log
 from gump.utils.note import *
 from gump.utils.work import *
 from gump.utils.file import *
+from gump.utils.sync import *
 from gump.utils.launcher import *
     
 def listDirectoryAsWork(workable,directory,name=None):
@@ -190,36 +191,21 @@ def catFileToFileHolder(holder,file,type=FILE_TYPE_MISC,name=None):
     return reference.exists() and reference.isNotDirectory()
 
    
-def syncDirectories(noRSync,type,cwddir,tmpdir,sourcedir,destdir,name=None):                
-    # :TODO: Make this configurable (once again)
-    #if not workspace.sync:
-    #  workspace.sync = default.syncCommand
+def copyDirectories(sourcedir,destdir,annotatable=None):   
+    try:
+        copy=Copy(sourcedir,destdir)        
+        copy.execute()    
+    finally:
+        if annotatable:
+            transferAnnotations(copy, annotatable)        
     
-    if noRSync:
-        cmd=Cmd('cp','sync_'+name,cwddir)
-        cmd.addParameter('-Rfv')
-        cmd.addParameter(sourcedir)
-        cmd.addParameter(destdir)
-    else:
-        cmd=Cmd('rsync','rsync_'+name,cwddir)            
-        cmd.addParameter('-r')
-        cmd.addParameter('-a')
-        # Keep it quiet...
-        # cmd.addParameter('-v')
-        # cmd.addParameter('-v')
-        # cmd.addParameter('--stats')        
-        cmd.addParameter('--delete')
-        cmd.addParameter(sourcedir)
-        cmd.addParameter(destdir)
-
-    log.debug(' ------ Sync\'ing : '+ name)
-    
-    # Perform the Sync
-    cmdResult=execute(cmd,tmpdir)
-
-    work=CommandWorkItem(type,cmd,cmdResult)
-    
-    return work        
+def syncDirectories(sourcedir,destdir,annotatable=None):                
+    try:
+        sync=Sync(sourcedir,destdir)        
+        sync.execute()    
+    finally:
+        if annotatable:
+            transferAnnotations(sync, annotatable)    
     
 def tailFile(file,lines):
     """ Return the last N lines of a file as a list """
@@ -265,4 +251,3 @@ if __name__=='__main__':
   
   if len(sys.argv) > 0:
     print tailFileToString(sys.argv[1], 5  )
-  

@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/utils/sync.py,v 1.2 2004/03/09 14:14:32 antoine Exp $
-# $Revision: 1.2 $
-# $Date: 2004/03/09 14:14:32 $
+# $Header: /home/stefano/cvs/gump/python/gump/utils/sync.py,v 1.3 2004/03/09 19:57:06 ajack Exp $
+# $Revision: 1.3 $
+# $Date: 2004/03/09 19:57:06 $
 #
 # ====================================================================
 #
@@ -71,6 +71,7 @@ from gump.utils.work import *
 from gump.utils.file import *
 from gump.utils.launcher import *
 from gump.utils.note import *
+
 class Sync(Annotatable):
     """
     this class can be used to sync two directories
@@ -86,6 +87,7 @@ class Sync(Annotatable):
         self.sourcedir = sourcedir
         self.targetdir = targetdir
         self.copyflag = copyflag
+        
     def execute(self):
         if self.copyflag:
             action = 'copy'
@@ -122,9 +124,9 @@ class Sync(Annotatable):
         if not result:    
             os.makedirs(dst)
         if result:
-            names2 = os.listdir(dst)
-            self.removenonmatching(src, dst, names, names2)
+            names2 = os.listdir(dst)            
             if not self.copyflag:    
+                self.removenonmatching(src, dst, names, names2)
                 self.epurate(src, dst, names, names2)    
         for name in names:
             srcname = os.path.join(src, name)
@@ -141,6 +143,7 @@ class Sync(Annotatable):
                 message = "Can't copy [%s] to [%s]: [%s]" % (`srcname`, `dstname`, str(why))
                 log.exception(message)
                 raise IOError, message
+                
     def epurate(self, sourcedir, destdir, acceptablefiles, existingfiles):        
         """
         this routine will delete from a set of existing files
@@ -216,7 +219,13 @@ class Sync(Annotatable):
             okcopy = 1
         if okcopy:
             log.debug("Attempting copy from [%s] to [%s]" %(`srcname`, `dstname`))    
-            shutil.copy2(srcname, dstname)
-        
-            
+            shutil.copy2(srcname, dstname)        
+
+class Copy(Sync):
+    """
+    A Sync without the epurate
+    """
+    def __init__(self, sourcedir, targetdir):
+        Sync.__init__(self, sourcedir, targetdir, 1)
+                    
             

@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/text.py,v 1.10 2004/03/08 22:28:09 ajack Exp $
-# $Revision: 1.10 $
-# $Date: 2004/03/08 22:28:09 $
+# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/text.py,v 1.11 2004/03/09 19:57:06 ajack Exp $
+# $Revision: 1.11 $
+# $Date: 2004/03/09 19:57:06 $
 #
 # ====================================================================
 #
@@ -132,10 +132,10 @@ class TextDocumenter(Documenter):
         
         
         self.documentDependenciesList(indent, "Project Dependees",		\
-                project.getDependees(), 1, project)
+                project.getDirectDependees(), 1, project)
             
         self.documentDependenciesList(indent, "Project Dependencies",	\
-                project.getDependencies(), 0, project)
+                project.getDirectDependencies(), 0, project)
         
         self.documentAnnotations(indent,project)
         self.documentWork(indent,project)

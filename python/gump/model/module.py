@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/model/module.py,v 1.36 2004/03/05 23:42:22 ajack Exp $
-# $Revision: 1.36 $
-# $Date: 2004/03/05 23:42:22 $
+# $Header: /home/stefano/cvs/gump/python/gump/model/module.py,v 1.37 2004/03/09 19:57:06 ajack Exp $
+# $Revision: 1.37 $
+# $Date: 2004/03/09 19:57:06 $
 #
 # ====================================================================
 #
@@ -222,6 +222,8 @@ class Module(NamedModelObject, Statable, Resultable):
     	
         self.packaged		=	0
     	self.updated		=	0
+    	
+    	self.affected		=	0
         	
         # Extract settings
         self.tag			=	xml.tag
@@ -480,13 +482,11 @@ class Module(NamedModelObject, Statable, Resultable):
         return summary
            
     def determineAffected(self):
-        affected=0
         
-        # Get all dependenees (optional/otherwise)
-        dependees=self.getFullDependees()
+        if self.affected: return self.affected
         
         # Look through all dependees
-        for project in dependees:
+        for project in self.getFullDependees():
             cause=project.getCause()
             #
             # Something caused this some grief
@@ -496,9 +496,9 @@ class Module(NamedModelObject, Statable, Resultable):
                 # The something was this module or one of it's projects
                 #
                 if cause == self or cause in self.getProjects():
-                    affected += 1            
+                    self.affected += 1            
         
-        return affected
+        return self.affected
                    
     def getProjectStatistics(self,db=None):
         if not hasattr(self,'stats'):

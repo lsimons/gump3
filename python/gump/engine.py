@@ -371,27 +371,16 @@ class GumpEngine:
     
             if module.okToPerformWork():
             
-                sourcedir = os.path.abspath(os.path.join(workspace.getCvsDirectory(),module.name)) # todo allow override
+                sourcedir = os.path.abspath(os.path.join(workspace.getCvsDirectory(), \
+                                        module.name)) # todo allow override
                 destdir = os.path.abspath(workspace.getBaseDirectory())
-        
-        
-                # Perform the sync...
-                work=syncDirectories(workspace.noRSync,WORK_TYPE_SYNC,\
-                        dir.work,workspace.tmpdir,\
-                        sourcedir,destdir,module.name)
-                        
-                # :TODO: Get the repostiory & store this work there also
-                # might as well...
-                    
-                # Store the work as done on this module
-                module.performedWork(work)
                 
-
-                # Update Context w/ Results  
-                if not work.result.state==CMD_STATE_SUCCESS:
-                    module.changeState(STATE_FAILED,REASON_SYNC_FAILED)
-                else:
+                # Perform the sync...
+                try:
+                    syncDirectories(sourcedir,destdir,module)
                     module.changeState(STATE_SUCCESS)
+                except:
+                    module.changeState(STATE_FAILED,REASON_SYNC_FAILED)
                 
     """
     

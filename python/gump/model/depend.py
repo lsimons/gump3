@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/model/depend.py,v 1.8 2004/02/05 14:50:07 ajack Exp $
-# $Revision: 1.8 $
-# $Date: 2004/02/05 14:50:07 $
+# $Header: /home/stefano/cvs/gump/python/gump/model/depend.py,v 1.9 2004/03/09 19:57:06 ajack Exp $
+# $Revision: 1.9 $
+# $Date: 2004/03/09 19:57:06 $
 #
 # ====================================================================
 #
@@ -218,4 +218,164 @@ class ProjectDependency(Annotatable):
         
         return result
         
-           
+
+class DependSet:
+
+    """ A dependency set contains dependencies between projects """
+    def __init__(self, dependees=0):
+        
+        # A list of all dependencies
+        self.depends=[]
+        
+        # A map by project -> dependencies list
+        self.projectMap={}
+        
+        # Which direction (to or from?)
+        self.dependees=dependees
+        
+    def addDepend(self, depend):
+        
+        #
+        # Add to total list
+        #
+        self.depends.append(depend)
+                
+        #
+        # Store depend by project key
+        #
+        dependProject=None
+        if self.dependees:
+            dependPRoejct = depend.getOwnerProject()
+        else:
+            dependProject = depend.getProject()        
+        if not self.projectMap.has_key(dependProject):
+            self.projectMap[dependProject] = []            
+        self.projectMap[dependProject] = depend
+        
+    def containsDepend(self, depend):
+        return (depend in self.depends)
+        
+    def getDepends(self):
+        return self.depends
+        
+    def getUniqueProjectDependCount(self):
+        return len(self.projectMap)
+                
+class Dependable:
+    
+    """ Direct and Full Dependencies """
+    def __init__(self):
+        
+        # Direct & Full Dependencies
+        self.directDependencies=DependSet()
+        self.fullDependencies=None
+        
+        # Direct & Full Dependees
+        self.directDependees=DependSet()
+        self.fullDependees=None
+        
+    #
+    # Dependencies
+    # 
+    def addDependency(self,depend):
+        self.directDependencies.addDepend(depend)
+            
+    def getDirectDependencies(self):
+        return self.directDependencies.getDepends()
+        
+    def getFullDependencies(self):
+        if self.fullDependencies: return self.fullDependencies.getDepends()
+        
+        #
+        # Build (once) upon demand
+        #
+        self.fullDependencies=DependSet()
+        for depend in self.directDependencies.getDepends():
+            if not self.fullDependencies.containsDepend(depend):
+                self.fullDependencies.addDepend(depend)
+                # Get Sub Dependencies
+                for subdepend in depend.getProject().getFullDependencies():
+                    if not self.fullDependencies.containsDepend(subdepend):
+                        self.fullDependencies.addDepend(depend)
+            
+        return self.fullDependencies.getDepends()
+                
+    def getDependencyCount(self):
+        return self.directDependencies.getUniqueProjectDependCount()
+        
+    def getFullDependencyCount(self):
+        return self.fullDependencies.getUniqueProjectDependCount()
+                
+    #
+    # Dependees
+    # 
+    def addDependee(self,depend):
+        self.directDependees.addDepend(depend)
+            
+    def getDirectDependees(self):
+        return self.directDependees.getDepends()
+        
+    def getFullDependees(self):
+        if self.fullDependees: return self.fullDependees.getDepends()
+        
+        #
+        # Build (once) upon demand
+        #
+        self.fullDependees=DependSet()
+        for depend in self.directDependees.getDepends():
+            if not self.fullDependees.containsDepend(depend):    
+                self.fullDependees.addDepend(depend)
+                # Get Sub Dependees
+                for subdepend in depend.getProject().getFullDependees():
+                    if not self.fullDependees.containsDepend(subdepend):    
+                        self.fullDependees.addDepend(depend)
+            
+        return self.fullDependees.getDepends()
+        
+    def getDependeeCount(self):
+        return self.directDependees.getUniqueProjectDependCount()
+                
+    def getFullDependeeCount(self):
+        return self.fullDependees.getUniqueProjectDependCount()
+        
+        
+    def buildDependenciesMap(self,workspace):        
+        
+        #
+        # Provide backwards links  [Note: ant|maven might have added some
+        # dependencies, so this is done here * not just with the direct
+        # xml depend/option elements]
+        #
+        for dependency in self.getDirectDependencies():
+            dependProject=dependency.getProject()
+            # Add us as a dependee on them
+            dependProject.addDependee(dependency)  
+                                                        
+    # 
+    def hasFullDependencyOnNamedProject(self,name):
+        for dependency in self.getDirectDependencies():
+            if dependency.getProject().getName()==name: 
+                return 1
+                
+# :TODO:        
+#           and not dependency.noclasspath: return 1
+#:TODO: noclasspath????
+
+        return 0
+
+    # determine if this project is a prereq of any project on the todo list
+    def hasDirectDependencyOn(self,project):
+        for dependency in self.dependencies:
+            if dependency.getProject()==project: return 1
+    
+    def hasDirectDependee(self,project):
+        for dependee in self.dependees:
+            if dependee.getOwnerProject()==project: return 1
+            
+    def hasDependee(self,project):
+        for dependee in self.getFullDependees():
+            if dependee.getOwnerProject()==project: return 1
+                    
+        
+        
+        

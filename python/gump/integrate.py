@@ -1,9 +1,9 @@
 #!/usr/bin/python
 #!/usr/bin/env python
 #
-# $Header: /home/stefano/cvs/gump/python/gump/integrate.py,v 1.21 2004/03/08 22:28:08 ajack Exp $
-# $Revision: 1.21 $
-# $Date: 2004/03/08 22:28:08 $
+# $Header: /home/stefano/cvs/gump/python/gump/integrate.py,v 1.22 2004/03/09 19:57:06 ajack Exp $
+# $Revision: 1.22 $
+# $Date: 2004/03/09 19:57:06 $
 #
 # ====================================================================
 #
@@ -90,14 +90,12 @@ from gump.model.loader import WorkspaceLoader
 # Initialize
 ###############################################################################
 
-
 ###############################################################################
 # Functions
 ###############################################################################
 
-# static void main()
-if __name__=='__main__':
-
+def irun():
+    
     # Process command line
     (args,options) = handleArgv(sys.argv)
     ws=args[0]
@@ -128,3 +126,10 @@ if __name__=='__main__':
           
     # bye!
     sys.exit(result)
+    
+# static void main()
+if __name__=='__main__':
+    #print 'Profiling....'
+    #import profile
+    #profile.run('irun()', 'iprof')
+    irun()

@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/forrest.py,v 1.96 2004/03/08 22:28:08 ajack Exp $
-# $Revision: 1.96 $f
-# $Date: 2004/03/08 22:28:08 $
+# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/forrest.py,v 1.97 2004/03/09 19:57:06 ajack Exp $
+# $Revision: 1.97 $f
+# $Date: 2004/03/09 19:57:06 $
 #
 # ====================================================================
 #
@@ -78,6 +78,7 @@ from gump.document.xdoc import *
 from gump.document.resolver import *
 from gump.utils import *
 from gump.utils.xmlutils import xmlize
+from gump.utils.tools import syncDirectories,copyDirectories
 from gump.model import *
 from gump.model.stats import *
 from gump.model.project import AnnotatedPath,  ProjectStatistics
@@ -138,49 +139,24 @@ class ForrestDocumenter(Documenter):
         return fdir  
     
     def seedForrest(self,workspace):   
+        """ 
         
-        forrestParentDir=self.getForrestParentDirectory(workspace)    
+        Copy the main template (perhaps with site tweaks) to seed
         
-        # :TODO: This gave an ugly tree (src/doc/cont../xdocs..)
-        # with sub-directories. It is a nice idea, but not
-        # quite there for us now, do a plain old template
-        # copy instead.
-        
-        # First .. seed the project    
-        #forrestSeed=Cmd('forrest','forrest_seed',forrest)
-        #forrestSeed.addPrefixedParameter('-D','java.awt.headless','true','=')
-        #forrestSeed.addParameter('seed')    
-        #forrestSeedResult=execute(forrestSeed)
-        # Consider adding, but a second seed might fail, need to ignore that...
-        #work=CommandWorkItem(WORK_TYPE_DOCUMENT,forrest,forrestSeedResult)
-        #workspace.performedWork(work)
-        
-        # Consider syncDirectories (to start with)
-        # cp -Rf doesn't seem to be doing a nice job of overwritting :(
-        # rsynch would disallow default/site though :(
+        """        
         
         # Copy in the defaults        
-        forrestTemplate=self.getForrestTemplateDirectory()   
-        
-        forrestSeed=Cmd('cp','forrest_seed',forrestParentDir)
-        forrestSeed.addParameter('-Rfv')
-        forrestSeed.addParameter(forrestTemplate)    
-        forrestSeed.addParameter(os.path.abspath(workspace.getBaseDirectory()))    
-        forrestSeedResult=execute(forrestSeed)
-        work=CommandWorkItem(WORK_TYPE_DOCUMENT,forrestSeed,forrestSeedResult)
-        workspace.performedWork(work)
-        
+        forrestTemplate=self.getForrestTemplateDirectory()           
+        syncDirectories(	forrestTemplate,	\
+                            self.getForrestDirectory(workspace),	\
+                            workspace)    
+                                    
         # Copy over the local site defaults (if any)        
         forrestSiteTemplate=self.getForrestSiteTemplateDirectory()  
         if os.path.exists(forrestSiteTemplate):
-            forrestSiteSeed=Cmd('cp','forrest_site_seed',forrestParentDir)
-            forrestSiteSeed.addParameter('-Rfv')
-            forrestSiteSeed.addParameter(forrestSiteTemplate)    
-            forrestSiteSeed.addParameter(workspace.getBaseDirectory())  
-            forrestSiteSeedResult=execute(forrestSiteSeed)
-            work=CommandWorkItem(WORK_TYPE_DOCUMENT,forrestSiteSeed,forrestSiteSeedResult)
-            workspace.performedWork(work)
-             
+            copyDirectories(forrestSiteTemplate,	\
+                            self.getForrestDirectory(workspace),	\
+                            workspace)               
          
     def executeForrest(self,workspace):
         # The project tree
@@ -1119,31 +1095,33 @@ class ForrestDocumenter(Documenter):
         
         self.documentServerLinks(document,project,workspace)        
             
+        # Project Details (main ones)
         detailsSection=document.createSection('Details')
-        
         detailsList=detailsSection.createList()
             
-        self.insertLink(project.getModule(),project,detailsList.createEntry('Containing Module: '))        
+        self.insertLink(project.getModule(),project,	\
+                detailsList.createEntry('Containing Module: '))        
         
-        if project.hasHomeDirectory():
+        if project.hasHomeDirectory() and project.isVerboseOrDebug():
             detailsList.createEntry('Home Directory: ', project.getHomeDirectory())
             
-        if project.hasBaseDirectory():
+        if project.hasBaseDirectory() and project.isVerboseOrDebug():
             detailsList.createEntry('Base Directory: ', project.getBaseDirectory())
             
         if project.hasCause() and not project==project.getCause():
             self.insertTypedLink(project.getCause(),project,detailsList.createEntry('Root Cause: '))
             
         e = secsToElapsedString(project.getElapsedSecs())
-        if e: detailsList.createEntry("Elapsed: ", e)
+        if e and project.isVerboseOrDebug(): detailsList.createEntry("Elapsed: ", e)
                                                       
         # Display nag information
         if project.xml.nag:
-            for nagEntry in project.xml.nag:
-                toaddr=getattr(nagEntry,'to') or workspace.mailinglist
-                fromaddr=getStringFromUnicode(getattr(nagEntry,'from') or workspace.email)
-                detailsList.createEntry('Nag To: ').createFork('mailto:'+toaddr,toaddr)
-                detailsList.createEntry('Nag From: ').createFork('mailto:'+fromaddr,fromaddr)
+            if project.isVerboseOrDebug():
+                for nagEntry in project.xml.nag:
+                    toaddr=getattr(nagEntry,'to') or workspace.mailinglist
+                    fromaddr=getStringFromUnicode(getattr(nagEntry,'from') or workspace.email)
+                    detailsList.createEntry('Nag To: ').createFork('mailto:'+toaddr,toaddr)
+                    detailsList.createEntry('Nag From: ').createFork('mailto:'+fromaddr,fromaddr)
         elif not project.isPackaged() and project.hasBuildCommand():            
             document.createWarning('This project does not utilize Gump nagging.')  
                              
@@ -1185,8 +1163,7 @@ class ForrestDocumenter(Documenter):
         addnSection=document.createSection('Additional Details')
         addnPara=addnSection.createParagraph()
         addnPara.createLink(gumpSafeName(project.getName()) + '_details.html',	\
-                            'More project details ...')
-                                                                            
+                            'More project details ...')                                                                         
         document.serialize()
         
         document=XDocDocument('Project Details : ' + project.getName(),	\
@@ -1235,10 +1212,10 @@ class ForrestDocumenter(Documenter):
         depees = 0
         
         depens += self.documentDependenciesList(dependencySection, "Project Dependencies",	\
-                    project.getDependencies(), 0, project)
+                    project.getDirectDependencies(), 0, project)
                     
         depees += self.documentDependenciesList(dependencySection, "Project Dependees",		\
-                    project.getDependees(), 1, project)
+                    project.getDirectDependees(), 1, project)
                     
         depens += self.documentDependenciesList(dependencySection, "Full Project Dependencies",	\
                     project.getFullDependencies(), 0, project)
@@ -1318,7 +1295,7 @@ class ForrestDocumenter(Documenter):
                 
         if dependencies:
             dependencySection=xdocNode.createSection(title)
-            dependencyTable=dependencySection.createTable(['Name','Type','Inheritence','Ids','State','Notes'])
+            dependencyTable=dependencySection.createTable(['Name','Type','Inheritence','Ids','State','Contributor','Notes'])
             for depend in dependencies:
                 
                 totalDeps += 1
@@ -1351,6 +1328,13 @@ class ForrestDocumenter(Documenter):
                 
                 # State Icon
                 self.insertStateIcon(project,referencingObject,dependencyRow.createData())
+                
+                # Contributor
+                if not dependees:
+                    contributor=depend.getOwnerProject()
+                else:
+                    contributor=depend.getProject()
+                self.insertLink( contributor, referencingObject, dependencyRow.createData())      
                 
                 # Dependency Annotations
                 noteData=dependencyRow.createData()
@@ -1409,22 +1393,18 @@ class ForrestDocumenter(Documenter):
                 if results:
                     statePair=results.getStatePair()
                                 
-            # If we can resolve this object to a URL, then do
-            dataNode=serverRow.createData()
-            xdocNode=None
-                        
+            # If we can resolve this object to a URL, then do                        
             if server.hasResolver():
+                dataNode=serverRow.createData()    
+            
                 xdocNode=dataNode.createFork(	\
                         server.getResolver().getUrl(linkable))
-            else:
-                # Else just link to the server.
-                if server.hasUrl():
-                    xdocNode=dataNode.createFork(	\
-                            server.getUrl())  
             
-            if xdocNode:
                 xdocNode.createText('On ' + server.getName())
+                
                 if statePair:
+                    xdocNode.createBreak()
+                    # Insert the Icon...
                     depth=getDepthForObject(linkable)
                     self.insertStatePairIconAtDepth(dataNode,statePair,depth)                
                 

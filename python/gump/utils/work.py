@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/utils/work.py,v 1.9 2004/02/17 21:54:21 ajack Exp $
-# $Revision: 1.9 $
-# $Date: 2004/02/17 21:54:21 $
+# $Header: /home/stefano/cvs/gump/python/gump/utils/work.py,v 1.10 2004/03/09 19:57:06 ajack Exp $
+# $Revision: 1.10 $
+# $Date: 2004/03/09 19:57:06 $
 #
 # ====================================================================
 #
@@ -73,16 +73,14 @@ from gump.utils.launcher import *
 WORK_TYPE_CHECK=1
 WORK_TYPE_CONFIG=2
 WORK_TYPE_UPDATE=3
-WORK_TYPE_SYNC=4
-WORK_TYPE_PREBUILD=5
-WORK_TYPE_BUILD=6
-WORK_TYPE_POSTBUILD=7
-WORK_TYPE_DOCUMENT=8
+WORK_TYPE_PREBUILD=4
+WORK_TYPE_BUILD=5
+WORK_TYPE_POSTBUILD=6
+WORK_TYPE_DOCUMENT=7
 
 workTypeDescriptions = { 	WORK_TYPE_CHECK : "CheckEnvironment",
                 WORK_TYPE_CONFIG : "Config",
                 WORK_TYPE_UPDATE : "Update",
-                WORK_TYPE_SYNC : "Synchronize",
                 WORK_TYPE_PREBUILD : "PreBuild",
                 WORK_TYPE_BUILD : "Build",
                 WORK_TYPE_POSTBUILD : "PostBuild",

@@ -279,7 +279,7 @@ class GumpSet:
     # on the todo list.
     #
     def isReady(self,project,todo):
-        for dependency in project.getDependencies():
+        for dependency in project.getDirectDependencies():
             if dependency.getProject() in todo: return 0
         return 1
 
@@ -289,7 +289,7 @@ class GumpSet:
         if not project in todo:
             todo.append(project)
             
-        for dependency in project.getDependencies():
+        for dependency in project.getDirectDependencies():
             # Add all dependencies
             dependProject=dependency.getProject()
             if not dependProject in todo: 
@@ -298,7 +298,7 @@ class GumpSet:
     # determine if this project is a prereq of any project on the todo list
     def isPrereq(self,project,todo):
         for todoProject in todo:
-            for dependency in todoProject.getDependencies():
+            for dependency in todoProject.getDirectDependencies():
                 if dependency.getProject().getName()==project.getName(): return 1
 
     def dump(self, indent=0, output=sys.stdout):

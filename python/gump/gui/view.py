@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/gui/view.py,v 1.5 2004/03/08 22:28:09 ajack Exp $
-# $Revision: 1.5 $
-# $Date: 2004/03/08 22:28:09 $
+# $Header: /home/stefano/cvs/gump/python/gump/gui/view.py,v 1.6 2004/03/09 19:57:07 ajack Exp $
+# $Revision: 1.6 $
+# $Date: 2004/03/09 19:57:07 $
 #
 # ====================================================================
 #
@@ -352,7 +352,7 @@ class gumpview(wxApp):
 
     # gather a list of projects which reference this project
     self.items=[]
-    for dependency in project.getDependees():
+    for dependency in project.getDirectDependees():
         self.items.append(dependency.getOwnerProject().getName())
 
     # display the list, sorted by name
@@ -403,7 +403,7 @@ class gumpview(wxApp):
       self.prereqs.InsertColumn(0, 'Prerequisites')
 
     i=0
-    for dependency in project.getDependencies():
+    for dependency in project.getDirectDependencies():
       prereq=dependency.getProject()
       #if prereq.ant or prereq.script: continue
       row=self.prereqs.InsertStringItem(i,prereq.getName())

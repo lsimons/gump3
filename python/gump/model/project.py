@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/model/project.py,v 1.61 2004/03/07 22:22:35 ajack Exp $
-# $Revision: 1.61 $
-# $Date: 2004/03/07 22:22:35 $
+# $Header: /home/stefano/cvs/gump/python/gump/model/project.py,v 1.62 2004/03/09 19:57:06 ajack Exp $
+# $Revision: 1.62 $
+# $Date: 2004/03/09 19:57:06 $
 #
 # ====================================================================
 #
@@ -180,13 +180,14 @@ class Classpath(Annotatable):
         return os.pathsep.join(self.getSimpleClasspathList())
             
 
-class Project(NamedModelObject, Statable, Resultable):
+class Project(NamedModelObject, Statable, Resultable, Dependable):
     """A single project"""
     def __init__(self,xml,workspace):
     	NamedModelObject.__init__(self,xml.getName(),xml,workspace)
     	
     	Statable.__init__(self)
     	Resultable.__init__(self)
+    	Dependable.__init__(self)
     	
     	# Navigation
         self.module=None # Module has to claim ownership
@@ -197,21 +198,7 @@ class Project(NamedModelObject, Statable, Resultable):
     	
     	self.license=None
     	
-    	#############################################################
-    	# Dependency Trees
-    	#
-    	
-    	# Those which we rely upon...
-    	self.depends=[]
-    	
-    	# Those which rely upon us...
-    	self.dependees=[]
-    	
-    	#
-    	# Fully expanded
-    	#
-    	self.fullDepends=[]
-    	self.fullDependees=[]    
+    	self.affected=0
         
     	#############################################################
     	#
@@ -317,60 +304,6 @@ class Project(NamedModelObject, Statable, Resultable):
         
     def getReports(self):
         return self.reports
-    
-    def getDependencies(self):
-        return self.depends
-        
-    def getDependencyCount(self):   
-        """ Count the direct depenencies """
-        return len(self.depends)
-        
-    def getDependees(self):
-        return self.dependees
-        
-    def getDependeeCount(self):   
-        """ Count the direct dependees """
-        return len(self.dependees)
-        
-    def getFullDependencies(self):   
-        #
-        # Build a set of dependencies (once only)
-        #
-        if self.fullDepends: 
-            return self.fullDepends
-        
-        for dependency in self.depends:
-            if not dependency in self.fullDepends: 
-                self.fullDepends.append(dependency)
-                for subdepend in dependency.getProject().getFullDependencies():
-                    if not subdepend in self.fullDepends:
-                        self.fullDepends.append(subdepend)
-        self.fullDepends.sort()
-        
-        # Return stored
-        return self.fullDepends
-                    
-    def getFullDependencyCount(self):         
-        return len(self.getFullDependencies())                      
-    
-    def getFullDependees(self):   
-        if self.fullDependees: return self.fullDependees
-        
-        for dependee in self.dependees:
-            if not dependee in self.fullDependees: 
-                # We have a new dependee
-                self.fullDependees.append(dependee)
-                for subdependee in dependee.getOwnerProject().getFullDependees():
-                    if not subdependee in self.fullDependees:
-                        self.fullDependees.append(subdependee)
-        self.fullDependees.sort()
-        
-        # Store once
-        return self.fullDependees            
-                        
-    def getFullDependeeCount(self):         
-        return len(self.getFullDependees())             
-        
     def getFOGFactor(self):
         return self.getStats().getFOGFactor()
         
@@ -379,13 +312,10 @@ class Project(NamedModelObject, Statable, Resultable):
         return self.getModule().getStats().getLastUpdated()  
         
     def determineAffected(self):
-        affected=0
-        
-        # Get all dependenees (optional/otherwise)
-        fullDependees=self.getFullDependees()
+        if self.affected: return self.affected
         
         # Look through all dependees
-        for dependee in fullDependees:
+        for dependee in self.getFullDependees():
             project=dependee.getOwnerProject()
             
             cause=project.getCause()
@@ -397,9 +327,9 @@ class Project(NamedModelObject, Statable, Resultable):
                 # The something was this module or one of it's projects
                 #
                 if cause == self:
-                    affected += 1            
+                    self.affected += 1            
         
-        return affected
+        return self.affected
         
     def propagateErrorStateChange(self,state,reason,cause,message):
         
@@ -407,7 +337,7 @@ class Project(NamedModelObject, Statable, Resultable):
         # Mark depend*ee*s as failed for this cause...
         # Warn option*ee*s
         #
-        for dependee in self.getDependees():  
+        for dependee in self.getDirectDependees():  
     
             # This is a backwards link, so use the owner
             dependeeProject=dependee.getOwnerProject()
@@ -567,7 +497,7 @@ class Project(NamedModelObject, Statable, Resultable):
         if not packaged:
             # Complete dependencies so properties can reference the,
             # completed metadata within a dependent project
-            for dependency in self.getDependencies():
+            for dependency in self.getDirectDependencies():
                 dependency.getProject().complete(workspace)
 
             self.buildDependenciesMap(workspace)                        
@@ -670,66 +600,6 @@ class Project(NamedModelObject, Statable, Resultable):
 
         return (badDepends, badOptions)
         
-    def buildDependenciesMap(self,workspace):        
-        
-        #
-        # Provide backwards links  [Note: ant|maven might have added some
-        # dependencies, so this is done here * not just with the direct
-        # xml depend/option elements]
-        #
-        for dependency in self.getDependencies():
-            dependProject=dependency.getProject()
-            # Add us as a dependee on them
-            dependProject.addDependee(dependency)  
-                        
-                                
-    def addDependency(self,dependency):
-        #
-        # TODO check this against any matching dependency
-        # not equal?
-        #
-        if not dependency in self.depends:
-            if not dependency.getProject()==self:
-                self.depends.append(dependency)
-            #else:
-            #    print 'Not Adding : ' + dependency
-
-    def addDependee(self,dependency):
-        #
-        # TODO check this against any matching dependency
-        # not equal?
-        #
-        if not dependency in self.dependees:
-            if not dependency.getOwnerProject()==self:
-                self.dependees.append(dependency)
-            #else:
-            #    print 'Not Adding : ' + dependency
-
-    # 
-    def hasFullDependencyOnNamedProject(self,name):
-        for dependency in self.depends:
-            if dependency.getProject().getName()==name: 
-                return 1
-                
-# :TODO:        
-#           and not dependency.noclasspath: return 1
-#:TODO: noclasspath????
-
-        return 0
-              
-    # determine if this project is a prereq of any project on the todo list
-    def hasDirectDependencyOn(self,project):
-        for dependency in self.depends:
-            if dependency.getProject()==project: return 1
-    
-    def hasDirectDependee(self,project):
-        for dependee in self.dependees:
-            if dependee.getOwnerProject()==project: return 1
-            
-    def hasDependee(self,project):
-        for dependee in self.getFullDependees():
-            if dependee.getOwnerProject()==project: return 1
-            
     def hasBaseDirectory(self):
         if hasattr(self,'basedir') and self.basedir: return 1
         return 0
@@ -1213,7 +1083,7 @@ maven.jar.override = on
         visited=[]
   
         # Does it have any depends? Process all of them...
-        for dependency in self.getDependencies():
+        for dependency in self.getDirectDependencies():
             (subcp, subbcp) = self.getDependOutputList(dependency,visited,1,debug)
             self.importClasspaths(classpath,bootclasspath,subcp,subbcp)
     
@@ -1322,7 +1192,7 @@ maven.jar.override = on
                           + "] for dependency on [" + project.getName() + "]")
 
         # Append sub-projects outputs, if inherited
-        for subdependency in project.getDependencies():        
+        for subdependency in project.getDirectDependencies():        
             #	If the dependency is set to 'all' (or 'hard') we inherit all dependencies
             # If the dependency is set to 'runtime' we inherit all runtime dependencies
             # If the dependent project inherited stuff, we inherit that...
@@ -1346,6 +1216,7 @@ maven.jar.override = on
             classpath.importClasspath(cp)                
         if bcp:
             bootclasspath.importClasspath(bcp)                      
+
 
 class ProjectStatistics(Statistics):
     """Statistics Holder"""
