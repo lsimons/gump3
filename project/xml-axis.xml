@@ -12,7 +12,7 @@
   <project name="xml-axis">
     <ant basedir="java" target="dist">
       <depend name="wsdl4j.jar" project="wsdl4j"/>
-      <depend name="log4j-core.jar" project="jakarta-log4j" id="log4j-core"/>
+      <depend name="log4j-core.jar" project="jakarta-log4j"/>
       <depend name="clutil.jar" project="jakarta-avalon-clutil"/>
     </ant>
 
@@ -33,7 +33,7 @@
     <ant basedir="java" target="functional-tests">
       <property name="test.functional.usefile" value="false"/>
       <depend name="wsdl4j.jar" project="wsdl4j"/>
-      <depend name="log4j-core.jar" project="jakarta-log4j" id="log4j-core"/>
+      <depend name="log4j-core.jar" project="jakarta-log4j"/>
     </ant>
     <depend project="xml-xerces"/>
     <depend project="jakarta-ant"/>

@@ -26,7 +26,7 @@
                 project="jakarta-tomcat"/>
       <depend property="servlet22.jar" project="jakarta-servletapi"/>
       <depend property="junit.jar"     project="junit"/>
-      <depend property="log4j.jar"     project="jakarta-log4j" id="log4j-core"/>
+      <depend property="log4j.jar"     project="jakarta-log4j"/>
       <depend property="httpunit.jar"  project="httpunit"/>
       <depend property="httpclient.jar" project="commons-httpclient"/>
     </ant>
@@ -53,7 +53,7 @@
                 project="jakarta-tomcat-4.0"/>
       <depend property="servlet23.jar" project="jakarta-servletapi-4"/>
       <depend property="junit.jar" project="junit"/>
-      <depend property="log4j.jar" project="jakarta-log4j" id="log4j-core"/>
+      <depend property="log4j.jar" project="jakarta-log4j"/>
       <depend property="httpunit.jar"  project="httpunit"/>
       <depend property="httpclient.jar" project="commons-httpclient"/>
     </ant>

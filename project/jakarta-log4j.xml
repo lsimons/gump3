@@ -19,7 +19,7 @@
     <option project="javamail"/>
 
     <home nested="dist"/>
-    <jar  name="lib/log4j-gump.jar" id="log4j-core"/>
+    <jar  name="lib/log4j-gump.jar"/>
   </project>
 
 </module>
