@@ -47,7 +47,7 @@
     <depend project="jakarta-servletapi-4"/>
     <depend project="jms"/>
     <jar name="messenger/commons-messenger.jar"/>
-    <javadoc nested="messenger/dist/docs/api"/>
+    <javadoc nested="messenger/dist/doc/api"/>
   </project>
 
   <project name="commons-modeler">
