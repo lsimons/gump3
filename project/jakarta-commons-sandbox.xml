@@ -106,7 +106,7 @@
     <depend project="jakarta-ant" inherit="runtime"/>
     <depend project="junit"/>
     <work nested="functor/target/classes"/>
-    <work nested="functor/target/tests-classes"/>
+    <work nested="functor/target/test-classes"/>
     <home nested="functor/target/dist"/>
     <jar name="commons-functor.jar"/>
     <javadoc nested="functor/target/dist/docs/api"/>
