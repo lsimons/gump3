@@ -36,6 +36,7 @@ Proposed board resolution to create an Apache Gump Project
        * Nicola Ken Barozzi <nicolaken@apache.org>
        * Nick Chalko <nickchalko@apache.org>
        * Stefano Mazzocchi <stefano@apache.org>
+       * Scott Sanders <sanders@apache.org> 
        * others ?
        
        NOW, THEREFORE, BE IT FURTHER RESOLVED, that
