@@ -98,6 +98,8 @@
   <module href="project/jakarta-velocity-dvsl.xml"/>
   <module href="project/jakarta-watchdog.xml"/>
 
+  <module href="project/gump-test.xml"/>
+  
 <!-- Apache.Maven -->
   <module href="project/maven.xml"/>
 

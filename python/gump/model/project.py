@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/model/project.py,v 1.31 2004/02/05 05:43:56 ajack Exp $
-# $Revision: 1.31 $
-# $Date: 2004/02/05 05:43:56 $
+# $Header: /home/stefano/cvs/gump/python/gump/model/project.py,v 1.32 2004/02/09 18:25:59 ajack Exp $
+# $Revision: 1.32 $
+# $Date: 2004/02/09 18:25:59 $
 #
 # ====================================================================
 #
@@ -813,7 +813,7 @@ class Project(NamedModelObject, Statable):
         #
         #	The module src directory (if exists) or Gump base
         #	plus:
-        #	The specifier for ANT, or nothing.
+        #	The specifier for Maven, or nothing.
         #
         basedir = os.path.abspath(os.path.join(self.getModule().getSourceDirectory() or dir.base,	\
                                                     maven.basedir or ''))
@@ -831,7 +831,7 @@ class Project(NamedModelObject, Statable):
         #
         # Run java on apache Ant...
         #
-        cmd=Cmd(self.getWorkspace().getJavaCommand(),'build_'+self.getModule().getName()+'_'+self.getName(),\
+        cmd=Cmd('maven','build_'+self.getModule().getName()+'_'+self.getName(),\
             basedir,{'CLASSPATH':classpath})
             
         # Set this as a system property. Setting it here helps JDK1.4+

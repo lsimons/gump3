@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/forrest.py,v 1.63 2004/02/05 14:50:07 ajack Exp $
-# $Revision: 1.63 $f
-# $Date: 2004/02/05 14:50:07 $
+# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/forrest.py,v 1.64 2004/02/09 18:26:00 ajack Exp $
+# $Revision: 1.64 $f
+# $Date: 2004/02/09 18:26:00 $
 #
 # ====================================================================
 #
@@ -794,8 +794,8 @@ class ForrestDocumenter(Documenter):
         detailSection=document.createSection('Server Details')
         detailList=detailSection.createList()        
         
-        if server.hasTitle():
-            detailList.createEntry('Title: ', server.getTitle())
+        #if server.hasTitle():
+        #    detailList.createEntry('Title: ', server.getTitle())
     
         self.documentXML(document,server)
         
@@ -825,6 +825,10 @@ class ForrestDocumenter(Documenter):
                 
         descriptionSection.createParagraph().createRaw(description)
 
+        if module.cause and not module==module.cause:
+             self.insertTypedLink( module.cause, module, \
+                 document.createNote( "This module failed due to: "))     
+            
         if module.isPackaged():
             document.createNote('This is a packaged module, not Gumped.')
             
@@ -985,6 +989,10 @@ class ForrestDocumenter(Documenter):
                 
         projectsSection.createParagraph().createRaw(description)
         
+        if project.cause and not project==project.cause:
+             self.insertTypedLink( project.cause, project, \
+                 document.createNote( "This project failed due to: "))              
+             
         if project.isPackaged():
             document.createNote('This is a packaged project, not Gumped.')
         elif not project.hasBuildCommand():

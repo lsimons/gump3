@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/model/workspace.py,v 1.24 2004/02/01 18:44:44 ajack Exp $
-# $Revision: 1.24 $
-# $Date: 2004/02/01 18:44:44 $
+# $Header: /home/stefano/cvs/gump/python/gump/model/workspace.py,v 1.25 2004/02/09 18:25:59 ajack Exp $
+# $Revision: 1.25 $
+# $Date: 2004/02/09 18:25:59 $
 #
 # ====================================================================
 #
@@ -116,6 +116,7 @@ class Workspace(ModelObject,PropertyContainer, Statable):
     	#
     	self.noRSync=0
     	self.noForrest=0    
+    	self.noMaven=0    	
     	self.noRuper=0    	
     	self.noSvn=0    	
     	self.noCvs=0    	
@@ -572,7 +573,11 @@ class Workspace(ModelObject,PropertyContainer, Statable):
                 
         if not self.checkEnvVariable('FORREST_HOME',0): 
             self.noForrest=1
-            self.addWarning('FORREST_HOME environmental variable not found, no xdoc output')
+            self.addWarning('FORREST_HOME environmental variable not found, no xdoc output.')
+                
+        if not self.checkEnvVariable('MAVEN_HOME',0): 
+            self.noMaven=1
+            self.addWarning('MAVEN_HOME environmental variable not found, no maven builds.')
             
         #
         # Check for executables:
@@ -607,6 +612,11 @@ class Workspace(ModelObject,PropertyContainer, Statable):
             not self.checkExecutable('ruper','-version',0,0,'check_ruper'): 
             self.noRuper=1
             self.addWarning('"ruper" command not found, no package downloads')
+        
+        if not self.noMaven and \
+            not self.checkExecutable('maven','--version',0,0,'check_maven'): 
+            self.noMaven=1
+            self.addWarning('"maven" command not found, no Maven builds')
         
         if not self.checkExecutable('rsync','-help',0): 
             self.noRSync=1

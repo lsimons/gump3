@@ -1,0 +1,14 @@
+<module name="jakarta-gump-test">
+
+  <url href="http://jakarta.apache.org/gump/"/>
+  <description>
+    Cross project build tool testing
+  </description>
+
+  <svn repository="apache-svn-sandbox" dir="gump-test"/>
+
+  <project name="gump-test-maven1" basedir="maven-project">
+    <maven target="dist"/>
+  </project>
+  
+</module>
