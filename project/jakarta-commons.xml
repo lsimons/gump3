@@ -40,6 +40,7 @@
     <depend project="xml-stylebook2"/>
     <depend project="xml-xalan2"/>
     <depend project="jakarta-tomcat-4.0"/>
+    <depend project="jakarta-log4j"/>
     <work nested="out/servlet23/classes/"/>
 
     <home nested="cactus/out"/>
