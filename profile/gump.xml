@@ -19,6 +19,7 @@
 <!-- Apache.Ant -->
 
   <module href="project/ant.xml"/>
+  <module href="project/ant-1.5.xml"/>
   <module href="project/ant-antidote.xml"/>
 
 <!-- Apache.Avalon -->
