@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/syndication/__init__.py,v 1.2 2003/12/04 23:26:01 ajack Exp $
-# $Revision: 1.2 $
-# $Date: 2003/12/04 23:26:01 $
+# $Header: /home/stefano/cvs/gump/python/gump/syndication/__init__.py,v 1.3 2003/12/05 00:51:49 ajack Exp $
+# $Revision: 1.3 $
+# $Date: 2003/12/05 00:51:49 $
 #
 # ====================================================================
 #
@@ -74,93 +74,6 @@ from gump.model.project import ProjectStatistics
 # tell Python what modules make up the gump.syndication package
 __all__ = ["rss","atom"]
 
-class Syndicator:
-    def __init__(self):     pass        
-        
-    #
-    # Populate a method called 'document(run)'
-    #
-    def syndicate(self,run):
-        if not hasattr(self,'syndicateRun'):
-            raise RuntimeException, 'Complete [' + self.__class__ + '] with syndicateRun(self,run)'
-        
-        if not callable(self.syndicateRun):
-            raise RuntimeException, 'Complete [' + self.__class__ + '] with a callable syndicateRun(self,run)'
-        
-        log.info('Syndicate run using [' + `self` + ']')
-        
-        self.syndicateRun(run)
-
-    def getProjectContent(self,project,run):
-        
-        resolver=run.getOptions().getResolver()
-        
-        stats=project.getStats()
-        
-        content='Project ' + project.getName() \
-                                + ' : ' \
-                                + project.getStateDescription() \
-                                + ' ' \
-                                + project.getReasonDescription() \
-                                + '\n\n'
-                        
-        if not stats.previousState == STATE_NONE \
-            and not stats.previousState == STATE_UNSET:
-            content += 'Previous state: ' \
-                                    + stateName(stats.previousState)  \
-                                    + '\n\n'
-    
-        self.addSundries(project,content)
-                
-        return content
-
-    
-
-    def getModuletContent(self,module,run):
-        
-        resolver=self.run.getOptions().getResolver()
-        
-        stats=module.getStats()
-        
-        content='Module ' + module.getName() \
-                                + ' : ' \
-                                + module.getStateDescription()	\
-                                + ' ' \
-                                + module.getReasonDescription() \
-                                + '\n\n'
-                        
-        if not stats.previousState == STATE_NONE \
-            and not stats.previousState == STATE_UNSET:
-            content += 'Previous state: ' \
-                                    + stateName(stats.previousState)  \
-                                    + '\n\n'
-    
-        self.addSundries(module,content)
-                
-        return content
-
-    def addSundries(self,object,content):
-        
-        resolver=self.run.getOptions().getResolver()    
-        
-        if object.annotations:
-            content += '<table>'
-            for note in object.annotations:
-                    content += ('<tr><td>' \
-                        + note.getLevelName() + '</td><td>' \
-                        + note.getText() + '</td></tr>\n')                
-            content += '<table>'
-            
-        if object.worklist:
-            content += '<table>'    
-            for work in object.worklist:
-                url=resolver.getAbsoluteUrl(work)
-                state=stateName(work.state)                 
-                content += ('<tr><td><a href=\'' + 	\
-                    url + '\'>' + work.getName() + 	\
-                    '</a></td><td>' + state + 		\
-                    '</td></tr>\n')                   
-            content += '<table>'
     
 def syndicate(run):
     

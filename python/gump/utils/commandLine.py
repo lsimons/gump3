@@ -1,8 +1,8 @@
 #!/usr/bin/python
 
-# $Header: /home/stefano/cvs/gump/python/gump/utils/Attic/commandLine.py,v 1.2 2003/11/24 16:14:06 ajack Exp $
-# $Revision: 1.2 $
-# $Date: 2003/11/24 16:14:06 $
+# $Header: /home/stefano/cvs/gump/python/gump/utils/Attic/commandLine.py,v 1.3 2003/12/05 00:51:49 ajack Exp $
+# $Revision: 1.3 $
+# $Date: 2003/12/05 00:51:49 $
 #
 # ====================================================================
 #
@@ -143,7 +143,8 @@ class CommandLine:
                 log.setLevel(logging.DEBUG ) 
             elif arg in ['-v','--verbose']: 
                 log.info('Setting log level to VERBOSE')
-                log.setLevel(logging.VERBOSE )  
+                # :TODO:
+                log.setLevel(logging.DEBUG )  
     
     def getArguments(self):
         return self.args

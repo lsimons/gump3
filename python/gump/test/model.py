@@ -1,7 +1,7 @@
 #!/usr/bin/env python
-# $Header: /home/stefano/cvs/gump/python/gump/test/model.py,v 1.9 2003/12/02 23:58:47 ajack Exp $
-# $Revision: 1.9 $
-# $Date: 2003/12/02 23:58:47 $
+# $Header: /home/stefano/cvs/gump/python/gump/test/model.py,v 1.10 2003/12/05 00:51:50 ajack Exp $
+# $Revision: 1.10 $
+# $Date: 2003/12/05 00:51:50 $
 #
 # ====================================================================
 #
@@ -207,6 +207,7 @@ class ModelTestSuite(UnitTestSuite):
         
     def testJunitReport(self):
                 
+        self.assertTrue('This has a <junitreport', self.project3.hasReports())
         self.assertLengthAbove('This has a <junitreport', self.project3.getReports(), 0)
         
         for report in self.project3.getReports():

@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/syndication/rss.py,v 1.1 2003/12/04 23:16:24 ajack Exp $
-# $Revision: 1.1 $
-# $Date: 2003/12/04 23:16:24 $
+# $Header: /home/stefano/cvs/gump/python/gump/syndication/rss.py,v 1.2 2003/12/05 00:51:49 ajack Exp $
+# $Revision: 1.2 $
+# $Date: 2003/12/05 00:51:49 $
 #
 # ====================================================================
 #
@@ -71,7 +71,9 @@ from gump import log
 from gump.model.state import *
 from gump.model.project import ProjectStatistics
 
-from gump.syndication import Syndicator
+from gump.config import setting
+
+from gump.syndication.syndicator import Syndicator
 
 ###############################################################################
 
@@ -104,11 +106,11 @@ class Image:
         self.rssStream.write('   <image>\n')
         
         # Mandatory Fields
-        self.rssStream.write(('  <url>%s</url>\n') %(escape(self.url)))
-        self.rssStream.write(('  <link>%s</link>\n') %(escape(self.link)))
-        self.rssStream.write(('  <title>%s</title>\n') %(escape(self.title)))
+        self.rssStream.write(('    <url>%s</url>\n') %(escape(self.url)))
+        self.rssStream.write(('    <link>%s</link>\n') %(escape(self.link)))
+        self.rssStream.write(('    <title>%s</title>\n') %(escape(self.title)))
             
-        self.rssStream.write('  </image>\n')
+        self.rssStream.write('   </image>\n')
 
 class Item:
     def __init__(self,title,link,description,subject,date,url=None,image=None):
@@ -126,9 +128,11 @@ class Item:
         self.rssStream.write('   <item>\n')
         
         # Mandatory Fields
-        self.rssStream.write(('    <title>Jakarta Gump: %s</title>\n') %(escape(self.title)))
+        self.rssStream.write(('    <title>Gump: %s</title>\n') %(escape(self.title)))
         self.rssStream.write(('    <link>%s</link>\n') %(escape(self.link)))
         self.rssStream.write(('    <description>%s</description>\n') %(escape(self.description)))
+        self.rssStream.write('    <author>gump@jakarta.apache.org</author>\n')                
+        
         self.rssStream.write(('      <dc:subject>%s</dc:subject>\n') %(escape(self.subject)))
         self.rssStream.write(('      <dc:date>%s</dc:date>\n') %(escape(self.date)))
         
@@ -155,22 +159,31 @@ class Channel:
         self.rssStream.write('  <channel>\n')
         
         # Mandatory Fields
-        self.rssStream.write(('  <title>Jakarta Gump: %s</title>\n') %(escape(self.title)))
+        self.rssStream.write(('  <title>Gump: %s</title>\n') %(escape(self.title)))
         self.rssStream.write(('  <link>%s</link>\n') %(escape(self.link)))
         self.rssStream.write(('  <description>%s</description>\n') %(escape(self.description)))
         
+        self.rssStream.write('  <language>en-us</language>\n')
+        self.rssStream.write('  <copyright>Copyright 2003, Apache Software Foundation</copyright>\n')
+        self.rssStream.write(('  <generator>Jakarta Gump : %s</generator>\n') & (escape(setting.version)))
+        self.rssStream.write('  <webMaster>gump@jakarta.apache.org</webMaster>\n')
+        self.rssStream.write('  <docs>http://blogs.law.harvard.edu/tech/rss</docs>\n')
+        self.rssStream.write('  <category domain="http://www.apache.org/namespaces">Gump</category>\n')
+                
         # Optional Fields
         if self.image:
             self.image.serialize(self.rssStream)
         
         # Admin stuff
         self.rssStream.write("""
+    <gump:version>%s</gump:version>
+    
     <admin:generatorAgent rdf:resource="http://cvs.apache.org/viewcvs/jakarta-gump/python/gump/output/rss.py"/>
     <admin:errorReportsTo rdf:resource="mailto:gump@jakarta.apache.org"/>
 
     <sy:updateFrequency>1</sy:updateFrequency>
     <sy:updatePeriod>daily</sy:updatePeriod>
-""")
+""" % setting.version)
             
     def endChannel(self):
         self.rssStream.write('  </channel>\n')
@@ -199,6 +212,7 @@ class RSS:
 
     def startRSS(self):
         self.rssStream.write("""<rss version="2.0"
+  xmlns:gump="http://jakarta.apache.org/gump/" 
   xmlns:admin="http://webns.net/mvcb/" 
   xmlns:dc="http://purl.org/dc/elements/1.1/" 
   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" 
@@ -267,7 +281,7 @@ class RSSSyndicator(Syndicator):
         moduleURL=self.run.getOptions().getResolver().getUrl(module)
         
         moduleRSS=RSS(rssFile,	\
-            Channel('Jakarta Gump : Module ' + escape(module.getName()),	\
+            Channel('Gump : Module ' + escape(module.getName()),	\
                     moduleURL,	\
                     escape(module.getDescription()), \
                     self.gumpImage))
@@ -283,7 +297,7 @@ class RSSSyndicator(Syndicator):
         projectURL=self.run.getOptions().getResolver().getUrl(project)
         
         projectRSS=RSS(rssFile,	\
-            Channel('Jakarta Gump : Project ' + escape(project.getName()),	\
+            Channel('Gump : Project ' + escape(project.getName()),	\
                     projectURL,	\
                     escape(project.getDescription()), \
                     self.gumpImage))
@@ -297,6 +311,9 @@ class RSSSyndicator(Syndicator):
         #
         content=self.getProjectContent(project,self.run)
                         
+        #
+        #
+        #
         item=Item(('%s %s %s') % (project.getName(),project.getStateDescription(),datestr), \
                   projectURL, \
                   content, \
