@@ -1,1 +1,103 @@
-img          { border: 0 }HR { color: #8EB4D9; height: 1px; text-align: center; width: 90%; position:                relative }TABLE.TRANSPARENT	{	border: none; width: 100% }TABLE	{	 border: thin solid #000000; width: 100%  }/* Annotations */.DEBUG    	{	background-color: #000000; color: #FFFFFF }.INFO    	{	background-color: #99CC66 }               .WARNING	{	background-color: #FFFF99 }.ERROR		{	background-color: #CC0000; color: #FFFFFF }/* Note and Warning boxes, (WARN from above) */.NOTE    	{	background-color: #99CC66 }              .WARN		{	background-color: #FFFF99 } /* State */.SUCCESS		{	background-color: #99CC66 }.FAILED 		{	background-color: #CC0000; color: #FFFFFF }.PREREQFAILED	{	background-color: #FFFF99 }.COMPLETE		{	background-color: #00CCFF }.UNSET		{	background-color: #CCCCCC }
+
+body, td
+{
+    margin: 3;
+    padding: 3;
+    font-family: Verdana, Tahoma, Helvetica, Sans-Serif;
+}
+
+th, td
+{ 
+    text-align: left; 
+    vertical-align: top; 
+} 
+
+img
+{
+    border: 0 
+}
+
+HR 
+{ 
+    color: #8EB4D9; 
+    height: 1px; 
+    text-align: center; 
+    width: 100%; 
+    position: relative;
+}
+
+TABLE.TRANSPARENT
+{
+    border: none; 
+    width: 100%
+}
+
+TABLE
+{  
+    border: solid;
+    border-width: 1px;
+    border-color: black;
+    width: 100%
+}
+
+/* Annotations */
+
+.DEBUG
+{
+    background-color: #F8F8F8; 
+}
+
+.INFO
+{
+}
+
+.WARNING
+{
+    background-color: #FFFF99
+}
+
+.ERROR
+{
+    background-color: #CC0000;
+    color: #FFFFFF
+}
+
+/* Note and Warning boxes, (WARN from above) */
+
+.NOTE
+{
+    background-color: #9999FF
+}              
+
+.WARN
+{
+    background-color: #FFFF99
+}
+
+/* State */
+
+.SUCCESS
+{
+    background-color: #99CC66
+}
+
+.FAILED
+{
+    background-color: #CC0000; 
+    color: #FFFFFF
+}
+
+.PREREQFAILED
+{
+    background-color: #FFFF99
+}
+
+.COMPLETE
+{
+    background-color: #00CCFF
+}
+
+.UNSET
+{
+    background-color: #CCCCCC 
+}
