@@ -54,6 +54,7 @@
     <depend project="java_cup"/>
     <depend project="jlex"/>
     <depend project="xml-xalan2-smoketest-tools"/>
+    <depend project="xalan2jdoc"/>
     <work nested="java/build/classes"/>
 
     <home nested="java/build/xalan-j_gump"/>
@@ -69,6 +70,11 @@
     <depend project="dist-xalan2"/>
     <work nested="test/java/build"/>
     <work nested="test/tests/extensions/java/build"/>
+  </project>
+
+  <project name="xalan2jdoc">
+    <home nested="java"/>
+    <jar name="bin/xalan2jdoc.jar"/>
   </project>
 
   <project name="java_cup">
