@@ -62,6 +62,7 @@
     <option project="jakarta-servletapi-4" />
     <option project="javamail"/>
     <option project="jdepend"/>
+    <option project="jsch"/>
     <option project="xml-commons-resolver" />
 
     <home nested="build"/>
@@ -78,6 +79,7 @@
     <jar name="lib/ant-javamail.jar" id="javamail"/>
     <jar name="lib/ant-jdepend.jar" id="jdepend"/>
     <jar name="lib/ant-jmf.jar" id="jmf"/>
+    <jar name="lib/ant-jsch.jar" id="jsch"/>
     <jar name="lib/ant-junit.jar" id="junit"/>
     <jar name="lib/ant-log4j.jar" id="log4j"/>
     <jar name="lib/ant-oro.jar" id="oro"/>
