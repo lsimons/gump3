@@ -1,8 +1,9 @@
 <module name="jakarta-poi">
 
-  <url href="http://jakarta.apache.org/poi/index.html"/>
+  <url href="http://poi.sourceforge.net/"/>
   <description>
-    Java Regular Expression package
+    Ports of file formats based on Microsoft's OLE 2 Compound Document 
+    Format (tm) to pure Java (tm). 
   </description>
 
   <cvs repository="jakarta"/>
@@ -14,8 +15,9 @@
     <depend project="jtidy"/>
     <depend project="jakarta-log4j"/>
 
-    <jar  name="jakarta-poi-@@DATE@@.jar" id="poi"/>
-    <javadoc nested="jakarta-poi-@@DATE@@/docs/api"/>
+    <home nested="build/poi"/>
+    <jar  name="poi.jar" id="poi"/>
+    <jar  name="poi-scratchpad.jar" id="scratchpad"/>
   </project>
 
 </module>
