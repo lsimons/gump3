@@ -1,8 +1,8 @@
 #!/usr/bin/python
 
-# $Header: /home/stefano/cvs/gump/python/gump/build.py,v 1.24 2003/10/14 16:58:43 ajack Exp $
-# $Revision: 1.24 $
-# $Date: 2003/10/14 16:58:43 $
+# $Header: /home/stefano/cvs/gump/python/gump/build.py,v 1.25 2003/10/16 17:25:49 ajack Exp $
+# $Revision: 1.25 $
+# $Date: 2003/10/16 17:25:49 $
 #
 # ====================================================================
 #
@@ -226,8 +226,21 @@ def buildProjects( workspace, sequence, context ):
                         listDirectoryAsWork(pctxt,repository.getGroupDir(module.name), \
                                                 'list_repo_'+project.name) 
                     
-                    elif project.home:
-                        listDirectoryAsWork(pctxt,project.home,'list_'+project.name)                          
+                    else:
+                        #
+                        # List all directories that should've contained
+                        # outputs, to see what is there.
+                        #
+                        dirs=[]
+                        for i in range(0,len(project.jar)):
+                        jar=os.path.normpath(project.jar[i].path)
+                        if jar:
+                            dir=os.path.dirname(jar)
+                            if not dir in dirs and os.path.exists(dir):
+                                listDirectoryAsWork(pctxt,dir,'list_'+project.name+'_'+os.path.basename(dir))
+                                dirs.append(dir)
+                            else
+                                pctxt.addWarning("No such directory (where output is expect) : " + dir)
                 else:
                     pctxt.status=STATUS_SUCCESS  
 

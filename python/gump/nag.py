@@ -93,13 +93,12 @@ def nag(workspace,context,moduleFilterList=None,projectFilterList=None):
                             # :TODO: Something doesn't work w/ this.
                             # if projectFilterList and not pctxt.project in projectFilterList: continue
                             project=Project.list[pname]
-                            if project.nag:
-                                try:
-                                    nagProject(workspace,context,module,mctxt,project,pctxt)
-                                except:
-                                    log.error("Failed to send nag e-mail for project " + pname)
-                            else:
-                                log.error("Project naggable w/ nowhere to nag")   
+                            try:
+                                nagProject(workspace,context,module,mctxt,project,pctxt)
+                            except:
+                                log.error("Failed to send nag e-mail for project " + pname)
+                        else:
+                            log.error("Unknown project " + pname)
                 
                 
 def nagWorkspace(workspace,context):
@@ -122,6 +121,7 @@ def nagProject(workspace,context,module,mctxt,project,pctxt):
     content+=getContent(workspace,pctxt,"Project: " + project.name + "\n"    )
     content+="\n\n\n"
         
+    nags=0
     for nagEntry in project.nag:
         try:
             #
@@ -136,9 +136,23 @@ def nagProject(workspace,context,module,mctxt,project,pctxt):
         
             # Fire ...
             mail(toaddrs,fromaddr,email,workspace.mailserver) 
+            
+            nags+=1
         except:
             log.error("Failed to send nag e-mail for project " + project.name)
             log.error(content)
+            
+    # Belt and braces (nag to us if not nag to them)
+    if not nags:
+        email=EmailMessage(workspace.prefix+': '+module.name+'/'+project.name+' '+stateName(pctxt.status),content)
+        toaddr=workspace.mailinglist
+        fromaddr=workspace.mailinglist
+        
+        # We send to a list, but a list of one is fine..
+        toaddrs=[ workspace.mailinglist ] # :TODO: toaddr -> to users...
+        
+        # Fire ...
+        mail(toaddrs,fromaddr,email,workspace.mailserver) 
     
 def getContent(workspace,context,message=''):
     content=''
@@ -200,8 +214,8 @@ if __name__=='__main__':
   
   nagWorkspace(workspace,context)
   
-  module=Module.list['jakarta-gump']
-  project=Project.list['gump']
+  module=Module.list['krysalis-version']
+  project=Project.list['krysalis-version']
   (mctxt,pctxt)=context.getContextsForProject(project)
   nagProject(workspace,context,module,mctxt,project,pctxt)
   
