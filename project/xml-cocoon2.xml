@@ -25,6 +25,7 @@
     </ant>
 
     <depend project="jakarta-ant" inherit="runtime" version="supplied"/>
+    <depend project="ant-contrib" inherit="runtime" version="supplied"/>
     <depend project="xml-xerces" version="supplied"/>
     <depend project="xml-xalan2" version="supplied"/>
     <depend project="excalibur-cli" version="supplied"/>
