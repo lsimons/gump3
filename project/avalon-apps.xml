@@ -7,32 +7,6 @@
 
     <cvs repository="avalon"/>
 
-    <project name="avalon-apps-demo">
-        <package>org.apache.avalon.demos</package>
-
-        <mkdir dir="demo/build/classes"/>
-        <ant basedir="demo"/>
-
-        <depend project="junit"/>
-        <depend project="ant"/>
-        <depend project="xml-xerces" id="parser" runtime="true"/>
-        <depend project="xml-xalan2" id="transformer" runtime="true"/>
-        <option project="checkstyle" inherit="runtime"/>
-        <depend project="avalon"/>
-        <depend project="avalon-phoenix" inherit="all"/>
-        <depend project="avalon-cornerstone"/>
-        <depend project="incubator-altrmi" runtime="true"/>
-
-        <home nested="demo"/>
-
-        <work nested="demo/build/classes"/>
-
-        <jar name="build/lib/avalon-demo-@@DATE@@.jar"/>
-
-        <nag from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"
-                to="dev@avalon.apache.org"/>
-    </project>
-
     <project name="avalon-apps-ftpserver">
         <package>org.apache.avalon.ftpserver</package>
 
@@ -76,7 +50,7 @@
                 to="dev@avalon.apache.org"/>
     </project>
 
-<!--    
+<!--
     <project name="avalon-apps-sevak">
         <package>org.apache.avalon.sevak</package>
 
@@ -103,28 +77,6 @@
                 to="dev@avalon.apache.org"/>
     </project>
     -->
-    <project name="avalon-apps-simpleserver">
-        <package>org.apache.avalon.simpleserver</package>
-
-        <ant basedir="simpleserver"/>
-
-        <depend project="junit"/>
-        <depend project="ant"/>
-        <depend project="xml-xerces"/>
-        <depend project="avalon"/>
-        <depend project="avalon-phoenix" inherit="all"/>
-        <depend project="avalon-cornerstone"/>
-        <depend project="excalibur-thread"/>
-
-        <option project="checkstyle" inherit="runtime"/>
-
-        <home nested="simpleserver"/>
-
-        <jar name="build/lib/simpleserver-@@DATE@@.sar"/>
-
-        <nag from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"
-                to="dev@avalon.apache.org"/>
-    </project>
 
 </module>
 
