@@ -12,7 +12,7 @@
   <project name="jetty">
     <package>org.mortbay</package>
 
-    <ant target="jetty1.4.jar"/>
+    <ant target="jetty.jar"/>
 
     <depend project="ant"/>
     <depend project="xml-xerces"/>
