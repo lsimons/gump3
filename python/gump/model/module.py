@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/model/module.py,v 1.35 2004/03/04 17:26:08 ajack Exp $
-# $Revision: 1.35 $
-# $Date: 2004/03/04 17:26:08 $
+# $Header: /home/stefano/cvs/gump/python/gump/model/module.py,v 1.36 2004/03/05 23:42:22 ajack Exp $
+# $Revision: 1.36 $
+# $Date: 2004/03/05 23:42:22 $
 #
 # ====================================================================
 #
@@ -90,7 +90,7 @@ class ModuleCvs(ModelObject):
         root=':' + str(self.repository.getMethod()) + ':'
         # Add the user (if set)
         if self.repository.hasUser(): root+=str(self.repository.getUser())
-        # Forge the hostname
+        # Craft the hostname
         if self.repository.hasHostname():
             root+='@'
             if self.hostPrefix: root+=self.hostPrefix+'.'      
@@ -101,7 +101,7 @@ class ModuleCvs(ModelObject):
                 root+='2401'
         root+=str(self.repository.getPath())
         
-        # If a subdirect
+        # If a subdirectory
         if self.dir: root+='/'+str(self.dir)
 
         return root
@@ -134,6 +134,15 @@ class ModuleCvs(ModelObject):
     def getModule(self):
         return str(self.module)
          
+    def getViewUrl(self):
+        url=None
+        if self.repository.hasCvsWeb():
+            if self.dir and str(self.dir):
+                 url=self.repostory.getCvsWeb()+'/'+str(self.dir)+'/'
+            else:
+                 url=self.module.getName()+'/'+str(self.dir)+'/'
+        return url
+        
 class ModuleSvn(ModelObject):
     def __init__(self,xml,repository):
         ModelObject.__init__(self,xml)
@@ -156,6 +165,9 @@ class ModuleSvn(ModelObject):
         
     def getDir(self):
         return self.dir
+        
+    def getViewUrl(self):
+        return self.getRootUrl()
          
 class ModuleJars(ModelObject):
     def __init__(self,xml,repository):
@@ -533,8 +545,14 @@ class Module(NamedModelObject, Statable, Resultable):
     
     def getMetadataLocation(self):
         # I think the bogus 'anonymous' module, needs this safety check
-        if self.xml: return str(self.xml.href)
+        if self.xml: return str(self.xml.href)        
         
+    def getMetadataViewUrl(self):
+        location=self.getMetadataLocation()
+        if location:
+            if location.startswith('http'): return location
+            # :TODO: Make configurable
+            return 'http://cvs.apache.org/viewcvs.cgi/gump/' + location
         
     def hasCvs(self):
         if hasattr(self,'cvs') and self.cvs: return 1
@@ -560,6 +578,12 @@ class Module(NamedModelObject, Statable, Resultable):
         
     def getRepository(self):
         return self.repository
+    
+    def getViewUrl(self):
+        if self.hasCvs():
+            return self.cvs.getViewUrl()
+        elif self.hasSvn():
+            return self.svn.getViewUrl()            
         
     def getUpdateCommand(self,exists=0):
         if self.hasCvs():

@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/model/project.py,v 1.59 2004/03/04 17:26:08 ajack Exp $
-# $Revision: 1.59 $
-# $Date: 2004/03/04 17:26:08 $
+# $Header: /home/stefano/cvs/gump/python/gump/model/project.py,v 1.60 2004/03/05 23:42:22 ajack Exp $
+# $Revision: 1.60 $
+# $Date: 2004/03/05 23:42:22 $
 #
 # ====================================================================
 #
@@ -273,7 +273,19 @@ class Project(NamedModelObject, Statable, Resultable):
     def getMetadataLocation(self):
         if self.xml.href and str(self.xml.href): return self.xml.href
         return self.getModule().getMetadataLocation()
-        
+                     
+    def getMetadataViewUrl(self):
+        if self.xml.href and str(self.xml.href):
+            location=str(self.xml.href)
+            if location.startswith('http'): return location
+            # :TODO: Make configurable
+            return 'http://cvs.apache.org/viewcvs.cgi/gump/' + location
+        return self.getModule().getMetadataViewUrl()
+                        
+    def getViewUrl(self):
+        # :TODO: if a basedir the offset?
+        return self.getModule().getViewUrl()
+            
     def addJar(self,jar):
         self.jars[jar.getName()]=jar
         

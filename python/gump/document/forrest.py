@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/forrest.py,v 1.91 2004/03/04 17:26:09 ajack Exp $
-# $Revision: 1.91 $f
-# $Date: 2004/03/04 17:26:09 $
+# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/forrest.py,v 1.92 2004/03/05 23:42:22 ajack Exp $
+# $Revision: 1.92 $f
+# $Date: 2004/03/05 23:42:22 $
 #
 # ====================================================================
 #
@@ -924,6 +924,11 @@ class ForrestDocumenter(Documenter):
                 
         descriptionSection.createParagraph().createRaw(description)
 
+        metadataLocation=module.getMetadataLocation()
+        metadataUrl=module.getMetadataViewUrl()
+        if metadataLocation and metadataUrl:  
+            descriptionSection.createParagraph('Gump Metadata: ').createFork(metadataUrl, metadataLocation)
+            
         if module.cause and not module==module.cause:
              self.insertTypedLink( module.cause, module, \
                  document.createNote( "This module failed due to: "))     
@@ -939,8 +944,7 @@ class ForrestDocumenter(Documenter):
         if module.cause and not module==module.cause:
              self.insertTypedLink( module.cause, module, stateList.createEntry( "Root Cause: ")) 
              
-        self.documentAnnotations(document,module)
-                
+        self.documentAnnotations(document,module)                
         self.documentServerLinks(document,module,workspace)     
         
         projectsSection=document.createSection('Projects') 
@@ -1141,8 +1145,9 @@ class ForrestDocumenter(Documenter):
             document.createWarning('This project does not utilize Gump nagging.')  
                              
         metadataLocation=project.getMetadataLocation()
-        if metadataLocation:  
-            detailsList.createEntry('Gump Metadata: ', metadataLocation)
+        metadataUrl=project.getMetadataViewUrl()
+        if metadataLocation and metadataUrl:  
+            detailsList.createEntry('Gump Metadata: ').createFork(metadataUrl, metadataLocation)
                              
         # Note: Leverages previous extraction from project statistics DB
         stats=project.getStats()
@@ -1504,7 +1509,7 @@ class ForrestDocumenter(Documenter):
                         # Write out the 'tail'
                         #
                         workSection	\
-                            .createSection(workTypeName(work.type) + ' : ' + work.command.name)	\
+                            .createSection('Tail of ' + workTypeName(work.type) + ' : ' + work.command.name)	\
                             .createSource(tail)
                 
         

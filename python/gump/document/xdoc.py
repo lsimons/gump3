@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/xdoc.py,v 1.15 2004/03/03 22:09:31 ajack Exp $
-# $Revision: 1.15 $
-# $Date: 2004/03/03 22:09:31 $
+# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/xdoc.py,v 1.16 2004/03/05 23:42:22 ajack Exp $
+# $Revision: 1.16 $
+# $Date: 2004/03/05 23:42:22 $
 #
 # ====================================================================
 #
@@ -311,8 +311,10 @@ class XDocParagraph(XDocPiece):
         return self.storePiece(XDocStrong(self.createSubContext(transient),text))
 
     def createLink(self,href,text=None):
-        return self.storePiece(XDocLink(self.createSubContext(),href,text))              
+        return self.storePiece(XDocLink(self.createSubContext(),href,text))                    
         
+    def createFork(self,href,text=None):
+        return self.storePiece(XDocFork(self.createSubContext(),href,text))  
       
 class XDocComment(XDocPiece):
     def __init__(self,context,text):
