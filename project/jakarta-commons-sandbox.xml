@@ -109,17 +109,6 @@
     <javadoc nested="jjar/dist/docs/api"/>
   </project>
 
-  <project name="commons-graph">
-    <package>org.apache.commons.graph</package>
-    <description>Jakarta Graph Utilities</description>
-    <ant basedir="graph" target="dist"/>
-    <depend project="jakarta-ant"/>
-    <depend project="xml-xerces"/>
-    <depend project="commons-collections"/>
-    <jar name="graph/dist/commons-graph.jar"/>
-    <javadoc nested="graph/dist/docs/api"/>
-  </project>
-
   <project name="commons-lang">
     <package>org.apache.commons.lang</package>
     <description>utilities for the classes that are in java.lang's hierarchy</description>
