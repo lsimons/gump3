@@ -21,7 +21,7 @@
     <depend project="javacc" />
     <depend project="jakarta-log4j" runtime="true"/>
     <depend project="xjavadoc" inherit="jars" runtime="true"/>
-    <depend project="commons-logging" />
+    <depend project="commons-logging" runtime="true" />
     <depend project="junit"/>
   </project>
 
