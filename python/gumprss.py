@@ -1,6 +1,7 @@
 import re, time, urllib
 from xml.sax.saxutils import escape
-from xml.dom import minidom
+from xml.sax import parse
+from xml.sax.handler import ContentHandler
 
 gumproot='http://cvs.apache.org/builds/gump/'
 summary=re.compile('<td>\s(\d\d:\d\d:\d\d)\s</td>\s' +
@@ -9,11 +10,19 @@ summary=re.compile('<td>\s(\d\d:\d\d:\d\d)\s</td>\s' +
 TZ='%+.2d:00' % (-time.timezone/3600)
 
 module={}
-workspace=minidom.parse('work/merge.xml')
-for project in workspace.getElementsByTagName('project'):
-  module[project.getAttribute('name')]=project.getAttribute('module')
-logdir=workspace.documentElement.getAttribute('logdir')
-latest=logdir + '/index.html'
+class Workspace(ContentHandler):
+  logdir='.'
+  def startElement(self, name, attrs):
+    if name=='workspace':
+      attrs=dict(attrs)
+      if 'logdir' in attrs:
+	Workspace.logdir=attrs['logdir']
+    if name=='project':
+      attrs=dict(attrs)
+      if 'name' in attrs and 'module' in attrs:
+	module[attrs['name']]=attrs['module']
+
+parse(open('work/merge.xml'),Workspace())
 
 def analyze(file,pstat,date):
   print file
@@ -29,13 +38,14 @@ builds=urllib.urlopen(gumproot).read()
 for date in re.findall('<a href="([\d-]*)/">',builds):
   analyze(gumproot+date,pstat,date)
 
-analyze(latest,pstat,time.strftime('%Y-%m-%d'))
+today=time.strftime('%Y-%m-%d')
+analyze(Workspace.logdir+'/index.html',pstat,today)
 
 result=pstat.values()
 result.sort()
 result.reverse()
 
-gumprss=open(logdir + '/index.rss','w')
+gumprss=open(Workspace.logdir + '/index.rss','w')
 gumprss.write("""<rss version="2.0"
   xmlns:admin="http://webns.net/mvcb/" 
   xmlns:dc="http://purl.org/dc/elements/1.1/" 
@@ -57,7 +67,10 @@ for (date,time,status,url,project,first) in result:
   if first: continue
   link=gumproot + date + '/' + url
   print link
-  data=urllib.urlopen(link).read()
+  if date==today:
+    data=urllib.urlopen(Workspace.logdir+'/'+url).read()
+  else:
+    data=urllib.urlopen(link).read()
   content=re.split('</?XMP>',data)
   if len(content)<2: content=re.split('</?p>',data)
   content=escape('\n'.join((content+[''])[1].splitlines()[-25:]))
