@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/Attic/logic.py,v 1.10 2003/09/29 23:54:50 ajack Exp $
-# $Revision: 1.10 $
-# $Date: 2003/09/29 23:54:50 $
+# $Header: /home/stefano/cvs/gump/python/gump/Attic/logic.py,v 1.11 2003/09/30 13:46:05 ajack Exp $
+# $Revision: 1.11 $
+# $Date: 2003/09/30 13:46:05 $
 #
 # ====================================================================
 #
@@ -280,8 +280,10 @@ def getScriptCommand(workspace,module,project,script,context):
 def getOutputsList(project):
     outputs=[]
     for i in range(0,len(project.jar)):
-        jar=os.path.normpath(project.jar[i].path)
-        outputs.append(jar)        
+        # :TODO: Hack to avoid a crash
+        if project.jar[i].path:
+            jar=os.path.normpath(project.jar[i].path)
+            outputs.append(jar)        
     return outputs
                    
 def hasOutputs(project):
