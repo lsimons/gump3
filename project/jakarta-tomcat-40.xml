@@ -34,6 +34,8 @@
 
     <home nested="build"/>
     <jar name="server/lib/catalina.jar"/>
+    <nag to="tomcat-dev@jakarta.apache.org"
+         from="Craig McClanahan &lt;craigmcc@apache.org&gt;"/>
   </project>
   
   <project name="jakarta-tomcat-4.0">
