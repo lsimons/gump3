@@ -12,7 +12,8 @@
     <package>bsh</package>
 
     <ant target="dist">
-      <property name="javacc-lib" project="javacc" path="bin/lib/JavaCC.zip"/>
+      <property name="jjtree.notRequired" value="1"/>
+      <property name="javacc.notRequired" value="1"/>
       <property name="version" value="@@DATE@@"/>
     </ant>
 
