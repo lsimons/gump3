@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/utils/Attic/xmlutils.py,v 1.2 2003/11/18 20:58:18 ajack Exp $
-# $Revision: 1.2 $
-# $Date: 2003/11/18 20:58:18 $
+# $Header: /home/stefano/cvs/gump/python/gump/utils/Attic/xmlutils.py,v 1.3 2003/11/19 19:45:32 ajack Exp $
+# $Revision: 1.3 $
+# $Date: 2003/11/19 19:45:32 $
 #
 # ====================================================================
 #
@@ -189,7 +189,7 @@ class GumpXMLObject(object):
       return attr # :TODO: Get this checked out
     except AttributeError:
       # It is OK if people extend the GOM...
-      log.info("No metadata related to " +
+      log.debug("No metadata related to " +
                 "name '%s' on %s" % \
                 (name, self.__class__.__name__))
 
