@@ -19,6 +19,7 @@
     <depend project="jakarta-log4j"/>
     <depend project="jakarta-bcel"/>
     <depend project="junit"/>
+    <depend project="commons-codec" />
     <depend project="commons-logging" />
     <depend project="xml-axis"/>
     <option project="javamail"/>
