@@ -73,6 +73,7 @@
     <depend project="jakarta-ant"/>
     <depend project="xml-xerces"/>
     <depend project="commons-digester"/>
+    <depend project="commons-logging"/>
     <depend project="jmx"/>
 
     <jar name="modeler/dist/commons-modeler.jar"/>
