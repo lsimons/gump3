@@ -411,7 +411,7 @@ class GumpEngine:
             mkdirs=0
             for mkdir in project.xml.mkdir:                             
                 try:
-                    self.performMkdir(project,mkdir,mkdirs)
+                    self.performMkDir(project,mkdir,mkdirs)
                     mkdirs+=1
                     project.changeState(STATE_SUCCESS)
                 except:
