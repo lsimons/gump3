@@ -70,9 +70,9 @@ if __name__=='__main__':
   if len(sys.argv)>1 :
     ws=sys.argv[1]
   else:
-    ws=default.workspace
+    ws=gumpPath(default.workspace)
 
-  workspace=load(gumpPath(ws))
+  workspace=load(ws)
 
   try:
     f=open(dir.work+'/'+default.merge, 'w')

@@ -163,7 +163,7 @@ if __name__=='__main__':
   if len(sys.argv)>1 :
     ws=sys.argv[1]
   else:
-    ws=default.workspace
+    ws=gumpPath(default.workspace)
     
   if len(sys.argv)>2 :
     ps=sys.argv[2]
@@ -171,7 +171,7 @@ if __name__=='__main__':
     ps=default.project    
 
   # get parsed workspace definition
-  workspace=load( gumpPath(ws) )
+  workspace=load(ws)
   # print info on the definition
   dumpDeps(workspace, ps);          
   sys.exit(0)
