@@ -7,7 +7,7 @@
 
   <cvs repository="j2eeunit"/>
 
-  <ant buildfile="build/build.xml">
+  <ant buildfile="build/build.xml" target="all">
     <property name="servlet.api" value="23"/>
   </ant>
 
@@ -15,5 +15,7 @@
   <depend project="xml-xerces"/>
   <depend project="jakarta-servletapi-4"/>
   <depend project="junit"/>
+  <depend project="xml-stylebook2"/>
+  <depend project="xml-xalan2"/>
 
 </project>
