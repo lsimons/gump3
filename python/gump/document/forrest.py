@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/forrest.py,v 1.119 2004/03/29 19:34:19 ajack Exp $
-# $Revision: 1.119 $f
-# $Date: 2004/03/29 19:34:19 $
+# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/forrest.py,v 1.120 2004/03/29 21:19:45 ajack Exp $
+# $Revision: 1.120 $f
+# $Date: 2004/03/29 21:19:45 $
 #
 # ====================================================================
 #
@@ -119,6 +119,7 @@ class ForrestDocumenter(Documenter):
 
         workspace=run.getWorkspace()
         gumpSet=run.getGumpSet()
+        runOptions=run.getOptions()
         
         # Document...
         self.documentEnvironment(run,workspace)    
@@ -127,8 +128,15 @@ class ForrestDocumenter(Documenter):
             self.documentStatistics(run,workspace,gumpSet)
             self.documentXRef(run,workspace,gumpSet)
 
-        # Launch Forrest...
-        return self.executeForrest(workspace)
+        #
+        # Launch Forrest, if we aren't just leaving xdocs...
+        #
+        ret=0
+        
+        if not runOptions.isXDoc():
+            ret=self.executeForrest(workspace)
+            
+        return ret
 
     #####################################################################
     #
@@ -257,7 +265,11 @@ class ForrestDocumenter(Documenter):
         
         document=XDocDocument('Workspace',	\
                 self.resolver.getFile(workspace, 'environment.xml'))       
-                
+                        
+        envSection=document.createSection('Gump Environment')
+        envSection.createParagraph(
+            """The environment that this Gump run was within.""")            
+        
         #self.documentFileList(document,environment,'Environment-level Files')
         self.documentWorkList(document,environment,'Environment-level Work')
      
@@ -501,45 +513,48 @@ class ForrestDocumenter(Documenter):
         #
         # notesLog.xml -- Notes log
         #
-#        document=XDocDocument('Annotations',	\
-#                self.resolver.getFile(workspace,'notesLog'))        
-#        self.documentSummary(document, workspace.getProjectSummary())
-#        
-#        notesSection=document.createSection('Negative Annotations')
-#        notesSection.createParagraph(
-#            """Entities with errors and warnings.""")
-#            
-#        ncount=0
-#        for module in gumpSet.getModuleSequence():
-#            if not gumpSet.inModuleSequence(module): continue               
-#                                
-#            moduleSection=document.createSection('Module : ' + module.getName())
-#        
-#            # Link to the module
-#            self.insertLink(module,workspace,moduleSection.createParagraph())  
-#                
-#            if not module.containsNasties():  
-#            
-#                # Display the annotations
-#                self.documentAnnotations(moduleSection,project,1)     
-#                
-#            for project in module.getProjects():
-#                if not gumpSet.inProjectSequence(project): continue               
-#                if not project.containsNasties(): continue
-#            
-#                projectSection=moduleSection.createSection('Project : ' + project.getName())
-#        
-#                # Link to the project
-#                self.insertLink(project,workspace,projectSection.createParagraph())    
-#            
-#                # Display the annotations
-#                self.documentAnnotations(projectSection,project,1)     
-#        
-#                ncount+=1
-#                
-#        if not ncount: notesTable.createLine('None')
-#        
-#        document.serialize()
+        document=XDocDocument('Annotations',	\
+                self.resolver.getFile(workspace,'notesLog'))        
+        self.documentSummary(document, workspace.getProjectSummary())
+        
+        notesSection=document.createSection('Negative Annotations')
+        notesSection.createParagraph(
+            """Entities with errors and warnings.""")
+            
+        ncount=0
+        for module in gumpSet.getModuleSequence():
+            if not gumpSet.inModuleSequence(module): continue               
+                                
+            moduleSection=None
+ 
+            if not module.containsNasties():              
+                moduleSection=document.createSection('Module : ' + module.getName())                
+                # Link to the module
+                self.insertLink(module,workspace,moduleSection.createParagraph()) 
+            
+                # Display the annotations
+                self.documentAnnotations(moduleSection,project,1)     
+                
+            for project in module.getProjects():
+                if not gumpSet.inProjectSequence(project): continue               
+                if not project.containsNasties(): continue
+            
+                if not moduleSection:				
+                    moduleSection=document.createSection('Module : ' + module.getName())
+
+                projectSection=moduleSection.createSection('Project : ' + project.getName())
+        
+                # Link to the project
+                self.insertLink(project,workspace,projectSection.createParagraph())    
+            
+                # Display the annotations
+                self.documentAnnotations(projectSection,project,1)     
+        
+                ncount+=1
+                
+        if not ncount: notesTable.createLine('None')
+        
+        document.serialize()
            
         #
         # ----------------------------------------------------------------------
