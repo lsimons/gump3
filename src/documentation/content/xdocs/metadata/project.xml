@@ -33,8 +33,10 @@
     a project definition fall into three different "groups", each optional:</p>
 
     <ul>
-    <li>Build instructions: &lt;ant&gt; and &lt;script&gt;.  Describes how to
-    produce the outputs from the inputs.</li>
+    <li><link href="builder.html">Build instructions</link>:
+    &lt;ant&gt;, &lt;nant&gt;, &lt;maven&gt;, &lt;configure&gt;,
+    &lt;make&gt; and &lt;script&gt;.<br/>
+          Describes how to produce the outputs from the inputs.</li>
     <li>Inputs: &lt;depend&gt;, &lt;option&gt;, and &lt;work&gt;.  Describes
     where to find the inputs (primarily jar files, but can be directories and
     files).</li>
@@ -60,12 +62,12 @@
       </tr>
       <tr>
         <td>target</td>
-        <td>Override the <link href="ant.html">ant</link> target to be used.</td>
+        <td>Override the <link href="builder.html#ant">ant</link> target to be used.</td>
         <td>No</td>
       </tr>
       <tr>
         <td>buildfile</td>
-        <td>Override the <link href="ant.html">ant</link> build file to be used.</td>
+        <td>Override the <link href="builder.html#ant">ant</link> build file to be used.</td>
         <td>No</td>
       </tr>
       <tr>
@@ -81,47 +83,6 @@
     </table>
 
     <warning>vm is not currently implemented</warning>
-
-    <section><title>ant</title>
-      <p>Identifies this project as "buildable", and specifies the
-      target to build and the properties to be passed to ant.  The full
-      description of this XML element can be found
-      <link href="ant.html">here</link></p>
-
-      <p><link href="http://ant.apache.org/">Apache Ant</link> is the
-      defacto build tool used by a large number of Open Source Java
-      projects.</p>
-    </section>
-
-    <section><title>script</title>
-      <p>Identifies this project as "buildable", and specifies the
-      script to be executed in order to make this happen.  The assumption
-      is that the script can be invoked in a platform independent manner,
-      though the contents of the script may be platform specific.
-      Specifically, if the name of the script is "name", it will be
-      invoked as follows:</p>
-
-      <p>At the present time, the only use of this is during the bootstrap
-      process for Ant.</p>
-
-      <ul>
-        <li>On Windows/batch, "call .\name.bat"</li>
-        <li>On Unix/bash, "./name.sh"</li>
-      </ul>
-
-      <table>
-        <tr>
-          <th>Attribute</th>
-          <th>Description</th>
-          <th>Required?</th>
-        </tr>
-        <tr>
-          <td>name</td>
-          <td>The name of the script to execute.</td>
-          <td>Yes</td>
-        </tr>
-      </table>
-    </section>
 
     <section><title>depend</title>
       <p>Specifies the name of a required prerequisite project.  If a

@@ -45,7 +45,7 @@
   		</section>  	
 	  	<section><title>Let Gump set your final jar name</title>
 	  		<p>Gump runs set @@DATE@@, which ought be set into the
-	  		jar name. Use a <link href="ant.html#property">property</link> for this.
+	  		jar name. Use a <link href="builder.html#property">property</link> for this.
   			</p>
 	  	</section>
 	  	<section><title>Example</title>	  		

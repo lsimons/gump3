@@ -28,6 +28,15 @@
 
 <body>
 
+  <section><title>More on builders</title>
+
+    <p>Gump supports building projects with a wide variety of tools.
+    These tools are described using their own elements, all of them
+    support a common set of attributes and nested elements.  The
+    common structure is described in the next section, followed by
+    tool-specific sections later on.</p>
+  </section>
+
   <section><title>Generic Builder</title>
     <p>Specifies the arguments to be passed to all builders</p>
 
@@ -41,21 +50,24 @@
         <td>basedir</td>
         <td>The base directory in which the build is executed.  The generated
           build script will make this directory the current working directory
-          prior to invoking Ant.
+          prior to invoking the real builder.
         </td>
         <td>No. Defaults to <em>project basedir</em>.</td>
       </tr>
-	  <tr>
-        <td>debug</td>
-        <td>Set to "true" to turn on ant debugging.</td>
+      <tr>
+        <td>debug (Ant/Maven/NAnt only)</td>
+        <td>Set to "true" to turn on debugging.</td>
         <td>No</td>
       </tr>
     </table>
     
-    <warning>Only Python Gump supports &lt;ant debug=&quot;true&quot;</warning>
-     
-    <section><title>property</title>
-      <p>Property overrides to be passed to the Ant command</p>
+    <section><title>property/arg</title>
+
+      <p>Java Property overrides to be passed to the Ant/Maven command
+      or command line arguments passed to Script/Configure/Make.  The
+      Java builders Ant and Maven as well as NAnt use &lt;property&gt;
+      while Script, Configure and Make use &lt;arg&gt; as the name of
+      the nested element.</p>
 
       <table>
         <tr>
@@ -112,7 +124,9 @@
       <p>This is equivalent to a property reference="jarpath" as well as a
       dependency element in the enclosing project.  This was introduced as
       that has become a common enough practice that it makes sense to
-      introduce this element</p>
+      introduce this element.</p>
+
+      <p>Depend is only supported by the Java builders Ant and Maven.</p>
 
       <table>
         <tr>
@@ -148,7 +162,7 @@
 
     <section><title>jvmarg</title>
       <p>Additional command line parameters to pass to the Java
-          Virtual Machine running Ant.</p>
+      Virtual Machine running Ant or Maven.</p>
 
       <table>
         <tr>
@@ -167,6 +181,9 @@
 
     <section><title>sysproperty</title>
       <p>Java system property to be passed to the Java Virtual Machine.</p>
+
+      <p>Sysproperty is only supported by the Java builders Ant and
+      Maven.</p>
 
       <table>
         <tr>
@@ -219,6 +236,176 @@
       </table>
     </section>
 
+  </section>
+
+  <section><title>script</title>
+
+    <p>Specifies a script to be executed in order to make build a
+    project.</p>
+
+    <p>The assumption is that the script can be invoked in a platform
+    independent manner, though the contents of the script may be
+    platform specific.  Specifically, if the name of the script is
+    "name" and no file with the name "name" exists in the project's
+    basedir, it will be invoked as follows:</p>
+
+    <ul>
+      <li>On Windows/batch, "call .\name.bat"</li>
+      <li>On Unix/bash, "./name.sh"</li>
+    </ul>
+
+    <table>
+      <tr>
+        <th>Attribute</th>
+        <th>Description</th>
+        <th>Required?</th>
+      </tr>
+      <tr>
+        <td>name</td>
+        <td>The name of the script to execute.</td>
+        <td>Yes</td>
+      </tr>
+    </table>
+
+    <p>Additional command line arguments can be specified using nested
+    &lt;arg&gt; elements.  If the name of an arg start with "--" or
+    doesn't start with "-", then a single argument gets created from
+    one &lt;arg&gt; element, using "=" to join name and value.  If it
+    starts with a single "-", two arguments get created, one for the
+    name and one for the value.  For example:</p>
+
+    <source>
+      &lt;script name="foo"&gt;
+        &lt;arg name="--double-dash" value="1"/&gt;
+        &lt;arg name="-single-dash" value="2"/&gt;
+        &lt;arg name="no-dash" value="3"/&gt;
+      &lt;/script&gt;
+    </source>
+      <p>becomes</p>
+    <source>
+      ./foo --double-dash=1 -single-dash 2 no-dash=3
+    </source>
+  </section>
+
+  <section><title>ant</title>
+    <p>Specifies the arguments to be passed to <fork
+    href="http://ant.apache.org/">Ant</fork>.</p>
+
+    <table>
+      <tr>
+        <th>Attribute</th>
+        <th>Description</th>
+        <th>Required?</th>
+      </tr>
+      <tr>
+        <td>buildfile</td>
+        <td>The ant build file to execute.  Defaults to
+        <strong>build.xml</strong>.
+        </td>
+        <td>No Defaults to <strong>build.xml</strong>.</td>
+      </tr>
+      <tr>
+        <td>target</td>
+        <td>The ant target to invoke. <em>This can be a comma
+        separated list. Spaces are preserved.</em></td>
+        <td>No. Defaults to the default target defined by the build file.</td>
+      </tr>
+    </table>
+  </section>
+
+  <section><title>maven</title>
+    <p>Specifies the arguments to be passed to <fork
+    href="http://maven.apache.org/">Maven</fork>.</p>
+    
+    <p>The <fork href="http://maven.apache.org/">Maven</fork>
+    component of Gump (&lt;maven&gt;) uses a
+    <strong>pre-installed</strong> version of <fork
+    href="http://maven.apache.org">Maven</fork>, it does
+    <strong>NOT</strong> bootstrap Maven from CVS HEAD, yet. This is
+    hopefully something that will be added in the future.</p>
+    
+    <p>Gump generates a <strong>build.properties</strong> file for
+    Maven, in which it specifies the jar <link
+    href="http://maven.apache.org/reference/user-guide.html#Overriding_Stated_Dependencies">overrides</link>,
+    and also any <link href="project.html#property">properties</link>
+    that are passes into the &lt;maven element.</p>
+    
+    <p>Currently Gump does <strong>not</strong> read the Maven
+    project.xml (POM) to attempt to determine dependencies, the Gump
+    descriptor needs to have them. The 'gump' goal in Maven ought
+    generate such a file.</p>
+    
+    <table>
+      <tr>
+        <th>Attribute</th>
+        <th>Description</th>
+        <th>Required?</th>
+      </tr>
+      <tr>
+        <td>goal</td>
+        <td>The Maven goal to invoke.  <em>This can be a comma
+        separated list. Spaces are preserved.</em></td>
+        <td>No. Defaults to <strong>jar</strong>.</td>
+      </tr>
+    </table>
+  </section>
+
+  <section><title>configure</title>
+
+    <p>Is a specialized version of <link href="#script">script</link>
+    with the fixed script name of "configure".</p>
+
+  </section>
+
+  <section><title>make</title>
+
+    <p>Specifies the arguments to be passed to make.</p>
+
+    <table>
+      <tr>
+        <th>Attribute</th>
+        <th>Description</th>
+        <th>Required?</th>
+      </tr>
+      <tr>
+        <td>makefile</td>
+        <td>The make file to execute.  Defaults to <strong>Makefile</strong>.
+        </td>
+        <td>No Defaults to <strong>Makefile</strong>.</td>
+      </tr>
+      <tr>
+        <td>target</td>
+        <td>The make target to invoke. <em>This can be a comma
+        separated list. Spaces are preserved.</em></td>
+        <td>No. Defaults to <strong>ALL</strong>.</td>
+      </tr>
+    </table>
+  </section>
+
+  <section><title>nant</title>
+    <p>Specifies the arguments to be passed to <fork
+    href="http://nant.sourceforge.org/">NAnt</fork>.</p>
+
+    <table>
+      <tr>
+        <th>Attribute</th>
+        <th>Description</th>
+        <th>Required?</th>
+      </tr>
+      <tr>
+        <td>buildfile</td>
+        <td>The NAnt build file to execute.  Defaults to
+        <strong>NAnt.build</strong>.
+        </td>
+        <td>No Defaults to <strong>NAnt.build</strong>.</td>
+      </tr>
+      <tr>
+        <td>target</td>
+        <td>The NAnt target to invoke. <em>This can be a comma
+        separated list. Spaces are preserved.</em></td>
+        <td>No. Defaults to the default target defined by the build file.</td>
+      </tr>
+    </table>
   </section>
 
 </body>

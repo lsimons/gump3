@@ -82,6 +82,7 @@ class Project(NamedModelObject, Statable, Resultable, Dependable, Positioned):
     	self.script=None
         self.configure = None
         self.make = None
+        self.builder = []
 
     	self.works=[]
     	self.mkdirs=[]
@@ -364,6 +365,7 @@ class Project(NamedModelObject, Statable, Resultable, Dependable, Positioned):
         # Import any <ant part [if not packaged]
         if self.hasDomChild('ant') and not packaged:
             self.ant = Ant(self.getDomChild('ant'),self)
+            self.builder.append(self.ant)
             
             # Copy over any XML errors/warnings
             # :TODO:#1: transferAnnotations(self.xml.ant, self)
@@ -371,6 +373,7 @@ class Project(NamedModelObject, Statable, Resultable, Dependable, Positioned):
         # Import any <nant part [if not packaged]
         if self.hasDomChild('nant') and not packaged:
             self.nant = NAnt(self.getDomChild('nant'),self)
+            self.builder.append(self.nant)
             
             # Copy over any XML errors/warnings
             # :TODO:#1: transferAnnotations(self.xml.nant, self)
@@ -378,6 +381,7 @@ class Project(NamedModelObject, Statable, Resultable, Dependable, Positioned):
         # Import any <maven part [if not packaged]
         if self.hasDomChild('maven') and not packaged:
             self.maven = Maven(self.getDomChild('maven'),self)
+            self.builder.append(self.maven)
             
             # Copy over any XML errors/warnings
             # :TODO:#1: transferAnnotations(self.xml.maven, self)
@@ -385,6 +389,7 @@ class Project(NamedModelObject, Statable, Resultable, Dependable, Positioned):
         # Import any <script part [if not packaged]
         if self.hasDomChild('script') and not packaged:
             self.script = Script(self.getDomChild('script'),self)
+            self.builder.append(self.script)
             
             # Copy over any XML errors/warnings
             # :TODO:#1: transferAnnotations(self.xml.script, self)
@@ -392,13 +397,15 @@ class Project(NamedModelObject, Statable, Resultable, Dependable, Positioned):
         # Import any <nant part [if not packaged]
         if self.hasDomChild('make') and not packaged:
             self.make = Make(self.getDomChild('make'),self)
-            
+            self.builder.append(self.make)
+
             # Copy over any XML errors/warnings
             # :TODO:#1: transferAnnotations(self.xml.make, self)
         
         # Import any <nant part [if not packaged]
         if self.hasDomChild('configure') and not packaged:
             self.configure = Configure(self.getDomChild('configure'),self)
+            self.builder.append(self.configure)
             
             # Copy over any XML errors/warnings
             # :TODO:#1: transferAnnotations(self.xml.configure, self)
@@ -552,12 +559,7 @@ class Project(NamedModelObject, Statable, Resultable, Dependable, Positioned):
             (badDepends, badOptions) = self.importDependencies(workspace)                        
 
         # Expand <ant <depends/<properties...
-        if self.ant: self.ant.expand(self,workspace)
-        if self.maven: self.maven.expand(self,workspace)
-        if self.script: self.script.expand(self,workspace)
-        if self.nant: self.nant.expand(self,workspace)
-        if self.make: self.make.expand(self,workspace)
-        if self.configure: self.configure.expand(self,workspace)
+        [b.expand(self, workspace) for b in self.builder]
 
         if not packaged:
             # Complete dependencies so properties can reference the,
@@ -585,29 +587,7 @@ class Project(NamedModelObject, Statable, Resultable, Dependable, Positioned):
         #
         # complete properties
         #
-        if self.ant: 
-            self.ant.complete(self,workspace)
-            transferAnnotations(self.ant, self)  
-            
-        if self.maven: 
-            self.maven.complete(self,workspace)
-            transferAnnotations(self.maven, self)    
-            
-        if self.script: 
-            self.script.complete(self,workspace)
-            transferAnnotations(self.script, self)              
-            
-        if self.nant: 
-            self.nant.complete(self,workspace)
-            transferAnnotations(self.nant, self)  
-            
-        if self.make: 
-            self.make.complete(self,workspace)
-            transferAnnotations(self.make, self)  
-            
-        if self.configure: 
-            self.configure.complete(self,workspace)
-            transferAnnotations(self.configure, self)  
+        [self.completeAndTransferAnnotations(b, workspace) for b in self.builder]
             
         if not packaged:    
             #
@@ -723,10 +703,10 @@ class Project(NamedModelObject, Statable, Resultable, Dependable, Positioned):
         """
         Does this project have a builder?
         """
-        hasBuild=0
-        # I.e has an <ant or <script element
-        if self.ant or self.script or self.maven: hasBuild=1    
-        return hasBuild      
+        if len(self.builder) > 0:
+            return 1
+        else:
+            return 0
         
     def dump(self, indent=0, output=sys.stdout):
         """ 
@@ -742,18 +722,7 @@ class Project(NamedModelObject, Statable, Resultable, Dependable, Positioned):
         
         Dependable.dump(self,indent,output)
                         
-        if self.ant:
-            self.ant.dump(indent+1,output)
-        if self.maven:
-            self.maven.dump(indent+1,output)
-        if self.script:
-            self.script.dump(indent+1,output)
-            
-        for work in self.works:
-            work.dump(indent+1,output)
-            
-        for out in self.getOutputs():
-            out.dump(indent+1,output)
+        [b.dump(indent + 1, output) for b in self.builder + self.works + self.getOutputs()]
             
     def getAnnotatedOutputsList(self): 
         """
@@ -778,6 +747,10 @@ class Project(NamedModelObject, Statable, Resultable, Dependable, Positioned):
         
     def setLanguageType(self,langType):
         self.languageType=langType
+
+    def completeAndTransferAnnotations(self, b, workspace):
+        b.complete(self,workspace)
+        transferAnnotations(b, self)  
 
 class ProjectStatistics(Statistics):
     """Statistics Holder"""
