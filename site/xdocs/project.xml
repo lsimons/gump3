@@ -174,7 +174,7 @@
     <subsection name="work">
       <p>Adds a directory or a file to the class path.  This is to allow
       projects which have compilation dependencies on byproducts of the build
-      (example: tests which import the project itself.  This is necessary when
+      (e.g., tests which import the project itself).  This is necessary when
       using the Ant build.sysclasspath="ignore".</p>
 
       <p>It generally is OK if the directory is not present prior to the
