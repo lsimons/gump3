@@ -1,3 +1,5 @@
+#!/usr/bin/python
+
 import re, time, urllib
 from xml.sax.saxutils import escape
 from xml.sax import parse
