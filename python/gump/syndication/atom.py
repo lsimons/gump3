@@ -136,7 +136,7 @@ class AtomSyndicator(AbstractSyndicator):
         self.feed=AtomFeed(feedUrl,feedFile,	\
                         'workspace',	\
                        'Apache Gump',		\
-                        self.workspace.logurl,	\
+                        self.workspace.getLogUrl(),	\
                         """Life is like a box of chocolates""")
             
     def completeRun(self):

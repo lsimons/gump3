@@ -279,10 +279,19 @@ class XDocDocumenter(Documenter):
         
         rssSyndRow=definitionTable.createRow()
         rssSyndRow.createData().createStrong('Syndication')
-        rssSyndRow.createData().createFork('rss.xml','RSS')
+        rssArea=rssSyndRow.createData()
+        rssArea.createFork('rss.xml','RSS')
+        rssUrl=self.resolver.getUrl(self.workspace,'rss','.xml')
+        rssArea.createFork('http://www.feedvalidator.org/check.cgi?url=' + rssUrl) \
+                .createIcon(self.resolver.getImageUrl('valid-rss.png'), alt='[Valid RSS]') #, title='Validate my RSS feed', width='88', height='31')
+                 
         atomSyndRow=definitionTable.createRow()
         atomSyndRow.createData().createStrong('Syndication')
-        atomSyndRow.createData().createFork('atom.xml','Atom')
+        atomArea=atomSyndRow.createData()
+        atomArea.createFork('atom.xml','Atom')
+        atomUrl=self.resolver.getUrl(self.workspace,'atom','.xml')
+        atomArea.createFork('http://www.feedvalidator.org/check.cgi?url=' + atomUrl) \
+                .createIcon(self.resolver.getImageUrl('valid-atom.png'), alt='[Valid Atom]') #, title='Validate my Atom feed', width='88', height='31')
         
         self.documentSummary(document,self.workspace.getProjectSummary())     
         

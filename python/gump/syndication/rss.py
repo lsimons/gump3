@@ -235,7 +235,7 @@ class RSSSyndicator(AbstractSyndicator):
     
         self.rss=RSS(self.rssUrl,self.rssFile,	\
             Channel('Apache Gump',		\
-                    self.workspace.logurl,	\
+                    self.workspace.getLogUrl(),	\
                     """Life is like a box of chocolates""", \
                 self.gumpImage))
        
