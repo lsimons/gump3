@@ -129,18 +129,60 @@ def sendEmail(toaddr,fromaddr,subject,data,server,port=25):
         
     except Exception, details:
         print 'Failed to send mail: ' + str(details)
-    
-# Allow a lock
-lockFile=os.path.abspath('gumpy.lock')
-if os.path.exists(lockFile):
-    # :TODO: Ought we look at the contents, get the PID of the
-    # supposed other Gump, and determine if it is still alive
-    # or not?
-    print """The lock file [%s] exists. 
+
+            
+def establishLock(lockFile):
+
+    failed=0
+    if 'posix'==os.name:
+        import fcntl
+                
+        try:            
+            lock=open(lockFile,'a+')
+            fcntl.flock(lock.fileno(), fcntl.LOCK_EX)
+        except:
+            failed=1
+        
+    else:
+        if os.path.exists(lockFile):
+            failed=1
+        
+        # Write this PID into a lock file
+        lock=open(lockFile,'w')
+            
+    if failed:
+        print """The lock file [%s] exists. 
 Either Gump is still running, or it terminated very abnormally.    
 Please resolve this (waiting or removing the lock file) before retrying.
-    """ % lockFile
-    sys.exit(1)
+        """ % lockFile
+        sys.exit(1)
+    
+    # Leave a mark...
+    lock.write(`os.getpid()`)
+    lock.flush()
+        
+    return lock
+        
+def releaseLock(lock,lockFile):
+      
+    if 'posix'==os.name:
+        import fcntl            
+        try:
+            fcntl.flock(lockFile.fileno(), fcntl.LOCK_UN)
+        except:
+            pass
+    
+    # Close it, so we can dispose of it
+    lock.close()    
+    
+    # :TODO: We have issues when python is killed, we get a lock
+    # left around despite this finally.
+    os.remove(lockFile)
+
+
+# Allow a lock    
+lockFile=os.path.abspath('gumpy.lock')
+lock=establishLock(lockFile)        
     
 # Set the signal handler to ignore hangups
 try:
@@ -150,11 +192,6 @@ try:
     signal.signal(signal.SIG_HUP, ignoreHangup)
 except:
     pass
-    
-# Write this PID into a lock file
-lock=open(lockFile,'w')
-lock.write(`os.getpid()`)
-lock.close()
 
 # Enable a log
 logFile=os.path.abspath('gumpy_log.txt')
@@ -316,9 +353,7 @@ finally:
     # Close the log
     log.close()
     
-    # :TODO: We have issues when python is killed, we get a lock
-    # left around despite this finally.
-    os.remove(lockFile)
+    releaseLock(lock,lockFile)
     
     if 1 or result:
         logTitle='The Apache Gump log...'
