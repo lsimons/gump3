@@ -20,6 +20,7 @@
     <depend project="jta"/>
     <depend project="jts"/>
     <depend project="jdbc"/>
+    <depend project="javamail"/>
     <depend project="ldapsdk"/> <!-- From Castor -->
     <home nested="dist"/>
     <jar name="tyrex-gump.jar"/>
