@@ -141,8 +141,7 @@ class GumpEngine:
         #
         self.buildAll(run)
   
-      
-        if run.getGumpSet().isFull()
+        if run.getGumpSet().isFull():
             logResourceUtilization('Before statistics update')
         
             # Update Statistics
