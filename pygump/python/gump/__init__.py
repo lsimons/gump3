@@ -17,11 +17,15 @@
 __copyright__ = "Copyright (c) 2003-2004 Apache Software Foundation"
 __license__   = "http://www.apache.org/licenses/LICENSE-2.0"
 
+import os
+
 import logging
 import logging.config
 
+_gumphome = os.environ["GUMP_HOME"]
+
 # configure the logger
-logging.config.fileConfig("gump.log.config")
+logging.config.fileConfig(_gumphome + "/pygump/gump.log.config")
 
 # base gump logger
 log = logging.getLogger("root")

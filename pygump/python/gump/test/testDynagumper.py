@@ -22,8 +22,7 @@ from unittest import TestCase
 
 from gump.test.mockobjects import *
 
-from gump.actor.mysql.dynagumper import *
-from gump.core.model.workspace import *
+from gump.actor.dynagumper import *
 
 mock = MockObjects()
 
