@@ -391,7 +391,7 @@
                      <xsl:if test="javadoc[@project!=$name]">
                        <xsl:for-each select="javadoc/description">
                          <xsl:sort select="../@project"/>
-                         <a href="{@path}/index.html">
+                         <a href="{@href}/index.html">
                            <xsl:value-of select="../@project"/>
                          </a>
                          <xsl:text> - </xsl:text>
@@ -403,7 +403,7 @@
                      <!-- Multiple javadocs all from the same project -->
                      <xsl:if test="not(javadoc[@project!=$name])">
                        <xsl:for-each select="javadoc/description">
-                         <a href="{@path}/index.html">
+                         <a href="{@href}/index.html">
                            <xsl:value-of select="normalize-space(.)"/>
                          </a>
                          <br/>
@@ -414,7 +414,7 @@
                  <xsl:otherwise>
 
                    <!-- Single javadoc -->
-                   <a href="{javadoc/description/@path}/index.html">
+                   <a href="{javadoc/description/@href}/index.html">
                      <xsl:value-of select="@name"/>
                    </a>
                    <xsl:text> - </xsl:text>

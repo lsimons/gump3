@@ -354,40 +354,61 @@ public class Project {
     private void resolveJavadoc(Element javadoc) throws Exception {
         if (javadoc == null) return;
 
+        // retrieve href and dir of javadoc from the workspace
+        Element config = Workspace.getJavaDoc();
+        if (config == null) return;
+        String href = config.getAttribute("href");
+        String javadocDir = config.getAttribute("dir");
+
+        // default project attribute to the name of this project
         if (javadoc.getAttributeNode("project") == null)
             javadoc.setAttribute("project", name);
 
+        // default module attribute to the module which this project belongs
         String moduleName = javadoc.getAttribute("module");
         if (moduleName.equals("")) moduleName = this.get("module");
         Module module = Module.find(moduleName);
         require (module, "module", moduleName);
 
+        // if there are no child nodes, add this project's description
         if (!javadoc.hasChildNodes() && description!=null) {
             javadoc.appendChild(description.cloneNode(true));
         }
 
-        String path;
-        if (javadoc.getAttributeNode("nested") != null) {
-            path = get("srcdir");
-            path += "/" + javadoc.getAttribute("nested");
+        // resolve relative and full path to this javadoc entry
+        String path = javadoc.getAttribute("nested");
+        String fullpath;
+        if (!path.equals("")) {
+            fullpath = get("srcdir") + "/" + path;
         } else {
-            path = Workspace.getBaseDir();
-            path += "/" + javadoc.getAttribute("parent");
+            path = javadoc.getAttribute("parent");
+            fullpath = Workspace.getBaseDir() + "/" + path;
         }
 
+        // for each description entry, resolve source, href, and dest attrs.
         Node child=javadoc.getFirstChild();
         for (; child != null; child=child.getNextSibling()) {
             if (child.getNodeName().equals("description")) {
-                Element description = (Element) child;
-                String dir = description.getAttribute("dir");
-                if (dir.equals("")) {
-                    description.setAttribute("path", path);
+                Element desc = (Element) child;
+                String dir = desc.getAttribute("dir");
+                String append = "";
+                if (!dir.equals("")) append = "/" + dir;
+
+                desc.setAttribute("source", fullpath + append);
+
+                if (href.equals("")) {
+                    desc.setAttribute("href", "file:///" + fullpath);
                 } else {
-                    description.setAttribute("path", path + "/" + dir);
+                    desc.setAttribute("href", href + path + append);
+                }
+
+                if (!javadocDir.equals("")) {
+                    desc.setAttribute("dest", javadocDir + path + append);
                 }
             }
         }
 
+        // copy the entire result to the desired module
         module.appendChild(javadoc);
     }
 

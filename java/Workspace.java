@@ -1,4 +1,5 @@
 import org.w3c.dom.Element;
+import org.w3c.dom.Node;
 
 public class Workspace {
 
@@ -6,6 +7,7 @@ public class Workspace {
 
     private static Element element;
     private static String basedir;
+    private static Element javadoc;
 
     /**
      * Static property accessor for basedir attribute.
@@ -21,6 +23,14 @@ public class Workspace {
      */
     public static String getPkgDir() {
         return element.getAttribute("pkgdir");
+    }
+
+    /**
+     * Static property accessor for javadoc element.
+     * @return Javadoc element (if any) associated with this workspace
+     */
+    public static Element getJavaDoc() {
+        return javadoc;
     }
 
     /**
@@ -62,6 +72,13 @@ public class Workspace {
 
         if (workspace.getAttribute("pkgdir").equals("")) {
             workspace.setAttribute("pkgdir", basedir);
+        }
+
+        Node child=element.getFirstChild();
+        for (; child != null; child=child.getNextSibling()) {
+            if (child.getNodeName().equals("javadoc")) {
+                javadoc = (Element) child;
+            }
         }
     }
 }
