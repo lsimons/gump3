@@ -52,6 +52,7 @@
 
       <depend property="j2ee.jar" project="jakarta-servletapi"/>
       <depend property="servlet.jar" project="jakarta-servletapi"/>
+      <depend property="jsp.jar" project="jakarta-servletapi"/>
       <depend property="log4j.jar" project="logging-log4j" id="log4j"/>
       <depend property="commons.logging.jar" project="commons-logging" id="commons-logging"/>
       <depend property="commons.httpclient.jar" project="commons-httpclient-2.0-branch"/>
@@ -106,6 +107,7 @@
 
       <depend property="j2ee.jar" project="jakarta-servletapi-4"/>
       <depend property="servlet.jar" project="jakarta-servletapi-4"/>
+      <depend property="jsp.jar" project="jakarta-servletapi-4"/>
       <depend property="log4j.jar" project="logging-log4j" id="log4j"/>
       <depend property="commons.logging.jar" project="commons-logging" id="commons-logging"/>
       <depend property="commons.httpclient.jar" project="commons-httpclient-2.0-branch"/>
