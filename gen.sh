@@ -16,9 +16,10 @@ if test "$OSTYPE" = "cygwin32" -o "$OSTYPE" = "cygwin"; then
   export CLASSPATH=`cygpath --path --unix "$CLASSPATH"`
   export CLASSPATH=.:jenny.jar:$XALAN/bin/xerces.jar:$XALAN/bin/xalan.jar:$CLASSPATH
   export CLASSPATH=`cygpath --path --windows "$CLASSPATH"`
-  SOURCE=`cygpath -a -w -p "$SOURCE"`
+  JSOURCE=`cygpath -a -w -p "$SOURCE"`
 else
   export CLASSPATH=.:jenny.jar:$XALAN/bin/xerces.jar:$XALAN/bin/xalan.jar:$CLASSPATH
+  JSOURCE=$SOURCE
 fi
 
 test -d work && rm -rf work
@@ -32,7 +33,7 @@ mkdir classes
 javac -d classes java/*.java || export FAIL=1
 jar cf jenny.jar -C classes . || export FAIL=1
 echo
-java -classpath "$CLASSPATH" Jenny $SOURCE || export FAIL=1
+java -classpath "$CLASSPATH" Jenny $JSOURCE || export FAIL=1
 
 # ********************************************************************
 
