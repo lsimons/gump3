@@ -13,12 +13,17 @@ debug = False #True
 #                     Utility functions                                 #
 #########################################################################
 
+# returns the path absolutized relative to the base gump dir
+def gumpPath(path):
+  return os.path.normpath('%s/%s' % (dir.base,path))
+                 
+
 # returns the path of the file in the href, cached if remote
 def gumpCache(href):
 
   #if it's a local file get it locally
   if not href.startswith('http://'):
-    newHref=href;
+    newHref=gumpPath(href);
   else:
    if debug: print 'url: ' + href
    if not os.path.exists(dir.cache):  mkdir(dir.cache)
@@ -36,7 +41,7 @@ def gumpCache(href):
      urllib.urlretrieve(href, newHref)
      if debug: print '...done'
 
-   return newHref
+  return newHref
 
 # display an error message in standard formatting
 def gumpMessage(type, error, description):
@@ -55,7 +60,3 @@ def gumpMessage(type, error, description):
   print
   print
 
-# returns the path absolutized relative to the base gump dir
-def gumpPath(path):
-  return os.path.normpath('%s/%s' % (dir.base,path))
-                 

@@ -79,7 +79,7 @@ class GumpBase(object):
     # parse out '@@DATE@@'
     for (name,value) in attrs.items():
       self.__dict__[name]=value.replace('@@DATE@@',default.date)
-      
+
     # setup internal character field
     if not '@text' in self.__dict__: self.init()
     self.__dict__['@text']=''
@@ -126,8 +126,8 @@ class DocRoot(GumpBase):
 class Named(GumpBase):
   def __new__(cls,attrs):
     href=attrs.get('href')
-    
-    if href: 
+
+    if href:
       newHref=gumpCache(href)
       if default.debug: print 'opening: ' + newHref + '\n'
       element=SAXDispatcher(open(newHref),cls.__name__.lower(),cls).docElement
@@ -410,16 +410,19 @@ def dependencies(root, #string
         return ret
       
 #########################################################################
-#			    Demonstration code				                        #
+#			    Demonstration code			        #
 #########################################################################
 
 if __name__=='__main__':
-  print "*** starting ***"
-  os.chdir(dir.base)
-  workspace=load(default.workspace)
+  print 
+  print
+  print "               *** starting DEMO ***"
+
+  workspace=load(gumpPath(default.workspace))
 
   print
-  print "*** workspace "+default.workspace+" ***"
+  print "workspace: "+default.workspace
+  print "full path: "+gumpPath(default.workspace)
   print
   print 'basedir:\t', workspace.basedir
   print 'pkgdir:\t\t', workspace.pkgdir
