@@ -10,6 +10,7 @@
   <depend project="bootstrap-ant"/>
   <depend project="xml-xerces"/>
   <option project="xml-xalan2"/>
+  <option project="xml-stylebook2"/>
 
   <ant>
     <property name="ant.home" reference="home" project="jakarta-ant"/>
