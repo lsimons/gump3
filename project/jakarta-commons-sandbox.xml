@@ -130,9 +130,7 @@
     <package>org.apache.commons.jelly</package>
     <description>Commons Jelly Package</description>
     
-    <ant basedir="jelly" buildfile="build-gump.xml" target="jar">
-      <property name="maven.final.name" value="commons-jelly-@@DATE@@"/>
-    </ant>
+    <ant basedir="jelly" buildfile="build.xml" target="jar"/>
     
     <depend project="jakarta-ant" inherit="runtime"/>
     <depend project="xml-xerces"/>
@@ -159,8 +157,7 @@
 
     <work nested="jelly/target/classes"/>
     <home nested="jelly/target"/>
-    <jar name="commons-jelly-@@DATE@@.jar"/>
-    <javadoc nested="jelly/docs/apidocs"/>
+    <jar name="commons-jelly-1.0-dev.jar"/>
 
     <nag to="commons-dev@jakarta.apache.org"
          from="James Strachan &lt;jstrachan@apache.org&gt;"/>
