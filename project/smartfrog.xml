@@ -13,18 +13,17 @@
   <project name="smartfrog">
     <package>org.smartfrog</package>
 
-    <ant basedir="core/smartfrog" target="dist" />
+    <ant basedir="core" target="gump-dist" />
     <depend project="ant" runtime="false"/>
-    <depend project="junit" runtime="false"/>
+    <depend project="junit" runtime="true"/>
     <depend project="commons-logging" runtime="true"/>
     <depend project="jakarta-log4j" runtime="true"/>
-    <!-- //may need to get javacc from java.net before building. 
-    <depend project="javaCC" runtime="false"/> 
-    -->
+    <depend project="javacc" runtime="false"/> 
 
     <home nested="core/smartfrog/dist"/>
-    <jar name="dist/sfServices.jar" id="smartfrog-services" />
-    <jar name="dist/sfExamples.jar" id="smartfrog-examples" />
+    <jar name="lib/smartfrog.jar" id="smartfrog" />
+    <jar name="lib/sfServices.jar" id="smartfrog-services" />
+    <jar name="lib/sfExamples.jar" id="smartfrog-examples" />
 
     <license name="LICENSE.txt"/>
     <!-- <javadoc nested="doc/javadocs"/> -->
