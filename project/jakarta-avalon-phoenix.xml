@@ -34,10 +34,9 @@
     <depend project="excalibur-baxter" runtime="true"/>
     <depend project="excalibur-util" runtime="true"/>
     <depend project="jakarta-ant"/>
-    <depend project="mx4j"/>
+    <depend project="mx4j" runtime="true"/>
     <depend project="xml-stylebook2"/>
     <depend project="xml-xalan2"/>
-    <depend project="jmx" runtime="true"/>
     <depend project="dist-bsf"/>
     <depend project="rhino"/>
     <depend project="phoenix-qdox"/>
