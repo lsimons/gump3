@@ -25,6 +25,10 @@
     <depend project="commons-logging" runtime="true"/>
     <depend project="commons-collections" runtime="true"/>
     <jar name="build/lib/xdoclet-xjavadoc-uc-@@DATE@@.jar"/>
+
+    <nag from="Stefan Bodewig &lt;bodewig@apache.org&gt;"
+         to="xdoclet-devel@lists.sourceforge.net"
+         subject="xjavadoc build faild (Issue XJD-21)"/>
   </project>
 
 </module>
