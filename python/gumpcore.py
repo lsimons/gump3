@@ -282,6 +282,52 @@ class Project(Named):
     # complete properties
     if self.ant: self.ant.complete(self)
 
+  # Determine if this project has any unsatisfied dependencies left
+  # on the todo list.
+  def isReady(self,todo):
+    for depend in self.depend+self.option:
+      if Project.list[depend.project] in todo: return 0
+    return 1
+
+  # add this element and all of it's dependencies to a todo list 
+  def addToTodoList(self,todo):
+    todo.append(self)
+    for depend in self.depend+self.option:
+      project=Project.list[depend.project]
+      if not project in todo: project.addToTodoList(todo)
+
+  # determine if this project is a prereq of any project on the todo list
+  def isPrereq(self,todo):
+    for project in todo:
+      for depend in project.depend+project.option:
+	if depend.project==self.name: return 1
+    return 0
+
+  # determine the build sequence
+  def buildSequence(self):
+    result=[]
+    todo=[]
+    self.addToTodoList(todo)
+    todo.sort()
+    while todo:
+      # one by one, remove the first ready project and append it to the result
+      for project in todo:
+	if project.isReady(todo):
+	  todo.remove(project)
+	  if project.ant or project.script: result.append(project)
+	  break
+      else:
+        # we have a circular dependency, remove all innocent victims
+	while todo:
+	  for project in todo:
+	    if project.isPrereq(todo):
+	      todo.remove(project)
+	      break
+          else:
+	    for project in todo: print project.name
+	    raise "circular dependency"
+    return result
+
 # represents an <ant/> element
 class Ant(GumpBase): 
   def init(self): 
@@ -337,78 +383,6 @@ class Mkdir(GumpBase): pass
 # represents a <work/> element
 class Work(GumpBase): pass
 
-#########################################################################
-#                     Utility functions                                 #
-#########################################################################
-
-# sort project dependencies of a project and returns build sequence
-def dependencies(root, #string
-         projects, #hashtable
-         state = {}, #hashtable
-         visiting= [], #stack
-         ret = [], #vector
-         internalProjects = [],#vector
-         indent = ''):
-
-        VISITING = 0
-        VISITED = 1
-        indent=indent+' '
-        state[root] = VISITING
-        visiting.append(root)
-        project=Project.list[root]
-
-        # Make sure we exist
-        if not project:
-            print  "Project `" + root + "' does not exist in this project. ";
-            visiting.pop();
-            if visiting:
-                parent = visiting[:];
-                print ("\nIt is needed for project `" + parent + "'.");
-                raise
-
-        if default.debug:
-          print '------------------------- VISITING ' + root
-          
-        for depend in project.depend:#+project.option:
-          cur = depend.project
-          print indent + '(' + root + ' -- dep --> ' + cur
-          
-          try:
-            p=Project.list[depend.project]
-          except:
-            print 'ERROR: Cannot find ' + depend.project
-            print '  referenced by ' + project.name
-            print '  that has the following dependencies:'
-            for dep in project.depend:
-              print '   ->' + dep.project
-            print
-            raise
-            
-          #print state.keys()
-          
-          if not state.has_key(cur):
-            # Not been visited
-            dependencies(cur, projects, state, visiting, ret, internalProjects, indent);
-          elif (state[cur] == VISITING):
-            # Currently visiting this node, so have a cycle
-            print 'Circular exception'
-            print 'current node: ' + cur
-            print 'visited stack: ' + visiting
-            raise
-
-
-        p = visiting.pop();
-        if not (root == p):
-            print 'Unexpected internal error: expected to pop ' + root + ' but got ' + p
-            raise
-
-        print '------------------------- VISITED ' + root
-        state[root] = VISITED
-
-        ret.append(project)
-
-        return ret
-      
 #########################################################################
 #			    Demonstration code			        #
 #########################################################################

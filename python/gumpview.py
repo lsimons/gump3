@@ -10,7 +10,7 @@ from xml.sax.handler import ContentHandler
 # http://wxpython.org/
 from wxPython.wx import *
 
-from gumpcore import load,Module,Project,dependencies
+from gumpcore import load,Module,Project
 from gen import xmlize
 from gumpconf import *
 
@@ -33,20 +33,20 @@ class gumpview(wxApp):
     # layout
     frame = wxFrame(NULL, -1, "Gump Workspace Viewer")
     split1 = wxSplitterWindow(frame,-1)
-    notebook = wxNotebook(split1, -1, style=wxCLIP_CHILDREN)
-    split2 = wxSplitterWindow(notebook,-1)
+    split2 = wxSplitterWindow(split1,-1)
+    notebook = wxNotebook(split2, -1, style=wxCLIP_CHILDREN)
 
     # panes
     self.tree=wxTreeCtrl(split1,-1)
-    self.list=wxListCtrl(split2,-1,style=wxLC_REPORT|wxSUNKEN_BORDER)
+    self.list=wxListCtrl(notebook,-1,style=wxLC_REPORT|wxSUNKEN_BORDER)
     self.dependencies=wxListCtrl(notebook,-1,style=wxLC_REPORT|wxSUNKEN_BORDER)
     self.data=wxTextCtrl(split2,-1,style=wxTE_MULTILINE)
 
     # attach the panes to the frame
-    split1.SplitVertically(self.tree, notebook)
-    notebook.AddPage(split2, 'referenced')
+    split1.SplitVertically(self.tree, split2)
+    notebook.AddPage(self.list, 'referenced')
     notebook.AddPage(self.dependencies, 'dependencies')
-    split2.SplitHorizontally(self.list, self.data)
+    split2.SplitHorizontally(notebook, self.data)
     self.SetTopWindow(frame)
     frame.Show(true)
 
@@ -115,7 +115,7 @@ class gumpview(wxApp):
     self.data.ShowPosition(0)
 
     # gather a list of project dependencies unrolled to build
-    self.build_sequence = dependencies(project.name, project.depend)
+    self.build_sequence = project.buildSequence()
 
     # display the project dependencies
     self.dependencies.DeleteAllItems()
@@ -126,7 +126,7 @@ class gumpview(wxApp):
       row=self.dependencies.InsertStringItem(i,self.build_sequence[i].name)
       self.dependencies.SetItemData(row,i)
 
-    self.list.SetColumnWidth(0,wxLIST_AUTOSIZE_USEHEADER)
+    self.dependencies.SetColumnWidth(0,wxLIST_AUTOSIZE_USEHEADER)
 
 
   # show the xml description for a single item
