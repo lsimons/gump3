@@ -82,7 +82,7 @@
       Java Indexed Serialization Package
     </description>
     <home nested="lib/optional"/>
-    <jar name="jisp_1_0_2.jar"/>
+    <jar name="Jisp2.0.1.jar"/>
   </project>
 
 </module>
