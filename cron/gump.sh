@@ -24,11 +24,11 @@ if $cygwin; then
 else
     export GUMP_HOST=`hostname -s`
 fi
-export LOCAL_ENV=local-env-py.sh
+export LOCAL_ENV=local-env.sh
 if [ -e  $LOCAL_ENV ] ; then
 	. $LOCAL_ENV
 fi
-export HOST_LOCAL_ENV=local-env-py-${GUMP_HOST}.sh
+export HOST_LOCAL_ENV=local-env-${GUMP_HOST}.sh
 if [ -e  $HOST_LOCAL_ENV ] ; then
 	. $HOST_LOCAL_ENV
 fi
@@ -45,7 +45,7 @@ fi
 #
 # Perform the run (passing on any arguments)
 #
-$GUMP_PYTHON gumpy.py $*
+$GUMP_PYTHON gump.py $*
 
 #
 # Ensure nothing we started (directly) is left running after we end...
@@ -58,4 +58,4 @@ fi
 # See if this tells us much.
 #times
 
-# $Log: gumpy.sh,v $
+# $Log: gump.sh,v $

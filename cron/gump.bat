@@ -23,20 +23,20 @@ REM
 if "%OS%"=="Windows_NT" @SETLOCAL
 
 SET GUMP_HOST=%COMPUTERNAME%
-SET LOCAL_ENV=local-env-py.sh
+SET LOCAL_ENV=local-env.bat
 IF EXIST  %LOCAL_ENV% CALL %LOCAL_ENV%
 
-SET HOST_LOCAL_ENV="local-env-py-%GUMP_HOST%.sh"
+SET HOST_LOCAL_ENV="local-env-%GUMP_HOST%.bat"
 IF EXIST  %HOST_LOCAL_ENV% CALL %HOST_LOCAL_ENV%
 
-python gumpy.py %1 %2 %3 %4 %5
+python gump.py %1 %2 %3 %4 %5
 
 if "%OS%"=="Windows_NT" @ENDLOCAL
 
 :mainEnd
 
-REM _ J A K A R T A  G U M P _ J A K A R T A  G U M P _ J A K A R T A  G U M P _ 
+REM _ A P A C H E  G U M P _ A P A C H E   G U M P _ A P A C H E   G U M P _ 
 REM
 REM $Log: gumpy.sh,v $
 REM
-REM _ J A K A R T A  G U M P _ J A K A R T A  G U M P _ J A K A R T A  G U M P _ 
+REM _ A P A C H E  G U M P _ A P A C H E   G U M P _ A P A C H E   G U M P _ 

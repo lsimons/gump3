@@ -19,7 +19,4 @@
 #
 # Perform the run (passing on any arguments)
 #
-python $GUMP_HOME/python/gmp.py $*
-
-
-# $Log: gumpy.sh,v $
+python $gump.py $*
