@@ -26,6 +26,7 @@
     <depend project="bsf"/>
     <option project="rhino"/>
 
+    <home nested="build"/>
     <jar  name="lib/bsf.jar"/>
     <javadoc nested="build/javadocs"/>
   </project>
