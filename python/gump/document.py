@@ -459,7 +459,7 @@ def documentWorkspace(workspace,context,db,moduleFilterList=None,projectFilterLi
         mname=mctxt.name    
         if not Module.list.has_key(mname): continue        
         if moduleFilterList and not mctxt.module in moduleFilterList: continue    
-        documentModule(workspace,wdir,mctxt.name,mctxt,db,projectFilterList)
+        documentModule(workspace,context,wdir,mctxt.name,mctxt,db,projectFilterList)
         
         
     # Document context
@@ -483,7 +483,7 @@ def getStateIcons(pairs):
         icons+=getStatePairIcon(pair)
     return icons
     
-def documentModule(workspace,wdir,modulename,modulecontext,db,projectFilterList=None):
+def documentModule(workspace,context,wdir,modulename,modulecontext,db,projectFilterList=None):
     mdir=getModuleDir(workspace,modulename,wdir)
     
     if not Module.list.has_key(modulename): return
