@@ -22,6 +22,7 @@
     <jar name="plugins/org.eclipse.jface_2.1.0/jface.jar" id="jface"/>
     <jar name="plugins/org.eclipse.swt.win32_2.1.0/ws/win32/swt.jar" id="swt"/>
     <jar name="plugins/org.eclipse.ui.workbench_2.1.0/workbench.jar" id="workbench"/>
+    <jar name="plugins/org.eclipse.ui.externaltools_2.1.0/externaltools.jar" id="externaltools"/>
 
   </project>
 
