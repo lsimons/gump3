@@ -84,7 +84,9 @@
   </target>
 
   <!-- Merge the xml sources, resolving references -->
-  <target name="gen" depends="compile" unless="uptodate">
+  <target name="gen" depends="compile" unless="uptodate"
+    description="Verify the project definitions">
+
     <property name="onlineflag" value="-online"/>
     <java classname="Jenny" fork="yes" failonerror="true" classpath="jenny.jar">
       <jvmarg value="-Dhttp.proxyHost=${http.proxyHost}"/>
@@ -148,7 +150,9 @@
   </target>
 
   <!-- Generate the scripts -->
-  <target name="scripts" depends="website">
+  <target name="scripts" depends="website"
+    description="Generate the update and build scripts">
+
     <style basedir="work" destdir="work" includes="*.site"
            extension=".${extension}" style="stylesheet/${target}.xsl"/>
   </target>
@@ -184,12 +188,14 @@
   </target>
 
   <!-- Produce the gump web site -->
-  <target name="site">
+  <target name="site" description="Generate the site">
     <ant dir="site"/>
   </target>
 
   <!-- Check to see if all of the local packages are installed -->
-  <target name="check" depends="compile">
+  <target name="check" depends="compile"
+    description="Check to see if all the local packages are installed">
+
     <property name="onlineflag" value="-online"/>
     <java classname="LocalCheck" fork="yes" classpath="jenny.jar">
       <arg value="${workspace}"/>
@@ -197,10 +203,13 @@
   </target>
 
   <!-- Do everything -->
-  <target name="all" depends="scripts,javadocs,pubdocs,site,check"/>
+  <target name="all" depends="scripts,javadocs,pubdocs,site,check"
+    description="Generate scripts, docs, sites, and check local packages"/>
 
   <!-- Remove all outputs and intermediate results -->
-  <target name="clean">
+  <target name="clean"
+    description="Remove build and work byproducts">
+
     <delete file=".timestamp"/>
     <delete file="jenny.jar"/>
     <delete dir="classes"/>
