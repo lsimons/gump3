@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/model/project.py,v 1.42 2004/02/10 20:18:40 ajack Exp $
-# $Revision: 1.42 $
-# $Date: 2004/02/10 20:18:40 $
+# $Header: /home/stefano/cvs/gump/python/gump/model/project.py,v 1.43 2004/02/10 20:53:39 ajack Exp $
+# $Revision: 1.43 $
+# $Date: 2004/02/10 20:53:39 $
 #
 # ====================================================================
 #
@@ -279,7 +279,7 @@ class Project(NamedModelObject, Statable):
         return self.jars.values()
         
     def getJarAt(self,index):
-        return self.jars[index]
+        return self.jars.values()[index]
         
     def hasReports(self):
         if self.reports: return 1

@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/forrest.py,v 1.69 2004/02/10 20:18:40 ajack Exp $
-# $Revision: 1.69 $f
-# $Date: 2004/02/10 20:18:40 $
+# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/forrest.py,v 1.70 2004/02/10 20:53:39 ajack Exp $
+# $Revision: 1.70 $f
+# $Date: 2004/02/10 20:53:39 $
 #
 # ====================================================================
 #
@@ -855,6 +855,8 @@ class ForrestDocumenter(Documenter):
              self.insertTypedLink( module.cause, module, stateList.createEntry( "Root Cause: ")) 
              
         self.documentAnnotations(document,module)
+                
+        self.documentServerLinks(document,module,workspace)     
         
         projectsSection=document.createSection('Projects') 
         if (len(module.getProjects()) > 1):
@@ -1021,7 +1023,9 @@ class ForrestDocumenter(Documenter):
         if project.cause and not project==project.cause:
              self.insertTypedLink( project.cause, project, stateList.createEntry( "Root Cause: ")) 
              
-        self.documentAnnotations(document,project)        
+        self.documentAnnotations(document,project)     
+        
+        self.documentServerLinks(document,project,workspace)        
             
         detailsSection=document.createSection('Details')
         
@@ -1265,6 +1269,28 @@ class ForrestDocumenter(Documenter):
             # TODO if 'text' is a list go through list and
             # when not string get the object link and <link it...
             noteRow.createData(note.text) 
+            
+    def documentServerLinks(self,xdocNode,linkable,workspace):
+        
+        servers=workspace.getServers()
+        if not servers: return        
+        
+        links=[]
+        for server in servers:
+            if server.hasResolver():
+                link=server.getResolver().getUrl(linkable)
+                if link:
+                    links.append(server)
+                
+        if not links: return
+        
+        serversSection=xdocNode.createSection('Servers')        
+        serversTable=serversSection.createTable()
+        serverRow=serversTable.createRow()
+        for server in links:      
+            serverRow.createData().createFork(	\
+                    server.getResolver().getUrl(linkable), \
+                    server.getName() )
                         
     def documentProperties(self,xdocNode,propertyContainer,title='Properties'):
         

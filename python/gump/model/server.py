@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/model/server.py,v 1.4 2004/02/10 00:25:34 ajack Exp $
-# $Revision: 1.4 $
-# $Date: 2004/02/10 00:25:34 $
+# $Header: /home/stefano/cvs/gump/python/gump/model/server.py,v 1.5 2004/02/10 20:53:39 ajack Exp $
+# $Revision: 1.5 $
+# $Date: 2004/02/10 20:53:39 $
 #
 # ====================================================================
 #
@@ -73,10 +73,14 @@ class Server(NamedModelObject, Statable):
     """A named server"""
     def __init__(self,xml,workspace):
     	NamedModelObject.__init__(self,xml.getName(),xml,workspace)
-    
+        
+        self.resolver=None
             
-    def complete(self,workspace):
-        pass
+    def complete(self,workspace):      
+    
+        if self.hasType() and self.getType() == 'python':
+            if self.hasUrl():
+                self.resolver=Resolver('bogus', self.getUrl())
                      
     def check(self,workspace):
         pass
@@ -102,8 +106,15 @@ class Server(NamedModelObject, Statable):
     def hasTitle(self): 
         return hasattr(self.xml,'title') and self.xml.title
         
-    def getTitle(self): return str(self.xml.title)
-            
+    def getTitle(self): 
+        return str(self.xml.title)
+        
+    def hasResolver(self): 
+        if self.resolver: return 1
+        return 0
+        
+    def getResolver(self): 
+        return self.resolver            
     
     def dump(self, indent=0, output=sys.stdout):
         output.write(getIndent(indent)+'Server : ' + self.name + '\n')   
