@@ -347,7 +347,6 @@
     <project name="excalibur-fortress-container-impl">
         <package>org.apache.avalon.fortress</package>
         <ant basedir="fortress/container-impl" target="jar" buildfile="gump-build.xml">
-            <property name="project.name" value="excalibur-i18n"/>
             <property name="project.version" value="@@DATE@@"/>
         </ant>
         <!-- build-time dependencies -->
