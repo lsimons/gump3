@@ -63,8 +63,8 @@
     <depend project="xml-xerces"/>
     <depend project="aspectj"/>
 
-    <work nested="framework/target/classes/java"/>
-    <work nested="framework/target/classes/test"/>
+    <work nested="framework/target-12/classes/java"/>
+    <work nested="framework/target-12/classes/test"/>
 
     <home nested="framework/dist-12"/>
     <jar name="lib/cactus.jar"/>
@@ -123,8 +123,8 @@
     <depend project="xml-xerces"/>
     <depend project="aspectj"/>
 
-    <work nested="framework/target/classes/java"/>
-    <work nested="framework/target/classes/test"/>
+    <work nested="framework/target-13/classes/java"/>
+    <work nested="framework/target-13/classes/test"/>
 
     <home nested="framework/dist-13"/>
     <jar name="lib/cactus.jar"/>
