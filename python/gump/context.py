@@ -291,12 +291,58 @@ class StatePair:
 
 class Summary:
     """ Contains an overview """
-    def __init__(self,successes,failures,prereqs,other,statepairs):
+    def __init__(self,projects=0,successes=0,failures=0,prereqs=0,noworks=0,packages=0,others=0,statepairs=None):
+        self.projects=projects
         self.successes=successes
         self.failures=failures
         self.prereqs=prereqs
-        self.other=other
-        self.statepair=statepairs
+        self.noworks=noworks
+        self.packages=packages
+        self.others=others
+        self.statepairs=statepairs
+        
+        if not self.statepairs: self.statepairs=[]
+        
+    def addState(self,pair):            
+        status=pair.status
+        # Stand up and be counted
+        if not stateUnset(status):
+            if stateOk(status):
+                self.successes+=1
+            elif STATUS_PREREQ_FAILURE == status:
+                self.prereqs+=1
+            elif STATUS_FAILED == status:
+                self.failures+=1
+            elif STATUS_NO_WORK_PERFORMED == status:
+                self.noworks+=1
+            elif STATUS_STATUS_COMPLETE == status:
+                # :TODO: Accurate?
+                self.packages+=1
+            else:
+                self.others+=1
+                
+        # One more project...
+        self.projects += 1
+                
+        # Add state, if not already there
+        if not stateUnset(pair.status) and not pair in self.statepairs: \
+            self.statepairs.append(pair)
+        
+    def addSummary(self,summary):
+                 
+        self.projects += summary.projects
+        
+        self.successes += summary.successes
+        self.failures += summary.failures
+        self.prereqs += summary.prereqs
+        self.noworks += summary.noworks
+        self.packages += summary.packages
+        self.others += summary.others
+        
+        # Add state pair, if not already there
+        for pair in summary.statepairs:
+            if not stateUnset(pair.status) and not pair in self.statepairs: \
+                self.statepairs.append(pair)
         
 class Context:
     """Context for a single entity"""
@@ -367,31 +413,7 @@ class Context:
             ctxt.aggregateStates(states)
             
         return states;
-        
-    def getSummary(self,summary=None):            
-        if not summary: 
-            summary=Summary(0,0,0,0,[])
-            
-        # Stand up and be counted
-        if not stateUnit(self.status):
-            if stateOk(self.status):
-                summary.successes+=1
-            elif STATUS_PREREQ_FAILURE == self.status:
-                summary.prereqs+=1
-            elif STATUS_FAILED == self.status:
-                summary.failures+=1
-            else:
-                summary.other+=1
-                
-        # Add state, if not already there
-        if not stateUnset(pair.status) and not pair in summary.statepairs: \
-            summary.statepairs.append(pair)
-       
-        # Subordinates
-        for ctxt in self:
-            ctxt.getSummary(summary)
-            
-        return summary;
+    
             
     def propagateErrorState(self,status,reason=REASON_UNSET,cause=None):
         #
@@ -640,7 +662,20 @@ class ModuleContext(Context):
             fogFactors=1 # 0/1 is better than 0/0
             
         return round(fogFactor/fogFactors,2)
+         
+    # Get a summary of states for each project
+    def getProjectSummary(self,summary=None):            
+        if not summary: 
+            summary=Summary()
         
+        #
+        # Subordinates are projects, so get their summary
+        #
+        for ctxt in self:
+            summary.addState(ctxt.getStatePair())
+            
+        return summary
+           
 class GumpContext(Context):
     """Gump Run Context"""
     def __init__(self,name="Gump",parent=None):
@@ -742,7 +777,18 @@ class GumpContext(Context):
                         projectContext.options.append(optionContext)      
                 except KeyError:
                     print "Unknown Project : " + option.project
-                        
+        
+    # Get a summary of states for each project
+    def getProjectSummary(self,summary=None):            
+        if not summary: 
+            summary=Summary()
+        
+        # Subordinates are projects
+        for ctxt in self:
+            summary.addSummary(ctxt.getProjectSummary(summary))
+            
+        return summary
+                    
 if __name__=='__main__':
 
   # init logging
@@ -761,7 +807,7 @@ if __name__=='__main__':
   cmd.addParameter("A","a")
   cmd.addParameter("B")
 
-  item=WorkItem(TYPE_TEST,cmd,CmdResult(cmd))
+  item=WorkItem(WORK_TYPE_CHECK,cmd,CmdResult(cmd))
   
   context=GumpContext()
   context.performedWorkOnProject(project1, item);
@@ -774,3 +820,6 @@ if __name__=='__main__':
   moduleContext=gumpContext.getModuleContext("M")
   projectContext=gumpContext.getProjectContextForProject(project1)
   
+
+  summary=gumpContext.getProjectSummary()
+  dump(summary)

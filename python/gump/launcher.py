@@ -399,7 +399,7 @@ def executeIntoResult(cmd,result,tmp=dir.tmp):
         #	low byte	=	signal that killed it
         #
         result.signal=(waitcode & 0xFF)
-        result.exit_code=(waitcode & 0xFF00)
+        result.exit_code=(((waitcode & 0xFF00) >> 8) & 0xFF)
         
         #
         # Assume timed out if this is not running...

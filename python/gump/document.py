@@ -256,6 +256,7 @@ def documentWorkspace(workspace,context,db,moduleFilterList=None,projectFilterLi
     x=startXDoc(getWorkspaceDocument(workspace,wdir))
     headerXDoc(x,'Workspace')    
         
+    
     startSectionXDoc(x,'Workspace Definition')    
     startTableXDoc(x)       
     titledDataInTableXDoc(x,'Gump Version', setting.version)
@@ -283,6 +284,8 @@ def documentWorkspace(workspace,context,db,moduleFilterList=None,projectFilterLi
             note += project.name + " "
                         
         noteXDoc(x,note)
+    
+    documentSummary(x,context.getProjectSummary())
     
     documentAnnotations(x,context.annotations)
     
@@ -512,7 +515,7 @@ def documentModule(workspace,context,wdir,modulename,modulecontext,db,projectFil
     module=Module.list[modulename]
     x=startXDoc(getModuleDocument(workspace,modulename,mdir))
     headerXDoc(x,'Module : ' + modulename)
-    
+        
     
     # Provide a description/link back to the module site.
     startSectionXDoc(x,'Description') 
@@ -529,6 +532,7 @@ def documentModule(workspace,context,wdir,modulename,modulecontext,db,projectFil
     xparagraphXDoc(x,description)
     endSectionXDoc(x)
     
+    documentSummary(x,modulecontext.getProjectSummary())
         
     documentAnnotations(x,modulecontext.annotations)
     
@@ -773,6 +777,32 @@ def documentAnnotations(x,annotations):
     x.write('    </table>\n')
     endSectionXDoc(x)
         
+def documentSummary(x,summary,description='Project(s) Summary'):
+    if not summary or not summary.projects: return
+    startSectionXDoc(x,description)
+    startTableXDoc(x,'Project Statistics')
+    
+    startTableRowXDoc(x)        
+    insertTableHeaderXDoc(x, 'Projects')
+    insertTableHeaderXDoc(x, 'Failures')
+    insertTableHeaderXDoc(x, 'Prereqs')
+    insertTableHeaderXDoc(x, 'No Works')
+    insertTableHeaderXDoc(x, 'Packages')
+    insertTableHeaderXDoc(x, 'Others')
+    endTableRowXDoc(x)
+    
+    startTableRowXDoc(x)        
+    insertTableDataXDoc(x, summary.projects)
+    insertTableDataXDoc(x, summary.failures)
+    insertTableDataXDoc(x, summary.prereqs)
+    insertTableDataXDoc(x, summary.noworks)
+    insertTableDataXDoc(x, summary.packages)
+    insertTableDataXDoc(x, summary.others)
+    endTableRowXDoc(x)
+       
+    endTableXDoc(x) 
+    endSectionXDoc(x)
+  
 def documentWorkList(x,workspace,worklist,description='Work',dir='.'):
     if not worklist: return
     startSectionXDoc(x,description)
