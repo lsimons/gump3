@@ -263,6 +263,10 @@ class Project(ModelObject):
         - outputs      -- list of Output instances describing what results a
                           build of this project results in
     """
+    #TODO nice string representations of the entire model
+    #def __str__(self):
+    #    return "<Project: %s>" % self.name
+
     def __init__(self, module, name):
         assert isinstance(module, Module)
         assert isinstance(name, str)

@@ -27,13 +27,15 @@ class Walker:
     that contain those projects. Before all that, it visits the workspace
     itself.
     
-    Note that the walker will fail to visit all projects if there is a cyclic
-    dependency somewhere.
+    Note that the walker will fail to visit all projects that are part of a
+    cyclic dependency chain or that depend on projects in such a cyclic
+    dependency chain.
     """
     def __init__(self, log):
+        assert hasattr(log,"debug")
+        assert callable(log.debug)
+        
         self.log = log
-        self.no_debug = False
-        self.visited_workspaces = []
     
     def walk(self, workspace, visitor):
         """Walks a gump tree using inverted topsort.
@@ -45,32 +47,13 @@ class Walker:
         Returns a tuple containing the repositories visited, the modules
         visited, and the projects visited, in the order they were visited.
         """
-        if workspace in self.visited_workspaces: # only debug once...
-            self.no_debug = True
-        self.visited_workspaces.append(workspace)
-        
-        visitor._initialize()
-        visitor._visit_workspace(workspace)
-        
-        if not self.no_debug:
-            names = ""
-            for project in workspace.projects.values():
-                names += project.name + ", "
-            names = names[:-2]
-            self.log.debug("Projects to sort:\n%s" % names)
-        
-        list = self._topsort_projects(workspace)
-        
-        if not self.no_debug:
-            names = ""
-            for project in list:
-                names += project.name + ", "
-            names = names[:-2]
-            self.log.debug("Topological sort of projects results in:\n%s" % names)
-        
         visited_repositories = []
         visited_modules = []
         visited_projects = []
+
+        visitor._initialize()
+        visitor._visit_workspace(workspace)
+        list = self._topsort_projects(workspace)
         
         for project in list:
             if not project.module in visited_modules:

@@ -977,6 +977,74 @@ class Objectifier:
         project.add_dependency(Dependency(dependency_project,project,optional,runtime,inherit,id))
 
 
+NOT_VISITED = 0
+VISITING = 1
+VISITED = 2
+
 class Verifier:
+    def __init__(self, walker):
+        assert hasattr(walker, "walk")
+        assert callable(walker.walk)
+        
+        self.walker = walker
+        
     def verify(self, workspace):
-        pass # TODO!
+        return
+        # TODO: Test this code!!!
+        from gump.plugins import AbstractPlugin
+        visitor = AbstractPlugin(None)
+        (visited_repositories, visited_modules, visited_projects) = self.walker.walk(workspace, visitor)
+        
+        if len(visited_projects) != len(workspace.projects):
+            # some projects weren't visited! Those indicate cycles...
+            unvisited = []
+            
+            for p in workspace.projects.values():
+                if not p in visited_projects:
+                    unvisited.append(p)
+            
+            cycles = self.find_cycles(unvisited[:])
+            # TODO now what?
+    
+    def find_cycles(self,projects):
+        """Brute-force find all cycles.
+        
+        1) depth-first traverse all paths extending from each project
+           (the "needle")
+        2) use a stack for documenting the current path traversal
+        2) look for cycles in those paths involving the needle
+           2.a) avoid traversing cycles not involving the needle
+                by coloring nodes on visit, making sure to visit
+                them only once
+           2.b) store a cycle when its found
+        3) return an array containing an array of cycles"""
+        #TODO: test this
+        cycles = []
+        for project in projects:
+            needle = project
+            visited = []
+            stack = [project]
+            visit(project,visited,stack,needle,cycles)
+        
+        return cycles
+    
+    def visit(project,visited,stack,needle,cycles):
+        visited.append(project)
+        for relationship in project.dependencies:
+            dependency = relationship.dependency
+            stack.append(dependency)
+            if dependency == needle: # cycle involving needle!
+                cycles.append(stack)
+                visited.append(dependency)
+                stack = stack[:-1] # pop this dependency off the stack,
+                      # we'll look at the next dependency in the next
+                      # for loop iteration
+            else:
+                if not dependency in visited:
+                    visit(dependency,visited,stack,needle,cycles)
+                # else we have a cycle not involving the needle,
+                # we'll find it later (or we've found it already)
+        
+            stack = stack[:-1] # pop this dependency off the stack,
+              # we'll look at the next dependency in the next
+              # for loop iteration
