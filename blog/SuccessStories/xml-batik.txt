@@ -9,7 +9,9 @@ interactions</a>.
 <p>
 <a href="http://xml.apache.org/batik/index.html">XML Batik</a> was observered to 
 
-go down, and they were notified. Their analysis led them to beleive that <a 
+go down, and they were notified. 
+<more/>
+Their analysis led them to beleive that <a 
 
 href="http://www.mozilla.org/rhino/">Rhino</a> had
 <a 
