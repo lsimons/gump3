@@ -15,24 +15,28 @@
   <xsl:variable name="banner-link"  select="/workspace/@banner-link"/>
   <xsl:variable name="banner-image" select="/workspace/@banner-image"/>
 
+  <xsl:variable name="build" select="/workspace/@build"/>
+
   <!-- =================================================================== -->
   <!-- provide support for specifying desired projects on the command line -->
   <!-- =================================================================== -->
 
   <xsl:template match="workspace">
 
-    <build>
+    <build style="{$build}">
 
       <chdir dir="{$basedir}"/>
       <mkdir dir="{$logdir}"/>
       <delete dir="build"/>
       <delete dir="dist"/>
 
-      <xsl:for-each select="project[cvs]">
-        <delete dir="{$basedir}/{@name}"/>
-        <copy fromdir="{$cvsdir}/{@name}"
-              todir="{$basedir}/{@name}"/>
-      </xsl:for-each>
+      <xsl:if test="$build = 'default'">
+        <xsl:for-each select="project[cvs]">
+          <delete dir="{$basedir}/{@name}"/>
+          <copy fromdir="{$cvsdir}/{@name}"
+                todir="{$basedir}/{@name}"/>
+        </xsl:for-each>
+      </xsl:if>
 
       <html log="{$logdir}/index.html" 
         banner-image="{$banner-image}" banner-link="{$banner-link}">

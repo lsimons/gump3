@@ -43,6 +43,13 @@
         </xsl:attribute>
       </xsl:if>
 
+      <!-- default build style, if not present -->
+      <xsl:if test="not(@build)">
+        <xsl:attribute name="build">
+          <xsl:text>default</xsl:text>
+        </xsl:attribute>
+      </xsl:if>
+
       <xsl:copy-of select="@*"/>
       <xsl:copy-of select="*[not(self::project)]"/>
 
