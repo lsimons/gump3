@@ -770,7 +770,6 @@
         <depend project="avalon-framework" runtime="true" id="combined"/>
         <depend project="xml-xerces"/>
         <depend project="xml-xalan2"/>
-        <depend project="jakarta-regexp"/>
 
         <work nested="sourceresolve/build/classes"/>
         <work nested="sourceresolve/build/testclasses"/>
