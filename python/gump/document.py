@@ -287,7 +287,7 @@ def documentWorkspace(workspace,context,db,moduleFilterList=None,projectFilterLi
         (mhours, mmins, msecs) 	= mctxt.elapsedTime();
         x.write('     <tr><!-- %s -->' % (mname))        
         x.write('      <td><link href=\'%s\'>%s</link></td><td>%s</td>' % \
-          (getModuleRelativeUrl(mname),mname,str(mctxt.aggregateStates())))    
+          (getModuleRelativeUrl(mname),mname,getStateIcons(mctxt.aggregateStates())))    
         x.write('      <td>%s:%s:%s</td>' % (str(mhours),str(mmins),str(msecs)))    
         x.write('     </tr>')
     if not mcount: x.write('	<tr><td>None</td></tr>')
