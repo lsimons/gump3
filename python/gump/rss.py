@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/Attic/rss.py,v 1.3 2003/09/09 19:37:07 ajack Exp $
-# $Revision: 1.3 $
-# $Date: 2003/09/09 19:37:07 $
+# $Header: /home/stefano/cvs/gump/python/gump/Attic/rss.py,v 1.4 2003/09/09 23:00:26 ajack Exp $
+# $Revision: 1.4 $
+# $Date: 2003/09/09 23:00:26 $
 #
 # ====================================================================
 #
@@ -98,7 +98,7 @@ def rss(workspace,context):
     <link>http://jakarta.apache.org/gump/</link>
     <description>Life is like a box of chocolates</description>
 
-    <admin:generatorAgent rdf:resource="http://cvs.apache.org/viewcvs/jakarta-gump/python/gumprss.py"/>
+    <admin:generatorAgent rdf:resource="http://cvs.apache.org/viewcvs/jakarta-gump/python/gump/rss.py"/>
     <admin:errorReportsTo rdf:resource="mailto:gump@jakarta.apache.org"/>
 
     <sy:updateFrequency>1</sy:updateFrequency>
@@ -113,9 +113,11 @@ def rss(workspace,context):
                     s=db.getProjectStats(pctxt.name)
                     
                     # State changes that are newsworthy...
-                    if not s.currentState == s.previousState \
-                      and not s.currentState == STATUS_PREREQ_FAILURE \
-                      and not s.currentState == STATUS_COMPLETE :
+                    # :TODO: Remove 1, this is for testing...
+                    #if not s.currentState == s.previousState \
+                    #  and not s.currentState == STATUS_PREREQ_FAILURE \
+                    #  and not s.currentState == STATUS_COMPLETE :
+                    if 1
                         project=pctxt.project
                             
                         log.info("RSS written for " + pctxt.name); 
@@ -124,7 +126,7 @@ def rss(workspace,context):
                         datestr=time.strftime('%Y-%m-%d')
                         timestr=time.strftime('%H%M')
                     
-                        content='Testing....'
+                        content='Project ' + pctxt.name + ' : ' + stateName(pctxt.status)
                     
                         # write out the item to the rss feed
                         gumprss.write("""
@@ -135,7 +137,10 @@ def rss(workspace,context):
                               <dc:subject>%s</dc:subject>
                               <dc:date>%sT%s%s</dc:date>
                             </item>""" % \
-                          (pctxt.name,stateName(pctxt.status),datestr, link, content, module[project], datestr,timestr,TZ))
+                          (pctxt.name,stateName(pctxt.status),datestr, link, \
+                               content, \
+                               module[project], \
+                               datestr,timestr,TZ))
                         
     # complete the rss feed
     gumprss.write("""
@@ -144,7 +149,7 @@ def rss(workspace,context):
     """)
     gumprss.close()                                 
     
-    log.info("RSS Feed written" + rssFile);           
+    log.info("RSS Newsfeed written" + rssFile);           
     
              
 
