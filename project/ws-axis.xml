@@ -47,6 +47,7 @@
 
     <home nested="java/build"/>
     <jar name="lib/axis.jar"/>
+    <jar name="lib/axis-ant.jar"/>
     <jar name="lib/jaxrpc.jar"/>
     <jar name="lib/saaj.jar"/>
 

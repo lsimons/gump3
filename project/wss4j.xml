@@ -15,9 +15,9 @@
         <property name="jar.library" value="wss4j-@DATE@.jar"/>
     </ant>
 
-    <depend project="ant"/>
+    <depend project="ant" inherit="runtime"/>
     <depend project="jaf"/>
-    <depend project="ws-axis"/>
+    <depend project="ws-axis" inherit="runtime"/>
     <depend project="xml-xerces"/>
     <depend project="commons-discovery"/>
     <depend project="commons-logging"/>
@@ -27,7 +27,7 @@
     <depend property="log4j.jar" project="jakarta-log4j" id="log4j"/>
     <depend project="javamail"/>
     <depend project="wsdl4j"/>
-    <depend project="xml-xalan2" runtime="true"/>
+    <depend project="xml-xalan2" inherit="runtime"/>
     <depend project="xml-security" inherit="runtime"/>
 
     <work nested="build/classes"/>
