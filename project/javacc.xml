@@ -1,0 +1,13 @@
+<module name="javacc">
+
+  <url href="http://www.webgain.com/products/java_cc/"/>
+  <description>
+    Java Compiler Compiler - The Java Parser Generator
+  </description>
+  
+  <project name="javacc">
+    <home nested="bin"/>
+    <jar name="lib/javaCC.zip"/>
+  </project>
+
+</module>

@@ -191,11 +191,17 @@ public class Project {
      */
     private void computeHome(Element home) {
         String basedir = Workspace.getBaseDir();
-        String pkgdir = Workspace.getPkgDir();
 
         Module module = Module.find(element.getAttribute("module"));
         if (module == null) return;
-        String srcdir = module.getSrcDir();
+
+        String srcdir;
+        String pkg = element.getAttribute("package");
+        if (pkg.equals("")) {
+            srcdir = module.getSrcDir();
+        } else { 
+            srcdir = Workspace.getPkgDir() + "/" + pkg;
+        }
         element.setAttribute("srcdir", srcdir);
 
         // if a description is not provided, copy the one from the module
@@ -226,11 +232,6 @@ public class Project {
                 } else if (! (attr=home.getAttribute("dir")).equals("")) {
                     result = attr;
                 }
-            }
-
-            if (result.equals("")) {
-                String pkg = element.getAttribute("package");
-                if (!pkg.equals("")) result = pkgdir + "/" + pkg;
             }
 
             if (result.equals("")) result=srcdir;

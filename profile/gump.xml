@@ -81,6 +81,7 @@
   <module href="project/dom4j.xml"/>
   <module href="project/hsqldb.xml"/>
   <module href="project/httpunit.xml"/>
+  <module href="project/javacc.xml"/>
   <module href="project/jaxen.xml"/>
   <module href="project/jdom.xml"/>
   <module href="project/jce.xml"/>
@@ -119,6 +120,7 @@
   <project name="j2ee-connector" package="j2ee_connector-1_0-pfd2"/>
   <project name="jaas"           package="jaas1_0"/>
   <project name="jaf"            package="jaf-1.0.1"/>
+  <project name="javacc"         package="javacc2.1"/>
   <project name="javamail"       package="javamail-1.2"/>
   <project name="jaxp"           package="jaxp-1.1"/>
   <project name="jce"            package="jce"/>
