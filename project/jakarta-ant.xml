@@ -48,11 +48,13 @@
     <option project="antlr"/>
     <option project="jakarta-servletapi" />
     <option project="commons-logging" />
+    <option project="xml-commons-resolver" />
 
     <home nested="build"/>
     <jar name="lib/ant.jar" id="ant"/>
     <jar name="lib/nodeps.jar" id="nodeps"/>
     <jar name="lib/ant-antlr.jar" id="antlr"/>
+    <jar name="lib/ant-apache-resolver.jar" id="resolver"/>
     <jar name="lib/ant-bcel.jar" id="bcel"/>
     <jar name="lib/ant-bsf.jar" id="bsf"/>
     <jar name="lib/ant-commons-logging.jar" id="commons-logging"/>
@@ -66,16 +68,6 @@
     <jar name="lib/ant-trax.jar" id="trax"/>
     <jar name="lib/ant-xalan2.jar" id="xalan2"/>
     <javadoc nested="build/javadocs" project="jakarta-ant"/>
-
-    <deliver fromdir="distribution/src" tosite="stefans-test"
-             todir="ant1.5.2alpha/@@DATE@@/" />
-    <deliver fromdir="distribution/bin" tosite="stefans-test"
-             todir="ant1.5.2alpha/@@DATE@@/" />
-
-    <deliver fromdir="distribution/src" tosite="jakarta.apache.org"
-             todir="builds/jakarta-ant/nightly/@@DATE@@/" />
-    <deliver fromdir="distribution/bin" tosite="jakarta.apache.org"
-             todir="builds/jakarta-ant/nightly/@@DATE@@/" />
 
     <nag from="Diane Holt &lt;holtdl@apache.org&gt;"
          to="ant-dev@jakarta.apache.org"/>
