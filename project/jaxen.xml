@@ -12,7 +12,8 @@
       </property>
     </ant>
     <package>org.jaxen</package>
-    <!-- this is causing a circular dependency
+    <!-- 
+        DOM4J includes jaxen source in its build, so that piece is gump'ified there
     <depend project="dom4j">
     </depend>
     -->
