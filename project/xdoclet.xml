@@ -105,6 +105,8 @@
 
     <ant basedir="modules/apache" target="xdoclet-xml"/>
 
+    <depend project="jakarta-bsf"/>
+    <depend project="jakarta-velocity"/>
     <depend project="xdoclet-compile-core" inherit="all" />
     <depend project="xdoclet-xdoclet-module-prepare" />
     <depend project="xdoclet-ejb-module-prepare" />
@@ -141,7 +143,8 @@
     <depend project="jms"/>
     <depend project="jakarta-servletapi-4"/>
     <depend project="jakarta-bcel" runtime="true"/>
-    <depend project="mockobjects" inherit="runtime"/>
+    <depend project="mockobjects" inherit="runtime"
+            ids="core jdk"/>
 
     <work nested="core/build/classes" />
     <work nested="modules/build/apache/classes"/>
