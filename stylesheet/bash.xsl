@@ -4,6 +4,7 @@
 
   <xsl:param name="cmd-prefix"/>
   <xsl:param name="os-type"/>
+  <xsl:param name="ant-cmd">org.apache.tools.ant.Main</xsl:param>
 
   <xsl:variable name="cygwin">
     <xsl:choose>
@@ -440,7 +441,7 @@
       </xsl:for-each>
     </xsl:if>
 
-    <xsl:text> org.apache.tools.ant.Main</xsl:text>
+    <xsl:text> </xsl:text><xsl:value-of select="$ant-cmd"/>
 
     <xsl:if test="@buildfile">
       <xsl:text> -buildfile </xsl:text>
