@@ -1,11 +1,11 @@
-<project name="jetspeed">
+<project name="jakarta-jetspeed">
 
-  <url href="http://java.apache.org/jetspeed/site/overview.html"/>
+  <url href="http://jakarta.apache.org/jetspeed/site/index.html"/>
   <description>
     Enterprise Information Portal
   </description>
 
-  <cvs repository="working-dogs" dir="jetspeed"/>
+  <cvs repository="jakarta"/>
 
   <ant buildfile="build/build.xml">
     <property name="JAVAC" value="classic"/>
