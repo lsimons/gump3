@@ -79,7 +79,7 @@ from gump.model import *
 from gump.statistics import StatisticsDB,ProjectStatistics,StatisticsGuru
 from gump.logic import getPackagedProjectContexts, getBuildSequenceForProjects,\
      getProjectsForProjectExpression, getModuleNamesForProjectList, \
-     isFullGumpSet, getClasspathList
+     isFullGumpSet, getClasspathList, AnnotatedPath
 
 def documentText(workspace,context,moduleFilterList=None,projectFilterList=None):    
     documentTextToFile(sys.stdout,workspace,context,moduleFilterList,projectFilterList)
@@ -372,8 +372,12 @@ def documentWorkspace(workspace,context,db,moduleFilterList=None,projectFilterLi
     mcount=0
     for mctxt in context:
         mname=mctxt.name
-        if not Module.list.has_key(mname): continue        
-        if moduleFilterList and not mctxt.module in moduleFilterList: continue
+        if not Module.list.has_key(mname): 
+            log.info("Unknown module : " + mname)
+            continue        
+        if moduleFilterList and not mctxt.module in moduleFilterList: 
+            log.info("Module filtered out: " + mname)
+            continue
         mcount+=1
 
         x.write('     <tr><!-- %s -->\n' % (mname))        
@@ -585,7 +589,7 @@ def documentModule(workspace,wdir,modulename,modulecontext,db,projectFilterList=
     # Document Projects
     for pctxt in modulecontext:
         if projectFilterList and not pctxt.project in projectFilterList: continue      
-        documentProject(workspace,modulename,mdir,pctxt.name,pctxt,db)
+        documentProject(workspace,context,modulename,mdir,pctxt.name,pctxt,db)
    
     # Document the module XML
 #    x=startXDoc(getModuleXMLDocument(workspace,modulename,mdir))
@@ -598,7 +602,7 @@ def documentModule(workspace,wdir,modulename,modulecontext,db,projectFilterList=
 #    footerXDoc(x)
 #    endXDoc(x)
     
-def documentProject(workspace,modulename,mdir,projectname,projectcontext,db): 
+def documentProject(workspace,context,modulename,mdir,projectname,projectcontext,db): 
     module=Module.list[modulename]
     project=Project.list[projectname]
     x=startXDoc(getProjectDocument(workspace,modulename,projectname,mdir))
@@ -654,12 +658,17 @@ def documentProject(workspace,modulename,mdir,projectname,projectcontext,db):
 
     startSectionXDoc(x,'Classpath')
     startTableXDoc(x)
-    x.write('      <tr><th>Path Entry</th></tr>')       
-    classpath=getClasspathList(project,workspace)
+    x.write('      <tr><th>Path Entry</th><th>Contributor</th></tr>')       
+    classpath=getClasspathList(project,workspace,context)
     paths=0
-    for path in classpath:
-        startTableRowXDoc(x)    
-        insertTableDataXDoc(x,path)
+    for path in classpath: 
+        if isinstance(path,AnnotatedPath):
+            pcontext=path.context
+        else:
+            pcontext=context
+        startTableRowXDoc(x)
+        insertTableDataXDoc(x, path)
+        insertTableDataXDoc(x, getContextLink(pcontext))
         endTableRowXDoc(x)
         paths+=1
     if not paths:        

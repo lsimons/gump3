@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/Attic/logic.py,v 1.15 2003/10/03 21:16:32 ajack Exp $
-# $Revision: 1.15 $
-# $Date: 2003/10/03 21:16:32 $
+# $Header: /home/stefano/cvs/gump/python/gump/Attic/logic.py,v 1.16 2003/10/06 19:39:28 ajack Exp $
+# $Revision: 1.16 $
+# $Date: 2003/10/06 19:39:28 $
 #
 # ====================================================================
 #
@@ -240,7 +240,7 @@ def getAntCommand(workspace,module,project,ant,context):
     buildfile = ant.buildfile or ''
     
     basedir = os.path.normpath(os.path.join(module.srcdir or dir.base,ant.basedir or ''))
-    classpath=getClasspath(project,workspace)
+    classpath=getClasspath(project,workspace,context)
     properties=getAntProperties(workspace,ant)
    
     cmd=Cmd(context.javaCommand,'build_'+module.name+'_'+project.name,\
@@ -269,25 +269,48 @@ def getScriptCommand(workspace,module,project,script,context):
         scriptfullname += '.bat'
         
     scriptfile=os.path.normpath(os.path.join(basedir, scriptfullname))
-    classpath=getClasspath(project,workspace)
+    classpath=getClasspath(project,workspace,context)
 
     return Cmd(scriptfile,'buildscript_'+module.name+'_'+project.name,\
             basedir,{'CLASSPATH':classpath})
 
+class AnnotatedPath:
+    """Contains a Path plus optional 'contributor' """
+    def __init__(self,path,context=None):
+        self.path=path
+        self.context=context
+        
+    def __repr__(self):
+        return self.path
+        
+    def __str__(self):
+        return self.path
+        
+    def __eq__(self,other):
+        return self.path == other.path and self.context == other.context
+                
+    def __cmp__(self,other):
+        cmp = self.path < other.path
+        if not cmp: cmp = self.context < other.context
+        return cmp
+        
 #
 # 
 #    
-def getOutputsList(project):
+def getOutputsList(project, pctxt): 
     outputs=[]
     for i in range(0,len(project.jar)):
         # :TODO: Hack to avoid a crash, don't know why it is needed...
         if project.jar[i].path:
             jar=os.path.normpath(project.jar[i].path)
-            outputs.append(jar)        
+            outputs.append(AnnotatedPath(jar,pctxt))        
+            
     return outputs
                    
-def hasOutputs(project):
-    return (len(getOutputsList(project)) > 0)
+def hasOutputs(project,pctxt):
+    return (len(getOutputsList(project,pctxt)) > 0)
+
+
     
 #
 # Maybe this is dodgy (it is inefficient) but we need some
@@ -309,55 +332,70 @@ def getSystemClasspathList():
 # those dependencies which are failed
 #
 # BOOTCLASSPATH?
-def getClasspathList(project,workspace):
+def getClasspathList(project,workspace,context):
   """Get a TOTAL classpath for a project (including it's dependencies)"""
   
   # Start with the system classpath (later remove this)
   classpath=getSystemClasspathList()
 
+  # Context for this project
+  pctxt=context.getProjectContextForProject(project)
+
   # Add this project's work directories
   srcdir=Module.list[project.module].srcdir
   for work in project.work:
+      path=None
       if work.nested:
-          classpath.append(os.path.normpath(os.path.join(srcdir,work.nested)))
+          path=os.path.normpath(os.path.join(srcdir,work.nested))
       elif work.parent:
-          classpath.append(os.path.normpath(os.path.join(workspace.basedir,work.parent)))
+          path=os.path.normpath(os.path.join(workspace.basedir,work.parent))
       else:
           log.error("<work element without nested or parent attributes on " + project.name )
     
+      if path:
+          classpath.append(AnnotatedPath(path,pctxt))
+          
   # Append dependent projects (including optional)
   if project.depend:
       for depend in project.depend:
-          classpath += getProjectTreeOutputList(depend)  
+          classpath += getProjectTreeOutputList(depend,context)  
   if project.option:    
       for option in project.option:
-          classpath += getProjectTreeOutputList(option)
+          classpath += getProjectTreeOutputList(option,context)
       
   return classpath
   
-def getProjectTreeOutputList(project):      
+def getProjectTreeOutputList(project,context):      
   """Get a classpath of outputs for a project (including it's dependencies)"""            
   classpath=[]
   
+  if not Project.list.has_key(project):
+      if project and project.name:
+          log.error("Unknown project (in acquiring classpath) " + project.name )
+      return classpath
+      
+  # Context for this project...
+  pctxt=context.getProjectContextForProject(project)
+  
   # Append JARS for this project
   for jar in project.jars():
-      classpath.append(jar.path) 
+      classpath.append(AnnotatedPath(jar.path,pctxt)) 
       
   # Append sub-projects outputs
   if project.depend:
       for depend in project.depend:
-        classpath += getProjectTreeOutputList(depend)
+        classpath += getProjectTreeOutputList(depend,context)
   
   # Append optional sub-project's output (that may not exist)
   if project.option:
       for option in project.option:
-        classpath += getProjectTreeOutputList(option)
+        classpath += getProjectTreeOutputList(option,context)
 
   return classpath
   
 # BOOTCLASSPATH?
-def getClasspath(project,workspace):
-  return os.pathsep.join(getClasspathList(project,workspace))
+def getClasspath(project,workspace,context):
+  return os.pathsep.join(getClasspathList(project,workspace,context))
 
   
 def getAntProperties(workspace,ant):
