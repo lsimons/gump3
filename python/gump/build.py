@@ -1,8 +1,8 @@
 #!/usr/bin/python
 
-# $Header: /home/stefano/cvs/gump/python/gump/build.py,v 1.25 2003/10/16 17:25:49 ajack Exp $
-# $Revision: 1.25 $
-# $Date: 2003/10/16 17:25:49 $
+# $Header: /home/stefano/cvs/gump/python/gump/build.py,v 1.26 2003/10/16 17:37:39 ajack Exp $
+# $Revision: 1.26 $
+# $Date: 2003/10/16 17:37:39 $
 #
 # ====================================================================
 #
@@ -233,14 +233,14 @@ def buildProjects( workspace, sequence, context ):
                         #
                         dirs=[]
                         for i in range(0,len(project.jar)):
-                        jar=os.path.normpath(project.jar[i].path)
-                        if jar:
-                            dir=os.path.dirname(jar)
-                            if not dir in dirs and os.path.exists(dir):
-                                listDirectoryAsWork(pctxt,dir,'list_'+project.name+'_'+os.path.basename(dir))
-                                dirs.append(dir)
-                            else
-                                pctxt.addWarning("No such directory (where output is expect) : " + dir)
+                            jar=os.path.normpath(project.jar[i].path)
+                            if jar:
+                                dir=os.path.dirname(jar)
+                                if not dir in dirs and os.path.exists(dir):
+                                    listDirectoryAsWork(pctxt,dir,'list_'+project.name+'_'+os.path.basename(dir))
+                                    dirs.append(dir)
+                                else:
+                                    pctxt.addWarning("No such directory (where output is expect) : " + dir)
                 else:
                     pctxt.status=STATUS_SUCCESS  
 
