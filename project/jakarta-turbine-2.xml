@@ -30,6 +30,7 @@
     <depend project="commons-codec"/>
     <depend project="commons-collections"/>
     <depend project="commons-configuration" runtime="true"/>
+    <depend project="commons-fileupload"/>
     <depend project="commons-lang" runtime="true"/>
     <depend project="commons-logging"/>
     <depend project="commons-pool"/>
