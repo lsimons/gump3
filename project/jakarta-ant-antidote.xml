@@ -6,7 +6,7 @@
   </description>
 
   <cvs repository="jakarta"/>
-  
+
   <project name="jakarta-ant-antidote">
     <ant target="dist-lite"/>
     <depend project="bootstrap-ant"/>
