@@ -421,22 +421,26 @@ class Project(NamedModelObject, Statable, Resultable, Dependable, Positioned):
         # Grab all the work
         for w in self.getDomChildIterator('work'):
             work=Work(w,self)
+            work.complete()
             self.works.append(work)
 
         # Grab all the mkdirs
         for m in self.getDomChildIterator('mkdir'):
             mkdir=Mkdir(m,self)
+            mkdir.complete()
             self.mkdirs.append(mkdir)
 
         # Grab all the deleted
         for d in self.getDomChildIterator('delete'):
             delete=Delete(d,self)
+            delete.complete()
             self.deletes.append(delete)
 
         # Grab all the reports (junit for now)
         if self.hasDomChild('junitreport'):
             junitreport=self.getDomChild('junitreport')
             report=JunitReport(junitreport,self)
+            report.complete()
             self.reports.append(report)
             
         # Grab all notifications

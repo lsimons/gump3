@@ -130,22 +130,32 @@ class Jar(NamedModelObject):
         return self.type
 
 class Resolvable(ModelObject):
+    """
+    A ModelObject that can be resolved relative to it's owning model or workspace
+    e.g. JUnitReport or Work
+    """
     def __init__(self,dom,owner):
-        ModelObject.__init__(self,dom,owner)                
+        ModelObject.__init__(self,dom,owner)     
+        self.path=None           
         
-    def getResolvedPath(self):  
-        path=None
+    def complete(self):
+        if self.isComplete(): return     
+        
         
         if self.hasDomAttribute('nested'):
-            path=os.path.abspath(
-                    os.path.join(	self.owner.getModule().getWorkingDirectory(),
+            self.path=os.path.abspath(
+                    os.path.join(    self.owner.getModule().getWorkingDirectory(),
                                     self.getDomAttributeValue('nested')))
         elif self.hasDomAttribute('parent'):
-            path=os.path.abspath(
+            self.path=os.path.abspath(
                     os.path.join(self.owner.getWorkspace().getBaseDirectory(),
                                  self.getDomAttributeValue('parent')))
                                  
-        return path
+        # Done, don't redo
+        self.setComplete(True)    
+        
+    def getResolvedPath(self):  
+        return self.path
               
 # represents a <junitreport/> element
 class JunitReport(Resolvable):
@@ -165,12 +175,10 @@ class DirResolvable(ModelObject):
     """
     def __init__(self,dom,owner):
         ModelObject.__init__(self,dom,owner)   
-        
-    def hasDirectory(self):
-        return self.hasDomAttribute('dir')             
-        
-    def getDirectory(self):  
-        path=None
+        self.dir=None        
+                
+    def complete(self):
+        if self.isComplete(): return     
         
         if self.hasDomAttribute('dir'):
             dirString=self.getDomAttributeValue('dir')
@@ -182,11 +190,26 @@ class DirResolvable(ModelObject):
                                     dirString, self.__class__.__name__)
                 dirString='bogus'
             
-            path=os.path.abspath(
-                    os.path.join(    self.owner.getModule().getWorkingDirectory(),
-                                    dirString))
-                                 
-        return path 
+            self.dir=os.path.abspath(
+                        os.path.join( self.owner.getModule().getWorkingDirectory(),
+                                        dirString))
+        
+        # Done, don't redo
+        self.setComplete(True)    
+
+    def hasDirectory(self):
+        """
+        Does it have a directory?
+        """
+        if self.dir: return True
+        return False
+                
+    def getDirectory(self):  
+        """ 
+        Get the directory. 
+        """
+        return self.dir
+        
         
 # represents a <mkdir/> element
 class Mkdir(DirResolvable):
@@ -197,13 +220,13 @@ class Mkdir(DirResolvable):
 class Delete(DirResolvable): 
     def __init__(self,dom,owner):
         DirResolvable.__init__(self,dom,owner)    
- 
-    def hasFile(self):
-        return self.hasDomAttribute('file')             
+        self.file=None
         
-    def getFile(self):  
-        path=None
+    def complete(self):
+        if self.isComplete(): return    
         
+        DirResolvable.complete(self)
+      
         if self.hasDomAttribute('file'):
             file=self.getDomAttributeValue('file')
             
@@ -213,13 +236,20 @@ class Delete(DirResolvable):
                 self.owner.addError('Bad file attribute %s on <%s' % \
                                     file, self.__class__.__name__)
                 file='bogus'
-            
-            
-            path=os.path.abspath(
-                    os.path.join(    self.owner.getModule().getWorkingDirectory(),
-                                    file))
-                                 
-        return path    
+                        
+            self.file=os.path.abspath(
+                        os.path.join( self.owner.getModule().getWorkingDirectory(),
+                                        file))
+        
+        # Done, don't redo
+        self.setComplete(True)    
+        
+    def hasFile(self):
+        if self.file: return True
+        return False
+        
+    def getFile(self):  
+        return self.file 
         
 class AddressPair:
     def __init__(self,toAddr,fromAddr):
