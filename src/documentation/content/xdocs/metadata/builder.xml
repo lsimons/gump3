@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!--
+  Copyright 2003-2004 The Apache Software Foundation
+
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+-->
+<!DOCTYPE document PUBLIC "-//APACHE//DTD Documentation V1.1//EN" "document-v11.dtd">
+<document>
+
+  <header>
+    
+    <title>Gump</title>
+  	<authors>
+  	<person name="Sam Ruby" email="rubys@us.ibm.com"/>
+  	<person name="Adam R. B. Jack" email="ajack@apache.org"/>
+  	</authors>
+  </header>
+
+<body>
+
+  <section><title>Generic Builder</title>
+    <p>Specifies the arguments to be passed to all builders</p>
+
+    <table>
+      <tr>
+        <th>Attribute</th>
+        <th>Description</th>
+        <th>Required?</th>
+      </tr>
+      <tr>
+        <td>basedir</td>
+        <td>The base directory in which the build is executed.  The generated
+          build script will make this directory the current working directory
+          prior to invoking Ant.
+        </td>
+        <td>No. Defaults to <em>project basedir</em>.</td>
+      </tr>
+	  <tr>
+        <td>debug</td>
+        <td>Set to "true" to turn on ant debugging.</td>
+        <td>No</td>
+      </tr>
+    </table>
+    
+    <warning>Only Python Gump supports &lt;ant debug=&quot;true&quot;</warning>
+     
+    <section><title>property</title>
+      <p>Property overrides to be passed to the Ant command</p>
+
+      <table>
+        <tr>
+          <th>Attribute</th>
+          <th>Description</th>
+          <th>Required?</th>
+        </tr>
+        <tr>
+          <td>name</td>
+          <td>Name of the property to set.</td>
+          <td>Yes</td>
+        </tr>
+        <tr>
+          <td>value</td>
+          <td>Desired value</td>
+          <td>No</td>
+        </tr>
+        <tr>
+          <td>project</td>
+          <td>The name of the referenced project.  Required if the reference
+          attribute is "home", "jar", "jarpath", or "srcdir".</td>
+          <td>No</td>
+        </tr>
+        <tr>
+          <td>reference</td>
+          <td>
+            One of the following values:<br/>
+            <strong>home:</strong> the home directory for the referenced project<br/>
+            <strong>jar:</strong> the simple name (path relative to home) of the jar in a
+              referenced project.<br/>
+            <strong>jarpath:</strong> the fully qualified path of the jar in a referenced
+              project.<br/>
+            <strong>srcdir:</strong> the srcdir for the module containing the project.<br/>
+          </td>
+          <td>No</td>
+        </tr>
+        <tr>
+          <td>path</td>
+          <td>a path which is to be interpreted relative to the srcdir for the module containing 
+          	the project if specified, or this project otherwise.  This option is 
+          ignored if reference is specified.</td>
+          <td>No</td>
+        </tr>
+        <tr>
+          <td>id</td>
+          <td>Specifies which jar is desired.  Required only for projects which
+          define more than one jar.</td>
+          <td>No</td>
+        </tr>
+      </table>
+    </section>
+
+    <section><title>depend</title>
+      <p>This is equivalent to a property reference="jarpath" as well as a
+      dependency element in the enclosing project.  This was introduced as
+      that has become a common enough practice that it makes sense to
+      introduce this element</p>
+
+      <table>
+        <tr>
+          <th>Attribute</th>
+          <th>Description</th>
+          <th>Required?</th>
+        </tr>
+        <tr>
+          <td>property</td>
+          <td>The name of the property which will receive the full jarpath
+          of the specified jar.</td>
+          <td>Yes</td>
+        </tr>
+        <tr>
+          <td>project</td>
+          <td>The name of the project depended on.</td>
+          <td>Yes</td>
+        </tr>
+        <tr>
+          <td>id</td>
+          <td>Specifies which jar is desired.  Required only for projects which
+          define more than one jar.</td>
+          <td>No</td>
+        </tr>
+        <tr>
+          <td>runtime</td>
+          <td>Specifies whether this dependency is needed at runtime.
+          Choices are "true" and "false" with the default being false.</td>
+          <td>No</td>
+        </tr>
+      </table>
+    </section>
+
+    <section><title>jvmarg</title>
+      <p>Additional command line parameters to pass to the Java
+          Virtual Machine running Ant.</p>
+
+      <table>
+        <tr>
+          <th>Attribute</th>
+          <th>Description</th>
+          <th>Required?</th>
+        </tr>
+        <tr>
+          <td>value</td>
+          <td>The parameter to pass to the command line.  This will be
+            passed verbatim without any additional quotes.</td>
+          <td>Yes</td>
+        </tr>
+      </table>
+    </section>
+
+    <section><title>sysproperty</title>
+      <p>Java system property to be passed to the Java Virtual Machine.</p>
+
+      <table>
+        <tr>
+          <th>Attribute</th>
+          <th>Description</th>
+          <th>Required?</th>
+        </tr>
+        <tr>
+          <td>name</td>
+          <td>Name of the property to set.</td>
+          <td>Yes</td>
+        </tr>
+        <tr>
+          <td>value</td>
+          <td>Desired value</td>
+          <td>No</td>
+        </tr>
+        <tr>
+          <td>project</td>
+          <td>The name of the referenced project.  Required if the reference
+          attribute is "home", "jar", "jarpath", or "srcdir".</td>
+          <td>No</td>
+        </tr>
+        <tr>
+          <td>reference</td>
+          <td>
+            One of the following values:<br/>
+            <strong>home:</strong> the home directory for the referenced project<br/>
+            <strong>jar:</strong> the simple name (path relative to home) of the jar in a
+              referenced project.<br/>
+            <strong>jarpath:</strong> the fully qualified path of the jar in a referenced
+              project.<br/>
+            <strong>srcdir:</strong> the srcdir for the module containing the project.<br/>
+          </td>
+          <td>No</td>
+        </tr>
+        <tr>
+          <td>path</td>
+          <td>a path which is to be interpreted relative to the srcdir for the module containing 
+          	the project if specified, or this project otherwise.  This option is 
+          ignored if reference is specified.</td>
+          <td>No</td>
+        </tr>
+        <tr>
+          <td>id</td>
+          <td>Specifies which jar is desired.  Required only for projects which
+          define more than one jar.</td>
+          <td>No</td>
+        </tr>
+      </table>
+    </section>
+
+  </section>
+
+</body>
+</document>

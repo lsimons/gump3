@@ -18,13 +18,13 @@
 <repository name="codehaus" type="cvs">
   <title>codehaus</title>
   <home-page>http://www.codehaus.org/</home-page>
-  <cvsweb>http://cvs.codehaus.org/</cvsweb>
+  <cvsweb>http://cvs.codehaus.org/viewcvs.cgi/</cvsweb>
 
   <root>
     <method>pserver</method>
     <user>anonymous</user>
     <password></password>
-    <hostname>codehaus.org</hostname>
-    <path>/scm</path>
+    <hostname>cvs.codehaus.org</hostname>
+    <path>/cvsroot</path>
   </root>
 </repository>
