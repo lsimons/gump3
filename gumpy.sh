@@ -56,6 +56,6 @@ if [ "" != "`which pkill`" ] ; then
 fi
 
 # See if this tells us much.
-times
+#times
 
 # $Log: gumpy.sh,v $

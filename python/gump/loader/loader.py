@@ -30,7 +30,7 @@ from gump.utils.note import transferAnnotations, Annotatable
 from gump.utils.timing import TimeStampSet
         
 class XmlLoader:
-    def __init__(self,basedir='.',cache=True):
+    def __init__(self,basedir='.',cache=False):
         self.annotations=[]
         self.basedir=basedir
         self.cache=cache
@@ -188,7 +188,7 @@ class XmlWorker:
                 log.debug("Skip Node: " + `child.nodeType` + ' ' + `child`)                       
     
 class ModelLoader:
-    def __init__(self,cache=True):
+    def __init__(self,cache=False):
         self.annotations=[]
         self.xmlloader=XmlLoader(cache)
         

@@ -747,7 +747,7 @@ class XDocDocument(XDocPiece):
             self.context.writeLine('<body>')    
             self.context.writeLine('<table class="TRANSPARENT">')  
             self.context.writeLine(' <tr>')  
-            self.context.writeLine(' <td><a href="%s/index.html">Index</a></td><td>|</td>' % self.rootpath) 
+            self.context.writeLine(' <td><a href="%s/index.html">Run</a></td><td>|</td>' % self.rootpath) 
             self.context.writeLine(' <td><a href="%s/options.html">Options</a></td><td>|</td>' % self.rootpath) 
             self.context.writeLine(' <td><a href="%s/workspace.html">Workspace</a></td><td>|</td>' % self.rootpath) 
             self.context.writeLine(' <td><a href="%s/environment.html">Env</a></td><td>|</td>' % self.rootpath) 

@@ -48,7 +48,7 @@
         <td>
         	The ant target to invoke. <em>This can be a space separated list.</em>
         </td>
-        <td>No Defaults to <strong>gump</strong>.</td>
+        <td>No (defaults to no target).</td>
       </tr>
     </table>
     

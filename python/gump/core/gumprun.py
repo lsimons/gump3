@@ -485,14 +485,13 @@ class GumpRunOptions:
     def getResolver(self):
         return self.resolver
         
-        
     # Objectives...
     def setObjectives(self,objectives):
         self.objectives=objectives
         
     def testObjectiveIsSet(self,objective):
-        if (self.objectives & objective): return 1
-        return 0    
+        if (self.objectives & objective): return True
+        return False
         
     def isUpdate(self):
         return self.testObjectiveIsSet(OBJECTIVE_UPDATE)        
@@ -517,8 +516,8 @@ class GumpRunOptions:
         self.features = (self.features | feature)
         
     def testFeatureIsSet(self,feature):
-        if (self.features & feature): return 1
-        return 0
+        if (self.features & feature): return True
+        return False
 
     def isNotify(self):
         return self.testFeatureIsSet(FEATURE_NOTIFY)
@@ -597,7 +596,7 @@ class RunRequest(RunEvent):
     def __init__(self, run, type):
         RunEvent.__init__(self,run)
         self.type=type
-        self.satisfied=0
+        self.satisfied=False
         
     def getType(self):
         return self.type

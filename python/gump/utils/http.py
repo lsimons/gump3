@@ -65,11 +65,13 @@ def cacheHTTP(href,cacheDir=dir.cache,optimize=False):
     cachedHrefFile = cacheDir+'/'+quotedHref
 
     #download the file if not present in the cache
-    usecached=0
+    usecached=False
     if optimize or (switch.optimize and switch.optimizenetwork):
         if os.path.exists(cachedHrefFile):
           log.debug('Using cached descriptor for ' + href)
-          usecached=1
+          usecached=True
+        else:          
+          log.debug('No locally cached descriptor for ' + href)
           
     if not usecached:
       log.debug('Downloading (if date/timestamp changes) : '+href)      

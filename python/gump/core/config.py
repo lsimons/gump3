@@ -99,12 +99,12 @@ class setting:
     utctimeformat='%H:%M:%S (UTC)'
     
     timeout=60*60 # 60 minutes (in seconds)
-    timeoutCommand=0
+    timeoutCommand=False
     
 class switch:
     """Configuration of switches """   
     optimize=False # Optimize (at risk to exact correctness) anywhere one can
-    optimizenetwork=True # Do least network traffic 
+    optimizenetwork=False # Do least network traffic 
     debugging=False # Not debugging..
     
 def basicConfig():
@@ -115,7 +115,6 @@ def basicConfig():
 
     if dir.base not in sys.path: 
         sys.path.insert(0, dir.base)
-
 
 if __name__ == '__main__':
   def dump(section):

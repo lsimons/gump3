@@ -52,7 +52,7 @@ if __name__=='__main__':
     workspace=WorkspaceLoader(options.isCache()).load(ws)    
         
     # Ensure we use text, not xdocs...
-    options.setText(1)
+    options.setText(True)
     
     # 
     options.setObjectives(OBJECTIVE_BUILD)

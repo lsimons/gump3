@@ -17,7 +17,14 @@
 
 """
 
- A gump run (not 'run gump')
+	An actor works upon the context tree. Events (and in the future,
+	perhaps Requests) are passed to the Actor, and the Actor performs
+	it's work.
+	
+	Example actors are:
+	
+		Statistician (keeps track of statistics, in a DB)
+		
  
 """
 

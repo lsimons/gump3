@@ -15,7 +15,7 @@
 # limitations under the License.
 
 #
-# $Header: /home/stefano/cvs/gump/python/gump/integrate.py,v 1.28.2.3 2004/06/11 20:46:10 ajack Exp $
+# $Header: /home/stefano/cvs/gump/python/gump/integrate.py,v 1.28.2.4 2004/07/07 16:29:39 ajack Exp $
 # 
 
 """
@@ -66,8 +66,8 @@ def irun():
     logResourceUtilization('Before create run')
     
     # Has to be absolute latest descriptors, not quick/cached...
-    options.setQuick(0)
-    options.setCache(0)
+    options.setQuick(False)
+    options.setCache(False)
     
     # 
     options.setObjectives(OBJECTIVE_INTEGRATE)    

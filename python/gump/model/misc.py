@@ -137,12 +137,12 @@ class Resolvable(ModelObject):
         path=None
         
         if self.hasDomAttribute('nested'):
-            path=os.path.abspath(	\
-                    os.path.join(	self.owner.getModule().getWorkingDirectory(),	\
+            path=os.path.abspath(
+                    os.path.join(	self.owner.getModule().getWorkingDirectory(),
                                     self.getDomAttributeValue('nested')))
         elif self.hasDomAttribute('parent'):
-            path=os.path.abspath(	\
-                    os.path.join(self.owner.getWorkspace().getBaseDirectory(),	\
+            path=os.path.abspath(
+                    os.path.join(self.owner.getWorkspace().getBaseDirectory(),
                                  self.getDomAttributeValue('parent')))
                                  
         return path
@@ -158,7 +158,6 @@ class Work(Resolvable):
     def __init__(self,dom,owner):
         Resolvable.__init__(self,dom,owner)    
         
-         
 class DirResolvable(ModelObject):
     """
     	Common code for getting a directory (attribute) and
