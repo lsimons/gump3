@@ -20,18 +20,17 @@
         project="jakarta-avalon-excalibur" id="avalon-scratchpad"/>
     </ant>
 
-    <depend project="excalibur-io"/>
-    <depend project="excalibur-cli"/>
-    <depend project="excalibur-extension"/>
-    <depend project="excalibur-i18n"/>
+    <depend project="excalibur-io" runtime="true"/>
+    <depend project="excalibur-cli" runtime="true"/>
+    <depend project="excalibur-extension" runtime="true"/>
+    <depend project="excalibur-i18n" runtime="true"/>
     <depend project="jakarta-ant"/>
     <depend project="xml-stylebook2"/>
     <depend project="xml-xalan2"/>
-    <depend project="jmx"/>
-    <depend project="xdoclet"/>
+    <depend project="jmx" runtime="true"/>
     <depend project="dist-bsf"/>
     <depend project="rhino"/>
-    <depend project="xdoclet"/>
+    <depend project="xdoclet" inherit="jars"/>
     <option project="jakarta-servletapi-4"/>
 
     <home nested="build/lib"/>
