@@ -22,7 +22,6 @@ import time
 import os
 import sys
 import logging
-import anydbm
 
 import gump
 from gump.core.config import *
@@ -41,13 +40,12 @@ class Statistics:
         self.successes=0
         self.failures=0
         self.prereqs=0
-        self.first=-1
-        self.last=-1
+        self.first=None
+        self.last=None
         self.currentState=STATE_UNSET
         self.previousState=STATE_UNSET
-        self.startOfState=-1        
+        self.startOfState=None
         self.sequenceInState=0
-        self.lastModified=0
                 
       
     # FOG is (at present) effectively the
@@ -89,9 +87,6 @@ class Statistics:
     def lastKey(self):
         return self.getKeyBase() + '-last'
         
-    def lastModifiededKey(self):
-        return self.getKeyBase() + '-last-updated'
-        
     def currentStateKey(self):
         return self.getKeyBase() + '-current-state'
         
@@ -111,7 +106,7 @@ class Statistics:
         if statable.isSuccess():
 
             self.successes += 1
-            self.last = default.time
+            self.last = default.datetimeObject
             
             # A big event...
             if not self.first:
@@ -140,13 +135,12 @@ class Statistics:
             self.sequenceInState += 1            
         else:
             self.previousState=lastCurrentState  
-            self.startOfState = default.time                
+            self.startOfState = default.datetimeObject       
             self.sequenceInState = 1
            
     def dump(self, indent=0, output=sys.stdout):
         gump.utils.dump(self)
              
-            
 class Statable:
     def __init__(self): pass
     

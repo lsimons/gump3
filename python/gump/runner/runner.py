@@ -113,9 +113,7 @@ class GumpRunner(RunSpecific):
     
     def initializeActors(self):
         """
-        
         Install the appropriate actors..
-        
         """
         
         # Stamp times
@@ -129,7 +127,17 @@ class GumpRunner(RunSpecific):
         if self.run.getOptions().isResults() and \
             self.run.getWorkspace().hasMultiplePythonServers():
             self.run.registerActor(Resulter(self.run))            
-              
+
+        # Add Database storer
+        if self.run.getOptions().isOfficial() and \
+            self.run.getWorkspace().hasDatabaseInformation():
+            try:
+                import gump.mysql.databaser
+                self.run.registerActor(gump.mysql.databaser.Databaser(self.run))
+            except Exception, details:
+                log.warning('Unable to register Database Actor :  %s ' % details,
+                            exc_info=1)
+        
         # Document..
         # Use XDOCS if not overridden...
         documenter=None

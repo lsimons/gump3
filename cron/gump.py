@@ -41,7 +41,7 @@ from xml.dom import minidom
 
 LINE=' - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - GUMP'
 
-GUMPY_VERSION='2.0.2-alpha-0003'
+GUMP_VERSION='2.0.2-alpha-0003'
 
 def ignoreHangup(signum):
     pass
@@ -137,7 +137,7 @@ def sendEmail(toaddr,fromaddr,subject,data,server,port=25):
 def writeRunLogEntry(entry):
     # Enable a run log
     runlogFileName='gump_runlog.txt'
-    runlogFile=os.path.abspath(runlogFileName)
+    runlogFile=os.path.abspath(os.path.join('log',runlogFileName))
     runlog=None
     try:
         runlog=open(runlogFile,'a',0) # Unbuffered...
@@ -268,7 +268,7 @@ except:
 
 # Enable a log
 logFileName='gump_log_' + time.strftime('%d%m%Y_%H%M%S') + '.txt'
-logFile=os.path.abspath(logFileName)
+logFile=os.path.abspath(os.path.join('log',logFileName))
 log=open(logFile,'w',0) # Unbuffered...
 
 hostname='Unknown'
@@ -299,7 +299,7 @@ try:
         log.write('- GUMP run @  UTC    : ' + time.strftime('%d %b %y %H:%M:%S', time.gmtime()) + '\n')
         log.write('- GUMP run by Python : ' + `sys.version` + '\n')
         log.write('- GUMP run by Python : ' + `sys.executable` + '\n')
-        log.write('- GUMP run by Gumpy  : ' + GUMPY_VERSION + '\n')
+        log.write('- GUMP run by Gump   : ' + GUMP_VERSION + '\n')
         log.write('- GUMP run on OS     : ' + `os.name` + '\n')
         log.write('- GUMP run in env    : \n')
         
@@ -349,7 +349,7 @@ try:
         private=wsw.getAttribute('private')
         mailserver=wsw.getAttribute('mailserver') or 'mail.apache.org'
         mailport=wsw.getAttribute('mailport') or 25
-        mailto=wsw.getAttribute('mailinglist') 
+        mailto=wsw.getAttribute('administrator') 
         mailfrom=wsw.getAttribute('email') 
         # Log (site) location(s)   
         logurl=wsw.getAttribute('logurl')   
@@ -523,8 +523,8 @@ finally:
                 
             # Tack a version on there
             mailData += '--\n'
-            mailData += 'Gumpy Version: '
-            mailData += GUMPY_VERSION
+            mailData += 'Gump Version: '
+            mailData += GUMP_VERSION
             mailData += '\n'
             
             sendEmail(mailto,mailfrom,logTitle,mailData,mailserver,mailport)

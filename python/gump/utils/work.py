@@ -220,7 +220,6 @@ class WorkList(list,Ownable):
                 if not startSecs or item.getStartSecs() < startSecs:
                     startSecs=item.getStartSecs()
         if startSecs: return startSecs
-        return -1
     
     def getEndSecs(self):
         endSecs=0
@@ -229,7 +228,6 @@ class WorkList(list,Ownable):
                 if not endSecs or item.getEndSecs() < endSecs:
                     endSecs=item.getEndSecs()
         if endSecs: return endSecs
-        return -1
     
     def getElapsedSecs(self):
         elapsedSecs=0

@@ -36,7 +36,7 @@ if [ "" == "$GUMP_PYTHON" ] ; then
 fi
 
 #
-# Perform some Gumpy unit test
+# Perform some Gump unit test
 #
 cd python
 

@@ -20,7 +20,6 @@
 	The OnDemand runner performs a run, but does work on
 	modules as the needs of projects demands it.
 
-
 """
 
 import os.path

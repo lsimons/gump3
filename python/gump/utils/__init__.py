@@ -27,7 +27,7 @@ import types, StringIO
 import time
 import urllib
 
-from gump  import log
+from gump import log
 from gump.core.config import default, setting
 
 

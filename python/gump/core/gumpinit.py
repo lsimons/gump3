@@ -27,6 +27,7 @@
 import os.path
 import sys
 import time
+import datetime
 
 # tell Python what modules make up the gump package
 # __all__ = ["config"]
@@ -61,3 +62,8 @@ def gumpinit(level=None):
     default.date = time.strftime('%Y%m%d',default.ltime)
     default.datetime = time.strftime('%Y%m%d %H:%M:%S',default.ltime)
     
+    default.datetimeObject = datetime.datetime.fromtimestamp(default.time)
+
+    
+if __name__ == '__main__':
+    gumpinit()

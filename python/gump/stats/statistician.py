@@ -25,32 +25,143 @@ from gump.core.config import *
 from gump import log
 from gump.run.gumprun import *
 from gump.run.actor import *
-from gump.stats.statsdb import StatisticsDB
 
 class Statistician(AbstractRunActor):
     def __init__(self,run):
         
         AbstractRunActor.__init__(self,run)        
-        self.db=StatisticsDB()   
+        self.db=None
+        
+        # MySQL is optional...
+        if self.run.getWorkspace().hasDatabaseInformation():
+            try:
+                import gump.stats.mysql.statsdb   
+                # Figure out what DB this workspace uses 
+                dbInfo=self.run.getWorkspace().getDatabaseInformation()
+                self.db=gump.stats.mysql.statsdb.StatisticsDB(dbInfo)   
+            except Exception, details:
+                log.error('Failed to load MySQL database driver : %s' % (details), exc_info=1)
+            
+        if not self.db:
+            # DBM is the fallback...
+            import gump.stats.dbm.statsdb            
+            self.db=gump.stats.dbm.statsdb.StatisticsDB()   
         
     def processOtherEvent(self,event):                
+        """
+        Process the 'other' (generic) event, e.g. Init and Finalize
+        In other words, load stats at the start, and update them
+        at the end
+        """
         if isinstance(event,InitializeRunEvent):
             self.loadStatistics()                
         elif isinstance(event,FinalizeRunEvent):          
             if self.run.getOptions().isStatistics():          
                 self.updateStatistics()        
             
-    def loadStatistics(self):
             
-        #
-        # Load stats (and stash onto projects)
-        #    
-        self.db.loadStatistics(self.workspace) 
+    def loadStatistics(self):
+        """
         
+        Load statistics from the DB onto the objects, so they can
+        reference the latest information (e.g. to set -debug)
+        
+        """
+        log.debug('--- Loading Statistics')
+                  
+        # Load the W/S statistics
+        ws=self.db.getWorkspaceStats(self.workspace.getName())
+        self.workspace.setStats(ws)            
+                
+        for repo in self.workspace.getRepositories():
+                        
+            # Load the statistics
+            rs=self.db.getRepositoryStats(repo.getName())
+                
+            # Stash for later...
+            repo.setStats(rs)    
+                      
+        for module in self.workspace.getModules():
+            # Load the statistics...
+            ms=self.db.getModuleStats(module.getName())        
+                
+            # Stash for later...
+            module.setStats(ms)     
+            
+            for project in module.getProjects():
+                # Load the statistics...
+                ps=self.db.getProjectStats(project.getName())        
+                
+                # Stash for later...
+                project.setStats(ps)            
+            
     def updateStatistics(self):
-          
-        #
-        # Update stats (and stash onto projects)
-        #
-        self.db.updateStatistics(self.workspace)            
+        """
+        
+        Go through the tree updating statistics as you go...
+        
+        """
+        log.debug('--- Updating Statistics')
+        
+        # Load the W/S statistics
+        ws=self.db.getWorkspaceStats(self.workspace.getName())
+        # Update for this workspace based off this run
+        ws.update(self.workspace)
+        self.workspace.setStats(ws)      
+            
+        # Write out the updates
+        self.db.putWorkspaceStats(ws)        
+                
+        for repo in self.workspace.getRepositories():
+                        
+            # Load the statistics
+            rs=self.db.getRepositoryStats(repo.getName())
+            
+            # Update for this repo based off this run
+            rs.update(repo)
+                
+            # Stash for later...
+            repo.setStats(rs)    
+            
+            # Write out the updates
+            self.db.putRepositoryStats(rs)     
+              
+        for module in self.workspace.getModules():
+                        
+            # Load the statistics
+            ms=self.db.getModuleStats(module.getName())
+            
+            # Update for this project based off this run
+            ms.update(module)
+                
+            # Stash for later...
+            module.setStats(ms)            
+                
+            # Write out the updates
+            self.db.putModuleStats(ms)     
+            
+            for project in module.getProjects():
+                
+                # Load the statistics
+                ps=self.db.getProjectStats(project.getName())
+            
+                # Update for this project based off this run
+                ps.update(project)
+                
+                # Stash for later...
+                project.setStats(ps)            
+                
+                # Write out the updates
+                self.db.putProjectStats(ps) 
+                
         self.db.sync()
+            
+    def dumpProjects(self):
+        """
+        Show all that is there
+        """
+        for key in self.db.getProjects():
+            print "Project " + pname + " Key " + key
+            s=self.getProjectStats(pname)
+            dump(s)
+                

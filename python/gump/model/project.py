@@ -459,7 +459,7 @@ class Project(NamedModelObject, Statable, Resultable, Dependable, Positioned):
         # Grab all notifications
         for notifyEntry in self.getDomChildIterator('nag'):
             # Determine where to send
-            toaddr=getDomAttributeValue(notifyEntry,'to',workspace.mailinglist)
+            toaddr=getDomAttributeValue(notifyEntry,'to',workspace.administrator)
             fromaddr=getDomAttributeValue(notifyEntry,'from',workspace.email)   
             self.notifys.append(
                     AddressPair(

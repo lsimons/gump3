@@ -30,7 +30,7 @@ from gump.model.tracker import Tracker
 from gump.model.module import Module
 from gump.model.project import Project, ProjectSummary
 from gump.model.profile import Profile
-from gump.model.object import NamedModelObject
+from gump.model.object import NamedModelObject,ModelObject
 from gump.model.misc import Resultable
 from gump.model.property import PropertyContainer
 from gump.model.stats import Statable, Statistics
@@ -39,6 +39,32 @@ from gump.utils.domutils import *
 
 import gump.core.config
 
+class DatabaseInformation(ModelObject):
+    def __init__(self,dom):    
+        ModelObject.__init__(self,dom)  
+        
+        # Some defaults...
+        self.host='localhost'
+        self.user='root'
+        self.passwd=''
+        self.database='gump'
+        
+    def complete(self,workspace): 
+        if self.isComplete(): return
+        
+        # In case we care
+        self.workspace=workspace
+        
+        # Import DOM attributes into self as attributes
+        transferDomInfo(self.element, self, {})   
+        
+        self.setComplete()
+        
+    def getHost(self): return self.host
+    def getUser(self): return self.user
+    def getPasswd(self): return self.passwd
+    def getDatabase(self): return self.database
+        
 class Workspace(NamedModelObject, PropertyContainer, Statable, Resultable):
     """
             
@@ -53,7 +79,6 @@ class Workspace(NamedModelObject, PropertyContainer, Statable, Resultable):
     	Statable.__init__(self)
     	Resultable.__init__(self)
     		
-    	#
     	# Named repositories (e.g. CVS,SVN,etc.)
     	# Named modules
     	# Named projects
@@ -71,6 +96,9 @@ class Workspace(NamedModelObject, PropertyContainer, Statable, Resultable):
         self.updaters=0
         self.builders=0
                     
+        # Database Informaton
+        self.dbInfo=None
+        
         # Set times
         self.initializeTimes()
 
@@ -236,6 +264,12 @@ class Workspace(NamedModelObject, PropertyContainer, Statable, Resultable):
     def getSortedProjects(self):
         return self.sortedProjects       
         
+    def hasDatabaseInformation(self):
+        if self.dbInfo: return True
+        return False
+        
+    def getDatabaseInformation(self):
+        return self.dbInfo
         
     def isMultithreading(self):
         return self.hasUpdaters() or self.hasBuilders()
@@ -272,7 +306,7 @@ class Workspace(NamedModelObject, PropertyContainer, Statable, Resultable):
         
         self.private=False
         self.email = default.email     
-        self.mailinglist = default.mailinglist  
+        self.administrator = default.administrator  
         self.mailserver = default.mailserver
         self.mailport = int(default.mailport)
         self.prefix=default.prefix
@@ -353,6 +387,10 @@ class Workspace(NamedModelObject, PropertyContainer, Statable, Resultable):
                 self.updaters=int(getDomAttributeValue(threads,'updaters'))
             if hasDomAttribute(threads,'builders'):
                 self.builders=int(getDomAttributeValue(threads,'builders'))
+                
+        if self.hasDomChild('database'):
+            self.dbInfo=DatabaseInformation(self.getDomChild('database'))
+            self.dbInfo.complete(self)
                                                              
         # Complete the properies
         self.completeProperties()

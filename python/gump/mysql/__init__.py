@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 
+
 # Copyright 2003-2004 The Apache Software Foundation
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,5 +15,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# tell Python what modules make up the gump.stats package
-__all__ = ["statsdb","statistician","dbm","mysql"]
+"""
+    Gump Database Interfacing
+"""

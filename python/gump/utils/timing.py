@@ -76,20 +76,14 @@ def elapsedTimeTripleToString(elapsed,noTimeText=None):
     
     return elapsedString    
     
-# Note: Should've defaulted values to -1, but (by accident)
-# set some to 0, which then stuck in the DB. Leave this
-# check in until fixed that (perhaps by looking for 0 in
-# DB).
 def secsToDateTime(secs):
-    if -1 == secs or 0 == secs: return '-'    
-    return time.strftime(setting.datetimeformat, \
-                    time.localtime(secs))    
+    if not secs: return '-'
+    return time.strftime(setting.datetimeformat, time.localtime(secs))    
     
 # See note on secsToDate               
 def secsToTime(secs):
-    if -1 == secs or 0 == secs: return '-'
-    return time.strftime(setting.timeformat, \
-                    time.localtime(secs))                    
+    if not secs: return '-'
+    return time.strftime(setting.timeformat, time.localtime(secs))                    
                 
 def getGeneralSinceDescription(secs, since=None):
     if not since: since = default.time

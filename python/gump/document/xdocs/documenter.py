@@ -567,7 +567,7 @@ class XDocDocumenter(Documenter):
         if not self.workspace.private:
             detailsTable.createEntry("E-mail Server: ", self.workspace.mailserver)
             detailsTable.createEntry("E-mail Port: ", self.workspace.mailport)
-            detailsTable.createEntry("List Address: ", self.workspace.mailinglist)
+            detailsTable.createEntry("List Address: ", self.workspace.administrator)
             detailsTable.createEntry("E-mail Address: ", self.workspace.email)            
             detailsTable.createEntry("Prefix: ", self.workspace.prefix)
             detailsTable.createEntry("Signature: ", self.workspace.signature)
@@ -1951,13 +1951,15 @@ This page helps Gumpmeisters (and others) observe community progress.
             
         statsTable.createEntry("Current State: ", stateDescription(stats.currentState))
         statsTable.createEntry("Duration in state: ", stats.sequenceInState)
-        statsTable.createEntry("Start of state: ", secsToDateTime(stats.startOfState))
-        statsTable.createEntry("Previous State: ", stateDescription(stats.previousState))
+        if stats.startOfState:
+            statsTable.createEntry("Start of state: ", stats.startOfState.isoformat())
+        if stats.previousState:
+            statsTable.createEntry("Previous State: ", stats.previousState.isoformat())
         
         if stats.first:
-            statsTable.createEntry("First Success: ", secsToDateTime(stats.first))
+            statsTable.createEntry("First Success: ", stats.first.isoformat())
         if stats.last:
-            statsTable.createEntry("Last Success: ", secsToDateTime(stats.last))
+            statsTable.createEntry("Last Success: ", stats.last.isoformat())
             
     def displayClasspath(self,document,classpath,title,referencingObject):
         

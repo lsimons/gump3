@@ -210,9 +210,6 @@ class JavaHelper(gump.run.gumprun.RunSpecific):
         if ids:
             for id in ids:
                 if not id in projectIds:
-                    # :TODO: This will cause repeats of this message
-                    # for every dep who tries to use this
-                    # Gumpy really needs to be OO!!!!
                     dependency.getOwnerProject().addWarning("Invalid ID [" + id \
                           + "] for dependency on [" + project.getName() + "]")
 

@@ -69,7 +69,7 @@ class default:
     bannerimage = 'http://gump.apache.org/images/gump-logo.gif'
     
     email = 'gump@' + gumpfullhost
-    mailinglist = 'general@gump.apache.org'
+    administrator = 'general@gump.apache.org'
     mailserver = 'mail.apache.org'
     mailport = 25
     prefix = '[GUMP@' + gumphost + ']'

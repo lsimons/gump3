@@ -399,7 +399,7 @@ class Module(NamedModelObject, Statable, Resultable, Positioned):
         # Grab all notifications
         for notifyEntry in self.getDomChildIterator('nag'):
             # Determine where to send
-            toaddr=getDomAttributeValue(notifyEntry,'to',workspace.mailinglist)
+            toaddr=getDomAttributeValue(notifyEntry,'to',workspace.administrator)
             fromaddr=getDomAttributeValue(notifyEntry,'from',workspace.email)   
             self.notifys.append(
                     AddressPair(
@@ -664,7 +664,7 @@ class ModuleStatistics(Statistics):
     """
     def __init__(self,moduleName):
         Statistics.__init__(self,moduleName)    
-        self.lastModified=-1        
+        self.lastModified=None
         
     def getLastModified(self):
         return (self.lastModified)
@@ -674,7 +674,7 @@ class ModuleStatistics(Statistics):
         
     def lastModifiedKey(self):
         return self.getKeyBase() + '-last-updated'
-
+        
     def update(self,module):      
         Statistics.update(self,module)
 

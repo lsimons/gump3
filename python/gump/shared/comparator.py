@@ -63,6 +63,8 @@ def compareModulesByFOGFactor(module1,module2):
 def compareModulesByLastModified(module1,module2):
     lu1=module1.getLastModified()
     lu2=module2.getLastModified()
+    if not lu1: lu1 = -1
+    if not lu2: lu2 = -1
     c= int(round(lu2 - lu1,0))                  
     if not c: c=cmp(module1,module2)
     return c             
@@ -105,6 +107,8 @@ def compareProjectsByFOGFactor(project1,project2):
 def compareProjectsByLastModified(project1,project2):
     lu1=project1.getLastModified()
     lu2=project2.getLastModified()
+    if not lu1: lu1 = -1
+    if not lu2: lu2 = -1
     c= int(round(lu2 - lu1,0))                  
     if not c: c=cmp(project1,project2)
     return c              

@@ -72,7 +72,6 @@ class Documenter(gump.run.actor.AbstractRunActor):
         
         self.documentRun()
         
-
     def setResolver(self,resolver):
         self.resolver=resolver        
 

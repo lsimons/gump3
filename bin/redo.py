@@ -59,7 +59,7 @@ if __name__=='__main__':
     options.setText(True)
     
     # 
-    options.setObjectives(OBJECTIVE_REDO)    
+    options.setObjectives(gump.run.options.OBJECTIVE_REDO)    
     
     # The Run Details...
     run=GumpRun(workspace,ps,options)
