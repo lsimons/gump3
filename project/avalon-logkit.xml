@@ -70,7 +70,13 @@
     <home nested="build/lib"/>
     <jar name="logkit.jar"/>
 
-    <javadoc nested="build/javadocs" module="avalon"/>
+    <work nested="target/classes"/>
+    <work nested="target/api-classes"/>
+    <work nested="target/impl-classes"/>
+    <work nested="target/test-classes"/>
+
+    <javadoc nested="target/docs/apidocs" module="avalon"/>
+    <junitreport nested="target/docs/junitreports" module="avalon"/>
     <license name="LICENSE"/>
         <nag from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"
                 to="dev@avalon.apache.org"/>
