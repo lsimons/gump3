@@ -14,18 +14,16 @@
   See the License for the specific language governing permissions and
   limitations under the License.
 -->
-<module name="packaged-jetty">
+<module name="saxon">
 
-  <url  href="http://jetty.mortbay.org/jetty/index.html"/>
-  <description>
-    Java HTTP Servlet Server
-  </description>
+  <url  href="http://saxon.sourceforge.net/"/>
+  <description>XSLT processor</description>
 
-  <project name="packaged-jetty">
-    <package>org.mortbay</package>
+  <project name="saxon">
+    <package>net.sf.saxon</package>
 
-    <jar name="lib/org.mortbay.jetty.jar"/>
-    <license name="LICENSE.html"/>
+    <jar name="saxon7.jar"/>
+    <license name="doc/conditions.html"/>
   </project>
 
 </module>

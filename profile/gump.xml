@@ -175,6 +175,8 @@
   <!-- <module href="project/qdox.xml"/> -->
   <module href="project/quartz.xml"/>
   <module href="project/relaxng.xml"/>
+  <module href="project/saxon.xml"/>
+  <module href="project/saxon6.xml"/>
   <module href="project/webwork.xml"/>
   <module href="project/wss4j.xml"/>
   <module href="project/xdoclet.xml"/>
@@ -311,6 +313,8 @@
   <project name="packaged-jaxen"   package="jaxen-1.0-FCS"/>
   <project name="packaged-jetty"   package="Jetty-5.0.beta2"/>
   <project name="saxpath"          package="jaxen-1.0-FCS"/>
+  <project name="saxon"            package="saxon7-9"/>
+  <project name="saxon6"           package="saxon6_5_3"/>
   <project name="packaged-dom4j"   package="dom4j-1.4"/>
 
 

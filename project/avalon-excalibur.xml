@@ -851,13 +851,14 @@
             <property name="project.version" value="@@DATE@@"/>
         </ant>
 
-        <depend property="excalibur-fortress-tools.jar" project="avalon-fortress-tools" inherit="runtime"/>
+        <!--depend property="excalibur-fortress-tools.jar" project="avalon-fortress-tools" inherit="runtime"/-->
         <depend property="qdox.jar" project="phoenix-qdox"/>
         <depend project="ant" inherit="runtime"/>
         <option project="checkstyle" inherit="runtime"/>
         <depend project="junit"/>
         <depend project="avalon-framework" runtime="true" id="combined"/>
-        <depend project="avalon-fortress-tools" runtime="true"/>
+        <!--depend project="avalon-fortress-tools" runtime="true"/-->
+        <depend project="excalibur-instrument"/>
         <depend project="xml-xerces"/>
         <depend project="xml-xalan2"/>
         <depend project="jisp"/>
@@ -1028,6 +1029,8 @@
             <property name="project.version" value="@@DATE@@"/>
         </ant>
         <depend project="excalibur-logger"/>
+        <depend project="saxon"/>
+        <depend project="saxon6"/>
         <depend property="logkit.jar" project="avalon-logkit" runtime="true"/>
         <depend project="excalibur-instrument"/>
         <depend project="excalibur-component" id="component"/>
@@ -1042,7 +1045,7 @@
         <depend property="jaxen.jar" project="jaxen"/>
         <depend property="jtidy.jar" project="jtidy"/>
         <depend property="resolver.jar" project="xml-commons-resolver"/>
-        <depend property="excalibur-fortress-tools.jar" project="avalon-fortress-tools" inherit="runtime"/>
+        <!--depend property="excalibur-fortress-tools.jar" project="avalon-fortress-tools" inherit="runtime"/-->
 
         <depend property="qdox.jar" project="phoenix-qdox"/>
 
