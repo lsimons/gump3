@@ -341,7 +341,7 @@ class GumpEngine:
                 project.addError('Failed to delete directory ['+dir+']')
                 raise
         elif delete.file:
-            file=os.path.abspath(os.path.join(basedir,delete.file)
+            file=os.path.abspath(os.path.join(basedir,delete.file))
             try:
                 os.remove(file)
             except:
