@@ -76,7 +76,6 @@
           <xsl:text>Workspace: </xsl:text>
           <a href="workspace.html">definition</a>
           <a href="xref.html">cross reference</a>
-          <a href="modxref.html">modules</a>
           <a href="cvs_index.html">cvs logs</a>
         </menu>
 

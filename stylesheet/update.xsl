@@ -48,8 +48,7 @@
         <menu>
           <xsl:text>Workspace: </xsl:text>
           <a href="workspace.html">definition</a>
-          <a href="xref.html">cross reference</a>
-          <a href="modxref.html">modules</a>
+          <a href="modxref.html">cross reference</a>
           <a href="index.html">build logs</a>
         </menu>
 
@@ -88,12 +87,12 @@
         </title>
 
         <sidebar>
-          <strong><a href="index.html">Build logs</a></strong>
+          <strong><a href="index.html">Cvs logs</a></strong>
           <ul>
-            <xsl:for-each select="../project[ant|script]">
+            <xsl:for-each select="../module">
               <xsl:sort select="@name"/>
               <li>
-                <a href="{@name}.html"><xsl:value-of select="@name"/></a>
+                <a href="cvs_{@name}.html"><xsl:value-of select="@name"/></a>
               </li>
             </xsl:for-each>
           </ul>
@@ -101,6 +100,11 @@
 
         <menu>
           <date-time/>
+
+          <br/>
+          <xsl:text>Module: </xsl:text>
+          <a href="module_{@name}.html">definition</a>
+          <a href="modxref.html">cross reference</a>
 
           <xsl:variable name="module" select="@name"/>
           <xsl:if test="/workspace/project[@module=$module and (ant|script)]">

@@ -11,7 +11,7 @@
       <html log="{@logdir}/xref.html"
         banner-image="{@banner-image}" banner-link="{@banner-link}">
 
-        <title>Cross Reference</title>
+        <title>Dependency Cross Reference</title>
 
         <sidebar>
           <strong><a href="index.html">Build logs</a></strong>
@@ -25,7 +25,16 @@
           </ul>
         </sidebar>
 
-        <menu/>
+        <menu>
+          <xsl:text>Workspace: </xsl:text>
+          <a href="workspace.html">definition</a>
+          <a href="cvs_index.html">cvs logs</a>
+          <a href="index.html">build logs</a>
+          <xsl:text>Cross reference: </xsl:text>
+          <a href="modxref.html">modules by repository</a>
+          <a href="packages.html">installed packages</a>
+          <a href="cvsjars.html">jars by module</a>
+        </menu>
 
         <content>
           <table border="1">
@@ -116,9 +125,12 @@
         <menu>
           <xsl:text>Workspace: </xsl:text>
           <a href="workspace.html">definition</a>
-          <a href="xref.html">cross reference</a>
           <a href="cvs_index.html">cvs logs</a>
           <a href="index.html">build logs</a>
+          <xsl:text>Cross reference: </xsl:text>
+          <a href="xref.html">dependencies</a>
+          <a href="packages.html">installed packages</a>
+          <a href="cvsjars.html">jars by module</a>
         </menu>
 
         <content>
@@ -203,9 +215,12 @@
         <menu>
           <xsl:text>Workspace: </xsl:text>
           <a href="workspace.html">definition</a>
-          <a href="xref.html">cross reference</a>
           <a href="cvs_index.html">cvs logs</a>
           <a href="index.html">build logs</a>
+          <xsl:text>Cross reference: </xsl:text>
+          <a href="xref.html">dependencies</a>
+          <a href="modxref.html">modules by repository</a>
+          <a href="cvsjars.html">jars by module</a>
         </menu>
 
         <content>
@@ -250,13 +265,43 @@
              </table>
           </blockquote>
 
-          <a name="cvsjars">
-            <table width="100%" cellpadding="2" cellspacing="0" border="0">
-              <tr>
-                <td class="title">List of jars used from cvs</td>
-              </tr>
-            </table>
-          </a>
+        </content>
+
+      </html>
+
+      <!-- =============================================================== -->
+      <!--              Produce a list of jars used from cvs               -->
+      <!-- =============================================================== -->
+
+      <html log="{@logdir}/cvsjars.html"
+        banner-image="{@banner-image}" banner-link="{@banner-link}">
+
+        <title>List of jars used from cvs</title>
+
+        <sidebar>
+          <strong><a href="index.html">Cvs logs</a></strong>
+          <ul>
+            <xsl:for-each select="module">
+              <xsl:sort select="@name"/>
+              <li>
+                <a href="cvs_{@name}.html"><xsl:value-of select="@name"/></a>
+              </li>
+            </xsl:for-each>
+          </ul>
+        </sidebar>
+
+        <menu>
+          <xsl:text>Workspace: </xsl:text>
+          <a href="workspace.html">definition</a>
+          <a href="cvs_index.html">cvs logs</a>
+          <a href="index.html">build logs</a>
+          <xsl:text>Cross reference: </xsl:text>
+          <a href="xref.html">dependencies</a>
+          <a href="modxref.html">modules by repository</a>
+          <a href="packages.html">installed packages</a>
+        </menu>
+
+        <content>
 
           <blockquote>
              <table class="content">
