@@ -96,6 +96,13 @@ class GumpSet:
             self.repositories=self.getRepositoriesForModuleList(self.modules)
         else:
             self.repositories=repositories
+                
+        self.validate()
+        
+    # Validate a decent run
+    def validate(self):
+        if self.isEmpty():
+            raise RuntimeError, 'No projects match [' + self.projectexpression + ']'
         
     # No Projects
     def isEmpty(self):

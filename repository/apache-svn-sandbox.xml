@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<repository name="apache-svn-sandbox" type="svn">
+  <title>Apache SubVersion Sandbox</title>
+  <home-page>http://nagoya.apache.org/wiki/apachewiki.cgi?Subversion</home-page>
+  <cvsweb>http://cvs.apache.org/repos/test/</cvsweb>
+  
+  
+  <url>http://cvs.apache.org/repos/test/</url>
+  
+  <redistributable/>
+</repository>

@@ -1,97 +1,75 @@
-#!/usr/bin/env python
-
-# $Header: /home/stefano/cvs/gump/python/gump/update.py,v 1.21 2003/11/18 00:29:49 ajack Exp $
-# $Revision: 1.21 $
-# $Date: 2003/11/18 00:29:49 $
-#
-# ====================================================================
-#
-# The Apache Software License, Version 1.1
-#
-# Copyright (c) 2003 The Apache Software Foundation.  All rights
-# reserved.
-#
-# Redistribution and use in source and binary forms, with or without
-# modification, are permitted provided that the following conditions
-# are met:
-#
-# 1. Redistributions of source code must retain the above copyright
-#    notice, this list of conditions and the following disclaimer.
-#
-# 2. Redistributions in binary form must reproduce the above copyright
-#    notice, this list of conditions and the following disclaimer in
-#    the documentation and/or other materials provided with the
-#    distribution.
-#
-# 3. The end-user documentation included with the redistribution, if
-#    any, must include the following acknowlegement:
-#       "This product includes software developed by the
-#        Apache Software Foundation (http://www.apache.org/)."
-#    Alternately, this acknowlegement may appear in the software itself,
-#    if and wherever such third-party acknowlegements normally appear.
-#
-# 4. The names "The Jakarta Project", "Alexandria", and "Apache Software
-#    Foundation" must not be used to endorse or promote products derived
-#    from this software without prior written permission. For written
-#    permission, please contact apache@apache.org.
-#
-# 5. Products derived from this software may not be called "Apache"
-#    nor may "Apache" appear in their names without prior written
-#    permission of the Apache Group.
-#
-# THIS SOFTWARE IS PROVIDED ``AS IS'' AND ANY EXPRESSED OR IMPLIED
-# WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
-# OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
-# DISCLAIMED.  IN NO EVENT SHALL THE APACHE SOFTWARE FOUNDATION OR
-# ITS CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
-# SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
-# LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF
-# USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
-# ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
-# OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT
-# OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
-# SUCH DAMAGE.
-# ====================================================================
-#
-# This software consists of voluntary contributions made by many
-# individuals on behalf of the Apache Software Foundation.  For more
-# information on the Apache Software Foundation, please see
-# <http://www.apache.org/>.
-
+#!/usr/bin/python
 """
-Execute the appropriate cvs checkout or update commands
+  This is the commandline entrypoint into gump.
+
+  It at the moment basically
+  calls gump.load() to get the workspace, then dumps
+  information about what it should be doing to stdout.
+
+  The main thing to do here is to clone dumpDeps to create a
+  build() method which executes the appropriate script
+  (probably only ant at the moment; would be nice to have
+  support for maven) for each of the dependencies.
 """
+
+import os.path
 import os
+import sys
+import logging
 
-from gump import log, load
-from gump.conf import *
-from gump.model import Module,Repository
-from gump.context import *
-from gump.launcher import Cmd,CmdResult,execute
-from gump.logic import *
-from gump.utils import dump
-from gump.net.cvs import *
+from gump import log
+from gump.engine import GumpEngine
+from gump.gumprun import GumpRun, GumpRunOptions, GumpSet
+from gump.utils.commandLine import handleArgv
+from gump.model.loader import WorkspaceLoader
 
+
+###############################################################################
+# Initialize
+###############################################################################
+
+
+###############################################################################
+# Functions
+###############################################################################
+
+# static void main()
 if __name__=='__main__':
 
-  # init logging
-  logging.basicConfig()
+    # Process command line
+    args = handleArgv(sys.argv)
+    ws=args[0]
+    ps=args[1]
+    
+    # get parsed workspace definition
+    workspace=WorkspaceLoader().load(ws)
+      
+    #
+    # Check Environment (eventually not do this each time)
+    # Exit if problems...
+    #
+    #checkEnvironment(workspace,context,1)
+        
+    #
+    # Check projects (and such) in workspace...
+    # Store results in context, do not display
+    # to screen.
+    #
+    #check(workspace, ps, context, 0)    
+    
+    # TODO populate...
+    options=GumpRunOptions()
+    
+    # The Run Details...
+    run=GumpRun(workspace,ps,options)
+    
+    #
+    #    Perform this integration run...
+    #
+    result = GumpEngine().update(run)
 
-  #set verbosity to show all messages of severity >= default.logLevel
-  log.setLevel(default.logLevel)
-
-  args = handleArgv(sys.argv)
-  ws=args[0]
-  ps=args[1]
-  
-  # load the workspace
-  workspace=load(ws)
-  
-  context=GumpContext()
-  
-  # logins=readLogins()  
-  # dump(logins)
+    #
+    log.info('Gump Update complete. Exit code:' + str(result))
           
-  update(workspace, ps, context)
-  
-  # dump(context)
+    # bye!
+    sys.exit(result)

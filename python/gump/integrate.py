@@ -23,7 +23,6 @@ from gump.gumprun import GumpRun, GumpRunOptions, GumpSet
 from gump.utils.commandLine import handleArgv
 from gump.model.loader import WorkspaceLoader
 
-#from gump.check import checkEnvironment, check
 
 ###############################################################################
 # Initialize

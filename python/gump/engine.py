@@ -84,13 +84,6 @@ class GumpEngine:
             log.warn(message)   
 
     def integrate(self,run):
-        
-        workspace=run.getWorkspace()
-        gumpSet = run.getGumpSet()
-        
-        projects=gumpSet.getProjects()
-        sequence=gumpSet.getSequence()
-        modules=gumpSet.getModules()  
   
         #
         # Prepare the context
@@ -100,17 +93,12 @@ class GumpEngine:
         #
         # Checkout from source code repositories
         #
-        self.updateModules(run)
-  
-        #
-        # Checkout from source code repositories
-        #
-        self.syncWorkDirs(run)
+        self.update(run)
   
         #
         # Run the build commands
         #
-        self.buildProjectSequence(run,sequence)
+        self.build(run)
   
         #
         # Only an 'all' is an official build, for them:
@@ -156,7 +144,18 @@ class GumpEngine:
         ******************************************************************
     
     """
-    
+    def update(self, run):
+        
+        #
+        # Checkout from source code repositories
+        #
+        self.updateModules(run)
+  
+        #
+        # Checkout from source code repositories
+        #
+        self.syncWorkDirs(run)
+  
     def updateModules(self, run):
  
         workspace = run.getWorkspace()

@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/utils/__init__.py,v 1.5 2003/11/21 19:04:10 ajack Exp $
-# $Revision: 1.5 $
-# $Date: 2003/11/21 19:04:10 $
+# $Header: /home/stefano/cvs/gump/python/gump/utils/__init__.py,v 1.6 2003/11/24 18:32:20 ajack Exp $
+# $Revision: 1.6 $
+# $Date: 2003/11/24 18:32:20 $
 #
 # ====================================================================
 #
@@ -271,6 +271,8 @@ def getGeneralDifferenceDescription(newerSecs,olderSecs):
             if diffHours > 1: diffString += 's'
         else:
             diffString = ''
+    elif olderSecs == newerSecs:
+        diffString = 'This run'
     else:
         diffString = ''
     

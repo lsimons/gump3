@@ -1,5 +1,9 @@
 <profile name="gump">
   
+<!-- Gump Self Testing -->
+
+  <module href="project/svn-test.xml"/>
+  
 <!-- Apache.Ant -->
 
   <module href="project/ant.xml"/>
@@ -142,7 +146,7 @@
   <module href="project/jgen.xml"/>
   <module href="project/jrefactory.xml"/>
   <module href="project/jtidy.xml"/>
-  <module href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/*checkout*/juddi/juddi/gump.xml?content-type=text/xml&amp;rev=HEAD" />
+  <module href="http://cvs.apache.org/viewcvs.cgi/*checkout*/ws-juddi/gump.xml?rev=HEAD&amp;content-type=text/xml" />
   <module href="project/junit.xml"/>
   <module href="project/jython.xml"/>
   <module href="project/mockobjects.xml"/>
@@ -279,6 +283,11 @@
   <project name="packaged-jaxen"   package="jaxen-1.0-FCS"/>
   <project name="saxpath"          package="jaxen-1.0-FCS"/>
   <project name="packaged-dom4j"   package="dom4j-1.4"/>
+
+
+<!-- SVN Repository definitions -->
+
+  <repository href="repository/apache-svn-sandbox.xml"/>
 
 <!-- CVS Repository definitions -->
 

@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/model/module.py,v 1.13 2003/11/24 16:14:06 ajack Exp $
-# $Revision: 1.13 $
-# $Date: 2003/11/24 16:14:06 $
+# $Header: /home/stefano/cvs/gump/python/gump/model/module.py,v 1.14 2003/11/24 18:32:19 ajack Exp $
+# $Revision: 1.14 $
+# $Date: 2003/11/24 18:32:19 $
 #
 # ====================================================================
 #
@@ -138,19 +138,23 @@ class ModuleSvn(ModelObject):
         ModelObject.__init__(self,xml)
         
         # Reference to the shared repository
-        self.repository=repository
-        
+        self.repository=repository    
+            
         # Extract settings
-        if xml.url:
-            self.url	=	str(xml.url)
-        elif self.repository.hasUrl():
-            self.url 	=  self.repository.getUrl()
-    
-    def hasUrl(self):
-        return (hasattr(self,'url') and self.url)
+        if xml.dir:
+            self.dir	=	str(xml.dir)
+
+    def getRootUrl(self):
+        url=self.repository.getUrl()
+        if self.hasDir():
+            url+=self.getDir()
+        return url
         
-    def getUrl(self):
-        return self.url
+    def hasDir(self):
+        return (hasattr(self,'dir') and self.dir)
+        
+    def getDir(self):
+        return self.dir
          
 class ModuleJars(ModelObject):
     def __init__(self,xml,repository):
@@ -485,13 +489,16 @@ class Module(NamedModelObject, Statable):
         return self.workspace
     
     def hasCvs(self):
-        return hasattr(self,'cvs') and self.cvs
+        if hasattr(self,'cvs') and self.cvs: return 1
+        return 0
         
     def hasSvn(self):
-        return hasattr(self,'svn') and self.svn
+        if hasattr(self,'svn') and self.svn: return 1
+        return 0
         
     def hasJars(self):
-        return hasattr(self,'jars') and self.jars
+        if hasattr(self,'jars') and self.jars: return 1
+        return 0
         
     # Where the contents (at the repository) updated?
     def isUpdated(self):
@@ -588,7 +595,7 @@ class Module(NamedModelObject, Statable):
         log.debug("SubVersion Update Module " + self.getName() + \
                        ", Repository Name: " + str(self.repository.getName()))
                                         
-        url=self.svn.getUrl()
+        url=self.svn.getRootUrl()
       
         log.debug("SVN URL: [" + url + "] on Repository: " + self.repository.getName())
      
@@ -606,22 +613,36 @@ class Module(NamedModelObject, Statable):
 
             # do a cvs checkout
             cmd.addParameter('checkout')
-            if self.svn.hasUrl():
-                cmd.addParameter(self.svn.getUrl())
+            cmd.addParameter(url)
           
         #
         # Be 'quiet' (but not silent) unless requested otherwise.
         #
-        if 	not self.isDebug() 	\
+        if 	and not self.isDebug() 	\
             and not self.isVerbose() \
             and not self.svn.isDebug()	\
             and not self.svn.isVerbose():    
-            cmd.addParameter('-q')
+            cmd.addParameter('--quiet')
           
+          
+        #
+        # Allow trace for debug
+        #
+        if self.isDebug() or  self.svn.isDebug():
+            cmd.addParameter('--verbose')
+            
         #
         # Request non-interactive
         #
         cmd.addParameter('--non-interactive')
+
+        #
+        # If module name != SVN directory, tell SVN to put it into
+        # a directory named after our module
+        #
+        if not self.svn.getDir() == self.getName():
+            cmd.addParameter(self.getName())
+        
 
         return (self.repository, url, cmd)
          
