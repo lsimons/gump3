@@ -10,6 +10,18 @@
 
   <cvs repository="jakarta" module="jakarta-tomcat-jasper"/>
   <project name="jakarta-tomcat-jasper_tc5">
-      <home nested="jasper2" />
+    <ant basedir="jasper2" target="dist">
+      <depend property="ant.jar" project="ant" id="ant"/>
+      <depend property="commons-el.jar" project="commons-el"/>
+      <depend property="servlet-api.jar"
+              project="jakarta-servletapi-5-servlet"/>
+      <depend property="jsp-api.jar" project="jakarta-servletapi-5-jsp"/>
+    </ant>
+    <home nested="jasper2" />
+    <jar name="dist/shared/lib/jasper-compiler.jar"/>
+    <jar name="dist/shared/lib/jasper-runtime.jar"/>
+
+    <depend project="xml-xerces"/>
+    <depend project="commons-logging"/>
   </project>
 </module>
