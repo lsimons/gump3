@@ -11,7 +11,9 @@
   <project name="javagroups">
     <package>org.javagroups</package>
 
-    <ant target="all"/>
+    <ant target="all">
+      <property name="build.compiler" value="modern"/>
+    </ant>
     <depend project="jakarta-ant" inherit="runtime"/>
     <depend project="xml-xerces"/>
     <depend project="junit"/>
