@@ -136,7 +136,6 @@
 
         <package>org.krysalis.version.ant.test</package>
 
-        <depend project="krysalis-version-core" inherit="all"/>
         <depend project="krysalis-version-ant" inherit="all"/>
         
       	<ant basedir="." buildfile="build-ant-test.xml" target="gump"/>
@@ -155,7 +154,6 @@
 
         <package>org.krysalis.version.ant.sample</package>
       
-        <depend project="krysalis-version-core" inherit="all"/>
         <depend project="krysalis-version-ant" inherit="all"/>
         
       	<ant basedir="." buildfile="build-ant-sample.xml" target="gump"/>
@@ -176,7 +174,6 @@
 
         <code type="java/plain" dir="src/ant"/>
       
-        <depend project="krysalis-version-core" inherit="all"/>
         <depend project="krysalis-version-ant" inherit="all"/>
         
       	<ant basedir="." buildfile="build-ant-samples.xml" target="gump"/>
