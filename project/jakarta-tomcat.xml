@@ -5,7 +5,7 @@
   </description>
   <url href="http://jakarta.apache.org/tomcat/index.html"/>
 
-  <cvs repository="jakarta" tag="tomcat_321_final"/>
+  <cvs repository="jakarta" />
 
   <ant target="dist">
     <property name="ant.home" reference="home" project="dist-ant"/>
