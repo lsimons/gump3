@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/document/resolver.py,v 1.17 2004/03/12 02:50:52 ajack Exp $
-# $Revision: 1.17 $
-# $Date: 2004/03/12 02:50:52 $
+# $Header: /home/stefano/cvs/gump/python/gump/document/resolver.py,v 1.18 2004/03/30 14:40:59 ajack Exp $
+# $Revision: 1.18 $
+# $Date: 2004/03/30 14:40:59 $
 #
 # ====================================================================
 #
@@ -78,6 +78,9 @@ from gump.output.statsdb import StatisticsGuru
 from gump.output.xref import XRefGuru
 from gump.utils.work import *
 from gump.utils.file import *
+
+from gump.gumpenv import GumpEnvironment
+
 from gump.model.repository import Repository
 from gump.model.server import Server
 from gump.model.tracker import Tracker
@@ -142,6 +145,8 @@ def getPathForObject(object,visited=None):
            
     # Determine Path
     if isinstance(object, Workspace):
+        path=Path()
+    elif isinstance(object, GumpEnvironment):
         path=Path()
     elif isinstance(object, Repository):
         path=Path(['gump_repo'])
@@ -241,6 +246,8 @@ def getDocumentForObject(object, extn='.xml', visited=None):
         or isinstance(object,StatisticsGuru) 	\
         or isinstance(object,XRefGuru) :    
         document="index"+extn
+    elif isinstance(object, GumpEnvironment):
+        document="environment"+extn            
     elif isinstance(object, Project) 	\
         or isinstance(object, Server)	\
         or isinstance(object, Tracker)	\
@@ -261,6 +268,7 @@ def getLinkBetween(toObject,fromObject):
 def getIndexForObject(object):
     
     if 	isinstance(object, Workspace)	or	\
+        isinstance(object, GumpEnvironment)	or	\
         isinstance(object, Server)	or	\
         isinstance(object, Tracker)	or	\
         isinstance(object, Repository)	or	\

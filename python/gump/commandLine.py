@@ -103,7 +103,7 @@ class CommandLine:
                 #
                 # Dated means add the date to the log dir...
                 #
-                options.setDated(1)                    
+                self.options.setDated(1)                    
                 log.info('Dated Operation (add date to log dir)')
             elif arg in ['-t','--text']:
                 argv.remove(arg)        
