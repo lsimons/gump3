@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/forrest.py,v 1.117 2004/03/26 02:27:15 ajack Exp $
-# $Revision: 1.117 $f
-# $Date: 2004/03/26 02:27:15 $
+# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/forrest.py,v 1.118 2004/03/28 19:04:55 ajack Exp $
+# $Revision: 1.118 $f
+# $Date: 2004/03/28 19:04:55 $
 #
 # ====================================================================
 #
@@ -1650,16 +1650,30 @@ This page helps Gumpmeisters (and others) observe community progress.
     def documentProperties(self,xdocNode,propertyContainer,title='Properties'):
         
         properties=propertyContainer.getProperties()
-        if not properties: return        
+        sysproperties=propertyContainer.getSysProperties()
+        if not properties and not sysproperties: return        
         
         propertiesSection=xdocNode.createSection(title)
+                
+        if sysproperties:
+            # System Properties
+            sysPropertiesSection=propertiesSection.createSection('System Properties')  
+            syspropertiesTable=sysPropertiesSection.createTable(['Name','Value','XML'])
+            for sysproperty in sysproperties:      
+                syspropertyRow=syspropertiesTable.createRow()
+                syspropertyRow.createData(sysproperty.getName())
+                syspropertyRow.createData(sysproperty.getValue())
+                syspropertyRow.createData(sysproperty.getXMLData())
         
-        propertiesTable=propertiesSection.createTable(['Name','Value','XML'])
-        for property in properties:      
-            propertyRow=propertiesTable.createRow()
-            propertyRow.createData(property.getName())
-            propertyRow.createData(property.getValue())
-            propertyRow.createData(property.getXMLData())
+        if properties:
+            # Standard Properties
+            standardPropertiesSection=propertiesSection.createSection('Standard Properties')    
+            propertiesTable=standardPropertiesSection.createTable(['Name','Value','XML'])
+            for property in properties:      
+                propertyRow=propertiesTable.createRow()
+                propertyRow.createData(property.getName())
+                propertyRow.createData(property.getValue())
+                propertyRow.createData(property.getXMLData())
                         
     def documentXML(self,xdocNode,xmlOwner):
         
