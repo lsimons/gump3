@@ -40,11 +40,21 @@
     <option project="xmldb"/>
     <option project="jndi"/>
     <option project="xmldb"/>
+    <depend project="deli"/>
     <work nested="build/cocoon/classes"/>
     <work nested="bin/anttasks"/>  <!-- no build instructions? -->
 
     <home nested="build/cocoon"/>
     <jar name="cocoon.jar"/>
+  </project>
+
+  <project name="deli">
+    <url href="http://www.hpl.hp.co.uk/people/marbut/deli/"/>
+    <description>
+      HTTP delivery context information
+    </description>
+    <jar name="lib/jena.jar"/>
+    <jar name="lib/deli.jar"/>
   </project>
 
   <project name="jstyle">
