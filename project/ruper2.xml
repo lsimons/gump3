@@ -98,6 +98,7 @@
     
   </project>
   
+  <!--
   <project name="krysalis-ruper2-ant-sample">
     <package>org.krysalis.ruper.test</package>
 
@@ -113,7 +114,7 @@
          from="Adam Jack &lt;arb_jack@users.sourceforge.net&gt;"/>    
     
   </project>
- 
+  -->
   <!-- Not ready yet... 
   <project name="krysalis-ruper2">
        
