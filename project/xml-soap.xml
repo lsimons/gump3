@@ -17,7 +17,9 @@
   <option project="bsf"/>
   <option project="jsse"/>
   <option project="ejb"/>
+  <option project="junit"/>
   <work nested="java/build/lib/soap.jar"/>
+  <work nested="java/build"/>
 
   <home nested="java/build"/>
   <jar name="lib/soap.jar"/>
