@@ -158,6 +158,21 @@
          from="Ted Husted &lt;ted@husted.com&gt;"/>
   </project>
 
+  <project name="commons-el">
+    <package>org.apache.commons.el</package>
+    <description>Expression Language</description>
+    <!--url href="http://jakarta.apache.org/commons/el/"/-->
+    <ant basedir="el" target="dist"/>
+    <depend project="jakarta-ant" inherit="runtime"/>
+    <depend project="jakarta-servletapi-5-servlet"/>
+    <depend project="jakarta-servletapi-5-jsp"/>
+    <home nested="el/dist"/>
+    <jar name="commons-el.jar"/>
+    <javadoc nested="el/dist/docs/api"/>
+    <nag to="commons-dev@jakarta.apache.org"
+         from="Stefan Bodewig &lt;bodewig@apache.org&gt;"/>
+  </project>
+
   <project name="commons-fileupload">
     <package>org.apache.commons.fileupload</package>
     <description>Commons File Upload Package</description>

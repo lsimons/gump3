@@ -76,6 +76,7 @@
     <depend project="jakarta-servletapi-5-servlet"/>
     <depend project="jakarta-servletapi-5-jsp"/>
     <depend project="jakarta-regexp"/>
+    <depend project="commons-el"/>
     <option project="junit" />
     <work nested="catalina/build/server/classes"/>
 
