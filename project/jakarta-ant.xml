@@ -31,9 +31,9 @@
     <option project="jakarta-regexp"/>
     <option project="jakarta-oro"/>
 
-    <ant target="dist distribution"/>
+    <ant target="distribution"/>
 
-    <home nested="dist"/>
+    <home nested="build"/>
     <jar  name="lib/ant.jar"/>
     <jar  name="lib/optional.jar"/>
   </project>
