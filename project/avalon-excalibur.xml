@@ -254,8 +254,6 @@
         <depend project="junit"/>
         <depend project="excalibur-pool"/>
         <depend project="excalibur-instrument"/>
-        <depend project="excalibur-component" id="component"/>
-        <depend property="excalibur-testcase.jar" project="excalibur-component" id="component"/>
         <depend property="logkit.jar" project="avalon-logkit"/>
 
         <!-- build-time dependencies -->
