@@ -334,7 +334,7 @@ class GumpEngine:
         # need to ensure the directory/file is under the workspace.
         #
         if delete.dir:
-            dir=os.path.abspath(os.path.join(basedir,delete.dir)
+            dir=os.path.abspath(os.path.join(basedir,delete.dir))
             try:
                 os.rmdir(dir))
             except:
