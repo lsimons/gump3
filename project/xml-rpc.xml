@@ -8,13 +8,15 @@
   <cvs repository="xml"/>
 
   <project name="xml-rpc">
-    <ant/>
+    <ant>
+      <property name="version" value="@@DATE@@"/>
+    </ant>
     <depend project="xml-xerces"/>
     <depend project="jakarta-ant"/>
     <option project="jakarta-servletapi"/>
     <option project="jsse"/>
     <home nested="bin"/>
-    <jar name="xmlrpc.jar"/>
+    <jar name="xmlrpc-@@DATE@@.jar"/>
   </project>
 
 </module>
