@@ -30,6 +30,7 @@
     <ant target="gump">
       <property name="jaxen.src" project="jaxen-from-packaged-dom4j"
                 path="src/java/main"/>
+      <sysproperty name="build.clonevm" value="true"/>
     </ant>
     <depend project="ant" inherit="runtime"/>
     <depend project="xml-xerces"/>
