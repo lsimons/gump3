@@ -502,7 +502,7 @@
         <package>org.apache.avalon.excalibur.i18n</package>
 
         <ant basedir="i18n">
-            <property name="version" value="@@DATE@@"/>
+            <property name="package-version" value="@@DATE@@"/>
             <property name="junit.failonerror" value="true"/>
             <property name="do.checkstyle" value="true"/>
             <property name="skip.dependencies" value="true"/>
