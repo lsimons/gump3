@@ -82,6 +82,8 @@
     <depend project="commons-jelly" inherit="all"/>
     <depend project="beanshell"/>
 
+    <depend project="commons-jelly-tags-junit" inherit="runtime"/>
+
     <work nested="jelly/jelly-tags/beanshell/target/classes"/>
     <work nested="jelly/jelly-tags/beanshell/target/test-classes"/>
 
@@ -102,6 +104,7 @@
     <depend project="commons-jelly" inherit="all"/>
     <depend project="commons-betwixt"/>
     <depend project="commons-digester"/>
+    <depend project="commons-jelly-tags-junit" inherit="runtime"/>
 
     <work nested="jelly/jelly-tags/betwixt/target/classes"/>
     <work nested="jelly/jelly-tags/betwixt/target/test-classes"/>
@@ -165,6 +168,7 @@
     </ant>
 
     <depend project="commons-jelly" inherit="all"/>
+    <depend project="commons-jelly-tags-junit" inherit="runtime"/>
 
     <work nested="jelly/jelly-tags/fmt/target/classes"/>
     <work nested="jelly/jelly-tags/fmt/target/test-classes"/>
@@ -307,6 +311,27 @@
          to="commons-dev@jakarta.apache.org"/>
   </project>  
 
+  <project name="commons-jelly-tags-junit">
+    <package>org.apache.commons.jelly.tags.junit</package>
+    <description>The Jelly Unit Test Tags</description>
+
+    <ant basedir="jelly/jelly-tags/junit" target="jar">
+      <property name="final.name"  value="commons-jelly-tags-junit-@@DATE@@"/>
+    </ant>
+
+    <depend project="commons-jelly" inherit="all"/>
+    
+    <depend project="junit" runtime="true"/>
+
+    <work nested="jelly/jelly-tags/junit/target/classes"/>
+    <work nested="jelly/jelly-tags/junit/target/test-classes"/>
+
+    <jar name="jelly/jelly-tags/junit/target/commons-jelly-tags-junit-@@DATE@@.jar"/>
+ 
+    <nag from="Morgan Delagrange &lt;mdelagra@yahoo.com&gt;"
+         to="commons-dev@jakarta.apache.org"/>
+  </project>  
+
   <project name="commons-jelly-tags-ojb">
     <package>org.apache.commons.jelly.tags.ojb</package>
     <description>A variety of tags for working with the ObjectBridge persistence engine</description>
@@ -389,6 +414,7 @@
     </ant>
 
     <depend project="commons-jelly" inherit="all"/>
+    <depend project="commons-jelly-tags-junit" inherit="runtime"/>
     
     <!-- also depends on JDBC 2.0 -->
 	
@@ -453,6 +479,7 @@
     </ant>
 
     <depend project="commons-jelly" inherit="all"/>
+    <depend project="commons-jelly-tags-junit" inherit="runtime"/>
 
     <work nested="jelly/jelly-tags/threads/target/classes"/>
     <work nested="jelly/jelly-tags/threads/target/test-classes"/>
@@ -472,6 +499,7 @@
     </ant>
 
     <depend project="commons-jelly" inherit="all"/>
+    <depend project="commons-jelly-tags-junit" inherit="runtime"/>
 
     <work nested="jelly/jelly-tags/util/target/classes"/>
     <work nested="jelly/jelly-tags/util/target/test-classes"/>
@@ -491,6 +519,7 @@
     </ant>
 
     <depend project="commons-jelly" inherit="all"/>
+    <depend project="commons-jelly-tags-junit" inherit="runtime"/>
     
     <depend project="iso-relax"/>
     <depend project="msv"/>
@@ -543,6 +572,8 @@
     <depend project="commons-jelly" inherit="all"/>
     <depend project="xml-xalan2"/>
     
+    <depend project="commons-jelly-tags-junit" inherit="runtime"/>
+
     <work nested="jelly/jelly-tags/xml/target/classes"/>
     <work nested="jelly/jelly-tags/xml/target/test-classes"/>
 

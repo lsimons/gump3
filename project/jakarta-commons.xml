@@ -253,6 +253,7 @@
     <depend project="junit"/>
     <depend project="dom4j"/>
     <depend project="commons-jelly" inherit="runtime"/>
+    <depend project="commons-jelly-tags-junit" inherit="runtime"/>
     <option project="jaxen" inherit="runtime"/>
     <work nested="latka/target/classes"/>
     <work nested="latka/target/test-classes"/>
