@@ -50,9 +50,11 @@
   <module href="http://cvs.apache.org/viewcvs/~checkout~/jakarta-turbine-3/Attic/gump.xml"/>
   <module href="http://cvs.apache.org/viewcvs/~checkout~/jakarta-turbine-fulcrum/gump.xml"/>
   <module href="http://cvs.apache.org/viewcvs/~checkout~/jakarta-turbine-jcs/gump.xml"/>
-  <module href="http://cvs.apache.org/viewcvs/~checkout~/jakarta-turbine-stratum/gump.xml"/>
+  <!--module href="http://cvs.apache.org/viewcvs/~checkout~/jakarta-turbine-stratum/gump.xml"-->
+  <module href="project/jakarta-turbine-stratum.xml"/>
   <module href="http://cvs.apache.org/viewcvs/~checkout~/jakarta-turbine-torque/gump.xml"/>
   
+
   <!-- Turbine projects not fully mavenized -->
   <module href="project/jakarta-turbine-flux.xml"/>
   <module href="project/jakarta-turbine-jyve.xml"/>
@@ -105,7 +107,9 @@
   <module href="project/jtidy.xml"/>
   <module href="project/junit.xml"/>
   <module href="project/jython.xml"/>
+  <module href="project/mockobjects.xml"/>
   <module href="project/mx4j.xml"/>
+  <module href="project/quartz.xml"/>
   <module href="project/relaxng.xml"/>
   <module href="project/webwork.xml"/>
   <module href="project/xdoclet.xml"/>

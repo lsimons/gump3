@@ -1,0 +1,29 @@
+<module name="mockobjects">
+
+  <url href="http://mockobjects.sourceforge.net/"/>
+  <description>
+    Mock Objects for Unit Tests
+  </description>
+
+  <cvs repository="sourceforge" host-prefix="cvs.mockobjects" 
+       dir="mockobjects" module="mockobjects-java"/>
+
+  <project name="mockobjects">
+    <package>com.mockobjects</package>
+    <mkdir dir="out/core/classes"/>
+    <mkdir dir="out/jdk/classes"/>
+
+    <ant/>
+    <depend project="jakarta-ant" inherit="runtime"/>
+    <depend project="xml-xerces"/>
+    <depend project="junit"/>
+    <work nested="out/core/classes"/>
+    <work nested="out/jdk/classes"/>
+
+    <home nested="out"/>
+    <jar name="mockobjects-core.jar"/>
+    <jar name="mockobjects-jdk1.3.jar"/>
+    <jar name="alt-jdk1.3.jar"/>
+  </project>
+
+</module>

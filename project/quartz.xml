@@ -1,0 +1,25 @@
+<module name="Quartz">
+
+  <url href="http://quartz.sourceforge.net/"/>
+  <description>
+    Job Scheduler
+  </description>
+
+  <cvs repository="sourceforge" host-prefix="cvs.quartz" dir="quartz"/>
+
+  <project name="quartz">
+    <package>org.quartz</package>
+
+    <ant/>
+    <depend project="jakarta-ant" inherit="runtime"/>
+    <depend project="xml-xerces"/>
+    <depend project="jdbc"/>
+    <depend project="commons-collections" />
+    <depend project="commons-dbcp" />
+    <depend project="commons-logging" />
+    <depend project="commons-pool" />
+    <depend project="jakarta-log4j"/>
+    <jar name="lib/quartz.jar"/>
+  </project>
+
+</module>
