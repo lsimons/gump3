@@ -52,6 +52,9 @@
   </project>
 
   <project name="xml-xalan2-smoketest-tools">
+    <description>
+      Independent testing harness org.apache.qetest
+    </description>
     <ant basedir="test" buildfile="qetest.xml" target="jar"/>
 
     <depend project="jakarta-ant"/>
@@ -74,7 +77,8 @@
     <depend project="jakarta-ant"/>
     <depend project="xml-xerces"/>
     <depend project="xml-xalan2"/>
-    <depend project="xml-xalan2-smoketest-tools"/>
+    <depend project="xml-xalan2-smoketest-tools"/> <!-- Only needed to get taskdef name="xalantest" working in GUMP Jun-02 -sc -->
+    <depend project="jtidy"/> <!-- Only needed for XSLTC testing currently Jun-02 -sc -->
     <work nested="test/java/build"/>
     <work nested="test/tests/extensions/java/build"/>
     <nag from="Sam Ruby &lt;rubys@us.ibm.com&gt;"
