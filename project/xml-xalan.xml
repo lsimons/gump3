@@ -66,6 +66,7 @@
     <depend project="xml-xerces"/>
     <depend project="dist-xalan2"/>
     <work nested="test/java/build"/>
+    <work nested="test/tests/extensions/java/build"/>
   </project>
 
   <project name="java_cup">
