@@ -12,7 +12,7 @@
   
     <ant target="dist">
       <property name="version" value="@@DATE@@"/>
-      <depend property="mm.jar" project="mm.mysql"/>
+      <depend property="database.jar" project="mm.mysql"/>
       <depend property="jaf.jar" project="jaf"/>
       <depend property="jakarta-oro.jar" project="jakarta-oro"/>
       <depend property="javamail.jar" project="javamail"/>
