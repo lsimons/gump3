@@ -21,6 +21,17 @@
     <javadoc nested="altrmi/dist/docs/api"/>
   </project>
 
+  <project name="commons-codec">
+    <description>Commons Encoding/Decoding Package</description>
+    <ant basedir="codec" target="dist">
+      <property name="component.version"  value="@@DATE@@"/>
+    </ant>
+    <depend project="jakarta-ant"/>
+    <depend project="xml-xerces"/>
+    <jar name="codec/dist/commons-codec-@@DATE@@.jar"/>
+    <javadoc nested="codec/dist/docs/api"/>
+  </project>
+
   <project name="commons-email">
     <description>Commons Email Package</description>
     <ant basedir="email" target="dist">
@@ -33,6 +44,17 @@
     <depend project="commons-util"/>
     <jar name="email/dist/commons-email-@@DATE@@.jar"/>
     <javadoc nested="email/dist/docs/api"/>
+  </project>
+
+  <project name="commons-io">
+    <description>Commons I/O Utility Package</description>
+    <ant basedir="io" target="dist">
+      <property name="component.version"  value="@@DATE@@"/>
+    </ant>
+    <depend project="jakarta-ant"/>
+    <depend project="xml-xerces"/>
+    <jar name="io/dist/commons-io-@@DATE@@.jar"/>
+    <javadoc nested="io/dist/docs/api"/>
   </project>
 
   <project name="commons-jjar">
@@ -94,6 +116,17 @@
 
     <jar name="services/dist/commons-services.jar"/>
     <javadoc nested="services/dist/docs/api"/>
+  </project>
+
+  <project name="commons-threading">
+    <description>Commons Threading Utility Package</description>
+    <ant basedir="threading" target="dist">
+      <property name="component.version"  value="@@DATE@@"/>
+    </ant>
+    <depend project="jakarta-ant"/>
+    <depend project="xml-xerces"/>
+    <jar name="threading/dist/commons-threading-@@DATE@@.jar"/>
+    <javadoc nested="threading/dist/docs/api"/>
   </project>
 
   <project name="commons-util">
