@@ -25,6 +25,7 @@
         project="commons-modeler" />
       <depend property="commons-modeler.jar" project="commons-modeler"
         runtime="true" />
+      <depend property="regexp.jar" project="jakarta-regexp" />
     </ant>
     <depend project="xml-xerces"/>
     <depend project="commons-logging"/>
