@@ -5,7 +5,7 @@
     Java to XML, SQL, LDAP bindings
   </description>
 
-  <cvs repository="castor"/>
+  <cvs repository="exolab" host-prefix="castor" dir="castor"/>
 
   <ant basedir="src" target="jar"/>
 
@@ -27,6 +27,24 @@
     </description>
     <jar name="lib/ldapjdk.jar"/>
     <jar name="lib/ldapsp.jar"/>
+  </project>
+
+  <project name="castor-test">
+    <depend project="jakarta-ant"/>
+    <depend project="xml-xerces"/>
+    <depend project="castor"/>
+    <depend project="junit"/>
+    <depend project="jtf"/>
+    <depend project="XMLDiff"/>
+    <ant basedir="src" target="runtests"/>
+  </project>
+
+  <project name="jtf">
+    <jar name="lib/jtf-0.1.jar"/>
+  </project>
+
+  <project name="XMLDiff">
+    <jar name="lib/XMLDiff.jar"/>
   </project>
 
 </project>

@@ -5,7 +5,7 @@
     HTML Templates
   </description>
 
-  <cvs repository="freemarker"/>
+  <cvs repository="sourceforge" host-prefix="cvs.freemarker" dir="freemarker"/>
 
   <ant/>
 

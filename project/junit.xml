@@ -5,7 +5,7 @@
     Unit test framework
   </description>
 
-  <cvs repository="junit"/>
+  <cvs repository="sourceforge" host-prefix="cvs.JUnit" dir="junit"/>
 
   <ant>
     <property name="dist" reference="home" project="junit"/>

@@ -5,7 +5,7 @@
     security and authentication, transactions, configuration, ...
   </description>
 
-  <cvs repository="tyrex"/>
+  <cvs repository="exolab" host-prefix="tyrex" dir="tyrex"/>
 
   <ant basedir="src" target="jar">
     <property name="version" value="gump"/>

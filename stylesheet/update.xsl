@@ -128,12 +128,36 @@
     <xsl:variable name="repository" select="@repository"/>
     <cvs srcdir="{ancestor::project/@srcdir}">
 
+      <xsl:variable name="dir" select="@dir"/>
+      <xsl:variable name="host-prefix" select="@host-prefix"/>
+
       <xsl:attribute name="repository">
-        <xsl:value-of select="//cvs-repository/tree[@name=$repository]/@root"/>
-        <xsl:if test="@dir">
-          <xsl:text>/</xsl:text>
-          <xsl:value-of select="@dir"/>
-        </xsl:if>
+        <xsl:for-each select="//repository[@name=$repository]/root">
+	  <xsl:text>:</xsl:text>
+          <xsl:value-of select="method"/>
+	  <xsl:text>:</xsl:text>
+          <xsl:value-of select="user"/>
+	  <xsl:text>@</xsl:text>
+          <xsl:if test="$host-prefix">
+            <xsl:value-of select="$host-prefix"/>
+            <xsl:text>.</xsl:text>
+          </xsl:if>
+          <xsl:value-of select="hostname"/>
+	  <xsl:text>:</xsl:text>
+          <xsl:value-of select="path"/>
+          <xsl:if test="$dir">
+            <xsl:text>/</xsl:text>
+            <xsl:value-of select="$dir"/>
+          </xsl:if>
+	</xsl:for-each>
+
+        <xsl:if test="not(//repository[@name=$repository]/root)">
+          <xsl:value-of select="//cvs-repository/tree[@name=$repository]/@root"/>
+          <xsl:if test="@dir">
+            <xsl:text>/</xsl:text>
+            <xsl:value-of select="@dir"/>
+          </xsl:if>
+	</xsl:if>
       </xsl:attribute>
 
       <xsl:apply-templates select="@*[not(name()='repository')]"/>
