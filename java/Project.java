@@ -1,7 +1,7 @@
 /*
- * $Header: /home/stefano/cvs/gump/java/Project.java,v 1.56 2003/04/10 09:51:12 bodewig Exp $
- * $Revision: 1.56 $
- * $Date: 2003/04/10 09:51:12 $
+ * $Header: /home/stefano/cvs/gump/java/Project.java,v 1.57 2003/04/30 13:06:25 bodewig Exp $
+ * $Revision: 1.57 $
+ * $Date: 2003/04/30 13:06:25 $
  *
  * ====================================================================
  *
@@ -84,6 +84,7 @@ public class Project {
     private Hashtable dependsOn = new Hashtable();
     private Hashtable referencedBy = new Hashtable();
     private Hashtable jars = new Hashtable();
+    private int numberOfJars;
     private boolean redistributable = false;
     private Element description;
     private Element url;
@@ -146,6 +147,7 @@ public class Project {
         this.element = element;
         document = element.getOwnerDocument();
         name = element.getAttribute("name");
+        numberOfJars = 0;
 
         Element home = null;
         Element javadoc = null;
@@ -175,7 +177,15 @@ public class Project {
             } else if (child.getNodeName().equals("junitreport")) {
                 junitreport = (Element)child;
             } else if (child.getNodeName().equals("jar")) {
-                jars.put(((Element)child).getAttribute("id"), child);
+                String jarId = ((Element)child).getAttribute("id");
+                if (!jarId.equals("") && jars.containsKey(jarId)) {
+                    throw new Exception("Multiple jars defined by project \""
+                                        + name + "\" declare the same id \""
+                                        + jarId + "\"");
+                }
+                
+                jars.put(jarId, child);
+                numberOfJars++;
             } else if (child.getNodeName().equals("deliver")) {
                 deliver.add(child);
             } else if (child.getNodeName().equals("nag")) {
@@ -201,7 +211,7 @@ public class Project {
 
         // if only one jar is found, make sure that it can be accessed without
         // specifying an id.
-        if (jars.size() == 1) {
+        if (numberOfJars == 1) {
             jars.put("", jars.elements().nextElement());
         }
 
@@ -678,30 +688,24 @@ public class Project {
         Project project = (Project) projects.get(projectName);
         require (project, "project", projectName);
 
-        Element jar = (Element)project.jars.get(id);
-        if (jar != null) return jar;
-
-        if (!id.equals("")) {
-
+        if (project.numberOfJars == 0) {
             throw new Exception(
-               "A jar with id \"" + id + "\" was not found in project \"" +
-               projectName + "\" referenced by project " + name);
-
-        } else if (project.jars.size() > 1) {
-
+               "Project \"" + projectName + "\" referenced by project " +
+               name + " defines no jars as output.");
+        } else if (id.equals("") && project.numberOfJars > 1) {
             throw new Exception(
                "Multiple jars defined by project \"" + projectName + "\" " +
                "referenced by project \"" + name + "\"; " +
                "an id attribute is required to select the one you want.");
-
-        } else {
-
-            throw new Exception(
-               "Project \"" + projectName + "\" referenced by project " +
-               name + " defines no jars as output.");
-
         }
-
+        
+        Element jar = (Element) project.jars.get(id);
+        if (jar == null) {
+            throw new Exception(
+               "A jar with id \"" + id + "\" was not found in project \"" +
+               projectName + "\" referenced by project " + name);
+        }
+        return jar;
     }
 
     /**
