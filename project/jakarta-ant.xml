@@ -22,13 +22,16 @@
     <option project="junit"/>
 
     <home nested="dist"/>
+
     <jar name="lib/ant.jar" id="ant"/>
-    <jar name="lib/nodeps.jar" id="nodeps"/>
+
+    <jar name="lib/ant-jmf.jar" id="jmf"/>
     <jar name="lib/ant-junit.jar" id="junit"/>
     <jar name="lib/ant-stylebook.jar" id="stylebook"/>
     <jar name="lib/ant-swing.jar" id="swing"/>
     <jar name="lib/ant-trax.jar" id="trax"/>
     <jar name="lib/ant-xalan2.jar" id="xalan2"/>
+    <jar name="lib/nodeps.jar" id="nodeps"/>
 
     <nag from="Diane Holt &lt;holtdl@apache.org&gt;"
          to="ant-dev@jakarta.apache.org"/>
@@ -55,23 +58,27 @@
     <option project="xml-commons-resolver" />
 
     <home nested="build"/>
+
     <jar name="lib/ant.jar" id="ant"/>
-    <jar name="lib/nodeps.jar" id="nodeps"/>
+
     <jar name="lib/ant-antlr.jar" id="antlr"/>
+    <jar name="lib/ant-apache-bsf.jar" id="bsf"/>
     <jar name="lib/ant-apache-resolver.jar" id="resolver"/>
     <jar name="lib/ant-bcel.jar" id="bcel"/>
-    <jar name="lib/ant-apache-bsf.jar" id="bsf"/>
     <jar name="lib/ant-commons-logging.jar" id="commons-logging"/>
     <jar name="lib/ant-jakarta-regexp.jar" id="jakarta-regexp"/>
     <jar name="lib/ant-javamail.jar" id="javamail"/>
+    <jar name="lib/ant-jdepend.jar" id="jdepend"/>
+    <jar name="lib/ant-jmf.jar" id="jmf"/>
     <jar name="lib/ant-junit.jar" id="junit"/>
     <jar name="lib/ant-log4j.jar" id="log4j"/>
     <jar name="lib/ant-oro.jar" id="oro"/>
     <jar name="lib/ant-stylebook.jar" id="stylebook"/>
     <jar name="lib/ant-swing.jar" id="swing"/>
-    <jar name="lib/ant-jdepend.jar" id="jdepend"/>
     <jar name="lib/ant-trax.jar" id="trax"/>
     <jar name="lib/ant-xalan2.jar" id="xalan2"/>
+    <jar name="lib/nodeps.jar" id="nodeps"/>
+
     <javadoc nested="build/javadocs" project="jakarta-ant"/>
 
     <nag from="Diane Holt &lt;holtdl@apache.org&gt;"
@@ -180,9 +187,10 @@
       <jvmarg value="-Xmx256m"/>
       <property name="ant.home" reference="home" project="jakarta-ant"/>
     </ant>
-    <depend project="jakarta-ant"/>
+    <depend project="dist-ant" inherit="all"/>
     <depend project="xml-xerces"/>
     <depend project="xdoclet" inherit="runtime"/>
+    <depend project="jakarta-velocity-dvsl" inherit="runtime"/>
     <nag to="ant-dev@jakarta.apache.org"
          from="Erik Hatcher &lt;jakarta-ant@ehatchersolutions.com&gt;"/>
   </project>
