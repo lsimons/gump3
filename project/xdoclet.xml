@@ -89,18 +89,21 @@
     <jar id="xdoclet-jboss" name="lib/xdoclet-jboss-module.jar"/>
     <jar id="xdoclet-jdo" name="lib/xdoclet-jdo-module.jar"/>
     <jar id="xdoclet-jmx" name="lib/xdoclet-jmx-module.jar"/>
+    <jar id="xdoclet-libelis" name="lib/xdoclet-libelis-module.jar"/>
     <jar id="xdoclet-macromedia" name="lib/xdoclet-macromedia-module.jar"/>
     <jar id="xdoclet-mvcsoft" name="lib/xdoclet-mvcsoft-module.jar"/>
     <jar id="xdoclet-mx4j" name="lib/xdoclet-mx4j-module.jar"/>
     <jar id="xdoclet-objectweb" name="lib/xdoclet-objectweb-module.jar"/>
     <jar id="xdoclet-orion" name="lib/xdoclet-orion-module.jar"/>
     <jar id="xdoclet-pramati" name="lib/xdoclet-pramati-module.jar"/>
+    <jar id="xdoclet-solarmetric" name="lib/xdoclet-solarmetric-module.jar"/>
     <jar id="xdoclet-sybase" name="lib/xdoclet-sybase-module.jar"/>
+    <jar id="xdoclet-tjdo" name="lib/xdoclet-tjdo-module.jar"/>
     <jar id="xdoclet-web" name="lib/xdoclet-web-module.jar"/>
     <jar id="xdoclet-webwork" name="lib/xdoclet-webwork-module.jar"/>
     <jar id="xdoclet-module" name="lib/xdoclet-xdoclet-module.jar"/>
 
-    <javadoc nested="dist/docs/api" />
+    <javadoc nested="target/docs/api" />
 
     <nag from="Peter Donald &lt;peter@apache.org&gt;"
          to="xdoclet-devel@lists.sourceforge.net"/>
