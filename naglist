@@ -79,7 +79,7 @@ Regex: /BUILD FAILED/
 ------
 Project: jakarta-log4j
 To: log4j-dev@jakarta.apache.org
-From: Ceki Gülcü <ceki@apache.org>
+From: Ceki G√ºlc√º <ceki@apache.org>
 Subject: [GUMP] Build Failure - Log4j
 Regex: /BUILD FAILED/
 ------
