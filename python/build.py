@@ -8,52 +8,94 @@ import os.path,os,sys
 from gumpcore import *
 from gumpconf import *
 
+# cd into the base Gump dir; all dirs are relative to it
 os.chdir(dir.base)
+
+# file-wide properites
 debug=True #False
 
+# load commandline args or use default values
 if len(sys.argv)>1 :
   ws=sys.argv[1]
 else:
   ws=default.workspace
 
 if len(sys.argv)>2 :
-  pj=sys.argv[2]
+  ps=sys.argv[2]
 else:
-  pj=default.project
+  # FIXME (nicolaken)
+  # first try to use the 'computername.xml' file as a
+  # workspace definition, as with the original Gump
+  ps=default.project
+
+# dump all dependencies to build a project to the output
+def dumpDeps(workspace, projectname):
+
+  # get the project object given the project name
+  project=Project.list[projectname]
   
-workspace=load(ws)
-projectname=pj
-project=Project.list[pj]
-module=Module.list[project.module]
-ant=project.ant
+  print 'PROJECTS TO BUILD:'
 
-print 'SRCDIR'
-print '  ',os.path.normpath(os.path.join(module.srcdir,ant.basedir or ''))
+  # resolve the build sequence of the specified project
+  build_sequence = dependencies(projectname, project.depend)
 
-print
-print 'CLASSPATH:'
-for depend in project.depend+project.option:
-  p=Project.list[depend.project]
-  srcdir=Module.list[p.module].srcdir
+  print
+  print ' ----- Build sequence for ' + projectname + ' -----'
+  print
 
-  for jar in p.jar:
-    print '  ',os.path.normpath(os.path.join(srcdir,jar.name))
+  # for all the projects that this project depends upon, show relevant infos
+  for project in build_sequence:
+    
+    # get the module object given the module name,
+    # which is gotten from the project
+    module=Module.list[project.module]
 
-print
-print 'PROPERTIES'
-for property in workspace.property+ant.property:
-  print '  ',property.name,'=',property.value
+    print ' ----------- '+ module.name + ':' + project.name + ' ----------- '
 
-print 'PROJECTS TO BUILD:'
+    # get the ant element
+    ant=project.ant
 
-build_sequence = dependencies(projectname, project.depend)
+    if ant:  
+      if ant.target:
+        print ' ANT TARGET '
+        print '   ',ant.target
+      else:
+        print ' ANT TARGET '
+        print '   [default]'    
 
-print
-print ' ----- Build sequence for ' + projectname + ' -----'
-print
-for project in build_sequence:
-  print '  ' + project.name
+    # get the script element
+    script=project.script
 
+    if script:
+      print ' BUILD WITH SCRIPT '
+      print '   ?', script
 
-            
-sys.exit(0)
+    if not (script or ant):
+      print ' THIS PROJECT IS NOT TO BE BUILT '
+      
+    print ' SRCDIR'
+    print '   ',os.path.normpath(os.path.join(module.srcdir,ant.basedir or ''))
+
+    print ' CLASSPATH'          #FIXME (nicolaken) has to use this too
+    for depend in project.depend:#+project.option:
+      p=Project.list[depend.project]
+      srcdir=Module.list[p.module].srcdir
+
+      for jar in p.jar:
+        print '  ',os.path.normpath(os.path.join(srcdir,jar.name))
+
+    print
+    print ' PROPERTIES'                #FIXME (nicolaken) it's not necessarily there
+    for property in workspace.property:#+ant.property:
+      print '  ',property.name,'=',property.value
+
+    print
+    print ' ------------------------------------------------------- '
+    print    
+
+  
+# static void main()
+if __name__=='__main__':
+  workspace=load(ws)
+  dumpDeps(workspace, ps);          
+  sys.exit(0)
