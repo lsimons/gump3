@@ -175,6 +175,7 @@
         <depend project="avalon-framework" runtime="true" id="combined"/>
         <depend project="xml-xerces"/>
         <depend project="xml-xalan2"/>
+        <depend project="concurrent"/>
         <work nested="datasource/target/classes"/>
 
         <home nested="datasource"/>
