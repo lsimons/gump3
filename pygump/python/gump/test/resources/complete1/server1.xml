@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="ISO-8859-1"?>
-
-<server name="server1" type="python">
-  <title>Server 1</title>
-  <url>http://gump.apache.org</url>
-  <site>http://gump.apache.org</site>
-  <note>Yada Yada Yada</note>
-</server>
