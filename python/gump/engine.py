@@ -354,32 +354,33 @@ class GumpEngine:
     def performMkDir(self,project,mkdir,index=0):
         """ Return the mkdir comment for a <mkdir entry """
         basedir=os.path.abspath(self.getModule().getSourceDirectory() or dir.base)
-    
-        # ----------------------------------------------------------------
-        # :TODO: HACK HACK HACK HACK HACK HACK HACK
-        # :TODO: HACK HACK HACK HACK HACK HACK HACK
-        # :TODO: HACK HACK HACK HACK HACK HACK HACK
-        # Rsync should delete these things, not allow
-        # them to exist. We should NOT do this.
-        dirToMake=os.path.abspath(os.path.join(basedir,mkdir.dir))
-        if not os.path.exists(dirToMake): 
+         
+        #
+        # Make a directory
+        #
+        if mkdir.dir:
+            
+            # ----------------------------------------------------------------
             # :TODO: HACK HACK HACK HACK HACK HACK HACK
             # :TODO: HACK HACK HACK HACK HACK HACK HACK
             # :TODO: HACK HACK HACK HACK HACK HACK HACK
-            # ----------------------------------------------------------------  
-                
-            #
-            # Make a directory
-            #
-            if mkdir.dir:
+            # Rsync should delete these things, not allow
+            # them to exist. We should NOT do this.
+            dirToMake=os.path.abspath(os.path.join(basedir,mkdir.dir))
+            if not os.path.exists(dirToMake): 
+                # :TODO: HACK HACK HACK HACK HACK HACK HACK
+                # :TODO: HACK HACK HACK HACK HACK HACK HACK
+                # :TODO: HACK HACK HACK HACK HACK HACK HACK
+                # ----------------------------------------------------------------  
+           
                 try:
                     os.makedirs(dirToMake)
                 except:
                     project.addError('Failed to make directory ['+dirToMake+']')
                     raise           
-            else:
-                project.addError('   <mkdir without \'dir\' attribute.')
-                raise RuntimeError('Bad <mkdir, missing \'dir\' attribute')
+        else:
+            project.addError('   <mkdir without \'dir\' attribute.')
+            raise RuntimeError('Bad <mkdir, missing \'dir\' attribute')
                
     def performPreBuild( self, run, project ):
         """ Perform pre-build Actions """
@@ -402,6 +403,7 @@ class GumpEngine:
                     dels+=1
                     project.changeState(STATE_SUCCESS)
                 except:
+                    log.error('PerformDelete Failed', exc_info=1)
                     project.changeState(STATE_FAILED,REASON_PREBUILD_FAILED)
                 
         if project.okToPerformWork():
@@ -413,6 +415,7 @@ class GumpEngine:
                     mkdirs+=1
                     project.changeState(STATE_SUCCESS)
                 except:
+                    log.error('PerformMkdir Failed', exc_info=1)    
                     project.changeState(STATE_FAILED,REASON_PREBUILD_FAILED)
                 
         if not project.okToPerformWork():

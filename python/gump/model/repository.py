@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/model/repository.py,v 1.4 2003/11/21 19:04:10 ajack Exp $
-# $Revision: 1.4 $
-# $Date: 2003/11/21 19:04:10 $
+# $Header: /home/stefano/cvs/gump/python/gump/model/repository.py,v 1.5 2003/11/26 16:08:39 ajack Exp $
+# $Revision: 1.5 $
+# $Date: 2003/11/26 16:08:39 $
 #
 # ====================================================================
 #
@@ -73,9 +73,9 @@ class Repository(NamedModelObject, Statable):
     """A named repository"""
     def __init__(self,xml,workspace):
     	NamedModelObject.__init__(self,xml.getName(),xml,workspace)
-    
-        
+            
         if 'cvs'==xml.type:
+            self.type='CVS'
             if xml.root:
                 if xml.root.method: 
                     self.method=xml.root.method
@@ -88,11 +88,15 @@ class Repository(NamedModelObject, Statable):
             else:
                 raise RuntimeError, 'No XML <root on repository: ' + self.getName()
         elif 'svn'==xml.type:  
-
+            self.type='Subversion'
             if xml.url:
                 self.url=str(xml.url)
             else:
                 raise RuntimeError, 'No URL on SVN repository: ' + self.getName()
+        elif 'jars'==xml.type:
+            self.type='Java Arcvhives'
+        else:
+            raise RuntimeError, 'Invalid Repository Type'            
             
         # Modules referencing this repository
         self.modules=[]
@@ -107,6 +111,13 @@ class Repository(NamedModelObject, Statable):
     def hasModules(self):
         if self.modules: return 1
         return 0
+    
+    def hasType(self):
+        if self.type: return 1
+        return 0            
+           
+    def getType(self):
+        return self.type
             
     def getModules(self):
         return self.modules

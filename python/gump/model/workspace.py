@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/model/workspace.py,v 1.13 2003/11/24 23:05:37 ajack Exp $
-# $Revision: 1.13 $
-# $Date: 2003/11/24 23:05:37 $
+# $Header: /home/stefano/cvs/gump/python/gump/model/workspace.py,v 1.14 2003/11/26 16:08:39 ajack Exp $
+# $Revision: 1.14 $
+# $Date: 2003/11/26 16:08:39 $
 #
 # ====================================================================
 #
@@ -189,7 +189,8 @@ class Workspace(ModelObject,PropertyContainer):
             self.tmpdir=self.xml.tmpdir
             
         if not os.path.exists(self.tmpdir): 
-            os.mkdir(self.tmpdir)    
+            print "TMPDIR: " + self.tmpdir
+            os.makedirs(self.tmpdir)    
     
         # Construct logdir on demand
         if not self.xml.logdir: 
@@ -197,7 +198,7 @@ class Workspace(ModelObject,PropertyContainer):
         else:
             self.logdir=self.xml.logdir
         
-        if not os.path.exists(self.logdir): os.mkdir(self.logdir)
+        if not os.path.exists(self.logdir): os.makedirs(self.logdir)
     
         # Construct repository dir on demand
         if not self.xml.jardir: 
@@ -205,7 +206,7 @@ class Workspace(ModelObject,PropertyContainer):
         else:
             self.jardir=self.xml.jardir
                 
-        if not os.path.exists(self.jardir): os.mkdir(self.jardir)
+        if not os.path.exists(self.jardir): os.makedirs(self.jardir)
     
         # Construct CVS directory on demand
         if not self.xml.cvsdir: 
@@ -213,7 +214,7 @@ class Workspace(ModelObject,PropertyContainer):
         else:
             self.cvsdir=self.xml.cvsdir
 
-        if not os.path.exists(self.cvsdir): os.mkdir(self.cvsdir)
+        if not os.path.exists(self.cvsdir): os.makedirs(self.cvsdir)
     
         # Package Dir Ought Exist
         if not self.xml.pkgdir: 

@@ -18,7 +18,8 @@
     <option project="random"/>
 
     <home nested="dist"/>
-    <mkdir dir="mkdir"/>
+    <mkdir dir="mkdir2"/>
+    <mkdir dir="classes/stuff/mkdir2"/>
 
     <jar name="lib/output2.jar" id="output2"/>
 

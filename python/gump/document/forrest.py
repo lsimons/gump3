@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/forrest.py,v 1.16 2003/11/26 01:26:28 ajack Exp $
-# $Revision: 1.16 $f
-# $Date: 2003/11/26 01:26:28 $
+# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/forrest.py,v 1.17 2003/11/26 16:08:39 ajack Exp $
+# $Revision: 1.17 $f
+# $Date: 2003/11/26 16:08:39 $
 #
 # ====================================================================
 #
@@ -650,12 +650,15 @@ class ForrestDocumenter(Documenter):
         if repo.hasTitle():
             detailList.createEntry('Title: ', repo.getTitle())
             
+        if repo.hasType():
+            detailList.createEntry('Type: ', repo.getType())
+            
         if repo.hasHomePage():
             detailList.createEntry('Homepage: ') \
                 .createLink(repo.getHomePage(),repo.getHomePage())
             
         if repo.hasCvsWeb():
-            detailList.createEntry('CVS Viewer: ') \
+            detailList.createEntry('Web Interface: ') \
                 .createLink(repo.getCvsWeb(),repo.getCvsWeb())
             
         detailList.createEntry('State: ' + repo.getStateDescription())
