@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/update.py,v 1.5 2003/05/09 10:37:58 nicolaken Exp $
-# $Revision: 1.5 $
-# $Date: 2003/05/09 10:37:58 $
+# $Header: /home/stefano/cvs/gump/python/gump/update.py,v 1.6 2003/05/09 10:39:43 nicolaken Exp $
+# $Revision: 1.6 $
+# $Date: 2003/05/09 10:39:43 $
 #
 # ====================================================================
 #
@@ -91,7 +91,7 @@ shifts = [
 def mangle(passwd):
   return 'A' +''.join(map(chr,[shifts[ord(c)] for c in str(passwd or '')]))
 
-def update(workspace_path, project_name = 'all'):
+def update(workspace, project_name = 'all'):
   # read the list of cvs repositories that the user is already logged into
   password={}
   cvspassfile=os.path.expanduser(os.path.join('~','.cvspass'))
@@ -103,9 +103,6 @@ def update(workspace_path, project_name = 'all'):
   except:
     pass
   
-  # load the workspace
-  workspace=load(workspace_path)
-
   # determine which modules the user desires (wildcards are permitted)
   selected=project_name
 
@@ -168,5 +165,8 @@ def update(workspace_path, project_name = 'all'):
 if __name__=='__main__':
 
   args = handleArgv(sys.argv)
-
-  update(args[0], args[1])
+  
+  # load the workspace
+  workspace=load(args[0])
+  
+  update(workspace, args[1])
