@@ -56,34 +56,24 @@
     <!-- Standard Maven target to produce Javadocs, source -->
     <!-- and binary distributions.                         -->
 
-    <ant dir="src/generator" buildfile="build-gump.xml" target="jar">
+    <ant basedir="src/generator" buildfile="build-gump.xml" target="jar">
       <property name="maven.build.dir" value="target"/>
       <property name="maven.build.dest" value="target/classes"/>
       <property name="maven.final.name" value="torque-gen-@@DATE@@"/>
     </ant>
 
-    <depend project="commons-beanutils"/>
     <depend project="commons-collections"/>
-    <depend project="commons-configuration"/>
-    <depend project="commons-dbcp"/>
     <depend project="commons-lang"/>
-    <depend project="commons-pool"/>
     <depend project="ant"/>
 
     <depend project="jakarta-log4j"/>
-    <depend project="jakarta-turbine-jcs"/>
-    <depend project="jakarta-turbine-stratum"/>
     <depend project="jakarta-velocity"/>
-    <depend project="jdbc"/>
     <depend project="village"/>
     <depend project="xml-xerces"/>
-    <depend project="xml-apis"/>
 
-    <work nested="target/classes"/>
-    <home nested="target"/>
+    <home nested="src/generator/target"/>
     <jar name="torque-gen-@@DATE@@.jar"/>
     <license name="LICENSE.txt"/>
-    <javadoc nested="docs/apidocs"/>
 
     <!--
     <nag from="torque-dev@db.apache.org"
