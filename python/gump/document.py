@@ -318,7 +318,8 @@ def documentWorkspace(workspace,context,db,moduleFilterList=None,projectFilterLi
     #
     # TODOs.xml
     #
-    x=startXDoc(getWorkspaceDocument(workspace,wdir,'todos'))
+    x=startXDoc(getWorkspaceDocument(workspace,wdir,'todos'))    
+    headerXDoc(x,'Modules with TODOs')    
     
     startSectionXDoc(x,'Modules with TODOs')
     startTableXDoc(x)
@@ -360,8 +361,9 @@ def documentWorkspace(workspace,context,db,moduleFilterList=None,projectFilterLi
     #
     # Modules.xml
     #
-    x=startXDoc(getWorkspaceDocument(workspace,wdir,'modules'))
-   
+    x=startXDoc(getWorkspaceDocument(workspace,wdir,'modules'))      
+    headerXDoc(x,'All Modules')
+    
     startSectionXDoc(x,'All Modules')
     startTableXDoc(x)
     x.write('     <tr>')        
@@ -392,7 +394,8 @@ def documentWorkspace(workspace,context,db,moduleFilterList=None,projectFilterLi
     #
     # Packages.xml
     #
-    x=startXDoc(getWorkspaceDocument(workspace,wdir,'packages'))
+    x=startXDoc(getWorkspaceDocument(workspace,wdir,'packages'))     
+    headerXDoc(x,'Packages')
     
     startSectionXDoc(x,'Packaged Modules')
     startTableXDoc(x)
