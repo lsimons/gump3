@@ -74,17 +74,17 @@ def _find_document_containing_node(node):
 
 def _find_project_containing_node(node):
     """Walk up the DOM hierarchy to locate a <project> Element."""
-    return _find_ancestor_by_tag("project")
+    return _find_ancestor_by_tag(node, "project")
 
 
 def _find_module_containing_node(node):
     """Walk up the DOM hierarchy to locate a <module> Element."""
-    return _find_ancestor_by_tag("module")
+    return _find_ancestor_by_tag(node, "module")
 
 
 def _find_repository_containing_node(node):
     """Walk up the DOM hierarchy to locate a <repository> Element."""
-    return _find_ancestor_by_tag("repository")
+    return _find_ancestor_by_tag(node, "repository")
 
 
 def _import_node(target_node, new_node):

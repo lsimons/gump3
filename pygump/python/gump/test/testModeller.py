@@ -25,6 +25,11 @@ from xml.dom import minidom
 from gump.engine.modeller import _find_element_text
 from gump.engine.modeller import _do_drop
 from gump.engine.modeller import _find_ancestor_by_tag
+from gump.engine.modeller import _find_document_containing_node
+from gump.engine.modeller import _find_repository_containing_node
+from gump.engine.modeller import _find_module_containing_node
+from gump.engine.modeller import _find_project_containing_node
+from gump.engine.modeller import _import_node
 
 class ModellerTestCase(TestCase):
     def setUp(self):
@@ -51,12 +56,33 @@ class ModellerTestCase(TestCase):
           </some>
         </with>
       </tags>
+      <repository>
+        <module>
+          <project>
+            <nested>
+              <uniquetaghere>
+                <foo/>
+              </uniquetaghere>
+            </nested>
+          </project>
+        </module>
+      </repository>
     </nested>
   </some>
 </root>
 """
         self.sampledom = minidom.parseString(self.samplexml)
-        
+
+        self.samplexml2 = """<?xml version="1.0"?>
+
+<otherroot info="true">
+  <newelem attr="yo">contents</newelem>
+  <newstuff>ignore</newstuff>
+  <newelem>ignore</newelem>
+</otherroot>
+"""
+        self.sampledom2 = minidom.parseString(self.samplexml2)
+
     def test_find_element_text(self):
         root = self.sampledom.documentElement
         text = _find_element_text(root, "elem")
@@ -77,6 +103,7 @@ class ModellerTestCase(TestCase):
             pass
     
     def test_do_drop(self):
+        # todo test all possibilities
         to_remove = self.sampledom.documentElement.getElementsByTagName("stuff").item(0)
         dropped = []
         _do_drop(to_remove, dropped)
@@ -85,10 +112,52 @@ class ModellerTestCase(TestCase):
         self.assertEqual(to_remove, dropped[0])
     
     def test_find_ancestor_by_tag(self):
+        # todo test all possibilities
         in_elem = self.sampledom.documentElement.getElementsByTagName("in").item(0)
         first_some_elem = in_elem.parentNode.parentNode.parentNode
         found_some = _find_ancestor_by_tag(in_elem, "some")
         self.assertEqual(first_some_elem, found_some)
+    
+    def test_find_document_containing_node(self):
+        # todo test all possibilities
+        in_elem = self.sampledom.documentElement.getElementsByTagName("in").item(0)
+        found_doc = _find_document_containing_node(in_elem)
+        self.assertEqual(self.sampledom,found_doc)
+    
+    def test_find_repository_containing_node(self):
+        # todo test all possibilities
+        child_elem = self.sampledom.documentElement.getElementsByTagName("uniquetaghere").item(0)
+        required_repo = child_elem.parentNode.parentNode.parentNode.parentNode
+        found_repo = _find_repository_containing_node(child_elem)
+        self.assertEqual(required_repo, found_repo)
+        
+    def test_find_module_containing_node(self):
+        # todo test all possibilities
+        child_elem = self.sampledom.documentElement.getElementsByTagName("uniquetaghere").item(0)
+        required_module = child_elem.parentNode.parentNode.parentNode
+        found_repo = _find_module_containing_node(child_elem)
+        self.assertEqual(required_module, found_repo)
+        
+    def test_find_project_containing_node(self):
+        # todo test all possibilities
+        child_elem = self.sampledom.documentElement.getElementsByTagName("uniquetaghere").item(0)
+        required_project = child_elem.parentNode.parentNode
+        found_repo = _find_project_containing_node(child_elem)
+        self.assertEqual(required_project, found_repo)
+    
+    def test_import_node(self):
+        # todo test all possibilities
+        oldroot = self.sampledom.documentElement
+        newroot = self.sampledom2.documentElement
+        _import_node(oldroot, newroot)
+        self.assertEqual("root", oldroot.tagName)
+        self.assertEqual(1, oldroot.attributes.length)
+        self.assertEqual("info", oldroot.attributes.item(0).nodeName.__str__())
+        self.assertEqual("true", oldroot.attributes.item(0).nodeValue.__str__())
+        self.assertEqual(2, oldroot.getElementsByTagName("elem").length)
+        self.assertEqual(1, oldroot.getElementsByTagName("uniquetaghere").length)
+        self.assertEqual(2, oldroot.getElementsByTagName("newelem").length)
+        self.assertEqual(1, oldroot.getElementsByTagName("newstuff").length)
 
 # this is used by testrunner.py to determine what tests to run
 def test_suite():
