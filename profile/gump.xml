@@ -295,6 +295,7 @@
   <repository href="repository/exolab.xml"/>
   <repository href="repository/incubator.xml"/>
   <repository href="repository/jakarta.xml"/>
+  <repository href="repository/james.xml"/>
   <repository href="repository/jdom.xml"/>
   <repository href="repository/maven.xml"/>
   <repository href="repository/mozilla.xml"/>

@@ -1,11 +1,11 @@
 <module name="james-server">
 
-  <url href="http://jakarta.apache.org/james/index.html" />
+  <url href="http://james.apache.org/index.html" />
   <description>
     Java Apache Mail Enterprise Server
   </description>
 
-  <cvs repository="jakarta" />
+  <cvs repository="james" />
 
   <project name="james-server">
     <package>org.apache.james</package>
