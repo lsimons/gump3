@@ -22,6 +22,7 @@
 from gump import log
 
 from gump.utils.tools import syncDirectories,copyDirectories,wipeDirectoryTree
+from gump.run.gumprun import *
 import gump.run.actor
     
 class Synchronizer(gump.run.actor.AbstractRunActor):
