@@ -15,7 +15,6 @@
     <depend project="jakarta-ant" inherit="runtime"/>
     <depend project="xml-xerces"/>
     <depend project="xmldb"/>
-    <depend project="infozone"/>
     <depend project="xml-xalan2"/>
     <depend project="xml-rpc"/>
     <depend project="commons-logging"/>
@@ -34,13 +33,8 @@
     <home nested="java/lib"/>
     <jar name="xmldb-api-20021118.jar"/>
     <jar name="xmldb-api-sdk-20021118.jar"/>
+    <jar name="xmldb-common.jar"/>
     <jar name="xmldb-xupdate.jar"/>
-  </project>
-
-  <project name="infozone">
-    <url href="http://infozone-group.org/"/>
-    <home nested="java/lib"/>
-    <jar name="infozone-tools.jar"/>
   </project>
 
 </module>
