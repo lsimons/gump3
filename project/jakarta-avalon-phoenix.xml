@@ -44,7 +44,7 @@
     <depend project="xml-xalan2"/>
     <depend project="dist-bsf"/>
     <depend project="rhino"/>
-    <depend project="phoenix-qdox"/>
+    <depend project="phoenix-qdox" runtime="true"/>
     <depend project="jarv" runtime="true"/>
     <depend project="jakarta-site2" inherit="all" />
     <option project="jakarta-servletapi-4"/>

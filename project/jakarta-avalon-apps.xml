@@ -109,6 +109,7 @@
 
         <depend project="junit"/>
         <depend project="jakarta-ant"/>
+        <depend project="xml-xerces"/>
         <depend project="jakarta-avalon"/>
         <depend project="excalibur-i18n"/>
         <depend project="jakarta-avalon-phoenix" inherit="runtime"/>
@@ -131,27 +132,7 @@
 
         <depend project="junit"/>
         <depend project="jakarta-ant"/>
-        <depend project="jakarta-avalon"/>
-        <depend project="jakarta-avalon-phoenix" inherit="runtime"/>
-        <depend project="jakarta-avalon-cornerstone"/>
-
-        <option project="checkstyle" inherit="runtime"/>
-
-        <home nested="infomover"/>
-
-        <jar name="build/lib/infomover-@@DATE@@.sar"/>
-
-        <nag from="Gump Integration Build &lt;avalon-dev@jakarta.apache.org&gt;"
-            to="avalon-dev@jakarta.apache.org"/>
-    </project>
-
-    <project name="avalon-apps-infomover">
-        <package>org.apache.avalon.infomover</package>
-
-        <ant basedir="infomover"/>
-
-        <depend project="junit"/>
-        <depend project="jakarta-ant"/>
+        <depend project="xml-xerces"/>
         <depend project="jakarta-avalon"/>
         <depend project="jakarta-avalon-phoenix" inherit="runtime"/>
         <depend project="jakarta-avalon-cornerstone"/>
@@ -173,6 +154,7 @@
 
         <depend project="junit"/>
         <depend project="jakarta-ant"/>
+        <depend project="xml-xerces"/>
         <depend project="jakarta-avalon"/>
         <depend project="jakarta-avalon-phoenix" inherit="runtime"/>
         <depend project="jakarta-avalon-cornerstone"/>
@@ -194,6 +176,7 @@
 
         <depend project="junit"/>
         <depend project="jakarta-ant"/>
+        <depend project="xml-xerces"/>
         <depend project="jakarta-avalon"/>
         <depend project="jakarta-avalon-phoenix" inherit="runtime"/>
         <depend project="jakarta-avalon-cornerstone"/>
@@ -216,6 +199,7 @@
 
         <depend project="junit"/>
         <depend project="jakarta-ant"/>
+        <depend project="xml-xerces"/>
         <depend project="jakarta-avalon"/>
         <depend project="jakarta-avalon-phoenix" inherit="runtime"/>
         <depend project="jakarta-avalon-cornerstone"/>
@@ -241,6 +225,7 @@
 
         <depend project="junit"/>
         <depend project="jakarta-ant"/>
+        <depend project="xml-xerces"/>
         <depend project="jakarta-avalon"/>
         <depend project="jakarta-avalon-phoenix" inherit="runtime"/>
         <depend project="jakarta-avalon-cornerstone"/>
@@ -256,26 +241,5 @@
             to="avalon-dev@jakarta.apache.org"/>
     </project>
 
-    <project name="avalon-apps-simpleserver">
-        <package>org.apache.avalon.simpleserver</package>
-
-        <ant basedir="simpleserver"/>
-
-        <depend project="junit"/>
-        <depend project="jakarta-ant"/>
-        <depend project="jakarta-avalon"/>
-        <depend project="jakarta-avalon-phoenix" inherit="runtime"/>
-        <depend project="jakarta-avalon-cornerstone"/>
-        <depend project="excalibur-thread"/>
-
-        <option project="checkstyle" inherit="runtime"/>
-
-        <home nested="simpleserver"/>
-
-        <jar name="build/lib/simpleserver-@@DATE@@.sar"/>
-
-        <nag from="Gump Integration Build &lt;avalon-dev@jakarta.apache.org&gt;"
-            to="avalon-dev@jakarta.apache.org"/>
-    </project>
 </module>
 
