@@ -36,7 +36,7 @@
     <work nested="bin"/>
 
     <home nested="dist/cocoon-gump"/>
-    <jar name="lib/cocoon.jar"/>
+    <jar name="lib/cocoon-gump.jar"/>
   </project>
 
   <project name="hsqldb">
