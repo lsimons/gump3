@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/Attic/view.py,v 1.40 2003/05/08 22:01:05 nicolaken Exp $
-# $Revision: 1.40 $
-# $Date: 2003/05/08 22:01:05 $
+# $Header: /home/stefano/cvs/gump/python/gump/Attic/view.py,v 1.41 2003/05/09 06:40:05 nicolaken Exp $
+# $Revision: 1.41 $
+# $Date: 2003/05/09 06:40:05 $
 #
 # ====================================================================
 #
@@ -173,8 +173,6 @@ class gumpview(wxApp):
     #self.SetImageList(self.il, wxIMAGE_LIST_SMALL)
 
     # panes
-    self.tree=wxTreeCtrl(self.mainsplit,-1)
-    
     self.list=wxListCtrl(notebook,-1,style=wxLC_REPORT|wxNO_BORDER )
     self.dependencies=wxListCtrl(notebook,-1,style=wxLC_REPORT|wxNO_BORDER )
     self.prereqs=wxListCtrl(notebook,-1,style=wxLC_REPORT|wxNO_BORDER )
@@ -184,15 +182,10 @@ class gumpview(wxApp):
 
     self.data=wxTextCtrl(split2,-1,style=wxTE_MULTILINE)
 
-
     self.logview=GumpLogView(self.logsplitter)
-    
-    #self.logview=wxListCtrl(self.logsplitter,-1,style=wxLC_REPORT|wxNO_BORDER )
-    #self.logview.InsertColumn(0, "Console")
-    #self.logview.SetColumnWidth(0,self.frame.GetRect().GetWidth())    
-    #                        wxFont(9, wx.wxMODERN, wx.wxNORMAL, wx.wxNORMAL)))
-    
 
+    self.tree=wxTreeCtrl(self.mainsplit,-1)
+    
     # attach the panes to the frame
     self.logsplitter.SplitHorizontally(self.mainsplit, self.logview)
     self.mainsplit.SplitVertically(self.tree, split2)
@@ -241,7 +234,20 @@ class gumpview(wxApp):
 
   # list all modules and their projects
   def load(self,files):
+      
+    #tree images
+    treeil = wxImageList(16, 16)
+    idx_workspace = treeil.Add(wxImage("gump/images/workspace.bmp").ConvertToBitmap())
+    idx_module = treeil.Add(wxImage("gump/images/module.bmp").ConvertToBitmap())
+    idx_module_ex = treeil.Add(wxImage("gump/images/module_ex.bmp").ConvertToBitmap())    
+    idx_project = treeil.Add(wxImage("gump/images/project.bmp").ConvertToBitmap())
+    idx_project_ex = treeil.Add(wxImage("gump/images/project_ex.bmp").ConvertToBitmap())
+    self.tree.AssignImageList(treeil)
+    
     root = self.tree.AddRoot(files[0])
+    self.tree.SetItemImage(root, idx_workspace, wx.wxTreeItemIcon_Normal)
+    self.tree.SetItemImage(root, idx_workspace, wx.wxTreeItemIcon_Expanded)
+    self.tree.SetItemImage(root, idx_workspace, wx.wxTreeItemIcon_SelectedExpanded)
     self.workspace = load(files[0])
     names=Module.list.keys()
     names.sort()
@@ -249,10 +255,16 @@ class gumpview(wxApp):
       module=Module.list[name]
       parent=self.mItem[name]=self.tree.AppendItem(root,name)
       self.tree.SetPyData(parent,module)
+      self.tree.SetItemImage(parent, idx_module ,    wx.wxTreeItemIcon_Normal)
+      self.tree.SetItemImage(parent, idx_module_ex , wx.wxTreeItemIcon_Expanded)
+      self.tree.SetItemImage(parent, idx_module_ex , wx.wxTreeItemIcon_Selected)
+      self.tree.SetItemImage(parent, idx_module_ex,  wx.wxTreeItemIcon_SelectedExpanded)
       for project in module.project:
-        self.pItem[project.name]=self.tree.AppendItem(parent,project.name)
+        proj=self.pItem[project.name]=self.tree.AppendItem(parent,project.name)
         self.tree.SetPyData(self.pItem[project.name],project)
-
+        self.tree.SetItemImage(proj, idx_project ,    wx.wxTreeItemIcon_Normal)
+        self.tree.SetItemImage(proj, idx_project_ex , wx.wxTreeItemIcon_Selected)
+      
     self.tree.Expand(root)
 
   def OnKeyUp(self,event):
