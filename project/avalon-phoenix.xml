@@ -1,14 +1,14 @@
-<module name="avalon-loom">
+<module name="avalon-phoenix">
 
-    <url href="http://avalon.apache.org/loom"/>
+    <url href="http://avalon.apache.org/phoenix"/>
     <description>
         The Avalon Application Server Kernel
     </description>
 
     <cvs repository="avalon"/>
 
-    <project name="avalon-loom">
-        <package>org.apache.avalon.loom</package>
+    <project name="avalon-phoenix">
+        <package>org.apache.avalon.phoenix</package>
 
         <ant target="jars">
             <property name="checkstyle.failOnError" value="true"/>
@@ -28,11 +28,11 @@
         <depend project="excalibur-i18n" runtime="true"/>
         <depend project="excalibur-instrument-manager" runtime="true"/>
         <depend project="excalibur-instrument" runtime="true"/>
-        <depend project="loom-excalibur-monitor" runtime="true"/>
+        <depend project="phoenix-excalibur-monitor" runtime="true"/>
         <depend project="ant" runtime="true"/>
         <depend project="mx4j" runtime="true"/>
         <depend project="xml-xalan2"/>
-        <depend project="loom-qdox" runtime="true"/>
+        <depend project="phoenix-qdox" runtime="true"/>
         <option project="jakarta-servletapi-4" runtime="true"/>
         <depend project="junit"/>
         <depend project="jakarta-log4j"/>
@@ -40,12 +40,12 @@
         <work nested="target/classes"/>
 
         <home nested="target/lib"/>
-        <jar name="loom-client.jar" id="client"/>
+        <jar name="phoenix-client.jar" id="client"/>
 
-        <jar name="loom-tools.jar" id="metagenerate"/>
-        <jar name="loom-loader.jar" id="loader"/>
-        <jar name="loom-engine.jar" id="metagenerate-2"/>
-        <jar name="loom-punit.jar" id="punit"/>
+        <jar name="phoenix-tools.jar" id="metagenerate"/>
+        <jar name="phoenix-loader.jar" id="loader"/>
+        <jar name="phoenix-engine.jar" id="metagenerate-2"/>
+        <jar name="phoenix-punit.jar" id="punit"/>
 
         <license name="LICENSE.txt"/>
         <javadoc nested="target/javadocs" module="avalon"/>
@@ -55,22 +55,22 @@
             <regexp pattern="/Missing prereq/i"
                 from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"
                 to="dev@avalon.apache.org"
-                subject="PRE-REQ FAILED for avalon-loom"/>
+                subject="PRE-REQ FAILED for avalon-phoenix"/>
         </nag>
  -->
         <nag from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"
             to="dev@avalon.apache.org"/>
     </project>
 
-    <project name="loom-qdox">
+    <project name="phoenix-qdox">
         <jar name="lib/tools/qdox-1.1.jar"/>
     </project>
 
-    <project name="loom-excalibur-monitor">
+    <project name="phoenix-excalibur-monitor">
         <jar name="lib/container/excalibur-monitor-1.0.jar"/>
     </project>
 
-    <project name="loom-example-demo">
+    <project name="phoenix-example-demo">
         <package>org.apache.avalon.demos</package>
 
         <mkdir dir="examples/demo/build/classes"/>
@@ -82,7 +82,7 @@
         <depend project="xml-xalan2" id="transformer" runtime="true"/>
         <option project="checkstyle" inherit="runtime"/>
         <depend project="avalon-framework" id="combined"/>
-        <depend project="avalon-loom" inherit="all"/>
+        <depend project="avalon-phoenix" inherit="all"/>
         <depend project="avalon-components"/>
 
         <home nested="examples/demo"/>
@@ -93,14 +93,14 @@
             <regexp pattern="/Missing prereq/i"
                 from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"
                 to="dev@avalon.apache.org"
-                subject="PRE-REQ FAILED for loom-example-demo"/>
+                subject="PRE-REQ FAILED for phoenix-example-demo"/>
         </nag>
 -->
         <nag from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"
             to="dev@avalon.apache.org"/>
     </project>
 
-    <project name="loom-example-pdk">
+    <project name="phoenix-example-pdk">
         <package>org.apache.avalon.pdk</package>
 
         <ant basedir="examples/pdk"/>
@@ -109,7 +109,7 @@
         <depend project="ant"/>
         <depend project="xml-xerces"/>
         <depend project="avalon-framework" id="combined"/>
-        <depend project="avalon-loom" inherit="all"/>
+        <depend project="avalon-phoenix" inherit="all"/>
 
         <option project="checkstyle" inherit="runtime"/>
 
@@ -122,14 +122,14 @@
             <regexp pattern="/Missing prereq/i"
                 from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"
                 to="dev@avalon.apache.org"
-                subject="PRE-REQ FAILED for loom-example-pdk"/>
+                subject="PRE-REQ FAILED for phoenix-example-pdk"/>
         </nag>
 -->
         <nag from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"
                 to="dev@avalon.apache.org"/>
     </project>
 
-    <project name="loom-example-testserver">
+    <project name="phoenix-example-testserver">
         <package>org.apache.avalon.testserver</package>
 
         <ant basedir="examples/testserver"/>
@@ -138,7 +138,7 @@
         <depend project="ant"/>
         <depend project="xml-xerces"/>
         <depend project="avalon-framework" id="combined"/>
-        <depend project="avalon-loom" inherit="all"/>
+        <depend project="avalon-phoenix" inherit="all"/>
         <depend project="avalon-components"/>
         <depend project="excalibur-thread"/>
 
@@ -153,7 +153,7 @@
             <regexp pattern="/Missing prereq/i"
                 from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"
                 to="dev@avalon.apache.org"
-                subject="PRE-REQ FAILED for loom-example-testserver"/>
+                subject="PRE-REQ FAILED for phoenix-example-testserver"/>
         </nag>
 -->
         <nag from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"
