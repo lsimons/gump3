@@ -33,7 +33,7 @@
     <option project="bsf"/>
     <option project="javamail"/>
     <depend project="jaf"/>
-    <work nested="build/jsptl/jsptl"/>
+    <work nested="dist/standard/jstl.jar"/>
 
     <javadoc nested="dist/doc/doc">
       <description dir="application-doc/javadoc">application</description>
