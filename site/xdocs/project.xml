@@ -430,8 +430,8 @@
       </table>
 
       <p>A build failure is detected by matching the output of the
-      build against Perl regular expressions, the default is
-      <code>/BUILD FAILED/</code>.  The regular expressions are
+      build against Perl regular expressions, the default expression
+      is <code>/BUILD FAILED/</code>.  The regular expressions are
       specified using nested regexp elements - you can associate
       different email addresses and subjects with each expression.</p>
 
@@ -458,6 +458,44 @@
 </nag>
 ]]></source>
 
+       <p>
+         Multiple <code>regexp</code> elements may be specified. The
+         first pattern that matches will be the one used to send the
+         nag email.
+       </p>
+       
+       <p>
+         To send email on success or failure, you could use:
+       </p>
+      <source><![CDATA[
+<nag>
+  <!-- pattern default is /BUILD FAILED/ -->
+  <regexp from="from@example.org" 
+          to="to@example.org" 
+          subject="Build Failure - @name of project element@"/>
+  <regexp pattern="/BUILD SUCCCESSFUL/"
+          from="from@example.org" 
+          to="to@example.org" 
+          subject="Gump Build Success - @name of project element@"/>
+</nag>
+]]></source>
+      <p>
+        You may want to nag on deprecation if you are particularly
+        sensitive to a given dependency. The nag for that would
+        look like this:
+      </p>
+      <source><![CDATA[
+<nag>
+  <!-- pattern default is /BUILD FAILED/ -->
+  <regexp from="from@example.org" 
+          to="to@example.org" 
+          subject="Build Failure - @name of project element@"/>
+  <regexp pattern="/deprecat/"
+          from="from@example.org" 
+          to="to@example.org" 
+          subject="Gump Build Warning - Deprecated methods used"/>
+</nag>
+]]></source>
     </subsection>
   </section>
 </body>
