@@ -17,6 +17,7 @@
     <jar name="commons-altrmi-client-impl.jar"/>
     <jar name="commons-altrmi-server-interfaces.jar"/>
     <jar name="commons-altrmi-server-impl.jar"/>
+    <jar name="commons-altrmi-generator.jar"/>
     <javadoc nested="altrmi/dist/docs/api"/>
   </project>
 
