@@ -36,16 +36,14 @@ class dir:
     """Configuration of paths"""
 
     cmdpath   = os.path.abspath(sys.argv[0])
-    base      = os.path.abspath(os.path.dirname(cmdpath))
+    base      = os.path.abspath(os.path.join(os.path.dirname(cmdpath),'..'))  
     
-    gump      = os.path.abspath(os.path.dirname(cmdpath))
-    
-    cache     = os.path.abspath('%s/%s' % (base,'cache'))
-    work      = os.path.abspath('%s/%s' % (base,'work'))
-    tmp       = os.path.abspath('%s/%s' % (base,'tmp'))
-    template  = os.path.abspath('%s/%s' % (base,'template'))
+    cache     = os.path.abspath(os.path.join(base,'cache'))
+    work      = os.path.abspath(os.path.join(base,'work'))
+    tmp       = os.path.abspath(os.path.join(base,'tmp'))
+    template  = os.path.abspath(os.path.join(base,'template'))
         
-    test      = os.path.abspath('%s/%s' % (base,'test'))
+    test      = os.path.abspath(os.path.join(base,'test'))
 
 def gumpPath(path,basedir=None):
   """returns the path absolutized relative to the base gump dir"""
