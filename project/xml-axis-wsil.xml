@@ -23,8 +23,7 @@
 
     <nag from="Sam Ruby &lt;rubys@us.ibm.com&gt;"
          to="axis-dev@xml.apache.org">
-      <regexp  subject="Build Failure - Axis"/>
-      <regexp pattern="/timed out/" subject="Build timed out - Axis"/>
+      <regexp  subject="Build Failure - WSIL"/>
     </nag>
   </project>
 
