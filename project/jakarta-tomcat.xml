@@ -26,6 +26,8 @@
     <depend project="jakarta-ant"/>
     <depend project="jakarta-servletapi"/>
     <depend project="jsse"/>
+    <depend project="commons-logging"/>
+    <depend project="jakarta-tomcat-util"/>
     <work nested="build/tomcat/classes"/>
     <home nested="dist/tomcat"/>
     <jar name="lib/common/etomcat.jar"/>

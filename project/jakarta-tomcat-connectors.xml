@@ -15,6 +15,7 @@
 
     <depend project="jakarta-ant"/>
     <depend project="xml-xerces"/>
+    <depend project="commons-logging"/>
 
     <home nested="util/build"/>
     <jar name="lib/tomcat-util.jar"/>
