@@ -137,6 +137,7 @@
       <depend property="junit.jar"  project="junit"/>
     </ant>
     <depend project="jakarta-ant"/>
+    <depend project="jakarta-servletapi"/>
     <depend project="xml-xerces"/>
     <jar name="util/dist/commons-util-@@DATE@@.jar"/>
     <javadoc nested="util/dist/docs/api"/>
