@@ -486,10 +486,13 @@ function pycompile
   fi
   
   # import all modules, one by one, to check syntax
-  local files=`find $GUMP_HOME/pygump -name '*.py' | sed -e 's/\.\///g' -e 's/\//./g' -e 's/\.py//g' -e 's/python\.//g' | grep -v __init__`
+  local current=`pwd`
+  cd $GUMP_HOME/pygump
+  local files=`find . -name '*.py' | sed -e 's/\.\///g' -e 's/\//./g' -e 's/\.py//g' -e 's/python\.//g' | grep -v __init__`
   for i in $files; do
     python -c "import $i"
   done
+  cd $current
 
   # restore python path
   if [[ ! -z "$oldpythonpath" ]]; then
