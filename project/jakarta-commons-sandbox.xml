@@ -63,8 +63,8 @@
     <depend project="jaf"/>
 
     <work nested="target/classes"/>
-    <home nested="target"/>
-    <jar name="email/commons-email-@@DATE@@.jar"/>
+    <home nested="email/target"/>
+    <jar name="commons-email-@@DATE@@.jar"/>
     <javadoc nested="email/docs/apidocs"/>
 
     <nag to="commons-dev@jakarta.apache.org"
