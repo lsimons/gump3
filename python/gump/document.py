@@ -665,9 +665,9 @@ def documentProject(workspace,context,modulename,mdir,projectname,projectcontext
     # Display nag information
     for nagEntry in project.nag:
         toaddr=getattr(nagEntry,'to',workspace.mailinglist)
-        fromaddr=getattr(nagEntry,'from',workspace.mailinglist)
+        fromaddr=getattr(nagEntry,'from',workspace.email)
         addItemXDoc(x,"Nag To: ", toaddr)
-        addItemXDoc(x,"Nag From: ", toaddr)     
+        addItemXDoc(x,"Nag From: ", fromaddr)     
         
     endListXDoc(x)
         
@@ -1137,7 +1137,7 @@ def getWorkDocument(rootdir,name,type,wdir=None):
     
 def getContextAbsoluteUrl(root,context):
     url=root
-    if not url.endsWith('/'): url += '/'
+    if not url.endswith('/'): url += '/'
     url += getContextUrl(context,0)
     return url
         
