@@ -109,7 +109,9 @@
 
   <project name="commons-latka">
     <description>Functional Testing Suite</description>
-    <ant basedir="latka" target="dist"/>
+    <ant basedir="latka" target="dist">
+      <property name="jaxen.jar" reference="jar" project="jaxen"/>
+    </ant>
     <depend project="jakarta-ant"/>
     <depend project="xml-xerces"/>
     <depend project="xml-xalan2"/>
@@ -118,6 +120,7 @@
     <depend project="jakarta-regexp"/>
     <depend project="jdom"/>
     <depend project="junit"/>
+    <option project="jaxen" inherit="runtime"/>
     <home nested="latka/dist"/>
     <jar name="commons-latka.jar"/>
     <javadoc nested="latka/build/docs/api"/>

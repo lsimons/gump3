@@ -12,10 +12,8 @@
     <depend project="jakarta-ant"/>
     <depend project="xml-xerces"/>
     <depend project="xml-xalan2"/>
-    <depend project="saxpath"/>
+    <depend project="saxpath" runtime="true"/>
     <option project="jdom"/>
-
-<!-- option project="dom4j" type="recursive!" -->
 
     <home nested="build"/>
     <jar name="jaxen-full.jar"/>
