@@ -21,6 +21,7 @@
     <depend project="junit"/>
     <depend project="antlr" inherit="jars"/>
     <depend project="jakarta-regexp" inherit="jars"/>
+    <depend project="jakarta-bcel"/>
     <work nested="target/checkstyle"/>
     <work nested="target/tests"/>
 
