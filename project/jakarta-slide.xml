@@ -30,7 +30,7 @@
     <depend project="jakarta-struts"/>
     <depend project="commons-modeler"/>
     <depend project="jdbc"/>
-    <depend project="antlr.runtime"/>
+    <depend project="antlr"/>
     <work nested="build/classes"/>
     <work nested="build/client/classes"/>
 
@@ -48,4 +48,13 @@
     </javadoc>
   </project>
 
+  <project name="antlr">
+    <url href="http://www.antlr.org/"/>
+    <description>
+      ANother Tool for Language Recognition
+    </description>
+
+    <jar name="lib/antlr-tools.jar"/>
+    <jar name="lib/antlr.jar"/>
+  </project>
 </module>
