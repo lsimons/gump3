@@ -40,8 +40,8 @@
         <jar name="dist/depot-common-gump-@@DATE@@.jar"/>
 
         <ant basedir="common" buildfile="build.xml" target="gump" vm="1.4">
-          <property name="ant.home" project="ant" reference="home" />
-          <property name="DATE_STAMP" value="@@DATE@@"/>        	
+          <property name="ant.home" project="ant" reference="home" />        
+          <property name="DSTAMP" value="@@DATE@@"/>        	  	
         </ant>
 
         <nag 
@@ -91,8 +91,8 @@
         <jar name="dist/depot-version-gump-@@DATE@@.jar"/>
 
         <ant basedir="version" buildfile="build.xml" target="gump" vm="1.4">
-          <property name="ant.home" project="ant" reference="home" />
-          <property name="DATE_STAMP" value="@@DATE@@"/>        	
+          <property name="ant.home" project="ant" reference="home" />        
+          <property name="DSTAMP" value="@@DATE@@"/>        	
         </ant>
 
         <nag 
@@ -163,9 +163,8 @@
        <package>org.apache.depot.version</package>
        <depend project="depot-version" inherit="all"/>
        <depend project="antworks-antlets" inherit="runtime"/>
-        <ant basedir="version" buildfile="build.xml" target="install-antlet" vm="1.4">
-          
-          <property name="DATE_STAMP" value="@@DATE@@"/>        	
+        <ant basedir="version" buildfile="build.xml" target="install-antlet" vm="1.4">          
+          <property name="DSTAMP" value="@@DATE@@"/>        	
         </ant>
         <nag 
            to="depot-dev@incubator.apache.org"
