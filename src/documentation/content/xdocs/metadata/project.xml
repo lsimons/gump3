@@ -215,7 +215,7 @@
       <p>If the directory is not present prior to the build, some VMs
       may drop it from the CLASSPATH.  If this happens, use a <link
       href="#mkdir">&lt;mkdir&gt;</link> element to create it before
-      building the project.
+      building the project.</p>
 
       <p>If this directory is deleted during the course of the build,
       the behavior of the JVM may become unpredictable.  The same is
@@ -687,7 +687,7 @@
           <td>The directory to create, relative to srcdir of the
           module containing this project.</td>
           <td>Yes</td>
-          </tr>
+        </tr>
       </table>
     </section>
 
@@ -706,7 +706,7 @@
           <td>The directory to create, relative to srcdir of the
           module containing this project.</td>
           <td>Yes</td>
-          </tr>
+        </tr>
       </table>
     </section>
   </section>
