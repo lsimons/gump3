@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/env python
 
 # Copyright 2003-2004 The Apache Software Foundation
 #
@@ -15,5 +15,5 @@
 # limitations under the License.
 
 #
-# $Header: /home/stefano/cvs/gump/python/header.txt,v 1.1 2004/04/06 15:57:11 ajack Exp $
+# $Header: /home/stefano/cvs/gump/python/header.txt,v 1.2 2004/04/12 18:57:37 ajack Exp $
 # 

@@ -60,7 +60,9 @@
         <depend project="xml-xerces"/>
         <depend project="ant-testutil"/>
         <depend project="junit"/>
-
+        
+        <junitreport nested="common/target/tests"/>
+        
         <ant basedir="common" buildfile="build.xml" target="test" vm="1.4">
         	<property name="ant.home" project="ant" reference="home" />
         </ant>

@@ -72,11 +72,11 @@ class Sync(Annotatable):
         names = os.listdir(src)
         try:
             result = os.stat(dst)
-        except Exception, details:
+        except Exception:
             result = None
         # handle case where result exists but is not a directory    
         if result and not S_ISDIR(result[ST_MODE]):
-            remove(dst)
+            os.remove(dst)
             result = None
         if not result:    
             os.makedirs(dst)

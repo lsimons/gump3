@@ -379,7 +379,7 @@ class ForrestDocumenter(Documenter):
         detailsTable=detailsSection.createTable()
         detailsTable.createEntry("State : ", workspace.getStateDescription()) 
 
-        e = secsToElapsedString(workspace.getElapsedSecs())
+        e = secsToElapsedTimeString(workspace.getElapsedSecs())
         if e : detailsTable.createEntry("Elapsed Time : ", e)
         detailsTable.createEntry("Base Directory : ", workspace.getBaseDirectory())
         detailsTable.createEntry("Temporary Directory : ", workspace.tmpdir)
@@ -542,7 +542,7 @@ class ForrestDocumenter(Documenter):
             projectRow.createData(	\
                 getGeneralSinceDescription(	\
                     project.getModule().getStats().getLastUpdated()))
-            projectRow.createData(secsToElapsedString(project.getElapsedSecs())) 
+            projectRow.createData(secsToElapsedTimeString(project.getElapsedSecs())) 
                 
         if not pcount: projectsTable.createLine('None')
         
@@ -599,7 +599,7 @@ class ForrestDocumenter(Documenter):
         #
         # ----------------------------------------------------------------------
         #
-        # diffsLog.xml -- Notes log
+        # diffsLog.xml -- Server Differences log
         #
         document=XDocDocument('Server Differences',	\
                 self.resolver.getFile(workspace,'diffsLog'))  
@@ -619,7 +619,7 @@ class ForrestDocumenter(Documenter):
                 self.insertLink(module,workspace,moduleSection.createParagraph()) 
             
                 # Display the module server links
-                self.documentServerLinks(moduleSection,module,workspace)   
+                self.documentServerLinks(moduleSection,module,workspace,getDepthForObject(workspace))   
                 
             for project in module.getProjects():
                 if not gumpSet.inProjectSequence(project): continue         
@@ -635,7 +635,7 @@ class ForrestDocumenter(Documenter):
                 self.insertLink(project,workspace,projectSection.createParagraph())    
             
                 # Display the project server links
-                self.documentServerLinks(projectSection,project,workspace)      
+                self.documentServerLinks(projectSection,project,workspace,getDepthForObject(workspace))      
         
                 dcount+=1
                 
@@ -664,7 +664,7 @@ class ForrestDocumenter(Documenter):
             projectRow.createComment(project.getName())          
             self.insertLink(project,workspace,projectRow.createData())     
             self.insertStateIcon(project,workspace,projectRow.createData())    
-            projectRow.createData(secsToElapsedString(project.getElapsedSecs()))  
+            projectRow.createData(secsToElapsedTimeString(project.getElapsedSecs()))  
             
             projectRow.createData('%02.2f' % project.getFOGFactor())
                 
@@ -832,7 +832,7 @@ The count of affected indicates relative importance of fixing this module.""")
             self.insertStateIcon(module,workspace,moduleRow.createData())
             self.insertStateIcons(gumpSet,module,workspace,moduleRow.createData())
             
-            moduleRow.createData(secsToElapsedString(module.getElapsedSecs()))
+            moduleRow.createData(secsToElapsedTimeString(module.getElapsedSecs()))
             
         if not mcount: modulesTable.createLine('None')
     
@@ -892,7 +892,7 @@ This page helps Gumpmeisters (and others) observe community progress.
             self.insertStateIcon(module,workspace,moduleRow.createData())
             self.insertStateIcons(gumpSet,module,workspace,moduleRow.createData())
             
-            moduleRow.createData(secsToElapsedString(module.getElapsedSecs()))
+            moduleRow.createData(secsToElapsedTimeString(module.getElapsedSecs()))
             
         if not mcount: modulesTable.createLine('None')
     
@@ -924,7 +924,7 @@ This page helps Gumpmeisters (and others) observe community progress.
             self.insertStateIcon(module,workspace,moduleRow.createData())
             self.insertStateIcons(gumpSet,module,workspace,moduleRow.createData())
             
-            moduleRow.createData(secsToElapsedString(module.getElapsedSecs()))
+            moduleRow.createData(secsToElapsedTimeString(module.getElapsedSecs()))
             moduleRow.createData('%02.2f' % module.getFOGFactor())
             
         if not mcount: modulesTable.createLine('None')
@@ -1287,7 +1287,7 @@ This page helps Gumpmeisters (and others) observe community progress.
                 projectRow.createComment(project.getName())
                 self.insertLink(project,module,projectRow.createData())  
                 self.insertStateIcon(project,module,projectRow.createData())                        
-                projectRow.createData(secsToElapsedString(project.getElapsedSecs())) 
+                projectRow.createData(secsToElapsedTimeString(project.getElapsedSecs())) 
 	            
 	        if not pcount: ptodosTable.createLine('None')
 	        
@@ -1303,7 +1303,7 @@ This page helps Gumpmeisters (and others) observe community progress.
             projectRow.createComment(project.getName())
             self.insertLink(project,module,projectRow.createData())
             self.insertStateIcon(project,module,projectRow.createData())                        
-            projectRow.createData(secsToElapsedString(project.getElapsedSecs())) 
+            projectRow.createData(secsToElapsedTimeString(project.getElapsedSecs())) 
             
         if not pcount: pallTable.createLine('None')
                            
@@ -1448,7 +1448,7 @@ This page helps Gumpmeisters (and others) observe community progress.
         if project.hasCause() and not project==project.getCause():
             self.insertTypedLink(project.getCause(),project,detailsList.createEntry('Root Cause: '))
             
-        e = secsToElapsedString(project.getElapsedSecs())
+        e = secsToElapsedTimeString(project.getElapsedSecs())
         if e and project.isVerboseOrDebug(): detailsList.createEntry("Elapsed: ", e)
                                                       
         # Display nag information
@@ -1750,7 +1750,7 @@ This page helps Gumpmeisters (and others) observe community progress.
             # when not string get the object link and <link it...
             noteRow.createData(note.text) 
             
-    def documentServerLinks(self,xdocNode,linkable,workspace):
+    def documentServerLinks(self,xdocNode,linkable,workspace,depth=-1):
         
         servers=workspace.getServers()
         if not servers: return    
@@ -1788,12 +1788,13 @@ This page helps Gumpmeisters (and others) observe community progress.
                 if statePair:
                     xdocNode.createBreak()
                     # Insert the Icon...
-                    depth=getDepthForObject(linkable)
+                    if -1 <> depth:
+                        depth=getDepthForObject(linkable)
                     self.insertStatePairIconAtDepth(dataNode,statePair,depth)      
                     
                 if utcTime:
                     xdocNode.createBreak()    
-                    xdocNode.createText('At ' + utcTime)                                    
+                    xdocNode.createText(utcTime)                                    
                         
     def documentProperties(self,xdocNode,propertyContainer,title='Properties'):
         
@@ -1883,7 +1884,7 @@ This page helps Gumpmeisters (and others) observe community progress.
             workRow.createData(stateDescription(work.state))
             if isinstance(work,TimedWorkItem):      
                 workRow.createData(secsToDate(work.result.start_time))
-                workRow.createData(secsToElapsedString(work.getElapsedSecs()))
+                workRow.createData(secsToElapsedTimeString(work.getElapsedSecs()))
             else:
                 workRow.createData('N/A')
                 workRow.createData('N/A')
@@ -1939,7 +1940,7 @@ This page helps Gumpmeisters (and others) observe community progress.
                                 
             workList.createEntry("Start Time: ", secsToDate(work.result.start_time))
             workList.createEntry("End Time: ", secsToDate(work.result.end_time))
-            e = secsToElapsedString(work.getElapsedSecs())
+            e = secsToElapsedTimeString(work.getElapsedSecs())
             if e : workList.createEntry("Elapsed Time: ", e)
                    
             #
@@ -2023,7 +2024,7 @@ This page helps Gumpmeisters (and others) observe community progress.
                         line=o.readline()
                         while line:
                             
-                            line=wrapLine(line,'...<br/>','    ',100)
+                            line=wrapLine(line,100,'...<br/>','    ')
                             
                             length = len(line)
                             size += length
@@ -2053,12 +2054,12 @@ This page helps Gumpmeisters (and others) observe community progress.
         fileSection=xdocNode.createSection(description)        
         fileTable=fileSection.createTable(['Name','Type','Path'])
         
-        for file in filelist:
+        for listedFile in filelist:
             fileRow=fileTable.createRow()
-            fileRow.createComment(file.getName())            
-            self.insertLink(file,holder,fileRow.createData())  
-            fileRow.createData(file.getTypeDescription())
-            fileRow.createData(file.getPath())
+            fileRow.createComment(listedFile.getName())            
+            self.insertLink(listedFile,holder,fileRow.createData())  
+            fileRow.createData(listedFile.getTypeDescription())
+            fileRow.createData(listedFile.getPath())
                         
         #
         # Go document the others...
@@ -2092,13 +2093,13 @@ This page helps Gumpmeisters (and others) observe community progress.
                 # Change to os.walk once we can move to Python 2.3
                 files=os.listdir(directory)
                 files.sort()
-                for file in files:
+                for listedFile in files:
                     
-                    filePath=os.path.abspath(os.path.join(directory,file))
+                    filePath=os.path.abspath(os.path.join(directory,listedFile))
                     listingRow=listingTable.createRow()
                     
                     #
-                    listingRow.createData(file)    
+                    listingRow.createData(listedFile)    
                     
                     if os.path.isdir(filePath):
                         listingRow.createData('Directory')
@@ -2123,7 +2124,7 @@ This page helps Gumpmeisters (and others) observe community progress.
                             line=o.readline()
                             while line:
                             
-                                line=wrapLine(line,'...<br/>','    ',100)
+                                line=wrapLine(line,100,'...<br/>','    ')
                             
                                 length = len(line)
                                 size += length
@@ -2372,15 +2373,15 @@ This page helps Gumpmeisters (and others) observe community progress.
     
     def documentModulesByElapsed(self,stats,run,workspace,gumpSet):
         fileName='module_elapsed'
-        file=self.resolver.getFile(stats,fileName)
-        document=XDocDocument('Modules By Elapsed Time', file)
+        documentFile=self.resolver.getFile(stats,fileName)
+        document=XDocDocument('Modules By Elapsed Time', documentFile)
         
         elapsedTable=document.createTable(['Modules By Elapsed'])
         for module in stats.modulesByElapsed:        
             if not gumpSet.inModuleSequence(module): continue
             elapsedRow=elapsedTable.createRow()
             self.insertLink( module, stats, elapsedRow.createData())
-            elapsedRow.createData(secsToElapsedString(module.getElapsedSecs()))
+            elapsedRow.createData(secsToElapsedTimeString(module.getElapsedSecs()))
             
         document.serialize()
         
@@ -2388,8 +2389,8 @@ This page helps Gumpmeisters (and others) observe community progress.
     
     def documentModulesByProjects(self,stats,run,workspace,gumpSet):
         fileName='module_projects'
-        file=self.resolver.getFile(stats,fileName)
-        document=XDocDocument('Modules By Project Count',	file)
+        documentFile=self.resolver.getFile(stats,fileName)
+        document=XDocDocument('Modules By Project Count',	documentFile)
         
         mprojsTable=document.createTable(['Modules By Project Count'])
         for module in stats.modulesByProjectCount:         
@@ -2414,8 +2415,8 @@ This page helps Gumpmeisters (and others) observe community progress.
      
     def documentModulesByDependencies(self,stats,run,workspace,gumpSet):
         fileName='module_dependencies'
-        file=self.resolver.getFile(stats,fileName)
-        document=XDocDocument('Modules By Dependency Count', file)
+        documentFile=self.resolver.getFile(stats,fileName)
+        document=XDocDocument('Modules By Dependency Count', documentFile)
         
         dependenciesTable=document.createTable(['Module','Full Dependency Count'])
         for module in stats.modulesByTotalDependencies:         
@@ -2437,8 +2438,8 @@ This page helps Gumpmeisters (and others) observe community progress.
      
     def documentModulesByDependees(self,stats,run,workspace,gumpSet):
         fileName='module_dependees'
-        file=self.resolver.getFile(stats,fileName)    
-        document=XDocDocument('Modules By Dependee Count', file)
+        documentFile=self.resolver.getFile(stats,fileName)    
+        document=XDocDocument('Modules By Dependee Count', documentFile)
         
         dependeesTable=document.createTable(['Module','Full Dependee Count'])
         for module in stats.modulesByTotalDependees:         
@@ -2459,8 +2460,8 @@ This page helps Gumpmeisters (and others) observe community progress.
         
     def documentModulesByFOGFactor(self,stats,run,workspace,gumpSet):
         fileName='module_fogfactor'
-        file=self.resolver.getFile(stats,fileName)    
-        document=XDocDocument('Modules By FOG Factor',	file)        
+        documentFile=self.resolver.getFile(stats,fileName)    
+        document=XDocDocument('Modules By FOG Factor',	documentFile)        
         fogTable=document.createTable(['Module','FOG Factor'])
         for module in stats.modulesByFOGFactor:        
             if not gumpSet.inModuleSequence(module): continue    
@@ -2474,8 +2475,8 @@ This page helps Gumpmeisters (and others) observe community progress.
     
     def documentModulesByLastUpdated(self,stats,run,workspace,gumpSet):
         fileName='module_updated'
-        file=self.resolver.getFile(stats,fileName)    
-        document=XDocDocument('Modules By Last Updated', file)        
+        documentFile=self.resolver.getFile(stats,fileName)    
+        document=XDocDocument('Modules By Last Updated', documentFile)        
         updTable=document.createTable(['Module','Last Updated Date','Last Updated'])
         modules=0
         for module in stats.modulesByLastUpdated:        
@@ -2495,15 +2496,15 @@ This page helps Gumpmeisters (and others) observe community progress.
     
     def documentProjectsByElapsed(self,stats,run,workspace,gumpSet):
         fileName='project_elapsed'
-        file=self.resolver.getFile(stats,fileName)    
-        document=XDocDocument('Projects By Elapsed Time',	file)
+        documentFile=self.resolver.getFile(stats,fileName)    
+        document=XDocDocument('Projects By Elapsed Time',	documentFile)
         
         elapsedTable=document.createTable(['Projects By Elapsed'])
         for project in stats.projectsByElapsed:        
             if not gumpSet.inProjectSequence(project): continue
             elapsedRow=elapsedTable.createRow()
             self.insertLink( project, stats, elapsedRow.createData())
-            elapsedRow.createData(secsToElapsedString(project.getElapsedSecs()))
+            elapsedRow.createData(secsToElapsedTimeString(project.getElapsedSecs()))
             
         document.serialize()
         
@@ -2511,8 +2512,8 @@ This page helps Gumpmeisters (and others) observe community progress.
      
     def documentProjectsByDependencies(self,stats,run,workspace,gumpSet):
         fileName='project_dependencies'
-        file=self.resolver.getFile(stats,fileName)    
-        document=XDocDocument('Projects By Dependency Count',	 file)
+        documentFile=self.resolver.getFile(stats,fileName)    
+        document=XDocDocument('Projects By Dependency Count',	 documentFile)
         
         dependenciesTable=document.createTable(['Project','Direct Dependency Count', 'Full Dependency Count'])
         for project in stats.projectsByTotalDependencies:         
@@ -2535,8 +2536,8 @@ This page helps Gumpmeisters (and others) observe community progress.
      
     def documentProjectsByDependees(self,stats,run,workspace,gumpSet):
         fileName='project_dependees'
-        file=self.resolver.getFile(stats,fileName)    
-        document=XDocDocument('Projects By Dependee Count', file)
+        documentFile=self.resolver.getFile(stats,fileName)    
+        document=XDocDocument('Projects By Dependee Count', documentFile)
         
         dependeesTable=document.createTable(['Project','Direct Dependee Count', 'Full Dependee Count'])
         for project in stats.projectsByTotalDependees:         
@@ -2558,8 +2559,8 @@ This page helps Gumpmeisters (and others) observe community progress.
         
     def documentProjectsByFOGFactor(self,stats,run,workspace,gumpSet):
         fileName='project_fogfactor'
-        file=self.resolver.getFile(stats,fileName)    
-        document=XDocDocument('Projects By FOG Factor',	 file)        
+        documentFile=self.resolver.getFile(stats,fileName)    
+        document=XDocDocument('Projects By FOG Factor',	 documentFile)        
         fogTable=document.createTable(['Project','Successes','Failures','Preq-Failures','FOG Factor'])
         for project in stats.projectsByFOGFactor:        
             if not gumpSet.inProjectSequence(project): continue    
@@ -2579,8 +2580,8 @@ This page helps Gumpmeisters (and others) observe community progress.
         
     def documentProjectsBySequenceInState(self,stats,run,workspace,gumpSet):
         fileName='project_durstate'
-        file=self.resolver.getFile(stats,fileName)    
-        document=XDocDocument('Projects By Duration In State',	file)        
+        documentFile=self.resolver.getFile(stats,fileName)    
+        document=XDocDocument('Projects By Duration In State',	documentFile)        
         durTable=document.createTable(['Project','Duration\nIn State','State'])
         for project in stats.projectsBySequenceInState:        
             if not gumpSet.inProjectSequence(project): continue    
@@ -2674,8 +2675,8 @@ This page helps Gumpmeisters (and others) observe community progress.
         
     def documentModulesByRepository(self,xref,run,workspace,gumpSet):
         fileName='repo_module'
-        file=self.resolver.getFile(xref,fileName)        
-        document=XDocDocument('Modules By Repository',	file)
+        documentFile=self.resolver.getFile(xref,fileName)        
+        document=XDocDocument('Modules By Repository',	documentFile)
         
         repoMap=xref.getRepositoryToModuleMap()
         repoList=createOrderedList(repoMap.keys())
@@ -2701,8 +2702,8 @@ This page helps Gumpmeisters (and others) observe community progress.
         
     def documentModulesByPackage(self,xref,run,workspace,gumpSet):
         fileName='package_module'
-        file=self.resolver.getFile(xref,fileName)            
-        document=XDocDocument('Modules By Package',	file)
+        documentFile=self.resolver.getFile(xref,fileName)            
+        document=XDocDocument('Modules By Package',	documentFile)
         
         packageTable=document.createTable(['Modules By Package'])
         
@@ -2733,8 +2734,8 @@ This page helps Gumpmeisters (and others) observe community progress.
         
     def documentModulesByDescription(self,xref,run,workspace,gumpSet):
         fileName='description_module'
-        file=self.resolver.getFile(xref,fileName)            
-        document=XDocDocument('Modules By Description',	file)
+        documentFile=self.resolver.getFile(xref,fileName)            
+        document=XDocDocument('Modules By Description',	documentFile)
         
         descriptionTable=document.createTable(['Modules By Description'])
         
@@ -2764,8 +2765,8 @@ This page helps Gumpmeisters (and others) observe community progress.
         
     def documentProjectsByPackage(self,xref,run,workspace,gumpSet):
         fileName='package_project'
-        file=self.resolver.getFile(xref,fileName)            
-        document=XDocDocument('Projects By Package',	file)
+        documentFile=self.resolver.getFile(xref,fileName)            
+        document=XDocDocument('Projects By Package',	documentFile)
         
         packageTable=document.createTable(['Projects By Package'])
         
@@ -2795,8 +2796,8 @@ This page helps Gumpmeisters (and others) observe community progress.
 
     def documentProjectsByDescription(self,xref,run,workspace,gumpSet):
         fileName='description_project'
-        file=self.resolver.getFile(xref,fileName)            
-        document=XDocDocument('Projects By Description',	file)
+        documentFile=self.resolver.getFile(xref,fileName)            
+        document=XDocDocument('Projects By Description',	documentFile)
         
         descriptionTable=document.createTable(['Projects By Description'])
         
@@ -2827,8 +2828,8 @@ This page helps Gumpmeisters (and others) observe community progress.
         
     def documentProjectsByOutput(self,xref,run,workspace,gumpSet):
         fileName='output_project'
-        file=self.resolver.getFile(xref,fileName)            
-        document=XDocDocument('Projects By Outputs (e.g. Jars)',	file)
+        documentFile=self.resolver.getFile(xref,fileName)            
+        document=XDocDocument('Projects By Outputs (e.g. Jars)',	documentFile)
         
         outputTable=document.createTable(['Projects By Outputs (e.g. Jars)'])
         
@@ -2858,8 +2859,8 @@ This page helps Gumpmeisters (and others) observe community progress.
         
     def documentProjectsByOutputId(self,xref,run,workspace,gumpSet):
         fileName='output_id_project'
-        file=self.resolver.getFile(xref,fileName)            
-        document=XDocDocument('Projects By Output Identifiers',	file)
+        documentFile=self.resolver.getFile(xref,fileName)            
+        document=XDocDocument('Projects By Output Identifiers',	documentFile)
         
         outputTable=document.createTable(['Projects By Output Identifiers'])
         
@@ -2889,8 +2890,8 @@ This page helps Gumpmeisters (and others) observe community progress.
         
     def documentProjectsByDescriptorLocation(self,xref,run,workspace,gumpSet):
         fileName='descriptor_project'
-        file=self.resolver.getFile(xref,fileName)            
-        document=XDocDocument('Projects By Descriptor Location',	file)
+        documentFile=self.resolver.getFile(xref,fileName)            
+        document=XDocDocument('Projects By Descriptor Location',	documentFile)
         
         descLocnTable=document.createTable(['Projects By Descriptor Location'])
         

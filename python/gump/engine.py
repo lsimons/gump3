@@ -20,7 +20,6 @@
 """
 
 import os.path
-import os
 import sys
 from fnmatch import fnmatch
 
@@ -858,14 +857,6 @@ class GumpEngine:
             #
             logResourceUtilization('Before nag')
             nag(run)  
-    
-    def updateStatistics(self,run):
-        
-        # Update Statistics/Results on full runs            
-        if run.getGumpSet().isFull():
-            
-            logResourceUtilization('Before statistics update')
-            self.updateStatistics(run)
         
     def gatherResults(self,run):
         #

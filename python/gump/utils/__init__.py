@@ -169,7 +169,7 @@ def secsToElapsedTimeTriple(secs):
         
     return (hours, mins, secs)
     
-def secsToElapsedString(secs):
+def secsToElapsedTimeString(secs):
     return elapsedTimeTripleToString(secsToElapsedTimeTriple(secs))           
     
 def elapsedTimeTripleToString(elapsed):
@@ -404,7 +404,7 @@ if __name__=='__main__':
   #dump(log)
 
   print "secsToElapsedTimeTriple(1340) : " + str(secsToElapsedTimeTriple(1340))
-  print "secsToElapsedString(1340) : " + secsToElapsedString(1340)
+  print "secsToElapsedTimeString(1340) : " + secsToElapsedTimeString(1340)
   print "secsToTime(1340) : " + secsToTime(1340)
   print "elapsedTimeTripleToString(secsToElapsedTimeTriple(1340)) : " + elapsedTimeTripleToString(secsToElapsedTimeTriple(1340))
   print "Date (for SMTP) : " + time.strftime('%d %b %y %H:%M:%S')

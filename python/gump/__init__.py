@@ -1,8 +1,8 @@
 #!/usr/bin/python
 
-# $Header: /home/stefano/cvs/gump/python/gump/__init__.py,v 1.20 2003/11/20 20:51:49 ajack Exp $
-# $Revision: 1.20 $
-# $Date: 2003/11/20 20:51:49 $
+# $Header: /home/stefano/cvs/gump/python/gump/__init__.py,v 1.21 2004/04/12 18:57:37 ajack Exp $
+# $Revision: 1.21 $
+# $Date: 2004/04/12 18:57:37 $
 #
 # ====================================================================
 #
@@ -59,24 +59,7 @@
 # <http://www.apache.org/>.
 
 """
-  Gump core functionality.
-
-  It contains a sax dispatcher tool, a dependency
-  walker, and an object model (GOM) which is built from an xmlfile using
-  the sax dispatcher.
-
-  The idea is that a subclass of GumpModelObject is used for each of the various
-  xml tags which can appear in a gump profile, with a saxdispatcher
-  generating a tree of GumpModelObject objects from the profile, dynamically
-  merging as it finds href references.
-
-  You can then use the dependencies() method to get an ordered, flat vector
-  of the projects in the profile.
-
-  Then there's some basic procedures to work with the GOM, like load().
-
-  For basic usage patterns, look at the gump.view module or the gump.build
-  module.
+  Gump Entry Points.
 """
 
 import os.path
@@ -86,8 +69,12 @@ import string
 import sys
 import time
 
-# python-2.3 or http://www.red-dove.com/python_logging.html
+# Either python-2.3 or http://www.red-dove.com/python_logging.html
 import logging
+
+
+# tell Python what modules make up the gump package
+__all__ = ["config"]
 
 # base gump logger
 log = logging.getLogger(__name__)
@@ -97,9 +84,6 @@ from gump.config import dir, default, setting, switch
 ###############################################################################
 # Initialize
 ###############################################################################
-
-# tell Python what modules make up the gump package
-__all__ = ["config", "integrate"]
 
 # init logging
 logging.basicConfig()

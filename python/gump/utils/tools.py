@@ -188,7 +188,7 @@ def tailFile(file,lines,wrapLen=0,eol=None,marker=None):
                 # Wrap if requested
                 #
                 if wrapLen:
-                    wline=wrapLine(line,eol,marker,wrapLen)
+                    wline=wrapLine(line,wrapLen,eol,marker)
                 else:
                     wline=line
                 

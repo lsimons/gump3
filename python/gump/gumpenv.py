@@ -22,7 +22,6 @@
 """
 
 import os.path
-import os
 import sys
 from fnmatch import fnmatch
 
@@ -47,6 +46,7 @@ class GumpEnvironment(Annotatable,Workable,Propogatable):
     def __init__(self):
         Annotatable.__init__(self)
         Workable.__init__(self)
+        Propogatable.__init__(self)
         Stateful.__init__(self)
         
         #

@@ -24,6 +24,7 @@ from string import lower, capitalize
 from gump.model.state import *
 from gump.utils.owner import *
 from gump.utils.launcher import *
+from gump.utils import *
 
                
 WORK_TYPE_CHECK=1

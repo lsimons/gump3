@@ -25,9 +25,7 @@
 """
 
 import os.path
-import os
 import sys
-import logging
 
 from gump import log
 from gump.engine import GumpEngine

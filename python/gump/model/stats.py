@@ -63,8 +63,8 @@ class Statistics:
     # 'odds of success' (based off historical results).
     #
     def getHistoricalOddsOfSuccess(self):
-        good=self.successes
-        bad=(self.failures+self.prereqs)
+        good=self.successes or 0
+        bad=(self.failures+self.prereqs) or 0
         total=(good+bad) or 1
         return float(good)/float(total)
         
@@ -117,9 +117,9 @@ class Statistics:
             if not self.first:
                 self.first=self.last
             elif statable.isFailed():
-                s.failures += 1    
+                self.failures += 1    
             elif statable.isPrereqFailed():                        
-                s.prereqs  += 1
+                self.prereqs  += 1
             
         elif statable.isFailed():
             self.failures += 1

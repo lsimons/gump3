@@ -974,9 +974,8 @@ maven.jar.override = on
         """ Display the contents of this object """
         output.write(getIndent(indent)+'Project: ' + self.getName() + '\n')
         NamedModelObject.dump(self, indent+1, output)
-        
-        for dependency in self.depends:
-            dependency.dump(indent+1,output)
+                
+        Dependable.dump(self,indent,output)
                         
         if self.ant:
             self.ant.dump(indent+1,output)
