@@ -5,7 +5,7 @@
     Servlet based framework
   </description>
 
-  <cvs repository="working-dogs" dir="turbine"/>
+  <cvs repository="jakarta"/>
 
   <ant buildfile="build/build-turbine.xml" target="package"/>
 
