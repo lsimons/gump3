@@ -41,14 +41,6 @@
     <jar name="lib/cocoon-gump.jar"/>
   </project>
 
-  <project name="hsqldb">
-    <url href="http://sourceforge.net/projects/hsqldb/"/>
-    <description>
-      Relational database engine written in Java
-    </description>
-    <jar name="lib/hsqldb-1.61.jar"/>
-  </project>
-
   <project name="jstyle">
     <url href="http://astyle.sourceforge.net/"/>
     <description>
