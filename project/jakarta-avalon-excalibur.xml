@@ -775,6 +775,7 @@
         <option project="checkstyle" inherit="runtime"/>
         <depend project="junit"/>
         <depend project="jakarta-avalon" runtime="true"/>
+        <depend project="jakarta-log4j"/>
         <depend project="xml-xerces"/>
         <depend project="xml-xalan2"/>
         <work nested="logger/build/classes"/>
