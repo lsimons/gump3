@@ -1,0 +1,12 @@
+<module name="jndi">
+
+  <url href="http://java.sun.com/products/jndi/"/>
+  <description>
+    LDAP Service Provider
+  </description>
+  
+  <project name="ldap">
+    <jar name="lib/ldap.jar"/>
+  </project>
+
+</module>

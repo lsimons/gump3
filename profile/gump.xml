@@ -103,6 +103,7 @@
   <module href="project/jsse.xml"/>
   <module href="project/jta.xml"/>
   <module href="project/jts.xml"/>
+  <module href="project/ldap.xml"/>
   <module href="project/tranquilo.xml"/>
 
   <!-- Installed packages -->
@@ -121,6 +122,7 @@
   <project name="jsse"           package="jsse1.0.2"/>
   <project name="jta"            package="jta-spec1_0_1"/>
   <project name="jts"            package="jts1_0"/>
+  <project name="ldap"           package="ldap-1_2_3"/>
   <project name="tranquilo"      package="xsdlib-20010424"/>
 
   <!-- CVS Repository definitions -->

@@ -29,20 +29,26 @@
       <property name="mail.home" reference="home" project="javamail"/>
       <depend property="mail.jar" project="javamail"/>
       <property name="activation.home" reference="home" project="jaf"/>
+      <depend property="activation.jar" project="jaf"/>
+      <depend property="jdbc20ext.jar" project="jdbc"/>
+      <depend property="jndi.jar" project="jndi"/>
+      <depend property="jta.jar" project="jta"/>
+      <depend property="ldap.jar" project="ldap"/>
+      <depend property="servlet.jar" project="jakarta-servletapi-4"/>
+      <depend property="tyrex.jar" project="tyrex"/>
     </ant>
 
-    <depend project="xml-xerces"/>
-    <depend project="xml-xalan2"/>
-    <depend project="jsse"/>
-    <depend project="jmx"/>
-    <depend project="jakarta-regexp"/>
-    <depend project="jakarta-ant"/>
-    <depend project="jakarta-servletapi-4"/>
     <depend project="jaf"/>
+    <depend project="jakarta-ant"/>
+    <depend project="jakarta-regexp"/>
+    <depend project="jakarta-servletapi-4"/>
     <depend project="javamail"/>
+    <depend project="jmx"/>
+    <depend project="jsse"/>
+    <depend project="xml-xalan2"/>
+    <depend project="xml-xerces"/>
     <option project="jakarta-avalon"/>
     <option project="jakarta-avalon-phoenix"/>
-    <option project="tyrex"/>
 
     <home nested="dist"/>
     <jar name="bin/bootstrap.jar"/>
