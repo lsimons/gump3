@@ -1,7 +1,7 @@
 /*
- * $Header: /home/stefano/cvs/gump/java/Project.java,v 1.45 2002/11/24 21:12:05 rubys Exp $
- * $Revision: 1.45 $
- * $Date: 2002/11/24 21:12:05 $
+ * $Header: /home/stefano/cvs/gump/java/Project.java,v 1.46 2002/11/25 15:24:12 rubys Exp $
+ * $Revision: 1.46 $
+ * $Date: 2002/11/25 15:24:12 $
  *
  * ====================================================================
  *
@@ -810,15 +810,6 @@ public class Project {
             subject = nagPrefix + " " + nag.getAttribute("subject");
         }
         
-        if (!nag.hasChildNodes()) {
-            Element regexp = nag.getOwnerDocument().createElement("regexp");
-            regexp.setAttribute("pattern", "/BUILD FAILED/");
-            regexp.setAttribute("subject", subject);
-            regexp.setAttribute("to", to);
-            regexp.setAttribute("from", from);
-            nag.appendChild(regexp);
-        }
-
         Element regexp = null;
         Node child = nag.getFirstChild();
         for (; child != null; child = child.getNextSibling()) {
