@@ -188,8 +188,13 @@
             <depend property="avalon-framework.jar" project="avalon" runtime="true"/>
             <depend property="commons-collections.jar" project="commons-collections" runtime="true"/>
             <depend property="excalibur-instrument.jar" project="excalibur-instrument" runtime="true"/>
-            <depend property="excalibur-instrument-manager.jar" project="excalibur-instrument-manager" runtime="true"/>
-            <depend property="excalibur-instrument-manager-interfaces.jar" project="excalibur-instrument-manager" runtime="true"/>
+            <depend property="excalibur-instrument-manager.jar"
+                    project="excalibur-instrument-manager" 
+                    runtime="true" id="main"/>
+            <depend property="excalibur-instrument-manager-interfaces.jar" 
+                    project="excalibur-instrument-manager"
+                    runtime="true"
+                    id="interfaces"/>
             <depend property="excalibur-logger.jar" project="excalibur-logger" runtime="true"/>
             <depend property="excalibur-pool.jar" project="excalibur-pool" runtime="true"/>
             <depend property="logkit.jar" project="avalon-logkit" runtime="true"/>
@@ -389,8 +394,12 @@
             <depend property="commons-collections.jar" project="commons-collections" runtime="true"/>
             <depend property="excalibur-event.jar" project="excalibur-event" runtime="true"/>
             <depend property="excalibur-instrument.jar" project="excalibur-instrument" runtime="true"/>
-            <depend property="excalibur-instrument-manager.jar" project="excalibur-instrument-manager" runtime="true"/>
-            <depend property="excalibur-instrument-manager-interfaces.jar" project="excalibur-instrument-manager" runtime="true"/>
+            <depend property="excalibur-instrument-manager.jar" 
+                    project="excalibur-instrument-manager"
+                    runtime="true" id="main"/>
+            <depend property="excalibur-instrument-manager-interfaces.jar" 
+                    project="excalibur-instrument-manager"
+                    runtime="true" id="interfaces"/>
             <depend property="excalibur-lifecycle.jar" project="excalibur-lifecycle" runtime="true"/>
             <depend property="excalibur-logger.jar" project="excalibur-logger" runtime="true"/>
             <depend property="excalibur-pool.jar" project="excalibur-pool" runtime="true"/>
@@ -586,8 +595,10 @@
         <work nested="instrument-manager/build/testclasses"/>
 
         <home nested="instrument-manager"/>
-        <jar name="build/lib/excalibur-instrument-manager-@@DATE@@.jar"/>
-        <jar name="build/lib/excalibur-instrument-manager-interfaces-@@DATE@@.jar"/>
+        <jar name="build/lib/excalibur-instrument-manager-@@DATE@@.jar"
+             id="main"/>
+        <jar name="build/lib/excalibur-instrument-manager-interfaces-@@DATE@@.jar"
+             id="interfaces"/>
 
         <nag from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"
                 to="dev@avalon.apache.org"/>
@@ -650,7 +661,9 @@
             <depend property="altrmi-server-interfaces.jar" project="excalibur-altrmi-0.9.2" id="server-api"/>
             <depend property="altrmi-server-impl.jar" project="excalibur-altrmi-0.9.2" id="server-impl"/>
             <depend property="avalon-framework.jar" project="avalon" runtime="true"/>
-            <depend property="excalibur-instrument-manager.jar" project="excalibur-instrument-manager" runtime="true"/>
+            <depend property="excalibur-instrument-manager.jar" 
+                    project="excalibur-instrument-manager"
+                    runtime="true" id="main"/>
 
             <!-- optional dependencies -->
             <property name="checkstyle.jar" project="checkstyle" reference="jarpath"/>
