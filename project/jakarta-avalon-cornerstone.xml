@@ -26,7 +26,6 @@
     <depend project="jakarta-velocity" inherit="runtime"/>
 
     <option project="excalibur-event"/>
-    <option project="incubator-altrmi" inherit="runtime"/>
     <option project="jakarta-bcel"/>
     <option project="jsse"/>
 
