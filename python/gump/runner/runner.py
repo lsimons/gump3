@@ -29,6 +29,7 @@ from gump.build.builder import *
 
 from gump.document.text.documenter import TextDocumenter
 from gump.document.xdocs.documenter import XDocDocumenter
+from gump.document.xdocs.synchronizer import Synchronizer
 
 from gump.timing.keeper import TimeKeeper
 from gump.stats.statistician import Statistician
@@ -140,10 +141,12 @@ class GumpRunner(RunSpecific):
         
         # Document..
         # Use XDOCS if not overridden...
+        xdocs=False
         documenter=None
         if self.run.getOptions().isText() :
             documenter=TextDocumenter(self.run)
         else:
+            xdocs=True
             documenter=XDocDocumenter(	self.run,	\
                                         self.run.getWorkspace().getBaseDirectory(), \
                                         self.run.getWorkspace().getLogUrl())  
@@ -157,10 +160,15 @@ class GumpRunner(RunSpecific):
         # Publish artifacts
         if self.run.getOptions().isPublish():
             self.run.registerActor(RepositoryPublisher(self.run))   
-            
+
+        # Synchonize
+        if xdocs:
+            self.run.registerActor(Synchronizer(self.run,documenter))
+        
         # Notify last
         if self.run.getOptions().isNotify() and self.run.getWorkspace().isNotify():
             self.run.registerActor(Notifier(self.run))         
+                    
                     
         # See what we have...            
         self.run.logActors()

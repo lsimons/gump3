@@ -105,9 +105,6 @@ class XDocDocumenter(Documenter):
         if self.run.getOptions().isOfficial():
             self.documentStatistics()
             self.documentXRef()
-
-        # Synchronize xdocs...
-        return self.syncXDocs()
         
     #####################################################################
     #
@@ -252,35 +249,6 @@ class XDocDocumenter(Documenter):
         
         return success
         
-    def syncXDocs(self):
-        
-        # The move contents/xdocs from work directory to log
-        xdocWorkDir=self.getXDocWorkDirectory()
-        logDirectory=self.getXDocLogDirectory()
-        
-        log.info('Synchronize work->log, and clean-up...')
-            
-        success=True
-        try:
-            
-            if self.run.getOptions().isOfficial():
-                # Sync over public pages...
-                syncDirectories(xdocWorkDir,logDirectory)
-            else:
-                # Copy over public pages...
-                copyDirectories(xdocWorkDir,logDirectory)
-            
-            cleanUp=True       
-            if cleanUp:
-                # Clean-up work area
-                wipeDirectoryTree(xdocWorkDir)
-            
-        except:        
-            log.error('--- Failed to work->log sync and/or clean-up', exc_info=1)
-            success=False
-        
-        return success
-                
     #####################################################################           
     #
     # Workspace Pieces
