@@ -64,7 +64,7 @@
         <code type="java/plain" dir="src/main"/>
  
     	<depend project="ant" inherit="runtime"/>
-        <option project="commons-logging"/>
+        <depend project="commons-logging"/>
     
 	    <jar name="krysalis-version-core-@@DATE@@.jar"/>
         
