@@ -372,7 +372,10 @@ public class Project {
 
         // if there are no child nodes, add this project's description
         if (!javadoc.hasChildNodes() && description!=null) {
-            javadoc.appendChild(description.cloneNode(true));
+            Element desc = (Element) description.cloneNode(true);
+            if (javadoc.getAttributeNode("title") != null)
+               desc.setAttribute("title", javadoc.getAttribute("title"));
+            javadoc.appendChild(desc);
         }
 
         // resolve relative and full path to this javadoc entry

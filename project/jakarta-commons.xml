@@ -105,7 +105,7 @@
     <depend project="junit"/>
     <home nested="latka/dist"/>
     <jar name="commons-latka.jar"/>
-    <javadoc nested="build/docs/api"/>
+    <javadoc nested="latka/build/docs/api"/>
   </project>
 
   <project name="commons-pool">

@@ -43,7 +43,7 @@
 
     <home nested="target"/>
     <jar name="servlet22/dist/lib/cactus.jar"/>
-    <javadoc nested="target/servlet22/dist/doc/javadoc"/>
+    <javadoc nested="target/servlet22/dist/doc/javadoc" title="servlet22 API"/>
   </project>
 
   <!-- Build the Cactus project for Servlet API 2.3 -->
@@ -74,7 +74,7 @@
 
     <home nested="target"/>
     <jar name="servlet23/dist/lib/cactus.jar"/>
-    <javadoc nested="target/servlet23/dist/doc/javadoc"/>
+    <javadoc nested="target/servlet23/dist/doc/javadoc" title="servlet23 API"/>
   </project>
 
 </module>
