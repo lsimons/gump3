@@ -18,13 +18,18 @@ http://gump.chalko.com/gb/blog/?permalink=Template.txt&preview=true&smm=y
   limitations under the License.
 -->
 <p>
-This a a sample post for you to copy to a subdirectory and rename.
+I should have known better... After a few hours of debugging and thanks
+to Leo for giving me access to LSD, I have found the culprit. The hunt
+is over!
+</p><p>
+The culprit is: commons-httpclient
+</p><p>
+It works fine with version 2.0 of commons-httpclient but not with the
+latest version from HEAD. Now, the hard part, is trying to understand
+why httpclient has changed some API. Then the Cactus project will need
+to decide whether it has to use the new way (thus forcing users to use
+httpclient from HEAD) or ask nicely some Gump admin to install
+commons-httpclient 2.0 and have the Cactus build depend on that.
 </p>
-<ul>
 
-<li>Use any valid HTML markup.  </li>
-<li>Update the preview link to this file name and directory.</li>
-<li>When the story is ready for posting remove the work PREVIEW from the title. and remove the 
-preview link and horizontal rule.</li>
-</ul>
 
