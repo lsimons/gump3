@@ -266,6 +266,7 @@
   <project name="tranquilo"        package="xsdlib-20010424"/>
   <project name="nsuml"            package="nsuml"/>
   <project name="packaged-jaxen"   package="jaxen-1.0-FCS"/>
+  <project name="saxpath"          package="jaxen-1.0-FCS"/>
   <project name="packaged-dom4j"   package="dom4j-1.4"/>
 
 <!-- CVS Repository definitions -->

@@ -9,4 +9,9 @@
     <jar name="jaxen-full.jar"/>
     <license name="LICENSE"/>
   </project>
+
+  <project name="saxpath">
+    <package>org.saxpath</package>
+    <jar name="lib/saxpath.jar"/>
+  </project>
 </module>

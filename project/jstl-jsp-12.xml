@@ -9,7 +9,7 @@
   <project name="jstl-jsp-12">
     <package>org.apache.taglibs.standard</package>
     <description>Standard Taglib for JSP 1.2</description>
-    <ant basedir="standard" target="dist">
+    <ant basedir="standard" target="library-dist">
       <depend property="dom.jar" project="jaxp" id="dom"/>
       <depend property="jdbc2_0-stdext.jar" project="jdbc"/>
       <depend property="jaxp-api.jar" project="jaxp" id="jaxp-api"/>
@@ -22,7 +22,17 @@
       <property name="build.examples" path="build/standard/standard-examples"/>
       <property name="build.doc" path="build/standard/standard-doc"/>
       <property name="library.src" path="standard/src"/>
+      <property name="conf.src" path="standard/conf"/>
+      <property name="examples.src" path="standard/examples"/>
+      <property name="doc.src" path="standard/doc"/>
+      <property name="xml.src" path="standard/xml"/>
       <property name="dist.dir" path="dist"/>
+      <property name="dist.library" value="standard"/>
+      <property name="dist.examples" value="examples.war"/>
+
+      <property name="taglibs.xsl"
+                path="../jakarta-taglibs/src/taglib/taglib-doc.xsl"/>
+                
     </ant>
     <depend project="ant" inherit="runtime"/>
     <depend project="xml-xerces"/>
@@ -30,10 +40,12 @@
     <!-- NOTE: Use the packaged Jaxen as it seems Jaxen consistently fails to 
          build with Gump -->
     <depend project="packaged-jaxen"/>
+    <depend project="saxpath"/>
     
-    <javadoc nested="dist/doc/doc/standard-doc/javadoc"/>
-    <jar name="dist/standard/lib/jstl.jar" id="jstl" />
-    <jar name="dist/standard/lib/standard.jar" id="standard" />
+    <work nested="build/standard/standard"/>
+
+    <jar name="standard/standard/lib/jstl.jar" id="jstl" />
+    <jar name="standard/standard/lib/standard.jar" id="standard" />
     <nag to="taglibs-dev@jakarta.apache.org"
          from="Ted Husted &lt;ted@husted.com&gt;"/>
   </project>
