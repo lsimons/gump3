@@ -343,7 +343,7 @@ class GumpEngine:
         elif delete.file:
             file=os.path.abspath(os.path.join(basedir,delete.file)
             try:
-                os.remove(file))
+                os.remove(file)
             except:
                 project.addError('Failed to delete file ['+file+'])
                 raise           
