@@ -101,7 +101,7 @@
             <regexp pattern="/Missing prereq/i"
                 from="Peter Donald &lt;peter@apache.org&gt;"
                 to="dev@avalon.apache.org"
-                subject="PRE-REQ FAILED for avalon-phoenix"/>
+                subject="PRE-REQ FAILED for phoenix-example-demo"/>
         </nag>
         <nag from="Peter Donald &lt;peter@apache.org&gt;"
             to="dev@avalon.apache.org"/>
@@ -128,7 +128,7 @@
             <regexp pattern="/Missing prereq/i"
                 from="Peter Donald &lt;peter@apache.org&gt;"
                 to="dev@avalon.apache.org"
-                subject="PRE-REQ FAILED for avalon-phoenix"/>
+                subject="PRE-REQ FAILED for phoenix-example-pdk"/>
         </nag>
         <nag from="Peter Donald &lt;peter@apache.org&gt;"
             to="dev@avalon.apache.org"/>
@@ -157,7 +157,7 @@
             <regexp pattern="/Missing prereq/i"
                 from="Peter Donald &lt;peter@apache.org&gt;"
                 to="dev@avalon.apache.org"
-                subject="PRE-REQ FAILED for avalon-phoenix"/>
+                subject="PRE-REQ FAILED for phoenix-example-testserver"/>
         </nag>
         <nag from="Peter Donald &lt;peter@apache.org&gt;"
             to="dev@avalon.apache.org"/>
