@@ -187,8 +187,9 @@ class Project(NamedModelObject, Statable, Resultable, Dependable, Positioned):
                 
     def isRedistributable(self):
         # Existence means 'true'
-        return self.hasDomAttribute('redistributable') \
-            or (self.module and self.module.isRedistributable())
+        if self.hasDomAttribute('redistributable'): return True
+        if self.module: return self.module.isRedistributable()
+        return False
         
     def wasBuilt(self):
         """ Was a build attempt made? """

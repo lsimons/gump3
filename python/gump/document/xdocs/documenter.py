@@ -199,8 +199,10 @@ class XDocDocumenter(Documenter):
             logSpec=self.resolver.getFileSpec(self.workspace, 'buildLog')
             
             # Current status
-            logSource=os.path.join(workContents,logSpec.getDocument())
-            logTarget=os.path.join(logContents,logSpec.getDocument())
+            logSource=os.path.abspath(
+                        os.path.join(xdocWorkDir,logSpec.getDocument()))
+            logTarget=os.path.abspath(
+                        os.path.join(logDirectory,logSpec.getDocument()))
              
             # Do the transfer..
             try:
@@ -717,13 +719,14 @@ class XDocDocumenter(Documenter):
                 spec.getRootPath())
                 
         if realTime: 
-            document.createWarning('This Gump run is currently in progress...')
+            document.createWarning("""This Gump run is currently in progress.
+            It started at %s."""
+                % self.workspace.getStartDateTime() )
         else:
             document.createNote("""This Gump run is complete. 
-            It started at %s and ended at %s, both %s.""" 
+            It started at %s and ended at %s.""" 
                 % ( self.workspace.getStartDateTime(),
-                    self.workspace.getEndDateTime(),
-                    self.workspace.timezone) )
+                    self.workspace.getEndDateTime()))
                     
         self.documentSummary(document, self.workspace.getProjectSummary())                
         
@@ -745,7 +748,8 @@ class XDocDocumenter(Documenter):
             
             self.setStyleFromState(moduleRow,module.getStatePair())
             
-            moduleRow.createData(secsToTime(module.getStartSecs()))         
+            startData=moduleRow.createData(secsToTime(module.getStartSecs()))          
+            self.setStyleFromState(startData,module.getStatePair())
                         
             self.insertLink(module,self.workspace,moduleRow.createData())   
             self.insertStateIcon(module,self.workspace,moduleRow.createData())      

@@ -64,7 +64,7 @@ class XDocContext(Ownable):
         if stream:
             self.stream=stream
         else:
-            log.debug('Create transient stream ['+`self.depth`+']...')
+            # log.debug('Create transient stream ['+`self.depth`+']...')
             self.stream=StringIO.StringIO()
                     	
     def __del__(self):  
@@ -534,7 +534,7 @@ class XDocTableData(XDocPiece):
         # self.setEmptyOk(1)
         
     def start(self):
-        self.context.writeIndented('<td>')
+        self.context.writeIndented('<td' + self.getStyleAttribute() + '>')
         
     def end(self):
         self.context.writeLine('</td>')
