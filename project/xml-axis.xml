@@ -15,12 +15,13 @@
       <depend name="wsdl4j.jar" project="wsdl4j"/>
       <depend name="log4j-core.jar" project="jakarta-log4j"/>
       <depend name="clutil.jar" project="jakarta-avalon-clutil"/>
-      <depend name="bcel.jar" project="jakarta-bcel"/>
     </ant>
 
     <depend project="xml-xerces"/>
     <depend project="jakarta-ant"/>
+    <depend project="commons-logging"/>
     <depend project="jakarta-servletapi"/>
+    <depend project="tt-bytecode"/>
     <option project="junit"/>
     <option project="jaf"/>
     <option project="javamail"/>
@@ -30,6 +31,15 @@
     <home nested="java/build"/>
     <jar name="lib/axis.jar"/>
     <javadoc nested="java/build/javadocs"/>
+  </project>
+
+  <project name="tt-bytecode">
+    <url href="http://tt-bytecode.sourceforge.net/"/>
+    <description>
+      TechTrader Bytecode Toolkit
+    </description>
+    <home nested="java"/>
+    <jar name="lib/tt-bytecode.jar"/>
   </project>
 
 </module>
