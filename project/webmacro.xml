@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<module name="webmacro">
+
+  <url href="http://www.webmacro.org/"/>
+  <description>
+    Webapplication Framework
+  </description>
+
+  <cvs repository="webmacro"/>
+  
+  <project name="webmacro">
+    <package>org.webmacro</package>
+
+    <ant target="jar"/>
+
+    <depend project="jakarta-ant"/>
+    <depend project="xml-xerces"/>
+    
+    <depend project="jakarta-regexp"/>
+    <depend project="jakarta-servletapi"/>
+    <depend project="junit"/>
+
+    <jar name="webmacro.jar"/>
+    
+  </project>
+
+</module>
