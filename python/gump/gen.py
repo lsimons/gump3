@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/Attic/gen.py,v 1.4 2003/04/30 23:28:53 rubys Exp $
-# $Revision: 1.4 $
-# $Date: 2003/04/30 23:28:53 $
+# $Header: /home/stefano/cvs/gump/python/gump/Attic/gen.py,v 1.5 2003/05/02 12:26:41 rubys Exp $
+# $Revision: 1.5 $
+# $Date: 2003/05/02 12:26:41 $
 #
 # ====================================================================
 #
@@ -77,9 +77,11 @@ log.setLevel(logging.DEBUG) #set verbosity to show all messages of severity >= D
 #                     Dump the object module as XML                     #
 #########################################################################
 
-def xmlize(nodeName,object,f,indent='',delta='  '):
+def xmlize(nodeName,object,f=None,indent='',delta='  '):
   from xml.sax.saxutils import escape
-  import types
+  import types, StringIO
+
+  if f==None: f=StringIO.StringIO()
 
   attrs=[nodeName]
   elements=[]
@@ -125,6 +127,10 @@ def xmlize(nodeName,object,f,indent='',delta='  '):
         xmlize(name,var.delegate,f,newindent,delta)
     f.write( '%s</%s>\n' % (indent,nodeName.encode(encoding)))
 
+  # if the file is a StringIO buffer, return the contents
+  if isinstance(f,StringIO.StringIO):
+    f.seek(0)
+    return f.read()
 
 if __name__=='__main__':
   # -----------DISABLED-----------

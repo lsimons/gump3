@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/Attic/view.py,v 1.12 2003/05/02 11:42:48 rubys Exp $
-# $Revision: 1.12 $
-# $Date: 2003/05/02 11:42:48 $
+# $Header: /home/stefano/cvs/gump/python/gump/Attic/view.py,v 1.13 2003/05/02 12:26:41 rubys Exp $
+# $Revision: 1.13 $
+# $Date: 2003/05/02 12:26:41 $
 #
 # ====================================================================
 #
@@ -208,11 +208,7 @@ class gumpview(wxApp):
     if project.viewdata:
       self.data.AppendText(project.viewdata)
     else:
-      import StringIO
-      data = StringIO.StringIO()
-      xmlize('project',project,data,)
-      data.seek(0)
-      self.data.AppendText(data.read())
+      self.data.AppendText(xmlize('project',project))
       self.data.ShowPosition(0)
 
     # gather a list of project dependencies unrolled to build
