@@ -420,8 +420,18 @@ class Project(NamedModelObject, Statable, Resultable, Dependable):
                 for jar in self.getJars():
                     if not jar.hasId():
                         basename=os.path.basename(jar.getPath())
-                        self.addWarning('Jar [' + jar.getPath() + '] identifier set to jar basename: [' + basename + ']')    
-                        jar.setId(basename)
+                        newId=basename
+                        # Strip off .jar
+                        if newId.endswith('.jar'):
+                            newId=newId[:-4]
+                        # Strip off -@@DATE@@
+                        datePostfix='-' + str(default.date)
+                        if newId.endswith(datePostfix):
+                            reduction=-1 * len(datePostfix)
+                            newId=newId[:reduction]
+                        # Assign...
+                        self.addWarning('Jar [' + basename + '] identifier set to jar basename: [' + newId + ']')    
+                        jar.setId(newId)
         
         # Grab all the work
         for w in self.xml.work:

@@ -38,7 +38,7 @@ from gump.utils.note import transferAnnotations, Annotatable
 from gump.utils.listener import Listener, Event
 
 #
-# :TODO: Need to createa GumpEnvironment to move these to..
+#
 #
 
 class Workspace(NamedModelObject, PropertyContainer, Statable, Resultable):
