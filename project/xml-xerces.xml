@@ -14,7 +14,7 @@
   <home nested="java/build"/>
   <jar  name="xerces.jar" id="parser"/>
 
-  <!-- package up the distrution -->
+  <!-- package up the distribution -->
 
   <project name="dist-xerces">
     <ant basedir="java" target="pack-bin"/>

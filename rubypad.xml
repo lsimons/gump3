@@ -45,6 +45,7 @@
   <project href="project/xml-stylebook.xml"/>
   <project href="project/xml-xalan.xml"/>
   <project href="project/xml-xerces.xml"/>
+  <project href="project/xml-xerces2.xml"/>
 
   <!-- Apache.Java -->
 

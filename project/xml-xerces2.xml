@@ -1,0 +1,17 @@
+<project name="xml-xerces2">
+
+  <url href="http://xml.apache.org/~andyc/"/>
+  <description>
+    Java XML Parser - the sequel with no equal
+  </description>
+
+  <cvs repository="xml" module="xml-xerces" tag="xerces_j_2"/>
+
+  <ant basedir="java" target="jar"/>
+  <depend project="jaxp1.1"/>
+  <depend project="bootstrap-ant"/>
+
+  <home nested="java/build"/>
+  <jar  name="xerces.jar" id="parser"/>
+
+</project>
