@@ -20,21 +20,21 @@
     <depend project="xml-xerces"/>
     <depend project="xml-xalan2"/>
     <depend project="xml-batik"/>
-    <depend project="jakarta-avalon-excalibur"/>
+    <!-- <depend project="jakarta-avalon-excalibur"/> -->
     <depend project="excalibur-cli"/>
     <depend project="excalibur-naming"/>
     <depend project="excalibur-sourceresolve"/>
-    <depend project="excalibur-xmlutil"/>
-    <depend project="excalibur-store"/>
+    <depend project="excalibur-xmlutil" inherit="runtime"/>
+    <depend project="excalibur-store" inherit="runtime"/>
     <depend project="jakarta-regexp"/>
     <depend project="commons-httpclient"/>
     <depend project="commons-collections"/>
     <depend project="commons-jxpath"/>
-    <depend project="excalibur-pool"/>
-    <depend project="excalibur-datasource"/>
-    <depend project="excalibur-component"/>
-    <depend project="excalibur-logger"/>
-    <depend project="excalibur-collections"/>
+    <depend project="excalibur-pool" inherit="runtime"/>
+    <depend project="excalibur-datasource" inherit="runtime"/>
+    <depend project="excalibur-component" inherit="runtime"/>
+    <depend project="excalibur-logger" inherit="runtime"/>
+    <depend project="excalibur-collections" inherit="runtime"/>
  
     <depend project="jdom"/>
     <depend project="bsf"/>
