@@ -517,7 +517,8 @@
             <property name="excalibur-container.jar" project="excalibur-container" reference="jarpath"/>
         </ant>
 
-        <depend project="excalibur-fortress" inherit="all" runtime="true"/>
+		<depend project="excalibur-fortress" inherit="all" runtime="true"/>
+		<depend project="excalibur-container" runtime="true"/>
         <!-- for the servlet examples -->
         <depend project="jakarta-servletapi"/>
 
