@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/output/Attic/nag.py,v 1.8 2004/01/29 05:16:12 ajack Exp $
-# $Revision: 1.8 $
-# $Date: 2004/01/29 05:16:12 $
+# $Header: /home/stefano/cvs/gump/python/gump/output/Attic/nag.py,v 1.9 2004/01/30 17:22:57 ajack Exp $
+# $Revision: 1.9 $
+# $Date: 2004/01/30 17:22:57 $
 #
 # ====================================================================
 #
@@ -322,19 +322,6 @@ class Nagger:
         url=self.run.getOptions().getResolver().getUrl(object)
         content += "URL: " + url + "\n"
     
-        if feedPrefix:
-            #
-            # Link them back here...
-            #
-            rssurl=self.run.getOptions().getResolver().getUrl(object,feedPrefix,'.rss')
-            content += "RSS: " + rssurl + "\n"
-    
-            #
-            # Link them back here...
-            #
-            atomurl=self.run.getOptions().getResolver().getUrl(object,feedPrefix,'.atom')
-            content += "Atom: " + atomurl + "\n"
-    
         #
         # Add an info/error/etc...
         #
@@ -351,7 +338,21 @@ class Nagger:
             content+="\n\n"
             for workitem in object.worklist:
                 content += LINE   
-                content+=workitem.overview()+"\n"            
+                content+=workitem.overview()+"\n"   
+                
+                
+    
+        if feedPrefix:
+            content += LINE       
+            
+            #
+            # Link them back here...
+            #
+            rssurl=self.run.getOptions().getResolver().getUrl(object,feedPrefix,'.rss')
+            atomurl=self.run.getOptions().getResolver().getUrl(object,feedPrefix,'.atom')
+            
+            content += "RSS: " + rssurl + " | "
+            content += "Atom: " + atomurl + "\n"         
     
         return content
     

@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/xdoc.py,v 1.8 2004/01/21 21:26:02 ajack Exp $
-# $Revision: 1.8 $
-# $Date: 2004/01/21 21:26:02 $
+# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/xdoc.py,v 1.9 2004/01/30 17:22:58 ajack Exp $
+# $Revision: 1.9 $
+# $Date: 2004/01/30 17:22:58 $
 #
 # ====================================================================
 #
@@ -675,6 +675,9 @@ class XDocDocument(XDocPiece):
         
     def createNote(self,text=None):
         return self.storePiece(XDocNote(self.createSubContext(),text))  
+        
+    def createWarning(self,text=None):
+        return self.storePiece(XDocWarning(self.createSubContext(),text))      
         
     
     

@@ -78,9 +78,15 @@ class GumpEngine:
                     
         # Check the workspace
         if not workspace.getVersion() >= setting.ws_version:
-            message='Workspace version ['+workspace.getVersion()+'] below expected [' + setting.ws_version + ']'
+            message='Workspace version ['+workspace.getVersion()+'] below preferred [' + setting.ws_version + ']'
             workspace.addWarning(message)
             log.warn(message)   
+            
+        # Check the workspace
+        if not workspace.getVersion() >= setting.ws_minimum_version:
+            message='Workspace version ['+workspace.getVersion()+'] below minimum [' + setting.ws_minimum_version + ']'
+            workspace.addError(message)
+            log.error(message)   
             
         # Write workspace to a 'merge' file
         workspace.writeXMLToFile(default.merge)

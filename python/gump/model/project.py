@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/model/project.py,v 1.29 2004/01/23 23:32:26 ajack Exp $
-# $Revision: 1.29 $
-# $Date: 2004/01/23 23:32:26 $
+# $Header: /home/stefano/cvs/gump/python/gump/model/project.py,v 1.30 2004/01/30 17:22:58 ajack Exp $
+# $Revision: 1.30 $
+# $Date: 2004/01/30 17:22:58 $
 #
 # ====================================================================
 #
@@ -439,7 +439,8 @@ class Project(NamedModelObject, Statable):
                     os.path.join(workspace.getBaseDirectory(),	\
                         self.xml.home.parent))
             else:
-                log.error('Unable to complete project.home for [not nested/parent]: ' + self.name)
+                message='Unable to complete project.home for [not nested/parent]: ' + self.name
+                self.addError(message)
                 self.home=None        
         elif not self.xml.home:
             if self.module:
@@ -448,7 +449,8 @@ class Project(NamedModelObject, Statable):
             else:
                 self.home=os.path.abspath(os.path.join(workspace.getBaseDirectory(),self.name))
         else:
-            log.error('Unable to complete project.home for: ' + self.name)
+            message='Unable to complete project.home for: ' + self.name 
+            self.addError(message)
             self.home=None
 
         #
@@ -631,6 +633,10 @@ class Project(NamedModelObject, Statable):
         for dependee in self.getFullDependees():
             if dependee.getOwnerProject()==project: return 1
             
+    def hasHomeDirectory(self):
+        if hasattr(self,'home') and self.home: return 1
+        return 0
+        
     def getHomeDirectory(self):
         return self.home
         
@@ -763,7 +769,9 @@ class Project(NamedModelObject, Statable):
         if buildfile: cmd.addParameter('-f',buildfile)
     
         # End with the target...
-        if target: cmd.addParameter(target)
+        if target: 
+            for targetParam in target.split():
+                cmd.addParameter(targetParam)
     
         return cmd
 
@@ -1123,7 +1131,7 @@ maven.jar.override = on
         runtime=dependency.runtime
         inherit=dependency.inherit
         if dependency.ids:
-            ids=dependency.ids.split(' ')
+            ids=dependency.ids.split()
         else:
             ids=None
   

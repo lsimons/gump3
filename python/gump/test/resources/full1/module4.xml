@@ -10,7 +10,8 @@
   <project name="project4">
     <package>org.apache.project4</package>
 
-    <ant target="gump">
+	<!-- Not, a list of space separated targets... -->
+    <ant target="gump1 gump2 gump3">
       <property name="ant.home" reference="home" project="project1"/>
     </ant>
 

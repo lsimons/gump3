@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/forrest.py,v 1.60 2004/01/29 18:11:56 ajack Exp $
-# $Revision: 1.60 $f
-# $Date: 2004/01/29 18:11:56 $
+# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/forrest.py,v 1.61 2004/01/30 17:22:58 ajack Exp $
+# $Revision: 1.61 $f
+# $Date: 2004/01/30 17:22:58 $
 #
 # ====================================================================
 #
@@ -287,19 +287,19 @@ class ForrestDocumenter(Documenter):
             syndRow.createData().createLink('workspace.html','XML')
                 
         if not gumpSet.isFull():
-            note=definitionSection.createNote()
+            warning=definitionSection.createWarning()
             
-            note.createText("""This output does not represent the a complete workspace,
+            warning.createText("""This output does not represent the a complete workspace,
             but a partial one.         
             Only projects, and their dependents, matching this regular expression """)
-            note.createStrong(gumpSet.projectexpression)
-            note.createBreak()
-            note.createBreak()            
-            note.createText('Requested Projects:')
-            note.createBreak()
+            warning.createStrong(gumpSet.projectexpression)
+            warning.createBreak()
+            warning.createBreak()            
+            warning.createText('Requested Projects:')
+            warning.createBreak()
             for project in gumpSet.projects:
-                note.createText(project.name)
-                note.createText(' ')
+                warning.createText(project.name)
+                warning.createText(' ')
                             
         
         self.documentSummary(document,workspace.getProjectSummary())        
@@ -939,17 +939,30 @@ class ForrestDocumenter(Documenter):
         detailsList=detailsSection.createList()
             
         self.insertLink(project.getModule(),project,detailsList.createEntry('Module: '))
+        
+        
+        if project.hasHomeDirectory():
+            detailsList.createEntry('Home Directory: ', project.getHomeDirectory())
+            
         if project.hasCause() and not project==project.getCause():
             self.insertTypedLink(project.getCause(),project,detailsList.createEntry('Root Cause: '))
+            
         e = secsToElapsedString(project.getElapsedSecs())
         if e: detailsList.createEntry("Elapsed: ", e)
                                                       
         # Display nag information
-        for nagEntry in project.xml.nag:
-            toaddr=getattr(nagEntry,'to') or workspace.mailinglist
-            fromaddr=getStringFromUnicode(getattr(nagEntry,'from') or workspace.email)
-            detailsList.createEntry("Nag To: ").createFork('mailto:'+toaddr,toaddr)
-            detailsList.createEntry("Nag From: ").createFork('mailto:'+fromaddr,fromaddr)
+        if project.xml.nag:
+            for nagEntry in project.xml.nag:
+                toaddr=getattr(nagEntry,'to') or workspace.mailinglist
+                fromaddr=getStringFromUnicode(getattr(nagEntry,'from') or workspace.email)
+                detailsList.createEntry('Nag To: ').createFork('mailto:'+toaddr,toaddr)
+                detailsList.createEntry('Nag From: ').createFork('mailto:'+fromaddr,fromaddr)
+        elif not project.isPackaged() and project.hasBuildCommand():            
+            document.createWarning('This project does not utilize Gump nagging.')  
+                             
+        metadataLocation=str(project.xml.href) or str(module.xml.href)
+        if metadataLocation:  
+            detailsList.createEntry('Gump Metadata: ', metadataLocation)
                              
         # Note: Leverages previous extraction from project statistics DB
         stats=project.getStats()
@@ -1098,18 +1111,21 @@ class ForrestDocumenter(Documenter):
                      
     def documentDependenciesList(self,xdocNode,title,dependencies,dependees,referencingObject):
       if dependencies:
-            projectSection=xdocNode.createSection(title)
-            projectTable=projectSection.createTable(['Name','Type','Inheritence','Ids','State','Notes'])
+            dependencySection=xdocNode.createSection(title)
+            dependencyTable=dependencySection.createTable(['Name','Type','Inheritence','Ids','State','Notes'])
+            totalDeps=0
             for depend in dependencies:
+                
+                totalDeps += 1
                 
                 # Project/Owner
                 if not dependees:
                     project=depend.getProject()
                 else:
                     project=depend.getOwnerProject()
-                projectRow=projectTable.createRow()    
-                projectRow.createComment(project.getName())
-                self.insertLink( project, referencingObject, projectRow.createData())                
+                dependencyRow=dependencyTable.createRow()    
+                dependencyRow.createComment(project.getName())
+                self.insertLink( project, referencingObject, dependencyRow.createData())                
                 
                 # Type
                 type=''
@@ -1119,23 +1135,26 @@ class ForrestDocumenter(Documenter):
                 if depend.isOptional():
                     if type: type += ' '
                     type+='Optional'                
-                projectRow.createData(type)
+                dependencyRow.createData(type)
                 
                 # Inheritence
-                projectRow.createData(depend.getInheritenceDescription())
+                dependencyRow.createData(depend.getInheritenceDescription())
                 
                 # Ids
                 ids = depend.getIds() or 'All'
-                projectRow.createData(ids)
+                dependencyRow.createData(ids)
                 
                 # State Icon
-                self.insertStateIcon(project,referencingObject,projectRow.createData())
+                self.insertStateIcon(project,referencingObject,dependencyRow.createData())
                 
                 # Dependency Annotations
-                noteData=projectRow.createData()
+                noteData=dependencyRow.createData()
                 for note in depend.getAnnotations():
                     noteData.createText(str(note))
-                    noteData.createBreak()
+                    noteData.createBreak()                    
+        
+            dependencySection.createParagraph(
+                    'Total ' + title + ' : ' + str(totalDeps))
                 
     def documentAnnotations(self,xdocNode,annotatable):
         

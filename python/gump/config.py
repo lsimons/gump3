@@ -1,8 +1,8 @@
 #!/usr/bin/python
 
-# $Header: /home/stefano/cvs/gump/python/gump/Attic/config.py,v 1.12 2004/01/09 19:57:19 ajack Exp $
-# $Revision: 1.12 $
-# $Date: 2004/01/09 19:57:19 $
+# $Header: /home/stefano/cvs/gump/python/gump/Attic/config.py,v 1.13 2004/01/30 17:22:57 ajack Exp $
+# $Revision: 1.13 $
+# $Date: 2004/01/30 17:22:57 $
 #
 # ====================================================================
 #
@@ -127,8 +127,8 @@ class setting:
     
     version="2.0.2-alpha-0002"
     
-    # :TODO: Add "minimum version" checks...
     ws_version="0.4"
+    ws_minimum_version="0.3"
     
     datetimeformat='%a, %d %b %Y %H:%M:%S (%Z)'
     timeformat='%H:%M:%S (%Z)'
