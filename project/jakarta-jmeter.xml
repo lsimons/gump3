@@ -31,6 +31,8 @@
     <depend project="jtidy" />
     <depend project="excalibur-cli" />
 
+    <work nested="lib/js.jar"/> <!-- ...should this be a separate project? -->
+
     <work nested="build/core"/>
     <work nested="build/jorphan"/>
 
