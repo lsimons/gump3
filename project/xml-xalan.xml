@@ -21,7 +21,7 @@
   <project name="dist-xalan2">
     <ant basedir="java" target="dist">
       <depend property="bsf.jar" project="bsf"/>
-      <depend property="xercesImpl.jar" project="xml-xerces2"/>
+      <depend property="xercesImpl.jar" project="xml-xerces2" id="parser"/>
       <property name="version" value="@@DATE@@"/>
     </ant>
 
