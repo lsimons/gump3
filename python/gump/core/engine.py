@@ -289,8 +289,14 @@ class GumpEngine:
                         # Kinda bogus, but better than nowt (for now)
                         module.changeState(STATE_SUCCESS,REASON_UPDATE_FAILED)
                 else:
-                    module.changeState(STATE_SUCCESS)                                                           
-    
+                    module.changeState(STATE_SUCCESS)   
+                    
+                    if cmdResult.hasOutput():
+                        # Were the contents of the repository modified?                            module.setUpdated(1)                        
+                        module.setUpdated(1)                        
+                        log.info('Update(s) received via CVS/SVN/Jars on #[' + `moduleNo` + \
+                                '] of [' + `moduleCount` + ']: ' + module.getName())
+                                                                                            
         
             #
             # Sync if appropriate.
@@ -310,17 +316,13 @@ class GumpEngine:
                                         workspace.tmpdir,	\
                                         'changes_to_'+gumpSafeName(module.getName())+'.txt'))
                     
-                    modified=syncDirectories(sourcedir,destdir,module,changesFile)
+                    changes=syncDirectories(sourcedir,destdir,module,changesFile)
                     
                     # We are good to go...
                     module.changeState(STATE_SUCCESS)
                     
                     # Were the contents of the repository modified?                                        
-                    if modified:
-                        module.setUpdated(1)                        
-                        log.info('Update(s) received via CVS/SVN/Jars on #[' + `moduleNo` + \
-                                '] of [' + `moduleCount` + ']: ' + module.getName())
-                                
+                    if changes:
                         # Log of changes...
                         if os.path.exists(changesFile):                               
                             catFileToFileHolder(module, changesFile, FILE_TYPE_LOG) 
