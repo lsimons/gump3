@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/update.py,v 1.17 2003/10/13 22:37:12 ajack Exp $
-# $Revision: 1.17 $
-# $Date: 2003/10/13 22:37:12 $
+# $Header: /home/stefano/cvs/gump/python/gump/update.py,v 1.18 2003/10/19 17:46:36 ajack Exp $
+# $Revision: 1.18 $
+# $Date: 2003/10/19 17:46:36 $
 #
 # ====================================================================
 #
@@ -197,7 +197,27 @@ def updateModules(workspace, modules, context=GumpContext()):
           # Prepare CVS checkout/update command...
           # 
           cmd=Cmd('cvs','update_'+name,workspace.cvsdir)
+          
+          #
+          # Be 'quiet' (but not silent) unless requested otherwise.
+          #
+          if not module.debug and not module.verbose:
+              cmd.addParameter('-q')
+          
+          #
+          # Allow trace for debug
+          #
+          if module.debug:
+              cmd.addParameter('-t')
+          
+          #
+          # Request compression
+          #
           cmd.addParameter('-z3')
+          
+          #
+          # Set the CVS root
+          #
           cmd.addParameter('-d', root)
     
           if os.path.exists(name):

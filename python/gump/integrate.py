@@ -86,8 +86,12 @@ def integrate(workspace,expr='*',context=GumpContext()):
             #document(workspace,context,1,modules,sequence)
             document(workspace,context,1)
   
-        # Nag about failures
-        nag(workspace,context)
+        #
+        # Nag about failures -- only if we are allowed to
+        #
+        #
+        if workspace.nag:
+            nag(workspace,context)
   
         # Provide a news feed
         rss(workspace,context)

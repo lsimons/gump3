@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/Attic/model.py,v 1.30 2003/10/19 00:09:10 ajack Exp $
-# $Revision: 1.30 $
-# $Date: 2003/10/19 00:09:10 $
+# $Header: /home/stefano/cvs/gump/python/gump/Attic/model.py,v 1.31 2003/10/19 17:46:36 ajack Exp $
+# $Revision: 1.31 $
+# $Date: 2003/10/19 17:46:36 $
 #
 # ====================================================================
 #
@@ -387,11 +387,9 @@ class Ant(GumpModelObject):
       depend=Depend({'project':property.project})
       if not property.classpath: depend['noclasspath']=Single({})
       if property.runtime: depend['runtime']=property.runtime
-      
-      #
+    
       # :TODO: AJ added this, no idea if it is right/needed.
-      #
-      if property.id: depend['ids']= [ property.id ]
+      if property.id: depend['ids']= property.id
       
       # Add depend to project...
       project.depend.append(depend)
@@ -404,7 +402,9 @@ class Ant(GumpModelObject):
       # Generate the property
       property=Property(depend.__dict__)
       property['reference']='jarpath'
-      property['name']=depend.project
+      property['name']=depend.property
+      # :TODO: AJ added this, no idea if it is right/needed.
+      if depend.id: property['ids']= depend.id
       # Store it
       self.property.append(property)      
       # Move onto project
@@ -440,7 +440,6 @@ class Property(GumpModelObject):
       try:
         self.value=Project.list[self.project].home
       except:
-        log.debug( traceback.format_stack() )
         log.warn( "Cannot resolve homedir of " + self.project + " for " + project.name)
 
     elif self.reference=='srcdir':
@@ -448,7 +447,6 @@ class Property(GumpModelObject):
         module=Project.list[self.project].module
         self.value=Module.list[module].srcdir
       except:
-        log.debug( traceback.format_stack() )
         log.warn( "Cannot resolve srcdir of " + self.project + " for " + project.name)
 
     elif self.reference=='jarpath':
@@ -478,7 +476,6 @@ class Property(GumpModelObject):
       except Exception, details:
         log.warn( "Cannot resolve jarpath of " + self.project + \
           " for " + project.name + ". Details: " + str(details))
-        # log.debug( traceback.format_stack() )
         
 # TODO: set up the below elements with defaults using complete()
 

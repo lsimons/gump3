@@ -244,16 +244,16 @@ class CmdResult:
         return overview
         
     def tail(self,lines):
-        tail = "---------------------------------------------"
+        tail = "---------------------------------------------\n"
         
         
         if self.output:
             from gump.tools import tailFileToString            
             tail += tailFileToString(self.output,lines)
         else:
-            tail += "No output"
+            tail += "No output\n"
             
-        tail += "---------------------------------------------"
+        tail += "---------------------------------------------\n"
             
         return tail
           
@@ -274,7 +274,7 @@ def dummyExecuteIntoResult(cmd,result,tmp=dir.tmp):
 
 def killChildren():
     pid=os.getpid()
-    log.warn('Kill all children (anything launched by Gumpy) [PID' + str(pid) + ']')    
+    log.warn('Kill all child processed (anything launched by Gumpy) [PID' + str(pid) + ']')    
     command='pkill -KILL -P ' + str(pid)
     exitcode=os.system(command)
     log.warn('Command: [' + command + '] exited with [' + str(exitcode) + ']')

@@ -197,13 +197,11 @@ class CommandWorkItem(TimedWorkItem):
         self.command=command
         self.result=result
         
-    def overview(self):
+    def overview(self,lines=50):
         overview=TimedWorkItem.overview(self)
-        overview += self.command.overview()
-        
+        overview += self.command.overview()        
         if self.result:
-            overview+=self.result.tail(50)
-            
+            overview+=self.result.tail(lines)            
         return overview
         
     def tail(self,lines=50):

@@ -88,8 +88,8 @@ def mail(toaddrs,fromaddr,message,server='localhost'):
         server.set_debuglevel(1)
         server.sendmail(fromaddr, toaddrs, data)
         server.quit()
-    except:
-        log.error("Failed to send e-mail")
+    except Exception, details:
+        log.error("Failed to send e-mail: " + str(details))
         log.error("Server :" + str(server))
         log.error("From   :" + str(fromaddr))
         log.error("To     :" + str(toaddrs))
@@ -106,6 +106,8 @@ if __name__=='__main__':
    
   email=EmailMessage('There','Hi')
   
-  mail(default.email,default.email,email,default.mailserver)
+  mail([default.email],default.email,email,default.mailserver)
+  
+  mail([ 'ajack@trysybase.com' ],default.email,email,default.mailserver)
   
   

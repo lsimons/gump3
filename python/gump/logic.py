@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/Attic/logic.py,v 1.31 2003/10/18 22:24:56 ajack Exp $
-# $Revision: 1.31 $
-# $Date: 2003/10/18 22:24:56 $
+# $Header: /home/stefano/cvs/gump/python/gump/Attic/logic.py,v 1.32 2003/10/19 17:46:36 ajack Exp $
+# $Revision: 1.32 $
+# $Date: 2003/10/19 17:46:36 $
 #
 # ====================================================================
 #
@@ -266,15 +266,24 @@ def getAntCommand(workspace,module,project,ant,context):
     classpath=getClasspath(project,workspace,context)
     
     #
-    # List properties
+    # Get properties
     #
     properties=getAntProperties(workspace,ant)
+   
+    #
+    # Get properties
+    #
+    jvmargs=getJVMArgs(workspace,ant)
    
     #
     # Run java on apache Ant...
     #
     cmd=Cmd(context.javaCommand,'build_'+module.name+'_'+project.name,\
             basedir,{'CLASSPATH':classpath})
+            
+    if jvmargs:
+        cmd.addParameters(jvmargs)
+            
     cmd.addParameter('org.apache.tools.ant.Main')  
     
     #
@@ -564,6 +573,13 @@ def getSimpleClasspathList(cp):
     return classpath
             
   
+def getJVMArgs(workspace,ant):
+  """Get JVM arguments for a project"""
+  args=Parameters()
+  for jvmarg in ant.jvmarg:
+    args.addParameter(jvmarg.value)
+  return args
+  
 def getAntProperties(workspace,ant):
   """Get properties for a project"""
   properties=Parameters()
@@ -739,4 +755,7 @@ if __name__=='__main__':
               print " - " + str(p) + " : " + pp + " : " + ppp + " : " + str(p.note)
           else:
               print " + " + str(p)
+              
+      cmd=getBuildCommand(workspace,Module.list[project.module],project,context)
 
+      cmd.dump()
