@@ -5,11 +5,15 @@
     <person name="Community"     email="gump@jakarta.apache.org"  id="Community" />
     <person name="Administrators"     email="gump@jakarta.apache.org"  id="admins" />
     <person name="Adam Jack"    email="ajack@apache.org"      id="ajack" />
+    <person name="Nick Chalko"    email="nickchalko@apache.org"      id="njc" />
     <!-- Add more people here -->
   </developers>
 
   <todo>
-    <actions priority="High Priority"> 
+    <actions priority="High Priority">
+    <action context="community" dev="community">
+      	Propose gump as an Apache top level project.
+      </action> 
       <action context="community" dev="community">
       	Keep project metadata clean/healthy, keep re-use strong.
       </action>
