@@ -113,8 +113,11 @@
     <ant basedir="io" target="dist">
       <property name="component.version"  value="@@DATE@@"/>
     </ant>
+
     <depend project="jakarta-ant"/>
     <depend project="xml-xerces"/>
+    <work nested="io/target/classes"/>
+
     <jar name="io/dist/commons-io.jar"/>
     <javadoc nested="io/dist/docs/api"/>
 
