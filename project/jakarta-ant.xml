@@ -80,6 +80,9 @@
 
     <depend project="jakarta-ant"/>
     <depend project="xml-xerces"/>
+    <work nested="proposal/mutant/bin/common"/>
+    <work nested="proposal/mutant/bin/init"/>
+    <work nested="proposal/mutant/bin/antcore"/>
   </project>
 
 </module>
