@@ -299,7 +299,7 @@
   <project name="junitperf"        package="junitperf-1.8"/>
   <!--project name="jts"              package="jts1_0"/-->
   <project name="ldap"             package="ldap-1_2_4"/>
-  <project name="nekohtml"         package="nekohtml-0.8.2"/>
+  <project name="nekohtml"         package="nekohtml-0.9.1"/>
   <project name="mockobjects"      package="mockobjects-0.09"/>
   <!--project name="mockobjects-j2ee-13" package="mockobjects-0.09"/>
   <project name="mockobjects-j2ee-14" package="mockobjects-0.09"/-->
