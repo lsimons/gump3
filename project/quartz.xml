@@ -25,7 +25,7 @@
     <depend project="commons-pool" />
     <depend project="jakarta-log4j"/>
     <depend project="jakarta-servletapi-5-servlet"/>
-    <jar name="lib/quartz-@@DATE@@.jar"/>
+    <jar name="lib/quartz.jar"/>
 
     <nag to="jhouserizer@part.net"
 	    from="Sam Ruby &lt;rubys@apache.org&gt;"/>

@@ -13,7 +13,6 @@
     <ant target="dist">
       <property name="version" value="@@DATE@@"/>
 
-      <depend property="avalon-excalibur.jar" project="jakarta-avalon-excalibur"/>
       <depend property="avalon-framework.jar" project="jakarta-avalon"/>
       <depend property="jakarta-oro.jar" project="jakarta-oro"/>
       <depend property="junit.jar" project="junit"/>
