@@ -15,6 +15,7 @@
       <depend name="wsdl4j.jar" project="wsdl4j"/>
       <depend name="log4j-core.jar" project="jakarta-log4j"/>
       <depend name="clutil.jar" project="jakarta-avalon-clutil"/>
+      <depend name="bcel.jar" project="jakarta-bcel"/>
     </ant>
 
     <depend project="xml-xerces"/>
