@@ -186,12 +186,6 @@ public class gen {
 	           definedIn = parent.getAttribute("name");
 	       element.setAttribute("defined-in",definedIn);
 
-               if (parent.getNodeName().equals("module")) {
-                   if (element.getAttributeNode("module") == null) {
-                       element.setAttribute("module",parent.getAttribute("name"));
-                   }
-               }
-
 	       parent.removeChild(element);
 	       root.appendChild(element);
 	   }
@@ -251,9 +245,24 @@ public class gen {
         Hashtable modules = flatten("module", workspace);
 	for (Enumeration e=modules.keys(); e.hasMoreElements();) {
 	     Element module = (Element)modules.get(e.nextElement());
+             String name = module.getAttribute("name");
+
+             // compute source directory
              String srcdir=module.getAttribute("srcdir");
-             if (srcdir.equals("")) srcdir=module.getAttribute("name");
+             if (srcdir.equals("")) srcdir=name;
              module.setAttribute("srcdir", basedir + "/" + srcdir); 
+
+             // set module name on any projects contained herein
+             Node child=module.getFirstChild();
+             while (child != null) {
+	         if (child.getNodeName().equals("project")) {
+                     Element project = (Element) child;
+                     if (project.getAttributeNode("module") == null) {
+                         project.setAttribute("module", name);
+                     }
+	         }
+	         child=child.getNextSibling();
+             }
 	}
     }
 
@@ -304,10 +313,10 @@ public class gen {
         workspaceDefaults(workspace);
 
 	expand((Element)workspace);
+        computeSrcdir((Element) workspace);
 	flatten("project", workspace);
 	flatten("repository", workspace);
 	antDependsToProperties(doc);
-        computeSrcdir((Element) workspace);
 
 	Node resolved = transform(doc, "defaults.xsl");
 	output (resolved, "work/merge.xml");

@@ -1,4 +1,4 @@
-<module name="jndi">
+<module name="ldap">
 
   <url href="http://java.sun.com/products/jndi/"/>
   <description>

@@ -156,9 +156,12 @@
                   </a>
                 </xsl:when>
                 <xsl:otherwise>
-                  <a href="module_{@module}.html">
-                    <xsl:value-of select="$dependent"/>
-                  </a>
+                  <xsl:variable name="module" select="@module"/>
+                  <xsl:for-each select="/workspace/module[@name=$module]">
+                    <a href="module_{@defined-in}.html">
+                      <xsl:value-of select="$dependent"/>
+                    </a>
+                  </xsl:for-each>
                 </xsl:otherwise>
               </xsl:choose>
             </xsl:for-each>

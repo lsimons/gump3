@@ -16,35 +16,15 @@
 
   <xsl:template match="project">
 
-    <xsl:variable name="basedir" select="../@basedir"/>
     <xsl:variable name="project" select="@name"/>
 
     <!-- determine the name of the module -->
 
-    <xsl:variable name="module">
-      <xsl:choose>
-        <xsl:when test="@module">
-          <xsl:value-of select="@module"/>
-        </xsl:when>
-        <xsl:when test="@defined-in">
-          <xsl:value-of select="@defined-in"/>
-        </xsl:when>
-        <xsl:otherwise>
-          <xsl:value-of select="@name"/>
-        </xsl:otherwise>
-      </xsl:choose>
-    </xsl:variable>
-
+    <xsl:variable name="module" select="@module"/>
     <xsl:variable name="srcdir" select="../module[@name=$module]/@srcdir"/>
 
     <xsl:copy>
-      <xsl:apply-templates select="@*[name()!='module']"/>
-
-      <xsl:attribute name="module">
-        <xsl:value-of select="$module"/>
-      </xsl:attribute>
-
-      <xsl:apply-templates select="*[not(self::home)] | text()"/>
+      <xsl:apply-templates select="@* | *[not(self::home)] | text()"/>
 
       <!-- Compute fully qualified home directory -->
 
@@ -54,7 +34,7 @@
              <xsl:value-of select="@home"/>
           </xsl:when>
           <xsl:when test="home/@parent">
-             <xsl:value-of select="$basedir"/>
+             <xsl:value-of select="../@basedir"/>
              <xsl:text>/</xsl:text>
              <xsl:value-of select="home/@parent"/>
           </xsl:when>
