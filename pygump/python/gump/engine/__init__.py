@@ -39,6 +39,7 @@ __copyright__ = "Copyright (c) 2004-2005 The Apache Software Foundation"
 __license__   = "http://www.apache.org/licenses/LICENSE-2.0"
 
 import os
+import logging
 
 from xml import dom
 from xml.dom import minidom
@@ -140,7 +141,6 @@ def get_config(settings):
     return config
 
 def get_logger(level, name):
-    import logging
     logging.basicConfig()
     log = logging.getLogger(name)
     log.setLevel(level)
