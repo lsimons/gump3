@@ -110,7 +110,7 @@
   </project>
 
   <project name="jakarta-tomcat-jk-ant">
-    <ant basedir="jk/jkant" target="all" >
+    <ant basedir="jk" target="jkant" >
     </ant>
 
     <depend project="jakarta-ant" />
