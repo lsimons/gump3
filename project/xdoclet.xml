@@ -75,16 +75,18 @@
     <jar id="xdoclet-exolab" name="dist/lib/xdoclet-exolab-module.jar"/>
     <jar id="xdoclet-hp" name="dist/lib/xdoclet-hp-module.jar"/>
     <jar id="xdoclet-ibm" name="dist/lib/xdoclet-ibm-module.jar"/>
+    <jar id="xdoclet-java" name="dist/lib/xdoclet-java-module.jar"/>
     <jar id="xdoclet-jboss" name="dist/lib/xdoclet-jboss-module.jar"/>
+    <jar id="xdoclet-jdo" name="dist/lib/xdoclet-jdo-module.jar"/>
     <jar id="xdoclet-jmx" name="dist/lib/xdoclet-jmx-module.jar"/>
     <jar id="xdoclet-macromedia" name="dist/lib/xdoclet-macromedia-module.jar"/>
-    <jar id="xdoclet-module" name="dist/lib/xdoclet-xdoclet-module.jar"/>
     <jar id="xdoclet-mvcsoft" name="dist/lib/xdoclet-mvcsoft-module.jar"/>
     <jar id="xdoclet-mx4j" name="dist/lib/xdoclet-mx4j-module.jar"/>
     <jar id="xdoclet-orion" name="dist/lib/xdoclet-orion-module.jar"/>
     <jar id="xdoclet-pramati" name="dist/lib/xdoclet-pramati-module.jar"/>
     <jar id="xdoclet-web" name="dist/lib/xdoclet-web-module.jar"/>
     <jar id="xdoclet-webwork" name="dist/lib/xdoclet-webwork-module.jar"/>
+    <jar id="xdoclet-module" name="dist/lib/xdoclet-xdoclet-module.jar"/>
 
     <javadoc nested="dist/docs/api" />
 
