@@ -27,7 +27,7 @@
     <depend project="excalibur-thread"/>
     <depend project="excalibur-threadcontext"/>
     <depend project="jakarta-avalon-phoenix" inherit="runtime"/>
-    <depend project="xdoclet-ant14"/>
+    <depend project="xdoclet-ant14" inherit="runtime"/>
     <depend project="jakarta-ant"/>
 
     <!--
