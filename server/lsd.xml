@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<server name="lsd" type="python" status="up">
+  <attribution>Leo Simmons (LSD) [leosimons AT apache DOT org]</attribution>
+  <title>Leo Simmons (LSD)</title>
+  <url>http://lsd.student.utwente.nl/gump</url>
+  <site>http://lsd.student.utwente.nl/gump</site>
+</server>

@@ -322,5 +322,9 @@
 
 <!-- server definitions -->
 
+  <server href="server/lsd.xml"/>
+  <server href="server/dotnot.xml"/>
+  <server href="server/covalent.xml"/>
+  
 </profile>
 

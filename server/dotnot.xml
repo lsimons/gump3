@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<server name="dotnot" type="python" status="unstable">
+  <attribution>Scott Sanders [ssanders AT dotnot DOT org]</attribution>
+  <title>DOTNOT</title>
+  <url>http://www.dotnot.org</url>
+  <site>http://gump.dotnot.org</site>
+</server>

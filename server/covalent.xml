@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<server name="covalent" type="traditional" status="unstable">
+  <attribution>Covalent</attribution>
+  <title>DOTNOT</title>
+  <url>http://www.covalent.com</url>
+  <site>http://gump.dotnot.org/log</site>
+</server>
