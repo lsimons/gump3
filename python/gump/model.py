@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/Attic/model.py,v 1.4 2003/05/01 17:24:15 rubys Exp $
-# $Revision: 1.4 $
-# $Date: 2003/05/01 17:24:15 $
+# $Header: /home/stefano/cvs/gump/python/gump/Attic/model.py,v 1.5 2003/05/01 19:54:58 rubys Exp $
+# $Revision: 1.5 $
+# $Date: 2003/05/01 19:54:58 $
 #
 # ====================================================================
 #
@@ -170,6 +170,8 @@ class Project(Named):
     elif not self.home: 
       if type(self.package) in types.StringTypes:
         self.home=os.path.join(workspace.pkgdir,self.package)
+      elif self.module:
+        self.home=Module.list[self.module].srcdir
       else:
         self.home=os.path.join(workspace.basedir,self.name)
 
