@@ -64,7 +64,7 @@ class XDocContext(Ownable):
         if stream:
             self.stream=stream
         else:
-            # log.debug('Create transient stream ['+`self.depth`+']...')
+            log.debug('Create transient stream ['+`self.depth`+']...')
             self.stream=StringIO.StringIO()
                     	
     def __del__(self):  
@@ -73,12 +73,12 @@ class XDocContext(Ownable):
         
     def createSubContext(self,transient=False):
         if not transient:
-            sub = XDocContext(self.stream,self.pretty,self.depth+1)
-        else:
-            if not isinstance(transient,int):
-                raise RuntimeError, 'Create transient w/ non-int flag ['+`transient`+']'               
+            # sub = XDocContext(self.stream,self.pretty,self.depth+1)
+            # Allow sharing
+            sub = self
+        else:              
             sub = XDocContext(None,self.pretty,self.depth+1)
-        sub.setOwner(self)
+            sub.setOwner(self)
         return sub
     
     def performIO(self,stuff):
@@ -159,9 +159,15 @@ class XDocPiece(Ownable):
         Ownable.__init__(self)            
         if not context:
             context=XDocContext()
+            
+        # Stream context...
         self.context=context
-        self.subpieces=[]
+        
+        # 
+        self.subpieces=None
+        
         self.style=style
+        
         self.keeper=True
         self.emptyOk=False        
         
@@ -186,6 +192,9 @@ class XDocPiece(Ownable):
         #
         # Store it for later
         #
+        if not self.subpieces:
+            self.subpieces=[]
+            
         self.subpieces.append(piece)
         
         # Capture Ownership
@@ -194,9 +203,11 @@ class XDocPiece(Ownable):
         return piece
 
     def serialize(self):
-        self.callStart()        
-        self.middle()
-        self.callEnd()
+        
+        if self.isKeeper(): 
+            self.callStart()        
+            self.middle()
+            self.callEnd()
         
     def callStart(self,piece=None):
         if not piece: piece = self
@@ -282,7 +293,6 @@ class XDocSection(XDocPiece):
             self.context.writeLineIndented('<section><title>%s</title>' % (self.title))
         else:
             self.context.writeLineIndented('<h3>%s</h3>' % (self.title))    
-        
         
     def end(self):
         if not self.config.isXhtml():      

@@ -152,6 +152,9 @@ class GumpSet:
         self.completedModules.append(module)
             
     def inModuleSequence(self,module):
+        # Optimization
+        if self.isFull(): return True
+        # Go look
         return module in self.moduleSequence
         
     def getRepositories(self):
@@ -180,6 +183,9 @@ class GumpSet:
         return self.projectSequence    
 
     def inProjectSequence(self,project):
+        # Optimization
+        if self.isFull(): return True    
+        # Go look...
         return project in self.projectSequence
     
     def getModuleNamesForProjectExpression(self,expr):

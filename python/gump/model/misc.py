@@ -46,6 +46,9 @@ class Positioned:
             return (self.posn,self.total)
         if -1 != self.posn:
             return self.posn
+            
+    def getPositionIndex(self):
+        return self.posn
           
 class Resultable:
     def __init__(self): 

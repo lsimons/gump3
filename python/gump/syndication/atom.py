@@ -158,7 +158,7 @@ class AtomSyndicator(AbstractSyndicator):
                         'module',	\
                         'Gump : Module ' + escape(module.getName()),	\
                         moduleUrl,	\
-                        escape(module.getDescription()))
+                        escape(module.getDescription() or ''))
                     
          
         #           
@@ -202,7 +202,7 @@ class AtomSyndicator(AbstractSyndicator):
                         'project',	\
                     'Gump : Project ' + escape(project.getName()),	\
                     projectUrl,	\
-                    escape(project.getDescription()))
+                    escape(project.getDescription() or ''))
          
         #           
         # Get a decent description
