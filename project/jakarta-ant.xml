@@ -81,7 +81,7 @@
   <project name="jakarta-ant-myrmidon-test">
     <ant basedir="proposal/myrmidon" target="test"/>
 
-    <depend project="jakarta-antmyrmidon" inherit="all"/>
+    <depend project="jakarta-ant-myrmidon" inherit="all"/>
     <work nested="proposal/myrmidon/build/tasks"/>
     <work nested="proposal/myrmidon/build/test/classes"/>
   </project>

@@ -25,6 +25,7 @@
     <depend project="xdoclet"/>
     <depend project="dist-bsf"/>
     <depend project="rhino"/>
+    <depend project="xdoclet"/>
     <option project="jakarta-servletapi-4"/>
 
     <home nested="build/lib"/>

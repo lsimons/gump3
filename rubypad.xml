@@ -1,6 +1,6 @@
 <?xml version="1.0" ?>
 
-<workspace basedir="D:\jakarta" pkgdir="C:\opt" version="0.3">
+<workspace basedir="C:\jakarta" pkgdir="C:\opt" jardir="C:\jar" version="0.3">
 
   <property name="build.sysclasspath" value="only"/>
 
@@ -18,7 +18,7 @@
 
   <!-- After the bootstrap -->
   <module href="project/gump.xml"/>
-  <project name="gump" home="D:\gump">
+  <project name="gump" home="C:\gump">
     <ant>
       <property name="workspace" value="rubypad.xml"/>
       <property name="webstyle" value="stylesheet/jakarta.xsl"/>

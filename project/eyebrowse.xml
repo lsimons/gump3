@@ -10,17 +10,18 @@
   <project name="eyebrowse">
     <ant target="dist">
       <property name="version" value="@@DATE@@"/>
+      <depend property="mm.jar" project="mm.mysql"/>
+      <depend property="jaf.jar" project="jaf"/>
+      <depend property="jakarta-oro.jar" project="jakarta-oro"/>
+      <depend property="javamail.jar" project="javamail"/>
+      <depend property="log4j.jar" project="jakarta-log4j"/>
+      <depend property="lucene.jar" project="jakarta-lucene"/>
+      <depend property="velocity.jar" project="jakarta-velocity"/>
     </ant>
 
     <depend project="jakarta-ant"/>
     <depend project="xml-xerces"/>
-    <depend project="javamail"/>
-    <depend project="jaf"/>
-    <depend project="jakarta-log4j"/>
-    <depend project="jakarta-oro"/>
-    <depend project="jakarta-lucene"/>
     <depend project="jakarta-servletapi"/>
-    <depend project="jakarta-velocity"/>
     <depend project="commons-collections"/>
 
     <javadoc nested="build/javadocs"/>

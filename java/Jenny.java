@@ -40,6 +40,9 @@ public class Jenny {
             System.err.print("Error parsing file " + source);
             System.err.println(" line " + e.getLineNumber() + ": ");
             throw e;
+        } catch (java.net.UnknownHostException uhe) {
+            System.out.println(uhe.toString());
+            return null;
         }
     }
     
@@ -103,23 +106,25 @@ public class Jenny {
            String source=href.getValue();
            Node sub = parse(source);
 
-           if (source.lastIndexOf(".")>0) {
-               source=source.substring(0,source.lastIndexOf("."));
+           if (sub != null) {
+               if (source.lastIndexOf(".")>0) {
+                   source=source.substring(0,source.lastIndexOf("."));
+               }
+
+               if (source.lastIndexOf("/")>0) {
+                   source=source.substring(source.lastIndexOf("/")+1);
+               }
+
+               node.removeAttribute("href");
+               node.setAttribute("defined-in", source);
+
+               Document doc = node.getOwnerDocument();
+               Element copy=(Element)doc.importNode(sub.getFirstChild(), true);
+               moveChildren(node, copy);
+
+               node.getParentNode().replaceChild(copy,node);
+               node = copy;
            }
-
-           if (source.lastIndexOf("/")>0) {
-               source=source.substring(source.lastIndexOf("/")+1);
-           }
-
-           node.removeAttribute("href");
-           node.setAttribute("defined-in", source);
-
-           Document doc = node.getOwnerDocument();
-           Element copy=(Element)doc.importNode(sub.getFirstChild(), true);
-           moveChildren(node, copy);
-
-           node.getParentNode().replaceChild(copy,node);
-           node = copy;
        }
 
        // move all profile information to the front

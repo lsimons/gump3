@@ -67,19 +67,6 @@
     <javadoc nested="digester/dist/docs/api"/>
   </project>
 
-  <project name="commons-logging">
-    <description>Logging Library Package</description>
-    <url href="http://jakarta.apache.org/commons/"/>
-    <ant basedir="logging" target="dist"/>
-    <depend project="jakarta-ant"/>
-    <depend project="xml-xerces"/>
-    <depend project="jakarta-log4j"/>
-    <depend project="jakarta-avalon-logkit"/>
-    <home nested="logging/dist"/>
-    <jar name="commons-logging.jar"/>
-    <javadoc nested="logging/dist/docs/api"/>
-  </project>
-
   <project name="commons-httpclient">
     <description>HTTP Client Library</description>
     <url href="http://jakarta.apache.org/commons/httpclient/"/>
@@ -125,6 +112,19 @@
     <home nested="latka/dist"/>
     <jar name="commons-latka.jar"/>
     <javadoc nested="latka/build/docs/api"/>
+  </project>
+
+  <project name="commons-logging">
+    <description>Logging Library Package</description>
+    <url href="http://jakarta.apache.org/commons/"/>
+    <ant basedir="logging" target="dist"/>
+    <depend project="jakarta-ant"/>
+    <depend project="xml-xerces"/>
+    <depend project="jakarta-log4j"/>
+    <depend project="jakarta-avalon-logkit"/>
+    <home nested="logging/dist"/>
+    <jar name="commons-logging.jar"/>
+    <javadoc nested="logging/dist/docs/api"/>
   </project>
 
   <project name="commons-pool">
