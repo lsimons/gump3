@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/Attic/model.py,v 1.24 2003/10/13 22:37:12 ajack Exp $
-# $Revision: 1.24 $
-# $Date: 2003/10/13 22:37:12 $
+# $Header: /home/stefano/cvs/gump/python/gump/Attic/model.py,v 1.25 2003/10/14 14:46:32 ajack Exp $
+# $Revision: 1.25 $
+# $Date: 2003/10/14 14:46:32 $
 #
 # ====================================================================
 #
@@ -373,6 +373,7 @@ class Ant(GumpModelObject):
       if property.reference=="srcdir": continue
       if project.hasFullDependencyOn(property.project): continue
 
+      # Add a dependency (to bring property)
       depend=Depend({'project':property.project})
       if not property.classpath: depend['noclasspath']=Single({})
       if property.runtime: depend['runtime']=property.runtime
@@ -456,18 +457,42 @@ class Property(GumpModelObject):
         
 # TODO: set up the below elements with defaults using complete()
 
-# represents a <depend/> element
+#
+# 	Represents a <depend/> element
+#
+#	Two depends are equal
+#
 class Depend(GumpModelObject):
-  def jars(self):
-    result=[]
-    ids=(self.ids or '').split(' ')
-    try:
-        for jar in Project.list[self.project].jar:
-          if (not self.ids) or (jar.id in ids): result.append(jar)
-    except:
-        log.warn('Failed to access project [' + self.project + ']')
+    
+    # :TODO: if one has inherit="none" and one has none, it ought match..
+    # :TODO: if same ids, but different order/spacing, it ought match..
+    def __eq__(self,other):
+        return 	self.project == other.project \
+                and self.inherit == other.inherit \
+                and self.ids == other.ids
+                
+    def __cmp__(self,other):
+        cmp = self.project < other.project
+        if not cmp: cmp = self.inherit < other.inherit
+        if not cmp: cmp = self.ids == other.ids
+        return cmp
+    
+    #
+    # Return the jars for the dependent project (matching
+    # ids, etc.)
+    #
+    def jars(self):
+        """ Return the jars reference by this dependency """
+        result=[]
         
-    return result
+        ids=(self.ids or '').split(' ')
+        try:
+            for jar in Project.list[self.project].jar:
+                if (not self.ids) or (jar.id in ids): result.append(jar)
+        except:
+            log.warn('Failed to access jars in dependency project [' + self.project + ']')
+        
+        return result
 
 # represents a <description/> element
 class Description(GumpModelObject): pass

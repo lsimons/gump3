@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/Attic/logic.py,v 1.22 2003/10/14 02:16:38 ajack Exp $
-# $Revision: 1.22 $
-# $Date: 2003/10/14 02:16:38 $
+# $Header: /home/stefano/cvs/gump/python/gump/Attic/logic.py,v 1.23 2003/10/14 14:46:32 ajack Exp $
+# $Revision: 1.23 $
+# $Date: 2003/10/14 14:46:32 $
 #
 # ====================================================================
 #
@@ -235,25 +235,63 @@ def getBuildCommand(workspace,module,project,context):
     else:
         return getAntCommand(workspace,module,project,ant,context)
         
+        
+#
+# Build an ANT command for this project
+#        
 def getAntCommand(workspace,module,project,ant,context):
+    
+    # The ant target (or none == ant default target)
     target= ant.target or ''
+    
+    # The ant build file (or none == build.xml)
     buildfile = ant.buildfile or ''
     
+    #
+    # Where to run this:
+    #
+    #	The module src directory (if exists) or Gump base
+    #	plus:
+    #	The specifier for ANT, or nothing.
+    #
     basedir = os.path.normpath(os.path.join(module.srcdir or dir.base,ant.basedir or ''))
+    
+    #
+    # Build a classpath (based upon dependencies)
+    #
     classpath=getClasspath(project,workspace,context)
+    
+    #
+    # List properties
+    #
     properties=getAntProperties(workspace,ant)
    
+    #
+    # Run java on apache Ant...
+    #
     cmd=Cmd(context.javaCommand,'build_'+module.name+'_'+project.name,\
             basedir,{'CLASSPATH':classpath})
     cmd.addParameter('org.apache.tools.ant.Main')  
+    
+    #
+    # Allow ant-level debugging...
+    #
     if context.debug:
         cmd.addParameter('-debug')  
+        
+    #
+    #	This sets the *default* to be only, a workspace could
+    #	override it.
+    #
     cmd.addPrefixedParameter('-D','build.sysclasspath','only','=')
     
     # These are module level plus project level
     cmd.addNamedParameters(properties)
     
+    # Pass the buildfile
     if buildfile: cmd.addParameter('-f',buildfile)
+    
+    # End with the target...
     if target: cmd.addParameter(target)
     
     return cmd
@@ -274,6 +312,10 @@ def getScriptCommand(workspace,module,project,script,context):
     return Cmd(scriptfile,'buildscript_'+module.name+'_'+project.name,\
             basedir,{'CLASSPATH':classpath})
 
+#
+# An annotated path has a path entry, plus the context
+# of the contributor (i.e. project of Gump.)
+#
 class AnnotatedPath:
     """Contains a Path plus optional 'contributor' """
     def __init__(self,path,context=None):
@@ -295,7 +337,7 @@ class AnnotatedPath:
         return cmp
         
 #
-# 
+# Return a list of the outputs this project generates
 #    
 def getOutputsList(project, pctxt): 
     outputs=[]
@@ -306,7 +348,10 @@ def getOutputsList(project, pctxt):
             outputs.append(AnnotatedPath(jar,pctxt))        
             
     return outputs
-                   
+                 
+#
+# Does this project generate outputs (currently JARs)
+#                  
 def hasOutputs(project,pctxt):
     return (len(getOutputsList(project,pctxt)) > 0)
 
@@ -326,9 +371,7 @@ def getSystemClasspathList():
         syscp=''
     return split(syscp,os.pathsep)
 
-# :TODO:
-# Ought convert to project context to take into consideration
-# those dependencies which are failed
+# :TODO: Runtime?
 #
 # BOOTCLASSPATH?
 def getClasspathList(project,workspace,context):
@@ -357,63 +400,94 @@ def getClasspathList(project,workspace,context):
 
   visited=[]
   # Append dependent projects (including optional)
+  
+  # Does it have any depends?
   if project.depend:
+      # For each
       for depend in project.depend:
-          recurse=determineRecursion(depend)
-          classpath += getDependOutputList(depend,context,visited,recurse)  
+          # Default inherit is NONE, which means:
+          # run after that projects, but do NOT use
+          # any part of the project's CLASSPATH
+          if depend.inherit:
+              # Recurse w/ ALL or HARD, to get 
+              # it's depends. Otherwise jsut get
+              # it's JARs
+              deepCopy=determineDeepCopy(depend)
+              classpath += getDependOutputList(depend,context,visited,deepCopy)  
+              
+  # Same as above, but for optional...
   if project.option:    
       for option in project.option:
-          recurse=determineRecursion(option)    
-          classpath += getDependOutputList(option,context,visited,recurse)
+          if option.inherit:
+              deepCopy=determineDeepCopy(option)    
+              classpath += getDependOutputList(option,context,visited,deepCopy)
       
   return classpath
-  
-def getDependOutputList(depend,context,visited,recurse=None):      
+
+#
+# :TODO: Runtime Dependncy?
+#
+def getDependOutputList(depend,context,visited,deepCopy=None):      
   """Get a classpath of outputs for a project (including it's dependencies)"""            
-  projectname=depend.project
-  
-  # Don't loop
-  if projectname in visited:
+   
+  # Don't loop...
+  if depend in visited:
       return []
-  visited.append(projectname)
+  visited.append(depend)
   
+  #
+  # Check we can get the project...
+  #
+  projectname=depend.project
   if not Project.list.has_key(projectname):
       if projectname:
           log.error("Unknown project (in acquiring classpath) " + projectname )
       return []
       
+  # 
   classpath=[]
 
+  #
   # Context for this project...
+  #
   project=Project.list[projectname]
   pctxt=context.getProjectContextForProject(project)
   
+  #
   # Append JARS for this project
+  # Note: This checks "id" in "ids"
   for jar in depend.jars():
     classpath.append(AnnotatedPath(jar.path,pctxt)) 
 
-  if recurse:      
+  #
+  # inherit='ALL' or 'HARD'
+  #
+  if deepCopy:      
       # Append sub-projects outputs
       if project.depend:
-          for depend in project.depend:
-              recurse=determineRecursion(depend)    
-              classpath += getDependOutputList(depend,context,visited,recurse)
+          for depend in project.depend:              
+              # If inherit != NONE (just a run order dependency)
+              if depend.inherit:
+                  deepCopy=determineDeepCopy(depend)    
+                  classpath += getDependOutputList(depend,context,visited,deepCopy)
   
       # Append optional sub-project's output (that may not exist)
       if project.option:
           for option in project.option:
-              recurse=determineRecursion(option)       
-              classpath += getDependOutputList(option,context,visited,recurse)
+              # If inherit != NONE (just a run order dependency)
+              if option.inherit:
+                  deepCopy=determineDeepCopy(option)       
+                  classpath += getDependOutputList(option,context,visited,deepCopy)
 
   return classpath
   
-def determineRecursion(depend):
-    """Determine if we ought recurse to inherit"""
-    recurse=0
+def determineDeepCopy(depend):
+    """Determine if we ought deepCopy to inherit"""
+    deep=0
     inherit=depend.inherit
     if inherit == 'all' or inherit=='hard':
-        recurse=1
-    return recurse
+        deep=1
+    return deep
     
 # BOOTCLASSPATH?
 def getClasspath(project,workspace,context):
