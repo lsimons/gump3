@@ -652,14 +652,19 @@ def documentProject(workspace,modulename,mdir,projectname,projectcontext,db):
     documentProjectContextList(x,"Project Dependees",projectcontext.dependees)            
     documentProjectContextList(x,"Optional Project Dependees",projectcontext.optionees)                  
 
-    startSectionXDoc(x,title)
+    startSectionXDoc(x,'Classpath')
     startTableXDoc(x)
-    x.write('      <tr><th>Path Entry</th></tr>')
-       
+    x.write('      <tr><th>Path Entry</th></tr>')       
     classpath=getClasspathList(project,workspace)
+    paths=0
     for path in classpath:
         startTableRowXDoc(x)    
         insertTableDataXDoc(x,path)
+        endTableRowXDoc(x)
+        paths+=1
+    if not paths:        
+        startTableRowXDoc(x)    
+        insertTableDataXDoc(x,"None")
         endTableRowXDoc(x)
     endTableXDoc(x)
     endSectionXDoc(x)
