@@ -20,7 +20,10 @@
     <work nested="classes"/>
     <javadoc nested="javadocs"/>
 
-    <nag from="Sam Ruby &lt;rubys@us.ibm.com&gt;"
-         to="alexandria-dev@jakarta.apache.org"/>
+    <nag from="Sam Ruby &lt;rubys@us.ibm.com&gt;">
+      <regexp to="gump@jakarta.apache.org"/>
+      <regexp pattern="/Dropping project/" subject="Project(s) dropped"
+              to="gump@jakarta.apache.org"/>
+    </nag>
   </project>
 </module>
