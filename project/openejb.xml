@@ -20,6 +20,7 @@
   <depend project="jdbc"/>
   <depend project="opentools.jedi"/>
   <depend project="opentools.proxies"/>
+  <depend project="tyrex"/>
 
   <project name="opentools.minerva">
     <jar name="lib/minerva.jar"/>
