@@ -41,9 +41,12 @@
     <!--home nested="dist"/-->
     <jar  name="dist/lib/log4j-@@DATE@@.jar"/>
     
+    <!--nag to="log4j-dev@logging.apache.org"
+         subject="Build Failure 1.2 branch"
+         from="Ceki Gülcü &lt;ceki@apache.org&gt;"/-->
     <nag to="log4j-dev@logging.apache.org"
          subject="Build Failure 1.2 branch"
-         from="Ceki Gülcü &lt;ceki@apache.org&gt;"/>
+         from="&lt;ceki@apache.org&gt;"/>
   </project>
 
   <!-- disable until it can work on JDK 1.4

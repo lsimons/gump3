@@ -46,8 +46,10 @@
     <jar  name="log4j-lf5-@@DATE@@.jar" id="lf5"/>
     <jar  name="log4j-chainsaw-@@DATE@@.jar" id="chainsaw"/>
     
+    <!--nag to="log4j-dev@logging.apache.org"
+         from="Ceki Gülcü &lt;ceki@apache.org&gt;"/-->
     <nag to="log4j-dev@logging.apache.org"
-         from="Ceki Gülcü &lt;ceki@apache.org&gt;"/>
+         from="&lt;ceki@apache.org&gt;"/>
   </project>
 
   <project name="log4j-tests">
@@ -67,8 +69,11 @@
     <work nested="tests/resources" />
     <work nested="examples/classes"/>
 
+    <!--nag to="log4j-dev@logging.apache.org"
+         subject="Test Failure"
+         from="Ceki Gülcü &lt;ceki@apache.org&gt;"/-->
     <nag to="log4j-dev@logging.apache.org"
          subject="Test Failure"
-         from="Ceki Gülcü &lt;ceki@apache.org&gt;"/>
+         from="&lt;ceki@apache.org&gt;"/>
   </project>
 </module>
