@@ -726,7 +726,8 @@ class XDocDocumenter(Documenter):
                 % ( self.workspace.getStartDateTime(),
                     self.workspace.getEndDateTime()))
                     
-        self.documentSummary(document, self.workspace.getProjectSummary())                
+        if not realTime: 
+            self.documentSummary(document, self.workspace.getProjectSummary())                
         
         #
         # Modules...
