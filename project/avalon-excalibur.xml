@@ -1016,6 +1016,7 @@
 
         <depend project="ant" inherit="runtime"/>
         <option project="checkstyle" inherit="runtime"/>
+        <option project="jaxen" inherit="runtime"/>
         <depend project="junit"/>
         <depend project="avalon" runtime="true"/>
         <depend project="xml-xerces"/>
