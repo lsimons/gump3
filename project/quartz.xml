@@ -26,6 +26,7 @@
     <depend project="jakarta-log4j"/>
     <depend project="jakarta-servletapi-5-servlet"/>
     <depend project="jakarta-struts"/>
+    <depend project="junit"/>
     <jar name="lib/quartz.jar"/>
 
     <license name="license.txt"/>
