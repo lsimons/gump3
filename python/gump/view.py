@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/Attic/view.py,v 1.38 2003/05/08 07:13:13 nicolaken Exp $
-# $Revision: 1.38 $
-# $Date: 2003/05/08 07:13:13 $
+# $Header: /home/stefano/cvs/gump/python/gump/Attic/view.py,v 1.39 2003/05/08 09:44:10 nicolaken Exp $
+# $Revision: 1.39 $
+# $Date: 2003/05/08 09:44:10 $
 #
 # ====================================================================
 #
@@ -85,10 +85,6 @@ from gump.model import Module, Project
 
 # base gump logger
 log = logging.getLogger(__name__)
-
-classpath = os.getenv('CLASSPATH')
-if(classpath):
-  classpath = classpath.split(os.pathsep)
 
 ###############################################################################
 # Main App
@@ -576,7 +572,7 @@ class compileThread:
     module=Module.list[self.project.module]
 
     os.chdir(os.path.join(module.srcdir,self.project.ant.basedir or ''))
-    os.environ['CLASSPATH']=os.pathsep.join(classpath+self.project.classpath())
+    os.environ['CLASSPATH']=os.pathsep.join(default.classpath+self.project.classpath())
     cmd="java org.apache.tools.ant.Main"
     for property in self.view.workspace.property+self.project.ant.property:
       cmd+=" -D"+property.name+"="+property.value

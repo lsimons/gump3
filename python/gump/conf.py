@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/Attic/conf.py,v 1.5 2003/05/08 06:35:41 nicolaken Exp $
-# $Revision: 1.5 $
-# $Date: 2003/05/08 06:35:41 $
+# $Header: /home/stefano/cvs/gump/python/gump/Attic/conf.py,v 1.6 2003/05/08 09:44:10 nicolaken Exp $
+# $Revision: 1.6 $
+# $Date: 2003/05/08 09:44:10 $
 #
 # ====================================================================
 #
@@ -88,6 +88,7 @@ class default:
     antCommand = 'java org.apache.tools.ant.Main -Dbuild.sysclasspath=only'
     syncCommand= 'cp -Rf'
     logLevel   = logging.INFO
+    classpath = (os.getenv('CLASSPATH') or '').split(os.pathsep)  
 
 def basicConfig():
     if not os.path.exists(dir.cache): os.mkdir(dir.cache)
