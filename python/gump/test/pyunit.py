@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/test/pyunit.py,v 1.20 2004/02/17 21:54:21 ajack Exp $
-# $Revision: 1.20 $
-# $Date: 2004/02/17 21:54:21 $
+# $Header: /home/stefano/cvs/gump/python/gump/test/pyunit.py,v 1.21 2004/02/18 00:13:54 ajack Exp $
+# $Revision: 1.21 $
+# $Date: 2004/02/18 00:13:54 $
 #
 # ====================================================================
 #
@@ -116,7 +116,7 @@ class Testable:
             self.raiseIssue(['Ought evaluate as false', message, object])
             
     def assertInString(self,message,substr,str):
-        if not -1 == str.find(substr):
+        if -1 == str.find(substr):
             self.raiseIssue(['Ought evaluate as in', message, substr, str])
             
     def assertIn(self,message,object,sequence):
