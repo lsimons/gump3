@@ -26,7 +26,7 @@
     <depend project="excalibur-i18n"/>
     <depend project="excalibur-thread"/>
     <depend project="excalibur-threadcontext"/>
-    <depend project="avalon-phoenix" ids="client,metagenerate"/>
+    <depend project="avalon-phoenix" ids="client metagenerate"/>
     <depend project="ant" inherit="runtime"/>
     <depend project="jakarta-velocity" inherit="runtime"/>
 

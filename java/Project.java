@@ -1,7 +1,7 @@
 /*
- * $Header: /home/stefano/cvs/gump/java/Project.java,v 1.50 2003/02/11 09:12:12 bodewig Exp $
- * $Revision: 1.50 $
- * $Date: 2003/02/11 09:12:12 $
+ * $Header: /home/stefano/cvs/gump/java/Project.java,v 1.51 2003/02/21 19:55:53 rubys Exp $
+ * $Revision: 1.51 $
+ * $Date: 2003/02/21 19:55:53 $
  *
  * ====================================================================
  *
@@ -373,9 +373,11 @@ public class Project {
             for (; child != null; child=child.getNextSibling()) {
                 if (child.getNodeName().equals("jar")) {
                     String id = ((Element) child).getAttribute("id");
-                    if (idsAttr.equals("") 
-                        || (!id.equals("") && jarIds.contains(id))) {
+                    if (idsAttr.equals("")) {
                         depend.appendChild(child.cloneNode(false));
+		    } else if (!id.equals("") && jarIds.contains(id)) {
+                        depend.appendChild(child.cloneNode(false));
+			jarIds.remove(id);
                     }
                 } else if (child.getNodeName().equals("ant")) {
                     depend.appendChild(document.createElement("ant"));
@@ -385,6 +387,13 @@ public class Project {
                     buildable = true;
                 }
             }
+
+	    if (jarIds.size()>0) {
+                throw new Exception(
+                   "A jar with id \"" + jarIds.firstElement() + 
+		   "\" was not found in project \"" + 
+                   this.name + "\" referenced by project " + name);
+	    }
 
             if (buildable && !jardir.equals("") && target.isRedistributable()) {
                 String module = target.get("module");
