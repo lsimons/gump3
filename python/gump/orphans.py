@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/Attic/orphans.py,v 1.1 2003/04/28 20:27:48 leosimons Exp $
-# $Revision: 1.1 $
-# $Date: 2003/04/28 20:27:48 $
+# $Header: /home/stefano/cvs/gump/python/gump/Attic/orphans.py,v 1.2 2003/08/29 00:20:22 ajack Exp $
+# $Revision: 1.2 $
+# $Date: 2003/08/29 00:20:22 $
 #
 # ====================================================================
 #
@@ -95,7 +95,7 @@ class Workspace(ContentHandler):
             self.packages.append(attrs['home'].replace('\\','/'))
 
 workspace=Workspace()
-parse(open('work/merge.xml'),workspace)
+parse(open(default.merge),workspace)
 
 # orphan packages
 for dir in glob(workspace.pkgdir+'/*'):

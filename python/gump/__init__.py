@@ -1,8 +1,8 @@
-#!/usr/bin/env python
+#!/usr/bin/python
 
-# $Header: /home/stefano/cvs/gump/python/gump/__init__.py,v 1.10 2003/05/10 18:20:35 nicolaken Exp $
-# $Revision: 1.10 $
-# $Date: 2003/05/10 18:20:35 $
+# $Header: /home/stefano/cvs/gump/python/gump/__init__.py,v 1.11 2003/08/29 00:20:22 ajack Exp $
+# $Revision: 1.11 $
+# $Date: 2003/08/29 00:20:22 $
 #
 # ====================================================================
 #
@@ -65,9 +65,9 @@
   walker, and an object model (GOM) which is built from an xmlfile using
   the sax dispatcher.
 
-  The idea is that a subclass of GumpBase is used for each of the various
+  The idea is that a subclass of GumpModelObject is used for each of the various
   xml tags which can appear in a gump profile, with a saxdispatcher
-  generating a tree of GumpBase objects from the profile, dynamically
+  generating a tree of GumpModelObject objects from the profile, dynamically
   merging as it finds href references.
 
   You can then use the dependencies() method to get an ordered, flat vector
@@ -91,227 +91,39 @@ import urlparse
 # python-2.3 or http://www.red-dove.com/python_logging.html
 import logging
 
-from xml.sax import parse
-from xml.sax.handler import ContentHandler
+# base gump logger
+log = logging.getLogger(__name__)
 
-import gump.conf
+from gump.xmlutils import SAXDispatcher
 from gump.conf import dir, default
+from gump.utils import *
 
 ###############################################################################
 # Initialize
 ###############################################################################
 
 # tell python what modules make up the gump package
-__all__ = ["conf", "view", "build", "gen"]
+__all__ = ["conf", "launcher", "view", "build", "gen", "check", "update", 
+			"model", "xmlutils", "rss", "login", "xdoc", "statistics",
+			"document"]
 
-# base gump logger
-log = logging.getLogger(__name__)
 
 # ensure dirs exists
 conf.basicConfig()
 
-
-
-###############################################################################
-# SAX Dispatcher mechanism
-###############################################################################
-
-class SAXDispatcher(ContentHandler):
-  """a stack of active xml elements"""
-
-  def __init__(self,file,name,cls):
-    """Creates a DocRoot and parses the specified file into a GOM tree.
-
-      The GOM tree is stored in the self.docElement attribute.
-    """
-
-    self.topOfStack=DocRoot(name,cls)
-    self.elementStack=[self.topOfStack]
-    parse(file,self)
-    self.docElement=self.topOfStack.element
-
-  def startElement (self, name, attrs):
-    """See ContentHandler class."""
-
-    if self.topOfStack: self.topOfStack=self.topOfStack.startElement(name,attrs)
-    self.elementStack.append(self.topOfStack);
-
-  def characters(self, string):
-    """See ContentHandler class."""
-
-    if self.topOfStack: self.topOfStack.characters(string)
-
-  def endElement (self, name):
-    """See ContentHandler class."""
-
-    del self.elementStack[-1]
-    self.topOfStack=self.elementStack[-1]
-
-###############################################################################
-# Base classes for the Gump object model
-#
-# This is actually where most of the logic and complexity is handled,
-# allowing the actual model to be rather simple and compact. All
-# elements of the GOM should extend GumpBase or a subclass of GumpBase.
-###############################################################################
 
 timestamp=os.path.join(dir.base,'.timestamp')
 if os.path.exists(timestamp):
   mtime=time.localtime(os.path.getmtime(timestamp))
   default.date = time.strftime('%Y%m%d',mtime)
 
-class GumpBase(object):
-  """Base class for the entire Gump object model.
-
-    Attributes become properties.  Characters become the string value
-    of the element. An internal attribute with name '@text' is used
-    for storing all the characters (as opposed to xml elements and xml
-    attributes)."""
-
-  def __init__(self,attrs):
-    # parse out '@@DATE@@'
-    for (name,value) in attrs.items():
-      self.__dict__[name]=value.replace('@@DATE@@',default.date)
-
-    # setup internal character field
-    if not '@text' in self.__dict__: self.init()
-    self.__dict__['@text']=''
-
-  def startElement(self, name, attrs):
-    try:
-      # If we are dealing with a Single or Multiple,
-      # return an instance.
-      attr=self.__getattribute__(name)
-      if isinstance(attr,Single): return attr(attrs)
-      if isinstance(attr,Multiple): return attr(attrs)
-    except AttributeError:
-      # shouldn't happen? - it actually is OK if people extend the GOM -- rubys
-      log.debug("Not handling attribute in GumpBase.startElement related to " +
-                "name %s; current class is %s" % (name, self.__class__))
-
-  def characters(self,string):
-    """See ContentHandler class."""
-
-    self.__dict__['@text']+=string
-
-  def __setitem__(self,name,value):
-    self.__dict__[name]=value
-
-  def __getitem__(self,name):
-    if name in self.__dict__: return self.__dict__[name]
-
-  def __delitem__(self,name):
-    del self.__dict__[name]
-
-  def __getattr__(self,name):
-    pass
-
-  def __str__(self):
-    """String representation of the element is the element content."""
-
-    return self.__dict__['@text'].strip()
-
-  def init(self):
-    pass
-
-class DocRoot(GumpBase):
-  """Document roots are workspaces or targets of hrefs."""
-
-  def __init__(self,name,cls):
-    GumpBase.__init__(self,{})
-    self.name=name
-    self.cls=cls
-    self.element=None
-
-  def startElement(self, name, attrs):
-    if name<>self.name:
-      raise "Incorrect element, expected %s, found %s" % (self.name,name)
-    self.element=self.cls(attrs)
-    return self.element
-
-class Named(GumpBase):
-  """Named elements (e.g., project,module,repository).
-
-    Supports href and maintains a list of elements. Duplicate
-    names get merged. Classes declared of this type must declare
-    a static list property."""
-
-  def __new__(cls,attrs):
-    """In case of a href reference, download and process that file."""
-
-    href=attrs.get('href')
-
-    if href:
-      newHref=gumpCache(href)
-      if newHref:
-        log.debug('opening: ' + newHref + '\n')
-        element=SAXDispatcher(open(newHref),cls.__name__.lower(),cls).docElement
-      else:
-        log.warn("href:"+newHref+" not loaded")
-    else:
-      name=attrs.get('name')
-      try:
-        element=cls.list[name]
-      except:
-        element=GumpBase.__new__(cls,attrs)
-      if name: cls.list[name]=element
-    return element
-
-class Single(object):
-  """Properties which are only ever expected to hold a single value."""
-
-  def __init__(self,cls=GumpBase):
-    """The cls passed in determines what type the delegate instance will have."""
-
-    self.delegate=None
-    self.cls=cls
-
-  def __call__(self,attrs):
-    if self.delegate:
-      self.delegate.__dict__.update(dict(attrs))
-    else:
-      self.delegate=self.cls(attrs)
-    return self.delegate
-
-  def __getattr__(self,name):
-    if self.delegate:
-      try:
-        return self.delegate.__getattribute__(name)
-      except:
-        return self.delegate[name]
-
-  def __str__(self):
-    if self.delegate: return self.delegate.__str__()
-    return ''
-
-  def __nonzero__(self):
-    return self.delegate
-
-  def __setitem__(self,name,value):
-    self.delegate[name]=value
-
-  def __getitem__(self,name):
-    if name in self.delegate.__dict__: return self.delegate.__dict__[name]
-
-
-class Multiple(list):
-  """Properties which can hold multiple instances."""
-
-  def __init__(self,cls=GumpBase):
-    """The cls passed in determines what type the delegate instances will have."""
-
-    list.__init__(self)
-    self.cls=cls
-
-  def __call__(self,attrs):
-    result=self.cls(attrs)
-    self.append(result)
-    return result
-
 ###############################################################################
 # Functions
 ###############################################################################
-
+def gumpSafeName(name):
+  """returns a file system safe name"""
+  return urllib.quote_plus(name)
+  
 def gumpPath(path):
   """returns the path absolutized relative to the base gump dir"""
 
@@ -351,14 +163,16 @@ def gumpCache(href):
 
   return newHref
 
-def load(file):
+from gump.context import GumpContext
+
+def load(file, context=GumpContext()):
   try:
-    loadWorkspace(file)
+    return loadWorkspace(file, context)
   except IOError, detail:
     log.critical(detail)  
     sys.exit(1)
     
-def loadWorkspace(file):
+def loadWorkspace(file, context=GumpContext()):
   """Run a file through a saxdispatcher.
 
     This builds a GOM in memory from the xml file. Return the generated GOM."""
@@ -380,36 +194,30 @@ def loadWorkspace(file):
   Profile.list={}
   Repository.list={}
   
+  log.debug("SAXDispatcher on : " + file);
+    
   workspace=SAXDispatcher(file,'workspace',Workspace).docElement
+ 
+  if not workspace:
+    raise IOError, "Failed to load workspace" + file
+  
+  #
+  # Complete all entries
+  #
   workspace.complete()
-
   for repository in Repository.list.values(): repository.complete(workspace)
   for module in Module.list.values(): module.complete(workspace)
   for project in Project.list.values(): project.complete(workspace)
+  
+  
+    	# :TODO: Bad place for this, move?
+  context.buildMap()
+    
+  #context.tree()
+  #sys.exit(0)
+  
   return workspace
 
-def buildSequence(todo):
-  """Determine the build sequence for a given list of projects."""
-
-  result=[]
-  while todo:
-    # one by one, remove the first ready project and append it to the result
-    for project in todo:
-      if project.isReady(todo):
-        todo.remove(project)
-        if project.ant or project.script: result.append(project)
-        break
-    else:
-      # we have a circular dependency, remove all innocent victims
-      while todo:
-        for project in todo:
-          if not project.isPrereq(todo):
-            todo.remove(project)
-            break
-        else:
-          loop=", ".join([project.name for project in todo])
-          raise "circular dependency loop: " + str(loop)
-  return result
 
 ###############################################################################
 # Demonstration code

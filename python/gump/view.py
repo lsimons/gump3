@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/Attic/view.py,v 1.43 2003/05/10 18:20:36 nicolaken Exp $
-# $Revision: 1.43 $
-# $Date: 2003/05/10 18:20:36 $
+# $Header: /home/stefano/cvs/gump/python/gump/Attic/view.py,v 1.44 2003/08/29 00:20:22 ajack Exp $
+# $Revision: 1.44 $
+# $Date: 2003/08/29 00:20:22 $
 #
 # ====================================================================
 #
@@ -74,18 +74,16 @@ from xml.sax.handler import ContentHandler
 # http://wxpython.org/
 from wxPython.wx import *
 
-from gump import load, buildSequence, log
+from gump import load, log
 from gump.conf import dir, default, handleArgv
-from gump.gen import xmlize
+from gump.xmlutils import xmlize
 from gump.model import Module, Project
-from gump.update import update
+from gump.logic import *
+from gump.build import build
 
 ###############################################################################
 # Initialize
 ###############################################################################
-
-# base gump logger
-log = logging.getLogger(__name__)
 
 ###############################################################################
 # Main App
@@ -381,7 +379,7 @@ class gumpview(wxApp):
       todo=[]
       project.addToTodoList(todo)
       todo.sort()
-      self.build_sequence = buildSequence(todo)
+      self.build_sequence = getBuildSequenceForProjects(todo)
     except:
       message=str(sys.exc_type)
       if sys.exc_value: message+= ": " + str(sys.exc_value)
@@ -424,7 +422,7 @@ class gumpview(wxApp):
     if not self.classpath.GetColumn(0):
       self.classpath.InsertColumn(0, 'Path')
 
-    classpath=project.classpath()
+    classpath=getClasspathList(project,self.workspace)
     for i in range(0,len(classpath)):
       self.classpath.InsertStringItem(i,classpath[i])
 

@@ -1,8 +1,8 @@
-#!/usr/bin/env python
+#!/usr/bin/python
 
-# $Header: /home/stefano/cvs/gump/python/gump/Attic/conf.py,v 1.7 2003/05/10 18:20:36 nicolaken Exp $
-# $Revision: 1.7 $
-# $Date: 2003/05/10 18:20:36 $
+# $Header: /home/stefano/cvs/gump/python/gump/Attic/conf.py,v 1.8 2003/08/29 00:20:22 ajack Exp $
+# $Revision: 1.8 $
+# $Date: 2003/08/29 00:20:22 $
 #
 # ====================================================================
 #
@@ -69,47 +69,71 @@ import os
 import sys
 import logging
 
+from gump import log
+
 class dir:
     """Configuration of paths"""
 
     cmdpath   = os.path.abspath(sys.argv[0])
-    base      = os.path.normpath('%s/%s' % (os.path.dirname(cmdpath),'../..'))
+    if 1: # 0 was for unit testing, lazy...
+      base      = os.path.normpath('%s/%s' % (os.path.dirname(cmdpath),'../..'))
+    else:
+      base		= os.path.normpath('.')
     cache     = os.path.normpath('%s/%s' % (base,'cache'))
     work      = os.path.normpath('%s/%s' % (base,'work'))
+    tmp       = os.path.normpath('%s/%s' % (base,'tmp'))
+    docs	  = os.path.normpath('%s/%s' % (base,'docs'))
 
 class default:
     """Configuration of default settings"""
     
     workspace  = os.path.normpath('%s/%s.xml' % (dir.base, socket.gethostname().split('.')[0]))
     globalws   = os.path.normpath('%s/%s' % (dir.base, 'global-workspace.xml'))
-    project    = "krysalis-ruper-test"
+    project    = "jakarta-gump"
     merge      = os.path.normpath('%s/%s' % (dir.work, 'merge.xml'))
     date       = time.strftime('%Y%m%d')
-    antCommand = 'java org.apache.tools.ant.Main -Dbuild.sysclasspath=only'
-    syncCommand= 'cp -Rf'
     logLevel   = logging.INFO
     classpath = (os.getenv('CLASSPATH') or '').split(os.pathsep)  
+    
+    bannerimage = 'http://jakarta.apache.org/images/jakarta-logo.gif'
+    
+    email = 'gump@lists.apache.org'
+    mailserver = 'mail.apache.org'
+    prefix = "[GUMPY]"
+    signature="\r\n--\r\nGump http://jakarta.apache.org/gump"
+    
+    version="2.0.1-alpha-0001"
 
 def basicConfig():
     if not os.path.exists(dir.cache): os.mkdir(dir.cache)
     if not os.path.exists(dir.work): os.mkdir(dir.work)
+    if not os.path.exists(dir.tmp): os.mkdir(dir.tmp)
+    if not os.path.exists(dir.docs): os.mkdir(dir.docs)
 
     if dir.base not in sys.path: sys.path.insert(0, dir.base)
+
+def banner():
+  print
+  print "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
+  print "Apache Python Gump (" + default.version + "), a multi-project builder."
+  print  
+  print "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
+  print
+  print "Copyright (C) 2003 Apache Software Foundation. All rights reserved."
+  print "See the Apache Software License 1.1 for more details."
+  print "http://www.apache.org/"
+  print
         
 def handleArgv(argv, requireProject=1):
   args = []  
   # the workspace
   if len(argv)==2: 
     if argv[1] in ['-V','--version']:
-      print "Apache Python Gump Alpha"
-      print  
-      print "Copyright (C) 2003 Apache Software Foundation. All rights reserved."
-      print "See the Apache Software License 1.1 for more details."
-      print "http://www.apache.org/"
+      banner()
       sys.exit(0)
       
     elif argv[1] in ['-h','--help']:
-      print "Apache Python Gump, a multi-project builder."
+      banner()
       print "command: " , __name__    
       print "Usage: python "+__name__+".py [OPTION]... [PROJECT]... [OTHER]..."
       print 
@@ -129,10 +153,8 @@ def handleArgv(argv, requireProject=1):
     del argv[1:3]
   else:
     args.append(default.workspace)
-    print
-    print " No workspace defined with -w or -workspace, using default:"
-    print "  " , default.workspace
-
+    log.info("No workspace defined with -w or -workspace.")
+    log.info("Using default workspace: " + default.workspace)
     
   # determine which modules the user desires (wildcards are permitted)
   if len(argv)>1:
@@ -140,10 +162,12 @@ def handleArgv(argv, requireProject=1):
    if args[1]=='all': args[1]='*'
   else:
     if requireProject:
+      banner()
       print
-      print " No project specified, please supply a project name or 'all'."
+      print " No project specified, please supply a project expressions or 'all'."
+      print " Project wildcards are accepted, e.g. \"jakarta-*\"."
       print "  " , default.workspace
-      sys.exit(0)
+      sys.exit(1)
     else:
      args.append(default.project)
      

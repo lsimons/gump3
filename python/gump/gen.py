@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/Attic/gen.py,v 1.8 2003/05/10 18:20:36 nicolaken Exp $
-# $Revision: 1.8 $
-# $Date: 2003/05/10 18:20:36 $
+# $Header: /home/stefano/cvs/gump/python/gump/Attic/gen.py,v 1.9 2003/08/29 00:20:22 ajack Exp $
+# $Revision: 1.9 $
+# $Date: 2003/08/29 00:20:22 $
 #
 # ====================================================================
 #
@@ -65,70 +65,69 @@ Not even sure if this is needed!!!
 """
 
 import os.path,os,sys,logging
-from gump import Single, load
+from gump import log, load
+from gump.xmlutils import xmlize,xmlwrite
 from gump.conf import *
 
-# init logging
-log = logging.getLogger(__name__)
 
 #########################################################################
 #                     Dump the object module as XML                     #
 #########################################################################
 
-def xmlize(nodeName,object,f=None,indent='',delta='  '):
-  from xml.sax.saxutils import escape
-  import types, StringIO
-
-  if f==None: f=StringIO.StringIO()
-
-  attrs=[nodeName]
-  elements=[]
-  text=''
-  encoding='latin-1'
-
-  # iterate over the object properties
-  for name in object.__dict__:
-    if name.startswith('__') and name.endswith('__'): continue
-    var=getattr(object,name)
-
-    # avoid nulls, metadata, and methods
-    if not var: continue
-    if isinstance(var,types.TypeType): continue
-    if isinstance(var,types.MethodType): continue
-
-    # determine if the property is text, attribute, or element
-    if name=='@text':
-      text=var
-    elif isinstance(var,types.StringTypes):
-      attrs.append('%s="%s"' % (name,escape(var)))
-    else:
-      elements.append((name,var))
-
-  # format for display
-  if not elements:
-    # use compact form for elements without children
-    if text.strip():
-      f.write( '%s<%s>%s</%s>\n' % (indent,' '.join(attrs).encode(encoding),
-        text.strip().encode(encoding),nodeName))
-    else:
-      f.write( '%s<%s/>\n' % (indent,' '.join(attrs).encode(encoding)))
-  else:
-    # use full form for elements with children
-    f.write( '%s<%s>\n' % (indent,' '.join(attrs).encode(encoding)))
-    newindent=indent+delta
-    for (name,var) in elements:
-      if isinstance(var,list):
-        # multiple valued elements
-        for e in var: xmlize(name,e,f,newindent,delta)
-      elif isinstance(var,Single):
-        # single valued elements
-        xmlize(name,var.delegate,f,newindent,delta)
-    f.write( '%s</%s>\n' % (indent,nodeName.encode(encoding)))
-
-  # if the file is a StringIO buffer, return the contents
-  if isinstance(f,StringIO.StringIO):
-    f.seek(0)
-    return f.read()
+#def xmlize(nodeName,object,f=None,indent='',delta='  '):
+#  from xml.sax.saxutils import escape
+#  import types, StringIO
+#
+#  if f==None: f=StringIO.StringIO()
+#
+#  attrs=[nodeName]
+#  elements=[]
+#  text=''
+#  encoding='latin-1'
+#
+#  # iterate over the object properties
+#  for name in object.__dict__:
+#    if name.startswith('__') and name.endswith('__'): continue
+#    var=getattr(object,name)
+#
+#    # avoid nulls, metadata, and methods
+#    if not var: continue
+#    if isinstance(var,types.TypeType): continue
+#    if isinstance(var,types.MethodType): continue
+#
+#    # determine if the property is text, attribute, or element
+#    if name=='@text':
+#      text=var
+#    elif isinstance(var,types.StringTypes):
+#      attrs.append('%s="%s"' % (name,escape(var)))
+#    else:
+#      elements.append((name,var))
+#
+#  # format for display
+#  if not elements:
+#    # use compact form for elements without children
+#    if text.strip():
+#      f.write( '%s<%s>%s</%s>\n' % (indent,' '.join(attrs).encode(encoding),
+#        text.strip().encode(encoding),nodeName))
+#    else:
+#      f.write( '%s<%s/>\n' % (indent,' '.join(attrs).encode(encoding)))
+#  else:
+#    # use full form for elements with children
+#    f.write( '%s<%s>\n' % (indent,' '.join(attrs).encode(encoding)))
+#    newindent=indent+delta
+#    for (name,var) in elements:
+#      if isinstance(var,list):
+#        # multiple valued elements
+#        for e in var: xmlize(name,e,f,newindent,delta)
+#      elif isinstance(var,Single):
+#        # single valued elements
+#        xmlize(name,var.delegate,f,newindent,delta)
+#    f.write( '%s</%s>\n' % (indent,nodeName.encode(encoding)))
+#
+#  # if the file is a StringIO buffer, return the contents
+#  if isinstance(f,StringIO.StringIO):
+#    f.seek(0)
+#    return f.read()
 
 if __name__=='__main__':
 
@@ -144,14 +143,7 @@ if __name__=='__main__':
 
   workspace=load(ws)
 
-  f=open( default.merge, 'w')
-  try:
-    xmlize('workspace',workspace,f)
-    print "Generated Successfully"
-  finally:
-    # Since we may exit via an exception, close fp explicitly.
-    f.close()
-
+  xmlwrite( default.merge,'workspace',workspace)
 
 
 

@@ -1,9 +1,9 @@
 #!/bin/bash
 #
-# $Header: /home/stefano/cvs/gump/Attic/gumppy.sh,v 1.2 2003/05/30 22:02:56 nickchalko Exp $
+# $Header: $
 
-if [ -e local-env.sh ] ; then
-	. local-env.sh
+if [ -e local-env-py.sh ] ; then
+	. local-env-py.sh
 fi
 
 if [ ! $GUMP ] ; then
@@ -21,7 +21,6 @@ if [ ! $GUMP_LOG_DIR ] ; then
 	exit 1
 fi
 
-
 if [ -n "$1" ] ; then
 	export GUMP_TARGET=$1
 else
@@ -36,6 +35,10 @@ export GUMP_HOST=`hostname -s`
 export GUMP_DATE=`date`
 export GUMP_LOG=$GUMP_LOG_DIR/gumppy.html
 export GUMP_PROFILE_LOG_DIR=$GUMP_LOG_DIR/myprofile
+
+if [ -z "$GUMP_WORKSPACE" ] ; then
+	export GUMP_WORKSPACE=${GUMP_HOST}
+fi
 
 export SEPARATOR='------------------------------------------------------- G U M P P Y'
 
@@ -79,7 +82,7 @@ fi
 
 cp $GUMP/gumppy.sh $GUMP_PROFILE_LOG_DIR
 cp $GUMP_HOST.xml  $GUMP_PROFILE_LOG_DIR
-cp `grep profile $GUMP_HOST.xml  | cut -d\" -f2` $GUMP_PROFILE_LOG_DIR
+cp -R `grep profile $GUMP_HOST.xml  | cut -d\" -f2` $GUMP_PROFILE_LOG_DIR
 
 #
 # Do a CVS update
@@ -104,48 +107,17 @@ export >> $GUMP_LOG
 #
 # Check the projects
 #
-cd $GUMP_PYTHON
-echo $SEPARATOR >> $GUMP_LOG
-python gump/check.py -w ../${GUMP_HOST}.xml >> $GUMP_LOG 2>&1
-
-#
-# Do a gen
-#
-cd $GUMP_PYTHON
-echo $SEPARATOR >> $GUMP_LOG
-python gump/gen.py -w ../${GUMP_HOST}.xml >> $GUMP_LOG 2>&1 
-echo >> $GUMP_LOG
-
-#
-# Do a clean
-#
 #cd $GUMP_PYTHON
 #echo $SEPARATOR >> $GUMP_LOG
-#python gump/clean.py -w ../${GUMP_HOST}.xml >> $GUMP_LOG 2>&1
-#echo >> $GUMP_LOG
+#python gump/check.py -w ../${GUMP_WORKSPACE}.xml >> $GUMP_LOG 2>&1
 
 #
-# Do an update (from CVS)
+# Do the integration run
 #
 cd $GUMP_PYTHON
 echo $SEPARATOR >> $GUMP_LOG
-python gump/update.py -w ../${GUMP_HOST}.xml $GUMP_TARGET >> $GUMP_LOG 2>&1 
-
-#
-# Do the build
-#
-cd $GUMP_PYTHON
-echo $SEPARATOR >> $GUMP_LOG
-python gump/build.py -w ../${GUMP_HOST}.xml $GUMP_TARGET >> $GUMP_LOG 2>&1 
-
-#
-# Nag (if required)
-#
-cd $GUMP
-echo $SEPARATOR >> $GUMP_LOG
-if [ -n "$STARTED_FROM_CRON" ] ; then 
-	perl nag.pl work/naglist >> $GUMP_LOG 2>&1
-fi;
+python gump/integrate.py -w ../${GUMP_WORKSPACE}.xml ${GUMP_TARGET} >> $GUMP_LOG 2>&1 
+echo >> $GUMP_LOG
 
 echo \</XMP\> >> $GUMP_LOG
 pkill -P $$ 

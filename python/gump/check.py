@@ -1,4 +1,63 @@
 #!/usr/bin/python
+
+# $Header: /home/stefano/cvs/gump/python/gump/check.py,v 1.12 2003/08/29 00:20:22 ajack Exp $
+# $Revision: 1.12 $
+# $Date: 2003/08/29 00:20:22 $
+#
+# ====================================================================
+#
+# The Apache Software License, Version 1.1
+#
+# Copyright (c) 2003 The Apache Software Foundation.  All rights
+# reserved.
+#
+# Redistribution and use in source and binary forms, with or without
+# modification, are permitted provided that the following conditions
+# are met:
+#
+# 1. Redistributions of source code must retain the above copyright
+#    notice, this list of conditions and the following disclaimer.
+#
+# 2. Redistributions in binary form must reproduce the above copyright
+#    notice, this list of conditions and the following disclaimer in
+#    the documentation and/or other materials provided with the
+#    distribution.
+#
+# 3. The end-user documentation included with the redistribution, if
+#    any, must include the following acknowlegement:
+#       "This product includes software developed by the
+#        Apache Software Foundation (http://www.apache.org/)."
+#    Alternately, this acknowlegement may appear in the software itself,
+#    if and wherever such third-party acknowlegements normally appear.
+#
+# 4. The names "The Jakarta Project", "Alexandria", and "Apache Software
+#    Foundation" must not be used to endorse or promote products derived
+#    from this software without prior written permission. For written
+#    permission, please contact apache@apache.org.
+#
+# 5. Products derived from this software may not be called "Apache"
+#    nor may "Apache" appear in their names without prior written
+#    permission of the Apache Group.
+#
+# THIS SOFTWARE IS PROVIDED ``AS IS'' AND ANY EXPRESSED OR IMPLIED
+# WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
+# OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+# DISCLAIMED.  IN NO EVENT SHALL THE APACHE SOFTWARE FOUNDATION OR
+# ITS CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+# SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+# LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF
+# USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
+# ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
+# OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT
+# OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
+# SUCH DAMAGE.
+# ====================================================================
+#
+# This software consists of voluntary contributions made by many
+# individuals on behalf of the Apache Software Foundation.  For more
+# information on the Apache Software Foundation, please see
+# <http://www.apache.org/>.
+
 """
   Checks that the Gump definitions are ok.
 """
@@ -9,33 +68,149 @@ import sys
 import traceback
 import logging
 
-from gump import load, buildSequence
-from gump.conf import dir, default, handleArgv
+from gump import log, load
+from gump.logic import getBuildSequenceForProjects, getProjectsForProjectExpression
+from gump.conf import dir, default, handleArgv, banner
 from gump.model import Workspace, Module, Project
+from gump.context import GumpContext, CommandWorkItem, WORK_TYPE_CHECK
+
+from gump.launcher import getCmdFromString, execute, CMD_STATUS_SUCCESS
 
 ###############################################################################
 # Initialize
 ###############################################################################
 
-# base gump logger
-log = logging.getLogger(__name__)
 
 ###############################################################################
 # Functions
 ###############################################################################
+def checkEnvironment(workspace, context=GumpContext(), exitOnError=1):
+    """ Check Things That are Required """
+    
+    #
+    # :TODO: Complete this, it ought be an important early warning...
+    #
+    
+    
+    #:TODO: Take more from runAnt.py on:
+    # - ANT_OPTS?
+    # - How to ensure lib/tools.jar is in classpath
+    # - Others?
+    
+    #
+    #	Directories...
+    
+    
+    #
+    # JAVACMD can be set (perhaps for JRE verse JDK)
+    #
+    if os.environ.has_key('JAVACMD'):        
+        context.javaCommand  = os.environ['JAVACMD']
+        context.addInfo('JAVACMD environmental variable setting java command to ' \
+            + context.javaCommand )
+    
+    
+    #	Envs:
+    #	JAVA_HOME for bootstrap any?
+    #	FORREST_HOME?
+    
+    checkEnvVariable(workspace, context, 'JAVA_HOME',exitOnError)
+    if not checkEnvVariable(workspace, context, 'FORREST_HOME',0): 
+        context.noForrest=1
+        context.addWarning('FORREST_HOME environmental variable not found, no xdoc output')
+        
+    #
+    # Check for executables:
+    #
+    #	java
+    #	javac (for bootstrap ant & beyond)
+    #	cvs
+    #
+    #	These ought set a switch..
+    #
+    #	rsync or cp
+    #	forrest (for documentation)
+    #
+    checkExecutable(workspace, context, context.javaCommand,'-help',exitOnError)
+    checkExecutable(workspace, context, 'javac','-help',exitOnError)
+    checkExecutable(workspace, context, 'cvs','--version',exitOnError)
+    if not context.noForrest and not checkExecutable(workspace, context, 'forrest','-help',0): 
+        context.noForrest=1
+        context.addWarning('"forrest" command not found, no xdoc output')
+        
+    if not checkExecutable(workspace, context, 'rsync','-help',0): 
+        context.noRSync=1
+        context.addWarning('"rsync" command not found, no using recursive copy')
+        
+    
+    # :TODO:
+    # Need to check javac classes are on CLASSPATH
+    #
+    
+def checkExecutable(workspace, context, command,options,mandatory):
+    ok=0
+    try:
+        cmd=getCmdFromString(command+" "+options,'check_'+command)
+        result=execute(cmd)
+        ok=result.status==CMD_STATUS_SUCCESS 
+        if not ok:
+            log.error('Failed to detect [' + command + ']')     
+    except Exception, details:
+        ok=0
+        log.error('Failed to detect [' + command + '] : ' + str(details))
+       
+    # Update Context
+    context.performedWork(CommandWorkItem(WORK_TYPE_CHECK,cmd,result))
+        
+    if not ok and mandatory:
+        banner()
+        print
+        print " Unable to detect/test mandatory [" + command+ "] in path (see next)."
+        for p in sys.path:
+            print "  " + str(os.path.normpath(p))
+        sys.exit(2)
+    
+    return ok
+    
+def checkEnvVariable(workspace, context,env,mandatory=1):
+    ok=0
+    try:
+        ok=os.environ.has_key(env)
+        if not ok:
+            log.error('Failed to find environment variable [' + env + ']')
+        
+    except Exception, details:
+        ok=0
+        log.error('Failed to find environment variable [' + env + '] : ' + str(details))
+    
+    if not ok and mandatory:
+        banner()
+        print
+        print " Unable to find mandatory [" + env + "] in environment (see next)."
+        for e in os.environ.keys():
+            try:
+                v=os.environ[e]
+                print "  " + e + " = " + v
+            except:
+                print "  " + e 
+        sys.exit(3)
+    
+    return ok
+    
+def check(workspace, expr='*', context=GumpContext()):
+  """dump all dependencies to build a project to the output"""
 
-def check(workspace, projectname):
-
+  projects=getProjectsForProjectExpression(expr)
+  
   missing=[]
   optionalMissing=[]
   optionalOnlyMissing=[]
   
   # for each project
-  for projectname in Project.list:
+  for project in projects:
     projectmissing = 0
     print    
-    print " TESTING " + projectname + " ************* "
-    project = Project.list[projectname]
+    print " TESTING " + project.name + " ************* "
     
     # for each dependency in current project
     for depend in project.depend:
@@ -79,7 +254,7 @@ def check(workspace, projectname):
     print
     print " ***** In Global Profile... ***** "  
     print
-    print "  Rats, cannot load the global Gump profile, you have to install %\n  the jars by hand."  
+    print "  Cannot load the global Gump profile, you have to install %\n  the jars by hand."  
     print 
     traceback.print_exc()    
     print

@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/update.py,v 1.6 2003/05/09 10:39:43 nicolaken Exp $
-# $Revision: 1.6 $
-# $Date: 2003/05/09 10:39:43 $
+# $Header: /home/stefano/cvs/gump/python/gump/update.py,v 1.7 2003/08/29 00:20:22 ajack Exp $
+# $Revision: 1.7 $
+# $Date: 2003/08/29 00:20:22 $
 #
 # ====================================================================
 #
@@ -63,10 +63,13 @@ Execute the appropriate cvs checkout or update commands
 """
 import os
 
-from gump import load
+from gump import log, load
 from gump.conf import *
 from gump.model import Module,Repository
-from fnmatch import fnmatch
+from gump.context import *
+from gump.launcher import Cmd,CmdResult,execute
+from gump.logic import *
+from gump.utils import dump
  
 # password encryption table used by cvs
 shifts = [
@@ -91,7 +94,16 @@ shifts = [
 def mangle(passwd):
   return 'A' +''.join(map(chr,[shifts[ord(c)] for c in str(passwd or '')]))
 
-def update(workspace, project_name = 'all'):
+def update(workspace, expr='*', context=GumpContext()):
+        
+  log.info('--- Updating work directories from (CVS) Repositories ')
+
+  modules = getModulesForProjectList(getBuildSequenceForProjects(getProjectsForProjectExpression(expr)))
+      
+  return updateModules(workspace,modules,context)
+  
+def updateModules(workspace, modules, context=GumpContext()):
+    
   # read the list of cvs repositories that the user is already logged into
   password={}
   cvspassfile=os.path.expanduser(os.path.join('~','.cvspass'))
@@ -102,71 +114,109 @@ def update(workspace, project_name = 'all'):
     cvspass.close()
   except:
     pass
-  
-  # determine which modules the user desires (wildcards are permitted)
-  selected=project_name
-
-  # determine which modules are available
-  modules=Module.list.keys()
-  modules.sort()
-
+ 
   os.chdir(workspace.cvsdir)
-  print workspace.cvsdir
+  log.debug("Workspace CVS Directory: " + workspace.cvsdir)
 
-  for name in modules:
-    module=Module.list[name]
+  log.info('Modules to update:') 
+  for module in modules:            
     if not module.cvs: continue
+    log.info('  - ' + module.name)
+    
+  # Update all the modules that have CVS repositories
+  for module in modules:            
+    if not module.cvs: continue
+    
+    name=module.name
 
-    # does this name match
-    for pattern in selected:
-      if fnmatch(name,pattern): break
+    mctxt = context.getModuleContextForModule(module)
+    
+    if mctxt.okToPerformWork():
+        try:
+          log.info("CVS Update Module " + name + ", Repository Name: " + str(module.cvs.repository))
+
+          repository=Repository.list[module.cvs.repository]
+          root=module.cvsroot()
+      
+          log.info("CVS Root " + module.cvsroot() + " Repository: " + str(repository))
+      
+          # log into the cvs repository
+          if repository.root.method=='pserver':
+            newpass=mangle(repository.root.password)
+            if not root in password or password[root]<>newpass:
+              cvspassfile=os.path.expanduser(os.path.join('~','.cvspass'),'a')
+              cvspassfile.write(root+' '+newpass+'\n')
+              cvspassfile.close()
+
+          cmd=Cmd('cvs','update_'+name,workspace.cvsdir)
+          cmd.addParameter('-z3')
+          cmd.addParameter('-d', root)
+    
+          if os.path.exists(name):
+
+            # do a cvs update
+            cmd.addParameter('update')
+            cmd.addParameter('-P')
+            cmd.addParameter('-d')
+            if module.cvs.tag:
+              cmd.addParameter('-r',module.cvs.tag,' ')
+            else:
+              cmd.addParameter('-A')
+            cmd.addParameter(name)
+
+          else:
+
+            # do a cvs checkout
+            cmd.addParameter('checkout')
+            cmd.addParameter('-P')
+            if module.cvs.tag: cmd.addParameter('-r',module.cvs.tag,' ')
+
+            if module.cvs.module<>name: cmd.addParameter('-d',name,' ')
+            cmd.addParameter(module.cvs.module)
+
+          # Execute the command and capture results
+          
+          # Testing...
+          cmdResult=execute(cmd)
+          #cmdResult=dummyExecute(cmd)
+      
+          work=CommandWorkItem(WORK_TYPE_UPDATE,cmd,cmdResult)
+    
+          # Update Context
+          mctxt.performedWork(work)
+      
+            # Update Context w/ Results  
+          if not cmdResult.status==CMD_STATUS_SUCCESS:              
+              log.error('Failed to update module: ' + module.name)        
+              mctxt.propagateState(STATUS_FAILED,REASON_UPDATE_FAILED)
+          else:
+              mctxt.status=STATUS_SUCCESS
+                
+        except Exception, detail:
+        
+          log.error('Failed to update module: ' + module.name + ' : ' + str(detail))
+        
+          mctxt.propagateState(STATUS_FAILED,REASON_UPDATE_FAILED)  
     else:
-      # no match, advance to the next name
-      continue
-
-    repository=Repository.list[module.cvs.repository]
-    root=module.cvsroot()
-
-    # log into the cvs repository
-    if repository.root.method=='pserver':
-      newpass=mangle(repository.root.password)
-      if not root in password or password[root]<>newpass:
-        cvspassfile=os.path.expanduser(os.path.join('~','.cvspass'),'a')
-        cvspassfile.write(root+' '+newpass+'\n')
-        cvspassfile.close()
-
-    if os.path.exists(name):
-
-      # do a cvs update
-      cmd='cvs -d '+ root + ' update'
-      if module.cvs.tag:
-        cmd+=' -r ' + module.cvs.tag
-      else:
-        cmd+=' -A'
-      cmd+=' '+name
-
-    else:
-
-      # do a cvs checkout
-      cmd='cvs -d '+ root + ' checkout -P'
-      if module.cvs.tag: cmd+=' -r ' + module.cvs.tag
-      if module.cvs.module<>name: cmd+=' -d '+name
-      cmd+=' '+module.cvs.module
-
-    #execute the command
-    print
-    stdout=os.popen(cmd + " 2>&1")
-    line=cmd
-    while line:
-      print line
-      sys.stdout.flush()
-      line=stdout.read()
-  
+        mctxt.propagateState(mctxt.status,mctxt.reason)
+        
 if __name__=='__main__':
 
+  # init logging
+  logging.basicConfig()
+
+  #set verbosity to show all messages of severity >= default.logLevel
+  log.setLevel(default.logLevel)
+
   args = handleArgv(sys.argv)
+  ws=args[0]
+  ps=args[1]
   
   # load the workspace
-  workspace=load(args[0])
+  workspace=load(ws)
   
-  update(workspace, args[1])
+  context=GumpContext()
+  
+  update(workspace, ps, context)
+  
+  dump(context)

@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/Attic/model.py,v 1.12 2003/05/07 12:42:22 rubys Exp $
-# $Revision: 1.12 $
-# $Date: 2003/05/07 12:42:22 $
+# $Header: /home/stefano/cvs/gump/python/gump/Attic/model.py,v 1.13 2003/08/29 00:20:22 ajack Exp $
+# $Revision: 1.13 $
+# $Date: 2003/08/29 00:20:22 $
 #
 # ====================================================================
 #
@@ -60,16 +60,37 @@
 
 import os,types,traceback,logging
 
-from gump import GumpBase, Named, Single, Multiple
+from gump.xmlutils import SAXDispatcher, GumpXMLObject, Single, Multiple, Named
 from gump.conf import dir, default
+from gump.utils import dump
+from gump import log
 
+"""
+  Gump core functionality depends on this object model.
+
+  An instance of this object model is imported from a set of XML files.
+  
+  Gump uses a sax dispatcher tool, a dependency walker, and this 
+  object model (GOM).
+
+  The idea is that a subclass of GumpModelObject is used for each of the various
+  xml tags which can appear in a gump profile, with a saxdispatcher
+  generating a tree of GumpModelObject objects from the profile, dynamically
+  merging as it finds href references.
+
+  You can then use the dependencies() method to get an ordered, flat vector
+  of the projects in the profile.
+
+  Then there's some basic procedures to work with the GOM, like load().
+
+  For basic usage patterns, look at the gump.view module or the gump.build
+  module.
+"""
 
 ###############################################################################
 # Initialize
 ###############################################################################
 
-# base gump logger
-log = logging.getLogger(__name__)
 
 ###############################################################################
 # Gump Object Model
@@ -78,7 +99,15 @@ log = logging.getLogger(__name__)
 # above, allowing the actual model to be rather simple and compact.
 ###############################################################################
 
-class Workspace(GumpBase):
+class GumpModelObject(GumpXMLObject): 
+
+  def __init__(self,attrs):
+    GumpXMLObject.__init__(self,attrs)
+    # parse out '@@DATE@@'
+    for (name,value) in attrs.items():
+      self.__dict__[name]=value.replace('@@DATE@@',default.date)
+      
+class Workspace(GumpModelObject):
   """Represents a <workspace/> element."""
 
   def init(self):
@@ -87,11 +116,12 @@ class Workspace(GumpBase):
     self.module=Multiple(Module)
     self.repository=Multiple(Repository)
     self.profile=Multiple(Profile)
+    self.version=Single(GumpModelObject)
 
   # provide default elements when not defined in xml
   def complete(self):
     if not self['banner-image']:
-      self['banner-image']="http://jakarta.apache.org/images/jakarta-logo.gif"
+      self['banner-image']=default.bannerimage
     if not self['banner-link']: self['banner-link']="http://jakarta.apache.org"
     if not self.logdir: self.logdir=os.path.join(self.basedir,"log")
     if not self.cvsdir: self.cvsdir=os.path.join(self.basedir,"cvs")
@@ -99,8 +129,14 @@ class Workspace(GumpBase):
     if self.deliver:
       if not self.scratchdir: self.scratchdir=os.path.join(self.basedir,"scratch")
 
+    if not self.email: self.email = default.email
+    if not self.mailserver: self.mailserver = default.mailserver
+    if not self.prefix: self.prefix = default.prefix
+    if not self.signature: self.signature = default.signature
+
+    
 # represents a <profile/> element
-class Profile(Named):
+class Profile(Named,GumpModelObject):
   list={}
   def init(self):
     self.project=Multiple(Project)
@@ -111,10 +147,10 @@ class Profile(Named):
 class Module(Named):
   list={}
   def init(self):
-    self.cvs=Single()
-    self.url=Single()
-    self.description=Single()
-    self.redistributable=Single()
+    self.cvs=Single(GumpModelObject)
+    self.url=Single(GumpModelObject)
+    self.description=Single(GumpModelObject)
+    self.redistributable=Single(GumpModelObject)
     self.project=Multiple(Project)
 
   def cvsroot(self):
@@ -136,7 +172,7 @@ class Module(Named):
   def complete(self,workspace):
     if self.tag and self.cvs: self.cvs.tag=self.tag
     if self.cvs and not self.cvs.module: self.cvs.module=self.name
-    self.srcdir=os.path.join(str(workspace.basedir),self.srcdir or self.name)
+    self.srcdir=os.path.join(workspace.basedir,self.srcdir or self.name)
     for project in self.project:
       if not project.module: project.module=self.name
       if not project.url and self.url: project.url=self.url
@@ -145,11 +181,11 @@ class Module(Named):
 class Repository(Named):
   list={}
   def init(self):
-    self['home-page']=Single()
-    self.title=Single()
-    self.cvsweb=Single()
+    self['home-page']=Single(GumpModelObject)
+    self.title=Single(GumpModelObject)
+    self.cvsweb=Single(GumpModelObject)
     self.root=Single(RepositoryRoot)
-    self.redistributable=Single()
+    self.redistributable=Single(GumpModelObject)
   def complete(self,workspace):
     if self.root:
       if self.user: self.root.user=self.user
@@ -158,13 +194,13 @@ class Repository(Named):
       if self['host-name']: self.root['host-name']=self['host-name']
 
 # represents a <root/> element within a <repository/> element
-class RepositoryRoot(GumpBase):
+class RepositoryRoot(GumpModelObject):
   def init(self):
-    self.method=Single()
-    self.user=Single()
-    self.password=Single()
-    self.hostname=Single()
-    self.path=Single()
+    self.method=Single(GumpModelObject)
+    self.user=Single(GumpModelObject)
+    self.password=Single(GumpModelObject)
+    self.hostname=Single(GumpModelObject)
+    self.path=Single(GumpModelObject)
 
 # represents a <project/> element
 class Project(Named):
@@ -172,21 +208,21 @@ class Project(Named):
   def init(self):
     self.isComplete=0
     self.ant=Single(Ant)
-    self.script=Single()
+    self.script=Single(Script)
     self.depend=Multiple(Depend)
-    self.description=Single()
-    self.url=Single()
+    self.description=Single(GumpModelObject)
+    self.url=Single(GumpModelObject)
     self.option=Multiple(Depend)
-    self.package=Multiple()
+    self.package=Multiple(GumpModelObject)
     self.jar=Multiple(Jar)
     self.home=Single(Home)
-    self.license=Single()
+    self.license=Single(GumpModelObject)
     self.nag=Multiple(Nag)
     self.javadoc=Single(Javadoc)
     self.junitreport=Single(JunitReport)
     self.work=Multiple(Work)
     self.mkdir=Multiple(Mkdir)
-    self.redistributable=Single()
+    self.redistributable=Single(GumpModelObject)
 
   # provide default elements when not defined in xml
   def complete(self,workspace):
@@ -202,7 +238,8 @@ class Project(Named):
       elif self.home.parent:
         self.home=os.path.normpath(os.path.join(workspace.basedir,self.home.parent))
     elif not self.home:
-      if type(self.package) in types.StringTypes:
+      from gump.logic import isPackaged    
+      if isPackaged(self):
         self.home=os.path.join(workspace.pkgdir,self.package)
       elif self.module:
         self.home=Module.list[self.module].srcdir
@@ -217,7 +254,6 @@ class Project(Named):
     # expand properties
     if self.ant: self.ant.expand(self)
 
-
     # ensure that every project that this depends on is complete
     self.isComplete=1
     for depend in self.depend+self.option:
@@ -228,7 +264,7 @@ class Project(Named):
     if self.ant: self.ant.complete(self)
 
     # inherit dependencies:
-    self.inheritDependencies()
+    # Replacing w/ 'map' self.inheritDependencies()
 
   # Determine if this project has any unsatisfied dependencies left
   # on the todo list.
@@ -241,8 +277,12 @@ class Project(Named):
   def addToTodoList(self,todo):
     todo.append(self)
     for depend in self.depend+self.option:
-      project=Project.list[depend.project]
-      if not project in todo: project.addToTodoList(todo)
+      try:
+          project=Project.list[depend.project]
+          if not project in todo: project.addToTodoList(todo)
+      except KeyError:
+          # Lame, but ought handle this earlier...
+          pass
 
   # determine if this project is a prereq of any project on the todo list
   def isPrereq(self,todo):
@@ -256,55 +296,48 @@ class Project(Named):
       if depend.project==name and not depend.noclasspath: return 1
 
   # process all inherited dependencies
-  def inheritDependencies(self):
+#  def inheritDependencies(self):
 
-    for d1 in self.depend+self.option:
-      project=Project.list.get(d1.project,None)
-      if not project: continue
-      inherit=d1.inherit
-      for d2 in project.depend+project.option:
-        if self.hasFullDependencyOn(d2.project): continue
-
+#    for d1 in self.depend+self.option:
+#      project=Project.list.get(d1.project,None)
+#      if not project: continue
+#      inherit=d1.inherit
+#      for d2 in project.depend+project.option:
+#        if self.hasFullDependencyOn(d2.project): continue
+#
         # include the dependency if:
         #   inherit="all"
         #   inherit="hard"
         #   inherit="runtime" and the matching dependency is listed as runtime
         #   if the dependency indicates that the jars are to be inherited
-        include=0
-        if inherit=="all" or inherit=="hard":
-          include=1
-        elif inherit=="runtime" and d2.runtime:
-          include=1
-        elif d2.inherit=="jars":
-          include=1
+#        include=0
+#        if inherit=="all" or inherit=="hard":
+#          include=1
+#        elif inherit=="runtime" and d2.runtime:
+#          include=1
+#        elif d2.inherit=="jars":
+#          include=1
+#
+#        # if the dependency is to be inherited, add it to the appropriate list
+#        if include:
+#          if inherit=="hard" or d2 in project.depend:
+#            self.depend.append(d2)
+#          else:
+#            self.option.append(d2)
+#
+#    return result
 
-        # if the dependency is to be inherited, add it to the appropriate list
-        if include:
-          if inherit=="hard" or d2 in project.depend:
-            self.depend.append(d2)
-          else:
-            self.option.append(d2)
-
-  def classpath(self):
-    result=[]
-
-    # start with the work directories
-    srcdir=Module.list[self.module].srcdir
-    for work in self.work:
-      result.append(os.path.normpath(os.path.join(srcdir,work.nested)))
-
-    # add in depends and options
-    for depend in self.depend+self.option:
-      result+=[jar.path for jar in depend.jars()]
-
-    return result
-
+# represents a <script/> element
+class Script(GumpModelObject):
+  def init(self):
+    self.arg=Multiple(GumpModelObject)
+  
 # represents an <ant/> element
-class Ant(GumpBase):
+class Ant(GumpModelObject):
   def init(self):
     self.depend=Multiple(Depend)
     self.property=Multiple(Property)
-    self.jvmarg=Multiple()
+    self.jvmarg=Multiple(GumpModelObject)
 
   # expand properties - in other words, do everything to complete the
   # entry that does NOT require referencing another project
@@ -337,18 +370,21 @@ class Ant(GumpBase):
 
     for property in self.property: property.complete(project)
 
+
 # represents a <nag/> element
-class Nag(GumpBase):
+class Nag(GumpModelObject):
   def init(self):
-    self.regexp=Multiple()
+    self.regexp=Multiple(GumpModelObject)
+    self.toaddr=Single()
+    self.fromaddr=Single()
 
 # represents a <javadoc/> element
-class Javadoc(GumpBase):
+class Javadoc(GumpModelObject):
   def init(self):
-    self.description=Multiple()
+    self.description=Multiple(GumpModelObject)
 
 # represents a <property/> element
-class Property(GumpBase):
+class Property(GumpModelObject):
   # provide default elements when not defined in xml
   def complete(self,project):
     if self.reference=='home':
@@ -375,47 +411,55 @@ class Property(GumpBase):
               self.value=jar.path
               break
           else:
-            raise str(("jar with id %s was not found in project %s "
-               "referenced by %s") % (self.id, target.name, project.name))
+            self.value=("jar with id %s was not found in project %s " +
+              "referenced by %s") % (self.id, target.name, project.name)
+            log.error(self.value)
         elif len(target.jar)==1:
           self.value=target.jar[0].path
         elif len(target.jar)>1:
-          raise str(("Multiple jars defined by project %s referenced by %s; " +
-             "an id attribute is required to select the one you want") %
-             (target.name, project.name))
+          self.value=("Multiple jars defined by project %s referenced by %s; " + \
+            "an id attribute is required to select the one you want") % \
+              (target.name, project.name)
+          log.error(self.value)
         else:
-          raise str("Project %s referenced by %s defines no jars as output" %
-            (target.name, project.name))
+          self.value=("Project %s referenced by %s defines no jars as output") % \
+            (target.name, project.name)
+          log.error(self.value)
 
-      except:
+      except Exception, details:
+        log.warn( "Cannot resolve jarpath of " + self.project + \
+          " for " + project.name + ". Details: " + str(details))
         log.debug( traceback.format_stack() )
-        log.warn( "Cannot resolve jarpath of " + self.project + " for " + project.name)
-
+        
 # TODO: set up the below elements with defaults using complete()
 
 # represents a <depend/> element
-class Depend(GumpBase):
+class Depend(GumpModelObject):
   def jars(self):
     result=[]
     ids=(self.ids or '').split(' ')
-    for jar in Project.list[self.project].jar:
-      if (not self.ids) or (jar.id in ids): result.append(jar)
+    try:
+        for jar in Project.list[self.project].jar:
+          if (not self.ids) or (jar.id in ids): result.append(jar)
+    except:
+        log.warn('Failed to access project [' + self.project + ']')
+        
     return result
 
 # represents a <description/> element
-class Description(GumpBase): pass
+class Description(GumpModelObject): pass
 
 # represents a <home/> element
-class Home(GumpBase): pass
+class Home(GumpModelObject): pass
 
 # represents a <jar/> element
-class Jar(GumpBase): pass
+class Jar(GumpModelObject): pass
 
 # represents a <junitreport/> element
-class JunitReport(GumpBase): pass
+class JunitReport(GumpModelObject): pass
 
 # represents a <mkdir/> element
-class Mkdir(GumpBase): pass
+class Mkdir(GumpModelObject): pass
 
 # represents a <work/> element
-class Work(GumpBase): pass
+class Work(GumpModelObject): pass

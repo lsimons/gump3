@@ -1,0 +1,15 @@
+<profile name="gump">
+
+  <module href="resources/project1.xml"/>
+  <module href="resources/project2.xml"/>
+
+<!-- CVS Repository definitions -->
+
+  <repository href="resources/repository.xml"/>
+
+<!-- server definitions -->
+
+  <server href="server/server1.xml"/>
+
+</profile>
+
