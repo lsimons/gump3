@@ -38,15 +38,15 @@ import logging
 
 from gump import log
 from gump.core.gumpinit import gumpinit
-from gump.run.gumprun import GumpRun
-from gump.run.gumpset import GumpSet
-from gump.run.options import GumpRunOptions
+from gump.core.run.gumprun import GumpRun
+from gump.core.run.gumpset import GumpSet
+from gump.core.run.options import GumpRunOptions
 from gump.core.commandLine import handleArgv
-from gump.loader.loader import WorkspaceLoader
+from gump.core.loader.loader import WorkspaceLoader
 
-from gump.utils.note import Annotatable
+from gump.util.note import Annotatable
 
-from gump.runner.runner import getRunner
+from gump.core.runner.runner import getRunner
 
 ###############################################################################
 # Initialize

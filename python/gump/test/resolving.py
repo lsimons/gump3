@@ -25,8 +25,8 @@ import types, StringIO
 from gump import log
 import gump.core.config
 from gump.test import *
-from gump.document.text.resolver import *
-from gump.document.xdocs.resolver import *
+from gump.actor.document.text.resolver import *
+from gump.actor.document.xdocs.resolver import *
 
 from gump.test.pyunit import UnitTestSuite
 
@@ -51,7 +51,7 @@ class ResolvingTestSuite(UnitTestSuite):
         self.ant2=self.project2.getAnt()
         
     def checkRelativePath(self,path1,path2):      
-        rpath=gump.document.resolver.getRelativePath(path1,path2)
+        rpath=gump.actor.document.resolver.getRelativePath(path1,path2)
     
         self.assertNotNone('Relative Path: ', rpath)
 

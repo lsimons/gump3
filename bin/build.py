@@ -35,11 +35,11 @@ import sys
 
 from gump import log
 from gump.core.gumpinit import gumpinit
-import gump.run.gumprun
-import gump.run.options
+import gump.core.run.gumprun
+import gump.core.run.options
 from gump.core.commandLine import handleArgv
-from gump.runner.runner import getRunner
-from gump.loader.loader import WorkspaceLoader
+from gump.core.runner.runner import getRunner
+from gump.core.loader.loader import WorkspaceLoader
 
 
 ###############################################################################
@@ -62,10 +62,10 @@ if __name__=='__main__':
     options.setText(True)
     
     # 
-    options.setObjectives(gump.run.options.OBJECTIVE_BUILD)
+    options.setObjectives(gump.core.run.options.OBJECTIVE_BUILD)
     
     # The Run Details...
-    run=gump.run.gumprun.GumpRun(workspace,ps,options)
+    run=gump.core.run.gumprun.GumpRun(workspace,ps,options)
         
     #
     #    Perform this integration run...

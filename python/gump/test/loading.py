@@ -26,9 +26,9 @@ import logging
 import types, StringIO
 
 from gump import log
-from gump.loader.loader import *
+from gump.core.loader.loader import *
 
-from gump.utils import *
+from gump.util import *
 from gump.test.pyunit import UnitTestSuite
 
 class LoadingTestSuite(UnitTestSuite):

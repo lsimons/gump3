@@ -21,7 +21,7 @@ __license__   = "http://www.apache.org/licenses/LICENSE-2.0"
 
 
 #
-# $Header: /home/stefano/cvs/gump/python/gump/update.py,v 1.31 2004/07/19 16:07:53 ajack Exp $
+# $Header: /home/stefano/cvs/gump/python/gump.core.update.py,v 1.31 2004/07/19 16:07:53 ajack Exp $
 # 
 
 """
@@ -38,11 +38,11 @@ import logging
 
 from gump import log
 from gump.core.gumpinit import gumpinit
-from gump.runner.runner import getRunner
-import gump.run.options
-from gump.run.gumprun import *
+from gump.core.runner.runner import getRunner
+import gump.core.run.options
+from gump.core.run.gumprun import *
 from gump.core.commandLine import handleArgv
-from gump.loader.loader import WorkspaceLoader
+from gump.core.loader.loader import WorkspaceLoader
 
 
 ###############################################################################
@@ -71,7 +71,7 @@ if __name__=='__main__':
     options.setText(True)
     
     # 
-    options.setObjectives(gump.run.options.OBJECTIVE_UPDATE)    
+    options.setObjectives(gump.core.run.options.OBJECTIVE_UPDATE)    
     
     # The Run Details...
     run=GumpRun(workspace,ps,options)

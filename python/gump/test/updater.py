@@ -26,7 +26,7 @@ import gump.core.config
 from gump.test import getWorkedTestRun
 from gump.test.pyunit import UnitTestSuite
 
-from gump.update.updater import GumpUpdater
+from gump.core.update.updater import GumpUpdater
 
 class UpdaterTestSuite(UnitTestSuite):
     def __init__(self):
