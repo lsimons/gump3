@@ -1163,5 +1163,35 @@
 
     </project>
 
+    <project name="merlin-cli">
+        <package>org.apache.avalon.merlin</package>
+        <ant basedir="merlin/kernel/cli" target="jar">
+            <property name="project.version" value="@@DATE@@"/>
+        </ant>
+
+        <depend project="ant" inherit="runtime"/>
+        <depend project="junit"/>
+        <depend project="xml-xerces"/>
+        <depend project="merlin-api"/>
+        <depend project="avalon-repository-api"/>
+        <depend project="avalon-repository-spi"/>
+        <depend project="avalon-repository-util"/>
+        <depend project="avalon-repository-main"/>
+        <depend project="avalon-util-i18n" />
+        <depend project="commons-cli" />
+
+        <mkdir dir="merlin/kernel/cli/target/classes"/>
+        <work nested="merlin/kernel/cli/target/classes"/>
+        <mkdir dir="merlin/kernel/cli/target/test-classes"/>
+        <work nested="merlin/kernel/cli/target/test-classes"/>
+        <home nested="merlin/kernel/cli"/>
+        <jar name="target/merlin-cli-@@DATE@@.jar"/>
+        <javadoc nested="merlin/kernel/cli/target/docs/apidocs"/>
+        <nag to="dev@avalon.apache.org" 
+          from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"/>
+
+    </project>
+
+
 </module>
 
