@@ -71,6 +71,7 @@
     <depend project="jakarta-struts"/>
     <depend project="jakarta-oro"/>
     <depend project="jakarta-poi"/>
+    <depend project="xml-im-exporter"/>
     <depend project="xmlunit"/>
     <option project="jakarta-taglibs-standard" ids="jstl standard"/>
 
