@@ -52,7 +52,7 @@
         <work nested="info/build/classes"/>
 
         <home nested="info"/>
-        <jar name="build/lib/excalibur-info-@@DATE@@.jar"/>
+        <jar name="build/lib/sandbox-info-@@DATE@@.jar"/>
 
         <nag from="Peter Donald &lt;peter@apache.org&gt;"
             to="avalon-dev@jakarta.apache.org"/>
