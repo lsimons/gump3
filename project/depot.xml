@@ -30,14 +30,14 @@
         <package>org.apache.depot.common</package>
 
         <!-- Work dirs to be included in classpath  -->
-        <work nested="common/target/classes"/>
-        <home nested="common/dist"/>
+        <work nested="common/build/depot-common/classes"/>
+        <home nested="common"/>
 
         <depend project="ant" inherit="runtime"/>
         <depend project="antworks-importer"/>
         <depend project="antworks-antlets"/>
 
-        <jar name="depot-common-gump-@@DATE@@.jar"/>
+        <jar name="dist/depot-common-gump-@@DATE@@.jar"/>
 
         <ant basedir="common" buildfile="build.xml" target="gump" vm="1.4">
           <property name="ant.home" project="ant" reference="home" />
@@ -55,8 +55,8 @@
         <package>org.apache.depot.common.test</package>
 
         <!-- Work dirs to be included in classpath  -->
-        <work nested="common/target/tests"/>
-        <home nested="common/dist"/>
+        <work nested="common/build/depot-common/classes"/>
+        <home nested="common"/>
 
         <depend project="depot-common" inherit="all"/>
         <depend project="xml-xerces"/>
@@ -81,13 +81,13 @@
         <package>org.apache.depot.version</package>
 
         <!-- Work dirs to be included in classpath  -->
-        <work nested="version/target/classes"/>
-        <home nested="version/dist"/>
+        <work nested="version/build/depot-version/classes"/>
+        <home nested="version"/>
 
         <depend inherit="runtime" project="ant"/>
         <depend project="depot-common" inherit="all"/>
 
-        <jar name="depot-version-gump-@@DATE@@.jar"/>
+        <jar name="dist/depot-version-gump-@@DATE@@.jar"/>
 
         <ant basedir="version" buildfile="build.xml" target="gump" vm="1.4">
           <property name="ant.home" project="ant" reference="home" />
@@ -106,8 +106,8 @@
         <package>org.apache.depot.version.test</package>
 
         <!-- Work dirs to be included in classpath  -->
-        <work nested="version/target/tests"/>
-        <home nested="version/dist"/>
+        <work nested="version/depot-version/junit/classes"/>
+        <home nested="version/"/>
 
         <depend project="depot-version" inherit="all"/>
         <depend project="xml-xerces"/>
@@ -189,8 +189,8 @@
         <package>org.apache.depot.update.test</package>
 
         <!-- Work dirs to be included in classpath  -->
-        <work nested="update/build/junit/classes/"/>
-        <home nested="update/dist"/>
+        <work nested="update/build/depot-update/junit/classes/"/>
+        <home nested="update"/>
 
         <depend project="depot-update" inherit="all"/>
         <depend project="ant-testutil"/>
