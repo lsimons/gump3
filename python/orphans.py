@@ -11,10 +11,10 @@ import os
 
 class Workspace(ContentHandler):
     cvsdir = None
-    jardir = None
     pkgdir = None
     logdir = None
     basedir = None
+    jardir = ""
     modules=[]
     packages=[]
     def startElement(self, name, attrs):
@@ -23,7 +23,7 @@ class Workspace(ContentHandler):
             self.pkgdir = attrs['pkgdir']
             self.cvsdir = attrs['cvsdir']
             self.basedir = attrs['basedir']
-            self.jardir = attrs['jardir']
+            if 'jardir' in attrs: self.jardir = attrs['jardir']
             self.logdir = attrs['logdir']
 	if name == 'module':
 	    attrs=dict(attrs)
