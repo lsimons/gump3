@@ -72,7 +72,6 @@
     <depend project="xml-xerces"/>
     <depend project="jakarta-tomcat-util"/>
     <depend project="jakarta-servletapi-5-servlet"/>
-    <depend project="jakarta-tomcat-catalina" />
     <depend project="commons-logging"/>
     <depend project="commons-modeler"/>
 

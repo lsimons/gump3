@@ -78,6 +78,7 @@
     <option project="avalon"/>
     <option project="avalon-phoenix"/>
     <depend project="jakarta-tomcat-util" runtime="true"/>
+    <depend project="jakarta-tomcat-coyote_tc5"/>
     <depend project="jakarta-servletapi-5-servlet"/>
     <depend project="jakarta-servletapi-5-jsp"/>
     <depend project="jakarta-regexp"/>
