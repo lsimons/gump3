@@ -306,7 +306,7 @@
     <mkdir dir="interaction/src/test/"/>
 
     <ant basedir="interaction" target="jar">
-      <property name="final.name"  value="commons-jelly-tags-http-@@DATE@@"/>
+      <property name="final.name"  value="commons-jelly-tags-interaction-@@DATE@@"/>
     </ant>
 
     <depend project="commons-jelly" inherit="all"/>
