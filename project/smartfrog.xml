@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<module name="smartfrog">
+
+  <url href="http://smartfrog.org/"/>
+  <description>
+    Smartfrog: Distributed Application Deployment Framework from HP Laboratories
+  </description>
+  <redistributable/>
+
+  <cvs repository="sourceforge" host-prefix="cvs.smartfrog" dir="smartfrog"/>
+
+  <project name="smartfrog">
+    <package>org.smartfrog</package>
+
+    <ant basedir="core/smartfrog" target="dist" />
+    <depend project="ant" runtime="false"/>
+    <depend project="junit" runtime="false"/>
+    <depend project="commons-logging" runtime="true"/>
+    <depend project="jakarta-log4j" runtime="true"/>
+    <!-- //may need to get javacc from java.net before building. 
+    <depend project="javaCC" runtime="false"/> 
+    -->
+
+    <home nested="core/smartfrog/dist"/>
+    <jar name="dist/sfServices.jar" id="smartfrog-services" />
+    <jar name="dist/sfExamples.jar" id="smartfrog-examples" />
+
+    <license name="LICENSE.txt"/>
+    <!-- <javadoc nested="doc/javadocs"/> -->
+    <nag from="Smartfrog &lt;smartfrog@users.sf.net&gt;"
+        to="smartfrog-developer@lists.sourceforge.net.">
+      <regexp subject="[Gump:Smartfrog] Build Failure"/>
+    </nag>
+
+  </project>
+
+</module>
