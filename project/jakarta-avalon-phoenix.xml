@@ -15,9 +15,9 @@
       <depend property="logkit.jar" project="jakarta-avalon-logkit"/>
       <depend property="framework.jar" project="jakarta-avalon"/>
       <depend property="excalibur.jar" 
-        project="jakarta-avalon-excalibur" id="avalon-excalibur"/>
+        project="jakarta-avalon-excalibur" id="excalibur-core"/>
       <depend property="scratchpad.jar" 
-        project="jakarta-avalon-excalibur" id="avalon-scratchpad"/>
+        project="jakarta-avalon-excalibur" id="excalibur-scratchpad"/>
     </ant>
 
     <depend project="excalibur-io" runtime="true"/>
