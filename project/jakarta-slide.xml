@@ -41,6 +41,8 @@
     </ant>
 
     <depend project="commons-collections"/>
+    <depend project="commons-dbcp"/>
+    <depend project="commons-pool"/>
     <depend project="dist-ant" />
     <depend project="xml-xerces"/>
     <depend project="xml-xalan2"/>
