@@ -57,8 +57,7 @@ def getGroupUpdateCommand(group,repository):
     cmd.addParameter('-rs','gump')
         
     # Target
-    cmd.addParameter('-t')
-    cmd.addParameter(repository)  
+    cmd.addParameter('-t',repository)  
    
     return cmd    
     

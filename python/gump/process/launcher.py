@@ -93,9 +93,9 @@ def executeIntoResult(cmd,result,tmp=dir.tmp):
                                     ' >>' + str(outputFile) + ' 2>&1'
                                     
         log.debug('Executing: ' + execString)
-        log.debug('     Exec: ' + str(execFile))
-        log.debug('   Output: ' + str(outputFile))
-        log.debug('Full Exec: ' + fullExec)
+        #log.debug('     Exec: ' + str(execFile))
+        #log.debug('   Output: ' + str(outputFile))
+        #log.debug('Full Exec: ' + fullExec)
         
         # Execute Command & Wait
         systemReturn=os.system(fullExec)

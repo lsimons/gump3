@@ -435,7 +435,7 @@ class GumpBuilder(gump.run.gumprun.RunSpecific):
                     jar.setPath(path)
                 else:
                     log.info('Failed to find artifact for id %s (Gump Repo has %s)' % \
-                            (id, artifact.keys()))
+                            (id, artifacts.keys()))
                             
                     artifactsOk=False
                     break
