@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/forrest.py,v 1.46 2004/01/09 19:57:20 ajack Exp $
-# $Revision: 1.46 $f
-# $Date: 2004/01/09 19:57:20 $
+# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/forrest.py,v 1.47 2004/01/09 21:19:39 ajack Exp $
+# $Revision: 1.47 $f
+# $Date: 2004/01/09 21:19:39 $
 #
 # ====================================================================
 #
@@ -752,13 +752,12 @@ class ForrestDocumenter(Documenter):
         if module.cause and not module==module.cause:
              self.insertTypedLink( module.cause, module, stateList.createEntry( "Root Cause: ")) 
              
-        self.documentAnnotations(stateSection,module)
+        self.documentAnnotations(document,module)
         
         projectsSection=document.createSection('Projects') 
         if (len(module.getProjects()) > 1):
             self.documentSummary(projectsSection,module.getProjectSummary())
-            
-                                  
+                                            
         if (len(module.getProjects()) > 1):
             ptodosSection=projectsSection.createSection('Projects with Issues')
             ptodosTable=ptodosSection.createTable(['Name','State','Elapsed'])
@@ -802,7 +801,9 @@ class ForrestDocumenter(Documenter):
             projectRow.createData(secsToElapsedString(project.getElapsedSecs())) 
             
         if not pcount: pallTable.createLine('None')
-                   
+                           
+        self.documentWorkList(document,module,'Module-level Work')
+        
         addnSection=document.createSection('Additional Details')
         addnPara=addnSection.createParagraph()
         addnPara.createLink(gumpSafeName(module.getName()) + '_details.html',	\
@@ -860,8 +861,6 @@ class ForrestDocumenter(Documenter):
     #   x.write('<p><strong>Module Config :</strong> <link href=\'xml.html\'>XML</link></p>')
             
         self.documentXML(detailSection,module)
-        
-        self.documentWorkList(document,module,'Module-level Work')
 
         document.serialize()
       
@@ -917,7 +916,7 @@ class ForrestDocumenter(Documenter):
         if project.cause and not project==project.cause:
              self.insertTypedLink( project.cause, project, stateList.createEntry( "Root Cause: ")) 
              
-        self.documentAnnotations(stateSection,project)        
+        self.documentAnnotations(document,project)        
             
         detailsSection=document.createSection('Details')
         
@@ -942,7 +941,7 @@ class ForrestDocumenter(Documenter):
         # Note: Leverages previous extraction from project statistics DB
         stats=project.getStats()
         
-        statsSection=detailsSection.createSection('Statistics')  
+        statsSection=document.createSection('Statistics')  
         statsTable=statsSection.createTable()           
         statsTable.createEntry("FOG Factor: ", round(stats.getFOGFactor(),2))
         statsTable.createEntry("Successes: ", stats.successes)
@@ -955,6 +954,7 @@ class ForrestDocumenter(Documenter):
         if stats.last:
             statsTable.createEntry("Last Success: ", secsToDate(stats.last))
                 
+        self.documentWorkList(document,project,'Project-level Work')  
                 
         addnSection=document.createSection('Additional Details')
         addnPara=addnSection.createParagraph()
@@ -974,9 +974,7 @@ class ForrestDocumenter(Documenter):
                     project.getDependees(), 1, project)
  
     #    x.write('<p><strong>Project Config :</strong> <link href=\'%s\'>XML</link></p>' \
-    #                % (getModuleProjectRelativeUrl(modulename,project.name)) )
-            
-        self.documentWorkList(document,project,'Project-level Work')           
+    #                % (getModuleProjectRelativeUrl(modulename,project.name)) )                     
            
         miscSection=document.createSection('Miscellaneous')
             
