@@ -84,7 +84,7 @@ java org.apache.xalan.xslt.Process -EDUMP -text -in work\pubsite.xml -xsl styles
 if not errorlevel 0 goto fail
 
 echo Generate editing instructions
-java org.apache.xalan.xslt.Process -text -in work\merge.xml -xsl stylesheet\sedmap.xsl -out work\map.sed
+java org.apache.xalan.xslt.Process -text -in work\merge.xml -xsl stylesheet\sedmap.xsl -out work\map.pl
 if not errorlevel 0 goto fail
 
 REM ********************************************************************

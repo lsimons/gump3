@@ -107,7 +107,7 @@ export FAIL=1
 
 echo Generate editing instructions
 test -n "$FAIL" || \
-java org.apache.xalan.xslt.Process -text -in work/merge.xml -xsl stylesheet/sedmap.xsl -out work/map.sed || \
+java org.apache.xalan.xslt.Process -text -in work/merge.xml -xsl stylesheet/sedmap.xsl -out work/map.pl || \
 export FAIL=1
 
 # **** publish ***

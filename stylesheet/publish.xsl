@@ -31,7 +31,7 @@
         <menu/>
 
         <content>
-          <sed script="map.sed"/>
+          <sed script="map.pl"/>
         </content>
 
       </html>

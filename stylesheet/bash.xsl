@@ -150,9 +150,9 @@
   </xsl:template>
 
   <xsl:template match="sed">
-    <xsl:text>eval "sed -f </xsl:text>
+    <xsl:text>eval "perl </xsl:text>
     <xsl:value-of select="@script"/>
-    <xsl:text> &lt; ../$1 $OUT"&#10;</xsl:text>
+    <xsl:text> ../$1 $OUT"&#10;</xsl:text>
   </xsl:template>
 
   <!-- =================================================================== -->
