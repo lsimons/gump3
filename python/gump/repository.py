@@ -71,7 +71,7 @@ from gump.context import *
 from shutil import copyfile
 
 
-class Repository:
+class JarRepository:
     """Contains Repository Contents"""
     def __init__(self,root):
         self.root=root
@@ -135,7 +135,7 @@ if __name__=='__main__':
   from gump import load
   workspace=load(ws, context)
 
-  repo=Repository(workspace.jardir)
+  repo=JarRepository(workspace.jardir)
   
   repo.publish('testgroup','test.jar')
   

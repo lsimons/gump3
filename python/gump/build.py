@@ -1,8 +1,8 @@
 #!/usr/bin/python
 
-# $Header: /home/stefano/cvs/gump/python/gump/build.py,v 1.19 2003/10/07 19:19:31 ajack Exp $
-# $Revision: 1.19 $
-# $Date: 2003/10/07 19:19:31 $
+# $Header: /home/stefano/cvs/gump/python/gump/build.py,v 1.20 2003/10/07 19:26:58 ajack Exp $
+# $Revision: 1.20 $
+# $Date: 2003/10/07 19:26:58 $
 #
 # ====================================================================
 #
@@ -74,6 +74,7 @@ import logging
 from gump import log, load
 from gump.context import *
 from gump.logic import getBuildSequenceForProjects, getBuildCommand, getProjectsForProjectExpression, getModulesForProjectList
+from gump.repository import JarRepository
 from gump.conf import dir, default, handleArgv
 from gump.model import Workspace, Module, Project
 from gump.launcher import Cmd, CmdResult, execute
@@ -170,7 +171,7 @@ def buildProjects( workspace, sequence, context=GumpContext() ):
   log.info('--- Building work directories with sources')
 
   # Place repository in jardir (to be renamed to repodir)
-  repository=Repository(workspace.jardir)
+  repository=JarRepository(workspace.jardir)
 
   # build all projects this project depends upon, then the project itself
   for project in sequence:
