@@ -361,7 +361,7 @@ class GumpRunOptions:
         
         # If using Forrest, this say leave xdocs, do NOT run
         # the 'forrest' build inlined.
-        self.xdoc=0
+        self.xdocs=0
         
         # The implementation that will do it...
         self.documenter=TextDocumenter()
@@ -401,11 +401,11 @@ class GumpRunOptions:
     def setTemplate(self,template):
         self.template=template
         
-    def isXDoc(self):
-        return self.xdoc
+    def isXDocs(self):
+        return self.xdocs
         
-    def setXDoc(self,xdoc):
-        self.xdoc=xdoc
+    def setXDocs(self,xdocs):
+        self.xdocs=xdocs
         
     def isCache(self):
         return self.cache

@@ -92,7 +92,7 @@ class ForrestDocumenter(Documenter):
         #
         ret=0
         
-        if not runOptions.isXDoc():
+        if not runOptions.isXDocs():
             ret=self.executeForrest(workspace)
         else:
             ret=self.syncXDocs(workspace)
