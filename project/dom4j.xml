@@ -21,6 +21,7 @@
     <depend project="jaxen"/>
     <depend project="xmldb"/>
     <depend project="msv"/>
+    <depend project="relaxng"/>
     <jar name="build/dom4j.jar" id="dom4j"/>
   </project>
 
@@ -36,6 +37,15 @@
     </description>
     <url href="http://www.sun.com/software/xml/defelopers/mulwischema/"/>
     <jar name="lib/msv.jar"/>
+    <jar name="lib/xsdlib.jar"/>
+  </project>
+
+  <project name="relaxng">
+    <description>
+      the next generation schema language for XML: clean, simple and powerful
+    </description>
+    <url href="http://sourceforge.net/projects/relaxng"/>
+    <jar name="lib/relaxngDatatype.jar"/>
   </project>
 
 </module>
