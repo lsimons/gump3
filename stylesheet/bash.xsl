@@ -1,5 +1,6 @@
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0">
   <xsl:strip-space elements="*"/>
+  <xsl:param name="cmd-prefix"/>
 
   <xsl:template name="select">
     <xsl:param name="usage"/>
@@ -284,7 +285,13 @@
   <xsl:template match="ant">
 
     <xsl:text>if test "$STATUS" = "SUCCESS"; then \&#10;</xsl:text>
-    <xsl:text>eval "java org.apache.tools.ant.Main</xsl:text>
+    <xsl:text>eval </xsl:text>
+    <xsl:if test="$cmd-prefix">
+       <xsl:text>"</xsl:text>
+       <xsl:value-of select="$cmd-prefix"/>
+       <xsl:text>" </xsl:text>
+    </xsl:if>
+    <xsl:text>"java org.apache.tools.ant.Main</xsl:text>
 
     <xsl:if test="@buildfile">
       <xsl:text> -buildfile </xsl:text>
@@ -469,7 +476,13 @@
 
     <xsl:text>eval "echo $CMD $OUT"&#10;</xsl:text>
     <xsl:text>eval "echo $OUT"&#10;</xsl:text>
-    <xsl:text>eval "$CMD $OUT 2&gt;&amp;1" ||\&#10;</xsl:text>
+    <xsl:text>eval </xsl:text>
+    <xsl:if test="$cmd-prefix">
+       <xsl:text>"</xsl:text>
+       <xsl:value-of select="$cmd-prefix"/>
+       <xsl:text>" </xsl:text>
+    </xsl:if>
+    <xsl:text>"$CMD $OUT 2&gt;&amp;1" ||\&#10;</xsl:text>
     <xsl:text>export STATUS=FAILED&#10;</xsl:text>
 
   </xsl:template>
