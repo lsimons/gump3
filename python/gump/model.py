@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/Attic/model.py,v 1.7 2003/05/04 08:49:06 nicolaken Exp $
-# $Revision: 1.7 $
-# $Date: 2003/05/04 08:49:06 $
+# $Header: /home/stefano/cvs/gump/python/gump/Attic/model.py,v 1.8 2003/05/04 19:39:50 rubys Exp $
+# $Revision: 1.8 $
+# $Date: 2003/05/04 19:39:50 $
 #
 # ====================================================================
 #
@@ -126,8 +126,24 @@ class Module(Named):
     self.redistributable=Single()
     self.project=Multiple(Project)
 
+  def cvsroot(self):
+    if not self.cvs: return
+    repository=Repository.list[self.cvs.repository]
+
+    root=':' + str(repository.root.method) + ':'
+    if repository.root.user: root+=str(repository.root.user)
+    if repository.root.hostname:
+      root+='@'
+      if self.cvs['host-prefix']: root+=self.cvs['host-prefix']+'.'
+      root+=str(repository.root.hostname) + ':'
+    root+=str(repository.root.path)
+    if self.cvs.dir: root+='/'+str(self.cvs.dir)
+
+    return root
+
   # provide default elements when not defined in xml
   def complete(self,workspace):
+    if self.tag and self.cvs: self.cvs.tag=self.tag
     self.srcdir=os.path.join(str(workspace.basedir),self.srcdir or self.name)
     for project in self.project:
       if not project.module: project.module=self.name
@@ -141,6 +157,12 @@ class Repository(Named):
     self.cvsweb=Single()
     self.root=Single(RepositoryRoot)
     self.redistributable=Single()
+  def complete(self,workspace):
+    if self.root:
+      if self.user: self.root.user=self.user
+      if self.path: self.root.path=self.path
+      if self.method: self.root.method=self.method
+      if self['host-name']: self.root['host-name']=self['host-name']
 
 # represents a <root/> element within a <repository/> element
 class RepositoryRoot(GumpBase):

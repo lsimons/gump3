@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/__init__.py,v 1.6 2003/05/02 01:31:10 rubys Exp $
-# $Revision: 1.6 $
-# $Date: 2003/05/02 01:31:10 $
+# $Header: /home/stefano/cvs/gump/python/gump/__init__.py,v 1.7 2003/05/04 19:39:50 rubys Exp $
+# $Revision: 1.7 $
+# $Date: 2003/05/04 19:39:50 $
 #
 # ====================================================================
 #
@@ -288,6 +288,13 @@ class Single(object):
   def __nonzero__(self):
     return self.delegate
 
+  def __setitem__(self,name,value):
+    self.delegate[name]=value
+
+  def __getitem__(self,name):
+    if name in self.delegate.__dict__: return self.delegate.__dict__[name]
+
+
 class Multiple(list):
   """Properties which can hold multiple instances."""
 
@@ -351,10 +358,11 @@ def load(file):
 
     raise IOError, 'workspace '+file+' not found'
 
-  from gump.model import Workspace, Module, Project
+  from gump.model import Workspace, Repository, Module, Project
   workspace=SAXDispatcher(file,'workspace',Workspace).docElement
   workspace.complete()
 
+  for repository in Repository.list.values(): repository.complete(workspace)
   for module in Module.list.values(): module.complete(workspace)
   for project in Project.list.values(): project.complete(workspace)
   return workspace
