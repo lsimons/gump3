@@ -74,7 +74,7 @@ class VFS:
             identified by the argument and returns it as a file-like object.
             Note that the returned file must be closed as normal!
     """
-    def __init__(self, filesystem_root = None, cachedir = None):
+    def __init__(self, filesystem_root=None, cachedir=None):
         """
         Create a new VFS. Arguments:
             
@@ -87,12 +87,12 @@ class VFS:
                           be used as the cache for downloaded files.
         """
         if filesystem_root:
-            self.filesystem_root = os.path.abspath(filesystem_root)
+            self.filesystem_root = os.path.normpath(os.path.abspath(filesystem_root))
         else:
             self.filesystem_root = None
             
         if cachedir:
-            self.cachedir = os.path.abspath(cachedir)
+            self.cachedir = os.path.normpath(os.path.abspath(cachedir))
         else:
             self.cachedir = None
     
@@ -128,7 +128,7 @@ class VFS:
             urllib.urlretrieve(url, path)
             return open(path)
         else:
-            return urllib.urlopen(path)
+            return urllib.urlopen(url)
 
     def _get_file_as_stream(self, path):
         """Get access to a local file as a stream for reading.
@@ -169,7 +169,7 @@ class VFS:
         if not os.path.exists(serverdir): os.mkdir(serverdir)
 
         filebase = string.replace(path, '/', '_')
-        filename = self._safe_filename(filebase + '___' + query + '___' + fragment_idenfitier)
+        filename = self._safe_filename(filebase + '___' + query + '___' + fragment_identifier)
         
         # we can be *reasonably* sure there's no two urls that result in
         # this same path...
