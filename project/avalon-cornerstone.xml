@@ -13,11 +13,6 @@
 
   <cvs repository="avalon"/>
 
-    <!-- deprecated! -->
-    <project name="jakarta-avalon-cornerstone">
-      <depend project="avalon-cornerstone" inherit="jars"/>
-    </project>
-
   <project name="avalon-cornerstone">
     <package>org.apache.avalon.cornerstone</package>
 

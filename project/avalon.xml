@@ -7,11 +7,6 @@
 
   <cvs repository="avalon"/>
 
-  <!-- deprecated! -->
-  <project name="jakarta-avalon">
-    <depend project="avalon" inherit="jars"/>
-  </project>
-
   <project name="avalon">
     <package>org.apache.avalon.framework</package>
 
@@ -34,11 +29,6 @@
     <nag from="Peter Donald &lt;peter@apache.org&gt;"
             to="dev@avalon.apache.org"/>
   </project>
-
-    <!-- deprecated! -->
-    <project name="jakarta-avalon-dist">
-      <depend project="avalon-dist" inherit="jars"/>
-    </project>
 
     <project name="avalon-junitreport">
         <ant target="test-report">
@@ -78,11 +68,6 @@
 
     <license name="LICENSE.txt"/>
   </project>
-
-    <!-- deprecated! -->
-    <project name="jakarta-avalon-exceptionutil">
-      <depend project="avalon-exceptionutil" inherit="jars"/>
-    </project>
 
   <project name="avalon-exceptionutil">
     <depend project="ant" inherit="runtime"/>
