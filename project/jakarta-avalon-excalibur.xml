@@ -633,8 +633,7 @@
         <depend project="jakarta-ant" inherit="runtime"/>
         <option project="checkstyle" inherit="runtime"/>
         <depend project="junit"/>
-	<depend project="xjavadoc" runtime="true" inherit="runtime"/>
-	<depend project="xdoclet" runtime="true" inherit="runtime"/>
+	<depend project="excalibur-qdox" runtime="true" inherit="runtime"/>
         <depend project="jakarta-avalon" runtime="true"/>
         <depend project="excalibur-i18n" runtime="true"/>
         <depend project="xml-xerces"/>
@@ -646,6 +645,10 @@
 
         <nag from="Peter Donald &lt;peter@apache.org&gt;"
             to="avalon-dev@jakarta.apache.org"/>
+    </project>
+
+    <project name="excalibur-qdox">
+        <jar name="info/lib/qdox-20021112.jar"/>
     </project>
 
     <project name="excalibur-instrument">
