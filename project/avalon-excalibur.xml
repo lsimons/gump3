@@ -127,12 +127,12 @@
     <project name="excalibur-configuration">
         <package>org.apache.excalibur.configuration</package>
 
-    <ant basedir="configuration" target="dist">
+        <ant basedir="configuration" target="dist">
             <property name="project.name" value="excalibur-configuration"/>
             <property name="package-version" value="@@DATE@@"/>
             <property name="junit.failonerror" value="true"/>
             <property name="do.checkstyle" value="false"/>
-        <property name="skip.dependencies" value="true"/>
+            <property name="skip.dependencies" value="true"/>
 
         <!-- runtime dependencies -->
             <depend property="avalon-framework.jar" project="avalon-framework" runtime="true" id="combined"/>
@@ -487,18 +487,15 @@
                 to="dev@avalon.apache.org"/>
     </project>
 
-    <project name="excalibur-lifecycle-api">
+    <project name="excalibur-lifecycle">
         <package>org.apache.avalon.lifecycle</package>
 
-        <ant basedir="lifecycle/api/src/gump" target="jar">
+        <ant basedir="lifecycle" target="jar">
             <!-- runtime dependencies -->
             <depend property="avalon-framework.jar" project="avalon-framework" runtime="true" id="combined"/>
 
             <!-- test-time dependencies -->
             <depend property="junit.jar" project="junit"/>
-
-            <!-- optional dependencies -->
-            <property name="checkstyle.jar" project="checkstyle" reference="jarpath"/>
 
             <property name="project.version" value="@@DATE@@"/>
         </ant>
@@ -511,60 +508,30 @@
         <!-- optional dependencies -->
         <option project="checkstyle" inherit="runtime"/>
 
+        <mkdir dir="lifecycle/api/target/classes"/>
+        <mkdir dir="lifecycle/api/target/test-classes"/>
+        <mkdir dir="lifecycle/impl/target/classes"/>
+        <mkdir dir="lifecycle/impl/target/test-classes"/>
+        
         <work nested="lifecycle/api/target/classes"/>
         <work nested="lifecycle/api/target/test-classes"/>
-
-        <home nested="lifecycle"/>
-        <jar name="target/excalibur-lifecycle-api-@@DATE@@.jar"/>
-
-        <junitreport nested="lifecycle/target/docs/junitreports"/>
-
-        <nag from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"
-                to="dev@avalon.apache.org"/>
-    </project>
-
-    <project name="excalibur-lifecycle-impl">
-        <package>org.apache.avalon.lifecycle</package>
-
-        <ant basedir="lifecycle/impl/src/gump" target="jar">
-            <!-- runtime dependencies -->
-            <depend property="avalon-framework.jar" project="avalon-framework" runtime="true" id="combined"/>
-            <depend property="excalibur-lifecycle-api.jar" project="excalibur-lifecycle-api"/>
-
-            <!-- test-time dependencies -->
-            <depend property="junit.jar" project="junit"/>
-
-            <!-- optional dependencies -->
-            <property name="checkstyle.jar" project="checkstyle" reference="jarpath"/>
-
-            <property name="project.version" value="@@DATE@@"/>
-        </ant>
-
-        <!-- build-time dependencies -->
-        <depend project="ant" inherit="runtime"/>
-        <depend project="xml-xerces"/>
-        <depend project="xml-xalan2"/>
-
-        <!-- optional dependencies -->
-        <option project="checkstyle" inherit="runtime"/>
-
         <work nested="lifecycle/impl/target/classes"/>
         <work nested="lifecycle/impl/target/test-classes"/>
 
         <home nested="lifecycle"/>
-        <jar name="target/excalibur-lifecycle-impl-@@DATE@@.jar"/>
+        <jar name="target/excalibur-lifecycle-api-@@DATE@@.jar" id="api" />
+        <jar name="target/excalibur-lifecycle-impl-@@DATE@@.jar" id="impl" />
 
         <junitreport nested="lifecycle/target/docs/junitreports"/>
 
         <nag from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"
                 to="dev@avalon.apache.org"/>
     </project>
-    
+
     <project name="excalibur-logger">
         <package>org.apache.avalon.excalibur.logger</package>
 
         <ant basedir="logger" target="jar">
-            <depend property="logkit.jar" project="avalon-logkit" runtime="true"/>
             <property name="package-version" value="@@DATE@@"/>
             <property name="junit.failonerror" value="true"/>
             <property name="do.checkstyle" value="true"/>
@@ -572,12 +539,16 @@
             <property name="project.version" value="@@DATE@@"/>
             <property name="do.not.test" value="true"/>
         </ant>
+        
+        <option project="checkstyle" inherit="runtime"/>
 
         <depend project="ant" inherit="runtime"/>
-        <depend project="excalibur-i18n" inherit="runtime" runtime="true"/>
-        <option project="checkstyle" inherit="runtime"/>
-        <depend project="junit"/>
         <depend project="avalon-framework" runtime="true" id="combined"/>
+        <depend property="logkit.jar" project="avalon-logkit" runtime="true"/>
+        <depend project="jakarta-servletapi-4" runtime="true"/>
+        
+        <depend project="excalibur-i18n" inherit="runtime" runtime="true"/>
+        <depend project="junit"/>
         <depend project="logging-log4j" runtime="true"/>
         <depend project="xml-xerces"/>
         <depend project="xml-xalan2"/>
@@ -598,7 +569,6 @@
         <option project="jms" runtime="true"/>
         <option project="javamail" runtime="true"/>
         <option project="jaf" runtime="true"/>
-        <option project="jakarta-servletapi-4" runtime="true"/>
 
         <work nested="logger/target/classes"/>
 
