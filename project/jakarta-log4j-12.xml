@@ -23,7 +23,7 @@
     <option project="junit"/>
     <option project="javamail"/>
 
-    <home nested="dist"/>
+    <!--home nested="dist"/-->
     <jar  name="lib/log4j-@@DATE@@.jar"/>
     
     <nag to="log4j-dev@jakarta.apache.org"
