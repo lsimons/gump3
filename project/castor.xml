@@ -36,7 +36,7 @@
     <depend project="junit"/>
     <depend project="jtf"/>
     <depend project="XMLDiff"/>
-    <ant basedir="src" target="runtests"/>
+    <ant buildfile="src/build.xml" target="runtests"/>
   </project>
 
   <project name="jtf">
