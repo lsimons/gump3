@@ -26,7 +26,6 @@ from gump.run.gumprun import GumpRun
 from gump.document.documenter import Documenter
 from gump.document.text.documenter import TextDocumenter
 from gump.document.xdocs.documenter import XDocDocumenter
-from gump.stats.statsdb import *
 from gump.test import getWorkedTestRun
 from gump.test.pyunit import UnitTestSuite
 
