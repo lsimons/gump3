@@ -638,7 +638,7 @@
     </xsl:if>
   </xsl:template>
 
-  <xsl:template match="a[count(*)=0]">
+  <xsl:template match="a[count(*)=0 and count(@*)=1]">
     <xsl:text>eval "echo \&lt;a href=\"</xsl:text>
     <xsl:value-of select="@href"/>
     <xsl:text>\"\&gt;</xsl:text>

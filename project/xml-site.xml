@@ -1,5 +1,9 @@
 <module name="xml-site">
 
+  <description>
+    The XML site
+  </description>
+
   <cvs repository="xml"/>
   <project name="xml-site"/>
   

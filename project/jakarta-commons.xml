@@ -1,5 +1,6 @@
 <module name="jakarta-commons">
 
+  <url href="http://jakarta.apache.org/commons/index.html"/>
   <description>
     Jakarta commons
   </description>

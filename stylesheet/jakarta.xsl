@@ -31,9 +31,32 @@
             background-color: #525D76;
             color: #ffffff;
             font-weight: bold; }
+          td.subtitle, a.subtitle:link, a.subtitle:visited {
+            background-color: #828DA6;
+            color: #ffffff;
+            text-decoration: none;
+            font-weight: bold; 
+            font-family: arial, helvetica, sanserif }
           td.note {
             background-color: #B1B7C1;
             color: #000000;
+            font-family: arial, helvetica, sanserif }
+          table.content {
+            border: 0;
+            font-family: arial, helvetica, sanserif }
+          th.content {
+            margin: 0;
+            padding: 2;
+            color: #000000;
+            background-color: #039acc;
+            text-align: left;
+            font-weight: bold; 
+            font-family: arial, helvetica, sanserif }
+          td.content {
+            margin: 0;
+            padding: 2;
+            color: #000000;
+            background-color: #a0ddf0;
             font-family: arial, helvetica, sanserif }
           td.fail {
             background-color: red;
@@ -117,4 +140,28 @@
 
     </html>
   </xsl:template>
+
+
+  <xsl:template match="subsection">
+    <table border="0" cellspacing="0" cellpadding="2" width="100%">
+      <tr>
+        <td class="subtitle">
+          <xsl:value-of select="@name"/>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <blockquote>
+            <xsl:apply-templates/>
+          </blockquote>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <br/>
+        </td>
+      </tr>
+    </table>
+  </xsl:template>
+
 </xsl:stylesheet>

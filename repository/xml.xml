@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 
 <repository name="xml" type="cvs">
-  <title>Jakarta</title>
+  <title>XML</title>
   <home-page>http://xml.apache.org/</home-page>
   <cvsweb>http://cvs.apache.org/viewcvs/</cvsweb>
 

@@ -97,9 +97,24 @@ if not errorlevel 0 goto fail
 
 REM ********************************************************************
 
+echo Generating module xref instructions
+java org.apache.xalan.xslt.Process -xml -in work\merge.xml -xsl stylesheet\modxref.xsl -out work\modxref.xml
+if not errorlevel 0 goto fail
+
+echo Applying web site stylesheet
+java org.apache.xalan.xslt.Process -EDUMP -xml -in work\modxref.xml -xsl stylesheet\jakarta.xsl -out work\modxrefsite.xml
+if not errorlevel 0 goto fail
+
+echo Generating modxref script
+java org.apache.xalan.xslt.Process -EDUMP -text -in work\modxrefsite.xml -xsl stylesheet\win2k.xsl -out work\modxref.bat
+if not errorlevel 0 goto fail
+
+REM ********************************************************************
+
 echo Publishing
 cd work
-puball %SOURCE%
+call modxref
+call puball %SOURCE%
 cd ..
 
 goto eof

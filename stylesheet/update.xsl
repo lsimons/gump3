@@ -45,7 +45,13 @@
           </ul>
         </sidebar>
 
-        <menu/>
+        <menu>
+          <xsl:text>Workspace: </xsl:text>
+          <a href="workspace.html">definition</a>
+          <a href="xref.html">cross reference</a>
+          <a href="modxref.html">modules</a>
+          <a href="index.html">build logs</a>
+        </menu>
 
         <content>
 

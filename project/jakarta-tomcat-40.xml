@@ -1,5 +1,6 @@
 <module name="jakarta-tomcat-4.0">
 
+  <url href="http://jakarta.apache.org/tomcat/index.html"/>
   <description>
     Servlet 2.3 and JSP 1.2 Reference Implementation
   </description>

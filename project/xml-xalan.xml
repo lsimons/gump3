@@ -1,13 +1,13 @@
 <module name="xml-xalan">
 
+  <url href="http://xml.apache.org/xalan-j/index.html"/>
+  <description>
+    Release 2.x of the Xalan-Java XSLT processor
+  </description>
+
   <cvs repository="xml"/>
 
   <project name="xml-xalan2">
-    <url href="http://xml.apache.org/xalan-j/index.html"/>
-    <description>
-      Release 2.x of the Xalan-Java XSLT processor
-    </description>
-
     <ant basedir="java"/>
 
     <depend project="bootstrap-ant"/>
@@ -29,10 +29,6 @@
   </project>
 
   <project name="xml-xalan2-smoketest-tools">
-    <description>
-      Xalan's independent 'qetest' testing framework
-    </description>
-
     <ant basedir="test" buildfile="qetest.xml" target="jar"/>
 
     <depend project="jakarta-ant"/>
@@ -40,11 +36,6 @@
   </project>
 
   <project name="dist-xalan2">
-    <url href="http://xml.apache.org/xalan-j/index.html"/>
-    <description>
-      Release 2.x of the Xalan-Java XSLT processor
-    </description>
-
     <ant basedir="java" target="dist">
       <depend property="bsf.jar" project="bsf"/>
       <depend property="xerces.jar" project="xml-xerces"/>
@@ -69,10 +60,6 @@
   </project>
 
   <project name="xml-xalan2-smoketest">
-    <description>
-      Xalan-J 2.x developer's smoketests
-    </description>
- 
     <ant basedir="test" target="smoketest.gump"/>
  
     <depend project="jakarta-ant"/>

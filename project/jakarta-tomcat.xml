@@ -1,9 +1,9 @@
 <module name="jakarta-tomcat">
 
+  <url href="http://jakarta.apache.org/tomcat/index.html"/>
   <description>
     Servlet 2.2 and JSP 1.1 Reference Implementation
   </description>
-  <url href="http://jakarta.apache.org/tomcat/index.html"/>
 
   <cvs repository="jakarta" />
   
