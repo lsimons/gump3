@@ -40,16 +40,18 @@
     </ant>
 
     <depend project="jakarta-ant" inherit="all"/>
-    <option project="jakarta-bsf"/>
-    <option project="jakarta-regexp"/>
-    <option project="jakarta-oro"/>
-    <option project="jakarta-log4j"/>
-    <option project="jaf"/>
-    <option project="javamail"/>
-    <option project="jakarta-bcel"/>
+
     <option project="antlr"/>
-    <option project="jakarta-servletapi-4" />
     <option project="commons-logging" />
+    <option project="jaf"/>
+    <option project="jakarta-bcel"/>
+    <option project="jakarta-bsf"/>
+    <option project="jakarta-log4j"/>
+    <option project="jakarta-oro"/>
+    <option project="jakarta-regexp"/>
+    <option project="jakarta-servletapi-4" />
+    <option project="javamail"/>
+    <option project="jdepend"/>
     <option project="xml-commons-resolver" />
 
     <home nested="build"/>
