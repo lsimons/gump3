@@ -16,6 +16,7 @@
       <depend property="jdbc20ext.jar" project="jdbc"/>
       <depend property="servlet.jar" project="jakarta-servletapi-4"/>
       <depend property="xerces.jar" project="xml-xerces" id="parser"/>
+      <depend property="antlr.jar" project="antlr"/>
       <depend property="commons-beanutils.jar"   project="commons-beanutils"/>
       <depend property="commons-collections.jar" project="commons-collections"/>
       <depend property="commons-digester.jar"    project="commons-digester"/>
