@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/results/resulter.py,v 1.10 2004/03/03 01:01:27 ajack Exp $
-# $Revision: 1.10 $
-# $Date: 2004/03/03 01:01:27 $
+# $Header: /home/stefano/cvs/gump/python/gump/results/resulter.py,v 1.11 2004/03/03 01:15:49 ajack Exp $
+# $Revision: 1.11 $
+# $Date: 2004/03/03 01:15:49 $
 #
 # ====================================================================
 #
@@ -110,9 +110,11 @@ class Resulter:
                     if isinstance(object,Workspace):                    
                         result=serverResults
                     elif isinstance(object,Module):                    
-                        result=serverResults.getModuleResult(name)
-                    elif isinstance(object,Project):
-                        result=serverResults.getProjectResult(name)
+                        if object.hasModuleResult(name):
+                            result=serverResults.getModuleResult(name)
+                    elif isinstance(object,Project):               
+                        if object.hasProjectResult(name):    
+                            result=serverResults.getProjectResult(name)
                     else:
                         raise RuntimeError('Object [' + object.__class__.__name__ + '] NOT understood for Results')
                 

@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/results/model.py,v 1.4 2004/03/01 18:58:00 ajack Exp $
-# $Revision: 1.4 $
-# $Date: 2004/03/01 18:58:00 $
+# $Header: /home/stefano/cvs/gump/python/gump/results/model.py,v 1.5 2004/03/03 01:15:49 ajack Exp $
+# $Revision: 1.5 $
+# $Date: 2004/03/03 01:15:49 $
 #
 # ====================================================================
 #
@@ -180,6 +180,9 @@ class WorkspaceResult(ResultModelObject):
     	self.moduleResults 	=	{}
     	self.projectResults 	=	{}
 
+    #
+    # Lists...
+    #
     def hasModuleResults(self):
         if self.moduleResults.values(): return 1
         return 0
@@ -192,7 +195,18 @@ class WorkspaceResult(ResultModelObject):
         return 0    
         
     def getProjectResults(self):
-        return self.projectResults.values()
+        return self.projectResults.values()    
+    
+    #
+    # Named...
+    #
+    
+    def hasModuleResult(self,name):
+        if name in self.moduleResults: return 1
+        return 0
+                
+    def getModuleResult(self,name):
+        return self.moduleResults[name]
     
     def hasProjectResult(self,name):
         if name in self.projectResults: return 1
@@ -200,6 +214,7 @@ class WorkspaceResult(ResultModelObject):
         
     def getProjectResult(self,name):
         return self.projectResults[name]
+    
         
     def setModuleResult(self,moduleResult):
         self.moduleResults[moduleResult.getName()] = moduleResult
