@@ -1,30 +1,10 @@
 #!/bin/bash
 #
-# $Header: $
+# $Header: /home/cvs/jakarta-gump/gump.sh,v 1.2 2003/04/08 19:18:58 nickchalko Exp $
 
-# nickchalko:  I thnik we can use  if  [-f local_env.sh ] . local_env.sh  to 
-# set all the stuff below
-# :USER: set GUMP and GUMP WORKSPACE and GUMP LOG DIR here
-#export GUMP=
-#export GUMP_WS=
-#export GUMP_LOG_DIR=
-# Examples...
-# export GUMP=$HOME/jakarta-gump
-# export GUMP_WS=/homelocal/build/gump-ws
-# export GUMP_LOG_DIR=$GUMP_WS/www
-
-#
-#
-# :USER: set your PATH and CLASSPATH and other ENV settings here
-# :USER: ... if you need to, for cron etc.
-#
-# Examples..
-#
-# export PATH=$GUMP/bin:$JAVA_HOME/bin:/usr/local/bin:$PATH
-# export CLASSPATH=$JAVA_HOME/lib/tools.jar
-# export CVS_RSH=`which ssh`
-# export LD_LIBRARY_PATH=/lib:/usr/lib:/usr/local/lib
-# export FORREST_HOME=$HOME/xml-forrest/build/dist/shbat
+if [ -e local-env.sh ] ; then
+	. local-env.sh
+fi
 
 if [ ! $GUMP ] ; then
 	echo "Set the \$GUMP variable to your gump install"
@@ -82,9 +62,7 @@ cp `grep profile $GUMP_HOST.xml  | cut -d\" -f2` $GUMP_PROFILE_LOG_DIR
 #
 echo $SEPARATOR >> $GUMP_LOG
 cd $GUMP
-cd ..
-export CVSROOT=:pserver:anoncvs@cvs.apache.org:/home/cvspublic
-cvs update  >> $GUMP_LOG 2>&1 
+cvs -q update -dP >> $GUMP_LOG 2>&1 
 rm -f .timestamp
 
 
@@ -142,4 +120,48 @@ fi;
 echo \</XMP\> >> $GUMP_LOG
 pkill -P $$ 
 
-# $Log: $
+# $Log: gump.sh,v $
+# Revision 1.2  2003/04/08 19:18:58  nickchalko
+# Here is adams rework.  I moved the cvs log to the bottom, and added a comment about using a local_env.sh file.
+#
+#
+# Commit notes from Adam Jack:
+#
+# I've taken your enhancements and tried to go one step further.
+#
+# I have this accepting three environment variables GUMP/GUMP_WS/GUMP_LOG and
+# try to do everything off those. It exits (with 1 -- that right?) if they are
+# not set. I set those three and it seems to run in my environment. Normally
+# I'd expect folks to hack these entries.
+#
+# 1) I have it copy `hostname -s`.xml (likely workspace) and 'likely profile'
+# and the gump.sh to myprofile:
+#
+# 	cp $GUMP/gump.sh $GUMP_PROFILE_LOG_DIR
+# 	cp $GUMP_HOST.xml  $GUMP_PROFILE_LOG_DIR
+# 	cp `grep profile $GUMP_HOST.xml  | cut -d\" -f2` $GUMP_PROFILE_LOG_DIR
+#
+# 2) I added some CVS headers, but am not sure I got those right.
+#
+# 3) I set it as bash not sh -- that ok?
+#
+# 4) I made it echo some separators, but it could use more verbose information
+# about each section.
+#
+# 5) I made the output be gump.html (better name than gen.html).
+#
+# 6) I don't like the way cron is detected (for running nag.pl) something
+# better is needed.
+#
+# 7) I made it do the CVS update each time, and a build clean each time. Maybe
+# these are overkill.
+#
+# This is a major work in progress (it'd be nice if it output HTML as pretty
+# as build.sh or update.sh) and it needs a few switches (so folks don't have
+# to do everything every time.)
+#
+# This is is "Linux" format.
+#
+#
+# Submitted by:	Adam Jack ajack@TrySybase.com
+#
