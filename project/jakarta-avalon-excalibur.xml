@@ -28,7 +28,6 @@
         <depend project="excalibur-info" runtime="true" inherit="runtime"/>
         <depend project="excalibur-i18n" runtime="true"/>
         <depend project="excalibur-logger" runtime="true"/>
-        <depend project="excalibur-merlin" runtime="true"/>
         <depend project="excalibur-instrument" runtime="true"/>
         <depend project="excalibur-meta" runtime="true"/>
         <depend project="excalibur-sourceresolve"/>
@@ -826,32 +825,6 @@
 
         <home nested="logger"/>
         <jar name="build/lib/excalibur-logger-@@DATE@@.jar"/>
-
-        <nag from="Peter Donald &lt;peter@apache.org&gt;"
-            to="avalon-dev@jakarta.apache.org"/>
-    </project>
-
-    <project name="excalibur-merlin">
-        <package>org.apache.excalibur.merlin</package>
-
-        <ant basedir="merlin">
-            <depend property="logkit.jar" project="jakarta-avalon-logkit" runtime="true"/>
-            <depend property="excalibur-configuration.jar" project="excalibur-configuration" runtime="true"/>
-            <property name="version" value="@@DATE@@"/>
-            <property name="junit.failonerror" value="true"/>
-            <property name="do.checkstyle" value="true"/>
-            <property name="skip.dependencies" value="true"/>
-        </ant>
-
-        <depend project="jakarta-ant" inherit="runtime"/>
-        <option project="checkstyle" inherit="runtime"/>
-        <depend project="jakarta-avalon" runtime="true"/>
-        <depend project="xml-xerces"/>
-        <depend project="xml-xalan2"/>
-        <work nested="merlin/build/classes"/>
-
-        <home nested="merlin"/>
-        <jar name="build/lib/merlin.jar"/>
 
         <nag from="Peter Donald &lt;peter@apache.org&gt;"
             to="avalon-dev@jakarta.apache.org"/>
