@@ -1,8 +1,8 @@
 #!/usr/bin/python
 
-# $Header: /home/stefano/cvs/gump/python/gump/__init__.py,v 1.14 2003/09/26 20:39:45 ajack Exp $
-# $Revision: 1.14 $
-# $Date: 2003/09/26 20:39:45 $
+# $Header: /home/stefano/cvs/gump/python/gump/__init__.py,v 1.15 2003/09/26 20:52:43 ajack Exp $
+# $Revision: 1.15 $
+# $Date: 2003/09/26 20:52:43 $
 #
 # ====================================================================
 #
@@ -95,7 +95,7 @@ import logging
 log = logging.getLogger(__name__)
 
 from gump.xmlutils import SAXDispatcher
-from gump.conf import dir, default, setting
+from gump.conf import dir, default, setting, switch
 from gump.utils import *
 
 ###############################################################################
