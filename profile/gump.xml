@@ -32,7 +32,8 @@
   <project href="project/jakarta-tomcat-jasper.xml"/>
   <project href="project/jakarta-tomcat.xml"/>
   <project href="project/jakarta-tools.xml"/>
-  <project href="project/jakarta-turbine.xml"/>
+  <project href="project/jakarta-turbine-2.xml"/>
+  <project href="project/jakarta-turbine-3.xml"/>
   <project href="project/jakarta-turbine-flux.xml"/>
   <project href="project/jakarta-turbine-fulcrum.xml"/>
   <project href="project/jakarta-turbine-torque.xml"/>
