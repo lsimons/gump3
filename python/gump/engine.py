@@ -353,7 +353,7 @@ class GumpEngine:
     
     def performMkDir(self,project,mkdir,index=0):
         """ Return the mkdir comment for a <mkdir entry """
-        basedir=os.path.abspath(self.getModule().getSourceDirectory() or dir.base)
+        basedir=os.path.abspath(project.getModule().getSourceDirectory() or dir.base)
          
         #
         # Make a directory
