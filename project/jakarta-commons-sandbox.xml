@@ -94,6 +94,7 @@
          from="John McNally &lt;jmcnally@collab.net&gt;"/>
   </project>
 
+  <!--
   <project name="commons-grant">
     <package>org.apache.commons.grant</package>
     <ant basedir="grant" target="jar">
@@ -108,6 +109,7 @@
     <nag to="commons-dev@jakarta.apache.org"
          from="Stefan Bodewig &lt;bodewig@apache.com&gt;"/>
   </project>
+  -->
 
   <project name="commons-http">
     <package>org.apache.commons.http</package>

@@ -18,6 +18,8 @@
   <!--module href="project/jakarta-cactus.xml"/-->
   <module href="project/jakarta-commons.xml"/>
   <module href="project/jakarta-commons-sandbox.xml"/>
+  <!-- grant with a Maven generated descriptor -->
+  <module href="http://cvs.apache.org/viewcvs/~checkout~/jakarta-commons-sandbox/grant/gump.xml"/>
   <module href="project/jakarta-ecs.xml"/>
   <module href="project/jakarta-james.xml"/>
   <module href="project/jakarta-jetspeed.xml"/>
