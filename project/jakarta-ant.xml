@@ -61,6 +61,7 @@
     <depend project="jakarta-ant"/>
     <depend project="xml-xerces"/>
     <depend project="jakarta-avalon"/>
+    <depend project="jakarta-avalon-excalibur"/>
     <depend project="jakarta-avalon-logkit"/>
     <option project="xml-xalan2"/>
     <ant basedir="proposal/myrmidon"/>

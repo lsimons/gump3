@@ -23,6 +23,7 @@
   <depend project="jakarta-ant"/>
   <depend project="xml-xerces"/>
   <depend project="jakarta-avalon"/>
+  <depend project="jakarta-avalon-excalibur"/>
   <depend project="jakarta-avalon-logkit"/>
   <depend project="xml-stylebook2"/>
   <depend project="xml-xalan2"/>
