@@ -1,0 +1,20 @@
+<module name="jakarta-gump">
+
+  <url href="http://jakarta.apache.org/gump/"/>
+  <description>
+    Cross project build tool
+  </description>
+
+  <cvs repository="jakarta"/>
+
+ 
+  <!-- Gump Self-Testing... -->
+  <project name="gump-test">
+    <script name="gumpytest"/>
+    <home nested="gumpytest"/>
+    <!-- nag 	from="Adam Jack &lt;ajack@trysybase.com&gt;"
+    		to="gump@jakarta.apache.org"/ -->
+  </project>
+  
+  
+</module>
