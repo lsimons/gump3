@@ -85,7 +85,7 @@
         <!-- this should go -->
         <depend project="avalon-sandbox-info" runtime="true" inherit="runtime"/>
 
-        <depend project="incubator-altrmi" inherit="runtime" runtime="true"/>
+        <depend project="excalibur-altrmi-0.9.2" inherit="runtime" runtime="true"/>
         <depend project="xml-xerces" id="parser" runtime="true"/>
 
         <!-- optional dependencies -->
@@ -557,7 +557,7 @@
         </ant>
 
         <depend project="excalibur-instrument-manager" inherit="jars"/>
-        <depend project="incubator-altrmi" runtime="true"/>
+        <depend project="excalibur-altrmi-0.9.2" runtime="true"/>
         <work nested="instrument-manager/build/classes"/>
 
         <home nested="instrument-manager"/>
@@ -582,7 +582,7 @@
 
         <depend project="ant" inherit="runtime"/>
         <depend project="avalon" runtime="true"/>
-        <depend project="incubator-altrmi" runtime="true"/>
+        <depend project="excalibur-altrmi-0.9.2" runtime="true"/>
         <depend project="excalibur-instrument-manager" runtime="true"/>
         <option project="checkstyle" inherit="runtime"/>
         <depend project="junit"/>
@@ -999,6 +999,22 @@
         <jar name="build/lib/excalibur-xmlutil-@@DATE@@.jar"/>
 
         <nag from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"
+                to="dev@avalon.apache.org"/>
+    </project>
+
+    <!-- this is temporarily in place so that we can get some clean gump
+         runs set up without having to keep up with all the altrmi
+         refactorings -->
+    <project name="excalibur-altrmi-0.9.2">
+        <package>org.apache.altrmi</package>
+
+        <jar id="client-impl" name="lib/altrmi-client-impl-0.9.2.jar"/>
+        <jar id="client-api" name="lib/altrmi-client-interfaces-0.9.2.jar"/>
+        <jar id="common" name="lib/altrmi-common-0.9.2.jar"/>
+        <jar id="generator" name="lib/altrmi-generator-0.9.2.jar"/>
+        <jar id="server-impl" name="lib/altrmi-server-impl-0.9.2.jar"/>
+        <jar id="server-api" name="lib/altrmi-server-interfaces-0.9.2.jar"/>
+        <nag from="Gump Integration Build &lt;general@incubator.apache.org&gt;"
                 to="dev@avalon.apache.org"/>
     </project>
 
