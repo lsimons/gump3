@@ -193,7 +193,6 @@ class DocRoot(GumpXMLObject):
     self.element=self.cls(attrs)
     return self.element
 
-
 class Named(GumpXMLObject):
   """Named elements (e.g., project,module,repository).
 

@@ -195,6 +195,26 @@ def elapsedTimeToString(elapsed):
     #:TODO: Don't show hours if 0, show mins/secs words
     return ('%02d:%02d:%02d' % elapsed)        
     
+    
+#
+# Get into ASCII, but make an attempt at coping with
+# non-ASCII
+#
+def getStringFromUnicode(u):
+    try:
+        s = str(u)
+    except UnicodeException:
+        s = ''
+        for uc in u:
+            try:
+                sc = uc.encode('latin-1')            
+            except UnicodeException:
+                sc = '_'
+            # Add character by character
+            s += sc
+            
+    return s
+    
 if __name__=='__main__':
 
   # init logging
@@ -208,4 +228,6 @@ if __name__=='__main__':
   print "secsToElapsedTime(1340) : " + str(secsToElapsedTime(1340))
   print "secsToString(1340) : " + secsToString(1340)
   print "elapsedTimeToString(secsToElapsedTime(1340)) : " + elapsedTimeToString(secsToElapsedTime(1340))
+  
+  print "str = " + getStringFromUnicode("Ceki Gülcü")
   
