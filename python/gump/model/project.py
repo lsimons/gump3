@@ -374,7 +374,8 @@ class Project(NamedModelObject, Statable, Resultable, Dependable, Positioned):
         # Resolve jars (outputs)
         #
         for jdom in self.getDomChildIterator('jar'):
-            name=getDomAttributeValue(jdom,'name')
+            name=self.expandVariables(
+                    getDomAttributeValue(jdom,'name'))
             if self.home and name:
                 jar=Jar(name,jdom,self)
                 jar.complete()
