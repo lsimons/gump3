@@ -14,6 +14,7 @@
     <depend project="jakarta-ant" inherit="runtime"/>
     <depend project="xml-xerces"/>
     <depend project="jtidy"/>
+    <depend project="junit"/>
     <jar id="httpunit" name="lib/httpunit.jar"/>
   </project>
 
