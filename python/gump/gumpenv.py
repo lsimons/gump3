@@ -128,15 +128,15 @@ class GumpEnvironment(Annotatable,Workable,Propogatable):
         #
         self.checkExecutable('env','',0)
 
-	if not self.noJava and not self.checkExecutable(self.javaCommand,'-version',exitOnError,1):
-	    self.noJava=1
-	    self.noJavac=1
+        if not self.noJava and not self.checkExecutable(self.javaCommand,'-version',exitOnError,1):
+            self.noJava=1
+            self.noJavac=1
 
-	if not self.noJavac and not self.checkExecutable('javac','-help',0):
-	    self.noJavac=1
+        if not self.noJavac and not self.checkExecutable('javac','-help',0):
+            self.noJavac=1
 
-	if not self.noJavac and not self.checkExecutable('java com.sun.tools.javac.Main','-help',0,0,'check_java_compiler'):
-	    self.noJavac=1
+        if not self.noJavac and not self.checkExecutable('java com.sun.tools.javac.Main','-help',0,0,'check_java_compiler'):
+            self.noJavac=1
 
         if not self.noCvs and not self.checkExecutable('cvs','--version',0):
             self.noCvs=1
