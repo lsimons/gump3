@@ -912,6 +912,9 @@
         <depend project="avalon-util-extension-impl" />
         <depend project="avalon-util-exception" />
         <depend project="avalon-util-i18n" />
+        <depend project="avalon-util-defaults" runtime="true"/>
+        <depend project="avalon-util-criteria" runtime="true"/>
+        <depend project="avalon-util-exception" runtime="true"/>
         <depend project="avalon-logkit" runtime="true"/>
         <depend project="excalibur-lifecycle-api" runtime="true"/>
         <depend project="excalibur-configuration" runtime="true"/>
@@ -947,7 +950,7 @@
         <home nested="merlin/activation/api"/>
         <jar name="target/avalon-activation-api-@@DATE@@.jar"/>
         <javadoc nested="merlin/activation/api/target/docs/apidocs"/>
-        <junitreport nested="merlin/composition/api/target/test-reports"/>
+        <junitreport nested="merlin/activation/api/target/test-reports"/>
         <nag to="dev@avalon.apache.org" 
           from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"/>
     </project>
@@ -977,6 +980,10 @@
         <depend project="avalon-util-extension-api" />
         <depend project="avalon-util-extension-impl" />
         <depend project="avalon-util-i18n" />
+        <depend project="avalon-util-defaults" runtime="true"/>
+        <depend project="avalon-util-env" runtime="true"/>
+        <depend project="avalon-util-criteria" runtime="true"/>
+        <depend project="avalon-util-exception" runtime="true"/>
         <depend project="avalon-framework" id="api" />
         <depend project="avalon-framework" id="impl" />
         <depend project="excalibur-lifecycle-api" runtime="true"/>
@@ -992,7 +999,7 @@
         <home nested="merlin/activation/impl"/>
         <jar name="target/avalon-activation-impl-@@DATE@@.jar"/>
         <javadoc nested="merlin/activation/impl/target/docs/apidocs"/>
-        <junitreport nested="merlin/composition/impl/target/test-reports"/>
+        <junitreport nested="merlin/activation/impl/target/test-reports"/>
         <nag to="dev@avalon.apache.org" 
           from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"/>
     </project>
