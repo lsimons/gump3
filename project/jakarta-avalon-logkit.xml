@@ -2,7 +2,7 @@
 
   <url href="http://jakarta.apache.org/avalon/"/>
   <description>
-    Fast, well designed, lightweight Logging toolkit
+    Fast lightweight Logging toolkit
   </description>
 
   <cvs repository="jakarta"/>

@@ -7,7 +7,12 @@
 
   <cvs repository="xml" module="xml-cocoon" tag="xml-cocoon2" />
 
-  <ant target="dist"/>
+  <ant target="dist">
+    <property name="logkit.jar"
+       reference="jarpath" id="logkit" project="jakarta-avalon-logkit"/>
+    <property name="avalonapi.jar"
+       reference="jarpath" id="avalonapi" project="jakarta-avalon"/>
+  </ant>
 
   <depend project="jakarta-ant"/>
   <depend project="xml-xerces"/>

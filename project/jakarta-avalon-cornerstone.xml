@@ -8,6 +8,8 @@
   <cvs repository="jakarta"/>
 
   <ant target="dist">
+    <property name="logkit.jar"
+       reference="jarpath" id="logkit" project="jakarta-avalon-logkit"/>
     <property name="avalonapi.jar"
        reference="jarpath" id="avalonapi" project="jakarta-avalon"/>
     <property name="phoenix-client.jar"
@@ -17,6 +19,7 @@
   <depend project="jakarta-ant"/>
   <depend project="xml-xerces"/>
   <depend project="jakarta-avalon"/>
+  <depend project="jakarta-avalon-logkit"/>
   <depend project="jakarta-avalon-testlet"/>
   <depend project="jakarta-avalon-phoenix"/>
   <option project="jsse"/>
