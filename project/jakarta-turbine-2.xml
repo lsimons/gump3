@@ -26,14 +26,18 @@
     <depend project="ant"/>
     <depend project="xml-xerces"/>
 
+    <depend project="avalon"/>
     <depend project="cryptix"/>
     <depend project="commons-codec"/>
     <depend project="commons-collections"/>
     <depend project="commons-configuration" runtime="true"/>
+    <depend project="commons-email"/>
     <depend project="commons-fileupload"/>
     <depend project="commons-lang" runtime="true"/>
     <depend project="commons-logging"/>
     <depend project="commons-pool"/>
+    <depend project="excalibur-component"/>
+    <depend project="excalibur-logger"/>
     <depend project="jakarta-ecs"/>
     <depend project="jakarta-regexp"/>
     <depend project="javamail"/>
