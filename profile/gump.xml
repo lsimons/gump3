@@ -243,6 +243,7 @@
 
 <!-- java.net -->
 
+  <module href="project/which4j.xml"/>
   <module href="project/xom.xml"/>
 
 <!-- Installed packages -->

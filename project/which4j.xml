@@ -1,0 +1,29 @@
+<module name="which4j">
+
+  <url href="http://which4j.dev.java.net"/>
+  <description>
+    which4j is utility that searches your system classpath for the 
+    specified class (resource) name.
+  </description>
+
+  <cvs repository="java.net"/>
+
+  <project name="which4j">
+    <package>org.which4j</package>
+
+    <ant target="dist">
+    	<property name="distdir" value="dist"/>
+    </ant>
+
+    <depend project="ant" inherit="runtime"/>
+    
+    <work nested="build/classes"/>
+
+    <home nested="dist"/>
+    
+    <jar name="lib/which4j.jar"/>
+    
+    <javadoc nested="docs/api"/>
+  </project>
+
+</module>

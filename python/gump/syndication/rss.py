@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/syndication/rss.py,v 1.2 2003/12/05 00:51:49 ajack Exp $
-# $Revision: 1.2 $
-# $Date: 2003/12/05 00:51:49 $
+# $Header: /home/stefano/cvs/gump/python/gump/syndication/rss.py,v 1.3 2003/12/05 15:13:21 ajack Exp $
+# $Revision: 1.3 $
+# $Date: 2003/12/05 15:13:21 $
 #
 # ====================================================================
 #
@@ -165,7 +165,7 @@ class Channel:
         
         self.rssStream.write('  <language>en-us</language>\n')
         self.rssStream.write('  <copyright>Copyright 2003, Apache Software Foundation</copyright>\n')
-        self.rssStream.write(('  <generator>Jakarta Gump : %s</generator>\n') & (escape(setting.version)))
+        self.rssStream.write(('  <generator>Jakarta Gump : %s</generator>\n') % (escape(setting.version)))
         self.rssStream.write('  <webMaster>gump@jakarta.apache.org</webMaster>\n')
         self.rssStream.write('  <docs>http://blogs.law.harvard.edu/tech/rss</docs>\n')
         self.rssStream.write('  <category domain="http://www.apache.org/namespaces">Gump</category>\n')

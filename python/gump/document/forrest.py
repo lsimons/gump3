@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/forrest.py,v 1.29 2003/12/04 23:16:24 ajack Exp $
-# $Revision: 1.29 $f
-# $Date: 2003/12/04 23:16:24 $
+# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/forrest.py,v 1.30 2003/12/05 15:13:21 ajack Exp $
+# $Revision: 1.30 $f
+# $Date: 2003/12/05 15:13:21 $
 #
 # ====================================================================
 #
@@ -369,7 +369,7 @@ class ForrestDocumenter(Documenter):
         self.documentSummary(document, workspace.getProjectSummary())
         
         projectsSection=document.createSection('Projects (in build order)')
-        projectsTable=projectsSection.createTable(['Time','Updated','Name','Project State','Duration\nin state','Last Updated','Elapsed'])
+        projectsTable=projectsSection.createTable(['Time','Updated','Name','Project State','Duration\nin state','Last Modified','Elapsed'])
         pcount=0
         for project in gumpSet.getSequence():
             # :TODO: Next line irrelevent?
