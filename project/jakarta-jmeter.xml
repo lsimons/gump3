@@ -23,6 +23,9 @@
     <depend project="junit" />
     <depend project="jakarta-avalon" />
     <depend project="excalibur-cli" />
+
+    <work nested="build"/>
+
     <home nested="bin" />
     <jar name="ApacheJMeter.jar" />
 
