@@ -6,19 +6,38 @@
   </description>
 
   <cvs repository="sourceforge" host-prefix="cvs.openjmx" dir="openjmx"/>
-  
+
   <project name="openjmx">
-    <ant basedir="build"/>
+    <ant basedir="build" target="test"/>
     <depend project="jakarta-ant"/>
     <depend project="xml-xerces"/>
+    <depend project="xmlunit"/>
     <depend project="jakarta-log4j"/>
+    <depend project="junit"/>
     <depend project="saxon"/>
     <option project="javamail"/>
     <option project="jsse"/>
-
+    <option project="jaf"/>
+    <work nested="classes/core"/>
+ 
     <home nested="dist"/>
     <jar name="lib/openjmx.jar"/>
     <jar name="lib/openjmx-tools.jar"/>
+  </project>
+
+  <project name="openjmx-release">
+    <ant basedir="build" target="release"/>
+    <depend project="jakarta-ant"/>
+    <depend project="xml-xerces"/>
+    <depend project="xmlunit"/>
+    <depend project="jakarta-log4j"/>
+    <depend project="junit"/>
+    <depend project="saxon"/>
+    <depend project="xdoclet"/>
+    <option project="javamail"/>
+    <option project="jsse"/>
+    <option project="jaf"/>
+    <work nested="classes/core"/>
   </project>
 
   <project name="saxon">
