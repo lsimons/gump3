@@ -99,9 +99,7 @@ public class Module {
                 url = (Element) child;
             } else if (child.getNodeName().equals("svn")) {
                 Element svn = (Element) child;
-                if (svn.getAttributeNode("srcdir") == null) {
-                    svn.setAttribute("srcdir", name);
-                }
+                svn.setAttribute("srcdir", name);
             }
         }
         
