@@ -39,6 +39,8 @@
 
     <javadoc nested="build/doc/html/api"/>
 
+	<junitreport nested="build/test-reports"/>
+
     <nag from="Davanum Srinivas &lt;dims@yahoo.com&gt;"
          to="wss4j-devel@lists.sourceforge.net"/>
   </project>
