@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/forrest.py,v 1.33 2003/12/09 00:48:36 ajack Exp $
-# $Revision: 1.33 $f
-# $Date: 2003/12/09 00:48:36 $
+# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/forrest.py,v 1.34 2003/12/10 15:33:02 ajack Exp $
+# $Revision: 1.34 $f
+# $Date: 2003/12/10 15:33:02 $
 #
 # ====================================================================
 #
@@ -273,7 +273,7 @@ class ForrestDocumenter(Documenter):
                 
         textRow=definitionTable.createRow()
         textRow.createData('Workspace Documentation')
-        textRow.createData().createLink('context.xml','Text')
+        textRow.createData().createLink('context.html','Text')
                 
         syndRow=definitionTable.createRow()
         syndRow.createData('Definition')
@@ -574,7 +574,7 @@ class ForrestDocumenter(Documenter):
                 self.resolver.getFile(workspace,'packages'))
         
         mpkgSection=document.createSection('Packaged Modules')
-        mpkgTable=mpkgSection.createTable(['Name','Project State(s)','Elapsed'])
+        mpkgTable=mpkgSection.createTable(['Name','State','Project State(s)'])
         mcount=0
         for module in sortedModuleList:           
             if not gumpSet.inModules(module): continue
@@ -596,21 +596,22 @@ class ForrestDocumenter(Documenter):
             self.insertLink( module, workspace, moduleRow.createData())
             self.insertStateIcon(module,workspace,moduleRow.createData())
             self.insertStateIcons(gumpSet,module,workspace,moduleRow.createData())
-            moduleRow.createData(secsToElapsedString(module.getElapsedSecs()))
             
         if not mcount: mpkgTable.createLine('None')
         
         pkgsSection=document.createSection('Packaged Projects')
         packages=gumpSet.getPackagedProjects()
         if packages:
-            pkgsTable=pkgsSection.createTable(['Name','State','State','Location'])
-            for package in packages:
+            pkgsTable=pkgsSection.createTable(['Name','State','Location'])
+            for project in sortedProjectList:
+                if not gumpSet.inSequence(project): continue   
+                if not project.isPackaged(): continue
+                
                 packageRow=pkgsTable.createRow()                
-                packageRow.createComment(package.getName())       
+                packageRow.createComment(project.getName())       
                             
-                self.insertLink( package, workspace, packageRow.createData())
-                self.insertStateDescription( package, workspace, packageRow.createData())
-                self.insertStateIcon( package, workspace, packageRow.createData())
+                self.insertLink( project, workspace, packageRow.createData())
+                self.insertStateIcon( project, workspace, packageRow.createData())
                 
                 packageRow.createData(project.getHomeDirectory())    
         else:
