@@ -162,7 +162,7 @@
   <xsl:template match="sed">
     <xsl:text>eval "perl </xsl:text>
     <xsl:value-of select="@script"/>
-    <xsl:text> ../$1 $OUT"&#10;</xsl:text>
+    <xsl:text> $1 $OUT"&#10;</xsl:text>
   </xsl:template>
 
   <!-- =================================================================== -->
@@ -203,7 +203,11 @@
       <xsl:if test="@defined-in">
         <xsl:variable name="defined-in" select="@defined-in"/>
         <xsl:if test="not(preceding::project[@defined-in=$defined-in])">
-          <xsl:text>bash publish.sh project/</xsl:text>
+          <xsl:text>bash publish.sh </xsl:text>
+          <xsl:if test="not(@extern-prefix)">
+            <xsl:text>../project/</xsl:text>
+          </xsl:if>
+          <xsl:value-of select="@extern-prefix"/>
           <xsl:value-of select="@defined-in"/>
           <xsl:text>.xml </xsl:text>
           <xsl:value-of select="$logdir"/>
@@ -218,7 +222,11 @@
       <xsl:sort select="defined-in"/>
       <xsl:variable name="defined-in" select="@defined-in"/>
       <xsl:if test="not(preceding::repository[@defined-in=$defined-in])">
-        <xsl:text>bash publish.sh repository/</xsl:text>
+        <xsl:text>bash publish.sh </xsl:text>
+        <xsl:if test="not(@extern-prefix)">
+          <xsl:text>../repository/</xsl:text>
+        </xsl:if>
+        <xsl:value-of select="@extern-prefix"/>
         <xsl:value-of select="@defined-in"/>
         <xsl:text>.xml </xsl:text>
         <xsl:value-of select="$logdir"/>
@@ -231,7 +239,11 @@
     <xsl:for-each select="profile">
       <xsl:sort select="defined-in"/>
 
-      <xsl:text>bash publish.sh profile/</xsl:text>
+      <xsl:text>bash publish.sh </xsl:text>
+      <xsl:if test="not(@extern-prefix)">
+        <xsl:text>../profile/</xsl:text>
+      </xsl:if>
+      <xsl:value-of select="@extern-prefix"/>
       <xsl:value-of select="@defined-in"/>
       <xsl:text>.xml </xsl:text>
       <xsl:value-of select="$logdir"/>
@@ -244,7 +256,11 @@
       <xsl:sort select="defined-in"/>
       <xsl:variable name="defined-in" select="@defined-in"/>
       <xsl:if test="not(preceding::server[@defined-in=$defined-in])">
-        <xsl:text>bash publish.sh server/</xsl:text>
+        <xsl:text>bash publish.sh </xsl:text>
+        <xsl:if test="not(@extern-prefix)">
+          <xsl:text>../server/</xsl:text>
+        </xsl:if>
+        <xsl:value-of select="@extern-prefix"/>
         <xsl:value-of select="@defined-in"/>
         <xsl:text>.xml </xsl:text>
         <xsl:value-of select="$logdir"/>
@@ -255,7 +271,12 @@
     </xsl:for-each>
 
     <xsl:text>for i in ../stylesheet/*.xsl; do&#10;</xsl:text>
-    <xsl:text>  bash publish.sh stylesheet/`basename $i` </xsl:text>
+    <xsl:text>  bash publish.sh </xsl:text>
+    <xsl:if test="not(@extern-prefix)">
+      <xsl:text>../stylesheet/</xsl:text>
+    </xsl:if>
+    <xsl:value-of select="@extern-prefix"/>
+    <xsl:text>`basename $i` </xsl:text>
     <xsl:value-of select="$logdir"/>
     <xsl:text>/code_`basename $i .xsl`.html&#10;</xsl:text>
     <xsl:text>done&#10;</xsl:text>

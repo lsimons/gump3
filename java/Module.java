@@ -171,10 +171,13 @@ public class Module {
         // Move each project from the module to the workspace
         Node parent = element.getParentNode();
         String definedIn = element.getAttribute("defined-in");
+        String prefix = element.getAttribute("extern-prefix");
         for (Enumeration e=projects.elements(); e.hasMoreElements(); ) {
             Element project = (Element) e.nextElement();
             if (project.getAttributeNode("defined-in") == null) {
                project.setAttribute("defined-in", definedIn);
+               if (!prefix.equals(""))
+                   project.setAttribute("extern-prefix",prefix);
             }
             element.removeChild(project);
             parent.appendChild(project);

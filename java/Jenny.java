@@ -21,6 +21,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Enumeration;
 import java.util.Hashtable;
+import java.util.Vector;
 
 public class Jenny {
 
@@ -107,6 +108,9 @@ public class Jenny {
            String source=href.getValue();
            Node sub = parse(source);
 
+           boolean isExtern = source.startsWith("http://")
+                       || source.startsWith("file://");
+
            if (sub != null) {
                if (source.lastIndexOf(".")>0) {
                    source=source.substring(0,source.lastIndexOf("."));
@@ -134,6 +138,20 @@ public class Jenny {
 
                node.getParentNode().replaceChild(copy,node);
                node = copy;
+
+               // if expanded xml is not local to gump, make a local copy
+               // and "redirect" location using extern-prefix attribute
+               if (isExtern) {
+                   String prefix = node.getNodeName() + "_";
+                   // try to use name attribute as source, otherwise cross
+                   // fingers and hope the current source is unique
+                   if (node.getAttribute("name") != null) {
+                       source = node.getAttribute("name");
+                   }
+                   output (sub, "work/" + prefix + source + ".xml");
+                   node.setAttribute("defined-in", source);
+                   node.setAttribute("extern-prefix",prefix);
+               }
            }
        }
 
@@ -182,7 +200,8 @@ public class Jenny {
     /**
      * Merge the contents of nodes with the same value for the name attribute.
      * Attributes from later definitions get added (or overlay) prior
-     * definitions.  Elements get appended.
+     * definitions.  Elements get appended.  Elements marked for removal are
+     * removed.
      * @param type Element localname.  Typically project or repository.
      * @param document Starting point for search.
      * @return hashtable of resulting elements
@@ -190,6 +209,7 @@ public class Jenny {
     private Hashtable merge(String type, Node document)
         throws Exception
     {
+        boolean needRemove = false;
         Hashtable list = new Hashtable();
 
         Node child=document.getFirstChild();
@@ -197,6 +217,12 @@ public class Jenny {
             if (!child.getNodeName().equals(type)) continue;
             Element element = (Element) child;
             String name = element.getAttribute("name");
+
+            // check for "removed" elements
+            if (!needRemove
+                    && !element.getAttribute("remove").equals("")) {
+                needRemove = true;
+            }
 
             Element priorDefinition = (Element)list.get(name);
             if (priorDefinition != null && priorDefinition != element) {
@@ -210,6 +236,24 @@ public class Jenny {
                 parent.removeChild(priorDefinition);
             }
             list.put(name, element);
+        }
+
+        if (needRemove) {
+            Vector removeThem = new Vector();
+            Enumeration enum = list.elements();
+            while (enum.hasMoreElements()) {
+                Element element = (Element)enum.nextElement();
+                if (!element.getAttribute("remove").equals("")) {
+                    removeThem.addElement(element);
+                }
+            }
+
+            enum = removeThem.elements();
+            while (enum.hasMoreElements()) {
+                Element element = (Element)enum.nextElement();
+                element.getParentNode().removeChild(element);
+                list.remove(element.getAttribute("name"));
+            }
         }
 
         return list;
