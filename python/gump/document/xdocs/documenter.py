@@ -1757,12 +1757,13 @@ This page helps Gumpmeisters (and others) observe community progress.
         detailsList.createEntry('Redistributable: ', `project.isRedistributable()`)                
                                                       
         # Display nag information
-        if project.hasNotifys() and project.isVerboseOrDebug():
-            for pair in project.getNotifys():
-                toaddr=pair.getToAddress()
-                fromaddr=pair.getFromAddress()
-                detailsList.createEntry('Notify To: ').createFork('mailto:'+toaddr,toaddr)
-                detailsList.createEntry('Notify From: ').createFork('mailto:'+fromaddr,fromaddr)
+        if project.hasNotifys():
+            if project.isVerboseOrDebug():
+                for pair in project.getNotifys():
+                    toaddr=pair.getToAddress()
+                    fromaddr=pair.getFromAddress()
+                    detailsList.createEntry('Notify To: ').createFork('mailto:'+toaddr,toaddr)
+                    detailsList.createEntry('Notify From: ').createFork('mailto:'+fromaddr,fromaddr)
                     
         elif not project.isPackaged() and project.hasBuilder():            
             document.createWarning('This project does not utilize Gump notification.')  
@@ -1960,7 +1961,7 @@ This page helps Gumpmeisters (and others) observe community progress.
         if stats.startOfState:
             statsTable.createEntry("Start of state: ", stats.startOfState.isoformat())
         if stats.previousState:
-            statsTable.createEntry("Previous State: ", stats.previousState.isoformat())
+            statsTable.createEntry("Previous State: ", stats.previousState)
         
         if stats.first:
             statsTable.createEntry("First Success: ", stats.first.isoformat())
