@@ -30,6 +30,9 @@
       <property name="project.version" value="@@DATE@@"/>
     </ant>
     <depend project="ant" inherit="runtime"/>
+    <depend project="commons-digester"/>
+    <depend project="commons-logging"/>
+    <depend project="commons-validator"/>
     <depend project="jakarta-servletapi-4"/>
     <depend project="jakarta-struts"/>
     <depend project="jakarta-velocity" inherit="runtime"/>
