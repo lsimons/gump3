@@ -115,6 +115,7 @@
     <ant target="junit" />
 
     <depend project="db-ojb" inherit="all" />
+    <depend project="db-torque-gen"/>
     <work nested="target/classestest" />
 
     <nag from="Stefan Bodewig &lt;bodewig@apache.org&gt;"
