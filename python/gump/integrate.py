@@ -15,7 +15,7 @@
 # limitations under the License.
 
 #
-# $Header: /home/stefano/cvs/gump/python/gump/integrate.py,v 1.26 2004/04/16 17:28:38 ajack Exp $
+# $Header: /home/stefano/cvs/gump/python/gump/integrate.py,v 1.27 2004/04/24 15:25:18 ajack Exp $
 # 
 
 """
@@ -81,7 +81,7 @@ def irun():
     logResourceUtilization('Before exit')
     
     #
-    log.info('Gump Integration complete. Exit code:' + str(result))                  
+    log.info('Gump Integration complete. Exit code [0=SUCCESS] : ' + str(result))                  
           
     # bye!
     sys.exit(result)

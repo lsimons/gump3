@@ -94,7 +94,8 @@ def runCommand(command,args='',dir=None,outputFile=None):
                 catFile(log,outputFile)            
             os.remove(outputFile)
         
-        log.write('Exit Code : ' + `exit_code` + '\n')
+        if exit_code:
+            log.write('Process Exit Code : ' + `exit_code` + '\n')
     
     finally:
         if originalCWD: os.chdir(originalCWD)
@@ -181,7 +182,42 @@ def releaseLock(lock,lockFile):
     except:
         # Somehow another could delete this, even if locked...
         pass
+               
+               
+def tailFile(file,lines,eol=None,marker=None):
+    """ Return the last N lines of a file as a list """
+    taillines=[]
+    try:
+        o=None
+        try:
+            # Read lines from the file...
+            o=open(file, 'r')
+            line=o.readline()
+            
+            size=0
+            while line:      
+                # Store the lines
+                taillines.append(line)
+            
+                # But dump any before 'lines'
+                size=len(taillines)
+                if size > lines:
+                    del taillines[0:(size-lines)]
+                    size=len(taillines)
+                    
+                # Read next...
+                line=o.readline()
                 
+        finally:
+            if o: o.close()
+    except Exception, details:
+        print 'Failed to tail :' + file + ' : ' + str(details)
+                            
+    return taillines
+
+def tailFileToString(file,lines,eol=None,marker=None):
+    return "".join(tailFile(file,lines,eol,marker))
+    
 # Allow a lock    
 lockFile=os.path.abspath('gumpy.lock')
 lock=establishLock(lockFile)        
@@ -196,7 +232,8 @@ except:
     pass
 
 # Enable a log
-logFile=os.path.abspath('gumpy_log.txt')
+logFileName='gumpy_log.txt'
+logFile=os.path.abspath(logFileName)
 log=open(logFile,'w',0) # Unbuffered...
 
 result=0
@@ -359,7 +396,7 @@ finally:
     releaseLock(lock,lockFile)
     
     if result:
-        logTitle='The Apache Gump log...'
+        logTitle='Problem running Apache Gump...'
         
         # :TODO: Need to check if stdout is a plain terminal? Not sure, see next.
         # :TODO: On some cron set-ups this will mail the log, on
@@ -368,7 +405,7 @@ finally:
         # Cat log if failed...
         published=0
         if logdir:
-            publishedLogFile=os.path.abspath(os.path.join(logdir,'gumpy_log.txt'))
+            publishedLogFile=os.path.abspath(os.path.join(logdir,logFileName))
             try:
                 publishedLog=open(publishedLogFile,'w',0) # Unbuffered...
                 catFile(publishedLog, logFile, logTitle)    
@@ -395,8 +432,30 @@ finally:
             #logData=tmpStream.read()
             #tmpStream.close()
             #tmpStream=None
-            logData='There is a problem with the run at : ' + logurl
-            sendEmail(mailto,mailfrom,logTitle,logData,mailserver,mailport)
+            mailData='There is a problem with the run at : ' + logurl + '\n'
+            
+            #
+            # :TODO: Add link to log 
+            # :TODO: Tail log
+            #
+            try:
+                maxTailLines=50
+                tailData=tailFileToString(logFile,maxTailLines)           
+                mailData += '------------------------------------------------------------\n' 
+                mailData += 'The log ought be at:\n'
+                mailData += '   '
+                logFileUrl=logurl
+                if not logFileUrl.endswith('/'): logFileUrl+='/'
+                logFileUrl+=logFileName
+                mailData += logFileUrl
+                mailData += '\n'
+                mailData += '------------------------------------------------------------\n' 
+                mailData += 'The last (up to) %s lines of the log are :\n' % maxTailLines
+                mailData += tailData
+            except:
+                pass
+            
+            sendEmail(mailto,mailfrom,logTitle,mailData,mailserver,mailport)
 
 # bye!
 sys.exit(result)

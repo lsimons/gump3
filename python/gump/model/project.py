@@ -303,6 +303,9 @@ class Project(NamedModelObject, Statable, Resultable, Dependable):
             if cause and cause == self:
                 if not project in self.affectedProjects:
                     self.affectedProjects.append(project)
+    
+        # Sort whatever we got
+        self.affectedProjects.sort()
         
     def propagateErrorStateChange(self,state,reason,cause,message):
         

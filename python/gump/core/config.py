@@ -71,8 +71,8 @@ class default:
     mailserver = 'mail.apache.org'
     mailport = 25
     prefix = '[GUMP@' + gumphost + ']'
-    signature="\r\n--\r\nGump http://gump.apache.org/\n" \
-        + '[' + gumpfullhost + "]\n"
+    signature="\r\n--\r\nApache Gump\nhttp://gump.apache.org/ " \
+        + '[Instance: ' + gumpfullhost + "]\n"
         
     if not os.name == 'dos' and not os.name == 'nt':
         classpathSeparator=':'

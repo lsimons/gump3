@@ -14,7 +14,7 @@
 #   See the License for the specific language governing permissions and
 #   limitations under the License.
 #
-# $Header: /home/stefano/cvs/gump/python/gmp.py,v 1.6 2004/04/23 18:09:24 ajack Exp $
+# $Header: /home/stefano/cvs/gump/python/gmp.py,v 1.7 2004/04/24 15:25:18 ajack Exp $
 
 """
   This is the commandline entrypoint into Python Gump as a
@@ -118,8 +118,8 @@ result=0
         
 args=sys.argv
 try:
-
-        
+    print 'Apache Gump (A multi-project builder)'
+    
     try:
         # Process Environment
         hostname = socket.gethostname()
@@ -131,7 +131,7 @@ try:
         # Workspace is the `hostname`.xml or workspace.xml, 
         # unless overridden
         workspaceName = hostname + '.xml'
-        if not os.path.abspath(workspaceName):
+        if not os.path.exists(os.path.abspath(workspaceName)):
             workspaceName='workspace.xml'
             
         if os.environ.has_key('GUMP_WORKSPACE'):        

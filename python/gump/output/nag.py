@@ -210,7 +210,7 @@ The following %s nag%s should have been sent
     
     def nagWorkspace(self):
         """ Nag for the workspace """
-        content=self.getGenericContent(self.workspace,'index',"There is a workspace problem... \n")
+        content=self.getGenericContent(self.workspace,'There is a workspace problem... \n')
         
         self.sendEmail(self.workspace.mailinglist,	\
                         self.workspace.email,	\
@@ -222,7 +222,7 @@ The following %s nag%s should have been sent
         #
         # Form the content...
         #
-        content=self.getNamedTypedContent(module,'index')
+        content=self.getNamedTypedContent(module)
                 
         #
         # Form the subject
@@ -241,7 +241,7 @@ The following %s nag%s should have been sent
         #
         # Form the content...
         #
-        content=self.getNamedTypedContent(project, project.getName() )        
+        content=self.getNamedTypedContent(project )        
                 
         #
         # Form the subject
@@ -333,7 +333,7 @@ The following %s nag%s should have been sent
             
         return sent
         
-    def getNamedTypedContent(self,object,feedPrefix=None,message=None):
+    def getNamedTypedContent(self,object,message=None):
         content="""To whom it may engage...
         
 This is an automated request, but not an unsolicited one. For help 
@@ -382,11 +382,11 @@ and/or contact general@gump.apache.org.
             
                 content += '\n'            
             
-        content += self.getGenericContent(object,feedPrefix)
+        content += self.getGenericContent(object)
         
         return content
             
-    def getGenericContent(self,object,feedPrefix=None,message=None):
+    def getGenericContent(self,object,message=None):
         content=''
     
         # Optional message
@@ -412,7 +412,7 @@ and/or contact general@gump.apache.org.
         content += "\n"
                 
         if object.annotations or object.worklist:
-            content += ', however some snippets follow:\n'
+            content += 'That said, some snippets follow:\n'
             
         content += '\n'
         
@@ -420,8 +420,9 @@ and/or contact general@gump.apache.org.
         # Add an info/error/etc...
         #
         if object.annotations:
-            content += LINE
-            content += "\n\nGump provided these annotations:\n\n"
+            #content += LINE
+            content += "\n"
+            content += "Gump provided these annotations:\n"
             for note in object.annotations:      
                 content += (' - %s - %s\n' % (levelName(note.level), note.text))
     
@@ -430,24 +431,23 @@ and/or contact general@gump.apache.org.
         #
         if object.worklist: 
             content+="\n\n"
-            content += LINE   
-            content += "\nGump performed this work:\n\n"
+            #content += LINE   
+            content += "Gump performed this work:\n"
             for workitem in object.worklist:
                 workurl=self.run.getOptions().getResolver().getUrl(workitem)
                 content+=workurl+'\n'
-                content+=workitem.overview()+'\n\n'   
+                content+=workitem.overview()+'\n'   
                                 
-        if feedPrefix:
-            content += '\n\nTo subscribe to this information via syndicated feeds:\n'      
+        content += '\n\nTo subscribe to this information via syndicated feeds:\n'      
             
-            #
-            # Link them back here...
-            #
-            rssurl=self.run.getOptions().getResolver().getUrl(object,feedPrefix,'.rss')
-            atomurl=self.run.getOptions().getResolver().getUrl(object,feedPrefix,'.atom')
+        #
+        # Link them back here...
+        #
+        rssurl=self.run.getOptions().getResolver().getUrl(object,'rss','.xml')
+        atomurl=self.run.getOptions().getResolver().getUrl(object,'atom','.xml')
             
-            content += "RSS: " + rssurl + " | "
-            content += "Atom: " + atomurl + '\n'         
+        content += "RSS: " + rssurl + '\n'
+        content += "Atom: " + atomurl + '\n'         
     
         return content
     

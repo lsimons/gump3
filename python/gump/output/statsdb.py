@@ -41,7 +41,7 @@ class StatisticsDB:
         self.dbpath    = os.path.abspath('%s/%s' % (dbdir,name))
         
         if not os.path.exists(self.dbpath):
-            log.info('*New* Statistic Database:' + self.dbpath)
+            log.info('*New* Statistics Database:' + self.dbpath)
             
         log.debug('Open Statistic Database:' + self.dbpath)
         if not os.name == 'dos' and not os.name == 'nt':

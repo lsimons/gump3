@@ -163,6 +163,9 @@ class GumpEngine:
         if not run.getOptions().isQuick():
             workspace.writeXMLToFile(default.merge)
             workspace.setMergeFile(default.merge)
+                 
+        # :TODO: Put this somewhere else, and/or make it depend upon something...
+        workspace.changeState(STATE_SUCCESS)
 
     """
     
@@ -550,7 +553,7 @@ class GumpEngine:
                 project.changeState(STATE_FAILED,REASON_PREBUILD_FAILED)
             
         if not project.okToPerformWork():
-            log.warn('Failed to perform prebuild on project [' + project.getName() + ']')
+            log.warn('Failed to perform pre-build on project [' + project.getName() + ']')
 
     def performPostBuild(self, run, project, repository, wasBuilt, stats):
         """Perform Post-Build Actions"""
