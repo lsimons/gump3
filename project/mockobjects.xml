@@ -25,8 +25,8 @@
 
     <home nested="out"/>
     <jar name="mockobjects-core-@@DATE@@.jar"/>
-    <jar name="mockobjects-@@DATE@@-jdk1.4.jar"/>
-    <jar name="alt-@@DATE@@-jdk1.4.jar"/>
+    <jar name="mockobjects-jdk1.4-@@DATE@@.jar"/>
+    <jar name="mockobjects-alt-jdk1.4-@@DATE@@.jar"/>
 
     <nag from="Jeff Martin&lt;jeff@custommonkey.org&gt;"
       to="mockobjects-java-dev@lists.sourceforge.net"/>
