@@ -8,19 +8,42 @@
   <cvs repository="jakarta"/>
 
   <ant basedir="build">
-    <property name="version" value="gump"/>
     <property name="velocity.jar"
        reference="jarpath" id="velocity" project="jakarta-velocity"/>
     <property name="xerces.jar"
        reference="jarpath" id="parser" project="xml-xerces"/>
     <property name="village.jar"
        reference="jarpath" id="village" project="village"/>
+    <property name="log4j.jar"
+       reference="jarpath" id="log4j" project="jakarta-log4j"/>
+    <property name="jdbc.jar"
+       reference="jarpath" id="stdext" project="jdbc"/>
+    <property name="jdom.jar"
+       reference="jarpath" id="jdom" project="jdom"/>
+    <property name="jakarta-site2"
+       reference="home" project="jakarta-site2"/>
+
+    <property name="name" value="Torque"/>
+    <property name="project" value="torque"/>
+    <property name="version" value="gump"/>
+    <property name="build.dir" path="bin"/>
+    <property name="src.dir" path="src"/>
+    <property name="javadoc.destdir" path="docs/apidocs"/>
+    <property name="docs.src" path="xdocs"/>
+    <property name="docs.dest" path="docs"/>
+    <property name="turbine.jars" path="lib"/>
+    <property name="year" path="2001"/>
+    <property name="debug" path="off"/>
+    <property name="optimize" path="off"/>
+    <property name="deprecation" path="on"/>
   </ant>
 
   <depend project="jakarta-ant"/>
   <depend project="xml-xerces"/>
   <depend project="jakarta-velocity"/>
   <depend project="village"/>
+  <depend project="jakarta-log4j"/>
+  <depend project="jdbc"/>
 
   <home nested="bin"/>
   <jar name="torque-gump.jar"/>
