@@ -27,6 +27,7 @@
     <home nested="java/lib"/>
     <jar name="xmldb.jar"/>
     <jar name="xmldb-sdk.jar"/>
+    <jar name="xmldb-xupdate.jar"/>
   </project>
 
   <project name="infozone">
