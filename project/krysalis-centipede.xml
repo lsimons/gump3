@@ -95,18 +95,18 @@
         	<property name="ant.home" project="ant" reference="home"/>
         </ant>
     
-        <depend project="ant" inherit="runtime"  />
-        <depend project="ant-contrib" />
-		<depend project="commons-jxpath"/>
-		<depend project="commons-logging"  />
-		<depend project="commons-vfs" />
-		<depend project="jakarta-regexp" />
-		<depend project="krysalis-ruper-core"  />
-		<depend project="krysalis-version-core"  />
-		<depend project="krysalis-ruper-ant" />
-		<depend project="krysalis-version-ant" />
-		<depend project="xml-xalan2"  />
-        <depend project="xml-xerces" />
+        <depend project="ant" inherit="runtime" runtime="true"/>
+        <depend project="ant-contrib" inherit="runtime"  runtime="true"/>
+		<depend project="commons-jxpath" inherit="runtime"  runtime="true"/>
+		<depend project="commons-logging"  inherit="runtime"  runtime="true"/>
+		<depend project="commons-vfs"  inherit="runtime"  runtime="true"/>
+		<depend project="jakarta-regexp" inherit="runtime"  runtime="true"/>
+		<depend project="krysalis-ruper-core"  inherit="runtime"  runtime="true"/>
+		<depend project="krysalis-version-core"  inherit="runtime"  runtime="true"/>
+		<depend project="krysalis-ruper-ant"  inherit="runtime" runtime="true"/>
+		<depend project="krysalis-version-ant"  inherit="runtime" runtime="true"/>
+		<depend project="xml-xalan2"  inherit="runtime"  runtime="true"/>
+        <depend project="xml-xerces"  inherit="runtime" runtime="true"/>
 
 		<jar name="lib/krysalis-centipede.jar"  />
         <!-- Work dirs to be included in classpath  -->
@@ -139,7 +139,6 @@
         	<property name="ant.home" project="ant" reference="home"/>
         </ant>
       <depend project="krysalis-centipede" inherit="runtime" />
-      <depend project="ant" inherit="runtime" />
         
         <nag to="krysalis-developers@lists.sourceforge.net"
             from="Nicola Ken Barozzi &lt;nicolaken@apache.org&gt;"/>

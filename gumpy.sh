@@ -105,15 +105,13 @@ cp -R `grep profile $GUMP_HOST.xml  | cut -d\" -f2` $GUMP_PROFILE_LOG_DIR
 # Preliminary cleanup
 #
 
-# Gump level tmp
+# Gump-level tmp
 if [ -d $GUMP_TMP ] ; then
-	cd $GUMP_TMP
-	rm -f *.txt
+	rm -f $GUMP_TMP/*.txt
 fi
 # Gump work tmp
 if [ -d $GUMP_WS_TMP ] ; then
-	cd $GUMP_WS_TMP/tmp
-	rm -f *.txt
+	rm -f $GUMP_WS_TMP/*.txt
 fi
 # Clear the forrest build area...
 if [ -d $GUMP_WS/forrest/build/ ] ; then

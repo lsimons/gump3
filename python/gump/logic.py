@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/Attic/logic.py,v 1.39 2003/10/23 19:38:16 ajack Exp $
-# $Revision: 1.39 $
-# $Date: 2003/10/23 19:38:16 $
+# $Header: /home/stefano/cvs/gump/python/gump/Attic/logic.py,v 1.40 2003/10/23 23:10:22 ajack Exp $
+# $Revision: 1.40 $
+# $Date: 2003/10/23 23:10:22 $
 #
 # ====================================================================
 #
@@ -768,11 +768,12 @@ if __name__=='__main__':
   # get parsed workspace definition
   workspace=load(ws, context)
   
-  projects=getPackagedProjectContexts(context)
-  print "Packaged Projects : " + str(len(projects))
-  for p in projects: print "Packaged Project " + str(p.name)
+  #projects=getPackagedProjectContexts(context)
+  #print "Packaged Projects : " + str(len(projects))
+  #for p in projects: print "Packaged Project " + str(p.name)
     
   printSeparator()
+  print "Project Expression : " + ps
   
   projects=getProjectsForProjectExpression(ps)
   #print "Resolved Projects : " + str(len(projects))
