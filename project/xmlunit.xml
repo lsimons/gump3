@@ -10,7 +10,7 @@
   <project name="xmlunit">
     <package>org.custommonkey.xmlunit</package>
     <ant target="dist">
-      <property name="version" value="@@DATE@@" />
+      <property name="xmlunit.version" value="@@DATE@@" />
     </ant>
     <depend project="jakarta-ant" inherit="runtime"/>
     <depend project="xml-xerces"/>
