@@ -883,9 +883,10 @@
     </project>
 
     <project name="excalibur-store">
-        <package>org.apache.excalibur.source</package>
+        <package>org.apache.excalibur.store</package>
 
         <ant basedir="store">
+            <property name="excalibur-fortress-tools.jar" project="excalibur-fortress" reference="jarpath" id="fortress-tools"/>
             <property name="version" value="@@DATE@@"/>
             <property name="junit.failonerror" value="true"/>
             <property name="do.checkstyle" value="true"/>
