@@ -1,0 +1,7 @@
+PREVIEW Rhini team provides fixes for batik
+
+Thanks to the Rhino team for fixing the abstract class which was causing the build of batik to fail in gump.
+
+Today batik has built properly.
+
+http://lsd.student.utwente.nl/gump/xml-batik/index.html 
