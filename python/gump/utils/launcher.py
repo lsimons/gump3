@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/utils/Attic/launcher.py,v 1.5 2003/12/12 16:32:51 ajack Exp $
-# $Revision: 1.5 $
-# $Date: 2003/12/12 16:32:51 $
+# $Header: /home/stefano/cvs/gump/python/gump/utils/Attic/launcher.py,v 1.6 2003/12/16 20:43:42 ajack Exp $
+# $Revision: 1.6 $
+# $Date: 2003/12/16 20:43:42 $
 #
 # ====================================================================
 #
@@ -445,20 +445,29 @@ def executeIntoResult(cmd,result,tmp=dir.tmp):
         #
         # Execute Command & Wait
         #
-        waitcode=os.system(execString + ' >>' + str(outputFile) + ' 2>&1')
+        systemReturn=os.system(execString + ' >>' + str(outputFile) + ' 2>&1')
         
-        #
-        # The return code (from system = from wait) is (on Unix):
-        #
-        #	a 16 bit number
-        #	top byte	=	exit status
-        #	low byte	=	signal that killed it
-        #
-        result.signal=(waitcode & 0xFF)
-        result.exit_code=(((waitcode & 0xFF00) >> 8) & 0xFF)
+        if not os.name == 'dos' and not os.name == 'nt':
+            waitcode=systemReturn
         
-        log.debug('Command . [' + str(waitcode)+ '] [Sig:' + str(result.signal) + ' / Exit:' + str(result.exit_code) + '].')
+            #
+            # The return code (from system = from wait) is (on Unix):
+            #
+            #	a 16 bit number
+            #	top byte	=	exit status
+            #	low byte	=	signal that killed it
+            #
+            result.signal=(waitcode & 0xFF)
+            result.exit_code=(((waitcode & 0xFF00) >> 8) & 0xFF)
+        
+        else:
             
+            result.signal=0
+            result.exit_code=systemReturn
+            
+        log.debug('Command -> [' + str(systemReturn)+ '] [Sig:' + str(result.signal) + ' / Exit:' + str(result.exit_code) + '].')
+        print 'Command -> [' + str(systemReturn)+ '] [Sig:' + str(result.signal) + ' / Exit:' + str(result.exit_code) + '].'
+        
         #
         # Assume timed out if signal terminated
         #
@@ -470,7 +479,8 @@ def executeIntoResult(cmd,result,tmp=dir.tmp):
             result.state=CMD_STATE_FAILED
             log.error('Command failed. [' + execString + ']. ExitCode: ' + str(result.exit_code))
         else:
-            result.state=CMD_STATE_SUCCESS
+            result.state=CMD_STATE_SUCCESS                
+            
     
         #
         # Stop it (if still running)
