@@ -353,7 +353,9 @@ def documentModule(workspace,wdir,modulename,modulecontext,db,projectFilterList=
     startListXDoc(x)
     addItemXDoc(x,"Status: " + stateName(modulecontext.status))
     if modulecontext.cause:
-        addItemXDoc(x, "Cause:", "<link href='%s'>%s</link>" % (getContextUrl(modulecontext.cause), modulecontext.cause.name))    
+        addItemXDoc(x, "Cause:", "<link href='%s'>%s</link>" % \
+            (getContextUrl(modulecontext.cause), \
+                modulecontext.cause.name))    
     endListXDoc(x)
     endSectionXDoc(x)
        
@@ -364,7 +366,7 @@ def documentModule(workspace,wdir,modulename,modulecontext,db,projectFilterList=
   
     # Document Projects
     for pctxt in modulecontext:
-        if projectFilterList and not pctxt.name in projectFilterList: continue      
+        if projectFilterList and not pctxt.project in projectFilterList: continue      
         documentProject(workspace,modulename,mdir,pctxt.name,pctxt,db)
    
 def documentProject(workspace,modulename,mdir,projectname,projectcontext,db): 
