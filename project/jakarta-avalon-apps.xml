@@ -125,7 +125,7 @@
             to="avalon-dev@jakarta.apache.org"/>
     </project>
 
-    <project name="avalon-apps-infomover">
+<!-- infomover moved infomover!    <project name="avalon-apps-infomover">
         <package>org.apache.avalon.infomover</package>
 
         <ant basedir="infomover"/>
@@ -145,7 +145,7 @@
 
         <nag from="Gump Integration Build &lt;avalon-dev@jakarta.apache.org&gt;"
             to="avalon-dev@jakarta.apache.org"/>
-    </project>
+    </project>-->
 
     <project name="avalon-apps-overlord">
         <package>org.apache.avalon.overlord</package>
@@ -180,6 +180,7 @@
         <depend project="jakarta-avalon"/>
         <depend project="jakarta-avalon-phoenix" inherit="all"/>
         <depend project="jakarta-avalon-cornerstone"/>
+	<depend project="excalibur-fortress" runtime="true"/>
         <depend project="mx4j" runtime="true"/>
 
         <option project="checkstyle" inherit="runtime"/>
@@ -205,6 +206,7 @@
         <depend project="jakarta-avalon-cornerstone"/>
         <depend project="jetty" runtime="true"/>
         <depend project="jakarta-tomcat-catalina" runtime="true"/>
+	<depend project="commons-digester"/>
 	<!-- todo: build with jo! as well
         <depend project="tagtraum-jo" runtime="true"/>-->
 
