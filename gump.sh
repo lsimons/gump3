@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# $Header: /home/cvspublic/jakarta-gump/gump.sh,v 1.4 2003/04/09 07:31:42 nickchalko Exp $
+# $Header: /home/cvs/jakarta-gump/gump.sh,v 1.6 2003/05/30 22:02:56 nickchalko Exp $
 
 if [ -e local-env.sh ] ; then
 	. local-env.sh
@@ -125,7 +125,7 @@ bash build.sh $GUMP_TARGET   >> $GUMP_LOG 2>&1
 
 cd $GUMP
 echo $SEPARATOR >> $GUMP_LOG
-if [ -n $"STARTED_FROM_CRON" ] ; then 
+if [ -n "$STARTED_FROM_CRON" ] ; then 
 	perl nag.pl work/naglist >> $GUMP_LOG 2>&1
 fi;
 
@@ -133,6 +133,13 @@ echo \</XMP\> >> $GUMP_LOG
 pkill -P $$ 
 
 # $Log: gump.sh,v $
+# Revision 1.6  2003/05/30 22:02:56  nickchalko
+# Fixing incomplete update from Adam
+# PR:
+# Obtained from:
+# Submitted by:Adam Jack ajack@TrySybase.com
+# Reviewed by:
+#
 # Revision 1.4  2003/04/09 07:31:42  nickchalko
 # -mRemoved reference to tsbuild1
 #
