@@ -51,7 +51,7 @@
         <package>org.apache.juddi.test</package>
 
         <!-- Work dirs to be included in classpath  -->
-        <work nested="build/classes"/>
+        <work nested="build/unit/classes"/>
         <home nested="build"/>
         <code type="test/junit" dir="src/test/unit"/>
 
