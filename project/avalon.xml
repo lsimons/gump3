@@ -641,7 +641,6 @@
         <depend project="avalon-util-criteria" />
         <depend project="avalon-util-defaults" />
         <depend project="avalon-util-exception" />
-        <depend project="avalon-util-criteria" />
         <depend project="avalon-util-env" />
         <depend project="avalon-util-i18n" />
         
@@ -668,7 +667,6 @@
         <depend project="avalon-util-criteria" />
         <depend project="avalon-util-defaults" />
         <depend project="avalon-util-exception" />
-        <depend project="avalon-util-criteria" />
         <depend project="avalon-util-env" />
         <work nested="repository/main/target/classes"/>
         <home nested="repository/main"/>
