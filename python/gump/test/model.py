@@ -80,7 +80,7 @@ class ModelTestSuite(UnitTestSuite):
         
         self.assertTrue('Is a package marked', self.package1.isPackageMarked())
         self.assertTrue('Is a package', self.package1.isPackaged())
-        self.assertTrue('Has Jars', self.package1.hasJars())
+        self.assertTrue('Has Outputs', self.package1.hasOutputs())
         self.assertTrue('Is a package', self.packagedModule1.isPackaged())
         
     def testNotifys(self):

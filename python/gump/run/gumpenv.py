@@ -69,6 +69,7 @@ class GumpEnvironment(Annotatable,Workable,Propogatable):
         self.checked=False
         self.set=False
     	
+        self.noMono=False
         self.noNAnt=False    
         self.noMaven=False    	 
     	self.noDepot=False    	
@@ -188,6 +189,11 @@ class GumpEnvironment(Annotatable,Workable,Propogatable):
             not self._checkExecutable('NAnt','-help',False,False,'check_NAnt'): 
             self.noNAnt=True
             self.addWarning('"NAnt" command not found, no NAnt builds')
+       
+        if not self.noMono and \
+            not self._checkExecutable('mono','--help',False,False,'check_mono'): 
+            self.noMono=True
+            self.addWarning('"Mono" command not found, no Mono runtime')
        
         self.checked=True
         

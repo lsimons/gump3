@@ -118,9 +118,15 @@ class NAntBuilder(gump.run.gumprun.RunSpecific):
         
         # Library Path
         libpath=languageHelper.getAssemblyPath(project)
+        
+        # Launch with mono if available
+        exe=''
+        if not self.run.getEnvironment().noMono:
+            exe='mono '
+        exe+='NAnt.exe'
    
         # Run java on apache NAnt...
-        cmd=Cmd('NAnt.exe','build_'+project.getModule().getName()+'_'+project.getName(),
+        cmd=Cmd(exe,'build_'+project.getModule().getName()+'_'+project.getName(),
             basedir,{'LIBPATH':libpath})
             
         # These are workspace + project system properties

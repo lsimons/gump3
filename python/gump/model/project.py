@@ -238,7 +238,7 @@ class Project(NamedModelObject, Statable, Resultable, Dependable, Positioned):
         """
         Does this project generate outputs (currently JARs)
         """
-        return self.hasJars() or self.hasLicense()
+        return self.hasOutputs() or self.hasLicense()
         
     def hasPackageNames(self):
         if self.packageNames: return True
