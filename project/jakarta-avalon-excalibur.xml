@@ -19,9 +19,12 @@
   <depend project="jakarta-avalon"/>
   <depend project="jakarta-avalon-logkit"/>
   <depend project="jakarta-avalon-testlet"/>
+  <depend project="xml-xalan2"/>
   <depend project="kawa"/>
   <depend project="jdom"/>
  
+  <work nested="build/classes"/>
+
   <!-- Anybody want to contribute an ant build.xml to Kawa ;-) -->
   <project name="kawa">
     <url href="http://www.gnu.org/software/kawa/"/>

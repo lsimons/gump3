@@ -116,6 +116,12 @@ From: Peter Donald <donaldp@apache.org>
 Subject: [GUMP] Build Failure - ExceptionUtil
 Regex: /BUILD FAILED/
 ------
+Project: jakarta-avalon-excalibur
+To: avalon-dev@jakarta.apache.org
+From: Peter Donald <donaldp@apache.org>
+Subject: [GUMP] Build Failure - Excalibur
+Regex: /BUILD FAILED/
+------
 Project: jakarta-avalon-logkit
 To: avalon-dev@jakarta.apache.org
 From: Peter Donald <donaldp@apache.org>
