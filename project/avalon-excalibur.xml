@@ -51,7 +51,6 @@
         <depend project="excalibur-io" runtime="true" inherit="jars"/>
         <depend project="excalibur-loader" runtime="true" inherit="jars"/>
         <depend project="excalibur-logger" runtime="true" inherit="jars"/>
-        <depend project="excalibur-meta" runtime="true" inherit="jars"/>
         <depend project="excalibur-monitor" runtime="true" inherit="jars"/>
         <depend project="excalibur-naming" runtime="true" inherit="jars"/>
         <depend project="excalibur-policy" runtime="true" inherit="jars"/>
@@ -525,7 +524,7 @@
             <property name="skip.dependencies" value="true"/>
         </ant>
 
-        <depend project="ant" inherit="runtime"/>
+        <depend project="ant" inherit="runtime" runtime="true"/>
         <depend project="avalon" runtime="true"/>
         <depend project="excalibur-instrument" runtime="true"/>
         <option project="checkstyle" inherit="runtime"/>
@@ -556,7 +555,7 @@
             <property name="skip.dependencies" value="true"/>
         </ant>
 
-        <depend project="excalibur-instrument-manager" inherit="jars"/>
+        <depend project="excalibur-instrument-manager" inherit="all" runtime="true"/>
         <depend project="excalibur-altrmi-0.9.2" runtime="true"/>
         <work nested="instrument-manager/build/classes"/>
 
@@ -684,29 +683,9 @@
                 to="dev@avalon.apache.org"/>
     </project>
 
+    <!-- moved to sandbox! -->
     <project name="excalibur-meta">
-        <package>org.apache.excalibur.meta</package>
-
-        <ant basedir="meta">
-            <property name="version" value="@@DATE@@"/>
-            <property name="junit.failonerror" value="true"/>
-            <property name="do.checkstyle" value="false"/>
-            <property name="skip.dependencies" value="true"/>
-        </ant>
-
-        <depend project="ant" inherit="runtime"/>
-        <depend project="avalon" runtime="true"/>
-        <depend project="excalibur-i18n" runtime="true"/>
-        <depend project="excalibur-configuration" runtime="true"/>
-        <depend project="xml-xerces"/>
-        <depend project="xml-xalan2"/>
-        <work nested="meta/build/classes"/>
-
-        <home nested="meta"/>
-        <jar name="build/lib/excalibur-meta-@@DATE@@.jar"/>
-
-        <nag from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"
-                to="dev@avalon.apache.org"/>
+        <depend project="avalon-sandbox-meta" inherit="jars"/>
     </project>
 
     <project name="excalibur-monitor">
@@ -993,6 +972,7 @@
         <depend project="xml-xerces"/>
         <depend project="xml-xalan2"/>
         <depend project="jtidy"/>
+        <depend project="xml-commons-resolver"/>
         <work nested="xmlutil/build/classes"/>
 
         <home nested="xmlutil"/>
