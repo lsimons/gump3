@@ -19,8 +19,8 @@ http://gump.chalko.com/gb/blog/Issues?permalink=Cactus-CommonsHttpclient.txt&pre
 -->
 <p>
 <a href="http://jakarta.apache.org/cactus/">Cactus</a>
-build was 
-<a href="http://lsd.student.utwente.nl/gump/jakarta-cactus/jakarta-cactus-sample-servlet-12.html">failing</a>
+build 
+<a href="http://lsd.student.utwente.nl/gump/jakarta-cactus/jakarta-cactus-sample-servlet-12.html">failed</a>
 on Apache Gump.
 After a few hours of debugging and thanks
 to Leo for giving Vincent access to <a href="http://lsd.student.utwente.nl/gump/">LSD</a>,
