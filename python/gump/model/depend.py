@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/model/depend.py,v 1.10 2004/03/09 20:40:29 ajack Exp $
-# $Revision: 1.10 $
-# $Date: 2004/03/09 20:40:29 $
+# $Header: /home/stefano/cvs/gump/python/gump/model/depend.py,v 1.11 2004/03/09 20:57:42 ajack Exp $
+# $Revision: 1.11 $
+# $Date: 2004/03/09 20:57:42 $
 #
 # ====================================================================
 #
@@ -292,7 +292,7 @@ class Dependable:
         #
         # Build (once) upon demand
         #
-        self.fullDependencies=DependSet(1)
+        self.fullDependencies=DependSet()
         for depend in self.directDependencies.getDepends():
             if not self.fullDependencies.containsDepend(depend):
                 self.fullDependencies.addDepend(depend)
@@ -327,7 +327,8 @@ class Dependable:
         #
         # Build (once) upon demand
         #
-        self.fullDependees=DependSet()
+        self.fullDependees=DependSet(1)
+        
         for depend in self.directDependees.getDepends():
             if not self.fullDependees.containsDepend(depend):    
                 self.fullDependees.addDepend(depend)
