@@ -38,7 +38,7 @@ class LoadingTestSuite(UnitTestSuite):
     def __init__(self):
         UnitTestSuite.__init__(self)
         
-    def performLoad(file):
+    def performLoad(self,file):
         return WorkSpaceLoader(True).load(file)
 
     def testSimple1(self):

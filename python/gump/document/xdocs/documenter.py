@@ -1760,9 +1760,9 @@ This page helps Gumpmeisters (and others) observe community progress.
         statsTable=statsSection.createTable()           
         
         # Generate an SVG for FOG:
-        #(pngFile,pngTitle) = self.diagramFOG(project)
-        #if pngFile:
-        #    statsTable.createEntry("FOG Factor: ").createData().createIcon(pngFile,pngTitle)
+        (file,title) = self.diagramFOG(project)
+        if file:
+            statsTable.createEntry("FOG Factor: ").createData().createIcon(file,title)
             
         statsTable.createEntry("FOG Factor: ", '%02.2f' % stats.getFOGFactor())
         statsTable.createEntry('Dependency Depth: ', project.getDependencyDepth())        
@@ -1888,10 +1888,10 @@ This page helps Gumpmeisters (and others) observe community progress.
         # Not ready for prime time...   
         try:
             # Generate an SVG for Dependencies Diagram:
-            (pngFile,pngTitle) = self.diagramDependencies(project)
-            if pngFile:
+            (file,title) = self.diagramDependencies(project)
+            if file:
                 para=dependencySection.createSection('Dependency Diagram').createParagraph()
-                para.createFork(pngFile).createIcon(pngFile,pngTitle)
+                para.createFork(file).createIcon(file,title)
         except:
             log.error('Failed to diagram dependencies for [' + project.getName() + ']', exc_info=1)
         
@@ -2553,7 +2553,11 @@ This page helps Gumpmeisters (and others) observe community progress.
             diagram=ScaleDiagram([stats.successes,stats.prereqs,stats.failures])
             diagram.generateDiagram().serializeToFile(svgFile)
             
-            return (pngFile, 'FOG Factor')
+            file=pngFile
+            if self.config.isXhtml():
+                file=svgFile
+            
+            return (file, 'FOG Factor')
             
         return (None, None)
                 
@@ -2569,7 +2573,11 @@ This page helps Gumpmeisters (and others) observe community progress.
         diagram.compute()
         diagram.generateDiagram().serializeToFile(svgFile)
         
-        return (pngFile, 'Dependency Diagram')
+        file=pngFile
+        if self.config.isXhtml():
+           file=svgFile
+                
+        return (file, 'Dependency Diagram')
                 
     #####################################################################           
     #
