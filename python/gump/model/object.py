@@ -67,9 +67,6 @@ class ModelObject(Annotatable,Workable,FileHolder,Propogatable,Ownable):
     	
         self.resolutionPerformed=False
         self.completionPerformed=False
-        
-        from threading import Lock
-        self.lock=Lock()
     	
     def __del__(self):
         Annotatable.__del__(self)
@@ -96,10 +93,7 @@ class ModelObject(Annotatable,Workable,FileHolder,Propogatable,Ownable):
                 self.element=None
             self.dom=None
             
-        self.shutdownWork()
-        
-    def getLock(self):
-        return self.lock
+        self.shutdownWork() 
     
     def isResolved(self):
         return self.resolutionPerformed
@@ -288,6 +282,9 @@ class NamedModelObject(ModelObject):
     	    raise RuntimeError, self.__class__.__name__ + ' needs a name.'
             
         self.hash=0
+        
+        from threading import RLock
+        self.lock=RLock()
       
     #
     # Same if same type, and same name
@@ -311,6 +308,9 @@ class NamedModelObject(ModelObject):
 
     def getName(self):
         return self.name
+        
+    def getLock(self):
+        return self.lock
         
     def dump(self, indent=0, output=sys.stdout):
         """ Display the contents of this object """

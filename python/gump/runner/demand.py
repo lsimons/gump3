@@ -82,8 +82,7 @@ class OnDemandRunner(GumpRunner):
         
     def performUpdate(self,module):
         """
-        	Perform
- 	
+        	Perform a module update (locking whilst doing it)	
         """
         
         # Lock the module, while we work on it...
@@ -95,10 +94,7 @@ class OnDemandRunner(GumpRunner):
             if not module.isUpdated():
                 
                 # Perform Update
-                self.updater.updateModule(module)        
-        
-                # Mark Updated
-                module.setUpdated(True) #:TODO: Move this...
+                self.updater.updateModule(module)         
         
                 # Fire event
                 self.run.generateEvent(module)
@@ -106,10 +102,10 @@ class OnDemandRunner(GumpRunner):
                 # Mark done in set
                 self.run.gumpSet.setCompletedModule(module)
                 
+                # Mark Updated
+                module.setUpdated(True)
         finally:
-            
-            if lock:
-                lock.release()
+            lock.release()
         
     ###########################################
 
@@ -130,6 +126,7 @@ class OnDemandRunner(GumpRunner):
             # Process the module, upon demand
             module=project.getModule()
             if not module.isUpdated():
+                log.debug('Update module *inlined* ' + `module` + '.')     
                 self.performUpdate(module)
 
             # Process
