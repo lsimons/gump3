@@ -148,7 +148,7 @@ if test -z "$FAIL"; then
   echo Publishing
   cd work
   chmod +x *.sh
-  bash puball.sh $SOURCE
+  bash puball.sh ../$SOURCE
   cd ..
 fi
 

@@ -104,7 +104,7 @@ REM ********************************************************************
 
 echo Publishing
 cd work
-call puball %SOURCE%
+call puball ..\%SOURCE%
 cd ..
 
 goto eof
