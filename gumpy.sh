@@ -116,9 +116,9 @@ export >> $GUMP_LOG
 #
 # Check the projects
 #
-#cd $GUMP_PYTHON
-#echo $SEPARATOR >> $GUMP_LOG
-#python gump/check.py -w ../${GUMP_WORKSPACE}.xml >> $GUMP_LOG 2>&1
+cd $GUMP_PYTHON
+echo $SEPARATOR >> $GUMP_LOG
+python gump/check.py -w ../${GUMP_WORKSPACE}.xml >> $GUMP_LOG 2>&1
 
 #
 # Do the integration run
