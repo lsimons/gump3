@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/output/Attic/statsdb.py,v 1.9 2004/01/09 23:02:32 ajack Exp $
-# $Revision: 1.9 $
-# $Date: 2004/01/09 23:02:32 $
+# $Header: /home/stefano/cvs/gump/python/gump/output/Attic/statsdb.py,v 1.10 2004/01/09 23:28:40 ajack Exp $
+# $Revision: 1.10 $
+# $Date: 2004/01/09 23:28:40 $
 #
 # ====================================================================
 #
@@ -238,7 +238,6 @@ class StatisticsDB:
     def putDate(self,key,val=0):
         self.putInt(key,val)
         
-  
     def loadStatistics(self,workspace):
         log.debug('--- Loading Statistics')
                   

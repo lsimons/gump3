@@ -1,7 +1,7 @@
 #!/usr/bin/env python
-# $Header: /home/stefano/cvs/gump/python/gump/test/stats.py,v 1.6 2004/01/09 23:18:02 ajack Exp $
-# $Revision: 1.6 $
-# $Date: 2004/01/09 23:18:02 $
+# $Header: /home/stefano/cvs/gump/python/gump/test/stats.py,v 1.7 2004/01/09 23:28:40 ajack Exp $
+# $Revision: 1.7 $
+# $Date: 2004/01/09 23:28:40 $
 #
 # ====================================================================
 #
@@ -119,6 +119,9 @@ class StatsTestSuite(UnitTestSuite):
         ps1p = ps1.prereqs
         ps1.prereqs += 1
         
+        ps1seq = ps1.sequenceInState
+        ps1.sequenceInState += 1
+        
         # Put        
         self.statsDB.putProjectStats(ps1)
         self.statsDB.putModuleStats(ms1)
@@ -128,12 +131,14 @@ class StatsTestSuite(UnitTestSuite):
         ps2=self.statsDB.getProjectStats(self.project1.getName())
         ms2=self.statsDB.getModuleStats(self.module1.getName())
         rs2=self.statsDB.getRepositoryStats(self.repo1.getName())
+            
+        if not os.name == 'dos' and not os.name == 'nt':  
+            self.assertGreater('Incremented Successes', ps2.successes, ps1s )
+            self.assertGreater('Incremented Failures', ps2.failures, ps1f )
+            self.assertGreater('Incremented Prereqs', ps2.prereqs, ps1p )
+            self.assertGreater('Incremented SequenceInState', ps2.sequenceInState, ps1seq )
         
-        self.assertGreater('Incremented Successes', ps2.successes, ps1s )
-        self.assertGreater('Incremented Successes', ps2.failures, ps1f )
-        self.assertGreater('Incremented Successes', ps2.prereqs, ps1p )
-        
-        print str(ps1s) + ' : ' + str(ps1f) + ' : ' + str(ps1p)
+        print str(ps1s) + ' : ' + str(ps1f) + ' : ' + str(ps1p) + ' : ' + str(ps1seq)
         
         self.statsDB.sync()
         

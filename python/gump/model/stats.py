@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/model/stats.py,v 1.4 2004/01/09 23:11:07 ajack Exp $
-# $Revision: 1.4 $
-# $Date: 2004/01/09 23:11:07 $
+# $Header: /home/stefano/cvs/gump/python/gump/model/stats.py,v 1.5 2004/01/09 23:28:40 ajack Exp $
+# $Revision: 1.5 $
+# $Date: 2004/01/09 23:28:40 $
 #
 # ====================================================================
 #
@@ -142,6 +142,12 @@ class Statistics:
                 s.failures += 1    
             elif statable.isPrereqFailed():                        
                 s.prereqs  += 1
+            
+        elif statable.isFailure():
+            self.failures += 1
+            
+        elif statable.isPrereq():
+            self.prereqs += 1
             
         #
         # Deal with states & changes...
