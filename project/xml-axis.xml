@@ -13,12 +13,15 @@
     <ant basedir="java" target="dist">
       <depend name="wsdl4j.jar" project="wsdl4j"/>
     </ant>
+
     <depend project="xml-xerces"/>
     <depend project="jakarta-ant"/>
     <depend project="jakarta-servletapi"/>
+    <depend project="jakarta-log4j"/>
     <option project="junit"/>
     <work nested="java/build/classes"/>
     <work nested="java/build"/>
+
     <home nested="java/build"/>
     <jar name="lib/axis.jar"/>
   </project>
