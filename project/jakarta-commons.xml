@@ -222,7 +222,8 @@
     <depend project="jakarta-log4j"/>
     <depend project="jakarta-avalon-logkit"/>
     <home nested="logging/dist"/>
-    <jar name="commons-logging.jar"/>
+    <jar name="commons-logging.jar" id="impl" />
+    <jar name="commons-logging-api.jar" id="api" />
     <javadoc nested="logging/dist/docs/api"/>
 
     <nag to="commons-dev@jakarta.apache.org"
