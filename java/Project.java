@@ -31,18 +31,31 @@ public class Project {
      * @param elements list of &lt;project&gt; elements
      */
     public static void load(Enumeration elements) throws Exception {
+        Element element = null;
         while (elements.hasMoreElements()) {
-           new Project((Element)elements.nextElement());
+            try {
+                element = (Element)elements.nextElement();
+                new Project(element);
+            } catch (Throwable t) {
+                System.err.println("Dropping "
+                                   + element.getAttribute("name")
+                                   + " because of Exception " + t);
+            }
         }
-
+            
         // Resolve all references so that the XML can be processed in
         // one pass.
         for (Enumeration e=projects.elements(); e.hasMoreElements();) {
             Project p = ((Project)(e.nextElement()));
-            p.expandDepends();
-            p.resolveProperties();
+            try {
+                p.expandDepends();
+                p.resolveProperties();
+            } catch (Throwable t) {
+                System.err.println("Dropping " + p.get("name")
+                                   + " because of Exception " + t);
+            }
         }
-
+        
         sort();
     }
 

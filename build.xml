@@ -18,7 +18,7 @@
     <mkdir dir="classes"/>
     <mkdir dir="work"/>
     <javac srcdir="java" destdir="classes"/>
-    <jar file="jenny.jar" basedir="classes"/>
+    <jar destfile="jenny.jar" basedir="classes"/>
 
     <uptodate property="uptodate" targetfile="work/merge.xml">
       <srcfiles dir="." includes=".timestamp"/>

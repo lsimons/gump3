@@ -142,7 +142,27 @@ public class Jenny {
        first = node.getFirstChild();
        for (Node child=first; child != null; child=child.getNextSibling()) {
            if (child.getNodeType()==Node.ELEMENT_NODE) {
-               child=expand((Element)child);
+               Element elem = (Element)child;
+               try {
+                   child=expand(elem);
+               } catch (Throwable t) {
+                   String tagName = elem.getTagName();
+                   String nameAttr = elem.getAttribute("name");
+                   String hrefAttr = elem.getAttribute("href");
+
+                   StringBuffer name = new StringBuffer(tagName);
+                   if (!"".equals(nameAttr)) {
+                       name.append(" with name ").append(nameAttr);
+                   }
+                   if (!"".equals(hrefAttr)) {
+                       name.append(" with href ").append(hrefAttr);
+                   }
+                   
+                   System.err.println("Failed to expand "
+                                      + name.toString()
+                                      + " because of exception "
+                                      + t);
+               }
            }
        }
 
