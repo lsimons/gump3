@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/Attic/logic.py,v 1.36 2003/10/21 19:40:56 ajack Exp $
-# $Revision: 1.36 $
-# $Date: 2003/10/21 19:40:56 $
+# $Header: /home/stefano/cvs/gump/python/gump/Attic/logic.py,v 1.37 2003/10/21 19:53:27 ajack Exp $
+# $Revision: 1.37 $
+# $Date: 2003/10/21 19:53:27 $
 #
 # ====================================================================
 #
@@ -281,6 +281,12 @@ def getAntCommand(workspace,module,project,ant,context):
     cmd=Cmd(context.javaCommand,'build_'+module.name+'_'+project.name,\
             basedir,{'CLASSPATH':classpath})
             
+    # Set this as a system property. Setting it here helps JDK1.4+
+    # AWT implementations cope w/o an X11 server running (e.g. on
+    # Linux)
+    #    
+    cmd.addPrefixedParameter('-D','java.awt.headless','true','=')
+    
     if jvmargs:
         cmd.addParameters(jvmargs)
             
@@ -298,7 +304,6 @@ def getAntCommand(workspace,module,project,ant,context):
     #	This sets the *defaults*, a workspace could override them.
     #
     cmd.addPrefixedParameter('-D','build.sysclasspath','only','=')
-    cmd.addPrefixedParameter('-D','java.awt.headless','true','=')
     
     # These are module level plus project level
     cmd.addNamedParameters(properties)
