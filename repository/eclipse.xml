@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 
-<repository name="eclipse" type="cvs">
+<repository name="eclipse" type="cvs" compress="-z0">
   <title>Eclipse</title>
   <home-page>http://eclipse.org/</home-page>
   <cvsweb>http://dev.eclipse.org/viewcvs/index.cgi/</cvsweb>
