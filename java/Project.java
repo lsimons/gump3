@@ -388,9 +388,12 @@ public class Project {
         // Add the inherited nodes
         for (Enumeration e=inheritance.elements(); e.hasMoreElements(); ) {
             Element inherited = (Element) e.nextElement();
-            inherited.setAttribute("inherited", "true");
-            dependsOn.put(inherited.getAttribute("project"),inherited);
-            element.appendChild(inherited);
+            String project = inherited.getAttribute("project");
+            if (dependsOn.get(project) == null) {
+                inherited.setAttribute("inherited", "true");
+                dependsOn.put(project, inherited);
+                element.appendChild(inherited);
+            }
         }
     }
 
