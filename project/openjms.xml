@@ -2,7 +2,7 @@
 
   <url href="http://openjms.exolab.org/"/>
   <description>
-    EJB container
+    Java Message Service
   </description>
 
   <cvs repository="exolab" host-prefix="openjms" dir="openjms"/>
