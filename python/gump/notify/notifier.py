@@ -290,7 +290,7 @@ The following %s notify%s should have been sent
                 
         # Form the subject
         subject=self.workspace.prefix+': Project '+ project.getName()	\
-            + ' (in Module ' + module.getName() + ') ' \
+            + ' (in module ' + module.getName() + ') ' \
             + lower(stateDescription(project.getState()))
             
         if notification.isWarning():

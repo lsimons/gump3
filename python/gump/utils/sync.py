@@ -181,9 +181,9 @@ class PathWalker(Annotatable):
                 dstname = os.path.join(dst, name)
             
             except UnicodeDecodeError, why:
-                message = "Unicode Error. Can't copy [%s] in [%s] to [%s]: [%s]" % (`name`, `src`, `dst`, str(why))
+                message = 'Unicode Error. Can\'t copy [%s] in [%s] to [%s]: [%s]' % (`name`, `src`, `dst`, str(why))
                 log.exception(message)
-                raise UnicodeDecodeError, message
+                raise RuntimeError, message
                 
             try:
                 if symlinks and os.path.islink(srcname):

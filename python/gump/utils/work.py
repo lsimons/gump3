@@ -63,7 +63,7 @@ class WorkItem(Ownable):
         
     def overview(self):
         overview='Work Name: ' + self.name +' (Type: ' + workTypeName(self.type)+')\n'
-        overview+='State: ' + stateDescription(self.state)+'\n'
+        overview+='Work ended in a state of : ' + stateDescription(self.state)+'\n'
         if self.message:
             overview+=message+'\n'
         return overview

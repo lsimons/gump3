@@ -214,7 +214,7 @@ class Cmd:
             overview += indent+'[Working Directory: ' + self.cwd + ']\n'
         if self.env:
             for envKey in self.env.keys():
-                overview += indent+envKey+' : '+self.env[envKey]
+                overview += indent+envKey+' : '+self.env[envKey]+ '\n'
         return overview
         
     def dump(self,indent=''):

@@ -249,7 +249,7 @@ maven.jar.override = on
         (classpath,bootclasspath)=languageHelper.getClasspathObjects(project)
         
         # :TODO: write...
-        for annotatedPath in classpath.getPathParts():
+        for annotatedPath in classpath.getPathParts()+bootclasspath.getPathParts():
             if isinstance(annotatedPath,gump.language.path.AnnotatedPath):
                 props.write(('# Contributor: %s\nmaven.jar.%s=%s\n') % \
                     (	annotatedPath.getContributor(),	
