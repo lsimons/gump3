@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/Attic/logic.py,v 1.21 2003/10/13 18:51:20 ajack Exp $
-# $Revision: 1.21 $
-# $Date: 2003/10/13 18:51:20 $
+# $Header: /home/stefano/cvs/gump/python/gump/Attic/logic.py,v 1.22 2003/10/14 02:16:38 ajack Exp $
+# $Revision: 1.22 $
+# $Date: 2003/10/14 02:16:38 $
 #
 # ====================================================================
 #
@@ -359,14 +359,16 @@ def getClasspathList(project,workspace,context):
   # Append dependent projects (including optional)
   if project.depend:
       for depend in project.depend:
-          classpath += getDependOutputList(depend,context,visited)  
+          recurse=determineRecursion(depend)
+          classpath += getDependOutputList(depend,context,visited,recurse)  
   if project.option:    
       for option in project.option:
-          classpath += getDependOutputList(option,context,visited)
+          recurse=determineRecursion(option)    
+          classpath += getDependOutputList(option,context,visited,recurse)
       
   return classpath
   
-def getDependOutputList(depend,context,visited):      
+def getDependOutputList(depend,context,visited,recurse=None):      
   """Get a classpath of outputs for a project (including it's dependencies)"""            
   projectname=depend.project
   
@@ -388,20 +390,31 @@ def getDependOutputList(depend,context,visited):
   
   # Append JARS for this project
   for jar in depend.jars():
-      classpath.append(AnnotatedPath(jar.path,pctxt)) 
-      
-  # Append sub-projects outputs
-  if project.depend:
-      for depend in project.depend:
-        classpath += getDependOutputList(depend,context,visited)
+    classpath.append(AnnotatedPath(jar.path,pctxt)) 
+
+  if recurse:      
+      # Append sub-projects outputs
+      if project.depend:
+          for depend in project.depend:
+              recurse=determineRecursion(depend)    
+              classpath += getDependOutputList(depend,context,visited,recurse)
   
-  # Append optional sub-project's output (that may not exist)
-  if project.option:
-      for option in project.option:
-        classpath += getDependOutputList(option,context,visited)
+      # Append optional sub-project's output (that may not exist)
+      if project.option:
+          for option in project.option:
+              recurse=determineRecursion(option)       
+              classpath += getDependOutputList(option,context,visited,recurse)
 
   return classpath
   
+def determineRecursion(depend):
+    """Determine if we ought recurse to inherit"""
+    recurse=0
+    inherit=depend.inherit
+    if inherit == 'all' or inherit=='hard':
+        recurse=1
+    return recurse
+    
 # BOOTCLASSPATH?
 def getClasspath(project,workspace,context):
   return os.pathsep.join(getSimpleClasspathList(getClasspathList(project,workspace,context)))
