@@ -7,7 +7,7 @@
 
   <project name="gump">
     <ant target="all">
-      <property name="site.dir" reference="srcdir" project="jakarta-site2"/>
+      <property name="site2.dir" reference="srcdir" project="jakarta-site2"/>
       <property name="batik.dir" reference="srcdir" project="xml-batik"/>
     </ant>
 
