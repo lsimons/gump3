@@ -8,14 +8,6 @@
   
   <project name="jakarta-tomcat-4.0">
     <ant target="dist">
-      <property name="catalina.jaxp.home"
-        reference="home" project="jaxp1.1"/>
-      <property name="catalina.jaxp.parser.jar"
-       reference="jar" id="parser" project="jaxp1.1"/>
-      <property name="jasper.jaxp.home"
-        reference="home" project="jaxp1.1"/>
-      <property name="jasper.jaxp.parser.jar"
-        reference="jar" id="parser" project="jaxp1.1"/>
       <property name="servlet.home"
         reference="home" project="jakarta-servletapi-4"/>
       <property name="jsse.home" reference="home" project="jsse"/>
@@ -36,6 +28,7 @@
       <depend property="ldap.jar" project="ldap"/>
       <depend property="servlet.jar" project="jakarta-servletapi-4"/>
       <depend property="tyrex.jar" project="tyrex"/>
+      <depend property="xerces.jar" project="xml-xerces"/>
     </ant>
 
     <depend project="jaf"/>
@@ -46,7 +39,6 @@
     <depend project="jmx"/>
     <depend project="jsse"/>
     <depend project="xml-xalan2"/>
-    <depend project="xml-xerces"/>
     <option project="jakarta-avalon"/>
     <option project="jakarta-avalon-phoenix"/>
     <option project="tyrex"/>
