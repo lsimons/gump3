@@ -21,6 +21,7 @@
     <jar file="jenny.jar" basedir="classes"/>
 
     <uptodate property="uptodate" targetfile="work/merge.xml">
+      <srcfiles dir="." includes=".timestamp"/>
       <srcfiles dir="." includes="jenny.jar"/>
       <srcfiles dir="." includes="${workspace}"/>
       <srcfiles dir="profile" includes="*.xml"/>
@@ -107,6 +108,7 @@
 
   <!-- Remove all outputs and intermediate results -->
   <target name="clean">
+    <delete file=".timestamp"/>
     <delete file="jenny.jar"/>
     <delete dir="classes"/>
     <delete dir="work"/>

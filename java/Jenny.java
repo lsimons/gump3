@@ -16,6 +16,7 @@ import org.w3c.dom.Node;
 import org.xml.sax.SAXParseException;
 
 // Java classes
+import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Enumeration;
@@ -25,7 +26,6 @@ public class Jenny {
 
     DocumentBuilderFactory dFactory = DocumentBuilderFactory.newInstance();
     TransformerFactory tFactory = TransformerFactory.newInstance();
-    String dstamp = (new SimpleDateFormat("yyyyMMdd")).format(new Date());
 
     /**
      * Parse an XML source file into an DOM.
@@ -45,9 +45,13 @@ public class Jenny {
     
     /**
      * Replace all occurances of @@DATE@@ with the current datestamp in
-     * attribute values.
+     * attribute values.  The datestamp to be used is persisted on disk,
+     * so it will remain stable until the .timestamp file is touched or
+     * removed.
+     * @param parent node to be processed recursively
+     * @param dstamp string to substitute for @@DATE@@
      */
-    private void replaceDate(Element parent) {
+    private void replaceDate(Element parent, String dstamp) {
        Node first = parent.getFirstChild();
        for (Node child=first; child != null; child=child.getNextSibling()) {
            if (child.getNodeType()==Node.ELEMENT_NODE) {
@@ -61,7 +65,7 @@ public class Jenny {
                        ((Element)child).setAttribute(a.getNodeName(),v);
                    }
                }
-               replaceDate((Element)child);
+               replaceDate((Element)child, dstamp);
            }
        }
     }
@@ -192,12 +196,23 @@ public class Jenny {
      * @param source document to be transformed
      */
     private Jenny(String source) throws Exception {
+
+        // Obtain the date to be used
+        Date lastModified = new Date();
+        try {
+            File timestamp = new File(".timestamp");
+            timestamp.createNewFile();
+            lastModified = new Date(timestamp.lastModified());
+        } catch (java.io.IOException ioe) {
+        }
+        String dstamp = (new SimpleDateFormat("yyyyMMdd")).format(lastModified);
+
+        // process documents
         Document doc = parse(source);
         Element workspace = (Element)doc.getFirstChild();
         Workspace.init(workspace);
-
         expand(workspace);
-        replaceDate(workspace);
+        replaceDate(workspace, dstamp);
         Repository.load(merge("repository", workspace).elements());
         Module.load(merge("module",workspace).elements());
         Project.load(merge("project",workspace).elements());
