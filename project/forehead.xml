@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<module name="forehead">
+  <description>forehead: framework to assist in controlling the run-time ClassLoader hierary of Java applications</description>
+  <url href="http://forehead.werken.com/">
+  </url>
+  <cvs module="forehead" repository="werken" dir="forehead">
+  </cvs>
+  <project name="forehead">
+    <ant buildfile="build.xml" target="dist"/>
+    <package>com.werken.forehead</package>
+    <depend project="jakarta-ant"/>
+    <depend project="xml-xerces"/>
+    <jar name="forehead-@@DATE@@.jar"/>
+    <javadoc nested="target/docs/apidocs"/>
+    <nag to="bob@eng.werken.com" from="forehead development &lt;bob@eng.werken.com&gt;">
+    </nag>
+  </project>
+</module>
