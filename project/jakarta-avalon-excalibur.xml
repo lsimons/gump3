@@ -24,6 +24,8 @@
   <depend project="jdom"/>
  
   <work nested="build/classes"/>
+  <jar name="avalon-excalibur.jar" id="avalon-excalibur"/>
+  <jar name="avalon-scratchpad.jar" id="avalon-scratchpad"/>
 
   <!-- Anybody want to contribute an ant build.xml to Kawa ;-) -->
   <project name="kawa">
