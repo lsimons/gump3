@@ -1,8 +1,8 @@
 #!/usr/bin/python
 
-# $Header: /home/stefano/cvs/gump/python/gump/__init__.py,v 1.13 2003/09/26 20:35:21 ajack Exp $
-# $Revision: 1.13 $
-# $Date: 2003/09/26 20:35:21 $
+# $Header: /home/stefano/cvs/gump/python/gump/__init__.py,v 1.14 2003/09/26 20:39:45 ajack Exp $
+# $Revision: 1.14 $
+# $Date: 2003/09/26 20:39:45 $
 #
 # ====================================================================
 #
@@ -156,7 +156,7 @@ def gumpCache(href):
 
     #download the file if not present in the cache
     usecached=0
-    if settings.optimize or settings.optimizenetwork:
+    if switch.optimize or switch.optimizenetwork:
         if os.path.exists(cachedHrefFile):
           log.info('using cached descriptor for ' + href)
           usecached=1
