@@ -87,7 +87,7 @@ export FAIL=1
 
 echo Generate script to publish all xml source files
 test -n "$FAIL" || \
-java org.apache.xalan.xslt.Process -text -in $SOURCE -xsl stylesheet/bash.xsl -out work/puball.sh || \
+java org.apache.xalan.xslt.Process -text -in work/merge.xml -xsl stylesheet/bash.xsl -out work/puball.sh || \
 export FAIL=1
 
 echo Generate template for publishing an xml source file
@@ -107,7 +107,7 @@ export FAIL=1
 
 echo Generate editing instructions
 test -n "$FAIL" || \
-java org.apache.xalan.xslt.Process -text -in $SOURCE -xsl stylesheet/sedmap.xsl -out work/map.sed || \
+java org.apache.xalan.xslt.Process -text -in work/merge.xml -xsl stylesheet/sedmap.xsl -out work/map.sed || \
 export FAIL=1
 
 # **** publish ***
