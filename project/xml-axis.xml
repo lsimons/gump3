@@ -33,6 +33,7 @@
 
     <home nested="java/build"/>
     <jar name="lib/axis.jar"/>
+    <jar name="lib/jaxrpc.jar"/>
     <javadoc nested="java/build/javadocs"/>
   </project>
 
