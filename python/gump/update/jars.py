@@ -97,7 +97,12 @@ class JarsUpdater(RunSpecific):
                 
         return module.okToPerformWork()                                                 
     
-   
+     
+    def preview(self,module):
+            
+        (repository, url, command ) = self.getUpdateCommand(module,1)
+        command.dump()                                            
+    
      
     def getJarsUpdateCommand(self,module,exists=0):
         

@@ -15,7 +15,7 @@
 # limitations under the License.
 
 #
-# $Header: /home/stefano/cvs/gump/python/gump/preview.py,v 1.3 2004/04/30 18:55:07 ajack Exp $
+# $Header: /home/stefano/cvs/gump/python/gump/preview.py,v 1.4 2004/06/02 15:59:11 ajack Exp $
 # 
 
 """
@@ -36,6 +36,7 @@ from gump.core.gumprun import GumpRun, GumpRunOptions, GumpSet
 from gump.core.commandLine import handleArgv
 from gump.model.loader import WorkspaceLoader
 
+from gump.runner.runner import getRunner
 
 ###############################################################################
 # Initialize
@@ -65,26 +66,27 @@ if __name__=='__main__':
     run=GumpRun(workspace,ps,options)    
     run.dump()
     
+    runner=getRunner(run)
+    
+    updater=runner.getUpdater()
+    builder=runner.getBuilder()
+    
     # Display some interesting things...
     # E.g. command lines, env
     # :TODO:
         
     for module in run.getGumpSet().getModules():
         print "-------------------------------------------------------------"
-        print "Module : " + `module` + "\n"
+        print `module`
         if module.isUpdatable():
-            (repository, root, command ) = module.getUpdateCommand(0)
-            command.dump()
-            
-            (repository, root, command ) = module.getUpdateCommand(1)
-            command.dump()                                  
+            updater.preview(module)
+                       
         
     for project in run.getGumpSet().getProjects():
         print "-------------------------------------------------------------"
-        print "Project : " + `project` + "\n"
+        print `project`
         if project.hasBuildCommand():
-            command=project.getBuildCommand() 
-            command.dump()
+            builder.preview(project)
             
     # bye!
     sys.exit(result)

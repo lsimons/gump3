@@ -135,7 +135,7 @@ class GumpBuilder(RunSpecific):
         if project.hasStats():
             stats=project.getStats()
         
-        # Code this nicer, perhaps...    
+        # :TODO: Code this nicer, perhaps...    
         if project.isPackaged():             
             self.performProjectPackageProcessing(project, stats)
             return
@@ -164,7 +164,6 @@ class GumpBuilder(RunSpecific):
                 self.ant.buildProject(project, stats)
             elif project.hasMaven():
                 self.maven.buildProject(project, stats)
-            
             
             if not project.okToPerformWork() and not project.isDebug():
                 # Display...
@@ -461,3 +460,23 @@ class GumpBuilder(RunSpecific):
                 listDirectoryToFileHolder(project,project.getHomeDirectory(),	\
                     FILE_TYPE_PACKAGE, 'list_package_'+project.getName())                                            
         
+        
+    def preview(self,project):
+        
+        # Extract stats (in case we want to do conditional processing)            
+        stats=None
+        if project.hasStats():
+            stats=project.getStats()
+        
+        if project.isPackaged():             
+            print 'Packaged project: ' + project.getName()
+        
+        # Pick your poison..
+        if project.hasScript():
+            self.script.preview(project, stats)
+        elif project.hasAnt():
+            self.ant.preview(project, stats)
+        elif project.hasMaven():
+            self.maven.preview(project, stats)
+        else:
+            print 'No builder for project: ' + project.getName()

@@ -145,7 +145,18 @@ class CvsUpdater(RunSpecific):
                                 + `module.getPosition()` + \
                                 '] : ' + module.getName())
                                  
-     
+    def preview(self,module):
+                
+        (repository, root, command ) = self.getUpdateCommand(module,0)
+        command.dump()
+        
+        (repository, root, command ) = self.getUpdateCommand(module,1,1)
+        command.dump()
+            
+        (repository, root, command ) = self.getUpdateCommand(module,1)
+        command.dump()                       
+        
+    
     def getUpdateCommand(self,module,exists=0,nowork=0):
         """
         

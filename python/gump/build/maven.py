@@ -267,3 +267,8 @@ maven.jar.override = on
         """Return Maven project file location"""      
         basedir = project.maven.getBaseDirectory() or project.getBaseDirectory()
         return os.path.abspath(os.path.join(basedir,'project.xml'))  
+        
+    def preview(self,project,stats):        
+        command=self.getMavenCommand(project) 
+        command.dump()
+            

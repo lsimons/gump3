@@ -138,6 +138,12 @@ class GumpRunner(RunSpecific):
     def finalize(self):            
         # About to shutdown...
         self.run.dispatchEvent(FinalizeRunEvent(self.run))
+        
+    def getUpdater(self):
+        return self.updater
+        
+    def getBuilder(self):
+        return self.builder
 
 def getRunner(run):
     from gump.runner.demand import OnDemandRunner

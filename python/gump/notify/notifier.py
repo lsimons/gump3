@@ -205,7 +205,7 @@ class Notifier(AbstractRunActor):
             
 The following %s notify%s should have been sent
 
-""" % (`self.unwanteds`, plural)
+""" % (`count`, plural)
             
             content += SEPARATOR
             content += '\n'
@@ -344,6 +344,9 @@ The following %s notify%s should have been sent
             sent=0
             log.error('Failed to send notify e-mail: ' + str(details), \
                         exc_info=1)
+                        
+            # :TODO: Find a way to include this log information in
+            # the content stored (and e-mailed) below.
                   
         if not sent:
             self.addUnsent(subject,content)                

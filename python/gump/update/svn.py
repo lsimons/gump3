@@ -178,7 +178,17 @@ class SvnUpdater(RunSpecific):
                 module.changeState(STATE_SUCCESS,REASON_UPDATE_FAILED)
         else:
             module.changeState(STATE_SUCCESS)       
-                                                              
+                         
+                             
+    def preview(self,module):
+        (repository, url, command ) = self.getUpdateCommand(module,0)
+        command.dump()
+            
+        (repository, url, command ) = self.getStatusCommand(module)
+        command.dump()
+            
+        (repository, url, command ) = self.getUpdateCommand(module,1)
+        command.dump()                                            
     
     def getUpdateCommand(self,module,exists=0):
         """

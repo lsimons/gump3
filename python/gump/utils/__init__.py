@@ -414,7 +414,7 @@ def initializeGarbageCollection():
         threshold = gc.get_threshold()
         tracked = len(gc.get_objects())
     
-        log.info('GC: Enabled %s : Tracked %s : Threshold %s' \
+        log.debug('GC: Enabled %s : Tracked %s : Threshold %s' \
                 % (`enabled`, `tracked`,`threshold`))
                 
         #gc.set_debug(gc.DEBUG_LEAK)

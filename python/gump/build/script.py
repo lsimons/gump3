@@ -134,4 +134,10 @@ class ScriptBuilder(RunSpecific):
         #    cmd.addParameter('-verbose')  
         
         return cmd
+        
+        
+    def preview(self,project,stats):        
+        command=self.getScriptCommand(project) 
+        command.dump()
+ 
     

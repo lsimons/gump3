@@ -194,8 +194,6 @@ class AntBuilder(AbstractJavaBuilder):
                 cmd.addParameter(targetParam)
     
         return cmd
-
-                
   
     def getAntProperties(self,project):
         """Get properties for a project"""
@@ -210,4 +208,8 @@ class AntBuilder(AbstractJavaBuilder):
         for property in project.getWorkspace().getSysProperties()+project.getAnt().getSysProperties():
             properties.addPrefixedNamedParameter('-D',property.name,property.value,'=')
         return properties
+                
+    def preview(self,project,stats):        
+        command=self.getAntCommand(project) 
+        command.dump()
  

@@ -173,3 +173,16 @@ class GumpUpdater(RunSpecific):
             log.error('Synchronize Failed ' + str(details), exc_info=1)
            
         return module.okToPerformWork()
+        
+
+    def preview(self,module):
+        
+        
+        if module.hasCvs():
+            ok=self.cvs.preview(module)
+        elif module.hasSvn():
+            ok=self.svn.preview(module)
+        elif module.hasJars():
+            ok=self.jars.preview(module)        
+        else:
+            print 'No updater for module: ' + module.getName()            
