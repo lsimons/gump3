@@ -176,7 +176,7 @@ class ResultsSet(dict):
         return self.differences
         
     def containsFailure(self):
-        return self.contains(STATE_FAILED)
+        return self.containsState(STATE_FAILED)
         
     def containsState(self,state):
         for result in self.values():
