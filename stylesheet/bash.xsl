@@ -5,7 +5,7 @@
 
   <xsl:variable name="cygwin">
     <xsl:choose>
-      <xsl:when test="$os-type='cygwinx'">1</xsl:when>
+      <xsl:when test="$os-type='cygwin'">1</xsl:when>
       <xsl:when test="$os-type='cygwin32'">1</xsl:when>
       <xsl:otherwise>0</xsl:otherwise>
     </xsl:choose>
