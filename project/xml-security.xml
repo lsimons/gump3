@@ -1,0 +1,25 @@
+<module name="xml-security">
+
+  <url href="http://xml.apache.org/security/index.html"/>
+  <description>
+    XML-Signature Syntax and Processing 
+  </description>
+
+  <cvs repository="xml"/>
+
+  <!-- build -->
+
+  <project name="xml-security">
+    <ant target="javadocs"/>
+
+    <depend project="jakarta-ant"/>
+    <depend project="xml-xerces"/>
+    <depend project="xml-xalan2"/>
+    <depend project="jakarta-log4j"/>
+    <depend project="jce"/>
+    <option project="junit"/>
+
+    <javadoc nested="doc/html/api"/>
+  </project>
+
+</module>

@@ -1,0 +1,12 @@
+<module name="jce">
+
+  <url  href="http://www.bouncycastle.org/"/>
+  <description>
+    Bouncy Castle Crypto APIs
+  </description>
+  
+  <project name="jce">
+    <jar  name="jce-jdk13-110.jar"/>
+  </project>
+
+</module>

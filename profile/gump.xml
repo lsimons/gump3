@@ -58,6 +58,7 @@
   <module href="project/xml-fop.xml"/>
   <module href="project/xml-rpc.xml"/>
   <module href="project/xml-site.xml"/>
+  <module href="project/xml-security.xml"/>
   <module href="project/xml-soap.xml"/>
   <module href="project/xml-stylebook.xml"/>
   <module href="project/xml-xalan.xml"/>
@@ -82,6 +83,7 @@
   <module href="project/hsqldb.xml"/>
   <module href="project/httpunit.xml"/>
   <module href="project/jdom.xml"/>
+  <module href="project/jce.xml"/>
   <module href="project/jtidy.xml"/>
   <module href="project/junit.xml"/>
   <module href="project/rhino.xml"/>
@@ -117,6 +119,7 @@
   <project name="jaf"            package="jaf-1.0.1"/>
   <project name="javamail"       package="javamail-1.2"/>
   <project name="jaxp"           package="jaxp-1.1"/>
+  <project name="jce"            package="jce"/>
   <project name="jdbc"           package="jdbc2_0"/>
   <project name="jms"            package="jms1.0.2"/>
   <project name="jmx"            package="jmx-1_0"/>
