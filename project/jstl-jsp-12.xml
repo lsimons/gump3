@@ -26,7 +26,11 @@
     </ant>
     <depend project="ant" inherit="runtime"/>
     <depend project="xml-xerces"/>
-    <depend project="jaxen"/>
+ 
+    <!-- NOTE: Use the packaged Jaxen as it seems Jaxen consistently fails to 
+         build with Gump -->
+    <depend project="packaged-jaxen"/>
+    
     <javadoc nested="dist/doc/doc/standard-doc/javadoc"/>
     <jar name="dist/standard/lib/jstl.jar" id="jstl" />
     <jar name="dist/standard/lib/standard.jar" id="standard" />
