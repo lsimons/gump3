@@ -1,0 +1,11 @@
+<module name="jdepend">
+
+  <url href="http://www.clarkware.com/software/JDepend.html"/>
+
+  <project name="jdepend">
+    <package>jdepend</package>
+
+    <jar name="lib/jdepend.jar"/>
+  </project>
+
+</module>
