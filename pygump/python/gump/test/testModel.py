@@ -27,6 +27,8 @@ from gump.model import Repository
 from gump.model import Module
 from gump.model import CvsRepository
 from gump.model import CVS_METHOD_PSERVER
+from gump.model import SvnRepository
+from gump.model import Project
 
 class ModelTestCase(TestCase):
     def setUp(self):
@@ -160,6 +162,77 @@ class ModelTestCase(TestCase):
         r = CvsRepository(w,name,hostname,path)
         self.assertEqual(":pserver:cvs.somewhere.org:/some/cvs/location", r.to_url())
 
+    def test_svn_repository(self):
+        wname = "blah"
+        w = Workspace(wname)
+        name = "booh"
+        url = "http://svn.somewhere.org/some/svn/repo"
+        title = "t"
+        home_page = "h"
+        cvsweb = "c"
+        redistributable = True
+        user = "anonymous"
+        password = "blah"
+        
+        r = SvnRepository(w,name,url,title,home_page,cvsweb,redistributable,user,password)
+        self.assertEqual(w, r.workspace)
+        self.assertEqual(name, r.name)
+        self.assertEqual(url, r.url)
+        self.assertEqual(title, r.title)
+        self.assertEqual(home_page, r.home_page)
+        self.assertEqual(cvsweb, r.cvsweb)
+        self.assertEqual(redistributable, r.redistributable)
+        self.assertEqual(user, r.user)
+        self.assertEqual(password, r.password)
+        self.assertEqual({}, r.modules)
+        
+        r = SvnRepository(w,name,url,user=user)
+        self.assertEqual(user, r.user)
+        r = SvnRepository(w,name,url,password=password)
+        self.assertEqual(password, r.password)
+        
+        self.assertRaises(AssertionError, SvnRepository, w, name, w)
+    
+    def test_module(self):
+        wname = "blah"
+        w = Workspace(wname)
+        rname = "booh"
+        r = Repository(w,rname)
+        
+        url = "http://www.somewhere.org/bweh/"
+        description = "Bweh is foo bar blah."
+        
+        name = "bweh"
+        m = Module(r,name,url,description)
+        self.assertEqual(r, m.repository)
+        self.assertEqual(name,m.name)
+        self.assertEqual(url,m.url)
+        self.assertEqual(description,m.description)
+        self.assertEqual({}, m.projects)
+        
+        self.assertRaises(AssertionError, Module, None, name)
+        self.assertRaises(AssertionError, Module, name, None)
+        self.assertRaises(AssertionError, Module, "wrong", name)
+        self.assertRaises(AssertionError, Module, r, r)
+        
+        m = Module(r,name,url=url)
+        self.assertEqual(url,m.url)
+        m = Module(r,name,description=description)
+        self.assertEqual(description, description)
+        
+        m = Module(r, name)
+        pname = "blaat"
+        p = Project(m,pname)
+        m.add_project(p)
+        self.assertEqual(p,m.projects[pname])
+        self.assertEqual(1,len(m.projects))
+        
+        self.assertRaises(AssertionError, m.add_project, None)
+        self.assertRaises(AssertionError, m.add_project, "blaaaa")
+        self.assertRaises(AssertionError, m.add_project, p)
+        self.assertEqual(1,len(m.projects))
+        
+        
 
 # this is used by testrunner.py to determine what tests to run
 def test_suite():

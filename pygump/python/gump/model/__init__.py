@@ -150,8 +150,8 @@ class SvnRepository(Repository):
         
         - all of the properties a Repository has
         - url      -- the address of the svn repository
-        TODO: - user     -- the cvs user to login as
-        TODO: - password -- the cvs password to login with
+        TODO: - user     -- the svn user to login as
+        TODO: - password -- the svn password to login with
     """
     def __init__(self,
                  workspace,
@@ -163,9 +163,10 @@ class SvnRepository(Repository):
                  redistributable = False,
                  user = None,
                  password = None):
+        assert isinstance(url, str)
         Repository.__init__(self, workspace, name, title, home_page, cvsweb, redistributable)
         self.url      = url
-        self.user     = user,
+        self.user     = user
         self.password = password
 
 #TODO: class PerforceRepository
@@ -187,6 +188,8 @@ class Module(ModelObject):
                  name,
                  url = None,
                  description = None):
+        assert isinstance(repository, Repository)
+        assert isinstance(name, str)
         self.repository  = repository
         self.name        = name
         self.url         = url
@@ -195,6 +198,10 @@ class Module(ModelObject):
         self.projects = {}
 
     def add_project(self, project):
+        assert isinstance(project, Project)
+        assert not self.projects.has_key(project.name)
+        assert self == project.module
+        
         self.projects[project.name] = project
 
 class CvsModule(Module):
