@@ -14,7 +14,7 @@
 
     <ant target="gump"/>
     
-    <script name="build"/>
+    <!-- script name="build"/> -->
     
     <depend project="jakarta-ant"/>
     <depend project="xml-xerces"/>
