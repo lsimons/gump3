@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/Attic/view.py,v 1.14 2003/05/02 12:32:57 rubys Exp $
-# $Revision: 1.14 $
-# $Date: 2003/05/02 12:32:57 $
+# $Header: /home/stefano/cvs/gump/python/gump/Attic/view.py,v 1.15 2003/05/02 12:40:40 rubys Exp $
+# $Revision: 1.15 $
+# $Date: 2003/05/02 12:40:40 $
 #
 # ====================================================================
 #
@@ -171,7 +171,7 @@ class gumpview(wxApp):
       if not project.ant: return
 
       compileThread(project,self).Start()
-    
+
   # select a single feed and display titles from each item
   def selectTree(self, event):
     project=self.tree.GetPyData(event.GetItem())
@@ -233,7 +233,7 @@ class gumpview(wxApp):
       row=self.dependencies.InsertStringItem(i,build.name)
       self.dependencies.SetItemData(row,i)
       for jar in build.jar:
-	if jar.path and not os.path.exists(jar.path):
+        if jar.path and not os.path.exists(jar.path):
           self.dependencies.SetItemBackgroundColour(row,wxRED)
 
     self.dependencies.SetColumnWidth(0,wxLIST_AUTOSIZE_USEHEADER)
@@ -249,7 +249,7 @@ class gumpview(wxApp):
       if prereq.ant or prereq.script: continue
       row=self.prereqs.InsertStringItem(i,prereq.name)
       for jar in prereq.jar:
-	if not os.path.exists(jar.path):
+        if not os.path.exists(jar.path):
           self.prereqs.SetItemBackgroundColour(row,wxRED)
       i=i+1
 
@@ -294,7 +294,7 @@ class gumpview(wxApp):
         if not os.path.exists(jar):
           self.exports.SetItemBackgroundColour(row,wxRED)
       else:
-	self.msgbox('Invalid element: ' + xmlize('jar',project.jar[i]))
+        self.msgbox('Invalid element: ' + xmlize('jar',project.jar[i]))
 
     self.exports.SetColumnWidth(0,wxLIST_AUTOSIZE_USEHEADER)
 
@@ -331,14 +331,14 @@ class compileThread:
     self.running = 0
   def Run(self):
     module=Module.list[self.project.module]
-  
+
     os.chdir(os.path.join(module.srcdir,self.project.ant.basedir or ''))
     os.environ['CLASSPATH']=os.pathsep.join(classpath+self.project.classpath())
     cmd="java org.apache.tools.ant.Main"
     for property in self.view.workspace.property+self.project.ant.property:
       cmd+=" -D"+property.name+"="+property.value
     if self.project.ant.target: cmd+=" "+self.project.ant.target
- 
+
     (stdout,stdin)=popen2.popen2(cmd + ' 2>&1')
     stdin.close()
     self.view.data.Clear()
