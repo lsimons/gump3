@@ -115,7 +115,7 @@
   <project name="test-ojb">
     <ant target="junit" />
 
-    <depend project="jakarta-ojb" inherit="all" />
+    <depend project="db-ojb" inherit="all" />
     <work nested="target/classestest" />
 
     <nag from="Stefan Bodewig &lt;bodewig@apache.org&gt;"
