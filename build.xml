@@ -83,8 +83,13 @@
   <!-- Generate javadocs -->
   <target name="javadocs" depends="compile" unless="javadocs.uptodate">
     <mkdir dir="javadocs"/>
-    <javadoc sourcepath="java" sourcefiles="java/*.java" destdir="javadocs" 
-      classpath="jenny.jar"/>
+    <javadoc sourcepath="java" destdir="javadocs" classpath="jenny.jar">
+      <source file="java/Jenny.java"/>
+      <source file="java/Module.java"/>
+      <source file="java/Project.java"/>
+      <source file="java/Repository.java"/>
+      <source file="java/Workspace.java"/>
+    </javadoc>
   </target>
 
   <!-- Generate publish instructions for the javadocs -->

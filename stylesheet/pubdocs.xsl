@@ -13,6 +13,7 @@
         $dest = $map{$source};
         rmtree $dest, 0, 0;
         mkpath $dest, 0, 0775;
+        rmdir $dest;
         system "cp -r $source $dest";
         print "+ $source\n";
       } else {
