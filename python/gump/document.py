@@ -77,7 +77,7 @@ from gump.xmlutils import xmlize
 from gump.context import *
 from gump.model import *
 from gump.statistics import StatisticsDB,ProjectStatistics,StatisticsGuru
-from gump.logic import getPackagedProjects, getBuildSequenceForProjects,\
+from gump.logic import getPackagedProjectContexts, getBuildSequenceForProjects,\
      getProjectsForProjectExpression, getModuleNamesForProjectList, \
      isFullGumpSet
 
@@ -313,13 +313,14 @@ def documentWorkspace(workspace,context,db,moduleFilterList=None,projectFilterLi
     documentWorkList(x,workspace,context.worklist,'Workspace-level Work',wdir)
      
     startSectionXDoc(x,'Packaged Projects')
-    packages=getPackagedProjects()
+    packages=getPackagedProjectContexts(context)
     if packages:
         startTableXDoc(x)
         x.write('      <tr><th>Name</th><th>Location</th></tr>')
-        for project in packages:
-            x.write('     <tr><!-- %s -->' % (project.name))        
-            x.write('      <td>%s</td><td>%s</td>' % (project.name, project.home))    
+        for pctxt in packages:
+            x.write('     <tr><!-- %s -->' % (pctxt.name))        
+            x.write('      <td>%s</td>' % getContextLink(pctxt))   
+            x.write('      <td>%s</td>' % pctxt.project.home)    
             x.write('     </tr>')
         endTableXDoc(x)
     else:

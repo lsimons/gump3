@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/Attic/logic.py,v 1.1 2003/08/29 00:20:22 ajack Exp $
-# $Revision: 1.1 $
-# $Date: 2003/08/29 00:20:22 $
+# $Header: /home/stefano/cvs/gump/python/gump/Attic/logic.py,v 1.2 2003/09/23 15:13:08 ajack Exp $
+# $Revision: 1.2 $
+# $Date: 2003/09/23 15:13:08 $
 #
 # ====================================================================
 #
@@ -171,12 +171,12 @@ def getProjectsForProjectExpression(expr):
   projects.sort()
   return projects
   
-def getPackagedProjects():
+def getPackagedProjectContexts(context):
   """ Return a list of projects installed as packages """
   projects=[]
   for project in Project.list.values():
     if isPackaged(project):
-        projects.append(project)
+        projects.append(context.getProjectContextForProject(project))
   return projects
         
         
@@ -328,45 +328,70 @@ def getAntProperties(workspace,ant):
 
 def preprocessContext(workspace,context=GumpContext()):
 
+    #
+    # Check each project...
+    #
     for project in Project.list.values():
                         
         projectOk=1
         pctxt = context.getProjectContextForProject(project)
         
-        # Check Dependencies Exists:
-        for depend in project.depend:
-            if not Project.list.has_key(depend.project):
-                pctxt.propagateState(STATUS_FAILED,REASON_CONFIG_FAILED)
-                projectOk=0
-                pctxt.addError("Bad Dependency. Project: " + depend.project + " unknown to *this* workspace")
-                log.error("Missing Dependency [" + depend.project + "] on [" + pctxt.name + "]")
-        
-        # Check Dependencies Exists:
-        for option in project.option:
-            if not Project.list.has_key(option.project):
-                pctxt.addWarning("Bad Dependency. Project: " + option.project + " unknown to *this* workspace")
-                log.warn("Missing Dependency [" + option.project + "] on [" + pctxt.name + "]")
-        
-        if projectOk:
-            if isPackaged(project):
+        # If so far so good, check packages
+        if isPackaged(project):
             
-                #
-                # Check the package was installed correctly...
-                #
-                outputsOk=1
-                for i in range(0,len(project.jar)):
-                    jarpath=project.jar[i].path
-                    if jarpath:
-                        if not os.path.exists(jarpath):
-                            pctxt.propagateState(STATUS_FAILED,REASON_PACKAGE_BAD)
-                            outputsOk=0
-                            pctxt.addError("Missing Output: " + str(jarpath))
-                            log.error("Missing Jar [" + str(jarpath) + "] on *packaged* [" + pctxt.name + "]")
+            #
+            # Check the package was installed correctly...
+            #
+            outputsOk=1
+            for i in range(0,len(project.jar)):
+                jarpath=project.jar[i].path
+                if jarpath:
+                    if not os.path.exists(jarpath):
+                        pctxt.propagateErrorState(STATUS_FAILED,REASON_PACKAGE_BAD)
+                        outputsOk=0
+                        projectOk=0
+                        pctxt.addError("Missing Packaged Jar: " + str(jarpath))
+                        log.error("Missing Jar [" + str(jarpath) + "] on *packaged* [" + pctxt.name + "]")
     
-                if outputsOk:
-                    pctxt.state=STATUS_COMPLETE
-                    pctxt.reason=REASON_PACKAGE      
+            if outputsOk:
+                pctxt.state=STATUS_COMPLETE
+                pctxt.reason=REASON_PACKAGE
+        else:         
+            # Check Dependencies Exists:
+            for depend in project.depend:
+                if not Project.list.has_key(depend.project):
+                    pctxt.propagateErrorState(STATUS_FAILED,REASON_CONFIG_FAILED)
+                    projectOk=0
+                    pctxt.addError("Bad Dependency. Project: " + depend.project + " unknown to *this* workspace")
+                    log.error("Missing Dependency [" + depend.project + "] on [" + pctxt.name + "]")
+        
+            # Check Dependencies Exists:
+            for option in project.option:
+                if not Project.list.has_key(option.project):
+                    pctxt.addWarning("Bad Dependency. Project: " + option.project + " unknown to *this* workspace")
+                    log.warn("Missing Dependency [" + option.project + "] on [" + pctxt.name + "]")        
     
+    #
+    # Check each module...
+    #
+    for module in Module.list.values():
+        moduleOk=1
+        mctxt = context.getModuleContextForModule(module)
+        
+        # A module which contains only packaged projects might as
+        # well be considered complete, no need to update from CVS
+        # since we won't be building.
+        # :TODO: Ought we hack this as *any* not all???
+        allPackaged=1
+        for project in module.project:
+            if not isPackaged(project):
+                allPackaged=0  
+                mctxt.addWarning("Incomplete \'Packaged\' Module. Project: " + project.name + " is not packaged")                  
+                
+        if allPackaged:
+            mctxt.state=STATUS_COMPLETE
+            mctxt.reason=REASON_PACKAGE
+                        
 # static void main()
 if __name__=='__main__':
 
@@ -385,7 +410,7 @@ if __name__=='__main__':
   # get parsed workspace definition
   workspace=load(ws, context)
   
-  projects=getPackagedProjects()
+  projects=getPackagedProjectContexts(context)
   print "Packaged Projects : " + str(len(projects))
   for p in projects: print "Packaged Project " + str(p.name)
     

@@ -1,8 +1,8 @@
 #!/usr/bin/python
 
-# $Header: /home/stefano/cvs/gump/python/gump/check.py,v 1.17 2003/09/12 12:10:54 ajack Exp $
-# $Revision: 1.17 $
-# $Date: 2003/09/12 12:10:54 $
+# $Header: /home/stefano/cvs/gump/python/gump/check.py,v 1.18 2003/09/23 15:13:08 ajack Exp $
+# $Revision: 1.18 $
+# $Date: 2003/09/23 15:13:08 $
 #
 # ====================================================================
 #
@@ -134,7 +134,7 @@ def checkEnvironment(workspace, context=GumpContext(), exitOnError=1):
     checkExecutable(workspace, context, 'env','',0)
     checkExecutable(workspace, context, context.javaCommand,'-version',exitOnError)
     checkExecutable(workspace, context, 'javac','-help',exitOnError)
-    checkExecutable(workspace, context, 'java','com.sun.tools.javac.Main -help',exitOnError,'check_java_compiler')    
+    checkExecutable(workspace, context, 'java com.sun.tools.javac.Main','-help',exitOnError,'check_java_compiler')    
     checkExecutable(workspace, context, 'cvs','--version',exitOnError)
     if not context.noForrest and not checkExecutable(workspace, context, 'forrest','-projecthelp',0): 
         context.noForrest=1

@@ -306,8 +306,10 @@ class Context:
         self.annotations=[]
         self.worklist=WorkList()
         
+    # Same if same type, and same name
+    # i.e project context X is not equals to module context X
     def __eq__(self,other):
-        return self.name == other.name
+        return self.__class__ == other.__class__ and self.name == other.name
         
     def __cmp__(self,other):
         return self.name < other.name
@@ -350,17 +352,22 @@ class Context:
             ctxt.aggregateStates(states)
         return states;
             
-    def propagateState(self,state,reason=REASON_UNSET,cause=None):
+    def propagateErrorState(self,state,reason=REASON_UNSET,cause=None):
         #
         # If no-one else to point the finger at ...
         # ... step up.
         #
         if not cause: cause = self
             
+        #
+        # Do NOT over-write a pre-determined condition
+        #
         if stateUnsetOrOk(self.status):
+            # Modify self
             self.setState(state,reason,cause)
-            for (cname,ctxt) in self.subcontexts.iteritems():
-                ctxt.propagateState(state,reason,cause)        
+            # .. then push this error down
+            for ctxt in self:
+                ctxt.propagateErrorState(state,reason,cause)        
         
     def elapsedSecs(self):
         elapsedSecs=self.worklist.elapsedSecs()
@@ -489,20 +496,32 @@ class ProjectContext(Context):
         return fogFactor
             
         return round(fogFactor/fogFactors,2)
-    def propagateState(self,state,reason=REASON_UNSET,cause=None):
+        
+    def propagateErrorState(self,state,reason=REASON_UNSET,cause=None): 
+        #
+        # If no-one else to point the finger at ...
+        # ... step up.
+        #
+        if not cause: cause = self
+                        
+        # Do NOT over-write a preexisting condition
         if stateUnsetOrOk(self.status):
-            Context.propagateState(self,state,reason,cause)
+            # Call the superclass behaviour
+            Context.propagateErrorState(self,state,reason,cause)
             
-            message = lower(stateName(state)) + " with " + lower(reasonString(reason))            
+            #
+            #
+            #
+            message = "failed with: " + lower(stateName(state)) \
+                + " with reason: " + lower(reasonString(reason))            
             self.addError(capitalize(message))
             
             #
-            # Mark as failed...
+            # Mark depend*ee*s as failed for this cause...
             #
             for dependeeContext in self.dependees:
-                if stateUnsetOrOk(dependeeContext.status):
-                    dependeeContext.addError("Dependency " + self.name + " " + message)
-                dependeeContext.propagateState(STATUS_PREREQ_FAILURE,reason,cause)
+                dependeeContext.addError("Dependency " + self.name + " " + message)
+                dependeeContext.propagateErrorState(STATUS_PREREQ_FAILURE,reason,cause)
                 
             #
             # At least notify these folks

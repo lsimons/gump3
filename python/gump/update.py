@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/update.py,v 1.8 2003/09/05 05:20:42 ajack Exp $
-# $Revision: 1.8 $
-# $Date: 2003/09/05 05:20:42 $
+# $Header: /home/stefano/cvs/gump/python/gump/update.py,v 1.9 2003/09/23 15:13:08 ajack Exp $
+# $Revision: 1.9 $
+# $Date: 2003/09/23 15:13:08 $
 #
 # ====================================================================
 #
@@ -188,7 +188,7 @@ def updateModules(workspace, modules, context=GumpContext()):
             # Update Context w/ Results  
           if not cmdResult.status==CMD_STATUS_SUCCESS:              
               log.error('Failed to update module: ' + module.name)        
-              mctxt.propagateState(STATUS_FAILED,REASON_UPDATE_FAILED)
+              mctxt.propagateErrorState(STATUS_FAILED,REASON_UPDATE_FAILED)
           else:
               mctxt.status=STATUS_SUCCESS
                 
@@ -196,9 +196,10 @@ def updateModules(workspace, modules, context=GumpContext()):
         
           log.error('Failed to update module: ' + module.name + ' : ' + str(detail))
         
-          mctxt.propagateState(STATUS_FAILED,REASON_UPDATE_FAILED)  
+          mctxt.propagateErrorState(STATUS_FAILED,REASON_UPDATE_FAILED)  
     else:
-        mctxt.propagateState(mctxt.status,mctxt.reason)
+        # :TODO: Redundant?
+        mctxt.propagateErrorState(mctxt.status,mctxt.reason)
         
 if __name__=='__main__':
 

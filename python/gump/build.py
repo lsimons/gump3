@@ -1,8 +1,8 @@
 #!/usr/bin/python
 
-# $Header: /home/stefano/cvs/gump/python/gump/build.py,v 1.10 2003/09/10 21:43:54 ajack Exp $
-# $Revision: 1.10 $
-# $Date: 2003/09/10 21:43:54 $
+# $Header: /home/stefano/cvs/gump/python/gump/build.py,v 1.11 2003/09/23 15:13:08 ajack Exp $
+# $Revision: 1.11 $
+# $Date: 2003/09/23 15:13:08 $
 #
 # ====================================================================
 #
@@ -177,11 +177,13 @@ def syncWorkDir( workspace, sequence, context=GumpContext() ):
 
         # Update Context w/ Results  
         if not cmdResult.status==CMD_STATUS_SUCCESS:
-            mctxt.propagateState(STATUS_FAILED,REASON_SYNC_FAILED)
+            mctxt.propagateErrorState(STATUS_FAILED,REASON_SYNC_FAILED)
         else:
             mctxt.status=STATUS_SUCCESS
     else:
-        mctxt.propagateState(mctxt.status,mctxt.reason)
+        # :TODO: Is the redundanct, ought it not have already be published?
+        # Does this account for the confusion?
+        mctxt.propagateErrorState(mctxt.status,mctxt.reason)
 
 def buildProjects( workspace, sequence, context=GumpContext() ):
   """actually perform the build of the specified project and its deps"""
@@ -215,20 +217,22 @@ def buildProjects( workspace, sequence, context=GumpContext() ):
             
             # Update Context w/ Results  
             if not cmdResult.status==CMD_STATUS_SUCCESS:
-                pctxt.propagateState(STATUS_FAILED,REASON_BUILD_FAILED)
+                pctxt.propagateErrorState(STATUS_FAILED,REASON_BUILD_FAILED)
             else:
                 outputsOk=1
                 for i in range(0,len(project.jar)):
                     jar=os.path.normpath(project.jar[i].path)
                     if jar:
                         if not os.path.exists(jar):
-                            pctxt.propagateState(STATUS_FAILED,REASON_MISSING_OUTPUTS)
+                            pctxt.propagateErrorState(STATUS_FAILED,REASON_MISSING_OUTPUTS)
                             outputsOk=0
                             pctxt.addError("Missing Output: " + str(jar))
 
                 if outputsOk: pctxt.status=STATUS_SUCCESS  
     else:
-        pctxt.propagateState(pctxt.status,pctxt.reason)
+        # :TODO: Redundant? 
+        #
+        pctxt.propagateErrorState(pctxt.status,pctxt.reason)
 
 # static void main()
 if __name__=='__main__':
