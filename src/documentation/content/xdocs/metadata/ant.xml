@@ -90,8 +90,8 @@
         </tr>
         <tr>
           <td>path</td>
-          <td>a path which is to be interpreted relative to the srcdir for the 
-          project if specified, or this project otherwise.  This option is 
+          <td>a path which is to be interpreted relative to the srcdir for the module containing 
+          	the project if specified, or this project otherwise.  This option is 
           ignored if reference is specified.</td>
           <td>No</td>
         </tr>
