@@ -144,6 +144,7 @@
   <module href="project/jts.xml"/>
   <module href="project/ldap.xml"/>
   <module href="project/msv.xml"/>
+  <module href="project/relaxng.xml"/>
   <module href="project/resolver.xml"/>
   <module href="project/tranquilo.xml"/>
 
@@ -151,6 +152,7 @@
 
   <project name="aspectj"        package="aspectj1.0"/>
   <project name="concurrent"     package="dougLea"/>
+  <project name="cos"            package="cos-09May2002"/>
   <project name="ejb"            package="ejb-2_0-fr"/>
   <project name="j2ee-connector" package="j2ee_connector-1_0-pfd2"/>
   <project name="jaas"           package="jaas1_0"/>
@@ -168,11 +170,11 @@
   <project name="jts"            package="jts1_0"/>
   <project name="ldap"           package="ldap-1_2_3"/>
   <project name="msv"            package="msv-20020414"/>
-  <project name="resolver"       package="resolver-0_2"/>
-  <project name="tranquilo"      package="xsdlib-20010424"/>
-  <project name="cos"            package="cos-09May2002"/>
   <project name="multipartrequest"            
            package="MultipartRequest120"/>
+  <project name="relaxng"        package="relaxngDatatype-1.0"/>
+  <project name="resolver"       package="resolver-0_2"/>
+  <project name="tranquilo"      package="xsdlib-20010424"/>
 
   <!-- CVS Repository definitions -->
   <repository href="repository/dbxml.xml"/>

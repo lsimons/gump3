@@ -37,14 +37,4 @@
     <jar name="lib/PullParser2.jar"/>
   </project>
 
-  <project name="relaxng">
-    <package>org.relaxng</package>
-
-    <description>
-      the next generation schema language for XML: clean, simple and powerful
-    </description>
-    <url href="http://sourceforge.net/projects/relaxng"/>
-    <jar name="lib/relaxngDatatype.jar"/>
-  </project>
-
 </module>

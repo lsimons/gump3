@@ -1,0 +1,15 @@
+<module name="relaxng">
+  <!-- if they'd put the build.xml from the distribution under CVS control,
+       we could build instead of install it -->
+
+  <url href="http://sourceforge.net/projects/relaxng"/>
+  <description>
+    the next generation schema language for XML: clean, simple and powerful
+  </description>
+
+  <project name="relaxng">
+    <package>org.relaxng</package>
+
+    <jar name="relaxngDatatype.jar" id="datatype"/>
+  </project>
+</module>

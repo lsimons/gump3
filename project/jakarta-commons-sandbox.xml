@@ -124,10 +124,8 @@
 
   <!--
       missing from Gump for now:
-      werks == requires Maven to build
+      werkz == requires Maven to build
       ojb, isorelax == cannot connect to sourceforge since hours
-
-      also, relaxng is referenced as the jar from dom4j, change that later
   <project name="commons-jelly">
     <package>org.apache.commons.jelly</package>
     <description>Commons Jelly Package</description>
