@@ -15,16 +15,14 @@
     <ant basedir="core" target="compile">
       <property name="ant.home" project="ant" reference="home"/>
       <property name="version" value="@@DATE@@"/>
-      <property name="lib.dir" reference="home" project="javacc"/>
+      <depend name="xjavadoc.unicode.jar" project="xjavadoc"/>
     </ant>
 
     <depend project="ant" runtime="true"/>
     <depend project="xml-xerces"/>
 
     <depend project="jrefactory-pretty"/>
-    <depend project="javacc" />
     <depend project="jakarta-log4j" runtime="true"/>
-    <depend project="xjavadoc" runtime="true"/>
     <depend project="commons-logging" runtime="true" />
     <depend project="commons-collections" runtime="true"/>
     <depend project="junit"/>
@@ -39,9 +37,7 @@
     <description>Intermediate target that prepares xdoclet&apos;s
     xdoclet module</description>
 
-    <ant basedir="modules/xdoclet" target="xdoclet-xml">
-      <property name="lib.dir" reference="home" project="javacc"/>
-    </ant>
+    <ant basedir="modules/xdoclet" target="xdoclet-xml"/>
 
     <depend project="xdoclet-compile-core" inherit="all" />
     <depend project="xml-apis" />
@@ -57,9 +53,7 @@
     <description>Intermediate target that prepares xdoclet&apos;s
     ejb module</description>
 
-    <ant basedir="modules/ejb" target="xdoclet-xml">
-      <property name="lib.dir" reference="home" project="javacc"/>
-    </ant>
+    <ant basedir="modules/ejb" target="xdoclet-xml"/>
 
     <depend project="ejb"/>
     <depend project="xdoclet-compile-core" inherit="all" />
@@ -76,9 +70,7 @@
     <description>Intermediate target that prepares xdoclet&apos;s
     web module</description>
 
-    <ant basedir="modules/web" target="xdoclet-xml">
-      <property name="lib.dir" reference="home" project="javacc"/>
-    </ant>
+    <ant basedir="modules/web" target="xdoclet-xml"/>
 
     <depend project="xdoclet-compile-core" inherit="all" />
     <depend project="xdoclet-xdoclet-module-prepare" />
@@ -94,9 +86,7 @@
     <description>Intermediate target that prepares xdoclet&apos;s
     hibernate module</description>
 
-    <ant basedir="modules/hibernate" target="xdoclet-xml">
-      <property name="lib.dir" reference="home" project="javacc"/>
-    </ant>
+    <ant basedir="modules/hibernate" target="xdoclet-xml"/>
 
     <depend project="xdoclet-compile-core" inherit="all" />
     <depend project="xdoclet-xdoclet-module-prepare" />
@@ -113,9 +103,7 @@
     apache module - needed to run antdoclet during main
     build</description>
 
-    <ant basedir="modules/apache" target="xdoclet-xml">
-      <property name="lib.dir" reference="home" project="javacc"/>
-    </ant>
+    <ant basedir="modules/apache" target="xdoclet-xml"/>
 
     <depend project="xdoclet-compile-core" inherit="all" />
     <depend project="xdoclet-xdoclet-module-prepare" />
@@ -138,7 +126,7 @@
     <ant target="docs">
       <property name="ant.home" project="ant" reference="home"/>
       <property name="version" value="@@DATE@@"/>
-      <property name="lib.dir" reference="home" project="javacc"/>
+      <depend name="xjavadoc.unicode.jar" project="xjavadoc"/>
     </ant>
 
     <depend project="ant" inherit="all" />
@@ -208,7 +196,7 @@
 
     <ant target="samples">
       <property name="ant.home" project="ant" reference="home"/>
-      <property name="lib.dir" reference="home" project="javacc"/>
+      <depend name="xjavadoc.unicode.jar" project="xjavadoc"/>
     </ant>
     <depend project="xdoclet" inherit="all"/>
     <depend project="javacc"/>
