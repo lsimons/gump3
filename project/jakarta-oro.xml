@@ -8,7 +8,7 @@
   <cvs repository="jakarta"/>
   
   <project name="jakarta-oro">
-    <ant basedir="build" buildfile="build.xml" target="package">
+    <ant buildfile="build.xml" target="package">
       <property name="version" value="@@DATE@@"/>
     </ant>
     <depend project="jakarta-ant"/>
