@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/Attic/model.py,v 1.1 2003/04/28 23:43:52 rubys Exp $
-# $Revision: 1.1 $
-# $Date: 2003/04/28 23:43:52 $
+# $Header: /home/stefano/cvs/gump/python/gump/Attic/model.py,v 1.2 2003/04/30 11:11:32 rubys Exp $
+# $Revision: 1.2 $
+# $Date: 2003/04/30 11:11:32 $
 #
 # ====================================================================
 #
@@ -331,7 +331,13 @@ class Property(GumpBase):
 # TODO: set up the below elements with defaults using complete()
 
 # represents a <depend/> element
-class Depend(GumpBase): pass
+class Depend(GumpBase): 
+  def jars(self):
+    result=[]
+    ids=(self.ids or '').split(' ')
+    for jar in Project.list[self.project].jar:
+      if (not self.ids) or (jar.id in ids): result.append(jar)
+    return result
 
 # represents a <description/> element
 class Description(GumpBase): pass

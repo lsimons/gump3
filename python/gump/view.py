@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/Attic/view.py,v 1.6 2003/04/28 23:43:52 rubys Exp $
-# $Revision: 1.6 $
-# $Date: 2003/04/28 23:43:52 $
+# $Header: /home/stefano/cvs/gump/python/gump/Attic/view.py,v 1.7 2003/04/30 11:11:32 rubys Exp $
+# $Revision: 1.7 $
+# $Date: 2003/04/30 11:11:32 $
 #
 # ====================================================================
 #
@@ -221,9 +221,7 @@ class gumpview(wxApp):
 
     # add in depends and options
     for depend in project.depend+project.option:
-      p=Project.list[depend.project]
-      srcdir=Module.list[p.module].srcdir
-      for jar in p.jar:
+      for jar in depend.jars():
         self.classpath.InsertStringItem(i,jar.path)
         i=i+1
 

@@ -141,12 +141,11 @@ def buildProjects( workspace, projectname, project, build_sequence ):
     buildbasedir = os.path.normpath(os.path.join(module.srcdir,ant.basedir or ''))
     log.debug('   SRCDIR:' + buildbasedir)
 
-    classpath=''
-    for depend in project.depend:#+project.option:
-      p=Project.list[depend.project]
-      srcdir=Module.list[p.module].srcdir
-      for jar in p.jar:
-        classpath = classpath + os.path.normpath(os.path.join(srcdir,jar.name)) + os.pathsep
+    classpath=[]
+    for depend in project.depend+project.option:
+      for jar in depend.jars():
+        classpath.append(jar.path)
+    classpath=os.pathsep.join(classpath)
     log.debug('   CLASSPATH:' + classpath)
 
     properties=''
