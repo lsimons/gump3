@@ -53,11 +53,11 @@ def xrun():
         
         
         # Load statistics for this workspace
-        from gump.stats.statsdb import StatisticsDB
+        from gump.actor.stats.statsdb import StatisticsDB
         db=StatisticsDB('test','test.db')  
         db.loadStatistics(workspace)
         
-        from gump.document.xdocs.resolver import XDocResolver
+        from gump.actor.document.xdocs.resolver import XDocResolver
         options.setResolver(XDocResolver('./test/bogus','http://bogus.org/'))
         
         # The Run Details...

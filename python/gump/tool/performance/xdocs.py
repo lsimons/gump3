@@ -24,7 +24,7 @@ import sys
 from gump import log
 from gump.core.gumpinit import gumpinit
 from gump.test import getWorkedTestRun
-from gump.document.xdocs.documenter import XDocDocumenter
+from gump.actor.document.xdocs.documenter import XDocDocumenter
 from gump.core.commandLine import handleArgv
 from gump.core.run.gumprun import GumpRun
 from gump.core.loader.loader import WorkspaceLoader
@@ -59,11 +59,11 @@ def xrun():
         workspace=WorkspaceLoader(options.isCache()).load(ws)    
         
         # Load statistics for this workspace
-        from gump.stats.statsdb import StatisticsDB
+        from gump.actor.stats.statsdb import StatisticsDB
         db=StatisticsDB('test','test.db')  
         db.loadStatistics(workspace)
         
-        from gump.document.xdocs.resolver import XDocResolver
+        from gump.actor.document.xdocs.resolver import XDocResolver
         options.setResolver(XDocResolver('./test/bogus','http://bogus.org/'))
         
         # The Run Details...

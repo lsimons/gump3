@@ -31,10 +31,10 @@ from shutil import copyfile
 
 from gump import log
 from gump.core.config import *
-from gump.document.documenter import Documenter
-from gump.document.text.documenter import TextDocumenter
-from gump.document.xdocs.xdoc import *
-from gump.document.xdocs.resolver import *
+from gump.actor.document.documenter import Documenter
+from gump.actor.document.text.documenter import TextDocumenter
+from gump.actor.document.xdocs.xdoc import *
+from gump.actor.document.xdocs.resolver import *
 from gump.util import *
 from gump.util.timing import *
 from gump.util.tools import syncDirectories,copyDirectories,wipeDirectoryTree
@@ -404,7 +404,7 @@ class XDocDocumenter(Documenter):
             rdfRow=table.createRow()
             rdfRow.createData().createStrong('RDF Metadata')
             rdfArea=rdfRow.createData()
-            rdfArea.createFork('gump.rdf','RDF')
+            rdfArea.createFork('gump.actor.rdf','RDF')
         
     def documentPartial(self,node):
             notice=node.createWarning()

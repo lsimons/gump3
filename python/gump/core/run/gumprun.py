@@ -89,7 +89,7 @@ class GumpRun(gump.util.timing.Timeable,gump.util.work.Workable,gump.util.note.A
             self.env=GumpEnvironment()
         
         # A repository interface...
-        from gump.repository.artifact import ArtifactRepository
+        from gump.actor.repository.artifact import ArtifactRepository
         self.outputsRepository=ArtifactRepository(workspace.repodir)
                   
         # Generate a GUID (or close)

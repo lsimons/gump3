@@ -42,8 +42,8 @@ from gump.core.model.workspace import Workspace
 from gump.core.model.module import Module
 from gump.core.model.project import Project
 
-from gump.document.documenter import Documenter
-from gump.document.text.resolver import TextResolver
+from gump.actor.document.documenter import Documenter
+from gump.actor.document.text.resolver import TextResolver
 
 class TextDocumenter(Documenter):
     

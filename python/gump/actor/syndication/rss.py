@@ -32,7 +32,7 @@ from gump.core.model.project import ProjectStatistics
 
 from gump.core.config import setting
 
-from gump.syndication.abstract import AbstractSyndicator
+from gump.actor.syndication.abstract import AbstractSyndicator
 
 ###############################################################################
 

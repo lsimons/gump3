@@ -37,17 +37,17 @@ class Statistician(AbstractRunActor):
             # MySQL is optional...
             if self.run.getWorkspace().hasDatabaseInformation():
                 try:
-                    import gump.stats.mysql.statsdb   
+                    import gump.actor.stats.mysql.statsdb   
                     # Figure out what DB this workspace uses 
                     dbInfo=self.run.getWorkspace().getDatabaseInformation()
-                    self.db=gump.stats.mysql.statsdb.StatisticsDB(dbInfo)   
+                    self.db=gump.actor.stats.mysql.statsdb.StatisticsDB(dbInfo)   
                 except Exception, details:
                     log.error('Failed to load MySQL database driver : %s' % (details), exc_info=1)
             
             if not self.db:
                 # DBM is the fallback...
-                import gump.stats.dbm.statsdb            
-                self.db=gump.stats.dbm.statsdb.StatisticsDB()   
+                import gump.actor.stats.dbm.statsdb            
+                self.db=gump.actor.stats.dbm.statsdb.StatisticsDB()   
             
     def getDatabase(self):
         return self.db

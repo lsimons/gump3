@@ -30,6 +30,6 @@ __license__   = "http://www.apache.org/licenses/LICENSE-2.0"
 # Initialize
 ###############################################################################
 
-# tell Python what modules make up the gump.document.xdocs package
+# tell Python what modules make up the gump.actor.document.xdocs package
 __all__ = ["documenter","resolver"]
 

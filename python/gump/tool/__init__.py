@@ -19,6 +19,7 @@ __date__      = "$Date: 2004-08-20 08:55:45 -0600 (Fri, 20 Aug 2004) $"
 __copyright__ = "Copyright (c) 1999-2004 Apache Software Foundation"
 __license__   = "http://www.apache.org/licenses/LICENSE-2.0"
 
+
 #
 # $Header: /home/stefano/cvs/gump/python/gump/__init__.py,v 1.25 2004/07/19 16:07:53 ajack Exp $
 # 
@@ -40,6 +41,3 @@ log = logging.getLogger(__name__)
 
 #set verbosity to show all messages of severity >= default.logLevel
 log.setLevel(logging.INFO) # logging.DEBUG
-
-
-# tell Python what modules make up the gump packag

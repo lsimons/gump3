@@ -28,8 +28,8 @@ from string import lower, capitalize
 from gump import log
 from gump.core.run.gumprun import *
 from gump.core.run.actor import AbstractRunActor
-from gump.syndication.rss import RSSSyndicator
-from gump.syndication.atom import AtomSyndicator
+from gump.actor.syndication.rss import RSSSyndicator
+from gump.actor.syndication.atom import AtomSyndicator
 
 class Syndicator(AbstractRunActor):
     

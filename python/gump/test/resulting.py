@@ -27,9 +27,9 @@ from gump.core.run.gumprun import GumpRun
 from gump.test import getWorkedTestRun
 from gump.test.pyunit import UnitTestSuite
 from gump.core.model.state import *
-from gump.results.model import *
-from gump.results.resulter import generateResults,Resulter
-from gump.results.loader import WorkspaceResultLoader
+from gump.actor.results.model import *
+from gump.actor.results.resulter import generateResults,Resulter
+from gump.actor.results.loader import WorkspaceResultLoader
 from gump.util.smtp import *
 
 class ResultingTestSuite(UnitTestSuite):

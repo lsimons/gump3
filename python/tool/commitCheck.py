@@ -178,7 +178,7 @@ try:
         #try:
         #    # :TODO: PyChecker
         #    check=''
-        #    for m in ['gump','gump/document','gump.core.model']:
+        #    for m in ['gump','gump.actor.document','gump.core.model']:
         #        if check: check += ' '
         #        mPath=os.path.join(absGumpPython,m)
         #        check += str(mPath)

@@ -23,7 +23,7 @@ import os, os.path
 import xml.dom.minidom
 
 from gump import log
-from gump.results.model import WorkspaceResult
+from gump.actor.results.model import WorkspaceResult
 
 from gump.util.note import transferAnnotations, Annotatable
 from gump.util.http import cacheHTTP

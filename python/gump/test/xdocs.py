@@ -22,8 +22,8 @@ import logging
 import types, StringIO
 
 from gump.core.gumpinit import gumpinit
-from gump.document.xdocs.xdoc import *
-from gump.document.xdocs.config import *
+from gump.actor.document.xdocs.xdoc import *
+from gump.actor.document.xdocs.config import *
 
 from gump.test.pyunit import UnitTestSuite
 

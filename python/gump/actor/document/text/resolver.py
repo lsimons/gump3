@@ -50,7 +50,7 @@ from gump.core.model.project import Project
 from gump.core.model.object import *
 from gump.core.model.state import *
 
-from gump.document.resolver import *
+from gump.actor.document.resolver import *
 
 class TextResolver(Resolver):
     

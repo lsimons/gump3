@@ -24,13 +24,13 @@ import types, StringIO
 from gump import log
 import gump.core.config
 from gump.core.run.gumprun import GumpRun
-from gump.stats.statistician import Statistician
+from gump.actor.stats.statistician import Statistician
 
 from gump.test import getWorkedTestRun
 from gump.test.pyunit import UnitTestSuite
 
-from gump.notify.notifier import Notifier
-from gump.notify.notification import SuccessNotification,FailureNotification,WarningNotification
+from gump.actor.notify.notifier import Notifier
+from gump.actor.notify.notification import SuccessNotification,FailureNotification,WarningNotification
 from gump.util.smtp import *
 
 class NotificationTestSuite(UnitTestSuite):

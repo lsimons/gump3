@@ -17,5 +17,5 @@
 
 
 
-# tell Python what modules make up the gump.results package
+# tell Python what modules make up the gump.actor.results package
 __all__ = ["resulter","module","loader"]

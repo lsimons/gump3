@@ -46,8 +46,8 @@ from gump.core.model.builder import Ant,NAnt,Maven,Script
 from gump.core.model.object import *
 from gump.core.model.state import *
 
-from gump.document.resolver import *
-from gump.document.xdocs.config import *
+from gump.actor.document.resolver import *
+from gump.actor.document.xdocs.config import *
 
 from gump.tool.guru.stats import *
 from gump.tool.guru.xref import *
@@ -74,7 +74,7 @@ def getPathForObject(object,visited=None):
     elif isinstance(object, Tracker):
         path=Path(['gump_track'])
     elif isinstance(object, StatisticsGuru):
-        path=Path(['gump_stats'])
+        path=Path(['gump.actor.stats'])
     elif isinstance(object, XRefGuru):
         path=Path(['gump_xref'])
     elif isinstance(object, Module):

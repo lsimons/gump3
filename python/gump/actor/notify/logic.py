@@ -35,7 +35,7 @@ from gump.core.model.module import *
 from gump.core.model.state import *
 from gump.util import *
 
-import gump.notify.notification
+import gump.actor.notify.notification
 
 class NotificationLogic(RunSpecific):
     
@@ -67,7 +67,7 @@ class NotificationLogic(RunSpecific):
             #
             if self.run.getOptions().isOfficial() \
                 or (1 == stats.sequenceInState):                           
-                notification=gump.notify.notification.FailureNotification(self.run,entity)            
+                notification=gump.actor.notify.notification.FailureNotification(self.run,entity)            
         elif entity.isSuccess():
             #
             # Notify on first success, after a failure.
@@ -75,13 +75,13 @@ class NotificationLogic(RunSpecific):
             if (stats.sequenceInState == 1):            
                 if not STATE_PREREQ_FAILED == stats.previousState:
                     if stats.getTotalRuns() > 1:    
-                        notification=gump.notify.notification.SuccessNotification(self.run,entity)
+                        notification=gump.actor.notify.notification.SuccessNotification(self.run,entity)
             else:
                 #
                 # Notify on official if contains 'errors'.
                 #
                 if self.run.getOptions().isOfficial() and entity.containsRealNasties():
-                    notification=gump.notify.notification.WarningNotification(self.run,entity,' contains errors')   
+                    notification=gump.actor.notify.notification.WarningNotification(self.run,entity,' contains errors')   
                         
         #elif entity.isPrereqFailed():
         #    if (stats.sequenceInState == 1):            

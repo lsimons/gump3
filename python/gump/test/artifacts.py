@@ -28,8 +28,8 @@ import gump.core.config
 from gump.test import getWorkedTestRun
 from gump.test.pyunit import UnitTestSuite
 
-import gump.repository.artifact
-import gump.repository.publisher
+import gump.actor.repository.artifact
+import gump.actor.repository.publisher
 
 class ArtifactsTestSuite(UnitTestSuite):
     def __init__(self):
@@ -41,7 +41,7 @@ class ArtifactsTestSuite(UnitTestSuite):
         
     def suiteSetUp(self):
         # Create a repository
-        self.repo=gump.repository.artifact.ArtifactRepository(self.testRepo)
+        self.repo=gump.actor.repository.artifact.ArtifactRepository(self.testRepo)
         
         # Create some test files
         file(self.license,'w').close()
@@ -60,12 +60,12 @@ class ArtifactsTestSuite(UnitTestSuite):
         self.repo.publish('testGroup',self.jar1,'id1')
         
     def testPublisher(self):
-        p=gump.repository.publisher.RepositoryPublisher(self.run)
+        p=gump.actor.repository.publisher.RepositoryPublisher(self.run)
         p.processProject(self.workspace.getProject('project1'))
             
     def testRepositoryExtract(self):
         # Create a repository & populate it
-        self.repo=gump.repository.artifact.ArtifactRepository(self.testRepo)   
+        self.repo=gump.actor.repository.artifact.ArtifactRepository(self.testRepo)   
         self.testPublishJar()
          
         (dated, latest)=self.repo.extractGroup('testGroup')
@@ -75,7 +75,7 @@ class ArtifactsTestSuite(UnitTestSuite):
         
     def testRepositoryExtract2(self):
         # Create a repository & populate it
-        self.repo=gump.repository.artifact.ArtifactRepository(self.testRepo)   
+        self.repo=gump.actor.repository.artifact.ArtifactRepository(self.testRepo)   
         
         gdir=self.repo.getGroupDir('test')
         

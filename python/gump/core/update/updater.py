@@ -27,10 +27,10 @@ from gump import log
 from gump.core.run.gumprun import *
 from gump.core.config import dir, default, basicConfig
 
-from gump.update.cvs import CvsUpdater
-from gump.update.svn import SvnUpdater
-from gump.update.p4 import P4Updater
-from gump.update.artifact import ArtifactUpdater
+from gump.core.update.cvs import CvsUpdater
+from gump.core.update.svn import SvnUpdater
+from gump.core.update.p4 import P4Updater
+from gump.core.update.artifact import ArtifactUpdater
 
 from gump.util import dump, display, getIndent, logResourceUtilization, \
                             invokeGarbageCollection

@@ -28,5 +28,5 @@ from xml.sax.saxutils import escape
 
 from gump import log
 
-# tell Python what modules make up the gump.syndication package
+# tell Python what modules make up the gump.actor.syndication package
 __all__ = ["keeper"]

@@ -16,5 +16,5 @@
 
 
 
-# tell Python what modules make up the gump.document package
+# tell Python what modules make up the gump.actor.document package
 __all__ = ["documenter","resolver"]

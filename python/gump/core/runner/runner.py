@@ -24,7 +24,7 @@ import sys
 
 from gump import log
 
-from gump.update.updater import *
+from gump.core.update.updater import *
 from gump.core.build.builder import *
 
 import gump.core.language.java
@@ -137,8 +137,8 @@ class GumpRunner(RunSpecific):
         if self.run.getOptions().isOfficial() and \
             self.run.getWorkspace().hasDatabaseInformation():
             try:
-                import gump.mysql.databaser
-                self.run.registerActor(gump.mysql.databaser.Databaser(self.run))
+                import gump.actor.mysql.databaser
+                self.run.registerActor(gump.actor.mysql.databaser.Databaser(self.run))
             except Exception, details:
                 log.warning('Unable to register Database Actor :  %s ' % details,
                             exc_info=1)
@@ -164,8 +164,8 @@ class GumpRunner(RunSpecific):
         # Describe [once documented]
         if self.run.getOptions().isDescribe():
             try:
-                import gump.rdf.describer
-                self.run.registerActor(gump.rdf.describer.RDFDescriber(self.run))   
+                import gump.actor.rdf.describer
+                self.run.registerActor(gump.actor.rdf.describer.RDFDescriber(self.run))   
             except Exception, details:
                 log.warning('Unable to register RDF Describer :  %s ' % details,
                             exc_info=1)

@@ -38,8 +38,8 @@ from gump.core.model.misc import AddressPair
 from gump.util.smtp import *
 from gump.util import *
 
-from gump.notify.logic import NotificationLogic
-from gump.notify.notification import Notification
+from gump.actor.notify.logic import NotificationLogic
+from gump.actor.notify.notification import Notification
 
 LINE     ='--   --   --   --   --   --   --   --   --   --   --   --   G U M P'
 SEPARATOR='*********************************************************** G U M P'

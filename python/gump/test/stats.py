@@ -23,8 +23,8 @@ import types, StringIO
 
 from gump import log
 import gump.core.config
-from gump.stats.dbm.statsdb import StatisticsDB
-from gump.stats.statistician import Statistician
+from gump.actor.stats.dbm.statsdb import StatisticsDB
+from gump.actor.stats.statistician import Statistician
 from gump.util import *
 from gump.util.timing import *
 from gump.test import getWorkedTestRun

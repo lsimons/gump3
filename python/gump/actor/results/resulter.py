@@ -37,8 +37,8 @@ from gump.core.model.object import NamedModelObject
 from gump.core.model.workspace import *
 from gump.core.model.module import *
 from gump.core.model.project import *
-from gump.results.model import *
-from gump.results.loader import *
+from gump.actor.results.model import *
+from gump.actor.results.loader import *
 
 class Resulter(AbstractRunActor):
     

@@ -29,7 +29,7 @@ from gump.core.run.gumprun import *
 from gump.core.model.state import *
 from gump.core.model.project import ProjectStatistics
 
-from gump.document.xdocs.resolver import getDepthForObject
+from gump.actor.document.xdocs.resolver import getDepthForObject
 
 class AbstractSyndicator(RunSpecific):
     def __init__(self,run):

@@ -30,7 +30,7 @@ import gump.core.run.options
 from gump.core.model.state import *
 from gump.core.model.workspace import Workspace
 
-from gump.stats.statistician import Statistician
+from gump.actor.stats.statistician import Statistician
 from gump.util.tools import listDirectoryToFileHolder
 from gump.util.work import *
 
@@ -94,7 +94,7 @@ def getWorkedTestRun(workspaceXml=None):
     
 def getConfiguredOptions():
     options=gump.core.run.options.GumpRunOptions()
-    from gump.document.xdocs.resolver import XDocResolver
+    from gump.actor.document.xdocs.resolver import XDocResolver
     options.setResolver(XDocResolver('./test/bogus','http://bogus.org/'))
     return options
 

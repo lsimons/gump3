@@ -24,7 +24,7 @@ import sys
 from gump import log
 from gump.core.gumpinit import gumpinit
 from gump.test import getWorkedTestRun
-from gump.document.xdocs.documenter import XDocDocumenter
+from gump.actor.document.xdocs.documenter import XDocDocumenter
 from gump.core.commandLine import handleArgv
 from gump.core.run.gumprun import GumpRun
 from gump.core.loader.loader import WorkspaceLoader

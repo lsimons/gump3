@@ -37,7 +37,7 @@ class Server(NamedModelObject):
     
         if self.hasType() and self.getType() == 'python':
             if self.hasUrl():
-                from gump.document.xdocs.resolver import XDocResolver    
+                from gump.actor.document.xdocs.resolver import XDocResolver    
                 self.resolver=XDocResolver('bogus', self.getUrl())
                      
     def check(self,workspace):

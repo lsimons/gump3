@@ -28,5 +28,5 @@ from gump import log
 from gump.core.model.state import *
 from gump.core.model.project import ProjectStatistics
 
-# tell Python what modules make up the gump.syndication package
+# tell Python what modules make up the gump.actor.syndication package
 __all__ = ["syndicator","rss","atom"]
