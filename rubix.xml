@@ -13,7 +13,7 @@
   <project name="jaf"            home="/opt/jaf-1.0.1"/>
   <project name="javamail"       home="/opt/javamail-1.2"/>
   <project name="jaxp"           home="/opt/jaxp1.0.1"/>
-  <project name="jaxp11"         home="/opt/jaxp-1.1"/>
+  <project name="jaxp1.1"        home="/opt/jaxp-1.1"/>
   <project name="jdbc"           home="/opt/jdbc2_0"/>
   <project name="jms"            home="/opt/jms1.0.2"/>
   <project name="jmx"            home="/opt/jmx-1_0"/>

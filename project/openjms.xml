@@ -20,6 +20,7 @@
   <depend project="jta"/>
   <depend project="jdbc"/>
   <depend project="tyrex"/>
+  <depend project="jakarta-regexp"/>
 
   <project name="antlr">
     <jar name="lib/antlrall_2.7.1.jar"/>
