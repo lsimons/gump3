@@ -23,7 +23,12 @@
 
     <home nested="dist"/>
     <jar name="lib/ant.jar" id="ant"/>
-    <jar name="lib/optional.jar" id="optional"/>
+    <jar name="lib/nodeps.jar" id="nodeps"/>
+    <jar name="lib/needs-junit.jar" id="junit"/>
+    <jar name="lib/needs-stylebook.jar" id="stylebook"/>
+    <jar name="lib/needs-swing.jar" id="swing"/>
+    <jar name="lib/needs-trax.jar" id="trax"/>
+    <jar name="lib/needs-xalan2.jar" id="xalan2"/>
 
     <nag from="Diane Holt &lt;holtdl@apache.org&gt;"
          to="ant-dev@jakarta.apache.org"/>
@@ -46,13 +51,26 @@
 
     <home nested="build"/>
     <jar name="lib/ant.jar" id="ant"/>
-    <jar name="lib/optional.jar" id="optional"/>
+    <jar name="lib/nodeps.jar" id="nodeps"/>
+    <jar name="lib/needs-antlr.jar" id="antlr"/>
+    <jar name="lib/needs-bcel.jar" id="bcel"/>
+    <jar name="lib/needs-bsf.jar" id="bsf"/>
+    <jar name="lib/needs-commons-logging.jar" id="commons-logging"/>
+    <jar name="lib/needs-jakarta-regexp.jar" id="jakarta-regexp"/>
+    <jar name="lib/needs-javamail.jar" id="javamail"/>
+    <jar name="lib/needs-junit.jar" id="junit"/>
+    <jar name="lib/needs-log4j.jar" id="log4j"/>
+    <jar name="lib/needs-oro.jar" id="oro"/>
+    <jar name="lib/needs-stylebook.jar" id="stylebook"/>
+    <jar name="lib/needs-swing.jar" id="swing"/>
+    <jar name="lib/needs-trax.jar" id="trax"/>
+    <jar name="lib/needs-xalan2.jar" id="xalan2"/>
     <javadoc nested="build/javadocs" project="jakarta-ant"/>
 
     <deliver fromdir="distribution/src" tosite="stefans-test"
-             todir="ant1.5.1alpha/@@DATE@@/" />
+             todir="ant1.5.2alpha/@@DATE@@/" />
     <deliver fromdir="distribution/bin" tosite="stefans-test"
-             todir="ant1.5.1alpha/@@DATE@@/" />
+             todir="ant1.5.2alpha/@@DATE@@/" />
 
     <deliver fromdir="distribution/src" tosite="jakarta.apache.org"
              todir="builds/jakarta-ant/nightly/@@DATE@@/" />
