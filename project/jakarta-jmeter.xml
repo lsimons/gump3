@@ -15,7 +15,7 @@
   limitations under the License.
 -->
 <module name="jakarta-jmeter">
-<!-- Version $Revision: 1.89 $ Last updated $Date: 2004/03/21 11:44:39 $ -->
+<!-- Version $Revision: 1.90 $ Last updated $Date: 2004/03/22 02:07:31 $ -->
   <url href="http://jakarta.apache.org/jmeter/" />
   <description>
     Pure Java load testing and performance measurement tool.
@@ -31,8 +31,8 @@
       <property name="jmeter.version" value="@@DATE@@"/>
       <property name="gump.run" value="true"/>
       <!-- The version of this file -->
-      <property name="version.projectfile" value="$Revision: 1.89 $"/>
-      <property name="date.projectfile" value="$Date: 2004/03/21 11:44:39 $"/>
+      <property name="version.projectfile" value="$Revision: 1.90 $"/>
+      <property name="date.projectfile" value="$Date: 2004/03/22 02:07:31 $"/>
       
       <!--
       	These properties are passed to the build process, so the names need to agree with
@@ -76,6 +76,7 @@
     <depend project="commons-collections"/>
     <depend project="jtidy" />
     <depend project="excalibur-compatibility" />
+    <depend project="excalibur-logger" />
 
     <depend project="commons-logging"/>
     <depend project="commons-httpclient"/>
@@ -108,8 +109,8 @@
       <property name="jmeter.version" value="@@DATE@@"/>
       <property name="gump.run" value="true"/>
       <!-- The version of this file -->
-      <property name="version.projectfile" value="$Revision: 1.89 $"/>
-      <property name="date.projectfile" value="$Date: 2004/03/21 11:44:39 $"/>
+      <property name="version.projectfile" value="$Revision: 1.90 $"/>
+      <property name="date.projectfile" value="$Date: 2004/03/22 02:07:31 $"/>
 
 		<!-- Ensure work directories don't get dropped from classpath -->
 		<mkdir dir="build/core"/>
@@ -162,6 +163,8 @@
     <work nested="lib/commons-logging.jar"/>
     <work nested="lib/commons-httpclient-2.0.jar"/>
 
+    <work nested="lib/excalibur-logger-1.1.jar"/>
+
     <!-- needed for documentation -->
     <work nested="lib/velocity-1.4-dev.jar"/>
     
@@ -192,8 +195,8 @@
       <property name="jmeter.version" value="@@DATE@@"/>
       <property name="gump.run" value="true"/>
       <!-- The version of this file -->
-      <property name="version.projectfile" value="$Revision: 1.89 $"/>
-      <property name="date.projectfile" value="$Date: 2004/03/21 11:44:39 $"/>
+      <property name="version.projectfile" value="$Revision: 1.90 $"/>
+      <property name="date.projectfile" value="$Date: 2004/03/22 02:07:31 $"/>
     </ant>
 
     <depend project="ant" />
@@ -223,6 +226,8 @@
     <work nested="lib/Tidy.jar"/>
     <work nested="lib/commons-httpclient-2.0.jar"/>
     <work nested="lib/commons-logging.jar"/>
+
+    <work nested="lib/excalibur-logger-1.1.jar"/>
 
     <!-- work nested="lib/velocity-1.4-dev.jar"/ -->
     <work nested="lib/xalan.jar"/>
@@ -254,8 +259,8 @@
       <property name="jmeter.version" value="@@DATE@@"/>
       <property name="gump.run" value="true"/>
       <!-- The version of this file -->
-      <property name="version.projectfile" value="$Revision: 1.89 $"/>
-      <property name="date.projectfile" value="$Date: 2004/03/21 11:44:39 $"/>
+      <property name="version.projectfile" value="$Revision: 1.90 $"/>
+      <property name="date.projectfile" value="$Date: 2004/03/22 02:07:31 $"/>
     </ant>
 
     <depend project="ant" />
@@ -281,6 +286,7 @@
 
     <work nested="lib/commons-httpclient-2.0.jar"/>
     <!--work nested="lib/commons-logging.jar"/-->
+    <work nested="lib/excalibur-logger-1.1.jar"/>
 
     <!-- work nested="lib/velocity-1.4-dev.jar"/ -->
     <work nested="lib/xalan.jar"/>
