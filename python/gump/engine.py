@@ -12,7 +12,7 @@ from gump import log
 from gump.gumprun import *
 from gump.config import dir, default, basicConfig
 
-from gump.utils import dump, display, getIndent
+from gump.utils import dump, display, getIndent, logResourceUtilization
 from gump.utils.note import Annotatable
 from gump.utils.work import *
 
@@ -49,16 +49,22 @@ def isAllProjects(pexpr):
 class GumpEngine:
     
     def preprocess(self,run,exitOnError=1):
+        
 
         #
         # Perform start-up logic 
         #
         workspace = run.getWorkspace()
+                
+        logResourceUtilization('Before check environment')
         
         #
         #
         #
         workspace.checkEnvironment(exitOnError)
+        
+        
+        logResourceUtilization('After check environment')
         
         #
         # Modify the log on the fly, if --dated
@@ -107,30 +113,44 @@ class GumpEngine:
                 pass
         
     def integrate(self,run):    
-  
+      
+        logResourceUtilization('Before preprocess')
+        
         #
         # Prepare the context
         #
         self.preprocess(run)
   
+      
+        logResourceUtilization('Before update')
+        
         #
         # Checkout from source code repositories
         #
         self.update(run)
-  
+
+        logResourceUtilization('Before build')
+        
         #
         # Run the build commands
         #
         self.buildAll(run)
   
+      
+        logResourceUtilization('Before statistics')
+        
         # Update [or load if not 'all'] Statistics
         self.updateStatistics(run)
+              
+        logResourceUtilization('Before syndicate')
         
         #
         # Provide a news feed (or few)
         #
         syndicate(run)
-         
+                 
+        logResourceUtilization('Before document')
+        
         #   
         # Build HTML Result (via Forrest or ...)
         #
@@ -148,6 +168,8 @@ class GumpEngine:
   
             log.info('Nag about failures... ')
             
+            logResourceUtilization('Before nag')
+        
             #
             # Nag about failures
             #

@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/output/Attic/nag.py,v 1.15 2004/02/23 20:55:08 ajack Exp $
-# $Revision: 1.15 $
-# $Date: 2004/02/23 20:55:08 $
+# $Header: /home/stefano/cvs/gump/python/gump/output/Attic/nag.py,v 1.16 2004/02/23 21:55:35 ajack Exp $
+# $Revision: 1.16 $
+# $Date: 2004/02/23 21:55:35 $
 #
 # ====================================================================
 #
@@ -260,7 +260,8 @@ class Nagger:
             if not toaddr: toaddr =    self.workspace.mailinglist
             if not fromaddr : fromaddr =  self.workspace.email
                 
-            nags.append(AddressPair(toaddr,fromaddr))  
+            nags.append(AddressPair(getStringFromUnicode(toaddr),	\
+                                    getStringFromUnicode(fromaddr)))  
 
         return nags
         

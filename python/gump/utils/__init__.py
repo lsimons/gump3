@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/utils/__init__.py,v 1.19 2004/02/23 15:43:06 ajack Exp $
-# $Revision: 1.19 $
-# $Date: 2004/02/23 15:43:06 $
+# $Header: /home/stefano/cvs/gump/python/gump/utils/__init__.py,v 1.20 2004/02/23 21:55:35 ajack Exp $
+# $Revision: 1.20 $
+# $Date: 2004/02/23 21:55:35 $
 #
 # ====================================================================
 #
@@ -362,6 +362,24 @@ def formatException(ei):
     if s[-1] == "\n":
         s = s[:-1]
     return s
+    
+def logResourceUtilization(message=None,):
+    try:
+        import resource
+        
+        if not message:
+            message=''
+            
+        resources=resource.getrusage(resource.RUSAGE_SELF)
+        log.debug('My Resources ' + message + ' ' + `resources`)
+    
+        resources=resource.getrusage(resource.RUSAGE_CHILDREN)
+        log.debug('Child Resources ' + message + ' ' + `resources`)        
+    
+        resources=resource.getrusage(resource.RUSAGE_BOTH)
+        log.debug('All Resources ' + message  + ' ' + `resources`)
+        
+    except: pass
         
 if __name__=='__main__':
 
@@ -381,4 +399,6 @@ if __name__=='__main__':
   print "str = " + getStringFromUnicode("Ceki Gülcü")
   
   print "indent = [" + getIndent(5) + "]"
+  
+  logResourceUtilization()
   

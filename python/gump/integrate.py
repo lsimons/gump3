@@ -1,9 +1,9 @@
 #!/usr/bin/python
 #!/usr/bin/env python
 #
-# $Header: /home/stefano/cvs/gump/python/gump/integrate.py,v 1.19 2004/02/13 22:12:37 ajack Exp $
-# $Revision: 1.19 $
-# $Date: 2004/02/13 22:12:37 $
+# $Header: /home/stefano/cvs/gump/python/gump/integrate.py,v 1.20 2004/02/23 21:55:35 ajack Exp $
+# $Revision: 1.20 $
+# $Date: 2004/02/23 21:55:35 $
 #
 # ====================================================================
 #
@@ -82,6 +82,7 @@ from gump import log
 from gump.engine import GumpEngine
 from gump.gumprun import GumpRun, GumpRunOptions, GumpSet
 from gump.utils.commandLine import handleArgv
+from gump.utils import logResourceUtilization
 from gump.model.loader import WorkspaceLoader
 
 
@@ -100,8 +101,10 @@ if __name__=='__main__':
     # Process command line
     args = handleArgv(sys.argv)
     ws=args[0]
-    ps=args[1]
-    
+    ps=args[1]    
+                
+    logResourceUtilization('Before load workspace')
+        
     # get parsed workspace definition
     workspace=WorkspaceLoader().load(ws)
       
@@ -113,7 +116,9 @@ if __name__=='__main__':
     # Dated means add the date to the log dir...
     #
     if '-d' in args or '--dated' in args:
-        options.setDated(1)
+        options.setDated(1)    
+    
+    logResourceUtilization('Before create run')
     
     # The Run Details...
     run=GumpRun(workspace,ps,options)
@@ -123,8 +128,10 @@ if __name__=='__main__':
     #
     result = GumpEngine().integrate(run)
 
+    logResourceUtilization('Before exit')
+    
     #
-    log.info('Gump Integration complete. Exit code:' + str(result))
+    log.info('Gump Integration complete. Exit code:' + str(result))                  
           
     # bye!
     sys.exit(result)

@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/forrest.py,v 1.78 2004/02/23 20:55:08 ajack Exp $
-# $Revision: 1.78 $f
-# $Date: 2004/02/23 20:55:08 $
+# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/forrest.py,v 1.79 2004/02/23 21:55:35 ajack Exp $
+# $Revision: 1.79 $f
+# $Date: 2004/02/23 21:55:35 $
 #
 # ====================================================================
 #
@@ -1412,9 +1412,14 @@ class ForrestDocumenter(Documenter):
         stream.close()
             
     def documentSummary(self,xdocNode,summary,description='Project Summary'):
-        if not summary or not summary.projects: return
+        if not summary or not summary.projects \
+            or not (summary.projects > 1) : return
         
         summarySection=xdocNode.createSection(description)
+        
+        summarySection.createParagraph('Overall project success : ' +	\
+                '%02.2f' % summary.overallPercentage + '%')
+        
         summaryTable=summarySection.createTable(['Projects','Successes','Failures','Prereqs',	\
             'No Works','Packages'])
         
