@@ -15,6 +15,7 @@
     <depend project="xml-xalan2"/>
     <depend project="jtidy"/>
     <depend project="jakarta-log4j"/>
+    <work nested="build/jakarta-poi/classes"/>
 
     <home nested="build/poi"/>
     <jar  name="poi.jar" id="poi"/>
