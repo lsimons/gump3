@@ -10,7 +10,7 @@
     <project name="incubator-altrmi">
         <package>org.apache.altrmi</package>
 
-        <ant target="jar">
+        <ant target="jars">
             <property name="version" value="@@DATE@@"/>
             <property name="junit.failonerror" value="true"/>
             <property name="do.checkstyle" value="true"/>
