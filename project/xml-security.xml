@@ -20,7 +20,7 @@
     <option project="junit"/>
     <work nested="classes"/>
 
-    <jar nested="xmlsec.jar"/>
+    <jar name="xmlsec.jar"/>
     <javadoc nested="doc/html/api"/>
   </project>
 
