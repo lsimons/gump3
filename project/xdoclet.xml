@@ -155,6 +155,7 @@
     <depend project="xdoclet-xdoclet-module-prepare" inherit="all"/>
 
     <depend project="xml-xalan2"/>
+    <depend project="javacc"/>
     <depend project="jmx"/>
     <depend project="jms"/>
     <depend project="jakarta-servletapi-4"/>
