@@ -54,13 +54,13 @@
                       reference="home" />
         </ant>
 
-        <depend project="ant" inherit="runtime"/>
+        <depend project="ant" runtime="true" inherit="runtime"/>
         <option project="checkstyle" inherit="runtime"/>
         <depend project="junit"/>
         <depend project="avalon-sandbox-qdox" runtime="true" inherit="runtime"/>
         <depend project="avalon" runtime="true"/>
         <depend project="excalibur-i18n" runtime="true"/>
-        <depend project="xml-xerces"/>
+        <depend project="xml-xerces" runtime="true"/>
         <depend project="xml-xalan2"/>
         <work nested="info/build/classes"/>
 
