@@ -11,6 +11,7 @@
 
   <depend project="jakarta-ant"/>
   <depend project="xml-xerces"/>
+  <depend project="jakarta-avalon-testlet"/>
   <option project="jakarta-servletapi-4"/>
 
   <home nested="build/lib"/>
