@@ -149,7 +149,7 @@
   <module href="project/xml-xerces2.xml"/>
   <module href="project/xml-xindice.xml"/>
   <module href="project/xml-xmlbeans.xml"/>
-  <module href="http://svn.apache.org/repos/asf/xml/forrest/trunk/module.xml"/>
+  <module href="http://svn.apache.org/repos/asf/forrest/trunk/module.xml"/>
 
 <!-- SourceForge -->
 
@@ -249,6 +249,7 @@
   <module href="project/jdbc.xml"/>
   <module href="project/jdo.xml"/>
   <module href="project/jimi.xml"/>
+  <module href="project/jisp.xml"/>
   <module href="project/jms.xml"/>
   <module href="project/jmx.xml"/>
   <module href="project/jndi.xml"/>
@@ -269,6 +270,8 @@
 
   <project name="antlr"            package="antlr-2.7.3"/>
   <project name="aspectj"          package="aspectj1.1"/>
+  <project name="avalon-phoenix-dependencies"             
+           package="avalon-phoenix-dependencies"/>
   <project name="concurrent"       package="dougLea"/>
   <project name="cos"              package="cos-05Nov2002"/>
   <project name="cryptix"          package="cryptix32-20001002-r3.2.0"/>
@@ -288,6 +291,7 @@
   <project name="jcifs"            package="jcifs"/>
   <project name="jdbc"             package="jdbc2_0"/>
   <project name="jimi"             package="Jimi"/>
+  <project name="jisp"             package="jisp-2.5.1"/>
   <project name="jdepend"          package="jdepend-2.6"/>
   <project name="jdo"              package="jdo-1_0_1-ri"/>
   <project name="jms"              package="jms1.0.2"/>
@@ -322,6 +326,8 @@
 
   <repository href="repository/apache-svn-sandbox.xml"/>
   <repository href="repository/apache-incubator-svn.xml"/>
+  <repository href="repository/forrest.xml"/>
+  <repository href="repository/xml-svn.xml"/>
 
 <!-- CVS Repository definitions -->
 
@@ -351,7 +357,6 @@
   <repository href="repository/w3c.xml"/>
   <repository href="repository/ws.xml"/>
   <repository href="repository/xml.xml"/>
-  <repository href="repository/xml-svn.xml"/>
 
 <!-- server definitions -->
 
