@@ -1,0 +1,29 @@
+<module name="junit-addons">
+
+  <url href="http://junit-addons.sourceforge.net/"/>
+  <description>
+    Various JUnit addons and helper classes.
+  </description>
+
+  <cvs repository="sourceforge" host-prefix="cvs.junit-addons" dir="junit-addons"/>
+  
+  <project name="junit-addons">
+
+    <ant/>
+
+    <depend project="ant" inherit="runtime"/>
+    <depend project="xml-apis"/>
+    <depend project="jdom"/>
+    <depend project="junit"/>
+    <depend project="jaxen"/>
+
+    <work nested="build/classes"/>
+    <jar name="lib/junit-addons-@@DATE@@.jar"/>
+
+    <license name="LICENSE"/>
+
+    <nag from="Sam Ruby &lt;rubys@us.ibm.com&gt;"
+         to="xindice-dev@xml.apache.org"/>
+  </project>
+
+</module>
