@@ -514,7 +514,7 @@
     <package>org.apache.commons.modeler</package>
     <description>Modeler MBeans</description>
     <ant basedir="modeler" target="dist">
-      <property name="component-name" value="modeler-@@DATE@@"/>
+      <property name="component.name" value="modeler-@@DATE@@"/>
     </ant>
 
     <depend project="ant" inherit="runtime"/>
