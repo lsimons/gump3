@@ -159,19 +159,19 @@ Subject: [GUMP] Build Failure - Testlet
 Regex: /BUILD FAILED/
 ------
 Project: jakarta-cactus-ant
-To: jakarta-commons@jakarta.apache.org
+To: cactus-dev@jakarta.apache.org
 From: Ted Husted <ted@husted.com>
 Subject: [GUMP] Build Failure - cactus-ant
 Regex: /BUILD FAILED/
 ------
 Project: jakarta-cactus-22
-To: jakarta-commons@jakarta.apache.org
+To: cactus-dev@jakarta.apache.org
 From: Ted Husted <ted@husted.com>
 Subject: [GUMP] Build Failure - cactus-22
 Regex: /BUILD FAILED/
 ------
 Project: jakarta-cactus-23
-To: jakarta-commons@jakarta.apache.org
+To: cactus-dev@jakarta.apache.org
 From: Ted Husted <ted@husted.com>
 Subject: [GUMP] Build Failure - cactus-23
 Regex: /BUILD FAILED/
