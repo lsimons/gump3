@@ -167,7 +167,9 @@ class MavenBuilder(AbstractJavaBuilder):
         #cmd.addPrefixedParameter('-D','build.sysclasspath','only','=')
     
         # End with the goal...
-        cmd.addParameter(goal)
+        if goal: 
+            for goalParam in goal.split():
+                cmd.addParameter(goalParam)
     
         return cmd
   
