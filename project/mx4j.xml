@@ -20,7 +20,7 @@
     <depend project="junit"/>
     <depend project="saxon"/>
     <depend project="commons-logging" />
-    <depend project="xjavadoc" />
+    <depend project="xjavadoc" inherit="runtime" />
     <depend project="xdoclet" ids="xdoclet-core xdoclet-jmx xdoclet-mx4j" />
     <option project="javamail"/>
     <option project="jsse"/>

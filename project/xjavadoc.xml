@@ -19,8 +19,8 @@
     <depend project="jrefactory"/>
     <depend project="jakarta-log4j"/>
     <depend project="junit"/>
-    <depend project="commons-logging" />
-    <depend project="commons-collections"/>
+    <depend project="commons-logging" runtime="true"/>
+    <depend project="commons-collections" runtime="true"/>
     <jar name="build/lib/xjavadoc.jar"/>
   </project>
 
