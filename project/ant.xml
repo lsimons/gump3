@@ -40,9 +40,7 @@
     <license name="LICENSE"/>
 
     <nag from="Diane Holt &lt;holtdl@apache.org&gt;"
-         to="ant-dev@jakarta.apache.org"/>
-    <!--nag from="Diane Holt &lt;holtdl@apache.org&gt;"
-         to="dev@ant.apache.org"/-->
+         to="dev@ant.apache.org"/>
   </project>
 
   <project name="dist-ant">
@@ -90,9 +88,7 @@
     <javadoc nested="build/javadocs" project="ant"/>
 
     <nag from="Diane Holt &lt;holtdl@apache.org&gt;"
-         to="ant-dev@jakarta.apache.org"/>
-    <!--nag from="Diane Holt &lt;holtdl@apache.org&gt;"
-         to="dev@ant.apache.org"/-->
+         to="dev@ant.apache.org"/>
   </project>
 
   <project name="ant-testutil">
@@ -105,9 +101,7 @@
     <jar name="ant-testutil.jar" id="ant-testutil"/>
 
     <nag from="Diane Holt &lt;holtdl@apache.org&gt;"
-         to="ant-dev@jakarta.apache.org"/>
-    <!--nag from="Diane Holt &lt;holtdl@apache.org&gt;"
-         to="dev@ant.apache.org"/-->
+         to="dev@ant.apache.org"/>
   </project>
 
   <project name="test-ant">
@@ -126,11 +120,8 @@
     <work nested="src/etc/testcases"/>
 
     <nag from="Diane Holt &lt;holtdl@apache.org&gt;"
-         to="ant-dev@jakarta.apache.org"
-         subject="Test Failure - Ant"/>
-    <!--nag from="Diane Holt &lt;holtdl@apache.org&gt;"
          to="dev@ant.apache.org"
-         subject="Test Failure - Ant"/-->
+         subject="Test Failure - Ant"/>
   </project>
 
   <project name="bootstrap-ant">
@@ -142,19 +133,12 @@
     <jar name="lib/ant.jar"/>
 
     <nag from="Diane Holt &lt;holtdl@apache.org&gt;"
-         to="ant-dev@jakarta.apache.org"
-         subject="Bootstrap Failure - Ant">
-      <regexp pattern="/error/"/>
-      <regexp pattern="/Failed/"/>
-      <regexp />
-    </nag>
-    <!--nag from="Diane Holt &lt;holtdl@apache.org&gt;"
          to="dev@ant.apache.org"
          subject="Bootstrap Failure - Ant">
       <regexp pattern="/error/"/>
       <regexp pattern="/Failed/"/>
       <regexp />
-    </nag-->
+    </nag>
   </project>
 
   <project name="ant-embed">
@@ -176,10 +160,8 @@
     <home nested="proposal/embed/build"/>
     <jar name="ant-sax2.jar" id="embed"/>
 
-    <nag to="ant-dev@jakarta.apache.org"
+    <nag to="dev@ant.apache.org"
          from="Nicola Ken Barozzi &lt;nicolaken@apache.org&gt;"/>
-    <!--nag to="dev@ant.apache.org"
-         from="Nicola Ken Barozzi &lt;nicolaken@apache.org&gt;"/-->
 
   </project>
 
@@ -206,10 +188,8 @@
     <home nested="proposal/embed/build"/>
     <jar name="optional-dynprop.jar" id="embed-optional"/>
 
-    <nag to="ant-dev@jakarta.apache.org"
+    <nag to="dev@ant.apache.org"
          from="Nicola Ken Barozzi &lt;nicolaken@apache.org&gt;"/>
-    <!--nag to="dev@ant.apache.org"
-         from="Nicola Ken Barozzi &lt;nicolaken@apache.org&gt;"/-->
   </project>
 
   <project name="ant-xdocs-proposal">
@@ -222,10 +202,8 @@
     <depend project="xml-xerces"/>
     <depend project="xdoclet" inherit="runtime"/>
     <depend project="jakarta-velocity-dvsl" inherit="runtime"/>
-    <nag to="ant-dev@jakarta.apache.org"
+    <nag to="dev@ant.apache.org"
          from="Erik Hatcher &lt;jakarta-ant@ehatchersolutions.com&gt;"/>
-    <!--nag to="dev@ant.apache.org"
-         from="Erik Hatcher &lt;jakarta-ant@ehatchersolutions.com&gt;"/-->
     <work nested="proposal/xdocs/build/classes"/>
     <javadoc nested="proposal/xdocs/build/docs/manual"
              project="Ant xdocs proposal">

@@ -23,9 +23,7 @@
     <javadoc nested="dist/docs/api" module="ant"/>
 
     <nag from="Diane Holt &lt;holtdl@apache.org&gt;"
-         to="ant-dev@jakarta.apache.org"/>
-    <!--nag from="Diane Holt &lt;holtdl@apache.org&gt;"
-         to="dev@ant.apache.org"/-->
+         to="dev@ant.apache.org"/>
   </project>
 
 </module>
