@@ -951,7 +951,7 @@
         <work nested="repository/main/target/classes"/>
         <mkdir dir="merlin/composition/api/target/classes"/>
         <mkdir dir="merlin/composition/api/target/test-classes"/>
-        <work nested="merlin/composition/api/target/test-classes"/>
+        <work nested="merlin/composition/api/target/classes"/>
         <work nested="merlin/composition/api/target/test-classes"/>
         <home nested="merlin/composition/api"/>
         <jar name="target/avalon-composition-api-@@DATE@@.jar"/>
