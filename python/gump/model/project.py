@@ -80,6 +80,7 @@ class Project(NamedModelObject, Statable, Resultable, Dependable, Positioned):
         self.distributable=False
         self.packageMarker=None
         self.jvmargs=gump.process.command.Parameters()
+        self.packageNames=None
         
     	#############################################################
     	# Outputs
@@ -189,6 +190,13 @@ class Project(NamedModelObject, Statable, Resultable, Dependable, Positioned):
         
     def getJars(self):
         return self.jars.values()
+        
+    def hasPackageNames(self):
+        if self.packageNames: return True
+        return False
+        
+    def getPackageNames(self):
+        return self.packageNames
         
     def getJarAt(self,index):
         return self.jars.values()[index]
@@ -512,7 +520,16 @@ class Project(NamedModelObject, Statable, Resultable, Dependable, Positioned):
         
         # Existence means 'true'
         self.redistributable=self.hasDomChild('redistributable')       
-                  
+        
+        # Store any 'Java Package names'
+        for pdom in self.getDomChildIterator('package'):
+            packageName=getDomTextValue(pdom)
+            if packageName:
+                if not self.packageNames:
+                    self.packageNames=[]
+                if not packageName in self.packageNames:
+                    self.packageNames.append(packageName)
+                    
         # Close down the DOM...
         self.shutdownDom()       
         
