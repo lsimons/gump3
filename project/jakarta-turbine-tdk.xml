@@ -29,7 +29,8 @@
     <depend project="ant" inherit="runtime"/>
     <depend project="xml-xerces"/>
     <depend project="jakarta-velocity" inherit="runtime"/>
-  </project>    
+    <depend project="avalon-logkit" runtime="true" />
+  </project>
 
   <project name="jakarta-turbine-tdk">
     <package>org.apache.turbine.tdk</package>
