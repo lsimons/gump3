@@ -32,7 +32,6 @@
   <project name="infozone">
     <url href="http://infozone-group.org/"/>
     <home nested="java/lib"/>
-    <jar name="infozone-lexus.jar"/>
     <jar name="infozone-tools.jar"/>
   </project>
 
