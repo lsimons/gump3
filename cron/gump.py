@@ -120,7 +120,7 @@ def catFile(output,file,title=None):
         
 def sendEmail(toaddr,fromaddr,subject,data,server,port=25):
     rawdata = "Date: %s\r\nFrom: %s\r\nTo: %s\r\nSubject: %s\r\n\r\n%s"	\
-           	% (	time.strftime('%d %b %y %H:%M:%S', time.gmtime()),
+           	% (	time.strftime('%d %b %Y %H:%M:%S', time.gmtime()),
            	    fromaddr, toaddr,	subject,	data)
     try:
         #
@@ -142,7 +142,7 @@ def writeRunLogEntry(entry):
     try:
         runlog=open(runlogFile,'a',0) # Unbuffered...
         try:
-            runlog.write(time.strftime('%d %b %y %H:%M:%S'))
+            runlog.write(time.strftime('%d %b %Y %H:%M:%S'))
             runlog.write(' : ')
             runlog.write(`os.getpid()`)
             runlog.write(' : ')
@@ -295,8 +295,8 @@ try:
         hostname = socket.gethostname()
 
         log.write('- GUMP run on host   : ' + hostname + '\n')
-        log.write('- GUMP run @         : ' + time.strftime('%d %b %y %H:%M:%S', time.localtime()) + '\n')
-        log.write('- GUMP run @  UTC    : ' + time.strftime('%d %b %y %H:%M:%S', time.gmtime()) + '\n')
+        log.write('- GUMP run @         : ' + time.strftime('%d %b %Y %H:%M:%S', time.localtime()) + '\n')
+        log.write('- GUMP run @  UTC    : ' + time.strftime('%d %b %Y %H:%M:%S', time.gmtime()) + '\n')
         log.write('- GUMP run by Python : ' + `sys.version` + '\n')
         log.write('- GUMP run by Python : ' + `sys.executable` + '\n')
         log.write('- GUMP run by Gump   : ' + GUMP_VERSION + '\n')

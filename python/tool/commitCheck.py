@@ -147,7 +147,7 @@ try:
         hostname = socket.gethostname()
 
         log.write('- GUMP run on host   : ' + hostname + '\n')
-        log.write('- GUMP run @         : ' + time.strftime('%d %b %y %H:%M:%S', time.gmtime()) + '\n')
+        log.write('- GUMP run @         : ' + time.strftime('%d %b %Y %H:%M:%S', time.gmtime()) + '\n')
         log.write('- GUMP run by Python : ' + `sys.version` + '\n')
         log.write('- GUMP run on OS     : ' + `os.name` + '\n')
         log.write('- GUMP run in env    : \n')
