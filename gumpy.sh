@@ -99,6 +99,20 @@ fi
 cp -R `grep profile $GUMP_HOST.xml  | cut -d\" -f2` $GUMP_PROFILE_LOG_DIR
 
 #
+# Preliminary cleanup
+#
+cd $GUMP_TMP
+if [ -f check_forrest.txt ] ; then
+	rm check_forrest.txt 
+fi
+if [ -f forrest.txt ] ; then
+	rm forrest.txt 
+fi
+if [ -f $GUMP_WS/forrest/build/tmp/brokenlinks.txt ] ; then
+	rm $GUMP_WS/forrest/build/tmp/brokenlinks.txt
+fi
+
+#
 # Do a CVS update
 #
 echo $SEPARATOR >> $GUMP_LOG
