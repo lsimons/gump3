@@ -550,6 +550,7 @@
 
         <ant basedir="fortress/examples" target="jar">
             <property name="version" value="@@DATE@@"/>
+            <property name="{excalibur-fortress.jar}" project="excalibur-fortress" reference="jarpath"/>
         </ant>
 
         <depend project="excalibur-fortress" inherit="all" runtime="true"/>
