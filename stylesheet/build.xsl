@@ -147,24 +147,18 @@
           <br/>
           <xsl:text>Dependencies: </xsl:text>
           <xsl:for-each select="depend|option">
-            <xsl:variable name="dependent" select="@project"/>
-            <xsl:for-each select="/workspace/project[@name=$dependent]">
-              <xsl:choose>
-                <xsl:when test="ant|script">
-                  <a href="{@name}.html">
-                    <xsl:value-of select="$dependent"/>
-                  </a>
-                </xsl:when>
-                <xsl:otherwise>
-                  <xsl:variable name="module" select="@module"/>
-                  <xsl:for-each select="/workspace/module[@name=$module]">
-                    <a href="module_{@defined-in}.html">
-                      <xsl:value-of select="$dependent"/>
-                    </a>
-                  </xsl:for-each>
-                </xsl:otherwise>
-              </xsl:choose>
-            </xsl:for-each>
+            <xsl:choose>
+              <xsl:when test="ant|script">
+                <a href="{@project}.html">
+                  <xsl:value-of select="@project"/>
+                </a>
+              </xsl:when>
+              <xsl:when test="@defined-in">
+                <a href="module_{@defined-in}.html">
+                  <xsl:value-of select="@project"/>
+                </a>
+              </xsl:when>
+            </xsl:choose>
           </xsl:for-each>
         </menu>
 
@@ -173,12 +167,9 @@
           <!-- prereq check -->
 
           <xsl:for-each select="depend">
-            <xsl:variable name="dependent" select="@project"/>
             <prereq project="{@project}">
-              <xsl:for-each select="/workspace/project[@name=$dependent]">
-                <xsl:for-each select="jar">
-                  <file path="{../@home}/{@name}"/>
-                </xsl:for-each>
+              <xsl:for-each select="jar">
+                <file path="{../@home}/{@name}"/>
               </xsl:for-each>
             </prereq>
           </xsl:for-each>
@@ -207,11 +198,8 @@
               </xsl:for-each>
 
               <xsl:for-each select="depend[not(noclasspath)]|option">
-                <xsl:variable name="dependent" select="@project"/>
-                <xsl:for-each select="/workspace/project[@name=$dependent]">
-                  <xsl:for-each select="jar">
-                    <pathelement location="{../@home}/{@name}"/>
-                  </xsl:for-each>
+                <xsl:for-each select="jar">
+                  <pathelement location="{../@home}/{@name}"/>
                 </xsl:for-each>
               </xsl:for-each>
             </classpath>

@@ -10,6 +10,7 @@ import java.util.Hashtable;
 
 public class Project {
 
+    static private Hashtable projects = new Hashtable();
     private Document document;
     private Element element;
     private String name;
@@ -17,12 +18,26 @@ public class Project {
 
     /**
      * Create a set of Project definitions based on XML nodes.
-     * @param project list of &lt;project&gt; elements
+     * @param elements list of &lt;project&gt; elements
      */
-    public static void load(Enumeration projects) throws Exception {
-        while (projects.hasMoreElements()) {
-           new Project((Element)projects.nextElement());
+    public static void load(Enumeration elements) throws Exception {
+        while (elements.hasMoreElements()) {
+           new Project((Element)elements.nextElement());
         }
+
+        // expand dependencies for easier generation
+        for (Enumeration e=projects.elements(); e.hasMoreElements();) {
+            ((Project)(e.nextElement())).expandDepends();
+        }
+    }
+
+    /**
+     * General attribute accessor.
+     * @param name attribute name
+     * @return Value of the specified attribute.
+     */
+    public String get(String name) {
+        return element.getAttribute(name);
     }
 
     /**
@@ -38,17 +53,16 @@ public class Project {
         Element ant = null;
 
         Node child=element.getFirstChild();
-        while (child != null) {
+        for (; child != null; child=child.getNextSibling()) {
             if (child.getNodeName().equals("depend")) {
-                depends.put(((Element)child).getAttribute("project"),child);
+                depends.put(((Element)child).getAttribute("project"), child);
             } else if (child.getNodeName().equals("option")) {
-                depends.put(((Element)child).getAttribute("project"),child);
+                depends.put(((Element)child).getAttribute("project"), child);
             } else if (child.getNodeName().equals("ant")) {
                 ant = (Element)child;
             } else if (child.getNodeName().equals("home")) {
                 home = (Element)child;
             }
-            child=child.getNextSibling();
         }
 
         computeHome(home);
@@ -57,6 +71,8 @@ public class Project {
             genProperties(ant);
             genDepends(ant);
         }
+
+        projects.put(name, this);
     }
 
     /**
@@ -156,6 +172,34 @@ public class Project {
 
             if (result.equals("")) result=srcdir;
             element.setAttribute("home", result);
+        }
+    }
+
+    /**
+     * Copy selected attribute and elements from dependent projects.  This
+     * simplifies generation by essentially making project definitions
+     * self contained.
+     */
+    private void expandDepends() {
+        for (Enumeration e=depends.keys(); e.hasMoreElements(); ) {
+            String name = (String)e.nextElement();
+            Project target = (Project)projects.get(name);
+            if (target == null) continue;
+
+            Element depend = (Element) depends.get(name);
+            depend.setAttribute("home",target.get("home"));
+            depend.setAttribute("defined-in",target.get("defined-in"));
+
+            Node child=target.element.getFirstChild();
+            for (; child != null; child=child.getNextSibling()) {
+                if (child.getNodeName().equals("jar")) {
+                    depend.appendChild(child.cloneNode(false));
+                } else if (child.getNodeName().equals("ant")) {
+                    depend.appendChild(child.cloneNode(false));
+                } else if (child.getNodeName().equals("script")) {
+                    depend.appendChild(child.cloneNode(false));
+                }
+            }
         }
     }
 }
