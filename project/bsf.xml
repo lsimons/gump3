@@ -16,46 +16,17 @@
 -->
 <module name="bsf">
 
-  <url href="http://jakarta.apache.org/bsf/
-"/>
+  <url href="http://jakarta.apache.org/bsf/"/>
+  
   <description>
-    Bean Scripting Framework
+    Bean Scripting Framework -- the old IBM OSS one, prior to Jakarta.
   </description>
   <redistributable/>
 
-  <cvs repository="jakarta" dir="jakarta-bsf"/>
-  
-  <nag to="bsf-dev@jakarta.apache.org"
-         from="Sam Ruby &lt;rubys@us.ibm.com&gt;"/>
-		 
   <project name="bsf">
-    <package>org.apache.bsf</package>
-
-    <ant target="samples"/>
-
-    <depend project="xml-xerces"/>
-    <depend project="ant" inherit="runtime"/>
-    <work nested="build/classes"/>
-
-    <home nested="build"/>
+ 
     <jar  name="lib/bsf.jar"/>
-
     <license name="license.html"/>
-
-  </project>
-
-  <project name="dist-bsf">
-    <ant target="dist"/>
-
-    <depend project="xml-xerces"/>
-    <depend project="ant" inherit="runtime"/>
-    <depend project="bsf"/>
-    <option project="rhino"/>
-    <option project="jython"/>
-
-    <home nested="build"/>
-    <jar  name="lib/bsf.jar"/>
-    <javadoc nested="build/javadocs"/>
   </project>
 
 </module>
