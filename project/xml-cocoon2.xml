@@ -28,6 +28,7 @@
     <depend project="xml-xerces" version="supplied"/>
     <depend project="xml-xalan2" version="supplied"/>
     <depend project="excalibur-cli" version="supplied"/>
+    <depend project="excalibur-instrument" version="supplied"/>
     <depend project="excalibur-naming" version="supplied"/>
     <depend project="excalibur-sourceresolve" version="supplied"/>
     <depend project="excalibur-xmlutil" version="supplied"/>
@@ -53,8 +54,13 @@
     <option project="jisp" version="supplied"/>
     <option project="jakarta-slide" ids="kernel" version="supplied"/>
 
-    <depend project="jing"/>
+    <depend project="deli"/>
+    <depend project="javamail"/>
     <depend project="jaxen"/>
+    <depend project="jing"/>
+    <depend project="jstyle"/>
+    <depend project="maybeupload"/>
+    <depend project="pizza"/>
 
     <work nested="build/cocoon/classes"/>
     <work nested="tools/anttasks"/>
@@ -534,6 +540,46 @@
     ********************************************
   -->  
   
+  <project name="maybeupload">
+    <url href="http://www.weft.co.uk/library/maybeupload/"/>
+    <package>uk.co.weft.maybeupload</package>
+    <description>
+      Upload files from Java Servlets
+    </description>
+    <home nested="lib/optional"/>
+    <jar name="maybeupload_1-0-5pre3.jar"/>
+  </project>
+  
+  <project name="pizza">
+    <url href="http://pizzacompiler.sourceforge.net/"/>
+    <package>net.sf.pizzacompiler</package>
+    <description>
+      Generics, Function pointers, and Algebraic types for Java
+    </description>
+    <home nested="lib/optional"/>
+    <jar name="pizza-1.1.jar"/>
+  </project>
+  
+  <project name="jstyle">
+    <url href="http://astyle.sourceforge.net/"/>
+    <package>jstyle</package>
+    <description>
+      Automatic Indentation Filter
+    </description>
+    <home nested="lib/optional"/>
+    <jar name="jstyle.jar"/>
+  </project>
+  
+  <project name="deli">
+    <url href="http://sourceforge.net/projects/delicon/"/>
+    <package>com.hp.hpl.deli</package>
+    <description>
+      Delivery context library
+    </description>
+    <home nested="lib/optional"/>
+    <jar name="deli-0.6.5.jar"/>
+  </project>
+  
   <project name="jisp">
     <url href="http://www.coyotegulch.com/jisp/"/>
     <description>
@@ -544,6 +590,7 @@
   </project>
   
   <project name="jing">
+    <package>com/thaiopensource</package>
     <url href="http://www.thaiopensource.com/relaxng/jing.html"/>
     <description>
       Java Indexed Serialization Package
