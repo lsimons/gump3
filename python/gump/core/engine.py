@@ -219,9 +219,11 @@ class GumpEngine:
         #log.debug('Modules to update:') 
     
         moduleCount=len(list)
-        moduleNo=1     
+        moduleNo=0     
         # Update all the modules that have CVS repositories
         for module in list: 
+
+            moduleNo+=1
         
             if module.isPackaged(): 
                 # Not sure we have anything to do right now
@@ -368,9 +370,11 @@ class GumpEngine:
 
         # build all projects this project depends upon, then the project itself
         projectCount=len(list)
-        projectNo=1
+        projectNo=0
         for project in list:  
-        
+                             
+            projectNo+=1
+            
             log.info(' Project: #[' + `projectNo` + '] of [' + `projectCount` + '] : ' + project.getName())
                     
             # Extract stats (in case we want to do conditional processing)            
@@ -436,8 +440,7 @@ class GumpEngine:
             if project.isFailed():
                 log.warn('Failed to build project #[' + `projectNo` + '] [' + project.getName() + '], state:' \
                         + project.getStateDescription())
-                                                
-            projectNo+=1
+                           
             
             # Incremental documentation...
             documenter=run.getOptions().getDocumenter()        
