@@ -45,7 +45,7 @@
       <property name="taglibs-standard.jar" project="jakarta-taglibs-standard" 
                 id="standard" reference="jarpath"/>
       <depend property="antlr.jar" project="antlr" id="antlr" />
-      <depend property="antlr-tools.jar" project="antlr" id="antlr-tools" />
+      <depend property="antlr-tools.jar" project="antlr" id="antlr" />
       <depend property="jdbc20ext.jar" project="jdbc" />
       <depend property="commons-modeler.jar" project="commons-modeler"/>
       <depend property="jndi.jar" project="jndi"/>

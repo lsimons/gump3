@@ -263,7 +263,7 @@
 
 <!-- Installed packages -->
 
-  <project name="antlr"            package="antlr-2.7.2"/>
+  <project name="antlr"            package="antlr-2.7.3"/>
   <project name="aspectj"          package="aspectj1.1"/>
   <project name="concurrent"       package="dougLea"/>
   <project name="cos"              package="cos-05Nov2002"/>

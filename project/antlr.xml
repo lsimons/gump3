@@ -23,9 +23,8 @@
   
   <project name="antlr">
     <package>antlr</package>
-    <!-- untpack antlr 2.7.2, run ./configure; make antlrall.jar -->
 
-    <jar name="antlrall.jar" id="antlr-tools"/>
+    <!--jar name="antlrall.jar" id="antlr-tools"/-->
     <jar name="antlr.jar" id="antlr"/>
   </project>
 </module>
