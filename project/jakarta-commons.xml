@@ -337,6 +337,22 @@
          from="Ted Husted &lt;ted@husted.com&gt;"/>
   </project>
 
+  <project name="commons-launcher">
+    <package>org.apache.commons.launcher</package>
+    <ant basedir="launcher" target="dist">
+      <property name="ant.home" project="ant" reference="home"/>
+    </ant>
+    <depend project="ant" inherit="runtime"/>
+    <depend project="xml-xerces"/>
+    <home nested="launcher/dist"/>
+    <jar name="commons-launcher.jar"/>
+    <license name="LICENSE"/>
+    <javadoc nested="launcher/dist/docs/api"/>
+
+    <nag to="commons-dev@jakarta.apache.org"
+         from="Stefan Bodewig &lt;bodewig@apache.org&gt;"/>
+  </project>
+
   <project name="commons-logging">
     <package>org.apache.commons.logging</package>
     <description>Logging Library Package</description>
