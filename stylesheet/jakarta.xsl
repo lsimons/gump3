@@ -131,7 +131,7 @@
           <tr>
             <td colspan="2">
               <div align="center" class="copyright">
-                Copyright &amp;#169; 2002, Apache Software Foundation
+                Copyright &amp;#169; 2003, Apache Software Foundation
               </div>
             </td>
           </tr>
