@@ -96,14 +96,18 @@ class Parameter:
 def getParameterFromString(strp):
     """Extract a Parameter Object from a String"""
     parts=split(strp,'=')
-    if len(parts)==1:
+    partCount=len(parts)
+    if partCount==1:
         pname=parts[0]
         pvalue=None
         psep=''
-    else:
+    elif partCount > 1:
         pname=parts[0]
         pvalue=parts[1]
         psep='='
+    else:
+        return None
+        
     return Parameter(pname,pvalue,psep)
     
 class Parameters:
