@@ -269,7 +269,7 @@
 
         <home nested="configuration"/>
 
-        <jar name="target/lib/excalibur-configuration-@@DATE@@.jar"/>
+        <jar name="target/excalibur-configuration-@@DATE@@.jar"/>
 
         <nag>
           <regexp pattern="/Missing prereq/i"
