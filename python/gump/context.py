@@ -147,7 +147,7 @@ WORK_TYPE_SYNC=4
 WORK_TYPE_BUILD=5
 WORK_TYPE_DOCUMENT=6
 
-workTypeDescriptions = { 	WORK_TYPE_CHECK : "Check Environment",
+workTypeDescriptions = { 	WORK_TYPE_CHECK : "CheckEnvironment",
                 WORK_TYPE_CONFIG : "Config",
                 WORK_TYPE_UPDATE : "Update",
                 WORK_TYPE_SYNC : "Synchronize",

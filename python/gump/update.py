@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/update.py,v 1.7 2003/08/29 00:20:22 ajack Exp $
-# $Revision: 1.7 $
-# $Date: 2003/08/29 00:20:22 $
+# $Header: /home/stefano/cvs/gump/python/gump/update.py,v 1.8 2003/09/05 05:20:42 ajack Exp $
+# $Revision: 1.8 $
+# $Date: 2003/09/05 05:20:42 $
 #
 # ====================================================================
 #
@@ -177,7 +177,7 @@ def updateModules(workspace, modules, context=GumpContext()):
           # Execute the command and capture results
           
           # Testing...
-          cmdResult=execute(cmd)
+          cmdResult=execute(cmd,workspace.tmpdir)
           #cmdResult=dummyExecute(cmd)
       
           work=CommandWorkItem(WORK_TYPE_UPDATE,cmd,cmdResult)

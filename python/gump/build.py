@@ -1,8 +1,8 @@
 #!/usr/bin/python
 
-# $Header: /home/stefano/cvs/gump/python/gump/build.py,v 1.8 2003/08/29 00:20:22 ajack Exp $
-# $Revision: 1.8 $
-# $Date: 2003/08/29 00:20:22 $
+# $Header: /home/stefano/cvs/gump/python/gump/build.py,v 1.9 2003/09/05 05:20:42 ajack Exp $
+# $Revision: 1.9 $
+# $Date: 2003/09/05 05:20:42 $
 #
 # ====================================================================
 #
@@ -170,7 +170,7 @@ def syncWorkDir( workspace, sequence, context=GumpContext() ):
         log.debug(' ------ Sync\'ing : '+ module.name)
     
         # Perform the Sync
-        cmdResult=execute(cmd)
+        cmdResult=execute(cmd,workspace.tmpdir)
 
         work=CommandWorkItem(WORK_TYPE_SYNC,cmd,cmdResult)
         mctxt.performedWork(work)
@@ -207,7 +207,7 @@ def buildProjects( workspace, sequence, context=GumpContext() ):
 
         if cmd:
             # Execute the command ....
-            cmdResult=execute(cmd)
+            cmdResult=execute(cmd,workspace.tmpdir)
     
             # Update Context    
             work=CommandWorkItem(WORK_TYPE_BUILD,cmd,cmdResult)

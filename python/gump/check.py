@@ -1,8 +1,8 @@
 #!/usr/bin/python
 
-# $Header: /home/stefano/cvs/gump/python/gump/check.py,v 1.12 2003/08/29 00:20:22 ajack Exp $
-# $Revision: 1.12 $
-# $Date: 2003/08/29 00:20:22 $
+# $Header: /home/stefano/cvs/gump/python/gump/check.py,v 1.13 2003/09/05 05:20:42 ajack Exp $
+# $Revision: 1.13 $
+# $Date: 2003/09/05 05:20:42 $
 #
 # ====================================================================
 #
@@ -147,7 +147,7 @@ def checkEnvironment(workspace, context=GumpContext(), exitOnError=1):
     # Need to check javac classes are on CLASSPATH
     #
     
-def checkExecutable(workspace, context, command,options,mandatory):
+def checkExecutable(workspace,context,command,options,mandatory):
     ok=0
     try:
         cmd=getCmdFromString(command+" "+options,'check_'+command)

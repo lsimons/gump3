@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/Attic/model.py,v 1.13 2003/08/29 00:20:22 ajack Exp $
-# $Revision: 1.13 $
-# $Date: 2003/08/29 00:20:22 $
+# $Header: /home/stefano/cvs/gump/python/gump/Attic/model.py,v 1.14 2003/09/05 05:20:42 ajack Exp $
+# $Revision: 1.14 $
+# $Date: 2003/09/05 05:20:42 $
 #
 # ====================================================================
 #
@@ -123,8 +123,15 @@ class Workspace(GumpModelObject):
     if not self['banner-image']:
       self['banner-image']=default.bannerimage
     if not self['banner-link']: self['banner-link']="http://jakarta.apache.org"
+    if not self.tmpdir: self.logdir=os.path.join(self.basedir,"tmp")
+    if not os.path.exists(self.tmpdir): os.mkdir(self.tmpdir)
+    
     if not self.logdir: self.logdir=os.path.join(self.basedir,"log")
+    if not os.path.exists(self.logdir): os.mkdir(self.logdir)
+    
     if not self.cvsdir: self.cvsdir=os.path.join(self.basedir,"cvs")
+    if not os.path.exists(self.cvsdir): os.mkdir(self.cvsdir)
+    
     if not self.pkgdir: self.pkgdir=self.basedir
     if self.deliver:
       if not self.scratchdir: self.scratchdir=os.path.join(self.basedir,"scratch")

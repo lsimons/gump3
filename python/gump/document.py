@@ -68,6 +68,7 @@ import os
 import sys
 import logging
 from string import lower
+from xml.sax.saxutils import escape
 
 from gump import log, gumpSafeName
 from gump.conf import *
@@ -136,12 +137,24 @@ def document(workspace,context,full=None,moduleFilterList=None,projectFilterList
         documentStatistics(workspace,context,db,moduleFilterList,projectFilterList)
         #documentXRef(workspace,context)
         
-    forrest=Cmd('forrest','forrest',dir.docs)
+        
+    content=getContentDir(workspace)
+    xdocs=getWorkspaceDir(workspace,content)
+    forrest=Cmd('forrest','forrest',content)
     forrest.addPrefixedParameter('-D','java.awt.headless','true','=')
+    forrest.addPrefixedParameter('-D','project.content-dir',  \
+        content, '=')    
     forrest.addPrefixedParameter('-D','project.xdocs-dir',  \
-        getWorkspaceDir(workspace), '=')
-    forrest.addPrefixedParameter('-D','project.site-dir', \
-        getWorkspaceSiteDir(workspace), '=' )
+        xdocs, '=')
+    #forrest.addPrefixedParameter('-D','project.sitemap-dir',  \
+    #    docroot, '=')    
+    #forrest.addPrefixedParameter('-D','project.stylesheets-dir',  \
+    #    docroot, '=')    
+    #forrest.addPrefixedParameter('-D','project.images-dir',  \
+    #    docroot, '=')    
+
+    #forrest.addPrefixedParameter('-D','project.skinconf', \
+    #    getWorkspaceSiteDir(workspace), '=' )
     forrestResult=execute(forrest)
 
     # Update Context    
@@ -449,7 +462,7 @@ def documentWork(workspace,work,dir):
                     o=open(output, 'r')
                     line=o.readline()
                     while line:
-                        x.write(line)                
+                        x.write(escape(line))                
                         line=o.readline()
                 finally:
                     if o: o.close()
@@ -606,8 +619,14 @@ def getWorkspaceSiteDir(workspace):
     if not os.path.exists(sdir): os.mkdir(sdir)
     return sdir    
     
-def getWorkspaceDir(workspace):
-    xdir=os.path.normpath(os.path.join(workspace.logdir,'xdocs'))
+def getContentDir(workspace):
+    cdir=os.path.normpath(os.path.join(workspace.logdir,'content'))
+    if not os.path.exists(cdir): os.mkdir(cdir)
+    return xdir  
+    
+def getWorkspaceDir(workspace,contentdir=None):
+    cdir = contentdir or getContentDir(workspace)
+    xdir=os.path.normpath(os.path.join(getContentDir(workspace),'xdocs'))
     if not os.path.exists(xdir): os.mkdir(xdir)
     return xdir  
     

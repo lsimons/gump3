@@ -1,8 +1,8 @@
 #!/usr/bin/python
 
-# $Header: /home/stefano/cvs/gump/python/gump/Attic/conf.py,v 1.8 2003/08/29 00:20:22 ajack Exp $
-# $Revision: 1.8 $
-# $Date: 2003/08/29 00:20:22 $
+# $Header: /home/stefano/cvs/gump/python/gump/Attic/conf.py,v 1.9 2003/09/05 05:20:42 ajack Exp $
+# $Revision: 1.9 $
+# $Date: 2003/09/05 05:20:42 $
 #
 # ====================================================================
 #
@@ -82,7 +82,6 @@ class dir:
     cache     = os.path.normpath('%s/%s' % (base,'cache'))
     work      = os.path.normpath('%s/%s' % (base,'work'))
     tmp       = os.path.normpath('%s/%s' % (base,'tmp'))
-    docs	  = os.path.normpath('%s/%s' % (base,'docs'))
 
 class default:
     """Configuration of default settings"""
@@ -108,7 +107,6 @@ def basicConfig():
     if not os.path.exists(dir.cache): os.mkdir(dir.cache)
     if not os.path.exists(dir.work): os.mkdir(dir.work)
     if not os.path.exists(dir.tmp): os.mkdir(dir.tmp)
-    if not os.path.exists(dir.docs): os.mkdir(dir.docs)
 
     if dir.base not in sys.path: sys.path.insert(0, dir.base)
 
