@@ -21,6 +21,9 @@
     <depend project="jdbc"/>
     <depend project="tyrex"/>
     <depend project="jakarta-regexp"/>
+    <depend project="jakarta-log4j"/>
+    <depend project="junit"/>
+    <work nested="build/classes"/>
   </project>
 
   <project name="antlr">
