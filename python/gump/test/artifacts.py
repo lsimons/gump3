@@ -63,3 +63,39 @@ class ArtifactsTestSuite(UnitTestSuite):
         p=gump.repository.publisher.RepositoryPublisher(self.run)
         p.processProject(self.workspace.getProject('project1'))
             
+    def testRepositoryExtract(self):
+        # Create a repository & populate it
+        self.repo=gump.repository.artifact.ArtifactRepository(self.testRepo)   
+        self.testPublishJar()
+         
+        (dated, latest)=self.repo.extractGroup('testGroup')
+        
+        self.assertNotNone('Extracted something', dated)
+        self.assertNotEmpty('Extracted something', dated)
+        
+    def testRepositoryExtract2(self):
+        # Create a repository & populate it
+        self.repo=gump.repository.artifact.ArtifactRepository(self.testRepo)   
+        
+        gdir=self.repo._getGroupDir('test')
+        
+        file(os.path.join(gdir,'id1-gump-20030221.jar'),'w').close()
+        file(os.path.join(gdir,'id1-gump-20040221.jar'),'w').close()
+        file(os.path.join(gdir,'id1-gump-20050221.jar'),'w').close()
+        file(os.path.join(gdir,'id2-gump-20030221.jar'),'w').close()
+        file(os.path.join(gdir,'id2-gump-20040221.jar'),'w').close()
+        file(os.path.join(gdir,'id2-gump-20050221.jar'),'w').close()
+        file(os.path.join(gdir,'id3-gump-20030221.jar'),'w').close()
+        file(os.path.join(gdir,'id3-gump-20040221.jar'),'w').close()
+        file(os.path.join(gdir,'id3-gump-20050221.jar'),'w').close()
+        file(os.path.join(gdir,'id4-gump-20050221.jar'),'w').close()
+        
+        (dated, latest)=self.repo.extractGroup('test')
+        
+        import pprint
+        pprint.pprint(dated)
+        
+        self.assertNotNone('Extracted something', dated)
+        self.assertEqual('Extracted correct groups', len(dated.keys()), 3)
+        self.assertEqual('Detected correct latest', latest, '20050221')
+        

@@ -164,13 +164,19 @@ class GumpRun(gump.utils.timing.Timeable,gump.utils.work.Workable,gump.utils.not
         log.debug('Register Actor : ' + `actor`)
         self.actors.append(actor)
         
+    def logActors(self):
+        log.debug('There are %s registered actors : ' % len(self.actors))       
+        for actor in self.actors:
+            log.debug('Registered Actor : ' + `actor`)    
+            
+        
     def _dispatchEvent(self,event):    	
     	"""
     		Perform the dispatch
     	"""
         log.debug('Dispatch Event : ' + `event`)        
         for actor in self.actors:
-            log.debug('Dispatch Event : ' + `event` + ' to ' + `actor`)     
+            #log.debug('Dispatch Event : ' + `event` + ' to ' + `actor`)     
             actor._processEvent(event)
         gump.utils.inspectGarbageCollection(`event`)
             
@@ -180,7 +186,7 @@ class GumpRun(gump.utils.timing.Timeable,gump.utils.work.Workable,gump.utils.not
     	"""
         log.debug('Dispatch Request : ' + `request`)    
         for actor in self.actors:
-            log.debug('Dispatch Request : ' + `request` + ' to ' + `actor`)       
+            #log.debug('Dispatch Request : ' + `request` + ' to ' + `actor`)       
             actor._processRequest(request)
         gump.utils.inspectGarbageCollection(`request`)
             

@@ -277,10 +277,7 @@ class Workable(Stateful):
         return self.worklist
         
     def performedWork(self,item):
-    	self.worklist.add(item)   
-        	
-    def okToPerformWork(self):
-        return self.isUnset() or self.isSuccess()        
+    	self.worklist.add(item)           	
     
     def hasStart(self):
         return self.worklist.hasStart()

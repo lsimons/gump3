@@ -91,8 +91,9 @@ def loginToRepositoryOnDemand(repository,root,logins):
             logins[root]=newpass
                     
         else:
-            log.debug('Login already available for: ' + repository.getName() \
-                    + ' @ ' + root)            
+            pass
+            #log.debug('Login already available for: ' + repository.getName() \
+            #        + ' @ ' + root)            
     else:
         log.warn('Unable to provide login for CVS repository: ' + repository.getName() \
                 + ' @ ' + root + ' method: ' + str(repository.getMethod()) )  

@@ -193,10 +193,10 @@ class RSS:
     def endRSS(self):                    
         # complete the rss feed
         self.rssStream.write('</rss>\n')                
-        log.debug("RSS Newsfeed written to : " + self.rssFile);          
+        log.info("RSS Newsfeed written to : " + self.rssFile);          
         
     def serialize(self):
-        log.debug("RSS Newsfeed to : " + self.rssFile);         
+        log.info("RSS Newsfeed to : " + self.rssFile);         
         self.rssStream = open(self.rssFile,'w')
         
         self.startRSS()
@@ -235,7 +235,7 @@ class RSSSyndicator(AbstractSyndicator):
     
         self.rss=RSS(self.rssUrl,self.rssFile,	\
             Channel('Apache Gump',		\
-                    self.workspace.logurl,	\
+                    self.workspace.getLogUrl(),	\
                     """Life is like a box of chocolates""", \
                 self.gumpImage))
        

@@ -722,7 +722,7 @@ class XDocDocument(XDocPiece):
     def __init__(self,title,output=None,config=None,rootpath='.'):
         if isinstance(output,types.StringTypes):    
             self.xfile=output
-            log.debug('Documenting to file : [' + self.xfile + ']')                    
+            #log.debug('Documenting to file : [' + self.xfile + ']')                    
             # Open for writing with a decent sized buffer.
             self.output=open(self.xfile, 'w', 4096)
         else:

@@ -21,36 +21,41 @@ __license__   = "http://www.apache.org/licenses/LICENSE-2.0"
 
 
 """	
-    Checks that the Gump Environment is ok.    
+    Works on the Gump Repository
 """
 
 import os.path
 import sys
+import pprint
 
 from gump import log
 from gump.core.gumpinit import gumpinit
-from gump.run.gumpenv import GumpEnvironment
-from gump.core.commandLine import handleArgv
+
+import gump.repository.artifact
 
 # static void main()
 if __name__=='__main__':
     gumpinit()
-    
-    # Process command line
-    (args,options) = handleArgv(sys.argv)
-    ws=args[0]
-    ps=args[1]  
-    
-    
-    #
-    #    Perform this check run...
-    #    
-    result = 1
-           
-    GumpEnvironment().checkEnvironment(True)
 
-    #
-    log.info('Gump Environment Check complete. Exit code:' + str(result))
+    result = 1
+    
+    if not len(sys.argv) >= 1:
+        raise RuntimeError, 'Usage: repo.py \'repo directory\' [\'clean\']'
+        
+    dir   = sys.argv[1]
+    clean = len(sys.argv) == 2
+    
+    if not os.path.exists(dir): raise RuntimeError, 'No such directory : ' + `dir`    
+    if not os.path.isdir(dir): raise RuntimeError, 'Not a directory : ' + `dir`  
+           
+    repo=gump.repository.artifact.ArtifactRepository(dir)
+
+    for group in repo.getGroups():
+        print '---------------------------------------------------------'
+        print 'Group : ' + group
+        pprint.pprint(repo.extractGroup(group))
+    
+    log.info('Gump Repository Tool Complete. Exit code:' + str(result))
           
     # bye!
     sys.exit(result)

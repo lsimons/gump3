@@ -43,7 +43,7 @@ class JavaHelper(gump.run.gumprun.RunSpecific):
         
         # Caches for classpaths
         self.classpaths={}
-        self.bootclasspaths={}
+        self.bootclasspaths={}       
         
     def getJVMArgs(self,project):
         
@@ -63,9 +63,7 @@ class JavaHelper(gump.run.gumprun.RunSpecific):
         # Calculate classpath and bootclasspath
         (classpath, bootclasspath) = self.getClasspathObjects(project,debug)
         
-        #
         # Return them simple/flattened
-        #
         return ( classpath.getFlattened(), bootclasspath.getFlattened() )
 
    
@@ -74,6 +72,8 @@ class JavaHelper(gump.run.gumprun.RunSpecific):
         
         The basic classpath needs to include a compiler...
         
+        Return a system classpath (to include $JAVA_HOME/lib/tools.jar'
+        for a compiler).
         """
         sysClasspath=gump.java.cp.Classpath('System Classpath')
         javaHome=self.run.getEnvironment().getJavaHome()
@@ -186,7 +186,12 @@ class JavaHelper(gump.run.gumprun.RunSpecific):
             dependStr += 'Runtime'
   
         # Append JARS for this project
-        #    (respect ids)
+        #    (respect ids --- none means 'all)
+        ####################################################
+        # Note, if they don't come from the project outputs
+        # (e.g. 'cos the project failed) attempt to get them
+        # from the repository. [This has been done already,
+        # so is transparent here.]
         projectIds=[]
         for jar in project.getJars():
             # Store for double checking

@@ -61,10 +61,12 @@ class AnnotatedPath:
         return c
         
     def hasContributor(self):
+        """ Do we know which entity contributed this path component? """
         if self.contributor: return True
         return False
         
     def getContributor(self):
+        """ The cotributing entity """
         return self.contributor
         
     def hasId(self):
@@ -75,10 +77,12 @@ class AnnotatedPath:
         return self.id
         
     def hasInstigator(self):
+        """ Do we know which entity instagated this path component? """    
         if self.instigator: return True
         return False
         
     def getInstigator(self):
+        """ The instagating entity """    
         return self.instigator
         
     def getPath(self):

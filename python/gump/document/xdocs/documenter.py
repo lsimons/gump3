@@ -105,9 +105,6 @@ class XDocDocumenter(Documenter):
         if self.run.getOptions().isOfficial():
             self.documentStatistics()
             self.documentXRef()
-
-        # Synchronize xdocs...
-        return self.syncXDocs()
         
     #####################################################################
     #
@@ -252,35 +249,6 @@ class XDocDocumenter(Documenter):
         
         return success
         
-    def syncXDocs(self):
-        
-        # The move contents/xdocs from work directory to log
-        xdocWorkDir=self.getXDocWorkDirectory()
-        logDirectory=self.getXDocLogDirectory()
-        
-        log.info('Synchronize work->log, and clean-up...')
-            
-        success=True
-        try:
-            
-            if self.run.getOptions().isOfficial():
-                # Sync over public pages...
-                syncDirectories(xdocWorkDir,logDirectory)
-            else:
-                # Copy over public pages...
-                copyDirectories(xdocWorkDir,logDirectory)
-            
-            cleanUp=True       
-            if cleanUp:
-                # Clean-up work area
-                wipeDirectoryTree(xdocWorkDir)
-            
-        except:        
-            log.error('--- Failed to work->log sync and/or clean-up', exc_info=1)
-            success=False
-        
-        return success
-                
     #####################################################################           
     #
     # Workspace Pieces
@@ -311,10 +279,19 @@ class XDocDocumenter(Documenter):
         
         rssSyndRow=definitionTable.createRow()
         rssSyndRow.createData().createStrong('Syndication')
-        rssSyndRow.createData().createFork('rss.xml','RSS')
+        rssArea=rssSyndRow.createData()
+        rssArea.createFork('rss.xml','RSS')
+        rssUrl=self.resolver.getUrl(self.workspace,'rss','.xml')
+        rssArea.createFork('http://www.feedvalidator.org/check.cgi?url=' + rssUrl) \
+                .createIcon(self.resolver.getImageUrl('valid-rss.png'), alt='[Valid RSS]') #, title='Validate my RSS feed', width='88', height='31')
+                 
         atomSyndRow=definitionTable.createRow()
         atomSyndRow.createData().createStrong('Syndication')
-        atomSyndRow.createData().createFork('atom.xml','Atom')
+        atomArea=atomSyndRow.createData()
+        atomArea.createFork('atom.xml','Atom')
+        atomUrl=self.resolver.getUrl(self.workspace,'atom','.xml')
+        atomArea.createFork('http://www.feedvalidator.org/check.cgi?url=' + atomUrl) \
+                .createIcon(self.resolver.getImageUrl('valid-atom.png'), alt='[Valid Atom]') #, title='Validate my Atom feed', width='88', height='31')
         
         self.documentSummary(document,self.workspace.getProjectSummary())     
         
@@ -360,9 +337,22 @@ class XDocDocumenter(Documenter):
         
         optTable=optSection.createTable(['Name','Value'])
         opts=0
+               
+        descs={ 'Build':'Perform Build',
+                'XDocs':'Generate XDOCS',
+                'Statistics':'Update Statistics (to database)',
+                'Verbose':'Verbose Run',
+                'Cache':'Cache metadata (don\'t go to remote source)',
+                'Text':'Text Output',
+                'Official':'Official Run (e.g. nag notifies, etc.)',
+                'Results':'Generate Results' }
+                
         # iterate over this suites properties
         for (name,value) in getBeanAttributes(options).items():
-            optTable.createEntry(name,value)
+            desc=name
+            if descs.has_key(name):
+                desc = descs[name] + ' (' + name + ')'                
+            optTable.createEntry(desc,value)
             opts+=1
             
         if not opts: optTable.createEntry('None')
@@ -375,24 +365,13 @@ class XDocDocumenter(Documenter):
         envSection=document.createSection('Gump Environment')
         envSection.createParagraph(
             """The environment that this Gump run was within.""")     
-        
-        descs={ 'Build':'Perform Build',
-                'XDocs':'Generate XDOCS',
-                'Statistics':'Update Statistics (to database)',
-                'Verbose':'Verbose Run',
-                'Cache':'Cache metadata (don\'t go to remote source)',
-                'Text':'Text Output',
-                'Official':'Official Run (e.g. nag notifies, etc.)',
-                'Results':'Generate Results' }
+ 
         propertiesSection=envSection.createSection('Properties')
         envTable=propertiesSection.createTable(['Name/Description','Value'])
         envs=0
         # iterate over this suites properties
         for (name,value) in getBeanAttributes(environment).items():
-            desc=name
-            if descs.has_key(name):
-                desc = descs[name] + ' (' + name + ')'
-            envTable.createEntry(desc,str(value))
+            envTable.createEntry(name,str(value))
             envs+=1            
         if not envs: envTable.createEntry('None')
         
@@ -1758,12 +1737,11 @@ This page helps Gumpmeisters (and others) observe community progress.
                                                       
         # Display nag information
         if project.hasNotifys():
-            if project.isVerboseOrDebug():
-                for pair in project.getNotifys():
-                    toaddr=pair.getToAddress()
-                    fromaddr=pair.getFromAddress()
-                    detailsList.createEntry('Notify To: ').createFork('mailto:'+toaddr,toaddr)
-                    detailsList.createEntry('Notify From: ').createFork('mailto:'+fromaddr,fromaddr)
+            for pair in project.getNotifys():
+                toaddr=pair.getToAddress()
+                fromaddr=pair.getFromAddress()
+                detailsList.createEntry('Notify To: ').createFork('mailto:'+toaddr,toaddr)
+                detailsList.createEntry('Notify From: ').createFork('mailto:'+fromaddr,fromaddr)
                     
         elif not project.isPackaged() and project.hasBuilder():            
             document.createWarning('This project does not utilize Gump notification.')  

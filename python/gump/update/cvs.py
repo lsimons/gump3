@@ -1,6 +1,5 @@
 #!/usr/bin/python
 
-
 # Copyright 2003-2004 The Apache Software Foundation
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -65,8 +64,8 @@ class CvsUpdater(RunSpecific):
             
         """
             
-        log.info('Perform CVS Update on #[' + `module.getPosition()` + \
-                        '] : ' + module.getName())
+        #log.info('Perform CVS Update on #[' + `module.getPosition()` + \
+        #                '] : ' + module.getName())
     
         # Did we 'CVS checkout' already?
         exists	=	os.path.exists(module.getSourceControlStagingDirectory())
@@ -105,11 +104,9 @@ class CvsUpdater(RunSpecific):
         #  Get the Update Command
         (repository, root, cmd ) = self.getUpdateCommand(module, exists)
                 
-        log.debug("CVS Update Module " + module.getName() + \
-                       ", Repository Name: " + str(module.repository.getName()))
+        #log.debug("CVS Update Module " + module.getName() + \
+        #               ", Repository Name: " + str(module.repository.getName()))
                                         
-        log.debug("CVS Root " + root + " on Repository: " + module.repository.getName())
-        
         # Provide CVS logins, if not already there
         loginToRepositoryOnDemand(repository,root,self.logins)
                
@@ -125,7 +122,8 @@ class CvsUpdater(RunSpecific):
       
         # Update Context w/ Results  
         if not cmdResult.isOk():              
-            log.error('Failed to checkout/update module: ' + module.name)   
+            log.error('Failed w/ CVS Root ' + root + ' for %s on Repository %s.' \
+                % (module.name, module.repository.getName())) 
             if not exists:     
                 module.changeState(STATE_FAILED,REASON_UPDATE_FAILED)
             else:

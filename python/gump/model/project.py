@@ -120,6 +120,15 @@ class Project(NamedModelObject, Statable, Resultable, Dependable, Positioned):
                 return self.module.getNotifys()
         return self.notifys
         
+    def getArtifactGroup(self):
+        """
+        What does this projects artifacts group under?
+        Ask the module...
+        
+        Return String
+        """
+        return self.getModule().getArtifactGroup()
+        
     def hasAnt(self):
         if self.ant: return True
         return False

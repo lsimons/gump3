@@ -47,7 +47,7 @@ class RepositoryPublisher(gump.run.actor.AbstractRunActor):
         """
         
         if project.okToPerformWork() and project.hasOutputs() and project.isRedistributable():      
-            groupName = project.getModule().getName()
+            groupName = project.getArtifactGroup() 
             
             # If we have a <license name='...
             if project.hasLicense():
@@ -80,5 +80,13 @@ class RepositoryPublisher(gump.run.actor.AbstractRunActor):
                                    self.repository.getGroupDir(groupName),
                                    gump.utils.file.FILE_TYPE_REPO, 
                                    'list_repo_'+project.getName())
+                                   
+        else:
+            ok = project.okToPerformWork()
+            has = project.hasOutputs()
+            redist = project.isRedistributable()
+        
+            log.debug('Not publishing because [ok=%s,has outputs=%s,redistributable=%s]' \
+                        % (ok,has,redist))
         
   

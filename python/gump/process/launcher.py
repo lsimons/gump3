@@ -93,9 +93,9 @@ def executeIntoResult(cmd,result,tmp=dir.tmp):
                                     ' >>' + str(outputFile) + ' 2>&1'
                                     
         log.debug('Executing: ' + execString)
-        log.debug('     Exec: ' + str(execFile))
-        log.debug('   Output: ' + str(outputFile))
-        log.debug('Full Exec: ' + fullExec)
+        #log.debug('     Exec: ' + str(execFile))
+        #log.debug('   Output: ' + str(outputFile))
+        #log.debug('Full Exec: ' + fullExec)
         
         # Execute Command & Wait
         systemReturn=os.system(fullExec)
@@ -118,7 +118,7 @@ def executeIntoResult(cmd,result,tmp=dir.tmp):
             result.signal=0
             result.exit_code=systemReturn
             
-        log.debug('Command returned [' + str(systemReturn)+ '] [Sig:' + str(result.signal) + ' / Exit:' + str(result.exit_code) + '].')
+        #log.debug('Command returned [' + str(systemReturn)+ '] [Sig:' + str(result.signal) + ' / Exit:' + str(result.exit_code) + '].')
         
         #
         # Assume timed out if signal terminated

@@ -111,7 +111,7 @@ class AtomFeed:
 """)
                 
     def serialize(self):
-        log.debug("Atom News Feed to : " + self.file);         
+        log.info("Atom News Feed to : " + self.file);         
         stream = open(self.file,'w')
         
         modified=time.strftime('%Y-%m-%dT%H:%M:%SZ', time.gmtime())
@@ -136,7 +136,7 @@ class AtomSyndicator(AbstractSyndicator):
         self.feed=AtomFeed(feedUrl,feedFile,	\
                         'workspace',	\
                        'Apache Gump',		\
-                        self.workspace.logurl,	\
+                        self.workspace.getLogUrl(),	\
                         """Life is like a box of chocolates""")
             
     def completeRun(self):

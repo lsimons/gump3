@@ -14,6 +14,12 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+__revision__  = "$Rev$"
+__date__      = "$Date$"
+__copyright__ = "Copyright (c) 1999-2004 Apache Software Foundation"
+__license__   = "http://www.apache.org/licenses/LICENSE-2.0"
+
+
 #
 # $Header: /home/stefano/cvs/gump/python/exe.py,v 1.3 2004/04/06 15:57:11 ajack Exp $
 # 
@@ -26,4 +32,4 @@ import py2exe
 # 1 - install py2exe [http://starship.python.net/crew/theller/py2exe/]
 # 2 - run: python exedist.py py2exe
 
-setup(name="integrate",scripts=["integrate.py"],)
+setup(name="gump",scripts=["gump.py"],)

@@ -432,6 +432,15 @@ class Module(NamedModelObject, Statable, Resultable, Positioned):
     def getNotifys(self):
         return self.notifys
         
+    def getArtifactGroup(self):
+        """
+        What does this projects artifacts group under?
+        Right now ... the module name
+        
+        Return String
+        """
+        return self.getName()
+        
     def addProject(self,project):
         """
         	Associate this module with this project, and vice verse.
