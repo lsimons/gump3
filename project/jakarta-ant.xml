@@ -14,7 +14,7 @@
 
     <depend project="bootstrap-ant"/>
     <depend project="xml-xerces"/>
-    <option project="xml-xalan2"/>
+    <depend project="xml-xalan2"/>
     <option project="xml-stylebook2"/>
     <option project="xml-xalan1-compat"/>
     <option project="junit"/>
