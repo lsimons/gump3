@@ -336,7 +336,7 @@ class GumpEngine:
         if delete.dir:
             dir=os.path.abspath(os.path.join(basedir,delete.dir))
             try:
-                os.rmdir(dir))
+                os.rmdir(dir)
             except:
                 project.addError('Failed to delete directory ['+dir+'])
                 raise
