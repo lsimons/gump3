@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/utils/tools.py,v 1.17 2004/03/11 16:13:50 ajack Exp $
-# $Revision: 1.17 $
-# $Date: 2004/03/11 16:13:50 $
+# $Header: /home/stefano/cvs/gump/python/gump/utils/tools.py,v 1.18 2004/03/12 02:57:50 ajack Exp $
+# $Revision: 1.18 $
+# $Date: 2004/03/12 02:57:50 $
 #
 # ====================================================================
 #
@@ -231,7 +231,7 @@ def tailFile(file,lines,wrapLen=0,eol=None,marker=None):
                 taillines.append(wline)
             
                 # But dump any before 'lines'
-                size+=len(wline)
+                size=len(taillines)
                 if size > lines:
                     del taillines[0:(size-lines)]
                     size=len(taillines)
