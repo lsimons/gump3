@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
-<!DOCTYPE book PUBLIC "-//APACHE//DTD Cocoon Documentation Book V1.0//EN" "book-cocoon-v10.dtd">
 <site label="Gump" href="" xmlns="http://apache.org/forrest/linkmap/1.0" tab="home">
-	<menu label="Gump">
+
+	<gump label="Gump">
 	    <index href="index.html" label="Home"/>
-	    <index href="status.html" label="Status"/>
-	    <index href="http://cvs.apache.org/viewcvs/jakarta-gump/" label="Source"/>
-	    <index href="faq.html" label="FAQ"/>
-	    <index href="gettingstarted.html" label="Getting Started"/>
-	</menu>
-	<menu label="Results">
-	    <index href="http://gump.covalent.net/log/" label="Nightly"/>
-	    <index href="http://gump.covalent.net/jars/" label="Jars"/>
+	    <status href="status.html" label="Status"/>
+	    <source href="http://cvs.apache.org/viewcvs/jakarta-gump/" label="Source"/>
+	    <faq href="faq.html" label="FAQ"/>
+	    <gettingstarted href="gettingstarted.html" label="Getting Started"/>
+	</gump>
+	<results label="Results">
+	    <nightly href="http://gump.covalent.net/log/" label="Nightly"/>
+	    <jars href="http://gump.covalent.net/jars/" label="Jars"/>
 	<!--     <index href="http://nagoya.apache.org/~rubys/gump/javadoc.html" label="Javadoc"/> -->
-	</menu>
+	</results>
 	<!--
 	<menu label="Cross Reference">
 	    <index href="http://cvs.apache.org/builds/gump/latest/xref.html" label="By dependency"/>
@@ -22,13 +22,24 @@
 	    <index href="http://cvs.apache.org/builds/gump/latest/bypackage.html" label="By Java package Name"/>
 	</menu>
 	-->
-	<menu label="Get Involved">
-	    <index href="/site/getinvolved.html" label="Overview"/>
-	    <index href="http://jakarta.apache.org/getinvolved/mail.html" label="Join mailing lists"/>
-	    <index href="http://marc.theaimsgroup.com/?l=alexandria-dev&amp;r=1&amp;w=2" label="Search mailing lists"/>
-	    <index href="http://nagoya.apache.org/eyebrowse/" label="Browse mailing lists"/>
-	    <index href="http://nagoya.apache.org/wiki/apachewiki.cgi?GumpProjectPages" label="Wiki"/>
-	</menu>
+	<getinvolved label="Get Involved">
+	    <overview href="http://jakarta.apache.org/site/getinvolved.html" label="Overview"/>
+	    <joinmailinglists href="http://jakarta.apache.org/getinvolved/mail.html" label="Join mailing lists"/>
+	    <searchmailinglists href="http://marc.theaimsgroup.com/?l=alexandria-dev&amp;r=1&amp;w=2" label="Search mailing lists"/>
+	    <browsemailinglists href="http://nagoya.apache.org/eyebrowse/" label="Browse mailing lists"/>
+	    <wiki href="http://nagoya.apache.org/wiki/apachewiki.cgi?GumpProjectPages" label="Wiki"/>
+	</getinvolved>
+
+	<om label="Object Model" tab="metadata">
+	    <overview href="metadata/index.html" label="Overview"/>
+	    <workspace href="metadata/workspace.html" label="Workspace"/>
+	    <profile href="metadata/profile.html" label="Profile"/>
+	    <repository href="metadata/repository.html" label="Repository"/>
+    	<module href="metadata/module.html" label="Module"/>
+	    <project href="metadata/project.html" label="Project"/>
+	    <ant href="metadata/ant.html" label="Ant"/>
+	    <goodpractices href="metadata/practices.html" label="Good Practices"/>
+	</om>
 
 	<menu label="Object Model" tab="metadata">
 	    <index href="metadata/index.html" label="Overview"/>
@@ -38,20 +49,19 @@
     	<index href="metadata/module.html" label="Module"/>
 	    <index href="metadata/project.html" label="Project"/>
 	    <index href="metadata/ant.html" label="Ant"/>
-	    <index href="metadata/practices.html" label="Good Practices"/>
 	</menu>
 
-	<menu label="Traditional" tab="traditional">
-	    <index href="traditional/index.html" label="Overview"/>
-	    <index href="traditional/usage.html" label="Usage"/>
+	<traditional label="Traditional" tab="traditional">
+	    <overview href="traditional/index.html" label="Overview"/>
+	    <usage href="traditional/usage.html" label="Usage"/>
 	    <!-- index href="traditional/gettingstarted.html" label="Getting Started"/ -->
-	</menu>
+	</traditional>
 	
-	<menu label="Python" tab="python">
-	    <index href="python/index.html" label="Overview"/>
-	    <index href="python/usage.html" label="Usage"/>
+	<python label="Python" tab="python">
+	    <overview href="python/index.html" label="Overview"/>
+	    <usage href="python/usage.html" label="Usage"/>
 	    <!-- index href="python/gettingstarted.html" label="Getting Started"/ -->
-	</menu>
+	</python>
 
   <external-refs>
     <xml.apache.org href="http://xml.apache.org/">
