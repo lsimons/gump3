@@ -37,7 +37,4 @@ symbol  : class ActionMappings
 location: class org.apache.velocity.tools.struts.StrutsUtils
         ActionMappings mappings = getActionMappings(app);
         ^
-/data3/gump/jakarta-velocity-tools/src/java/org/apache/velocity/tools/struts/StrutsUtils.java:578: forwardURL(javax.servlet.http.HttpServletRequest,org.apache.struts.config.ForwardConfig,org.apache.struts.config.ModuleConfig) in org.apache.struts.util.RequestUtils cannot be applied to (javax.servlet.http.HttpServletRequest,org.apache.struts.config.ForwardConfig)
-            url.append(RequestUtils.forwardURL(request, fc));
-                                   ^
    </pre>
