@@ -19,10 +19,7 @@
     <depend project="jakarta-log4j"/>
     <depend project="jakarta-bcel"/>
     <depend project="junit"/>
-    <depend project="saxon"/>
     <depend project="commons-logging" />
-    <depend project="xjavadoc" inherit="runtime" />
-    <depend project="xdoclet" ids="xdoclet-core xdoclet-jmx xdoclet-mx4j" />
     <depend project="xml-axis"/>
     <option project="javamail"/>
     <option project="jsse"/>
