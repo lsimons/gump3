@@ -602,6 +602,7 @@
 
         <ant basedir="monitor" target="jar">
             <property name="project.version" value="@@DATE@@"/>
+            <property name="maven.build.dir" value="target"/>
         </ant>
 
         <depend project="ant" inherit="runtime"/>
