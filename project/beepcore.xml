@@ -17,6 +17,7 @@
 
     <depend project="jakarta-ant" inherit="runtime"/>
     <depend project="xml-xerces"/>
+    <depend project="commons-logging"/>
     <depend project="jsse"/>
     <depend project="edu.concurrent"/>
 
