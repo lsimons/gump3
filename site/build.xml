@@ -15,7 +15,7 @@
     <property name="docs.src"     location="xdocs"/>
     <property name="docs.dest"    location="docs"/>
     <property name="project.file" value="stylesheets/project.xml" />
-    <property name="site.dir"     location="../jakarta-site2" />
+    <property name="site2.dir"     location="../jakarta-site2" />
     <property name="batik.dir"     location="../xml-batik" />
     <property name="templ.path"   location="${docs.src}/stylesheets" />
     <property name="velocity.props" location="${docs.src}/velocity.properties"/>
@@ -23,11 +23,11 @@
     <!-- Add jakarta-site2 and batik jars to the classpath -->
     <path id="classpath">
         <pathelement path="${java.class.path}" />
-        <fileset dir="${site.dir}/lib">
+        <fileset dir="${site2.dir}/lib">
             <include name="*.jar"/>
         </fileset>
         <fileset dir="${batik.dir}">
-            <include name="batik-rasterizer.jar"/>
+            <include name="**/batik-rasterizer.jar"/>
         </fileset>
     </path>
 
@@ -71,7 +71,7 @@
             <classpath refid="classpath"/>
         </taskdef>
 
-        <copy file="${site.dir}/xdocs/stylesheets/site.vsl"
+        <copy file="${site2.dir}/xdocs/stylesheets/site.vsl"
            todir="${docs.src}/stylesheets"/>
 
         <anakia basedir="${docs.src}" destdir="${docs.dest}/"
@@ -92,6 +92,7 @@
         <java fork="yes" classname="org.apache.batik.apps.rasterizer.Main">
              <arg value="${docs.src}/bench.svg"/>
              <arg value="-d"/> <arg value="${docs.dest}/images"/>
+             <classpath refid="classpath" />
         </java>
     </target>
 
