@@ -800,7 +800,6 @@
         <package>org.apache.avalon.excalibur.pool</package>
 
         <ant basedir="pool">
-            <depend property="excalibur-collections.jar" project="excalibur-collections"/>
             <depend property="excalibur-instrument.jar" project="excalibur-instrument"/>
             <depend property="logkit.jar" project="jakarta-avalon-logkit" runtime="true"/>
             <property name="version" value="@@DATE@@"/>
@@ -813,6 +812,7 @@
         <option project="checkstyle" inherit="runtime"/>
         <depend project="junit"/>
         <depend project="jakarta-avalon" runtime="true"/>
+        <depend project="commons-collections" runtime="true"/>
         <depend project="xml-xerces"/>
         <depend project="xml-xalan2"/>
         <work nested="pool/build/classes"/>
