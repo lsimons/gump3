@@ -1,7 +1,7 @@
 /*
- * $Header: /home/stefano/cvs/gump/java/Jenny.java,v 1.19 2002/08/27 14:54:09 nicolaken Exp $
- * $Revision: 1.19 $
- * $Date: 2002/08/27 14:54:09 $
+ * $Header: /home/stefano/cvs/gump/java/Jenny.java,v 1.20 2002/12/12 03:17:23 conor Exp $
+ * $Revision: 1.20 $
+ * $Date: 2002/12/12 03:17:23 $
  *
  * ====================================================================
  *
@@ -78,6 +78,7 @@ import org.xml.sax.SAXParseException;
 
 // Java classes
 import java.io.File;
+import java.net.ConnectException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Enumeration;
@@ -85,6 +86,9 @@ import java.util.Hashtable;
 import java.util.Vector;
 
 public class Jenny {
+    
+    /** Indicates whether extrenal references should be followed or not */
+    private boolean online = true;
 
     DocumentBuilderFactory dFactory = DocumentBuilderFactory.newInstance();
     TransformerFactory tFactory = TransformerFactory.newInstance();
@@ -165,8 +169,12 @@ public class Jenny {
     private Element expand(Element node) throws Exception {
        // expand hrefs
        Attr href = node.getAttributeNode("href");
+       
        if (href != null && !node.getNodeName().equals("url")) {
            String source=href.getValue();
+           if (source.startsWith("http://") && !online) {
+               throw new ConnectException("Not online");
+           }
            Node sub = parse(source);
 
            boolean isExtern = source.startsWith("http://")
@@ -248,9 +256,8 @@ public class Jenny {
                    }
                    
                    System.err.println("Failed to expand "
-                                      + name.toString()
-                                      + " because of exception "
-                                      + t);
+                                      + name.toString());
+                   System.err.println("   - " + t);
                }
            }
        }
@@ -335,8 +342,8 @@ public class Jenny {
      * merge, sort, and insert defaults into a workspace
      * @param source document to be transformed
      */
-    private Jenny(String source) throws Exception {
-
+    private Jenny(String source, boolean online) throws Exception {
+        this.online = online;
         // Obtain the date to be used
         Date lastModified = new Date();
         try {
@@ -367,10 +374,24 @@ public class Jenny {
      */
     public static void main(String[] args) {
         try {
-            if (args.length == 1) {
-                new Jenny(args[0]);
-            } else {
-                System.out.println("Usage: Jenny workspace.xml");
+            boolean onlineOption = true;
+            boolean usageOK = true;
+            
+            if (args.length > 2) {
+                usageOK = false;
+            } else if (args.length == 2) {
+                if (args[1].equalsIgnoreCase("-offline")) {
+                    onlineOption = false;
+                } else if (!args[1].equalsIgnoreCase("-online")) {
+                    usageOK = false;
+                }
+            }
+            
+            if (usageOK) {
+                new Jenny(args[0], onlineOption);
+            } else { 
+                System.out.println("Usage: Jenny workspace.xml [-offline | -online]");
+                System.exit(1);
             }
         } catch (Exception e) {
             e.printStackTrace();
