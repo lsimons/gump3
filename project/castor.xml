@@ -26,7 +26,7 @@
   <project name="castor">
     <package>org.exolab.castor</package>
 
-    <ant basedir="src" target="jar">
+    <ant buildfile="src/build.xml" target="jar">
       <property name="version" value="@@DATE@@"/>
     </ant>
     <depend project="ant" inherit="runtime"/>
@@ -37,6 +37,7 @@
     <depend project="jakarta-regexp"/>
     <depend project="jakarta-oro"/>
     <depend project="commons-logging"/>
+    <depend project="junit"/>
     <work nested="build/classes"/>
     <home nested="dist"/>
     <jar name="castor-@@DATE@@.jar"/>
