@@ -194,8 +194,8 @@ def executeForrest(workspace,context):
     forrest.addPrefixedParameter('-D','java.awt.headless','true','=')
     forrest.addPrefixedParameter('-D','project.content-dir',  \
         content, '=')    
-    #forrest.addPrefixedParameter('-D','project.xdocs-dir',  \
-    #    xdocs, '=')
+    forrest.addPrefixedParameter('-D','project.xdocs-dir',  \
+        xdocs, '=')
     #forrest.addPrefixedParameter('-D','project.sitemap-dir',  \
     #    docroot, '=')    
     #forrest.addPrefixedParameter('-D','project.stylesheets-dir',  \
