@@ -449,7 +449,7 @@
     <xsl:if test="@quiet">
       <xsl:text>test -d </xsl:text>
       <xsl:value-of select="translate(@file,'\','/')"/>
-      <xsl:text> && </xsl:text>
+      <xsl:text> \&\& </xsl:text>
     </xsl:if>
     <xsl:text>mv </xsl:text>
     <xsl:value-of select="translate(@file,'\','/')"/>
