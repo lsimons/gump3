@@ -394,7 +394,7 @@
     <project name="excalibur-i18n">
         <package>org.apache.avalon.excalibur.i18n</package>
 
-        <ant basedir="i18n">
+        <ant basedir="i18n" target="dist">
             <!-- optional dependencies -->
             <property name="checkstyle.jar" project="checkstyle" reference="jarpath"/>
 
