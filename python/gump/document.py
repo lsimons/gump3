@@ -379,7 +379,7 @@ def documentWorkspace(workspace,context,db,moduleFilterList=None,projectFilterLi
         # Determine the number of projects this module (or it's projects)
         # cause not to be run.
         #
-        affected=determineAffected(mctxt)
+        affected=mctxt.determineAffected()
         
         # Display
         x.write('     <tr><!-- %s -->\n' % (mname))        
