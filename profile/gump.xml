@@ -203,6 +203,10 @@
   <module href="project/packaged-jaxen.xml"/>
   <module href="project/packaged-dom4j.xml"/>
 
+<!-- CodeHaus -->
+
+  <module href="http://cvs.codehaus.org/viewcvs.cgi/*checkout*/jcontainer/module.xml?rev=1.1&amp;root=jcontainer"/>
+
 <!-- Sun -->
 
   <!--module href="project/fesi.xml"/-->
