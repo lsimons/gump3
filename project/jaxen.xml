@@ -40,8 +40,8 @@
     <jar name="jaxen-@@DATE@@.jar"/>
     <javadoc module="jaxen" nested="target/docs/apidocs"/>
 
-    <nag to="jaxen-interest@lists.codehaus.org" 
-         from="Jaxen Gump &lt;scott@dotnot.org&gt;"/>
+  <!--  <nag to="jaxen-interest@lists.codehaus.org" 
+         from="Jaxen Gump &lt;scott@dotnot.org&gt;"/> -->
   </project>
 
   <project name="jaxen-test">
@@ -59,8 +59,8 @@
     <!-- Allow viewing of failure reports -->
     <junitreport nested="target/test-reports"/>
    
-    <nag to="jaxen-interest@lists.codehaus.org" 
-         from="Jaxen Gump &lt;scott@dotnot.org&gt;"/>
+<!--    <nag to="jaxen-interest@lists.codehaus.org" 
+         from="Jaxen Gump &lt;scott@dotnot.org&gt;"/> -->
   </project>
 
   <project name="jaxen">
@@ -81,6 +81,6 @@
     <home nested="target"/>
     <jar name="jaxen-@@DATE@@.jar"/>
     <javadoc module="jaxen" nested="target/docs/apidocs"/>
-    <nag to="jaxen-interest@lists.codehaus.org" from="Jaxen Gump &lt;scott@dotnot.org&gt;"/>
+<!--    <nag to="jaxen-interest@lists.codehaus.org" from="Jaxen Gump &lt;scott@dotnot.org&gt;"/> -->
   </project>
 </module>
