@@ -26,7 +26,6 @@
         <depend property="xerces.jar" project="xml-xerces" id="parser" runtime="true"/>
         <depend property="logkit.jar" project="avalon-logkit" runtime="true"/>
         <depend property="framework.jar" project="avalon" runtime="true"/>
-        <depend project="bsf" runtime="true"/>
         <depend project="excalibur-compatibility" runtime="true"/>
         <depend project="spice-cli" runtime="true"/>
         <depend project="spice-configkit" runtime="true" inherit="runtime"/>
