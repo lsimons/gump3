@@ -83,6 +83,7 @@
     
     <!-- All Maven projects need Ant and Xerces to build. -->
     <depend project="ant" inherit="runtime"/>
+    <depend project="commons-lang"/>
     <depend project="xml-xerces"/>
 
     <depend project="javamail"/>
