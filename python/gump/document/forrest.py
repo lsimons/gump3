@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/forrest.py,v 1.68 2004/02/10 01:00:14 ajack Exp $
-# $Revision: 1.68 $f
-# $Date: 2004/02/10 01:00:14 $
+# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/forrest.py,v 1.69 2004/02/10 20:18:40 ajack Exp $
+# $Revision: 1.69 $f
+# $Date: 2004/02/10 20:18:40 $
 #
 # ====================================================================
 #
@@ -803,11 +803,13 @@ class ForrestDocumenter(Documenter):
             detailList.createEntry('Title: ', server.getTitle())
     
         if server.hasUrl():
-            detailList.createEntry('URL: ').createFork(server.getUrl())
+            detailList.createEntry('URL: ').createFork(	\
+                    server.getUrl(),server.getUrl())
     
             # Parent 'site' (owner reference)
             if server.hasSite() and not server.getSite() == server.getUrl():
-                detailList.createEntry('Site: ').createFork(server.getSite())
+                detailList.createEntry('Site: ').createFork(	\
+                        server.getSite(), server.getSite())
             
         self.documentXML(document,server)
         

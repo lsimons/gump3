@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/utils/owner.py,v 1.2 2004/01/09 19:57:19 ajack Exp $
-# $Revision: 1.2 $
-# $Date: 2004/01/09 19:57:19 $
+# $Header: /home/stefano/cvs/gump/python/gump/utils/owner.py,v 1.3 2004/02/10 20:18:40 ajack Exp $
+# $Revision: 1.3 $
+# $Date: 2004/02/10 20:18:40 $
 #
 # ====================================================================
 #
@@ -86,7 +86,7 @@ class Ownable:
             log.error('Circular path @ ' + `self`)
             return
         visited.append(self)
-        log.info(getIndent(len(visited))+str(self))
+        log.info(getIndent(len(visited))+`self`)
         if self.hasOwner():
             self.getOwner().displayOwnership(visited)
         return         

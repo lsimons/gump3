@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/model/project.py,v 1.41 2004/02/10 04:07:24 ajack Exp $
-# $Revision: 1.41 $
-# $Date: 2004/02/10 04:07:24 $
+# $Header: /home/stefano/cvs/gump/python/gump/model/project.py,v 1.42 2004/02/10 20:18:40 ajack Exp $
+# $Revision: 1.42 $
+# $Date: 2004/02/10 20:18:40 $
 #
 # ====================================================================
 #
@@ -278,6 +278,9 @@ class Project(NamedModelObject, Statable):
     def getJars(self):
         return self.jars.values()
         
+    def getJarAt(self,index):
+        return self.jars[index]
+        
     def hasReports(self):
         if self.reports: return 1
         return 0
@@ -477,8 +480,23 @@ class Project(NamedModelObject, Statable):
                 jar.setPath(os.path.abspath(os.path.join(self.home,j.name)))
                 self.addJar(jar)
             else:
-                #:TODO: Warn .. no name
-                pass
+                self.addError('Found a <jar with no name...')
+                
+        #
+        # Fix 'ids' on all Jars which don't have them
+        #
+        if self.hasJars():
+            if 1 == self.getJarCount():
+                if not self.getJarAt(0).hasId():
+                    self.getJarAt(0).setId(self,getName())    
+            else:
+                #
+                # :TODO: A work in progress, not sure how
+                # we ought 'construct' ids.
+                #
+                for jar in self.getJars():
+                    if not jar.hasId():
+                        jar.setId(os.path.basename(jar.getPath()))
         
         # Grab all the work
         for w in self.xml.work:
@@ -1008,7 +1026,7 @@ maven.jar.override = on
 # ------------------------------------------------------------------------
 # Jars set explicity by path.
 # ------------------------------------------------------------------------
-        """)
+""")
         
         (classpath,bootclasspath)=self.getClasspathLists()
         

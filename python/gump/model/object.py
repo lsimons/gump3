@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/model/object.py,v 1.14 2004/01/09 19:57:18 ajack Exp $
-# $Revision: 1.14 $
-# $Date: 2004/01/09 19:57:18 $
+# $Header: /home/stefano/cvs/gump/python/gump/model/object.py,v 1.15 2004/02/10 20:18:40 ajack Exp $
+# $Revision: 1.15 $
+# $Date: 2004/02/10 20:18:40 $
 #
 # ====================================================================
 #
@@ -291,6 +291,13 @@ class Jar(NamedModelObject):
     
     def getPath(self):
         return self.path;
+        
+    def hasId(self):
+        if self.xml.id: return 1
+        return 0
+        
+    def setId(self,id):
+        self.id = id
         
     def getId(self):
         return self.xml.id

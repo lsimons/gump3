@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/syndication/syndicator.py,v 1.17 2004/01/23 23:32:27 ajack Exp $
-# $Revision: 1.17 $
-# $Date: 2004/01/23 23:32:27 $
+# $Header: /home/stefano/cvs/gump/python/gump/syndication/syndicator.py,v 1.18 2004/02/10 20:18:40 ajack Exp $
+# $Revision: 1.18 $
+# $Date: 2004/02/10 20:18:40 $
 #
 # ====================================================================
 #
@@ -80,10 +80,10 @@ class Syndicator:
     #
     def syndicate(self,run):
         if not hasattr(self,'syndicateRun'):
-            raise RuntimeException, 'Complete [' + self.__class__ + '] with syndicateRun(self,run)'
+            raise RuntimeException, 'Complete [' + `self.__class__` + '] with syndicateRun(self,run)'
         
         if not callable(self.syndicateRun):
-            raise RuntimeException, 'Complete [' + self.__class__ + '] with a callable syndicateRun(self,run)'
+            raise RuntimeException, 'Complete [' + `self.__class__` + '] with a callable syndicateRun(self,run)'
         
         log.info('Syndicate run using [' + `self` + ']')
         
