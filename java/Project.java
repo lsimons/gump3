@@ -1,7 +1,7 @@
 /*
- * $Header: /home/stefano/cvs/gump/java/Project.java,v 1.53 2003/04/05 17:41:49 stefano Exp $
- * $Revision: 1.53 $
- * $Date: 2003/04/05 17:41:49 $
+ * $Header: /home/stefano/cvs/gump/java/Project.java,v 1.54 2003/04/06 08:54:32 leosimons Exp $
+ * $Revision: 1.54 $
+ * $Date: 2003/04/06 08:54:32 $
  *
  * ====================================================================
  *
@@ -149,6 +149,7 @@ public class Project {
 
 	Element home = null;
 	Element javadoc = null;
+    Element junitreport = null;
 
 	Node child=element.getFirstChild();
 	for (; child != null; child=child.getNextSibling()) {
@@ -171,6 +172,8 @@ public class Project {
 		url = (Element)child;
 	    } else if (child.getNodeName().equals("javadoc")) {
 		javadoc = (Element)child;
+        } else if (child.getNodeName().equals("junitreport")) {
+        junitreport = (Element)child;
 	    } else if (child.getNodeName().equals("jar")) {
 		jars.put(((Element)child).getAttribute("id"), child);
 	    } else if (child.getNodeName().equals("deliver")) {
@@ -193,6 +196,7 @@ public class Project {
 	}
 
 	resolveJavadoc(javadoc);
+    resolveJunitreport(junitreport);
 	handleDeliver();
 
 	// if only one jar is found, make sure that it can be accessed without
@@ -752,6 +756,79 @@ public class Project {
 
 	// copy the entire result to the desired module
 	module.appendChild(javadoc);
+    }
+
+    /**
+     * If a junitreport child was found, add any missing project, module,
+     * or description information; resolve path; and copy the resulting
+     * node to the specified module.
+     * @param junitreport child XML element
+     */
+    private void resolveJunitreport(Element junitreport) throws Exception {
+	if (junitreport == null) return;
+
+	// retrieve url and dir of javadoc from the workspace
+	Element config = Workspace.getJUnitReport();
+	if (config == null) return;
+	String url = config.getAttribute("url");
+	String junitreportDir = config.getAttribute("dir");
+
+	// default project attribute to the name of this project
+	if (junitreport.getAttributeNode("project") == null)
+	    junitreport.setAttribute("project", name);
+
+	// default module attribute to the module which this project belongs
+	String moduleName = junitreport.getAttribute("module");
+	if (moduleName.equals("")) moduleName = this.get("module");
+	Module module = Module.find(moduleName);
+	require (module, "module", moduleName);
+
+	if (!moduleName.equals(this.get("module"))) {
+	    junitreport.setAttribute("defined-in", this.get("module"));
+	}
+
+	// if there are no child nodes, add this project's description
+	if (!junitreport.hasChildNodes() && description!=null) {
+	    Element desc = (Element) description.cloneNode(true);
+	    junitreport.appendChild(desc);
+	}
+
+	// resolve relative and full path to this javadoc entry
+	String path = junitreport.getAttribute("nested");
+	String fullpath;
+	if (!path.equals("")) {
+	    fullpath = get("srcdir") + "/" + path;
+	} else {
+	    path = junitreport.getAttribute("parent");
+	    fullpath = Workspace.getBaseDir() + "/" + path;
+	}
+	path = moduleName + "/" + path;
+
+	// for each description entry, resolve source, url, and dest attrs.
+	Node child=junitreport.getFirstChild();
+	for (; child != null; child=child.getNextSibling()) {
+	    if (child.getNodeName().equals("description")) {
+		Element desc = (Element) child;
+		String dir = desc.getAttribute("dir");
+		String append = "";
+		if (!dir.equals("")) append = "/" + dir;
+
+		desc.setAttribute("source", fullpath + append);
+
+		if (url.equals("")) {
+		    desc.setAttribute("url", "file:///" + fullpath + append);
+		} else {
+		    desc.setAttribute("url", url + path + append);
+		}
+
+		if (!junitreportDir.equals("")) {
+		    desc.setAttribute("dest", junitreportDir + "/" + path + append);
+		}
+	    }
+	}
+
+	// copy the entire result to the desired module
+	module.appendChild(junitreport);
     }
 
     /**

@@ -95,7 +95,7 @@
                       <xsl:if test="not(depend[@project=$project])">
                         <xsl:text>]</xsl:text>
                       </xsl:if>
-                      
+
                       <xsl:if test="depend[@project=$project and @inherited] |
                                     option[@project=$project and @inherited]">
                         <xsl:text>)</xsl:text>
@@ -179,7 +179,7 @@
                       <th class="content">Description</th>
                     </tr>
 
-                    <xsl:for-each 
+                    <xsl:for-each
                       select="/workspace/module[cvs/@repository=$r]">
                       <tr>
                         <td class="content">
@@ -527,7 +527,7 @@
                 <th class="content">Java Package Name</th>
                 <th class="content">Project</th>
               </tr>
-  
+
               <xsl:for-each select="/workspace/project/package">
                 <xsl:sort select="."/>
                 <tr>
@@ -593,6 +593,87 @@
         </content>
 
       </html>
+
+        <!-- =============================================================== -->
+        <!--               Produce a listing of junit reports                -->
+        <!-- =============================================================== -->
+
+        <html log="{@logdir}/junitreports.html"
+          banner-image="{@banner-image}" banner-link="{@banner-link}">
+
+          <title>List of junitreports</title>
+
+          <sidebar>
+            <strong><a href="index.html">Build logs</a></strong>
+            <ul>
+              <xsl:for-each select="project[ant|script]">
+                <xsl:sort select="@name"/>
+                <li>
+                  <a href="{@name}.html"><xsl:value-of select="@name"/></a>
+                </li>
+              </xsl:for-each>
+            </ul>
+          </sidebar>
+
+          <content>
+
+            <blockquote>
+               <xsl:for-each select="/workspace/module[junitreport]">
+                 <xsl:sort select="@name"/>
+                 <xsl:variable name="name" select="@name"/>
+
+                 <!-- Choose from three basic styles -->
+                 <xsl:choose>
+                   <xsl:when test="count(junitreport/description)>1">
+                     <b>
+                       <xsl:value-of select="@name"/>
+                     </b>
+                     <xsl:text> - </xsl:text>
+                     <xsl:value-of select="normalize-space(description)"/>
+                     <blockquote>
+
+                       <!-- Multiple reports from different projects -->
+                       <xsl:if test="junitreport[@project!=$name]">
+                         <xsl:for-each select="junitreport/description">
+                           <xsl:sort select="../@project"/>
+                           <a href="{@url}/index.html">
+                             <xsl:value-of select="../@project"/>
+                           </a>
+                           <xsl:text> - </xsl:text>
+                           <xsl:value-of select="normalize-space(.)"/>
+                           <br/>
+                         </xsl:for-each>
+                       </xsl:if>
+
+                       <!-- Multiple javadocs all from the same project -->
+                       <xsl:if test="not(junitreport[@project!=$name])">
+                         <xsl:for-each select="junitreport/description">
+                           <a href="{@url}/index.html">
+                             <xsl:value-of select="normalize-space(.)"/>
+                           </a>
+                           <br/>
+                         </xsl:for-each>
+                       </xsl:if>
+                     </blockquote>
+                   </xsl:when>
+                   <xsl:otherwise>
+
+                     <!-- Single javadoc -->
+                     <a href="{junitreport/description/@url}/index.html">
+                       <xsl:value-of select="junitreport/@project"/>
+                     </a>
+                     <xsl:text> - </xsl:text>
+                     <xsl:value-of select="normalize-space(description)"/>
+                     <p/>
+                   </xsl:otherwise>
+                 </xsl:choose>
+               </xsl:for-each>
+
+            </blockquote>
+
+          </content>
+
+        </html>
 
     </xref>
 

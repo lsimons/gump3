@@ -1,7 +1,7 @@
 /*
- * $Header: /home/stefano/cvs/gump/java/Workspace.java,v 1.6 2002/08/27 14:54:09 nicolaken Exp $
- * $Revision: 1.6 $
- * $Date: 2002/08/27 14:54:09 $
+ * $Header: /home/stefano/cvs/gump/java/Workspace.java,v 1.7 2003/04/06 08:54:32 leosimons Exp $
+ * $Revision: 1.7 $
+ * $Date: 2003/04/06 08:54:32 $
  *
  * ====================================================================
  *
@@ -58,7 +58,7 @@
  * <http://www.apache.org/>.
  *
  */
- 
+
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
@@ -71,6 +71,7 @@ public class Workspace {
     private static Element element;
     private static String basedir;
     private static Element javadoc;
+    private static Element junitreport;
     private static Element deliver;
     private static Element nag;
     private static HashMap servers = new HashMap();
@@ -106,6 +107,14 @@ public class Workspace {
      */
     public static Element getJavaDoc() {
         return javadoc;
+    }
+
+    /**
+     * Static property accessor for junitreport element.
+     * @return Junitreport element (if any) associated with this workspace
+     */
+    public static Element getJUnitReport() {
+        return junitreport;
     }
 
     /**
@@ -188,13 +197,15 @@ public class Workspace {
         for (; child != null; child=child.getNextSibling()) {
             if (child.getNodeName().equals("javadoc")) {
                 javadoc = (Element) child;
+            } else if (child.getNodeName().equals("junitreport")) {
+                junitreport = (Element) child;
             } else if (child.getNodeName().equals("nag")) {
                 nag = (Element) child;
             } else if (child.getNodeName().equals("deliver")) {
                 handleDeliver((Element) child);
             }
         }
-        
+
         if (deliver != null) {
             element.removeChild(deliver);
             String scratchdir = deliver.getAttribute("scratchdir");
@@ -202,7 +213,7 @@ public class Workspace {
                 deliver.setAttribute("scratchdir", basedir+"/scratch");
             }
         }
-        
+
     }
 
     /**
@@ -231,5 +242,5 @@ public class Workspace {
                 sites.put(site.getAttribute("name"), site);
             }
         }
-    }    
+    }
 }
