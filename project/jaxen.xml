@@ -12,8 +12,10 @@
       </property>
     </ant>
     <package>org.jaxen</package>
+    <!-- this is causing a circular dependency
     <depend project="dom4j">
     </depend>
+    -->
     <depend project="jakarta-ant">
     </depend>
     <depend project="jdom">
