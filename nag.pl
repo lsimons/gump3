@@ -69,7 +69,12 @@ foreach (<LIST>) {
       print EMAIL "----------------------------------------------------\n\n";
 
       if ($pageData) {
-        print EMAIL "$pageData";
+        if (length($pageData)<50000) { # Apache's ezmlm limit is 100000
+          print EMAIL "$pageData";
+        } else {
+          print EMAIL "Build results exceed maximum length.";
+          print EMAIL "Please see URL above for details.";
+        }
       } else {
         print EMAIL "Build results missing. Please see URL above for details.";
       }
