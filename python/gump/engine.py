@@ -444,46 +444,46 @@ class GumpEngine:
      
         log.debug(' ------ Performing post-Build Actions (check jars) for : '+ project.getName())
 
-        if project.hasOutputs():
-            outputsOk=1
-            for jar in project.getJars():
-                jarPath=os.path.abspath(jar.getPath())
-                if not os.path.exists(jarPath):
-                    project.changeState(STATE_FAILED,REASON_MISSING_OUTPUTS)
-                    outputsOk=0
-                    project.addError("Missing Output: " + str(jarPath))
+        if project.okToPerformWork():
+            if project.hasOutputs():
+                outputsOk=1
+                for jar in project.getJars():
+                    jarPath=os.path.abspath(jar.getPath())
+                    if not os.path.exists(jarPath):
+                        project.changeState(STATE_FAILED,REASON_MISSING_OUTPUTS)
+                        outputsOk=0
+                        project.addError("Missing Output: " + str(jarPath))
                             
-            if outputsOk: 
-                for jar in project.getJars():
-                    jarPath=os.path.abspath(jar.getPath())
-                    # Copy to repository
-                    repository.publish( project.getModule().getName(), jarPath )
+                if outputsOk: 
+                    for jar in project.getJars():
+                        jarPath=os.path.abspath(jar.getPath())
+                        # Copy to repository
+                        repository.publish( project.getModule().getName(), jarPath )
             
-                project.changeState(STATE_SUCCESS)
+                    project.changeState(STATE_SUCCESS)
                     
-                # For 'fun' list repository
-                listDirectoryAsWork(project,repository.getGroupDir(project.getModule().getName()), \
-                                    'list_repo_'+project.getName()) 
-                    
+                    # For 'fun' list repository
+                    listDirectoryAsWork(project,repository.getGroupDir(project.getModule().getName()), \
+                                        'list_repo_'+project.getName())                     
+                else:
+                    #
+                    # List all directories that should've contained
+                    # outputs, to see what is there.
+                    #
+                    dirs=[]
+                    dircnt=0
+                    for jar in project.getJars():
+                        jarPath=os.path.abspath(jar.getPath())
+                        dir=os.path.dirname(jarPath)
+                        if not dir in dirs and os.path.exists(dir):
+                            dircnt += 1
+                            listDirectoryAsWork(project,dir,\
+                                'list_'+project.getName()+'_dir'+str(dircnt)+'_'+os.path.basename(dir))
+                            dirs.append(dir)
+                        else:
+                            project.addWarning("No such directory (where output is expect) : " + dir)
             else:
-                #
-                # List all directories that should've contained
-                # outputs, to see what is there.
-                #
-                dirs=[]
-                dircnt=0
-                for jar in project.getJars():
-                    jarPath=os.path.abspath(jar.getPath())
-                    dir=os.path.dirname(jarPath)
-                    if not dir in dirs and os.path.exists(dir):
-                        dircnt += 1
-                        listDirectoryAsWork(project,dir,\
-                            'list_'+project.getName()+'_dir'+str(dircnt)+'_'+os.path.basename(dir))
-                        dirs.append(dir)
-                    else:
-                        project.addWarning("No such directory (where output is expect) : " + dir)
-        else:
-            project.changeState(STATE_SUCCESS)
+                project.changeState(STATE_SUCCESS)
          
         #   
         # Display report output...

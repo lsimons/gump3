@@ -1,7 +1,7 @@
 #!/usr/bin/env python
-# $Header: /home/stefano/cvs/gump/python/gump/test/model.py,v 1.8 2003/12/01 17:34:08 ajack Exp $
-# $Revision: 1.8 $
-# $Date: 2003/12/01 17:34:08 $
+# $Header: /home/stefano/cvs/gump/python/gump/test/model.py,v 1.9 2003/12/02 23:58:47 ajack Exp $
+# $Revision: 1.9 $
+# $Date: 2003/12/02 23:58:47 $
 #
 # ====================================================================
 #
@@ -204,5 +204,12 @@ class ModelTestSuite(UnitTestSuite):
     def testMaven(self):
                 
         self.assertTrue('Maven project has a Maven object', self.maven1.hasMaven())
+        
+    def testJunitReport(self):
+                
+        self.assertLengthAbove('This has a <junitreport', self.project3.getReports(), 0)
+        
+        for report in self.project3.getReports():
+            self.assertNonZero('Need a directory', report.getResolvedPath())
         
         

@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/model/object.py,v 1.10 2003/12/02 17:36:40 ajack Exp $
-# $Revision: 1.10 $
-# $Date: 2003/12/02 17:36:40 $
+# $Header: /home/stefano/cvs/gump/python/gump/model/object.py,v 1.11 2003/12/02 23:58:47 ajack Exp $
+# $Revision: 1.11 $
+# $Date: 2003/12/02 23:58:47 $
 #
 # ====================================================================
 #
@@ -294,16 +294,18 @@ class Resolvable(ModelObject):
     def __init__(self,xml,owner):
         ModelObject.__init__(self,xml,owner)                
         
-    def getResolvedPath(self,path):  
+    def getResolvedPath(self):  
         path=None
         if self.xml.nested:
             path=os.path.abspath(	\
                     os.path.join(	self.owner.getModule().getSourceDirectory(),	\
-                                    work.nested))
+                                    self.xml.nested))
         elif self.xml.parent:
             path=os.path.abspath(	\
                     os.path.join(self.owner.getWorkspace().getBaseDirectory(),	\
                                  self.xml.parent))
+                                 
+        return path
 
               
 # represents a <junitreport/> element
