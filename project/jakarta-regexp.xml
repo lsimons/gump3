@@ -10,7 +10,7 @@
   <project name="jakarta-regexp">
     <package>org.apache.regexp</package>
 
-    <ant basedir="build" buildfile="build-regexp.xml" target="jar">
+    <ant basedir="build" buildfile="build.xml" target="jar">
       <property name="version" value="@@DATE@@"/>
     </ant>
     <depend project="jakarta-ant" inherit="runtime"/>
@@ -20,7 +20,7 @@
   </project>
   
   <project name="jakarta-regexp-package">
-    <ant basedir="build" buildfile="build-regexp.xml" target="package"/>
+    <ant basedir="build" buildfile="build.xml" target="package"/>
     <depend project="jakarta-ant" inherit="runtime"/>
     <depend project="jakarta-site2"/>
     <depend project="xml-xerces"/>
