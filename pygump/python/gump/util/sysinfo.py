@@ -93,7 +93,10 @@ def amount_of_memory():
     cmd = 'cat /proc/meminfo | grep MemTotal | sed -e "s/[^0-9]//g"'
     (result, output, error) = _system(cmd)
     if not result: # exit status 0 is good!
-        amount = int(output)
+        try:
+            amount = int(output)
+        except:
+            pass
     
     return amount
     
@@ -104,7 +107,10 @@ def amount_of_cpu_mhz():
     cmd = "cat /proc/cpuinfo | grep MHz | sed -e 's/[^0-9]//g' | awk '!x[$0]++'"
     (result, output, error) = _system(cmd)
     if not result: # exit status 0 is good!
-        amount = int(output)
+        try:
+            amount = int(output)
+        except:
+            pass
     
     return amount
 
@@ -115,6 +121,9 @@ def number_of_cpus():
     cmd = 'cat /proc/cpuinfo | grep "^processor" | sed -e "s/[^0-9]//g" | grep -c ".*"'
     (result, output, error) = _system(cmd)
     if not result: # exit status 0 is good!
-        amount = int(output)
+        try:
+            amount = int(output)
+        except:
+            pass
     
     return amount

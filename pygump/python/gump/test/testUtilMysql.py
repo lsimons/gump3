@@ -20,6 +20,8 @@ __license__   = "http://www.apache.org/licenses/LICENSE-2.0"
 import unittest
 from unittest import TestCase
 
+import os
+
 import pmock
 from pmock import *
 
@@ -73,11 +75,16 @@ class MysqlUtilTestCase(pmock.MockTestCase):
             (rows, result) = d.execute("DROP TABLE gump_unit_test;")
             self.assertEqual(0, rows)
         except Exception:
-            print """
+            if not os.environ.has_key("GUMP_TEST_NO_MYSQL"):
+                print """
 The MySQL test depends on a running mysql server to which one can connect
 as a test user. That seems to have failed. This is probably not critical.
+
+You can avoid seeing this error by setting the environment variable
+  GUMP_TEST_NO_MYSQL
+prior to running this test.
 """
-            raise
+                raise
 
         
 

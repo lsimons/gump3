@@ -32,7 +32,11 @@ from gump.model import *
 ###
 def _find_element_text(parent, element_name):
     """Retrieves the text contents of an element like <blah>text</blah>."""
-    return parent.getElementsByTagName(element_name).item(0).firstChild.data
+    elem = parent.getElementsByTagName(element_name).item(0).firstChild
+    if elem:
+        return elem.data
+    else:
+        return ""
 
 
 def _do_drop(to_remove, dropped_nodes=None):
@@ -41,7 +45,7 @@ def _do_drop(to_remove, dropped_nodes=None):
     node_to_remove_element_from = to_remove.parentNode
     node_to_remove_element_from.removeChild(to_remove)
     
-    if dropped_nodes:
+    if dropped_nodes != None:
         dropped_nodes.append(to_remove)
 
 
