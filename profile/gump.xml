@@ -40,6 +40,7 @@
   <module href="project/jakarta-tomcat-connectors.xml"/>
   <module href="project/jakarta-tomcat-jasper_tc4.xml"/>
   <module href="project/jakarta-tomcat-33.xml"/>
+  <module href="project/jakarta-tomcat-jasper.xml"/>
   <module href="project/jakarta-tools.xml"/>
 
   <!-- Turbine projects taken from cvs -->
