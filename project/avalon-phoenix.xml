@@ -64,19 +64,11 @@
         <license name="LICENSE.txt"/>
         <javadoc nested="target/javadocs" module="avalon"/>
 
-           
-
         <nag>
             <regexp pattern="/Missing prereq/i"
                 from="Peter Donald &lt;peter@apache.org&gt;"
                 to="dev@avalon.apache.org"
                 subject="PRE-REQ FAILED for avalon-phoenix"/>
-<!--
-            <regexp pattern="/^$/"
-                from="Peter Donald &lt;peter@apache.org&gt;"
-                to="dev@avalon.apache.org"
-                subject="PRE-REQ FAILED for avalon-phoenix"/>
--->
         </nag>
         <nag from="Peter Donald &lt;peter@apache.org&gt;"
             to="dev@avalon.apache.org"/>
@@ -105,7 +97,13 @@
         <home nested="examples/demo"/>
         <work nested="examples/demo/target/classes"/>
 
-        <nag from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"
+        <nag>
+            <regexp pattern="/Missing prereq/i"
+                from="Peter Donald &lt;peter@apache.org&gt;"
+                to="dev@avalon.apache.org"
+                subject="PRE-REQ FAILED for avalon-phoenix"/>
+        </nag>
+        <nag from="Peter Donald &lt;peter@apache.org&gt;"
             to="dev@avalon.apache.org"/>
     </project>
 
@@ -126,7 +124,13 @@
 
         <jar name="target/lib/pdk-@@DATE@@.sar"/>
 
-        <nag from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"
+        <nag>
+            <regexp pattern="/Missing prereq/i"
+                from="Peter Donald &lt;peter@apache.org&gt;"
+                to="dev@avalon.apache.org"
+                subject="PRE-REQ FAILED for avalon-phoenix"/>
+        </nag>
+        <nag from="Peter Donald &lt;peter@apache.org&gt;"
             to="dev@avalon.apache.org"/>
     </project>
 
@@ -149,7 +153,13 @@
 
         <jar name="target/lib/avalon-testserver.sar"/>
 
-        <nag from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"
+        <nag>
+            <regexp pattern="/Missing prereq/i"
+                from="Peter Donald &lt;peter@apache.org&gt;"
+                to="dev@avalon.apache.org"
+                subject="PRE-REQ FAILED for avalon-phoenix"/>
+        </nag>
+        <nag from="Peter Donald &lt;peter@apache.org&gt;"
             to="dev@avalon.apache.org"/>
     </project>
 
