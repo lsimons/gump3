@@ -58,8 +58,7 @@ def load(file):
   workspace=SAXDispatcher(file,'workspace',Workspace).docElement
   workspace.complete()
   for module in Module.list.values(): module.complete(workspace)
-  for project in buildSequence(Project.list.values()):
-    project.complete(workspace)
+  for project in Project.list.values(): project.complete(workspace)
   return workspace
 
 #########################################################################
@@ -253,6 +252,7 @@ class RepositoryRoot(GumpBase):
 class Project(Named):
   list={}
   def init(self): 
+    self.isComplete=0
     self.ant=Single(Ant)
     self.script=Single()
     self.depend=Multiple(Depend)
@@ -273,6 +273,13 @@ class Project(Named):
 
   # provide default elements when not defined in xml
   def complete(self,workspace):
+    if self.isComplete: return
+    deplist=[depend.project for depend in self.depend+self.option]
+    self.isComplete=1
+
+    for projname in deplist:
+      project=Project.list.get(projname,None)
+      if project: project.complete(workspace)
 
     # compute home directory
     if self.home and isinstance(self.home,Single):
