@@ -2,11 +2,15 @@
 #
 # $Header: $
 
+export GUMP_HOST=`hostname -s`
 export LOCAL_ENV=local-env-py.sh
 if [ -e  $LOCAL_ENV ] ; then
 	. $LOCAL_ENV
 fi
-
+export HOST_LOCAL_ENV=local-env-py-${GUMP_HOST}.sh
+if [ -e  $HOST_LOCAL_ENV ] ; then
+	. $HOST_LOCAL_ENV
+fi
 if [ ! $GUMP ] ; then
 	echo "Set the \$GUMP variable to your gump install"
 	exit 1
@@ -35,7 +39,6 @@ export GUMPY_VERSION="1.0.4"
 export GUMP_PYTHON=$GUMP/python
 export GUMP_TMP=$GUMP/tmp
 export GUMP_WS_TMP=$GUMP_WS/tmp
-export GUMP_HOST=`hostname -s`
 export GUMP_DATE=`date`
 export GUMP_LOG=$GUMP_LOG_DIR/gumpy.html
 export GUMP_PROFILE_LOG_DIR=$GUMP_LOG_DIR/myprofile
@@ -93,8 +96,11 @@ fi
 
 cp $GUMP/gumpy.sh $GUMP_PROFILE_LOG_DIR
 cp $GUMP_HOST.xml  $GUMP_PROFILE_LOG_DIR
-if [ -e  $LOCAL_ENV ] ; then
-	cp  $LOCAL_ENV $GUMP_PROFILE_LOG_DIR
+if [ -e $LOCAL_ENV ] ; then
+	cp $LOCAL_ENV $GUMP_PROFILE_LOG_DIR
+fi
+if [ -e $HOST_LOCAL_ENV ] ; then
+	cp $HOST_LOCAL_ENV $GUMP_PROFILE_LOG_DIR
 fi
 
 cp -R `grep profile $GUMP_HOST.xml  | cut -d\" -f2` $GUMP_PROFILE_LOG_DIR
