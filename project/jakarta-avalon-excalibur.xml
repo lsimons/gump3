@@ -23,7 +23,6 @@
 
         <!-- 'internal deps'. Should be full list of all excalibur-* projects -->
         <depend project="excalibur-altrmi" inherit="runtime"/>
-        <depend project="excalibur-assembly" runtime="true"/>
         <depend project="excalibur-component" runtime="true"/>
         <depend project="excalibur-collections" runtime="true"/>
         <depend project="excalibur-container" runtime="true"/>
@@ -125,41 +124,6 @@
         <jar id="server-api" name="build/lib/excalibur-altrmi-server-interfaces-@@DATE@@.jar"/>
         <nag from="Gump Integration Build &lt;avalon-dev@jakarta.apache.org&gt;"
              to="avalon-dev@jakarta.apache.org"/>
-    </project>
-
-    <project name="excalibur-assembly">
-        <package>org.apache.excalibur.assembly</package>
-
-        <ant basedir="assembly" target="jar">
-            <depend property="logkit.jar" project="jakarta-avalon-logkit" runtime="true"/>
-            <property name="version" value="@@DATE@@"/>
-            <property name="junit.failonerror" value="true"/>
-            <property name="do.checkstyle" value="false"/>
-            <property name="skip.dependencies" value="true"/>
-        </ant>
-
-        <depend project="jakarta-ant" inherit="runtime"/>
-        <depend project="jakarta-avalon" runtime="true"/>
-        <depend project="excalibur-i18n" runtime="true"/>
-        <depend project="excalibur-configuration" runtime="true"/>
-        <depend project="excalibur-container" runtime="true"/>
-        <depend project="excalibur-logger" runtime="true"/>
-        <depend project="excalibur-meta" runtime="true"/>
-        <depend project="excalibur-extension" runtime="true"/>
-        <depend project="excalibur-event" runtime="true"/>
-        <depend project="excalibur-collections" runtime="true"/>
-        <depend project="excalibur-concurrent" runtime="true"/>
-        <depend project="excalibur-threadcontext" runtime="true"/>
-        <depend project="excalibur-util" runtime="true"/>
-        <depend project="xml-xerces"/>
-        <depend project="xml-xalan2"/>
-        <work nested="assembly/build/classes"/>
-
-        <home nested="assembly"/>
-        <jar name="build/lib/excalibur-merlin-@@DATE@@.jar"/>
-
-        <nag from="Stephen McConnell &lt;mcconnell@apache.org&gt;"
-            to="avalon-dev@jakarta.apache.org"/>
     </project>
 
     <project name="excalibur-baxter">
