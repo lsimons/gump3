@@ -177,13 +177,14 @@ class DirResolvable(ModelObject):
             dirString=self.getDomAttributeValue('dir')
             
             # Security attempt
-            if dirString.contains('..'):
+            # :TODO: Move to a one-time check
+            if '..' in dirString:
                 self.owner.addError('Bad directory attribute %s on <%s' % \
                                     dirString, self.__class__.__name__)
                 dirString='bogus'
             
-            path=os.path.abspath(    \
-                    os.path.join(    self.owner.getModule().getWorkingDirectory(),    \
+            path=os.path.abspath(
+                    os.path.join(    self.owner.getModule().getWorkingDirectory(),
                                     dirString))
                                  
         return path 
@@ -205,9 +206,19 @@ class Delete(DirResolvable):
         path=None
         
         if self.hasDomAttribute('file'):
-            path=os.path.abspath(    \
-                    os.path.join(    self.owner.getModule().getWorkingDirectory(),    \
-                                    self.getDomAttributeValue('file')))
+            file=self.getDomAttributeValue('file')
+            
+            # Security attempt
+            # :TODO: Move to a one-time check
+            if '..' in file:
+                self.owner.addError('Bad file attribute %s on <%s' % \
+                                    file, self.__class__.__name__)
+                file='bogus'
+            
+            
+            path=os.path.abspath(
+                    os.path.join(    self.owner.getModule().getWorkingDirectory(),
+                                    file))
                                  
         return path    
         

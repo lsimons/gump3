@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 
 # Copyright 2003-2004 The Apache Software Foundation
-#
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
 # You may obtain a copy of the License at
@@ -588,6 +587,11 @@ class XDocDocumenter(Documenter):
         
         # Does this self.workspace send notification (nag) mails?
         detailsTable.createEntry("Send Notification E-mails: ", `self.workspace.isNotify()`)
+        
+        detailsTable.createEntry("Multi-threading: ", `self.workspace.isMultithreading()`)
+        if self.workspace.isMultithreading():
+            detailsTable.createEntry("Updater Threads: ", `self.workspace.getUpdaters()`)    
+            detailsTable.createEntry("Builder Threads: ", `self.workspace.getBuilders()`)     
         
         #document.createRaw('<p><strong>Context Tree:</strong> <link href=\'workspace.html\'>workspace</link></p>')
         # x.write('<p><strong>Workspace Config:</strong> <link href=\'xml.txt\'>XML</link></p>')

@@ -59,13 +59,18 @@ class Workspace(NamedModelObject, PropertyContainer, Statable, Resultable):
     	# Named modules
     	# Named projects
     	# Named profiles
-    	#
+    	# Named servers
+    	# Named trackers
     	self.repositories={}
         self.modules={}
         self.projects={}
         self.profiles={}
         self.servers={}
         self.trackers={}        
+        
+        # Treads
+        self.updaters=0
+        self.builders=0
                     
         # Set times
         self.initializeTimes()
@@ -219,6 +224,24 @@ class Workspace(NamedModelObject, PropertyContainer, Statable, Resultable):
     def getSortedProjects(self):
         return self.sortedProjects       
         
+        
+    def isMultithreading(self):
+        return self.hasUpdaters() or elf.hasBuilders()
+        
+    def hasUpdaters(self):
+        return (0 < self.updaters)
+        
+    def getUpdaters(self):
+        return self.updaters
+        
+    #:TODO: Note, not implemented yet
+    def hasBuilders(self):
+        return (0 < self.builders)
+        
+    #:TODO: Note, not implemented yet
+    def getBuilders(self):
+        return (0 < self.builders)
+        
     def complete(self):        
         if self.isComplete(): return
         
@@ -266,7 +289,7 @@ class Workspace(NamedModelObject, PropertyContainer, Statable, Resultable):
         if not os.path.exists(self.jardir): os.makedirs(self.jardir)
         if not os.path.exists(self.cvsdir): os.makedirs(self.cvsdir)
     
-        #
+        # Get all properties
     	PropertyContainer.importProperties(self,self.element)    	
     	
         # Complete all profiles
@@ -312,6 +335,14 @@ class Workspace(NamedModelObject, PropertyContainer, Statable, Resultable):
             # Complete the project
             if not project.isComplete():
                 project.complete(self)   
+                
+        # Mutlithreading
+        if self.hasChildElement('threads'):
+            threads=self.getChildElement('threads')
+            if hasDomAttribute(threads,'updaters'):
+                self.updaters=int(getDomAttribute(threads,'updaters'))
+            if hasDomAttribute(threads,'builders'):
+                self.builders=int(getDomAttribute(threads,'builders'))
                                                              
         # Complete the properies
         self.completeProperties()
@@ -460,6 +491,12 @@ class Workspace(NamedModelObject, PropertyContainer, Statable, Resultable):
         return self.cvsdir
 
     def getObjectForTag(self,tag,dom,name=None):
+        """
+        	If we are parsing  document (given this object as
+        	parent context) then construct the child appropriately.
+        	Sometimes that means splicing the new XML into the
+        	existing.
+        """
         object=None
         
         if 'profile' == tag:
@@ -508,7 +545,12 @@ class Workspace(NamedModelObject, PropertyContainer, Statable, Resultable):
         return object
         
     def resolve(self):
+        """
         
+        	Work through the child elements extracting the
+        	main objects.
+        
+        """
         if self.isResolved(): return
         
         log.info('Resolve ' + `self`)

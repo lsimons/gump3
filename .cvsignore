@@ -26,3 +26,4 @@ gumpy.log
 *_runlog.txt
 gumpy.lock
 out.tmp
+*.wpr

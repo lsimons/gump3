@@ -215,8 +215,16 @@ class Ant(Builder):
         # Import the buildfile
         self.buildfile=self.getDomAttributeValue('buildfile') # :TODO: Soon add ... ,'build.xml')
     	    
+    def hasTarget(self):
+        if self.target: return True
+        return False
+        
     def getTarget(self):
         return self.target
+        
+    def hasBuildFile(self):
+        if self.buildfile: return True
+        return False
         
     def getBuildFile(self):
         return self.buildfile
@@ -225,8 +233,10 @@ class Ant(Builder):
         """ Display the contents of this object """
         Builder.dump(self,indent,output)
         i=getIndent(indent+1)
-        output.write(i+'Target: ' + self.getTarget() + '\n')
-        output.write(i+'BuildFile: ' + self.getBuildFile() + '\n')
+        if self.hasTarget():
+            output.write(i+'Target: ' + self.getTarget() + '\n')
+        if self.hasBuildFile():
+            output.write(i+'BuildFile: ' + self.getBuildFile() + '\n')
 
 # represents an <maven/> element
 class Maven(Builder):

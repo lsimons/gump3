@@ -39,4 +39,5 @@ fi
 # Perform some Gumpy unit test
 #
 cd python
+echo "Run ... $GUMP_PYTHON gump/test/pyunit.py"
 $GUMP_PYTHON gump/test/pyunit.py
