@@ -22,6 +22,7 @@
     <depend project="jdom"/>
     <depend project="junit"/>
     <depend project="jakarta-servletapi-4"/>
+    <depend project="bsf"/>
     <work nested="build/classes"/>
 
     <home nested="build/lib"/>
