@@ -418,6 +418,8 @@ finally:
                 published=1
             except:
                 published=0
+        else:
+            print 'Unable to publish log file (containing failures)'
               
         # Cat to screen (if running to screen)
         tty=0
@@ -473,6 +475,9 @@ finally:
             maildata += '\n'
             
             sendEmail(mailto,mailfrom,logTitle,mailData,mailserver,mailport)
+            
+        else:
+            print 'Unable to mail report of failure'
 
 # bye!
 sys.exit(result)
