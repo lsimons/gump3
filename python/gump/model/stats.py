@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/model/stats.py,v 1.11 2004/02/23 20:55:08 ajack Exp $
-# $Revision: 1.11 $
-# $Date: 2004/02/23 20:55:08 $
+# $Header: /home/stefano/cvs/gump/python/gump/model/stats.py,v 1.12 2004/03/12 16:10:39 ajack Exp $
+# $Revision: 1.12 $
+# $Date: 2004/03/12 16:10:39 $
 #
 # ====================================================================
 #
@@ -75,7 +75,7 @@ from gump.model.state import *
 #
 # Durations (in 'runs')
 #
-
+INSIGNIFICANT_DURATION=5
 SIGNIFICANT_DURATION=30
 
 class Statistics:

@@ -472,7 +472,7 @@ class GumpEngine:
                 if stats:
                     if (not STATE_SUCCESS == stats.currentState) and \
                             not project.isVerboseOrDebug():
-                        if stats.sequenceInState > 5:
+                        if stats.sequenceInState > INSIGNIFICANT_DURATION:
                             project.addInfo('Enable "debug" output, due to error.')
                             project.setDebug(1)
                         else:

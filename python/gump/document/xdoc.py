@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/xdoc.py,v 1.17 2004/03/12 02:50:52 ajack Exp $
-# $Revision: 1.17 $
-# $Date: 2004/03/12 02:50:52 $
+# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/xdoc.py,v 1.18 2004/03/12 16:10:39 ajack Exp $
+# $Revision: 1.18 $
+# $Date: 2004/03/12 16:10:39 $
 #
 # ====================================================================
 #
@@ -85,10 +85,12 @@ MAP=[]
 UMAP=[]
 i=0
 while i<=255:
-    if i == 10 or i==13 or (i >= 32 and i < 128):
+    # Allow TAB, LF, CR and 32 .. 128.
+    if i == 9 or i == 10 or i==13 or (i >= 32 and i < 128):
         MAP.append(chr(i))
         UMAP.append(unicode(chr(i)))
     else:
+        # Map others to underscore
         MAP.append(chr(95))
         UMAP.append(unicode(chr(95)))
     i+=1

@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/forrest.py,v 1.101 2004/03/12 14:47:48 ajack Exp $
-# $Revision: 1.101 $f
-# $Date: 2004/03/12 14:47:48 $
+# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/forrest.py,v 1.102 2004/03/12 16:10:39 ajack Exp $
+# $Revision: 1.102 $f
+# $Date: 2004/03/12 16:10:39 $
 #
 # ====================================================================
 #
@@ -500,6 +500,9 @@ class ForrestDocumenter(Documenter):
         totalAffected=0
         
         projectsSection=document.createSection('Projects with issues...')
+        projectsSection.createParagraph("""These are the project that need 'fixing'.
+This page helps Gumpmeisters (and others) locate the main areas to focus attention. 
+The count of affected indicates relative importance of fixing this project.""")        
         projectsTable=projectsSection.createTable(['Name','Affected',	\
                     'Dependees',	\
                     'Duration\nin state','Project State'])
@@ -543,6 +546,66 @@ class ForrestDocumenter(Documenter):
                     'Total Affected Projects: ' + str(totalAffected))
                     
         document.serialize()
+                 
+        #
+        # ----------------------------------------------------------------------
+        #
+        # project_fixes.xml -- Projects w/ fixes in build order
+        #
+        document=XDocDocument('Project Fixes',	\
+            self.resolver.getFile(workspace,'project_fixes'))        
+        self.documentSummary(document, workspace.getProjectSummary())
+        
+        totalAffected=0
+        
+        projectsSection=document.createSection('Projects with fixes...')
+        projectsSection.createParagraph("""These are the projects that were 'fixed' (state changed to success) within %s runs.
+This page helps Gumpmeisters (and others) observe community progress.
+        """ % INSIGNIFICANT_DURATION)      
+        
+        projectsTable=projectsSection.createTable(['Name','Affected',	\
+                    'Dependees',	\
+                    'Duration\nin state','Project State'])
+        pcount=0
+        for project in sortedProjectList:
+            if not gumpSet.inProjectSequence(project): continue       
+            
+            if not project.getState()==STATE_SUCCESS or \
+                not project.getStats().sequenceInState < INSIGNIFICANT_DURATION:
+                continue
+                
+            pcount+=1
+        
+            #
+            # Determine the number of projects this module (or it's projects)
+            # cause not to be run.
+            #
+            affected=project.determineAffected()            
+            totalAffected += affected
+            
+            # How long been like this
+            seq=stats=project.getStats().sequenceInState
+                    
+            projectRow=projectsTable.createRow()
+            projectRow.createComment(project.getName())
+                                    
+            self.insertLink(project,workspace,projectRow.createData())   
+                        
+            projectRow.createData(affected)
+            
+            projectRow.createData( project.getFullDependeeCount())
+            
+            projectRow.createData(seq)
+            
+            self.insertStateIcon(project,workspace,projectRow.createData())
+                
+        if not pcount: 
+            projectsTable.createLine('None')    
+        else:
+            projectsSection.createParagraph(
+                    'Total Affected Projects: ' + str(totalAffected))
+                    
+        document.serialize()
            
         #
         # ----------------------------------------------------------------------
@@ -553,7 +616,10 @@ class ForrestDocumenter(Documenter):
                     self.resolver.getFile(workspace,'module_todos'),)            
         self.documentSummary(document, workspace.getProjectSummary())
         
-        modulesSection=document.createSection('Modules with TODOs')        
+        modulesSection=document.createSection('Modules with TODOs')               
+        modulesSection.createParagraph("""These are the modules that need 'fixing', or contained projects that need fixing.
+This page helps Gumpmeisters (and others) locate the main areas to focus attention. 
+The count of affected indicates relative importance of fixing this module.""")        
         modulesTable=modulesSection.createTable(['Name','Affected','Duration\nin state','Module State',	\
                                     'Project State(s)','Elapsed'])
         
@@ -564,12 +630,79 @@ class ForrestDocumenter(Documenter):
             #
             # Determine if there are todos, otherwise continue
             #
-            todos=0
+            mcount=0
             for pair in module.aggregateStates():
                 if pair.state==STATE_FAILED:
-                    todos=1
+                    mcount=1
                     
-            if not todos: continue
+            if not mcount: continue
+    
+            # Shown something...
+            mcount+=1
+            
+            # Determine longest sequence in this (failed) state...
+            # for any of the projects
+            seq=0
+            for project in module.getProjects():
+                if project.getState()==STATE_FAILED:
+                    stats=project.getStats()        
+                    if stats.sequenceInState > seq: seq = stats.sequenceInState
+    
+            #
+            # Determine the number of projects this module (or it's projects)
+            # cause not to be run.
+            #
+            affected=module.determineAffected()
+            
+            # Display
+            moduleRow=modulesTable.createRow()
+            moduleRow.createComment(module.getName())     
+            self.insertLink(module,workspace,moduleRow.createData())
+            
+            moduleRow.createData(affected)
+            moduleRow.createData(seq)
+                        
+            self.insertStateIcon(module,workspace,moduleRow.createData())
+            self.insertStateIcons(gumpSet,module,workspace,moduleRow.createData())
+            
+            moduleRow.createData(secsToElapsedString(module.getElapsedSecs()))
+            
+        if not mcount: modulesTable.createLine('None')
+    
+        document.serialize()
+        
+           
+        #
+        # ----------------------------------------------------------------------
+        #
+        # module_fixes.xml
+        #
+        document=XDocDocument('Modules with fixes',
+                    self.resolver.getFile(workspace,'module_fixes'),)            
+        self.documentSummary(document, workspace.getProjectSummary())
+        
+        modulesSection=document.createSection('Modules with fixes')           
+        modulesSection.createParagraph("""These are the modules that were 'fixed' (state changed to success), or contained projects that were fixed, within %s runs.
+This page helps Gumpmeisters (and others) observe community progress.
+        """ % INSIGNIFICANT_DURATION)      
+             
+        modulesTable=modulesSection.createTable(['Name','Affected','Duration\nin state','Module State',	\
+                                    'Project State(s)','Elapsed'])
+        
+        mcount=0
+        for module in sortedModuleList:      
+            if not gumpSet.inModuleSequence(module): continue
+            
+            #
+            # Determine if there are mcount, otherwise continue
+            #
+            mcount=0
+            for pair in module.aggregateStates():
+                if pair.state == STATE_SUCCESS \
+                    and project.getStats().sequenceInState < INSIGNIFICANT_DURATION:
+                    mcount=1
+                    
+            if not mcount: continue
     
             # Shown something...
             mcount+=1
@@ -654,7 +787,7 @@ class ForrestDocumenter(Documenter):
             
             packaged=0
             #
-            # Determine if there are todos, otherwise continue
+            # Determine if there are packages, otherwise continue
             #
             if module.getState()==STATE_COMPLETE and \
                 module.getReason()==REASON_PACKAGE:

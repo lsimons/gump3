@@ -15,11 +15,13 @@
 
   <work label="Projects" tab="home">
     <index label="Issues" href="project_todos.html"/>
+    <index label="Fixes" href="project_fixes.html"/>
     <index label="All" href="projects.html"/>
   </work>
   
   <work label="Modules" tab="home">
     <index label="Issues" href="module_todos.html"/>    
+    <index label="Fixes" href="module_fixes.html"/>    
     <index label="All" href="modules.html"/>    
   </work>
   
