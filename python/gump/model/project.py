@@ -823,8 +823,8 @@ class Project(NamedModelObject, Statable, Resultable, Dependable):
             scriptfullname += '.bat'
       
         # Optional 'verbose' or 'debug'
-        verbose=scriptxml.verbose
-        debug=scriptxml.debug
+        # verbose=scriptxml.verbose
+        # debug=scriptxml.debug
        
         scriptfile=os.path.abspath(os.path.join(basedir, scriptfullname))
         
@@ -838,21 +838,24 @@ class Project(NamedModelObject, Statable, Resultable, Dependable):
         # AWT implementations cope w/o an X11 server running (e.g. on
         # Linux)
         #    
-        cmd.addPrefixedParameter('-D','java.awt.headless','true','=')
+        # Per GUMP-48 scripts do not want this.
+        # cmd.addPrefixedParameter('-D','java.awt.headless','true','=')
     
         #
         # Add BOOTCLASSPATH
         #
-        if bootclasspath:
-            cmd.addPrefixedParameter('-X','bootclasspath/p',bootclasspath,':')
+        # Per GUMP-48 scripts do not want this.
+        #if bootclasspath:
+        #    cmd.addPrefixedParameter('-X','bootclasspath/p',bootclasspath,':')
                     
         #
         # Allow script-level debugging...
         #
-        if self.getWorkspace().isDebug() or self.isDebug() or debug:
-            cmd.addParameter('-debug')  
-        if self.getWorkspace().isVerbose()  or self.isVerbose() or verbose:
-            cmd.addParameter('-verbose')  
+        # Per GUMP-48 scripts do not want this.        
+        #if self.getWorkspace().isDebug() or self.isDebug() or debug:
+        #    cmd.addParameter('-debug')  
+        #if self.getWorkspace().isVerbose()  or self.isVerbose() or verbose:
+        #    cmd.addParameter('-verbose')  
         
         return cmd
     
