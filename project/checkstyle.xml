@@ -5,20 +5,27 @@
     Java style checker
   </description>
   
-  <cvs repository="sourceforge" host-prefix="cvs.checkstyle" dir="checkstyle"/>
+  <cvs repository="sourceforge" 
+  	host-prefix="cvs.checkstyle" 
+  	dir="checkstyle"/>
 
   <project name="checkstyle">
     <package>com.puppycrawl.tools.checkstyle</package>
   
     <mkdir dir="target/checkstyle"/>
-    <ant target="gump">
+    
+    <!-- Hopefully the checkstyle team will create two
+    	external gump targets (for compile and test) for
+    	these two gump projects. Until then, use 
+    	explicit sub-targets. -->
+    
+    <ant target="gump.setup,build.bindist">
       <property name="version" value="@@DATE@@"/>
     </ant>
 
     <depend project="ant" inherit="runtime"/>
     <depend project="xml-xerces"/>
     <depend project="xml-xalan2"/>
-    <depend project="junit"/>
     <depend project="antlr" runtime="true"/>
     <depend project="jakarta-regexp" runtime="true"/>
     <depend project="jakarta-bcel" runtime="true"/>
@@ -26,14 +33,40 @@
     <depend project="commons-cli" runtime="true"/>
     <depend project="commons-collections" runtime="true"/>
     <depend project="commons-logging" runtime="true"/>
+    
     <work nested="target/checkstyle"/>
-    <work nested="target/tests"/>
 
     <jar name="target/dist/checkstyle-@@DATE@@/checkstyle-@@DATE@@.jar"/>
 
     <license name="LICENSE"/>
 
     <nag from="Conor MacNeill &lt;conor@apache.org&gt;"
-         to="oli-gump@puppycrawl.com"/>
+         to="checkstyle-devel@sourceforge.net"/>
   </project>
+  
+  <!--
+  	This project is for testing checkstyle upon it's
+  	dependencies, however it could be used by any project
+  	that wished to depend upon checkstyle IFF it passes
+  	it's unit tests. Theoretically possible...
+  -->
+  <project name="checkstyle-test">
+    <package>com.puppycrawl.tools.checkstyle</package>
+  
+    <mkdir dir="target/checkstyle"/>
+    <ant target="gump.setup,run.test">
+      <property name="version" value="@@DATE@@"/>
+    </ant>
+
+    <depend project="checkstyle" inherit="runtime"/>
+    <depend project="junit"/>
+    
+    <work nested="target/tests"/>
+
+	<!-- Give it a few runs before seeing if nagging is
+		appropriate ... -->
+    <!-- nag from="Conor MacNeill &lt;conor@apache.org&gt;"
+         to="checkstyle-devel@sourceforge.net"/ -->
+  </project>
+  
 </module>
