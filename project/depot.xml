@@ -64,7 +64,7 @@
         <home nested="ruper/build"/>
 
         <depend inherit="runtime" project="ant"/>
-        <depend inherit="depot-version" project="ant"/>
+        <depend project="depot-version"/>
 
         <jar name="depot-ruper-@@DATE@@.jar"/>
 
