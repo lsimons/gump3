@@ -76,7 +76,7 @@
     <description>
       Java Indexed Serialization Package
     </description>
-    <jar name="lib/jisp_1_0_2.jar"/>
+    <jar name="scratchpad/lib/jisp_1_0_2.jar"/>
   </project>
 
 </module>
