@@ -23,13 +23,13 @@
     overriding of a target and the adding of a dependency.</p>
 
     <p>An area for future exploration is "anti-elements", which cancel out
-    the effect of other elements</p> 
+    the effect of other elements</p>
 
     <p>An area where designers of XML DTDs have differing opinions is whether
     a given piece of information should be modelled as an attribute or an
-    element.  A design goal of Gump was to try to reinvent as little as 
+    element.  A design goal of Gump was to try to reinvent as little as
     possible - resulting in a bit of inconsistency.  Project definitions are
-    done in a style reminicent of Ant - with element and attribute names 
+    done in a style reminicent of Ant - with element and attribute names
     chosen to match whenever possible.  Repository definitions were done in
     a style consistent with Alexandria.  In a few cases, information can
     be represented as either a nested element or an attribute - this was
@@ -40,19 +40,53 @@
     descriptions</p>
 
     <subsection name="project">
-      <p></p>
+      <p>A <a href="project.html">project</a> represents the unit of
+      integration for Gump.  It could represent a buildable project, or an
+      installable package.  Its primary roles are to be a target of a
+      dependency or the provider of jars and/or other source files.</p>
+
+      <p>In the case of buildable projects, project definitions contain
+      values for properties and the dependencies are used to construct
+      the classpath.</p>
+
+      <p>Note the project definitions contain the names of the jar or
+      jars that they export.  Consuming projects simply name the projects
+      that they depend on.</p>
     </subsection>
 
     <subsection name="module">
-      <p></p>
+      <p>A <a href="module.html">module</a> is a collection of projects that
+      are physically stored in a single repository.  Due to the way that Gump
+      will combine definitions, a module definition can be spread across
+      multiple files.</p>
+
+      <p>While a module references a repository, it can also contain prefixes
+      and suffixes that modify the value of the CVSROOT used.</p>
+    </subsection>
+
+    <subsection name="repository">
+      <p>A <a href="repository.html">repository</a> specifies where modules
+      can physically be located.  In the case of cvs (the only option
+      supported at the present time), it contains the information used to
+      form the CVSROOT used on checkout and update commands.</p>
     </subsection>
 
     <subsection name="profile">
-      <p></p>
+      <p>A <a href="profile.html">profile</a> is a collection of projects and
+      repositories that are logically to be considered a unit.  A profile can
+      provide a consistent set of installable dependencies, or tagged versions
+      of cvs modules to be used.</p>
     </subsection>
 
     <subsection name="workspace">
-      <p></p>
+      <p>A <a href="workspace.html">workspace</a> defines the ultimate
+      word as to what projects and repositories are to be used, and the
+      options (e.g., properties, tags, targets, and dependencies) are to
+      be used to build.</p>
+
+      <p>A workspace definition should also be the only place where
+      absolute path names and other machine specific information is
+      contained.</p>
     </subsection>
 
   </section>

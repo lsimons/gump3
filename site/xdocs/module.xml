@@ -9,22 +9,81 @@
 <body>
 
   <section name="module">
-    <p>TBD</p>
+    <p>A <a href="module.html">module</a> is a collection of projects that
+    are physically stored in a single repository.</p>
 
     <subsection name="url">
-      <p></p>
+      <p>This is the homepage for the collection of projects contained in
+      this module.  This element is optional, but if present, will be
+      referenced in the generated web pages containing build results.</p>
+
+      <p>Note: give the way that gump uses href to specify definitions which
+      are to be inlined, the design of this element is rather unfortunate.
+      Perhaps it should be replaced with a &lt;home-page&gt; element.</p>
+
+      <table>
+        <tr>
+          <th>Attribute</th>
+          <th>Description</th>
+          <th>Required?</th>
+        </tr>
+        <tr>
+          <td>href</td>
+          <td>URL of home page</td>
+          <td>Yes.</td>
+        </tr>
+      </table>
     </subsection>
 
     <subsection name="description">
-      <p></p>
+      <p>If present, will contain information added to the title in web
+      pages containing build results.</p>
     </subsection>
 
     <subsection name="cvs">
-      <p></p>
+      <p>References the <a href="repository.html">repository</a> in which
+      this project resides.  May also contain various overrides.</p>
+
+      <p>Note: as the long term plans is to make Gump handle many different
+      types of repository types, the name of this element should ultimately
+      change</p>
+
+      <table>
+        <tr>
+          <th>Attribute</th>
+          <th>Description</th>
+          <th>Required?</th>
+        </tr>
+        <tr>
+          <td>repository</td>
+          <td>The name of the repository in which this module resides.</td>
+          <td>Yes.</td>
+        </tr>
+        <tr>
+          <td>host-prefix</td>
+          <td>Additional information which will be added in the front of the
+          host name.  Useful for repositories like sorceforge which define
+          a separate virtual host for every project</td>
+          <td>No.</td>
+        </tr>
+        <tr>
+          <td>dir</td>
+          <td>The subdirectory in which the cvs module is present.  Useful
+          for repositories like developerworks which organize related modules
+          into directories.</td>
+          <td>No.</td>
+        </tr>
+        <tr>
+          <td>module</td>
+          <td>An override for the name of the cvs module.</td>
+          <td>No.  Defaults to the name of the repository.</td>
+        </tr>
+      </table>
     </subsection>
 
     <subsection name="project">
-      <p></p>
+      <p>A definition of a <a href="project.html">project</a> which is
+      physically contained in this module.</p>
     </subsection>
   </section>
 </body>

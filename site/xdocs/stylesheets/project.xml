@@ -23,12 +23,12 @@
         href="/workspace.html"/>
       <item name="profile"  
         href="/profile.html"/>
+      <item name="repository"  
+        href="/repository.html"/>
       <item name="module"  
         href="/module.html"/>
       <item name="project"  
         href="/project.html"/>
-      <item name="repository"  
-        href="/repository.html"/>
     </menu>
 
     <menu name="Sources">
