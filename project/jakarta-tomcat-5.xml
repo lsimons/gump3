@@ -64,6 +64,10 @@
         runtime="true" id="api"/>
       <property name="commons-modeler.home" project="commons-modeler" path="modeler"/>
       <depend property="commons-modeler.jar" project="commons-modeler" runtime="true"/>
+      <depend property="commons-daemon.jar" project="commons-daemon"/>
+      <property name="commons-daemon.jsvc.tar.gz"
+                project="commons-daemon" path="daemon/dist/bin/jsvc.tar.gz"/>
+
     </ant>
 
     <depend project="ant"/>
