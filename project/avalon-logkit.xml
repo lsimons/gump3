@@ -40,7 +40,6 @@
           reference="srcdir" />
     </ant>
     <depend project="avalon-logkit" inherit="all"/>
-    <depend project="avalon-exceptionutil"/>
     <depend project="avalon"/>
 
     <home nested="build/lib"/>
