@@ -25,26 +25,21 @@
       <depend property="soap.jar" project="xml-soap"/>
     </ant>
 
-<!-- Temporarily make some depends optional -->
     <depend project="ant" />
-    <optional project="commons-collections"/>
-    <optional project="jakarta-velocity" />
+    <depend project="commons-collections"/>
+    <depend project="jakarta-velocity" />
     <depend project="jaf" />
     <depend project="javamail" />
     <depend project="jsse" />
     <depend project="jtidy" />
     <depend project="excalibur-compatibility" />
-    <optional project="beanshell" ids="bsh-core"/>
+    <depend project="beanshell" ids="bsh-core"/>
 
     <work nested="build/core"/>
     <work nested="build/htmlparser"/>
     <work nested="build/jorphan"/>
     <!-- Allow http to build: -->
     <work nested="build/components"/>
-
-<!-- Temporary change to include optional libraries in the class path -->
-    <work nested="lib/commons-collections.jar"/>
-    <work nested="lib/velocity-1.4-dev.jar"/>
 
     <!-- These are necessary to run the tests: -->
     <work nested="lib/ext/ApacheJMeter_core.jar"/>
