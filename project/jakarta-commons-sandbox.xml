@@ -79,6 +79,7 @@
     </ant>
     <depend project="jakarta-ant" inherit="runtime"/>
     <depend project="xml-xerces"/>
+    <depend project="commons-beanutils"/>
     <depend project="jakarta-servletapi"/>
     <depend project="jaf"/>
  
