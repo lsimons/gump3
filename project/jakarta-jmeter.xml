@@ -15,7 +15,7 @@
   limitations under the License.
 -->
 <module name="jakarta-jmeter">
-<!-- Version $Revision: 1.95 $ Last updated $Date: 2004/04/01 13:35:07 $ -->
+<!-- Version $Revision: 1.96 $ Last updated $Date: 2004/04/06 14:16:44 $ -->
   <url href="http://jakarta.apache.org/jmeter/" />
   <description>
     Pure Java load testing and performance measurement tool.
@@ -23,21 +23,21 @@
 
   <cvs repository="jakarta" />
   
-  	<project name="jakarta-jmeter">
-  	<!-- Compile from latest versions of dependencies -->
+  <project name="jakarta-jmeter">
+        <!-- Compile from latest versions of dependencies -->
     <package>org.apache.jmeter</package>
 
     <ant target="gump-compile">
       <property name="jmeter.version" value="@@DATE@@"/>
       <property name="gump.run" value="true"/>
       <!-- The version of this file -->
-      <property name="version.projectfile" value="$Revision: 1.95 $"/>
-      <property name="date.projectfile" value="$Date: 2004/04/01 13:35:07 $"/>
+      <property name="version.projectfile" value="$Revision: 1.96 $"/>
+      <property name="date.projectfile" value="$Date: 2004/04/06 14:16:44 $"/>
       
       <!--
-      	These properties are passed to the build process, so the names need to agree with
-      	the ones used in build.xml. However, at present the properties are only used for
-      	creating the list of jars to be exported.
+        These properties are passed to the build process, so the names need to agree with
+        the ones used in build.xml. However, at present the properties are only used for
+        creating the list of jars to be exported.
       -->
       <depend property="avalon-framework.jar" project="avalon-framework" id="combined"/>
       <depend property="jakarta-oro.jar" project="jakarta-oro"/>
@@ -52,17 +52,17 @@
       <depend property="js.jar" project="rhino"/>
       <depend property="soap.jar" project="ws-soap"/>
 
-		<!-- Ensure work directories don't get dropped from classpath -->
-		<mkdir dir="build/core"/>
-		<mkdir dir="build/htmlparser"/>
-		<mkdir dir="build/jorphan"/>
-		
-		<!-- Allow http to build: -->
-		<mkdir dir="build/components"/>
-	
-		<!-- Allow Monitor to build -->
-		<mkdir dir="build/protocol/http"/>
-		<mkdir dir="build/monitor/model"/>
+      <!-- Ensure work directories don't get dropped from classpath -->
+      <mkdir dir="build/core"/>
+      <mkdir dir="build/htmlparser"/>
+      <mkdir dir="build/jorphan"/>
+                
+      <!-- Allow http to build: -->
+      <mkdir dir="build/components"/>
+      
+      <!-- Allow Monitor to build -->
+      <mkdir dir="build/protocol/http"/>
+      <mkdir dir="build/monitor/model"/>
 
     </ant>
 
@@ -103,27 +103,27 @@
   </project>
 
   <project name="jakarta-jmeter-cvs">
-  	<!-- Build JMeter from CVS versions of dependencies -->
+        <!-- Build JMeter from CVS versions of dependencies -->
     <package>org.apache.jmeter</package>
 
     <ant target="gump-build">
       <property name="jmeter.version" value="@@DATE@@"/>
       <property name="gump.run" value="true"/>
       <!-- The version of this file -->
-      <property name="version.projectfile" value="$Revision: 1.95 $"/>
-      <property name="date.projectfile" value="$Date: 2004/04/01 13:35:07 $"/>
+      <property name="version.projectfile" value="$Revision: 1.96 $"/>
+      <property name="date.projectfile" value="$Date: 2004/04/06 14:16:44 $"/>
 
-		<!-- Ensure work directories don't get dropped from classpath -->
-		<mkdir dir="build/core"/>
-		<mkdir dir="build/htmlparser"/>
-		<mkdir dir="build/jorphan"/>
-		
-		<!-- Allow http to build: -->
-		<mkdir dir="build/components"/>
-	
-		<!-- Allow Monitor to build -->
-		<mkdir dir="build/protocol/http"/>
-		<mkdir dir="build/monitor/model"/>
+      <!-- Ensure work directories don't get dropped from classpath -->
+      <mkdir dir="build/core"/>
+      <mkdir dir="build/htmlparser"/>
+      <mkdir dir="build/jorphan"/>
+                
+      <!-- Allow http to build: -->
+      <mkdir dir="build/components"/>
+        
+      <!-- Allow Monitor to build -->
+      <mkdir dir="build/protocol/http"/>
+      <mkdir dir="build/monitor/model"/>
     </ant>
 
     <depend project="ant" />
@@ -136,7 +136,7 @@
 
     <!-- Try to ensure that cvs builds after jmeter -->
     <option project="jakarta-jmeter">
-    	<noclasspath/>
+        <noclasspath/>
     </option>
     
     <work nested="build/core"/>
@@ -200,14 +200,14 @@
       <!-- Temp hack to make up for missing workspace property ... -->
       <property name="java.awt.headless" value="true"/>
       <!-- The version of this file -->
-      <property name="version.projectfile" value="$Revision: 1.95 $"/>
-      <property name="date.projectfile" value="$Date: 2004/04/01 13:35:07 $"/>
+      <property name="version.projectfile" value="$Revision: 1.96 $"/>
+      <property name="date.projectfile" value="$Date: 2004/04/06 14:16:44 $"/>
     </ant>
 
     <depend project="ant" />
 
-    <depend project="jakarta-jmeter-cvs" ids="none">
-    	<noclasspath/>
+    <depend project="jakarta-jmeter-cvs">
+        <noclasspath/>
     </depend>
 
 <!-- Add jars that would otherwise come from jmeter-cvs -->
@@ -265,8 +265,8 @@
       <property name="jmeter.version" value="@@DATE@@"/>
       <property name="gump.run" value="true"/>
       <!-- The version of this file -->
-      <property name="version.projectfile" value="$Revision: 1.95 $"/>
-      <property name="date.projectfile" value="$Date: 2004/04/01 13:35:07 $"/>
+      <property name="version.projectfile" value="$Revision: 1.96 $"/>
+      <property name="date.projectfile" value="$Date: 2004/04/06 14:16:44 $"/>
     </ant>
 
     <depend project="ant" />
