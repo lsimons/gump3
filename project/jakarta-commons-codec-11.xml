@@ -21,7 +21,7 @@
     Jakarta Commons Codec 1.1
   </description>
 
-  <cvs repository="jakarta"  tag="CODEC_1_1" module="codec"/>
+  <cvs repository="jakarta"  tag="CODEC_1_1" module="jakarta-commons/codec"/>
 
   <project name="commons-codec-11">
     <package>org.apache.commons.codec</package>
