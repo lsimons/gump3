@@ -27,13 +27,6 @@ from xml.dom import minidom
 
 from gump.model import *
 
-import types # TODO: move into utility module
-try:
-    _StringTypes = [types.StringType, types.UnicodeType]
-except AttributeError:
-    _StringTypes = [types.StringType]
-
-
 class ModellerError(Exception):
     """Generic error thrown for all internal Modeller module exceptions."""
     pass
@@ -87,38 +80,15 @@ class Loader:
             - vfs -- the virtual file system to use for resolving hrefs. May
                      be None only if the workspace to load does not contain
                      any hrefs.
-            - mergefile -- the full path to the file to write the merged
-                           workspace xml to. If None, no such file will be
-                           written. Alternatively can be a stream.
-            - dropfile -- the full path to the file to write the xml
-                           describing dropped projects to. If None, no such
-                           file will be written. Alternatively can be a
-                           stream.
         """
         self.log = log
         self.vfs = vfs
-        self.mergestream = self._open_file_or_stream(merge_file_or_stream)
-        self.dropstream = self._open_file_or_stream(drop_file_or_stream)
     
-    def _open_file_or_stream(self, file_or_stream): # TODO: move into utility module
-        """Utility for accepting both filenames and streams.
-        
-        If the argument is a string, attempts to open the specified file and
-        return a reference to the open file. Otherwise, returns the argument.
-        """
-        if type(file_or_stream) in _StringTypes:
-            return open(file_or_stream, 'w')
-        else:
-            return file_or_stream
-
     def get_workspace_tree(self, workspace):
         """Parse the provided workspace, then resolve all hrefs.
         
         Returns a tuple with the parsed workspace as a dom Element, and all
         the Nodes that were dropped because of problems as a list.
-        
-        The provided workspace argument can either be a stream or a path to
-        a file.
         """
         # get root <workspace/> element
         wsdom = minidom.parse(workspace)
@@ -132,11 +102,8 @@ class Loader:
         # contents of blah.xml
         self._resolve_hrefs_in_workspace(ws, dropped_nodes)
         
-        # write the merged xml tree to a file
-        self._write_merge_files(wsdom, dropped_nodes)
-        
         # the combined results
-        return (ws, dropped_nodes)
+        return (wsdom, dropped_nodes)
     
     def _resolve_hrefs_in_workspace(self, ws, dropped_nodes):
         """Redirects to _resolve_hrefs_in_children."""
@@ -302,87 +269,49 @@ class Loader:
             parent = parent.parentNode
             if not parent:
                 return None
-    
-    def _write_merge_files(self, wsdom, dropped_nodes):
-        """Write the fully resolved DOM tree to a file.
-        
-        Also writes an XML file detailing any projects and modules that were
-        dropped because of a HREF resolution issue.
-        """
-        if self.mergestream:
-            self.mergestream.write( wsdom.toprettyxml() )
-            self.mergestream.close()
-        
-        if self.dropstream and len(dropped_nodes) > 0:
-            impl = dom.getDOMImplementation()
-            dropdoc = impl.createDocument(None, "dropped-projects-and-modules", None)
-            dropdocroot = dropdoc.documentElement
-            for node in dropped_nodes:
-                dropdocroot.appendChild(node)
-            self.dropstream.write( dropdoc.toprettyxml() )
-            self.dropstream.close()        
 
 class Objectifier:
     """Turns DOM workspace into Pythonified workspace."""
     
     def __init__(self, log):
+        """Store all settings and dependencies as properties."""
         self.log = log
 
     def get_workspace(self, dom):
-        raise RuntimeError, "not implemented!" # TODO
-
+        """Transforms a workspace xml document into object form.
+        
+        Travels the entire document tree, converting everything it finds."""
+        
         workspace = self._create_workspace(dom)
         self._create_repositories(workspace, dom)
-        self._create_modules(workspace, dom)
-        self._create_projects(workspace, dom)
+
+        raise RuntimeError, "not implemented!" # TODO
+        #self._create_modules(workspace.repositories, dom)
+        #self._create_projects(workspace, dom)
         
+        return workspace
     
     def _create_workspace(self, root):
-        workspace = Workspace(root.getAttribute('name'))
-        
+        return Workspace(root.getAttribute('name'))
         
     def _create_repositories(self, workspace, root):
-        repository_definitions = self._find_repository_definitions(root)
+        """Creates all repositories and adds them to the workspace."""
         
-        undefined = []
+        repository_definitions = self._find_repository_definitions(root)
+        undefined = [] # store repositories that are referenced by name
         
         for repository_definition in repository_definitions:
-            if not repository_definition.hasChildNodes(): # hope it gets defined later
+            if not repository_definition.hasChildNodes():
+                # we hope this repository gets fully defined later, skip for now
                 if not repository.getAttribute("name"):
+                    #TODO: implement recovery
                     raise ModellerError, "Encountered a repository without a name!"
                 undefined.append(repository_definition)
                 continue
             
-            name = repository_definition.getAttribute("name")
-            title = None
-            try: title = self._find_element_text(repository_definition, "title")
-            except: pass
-            
-            home_page = None
-            try: home_page = self._find_element_text(repository_definition, "home-page")
-            except: pass
-            
-            cvsweb = None
-            try: cvsweb = self._find_element_text(repository_definition, "cvsweb")
-            except:
-                try: cvsweb = self._find_element_text(repository_definition, "web")
-                except: pass
-            
-            redistributable = False
-            if repository_definition.getElementsByTagName("redistributable").length > 0:
-                redistributable = True
-                
-            repository = None
-            
-            type = repository_definition.getAttribute("type").upper()
-            if type == "CVS":
-                repository = _create_cvs_repository(workspace, name, title, home_page, cvsweb, redistributable, repository_definition)
-            elif type == "SVN":
-                repository = _create_svn_repository(workspace, name, title, home_page, cvsweb, redistributable, repository_definition)
-            else:
-                raise ModellerError, "Unknown repository type '%s' for repository '%s'" % (type, name)
-
-            workspace.repositories[name] = repository
+            repository = self._create_repository(workspace, repository_definition)
+            # TODO: detect overrides here
+            workspace.repositories[repository.name] = repository
         
         # TODO: add support for maven repository definitions here as found
         # inside maven project.xml files...
@@ -396,6 +325,42 @@ class Objectifier:
                 raise ModellerError, "Repository '%s' is referenced but never defined!" % name
         
         undefined = None # clean up just to be sure...
+    
+    def _create_repository(self, workspace, repository_definition):
+        name = repository_definition.getAttribute("name")
+        self.log.debug("Converting repository definition '%s' into object form." % name)
+        
+        # parse the attributes and elements common to all repositories
+        title = None
+        try: title = self._find_element_text(repository_definition, "title")
+        except: pass
+        
+        home_page = None
+        try: home_page = self._find_element_text(repository_definition, "home-page")
+        except: pass
+        
+        cvsweb = None
+        try: cvsweb = self._find_element_text(repository_definition, "cvsweb")
+        except:
+            try: cvsweb = self._find_element_text(repository_definition, "web")
+            except: pass
+        
+        redistributable = False
+        if repository_definition.getElementsByTagName("redistributable").length > 0:
+            redistributable = True
+            
+        # now delegate to _create methods for specific repositories to do the rest
+        repository = None
+        type = repository_definition.getAttribute("type").upper()
+        if type == "CVS":
+            repository = self._create_cvs_repository(workspace, name, title, home_page, cvsweb, redistributable, repository_definition)
+        elif type == "SVN":
+            repository = self._create_svn_repository(workspace, name, title, home_page, cvsweb, redistributable, repository_definition)
+        else:
+            raise ModellerError, "Unknown repository type '%s' for repository '%s'" % (type, name)
+        
+        return repository
+
     
     def _create_cvs_repository(self, workspace, name, title, home_page, cvsweb, redistributable, repository_definition):
         hostname = self._find_element_text(repository_definition, "hostname")
@@ -422,6 +387,28 @@ class Objectifier:
                                    cvsweb = cvsweb,
                                    redistributable = False,
                                    method = CVS_METHOD_PSERVER,
+                                   user = user,
+                                   password = password)
+        return repository
+
+    def _create_svn_repository(self, workspace, name, title, home_page, cvsweb, redistributable, repository_definition):
+        url = self._find_element_text(repository_definition, "url")
+
+        user = None
+        try: user = self._find_element_text(repository_definition, "user")
+        except: pass
+
+        password = None
+        try: password = self._find_element_text(repository_definition, "password")
+        except: pass
+        
+        repository = SvnRepository(workspace,
+                                   name,
+                                   url,
+                                   title = title,
+                                   home_page = home_page,
+                                   cvsweb = cvsweb,
+                                   redistributable = False,
                                    user = user,
                                    password = password)
         return repository

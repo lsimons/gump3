@@ -17,8 +17,8 @@
 """This module contains the main controller that runs pygump.
 
 The function main() is called from the main.main() function, which construcs
-the neccessary helpers for an Engine instance that is then told to perform a
-run.
+the neccessary helpers for an _Engine instance that is then told to perform a
+run().
 
 The engine utilizes several submodules that provide pieces of its
 functionality. Each of these modules usually exports a single class which has
@@ -44,9 +44,12 @@ import logging
 from xml import dom
 from xml.dom import minidom
 
+from gump.util.io import open_file_or_stream
+
 def main(settings):
-    """
-    Controls the big pygump beast. This function is called from the main.main()
+    """Controls the big pygump beast.
+
+    This function is called from the main.main()
     method once the environment has been analyzed, parsed, fully set
     up, and checked for correctness. In other words, once the beastie is
     ready to roll.
@@ -61,30 +64,29 @@ def main(settings):
     _banner(settings.version)
     
     # get engine config
-    config = get_config(settings)
+    config = _get_config(settings)
     
     # get engine dependencies
-    log = get_logger(config.log_level, "engine")
-    db  = get_db(config)
+    log = _get_logger(config.log_level, "engine")
+    db  = _get_db(config)
     
     vfsdir = os.path.join(config.paths_work, "vfs-cache")
     if not os.path.isdir(vfsdir):
         os.mkdir(vfsdir);
-    vfs = get_vfs(config.paths_metadata, vfsdir)
+    vfs = _get_vfs(config.paths_metadata, vfsdir)
     
-    modeller_log = get_logger(config.log_level, "modeller")
+    modeller_log = _get_logger(config.log_level, "modeller")
+    modeller_loader = _get_modeller_loader(modeller_log, vfs)
+    modeller_objectifier = _get_modeller_objectifier(modeller_log)
+    
     mergefile = os.path.join(config.paths_work, "merge.xml")
     dropfile = os.path.join(config.paths_work, "dropped.xml")
-    modeller_loader = get_modeller_loader(modeller_log, vfs, mergefile, dropfile)
-    modeller_objectifier = get_modeller_objectifier(modeller_log)
-    
+
     # create engine
-    engine = Engine(config, log, db, modeller_loader, modeller_objectifier)
+    engine = _Engine(log, db, modeller_loader, modeller_objectifier, config.paths_workspace, mergefile, dropfile)
     
     # run it
-    engine.initialize()
     engine.run()
-    engine.dispose()
 
 
 def _banner(version):
@@ -103,15 +105,15 @@ def _banner(version):
 ### FACTORY METHODS
 ###
 
-def get_config(settings):
-    """
-    Convert the settings object (the Values retrieved from the OptionsParser)
-    into something more specific. The reason we put this function and the Config
+def _get_config(settings):
+    """Convert the settings object into something more specific.
+
+    The reason we put this function and the Config
     class in between is that we can change gump internals while keeping the CLI
     interface the same more easily, with the integration point being isolated to
     this method and the Config class definition.
     """
-    config = Config()
+    config = _Config()
     
     if settings.debug:
         config.log_level       = logging.DEBUG
@@ -148,26 +150,31 @@ def get_config(settings):
     
     return config
 
-def get_logger(level, name):
+def _get_logger(level, name):
+    """Provide a logging implementation for the given level and name."""
     logging.basicConfig()
     log = logging.getLogger(name)
     log.setLevel(level)
     return log
 
-def get_db(config):
+def _get_db(config):
+    """Provide a database implementation."""
     from gump.util.mysql import Database
     db = Database(config) #TODO!
     return db
 
-def get_vfs(filesystem_root, cache_dir):
-    from gump.engine.vfs import VFS
+def _get_vfs(filesystem_root, cache_dir):
+    """Provide a VFS implementation."""
+    from gump.util.io import VFS
     return VFS(filesystem_root, cache_dir)
 
-def get_modeller_loader(log, vfs=None, mergefile=None, dropfile=None):
+def _get_modeller_loader(log, vfs=None, mergefile=None, dropfile=None):
+    """Provide a Loader implementation."""
     from gump.engine.modeller import Loader
     return Loader(log, vfs, mergefile, dropfile)
 
-def get_modeller_objectifier(log):
+def _get_modeller_objectifier(log):
+    """Provide a Objectifier implementation."""
     from gump.engine.modeller import Objectifier
     return Objectifier(log)
 
@@ -175,12 +182,9 @@ def get_modeller_objectifier(log):
 ### Classes
 ###
 
-class Config:
+class _Config:
     def __getattr__(self,name):
-        """
-        Some config values are calculated at runtime from other values
-        if they're not especially set.
-        """
+        """Calculate missing settings from other settings at runtime."""
         if name == 'debug':
             return self.loglevel >= logging.DEBUG
         if name == 'paths_pygump':
@@ -193,36 +197,43 @@ class Config:
         # unknown, raise error
         raise AttributeError, name
 
-class Engine:
-    """
-    This is the core of the pygump application.
-    """
+class _Engine:
+    """This is the core of the core of the pygump application."""
     
-    def __init__(self, config, log, db, workspace_loader, workspace_objectifier):
+    def __init__(self, log, db, workspace_loader, workspace_objectifier, workspace, merge_to=None, drop_to=None):
+        """Store all config and dependencies as properties.
+        
+        Arguments
+            - log -- the log to write debug and error messages to.
+            - db -- the database to store all activity in.
+            - workspace_loader -- the component providing the dom tree.
+            - workspace_objectifier -- the component transforming the dom into
+                                       object form
+
+            - workspace -- the resource containing the workspace xml.
+            - merge_to -- the resource to write the merged workspace xml to.
+            - drop_to -- the resource to write the dropped projects xml to.
         """
-        Store all config and dependencies as properties.
-        """
-        self.config = config
         self.log = log
         self.db = db
         self.workspace_loader = workspace_loader
         self.workspace_objectifier = workspace_objectifier
-    
-    def initialize(self):
-        """
-        Perform pre-run initialization.
-        """
-        pass
-    
+
+        self.workspace = open_file_or_stream(workspace,'r')
+        self.merge_to = open_file_or_stream(merge_to,'w')
+        self.drop_to = open_file_or_stream(drop_to,'w')
+
     def run(self):
-        """
-        Perform a run.
-        """
+        """Perform a run."""
         try:
             # 1) merge workspace into big DOM tree
-            (dom, dropped_nodes) = self.workspace_loader.get_workspace_tree(self.config.paths_workspace)
+            (dom, dropped_nodes) = self.workspace_loader.get_workspace_tree(self.workspace)
+            
+            # 2) write the merged tree out to a new xml file
+            self._write_merge_files(dom, dropped_nodes)
+            
             # 2) convert that DOM tree into python objects
-            workspace = self.workspace_objectifier.get_workspace(dom)
+            workspace = self.workspace_objectifier.get_workspace(dom.documentElement)
             # 3) store those objects in the database
             self.store_workspace(self.workspace) #TODO
             # 4) determine the tasks to perform
@@ -235,8 +246,22 @@ class Engine:
         except:
             self.log.exception("Fatal error during run!")
     
-    def dispose(self):
+    def _write_merge_files(self, domtree, dropped_nodes):
+        """Write the fully resolved DOM tree to a file.
+        
+        Also writes an XML file detailing any projects and modules that were
+        dropped because of a HREF resolution issue.
         """
-        End a run.
-        """
-        pass
+        if self.merge_to:
+            self.merge_to.write( domtree.toprettyxml() )
+            self.merge_to.close()
+        
+        if self.drop_to and len(dropped_nodes) > 0:
+            from xml import dom
+            impl = dom.getDOMImplementation()
+            dropdoc = impl.createDocument(None, "dropped-projects-and-modules", None)
+            dropdocroot = dropdoc.documentElement
+            for node in dropped_nodes:
+                dropdocroot.appendChild(node)
+            self.drop_to.write( dropdoc.toprettyxml() )
+            self.drop_to.close()        

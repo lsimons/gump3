@@ -29,10 +29,34 @@ import os
 import string
 import urllib
 import urlparse
+import StringIO
+import types
+
+try:
+    _StringTypes = [types.StringType, types.UnicodeType]
+except AttributeError:
+    _StringTypes = [types.StringType]
+
+def open_file_or_stream(file_or_stream, mode='r'):
+    """Utility for accepting both filenames and streams.
+    
+    If the argument is a string, attempt to use it as a filename,
+    open the specified file and return a reference to the open file. If it is
+    not a valid filename, wrap the string as a stream-like object and return it.
+    
+    If the argument is not a string, returns the string.
+    """
+    if type(file_or_stream) in _StringTypes:
+        #try:
+        return open(file_or_stream, mode)
+        #except:
+        #    StringIO.StringIO(file_or_stream)
+    else:
+        return file_or_stream
 
 
 class Error(Exception):
-    """Generic error thrown for all internal VFS module exceptions."""
+    """Generic error thrown for all internal I/O module exceptions."""
     pass
 
 
