@@ -65,7 +65,7 @@
   </project>
 
   <project name="jakarta-ant-myrmidon">
-    <ant basedir="proposal/myrmidon"/>
+    <ant basedir="proposal/myrmidon" target="jars"/>
 
     <depend project="jakarta-ant"/>
     <depend project="xml-xerces"/>
