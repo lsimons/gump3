@@ -83,7 +83,7 @@ class Notifier(AbstractRunActor):
         self.unwanted=''
             
         #
-        # Nag about the workspace (if it needs it)
+        # Notify about the workspace (if it needs it)
         #
         if self.workspace.isFailed():
             self.notifyWorkspace(run,self.workspace)
@@ -94,7 +94,7 @@ class Notifier(AbstractRunActor):
 
                 if module.isFailed():
                     try:
-                        log.info('Nag for module: ' + module.getName())
+                        log.info('Notify for module: ' + module.getName())
                         self.notifyModule(module)   
                     
                     except Exception, details:
@@ -106,7 +106,7 @@ class Notifier(AbstractRunActor):
                             if not self.gumpSet.inProjectSequence(project): continue                        
                         
                             try:                        
-                                log.info('Nag for project: ' + project.getName())                                                        
+                                log.info('Notify for project: ' + project.getName())                                                        
                                 self.notifyProject(project)                        
                                 
                             except Exception, details:
@@ -115,7 +115,7 @@ class Notifier(AbstractRunActor):
                 
         
         # Workspace can override...
-        (wsTo, wsFrom) = self.workspace.getNagOverrides()        
+        (wsTo, wsFrom) = self.workspace.getNotifyOverrides()        
                 
         # Belt and braces (notify to us if not notify to them)
         if self.hasUnwanted():
@@ -214,7 +214,7 @@ The following %s notify%s should have been sent
     
     
     def notifyWorkspace(self):
-        """ Nag for the workspace """
+        """ Notify for the workspace """
         content=self.getGenericContent(self.workspace,'There is a workspace problem... \n')
         
         self.sendEmail(self.workspace.mailinglist,	\
@@ -222,7 +222,7 @@ The following %s notify%s should have been sent
                         self.workspace.prefix+': Gump Workspace Problem ',content)
     
     def notifyModule(self,module):
-        """ Nag to a specific module's <notify entry """
+        """ Notify to a specific module's <notify entry """
         
         #
         # Form the content...
@@ -240,7 +240,7 @@ The following %s notify%s should have been sent
             
     
     def notifyProject(self,project):
-        """ Nag to a specific project's <notify entry """
+        """ Notify to a specific project's <notify entry """
         module=project.getModule()
     
         #
@@ -262,9 +262,9 @@ The following %s notify%s should have been sent
         notifys=[]
         
         # Workspace can override...
-        (wsTo, wsFrom) = self.workspace.getNagOverrides()
+        (wsTo, wsFrom) = self.workspace.getNotifyOverrides()
         
-        for notifyEntry in object.xml.notify:
+        for notifyEntry in object.xml.nag:
             #
             # Determine where to send
             #
@@ -303,7 +303,7 @@ The following %s notify%s should have been sent
         sent=0
         try:
                
-            log.info('Send Nag e-mail to: ' + str(toaddr) + \
+            log.info('Send Notify e-mail to: ' + str(toaddr) + \
                 ' from: ' + str(fromaddr) + \
                 'Subject: ' + str(subject))
            
@@ -457,6 +457,6 @@ and/or contact general@gump.apache.org.
         return content
     
 def notify(run):
-    notifier=Nagger(run)
+    notifier=Notifier(run)
     notifier.notify()
     

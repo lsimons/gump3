@@ -25,27 +25,38 @@ import types, StringIO
 from gump import log
 import gump.core.config
 from gump.core.gumprun import GumpRun
+from gump.test import getWorkedTestRun
 from gump.runner.tasks import SequentialTaskRunner, GumpTaskList
 from gump.test.pyunit import UnitTestSuite
 
 class TasksTestSuite(UnitTestSuite):
     def __init__(self):
         UnitTestSuite.__init__(self)
-            
+                  
+      
+    def suiteSetUp(self):
+        #
+        # Load a decent Run/Workspace
+        #
+        self.run=getWorkedTestRun()  
+        self.assertNotNone('Needed a run', self.run)
+        self.workspace=self.run.getWorkspace()          
+        self.assertNotNone('Needed a workspace', self.workspace)
+        
     def testBuildTasks(self):
-        engine=SequentialTaskRunner()
+        runner=SequentialTaskRunner(self.run)
         taskList=GumpTaskList(['build'])
-        taskList.bind(engine)
+        taskList.bind(runner)
         #print `taskList`
             
     def testBuildDocumentTasks(self):
-        engine=SequentialTaskRunner()    
+        runner=SequentialTaskRunner(self.run)    
         taskList=GumpTaskList(['build','document'])
-        taskList.bind(engine)
+        taskList.bind(runner)
         #print `taskList`
             
     def testUpdateBuildStatsTasks(self):
-        engine=SequentialTaskRunner()    
+        runner=SequentialTaskRunner(self.run)    
         taskList=GumpTaskList(['update','build','updateStatistics'])
-        taskList.bind(engine)
+        taskList.bind(runner)
         #print `taskList`

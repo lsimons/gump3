@@ -562,7 +562,7 @@ class Workspace(NamedModelObject, PropertyContainer, Statable, Resultable):
         return getattr(self.xml.nag,'to')
         
     def hasNotifyFromOverride(self):
-        return self.isNag() and hasattr(self.xml.nag,'from')
+        return self.isNotify() and hasattr(self.xml.nag,'from')
         
     def getNotifyFromOverride(self):
         return getattr(self.xml.nag,'from')
@@ -578,7 +578,7 @@ class Workspace(NamedModelObject, PropertyContainer, Statable, Resultable):
         if self.hasNotifyToOverride():
             wsNotifyToOverrideAddr=self.getNotifyToOverride()
             
-        if self.hasNagFromOverride():
+        if self.hasNotifyFromOverride():
             wsNotifyFromOverrideAddr=self.getNotifyFromOverride()
         
         return ( wsNotifyToOverrideAddr, wsNotifyFromOverrideAddr)

@@ -236,7 +236,7 @@ class GumpEnvironment(Annotatable,Workable,Propogatable):
             result=execute(cmd)
             ok=result.state==CMD_STATE_SUCCESS 
             if not ok:
-                log.error('Failed to detect [' + command + ']')   
+                log.info('Failed to detect [' + command + ']')   
         except Exception, details:
             ok=0
             log.error('Failed to detect [' + command + '] : ' + str(details))
@@ -265,7 +265,7 @@ class GumpEnvironment(Annotatable,Workable,Propogatable):
         try:
             ok=os.environ.has_key(env)
             if not ok:
-                log.error('Failed to find environment variable [' + env + ']')
+                log.info('Failed to find environment variable [' + env + ']')
         
         except Exception, details:
             ok=0

@@ -28,7 +28,7 @@ import gump.core.config
 from gump.core.gumprun import GumpRun
 from gump.syndication.rss import RSSSyndicator
 from gump.syndication.atom import AtomSyndicator
-from gump.test import getWorkedTestWorkspace
+from gump.test import getWorkedTestRun
 from gump.test.pyunit import UnitTestSuite
 
 class SyndicatorTestSuite(UnitTestSuite):
@@ -39,15 +39,16 @@ class SyndicatorTestSuite(UnitTestSuite):
         #
         # Load a decent Workspace
         #
-        self.workspace=getWorkedTestWorkspace()          
+        self.run=getWorkedTestRun()
+        self.assertNotNone('Needed a run', self.run)
+        self.workspace=self.run.getWorkspace()          
         self.assertNotNone('Needed a workspace', self.workspace)
-        self.run=GumpRun(self.workspace)
         
     def testRSS(self):
-        simple=RSSSyndicator()
-        simple.syndicate(self.run)
+        simple=RSSSyndicator(self.run)
+        simple.syndicate()
         
     def testAtom(self):
-        atom=AtomSyndicator()
-        atom.syndicate(self.run)
+        atom=AtomSyndicator(self.run)
+        atom.syndicate()
         

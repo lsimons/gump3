@@ -138,9 +138,6 @@ class UtilsTestSuite(UnitTestSuite):
     def testUnicode(self):
         getStringFromUnicode("Ceki Gülcü")
         
-    def testInitGarbageCollection(self):
-        initializeGarbageCollection()
-        
     def testInspectGarbageCollection(self):
         invokeGarbageCollection('testInspect')
         

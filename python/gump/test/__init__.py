@@ -23,6 +23,8 @@ from gump.model.loader import WorkspaceLoader
 import gump
 import gump.core.config
 
+from gump.core.gumprun import *
+
 from gump.model.state import *
 from gump.model.rawmodel import XMLWorkspace
 from gump.model.workspace import Workspace
@@ -30,6 +32,20 @@ from gump.model.workspace import Workspace
 from gump.stats.statsdb import StatisticsDB
 from gump.utils.tools import listDirectoryToFileHolder
 from gump.utils.work import *
+
+def getTestRun(workspaceXml=None):
+    workspace=getTestWorkspace(workspaceXml)
+    return GumpRun(workspace,'*',getConfiguredOptions())
+    
+def getWorkedTestRun(workspaceXml=None):
+    workspace=getWorkedTestWorkspace(workspaceXml)
+    return GumpRun(workspace,'*',getConfiguredOptions())
+    
+def getConfiguredOptions():
+    options=GumpRunOptions()
+    from gump.document.xdocs.resolver import XDocResolver
+    options.setResolver(XDocResolver('./test/bogus','http://bogus.org/'))
+    return options
 
 def getTestWorkspace(xml=None):
     if not xml: xml='gump/test/resources/full1/workspace.xml'    
@@ -88,8 +104,6 @@ def getWorkedTestWorkspace(xml=None):
                 project.changeState(STATE_SUCCESS)
 
     return workspace
-    
-
     
 def createTestWorkspace():
     xmlworkspace=XMLWorkspace({})

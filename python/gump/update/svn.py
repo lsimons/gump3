@@ -77,7 +77,7 @@ class SvnUpdater(RunSpecific):
         """
         
         #  Get the Update Command
-        cmd = self.getSvnStatusCommand(module)
+        cmd = self.getStatusCommand(module)
                                
         # Execute the command and capture results        
         cmdResult=execute(cmd, module.getWorkspace().tmpdir)
@@ -92,7 +92,7 @@ class SvnUpdater(RunSpecific):
             module.addWarning(message)
             log.error(message)               
 
-    def getSvnStatusCommand(self,module):
+    def getStatusCommand(self,module):
         """
         
             Build the 'svn status --show-updates --non-interative' command
@@ -148,7 +148,7 @@ class SvnUpdater(RunSpecific):
         """
         
         #  Get the Update Command
-        (repository, url, cmd ) = self.getSvnUpdateCommand(module, exists)
+        (repository, url, cmd ) = self.getUpdateCommand(module, exists)
                 
                
         # Execute the command and capture results        
@@ -180,7 +180,7 @@ class SvnUpdater(RunSpecific):
             module.changeState(STATE_SUCCESS)       
                                                               
     
-    def getSvnUpdateCommand(self,module,exists=0):
+    def getUpdateCommand(self,module,exists=0):
         """
             Build the appropriate SVN command for checkout/update
         """

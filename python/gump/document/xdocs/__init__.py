@@ -24,6 +24,6 @@
 # Initialize
 ###############################################################################
 
-# tell Python what modules make up the gump.document.forrest package
+# tell Python what modules make up the gump.document.xdocs package
 __all__ = ["documenter","resolver"]
 

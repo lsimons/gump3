@@ -417,7 +417,7 @@ def initializeGarbageCollection():
         log.info('GC: Enabled %s : Tracked %s : Threshold %s' \
                 % (`enabled`, `tracked`,`threshold`))
                 
-        # gc.set_debug(gc.DEBUG_LEAK)
+        #gc.set_debug(gc.DEBUG_LEAK)
     except:
         pass  
     return tracked    

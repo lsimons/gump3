@@ -86,7 +86,7 @@ class default:
 class setting:    
     """Configuration of hardcoded settings"""
     
-    version='2.0.2-alpha-0004'
+    version='2.0.3-alpha-0001'
     
     ws_version="0.4"
     ws_minimum_version="0.3"

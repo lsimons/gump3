@@ -24,7 +24,7 @@ import types, StringIO
 from gump import log
 import gump.core.config
 from gump.core.gumprun import GumpRun
-from gump.test import getWorkedTestWorkspace
+from gump.test import getWorkedTestRun
 from gump.test.pyunit import UnitTestSuite
 from gump.notify.notifier import notify,Notifier
 from gump.net.smtp import *
@@ -35,39 +35,40 @@ class NotificationTestSuite(UnitTestSuite):
         
     def suiteSetUp(self):
         #
-        # Load a decent Workspace
+        # Load a decent Run/Workspace
         #
-        self.workspace=getWorkedTestWorkspace()          
+        self.run=getWorkedTestRun()  
+        self.assertNotNone('Needed a run', self.run)
+        self.workspace=self.run.getWorkspace()          
         self.assertNotNone('Needed a workspace', self.workspace)
-        self.run=GumpRun(self.workspace)
         
     def testNotificationContents(self):
     
-        nagger=Notifier(self.run)
+        notifier=Notifier(self.run)
         
         # For all modules...
         for module in self.workspace.getModules():                    
             #print 'Get Content For Module : ' + module.getName()
-            nagger.getNamedTypedContent(module,'test')
+            notifier.getNamedTypedContent(module,'test')
             for project in module.getProjects():
                 #print 'Get Content For Project : ' + project.getName()
                 # print 
-                nagger.getNamedTypedContent(project,'test')
+                notifier.getNamedTypedContent(project,'test')
                 
     def testNotifyUnwantedUnsent(self):
     
-        nagger=Notifier(self.run)
+        notifier=Notifier(self.run)
         
-        self.assertFalse( 'No Unwanted', nagger.hasUnwanted() )
-        self.assertFalse( 'No Unsent', nagger.hasUnsent() )
+        self.assertFalse( 'No Unwanted', notifier.hasUnwanted() )
+        self.assertFalse( 'No Unsent', notifier.hasUnsent() )
         
-        nagger.addUnwanted('test subject','test content')
-        nagger.addUnsent('test subject','test content')
+        notifier.addUnwanted('test subject','test content')
+        notifier.addUnsent('test subject','test content')
         
-        self.assertTrue( 'Has Unwanted', nagger.hasUnwanted() )
-        self.assertTrue( 'Has Unsent', nagger.hasUnsent() )
+        self.assertTrue( 'Has Unwanted', notifier.hasUnwanted() )
+        self.assertTrue( 'Has Unsent', notifier.hasUnsent() )
                 
-    def testNagAddresses(self):
+    def testNotifyAddresses(self):
     
         notifier=Notifier(self.run)
            
@@ -80,12 +81,12 @@ class NotificationTestSuite(UnitTestSuite):
                 pass
             for project in module.getProjects():
                 #print 'Get Addresses For Project : ' + project.getName()
-                addresses=nagger.getAddressPairs(project)
+                addresses=notifier.getAddressPairs(project)
                 for addr in addresses:
                     #print 'AddressPair : ' + str(addr)      
                     pass   
                              
-    def testNagEmails(self):
+    def testNotifyEmails(self):
     
         notifier=Notifier(self.run)
            
@@ -93,7 +94,7 @@ class NotificationTestSuite(UnitTestSuite):
         for module in self.workspace.getModules(): 
             for project in module.getProjects():
                 #print 'Get E-mail For Project : ' + project.getName()
-                addresses=nagger.getAddressPairs(project)
+                addresses=notifier.getAddressPairs(project)
                 for addr in addresses:   
                     toAddrs=[ addr.getToAddress() ]
                     email=EmailMessage( toAddrs, \

@@ -37,7 +37,7 @@ from gump.utils.tools import *
 
 from gump.model.workspace import *
 from gump.model.module import Module
-from gump.model.project import Project
+from gump.model.project import Project,AnnotatedPath
 from gump.model.depend import  ProjectDependency
 from gump.model.stats import *
 from gump.model.state import *

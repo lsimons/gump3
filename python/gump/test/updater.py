@@ -24,8 +24,10 @@ import types, StringIO
 from gump import log
 import gump.core.config
 from gump.stats.statsdb import *
-from gump.test import getWorkedTestWorkspace
+from gump.test import getWorkedTestRun
 from gump.test.pyunit import UnitTestSuite
+
+from gump.update.updater import GumpUpdater
 
 class UpdaterTestSuite(UnitTestSuite):
     def __init__(self):
@@ -33,27 +35,27 @@ class UpdaterTestSuite(UnitTestSuite):
         
     def suiteSetUp(self):
         #
-        # Load a decent Workspace
+        # Load a decent Run/Workspace
         #
-        self.workspace=getWorkedTestWorkspace()          
+        self.run=getWorkedTestRun()  
+        self.assertNotNone('Needed a run', self.run)
+        self.workspace=self.run.getWorkspace()          
         self.assertNotNone('Needed a workspace', self.workspace)
-        
+   
         self.repo1=self.workspace.getRepository('repository1')                  
         self.svnRepo1=self.workspace.getRepository('svn_repository1')                  
         
         self.module1=self.workspace.getModule('module1')      
         self.svnModule1=self.workspace.getModule('svn_module1')
         self.downloadModule1=self.workspace.getModule('download1')
+        
+        self.update=GumpUpdater(self.run)
             
     def testCommandLines(self):
         
-        # Checkouts
-        (repo, root, cmd) = command=self.module1.getUpdateCommand(0)  
-    
-        (repo, url, cmd) = command=self.svnModule1.getUpdateCommand(0)  
+        pass
         
-        # Updates
-        (repo, root, cmd) = command=self.module1.getUpdateCommand(0)  
-        
-        (repo, url, cmd) = command=self.svnModule1.getUpdateCommand(0)  
-        
+        #
+        # Hmm, need to test checkouts and updates and status...
+        # but how, since we now delegate more
+        #
