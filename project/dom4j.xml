@@ -35,15 +35,13 @@
     <depend project="ant" inherit="runtime"/>
     <depend project="xml-xerces"/>
     <depend project="junit"/>
+    <depend project="xml-apis"/>
     <depend project="xml-xalan2"/>
-    <depend project="tranquilo"/>
     <depend project="xpp"/>
     <depend project="jaxen-from-packaged-dom4j"/>
-    <depend project="xmldb"/>
-    <depend project="msv"/>
+    <depend project="xsdlib"/>
     <depend project="relaxng"/>
     <depend project="stax" ids="api"/>
-    <depend project="xml-fop" inherit="runtime"/>
     <depend project="jtidy"/>
     <depend project="junitperf"/>
 
