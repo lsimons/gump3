@@ -20,6 +20,7 @@
     <depend project="xml-batik"/>
     <!--depend project="avalon-logkit" runtime="true"/-->
     <depend project="avalon" runtime="true"/>
+    <depend project="commons-io"/>
     <depend project="jfor"/>
     <depend project="jakarta-servletapi"/>
 
