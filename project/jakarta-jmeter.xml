@@ -25,7 +25,6 @@
     <depend project="ant" />
     <depend project="commons-collections"/>
     <depend project="jakarta-velocity" />
-    <depend project="pngencoder" />
     <depend project="jaf" />
     <depend project="javamail" />
     <depend project="jsse" />
@@ -56,16 +55,6 @@
         <regexp pattern="/BUILD FAILED/" subject="JMeter Build Failure"/>
         <regexp pattern="/FAILURES!!!|OK \(0 tests\)/" subject="JMeter Unit Test Failure"/>
     </nag>
-  </project>
-
-  <project name="pngencoder">
-    <package>com.keypoint</package>
-    <url href="http://catcode.com/pngencoder/"/>
-    <description>
-      Convert a Java Image to PNG
-    </description>
-
-    <jar name="lib/util.jar"/>
   </project>
 
 </module>
