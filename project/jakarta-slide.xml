@@ -24,10 +24,10 @@
       <depend property="junit.jar"   project="junit"/>
       <depend property="log4j.jar"   project="jakarta-log4j"/>
       <depend property="servlet.jar" project="jakarta-servletapi-4"/>
-      <property name="jstl.lib" project="jakarta-taglibs" 
-                path="dist/standard"/>
-      <property name="taglibs-standard.lib" project="jakarta-taglibs" 
-                path="dist/standard"/>
+      <property name="jstl.lib" project="jakarta-taglibs-standard" 
+                id="jstl"/>
+      <property name="taglibs-standard.lib" project="jakarta-taglibs-standard" 
+                id="standard"/>
       <depend property="antlr.jar" project="antlr" id="antlr" />
       <depend property="antlr-tools.jar" project="antlr" id="antlr-tools" />
       <depend property="jdbc20ext.jar" project="jdbc" />
@@ -46,7 +46,7 @@
     <depend project="jakarta-tomcat-4.0"/>
     <depend project="jakarta-struts"/>
     <depend project="jakarta-oro"/>
-    <option project="jakarta-taglibs" ids="jstl standard"/>
+    <option project="jakarta-taglibs-standard" ids="jstl standard"/>
 
     <work nested="build/classes"/>
     <work nested="build/client/classes"/>

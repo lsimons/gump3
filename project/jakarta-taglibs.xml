@@ -6,108 +6,366 @@
   </description>
 
   <cvs repository="jakarta"/>
-  
-  <project name="jakarta-taglibs">
-    <package>org.apache.taglibs</package>
 
-    <ant target="dist">
-      <property name="base.dir" reference="home" project="jakarta-taglibs"/>
-      <property name="build.dir" path="build"/>
-      <property name="dist.dir" path="dist"/>
-      <property name="standard.jar" path="dist/standard/lib/standard.jar"/>
-      <depend property="xerces.jar" project="xml-xerces" id="parser"/>
-      <depend property="crimson.jar" project="xml-xerces" id="parser"/>
-      <depend property="jaxp.jar" project="xml-xerces" id="apis"/>
-      <depend property="jaxp-api.jar" project="jaxp" id="jaxp-api"/>
-      <depend property="dom.jar" project="jaxp" id="dom"/>
-      <depend property="sax.jar" project="jaxp" id="sax"/>
-      <depend property="xercesImpl.jar" project="xml-xerces" id="parser"/>
-      <depend property="xalan.jar" project="xml-xalan2"/>
-      <depend property="servlet.jar"   project="jakarta-servletapi-4"/>
+  <!-- Tag Libraries -->
+
+  <project name="jakarta-taglibs-application">
+    <package>org.apache.taglibs.application</package>
+    <description>Application Taglib</description>
+    <ant basedir="application" target="dist">
+      <depend property="servlet.jar" project="jakarta-servletapi-4"/>
+    </ant>
+    <javadoc nested="dist/doc/doc/application-doc/javadoc"/>
+    <jar name="dist/application/lib/taglibs-application.jar"/>
+    <nag to="taglibs-dev@jakarta.apache.org"
+         from="Ted Husted &lt;ted@husted.com&gt;"/>
+  </project>
+
+  <project name="jakarta-taglibs-benchmark">
+    <package>org.apache.taglibs.benchmark</package>
+    <description>Benchmark Taglib</description>
+    <ant basedir="benchmark" target="dist">
+      <depend property="servlet.jar" project="jakarta-servletapi-4"/>
+    </ant>
+    <javadoc nested="dist/doc/doc/benchmark-doc/javadoc"/>
+    <jar name="dist/benchmark/lib/taglibs-benchmark.jar"/>
+    <nag to="taglibs-dev@jakarta.apache.org"
+         from="Ted Husted &lt;ted@husted.com&gt;"/>
+  </project>
+
+  <project name="jakarta-taglibs-bsf">
+    <package>org.apache.taglibs.bsf</package>
+    <description>BSF Taglib</description>
+    <ant basedir="bsf" target="dist">
+      <depend property="bsf.jar" project="jakarta-bsf"/>
+      <depend property="servlet.jar" project="jakarta-servletapi-4"/>
+    </ant>
+    <javadoc nested="dist/doc/doc/bsf-doc/javadoc"/>
+    <jar name="dist/bsf/lib/taglibs-bsf.jar"/>
+    <nag to="taglibs-dev@jakarta.apache.org"
+         from="Ted Husted &lt;ted@husted.com&gt;"/>
+  </project>
+
+  <project name="jakarta-taglibs-cache">
+    <package>org.apache.taglibs.cache</package>
+    <description>Cache Taglib</description>
+    <ant basedir="cache" target="dist">
       <depend property="servlet23.jar" project="jakarta-servletapi-4"/>
-      <depend property="log4j-core.jar" project="jakarta-log4j"/>
-      <depend property="dom4j.jar"          project="dom4j"/>
-      <depend property="jakarta-oro2.jar"   project="jakarta-oro"/>
+      <depend property="standard.jar" project="jakarta-taglibs-standard"
+        id="standard"/>
+    </ant>
+    <javadoc nested="dist/doc/doc/cache-doc/javadoc"/>
+    <jar name="dist/cache/lib/taglibs-cache.jar"/>
+    <nag to="taglibs-dev@jakarta.apache.org"
+         from="Ted Husted &lt;ted@husted.com&gt;"/>
+  </project>
+
+  <project name="jakarta-taglibs-datetime">
+    <package>org.apache.taglibs.datetime</package>
+    <description>DateTime Taglib</description>
+    <ant basedir="datetime" target="dist">
+      <depend property="servlet.jar" project="jakarta-servletapi-4"/>
+    </ant>
+    <javadoc nested="dist/doc/doc/datetime-doc/javadoc"/>
+    <jar name="dist/datetime/lib/taglibs-datetime.jar"/>
+    <nag to="taglibs-dev@jakarta.apache.org"
+         from="Ted Husted &lt;ted@husted.com&gt;"/>
+  </project>
+
+  <project name="jakarta-taglibs-dbtags">
+    <package>org.apache.taglibs.dbtags</package>
+    <description>DBTags Taglib</description>
+    <ant basedir="dbtags" target="dist">
       <depend property="jdbc2_0-stdext.jar" project="jdbc"/>
-      <depend property="jxpath.jar" project="commons-jxpath"/>
-      <depend property="js.jar" project="rhino"/>
-      <depend property="jaxen-full.jar" project="jaxen"/>
+      <depend property="servlet.jar" project="jakarta-servletapi-4"/>
+    </ant>
+    <javadoc nested="dist/doc/doc/dbtags-doc/javadoc"/>
+    <jar name="dist/dbtags/lib/taglibs-dbtags.jar"/>
+    <nag to="taglibs-dev@jakarta.apache.org"
+         from="Ted Husted &lt;ted@husted.com&gt;"/>
+  </project>
+
+  <project name="jakarta-taglibs-i18n">
+    <package>org.apache.taglibs.i18n</package>
+    <description>I18N Taglib</description>
+    <ant basedir="i18n" target="dist">
+      <depend property="servlet.jar" project="jakarta-servletapi-4"/>
+    </ant>
+    <javadoc nested="dist/doc/doc/i18n-doc/javadoc"/>
+    <jar name="dist/i18n/lib/taglibs-i18n.jar"/>
+    <nag to="taglibs-dev@jakarta.apache.org"
+         from="Ted Husted &lt;ted@husted.com&gt;"/>
+  </project>
+
+  <project name="jakarta-taglibs-input">
+    <package>org.apache.taglibs.input</package>
+    <description>Input Taglib</description>
+    <ant basedir="input" target="dist">
+      <depend property="servlet.jar" project="jakarta-servletapi-4"/>
+    </ant>
+    <javadoc nested="dist/doc/doc/input-doc/javadoc"/>
+    <jar name="dist/input/lib/taglibs-input.jar"/>
+    <nag to="taglibs-dev@jakarta.apache.org"
+         from="Ted Husted &lt;ted@husted.com&gt;"/>
+  </project>
+
+  <project name="jakarta-taglibs-io">
+    <package>org.apache.taglibs.io</package>
+    <description>IO Taglib</description>
+    <ant basedir="io" target="dist">
+      <depend property="servlet.jar" project="jakarta-servletapi-4"/>
+    </ant>
+    <javadoc nested="dist/doc/doc/io-doc/javadoc"/>
+    <jar name="dist/io/lib/taglibs-io.jar"/>
+    <nag to="taglibs-dev@jakarta.apache.org"
+         from="Ted Husted &lt;ted@husted.com&gt;"/>
+  </project>
+
+  <project name="jakarta-taglibs-jmstags">
+    <package>org.apache.taglibs.jms</package>
+    <description>JMS Taglib</description>
+    <ant basedir="jmstags" target="dist">
       <depend property="commons-beanutils.jar" project="commons-beanutils"
         runtime="true"/>
       <depend property="commons-collections.jar" project="commons-collections"
         runtime="true"/>
       <depend property="commons-digester.jar" project="commons-digester"
         runtime="true"/>
+      <depend property="commons-logging.jar" project="commons-logging"
+        id="all" runtime="true"/>
       <depend property="commons-messenger.jar" project="commons-messenger"
         runtime="true"/>
-      <depend property="commons-lang.jar" project="commons-lang" />
-      <depend property="commons-logging.jar" project="commons-logging"
-        runtime="true" id="all" />
       <depend property="jms.jar" project="jms"/>
+      <depend property="servlet23.jar" project="jakarta-servletapi-4"/>
     </ant>
+    <javadoc nested="dist/doc/doc/jmstags-doc/javadoc"/>
+    <jar name="dist/jmstags/lib/taglibs-jmstags.jar"/>
+    <nag to="taglibs-dev@jakarta.apache.org"
+         from="Ted Husted &lt;ted@husted.com&gt;"/>
+  </project>
 
-    <depend project="jakarta-ant" inherit="runtime"/>
-    <option project="bsf"/>
-    <option project="javamail"/>
+  <project name="jakarta-taglibs-jndi">
+    <package>org.apache.taglibs.jndi</package>
+    <description>JNDI Taglib</description>
+    <ant basedir="jndi" target="dist">
+      <depend property="servlet.jar" project="jakarta-servletapi-4"/>
+    </ant>
+    <javadoc nested="dist/doc/doc/jndi-doc/javadoc"/>
+    <jar name="dist/jndi/lib/taglibs-jndi.jar"/>
+    <nag to="taglibs-dev@jakarta.apache.org"
+         from="Ted Husted &lt;ted@husted.com&gt;"/>
+  </project>
+
+  <project name="jakarta-taglibs-log">
+    <package>org.apache.taglibs.log</package>
+    <description>Log Taglib</description>
+    <ant basedir="log" target="dist">
+      <depend property="log4j-core.jar" project="jakarta-log4j"/>
+      <depend property="servlet.jar" project="jakarta-servletapi-4"/>
+    </ant>
+    <javadoc nested="dist/doc/doc/log-doc/javadoc"/>
+    <jar name="dist/log/lib/taglibs-log.jar"/>
+    <nag to="taglibs-dev@jakarta.apache.org"
+         from="Ted Husted &lt;ted@husted.com&gt;"/>
+  </project>
+
+  <project name="jakarta-taglibs-mailer">
+    <package>org.apache.taglibs.mailer</package>
+    <description>Mailer Taglib</description>
+    <ant basedir="mailer" target="dist">
+      <depend property="servlet.jar" project="jakarta-servletapi-4"/>
+    </ant>
     <depend project="jaf"/>
-    <work nested="dist/standard/lib/jstl.jar"/>
-    <work nested="dist/standard/lib/standard.jar"/>
+    <depend project="javamail"/>
+    <javadoc nested="dist/doc/doc/mailer-doc/javadoc"/>
+    <jar name="dist/mailer/lib/taglibs-mailer.jar"/>
+    <nag to="taglibs-dev@jakarta.apache.org"
+         from="Ted Husted &lt;ted@husted.com&gt;"/>
+  </project>
 
-    <javadoc nested="dist/doc/doc">
-      <description dir="application-doc/javadoc">application</description>
-      <description dir="benchmark-doc/javadoc">benchmark</description>
-      <description dir="bsf-doc/javadoc">bsf</description>
-      <description dir="cache-doc/javadoc">cache</description>
-      <description dir="datetime-doc/javadoc">datetime</description>
-      <description dir="dbtags-doc/javadoc">dbtags</description>
-      <description dir="i18n-doc/javadoc">i18n</description>
-      <description dir="input-doc/javadoc">input</description>
-      <description dir="io-doc/javadoc">io</description>
-      <description dir="jmstags-doc/javadoc">jmstags</description>
-      <description dir="jndi-doc/javadoc">jndi</description>
-      <description dir="log-doc/javadoc">log</description>
-      <description dir="mailer-doc/javadoc">mailer</description>
-      <description dir="page-doc/javadoc">page</description>
-      <description dir="random-doc/javadoc">random</description>
-      <description dir="regexp-doc/javadoc">regexp</description>
-      <description dir="request-doc/javadoc">request</description>
-      <description dir="response-doc/javadoc">response</description>
-      <description dir="scrape-doc/javadoc">scrape</description>
-      <description dir="session-doc/javadoc">session</description>
-      <description dir="standard-doc/javadoc">standard</description>
-      <description dir="string-doc/javadoc">string</description>
-      <description dir="ultradev4-doc/javadoc">ultradev4</description>
-      <description dir="utility-doc/javadoc">utility</description>
-      <description dir="xtags-doc/javadoc">xtags</description>
-    </javadoc>
+  <project name="jakarta-taglibs-page">
+    <package>org.apache.taglibs.page</package>
+    <description>Page Taglib</description>
+    <ant basedir="page" target="dist">
+      <depend property="servlet.jar" project="jakarta-servletapi-4"/>
+    </ant>
+    <javadoc nested="dist/doc/doc/page-doc/javadoc"/>
+    <jar name="dist/page/lib/taglibs-page.jar"/>
+    <nag to="taglibs-dev@jakarta.apache.org"
+         from="Ted Husted &lt;ted@husted.com&gt;"/>
+  </project>
 
-    <jar name="dist/application/taglibs-application.jar" id="application" />
-    <jar name="dist/benchmark/taglibs-benchmark.jar" id="benchmark" />
-    <jar name="dist/bsf/taglibs-bsf.jar" id="bsf" />
-    <jar name="dist/cache/taglibs-cache.jar" id="cache" />
-    <jar name="dist/datetime/taglibs-datetime.jar" id="datetime" />
-    <jar name="dist/dbtags/taglibs-dbtags.jar" id="dbtags" />
-    <jar name="dist/i18n/taglibs-i18n.jar" id="i18n" />
-    <jar name="dist/input/taglibs-input.jar" id="input" />
-    <jar name="dist/io/taglibs-io.jar" id="io" />
-    <jar name="dist/jmstags/taglibs-jmstags.jar" id="jmstags" />
-    <jar name="dist/jndi/taglibs-jndi.jar" id="jndi" />
+  <project name="jakarta-taglibs-random">
+    <package>org.apache.taglibs.random</package>
+    <description>Random Taglib</description>
+    <ant basedir="random" target="dist">
+      <depend property="servlet.jar" project="jakarta-servletapi-4"/>
+    </ant>
+    <javadoc nested="dist/doc/doc/random-doc/javadoc"/>
+    <jar name="dist/random/lib/taglibs-random.jar"/>
+    <nag to="taglibs-dev@jakarta.apache.org"
+         from="Ted Husted &lt;ted@husted.com&gt;"/>
+  </project>
+
+  <project name="jakarta-taglibs-regexp">
+    <package>org.apache.taglibs.regexp</package>
+    <description>Regexp Taglib</description>
+    <ant basedir="regexp" target="dist">
+      <depend property="jakarta-oro2.jar" project="jakarta-oro"/>
+      <depend property="servlet.jar" project="jakarta-servletapi-4"/>
+    </ant>
+    <javadoc nested="dist/doc/doc/regexp-doc/javadoc"/>
+    <jar name="dist/regexp/lib/taglibs-regexp.jar"/>
+    <nag to="taglibs-dev@jakarta.apache.org"
+         from="Ted Husted &lt;ted@husted.com&gt;"/>
+  </project>
+
+  <project name="jakarta-taglibs-request">
+    <package>org.apache.taglibs.request</package>
+    <description>Request Taglib</description>
+    <ant basedir="request" target="dist">
+      <depend property="servlet.jar" project="jakarta-servletapi-4"/>
+    </ant>
+    <javadoc nested="dist/doc/doc/request-doc/javadoc"/>
+    <jar name="dist/request/lib/taglibs-request.jar"/>
+    <nag to="taglibs-dev@jakarta.apache.org"
+         from="Ted Husted &lt;ted@husted.com&gt;"/>
+  </project>
+
+  <project name="jakarta-taglibs-response">
+    <package>org.apache.taglibs.response</package>
+    <description>Response Taglib</description>
+    <ant basedir="response" target="dist">
+      <depend property="servlet.jar" project="jakarta-servletapi-4"/>
+    </ant>
+    <javadoc nested="dist/doc/doc/response-doc/javadoc"/>
+    <jar name="dist/response/lib/taglibs-response.jar"/>
+    <nag to="taglibs-dev@jakarta.apache.org"
+         from="Ted Husted &lt;ted@husted.com&gt;"/>
+  </project>
+
+  <project name="jakarta-taglibs-scrape">
+    <package>org.apache.taglibs.scrape</package>
+    <description>Scrape Taglib</description>
+    <ant basedir="scrape" target="dist">
+      <depend property="servlet.jar" project="jakarta-servletapi-4"/>
+    </ant>
+    <javadoc nested="dist/doc/doc/scrape-doc/javadoc"/>
+    <jar name="dist/scrape/lib/taglibs-scrape.jar"/>
+    <nag to="taglibs-dev@jakarta.apache.org"
+         from="Ted Husted &lt;ted@husted.com&gt;"/>
+  </project>
+
+  <project name="jakarta-taglibs-session">
+    <package>org.apache.taglibs.session</package>
+    <description>Session Taglib</description>
+    <ant basedir="session" target="dist">
+      <depend property="servlet.jar" project="jakarta-servletapi-4"/>
+    </ant>
+    <javadoc nested="dist/doc/doc/session-doc/javadoc"/>
+    <jar name="dist/session/lib/taglibs-session.jar"/>
+    <nag to="taglibs-dev@jakarta.apache.org"
+         from="Ted Husted &lt;ted@husted.com&gt;"/>
+  </project>
+
+  <project name="jakarta-taglibs-session">
+    <package>org.apache.taglibs.session</package>
+    <description>Session Taglib</description>
+    <ant basedir="session" target="dist">
+      <depend property="servlet.jar" project="jakarta-servletapi-4"/>
+    </ant>
+    <javadoc nested="dist/doc/doc/session-doc/javadoc"/>
+    <jar name="dist/session/lib/taglibs-session.jar"/>
+    <nag to="taglibs-dev@jakarta.apache.org"
+         from="Ted Husted &lt;ted@husted.com&gt;"/>
+  </project>
+
+  <project name="jakarta-taglibs-standard">
+    <package>org.apache.taglibs.standard</package>
+    <description>Standard Taglib</description>
+    <ant basedir="standard" target="dist">
+      <depend property="dom.jar" project="jaxp" id="dom"/>
+      <depend property="jdbc2_0-stdext.jar" project="jdbc"/>
+      <depend property="jaxen-full.jar" project="jaxen"/>
+      <depend property="jaxp-api.jar" project="jaxp" id="jaxp-api"/>
+      <depend property="jxpath.jar" project="commons-jxpath"/>
+      <depend property="sax.jar" project="jaxp" id="sax"/>
+      <depend property="saxpath.jar" project="saxpath"/>
+      <depend property="servlet23.jar" project="jakarta-servletapi-4"/>
+      <depend property="xalan.jar" project="xml-xalan2"/>
+      <depend property="xercesImpl.jar" project="xml-xerces" id="parser"/>
+    </ant>
+    <javadoc nested="dist/doc/doc/standard-doc/javadoc"/>
     <jar name="dist/jsp20el/jsp20el.jar" id="jsp20el" />
-    <jar name="dist/log/taglibs-log.jar" id="log" />
-    <jar name="dist/mailer/taglibs-mailer.jar" id="mailer" />
-    <jar name="dist/page/taglibs-page.jar" id="page" />
-    <jar name="dist/random/taglibs-random.jar" id="random" />
-    <jar name="dist/regexp/taglibs-regexp.jar" id="regexp" />
-    <jar name="dist/request/taglibs-request.jar" id="request" />
-    <jar name="dist/response/taglibs-response.jar" id="response" />
-    <jar name="dist/scrape/taglibs-scrape.jar" id="scrape" />
-    <jar name="dist/session/taglibs-session.jar" id="session" />
     <jar name="dist/standard/lib/jstl.jar" id="jstl" />
     <jar name="dist/standard/lib/standard.jar" id="standard" />
-    <jar name="dist/string/taglibs-string.jar" id="string" />
-    <jar name="dist/utility/taglibs-utility.jar" id="utility" />
-    <jar name="dist/xtags/taglibs-xtags.jar" id="xtags" />
+    <nag to="taglibs-dev@jakarta.apache.org"
+         from="Ted Husted &lt;ted@husted.com&gt;"/>
+  </project>
 
+  <project name="jakarta-taglibs-string">
+    <package>org.apache.taglibs.string</package>
+    <description>String Taglib</description>
+    <ant basedir="string" target="dist">
+      <depend property="commons-lang.jar" project="commons-lang"/>
+      <depend property="servlet.jar" project="jakarta-servletapi-4"/>
+      <depend property="standard.jar" project="jakarta-taglibs-standard"
+        id="standard"/>
+    </ant>
+    <javadoc nested="dist/doc/doc/string-doc/javadoc"/>
+    <jar name="dist/string/lib/taglibs-string.jar"/>
+    <nag to="taglibs-dev@jakarta.apache.org"
+         from="Ted Husted &lt;ted@husted.com&gt;"/>
+  </project>
+
+  <project name="jakarta-taglibs-utility">
+    <package>org.apache.taglibs.utility</package>
+    <description>Utility Taglib</description>
+    <ant basedir="utility" target="dist">
+      <depend property="servlet.jar" project="jakarta-servletapi-4"/>
+    </ant>
+    <javadoc nested="dist/doc/doc/utility-doc/javadoc"/>
+    <jar name="dist/utility/lib/taglibs-utility.jar"/>
+    <nag to="taglibs-dev@jakarta.apache.org"
+         from="Ted Husted &lt;ted@husted.com&gt;"/>
+  </project>
+
+  <project name="jakarta-taglibs-xtags">
+    <package>org.apache.taglibs.xtags</package>
+    <description>XTags Taglib</description>
+    <ant basedir="xtags" target="dist">
+      <depend property="crimson.jar" project="xml-xerces" id="parser"/>
+      <depend property="dom4j.jar" project="dom4j"/>
+      <depend property="jaxp.jar" project="xml-xerces" id="apis"/>
+      <depend property="servlet.jar" project="jakarta-servletapi-4"/>
+      <depend property="xalan.jar" project="xml-xalan2"/>
+    </ant>
+    <javadoc nested="dist/doc/doc/xtags-doc/javadoc"/>
+    <jar name="dist/xtags/lib/taglibs-xtags.jar"/>
+    <nag to="taglibs-dev@jakarta.apache.org"
+         from="Ted Husted &lt;ted@husted.com&gt;"/>
+  </project>
+
+  <!-- Tool Extensions -->
+
+  <project name="jakarta-taglibs-ultradev4">
+    <package>org.apache.taglibs.ultradev4</package>
+    <description>UltraDev 4.0 Customer Tag Library Extension</description>
+    <ant basedir="tools/UltraDev/4.0/ctlx" target="dist">
+      <depend property="servlet.jar" project="jakarta-servletapi-4"/>
+      <depend property="xerces.jar" project="xml-xerces" id="parser"/>
+    </ant>
+    <javadoc nested="dist/doc/doc/ultradev4-doc/javadoc"/>
+    <nag to="taglibs-dev@jakarta.apache.org"
+         from="Ted Husted &lt;ted@husted.com&gt;"/>
+  </project>
+
+  <!-- Documentation -->
+
+  <project name="jakarta-taglibs-documentation">
+    <package>org.apache.taglibs</package>
+    <ant target="dist.documentation"/>
+    <depend project="xml-xalan2"/>
     <nag to="taglibs-dev@jakarta.apache.org"
          from="Ted Husted &lt;ted@husted.com&gt;"/>
   </project>
