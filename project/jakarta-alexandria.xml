@@ -16,7 +16,7 @@
     <depend project="castor"/>
   </project>
   
-  <project name="maven">
+  <!-- project name="maven">
     <ant basedir="proposal/maven" target="jar">
       <depend name="velocity.jar" project="jakarta-velocity"/>
       <depend name="commons-digester.jar" project="commons-digester"/>
@@ -31,7 +31,7 @@
 
     <home nested="proposal/maven"/>
     <jar name="bin/maven-@@DATE@@.jar"/>
-  </project>
+  </project -->
   
   <project name="vindico">
     <ant basedir="proposal/vindico" target="dist">

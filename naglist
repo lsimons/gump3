@@ -401,11 +401,11 @@ From: Geir Magnusson Jr. <geirm@apache.org>
 Subject: [GUMP] Test Failure - Velocity
 Regex: /BUILD FAILED/
 ------
-Project: maven
-To: alexandria-dev@jakarta.apache.org
-From: Sam Ruby <rubys@us.ibm.com>
-Subject: [GUMP] Build Failure - Maven
-Regex: /BUILD FAILED/
+# Project: maven
+# To: alexandria-dev@jakarta.apache.org
+# From: Sam Ruby <rubys@us.ibm.com>
+# Subject: [GUMP] Build Failure - Maven
+# Regex: /BUILD FAILED/
 ------
 Project: scarab
 To: dev@scarab.tigris.org
