@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/syndication/rss.py,v 1.3 2003/12/05 15:13:21 ajack Exp $
-# $Revision: 1.3 $
-# $Date: 2003/12/05 15:13:21 $
+# $Header: /home/stefano/cvs/gump/python/gump/syndication/rss.py,v 1.4 2003/12/06 01:42:29 ajack Exp $
+# $Revision: 1.4 $
+# $Date: 2003/12/06 01:42:29 $
 #
 # ====================================================================
 #
@@ -285,7 +285,30 @@ class RSSSyndicator(Syndicator):
                     moduleURL,	\
                     escape(module.getDescription()), \
                     self.gumpImage))
+                      
+        s=module.getStats()
+        datestr=time.strftime('%Y-%m-%d')
+        timestr=time.strftime('%H:%M:%S')
+         
+        #           
+        # Get a decent description
+        #
+        content=self.getModuleContent(module,self.run)
+                        
+        #
+        #
+        #
+        item=Item(('%s %s %s') % (module.getName(),module.getStateDescription(),datestr), \
+                  moduleURL, \
+                  content, \
+                  module.getName(), \
+                  ('%sT%s%s') % (datestr,timestr,TZ))
         
+        # Generate changes
+        if not s.currentState == STATE_NONE and	\
+            not s.currentState == STATE_UNSET:   
+            moduleRSS.addItem(item)  
+            
         for project in module.getProjects():  
             self.syndicateProject(project,moduleRSS,mainRSS)      
                   

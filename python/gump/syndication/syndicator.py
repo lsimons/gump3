@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/syndication/syndicator.py,v 1.2 2003/12/05 12:25:54 ajack Exp $
-# $Revision: 1.2 $
-# $Date: 2003/12/05 12:25:54 $
+# $Header: /home/stefano/cvs/gump/python/gump/syndication/syndicator.py,v 1.3 2003/12/06 01:42:29 ajack Exp $
+# $Revision: 1.3 $
+# $Date: 2003/12/06 01:42:29 $
 #
 # ====================================================================
 #
@@ -113,13 +113,13 @@ class Syndicator:
                                     + stateName(stats.previousState)  \
                                     + '\n\n'
     
-        self.addSundries(project,content)
+        content += self.addSundries(project)
                 
         return content
 
     
 
-    def getModuletContent(self,module,run):
+    def getModuleContent(self,module,run):
         
         resolver=self.run.getOptions().getResolver()
         
@@ -141,11 +141,13 @@ class Syndicator:
                                     + stateName(stats.previousState)  \
                                     + '\n\n'
     
-        self.addSundries(module,content)
+        content += self.addSundries(module)
                 
         return content
 
-    def addSundries(self,object,content):
+    def addSundries(self,object):
+        
+        content = ''
         
         resolver=self.run.getOptions().getResolver()    
         
@@ -169,6 +171,8 @@ class Syndicator:
             content += '<table>'
             
         content += '\n\n\n<img alt=\'Brought to you by Jakarta Gump\' src=\'http://jakarta.apache.org/gump/images/bench.png\'/>'
+        
+        return content
               
 def syndicate(run):
     
