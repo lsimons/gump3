@@ -31,7 +31,7 @@
   <option project="jta"/> <!-- needed for javadoc purposes only -->
 
   <home nested="bin"/>
-  <jar name="turbine-gump"/>
+  <jar name="turbine-gump.jar"/>
 
   <project name="torque">
     <depend project="jakarta-ant"/>
