@@ -170,7 +170,7 @@ def seedForrest(workspace,context):
     forrestSeed=Cmd('cp','forrest_seed',forrest)
     forrestSeed.addParameter('-Rf')
     forrestSeed.addParameter(forrestTemplate)    
-    forrestSeed.addParameter(workspace.basedir)    
+    forrestSeed.addParameter(os.path.abspath(workspace.basedir))    
     forrestSeedResult=execute(forrestSeed)
     work=CommandWorkItem(WORK_TYPE_DOCUMENT,forrestSeed,forrestSeedResult)
     context.performedWork(work)
@@ -215,6 +215,14 @@ def executeForrest(workspace,context):
 
     #forrest.addPrefixedParameter('-D','project.skinconf', \
     #    getWorkspaceSiteDir(workspace), '=' )
+    
+    # A sneak preview ... 
+    work=CommandWorkItem(WORK_TYPE_DOCUMENT,forrest)
+    context.performedWork(work)
+    
+    #
+    # Do the actual work...
+    #
     forrestResult=execute(forrest)
 
     # Update Context    
@@ -296,8 +304,8 @@ def documentWorkspace(workspace,context,db,moduleFilterList=None,projectFilterLi
     endSectionXDoc(x)       
     
     x.write('<p><strong>Context Tree:</strong> <link href=\'context.html\'>context</link></p>')
-    x.write('<p><strong>Workspace Config:</strong> <link href=\'xml.txt\'>XML</link></p>')
-    x.write('<p><strong>RSS :</strong> <link href=\'index.rss\'>News Feed</link></p>')
+    # x.write('<p><strong>Workspace Config:</strong> <link href=\'xml.txt\'>XML</link></p>')
+    # x.write('<p><strong>RSS :</strong> <link href=\'index.rss\'>News Feed</link></p>')
     
     documentWorkList(x,workspace,context.worklist,'Workspace-level Work',wdir)
      
@@ -382,7 +390,7 @@ def documentModule(workspace,wdir,modulename,modulecontext,db,projectFilterList=
     startSectionXDoc(x,'Module Details')
     startListXDoc(x)
     addItemXDoc(x,"Status: " + stateName(modulecontext.status))
-    if modulecontext.cause:
+    if modulecontext.cause and not modulecontext==modulecontext.cause:
         addItemXDoc(x, "Cause:", "<link href='%s'>%s</link>" % \
             (getContextUrl(modulecontext.cause), \
                 modulecontext.cause.name))    
@@ -432,7 +440,7 @@ def documentProject(workspace,modulename,mdir,projectname,projectcontext,db):
     startSectionXDoc(x,'Details')
     startListXDoc(x)
     addItemXDoc(x,"Status: ", stateName(projectcontext.status))  
-    if projectcontext.cause:
+    if projectcontext.cause and not projectcontext==projectcontext.cause:
         addItemXDoc(x,"Cause:", "<link href='%s'>%s</link>" % \
             (getContextUrl(projectcontext.cause), projectcontext.cause.name))
     addItemXDoc(x,"Elapsed: ", str(projectcontext.elapsedSecs()))
@@ -453,7 +461,8 @@ def documentProject(workspace,modulename,mdir,projectname,projectcontext,db):
         startSectionXDoc(x,"Project Dependencies")
         startListXDoc(x)
         for depend in projectcontext.depends:
-          addItemXDoc(x,depend.name)
+          addItemXDoc(x,"<link href='%s'>%s</link>" % \
+                (getContextUrl(depend), depend.name))
         endListXDoc(x)
         endSectionXDoc(x)
             
@@ -461,7 +470,8 @@ def documentProject(workspace,modulename,mdir,projectname,projectcontext,db):
         startSectionXDoc(x,"Optional Project Dependencies")
         startListXDoc(x)
         for option in projectcontext.options:
-          addItemXDoc(x,option.name)
+           addItemXDoc(x,"<link href='%s'>%s</link>" % \
+                (getContextUrl(option), option.name))
         endListXDoc(x)
         endSectionXDoc(x)
                       
@@ -469,15 +479,17 @@ def documentProject(workspace,modulename,mdir,projectname,projectcontext,db):
         startSectionXDoc(x,"Project Dependees")
         startListXDoc(x)
         for depend in projectcontext.dependees:
-          addItemXDoc(x,depend.name)
+          addItemXDoc(x,"<link href='%s'>%s</link>" % \
+                (getContextUrl(depend), depend.name))
         endListXDoc(x)
         endSectionXDoc(x)
             
     if projectcontext.optionees:
         startSectionXDoc(x,"Optional Project Dependees")
         startListXDoc(x)
-        for option in projectcontext.optionees:
-          addItemXDoc(x,option.name)
+        for option in projectcontext.optionees:        
+           addItemXDoc(x,"<link href='%s'>%s</link>" % \
+                (getContextUrl(option), option.name))
         endListXDoc(x)
         endSectionXDoc(x)
                   
@@ -776,52 +788,52 @@ def documentModulesByFOGFactor(stats,sdir,moduleFilterList=None):
 #    return sdir    
     
 def getForrestTemplateDir():
-    fdir=os.path.normpath(os.path.join(dir.template,'forrest'))
+    fdir=os.path.abspath(os.path.join(dir.template,'forrest'))
     return fdir  
     
 def getForrestSiteTemplateDir():
-    fdir=os.path.normpath(os.path.join(dir.template,'site-forrest'))
+    fdir=os.path.abspath(os.path.join(dir.template,'site-forrest'))
     return fdir  
       
 def getForrestDir(workspace):
-    fdir=os.path.normpath(os.path.join(workspace.basedir,'forrest'))
+    fdir=os.path.abspath(os.path.join(workspace.basedir,'forrest'))
     if not os.path.exists(fdir): os.mkdir(fdir)
     return fdir  
     
 def getContentDir(workspace,forrestdir=None):
     fdir=forrestdir or getForrestDir(workspace)
-    cdir=os.path.normpath(os.path.join(fdir,'content'))
+    cdir=os.path.abspath(os.path.join(fdir,'content'))
     if not os.path.exists(cdir): os.mkdir(cdir)
     return cdir  
     
 def getWorkspaceDir(workspace,contentdir=None):
     cdir = contentdir or getContentDir(workspace)
-    xdir=os.path.normpath(os.path.join(getContentDir(workspace),'xdocs'))
+    xdir=os.path.abspath(os.path.join(getContentDir(workspace),'xdocs'))
     if not os.path.exists(xdir): os.mkdir(xdir)
     return xdir  
     
 def getStatisticsDir(workspace,workspacedir=None):
     wdir=workspacedir or getWorkspaceDir(workspace)
-    sdir=os.path.normpath(os.path.join(wdir,'gump_stats'))
+    sdir=os.path.abspath(os.path.join(wdir,'gump_stats'))
     if not os.path.exists(sdir): os.mkdir(sdir)
     return sdir
     
 def getXRefDir(workspace,workspacedir=None):
     wdir=workspacedir or getWorkspaceDir(workspace)
-    xdir=os.path.normpath(os.path.join(wdir,'xref'))
+    xdir=os.path.abspath(os.path.join(wdir,'xref'))
     if not os.path.exists(xdir): os.mkdir(xdir)
     return xdir
     
 def getModuleDir(workspace,modulename,workspacedir=None):
     mdir=gumpSafeName(modulename)
     if not workspacedir: workspacedir = getWorkspaceDir(workspace)
-    xdir=os.path.normpath(os.path.join(workspacedir,mdir))
+    xdir=os.path.abspath(os.path.join(workspacedir,mdir))
     if not os.path.exists(xdir): os.mkdir(xdir)
     return xdir
 
 def getWorkDir(rootdir,type):
     tdir=gumpSafeName(lower(workTypeName(type)))
-    wdir=os.path.normpath(os.path.join(rootdir,tdir))
+    wdir=os.path.abspath(os.path.join(rootdir,tdir))
     if not os.path.exists(wdir): os.mkdir(wdir)
     return wdir    
  

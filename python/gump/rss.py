@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/Attic/rss.py,v 1.5 2003/09/09 23:37:48 ajack Exp $
-# $Revision: 1.5 $
-# $Date: 2003/09/09 23:37:48 $
+# $Header: /home/stefano/cvs/gump/python/gump/Attic/rss.py,v 1.6 2003/09/10 21:43:54 ajack Exp $
+# $Revision: 1.6 $
+# $Date: 2003/09/10 21:43:54 $
 #
 # ====================================================================
 #
@@ -113,11 +113,10 @@ def rss(workspace,context):
                     s=db.getProjectStats(pctxt.name)
                     
                     # State changes that are newsworthy...
-                    # :TODO: Remove 1, this is for testing...
-                    #if not s.currentState == s.previousState \
-                    #  and not s.currentState == STATUS_PREREQ_FAILURE \
-                    #  and not s.currentState == STATUS_COMPLETE :
-                    if 1:
+                    if not s.currentState == s.previousState \
+                        and not s.currentState == STATUS_PREREQ_FAILURE \
+                        and not s.currentState == STATUS_NONE \
+                        and not s.currentState == STATUS_COMPLETE :
                         project=pctxt.project
                             
                         log.info("RSS written for " + pctxt.name); 

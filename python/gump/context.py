@@ -206,7 +206,8 @@ class TimedWorkItem(WorkItem):
         
 class CommandWorkItem(TimedWorkItem):
     """ Unit of Work"""
-    def __init__(self,type,command,result,message=''):
+    def __init__(self,type,command,result=None,message=''):
+        if not result: result=CmdResult(command)
         TimedWorkItem.__init__(self,type,commandStatusToWorkStatus(result.status),result.elapsed,message)
         self.command=command
         self.result=result
