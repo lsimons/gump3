@@ -23,76 +23,76 @@ REM ********************************************************************
 echo Merging projects into workspace
 if exist classes rmdir /s /q classes
 mkdir classes
-timex javac -d classes java/*.java
+javac -d classes java/*.java
 if errorlevel 1 goto fail
 jar cf jenny.jar -C classes .
 if errorlevel 1 goto fail
 echo.
-timex java -Duser.home=%HOME% -classpath jenny.jar;%CLASSPATH% Jenny %SOURCE%
+java -Duser.home=%HOME% -classpath jenny.jar;%CLASSPATH% Jenny %SOURCE%
 if not errorlevel 0 goto fail
 
 REM ********************************************************************
 
 echo Generating checkout instructions
-timex java org.apache.xalan.xslt.Process -xml -in work\sorted.xml -xsl stylesheet\update.xsl -out work\update.xml
+java org.apache.xalan.xslt.Process -xml -in work\sorted.xml -xsl stylesheet\update.xsl -out work\update.xml
 if not errorlevel 0 goto fail
 
 echo Applying web site stylesheet
-timex java org.apache.xalan.xslt.Process -EDUMP -xml -in work\update.xml -xsl stylesheet\jakarta.xsl -out work\updatesite.xml
+java org.apache.xalan.xslt.Process -EDUMP -xml -in work\update.xml -xsl stylesheet\jakarta.xsl -out work\updatesite.xml
 if not errorlevel 0 goto fail
 
 echo Generating update script
-timex java org.apache.xalan.xslt.Process -EDUMP -text -in work\updatesite.xml -xsl stylesheet\win2k.xsl -out work\update.bat
+java org.apache.xalan.xslt.Process -EDUMP -text -in work\updatesite.xml -xsl stylesheet\win2k.xsl -out work\update.bat
 if not errorlevel 0 goto fail
 
 REM ********************************************************************
 
 echo Generating build definition
-timex java org.apache.xalan.xslt.Process -EDUMP -indent 2 -xml -in work\sorted.xml -xsl stylesheet\build.xsl -out work\build.xml
+java org.apache.xalan.xslt.Process -EDUMP -indent 2 -xml -in work\sorted.xml -xsl stylesheet\build.xsl -out work\build.xml
 if not errorlevel 0 goto fail
 
 echo Applying web site stylesheet
-timex java org.apache.xalan.xslt.Process -EDUMP -xml -in work\build.xml -xsl stylesheet\jakarta.xsl -out work\buildsite.xml
+java org.apache.xalan.xslt.Process -EDUMP -xml -in work\build.xml -xsl stylesheet\jakarta.xsl -out work\buildsite.xml
 if not errorlevel 0 goto fail
 
 echo Generating build script
-timex java org.apache.xalan.xslt.Process -EDUMP -text -in work\buildsite.xml -xsl stylesheet\win2k.xsl -out work\build.bat
+java org.apache.xalan.xslt.Process -EDUMP -text -in work\buildsite.xml -xsl stylesheet\win2k.xsl -out work\build.bat
 if not errorlevel 0 goto fail
 
 REM ********************************************************************
 
 echo Generate crossreference data
-timex java org.apache.xalan.xslt.Process -xml -in work\merge.xml -xsl stylesheet\xref.xsl -out work\xref.xml
+java org.apache.xalan.xslt.Process -xml -in work\merge.xml -xsl stylesheet\xref.xsl -out work\xref.xml
 if not errorlevel 0 goto fail
 
 echo Applying web site stylesheet
-timex java org.apache.xalan.xslt.Process -EDUMP -xml -in work\xref.xml -xsl stylesheet\jakarta.xsl -out work\xrefsite.xml
+java org.apache.xalan.xslt.Process -EDUMP -xml -in work\xref.xml -xsl stylesheet\jakarta.xsl -out work\xrefsite.xml
 if not errorlevel 0 goto fail
 
 echo Generating xref script
-timex java org.apache.xalan.xslt.Process -EDUMP -text -in work\xrefsite.xml -xsl stylesheet\win2k.xsl -out work\xref.bat
+java org.apache.xalan.xslt.Process -EDUMP -text -in work\xrefsite.xml -xsl stylesheet\win2k.xsl -out work\xref.bat
 if not errorlevel 0 goto fail
 
 REM ********************************************************************
 
 echo Generate script to publish all xml source files
-timex java org.apache.xalan.xslt.Process -text -in work\merge.xml -xsl stylesheet\win2k.xsl -out work\puball.bat
+java org.apache.xalan.xslt.Process -text -in work\merge.xml -xsl stylesheet\win2k.xsl -out work\puball.bat
 if not errorlevel 0 goto fail
 
 echo Generate template for publishing an xml source file
-timex java org.apache.xalan.xslt.Process -xml -in work\merge.xml -xsl stylesheet\publish.xsl -out work\publish.xml
+java org.apache.xalan.xslt.Process -xml -in work\merge.xml -xsl stylesheet\publish.xsl -out work\publish.xml
 if not errorlevel 0 goto fail
 
 echo Applying web site stylesheet
-timex java org.apache.xalan.xslt.Process -EDUMP -xml -in work\publish.xml -xsl stylesheet\jakarta.xsl -out work\pubsite.xml
+java org.apache.xalan.xslt.Process -EDUMP -xml -in work\publish.xml -xsl stylesheet\jakarta.xsl -out work\pubsite.xml
 if not errorlevel 0 goto fail
 
 echo Generating publish script
-timex java org.apache.xalan.xslt.Process -EDUMP -text -in work\pubsite.xml -xsl stylesheet\win2k.xsl -out work\publish.bat
+java org.apache.xalan.xslt.Process -EDUMP -text -in work\pubsite.xml -xsl stylesheet\win2k.xsl -out work\publish.bat
 if not errorlevel 0 goto fail
 
 echo Generate editing instructions
-timex java org.apache.xalan.xslt.Process -text -in work\merge.xml -xsl stylesheet\sedmap.xsl -out work\map.pl
+java org.apache.xalan.xslt.Process -text -in work\merge.xml -xsl stylesheet\sedmap.xsl -out work\map.pl
 if not errorlevel 0 goto fail
 
 REM ********************************************************************
