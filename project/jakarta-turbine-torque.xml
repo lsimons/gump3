@@ -35,6 +35,6 @@
   <depend project="jdbc"/>
 
   <home nested="bin"/>
-  <jar name="torque-gump.jar"/>
+  <jar id="torque" name="torque-gump.jar"/>
 
 </project>

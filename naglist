@@ -339,6 +339,12 @@ From: Sam Ruby <rubys@us.ibm.com>
 Subject: [GUMP] Xalan2 Smoketest Failure
 Regex: /BUILD FAILED/
 ------
+Project: xml-xalan2-smoketest-tools
+To: xalan-dev@xml.apache.org
+From: Sam Ruby <rubys@us.ibm.com>
+Subject: [GUMP] Xalan2 Smoketest Failure
+Regex: /BUILD FAILED/
+------
 Project: xml-xerces
 To: xerces-j-dev@xml.apache.org
 From: Sam Ruby <rubys@us.ibm.com>

@@ -11,6 +11,8 @@
   <depend project="xml-xerces"/>
   <option project="xml-xalan2"/>
   <option project="xml-stylebook2"/>
+  <option project="xml-xalan1-compat"/>
+  <option project="junit"/>
 
   <ant target="dist-lite">
     <property name="ant.home" reference="home" project="jakarta-ant"/>
@@ -24,6 +26,7 @@
     <depend project="bootstrap-ant"/>
     <depend project="xml-xerces"/>
     <option project="xml-xalan2"/>
+    <option project="xml-xalan1-compat"/>
     <option project="xml-stylebook1"/>
     <option project="bsf"/>
     <option project="junit"/>

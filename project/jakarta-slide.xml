@@ -38,7 +38,7 @@
   <option project="jmx"/>
   <option project="junit"/>
   <option project="jakarta-log4j"/>
-  <option project="jakarta-tomcat-4.0"/>
+  <depend project="jakarta-tomcat-4.0"/>
   <depend project="commons-httpclient"/>
 
   <work nested="build/classes"/>

@@ -28,6 +28,17 @@
     <jar  name="xalanj1compat.jar" id="xalan1"/>
   </project>
 
+  <project name="xml-xalan2-smoketest-tools">
+    <description>
+      Xalan's independent 'qetest' testing framework
+    </description>
+
+    <ant basedir="test" buildfile="qetest.xml" target="jar"/>
+
+    <depend project="jakarta-ant"/>
+    <depend project="xml-xerces"/>
+  </project>
+
   <project name="dist-xalan2">
     <url href="http://xml.apache.org/xalan-j/index.html"/>
     <description>
@@ -52,6 +63,7 @@
     <depend project="bcel"/>
     <depend project="java_cup"/>
     <depend project="jlex"/>
+    <depend project="xml-xalan2-smoketest-tools"/>
     <work nested="java/build/classes"/>
 
     <home nested="java/build/xalan-j_gump"/>
