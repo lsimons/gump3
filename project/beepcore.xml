@@ -1,0 +1,26 @@
+<module name="beepcore">
+
+  <url  href="http://www.beepcore.org/"/>
+  <description>
+    BEEP is a new Internet standards-track protocol
+  </description>
+
+  <cvs repository="sourceforge" host-prefix="cvs.beepcore" 
+    module="beepcore-java" dir="beepcore-java"/>
+  
+  <project name="beepcore">
+    <package>org.beepcore</package>
+
+    <ant>
+      <property name="version" value="@@DATE@@"/>
+    </ant>
+
+    <depend project="jakarta-ant"/>
+    <depend project="xml-xerces"/>
+    <depend project="jsse"/>
+
+    <home nested="build/beepcore-@@DATE@@"/>
+    <jar name="lib/beepcore.jar"/>
+  </project>
+
+</module>
