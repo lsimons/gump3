@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/model/project.py,v 1.6 2003/11/19 19:43:53 ajack Exp $
-# $Revision: 1.6 $
-# $Date: 2003/11/19 19:43:53 $
+# $Header: /home/stefano/cvs/gump/python/gump/model/project.py,v 1.7 2003/11/19 23:27:17 ajack Exp $
+# $Revision: 1.7 $
+# $Date: 2003/11/19 23:27:17 $
 #
 # ====================================================================
 #
@@ -994,7 +994,7 @@ class ProjectSummary:
         # Stand up and be counted
         if state.isSuccess():
             self.successes+=1
-        elif state.isPreqFailed():
+        elif state.isPrereqFailed():
             self.prereqs+=1
         elif state.isFailed():
             self.failures+=1
