@@ -138,6 +138,7 @@
 
     <depend project="jakarta-ant" inherit="all"/>
     
+    <home nested="proposal/embed"/>
     <jar name="build/ant-sax2.jar" id="embed"/>
 
     <nag to="ant-dev@jakarta.apache.org"
