@@ -65,7 +65,7 @@
 
     <depend project="deli"/>
     <depend project="javamail"/>
-    <depend project="jaxen"/>
+    <depend project="jaxen" inherit="runtime"/>
     <depend project="jing"/>
     <depend project="jstyle"/>
     <depend project="maybeupload"/>
