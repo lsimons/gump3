@@ -301,6 +301,8 @@
     <!-- ant taglib and dependencies used in tests -->
     <depend project="commons-jelly-tags-ant"/>
     <depend project="commons-grant"/>
+    <depend project="commons-jelly-tags-junit" inherit="all"/>
+    <depend project="commons-jelly-tags-log" inherit="all"/>
 
     <work nested="jelly/jelly-tags/jsl/target/classes"/>
     <work nested="jelly/jelly-tags/jsl/target/test-classes"/>
