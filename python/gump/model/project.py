@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/model/project.py,v 1.43 2004/02/10 20:53:39 ajack Exp $
-# $Revision: 1.43 $
-# $Date: 2004/02/10 20:53:39 $
+# $Header: /home/stefano/cvs/gump/python/gump/model/project.py,v 1.44 2004/02/10 21:07:00 ajack Exp $
+# $Revision: 1.44 $
+# $Date: 2004/02/10 21:07:00 $
 #
 # ====================================================================
 #
@@ -488,7 +488,7 @@ class Project(NamedModelObject, Statable):
         if self.hasJars():
             if 1 == self.getJarCount():
                 if not self.getJarAt(0).hasId():
-                    self.getJarAt(0).setId(self,getName())    
+                    self.getJarAt(0).setId(self.getName())    
             else:
                 #
                 # :TODO: A work in progress, not sure how
