@@ -212,7 +212,7 @@
            package="MultipartRequest120"/>
   <project name="relaxng"        package="relaxngDatatype-1.0"/>
   <project name="resolver"       package="resolver-0_2"/>
-  <project name="swt"            package="swt"/>
+  <project name="swt"            package="swt2.0.1"/>
   <project name="tranquilo"      package="xsdlib-20010424"/>
 
   <!-- CVS Repository definitions -->
