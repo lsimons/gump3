@@ -123,6 +123,14 @@ call work\move.bat
 goto eof
 :fail
 echo *** FAILED ***
+
 :eof
+
+:localcheck
+echo.
+echo Checking for local dependencies in %SOURCE%
+echo NOTE: This will let the generation fail!
+echo.
+java "-Duser.home=%HOME%" -classpath "jenny.jar;%CLASSPATH%" LocalCheck %SOURCE%
 
 ENDLOCAL
