@@ -16,7 +16,7 @@
 
 
 """
-    xdoc generation, for forrest
+    XDOC generation, for Forrest
 """
 
 import socket
@@ -80,6 +80,12 @@ class ForrestDocumenter(Documenter):
         
     def documentEntity(self, entity, run):
         
+        # :TODO: A work in progress
+        # 1) Document entity (in realtime so no lookahead links)
+        # 2) sync appropriate directory
+        # 3) update build log        
+        # 4) sync biuld log
+        
         verbose=run.getOptions().isVerbose()
         debug=run.getOptions().isDebug()
         
@@ -88,12 +94,8 @@ class ForrestDocumenter(Documenter):
         elif isinstance(entity,Module):
             pass
         elif  isinstance(entity,Project):
-            pass
+            self.documentBuildLog(run,entity.getWorkspace(),run.getGumpSet(),1)
             
-        # :TODO: A work in progress
-        # 1) Document entityi (in realtime so no lookahead links)
-        # 2) Sync
-        # 3) update build log        
     
     def documentRun(self, run):
     
@@ -227,8 +229,7 @@ class ForrestDocumenter(Documenter):
                 #
                 syncDirectories(stagingDirectory,logDirectory)
                 
-                # :TODO: Don't clean-up yet, testing...
-                cleanUp=0                
+                cleanUp=1                
                 if cleanUp:
                     # 
                     # Clean up
@@ -264,8 +265,7 @@ class ForrestDocumenter(Documenter):
             #
             syncDirectories(workContents,logContents)
             
-            # :TODO: Don't clean-up yet, testing...
-            cleanUp=0                
+            cleanUp=1                
             if cleanUp:
                     
                 # 
@@ -357,12 +357,6 @@ class ForrestDocumenter(Documenter):
     #      
     def documentWorkspace(self,run,workspace,gumpSet):
         
-        # Pretty sorting...
-        sortedModuleList=createOrderedList(gumpSet.getModuleSequence())
-        sortedProjectList=createOrderedList(gumpSet.getProjectSequence())
-        sortedRepositoryList=createOrderedList(gumpSet.getRepositories())        
-        sortedServerList=createOrderedList(workspace.getServers())       
-        sortedTrackerList=createOrderedList(workspace.getTrackers())
         
         #
         # ----------------------------------------------------------------------
@@ -476,6 +470,67 @@ class ForrestDocumenter(Documenter):
         self.documentWorkList(run,document,workspace,'Workspace-level Work')
      
         document.serialize()
+    
+        document=None
+        
+        self.documentRepositories(run,workspace,gumpSet)
+        self.documentServers(run,workspace,gumpSet)
+        self.documentTrackers(run,workspace,gumpSet)
+        self.documentBuildLog(run,workspace,gumpSet)
+        self.documentNotesLog(run,workspace,gumpSet)
+        self.documentDiffsLog(run,workspace,gumpSet)
+        self.documentProjects(run,workspace,gumpSet)
+        self.documentModules(run,workspace,gumpSet)
+        self.documentPackages(run,workspace,gumpSet)
+            
+   
+        #
+        # Document individual repositories
+        #
+        for repo in workspace.getRepositories():            
+            if not gumpSet.inRepositories(repo): continue
+            self.documentRepository(run,repo,workspace,gumpSet)
+            
+        #
+        # Document individual servers
+        #
+        for server in workspace.getServers():            
+            self.documentServer(run,server,workspace,gumpSet)
+            
+        #
+        # Document individual trackers
+        #
+        for tracker in workspace.getTrackers():            
+            self.documentTracker(run,tracker,workspace,gumpSet)
+            
+        #
+        # Document individual modules
+        #
+        for module in workspace.getModules():
+            if not gumpSet.inModuleSequence(module): continue  
+            self.documentModule(run,module,workspace,gumpSet)
+            
+        # Document workspace 'Text'
+        document=XDocDocument('Context',self.resolver.getFile(workspace,'context.xml'))
+        stream=StringIO.StringIO() 
+        texter=TextDocumenter(stream)  
+        texter.document(run)
+        stream.seek(0)
+        document.createSource(stream.read())
+        stream.close()
+        document.serialize()
+            
+        if not workspace.private:
+            # Document the workspace XML    
+            document=XDocDocument('Definition',self.resolver.getFile(workspace,'workspace.xml'))
+            stream=StringIO.StringIO() 
+            xmlize('workspace',workspace.xml,stream)
+            stream.seek(0)
+            document.createSource(stream.read())
+            stream.close()
+            document.serialize()            
+            
+    def documentRepositories(self,run,workspace,gumpSet):        
           
         #
         # ----------------------------------------------------------------------
@@ -488,7 +543,10 @@ class ForrestDocumenter(Documenter):
         
         reposSection=document.createSection('All Repositories')
         reposTable=reposSection.createTable(['Name'])
-
+        
+        # Pretty sorting...
+        sortedRepositoryList=createOrderedList(gumpSet.getRepositories())        
+        
         rcount=0
         for repo in sortedRepositoryList:
             if not gumpSet.inRepositories(repo): continue
@@ -504,6 +562,8 @@ class ForrestDocumenter(Documenter):
         
         document.serialize()
        
+    def documentServers(self,run,workspace,gumpSet):   
+    
         #
         # ----------------------------------------------------------------------
         #
@@ -515,6 +575,8 @@ class ForrestDocumenter(Documenter):
         serversSection=document.createSection('All Servers')
         serversTable=serversSection.createTable(['Name','Status','Notes','Results','Start (Local)','Start (UTC)','End (UTC)','Offset (from UTC)'])
 
+        sortedServerList=createOrderedList(workspace.getServers())       
+        
         scount=0
         for server in sortedServerList:
             
@@ -558,6 +620,7 @@ class ForrestDocumenter(Documenter):
         
         document.serialize()
        
+    def documentTrackers(self,run,workspace,gumpSet): 
         #
         # ----------------------------------------------------------------------
         #
@@ -568,7 +631,9 @@ class ForrestDocumenter(Documenter):
                 
         trackersSection=document.createSection('All Trackers')
         trackersTable=trackersSection.createTable(['Name'])
-
+        
+        sortedTrackerList=createOrderedList(workspace.getTrackers())
+        
         scount=0
         for tracker in sortedTrackerList:
             
@@ -583,21 +648,64 @@ class ForrestDocumenter(Documenter):
         
         document.serialize()
        
+    def documentBuildLog(self,run,workspace,gumpSet,realTime=0): 
         #
         # ----------------------------------------------------------------------
         #
-        # buildLog.xml -- Projects in build order
+        # buildLog.xml -- Modules/Projects in build order
         #
-        document=XDocDocument('Project Build Log',	\
+        document=XDocDocument('Gump Build Log',	\
                 self.resolver.getFile(workspace,'buildLog'))        
         self.documentSummary(document, workspace.getProjectSummary())
+                
+        #
+        # Modules...
+        #        
+        modulesSection=document.createSection('Modules (in update order)')
+        modulesTable=modulesSection.createTable(['Updated','Name','State','Duration\nin state','Last Modified','Notes'])
+        mcount=0
+        for module in gumpSet.getModuleSequence():
+            # :TODO: Next line irrelevent?
+            if not gumpSet.inModuleSequence(module): continue   
+            
+            if realTime and module.isUnset(): continue
+            
+            mcount+=1
+    
+            moduleRow=modulesTable.createRow()            
+            moduleRow.createComment(module.getName())  
+            
+            moduleRow.createData(secsToTime(module.getStartSecs()))         
+                        
+            self.insertLink(module,workspace,moduleRow.createData())   
+            self.insertStateIcon(module,workspace,moduleRow.createData())      
+            moduleRow.createData(module.getStats().sequenceInState)    
+            moduleRow.createData(	\
+                getGeneralSinceDescription(	\
+                    module.getStats().getLastUpdated()))
+                    
+            notes=''
+            if module.isVerbose():
+                if notes: notes += ' '
+                notes += 'Verbose'
+            if module.isDebug():
+                if notes: notes += ' '
+                notes += 'Debug'            
+            moduleRow.createData(notes) 
+                
+        if not mcount: modulesTable.createLine('None')
         
+        #
+        # Projects...
+        #
         projectsSection=document.createSection('Projects (in build order)')
-        projectsTable=projectsSection.createTable(['Time','Updated','Name','Project State','Duration\nin state','Last Modified','Notes'])
+        projectsTable=projectsSection.createTable(['Time','Name','State','Duration\nin state','Last Modified','Notes'])
         pcount=0
         for project in gumpSet.getProjectSequence():
             # :TODO: Next line irrelevent?
-            if not gumpSet.inProjectSequence(project): continue       
+            if not gumpSet.inProjectSequence(project): continue   
+            
+            if realTime and project.isUnset(): continue
             
             pcount+=1
     
@@ -605,8 +713,7 @@ class ForrestDocumenter(Documenter):
             projectRow.createComment(project.getName())  
             
             projectRow.createData(secsToTime(project.getStartSecs()))  
-            
-            projectRow.createData(secsToTime(project.getModule().getStartSecs()))             
+                      
                         
             self.insertLink(project,workspace,projectRow.createData())   
             self.insertStateIcon(project,workspace,projectRow.createData())      
@@ -628,6 +735,7 @@ class ForrestDocumenter(Documenter):
         
         document.serialize()
       
+    def documentNotesLog(self,run,workspace,gumpSet): 
         #
         # ----------------------------------------------------------------------
         #
@@ -675,6 +783,7 @@ class ForrestDocumenter(Documenter):
         
         document.serialize()
            
+    def documentDiffsLog(self,run,workspace,gumpSet): 
         
         #
         # ----------------------------------------------------------------------
@@ -726,6 +835,10 @@ class ForrestDocumenter(Documenter):
         
         document.serialize()
            
+    def documentProjects(self,run,workspace,gumpSet): 
+    
+        sortedProjectList=createOrderedList(gumpSet.getProjectSequence())
+        
         #
         # ----------------------------------------------------------------------
         #
@@ -863,6 +976,10 @@ This page helps Gumpmeisters (and others) observe community progress.
                     
         document.serialize()
            
+    def documentModules(self,run,workspace,gumpSet): 
+    
+        sortedModuleList=createOrderedList(gumpSet.getModuleSequence())
+     
         #
         # ----------------------------------------------------------------------
         #
@@ -1018,6 +1135,8 @@ This page helps Gumpmeisters (and others) observe community progress.
         
         document.serialize()
        
+    def documentPackages(self,run,workspace,gumpSet):
+        
         #
         # ----------------------------------------------------------------------
         #
@@ -1029,7 +1148,7 @@ This page helps Gumpmeisters (and others) observe community progress.
         mpkgSection=document.createSection('Packaged Modules')
         mpkgTable=mpkgSection.createTable(['Name','State','Project State(s)'])
         mcount=0
-        for module in sortedModuleList:           
+        for module in gumpSet.getModuleSequence():           
             if not gumpSet.inModuleSequence(module): continue
             
             packaged=0
@@ -1056,7 +1175,7 @@ This page helps Gumpmeisters (and others) observe community progress.
         packages=gumpSet.getPackagedProjects()
         if packages:
             pkgsTable=pkgsSection.createTable(['Name','State','Location'])
-            for project in sortedProjectList:
+            for project in gumpSet.getProjectSequence():
                 if not gumpSet.inProjectSequence(project): continue   
                 if not project.isPackaged(): continue
                 
@@ -1071,52 +1190,7 @@ This page helps Gumpmeisters (and others) observe community progress.
             pkgsSection.createNote('No packaged projects installed.')   
         
         document.serialize()
-        
-        #
-        # Document repositories
-        #
-        for repo in workspace.getRepositories():            
-            if not gumpSet.inRepositories(repo): continue
-            self.documentRepository(run,repo,workspace,gumpSet)
-            
-        #
-        # Document servers
-        #
-        for server in workspace.getServers():            
-            self.documentServer(run,server,workspace,gumpSet)
-            
-        #
-        # Document trackers
-        #
-        for tracker in workspace.getTrackers():            
-            self.documentTracker(run,tracker,workspace,gumpSet)
-            
-        #
-        # Document modules
-        #
-        for module in workspace.getModules():
-            if not gumpSet.inModuleSequence(module): continue  
-            self.documentModule(run,module,workspace,gumpSet)
-            
-        # Document workspace
-        document=XDocDocument('Context',self.resolver.getFile(workspace,'context.xml'))
-        stream=StringIO.StringIO() 
-        texter=TextDocumenter(stream)  
-        texter.document(run)
-        stream.seek(0)
-        document.createSource(stream.read())
-        stream.close()
-        document.serialize()
-            
-        if not workspace.private:
-            # Document the workspace XML    
-            document=XDocDocument('Definition',self.resolver.getFile(workspace,'workspace.xml'))
-            stream=StringIO.StringIO() 
-            xmlize('workspace',workspace.xml,stream)
-            stream.seek(0)
-            document.createSource(stream.read())
-            stream.close()
-            document.serialize()
+     
       
     def documentRepository(self,run,repo,workspace,gumpSet):
         
