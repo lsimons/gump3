@@ -1,11 +1,42 @@
 <profile name="gump">
 
-  <!-- Apache.Jakarta -->
+<!-- Apache.Ant -->
 
-  <!--module href="project/jakarta-alexandria.xml"/-->
   <module href="project/ant.xml"/>
   <module href="project/ant-antidote.xml"/>
   <!--<module href="http://cvs.apache.org/viewcvs/~checkout~/jakarta-ant-myrmidon/gump.xml"/>-->
+
+<!-- Apache.Avalon -->
+
+  <module href="project/avalon-sandbox.xml"/>
+  <module href="project/avalon.xml"/>
+  <module href="project/avalon-apps.xml"/>
+  <module href="project/avalon-cornerstone.xml"/>
+  <module href="project/avalon-excalibur.xml"/>
+  <module href="project/avalon-logkit.xml"/>
+  <module href="project/avalon-phoenix.xml"/>
+  <module href="project/avalon-site.xml"/>
+
+<!-- Apache.Cocoon -->
+
+  <module href="http://cvs.apache.org/viewcvs/~checkout~/xml-cocoon2/gump.xml"/>
+
+<!-- Apache.DB -->
+
+  <module href="project/db-ojb.xml"/>
+  <module href="project/db-torque.xml"/>
+
+<!-- Apache.Incubator -->
+
+  <module href="project/incubator-altrmi.xml"/>
+
+<!-- Apache.James -->
+
+  <module href="project/jakarta-james.xml"/>
+
+<!-- Apache.Jakarta -->
+
+  <!--module href="project/jakarta-alexandria.xml"/-->
   <module href="project/jakarta-bcel.xml"/>
   <module href="project/jakarta-bsf.xml"/>
   <module href="http://cvs.apache.org/viewcvs/~checkout~/jakarta-cactus/gump.xml"/>
@@ -14,7 +45,6 @@
   <module href="http://cvs.apache.org/viewcvs/~checkout~/jakarta-commons-sandbox/grant/gump.xml"/>
   <module href="http://cvs.apache.org/viewcvs/~checkout~/jakarta-commons-sandbox/vfs/gump.xml"/>
   <module href="project/jakarta-ecs.xml"/>
-  <module href="project/jakarta-james.xml"/>
   <module href="project/jakarta-jetspeed.xml"/>
   <module href="project/jakarta-jmeter.xml"/>
   <module href="project/jakarta-log4j.xml"/>
@@ -49,7 +79,6 @@
   <module href="project/jakarta-turbine-stratum.xml"/>
   <module href="project/jelly-tags.xml"/>
 
-
   <!-- Turbine projects not fully mavenized -->
   <module href="project/jakarta-turbine-flux.xml"/>
   <module href="project/jakarta-turbine-jyve.xml"/>
@@ -63,13 +92,12 @@
   <module href="project/jakarta-velocity-dvsl.xml"/>
   <module href="project/jakarta-watchdog.xml"/>
 
-  <!-- Apache.XML -->
+<!-- Apache.XML -->
 
   <module href="project/xml-axis.xml"/>
   <module href="project/xml-axis-wsif.xml"/>
   <module href="project/xml-axis-wsil.xml"/>
   <module href="project/xml-batik.xml"/>
-  <module href="project/xml-cocoon2.xml"/>
   <module href="project/xml-commons.xml"/>
   <module href="project/xml-crimson.xml"/>
   <module href="project/xml-fop.xml"/>
@@ -84,27 +112,7 @@
   <module href="project/xml-xindice.xml"/>
   <module href="http://cvs.apache.org/viewcvs/~checkout~/xml-forrest/module.xml"/>
 
-  <!-- Apache.Avalon -->
-
-  <module href="project/avalon-sandbox.xml"/>
-  <module href="project/avalon.xml"/>
-  <module href="project/avalon-apps.xml"/>
-  <module href="project/avalon-cornerstone.xml"/>
-  <module href="project/avalon-excalibur.xml"/>
-  <module href="project/avalon-logkit.xml"/>
-  <module href="project/avalon-phoenix.xml"/>
-  <module href="project/avalon-site.xml"/>
-
-  <!-- Apache.Incubator -->
-
-  <module href="project/incubator-altrmi.xml"/>
-
-  <!-- Apache.DB -->
-
-  <module href="project/db-ojb.xml"/>
-  <module href="project/db-torque.xml"/>
-
-  <!-- SourceForge -->
+<!-- SourceForge -->
 
   <module href="project/beanshell.xml"/>
   <module href="project/beepcore.xml"/>
@@ -139,52 +147,47 @@
   <module href="project/werkz.xml"/>
   <!-- module href="http://cvs.werken.com/viewcvs.cgi/werkz/gump.xml?rev=HEAD&cvsroot=werkz"/ -->
 
-    <!-- krysalis@sf -->
+  <!-- krysalis@sf -->
 
-    <module href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/*checkout*/krysalis/krysalis-ruper/module.xml"/>
-    <module href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/*checkout*/krysalis/krysalis-ant-tasks/module.xml"/>
-    <module href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/*checkout*/krysalis/krysalis-centipede/gump.xml" />
-    <module href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/*checkout*/krysalis/krysalis-template/smoke-test/gump.xml" />
+  <module href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/*checkout*/krysalis/krysalis-ruper/module.xml"/>
+  <module href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/*checkout*/krysalis/krysalis-ant-tasks/module.xml"/>
+  <module href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/*checkout*/krysalis/krysalis-centipede/gump.xml" />
+  <module href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/*checkout*/krysalis/krysalis-template/smoke-test/gump.xml" />
 
-    <!-- cents  -->
-    <module href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/*checkout*/krysalis/krysalis-cents/makecent/gump.xml"/>
+  <!-- cents  -->
+  <module href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/*checkout*/krysalis/krysalis-cents/makecent/gump.xml"/>
+  <module href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/*checkout*/krysalis/krysalis-cents/antidote/gump.xml"/>
+  <module href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/*checkout*/krysalis/krysalis-cents/jtidy/gump.xml"/>
+  <!--module href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/*checkout*/krysalis/krysalis-cents/antxdoclet/gump.xml"/-->
+  <module href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/*checkout*/krysalis/krysalis-cents/changelog/gump.xml"/>
+  <module href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/*checkout*/krysalis/krysalis-cents/checkstyle/gump.xml"/>
+  <module href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/*checkout*/krysalis/krysalis-cents/cvsbuild/gump.xml"/>
+  <!--module href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/*checkout*/krysalis/krysalis-cents/dir2xml/gump.xml"/-->
+  <module href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/*checkout*/krysalis/krysalis-cents/doxygen-gpl/gump.xml"/>
+  <module href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/*checkout*/krysalis/krysalis-cents/eclipse/gump.xml"/>
+  <module href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/*checkout*/krysalis/krysalis-cents/essmodel-gpl/gump.xml"/>
+  <module href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/*checkout*/krysalis/krysalis-cents/forrest/gump.xml"/>
+  <module href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/*checkout*/krysalis/krysalis-cents/gump/gump.xml"/>
+  <!--module href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/*checkout*/krysalis/krysalis-cents/izpress/gump.xml"/-->
+  <!--module href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/*checkout*/krysalis/krysalis-cents/jalopy/gump.xml"/-->
+  <module href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/*checkout*/krysalis/krysalis-cents/java/gump.xml"/>
+  <module href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/*checkout*/krysalis/krysalis-cents/javasrc/gump.xml"/>
+  <module href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/*checkout*/krysalis/krysalis-cents/jdepend/gump.xml"/>
+  <module href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/*checkout*/krysalis/krysalis-cents/jdiff/gump.xml"/>
+  <module href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/*checkout*/krysalis/krysalis-cents/junit/gump.xml"/>
+  <module href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/*checkout*/krysalis/krysalis-cents/nounit-gpl/gump.xml"/>
+  <module href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/*checkout*/krysalis/krysalis-cents/patchqueue/gump.xml"/>
+  <module href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/*checkout*/krysalis/krysalis-cents/pmd/gump.xml"/>
+  <module href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/*checkout*/krysalis/krysalis-cents/release/gump.xml"/>
+  <module href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/*checkout*/krysalis/krysalis-cents/scripts/gump.xml"/>
+  <module href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/*checkout*/krysalis/krysalis-cents/sourceforge/gump.xml"/>
+  <module href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/*checkout*/krysalis/krysalis-cents/statcvs-gpl/gump.xml"/>
+  <!--module href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/*checkout*/krysalis/krysalis-cents/torque/gump.xml"/-->
+  <module href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/*checkout*/krysalis/krysalis-cents/umldoclet/gump.xml"/>
+  <module href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/*checkout*/krysalis/krysalis-cents/xdoclet/gump.xml"/>
+  <module href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/*checkout*/krysalis/krysalis-cents/xmldoclet/gump.xml"/>
 
-    <module href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/*checkout*/krysalis/krysalis-cents/antidote/gump.xml"/>
-    <module href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/*checkout*/krysalis/krysalis-cents/jtidy/gump.xml"/>
-
-    <!--module href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/*checkout*/krysalis/krysalis-cents/antxdoclet/gump.xml"/-->
-    <module href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/*checkout*/krysalis/krysalis-cents/changelog/gump.xml"/>
-    <module href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/*checkout*/krysalis/krysalis-cents/checkstyle/gump.xml"/>
-    <module href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/*checkout*/krysalis/krysalis-cents/cvsbuild/gump.xml"/>
-    <!--module href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/*checkout*/krysalis/krysalis-cents/dir2xml/gump.xml"/-->
-    <module href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/*checkout*/krysalis/krysalis-cents/doxygen-gpl/gump.xml"/>
-    <module href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/*checkout*/krysalis/krysalis-cents/eclipse/gump.xml"/>
-    <module href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/*checkout*/krysalis/krysalis-cents/essmodel-gpl/gump.xml"/>
-    <module href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/*checkout*/krysalis/krysalis-cents/forrest/gump.xml"/>
-    <module href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/*checkout*/krysalis/krysalis-cents/gump/gump.xml"/>
-    <!--module href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/*checkout*/krysalis/krysalis-cents/izpress/gump.xml"/-->
-    <!--module href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/*checkout*/krysalis/krysalis-cents/jalopy/gump.xml"/-->
-    <module href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/*checkout*/krysalis/krysalis-cents/java/gump.xml"/>
-    <module href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/*checkout*/krysalis/krysalis-cents/javasrc/gump.xml"/>
-    <module href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/*checkout*/krysalis/krysalis-cents/jdepend/gump.xml"/>
-    <module href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/*checkout*/krysalis/krysalis-cents/jdiff/gump.xml"/>
-
-    <module href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/*checkout*/krysalis/krysalis-cents/junit/gump.xml"/>
-    <module href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/*checkout*/krysalis/krysalis-cents/nounit-gpl/gump.xml"/>
-    <module href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/*checkout*/krysalis/krysalis-cents/patchqueue/gump.xml"/>
-    <module href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/*checkout*/krysalis/krysalis-cents/pmd/gump.xml"/>
-    <module href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/*checkout*/krysalis/krysalis-cents/release/gump.xml"/>
-    <module href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/*checkout*/krysalis/krysalis-cents/scripts/gump.xml"/>
-    <module href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/*checkout*/krysalis/krysalis-cents/sourceforge/gump.xml"/>
-    <module href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/*checkout*/krysalis/krysalis-cents/statcvs-gpl/gump.xml"/>
-    <!--module href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/*checkout*/krysalis/krysalis-cents/torque/gump.xml"/-->
-    <module href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/*checkout*/krysalis/krysalis-cents/umldoclet/gump.xml"/>
-    <module href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/*checkout*/krysalis/krysalis-cents/xdoclet/gump.xml"/>
-    <module href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/*checkout*/krysalis/krysalis-cents/xmldoclet/gump.xml"/>
-
-
-
-  <!-- other -->
+<!-- other -->
 
   <module href="project/aspectj.xml"/>
   <module href="project/bsf.xml"/>
@@ -211,7 +214,7 @@
   <module href="project/cos.xml"/>
   <module href="project/multipartrequest.xml"/>
 
-  <!-- Sun -->
+<!-- Sun -->
 
   <!--module href="project/fesi.xml"/-->
   <module href="project/ejb.xml"/>
@@ -234,49 +237,49 @@
   <module href="project/resolver.xml"/>
   <module href="project/tranquilo.xml"/>
 
-  <!-- Installed packages -->
+<!-- Installed packages -->
 
-  <project name="aspectj"        package="aspectj1.0"/>
-  <project name="concurrent"     package="dougLea"/>
-  <project name="cos"            package="cos-09May2002"/>
-  <project name="cryptix"        package="cryptix32-20001002-r3.2.0"/>
-  <project name="ejb"            package="ejb-2_0-fr"/>
-  <!--project name="fesi"           package="fesi"/-->
-  <project name="iso-relax"      package="isorelax.20020707"/>
-  <project name="j2ee-connector" package="j2ee_connector-1_0-fr"/>
-  <project name="jaas"           package="jaas1_0"/>
-  <project name="jaf"            package="jaf-1.0.1"/>
-  <project name="javacc"         package="javacc2.1"/>
-  <project name="javamail"       package="javamail-1.2"/>
-  <project name="jaxm"           package="java_xml_pack-summer-02_01"/>
-  <project name="jaxp"           package="java_xml_pack-summer-02_01"/>
-  <project name="jaxr"           package="java_xml_pack-summer-02_01"/>
-  <project name="jaxrpc"         package="java_xml_pack-summer-02_01"/>
-  <project name="jce"            package="jce"/>
-  <project name="jcifs"          package="jcifs_0.7.1"/>
-  <project name="jdbc"           package="jdbc2_0"/>
-  <project name="jimi"           package="Jimi"/>
-  <project name="jdepend"        package="jdepend"/>
-  <project name="jdo"            package="jdori-1_0-fcs"/>
-  <project name="jms"            package="jms1.0.2"/>
-  <project name="jmx"            package="jmx-1_0_1-ri_bin"/>
-  <project name="jndi"           package="jndi1_2_1"/>
-  <project name="jsch"           package="jsch-0.1.0"/>
-  <project name="jsse"           package="jsse1.0.3"/>
-  <project name="jta"            package="jta-spec1_0_1"/>
-  <!--project name="jts"            package="jts1_0"/-->
-  <project name="ldap"           package="ldap-1_2_4"/>
-  <project name="nekohtml"       package="nekohtml-0.7.3"/>
-  <project name="msv"            package="msv-20020414"/>
-  <project name="multipartrequest"
-           package="MultipartRequest130b2"/>
-  <project name="relaxng"        package="relaxngDatatype-1.0"/>
-  <project name="resolver"       package="resolver-0_2"/>
-  <project name="eclipse"        package="eclipse-2.1RC1"/>
-  <project name="tranquilo"      package="xsdlib-20010424"/>
-  <project name="nsuml"          package="nsuml"/>
+  <project name="aspectj"          package="aspectj1.0"/>
+  <project name="concurrent"       package="dougLea"/>
+  <project name="cos"              package="cos-09May2002"/>
+  <project name="cryptix"          package="cryptix32-20001002-r3.2.0"/>
+  <project name="ejb"              package="ejb-2_0-fr"/>
+  <!--project name="fesi"             package="fesi"/-->
+  <project name="iso-relax"        package="isorelax.20020707"/>
+  <project name="j2ee-connector"   package="j2ee_connector-1_0-fr"/>
+  <project name="jaas"             package="jaas1_0"/>
+  <project name="jaf"              package="jaf-1.0.1"/>
+  <project name="javacc"           package="javacc2.1"/>
+  <project name="javamail"         package="javamail-1.2"/>
+  <project name="jaxm"             package="java_xml_pack-summer-02_01"/>
+  <project name="jaxp"             package="java_xml_pack-summer-02_01"/>
+  <project name="jaxr"             package="java_xml_pack-summer-02_01"/>
+  <project name="jaxrpc"           package="java_xml_pack-summer-02_01"/>
+  <project name="jce"              package="jce"/>
+  <project name="jcifs"            package="jcifs_0.7.1"/>
+  <project name="jdbc"             package="jdbc2_0"/>
+  <project name="jimi"             package="Jimi"/>
+  <project name="jdepend"          package="jdepend"/>
+  <project name="jdo"              package="jdori-1_0-fcs"/>
+  <project name="jms"              package="jms1.0.2"/>
+  <project name="jmx"              package="jmx-1_0_1-ri_bin"/>
+  <project name="jndi"             package="jndi1_2_1"/>
+  <project name="jsch"             package="jsch-0.1.0"/>
+  <project name="jsse"             package="jsse1.0.3"/>
+  <project name="jta"              package="jta-spec1_0_1"/>
+  <!--project name="jts"              package="jts1_0"/-->
+  <project name="ldap"             package="ldap-1_2_4"/>
+  <project name="nekohtml"         package="nekohtml-0.7.3"/>
+  <project name="msv"              package="msv-20020414"/>
+  <project name="multipartrequest" package="MultipartRequest130b2"/>
+  <project name="relaxng"          package="relaxngDatatype-1.0"/>
+  <project name="resolver"         package="resolver-0_2"/>
+  <project name="eclipse"          package="eclipse-2.1RC1"/>
+  <project name="tranquilo"        package="xsdlib-20010424"/>
+  <project name="nsuml"            package="nsuml"/>
 
-  <!-- CVS Repository definitions -->
+<!-- CVS Repository definitions -->
+  
   <repository href="repository/ant.xml"/>
   <repository href="repository/avalon.xml"/>
   <repository href="repository/db.xml"/>
@@ -294,7 +297,8 @@
   <repository href="repository/whichever.xml"/>
   <repository href="repository/xml.xml"/>
 
-  <!-- server definitions -->
+<!-- server definitions -->
+  
   <server href="server/daedalus.apache.org.xml"/>
   <server href="server/icarus.apache.org.xml"/>
 
