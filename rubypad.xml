@@ -6,6 +6,8 @@
 
   <project href="project/jakarta-alexandria.xml"/>
   <project href="project/jakarta-ant.xml"/>
+  <project href="project/jakarta-avalon-logkit.xml"/>
+  <project href="project/jakarta-avalon-testlet.xml"/>
   <project href="project/jakarta-ecs.xml"/>
   <project href="project/jakarta-james.xml"/>
   <project href="project/jakarta-log4j.xml"/>
@@ -22,7 +24,7 @@
   <project href="project/jakarta-tools.xml"/>
   <project href="project/jakarta-velocity.xml"/>
   <project href="project/jakarta-watchdog.xml"/>
-         
+
   <!-- Apache.XML -->
 
   <project href="project/xml-axis.xml"/>
@@ -35,7 +37,7 @@
   <project href="project/xml-stylebook.xml"/>
   <project href="project/xml-xalan.xml"/>
   <project href="project/xml-xerces.xml"/>
-         
+
   <!-- Apache.Java -->
 
   <project href="project/framework.xml"/>
@@ -72,34 +74,34 @@
   <!-- CVS Repository overrides -->
 
   <cvs-repository>
-    <tree name="bsf" 
+    <tree name="bsf"
       root=":pserver:bsfadmin@oss.software.ibm.com:/usr/cvs/bsf"/>
 
-    <tree name="castor" 
+    <tree name="castor"
       root=":pserver:anoncvs@castor.exolab.org:/cvs/castor"/>
 
-    <tree name="freemarker" 
+    <tree name="freemarker"
       root=":pserver:anonymous@cvs.freemarker.sourceforge.net:/cvsroot/freemarker"/>
 
     <tree name="jakarta" root=":pserver:rubys@localhost:/home/cvs"/>
 
     <tree name="jdom" root=":pserver:anonymous@cvs.jdom.org:/home/cvspublic"/>
 
-    <tree name="junit" 
+    <tree name="junit"
       root=":pserver:anonymous@cvs.JUnit.sourceforge.net:/cvsroot/junit"/>
 
-    <tree name="mozilla" 
+    <tree name="mozilla"
       root=":pserver:anonymous@cvs-mirror.mozilla.org:/cvsroot"/>
 
-    <tree name="jservpub" 
+    <tree name="jservpub"
       root=":pserver:jservpub@cvs.working-dogs.com:/products/cvs/master"/>
 
     <tree name="tigris" root=":pserver:guest@cvs.tigris.org:/cvs"/>
 
     <tree name="xml" root=":pserver:rubys@localhost:/home/cvs"/>
 
-    <tree name="working-dogs" 
+    <tree name="working-dogs"
       root=":pserver:anon@cvs.working-dogs.com:/products/cvs"/>
   </cvs-repository>
-         
+
 </workspace>

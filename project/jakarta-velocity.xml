@@ -16,7 +16,7 @@
   <depend project="werken.xpath"/>
   <depend project="javaclass"/>
   <depend project="junit"/>
-  <depend project="framework"/> <!-- for the log class -->
+  <depend project="jakarta-avalon-logkit"/>
 
   <home nested="bin"/>
   <jar  name="velocity-0.72.jar"/>

@@ -10,6 +10,8 @@
   <ant/>
 
   <depend project="jakarta-ant"/>
+  <depend project="jakarta-avalon-logkit"/>
+  <depend project="jakarta-avalon-testlet"/>
   <depend project="xml-xerces"/>
   <depend project="jsse"/>
   <depend project="kawa"/>
@@ -21,6 +23,15 @@
   <project name="kawa">
     <url href="http://www.gnu.org/software/kawa/"/>
     <jar name="lib/bytecode.jar"/>
+  </project>
+
+  <project name="jakarta-avalon-clutil">
+    <depend project="jakarta-ant"/>
+    <depend project="jakarta-avalon-logkit"/>
+    <depend project="xml-xerces"/>
+    <ant target="jar-clutil"/>
+    <home nested="build/lib"/>
+    <jar name="clutil.jar"/>
   </project>
 
   <project name="cornerstone">

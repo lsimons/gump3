@@ -1,0 +1,18 @@
+<project name="jakarta-avalon-logkit">
+
+  <url href="http://java.apache.org/framework/"/>
+  <description>
+    Avalon framework
+  </description>
+
+  <cvs repository="jakarta"/>
+
+  <ant/>
+
+  <depend project="jakarta-ant"/>
+  <depend project="xml-xerces"/>
+
+  <home nested="build/lib"/>
+  <jar name="log.jar"/>
+
+</project>
