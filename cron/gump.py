@@ -308,7 +308,7 @@ try:
             log.write('      ' + envkey + ' -> [' + envval + ']\n')
         
         # Workspace is the hostname, unless overridden
-        workspaceName = 'metadata/' . hostname + '.xml'
+        workspaceName = 'metadata/' + hostname + '.xml'
         if os.environ.has_key('GUMP_WORKSPACE'):        
             workspaceName = os.environ['GUMP_WORKSPACE'] + '.xml'   
         if len(args)>2 and args[1] in ['-w','--workspace']:
