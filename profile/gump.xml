@@ -273,6 +273,7 @@
   <project name="nsuml"          package="nsuml"/>
 
   <!-- CVS Repository definitions -->
+  <repository href="repository/avalon.xml"/>
   <repository href="repository/db.xml"/>
   <repository href="repository/dbxml.xml"/>
   <repository href="repository/devworks.xml"/>
