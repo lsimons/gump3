@@ -1,11 +1,12 @@
-<module name="Quartz">
+<module name="quartz">
 
   <url href="http://quartz.sourceforge.net/"/>
   <description>
     Job Scheduler
   </description>
 
-  <cvs repository="sourceforge" host-prefix="cvs.quartz" dir="quartz"/>
+  <cvs repository="sourceforge" host-prefix="cvs.quartz" dir="quartz"
+	  module="Quartz"/>
 
   <project name="quartz">
     <package>org.quartz</package>
@@ -25,6 +26,9 @@
     <depend project="jakarta-log4j"/>
     <depend project="jakarta-servletapi-5-servlet"/>
     <jar name="lib/quartz-@@DATE@@.jar"/>
+
+    <nag to="jhouserizer@part.net"
+	    from="Sam Ruby &lt;rubys@apache.org&gt;"/>
   </project>
 
 </module>
