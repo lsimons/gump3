@@ -85,17 +85,48 @@
     </p>
 
     <p>
-      Recently, I have been experimenting with a second server kindly donated
-      by Sun and administered by Pier Fumagalli and Justyna Horwat.  After
-      I'd complained quite a bit, Pier took pity on me and made available
-      a LOT of tmp space - backed by 3 gigs of RAM.  Doing my builds from
-      there positively flies!.  For now, I've timed an automated run to be 
-      kicked off at 6 a.m., noon, and 6 p.m. Pacific time - meaning Gump runs
-      occur every six hours.  Note that I often kick off partial builds and 
-      may even do a full run out of cycle, so the cvs updates logs on nagoya
-      may not capture all of the activity that has taken place since the
-      previous run.
+      Interrim runs are now done evey six hours, based on the hardware kindly
+      donated by Sun and Covalent.  Below is the schedule for all runs relative
+      to several representative time zones.
     </p>
+
+    <table>
+      <tr>
+        <td/>
+        <th>US, Pacific</th>
+        <th>US, Eastern</th>
+        <th>GMT</th>
+        <th>Melbourne</th>
+      </tr>
+      <tr>
+        <td><a href="http://jakarta.apache.org/gump/latest">Rubix</a></td>
+        <td>Midnight</td>
+        <td>3 am</td>
+        <td>0800</td>
+        <td>7 pm</td>
+      </tr>
+      <tr>
+        <td><a href="http://nagoya.apache.org/~rubys/gump/">Nagoya</a></td>
+        <td>6 am</td>
+        <td>9 am</td>
+        <td>1400</td>
+        <td>1 am</td>
+      </tr>
+      <tr>
+        <td><a href="http://gump.covalent.net/log/index.html">Covalent</a></td>
+        <td>Noon</td>
+        <td>3 pm</td>
+        <td>2000</td>
+        <td>7 am</td>
+      </tr>
+      <tr>
+        <td><a href="http://nagoya.apache.org/~rubys/gump/">Nagoya</a></td>
+        <td>6 pm</td>
+        <td>9 pm</td>
+        <td>0200</td>
+        <td>1 pm</td>
+      </tr>
+    </table>
 
     <p>
       At the same time the "official" run is done on Linux, I've started
