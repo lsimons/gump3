@@ -25,12 +25,11 @@
         <depend project="excalibur-collections" runtime="true"/>
         <depend project="excalibur-container" runtime="true"/>
         <depend project="excalibur-event" runtime="true"/>
-        <depend project="excalibur-info" runtime="true"/>
+        <depend project="excalibur-info" runtime="true" inherit="runtime"/>
         <depend project="excalibur-i18n" runtime="true"/>
         <depend project="excalibur-logger" runtime="true"/>
         <depend project="excalibur-instrument" runtime="true"/>
         <depend project="excalibur-meta" runtime="true"/>
-        <depend project="xdoclet-ant15" runtime="true"/>
         <depend project="excalibur-sourceresolve"/>
         <depend project="excalibur-xmlutil"/>
         <depend project="excalibur-testcase"/>
@@ -607,7 +606,8 @@
         <depend project="jakarta-ant" inherit="runtime"/>
         <option project="checkstyle" inherit="runtime"/>
         <depend project="junit"/>
-        <depend project="xdoclet-ant15" runtime="true" inherit="runtime"/>
+	<!-- <depend project="xdoclet-ant15" runtime="true" inherit="runtime"/> -->
+	<depend project="xdoclet" runtime="true" inherit="runtime"/>
         <depend project="jakarta-avalon" runtime="true"/>
         <depend project="excalibur-i18n" runtime="true"/>
         <depend project="xml-xerces"/>
