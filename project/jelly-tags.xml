@@ -260,6 +260,25 @@
     <nag from="Morgan Delagrange &lt;mdelagra@yahoo.com&gt;"
          to="commons-dev@jakarta.apache.org"/>
   </project>
+
+  <project name="commons-jelly-tags-swing">
+    <package>org.apache.commons.jelly.tags.swing</package>
+    <description>This is a Jelly interface for configuring Swing applications.</description>
+
+    <ant basedir="jelly/jelly-tags/swing" target="jar">
+      <property name="final.name"  value="commons-jelly-tags-swing-@@DATE@@"/>
+    </ant>
+
+    <depend project="commons-jelly" inherit="all"/>
+	
+    <work nested="jelly/jelly-tags/swing/target/classes"/>
+    <work nested="jelly/jelly-tags/swing/target/test-classes"/>
+
+    <jar name="jelly/jelly-tags/swing/target/commons-jelly-tags-swing-@@DATE@@.jar"/>
+ 
+    <nag from="Morgan Delagrange &lt;mdelagra@yahoo.com&gt;"
+         to="commons-dev@jakarta.apache.org"/>
+  </project>
   
   <project name="commons-jelly-tags-util">
     <package>org.apache.commons.jelly.tags.util</package>
