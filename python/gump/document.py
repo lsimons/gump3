@@ -140,7 +140,7 @@ def document(workspace,context,full=None,moduleFilterList=None,projectFilterList
     
     if full or 1: # Testing
         documentStatistics(workspace,context,db,moduleFilterList,projectFilterList)
-        #documentXRef(workspace,context)
+        documentXRef(workspace,context)
 
     executeForrest(workspace,context)
 
@@ -295,6 +295,7 @@ def documentWorkspace(workspace,context,db,moduleFilterList=None,projectFilterLi
     titledDataInTableXDoc(x,"Scratch Directory : ", str(workspace.scratchdir))    
     # :TODO: We have duplicate dirs? tmp = scratch?
     titledDataInTableXDoc(x,"Log Directory : ", str(workspace.logdir))
+    titledDataInTableXDoc(x,"Jars Repository : ", str(workspace.jardir))
     titledDataInTableXDoc(x,"CVS Directory : ", str(workspace.cvsdir))
     titledDataInTableXDoc(x,"Package Directory : ", str(workspace.pkgdir))
     titledDataInTableXDoc(x,"Email Address: ", str(workspace.email))
@@ -324,7 +325,7 @@ def documentWorkspace(workspace,context,db,moduleFilterList=None,projectFilterLi
     startSectionXDoc(x,'Modules with TODOs')
     startTableXDoc(x)
     x.write('     <tr>')        
-    x.write('      <th>Name</th><th>Project State(s)</th><th>Elapsed Time</th>')
+    x.write('      <th>Name</th><th>Module State</th><th>Project State(s)</th><th>Elapsed Time</th>')
     x.write('     </tr>')
     mcount=0
     for mctxt in context:
@@ -345,8 +346,10 @@ def documentWorkspace(workspace,context,db,moduleFilterList=None,projectFilterLi
         mcount+=1
 
         x.write('     <tr><!-- %s -->\n' % (mname))        
-        x.write('      <td><link href=\'%s\'>%s</link></td><td>%s</td>\n' % \
-          (getModuleRelativeUrl(mname),mname,getStateIcons(mctxt.aggregateStates())))    
+        x.write('      <td><link href=\'%s\'>%s</link></td><td>%s</td><td>%s</td>\n' % \
+          (getModuleRelativeUrl(mname),mname,	\
+              getStatePairIcon(mctxt.getStatePair()),	\
+              getStateIcons(mctxt.aggregateStates())))    
         x.write('      <td>%s</td>\n' % elapsedTimeToString(mctxt.elapsedTime()))    
         x.write('     </tr>\n\n')
     if not mcount: x.write('	<tr><td>None</td></tr>')
@@ -367,7 +370,7 @@ def documentWorkspace(workspace,context,db,moduleFilterList=None,projectFilterLi
     startSectionXDoc(x,'All Modules')
     startTableXDoc(x)
     x.write('     <tr>')        
-    x.write('      <th>Name</th><th>Project State(s)</th><th>Elapsed Time</th>')
+    x.write('      <th>Name</th><th>Module State</th><th>Project State(s)</th><th>Elapsed Time</th>')
     x.write('     </tr>')
     mcount=0
     for mctxt in context:
@@ -381,8 +384,10 @@ def documentWorkspace(workspace,context,db,moduleFilterList=None,projectFilterLi
         mcount+=1
 
         x.write('     <tr><!-- %s -->\n' % (mname))        
-        x.write('      <td><link href=\'%s\'>%s</link></td><td>%s</td>\n' % \
-          (getModuleRelativeUrl(mname),mname,getStateIcons(mctxt.aggregateStates())))    
+        x.write('      <td><link href=\'%s\'>%s</link></td><td>%s</td><td>%s</td>\n' % \
+          (getModuleRelativeUrl(mname),mname,\
+              getStatePairIcon(mctxt.getStatePair()),	\
+              getStateIcons(mctxt.aggregateStates())))    
         x.write('      <td>%s</td>\n' % elapsedTimeToString(mctxt.elapsedTime()))    
         x.write('     </tr>\n\n')
     if not mcount: x.write('	<tr><td>None</td></tr>')
@@ -961,7 +966,7 @@ def documentModulesByFOGFactor(stats,sdir,moduleFilterList=None):
         insertTableDataXDoc(x, str(round(mctxt.getFOGFactor(),2)))
         
         projectsString=''
-        for pctxt in mctxt.getDependees():
+        for pctxt in mctxt:
             projectsString+=getContextLink(pctxt)
             projectsString+='='            
             projectsString+=str(round(pctxt.getFOGFactor(),2))
@@ -972,6 +977,21 @@ def documentModulesByFOGFactor(stats,sdir,moduleFilterList=None):
     endTableXDoc(x)
     
     footerXDoc(x)
+    endXDoc(x)
+    
+#####################################################################           
+#
+# XRef Pages
+#           
+def documentXRef(workspace,context,moduleFilterList=None,projectFilterList=None):
+    
+    xdir=getXRefDir(workspace)
+    x=startXDoc(getXRefDocument(workspace,xdir))
+    headerXDoc(x,'Cross Reference')
+
+    # :TODO: Packages and such...
+    
+    footerXDoc(x) 
     endXDoc(x)
     
  

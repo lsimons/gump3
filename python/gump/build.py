@@ -1,8 +1,8 @@
 #!/usr/bin/python
 
-# $Header: /home/stefano/cvs/gump/python/gump/build.py,v 1.18 2003/09/29 23:10:12 ajack Exp $
-# $Revision: 1.18 $
-# $Date: 2003/09/29 23:10:12 $
+# $Header: /home/stefano/cvs/gump/python/gump/build.py,v 1.19 2003/10/07 19:19:31 ajack Exp $
+# $Revision: 1.19 $
+# $Date: 2003/10/07 19:19:31 $
 #
 # ====================================================================
 #
@@ -169,6 +169,9 @@ def buildProjects( workspace, sequence, context=GumpContext() ):
 
   log.info('--- Building work directories with sources')
 
+  # Place repository in jardir (to be renamed to repodir)
+  repository=Repository(workspace.jardir)
+
   # build all projects this project depends upon, then the project itself
   for project in sequence:
 
@@ -206,7 +209,10 @@ def buildProjects( workspace, sequence, context=GumpContext() ):
                             pctxt.propagateErrorState(STATUS_FAILED,REASON_MISSING_OUTPUTS)
                             outputsOk=0
                             pctxt.addError("Missing Output: " + str(jar))
-
+                        else:
+                            # Copy to repository
+                            repository.publish( module.name, jar )
+                            
                 if outputsOk: 
                     pctxt.status=STATUS_SUCCESS  
                 elif project.home:

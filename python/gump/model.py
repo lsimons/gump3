@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/Attic/model.py,v 1.20 2003/09/29 23:20:00 ajack Exp $
-# $Revision: 1.20 $
-# $Date: 2003/09/29 23:20:00 $
+# $Header: /home/stefano/cvs/gump/python/gump/Attic/model.py,v 1.21 2003/10/07 19:19:31 ajack Exp $
+# $Revision: 1.21 $
+# $Date: 2003/10/07 19:19:31 $
 #
 # ====================================================================
 #
@@ -130,6 +130,9 @@ class Workspace(GumpModelObject):
     
     if not self.logdir: self.logdir=os.path.join(self.basedir,"log")
     if not os.path.exists(self.logdir): os.mkdir(self.logdir)
+    
+    if not self.jardir: self.jardir=os.path.join(self.basedir,"repo")
+    if not os.path.exists(self.jardir): os.mkdir(self.jardir)
     
     if not self.cvsdir: self.cvsdir=os.path.join(self.basedir,"cvs")
     if not os.path.exists(self.cvsdir): os.mkdir(self.cvsdir)

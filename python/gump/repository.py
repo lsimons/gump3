@@ -62,6 +62,14 @@
     A Repository 
 """
 
+import os
+
+from gump.conf import *
+from gump import logging, log
+from gump.context import *
+
+from shutil import copyfile
+
 
 class Repository:
     """Contains Repository Contents"""
@@ -92,12 +100,20 @@ class Repository:
     #	../{group}/jars/{output files}
     #    
     def getGroupDir(self,group,rdir=None):
-        if not rdir: rdir=getRepositoryRootDir(self)
+        if not rdir: rdir=self.getRepositoryDir()
         gdir=os.path.abspath(os.path.join(rdir,group))
         if not os.path.exists(gdir): os.mkdir(gdir)
         jdir=os.path.abspath(os.path.join(gdir,'jars'))
         if not os.path.exists(jdir): os.mkdir(jdir)
         return jdir  
+        
+    def publish(self,group,jar):
+        cdir=self.getGroupDir(group)
+        jarname=os.path.basename(jar)
+        newjar=os.path.join(cdir,jarname)
+        copyfile(jar,newjar)
+        
+        
 
 # static void main()
 if __name__=='__main__':
@@ -119,6 +135,8 @@ if __name__=='__main__':
   from gump import load
   workspace=load(ws, context)
 
-  repo=Repository(workspace.jars)
+  repo=Repository(workspace.jardir)
+  
+  repo.publish('testgroup','test.jar')
   
   
