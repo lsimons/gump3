@@ -17,7 +17,7 @@
     <depend project="xml-apis" inherit="jars"/>
 
     <home nested="java/build"/>
-    <jar  name="xalan.jar" type="boot"/>
+    <jar  name="xalan.jar" type="boot" id="transformer" />
 
     <nag from="Sam Ruby &lt;rubys@us.ibm.com&gt;"
          to="xalan-dev@xml.apache.org"/>
