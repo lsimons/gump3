@@ -35,7 +35,6 @@
     <depend project="excalibur-component"/>
     <depend project="excalibur-logger"/>
     <depend project="excalibur-collections"/>
-    <depend project="jakarta-slide"/>
  
     <depend project="jdom"/>
     <depend project="bsf"/>
@@ -57,6 +56,7 @@
     <option project="jisp"/>
     <!-- <option project="jakarta-poi"/> -->
     <option project="commons-logging"/>
+    <option project="jakarta-slide" ids="kernel" />
 
     <work nested="build/cocoon/classes"/>
     <work nested="tools/anttasks"/>
@@ -84,4 +84,5 @@
     <home nested="lib/optional"/>
     <jar name="jisp_1_0_2.jar"/>
   </project>
+
 </module>
