@@ -283,13 +283,13 @@
             <depend property="excalibur-logger.jar" project="excalibur-logger"/>
             <depend property="excalibur-component.jar" project="excalibur-component" id="component"/>
             <depend property="excalibur-testcase.jar" project="excalibur-component" id="testcase"/>
-            <depend property="excalibur-fortress-tools.jar" project="avalon-fortress-tools" inherit="runtime"/>
+            <!--<depend property="excalibur-fortress-tools.jar" project="avalon-fortress-tools" inherit="runtime"/>-->
             <depend property="logkit.jar" project="avalon-logkit"/>
             <property name="version" value="@@DATE@@"/>
             <property name="junit.failonerror" value="true"/>
             <property name="do.checkstyle" value="true"/>
             <property name="skip.dependencies" value="true"/>
-            <depend property="qdox.jar" project="phoenix-qdox"/>
+            <!--<depend property="qdox.jar" project="phoenix-qdox"/>-->
         </ant>
 
         <depend project="ant" inherit="runtime"/>
