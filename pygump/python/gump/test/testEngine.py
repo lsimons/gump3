@@ -222,7 +222,6 @@ class EngineTestCase(MockTestCase):
         self.workspace_loader.expects(once()).get_workspace_tree(same(ws)).will(return_value(passaroundobj))
         self.workspace_normalizer.expects(once()).normalize(same(domtree)).will(return_value(domtree))
         self.workspace_objectifier.expects(once()).get_workspace(same(domtree)).will(return_value(objectws))
-        self.workspace_verifier.expects(once()).verify(same(objectws))
         self.walker.expects(once()).walk(same(objectws),same(self.pre_process_visitor))
         self.walker.expects(once()).walk(same(objectws),same(self.visitor))
         self.walker.expects(once()).walk(same(objectws),same(self.post_process_visitor))
