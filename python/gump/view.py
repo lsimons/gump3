@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/Attic/view.py,v 1.25 2003/05/05 07:54:35 nicolaken Exp $
-# $Revision: 1.25 $
-# $Date: 2003/05/05 07:54:35 $
+# $Header: /home/stefano/cvs/gump/python/gump/Attic/view.py,v 1.26 2003/05/05 08:25:12 nicolaken Exp $
+# $Revision: 1.26 $
+# $Date: 2003/05/05 08:25:12 $
 #
 # ====================================================================
 #
@@ -404,6 +404,27 @@ class gumpview(wxApp):
     dlg.ShowModal()
     dlg.Destroy()
 
+class ViewHandler(logging.Handler):
+
+    view = None
+
+    """
+    A handler class which logs in this view .
+    """    
+    def __init__(self, logview):
+        """
+        Initializes the handler
+        """
+        logging.Handler.__init__(self)
+        self.view = logview
+        
+    def emit(self, record):
+        """
+        Emit a record.
+        """
+        msg = "%s\n" % self.format(record)
+        self.view.AppendText(msg)
+        
 class GumpSplashScreen(wxSplashScreen):
   def __init__(self):
     bmp = wxImage("gump/images/gump.bmp").ConvertToBitmap()
@@ -443,9 +464,24 @@ class compileThread:
     self.view.showProject(self.project)
 
 if __name__ == '__main__':
-  logging.config.fileConfig("gump/logconf.ini") 
+
+  # init logging and add specific Gui handler
+  logging.config.fileConfig("gump/logconf.ini")
+  
+  # load app
   app = gumpview(0)
   GumpSplashScreen().Show()
+
+  #add app-specific log handler
+  logger = logging.getLogger("")
+  lh = ViewHandler(app.logview)
+  logger.addHandler(lh)
+  
+  # loadspecified or default workspace
   app.load(sys.argv[1:] or [default.workspace])
+
+  # start app
   app.MainLoop()
+
+  # dipose app
   app.unload()
