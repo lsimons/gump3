@@ -1,0 +1,20 @@
+<project name="jakarta-commons">
+
+  <description>
+    Jakarta commons
+  </description>
+
+  <cvs repository="jakarta"/>
+
+  <project name="commons-beanutils">
+    <ant basedir="beanutils" target="dist">
+      <property name="junit.home" reference="homepath" project="junit"/>
+    </ant>
+    <depend project="jakarta-ant"/>
+    <depend project="xml-xerces"/>
+    <depend project="junit"/>
+    <home nested="beanutils/dist"/>
+    <jar name="commons-beanutils.jar"/>
+  </project>
+
+</project>
