@@ -33,11 +33,11 @@ class XDocsTestSuite(UnitTestSuite):
         
     def testXhtml(self):
         data=self.createXDoc('XHTML',True)
-        print data
+        #print data
         
     def testXDocs(self):
         data=self.createXDoc('XDOCS',False)
-        print data
+        #print data
         
     def createXDoc(self,title,xhtml):        
         stream=StringIO.StringIO() 

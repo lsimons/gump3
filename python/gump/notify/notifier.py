@@ -132,7 +132,6 @@ class Notifier(AbstractRunActor):
                 log.error("Failed to send notify e-mails for project " + project.getName()\
                                     + " : " + str(details), exc_info=1)
  
-
     def addUnwanted(self,subject,content):
         """
         	Add this notification to the 'unwanted' list, since
@@ -240,9 +239,7 @@ The following %s notify%s should have been sent
         #
         content=notification.resolveContent(self.resolver)
                 
-        #
         # Form the subject
-        #
         subject=self.workspace.prefix+': '	\
             + module.getName() + '/' +project.getName()	\
             +' '+lower(stateDescription(project.getState()))
@@ -294,19 +291,17 @@ The following %s notify%s should have been sent
         #
         toaddrs=[ toaddr ]
     
-        sent=0
+        sent=False
         try:
                
             log.info('Send Notify e-mail:\n To: ' + str(toaddr) + \
                 '\n From: ' + str(fromaddr) + \
                 '\n Subject: ' + str(subject))
            
-            #
             # Form the user visable part ...
-            #
-            email=EmailMessage( toaddrs, \
-                                fromaddr, \
-                                subject, \
+            email=EmailMessage( toaddrs, 
+                                fromaddr, 
+                                subject, 
                                 content)       
                         
             #print '-------------------------------------------------------------------'
@@ -318,10 +313,11 @@ The following %s notify%s should have been sent
             # Fire ...
             sent=mail(toaddrs,fromaddr,email,	\
                         self.workspace.mailserver,	\
-                        self.workspace.mailport) 
+                        self.workspace.mailport)  
+                   
             
         except Exception, details:
-            sent=0
+            sent=False
             log.error('Failed to send notify e-mail: ' + str(details), \
                         exc_info=1)
                         

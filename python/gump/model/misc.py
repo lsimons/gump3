@@ -36,18 +36,22 @@ class Positioned:
         self.total=-1
         
     def setPosition(self,posn):
+        """ Set this object's position (within some sequence) """
         self.posn=posn
         
     def setTotal(self,total):
+        """ Set the total length of sequence """    
         self.total=total
 
     def getPosition(self):
+        """ Return either a tuple or a position, dependent upon if total is set. Mainly for presentation in ``. """
         if -1 != self.total:
             return (self.posn,self.total)
         if -1 != self.posn:
             return self.posn
             
     def getPositionIndex(self):
+        """ Get index in sequence """
         return self.posn
           
 class Resultable:

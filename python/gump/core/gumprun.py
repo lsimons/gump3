@@ -205,6 +205,9 @@ class GumpSet:
   
     def getModulesForProjectList(self,projects):
         sequence=[]
+        
+        moduleIndex=0
+        
         for project in projects:
             
             # Some projects are outside of sequence
@@ -213,12 +216,15 @@ class GumpSet:
                 module = project.getModule()
                 if not module in sequence: 
                     sequence.append(module)
-                    module.setPosition(len(sequence))
+                  
+                    # Identify the index within overall sequence
+                    moduleIndex+=1
+                    module.setPosition(moduleIndex)
 
-        # Hmm, see if we don't sort ...
-        # would be nice to get in same order as
-        # projects need 
-        # sequence.sort()
+        # Identify the size of overall sequence
+        moduleTotal=len(sequence)
+        for module in sequence:
+            module.setTotal(moduleTotal)
         
         return sequence
   
@@ -277,9 +283,14 @@ class GumpSet:
         """Determine the build sequence for a given list of projects."""
         todo=[]
         sequence=[]
+        
+        # These are the projects we are going to
         for project in projects:
             log.debug('Evaluate Seq for ['+project.getName()+']')                
             self.addToTodoList(project,todo)
+            
+        projectIndex=0
+        projectTotal=len(projects)
             
         while todo:
             # one by one, remove the first ready project and append 
@@ -290,8 +301,11 @@ class GumpSet:
                     todo.remove(todoProject)
                     if not todoProject in sequence:
                         sequence.append(todoProject)
-                        todoProject.setPosition(len(sequence))
-                        log.debug('#' + `todoProject.getPosition()` + ' -> ' + todoProject.getName())     
+                        projectIndex += 1
+                        todoProject.setPosition(projectIndex)
+                        todoProject.setTotal(projectTotal)
+   
+                        log.debug('Identify ' + todoProject.getName() + ' at position #' + `todoProject.getPosition()`)     
                     #else:
                     #    log.debug('Duplicate Result ['+todoProject.getName()+']')    
                     foundSome=1

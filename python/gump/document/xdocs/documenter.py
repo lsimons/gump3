@@ -742,7 +742,7 @@ class XDocDocumenter(Documenter):
         # Modules...
         #        
         modulesSection=document.createSection('Modules (in update order)')
-        modulesTable=modulesSection.createTable(['Updated','Name','State','Duration\nin state','Last Modified','Notes'])
+        modulesTable=modulesSection.createTable(['Index','Updated','Name','State','Duration\nin state','Last Modified','Notes'])
         mcount=0
         for module in self.gumpSet.getCompletedModules():        
             
@@ -752,6 +752,8 @@ class XDocDocumenter(Documenter):
             moduleRow.createComment(module.getName())  
             
             self.setStyleFromState(moduleRow,module.getStatePair())
+                
+            moduleRow.createData(module.getPositionIndex())    
             
             startData=moduleRow.createData(secsToTime(module.getStartSecs()))          
             self.setStyleFromState(startData,module.getStatePair())
@@ -778,7 +780,7 @@ class XDocDocumenter(Documenter):
         # Projects...
         #
         projectsSection=document.createSection('Projects (in build order)')
-        projectsTable=projectsSection.createTable(['Time','Name','State','Duration\nin state','Last Modified','Notes'])
+        projectsTable=projectsSection.createTable(['Index','Time','Name','State','Duration\nin state','Last Modified','Notes'])
         pcount=0
         for project in self.gumpSet.getCompletedProjects():
             
@@ -788,6 +790,8 @@ class XDocDocumenter(Documenter):
             projectRow.createComment(project.getName())  
             
             self.setStyleFromState(projectRow,project.getStatePair())
+            
+            projectRow.createData(project.getPositionIndex())    
             
             projectRow.createData(secsToTime(project.getStartSecs()))  
                       
@@ -2024,9 +2028,10 @@ This page helps Gumpmeisters (and others) observe community progress.
         
         annotationsSection=xdocNode.createSection('Annotations')
         
-        if annotatable.containsNasties() and not noWarn:
-            annotationsSection.createWarning(	\
-                'Some warnings and/or errors are present within these annotations.')
+        if not self.config.isXhtml():
+            if annotatable.containsNasties() and not noWarn:
+                annotationsSection.createWarning(	\
+                    'Some warnings and/or errors are present within these annotations.')
         
         annotationsTable=annotationsSection.createTable()
         for note in annotations:      

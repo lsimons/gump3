@@ -16,7 +16,9 @@
 
 
 """
-    Maven Testing
+
+    WorkspaceLoading Testing
+    
 """
 
 import os
@@ -39,7 +41,7 @@ class LoadingTestSuite(UnitTestSuite):
         UnitTestSuite.__init__(self)
         
     def performLoad(self,file):
-        return WorkSpaceLoader(True).load(file)
+        return WorkspaceLoader(True).load(file)
 
     def testSimple1(self):
         self.performLoad('gump/test/resources/simple1/standalone_workspace.xml')

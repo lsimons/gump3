@@ -399,9 +399,9 @@ class Workspace(NamedModelObject, PropertyContainer, Statable, Resultable):
         return hasDomAttribute(nag,'to')
         
     def getNotifyToOverride(self):
-        if not self.isNotify(): return False
-        nag=self.getDomChild('nag')
-        return getDomAttributeValue(nag,'to')
+        if self.isNotify():
+            nag=self.getDomChild('nag')
+            return getDomAttributeValue(nag,'to')
         
     def hasNotifyFromOverride(self):
         if not self.isNotify(): return False
@@ -409,9 +409,9 @@ class Workspace(NamedModelObject, PropertyContainer, Statable, Resultable):
         return hasDomAttribute(nag,'from')
         
     def getNotifyFromOverride(self):
-        if not self.isNotify(): return False
-        nag=self.getDomChild('nag')
-        return getDomAttributeValue(nag,'from')
+        if self.isNotify():
+            nag=self.getDomChild('nag')
+            return getDomAttributeValue(nag,'from')
         
     def getNotifyOverrides(self):
         

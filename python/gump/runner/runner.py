@@ -127,12 +127,11 @@ class GumpRunner(RunSpecific):
         self.run.getOptions().setResolver(documenter.getResolver())                                                  
         self.run.registerActor(documenter)    
         
-        
         # Syndicate once documented
         self.run.registerActor(Syndicator(self.run))   
             
         # Notify last
-        if self.run.getOptions().isNotify():
+        if self.run.getOptions().isNotify() and self.run.getWorkspace().isNotify():
             self.run.registerActor(Notifier(self.run))         
                     
     def finalize(self):            

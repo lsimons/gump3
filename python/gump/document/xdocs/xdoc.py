@@ -575,16 +575,16 @@ class XDocNote(XDocPiece):
         XDocPiece.__init__(self,context,config)
         if text:
             self.createText(text)
-        
+              
     def start(self):
         if self.config.isXhtml():    
-            self.context.writeLineIndented('<p class="NOTE">')
+            self.context.writeLineIndented('<table><tr><td class="WARN"><p>')
         else:
-            self.context.writeLineIndented('<note>')
+            self.context.writeLineIndented('<note>')    
         
     def end(self):
         if self.config.isXhtml():    
-            self.context.writeLine('</p>')
+            self.context.writeLine('</p></td></tr></table>')
         else:
             self.context.writeLine('</note>')
         
@@ -614,13 +614,13 @@ class XDocWarning(XDocPiece):
         
     def start(self):
         if self.config.isXhtml():    
-            self.context.writeLineIndented('<p class="WARN">')
+            self.context.writeLineIndented('<table><tr><td class="WARN"><p>')
         else:
             self.context.writeLineIndented('<warning>')    
         
     def end(self):
         if self.config.isXhtml():    
-            self.context.writeLine('</p>')
+            self.context.writeLine('</p></td></tr></table>')
         else:
             self.context.writeLine('</warning>')
         
@@ -769,7 +769,8 @@ class XDocDocument(XDocPiece):
         if isinstance(output,types.StringTypes):    
             self.xfile=output
             log.debug("Documenting to file : [" + self.xfile + "] " + `self.config`)                    
-            self.output=open(self.xfile, 'w')
+            # Open for writing with a decent sized buffer.
+            self.output=open(self.xfile, 'w', 4096)
         else:
             self.output=output        
         self.context=XDocContext(self.output)
@@ -833,6 +834,8 @@ class XDocDocument(XDocPiece):
         # Probably ought do this higher up
         self.unlink()
         
+        log.debug('Closed Documenting')                    
+            
 
     def createSection(self,title,transient=False):
         return self.storePiece(XDocSection(self.createSubContext(transient),self.config,title))
