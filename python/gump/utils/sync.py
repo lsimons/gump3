@@ -60,6 +60,7 @@ class PathWalker(Annotatable):
         if self.output:
             if isinstance(self.output,types.StringTypes):
                 doClose=1
+                log.debug('          changes to  [' + self.output + ']')
                 self.outputStream=open(self.output,'w')
             else:
                 self.outputStream=self.output
@@ -97,6 +98,7 @@ class PathWalker(Annotatable):
                     if not os.path.getsize(self.output) > 0:
                         try:
                             os.remove(self.output)
+                            log.debug(' No changes, removed  [' + self.output + ']')
                         except: pass
                 
         return self.actionsOccured
