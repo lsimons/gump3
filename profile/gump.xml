@@ -112,6 +112,7 @@
   <module href="project/jython.xml"/>
   <module href="project/mockobjects.xml"/>
   <module href="project/mx4j.xml"/>
+  <module href="project/nsuml.xml"/>
   <!-- <module href="project/qdox.xml"/> -->
   <module href="project/quartz.xml"/>
   <module href="project/relaxng.xml"/>

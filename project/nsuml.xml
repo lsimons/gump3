@@ -1,0 +1,32 @@
+<module name="nsuml">
+
+  <url href="http://nsuml.sourceforge.net/"/>
+  <description>
+    Novosoft UML Library for Java
+  </description>
+
+  <cvs repository="sourceforge" host-prefix="cvs.nsuml" 
+       dir="nsuml" module="nsuml1_4"/>
+  
+  <project name="nsuml">
+    <package>ru.novasoft.uml</package>
+    <ant/>
+    <depend project="jakarta-ant" inherit="runtime"/>
+    <depend project="xml-xerces"/>
+    <depend project="nsmdf"/>
+
+    <home nested="build"/>
+    <jar name="nsuml1_4.jar"/>
+  </project>
+
+  <project name="nsmdf">
+    <package>ru.novasoft.mdf.generator</package>
+    <url href="http://nsuml.sourceforge.net/"/>
+    <description>
+      Novosoft Metadata Framework  
+    </description>
+    <home nested="lib"/>
+    <jar name="nsmdf.jar"/>
+    <jar name="gen/nsmdf_gen.jar"/>
+  </project>
+</module>
