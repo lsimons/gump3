@@ -27,6 +27,7 @@
     <depend project="jakarta-tomcat-util-coyote_10"/>
     <depend project="jsse"/>
     <depend project="mx4j"/>
+    <option project="log4j" />
     <work nested="build/tomcat/classes"/>
     <home nested="build/tomcat"/>
     <jar name="lib/common/tomcat_core.jar"/>
