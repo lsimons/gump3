@@ -38,6 +38,8 @@
         href="http://jakarta.apache.org/builds/gump/latest/packages.html"/>
       <item name="Jars by module"  
         href="http://jakarta.apache.org/builds/gump/latest/cvsjars.html"/>
+      <item name="By Java package Name"
+        href="http://jakarta.apache.org/builds/gump/latest/bypackage.html"/>
     </menu>
 
     <menu name="Data Definitions">
