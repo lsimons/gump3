@@ -286,7 +286,7 @@
 
         <ant basedir="configuration">
             <depend property="avalon-framework.jar" project="jakarta-avalon" runtime="true"/>
-            <property name="version" value="@@DATE@@"/>
+            <property name="package-version" value="@@DATE@@"/>
             <property name="junit.failonerror" value="true"/>
             <property name="do.checkstyle" value="false"/>
             <property name="skip.dependencies" value="true"/>
@@ -394,7 +394,7 @@
             <depend property="excalibur-threadcontext.jar" project="excalibur-threadcontext"/>
             <depend property="excalibur-thread.jar" project="excalibur-thread"/>
             <depend property="excalibur-util.jar" project="excalibur-util"/>
-             <property name="version" value="@@DATE@@"/>
+             <property name="package-version" value="@@DATE@@"/>
             <property name="junit.failonerror" value="true"/>
             <property name="do.checkstyle" value="true"/>
             <property name="skip.dependencies" value="true"/>
@@ -421,7 +421,7 @@
         <package>org.apache.excalibur.extension</package>
 
         <ant basedir="extension">
-            <property name="version" value="@@DATE@@"/>
+            <property name="package-version" value="@@DATE@@"/>
             <property name="junit.failonerror" value="true"/>
             <property name="do.checkstyle" value="true"/>
             <property name="skip.dependencies" value="true"/>
@@ -612,7 +612,7 @@
         <package>org.apache.avalon.excalibur.io</package>
 
         <ant basedir="io">
-            <property name="version" value="@@DATE@@"/>
+            <property name="package-version" value="@@DATE@@"/>
             <property name="junit.failonerror" value="true"/>
             <property name="do.checkstyle" value="true"/>
             <property name="skip.dependencies" value="true"/>
@@ -665,7 +665,7 @@
 
         <ant basedir="logger">
             <depend property="logkit.jar" project="jakarta-avalon-logkit" runtime="true"/>
-            <property name="version" value="@@DATE@@"/>
+            <property name="package-version" value="@@DATE@@"/>
             <property name="junit.failonerror" value="true"/>
             <property name="do.checkstyle" value="true"/>
             <property name="skip.dependencies" value="true"/>
@@ -938,7 +938,7 @@
         <package>org.apache.excalibur.threadcontext</package>
 
         <ant basedir="threadcontext">
-            <property name="version" value="@@DATE@@"/>
+            <property name="package-version" value="@@DATE@@"/>
             <property name="junit.failonerror" value="true"/>
             <property name="do.checkstyle" value="true"/>
             <property name="skip.dependencies" value="true"/>
