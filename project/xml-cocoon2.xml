@@ -71,6 +71,8 @@
     <depend project="maybeupload"/>
     <depend project="pizza"/>
 
+    <depend project="junit"/>
+    
     <work nested="build/cocoon/classes"/>
     <work nested="tools/anttasks"/>
 
