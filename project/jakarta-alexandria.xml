@@ -33,4 +33,16 @@
     <jar name="bin/maven-gump.jar"/>
   </project>
 
+  <project name="gump-site">
+    <ant basedir="proposal/gump/site">
+      <property name="site.dir" reference="srcdir" project="jakarta-site2"/>
+      <property name="batik.dir" reference="home" project="xml-batik"/>
+    </ant>
+
+    <depend project="jakarta-ant"/>
+    <depend project="jakarta-velocity"/>
+    <depend project="jdom"/>
+    <depend project="xml-xerces"/>
+    <depend project="xml-batik-rasterizer"/>
+  </project>
 </module>

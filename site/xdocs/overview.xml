@@ -1,0 +1,61 @@
+<?xml version="1.0"?>
+<document>
+
+  <properties>
+    <author email="rubys@us.ibm.com">Sam Ruby</author>
+    <title>Gump</title>
+  </properties>
+
+<body>
+
+  <section name="Data Definition Overview">
+    <p>The data definitions for Gump are organized around the various
+    roles a developer may perform.  The overall approach is that elements
+    (e.g. project definitions) can be repeated in multiple contexts (e.g.,
+    modules, profiles, and workspaces), with definitions in "higher"
+    level contructs extending or overriding the previous definitions.</p>
+
+    <p>The way extending or overriding works is quite simple.  If two like
+    kind elements (e.g., project) are located with the same value for the
+    "name" attribute, they are combined.  Combining of attributes results
+    in like named attributes overriding previous values.  Combining of
+    elements results in concatenation.  These rules allow for the easy
+    overriding of a target and the adding of a dependency.</p>
+
+    <p>An area for future exploration is "anti-elements", which cancel out
+    the effect of other elements</p> 
+
+    <p>An area where designers of XML DTDs have differing opinions is whether
+    a given piece of information should be modelled as an attribute or an
+    element.  A design goal of Gump was to try to reinvent as little as 
+    possible - resulting in a bit of inconsistency.  Project definitions are
+    done in a style reminicent of Ant - with element and attribute names 
+    chosen to match whenever possible.  Repository definitions were done in
+    a style consistent with Alexandria.  In a few cases, information can
+    be represented as either a nested element or an attribute - this was
+    generally done to make that piece of information easier to override.</p>
+
+    <p>The subsections below represent a "bottoms up" introduction to the
+    individual XML data elements, and contain links to more full
+    descriptions</p>
+
+    <subsection name="project">
+      <p></p>
+    </subsection>
+
+    <subsection name="module">
+      <p></p>
+    </subsection>
+
+    <subsection name="profile">
+      <p></p>
+    </subsection>
+
+    <subsection name="workspace">
+      <p></p>
+    </subsection>
+
+  </section>
+</body>
+</document>
+

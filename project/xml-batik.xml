@@ -8,12 +8,16 @@
   <cvs repository="xml"/>
   
   <project name="xml-batik">
-    <ant target="jars">
+    <ant target="dist-zip">
       <property name="version" value="gump"/>
     </ant>
+
     <depend project="jakarta-ant"/>
     <depend project="xml-xerces"/>
     <depend project="rhino"/>
+    <depend project="xml-stylebook2"/>
+    <depend project="xml-xalan2"/>
+
     <home nested="batik-gump"/>
     <jar name="lib/batik-awt-util.jar"/>
     <jar name="lib/batik-bridge.jar"/>
@@ -27,4 +31,9 @@
     <jar name="lib/batik-util.jar"/>
   </project>
 
+  <project name="xml-batik-rasterizer">
+    <depend project="xml-batik"/>
+    <home nested="batik-gump"/>
+    <jar name="batik-rasterizer.jar"/>
+  </project>
 </module>

@@ -1,0 +1,105 @@
+<?xml version="1.0"?>
+<document>
+
+  <properties>
+    <author email="rubys@us.ibm.com">Sam Ruby</author>
+    <title>Gump</title>
+  </properties>
+
+<body>
+
+  <section name="Repository">
+    <p>This represents the location from which modules can be obtained.</p>
+
+    <table>
+      <tr>
+        <th>Attribute</th>
+        <th>Description</th>
+        <th>Required?</th>
+      </tr>
+      <tr>
+        <td>name</td>
+        <td>Name by which this repository will be referenced by module
+          definitions.
+        </td>
+        <td>Yes</td>
+      </tr>
+      <tr>
+        <td>type</td>
+        <td>Type of repository.</td>
+        <td>Yes, though cvs is the only type supported currently.</td>
+      </tr>
+    </table>
+    <p/>
+
+    <table>
+      <tr>
+        <th>Entity</th>
+        <th>Description</th>
+        <th>Required?</th>
+      </tr>
+      <tr>
+        <td>title</td>
+        <td>Descriptive name for the repository</td>
+        <td>No</td>
+      </tr>
+      <tr>
+        <td>home-page</td>
+        <td>Where to find out more information about the repository</td>
+        <td>No</td>
+      </tr>
+      <tr>
+        <td>cvsweb</td>
+        <td>Web interface to the repository</td>
+        <td>No</td>
+      </tr>
+    </table>
+    <p/>
+
+    <subsection name="root">
+      <p>This specifies all of the elements which are combined to form
+      a CVSROOT.  They are split out into separate entities so that each
+      can be individually overridden in a workspace definition.  When an
+      entity is listed a required below, it means that when all of the
+      definitions are compined the entity must have a value - a workspace
+      or profile, for example, only needs to contain the values which it
+      overrides.</p>
+
+      <table>
+        <tr>
+          <th>Entity</th>
+          <th>Description</th>
+          <th>Required?</th>
+        </tr>
+        <tr>
+          <td>method</td>
+          <td></td>
+          <td>Yes</td>
+        </tr>
+        <tr>
+          <td>user</td>
+          <td></td>
+          <td>Yes</td>
+        </tr>
+        <tr>
+          <td>password</td>
+          <td></td>
+          <td>Yes</td>
+        </tr>
+        <tr>
+          <td>hostname</td>
+          <td></td>
+          <td>Yes</td>
+        </tr>
+        <tr>
+          <td>path</td>
+          <td></td>
+          <td>Yes</td>
+        </tr>
+      </table>
+    </subsection>
+
+  </section>
+</body>
+</document>
+

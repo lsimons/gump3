@@ -1,0 +1,41 @@
+<?xml version="1.0"?>
+<document>
+
+  <properties>
+    <author email="rubys@us.ibm.com">Sam Ruby</author>
+    <title>Gump</title>
+  </properties>
+
+<body>
+
+  <section name="project">
+    <p>TBD</p>
+
+    <subsection name="ant">
+      <p></p>
+    </subsection>
+
+    <subsection name="depend">
+      <p></p>
+    </subsection>
+
+    <subsection name="option">
+      <p></p>
+    </subsection>
+
+    <subsection name="work">
+      <p></p>
+    </subsection>
+
+    <subsection name="home">
+      <p></p>
+    </subsection>
+
+    <subsection name="jar">
+      <p></p>
+    </subsection>
+
+  </section>
+</body>
+</document>
+

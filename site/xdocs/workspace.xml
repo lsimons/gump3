@@ -1,0 +1,198 @@
+<?xml version="1.0"?>
+<document>
+
+  <properties>
+    <author email="rubys@us.ibm.com">Sam Ruby</author>
+    <title>Gump</title>
+  </properties>
+
+<body>
+
+  <section name="Workspace">
+    <p>This represents the combination of projects (either referenced 
+    directly or indirectly, via profiles) that are to be built together.
+    By default, workspaces are named after the hostname of the computer
+    which you are building on.</p>
+
+    <table>
+      <tr>
+        <th>Attribute</th>
+        <th>Description</th>
+        <th>Required?</th>
+      </tr>
+      <tr>
+        <td>Basedir</td>
+        <td>Fully qualified directory into which all projects will be
+          extracted built.
+        </td>
+        <td>No</td>
+      </tr>
+      <tr>
+        <td>pkgdir</td>
+        <td>Default directory in which to find projects which are installed
+          as packages instead of being built.  Examples being various jars
+          which can be downloaded from Sun's web site.
+        </td>
+        <td>No</td>
+      </tr>
+      <tr>
+        <td>cvsdir</td>
+        <td>Workarea for cvs extracts.  The generated update script will
+          do the cvs checkouts or updates into this directory.  The generated
+          build script will copy the results into the basedir prior to 
+          building.
+        </td>
+        <td>No.  Defaults to ${basedir}/cvs</td>
+      </tr>
+      <tr>
+        <td>logdir</td>
+        <td>Directory into which the generated html logs are placed.</td>
+        <td>No.  Defaults to ${basedir}/log</td>
+      </tr>
+      <tr>
+        <td>version</td>
+        <td>Which version of the Gump dtd this workspace was defined against.
+          The current version is "0.3".
+        </td>
+        <td>Yes</td>
+      </tr>
+    </table>
+    <p/>
+
+    <subsection name="property">
+      <p>Global properties which are to be applied to every Ant execution.
+      Commonly used to specify the "build.sysclasspath" property which
+      tells Ant how to deal with classpaths specified inside the build.xml
+      files</p>
+
+      <table>
+        <tr>
+          <th>Attribute</th>
+          <th>Description</th>
+          <th>Required?</th>
+        </tr>
+        <tr>
+          <td>Name</td>
+          <td>Name of the property to set.</td>
+          <td>Yes</td>
+        </tr>
+        <tr>
+          <td>Value</td>
+          <td>Desired value</td>
+          <td>Yes</td>
+        </tr>
+      </table>
+    </subsection>
+
+    <subsection name="profile">
+      <p>Collections of projects and repositories.  While a complete
+      profile can be defined here, typically one is referenced via
+      href.  For a complete description, see the documentation for
+      <a href="profile.html">profile</a>.</p>
+
+      <table>
+        <tr>
+          <th>Attribute</th>
+          <th>Description</th>
+          <th>Required?</th>
+        </tr>
+        <tr>
+          <td>href</td>
+          <td>URI of the file containing the profile definition</td>
+          <td>No.</td>
+        </tr>
+      </table>
+    </subsection>
+
+    <subsection name="module">
+      <p>An individual module to be included.  While a complete
+      module can be defined here, typically one is referenced via
+      href.  For a complete description, see the documentation for
+      <a href="module.html">module</a>.</p>
+
+      <table>
+        <tr>
+          <th>Attribute</th>
+          <th>Description</th>
+          <th>Required?</th>
+        </tr>
+        <tr>
+          <td>href</td>
+          <td>URI of the file containing the module definition</td>
+          <td>No.</td>
+        </tr>
+      </table>
+    </subsection>
+
+    <subsection name="project">
+      <p>An individual project to be included.  While a complete
+      project can be defined here, typically one is referenced via
+      href.  For a complete description, see the documentation for
+      <a href="project.html">project</a>.</p>
+
+      <table>
+        <tr>
+          <th>Attribute</th>
+          <th>Description</th>
+          <th>Required?</th>
+        </tr>
+        <tr>
+          <td>href</td>
+          <td>URI of the file containing the project definition</td>
+          <td>No.</td>
+        </tr>
+        <tr>
+          <td>home</td>
+          <td>Convenient way to specify an override for a root/home 
+            element.
+          </td>
+          <td>No.</td>
+        </tr>
+      </table>
+    </subsection>
+
+    <subsection name="repository">
+      <p>An repository from which one or more modules may be obtained
+      While a complete repository can be defined here, typically one is 
+      referenced via href.  For a complete description, see the documentation 
+      for <a href="repository.html">repository</a>.</p>
+
+      <table>
+        <tr>
+          <th>Attribute</th>
+          <th>Description</th>
+          <th>Required?</th>
+        </tr>
+        <tr>
+          <td>href</td>
+          <td>URI of the file containing the repository definition</td>
+          <td>No.</td>
+        </tr>
+        <tr>
+          <td>method</td>
+          <td>Convenient way to specify an override for a root/method 
+            element
+          </td>
+          <td>No.</td>
+        </tr>
+        <tr>
+          <td>user</td>
+          <td>Convenient way to specify an override for a root/user 
+            element
+          </td>
+          <td>No.</td>
+        </tr>
+        <tr>
+          <td>path</td>
+          <td>Convenient way to specify an override for a root/path 
+            element
+          </td>
+          <td>No.</td>
+        </tr>
+      </table>
+    </subsection>
+
+  </section>
+</body>
+</document>
+

@@ -48,9 +48,15 @@
 
         <table border="0" width="100%" cellspacing="0">
           <tr>
-            <td colspan="2">
+            <td>
               <a href="{@banner-link}">
                 <img src="{@banner-image}" align="left" border="0"/>
+              </a>
+            </td>
+            <td>
+              <a href="http://jakarta.apache.org/gump/">
+                <img src="http://jakarta.apache.org/gump/images/bench.png" 
+                  align="right" border="0"/>
               </a>
             </td>
           </tr>

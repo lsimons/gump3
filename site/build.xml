@@ -26,7 +26,7 @@
         <fileset dir="${site.dir}/lib">
             <include name="*.jar"/>
         </fileset>
-        <fileset dir="${batik.dir}/lib">
+        <fileset dir="${batik.dir}">
             <include name="batik-rasterizer.jar"/>
         </fileset>
     </path>
