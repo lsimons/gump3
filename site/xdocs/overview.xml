@@ -13,7 +13,7 @@
     roles a developer may perform.  The overall approach is that elements
     (e.g. project definitions) can be repeated in multiple contexts (e.g.,
     modules, profiles, and workspaces), with definitions in "higher"
-    level contructs extending or overriding the previous definitions.</p>
+    level constructs extending or overriding the previous definitions.</p>
 
     <p>The way extending or overriding works is quite simple.  If two like
     kind elements (e.g., project) are located with the same value for the
@@ -26,10 +26,10 @@
     the effect of other elements</p>
 
     <p>An area where designers of XML DTDs have differing opinions is whether
-    a given piece of information should be modelled as an attribute or an
+    a given piece of information should be modeled as an attribute or an
     element.  A design goal of Gump was to try to reinvent as little as
     possible - resulting in a bit of inconsistency.  Project definitions are
-    done in a style reminicent of Ant - with element and attribute names
+    done in a style reminiscent of Ant - with element and attribute names
     chosen to match whenever possible.  Repository definitions were done in
     a style consistent with Alexandria.  In a few cases, information can
     be represented as either a nested element or an attribute - this was

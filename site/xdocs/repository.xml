@@ -61,7 +61,7 @@
       a CVSROOT.  They are split out into separate entities so that each
       can be individually overridden in a workspace definition.  When an
       entity is listed a required below, it means that when all of the
-      definitions are compined the entity must have a value - a workspace
+      definitions are combined the entity must have a value - a workspace
       or profile, for example, only needs to contain the values which it
       overrides.</p>
 

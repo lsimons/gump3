@@ -31,7 +31,7 @@
     <subsection name="xml-fop">
       <p>Batik is in the process of correcting what they have described as
       a fairly fundamental design error.  This should only affect a small
-      minority of batik users.  Unfortunately, xml-fop is one of the users
+      minority of Batik users.  Unfortunately, xml-fop is one of the users
       affected.</p>
       <p>At the present time, there is a good line of communication between
       the two projects, and the fop team understands and agrees to this change.
@@ -42,10 +42,10 @@
 
   <section name="Other Issues">
     <p>These represent versioning issues that will not show up in any
-    gump run, but you may need to be aware.</p>
+    Gump run, but you may need to be aware.</p>
 
     <subsection name="jakarta-tomcat-4.0">
-      <p>Tomcat4 integration with tyrex depends on interfaces which tyrex
+      <p>Tomcat4 integration with Tyrex depends on interfaces which Tyrex
       removed over six months ago.</p>
     </subsection>
 
@@ -72,7 +72,7 @@
     </p>
 
     <ul>
-      <li>detected by gump</li>
+      <li>detected by Gump</li>
       <li>the changes would likely have otherwise gone undetected until
       release</li>
       <li>involved changes to one or both products</li>
@@ -81,7 +81,7 @@
 
     <subsection name="dbxml">
       <p>October 2001: The Xalan team is in the process of changing an 
-      undocumented API that dbxml used.  The dbxml team determined that the
+      undocumented API that dbXML used.  The dbXML team determined that the
       reason that they were using that undocumented API no longer applies.
       This was corrected after the second beta of dbXML - meaning that the
       users of their next release will be able to upgrade smoothly to

@@ -37,7 +37,7 @@
       this module.  This element is optional, but if present, will be
       referenced in the generated web pages containing build results.</p>
 
-      <p>Note: give the way that gump uses href to specify definitions which
+      <p>Note: give the way that Gump uses href to specify definitions which
       are to be inlined, the design of this element is rather unfortunate.
       Perhaps it should be replaced with a &lt;home-page&gt; element.</p>
 

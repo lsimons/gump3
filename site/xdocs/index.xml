@@ -87,10 +87,10 @@
     <p>
       Recently, I have been experimenting with a second server kindly donated
       by Sun and administered by Pier Fumagalli and Justyna Horwat.  After
-      I'd complained quite a bit, Pier took pitty on me and made available
+      I'd complained quite a bit, Pier took pity on me and made available
       a LOT of tmp space - backed by 3 gigs of RAM.  Doing my builds from
       there positively flies!.  For now, I've timed an automated run to be 
-      kicked off at 6 a.m., noon, and 6 p.m. Pacific time - meaning gump runs
+      kicked off at 6 a.m., noon, and 6 p.m. Pacific time - meaning Gump runs
       occur every six hours.  Note that I often kick off partial builds and 
       may even do a full run out of cycle, so the cvs updates logs on nagoya
       may not capture all of the activity that has taken place since the

@@ -59,7 +59,7 @@
       <tr>
         <td>sync</td>
         <td>The name of the command, along with any desired parameters, used to
-          syncronize the build directory with the cvs directory.  This can make
+          synchronize the build directory with the cvs directory.  This can make
           a <em>considerable</em> performance advantage over the default action
           which is to recursively remove the directory and copy the entire
           directory tree.  Recommended value for this parameter is
