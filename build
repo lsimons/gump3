@@ -1,0 +1,155 @@
+#!/bin/sh
+#
+# Copyright 2004 The Apache Software Foundation
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+
+# Documentation for the different commands.
+function usage
+{
+  case $1 in
+    site)
+      echo '
+      Use Apache Forrest to build the documentation.
+
+      Usage:
+        $0 site
+'
+      ;;
+    site-publish)
+      echo '
+      Use svn and ssh to publish the site.
+
+      Usage:
+        $0 site-publish
+'
+      ;;
+    *)
+      echo '
+      Utility commandline interface for Gump.
+     
+      Usage:
+        $0 command [opts ...]
+     
+      Available commands are:
+     
+        help -- print this information
+        site -- use Apache Forrest to build the documentation
+        site-publish -- use SVN and SSH to publish the site to the website
+     
+      Run
+     
+        $0 help [command]
+     
+      for more information about a particular command.
+    '
+      ;;
+  esac
+}
+
+function error
+{
+  echo "$0: $1"
+  usage
+  exit 1
+}
+
+function delegate
+{
+  local called_as=$0
+  local command=$1
+  shift
+
+  if [[ -z "$command" ]]; then
+    error "Illegal command '$command'"
+  fi
+
+  # delegate to the command handling functions
+  case $command in
+
+    site)
+      site $@
+      ;;
+    site-publish)
+      site_publish $@
+      ;;
+    help | usage)
+      usage $@
+      ;;
+    '')
+      error "Please specify a command"
+      ;;
+    *)
+      error "Unknown command '$command'"
+      ;;
+  esac
+}
+
+# Use Apache Forrest to build the documentation.
+function site
+{
+  local forrest=`bin/PrintPath forrest forrest.sh forrest.bat`
+  if [[ -z "$forrest" ]]; then
+    error 'Cannot find forrest. Please retrieve it from 
+
+  http://forrest.apache.org/mirrors.cgi
+  
+and install it.'
+  fi
+
+  $forrest
+}
+
+# Use svn and ssh to publish the site.
+
+
+function site_publish
+{
+  local svncmd=${SVN:-svn};
+  local svn=`bin/PrintPath $svncmd`;
+  if [[ -z "$svn" ]]; then
+     error 'Cannot find svn. Please retrieve it from 
+
+     http://subversion.tigris.org/
+     
+and install it.'
+  fi
+
+  local sshcmd=${SSH:-ssh};
+  local ssh=`bin/PrintPath $sshcmd`;
+  if [[ -z "$ssh" ]]; then
+     error 'Cannot find ssh. Please retrieve it from 
+
+        http://www.openssh.org/
+        
+and install it.'
+  fi
+  $svn commit -m "Publishing site..." build/site
+  $ssh minotaur.apache.org '/home/leosimons/bin/gump-site-up.sh'
+}
+
+# Figure out then run the appropriate function
+delegate $@
+
+#option=$@
+#previous_argument=
+#for option
+#do
+   # get argument to options with arguments
+#  if test -n "$previous_argument"; then
+#    eval "$previous_argument=\$option"
+#    previous_argument=
+#    continue
+#  fi
+#done
