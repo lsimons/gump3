@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/Attic/view.py,v 1.23 2003/05/04 22:44:03 rubys Exp $
-# $Revision: 1.23 $
-# $Date: 2003/05/04 22:44:03 $
+# $Header: /home/stefano/cvs/gump/python/gump/Attic/view.py,v 1.24 2003/05/04 22:57:43 nicolaken Exp $
+# $Revision: 1.24 $
+# $Date: 2003/05/04 22:57:43 $
 #
 # ====================================================================
 #
@@ -139,7 +139,6 @@ class gumpview(wxApp):
                                      wxBitmap("gump/images/console.bmp",
                                               wxBITMAP_TYPE_BMP),
                                      shortHelp="Toggle this")
-    self.frame.toolbar.ToggleTool(self.menu_CONSOLE, TRUE);
     
     self.frame.toolbar.AddSimpleTool(self.menu_HELP,
                                      wxBitmap("gump/images/help.bmp",
