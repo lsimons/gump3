@@ -6,7 +6,7 @@ export GUMP_LOG_DIR=$ROOT/log
 export FORREST_HOME=/home/ajack/opt/forrest
 export PATH=$PATH:$FORREST_HOME/bin
 
-export JAVA_HOME=/opt/sunjdk
+export JAVA_HOME=/usr/java/j2sdk1.4.2/
 export CLASSPATH=$JAVA_HOME/lib/tools.jar
 export PATH=$PATH:$JAVA_HOME/bin
 
