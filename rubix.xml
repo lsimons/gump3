@@ -59,6 +59,7 @@
   <project href="project/castor.xml"/>
   <project href="project/freemarker.xml"/>
   <project href="project/jdom.xml"/>
+  <project href="project/jtidy.xml"/>
   <project href="project/junit.xml"/>
   <project href="project/rhino.xml"/>
   <project href="project/scarab.xml"/>
@@ -83,41 +84,26 @@
   <project href="project/jts.xml"      home="/opt/jts1_0"/>
 
   <!-- CVS Repository overrides -->
+  <repository href="repository/exolab.xml"/>
+  <repository href="repository/sourceforge.xml"/>
 
   <cvs-repository>
     <tree name="bsf"
       root=":pserver:bsfadmin@oss.software.ibm.com:/usr/cvs/bsf"/>
-
-    <tree name="castor"
-      root=":pserver:anoncvs@castor.exolab.org:/cvs/castor"/>
-
-    <tree name="freemarker"
-      root=":pserver:anonymous@cvs.freemarker.sourceforge.net:/cvsroot/freemarker"/>
 
     <tree name="jakarta"
       root=":pserver:anoncvs@jakarta.apache.org:/home/cvspublic"/>
 
     <tree name="jdom" root=":pserver:anonymous@cvs.jdom.org:/home/cvspublic"/>
 
-    <tree name="junit"
-      root=":pserver:anonymous@cvs.JUnit.sourceforge.net:/cvsroot/junit"/>
-
     <tree name="mozilla"
       root=":pserver:anonymous@cvs-mirror.mozilla.org:/cvsroot"/>
 
-    <tree name="jservpub"
-      root=":pserver:jservpub@cvs.working-dogs.com:/products/cvs/master"/>
-
-    <tree name="tigris" root=":pserver:guest@cvs.tigris.org:/cvs"/>
-
-    <tree name="tyrex"
-      root=":pserver:anoncvs@tyrex.exolab.org:/cvs/tyrex"/>
+    <tree name="whichever"
+      root=":pserver:anoncvs@share.whichever.com:/home/cvspublic"/>
 
     <tree name="xml"
       root=":pserver:anoncvs@xml.apache.org:/home/cvspublic"/>
-
-    <tree name="whichever"
-      root=":pserver:anoncvs@share.whichever.com:/home/cvspublic"/>
   </cvs-repository>
 
 </workspace>

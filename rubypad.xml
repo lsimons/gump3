@@ -99,10 +99,10 @@
 
     <tree name="tigris" root=":pserver:guest@cvs.tigris.org:/cvs"/>
 
-    <tree name="xml" root=":pserver:rubys@localhost:/home/cvs"/>
-
     <tree name="whichever"
       root=":pserver:anoncvs@share.whichever.com:/home/cvspublic"/>
+
+    <tree name="xml" root=":pserver:rubys@localhost:/home/cvs"/>
   </cvs-repository>
 
 </workspace>
