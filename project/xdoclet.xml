@@ -89,8 +89,10 @@
     <jar id="xdoclet-macromedia" name="lib/xdoclet-macromedia-module.jar"/>
     <jar id="xdoclet-mvcsoft" name="lib/xdoclet-mvcsoft-module.jar"/>
     <jar id="xdoclet-mx4j" name="lib/xdoclet-mx4j-module.jar"/>
+    <jar id="xdoclet-objectweb" name="lib/xdoclet-objectweb-module.jar"/>
     <jar id="xdoclet-orion" name="lib/xdoclet-orion-module.jar"/>
     <jar id="xdoclet-pramati" name="lib/xdoclet-pramati-module.jar"/>
+    <jar id="xdoclet-sybase" name="lib/xdoclet-sybase-module.jar"/>
     <jar id="xdoclet-web" name="lib/xdoclet-web-module.jar"/>
     <jar id="xdoclet-webwork" name="lib/xdoclet-webwork-module.jar"/>
     <jar id="xdoclet-module" name="lib/xdoclet-xdoclet-module.jar"/>
@@ -110,10 +112,6 @@
     <depend project="mx4j"/>
     <nag from="Peter Donald &lt;peter@apache.org&gt;"
          to="xdoclet-devel@lists.sourceforge.net"/>
-  </project>
-
-  <project name="jrefactory-pretty">
-    <jar name="lib/prettyprinter.jar"/>
   </project>
 
 </module>

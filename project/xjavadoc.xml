@@ -21,7 +21,4 @@
     <jar name="build/lib/xjavadoc.jar"/>
   </project>
 
-  <project name="jrefactory">
-    <jar name="lib/jrefactory.jar"/>
-  </project>
 </module>

@@ -8,20 +8,20 @@
   <cvs repository="sourceforge" host-prefix="cvs.JRefactory" dir="jrefactory" 
        module="JRefactory"/>
   
-  <project name="jrefactory-cvs">
+  <project name="jrefactory">
     <package>org.acm.seguin</package>
 
     <ant target="jar"/>
     <depend project="jakarta-ant" inherit="runtime"/>
     <depend project="xml-xerces"/>
     <depend project="junit"/>
-    <option project="jrefactory-pretty-cvs"><noclasspath/></option>
+    <option project="jrefactory-pretty"><noclasspath/></option>
     <work nested="ant.build/classes"/>
     <work nested="test/classes"/>
     <jar name="ant.build/lib/jrefactory.jar"/>
   </project>
 
-  <project name="jrefactory-pretty-cvs">
+  <project name="jrefactory-pretty">
     <package>org.acm.seguin.pretty</package>
     <ant target="pretty">
       <property name="version" value="@@DATE@@"/>
