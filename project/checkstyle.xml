@@ -10,7 +10,7 @@
   <project name="checkstyle">
     <package>com.puppycrawl.tools.checkstyle</package>
   
-    <ant target="build.bindist">
+    <ant target="gump">
       <property name="version" value="@@DATE@@"/>
     </ant>
 
