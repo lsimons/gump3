@@ -15,14 +15,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-"""
-
-"""
-
 import os.path
 import sys
-
-from gump import log
 
 from gump.core.update.updater import *
 from gump.core.build.builder import *
@@ -41,43 +35,57 @@ from gump.actor.notify.notifier import Notifier
 from gump.actor.results.resulter import Resulter
 from gump.actor.syndication.syndicator import Syndicator
 
-###############################################################################
-# Classes
-###############################################################################
-
-
 class GumpRunner(RunSpecific):
+    """
+    Base class for other runners that initializes several helper objects.
+    
+    the lifecycle for this class is as follows:
+    
+        runner.initialize() # set up environment
+        runner.perform()    # delegates to subclass to perform actual work
+        runner.finalize()   # do some cleanup work
+    """
 
-    def __init__(self, run):
-        
-        #
+    def __init__(self, run, log=None):
         RunSpecific.__init__(self, run)
         
-        # Main players (soon we ought make
-        # them into actors, like the others).         
-        self.updater=GumpUpdater(run)
-        self.builder=GumpBuilder(run)
+        if not log: from gump import log
+        self.log = log
         
+        # Main players (soon we ought make them into actors, like the others).         
+        self.updater = GumpUpdater(run)
+        self.builder = GumpBuilder(run)
         
         # A helper per language/type
-        self.java=gump.core.language.java.JavaHelper(run)
-        self.csharp=gump.core.language.csharp.CSharpHelper(run)
+        self.java = gump.core.language.java.JavaHelper(run)
+        self.csharp = gump.core.language.csharp.CSharpHelper(run)
         
         # Stash them for reference...
         run.setUpdater(self.updater)
-        run.setBuilder(self.builder)    
+        run.setBuilder(self.builder)
             
         run.addLanguageHelper(Project.JAVA_LANGUAGE,self.java)  
         run.addLanguageHelper(Project.CSHARP_LANGUAGE,self.csharp)
         
     def initialize(self,exitOnError=True):
+        """
+        Set up all of the neccessary resources for the subclass implementation to use.
+        Besides modifying the properties of this class, we also modify bits of the
+        workspace and bits of the GumpRun instance.
+        
+        TODO: currently this method must be called from the performRun() method of the
+        subclass. Call it from perform() instead.
+        
+        TODO: clean this up and have a clear responsibility split between the various
+        parts we're modifying here...
+        """
         
         logResourceUtilization('Before initialize')
         
         # Perform start-up logic 
         workspace = self.run.getWorkspace()
                 
-        #Check out environment
+        # Check out environment
         if not self.run.getOptions().isQuick():
             logResourceUtilization('Before check environment')            
             self.run.getEnvironment().checkEnvironment(exitOnError)
@@ -94,13 +102,12 @@ class GumpRunner(RunSpecific):
         if not workspace.getVersion() >= setting.WS_VERSION:
             message='Workspace version ['+str(workspace.getVersion())+'] below preferred [' + setting.WS_VERSION + ']'
             workspace.addWarning(message)
-            log.warn(message)   
-            
-        # Check the workspace
+            self.log.warn(message)   
+
         if not workspace.getVersion() >= setting.WS_MINIMUM_VERSION:
             message='Workspace version ['+str(workspace.getVersion())+'] below minimum [' + setting.WS_MINIMUM_VERSION + ']'
             workspace.addError(message)
-            log.error(message)   
+            self.log.error(message)   
             
         # Write workspace to a 'merge' file        
         if not self.run.getOptions().isQuick():
@@ -118,7 +125,13 @@ class GumpRunner(RunSpecific):
     
     def initializeActors(self):
         """
-        Install the appropriate actors..
+        Populate the GumpRun instance with the various actors.
+        
+        The actors handle all the "optional" behaviour like writing HTML or sending e-mail. One
+        way to think of this method is where we configure the "glue" between all the different
+        bits and pieces of the application.
+        
+        TODO:
         """
         
         # Stamp times
@@ -141,7 +154,7 @@ class GumpRunner(RunSpecific):
                 import gump.actor.mysql.databaser
                 self.run.registerActor(gump.actor.mysql.databaser.Databaser(self.run))
             except Exception, details:
-                log.warning('Unable to register Database Actor :  %s ' % details,
+                self.log.warning('Unable to register Database Actor :  %s ' % details,
                             exc_info=1)
         
         # Add Historical Database storer -- ??? no such thing...
@@ -152,7 +165,7 @@ class GumpRunner(RunSpecific):
                 import gump.actor.history.historical
                 self.run.registerActor(gump.actor.history.historical.Historical(self.run))
             except Exception, details:
-                log.warning('Unable to register Historical Database Actor :  %s ' % details,
+                self.log.warning('Unable to register Historical Database Actor :  %s ' % details,
                             exc_info=1)
 
         # Add Dynagump database populator
@@ -190,7 +203,7 @@ class GumpRunner(RunSpecific):
                 import gump.actor.rdf.describer
                 self.run.registerActor(gump.actor.rdf.describer.RDFDescriber(self.run))   
             except Exception, details:
-                log.warning('Unable to register RDF Describer :  %s ' % details,
+                self.log.warning('Unable to register RDF Describer :  %s ' % details,
                             exc_info=1)
             
         # Publish artifacts
@@ -219,10 +232,10 @@ class GumpRunner(RunSpecific):
     def getBuilder(self):
         return self.builder
    
-    #
-    # Call a method called 'documentRun(run)'
-    #
     def perform(self):
+        """
+        Does the actual gump work by delegating to the performRun(run) method of a subclass.
+        """
         if not hasattr(self,'performRun'):
             raise RuntimeError, \
                     'Class [' + `self.__class__` + '] needs a performRun(self,run)'
@@ -231,10 +244,13 @@ class GumpRunner(RunSpecific):
             raise RuntimeError, \
                     'Class [' + `self.__class__` + '] needs a callable performRun(self,run)'
         
-        log.debug('Perform run using [' + `self` + ']')
+        self.log.debug('Perform run using [' + `self` + ']')
         
         return self.performRun()
 
 def getRunner(run):
+    """
+    Factory method that provides the default GumpRunner subclass to use.
+    """
     from gump.core.runner.demand import OnDemandRunner
     return OnDemandRunner(run)

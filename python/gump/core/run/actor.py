@@ -16,7 +16,6 @@
 # limitations under the License.
 
 """
-
 	An actor works upon the context tree. Events (and in the future,
 	perhaps Requests) are passed to the Actor, and the Actor performs
 	it's work.
@@ -33,11 +32,9 @@ import os
 import sys
 from fnmatch import fnmatch
 
-from gump import log
 from gump.core.config import dir, default, basicConfig
 from gump.core.run.gumpenv import GumpEnvironment
 from gump.core.run.gumprun import *
-
 
 from gump.util.work import *
 from gump.util import dump, display, getIndent
@@ -49,27 +46,22 @@ from gump.core.model.project import Project
 from gump.core.model.depend import  ProjectDependency
 from gump.core.model.state import *
 
-
-    
-###############################################################################
-# Functions
-###############################################################################
-
-###############################################################################
-# Classes
-###############################################################################
-
-
-        
 class  RunActor(RunSpecific):     
     """
-    
-        An actor acts upon the run result events.
+        Abstract base class for all actors. The gump runner fires off different
+        kinds of "events" (really just bits of the context trees that the gump
+        runner has just updated then built) to the actor.
         
+        This base class sets up some class properties that are often used in
+        subclasses, and defines a base _processEvent that fires off processEvent
+        on subclasses only if that method exists on the subclass.
     """
     
-    def __init__(self, run):
+    def __init__(self, run, log = None):
         RunSpecific.__init__(self,run)
+        
+        if not log: from gump import log
+        self.log = log
         
         # Oft used references..
         self.workspace=run.getWorkspace()
@@ -89,13 +81,34 @@ class  RunActor(RunSpecific):
         #log.debug('Process event [' + `event` + '] using [' + `self` + ']')        
         self.processEvent(event)
 
-class AbstractRunActor(RunActor):    
+class AbstractRunActor(RunActor):
+    """
+    Abstract base class for nearly all actors. It acts as a basic event filter,
+    sending different types of events to different methods in the subclass if
+    those are defined. The supported methods are:
     
-    def __init__(self, run):
-        RunActor.__init__(self,run)
-        
+        processRun() -- for events of the GumpRun type. Use this one for doing
+                start-of-run setup work.
+        processWorkspace() -- fed the Workspace for this run after it is fully
+                set up. Use this one for customizing the actor's behaviour
+                based on the workspace and performing any late initialization.
+        processModule() -- fed the Module instance for each and every module that
+                has been processed by the main runner (ie, has been updated).
+        processProject() -- fed the Project instance for each and every project
+                that has been built by the main runnner (whether successful or
+                not).
+        processOtherEvent() -- fed all the other events (ie the ones that
+                AbstractRunActor doesn't know about).
+    """
+    
+    def __init__(self, run, log=None):
+        RunActor.__init__(self, run, log)
         
     def processEvent(self,event):
+        """
+        Event handler that redirects to each of the _processXXXEvent methods,
+        which in turn delegate to processXXXEvent methods on subclasses.
+        """
         
         if isinstance(event,EntityRunEvent):
             entity=event.getEntity()
@@ -112,58 +125,54 @@ class AbstractRunActor(RunActor):
         else:
             self._processOtherEvent(event)
             
-            
-    #
-    # Call a method called 'processRun(Run)', if it
-    # is available on the sub-class (i.e. if needed)
-    #
     def _processRun(self):
+        """
+        Call a method called 'processRun(Run)', if it
+        is available on the sub-class (i.e. if needed)
+        """
         if not hasattr(self,'processRun'): return        
         if not callable(self.processRun):  return        
-        log.debug('Process Run using [' + `self` + ']')        
+        self.log.debug('Process Run using [' + `self` + ']')        
         self.processRun()
         
             
-    #
-    # Call a method called 'processWorkspace(workspace)', if it
-    # is available on the sub-class (i.e. if needed)
-    #
     def _processWorkspace(self,workspace):
+        """
+        Call a method called 'processWorkspace(workspace)', if it
+        is available on the sub-class (i.e. if needed)
+        """
         if not hasattr(self,'processWorkspace'): return        
         if not callable(self.processWorkspace):  return        
-        log.debug('Process Workspace [' + `workspace` + '] using [' + `self` + ']')        
+        self.log.debug('Process Workspace [' + `workspace` + '] using [' + `self` + ']')        
         self.processWorkspace()
         
-    #
-    # Call a method called 'processModule(module)', if it
-    # is available on the sub-class (i.e. if needed)
-    #
     def _processModule(self,module):
+        """
+        Call a method called 'processModule(module)', if it
+        is available on the sub-class (i.e. if needed)
+        """
         if not hasattr(self,'processModule'): return        
         if not callable(self.processModule):  return        
-        log.debug('Process Module [' + `module` + '] using [' + `self` + ']')        
+        self.log.debug('Process Module [' + `module` + '] using [' + `self` + ']')        
         self.processModule(module)
         
             
-    #
-    # Call a method called 'processProject(Project)', if it
-    # is available on the sub-class (i.e. if needed)
-    #
     def _processProject(self,project):
+        """
+        Call a method called 'processProject(Project)', if it
+        is available on the sub-class (i.e. if needed)
+        """
         if not hasattr(self,'processProject'): return        
         if not callable(self.processProject):  return        
-        log.debug('Process Project [' + `project` + '] using [' + `self` + ']')        
+        self.log.debug('Process Project [' + `project` + '] using [' + `self` + ']')        
         self.processProject(project)
-        
-            
-    #
-    # Call a method called 'processOtherEvent(event)', if it
-    # is available on the sub-class (i.e. if needed)
-    #
+               
     def _processOtherEvent(self,event):
+        """
+        Call a method called 'processOtherEvent(event)', if it
+        is available on the sub-class (i.e. if needed)
+        """
         if not hasattr(self,'processOtherEvent'): return        
         if not callable(self.processOtherEvent):  return        
-        log.debug('Process (Other) Event [' + `event` + '] using [' + `self` + ']')        
+        self.log.debug('Process (Other) Event [' + `event` + '] using [' + `self` + ']')        
         self.processOtherEvent(event)
-        
-            
