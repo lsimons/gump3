@@ -113,7 +113,7 @@
     <project name="excalibur-configuration">
         <package>org.apache.excalibur.configuration</package>
 
-        <ant basedir="configuration" target="dist">
+        <ant basedir="configuration" target="dist" buildfile="gump-build.xml">
             <property name="project.name" value="excalibur-configuration"/>
             <property name="package-version" value="@@DATE@@"/>
             <property name="junit.failonerror" value="true"/>
@@ -197,7 +197,7 @@
     <project name="excalibur-event-api">
         <package>org.apache.excalibur.event</package>
 
-        <ant basedir="event/api" target="jar">
+        <ant basedir="event/api" target="jar" buildfile="gump-build.xml">
             <!-- optional dependencies -->
             <property name="checkstyle.jar" project="checkstyle" reference="jarpath"/>
 
@@ -569,7 +569,7 @@
 
         <mkdir dir="instrument-manager/target/classes"/>
 
-        <ant basedir="instrument-manager" target="jar">
+        <ant basedir="instrument-manager" target="jar" buildfile="gump-build.xml">
             <!-- optional dependencies -->
             <property name="checkstyle.jar" project="checkstyle" reference="jarpath"/>
             <!-- test-time dependencies -->
@@ -683,7 +683,7 @@
     <project name="excalibur-lifecycle-api">
         <package>org.apache.avalon.lifecycle</package>
 
-        <ant basedir="lifecycle/api" target="jar">
+        <ant basedir="lifecycle/api" target="jar" buildfile="gump-build.xml">
             <property name="project.version" value="@@DATE@@"/>
         </ant>
 
@@ -758,7 +758,7 @@
     <project name="excalibur-logger">
         <package>org.apache.avalon.excalibur.logger</package>
 
-        <ant basedir="logger" target="jar">
+        <ant basedir="logger" target="jar" buildfile="gump-build.xml">
             <property name="package-version" value="@@DATE@@"/>
             <property name="junit.failonerror" value="true"/>
             <property name="do.checkstyle" value="true"/>
@@ -881,7 +881,7 @@
     <project name="excalibur-pool-api" >
         <package>org.apache.avalon.excalibur.pool</package>
 
-        <ant basedir="pool/api" target="jar">
+        <ant basedir="pool/api" target="jar" buildfile="gump-build.xml">
             <property name="package-version" value="@@DATE@@"/>
             <property name="junit.failonerror" value="true"/>
             <property name="do.checkstyle" value="true"/>
@@ -981,7 +981,7 @@
     <project name="excalibur-sourceresolve">
         <package>org.apache.excalibur.source</package>
 
-        <ant basedir="sourceresolve" target="jar">
+        <ant basedir="sourceresolve" target="jar" buildfile="gump-build.xml">
             <property name="package-version" value="@@DATE@@"/>
             <property name="junit.failonerror" value="true"/>
             <property name="do.checkstyle" value="true"/>
@@ -1013,7 +1013,7 @@
     <project name="excalibur-store">
         <package>org.apache.excalibur.store</package>
 
-        <ant basedir="store" target="jar">
+        <ant basedir="store" target="jar" buildfile="gump-build.xml">
             <property name="project.version" value="@@DATE@@"/>
         </ant>
 
@@ -1086,7 +1086,7 @@
     <project name="excalibur-thread-api">
         <package>org.apache.avalon.excalibur.thread</package>
 
-        <ant basedir="thread/api" target="jar">
+        <ant basedir="thread/api" target="jar" buildfile="gump-build.xml">
             <property name="package-version" value="@@DATE@@"/>
             <property name="junit.failonerror" value="true"/>
             <property name="do.checkstyle" value="true"/>
@@ -1191,7 +1191,7 @@
     <project name="excalibur-xmlutil">
         <package>org.apache.avalon.excalibur.xml</package>
 
-        <ant basedir="xmlutil" target="jar">
+        <ant basedir="xmlutil" target="jar" buildfile="gump-build.xml">
             <property name="project.version" value="@@DATE@@"/>
         </ant>
         <depend project="excalibur-logger"/>
