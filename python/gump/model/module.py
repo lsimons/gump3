@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/model/module.py,v 1.30 2004/02/05 06:13:41 ajack Exp $
-# $Revision: 1.30 $
-# $Date: 2004/02/05 06:13:41 $
+# $Header: /home/stefano/cvs/gump/python/gump/model/module.py,v 1.31 2004/02/10 19:20:44 ajack Exp $
+# $Revision: 1.31 $
+# $Date: 2004/02/10 19:20:44 $
 #
 # ====================================================================
 #
@@ -207,6 +207,9 @@ class Module(NamedModelObject, Statable):
     	
         self.packaged		=	0
     	self.updated		=	0
+        	
+        # Extract settings
+        self.tag			=	xml.tag
 
     # provide default elements when not defined in xml
     def complete(self,workspace):
@@ -496,6 +499,13 @@ class Module(NamedModelObject, Statable):
         output.write(getIndent(indent)+'Module : ' + self.name + '\n')
         NamedModelObject.dump(self, indent+1, output)
         
+    def hasTag(self):
+        if self.tag: return 1
+        return 0
+        
+    def getTag(self):
+        return str(self.tag)
+        
     def getSourceDirectory(self):
         return self.absSrcDir
         
@@ -595,8 +605,8 @@ class Module(NamedModelObject, Statable):
             cmd.addParameter('update')
             cmd.addParameter('-P')
             cmd.addParameter('-d')
-            if self.cvs.hasTag():
-                cmd.addParameter('-r',self.cvs.getTag(),' ')
+            if self.cvs.hasTag() or self.hasTag():
+                cmd.addParameter('-r',self.cvs.getTag() or self.getTag(),' ')
             else:
                 cmd.addParameter('-A')
             cmd.addParameter(self.getName())
@@ -606,8 +616,8 @@ class Module(NamedModelObject, Statable):
             # do a cvs checkout
             cmd.addParameter('checkout')
             cmd.addParameter('-P')
-            if self.cvs.hasTag():
-                cmd.addParameter('-r',self.cvs.getTag(),' ')
+            if self.cvs.hasTag() or self.hasTag():
+                cmd.addParameter('-r',self.cvs.getTag() or self.getTag(),' ')
 
             if 	not self.cvs.hasModule() or \
                 not self.cvs.getModule() == self.getName(): 
