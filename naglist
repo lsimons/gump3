@@ -128,16 +128,22 @@ From: Jon Stevens <jon@latchkey.com>
 Subject: [GUMP] Build Failure
 Regex: /BUILD FAILED/
 ------
-Project: jakarta-log4j
-To: log4j-dev@jakarta.apache.org
-From: Ceki Gülcü <ceki@apache.org>
-Subject: [GUMP] Build Failure - Log4j
-Regex: /BUILD FAILED/
-------
 Project: jakarta-james
 To: james-dev@jakarta.apache.org
 From: Peter Donald <donaldp@apache.org>
 Subject: [GUMP] Build Failure - James
+Regex: /BUILD FAILED/
+------
+Project: jakarta-log4j
+To: log4j-dev@jakarta.apache.org
+From: Ceki GŸlcŸ <ceki@apache.org>
+Subject: [GUMP] Build Failure - Log4j
+Regex: /BUILD FAILED/
+------
+Project: jakarta-oro
+To: oro-dev@jakarta.apache.org
+From: Daniel Savarese <dfs@apache.org>
+Subject: [GUMP] Build Failure - ORO
 Regex: /BUILD FAILED/
 ------
 Project: jakarta-jetspeed
