@@ -66,6 +66,7 @@
   <module href="project/jakarta-ecs.xml"/>
   <module href="project/jakarta-jetspeed.xml"/>
   <module href="project/jakarta-jmeter.xml"/>
+  <module href="project/jakarta-jmeter-20.xml"/>
   <module href="project/jakarta-lucene.xml"/>
   <module href="project/jakarta-oro.xml"/>
   <module href="project/jakarta-poi.xml"/>
