@@ -72,20 +72,6 @@
 
   <project name="xml-xalan2-smoketest">
     <description>
-      Smoke tests
-    </description>
-
-    <ant basedir="java" target="smoketest"/>
-
-    <depend project="jakarta-ant"/>
-    <depend project="xml-xerces"/>
-    <depend project="dist-xalan2"/>
-    <work nested="test/java/build"/>
-    <work nested="test/java/src"/>
-  </project>
-
-  <project name="xml-xalan2-smoketest-experimental">
-    <description>
       Xalan-J 2.x developer's smoketests
     </description>
  
