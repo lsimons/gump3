@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/xdoc.py,v 1.3 2003/11/26 20:01:16 ajack Exp $
-# $Revision: 1.3 $
-# $Date: 2003/11/26 20:01:16 $
+# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/xdoc.py,v 1.4 2003/12/01 20:55:50 ajack Exp $
+# $Revision: 1.4 $
+# $Date: 2003/12/01 20:55:50 $
 #
 # ====================================================================
 #
@@ -509,7 +509,11 @@ class XDocNote(XDocPiece):
         
     def createBreak(self):
         return self.storePiece(XDocBreak(self.createSubContext()))    
-        
+
+    def createStrong(self,text=None,transient=0):
+        return self.storePiece(XDocStrong(self.createSubContext(transient),text))
+
+            
 class XDocSource(XDocPiece):
     def __init__(self,context,text=None):
         XDocPiece.__init__(self,context)
