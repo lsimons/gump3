@@ -17,30 +17,28 @@ REM
 REM _ A P A C H E  G U M P _ A P A C H E   G U M P _ A P A C H E   G U M P _ 
 REM
 REM
-REM $Header: /home/stefano/cvs/gump/bin/gmp.bat,v 1.3 2004/04/10 08:50:30 nicolaken Exp $
+REM $Header: /home/stefano/cvs/gump/bin/gmp.bat,v 1.4 2004/04/10 10:37:25 nicolaken Exp $
 REM
 REM
+
 if "%OS%"=="Windows_NT" @SETLOCAL
 
-SET GUMP_HOST=%COMPUTERNAME%
-SET LOCAL_ENV=local-env-py.sh
-IF EXIST  %LOCAL_ENV% CALL %LOCAL_ENV%
-
-SET HOST_LOCAL_ENV="local-env-py-%GUMP_HOST%.sh"
-IF EXIST  %HOST_LOCAL_ENV% CALL %HOST_LOCAL_ENV%
-
-CD %GUMP_HOME%
-python python\gmp.py %1 %2 %3 %4 %5
+python %GUMP_HOME%\python\gmp.py %1 %2 %3 %4 %5
 
 if "%OS%"=="Windows_NT" @ENDLOCAL
 
 :mainEnd
 
-REM _ J A K A R T A  G U M P _ J A K A R T A  G U M P _ J A K A R T A  G U M P _ 
+REM _ A P A C H E  G U M P _ A P A C H E   G U M P _ A P A C H E   G U M P _ 
 REM
 REM $Log: gmp.bat,v $
-REM Revision 1.3  2004/04/10 08:50:30  nicolaken
-REM Use GUMP_HOME
+REM Revision 1.4  2004/04/10 10:37:25  nicolaken
+REM Working version.
+REM
+REM set GUMP_HOME
+REM add %GUMP_HOME%\bin to PATH
+REM copy the workspace file in the workspace dir naming it workspace.xml
+REM cd in that dir and run gmp [command] (for example check)
 REM
 REM Revision 1.2  2004/04/09 12:52:02  nicolaken
 REM Bye bye jakarta!
@@ -49,4 +47,4 @@ REM Revision 1.1  2004/04/08 12:31:01  nicolaken
 REM Add the new commandline stuff before I lose it on my cranky HD.
 REM
 REM
-REM _ J A K A R T A  G U M P _ J A K A R T A  G U M P _ J A K A R T A  G U M P _ 
+REM _ A P A C H E  G U M P _ A P A C H E   G U M P _ A P A C H E   G U M P _ 
