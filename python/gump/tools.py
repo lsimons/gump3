@@ -93,19 +93,19 @@ def syncDirectories(context,workspace,type,cwd,sourcedir,destdir,name=None):
     #  workspace.sync = default.syncCommand
     
     if context.noRSync:
-        cmd=Cmd('cp','sync_'+module.name,dir.work)
+        cmd=Cmd('cp','sync_'+name,dir.work)
         cmd.addParameter('-Rf')
         cmd.addParameter(sourcedir)
         cmd.addParameter(destdir)
     else:
-        cmd=Cmd('rsync','rsync_'+module.name,dir.work)            
+        cmd=Cmd('rsync','rsync_'+name,dir.work)            
         cmd.addParameter('-r')
         cmd.addParameter('-a')
         cmd.addParameter('--delete')
         cmd.addParameter(sourcedir)
         cmd.addParameter(destdir)
 
-    log.debug(' ------ Sync\'ing : '+ module.name)
+    log.debug(' ------ Sync\'ing : '+ name)
     
     # Perform the Sync
     cmdResult=execute(cmd,workspace.tmpdir)
