@@ -216,7 +216,7 @@ class GumpBuilder(RunSpecific):
         # Make a directory
         #
         if mkdir.hasDirectory(): 
-            dirToMake=delete.getDirectory()
+            dirToMake=mkdir.getDirectory()
             try:
                 if not os.path.exists(dirToMake):
                     os.makedirs(dirToMake)
@@ -237,8 +237,7 @@ class GumpBuilder(RunSpecific):
         
         startedOk =  project.okToPerformWork()
             
-        #
-        if 0 and project.okToPerformWork():        
+        if project.okToPerformWork():        
             # Deletes...
             dels=0
             for delete in project.getDeletes():
@@ -246,8 +245,10 @@ class GumpBuilder(RunSpecific):
                     self.performDelete(project,delete,dels)
                     dels+=1
                     project.changeState(STATE_SUCCESS)
-                except:
-                    log.error('PerformDelete Failed', exc_info=1)
+                except Exception, details:
+                    message='Failed to perform delete ' + `delete` + ':' + str(details)
+                    log.error(message, exc_info=1)
+                    self.addError(message)
                     project.changeState(STATE_FAILED,REASON_PREBUILD_FAILED)
                 
         if project.okToPerformWork():
@@ -258,11 +259,12 @@ class GumpBuilder(RunSpecific):
                     self.performMkDir(project,mkdir,mkdirs)
                     mkdirs+=1
                     project.changeState(STATE_SUCCESS)
-                except:
-                    log.error('PerformMkdir Failed', exc_info=1)    
+                except Exception, details:
+                    message='Failed to perform mkdir ' + `mkdir` + ':' + str(details)
+                    log.error(message, exc_info=1)
+                    self.addError(message)
                     project.changeState(STATE_FAILED,REASON_PREBUILD_FAILED)
      
-            
         if startedOk and not project.okToPerformWork():
             log.warn('Failed to perform pre-build on project [' + project.getName() + ']')
 
