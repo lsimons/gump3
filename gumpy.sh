@@ -146,6 +146,12 @@ else
 fi
 echo $SEPARATOR >> $GUMP_LOG
 
+if [ -f $GUMP_WS/forrest/build/tmp/brokenlinks.txt ] ; then
+	echo $SEPARATOR >> $GUMP_LOG
+	cat $GUMP_WS/forrest/build/tmp/brokenlinks.txt >> $GUMP_LOG
+	echo $SEPARATOR >> $GUMP_LOG
+fi
+
 # Just in case...
 cd $GUMP
 
