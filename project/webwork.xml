@@ -26,7 +26,7 @@
     <description>
       Object Database Engine 
     </description>
-    <home nested="src"/>
-    <jar name="lib/db4o.jar"/>
+    <home nested="src/lib/examples"/>
+    <jar name="db4o.jar"/>
   </project>
 </module>
