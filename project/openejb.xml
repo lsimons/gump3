@@ -24,6 +24,7 @@
     <depend project="openorb"/>
     <depend project="junit"/>
     <depend project="castor"/>
+    <depend project="jts"/>
     <work nested="build/openejb/classes"/>
   </project>
 
