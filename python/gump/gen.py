@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/Attic/gen.py,v 1.5 2003/05/02 12:26:41 rubys Exp $
-# $Revision: 1.5 $
-# $Date: 2003/05/02 12:26:41 $
+# $Header: /home/stefano/cvs/gump/python/gump/Attic/gen.py,v 1.6 2003/05/05 07:23:07 nicolaken Exp $
+# $Revision: 1.6 $
+# $Date: 2003/05/05 07:23:07 $
 #
 # ====================================================================
 #
@@ -69,9 +69,7 @@ from gump import Single, load
 from gump.conf import *
 
 # init logging
-logging.basicConfig()
 log = logging.getLogger(__name__)
-log.setLevel(logging.DEBUG) #set verbosity to show all messages of severity >= DEBUG
 
 #########################################################################
 #                     Dump the object module as XML                     #
@@ -133,11 +131,12 @@ def xmlize(nodeName,object,f=None,indent='',delta='  '):
     return f.read()
 
 if __name__=='__main__':
-  # -----------DISABLED-----------
-  # use all absolutized pathnames
-  # ------------------------------
-  # cd into the base Gump dir; all dirs are relative to it
-  #os.chdir(dir.base)
+
+  # init logging
+  logging.basicConfig()
+
+  #set verbosity to show all messages of severity >= default.logLevel
+  log.setLevel(default.logLevel)
 
   # load commandline args or use default values
   if len(sys.argv)>1 :

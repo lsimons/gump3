@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/__init__.py,v 1.7 2003/05/04 19:39:50 rubys Exp $
-# $Revision: 1.7 $
-# $Date: 2003/05/04 19:39:50 $
+# $Header: /home/stefano/cvs/gump/python/gump/__init__.py,v 1.8 2003/05/05 07:23:06 nicolaken Exp $
+# $Revision: 1.8 $
+# $Date: 2003/05/05 07:23:06 $
 #
 # ====================================================================
 #
@@ -104,14 +104,8 @@ from gump.conf import dir, default
 # tell python what modules make up the gump package
 __all__ = ["conf", "view", "build", "gen"]
 
-# init logging
-logging.basicConfig()
-
 # base gump logger
 log = logging.getLogger(__name__)
-
-#set verbosity to show all messages of severity >= DEBUG
-log.setLevel(default.logLevel)
 
 # ensure dirs exists
 conf.basicConfig()
@@ -396,6 +390,12 @@ def buildSequence(todo):
 
 if __name__=='__main__':
   from gump.core import *
+
+  # init logging
+  logging.basicConfig()
+
+  #set verbosity to show all messages of severity >= default.logLevel
+  log.setLevel(default.logLevel)
 
   print
   print

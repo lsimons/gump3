@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/Attic/model.py,v 1.9 2003/05/04 21:02:57 nicolaken Exp $
-# $Revision: 1.9 $
-# $Date: 2003/05/04 21:02:57 $
+# $Header: /home/stefano/cvs/gump/python/gump/Attic/model.py,v 1.10 2003/05/05 07:23:07 nicolaken Exp $
+# $Revision: 1.10 $
+# $Date: 2003/05/05 07:23:07 $
 #
 # ====================================================================
 #
@@ -68,17 +68,8 @@ from gump.conf import dir, default
 # Initialize
 ###############################################################################
 
-# use own logging
-
-# init logging
-logging.basicConfig()
-
 # base gump logger
 log = logging.getLogger(__name__)
-
-#set verbosity to show all messages of severity >= default.logLevel
-log.setLevel(default.logLevel)
-
 
 ###############################################################################
 # Gump Object Model

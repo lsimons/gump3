@@ -25,16 +25,8 @@ from gump.model import Workspace, Module, Project
 # Initialize
 ###############################################################################
 
-# use own logging
-
-# init logging
-logging.basicConfig()
-
 # base gump logger
 log = logging.getLogger(__name__)
-
-#set verbosity to show all messages of severity >= default.logLevel
-log.setLevel(default.logLevel)
 
 ###############################################################################
 # Functions
@@ -187,11 +179,12 @@ def buildProjects( workspace, projectname, project, build_sequence ):
 
 # static void main()
 if __name__=='__main__':
-  # -----------DISABLED-----------
-  # use all absolutized pathnames
-  # ------------------------------
-  # cd into the base Gump dir; all dirs are relative to it
-  #os.chdir(dir.base)
+
+  # init logging
+  logging.basicConfig()
+
+  #set verbosity to show all messages of severity >= default.logLevel
+  log.setLevel(default.logLevel)
 
   # load commandline args or use default values
   if len(sys.argv)>1 :

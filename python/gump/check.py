@@ -16,16 +16,8 @@ from gump.model import Workspace, Module, Project
 # Initialize
 ###############################################################################
 
-# use own logging
-
-# init logging
-logging.basicConfig()
-
 # base gump logger
 log = logging.getLogger(__name__)
-
-#set verbosity to show all messages of severity >= default.logLevel
-log.setLevel(default.logLevel)
 
 ###############################################################################
 # Functions
@@ -76,6 +68,12 @@ def check(workspace, projectname):
 # static void main()
 if __name__=='__main__':
 
+  # init logging
+  logging.basicConfig()
+
+  #set verbosity to show all messages of severity >= default.logLevel
+  log.setLevel(default.logLevel)
+  
   # load commandline args or use default values
   if len(sys.argv)>1 :
     ws=sys.argv[1]
