@@ -14,6 +14,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+"""This module reads, merges and converts gump xml metadata."""
+
 __copyright__ = "Copyright (c) 2004-2005 The Apache Software Foundation"
 __license__   = "http://www.apache.org/licenses/LICENSE-2.0"
 

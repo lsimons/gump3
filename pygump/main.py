@@ -17,17 +17,18 @@
 #
 # $Header: $
 
-"""
+"""The command line entrypoint into pygump.
+  
+It parses the environment variables, command line arguments and
+some workspace settings and populates an options object with what
+it finds. With this, it starts up the main gump engine.
 
-  This is the command line entrypoint into pygump.
-  
-  It parses the environment variables, command line arguments and
-  some workspace settings and populates an options object with what
-  it finds. With this, it starts up the main gump engine.
-  
-  Additionally, this module has some pretty much self-contained logging
-  and error handling. In the event of severe problems, it'll send e-mail
-  to the administrator configured in the workspace for this machine.
+Additionally, this module has some pretty much self-contained logging
+and error handling. In the event of severe problems, it'll send e-mail
+to the administrator configured in the workspace for this machine.
+
+Don't run pygump directly. Rather, use the 'gump' shell script. See
+its documentation for information on command line options and the like.
 """
 
 import os
@@ -47,12 +48,19 @@ WARNING = 3
 ERROR = 2
 CRITICAL = 1
 
-class Logger:
-    """
-    Very basic "bootstrap" logger to use before getting at a real logger from
-    the logging package. Does react to the most basic form of the commands sent
-    to the logging.Logger class so it can be replaced at any time by one of
-    those.
+
+class Error(Exception):
+    """Generic error thrown for all internal pygump main module exceptions."""
+    pass
+
+
+class _Logger:
+    """A basic logger that sends messages to a file and to the console.
+    
+    This is a very basic "bootstrap" logger to use before getting at a real
+    logger from the logging package. Does react to the most basic form of the
+    commands sent to the logging.Logger class so it can be replaced at any time
+    by one of those.
     """
     
     def __init__(self, logdir, level=DEBUG, console_level=INFO):
@@ -122,7 +130,6 @@ class Logger:
         self.error(buf.getvalue())
         buf.close()
 
-
     def critical(self, msg):
         message = 'CRITICAL: %s\n' % (msg)
         if self.console_level >= CRITICAL:
@@ -130,22 +137,18 @@ class Logger:
         if self.level >= CRITICAL:
             self.target.write(message);
 
-class GumpConfigError(Exception):
-    pass
 
-class GumpEnvironmentError(Exception):
-    pass
-
-def check_version():
-    """
-    Raises exception if python version < 2.3.
-    """
+def _check_version():
+    """Raises exception if python version < 2.3."""
     (major, minor, micro, releaselevel, serial) = sys.version_info
     if not major >=2 and minor >= 3:
-        raise GumpEnvironmentError, 'CRITICAL: Gump requires Python 2.3 or above. The current version is %s.' % sys.version()
-        
-def parse_workspace(filename, options):
-    """
+        raise Error, 'CRITICAL: Gump requires Python 2.3 or above. The ' + \
+                'current version is %s.' % sys.version()
+
+
+def _parse_workspace(filename, options):
+    """Get workspace information and put it in the options instance.
+
     Converts the workspace file to a minidom tree and extract some info to
     put into the options instance. It doesn't merge in the profile or anything
     like that, that is left up to the engine.
@@ -182,10 +185,9 @@ def parse_workspace(filename, options):
     # clean up
     w.unlink()
 
-def svn_update(log, options):
-    """
-    Updates pygump itself from SVN.
-    """
+
+def _svn_update(log, options):
+    """Updates pygump itself from SVN."""
     command = "sh -c 'svn update --non-interactive "
     if not options.debug: command += "-q " # suppress output
     svnlogfile = os.path.join( options.logdir, "svnuplog.txt" )
@@ -212,14 +214,13 @@ def svn_update(log, options):
     
             svnlog.close()
             log.target.write(SEP); print SEP,
-            raise GumpEnvironmentError, msg
+            raise Error, msg
     finally:
         os.remove(svnlogfile)
 
-def send_email(toaddr,fromaddr,subject,data,server,port=25):
-    """
-    Utility method for sending out e-mails.
-    """
+
+def _send_email(toaddr,fromaddr,subject,data,server,port=25):
+    """Utility method for sending out e-mails."""
     rawdata = "Date: %s\r\nFrom: %s\r\nTo: %s\r\nSubject: %s\r\n\r\n%s"	\
            	% (	time.strftime('%d %b %Y %H:%M:%S', time.gmtime()),
            	    fromaddr, toaddr,	subject,	data)
@@ -230,10 +231,9 @@ def send_email(toaddr,fromaddr,subject,data,server,port=25):
     server.sendmail(fromaddr, toaddr, rawdata)
     server.quit()
 
+
 def send_error_email(Exception,details,options,log):
-    """
-    Send an error report by e-mail.
-    """
+    """Send an error report by e-mail."""
     if options.mailserver and options.mailport and options.mailto and options.mailfrom:
         subject="Fatal error during pygump run [%s: %s]" % (options.hostname, options.name)
         body="""An unexpected error occurred during the pygump run on
@@ -277,18 +277,17 @@ The full run log of this run:
                        Exception, details, options.logurl, logbody)
         
         # send it off
-        send_email(options.mailfrom, options.mailto, subject, body, options.mailserver,
+        _send_email(options.mailfrom, options.mailto, subject, body, options.mailserver,
                    options.mailport)
     else:
-        raise GumpConfigError, "Insufficient information in the workspace for sending e-mail."
+        raise Error, "Insufficient information in the workspace for sending e-mail."
 
 
-def start_engine(log,options):
-    """
-    Fire up the core pygump engine to do its thing.
-    """
+def _start_engine(log,options):
+    """Fire up the core pygump engine to do its thing."""
     from gump import engine
     engine.main(options)
+
 
 def main():
     """
@@ -298,7 +297,7 @@ def main():
     """
     
     # we need python 2.3
-    check_version()
+    _check_version()
 
     # get basic settings from environment variables
     _homedir = _hostname = _envfile = _workdir = _pythoncmd = _javahome = _projects = None
@@ -364,7 +363,7 @@ def main():
     options.starttimeutc = time.strftime('%d %b %Y %H:%M:%S', time.gmtime())
     
     # create logger
-    log = Logger(options.logdir)
+    log = _Logger(options.logdir)
     try:
         if options.debug:
             log.level = DEBUG
@@ -395,15 +394,15 @@ def main():
             sys.exit(1)
         
         # get some more options from the workspace
-        parse_workspace(options.workspace, options)
+        _parse_workspace(options.workspace, options)
 
         try:
             # self-update
             if not options.no_updates:
-                svn_update(log, options)
+                _svn_update(log, options)
                 
             # finally: fire us up!
-            start_engine(log, options)
+            _start_engine(log, options)
             log.info("Run completed!")
         except Exception, details:
             # this is not good. Send e-mail to the admin, complaining rather loudly.

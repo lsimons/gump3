@@ -14,13 +14,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+"""This module provides several utilities not coupled to pygump itself."""
+
 __copyright__ = "Copyright (c) 2004-2005 The Apache Software Foundation"
 __license__   = "http://www.apache.org/licenses/LICENSE-2.0"
-
-def banner(version):
-    print "      _____"
-    print "     |   __|_ Apache_ ___"
-    print "     |  |  | | |     | . |"
-    print "     |_____|___|_|_|_|  _|"
-    print "                     |_|     ~ v. " + version + " ~"
-    print

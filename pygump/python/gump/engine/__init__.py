@@ -14,6 +14,27 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+"""This module contains the main controller that runs pygump.
+
+The function main() is called from the main.main() function, which construcs
+the neccessary helpers for an Engine instance that is then told to perform a
+run.
+
+The engine utilizes several submodules that provide pieces of its
+functionality. Each of these modules usually exports a single class which has
+a clearly defined responsibility. A single instance of such a class is used
+for performing a specific task. In pygump we call such a beast a "component".
+
+All required settings, as well as any other components a component may depend
+on are passed into the constructor when first creating the instance. This is
+all handled by the main() function. Doing things this way greatly decreases
+the amount of coupling between the different modules. For example, the
+gump.engine module is the only module that actually has an "import logging".
+It creates all the log instances to pass into its helpers. This means that
+completely rewiring or disabling logging is a simple as modifying the
+_get_logger() function in this module.
+"""
+
 __copyright__ = "Copyright (c) 2004-2005 The Apache Software Foundation"
 __license__   = "http://www.apache.org/licenses/LICENSE-2.0"
 
@@ -59,6 +80,16 @@ def main(settings):
     engine.initialize()
     engine.run()
     engine.dispose()
+
+
+def _banner(version):
+    """Print a fancy ASCII-art gump logo."""
+    print "      _____"
+    print "     |   __|_ Apache_ ___"
+    print "     |  |  | | |     | . |"
+    print "     |_____|___|_|_|_|  _|"
+    print "                     |_|     ~ v. " + version + " ~"
+    print
 
 ###
 ### FACTORY METHODS

@@ -14,6 +14,14 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+"""Pygump downloads and compiles source code and interprets the results.
+
+See http://gump.apache.org/ for more information. There is a small module
+main that serves as the command line entrypoint which gives control to the
+gump.engine module, which again interacts with all the other materials
+inside the gump module.
+"""
+
 __copyright__ = "Copyright (c) 2004-2005 The Apache Software Foundation"
 __license__   = "http://www.apache.org/licenses/LICENSE-2.0"
 

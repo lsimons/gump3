@@ -14,21 +14,25 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+"""This module defines an object-oriented representation of gump metadata."""
+
 __copyright__ = "Copyright (c) 2004-2005 The Apache Software Foundation"
 __license__   = "http://www.apache.org/licenses/LICENSE-2.0"
 
-class ModelError(Exception):
+class Error(Exception):
+    """Generic error thrown for all internal model module exceptions."""
     pass
+
 
 class ModelObject:
-    """
-    Base object for all gump model elements.
-    """
+    """Base object for all gump model elements."""
     pass
 
+
 class Workspace(ModelObject):
-    """
-    Model gump workspace and profile. Has the following properties:
+    """Model gump workspace and profile.
+
+    Has the following properties:
         
         - name     -- per-host unique identifier
         - repositories -- dictionary of contained repositories
@@ -52,8 +56,9 @@ class Workspace(ModelObject):
         self.trackers[tracker.name] = tracker
 
 class Repository(ModelObject):
-    """
-    Model a source control repository. Has the following properties:
+    """Model a source control repository.
+
+    Has the following properties:
         
         - workspace -- reference to the containing workspace
         - name      -- per-run unique identifier
@@ -87,8 +92,9 @@ class Repository(ModelObject):
 CVS_METHOD_PSERVER="pserver"
 
 class CvsRepository(Repository):
-    """
-    Model a CVS repository. Has the following properties:
+    """Model a CVS repository.
+
+    Has the following properties:
         
         - all of the properties a Repository has
         - hostname -- the address of the cvs server
@@ -118,8 +124,9 @@ class CvsRepository(Repository):
         self.password = password
 
 class SvnRepository(Repository):
-    """
-    Model a subversion repository. Has the following properties:
+    """Model a subversion repository.
+
+    Has the following properties:
         
         - all of the properties a Repository has
         - url      -- the address of the svn repository
@@ -142,9 +149,9 @@ class SvnRepository(Repository):
         self.password = password
 
 class Module(ModelObject):
-    """
-    Model a module within a source control repository. Has the following
-    properties:
+    """Model a module within a source control repository.
+
+    Has the following properties:
         
         - repository  -- the containing repository
         - name        -- per-run unique identifier
@@ -159,9 +166,6 @@ class Module(ModelObject):
                  directory = None,
                  url = None,
                  description = None):
-        """
-        Create the module.
-        """
         self.repository  = repository
         self.name        = name
         self.directory   = directory
@@ -174,10 +178,12 @@ class Module(ModelObject):
         self.projects[project.name] = project
 
 class Project(ModelObject):
-    """
-    Model a "project", as far as gump is concerned this is the primary
-    "unit of work", something to "build". Projects reside within modules. Has
-    the following properties:
+    """Model a "project".
+
+    As far as gump is concerned a project is the primary "unit of work",
+    something to "build". Projects reside within modules.
+
+    Has the following properties:
         
         - module       -- the containing module
         - name         -- per-run unique identifier
@@ -224,9 +230,11 @@ DEPENDENCY_INHERIT_COPY_OUTPUTS  = "copy-outputs"
 DEPENDENCY_INHERIT_JARS          = DEPENDENCY_INHERIT_COPY_OUTPUTS
 
 class Dependency(ModelObject):
-    """
+    """Model a dependency.
+    
     A dependency is a directional link between two projects, where one
     project (the dependency) depends on another project (the dependee).
+    
     Has the following properties:
         
         - dependency -- the project that is depending on the other project
@@ -251,9 +259,11 @@ class Dependency(ModelObject):
         self.specific_output_id = specific_output_id
 
 class Command(ModelObject):
-    """
-    A command is something to do as part of a build. Has the following
-    properties:
+    """Model a command.
+    
+    A command is something to do as part of a build.
+
+    Has the following properties:
         
         - project -- the containing project
     """
@@ -262,9 +272,12 @@ class Command(ModelObject):
     pass
 
 class Mkdir(Command):
-    """
-    Create a directory. The directory is specified relative to the source
-    directory of the project. Has the following properties:
+    """Model a mkdir command.
+    
+    Command to create a directory. The directory is specified relative to the
+    source directory of the project.
+
+    Has the following properties:
         
         - all the properties a Command has
         - directory -- the directory to create
@@ -274,9 +287,12 @@ class Mkdir(Command):
         self.directory = directory
 
 class Rmdir(Command):
-    """
-    Delete a directory. The directory is specified relative to the source
-    directory of the project. Has the following properties:
+    """Model a delete command.
+    
+    Command to delete a directory. The directory is specified relative to the
+    source directory of the project.
+
+    Has the following properties:
         
         - all the properties a Command has
         - directory -- the directory to delete
@@ -286,8 +302,9 @@ class Rmdir(Command):
         self.directory = directory
 
 class Script(Command):
-    """
-    Run a script. Has the following properties:
+    """Command to run a script.
+
+    Has the following properties:
         
         - all the properties a Command has
         - name -- the name of the script to run
@@ -301,10 +318,12 @@ class Script(Command):
 OUTPUT_ID_HOME = "homedir"
 
 class Output(ModelObject):
-    """
-    Something a successful project build will yield. Outputs can be given an
-    id to be able to distinguish multiple outputs from another. Has the
-    following properties:
+    """Model an output, something a successful project build will yield.
+
+    Outputs can be given an id to be able to distinguish multiple outputs from
+    another.
+
+    Has the following properties:
         
         - project -- the containing project
         - id      -- a per-project unique identifier
@@ -314,15 +333,30 @@ class Output(ModelObject):
         self.id      = id
 
 class Homedir(Output):
-    """
-    A directory containing stuff that can be used by other projects. Has the
-    following properties:
+    """Model a directory containing stuff that can be used by other projects.
+
+    Has the following properties:
 
         - all the properties an Output has
         - directory -- the directory that should be exported as this project
                        its homedirectory
     """
-    def __init__(self, project, id, directory):
-        Output.__init__(self, project, id)
+    def __init__(self, project, directory):
+        Output.__init__(self, project, OUTPUT_ID_HOME)
         self.directory = directory
 
+class Jar(Output):
+    """Model a java archive that can be used by other projects.
+
+    Has the following properties:
+
+        - all the properties an Output has
+        - name -- the path to the jar relative to the project is home
+                directory.
+        - add_to_bootclass_path -- flag specifying if this jar should be
+                added 
+    """
+    def __init__(self, project, name, id = None, add_to_bootclass_path = False ):
+        Output.__init__(self, project, id)
+        self.name = name
+        self.add_to_bootclass_path = add_to_bootclass_path
