@@ -26,6 +26,8 @@ from gump import log
 from gump.core.gumprun import *
 from gump.core.config import dir, default, basicConfig
 
+from gump.build.abstract import AbstractJavaBuilder
+
 from gump.utils import dump, display, getIndent, logResourceUtilization, \
                             invokeGarbageCollection
 from gump.utils.note import Annotatable
@@ -50,22 +52,12 @@ class MavenBuilder(AbstractJavaBuilder):
     def __init__(self,run):
         AbstractJavaBuilder.__init__(self,run)
 
-
-    def buildProject(self,project,stats)
+    def buildProject(self,project,stats):
         
         workspace=self.run.getWorkspace()
                  
-        log.info(' Project: #[' + `project.getPosition()` + '] of [' + `projectCount` + '] : ' + project.getName())
-                    
-        # Extract stats (in case we want to do conditional processing)            
-        stats=None
-        if project.hasStats():
-            stats=project.getStats()
-            
-        if project.isPackaged():             
-            self.performProjectPackageProcessing(project, stats)
-            continue
-                
+        log.info(' Project: #[' + `project.getPosition()` + '] : ' + project.getName())
+    
         # Do this even if not ok
         self.performPreBuild(project, stats)
 

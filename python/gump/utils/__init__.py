@@ -406,6 +406,22 @@ def logResourceUtilization(message=None): pass
 #            log.error("Failed get resource utilization." \
 #        
            
+def initializeGarbageCollection():
+    tracked = 0
+    try:
+        import gc
+        enabled = gc.isenabled()
+        threshold = gc.get_threshold()
+        tracked = len(gc.get_objects())
+    
+        log.info('GC: Enabled %s : Tracked %s : Threshold %s' \
+                % (`enabled`, `tracked`,`threshold`))
+                
+        # gc.set_debug(gc.DEBUG_LEAK)
+    except:
+        pass  
+    return tracked    
+           
 def inspectGarbageCollection(marker=''):
     tracked = 0
     try:
@@ -432,7 +448,7 @@ def invokeGarbageCollection(marker=''):
         
         # Curiousity..
         if unreachable:
-            log.debug('Objects Unreachable by GC : ' + `unreachable`)
+            log.warn('Objects Unreachable by GC : ' + `unreachable`)
                         
         # See what GC thinks afterwards...
         # inspectGarbageCollection(marker)

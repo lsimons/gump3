@@ -5,23 +5,20 @@
     Test of Gump using Maven...
   </description>
 
-  <cvs repository="repository1"/>
-
+  <svn repository="svn_repository1" dir="gump-test"/>
+  
   <project name="maven1">
-    <package>org.apache.maven</package>
-
-    <maven target="gump"/>
-
-    <depend project="alias1"/>
-
-    <home nested="dist"/>
-
-    <jar name="lib/maven1.jar" id="maven1"/>
-
-    <license name="LICENSE"/>
-
-    <nag from="Gump Integration Build &lt;general@gump.apache.org&gt;"
-         to="general@gump.apache.org"/>
+    <maven target="dist" basedir="maven-project1" debug="true"/>        
+    <home nested="maven-project1/target"/>    
+    <jar name="gump-test-maven1-0.1.jar"/>
   </project>
+  
+  <project name="maven2">
+    <maven target="dist" basedir="maven-project2" debug="true"/>       
+    <home nested="maven-project2/target"/>    
+    <jar name="gump-test-maven2-0.1.jar"/>    
+    <depend project="maven1"/>    
+  </project>
+  
 </module>
 

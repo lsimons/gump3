@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/gui/view.py,v 1.10.2.1 2004/05/17 20:22:04 ajack Exp $
-# $Revision: 1.10.2.1 $
-# $Date: 2004/05/17 20:22:04 $
+# $Header: /home/stefano/cvs/gump/python/gump/gui/view.py,v 1.10.2.2 2004/05/19 16:02:02 ajack Exp $
+# $Revision: 1.10.2.2 $
+# $Date: 2004/05/19 16:02:02 $
 #
 # ====================================================================
 #
@@ -656,7 +656,7 @@ class compileThread:
   def Run(self):
     module=Module.list[self.project.module]
 
-    os.chdir(os.path.join(module.srcdir,self.project.ant.basedir or ''))
+    os.chdir(os.path.join(module.workdir,self.project.ant.basedir or ''))
     os.environ['CLASSPATH']=os.pathsep.join(default.classpath+self.project.classpath())
     cmd="java org.apache.tools.ant.Main"
     for property in self.view.workspace.property+self.project.ant.property:

@@ -26,7 +26,7 @@ import gump.core.config
 from gump.core.gumprun import GumpRun
 from gump.test import getWorkedTestWorkspace
 from gump.test.pyunit import UnitTestSuite
-from gump.output.notify import notify,Notifier
+from gump.notify.notifier import notify,Notifier
 from gump.net.smtp import *
 
 class NotificationTestSuite(UnitTestSuite):

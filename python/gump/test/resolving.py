@@ -26,7 +26,7 @@ from gump import log
 import gump.core.config
 from gump.test import *
 from gump.document.text.resolver import *
-from gump.document.forrest.resolver import *
+from gump.document.xdocs.resolver import *
 
 from gump.test.pyunit import UnitTestSuite
 

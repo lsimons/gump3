@@ -41,70 +41,115 @@ from gump.model.depend import  ProjectDependency
 from gump.model.stats import *
 from gump.model.state import *
 
-from gump.net.cvs import *
-
-
 ###############################################################################
 # Classes
 ###############################################################################
 
-class CvsUpdater(RunSpecific):
+class SvnUpdater(RunSpecific):
     
     def __init__(self,run):
         RunSpecific.__init__(self,run)
 
-        #
-        # A stash of known logins.
-        #
-        self.logins=readLogins()
 
     def updateModule(self,module):
-        """
-        
-            Perform a CVS update on a module
-            
+        """        
+            Perform a SVN update on a module            
         """
             
-        log.info('Perform CVS Update on #[' + `module.getPosition()` + \
+        log.info('Perform SVN Update on #[' + `module.getPosition()` + \
                         '] : ' + module.getName())
     
-        # Did we 'CVS checkout' already?
+        # Did we 'SVN checkout' already?
         exists	=	os.path.exists(module.getSourceControlStagingDirectory())
        
         if exists:
             self.performStatus(module)
-                
-        self.performUpdate(module,exists)        
+            
+        self.performUpdate(module, exists)
         
-        return module.okToPerformWork()      
-        
+        return module.okToPerformWork()   
+              
     def performStatus(self,module):
+        """
+        
+            Do a status comparison between our copy and server
+            
+        """
+        
         #  Get the Update Command
-        (repository, root, cmd ) = self.getCvsUpdateCommand(module, 1, 1)
-                
-        # Provide CVS logins, if not already there
-        loginToRepositoryOnDemand(repository,root,self.logins)
-               
+        cmd = self.getSvnStatusCommand(module)
+                               
         # Execute the command and capture results        
         cmdResult=execute(cmd, module.getWorkspace().tmpdir)
-      
-        #
-        # Store this as work, on both the module and (cloned) on the repo
-        #
+    
+        # Store this as work
         work=CommandWorkItem(WORK_TYPE_UPDATE,cmd,cmdResult)
         module.performedWork(work)  
-     
+      
+        # Update Context w/ Results  
         if not cmdResult.state==CMD_STATE_SUCCESS:              
-            log.error('Failed to checkout/update module: ' + module.name)   
-                                                            
-     
+            message='Failed to \'status --show-updates\' module: ' + module.getName()
+            module.addWarning(message)
+            log.error(message)               
+
+    def getSvnStatusCommand(self,module):
+        """
         
+            Build the 'svn status --show-updates --non-interative' command
+            
+        """
+        log.debug("SubVersion Module Status : " + module.getName() + \
+                       ", Repository Name: " + str(module.repository.getName()))
+                                        
+        url=module.svn.getRootUrl()
+      
+        log.debug("SVN URL: [" + url + "] on Repository: " + module.repository.getName())
+     
+        #
+        # Prepare SVN checkout/update command...
+        # 
+        cmd=Cmd('svn', 'status_'+module.getName(), 
+                module.getSourceControlStagingDirectory())
+       
+        #
+        # Be 'quiet' (but not silent) unless requested otherwise.
+        #
+        if 	not module.isDebug() 	\
+            and not module.isVerbose() \
+            and not module.svn.isDebug()	\
+            and not module.svn.isVerbose():    
+            cmd.addParameter('--quiet')
+                  
+        #
+        # Allow trace for debug
+        #
+        # SVN complains about -v|--verbose, don't ask me why
+        #
+        # if module.isDebug() or  module.svn.isDebug():
+        #    cmd.addParameter('--verbose')
+            
+        # do an SVN status --show-updates
+        cmd.addParameter('status')
+        cmd.addParameter('--show-updates')
+       
+        #
+        # Request non-interactive
+        #
+        cmd.addParameter('--non-interactive')
+
+        return cmd
+
+                                                  
     def performUpdate(self,module,exists):
+        """
+        
+            Check-out or Update  from SVN
+            
+        """
+        
         #  Get the Update Command
-        (repository, root, cmd ) = self.getCvsUpdateCommand(module, exists)
+        (repository, url, cmd ) = self.getSvnUpdateCommand(module, exists)
                 
-        # Provide CVS logins, if not already there
-        loginToRepositoryOnDemand(repository,root,self.logins)
                
         # Execute the command and capture results        
         cmdResult=execute(cmd, module.getWorkspace().tmpdir)
@@ -133,101 +178,65 @@ class CvsUpdater(RunSpecific):
                 module.changeState(STATE_SUCCESS,REASON_UPDATE_FAILED)
         else:
             module.changeState(STATE_SUCCESS)       
-                                                            
+                                                              
     
-     
-    def getCvsUpdateCommand(self,module,exists=0,nowork=0):
+    def getSvnUpdateCommand(self,module,exists=0):
+        """
+            Build the appropriate SVN command for checkout/update
         """
         
-            Format a commandline for doing the CVS update
-            
-        """
-        
-        log.debug("CVS Update Module " + module.getName() + \
+        log.debug("SubVersion  Module Update : " + module.getName() + \
                        ", Repository Name: " + str(module.repository.getName()))
                                         
-        root=module.cvs.getCvsRoot()
+        url=module.svn.getRootUrl()
       
-        log.debug("CVS Root " + root + " on Repository: " + module.repository.getName())
+        log.debug("SVN URL: [" + url + "] on Repository: " + module.repository.getName())
      
         #
-        # Prepare CVS checkout/update command...
-        #     
-        prefix='update'
-        directory=module.getWorkspace().getSourceControlStagingDirectory()
-        if nowork:
-            prefix='status'        
-            directory=module.getSourceControlStagingDirectory()
-                
-        cmd=Cmd(	'cvs',
-                    prefix+'_'+module.getName(),
-                    directory)
-          
+        # Prepare SVN checkout/update command...
+        # 
+        cmd=Cmd('svn', 'update_'+module.getName(), 
+                    module.getWorkspace().getSourceControlStagingDirectory())
+       
         #
         # Be 'quiet' (but not silent) unless requested otherwise.
         #
         if 	not module.isDebug() 	\
             and not module.isVerbose() \
-            and not module.cvs.isDebug()	\
-            and not module.cvs.isVerbose():    
-            cmd.addParameter('-q')
-        
-        if nowork:
-            cmd.addParameter('-n')
-          
+            and not module.svn.isDebug()	\
+            and not module.svn.isVerbose():    
+            cmd.addParameter('--quiet')
+                  
         #
         # Allow trace for debug
         #
-        if module.isDebug():
-            cmd.addParameter('-t')
-          
+        # SVN complains about -v|--verbose, don't ask me why
         #
-        # Request compression
-        #
-        cmd.addParameter('-z3')
-          
-        #
-        # Set the CVS root
-        #
-        cmd.addParameter('-d', root)
-    
-        #
-        # Determine if a tag is set, on <cvs or on <module
-        #
-        tag=None
-        if module.cvs.hasTag():
-            tag=module.cvs.getTag()
-        elif module.hasTag():
-            tag=module.getTag()
+        # if module.isDebug() or  module.svn.isDebug():
+        #    cmd.addParameter('--verbose')
             
         if exists:
-
-            # do a cvs update
+            # do an SVN update
             cmd.addParameter('update')
-            cmd.addParameter('-P')
-            cmd.addParameter('-d')
-            if tag:
-                cmd.addParameter('-r',tag,' ')
-            else:
-                cmd.addParameter('-A')
-            cmd.addParameter(module.getName())
-
         else:
-
-            # do a cvs checkout
+            # do an SVN checkout
             cmd.addParameter('checkout')
-            cmd.addParameter('-P')
-            if tag:
-                cmd.addParameter('-r',tag,' ')
+            cmd.addParameter(url)
+       
+        #
+        # Request non-interactive
+        #
+        cmd.addParameter('--non-interactive')
 
-            if 	not module.cvs.hasModule() or \
-                not module.cvs.getModule() == module.getName(): 
-                    cmd.addParameter('-d',module.getName(),' ')
-                    
-            if module.cvs.hasModule():
-                cmd.addParameter(module.cvs.getModule())
-            else:
-                cmd.addParameter(module.getName())            
+        #
+        # If module name != SVN directory, tell SVN to put it into
+        # a directory named after our module
+        #
+        if module.svn.hasDir():
+            if not module.svn.getDir() == module.getName():
+                cmd.addParameter(module.getName())
         
-        return (module.repository, root, cmd)
+
+        return (module.repository, url, cmd)
+         
     

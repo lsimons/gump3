@@ -25,7 +25,7 @@ from gump import log
 import gump.core.config
 from gump.model.state import *
 from gump.model.loader import WorkspaceLoader
-from gump.output.xref import XRefGuru
+from gump.guru.xref import XRefGuru
 from gump.utils import *
 from gump.test import getWorkedTestWorkspace
 from gump.test.pyunit import UnitTestSuite

@@ -25,7 +25,7 @@ import sys
 from gump import log
 
 from gump.core.gumprun import *
-from gump.core.runner import *
+from gump.runner.runner import *
 from gump.core.config import dir, default, basicConfig
 
 from gump.utils import dump, display, getIndent, logResourceUtilization, \

@@ -49,7 +49,7 @@ class Syndicator(AbstractRunActor):
         #
         try:    
             from gump.syndication.rss import RSSSyndicator
-            simple=RSSSyndicator(run)
+            simple=RSSSyndicator(self.run)
             simple.syndicate()    
         except:
             log.error('Failed to generate RSS Feeds', exc_info=1)    
@@ -59,7 +59,7 @@ class Syndicator(AbstractRunActor):
         #
         try:
             from gump.syndication.atom import AtomSyndicator
-            atom=AtomSyndicator(run)
+            atom=AtomSyndicator(self.run)
             atom.syndicate()
         except:
             log.error('Failed to generate Atom Feeds', exc_info=1)  

@@ -609,7 +609,7 @@ class Workspace(NamedModelObject, PropertyContainer, Statable, Resultable):
     def getModuleIterator(self):
         return AlphabeticDictionaryIterator(self.modules)    
         
-    def getCvsDirectory(self):
+    def getSourceControlStagingDirectory(self):
         return self.cvsdir
 
 

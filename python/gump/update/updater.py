@@ -28,6 +28,8 @@ from gump.core.gumprun import *
 from gump.core.config import dir, default, basicConfig
 
 from gump.update.cvs import CvsUpdater
+from gump.update.svn import SvnUpdater
+from gump.update.jars import JarsUpdater
 
 from gump.utils import dump, display, getIndent, logResourceUtilization, \
                             invokeGarbageCollection
@@ -54,8 +56,8 @@ class GumpUpdater(RunSpecific):
         RunSpecific.__init__(self, run)
         
         self.cvs=CvsUpdater(run)
-        #self.svn=SvnUpdater(run)
-        #self.jars=JarsUpdater(run)
+        self.svn=SvnUpdater(run)
+        self.jars=JarsUpdater(run)
 
     """
     
@@ -97,9 +99,7 @@ class GumpUpdater(RunSpecific):
     
         workspace = self.run.getWorkspace()
         
-        # :TODO: A tad bogus to move here
-        os.chdir(workspace.getCvsDirectory())
-        log.debug("Workspace CVS Directory: " + workspace.getCvsDirectory())
+        log.debug("Workspace CVS|SVN|Jars Directory: " + workspace.getSourceControlStagingDirectory())
 
         #log.debug('Modules to update:') 
     
@@ -129,10 +129,10 @@ class GumpUpdater(RunSpecific):
                 
             if module.hasCvs():
                 ok =self.cvs.updateModule(module)
-            #elif module.hasSvn():
-            #    ok=self.svn.updateModule(module)
-            #elif module.hasJars():
-            #    ok=self.jars.updateModule(module)        
+            elif module.hasSvn():
+                ok=self.svn.updateModule(module)
+            elif module.hasJars():
+                ok=self.jars.updateModule(module)        
             else:
                 # :TODO: Now what?
                 pass
@@ -153,10 +153,8 @@ class GumpUpdater(RunSpecific):
         """
         workspace = module.getWorkspace()
         
-        sourcedir = os.path.abspath(	\
-                            os.path.join(	workspace.getCvsDirectory(), \
-                                                module.name)) # todo allow override
-        destdir = module.getSourceDirectory()
+        sourcedir = module.getSourceControlStagingDirectory() 
+        destdir = module.getWorkingDirectory()
                 
         # Perform the sync...
         try:
@@ -188,90 +186,3 @@ class GumpUpdater(RunSpecific):
             log.error('Synchronize Failed ' + str(details), exc_info=1)
            
         return module.okToPerformWork()
-
-     
-    def getSvnUpdateCommand(self,exists=0):
-        
-        log.debug("SubVersion Update Module " + self.getName() + \
-                       ", Repository Name: " + str(self.repository.getName()))
-                                        
-        url=self.svn.getRootUrl()
-      
-        log.debug("SVN URL: [" + url + "] on Repository: " + self.repository.getName())
-     
-        #
-        # Prepare SVN checkout/update command...
-        # 
-        cmd=Cmd('svn', 'update_'+self.getName(), self.getWorkspace().cvsdir)
-       
-        #
-        # Be 'quiet' (but not silent) unless requested otherwise.
-        #
-        if 	not self.isDebug() 	\
-            and not self.isVerbose() \
-            and not self.svn.isDebug()	\
-            and not self.svn.isVerbose():    
-            cmd.addParameter('--quiet')
-                  
-        #
-        # Allow trace for debug
-        #
-        # SVN complains about -v|--verbose, don't ask me why
-        #
-        # if self.isDebug() or  self.svn.isDebug():
-        #    cmd.addParameter('--verbose')
-            
-        if exists:
-            # do an SVN update
-            cmd.addParameter('update')
-        else:
-            # do an SVN checkout
-            cmd.addParameter('checkout')
-            cmd.addParameter(url)
-       
-        #
-        # Request non-interactive
-        #
-        cmd.addParameter('--non-interactive')
-
-        #
-        # If module name != SVN directory, tell SVN to put it into
-        # a directory named after our module
-        #
-        if self.svn.hasDir():
-            if not self.svn.getDir() == self.getName():
-                cmd.addParameter(self.getName())
-        
-
-        return (self.repository, url, cmd)
-         
-     
-    def getJarsUpdateCommand(self,exists=0):
-        
-        log.debug("Jars Update Module " + self.getName() + \
-                       ", Repository Name: " + str(self.repository.getName()))
-
-        url=self.jars.getRootUrl()
-      
-        log.debug("Jars URL: [" + url + "] on Repository: " + self.repository.getName())
-     
-        #
-        # Prepare Jars checkout/update command...
-        # 
-        cmd=Cmd('update.py',	\
-                'update_'+self.getName(),	\
-                self.getWorkspace().cvsdir)
-    
-        cmd.addParameter(url)
-          
-        #
-        # Be 'quiet' (but not silent) unless requested otherwise.
-        #
-        if 	not self.isDebug() 	\
-            and not self.isVerbose() \
-            and not self.jars.isDebug()	\
-            and not self.jars.isVerbose():    
-            cmd.addParameter('-q')
-
-        return (self.repository, url, cmd)
-     

@@ -25,7 +25,7 @@ import types, StringIO
 from gump import log
 import gump.core.config
 from gump.core.gumprun import GumpRun
-from gump.core.tasks import SequentialTaskRunner, GumpTaskList
+from gump.runner.tasks import SequentialTaskRunner, GumpTaskList
 from gump.test.pyunit import UnitTestSuite
 
 class TasksTestSuite(UnitTestSuite):

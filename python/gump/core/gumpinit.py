@@ -15,7 +15,7 @@
 # limitations under the License.
 
 #
-# $Header: /home/stefano/cvs/gump/python/gump/core/gumpinit.py,v 1.2.2.1 2004/05/17 23:45:52 ajack Exp $
+# $Header: /home/stefano/cvs/gump/python/gump/core/gumpinit.py,v 1.2.2.2 2004/05/19 16:01:56 ajack Exp $
 # 
 
 """
@@ -31,17 +31,22 @@ import time
 
 from gump import log
 from gump.core.config import dir, default, setting, switch, basicConfig
+from gump.utils import initializeGarbageCollection
 
 ###############################################################################
 # Initialize
 ###############################################################################
 def gumpinit():
+        
     #set verbosity to show all messages of severity >= default.logLevel
     log.setLevel(default.logLevel)
 
     # Ensure dirs exists,
     basicConfig()
 
+    # Initialize GC (sometimes w/ debug)
+    initializeGarbageCollection()
+    
     #
     timestamp=os.path.join(dir.base,'.timestamp')
     if os.path.exists(timestamp):

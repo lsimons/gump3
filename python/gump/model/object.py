@@ -261,7 +261,7 @@ class Resolvable(ModelObject):
         path=None
         if self.xml.nested:
             path=os.path.abspath(	\
-                    os.path.join(	self.owner.getModule().getSourceDirectory(),	\
+                    os.path.join(	self.owner.getModule().getWorkingDirectory(),	\
                                     self.xml.nested))
         elif self.xml.parent:
             path=os.path.abspath(	\

@@ -380,7 +380,7 @@ class Project(NamedModelObject, Statable, Resultable, Dependable, Positioned):
         # if one is set
         if self.xml.basedir:
             self.basedir = os.path.abspath(os.path.join(	\
-                                self.getModule().getSourceDirectory() or dir.base,	\
+                                self.getModule().getWorkingDirectory() or dir.base,	\
                                 self.xml.basedir))
          
         # Compute home directory
@@ -395,7 +395,7 @@ class Project(NamedModelObject, Statable, Resultable, Dependable, Positioned):
             if self.xml.home.nested:
                 module=self.getModule()    
                 self.home=os.path.abspath(\
-                    os.path.join(module.getSourceDirectory(),\
+                    os.path.join(module.getWorkingDirectory(),\
                         self.xml.home.nested))
             elif self.xml.home.parent:
                 self.home=os.path.abspath(	\
@@ -408,7 +408,7 @@ class Project(NamedModelObject, Statable, Resultable, Dependable, Positioned):
         elif not self.xml.home:
             if self.module:
                 module=self.getModule()    
-                self.home=os.path.abspath(module.getSourceDirectory())
+                self.home=os.path.abspath(module.getWorkingDirectory())
             else:
                 self.home=os.path.abspath(os.path.join(workspace.getBaseDirectory(),self.name))
         else:
@@ -685,7 +685,7 @@ class Project(NamedModelObject, Statable, Resultable, Dependable, Positioned):
         # Add this project's work directories (these go into
         # CLASSPATH, never BOOTCLASSPATH)
         #
-        srcdir=self.getModule().getSourceDirectory()
+        workdir=self.getModule().getWorkingDirectory()
           
         #
         # Add the work directories
@@ -693,7 +693,7 @@ class Project(NamedModelObject, Statable, Resultable, Dependable, Positioned):
         for work in self.xml.work:
             path=None
             if work.nested:
-                path=os.path.abspath(os.path.join(srcdir,work.nested))
+                path=os.path.abspath(os.path.join(workdir,work.nested))
             elif work.parent:
                 path=os.path.abspath(os.path.join(self.getWorkspace().getBaseDirectory(),work.parent))
             else:

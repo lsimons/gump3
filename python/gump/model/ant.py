@@ -168,7 +168,7 @@ class Builder(ModelObject, PropertyContainer):
         
         # Set this up...
         self.basedir = os.path.abspath(os.path.join(	\
-                                self.project.getModule().getSourceDirectory() or dir.base,	\
+                                self.project.getModule().getWorkingDirectory() or dir.base,	\
                                 self.xml.basedir or self.project.getBaseDirectory() or ''))
                 
         self.setComplete(1)

@@ -45,25 +45,16 @@ from gump.model.state import *
 # Classes
 ###############################################################################
 
-class AntBuilder(RunSpecific):
+class ScriptBuilder(RunSpecific):
     
     def __init__(self,run):
         RunSpecific.__init__(self,run)
 
-    def buildProject(self,project,stats)
+    def buildProject(self,project,stats):
         
         workspace=self.run.getWorkspace()
                  
-        log.info(' Project: #[' + `project.getPosition()` + '] of [' + `projectCount` + '] : ' + project.getName())
-                    
-        # Extract stats (in case we want to do conditional processing)            
-        stats=None
-        if project.hasStats():
-            stats=project.getStats()
-            
-        if project.isPackaged():             
-            self.performProjectPackageProcessing(project, stats)
-            continue
+        log.info(' Project: #[' + `project.getPosition()` + '] : ' + project.getName())
                 
         # Do this even if not ok
         self.performPreBuild(project, stats)

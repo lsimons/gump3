@@ -287,9 +287,16 @@ class Module(NamedModelObject, Statable, Resultable, Positioned):
 
     
         # Determine source directory
-        self.srcdir=self.xml.srcdir or self.xml.name        
-        self.absSrcDir=os.path.join(workspace.getBaseDirectory(),self.srcdir)
-                               
+        self.workdir=self.xml.srcdir or self.xml.name        
+        self.absWorkingDir=	\
+                os.path.abspath(
+                        os.path.join(workspace.getBaseDirectory(),	\
+                                self.workdir))
+        
+        self.absSrcCtlDir=	\
+                 os.path.abspath(
+                         os.path.join(	workspace.getSourceControlStagingDirectory(), \
+                                            self.name)) # todo allow override              
                                
         # :TODO: Consolidate this code, less cut-n-paste but also
         # check the 'type' of the repository is appropriate for the
@@ -494,11 +501,14 @@ class Module(NamedModelObject, Statable, Resultable, Positioned):
     def getTag(self):
         return str(self.tag)
         
-    def getSourceDirectory(self):
-        return self.absSrcDir
+    def getSourceControlStagingDirectory(self):
+        return self.absSrcCtlDir
         
-    def getSourceDirName(self):
-        return self.srcdir
+    def getWorkingDirectory(self):
+        return self.absWorkingDir
+        
+    def getModuleDirName(self):
+        return self.workdir
         
     def hasURL(self):
         return self.getURL()

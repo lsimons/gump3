@@ -129,7 +129,7 @@ class CommandLine:
             log.info("No workspace defined with -w or -workspace.")
             log.info("Using default workspace: " + default.workspace)
     
-        # Remove the XXX.PY
+        # Remove the XXXXXX.py
         del argv[0] 
           
         # determine which modules the user desires (wildcards are permitted)

@@ -27,7 +27,9 @@ from gump import log
 from gump.core.gumprun import *
 from gump.core.config import dir, default, basicConfig
 
+from gump.build.script import ScriptBuilder
 from gump.build.ant import AntBuilder
+from gump.build.maven import MavenBuilder
 
 from gump.utils import dump, display, getIndent, logResourceUtilization, \
                             invokeGarbageCollection
@@ -54,7 +56,8 @@ class GumpBuilder(RunSpecific):
         RunSpecific.__init__(self,run)
         
         self.ant=AntBuilder(run)
-        #self.maven=MavenBuilder(run)
+        self.maven=MavenBuilder(run)
+        self.script=MavenBuilder(run)
 
         # Place repository in jardir (to be renamed to repodir)
         self.repository=self.run.getOutputsRepository()
@@ -160,8 +163,13 @@ class GumpBuilder(RunSpecific):
                         project.addInfo('Enable "verbose" output, due to %s previous error(s).' % stats.sequenceInState)    
                         project.setVerbose(1)
 
-            if project.hasAnt():
+            # Pick your poison..
+            if project.hasScript():
+                self.script.buildProject(project, stats)
+            elif project.hasAnt():
                 self.ant.buildProject(project, stats)
+            if project.hasMaven():
+                self.maven.buildProject(project, stats)
                     
         # Do this even if not ok
         self.performPostBuild( project, wasBuilt, stats )
@@ -176,7 +184,7 @@ class GumpBuilder(RunSpecific):
 
     def performDelete(self,project,delete,index=0):
         """ Return the delete command for a <delete entry """
-        basedir=os.path.abspath(project.getModule().getSourceDirectory() or dir.base)
+        basedir=os.path.abspath(project.getModule().getWorkingDirectory() or dir.base)
     
         #
         # Delete a directory and/or a file
@@ -207,7 +215,7 @@ class GumpBuilder(RunSpecific):
     
     def performMkDir(self,project,mkdir,index=0):
         """ Return the mkdir comment for a <mkdir entry """
-        basedir=os.path.abspath(project.getModule().getSourceDirectory() or dir.base)
+        basedir=os.path.abspath(project.getModule().getWorkingDirectory() or dir.base)
          
         #
         # Make a directory
@@ -313,7 +321,7 @@ class GumpBuilder(RunSpecific):
                     # If we have a <license name='...
                     if project.hasLicense():
                         licensePath=os.path.abspath(	\
-                                        os.path.join( project.getModule().getSourceDirectory(),	\
+                                        os.path.join( project.getModule().getWorkingDirectory(),	\
                                                 project.getLicense() ) )
                                           
                         # Add to list of outputs, in case we
@@ -384,7 +392,7 @@ class GumpBuilder(RunSpecific):
                 project.changeState(STATE_SUCCESS)
         else:
             # List source directory (when failed) in case it helps debugging...
-            listDirectoryToFileHolder(project,project.getModule().getSourceDirectory(), \
+            listDirectoryToFileHolder(project,project.getModule().getWorkingDirectory(), \
                                         FILE_TYPE_SOURCE, 'list_source_'+project.getName())           
                                         
         #   
@@ -422,7 +430,7 @@ class GumpBuilder(RunSpecific):
             # If we have a <license name='...
             if project.hasLicense():
                 licensePath=os.path.abspath(	\
-                                os.path.join( project.getModule().getSourceDirectory(),	\
+                                os.path.join( project.getModule().getWorkingDirectory(),	\
                                                 project.getLicense() ) )
                                           
                 # Add to list of outputs, in case we

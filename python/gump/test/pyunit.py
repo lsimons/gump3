@@ -231,8 +231,8 @@ class UnitTestSuite(Testable):
                     # Record the problem
                     results.append(Problem(self,name,message))
                 
-                # Seems a nice place to clean up...    
-                invokeGarbageCollection()
+                # Seems a nice place to peek...    
+                inspectGarbageCollection(self.__class__.__name__+':'+test.__name__)
         
             if hasattr(self,'suiteTearDown'):
                 self.suiteTearDown()

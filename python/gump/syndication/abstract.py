@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/syndication/abstract.py,v 1.1.2.3 2004/05/18 22:51:00 ajack Exp $
-# $Revision: 1.1.2.3 $
-# $Date: 2004/05/18 22:51:00 $
+# $Header: /home/stefano/cvs/gump/python/gump/syndication/abstract.py,v 1.1.2.4 2004/05/19 16:01:57 ajack Exp $
+# $Revision: 1.1.2.4 $
+# $Date: 2004/05/19 16:01:57 $
 #
 # ====================================================================
 #
@@ -68,6 +68,7 @@ import time
 from xml.sax.saxutils import escape
 
 from gump import log
+from gump.core.gumprun import *
 from gump.model.state import *
 from gump.model.project import ProjectStatistics
 

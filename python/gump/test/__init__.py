@@ -27,7 +27,7 @@ from gump.model.state import *
 from gump.model.rawmodel import XMLWorkspace
 from gump.model.workspace import Workspace
 
-from gump.output.statsdb import StatisticsDB
+from gump.stats.statsdb import StatisticsDB
 from gump.utils.tools import listDirectoryToFileHolder
 from gump.utils.work import *
 
@@ -47,7 +47,7 @@ def getWorkedTestWorkspace(xml=None):
     # Some file items...
     listDirectoryToFileHolder(workspace,workspace.getBaseDirectory())        
     for module in workspace.getModules():        
-        listDirectoryToFileHolder(module,module.getSourceDirectory())
+        listDirectoryToFileHolder(module,module.getWorkingDirectory())
         for project in module.getProjects():
             listDirectoryToFileHolder(project,project.getHomeDirectory())  
 
