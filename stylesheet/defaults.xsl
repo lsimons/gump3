@@ -154,7 +154,8 @@
 
       <!-- Generate additional dependency entries, as needed -->
 
-      <xsl:for-each select="ant/property[@project!=$project]">
+      <xsl:for-each select="ant/property[@project!=$project and 
+                                         not(@reference='srcdir')]">
 
         <xsl:variable name="dependency" select="@project"/>
         <xsl:if test="not(../../depend[@project=$dependency])">

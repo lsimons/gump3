@@ -317,7 +317,14 @@
       <xsl:text> -D</xsl:text>
       <xsl:value-of select="@name"/>
       <xsl:text>=</xsl:text>
-      <xsl:value-of select="@value"/>
+      <xsl:choose>
+        <xsl:when test="@type='path'">
+          <xsl:value-of select="translate(@value,'/','\')"/>
+        </xsl:when>
+        <xsl:otherwise>
+          <xsl:value-of select="@value"/>
+        </xsl:otherwise>
+      </xsl:choose>
     </xsl:for-each>
 
     <xsl:choose>

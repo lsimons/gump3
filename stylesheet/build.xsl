@@ -280,6 +280,13 @@
             </xsl:if>
           </xsl:when>
 
+          <xsl:when test="@reference='srcdir'">
+            <xsl:variable name="project" select="@project"/>
+            <xsl:for-each select="/workspace/project[@name=$project]">
+              <property name="{$name}" value="{$basedir}/{@srcdir}" type="path"/>
+            </xsl:for-each>
+          </xsl:when>
+
           <xsl:when test="@path">
             <property name="{$name}" value="{$basedir}/{ancestor::project/@srcdir}/{@path}" type="path"/>
           </xsl:when>
