@@ -762,17 +762,20 @@ class GumpEngine:
         
     def checkModules(self,run):
         # Check all the modules
-        for module in run.getGumpSet().getModules():                  
+        list=run.getGumpSet().getModules()
+        moduleCount=len(list)
+        moduleNo=1
+        for module in list:      
+        
+            log.info(' ------ Module: #[' + `moduleNo` + '] of [' + `moduleCount` + '] : ' + module.getName())
+                        
             module.changeState(STATE_SUCCESS)        
+            moduleNo+=1
 
     def checkProjects(self,run):
         list=run.getGumpSet().getProjects()
         # Check all projects
                 
-        log.debug('Total Project CheckList:');
-        for p in list:
-            log.debug('  To Check : ' + p.name)
-            
         projectCount=len(list)
         projectNo=1
         for project in list:  
@@ -788,6 +791,8 @@ class GumpEngine:
             if not project.okToPerformWork():
                 log.warn('Failed to check project #[' + `projectNo` + '] [' + project.getName() + '], state:' \
                         + project.getStateDescription())
+            
+            projectNo+=1
 
         
     

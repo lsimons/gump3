@@ -288,10 +288,18 @@ try:
             #        
             iargs = '-w ../' + workspaceName + ' ' + projectsExpr + ' ' + ' '.join(sys.argv[1:])
   
+            # Allow a check not an integrate
+            check=0
+            if '--check' in sys.argv:
+                check=0
+            
             #
             # Run the main Gump...
             #    
-            integrationExit = runCommand('python gump/integrate.py', iargs, 'python')
+            command='gump/integrate.py'
+            if check:
+                command='gump/check.py'
+            integrationExit = runCommand('python '+command, iargs, 'python')
             if integrationExit:
                 result=1
 

@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/output/Attic/nag.py,v 1.21 2004/03/03 15:29:48 ajack Exp $
-# $Revision: 1.21 $
-# $Date: 2004/03/03 15:29:48 $
+# $Header: /home/stefano/cvs/gump/python/gump/output/Attic/nag.py,v 1.22 2004/03/03 20:32:14 ajack Exp $
+# $Revision: 1.22 $
+# $Date: 2004/03/03 20:32:14 $
 #
 # ====================================================================
 #
@@ -195,7 +195,7 @@ class Nagger:
         self.unwanted += content
         self.unwanted += '\n'
         
-        self.unwantedSubjects += subject
+        self.unwantedSubjects += subject + '\n'
         self.unwanteds += 1
     
     def addUnsent(self,subject,content):
@@ -207,7 +207,7 @@ class Nagger:
         self.unsent += content
         self.unsent += '\n'
         
-        self.unsentSubjects += subject
+        self.unsentSubjects += subject + '\n'
         self.unsents += 1
         
     def getUnwantedContent(self):

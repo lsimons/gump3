@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/forrest.py,v 1.89 2004/03/01 22:46:41 ajack Exp $
-# $Revision: 1.89 $f
-# $Date: 2004/03/01 22:46:41 $
+# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/forrest.py,v 1.90 2004/03/03 20:32:14 ajack Exp $
+# $Revision: 1.90 $f
+# $Date: 2004/03/03 20:32:14 $
 #
 # ====================================================================
 #
@@ -1391,8 +1391,6 @@ class ForrestDocumenter(Documenter):
         serverResults=None
         if isinstance(linkable,Resultable) and linkable.hasServerResults():
             serverResults=linkable.getServerResults()
-        else:
-            log.debug('Have no Resultable for statePair ' + `linkable`)
             
         for server in servers: 
         
@@ -1401,29 +1399,26 @@ class ForrestDocumenter(Documenter):
             if serverResults and serverResults.has_key(server):
                 results=serverResults[server]
                 if results:
-                    log.debug('Have statePair ' + `statePair`)
                     statePair=results.getStatePair()
-                else:
-                    log.debug('Have no results for statePair ' + `server`)
                                 
             # If we can resolve this object to a URL, then do
+            dataNode=serverRow.createData()
             xdocNode=None
                         
             if server.hasResolver():
-                xdocNode=serverRow.createData().createFork(	\
+                xdocNode=dataNode.createFork(	\
                         server.getResolver().getUrl(linkable))
             else:
                 # Else just link to the server.
                 if server.hasUrl():
-                    xdocNode=serverRow.createData().createFork(	\
+                    xdocNode=dataNode.createFork(	\
                             server.getUrl())  
             
-            if xdocNode and statePair:
-                log.debug('Have xdocNode and statePair ' + `statePair`)
-                depth=getDepthForObject(linkable)
-                self.insertStatePairIconAtDepth(xdocNode,statePair,depth)
-            else:
+            if xdocNode:
                 xdocNode.createText('On ' + server.getName())
+                if statePair:
+                    depth=getDepthForObject(linkable)
+                    self.insertStatePairIconAtDepth(dataNode,statePair,depth)                
                 
                         
     def documentProperties(self,xdocNode,propertyContainer,title='Properties'):
