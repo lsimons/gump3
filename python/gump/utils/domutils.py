@@ -169,7 +169,8 @@ def getDomChildValue(element,name,default=None):
     for childNode in element.childNodes:    
         if childNode.nodeType == xml.dom.Node.ELEMENT_NODE:
             if childNode.tagName == name:
-                value+=getDomTextValue(childNode)
+                text=getDomTextValue(childNode)
+                if text: value+=text
     if value: 
         value=value.strip()
     return value or default
