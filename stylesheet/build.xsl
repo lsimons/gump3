@@ -179,6 +179,7 @@
             <initdir dir="{$srcdir}" basedon="{$cvsdir}/{@module}"/>
             <chdir dir="{$srcdir}"/>
 
+            <xsl:copy-of select="delete"/>
             <xsl:copy-of select="mkdir"/>
 
             <classpath>
