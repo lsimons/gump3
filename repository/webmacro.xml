@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<repository name="webmacro" type="cvs">
+  <title>webmacro</title>
+  <home-page>http://www.webmacro.org/</home-page>
+  <cvsweb>http://www.webmacro.org/cvs/</cvsweb>
+
+  <root>
+    <method>pserver</method>
+    <user>wm</user>
+    <password>webmacro</password>
+    <hostname>cvs.webmacro.org</hostname>
+    <path>/root</path>
+  </root>
+</repository>
