@@ -29,9 +29,13 @@ class Database:
     See http://www.python.org/peps/pep-0249.html for more on python and databases.
     This class adheres to the PEP 249 Connection interface.
     """
-    def __init__(self,dbInfo):
-        self._dbInfo=dbInfo
-        self._conn=None
+    def __init__(self, log, host=None, user=None, password=None, db=None):
+        self.log = log
+        self.host = host
+        self.user = user
+        self.password = password
+        self.db = db
+        self._conn = None
         
     def __del__(self):
         self.close()
@@ -68,13 +72,24 @@ class Database:
         from cursor handling.
         
         Pass in any SQL command. Retrieve back the results of having a cursor
-        execute that command (normally the number of affected rows).
+        execute that command. The result is a tuple containing the number of
+        rows affected and the result set as a tuple of tuples, if there was a
+        result set, or None otherwise.
         """
+        self.log.debug("Executing SQL statement: %s" % statement)
         cursor = None
         try:
             cursor = self._connection().cursor()
-            result = cursor.execute(cmd)
-            return result
+            cursor.execute(statement)
+            
+            affected = cursor.rowcount
+            self.log.debug("   ...%s rows affected." % affected)
+            if statement.lower().startswith("select"):
+                if affected > 0:
+                    result = cursor.fetchall()
+                    return (affected, result)
+                
+            return (affected, None)
         finally:
             if cursor: cursor.close()
     
@@ -86,10 +101,10 @@ class Database:
             import MySQLdb
             import MySQLdb.cursors
             self._conn = MySQLdb.Connect(
-                    host=self._dbInfo.getHost(), 
-                    user=self._dbInfo.getUser(),
-                    passwd=self._dbInfo.getPasswd(), 
-                    db=self._dbInfo.getDatabase(),
+                    host=self.host, 
+                    user=self.user,
+                    passwd=self.password, 
+                    db=self.db,
                     compress=1,
                     cursorclass=MySQLdb.cursors.DictCursor)
         

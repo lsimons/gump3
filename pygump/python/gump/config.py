@@ -107,7 +107,8 @@ def get_plugins(config):
     post_process_plugins.append(TimerPlugin("run_end"))
 
     from gump.plugins.dynagumper import Dynagumper
-    db = get_db(config)
+    log = get_logger(config.log_level, "util-db")
+    db = get_db(log,config)
     log = get_logger(config.log_level, "plugin-dynagumper")
     post_process_plugins.append(Dynagumper(db, log, "run_start", "run_end"))
     
@@ -174,10 +175,15 @@ def get_logger(level, name):
     return log
 
 
-def get_db(config):
+def get_db(log,config):
     """Provide a database implementation."""
     from gump.util.mysql import Database
-    db = Database(config) #TODO!
+
+    db = Database(log,
+                  config.database_server,
+                  config.database_user,
+                  config.database_password,
+                  config.database_name)
     return db
 
 

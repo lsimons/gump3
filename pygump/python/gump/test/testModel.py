@@ -43,14 +43,6 @@ from gump.model import OUTPUT_ID_HOME
 from gump.model import Jar
 
 class ModelTestCase(TestCase):
-    def setUp(self):
-        # initialize tests here
-        pass
-    
-    def tearDown(self):
-        # clean up after tests here
-        pass
-    
     def test_error(self):
         e = Error()
         try:
