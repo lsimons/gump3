@@ -189,7 +189,7 @@ class GumpEngine:
                 #
                 (repository, root, cmd ) = module.getUpdateCommand(exists)
                 
-                if self.isCvs():
+                if module.isCvs():
                     #
                     # Provide CVS logins, if not already there
                     #
