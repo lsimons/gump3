@@ -144,6 +144,7 @@
   <repository href="repository/sourceforge.xml"/>
   <repository href="repository/whichever.xml"/>
   <repository href="repository/xml.xml"/>
+  <repository href="repository/webmacro.xml"/>
 
   <!-- server definitions -->
   <server href="server/daedalus.apache.org.xml"/>
