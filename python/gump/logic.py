@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/Attic/logic.py,v 1.19 2003/10/07 05:27:52 ajack Exp $
-# $Revision: 1.19 $
-# $Date: 2003/10/07 05:27:52 $
+# $Header: /home/stefano/cvs/gump/python/gump/Attic/logic.py,v 1.20 2003/10/07 05:44:58 ajack Exp $
+# $Revision: 1.20 $
+# $Date: 2003/10/07 05:44:58 $
 #
 # ====================================================================
 #
@@ -372,7 +372,7 @@ def getDependOutputList(depend,context,visited):
   
   # Don't loop
   if projectname in visited:
-      return
+      return []
   visited.append(projectname)
   
   if not Project.list.has_key(projectname):
