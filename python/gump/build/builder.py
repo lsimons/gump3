@@ -57,7 +57,7 @@ class GumpBuilder(RunSpecific):
         
         self.ant=AntBuilder(run)
         self.maven=MavenBuilder(run)
-        self.script=MavenBuilder(run)
+        self.script=ScriptBuilder(run)
 
         # Place repository in jardir (to be renamed to repodir)
         self.repository=self.run.getOutputsRepository()
@@ -168,7 +168,7 @@ class GumpBuilder(RunSpecific):
                 self.script.buildProject(project, stats)
             elif project.hasAnt():
                 self.ant.buildProject(project, stats)
-            if project.hasMaven():
+            elif project.hasMaven():
                 self.maven.buildProject(project, stats)
             
             # A build attempt was made...

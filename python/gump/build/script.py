@@ -54,65 +54,41 @@ class ScriptBuilder(RunSpecific):
         
         workspace=self.run.getWorkspace()
                  
-        log.info(' Project: #[' + `project.getPosition()` + '] : ' + project.getName())
+        log.info(' ------ Script-ing: #[' + `project.getPosition()` + '] : ' + project.getName())
                 
-        # Do this even if not ok
-        self.performPreBuild(project, stats)
+        #
+        # Get the appropriate build command...
+        #
+        cmd=self.getScriptCommand(project)
 
-        wasBuilt=0
-        if project.okToPerformWork():        
-            log.debug(' ------ Building: [' + `projectNo` + '] ' + project.getName())
-
-            # Turn on --verbose or --debug if failing ...
-            if stats:
-                if (not STATE_SUCCESS == stats.currentState) and \
-                        not project.isVerboseOrDebug():
-                    if stats.sequenceInState > INSIGNIFICANT_DURATION:
-                        project.addInfo('Enable "debug" output, due to a sequence of %s previous errors.' % stats.sequenceInState)
-                        project.setDebug(1)
-                    else:
-                        project.addInfo('Enable "verbose" output, due to %s previous error(s).' % stats.sequenceInState)    
-                        project.setVerbose(1)
-
-            #
-            # Get the appropriate build command...
-            #
-            cmd=project.getBuildCommand(self.run.getEnvironment().getJavaCommand())
-
-            if cmd:
-                # Execute the command ....
-                cmdResult=execute(cmd,workspace.tmpdir)
+        if cmd:
+            # Execute the command ....
+            cmdResult=execute(cmd,workspace.tmpdir)
     
-                # Update Context    
-                work=CommandWorkItem(WORK_TYPE_BUILD,cmd,cmdResult)
-                project.performedWork(work)
-                wasBuilt=1
+            # Update Context    
+            work=CommandWorkItem(WORK_TYPE_BUILD,cmd,cmdResult)
+            project.performedWork(work)
                     
-                # Update Context w/ Results  
-                if not cmdResult.state==CMD_STATE_SUCCESS:
-                    reason=REASON_BUILD_FAILED
-                    if cmdResult.state==CMD_STATE_TIMED_OUT:
-                        reason=REASON_BUILD_TIMEDOUT
-                    project.changeState(STATE_FAILED,reason)
+            # Update Context w/ Results  
+            if not cmdResult.state==CMD_STATE_SUCCESS:
+                reason=REASON_BUILD_FAILED
+                if cmdResult.state==CMD_STATE_TIMED_OUT:
+                    reason=REASON_BUILD_TIMEDOUT
+                project.changeState(STATE_FAILED,reason)
                         
-                    if not project.isDebug():
-                        # Display...
-                        project.addInfo('Enable "debug" output, due to build failure.')
-                        project.setDebug(1)
-                        
-                else:                         
-                    # For now, things are going good...
-                    project.changeState(STATE_SUCCESS)
+            else:                         
+                # For now, things are going good...
+                project.changeState(STATE_SUCCESS)
    
-    def getScriptCommand(self):
+    def getScriptCommand(self,project):
         """ Return the command object for a <script entry """
-        script=self.script
-        scriptxml=self.xml.script 
+        script=project.script
+        scriptxml=project.xml.script 
            
         #
         # Where to run this:
         #
-        basedir = script.getBaseDirectory() or self.getBaseDirectory()
+        basedir = script.getBaseDirectory() or project.getBaseDirectory()
 
         # Add .sh  or .bat as appropriate to platform
         scriptfullname=scriptxml.name
@@ -128,9 +104,9 @@ class ScriptBuilder(RunSpecific):
         scriptfile=os.path.abspath(os.path.join(basedir, scriptfullname))
         
         # Not sure this is relevent...
-        (classpath,bootclasspath)=self.getClasspaths()
+        (classpath,bootclasspath)=project.getClasspaths()
 
-        cmd=Cmd(scriptfile,'buildscript_'+self.getModule().getName()+'_'+self.getName(),\
+        cmd=Cmd(scriptfile,'buildscript_'+project.getModule().getName()+'_'+project.getName(),\
             basedir,{'CLASSPATH':classpath})    
             
         # Set this as a system property. Setting it here helps JDK1.4+
@@ -151,9 +127,9 @@ class ScriptBuilder(RunSpecific):
         # Allow script-level debugging...
         #
         # Per GUMP-48 scripts do not want this.        
-        #if self.getWorkspace().isDebug() or self.isDebug() or debug:
+        #if project.getWorkspace().isDebug() or project.isDebug() or debug:
         #    cmd.addParameter('-debug')  
-        #if self.getWorkspace().isVerbose()  or self.isVerbose() or verbose:
+        #if project.getWorkspace().isVerbose()  or project.isVerbose() or verbose:
         #    cmd.addParameter('-verbose')  
         
         return cmd

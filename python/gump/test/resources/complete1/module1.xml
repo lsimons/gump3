@@ -14,7 +14,7 @@
   <project name="project1">
     <package>org.apache.project1</package>
 
-    <ant target="gump"/>
+    <script name="gumpscript"/>
 
     <option project="random"/>
 

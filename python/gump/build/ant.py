@@ -57,7 +57,7 @@ class AntBuilder(AbstractJavaBuilder):
         
         workspace=self.run.getWorkspace()
                  
-        log.info(' Ant-ing: #[' + `project.getPosition()` + '] : ' + project.getName())
+        log.info(' ------ Ant-ing: #[' + `project.getPosition()` + '] : ' + project.getName())
     
         #
         # Get the appropriate build command...

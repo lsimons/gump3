@@ -56,7 +56,7 @@ class MavenBuilder(AbstractJavaBuilder):
         
         workspace=self.run.getWorkspace()
                 
-        log.debug(' ------ Maven-ing: [' + `project.getPosition()` + '] ' + project.getName())
+        log.debug(' ------ Maven-ing: #[' + `project.getPosition()` + '] ' + project.getName())
         
         self.performPreBuild(project, stats)
           

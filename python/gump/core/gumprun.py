@@ -181,18 +181,23 @@ class GumpSet:
                 self.getProjectsForProjectExpression(expr))
   
     def getModulesForProjectList(self,projects):
-        modules=[]
+        sequence=[]
         for project in projects:
             
-            # Some projects are outside of modules
+            # Some projects are outside of sequence
             if project.inModule():
                 # Get the module this project is in
                 module = project.getModule()
-                if not module in modules: 
-                    modules.append(module)
+                if not module in sequence: 
+                    sequence.append(module)
+                    module.setPosition(len(sequence))
 
-        modules.sort()
-        return modules
+        # Hmm, see if we don't sort ...
+        # would be nice to get in same order as
+        # projects need 
+        # sequence.sort()
+        
+        return sequence
   
     def getRepositoriesForModuleList(self,modules):
         repositories=[]
@@ -248,22 +253,22 @@ class GumpSet:
     def getBuildSequenceForProjects(self,projects):
         """Determine the build sequence for a given list of projects."""
         todo=[]
-        result=[]
+        sequence=[]
         for project in projects:
             log.debug('Evaluate Seq for ['+project.getName()+']')                
             self.addToTodoList(project,todo)
-            log.debug('TODOS ['+`len(todo)`+']')
             
         while todo:
             # one by one, remove the first ready project and append 
-            # it to the result
+            # it to the sequence
             foundSome=0
             for todoProject in todo:
                 if self.isReady(todoProject,todo):
                     todo.remove(todoProject)
-                    if not todoProject in result:
-                        result.append(todoProject)
-                        #log.debug('Next Project ['+todoProject.getName()+'] is #' + str(len(result)))     
+                    if not todoProject in sequence:
+                        sequence.append(todoProject)
+                        todoProject.setPosition(len(sequence))
+                        log.debug('#' + `todoProject.getPosition()` + ' -> ' + todoProject.getName())     
                     #else:
                     #    log.debug('Duplicate Result ['+todoProject.getName()+']')    
                     foundSome=1
@@ -278,7 +283,7 @@ class GumpSet:
                     else:
                         loop=", ".join([project.getName() for todoProject in todo])
                         raise RuntimeError, "Circular Dependency Loop: " + str(loop)              
-        return result
+        return sequence
 
                 
     #
