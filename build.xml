@@ -1,0 +1,93 @@
+<!--
+
+  Build the scripts and/or site for http://jakarta.apache.org/gump/
+  
+  If you need to bootstrap this, see gen.sh or gen.bat.
+
+  Important targets:
+    scripts - generate the scripts
+    site    - generate the web site
+    all     - generate both the scripts and the site
+
+-->
+
+<project name="gump" default="scripts" basedir=".">
+
+  <!-- Build the code used to generate the merged xml scripts -->
+  <target name="compile">
+    <mkdir dir="classes"/>
+    <mkdir dir="work"/>
+    <javac srcdir="java" destdir="classes"/>
+    <jar file="jenny.jar" basedir="classes"/>
+
+    <uptodate property="uptodate" targetfile="work/merge.xml">
+      <srcfiles dir="." includes="${workspace}"/>
+      <srcfiles dir="profile" includes="*.xml"/>
+      <srcfiles dir="project" includes="*.xml"/>
+      <srcfiles dir="repository" includes="*.xml"/>
+      <srcfiles dir="stylesheet" includes="*.xsl"/>
+    </uptodate>
+  </target>
+
+  <!-- Merge the xml sources, resolving references -->
+  <target name="gen" depends="compile" unless="uptodate">
+    <java classname="Jenny" fork="yes">
+      <arg value="${workspace}"/>
+    </java>
+  </target>
+
+  <!-- Extract the info necessary to produce the update script -->
+  <target name="update" depends="gen">
+    <style in="work/merge.xml" out="work/update.def" 
+           style="stylesheet/update.xsl"/>
+  </target>
+
+  <!-- Extract the info necessary to produce the build script -->
+  <target name="build" depends="gen">
+    <style in="work/merge.xml" out="work/build.def" 
+           style="stylesheet/build.xsl"/>
+  </target>
+
+  <!-- Extract the info necessary to produce the xref script -->
+  <target name="xref" depends="gen">
+    <style in="work/merge.xml" out="work/xref.def" 
+           style="stylesheet/xref.xsl"/>
+  </target>
+
+  <!-- Extract the info necessary to produce the publish script -->
+  <target name="publish" depends="gen">
+    <copy file="work/merge.xml" tofile="work/puball.site"/>
+    <style in="work/merge.xml" out="work/publish.def" 
+           style="stylesheet/publish.xsl"/>
+    <style in="work/merge.xml" out="work/map.pl" 
+           style="stylesheet/sedmap.xsl"/>
+  </target>
+
+  <!-- Add in the website information -->
+  <target name="website" depends="build,update,publish,xref">
+    <style basedir="work" destdir="work" includes="*.def" extension=".site"
+           style="${webstyle}"/>
+  </target>
+
+  <!-- Generate the scripts -->
+  <target name="scripts" depends="website">
+    <style basedir="work" destdir="work" includes="*.site"
+           extension=".${extension}" style="stylesheet/${target}.xsl"/>
+  </target>
+ 
+  <!-- Produce the gump web site -->
+  <target name="site">
+    <ant dir="site"/>
+  </target>
+
+  <!-- Do everything -->
+  <target name="all" depends="scripts,site"/>
+
+  <!-- Remove all outputs and intermediate results -->
+  <target name="clean">
+    <delete file="jenny.jar"/>
+    <delete dir="classes"/>
+    <delete dir="work"/>
+    <ant dir="site" target="clean"/>
+  </target>
+</project>

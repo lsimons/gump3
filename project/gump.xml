@@ -1,0 +1,24 @@
+<module name="gump">
+
+  <url href="http://java.apache.org/gump/"/>
+  <description>
+    Cross project build tool
+  </description>
+
+  <project name="gump">
+    <ant target="all">
+      <property name="site.dir" reference="srcdir" project="jakarta-site2"/>
+      <property name="batik.dir" reference="home" project="xml-batik"/>
+    </ant>
+
+    <depend project="jakarta-ant"/>
+    <depend project="commons-collections"/>
+    <depend project="jakarta-velocity"/>
+    <depend project="jakarta-avalon-logkit"/>
+    <depend project="jdom"/>
+    <depend project="xml-xerces"/>
+    <depend project="xml-xalan2"/>
+    <depend project="xml-batik-rasterizer"/>
+    <work nested="classes"/>
+  </project>
+</module>

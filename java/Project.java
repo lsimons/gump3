@@ -73,6 +73,11 @@ public class Project {
             } else if (child.getNodeName().equals("option")) {
                 dependsOn.put(((Element)child).getAttribute("project"), child);
             } else if (child.getNodeName().equals("ant")) {
+                if (ant != null) {
+                    // multiple ant children?  Merge them!
+                    Jenny.copyChildren(ant, (Element)child);
+                    element.removeChild(ant);
+                }
                 ant = (Element)child;
             } else if (child.getNodeName().equals("home")) {
                 home = (Element)child;
@@ -222,6 +227,8 @@ public class Project {
 
             if (result.equals("")) result=srcdir;
             element.setAttribute("home", result);
+        } else {
+            element.setAttribute("srcdir", result);
         }
     }
 

@@ -109,7 +109,6 @@ public class Jenny {
                copy.removeAttribute("defined-in");
                copyChildren(copy, parent);
            } else {
-
                parent.replaceChild(copy,node);
            }
        }
