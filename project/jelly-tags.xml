@@ -559,7 +559,7 @@
 
     <depend project="commons-jelly" inherit="all"/>
 
-    <depend project="swt"/>
+    <depend project="eclipse" ids="swt"/>
     
     <work nested="swing/target/classes"/>
     <work nested="swing/target/test-classes"/>
