@@ -5,6 +5,7 @@
   <module href="project/jakarta-alexandria.xml"/>
   <module href="project/jakarta-ant.xml"/>
   <module href="project/jakarta-ant-antidote.xml"/>
+  <module href="http://cvs.apache.org/viewcvs/~checkout~/jakarta-ant-myrmidon/gump.xml"/>
   <module href="http://cvs.apache.org/viewcvs/~checkout~/jakarta-avalon-apps/gump.xml"/>
   <module href="project/jakarta-avalon-cornerstone.xml"/>
   <module href="http://cvs.apache.org/viewcvs/~checkout~/jakarta-avalon-excalibur/gump.xml"/>
