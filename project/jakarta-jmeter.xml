@@ -47,11 +47,18 @@
     <work nested="lib/ext/ApacheJMeter_jdbc.jar"/>
     <work nested="lib/ext/ApacheJMeter_java.jar"/>
 
-    <!-- JMeter doesn't currently export any JARs ...
-    <home nested="bin" />
-    <jar name="ApacheJMeter.jar" />
+    <!-- Export the JMeter jars -->
+    <home nested="." />
+    <jar name="bin/ApacheJMeter.jar" />
+    <jar name="lib/ext/ApacheJMeter_components.jar" />
+    <jar name="lib/ext/ApacheJMeter_core.jar" />
+    <jar name="lib/ext/ApacheJMeter_ftp.jar" />
+    <jar name="lib/ext/ApacheJMeter_functions.jar" />
+    <jar name="lib/ext/ApacheJMeter_http.jar" />
+    <jar name="lib/ext/ApacheJMeter_java.jar" />
+    <jar name="lib/ext/ApacheJMeter_jdbc.jar" />
+    <jar name="lib/ext/ApacheJMeter_ldap.jar" />
     <license name="LICENSE"/>
-    -->
 
     <nag from="Geir Magnusson Jr. &lt;geirm@apache.org&gt;"
          to="jmeter-dev@jakarta.apache.org">
