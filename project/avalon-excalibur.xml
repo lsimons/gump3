@@ -443,7 +443,7 @@
         <work nested="fortress/build/classes"/>
         <work nested="fortress/build/testclasses"/>
         <work nested="fortress/build/tools"/>
-                
+
         <home nested="fortress"/>
         <jar name="build/lib/excalibur-fortress-@@DATE@@.jar"/>
 
@@ -799,32 +799,6 @@
         <depend project="excalibur-compatibility" inherit="runtime"/>
         <depend project="excalibur-instrument" inherit="runtime"/>
         <depend project="junit"/>
-    </project>
-
-    <project name="excalibur-naming">
-        <package>org.apache.avalon.excalibur.naming</package>
-
-        <ant basedir="naming">
-            <property name="version" value="@@DATE@@"/>
-            <property name="junit.failonerror" value="true"/>
-            <property name="do.checkstyle" value="true"/>
-            <property name="skip.dependencies" value="true"/>
-        </ant>
-
-        <depend project="ant" inherit="runtime"/>
-        <option project="checkstyle" inherit="runtime"/>
-        <depend project="junit"/>
-        <depend project="xml-xerces"/>
-        <depend project="xml-xalan2"/>
-
-        <work nested="naming/build/classes"/>
-        <work nested="naming/build/testclasses"/>
-
-        <home nested="naming"/>
-        <jar name="build/lib/excalibur-naming-@@DATE@@.jar"/>
-
-        <nag from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"
-                to="dev@avalon.apache.org"/>
     </project>
 
     <project name="excalibur-policy">
