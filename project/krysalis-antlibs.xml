@@ -1,0 +1,45 @@
+<?xml version="1.0" ?>
+<module name="krysalis-antlibs" fullname="Krysalis Centipede AntLibs">
+	
+  	<url href="http://www.krysalis.org/antlibs/test" downloads="http://sourceforge.net/project/showfiles.php?group_id=36516"/>
+    
+    <site hostname="krysalis.sourceforge.net" remotedir="/home/groups/k/kr/krysalis/htdocs/antlibs"/>
+    
+    <cvs 
+    	repository="sourceforge" 
+    	host-prefix="cvs.krysalis" 
+    	dir="krysalis" 
+    	module="krysalis-antlibs" 
+    	cvsweb="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/krysalis/krysalis-antlibs"/>
+    	
+    <jars repository="maven" url="http://www.ibiblio.org/maven/"/>
+    
+    <description>
+      AntLibs
+    </description>
+    
+   <project name="krysalis-antlibs-all" fullname="All Krysalis AntLibs">
+      <url href="http://www.krysalis.org/templates/krysalis-antlibs"/>
+      <description>
+          Bootstrap build for all antlibs.
+      </description>
+      <version major="0" minor="1" fix="0" tag="HEAD"/>
+      <ant target="gump" vm="1.2">
+        <property name="ant.home" project="ant" reference="home"/>
+      </ant>
+      <depend inherit="all" project="krysalis-centipede"/>
+      <depend inherit="all" project="ant"/>
+      <nag to="krysalis-developers@lists.sourceforge.net"
+            from="Nick Chalko &lt;nick@chalko.com&gt;"/>
+    </project>
+    
+    
+    <project name="krysalis-cents-all" fullname="All Krysalis Cents">
+      <description>
+          Transient alias.
+        </description>
+      <version major="0" minor="1" fix="0" tag="HEAD"/>
+
+      <depend inherit="all" project="krysalis-antlibs-all"/>
+   </project>
+  </module>

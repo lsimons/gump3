@@ -158,20 +158,17 @@
 
   <!-- krysalis@sf -->
 
-<!--
-  <module href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/*checkout*/krysalis/krysalis-ruper/gump.xml"/>
--->
-  <module href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/*checkout*/krysalis/krysalis-centipede/gump.xml" />
-  <!--module href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/*checkout*/krysalis/krysalis-template/smoke-test/gump.xml" /-->
-  <module href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/*checkout*/krysalis/krysalis-version/gump.xml" />
+  <module href="project/krysalis-version.xml" />
+  <module href="project/krysalis-ruper.xml"/>
+  <module href="project/krysalis-centipede.xml" />
+  <module href="project/krysalis-antlibs.xml"/>
 
-  <!-- antlibs  nickchalko: refactoring in progress-->
-  <module href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/*checkout*/krysalis/krysalis-antlibs/gump.xml"/>
   <!--module href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/*checkout*/krysalis/krysalis-antlibs/forrest/gump.xml"/>
   <module href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/*checkout*/krysalis/krysalis-antlibs/junit/gump.xml"/>
   <module href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/*checkout*/krysalis/krysalis-antlibs/java/gump.xml"/>
   <module href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/*checkout*/krysalis/krysalis-antlibs/standard/gump.xml"/-->
   
+  <!--module href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/*checkout*/krysalis/krysalis-template/smoke-test/gump.xml" /-->
 <!-- other -->
 
   <module href="project/antlr.xml"/>
@@ -294,3 +291,4 @@
   <server href="server/icarus.apache.org.xml"/>
 
 </profile>
+
