@@ -29,4 +29,10 @@
   <depend project="jakarta-log4j"/>
   <depend project="jaf"/>
 
+  <!-- for backwards compatibility with WebLogic 6.0 -->
+  <depend project="xml-xalan1"/>
+
+  <project name="xml-xalan1">
+    <jar name="xtags/lib/xalan.jar"/>
+  </project>
 </project>
