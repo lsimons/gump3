@@ -92,6 +92,7 @@
   <module href="project/jrefactory.xml"/>
   <module href="project/jtidy.xml"/>
   <module href="project/junit.xml"/>
+  <module href="project/jython.xml"/>
   <module href="project/mx4j.xml"/>
   <module href="project/webwork.xml"/>
   <module href="project/xdoclet.xml"/>
@@ -111,7 +112,6 @@
   <module href="project/javacc.xml"/>
   <module href="project/jce.xml"/>
   <module href="project/jdom.xml"/>
-  <module href="project/jython.xml"/>
   <module href="project/openorb.xml"/>
   <module href="project/rhino.xml"/>
   <module href="project/scarab.xml"/>

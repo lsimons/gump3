@@ -7,7 +7,19 @@
 
   <package>org.jython</package>
 
+  <cvs repository="sourceforge" host-prefix="cvs.jython" dir="jython"/>
+
   <project name="jython">
+    <ant>
+      <property name="javaccHome2" reference="home" project="javacc"/>
+    </ant>
+
+    <depend project="jakarta-ant"/>
+    <depend project="xml-xerces"/>
+    <depend project="javacc"/>
+    <option project="jakarta-servletapi"/>
+    <option project="jdbc"/>
+
     <jar  name="jython.jar"/>
   </project>
 

@@ -30,6 +30,7 @@
     <depend project="jakarta-ant"/>
     <depend project="bsf"/>
     <option project="rhino"/>
+    <option project="jython"/>
 
     <home nested="build"/>
     <jar  name="lib/bsf.jar"/>

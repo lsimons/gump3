@@ -7,8 +7,8 @@
   
   <project name="javacc">
     <package>COM.sun.labs.javacc</package>
-    <home nested="bin"/>
-    <jar name="lib/JavaCC.zip"/>
+    <home nested="bin/lib"/>
+    <jar name="JavaCC.zip"/>
   </project>
 
 </module>
