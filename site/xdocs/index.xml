@@ -89,12 +89,22 @@
       by Sun and administered by Pier Fumagalli and Justyna Horwat.  After
       I'd complained quite a bit, Pier took pitty on me and made available
       a LOT of tmp space - backed by 3 gigs of RAM.  Doing my builds from
-      there positively flies!.  For now, I've timed
-      an automated run to be kicked off at noon Pacific time - exactly the
-      midpoint between "official" runs.  Note that I often kick off partial
-      builds and may even do a full run out of cycle, so the cvs updates logs
+      there positively flies!.  For now, I've timed an automated run to be 
+      kicked off at 6 a.m., noon, and 6 p.m. Pacific time - meaning gump runs
+      occur every six hours.  Note that I often kick off partial builds and 
+      may even do a full run out of cycle, so the cvs updates logs on nagoya
       may not capture all of the activity that has taken place since the
       previous run.
+    </p>
+
+    <p>
+      At the same time the "official" run is done on Linux, I've started
+      some experimentals runs on nagoya.  At the moment, this consists of
+      <a href="http://nagoya.apache.org/~rubys/gump/xerces2">xerces2</a> and
+      <a href="http://nagoya.apache.org/~rubys/gump/java14">java14</a>.
+      These runs are done with the exact same sources as were used for the
+      <a href="http://nagoya.apache.org/~rubys/gump/base">baseline</a>
+      builds using xerces1 and jdk13.
     </p>
   </section>
 

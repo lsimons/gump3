@@ -23,6 +23,7 @@
       received.</p>
     </subsection>
 
+<!--
     <subsection name="xml-fop">
       <p>Batik is in the process of correcting what they have described as
       a fairly fundamental design error.  This should only affect a small
@@ -30,9 +31,10 @@
       affected.</p>
       <p>At the present time, there is a good line of communication between
       the two projects, and the fop team understands and agrees to this change.
-      They have already resynched once, and will try to track to the
+      They have already resynched twice, and will try to track to the
       release.</p>
     </subsection>
+-->
   </section>
 
   <section name="Other Issues">
