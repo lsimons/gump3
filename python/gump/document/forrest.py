@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/forrest.py,v 1.83 2004/02/24 22:14:49 ajack Exp $
-# $Revision: 1.83 $f
-# $Date: 2004/02/24 22:14:49 $
+# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/forrest.py,v 1.84 2004/02/24 22:49:10 ajack Exp $
+# $Revision: 1.84 $f
+# $Date: 2004/02/24 22:49:10 $
 #
 # ====================================================================
 #
@@ -1664,17 +1664,19 @@ class ForrestDocumenter(Documenter):
                 files=os.listdir(directory)
                 files.sort()
                 for file in files:
+                    
+                    filePath=os.path.abspath(os.path.join(directory,file))
                     listingRow=listingTable.createRow()
                     
                     #
                     listingRow.createData(file)    
                     
-                    if os.path.isdir(file):
+                    if os.path.isdir(filePath):
                         listingRow.createData('Directory')
                         listingRow.createData('N/A')
                     else:
                         listingRow.createData('File')    
-                        listingRow.createData(str(os.path.getsize(file)))                                                
+                        listingRow.createData(str(os.path.getsize(filePath)))                                                
             else:    
                 #
                 # Show the content...
