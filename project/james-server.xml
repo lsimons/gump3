@@ -23,49 +23,44 @@
 
   <cvs repository="james" />
 
-  <project name="james-server">
-    <package>org.apache.james</package>
-
-    <ant/>
-    <depend project="ant" />
-    <depend project="jakarta-site2" />
-    <depend project="xml-xerces" />
-    <depend project="javamail" />
-    <depend project="avalon-framework" id="combined"/>
-    <depend project="avalon-components" />
-    <depend project="excalibur-compatibility"/>
-    <!--    <depend project="excalibur-cli"/> -->
-    <!-- <depend project="excalibur-concurrent"/> -->
-    <!-- <depend project="excalibur-collections"/> -->
-    <depend project="excalibur-datasource"/>
-    <!-- depend project="excalibur-extension" doesn't exist anymore /-->
-    <depend project="excalibur-pool"/>
-    <depend project="excalibur-i18n"/>
-    <depend project="excalibur-thread"/>
-    <depend project="avalon-logkit" />
-    <depend project="avalon-phoenix" inherit="runtime"/>
-    <depend project="commons-net"/>
-    <depend project="jakarta-oro"/>
-    <depend project="town" />
-    <depend project="dnsjava" />
-    <depend project="jaf" />
-    <home nested="build" />
-    <jar name="james.bar" />
-    <license name="LICENSE.txt"/>
-    <javadoc nested="www/mailet"/>
-
-    <nag from="Gump Build Robot &lt;general@gump.apache.org&gt;"
-         to="server-dev@james.apache.org"/>
-  </project>
-
   <project name="dnsjava">
     <package>org.xbill.DNS</package>
     <url href="http://enigma.xbill.org/dnsjava/"/>
     <description>
       An implementation of DNS in Java
     </description>
-
     <jar name="lib/dnsjava-1.4.3.jar" />
+  </project>
+
+  <project name="james-server">
+    <package>org.apache.james</package>
+    <license name="LICENSE.txt"/>
+    <ant buildfile="gump.xml"/>
+    <depend project="ant"/>
+    <depend project="xml-xerces"/>
+    <depend project="avalon-framework-api"/>
+    <depend project="avalon-framework-impl"  inherit="runtime"/>
+    <depend project="avalon-framework-legacy"  inherit="runtime"/>
+    <depend project="cornerstone-threads-api"/>
+    <depend project="cornerstone-threads-impl" inherit="runtime"/>
+    <depend project="cornerstone-connection-api"/>
+    <depend project="cornerstone-connection-impl" inherit="runtime"/>
+    <depend project="cornerstone-datasources-api"/>
+    <depend project="cornerstone-datasources-impl" inherit="runtime"/>
+    <depend project="cornerstone-scheduler-api"/>
+    <depend project="cornerstone-scheduler-impl" inherit="runtime"/>
+    <depend project="cornerstone-store-api"/>
+    <depend project="cornerstone-store-impl" inherit="runtime"/>
+    <depend project="commons-net"/>
+    <depend project="jakarta-oro"/>
+    <depend project="town"/>
+    <depend project="dnsjava"/>
+    <depend project="javamail"/>
+    <depend project="jaf"/>
+    <home nested="target/deliverables" />
+    <jar name="jars/james-@@DATE@@.bar" />
+    <nag from="Gump Build Robot &lt;general@gump.apache.org&gt;"
+         to="server-dev@james.apache.org"/>
   </project>
 
 </module>
