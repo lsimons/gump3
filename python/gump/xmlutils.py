@@ -212,7 +212,8 @@ class Named(GumpXMLObject):
         try:
             element=SAXDispatcher(open(newHref),cls.__name__.lower(),cls).docElement        
         except Exception, detail:
-            log.error('Failed to parse [' + newHref + ']. Details: ' + str(detail))    
+            log.error('Failed to parse [' + newHref + ']. Details: ' + str(detail))   
+            element=None 
       else:
         # :TODO: Set any object "invalid"?
         log.warn("href:"+newHref+" not loaded")

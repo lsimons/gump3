@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/update.py,v 1.12 2003/09/26 19:09:52 ajack Exp $
-# $Revision: 1.12 $
-# $Date: 2003/09/26 19:09:52 $
+# $Header: /home/stefano/cvs/gump/python/gump/update.py,v 1.13 2003/09/26 19:25:35 ajack Exp $
+# $Revision: 1.13 $
+# $Date: 2003/09/26 19:25:35 $
 #
 # ====================================================================
 #
@@ -109,7 +109,16 @@ def readLogins():
   try:
     cvspass=open(cvspassfile)
     for line in cvspass.readlines():
-      logins.update(dict([line.strip().split(' ',1)]))
+        clean=line.strip()
+        parts=clean.split(' ')
+        root=parts[0]
+        mangle=parts[1]
+        # Cope with new format .cvspass 
+        if len(parts) > 2:
+            root=parts[1]
+            mangle=parts[2] 
+        # Stash this mangle for this root               
+        logins[root]=mangle
     cvspass.close()
   
   except Exception, detail:
