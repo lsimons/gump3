@@ -70,6 +70,11 @@
     </ant>
     <depend project="ant" inherit="runtime"/>
     <depend project="xml-xerces"/>
+
+    <!-- tests -->
+    <depend project="junit"/>
+    <work nested="codec/target/classes"/>
+    <work nested="codec/target/test-classes"/>
     <jar name="codec/dist/commons-codec-@@DATE@@.jar"/>
     <javadoc nested="codec/dist/docs/api"/>
     <nag to="commons-dev@jakarta.apache.org"
