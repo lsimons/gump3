@@ -43,7 +43,7 @@
     <description>
       Object Database Engine 
     </description>
-    <home nested="src/lib/examples"/>
+    <home nested="lib/examples"/>
     <jar name="db4o.jar"/>
   </project>
 
@@ -53,7 +53,7 @@
     <description>
       
     </description>
-    <home nested="src/lib/view"/>
+    <home nested="lib/view"/>
     <jar name="jasperreports.jar"/>
   </project>
 </module>
