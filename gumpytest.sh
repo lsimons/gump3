@@ -6,11 +6,9 @@
 # $Header$
 
 export
-pwd
 
 #
-# Perform some CLASSPATH checks
+# Perform some Gumpy unit test
 #
-echo "CLASSPATH checks"
-python gump/logic.py krysalis-ruper-ant
-python gump/logic.py commons-graph
+cd $GUMP_PYTHON
+python gump/test/pyunit.py
