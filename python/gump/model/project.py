@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/model/project.py,v 1.12 2003/11/21 00:27:58 ajack Exp $
-# $Revision: 1.12 $
-# $Date: 2003/11/21 00:27:58 $
+# $Header: /home/stefano/cvs/gump/python/gump/model/project.py,v 1.13 2003/11/21 02:32:41 ajack Exp $
+# $Revision: 1.13 $
+# $Date: 2003/11/21 02:32:41 $
 #
 # ====================================================================
 #
@@ -398,11 +398,9 @@ class Project(NamedModelObject, Statable):
                 for xmldepend in badDepends:
                     self.changeState(STATE_FAILED,REASON_CONFIG_FAILED)
                     self.addError("Bad Dependency. Project: " + xmldepend.project + " unknown to *this* workspace")
-                    #log.error("Unknown Dependency [" + xmldepend.project + "] on [" + self.getName()  + "]")                    
 
                 for xmloption in badOptions:                
                     self.addWarning("Bad *Optional* Dependency. Project: " + xmloption.project + " unknown to *this* workspace")
-                    #log.warn("Unknown *Optional* Dependency [" + xmloption.project + "] on [" + self.getName() + "]")   
         else:
             self.addInfo("This is a packaged project, location: " + str(self.home))
         

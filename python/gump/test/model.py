@@ -1,7 +1,7 @@
 #!/usr/bin/env python
-# $Header: /home/stefano/cvs/gump/python/gump/test/model.py,v 1.2 2003/11/20 21:30:06 ajack Exp $
-# $Revision: 1.2 $
-# $Date: 2003/11/20 21:30:06 $
+# $Header: /home/stefano/cvs/gump/python/gump/test/model.py,v 1.3 2003/11/21 02:32:41 ajack Exp $
+# $Revision: 1.3 $
+# $Date: 2003/11/21 02:32:41 $
 #
 # ====================================================================
 #
@@ -94,6 +94,7 @@ class ModelTestSuite(UnitTestSuite):
         self.project3=self.workspace.getProject('project3')
         self.project4=self.workspace.getProject('project4')
         
+        self.packagedModule1=self.workspace.getModule('package1')        
         self.module1=self.workspace.getModule('module1')
         self.module2=self.workspace.getModule('module2')
         self.module3=self.workspace.getModule('module3')
@@ -106,6 +107,7 @@ class ModelTestSuite(UnitTestSuite):
                     
     def testPackages(self):
         self.assertTrue('Is a package', self.package1.isPackaged())
+        self.assertTrue('Is a package', self.packagedModule1.isPackaged())
         
     def testRepository(self):
         repo1 = self.repo1

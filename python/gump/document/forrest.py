@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/forrest.py,v 1.10 2003/11/20 21:30:06 ajack Exp $
-# $Revision: 1.10 $f
-# $Date: 2003/11/20 21:30:06 $
+# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/forrest.py,v 1.11 2003/11/21 02:32:41 ajack Exp $
+# $Revision: 1.11 $f
+# $Date: 2003/11/21 02:32:41 $
 #
 # ====================================================================
 #
@@ -614,7 +614,7 @@ class ForrestDocumenter(Documenter):
         # Document the workspace XML    
         document=XDocDocument('Definition',self.resolver.getFile(workspace,'workspace.xml'))
         stream=StringIO.StringIO() 
-        xmlize('workspace',workspace,stream)
+        xmlize('workspace',workspace.xml,stream)
         stream.seek(0)
         document.createSource(stream.read())
         stream.close()
@@ -1194,13 +1194,13 @@ class ForrestDocumenter(Documenter):
         return icons
         
     def insertStateIcon(self,toObject,fromObject,xdocNode):
-        return self.insertStateLink(toObject,fromObject,xdocNode,1)
+        return self.insertLink(toObject,fromObject,xdocNode,1,1,1)
     
-    def insertTypedLink(self,toObject,fromObject,xdocNode,state=0):
-        return self.insertLink(toObject,fromObject,xdocNode,1,state,0)
+    def insertTypedLink(self,toObject,fromObject,xdocNode,state=0,icon=0):
+        return self.insertLink(toObject,fromObject,xdocNode,1,state,icon)
         
-    def insertStateLink(self,toObject,fromObject,xdocNode,typed=0):
-        return self.insertLink(toObject,fromObject,xdocNode,typed,1,0)
+    def insertStateLink(self,toObject,fromObject,xdocNode,typed=0,icon=0):
+        return self.insertLink(toObject,fromObject,xdocNode,typed,1,icon)
         
     def insertLink(self,toObject,fromObject,xdocNode,typed=0,state=0,icon=0):
         description=''

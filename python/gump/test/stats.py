@@ -1,7 +1,7 @@
 #!/usr/bin/env python
-# $Header: /home/stefano/cvs/gump/python/gump/test/stats.py,v 1.1 2003/11/20 20:51:49 ajack Exp $
-# $Revision: 1.1 $
-# $Date: 2003/11/20 20:51:49 $
+# $Header: /home/stefano/cvs/gump/python/gump/test/stats.py,v 1.2 2003/11/21 02:32:41 ajack Exp $
+# $Revision: 1.2 $
+# $Date: 2003/11/21 02:32:41 $
 #
 # ====================================================================
 #
@@ -105,7 +105,9 @@ class StatsTestSuite(UnitTestSuite):
         
     def testLoadAndUpdateStats(self):
         self.statsDB.loadStatistics(self.workspace)
-        self.statsDB.updateStatistics(self.workspace)
+        self.statsDB.updateStatistics(self.workspace)   
         
-        self.module1.getLastUpdated()
+        rough=getGeneralDifferenceDescription(default.time, self.module1.getLastUpdated())
+        self.assertNotIn('Date Diff String', 'year', rough)
+     
         

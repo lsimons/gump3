@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/utils/__init__.py,v 1.3 2003/11/20 20:51:49 ajack Exp $
-# $Revision: 1.3 $
-# $Date: 2003/11/20 20:51:49 $
+# $Header: /home/stefano/cvs/gump/python/gump/utils/__init__.py,v 1.4 2003/11/21 02:32:41 ajack Exp $
+# $Revision: 1.4 $
+# $Date: 2003/11/21 02:32:41 $
 #
 # ====================================================================
 #
@@ -227,7 +227,7 @@ def getGeneralSinceDescription(secs, since=None):
     return getGeneralDifferenceDescription( since, secs )
             
 def getGeneralDifferenceDescription(newerSecs,olderSecs):
-    if not -1 == olderSecs and not olderSecs >= newerSecs:
+    if not 0 >= olderSecs and not olderSecs >= newerSecs:
         diffString='~ '
         diffSecs=newerSecs - olderSecs
         

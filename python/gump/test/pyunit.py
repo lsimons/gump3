@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/test/pyunit.py,v 1.5 2003/11/20 21:30:06 ajack Exp $
-# $Revision: 1.5 $
-# $Date: 2003/11/20 21:30:06 $
+# $Header: /home/stefano/cvs/gump/python/gump/test/pyunit.py,v 1.6 2003/11/21 02:32:41 ajack Exp $
+# $Revision: 1.6 $
+# $Date: 2003/11/21 02:32:41 $
 #
 # ====================================================================
 #
@@ -215,6 +215,7 @@ class UnitTestSuite(Testable):
                     self.tearDown()
         
             except Exception, details:
+                log.error('Failed')    
                 import traceback
                 ei = sys.exc_info()
                 message=formatException(ei)
@@ -245,10 +246,11 @@ class TestRunner:
             try:
                 problems += suite.performTests()
             except Exception, details:
+                log.error('Failed')
                 import traceback
                 ei = sys.exc_info()
                 message=formatException(ei)
-                del ei                
+                del ei    
                 problems.append(Problem(suite,'performTests',message)) 
            
         printSeparator()
