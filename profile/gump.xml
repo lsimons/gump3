@@ -278,8 +278,10 @@
   <project name="ldap"             package="ldap-1_2_4"/>
   <project name="nekohtml"         package="nekohtml-0.8.2"/>
   <project name="mockobjects"      package="mockobjects-0.09"/>
+  <!--project name="mockobjects-j2ee-13" package="mockobjects-0.09"/>
+  <project name="mockobjects-j2ee-14" package="mockobjects-0.09"/-->
   <project name="msv"              package="msv-20020414"/>
-  <project name="multipartrequest" package="MultipartRequest-1.30b4"/>
+  <project name="multipartrequest" package="MultipartRequest-1.30rc1"/>
   <project name="relaxng"          package="relaxngDatatype-1.0"/>
   <project name="eclipse"          package="eclipse-2.1"/>
   <project name="tranquilo"        package="xsdlib-20010424"/>
