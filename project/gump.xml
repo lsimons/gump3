@@ -14,18 +14,18 @@
   See the License for the specific language governing permissions and
   limitations under the License.
 -->
-<module name="jakarta-gump">
+<module name="gump">
 
-  <url href="http://jakarta.apache.org/gump/"/>
+  <url href="http://gump.apache.org/"/>
   <description>
     Cross project build tool
   </description>
 
-  <cvs repository="jakarta"/>
+  <cvs repository="gump"/>
 
   <project name="gump">
     <ant target="all">
-    	<property name="workspace" value="gump.xml"/>
+      <property name="workspace" value="gump.xml"/>
     </ant>
 
     <depend project="ant" inherit="runtime"/>
