@@ -103,6 +103,27 @@
             to="dev@avalon.apache.org"/>
     </project>
 
+    <project name="phoenix-example-pdk">
+        <package>org.apache.avalon.pdk</package>
+
+        <ant basedir="examples/pdk"/>
+
+        <depend project="junit"/>
+        <depend project="ant"/>
+        <depend project="xml-xerces"/>
+        <depend project="avalon"/>
+        <depend project="avalon-phoenix" inherit="all"/>
+
+        <option project="checkstyle" inherit="runtime"/>
+
+        <home nested="examples/pdk"/>
+
+        <jar name="build/lib/pdk-@@DATE@@.sar"/>
+
+        <nag from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"
+            to="dev@avalon.apache.org"/>
+    </project>
+
     <project name="phoenix-example-testserver">
         <package>org.apache.avalon.testserver</package>
 
