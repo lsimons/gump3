@@ -7,7 +7,7 @@
     <cvs module="jakarta-poi" repository="jakarta">
     </cvs>
     <project name="jakarta-poi">
-        <ant buildfile="build.xml" target="dist">
+        <ant buildfile="build.xml" target="gump">
         </ant>
         <package>org.apache.poi</package>
         <depend project="dist-ant"/>
@@ -18,7 +18,6 @@
         <depend project="commons-lang"/>
         <depend project="junit"/>
         <depend project="xml-xerces"/>
-        <depend project="jdepend"/>
         <work nested="build/classes"/>
         <work nested="build/contrib-classes"/>
         <work nested="build/scratchpad-classes"/>
