@@ -1095,4 +1095,26 @@
           from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"/>
     </project>
 
+    <project name="merlin-api">
+        <package>org.apache.avalon.merlin</package>
+        <ant basedir="merlin/kernel/api" target="jar">
+            <property name="project.version" value="@@DATE@@"/>
+        </ant>
+
+        <depend project="ant" inherit="runtime"/>
+        <depend project="junit"/>
+        <depend project="xml-xerces"/>
+        <depend project="avalon-framework" id="api" />
+        <depend project="avalon-repository-api" />
+        <depend project="avalon-composition-api" />
+
+        <mkdir dir="merlin/kernel/api/target/classes"/>
+        <work nested="merlin/kernel/api/target/classes"/>
+        <home nested="merlin/kernel/api"/>
+        <jar name="target/merlin-api-@@DATE@@.jar"/>
+        <javadoc nested="merlin/kernel/api/target/docs/apidocs"/>
+        <nag to="dev@avalon.apache.org" 
+          from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"/>
+    </project>
+
 </module>
