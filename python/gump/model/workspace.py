@@ -302,7 +302,6 @@ class Workspace(NamedModelObject, PropertyContainer, Statable, Resultable):
             tracker.check(self)           
         
         # Complete the projects   
-        haveUnnamedModule=0
         for project in self.getProjects():
             # Projects needs a module (even if pseudo)
             if not project.inModule():

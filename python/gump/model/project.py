@@ -4,7 +4,7 @@
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
-# You may obtain a copy of the License atg
+# You may obtain a copy of the License at
 # 
 #     http://www.apache.org/licenses/LICENSE-2.0
 # 
@@ -178,7 +178,8 @@ class Project(NamedModelObject, Statable, Resultable, Dependable, Positioned):
     def getWorks(self): return self.works
         
     def hasJars(self):
-        return self.jars
+        if self.jars: return True
+        return False
         
     def getJars(self):
         return self.jars.values()
@@ -276,7 +277,7 @@ class Project(NamedModelObject, Statable, Resultable, Dependable, Positioned):
         return (not self.isPackaged()) and self.hasBuildCommand()
         
     # provide elements when not defined in xml
-    def complete(self,workspace):
+    def complete(self,workspace): 
         if self.isComplete(): return
 
         if not self.inModule():
@@ -293,6 +294,7 @@ class Project(NamedModelObject, Statable, Resultable, Dependable, Positioned):
         # Packaged Projects don't need the full treatment..
         #
         packaged=self.isPackaged()
+        if packaged: print 'PACKAGE ?????' + `self`
 
         # Import any <ant part [if not packaged]
         if self.hasDomChild('ant') and not packaged:
@@ -371,13 +373,21 @@ class Project(NamedModelObject, Statable, Resultable, Dependable, Positioned):
             else:
                 self.addError('Missing \'name\' on <license')
         
+        if packaged: 
+            print 'PACKAGE w/ JARS?????'+ `self`
+            print self.getXml()
+        
         #
         # Resolve jars (outputs)
         #
         for jdom in self.getDomChildIterator('jar'):
             name=self.expandVariables(
                     getDomAttributeValue(jdom,'name'))
+                    
+            if packaged:   print 'NAME: ' + name
+            
             if self.home and name:
+                if packaged: print 'NAME2: ' + self.home + ':' + name    
                 jar=Jar(name,jdom,self)
                 jar.complete()
                 jar.setPath(os.path.abspath(os.path.join(self.home,name)))
@@ -385,9 +395,7 @@ class Project(NamedModelObject, Statable, Resultable, Dependable, Positioned):
             else:
                 self.addError('Missing \'name\' on <jar')
                 
-        #
         # Fix 'ids' on all Jars which don't have them
-        #
         if self.hasJars():
             if 1 == self.getJarCount():
                 jar=self.getJarAt(0)
@@ -597,6 +605,12 @@ class Project(NamedModelObject, Statable, Resultable, Dependable, Positioned):
             self.maven.dump(indent+1,output)
         if self.script:
             self.script.dump(indent+1,output)
+            
+        for work in self.works:
+            work.dump(indent+1,output)
+            
+        for jar in self.getJars():
+            jar.dump(indent+1,output)
             
     #
     # Return a list of the outputs this project generates

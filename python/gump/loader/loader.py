@@ -15,7 +15,9 @@
 # limitations under the License.
 
 """
-    This module contains information on
+
+    This module contains information on loading metadata
+    
 """
 import os.path
 import time

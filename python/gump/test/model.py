@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/test/model.py,v 1.21.2.3 2004/06/14 21:31:45 ajack Exp $
-# $Revision: 1.21.2.3 $
+# $Header: /home/stefano/cvs/gump/python/gump/test/model.py,v 1.21.2.4 2004/06/24 20:15:56 ajack Exp $
+# $Revision: 1.21.2.4 $
 #!/usr/bin/env python
 # Copyright 2003-2004 The Apache Software Foundation
 #
@@ -71,9 +71,15 @@ class ModelTestSuite(UnitTestSuite):
                     self.workspace.getLogDirectory() )
                     
     def testPackages(self):
+        
+        self.package1.dump()
+        
         self.assertTrue('Is a package marked', self.package1.isPackageMarked())
         self.assertTrue('Is a package', self.package1.isPackaged())
+        self.assertTrue('Has Jars', self.package1.hasJars())
         self.assertTrue('Is a package', self.packagedModule1.isPackaged())
+        
+        
         
     def testRepository(self):
         repo1 = self.repo1

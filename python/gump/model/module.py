@@ -362,15 +362,15 @@ class Module(NamedModelObject, Statable, Resultable, Positioned):
                         self.addError('No such repository ['+ str(repoName) +'] in workspace on [' \
                                 + self.getName() + ']')                 
 
-            # Grab all notifications
-            for notifyEntry in self.getDomChildIterator('nag'):
-                # Determine where to send
-                toaddr=getDomAttributeValue(notifyEntry,'to',workspace.mailinglist)
-                fromaddr=getDomAttributeValue(notifyEntry,'from',workspace.email)   
-                self.notifys.append(
-                        AddressPair(
-                            getStringFromUnicode(toaddr),	\
-                            getStringFromUnicode(fromaddr)))  
+        # Grab all notifications
+        for notifyEntry in self.getDomChildIterator('nag'):
+            # Determine where to send
+            toaddr=getDomAttributeValue(notifyEntry,'to',workspace.mailinglist)
+            fromaddr=getDomAttributeValue(notifyEntry,'from',workspace.email)   
+            self.notifys.append(
+                    AddressPair(
+                        getStringFromUnicode(toaddr),
+                        getStringFromUnicode(fromaddr)))  
         
 
         if self.hasDomChild('url'):
