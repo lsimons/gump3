@@ -84,7 +84,7 @@
         <depend project="avalon-logkit" runtime="true"/>
 
         <!-- test-time dependencies -->
-        <depend property="junit.jar" project="junit"/>
+        <depend project="junit"/>
         <depend property="excalibur-i18n.jar" project="excalibur-i18n"/>
         
         <!-- build-time dependencies -->
@@ -218,6 +218,7 @@
 
         <!-- build-time dependencies -->
         <depend project="ant" inherit="runtime"/>
+        <depend project="junit"/>
         <depend project="xml-xerces"/>
         <depend project="xml-xalan2"/>
 
@@ -340,6 +341,7 @@
 
         <!-- build-time dependencies -->
         <depend project="ant" inherit="runtime"/>
+        <depend project="junit"/>
         <depend project="xml-xerces"/>
         <depend project="xml-xalan2"/>
 
@@ -381,6 +383,7 @@
 
         <!-- build-time dependencies -->
         <depend project="ant" inherit="runtime"/>
+        <depend project="junit"/>
         <depend project="xml-xerces"/>
         <depend project="xml-xalan2"/>
 
@@ -421,6 +424,10 @@
         </ant>
 
         <depend project="excalibur-instrument-manager" inherit="all" runtime="true"/>
+        <depend project="ant" inherit="runtime"/>
+        <depend project="junit"/>
+        <depend project="xml-xerces"/>
+        <depend project="xml-xalan2"/>
 
         <work nested="instrument-manager/target/classes"/>
         <work nested="instrument-manager/target/test-classes"/>
@@ -458,6 +465,7 @@
 
         <!-- build-time dependencies -->
         <depend project="ant" inherit="runtime"/>
+        <depend project="junit"/>
         <depend project="xml-xerces"/>
         <depend project="xml-xalan2"/>
 
@@ -486,6 +494,7 @@
 
         <!-- build-time dependencies -->
         <depend project="ant" inherit="runtime"/>
+        <depend project="junit"/>
         <depend project="xml-xerces"/>
         <depend project="xml-xalan2"/>
 
@@ -522,6 +531,7 @@
 
         <!-- build-time dependencies -->
         <depend project="ant" inherit="runtime"/>
+        <depend project="junit"/>
         <depend project="xml-xerces"/>
         <depend project="xml-xalan2"/>
         <depend project="excalibur-lifecycle-api" />

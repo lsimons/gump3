@@ -124,6 +124,7 @@
 
         <!-- build-time dependencies -->
         <depend project="ant" inherit="runtime"/>
+        <depend project="junit"/>
         <depend project="xml-xerces"/>
         <depend project="xml-xalan2"/>
 
@@ -155,6 +156,7 @@
 
         <!-- build-time dependencies -->
         <depend project="ant" inherit="runtime"/>
+        <depend project="junit"/>
         <depend project="xml-xerces"/>
         <depend project="xml-xalan2"/>
 
@@ -182,6 +184,7 @@
 
         <!-- build-time dependencies -->
         <depend project="ant" inherit="runtime"/>
+        <depend project="junit"/>
         <depend project="xml-xerces"/>
         <depend project="xml-xalan2"/>
 
@@ -213,6 +216,7 @@
 
         <!-- build-time dependencies -->
         <depend project="ant" inherit="runtime"/>
+        <depend project="junit"/>
         <depend project="xml-xerces"/>
         <depend project="xml-xalan2"/>
 
@@ -240,6 +244,7 @@
 
         <!-- build-time dependencies -->
         <depend project="ant" inherit="runtime"/>
+        <depend project="junit"/>
         <depend project="xml-xerces"/>
         <depend project="xml-xalan2"/>
 
@@ -269,6 +274,7 @@
 
         <!-- build-time dependencies -->
         <depend project="ant" inherit="runtime"/>
+        <depend project="junit"/>
         <depend project="xml-xerces"/>
         <depend project="xml-xalan2"/>
 
@@ -296,6 +302,7 @@
 
         <!-- build-time dependencies -->
         <depend project="ant" inherit="runtime"/>
+        <depend project="junit"/>
         <depend project="xml-xerces"/>
         <depend project="xml-xalan2"/>
 
@@ -325,6 +332,7 @@
 
         <!-- build-time dependencies -->
         <depend project="ant" inherit="runtime"/>
+        <depend project="junit"/>
         <depend project="xml-xerces"/>
         <depend project="xml-xalan2"/>
 
@@ -352,6 +360,7 @@
 
         <!-- build-time dependencies -->
         <depend project="ant" inherit="runtime"/>
+        <depend project="junit"/>
         <depend project="xml-xerces"/>
         <depend project="xml-xalan2"/>
 
@@ -381,6 +390,7 @@
 
         <!-- build-time dependencies -->
         <depend project="ant" inherit="runtime"/>
+        <depend project="junit"/>
         <depend project="xml-xerces"/>
         <depend project="xml-xalan2"/>
 

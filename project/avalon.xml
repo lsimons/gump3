@@ -215,7 +215,7 @@
         <depend project="excalibur-configuration" runtime="true"/>
 
         <!-- test-time dependencies -->
-        <depend property="junit.jar" project="junit"/>
+        <depend project="junit"/>
 
         <!-- build-time dependencies -->
         <depend project="ant" inherit="runtime"/>
@@ -260,7 +260,7 @@
         <depend project="excalibur-configuration" runtime="true"/>
 
         <!-- test-time dependencies -->
-        <depend property="junit.jar" project="junit"/>
+        <depend project="junit"/>
 
         <!-- build-time dependencies -->
         <depend project="ant" inherit="runtime"/>
@@ -305,7 +305,7 @@
         <depend project="excalibur-configuration" runtime="true"/>
 
         <!-- test-time dependencies -->
-        <depend property="junit.jar" project="junit"/>
+        <depend project="junit"/>
 
         <!-- build-time dependencies -->
         <depend project="ant" inherit="runtime"/>
@@ -350,7 +350,7 @@
         <depend project="excalibur-configuration" runtime="true"/>
 
         <!-- test-time dependencies -->
-        <depend property="junit.jar" project="junit"/>
+        <depend project="junit"/>
 
         <!-- build-time dependencies -->
         <depend project="ant" inherit="runtime"/>
@@ -395,7 +395,7 @@
         <depend project="excalibur-configuration" runtime="true"/>
 
         <!-- test-time dependencies -->
-        <depend property="junit.jar" project="junit"/>
+        <depend project="junit"/>
 
         <!-- build-time dependencies -->
         <depend project="ant" inherit="runtime"/>
@@ -440,7 +440,7 @@
         <depend project="excalibur-configuration" runtime="true"/>
 
         <!-- test-time dependencies -->
-        <depend property="junit.jar" project="junit"/>
+        <depend project="junit"/>
 
         <!-- build-time dependencies -->
         <depend project="ant" inherit="runtime"/>
@@ -485,7 +485,7 @@
         <depend project="excalibur-configuration" runtime="true"/>
 
         <!-- test-time dependencies -->
-        <depend property="junit.jar" project="junit"/>
+        <depend project="junit"/>
 
         <!-- build-time dependencies -->
         <depend project="ant" inherit="runtime"/>
@@ -532,7 +532,7 @@
         <depend project="logging-log4j" />
 
         <!-- test-time dependencies -->
-        <depend property="junit.jar" project="junit"/>
+        <depend project="junit"/>
 
         <!-- build-time dependencies -->
         <depend project="ant" inherit="runtime"/>
@@ -564,6 +564,7 @@
             <property name="project.version" value="@@DATE@@"/>
         </ant>
         <depend project="ant" inherit="runtime"/>
+        <depend project="junit"/>
         <depend project="xml-xerces"/>
         <depend project="avalon-framework" id="api" />
         <depend project="avalon-framework" id="impl" />
@@ -581,6 +582,7 @@
             <property name="project.version" value="@@DATE@@"/>
         </ant>
         <depend project="ant" inherit="runtime"/>
+        <depend project="junit"/>
         <depend project="xml-xerces"/>
         <depend project="avalon-framework" id="api" />
         <depend project="avalon-meta-api" />
@@ -598,6 +600,7 @@
             <property name="project.version" value="@@DATE@@"></property>
         </ant>
         <depend project="ant" inherit="runtime"/>
+        <depend project="junit"/>
         <depend project="xml-xerces"/>
         <depend project="avalon-framework" id="api" />
         <depend project="avalon-framework" id="impl" />
@@ -621,6 +624,7 @@
             <property name="project.version" value="@@DATE@@"/>
         </ant>
         <depend project="ant" inherit="runtime"/>
+        <depend project="junit"/>
         <depend project="xml-xerces"/>
         <depend project="avalon-framework" id="api" />
         <depend project="avalon-framework" id="impl" />
@@ -651,6 +655,7 @@
             <property name="project.version" value="@@DATE@@"/>
         </ant>
         <depend project="ant" inherit="runtime"/>
+        <depend project="junit"/>
         <depend project="xml-xalan2"/>
         <depend project="xml-xerces"/>
         <depend project="avalon-framework"/>
@@ -673,6 +678,7 @@
             <property name="project.version" value="@@DATE@@"/>
         </ant>
         <depend project="ant" inherit="runtime"/>
+        <depend project="junit"/>
         <depend project="xml-xerces"/>
         <work nested="repository/api/target/classes"/>
         <home nested="repository/api"/>
@@ -688,6 +694,7 @@
             <property name="project.version" value="@@DATE@@"/>
         </ant>
         <depend project="ant" inherit="runtime"/>
+        <depend project="junit"/>
         <depend project="xml-xerces"/>
         <depend project="avalon-repository-main" />
         <depend project="commons-cli" />
@@ -706,6 +713,7 @@
             <property name="project.version" value="@@DATE@@"/>
         </ant>
         <depend project="ant" inherit="runtime"/>
+        <depend project="junit"/>
         <depend project="xml-xerces"/>
         <depend project="avalon-repository-api" />
         <depend project="avalon-repository-spi" />
@@ -731,6 +739,7 @@
             <property name="project.version" value="@@DATE@@"/>
         </ant>
         <depend project="ant" inherit="runtime"/>
+        <depend project="junit"/>
         <depend project="xml-xerces"/>
         <depend project="avalon-repository-api" />
         <depend project="avalon-repository-spi" />
@@ -755,6 +764,7 @@
             <property name="project.version" value="@@DATE@@"/>
         </ant>
         <depend project="ant" inherit="runtime"/>
+        <depend project="junit"/>
         <depend project="xml-xerces"/>
         <depend project="avalon-repository-api" />
         <work nested="repository/spi/target/classes"/>
@@ -771,6 +781,7 @@
             <property name="project.version" value="@@DATE@@"/>
         </ant>
         <depend project="ant" inherit="runtime"/>
+        <depend project="junit"/>
         <depend project="xml-xerces"/>
         <depend project="avalon-repository-api" />
         <work nested="repository/util/target/classes"/>
@@ -787,6 +798,7 @@
             <property name="project.version" value="@@DATE@@"/>
         </ant>
         <depend project="ant" inherit="runtime"/>
+        <depend project="junit"/>
         <depend project="xml-xerces"/>
         <work nested="util/criteria/target/classes"/>
         <home nested="util/criteria"/>
@@ -802,6 +814,7 @@
             <property name="project.version" value="@@DATE@@"/>
         </ant>
         <depend project="ant" inherit="runtime"/>
+        <depend project="junit"/>
         <depend project="xml-xerces"/>
         <depend project="avalon-util-env" />
         <work nested="util/defaults/target/classes"/>
@@ -818,6 +831,7 @@
             <property name="project.version" value="@@DATE@@"/>
         </ant>
         <depend project="ant" inherit="runtime"/>
+        <depend project="junit"/>
         <depend project="xml-xerces"/>
         <work nested="util/env/target/classes"/>
         <home nested="util/env"/>
@@ -833,6 +847,7 @@
             <property name="project.version" value="@@DATE@@"/>
         </ant>
         <depend project="ant" inherit="runtime"/>
+        <depend project="junit"/>
         <depend project="xml-xerces"/>
         <work nested="util/exception/target/classes"/>
         <home nested="util/exception"/>
@@ -848,6 +863,7 @@
             <property name="project.version" value="@@DATE@@"/>
         </ant>
         <depend project="ant" inherit="runtime"/>
+        <depend project="junit"/>
         <depend project="xml-xerces"/>
         <work nested="util/extension/api/target/classes"/>
         <home nested="util/extension/api"/>
@@ -863,6 +879,7 @@
             <property name="project.version" value="@@DATE@@"/>
         </ant>
         <depend project="ant" inherit="runtime"/>
+        <depend project="junit"/>
         <depend project="xml-xerces"/>
         <depend project="avalon-util-extension-api" />
         <work nested="util/extension/impl/target/classes"/>
@@ -879,6 +896,7 @@
             <property name="project.version" value="@@DATE@@"/>
         </ant>
         <depend project="ant" inherit="runtime"/>
+        <depend project="junit"/>
         <depend project="xml-xerces"/>
         <work nested="util/i18n/target/classes"/>
         <home nested="util/i18n"/>
