@@ -352,6 +352,7 @@
 
 <!-- server definitions -->
 
+  <server href="server/brutus.xml"/>
   <server href="server/covalent.xml"/>
   <server href="server/dotnot.xml"/>
   <server href="server/lsd.xml"/>
