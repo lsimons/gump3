@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/utils/tools.py,v 1.9 2004/01/09 19:57:19 ajack Exp $
-# $Revision: 1.9 $
-# $Date: 2004/01/09 19:57:19 $
+# $Header: /home/stefano/cvs/gump/python/gump/utils/tools.py,v 1.10 2004/01/19 20:16:59 ajack Exp $
+# $Revision: 1.10 $
+# $Date: 2004/01/19 20:16:59 $
 #
 # ====================================================================
 #
@@ -160,6 +160,7 @@ def tailFile(file,lines):
     """ Return the last N lines of a file as a list """
     taillines=[]
     try:
+        o=None
         try:
             # Read lines from the file...
             o=open(file, 'r')
@@ -180,7 +181,7 @@ def tailFile(file,lines):
         finally:
             if o: o.close()
     except Exception, details:
-        log.error('Failed to tail :' + file + ' : ' + str(details))    
+        log.error('Failed to tail :' + file + ' : ' + str(details), exc_info=1)    
                             
     return taillines
 
