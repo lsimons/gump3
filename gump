@@ -144,6 +144,16 @@ function error
   exit 1
 }
 
+# Load the environment variables script if it exists
+function load_env
+{
+  local host=`hostname -s`
+  local envfile="`pwd`/cron/local-env-$host.sh"
+  if [[ -f $envfile ]]; then
+    . $envfile
+  fi
+}
+
 # Print a friendly error message if some dependency is missing.
 #
 # Arguments:
@@ -158,6 +168,27 @@ function check_env
      $2
      
 and install it."
+  fi
+}
+
+# Print a friendly error message if an environment variable is not set.
+#
+# Arguments:
+#   - name of the variable
+#   - description of what the variable should be set to
+function check_env_var
+{
+  local host=`hostname -s`
+  local envfile="`pwd`/cron/local-env-$host.sh"
+
+  local dereferenced=${!1}
+  if [[ -z "$dereferenced" ]]; then
+    error "The variable $1 has not been set. It should be set to
+$2.
+You can either set this before invoking gump, or set it in a file
+named
+  `pwd`/cron/local-env-$envfile.sh
+"
   fi
 }
 
@@ -233,6 +264,7 @@ function run
 function test
 {
   check_env "python" "http://www.python.org/"
+  check_env_var "GUMP_HOME" "the location of the gump checkout"
 
   local oldpythonpath=$PYTHONPATH
   if [[ -z $oldpythonpath ]]; then
@@ -245,8 +277,6 @@ function test
   cd python
   python ../bin/testrunner.py -d ../python/gump/test $@
   cd ..
-
-  export PYTHONPATH=$oldpythonpath
 }
 
 # Run gumpy integration tests
@@ -350,6 +380,9 @@ function experimental_tests
 #############################################################################
 # Run the script...
 #############################################################################
+
+# Load any environment variables
+load_env
 
 # Figure out the action to take then run the appropriate function
 delegate $@
