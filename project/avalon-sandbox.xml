@@ -42,35 +42,6 @@
                 to="dev@avalon.apache.org"/>
     </project>
 
-    <project name="avalon-sandbox-info">
-        <package>org.apache.avalon.framework.info</package>
-
-        <ant basedir="info">
-            <property name="version" value="@@DATE@@"/>
-            <property name="junit.failonerror" value="true"/>
-            <property name="do.checkstyle" value="true"/>
-            <property name="skip.dependencies" value="true"/>
-            <property name="jakarta-site.dir" project="jakarta-site2"
-                      reference="home" />
-        </ant>
-
-        <depend project="ant" runtime="true" inherit="runtime"/>
-        <option project="checkstyle" inherit="runtime"/>
-        <depend project="junit"/>
-        <depend project="avalon-sandbox-qdox" runtime="true" inherit="runtime"/>
-        <depend project="avalon" runtime="true"/>
-        <depend project="excalibur-i18n" runtime="true"/>
-        <depend project="xml-xerces" runtime="true"/>
-        <depend project="xml-xalan2"/>
-        <work nested="info/build/classes"/>
-
-        <home nested="info"/>
-        <jar name="build/lib/sandbox-info-@@DATE@@.jar"/>
-
-        <nag from="Peter Donald &lt;peter@apache.org&gt;"
-                to="dev@avalon.apache.org"/>
-    </project>
-
     <project name="avalon-sandbox-lifecycle">
         <package>org.apache.avalon.lifecycle</package>
 
