@@ -9,23 +9,25 @@
 
   <ant>
     <property name="version" value="gump"/>
+    <depend property="velocity.jar" project="jakarta-velocity"/>
+    <depend property="log4j.jar"    project="jakarta-log4j" id="log4j"/>
+    <depend property="servlet.jar"  project="jakarta-servletapi-4"/>
+    <depend property="fulcrum.jar"  project="jakarta-turbine-fulcrum"/>
+    <depend property="regexp.jar"  project="jakarta-regexp"/>
+    <depend property="torque.jar"   project="jakarta-turbine-torque"/>
+    <depend property="jaf.jar"      project="jaf"/>
+    <depend property="jdom.jar"     project="jdom"/>
+    <depend property="commons-util.jar" project="commons-util"/>
+    <depend property="commons-collections.jar" project="commons-collections"/>
   </ant>
 
   <depend project="jakarta-ant"/>
   <depend project="xml-xerces"/>
   <depend project="xml-xalan2"/>
-  <depend project="commons-collections"/>
-  <depend project="jakarta-servletapi"/>
-  <depend project="jakarta-regexp"/>
-  <depend project="jakarta-log4j"/>
   <depend project="jakarta-oro"/>
-  <depend project="jakarta-velocity"/>
-  <depend project="jakarta-turbine-torque"/>
-  <depend project="jakarta-turbine-fulcrum"/>
   <depend project="village"/>
   <depend project="javamail"/>
   <depend project="xml-rpc"/>
-  <depend project="jaf"/>
   <depend project="jdbc"/>
   <option project="jta"/> <!-- needed for javadoc purposes only -->
   <depend project="bsf"/>
