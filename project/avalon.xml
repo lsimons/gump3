@@ -842,7 +842,7 @@
 
     <project name="avalon-composition-api">
         <package>org.apache.avalon.composition</package>
-        <ant basedir="merlin/composition/api" target="jar">
+        <ant basedir="composition/api" target="jar">
             <property name="project.version" value="@@DATE@@"/>
         </ant>
         <depend project="ant" inherit="runtime"/>
@@ -855,21 +855,21 @@
         <depend project="avalon-util-extension-api" />
         <depend project="avalon-framework" id="api" />
         <depend project="avalon-framework" id="impl" />
-        <mkdir dir="merlin/composition/api/target/classes"/>
-        <mkdir dir="merlin/composition/api/target/test-classes"/>
-        <work nested="merlin/composition/api/target/classes"/>
-        <work nested="merlin/composition/api/target/test-classes"/>
-        <home nested="merlin/composition/api"/>
+        <mkdir dir="composition/api/target/classes"/>
+        <mkdir dir="composition/api/target/test-classes"/>
+        <work nested="composition/api/target/classes"/>
+        <work nested="composition/api/target/test-classes"/>
+        <home nested="composition/api"/>
         <jar name="target/avalon-composition-api-@@DATE@@.jar"/>
-        <javadoc nested="merlin/composition/api/target/docs/apidocs"/>
-        <junitreport nested="merlin/composition/api/target/test-reports"/>
+        <javadoc nested="composition/api/target/docs/apidocs"/>
+        <junitreport nested="composition/api/target/test-reports"/>
         <nag to="dev@avalon.apache.org" 
           from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"/>
     </project>
 
     <project name="avalon-composition-spi">
         <package>org.apache.avalon.composition</package>
-        <ant basedir="merlin/composition/spi" target="jar">
+        <ant basedir="composition/spi" target="jar">
             <property name="project.version" value="@@DATE@@"/>
         </ant>
         <depend project="ant" inherit="runtime"/>
@@ -882,21 +882,21 @@
         <depend project="avalon-logging-api" />
         <depend project="avalon-logging-spi" />
         <depend project="avalon-meta-api" />
-        <mkdir dir="merlin/composition/spi/target/classes"/>
-        <mkdir dir="merlin/composition/spi/target/test-classes"/>
-        <work nested="merlin/composition/spi/target/classes"/>
-        <work nested="merlin/composition/spi/target/test-classes"/>
-        <home nested="merlin/composition/spi"/>
+        <mkdir dir="composition/spi/target/classes"/>
+        <mkdir dir="composition/spi/target/test-classes"/>
+        <work nested="composition/spi/target/classes"/>
+        <work nested="composition/spi/target/test-classes"/>
+        <home nested="composition/spi"/>
         <jar name="target/avalon-composition-spi-@@DATE@@.jar"/>
-        <javadoc nested="merlin/composition/spi/target/docs/apidocs"/>
-        <junitreport nested="merlin/composition/spi/target/test-reports"/>
+        <javadoc nested="composition/spi/target/docs/apidocs"/>
+        <junitreport nested="composition/spi/target/test-reports"/>
         <nag to="dev@avalon.apache.org" 
           from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"/>
     </project>
 
     <project name="avalon-composition-impl">
         <package>org.apache.avalon.composition</package>
-        <ant basedir="merlin/composition/impl" target="jar">
+        <ant basedir="composition/impl" target="jar">
             <property name="project.version" value="@@DATE@@"/>
         </ant>
 
@@ -928,22 +928,22 @@
         <depend project="excalibur-lifecycle-api" runtime="true"/>
         <depend project="excalibur-configuration" runtime="true"/>
 
-        <mkdir dir="merlin/composition/impl/target/classes"/>
-        <mkdir dir="merlin/composition/impl/target/test-classes"/>
-        <work nested="merlin/composition/impl/target/classes"/>
-        <work nested="merlin/composition/impl/target/test-classes"/>
-        <home nested="merlin/composition/impl"/>
+        <mkdir dir="composition/impl/target/classes"/>
+        <mkdir dir="composition/impl/target/test-classes"/>
+        <work nested="composition/impl/target/classes"/>
+        <work nested="composition/impl/target/test-classes"/>
+        <home nested="composition/impl"/>
 
         <jar name="target/avalon-composition-impl-@@DATE@@.jar"/>
-        <javadoc nested="merlin/composition/impl/target/docs/apidocs"/>
-        <junitreport nested="merlin/composition/impl/target/test-reports"/>
+        <javadoc nested="composition/impl/target/docs/apidocs"/>
+        <junitreport nested="composition/impl/target/test-reports"/>
         <nag to="dev@avalon.apache.org" 
           from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"/>
     </project>
 
     <project name="avalon-activation-api">
         <package>org.apache.avalon.activation</package>
-        <ant basedir="merlin/activation/api" target="jar">
+        <ant basedir="activation/api" target="jar">
             <property name="project.version" value="@@DATE@@"/>
         </ant>
 
@@ -954,19 +954,19 @@
         <depend project="avalon-meta-api" />
         <depend project="avalon-composition-api" />
 
-        <mkdir dir="merlin/activation/api/target/classes"/>
-        <work nested="merlin/activation/api/target/classes"/>
-        <home nested="merlin/activation/api"/>
+        <mkdir dir="activation/api/target/classes"/>
+        <work nested="activation/api/target/classes"/>
+        <home nested="activation/api"/>
         <jar name="target/avalon-activation-api-@@DATE@@.jar"/>
-        <javadoc nested="merlin/activation/api/target/docs/apidocs"/>
-        <junitreport nested="merlin/activation/api/target/test-reports"/>
+        <javadoc nested="activation/api/target/docs/apidocs"/>
+        <junitreport nested="activation/api/target/test-reports"/>
         <nag to="dev@avalon.apache.org" 
           from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"/>
     </project>
 
     <project name="avalon-activation-impl">
         <package>org.apache.avalon.activation</package>
-        <ant basedir="merlin/activation/impl" target="jar">
+        <ant basedir="activation/impl" target="jar">
             <property name="project.version" value="@@DATE@@"/>
         </ant>
 
@@ -1001,21 +1001,21 @@
         <depend project="avalon-util-exception" runtime="true"/>
         <depend project="avalon-util-env" runtime="true"/>
 
-        <mkdir dir="merlin/activation/impl/target/classes"/>
-        <work nested="merlin/activation/impl/target/classes"/>
-        <mkdir dir="merlin/activation/impl/target/test-classes"/>
-        <work nested="merlin/activation/impl/target/test-classes"/>
-        <home nested="merlin/activation/impl"/>
+        <mkdir dir="activation/impl/target/classes"/>
+        <work nested="activation/impl/target/classes"/>
+        <mkdir dir="activation/impl/target/test-classes"/>
+        <work nested="activation/impl/target/test-classes"/>
+        <home nested="activation/impl"/>
         <jar name="target/avalon-activation-impl-@@DATE@@.jar"/>
-        <javadoc nested="merlin/activation/impl/target/docs/apidocs"/>
-        <junitreport nested="merlin/activation/impl/target/test-reports"/>
+        <javadoc nested="activation/impl/target/docs/apidocs"/>
+        <junitreport nested="activation/impl/target/test-reports"/>
         <nag to="dev@avalon.apache.org" 
           from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"/>
     </project>
 
     <project name="merlin-api">
         <package>org.apache.avalon.merlin</package>
-        <ant basedir="merlin/kernel/api" target="jar">
+        <ant basedir="merlin/api" target="jar">
             <property name="project.version" value="@@DATE@@"/>
         </ant>
 
@@ -1026,18 +1026,18 @@
         <depend project="avalon-repository-api" />
         <depend project="avalon-composition-api" />
 
-        <mkdir dir="merlin/kernel/api/target/classes"/>
-        <work nested="merlin/kernel/api/target/classes"/>
-        <home nested="merlin/kernel/api"/>
+        <mkdir dir="merlin/api/target/classes"/>
+        <work nested="merlin/api/target/classes"/>
+        <home nested="merlin/api"/>
         <jar name="target/merlin-api-@@DATE@@.jar"/>
-        <javadoc nested="merlin/kernel/api/target/docs/apidocs"/>
+        <javadoc nested="merlin/api/target/docs/apidocs"/>
         <nag to="dev@avalon.apache.org" 
           from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"/>
     </project>
 
     <project name="merlin-impl">
         <package>org.apache.avalon.merlin</package>
-        <ant basedir="merlin/kernel/impl" target="jar">
+        <ant basedir="merlin/impl" target="jar">
             <property name="project.version" value="@@DATE@@"/>
         </ant>
 
@@ -1069,13 +1069,13 @@
         <depend project="avalon-util-i18n" />
         <depend project="excalibur-configuration" />
 
-        <mkdir dir="merlin/kernel/impl/target/classes"/>
-        <work nested="merlin/kernel/impl/target/classes"/>
-        <mkdir dir="merlin/kernel/impl/target/test-classes"/>
-        <work nested="merlin/kernel/impl/target/test-classes"/>
-        <home nested="merlin/kernel/impl"/>
+        <mkdir dir="merlin/impl/target/classes"/>
+        <work nested="merlin/impl/target/classes"/>
+        <mkdir dir="merlin/impl/target/test-classes"/>
+        <work nested="merlin/impl/target/test-classes"/>
+        <home nested="merlin/impl"/>
         <jar name="target/merlin-impl-@@DATE@@.jar"/>
-        <javadoc nested="merlin/kernel/impl/target/docs/apidocs"/>
+        <javadoc nested="merlin/impl/target/docs/apidocs"/>
         <nag to="dev@avalon.apache.org" 
           from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"/>
 
@@ -1083,7 +1083,7 @@
 
     <project name="merlin-cli">
         <package>org.apache.avalon.merlin</package>
-        <ant basedir="merlin/kernel/cli" target="jar">
+        <ant basedir="merlin/cli" target="jar">
             <property name="project.version" value="@@DATE@@"/>
         </ant>
 
@@ -1100,13 +1100,13 @@
         <depend project="avalon-util-exception" runtime="true"/>
         <depend project="avalon-util-env" runtime="true"/>
 
-        <mkdir dir="merlin/kernel/cli/target/classes"/>
-        <work nested="merlin/kernel/cli/target/classes"/>
-        <mkdir dir="merlin/kernel/cli/target/test-classes"/>
-        <work nested="merlin/kernel/cli/target/test-classes"/>
-        <home nested="merlin/kernel/cli"/>
+        <mkdir dir="merlin/cli/target/classes"/>
+        <work nested="merlin/cli/target/classes"/>
+        <mkdir dir="merlin/cli/target/test-classes"/>
+        <work nested="merlin/cli/target/test-classes"/>
+        <home nested="merlin/cli"/>
         <jar name="target/merlin-cli-@@DATE@@.jar"/>
-        <javadoc nested="merlin/kernel/cli/target/docs/apidocs"/>
+        <javadoc nested="merlin/cli/target/docs/apidocs"/>
         <nag to="dev@avalon.apache.org" 
           from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"/>
 
@@ -1114,7 +1114,7 @@
 
     <project name="merlin-unit">
         <package>org.apache.avalon.merlin</package>
-        <ant basedir="merlin/kernel/unit" target="jar">
+        <ant basedir="merlin/unit" target="jar">
             <property name="project.version" value="@@DATE@@"/>
         </ant>
 
@@ -1129,13 +1129,13 @@
         <depend project="avalon-util-exception" runtime="true"/>
         <depend project="avalon-util-env" runtime="true"/>
 
-        <mkdir dir="merlin/kernel/unit/target/classes"/>
-        <work nested="merlin/kernel/unit/target/classes"/>
-        <mkdir dir="merlin/kernel/unit/target/test-classes"/>
-        <work nested="merlin/kernel/unit/target/test-classes"/>
-        <home nested="merlin/kernel/unit"/>
+        <mkdir dir="merlin/unit/target/classes"/>
+        <work nested="merlin/unit/target/classes"/>
+        <mkdir dir="merlin/unit/target/test-classes"/>
+        <work nested="merlin/unit/target/test-classes"/>
+        <home nested="merlin/unit"/>
         <jar name="target/merlin-unit-@@DATE@@.jar"/>
-        <javadoc nested="merlin/kernel/unit/target/docs/apidocs"/>
+        <javadoc nested="merlin/unit/target/docs/apidocs"/>
         <nag to="dev@avalon.apache.org" 
           from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"/>
     </project>
