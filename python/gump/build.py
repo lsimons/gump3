@@ -9,7 +9,7 @@
   The main thing to do here is to clone dumpDeps to create a
   build() method which executes the appropriate script
   (probably only ant at the moment; would be nice to have
-  support for maven) for each of the dependencies.        
+  support for maven) for each of the dependencies.
 """
 
 import os.path
@@ -17,8 +17,9 @@ import os
 import sys
 import logging
 
-from gump import load, buildSequence, Workspace, Module, Project
+from gump import load, buildSequence
 from gump.conf import dir, default
+from gump.model import Workspace, Module, Project
 
 ###############################################################################
 # Initialize
@@ -65,7 +66,7 @@ def run(workspace, projectname):
   syncWorkDir( workspace, build_sequence )
 
   # build
-  return buildProjects( workspace, projectname, project, build_sequence )  
+  return buildProjects( workspace, projectname, project, build_sequence )
 
 
 def syncWorkDir( workspace, build_sequence ):
@@ -121,7 +122,7 @@ def buildProjects( workspace, projectname, project, build_sequence ):
     if ant:
       target=''
 
-      # debug info      
+      # debug info
       if ant.target:
         log.info('   Using ant for build...TARGET: ' + ant.target)
         target = ant.target
@@ -202,7 +203,7 @@ if __name__=='__main__':
   if len(sys.argv)>2 :
     ps=sys.argv[2]
   else:
-    ps=default.project    
+    ps=default.project
 
   # get parsed workspace definition
   workspace=load(ws)

@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/Attic/view.py,v 1.5 2003/04/28 22:10:43 rubys Exp $
-# $Revision: 1.5 $
-# $Date: 2003/04/28 22:10:43 $
+# $Header: /home/stefano/cvs/gump/python/gump/Attic/view.py,v 1.6 2003/04/28 23:43:52 rubys Exp $
+# $Revision: 1.6 $
+# $Date: 2003/04/28 23:43:52 $
 #
 # ====================================================================
 #
@@ -72,9 +72,10 @@ from xml.sax.handler import ContentHandler
 # http://wxpython.org/
 from wxPython.wx import *
 
-from gump import load, buildSequence, log, Module, Project
+from gump import load, buildSequence, log
 from gump.conf import dir, default
 from gump.gen import xmlize
+from gump.model import Module, Project
 
 class gumpview(wxApp):
   # model
