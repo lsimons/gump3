@@ -12,7 +12,10 @@
   <project name="xml-axis-wsif">
     <package>org.apache.wsif</package>
 
-    <ant basedir="java" target="all"/>
+    <ant basedir="java" target="bindist">
+      <depend property="wsdl4j_jar" project="wsdl4j" id="wsdl4j"/>
+      <depend property="qname_jar"  project="wsdl4j" id="qname"/>
+    </ant>
 
     <depend project="jakarta-ant" inherit="runtime"/>
     <depend project="xml-xerces"/>
@@ -26,6 +29,11 @@
     <depend project="xml-soap"/>
 
     <work nested="java/build/classes"/>
+
+    <javadoc nested="java/build/javadocs"/>
+
+    <nag from="Sam Ruby &lt;rubys@us.ibm.com&gt;"
+         to="axis-dev@xml.apache.org"/>
   </project>
 
 </module>

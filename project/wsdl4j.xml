@@ -18,8 +18,8 @@
     <depend project="xml-xerces"/>
     <depend project="jakarta-ant" inherit="runtime"/>
     <home nested="build"/>
-    <jar name="lib/wsdl4j.jar"/>
-    <jar name="lib/qname.jar"/>
+    <jar name="lib/wsdl4j.jar" id="wsdl4j"/>
+    <jar name="lib/qname.jar"  id="qname"/>
     <javadoc nested="build/javadocs"/>
   </project>
 
