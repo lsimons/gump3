@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/Attic/model.py,v 1.6 2003/05/02 17:15:20 rubys Exp $
-# $Revision: 1.6 $
-# $Date: 2003/05/02 17:15:20 $
+# $Header: /home/stefano/cvs/gump/python/gump/Attic/model.py,v 1.7 2003/05/04 08:49:06 nicolaken Exp $
+# $Revision: 1.7 $
+# $Date: 2003/05/04 08:49:06 $
 #
 # ====================================================================
 #
@@ -58,15 +58,34 @@
 # information on the Apache Software Foundation, please see
 # <http://www.apache.org/>.
 
+import os,types,logging
+
+from gump import GumpBase, Named, Single, Multiple
+from gump.conf import dir, default
+
+    
+###############################################################################
+# Initialize
+###############################################################################
+
+# use own logging
+
+# init logging
+logging.basicConfig()
+
+# base gump logger
+log = logging.getLogger(__name__)
+
+#set verbosity to show all messages of severity >= default.logLevel
+log.setLevel(default.logLevel)
+
+
 ###############################################################################
 # Gump Object Model
 #
 # All intelligence and functionality is provided in the base classes
 # above, allowing the actual model to be rather simple and compact.
 ###############################################################################
-
-import os,types
-from gump import GumpBase, Named, Single, Multiple
 
 class Workspace(GumpBase):
   """Represents a <workspace/> element."""
@@ -318,32 +337,41 @@ class Property(GumpBase):
   # provide default elements when not defined in xml
   def complete(self,project):
     if self.reference=='home':
-      self.value=Project.list[self.project].home
+      try:
+        self.value=Project.list[self.project].home
+      except:
+        log.warn( "Cannot resolve homedir of " + self.project + " for " + project.name)
 
     elif self.reference=='srcdir':
-      module=Project.list[self.project].module
-      self.value=Module.list[module].srcdir
-
+      try:
+        module=Project.list[self.project].module
+        self.value=Module.list[module].srcdir
+      except:
+        log.warn( "Cannot resolve srcdir of " + self.project + " for " + project.name)
+        
     elif self.reference=='jarpath':
-      target=Project.list[self.project]
-      if self.id:
-        for jar in target.jar:
-          if jar.id==self.id:
-            self.value=jar.path
-            break
+      try:
+        target=Project.list[self.project]
+        if self.id:
+          for jar in target.jar:
+            if jar.id==self.id:
+              self.value=jar.path
+              break
+          else:
+            raise str(("jar with id %s was not found in project %s "
+               "referenced by %s") % (self.id, target.name, project.name))
+        elif len(target.jar)==1:
+          self.value=target.jar[0].path
+        elif len(target.jar)>1:
+          raise str(("Multiple jars defined by project %s referenced by %s; " +
+             "an id attribute is required to select the one you want") %
+             (target.name, project.name))
         else:
-          raise str(("jar with id %s was not found in project %s "
-             "referenced by %s") % (self.id, target.name, project.name))
-      elif len(target.jar)==1:
-        self.value=target.jar[0].path
-      elif len(target.jar)>1:
-        raise str(("Multiple jars defined by project %s referenced by %s; " +
-           "an id attribute is required to select the one you want") %
-           (target.name, project.name))
-      else:
-        raise str("Project %s referenced by %s defines no jars as output" %
-          (target.name, project.name))
-
+          raise str("Project %s referenced by %s defines no jars as output" %
+            (target.name, project.name))
+        
+      except:
+        log.warn( "Cannot resolve jarpath of " + self.project + " for " + project.name)
 
 # TODO: set up the below elements with defaults using complete()
 
