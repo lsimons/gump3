@@ -15,7 +15,6 @@
       <property name="env.ANT_HOME" reference="home" project="ant"/>
     </ant>
 
-    <depend project="java-xml-pack"/>
     <depend project="ant" inherit="runtime"/>
     <depend project="castor"/>
     <depend project="junit"/>
@@ -28,6 +27,8 @@
     <depend project="commons-logging"/>
     <depend project="tt-bytecode"/>
     <depend project="wsdl4j"/>
+    <depend project="xml-apis"/>
+    <depend project="xml-xerces"/>
 
     <work nested="build/ant/lib/ForeachTask.jar"/>
 
