@@ -94,6 +94,8 @@ To: jetspeed-dev@jakarta.apache.org
 From: Jason van Zyl <jvanzyl@apache.org>
 Subject: [GUMP] Build Failure - Jetspeed
 Regex: /BUILD FAILED/
+To: turbine-dev@jakarta.apache.org
+Regex: /Class.*turbine.*not found/
 ------
 Project: jakarta-struts
 To: struts-dev@jakarta.apache.org
