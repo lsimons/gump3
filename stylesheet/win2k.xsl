@@ -60,7 +60,7 @@
     <xsl:text>if "%1"=="all" goto header&#10;</xsl:text>
     <xsl:text>:top&#10;</xsl:text>
 
-    <xsl:for-each select=".//project">
+    <xsl:for-each select=".//module">
       <xsl:text>if "%1"=="</xsl:text>
       <xsl:value-of select="@name"/>
       <xsl:text>" goto </xsl:text>
@@ -86,7 +86,7 @@
     <xsl:text>ENDLOCAL&#10;</xsl:text>
   </xsl:template>
 
-  <xsl:template match="update//project">
+  <xsl:template match="update//module">
     <xsl:text>&#10;echo Updating </xsl:text>
     <xsl:value-of select="@name"/>
     <xsl:text>&#10;</xsl:text>
@@ -223,7 +223,7 @@
     <xsl:text>echo ^&lt;pre^> %OUT%&#10;</xsl:text>
 
     <xsl:text>:</xsl:text>
-    <xsl:value-of select="ancestor::project/@name"/>
+    <xsl:value-of select="@name"/>
     <xsl:text>&#10;</xsl:text>
 
     <xsl:apply-templates/>
@@ -232,7 +232,7 @@
     <xsl:text>echo ^&lt;/pre^> %OUT%&#10;</xsl:text>
 
     <xsl:text>:end_</xsl:text>
-    <xsl:value-of select="ancestor::project/@name"/>
+    <xsl:value-of select="@name"/>
     <xsl:text>&#10;</xsl:text>
   </xsl:template>
 

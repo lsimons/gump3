@@ -1,4 +1,4 @@
-<module name="jakarta-tomcat-4.0">
+<module name="jakarta-tomcat-40">
 
   <description>
     Servlet 2.3 and JSP 1.2 Reference Implementation

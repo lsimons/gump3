@@ -136,26 +136,25 @@ public class gen {
       * @param list Hashtable used for recursion.  Must initially be empty.
       * @param Node Starting point for search.
       */
-    private void merge(String type, Hashtable list, Node parent) {
-       Node child=parent.getFirstChild();
-       while (child != null) {
-	   Node next=child.getNextSibling();
-	   if (child.getNodeName().equals(type)) {
-	       Element element = (Element) child;
-	       String name = element.getAttributeNode("name").getValue();
+    private void merge(String type, Hashtable list, Node document) 
+        throws Exception
+    {
+	NodeIterator nl = XPathAPI.selectNodeIterator(document, "//"+type);
+	for (Node child=nl.nextNode(); child!=null; child=nl.nextNode()) {
+	    Element element = (Element) child;
+	    String name = element.getAttributeNode("name").getValue();
 
-	       Element priorDefinition = (Element)list.get(name);
-	       if (priorDefinition == null) {
-		   list.put(name, element);
-		   merge(type, list, element);
-	       } else if (priorDefinition != element) {
-		   element.getParentNode().removeChild(element);
-		   copyChildren(element, priorDefinition);
-		   element=priorDefinition;
-	       }
-	   }
-	   child=next;
-       }
+	    Element priorDefinition = (Element)list.get(name);
+	    if (priorDefinition != null && priorDefinition != element) {
+	        Element parent  = (Element)priorDefinition.getParentNode();
+	        String definedIn = parent.getAttribute("name");
+                if (!definedIn.equals(""))
+	            element.setAttribute("defined-in",definedIn);
+	        copyChildren(priorDefinition, element);
+	        parent.removeChild(priorDefinition);
+	    }
+	    list.put(name, element);
+        }
     }
 
     /**
@@ -167,7 +166,9 @@ public class gen {
       * @param type Element localname.	Typically project or repository.
       * @param Node Root (workspace) node
       */
-    private void flatten(String type, Node root) {
+    private Hashtable flatten(String type, Node root)
+        throws Exception
+    {
 	Hashtable list = new Hashtable();
 	merge(type, list, root);
 	for (Enumeration e=list.keys(); e.hasMoreElements();) {
@@ -180,6 +181,7 @@ public class gen {
 	       root.appendChild(element);
 	   }
 	}
+        return list;
     }
 
     /**
@@ -225,27 +227,18 @@ public class gen {
     }
 
     /**
-      * Rename <module> to <project>.  This is a transitional convenience
-      * as I move from the nested project approach to a simple declaration
-      * of the projects (or perhaps, instead the targets) contained within
-      * a module.
-      * @param document to be transformed
+      * Flatten all modules, and in the process resolve all srcdirs.
+      * If the srcdir attribute is not present, it defaults to the value
+      * of name.  Either way, basedir gets prepended.
       */
-    private void renameModuleToProject(Document document) throws Exception {
-
-	// safely get a list of all modules
-	NodeIterator nl = XPathAPI.selectNodeIterator(document, "//module");
-	Vector list = new Vector();
-	for (Node module=nl.nextNode(); module!=null; module=nl.nextNode()) {
-	   list.add(module);
-	}
-
-	// replace all elements in that list with projects
-	for (Enumeration e=list.elements(); e.hasMoreElements();) {
-	   Element module = (Element)e.nextElement();
-	   Element project = document.createElement("project");
-	   copyChildren(module, project);
-	   module.getParentNode().replaceChild(project, module);
+    private void computeSrcdir(Element workspace) throws Exception {
+        String basedir = workspace.getAttribute("basedir");
+        Hashtable modules = flatten("module", workspace);
+	for (Enumeration e=modules.keys(); e.hasMoreElements();) {
+	     Element module = (Element)modules.get(e.nextElement());
+             String srcdir=module.getAttribute("srcdir");
+             if (srcdir.equals("")) srcdir=module.getAttribute("name");
+             module.setAttribute("srcdir", basedir + "/" + srcdir); 
 	}
     }
 
@@ -258,10 +251,10 @@ public class gen {
     private gen(String source) throws Exception {
 	Document workspace = parse(source);
 	expand((Element)workspace.getFirstChild());
-	renameModuleToProject(workspace);
 	flatten("project", workspace.getFirstChild());
 	flatten("repository", workspace.getFirstChild());
 	antDependsToProperties(workspace);
+        computeSrcdir((Element) workspace.getFirstChild());
 
 	Node resolved = transform(workspace, "defaults.xsl");
 	output (resolved, "work/merge.xml");

@@ -95,6 +95,9 @@
 
     <xsl:variable name="module">
       <xsl:choose>
+        <xsl:when test="@module">
+          <xsl:value-of select="@module"/>
+        </xsl:when>
         <xsl:when test="@defined-in">
           <xsl:value-of select="@defined-in"/>
         </xsl:when>
@@ -104,31 +107,16 @@
       </xsl:choose>
     </xsl:variable>
 
-    <!-- determine the name of the source directory -->
-
-    <xsl:variable name="srcdir">
-      <xsl:choose>
-        <xsl:when test="@srcdir">
-          <xsl:value-of select="concat($basedir,'/',@srcdir)"/>
-        </xsl:when>
-        <xsl:otherwise>
-          <xsl:value-of select="concat($basedir,'/',$module)"/>
-        </xsl:otherwise>
-      </xsl:choose>
-    </xsl:variable>
+    <xsl:variable name="srcdir" select="../module[@name=$module]/@srcdir"/>
 
     <xsl:copy>
-      <xsl:apply-templates select="@*[name()!='srcdir']"/>
+      <xsl:apply-templates select="@*[name()!='module']"/>
 
       <xsl:attribute name="module">
         <xsl:value-of select="$module"/>
       </xsl:attribute>
 
-      <xsl:attribute name="srcdir">
-        <xsl:value-of select="$srcdir"/>
-      </xsl:attribute>
-
-      <xsl:apply-templates select="*[not(self::home|self::project)] | text()"/>
+      <xsl:apply-templates select="*[not(self::home)] | text()"/>
 
       <!-- Compute fully qualified home directory -->
 

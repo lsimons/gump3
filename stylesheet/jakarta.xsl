@@ -12,7 +12,7 @@
       <xsl:copy-of select="@*"/>
 
       <head>
-        <title><xsl:value-of select="title/."/></title>
+        <xsl:apply-templates select="title/*|title/text()"/>
         <meta http-equiv="Content-Type"
               content="text/html; charset=iso-8859-1"/>
         <style type="text/css">
@@ -70,7 +70,7 @@
               <table border="0" cellspacing="0" cellpadding="2" width="100%">
                 <tr>
                   <td class="title">
-                    <xsl:apply-templates select="title/*|title/text()"/>
+                    <xsl:apply-templates select="title"/>
                   </td>
                 </tr>
               </table>

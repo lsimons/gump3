@@ -31,7 +31,7 @@
       <delete dir="dist"/>
 
       <xsl:if test="$build-sequence = 'bulk'">
-        <xsl:for-each select="project[cvs]">
+        <xsl:for-each select="module[cvs]">
           <delete dir="{@srcdir}"/>
           <copy fromdir="{$cvsdir}/{@name}" todir="{@srcdir}"/>
         </xsl:for-each>
@@ -84,8 +84,8 @@
   <xsl:template match="project">
     <xsl:copy>
       <xsl:copy-of select="@*"/>
-      <xsl:variable name="srcdir" select="@srcdir"/>
       <xsl:variable name="module" select="@module"/>
+      <xsl:variable name="srcdir" select="../module[@name=$module]/@srcdir"/>
 
       <html log="{$logdir}/{@name}.html"
         banner-image="{$banner-image}" banner-link="{$banner-link}">
@@ -93,10 +93,18 @@
         <title>
           <xsl:text>Build </xsl:text>
           <xsl:value-of select="@name"/>
-          <xsl:if test="description">
-            <xsl:text> - </xsl:text>
-            <xsl:value-of select="normalize-space(description)"/>
-          </xsl:if>
+          <xsl:choose>
+            <xsl:when test="description">
+              <xsl:text> - </xsl:text>
+              <xsl:value-of select="normalize-space(description)"/>
+            </xsl:when>
+            <xsl:otherwise>
+              <xsl:for-each select="../module[@name=$module]/description">
+                <xsl:text> - </xsl:text>
+                <xsl:value-of select="normalize-space(.)"/>
+              </xsl:for-each>
+            </xsl:otherwise>
+          </xsl:choose>
         </title>
 
         <xsl:copy-of select="note"/>
@@ -166,7 +174,7 @@
             </prereq>
           </xsl:for-each>
 
-          <logic>
+          <logic name="{@name}">
             <initdir dir="{$srcdir}" basedon="{$cvsdir}/{$module}"/>
             <chdir dir="{$srcdir}"/>
 
@@ -223,8 +231,11 @@
   <xsl:template match="project[not(ant) and not(script)]"/>
 
   <xsl:template match="ant">
+    <xsl:variable name="module" select="ancestor::project/@module"/>
+    <xsl:variable name="srcdir" select="/workspace/module[@name=$module]/@srcdir"/>
+
     <xsl:if test="@basedir">
-      <chdir dir="{../@srcdir}/{@basedir}"/>
+      <chdir dir="{$srcdir}/{@basedir}"/>
     </xsl:if>
 
     <xsl:copy>
@@ -285,12 +296,12 @@
           <xsl:when test="@reference='srcdir'">
             <xsl:variable name="project" select="@project"/>
             <xsl:for-each select="/workspace/project[@name=$project]">
-              <property name="{$name}" value="{@srcdir}" type="path"/>
+              <property name="{$name}" value="{$srcdir}" type="path"/>
             </xsl:for-each>
           </xsl:when>
 
           <xsl:when test="@path">
-            <property name="{$name}" value="{ancestor::project/@srcdir}/{@path}" type="path"/>
+            <property name="{$name}" value="$srcdir/{@path}" type="path"/>
           </xsl:when>
 
           <xsl:otherwise>

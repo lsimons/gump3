@@ -19,7 +19,7 @@
     <xsl:param name="usage"/>
 
     <xsl:text>case $1 in&#10;</xsl:text>
-    <xsl:for-each select=".//project">
+    <xsl:for-each select=".//project | .//module">
       <xsl:value-of select="@name"/>
       <xsl:text>) export </xsl:text>
       <xsl:value-of select="translate(@name,'-.','__')"/>
@@ -117,7 +117,7 @@
     <xsl:text>fi&#10;</xsl:text>
   </xsl:template>
 
-  <xsl:template match="update//project">
+  <xsl:template match="update//module">
     <xsl:text>echo Updating </xsl:text>
     <xsl:value-of select="@name"/>
     <xsl:text>&#10;</xsl:text>
@@ -255,7 +255,7 @@
 
     <xsl:text>fi&#10;</xsl:text>
     <xsl:text>&#10;if test $</xsl:text>
-    <xsl:value-of select="translate(ancestor::project/@name,'-.','__')"/>
+    <xsl:value-of select="translate(@name,'-.','__')"/>
     <xsl:text>; then&#10;</xsl:text>
 
     <xsl:apply-templates/>

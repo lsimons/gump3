@@ -56,7 +56,7 @@
               <th>Status</th>
             </tr>
 
-            <xsl:apply-templates select="project">
+            <xsl:apply-templates select="module">
               <xsl:sort select="@name"/>
             </xsl:apply-templates>
           </table>
@@ -68,7 +68,7 @@
 
   </xsl:template>
 
-  <xsl:template match="project">
+  <xsl:template match="module">
 
     <xsl:copy>
       <xsl:copy-of select="@*"/>
@@ -98,7 +98,7 @@
         </menu>
 
         <content>
-          <logic>
+          <logic name="{@name}">
             <xsl:apply-templates select="cvs"/>
           </logic>
         </content>
@@ -118,7 +118,7 @@
     </xsl:copy>
   </xsl:template>
 
-  <xsl:template match="project[not(cvs)]"/>
+  <xsl:template match="module[not(cvs)]"/>
 
   <!-- =================================================================== -->
   <!-- pre-resolve repository for later convenience                        -->
@@ -126,7 +126,7 @@
 
   <xsl:template match="cvs">
     <xsl:variable name="repository" select="@repository"/>
-    <cvs srcdir="{ancestor::project/@module}">
+    <cvs srcdir="{ancestor::module/@name}">
 
       <xsl:variable name="dir" select="@dir"/>
       <xsl:variable name="host-prefix" select="@host-prefix"/>
@@ -188,23 +188,23 @@
         </xsl:for-each>
       </xsl:attribute>
 
-      <!-- specify the module (defaults to project name) -->
+      <!-- specify the module (defaults to module name) -->
       <xsl:attribute name="module">
         <xsl:choose>
           <xsl:when test="@module">
             <xsl:value-of select="@module"/>
           </xsl:when>
           <xsl:otherwise>
-            <xsl:value-of select="ancestor::project/@name"/>
+            <xsl:value-of select="ancestor::module/@name"/>
           </xsl:otherwise>
         </xsl:choose>
       </xsl:attribute>
 
       <!-- optionally add a tag -->
       <xsl:choose>
-        <xsl:when test="ancestor::project/@tag">
+        <xsl:when test="ancestor::module/@tag">
           <xsl:attribute name="tag">
-            <xsl:value-of select="ancestor::project/@tag"/>
+            <xsl:value-of select="ancestor::module/@tag"/>
           </xsl:attribute>
         </xsl:when>
         <xsl:when test="@tag">
