@@ -44,7 +44,7 @@
     <depend project="junit"/>
     <work nested="core/build/classes"/>
 
-    <nag from="Peter Donald &lt;peter@apache.org&gt;"
+    <nag from="Stefan Bodewig &lt;bodewig@apache.org&gt;"
          to="xdoclet-devel@lists.sourceforge.net"/>
   </project>
 
@@ -60,7 +60,7 @@
 
     <work nested="core/build/classes" />
 
-    <nag from="Peter Donald &lt;peter@apache.org&gt;"
+    <nag from="Stefan Bodewig &lt;bodewig@apache.org&gt;"
          to="xdoclet-devel@lists.sourceforge.net"/>
   </project>
 
@@ -77,7 +77,7 @@
 
     <work nested="core/build/classes" />
 
-    <nag from="Peter Donald &lt;peter@apache.org&gt;"
+    <nag from="Stefan Bodewig &lt;bodewig@apache.org&gt;"
          to="xdoclet-devel@lists.sourceforge.net"/>
   </project>
 
@@ -93,7 +93,7 @@
 
     <work nested="core/build/classes" />
 
-    <nag from="Peter Donald &lt;peter@apache.org&gt;"
+    <nag from="Stefan Bodewig &lt;bodewig@apache.org&gt;"
          to="xdoclet-devel@lists.sourceforge.net"/>
   </project>
 
@@ -109,7 +109,7 @@
 
     <work nested="core/build/classes" />
 
-    <nag from="Peter Donald &lt;peter@apache.org&gt;"
+    <nag from="Stefan Bodewig &lt;bodewig@apache.org&gt;"
          to="xdoclet-devel@lists.sourceforge.net"/>
   </project>
 
@@ -131,7 +131,7 @@
     <work nested="modules/build/xdoclet/classes"/>
     <work nested="modules/build/ejb/classes"/>
 
-    <nag from="Peter Donald &lt;peter@apache.org&gt;"
+    <nag from="Stefan Bodewig &lt;bodewig@apache.org&gt;"
          to="xdoclet-devel@lists.sourceforge.net"/>
   </project>
 
@@ -211,7 +211,7 @@
 
     <javadoc nested="target/docs/api" />
 
-    <nag from="Peter Donald &lt;peter@apache.org&gt;"
+    <nag from="Stefan Bodewig &lt;bodewig@apache.org&gt;"
          to="xdoclet-devel@lists.sourceforge.net"/>
   </project>
   
@@ -228,7 +228,7 @@
     <depend project="webwork"/>
     <depend project="mx4j"/>
     <depend project="jakarta-velocity"/>
-    <nag from="Peter Donald &lt;peter@apache.org&gt;"
+    <nag from="Stefan Bodewig &lt;bodewig@apache.org&gt;"
          to="xdoclet-devel@lists.sourceforge.net"/>
   </project>
 
