@@ -20,7 +20,9 @@
     <cvs repository="sourceforge" host-prefix="cvs.antworks" dir="antworks" module="antlets"/>
     <project name="antworks-antlets" fullname="Antworks Antlets">
         <package>org.krysalis.antworks.antlets</package>
-        <ant buildfile="build-bootstrap.xml" target="gump"/>
+        <ant buildfile="build-bootstrap.xml" target="gump">
+                 <property name="ant.home" project="ant" reference="home"/>
+        </ant>
         <depend project="ant" inherit="runtime"/>
         <depend project="antworks-importer" inherit="runtime"/>
         <nag to="antworks-developers@lists.sourceforge.net" from="nick@chalko.com"/>
