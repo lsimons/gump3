@@ -1,13 +1,12 @@
 <!--
 
-  Build the scripts and/or site for http://jakarta.apache.org/gump/
+  Build the scripts 
 
   If you need to bootstrap this, see gen.sh or gen.bat.
 
   Important targets:
     scripts - generate the scripts
-    site    - generate the web site
-    all     - generate both the scripts and the site
+    all     - generate both the scripts and javadocs
 
 -->
 
