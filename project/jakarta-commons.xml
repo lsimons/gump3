@@ -108,6 +108,7 @@
       <depend property="jaxp.xslt.jar" project="xml-xalan2"/>
     </ant>
     <depend project="jakarta-ant"/>
+    <depend project="jakarta-site2" inherit="all"/>
     <home nested="jxpath/dist"/>
     <jar name="commons-JXPath-@@DATE@@.jar"/>
     <javadoc nested="jxpath/dist/docs/api"/>
