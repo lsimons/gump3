@@ -62,7 +62,7 @@
 
         <!-- Work dirs to be included in classpath  -->
         <work nested="ruper/target/classes"/>
-        <home nested="ruper/dist"/>
+        <home nested="ruper/target/dist"/>
 
         <depend inherit="runtime" project="ant"/>
         <depend project="depot-version"/>                
