@@ -52,7 +52,7 @@ class RDFDescriber(AbstractRunActor):
     GUMP_URI = 'http://gump.apache.org/schemas/main/1.0/'
     GUMP_NS = Namespace(GUMP_URI)
         
-    GUMP_ENTITY_URI_BASE = 'http://apache.org/gump'
+    GUMP_ENTITY_URI_BASE = 'http://gump.apache.org/metadata/'
     
     def __init__(self,run,resolver=None):      
         
