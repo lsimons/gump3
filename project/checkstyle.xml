@@ -54,7 +54,7 @@
     <package>com.puppycrawl.tools.checkstyle</package>
   
     <mkdir dir="target/checkstyle"/>
-    <ant target="gump.setup run.test">
+    <ant target="gump.setup run.tests">
       <property name="version" value="@@DATE@@"/>
     </ant>
 
