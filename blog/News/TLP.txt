@@ -1,4 +1,4 @@
-PREVIEW Gump is now an Apache Top Level Project
+Gump is now an Apache Top Level Project
 <p>Apache 
 <a href="http://gump.apache.org">Gump</a> is now a top level Apache project.   
 Our <a href="http://gump.apache.org/#What+is+Gump%3F">mission</a>
