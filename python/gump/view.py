@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/Attic/view.py,v 1.18 2003/05/04 13:24:43 rubys Exp $
-# $Revision: 1.18 $
-# $Date: 2003/05/04 13:24:43 $
+# $Header: /home/stefano/cvs/gump/python/gump/Attic/view.py,v 1.19 2003/05/04 21:04:12 nicolaken Exp $
+# $Revision: 1.19 $
+# $Date: 2003/05/04 21:04:12 $
 #
 # ====================================================================
 #
@@ -93,7 +93,8 @@ class gumpview(wxApp):
   # item IDs:
   menu_BACK=10001 
   menu_RUN=10002
-  menu_HELP=10003
+  menu_CONSOLE=10003
+  menu_HELP=10004
   
   # view
   frame=None
@@ -130,6 +131,12 @@ class gumpview(wxApp):
                                      "Run")
 
     self.frame.toolbar.AddSeparator()
+
+
+    self.frame.toolbar.AddCheckTool(self.menu_CONSOLE,
+                                     wxBitmap("gump/images/console.bmp",
+                                              wxBITMAP_TYPE_BMP),
+                                     shortHelp="Toggle this")
     
     self.frame.toolbar.AddSimpleTool(self.menu_HELP,
                                      wxBitmap("gump/images/help.bmp",
@@ -190,6 +197,8 @@ class gumpview(wxApp):
 
     EVT_MENU(self, self.menu_BACK, self.backAction)
     EVT_MENU(self, self.menu_RUN,  self.runAction )
+    EVT_TOOL(self, self.menu_CONSOLE, self.consoleAction)
+    #        EVT_TOOL(self, 50, self.OnToolClick)
     EVT_MENU(self, self.menu_HELP, self.helpAction)
     
     return true
@@ -234,7 +243,11 @@ class gumpview(wxApp):
 
   # help action
   def helpAction(self,event):
-    msgbox("TODO")
+    self.msgbox("TODO")
+
+  # help action
+  def consoleAction(self,event):
+    self.msgbox("TODO")
     
   # select a single feed and display titles from each item
   def selectTree(self, event):
@@ -384,6 +397,17 @@ class gumpview(wxApp):
     dlg.ShowModal()
     dlg.Destroy()
 
+class GumpSplashScreen(wxSplashScreen):
+    def __init__(self):
+        bmp = wxImage("gump/images/gump.bmp").ConvertToBitmap()
+        wxSplashScreen.__init__(self, bmp,
+                                wxSPLASH_CENTRE_ON_SCREEN|wxSPLASH_TIMEOUT,
+                                4000, None, -1,
+                                style = wxSIMPLE_BORDER|wxFRAME_NO_TASKBAR|wxSTAY_ON_TOP)
+        wxYield()
+        
+
+        
 class compileThread:
   def __init__(self,project,view):
     self.project=project
@@ -416,6 +440,7 @@ class compileThread:
 
 if __name__ == '__main__':
   app = gumpview(0)
+  GumpSplashScreen().Show()
   app.load(sys.argv[1:] or [default.workspace])
   app.MainLoop()
   app.unload()
