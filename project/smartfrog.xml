@@ -28,6 +28,7 @@
   <project name="smartfrog">
     <package>org.smartfrog</package>
 
+    <mkdir dir="smartfrog/build"/>
     <ant basedir="." target="dist" />
     <!-- <ant basedir="smartfrog" target="dist" /> -->    
     <depend project="ant" runtime="false"/>
@@ -36,6 +37,7 @@
     <depend project="jakarta-log4j" runtime="true"/>
     <depend project="javacc" runtime="false"/> 
 
+    <work nested="smartfrog/build"/>
     <home nested="smartfrog/dist"/>
     <jar name="lib/smartfrog.jar" id="smartfrog" />
     <jar name="lib/sfServices.jar" id="smartfrog-services" />
