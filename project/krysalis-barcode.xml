@@ -49,7 +49,7 @@
 
         <package>org.krysalis.barcode</package>
 
-        <ant target="dist">
+        <ant target="gump" debug="true">
         	  <property name="DATE_STAMP" value="@@DATE@@"/>        	
         </ant>
 
