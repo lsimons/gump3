@@ -48,6 +48,9 @@
     <depend project="commons-cli" runtime="true"/>
     <depend project="commons-collections" runtime="true"/>
     <depend project="commons-logging" runtime="true"/>
+
+    <!-- to run Anakia -->
+    <depend project="jakarta-site2" inherit="all"/>
     
     <work nested="target/checkstyle"/>
 
