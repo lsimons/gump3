@@ -33,7 +33,7 @@ fi
 export GUMP_PYTHON=$GUMP/python
 export GUMP_HOST=`hostname -s`
 export GUMP_DATE=`date`
-export GUMP_LOG=$GUMP_LOG_DIR/gumppy.html
+export GUMP_LOG=$GUMP_LOG_DIR/gumpy.html
 export GUMP_PROFILE_LOG_DIR=$GUMP_LOG_DIR/myprofile
 
 if [ -z "$GUMP_WORKSPACE" ] ; then
@@ -43,7 +43,7 @@ fi
 export SEPARATOR='------------------------------------------------------- G U M P P Y'
 
 #
-# Generate gumppy.html from this (into the WWW site)
+# Generate gumpy.html from this (into the WWW site)
 #
 umask 002
 echo \<XMP\> > $GUMP_LOG
@@ -80,7 +80,7 @@ if [ ! -d $GUMP_PROFILE_LOG_DIR ] ; then
 	exit 1
 fi
 
-cp $GUMP/gumppy.sh $GUMP_PROFILE_LOG_DIR
+cp $GUMP/gumpy.sh $GUMP_PROFILE_LOG_DIR
 cp $GUMP_HOST.xml  $GUMP_PROFILE_LOG_DIR
 cp -R `grep profile $GUMP_HOST.xml  | cut -d\" -f2` $GUMP_PROFILE_LOG_DIR
 
@@ -122,7 +122,7 @@ echo >> $GUMP_LOG
 echo \</XMP\> >> $GUMP_LOG
 pkill -P $$ 
 
-# $Log: gumppy.sh,v $
+# $Log: gumpy.sh,v $
 # Revision 1.2  2003/05/30 22:02:56  nickchalko
 # Fixing incomplete update from Adam
 # PR:
