@@ -13,7 +13,7 @@
 
   <depend project="jakarta-ant"/>
   <depend project="xml-xerces"/>
-  <work parent="dist/junit/junit.jar"/>
+  <work parent="junit/tests/test.jar"/>
 
   <home parent="dist/junit"/>
   <jar name="junit.jar" id="junit"/>
