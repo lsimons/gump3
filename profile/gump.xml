@@ -1,8 +1,4 @@
-<profile name="gump">
-  
-<!-- Gump Self Testing -->
-
-  <module href="http://cvs.apache.org/repos/test/testdir/gump.xml"/>
+<profile name="gump">  
   
 <!-- Apache.Ant -->
 
