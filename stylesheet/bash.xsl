@@ -1,6 +1,6 @@
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0">
   <xsl:strip-space elements="*"/>
-        
+
   <xsl:template name="select">
     <xsl:param name="usage"/>
 
@@ -48,6 +48,7 @@
 
     <xsl:text>shift&#10;</xsl:text>
     <xsl:text>export TARGET=$*&#10;</xsl:text>
+    <xsl:text>export STATUS=SUCCESS&#10;</xsl:text>
 
     <xsl:text>if test $all; then&#10;</xsl:text>
     <xsl:apply-templates/>
@@ -67,7 +68,7 @@
 
     <xsl:apply-templates/>
   </xsl:template>
-        
+
   <!-- =================================================================== -->
   <!--                             cvs update                              -->
   <!-- =================================================================== -->
@@ -99,7 +100,7 @@
     <xsl:text>echo Updating </xsl:text>
     <xsl:value-of select="@name"/>
     <xsl:text>&#10;</xsl:text>
- 
+
     <xsl:apply-templates/>
   </xsl:template>
 
@@ -235,12 +236,11 @@
   <!-- =================================================================== -->
 
   <xsl:template match="prereq">
-    <xsl:variable name="project" select="ancestor::project/@name"/>
     <xsl:for-each select="file">
       <xsl:text>test -e </xsl:text>
       <xsl:value-of select="translate(@path,'\','/')"/>
       <xsl:text> || export STATUS="PREREQ FAILURE - </xsl:text>
-      <xsl:value-of select="$project"/>
+      <xsl:value-of select="@project"/>
       <xsl:text>"&#10;</xsl:text>
     </xsl:for-each>
   </xsl:template>
@@ -264,7 +264,7 @@
 
   <xsl:template match="ant">
 
-    <xsl:text>test $STATUS=SUCCESS&amp;&amp;\&#10;</xsl:text>
+    <xsl:text>if test "$STATUS" = "SUCCESS"; then \&#10;</xsl:text>
     <xsl:text>eval "java org.apache.tools.ant.Main</xsl:text>
 
     <xsl:if test="@buildfile">
@@ -292,6 +292,7 @@
     <xsl:text> $OUT 2&gt;&amp;1"&#10;</xsl:text>
     <xsl:text>test $? -ge 1 &amp;&amp; </xsl:text>
     <xsl:text>export STATUS="BUILD FAILED"&#10;</xsl:text>
+    <xsl:text>fi&#10;</xsl:text>
 
   </xsl:template>
 
@@ -401,7 +402,7 @@
   <xsl:template match="cvs">
 
     <!-- update -->
-    
+
     <xsl:text>test -e </xsl:text>
     <xsl:value-of select="translate(@srcdir,'\','/')"/>
     <xsl:text> &amp;&amp; export CMD="cvs -z3 -d </xsl:text>
@@ -422,7 +423,7 @@
     <xsl:text>"&#10;</xsl:text>
 
     <!-- checkout -->
-    
+
     <xsl:text>test -e </xsl:text>
     <xsl:value-of select="translate(@srcdir,'\','/')"/>
 
@@ -446,7 +447,7 @@
     <xsl:text>"&#10;</xsl:text>
 
     <!-- execute -->
-    
+
     <xsl:text>eval "echo $CMD $OUT"&#10;</xsl:text>
     <xsl:text>eval "echo $OUT"&#10;</xsl:text>
     <xsl:text>eval "$CMD $OUT 2&gt;&amp;1" ||\&#10;</xsl:text>
@@ -544,7 +545,7 @@
       <xsl:when test="contains($work,';')">
 
         <xsl:variable name="pre" select="substring-before($work, ';')"/>
-        <xsl:variable name="char" 
+        <xsl:variable name="char"
            select="substring($string, string-length($pre)+1,1)"/>
 
         <xsl:value-of select="$pre"/>
