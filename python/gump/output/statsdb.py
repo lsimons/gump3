@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/output/Attic/statsdb.py,v 1.11 2004/01/09 23:46:53 ajack Exp $
-# $Revision: 1.11 $
-# $Date: 2004/01/09 23:46:53 $
+# $Header: /home/stefano/cvs/gump/python/gump/output/Attic/statsdb.py,v 1.12 2004/01/15 19:42:24 ajack Exp $
+# $Revision: 1.12 $
+# $Date: 2004/01/15 19:42:24 $
 #
 # ====================================================================
 #
@@ -410,14 +410,7 @@ def compareModulesByDependeeCount(module1,module2):
 def compareModulesByFOGFactor(module1,module2):
     fog1=module1.getFOGFactor()
     fog2=module2.getFOGFactor()
-    c= int(round(fog2 - fog1,0))                  
-    if not c: c=cmp(module1,module2)
-    return c             
-            
-def compareModulesByFOGFactor(module1,module2):
-    fog1=module1.getFOGFactor()
-    fog2=module2.getFOGFactor()
-    c= int(round(fog2 - fog1,0))                  
+    c= int(round(fog2 - fog1,2))                  
     if not c: c=cmp(module1,module2)
     return c             
             
@@ -459,14 +452,7 @@ def compareProjectsByDependeeCount(project1,project2):
 def compareProjectsByFOGFactor(project1,project2):
     fog1=project1.getFOGFactor()
     fog2=project2.getFOGFactor()
-    c= int(round(fog2 - fog1,0))                  
-    if not c: c=cmp(project1,project2)
-    return c             
-            
-def compareProjectsByFOGFactor(project1,project2):
-    fog1=project1.getFOGFactor()
-    fog2=project2.getFOGFactor()
-    c= int(round(fog2 - fog1,0))                  
+    c= int(round(fog2 - fog1,2))                  
     if not c: c=cmp(project1,project2)
     return c             
             

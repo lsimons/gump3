@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/syndication/syndicator.py,v 1.13 2004/01/11 18:42:32 ajack Exp $
-# $Revision: 1.13 $
-# $Date: 2004/01/11 18:42:32 $
+# $Header: /home/stefano/cvs/gump/python/gump/syndication/syndicator.py,v 1.14 2004/01/15 19:42:24 ajack Exp $
+# $Revision: 1.14 $
+# $Date: 2004/01/15 19:42:24 $
 #
 # ====================================================================
 #
@@ -95,7 +95,7 @@ class Syndicator:
         
         stats=project.getStats()
         
-        content='Project ' + project.getName()  + ', '
+        content='<p>Project ' + project.getName()  + ', '
                                 
         content += self.getStateContent(project.getStatePair())
                         
@@ -105,8 +105,18 @@ class Syndicator:
             and not stats.previousState == STATE_UNSET:
             content += 'Previous state: <b>' \
                                     + stateName(stats.previousState)  \
-                                    + '</b>\n\n'
+                                    + '</b>'
     
+        content += '</p>'
+        
+        if project.hasDescription or module.hasDescription():
+            content+='<p>'           
+            if project.hasDescription(): 
+                content+=project.getDescription()
+            else:
+                content+=module.getDescription()
+            content+='<p>'
+            
         content += self.getSundries(project)
                 
         return content
@@ -119,18 +129,25 @@ class Syndicator:
         
         stats=module.getStats()
         
-        content='Module ' + module.getName() + ', '
+        content='<p>Module ' + module.getName() + ', '
                                     
         content += self.getStateContent(module.getStatePair())
         
-        content += 'Sequence in state: ' + `stats.sequenceInState`
+        content += 'Duration in state: <b>' + `stats.sequenceInState`  + '</b> (runs), '
                         
         if not stats.previousState == STATE_NONE \
             and not stats.previousState == STATE_UNSET:
-            content += 'Previous state: ' \
-                                    + stateName(stats.previousState)  \
-                                    + '\n\n'
+            content += 'Previous state: <b>' \
+                                    + stateName(stats.previousState) \
+                                    + '</b>'
+                                    
+        content += '</p>'
     
+        if module.hasDescription():
+            content+='<p>'            
+            content+=module.getDescription()
+            content+='<p>'
+            
         content += self.getSundries(module)
                 
         return content
@@ -148,7 +165,7 @@ class Syndicator:
         content += ( '&nbsp;<img src=\'%s\' alt=\'%s\'/>' ) % \
             resolver.getStateIconInformation(statePair)
             
-        content += '<br><br>'
+        content += '<br/><br/>'
         
         return content
         
@@ -175,7 +192,7 @@ class Syndicator:
                     url + '\'>' + work.getName() + 	\
                     '</a></td><td>' + state + 		\
                     '</td></tr>\n')                   
-            content += '<table></p>'
+            content += '</table></p>'
 
 # Overkill           
 #        content += ('<br><hr>\n<img align=\'left\' alt=\'Brought to you by Jakarta Gump\' src=\'%s\'/>') \
