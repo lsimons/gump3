@@ -1,0 +1,19 @@
+<project name="xml-crimson">
+
+  <url href="http://xml.apache.org/crimson/index.html"/>
+  <description>
+    A Java XML parser derived from the Sun Project X 
+  </description>
+
+  <cvs repository="xml"/>
+
+  <ant target="dist">
+    <property name="build.dir" value="build"/>
+  </ant>
+
+  <depend project="jaxp1.1"/>
+  <depend project="bootstrap-ant"/>
+
+  <home parent="build/crimson"/>
+
+</project>

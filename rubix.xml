@@ -39,6 +39,7 @@
   <project href="project/xml-batik.xml"/>
   <project href="project/xml-cocoon.xml"/>
   <project href="project/xml-cocoon2.xml"/>
+  <project href="project/xml-crimson.xml"/>
   <project href="project/xml-fop.xml"/>
   <project href="project/xml-site.xml"/>
   <project href="project/xml-soap.xml"/>
