@@ -17,6 +17,7 @@
 
     <depend project="ant" inherit="runtime"/>
     <depend project="xml-xerces"/>
+    <work nested="dist/classes"/>
     <option project="jms"/>
     <option project="jmx"/>
     <option project="junit"/>
