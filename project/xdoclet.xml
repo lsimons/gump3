@@ -12,7 +12,9 @@
     <description>Intermediate target that compiles xdoclet&apos;s core
     classes</description>
 
-    <ant basedir="core" target="compile"/>
+    <ant basedir="core" target="compile">
+      <property name="ant.home" project="jakarta-ant" reference="home"/>
+    </ant>
 
     <depend project="jakarta-ant" runtime="true"/>
     <depend project="xml-xerces"/>
@@ -22,6 +24,7 @@
     <depend project="jakarta-log4j" runtime="true"/>
     <depend project="xjavadoc" inherit="jars" runtime="true"/>
     <depend project="commons-logging" runtime="true" />
+    <depend project="commons-collections" runtime="true"/>
     <depend project="junit"/>
 
     <nag from="Peter Donald &lt;peter@apache.org&gt;"
