@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/forrest.py,v 1.111 2004/03/19 18:19:18 ajack Exp $
-# $Revision: 1.111 $f
-# $Date: 2004/03/19 18:19:18 $
+# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/forrest.py,v 1.112 2004/03/19 22:06:43 ajack Exp $
+# $Revision: 1.112 $f
+# $Date: 2004/03/19 22:06:43 $
 #
 # ====================================================================
 #
@@ -224,7 +224,7 @@ class ForrestDocumenter(Documenter):
         # let's not shoot so high.
         #
         success=1
-        if 1 or forrestResult.state==CMD_STATE_SUCCESS:
+        if 1 or (forrestResult.state==CMD_STATE_SUCCESS):
             try:
                 #
                 # Sync over public pages...
@@ -1588,7 +1588,11 @@ This page helps Gumpmeisters (and others) observe community progress.
         except Exception, details:
             stream.write('Failed to XML serialize the data. ' + str(details))
         stream.seek(0)
-        xmlSection.createSource(stream.read())
+        xmldata=stream.read()
+        if len(xmldata) < 32000:
+            xmlSection.createSource(stream.read())
+        else:
+            xmlSection.createParagraph('XML Data too large to display.')
         stream.close()
             
     def documentSummary(self,xdocNode,summary,description='Project Summary'):
