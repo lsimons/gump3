@@ -123,33 +123,6 @@
              to="avalon-dev@jakarta.apache.org"/>
     </project>
 
-
-    <project name="excalibur-containerkit">
-        <package>org.apache.excalibur.containerkit</package>
-
-        <ant basedir="containerkit">
-            <property name="version" value="@@DATE@@"/>
-            <property name="junit.failonerror" value="true"/>
-            <property name="do.checkstyle" value="true"/>
-            <property name="skip.dependencies" value="true"/>
-            <property name="jakarta-site.dir" project="jakarta-site2" 
-                      reference="home" />
-        </ant>
-
-        <depend project="jakarta-ant" inherit="runtime"/>
-        <option project="checkstyle" inherit="runtime"/>
-        <depend project="excalibur-info" runtime="true" inherit="runtime"/>
-        <depend project="xml-xerces"/>
-        <depend project="xml-xalan2"/>
-        <work nested="containerkit/build/classes"/>
-
-        <home nested="containerkit"/>
-        <jar name="build/lib/excalibur-containerkit-@@DATE@@.jar"/>
-
-        <nag from="Peter Donald &lt;peter@apache.org&gt;"
-            to="avalon-dev@jakarta.apache.org"/>
-    </project>
-
     <project name="excalibur-info">
         <package>org.apache.avalon.framework.info</package>
 
