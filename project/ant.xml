@@ -118,8 +118,10 @@
   <project name="ant-testutil">
     <ant target="test-jar"/>
 
-    <depend project="dist-ant" inherit="all"/>
-    <option project="jakarta-tomcat-4.0" ids="jasper-compiler jasper-runtime"/>
+    <depend project="ant"/>
+    <depend project="junit"/>
+    <depend project="xml-xerces"/>
+    <depend project="xml-apis"/>
 
     <home nested="build/lib"/>
     <jar name="ant-testutil.jar" id="ant-testutil"/>
@@ -135,7 +137,8 @@
       <property name="ant.home" reference="home" project="ant"/>
     </ant>
 
-    <depend project="ant-testutil" inherit="all"/>
+    <depend project="dist-ant" inherit="all"/>
+    <option project="jakarta-tomcat-4.0" ids="jasper-compiler jasper-runtime"/>
     <option project="xml-commons-which"/>
     <option project="rhino"/>
     <option project="beanshell"/>
