@@ -189,13 +189,10 @@ Subject: [GUMP] Build Failure - ORO
 Regex: /BUILD FAILED/
 ------
 Project: jakarta-jetspeed
-# To: jetspeed-dev@jakarta.apache.org
+To: jetspeed-dev@jakarta.apache.org
 From: Jason van Zyl <jvanzyl@apache.org>
 Subject: [GUMP] Build Failure - Jetspeed
-# Regex: /BUILD FAILED/
-To: turbine-dev@jakarta.apache.org
-Regex: /Class.*turbine.*not found/
-Regex: /must be declared abstract. It does not define.*from.*turbine/
+Regex: /BUILD FAILED/
 ------
 Project: jakarta-slide
 To: slide-dev@jakarta.apache.org
