@@ -20,6 +20,8 @@
     <option project="jaf"/>
     <work nested="classes/core"/>
     <work nested="classes/examples"/>
+    <work nested="classes/test"/>
+    <work nested="classes/tools"/>
  
     <home nested="dist"/>
     <jar name="lib/openjmx.jar"/>
@@ -31,6 +33,9 @@
     <depend project="openjmx" inherit="all"/>
     <depend project="xdoclet"/>
     <work nested="classes/core"/>
+    <work nested="classes/examples"/>
+    <work nested="classes/test"/>
+    <work nested="classes/tools"/>
   </project>
 
   <project name="saxon">
