@@ -21,7 +21,7 @@
   <project name="jcifs">
     <package>jcifs</package>
 
-    <jar name="jcifs-0.7.12.jar"/>
+    <jar name="jcifs-0.8.1.jar"/>
   </project>
 
 </module>
