@@ -246,11 +246,11 @@ def documentWorkspace(workspace,context,db,moduleFilterList=None,projectFilterLi
     
     wdir=getWorkspaceDir(workspace)
     
-    //
-    // ----------------------------------------------------------------------
-    //
-    // Index.xml
-    //
+    #
+    # ----------------------------------------------------------------------
+    #
+    # Index.xml
+    #
     
     x=startXDoc(getWorkspaceDocument(workspace,wdir))
     headerXDoc(x,'Workspace')    
@@ -313,11 +313,11 @@ def documentWorkspace(workspace,context,db,moduleFilterList=None,projectFilterLi
     footerXDoc(x)
     endXDoc(x)
     
-    //
-    // ----------------------------------------------------------------------
-    //
-    // TODOs.xml
-    //
+    #
+    # ----------------------------------------------------------------------
+    #
+    # TODOs.xml
+    #
     x=startXDoc(getWorkspaceDocument(workspace,wdir,'todos'))
     
     startSectionXDoc(x,'Modules with TODOs')
@@ -355,11 +355,11 @@ def documentWorkspace(workspace,context,db,moduleFilterList=None,projectFilterLi
     footerXDoc(x)
     endXDoc(x)
     
-    //
-    // ----------------------------------------------------------------------
-    //
-    // Modules.xml
-    //
+    #
+    # ----------------------------------------------------------------------
+    #
+    # Modules.xml
+    #
     x=startXDoc(getWorkspaceDocument(workspace,wdir,'modules'))
    
     startSectionXDoc(x,'All Modules')
@@ -387,11 +387,11 @@ def documentWorkspace(workspace,context,db,moduleFilterList=None,projectFilterLi
     footerXDoc(x)
     endXDoc(x)
     
-    //
-    // ----------------------------------------------------------------------
-    //
-    // Packages.xml
-    //
+    #
+    # ----------------------------------------------------------------------
+    #
+    # Packages.xml
+    #
     x=startXDoc(getWorkspaceDocument(workspace,wdir,'packages'))
     
     startSectionXDoc(x,'Packaged Modules')
