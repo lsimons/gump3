@@ -7,7 +7,7 @@
 
   <cvs repository="castor"/>
 
-  <ant buildfile="src/build12.xml" target="jar"/>
+  <ant buildfile="src/build.xml" target="jar"/>
 
   <depend project="jakarta-ant"/>
   <depend project="xml-xerces"/>
@@ -17,8 +17,8 @@
   <depend project="jakarta-regexp"/>
 
   <home nested="dist"/>
-  <jar name="castor-0.9.jar"/>
-  <jar name="castor-0.9-xml.jar"/>
+  <jar name="castor-0.9.1.jar"/>
+  <jar name="castor-0.9.1-xml.jar"/>
 
   <project name="ldapsdk">
     <url href="http://www.mozilla.org/directory/javasdk.html"/>
