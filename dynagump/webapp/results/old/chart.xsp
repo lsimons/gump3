@@ -1,0 +1,33 @@
+<xsp:page language="java" xmlns:xsp="http://apache.org/xsp" xmlns:esql="http://apache.org/cocoon/SQL/v2">
+
+ <res:results xmlns:res="urn:gump:results">
+
+   <xsp:logic>String host = parameters.getParameter("host","");</xsp:logic>
+   <xsp:logic>String workspace = parameters.getParameter("workspace","");</xsp:logic>
+   <xsp:logic>String project = parameters.getParameter("project","");</xsp:logic>
+   
+   <esql:connection>
+     <esql:pool>gump</esql:pool>
+     <esql:execute-query>
+       <esql:query>
+           SELECT builds.result
+           FROM builds,runs,project_versions 
+           WHERE runs.workspace = <esql:parameter><xsp:expr>host + "/" + workspace</xsp:expr></esql:parameter> 
+           AND builds.run = runs.id 
+           AND builds.project_version = project_versions.id 
+           AND project_versions.project = <esql:parameter><xsp:expr>project</xsp:expr></esql:parameter> 
+           ORDER BY builds.start_time DESC
+       </esql:query>
+       <esql:results>
+         <esql:row-results>
+
+           <res:result><esql:get-int column="result"/></res:result>
+
+         </esql:row-results>
+       </esql:results>
+     </esql:execute-query>
+   </esql:connection>
+
+ </res:results>
+
+</xsp:page>

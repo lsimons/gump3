@@ -1,0 +1,11 @@
+
+                          +--------------------------------------+
+                          |          DynaGump ToDo List          |
+                          +--------------------------------------+
+
+in the queue (and in no particular order)
+=========================================
+
+ - populate the database with real gump data
+ - work on the presentation part of the web application 
+

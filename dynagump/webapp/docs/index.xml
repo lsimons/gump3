@@ -1,0 +1,48 @@
+<page>
+
+   <title>Gump | Documentation</title>
+      
+   <path>
+    <item name="Home" url="../"/>
+    <current name="Documentation"/>
+   </path>
+   
+   <tabs>
+    <item name="Results" url="../results/"/>
+    <current name="Documentation"/>
+    <item name="Wiki" url="http://wiki.apache.org/gump/"/>
+    <item name="Home" url="../"/>
+   </tabs>
+   
+   <sidebar>
+    <item name="Philosophy" url="Philosophy.html">
+     <description>Find out why gump was built and what our goals are with the gump project.</description>
+    </item>
+    <item name="How Gump Works" url="HowGumpWorks.html">
+     <description>Get the 10-mile-high overview of the gump architecture and workflow.</description>
+    </item>
+    <item name="How-To's" url="howto/">
+     <description>Get concrete guides to working with and on gump.</description>
+    </item>
+    <item name="Metadata" url="http://gump.apache.org/metadata/index.html">
+     <description>Look up the details of the gump descriptor syntax.</description>
+    </item>
+   </sidebar>
+   
+   <content>
+     <h1>Documentation</h1>
+<p>Gump is not a trivial project. We compile thousands of sourcefiles
+every night, and try to send the right reports to hundreds of projects
+when something bad happens. This means that there's a lot to "get"
+about gump. Besides the information on this part of our website, make
+sure to take a look at:</p>
+<ul>
+  <li>the <a href="http://gump.apache.org/">Main gump website</a> -- you're
+looking at our new documentation (ie, a work in progress). The main website
+contains a wealth of other information.</li>
+  <li>the <a href="http://wiki.apache.org/gump/">Gump wiki</a> -- Gump has an
+active wiki with a lot of tidbits of information.</li>
+</ul>
+   </content>
+   
+</page>

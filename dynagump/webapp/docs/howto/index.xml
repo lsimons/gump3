@@ -1,0 +1,31 @@
+<page>
+
+   <title>Gump | Documentation | How-To's</title>
+      
+   <path>
+    <item name="Home" url="../../"/>
+    <item name="Documentation" url="../"/>
+    <current name="How-To's"/>
+   </path>
+   
+   <tabs>
+    <item name="Results" url="../../results/"/>
+    <current name="Documentation" url="../"/>
+    <item name="Wiki" url="http://wiki.apache.org/gump/"/>
+    <item name="Home" url="../../"/>
+   </tabs>
+
+   <content>
+     <h1>How-To Documentation</h1>
+<p>Concrete guides to working with or on gump:</p>
+<ul>
+  <li><a href="HowToFixGumpBuildProblems.html">How To Fix Gump Build
+Problems</a>: this document explains the steps you should take if gump send you or
+a project you participated in an e-mail.</li>
+  <li><a href="HowToGetBuiltByGump.html">How To Get Built By Gump</a>: this document explains how to add new projects to gump, focussing
+mostly on the gump object model, our xml descriptors that tell gump how
+to "do its thing".</li>
+</ul>
+   </content>
+   
+</page>

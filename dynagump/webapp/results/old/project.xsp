@@ -1,0 +1,52 @@
+<xsp:page language="java" xmlns:xsp="http://apache.org/xsp" xmlns:esql="http://apache.org/cocoon/SQL/v2">
+
+  <page>
+   <xsp:logic>String project = parameters.getParameter("project","");</xsp:logic>
+   <title><xsp:expr>project</xsp:expr></title>
+  
+   <esql:connection>
+     <esql:pool>gump</esql:pool>
+
+       <h1></h1>
+
+       <ul>
+       <esql:execute-query>
+         <esql:query>
+           SELECT * FROM modules ORDER BY name
+         </esql:query>
+         <esql:results>
+           <esql:row-results>
+              <li>
+                 <div class="module"><esql:get-string column="name"/></div>
+                 <ul>
+                 <esql:execute-query>
+                    <esql:query>
+                       select name from projects
+                       where module = <esql:parameter type="String"><esql:get-string column="name" ancestor="1"/></esql:parameter>
+                    </esql:query>
+                    <esql:results>
+                       <esql:row-results>
+                        <li>
+                          <div class="project">
+                             <a>
+                              <xsp:attribute name="href"><esql:get-string column='name'/></xsp:attribute>
+                              <esql:get-string column='name'/>
+                             </a>
+                          </div>
+                         </li>
+                       </esql:row-results>
+                    </esql:results>
+                 </esql:execute-query>
+
+               </ul>
+             </li>
+           </esql:row-results>
+         </esql:results>
+       </esql:execute-query>
+
+       </ul>
+       
+      </esql:connection>
+
+  </page>
+</xsp:page>
