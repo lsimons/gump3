@@ -27,5 +27,6 @@
   <option project="javamail"/>
   <depend project="dom4j"/>
   <depend project="jakarta-log4j"/>
+  <depend project="jaf"/>
 
 </project>
