@@ -182,7 +182,7 @@
             <depend property="excalibur-pool.jar" project="excalibur-pool"/>
             <depend property="excalibur-logger.jar" project="excalibur-logger"/>
 	    <depend property="excalibur-event.jar" project="excalibur-event"/>
-	    <depend property="commons-collections" project=""/>
+	    <depend property="commons-collections" project="commons-collections"/>
             <depend property="excalibur-instrument.jar" project="excalibur-instrument"/>
             <depend property="excalibur-instrument-manager.jar" project="excalibur-instrument-manager"/>
             <depend property="excalibur-instrument-manager-interfaces.jar" project="excalibur-instrument-manager"/>
