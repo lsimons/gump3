@@ -5,7 +5,7 @@
     Java XML Parser - the sequel with no equal
   </description>
 
-  <cvs repository="xml" module="xml-xerces" tag="xerces_j_2"/>
+  <cvs repository="xml" module="xml-xerces"/>
 
   <!-- build bootstrap -->
 
