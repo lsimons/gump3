@@ -1,8 +1,8 @@
 #!/usr/bin/python
 
-# $Header: /home/stefano/cvs/gump/python/gump/Attic/conf.py,v 1.27 2003/10/20 14:07:53 ajack Exp $
-# $Revision: 1.27 $
-# $Date: 2003/10/20 14:07:53 $
+# $Header: /home/stefano/cvs/gump/python/gump/Attic/conf.py,v 1.28 2003/10/20 14:20:10 ajack Exp $
+# $Revision: 1.28 $
+# $Date: 2003/10/20 14:20:10 $
 #
 # ====================================================================
 #
@@ -120,7 +120,7 @@ class setting:
     
 class switch:
     """Configuration of switches """   
-    optimize=1 # Optimize (at risk to exact correctness) anywhere one can
+    optimize=0 # Optimize (at risk to exact correctness) anywhere one can
     optimizenetwork=1 # Do least network traffic 
     failtesting=0 # Not testing.. 
     debugging=0 # Not debugging..

@@ -86,8 +86,8 @@ states = { CMD_STATUS_NOT_YET_RUN : "Not Run",
 class Parameter:
     """Name/Value"""
     def __init__(self,name,value=None,separator=' ',prefix=None):        
-      if not name:
-          raise 'Unnamed parameter'
+      #if not name:
+      #    raise 'Unnamed Parameter'
       self.name=name
       self.value=value
       self.separator=separator

@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/Attic/model.py,v 1.34 2003/10/20 14:07:53 ajack Exp $
-# $Revision: 1.34 $
-# $Date: 2003/10/20 14:07:53 $
+# $Header: /home/stefano/cvs/gump/python/gump/Attic/model.py,v 1.35 2003/10/20 14:20:09 ajack Exp $
+# $Revision: 1.35 $
+# $Date: 2003/10/20 14:20:09 $
 #
 # ====================================================================
 #
@@ -409,7 +409,7 @@ class Ant(GumpModelObject):
         property['name']=depend.property
       else:
         property['name']=depend.project
-        log.warning('Unnamed property in depend for: ' + depend.project + ' on ' + project.name)
+        log.warn('Unnamed property in depend for: ' + depend.project + ' on ' + project.name)
         
       # :TODO: AJ added this, no idea if it is right/needed.
       if depend.id: property['ids']= depend.id
