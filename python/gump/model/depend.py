@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/model/depend.py,v 1.14 2004/03/09 21:19:09 ajack Exp $
-# $Revision: 1.14 $
-# $Date: 2004/03/09 21:19:09 $
+# $Header: /home/stefano/cvs/gump/python/gump/model/depend.py,v 1.15 2004/03/10 14:20:04 ajack Exp $
+# $Revision: 1.15 $
+# $Date: 2004/03/10 14:20:04 $
 #
 # ====================================================================
 #
@@ -295,7 +295,6 @@ class Dependable:
         self.fullDependencies=DependSet()
         for depend in self.directDependencies.getDepends():
             if not self.fullDependencies.containsDepend(depend):
-                self.fullDependencies.addDepend(depend)
                 
                 dependProject=depend.getProject()
                 if not self.fullDependencies.containsProject(dependProject):
@@ -303,6 +302,8 @@ class Dependable:
                     for subdepend in dependProject.getFullDependencies():
                         if not self.fullDependencies.containsDepend(subdepend):
                             self.fullDependencies.addDepend(depend)
+                                            
+                self.fullDependencies.addDepend(depend)
             
         return self.fullDependencies.getDepends()
                 
@@ -331,8 +332,7 @@ class Dependable:
         self.fullDependees=DependSet(1)
         
         for depend in self.directDependees.getDepends():
-            if not self.fullDependees.containsDepend(depend):    
-                self.fullDependees.addDepend(depend)
+            if not self.fullDependees.containsDepend(depend):  
                 
                 dependProject=depend.getOwnerProject()
                 if not self.fullDependees.containsProject(dependProject):
@@ -340,6 +340,8 @@ class Dependable:
                     for subdepend in dependProject.getFullDependees():
                         if not self.fullDependees.containsDepend(subdepend):    
                             self.fullDependees.addDepend(depend)
+                                              
+                self.fullDependees.addDepend(depend)
             
         return self.fullDependees.getDepends()
         
