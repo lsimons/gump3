@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/forrest.py,v 1.124 2004/04/02 16:48:07 ajack Exp $
-# $Revision: 1.124 $f
-# $Date: 2004/04/02 16:48:07 $
+# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/forrest.py,v 1.125 2004/04/02 21:23:20 ajack Exp $
+# $Revision: 1.125 $f
+# $Date: 2004/04/02 21:23:20 $
 #
 # ====================================================================
 #
@@ -1763,8 +1763,12 @@ This page helps Gumpmeisters (and others) observe community progress.
             
             self.insertLink(work,workable,workRow.createData())  
             workRow.createData(stateDescription(work.state))
-            workRow.createData(secsToDate(work.result.start_time))
-            workRow.createData(secsToElapsedString(work.getElapsedSecs()))
+            if isinstance(work,TimedWorkItem):      
+                workRow.createData(secsToDate(work.result.start_time))
+                workRow.createData(secsToElapsedString(work.getElapsedSecs()))
+            else:
+                workRow.createData('N/A')
+                workRow.createData('N/A')
         
         #
         # Do a tail on all work that failed...
@@ -1920,8 +1924,8 @@ This page helps Gumpmeisters (and others) observe community progress.
             else:
                 outputSource.createText('No output to stdout/stderr from this command.')
            
-        wdocument.serialize()
-        wdocument=None
+            wdocument.serialize()
+            wdocument=None
           
     def documentFileList(self,xdocNode,holder,description='Files'):
         filelist=holder.getFileList()

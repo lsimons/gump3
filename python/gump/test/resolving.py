@@ -109,9 +109,9 @@ class ResolvingTestSuite(UnitTestSuite):
     def testLocations(self):
     
         self.checkLocation(self.workspace)
-        self.checkLocation(module1)
-        self.checkLocation(module2)    
-        self.checkLocation(project1)    
+        self.checkLocation(self.module1)
+        self.checkLocation(self.module2)    
+        self.checkLocation(self.project1)    
     
         self.checkRelativeLocation(self.project1,self.project1)
         self.checkRelativeLocation(self.project1,self.module1)
