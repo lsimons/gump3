@@ -681,7 +681,6 @@
             <property name="junit.failonerror" value="true"/>
             <property name="do.checkstyle" value="false"/>
             <property name="skip.dependencies" value="true"/>
-            <depend property="excalibur-fortress-tools.jar" project="avalon-fortress-tools" inherit="runtime"/>
             <depend property="qdox.jar" project="phoenix-qdox"/>
         </ant>
 
@@ -701,6 +700,8 @@
         <depend project="xml-xerces"/>
         <depend project="xml-xalan2"/>
 
+        <!-- build-time dependencies -->
+        <depend project="avalon-fortress-tools" inherit="runtime"/>
 
         <!-- test-time dependencies -->
         <depend project="commons-collections" inherit="runtime"/>
