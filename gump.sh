@@ -1,6 +1,7 @@
+
 #!/bin/bash
 #
-# $Header: /home/cvs/jakarta-gump/gump.sh,v 1.7 2003/06/02 18:18:44 nickchalko Exp $
+# $Header: /home/cvspublic/jakarta-gump/gump.sh,v 1.8 2003/06/26 06:39:55 nickchalko Exp $
 
 if [ -e local-env.sh ] ; then
 	. local-env.sh
@@ -36,6 +37,10 @@ export GUMP_HOST=`hostname -s`
 export GUMP_DATE=`date`
 export GUMP_LOG=$GUMP_LOG_DIR/gump.html
 export GUMP_PROFILE_LOG_DIR=$GUMP_LOG_DIR/myprofile
+
+if [ -z "$GUMP_WORKSPACE" ] ; then
+	export GUMP_WORKSPACE=${GUMP_HOST}
+fi
 
 export SEPARATOR='------------------------------------------------------- G U M P'
 
@@ -75,8 +80,8 @@ if [ ! -d $GUMP_PROFILE_LOG_DIR ] ; then
 	mkdir $GUMP_PROFILE_LOG_DIR; 
 fi
 cp $GUMP/gump.sh $GUMP_PROFILE_LOG_DIR
-cp $GUMP_HOST.xml  $GUMP_PROFILE_LOG_DIR
-cp `grep profile $GUMP_HOST.xml  | cut -d\" -f2` $GUMP_PROFILE_LOG_DIR
+cp ${GUMP_WORKSPACE}.xml  $GUMP_PROFILE_LOG_DIR
+cp -R `grep profile ${GUMP_WORKSPACE}.xml  | cut -d\" -f2` $GUMP_PROFILE_LOG_DIR
 
 
 
@@ -107,7 +112,7 @@ ant check >> $GUMP_LOG 2>&1
 #
 cd $GUMP
 echo $SEPARATOR >> $GUMP_LOG
-bash gen.sh ${GUMP_HOST}.xml >> $GUMP_LOG 2>&1 
+bash gen.sh ${GUMP_WORKSPACE}.xml >> $GUMP_LOG 2>&1 
 echo >> $GUMP_LOG
 
 #
@@ -141,6 +146,47 @@ echo \</XMP\> >> $GUMP_LOG
 pkill -P $$ 
 
 # $Log: gump.sh,v $
+# Revision 1.8  2003/06/26 06:39:55  nickchalko
+# Add ant nobuild-project to the gump sequence.
+
+# PR:
+
+# Obtained from:
+
+# Submitted by:	
+
+# Reviewed by:	
+
+# CVS: ----------------------------------------------------------------------
+
+# CVS: PR:
+
+# CVS:   If this change addresses a PR in the problem report tracking
+
+# CVS:   database, then enter the PR number(s) here.
+
+# CVS: Obtained from:
+
+# CVS:   If this change has been taken from another system, such as NCSA,
+
+# CVS:   then name the system in this line, otherwise delete it.
+
+# CVS: Submitted by:
+
+# CVS:   If this code has been contributed to Apache by someone else; i.e.,
+
+# CVS:   they sent us a patch or a new module, then include their name/email
+
+# CVS:   address here. If this is your work then delete this line.
+
+# CVS: Reviewed by:
+
+# CVS:   If we are doing pre-commit code reviews and someone else has
+
+# CVS:   reviewed your changes, include their name(s) here.
+
+# CVS:   If you have not had it reviewed then delete this line.
+#
 # Revision 1.7  2003/06/02 18:18:44  nickchalko
 # Fixed typo.  $ should be inside the ""
 # PR:
@@ -205,3 +251,6 @@ pkill -P $$
 #
 # Submitted by:	Adam Jack ajack@TrySybase.com
 #
+
+
+
