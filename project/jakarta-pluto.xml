@@ -27,9 +27,6 @@
   <project name="jakarta-pluto">
     <package>org.apache.pluto</package>
 
-    <mkdir dir="temp/api/classes/"/>
-    <mkdir dir="temp/container/classes/"/>
-
     <ant target="all">
       <property name="env.ANT_HOME" reference="home" project="ant"/>
       <property name="final.api.name" value="portlet-api-@@DATE@@"/>
@@ -51,7 +48,6 @@
     <work nested="container/target/classes/"/>
     <work nested="build/ant/lib/ForeachTask.jar"/>
 
-    <home nested="temp"/>
     <jar name="container/target/pluto-1.0.jar" id="container"/>
     <jar name="api/target/portlet-api-1.0.jar" id="api"/>
     <jar name="portal/target/pluto-portal-impl-1.0.jar" id="portal"/>
