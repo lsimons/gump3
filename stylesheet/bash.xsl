@@ -342,7 +342,7 @@
   <!-- =================================================================== -->
 
   <xsl:template match="classpath">
-    <xsl:text>export CLASSPATH=$CP:$JAVA_HOME\lib\tools.jar&#10;</xsl:text>
+    <xsl:text>export CLASSPATH=$CP:$JAVA_HOME/lib/tools.jar&#10;</xsl:text>
     <xsl:for-each select="pathelement">
       <xsl:if test="not(@type='boot')">
         <xsl:text>export CLASSPATH=$CLASSPATH:</xsl:text>
