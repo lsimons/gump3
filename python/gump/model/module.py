@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/model/module.py,v 1.8 2003/11/21 00:27:58 ajack Exp $
-# $Revision: 1.8 $
-# $Date: 2003/11/21 00:27:58 $
+# $Header: /home/stefano/cvs/gump/python/gump/model/module.py,v 1.9 2003/11/21 04:41:22 ajack Exp $
+# $Revision: 1.9 $
+# $Date: 2003/11/21 04:41:22 $
 #
 # ====================================================================
 #
@@ -151,7 +151,6 @@ class Module(NamedModelObject, Statable):
     	self.repository=None
     	
         self.packaged		=	0
-        self.packageComplete=	0
     	self.updated		=	0
 
     # provide default elements when not defined in xml
@@ -213,7 +212,8 @@ class Module(NamedModelObject, Statable):
                             # project in a module as a package, and those that do
                             # not product significant outputs (e.g. test projects)
                             # will be asssumed to be packages.
-                            #                            
+                            #                
+                            project.setHonoraryPackage(1)            
                             project.changeState(STATE_COMPLETE,REASON_PACKAGE)    
                             packageCount+=1
                         else:    
@@ -252,17 +252,7 @@ class Module(NamedModelObject, Statable):
             
      
                     
-        self.setComplete(1)
-            
-
-    def completePackagedModule(self):
-        # If so far so good, check packages
-        if not self.isPackaged(): return
-        if self.packageComplete: return        
-        
-        self.addInfo("This is a packaged module")
-                        
-        self.packageComplete=1
+        self.setComplete(1)            
         
     def addProject(self,project):
         project.setModule(self)

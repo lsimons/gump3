@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/model/project.py,v 1.13 2003/11/21 02:32:41 ajack Exp $
-# $Revision: 1.13 $
-# $Date: 2003/11/21 02:32:41 $
+# $Header: /home/stefano/cvs/gump/python/gump/model/project.py,v 1.14 2003/11/21 04:41:22 ajack Exp $
+# $Revision: 1.14 $
+# $Date: 2003/11/21 04:41:22 $
 #
 # ====================================================================
 #
@@ -204,6 +204,11 @@ class Project(NamedModelObject, Statable):
     	#
         self.jars={}        
         
+    	#############################################################
+    	# Misc
+    	#        
+        self.honoraryPackage=0
+        
     def getAnt(self):
         return self.ant
         
@@ -317,7 +322,11 @@ class Project(NamedModelObject, Statable):
     # we test the attribute for type.
     #                                      
     def isPackaged(self):
-        return (type(self.xml.package) in types.StringTypes)
+        return (type(self.xml.package) in types.StringTypes)	\
+                    or self.honoraryPackage
+                    
+    def setHonoraryPackage(self,honorary):
+        self.honoraryPackage=honorary
     
     # provide elements when not defined in xml
     def complete(self,workspace):

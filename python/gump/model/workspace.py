@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/model/workspace.py,v 1.6 2003/11/21 00:27:58 ajack Exp $
-# $Revision: 1.6 $
-# $Date: 2003/11/21 00:27:58 $
+# $Header: /home/stefano/cvs/gump/python/gump/model/workspace.py,v 1.7 2003/11/21 04:41:22 ajack Exp $
+# $Revision: 1.7 $
+# $Date: 2003/11/21 04:41:22 $
 #
 # ====================================================================
 #
@@ -301,6 +301,7 @@ class Workspace(ModelObject,PropertyContainer):
             # Complete the project
             project.complete(self)   
         
+        # Check they are complete...
         for project in self.getProjects():
             if not project.isPackaged(): continue
             project.checkPackage()                   
