@@ -29,6 +29,12 @@ From: Sam Ruby <rubys@us.ibm.com>
 Subject: [GUMP] Build Failure - Clutil
 Regex: /BUILD FAILED/
 ------
+Project: jakarta-avalon-cornerstone
+To: avalon-dev@jakarta.apache.org
+From: Sam Ruby <rubys@us.ibm.com>
+Subject: [GUMP] Build Failure - Cornerstone
+Regex: /BUILD FAILED/
+------
 Project: jakarta-avalon-logkit
 To: avalon-dev@jakarta.apache.org
 From: Sam Ruby <rubys@us.ibm.com>
