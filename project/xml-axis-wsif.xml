@@ -28,6 +28,7 @@
     <depend project="wsdl4j"/>
     <depend project="xml-axis"/>
     <depend project="xml-soap"/>
+    <depend project="j2ee-connector"/>
 
     <work nested="java/build/classes"/>
 
@@ -35,6 +36,11 @@
 
     <nag from="Sam Ruby &lt;rubys@us.ibm.com&gt;"
          to="axis-dev@xml.apache.org"/>
+  </project>
+
+  <project name="soaprmi">
+    <url href="http://www.extreme.indiana.edu/xgws/xsoap/"/>
+    <jar name="java/lib/soaprmi11/soaprmi11.jar"/>
   </project>
 
 </module>
