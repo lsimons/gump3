@@ -12,9 +12,7 @@
   <project name="webwork">
     <package>webwork</package>
 
-    <ant basedir="src/build">
-      <property name="lib.dir" reference="home" project="javacc"/>
-    </ant>
+    <ant/>
     <depend project="ant" inherit="runtime"/>
     <depend project="xml-xerces"/>
     <depend project="javacc"/>
@@ -27,12 +25,14 @@
     <depend project="db40"/>
     <depend project="ws-axis"/>
     <depend project="cos"/>
+    <depend project="commons-collections"/>
     <depend project="commons-logging"/>
     <depend project="mockobjects"/>
     <depend project="mockobjects-j2ee-13"/>
     <depend project="multipartrequest"/>
     <depend project="junit"/>
     <depend project="httpunit"/>
+    <work nested="lib/build/JavaCC.zip"/>
     <jar id="webwork" name="build/result/web/WEB-INF/lib/webwork.jar"/>
     <license name="src/docs/manual/license.txt"/>
   </project>
