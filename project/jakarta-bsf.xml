@@ -21,7 +21,7 @@
     <depend project="jakarta-servletapi-5-servlet"/>
 
     <option project="jython"/>
-    <!--option project="rhino"/-->
+    <option project="rhino"/>
     <option project="xml-xalan2"/>
 
     <work nested="src/bsf-2.3/bsf_debug/build/classes"/>
