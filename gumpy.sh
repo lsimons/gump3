@@ -135,7 +135,9 @@ if [ -f check_forrest.txt ] ; then
 	cat check_forrest.txt >> $GUMP_LOG
 else
 	echo "No Forrest Output file @ $GUMP_TMP/check_forrest.txt" >> $GUMP_LOG
-fiecho $SEPARATOR >> $GUMP_LOG
+fi
+
+echo $SEPARATOR >> $GUMP_LOG
 
 if [ -f forrest.txt ] ; then
 	cat forrest.txt >> $GUMP_LOG
