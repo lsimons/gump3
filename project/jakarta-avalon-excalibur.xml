@@ -395,6 +395,32 @@
             to="avalon-dev@jakarta.apache.org"/>
     </project>
 
+    <project name="excalibur-monitor">
+        <package>org.apache.excalibur.monitor</package>
+
+        <ant basedir="monitor">
+            <property name="version" value="@@DATE@@"/>
+            <property name="junit.failonerror" value="true"/>
+            <property name="do.checkstyle" value="false"/>
+            <property name="skip.dependencies" value="true"/>
+        </ant>
+
+        <depend project="jakarta-ant" inherit="runtime"/>
+        <depend project="jakarta-avalon" runtime="true"/>
+        <depend project="excalibur-pool" inherit="runtime"/>
+        <depend project="excalibur-testcase" inherit="runtime"/>
+        <depend project="excalibur-component" inherit="runtime"/>
+        <depend project="xml-xerces"/>
+        <depend project="xml-xalan2"/>
+        <work nested="monitor/build/classes"/>
+
+        <home nested="monitor"/>
+        <jar name="build/lib/excalibur-monitor-@@DATE@@.jar"/>
+
+        <nag from="Peter Donald &lt;peter@apache.org&gt;"
+            to="avalon-dev@jakarta.apache.org"/>
+    </project>
+
     <project name="excalibur-containerkit">
         <package>org.apache.excalibur.containerkit</package>
 
@@ -839,6 +865,31 @@
 
         <home nested="naming"/>
         <jar name="build/lib/excalibur-naming-@@DATE@@.jar"/>
+
+        <nag from="Peter Donald &lt;peter@apache.org&gt;"
+            to="avalon-dev@jakarta.apache.org"/>
+    </project>
+
+    <project name="excalibur-policy">
+        <package>org.apache.excalibur.policy</package>
+
+        <ant basedir="policy">
+            <property name="version" value="@@DATE@@"/>
+            <property name="junit.failonerror" value="true"/>
+            <property name="do.checkstyle" value="true"/>
+            <property name="skip.dependencies" value="true"/>
+        </ant>
+
+        <depend project="jakarta-ant" inherit="runtime"/>
+        <option project="checkstyle" inherit="runtime"/>
+        <depend project="junit"/>
+        <depend project="excalibur-i18n" runtime="true"/>
+        <depend project="xml-xerces"/>
+        <depend project="xml-xalan2"/>
+        <work nested="policy/build/classes"/>
+
+        <home nested="policy"/>
+        <jar name="build/lib/excalibur-policy-@@DATE@@.jar"/>
 
         <nag from="Peter Donald &lt;peter@apache.org&gt;"
             to="avalon-dev@jakarta.apache.org"/>
