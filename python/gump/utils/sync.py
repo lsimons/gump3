@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/utils/sync.py,v 1.4 2004/03/11 16:13:50 ajack Exp $
-# $Revision: 1.4 $
-# $Date: 2004/03/11 16:13:50 $
+# $Header: /home/stefano/cvs/gump/python/gump/utils/sync.py,v 1.5 2004/03/11 20:52:05 ajack Exp $
+# $Revision: 1.5 $
+# $Date: 2004/03/11 20:52:05 $
 #
 # ====================================================================
 #
@@ -136,7 +136,10 @@ class Sync(Annotatable):
                     linkto = os.readlink(srcname)
                     os.symlink(linkto, dstname)
                 elif os.path.isdir(srcname):
-                    self.copytree(srcname, dstname, symlinks)
+                    if not name in ['CVS','.svn']:
+                        self.copytree(srcname, dstname, symlinks)
+                    else:
+                        log.debug('Skip SVN or CVS directory ' + str(srcname))
                 else:
                     self.maybecopy(srcname, dstname)
             except (IOError, os.error), why:
