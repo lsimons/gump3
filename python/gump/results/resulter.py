@@ -61,8 +61,7 @@ class Resulter(AbstractRunActor):
             self.gatherResults()
             
         elif isinstance(event,FinalizeRunEvent):   
-            if self.run.getGumpSet().isFull() and \
-                self.run.getOptions().isResults() :     
+            if self.run.getOptions().isResults() :     
                 # In the root.
                 where=self.run.getOptions().getResolver().getFile(	\
                     self.run.getWorkspace(),'results','.xml',1)    

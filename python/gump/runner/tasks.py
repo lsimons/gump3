@@ -182,8 +182,7 @@ class SequentialTaskRunner(GumpRunner):
     def notify(self):
                 
         # Anything but 'all' is likely debugging.
-        if self.run.getGumpSet().isFull() \
-            and self.run.getWorkspace().isNotify():
+        if and self.run.getWorkspace().isNotify():
   
             log.info('Notify about failures... ')            
             

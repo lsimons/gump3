@@ -75,7 +75,7 @@ class Notifier(AbstractRunActor):
     def processOtherEvent(self,event):            
         if isinstance(event,FinalizeRunEvent):          
             # Notifications are wanted...
-            if self.options.isNotify() and self.gumpSet.isFull():
+            if self.options.isNotify():
                 # This workspace allows/wants notifications..
                 if self.workspace.isNotify():
                     # Notify
