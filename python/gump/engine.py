@@ -497,7 +497,14 @@ class GumpEngine:
         # Maven requires a build.properties to be generated...
         if project.okToPerformWork() and project.hasMaven():
             try:
-                project.generateMavenProperties()
+                propertiesFile=project.generateMavenProperties()                                
+                project.addInfo('Maven Properties in: ' + propertiesFile)
+                
+                try:
+                    catFileAsWork(project,propertiesFile)
+                except:
+                    log.error('Display Properties [ ' + propertiesFile + '] Failed', exc_info=1)   
+                
             except:
                 log.error('GenerateMavenProperties Failed', exc_info=1)    
                 project.changeState(STATE_FAILED,REASON_PREBUILD_FAILED)

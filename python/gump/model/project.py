@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/model/project.py,v 1.33 2004/02/09 20:19:52 ajack Exp $
-# $Revision: 1.33 $
-# $Date: 2004/02/09 20:19:52 $
+# $Header: /home/stefano/cvs/gump/python/gump/model/project.py,v 1.34 2004/02/09 22:00:55 ajack Exp $
+# $Revision: 1.34 $
+# $Date: 2004/02/09 22:00:55 $
 #
 # ====================================================================
 #
@@ -937,6 +937,7 @@ maven.jar.override = on
         """)
         
         (classpath,bootclasspath)=self.getClasspathLists()
+        
         # :TODO: write...
         for annotatedPath in classpath.getPathParts():
             if isinstance(annotatedPath,AnnotatedPath):
@@ -944,7 +945,8 @@ maven.jar.override = on
                 path=annotatedPath.getPath()
                 props.write(('maven.jar.%s=%s\n') % (id,path))
 
-
+        return propertiesFile
+        
     def getScriptCommand(self):
         """ Return the command object for a <script entry """
         script=self.xml.script 
