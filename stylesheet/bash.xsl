@@ -155,9 +155,9 @@
     <xsl:text>/log &#10;</xsl:text>
 
     <xsl:text>test -e </xsl:text>
-    <xsl:value-of select="translate($cvsdir,'\','/')"/>
+    <xsl:value-of select="translate(@cvsdir,'\','/')"/>
     <xsl:text> || mkdir </xsl:text>
-    <xsl:value-of select="translate($cvsdir,'\','/')"/>
+    <xsl:value-of select="translate(@cvsdir,'\','/')"/>
     <xsl:text>&#10;</xsl:text>
 
     <xsl:text>sh publish.sh $1 </xsl:text>
