@@ -124,7 +124,7 @@
 
           <a href="project_{@defined-in}.html">definition</a>
 
-          <xsl:for-each select="//project[cvs and @srcdir=$srcdir]">
+          <xsl:for-each select="/workspace/project[cvs and @srcdir=$srcdir]">
             <a href="cvs_{@name}.html">cvs</a>
           </xsl:for-each>
 
@@ -134,7 +134,7 @@
           <xsl:text>Dependencies: </xsl:text>
           <xsl:for-each select="depend|option">
             <xsl:variable name="dependent" select="@project"/>
-            <xsl:for-each select="//project[@name=$dependent]">
+            <xsl:for-each select="/workspace/project[@name=$dependent]">
               <xsl:choose>
                 <xsl:when test="ant|script">
                   <a href="{@name}.html">
@@ -158,7 +158,7 @@
           <xsl:for-each select="depend">
             <xsl:variable name="dependent" select="@project"/>
             <prereq project="{@project}">
-              <xsl:for-each select="//project[@name=$dependent]">
+              <xsl:for-each select="/workspace/project[@name=$dependent]">
                 <xsl:for-each select="jar">
                   <file path="{../home}/{@name}"/>
                 </xsl:for-each>
@@ -189,7 +189,7 @@
 
               <xsl:for-each select="depend[not(noclasspath)]|option">
                 <xsl:variable name="dependent" select="@project"/>
-                <xsl:for-each select="//project[@name=$dependent]">
+                <xsl:for-each select="/workspace/project[@name=$dependent]">
                   <xsl:for-each select="jar">
                     <pathelement location="{../home}/{@name}"/>
                   </xsl:for-each>
@@ -234,7 +234,7 @@
         <xsl:choose>
           <xsl:when test="@reference='home'">
             <xsl:variable name="project" select="@project"/>
-            <xsl:for-each select="//project[@name=$project]">
+            <xsl:for-each select="/workspace/project[@name=$project]">
               <property name="{$name}" value="{home}" type="path"/>
             </xsl:for-each>
           </xsl:when>
@@ -242,7 +242,7 @@
           <xsl:when test="@reference='jar'">
             <xsl:variable name="project" select="@project"/>
             <xsl:variable name="id" select="@id"/>
-            <xsl:for-each select="//project[@name=$project]">
+            <xsl:for-each select="/workspace/project[@name=$project]">
               <property name="{$name}" value="{jar[@id=$id]/@name}" type="path"/>
             </xsl:for-each>
           </xsl:when>
@@ -250,7 +250,7 @@
           <xsl:when test="@reference='jarpath'">
             <xsl:variable name="project" select="@project"/>
             <xsl:variable name="id" select="@id"/>
-            <xsl:for-each select="//project[@name=$project]">
+            <xsl:for-each select="/workspace/project[@name=$project]">
               <property name="{$name}" value="{home}/{jar[@id=$id]/@name}" type="path"/>
             </xsl:for-each>
           </xsl:when>

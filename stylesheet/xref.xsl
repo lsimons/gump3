@@ -34,7 +34,7 @@
               <th>Referenced by</th>
             </tr>
 
-            <xsl:for-each select="//project">
+            <xsl:for-each select="/workspace/project">
               <xsl:sort select="@name"/>
               <xsl:variable name="project" select="@name"/>
 
@@ -49,8 +49,8 @@
 
                   <!-- add a link for each project which depends on this one -->
 
-                  <xsl:for-each select="//project[depend[@project=$project] |
-                                                  option[@project=$project]]">
+                  <xsl:for-each select="/workspace/project
+                      [depend[@project=$project] | option[@project=$project]]">
                     <xsl:sort select="@name"/>
 
                     <!-- "decorate open" link based on type of dependency -->
