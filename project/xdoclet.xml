@@ -36,6 +36,7 @@
     <ant basedir="modules/xdoclet" target="xdoclet-xml" />
 
     <depend project="xdoclet-compile-core" inherit="all" />
+    <depend project="xml-apis" />
 
     <work nested="core/build/classes" />
 
