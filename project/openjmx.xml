@@ -27,16 +27,8 @@
 
   <project name="openjmx-release">
     <ant basedir="build" target="release"/>
-    <depend project="jakarta-ant"/>
-    <depend project="xml-xerces"/>
-    <depend project="xmlunit"/>
-    <depend project="jakarta-log4j"/>
-    <depend project="junit"/>
-    <depend project="saxon"/>
+    <depend project="openjmx" inherit="all"/>
     <depend project="xdoclet"/>
-    <option project="javamail"/>
-    <option project="jsse"/>
-    <option project="jaf"/>
     <work nested="classes/core"/>
   </project>
 
