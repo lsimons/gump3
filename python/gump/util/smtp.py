@@ -60,7 +60,7 @@ class EmailMessage:
         """E-mail"""
         # Add the From: and To: headers at the start!
         data = ("Date: %s\r\nFrom: %s\r\nTo: %s\r\nSubject: %s\r\n\r\n%s%s"
-           	% (	time.strftime('%a, %d %b %y %H:%M:%S %Z', time.localtime()),
+           	% (	time.strftime('%a, %d %b %Y %H:%M:%S %Z', time.localtime()),
                         #self.fromaddr.encode(),
                         self.fromaddr, 
            		string.join(self.toaddrs, ", "),

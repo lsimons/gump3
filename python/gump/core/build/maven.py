@@ -105,12 +105,12 @@ class MavenBuilder(gump.core.run.gumprun.RunSpecific):
                 catFileToFileHolder(project, projpFile, FILE_TYPE_CONFIG)                           
   
     #
-    # Build an ANT command for this project
+    # Build an Maven command for this project
     #        
     def getMavenCommand(self,project,languageHelper):
         maven=project.maven
     
-        # The ant goal (or none == ant default goal)
+        # The maven goal (or none == maven default goal)
         goal=maven.getGoal()
     
         # Optional 'verbose' or 'debug'

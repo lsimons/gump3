@@ -1,24 +1,63 @@
-<html>
-<head>
-<title>Welcome to gump@brutus</title>
-</head>
+<?xml version="1.0" encoding="UTF-8"?>
 
-<body>
-<h1>Welcome to gump@brutus</h1>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+      <title>Gump @ Brutus</title>
+      <link rel="stylesheet" type="text/css" href="styles/default.css"/>
+      <style>
+        #body h1 {
+            font-size: 140%;
+            color: #333;
+            font-weight: normal;
+            padding: 2px 8px 2px 15px;
+            margin: 25px -30px 25px -30px;
+        }
+        #body p span.first-char { 
+            font-size: 200%;
+        }
+        #body p.important { 
+            margin: 40px 0px 40px 0px; 
+            text-align: center; 
+            font-size: 130%; 
+            font-weight: bold; 
+        }
+      </style>
+   </head>
+   <body>
+<div id="sidebar">
+<div class="logo"><a href="http://gump.apache.org/"
+ title="Apache Gump"><img alt="Apache Gump"
+ src="http://gump.apache.org/images/bench.png"></a></div>
+<h2>Gump Runs</h2>
+<ul class="important">
+  <li><a href="/gump/public/">Public</a></li>
+  <li><a href="/gump/jdk15/">JDK 1.5</a></li>
+  <li><a href="/gump/kaffe/">Kaffe</a></li>
+  <li><a href="/gump/test/">Test</a></li>
+</ul>
+</div>
+      <div id="body">
+        <h1>Apache Gump on Brutus</h1>
+        <p><span class="first-char">W</span>elcome to Brutus, the machine that the Apache Software Foundation dedicates to Gump.
 
 <p>The following is available:</p>
 
 <ul>
-<li><a href="/gump/public/">Main gump instance</a></li>
-<li><a href="/gump/jdk15/">Experimental run using jdk 1.5</a></li>
-<li><a href="/gump/pydoc/">PyDoc documentation for gump</a></li>
+<li><a href="/gump/public/">Main Gump run</a>[uses Sun's 1.4.x JVM and Gump code from 'live' branch] (runs at 0:00,3:00,9:00,15:00,21:00 pacific time)</li>
+<li><a href="/gump/jdk15/">Run that uses Sun's JVM 1.5.x</a> (runs at 6:00 pacific time)</li>
+<li><a href="/gump/test/">Run that uses Sun's JVM 1.4.x but gump's code from trunk</a> (runs at 12:00 pacific time)</li>
+<li><a href="/gump/kaffe/">Run that uses the free Kaffe VM</a> (runs at 18:00 pacific time)</li>
 </ul>
-
 
 <p>Enjoy.</p>
 
-<p>- The Gump Team</p>
-
-<p>PS: if you need actual information about gump, you're looking for <a href="http://gump.apache.org/">gump.apache.org</a>.</p>
-</body>
+        <p class="important"><a href="http://gump.apache.org/" title="Apache Gump">More information on Apache gump!</a></p>
+      </div>
+      <div id="footer"><a href="http://www.apache.org/" title="the Apache Software Foundation">
+The Apache Software Foundation</a>
+     </div>
+   </body>
 </html>
