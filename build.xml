@@ -229,4 +229,12 @@
     <delete dir="work"/>
     <ant dir="site" target="clean"/>
   </target>
+  
+  
+  <target name="nobuild-projects" description="Create nobuild version of all projects">
+  		<style basedir="project" 
+  			   destdir="project/nobuild"
+  			   extension=".xml" 
+  			   style="stylesheet/nobuild-projects.xsl"/>
+  </target>
 </project>
