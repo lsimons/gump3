@@ -14,7 +14,9 @@
     <home nested="altrmi/dist"/>
     <jar name="commons-altrmi-common.jar"/>
     <jar name="commons-altrmi-client-interfaces.jar"/>
+    <jar name="commons-altrmi-client-impl.jar"/>
     <jar name="commons-altrmi-server-interfaces.jar"/>
+    <jar name="commons-altrmi-server-impl.jar"/>
     <javadoc nested="altrmi/dist/docs/api"/>
   </project>
 
