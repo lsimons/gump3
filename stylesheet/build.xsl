@@ -181,6 +181,14 @@
 
             <classpath>
 
+              <xsl:for-each select="depend[not(noclasspath)]|option">
+                <xsl:for-each select="jar">
+                  <pathelement location="{../@home}/{@name}">
+                    <xsl:copy-of select="@type"/>
+                  </pathelement>
+                </xsl:for-each>
+              </xsl:for-each>
+
               <xsl:for-each select="work">
                 <xsl:choose>
                   <xsl:when test="@parent">
@@ -194,14 +202,6 @@
                   </xsl:otherwise>
                 </xsl:choose>
                 <xsl:text>&#10;</xsl:text>
-              </xsl:for-each>
-
-              <xsl:for-each select="depend[not(noclasspath)]|option">
-                <xsl:for-each select="jar">
-                  <pathelement location="{../@home}/{@name}">
-                    <xsl:copy-of select="@type"/>
-                  </pathelement>
-                </xsl:for-each>
               </xsl:for-each>
             </classpath>
 
