@@ -13,7 +13,9 @@
     <ant target="full-dist">
       <property name="ant.jar" reference="jarpath" project="dist-ant" 
                 id="ant" />
-      <property name="jaxp.lib" reference="home" project="jaxp"/>
+      <depend   property="jaxp.jar" project="jaxp" id="jaxp-api"/>
+      <depend   property="xmlparser.jar" project="xml-xerces" id="parser"/>
+      <depend   property="xmlapi.jar" project="xml-apis" />
       <property name="jmx.jar" reference="jarpath" project="jmx" id="jmxri"/>
       <depend name="jdom.jar" project="jdom"/>
       <property name="struts.lib" project="jakarta-struts" path="dist/lib"/>

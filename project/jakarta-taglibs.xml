@@ -18,9 +18,9 @@
       <depend property="xerces.jar" project="xml-xerces" id="parser"/>
       <depend property="crimson.jar" project="xml-xerces" id="parser"/>
       <depend property="jaxp.jar" project="xml-xerces" id="apis"/>
-      <depend property="jaxp-api.jar" project="jaxp-1.2" id="jaxp-api"/>
-      <depend property="dom.jar" project="jaxp-1.2" id="dom"/>
-      <depend property="sax.jar" project="jaxp-1.2" id="sax"/>
+      <depend property="jaxp-api.jar" project="jaxp" id="jaxp-api"/>
+      <depend property="dom.jar" project="jaxp" id="dom"/>
+      <depend property="sax.jar" project="jaxp" id="sax"/>
       <depend property="xercesImpl.jar" project="xml-xerces" id="parser"/>
       <depend property="xalan.jar" project="xml-xalan2"/>
       <depend property="servlet.jar"   project="jakarta-servletapi-4"/>

@@ -11,7 +11,7 @@
     <jar name="jaxm-1.1/lib/jaxm-api.jar" id="jaxm-api" />
   </project>
 
-  <project name="jaxp-1.2">
+  <project name="jaxp">
     <package>javax.xml</package>
 
     <jar name="jaxp-1.2/jaxp-api.jar" id="jaxp-api" />

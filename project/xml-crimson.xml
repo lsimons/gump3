@@ -13,11 +13,11 @@
     <ant target="dist">
       <property name="build.dir" value="build"/>
     </ant>
-    <depend project="xml-xerces"/>
+    <depend project="jaxp" ids="jaxp-api dom sax parser" />
     <depend project="bootstrap-ant"/>
-    <home parent="build/crimson"/>
     <javadoc nested="build/docs/api"/>
-    <jar nested="crimson.jar"/>
+    <home nested="build"/>
+    <jar name="crimson.jar"/>
     <nag from="Sam Ruby &lt;rubys@us.ibm.com&gt;"
          to="crimson-cvs@xml.apache.org"/>
   </project>
