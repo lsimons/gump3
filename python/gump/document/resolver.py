@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/document/resolver.py,v 1.4 2003/12/01 17:34:07 ajack Exp $
-# $Revision: 1.4 $
-# $Date: 2003/12/01 17:34:07 $
+# $Header: /home/stefano/cvs/gump/python/gump/document/resolver.py,v 1.5 2003/12/02 18:55:12 ajack Exp $
+# $Revision: 1.5 $
+# $Date: 2003/12/02 18:55:12 $
 #
 # ====================================================================
 #
@@ -305,9 +305,17 @@ class Resolver:
     
     def __init__(self,rootDir,rootUrl):
         
-        subPath=Path(['forrest','src','documentation','content','xdocs'])
-        self.makePath(subPath,rootDir)
-        self.rootDir=concatenate(rootDir,subPath.serialize())
+        self.rootDir=rootDir
+        
+        # Content
+        contentSubPath=Path(['forrest','src','documentation','content'])
+        self.makePath(contentSubPath,rootDir)                
+        self.contentDir=concatenate(rootDir,contentSubPath.serialize())
+        
+        # XDocs
+        xdocsSubPath=Path(['forrest','src','documentation','content','xdocs'])
+        self.makePath(xdocsSubPath,rootDir)                
+        self.xdocsDir=concatenate(rootDir,xdocsSubPath.serialize())
         
         # The root URL
         self.rootUrl=rootUrl    
@@ -322,11 +330,12 @@ class Resolver:
             if not os.path.exists(root):
                 log.debug('Make directory : [' + root + ']')    
                 os.mkdir(root)
-            
+    
+   # :TODO: Do we need to also have this for content not xdocs?
     def getAbsoluteDirectory(self,object):
         path=getPathForObject(object)
         self.makePath(path)
-        return concatenate(self.rootDir,path.serialize())
+        return concatenate(self.xdocsDir,path.serialize())
         
     def getAbsoluteFile(self,object,documentName=None,extn='.xml'):
         location=getLocationForObject(object)
@@ -334,8 +343,19 @@ class Resolver:
             if not documentName.endswith(extn):
                 documentName += extn
             location.setDocument(documentName)
-        self.makePath(location.getPath())
-        return concatenate(self.rootDir,location.serialize())
+            
+        # XDocs in one place, content in another
+        # This is a tad lame, not a great way to detect
+        # xdocs, but ok for now.
+        if not extn == '.xml':
+            self.makePath(location.getPath(),self.contentDir)
+            file=concatenate(self.contentDir,location.serialize())
+        else:
+            self.makePath(location.getPath(),self.xdocsDir)
+            file=concatenate(self.xdocsDir,location.serialize())
+            
+        return file
+                    
             
     def getAbsoluteDirectoryUrl(self,object):
         return concatenate(self.rootUrl,getPathForObject(object).serialize())

@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/forrest.py,v 1.22 2003/12/02 17:36:39 ajack Exp $
-# $Revision: 1.22 $f
-# $Date: 2003/12/02 17:36:39 $
+# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/forrest.py,v 1.23 2003/12/02 18:55:12 ajack Exp $
+# $Revision: 1.23 $f
+# $Date: 2003/12/02 18:55:12 $
 #
 # ====================================================================
 #
@@ -501,7 +501,7 @@ class ForrestDocumenter(Documenter):
             moduleRow.createData(seq)
                         
             self.insertStateIcon(module,workspace,moduleRow.createData())
-            self.insertStateIcons(module,workspace,moduleRow.createData())
+            self.insertStateIcons(gumpSet,module,workspace,moduleRow.createData())
             
             moduleRow.createData(elapsedTimeToString(module.elapsedTime()))
             
@@ -533,7 +533,7 @@ class ForrestDocumenter(Documenter):
                        
             self.insertLink( module, workspace, moduleRow.createData())
             self.insertStateIcon(module,workspace,moduleRow.createData())
-            self.insertStateIcons(module,workspace,moduleRow.createData())
+            self.insertStateIcons(gumpSet,module,workspace,moduleRow.createData())
             
             moduleRow.createData(elapsedTimeToString(module.elapsedTime()))
             moduleRow.createData(round(module.getFOGFactor(),2))
@@ -572,7 +572,7 @@ class ForrestDocumenter(Documenter):
             moduleRow.createComment(module.getName())
             self.insertLink( module, workspace, moduleRow.createData())
             self.insertStateIcon(module,workspace,moduleRow.createData())
-            self.insertStateIcons(module,workspace,moduleRow.createData())
+            self.insertStateIcons(gumpSet,module,workspace,moduleRow.createData())
             moduleRow.createData(elapsedTimeToString(module.elapsedTime()))
             
         if not mcount: mpkgTable.createLine('None')
@@ -1207,9 +1207,10 @@ class ForrestDocumenter(Documenter):
                 
         return node
         
-    def insertStateIcons(self,module,fromObject,xdocNode):
+    def insertStateIcons(self,gumpSet,module,fromObject,xdocNode):
         icons=''
         for project in module.getProjects():
+            if not gumpSet.inSequence(project): continue     
             self.insertStateIcon(project,fromObject,xdocNode)
             # A separator, to allow line wrapping
             xdocNode.createText(' ')
