@@ -17,7 +17,6 @@
 
     <depend project="jakarta-ant"/>
     <depend project="xml-xalan2"/>
-    <depend project="kawa"/>
     <option project="jdbc"/>
     <depend project="jdom"/>
     <depend project="junit"/>
@@ -29,12 +28,6 @@
     <home nested="build/lib"/>
     <jar name="avalon-excalibur.jar" id="avalon-excalibur"/>
     <jar name="avalon-scratchpad.jar" id="avalon-scratchpad"/>
-  </project>
-
-  <!-- Anybody want to contribute an ant build.xml to Kawa ;-) -->
-  <project name="kawa">
-    <url href="http://www.gnu.org/software/kawa/"/>
-    <jar name="lib/bytecode.jar"/>
   </project>
 
   <project name="jakarta-avalon-clutil">
