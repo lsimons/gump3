@@ -38,7 +38,7 @@ function usage
       
       the location of this file is found as follows:
       
-        GUMP_HOME/GUMP_HOST-settings.sh
+        GUMP_HOME/GUMP_HOSTNAME-settings.sh
       
       Recognized variables are:
       
