@@ -49,6 +49,7 @@
 
     <!-- Export the JMeter jars -->
     <home nested="." />
+<!--
     <jar name="bin/ApacheJMeter.jar" />
     <jar name="lib/ext/ApacheJMeter_components.jar" />
     <jar name="lib/ext/ApacheJMeter_core.jar" />
@@ -58,6 +59,8 @@
     <jar name="lib/ext/ApacheJMeter_java.jar" />
     <jar name="lib/ext/ApacheJMeter_jdbc.jar" />
     <jar name="lib/ext/ApacheJMeter_ldap.jar" />
+-->
+    <jar name="dist/jakarta-jmeter-@@DATE@@_bin.zip" />
     <jar name="dist/jakarta-jmeter-@@DATE@@_src.zip" />
     <license name="LICENSE"/>
 
