@@ -94,6 +94,21 @@
          from="John McNally &lt;jmcnally@collab.net&gt;"/>
   </project>
 
+  <project name="commons-grant">
+    <package>org.apache.commons.grant</package>
+    <ant basedir="grant" target="jar">
+      <property name="final.name" value="commons-grant-@@DATE@@"/>
+    </ant>
+    <depend project="jakarta-ant" inherit="runtime"/>
+    <depend project="xml-xerces"/>
+    <depend project="junit"/>
+
+    <jar name="grant/target/commons-grant-@@DATE@@.jar"/>
+
+    <nag to="commons-dev@jakarta.apache.org"
+         from="Stefan Bodewig &lt;bodewig@apache.com&gt;"/>
+  </project>
+
   <project name="commons-http">
     <package>org.apache.commons.http</package>
     <description>Commons HTTP Utility Package</description>
@@ -146,7 +161,7 @@
     <depend project="commons-collections"/>
     <depend project="commons-digester"/>
     <depend project="commons-discovery"/>
-    <!-- depend project="commons-grant"/ -->
+    <depend project="commons-grant"/>
     <depend project="commons-httpclient"/>
     <depend project="commons-jexl"/>
     <depend project="commons-logging"/>

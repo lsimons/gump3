@@ -185,7 +185,7 @@
     </ant>
     <depend project="jakarta-ant" inherit="runtime"/>
     <depend project="jakarta-site2" inherit="all"/>
-    <depend project="commons-beanutils"/>
+    <depend project="commons-beanutils" runtime="true"/>
     <home nested="jxpath/dist"/>
     <jar name="commons-jxpath.jar"/>
     <javadoc nested="jxpath/dist/docs/api"/>
