@@ -12,9 +12,9 @@
       <property name="base.dir" reference="home" project="jakarta-taglibs"/>
       <property name="build.dir" path="build"/>
       <property name="dist.dir" path="dist"/>
-      <depend property="xerces.jar" project="xml-xerces"/>
-      <depend property="crimson.jar" project="xml-xerces"/>
-      <depend property="jaxp.jar" project="xml-xerces"/>
+      <depend property="xerces.jar" project="xml-xerces" id="parser"/>
+      <depend property="crimson.jar" project="xml-xerces" id="parser"/>
+      <depend property="jaxp.jar" project="xml-xerces" id="apis"/>
       <depend property="xalan.jar" project="xml-xalan2"/>
       <depend property="servlet.jar"   project="jakarta-servletapi-4"/>
       <depend property="servlet23.jar" project="jakarta-servletapi-4"/>

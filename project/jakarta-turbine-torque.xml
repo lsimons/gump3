@@ -10,8 +10,8 @@
   <project name="jakarta-turbine-torque">
     <ant target="dist">
       <depend property="velocity.jar" project="jakarta-velocity" version="1.2"/>
-      <depend property="xerces.jar" project="xml-xerces2" id="parser"/>
-      <depend property="xmlParserAPIs.jar" project="xml-xerces2" id="apis"/>
+      <depend property="xerces.jar" project="xml-xerces" id="parser"/>
+      <depend property="xmlParserAPIs.jar" project="xml-xerces" id="apis"/>
       <depend property="village.jar" project="village" version="1.5.3"/>
       <depend property="log4j.jar" project="jakarta-log4j" version="1.1"/>
       <depend property="jdbc.jar" project="jdbc" version="2.0"/>

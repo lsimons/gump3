@@ -130,12 +130,11 @@
 
     <p>
       At the same time the "official" run is done on Linux, I've started
-      some experimentals runs on nagoya.  At the moment, this consists of
-      <a href="http://nagoya.apache.org/~rubys/gump/xerces2">xerces2</a> and
+      some experimentals runs on nagoya.  This includes a complete run with
       <a href="http://nagoya.apache.org/~rubys/gump/java14">java14</a>.
-      These runs are done with the exact same sources as were used for the
+      This run is done with the exact same sources as were used for the
       <a href="http://nagoya.apache.org/~rubys/gump/base">baseline</a>
-      builds using xerces1 and jdk13.
+      builds using jdk13.
     </p>
   </section>
 

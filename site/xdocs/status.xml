@@ -14,26 +14,14 @@
     release, in other cases they may represent an abject failure to
     communicate.</p>
 
-    <subsection name="jakarta-cactus">
-      <p>Generally the Tomcat tests for 22, and *sometimes* 23, fail on 
-      Solaris.  Current status can be found
-      <a href="http://gump.covalent.net/log/jakarta-cactus-22.html">here</a>.
+    <subsection name="jakarta-taglibs">
+      <p>At the moment, the taglibs builds require the presence of xalan1.
+      Xalan1's last release was in August of 2000.  It has been removed
+      from cvs, and even the backwards compatibility support has been removed 
+      from Xalan2.  Xalan1 is not compatible with Xerces2.  While I would
+      recommend letting go of the Xalan1 support, at a minimum, this
+      dependency needs to be made optional during compilation.
       </p>
-    </subsection>
-
-    <subsection name="jakarta-turbine">
-      <p>The various turbine implementations are coded directly to the
-      xml-xerces1 API and will not survive intact to Xerces 2.  A
-      <a href="http://marc.theaimsgroup.com/?l=turbine-dev&amp;m=100673562207077&amp;w=2">patch</a>
-      enabling pluggable parser support for one such component (torque) was
-      prepared in November, but has never been applied.</p>
-    </subsection>
-
-    <subsection name="xml-xerces2">
-      <p>The tests for xml-security and xml-xalan2, both of which pass cleanly
-      with xerces1, fail with xerces2.</p>
-      <p>A complete gump run using xerces2 can be found
-      <a href="http://nagoya.apache.org/~rubys/gump/xerces2/">here</a>.</p>
     </subsection>
   </section>
 

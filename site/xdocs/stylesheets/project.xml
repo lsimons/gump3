@@ -21,8 +21,6 @@
     <menu name="Results">
       <item name="Nightly"
         href="http://jakarta.apache.org/builds/gump/latest/"/>
-      <item name="Xerces2"
-        href="http://nagoya.apache.org/~rubys/gump/xerces2/"/>
       <item name="Java 1.4"
         href="http://nagoya.apache.org/~rubys/gump/java14/"/>
       <item name="Jars"     

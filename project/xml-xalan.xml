@@ -11,7 +11,7 @@
     <ant basedir="java"/>
 
     <depend project="bootstrap-ant"/>
-    <depend project="xml-xerces2"/>
+    <depend project="xml-xerces"/>
     <depend project="xml-apis" inherit="jars"/>
 
     <home nested="java/build"/>
@@ -21,12 +21,12 @@
   <project name="dist-xalan2">
     <ant basedir="java" target="dist">
       <depend property="bsf.jar" project="bsf"/>
-      <depend property="xercesImpl.jar" project="xml-xerces2" id="parser"/>
+      <depend property="xercesImpl.jar" project="xml-xerces" id="parser"/>
       <property name="version" value="@@DATE@@"/>
     </ant>
 
     <depend project="jakarta-ant"/>
-    <depend project="xml-xerces2"/>
+    <depend project="xml-xerces"/>
     <depend project="jakarta-servletapi"/>
     <depend project="xml-xalan2"/>
     <depend project="xml-stylebook2"/>
@@ -61,7 +61,7 @@
     <ant basedir="test" target="smoketest.gump"/>
  
     <depend project="jakarta-ant"/>
-    <depend project="xml-xerces2"/>
+    <depend project="xml-xerces"/>
     <depend project="xml-xalan2"/>
     <depend project="xml-xalan2-smoketest-tools"/>
     <work nested="test/java/build"/>

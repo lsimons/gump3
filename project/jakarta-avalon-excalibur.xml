@@ -9,7 +9,7 @@
   
   <project name="jakarta-avalon-excalibur">
     <ant target="dist">
-      <depend property="xerces.jar"    project="xml-xerces"/>
+      <depend property="xerces.jar"    project="xml-xerces" id="parser"/>
       <depend property="framework.jar" project="jakarta-avalon"/>
       <depend property="logkit.jar"    project="jakarta-avalon-logkit"/>
     </ant>

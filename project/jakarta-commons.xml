@@ -99,7 +99,7 @@
       <property name="component.version" value="@@DATE@@"/>
       <depend property="junit.jar" project="junit"/>
       <depend property="j2ee.jar"      project="jakarta-servletapi"/>
-      <depend property="jaxp.jaxp.jar" project="xml-xerces"/>
+      <depend property="jaxp.jaxp.jar" project="xml-xerces" id="apis"/>
       <depend property="jaxp.xslt.jar" project="xml-xalan2"/>
     </ant>
     <depend project="jakarta-ant"/>

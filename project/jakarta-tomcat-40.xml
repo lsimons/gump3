@@ -34,7 +34,7 @@
       <depend property="jta.jar" project="jta"/>
       <depend property="ldap.jar" project="ldap"/>
       <depend property="servlet.jar" project="jakarta-servletapi-4"/>
-      <depend property="xerces.jar" project="xml-xerces"/>
+      <depend property="xerces.jar" project="xml-xerces" id="parser"/>
       <depend property="tomcat-util.jar" project="jakarta-tomcat-util"/>
       <depend property="commons-beanutils.jar" project="commons-beanutils"
         runtime="true"/>
