@@ -96,6 +96,10 @@ echo Generate editing instructions
 java org.apache.xalan.xslt.Process -text -in work\merge.xml -xsl stylesheet\sedmap.xsl -out work\map.pl
 if not errorlevel 0 goto fail
 
+echo Generate naglist
+java org.apache.xalan.xslt.Process -text -in work\merge.xml -xsl stylesheet\nag.xsl -out work\naglist
+if not errorlevel 0 goto fail
+
 REM ********************************************************************
 
 echo Publishing
