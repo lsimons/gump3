@@ -18,7 +18,7 @@
     <depend project="jakarta-log4j"/>
     <depend project="jce" runtime="true"/>
     <option project="junit"/>
-    <work nested="classes"/>
+    <work nested="build/classes"/>
 
     <jar name="xmlsec.jar"/>
     <javadoc nested="doc/html/api"/>
