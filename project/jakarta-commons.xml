@@ -127,6 +127,23 @@
          from="Ted Husted &lt;ted@husted.com&gt;"/>
   </project>
 
+  <project name="commons-daemon">
+    <package>org.apache.commons.daemon</package>
+    <description>Commons Daemon</description>
+    <ant basedir="daemon" target="dist">
+      <property name="component.name"  value="daemon-@@DATE@@"/>
+    </ant>
+    <depend project="ant" inherit="runtime"/>
+    <depend project="xml-xerces"/>
+
+    <jar name="daemon/dist/commons-daemon-@@DATE@@.jar"/>
+    <license name="LICENSE"/>
+    <javadoc nested="daemon/dist/docs/api"/>
+ 
+    <nag from="Stefan Bodewig &lt;bodewig@apache.org&gt;"
+         to="commons-dev@jakarta.apache.org"/>
+  </project>
+
   <project name="commons-discovery">
     <package>org.apache.commons.discovery</package>
     <description>Commons Discovery Package</description>
