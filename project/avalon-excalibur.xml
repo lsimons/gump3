@@ -14,23 +14,14 @@
   See the License for the specific language governing permissions and
   limitations under the License.
 -->
+
 <module name="avalon-excalibur">
-    <!-- ===================================================================
-          General notes
-
-          * Avalon-Excalibur is built using maven now. We use a very basic
-          buildfile which delegates to a common buildfile which emulates
-          most of the maven behaviour.
-
-          * I didn't bother to update/simplify all of the dependency
-          references; but do note all the bla-di-blah.jar properties are now
-          unused, and could safely be replaced by 'normal' depend tags.
-    -->
 
     <url href="http://avalon.apache.org/excalibur/"/>
     <description>
-      Repository of reusable components.
+        Repository of reusable components.
     </description>
+    
     <cvs repository="avalon"/>
 
     <project name="excalibur-compatibility">
@@ -77,7 +68,6 @@
         <ant basedir="component" target="jar">
             <property name="checkstyle.jar" project="checkstyle" reference="jarpath"/>
             <property name="servlet.jar" project="jakarta-servletapi" reference="jarpath"/>
-
             <property name="project.version" value="@@DATE@@"/>
         </ant>
 
