@@ -15,7 +15,7 @@
     <depend project="xml-xerces"/>
     <home nested="dist"/>
     <jar name="lib/antidote.jar"/>
-    <javadoc nested="dist/docs/api"/>
+    <javadoc nested="dist/docs/api" module="jakarta-ant"/>
   </project>
 
 </module>
