@@ -91,7 +91,7 @@ class Resulter:
                     if server.isPython():
                         results=self.loadResultsForServer(server)            
                 except Exception, details:
-                    log.warn('Failed to load results for [' + str(server) + '] : ' \
+                    log.debug('Failed to load results for [' + str(server) + '] : ' \
                             + str(details), exc_info=1)
                             
                 if results:

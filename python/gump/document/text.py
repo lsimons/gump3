@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/text.py,v 1.12 2004/03/16 23:02:50 ajack Exp $
-# $Revision: 1.12 $
-# $Date: 2004/03/16 23:02:50 $
+# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/text.py,v 1.13 2004/03/16 23:56:41 ajack Exp $
+# $Revision: 1.13 $
+# $Date: 2004/03/16 23:56:41 $
 #
 # ====================================================================
 #
@@ -119,7 +119,8 @@ class TextDocumenter(Documenter):
         output.write(indent + "Modules: " + str(len(workspace.getModules())) + "\n")
     
         self.documentAnnotations(indent,workspace)
-        
+        self.documentWork(indent,workspace)
+            
         indent += ' '
         for module in sortedModuleList:
             if quick:
@@ -130,6 +131,8 @@ class TextDocumenter(Documenter):
             output.write(indent + "Module [" + module.getName() + "] State: " + module.getStateDescription() + "\n")
             output.write(indent + "Projects: " + str(len(module.getProjects())) + "\n")
 
+            self.documentWork(indent,module)
+        
             #
             # Document all the annotations
             #

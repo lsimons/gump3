@@ -96,17 +96,17 @@ class SAXDispatcher(ContentHandler,ErrorHandler,Annotatable):
  
   def error(self, exception):
     self.addError('XML error : ' + str(exception))
-    log.error("Handle a recoverable error." + str(exception), exc_info=1)
+    #log.error("Handle a recoverable error." + str(exception), exc_info=1)
     # raise exception
     
   def fatalError(self, exception):
     self.addError('XML error : ' + str(exception))
-    log.error("Handle a non-recoverable error." + str(exception), exc_info=1)
+    #log.error("Handle a non-recoverable error." + str(exception), exc_info=1)
     # raise exception
 
   def warning(self, exception):
     self.addWarning('XML warning' + str(exception))
-    log.warn("Handle a warning." + str(exception), exc_info=1)
+    #log.warn("Handle a warning." + str(exception), exc_info=1)
     
 ###############################################################################
 # Base classes for the Gump object model
@@ -234,10 +234,10 @@ class Named(GumpXMLObject):
     #      
     href=attrs.get('href')
     
-    log.debug('New Named [' + cls.__name__ + '] name=[' + str(name) + '] href=[' + str(href) + ']')
+    #log.debug('New Named [' + cls.__name__ + '] name=[' + str(name) + '] href=[' + str(href) + ']')
     
     if href:
-        log.debug('Download metadata from : [' + href + ']')    
+        #log.debug('Download metadata from : [' + href + ']')    
     
         # Stored by caller...
         basedir=attrs.get('@basedir')      
@@ -267,12 +267,12 @@ class Named(GumpXMLObject):
                 
             except Exception, detail:
                 message='Failed to parse XML @ [' + newHref + ']. Details: ' + str(detail)
-                log.error(message, exc_info=1)   
+                #log.error(message, exc_info=1)   
                 raise RuntimeError, message
         else:
             # :TODO: Set any object "invalid"?
             message='HREF ['+href+'] not loaded'
-            log.error(message, exc_info=1)
+            #log.error(message, exc_info=1)
             raise RuntimeError, message
         
         #

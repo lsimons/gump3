@@ -271,7 +271,7 @@ class GumpSet:
                     todo.remove(todoProject)
                     if not todoProject in result:
                         result.append(todoProject)
-                        log.debug('Next Project ['+todoProject.getName()+'] is #' + str(len(result)))     
+                        #log.debug('Next Project ['+todoProject.getName()+'] is #' + str(len(result)))     
                     #else:
                     #    log.debug('Duplicate Result ['+todoProject.getName()+']')    
                     foundSome=1

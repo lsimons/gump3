@@ -80,7 +80,7 @@ class GumpEngine:
         return self.perform(run, GumpTaskList(['update','build','document','outputs','notify']) )
         
     def performCheck(self,run):
-        return self.perform(run, GumpTaskList(['update','check','document']) )
+        return self.perform(run, GumpTaskList(['check','document']) )
         
     ###########################################
     
@@ -103,6 +103,7 @@ class GumpEngine:
     
     def performTasks(self,run,taskList):
         for task in taskList:
+            log.info('Perform task [' + task.getName() + ']')
             task.invoke(run)
             
     ###########################################
@@ -724,7 +725,6 @@ class GumpEngine:
         workspace=run.getWorkspace()
 
         log.debug('--- Building work directories with sources')
-        
         
         # :TODO: Check the workspace?
         
