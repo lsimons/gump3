@@ -13,6 +13,8 @@
   <depend project="xml-xerces"/>
   <depend project="jakarta-avalon-testlet"/>
   <option project="jakarta-servletapi-4"/>
+  <depend project="jdbc"/>
+  <depend project="jms"/>
 
   <home nested="build/lib"/>
   <jar name="logkit.jar"/>
