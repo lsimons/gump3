@@ -22,6 +22,7 @@
   <depend project="jakarta-oro"/>
   <depend project="jakarta-velocity"/>
   <depend project="jakarta-turbine-torque"/>
+  <depend project="jakarta-turbine-fulcrum"/>
   <depend project="village"/>
   <depend project="javamail"/>
   <depend project="xml-rpc"/>
