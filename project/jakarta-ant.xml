@@ -25,7 +25,7 @@
     <depend project="xml-xerces"/>
     <option project="xml-xalan1"/>
     <option project="xml-xalan2"/>
-    <option project="xml-stylebook"/>
+    <option project="xml-stylebook1"/>
     <option project="bsf"/>
     <option project="junit"/>
     <option project="jakarta-regexp"/>

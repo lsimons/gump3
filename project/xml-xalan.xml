@@ -45,7 +45,7 @@
     <depend project="xml-xerces"/>
     <depend project="xml-xalan1"/>
     <depend project="xml-site"/>
-    <depend project="xml-stylebook"/>
+    <depend project="xml-stylebook1"/>
     <depend project="bsf"/>
     <depend project="jakarta-servletapi"/>
   </project>

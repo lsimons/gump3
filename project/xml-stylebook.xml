@@ -6,13 +6,15 @@
 
   <cvs repository="xml"/>
 
-  <ant/>
-
-  <depend project="jakarta-ant"/>
-  <depend project="xml-xerces"/>
-  <depend project="xml-xalan1"/>
-
-  <jar name="bin\stylebook-1.0-b2.jar"/>
+  <project name="xml-stylebook1">
+    <ant>
+      <property name="build.dir" value="./build1"/>
+    </ant>
+    <depend project="jakarta-ant"/>
+    <depend project="xml-xerces"/>
+    <depend project="xml-xalan1"/>
+    <jar name="bin\stylebook-1.0-b2.jar"/>
+  </project>
 
   <project name="xml-stylebook2">
     <ant target="package2">
