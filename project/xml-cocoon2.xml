@@ -27,6 +27,7 @@
     <depend project="bsf"/>
     <depend project="jakarta-velocity"/>
     <depend project="resolver"/>
+    <depend project="jakarta-lucene"/>
     <depend project="hsqldb"/>
     <option project="xml-fop"/>
     <option project="jtidy"/>
@@ -37,6 +38,7 @@
     <option project="jstyle"/>
     <option project="xmldb"/>
     <option project="jndi"/>
+    <option project="xmldb"/>
     <work nested="build/cocoon/classes"/>
     <work nested="bin/anttasks"/>  <!-- no build instructions? -->
 
