@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/model/property.py,v 1.5 2003/11/18 22:52:17 ajack Exp $
-# $Revision: 1.5 $
-# $Date: 2003/11/18 22:52:17 $
+# $Header: /home/stefano/cvs/gump/python/gump/model/property.py,v 1.6 2003/11/18 22:54:50 ajack Exp $
+# $Revision: 1.6 $
+# $Date: 2003/11/18 22:54:50 $
 #
 # ====================================================================
 #
@@ -84,7 +84,7 @@ class Property(NamedModelObject):
         # Properties are either on the workspace, or on
         # an ant entry within a project. Pick workspace or project.
         responsibleParty=workspace
-        if isinstance(parent,Ant): responsibleParty=parent.getOwner()
+        if not parent==workspace: responsibleParty=parent.getOwner()
         
         if self.xml.reference=='home':
             if not workspace.hasProject(self.xml.project):
