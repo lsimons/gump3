@@ -15,7 +15,7 @@
     </ant>
     <depend project="bootstrap-ant" inherit="runtime"/>
     <depend project="xml-xerces"/>
-    <home nested="bin"/>
+    <home nested="build"/>
     <jar name="jakarta-regexp-@@DATE@@.jar" id="regexp"/>
     <license name="LICENSE.txt"/>
     <nag from="Stefan Bodewig &lt;bodewig@apache.org&gt;"
