@@ -39,16 +39,9 @@
       <property name="jakarta-site.dir" project="jakarta-site2"
           reference="srcdir" />
     </ant>
-    <depend project="ant" inherit="runtime"/>
+    <depend project="avalon-logkit" inherit="all"/>
     <depend project="avalon-exceptionutil"/>
-    <depend project="xml-xerces"/>
     <depend project="avalon"/>
-
-    <option project="jdbc" runtime="true"/>
-    <option project="jms" runtime="true"/>
-    <option project="javamail" runtime="true"/>
-    <option project="jaf" runtime="true"/>
-    <option project="jakarta-servletapi-4" runtime="true"/>
 
     <home nested="build/lib"/>
     <jar name="logkit.jar"/>
