@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<repository name="zenplex" type="cvs">
+  <title>Zenplex</title>
+  <home-page>http://www.zenplex.org/</home-page>
+  <cvsweb>http://tambora.zenplex.org/cgi-bin/cvsweb.cgi/</cvsweb>
+
+  <root>
+    <method>pserver</method>
+    <user>anon</user>
+    <password>anon-cvs</password>
+    <hostname>tambora.zenplex.org</hostname>
+    <path>/var2/cvs</path>
+  </root>
+</repository>
