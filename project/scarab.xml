@@ -1,0 +1,21 @@
+<project name="scarab">
+
+  <url href="http://scarab.tigris.org/"/>
+  <description>
+    Bug-Tracking Built for the Ages
+  </description>
+
+  <cvs repository="tigris"/>
+
+  <ant buildfile="build/build.xml" target="dist"/>
+
+  <depend project="jakarta-ant"/>
+  <depend project="xml-xerces"/>
+  <depend project="jdbc"/>
+  <depend project="jakarta-velocity"/>
+  <depend project="jakarta-servletapi"/>
+  <depend project="jakarta-ecs"/>
+  <depend project="turbine"/>
+  <depend project="village"/>
+
+</project>

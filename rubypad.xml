@@ -52,6 +52,7 @@
   <project href="project/junit.xml"/>
   <project href="project/freemarker.xml"/>
   <project href="project/rhino.xml"/>
+  <project href="project/scarab.xml"/>
   <project href="project/village.xml"/>
 
   <!-- Sun -->
@@ -92,6 +93,8 @@
 
     <tree name="jservpub" 
       root=":pserver:jservpub@cvs.working-dogs.com:/products/cvs/master"/>
+
+    <tree name="tigris" root=":pserver:guest@cvs.tigris.org:/cvs"/>
 
     <tree name="xml" root=":pserver:rubys@localhost:/home/cvs"/>
 
