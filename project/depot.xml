@@ -20,7 +20,7 @@
 
         <depend inherit="runtime" project="ant"/>
 
-        <jar name="version-@@DATE@@.jar"/>
+        <jar name="depot-version-@@DATE@@.jar"/>
 
         <ant basedir="version" buildfile="build.xml" target="gump" vm="1.4">
           <property name="ant.home" project="ant" reference="home" />
@@ -33,7 +33,7 @@
               
     </project>
     
-    <project name="depot-version-test" fullname="Depot Version Test" basedir="version">
+    <project name="depot-version-test" fullname="Depot Version Test" >
     	
         <package>org.apache.version.test</package>
 
@@ -44,7 +44,7 @@
         <depend project="depot-version" inherit="all"/>
         <depend project="junit"/>
 
-        <ant basedir="." buildfile="build.xml" target="test" vm="1.4">
+        <ant basedir="version" buildfile="build.xml" target="test" vm="1.4">
         	<property name="ant.home" project="ant" reference="home" />
         </ant>
 
@@ -53,5 +53,52 @@
            from="Adam Jack &lt;ajack@apache.org&gt;"/>
            
     </project>
+    
+    
+    <project name="depot-ruper" fullname="Depot Ruper" >
+
+        <package>org.apache.ruper</package>
+
+        <!-- Work dirs to be included in classpath  -->
+        <work nested="ruper/build/classes"/>
+        <home nested="ruper/build"/>
+
+        <depend inherit="runtime" project="ant"/>
+        <depend inherit="depot-version" project="ant"/>
+
+        <jar name="depot-ruper-@@DATE@@.jar"/>
+
+        <ant basedir="ruper" buildfile="build.xml" target="gump" vm="1.4">
+          <property name="ant.home" project="ant" reference="home" />
+          <property name="DATE_STAMP" value="@@DATE@@"/>        	
+        </ant>
+
+        <nag 
+           to="depot-dev@incubator.apache.org"
+           from="Adam Jack &lt;ajack@apache.org&gt;"/>
+              
+    </project>
+    
+    <project name="depot-ruper-test" fullname="Depot Ruper Test">
+    	
+        <package>org.apache.ruper.test</package>
+
+        <!-- Work dirs to be included in classpath  -->
+        <work nested="ruper/build/unit/classes"/>
+        <home nested="ruper/build"/>
+
+        <depend project="depot-ruper" inherit="all"/>
+        <depend project="junit"/>
+
+        <ant  basedir="ruper" buildfile="build.xml" target="test" vm="1.4">
+        	<property name="ant.home" project="ant" reference="home" />
+        </ant>
+
+	    <nag 
+           to="depot-dev@incubator.apache.org"
+           from="Adam Jack &lt;ajack@apache.org&gt;"/>
+           
+    </project>
+    
 </module>
 
