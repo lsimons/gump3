@@ -664,6 +664,8 @@
         <ant basedir="repository/api">
             <property name="project.version" value="@@DATE@@"/>
         </ant>
+        <depend project="ant" inherit="runtime"/>
+        <depend project="xml-xerces"/>
         <work nested="repository/api/target/classes"/>
         <home nested="repository/api"/>
         <jar name="target/jars/avalon-repository-api-@@DATE@@.jar" id="api"/>
@@ -738,6 +740,8 @@
         <ant basedir="repository/spi">
             <property name="project.version" value="@@DATE@@"/>
         </ant>
+        <depend project="ant" inherit="runtime"/>
+        <depend project="xml-xerces"/>
         <depend project="avalon-repository-api" />
         <work nested="repository/spi/target/classes"/>
         <home nested="repository/spi"/>
@@ -752,6 +756,8 @@
         <ant basedir="repository/util">
             <property name="project.version" value="@@DATE@@"/>
         </ant>
+        <depend project="ant" inherit="runtime"/>
+        <depend project="xml-xerces"/>
         <depend project="avalon-repository-api" />
         <work nested="repository/util/target/classes"/>
         <home nested="repository/util"/>
@@ -766,6 +772,8 @@
         <ant basedir="util/criteria">
             <property name="project.version" value="@@DATE@@"/>
         </ant>
+        <depend project="ant" inherit="runtime"/>
+        <depend project="xml-xerces"/>
         <work nested="util/criteria/target/classes"/>
         <home nested="util/criteria"/>
         <jar name="target/jars/avalon-util-criteria-@@DATE@@.jar"/>
@@ -779,6 +787,8 @@
         <ant basedir="util/defaults">
             <property name="project.version" value="@@DATE@@"/>
         </ant>
+        <depend project="ant" inherit="runtime"/>
+        <depend project="xml-xerces"/>
         <depend project="avalon-util-env" />
         <work nested="util/defaults/target/classes"/>
         <home nested="util/defaults"/>
@@ -793,6 +803,8 @@
         <ant basedir="util/env">
             <property name="project.version" value="@@DATE@@"/>
         </ant>
+        <depend project="ant" inherit="runtime"/>
+        <depend project="xml-xerces"/>
         <work nested="util/env/target/classes"/>
         <home nested="util/env"/>
         <jar name="target/jars/avalon-util-env-@@DATE@@.jar"/>
@@ -806,6 +818,8 @@
         <ant basedir="util/exception">
             <property name="project.version" value="@@DATE@@"/>
         </ant>
+        <depend project="ant" inherit="runtime"/>
+        <depend project="xml-xerces"/>
         <work nested="util/exception/target/classes"/>
         <home nested="util/exception"/>
         <jar name="target/jars/avalon-util-exception-@@DATE@@.jar"/>
@@ -819,6 +833,8 @@
         <ant basedir="util/extension/api">
             <property name="project.version" value="@@DATE@@"/>
         </ant>
+        <depend project="ant" inherit="runtime"/>
+        <depend project="xml-xerces"/>
         <work nested="util/extension/api/target/classes"/>
         <home nested="util/extension/api"/>
         <jar name="target/jars/avalon-util-extension-api-@@DATE@@.jar"/>
@@ -846,6 +862,8 @@
         <ant basedir="util/i18n">
             <property name="project.version" value="@@DATE@@"/>
         </ant>
+        <depend project="ant" inherit="runtime"/>
+        <depend project="xml-xerces"/>
         <work nested="util/i18n/target/classes"/>
         <home nested="util/i18n"/>
         <jar name="target/jars/avalon-util-i18n-@@DATE@@.jar"/>
