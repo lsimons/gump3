@@ -91,13 +91,10 @@
     <xsl:variable name="basedir" select="../@basedir"/>
     <xsl:variable name="project" select="@name"/>
 
-    <!-- determine the name of the source directory -->
+    <!-- determine the name of the module -->
 
-    <xsl:variable name="srcdir">
+    <xsl:variable name="module">
       <xsl:choose>
-        <xsl:when test="@srcdir">
-          <xsl:value-of select="@srcdir"/>
-        </xsl:when>
         <xsl:when test="@defined-in">
           <xsl:value-of select="@defined-in"/>
         </xsl:when>
@@ -107,8 +104,25 @@
       </xsl:choose>
     </xsl:variable>
 
+    <!-- determine the name of the source directory -->
+
+    <xsl:variable name="srcdir">
+      <xsl:choose>
+        <xsl:when test="@srcdir">
+          <xsl:value-of select="concat($basedir,'/',@srcdir)"/>
+        </xsl:when>
+        <xsl:otherwise>
+          <xsl:value-of select="concat($basedir,'/',$module)"/>
+        </xsl:otherwise>
+      </xsl:choose>
+    </xsl:variable>
+
     <xsl:copy>
       <xsl:apply-templates select="@*[name()!='srcdir']"/>
+
+      <xsl:attribute name="module">
+        <xsl:value-of select="$module"/>
+      </xsl:attribute>
 
       <xsl:attribute name="srcdir">
         <xsl:value-of select="$srcdir"/>
@@ -129,8 +143,6 @@
              <xsl:value-of select="home/@parent"/>
           </xsl:when>
           <xsl:when test="home/@nested">
-             <xsl:value-of select="$basedir"/>
-             <xsl:text>/</xsl:text>
              <xsl:value-of select="$srcdir"/>
              <xsl:text>/</xsl:text>
              <xsl:value-of select="home/@nested"/>
@@ -144,8 +156,6 @@
              <xsl:value-of select="@package"/>
           </xsl:when>
           <xsl:otherwise>
-             <xsl:value-of select="$basedir"/>
-             <xsl:text>/</xsl:text>
              <xsl:value-of select="$srcdir"/>
           </xsl:otherwise>
         </xsl:choose>
