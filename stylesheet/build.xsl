@@ -211,8 +211,10 @@
               </xsl:for-each>
 
               <xsl:for-each select="depend[not(noclasspath)]|option">
-                <xsl:for-each select="jar[not(@type='boot')]">
-                  <pathelement location="{../@home}/{@name}"/>
+                <xsl:for-each select="jar">
+                  <pathelement location="{../@home}/{@name}">
+                    <xsl:copy-of select="@type"/>
+                  </pathelement>
                 </xsl:for-each>
               </xsl:for-each>
             </classpath>

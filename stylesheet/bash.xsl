@@ -344,9 +344,16 @@
   <xsl:template match="classpath">
     <xsl:text>export CLASSPATH=$CP:$JAVA_HOME\lib\tools.jar&#10;</xsl:text>
     <xsl:for-each select="pathelement">
-      <xsl:text>export CLASSPATH=$CLASSPATH:</xsl:text>
-      <xsl:value-of select="translate(@location,'\','/')"/>
-      <xsl:text>&#10;</xsl:text>
+      <xsl:if test="@type='boot'">
+        <xsl:text>export CLASSPATH=$CLASSPATH:</xsl:text>
+        <xsl:value-of select="translate(@location,'\','/')"/>
+        <xsl:text>&#10;</xsl:text>
+      </xsl:if>
+      <xsl:if test="not(@type='boot')">
+        <xsl:text>export CLASSPATH=</xsl:text>
+        <xsl:value-of select="translate(@location,'\','/')"/>
+        <xsl:text>:$CLASSPATH&#10;</xsl:text>
+      </xsl:if>
     </xsl:for-each>
   </xsl:template>
 
