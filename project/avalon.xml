@@ -1030,5 +1030,25 @@
           from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"/>
     </project>
 
+    <project name="avalon-activation-api">
+        <package>org.apache.avalon.activation</package>
+        <ant basedir="merlin/activation/api" target="jar">
+            <property name="project.version" value="@@DATE@@"/>
+        </ant>
+        <depend project="ant" inherit="runtime"/>
+        <depend project="junit"/>
+        <depend project="xml-xerces"/>
+        <depend project="avalon-framework" id="api" />
+        <depend project="avalon-meta-api" />
+        <depend project="avalon-composition-api" />
+        <mkdir dir="merlin/activation/api/target/classes"/>
+        <work nested="merlin/activation/api/target/classes"/>
+        <home nested="merlin/activation/api"/>
+        <jar name="target/avalon-activation-api-@@DATE@@.jar"/>
+        <javadoc nested="merlin/activation/api/target/docs/apidocs"/>
+        <junitreport nested="merlin/composition/api/target/test-reports"/>
+        <nag to="dev@avalon.apache.org" 
+          from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"/>
+    </project>
 
 </module>
