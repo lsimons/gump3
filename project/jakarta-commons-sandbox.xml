@@ -162,6 +162,8 @@
     <depend project="ant" inherit="runtime"/>
     <depend project="xml-xerces"/>
     <depend project="commons-lang"/>
+    <depend project="junit"/>
+    
     <work nested="io/target/classes"/>
 
     <jar name="io/dist/commons-io.jar"/>
