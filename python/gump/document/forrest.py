@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/forrest.py,v 1.4 2003/11/18 17:29:18 ajack Exp $
-# $Revision: 1.4 $
-# $Date: 2003/11/18 17:29:18 $
+# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/forrest.py,v 1.5 2003/11/18 20:58:18 ajack Exp $
+# $Revision: 1.5 $
+# $Date: 2003/11/18 20:58:18 $
 #
 # ====================================================================
 #
@@ -958,7 +958,7 @@ class ForrestDocumenter(Documenter):
         except Exception, details:
             stream.write('Failed to XML serialize the data. ' + str(details))
         stream.seek(0)
-        document.createSource(stream.read())
+        xmlSection.createSource(stream.read())
         stream.close()
             
     def documentSummary(self,document,summary,description='Project Summary'):
@@ -978,8 +978,7 @@ class ForrestDocumenter(Documenter):
         
         if not worklist: return
         
-        workSection=document.createSection(description)
-        
+        workSection=document.createSection(description)        
         workTable=workSection.createTable(['Name','Type','State','Start','Elapsed'])
         
         for work in worklist:

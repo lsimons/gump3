@@ -61,6 +61,7 @@
 """
     This module contains information on an object's owner
 """
+from gump import log
 from gump.utils import getIndent
 
 class Ownable:

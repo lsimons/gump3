@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/model/Attic/ant.py,v 1.3 2003/11/18 17:29:17 ajack Exp $
-# $Revision: 1.3 $
-# $Date: 2003/11/18 17:29:17 $
+# $Header: /home/stefano/cvs/gump/python/gump/model/Attic/ant.py,v 1.4 2003/11/18 20:58:18 ajack Exp $
+# $Revision: 1.4 $
+# $Date: 2003/11/18 20:58:18 $
 #
 # ====================================================================
 #
@@ -148,7 +148,7 @@ class Ant(ModelObject, PropertyContainer):
             # :TODO: Convert to ModelObject
             project.addDependency(dependency)
         else:
-            log.error('No such project [' + projectName + '] for property')
+            project.addError('No such project [' + projectName + '] for property')
 
     def expandDependencies(self,project,workspace):
         #
@@ -166,7 +166,7 @@ class Ant(ModelObject, PropertyContainer):
             elif not hasattr(property,'name') or not property['name']:
                 # :TODO: Reconsider later, but default to project name for now...
                 property['name']=depend.project
-                log.warn('Unnamed property for ' + project.name + ' in depend on: ' + depend.project )
+                project.addWarn('Unnamed property for [' + project.name + '] in depend on: ' + depend.project )
         
             # :TODO: AJ added this, no idea if it is right/needed.
             if depend.id: property['ids']= depend.id
