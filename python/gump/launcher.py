@@ -260,12 +260,14 @@ def dummyExecuteIntoResult(cmd,result,tmp=dir.tmp):
 def killChildren():
     pid=os.getpid()
     log.info('Kill all children for ' + str(pid))    
-    os.system('pkill -P ' + str(pid))
+    os.system('pkill -P ' + str(pid) + ' -signal KILL')
     
+#
+# Kill the children 
+#
 def timeoutHandler(signum, frame):
-    log.info('Signal handler called with signal: ' + str(signum))
+    log.info('Timeout Handler Called [Signal : ' + str(signum) + ']')
     killChildren()
-    raise Error, "Timeout"
     
 def execute(cmd,tmp=dir.tmp):
     res=CmdResult(cmd)

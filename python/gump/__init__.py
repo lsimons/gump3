@@ -1,8 +1,8 @@
 #!/usr/bin/python
 
-# $Header: /home/stefano/cvs/gump/python/gump/__init__.py,v 1.15 2003/09/26 20:52:43 ajack Exp $
-# $Revision: 1.15 $
-# $Date: 2003/09/26 20:52:43 $
+# $Header: /home/stefano/cvs/gump/python/gump/__init__.py,v 1.16 2003/10/13 18:51:20 ajack Exp $
+# $Revision: 1.16 $
+# $Date: 2003/10/13 18:51:20 $
 #
 # ====================================================================
 #
@@ -156,14 +156,13 @@ def gumpCache(href):
 
     #download the file if not present in the cache
     usecached=0
-    if switch.optimize or switch.optimizenetwork:
+    if switch.optimize and switch.optimizenetwork:
         if os.path.exists(cachedHrefFile):
-          log.info('using cached descriptor for ' + href)
+          log.info('Using cached descriptor for ' + href)
           usecached=1
           
     if not usecached:
-      log.debug('caching...')
-      log.info('downloading '+href)      
+      log.debug('Downloading (if date/timestamp changes) : '+href)      
       try:
         #
         # urllib ought do some (timestamp oriented) caching also...
@@ -174,7 +173,7 @@ def gumpCache(href):
         try:
           os.remove(cachedHrefFile)
         except:
-          log.debug('No faulty cached file to remove')
+          log.debug('No faulty cached file to remove, or failed to remove.')
       else: 
          log.debug('...done')
 

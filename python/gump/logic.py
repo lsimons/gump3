@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/Attic/logic.py,v 1.20 2003/10/07 05:44:58 ajack Exp $
-# $Revision: 1.20 $
-# $Date: 2003/10/07 05:44:58 $
+# $Header: /home/stefano/cvs/gump/python/gump/Attic/logic.py,v 1.21 2003/10/13 18:51:20 ajack Exp $
+# $Revision: 1.21 $
+# $Date: 2003/10/13 18:51:20 $
 #
 # ====================================================================
 #
@@ -227,7 +227,7 @@ def getBuildCommand(workspace,module,project,context):
     script=project.script
 
     if not (script or ant):
-      log.info('   Not building this project! (no <ant/> or <script/> specified)')
+      log.info('   Not building ' + project.name + ' (no <ant/> or <script/> specified)')
       return None
 
     if script and script.name:

@@ -1,8 +1,8 @@
 #!/usr/bin/python
 
-# $Header: /home/stefano/cvs/gump/python/gump/build.py,v 1.21 2003/10/07 21:59:25 ajack Exp $
-# $Revision: 1.21 $
-# $Date: 2003/10/07 21:59:25 $
+# $Header: /home/stefano/cvs/gump/python/gump/build.py,v 1.22 2003/10/13 18:51:20 ajack Exp $
+# $Revision: 1.22 $
+# $Date: 2003/10/13 18:51:20 $
 #
 # ====================================================================
 #
@@ -111,9 +111,9 @@ def build(workspace, expr='*', context=GumpContext()):
 def buildProjectList(workspace, projects, context=GumpContext()):
   """ Build a expression of projects """
         
-  log.info('Requests Projects')
+  log.debug('Requests Projects')
   for p in projects:
-    log.info('  Requested : ' + p.name)
+    log.debug('  Requested : ' + p.name)
     
   sequence=getBuildSequenceForProjects(projects)
 
@@ -121,9 +121,9 @@ def buildProjectList(workspace, projects, context=GumpContext()):
   
 def buildProjectSequence(workspace,sequence,context=GumpContext()):
     
-  log.info('Total Project Sequence (i.e. build order):');
+  log.debug('Total Project Sequence (i.e. build order):');
   for p in sequence:
-    log.info('  Sequence : ' + p.name)
+    log.debug('  Sequence : ' + p.name)
 
   # synchronize @ module level
   syncWorkDir( workspace, sequence, context )
@@ -137,13 +137,13 @@ def buildProjectSequence(workspace,sequence,context=GumpContext()):
 def syncWorkDir( workspace, sequence, context=GumpContext() ):
   """copy the raw module (project) materials from source to work dir (hopefully using rsync, cp is fallback)"""
 
-  log.info('--- Synchronizing work directories with sources')
+  log.debug('--- Synchronizing work directories with sources')
 
   modules=getModulesForProjectList(sequence)
   
-  log.info('Total Module Sequence:');
+  log.debug('Total Module Sequence:');
   for m in modules:
-    log.info('  Modules : ' + m.name)    
+    log.debug('  Modules : ' + m.name)    
 
   for module in modules:
       
@@ -170,7 +170,7 @@ def syncWorkDir( workspace, sequence, context=GumpContext() ):
 def buildProjects( workspace, sequence, context=GumpContext() ):
   """actually perform the build of the specified project and its deps"""
 
-  log.info('--- Building work directories with sources')
+  log.debug('--- Building work directories with sources')
 
   # Place repository in jardir (to be renamed to repodir)
   repository=JarRepository(workspace.jardir)

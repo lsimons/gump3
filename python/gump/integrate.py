@@ -20,7 +20,7 @@ import logging
 from gump import log, load
 from gump.conf import dir, default, handleArgv
 from gump.model import Workspace, Module, Project
-from gump.check import checkEnvironment
+from gump.check import checkEnvironment, check
 from gump.context import *
 from gump.update import updateModules
 from gump.build import buildProjectSequence
@@ -87,7 +87,7 @@ def integrate(workspace,expr='*',context=GumpContext()):
             document(workspace,context,1)
   
         # Nag about failures
-        # nag(workspace,context)
+        nag(workspace,context)
   
         # Provide a news feed
         rss(workspace,context)
@@ -122,6 +122,11 @@ if __name__=='__main__':
     # Check Environment (eventually not do this each time)
     #
     checkEnvironment(workspace,context)
+        
+    #
+    # Check projects (and such) in workspace...
+    #
+    check(workspace, ps, context)    
     
     #
     result = integrate(workspace, ps, context)

@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/Attic/model.py,v 1.21 2003/10/07 19:19:31 ajack Exp $
-# $Revision: 1.21 $
-# $Date: 2003/10/07 19:19:31 $
+# $Header: /home/stefano/cvs/gump/python/gump/Attic/model.py,v 1.22 2003/10/13 18:51:20 ajack Exp $
+# $Revision: 1.22 $
+# $Date: 2003/10/13 18:51:20 $
 #
 # ====================================================================
 #
@@ -253,11 +253,18 @@ class Project(Named):
         self.home=os.path.abspath(os.path.join(srcdir,self.home.nested))
       elif self.home.parent:
         self.home=os.path.abspath(os.path.join(workspace.basedir,self.home.parent))
+      else:
+        log.error('Unable to complete project.home for [not nested/parent]: ' + self.name)
+        self.home=None
+        
     elif not self.home:
       if self.module:
         self.home=os.path.abspath(Module.list[self.module].srcdir)
       else:
         self.home=os.path.abspath(os.path.join(workspace.basedir,self.name))
+    else:
+        log.error('Unable to complete project.home for: ' + self.name)
+        self.home=None
 
     # resolve jars
     for jar in self.jar:

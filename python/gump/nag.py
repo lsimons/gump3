@@ -81,11 +81,13 @@ def nag(workspace,context,moduleFilterList=None,projectFilterList=None):
     for (mname,mctxt) in context.subcontexts.iteritems():
         if not STATUS_SUCCESS == mctxt.status:
             if Module.list.has_key(mname):
-                if moduleFilterList and not mname in moduleFilterList: continue    
+                # :TODO: Something doesn't work w/ this.
+                # if moduleFilterList and not mname in moduleFilterList: continue    
                 module=Module.list[mname]
                 for (pname,pctxt) in mctxt.subcontexts.iteritems():
                     if STATUS_FAILED == pctxt.status:
-                        if projectFilterList and not pctxt.project in projectFilterList: continue
+                        # :TODO: Something doesn't work w/ this.
+                        # if projectFilterList and not pctxt.project in projectFilterList: continue
                         project=Project.list[pname]
                         if project.nag:
                             nagProject(workspace,context,module,mctxt,project,pctxt)
@@ -101,13 +103,12 @@ def nagProject(workspace,context,module,mctxt,project,pctxt):
     content=''
     content+=getContent(mctxt,"Module: " + module.name + "\n")
     content+=getContent(pctxt,"Project: " + project.name + "\n"    )
-    
+        
     email=EmailMessage(workspace.prefix+':'+module.name+'/'+project.name+' '+stateName(pctxt.status),content)
     toaddr=project.nag.toaddr or workspace.email
     fromaddr=project.nag.fromaddr or workspace.email
     toaddrs=[ toaddr or workspace.email ]
-    mail(toaddrs,fromaddr,email,workspace.mailserver)
-    
+    mail(toaddrs,fromaddr,email,workspace.mailserver) 
     
 def getContent(context,message=''):
     content=''

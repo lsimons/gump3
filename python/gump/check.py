@@ -1,8 +1,8 @@
 #!/usr/bin/python
 
-# $Header: /home/stefano/cvs/gump/python/gump/check.py,v 1.24 2003/10/06 14:04:15 ajack Exp $
-# $Revision: 1.24 $
-# $Date: 2003/10/06 14:04:15 $
+# $Header: /home/stefano/cvs/gump/python/gump/check.py,v 1.25 2003/10/13 18:51:20 ajack Exp $
+# $Revision: 1.25 $
+# $Date: 2003/10/13 18:51:20 $
 #
 # ====================================================================
 #
@@ -72,7 +72,7 @@ from gump import log, load
 from gump.logic import getBuildSequenceForProjects, getProjectsForProjectExpression
 from gump.conf import dir, default, handleArgv, banner
 from gump.model import Workspace, Module, Project
-from gump.context import GumpContext, CommandWorkItem, WORK_TYPE_CHECK
+from gump.context import GumpContext, CommandWorkItem, WORK_TYPE_CHECK, STATUS_SUCCESS
 
 from gump.launcher import getCmdFromString, execute, CMD_STATUS_SUCCESS
 
@@ -156,9 +156,7 @@ def checkEnvironment(workspace, context=GumpContext(), exitOnError=1):
         context.noPKill=1
         context.addWarning('"pkill" command not found, no process clean-ups can occur')        
     
-    # :TODO:
-    # Need to check javac classes are on CLASSPATH
-    #
+    context.setState(STATUS_SUCCESS);
     
 def checkExecutable(workspace,context,command,options,mandatory,name=None):
     ok=0
@@ -225,10 +223,7 @@ def check(workspace, expr='*', context=GumpContext()):
   for project in projects:
     printed_header=0;    
     projectmissing = 0
-    if not printed_header: 
-      printHeader(project)
-      printed_header=1
-    
+   
     # for each dependency in current project
     for depend in project.depend:
       # if the dependency is not present in the projects, it's missing
@@ -237,7 +232,9 @@ def check(workspace, expr='*', context=GumpContext()):
           printHeader(project)
           printed_header=1    
         projectmissing+=1
-        print "  missing: "+depend.project
+        message="  Missing dependency: " + depend.project + " on project " + project.name
+        print message
+        context.addWarning(message)
         if depend.project not in missing:
           missing.append(depend.project)  
             
@@ -248,12 +245,14 @@ def check(workspace, expr='*', context=GumpContext()):
           printHeader(project)
           printed_header=1    
         projectmissing+=1
-        print "  optional missing: "+depend.project
+        message="  Missing optional dependency: " + depend.project + " on project " + project.name
+        print message
+        context.addWarning(message)
         if depend.project not in optionalMissing:
           optionalMissing.append(depend.project)
             
     if projectmissing>0:
-      print "  total errors: " , projectmissing
+        print "  total errors: " , projectmissing
 
   if len(optionalMissing)>0:     
     print
@@ -271,19 +270,23 @@ def check(workspace, expr='*', context=GumpContext()):
     for missed in missing:
       print "  " + missed
 
-  try:
-    peekInGlobalProfile(missing);
-  except:
-    print
-    print " ***** In Global Profile... ***** "  
-    print
-    print "  Cannot load the global Gump profile, you have to install %\n  the jars by hand."  
-    print 
-    traceback.print_exc()    
-    print
+  # Comment out for now ...
+  # 'cos loading a new workspace overwrites
+  # the loaded one..
+  
+  #try:
+  #  peekInGlobalProfile(missing);
+  #except:
+  #  print
+  #  print " ***** In Global Profile... ***** "  
+  #  print
+  #  print "  Cannot load the global Gump profile, you have to install %\n  the jars by hand."  
+  #  print 
+  #  traceback.print_exc()    
+  #  print
       
   print
-  print " ***** RESULT ***** "  
+  print " ***** WORKSPACE RESULT ***** "  
   print
   if len(missing)>0:
     print
@@ -307,40 +310,44 @@ def printHeader(project):
     print " *****************************************************"       
     print " Project: " + project.name
     
-def peekInGlobalProfile(missing):
-   
-  print  
-  print "  *****************************************************"     
-  print "  **** Loading global Gump workspace to find info"
-  print "       about missing projects.   Please wait...   *****"
-  print "  *****************************************************"    
-  print
-
-  workspace=load(default.globalws)
-  
-  for missed in missing:
-    print  
-    print      
-    print "  **** Project: " + missed
-    print
-    if missed in Project.list:
-      currentproject = Project.list[missed]
-      currentmodule = Module.list[currentproject.module]
-      print "  ",currentmodule.description
-      print
-      if not currentproject.url.href == currentmodule.url.href:
-            print "   project url: " , currentproject.url.href
-      print "   module  url: " , currentmodule.url.href
-      print "   module  cvs: " , currentmodule.cvsroot()
-      if currentmodule.redistributable:
-        print  
-        print "   NOTE: You can also get it in the Gump jar repository." 
-        print "         See http://jakarta.apache,org/gump/ for details."
-        
-    else:
-      print "   Gump doesn't know about it. Or it's wrong, or you have to "
-      print "   install the artifacts of " + missed +" manually."
-            
+    
+# Comment out for now ...
+# 'cos loading a new workspace overwrites
+# the loaded one..
+#def peekInGlobalProfile(missing):
+#   
+#  print  
+#  print "  *****************************************************"     
+#  print "  **** Loading global Gump workspace to find info"
+#  print "       about missing projects.   Please wait...   *****"
+#  print "  *****************************************************"    
+#  print
+#
+#  workspace=load(default.globalws)
+#  
+#  for missed in missing:
+#    print  
+#    print      
+#    print "  **** Project: " + missed
+#    print
+#    if missed in Project.list:
+#      currentproject = Project.list[missed]
+#      currentmodule = Module.list[currentproject.module]
+#      print "  ",currentmodule.description
+#      print
+#      if not currentproject.url.href == currentmodule.url.href:
+#            print "   project url: " , currentproject.url.href
+#      print "   module  url: " , currentmodule.url.href
+#      print "   module  cvs: " , currentmodule.cvsroot()
+#      if currentmodule.redistributable:
+#        print  
+#        print "   NOTE: You can also get it in the Gump jar repository." 
+#        print "         See http://jakarta.apache,org/gump/ for details."
+#        
+#    else:
+#      print "   Gump doesn't know about it. Or it's wrong, or you have to "
+#      print "   install the artifacts of " + missed +" manually."
+#            
 
 # static void main()
 if __name__=='__main__':

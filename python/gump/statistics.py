@@ -213,7 +213,7 @@ class StatisticsDB:
 
 def statistics(workspace,context,projectFilterList=None):
     
-    log.info('--- Updating Project Statistics')
+    log.debug('--- Updating Project Statistics')
     
     db=StatisticsDB()       
     for modulecontext in context:

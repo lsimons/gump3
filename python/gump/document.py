@@ -127,7 +127,7 @@ def documentTextToFile(f,workspace,context,moduleFilterList=None,projectFilterLi
 
 def document(workspace,context,full=None,moduleFilterList=None,projectFilterList=None):
     
-    log.info('--- Documenting Results')
+    log.debug('--- Documenting Results')
 
     seedForrest(workspace,context)
     
@@ -376,7 +376,7 @@ def documentWorkspace(workspace,context,db,moduleFilterList=None,projectFilterLi
     for mctxt in context:
         mname=mctxt.name
         if not Module.list.has_key(mname): 
-            log.info("Unknown module : " + mname)
+            log.warn("Unknown module : " + mname)
             continue        
         if moduleFilterList and not mctxt.module in moduleFilterList: 
             log.info("Module filtered out: " + mname)

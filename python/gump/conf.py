@@ -1,8 +1,8 @@
 #!/usr/bin/python
 
-# $Header: /home/stefano/cvs/gump/python/gump/Attic/conf.py,v 1.18 2003/10/09 00:22:16 ajack Exp $
-# $Revision: 1.18 $
-# $Date: 2003/10/09 00:22:16 $
+# $Header: /home/stefano/cvs/gump/python/gump/Attic/conf.py,v 1.19 2003/10/13 18:51:20 ajack Exp $
+# $Revision: 1.19 $
+# $Date: 2003/10/13 18:51:20 $
 #
 # ====================================================================
 #
@@ -87,12 +87,14 @@ class dir:
 class default:
     """Configuration of default settings"""
     
-    workspace  = os.path.normpath('%s/%s.xml' % (dir.base, socket.gethostname().split('.')[0]))
+    gumpfullhost   = socket.gethostname()   
+    gumphost   = socket.gethostname().split('.')[0]
+    workspace  = os.path.normpath('%s/%s.xml' % (dir.base, gumphost))
     globalws   = os.path.normpath('%s/%s' % (dir.base, 'global-workspace.xml'))
     project    = "jakarta-gump"
     merge      = os.path.normpath('%s/%s' % (dir.work, 'merge.xml'))
     date       = time.strftime('%Y%m%d')
-    logLevel   = logging.WARN
+    logLevel   = logging.INFO
     classpath = (os.getenv('CLASSPATH') or '').split(os.pathsep)  
     
     logurl		=	'http://cvs.apache.org/builds/gump/nightly/'
@@ -100,8 +102,9 @@ class default:
     
     email = 'gump@lists.apache.org'
     mailserver = 'mail.apache.org'
-    prefix = "[GUMPY]"
-    signature="\r\n--\r\nGump http://jakarta.apache.org/gump"
+    prefix = '[GUMPY@' + gumphost + ']'
+    signature="\r\n--\r\nGump http://jakarta.apache.org/gump\n" \
+        + '[' + gumpfullhost + "]\n"
     
 class setting:    
     """Configuration of hardcoded settings"""
