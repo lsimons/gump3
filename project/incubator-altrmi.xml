@@ -31,6 +31,7 @@
         <depend project="avalon-cornerstone"/>
         <depend project="avalon-phoenix"/>
         <depend project="commons-betwixt"/>
+        <depend project="commons-digester"/>
         <!-- inserting the dependencies of phoenix-metagenerate.jar by hand here
              until avalon-phoenix-metagenerate becomes available seperately -->
         <depend project="phoenix-qdox"/>
