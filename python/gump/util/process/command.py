@@ -128,7 +128,7 @@ class Parameters:
         requiresQuoting=param.isRequiresQuoting()
         
         if requiresQuoting:
-            line+=default.shellQuote
+            line += default.shellQuote
         
         if param.prefix: 
           line += param.prefix
@@ -142,7 +142,7 @@ class Parameters:
             line += self.getEscapedEntry(val)        
             
         if requiresQuoting:
-            line+=default.shellQuote            
+            line += default.shellQuote
         line += ' '
         
       return line
@@ -159,20 +159,20 @@ class Parameters:
       
     def dump(self,indent=''):
       for param in self.list:
-        print indent+'  '+param.name+' '+str(param.value)+' ('+str(param.prefix)+')'
+        print indent + '  ' + param.name + ' ' + str(param.value) + ' (' + str(param.prefix) + ')'
       
 class Cmd:
     """Command Line (executable plus parameters)"""
     def __init__(self,command,name=None,cwd=None,env=None,timeout=setting.TIMEOUT):
-        self.cmdpath=command
-        self.name=name
+        self.cmdpath = command
+        self.name = name
         if not self.name:
-            self.name=command
-        self.params=Parameters()
-        self.env=env
-        if not env: self.env={}
-        self.cwd=cwd
-        self.timeout=timeout
+            self.name = command
+        self.params = Parameters()
+        self.env = env
+        if not env: self.env = {}
+        self.cwd = cwd
+        self.timeout = timeout
 
     def addParameter(self,name,val=None,separator=' '):
         self.params.addParameter(name,val,separator)
@@ -209,12 +209,12 @@ class Cmd:
         return line
             
     def overview(self,indent=''):
-        overview=indent+'Command Line: ' + self.formatCommandLine()+'\n'
+        overview = indent + 'Command Line: ' + self.formatCommandLine() + '\n'
         if self.cwd:
-            overview += indent+'[Working Directory: ' + self.cwd + ']\n'
+            overview += indent + '[Working Directory: ' + self.cwd + ']\n'
         if self.env:
             for envKey in self.env.keys():
-                overview += indent+envKey+' : '+self.env[envKey]+ '\n'
+                overview += indent + envKey + ': ' + self.env[envKey] + '\n'
         return overview
         
     def dump(self,indent=''):
@@ -222,10 +222,10 @@ class Cmd:
         
 def getCmdFromString(strcmd,name=None):
     """Extract a Cmd Object from a String"""
-    parts=split(strcmd,' ')
-    cmdcmd=parts[0]
-    if not name: name=cmdcmd
-    cmd=Cmd(cmdcmd,name)
+    parts = split(strcmd,' ')
+    cmdcmd = parts[0]
+    if not name: name = cmdcmd
+    cmd = Cmd(cmdcmd,name)
     for i in range(1,len(parts)):
         if parts[i]:
             cmd.addParameterObject(getParameterFromString(parts[i]))
@@ -234,27 +234,27 @@ def getCmdFromString(strcmd,name=None):
 class CmdResult:
     """Result of execution -- state/outputs"""
     def __init__(self,cmd):
-        self.cmd=cmd
-        self.state=CMD_STATE_NOT_YET_RUN
-        self.output=None
-        self.signal=0
-        self.exit_code=-1
+        self.cmd = cmd
+        self.state = CMD_STATE_NOT_YET_RUN
+        self.output = None
+        self.signal = 0
+        self.exit_code = -1
         
         # To calculate elapsed
-        self.start=None
-        self.end=None
+        self.start = None
+        self.end = None
         
-    def overview(self,indent):
-        overview = indent+"State: " + states[self.state]
+    def overview(self,indent=''):
+        overview = indent + "State: " + states[self.state] + "\n"
         overview += self.cmd.overview(indent)
         if self.output:
-          overview += indent+"Output: " + self.output
+          overview += indent + "Output: " + self.output + "\n"
         if self.hasTimes():
-          overview += indent+"Elapsed: " + secsToElapsedTimeString(self.getElapsedSecs())
+          overview += indent + "Elapsed: " + secsToElapsedTimeString(self.getElapsedSecs()) + "\n"
         if self.signal:
-          overview += indent+"Termination Signal: " + str(self.signal)
+          overview += indent + "Termination Signal: " + str(self.signal) + "\n"
         if self.exit_code:
-          overview += indent+"ExitCode: " + str(self.exit_code)
+          overview += indent + "ExitCode: " + str(self.exit_code) + "\n"
         
         return overview
         
@@ -268,7 +268,7 @@ class CmdResult:
         return tail
         
     def isOk(self):
-        return (self.state==CMD_STATE_SUCCESS)
+        return (self.state == CMD_STATE_SUCCESS)
     
     def hasOutput(self):
         if self.output: return 1

@@ -57,18 +57,19 @@ def gumpinit(level=None):
     initializeGarbageCollection()
     
     # If a .timestamp exists, use it.
-    timestamp=os.path.join(dir.base,'.timestamp')
+    timestamp = os.path.join(dir.base,'.timestamp')
     if os.path.exists(timestamp):
         default.timestamp = os.path.getmtime(timestamp)
     else:
         default.timestamp = time.time()
+
     # Import this timestamp
     default.datetime   = datetime.datetime.fromtimestamp(default.timestamp)
     default.datetime_s = default.datetime.strftime(setting.DATETIME_FORMAT)
     default.date_s     = default.datetime.strftime(setting.DATE_FORMAT)
     default.datetime_sp= default.datetime.strftime(setting.DATETIME_PRESENTATION_FORMAT)
     default.date_sp    = default.datetime.strftime(setting.DATE_PRESENTATION_FORMAT)
-    
-    
+
+
 if __name__ == '__main__':
     gumpinit()

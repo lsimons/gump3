@@ -16,10 +16,8 @@
 # limitations under the License.
 
 """
-
  A gump environment (i.e. what tools are available in this machine's
  environment, and so forth).
- 
 """
 
 import os.path
@@ -54,7 +52,6 @@ class GumpEnvironment(Annotatable,Workable,Propogatable):
     	
     	What environment variables are set, what tools are 
     	available, what Java command to use, etc.
-    	
     """
 
     def __init__(self):
@@ -63,35 +60,35 @@ class GumpEnvironment(Annotatable,Workable,Propogatable):
         Propogatable.__init__(self)
         Stateful.__init__(self)
         
-        self.checked=False
-        self.set=False
+        self.checked = False
+        self.set = False
     	
-        self.noMono=False
-        self.noNAnt=False    
-        self.noMaven=False    	 
-    	self.noDepot=False    	
-    	self.noUpdate=False    
-    	self.noSvn=False    	
-    	self.noCvs=False   
-    	self.noP4=False   
-        self.noJava=False
-        self.noJavac=False
+        self.noMono = False
+        self.noNAnt = False    
+        self.noMaven = False    	 
+        self.noDepot = False    	
+        self.noSvn = False    	
+        self.noCvs = False   
+        self.noP4 = False   
+        self.noJava = False
+        self.noJavac = False
         
-        self.javaProperties=None
+        self.javaProperties = None
     
         # GUMP_HOME
         self.gumpHome = None
         
-    	# JAVACMD can override this, see checkEnvironment
-    	self.javaHome = None
+        # JAVACMD can override this, see checkEnvironment
+        self.javaHome = None
         self.javaCommand = 'java'
+        self.javacCommand = 'javac'
         
         # DEPOT_HOME
         self.depotHome = None
         
         # Timezone and offset from UTC
-        self.timezone=time.tzname
-        self.timezoneOffset=time.timezone
+        self.timezone = time.tzname
+        self.timezoneOffset = time.timezone
         
     def checkEnvironment(self,exitOnError=False):
         """ 
@@ -100,35 +97,26 @@ class GumpEnvironment(Annotatable,Workable,Propogatable):
         
         if self.checked: return
     
-        #
-        # :TODO: Complete this, it ought be an important early warning...
-        #
-    
-    
-        #:TODO: Take more from runAnt.py on:
-        # - ANT_OPTS?
-        # - How to ensure lib/tools.jar is in classpath
-        # - Others?
-    
-        #
-        #    Directories...
-     
-    
+        # Check for directories
+        
         self._checkEnvVariable('GUMP_HOME')                
-        self.gumpHome  = os.environ['GUMP_HOME']
+        self.gumpHome = os.environ['GUMP_HOME']
             
-        # JAVACMD can be set (perhaps for JRE verse JDK)
-        if os.environ.has_key('JAVACMD'):        
-            self.javaCommand  = os.environ['JAVACMD']
-            self.addInfo('JAVACMD environmental variable setting java command to ' \
-                + self.javaCommand )      
+        # JAVA_CMD can be set (perhaps for JRE verse JDK)
+        if os.environ.has_key('JAVA_CMD'):        
+            self.javaCommand  = os.environ['JAVA_CMD']
+            self.addInfo('JAVA_CMD environmental variable setting java command to ' + self.javaCommand )      
+
+        # JAVAC_CMD can be set (perhaps for JRE verse JDK)
+        if os.environ.has_key('JAVAC_CMD'):        
+            self.javacCommand  = os.environ['JAVAC_CMD']
+            self.addInfo('JAVAC_CMD environmental variable setting javac command to ' + self.javacCommand )      
     
         self._checkEnvVariable('JAVA_HOME')
                 
         if os.environ.has_key('JAVA_HOME'):        
             self.javaHome  = os.environ['JAVA_HOME']
-            self.addInfo('JAVA_HOME environmental variable setting java home to ' \
-                + self.javaHome )      
+            self.addInfo('JAVA_HOME environmental variable setting java home to ' + self.javaHome )      
                 
         if not self.noMaven and not self._checkEnvVariable('MAVEN_HOME',False): 
             self.noMaven=True
@@ -138,16 +126,10 @@ class GumpEnvironment(Annotatable,Workable,Propogatable):
             self.noDepot=True
             self.addWarning('DEPOT_HOME environmental variable not found, no depot downloads.')
         
-        self.depotHome  = getDepotHome(False)
+        self.depotHome = getDepotHome(False)
             
-        #
-        # Check for executables:
-        #
-        #    java
-        #    javac (for bootstrap ant & beyond)
-        #    cvs
-        #    svn
-        #
+        # Check for executables
+        
         self._checkExecutable('env','',False)
 
         if not self.noJava and not self._checkExecutable(self.javaCommand,'-version',exitOnError,1):
@@ -172,10 +154,10 @@ class GumpEnvironment(Annotatable,Workable,Propogatable):
             self.noP4=True
             self.addWarning('"p4" command not found, no Perforce repository updates')
           
-        if not self.noUpdate and \
+        if not self.noDepot and \
             not self._checkExecutable(getDepotUpdateCmd(),'-version',False,False,'check_depot_update'): 
-            self.noUpdate=True
-            self.addWarning('"update.py" command not found, no package downloads')
+            self.noDepot=True
+            self.addWarning('"depot update" command not found, no package downloads')
         
         if not self.noMaven and \
             not self._checkExecutable('maven','--version',False,False,'check_maven'): 
@@ -192,7 +174,7 @@ class GumpEnvironment(Annotatable,Workable,Propogatable):
             self.noMono=True
             self.addWarning('"Mono" command not found, no Mono runtime')
        
-        self.checked=True
+        self.checked = True
         
         self.changeState(STATE_SUCCESS)
         
@@ -204,7 +186,7 @@ class GumpEnvironment(Annotatable,Workable,Propogatable):
         if self.set: return
         
         # Blank the CLASSPATH
-        os.environ['CLASSPATH']=''
+        os.environ['CLASSPATH'] = ''
   
         self.set=True
         
@@ -223,43 +205,45 @@ class GumpEnvironment(Annotatable,Workable,Propogatable):
         Ask the JAVA instance what it's system properties are, 
         primarily so we can log/display them (for user review).
         """
-        if not isinstance(self.javaProperties,NoneType): 
+        
+        if not isinstance(self.javaProperties,NoneType):
             return self.javaProperties
 
         # Ensure we've determined the Java Compiler to use
         self.checkEnvironment()
         
-        if self.noJavac: return {}
+        if self.noJavac: 
+            log.error("Can't obtain Java properties since Java Environment was not found")
+            return {}
 
         import commands, re
 
         JAVA_SOURCE = dir.tmp + '/sysprop.java'
 
-        source=open(JAVA_SOURCE,'w')
+        source = open(JAVA_SOURCE,'w')
         source.write("""
           import java.util.Enumeration;
           public class sysprop {
             public static void main(String [] args) {
-              Enumeration e=System.getProperties().propertyNames();
+              Enumeration e = System.getProperties().propertyNames();
               while (e.hasMoreElements()) {
-                String name = (String)e.nextElement();
-                System.out.print(name + ": ");
-                System.out.println(System.getProperty(name));
+                String name = (String) e.nextElement();
+                System.out.println(name + ": " + System.getProperty(name));
               }
             }
           }
         """)
         source.close()
     
-        os.system('javac ' + JAVA_SOURCE)
+        cmd = self.javacCommand + " " + JAVA_SOURCE
+        os.system(cmd)
         os.unlink(JAVA_SOURCE)
     
-        cmd=self.javaCommand + ' -cp ' + dir.tmp + ' sysprop'
-        self.javaProperties = \
-	        dict(re.findall('(.*?): (.*)', commands.getoutput(cmd)))
-        JAVA_CLASS=JAVA_SOURCE.replace('.java','.class')
-        if os.path.exists(JAVA_CLASS):
-            os.unlink(JAVA_CLASS)
+        cmd = self.javaCommand + ' -cp ' + dir.tmp + ' sysprop'
+        result = commands.getoutput(cmd)
+        self.javaProperties = dict(re.findall('(.*?): (.*)', result))
+        JAVA_CLASS = JAVA_SOURCE.replace('.java','.class')
+        if os.path.exists(JAVA_CLASS): os.unlink(JAVA_CLASS)
 
         for (name,value) in self.javaProperties.items():
             log.debug("Java Property: " + name + " => " + value)
@@ -267,55 +251,55 @@ class GumpEnvironment(Annotatable,Workable,Propogatable):
         return self.javaProperties
 
     def _checkExecutable(self,command,options,mandatory,logOutput=False,name=None):
-        ok=False
+        ok = False
         try:
-            if not name: name='check_'+command
-            cmd=gump.util.process.command.getCmdFromString(command+" "+options,name)
-            result=execute(cmd)
-            ok=result.isOk()
-            if not ok:
-                log.info('Failed to detect [' + command + ']')   
+            if not name: name = 'check_'+command
+            cmd = gump.util.process.command.getCmdFromString(command+" "+options,name)
+            result = execute(cmd)
+            ok = result.isOk()
+            if ok:
+                log.warning('Detected [' + command + ' ' + options + ']')   
+            else:
+                log.warning('Failed to detect [' + command + ' ' + options + ']')   
         except Exception, details:
-            ok=False
-            log.error('Failed to detect [' + command + '] : ' + str(details))
-            result=None
+            ok = False
+            log.error('Failed to detect [' + command + ' ' + options + '] : ' + str(details))
+            result = None
        
         # Update 
         self.performedWork(CommandWorkItem(WORK_TYPE_CHECK,cmd,result))
         
         if not ok and mandatory:
-            banner()
             print
-            print " Unable to detect/test mandatory [" + command+ "] in path (see next)."
+            print "Unable to detect/test mandatory [" + command+ "] in path:"
             for p in sys.path:
                 print "  " + str(os.path.abspath(p))
             sys.exit(EXIT_CODE_MISSING_UTILITY)
         
         # Store the output
         if logOutput and result.output:
-            out=tailFileToString(result.output,10)
+            out = tailFileToString(result.output,10)
             self.addInfo(name + ' produced: \n' + out)
             
         return ok
     
     def _checkEnvVariable(self,env,mandatory=True):
-        ok=False
+        ok = False
         try:
-            ok=os.environ.has_key(env)
+            ok = os.environ.has_key(env)
             if not ok:
                 log.info('Failed to find environment variable [' + env + ']')
         
         except Exception, details:
-            ok=False
+            ok = False
             log.error('Failed to find environment variable [' + env + '] : ' + str(details))
     
         if not ok and mandatory:
-            banner()
             print
-            print " Unable to find mandatory [" + env + "] in environment (see next)."
+            print "Unable to find mandatory [" + env + "] in environment:"
             for e in os.environ.keys():
                 try:
-                    v=os.environ[e]
+                    v = os.environ[e]
                     print "  " + e + " = " + v
                 except:
                     print "  " + e 
@@ -333,6 +317,6 @@ class GumpEnvironment(Annotatable,Workable,Propogatable):
         return self.timezoneOffset
         
 if __name__ == '__main__':
-  env = GumpEnvironment()
-  env.checkEnvironment()
-  env.getJavaProperties()
+    env = GumpEnvironment()
+    env.checkEnvironment()
+    env.getJavaProperties()

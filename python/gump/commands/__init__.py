@@ -19,16 +19,6 @@ __date__      = "$Date: 2004-08-20 08:55:45 -0600 (Fri, 20 Aug 2004) $"
 __copyright__ = "Copyright (c) 1999-2004 Apache Software Foundation"
 __license__   = "http://www.apache.org/licenses/LICENSE-2.0"
 
-#
-# $Header: /home/stefano/cvs/gump/python/gump/__init__.py,v 1.25 2004/07/19 16:07:53 ajack Exp $
-# 
-
-# Either python-2.3 [or http://www.red-dove.com/python_logging.html]
-import logging
-import logging.config
-
-# configure the logger
-logging.config.fileConfig("gump.log.config")
-
-# base gump logger
-log = logging.getLogger("root")
+# tell Python what modules make up this package
+# NOTE: this is used by the command line processing routines so keep it up to date!
+__all__ = ["env","build","check"]
