@@ -22,8 +22,8 @@
   <project name="jacorb">
     <url href="http://jacorb.inf.fu-berlin.de/"/>
     <home nested="java/lib"/>
-    <jar name="jacorb-1.1.jar"/>
-    <jar name="idl-1.1.jar"/>
+    <jar name="jacorb-1.3.30.jar"/>
+    <jar name="idl-1.3.30.jar"/>
   </project>
 
   <project name="xmldb">
