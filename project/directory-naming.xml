@@ -21,6 +21,7 @@
     <depend project="mx4j"/>
     <depend project="xml-xerces"/>
     <work nested="core/target/classes"/>
+    <work nested="core/target/test-classes"/>
     <work nested="factory/target/classes"/>
     <home nested="."/>
     <jar name="/core/dist/directory-naming-core-@@DATE@@.jar"/>
