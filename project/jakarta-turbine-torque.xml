@@ -39,8 +39,7 @@
       <property name="deprecation" value="on"/>
     </ant>
     <depend project="jakarta-ant" version="1.3"/>
-    <home nested="bin"/>
-    <jar id="torque" name="torque-gump.jar"/>
+    <depend project="jakarta-turbine-torque"/>
   </project>    
 
 </module>
