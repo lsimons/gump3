@@ -20,4 +20,18 @@
   <home nested="java/build"/>
   <jar name="lib/axis.jar"/>
 
+  <project name="test-axis">
+    <ant basedir="java" target="functional-tests"/>
+
+    <depend project="xml-xerces"/>
+    <depend project="jakarta-ant"/>
+    <depend project="jakarta-servletapi"/>
+    <option project="junit"/>
+    <depend project="xml-xalan2"/>
+    <depend project="xml-axis"/>
+    <work nested="java/build/classes"/>
+    <work nested="java/build"/>
+
+  </project>
+
 </project>

@@ -219,6 +219,12 @@ From: Diane Holt <holtdl@apache.org>
 Subject: [GUMP] Test Failure - Ant
 Regex: /BUILD FAILED/
 -------
+Project: test-axis
+To: axis-dev@xml.apache.org
+From: Sam Ruby <rubys@us.ibm.com>
+Subject: [GUMP] Function Test Failure - Axis
+Regex: /BUILD FAILED/
+-------
 Project: xml-axis
 To: axis-dev@xml.apache.org
 From: Sam Ruby <rubys@us.ibm.com>
