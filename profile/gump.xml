@@ -133,6 +133,7 @@
   <module href="project/jgen.xml"/>
   <module href="project/jrefactory.xml"/>
   <module href="project/jtidy.xml"/>
+  <module href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/*checkout*/juddi/juddi/gump.xml" />
   <module href="project/junit.xml"/>
   <module href="project/jython.xml"/>
   <module href="project/mockobjects.xml"/>
