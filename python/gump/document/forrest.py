@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/forrest.py,v 1.85 2004/02/26 18:47:33 ajack Exp $
-# $Revision: 1.85 $f
-# $Date: 2004/02/26 18:47:33 $
+# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/forrest.py,v 1.86 2004/02/26 19:15:01 ajack Exp $
+# $Revision: 1.86 $f
+# $Date: 2004/02/26 19:15:01 $
 #
 # ====================================================================
 #
@@ -1823,7 +1823,7 @@ class ForrestDocumenter(Documenter):
             # mark's it as failed then something in the nasties must refer
             # to the problem.
             if not url:
-                if isinstance(toObject,Annotatable) and toObject.containsNasties()
+                if isinstance(toObject,Annotatable) and toObject.containsNasties():
                     postfix='#Annotations'
         
         if not url:
