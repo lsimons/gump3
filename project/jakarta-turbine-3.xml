@@ -14,15 +14,15 @@
       <depend property="log4j.jar"    project="jakarta-log4j" id="log4j"/>
       <depend property="servlet.jar"  project="jakarta-servletapi-4"/>
       <depend property="fulcrum.jar"  project="jakarta-turbine-fulcrum"/>
-      <depend property="regexp.jar"  project="jakarta-regexp"/>
+      <depend property="regexp.jar"   project="jakarta-regexp"/>
       <depend property="torque.jar"   project="jakarta-turbine-torque"/>
       <depend property="jaf.jar"      project="jaf"/>
       <depend property="jdom.jar"     project="jdom"/>
+      <depend property="xerces.jar"   project="xml-xerces"/>
       <depend property="commons-util.jar" project="commons-util"/>
       <depend property="commons-collections.jar" project="commons-collections"/>
     </ant>
     <depend project="jakarta-ant"/>
-    <depend project="xml-xerces"/>
     <depend project="xml-xalan2"/>
     <depend project="jakarta-oro"/>
     <depend project="village"/>
