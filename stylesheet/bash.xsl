@@ -452,7 +452,7 @@
   <!-- =================================================================== -->
 
   <xsl:template match="move">
-    <xsl:text>move </xsl:text>
+    <xsl:text>mv </xsl:text>
     <xsl:value-of select="translate(@file,'\','/')"/>
     <xsl:text> </xsl:text>
     <xsl:value-of select="translate(@todir,'\','/')"/>
