@@ -14,10 +14,6 @@ edit their modules cvs data to keep the builds fresh.
 </p>
 <more/>
 <blockquote>
-Quote the board and link
-Waiting on the <a href="http://apache.org/foundation/board/calendar.html"
->Meeting notes</a> to be Approved. 
-<br/> Sample below,  use the official when available.
 <pre>
 WHEREAS, the Board of Directors deems it to be in the best
        interests of the Foundation and consistent with the
