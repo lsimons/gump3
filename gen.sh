@@ -15,10 +15,10 @@ if test "$OSTYPE" = "cygwin32" -o "$OSTYPE" = "cygwin"; then
   test -z "$1" && export SOURCE=`hostname`.xml
 
   export CLASSPATH=`cygpath --path --unix "$CLASSPATH"`
-  export CLASSPATH=$XALAN/bin/xerces.jar:$XALAN/bin/xalan.jar:$CLASSPATH
+  export CLASSPATH=.:$XALAN/bin/xerces.jar:$XALAN/bin/xalan.jar:$CLASSPATH
   export CLASSPATH=`cygpath --path --windows "$CLASSPATH"`
 else
-  export CLASSPATH=$XALAN/bin/xerces.jar:$XALAN/bin/xalan.jar:$CLASSPATH
+  export CLASSPATH=.:$XALAN/bin/xerces.jar:$XALAN/bin/xalan.jar:$CLASSPATH
   test -z "$1" && export SOURCE=`hostname -s`.xml
 fi
 
@@ -28,9 +28,9 @@ mkdir work
 # ********************************************************************
 
 echo Merging projects into workspace
-javac -classpath .:$CLASSPATH gen.java || export FAIL=1
+javac gen.java || export FAIL=1
 echo
-java -classpath .:$CLASSPATH gen $SOURCE || export FAIL=1
+java gen $SOURCE || export FAIL=1
 
 # ********************************************************************
 
