@@ -18,7 +18,7 @@
   <project name="ws-axis">
     <package>org.apache.axis</package>
 
-    <ant basedir="java" target="all">
+    <ant basedir="java" target="compile">
       <property name="axis.lib.dir" value="lib"/>
       <property name="env.ANT_HOME" reference="home" project="ant"/>
       <depend name="wsdl4j.jar" project="wsdl4j" id="wsdl4j"/>
@@ -26,15 +26,12 @@
     </ant>
 
     <depend project="xml-xerces"/>
-    <depend project="xmlunit"/>
     <depend project="jakarta-oro"/>
     <depend project="ant" inherit="runtime"/>
     <depend project="commons-discovery"/>
     <depend project="commons-logging"/>
     <depend project="jakarta-servletapi-4"/>
-    <depend project="httpunit"/>
     <option project="commons-httpclient"/>
-    <option project="junit"/>
     <option project="jimi"/>
     <option project="jaf"/>
     <option project="javamail"/>
@@ -53,6 +50,36 @@
     <license name="LICENSE"/>
 
     <javadoc nested="java/build/javadocs"/>
+    
+    <nag from="Sam Ruby &lt;rubys@us.ibm.com&gt;"
+         to="axis-dev@ws.apache.org">
+      <regexp  subject="Build Failure - Axis"/>
+      <regexp pattern="/timed out/" subject="Build timed out - Axis"/>
+    </nag>
+  </project>
+
+  <!-- test -->
+
+  <project name="ws-axis-test">
+    <package>org.apache.axis</package>
+
+    <ant basedir="java" target="test">
+      <property name="axis.lib.dir" value="lib"/>
+      <property name="env.ANT_HOME" reference="home" project="ant"/>
+      <depend name="wsdl4j.jar" project="wsdl4j" id="wsdl4j"/>
+      <depend name="log4j-core.jar" project="jakarta-log4j" id="log4j"/>
+    </ant>
+
+    <depend project="ws-axis" inherit="all"/>
+    <depend project="xmlunit"/>
+    <depend project="httpunit"/>
+    <option project="junit"/>
+
+    <work nested="java/build/lib/axis-ant.jar"/>
+    <work nested="java/build/classes"/>
+
+    <home nested="java/build"/>
+
 	<junitreport nested="java/testreports"/>
     
     <nag from="Sam Ruby &lt;rubys@us.ibm.com&gt;"

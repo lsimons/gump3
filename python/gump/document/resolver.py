@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/document/resolver.py,v 1.5 2003/12/02 18:55:12 ajack Exp $
-# $Revision: 1.5 $
-# $Date: 2003/12/02 18:55:12 $
+# $Header: /home/stefano/cvs/gump/python/gump/document/resolver.py,v 1.6 2003/12/02 22:36:46 ajack Exp $
+# $Revision: 1.6 $
+# $Date: 2003/12/02 22:36:46 $
 #
 # ====================================================================
 #
@@ -299,7 +299,11 @@ class Location:
         return s
     
 def concatenate(root,part):
-        return root+'/'+part
+    conc=root
+    if not conc.endswith('/'):
+        conc+='/'
+    conc+=part
+    return conc
         
 class Resolver:
     

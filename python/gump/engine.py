@@ -116,8 +116,7 @@ class GumpEngine:
         if run.getGumpSet().isFull():
   
             #
-            # Nag about failures -- only if we are allowed to
-            #
+            # Nag about failures
             #
             nag(run)
   

@@ -332,6 +332,11 @@
       <link href="workspace.html#javadoc">&lt;javadoc&gt;</link> element is present
       in the workspace definition.</p>
 
+	<warning>
+    <link href="../python/index.html">Python Gump</link> does NOT (currently) support
+    this feature.
+  	</warning>
+  	
       <table>
         <tr>
           <th>Attribute</th>
@@ -436,7 +441,13 @@
       tool outputs are placed.  This option only has any meaning if the
       <link href="workspace.html#junitreport">&lt;junitreport&gt;</link> element
       is present in the workspace definition.</p>
-
+   
+	<warning>
+    <link href="../python/index.html">Python Gump</link> only takes the nested and parent 
+    references as a directory reference, and lists the contents of the files in that
+    directory. It does this irrespective of any entry in the workspace.
+  	</warning>
+  	
       <table>
         <tr>
           <th>Attribute</th>
@@ -566,7 +577,12 @@
           nested regexp element.</td>
         </tr>
       </table>
-
+      
+	<warning>
+    <link href="../python/index.html">Python Gump</link> does not use regular expressions,
+    it soley relies upon the exit code of the called builder or script.
+  	</warning>
+  	
       <p>A build failure is detected by matching the output of the
       build against Perl regular expressions, the default expression
       is <code>/BUILD FAILED/i</code>.  The regular expressions are

@@ -204,7 +204,7 @@ class RSS:
                 
     def endRSS(self):                    
         # complete the rss feed
-        self.rssStream.write('</rss>')
+        self.rssStream.write('</rss>\n')
                 
         log.info("RSS Newsfeed written to : " + self.rssFile);          
         
@@ -248,7 +248,7 @@ class Syndicator:
             Channel(self.workspace.logurl,	\
                     'Jakarta Gump',		\
                     """Life is like a box of chocolates""", \
-                Image('http://jakarta.apache.org/images/bench.png',	\
+                Image('http://jakarta.apache.org/gump/images/bench.png',	\
                     'Jakarta Gump', \
                     'http://jakarta.apache.org/')))
         
@@ -307,8 +307,9 @@ class Syndicator:
                   project.getModule().getName() + ":" + project.getName(), \
                   ('%sT%s%s') % (datestr,timestr,TZ))
 
-        projectRSS.addItem(item)
-        moduleRSS.addItem(item)  
+        if not s.currentState == STATE_NONE:
+            projectRSS.addItem(item)
+            moduleRSS.addItem(item)  
 
         # State changes that are newsworthy...
         if 	s.sequenceInState == 1	\

@@ -2,6 +2,7 @@
            pkgdir="/data/gump/opt"
            sync="rsync -r -a --delete"
            jardir="/data/gump/log/jars"
+           logurl='http://lsd.student.utwente.nl/gump/'
            version="0.3">
 
   <property name="build.sysclasspath" value="only"/>
