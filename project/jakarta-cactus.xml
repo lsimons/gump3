@@ -492,8 +492,8 @@
 
       <!-- Note: We cannot use the jstl and standard jars from CVS HEAD as
            they require Servlet API 2.4 and JSP API 2.0 -->
-      <depend property="jstl.jar" project="jstl-jsp-12" id="jstl"/>
-      <depend property="standard.jar" project="jstl-jsp-12" id="standard"/>
+      <property name="jstl.jar" project="jstl-jsp-12" id="jstl"/>
+      <property name="standard.jar" project="jstl-jsp-12" id="standard"/>
 
       <depend property="nekohtml.jar" project="nekohtml" id="nekohtml"/>
       <depend property="cactus.jar" project="jakarta-cactus-framework-13"/>
@@ -511,6 +511,12 @@
     <depend project="aspectj"/>
     <depend project="jakarta-cactus-integration-ant-13"/>
     <depend project="commons-httpclient-2.0-branch" inherit="runtime"/>
+
+    <!-- Note 2004/04/02: These 2 depends should ideally been moved in 
+         the <ant> definition. However it seems that Gumpy has some 
+         issues ATM with this -->
+    <depend project="jstl-jsp-12" id="jstl"/>
+    <depend project="jstl-jsp-12" id="standard"/>
 
     <work nested="samples/servlet/target-13/test/classes/java"/>
     <work nested="samples/servlet/target-13/test/classes/cactus"/>
