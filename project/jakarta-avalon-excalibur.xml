@@ -337,8 +337,12 @@
 
         <depend project="jakarta-ant" inherit="runtime"/>
         <depend project="xml-xerces"/>
+        <depend project="junit"/>
+        <depend project="bsf"/>
+        <depend project="checkstyle" inherit="runtime"/>
         <depend project="xml-xalan2"/>
         <work nested="configuration/build/classes"/>
+        <work nested="configuration/build/testclasses"/>
 
         <home nested="configuration"/>
         <jar name="build/lib/excalibur-configuration-@@DATE@@.jar"/>
