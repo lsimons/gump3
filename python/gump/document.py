@@ -803,12 +803,7 @@ def documentWork(workspace,work,dir):
         
         startListXDoc(x) 
         addItemXDoc(x,"Status: ", stateName(work.status))
-        addItemXDoc(x,"Start Time: ", time.strftime(setting.datetimeformat, \
-                    time.localtime(work.result.start_time)))
-        addItemXDoc(x,"End Time: ", time.strftime(setting.datetimeformat, \
-                    time.localtime(work.result.end_time)))
-        
-        addItemXDoc(x,"Command: ", work.command.name)
+        # addItemXDoc(x,"Command: ", work.command.name)
         if work.command.cwd:
             addItemXDoc(x,"Working Directory: ", work.command.cwd)
         if work.result.output:
@@ -817,6 +812,15 @@ def documentWork(workspace,work,dir):
             addItemXDoc(x,"Output: None")
             
         addItemXDoc(x,"Exit Code: ", str(work.result.exit_code))
+        
+        
+        
+        addItemXDoc(x,"Start Time: ", time.strftime(setting.datetimeformat, \
+                    time.localtime(work.result.start_time)))
+        addItemXDoc(x,"End Time: ", time.strftime(setting.datetimeformat, \
+                    time.localtime(work.result.end_time)))
+        addItemXDoc(x,"Elapsed Time: ", secsToString(work.secs))
+        
         endListXDoc(x)
         endSectionXDoc(x)
        
@@ -830,18 +834,22 @@ def documentWork(workspace,work,dir):
             startSectionXDoc(x,title)    
             x.write('<table><tr><th>Prefix</th><th>Name</th><th>Value</th></tr>')
             for param in work.command.params.items():
-                x.write('<tr><td>')
-                if param.prefix: 
-                  x.write(param.prefix)
-                x.write('</td><td>')
-                x.write(param.name)
-                x.write('</td><td>')
-                val = param.value
-                if val:
-                    x.write(val)
+                if param.name:
+                    x.write('<tr><td>')
+                    if param.prefix: 
+                      x.write(param.prefix)
+                    x.write('</td><td>')
+                    x.write(param.name)
+                    x.write('</td><td>')
+                    val = param.value
+                    if val:
+                        x.write(val)
+                    else:
+                        x.write('N/A')
+                    x.write('</td></tr>\n')  
                 else:
-                    x.write('N/A')
-                x.write('</td></tr>\n')        
+                    log.error('Bogus parameter on ' + str(param))
+                    
             x.write('</table>\n')
             endSectionXDoc(x)
                 

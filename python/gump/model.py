@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/Attic/model.py,v 1.31 2003/10/19 17:46:36 ajack Exp $
-# $Revision: 1.31 $
-# $Date: 2003/10/19 17:46:36 $
+# $Header: /home/stefano/cvs/gump/python/gump/Attic/model.py,v 1.32 2003/10/19 22:00:38 ajack Exp $
+# $Revision: 1.32 $
+# $Date: 2003/10/19 22:00:38 $
 #
 # ====================================================================
 #
@@ -449,13 +449,16 @@ class Property(GumpModelObject):
       except:
         log.warn( "Cannot resolve srcdir of " + self.project + " for " + project.name)
 
-    elif self.reference=='jarpath':
+    elif self.reference=='jarpath' or self.reference=='jar':
       try:
         target=Project.list[self.project]
         if self.id:
           for jar in target.jar:
             if jar.id==self.id:
-              self.value=jar.path
+              if self.reference=='jarpath':
+                  self.value=jar.path
+              else:
+                  self.value=jar.name
               break
           else:
             self.value=("jar with id %s was not found in project %s " +
@@ -476,6 +479,21 @@ class Property(GumpModelObject):
       except Exception, details:
         log.warn( "Cannot resolve jarpath of " + self.project + \
           " for " + project.name + ". Details: " + str(details))
+    elif self.path:
+        #
+        # Path relative to module's srcdir (or
+        #
+        module=Project.list[project.name].module
+        srcdir=Module.list[module].srcdir
+        
+        # :TODO: ARBJ, this correct? I think it is close, but not...
+        # Is module's srcdir same as project's ?
+        self.value=os.path.abspath(os.path.join(srcdir,self.path))
+    elif not hasattr(self,'value'):
+        log.error('Unhandled Property: ' + self.name + ' on project: ' + \
+                    project.name)
+        
+        
         
 # TODO: set up the below elements with defaults using complete()
 
