@@ -65,7 +65,7 @@
         <package>org.apache.avalon.excalibur.component</package>
         <!--package>org.apache.avalon.excalibur.testcase</package-->
 
-        <ant basedir="component" target="jar">
+        <ant basedir="component" target="jar" buildfile="gump-build.xml">
             <property name="checkstyle.jar" project="checkstyle" reference="jarpath"/>
             <property name="servlet.jar" project="jakarta-servletapi" reference="jarpath"/>
             <property name="project.version" value="@@DATE@@"/>
@@ -156,7 +156,7 @@
     <project name="excalibur-datasource">
         <package>org.apache.avalon.excalibur.datasource</package>
 
-        <ant basedir="datasource" target="jar">
+        <ant basedir="datasource" target="jar" buildfile="gump-build.xml">
             <property name="project.version" value="@@DATE@@"/>
         </ant>
 
@@ -231,7 +231,7 @@
     <project name="excalibur-event-impl">
         <package>org.apache.excalibur.event</package>
 
-        <ant basedir="event/impl" target="jar">
+        <ant basedir="event/impl" target="jar" buildfile="gump-build.xml">
             <!-- optional dependencies -->
             <property name="checkstyle.jar" project="checkstyle" reference="jarpath"/>
 
@@ -284,7 +284,7 @@
 
     <project name="excalibur-fortress-container-api">
         <package>org.apache.avalon.fortress</package>
-        <ant basedir="fortress/container-api" target="jar">
+        <ant basedir="fortress/container-api" target="jar" buildfile="gump-build.xml">
             <property name="project.name" value="excalibur-i18n"/>
             <property name="project.version" value="@@DATE@@"/>
         </ant>
@@ -318,7 +318,7 @@
     
     <project name="excalibur-fortress-container-impl">
         <package>org.apache.avalon.fortress</package>
-        <ant basedir="fortress/container-impl" target="jar">
+        <ant basedir="fortress/container-impl" target="jar" buildfile="gump-build.xml">
             <property name="project.name" value="excalibur-i18n"/>
             <property name="project.version" value="@@DATE@@"/>
         </ant>
@@ -366,7 +366,7 @@
     
     <project name="excalibur-fortress-container-test">
         <package>org.apache.avalon.fortress</package>
-        <ant basedir="fortress/container-test" target="jar">
+        <ant basedir="fortress/container-test" target="jar" buildfile="gump-build.xml">
             <property name="project.name" value="excalibur-i18n"/>
             <property name="project.version" value="@@DATE@@"/>
         </ant>
@@ -414,7 +414,7 @@
     
     <project name="excalibur-fortress-bean">
         <package>org.apache.avalon.fortress</package>
-        <ant basedir="fortress/bean" target="jar">
+        <ant basedir="fortress/bean" target="jar" buildfile="gump-build.xml">
             <property name="project.name" value="excalibur-i18n"/>
             <property name="project.version" value="@@DATE@@"/>
         </ant>
@@ -465,7 +465,7 @@
     
     <project name="excalibur-fortress-meta">
         <package>org.apache.avalon.fortress</package>
-        <ant basedir="fortress/meta" target="jar">
+        <ant basedir="fortress/meta" target="jar" buildfile="gump-build.xml">
             <property name="project.name" value="excalibur-i18n"/>
             <property name="project.version" value="@@DATE@@"/>
         </ant>
@@ -648,7 +648,7 @@
 
         <mkdir dir="instrument-client/target/classes"/>
 
-        <ant basedir="instrument-client" target="jar">
+        <ant basedir="instrument-client" target="jar" buildfile="gump-build.xml">
             <!-- optional dependencies -->
             <property name="checkstyle.jar" project="checkstyle" reference="jarpath"/>
 
@@ -720,7 +720,7 @@
     <project name="excalibur-lifecycle-impl">
         <package>org.apache.avalon.lifecycle</package>
 
-        <ant basedir="lifecycle/impl" target="jar">
+        <ant basedir="lifecycle/impl" target="jar" buildfile="gump-build.xml">
             <property name="project.version" value="@@DATE@@"/>
         </ant>
 
@@ -794,7 +794,7 @@
     <project name="excalibur-monitor">
         <package>org.apache.excalibur.monitor</package>
 
-        <ant basedir="monitor" target="jar">
+        <ant basedir="monitor" target="jar" buildfile="gump-build.xml">
             <property name="project.version" value="@@DATE@@"/>
             <property name="maven.build.dir" value="target"/>
         </ant>
@@ -833,49 +833,9 @@
     </project>
 
     <project name="excalibur-pool">
-      <depend project="excalibur-pool-legacy" inherit="jars"/>
-    </project>
-
-    <!-- 
-    HELP
-    need to turn this into an id="legacy" project and update
-    the dependees as required 
-    -->
-    <project name="excalibur-pool-legacy" >
-        <package>org.apache.avalon.excalibur.pool</package>
-
-        <ant basedir="pool" target="jar">
-            <property name="package-version" value="@@DATE@@"/>
-            <property name="junit.failonerror" value="true"/>
-            <property name="do.checkstyle" value="true"/>
-            <property name="project.version" value="@@DATE@@"/>
-            <property name="do.not.test" value="false"/>
-        </ant>
-
-        <depend project="ant" inherit="runtime"/>
-        <option project="checkstyle" inherit="runtime"/>
-        <depend project="avalon-framework" runtime="true" id="api"/>
-        <depend project="avalon-framework" runtime="true" id="impl"/>
-        <depend project="excalibur-instrument" runtime="true"/>
-        <depend property="commons-collections" project="commons-collections"/>
-        
-        <depend project="ant" inherit="runtime"/>
-        <option project="checkstyle" inherit="runtime"/>
-        <depend project="concurrent"/>
-        <depend project="xml-xerces"/>
-        <depend project="xml-xalan2"/>
-
-        <depend project="junit"/>
-        <depend project="junitperf"/>
-
-        <work nested="pool/target/classes"/>
-        <mkdir dir="pool/target/classes"/>
-
-        <home nested="pool"/>
-        <jar name="target/excalibur-pool-@@DATE@@.jar"/>
-
-        <nag from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"
-                to="dev@avalon.apache.org"/>
+      <depend project="excalibur-pool-api" inherit="jars"/>
+      <depend project="excalibur-pool-impl" inherit="jars"/>
+      <depend project="excalibur-pool-instrumented" inherit="jars"/>
     </project>
     
     <project name="excalibur-pool-api" >
@@ -1043,44 +1003,9 @@
     </project>
 
     <project name="excalibur-thread">
-      <depend project="excalibur-thread-legacy" inherit="jars" />
-    </project>
-
-    <project name="excalibur-thread-legacy">
-        <package>org.apache.avalon.excalibur.thread</package>
-
-        <ant basedir="thread" target="jar">
-            <property name="package-version" value="@@DATE@@"/>
-            <property name="junit.failonerror" value="true"/>
-            <property name="do.checkstyle" value="true"/>
-            <property name="skip.dependencies" value="true"/>
-            <property name="project.version" value="@@DATE@@"/>
-        </ant>
-        <depend project="avalon-logkit" runtime="true"/>
-        <depend project="avalon-framework" runtime="true" id="api"/>
-        <depend project="avalon-framework" runtime="true" id="impl"/>
-        <depend project="excalibur-pool" runtime="true"/>
-        <depend project="excalibur-instrument" runtime="true"/>
-        <depend project="commons-collections" runtime="true"/>
-        <depend project="concurrent"/>
-
-        <option project="checkstyle" inherit="runtime"/>
-
-        <depend project="ant" inherit="runtime"/>
-        <depend project="xml-xerces"/>
-        <depend project="xml-xalan2"/>
-
-        <!-- test-time dependencies -->
-        <depend project="junit"/>
-        <depend project="junitperf"/>
-        <depend project="excalibur-component"/>
-
-        <work nested="thread/target/classes"/>
-        <mkdir dir="thread/target/classes"/>
-
-        <home nested="thread"/>
-        <jar name="target/excalibur-thread-@@DATE@@.jar"/>
-        <nag from="Gump Integration Build &lt;dev@avalon.apache.org&gt;" to="dev@avalon.apache.org"/>
+      <depend project="excalibur-thread-api" inherit="jars"/>
+      <depend project="excalibur-thread-impl" inherit="jars"/>
+      <depend project="excalibur-thread-instrumented" inherit="jars"/>
     </project>
     
     <project name="excalibur-thread-api">
@@ -1116,7 +1041,7 @@
     <project name="excalibur-thread-impl">
         <package>org.apache.avalon.excalibur.thread</package>
 
-        <ant basedir="thread/impl" target="jar">
+        <ant basedir="thread/impl" target="jar" buildfile="gump-build.xml">
             <property name="package-version" value="@@DATE@@"/>
             <property name="junit.failonerror" value="true"/>
             <property name="do.checkstyle" value="true"/>
@@ -1152,7 +1077,7 @@
     <project name="excalibur-thread-instrumented">
         <package>org.apache.avalon.excalibur.thread</package>
 
-        <ant basedir="thread/instrumented" target="jar">
+        <ant basedir="thread/instrumented" target="jar" buildfile="gump-build.xml">
             <property name="package-version" value="@@DATE@@"/>
             <property name="junit.failonerror" value="true"/>
             <property name="do.checkstyle" value="true"/>
