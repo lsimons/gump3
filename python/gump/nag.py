@@ -118,9 +118,21 @@ def nagProject(workspace,context,module,mctxt,project,pctxt):
     #
     # Form the content...
     #
-    content+=getContent(workspace,mctxt,"Module: " + module.name + "\n")
-    content+=getContent(workspace,pctxt,"Project: " + project.name + "\n"    )
+    displayedModule=0
+    displayedProject=0
+    if not STATUS_SUCCESS == mctxt.status:
+        displayedModule=1
+        content+=getContent(workspace,mctxt,"Module: " + module.name + "\n")
         
+    if not STATUS_SUCCESS == pctxt.status:
+        displayedProject=1    
+        content+=getContent(workspace,pctxt,"Project: " + project.name + "\n"    )
+        
+    # No clue why this would happen, but fallback safe...
+    if not displayedModule or not displayedProject:
+        content+=getContent(workspace,mctxt,"Module: " + module.name + "\n")    
+        content+=getContent(workspace,pctxt,"Project: " + project.name + "\n"    )
+                
     #
     # Form the sujhect
     #
