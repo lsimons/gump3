@@ -29,6 +29,7 @@ import sys
 
 from gump import log
 from gump.core.run.gumprun import *
+from gump.core.build.script import getArgs
 from gump.core.config import dir, default, basicConfig
 
 from gump.util import dump, display, getIndent, logResourceUtilization, \
@@ -103,14 +104,16 @@ class MakeBuilder(gump.core.run.gumprun.RunSpecific):
         target= make.getTarget()
 
         # The make file (or none == Makefile)
-        buildfile = make.getBuildFile()
+        makefile = make.getMakeFile()
 
         cmd=Cmd('make','build_'+project.getModule().getName()+'_'+project.getName(),
             basedir)
         
-        # Pass the buildfile
-        if buildfile: cmd.addParameter('-f', buildfile)
+        # Pass the makefile
+        if makefile: cmd.addParameter('-f', makefile)
     
+        cmd.addParameters(getArgs(make))
+
         # End with the target (or targets)...
         if target: 
             for targetParam in target.split():
