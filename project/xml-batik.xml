@@ -16,10 +16,9 @@
 
     <depend project="ant" inherit="runtime"/>
     <depend project="xml-xerces"/>
-    <depend project="rhino"/>
     <depend project="xml-stylebook2"/>
     <depend project="xml-xalan2"/>
-
+    <work nested="lib/js.jar"/> 
     <home nested="batik-@@DATE@@"/>
     <jar name="lib/batik-awt-util.jar"/>
     <jar name="lib/batik-bridge.jar"/>
