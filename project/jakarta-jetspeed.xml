@@ -12,7 +12,7 @@
 
     <ant basedir="build" target="release_binary">
       <property name="JAVAC" value="classic"/>
-      <depend name="cactus.ant.jar" project="jakarta-cactus-ant"/>
+      <depend name="cactus.ant.jar" project="jakarta-cactus-anttasks"/>
       <depend name="cactus-22.jar" project="jakarta-cactus-framework-12"/>
       <depend name="cactus-23.jar" project="jakarta-cactus-framework-13"/>
       <depend name="junit.jar" project="junit"/>
