@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/Attic/view.py,v 1.7 2003/04/30 11:11:32 rubys Exp $
-# $Revision: 1.7 $
-# $Date: 2003/04/30 11:11:32 $
+# $Header: /home/stefano/cvs/gump/python/gump/Attic/view.py,v 1.8 2003/05/01 02:56:42 rubys Exp $
+# $Revision: 1.8 $
+# $Date: 2003/05/01 02:56:42 $
 #
 # ====================================================================
 #
@@ -63,6 +63,8 @@
 """
 
 import os
+import popen2
+import thread
 import sys
 import logging
 
@@ -77,13 +79,17 @@ from gump.conf import dir, default
 from gump.gen import xmlize
 from gump.model import Module, Project
 
+classpath=os.environ['CLASSPATH'].split(os.pathsep)
+
 class gumpview(wxApp):
   # model
   mySubs=None
   items=None
   build_sequence=None
+  project=None
 
   # view
+  frame=None
   tree=None
   list=None
   data=None
@@ -94,8 +100,8 @@ class gumpview(wxApp):
 
   def OnInit(self):
     # layout
-    frame = wxFrame(NULL, -1, "Gump Workspace Viewer")
-    split1 = wxSplitterWindow(frame,-1)
+    self.frame = wxFrame(NULL, -1, "Gump Workspace Viewer")
+    split1 = wxSplitterWindow(self.frame,-1)
     split2 = wxSplitterWindow(split1,-1)
     notebook = wxNotebook(split2, -1, style=wxCLIP_CHILDREN)
 
@@ -114,8 +120,8 @@ class gumpview(wxApp):
     notebook.AddPage(self.classpath, 'classpath')
     notebook.AddPage(self.property, 'property')
     split2.SplitHorizontally(notebook, self.data)
-    self.SetTopWindow(frame)
-    frame.Show(true)
+    self.SetTopWindow(self.frame)
+    self.frame.Show(true)
 
     # resize
     split1.SetMinimumPaneSize(20)
@@ -127,6 +133,7 @@ class gumpview(wxApp):
     EVT_TREE_SEL_CHANGED(self, self.tree.GetId(), self.selectTree)
     EVT_LIST_ITEM_SELECTED(self, self.list.GetId(), self.selectItem)
     EVT_LIST_ITEM_SELECTED(self, self.dependencies.GetId(), self.selectItem2)
+    EVT_KEY_UP(self, self.OnKeyUp)
     return true
 
   # list all modules and their projects
@@ -145,12 +152,29 @@ class gumpview(wxApp):
 
     self.tree.Expand(root)
 
+  def OnKeyUp(self,event):
+    if not event.GetKeyCode()==WXK_F5: return
+    if not self.project or not self.project.ant: return
+    module=Module.list[self.project.module]
+
+    os.chdir(os.path.join(module.srcdir,self.project.ant.basedir or ''))
+    os.environ['CLASSPATH']=os.pathsep.join(classpath+self.project.classpath())
+    cmd="java org.apache.tools.ant.Main"
+    for property in self.workspace.property+self.project.ant.property:
+      cmd+=" -D"+property.name+"="+property.value
+    if self.project.ant.target: cmd+=" "+self.project.ant.target
+
+    self.data.Clear()
+    compileThread(cmd,self.data).Start()
+    
   # select a single feed and display titles from each item
   def selectTree(self, event):
     self.showProject(self.tree.GetPyData(event.GetItem()))
 
   def showProject(self,project):
     if not project or not isinstance(project,Project): return
+    self.project=project
+    self.frame.SetTitle(project.name)
 
     # gather a list of projects which reference this project
     self.items=[]
@@ -210,20 +234,9 @@ class gumpview(wxApp):
     if not self.classpath.GetColumn(0):
       self.classpath.InsertColumn(0, 'Path')
 
-    i=0
-
-    # add in work directories
-    srcdir=Module.list[project.module].srcdir
-    for work in project.work:
-      workpath=os.path.normpath(os.path.join(srcdir,work.nested))
-      self.classpath.InsertStringItem(i,workpath)
-      i=i+1
-
-    # add in depends and options
-    for depend in project.depend+project.option:
-      for jar in depend.jars():
-        self.classpath.InsertStringItem(i,jar.path)
-        i=i+1
+    classpath=project.classpath()
+    for i in range(0,len(classpath)):
+      self.classpath.InsertStringItem(i,classpath[i])
 
     self.classpath.SetColumnWidth(0,wxLIST_AUTOSIZE_USEHEADER)
 
@@ -265,6 +278,23 @@ class gumpview(wxApp):
   def unload(self):
     self.mItem.clear()
     self.pItem.clear()
+
+class compileThread:
+  def __init__(self,cmd,data):
+    self.cmd=cmd
+    self.data=data
+  def Start(self):
+    self.running = 1
+    thread.start_new_thread(self.Run,())
+  def Stop(self):
+    self.running = 0
+  def Run(self):
+    (stdout,stdin)=popen2.popen2(self.cmd + ' 2>&1')
+    stdin.close()
+    while 1:
+      line = stdout.readline()
+      if not line: break
+      self.data.AppendText(line)
 
 if __name__ == '__main__':
   app = gumpview(0)

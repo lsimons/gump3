@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/Attic/model.py,v 1.2 2003/04/30 11:11:32 rubys Exp $
-# $Revision: 1.2 $
-# $Date: 2003/04/30 11:11:32 $
+# $Header: /home/stefano/cvs/gump/python/gump/Attic/model.py,v 1.3 2003/05/01 02:56:42 rubys Exp $
+# $Revision: 1.3 $
+# $Date: 2003/05/01 02:56:42 $
 #
 # ====================================================================
 #
@@ -244,6 +244,20 @@ class Project(Named):
             self.depend.append(d2)
           else:
             self.option.append(d2)
+
+  def classpath(self):
+    result=[]
+
+    # start with the work directories
+    srcdir=Module.list[self.module].srcdir
+    for work in self.work:
+      result.append(os.path.normpath(os.path.join(srcdir,work.nested)))
+
+    # add in depends and options
+    for depend in self.depend+self.option:
+      result+=[jar.path for jar in depend.jars()]
+
+    return result
 
 # represents an <ant/> element
 class Ant(GumpBase):
