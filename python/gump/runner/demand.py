@@ -67,14 +67,14 @@ class OnDemandRunner(GumpRunner):
         GumpRunner.__init__(self,run)
 
     ###########################################
-    def spawnUpdateThreads(self):
+    def spawnUpdateThreads(self, updaters=1):
         
         self.workList=ThreadWorkList('Updates')
         for module in self.run.gumpSet.getModuleSequence():
             self.workList.addWork(UpdateWork(self,module))    
             
         # Create a group of workers...
-        self.group=WorkerThreadGroup('Update',5,self.workList,UpdateWorker)
+        self.group=WorkerThreadGroup('Update',updaters,self.workList,UpdateWorker)
         self.group.start()
         
     def waitForThreads(self):
@@ -117,8 +117,11 @@ class OnDemandRunner(GumpRunner):
         
         gumpSet=self.run.getGumpSet()
         
-        # Experimental...
-        self.spawnUpdateThreads()
+        workspace = self.run.getWorkspace()
+        
+        if workspace.isMultithreading() and workspace.hasUpdaters():
+            # Experimental...
+            self.spawnUpdateThreads(workspace.getUpdaters())
         
         # In order...
         for project in gumpSet.getProjectSequence():
@@ -141,7 +144,8 @@ class OnDemandRunner(GumpRunner):
             #invokeGarbageCollection(self.__class__.__name__)
             #printTopRefs(100,'After GC')
         
-        self.waitForThreads()
+        if workspace.isMultithreading() and workspace.hasUpdaters():    
+            self.waitForThreads()
         
         self.finalize()    
         

@@ -340,9 +340,9 @@ class Workspace(NamedModelObject, PropertyContainer, Statable, Resultable):
         if self.hasDomChild('threads'):
             threads=self.getDomChild('threads')
             if hasDomAttribute(threads,'updaters'):
-                self.updaters=int(getDomAttribute(threads,'updaters'))
+                self.updaters=int(getDomAttributeValue(threads,'updaters'))
             if hasDomAttribute(threads,'builders'):
-                self.builders=int(getDomAttribute(threads,'builders'))
+                self.builders=int(getDomAttributeValue(threads,'builders'))
                                                              
         # Complete the properies
         self.completeProperties()

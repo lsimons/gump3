@@ -11,6 +11,7 @@
 
   <profile href="profile.xml"/>
 
+  <threads updaters="1" builders="0" />
   <nag to='test@apache.org' from='test@apache.org'/>
   
 </workspace>
