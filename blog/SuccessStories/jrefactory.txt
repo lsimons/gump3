@@ -1,8 +1,4 @@
-PREVIEW JRefactory adapt their code to changes in jaxen/saxpath
-
-Preview at 
-http://gump.chalko.com/gb/blog/SuccessStories?preview=true&smm=y&permalink=jrefactory.txt
-<hr/>
+JRefactory adapts their code to changes in jaxen/saxpath
 <!--
   Copyright 2004 The Apache Software Foundation
 
