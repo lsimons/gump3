@@ -7,49 +7,6 @@
 
     <cvs repository="avalon"/>
 
-    <project name="avalon-apps-ftpserver">
-        <package>org.apache.avalon.ftpserver</package>
-
-        <ant basedir="ftpserver"/>
-
-        <depend project="junit"/>
-        <depend project="ant"/>
-        <depend project="xml-xerces" id="parser" runtime="true"/>
-        <depend project="avalon"/>
-        <depend project="avalon-phoenix" inherit="all"/>
-        <depend project="avalon-cornerstone"/>
-
-        <home nested="ftpserver"/>
-
-        <jar name="build/lib/ftp-server-@@DATE@@.sar"/>
-
-        <nag from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"
-            to="dev@avalon.apache.org"/>
-    </project>
-
-    <project name="avalon-apps-httpproxy">
-        <package>org.apache.avalon.httpproxy</package>
-
-        <ant basedir="httpproxy"/>
-
-        <depend project="junit"/>
-        <depend project="ant"/>
-        <depend project="xml-xerces"/>
-        <depend project="avalon"/>
-        <depend project="excalibur-i18n"/>
-        <depend project="avalon-phoenix" inherit="all"/>
-        <depend project="avalon-cornerstone"/>
-
-        <option project="checkstyle" inherit="runtime"/>
-
-        <home nested="httpproxy"/>
-
-        <jar name="build/lib/httpproxy-@@DATE@@.sar"/>
-
-        <nag from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"
-            to="dev@avalon.apache.org"/>
-    </project>
-
     <!--
         <project name="avalon-apps-sevak">
             <package>org.apache.avalon.sevak</package>
