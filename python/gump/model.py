@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/Attic/model.py,v 1.5 2003/05/01 19:54:58 rubys Exp $
-# $Revision: 1.5 $
-# $Date: 2003/05/01 19:54:58 $
+# $Header: /home/stefano/cvs/gump/python/gump/Attic/model.py,v 1.6 2003/05/02 17:15:20 rubys Exp $
+# $Revision: 1.6 $
+# $Date: 2003/05/02 17:15:20 $
 #
 # ====================================================================
 #
@@ -343,9 +343,6 @@ class Property(GumpBase):
       else:
         raise str("Project %s referenced by %s defines no jars as output" %
           (target.name, project.name))
-
-      module=Project.list[self.project].module
-      self.value=Module.list[module].srcdir
 
 
 # TODO: set up the below elements with defaults using complete()
