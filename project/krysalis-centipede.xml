@@ -95,19 +95,18 @@
         	<property name="ant.home" project="ant" reference="home"/>
         </ant>
     
-        <depend project="ant" inherit="all"  />
-        <depend project="ant-contrib" inherit="all" />
-		<!-- depend project="ant-embed-optional" inherit="all" / -->
-		<depend project="commons-jxpath" inherit="all" />
-		<depend project="commons-logging" inherit="all" />
-		<depend project="commons-vfs" inherit="all" />
-		<depend project="jakarta-regexp" inherit="all" />
-		<depend project="krysalis-ruper-core" inherit="all" />
-		<depend project="krysalis-version-core" inherit="all" />
-		<depend project="krysalis-ruper-ant" inherit="all" />
-		<depend project="krysalis-version-ant" inherit="all" />
-		<depend project="xml-xalan2" inherit="all"  />
-        <depend project="xml-xerces" inherit="all" />
+        <depend project="ant" inherit="runtime"  />
+        <depend project="ant-contrib" />
+		<depend project="commons-jxpath"/>
+		<depend project="commons-logging"  />
+		<depend project="commons-vfs" />
+		<depend project="jakarta-regexp" />
+		<depend project="krysalis-ruper-core"  />
+		<depend project="krysalis-version-core"  />
+		<depend project="krysalis-ruper-ant" />
+		<depend project="krysalis-version-ant" />
+		<depend project="xml-xalan2"  />
+        <depend project="xml-xerces" />
 
 		<jar name="lib/krysalis-centipede.jar"  />
         <!-- Work dirs to be included in classpath  -->
@@ -139,8 +138,8 @@
         <ant buildfile="build-site.xml" target="gump-site" vm="1.2">
         	<property name="ant.home" project="ant" reference="home"/>
         </ant>
-      <depend project="krysalis-centipede" inherit="all" />
-      <depend project="ant" inherit="all" />
+      <depend project="krysalis-centipede" inherit="runtime" />
+      <depend project="ant" inherit="runtime" />
         
         <nag to="krysalis-developers@lists.sourceforge.net"
             from="Nicola Ken Barozzi &lt;nicolaken@apache.org&gt;"/>

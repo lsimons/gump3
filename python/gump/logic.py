@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/Attic/logic.py,v 1.38 2003/10/22 21:49:39 ajack Exp $
-# $Revision: 1.38 $
-# $Date: 2003/10/22 21:49:39 $
+# $Header: /home/stefano/cvs/gump/python/gump/Attic/logic.py,v 1.39 2003/10/23 19:38:16 ajack Exp $
+# $Revision: 1.39 $
+# $Date: 2003/10/23 19:38:16 $
 #
 # ====================================================================
 #
@@ -218,6 +218,13 @@ def getBuildSequenceForProjects(projects):
               
     return result
 
+def hasBuildCommand(project):
+    hasBuild=0
+    # I.e has an <ant or <script element
+    if project.ant or project.script: hasBuild=1    
+    return hasBuild
+
+
 def getBuildCommand(workspace,module,project,context):
 
     # get the ant element (if it exests)
@@ -419,14 +426,21 @@ def getSystemClasspathList():
 # :TODO: Runtime?
 #
 # BOOTCLASSPATH?
-def getClasspathList(project,workspace,context):
+def getClasspathList(project,workspace,context,debug=0):
   """Get a TOTAL classpath for a project (including it's dependencies)"""
-  
-  # Start with the system classpath (later remove this)
-  classpath=getSystemClasspathList()
 
   # Context for this project
   pctxt=context.getProjectContextForProject(project)
+
+  #
+  # Do this once only... storing it on the context
+  #
+  if hasattr(pctxt,'resolvedClasspath'):
+      if debug: print "Claspath previously resolved..."
+      return pctxt.resolvedClasspath
+  
+  # Start with the system classpath (later remove this)
+  classpath=getSystemClasspathList()
 
   # Add this project's work directories
   srcdir=Module.list[project.module].srcdir
@@ -439,45 +453,59 @@ def getClasspathList(project,workspace,context):
       else:
           log.error("<work element without nested or parent attributes on " \
               + project.name + " in " + project.module)
-    
+
       if path:
-          classpath.append(AnnotatedPath(path,pctxt,None,'Working Directory'))
+          classpath.append(AnnotatedPath(path,pctxt,None,'Work Entity'))
+          if debug: print "Work Entity:   " + path 
 
   # Append dependent projects (including optional)
   visited=[]
   
-  # Does it have any depends?
+  # Does it have any depends? Process all of them...
   if project.depend:
     # For each
     for depend in project.depend:
-        for path in getDependOutputList(project,pctxt,depend,context,visited):
+        for path in getDependOutputList(pctxt,project,pctxt,depend,context,visited,0,debug):
           if not path in classpath:
               classpath.append(path)
               
   # Same as above, but for optional...
   if project.option:    
     for option in project.option:
-        for path in getDependOutputList(project,pctxt,option,context,visited):
+        for path in getDependOutputList(pctxt,project,pctxt,option,context,visited,0,debug):
           if not path in classpath:
               classpath.append(path)
-              
+  
+  #
+  # Store so we don't do this twice.
+  #            
+  pctxt.resolvedClasspath = classpath
+  
   return classpath
 
 #
-# :TODO: Runtime Dependency?
+# Perform this 'dependency' (mandatory or optional)
 #
-def getDependOutputList(parent,parentctxt,depend,context,visited):      
+# 1) Bring in the JARs (or those specified by id in depend ids)
+# 2) Do NOT bring in the working entities (directories/jars)
+# 3) Bring in the sub-depends (or optional) if inherit='all' or 'hard'
+# 4) Bring in the runtime sub-depends if inherit='runtime'
+#
+def getDependOutputList(beneficiary,parent,parentctxt,depend,context,visited,depth=0,debug=0):      
   """Get a classpath of outputs for a project (including it's dependencies)"""            
    
   # Don't loop...
-  if depend in visited:
-      # print "Visited : " + str(depend)
-      #print "Visits  : "
-      #for v in visited:
-      #    print " - " + str(v)
+  if depend in visited:  
+      beneficiary.addInfo("Duplicated dependency [" + str(depend) + "]")          
+      if debug:
+        print str(depth) + ") Already Visited : " + str(depend)
+        print str(depth) + ") Previously Visits  : "
+        for v in visited:
+          print str(depth) + ")  - " + str(v)
       return []
   visited.append(depend)
-  #print "Perform : " + str(depend) + " in " + parent.name
+  if debug:
+      print str(depth) + ") Perform : " + str(depend) + " in " + parent.name
           
   #
   # Check we can get the project...
@@ -485,7 +513,7 @@ def getDependOutputList(parent,parentctxt,depend,context,visited):
   projectname=depend.project
   if not Project.list.has_key(projectname):
       if projectname:
-          parentctxt.addError("Unknown project (in acquiring classpath) [" + projectname \
+          beneficiary.addError("Unknown project (in acquiring classpath) [" + projectname \
                   + "] for [" + str(depend) + "]")
       return []
       
@@ -540,6 +568,7 @@ def getDependOutputList(parent,parentctxt,depend,context,visited):
           if ids: dependStr += ' Id = ' + jar.id
           path=AnnotatedPath(jar.path,pctxt,parentctxt,dependStr)                  
           if not path in classpath:
+              if debug:   print str(depth) + ') Append JAR : ' + str(path)
               classpath.append(path)
 
   #
@@ -551,29 +580,30 @@ def getDependOutputList(parent,parentctxt,depend,context,visited):
                   parentctxt.addWarning("Invalid ID [" + id \
                       + "] for dependency on [" + projectname + "]")
 
-  #
-  # Deep copy all/hard (or those for runtime)
-  #
-  # Append sub-projects outputs
+  # Append sub-projects outputs, if inherited
   if project.depend:
-      for subdepend in project.depend:            
-          if (subdepend.inherit and not subdepend.inherit=='none' ) \
-                  or (inherit=='runtime' and subdepend.runtime):      
-              for path in getDependOutputList(project,pctxt,subdepend,context,visited):
+      for subdepend in project.depend:        
+          #	If the dependency is set to 'all' (or 'hard') we inherit all dependencies
+          # If the dependency is set to 'runtime' we inherit all runtime dependencies
+          if    (inherit=='all' or inherit=='hard') \
+             or (inherit=='runtime' and subdepend.runtime):      
+              for path in getDependOutputList(beneficiary,project,pctxt,subdepend,context,visited,depth+1,debug):
                   if not path in classpath:    
                       classpath.append(path)
+          elif debug:
+              print str(depth) + ') Skip : ' + str(subdepend) + ' in ' + project.name
 
-  #
-  # Deep copy all/hard (or those for runtime)
-  #
-  # Append sub-projects outputs
+  # Append sub-projects outputs, if inherited
   if project.option:
-      for suboption in project.option:            
-          if (suboption.inherit and not suboption.inherit=='none' ) \
-                  or (inherit=='runtime' and suboption.runtime):      
-              for path in getDependOutputList(project,pctxt,suboption,context,visited):
+      for suboption in project.option:   
+          # See similar loop above here for logic...
+          if    (inherit=='all' or inherit=='hard') \
+             or (inherit=='runtime' and suboption.runtime):      
+              for path in getDependOutputList(beneficiary,project,pctxt,suboption,context,visited,depth+1,debug):
                   if not path in classpath:    
                       classpath.append(path)
+          elif debug:
+              print str(depth) + ') Skip optional : ' + str(suboption) + ' in ' + project.name
 
   return classpath
     
@@ -766,7 +796,7 @@ if __name__=='__main__':
   # documentText(workspace, context, ps)
   
   for project in projects:
-      cp=getClasspathList(project,workspace,context)
+      cp=getClasspathList(project,workspace,context,1)
       print "Project : " + project.name 
       for p in cp:
           if isinstance(p,AnnotatedPath):

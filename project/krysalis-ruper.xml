@@ -67,7 +67,7 @@
       <property name="DATE_STAMP" value="@@DATE@@"/>        	
     </ant>
    
-    <depend project="ant" inherit="all"/>
+    <depend project="ant" inherit="runtime"/>
     <depend project="krysalis-ruper-core" inherit="all"/>
     <depend project="krysalis-version-ant" inherit="all"/>
     
@@ -97,8 +97,7 @@
  
   <project name="krysalis-ruper">
     
-   
-      	<depend project="krysalis-centipede" inherit="all"/> 
+      	<depend project="krysalis-centipede" inherit="runtime"/> 
     	<depend project="xml-xerces"/>
     	<depend project="commons-vfs"/>
     	<depend project="commons-logging"/>
@@ -125,7 +124,7 @@
     <depend project="eclipse"/>
     <work nested="build/classes"/>
     <depend project="krysalis-centipede" inherit="all"/>
-    <depend project="ant" inherit="all"/>
+    <depend project="ant" inherit="runtime"/>
       	
     <ant basedir="." buildfile="centibuild.xml" target="gump" vm="1.2">
       	<property name="ant.home" project="ant" reference="home"/>

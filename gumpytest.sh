@@ -7,3 +7,10 @@
 
 export
 pwd
+
+#
+# Perform some CLASSPATH checks
+#
+echo "CLASSPATH checks"
+python gump/logic.py krysalis-ruper-ant
+python gump/logic.py commons-graph

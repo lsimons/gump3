@@ -65,9 +65,10 @@
 import logging
 import sys
 import types, StringIO
+import time
 
 from gump  import log
-from gump.conf import default
+from gump.conf import default, setting
 
 ###############################################################################
 # Base classes for the Displayable Objects
@@ -195,6 +196,9 @@ def elapsedTimeToString(elapsed):
     #:TODO: Don't show hours if 0, show mins/secs words
     return ('%02d:%02d:%02d' % elapsed)        
     
+def secsToDate(secs):
+    return time.strftime(setting.datetimeformat, \
+                    time.localtime(secs))
     
 #
 # Get into ASCII, but make an attempt at coping with

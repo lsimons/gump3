@@ -241,6 +241,7 @@ class CmdResult:
         self.status=CMD_STATUS_NOT_YET_RUN
         self.output=None
         self.elapsed=0
+        self.signal=0
         self.exit_code=-1
         
     def overview(self,indent):
@@ -250,6 +251,8 @@ class CmdResult:
           overview += indent+"Output: " + self.output
         if self.elapsed:
           overview += indent+"Elapsed: " + str(self.elapsed)
+        if self.signal:
+          overview += indent+"Signal: " + str(self.signal)
         if self.exit_code:
           overview += indent+"ExitCode: " + str(self.exit_code)
         
@@ -383,22 +386,39 @@ def executeIntoResult(cmd,result,tmp=dir.tmp):
         timer.setDaemon(1)
         timer.start()
 
+        #
         # Execute Command & Wait
-        result.exit_code=os.system(execString + ' >>' + str(outputFile) + ' 2>&1')
+        #
+        waitcode=os.system(execString + ' >>' + str(outputFile) + ' 2>&1')
         
-        # Stop it (if still running)
-        timer.cancel()              
-
+        #
+        # The resturn code (from wait) is (on Unix):
+        #
+        #	a 16 bit number
+        #	top byte	=	exit status
+        #	low byte	=	signal that killed it
+        #
+        result.signal=(waitcode & 0xFF)
+        result.exit_code=(waitcode & 0xFF00)
+        
+        #
+        # Assume timed out if this is not running...
+        #
+        if not timer.isAlive():
+            result.status=CMD_STATUS_TIMED_OUT
+            log.error('Command timed out. [' + execString + '] [' + str(timeout) + '] seconds.')
         # Process Outputs (exit_code and stderr/stdout)
-        if result.exit_code < 0:
-          result.status=CMD_STATUS_TIMED_OUT
-          log.error('Failed to launch/execute command. [' + execString + ']. ExitCode: ' + str(result.exit_code))
         elif result.exit_code > 0:    
-          result.status=CMD_STATUS_FAILED
-          log.error('Failed to launch/execute command. [' + execString + ']. ExitCode: ' + str(result.exit_code))
+            result.status=CMD_STATUS_FAILED
+            log.error('Failed to launch/execute command. [' + execString + ']. ExitCode: ' + str(result.exit_code))
         else:
-          result.status=CMD_STATUS_SUCCESS
-          
+            result.status=CMD_STATUS_SUCCESS
+    
+        #
+        # Stop it (if still running)
+        #
+        timer.cancel()            
+                  
         #
         # Clean Up Empty Output Files
         #

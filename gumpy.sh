@@ -34,6 +34,7 @@ fi
 export GUMPY_VERSION="1.0.3"
 export GUMP_PYTHON=$GUMP/python
 export GUMP_TMP=$GUMP/tmp
+export GUMP_WS_TMP=$GUMP_WS/tmp
 export GUMP_HOST=`hostname -s`
 export GUMP_DATE=`date`
 export GUMP_LOG=$GUMP_LOG_DIR/gumpy.html
@@ -99,20 +100,28 @@ fi
 cp -R `grep profile $GUMP_HOST.xml  | cut -d\" -f2` $GUMP_PROFILE_LOG_DIR
 
 #
+##########################################################
+#
 # Preliminary cleanup
 #
-cd $GUMP_TMP
-if [ -f check_forrest.txt ] ; then
-	rm check_forrest.txt 
+
+# Gump level tmp
+if [ -d $GUMP_TMP ] ; then
+	cd $GUMP_TMP
+	rm -f *.txt
 fi
-if [ -f forrest.txt ] ; then
-	rm forrest.txt 
+# Gump work tmp
+if [ -d $GUMP_WS_TMP ] ; then
+	cd $GUMP_WS/tmp
+	rm -f *.txt
 fi
-if [ -f $GUMP_WS/forrest/build/tmp/brokenlinks.txt ] ; then
-	rm $GUMP_WS/forrest/build/tmp/brokenlinks.txt
+# Clear the forrest build area...
+if [ -d $GUMP_WS/forrest/build/ ] ; then
+	rm -rf $GUMP_WS/forrest/build/
 fi
 
 #
+###########################################################
 # Do a CVS update
 #
 echo $SEPARATOR >> $GUMP_LOG
@@ -122,7 +131,7 @@ rm -f .timestamp
 
 
 #
-# Set the PYTHONPATH & cd appropriately
+# Set the PYTHONPATH
 #
 export PYTHONPATH=$GUMP_PYTHON
 
@@ -179,13 +188,10 @@ fi
 cd $GUMP
 
 echo \</XMP\> >> $GUMP_LOG
-pkill -P $$ 
+
+#
+# Ensure nothing we started (directly) is left running after we end...
+#
+pkill -KILL -P $$ 
 
 # $Log: gumpy.sh,v $
-# Revision 1.2  2003/05/30 22:02:56  nickchalko
-# Fixing incomplete update from Adam
-# PR:
-# Obtained from:
-# Submitted by:Adam Jack ajack@TrySybase.com
-# Reviewed by:
-#

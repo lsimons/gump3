@@ -80,7 +80,7 @@ from gump.model import *
 from gump.statistics import StatisticsDB,ProjectStatistics,StatisticsGuru
 from gump.logic import getPackagedProjectContexts, getBuildSequenceForProjects,\
      getProjectsForProjectExpression, getModuleNamesForProjectList, \
-     isFullGumpSet, getClasspathList, AnnotatedPath
+     isFullGumpSet, getClasspathList, AnnotatedPath, hasBuildCommand
 
 def documentText(workspace,context,moduleFilterList=None,projectFilterList=None):    
     documentTextToFile(sys.stdout,workspace,context,moduleFilterList,projectFilterList)
@@ -666,9 +666,9 @@ def documentProject(workspace,context,modulename,mdir,projectname,projectcontext
     addItemXDoc(x,"Previous Status: ", stateName(stats.previousState))
     
     if stats.first:
-        addItemXDoc(x,"First Success: ", str(stats.first))
+        addItemXDoc(x,"First Success: ", secsToDate(stats.first))
     if stats.last:
-        addItemXDoc(x,"Last Success: ", str(stats.last))
+        addItemXDoc(x,"Last Success: ", secsToDate(stats.last))
         
     # Display nag information
     for nagEntry in project.nag:
@@ -686,41 +686,44 @@ def documentProject(workspace,context,modulename,mdir,projectname,projectcontext
     documentProjectContextList(x,"Project Dependees",projectcontext.dependees)            
     documentProjectContextList(x,"Optional Project Dependees",projectcontext.optionees)                  
 
-    startSectionXDoc(x,'Classpath')
-    startTableXDoc(x)
-    x.write('      <tr><th>Path Entry</th><th>Contributor</th><th>Instigator</th><th>Annotation</th></tr>')       
-    classpath=getClasspathList(project,workspace,context)
-    paths=0
-    for path in classpath: 
-        if isinstance(path,AnnotatedPath):
-            pcontext=path.context
-            ppcontext=path.pcontext
-            note=path.note
-        else:
-            pcontext=context
-            ppcontext=None
-            note=''
-        startTableRowXDoc(x)
-        insertTableDataXDoc(x, path)
+    if hasBuildCommand(project):
+        startSectionXDoc(x,'Classpath')
+        startTableXDoc(x)
+        x.write('      <tr><th>Path Entry</th><th>Contributor</th><th>Instigator</th><th>Annotation</th></tr>')       
+        classpath=getClasspathList(project,workspace,context)
+        paths=0
+        for path in classpath: 
+            if isinstance(path,AnnotatedPath):
+                pcontext=path.context
+                ppcontext=path.pcontext
+                note=path.note
+            else:
+                pcontext=context
+                ppcontext=None
+                note=''
+            startTableRowXDoc(x)
+            insertTableDataXDoc(x, path)
         
-        # Contributor
-        insertTableDataXDoc(x, getContextLink(pcontext))
+            # Contributor
+            insertTableDataXDoc(x, getContextLink(pcontext))
         
-        # Instigator (if not Gump)
-        link=''
-        if ppcontext: link=getContextLink(ppcontext)
-        insertTableDataXDoc(x, link)
+            # Instigator (if not Gump)
+            link=''
+            if ppcontext: link=getContextLink(ppcontext)
+            insertTableDataXDoc(x, link)
         
-        # Additional Notes...
-        insertTableDataXDoc(x, note)
-        endTableRowXDoc(x)
-        paths+=1
-    if not paths:        
-        startTableRowXDoc(x)    
-        insertTableDataXDoc(x,"None")
-        endTableRowXDoc(x)
-    endTableXDoc(x)
-    endSectionXDoc(x)
+            # Additional Notes...
+            insertTableDataXDoc(x, note)
+            endTableRowXDoc(x)
+            paths+=1
+            
+        if not paths:        
+            startTableRowXDoc(x)    
+            insertTableDataXDoc(x,"None")
+            endTableRowXDoc(x)
+            
+        endTableXDoc(x)
+        endSectionXDoc(x)
        
 #    x.write('<p><strong>Project Config :</strong> <link href=\'%s\'>XML</link></p>' \
 #                % (getModuleProjectRelativeUrl(modulename,projectcontext.name)) )
@@ -776,8 +779,7 @@ def documentWorkList(x,workspace,worklist,description='Work',dir='.'):
         x.write('      <td>%s</td>' % (workTypeName(work.type))) 
         x.write('      <td>%s</td><td>%s</td><td>%s</td>' \
             % ( stateName(work.status), \
-                time.strftime(setting.datetimeformat, \
-                    time.localtime(work.result.start_time)), \
+                secsToDate(work.result.start_time), \
                 secsToString(work.secs)))    
         x.write('     </tr>')
     x.write('    </table>\n')

@@ -1,8 +1,8 @@
 #!/usr/bin/python
 
-# $Header: /home/stefano/cvs/gump/python/gump/Attic/conf.py,v 1.33 2003/10/22 13:54:33 ajack Exp $
-# $Revision: 1.33 $
-# $Date: 2003/10/22 13:54:33 $
+# $Header: /home/stefano/cvs/gump/python/gump/Attic/conf.py,v 1.34 2003/10/23 19:38:16 ajack Exp $
+# $Revision: 1.34 $
+# $Date: 2003/10/23 19:38:16 $
 #
 # ====================================================================
 #
@@ -111,14 +111,14 @@ class default:
 class setting:    
     """Configuration of hardcoded settings"""
     
-    version="2.0.1-alpha-0006"
+    version="2.0.1-alpha-0007"
     
     # :TODO: Add "minimum checks later..."
     ws_version="0.4"
     
     datetimeformat="%a, %d %b %Y %H:%M:%S (%Z)"
     
-    timeout=60*30 # 30 minutes (in seconds)
+    timeout=60*40 # 40 minutes (in seconds)
     
 class switch:
     """Configuration of switches """   

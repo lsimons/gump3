@@ -14,3 +14,4 @@ build
 tmp
 *~
 LOCAL-ENV.bat
+local-env.sh

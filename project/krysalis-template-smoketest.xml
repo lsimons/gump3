@@ -30,7 +30,7 @@
                 </ant>    
 		<depend project="jakarta-log4j" version="1.2.6"/>
 		<depend project="krysalis-template-smoketest-supplied" version="supplied" export="true"/>
-		<depend project="krysalis-centipede" inherit="all" />
+		<depend project="krysalis-centipede" inherit="runtime" />
 		<work nested="build/classes"/>
 		<home nested="build"/>
 		<code type="java/plain" dir="src/java"/>

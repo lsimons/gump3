@@ -58,10 +58,5 @@
     <repository href="repository/whichever.xml"/>
     <repository href="repository/xml.xml"/>
 
-  <!-- server definitions. I have no idea what these are for. Leaving
-       them doesn't harm. -->
-  <server href="server/daedalus.apache.org.xml"/>
-  <server href="server/icarus.apache.org.xml"/>
-
 </profile>
 
