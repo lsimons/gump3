@@ -35,6 +35,15 @@
     <work nested="build/core"/>
     <work nested="build/jorphan"/>
 
+    <!-- These are necessary to run the tests: -->
+    <work nested="lib/ext/ApacheJMeter_core.jar"/>
+    <work nested="lib/ext/ApacheJMeter_components.jar"/>
+    <work nested="lib/ext/ApacheJMeter_functions.jar"/>
+    <work nested="lib/ext/ApacheJMeter_http.jar"/>
+    <work nested="lib/ext/ApacheJMeter_ftp.jar"/>
+    <work nested="lib/ext/ApacheJMeter_jdbc.jar"/>
+    <work nested="lib/ext/ApacheJMeter_java.jar"/>
+
     <!-- JMeter doesn't currently export any JARs
     <home nested="bin" />
     <jar name="ApacheJMeter.jar" />
@@ -43,7 +52,7 @@
     <nag from="Geir Magnusson Jr. &lt;geirm@apache.org&gt;"
          to="jmeter-dev@jakarta.apache.org">
         <regexp pattern="/BUILD FAILED/" subject="JMeter Build Failure"/>
-        <regexp pattern="/FAILURES!!!/" subject="JMeter Unit Test Failure"/>
+        <regexp pattern="/FAILURES!!!|OK \(0 tests\)/" subject="JMeter Unit Test Failure"/>
     </nag>
   </project>
 
