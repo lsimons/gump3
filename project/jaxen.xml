@@ -20,6 +20,9 @@
     <home nested="build"/>
     <jar name="jaxen-full.jar"/>
     <javadoc nested="build/doc/javadoc"/>
+
+    <nag from="Sam Ruby &lt;rubys@apache.org&gt;"
+         to="jaxen-interest@lists.sourceforge.net"/>
   </project>
 
 </module>
