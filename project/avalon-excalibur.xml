@@ -942,10 +942,6 @@
         <package>org.apache.excalibur.source</package>
 
         <ant basedir="sourceresolve" target="jar" buildfile="gump-build.xml">
-            <property name="package-version" value="@@DATE@@"/>
-            <property name="junit.failonerror" value="true"/>
-            <property name="do.checkstyle" value="true"/>
-            <property name="skip.dependencies" value="true"/>
             <property name="project.version" value="@@DATE@@"/>
         </ant>
 
@@ -1142,7 +1138,7 @@
 
         <depend project="ant" inherit="runtime"/>
         <option project="checkstyle" inherit="runtime"/>
-        <option project="jaxen" inherit="runtime"/>
+        <depend project="jaxen" inherit="runtime"/>
         <depend project="junit"/>
         <depend project="avalon-framework" runtime="true" id="combined"/>
         <depend project="xml-xerces"/>
