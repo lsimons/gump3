@@ -24,26 +24,20 @@
     <cvs repository="avalon"/>
 
     <project name="avalon-phoenix-dependencies">
-        <ant target="get-dependencies-for-gump" />
-        <depend project="ant"/>
-        <depend project="xml-xerces"/>
-        <home nested="lib/repo"/>
-        <jar name="spice-loggerstore/spice-loggerstore-0.5/spice-loggerstore-0.5.jar"
+        <jar name="spice-loggerstore-0.5.jar"
              id="spice-loggerstore"/>
-        <jar name="spice-configkit/spice-configkit-1.1.2/spice-configkit-1.1.2.jar"
+        <jar name="spice-configkit-1.1.2.jar"
              id="spice-configkit"/>
-        <jar name="spice-xmlpolicy/spice-xmlpolicy-1.0/spice-xmlpolicy-1.0.jar"
+        <jar name="spice-xmlpolicy-1.0.jar"
              id="spice-xmlpolicy"/>
-        <jar name="spice-classman/spice-classman-1.0/spice-classman-1.0.jar"
+        <jar name="spice-classman-1.0.jar"
              id="spice-classman"/>
-        <jar name="spice-classman/spice-classman-1.0/lib/excalibur-extension-1.0a.jar"
+        <jar name="excalibur-extension-1.0a.jar"
              id="excalibur-extension"/>
-        <jar name="mx4j/mx4j-1.1.1/lib/mx4j-jmx.jar"
+        <jar name="mx4j-jmx.jar"
              id="mx4j.jar"/>
-        <jar name="mx4j/mx4j-1.1.1/lib/mx4j-tools.jar"
+        <jar name="mx4j-tools.jar"
              id="mx4j-tools.jar"/>
-        <nag from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"
-                to="dev@avalon.apache.org"/>
     </project>
     
     <project name="avalon-phoenix">
