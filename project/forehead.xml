@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <module name="forehead">
-  <description>forehead: framework to assist in controlling the run-time ClassLoader hierary of Java applications</description>
+  <description>forehead: framework to assist in controlling the run-time ClassLoader hierarchy of Java applications</description>
   <url href="http://forehead.werken.com/">
   </url>
   <cvs module="forehead" repository="werken" dir="forehead">
