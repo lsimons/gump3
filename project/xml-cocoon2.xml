@@ -29,6 +29,7 @@
     <depend project="resolver"/>
     <depend project="jakarta-lucene"/>
     <depend project="hsqldb"/>
+    <depend project="jisp"/>
     <option project="xml-fop"/>
     <option project="jtidy"/>
     <option project="phpservlt"/>
@@ -68,6 +69,14 @@
       Maybe Upload
     </description>
     <jar name="lib/maybeupload_1-0-5pre3.jar"/>
+  </project>
+
+  <project name="jisp">
+    <url href="http://www.coyotegulch.com/jisp/"/>
+    <description>
+      Java Indexed Serialization Package
+    </description>
+    <jar name="lib/jisp_1_0_2.jar"/>
   </project>
 
 </module>
