@@ -14,10 +14,11 @@ Proposed board resolution to create an Apache Gump Project
        further
 
        RESOLVED, that the Gump PMC be and hereby is responsible for
-       the creation and maintenance of software related to continuous
-       integration, based on software licensed to the Foundation; and be
-       it further
-
+       the creation and maintenance of software related to promotion 
+       and facilitation of automated integration of the software 
+       produced by other projects, based on software licensed to 
+       the Foundation; and be it further
+       
        RESOLVED, that the office of "Vice President, Gump" be and
        hereby is created, the person holding such office to serve at
        the direction of the Board of Directors as the chair of the
@@ -47,7 +48,7 @@ Proposed board resolution to create an Apache Gump Project
 [Issue: decide on PMC chair]
  
        * Sam Ruby (still has to accept nomination)
-         +1 stefano,leosimons,mvdb,bodewig
+         +1 nicolaken,stefano,leosimons,mvdb,bodewig
        * Stefan Bodewig
          +1 nicolaken,stefano,leosimons,sanders,mvdb
        * Stefano Mazzocchi
