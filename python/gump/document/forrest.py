@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/forrest.py,v 1.70 2004/02/10 20:53:39 ajack Exp $
-# $Revision: 1.70 $f
-# $Date: 2004/02/10 20:53:39 $
+# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/forrest.py,v 1.71 2004/02/10 22:48:53 ajack Exp $
+# $Revision: 1.71 $f
+# $Date: 2004/02/10 22:48:53 $
 #
 # ====================================================================
 #
@@ -249,8 +249,7 @@ class ForrestDocumenter(Documenter):
         
         document=XDocDocument('Workspace',	\
                 self.resolver.getFile(workspace))    
-         
-                    
+        
         definitionSection=document.createSection('Workspace Definition')    
         
         definitionSection.createNote('This install runs Python Gump, not Traditional Gump.') 
@@ -1136,18 +1135,20 @@ class ForrestDocumenter(Documenter):
         
         dependencySection=document.createSection('Dependency')
         
-        self.documentDependenciesList(dependencySection, "Project Dependencies",	\
+        deps = self.documentDependenciesList(dependencySection, "Project Dependencies",	\
                     project.getDependencies(), 0, project)
                     
-        self.documentDependenciesList(dependencySection, "Project Dependees",		\
+        deps += self.documentDependenciesList(dependencySection, "Project Dependees",		\
                     project.getDependees(), 1, project)
                     
-        self.documentDependenciesList(dependencySection, "Full Project Dependencies",	\
+        deps += self.documentDependenciesList(dependencySection, "Full Project Dependencies",	\
                     project.getFullDependencies(), 0, project)
                                                 
-        self.documentDependenciesList(dependencySection, "Full Project Dependees",		\
+        deps += self.documentDependenciesList(dependencySection, "Full Project Dependees",		\
                     project.getFullDependees(), 1, project)
         
+        if not deps:
+            dependencySection.createParagraph('No dependency information available.')
         
         document.serialize()
         
@@ -1204,11 +1205,12 @@ class ForrestDocumenter(Documenter):
         if not paths:        
             pathTable.createLine('No ' + title + ' entries')
                      
-    def documentDependenciesList(self,xdocNode,title,dependencies,dependees,referencingObject):
-      if dependencies:
+    def documentDependenciesList(self,xdocNode,title,dependencies,dependees,referencingObject):        
+        totalDeps=0
+                
+        if dependencies:
             dependencySection=xdocNode.createSection(title)
             dependencyTable=dependencySection.createTable(['Name','Type','Inheritence','Ids','State','Notes'])
-            totalDeps=0
             for depend in dependencies:
                 
                 totalDeps += 1
@@ -1244,12 +1246,17 @@ class ForrestDocumenter(Documenter):
                 
                 # Dependency Annotations
                 noteData=dependencyRow.createData()
-                for note in depend.getAnnotations():
-                    noteData.createText(str(note))
-                    noteData.createBreak()                    
+                if depend.getAnnotations():
+                    for note in depend.getAnnotations():
+                        noteData.createText(str(note))
+                        noteData.createBreak()                    
+                else:
+                    noteData.createText('')
         
             dependencySection.createParagraph(
                     'Total ' + title + ' : ' + str(totalDeps))
+                    
+        return totalDeps            
                 
     def documentAnnotations(self,xdocNode,annotatable):
         
@@ -1275,22 +1282,20 @@ class ForrestDocumenter(Documenter):
         servers=workspace.getServers()
         if not servers: return        
         
-        links=[]
-        for server in servers:
-            if server.hasResolver():
-                link=server.getResolver().getUrl(linkable)
-                if link:
-                    links.append(server)
-                
-        if not links: return
-        
         serversSection=xdocNode.createSection('Servers')        
         serversTable=serversSection.createTable()
         serverRow=serversTable.createRow()
-        for server in links:      
-            serverRow.createData().createFork(	\
-                    server.getResolver().getUrl(linkable), \
-                    server.getName() )
+        for server in servers: 
+            if server.hasResolver():
+                serverRow.createData().createFork(	\
+                        server.getResolver().getUrl(linkable), \
+                        server.getName() )
+            else:
+                if server.hasUrl():
+                    serverRow.createData().createFork(	\
+                            server.getUrl(), \
+                            server.getName() )    
+                
                         
     def documentProperties(self,xdocNode,propertyContainer,title='Properties'):
         

@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/model/project.py,v 1.44 2004/02/10 21:07:00 ajack Exp $
-# $Revision: 1.44 $
-# $Date: 2004/02/10 21:07:00 $
+# $Header: /home/stefano/cvs/gump/python/gump/model/project.py,v 1.45 2004/02/10 22:48:53 ajack Exp $
+# $Revision: 1.45 $
+# $Date: 2004/02/10 22:48:53 $
 #
 # ====================================================================
 #
@@ -488,6 +488,7 @@ class Project(NamedModelObject, Statable):
         if self.hasJars():
             if 1 == self.getJarCount():
                 if not self.getJarAt(0).hasId():
+                    self.addInfo('Set <jar identifier to project name')
                     self.getJarAt(0).setId(self.getName())    
             else:
                 #
@@ -496,7 +497,9 @@ class Project(NamedModelObject, Statable):
                 #
                 for jar in self.getJars():
                     if not jar.hasId():
-                        jar.setId(os.path.basename(jar.getPath()))
+                        basename=os.path.basename(jar.getPath())
+                        self.addWarning('Set <jar [' + jar.getPath() + '] identifier to jar basename: [' + basename + ']')    
+                        jar.setId(basename)
         
         # Grab all the work
         for w in self.xml.work:
