@@ -359,6 +359,23 @@ class XDocDocumenter(Documenter):
         
         definitionSection=document.createSection('Run Details')    
         
+        if not self.gumpSet.isFull():
+            notice=definitionSection.createWarning()
+            
+            notice.createText("""This output does not represent the complete workspace,
+            but part of it.         
+            Only projects, and their dependents, matching this regular expression """)
+            notice.createStrong(self.gumpSet.projectexpression)
+            notice.createBreak()
+            notice.createBreak()            
+            notice.createStrong('Requested Projects: ')
+            notice.createBreak()
+            notice.createBreak()  
+            for project in self.gumpSet.projects:
+                notice.createText(project.name)
+                notice.createText(' ')
+                
+                
         definitionTable=definitionSection.createTable()
         definitionTable.createEntry('Gump Run GUID', self.run.getRunGuid())
         definitionTable.createEntry('Gump Run (Hex) GUID', self.run.getRunHexGuid())
@@ -377,7 +394,7 @@ class XDocDocumenter(Documenter):
         atomSyndRow.createData().createStrong('Syndication')
         atomSyndRow.createData().createFork('atom.xml','Atom')
                 
-        dtSection=document.createSection('Dates/Times')            
+        dtSection=definitionSection.createSection('Dates/Times')            
         dtTable=dtSection.createTable()        
         dtTable.createEntry('@@DATE@@', str(default.date))
         dtTable.createEntry('Start Date/Time (UTC)', self.workspace.getStartDateTimeUtc())
@@ -386,29 +403,13 @@ class XDocDocumenter(Documenter):
         dtTable.createEntry('Start Date/Time', self.workspace.getStartDateTime())
         dtTable.createEntry('End Date/Time', self.workspace.getEndDateTime())
 
-        javaSection=document.createSection('Java Information')            
+        javaSection=definitionSection.createSection('Java Information')            
         javaTable=javaSection.createTable()
         javaTable.createEntry('Java Command', self.run.getEnvironment().javaCommand)
         javaproperties=self.run.getEnvironment().getJavaProperties()
         for name in ['java.vendor', 'java.version', 'os.name', 'os.arch', 'os.version']:
             if name in javaproperties:
                 javaTable.createEntry(name, javaproperties[name])	  
-
-        if not self.gumpSet.isFull():
-            notice=definitionSection.createWarning()
-            
-            notice.createText("""This output does not represent the complete workspace,
-            but part of it.         
-            Only projects, and their dependents, matching this regular expression """)
-            notice.createStrong(self.gumpSet.projectexpression)
-            notice.createBreak()
-            notice.createBreak()            
-            notice.createStrong('Requested Projects: ')
-            notice.createBreak()
-            notice.createBreak()  
-            for project in self.gumpSet.projects:
-                notice.createText(project.name)
-                notice.createText(' ')
                             
         self.documentSummary(document,self.workspace.getProjectSummary())        
         self.documentAnnotations(document,self.run)

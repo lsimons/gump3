@@ -21,5 +21,6 @@ test
 x.txt
 gumpy.log
 *_log.txt
+*_runlog.txt
 gumpy.lock
 out.tmp
