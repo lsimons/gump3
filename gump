@@ -427,7 +427,7 @@ function check_environment
 
   check_env_var "JAVA_HOME" "the location of the java jdk"
   
-  check_pylib "rdflib" "http://rdflib.net/"
+  #check_pylib "rdflib" "http://rdflib.net/"
   check_pylib "MySQLdb" "http://sourceforge.net/projects/mysql-python"
 }
 
