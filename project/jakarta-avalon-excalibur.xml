@@ -908,6 +908,7 @@
         <package>org.apache.avalon.excalibur.thread</package>
 
         <ant basedir="thread">
+            <depend property="commons-collections.jar" project="commons-collections" runtime="true"/>
             <depend property="excalibur-pool.jar" project="excalibur-pool" runtime="true"/>
             <depend property="excalibur-threadcontext.jar" project="excalibur-threadcontext" runtime="true"/>
             <depend property="excalibur-instrument.jar" project="excalibur-instrument" runtime="true"/>
