@@ -41,12 +41,12 @@
         <depend project="xml-xerces"/>
         <depend project="junit"/>
 
-        <option project="jdbc" runtime="true"/>
-        <option project="jms" runtime="true"/>
-        <option project="javamail" runtime="true"/>
-        <option project="jaf" runtime="true"/>
-        <option project="jakarta-servletapi-4" runtime="true"/>
-        <option project="logging-log4j" runtime="true"/>
+        <depend project="jdbc" runtime="true"/>
+        <depend project="jms" runtime="true"/>
+        <depend project="javamail" runtime="true"/>
+        <depend project="jaf" runtime="true"/>
+        <depend project="jakarta-servletapi-4" runtime="true"/>
+        <depend project="logging-log4j" runtime="true"/>
 
         <work nested="target/classes"/>
         <work nested="target/test-classes"/>
