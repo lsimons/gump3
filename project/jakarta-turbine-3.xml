@@ -45,7 +45,7 @@
     <depend project="jakarta-servletapi"/>
     <depend project="jakarta-turbine-stratum"/>
     <depend project="jtidy"/>
-    <depend project="jakarta-turbine-torque"/>
+    <depend project="db-torque"/>
     <depend project="jakarta-velocity"/>
     <depend project="jakarta-velocity-dvsl"/>
     <depend project="xml-xerces"/>

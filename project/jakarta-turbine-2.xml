@@ -42,7 +42,7 @@
     <depend project="jakarta-log4j" runtime="true"/>
     <depend project="jakarta-servletapi-4"/>
     <depend project="jakarta-turbine-stratum" runtime="true"/>
-    <depend project="jakarta-turbine-torque" runtime="true"/>
+    <depend project="db-torque" runtime="true"/>
     <depend project="jakarta-velocity"/>
     <depend project="village"/>
     <depend project="xml-rpc"/>

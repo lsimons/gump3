@@ -68,7 +68,7 @@
     </depend>
     <depend project="jakarta-turbine-stratum">
     </depend>
-    <depend project="jakarta-turbine-torque">
+    <depend project="db-torque">
     </depend>
     <depend project="jakarta-velocity">
     </depend>

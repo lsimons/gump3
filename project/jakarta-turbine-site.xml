@@ -22,7 +22,7 @@
     <depend project="jakarta-turbine-3"/>
     <depend project="jakarta-turbine-fulcrum"/>
     <depend project="jakarta-turbine-tdk-docs"/>
-    <depend project="jakarta-turbine-torque"/>
+    <depend project="db-torque"/>
     <depend project="jdom"/>
     <nag to="turbine-dev@jakarta.apache.org"
          from="Jason van Zyl &lt;jvanzyl@apache.org&gt;"/>

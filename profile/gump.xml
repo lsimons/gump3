@@ -47,7 +47,6 @@
   <module href="project/jakarta-turbine-3.xml"/>
   <module href="project/jakarta-turbine-jcs.xml"/>
   <module href="project/jakarta-turbine-stratum.xml"/>
-  <module href="http://cvs.apache.org/viewcvs/~checkout~/jakarta-turbine-torque/gump.xml"/>
   <module href="project/jelly-tags.xml"/>
 
 
@@ -99,6 +98,7 @@
   <!-- Apache.DB -->
 
   <module href="project/db-ojb.xml"/>
+  <module href="project/db-torque.xml"/>
 
   <!-- SourceForge -->
 

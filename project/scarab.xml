@@ -22,7 +22,7 @@
     <depend project="jakarta-ecs"/>
     <depend project="jakarta-turbine-3"/>
     <depend project="village"/>
-    <depend project="jakarta-turbine-torque"/>
+    <depend project="db-torque"/>
     <depend project="jaf"/>
     <depend project="javamail"/>
     <depend project="jakarta-log4j"/>
