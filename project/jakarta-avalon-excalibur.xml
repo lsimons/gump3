@@ -580,7 +580,6 @@
 
         <home nested="fortress"/>
         <jar name="build/lib/excalibur-fortress-@@DATE@@.jar"/>
-        <jar name="build/lib/excalibur-mpool-@@DATE@@.jar"/>
 
         <nag from="Berin Loritsch &lt;bloritsch@apache.org&gt;"
              to="avalon-dev@jakarta.apache.org"/>
