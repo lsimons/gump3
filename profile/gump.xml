@@ -106,6 +106,7 @@
 
   <module href="project/ws-axis.xml"/>
   <module href="project/ws-jaxme.xml"/>
+  <module href="project/ws-juddi.xml"/>
   <module href="project/ws-soap.xml"/>
   <module href="project/ws-wsif.xml"/>
   <module href="project/ws-wsil.xml"/>
@@ -148,7 +149,6 @@
   <module href="project/jgen.xml"/>
   <module href="project/jrefactory.xml"/>
   <module href="project/jtidy.xml"/>
-  <module href="http://cvs.apache.org/viewcvs.cgi/*checkout*/ws-juddi/gump.xml?rev=HEAD&amp;content-type=text/xml" />
   <module href="project/junit.xml"/>
   <module href="project/jython.xml"/>
   <module href="project/mockobjects.xml"/>

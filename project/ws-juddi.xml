@@ -1,0 +1,72 @@
+<?xml version="1.0"?>
+<module name="ws-juddi" fullname="ws-juddi">
+
+    <url href="http://ws.apache.org"/>
+
+    <cvs repository="ws"/>
+     
+    <description>
+      ws-juddi -- UDDI Toolkit/Repository
+    </description>
+
+    <detailed>
+      juddi
+    </detailed>
+
+    <project name="ws-juddi" fullname="ws-juddi">
+
+        <package>org.apache.juddi</package>
+
+        <!-- Work dirs to be included in classpath  -->
+        <!work nested="build/classes"/>
+        <home nested="build"/>
+
+        <depend inherit="runtime" project="ant"/>
+        
+        <depend project="ws-axis"/>
+        <depend project="commons-logging"/>
+        <depend project="commons-dbcp"/>
+        <depend project="commons-collections"/>
+        <depend project="commons-pool"/>
+        <depend project="jakarta-servletapi"/>
+        <depend project="xml-xerces"/>
+
+        <option project="checkstyle"/>
+
+        <jar name="juddi-@@DATE@@.jar"/>
+
+        <ant basedir="." buildfile="build.xml" target="gump" vm="1.4">
+          <property name="ant.home" project="ant" reference="home" />
+          <property name="DATE_STAMP" value="@@DATE@@"/>        	
+        </ant>
+
+        <nag 
+           to="juddi-dev@ws.apache.org"
+           from="Anou Manavalan &lt;anou_mana@apache.org&gt;"/>
+              
+    </project>
+    
+    <project name="ws-juddi-test" fullname="ws-juddi-test">
+    	
+        <package>org.apache.juddi.test</package>
+
+        <!-- Work dirs to be included in classpath  -->
+        <work nested="build/classes"/>
+        <home nested="build"/>
+        <code type="test/junit" dir="src/test/unit"/>
+
+        <depend project="ws-juddi" inherit="all"/>
+        <depend project="uddi4j"/>
+        <depend project="junit"/>
+
+        <ant basedir="." buildfile="build.xml" target="test" vm="1.4">
+        	<property name="ant.home" project="ant" reference="home" />
+        </ant>
+
+        <nag 
+           to="juddi-dev@ws.apache.org"
+           from="Anou Manavalan &lt;anou_mana@apache.org&gt;"/>
+           
+    </project>
+</module>
+
