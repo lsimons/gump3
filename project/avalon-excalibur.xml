@@ -383,6 +383,8 @@
     <project name="excalibur-fortress">
         <package>org.apache.avalon.fortress</package>
 
+        <mkdir dir="fortress/build/classes"/>
+
         <ant basedir="fortress">
             <!-- runtime dependencies -->
             <depend property="avalon-framework.jar" project="avalon" runtime="true"/>
@@ -441,7 +443,8 @@
 
         <work nested="fortress/build/classes"/>
         <work nested="fortress/build/testclasses"/>
-
+        <work nested="fortress/build/tools"/>
+                
         <home nested="fortress"/>
         <jar name="build/lib/excalibur-fortress-@@DATE@@.jar"/>
 
