@@ -97,12 +97,16 @@
 <!-- Apache.Maven -->
   <module href="project/maven.xml"/>
 
-<!-- Apache.XML -->
+<!-- Apache.WebServices -->
 
   <module href="project/ws-axis.xml"/>
+  <module href="project/ws-jaxme.xml"/>
   <module href="project/ws-wsif.xml"/>
   <module href="project/ws-wsil.xml"/>
   <module href="project/ws-xmlrpc.xml"/>
+
+<!-- Apache.XML -->
+
   <module href="project/xml-batik.xml"/>
   <module href="project/xml-commons.xml"/>
   <module href="project/xml-crimson.xml"/>

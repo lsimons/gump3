@@ -1,0 +1,42 @@
+<module name="ws-jaxme">
+
+  <url href="http://ws.apache.org/jaxme/"/>
+  <description>
+    Open Source implementation of JAXB
+  </description>
+
+  <cvs repository="ws"/>
+
+  <!-- build -->
+  <project name="ws-jaxme">
+    <package>org.apache.ws.jaxme</package>
+
+    <ant basedir="java" target="all">
+      <property name="env.ANT_HOME" reference="home" project="ant"/>
+    </ant>
+
+    <depend project="xml-xerces"/>
+    <depend project="ant" inherit="runtime"/>
+    <depend project="hsqldb"/>
+    <depend project="jakarta-log4j">
+    <option project="junit"/>
+
+    <home nested="dist"/>
+    <jar name="jaxme2-rt.jar/>
+    <jar name="jaxme2.jar/>
+    <jar name="jaxmeapi.jar/>
+    <jar name="jaxmejs.jar/>
+    <jar name="jaxmexs.jar/>
+
+    <license name="LICENSE"/>
+
+    <javadoc nested="build/docs/build/site/api"/>
+
+    <nag from="Davanum Srinivas &lt;dims@yahoo.com&gt;"
+         to="jaxme-dev@ws.apache.org">
+      <regexp  subject="Build Failure - JaxMe"/>
+      <regexp pattern="/timed out/" subject="Build timed out - JaxMe"/>
+    </nag>
+  </project>
+
+</module>
