@@ -36,7 +36,7 @@ class dir:
     """Configuration of paths"""
 
     cmdpath   = os.path.abspath(sys.argv[0])
-    base      = os.path.abspath('%s/%s' % (os.path.dirname(cmdpath),'..'))
+    base      = os.path.abspath(os.path.dirname(cmdpath))
     
     gump      = os.path.abspath(os.path.dirname(cmdpath))
     
