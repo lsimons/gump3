@@ -5,13 +5,12 @@
     XSL:FO (Formatting Objects) processor
   </description>
 
-  <package>org.apache.fop</package>
-
   <cvs repository="xml"/>
 
   <!-- task definitions used by the build process -->
 
   <project name="fop-buildtools">
+    <package>org.apache.fop.tools</package>
     <ant buildfile="buildtools.xml"/>
     <depend project="xml-xerces"/>
     <depend project="jakarta-ant"/>
@@ -24,6 +23,8 @@
   <!-- main project -->
 
   <project name="xml-fop">
+    <package>org.apache.fop</package>
+
     <ant target="dist"/>
     <depend project="xml-xerces"/>
     <depend project="xml-xalan2"/>

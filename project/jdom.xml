@@ -5,11 +5,11 @@
     Java XML API
   </description>
 
-  <package>org.jdom</package>
-
   <cvs repository="jdom"/>
 
   <project name="jdom">
+    <package>org.jdom</package>
+
     <ant/>
     <depend project="jakarta-ant"/>
     <depend project="xml-xerces"/>

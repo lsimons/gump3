@@ -5,11 +5,11 @@
     Java documentation management system
   </description>
 
-  <package>org.apache.alexandria</package>
-
   <cvs repository="jakarta"/>
   
   <project name="jakarta-alexandria">
+    <package>org.apache.alexandria</package>
+
     <ant target="dist"/>
     <depend project="xml-xalan2"/>
     <depend project="xml-xerces"/>
@@ -18,24 +18,9 @@
     <depend project="castor"/>
   </project>
   
-  <!-- project name="maven">
-    <ant basedir="proposal/maven" target="jar">
-      <depend name="velocity.jar" project="jakarta-velocity"/>
-      <depend name="commons-digester.jar" project="commons-digester"/>
-      <depend name="commons-beanutils.jar" project="commons-beanutils"/>
-      <depend name="xerces.jar" project="xml-xerces"/>
-      <depend name="ant.jar" project="jakarta-ant" id="ant"/>
-      <depend name="log4j.jar" project="jakarta-log4j"/>
-
-      <property name="version" value="@@DATE@@"/>
-      <property name="deprecation" value="on"/>
-    </ant>
-
-    <home nested="proposal/maven"/>
-    <jar name="bin/maven-@@DATE@@.jar"/>
-  </project -->
-  
   <project name="vindico">
+    <package>org.apache.alexandria</package>
+
     <ant basedir="proposal/vindico" target="dist">
       <property name="component.version" value="@@DATE@@"/>
     </ant>

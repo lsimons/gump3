@@ -5,11 +5,11 @@
     Java Apache Mail Enterprise Server 
   </description>
 
-  <package>org.apache.james</package>
-
   <cvs repository="jakarta" />
   
   <project name="jakarta-james">
+    <package>org.apache.james</package>
+
     <ant/>
     <depend project="jakarta-ant" />
     <depend project="jakarta-site2" />
@@ -30,6 +30,7 @@
   </project>
 
   <project name="dnsjava">
+    <package>org.xbill.DNS</package>
     <url href="http://enigma.xbill.org/dnsjava/"/>
     <description>
       An implementation of DNS in Java

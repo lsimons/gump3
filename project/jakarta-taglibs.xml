@@ -5,11 +5,11 @@
     JSP Taglibs
   </description>
 
-  <package>org.apache.taglibs</package>
-
   <cvs repository="jakarta"/>
   
   <project name="jakarta-taglibs">
+    <package>org.apache.taglibs</package>
+
     <ant target="dist">
       <property name="base.dir" reference="home" project="jakarta-taglibs"/>
       <property name="build.dir" path="build"/>

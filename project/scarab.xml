@@ -5,11 +5,11 @@
     Issue Tracking Built for the Ages
   </description>
 
-  <package>org.tigris.scarab</package>
-
   <cvs repository="tigris"/>
   
   <project name="scarab">
+    <package>org.tigris.scarab</package>
+
     <ant basedir="build" target="dist">
       <property name="version" value="@@DATE@@"/>
     </ant>

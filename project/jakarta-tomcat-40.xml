@@ -8,6 +8,8 @@
   <cvs repository="jakarta"/>
   
   <project name="jakarta-tomcat-4.0">
+    <package>org.apache.catalina</package>
+
     <ant target="dist">
       <property name="servlet.home"
         reference="home" project="jakarta-servletapi-4"/>

@@ -5,11 +5,11 @@
     Avalon framework
   </description>
 
-  <package>org.apache.avalon.framework</package>
-
   <cvs repository="jakarta"/>
   
   <project name="jakarta-avalon">
+    <package>org.apache.avalon.framework</package>
+
     <ant>
       <depend property="xerces.jar"  project="xml-xerces" id="parser"/>
       <depend property="logkit.jar"  project="jakarta-avalon-logkit"/>

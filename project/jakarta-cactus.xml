@@ -5,8 +5,6 @@
       Unit test framework for J2EE server-side java code
   </description>
 
-  <package>org.apache.cactus</package>
-
   <cvs repository="jakarta"/>
 
   <!-- Build the Cactus project ant tasks -->
@@ -22,6 +20,8 @@
 
   <!-- Build the Cactus project for Servlet API 2.2 -->
   <project name="jakarta-cactus-22">
+    <package>org.apache.cactus</package>
+
     <ant buildfile="build/build.xml" target="gump">
       <property name="test.port" value="8081"/>
       <property name="tomcat.home.33" reference="home"
@@ -52,6 +52,8 @@
 
   <!-- Build the Cactus project for Servlet API 2.3 -->
   <project name="jakarta-cactus-23">
+    <package>org.apache.cactus</package>
+
     <ant buildfile="build/build.xml" target="gump">
       <property name="test.port" value="8082"/>
       <property name="tomcat.home.40" reference="home"

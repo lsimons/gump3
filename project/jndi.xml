@@ -5,9 +5,9 @@
     Java Naming and Directory Interface
   </description>
 
-  <package>javax.naming</package>
-
   <project name="jndi">
+    <package>javax.naming</package>
+
     <jar name="lib/jndi.jar"/>
   </project>
 

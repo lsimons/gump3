@@ -5,11 +5,11 @@
     The flexible XML framework for Java
   </description>
 
-  <package>org.dom4j</package>
-
   <cvs repository="sourceforge" host-prefix="cvs.dom4j" dir="dom4j"/>
   
   <project name="dom4j">
+    <package>org.dom4j</package>
+
     <ant target="gump">
       <property name="jaxen.src" project="jaxen" path="src/java/main"/>
     </ant>
@@ -29,12 +29,17 @@
   </project>
 
   <project name="xpp">
+    <package>sxt</package>
+    <package>xpp</package>
+
     <url href="http://www.extreme.indiana.edu/soap/xpp/"/>
     <jar name="lib/PullParser11.jar"/>
     <jar name="lib/PullParser2.jar"/>
   </project>
 
   <project name="msv">
+    <package>com.sun.msv</package>
+
     <description>
       Sun Multi-Schema XML Validator 
     </description>
@@ -44,6 +49,8 @@
   </project>
 
   <project name="relaxng">
+    <package>org.relaxng</package>
+
     <description>
       the next generation schema language for XML: clean, simple and powerful
     </description>

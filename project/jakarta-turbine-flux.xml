@@ -5,11 +5,11 @@
     Servlet based framework
   </description>
 
-  <package>org.apache.turbine.flux</package>
-
   <cvs repository="jakarta"/>
   
   <project name="jakarta-turbine-flux">
+    <package>org.apache.turbine.flux</package>
+
     <ant target="jar">
       <property name="version" value="@@DATE@@"/>
       <depend name="servlet.jar"  project="jakarta-servletapi"/>

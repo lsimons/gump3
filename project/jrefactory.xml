@@ -5,12 +5,12 @@
     A refactoring tool for the Java programming language.
   </description>
 
-  <package>org.acm.seguin</package>
-
   <cvs repository="sourceforge" host-prefix="cvs.JRefactory" dir="jrefactory" 
        module="JRefactory"/>
   
   <project name="jrefactory">
+    <package>org.acm.seguin</package>
+
     <ant target="jar"/>
     <depend project="jakarta-ant"/>
     <depend project="xml-xerces"/>
@@ -21,6 +21,7 @@
   </project>
 
   <project name="jrefactory-pretty">
+    <package>org.acm.seguin.pretty</package>
     <ant target="pretty">
       <property name="version" value="0.0.0"/>
     </ant>

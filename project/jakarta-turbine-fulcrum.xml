@@ -5,11 +5,11 @@
     Services Framework
   </description>
 
-  <package>org.apache.fulcrum</package>
-
   <cvs repository="jakarta"/>
   
   <project name="jakarta-turbine-fulcrum">
+    <package>org.apache.fulcrum</package>
+
     <ant target="dist">
       <depend property="velocity.jar" project="jakarta-velocity" version="1.2"/>
       <depend property="log4j.jar" project="jakarta-log4j" version="1.1"/>

@@ -5,11 +5,11 @@
     Template engine
   </description>
 
-  <package>org.apache.velocity.dvsl</package>
-
   <cvs repository="jakarta"/>
   
   <project name="jakarta-velocity-dvsl">
+    <package>org.apache.velocity.dvsl</package>
+
     <ant target="jar">
       <property name="project.version" value="@@DATE@@"/>
     </ant>

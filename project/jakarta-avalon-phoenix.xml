@@ -5,11 +5,11 @@
     The Avalon Application Server Kernel
   </description>
 
-  <package>org.apache.avalon.phoenix</package>
-
   <cvs repository="jakarta"/>
   
   <project name="jakarta-avalon-phoenix">
+    <package>org.apache.avalon.phoenix</package>
+
     <ant target="dist">
       <depend property="xerces.jar" project="xml-xerces" id="parser"/>
       <depend property="logkit.jar" project="jakarta-avalon-logkit"/>

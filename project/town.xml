@@ -5,11 +5,11 @@
     An extension of a Villiage
   </description>
 
-  <package>???</package>
-
   <cvs repository="whichever"/>
   
   <project name="town">
+    <package>com.workingdogs.town</package>
+
     <ant/>
     <depend project="jakarta-ant" />
     <depend project="xml-xerces" />

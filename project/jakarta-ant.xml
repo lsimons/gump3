@@ -5,11 +5,11 @@
     Java based build tool
   </description>
 
-  <package>org.apache.tools.ant</package>
-
   <cvs repository="jakarta"/>
   
   <project name="jakarta-ant">
+    <package>org.apache.tools.ant</package>
+
     <ant target="dist-lite">
       <property name="ant.home" reference="home" project="jakarta-ant"/>
     </ant>

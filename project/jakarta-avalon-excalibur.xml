@@ -5,11 +5,11 @@
     Avalon Component repository
   </description>
 
-  <package>org.apache.avalon.excalibur</package>
-
   <cvs repository="jakarta"/>
   
   <project name="jakarta-avalon-excalibur">
+    <package>org.apache.avalon.excalibur</package>
+
     <ant target="dist">
       <depend property="xerces.jar"    project="xml-xerces" id="parser"/>
       <depend property="framework.jar" project="jakarta-avalon"/>

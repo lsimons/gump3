@@ -5,11 +5,11 @@
     Your organizer friend
   </description>
 
-  <package>org.apache.turbine.orgami</package>
-
   <cvs repository="jakarta"/>
   
   <project name="jakarta-turbine-orgami">
+    <package>org.apache.turbine.orgami</package>
+
     <ant basedir="build">
     </ant>
 

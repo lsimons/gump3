@@ -5,7 +5,7 @@
     Java Authentication and Authorization Service
   </description>
 
-  <package>???</package>
+  <package>javax.security</package>
 
   <project name="jaas">
     <jar  name="lib/jaas.jar"/>

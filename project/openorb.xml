@@ -5,11 +5,12 @@
     EJB container
   </description>
 
-  <package>???</package>
-
   <cvs repository="exolab" host-prefix="openorb" dir="openorb" module="OpenORB"/>
   
   <project name="openorb">
+    <package>org.omg</package>
+    <package>org.openorb</package>
+
     <ant basedir="src" target="jar">
       <property name="version" value="@@DATE@@"/>
     </ant>

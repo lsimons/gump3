@@ -5,11 +5,11 @@
     Bean Scripting Framework
   </description>
 
-  <package>com.ibm.bsf</package>
-
   <cvs repository="devworks" dir="bsf"/>
   
   <project name="bsf">
+    <package>com.ibm.bsf</package>
+
     <ant target="samples"/>
 
     <depend project="xml-xerces"/>

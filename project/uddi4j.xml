@@ -5,11 +5,11 @@
     UDDI client
   </description>
 
-  <package>???</package>
-
   <cvs repository="devworks" dir="uddi4j"/>
   
   <project name="uddi4j">
+    <package>org.uddi4j</package>
+
     <ant target="dist"/>
 
     <depend project="xml-xerces"/>

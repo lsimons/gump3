@@ -4,11 +4,11 @@
     Servlet 2.3 and JSP 1.2 API
   </description>
 
-  <package>javax.servlet</package>
-
   <cvs repository="jakarta" module="jakarta-servletapi-4"/>
   
   <project name="jakarta-servletapi-4">
+    <package>javax.servlet</package>
+
     <ant target="dist">
       <property name="servletapi.dist"
         reference="home" project="jakarta-servletapi-4"/>

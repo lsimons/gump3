@@ -5,11 +5,11 @@
     Pure Java load testing and performance measurement tool.
   </description>
 
-  <package>org.apache.jmeter</package>
-
   <cvs repository="jakarta" />
   
   <project name="jakarta-jmeter">
+    <package>org.apache.jmeter</package>
+
     <ant/>
     <depend project="jakarta-ant" />
     <depend project="xml-xerces" />
@@ -26,6 +26,7 @@
   </project>
 
   <project name="pngencoder">
+    <package>com.keypoint</package>
     <url href="http://catcode.com/pngencoder/"/>
     <description>
       Convert a Java Image to PNG

@@ -5,11 +5,11 @@
     A Java XML parser derived from the Sun Project X 
   </description>
 
-  <package>???</package>
-
   <cvs repository="xml"/>
   
   <project name="xml-crimson">
+    <package>org.apache.crimson</package>
+
     <ant target="dist">
       <property name="build.dir" value="build"/>
     </ant>
@@ -17,6 +17,7 @@
     <depend project="bootstrap-ant"/>
     <home parent="build/crimson"/>
     <javadoc nested="build/docs/api"/>
+    <jar nested="crimson.jar"/>
   </project>
 
 </module>

@@ -5,11 +5,11 @@
     Fast and flexible logging package for Java
   </description>
 
-  <package>org.apache.log4j</package>
-
   <cvs repository="jakarta"/>
   
   <project name="jakarta-log4j">
+    <package>org.apache.log4j</package>
+
     <ant target="jar">
       <property name="version" value="@@DATE@@"/>
     </ant>

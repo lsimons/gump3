@@ -5,7 +5,7 @@
     J2EE Connector Architecture 
   </description>
 
-  <package>???</package>
+  <package>javax.resource</package>
 
   <project name="j2ee-connector">
     <jar  name="connector-1_0-pfd2-classes.jar"/>

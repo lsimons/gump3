@@ -5,13 +5,13 @@
     Java XML Parser - the sequel with no equal
   </description>
 
-  <package>org.apache.xerces</package>
-
   <cvs repository="xml" module="xml-xerces"/>
 
   <!-- build bootstrap -->
 
   <project name="xml-xerces">
+    <package>org.apache.xerces</package>
+
     <ant basedir="java" target="jars"/>
     <depend project="jaxp"/>
     <depend project="bootstrap-ant"/>

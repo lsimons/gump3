@@ -5,12 +5,12 @@
      HyperSonic SQL relational database engine
   </description>
 
-  <package>org.hsqldb</package>
-
   <cvs repository="sourceforge" host-prefix="cvs.hsqldb" dir="hsqldb" 
     module="stable"/>
   
   <project name="hsqldb">
+    <package>org.hsqldb</package>
+
     <ant basedir="src" target="jar"/>
 
     <depend project="jakarta-ant"/>

@@ -5,9 +5,9 @@
     Java Secure Socket Extension
   </description>
 
-  <package>javax.net.ssl</package>
-
   <project name="jsse">
+    <package>javax.net.ssl</package>
+
     <jar name="lib/jsse.jar"/>
     <jar name="lib/jnet.jar"/>
     <jar name="lib/jcert.jar"/>

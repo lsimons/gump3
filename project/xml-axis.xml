@@ -5,13 +5,13 @@
     Simple Object Access Protocol
   </description>
 
-  <package>org.apache.axis</package>
-
   <cvs repository="xml"/>
 
   <!-- build -->
 
   <project name="xml-axis">
+    <package>org.apache.axis</package>
+
     <ant basedir="java" target="all">
       <property name="test.functional.usefile" value="false"/>
       <depend name="wsdl4j.jar" project="wsdl4j"/>

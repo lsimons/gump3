@@ -5,11 +5,11 @@
     native XML database
   </description>
 
-  <package>org.apache.xindice</package>
-
   <cvs repository="xml"/>
   
   <project name="xml-xindice">
+    <package>org.apache.xindice</package>
+
     <ant target="examples"/>
 
     <depend project="jakarta-ant"/>

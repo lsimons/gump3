@@ -10,6 +10,7 @@
   <project name="jakarta-tomcat-connectors"/>
 
   <project name="jakarta-tomcat-util">
+    <package>org.apache.tomcat.util</package>
     <ant basedir="util"/>
 
     <depend project="jakarta-ant"/>
@@ -20,6 +21,7 @@
   </project>
 
   <project name="jakarta-tomcat-coyote">
+    <package>org.apache.coyote</package>
     <ant basedir="coyote">
       <!-- Force catalina NOT to be detected -->
       <property name="catalina.home" value="."/> 

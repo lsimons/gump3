@@ -4,9 +4,8 @@
      Enterprise JavaBeans
    </description>
 
-   <package>???</package>
-
    <project name="ejb">
+     <package>javax.ejb</package>
      <jar name="ejb.jar"/>
    </project>
    

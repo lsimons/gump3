@@ -5,8 +5,6 @@
     Java Transaction Service
   </description>
 
-  <package>???</package>
-
   <note>
     The distribution appears to contain an incomplete set of classes.
     The necessary build.xml used to build a complete set is included below
@@ -26,6 +24,9 @@
   -->
   
   <project name="jts">
+    <package>org.omg.CosTransactions</package>
+    <package>org.omg.CosTSPortability</package>
+
     <jar name="jts.jar"/>
   </project>
 

@@ -8,6 +8,8 @@
   <cvs repository="jakarta" />
   
   <project name="jakarta-tomcat">
+    <package>org.apache.tomcat</package>
+
     <ant target="dist">
       <property name="jaxp.home" reference="home" project="jaxp"/>
       <property name="ant.home" reference="home" project="jakarta-ant"/>

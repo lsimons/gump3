@@ -5,11 +5,11 @@
     Set of default services for Avalon/Phoenix
   </description>
 
-  <package>org.apache.avalon.cornerstone</package>
-
   <cvs repository="jakarta"/>
   
   <project name="jakarta-avalon-cornerstone">
+    <package>org.apache.avalon.cornerstone</package>
+
     <mkdir dir="apps/db/build/classes"/>
     <mkdir dir="apps/demo/build/classes"/>
 

@@ -5,9 +5,9 @@
     JDBC Data Access API
   </description>
   
-  <package>javax.sql</package>
-  
   <project name="jdbc">
+    <package>javax.sql</package>
+  
     <jar name="jdbc2_0-stdext.jar" id="stdext"/>
   </project>
 

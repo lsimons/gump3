@@ -5,11 +5,11 @@
     WebWork web application framework.
   </description>
 
-  <package>webwork</package>
-
   <cvs repository="sourceforge" host-prefix="cvs.webwork" dir="webwork"/>
   
   <project name="webwork">
+    <package>webwork</package>
+
     <ant basedir="src/build" />
     <depend project="jakarta-ant"/>
     <depend project="xml-xerces"/>
@@ -24,6 +24,7 @@
   </project>
 
   <project name="db40">
+    <package>com.db4o</package>
     <url href="http://www.db4o.com/"/>
     <description>
       Object Database Engine 

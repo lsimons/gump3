@@ -5,9 +5,9 @@
     XML Entity and URI Resolvers
   </description>
 
-  <package>???</package>
-
   <project name="resolver">
+    <package>com.sun.resolver</package>
+
     <jar  name="resolver.jar"/>
   </project>
 

@@ -5,11 +5,11 @@
     Java style checker
   </description>
   
-  <package>???</package>
-  
   <cvs repository="sourceforge" host-prefix="cvs.checkstyle" dir="checkstyle"/>
 
   <project name="checkstyle">
+    <package>com.puppycrawl.tools.checkstyle</package>
+  
     <ant target="run.tests"/>
     <depend project="jakarta-ant"/>
     <depend project="xml-xerces"/>

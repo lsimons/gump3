@@ -5,11 +5,11 @@
     Servlet based framework
   </description>
 
-  <package>org.apache.turbine</package>
-
   <cvs repository="jakarta"/>
   
   <project name="jakarta-turbine-3">
+    <package>org.apache.turbine</package>
+
     <ant target="dist">
       <property name="version" value="@@DATE@@"/>
       <depend property="velocity.jar" project="jakarta-velocity" version="1.2"/>

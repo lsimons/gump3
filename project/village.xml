@@ -5,11 +5,11 @@
     Database API
   </description>
 
-  <package>com.workingdogs.village</package>
-
   <cvs repository="whichever"/>
   
   <project name="village">
+    <package>com.workingdogs.village</package>
+
     <ant target="package">
       <property name="version" value="@@DATE@@"/>
     </ant>

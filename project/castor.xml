@@ -5,11 +5,11 @@
     Java to XML, SQL, LDAP bindings
   </description>
 
-  <package>org.exolab.castor</package>
-
   <cvs repository="exolab" host-prefix="castor" dir="castor"/>
   
   <project name="castor">
+    <package>org.exolab.castor</package>
+
     <ant basedir="src" target="jar">
       <property name="version" value="@@DATE@@"/>
     </ant>
@@ -26,6 +26,8 @@
   </project>
 
   <project name="ldapsdk">
+    <package>netscape.ldap</package>
+
     <url href="http://www.mozilla.org/directory/javasdk.html"/>
     <description>
       Netscape Directory SDK for Java

@@ -5,11 +5,11 @@
     Java publishing framework - version 2
   </description>
 
-  <package>org.apache.cocoon</package>
-
   <cvs repository="xml"/>
   
   <project name="xml-cocoon2">
+    <package>org.apache.cocoon</package>
+
     <ant target="package">
       <property name="version" value="@@DATE@@"/>
       <depend property="logkit.jar"    project="dist-avalon-logkit"/>

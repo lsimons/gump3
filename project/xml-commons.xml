@@ -1,14 +1,17 @@
 <module name="xml-commons">
 
   <description>
-    XML commons($Revision: 1.8 $) externally defined standards - DOM,SAX,JAXP; plus xml utilities
+    XML commons($Revision: 1.9 $) externally defined standards - DOM,SAX,JAXP; plus xml utilities
   </description>
-
-  <package>org.apache.xml</package>
 
   <cvs repository="xml"/>
   
   <project name="xml-apis">
+    <package>javax.xml.parsers</package>
+    <package>javax.xml.transform</package>
+    <package>org.apache.xmlcommons</package>
+    <package>org.w3c.dom</package>
+    <package>org.xml.sax</package>
     <ant basedir="java/external"/>
     <depend project="bootstrap-ant"/>
     <depend project="xml-xerces"/>
@@ -17,6 +20,7 @@
   </project>
 
   <project name="xml-commons-which">
+    <package>org.apache.env</package>
     <ant basedir="java" buildfile="which.xml" target="jar"/>
     <depend project="jaxp"/>
     <depend project="bootstrap-ant"/>

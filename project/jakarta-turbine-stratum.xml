@@ -6,11 +6,11 @@
     the commons.
   </description>
 
-  <package>org.apache.turbine.stratum</package>
-
   <cvs repository="jakarta"/>
   
   <project name="jakarta-turbine-stratum">
+    <package>org.apache.turbine.stratum</package>
+
     <ant>
       <depend property="dom4j.jar" project="dom4j" version="1.1"/>
       <depend property="commons-collections.jar" project="commons-collections"/>

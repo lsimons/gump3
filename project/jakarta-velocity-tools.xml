@@ -5,11 +5,11 @@
     Velocity tools project
   </description>
 
-  <package>org.apache.velocity.tools</package>
-
   <cvs  repository="jakarta"/>
 
   <project name="velocity-tools-struts">
+    <package>org.apache.velocity.tools.struts</package>
+
     <ant basedir="struts">
       <property name="project.version" value="@@DATE@@"/>
     </ant>
@@ -25,6 +25,8 @@
   </project>
 
   <project name="velocity-tools-view">
+    <package>org.apache.velocity.tools.view</package>
+
     <ant basedir="view">
       <property name="project.version" value="@@DATE@@"/>
     </ant>

@@ -5,9 +5,9 @@
     Java Management Extensions
   </description>
 
-  <package>javax.management</package>
-
   <project name="jmx">
+    <package>javax.management</package>
+
     <jar name="jmx/lib/jmxgrinder.jar"/>
     <jar name="jmx/lib/jmxri.jar"/>
     <jar name="jmx/lib/jmxtools.jar" id="jmxtools"/>

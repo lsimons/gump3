@@ -5,11 +5,11 @@
     Model 2 Model-View-Controller framework for Servlets and JSP
   </description>
 
-  <package>org.apache.struts</package>
-
   <cvs repository="jakarta"/>
   
   <project name="jakarta-struts">
+    <package>org.apache.struts</package>
+
     <ant target="dist">
       <depend property="jdbc20ext.jar" project="jdbc"/>
       <depend property="servlet.jar" project="jakarta-servletapi-4"/>

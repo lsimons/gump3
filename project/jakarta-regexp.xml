@@ -5,11 +5,11 @@
     Java Regular Expression package
   </description>
 
-  <package>org.apache.regexp</package>
-
   <cvs repository="jakarta"/>
   
   <project name="jakarta-regexp">
+    <package>org.apache.regexp</package>
+
     <ant basedir="build" buildfile="build-regexp.xml" target="jar">
       <property name="version" value="@@DATE@@"/>
     </ant>

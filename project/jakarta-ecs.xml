@@ -5,11 +5,11 @@
     Element Construction Set
   </description>
 
-  <package>org.apache.ecs</package>
-
   <cvs repository="jakarta"/>
   
   <project name="jakarta-ecs">
+    <package>org.apache.ecs</package>
+
     <ant basedir="build" buildfile="build-ecs.xml" target="package"/>
     <depend project="jakarta-ant"/>
     <depend project="xml-xerces"/>

@@ -5,11 +5,11 @@
     Unit test framework
   </description>
 
-  <package>org.junit</package>
-
   <cvs repository="sourceforge" host-prefix="cvs.JUnit" dir="junit"/>
   
   <project name="junit">
+    <package>org.junit</package>
+
     <ant>
       <property name="dist" reference="home" project="junit"/>
     </ant>

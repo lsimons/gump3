@@ -5,9 +5,9 @@
     Aspect-oriented programming
   </description>
 
-  <package>org.aspectj</package>
-
   <project name="aspectj">
+    <package>org.aspectj</package>
+
     <jar name="lib/aspectjtools.jar"/>
     <jar name="lib/aspectjrt.jar" id="aspectjrt"/>
     <jar name="lib/aspectj-ant.jar"/>

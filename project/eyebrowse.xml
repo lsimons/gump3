@@ -5,11 +5,11 @@
      Web-based mail archive browsing
   </description>
 
-  <package>org.tigris.eyebrowse</package>
-  
   <cvs repository="tigris"/>
   
   <project name="eyebrowse">
+    <package>org.tigris.eyebrowse</package>
+  
     <ant target="dist">
       <property name="version" value="@@DATE@@"/>
       <depend property="mm.jar" project="mm.mysql"/>

@@ -5,11 +5,11 @@
     Fast lightweight Logging toolkit
   </description>
 
-  <package>org.apache.log</package>
-
   <cvs repository="jakarta"/>
   
   <project name="jakarta-avalon-logkit">
+    <package>org.apache.log</package>
+
     <ant/>
     <depend project="jakarta-ant"/>
     <depend project="xml-xerces"/>

@@ -5,11 +5,11 @@
     Simple Object Access Protocol
   </description>
 
-  <package>???</package>
-
   <cvs repository="xml"/>
   
   <project name="xml-soap">
+    <package>org.apache.soap</package>
+
     <ant basedir="java" target="dist"/>
 
     <depend project="xml-xerces"/>

@@ -5,11 +5,11 @@
     Content Management System based on WebDAV technology
   </description>
 
-  <package>org.apache.slide</package>
-
   <cvs repository="jakarta"/>
   
   <project name="jakarta-slide">
+    <package>org.apache.slide</package>
+
     <ant target="full-dist">
       <property name="ant.home" reference="home" project="jakarta-ant"/>
       <property name="jaxp.home" reference="home" project="jaxp"/>

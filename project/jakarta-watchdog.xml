@@ -5,11 +5,11 @@
   </description>
   <url href="http://jakarta.apache.org/watchdog/index.html"/>
 
-  <package>???</package>
-
   <cvs repository="jakarta" />
   
   <project name="jakarta-watchdog">
+    <package>org.apache.jcheck.servlet</package>
+
     <ant>
       <property name="ant.home" reference="home" project="jakarta-ant"/>
     </ant>

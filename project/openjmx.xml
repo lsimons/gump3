@@ -5,11 +5,12 @@
     OpenSource implementation of a JMX agent
   </description>
 
-  <package>???</package>
-
   <cvs repository="sourceforge" host-prefix="cvs.openjmx" dir="openjmx"/>
 
   <project name="openjmx">
+    <package>openjmx</package>
+    <package>javax.management</package>
+
     <ant basedir="build" target="test"/>
     <depend project="jakarta-ant"/>
     <depend project="xml-xerces"/>
@@ -41,6 +42,7 @@
   </project>
 
   <project name="saxon">
+    <package>com.icl.saxon</package>
     <url href="http://openjmx.sourceforge.net/"/>
     <description>
       XSLT processor developed by Michael Kay

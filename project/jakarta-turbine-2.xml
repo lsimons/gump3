@@ -5,11 +5,11 @@
     Servlet based framework
   </description>
 
-  <package>org.apache.turbine</package>
-
   <cvs repository="jakarta"/>
 
   <project name="jakarta-turbine-2">
+    <package>org.apache.turbine</package>
+
     <ant target="package">
       <property name="version" value="@@DATE@@"/>
     </ant>

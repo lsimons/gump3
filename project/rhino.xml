@@ -5,11 +5,12 @@
     JavaScript for Java
   </description>
 
-  <package>???</package>
-
   <cvs repository="mozilla" module="mozilla/js/rhino"/>
 
   <project name="rhino">
+    <package>org.mozilla.classfile</package>
+    <package>org.mozilla.javascript</package>
+
     <ant target="dist">
       <property name="version" value="_@@DATE@@"/>
     </ant>

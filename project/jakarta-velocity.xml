@@ -5,11 +5,11 @@
     Template engine
   </description>
 
-  <package>org.apache.velocity</package>
-
   <cvs  repository="jakarta"/>
   
   <project name="jakarta-velocity">
+    <package>org.apache.velocity</package>
+
     <ant basedir="build" target="dist">
       <depend property="log.jar" project="jakarta-avalon-logkit" runtime="true"/>
       <depend property="oro.jar" project="jakarta-oro"/>
@@ -40,6 +40,7 @@
   </project>
 
   <project name="antlr.runtime">
+    <package>antlr</package>
     <url href="http://www.antlr.org/"/>
     <description>
       ANother Tool for Language Recognition
@@ -51,6 +52,7 @@
   <!-- not available via CVS -->
 
   <project name="werken.xpath">
+    <package>com.werken.xpath</package>
     <description>
       werken.xpath is an implementation of the W3C XPath Recommendation, 
       on top of the JDOM library.

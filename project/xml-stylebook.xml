@@ -7,6 +7,7 @@
   <cvs repository="xml"/>
 
   <project name="xml-stylebook2">
+    <package>org.apache.stylebook</package>
     <ant target="package2">
       <property name="build.dir" value="./build2"/>
     </ant>

@@ -5,9 +5,10 @@
     Bouncy Castle Crypto APIs
   </description>
 
-  <package>???</package>
-
   <project name="jce">
+    <package>javax.crypto</package>
+    <package>org.bouncycastle</package>
+
     <jar  name="jce-jdk13-112.jar"/>
   </project>
 

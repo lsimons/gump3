@@ -5,13 +5,13 @@
     XML-Signature Syntax and Processing 
   </description>
   
-  <package>???</package>
-  
   <cvs repository="xml"/>
 
   <!-- build -->
 
   <project name="xml-security">
+    <package>org.apache.xml.security</package>
+  
     <ant target="gump">
       <depend property="lib.jce" project="jce"/>
     </ant>

@@ -5,8 +5,6 @@
     Turbine Development Kit (TDK)
   </description>
 
-  <package>org.apache.turbine.tdk</package>
-
   <cvs repository="jakarta"/>
   
   <project name="jakarta-turbine-tdk-docs">
@@ -18,6 +16,8 @@
   </project>    
 
   <project name="jakarta-turbine-tdk">
+    <package>org.apache.turbine.tdk</package>
+
     <ant target="jar"/>
 
     <depend project="jakarta-ant"/>
