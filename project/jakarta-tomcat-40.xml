@@ -57,6 +57,7 @@
     <depend project="xml-xalan2"/>
     <option project="jakarta-avalon"/>
     <option project="jakarta-avalon-phoenix"/>
+    <work nested="catalina/build/server/classes"/>
 
     <home nested="dist"/>
     <jar name="bin/bootstrap.jar"/>
