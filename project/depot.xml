@@ -1,0 +1,57 @@
+<?xml version="1.0"?>
+<module name="depot" fullname="Apache Depot">
+
+    <url href="http://incubator.apache.org/depot"/>
+
+    <svn repository="apache-incubator-svn"
+    	dir="depot/trunk/"/>
+     
+    <description>
+      Depot -- repository tools and more...
+    </description>
+
+    <project name="depot-version" fullname="Depot Version">
+
+        <package>org.apache.version</package>
+
+        <!-- Work dirs to be included in classpath  -->
+        <work nested="version/build/classes"/>
+        <home nested="version/build"/>
+
+        <depend inherit="runtime" project="ant"/>
+
+        <jar name="juddi-@@DATE@@.jar"/>
+
+        <ant basedir="." buildfile="build.xml" target="gump" vm="1.4">
+          <property name="ant.home" project="ant" reference="home" />
+          <property name="DATE_STAMP" value="@@DATE@@"/>        	
+        </ant>
+
+        <nag 
+           to="depot-dev@incubator.apache.org"
+           from="Adam Jack &lt;ajack@apache.org&gt;"/>
+              
+    </project>
+    
+    <project name="depot-version-test" fullname="Depot Version Test">
+    	
+        <package>org.apache.version.test</package>
+
+        <!-- Work dirs to be included in classpath  -->
+        <work nested="version/build/unit/classes"/>
+        <home nested="version/build"/>
+
+        <depend project="depot-version" inherit="all"/>
+        <depend project="junit"/>
+
+        <ant basedir="." buildfile="build.xml" target="test" vm="1.4">
+        	<property name="ant.home" project="ant" reference="home" />
+        </ant>
+
+	    <nag 
+           to="depot-dev@incubator.apache.org"
+           from="Adam Jack &lt;ajack@apache.org&gt;"/>
+           
+    </project>
+</module>
+
