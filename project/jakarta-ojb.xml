@@ -17,6 +17,8 @@
 
     <depend project="antlr"/>
     <depend project="commons-beanutils"/>
+    <depend project="commons-collections"/>
+    <depend project="commons-lang"/>
     <depend project="commons-logging"/>
     <depend project="commons-pool"/>
     <depend project="hsqldb"/>
@@ -72,9 +74,7 @@
   
   <!-- we haven't been able to build torque for weeks -->
   <project name="ojb-torque">
-    <jar name="lib/torque-3.0-b3-dev.jar" />
-    <jar name="lib/commons-collections-2.0.jar" />
-    <jar name="lib/commons-lang-0.1-dev.jar" />
+    <jar name="lib/torque-3.0-b4-dev.jar" />
     <jar name="lib/velocity-1.3-dev.jar" />
   </project>
   

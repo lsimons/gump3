@@ -13,7 +13,10 @@
     <mkdir dir="out/core/classes"/>
     <mkdir dir="out/jdk/classes"/>
 
-    <ant/>
+    <ant>
+      <property name="project.version" value="@@DATE@@"/>
+    </ant>
+
     <depend project="jakarta-ant" inherit="runtime"/>
     <depend project="xml-xerces"/>
     <depend project="junit"/>
@@ -21,9 +24,9 @@
     <work nested="out/jdk/classes"/>
 
     <home nested="out"/>
-    <jar name="mockobjects-core.jar"/>
-    <jar name="mockobjects-jdk1.3.jar"/>
-    <jar name="alt-jdk1.3.jar"/>
+    <jar name="mockobjects-@@DATE@@-core.jar"/>
+    <jar name="mockobjects-@@DATE@@-jdk1.3.jar"/>
+    <jar name="alt-@@DATE@@-jdk1.3.jar"/>
   </project>
 
 </module>
