@@ -27,6 +27,7 @@
       <srcfiles dir="profile" includes="*.xml"/>
       <srcfiles dir="project" includes="*.xml"/>
       <srcfiles dir="repository" includes="*.xml"/>
+      <srcfiles dir="server" includes="*.xml"/>
     </uptodate>
 
     <uptodate property="javadocs.uptodate" targetfile="javadocs/index.html">
@@ -68,8 +69,20 @@
            style="stylesheet/sedmap.xsl"/>
   </target>
 
+  <!-- Extract the info necessary to produce the deliver script -->
+  <target name="deliver" depends="gen">
+    <style in="work/merge.xml" out="work/deliver-local.sh" 
+           style="stylesheet/deliver-local.xsl"/>
+  </target>
+
+  <!-- Extract the info necessary to produce the naglist -->
+  <target name="naglist" depends="gen">
+    <style in="work/merge.xml" out="work/naglist" 
+           style="stylesheet/nag.xsl"/>
+  </target>
+
   <!-- Add in the website information -->
-  <target name="website" depends="build,update,publish,xref">
+  <target name="website" depends="build,update,publish,xref,deliver,naglist">
     <style basedir="work" destdir="work" includes="*.def" extension=".site"
            style="${webstyle}"/>
   </target>
@@ -88,6 +101,7 @@
       <source file="java/Module.java"/>
       <source file="java/Project.java"/>
       <source file="java/Repository.java"/>
+      <source file="java/Server.java"/>
       <source file="java/Workspace.java"/>
     </javadoc>
   </target>
