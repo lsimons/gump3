@@ -28,7 +28,7 @@
     <depend property="framework.jar" project="avalon" runtime="true"/>
     <depend project="bsf" runtime="true"/>
     <depend project="excalibur-configuration" runtime="true"/>
-    <depend project="excalibur-converter" runtime="true"/>
+    <depend project="spice-converter" runtime="true"/>
     <depend project="excalibur-io" runtime="true"/>
     <depend project="avalon-sandbox-info" runtime="true"/>
     <depend project="excalibur-cli" runtime="true"/>
