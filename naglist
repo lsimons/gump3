@@ -5,6 +5,12 @@ From: Sam Ruby <rubys@us.ibm.com>
 Subject: [GUMP] Build Failure - BSF
 Regex: /BUILD FAILED/
 ------
+Project: framework
+To: avalon-dev@jakarta.apache.org
+From: Sam Ruby <rubys@us.ibm.com>
+Subject: [GUMP] Build Failure - Framework
+Regex: /BUILD FAILED/
+------
 Project: jakarta-alexandria
 To: alexandria-dev@jakarta.apache.org
 From: Sam Ruby <rubys@us.ibm.com>
@@ -15,6 +21,24 @@ Project: jakarta-ant
 To: ant-dev@jakarta.apache.org
 From: Sam Ruby <rubys@us.ibm.com>
 Subject: [GUMP] Build Failure - Ant
+Regex: /BUILD FAILED/
+------
+Project: jakarta-avalon-clutil
+To: avalon-dev@jakarta.apache.org
+From: Sam Ruby <rubys@us.ibm.com>
+Subject: [GUMP] Build Failure - Clutil
+Regex: /BUILD FAILED/
+------
+Project: jakarta-avalon-logkit
+To: avalon-dev@jakarta.apache.org
+From: Sam Ruby <rubys@us.ibm.com>
+Subject: [GUMP] Build Failure - Logkit
+Regex: /BUILD FAILED/
+------
+Project: jakarta-avalon-testlet
+To: avalon-dev@jakarta.apache.org
+From: Sam Ruby <rubys@us.ibm.com>
+Subject: [GUMP] Build Failure - Testlet
 Regex: /BUILD FAILED/
 ------
 Project: jakarta-log4j
