@@ -69,6 +69,7 @@
     <jar name="lib/ant-oro.jar" id="oro"/>
     <jar name="lib/ant-stylebook.jar" id="stylebook"/>
     <jar name="lib/ant-swing.jar" id="swing"/>
+    <jar name="lib/ant-jdepend.jar" id="jdepend"/>
     <jar name="lib/ant-trax.jar" id="trax"/>
     <jar name="lib/ant-xalan2.jar" id="xalan2"/>
     <javadoc nested="build/javadocs" project="jakarta-ant"/>
