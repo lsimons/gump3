@@ -159,11 +159,11 @@ class PropertySet(Ownable):
         return self.properties.values()
             
     def importProperty(self,xmlproperty):
-        self.addProperty(Property(xmlproperty,self.getOwner()))
+        self.addProperty(Property(xmlproperty,self))
             
     def completeProperties(self,workspace):   
         for property in self.getProperties(): 
-            property.complete(self.getOwner(),workspace)
+            property.complete(self,workspace)
                         
     def dump(self, indent=0, output=sys.stdout):
         """ Display the properties """
@@ -203,6 +203,7 @@ class PropertyContainer:
         self.sysproperties.importProperty(xmlproperty)
                 
     def importProperties(self,xml):
+        """ Import all properties (from XML to model). """
         if xml.property:
             for xmlproperty in xml.property:
                 self.importProperty(xmlproperty)
@@ -212,7 +213,10 @@ class PropertyContainer:
                 self.importSysProperty(xmlproperty)
             
     def completeProperties(self,workspace=None):        
+        # The only entity not to pass the workspace,
+        # can be the workspace itself.
         if not workspace: workspace=self
+        # Import normal and system
         self.properties.completeProperties(workspace)
         self.sysproperties.completeProperties(workspace)
                         

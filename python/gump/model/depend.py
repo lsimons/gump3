@@ -20,8 +20,6 @@
 
 from gump.model.state import *
 from gump.model.object import NamedModelObject
-from gump.model.property import Property
-
 
 from gump.utils.note import *
 from gump.utils import getIndent
