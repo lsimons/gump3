@@ -14,7 +14,15 @@
     <depend project="javacc"/>
     <depend project="jakarta-log4j"/>
     <depend project="jakarta-servletapi-4"/>
+    <depend project="jakarta-velocity"/>
+    <depend project="bsf"/>
+    <depend project="jdom"/>
+    <depend project="db40"/>
     <jar id="webwork" name="build/result/web/WEB-INF/lib/webwork.jar"/>
   </project>
 
+  <project name="db40">
+    <home nested="src"/>
+    <jar name="lib/db4o.jar"/>
+  </project>
 </module>

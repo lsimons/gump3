@@ -5,7 +5,8 @@
     A refactoring tool for the Java programming language.
   </description>
 
-  <cvs repository="sourceforge" host-prefix="cvs.jrefactory" dir="jrefactory"/>
+  <cvs repository="sourceforge" host-prefix="cvs.JRefactory" dir="jrefactory" 
+       module="JRefactory"/>
   
   <project name="jrefactory">
     <ant>
