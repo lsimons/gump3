@@ -104,6 +104,8 @@
     <depend project="junit"/>
     <work nested="functor/target/classes"/>
     <work nested="functor/target/test-classes"/>
+    <!-- unit tests load resources from source tree -->
+    <work nested="functor/src/test"/>
     <home nested="functor/dist"/>
     <jar name="commons-functor.jar"/>
     <javadoc nested="functor/dist/docs/api"/>
