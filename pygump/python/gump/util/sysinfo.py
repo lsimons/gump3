@@ -30,10 +30,10 @@ def amount_of_memory():
     cat = Popen(["cat", "/proc/meminfo"], stdout=PIPE)
     if cat.wait():
         return amount
-    grep = Popen(["grep", "MemTotal"], stdin=cat.stdout)
+    grep = Popen(["grep", "MemTotal"], stdin=cat.stdout, stdout=PIPE)
     if grep.wait():
         return amount
-    sed = Popen(["sed", "-e", "s/[^0-9]//g"], stdin=grep.stdout)
+    sed = Popen(["sed", "-e", "s/[^0-9]//g"], stdin=grep.stdout, stdout=PIPE)
     result = sed.wait()
     if not result:
         amount = int(sed.communicate()[0])
@@ -46,16 +46,16 @@ def amount_of_cpu_mhz():
     cat = Popen(["cat", "/proc/cpuinfo"], stdout=PIPE)
     if cat.wait():
         return amount
-    grep = Popen(["grep", "MHz"], stdin=cat.stdout)
+    grep = Popen(["grep", "MHz"], stdin=cat.stdout, stdout=PIPE)
     if grep.wait():
         return amount
-    sed = Popen(["sed", "-e", "s/[^0-9]//g"], stdin=grep.stdout)
+    sed = Popen(["sed", "-e", "s/[^0-9]//g"], stdin=grep.stdout, stdout=PIPE)
     if sed.wait():
         return amount
-    awk = Popen(["awk", "!x[$0]++"], stdin=sed.stdout)
+    awk = Popen(["awk", "!x[$0]++"], stdin=sed.stdout, stdout=PIPE)
     result = awk.wait()
     if not result:
-        amount = int(sed.communicate()[0])
+        amount = int(awk.communicate()[0])
     return amount
 
 def number_of_cpus():
@@ -65,14 +65,14 @@ def number_of_cpus():
     cat = Popen(["cat", "/proc/cpuinfo"], stdout=PIPE)
     if cat.wait():
         return amount
-    grep = Popen(["grep", "^processor"], stdin=cat.stdout)
+    grep = Popen(["grep", "^processor"], stdin=cat.stdout, stdout=PIPE)
     if grep.wait():
         return amount
-    sed = Popen(["sed", "-e", "s/[^0-9]//g"], stdin=grep.stdout)
+    sed = Popen(["sed", "-e", "s/[^0-9]//g"], stdin=grep.stdout, stdout=PIPE)
     if sed.wait():
         return amount
-    grep2 = Popen(["grep", "-c", ".*"], stdin=sed.stdout)
+    grep2 = Popen(["grep", "-c", ".*"], stdin=sed.stdout, stdout=PIPE)
     result = grep2.wait()
     if not result:
-        amount = int(sed.communicate()[0])
+        amount = int(grep2.communicate()[0])
     return amount
