@@ -19,9 +19,9 @@
     <depend project="xml-xerces"/>
     <depend project="xml-xalan2"/>
     <depend project="junit"/>
-    <depend project="antlr" inherit="jars"/>
-    <depend project="jakarta-regexp" inherit="jars"/>
-    <depend project="jakarta-bcel"/>
+    <depend project="antlr" runtime="true"/>
+    <depend project="jakarta-regexp" runtime="true"/>
+    <depend project="jakarta-bcel" runtime="true"/>
     <work nested="target/checkstyle"/>
     <work nested="target/tests"/>
 
