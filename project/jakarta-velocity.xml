@@ -14,7 +14,9 @@
       <depend property="log.jar" project="avalon-logkit" runtime="true"/>
       <depend property="oro.jar" project="jakarta-oro"/>
       <property name="version" value="@@DATE@@"/>
+      <property name="deprecation" value="true"/>
     </ant>
+
     <depend project="ant" inherit="runtime"/>
     <depend project="xml-xerces"/>
     <depend project="jakarta-servletapi"/>
