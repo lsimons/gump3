@@ -143,7 +143,7 @@ def getContent(context,message=''):
     # Work
     #
     if context.worklist:
-        context+="\n"
+        content+="\n"
         for workitem in context.worklist:
             content+=workitem.overview()+"\n"
             
