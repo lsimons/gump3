@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/syndication/rss.py,v 1.17 2004/01/28 22:54:50 ajack Exp $
-# $Revision: 1.17 $
-# $Date: 2004/01/28 22:54:50 $
+# $Header: /home/stefano/cvs/gump/python/gump/syndication/rss.py,v 1.18 2004/02/29 19:16:19 ajack Exp $
+# $Revision: 1.18 $
+# $Date: 2004/02/29 19:16:19 $
 #
 # ====================================================================
 #
@@ -143,7 +143,7 @@ class Item:
 # Not yet                
 #        self.rssStream.write(('    <description>%s%s</description>\n') \
 #               %(escape(self.description),escape(tagOn)))
-        self.rssStream.write('    <author>gump@jakarta.apache.org</author>\n')                
+        self.rssStream.write('    <author>general@gump.apache.org</author>\n')                
         
         self.rssStream.write(('      <dc:subject>%s</dc:subject>\n') %(escape(self.subject)))
         self.rssStream.write(('      <dc:date>%s</dc:date>\n') %(escape(self.date)))
@@ -178,7 +178,7 @@ class Channel:
         self.rssStream.write('  <language>en-us</language>\n')
         self.rssStream.write('  <copyright>Copyright 2003, Apache Software Foundation</copyright>\n')
         self.rssStream.write(('  <generator>Jakarta Gump : %s</generator>\n') % (escape(setting.version)))
-        self.rssStream.write('  <webMaster>gump@jakarta.apache.org</webMaster>\n')
+        self.rssStream.write('  <webMaster>general@gump.apache.org</webMaster>\n')
         self.rssStream.write('  <docs>http://blogs.law.harvard.edu/tech/rss</docs>\n')
         self.rssStream.write('  <category domain="http://www.apache.org/namespaces">Gump</category>\n')
                 
@@ -190,7 +190,7 @@ class Channel:
         self.rssStream.write("""
     <gump:version>%s</gump:version>
     
-    <admin:errorReportsTo rdf:resource="mailto:gump@jakarta.apache.org"/>
+    <admin:errorReportsTo rdf:resource="mailto:general@gump.apache.org"/>
 
     <sy:updateFrequency>1</sy:updateFrequency>
     <sy:updatePeriod>daily</sy:updatePeriod>
@@ -225,7 +225,7 @@ class RSS:
 
     def startRSS(self):
         self.rssStream.write("""<rss version="2.0"
-  xmlns:gump="http://jakarta.apache.org/gump/" 
+  xmlns:gump="http://gump.apache.org/" 
   xmlns:admin="http://webns.net/mvcb/" 
   xmlns:dc="http://purl.org/dc/elements/1.1/" 
   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" 
@@ -263,9 +263,9 @@ class RSS:
 class RSSSyndicator(Syndicator):
     def __init__(self):
         Syndicator.__init__(self)
-        self.gumpImage=Image('http://jakarta.apache.org/gump/images/bench.png',	\
-                    'Jakarta Gump', \
-                    'http://jakarta.apache.org/gump/')
+        self.gumpImage=Image('http://gump.apache.org/images/bench.png',	\
+                    'Apache Gump', \
+                    'http://gump.apache.org/')
         
     def syndicate(self,run):
         

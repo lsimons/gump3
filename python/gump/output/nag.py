@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/output/Attic/nag.py,v 1.17 2004/02/28 00:08:49 ajack Exp $
-# $Revision: 1.17 $
-# $Date: 2004/02/28 00:08:49 $
+# $Header: /home/stefano/cvs/gump/python/gump/output/Attic/nag.py,v 1.18 2004/02/29 19:16:19 ajack Exp $
+# $Revision: 1.18 $
+# $Date: 2004/02/29 19:16:19 $
 #
 # ====================================================================
 #
@@ -322,8 +322,8 @@ class Nagger:
         
 This is an automated request, but not an unsolicited one. For help 
 understanding the request please visit 
-http://jakarta.apache.org/gump/nagged.html, 
-and/or contact gump@jakarta.apache.org.
+http://gump.apache.org/nagged.html, 
+and/or contact general@gump.apache.org.
 
 """
     

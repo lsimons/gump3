@@ -62,20 +62,20 @@ be used to configure the chosen Forrest skin.
   <!-- Do we want to disable w3c compliance links? -->
   <disable-compliance-links>false</disable-compliance-links>
 
-  <searchsite-domain>jakarta.apache.org</searchsite-domain>  
-  <searchsite-name>Jakarta Gump</searchsite-name>  
+  <searchsite-domain>gump.apache.org</searchsite-domain>  
+  <searchsite-name>Apache Gump</searchsite-name>  
 
   <!-- mandatory project logo
        skin: forrest-site renders it at the top -->
-  <project-name>Jakarta Gump</project-name>
-  <project-url>http://jakarta.apache.org/gump</project-url>
+  <project-name>Apache Gump</project-name>
+  <project-url>http://gump.apache.org/</project-url>
   <project-logo>images/gump-logo.png</project-logo>
 
   <!-- optional group logo
        skin: forrest-site renders it at the top-left corner -->
-  <group-name>Jakarta</group-name>
+  <!-- group-name>Jakarta</group-name>
   <group-url>http://jakarta.apache.org</group-url>
-  <group-logo>images/apache-jakarta.png</group-logo>
+  <group-logo>images/apache-jakarta.png</group-logo -->
  
   <!-- optional host logo (e.g. sourceforge logo)
        skin: forrest-site renders it at the bottom-left corner -->

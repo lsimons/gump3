@@ -35,9 +35,9 @@
     <javadoc nested="javadocs"/>
 
     <nag from="Sam Ruby &lt;rubys@us.ibm.com&gt;">
-      <regexp to="gump@jakarta.apache.org"/>
+      <regexp to="general@gump.apache.org"/>
       <regexp pattern="/Dropping project/" subject="Project(s) dropped"
-              to="gump@jakarta.apache.org"/>
+              to="general@gump.apache.org"/>
       <regexp pattern="/Dropping project \w+-block/" subject="Project(s) dropped"
 	      to="cocoon-dev@xml.apache.org"/>
     </nag>

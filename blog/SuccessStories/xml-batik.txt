@@ -14,7 +14,7 @@ go down, and they were notified. Their analysis led them to beleive that <a
 href="http://www.mozilla.org/rhino/">Rhino</a> had
 <a 
 
-href="http://nagoya.apache.org/eyebrowse/ReadMsg?listName=gump@jakarta.apache.org&
+href="http://nagoya.apache.org/eyebrowse/ReadMsg?listName=general@gump.apache.org&
 
 msgId=1341462">broken backwards compatibility</a>. The <a 
 
@@ -23,7 +23,7 @@ committed a change to
 
 <a 
 
-href="http://nagoya.apache.org/eyebrowse/ReadMsg?listName=gump@jakarta.apache.org&
+href="http://nagoya.apache.org/eyebrowse/ReadMsg?listName=general@gump.apache.org&
 
 msgNo=3934">that restored backwards compatibility</a>.
 </p>

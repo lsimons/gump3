@@ -88,8 +88,8 @@ be used to configure the chosen Forrest skin.
   <!-- Whether to render mailto: links unrecognisable by spam harvesters -->
   <obfuscate-mail-links>true</obfuscate-mail-links>
 
-  <searchsite-domain>apache.org</searchsite-domain>  
-  <searchsite-name>Apache</searchsite-name>  
+  <searchsite-domain>gump.apache.org</searchsite-domain>  
+  <searchsite-name>Apache Gump</searchsite-name>  
 
   <!-- mandatory project logo
        skin: forrest-site renders it at the top -->

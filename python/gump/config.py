@@ -1,8 +1,8 @@
 #!/usr/bin/python
 
-# $Header: /home/stefano/cvs/gump/python/gump/Attic/config.py,v 1.14 2004/02/26 18:47:33 ajack Exp $
-# $Revision: 1.14 $
-# $Date: 2004/02/26 18:47:33 $
+# $Header: /home/stefano/cvs/gump/python/gump/Attic/config.py,v 1.15 2004/02/29 19:16:19 ajack Exp $
+# $Revision: 1.15 $
+# $Date: 2004/02/29 19:16:19 $
 #
 # ====================================================================
 #
@@ -103,14 +103,14 @@ class default:
     classpath = (os.getenv('CLASSPATH') or '').split(os.pathsep)  
     
     logurl		=	'http://cvs.apache.org/builds/gump/nightly/'
-    bannerimage = 'http://jakarta.apache.org/images/jakarta-logo.gif'
+    bannerimage = 'http://gump.apache.org/images/gump-logo.gif'
     
     email = 'gump@' + gumpfullhost
-    mailinglist = 'gump@jakarta.apache.org'
+    mailinglist = 'general@gump.apache.org'
     mailserver = 'mail.apache.org'
     mailport = 25
     prefix = '[GUMP@' + gumphost + ']'
-    signature="\r\n--\r\nGump http://jakarta.apache.org/gump\n" \
+    signature="\r\n--\r\nGump http://gump.apache.org/\n" \
         + '[' + gumpfullhost + "]\n"
         
     if not os.name == 'dos' and not os.name == 'nt':

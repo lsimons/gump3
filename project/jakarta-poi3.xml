@@ -45,7 +45,7 @@
         <javadoc module="jakarta-poi" nested="build/tmp/site/build/site/apidocs"/>
 
         <nag to="poi-dev@jakarta.apache.org"
-            from="&quot;Gump [HEAD] :-(&quot; &lt;gump@jakarta.apache.org&gt;"/>
+            from="&quot;Gump [HEAD] :-(&quot; &lt;general@gump.apache.org&gt;"/>
     </project>
 </module>
 

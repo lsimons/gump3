@@ -17,9 +17,9 @@
 
 <status>
   <developers>
-    <person name="Gump"      	email="gump@jakarta.apache.org"   id="Gump" />
-    <person name="Community"     email="gump@jakarta.apache.org"  id="Community" />
-    <person name="Administrators"     email="gump@jakarta.apache.org"  id="admins" />
+    <person name="Gump"      	email="general@gump.apache.org"   id="Gump" />
+    <person name="Community"     email="general@gump.apache.org"  id="Community" />
+    <person name="Administrators"     email="general@gump.apache.org"  id="admins" />
     <person name="Adam Jack"    email="ajack@apache.org"      id="ajack" />
     <person name="Nick Chalko"    email="nickchalko@apache.org"      id="njc" />
     <!-- Add more people here -->
@@ -57,7 +57,7 @@
       
       <action context="feedback" dev="Gump">
         Mail <link
-          href="mailto:gump@jakarta.apache.org">gump@jakarta.apache.org</link>
+          href="mailto:general@gump.apache.org">general@gump.apache.org</link>
         with feedback on usability (of the outputs, or providing the metadata).
       </action>
     </actions>

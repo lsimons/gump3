@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/model/workspace.py,v 1.29 2004/02/17 21:54:20 ajack Exp $
-# $Revision: 1.29 $
-# $Date: 2004/02/17 21:54:20 $
+# $Header: /home/stefano/cvs/gump/python/gump/model/workspace.py,v 1.30 2004/02/29 19:16:19 ajack Exp $
+# $Revision: 1.30 $
+# $Date: 2004/02/29 19:16:19 $
 #
 # ====================================================================
 #
@@ -251,7 +251,7 @@ class Workspace(NamedModelObject, PropertyContainer, Statable):
             self.bannerImage=self.xml['banner-image']
             
         if not self.xml['banner-link']: 
-            self.bannerLink="http://jakarta.apache.org"
+            self.bannerLink="http://gump.apache.org"
         else:
             self.bannerLink=self.xml['banner-link']
 

@@ -14,8 +14,8 @@
     <jar name="lib/outputSVN.jar" id="outputSVN"/>
     <license name="LICENSE"/>
 
-    <nag from="Gump Integration Build &lt;gump@jakarta.apache.org&gt;"
-         to="gump@jakarta.apache.org"/>
+    <nag from="Gump Integration Build &lt;general@gump.apache.org&gt;"
+         to="general@gump.apache.org"/>
   </project>
 
 </module>

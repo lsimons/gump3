@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <status>
   <developers>
-    <person name="Gump"      email="gump@jakarta.apache.org"      id="Gump" />
+    <person name="Gump"      email="general@gump.apache.org"      id="Gump" />
     <!-- Add more people here -->
   </developers>
 
@@ -12,7 +12,7 @@
       </action>
       <action context="feedback" dev="Gump">
         Mail <link
-          href="mailto:gump@jakarta.apache.org">gump@jakarta.apache.org</link>
+          href="mailto:general@gump.apache.org">general@gump.apache.org</link>
         with feedback.
       </action>
     </actions>

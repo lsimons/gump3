@@ -79,6 +79,9 @@
       </forrest>
       <cocoon href="cocoon/"/>
     </xml.apache.org>
+    <gump.apache.org href="http://gump.apache.org/">
+      <gump href=""/>
+    </gump.apache.org>
   </external-refs>
 
 </site>

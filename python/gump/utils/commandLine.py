@@ -1,8 +1,8 @@
 #!/usr/bin/python
 
-# $Header: /home/stefano/cvs/gump/python/gump/utils/Attic/commandLine.py,v 1.7 2004/02/05 14:50:07 ajack Exp $
-# $Revision: 1.7 $
-# $Date: 2004/02/05 14:50:07 $
+# $Header: /home/stefano/cvs/gump/python/gump/utils/Attic/commandLine.py,v 1.8 2004/02/29 19:16:20 ajack Exp $
+# $Revision: 1.8 $
+# $Date: 2004/02/29 19:16:20 $
 #
 # ====================================================================
 #
@@ -106,8 +106,8 @@ class CommandLine:
                 print "  -v,  --verbose           verbose logging."
                 print "  -d,  --debug             debug logging."
                 print
-                print "For bug reports use Bugzilla: http://bugzilla.apache.org/."
-                print "For suggestions: <gump@jakarta.apache.org/>."
+                print "For bug reports use JIRA: http://issues.apache.org/."
+                print "For suggestions: <general@gump.apache.org/>."
                 sys.exit(0)
       
         # 
