@@ -69,12 +69,16 @@ foreach (<LIST>) {
       print EMAIL "----------------------------------------------------\n\n";
 
       if ($pageData) {
-        if (length($pageData)<50000) { # Apache's ezmlm limit is 100000
-          print EMAIL "$pageData";
-        } else {
-          print EMAIL "Build results exceed maximum length.";
-          print EMAIL "Please see URL above for details.";
+        if (length($pageData)>50000) { # Apache's ezmlm limit is 100000
+          print EMAIL "Build results exceed maximum length.\n";
+          print EMAIL "Please see URL above for details.\n";
+          print EMAIL "Last 50 lines of build output follows.\n\n";
+
+          @lines = split("\n",$pageData);
+          $pageData = join("\n", splice(@lines, $#lines-50));
         }
+
+        print EMAIL "$pageData";
       } else {
         print EMAIL "Build results missing. Please see URL above for details.";
       }
