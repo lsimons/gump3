@@ -42,7 +42,6 @@
     <depend project="excalibur-util" runtime="true"/>
     <depend project="ant" runtime="true"/>
     <depend project="mx4j" runtime="true"/>
-    <depend project="xml-stylebook2"/>
     <depend project="xml-xalan2"/>
     <depend project="dist-bsf" runtime="true"/>
     <depend project="rhino" runtime="true"/>
