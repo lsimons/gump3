@@ -22,6 +22,7 @@
     <depend project="jakarta-log4j"/>
     <option project="lucene"/>
     <option project="commons-util"/>
+    <depend project="jakarta-turbine-fulcrum"/>
   </project>
 
 </module>
