@@ -13,6 +13,7 @@
 
     <depend project="ant" inherit="runtime"/>
     <depend project="xml-apis"/>
+    <depend project="xml-xerces"/>
     <depend project="jdom"/>
     <depend project="junit"/>
     <depend project="jaxen"/>
