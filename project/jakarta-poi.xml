@@ -10,6 +10,8 @@
         <ant buildfile="build.xml" target="dist">
         </ant>
         <package>org.apache.poi</package>
+        <depend project="jakarta-ant"/>
+        <depend project="jakarta-log4j"/>
         <depend project="commons-logging"/>
         <depend project="commons-beanutils"/>
         <depend project="commons-collections"/>
@@ -19,10 +21,11 @@
         <work nested="build/classes"/>
         <work nested="build/contrib-classes"/>
         <work nested="build/scratchpad-classes"/>
+        <work nested="build/test-classes"/>
         <home nested="build/dist"/>
-        <jar name="build/dist/poi-1.10.0-dev-@@DATE@@.jar"/>
-        <jar name="build/dist/poi-contrib-1.10.0-dev-@@DATE@@.jar"/>
-        <jar name="build/dist/poi-scratchpad-1.10.0-dev-@@DATE@@.jar"/>
+        <jar name="poi-1.10.0-dev-@@DATE@@.jar"/>
+        <jar name="poi-contrib-1.10.0-dev-@@DATE@@.jar"/>
+        <jar name="poi-scratchpad-1.10.0-dev-@@DATE@@.jar"/>
         <javadoc module="jakarta-poi" nested="build/tmp/site/build/site/apidocs"/>
 
         <nag to="poi-dev@jakarta.apache.org"
