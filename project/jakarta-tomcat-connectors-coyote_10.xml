@@ -1,15 +1,11 @@
-<module name="jakarta-tomcat-connectors" tag="coyote_10">
+<module name="jakarta-tomcat-connectors-coyote_10" tag="coyote_10">
 
   <description>
     Connectors to various web servers
   </description>
   <url href="http://jakarta.apache.org/tomcat/index.html"/>
 
-  <cvs repository="jakarta" />
-
-  <project name="jakarta-tomcat-connectors">
-    <!-- dummy to provide a "home" reference for the tomcat-catalina build -->
-  </project>
+  <cvs repository="jakarta" module="jakarta-tomcat-connectors"/>
 
   <project name="jakarta-tomcat-util-coyote_10">
     <package>org.apache.tomcat.util</package>
@@ -31,7 +27,7 @@
          from="Craig McClanahan &lt;craigmcc@apache.org&gt;"/>
   </project>
 
-  <project name="jakarta-tomcat-coyote-coyote_10">
+  <project name="jakarta-tomcat-coyote_10">
     <package>org.apache.coyote</package>
     <ant basedir="coyote">
       <property name="jmx.home" reference="home" project="jmx"/>
@@ -44,7 +40,7 @@
     <depend project="jakarta-ant"/>
     <depend project="xml-xerces"/>
     <depend project="jmx"/>
-    <depend project="jakarta-tomcat-util"/>
+    <depend project="jakarta-tomcat-util-coyote_10"/>
     <depend project="jakarta-servletapi-4"/>
     <depend project="tomcat-catalina"/>
     <depend project="jakarta-tomcat"/>
