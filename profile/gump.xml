@@ -164,6 +164,7 @@
   <module href="project/krysalis-ruper.xml"/>
   <module href="project/krysalis-centipede.xml" />
   <module href="project/krysalis-antlibs.xml"/>
+  <module href="project/krysalis-template-smoketest.xml"/>
 
   <!--module href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/*checkout*/krysalis/krysalis-antlibs/forrest/gump.xml"/>
   <module href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/*checkout*/krysalis/krysalis-antlibs/junit/gump.xml"/>
