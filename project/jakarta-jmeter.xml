@@ -1,5 +1,5 @@
 <module name="jakarta-jmeter">
-<!-- Version $Revision: 1.72 $ Last updated $Date: 2004/02/13 03:54:25 $ -->
+<!-- Version $Revision: 1.73 $ Last updated $Date: 2004/02/16 16:22:15 $ -->
   <url href="http://jakarta.apache.org/jmeter/" />
   <description>
     Pure Java load testing and performance measurement tool.
@@ -15,7 +15,7 @@
       <property name="version" value="@@DATE@@"/>
       <property name="gump.run" value="true"/>
       <!-- The version of this file -->
-      <property name="version.projectfile" value="$Revision: 1.72 $"/>
+      <property name="version.projectfile" value="$Revision: 1.73 $"/>
       
       <!--
       	These properties are passed to the build process, so the names need to agree with
@@ -90,7 +90,7 @@
       <property name="version" value="@@DATE@@"/>
       <property name="gump.run" value="true"/>
       <!-- The version of this file -->
-      <property name="version.projectfile" value="$Revision: 1.72 $"/>
+      <property name="version.projectfile" value="$Revision: 1.73 $"/>
     </ant>
 
     <depend project="ant" />
@@ -136,9 +136,10 @@
     <jar name="dist/jakarta-jmeter-@@DATE@@_bin.zip" />
     <jar name="dist/jakarta-jmeter-@@DATE@@_src.zip" />
     <jar name="dist/jakarta-jmeter-@@DATE@@_lib.zip" />
+    <!-- See if can use license more than once -->
+    <license name="NOTICE" />
+    <license name="INSTALLING" />
     <license name="LICENSE"/>
-    <jar name="NOTICE" />
-    <jar name="INSTALLING" />
 
     <nag from="Sebb &lt;sebb@apache.org&gt;"
          to="jmeter-dev@jakarta.apache.org">
@@ -152,7 +153,7 @@
       <property name="version" value="@@DATE@@"/>
       <property name="gump.run" value="true"/>
       <!-- The version of this file -->
-      <property name="version.projectfile" value="$Revision: 1.72 $"/>
+      <property name="version.projectfile" value="$Revision: 1.73 $"/>
     </ant>
 
     <depend project="ant" />
@@ -200,7 +201,7 @@
       <property name="version" value="@@DATE@@"/>
       <property name="gump.run" value="true"/>
       <!-- The version of this file -->
-      <property name="version.projectfile" value="$Revision: 1.72 $"/>
+      <property name="version.projectfile" value="$Revision: 1.73 $"/>
     </ant>
 
     <depend project="ant" />
