@@ -36,22 +36,7 @@ from gump.utils.work import *
 from gump.utils.tools import *
 
 from gump.model.workspace import *
-from gump.model.module import Module
-from gump.model.project import Project
-from gump.model.depend import  ProjectDependency
-from gump.model.stats import *
 from gump.model.state import *
-
-from gump.net.cvs import *
-
-from gump.document.text.documenter import TextDocumenter
-from gump.document.forrest.documenter import ForrestDocumenter
-
-from gump.output.statsdb import *
-from gump.output.repository import JarRepository
-from gump.output.notify import notify
-from gump.results.resulter import gatherResults,generateResults
-from gump.syndication.syndicator import syndicate
 
 
 ###############################################################################
@@ -157,7 +142,6 @@ class GumpTask:
     def isPerformed(self):
         return self.performed
         
-        
     def bind(self,engine):
         self.method=getattr(engine,self.name,None)            
         
@@ -197,47 +181,47 @@ class GumpTaskList(list):
         #
         
         
-        if 'preprocess'==name:
+        if 'initialize'==name:
             # Everything needs this ...
             task=GumpTask(name,[])            
         elif 'loadStatistics'==name:
             # The minimum to load stats onto the tree
-            task=GumpTask(name,['preprocess'])  
+            task=GumpTask(name,['initialize'])  
         elif 'updateStatistics'==name:
             # Publish results to the statistics database
             # NB: Not really true to depend upon load, but cleaner..
-            task=GumpTask(name,['preprocess','gatherResults','loadStatistics'])           
+            task=GumpTask(name,['initialize','gatherResults','loadStatistics'])           
         elif 'update'==name:
             # Update from CVS|SVN repositories
-            task=GumpTask(name,['preprocess','loadStatistics'])                    
+            task=GumpTask(name,['initialize','loadStatistics'])                    
         elif 'build'==name:
             # Build using Ant|Maven|...
-            task=GumpTask(name,['preprocess','loadStatistics'])                    
+            task=GumpTask(name,['initialize','loadStatistics'])                    
         elif 'check'==name:
             # Check metadata
-            task=GumpTask(name,['preprocess','loadStatistics'])             
+            task=GumpTask(name,['initialize','loadStatistics'])             
         elif 'prepareDocumentation'==name:
             # Prepare documentation (e.g. create forest templates)
-            task=GumpTask(name,['preprocess',])   
+            task=GumpTask(name,['initialize',])   
         elif 'document'==name:
             # Perform actual documentation
             task=GumpTask(name,	\
-                    ['preprocess','loadStatistics','prepareDocumentation','gatherResults','updateStatistics',])    
+                    ['initialize','loadStatistics','prepareDocumentation','gatherResults','updateStatistics',])    
         elif 'notify'==name:
             # Was once called 'nag'...
-            task=GumpTask(name,['preprocess','loadStatistics'])  
+            task=GumpTask(name,['initialize','loadStatistics'])  
         elif 'syndicate'==name:
             # Syndicate to news feeds
-            task=GumpTask(name,['preprocess','loadStatistics','prepareDocumentation'])  
+            task=GumpTask(name,['initialize','loadStatistics','prepareDocumentation'])  
         elif 'gatherResults'==name:
             # Gather results.xml from other servers 
-            task=GumpTask(name,['preprocess'])   
+            task=GumpTask(name,['initialize'])   
         elif 'setEndTime'==name:
             # Gather results.xml from other servers 
-            task=GumpTask(name,['preprocess'])   
+            task=GumpTask(name,['initialize'])   
         elif 'generateResults'==name:
             # Generate the results.xml for this server/workspace
-            task=GumpTask(name,['preprocess','loadStatistics','setEndTime','prepareDocumentation'])   
+            task=GumpTask(name,['initialize','loadStatistics','setEndTime','prepareDocumentation'])   
         else:
             raise RuntimeError, 'Unknown task name ['+name+']'            
         return task

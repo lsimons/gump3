@@ -45,9 +45,9 @@ from gump.net.cvs import *
 from gump.document.text.documenter import TextDocumenter
 from gump.document.xdocs.documenter import XDocDocumenter
 
-from gump.output.statsdb import *
-from gump.output.repository import JarRepository
-from gump.output.notify import Notifier
+from gump.stats.statistician import Statistician
+from gump.repository.publisher import RepositoryPublisher
+from gump.notify.notifier import Notifier
 from gump.results.resulter import gatherResults,generateResults
 from gump.syndication.syndicator import syndicate
 
@@ -132,9 +132,9 @@ class GumpMiscellaneous(RunSpecific):
         logResourceUtilization('Before document preparation')
         
         # Prepare for documentation        
-        documenter=self.run.getOptions().getDocumenter()        
-        if documenter :
-            documenter.prepare(self.run)            
+        #documenter=self.run.getOptions().getDocumenter()        
+        #if documenter :
+        #    documenter.prepare(self.run)            
             
     def document(self):
         
@@ -142,9 +142,10 @@ class GumpMiscellaneous(RunSpecific):
         # Build HTML Result (via Forrest or ...)
         #
         logResourceUtilization('Before document')
-        documenter=self.run.getOptions().getDocumenter()        
-        if documenter :
-            documenter.document(self.run)
+        
+        #documenter=self.run.getOptions().getDocumenter()        
+        #if documenter :
+        #    documenter.document(self.run)
                               
                 
     """
@@ -221,6 +222,7 @@ class GumpMiscellaneous(RunSpecific):
         else:
             log.debug('--- Updating Project Statistics')
     
+        from gump.stats.statsdb import StatisticsDB
         db=StatisticsDB()   
         
         workspace=self.run.getWorkspace()        

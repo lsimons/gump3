@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+
 # Copyright 2003-2004 The Apache Software Foundation
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -13,22 +14,5 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-"""
-    Actor to public to a repository 
-"""
-
-import os
-
-from gump.core.config import *
-from gump import log
-from gump.model import *
-from gump.core.gumprun import *
-from gump.core.actor import *
-
-
-class RepositoryPublisher(AbstractRunActor):
-    def __init__(self,run):
-        
-        AbstractRunActor.__init__(self,run)
-        
-  
+# tell Python what modules make up the gump.output package
+__all__ = ["stats","xref"]

@@ -41,15 +41,11 @@ from gump.document.text.resolver import TextResolver
 
 class TextDocumenter(Documenter):
     
-    def __init__(self,output=sys.stdout, dirBase='.', urlBase='.'):
-        Documenter.__init__(self)
-        self.output=output
+    def __init__(self, run, output=sys.stdout, dirBase='.', urlBase='.'):
+        Documenter.__init__(self, run)
         
-        # Hack, ought return a non-hierarchical one
-        self.resolver=TextResolver(dirBase,urlBase)
-        
-    def getResolver(self,run):
-        return self.resolver
+        self.output=output        
+        self.setResolver(TextResolver(dirBase,urlBase))
         
     def documentEntity(self, entity, run):
         

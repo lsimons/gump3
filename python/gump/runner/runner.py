@@ -31,8 +31,6 @@ from gump.update.updater import *
 from gump.build.builder import *
 
 
-
-
 ###############################################################################
 # Classes
 ###############################################################################
@@ -50,9 +48,9 @@ class GumpRunner(RunSpecific):
         self.updater=GumpUpdater(run)
         self.builder=GumpBuilder(run)
         
-    def preprocess(self,exitOnError=1):
+    def initialize(self,exitOnError=1):
         
-        logResourceUtilization('Before preprocess')
+        logResourceUtilization('Before initialize')
         
         #
         # Perform start-up logic 
@@ -76,14 +74,15 @@ class GumpRunner(RunSpecific):
         #
         # Use Forrest if available & not overridden...
         #
+        documenter=None
         if self.run.getEnvironment().noForrest \
             or self.run.getOptions().isText() :
-            self.documenter=TextDocumenter(self.run)
+            documenter=TextDocumenter(self.run)
         else:
-            self.documenter=XDocDocumenter(	self.run,	\
-                                            workspace.getBaseDirectory(), \
-                                             workspace.getLogUrl())                        
-        self.run.getOptions().setDocumenter(documenter)
+            documenter=XDocDocumenter(	self.run,	\
+                                        workspace.getBaseDirectory(), \
+                                        workspace.getLogUrl())                        
+        self.run.registerActor(documenter)
                     
         # Check the workspace
         if not workspace.getVersion() >= setting.ws_version:
@@ -105,16 +104,21 @@ class GumpRunner(RunSpecific):
         # :TODO: Put this somewhere else, and/or make it depend upon something...
         workspace.changeState(STATE_SUCCESS)
  
+        # Let's get going...
+        self.run.dispatchEvent(InitializeRunEvent())
                     
-    def setEndTime(self):
+    def finalize(self):            
+        # About to shutdown...
+        self.run.dispatchEvent(FinalizeRunEvent())
         
+    def setEndTime(self):
         logResourceUtilization('Set End Time')
         # :TODO: Move this to run
         self.run.getWorkspace().setEndTime()
 
 def getRunner(run):
-    from gump.core.tasks import SequentialTaskRunner
-    return SequentialTaskRunner(run)
+    #from gump.runner.tasks import SequentialTaskRunner
+    #return SequentialTaskRunner(run)
     
-    #from gump.core.demand import OnDemandRunner
-    #return OnDemandRunner(run)
+    from gump.runner.demand import OnDemandRunner
+    return OnDemandRunner(run)

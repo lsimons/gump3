@@ -29,9 +29,9 @@ import sys
 
 from gump import log
 from gump.core.gumpinit import gumpinit
-from gump.core.runner import getRunner
 from gump.core.gumprun import GumpRun, GumpRunOptions, GumpSet
 from gump.core.commandLine import handleArgv
+from gump.runner.runner import getRunner
 from gump.model.loader import WorkspaceLoader
 
 

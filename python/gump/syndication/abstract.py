@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/syndication/abstract.py,v 1.1.2.1 2004/05/17 23:45:50 ajack Exp $
-# $Revision: 1.1.2.1 $
-# $Date: 2004/05/17 23:45:50 $
+# $Header: /home/stefano/cvs/gump/python/gump/syndication/abstract.py,v 1.1.2.2 2004/05/18 20:10:45 ajack Exp $
+# $Revision: 1.1.2.2 $
+# $Date: 2004/05/18 20:10:45 $
 #
 # ====================================================================
 #
@@ -76,7 +76,7 @@ class AbstractSyndicator:
     def __init__(self):     pass        
         
     #
-    # Populate a method called 'document(run)'
+    # Populate a method called 'syndicateRun(run)'
     #
     def syndicate(self,run):
         if not hasattr(self,'syndicateRun'):

@@ -24,7 +24,7 @@ import sys
 
 from gump import log
 from gump.core.gumprun import *
-from gump.core.runner import *
+from gump.runner.runner import *
 from gump.core.config import dir, default, basicConfig
 
 from gump.utils import dump, display, getIndent, logResourceUtilization, \
@@ -41,17 +41,6 @@ from gump.model.depend import  ProjectDependency
 from gump.model.stats import *
 from gump.model.state import *
 
-from gump.net.cvs import *
-
-from gump.document.text.documenter import TextDocumenter
-from gump.document.forrest.documenter import ForrestDocumenter
-
-from gump.output.statsdb import *
-from gump.output.repository import JarRepository
-from gump.output.nag import nag
-from gump.results.resulter import gatherResults,generateResults
-from gump.syndication.syndicator import syndicate
-
 
 ###############################################################################
 # Classes
@@ -65,6 +54,8 @@ class OnDemandRunner(GumpRunner):
     ###########################################
 
     def performIntegrate(self):
+        
+        self.initialize(1)
         
         # In order...
         for project in self.run.getGumpSet().getProjectSequence():
@@ -81,9 +72,8 @@ class OnDemandRunner(GumpRunner):
             # Keep track of progress...
             #documentBuildList()
 
-        # The wrap up...
-        documentWorkspace()
-
+        self.finalize()
+        
     def processModule(self,module):
         
         # Update Module

@@ -14,7 +14,9 @@
 # limitations under the License.
 
 """
-    Actor to public to a repository 
+
+    Actor to update stats
+    
 """
 
 import os
@@ -26,7 +28,7 @@ from gump.core.gumprun import *
 from gump.core.actor import *
 
 
-class RepositoryPublisher(AbstractRunActor):
+class Statistician(AbstractRunActor):
     def __init__(self,run):
         
         AbstractRunActor.__init__(self,run)

@@ -31,8 +31,8 @@ from gump import log
 from gump.core.config import *
 from gump.document.documenter import Documenter
 from gump.document.text.documenter import TextDocumenter
-from gump.document.forrest.xdoc import *
-from gump.document.forrest.resolver import *
+from gump.document.xdocs.xdoc import *
+from gump.document.xdocs.resolver import *
 from gump.utils import *
 from gump.utils.xmlutils import xmlize
 from gump.utils.tools import syncDirectories,copyDirectories,wipeDirectoryTree
@@ -44,12 +44,13 @@ from gump.model.workspace import Workspace
 from gump.model.module import Module
 from gump.model.project import Project
 
-from gump.output.notify import Notifier
+from gump.notify.notifier import Notifier
 
 from gump.guru.stats import StatisticsGuru
 from gump.guru.xref import XRefGuru
 
 from gump.core.gumprun import *
+from gump.core.actor import AbstractRunActor
 
 from gump.shared.comparator import *
 
@@ -63,14 +64,13 @@ def getUpUrl(depth):
     
 class XDocDocumenter(Documenter):
     
-    def __init__(self, dirBase, urlBase):
-        Documenter.__init__(self)            
-        self.resolver=XDocResolver(dirBase,urlBase)
+    def __init__(self, run, dirBase, urlBase):
+        Documenter.__init__(self, run)            
         
-    def getResolver(self,run):
-        return self.resolver
+        self.setResolver(XDocResolver(dirBase,urlBase))
+        
     
-    def prepareRun(self, run):
+    def prepareRun(self):
     
         log.debug('--- Prepare for Documenting Results')
 
@@ -80,7 +80,7 @@ class XDocDocumenter(Documenter):
         # Seed with default/site skins/etc.
         self.prepareXDoc(workspace)
         
-    def documentEntity(self, entity, run):
+    def documentEntity(self, entity):
         
         # :TODO: A work in progress
         # 1) Document entity (in realtime so no lookahead links)
@@ -99,11 +99,11 @@ class XDocDocumenter(Documenter):
             self.documentBuildLog(run,entity.getWorkspace(),run.getGumpSet(),1)
             
     
-    def documentRun(self, run):
+    def documentRun(self):
     
         log.debug('--- Documenting Results')
 
-        workspace=run.getWorkspace()
+        workspace=self.run.getWorkspace()
         gumpSet=run.getGumpSet()
         runOptions=run.getOptions()
         

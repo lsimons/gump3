@@ -30,6 +30,9 @@ import logging
 from string import lower, capitalize
 
 from gump import log
+
+from gump.core.actor import *
+
 from gump.model.object import NamedModelObject
 from gump.model.workspace import *
 from gump.model.module import *
@@ -38,10 +41,10 @@ from gump.results.model import *
 from gump.results.loader import *
 
                
-class Resulter(RunActor):
+class Resulter(AbstractRunActor):
     
     def __init__(self,run):        
-        RunActor.__init__(self,run)
+        AbstractRunActor.__init__(self,run)
         
         self.workspace=run.getWorkspace()
         self.gumpSet=run.getGumpSet()

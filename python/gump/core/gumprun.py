@@ -40,12 +40,6 @@ from gump.model.module import Module
 from gump.model.project import Project
 from gump.model.depend import  ProjectDependency
 from gump.model.state import *
-
-from gump.document.text.documenter import TextDocumenter
-
-from gump.output.statsdb import *
-from gump.output.repository import JarRepository
-
     
 ###############################################################################
 # Functions
@@ -361,20 +355,6 @@ class GumpRunOptions:
         # the 'forrest' build inlined.
         self.xdocs=0
         
-        # The implementation that will do it...
-        self.documenter=TextDocumenter()      
-
-    def setDocumenter(self, documenter):
-        self.documenter = documenter
-    
-    def getDocumenter(self):
-        return self.documenter
-
-    # Different Documenter have different resolvers 'cos
-    # they may vary the layout
-    def getResolver(self):
-        return self.getDocumenter().getResolver(self)
-        
     def isDated(self):
         return self.dated
         
@@ -425,37 +405,87 @@ class GumpRunOptions:
 
 
 class RunSpecific:
+    """
     
+        A class that is it specific to an instance of a run
+        
+    """
     def __init__(self, run):
         self.run	=	run
         
     def getRun(self):
         return self.run
 
+
+STATE_UNSET=0
+
 class RunEvent(RunSpecific):
+    """
+        An event to actors (e.g. a project built, a module updated)
+    """
             
-    def __init__(self, run, entity):
-        RunSpecific.__init(self,run)
+    def __init__(self, run):
+        RunSpecific.__init__(self,run)
+        
+    def __repr__(self):
+        return self.__class__.__name__
+        
+class InitializeRunEvent(RunEvent): pass
+class FinalizeRunEvent(RunEvent): pass
+        
+class EntityRunEvent(RunEvent):
+    """
+    
+        An event to actors (e.g. a project built, a module updated)
+        
+    """
+            
+    def __init__(self, run, entity, realtime=0):
+        RunEvent.__init__(self,run)
+        
+        self.entity=entity
+        self.realtime=realtime
+            
+    def __repr__(self):
+        return self.__class__.__name__ + ':' + `self.entity`
+        
+    def getEntity(self):
+        return self.entity 
+        
+    def isRealtime(self):
+        return self.realtime    
+        
+                
+class RunRequest(RunEvent):
+    """
+
+    """            
+    def __init__(self, run, type):
+        RunEvent.__init__(self,run)
+        self.type=type
+        self.satisfied=0
+        
+    def getType(self):
+        return self.type
+        
+    def isSatisfied(self):
+        return self.satisfied  
+        
+class EntityRunRequest(RunEvent):
+    """
+
+    """
+            
+    def __init__(self, run, type, entity):
+        RunEvent.__init__(self, run, type)
         
         self.entity=entity
         
+    def __repr__(self):
+        return self.__class__.__name__ + ':' + `self.entity`
+        
     def getEntity(self):
-        return self.entity        
-        
-class  RunActor(RunSpecific):     
-    
-    def __init__(self, run):
-        RunSpecific.__init(self,run)
-        
-    #
-    # Call a method called 'prepareRun(run)', if it
-    # is available on the sub-class (i.e. if needed)
-    #
-    def _processEvent(self,event):
-        if not hasattr(self,'processEvent'): return        
-        if not callable(self.processEvent):  return        
-        log.debug('Process event [' + `event` + '] using [' + `self` + ']')        
-        self.processEvent()
+        return self.entity 
                 
 class GumpRun(Workable,Annotatable,Stateful):
     def __init__(self,workspace,expr=None,options=None,env=None):
@@ -470,7 +500,7 @@ class GumpRun(Workable,Annotatable,Stateful):
         self.workspace=workspace
         
         #
-        # The set of 
+        # The set of modules/projects/repos in use
         #
         self.gumpSet=GumpSet(self.workspace,expr)
         
@@ -493,6 +523,7 @@ class GumpRun(Workable,Annotatable,Stateful):
         #
         # A repository interface...
         #
+        from gump.repository.jars import JarRepository
         self.outputsRepository=JarRepository(workspace.jardir)
                   
         # Generate a GUID (or close)
@@ -500,8 +531,8 @@ class GumpRun(Workable,Annotatable,Stateful):
         import socket        
         m=md5.new()
         self.guid = `socket.gethostname()`  + ':' + workspace.getName() + ':' + default.datetime
-        m.append(self.guid)
-        self.hexguid=m.hexdigest()     
+        m.update(self.guid)
+        self.hexguid=m.hexdigest().upper()     
         log.debug('Run GUID [' + `self.guid` + '] using [' + `self.hexguid` + ']')    
         
         # Actor Queue
@@ -540,13 +571,24 @@ class GumpRun(Workable,Annotatable,Stateful):
         self.gumpSet.dump(indent+1,output)
        
     def registerActor(self,actor):
-        log.debug('Registor Actor : ' + `actor`)
+        log.debug('Register Actor : ' + `actor`)
         self.actors.append(actor)
         
-    def processEvent(self,event):
+    def dispatchEvent(self,event):
+        log.debug('Dispatch Event : ' + `event`)        
         for actor in self.actors:
+            log.debug('Dispatch Event : ' + `event` + ' to ' + `actor`)     
             actor._processEvent(event)
             
+    def dispatchRequest(self,request):
+        log.debug('Dispatch Request : ' + `request`)    
+        for actor in self.actors:
+            log.debug('Dispatch Request : ' + `request` + ' to ' + `actor`)       
+            actor._processRequest(request)
+            
     def generateEvent(self,entity):
-        self.processEvent(RunEvent(entity))
+        self.dispatchEvent(EntityRunEvent(self, entity))
+        
+    def generateRequest(self,type):
+        self.dispatchRequest(RunRequest(self, type))
                 

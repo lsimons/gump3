@@ -27,6 +27,8 @@ from string import lower, capitalize
 
 from gump import log
 from gump.core.config import *
+from gump.core.gumprun import *
+from gump.core.actor import AbstractRunActor
 from gump.model.project import *
 from gump.model.module import *
 from gump.model.state import *
@@ -50,11 +52,11 @@ class AddressPair:
     def getFromAddress(self):
         return self.fromAddr
 
-class Notifier(RunActor):
+class Notifier(AbstractRunActor):
     
     def __init__(self,run):      
         
-        RunActor.__init__(self,run)
+        AbstractRunActor.__init__(self,run)
         
         self.workspace=run.getWorkspace()
         self.gumpSet=run.getGumpSet()

@@ -27,11 +27,13 @@ import logging
 
 from gump import log
 
-class Documenter(RunActor):
+from gump.core.actor import AbstractRunActor
+
+class Documenter(AbstractRunActor):
 
     def __init__(self, run):        
         #
-        RunSpecific.__init__(self, run)
+        AbstractRunActor.__init__(self, run)
     
     #
     # Call a method called 'prepareRun(run)', if it
@@ -68,14 +70,9 @@ class Documenter(RunActor):
         
         self.documentRun()
         
-    #
-    # Get a Resolver (specifically for this run)
-    #
-    def getResolver(self,):
-        if not hasattr(self,'getResolver'):
-            raise RuntimeError, 'Class [' + `self.__class__` + '] needs a getResolver(self)'
-        
-        if not callable(self.getResolver):
-            raise RuntimeError, 'Class [' + `self.__class__` + '] needs a callable getResolver(self)'
-            
-        return self.getResolver()
+
+    def setResolver(self,resolver):
+        self.resolver=resolver        
+
+    def getResolver(self,resolver):
+        return self.resolver
