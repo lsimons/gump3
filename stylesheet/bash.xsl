@@ -162,6 +162,7 @@
   <xsl:template match="workspace">
     <xsl:variable name="basedir" select="translate(@basedir, '\', '/')"/>
     <xsl:variable name="cvsdir"  select="translate(@cvsdir,  '\', '/')"/>
+    <xsl:variable name="logdir"  select="translate(@logdir,  '\', '/')"/>
 
     <xsl:text>#/bin/sh&#10;</xsl:text>
 
@@ -172,10 +173,10 @@
     <xsl:text>&#10;</xsl:text>
 
     <xsl:text>test -d </xsl:text>
-    <xsl:value-of select="$basedir"/>
-    <xsl:text>/log || mkdir </xsl:text>
-    <xsl:value-of select="$basedir"/>
-    <xsl:text>/log &#10;</xsl:text>
+    <xsl:value-of select="$logdir"/>
+    <xsl:text> || mkdir </xsl:text>
+    <xsl:value-of select="$logdir"/>
+    <xsl:text> &#10;</xsl:text>
 
     <xsl:text>test -d </xsl:text>
     <xsl:value-of select="$cvsdir"/>
@@ -184,8 +185,8 @@
     <xsl:text>&#10;</xsl:text>
 
     <xsl:text>bash publish.sh $1 </xsl:text>
-    <xsl:value-of select="$basedir"/>
-    <xsl:text>/log/workspace.html&#10;</xsl:text>
+    <xsl:value-of select="$logdir"/>
+    <xsl:text>/workspace.html&#10;</xsl:text>
 
     <xsl:for-each select="project">
       <xsl:sort select="@defined-in"/>
@@ -195,8 +196,8 @@
           <xsl:text>bash publish.sh project/</xsl:text>
           <xsl:value-of select="@defined-in"/>
           <xsl:text>.xml </xsl:text>
-          <xsl:value-of select="$basedir"/>
-          <xsl:text>/log/project_</xsl:text>
+          <xsl:value-of select="$logdir"/>
+          <xsl:text>/project_</xsl:text>
           <xsl:value-of select="@defined-in"/>
           <xsl:text>.html&#10;</xsl:text>
         </xsl:if>
@@ -210,8 +211,8 @@
         <xsl:text>bash publish.sh repository/</xsl:text>
         <xsl:value-of select="@defined-in"/>
         <xsl:text>.xml </xsl:text>
-        <xsl:value-of select="$basedir"/>
-        <xsl:text>/log/repository_</xsl:text>
+        <xsl:value-of select="$log"/>
+        <xsl:text>/repository_</xsl:text>
         <xsl:value-of select="@defined-in"/>
         <xsl:text>.html&#10;</xsl:text>
       </xsl:if>
@@ -223,16 +224,16 @@
       <xsl:text>bash publish.sh profile/</xsl:text>
       <xsl:value-of select="@defined-in"/>
       <xsl:text>.xml </xsl:text>
-      <xsl:value-of select="$basedir"/>
-      <xsl:text>/log/profile_</xsl:text>
+      <xsl:value-of select="$logdir"/>
+      <xsl:text>/profile_</xsl:text>
       <xsl:value-of select="@defined-in"/>
       <xsl:text>.html&#10;</xsl:text>
     </xsl:for-each>
 
     <xsl:text>for i in ../stylesheet/*.xsl; do&#10;</xsl:text>
     <xsl:text>  bash publish.sh stylesheet/`basename $i` </xsl:text>
-    <xsl:value-of select="$basedir"/>
-    <xsl:text>/log/code_`basename $i`.html&#10;</xsl:text>
+    <xsl:value-of select="$logdir"/>
+    <xsl:text>/code_`basename $i`.html&#10;</xsl:text>
     <xsl:text>done&#10;</xsl:text>
 
     <xsl:text>bash xref.sh&#10;</xsl:text>

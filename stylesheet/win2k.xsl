@@ -131,6 +131,7 @@
   <xsl:template match="workspace">
     <xsl:variable name="basedir" select="translate(@basedir, '/', '\')"/>
     <xsl:variable name="cvsdir"  select="translate(@cvsdir,  '/', '\')"/>
+    <xsl:variable name="logdir"  select="translate(@logdir,  '/', '\')"/>
 
     <xsl:text>@echo off&#10;</xsl:text>
 
@@ -141,10 +142,10 @@
     <xsl:text>&#10;</xsl:text>
 
     <xsl:text>if not exist </xsl:text>
-    <xsl:value-of select="$basedir"/>
-    <xsl:text>\log  mkdir </xsl:text>
-    <xsl:value-of select="$basedir"/>
-    <xsl:text>\log &#10;</xsl:text>
+    <xsl:value-of select="$logdir"/>
+    <xsl:text>  mkdir </xsl:text>
+    <xsl:value-of select="$logdir"/>
+    <xsl:text> &#10;</xsl:text>
 
     <xsl:text>if not exist </xsl:text>
     <xsl:value-of select="$cvsdir"/>
@@ -153,8 +154,8 @@
     <xsl:text>&#10;</xsl:text>
 
     <xsl:text>call publish.bat %1 </xsl:text>
-    <xsl:value-of select="$basedir"/>
-    <xsl:text>\log\workspace.html&#10;</xsl:text>
+    <xsl:value-of select="$logdir"/>
+    <xsl:text>\workspace.html&#10;</xsl:text>
 
     <xsl:for-each select="project">
       <xsl:sort select="@defined-in"/>
@@ -164,8 +165,8 @@
           <xsl:text>call publish project\</xsl:text>
           <xsl:value-of select="@defined-in"/>
           <xsl:text>.xml </xsl:text>
-          <xsl:value-of select="$basedir"/>
-          <xsl:text>\log\project_</xsl:text>
+          <xsl:value-of select="$logdir"/>
+          <xsl:text>\project_</xsl:text>
           <xsl:value-of select="@defined-in"/>
           <xsl:text>.html&#10;</xsl:text>
         </xsl:if>
@@ -179,8 +180,8 @@
         <xsl:text>call publish repository\</xsl:text>
         <xsl:value-of select="@defined-in"/>
         <xsl:text>.xml </xsl:text>
-        <xsl:value-of select="$basedir"/>
-        <xsl:text>\log\repository_</xsl:text>
+        <xsl:value-of select="$logdir"/>
+        <xsl:text>\repository_</xsl:text>
         <xsl:value-of select="@defined-in"/>
         <xsl:text>.html&#10;</xsl:text>
       </xsl:if>
@@ -192,16 +193,16 @@
       <xsl:text>call publish profile\</xsl:text>
       <xsl:value-of select="@defined-in"/>
       <xsl:text>.xml </xsl:text>
-      <xsl:value-of select="$basedir"/>
-      <xsl:text>\log\profile_</xsl:text>
+      <xsl:value-of select="$logdir"/>
+      <xsl:text>\profile_</xsl:text>
       <xsl:value-of select="@defined-in"/>
       <xsl:text>.html&#10;</xsl:text>
     </xsl:for-each>
 
     <xsl:text>for %%i in (..\stylesheet\*.xsl) do </xsl:text>
     <xsl:text>call publish stylesheet\%%~nxi </xsl:text>
-    <xsl:value-of select="$basedir"/>
-    <xsl:text>\log\code_%%~ni.html&#10;</xsl:text>
+    <xsl:value-of select="$logdir"/>
+    <xsl:text>\code_%%~ni.html&#10;</xsl:text>
 
     <xsl:text>call xref.bat&#10;</xsl:text>
 
