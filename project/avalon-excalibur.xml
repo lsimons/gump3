@@ -401,14 +401,21 @@
         <depend project="xml-xerces"/>
         <depend project="xml-xalan2"/>
         <depend project="junit"/>
+        <depend project="xml-apis" />
 
         <depend project="avalon-framework"/>
         <depend project="avalon-logkit"/>
+        <depend project="excalibur-fortress-container-api" />
+        <depend project="excalibur-fortress-container-impl" />
+        <depend project="excalibur-fortress-meta" />
+        <depend project="excalibur-fortress-bean" />
+        
         <depend project="commons-collections"/>
         <depend project="commons-beanutils"/>
         <depend project="concurrent"/>
         <depend project="excalibur-instrument"/>
-        <depend project="excalibur-instrument-manager"/>
+        <depend project="excalibur-instrument-spi" />
+        <depend project="excalibur-instrument-impl" />
         <depend project="excalibur-event-api"/>
         <depend project="excalibur-event-impl"/>
         <depend project="jakarta-bcel"/>
@@ -420,7 +427,7 @@
         <depend project="excalibur-fortress-meta"/>
         <depend project="excalibur-fortress-container-impl"/>
         <depend project="qdox"/>
-        
+
         <!-- optional dependencies -->
         <option project="checkstyle" inherit="runtime"/>
 
