@@ -200,6 +200,9 @@ class GumpRunOptions:
         """
         self.objectives=objectives
         
+    def getObjectives(self):
+        return self.objectives
+        
     def _testObjectiveIsSet(self,objective):
         """
         Helper to test a single objective
@@ -213,6 +216,9 @@ class GumpRunOptions:
         Set the features
         """
         self.features=features
+        
+    def getFeatures(self):
+        return self.features
         
     def disableFeature(self,feature):        
         """

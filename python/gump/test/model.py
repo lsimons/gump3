@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/test/model.py,v 1.22 2004/07/08 20:33:08 ajack Exp $
-# $Revision: 1.22 $
+# $Header: /home/stefano/cvs/gump/python/gump/test/model.py,v 1.23 2004/07/14 20:47:02 ajack Exp $
+# $Revision: 1.23 $
 #!/usr/bin/env python
 # Copyright 2003-2004 The Apache Software Foundation
 #
@@ -79,8 +79,6 @@ class ModelTestSuite(UnitTestSuite):
         self.assertTrue('Has Jars', self.package1.hasJars())
         self.assertTrue('Is a package', self.packagedModule1.isPackaged())
         
-        
-        
     def testRepository(self):
         repo1 = self.repo1
         
@@ -89,6 +87,7 @@ class ModelTestSuite(UnitTestSuite):
         #self.assertNonZeroString('Repository WEB str attr',str(getattr(repo1.xml,'cvsweb')))
         
         self.assertTrue('Repository has WEB',repo1.hasWeb())
+        self.assertTrue('Repository is redistributable',repo1.isRedistributable())
         
         self.assertNonZero('Repository WEB',repo1.getWeb())
         self.assertNonZeroString('Repository WEB',repo1.getWeb())        

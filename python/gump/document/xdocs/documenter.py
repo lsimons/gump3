@@ -1623,7 +1623,7 @@ This page helps Gumpmeisters (and others) observe community progress.
                 repoList.createEntry( "SVN URL: ", module.svn.getRootUrl())                 
 
             if module.hasArtifacts():
-                if module.jars.hasUrl():
+                if module.artifacts.hasUrl():
                     repoList.createEntry( "Jars URL: ", module.jars.getUrl())   
 
             repoList.createEntry('Redistributable: ', `module.isRedistributable()`)              

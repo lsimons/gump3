@@ -88,7 +88,7 @@ class SvnUpdater(RunSpecific):
         module.performedWork(work)  
       
         # Update Context w/ Results  
-        if not cmdResult.state==CMD_STATE_SUCCESS:              
+        if not cmdResult.isOk():              
             message='Failed to \'status --show-updates\' module: ' + module.getName()
             module.addWarning(message)
             log.error(message)               
@@ -163,7 +163,7 @@ class SvnUpdater(RunSpecific):
         repository.performedWork(work.clone())
       
         # Update Context w/ Results  
-        if not cmdResult.state==CMD_STATE_SUCCESS:              
+        if not cmdResult.isOk():              
             log.error('Failed to checkout/update module: ' + module.name)   
             if not exists:     
                 module.changeState(STATE_FAILED,REASON_UPDATE_FAILED)

@@ -18,7 +18,6 @@
 """
 
 from gump.utils import *
-from gump.utils.launcher import *
 from gump.test.pyunit import UnitTestSuite
 
 class TestBean:
@@ -108,26 +107,3 @@ class UtilsTestSuite(UnitTestSuite):
     def testRefCounts(self):
         getRefCounts()     
         printTopRefs(100)       
-        
-    def testGoodLaunch(self):
-        env=Cmd('env')
-        result=execute(env)
-        self.assertEqual('Ought succeed', result.state,CMD_STATE_SUCCESS)
-
-    def testBadLaunch(self):
-        env=Cmd('eXnXv')
-        result=execute(env)
-        self.assertEqual('Ought failed', result.state, CMD_STATE_FAILED)
-  
-    def testFailedLaunch(self):      
-        env=Cmd('exit 2')
-        result=execute(env)
-        self.assertEqual('Ought failed', result.state, CMD_STATE_FAILED)
-        self.assertEqual('Ought failed', result.exit_code, 2)
-        
-    def testFailedLaunch2(self):      
-        env=Cmd('exit 70')
-        result=execute(env)
-        self.assertEqual('Ought failed', result.state, CMD_STATE_FAILED)
-        self.assertEqual('Ought failed', result.exit_code, 70)
-  

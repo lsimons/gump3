@@ -21,7 +21,6 @@ from time import localtime, strftime, tzname
 from string import lower, capitalize
 
 from gump.utils.work import *
-from gump.utils.launcher import *
 from gump.utils.tools import *
 
 from gump.model.state import *

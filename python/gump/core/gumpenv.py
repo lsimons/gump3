@@ -33,7 +33,10 @@ from gump.core.config import *
 
 from gump.utils.note import Annotatable
 from gump.utils.work import *
-from gump.utils.launcher import *
+
+import gump.process.command
+import gump.process.launcher
+
 from gump.utils.tools import *
 
 from gump.model.state import *
@@ -70,8 +73,7 @@ class GumpEnvironment(Annotatable,Workable,Propogatable):
     	
     	self.noMaven=False    	 
     	self.noDepot=False    	
-    	self.noUpdate=False    	
-    	self.noTimeout=False
+    	self.noUpdate=False    
     	self.noSvn=False    	
     	self.noCvs=False    	
         self.noJavaHome=False
@@ -170,14 +172,7 @@ class GumpEnvironment(Annotatable,Workable,Propogatable):
         if not self.noSvn and not self._checkExecutable('svn','--version',False):
             self.noSvn=True
             self.addWarning('"svn" command not found, no SVN repository updates')
-        
-        if not self.noTimeout:
-            if	not self._checkExecutable('timeout','60 env',False): 
-                self.noTimeout=True
-                self.addWarning('"timeout" command not found, no in-line command time outs')
-            else:
-                setting.timeoutCommand=True
-            
+          
         if not self.noUpdate and \
             not self._checkExecutable(getDepotUpdateCmd(),'-version',False,False,'check_depot_update'): 
             self.noUpdate=True
@@ -244,9 +239,9 @@ class GumpEnvironment(Annotatable,Workable,Propogatable):
         ok=False
         try:
             if not name: name='check_'+command
-            cmd=getCmdFromString(command+" "+options,name)
+            cmd=gump.process.command.getCmdFromString(command+" "+options,name)
             result=execute(cmd)
-            ok=result.state==CMD_STATE_SUCCESS 
+            ok=result.isOk()
             if not ok:
                 log.info('Failed to detect [' + command + ']')   
         except Exception, details:

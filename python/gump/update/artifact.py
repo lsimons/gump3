@@ -78,7 +78,7 @@ class ArtifactUpdater(RunSpecific):
         module.getRepository().performedWork(work.clone())
       
         # Update Context w/ Results  
-        if not cmdResult.state==CMD_STATE_SUCCESS:              
+        if not cmdResult.isOk():              
             log.error('Failed to checkout/update module: ' + module.name)   
             if not exists:     
                 module.changeState(STATE_FAILED,REASON_UPDATE_FAILED)

@@ -20,7 +20,7 @@
 """
 
 import os
-from time import strftime, gmtime
+import time
 
 from xml.sax.saxutils import escape
 

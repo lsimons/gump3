@@ -23,10 +23,11 @@ from string import lower, capitalize
 
 from gump.model.state import *
 from gump.utils.owner import *
-from gump.utils.launcher import *
 from gump.utils.timing import *
 from gump.utils import *
 
+import gump.process.command
+import gump.process.launcher
                
 WORK_TYPE_CHECK=1
 WORK_TYPE_CONFIG=2
@@ -120,11 +121,20 @@ class TimedWorkItem(WorkItem):
                                 self.timerange.getStartTime(),
                                 self.timerange.getEndTime(),
                                 self.message)
-        
+       
+       
+CW_STATE_MAP = {   gump.process.command.CMD_STATE_NOT_YET_RUN : STATE_UNSET,
+                   gump.process.command.CMD_STATE_SUCCESS : STATE_SUCCESS,
+                   gump.process.command.CMD_STATE_FAILED : STATE_FAILED,
+                   gump.process.command.CMD_STATE_TIMED_OUT : STATE_FAILED }
+               
+def commandStateToWorkState(state):
+    return CW_STATE_MAP[state]
+     
 class CommandWorkItem(TimedWorkItem):
     """ Unit of Work"""
     def __init__(self,type,command,result=None,message=''):
-        if not result: result=CmdResult(command)
+        if not result: result=gump.process.command.CmdResult(command)
         TimedWorkItem.__init__(self,command.name,type,\
                 commandStateToWorkState(result.state),	\
                 result.getStartSecs(),	\

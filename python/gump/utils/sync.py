@@ -27,7 +27,6 @@ import shutil
 from gump import log
 from gump.utils.work import *
 from gump.utils.file import *
-from gump.utils.launcher import *
 from gump.utils.note import *
 
 SYNC_ACTION=1

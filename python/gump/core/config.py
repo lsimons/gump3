@@ -38,6 +38,8 @@ class dir:
     cmdpath   = os.path.abspath(sys.argv[0])
     base      = os.path.abspath('%s/%s' % (os.path.dirname(cmdpath),'../..'))
     
+    gump      = os.path.abspath(os.path.dirname(cmdpath))
+    
     cache     = os.path.abspath('%s/%s' % (base,'cache'))
     work      = os.path.abspath('%s/%s' % (base,'work'))
     tmp       = os.path.abspath('%s/%s' % (base,'tmp'))
@@ -101,7 +103,6 @@ class setting:
     utctimeformat='%H:%M:%S (UTC)'
     
     timeout=60*60 # 60 minutes (in seconds)
-    timeoutCommand=False
     
 class switch:
     """Configuration of switches """   

@@ -95,11 +95,9 @@ class CvsUpdater(RunSpecific):
         work=CommandWorkItem(WORK_TYPE_UPDATE,cmd,cmdResult)
         module.performedWork(work)  
      
-        if not cmdResult.state==CMD_STATE_SUCCESS:              
+        if not cmdResult.isOk():              
             log.error('Failed to checkout/update module: ' + module.name)   
-                                                            
-     
-        
+                                  
     def performUpdate(self,module,exists):
         """
             Update this module (checking out if needed)
@@ -126,7 +124,7 @@ class CvsUpdater(RunSpecific):
         repository.performedWork(work.clone())
       
         # Update Context w/ Results  
-        if not cmdResult.state==CMD_STATE_SUCCESS:              
+        if not cmdResult.isOk():              
             log.error('Failed to checkout/update module: ' + module.name)   
             if not exists:     
                 module.changeState(STATE_FAILED,REASON_UPDATE_FAILED)

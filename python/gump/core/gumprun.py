@@ -233,7 +233,7 @@ class GumpRun(gump.utils.work.Workable,gump.utils.note.Annotatable,Stateful):
         for actor in self.actors:
             log.debug('Dispatch Event : ' + `event` + ' to ' + `actor`)     
             actor._processEvent(event)
-        inspectGarbageCollection(`event`)
+        gump.utils.inspectGarbageCollection(`event`)
             
     def _dispatchRequest(self,request):
     	"""
@@ -243,7 +243,7 @@ class GumpRun(gump.utils.work.Workable,gump.utils.note.Annotatable,Stateful):
         for actor in self.actors:
             log.debug('Dispatch Request : ' + `request` + ' to ' + `actor`)       
             actor._processRequest(request)
-        inspectGarbageCollection(`request`)
+        gump.utils.inspectGarbageCollection(`request`)
             
     def generateEvent(self,entity):
         """

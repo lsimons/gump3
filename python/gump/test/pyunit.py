@@ -371,6 +371,9 @@ if __name__=='__main__':
     from gump.test.artifacts import ArtifactsTestSuite  
     runner.addSuite(ArtifactsTestSuite())
     
+    from gump.test.launching import LaunchingTestSuite  
+    runner.addSuite(LaunchingTestSuite())
+    
     # Any args are pattern matches
     patterns=list(sys.argv)
     del patterns[0:1]

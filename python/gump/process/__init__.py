@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 
+
 # Copyright 2003-2004 The Apache Software Foundation
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,33 +15,18 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+
 """
-    Manage Depot Interactions
+    Launch other commands:
+    
+    1) Can set $CWD
+   	2) Can set ENV
+   	
+   	Note: Implemented as a separate Python process since we can't
+   	(portably & thread-safe) do this in the same process.
+   	
 """
-import os
-import sys
-
-from gump import log
-from gump.core.config import *
-
-def getDepotHome(visual=True):
-    if os.environ.has_key('DEPOT_UPDATE_HOME'):        
-        return os.environ['DEPOT_UPDATE_HOME']
-    if os.environ.has_key('DEPOT_HOME'):        
-        return os.environ['DEPOT_HOME']
-    if visual:
-        return '${DEPOT_HOME|DEPOT_UPDATE_HOME}'
-    
-def getDepotUpdatePath():
-    return os.path.join(
-            os.path.join(getDepotHome(),'bin'),
-            'update.py')
-    
-def getDepotUpdateCmd():
-    return sys.executable+' '+getDepotUpdatePath()
-    
-    
 
 
-
- 
+# tell Python what modules make up the gump package
+__all__ = ["launcher","command"]

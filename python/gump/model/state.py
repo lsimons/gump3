@@ -15,12 +15,10 @@
 # limitations under the License.
 
 """
-    This module contains information on
+
+	State information    
+
 """
-
-from time import localtime, strftime, tzname
-
-from gump.utils.launcher import *
 
 STATE_UNSET=0
 STATE_NONE=1
@@ -73,16 +71,7 @@ def stateForName(name):
     
 def stateForDescription(name):
     return describedState.get(name,STATE_UNSET)
-
-stateMap = {   CMD_STATE_NOT_YET_RUN : STATE_UNSET,
-               CMD_STATE_SUCCESS : STATE_SUCCESS,
-               CMD_STATE_FAILED : STATE_FAILED,
-               CMD_STATE_TIMED_OUT : STATE_FAILED }
-               
-def commandStateToWorkState(state):
-    return stateMap[state]
            
-
 REASON_UNSET=0
 REASON_PACKAGE=1
 REASON_PACKAGE_BAD=2
@@ -228,7 +217,12 @@ class StatePair:
         return self.isFailed() or self.isPrereqFailed()
                
 class Stateful:
-    def __init__(self):        
+    def __init__(self):  
+        """
+        	
+        	An entity that holds state
+        	      
+        """
         self.statePair=StatePair()
         
     def setStatePair(self,statePair):  

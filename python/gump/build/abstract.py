@@ -23,7 +23,7 @@
 
 from gump import log
 import gump.core.gumprun
-import gump.utils.launcher
+import gump.process.command
 
 ###############################################################################
 # Classes
@@ -36,7 +36,7 @@ class AbstractJavaBuilder(gump.core.gumprun.RunSpecific):
 
     def getJVMArgs(self,project):
         """ Get JVM arguments for a project """
-        args=gump.utils.launcher.Parameters()
+        args=gump.process.command.Parameters()
         
         for jvmarg in project.getDomChildIterator('jvmarg'):
             if hasDomAttribute(jvmarg,'value'):                
