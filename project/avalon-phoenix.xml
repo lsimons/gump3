@@ -32,7 +32,6 @@
         <depend project="spice-cli" runtime="true"/>
         <depend project="spice-configkit" runtime="true" inherit="runtime"/>
         <depend project="spice-classman" runtime="true" inherit="runtime"/>
-        <depend project="excalibur-extension" runtime="true"/>
         <depend project="excalibur-logger" runtime="true"/>
         <depend project="excalibur-i18n" runtime="true"/>
         <depend project="excalibur-instrument-manager" runtime="true"/>
