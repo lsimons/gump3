@@ -276,6 +276,7 @@ public class Project {
             String name = (String)e.nextElement();
             Element depend = (Element) dependsOn.get(name);
             Project target = (Project)projects.get(name);
+            String jarIds = depend.getAttribute("ids");
             boolean buildable = false;
 
             if (!depend.getNodeName().equals("option")) {
@@ -290,7 +291,11 @@ public class Project {
             Node child=target.element.getFirstChild();
             for (; child != null; child=child.getNextSibling()) {
                 if (child.getNodeName().equals("jar")) {
-                    depend.appendChild(child.cloneNode(false));
+                    String id = ((Element) child).getAttribute("id");
+                    if (jarIds.equals("") 
+                        || (!id.equals("") && jarIds.indexOf(id) > -1)) {
+                        depend.appendChild(child.cloneNode(false));
+                    }
                 } else if (child.getNodeName().equals("ant")) {
                     depend.appendChild(document.createElement("ant"));
                     buildable = true;

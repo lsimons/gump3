@@ -11,7 +11,7 @@
 
   <project name="xml-xerces1">
     <ant basedir="java" target="jar"/>
-    <depend project="jaxp"/>
+    <depend project="jaxp" ids="apis,parser" />
     <depend project="bootstrap-ant"/>
   
     <home nested="java/build"/>
