@@ -25,7 +25,7 @@ import logging
 from gump import log
 from gump.core.gumpinit import gumpinit
 import gump.core.config
-from gump.utils import createOrderedList,printSeparator,formatException
+from gump.utils import *
 
 from fnmatch import fnmatch    
 
