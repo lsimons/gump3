@@ -42,6 +42,8 @@
              id="mx4j.jar"/>
         <jar name="mx4j/mx4j-1.1.1/lib/mx4j-tools.jar"
              id="mx4j-tools.jar"/>
+        <nag from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"
+                to="dev@avalon.apache.org"/>
     </project>
     
     <project name="avalon-phoenix">
@@ -98,10 +100,14 @@
 
     <project name="phoenix-qdox">
         <jar name="lib/tools/qdox-1.1.jar"/>
+        <nag from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"
+                to="dev@avalon.apache.org"/>
     </project>
 
     <project name="phoenix-excalibur-monitor">
         <jar name="lib/container/excalibur-monitor-1.0.jar"/>
+        <nag from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"
+                to="dev@avalon.apache.org"/>
     </project>
 
     <project name="phoenix-example-demo">
