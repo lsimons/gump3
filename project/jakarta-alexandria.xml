@@ -25,11 +25,11 @@
       <depend name="ant.jar" project="jakarta-ant" id="ant"/>
       <depend name="log4j.jar" project="jakarta-log4j"/>
 
-      <property name="version" value="gump"/>
+      <property name="version" value="@@DATE@@"/>
       <property name="deprecation" value="on"/>
     </ant>
 
     <home nested="proposal/maven"/>
-    <jar name="bin/maven-gump.jar"/>
+    <jar name="bin/maven-@@DATE@@.jar"/>
   </project>
 </module>

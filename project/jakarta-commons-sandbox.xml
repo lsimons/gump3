@@ -23,14 +23,14 @@
   <project name="commons-email">
     <description>Commons Email Package</description>
     <ant basedir="email" target="dist">
-      <property name="component.version"  value="gump"/>
+      <property name="component.version"  value="@@DATE@@"/>
     </ant>
     <depend project="jakarta-ant"/>
     <depend project="xml-xerces"/>
     <depend project="jaf"/>
     <depend project="javamail"/>
     <depend project="commons-util"/>
-    <jar name="email/dist/commons-email-gump.jar"/>
+    <jar name="email/dist/commons-email-@@DATE@@.jar"/>
     <javadoc nested="email/dist/docs/api"/>
   </project>
 
@@ -81,13 +81,13 @@
   <project name="commons-util">
     <description>Commons Utility Package</description>
     <ant basedir="util" target="dist">
-      <property name="component.version"  value="gump"/>
+      <property name="component.version"  value="@@DATE@@"/>
       <property name="minml2.jar" reference="jarpath" project="minml2"/>
       <depend property="junit.jar"  project="junit"/>
     </ant>
     <depend project="jakarta-ant"/>
     <depend project="xml-xerces"/>
-    <jar name="util/dist/commons-util-gump.jar"/>
+    <jar name="util/dist/commons-util-@@DATE@@.jar"/>
     <javadoc nested="util/dist/docs/api"/>
   </project>
 

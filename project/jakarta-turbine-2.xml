@@ -9,7 +9,7 @@
 
   <project name="jakarta-turbine-2">
     <ant basedir="build" target="package">
-      <property name="version" value="gump"/>
+      <property name="version" value="@@DATE@@"/>
     </ant>
     <depend project="jakarta-ant"/>
     <depend project="xml-xerces"/>
@@ -30,7 +30,7 @@
     <option project="jta"/> <!-- needed for javadoc purposes only -->
     <work nested="bin/classes"/>
     <home nested="bin"/>
-    <jar name="turbine-gump.jar"/>
+    <jar name="turbine-@@DATE@@.jar"/>
     <javadoc nested="docs/apidocs"/>
   </project>
   

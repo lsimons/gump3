@@ -9,13 +9,13 @@
   
   <project name="jakarta-velocity-dvsl">
     <ant target="jar">
-      <property name="project.version" value="gump"/>
+      <property name="project.version" value="@@DATE@@"/>
     </ant>
     <depend project="jakarta-ant"/>
     <depend project="xml-xerces"/>
     <depend project="jakarta-velocity"/>
     <depend project="dom4j"/>
-    <jar name="velocity-dvsl-gump.jar"/>
+    <jar name="velocity-dvsl-@@DATE@@.jar"/>
   </project>
   
 </module>

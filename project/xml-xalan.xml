@@ -19,7 +19,9 @@
   </project>
 
   <project name="xml-xalan1-compat">
-    <ant basedir="java" target="compat.jar"/>
+    <ant basedir="java" target="compat.jar">
+      <property name="version" value="@@DATE@@"/>
+    </ant>
 
     <depend project="bootstrap-ant"/>
     <depend project="xml-xerces"/>
@@ -27,7 +29,7 @@
 
     <home nested="java/build"/>
     <jar  name="xalanj1compat.jar" id="xalan1"/>
-    <javadoc nested="java/build/xalan-j_gump/docs/compat_apidocs"/>
+    <javadoc nested="java/build/xalan-j_@@DATE@@/docs/compat_apidocs"/>
   </project>
 
   <project name="xml-xalan2-smoketest-tools">
@@ -41,7 +43,7 @@
     <ant basedir="java" target="dist">
       <depend property="bsf.jar" project="bsf"/>
       <depend property="xerces.jar" project="xml-xerces"/>
-      <property name="version" value="gump"/>
+      <property name="version" value="@@DATE@@"/>
     </ant>
 
     <depend project="jakarta-ant"/>
@@ -58,10 +60,11 @@
     <depend project="xalan2jdoc"/>
     <work nested="java/build/classes"/>
 
-    <home nested="java/build/xalan-j_gump"/>
+    <home nested="java/build/xalan-j_@@DATE@@"/>
     <jar  name="bin/xalan.jar" type="boot"/>
     <jar  name="bin/xml-apis.jar" type="boot"/>
-    <javadoc nested="java/build/xalan-j_gump/docs/apidocs" project="xml-xalan2"/>
+    <javadoc nested="java/build/xalan-j_@@DATE@@/docs/apidocs" 
+      project="xml-xalan2"/>
   </project>
 
   <project name="xml-xalan2-smoketest">

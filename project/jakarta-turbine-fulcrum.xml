@@ -28,7 +28,7 @@
       <depend property="commons-email.jar" project="commons-email" version="0.1-dev"/>
 
       <property name="jakarta-site2" reference="home" project="jakarta-site2"/>
-      <property name="final.name" value="fulcrum-gump"/>
+      <property name="final.name" value="fulcrum-@@DATE@@"/>
       <property name="deprecation" value="on"/>
     </ant>
 
@@ -37,6 +37,6 @@
     <depend project="jakarta-velocity-dvsl"/>
 
     <home nested="bin"/>
-    <jar name="fulcrum-gump.jar"/>
+    <jar name="fulcrum-@@DATE@@.jar"/>
   </project>    
 </module>

@@ -19,12 +19,12 @@
       <depend property="commons-util.jar" project="commons-util" version="1.0"/>
       <depend property="commons-collections.jar" project="commons-collections"/>
       <property name="jakarta-site2" reference="home" project="jakarta-site2"/>
-      <property name="final.name" value="torque-gump"/>
+      <property name="final.name" value="torque-@@DATE@@"/>
       <property name="deprecation" value="on"/>
     </ant>
     <depend project="jakarta-ant" version="1.3"/>
     <home nested="bin"/>
-    <jar id="torque" name="torque-gump.jar"/>
+    <jar id="torque" name="torque-@@DATE@@.jar"/>
   </project>    
 
 </module>

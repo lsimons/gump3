@@ -9,7 +9,7 @@
 
   <project name="velocity-tools-struts">
     <ant basedir="struts">
-      <property name="project.version" value="gump"/>
+      <property name="project.version" value="@@DATE@@"/>
     </ant>
     <depend project="jakarta-ant"/>
     <depend project="xml-xerces"/>
@@ -19,12 +19,12 @@
     <depend project="jakarta-velocity"/>
     <depend project="jdbc"/>
     <home nested="struts"/>
-    <jar name="velocity-tools-struts-gump.jar"/>
+    <jar name="velocity-tools-struts-@@DATE@@.jar"/>
   </project>
 
   <project name="velocity-tools-view">
     <ant basedir="view">
-      <property name="project.version" value="gump"/>
+      <property name="project.version" value="@@DATE@@"/>
     </ant>
     <depend project="jakarta-ant"/>
     <depend project="xml-xerces"/>
@@ -34,7 +34,7 @@
     <depend project="jakarta-velocity" inherit="runtime"/>
     <depend project="xml-xalan2"/>
     <home nested="view"/>
-    <jar name="velocity-tools-view-gump.jar"/>
+    <jar name="velocity-tools-view-@@DATE@@.jar"/>
   </project>
 
 </module>

@@ -10,15 +10,15 @@
   
   <project name="bcel">
     <ant target="dist">
-      <property name="version" value="gump"/>
+      <property name="version" value="@@DATE@@"/>
     </ant>
 
     <depend project="jakarta-ant"/>
     <depend project="xml-xerces"/>
 
-    <home nested="BCEL-gump"/>
+    <home nested="BCEL-@@DATE@@"/>
     <jar name="lib/bcel.jar"/>
-    <javadoc nested="BCEL-gump/docs/apiDocs"/>
+    <javadoc nested="BCEL-@@DATE@@/docs/apiDocs"/>
   </project>
 
 </module>

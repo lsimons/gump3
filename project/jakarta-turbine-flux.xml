@@ -9,7 +9,7 @@
   
   <project name="jakarta-turbine-flux">
     <ant target="jar">
-      <property name="version" value="gump"/>
+      <property name="version" value="@@DATE@@"/>
       <depend name="servlet.jar"  project="jakarta-servletapi"/>
       <depend name="turbine.jar"  project="jakarta-turbine-3"/>
       <depend name="fulcrum.jar"  project="jakarta-turbine-fulcrum"/>
@@ -24,7 +24,7 @@
     <depend project="commons-collections"/>
 
     <home nested="bin"/>
-    <jar name="flux-gump.jar"/>
+    <jar name="flux-@@DATE@@.jar"/>
   </project>      
 
 </module>

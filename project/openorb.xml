@@ -9,15 +9,15 @@
   
   <project name="openorb">
     <ant basedir="src" target="jar">
-      <property name="version" value="gump"/>
+      <property name="version" value="@@DATE@@"/>
     </ant>
     <depend project="jakarta-ant"/>
     <depend project="xml-xerces"/>
     <depend project="junit"/>
     <work nested="build/main"/>
     <home nested="dist"/>
-    <jar name="openorb-gump.jar"/>
-    <jar name="openorb_tools-gump.jar"/>
+    <jar name="openorb-@@DATE@@.jar"/>
+    <jar name="openorb_tools-@@DATE@@.jar"/>
   </project>
 
 </module>

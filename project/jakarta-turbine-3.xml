@@ -9,7 +9,7 @@
   
   <project name="jakarta-turbine-3">
     <ant>
-      <property name="version" value="gump"/>
+      <property name="version" value="@@DATE@@"/>
       <depend property="velocity.jar" project="jakarta-velocity" version="1.2"/>
       <depend property="log4j.jar" project="jakarta-log4j" version="1.1"/>
       <depend property="servlet.jar" project="jakarta-servletapi-4" version="2.3"/>
@@ -33,7 +33,7 @@
     <depend project="bsf" version="2.2"/>
     <work nested="bin/classes"/>
     <home nested="bin"/>
-    <jar name="turbine-gump.jar"/>
+    <jar name="turbine-@@DATE@@.jar"/>
   </project>    
 
 </module>

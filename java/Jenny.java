@@ -1,10 +1,6 @@
 // TRaX classes
-import javax.xml.transform.dom.DOMResult;
 import javax.xml.transform.dom.DOMSource;
-import javax.xml.transform.OutputKeys;
 import javax.xml.transform.stream.StreamResult;
-import javax.xml.transform.stream.StreamSource;
-import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerFactory;
 
 // Java API for XML Parsing classes
@@ -20,6 +16,8 @@ import org.w3c.dom.Node;
 import org.xml.sax.SAXParseException;
 
 // Java classes
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Enumeration;
 import java.util.Hashtable;
 
@@ -27,6 +25,7 @@ public class Jenny {
 
     DocumentBuilderFactory dFactory = DocumentBuilderFactory.newInstance();
     TransformerFactory tFactory = TransformerFactory.newInstance();
+    String dstamp = (new SimpleDateFormat("yyyyMMdd")).format(new Date());
 
     /**
      * Parse an XML source file into an DOM.
@@ -43,19 +42,28 @@ public class Jenny {
             throw e;
         }
     }
-
+    
     /**
-     * Transform a DOM given a stylesheet.
-     * @param dom document to be transformed
-     * @param sheet stylesheet to be used
-     * @return Node
+     * Replace all occurances of @@DATE@@ with the current datestamp in
+     * attribute values.
      */
-    private Node transform(Node dom, String sheet) throws Exception {
-        StreamSource source = new StreamSource("stylesheet/"+sheet);
-        Transformer transformer = tFactory.newTransformer(source);
-        DOMResult output = new DOMResult();
-        transformer.transform(new DOMSource(dom), output);
-        return output.getNode();
+    private void replaceDate(Element parent) {
+       Node first = parent.getFirstChild();
+       for (Node child=first; child != null; child=child.getNextSibling()) {
+           if (child.getNodeType()==Node.ELEMENT_NODE) {
+               NamedNodeMap attrs = ((Element)child).getAttributes();
+               for (int i=0; i<attrs.getLength(); i++) {
+                   Node a = attrs.item(i);
+                   String v = a.getNodeValue();
+                   int start = v.indexOf("@@DATE@@");
+                   if (start>=0) {
+                       v = v.substring(0,start) + dstamp + v.substring(start+8);
+                       ((Element)child).setAttribute(a.getNodeName(),v);
+                   }
+               }
+               replaceDate((Element)child);
+           }
+       }
     }
 
     /**
@@ -189,6 +197,7 @@ public class Jenny {
         Workspace.init(workspace);
 
         expand(workspace);
+        replaceDate(workspace);
         Repository.load(merge("repository", workspace).elements());
         Module.load(merge("module",workspace).elements());
         Project.load(merge("project",workspace).elements());

@@ -9,13 +9,13 @@
   
   <project name="jakarta-oro">
     <ant basedir="build" buildfile="build.xml" target="package">
-      <property name="version" value="gump"/>
+      <property name="version" value="@@DATE@@"/>
     </ant>
     <depend project="jakarta-ant"/>
     <depend project="xml-xerces"/>
-    <home nested="jakarta-oro-gump"/>
-    <jar  name="jakarta-oro-gump.jar" id="oro"/>
-    <javadoc nested="jakarta-oro-gump/docs/api"/>
+    <home nested="jakarta-oro-@@DATE@@"/>
+    <jar  name="jakarta-oro-@@DATE@@.jar" id="oro"/>
+    <javadoc nested="jakarta-oro-@@DATE@@/docs/api"/>
   </project>
 
 </module>

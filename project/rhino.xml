@@ -9,16 +9,16 @@
 
   <project name="rhino">
     <ant target="dist">
-      <property name="version" value="_gump"/>
+      <property name="version" value="_@@DATE@@"/>
     </ant>
 
     <depend project="jakarta-ant"/>
     <depend project="bsf"/>
     <depend project="xml-xerces"/>
 
-    <home nested="build/rhino_gump"/>
+    <home nested="build/rhino_@@DATE@@"/>
     <jar name="js.jar"/>
-    <javadoc nested="build/rhino_gump/docs/apidocs"/>
+    <javadoc nested="build/rhino_@@DATE@@/docs/apidocs"/>
   </project>
 
 </module>

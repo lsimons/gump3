@@ -9,7 +9,7 @@
   
   <project name="scarab">
     <ant basedir="build" target="dist">
-      <property name="version" value="gump"/>
+      <property name="version" value="@@DATE@@"/>
     </ant>
 
     <depend project="jakarta-ant"/>
@@ -29,9 +29,9 @@
     <depend project="commons-collections"/>
     <depend project="commons-digester"/>
 
-    <javadoc nested="scarab-gump/webapps/scarab/api"/>
-    <home nested="scarab-gump/webapps/scarab/WEB-INF"/>
-    <jar nested="lib/scarab-gump/jar"/>
+    <javadoc nested="scarab-@@DATE@@/webapps/scarab/api"/>
+    <home nested="scarab-@@DATE@@/webapps/scarab/WEB-INF"/>
+    <jar nested="lib/scarab-@@DATE@@/jar"/>
   </project>
 
 </module>

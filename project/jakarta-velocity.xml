@@ -11,7 +11,7 @@
     <ant basedir="build" target="dist">
       <depend property="log.jar" project="jakarta-avalon-logkit" runtime="true"/>
       <depend property="oro.jar" project="jakarta-oro"/>
-      <property name="version" value="gump"/>
+      <property name="version" value="@@DATE@@"/>
     </ant>
     <depend project="jakarta-ant"/>
     <depend project="xml-xerces"/>
@@ -23,7 +23,7 @@
     <depend project="jakarta-log4j"/>
     <depend project="commons-collections" runtime="true"/>
     <home nested="bin"/>
-    <jar name="velocity-gump.jar"/>
+    <jar name="velocity-@@DATE@@.jar"/>
     <javadoc nested="docs/api"/>
   </project>
   

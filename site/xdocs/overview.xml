@@ -35,6 +35,10 @@
     be represented as either a nested element or an attribute - this was
     generally done to make that piece of information easier to override.</p>
 
+    <p>One special global substutition is made - the string
+    <code>@@DATE@@</code> is replaced with the current date in yyyyMMdd
+    format whenever it occurs in any attribute value</p>
+
     <p>The subsections below represent a "bottoms up" introduction to the
     individual XML data elements, and contain links to more full
     descriptions</p>

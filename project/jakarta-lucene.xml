@@ -9,7 +9,7 @@
   
   <project name="jakarta-lucene">
     <ant target="package-all">
-      <property name="version" value="gump"/>
+      <property name="version" value="@@DATE@@"/>
       <property name="javacc.home" reference="home" project="javacc"/>
     </ant>
 
@@ -19,7 +19,7 @@
     <work nested="bin/classes"/>
 
     <home nested="bin"/>
-    <jar name="lucene-gump.jar"/>
+    <jar name="lucene-@@DATE@@.jar"/>
     <javadoc nested="bin/docs/api"/>
   </project>
 

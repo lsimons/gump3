@@ -9,8 +9,8 @@
   
   <project name="wsdl4j">
     <ant target="dist">
-      <property name="version" value="gump"/>
-      <property name="version.underscore" value="gump"/>
+      <property name="version" value="@@DATE@@"/>
+      <property name="version.underscore" value="@@DATE@@"/>
     </ant>
     <depend project="xml-xerces"/>
     <depend project="jakarta-ant"/>

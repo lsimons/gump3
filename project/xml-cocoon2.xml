@@ -9,7 +9,7 @@
   
   <project name="xml-cocoon2">
     <ant target="package">
-      <property name="version" value="gump"/>
+      <property name="version" value="@@DATE@@"/>
       <depend property="logkit.jar"    project="dist-avalon-logkit"/>
       <depend property="avalonapi.jar" project="jakarta-avalon"/>
     </ant>

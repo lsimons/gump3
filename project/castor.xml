@@ -9,7 +9,7 @@
   
   <project name="castor">
     <ant basedir="src" target="jar">
-      <property name="version" value="gump"/>
+      <property name="version" value="@@DATE@@"/>
     </ant>
     <depend project="jakarta-ant"/>
     <depend project="xml-xerces"/>
@@ -18,8 +18,8 @@
     <depend project="jta"/>
     <depend project="jakarta-regexp"/>
     <home nested="dist"/>
-    <jar name="castor-gump.jar"/>
-    <jar name="castor-gump-xml.jar"/>
+    <jar name="castor-@@DATE@@.jar"/>
+    <jar name="castor-@@DATE@@-xml.jar"/>
   </project>
 
   <project name="ldapsdk">

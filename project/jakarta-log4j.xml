@@ -9,7 +9,7 @@
   
   <project name="jakarta-log4j">
     <ant target="jar">
-      <property name="version" value="gump"/>
+      <property name="version" value="@@DATE@@"/>
     </ant>
 
     <depend project="jakarta-ant"/>
@@ -19,7 +19,7 @@
     <option project="javamail"/>
 
     <home nested="dist"/>
-    <jar  name="lib/log4j-gump.jar"/>
+    <jar  name="lib/log4j-@@DATE@@.jar"/>
   </project>
 
 </module>
