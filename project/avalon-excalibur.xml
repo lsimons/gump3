@@ -576,18 +576,6 @@
         <depend project="xml-xerces"/>
         <depend project="xml-xalan2"/>
 
-        <!-- test-time dependencies -->
-        <!--
-
-        circular dependency involving component & pool, so no tests
-        run.
-
-        <depend project="commons-collections"/>
-        <depend project="excalibur-component" id="component"/>
-        <depend project="excalibur-pool"/>
-        <depend project="excalibur-instrument"/>
-        -->
-
         <work nested="logger/target/classes"/>
 
         <home nested="logger"/>
