@@ -514,6 +514,7 @@
     <package>org.apache.commons.modeler</package>
     <description>Modeler MBeans</description>
     <ant basedir="modeler" target="dist">
+      <property name="component-name" value="modeler-@@DATE@@"/>
     </ant>
 
     <depend project="ant" inherit="runtime"/>
@@ -522,7 +523,7 @@
     <depend project="commons-logging"/>
     <depend project="jmx"/>
 
-    <jar name="modeler/dist/commons-modeler.jar"/>
+    <jar name="modeler/dist/commons-modeler-@@DATE@@.jar"/>
     <javadoc nested="modeler/dist/docs/api"/>
 
     <nag to="commons-dev@jakarta.apache.org"
