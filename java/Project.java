@@ -1,7 +1,7 @@
 /*
- * $Header: /home/stefano/cvs/gump/java/Project.java,v 1.57 2003/04/30 13:06:25 bodewig Exp $
- * $Revision: 1.57 $
- * $Date: 2003/04/30 13:06:25 $
+ * $Header: /home/stefano/cvs/gump/java/Project.java,v 1.58 2003/05/23 07:51:53 bodewig Exp $
+ * $Revision: 1.58 $
+ * $Date: 2003/05/23 07:51:53 $
  *
  * ====================================================================
  *
@@ -377,6 +377,19 @@ public class Project {
                 require(target, "project", name);
             }
             if (target == null) continue;
+
+            String inheritAttr = depend.getAttribute("inherit");
+            if ("jars".equals(inheritAttr)) {
+                jars.putAll(target.jars);
+                numberOfJars += target.numberOfJars;
+
+                if (numberOfJars != 1) {
+                    // need to remove the "" id from hashtable that may exist
+                    // because either this or the project this depends on
+                    // had only one jar - and now we have more than one
+                    jars.remove("");
+                }
+            }
 
             target.referencedBy.put(this, depend);
             depend.setAttribute("home",target.get("home"));

@@ -369,7 +369,7 @@
       <depend property="sax.jar" project="jaxp" id="sax"/>
       <depend property="jsp20.jar" project="jakarta-servletapi-5-jsp"/>
       <depend property="servlet24.jar" project="jakarta-servletapi-5-servlet"/>
-      <depend property="xalan.jar" project="xml-xalan2"/>
+      <depend property="xalan.jar" project="xml-xalan2" id="transformer"/>
       <depend property="xercesImpl.jar" project="xml-xerces" id="parser"/>
       <property name="build.dir" path="build"/>
       <property name="dist.dir" path="dist"/>
@@ -430,7 +430,7 @@
       <depend property="dom4j.jar" project="dom4j"/>
       <depend property="jaxp.jar" project="xml-xerces" id="apis"/>
       <depend property="servlet.jar" project="jakarta-servletapi-4"/>
-      <depend property="xalan.jar" project="xml-xalan2"/>
+      <depend property="xalan.jar" project="xml-xalan2" id="transformer"/>
       <property name="build.dir" path="build"/>
       <property name="dist.dir" path="dist"/>
     </ant>

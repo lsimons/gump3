@@ -431,7 +431,7 @@
             <depend property="excalibur-testcase.jar" project="excalibur-component" id="testcase"/>
             <depend property="excalibur-xmlutil.jar" project="excalibur-xmlutil"/>
             <depend property="jaxen-full.jar" project="jaxen"/>
-            <depend property="xalan.jar" project="xml-xalan2"/>
+            <depend property="xalan.jar" project="xml-xalan2" id="transformer"/>
 
             <!-- optional dependencies -->
             <property name="bcel.jar" project="jakarta-bcel" reference="jarpath"/>
