@@ -30,6 +30,7 @@
           <a href="workspace.html">definition</a>
           <a href="cvs_index.html">cvs logs</a>
           <a href="index.html">build logs</a>
+          <br/>
           <xsl:text>Cross reference: </xsl:text>
           <a href="modxref.html">modules by repository</a>
           <a href="packages.html">installed packages</a>
@@ -127,6 +128,7 @@
           <a href="workspace.html">definition</a>
           <a href="cvs_index.html">cvs logs</a>
           <a href="index.html">build logs</a>
+          <br/>
           <xsl:text>Cross reference: </xsl:text>
           <a href="xref.html">dependencies</a>
           <a href="packages.html">installed packages</a>
@@ -217,6 +219,7 @@
           <a href="workspace.html">definition</a>
           <a href="cvs_index.html">cvs logs</a>
           <a href="index.html">build logs</a>
+          <br/>
           <xsl:text>Cross reference: </xsl:text>
           <a href="xref.html">dependencies</a>
           <a href="modxref.html">modules by repository</a>
@@ -295,6 +298,7 @@
           <a href="workspace.html">definition</a>
           <a href="cvs_index.html">cvs logs</a>
           <a href="index.html">build logs</a>
+          <br/>
           <xsl:text>Cross reference: </xsl:text>
           <a href="xref.html">dependencies</a>
           <a href="modxref.html">modules by repository</a>
