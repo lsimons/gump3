@@ -137,7 +137,7 @@ class GumpEngine:
             # Must be one to be all
             if not packageCount: allPackaged=0
     
-            # Give this module a second try, and since some are packaged
+            # Give this module a second try, and if some are packaged
             # check if the others have no outputs, then call them good.
             if packageCount and not allPackaged:
                 allPackaged=1
@@ -155,8 +155,8 @@ class GumpEngine:
                         else:    
                             allPackaged=0  
                             if packageCount:
-                                module.addWarning("Incomplete \'Packaged\' Module. Project: " + \
-                                        project.getName() + " is not packaged")  
+                                module.addWarning('Incomplete \'Packaged\' Module. Project: ' + \
+                                        project.getName() + ' is not packaged')  
                
             # If packages module, accept it... 
             if allPackaged:
@@ -261,8 +261,7 @@ class GumpEngine:
             
             log.debug('Perform CVS Update on: ' + module.getName())
     
-            if module.okToPerformWork() \
-                and not switch.failtesting:
+            if module.okToPerformWork():
                 
                 # Did we check it out already?
                 exists	=	os.path.exists(module.getName())
@@ -306,7 +305,7 @@ class GumpEngine:
             # If no CVS, nothing to sync   
             if not module.isCVS(): continue
     
-            if module.okToPerformWork() and not switch.failtesting:
+            if module.okToPerformWork():
             
                 sourcedir = os.path.abspath(os.path.join(workspace.getCVSDirectory(),module.name)) # todo allow override
                 destdir = os.path.abspath(workspace.getBaseDirectory())
@@ -354,7 +353,7 @@ class GumpEngine:
         repository=run.getOutputsRepository()
 
         # build all projects this project depends upon, then the project itself
-        for project in sequence:            
+        for project in sequence:                 
             if project.okToPerformWork():     
                 self.performPreBuild( run, project )
 

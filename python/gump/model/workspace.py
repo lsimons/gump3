@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/model/workspace.py,v 1.3 2003/11/18 17:29:17 ajack Exp $
-# $Revision: 1.3 $
-# $Date: 2003/11/18 17:29:17 $
+# $Header: /home/stefano/cvs/gump/python/gump/model/workspace.py,v 1.4 2003/11/18 21:49:12 ajack Exp $
+# $Revision: 1.4 $
+# $Date: 2003/11/18 21:49:12 $
 #
 # ====================================================================
 #
@@ -244,7 +244,7 @@ class Workspace(ModelObject,PropertyContainer):
             repoName=repository.getName()
             if repoName in self.repositories:
                 # Duplicate, uh oh...
-                self.error("Duplicate repository name [" + repoName + "]")
+                self.addError("Duplicate repository name [" + repoName + "]")
             else:        
                 repository.complete(self)
                 self.repositories[repoName] = repository
@@ -257,7 +257,7 @@ class Workspace(ModelObject,PropertyContainer):
             moduleName=module.getName()
             if moduleName in self.modules:
                 # Duplicate, uh oh...
-                self.error("Duplicate Module name [" + moduleName + "]")
+                self.addError("Duplicate Module name [" + moduleName + "]")
             else:        
                 self.modules[moduleName] = module
         #
@@ -268,7 +268,7 @@ class Workspace(ModelObject,PropertyContainer):
             projectName=project.getName()
             if projectName in self.projects:
                 # Duplicate, uh oh...
-                self.error("Duplicate Project name [" + projectName + "]")
+                self.addError("Duplicate Project name [" + projectName + "]")
             else:        
                 self.projects[projectName] = project
 
@@ -277,7 +277,8 @@ class Workspace(ModelObject,PropertyContainer):
             module.complete(self)
             
         #
-        # Check repositories now modules have been imported
+        # Check repositories, now modules have been imported,
+        # so we can report those unused ones.
         #
         for repository in self.getRepositories(): 
             repository.check(self)            
@@ -299,7 +300,7 @@ class Workspace(ModelObject,PropertyContainer):
             # Complete the project
             project.complete(self)        
                                                              
-        # Complee the properies
+        # Complete the properies
         self.completeProperties()
                                         
         self.setComplete(1)

@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/forrest.py,v 1.5 2003/11/18 20:58:18 ajack Exp $
-# $Revision: 1.5 $
-# $Date: 2003/11/18 20:58:18 $
+# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/forrest.py,v 1.6 2003/11/18 21:49:12 ajack Exp $
+# $Revision: 1.6 $
+# $Date: 2003/11/18 21:49:12 $
 #
 # ====================================================================
 #
@@ -1403,7 +1403,7 @@ class ForrestDocumenter(Documenter):
         for repo in repoMap.keys():
             moduleList=createOrderedList(repoMap.get(repo))            
             repoSection=document.createSection('Repository: ' + repo.getName())            
-            self.insertLink( repo, xref, repoSection.createParagraph('Repository Definition'))
+            self.insertLink( repo, xref, repoSection.createParagraph('Repository Definition: '))
             
             moduleRepoTable=repoSection.createTable(['Modules'])
             for module in moduleList:        
