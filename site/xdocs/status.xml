@@ -14,9 +14,18 @@
     release, in other cases they may represent an abject failure to
     communicate.</p>
 
-    <subsection name="jakarta-avalon-cornerstone">
-      <p>The default target appears to attempt to build tests that don't
-      exist.</p>
+    <subsection name="dom4j">
+       <p>Dom4j depends on an unreleased version of jaxen contained in
+      its cvs.  Note: Excalibur optionally will use the latest (still 
+      unreleased version) incompatible version of jaxen.
+      </p>
+    </subsection>
+
+    <subsection name="jakarta-avalon-logkit">
+      <p>The AvalonFormatter utilizes a previously deprecated and now
+      removed default constructor.  See
+<a href="http://cvs.apache.org/viewcvs/jakarta-avalon/src/java/org/apache/avalon/framework/logger/AvalonFormatter.java.diff?r1=1.5&amp;r2=1.6">here</a>
+      for details.</p>
     </subsection>
 
     <subsection name="tyrex">
@@ -37,6 +46,11 @@
       the two projects, and the fop team understands and agrees to this change.
       They have already resynched twice, and will try to track to the
       release.</p>
+    </subsection>
+
+    <subsection name="xml-security">
+      <p>An <a href="http://nagoya.apache.org/bugzilla/show_bug.cgi?id=2650">
+      bug report</a> is open against xml-xalan2 to resolve this problem.</p>
     </subsection>
   </section>
 
