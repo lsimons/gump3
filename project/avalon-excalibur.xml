@@ -500,7 +500,7 @@
     <project name="excalibur-i18n">
         <package>org.apache.avalon.excalibur.i18n</package>
 
-        <ant basedir="i18n" target="dist">
+        <ant basedir="i18n" target="dist" buildfile="gump-build.xml">
             <property name="project.name" value="excalibur-i18n"/>
             <property name="project.version" value="@@DATE@@"/>
         </ant>
@@ -529,7 +529,7 @@
     <project name="excalibur-instrument">
         <package>org.apache.avalon.excalibur.instrument</package>
 
-        <ant basedir="instrument" target="jar">
+        <ant basedir="instrument" target="jar" buildfile="gump-build.xml">
             <!-- optional dependencies -->
             <depend property="avalon-framework.jar" project="avalon-framework" id="combined"/>
             <property name="checkstyle.jar" project="checkstyle" reference="jarpath"/>
