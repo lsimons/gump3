@@ -1594,23 +1594,20 @@ This page helps Gumpmeisters (and others) observe community progress.
         self.documentWorkList(run,document,project,'Project-level Work')  
                 
                 
-        if project.isVerboseOrDebug():
-            addnSection=document.createSection('Additional Details')
-            addnPara=addnSection.createParagraph()
-            addnPara.createLink(gumpSafeName(project.getName()) + '_details.html',	\
-                                'For additional project details (including dependencies) ...')
+        addnSection=document.createSection('Additional Details')
+        addnPara=addnSection.createParagraph()
+        addnPara.createLink(gumpSafeName('details.html',	\
+                              'For additional project details (including dependencies) ...')
                                 
         document.serialize()
         
-        if project.isVerboseOrDebug():
-            self.documentProjectDetails(run,project,workspace,gumpSet)
+        self.documentProjectDetails(run,project,workspace,gumpSet)
         
     def documentProjectDetails(self,run,project,workspace,gumpSet):         
         
         document=XDocDocument('Project Details : ' + project.getName(),	\
                     self.resolver.getFile(project, \
-                                    project.getName() + '_details', \
-                                        '.xml'))     
+                                    'details', '.xml'))     
  
     #    x.write('<p><strong>Project Config :</strong> <link href=\'%s\'>XML</link></p>' \
     #                % (getModuleProjectRelativeUrl(modulename,project.name)) )                     
@@ -1674,7 +1671,7 @@ This page helps Gumpmeisters (and others) observe community progress.
                 
         depens += self.documentDependenciesList(dependencySection, 'Project Dependencies',	\
                     project.getDirectDependencies(), 0, 0, project, gumpSet)
-                    
+                            
         depees += self.documentDependenciesList(dependencySection, 'Project Dependees',		\
                     project.getDirectDependees(), 1, 0, project, gumpSet)
                     

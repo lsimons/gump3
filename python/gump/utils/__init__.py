@@ -32,6 +32,12 @@ from gump.core.config import default, setting
 
 def gumpSafeName(name):
   """returns a file system safe name"""
+  #
+  # .html in a filename (e.g. x.html.xml) confuses forrest/cocoon.
+  #
+  name=name.replace('.','_')
+  
+  #
   return urllib.quote_plus(name)
 
 ###############################################################################

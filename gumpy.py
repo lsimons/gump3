@@ -135,6 +135,7 @@ def sendEmail(toaddr,fromaddr,subject,data,server,port=25):
 def establishLock(lockFile):
 
     failed=0
+    info=''
     if 'posix'==os.name:
         import fcntl
                 
@@ -143,6 +144,7 @@ def establishLock(lockFile):
             fcntl.flock(lock.fileno(), fcntl.LOCK_EX | fcntl.LOCK_NB)
         except:            
             failed=1
+            ifo=', and is locked.'
         
     else:
         if os.path.exists(lockFile):
@@ -152,10 +154,10 @@ def establishLock(lockFile):
         lock=open(lockFile,'w')
             
     if failed:
-        print """The lock file [%s] exists. 
+        print """The lock file [%s] exists%s. 
 Either Gump is still running, or it terminated very abnormally.    
 Please resolve this (waiting or removing the lock file) before retrying.
-        """ % lockFile
+        """ % (lockFile, info)
         sys.exit(1)
     
     # Leave a mark...
