@@ -30,7 +30,7 @@ fi
 #
 # Calculated
 #
-export GUMPY_VERSION="1.0.2"
+export GUMPY_VERSION="1.0.3"
 export GUMP_PYTHON=$GUMP/python
 export GUMP_TMP=$GUMP/tmp
 export GUMP_HOST=`hostname -s`
@@ -133,6 +133,7 @@ cd $GUMP_TMP
 echo $SEPARATOR >> $GUMP_LOG
 if [ -f check_forrest.txt ] ; then
 	cat check_forrest.txt >> $GUMP_LOG
+	cp check_forrest.txt $GUMP_LOG_DIR
 else
 	echo "No Forrest Output file @ $GUMP_TMP/check_forrest.txt" >> $GUMP_LOG
 fi
@@ -141,6 +142,7 @@ echo $SEPARATOR >> $GUMP_LOG
 
 if [ -f forrest.txt ] ; then
 	cat forrest.txt >> $GUMP_LOG
+	cp forrest.txt $GUMP_LOG_DIR
 else
 	echo "No Forrest Output file @ $GUMP_TMP/forrest.txt" >> $GUMP_LOG
 fi
@@ -150,6 +152,7 @@ if [ -f $GUMP_WS/forrest/build/tmp/brokenlinks.txt ] ; then
 	echo $SEPARATOR >> $GUMP_LOG
 	cat $GUMP_WS/forrest/build/tmp/brokenlinks.txt >> $GUMP_LOG
 	echo $SEPARATOR >> $GUMP_LOG
+	cp $GUMP_WS/forrest/build/tmp/brokenlinks.txt $GUMP_LOG_DIR
 fi
 
 # Just in case...
