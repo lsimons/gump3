@@ -1,7 +1,7 @@
 /*
- * $Header: /home/stefano/cvs/gump/java/LocalCheck.java,v 1.1 2003/01/24 17:10:43 mvdb Exp $
- * $Revision: 1.1 $
- * $Date: 2003/01/24 17:10:43 $
+ * $Header: /home/stefano/cvs/gump/java/LocalCheck.java,v 1.2 2003/01/27 08:39:53 bodewig Exp $
+ * $Revision: 1.2 $
+ * $Date: 2003/01/27 08:39:53 $
  *
  * ====================================================================
  *
@@ -78,7 +78,7 @@ import org.xml.sax.SAXParseException;
  * gump build.
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bent</a>
- * @version $Id: LocalCheck.java,v 1.1 2003/01/24 17:10:43 mvdb Exp $
+ * @version $Id: LocalCheck.java,v 1.2 2003/01/27 08:39:53 bodewig Exp $
  */
 public class LocalCheck {
     
@@ -91,12 +91,12 @@ public class LocalCheck {
     private static boolean verbose;
     DocumentBuilderFactory dFactory = DocumentBuilderFactory.newInstance();
     
-	/**
-	 * Constructor for LocalCheck.
-	 */
-	public LocalCheck(String workSpace)
-    throws Exception  {
-		this.workspaceFile = workSpace;
+    /**
+     * Constructor for LocalCheck.
+     */
+    public LocalCheck(String workSpace)
+        throws Exception  {
+        this.workspaceFile = workSpace;
         Document doc = parse(workSpace);
         Workspace space = new Workspace();
         space.init((Element)doc.getFirstChild());
@@ -106,7 +106,7 @@ public class LocalCheck {
         String profileFile = doc.getElementsByTagName("profile").item(0).getAttributes().getNamedItem("href").getNodeValue();
         this.profile = parse(currentDir+profileFile);
         parseProfile();
-	}
+    }
     
     private void parseProfile() {
         NodeList nodeList = profile.getElementsByTagName("project");
@@ -127,12 +127,12 @@ public class LocalCheck {
         String projectFile = currentDir+"project"+File.separator+name+".xml";
         boolean ok = true;
         Document doc = null;
-		try {
+        try {
             if (!new File(projectFile).exists()) {
                 setupCache();
                 projectFile = currentDir+"project"+File.separator+(String)projectCache.get(name);
             }
-			doc = parse(projectFile);
+            doc = parse(projectFile);
             ArrayList list = getJars(doc, name);
             String moduleURL = getModuleURL(doc);
             boolean error = false;
@@ -149,10 +149,10 @@ public class LocalCheck {
                     ok = false;
                 }
             }
-		} catch (Exception e) {
+        } catch (Exception e) {
             System.out.println("problems reading "+projectFile+" for project "+name);
             ok =  false;
-		}
+        }
         return ok;
     }
     
@@ -211,7 +211,7 @@ public class LocalCheck {
     }
         
 
-	public static void main(String[] args)  {
+    public static void main(String[] args)  {
         try {
             String workSpace = DEFAULT_WORKSPACE_FILE;
             if (args.length >= 1) {
@@ -222,7 +222,7 @@ public class LocalCheck {
             System.out.println("Unexpected failure in LocalCheck");
             e.printStackTrace(System.out);
         }
-	}
+    }
     
     /**
      * Parse an XML source file into an DOM.
