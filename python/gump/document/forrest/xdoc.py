@@ -144,9 +144,7 @@ class XDocContext(Ownable):
         #    print(self.stream.read())
         #else:
         if not self.isTransient():
-            try:
-                self.stream.close()
-            except: pass
+            self.stream.close()
             
     def map(self,raw):
         if isinstance(raw,types.UnicodeType):

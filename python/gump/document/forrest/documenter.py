@@ -225,8 +225,8 @@ class ForrestDocumenter(Documenter):
                 #
                 syncDirectories(stagingDirectory,logDirectory)
                 
-                cleanUp=0
-                
+                # :TODO: Don't clean-up yet, testing...
+                cleanUp=0                
                 if cleanUp:
                     # 
                     # Clean up
@@ -262,10 +262,14 @@ class ForrestDocumenter(Documenter):
             #
             syncDirectories(workContents,logContents)
             
-            # 
-            # Clean up
-            #
-            wipeDirectoryTree(forrestWorkDir)
+            # :TODO: Don't clean-up yet, testing...
+            cleanUp=0                
+            if cleanUp:
+                    
+                # 
+                # Clean up
+                #
+                wipeDirectoryTree(forrestWorkDir)
             
         except:        
             log.error('--- Failed to work->log sync and/or clean-up', exc_info=1)
