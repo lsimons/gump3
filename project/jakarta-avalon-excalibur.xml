@@ -913,7 +913,7 @@
             <depend property="excalibur-threadcontext.jar" project="excalibur-threadcontext" runtime="true"/>
             <depend property="excalibur-instrument.jar" project="excalibur-instrument" runtime="true"/>
             <depend property="logkit.jar" project="jakarta-avalon-logkit" runtime="true"/>
-            <property name="jar.name" value="excalibur-thread-@@DATE@@.jar"/>
+            <property name="package-version" value="@@DATE@@"/>
             <property name="junit.failonerror" value="true"/>
             <property name="do.checkstyle" value="true"/>
             <property name="skip.dependencies" value="true"/>
