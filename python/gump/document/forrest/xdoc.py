@@ -308,6 +308,9 @@ class XDocParagraph(XDocPiece):
         
     def createFork(self,href,text=None):
         return self.storePiece(XDocFork(self.createSubContext(),href,text))  
+        
+    def createIcon(self,href,alt=None):
+        return self.storePiece(XDocIcon(self.createSubContext(),href,alt))             
       
 class XDocComment(XDocPiece):
     def __init__(self,context,text):

@@ -71,6 +71,7 @@ class DependencyMatrix:
         
         # Create a sparse matrix
         self.depths={}
+        self.maxDepth=0
         self.maxNumAtDepth=0
         
         # Create a lookup
@@ -98,7 +99,7 @@ class DependencyMatrix:
         for rowNo in self.depths.keys():
             colNo=0
             for node in self.depths[rowNo]:
-                node.setRowCol(rowNo-1,colNo)
+                node.setRowCol(rowNo,colNo)
                 colNo+=1
         
     # Insert into lists 
@@ -114,17 +115,21 @@ class DependencyMatrix:
         depthList=self.depths[depth]          
         depthList.append(node)
         
-        # Keep track of 
+        # Keep track of ...
         numAtDepth=len(depthList)        
         if (numAtDepth > self.maxNumAtDepth):
-            self.maxNumAtDepth=numAtDepth        
+            self.maxNumAtDepth=numAtDepth   
+            
+        # Keep track of ...
+        if (depth > self.maxDepth):
+            self.maxDepth=depth        
             
         # Lookups
         self.nodes[project]=node
         
     def getExtent(self):        
         # Max by max
-        return (len(self.depths.keys()),self.maxNumAtDepth)
+        return (self.maxDepth+1,self.maxNumAtDepth)
         
     def getRowWidth(self,row):
         return len(self.depths[row])
@@ -168,21 +173,28 @@ class DependencyDiagram:
         # Get the maximum rows/cols
         (rows, cols) = self.matrix.getExtent()
         
-        mainContext=StandardDrawingContext('Dependencies', None,	\
-                        Rect(0,0,100*rows,100*cols))
+        # The drawing plane
+        absoluteRect=Rect(0,0,100*cols,100*rows)
         
-        # Let the context define the rect.
-        rect=mainContext.realRect()
+        # The standard context for that plane
+        mainContext=StandardDrawingContext('Dependencies', None,
+                        absoluteRect)
         
-        print 'RECT: ' + str(rect)
-        print '(ROWS,COLS) : ' + `(rows, cols)`
+        #print 'RECT: ' + str(absoluteRect)
+        #print '(ROWS,COLS) : ' + `(rows, cols)`
         
-        context=GridDrawingContext('Grid', mainContext, rows, cols )
+        context=SwitchAxisDrawingContext('Switch',
+                    YInvertDrawingContext('Invert', 
+                        GridDrawingContext('Grid', mainContext, cols, rows ),
+                        rows - 1 ) )
         
         # Build an SVG to fit the real world size, and the
         # context rectangle.
-        svg=SimpleSvg(rect.getWidth(),rect.getHeight())
+        svg=SimpleSvg(absoluteRect.getWidth(), absoluteRect.getHeight())
         
+        #
+        # Add a border
+        #
         svg.addBorder()
 
         #
@@ -198,16 +210,10 @@ class DependencyDiagram:
             
             #print cols,rowWidth,row,col,' -> ',centeredCol
             
-            print '(ROW,COL) : ' + `(row, col)`
-            (x,y) = context.realPoint(col,(rows-row)+2)
-            print '(X,Y) : ' + `(x, y)`
-            node.setPoint(Point(x,y))
-            
-        for x in range(0,rows):
-            for y in range(0,cols):
-                print 'DOTTY : ' + `(x,y)`
-                (x1,y1)=context.realPoint(x,y)
-                svg.addSpot(x1,y1)
+            #print 'NODE (ROW,COL) : ' + `(row, col)`
+            (x,y) = context.realPoint(row,col)
+            #print '(X,Y) : ' + `(x, y)`
+            node.setPoint(Point(x,y))            
                 
         #
         # Draw dependency lines
@@ -240,7 +246,7 @@ class DependencyDiagram:
                 elif project.getFOGFactor() < 0.1:
                     color='red'
                     
-                print 'LINE %s,%s -> %s,%s' % (x,y,x1,y1)
+                #print 'LINE %s,%s -> %s,%s' % (x,y,x1,y1)
                 svg.addLine(x,y,x1,y1, \
                     { 'stroke':color, \
                       'stroke-width':width, \
@@ -253,10 +259,10 @@ class DependencyDiagram:
             project = node.getProject()
             
             (row, col) = node.getRowCol()
-            (x,y) = context.realPoint(col-0.25,(rows-row)+2-0.25)
-            (x1,y1) = context.realPoint(col+0.25,(rows-row)+2+0.25)
+            (x,y) = context.realPoint(row+0.25,col-0.25)
+            (x1,y1) = context.realPoint(row-0.25,col+0.25)
             
-            print 'RECTANGLE %s,%s -> %s,%s' % (x,y,x1,y1)
+            #print 'RECTANGLE %s,%s -> %s,%s' % (x,y,x1,y1)
             
             # Shape color
             color='green'
@@ -271,8 +277,8 @@ class DependencyDiagram:
                     { 	'fill':color, \
                         'comment':project.getName() } )
                         
-            (x,y) = context.realPoint(col-0.25,(rows-row)+2-0.27)
-            print 'TEXT %s,%s' % (x,y)
+            (x,y) = context.realPoint(row+0.27,col-0.27)
+            #print 'TEXT %s,%s' % (x,y)
             
             svg.addText(x,y,project.getName() + ' (' + `project.getFOGFactor()` + ')',  \
                     { 	'fill':'red', \
@@ -287,7 +293,7 @@ if __name__=='__main__':
         
     from gump.core.gumprun import GumpRun, GumpRunOptions, GumpSet
     from gump.core.commandLine import handleArgv
-    from gump.core.model.loader import WorkspaceLoader
+    from gump.model.loader import WorkspaceLoader
     from gump.output.statsdb import *
 
     # Process command line

@@ -89,7 +89,7 @@ def getShiftedRect(shiftX,shiftY,rect):
         
 class DrawingContext:
     """ The interface to a chainable context """
-    def __init__(self,name=None,next=None) : 
+    def __init__(self,name,next=None) : 
         self.name=name
         self.next=next
     
@@ -110,6 +110,7 @@ class DrawingContext:
         # Calculate (or pass though)
         if hasattr(self,'getRealPoint')and callable(self.getRealPoint): 
             (x1,y1)=self.getRealPoint(x,y)
+            #log.debug(`self.name` + ' : ' + `(x,y)` + ' -> ' + `(x1,y1)`)
         else:
             (x1,y1)=(x,y)
         
@@ -145,7 +146,7 @@ class DrawingContext:
                  
 class StandardDrawingContext(DrawingContext):
     """ A drawing context, is an area width*height """
-    def __init__(self,name=None,context=None,rect=None):
+    def __init__(self,name,context=None,rect=None):
         DrawingContext.__init__(self,name,context)
         if rect: self.rect=rect
         
@@ -169,7 +170,7 @@ class StandardDrawingContext(DrawingContext):
         output.write(getIndent(indent)+'Height  : ' + `self.getHeight()` + '\n')
                  
 class ScaledDrawingContext(StandardDrawingContext):
-    def __init__(self,name=None,context=None,rect=None,scaledWidth=1,scaledHeight=1):
+    def __init__(self,name,context=None,rect=None,scaledWidth=1,scaledHeight=1):
         StandardDrawingContext.__init__(self,name,context,rect)
         
         if not scaledWidth: raise RuntimeError, 'Can\'t scale with 0 width.'
@@ -197,7 +198,7 @@ class ScaledDrawingContext(StandardDrawingContext):
         output.write(getIndent(indent)+'hRatio  : ' + `self.hRatio` + '\n')                        
         
 class ShiftedDrawingContext(StandardDrawingContext):
-    def __init__(self,name=None,context=None,shiftedX=0,shiftedY=0):
+    def __init__(self,name,context=None,shiftedX=0,shiftedY=0):
         StandardDrawingContext.__init__(self,name,context)    
         
         if not (shiftedX or shiftedY):
@@ -224,10 +225,13 @@ class GridDrawingContext(DrawingContext):
         middle of their blocks. E.g. 0,0 -> 5,5 (with units of 10 points)
         
     """
-    def __init__(self,name=None,context=None,rows=10,cols=10):
+    def __init__(self,name,context=None,rows=10,cols=10):
         
         # Initiaze w/o sub-context
         DrawingContext.__init__(self,name)    
+        
+        self.rows=rows
+        self.cols=cols
         
         # Create the scale
         self.scale=ScaledDrawingContext('GridScale:'+name,context,None,rows,cols)        
@@ -238,6 +242,24 @@ class GridDrawingContext(DrawingContext):
         # Install this context...
         self.setNextContext(self.shift)
                         
+    def getRealPoint(self,x,y):
+        #if not x == int(x):
+        #    raise RuntimeError, 'X isn\'t an integer [' + `x` + ']'
+        #    
+        #if not y == int(y):
+        #    raise RuntimeError, 'Y isn\'t an integer [' + `y` + ']'
+        
+        return (x,y)
+        
+        xrange=range(0,self.rows)
+        if not x in xrange:
+            raise RuntimeError, 'X isn\'t in range [' + `x` + '] [' + `xrange` + ']'
+            
+        yrange=range(0,self.cols)
+        if not y in yrange:
+            raise RuntimeError, 'Y isn\'t in range [' + `y` + '] [' + `yrange` + ']'
+            
+        return (x,y)
                         
 #    def generateRowContexts(self,context):
 #        rowContexts={}
@@ -264,6 +286,44 @@ class GridDrawingContext(DrawingContext):
 #            row+=1
 #        
 #        return rowContexts
+        
+class XInvertDrawingContext(DrawingContext):
+    """         
+        Invert X        
+    """
+    def __init__(self,name,context,maxX):
+        
+        # Initiaze w/o sub-context
+        DrawingContext.__init__(self,name)            
+        self.maxX=maxX
+                        
+    def getRealPoint(self,x,y):
+        return (self.maxX - x,y)        
+        
+class YInvertDrawingContext(DrawingContext):
+    """         
+        Invert Y        
+    """
+    def __init__(self,name,context,maxY):
+        
+        # Initiaze w/o sub-context
+        DrawingContext.__init__(self,name,context)            
+        self.maxY=maxY
+                        
+    def getRealPoint(self,x,y):
+        return (x,self.maxY-y)
+                        
+class SwitchAxisDrawingContext(DrawingContext):
+    """         
+        Invert Y        
+    """
+    def __init__(self,name,context):
+        
+        # Initiaze w/o sub-context
+        DrawingContext.__init__(self,name,context)   
+                        
+    def getRealPoint(self,x,y):
+        return (y,x)
                         
 class VirtualPoint:
     def __init__(self,x,y,context):

@@ -102,9 +102,10 @@ def getSvgSizes(w,h):
     
     # Assume the pixels are at least an order of
     # magnitude larger than we'd like this in
-    # centimeters
-    svgW=int(w/10)
-    svgH=int(h/10)
+    # centimeters. :TODO: Unhack these values,
+    # which basically work for DepDiag only...
+    svgW=int(w/30)
+    svgH=int(h/30)
     
     if svgW > 20:
         ratio = float(svgW)/20
@@ -173,13 +174,23 @@ class SimpleSvg:
         self.actions.append(self.formatElement(type,attrs,content))
         
     def addBorder(self):
-        x=self.viewWidth*0.05
-        y=self.viewHeight*0.05
-        w=min(self.viewWidth*0.02,self.viewHeight*0.02)
-        self.addRect(x,y,self.viewWidth-(2*x),self.viewHeight-(2*y),	\
+    
+        # Make stroke width proportional, but not greater than 1
+        w=min(self.viewWidth*0.01,self.viewHeight*0.01)
+        if w > 1: w = 1
+        self.addRect(w,w,self.viewWidth-w,self.viewHeight-w,	\
                         {'stroke':'black','stroke-width':w,'fill':'none',	\
                             'comment':'Border Rectangle'})
-        
+
+
+        #print '(ROWS,COLS) : ' + `(rows, cols)`
+        #for r in range(0,rows):
+        #    for c in range(0,cols):
+        #        print 'DOTTY (ROW,COL): ' + `(r,c)`
+        #        (x,y)=context.realPoint(r,c)
+        #        svg.addSpot(x,y)
+        #        svg.addText(x,y, `(r,c)`, {'stroke':'black'})
+                
     def addSpot(self,x,y):
         self.addRect(x-2,y-2,4,4,	\
                         {'stroke':'black','stroke-width':1,'fill':'black',	\

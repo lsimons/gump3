@@ -219,13 +219,17 @@ class ForrestDocumenter(Documenter):
                 # Sync over public pages...
                 #
                 syncDirectories(stagingDirectory,logDirectory)
-                # 
-                # Clean up
-                wipeDirectoryTree(stagingDirectory)
                 
-                # Clean only if successful.
-                if  (forrestResult.state==CMD_STATE_SUCCESS):
-                    wipeDirectoryTree(forrestWorkDir)
+                cleanUp=0
+                
+                if cleanUp:
+                    # 
+                    # Clean up
+                    wipeDirectoryTree(stagingDirectory)
+                
+                    # Clean only if successful.
+                    if  (forrestResult.state==CMD_STATE_SUCCESS):
+                        wipeDirectoryTree(forrestWorkDir)
             except:        
                 log.error('--- Failed to staging->log sync and/or clean-up', exc_info=1)
                 success=0
@@ -1518,7 +1522,7 @@ This page helps Gumpmeisters (and others) observe community progress.
         statsTable=statsSection.createTable()           
         
         # Generate an SVG for FOG:
-        (pngFile,pngTitle) = self.documentFOG(project)
+        (pngFile,pngTitle) = self.diagramFOG(project)
         if pngFile:
             statsTable.createEntry('FOG Factor').createData().createIcon(pngFile,pngTitle)
             
@@ -1541,16 +1545,16 @@ This page helps Gumpmeisters (and others) observe community progress.
         self.documentFileList(run,document,project,'Project-level Files')  
         self.documentWorkList(run,document,project,'Project-level Work')  
                 
-        #addnSection=document.createSection('Additional Details')
-        #addnPara=addnSection.createParagraph()
-        #addnPara.createLink(gumpSafeName(project.getName()) + '_details.html',	\
-        #                    'More project details ...')                                                                         
-        #document.serialize()
-        #
-        #document=XDocDocument('Project Details : ' + project.getName(),	\
-        #            self.resolver.getFile(project, \
-        #                            project.getName() + '_details', \
-        #                                '.xml'))     
+        addnSection=document.createSection('Additional Details')
+        addnPara=addnSection.createParagraph()
+        addnPara.createLink(gumpSafeName(project.getName()) + '_details.html',	\
+                            'For additional project details (including dependencies) ...')                                                                         
+        document.serialize()
+        
+        document=XDocDocument('Project Details : ' + project.getName(),	\
+                    self.resolver.getFile(project, \
+                                    project.getName() + '_details', \
+                                        '.xml'))     
  
     #    x.write('<p><strong>Project Config :</strong> <link href=\'%s\'>XML</link></p>' \
     #                % (getModuleProjectRelativeUrl(modulename,project.name)) )                     
@@ -1636,7 +1640,15 @@ This page helps Gumpmeisters (and others) observe community progress.
                 dependencySection.createNote('No projects depend upon this project.')    
             if not depens:
                 dependencySection.createNote('This project depends upon no others.')    
-                
+                                
+        try:
+            # Generate an SVG for FOG:
+            (pngFile,pngTitle) = self.diagramDependencies(project)
+            if pngFile:
+                para=dependencySection.createSection('Dependency Diagram').createParagraph()
+                para.createFork(pngFile).createIcon(pngFile,pngTitle)
+        except:
+            log.error('Failed to diagram dependencies for [' + project.getName() + ']', exc_info=1)
         
         document.serialize()
         
@@ -2194,7 +2206,7 @@ This page helps Gumpmeisters (and others) observe community progress.
         fdocument.serialize()
         fdocument=None
             
-    def documentFOG(self,object,base=None):
+    def diagramFOG(self,object,base=None):
     
         stats = object.getStats()
         name=object.getName()
@@ -2213,6 +2225,20 @@ This page helps Gumpmeisters (and others) observe community progress.
             return (pngFile, 'FOG Factor')
             
         return (None, None)
+                
+    def diagramDependencies(self,project,base=None):
+    
+        name=project.getName()
+        if not base: base=project
+    
+        svgFile=self.resolver.getFile(base,name+'_depend','.svg')
+        pngFile=os.path.basename(svgFile).replace('.svg','.png')
+        from gump.svg.depdiag import DependencyDiagram
+        diagram=DependencyDiagram(project)
+        diagram.compute()
+        diagram.generateDiagram().serializeToFile(svgFile)
+        
+        return (pngFile, 'Dependency Diagram')
                 
     #####################################################################           
     #
@@ -2639,16 +2665,13 @@ This page helps Gumpmeisters (and others) observe community progress.
             fogRow.createData(pstats.failures)
             fogRow.createData(pstats.prereqs)
             fogRow.createData('%02.2f' % pstats.getFOGFactor())
-            
-            
+                        
             # Generate an SVG for FOG:
-            (pngFile,pngTitle) = self.documentFOG(project,stats)
+            (pngFile,pngTitle) = self.diagramFOG(project,stats)
             if pngFile:
                 fogRow.createData().createIcon(pngFile,pngTitle)
             else:
-                fogRow.createData('Not Available')    
-                
-                
+                fogRow.createData('Not Available')                    
             
         document.serialize()   
         

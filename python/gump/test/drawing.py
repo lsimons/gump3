@@ -50,7 +50,7 @@ class DrawingTestSuite(UnitTestSuite):
         self.assertEqual('Shifted & Scaled', 125, y)
         
     def testGridDrawingContext(self):
-        baseContext=StandardDrawingContext(rect=Rect(0,0,100,100))
+        baseContext=StandardDrawingContext(rect=Rect(0,0,100,200))
         context=GridDrawingContext('TestGrid',baseContext,10,10)
         for row in [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 ]:
             for col in [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 ]:    
@@ -59,10 +59,10 @@ class DrawingTestSuite(UnitTestSuite):
                 
                 # Calculate expected
                 expectedX=(row*10)+5
-                expectedY=(col*10)+5
+                expectedY=(col*20)+10
                 
-                print `(row,col)`
-                print `(x,y)`
+                #print `(row,col)`
+                #print `(x,y)`
                 
                 # Check...
                 self.assertEqual('Grid', expectedX, x)

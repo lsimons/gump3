@@ -314,10 +314,10 @@ class Dependable:
     #
     def getDependencyDepth(self):
         if self.depth: return self.depth
-        maxDepth=1
+        maxDepth=0
         for depend in self.directDependencies.getDepends():
             dependencyDepth=depend.getProject().getDependencyDepth() + 1
-            if maxDepth <  dependencyDepth:
+            if maxDepth < dependencyDepth:
                 maxDepth=dependencyDepth
         self.depth=maxDepth
         return self.depth
