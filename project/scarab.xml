@@ -2,7 +2,7 @@
 
   <url href="http://scarab.tigris.org/"/>
   <description>
-    Bug-Tracking Built for the Ages
+    Issue Tracking Built for the Ages
   </description>
 
   <cvs repository="tigris"/>
