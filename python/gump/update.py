@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/update.py,v 1.11 2003/09/25 17:04:52 ajack Exp $
-# $Revision: 1.11 $
-# $Date: 2003/09/25 17:04:52 $
+# $Header: /home/stefano/cvs/gump/python/gump/update.py,v 1.12 2003/09/26 19:09:52 ajack Exp $
+# $Revision: 1.12 $
+# $Date: 2003/09/26 19:09:52 $
 #
 # ====================================================================
 #
@@ -101,22 +101,42 @@ def update(workspace, expr='*', context=GumpContext()):
   modules = getModulesForProjectList(getBuildSequenceForProjects(getProjectsForProjectExpression(expr)))
       
   return updateModules(workspace,modules,context)
-  
-def updateModules(workspace, modules, context=GumpContext()):
-    
+
+def readLogins():
   # read the list of cvs repositories that the user is already logged into
-  password={}
+  logins={}
   cvspassfile=os.path.expanduser(os.path.join('~','.cvspass'))
   try:
     cvspass=open(cvspassfile)
     for line in cvspass.readlines():
-      password.update(dict([line.strip().split(' ',1)]))
+      logins.update(dict([line.strip().split(' ',1)]))
     cvspass.close()
-  except:
-    pass
+  
+  except Exception, detail:
+    log.error('Failed to read ~/.cvspass. Details: ' + str(detail))
+    
+  return logins
+ 
+def loginToRepositoryOnDemand(repository,root,logins):
+    # log into the cvs repository
+    if repository.root.method=='pserver':
+        newpass=mangle(repository.root.password)
+        if not root in logins or logins[root]<>newpass:
+            log.info('Provide login for CVS repository: ' + repository.name + ' @ ' + root)            
+            # Open with append...
+            try:
+                cvspassfile=os.path.expanduser(os.path.join('~','.cvspass'),'a')
+                cvspassfile.write('/1 '+root+' '+newpass+'\n')
+                cvspassfile.close()
+            except Exception, detail:
+                log.error('Failed to append to ~/.cvspass. Details: ' + str(detail))
+                
+def updateModules(workspace, modules, context=GumpContext()):
  
   os.chdir(workspace.cvsdir)
   log.debug("Workspace CVS Directory: " + workspace.cvsdir)
+
+  logins=readLogins()
 
   log.info('Modules to update:') 
     
@@ -139,14 +159,14 @@ def updateModules(workspace, modules, context=GumpContext()):
       
           log.info("CVS Root " + module.cvsroot() + " Repository: " + str(repository))
       
-          # log into the cvs repository
-          if repository.root.method=='pserver':
-            newpass=mangle(repository.root.password)
-            if not root in password or password[root]<>newpass:
-              cvspassfile=os.path.expanduser(os.path.join('~','.cvspass'),'a')
-              cvspassfile.write(root+' '+newpass+'\n')
-              cvspassfile.close()
+          #
+          # Provide logins, if not already there
+          #
+          loginToRepositoryOnDemand(repository,root,logins)
 
+          #
+          # Prepare CVS checkout/update command...
+          # 
           cmd=Cmd('cvs','update_'+name,workspace.cvsdir)
           cmd.addParameter('-z3')
           cmd.addParameter('-d', root)
@@ -216,6 +236,10 @@ if __name__=='__main__':
   
   context=GumpContext()
   
-  update(workspace, ps, context)
+  logins=readLogins()
   
-  dump(context)
+  dump(logins)
+  
+  # update(workspace, ps, context)
+  
+  # dump(context)

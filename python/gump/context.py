@@ -62,6 +62,7 @@
     This module contains information on
 """
 
+from time import localtime, strftime, tzname
 from string import lower, capitalize
 
 from gump import log
@@ -93,7 +94,7 @@ describedState = { "Unset" : STATUS_UNSET,
             "Success" : STATUS_SUCCESS,
             "Failed" : STATUS_FAILED,
             "Prerequisite Failed" : STATUS_PREREQ_FAILURE,
-            "Complete. Perform No Action"  : STATUS_COMPLETE}
+            "Complete"  : STATUS_COMPLETE}
            
 def stateForName(name):
     return describedState.get(name,STATUS_UNSET)
@@ -660,6 +661,11 @@ class GumpContext(Context):
         # Turns on ant '-debug'
         #
         self.debug=0	
+        
+        #    
+        self.startdatetime=time.strftime("%a, %d %b %Y %H:%M:%S (%Z)", \
+                                time.localtime())
+        self.timezone=str(time.tzname)
         
     def performedWorkOnProject(self,project,item):
         (mctxt,pctxt)=self.getContextsForProject(project)

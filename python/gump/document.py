@@ -260,6 +260,7 @@ def documentWorkspace(workspace,context,db,moduleFilterList=None,projectFilterLi
     titledDataInTableXDoc(x,'Gump Preferred Workspace Version', setting.ws_version)
     titledDataInTableXDoc(x,'Java Command', context.javaCommand)
     titledDataInTableXDoc(x,'@@DATE@@', str(default.date))
+    titledDataInTableXDoc(x,'Start Date/Time', workspace.startdatetime)
     
     endTableXDoc(x)
     endSectionXDoc(x)                
@@ -384,13 +385,19 @@ def documentModule(workspace,wdir,modulename,modulecontext,db,projectFilterList=
     x=startXDoc(getModuleDocument(workspace,modulename,mdir))
     headerXDoc(x,'Module : ' + modulename)
     
-    if module.description or module.url:
-        startSectionXDoc(x,'Description')     
-        if module.description:
-            paragraphXDoc(x,module.description)
-        if module.url:
-            paragraphXDoc(x,getLink(module.url))
-        endSectionXDoc(x)
+    
+    # Provide a description/link back to the module site.
+    startSectionXDoc(x,'Description') 
+    description=str(module.description)    
+    if not description:
+        description='No description provided.'        
+    if str(module.url):
+        description+=' For more information, see: ' + getLink(str(module.url))
+    else:
+        description+=' No module URL provided.'
+            
+    paragraphXDoc(x,description)
+    endSectionXDoc(x)
     
         
     documentAnnotations(x,modulecontext.annotations)
@@ -398,7 +405,7 @@ def documentModule(workspace,wdir,modulename,modulecontext,db,projectFilterList=
     startSectionXDoc(x,'Projects')
     x.write('    <table>\n')
     x.write('     <tr>')        
-    x.write('      <th>Name</th><th>State</th><th>Reason</th><th>Elapsed Time</th>')
+    x.write('      <th>Name</th><th>State</th><th>Elapsed Time</th>')
     x.write('     </tr>')
     pcount=0
     for pctxt in modulecontext:     
@@ -407,8 +414,8 @@ def documentModule(workspace,wdir,modulename,modulecontext,db,projectFilterList=
         pcount+=1
         
         x.write('     <tr><!-- %s -->' % (pname))        
-        x.write('      <td><link href=\'%s\'>%s</link></td><td>%s</td><td>%s</td>' % \
-          (getProjectRelativeUrl(pname),pname,stateName(pctxt.status),reasonString(pctxt.reason)))    
+        x.write('      <td><link href=\'%s\'>%s</link></td><td>%s</td>' % \
+          (getProjectRelativeUrl(pname),pname,getStatePairIcon(pctxt.getStatePair(),1)))    
         x.write('      <td>%s</td>' % elapsedTimeToString(pctxt.elapsedTime()))    
         x.write('     </tr>')
         
@@ -453,7 +460,19 @@ def documentProject(workspace,modulename,mdir,projectname,projectcontext,db):
     x=startXDoc(getProjectDocument(workspace,modulename,projectname,mdir))
     headerXDoc(x,'Project : ' + projectname)
    
-    description=project.description or module.description
+     
+    # Provide a description/link back to the module site.
+    startSectionXDoc(x,'Description') 
+    description=str(project.description) or str(module.description)
+    if not description:
+        description='No description provided.'        
+    if str(project.url):
+        description+=' For more information, see: ' + getLink(str(project.url))
+    else:        
+        description='No project URL provided.'   
+            
+    paragraphXDoc(x,description)
+    endSectionXDoc(x)
     if description:
         startSectionXDoc(x,'Description')     
         paragraphXDoc(x,description)

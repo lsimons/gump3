@@ -1,8 +1,8 @@
 #!/usr/bin/python
 
-# $Header: /home/stefano/cvs/gump/python/gump/build.py,v 1.13 2003/09/25 17:04:52 ajack Exp $
-# $Revision: 1.13 $
-# $Date: 2003/09/25 17:04:52 $
+# $Header: /home/stefano/cvs/gump/python/gump/build.py,v 1.14 2003/09/26 19:09:52 ajack Exp $
+# $Revision: 1.14 $
+# $Date: 2003/09/26 19:09:52 $
 #
 # ====================================================================
 #
@@ -154,29 +154,8 @@ def syncWorkDir( workspace, sequence, context=GumpContext() ):
         sourcedir = os.path.abspath(os.path.join(workspace.cvsdir,module.name)) # todo allow override
         destdir = os.path.abspath(workspace.basedir)
         
-        # :TODO: Make this configurable (once again)
-        #if not workspace.sync:
-        #  workspace.sync = default.syncCommand
-    
-        if context.noRSync:
-            cmd=Cmd('cp','sync_'+module.name,dir.work)
-            cmd.addParameter('-Rf')
-            cmd.addParameter(sourcedir)
-            cmd.addParameter(destdir)
-        else:
-            cmd=Cmd('rsync','rsync_'+module.name,dir.work)            
-            cmd.addParameter('-r')
-            cmd.addParameter('-a')
-            cmd.addParameter('--delete')
-            cmd.addParameter(sourcedir)
-            cmd.addParameter(destdir)
-
-        log.debug(' ------ Sync\'ing : '+ module.name)
-    
-        # Perform the Sync
-        cmdResult=execute(cmd,workspace.tmpdir)
-
-        work=CommandWorkItem(WORK_TYPE_SYNC,cmd,cmdResult)
+        work=syncDirectories(context,workspace,WORK_TYPE_SYNC,dir.work,sourcedir,destdir,module.name)
+        
         mctxt.performedWork(work)
 
         # Update Context w/ Results  

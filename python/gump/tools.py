@@ -84,7 +84,36 @@ def listDirectoryAsWork(context,directory,name=None):
        
     # Update Context
     context.performedWork(CommandWorkItem(WORK_TYPE_DOCUMENT,cmd,result))
-        
+       
+
+   
+def syncDirectories(context,workspace,type,cwd,sourcedir,destdir,name=None):                
+    # :TODO: Make this configurable (once again)
+    #if not workspace.sync:
+    #  workspace.sync = default.syncCommand
+    
+    if context.noRSync:
+        cmd=Cmd('cp','sync_'+module.name,dir.work)
+        cmd.addParameter('-Rf')
+        cmd.addParameter(sourcedir)
+        cmd.addParameter(destdir)
+    else:
+        cmd=Cmd('rsync','rsync_'+module.name,dir.work)            
+        cmd.addParameter('-r')
+        cmd.addParameter('-a')
+        cmd.addParameter('--delete')
+        cmd.addParameter(sourcedir)
+        cmd.addParameter(destdir)
+
+    log.debug(' ------ Sync\'ing : '+ module.name)
+    
+    # Perform the Sync
+    cmdResult=execute(cmd,workspace.tmpdir)
+
+    work=CommandWorkItem(type,cmd,cmdResult)
+    
+    return work        
+    
 if __name__=='__main__':
 
   # init logging

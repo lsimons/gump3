@@ -1,8 +1,8 @@
 #!/usr/bin/python
 
-# $Header: /home/stefano/cvs/gump/python/gump/__init__.py,v 1.11 2003/08/29 00:20:22 ajack Exp $
-# $Revision: 1.11 $
-# $Date: 2003/08/29 00:20:22 $
+# $Header: /home/stefano/cvs/gump/python/gump/__init__.py,v 1.12 2003/09/26 19:09:52 ajack Exp $
+# $Revision: 1.12 $
+# $Date: 2003/09/26 19:09:52 $
 #
 # ====================================================================
 #
@@ -105,7 +105,7 @@ from gump.utils import *
 # tell python what modules make up the gump package
 __all__ = ["conf", "launcher", "view", "build", "gen", "check", "update", 
 			"model", "xmlutils", "rss", "login", "xdoc", "statistics",
-			"document"]
+			"document","tools"]
 
 
 # ensure dirs exists

@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/Attic/logic.py,v 1.5 2003/09/25 17:04:52 ajack Exp $
-# $Revision: 1.5 $
-# $Date: 2003/09/25 17:04:52 $
+# $Header: /home/stefano/cvs/gump/python/gump/Attic/logic.py,v 1.6 2003/09/26 19:09:52 ajack Exp $
+# $Revision: 1.6 $
+# $Date: 2003/09/26 19:09:52 $
 #
 # ====================================================================
 #
@@ -339,7 +339,7 @@ def preprocessContext(workspace,context=GumpContext()):
         message='Workspace version ['+workspace.version+'] below expected [' + setting.ws_version + ']'
         context.addWarning(message)
         log.warning(message)   
-   
+        
     #
     # Check each project...
     #
