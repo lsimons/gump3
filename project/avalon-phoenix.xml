@@ -64,10 +64,19 @@
         <license name="LICENSE.txt"/>
         <javadoc nested="target/javadocs" module="avalon"/>
 
+           
+
         <nag>
-            <regexp pattern="/^$/" from="peter@apache.org"
+            <regexp pattern="/missing prereq/i"
+                from="Peter Donald &lt;peter@apache.org&gt;"
                 to="dev@avalon.apache.org"
                 subject="PRE-REQ FAILED for avalon-phoenix"/>
+<!--
+            <regexp pattern="/^$/"
+                from="Peter Donald &lt;peter@apache.org&gt;"
+                to="dev@avalon.apache.org"
+                subject="PRE-REQ FAILED for avalon-phoenix"/>
+-->
         </nag>
         <nag from="Peter Donald &lt;peter@apache.org&gt;"
             to="dev@avalon.apache.org"/>
