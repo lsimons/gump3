@@ -966,6 +966,10 @@
             <depend property="excalibur-testcase.jar" project="excalibur-component" id="testcase"/>
             <depend property="excalibur-i18n.jar" project="excalibur-i18n"/>
             <depend property="commons-collections.jar" project="commons-collections"/>
+            <depend property="jaxen.jar" project="jaxen"/>
+            <depend property="saxpath.jar" project="saxpath"/>
+            <depend property="jtidy.jar" project="jtidy"/>
+            <depend property="resolver.jar" project="xml-commons-resolver"/>
 
             <property name="version" value="@@DATE@@"/>
             <property name="junit.failonerror" value="true"/>
@@ -973,15 +977,12 @@
             <property name="skip.dependencies" value="true"/>
         </ant>
 
-        <depend property="jaxen-full.jar" project="jaxen"/>
         <depend project="ant" inherit="runtime"/>
         <option project="checkstyle" inherit="runtime"/>
         <depend project="junit"/>
         <depend project="avalon" runtime="true"/>
         <depend project="xml-xerces"/>
         <depend project="xml-xalan2"/>
-        <depend project="jtidy"/>
-        <depend project="xml-commons-resolver"/>
         <work nested="xmlutil/build/classes"/>
         <work nested="xmlutil/build/testclasses"/>
 
