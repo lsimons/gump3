@@ -436,7 +436,7 @@ class GumpBuilder(gump.run.gumprun.RunSpecific):
                 if artifacts.has_key(id):
                     (aid,date,extn,path)=artifacts[id]                
                     
-                    log.info('Utilize %s from Gump artifact repository for id' % (path, id))
+                    log.info('Utilize %s from Gump artifact repository for id: %s' % (path, id))
                     
                     # Stash this fallback...
                     jar.setPath(path)
