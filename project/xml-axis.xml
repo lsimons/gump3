@@ -24,6 +24,7 @@
     <depend project="commons-logging"/>
     <depend project="jakarta-servletapi"/>
     <depend project="tt-bytecode"/>
+    <depend project="httpunit"/>
     <option project="junit"/>
     <option project="jaf"/>
     <option project="javamail"/>
