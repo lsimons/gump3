@@ -435,7 +435,7 @@
   <xsl:template match="mkdir">
     <xsl:text>test ! -d </xsl:text>
     <xsl:value-of select="translate(@dir,'\','/')"/>
-    <xsl:text> &amp;&amp; eval "mkdir </xsl:text>
+    <xsl:text> &amp;&amp; eval "mkdir -p </xsl:text>
     <xsl:value-of select="translate(@dir,'\','/')"/>
     <xsl:text> $OUT 2&gt;&amp;1"&#10;</xsl:text>
   </xsl:template>
