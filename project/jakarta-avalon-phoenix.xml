@@ -62,8 +62,6 @@
     </nag>-->
     <nag from="Peter Donald &lt;peter@apache.org&gt;"
          to="avalon-dev@jakarta.apache.org"/>
-    <nag from="Peter Donald &lt;peter@apache.org&gt;"
-         to="avalon-phoenix-dev@jakarta.apache.org"/>
   </project>
 
   <project name="phoenix-qdox">
