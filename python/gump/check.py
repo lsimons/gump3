@@ -1,8 +1,8 @@
 #!/usr/bin/python
 
-# $Header: /home/stefano/cvs/gump/python/gump/check.py,v 1.15 2003/09/11 21:11:42 ajack Exp $
-# $Revision: 1.15 $
-# $Date: 2003/09/11 21:11:42 $
+# $Header: /home/stefano/cvs/gump/python/gump/check.py,v 1.16 2003/09/12 11:50:37 ajack Exp $
+# $Revision: 1.16 $
+# $Date: 2003/09/12 11:50:37 $
 #
 # ====================================================================
 #
@@ -131,10 +131,12 @@ def checkEnvironment(workspace, context=GumpContext(), exitOnError=1):
     #	rsync or cp
     #	forrest (for documentation)
     #
+    checkExecutable(workspace, context, 'env','',0)
     checkExecutable(workspace, context, context.javaCommand,'-version',exitOnError)
     checkExecutable(workspace, context, 'javac','-help',exitOnError)
+    checkExecutable(workspace, context, 'java','com.sun.tools.javac.Main -help',exitOnError,'java_compiler')    
     checkExecutable(workspace, context, 'cvs','--version',exitOnError)
-    if not context.noForrest and not checkExecutable(workspace, context, 'forrest','-help',0): 
+    if not context.noForrest and not checkExecutable(workspace, context, 'forrest','-projecthelp',0): 
         context.noForrest=1
         context.addWarning('"forrest" command not found, no xdoc output')
         
@@ -147,10 +149,11 @@ def checkEnvironment(workspace, context=GumpContext(), exitOnError=1):
     # Need to check javac classes are on CLASSPATH
     #
     
-def checkExecutable(workspace,context,command,options,mandatory):
+def checkExecutable(workspace,context,command,options,mandatory,name=None):
     ok=0
     try:
-        cmd=getCmdFromString(command+" "+options,'check_'+command)
+        if not name: name='check_'+command
+        cmd=getCmdFromString(command+" "+options,name)
         result=execute(cmd)
         ok=result.status==CMD_STATUS_SUCCESS 
         if not ok:
@@ -330,9 +333,14 @@ if __name__=='__main__':
 
   # get parsed workspace definition
   workspace=load(ws)
+ 
+  context=GumpContext()
+ 
+  #
+  checkEnvironment(workspace,context,0)
 
   # check
-  result = check(workspace, ps);
+  result = check(workspace, ps)
 
   # bye!
   sys.exit(result)

@@ -447,7 +447,8 @@ def documentProject(workspace,modulename,mdir,projectname,projectcontext,db):
     startSectionXDoc(x,'Details')
     startListXDoc(x)
     addItemXDoc(x,"Status: ", stateName(projectcontext.status))  
-    if projectcontext.cause and not projectcontext==projectcontext.cause:
+    # Not Working if projectcontext.cause and not projectcontext==projectcontext.cause:
+    if projectcontext.cause:
         addItemXDoc(x,"Root Cause:", "<link href='%s'>%s</link>" % \
             (getContextUrl(projectcontext.cause), projectcontext.cause.name))
     addItemXDoc(x,"Elapsed: ", str(projectcontext.elapsedSecs()))
@@ -534,7 +535,7 @@ def documentWorkList(x,workspace,worklist,description='Work',dir='.'):
         x.write('     <tr><!-- %s -->' % (workTypeName(work.type)))       
         x.write('      <td><link href=\'%s\'>%s</link></td>' % (getWorkRelativeUrl(work.type,work.command.name),work.command.name))    
         x.write('      <td>%s</td>' % (workTypeName(work.type))) 
-        x.write('      <td>%s</td><td>%s</td>' % (stateName(work.status), str(work.secs)))    
+        x.write('      <td>%s</td><td>%s secs.</td>' % (stateName(work.status), str(work.secs)))    
         x.write('     </tr>')
     x.write('    </table>\n')
     endSectionXDoc(x)
