@@ -18,15 +18,20 @@
         project="commons-logging" />
 
       <property name="jakarta-tomcat-connectors" reference="srcdir"
-        project="jakarta-tomcat-connectors-coyote_10"/>
+        project="jakarta-tomcat-connectors-coyote"/>
       <property name="jakarta-tomcat-jasper" reference="srcdir"
         project="jakarta-tomcat-jasper"/>
+      <property name="commons-modeler.home" path="modeler"
+        project="commons-modeler" />
+      <depend property="commons-modeler.jar" project="commons-modeler"
+        runtime="true" />
     </ant>
     <depend project="xml-xerces"/>
     <depend project="commons-logging"/>
     <depend project="ant"/>
     <depend project="jakarta-servletapi"/>
-    <depend project="jakarta-tomcat-util-coyote_10"/>
+    <depend project="commons-modeler />
+    <depend project="jakarta-tomcat-util-coyote"/>
     <depend project="jsse"/>
     <depend project="jmx"/>
     <option project="jakarta-log4j" />
