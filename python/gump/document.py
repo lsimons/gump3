@@ -784,6 +784,7 @@ def documentSummary(x,summary,description='Project(s) Summary'):
     
     startTableRowXDoc(x)        
     insertTableHeaderXDoc(x, 'Projects')
+    insertTableHeaderXDoc(x, 'Successes')
     insertTableHeaderXDoc(x, 'Failures')
     insertTableHeaderXDoc(x, 'Prereqs')
     insertTableHeaderXDoc(x, 'No Works')
@@ -793,6 +794,7 @@ def documentSummary(x,summary,description='Project(s) Summary'):
     
     startTableRowXDoc(x)        
     insertTableDataXDoc(x, summary.projects)
+    insertTableDataXDoc(x, summary.successes)
     insertTableDataXDoc(x, summary.failures)
     insertTableDataXDoc(x, summary.prereqs)
     insertTableDataXDoc(x, summary.noworks)
