@@ -342,7 +342,7 @@
         <work nested="store-impl/target/classes"/>
 
         <home nested="store-impl"/>
-        <jar name="target/cornerstore-store-impl-@@DATE@@.jar" />
+        <jar name="target/cornerstone-store-impl-@@DATE@@.jar" />
 
         <nag from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"
                 to="dev@avalon.apache.org"/>
