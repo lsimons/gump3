@@ -95,10 +95,31 @@ class UtilsTestSuite(UnitTestSuite):
         #print params.formatCommandLine()
         
     def testWrap(self):
-        line='xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'
-        #print wrapLine(line)
+        
+        eol='\n'
+        wrapper='[WRAPPED]'
+        
+        totalWrapperLen=len(eol)+len(wrapper)
+        
+        line='xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'
+        wrapped=wrapLine(line,100,eol,wrapper)
+        #print wrapped
+        self.assertNotSubstring('Ought NOT be wrapped', wrapper, wrapped)
+        self.assertEqual('Ought be wrapped once', len(line), len(wrapped))
+        
+        
+        line='xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'
+        wrapped=wrapLine(line,100,eol,wrapper)
+        #print wrapped
+        self.assertInString('Ought be wrapped', wrapper, wrapped)
+        self.assertEqual('Ought be wrapped once', len(line)+totalWrapperLen, len(wrapped))
+        
+        
         line='1234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890'
-        #print wrapLine(line)
+        wrapped=wrapLine(line,100,eol,wrapper)
+        #print wrapped
+        self.assertInString('Ought be wrapped', wrapper, wrapped)
+        self.assertEqual('Ought be wrapped twice', len(line)+(2*totalWrapperLen), len(wrapped))
         
     def testBeanAttributes(self):
         attrs=getBeanAttributes(TestBean())

@@ -293,16 +293,24 @@ def wrapLine(line,wrapLen=100, eol='\n', marker='[WRAPPED]'):
         increment=wrapLen
         totalLen=len(line)                         
         while increment > 0:
-            wrappedLine+=line[startPosn:endPosn]
-            if totalLen - endPosn > wrapLen:
+            #print `startPosn` + " : " + `endPosn` + " : (" + `totalLen` + ') : ' + `increment`
+            
+            # Add the piece
+            wrappedLine+=line[startPosn:endPosn+1]
+            
+            # We have more wrappign to do
+            if (totalLen - endPosn) > wrapLen:
                 increment=wrapLen
             else:
                 increment=(totalLen - endPosn)
+                
+            # We aren't at end
             if increment:
                 wrappedLine+=eol+marker
-            startPosn+=increment
+                
+            startPosn=endPosn+1
             endPosn+=increment
-            # print `startPosn` + " : " + `endPosn` + " : " + `totalLen` + ' : ' + `increment`
+            #print `startPosn` + " : " + `endPosn` + " : (" + `totalLen` + ') : ' + `increment`
     else:
         wrappedLine=line
             

@@ -338,6 +338,9 @@ class Project(NamedModelObject, Statable, Resultable, Dependable):
     def setHonoraryPackage(self,honorary):
         self.honoraryPackage=honorary
     
+    def isGumped(self):
+        return (not self.isPackaged()) and self.hasBuildCommand()
+        
     # provide elements when not defined in xml
     def complete(self,workspace):
         if self.isComplete(): return

@@ -263,8 +263,14 @@ class GumpEngine:
       
                 work=CommandWorkItem(WORK_TYPE_UPDATE,cmd,cmdResult)
     
+                #
                 # Update Contexts                  
+                #
                 module.performedWork(work)  
+                
+                #
+                # Might as well keep context here also.
+                #
                 repository.performedWork(work.clone())
       
                 # Update Context w/ Results  
@@ -283,13 +289,7 @@ class GumpEngine:
                         # Kinda bogus, but better than nowt (for now)
                         module.changeState(STATE_SUCCESS,REASON_UPDATE_FAILED)
                 else:
-                    module.changeState(STATE_SUCCESS)
-                    
-                    if cmdResult.hasOutput():                    
-                        # Were the contents of the repository modified?                                        
-                        module.setUpdated(1)                        
-                        log.info('Update(s) received via CVS/SVN/Jars on #[' + `moduleNo` + \
-                                '] of [' + `moduleCount` + ']: ' + module.getName())
+                    module.changeState(STATE_SUCCESS)                                                           
     
         
             #
@@ -304,8 +304,26 @@ class GumpEngine:
                 
                 # Perform the sync...
                 try:
-                    syncDirectories(sourcedir,destdir,module)
+                    # Store changes next to updates log
+                    changesFile = os.path.abspath(	\
+                                    os.path.join(	\
+                                        workspace.tmpdir,	\
+                                        'changes_to_'+gumpSafeName(module.getName())+'.txt'))
+                    
+                    modified=syncDirectories(sourcedir,destdir,module)
+                    
+                    # We are good to go...
                     module.changeState(STATE_SUCCESS)
+                    
+                    # Were the contents of the repository modified?                                        
+                    if modified:
+                        module.setUpdated(1)                        
+                        log.info('Update(s) received via CVS/SVN/Jars on #[' + `moduleNo` + \
+                                '] of [' + `moduleCount` + ']: ' + module.getName())
+                                
+                        # Log of changes...
+                        if os.path.exists(changesFile):                               
+                            catFileToFileHolder(module, changesFile, FILE_TYPE_LOG) 
                 except:
                     module.changeState(STATE_FAILED,REASON_SYNC_FAILED)
                     
@@ -676,30 +694,24 @@ class GumpEngine:
             for report in project.getReports():
                 reportDir=report.getResolvedPath() 
                 project.addInfo('Project Reports in: ' + reportDir)
-                catDirectoryContentsToFileHolder(project,reportDir,FILE_TYPE_OUTPUT)
+                catDirectoryContentsToFileHolder(project, reportDir, FILE_TYPE_OUTPUT)
     
         # Maven generates a maven.log...
         if project.hasMaven() and not project.isPackaged():
             pomFile=project.locateMavenProjectFile() 
             if os.path.exists(pomFile):                               
                 project.addDebug('Maven POM in: ' + pomFile) 
-                catFileToFileHolder(project,pomFile,	\
-                        FILE_TYPE_CONFIG,	\
-                        os.path.basename(pomFile)) 
+                catFileToFileHolder(project, pomFile, FILE_TYPE_CONFIG) 
                     
             projpFile=project.locateMavenProjectPropertiesFile() 
             if os.path.exists(projpFile):                                                
                 project.addDebug('Maven project properties in: ' + projpFile)                
-                catFileToFileHolder(project,pomFile,	\
-                        FILE_TYPE_CONFIG,	\
-                        os.path.basename(projpFile)) 
+                catFileToFileHolder(project, pomFile, FILE_TYPE_CONFIG) 
             
             logFile=project.locateMavenLog()                                
             if os.path.exists(logFile):
                 project.addDebug('Maven Log in: ' + logFile)                
-                catFileToFileHolder(project,logFile,	\
-                        FILE_TYPE_LOG,	\
-                        os.path.basename(logFile))
+                catFileToFileHolder(project, logFile, FILE_TYPE_LOG)
             
                         
     def performProjectPackageProcessing(self, run, project, stats):
@@ -813,7 +825,7 @@ class GumpEngine:
     
         ******************************************************************
         
-            THE DOCUMENATION INTERFACE
+            THE DOCUMENTATION INTERFACE
         
         ******************************************************************
     

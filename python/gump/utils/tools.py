@@ -148,21 +148,33 @@ def catFileToFileHolder(holder,file,type=FILE_TYPE_MISC,name=None):
     return reference.exists() and reference.isNotDirectory()
 
    
-def copyDirectories(sourcedir,destdir,annotatable=None):   
+def copyDirectories(sourcedir,destdir,annotatable=None,output=None):   
+    """    
+        Copy any changed files, report if work done        
+    """
+    changes=0
     try:
-        copy=Copy(sourcedir,destdir)        
-        copy.execute()    
+        copy=Copy(sourcedir,destdir,output)        
+        changes=copy.execute()    
     finally:
         if annotatable:
-            transferAnnotations(copy, annotatable)        
-    
-def syncDirectories(sourcedir,destdir,annotatable=None):                
+            transferAnnotations(copy, annotatable)     
+                      
+    return changes
+       
+def syncDirectories(sourcedir,destdir,annotatable=None,output=None):                
+    """
+        Sync two directories, report if difference
+        [and hence changes] occured.
+    """
+    changes=0
     try:
-        sync=Sync(sourcedir,destdir)        
-        sync.execute()    
+        sync=Sync(sourcedir,destdir,output)        
+        changes=sync.execute()    
     finally:
         if annotatable:
-            transferAnnotations(sync, annotatable)    
+            transferAnnotations(sync, annotatable)                
+    return changes
             
 def wipeDirectoryTree(dir):
     log.info('Wipe Directory [' + `dir` + ']') 
