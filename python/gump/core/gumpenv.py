@@ -133,7 +133,6 @@ class GumpEnvironment(Annotatable,Workable,Propogatable):
             self.noDepot=True
             self.addWarning('DEPOT_HOME environmental variable not found, no depot downloads.')
         
-
         self.depotHome  = getDepotHome(False)
             
         #
@@ -190,7 +189,8 @@ class GumpEnvironment(Annotatable,Workable,Propogatable):
         self.changeState(STATE_SUCCESS)
     
     def getJavaProperties(self):
-        if not self.javaProperties is NoneType: return self.javaProperties
+        if not isinstance(self.javaProperties,NoneType): 
+            return self.javaProperties
 
         self.checkEnvironment()
         
@@ -221,7 +221,7 @@ class GumpEnvironment(Annotatable,Workable,Propogatable):
     
         cmd=self.javaCommand + ' -cp ' + dir.tmp + ' sysprop'
         self.javaProperties = \
-	    dict(re.findall('(.*?): (.*)', commands.getoutput(cmd)))
+	        dict(re.findall('(.*?): (.*)', commands.getoutput(cmd)))
         JAVA_CLASS=JAVA_SOURCE.replace('.java','.class')
         if os.path.exists(JAVA_CLASS):
             os.unlink(JAVA_CLASS)

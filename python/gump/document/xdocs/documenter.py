@@ -2197,6 +2197,10 @@ This page helps Gumpmeisters (and others) observe community progress.
             
             self.insertLink(work,workable,workRow.createData())  
             workRow.createData(stateDescription(work.state))
+            
+            # Colour...
+            workRow.setStyle(stateName(work.state).upper())
+                
             if isinstance(work,TimedWorkItem):      
                 workRow.createData(secsToDateTime(work.result.start_time))
                 workRow.createData(secsToElapsedTimeString(work.getElapsedSecs()))
