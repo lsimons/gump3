@@ -45,15 +45,10 @@ import gump.core.config
 
 class Workspace(NamedModelObject, PropertyContainer, Statable, Resultable):
     """Gump Workspace"""
-    def __init__(self,xmlworkspace):
-    
-        # Workspaces
-        name='Unnamed'
-        if xmlworkspace:
-            if xmlworkspace.getName():
-                name=xmlworkspace.getName()
-            
-    	NamedModelObject.__init__(self,name,xmlworkspace)    
+    def __init__(self,name,dom):
+                
+    	NamedModelObject.__init__(self,name,dom)   
+    	 
     	PropertyContainer.__init__(self)    
     	Statable.__init__(self)
     	Resultable.__init__(self)
@@ -573,6 +568,30 @@ class Workspace(NamedModelObject, PropertyContainer, Statable, Resultable):
     def getSourceControlStagingDirectory(self):
         return self.cvsdir
 
+    def getObjectForTag(self,tag,name=None):
+        print "***************** Instantiate for ", tag, name    	
+        
+        object=None
+        
+        if 'profile' == tag:
+            if self.profiles.has_key(name):
+                object=self.profiles[name]
+            else:
+                object=Profile(name)
+                self.profiles[name]=object            
+        
+        # Who I am...
+        if object and hasattr(object,'setWorkspace'):
+            object.setWorkspace(self)
+            
+        return object
+        
+        #self.repositories={}
+        #self.modules={}
+        #self.projects={}
+        #self.profiles={}
+        #self.servers={}
+        #self.trackers={}
 
 class WorkspaceStatistics(Statistics):
     """Statistics Holder"""

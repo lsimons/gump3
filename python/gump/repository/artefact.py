@@ -15,7 +15,7 @@
 
 """
 
-    An Artefact Repository 
+    An Artifact Repository 
     
 """
 
@@ -28,7 +28,7 @@ from gump.model import *
 from shutil import copyfile
 
 
-class ArtefactRepository:
+class ArtifactRepository:
     """Contains Repository Contents"""
     def __init__(self,root):
         self.root=root
@@ -63,16 +63,16 @@ class ArtefactRepository:
         if not os.path.exists(jdir): os.mkdir(jdir)
         return jdir  
         
-    def publish(self,group,artefact):
+    def publish(self,group,artifact):
         
         # Locate (and make if needed) group.
         cdir=self.getGroupDir(group)
         
         # Extract name, to make relative to group
-        artefactName=os.path.basename(artefact)
-        newArtefact=os.path.join(cdir,artefactName)
+        artifactName=os.path.basename(artifact)
+        newArtifact=os.path.join(cdir,artifactName)
         
         # Do the transfer..
-        copyfile(artefact,newArtefact)
+        copyfile(artifact,newArtifact)
         
   

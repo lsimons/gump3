@@ -49,7 +49,7 @@ class Repository(NamedModelObject, Statable):
             else:
                 raise RuntimeError, 'No URL on SVN repository: ' + self.getName()
             self.web=xml.transfer('web')
-        elif 'artefact'==xml.type:
+        elif 'artifact'==xml.type:
             self.type='Java Archives'
             if hasattr(xml,'url'):
                 self.url=str(xml.url)

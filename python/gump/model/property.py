@@ -160,8 +160,8 @@ class PropertySet(Ownable):
         return self.properties[name]
         
     def hasProperties(self):
-        if self.properties: return 1
-        return 0
+        if self.properties: return True
+        return False
         
     def getProperties(self):
         return self.properties.values()
@@ -210,11 +210,10 @@ class PropertyContainer:
     def importSysProperty(self,xmlproperty):
         self.sysproperties.importProperty(xmlproperty)
                 
-    def importProperties(self,xml):
-        """ Import all properties (from XML to model). """
-        if hasattr(xml,'property'):
-            for xmlproperty in xml.property:
-                self.importProperty(xmlproperty)
+    def importProperties(self,dom):
+        """ Import all properties (from DOM to model). """
+        for element in dom.getElementsByName('property'):
+                self.importProperty(element)
                 
         if hasattr(xml,'sysproperty'):
             for xmlproperty in xml.sysproperty:

@@ -26,7 +26,7 @@
 
   <repository href="repository1.xml"/>
   <repository href="svn_repository1.xml"/>
-  <repository href="artefact_repository1.xml"/>
+  <repository href="artifact_repository1.xml"/>
 
   <project name='package1' package='package1' />
   

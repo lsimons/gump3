@@ -174,7 +174,7 @@ def secsToElapsedTimeTriple(secs):
 def secsToElapsedTimeString(secs):
     return elapsedTimeTripleToString(secsToElapsedTimeTriple(secs))           
     
-def elapsedTimeTripleToString(elapsed):
+def elapsedTimeTripleToString(elapsed,noTimeText=None):
     elapsedString=''
     
     (hours,mins,secs) = elapsed
@@ -193,6 +193,9 @@ def elapsedTimeTripleToString(elapsed):
         if elapsedString: elapsedString += ' '    
         elapsedString += str(secs)+' sec'
         if secs > 1: elapsedString += 's'
+        
+    if not elapsedString and noTimeText:
+        elapsedString=noTimeText
     
     return elapsedString    
     

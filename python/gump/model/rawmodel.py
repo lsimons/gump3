@@ -97,7 +97,7 @@ class XMLModule(Named):
   def init(self):
     self.cvs=Single(GumpXMLModelObject)
     self.svn=Single(GumpXMLModelObject)
-    self.artefacts=Single(GumpXMLModelObject)
+    self.artifacts=Single(GumpXMLModelObject)
     self.url=Single(GumpXMLModelObject)
     self.description=Single(GumpXMLModelObject)
     self.redistributable=Single(GumpXMLModelObject)

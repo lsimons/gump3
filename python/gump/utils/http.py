@@ -51,7 +51,7 @@ urllib._urlopener = GumpURLopener()
 ###############################################################################
 
   
-def cacheHTTP(href,cacheDir=dir.cache,optimize=0):
+def cacheHTTP(href,cacheDir=dir.cache,optimize=False):
     """returns the path of the file in the href, cached if remote"""
 
     #if its a local file get it locally

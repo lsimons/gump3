@@ -126,7 +126,7 @@ class ModuleSvn(ModelObject):
     def getViewUrl(self):
         return self.getRootUrl()
          
-class ModuleArtefacts(ModelObject):
+class ModuleArtifacts(ModelObject):
     def __init__(self,xml,repository):
         ModelObject.__init__(self,xml)
         
@@ -334,15 +334,15 @@ class Module(NamedModelObject, Statable, Resultable, Positioned):
                         self.addError('No such repository in w/s ['+ str(repoName) +'] on [' \
                                 + self.getName() + ']')                 
                                                 
-            elif self.xml.artefacts:                
-                repoName=self.xml.artefacts.repository
+            elif self.xml.artifacts:                
+                repoName=self.xml.artifacts.repository
                 if repoName:
                     if workspace.hasRepository(repoName):
                         # It references this repository...
                         repo=workspace.getRepository(repoName)	
                         self.repository=repo	
                         repo.addModule(self)
-                        self.artefacts=ModuleArtefacts(self.xml.artefacts,repo)
+                        self.artifacts=ModuleArtifacts(self.xml.artifacts,repo)
                     else:
                         self.changeState(STATE_FAILED,REASON_CONFIG_FAILED)               
                         self.addError('No such repository in w/s ['+ str(repoName) +'] on [' \
@@ -539,7 +539,7 @@ class Module(NamedModelObject, Statable, Resultable, Positioned):
             return 'http://cvs.apache.org/viewcvs.cgi/gump/' + location
         
     def isUpdatable(self):
-        return self.hasCvs() or self.hasSvn() or self.hasArtefacts()
+        return self.hasCvs() or self.hasSvn() or self.hasArtifacts()
                 
     def hasCvs(self):
         if hasattr(self,'cvs') and self.cvs: return 1
@@ -549,8 +549,8 @@ class Module(NamedModelObject, Statable, Resultable, Positioned):
         if hasattr(self,'svn') and self.svn: return 1
         return 0
         
-    def hasArtefacts(self):
-        if hasattr(self,'artefacts') and self.artefacts: return 1
+    def hasArtifacts(self):
+        if hasattr(self,'artifacts') and self.artifacts: return 1
         return 0
         
     # Where the contents (at the repository) Modified?

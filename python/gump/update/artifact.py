@@ -45,7 +45,7 @@ from gump.model.state import *
 # Classes
 ###############################################################################
 
-class ArtefactUpdater(RunSpecific):
+class ArtifactUpdater(RunSpecific):
     
     def __init__(self,run):
         RunSpecific.__init__(self,run)
@@ -53,17 +53,17 @@ class ArtefactUpdater(RunSpecific):
     def updateModule(self,module):
         """
         
-            Perform an Artefact update on a module
+            Perform an Artifact update on a module
             
         """            
-        log.info('Perform Artefact Update on #[' + `module.getPosition()` + \
+        log.info('Perform Artifact Update on #[' + `module.getPosition()` + \
                         '] : ' + module.getName())
     
-        # Did we 'downlaod artefacts' already?
+        # Did we 'downlaod artifacts' already?
         exists	=	os.path.exists(module.getSourceControlStagingDirectory())
        
         #  Get the Update Command
-        cmd = self.getArtefactUpdateCommand(module)
+        cmd = self.getArtifactUpdateCommand(module)
                                
         # Execute the command and capture results        
         cmdResult=execute(cmd, module.getWorkspace().tmpdir)
@@ -96,21 +96,21 @@ class ArtefactUpdater(RunSpecific):
         return module.okToPerformWork()                                                 
          
     def preview(self,module):            
-        command = self.getArtefactUpdateCommand(module)
+        command = self.getArtifactUpdateCommand(module)
         command.dump()                                            
          
-    def getArtefactUpdateCommand(self,module):
+    def getArtifactUpdateCommand(self,module):
         
-        log.debug("Artefact Update Module " + module.getName() + \
+        log.debug("Artifact Update Module " + module.getName() + \
                        ", Repository Name: " + str(module.repository.getName()))
 
-        url=module.artefacts.getRootUrl()
-        group=module.artefacts.getGroup()
+        url=module.artifacts.getRootUrl()
+        group=module.artifacts.getGroup()
       
-        log.debug("Artefact URL: [" + url + "] on Repository: " + module.repository.getName())
+        log.debug("Artifact URL: [" + url + "] on Repository: " + module.repository.getName())
      
         #
-        # Prepare Artefact checkout/update command...
+        # Prepare Artifact checkout/update command...
         # 
         cmd=Cmd('update.py',	\
                 'update_'+module.getName(),	\
@@ -125,8 +125,8 @@ class ArtefactUpdater(RunSpecific):
         #
         if 	not module.isDebug() 	\
             and not module.isVerbose() \
-            and not module.artefacts.isDebug()	\
-            and not module.artefacts.isVerbose():    
+            and not module.artifacts.isDebug()	\
+            and not module.artifacts.isVerbose():    
             cmd.addParameter('-q')
 
         return cmd

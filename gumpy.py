@@ -359,6 +359,8 @@ try:
             log.write('- GUMP mail to        : ' + mailto + '\n')
         if logurl:
             log.write('- GUMP log is @       : ' + logurl + '\n')
+        if logdir:
+            log.write('- GUMP log is @       : ' + logdir + '\n')
 
         #
         # Add Gump to Python Path...
@@ -447,7 +449,8 @@ finally:
             catFile(publishedLog, logFile, logTitle)    
             publishedLog.close()
             published=1
-        except:
+        except Exception, detauls:
+            print 'Failed to publish log file. ', str(details)    
             published=0
     else:
         print 'Unable to publish log file.'

@@ -15,7 +15,7 @@
 # limitations under the License.
 
 #
-# $Header: /home/stefano/cvs/gump/python/gump/core/gumpinit.py,v 1.3 2004/05/21 23:15:02 ajack Exp $
+# $Header: /home/stefano/cvs/gump/python/gump/core/gumpinit.py,v 1.3.2.1 2004/06/09 19:28:44 ajack Exp $
 # 
 
 """
@@ -36,10 +36,10 @@ from gump.utils import initializeGarbageCollection
 ###############################################################################
 # Initialize
 ###############################################################################
-def gumpinit():
+def gumpinit(level=None):
         
     #set verbosity to show all messages of severity >= default.logLevel
-    log.setLevel(default.logLevel)
+    log.setLevel(level or default.logLevel)
 
     # Ensure dirs exists,
     basicConfig()

@@ -1,0 +1,288 @@
+#!/usr/bin/env python
+
+# Copyright 2003-2004 The Apache Software Foundation
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+# 
+#     http://www.apache.org/licenses/LICENSE-2.0
+# 
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+"""
+    This module contains information on
+"""
+import os.path
+import time
+
+import xml.dom.minidom
+
+from gump import log
+from gump.utils.tasks import *
+from gump.utils.note import transferAnnotations, Annotatable
+from gump.utils.timing import TimeStampSet
+
+
+class ObjectKey:
+    def __init__(self,tag,name):
+        self.name=name
+        self.tag=tag
+        
+    # Same if same tag, and same name
+    def __eq__(self,other):
+        return self.__class__ == other.__class__ and \
+                self.tag == other.tag and \
+                self.name == other.name
+        
+    def __cmp__(self,other):
+        return cmp(self.tag,other.tag) or cmp(self.name,other.name)
+        
+    def __hash__(self):
+        return hash(self.tag)+ hash(self.name)
+        
+    def __repr__(self):
+        return str(self)
+        
+    def __str__(self):
+        return self.tag+':'+self.name
+
+    def getTag(self):
+        return self.tag
+        
+    def getName(self):
+        return self.name
+        
+
+class XmlLoader:
+    def __init__(self,basedir='.',cache=True):
+        self.annotations=[]
+        self.basedir=basedir
+        self.cache=cache
+        
+    def loadFile(self,file,base='.',tag=None):
+        """ Builds a GOM in memory from the xml file. Return the generated GOM. """
+        
+        if not os.path.exists(file):
+            raise IOError, 'Metadata file [%s] not found.' % file 
+    
+        return self.load(file,tag)
+    
+    def loadFromUrl(self,url,base='.',tag=None):
+        """Builds in memory from the xml file. Return the generated objects."""
+    
+        basedir=base or self.basedir
+            
+        # Download (relative to base)
+        if not url.startswith('http://'):
+            from gump.core.config import gumpPath
+            urlFile=gumpPath(url,basedir);
+        else:
+            from gump.utils.http import cacheHTTP
+            urlFile=cacheHTTP(url,optimize=self.cache)
+        
+        log.debug('Launch XML/DOM parser onto \'URL\' [%s] [Base:%s] ' \
+                    % (url,basedir))   
+        
+        return self.load(urlFile,tag)
+        
+    def load(self,file,tag=None):
+        """
+        
+            Builds in memory from the xml file.
+            
+        """
+
+        if not os.path.exists(file):
+            log.error('Metadata file ['+file+'] not found')
+            raise IOError, 'Metadata File %s not found.' % file 
+            
+        log.debug("Launch XML/DOM Parser onto : " + file);
+              
+        dom=xml.dom.minidom.parse(file)
+        
+        # Do tag validation (if requested)        
+        xtag=dom.documentElement.tagName
+        if tag:
+            if not tag == xtag:
+                dom.unlink()
+                raise IOError, 'Incorrect XML Element, expected %s found %s.' % (tag,xtag)        
+                
+        log.debug("Parsed : " + file);
+        
+        return dom
+    
+class XmlResult:
+    def __init__(self,dom):
+        self.dom=dom
+        
+    def getDom(self):
+        return self.dom
+        
+    def __str__(self):
+        return '<'+self.dom.documentElement.tagName
+        
+    def setObject(self,object):
+        self.object=object
+        
+    def getObject(self):
+        return self.object
+
+class XmlTask(Task):
+    def __init__(self,name,tag,basedir=None):
+        Task.__init__(self,name)
+        self.tag=tag
+        self.basedir=basedir
+        
+    def getTag(self):
+        return self.tag
+        
+    def getBaseDir(self):
+        return self.basedir
+        
+class XmlUrlTask(XmlTask):
+    def __init__(self,tag,url,basedir=None):
+        XmlTask.__init__(self,url,tag,basedir)
+        self.url=url
+        
+    def getUrl(self):
+        return self.url
+                
+class XmlFileTask(XmlTask):
+    def __init__(self,tag,file,basedir=None):
+        XmlTask.__init__(self,file,tag,basedir)
+        self.file=file
+        
+    def getFile(self):
+        return self.file
+        
+class XmlWorker:   
+
+    def __init__(self):
+        self.loader=XmlLoader()
+        
+    def perform(self,task):
+        
+        try:
+            if isinstance(task,XmlFileTask):
+                dom=self.loader.loadFile(
+                            task.getFile(),task.getBaseDir())
+            elif isinstance(task,XmlUrlTask):
+                dom=self.loader.loadFromUrl(
+                            task.getUrl(),task.getBaseDir())
+            
+            # Process DOM and extract new tasks...    
+            self.postProcess(task,dom)        
+            
+            task.setResult(XmlResult(dom))
+        except Exception, details:
+            task.setFailed(str(details))
+      
+    def postProcess(self,task,dom):        
+        log.debug("Post Process DOM : " + `dom`)   
+        
+        taskList=task.getOwner()
+        
+        # Traverse looking for href='... tasks to queue
+        for child in dom.documentElement.childNodes:
+            if child.nodeType == xml.dom.Node.ELEMENT_NODE:
+                if child.hasAttribute('href'):
+                    if not 'url' == child.tagName:
+                        newTask=XmlUrlTask(	child.tagName,
+                                        child.getAttribute('href'),
+                                        task.getBaseDir())
+                        newTask.setParentTask(task)
+                        taskList.addTask(newTask)
+            elif child.nodeType == xml.dom.Node.COMMENT_NODE:
+                pass # log.debug("Skip Comment: " + `child.nodeType`) 
+            elif child.nodeType == xml.dom.Node.ATTRIBUTE_NODE:
+                pass # log.debug("Skip Attribute: " + `child.nodeType`) 
+            elif child.nodeType == xml.dom.Node.TEXT_NODE:
+                pass # log.debug("Skip Text: " + `child.nodeType`)          
+            else:
+                log.debug("Skip Node: " + `child.nodeType` + ' ' + `child`)                       
+    
+class ModelLoader:
+    def __init__(self,cache=True):
+        self.annotations=[]
+        self.xmlloader=XmlLoader(cache)
+        
+        self.tasks=TaskList('Model Loader',self)
+        self.times=TimeStampSet("ModelLoader")
+        
+    def loadFile(self,file,cls,tag=None):
+        base=os.path.dirname(file)
+        self.tasks.addTask(XmlFileTask(tag,file,base))
+        self.performTasks()        
+        return self.postProcess(cls)
+        
+    def loadFromUrl(self,url,cls,tag=None):
+        self.tasks.addTask(XmlUrlTask(tag,url))
+        self.performTasks()                   
+        return self.postProcess(cls)
+        
+    def postProcess(self,cls):
+        
+        rootObject=None
+        
+        for task in self.tasks.getPerformed():
+            if not task.isFailed():
+                dom=task.getResult().getDom()
+                
+                # What are we workign with
+                element=dom.documentElement
+                name=None
+                if element.hasAttribute('name'):            
+                    name=element.getAttribute('name')
+        
+                print 'Post-Process Element ', element.tagName, ' ', name
+                
+                # See what the parent has to say about this...
+                parent=None
+                parentObject=None
+                if task.hasParentTask():
+                    parent=task.getParentTask()
+                if parent:
+                    parentObject=parent.getResult().getObject()
+                    
+                if parentObject:
+                    object=parentObject.getObjectForTag(element.tagName,name)
+                else:
+                    if name:
+                        object=cls(name,dom)
+                    else:
+                        object.cls(dom)
+                    rootObject=object
+               
+                if object:
+                    task.getResult().setObject(object)
+            
+
+        # Cook the raw model...                    
+        rootObject.complete(dom)
+             
+        # Copy over any XML errors/warnings
+        #if isinstance(object,Annotatable):
+        #    transferAnnotations(parser, object)
+                     #object.complete()
+        
+    def performTasks(self):
+        worker=XmlWorker()
+        self.tasks.perform(worker)
+        self.tasks.dump()
+        
+# static void main()
+if __name__=='__main__':
+
+    import logging
+    from gump.core.gumpinit import gumpinit
+    gumpinit(logging.DEBUG)   
+    
+    import sys
+    from gump.model.workspace import Workspace
+    loader=ModelLoader()
+    loader.loadFile(sys.argv[1] or 'workspace.xml',Workspace)

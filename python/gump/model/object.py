@@ -31,7 +31,7 @@ from gump.model.propagation import *
 
 class ModelObject(Annotatable,Workable,FileHolder,Propogatable,Ownable):
     """Base model object for a single entity"""
-    def __init__(self,xml,owner=None):
+    def __init__(self,dom,owner=None):
                 
         # Can scribble on this thing...
     	Annotatable.__init__(self)
@@ -49,10 +49,10 @@ class ModelObject(Annotatable,Workable,FileHolder,Propogatable,Ownable):
         Ownable.__init__(self,owner)
 
         # The XML model
-    	self.xml=xml
+    	self.dom=dom
     	
-    	self.debug=None
-    	self.verbose=None
+    	self.debug=False
+    	self.verbose=False
     	
     	self.completionPerformed=0
     	
@@ -64,7 +64,7 @@ class ModelObject(Annotatable,Workable,FileHolder,Propogatable,Ownable):
         Ownable.__del__(self)
         
         # No longer need this...
-        self.xml=None
+        self.dom=None
         
     def isComplete(self):
         return self.completionPerformed
@@ -76,7 +76,7 @@ class ModelObject(Annotatable,Workable,FileHolder,Propogatable,Ownable):
         self.debug=debug
        
     def isDebug(self):
-        return self.debug or hasattr(self.xml,'debug')
+        return self.debug or hasattr(self.dom,'debug')
         
     def setVerbose(self,verbose):
         self.verbose=verbose
@@ -139,13 +139,17 @@ class ModelObject(Annotatable,Workable,FileHolder,Propogatable,Ownable):
             for object in self.getChildren():
                 object.aggregateStates(states)
             
-        return states;                
+        return states
+        
+    def getObjectForTag(self,tag,name=None):
+        pass
+        
                                 
 class NamedModelObject(ModelObject):
     """Context for a single entity"""
-    def __init__(self,name,xml,owner=None):
+    def __init__(self,name,dom,owner=None):
                 
-    	ModelObject.__init__(self,xml,owner)
+    	ModelObject.__init__(self,dom,owner)
     	
     	# Named
     	self.name=name
