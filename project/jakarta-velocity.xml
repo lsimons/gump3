@@ -21,6 +21,7 @@
   <depend project="junit"/>
   <depend project="jakarta-avalon-logkit"/>
   <depend project="jakarta-log4j"/>
+  <depend project="commons-collections"/>
 
   <home nested="bin"/>
   <jar  name="velocity-gump.jar"/>
