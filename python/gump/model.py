@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/Attic/model.py,v 1.11 2003/05/05 17:46:00 rubys Exp $
-# $Revision: 1.11 $
-# $Date: 2003/05/05 17:46:00 $
+# $Header: /home/stefano/cvs/gump/python/gump/Attic/model.py,v 1.12 2003/05/07 12:42:22 rubys Exp $
+# $Revision: 1.12 $
+# $Date: 2003/05/07 12:42:22 $
 #
 # ====================================================================
 #
@@ -63,7 +63,7 @@ import os,types,traceback,logging
 from gump import GumpBase, Named, Single, Multiple
 from gump.conf import dir, default
 
-    
+
 ###############################################################################
 # Initialize
 ###############################################################################
@@ -139,6 +139,7 @@ class Module(Named):
     self.srcdir=os.path.join(str(workspace.basedir),self.srcdir or self.name)
     for project in self.project:
       if not project.module: project.module=self.name
+      if not project.url and self.url: project.url=self.url
 
 # represents a <repository/> element
 class Repository(Named):
@@ -200,7 +201,7 @@ class Project(Named):
         self.home=os.path.normpath(os.path.join(srcdir,self.home.nested))
       elif self.home.parent:
         self.home=os.path.normpath(os.path.join(workspace.basedir,self.home.parent))
-    elif not self.home: 
+    elif not self.home:
       if type(self.package) in types.StringTypes:
         self.home=os.path.join(workspace.pkgdir,self.package)
       elif self.module:
@@ -364,7 +365,7 @@ class Property(GumpBase):
       except:
         log.debug( traceback.format_stack() )
         log.warn( "Cannot resolve srcdir of " + self.project + " for " + project.name)
-        
+
     elif self.reference=='jarpath':
       try:
         target=Project.list[self.project]
@@ -385,7 +386,7 @@ class Property(GumpBase):
         else:
           raise str("Project %s referenced by %s defines no jars as output" %
             (target.name, project.name))
-        
+
       except:
         log.debug( traceback.format_stack() )
         log.warn( "Cannot resolve jarpath of " + self.project + " for " + project.name)
@@ -393,7 +394,7 @@ class Property(GumpBase):
 # TODO: set up the below elements with defaults using complete()
 
 # represents a <depend/> element
-class Depend(GumpBase): 
+class Depend(GumpBase):
   def jars(self):
     result=[]
     ids=(self.ids or '').split(' ')

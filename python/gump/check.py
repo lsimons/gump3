@@ -128,12 +128,11 @@ def peekInGlobalProfile(missing):
       print "  ",currentmodule.description
       print
       print "   project url: " , currentproject.url.href
-      print "   module  url: " , currentmodule.url.href
       print "   module  cvs: " , currentmodule.cvsroot()
       if currentmodule.redistributable:
         print  
         print "   NOTE: You can also get it in the Gump jar repository." 
-        print "         See http://jakarta.apache,org/gump/ for details."
+        print "         See http://jakarta.apache.org/gump/ for details."
         
     else:
       print "   Gump doesn't know about it. Or it's wrong, or you have to "
