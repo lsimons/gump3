@@ -21,6 +21,7 @@
   <depend project="xml-xalan1"/>
   <depend project="jsse"/>
   <depend project="kawa"/>
+  <depend project="jdbc"/>
   <depend project="xml-stylebook1"/>
 
   <home nested="build/lib"/>
