@@ -1,8 +1,8 @@
 #!/usr/bin/python
 
-# $Header: /home/stefano/cvs/gump/python/gump/build.py,v 1.32 2003/11/04 16:15:03 ajack Exp $
-# $Revision: 1.32 $
-# $Date: 2003/11/04 16:15:03 $
+# $Header: /home/stefano/cvs/gump/python/gump/build.py,v 1.33 2003/11/04 17:34:13 ajack Exp $
+# $Revision: 1.33 $
+# $Date: 2003/11/04 17:34:13 $
 #
 # ====================================================================
 #
@@ -120,53 +120,17 @@ def buildProjectList(workspace, projects, context, nosync=None):
 
   return buildProjectSequence(workspace,sequence,context,nosync)
   
-def buildProjectSequence(workspace,sequence,context,nosync=None):
+def buildProjectSequence(workspace,sequence,context):
     
   log.debug('Total Project Sequence (i.e. build order):');
   for p in sequence:
     log.debug('  Sequence : ' + p.name)
-
-  # synchronize @ module level
-  if not nosync:  syncWorkDir( workspace, sequence, context )
 
   # build
   buildProjects( workspace, sequence, context )
   
   return context.status
 
-
-def syncWorkDir( workspace, sequence, context ):
-  """copy the raw module (project) materials from source to work dir (hopefully using rsync, cp is fallback)"""
-
-  log.debug('--- Synchronizing work directories with sources')
-
-  modules=getModulesForProjectList(sequence)
-  
-  log.debug('Total Module Sequence:');
-  for m in modules:
-    log.debug('  Modules : ' + m.name)    
-
-  for module in modules:
-      
-    (mctxt) = context.getModuleContextForModule(module)
-      
-    if mctxt.okToPerformWork() \
-        and Module.list.has_key(module.name) \
-        and not switch.failtesting:
-            
-        module=Module.list[module.name];
-        sourcedir = os.path.abspath(os.path.join(workspace.cvsdir,module.name)) # todo allow override
-        destdir = os.path.abspath(workspace.basedir)
-        
-        work=syncDirectories(context,workspace,WORK_TYPE_SYNC,dir.work,sourcedir,destdir,module.name)
-        
-        mctxt.performedWork(work)
-
-        # Update Context w/ Results  
-        if not work.result.status==CMD_STATUS_SUCCESS:
-            mctxt.propagateErrorState(STATUS_FAILED,REASON_SYNC_FAILED)
-        else:
-            mctxt.status=STATUS_SUCCESS
 
 def buildProjects( workspace, sequence, context ):
   """actually perform the build of the specified project and its deps"""
@@ -316,10 +280,6 @@ if __name__=='__main__':
   ws=args[0]
   ps=args[1]
   
-  # Allow a nosync option
-  nosync=None
-  if len(args) > 2: nosync=args[2]
-  
   # A context to work into...
   context=GumpContext()
   
@@ -329,7 +289,7 @@ if __name__=='__main__':
   #
   # Perform build tasks
   #
-  result = build(workspace, ps, context, nosync)
+  result = build(workspace, ps, context)
 
   # bye!
   sys.exit(result)

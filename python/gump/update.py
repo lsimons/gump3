@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/update.py,v 1.18 2003/10/19 17:46:36 ajack Exp $
-# $Revision: 1.18 $
-# $Date: 2003/10/19 17:46:36 $
+# $Header: /home/stefano/cvs/gump/python/gump/update.py,v 1.19 2003/11/04 17:34:13 ajack Exp $
+# $Revision: 1.19 $
+# $Date: 2003/11/04 17:34:13 $
 #
 # ====================================================================
 #
@@ -94,13 +94,6 @@ shifts = [
 def mangle(passwd):
   return 'A' + ''.join(map(chr,[shifts[ord(c)] for c in str(passwd or '')]))
 
-def update(workspace, expr='*', context=GumpContext()):
-        
-  log.debug('--- Updating work directories from (CVS) Repositories ')
-
-  modules = getModulesForProjectList(getBuildSequenceForProjects(getProjectsForProjectExpression(expr)))
-      
-  return updateModules(workspace,modules,context)
 
 def readLogins():
   # read the list of cvs repositories that the user is already logged into
@@ -159,7 +152,19 @@ def loginToRepositoryOnDemand(repository,root,logins):
                 + ' @ ' + root + ' method: ' + str(repository.root.method) )            
     except Exception, detail:
         log.error('Failed to loginToRepositoryOnDemand. Details: ' + str(detail))
-                     
+                   
+def update(workspace, expr='*', context=GumpContext()):
+        
+  log.debug('--- Updating work directories from (CVS) Repositories ')
+
+  modules = getModulesForProjectList(getBuildSequenceForProjects(getProjectsForProjectExpression(expr)))
+      
+  # Update CVS dirs from repositories
+  updateModules(workspace,modules,context)
+  
+  # Sync the CVS sub-dirs with work dirs
+  syncWorkDirs(workspace,modules,context)
+    
 def updateModules(workspace, modules, context=GumpContext()):
  
   os.chdir(workspace.cvsdir)
@@ -265,6 +270,38 @@ def updateModules(workspace, modules, context=GumpContext()):
           
           mctxt.propagateErrorState(STATUS_FAILED,REASON_UPDATE_FAILED)  
         
+
+def syncWorkDirs( workspace, modules, context ):
+  """copy the raw module (project) materials from source to work dir (hopefully using rsync, cp is fallback)"""
+
+  log.debug('--- Synchronizing work directories with sources')  
+
+  for module in modules:
+    
+    # If no CVS, nothing to sync   
+    if not module.cvs: continue
+    
+    (mctxt) = context.getModuleContextForModule(module)
+      
+    if mctxt.okToPerformWork() \
+        and Module.list.has_key(module.name) \
+        and not switch.failtesting:
+            
+        module=Module.list[module.name];
+        sourcedir = os.path.abspath(os.path.join(workspace.cvsdir,module.name)) # todo allow override
+        destdir = os.path.abspath(workspace.basedir)
+        
+        work=syncDirectories(context,workspace,WORK_TYPE_SYNC,dir.work,sourcedir,destdir,module.name)
+        
+        mctxt.performedWork(work)
+
+        # Update Context w/ Results  
+        if not work.result.status==CMD_STATUS_SUCCESS:
+            mctxt.propagateErrorState(STATUS_FAILED,REASON_SYNC_FAILED)
+        else:
+            mctxt.status=STATUS_SUCCESS
+        
+        
 if __name__=='__main__':
 
   # init logging
@@ -282,10 +319,9 @@ if __name__=='__main__':
   
   context=GumpContext()
   
-  logins=readLogins()
-  
-  dump(logins)
+  # logins=readLogins()  
+  # dump(logins)
           
-  # update(workspace, ps, context)
+  update(workspace, ps, context)
   
   # dump(context)

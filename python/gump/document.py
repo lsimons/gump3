@@ -143,7 +143,7 @@ def document(workspace,context):
     
     if context.gumpset.isFull():
         documentStatistics(workspace,context,db,moduleList,projectList)
-        documentXRef(workspace,context)
+        documentXRef(workspace,context,moduleList,projectList)
 
     executeForrest(workspace,context)
 
@@ -1335,7 +1335,7 @@ def getContextAbsoluteUrl(root,context):
     url += getContextUrl(context,0)
     return url
         
-def getContextDirUrl(context,depth=1):
+def getContextDirRelativeUrl(context,depth=1):
     if isinstance(context,GumpContext):
         url=getWorkspaceDirRelativeUrl(depth)
     elif isinstance(context,ModuleContext):
