@@ -62,6 +62,26 @@
          to="commons-dev@jakarta.apache.org"/>
   </project>
 
+  <project name="commons-jelly-tags-bsf">
+    <package>org.apache.commons.jelly.tags.bsf</package>
+    <description> This is a Jelly interface for the Bean Scripting Framework.</description>
+
+    <ant basedir="jelly/jelly-tags/bsf" target="jar">
+      <property name="final.name"  value="commons-jelly-tags-bsf-@@DATE@@"/>
+    </ant>
+
+    <depend project="commons-jelly" inherit="all"/>
+    <depend project="jakarta-bsf"/>
+
+    <work nested="jelly/jelly-tags/bsf/target/classes"/>
+    <work nested="jelly/jelly-tags/bsf/target/test-classes"/>
+
+    <jar name="jelly/jelly-tags/bsf/target/commons-jelly-tags-bsf-@@DATE@@.jar"/>
+ 
+    <nag from="Morgan Delagrange &lt;mdelagra@yahoo.com&gt;"
+         to="commons-dev@jakarta.apache.org"/>
+  </project>
+  
   <project name="commons-jelly-tags-html">
     <package>org.apache.commons.jelly.tags.html</package>
     <description>These Jelly tags can scrub commons errors in HTML syntax.</description>
