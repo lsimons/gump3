@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/Attic/view.py,v 1.34 2003/05/05 15:49:30 nicolaken Exp $
-# $Revision: 1.34 $
-# $Date: 2003/05/05 15:49:30 $
+# $Header: /home/stefano/cvs/gump/python/gump/Attic/view.py,v 1.35 2003/05/07 08:34:58 nicolaken Exp $
+# $Revision: 1.35 $
+# $Date: 2003/05/07 08:34:58 $
 #
 # ====================================================================
 #
@@ -177,13 +177,13 @@ class gumpview(wxApp):
 
     self.data=wxTextCtrl(split2,-1,style=wxTE_MULTILINE)
 
-    self.logview=wxListCtrl(self.logsplitter,-1,style=wxLC_REPORT|wxNO_BORDER )
-    self.logview.InsertColumn(0, "Console")
-    self.logview.SetColumnWidth(0,self.frame.GetRect().GetWidth())    
-    #self.logview=wxTextCtrl(self.logsplitter,-1,style=wxTE_MULTILINE|wxTE_RICH|wxTE_AUTO_URL|wxTE_NOHIDESEL  )   
-    #self.logview.SetEditable(False)
-    #self.logview.SetDefaultStyle(wx.wxTextAttr("WHITE", "BLACK", 
-    #                                 wxFont(9, wx.wxMODERN, wx.wxNORMAL, wx.wxNORMAL)))
+
+    self.logview=GumpLogView(self.logsplitter)
+    
+    #self.logview=wxListCtrl(self.logsplitter,-1,style=wxLC_REPORT|wxNO_BORDER )
+    #self.logview.InsertColumn(0, "Console")
+    #self.logview.SetColumnWidth(0,self.frame.GetRect().GetWidth())    
+    #                        wxFont(9, wx.wxMODERN, wx.wxNORMAL, wx.wxNORMAL)))
     
 
     # attach the panes to the frame
@@ -444,68 +444,8 @@ class ViewHandler(logging.Handler):
         Emit a record.
         """
         
-        #record.name
-        #record.msg
-        #record.args
-        #record.levelname 
-        #record.levelno
-        #record.pathname
-        #record.filename
-        #record.module
-        #record.exc_info
-        #record.lineno 
-        #record.created 
-        #record.msecs
-        #record.relativeCreated
-        #record.thread
-
-        #CRITICAL = 50
-        #FATAL = CRITICAL
-        #ERROR = 40
-        #WARN = 30
-        #INFO = 20
-        #DEBUG = 10
-        #NOTSET = 0
-
         msg = "%s\n" % self.format(record)
-        
-        textStyle = None;
-        
-        #if(record.levelno == logging.FATAL):
-        # textStyle = wx.wxTextAttr("YELLOW", "RED")
-        #elif(record.levelno ==logging.ERROR):     
-        # textStyle = wx.wxTextAttr("RED", "YELLOW")
-        #elif(record.levelno == logging.WARN):     
-        # textStyle = wx.wxTextAttr("RED", "GRAY")
-        #elif(record.levelno == logging.INFO):     
-        # textStyle = wx.wxTextAttr("BLACK", "WHITE")
-        #elif(record.levelno == logging.DEBUG):    
-        # textStyle = wx.wxTextAttr("GRAY", "WHITE")
-        #else:
-        # textStyle = wx.wxTextAttr("WHITE", "BLACK")
-         
-        #self.view.SetDefaultStyle( textStyle ) 
-
-        #self.view.AppendText(msg)
-
-        position = self.view.InsertStringItem(self.view.GetItemCount(),msg)
-        item = self.view.GetItem(position)
-
-        if(record.levelno == logging.FATAL):
-         textStyle = wx.wxRED
-        elif(record.levelno ==logging.ERROR):     
-         textStyle = wx.wxRED
-        elif(record.levelno == logging.WARN):     
-         textStyle = wx.wxRED
-        elif(record.levelno == logging.INFO):     
-         textStyle = wx.wxBLACK
-        elif(record.levelno == logging.DEBUG):    
-         textStyle = wx.wxGRAY
-        else:
-         textStyle = wx.wxBLACK
-        
-        item.SetTextColour(textStyle)
-        self.view.SetItem(item)
+        self.view.add(msg, record)
         
 class GumpSplashScreen(wxSplashScreen):
   def __init__(self):
@@ -516,6 +456,113 @@ class GumpSplashScreen(wxSplashScreen):
                             style = wxSIMPLE_BORDER|wxFRAME_NO_TASKBAR|wxSTAY_ON_TOP)
     wxYield()
         
+class GumpLogView(wxListCtrl):
+
+    def __init__(self, parent):
+        wxListCtrl.__init__(self, parent, -1,
+                            style=wxLC_REPORT|wxLC_VIRTUAL|wxLC_HRULES|wxLC_VRULES)
+        self.log = []
+        self.logmsg = []
+        
+        self.il = wxImageList(16, 16)
+        self.idx_critical = self.il.Add(wxImage("gump/images/fatal.bmp").ConvertToBitmap())
+        self.idx_error = self.il.Add(wxImage("gump/images/error.bmp").ConvertToBitmap())
+        self.idx_warning = self.il.Add(wxImage("gump/images/warning.bmp").ConvertToBitmap())
+        self.idx_info = self.il.Add(wxImage("gump/images/info.bmp").ConvertToBitmap())
+        self.idx_debug = self.il.Add(wxImage("gump/images/debug.bmp").ConvertToBitmap())
+        self.SetImageList(self.il, wxIMAGE_LIST_SMALL)
+ 
+        self.attr_critical = wxListItemAttr()
+        self.attr_critical.SetBackgroundColour("dark red")
+        self.attr_error = wxListItemAttr()
+        self.attr_error.SetBackgroundColour("red")
+        self.attr_warning = wxListItemAttr()
+        self.attr_warning.SetBackgroundColour("yellow")
+        self.attr_info = wxListItemAttr()
+        self.attr_info.SetBackgroundColour("white")
+        self.attr_debug = wxListItemAttr()
+        self.attr_debug.SetBackgroundColour("light blue")
+        
+        self.InsertColumn(0, "Message")
+        self.SetColumnWidth(0, 500)
+
+        self.SetItemCount(0)
+
+        EVT_LIST_ITEM_ACTIVATED(self, self.GetId(), self.OnItemActivated)
+
+    def add(self, message, record):
+      self.log.insert(0,record)
+      self.logmsg.append(message)
+      self.SetItemCount(len(self.log))
+
+    def OnItemActivated(self, event):
+        txt = self.logmsg[event.m_itemIndex]
+        title = self.log[event.m_itemIndex].levelname
+        dlg=wxMessageDialog(None, txt, title, wx.wxOK)
+        dlg.ShowModal()
+        dlg.Destroy()
+
+    def getColumnText(self, index, col):
+        item = self.GetItem(index, col)
+        return item.GetText()
+
+    #---------------------------------------------------
+    # These methods are callbacks for implementing the
+    # "virtualness" of the list...  It 
+    # determines the text, attributes and/or image based
+    # on values from the data source
+    
+            #record.name
+            #record.msg
+            #record.args
+            #record.levelname 
+            #record.levelno
+            #record.pathname
+            #record.filename
+            #record.module
+            #record.exc_info
+            #record.lineno 
+            #record.created 
+            #record.msecs
+            #record.relativeCreated
+            #record.thread
+
+        
+    def OnGetItemText(self, item, col):
+        return self.logmsg[item]
+
+    def OnGetItemImage(self, item):
+        currentLogLevel = self.log[item].levelno
+        if currentLogLevel == logging.CRITICAL:
+            return self.idx_critical
+        elif currentLogLevel == logging.ERROR:
+            return self.idx_error
+        elif currentLogLevel == logging.WARN:
+            return self.idx_warning
+        if currentLogLevel == logging.INFO:
+            return self.idx_info
+        elif currentLogLevel == logging.DEBUG:
+            return self.idx_debug
+        else:
+            return None
+
+    def OnGetItemAttr(self, item):
+        currentLogLevel = self.log[item].levelno
+        if currentLogLevel == logging.CRITICAL:
+            return self.attr_critical
+        elif currentLogLevel == logging.ERROR:
+            return self.attr_error
+        elif currentLogLevel == logging.WARN:
+            return self.attr_warning
+        if currentLogLevel == logging.INFO:
+            return self.attr_info
+        elif currentLogLevel == logging.DEBUG:
+            return self.attr_debug
+        else:
+            return None
+
+
+
 class compileThread:
   def __init__(self,project,view):
     self.project=project
@@ -557,6 +604,7 @@ if __name__ == '__main__':
 
   #add app-specific log handler
   logger = logging.getLogger("")
+  logger.setLevel(logging.DEBUG)
   lh = ViewHandler(app.logview)
   logger.addHandler(lh)
   
