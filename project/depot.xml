@@ -25,15 +25,63 @@
       Depot -- repository tools and more...
     </description>
 
+    <project name="depot-common" fullname="Depot Common" >
+
+        <package>org.apache.depot.common</package>
+
+        <!-- Work dirs to be included in classpath  -->
+        <work nested="common/target/classes"/>
+        <home nested="common/dist"/>
+
+        <depend inherit="runtime" project="ant"/>
+
+        <jar name="depot-common-@@DATE@@.jar"/>
+
+        <ant basedir="common" buildfile="build.xml" target="gump" vm="1.4">
+          <property name="ant.home" project="ant" reference="home" />
+          <property name="DATE_STAMP" value="@@DATE@@"/>        	
+        </ant>
+
+        <nag 
+           to="depot-dev@incubator.apache.org"
+           from="Adam Jack &lt;ajack@apache.org&gt;"/>
+              
+    </project>
+    
+    <project name="depot-common-test" fullname="Depot Common Test" >
+    	
+        <package>org.apache.depot.common.test</package>
+
+        <!-- Work dirs to be included in classpath  -->
+        <work nested="common/target/unit/classes"/>
+        <home nested="common/dist"/>
+
+        <depend project="depot-common" inherit="all"/>
+        <depend project="xml-xerces"/>
+        <depend project="ant-testutil"/>
+        <depend project="junit"/>
+
+        <ant basedir="common" buildfile="build.xml" target="test" vm="1.4">
+        	<property name="ant.home" project="ant" reference="home" />
+        </ant>
+
+	    <nag 
+           to="depot-dev@incubator.apache.org"
+           from="Adam Jack &lt;ajack@apache.org&gt;"/>
+           
+    </project>
+    
+    
     <project name="depot-version" fullname="Depot Version" >
 
-        <package>org.apache.version</package>
+        <package>org.apache.depot.version</package>
 
         <!-- Work dirs to be included in classpath  -->
         <work nested="version/target/classes"/>
         <home nested="version/dist"/>
 
         <depend inherit="runtime" project="ant"/>
+        <depend project="depot-common" inherit="all"/>
 
         <jar name="depot-version-@@DATE@@.jar"/>
 
@@ -50,7 +98,7 @@
     
     <project name="depot-version-test" fullname="Depot Version Test" >
     	
-        <package>org.apache.version.test</package>
+        <package>org.apache.depot.version.test</package>
 
         <!-- Work dirs to be included in classpath  -->
         <work nested="version/target/unit/classes"/>
@@ -74,7 +122,7 @@
     
     <project name="depot-update" fullname="Depot Update" >
 
-        <package>org.apache.update</package>
+        <package>org.apache.depot.update</package>
 
         <!-- Work dirs to be included in classpath  -->
         <work nested="update/target/classes"/>
@@ -101,7 +149,7 @@
     
     <project name="depot-update-test" fullname="Depot Update Test">
     	
-        <package>org.apache.update.test</package>
+        <package>org.apache.depot.update.test</package>
 
         <!-- Work dirs to be included in classpath  -->
         <work nested="update/target/unit/classes"/>
