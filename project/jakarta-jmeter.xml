@@ -63,6 +63,7 @@
 -->
     <jar name="dist/jakarta-jmeter-@@DATE@@_bin.zip" />
     <jar name="dist/jakarta-jmeter-@@DATE@@_src.zip" />
+    <jar name="dist/jakarta-jmeter-@@DATE@@_lib.zip" />
     <license name="LICENSE"/>
 
     <nag from="Geir Magnusson Jr. &lt;geirm@apache.org&gt;"
