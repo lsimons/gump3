@@ -193,7 +193,9 @@
   
   <project name="xdoclet-examples">
 
-    <ant target="samples" />
+    <ant target="samples">
+      <property name="ant.home" project="jakarta-ant" reference="home"/>
+    </ant>
     <depend project="xdoclet" inherit="all"/>
     <depend project="ejb"/>
     <depend project="jakarta-struts"/>
