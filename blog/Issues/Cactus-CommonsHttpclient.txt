@@ -19,7 +19,9 @@ http://gump.chalko.com/gb/blog/Issues?permalink=Cactus-CommonsHttpclient.txt&pre
 -->
 <p>
 <a href="http://jakarta.apache.org/cactus/">Cactus</a>
-build was failing on Apache Gump.
+build was 
+<a href="http://lsd.student.utwente.nl/gump/jakarta-cactus/jakarta-cactus-sample-servlet-12.html">failing</a>
+on Apache Gump.
 After a few hours of debugging and thanks
 to Leo for giving Vincent access to <a href="http://lsd.student.utwente.nl/gump/">LSD</a>,
 the cause was found. The hunt is over!
@@ -27,12 +29,14 @@ the cause was found. The hunt is over!
 The cause was: <a href="http://jakarta.apache.org/commons/httpclient/">commons-httpclient</a>
 </p><p>
 It works fine with version 2.0 of commons-httpclient but not with the
-latest version from HEAD. Now, the hard part, is trying to understand
-why httpclient has changed some API. Then the Cactus project will need
-to decide whether it has to use the new way (thus forcing users to use
-httpclient from HEAD) or have the Cactus build depend on 
-<a href="http://lsd.student.utwente.nl/gump/commons-httpclient-20-branch/"
->commons-httpclient-20-branch</a>.
+latest version from HEAD. 
+httpclient HEAD (i.e. v3.x) is not going to be backward compatible
+with v2.x and thus several APIs will be broken. The question has been
+asked on 
+<a href="http://www.mail-archive.com/cactus-dev%40jakarta.apache.org/">Cactus dev mailing list</a>
+as to whether they stay on the 
+<a href="http://lsd.student.utwente.nl/gump/commons-httpclient-20-branch/">2.x branch</a>
+or follow 3.x. 
 </p>
 
 
