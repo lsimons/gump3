@@ -1,4 +1,4 @@
-<project name="jakarta-turbine">
+<project name="jakarta-turbine-3">
 
   <url href="http://jakarta.apache.org/turbine/"/>
   <description>
@@ -18,7 +18,6 @@
   <depend project="jakarta-servletapi"/>
   <depend project="jakarta-regexp"/>
   <depend project="jakarta-log4j"/>
-  <depend project="jakarta-ecs"/>
   <depend project="jakarta-oro"/>
   <depend project="jakarta-velocity"/>
   <depend project="jakarta-turbine-torque"/>

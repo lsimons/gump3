@@ -1,0 +1,38 @@
+<project name="jakarta-turbine-2">
+
+  <url href="http://jakarta.apache.org/turbine/"/>
+  <description>
+    Servlet based framework
+  </description>
+
+  <cvs repository="jakarta"/>
+
+  <ant>
+    <property name="version" value="gump"/>
+  </ant>
+
+  <depend project="jakarta-ant"/>
+  <depend project="xml-xerces"/>
+  <depend project="xml-xalan2"/>
+  <depend project="commons-collections"/>
+  <depend project="jakarta-servletapi"/>
+  <depend project="jakarta-regexp"/>
+  <depend project="jakarta-log4j"/>
+  <depend project="jakarta-ecs"/>
+  <depend project="jakarta-oro"/>
+  <depend project="jakarta-velocity"/>
+  <depend project="jakarta-turbine-torque"/>
+  <depend project="jakarta-turbine-fulcrum"/>
+  <depend project="village"/>
+  <depend project="javamail"/>
+  <depend project="xml-rpc"/>
+  <depend project="jaf"/>
+  <depend project="jdbc"/>
+  <option project="jta"/> <!-- needed for javadoc purposes only -->
+  <depend project="bsf"/>
+  <work nested="bin/classes"/>
+
+  <home nested="bin"/>
+  <jar name="turbine-gump.jar"/>
+
+</project>
