@@ -35,30 +35,38 @@
        from="Gump Integration &lt;dev@avalon.apache.org&gt;"/>
   </project>
 
+  <project name="avalon-tools-magic-home">
+    <ant basedir="tools/magic" buildfile="bootstrap.xml" target="home">
+      <property name="gump.signature" value="@@DATE@@"/>
+    </ant>
+    <depend project="ant"/>
+    <home nested="tools/magic/target/@@DATE@@"/>
+    <depend project="avalon-tools-magic-bootstrap" inherit="runtime"/>
+    <nag to="dev@avalon.apache.org"
+       from="Gump Integration &lt;dev@avalon.apache.org&gt;"/>
+  </project>
+
+  <!--
+  The following definition is generated - PLEASE NO NOT EDIT. It is 
+  included here as a test of a generated project defintion.
+  -->
+
   <project name="avalon-tools-magic">
     <license name="central/system/license/LICENSE.TXT"/>
-    <ant basedir="tools/magic" debug="true">
+    <ant basedir="tools/magic">
       <!-- for magic -->
+      <depend name="magic.home" resource="home"
+          project="avalon-tools-magic-home" inherit="runtime" />
       <property name="gump.signature" value="@@DATE@@"/>
       <!-- external references -->
-      <depend property="gump.resource.ant" project="ant" id="ant">
-        <noclasspath/>
-      </depend>
-      <depend property="gump.resource.junit" project="junit">
-        <noclasspath/>
-      </depend>
-      <depend property="gump.resource.ant-junit" project="ant" id="junit">
-        <noclasspath/>
-      </depend>
-      <depend property="gump.resource.ant-nodeps" project="ant" id="nodeps">
-        <noclasspath/>
-      </depend>
+      <depend property="gump.resource.ant" project="ant"/>
+      <depend property="gump.resource.junit" project="junit"/>
+      <depend property="gump.resource.ant-junit" project="ant" id="junit"/>
+      <depend property="gump.resource.ant-nodeps" project="ant" id="nodeps"/>
       <!-- end for -->
     </ant>
-    <!-- magic -->
-    <depend project="avalon-tools-magic-bootstrap" inherit="runtime" runtime="true"/>
     <home nested="tools/magic/target/deliverables"/>
-    <jar name="jars/avalon-tools-magic.jar"/>
+    <jar name="jars/avalon-tools-magic-@@DATE@@.jar"/>
     <nag to="dev@avalon.apache.org"
        from="Magic Integration &lt;dev@avalon.apache.org&gt;"/>
   </project>
