@@ -286,6 +286,7 @@
         <option project="checkstyle" inherit="runtime"/>
         <depend project="junit"/>
         <depend project="jakarta-avalon" runtime="true"/>
+        <depend project="excalibur-container" runtime="true"/>
         <depend project="xml-xerces"/>
         <depend project="xml-xalan2"/>
         <work nested="component/build/classes"/>
