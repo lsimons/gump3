@@ -67,6 +67,7 @@
         <depend project="jakarta-avalon"/>
         <depend project="jakarta-avalon-phoenix" inherit="runtime"/>
         <depend project="jakarta-avalon-cornerstone"/>
+        <depend project="hsqldb"/>        
 
         <home nested="hsql"/>
 
