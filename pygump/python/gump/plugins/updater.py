@@ -22,7 +22,7 @@ __license__   = "http://www.apache.org/licenses/LICENSE-2.0"
 import os
 import commands
 
-from gump.plugin import AbstractPlugin
+from gump.plugins import AbstractPlugin
 from gump.model import CvsRepository, SvnRepository
 
 UPDATE_TYPE_CHECKOUT="checkout"
