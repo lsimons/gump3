@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/test/pyunit.py,v 1.16 2004/01/09 23:28:40 ajack Exp $
-# $Revision: 1.16 $
-# $Date: 2004/01/09 23:28:40 $
+# $Header: /home/stefano/cvs/gump/python/gump/test/pyunit.py,v 1.17 2004/01/09 23:41:41 ajack Exp $
+# $Revision: 1.17 $
+# $Date: 2004/01/09 23:41:41 $
 #
 # ====================================================================
 #
@@ -79,8 +79,9 @@ class Testable:
     def raiseIssue(self, stuff):
         message=''
         for s in stuff:
+            message += '['
             message += str(s)
-            message += '. '
+            message += '] '
             
         raise RuntimeError, message
         
@@ -118,16 +119,18 @@ class Testable:
             self.raiseIssue(['Ought evaluate as in', message, object, sequence])
             
     def assertSubstring(self,message,subString,mainString):
-        if not -1 == mainString.find(subString):
-            self.raiseIssue(['Ought evaluate as in', message, object, sequence])
+        if -1 == mainString.find(subString):
+            self.raiseIssue(['Ought evaluate as a substring', \
+                message, subString, mainString, mainString.find(subString)])
             
     def assertNotIn(self,message,object,sequence):
         if object in sequence:
             self.raiseIssue(['Ought NOT evaluate as in', message, object, sequence])
 
     def assertNotSubstring(self,message,subString,mainString):
-        if -1 == mainString.find(subString):
-            self.raiseIssue(['Ought evaluate as in', message, object, sequence])            
+        if not -1 == mainString.find(subString):
+            self.raiseIssue(['Ought NOT evaluate as a substring', \
+                    message, subString, mainString, mainString.find(subString)])            
     
     def assertLengthAbove(self,message,object,length):
         if not len(object) >= length:

@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/model/stats.py,v 1.5 2004/01/09 23:28:40 ajack Exp $
-# $Revision: 1.5 $
-# $Date: 2004/01/09 23:28:40 $
+# $Header: /home/stefano/cvs/gump/python/gump/model/stats.py,v 1.6 2004/01/09 23:41:41 ajack Exp $
+# $Revision: 1.6 $
+# $Date: 2004/01/09 23:41:41 $
 #
 # ====================================================================
 #
@@ -143,18 +143,21 @@ class Statistics:
             elif statable.isPrereqFailed():                        
                 s.prereqs  += 1
             
-        elif statable.isFailure():
+        elif statable.isFailed():
             self.failures += 1
             
-        elif statable.isPrereq():
+        elif statable.isPrereqFailed():
             self.prereqs += 1
             
         #
         # Deal with states & changes...
         #
         lastCurrentState=self.currentState
+        
+        # Update the state to now
         self.currentState=statable.getState()
         
+        # See if it changed, and track...
         if lastCurrentState==self.currentState:
             self.startOfState = default.time            
             self.sequenceInState += 1            
