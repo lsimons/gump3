@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/forrest.py,v 1.50 2004/01/12 23:24:00 ajack Exp $
-# $Revision: 1.50 $f
-# $Date: 2004/01/12 23:24:00 $
+# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/forrest.py,v 1.51 2004/01/12 23:47:58 ajack Exp $
+# $Revision: 1.51 $f
+# $Date: 2004/01/12 23:47:58 $
 #
 # ====================================================================
 #
@@ -988,17 +988,18 @@ class ForrestDocumenter(Documenter):
         
         dependencySection=document.createSection('Dependency')
         
-        self.documentDependenciesList(dependencySection, "Project Dependencies",	\
-                    project.getDependencies(), 0, project)  
-                    
         self.documentDependenciesList(dependencySection, "Project Dependees",		\
                     project.getDependees(), 1, project)
                     
-        self.documentDependenciesList(dependencySection, "Full Project Dependencies",	\
-                    project.getFullDependencies(), 0, project)  
-                    
         self.documentDependenciesList(dependencySection, "Full Project Dependees",		\
-                    project.getFullDependees(), 1, project)                          
+                    project.getFullDependees(), 1, project)
+        
+        self.documentDependenciesList(dependencySection, "Project Dependencies",	\
+                    project.getDependencies(), 0, project)
+                    
+        self.documentDependenciesList(dependencySection, "Full Project Dependencies",	\
+                    project.getFullDependencies(), 0, project)
+                                                
         
         document.serialize()
         
@@ -1068,14 +1069,7 @@ class ForrestDocumenter(Documenter):
                     project=depend.getOwnerProject()
                 projectRow=projectTable.createRow()    
                 projectRow.createComment(project.getName())
-                self.insertLink( project, referencingObject, projectRow.createData())
-                
-                # Inheritence
-                projectRow.createData(depend.getInheritenceDescription())
-                
-                # Ids
-                ids = depend.getIds() or 'All'
-                projectRow.createData(ids)
+                self.insertLink( project, referencingObject, projectRow.createData())                
                 
                 # Type
                 type=''
@@ -1086,6 +1080,13 @@ class ForrestDocumenter(Documenter):
                     if type: type += ' '
                     type+='Optional'                
                 projectRow.createData(type)
+                
+                # Inheritence
+                projectRow.createData(depend.getInheritenceDescription())
+                
+                # Ids
+                ids = depend.getIds() or 'All'
+                projectRow.createData(ids)
                 
                 # State description
                 self.insertStateDescription(project,referencingObject,projectRow.createData())
