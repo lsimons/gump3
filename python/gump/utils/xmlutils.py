@@ -272,11 +272,11 @@ class Named(GumpXMLObject):
                 element=parser.docElement     
                 
                 # Copy over any XML errors/warnings
-                transferAnnotations(parser, element)  
+                #transferAnnotations(parser, element)  
                 
             except Exception, detail:
                 message='Failed to parse XML @ [' + newHref + ']. Details: ' + str(detail)
-                #log.error(message, exc_info=1)   
+                log.error(message, exc_info=1)   
                 raise RuntimeError, message
         else:
             # :TODO: Set any object "invalid"?
