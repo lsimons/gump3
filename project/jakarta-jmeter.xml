@@ -25,6 +25,8 @@
     <depend project="excalibur-cli" />
 
     <work nested="build"/>
+    <work nested="build/core"/>
+    <work nested="build/jorphan"/>
 
     <home nested="bin" />
     <jar name="ApacheJMeter.jar" />
