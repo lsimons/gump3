@@ -118,6 +118,12 @@
           define more than one jar.</td>
           <td>No</td>
         </tr>
+        <tr>
+          <td>runtime</td>
+          <td>Specifies whether this dependency is needed at runtime.
+          Choices are "true" and "false" with the default being false.</td>
+          <td>No</td>
+        </tr>
       </table>
     </subsection>
   </section>

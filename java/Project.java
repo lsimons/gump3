@@ -171,6 +171,10 @@ public class Project {
             if (property.getAttributeNode("classpath") == null)
                 depend.appendChild(document.createElement("noclasspath"));
 
+            Attr runtime = property.getAttributeNode("runtime");
+            if (runtime != null) 
+                depend.setAttribute("runtime", runtime.getValue());
+
             element.appendChild(depend);
             dependsOn.put(dependency, depend);
         }
