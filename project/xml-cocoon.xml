@@ -16,6 +16,5 @@
   <depend project="jdbc"/>
   <depend project="jakarta-ant"/>
   <depend project="jakarta-servletapi"/>
-  <depend project="bsf"/>
 
 </project>

@@ -22,6 +22,7 @@
   <depend project="rhino"/>
   <depend project="jstyle"/>
   <depend project="maybeupload"/>
+  <depend project="bsf"/>
 
   <project name="jstyle">
     <url href="http://astyle.sourceforge.net/"/>
