@@ -39,7 +39,4 @@
   <depend project="jakarta-ant"/>
   <depend project="jakarta-servletapi-4"/>
   <option project="framework"/>
-
-  <home parent="dist/tomcat-4.1"/>
-  <jar name="server/catalina.jar"/>
 </project>
