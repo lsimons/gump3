@@ -4,6 +4,7 @@ import org.w3c.dom.Node;
 
 // Java classes
 import java.util.Enumeration;
+import java.util.Vector;
 import java.util.Hashtable;
 
 public class Module {
@@ -41,7 +42,7 @@ public class Module {
         name = element.getAttribute("name");
 
         computeSrcDir();
-        markProjects();
+        promoteProjects();
 
         modules.put(name, this);
     }
@@ -66,18 +67,34 @@ public class Module {
     }
 
     /**
-     * Set module name on any projects contained herein.
+     * Set module name on any projects contained herein, and move the
+     * element up to the workspace.
      */
-    private void markProjects() throws Exception {
+    private void promoteProjects() throws Exception {
+        Vector projects = new Vector();
+
+        // Collect a list of projects, marking them as we go
         Node child=element.getFirstChild();
-        while (child != null) {
-            if (child.getNodeName().equals("project")) {
-                Element project = (Element) child;
-                if (project.getAttributeNode("module") == null) {
-                    project.setAttribute("module", name);
-                }
+        for (; child != null; child=child.getNextSibling()) {
+            if (! child.getNodeName().equals("project")) continue;
+
+            Element project = (Element) child;
+            if (project.getAttributeNode("module") == null) {
+                project.setAttribute("module", name);
             }
-            child=child.getNextSibling();
+
+            projects.add(project);
+        }
+
+        // Move each project from the module to the workspace
+        Node parent = element.getParentNode();
+        String definedIn = element.getAttribute("defined-in");
+        for (Enumeration e=projects.elements(); e.hasMoreElements(); ) {
+            Element project = (Element) e.nextElement();
+            if (project.getAttributeNode("defined-in") == null)
+               project.setAttribute("defined-in", definedIn);
+            element.removeChild(project);
+            parent.appendChild(project);
         }
     }
 

@@ -3,14 +3,10 @@ import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
-import org.w3c.dom.traversal.NodeIterator;
 
 // Java classes
 import java.util.Enumeration;
 import java.util.Hashtable;
-
-// Apache xpath
-import org.apache.xpath.XPathAPI;
 
 public class Project {
 
@@ -72,29 +68,31 @@ public class Project {
      */
     private void genProperties(Element ant) throws Exception {
 
-        NodeIterator nl = XPathAPI.selectNodeIterator(ant, "depend");
-        for (Node depend=nl.nextNode(); depend!=null;) {
-            Node next = nl.nextNode();
+        Node child=ant.getFirstChild();
+        while (child != null) {
+            Node next = child.getNextSibling();
+             
+            if (child.getNodeName().equals("depend")) {
+                // create a new element based on existing element
+                Element property = document.createElement("property");
+                property.setAttribute("reference", "jarpath");
+                property.setAttribute("classpath", "add");
+                Jenny.copyChildren((Element)child, property);
+    
+                // change property attribute to name attribute
+                if (property.getAttributeNode("name")==null) {
+                   Attr pname = property.getAttributeNode("property");
+                   if (pname != null) {
+                       property.setAttribute("name",pname.getValue());
+                       property.removeAttributeNode(pname);
+                   }
+                }
 
-            // create a new element based on existing element
-            Element property = document.createElement("property");
-            property.setAttribute("reference", "jarpath");
-            property.setAttribute("classpath", "add");
-            Jenny.copyChildren((Element)depend, property);
-
-            // change property attribute to name attribute
-            if (property.getAttributeNode("name")==null) {
-               Attr pname = property.getAttributeNode("property");
-               if (pname != null) {
-                   property.setAttribute("name",pname.getValue());
-                   property.removeAttributeNode(pname);
-               }
+                // replace existing element with new one
+                ant.replaceChild(property, child);
             }
 
-            // replace existing element with new one
-            depend.getParentNode().replaceChild(property, depend);
-
-            depend = next;
+            child = next;
         }
     }
 
@@ -103,8 +101,9 @@ public class Project {
      * @param ant &lt;ant&gt; element to be processed
      */
     private void genDepends(Element ant) throws Exception {
-        NodeIterator nl = XPathAPI.selectNodeIterator(ant, "property");
-        for (Node child=nl.nextNode(); child!=null; child=nl.nextNode()) {
+        Node child=ant.getFirstChild();
+        for (;child!=null; child=child.getNextSibling()) {
+            if (!child.getNodeName().equals("property")) continue;
             Element property = (Element) child;
 
             String dependency = property.getAttribute("project");

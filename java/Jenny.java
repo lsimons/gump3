@@ -17,15 +17,11 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
-import org.w3c.dom.traversal.NodeIterator;
 import org.xml.sax.SAXParseException;
 
 // Java classes
 import java.util.Enumeration;
 import java.util.Hashtable;
-
-// Apache xpath
-import org.apache.xpath.XPathAPI;
 
 public class Jenny {
 
@@ -132,14 +128,17 @@ public class Jenny {
      * Attributes from later definitions get added (or overlay) prior
      * definitions.  Elements get appended.
      * @param type Element localname.  Typically project or repository.
-     * @param list Hashtable used for recursion.  Must initially be empty.
      * @param document Starting point for search.
+     * @return hashtable of resulting elements
      */
-    private void merge(String type, Hashtable list, Node document)
+    private Hashtable merge(String type, Node document)
         throws Exception
     {
-        NodeIterator nl = XPathAPI.selectNodeIterator(document, "//"+type);
-        for (Node child=nl.nextNode(); child!=null; child=nl.nextNode()) {
+        Hashtable list = new Hashtable();
+
+        Node child=document.getFirstChild();
+        for (; child!=null; child=child.getNextSibling()) {
+            if (!child.getNodeName().equals(type)) continue;
             Element element = (Element) child;
             String name = element.getAttribute("name");
 
@@ -155,36 +154,7 @@ public class Jenny {
             }
             list.put(name, element);
         }
-    }
 
-    /**
-     * Unnest all elements of a given type by moving them all to become
-     * direct children of the specified root node.  In the process, merge
-     * all matching nodes which contain the same value for the name attribute.
-     * For elements that get "hoisted", an additional "defined-in" attribute
-     * is added indicating where the element was originally defined.
-     * @param type Element localname.  Typically project or repository.
-     * @param root Root (workspace) node
-     */
-    private Hashtable flatten(String type, Node root)
-        throws Exception
-    {
-        Hashtable list = new Hashtable();
-        merge(type, list, root);
-        for (Enumeration e=list.keys(); e.hasMoreElements();) {
-           Element element = (Element)list.get(e.nextElement());
-           Element parent  = (Element)element.getParentNode();
-
-           if (parent != root) {
-               String definedIn = parent.getAttribute("defined-in");
-               if (definedIn.equals(""))
-                   definedIn = parent.getAttribute("name");
-               element.setAttribute("defined-in",definedIn);
-
-               parent.removeChild(element);
-               root.appendChild(element);
-           }
-        }
         return list;
     }
 
@@ -209,9 +179,9 @@ public class Jenny {
         Workspace.init(workspace);
 
         expand(workspace);
-        Module.load(flatten("module",workspace).elements());
-        Project.load(flatten("project",workspace).elements());
-        flatten("repository", workspace);
+        Module.load(merge("module",workspace).elements());
+        Project.load(merge("project",workspace).elements());
+        merge("repository", workspace);
         output (doc, "work/merge.xml");
 
         Node sorted   = transform(doc, "sortdep.xsl");
