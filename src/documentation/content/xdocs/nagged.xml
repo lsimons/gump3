@@ -87,7 +87,7 @@
 
     <p>The most common occurrence of problems here is introducing a new
     dependency without the Gump project definition being updated.  A note
-    to <link href="mailto:general@gump.apache.org">
+    to <link href="mail.html">
     general@gump.apache.org</link> letting us know what is going on
     is appreciated when this occurs.</p>
 

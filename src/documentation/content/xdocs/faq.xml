@@ -63,7 +63,7 @@
     	
 <section><title>Question: How do I get nagging to stop (or start)?</title>
     		<p><strong>Answer: </strong>If there is consensus on your project, send an e-mail to
-              <link href="mailto:general@gump.apache.org">
+              <link href="mail.html">
               general@gump.apache.org</link> letting us know what
               the outcome was, and it will be respected.</p>
     	</section>
@@ -96,7 +96,7 @@
               <section><title>Question: How do I get a project to be added to Gump?  Must it
               be an Apache project?</title>
     		<p><strong>Answer: </strong>Send an e-mail (preferably a patch) to
-              <link href="mailto:general@gump.apache.org">
+              <link href="mail.html">
               general@gump.apache.org</link>.  Being Apache related
               (i.e, used by or a consumer of other Apache projects) helps,
               but is not required.  What is important is that your code be
