@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/model/workspace.py,v 1.11 2003/11/24 01:45:15 ajack Exp $
-# $Revision: 1.11 $
-# $Date: 2003/11/24 01:45:15 $
+# $Header: /home/stefano/cvs/gump/python/gump/model/workspace.py,v 1.12 2003/11/24 16:14:06 ajack Exp $
+# $Revision: 1.12 $
+# $Date: 2003/11/24 16:14:06 $
 #
 # ====================================================================
 #
@@ -489,7 +489,7 @@ class Workspace(ModelObject,PropertyContainer):
             self.noRuper=1
             self.addWarning('"ruper" command not found, no package downloads')
         
-        if not self.checkExecutable('rsync','-help',0): 
+        if not self.checkExecutable('rsync','-version',0): 
             self.noRSync=1
             self.addWarning('"rsync" command not found, so attempting recursive copy "cp -R"')
         

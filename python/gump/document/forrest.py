@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/forrest.py,v 1.13 2003/11/23 06:16:39 ajack Exp $
-# $Revision: 1.13 $f
-# $Date: 2003/11/23 06:16:39 $
+# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/forrest.py,v 1.14 2003/11/24 16:14:06 ajack Exp $
+# $Revision: 1.14 $f
+# $Date: 2003/11/24 16:14:06 $
 #
 # ====================================================================
 #
@@ -868,8 +868,8 @@ class ForrestDocumenter(Documenter):
             detailsList.createEntry("Nag To: ", toaddr)
             detailsList.createEntry("Nag From: ", fromaddr)     
             
-        self.documentProjectList(document, "Project Dependencies",	project.getDependencies(), project)  
-        self.documentProjectList(document, "Project Dependees",		project.getDependees(), project)
+        self.documentProjectList(document, "Project Dependencies",	project.getDependencies(), 0, project)  
+        self.documentProjectList(document, "Project Dependees",		project.getDependees(), 1, project)
     
         if project.hasBuildCommand():
             (classpath,bootclasspath)=project.getClasspathLists()            
@@ -936,20 +936,23 @@ class ForrestDocumenter(Documenter):
         if not paths:        
             pathTable.createLine('No ' + title + ' entries')
                      
-    def documentProjectList(self,document,title,dependencies,referencingObject):
+    def documentProjectList(self,document,title,dependencies,dependees,referencingObject):
       if dependencies:
             projectSection=document.createSection(title)
-            projectTable=projectSection.createTable(['Name','Optional','State'])
+            projectTable=projectSection.createTable(['Name','Type','State'])
             for depend in dependencies:
-                project=depend.getProject()
+                if not dependees:
+                    project=depend.getProject()
+                else:
+                    project=depend.getOwnerProject()
                 projectRow=projectTable.createRow()    
                 projectRow.createComment(project.getName())
                 self.insertLink( project, referencingObject, projectRow.createData())
                 
-                optional=''
+                type=''
                 if depend.isOptional():
-                    optional='Y'                
-                projectRow.createData(optional)
+                    type='Optional'                
+                projectRow.createData(type)
                 
                 self.insertStateDescription(project,referencingObject,projectRow.createData())
                 

@@ -1,8 +1,8 @@
 #!/usr/bin/python
 
-# $Header: /home/stefano/cvs/gump/python/gump/utils/Attic/commandLine.py,v 1.1 2003/11/17 22:10:55 ajack Exp $
-# $Revision: 1.1 $
-# $Date: 2003/11/17 22:10:55 $
+# $Header: /home/stefano/cvs/gump/python/gump/utils/Attic/commandLine.py,v 1.2 2003/11/24 16:14:06 ajack Exp $
+# $Revision: 1.2 $
+# $Date: 2003/11/24 16:14:06 $
 #
 # ====================================================================
 #
@@ -101,6 +101,10 @@ class CommandLine:
                 print "  -V,  --version           display the version of Gump and exit."
                 print "  -h,  --help              print this help."
                 print "  -w,  --workspace         use this workspace for Gump."
+                print 
+                print "General:"
+                print "  -v,  --verbose           verbose logging."
+                print "  -d,  --debug             debug logging."
                 print
                 print "For bug reports use Bugzilla: http://bugzilla.apache.org/."
                 print "For suggestions: <gump@jakarta.apache.org/>."
@@ -131,10 +135,14 @@ class CommandLine:
         self.args += argv
   
         # 
+        # Process global arguments
+        #
         for arg in self.args:
             if arg in ['-d','--debug']: 
+                log.info('Setting log level to DEBUG')
                 log.setLevel(logging.DEBUG ) 
-            if arg in ['-v','--verbose']: 
+            elif arg in ['-v','--verbose']: 
+                log.info('Setting log level to VERBOSE')
                 log.setLevel(logging.VERBOSE )  
     
     def getArguments(self):

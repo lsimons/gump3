@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/model/module.py,v 1.12 2003/11/24 01:45:15 ajack Exp $
-# $Revision: 1.12 $
-# $Date: 2003/11/24 01:45:15 $
+# $Header: /home/stefano/cvs/gump/python/gump/model/module.py,v 1.13 2003/11/24 16:14:06 ajack Exp $
+# $Revision: 1.13 $
+# $Date: 2003/11/24 16:14:06 $
 #
 # ====================================================================
 #
@@ -82,10 +82,12 @@ class ModuleCvs(ModelObject):
         self.hostPrefix 	=   xml['host-prefix']
         self.dir			=	xml.dir    
         
-                
     def getCvsRoot(self):
-        # Form the CVS root
+        """Construct the CVS root for this set of information"""
+
+        # Form the CVS root starting with the method
         root=':' + str(self.repository.getMethod()) + ':'
+        # Add the user (if set)
         if self.repository.hasUser(): root+=str(self.repository.getUser())
         # Forge the hostname
         if self.repository.hasHostname():
@@ -104,28 +106,32 @@ class ModuleCvs(ModelObject):
         return root
     
     def hasTag(self):
-        return self.getTag()
+        if self.tag: return 1
+        return 0
         
     def getTag(self):
-        return self.tag
+        return str(self.tag)
         
     def hasHostPrefix(self):
-        return self.getHostPrefix()
+        if self.hostPrefix: return 1
+        return 0
         
     def getHostPrefix(self):
-        return self.tag
+        return str(self.hostPrefix)
         
     def hasDir(self):
-        return self.getDir()
+        if self.dir: return 1
+        return 0
         
     def getDir(self):
-        return self.dir
+        return str(self.dir)
     
     def hasModule(self):
-        return self.getModule()
+        if self.module: return 1
+        return 0
         
     def getModule(self):
-        return self.module
+        return str(self.module)
          
 class ModuleSvn(ModelObject):
     def __init__(self,xml,repository):
