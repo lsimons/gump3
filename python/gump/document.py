@@ -1167,7 +1167,7 @@ def getUp(depth):
            
 def getLink(href,name=None):
     if not name: name = href
-    link='<link href=\'%s\'>%s</link>' % (href,name)
+    link='<link href=\'%s\'>%s</link>' % (escape(href),escape(name))
     return link
            
 #####################################################################           
