@@ -256,7 +256,7 @@
   <project name="jaas"             package="jaas1_0"/>
   <project name="jaf"              package="jaf-1.0.1"/>
   <project name="javacc"           package="javacc2.1"/>
-  <project name="javamail"         package="javamail-1.2"/>
+  <project name="javamail"         package="javamail-1.3"/>
   <project name="jaxm"             package="java_xml_pack-summer-02_01"/>
   <project name="jaxp"             package="java_xml_pack-summer-02_01"/>
   <project name="jaxr"             package="java_xml_pack-summer-02_01"/>
