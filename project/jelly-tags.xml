@@ -45,8 +45,6 @@
     <package>org.apache.commons.jelly.tags.betwixt</package>
     <description>This is a Jelly interface for Betwixt.</description>
 
-    <mkdir dir="jelly/jelly-tags/betwixt/lib"/>
-
     <ant basedir="jelly/jelly-tags/betwixt" target="jar">
       <property name="final.name"  value="commons-jelly-tags-betwixt-@@DATE@@"/>
     </ant>
@@ -68,8 +66,6 @@
     <package>org.apache.commons.jelly.tags.html</package>
     <description>These Jelly tags can scrub commons errors in HTML syntax.</description>
 
-    <mkdir dir="jelly/jelly-tags/html/lib"/>
-
     <ant basedir="jelly/jelly-tags/html" target="jar">
       <property name="final.name"  value="commons-jelly-tags-html-@@DATE@@"/>
     </ant>
@@ -88,8 +84,6 @@
   <project name="commons-jelly-tags-http">
     <package>org.apache.commons.jelly.tags.http</package>
     <description>These Jelly tags provide a simple XML syntax for HttpClient.</description>
-
-    <mkdir dir="jelly/jelly-tags/http/lib"/>
 
     <ant basedir="jelly/jelly-tags/http" target="jar">
       <property name="final.name"  value="commons-jelly-tags-http-@@DATE@@"/>
@@ -111,8 +105,6 @@
   <project name="commons-jelly-tags-jetty">
     <package>org.apache.commons.jelly.tags.jetty</package>
     <description>These are Jelly tags that can set up an in-process web server.</description>
-
-    <mkdir dir="jelly/jelly-tags/jetty/lib"/>
 
     <ant basedir="jelly/jelly-tags/jetty" target="jar">
       <property name="final.name"  value="commons-jelly-tags-jetty-@@DATE@@"/>
@@ -137,8 +129,6 @@
     <package>org.apache.commons.jelly.tags.jms</package>
     <description>This is a Jelly interface for the Java Message Service.</description>
 
-    <mkdir dir="jelly/jelly-tags/jms/lib"/>
-
     <ant basedir="jelly/jelly-tags/jms" target="jar">
       <property name="final.name"  value="commons-jelly-tags-jms-@@DATE@@"/>
     </ant>
@@ -160,8 +150,6 @@
   <project name="commons-jelly-tags-jsl">
     <package>org.apache.commons.jelly.tags.jsl</package>
     <description>The Jelly Stylesheet Library (JSL)</description>
-
-    <mkdir dir="jelly/jelly-tags/jsl/lib"/>
 
     <ant basedir="jelly/jelly-tags/jsl" target="jar">
       <property name="final.name"  value="commons-jelly-tags-jsl-@@DATE@@"/>
@@ -185,8 +173,6 @@
   <project name="commons-jelly-tags-ojb">
     <package>org.apache.commons.jelly.tags.ojb</package>
     <description>A variety of tags for working with the ObjectBridge persistence engine</description>
-
-    <mkdir dir="jelly/jelly-tags/ojb/lib"/>
 
     <ant basedir="jelly/jelly-tags/ojb" target="jar">
       <property name="final.name"  value="commons-jelly-tags-ojb-@@DATE@@"/>
