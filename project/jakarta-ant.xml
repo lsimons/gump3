@@ -123,7 +123,9 @@
   <project name="jakarta-ant-embed">
     <package>org.apache.tools.ant</package>
 
-    <ant basedir="proposal/embed" />
+    <ant basedir="proposal/embed">
+      <property name="ant.home" value="."/>
+    </ant>
 
     <depend project="jakarta-ant" inherit="all"/>
     <depend project="commons-jxpath"/>
@@ -132,12 +134,12 @@
     <depend project="commons-discovery"/>   
     <depend project="commons-logging"/>   
     
-    <jar name="build/ant-sax2.jar" id="embed"/>
+    <home nested="proposal/embed"/>
+    <jar name="lib/ant-sax2.jar" id="embed"/>
 
     <nag to="ant-dev@jakarta.apache.org"
          from="Nicola Ken Barozzi &lt;nicolaken@apache.org&gt;"/>    
          
   </project>
-  
    
 </module>
