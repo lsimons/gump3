@@ -166,7 +166,6 @@ class Module(NamedModelObject, Statable, Resultable, Positioned):
     	self.totalDepends=[]
     	self.totalDependees=[]
     
-        
     	self.projects={}
     	
         self.notifys=[]

@@ -105,14 +105,14 @@ def transferDomNameValue(target,name,value,mapping=None):
             elif attrType is str or attrType is unicode:
                 pass
             else:
-                log.warn('Unknown Type %s for Attribute %s' % (attrType, attrName))
+                log.warn('Unknown Type %s for Attribute %s [on %s]' % (attrType, attrName, target))
                 
             
             #print 'Transfer ', attrName, ' -> ', value, ' [', attrType, ']'
             setattr(target,attrName,value)
             set+=1
         except:
-            log.warn('Error with Type %s for Attribute %s' % (attrType, attrName))
+            log.warn('Error with Type %s for Attribute %s [on %s]' % (attrType, attrName, target))
             raise
             
     return set

@@ -16,6 +16,6 @@
 # limitations under the License.
 
 # tell Python what modules make up the gump.repostory package
-__all__ = ["repository"]
+__all__ = ["artifact","publisher"]
 
     
