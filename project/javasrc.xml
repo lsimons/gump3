@@ -27,6 +27,6 @@
     <jar name="javasrc.jar"/>
     
     <javadoc nested="doc/api" project="javasrc"/>
-    
+   
   </project>  
 </module>
