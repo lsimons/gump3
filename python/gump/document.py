@@ -152,9 +152,9 @@ def seedForrest(workspace,context):
     forrestSiteTemplate=getForrestSiteTemplateDir()    
     forrest=getForrestDir(workspace)    
     
-    # This gave an ugly tree (src/doc/cont../xdocs..)
+    # :TODO: This gave an ugly tree (src/doc/cont../xdocs..)
     # with sub-directories. It is a nice idea, but not
-    # quite there for us now, do a plain old tempalte
+    # quite there for us now, do a plain old template
     # copy instead.
     
     # First .. seed the project    
@@ -166,9 +166,13 @@ def seedForrest(workspace,context):
     #work=CommandWorkItem(WORK_TYPE_DOCUMENT,forrest,forrestSeedResult)
     #context.performedWork(work)
     
+    # Consider syncDirectories (to start with)
+    # cp -Rf doesn't seem to be doing a nice job of overwritting :(
+    # rsynch would disallow default/site though :(
+    
     # Copy in the defaults
     forrestSeed=Cmd('cp','forrest_seed',forrest)
-    forrestSeed.addParameter('-Rf')
+    forrestSeed.addParameter('-Rufv')
     forrestSeed.addParameter(forrestTemplate)    
     forrestSeed.addParameter(os.path.abspath(workspace.basedir))    
     forrestSeedResult=execute(forrestSeed)
@@ -178,7 +182,7 @@ def seedForrest(workspace,context):
     # Copy over the local site defaults (if any)
     if os.path.exists(forrestSiteTemplate):
         forrestSiteSeed=Cmd('cp','forrest_site_seed',forrest)
-        forrestSiteSeed.addParameter('-Rf')
+        forrestSiteSeed.addParameter('-Rufv')
         forrestSiteSeed.addParameter(forrestSiteTemplate)    
         forrestSiteSeed.addParameter(workspace.basedir)  
         forrestSiteSeedResult=execute(forrestSiteSeed)
