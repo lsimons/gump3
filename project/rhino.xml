@@ -29,7 +29,8 @@
     <package>org.mozilla.javascript</package>
 
     <ant target="dist">
-      <property name="version" value="_@@DATE@@"/>
+      <property name="version" value="_@@DATE@@"/>    
+      <sysproperty name="build.clonevm" value="true"/>      
     </ant>
 
     <depend project="ant" inherit="runtime"/>
@@ -37,8 +38,7 @@
     <depend project="xml-xerces"/>
 
 	<mkdir dir="build/classes"/>
-    <work nested="build/classes"/>
-    
+    <work nested="build/classes"/>    
 
     <home nested="build/rhino_@@DATE@@"/>    
     <jar name="js.jar"/>
