@@ -39,7 +39,7 @@
     <jar name="dist/application/taglibs-application.jar"/>
     <license name="LICENSE"/>
     <nag to="taglibs-dev@jakarta.apache.org"
-         from="Ted Husted &lt;ted@husted.com&gt;"/>
+         from="Martin Cooper &lt;martinc@apache.org&gt;"/>
   </project>
 
   <project name="jakarta-taglibs-benchmark">
@@ -55,7 +55,7 @@
     <javadoc nested="dist/doc/doc/benchmark-doc/javadoc"/>
     <jar name="dist/benchmark/taglibs-benchmark.jar"/>
     <nag to="taglibs-dev@jakarta.apache.org"
-         from="Ted Husted &lt;ted@husted.com&gt;"/>
+         from="Martin Cooper &lt;martinc@apache.org&gt;"/>
   </project>
 
   <project name="jakarta-taglibs-bsf">
@@ -73,7 +73,7 @@
     <javadoc nested="dist/doc/doc/bsf-doc/javadoc"/>
     <jar name="dist/bsf/taglibs-bsf.jar"/>
     <nag to="taglibs-dev@jakarta.apache.org"
-         from="Ted Husted &lt;ted@husted.com&gt;"/>
+         from="Martin Cooper &lt;martinc@apache.org&gt;"/>
   </project>
 
   <project name="jakarta-taglibs-cache">
@@ -93,7 +93,7 @@
     <javadoc nested="dist/doc/doc/cache-doc/javadoc"/>
     <jar name="dist/cache/taglibs-cache.jar"/>
     <nag to="taglibs-dev@jakarta.apache.org"
-         from="Ted Husted &lt;ted@husted.com&gt;"/>
+         from="Martin Cooper &lt;martinc@apache.org&gt;"/>
   </project>
 
   <project name="jakarta-taglibs-datetime">
@@ -110,7 +110,7 @@
     <javadoc nested="dist/doc/doc/datetime-doc/javadoc"/>
     <jar name="dist/datetime/taglibs-datetime.jar"/>
     <nag to="taglibs-dev@jakarta.apache.org"
-         from="Ted Husted &lt;ted@husted.com&gt;"/>
+         from="Martin Cooper &lt;martinc@apache.org&gt;"/>
   </project>
 
   <project name="jakarta-taglibs-dbtags">
@@ -127,7 +127,7 @@
     <javadoc nested="dist/doc/doc/dbtags-doc/javadoc"/>
     <jar name="dist/dbtags/taglibs-dbtags.jar"/>
     <nag to="taglibs-dev@jakarta.apache.org"
-         from="Ted Husted &lt;ted@husted.com&gt;"/>
+         from="Martin Cooper &lt;martinc@apache.org&gt;"/>
   </project>
 
   <project name="jakarta-taglibs-i18n">
@@ -143,7 +143,7 @@
     <javadoc nested="dist/doc/doc/i18n-doc/javadoc"/>
     <jar name="dist/i18n/taglibs-i18n.jar"/>
     <nag to="taglibs-dev@jakarta.apache.org"
-         from="Ted Husted &lt;ted@husted.com&gt;"/>
+         from="Martin Cooper &lt;martinc@apache.org&gt;"/>
   </project>
 
   <project name="jakarta-taglibs-input">
@@ -159,7 +159,7 @@
     <javadoc nested="dist/doc/doc/input-doc/javadoc"/>
     <jar name="dist/input/taglibs-input.jar"/>
     <nag to="taglibs-dev@jakarta.apache.org"
-         from="Ted Husted &lt;ted@husted.com&gt;"/>
+         from="Martin Cooper &lt;martinc@apache.org&gt;"/>
   </project>
 
   <project name="jakarta-taglibs-io">
@@ -175,7 +175,7 @@
     <javadoc nested="dist/doc/doc/io-doc/javadoc"/>
     <jar name="dist/io/taglibs-io.jar"/>
     <nag to="taglibs-dev@jakarta.apache.org"
-         from="Ted Husted &lt;ted@husted.com&gt;"/>
+         from="Martin Cooper &lt;martinc@apache.org&gt;"/>
   </project>
 
   <project name="jakarta-taglibs-jmstags">
@@ -203,7 +203,7 @@
     <javadoc nested="dist/doc/doc/jmstags-doc/javadoc"/>
     <jar name="dist/jmstags/taglibs-jmstags.jar"/>
     <nag to="taglibs-dev@jakarta.apache.org"
-         from="Ted Husted &lt;ted@husted.com&gt;"/>
+         from="Martin Cooper &lt;martinc@apache.org&gt;"/>
   </project>
 
   <project name="jakarta-taglibs-jndi">
@@ -219,7 +219,7 @@
     <javadoc nested="dist/doc/doc/jndi-doc/javadoc"/>
     <jar name="dist/jndi/taglibs-jndi.jar"/>
     <nag to="taglibs-dev@jakarta.apache.org"
-         from="Ted Husted &lt;ted@husted.com&gt;"/>
+         from="Martin Cooper &lt;martinc@apache.org&gt;"/>
   </project>
 
   <project name="jakarta-taglibs-log">
@@ -238,7 +238,7 @@
     <javadoc nested="dist/doc/doc/log-doc/javadoc"/>
     <jar name="dist/log/taglibs-log.jar"/>
     <nag to="taglibs-dev@jakarta.apache.org"
-         from="Ted Husted &lt;ted@husted.com&gt;"/>
+         from="Martin Cooper &lt;martinc@apache.org&gt;"/>
   </project>
 
   <project name="jakarta-taglibs-mailer">
@@ -257,7 +257,7 @@
     <javadoc nested="dist/doc/doc/mailer-doc/javadoc"/>
     <jar name="dist/mailer/taglibs-mailer.jar"/>
     <nag to="taglibs-dev@jakarta.apache.org"
-         from="Ted Husted &lt;ted@husted.com&gt;"/>
+         from="Martin Cooper &lt;martinc@apache.org&gt;"/>
   </project>
 
   <project name="jakarta-taglibs-page">
@@ -273,7 +273,7 @@
     <javadoc nested="dist/doc/doc/page-doc/javadoc"/>
     <jar name="dist/page/taglibs-page.jar"/>
     <nag to="taglibs-dev@jakarta.apache.org"
-         from="Ted Husted &lt;ted@husted.com&gt;"/>
+         from="Martin Cooper &lt;martinc@apache.org&gt;"/>
   </project>
 
   <project name="jakarta-taglibs-random">
@@ -289,7 +289,7 @@
     <javadoc nested="dist/doc/doc/random-doc/javadoc"/>
     <jar name="dist/random/taglibs-random.jar"/>
     <nag to="taglibs-dev@jakarta.apache.org"
-         from="Ted Husted &lt;ted@husted.com&gt;"/>
+         from="Martin Cooper &lt;martinc@apache.org&gt;"/>
   </project>
 
   <project name="jakarta-taglibs-regexp">
@@ -306,7 +306,7 @@
     <javadoc nested="dist/doc/doc/regexp-doc/javadoc"/>
     <jar name="dist/regexp/taglibs-regexp.jar"/>
     <nag to="taglibs-dev@jakarta.apache.org"
-         from="Ted Husted &lt;ted@husted.com&gt;"/>
+         from="Martin Cooper &lt;martinc@apache.org&gt;"/>
   </project>
 
   <project name="jakarta-taglibs-request">
@@ -322,7 +322,7 @@
     <javadoc nested="dist/doc/doc/request-doc/javadoc"/>
     <jar name="dist/request/taglibs-request.jar"/>
     <nag to="taglibs-dev@jakarta.apache.org"
-         from="Ted Husted &lt;ted@husted.com&gt;"/>
+         from="Martin Cooper &lt;martinc@apache.org&gt;"/>
   </project>
 
   <project name="jakarta-taglibs-response">
@@ -339,7 +339,7 @@
     <javadoc nested="dist/doc/doc/response-doc/javadoc"/>
     <jar name="dist/response/taglibs-response.jar"/>
     <nag to="taglibs-dev@jakarta.apache.org"
-         from="Ted Husted &lt;ted@husted.com&gt;"/>
+         from="Martin Cooper &lt;martinc@apache.org&gt;"/>
   </project>
 
   <project name="jakarta-taglibs-scrape">
@@ -356,7 +356,7 @@
     <javadoc nested="dist/doc/doc/scrape-doc/javadoc"/>
     <jar name="dist/scrape/taglibs-scrape.jar"/>
     <nag to="taglibs-dev@jakarta.apache.org"
-         from="Ted Husted &lt;ted@husted.com&gt;"/>
+         from="Martin Cooper &lt;martinc@apache.org&gt;"/>
   </project>
 
   <project name="jakarta-taglibs-session">
@@ -372,7 +372,7 @@
     <javadoc nested="dist/doc/doc/session-doc/javadoc"/>
     <jar name="dist/session/taglibs-session.jar"/>
     <nag to="taglibs-dev@jakarta.apache.org"
-         from="Ted Husted &lt;ted@husted.com&gt;"/>
+         from="Martin Cooper &lt;martinc@apache.org&gt;"/>
   </project>
 
   <project name="jakarta-taglibs-standard">
@@ -399,7 +399,7 @@
     <jar name="dist/standard/lib/jstl.jar" id="jstl" />
     <jar name="dist/standard/lib/standard.jar" id="standard" />
     <nag to="taglibs-dev@jakarta.apache.org"
-         from="Ted Husted &lt;ted@husted.com&gt;"/>
+         from="Martin Cooper &lt;martinc@apache.org&gt;"/>
   </project>
 
   <project name="jakarta-taglibs-string">
@@ -419,7 +419,7 @@
     <javadoc nested="dist/doc/doc/string-doc/javadoc"/>
     <jar name="dist/string/taglibs-string.jar"/>
     <nag to="taglibs-dev@jakarta.apache.org"
-         from="Ted Husted &lt;ted@husted.com&gt;"/>
+         from="Martin Cooper &lt;martinc@apache.org&gt;"/>
   </project>
 
   <project name="jakarta-taglibs-utility">
@@ -435,7 +435,7 @@
     <javadoc nested="dist/doc/doc/utility-doc/javadoc"/>
     <jar name="dist/utility/taglibs-utility.jar"/>
     <nag to="taglibs-dev@jakarta.apache.org"
-         from="Ted Husted &lt;ted@husted.com&gt;"/>
+         from="Martin Cooper &lt;martinc@apache.org&gt;"/>
   </project>
 
   <project name="jakarta-taglibs-xtags">
@@ -455,7 +455,7 @@
     <javadoc nested="dist/doc/doc/xtags-doc/javadoc"/>
     <jar name="dist/xtags/taglibs-xtags.jar"/>
     <nag to="taglibs-dev@jakarta.apache.org"
-         from="Ted Husted &lt;ted@husted.com&gt;"/>
+         from="Martin Cooper &lt;martinc@apache.org&gt;"/>
   </project>
 
   <!-- Tool Extensions -->
@@ -473,7 +473,7 @@
     <depend project="xml-xerces"/>
     <javadoc nested="dist/doc/doc/ultradev4-doc/javadoc"/>
     <nag to="taglibs-dev@jakarta.apache.org"
-         from="Ted Husted &lt;ted@husted.com&gt;"/>
+         from="Martin Cooper &lt;martinc@apache.org&gt;"/>
   </project>
 
   <!-- Documentation -->
@@ -488,7 +488,7 @@
     <depend project="xml-xalan2"/>
     <depend project="xml-xerces"/>
     <nag to="taglibs-dev@jakarta.apache.org"
-         from="Ted Husted &lt;ted@husted.com&gt;"/>
+         from="Martin Cooper &lt;martinc@apache.org&gt;"/>
   </project>
 
 </module>
