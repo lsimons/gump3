@@ -123,6 +123,9 @@ class XmlTask(Task):
     def getBaseDir(self):
         return self.basedir
         
+    def getDescription(self):
+        return self.tag
+        
 class XmlUrlTask(XmlTask):
     def __init__(self,tag,url,basedir=None):
         XmlTask.__init__(self,url,tag,basedir)
@@ -131,6 +134,9 @@ class XmlUrlTask(XmlTask):
     def getLocation(self): return self.getUrl()
     def getUrl(self):
         return self.url
+        
+    def getDescription(self):
+        return '%s @ %s' % (self.tag, self.url)
                 
 class XmlFileTask(XmlTask):
     def __init__(self,tag,file,basedir=None):
@@ -140,6 +146,9 @@ class XmlFileTask(XmlTask):
     def getLocation(self): return self.getFile()
     def getFile(self):
         return self.file
+        
+    def getDescription(self):
+        return '%s @ %s' % (self.tag, self.file)
         
 class XmlWorker:   
 
@@ -161,6 +170,9 @@ class XmlWorker:
             
             task.setResult(XmlResult(dom))
         except Exception, details:
+            
+            log.warning('Failed to parse XML %s : %s' % (task.getDescription(),details))
+            
             task.setFailed(str(details))
       
     def postProcess(self,task,dom):        
@@ -188,6 +200,9 @@ class XmlWorker:
                 log.debug("Skip Node: " + `child.nodeType` + ' ' + `child`)                       
     
 class ModelLoader:
+    """
+    Load some XML, and map that to a model.
+    """
     def __init__(self,cache=False):
         self.annotations=[]
         self.xmlloader=XmlLoader(cache)
@@ -207,6 +222,9 @@ class ModelLoader:
         return self.postProcess(cls)
         
     def postProcess(self,cls):
+        """
+        Convert the XML (DOM) into a class.
+        """
         
         rootObject=None
         
@@ -257,6 +275,9 @@ class ModelLoader:
         # Copy over any XML errors/warnings
         #if isinstance(object,Annotatable):
         #    transferAnnotations(parser, object)
+        
+        if not rootObject:
+            raise RuntimeError, 'Failed to extract %s from XML.' % cls.__name__
         
         return rootObject
         
