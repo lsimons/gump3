@@ -9,9 +9,11 @@
   
   <project name="xml-cocoon2">
     <ant target="dist">
+      <property name="version" value="gump"/>
       <depend property="logkit.jar"    project="dist-avalon-logkit"/>
       <depend property="avalonapi.jar" project="jakarta-avalon"/>
     </ant>
+
     <depend project="jakarta-ant"/>
     <depend project="xml-xerces"/>
     <depend project="xml-xalan2"/>
@@ -32,6 +34,9 @@
     <option project="rhino"/>
     <option project="jstyle"/>
     <work nested="bin"/>
+
+    <home nested="dist/cocoon-gump"/>
+    <jar name="lib/cocoon.jar"/>
   </project>
 
   <project name="hsqldb">
