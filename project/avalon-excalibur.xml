@@ -314,13 +314,13 @@
             <property name="version" value="@@DATE@@"/>
             <depend property="excalibur-fortress.jar" project="excalibur-fortress" reference="jarpath"/>
             <depend property="excalibur-lifecycle.jar" project="excalibur-lifecycle" reference="jarpath"/>
-            <depend property="commons-collections" project="commons-collections"/>
+            <depend property="commons-collections.jar" project="commons-collections"/>
             <depend property="util.concurrent.jar"
                       project="concurrent" reference="jarpath"/>
         </ant>
 
-                <depend project="excalibur-fortress" inherit="all" runtime="true"/>
-		<depend project="excalibur-lifecycle" runtime="true"/>
+        <depend project="excalibur-fortress" inherit="all" runtime="true"/>
+	<depend project="excalibur-lifecycle" runtime="true"/>
         <!-- for the servlet examples -->
         <depend project="jakarta-servletapi"/>
 
