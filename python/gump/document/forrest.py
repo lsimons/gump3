@@ -284,7 +284,7 @@ class ForrestDocumenter(Documenter):
         for name in options.__dict__:
             if name.startswith('__') and name.endswith('__'): continue
             method=getattr(options,name)            
-            # avoid nulls, metadata, and methods other than test*
+            # avoid nulls, metadata, and methods other than (is|get)*
             if not method: continue
             if isinstance(method,types.TypeType): continue
             if not isinstance(method,types.MethodType): continue

@@ -71,6 +71,8 @@ class CommandLine:
                 print " Not relevent to all scripts:"
                 print "  -D,  --dated             Dated log files."
                 print "  -t,  --text              Use text not Forrest."
+                print "  -T,  --templates         Use temapltes not Forrest."
+                print "  -X,  --xdocs             Output xdocs, do not run Forrest."
                 
                 print
                 print
@@ -109,6 +111,14 @@ class CommandLine:
                 argv.remove(arg)        
                 self.options.setText(1)
                 log.info('Use text (not forrest).')
+            elif arg in ['-x','--xdocs']:
+                argv.remove(arg)        
+                self.options.setXDocs(1)
+                log.info('Output xdocs (do not run forrest).')
+            elif arg in ['-t','--template']:
+                argv.remove(arg)        
+                self.options.setTemplate(1)
+                log.info('Use template (not forrest).')
 
         if len(argv)>2 and argv[1] in ['-w','--workspace']:
             self.args.append(argv[2])
