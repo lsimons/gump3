@@ -216,6 +216,7 @@
     </ant>
     <depend project="jakarta-ant" inherit="runtime"/>
     <depend project="xml-xerces"/>
+    <depend project="commons-logging"/>
     <javadoc nested="dist/doc/doc/log-doc/javadoc"/>
     <jar name="dist/log/taglibs-log.jar"/>
     <nag to="taglibs-dev@jakarta.apache.org"
