@@ -133,7 +133,6 @@
   <project name="test-ant">
     <ant target="run-tests">
       <property name="test.haltonfailure" value="false"/>
-      <property name="have.cvs" value="true"/>
       <property name="ant.home" reference="home" project="ant"/>
     </ant>
 
