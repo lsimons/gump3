@@ -19,6 +19,7 @@
     <depend project="junit"/>
 
     <work nested="attributes/target/classes"/>
+    <work nested="attributes/target/test-classes"/>
 
     <jar name="attributes/dist/commons-attributes-@@DATE@@.jar"/>
     <javadoc nested="attributes/dist/docs/api"/>
