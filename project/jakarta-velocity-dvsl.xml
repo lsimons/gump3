@@ -15,7 +15,7 @@
     <depend project="xml-xerces"/>
     <depend project="jakarta-velocity"/>
     <depend project="dom4j"/>
-    <jar name="dvsl-gump.jar"/>
+    <jar name="velocity-dvsl-gump.jar"/>
   </project>
   
 </module>
