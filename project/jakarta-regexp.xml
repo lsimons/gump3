@@ -17,7 +17,7 @@
     <depend project="xml-xerces"/>
     <home nested="build"/>
     <jar name="jakarta-regexp-@@DATE@@.jar" id="regexp"/>
-    <license name="LICENSE.txt"/>
+    <license name="LICENSE"/>
     <nag from="Stefan Bodewig &lt;bodewig@apache.org&gt;"
          to="regexp-dev@jakarta.apache.org"/>
   </project>
