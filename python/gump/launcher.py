@@ -223,7 +223,8 @@ def getCmdFromString(strcmd,name=None):
     if not name: name=cmdcmd
     cmd=Cmd(cmdcmd,name)
     for i in range(1,len(parts)):
-        cmd.addParameterObject(getParameterFromString(parts[i]))
+        if parts[i]:
+            cmd.addParameterObject(getParameterFromString(parts[i]))
     return cmd
                 
 class CmdResult:

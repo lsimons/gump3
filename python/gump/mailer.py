@@ -84,6 +84,9 @@ def mail(toaddrs,fromaddr,message,server='localhost'):
        		default.signature))
     
     try:
+        #
+        # Attach to the SMTP server to send....
+        #
         server = smtplib.SMTP(server)
         server.set_debuglevel(1)
         server.sendmail(fromaddr, toaddrs, data)
