@@ -1,0 +1,22 @@
+<module name="hsqldb">
+
+  <url href="http://sourceforge.net/projects/hsqldb/"/>
+  <description>
+     HyperSonic SQL relational database engine
+  </description>
+
+  <cvs repository="sourceforge" host-prefix="cvs.hsqldb" dir="hsqldb" 
+    module="stable"/>
+  
+  <project name="hsqldb">
+    <ant basedir="src">
+    </ant>
+
+    <depend project="jakarta-ant"/>
+    <depend project="xml-xerces"/>
+    <depend project="jakarta-servletapi-4"/>
+
+    <jar name="lib/hsqldb.jar"/>
+  </project>
+
+</module>

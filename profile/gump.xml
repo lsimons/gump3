@@ -76,8 +76,9 @@
   <module href="project/bcel.xml"/>
   <module href="project/bsf.xml"/>
   <module href="project/cruisecontrol.xml"/>
-  <module href="project/dom4j.xml"/>
   <module href="project/dbxml.xml"/>
+  <module href="project/dom4j.xml"/>
+  <module href="project/hsqldb.xml"/>
   <module href="project/httpunit.xml"/>
   <module href="project/jdom.xml"/>
   <module href="project/jtidy.xml"/>
