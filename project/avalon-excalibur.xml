@@ -273,12 +273,12 @@
         <depend project="avalon" runtime="true"/>
         <depend project="xml-xerces"/>
         <depend project="xml-xalan2"/>
-        <work nested="container/build/classes"/>
+	<work nested="lifecycle/build/classes"/>
 
         <home nested="lifecycle"/>
 	<jar name="build/lib/excalibur-lifecycle-@@DATE@@.jar"/>
 
-        <nag from="Stephen McConnell &lt;mcconnell@apache.org&gt;"
+        <nag from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"
                 to="dev@avalon.apache.org"/>
     </project>
 
