@@ -17,4 +17,4 @@
 # Tools/Tests for performance tuning.
 
 # tell Python what modules make up the gump.nofity package
-__all__ = ["xdocs"]
+__all__ = ["xdocs","gurus"]

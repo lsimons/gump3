@@ -107,9 +107,10 @@ class XDocDocumenter(Documenter):
         self.documentWorkspace()  
         self.documentEverythingElse()
         
-        # Document these (even if not a full build)
-        self.documentStatistics()
-        self.documentXRef()
+        # Once a day...
+        if self.run.getOptions().isOfficial():
+            self.documentStatistics()
+            self.documentXRef()
 
         # Synchronize xdocs...
         return self.syncXDocs()
