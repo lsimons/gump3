@@ -32,13 +32,13 @@
     </path>
 
     <!-- Determine what jars are present -->
-    <target name="setenv">    
-        <available classname="org.apache.velocity.anakia.AnakiaTask" 
+    <target name="setenv">
+        <available classname="org.apache.velocity.anakia.AnakiaTask"
                    property="AnakiaTask.present">
             <classpath refid="classpath"/>
         </available>
 
-        <available classname="org.apache.batik.apps.rasterizer.Main" 
+        <available classname="org.apache.batik.apps.rasterizer.Main"
                    property="Rasterizer.present">
             <classpath refid="classpath"/>
         </available>
@@ -70,7 +70,7 @@
             classname="org.apache.velocity.anakia.AnakiaTask">
             <classpath refid="classpath"/>
         </taskdef>
-        
+
         <copy file="${site.dir}/xdocs/stylesheets/site.vsl"
            todir="${docs.src}/stylesheets"/>
 
