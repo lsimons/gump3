@@ -15,7 +15,8 @@
   <option project="junit"/>
   <option project="javamail"/>
 
-  <jar  name="lib/log4j-core.jar"/>
-  <jar  name="lib/log4j.jar" id="log4j"/>
+  <home nested="dist"/>
+  <jar  name="log4j-core.jar"/>
+  <jar  name="log4j.jar" id="log4j"/>
 
 </project>
