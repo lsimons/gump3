@@ -94,8 +94,9 @@ def nag(workspace,context,moduleFilterList=None,projectFilterList=None):
                         project=Project.list[pname]
                         try:
                             nagProject(workspace,context,module,mctxt,project,pctxt)
-                        except:
-                            log.error("Failed to send nag e-mail for project " + pname)
+                        except Exception, details:
+                            log.error("Failed to send nag e-mails for project " + pname\
+                                            + " : " + str(details))
                     else:
                         log.error("Unknown project " + pname)
                 
@@ -138,15 +139,16 @@ def nagProject(workspace,context,module,mctxt,project,pctxt):
             mail(toaddrs,fromaddr,email,workspace.mailserver) 
             
             nags+=1
-        except:
-            log.error("Failed to send nag e-mail for project " + project.name)
+        except Exception, details:
+            log.error("Failed to send nag e-mail for project " + project.name \
+                    + " : " + str(details))
             log.error(content)
             
     # Belt and braces (nag to us if not nag to them)
     if not nags:
         email=EmailMessage(workspace.prefix+': '+module.name+'/'+project.name+' '+stateName(pctxt.status),content)
         toaddr=workspace.mailinglist
-        fromaddr=workspace.mailinglist
+        fromaddr=workspace.email
         
         # We send to a list, but a list of one is fine..
         toaddrs=[ workspace.mailinglist ] # :TODO: toaddr -> to users...

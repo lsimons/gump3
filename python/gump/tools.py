@@ -101,7 +101,10 @@ def syncDirectories(context,workspace,type,cwd,sourcedir,destdir,name=None):
         cmd=Cmd('rsync','rsync_'+name,dir.work)            
         cmd.addParameter('-r')
         cmd.addParameter('-a')
+        cmd.addParameter('-v')
+        cmd.addParameter('-v')
         cmd.addParameter('--delete')
+        cmd.addParameter('--stats')
         cmd.addParameter(sourcedir)
         cmd.addParameter(destdir)
 

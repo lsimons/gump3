@@ -825,7 +825,7 @@ def documentWork(workspace,work,dir):
             endSectionXDoc(x)
         
         startSectionXDoc(x,'Command Line')
-        sourceXDoc(x,work.command.formatCommandLine())
+        sourceXDoc(x,'\t\n".join(work.command.formatCommandLine().split(' ')))
         endSectionXDoc(x)
         
         startSectionXDoc(x,'Output')
@@ -1136,7 +1136,10 @@ def getWorkDocument(rootdir,name,type,wdir=None):
     return os.path.join(wdir,wname+'.xml')
     
 def getContextAbsoluteUrl(root,context):
-    return root+getContextUrl(context,0);
+    url=root
+    if not url.endsWith('/'): url += '/'
+    url += getContextUrl(context,0)
+    return url
         
 def getContextUrl(context,depth=1):
     if isinstance(context,GumpContext):
