@@ -139,7 +139,7 @@ export PYTHONPATH=$GUMP_PYTHON
 echo $SEPARATOR >> $GUMP_LOG
 export >> $GUMP_LOG
 # Capture Python Version
-python -V >> $GUMP_LOG
+python -V >> $GUMP_LOG 2>&1
 
 #
 # Do the integration run

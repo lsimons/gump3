@@ -455,7 +455,7 @@ def documentWorkspace(workspace,context,db,moduleList=None,projectList=None):
         x.write('     </tr>')
         pcount=0
         for project in projectList:
-            pctxt=ontext.getProjectContextForProject(project)
+            pctxt=context.getProjectContextForProject(project)
             pname=pctxt.name
             pcount+=1
 
@@ -569,7 +569,7 @@ def getStateIcons(modulecontext):
     
 def getStateIcon(context):
     icon=getStatePairIcon(context.getStatePair())
-    href=getContextLink(context,0,icon)
+    href=getContextStateLink(context,0,icon)
     return href
     
 def documentModule(workspace,context,wdir,modulename,modulecontext,db,projectList=None):
@@ -1333,19 +1333,39 @@ def getContextAbsoluteUrl(root,context):
     url += getContextUrl(context,0)
     return url
         
-def getContextUrl(context,depth=1):
-    if isinstance(context,GumpContext):
-        url=getWorkspaceRelativeUrl(depth)
-    elif isinstance(context,ModuleContext):
-        url=getModuleRelativeUrl(context.name,depth)
-    else:        
-        url=getModuleProjectRelativeUrl(context.parent.name,context.name,depth)
+        
+def getContextUrl(context,depth=1,state=0):
+    url=None
+    #
+    # If we are looking for what set the state, look at
+    # work first. Pick the first...
+    #
+    if state:
+        for work in context.worklist:
+            if not url:
+                if not work.status==STATUS_SUCCESS:
+                    url=getWorkRelativeUrl(work.type,work.command.name)
+        
+    #
+    # Otherwise return link to context...
+    #     
+    if not url:
+        if isinstance(context,GumpContext):
+            url=getWorkspaceRelativeUrl(depth)
+        elif isinstance(context,ModuleContext):
+            url=getModuleRelativeUrl(context.name,depth)
+        else:        
+            url=getModuleProjectRelativeUrl(context.parent.name,context.name,depth)
+            
     return url
 
 def getTypedContextLink(context,depth=1):
     return getContextLink(context,depth,None,1)
 
-def getContextLink(context,depth=1,xdata=None,typed=0):
+def getContextStateLink(context,depth=1,xdata=None,typed=0):
+    return getContextLink(context,depth,xdata,typed,1)
+    
+def getContextLink(context,depth=1,xdata=None,typed=0,state=0):
     if not xdata:
         description=""
         if typed:
@@ -1357,16 +1377,16 @@ def getContextLink(context,depth=1,xdata=None,typed=0):
                 description="Project: "
         description+=context.name
     
-        return getLink(getContextUrl(context,depth),description)
+        return getLink(getContextUrl(context,depth,state),description)
     else:
-        return getXLink(getContextUrl(context,depth),xdata)
+        return getXLink(getContextUrl(context,depth,state),xdata)
     
 def getContextStateDescription(context):
     xdoc=stateName(context.status)
     if not context.reason==REASON_UNSET: xdoc+=' with reason '+reasonString(context.reason)
     if context.cause and not context.cause == context:
         xdoc+=", caused by "
-        xdoc+=getContextLink(context.cause)
+        xdoc+=getContextStateLink(context.cause)
     return xdoc
 
 def getWorkspaceRelativeUrl(depth=0):
