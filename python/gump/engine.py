@@ -146,8 +146,7 @@ class GumpEngine:
         #
         logResourceUtilization('Before generate results')
         gatherResults(run)
-        
-  
+          
         # Update Statistics/Results on full runs            
         if run.getGumpSet().isFull():
             

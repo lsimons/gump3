@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/forrest.py,v 1.87 2004/03/01 18:58:00 ajack Exp $
-# $Revision: 1.87 $f
-# $Date: 2004/03/01 18:58:00 $
+# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/forrest.py,v 1.88 2004/03/01 21:28:00 ajack Exp $
+# $Revision: 1.88 $f
+# $Date: 2004/03/01 21:28:00 $
 #
 # ====================================================================
 #
@@ -1389,7 +1389,7 @@ class ForrestDocumenter(Documenter):
         serverRow=serversTable.createRow()
         
         serverResults=None
-        if isinstance(linkable,Resultable):
+        if isinstance(linkable,Resultable) and linkable.hasServerResults():
             serverResults=linkable.getServerResults()
             
         for server in servers: 

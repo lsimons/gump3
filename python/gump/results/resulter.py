@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/results/resulter.py,v 1.6 2004/03/01 20:47:02 ajack Exp $
-# $Revision: 1.6 $
-# $Date: 2004/03/01 20:47:02 $
+# $Header: /home/stefano/cvs/gump/python/gump/results/resulter.py,v 1.7 2004/03/01 21:28:00 ajack Exp $
+# $Revision: 1.7 $
+# $Date: 2004/03/01 21:28:00 $
 #
 # ====================================================================
 #
@@ -149,8 +149,7 @@ class Resulter:
                 #
                 moduleResults = self.getResultsForAllServers(module)
 
-                if moduleResults:
-                    module.setServerResults(moduleResults)
+                module.setServerResults(moduleResults)
                 
                 # Add projects
                 for project in module.getProjects():
@@ -161,8 +160,7 @@ class Resulter:
                     #
                     projectResults = self.getResultsForAllServers(project)
 
-                    if projectResults:
-                        project.setServerResults(projectResults)
+                    project.setServerResults(projectResults)
                 
     def generateResults(self,where=None):
         """ Generate a results file """
