@@ -15,7 +15,7 @@
   limitations under the License.
 -->
 <module name="jakarta-jmeter-20" tag="rel-2_0">
-<!-- Version $Revision: 1.3 $ Last updated $Date: 2004/05/21 10:07:51 $ -->
+<!-- Version $Revision: 1.4 $ Last updated $Date: 2004/05/22 09:11:21 $ -->
   <url href="http://jakarta.apache.org/jmeter/" />
   <description>
     Pure Java load testing and performance measurement tool.
@@ -33,8 +33,8 @@
       <property name="jmeter.version" value="2_0_@@DATE@@"/>
       <property name="gump.run" value="true"/>
       <!-- The version of this file -->
-      <property name="version.projectfile" value="$Revision: 1.3 $"/>
-      <property name="date.projectfile" value="$Date: 2004/05/21 10:07:51 $"/>
+      <property name="version.projectfile" value="$Revision: 1.4 $"/>
+      <property name="date.projectfile" value="$Date: 2004/05/22 09:11:21 $"/>
 
 		<!-- Ensure work directories don't get dropped from classpath -->
 		<mkdir dir="build/core"/>
@@ -57,8 +57,8 @@
     <option project="beanshell" ids="bsh-core"/>
     <option project="jakarta-bsf"/>
 
-    <!-- Try to ensure that cvs builds after jmeter -->
-    <option project="jakarta-jmeter">
+    <!-- Try to ensure that this builds after main jmeter build -->
+    <option project="jakarta-jmeter-test">
     	<noclasspath/>
     </option>
     
@@ -121,13 +121,13 @@
       <property name="jmeter.version" value="2_0_@@DATE@@"/>
       <property name="gump.run" value="true"/>
       <!-- The version of this file -->
-      <property name="version.projectfile" value="$Revision: 1.3 $"/>
-      <property name="date.projectfile" value="$Date: 2004/05/21 10:07:51 $"/>
+      <property name="version.projectfile" value="$Revision: 1.4 $"/>
+      <property name="date.projectfile" value="$Date: 2004/05/22 09:11:21 $"/>
     </ant>
 
     <depend project="ant" />
 
-    <depend project="jakarta-jmeter-cvs" ids="none">
+    <depend project="jakarta-jmeter-20-cvs" ids="none">
     	<noclasspath/>
     </depend>
 
