@@ -55,11 +55,11 @@
     <license name="central/system/license/LICENSE.TXT"/>
     <ant basedir="tools/magic">
       <!-- for magic -->
-      <depend name="magic.home" resource="home"
-          project="avalon-tools-magic-home" inherit="runtime" />
+      <property name="magic.home" reference="home"
+          project="avalon-tools-magic-home" inherit="runtime"/>
       <property name="gump.signature" value="@@DATE@@"/>
       <!-- external references -->
-      <depend property="gump.resource.ant" project="ant"/>
+      <depend property="gump.resource.ant" project="ant" id="ant"/>
       <depend property="gump.resource.junit" project="junit"/>
       <depend property="gump.resource.ant-junit" project="ant" id="junit"/>
       <depend property="gump.resource.ant-nodeps" project="ant" id="nodeps"/>
