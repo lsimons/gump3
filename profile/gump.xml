@@ -175,7 +175,7 @@
   <project name="cos"            package="cos-09May2002"/>
   <project name="ejb"            package="ejb-2_0-fr"/>
   <project name="fesi"           package="fesi"/>
-  <project name="iso-relax"      package="isorelax-dev-20020320"/>
+  <project name="iso-relax"      package="isorelax.20020707"/>
   <project name="j2ee-connector" package="j2ee_connector-1_0-fr"/>
   <project name="jaas"           package="jaas1_0"/>
   <project name="jaf"            package="jaf-1.0.1"/>
