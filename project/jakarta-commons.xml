@@ -73,6 +73,7 @@
     <depend project="jakarta-ant"/>
     <depend project="xml-xerces"/>
     <depend project="jakarta-log4j"/>
+    <depend project="jakarta-avalon-logkit"/>
     <home nested="logging/dist"/>
     <jar name="commons-logging.jar"/>
     <javadoc nested="logging/dist/docs/api"/>
