@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/output/Attic/statsdb.py,v 1.6 2003/12/16 17:13:48 ajack Exp $
-# $Revision: 1.6 $
-# $Date: 2003/12/16 17:13:48 $
+# $Header: /home/stefano/cvs/gump/python/gump/output/Attic/statsdb.py,v 1.7 2004/01/09 19:37:54 ajack Exp $
+# $Revision: 1.7 $
+# $Date: 2004/01/09 19:37:54 $
 #
 # ====================================================================
 #
@@ -73,6 +73,7 @@ from gump.config import *
 from gump.model.project import Project, ProjectStatistics
 from gump.model.module import Module, ModuleStatistics
 from gump.model.repository import Repository, RepositoryStatistics
+from gump.model.workspace import Workspace, WorkspaceStatistics
 from gump.model.state import *
   
 class StatisticsDB:
@@ -82,6 +83,10 @@ class StatisticsDB:
         if not name: name='stats.db'
         if not dbdir: dbdir=dir.work
         self.dbpath    = os.path.abspath('%s/%s' % (dbdir,name))
+        
+        if not os.path.exists(self.dbpath):
+            log.info('*New* Statistic Database:' + self.dbpath)
+            
         log.debug('Open Statistic Database:' + self.dbpath)
         if not os.name == 'dos' and not os.name == 'nt':
             self.db		=	anydbm.open(self.dbpath,'c')
@@ -95,8 +100,13 @@ class StatisticsDB:
                 print "Project " + pname + " Key " + key
                 s=self.getProjectStats(pname)
                 dump(s)
-            
-
+                
+    # Workspace
+    def getWorkspaceStats(self):
+        stats=WorkspaceStatistics()
+        self.getBaseStats(stats)
+        return stats
+        
     # Project
     
     def getProjectStats(self,projectName):

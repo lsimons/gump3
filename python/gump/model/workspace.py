@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/model/workspace.py,v 1.20 2003/12/17 00:52:11 ajack Exp $
-# $Revision: 1.20 $
-# $Date: 2003/12/17 00:52:11 $
+# $Header: /home/stefano/cvs/gump/python/gump/model/workspace.py,v 1.21 2004/01/09 19:37:54 ajack Exp $
+# $Revision: 1.21 $
+# $Date: 2004/01/09 19:37:54 $
 #
 # ====================================================================
 #
@@ -76,6 +76,7 @@ from gump.model.project import Project, ProjectSummary
 from gump.model.profile import Profile
 from gump.model.object import ModelObject
 from gump.model.property import PropertyContainer
+from gump.model.stats import Statable, Statistics
 from gump.utils.note import transferAnnotations, Annotatable
 
 #
@@ -88,7 +89,7 @@ MISSING_UTILITY=2
 BAD_ENVIRONMENT=3
 
 
-class Workspace(ModelObject,PropertyContainer):
+class Workspace(ModelObject,PropertyContainer, Statable):
     """Gump Workspace"""
     def __init__(self,xmlworkspace):
     	ModelObject.__init__(self,xmlworkspace)    	
@@ -631,3 +632,28 @@ class Workspace(ModelObject,PropertyContainer):
         
     def getJavaCommand(self):
         return self.javaCommand
+        
+
+class WorkspaceStatistics(Statistics):
+    """Statistics Holder"""
+    def __init__(self):
+        Statistics.__init__(self,'workspace')    
+        self.lastUpdated=-1        
+        
+    def getLastUpdated(self):
+        return (self.lastUpdated)
+        
+    def getKeyBase(self):
+        return self.name
+        
+    def lastUpdatedKey(self):
+        return self.getKeyBase() + '-last-updated'
+
+    def update(self,module):      
+        Statistics.update(self,module)
+
+        #
+        # Track code updates/changes
+        # 
+        if module.isUpdated():
+            self.lastUpdated=default.time        

@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/forrest.py,v 1.44 2004/01/08 23:48:16 ajack Exp $
-# $Revision: 1.44 $f
-# $Date: 2004/01/08 23:48:16 $
+# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/forrest.py,v 1.45 2004/01/09 19:37:54 ajack Exp $
+# $Revision: 1.45 $f
+# $Date: 2004/01/09 19:37:54 $
 #
 # ====================================================================
 #
@@ -802,7 +802,19 @@ class ForrestDocumenter(Documenter):
             projectRow.createData(secsToElapsedString(project.getElapsedSecs())) 
             
         if not pcount: pallTable.createLine('None')
+                   
+        addnSection=document.createSection('Additional Details')
+        addnPara=addnSection.createParagraph()
+        addnPara.createLink(gumpSafeName(module.getName()) + '_details.html',	\
+                            'More module details ...')
+                                                                            
+        document.serialize()
         
+        document=XDocDocument('Module Details : ' + module.getName(),	\
+                    self.resolver.getFile(module, \
+                                    module.getName() + '_details', \
+                                        '.xml'))
+            
         detailSection=document.createSection('Module Details')
         detailList=detailSection.createList()
         detailList.createEntry("State: " + module.getStateDescription())
@@ -946,10 +958,9 @@ class ForrestDocumenter(Documenter):
                 
         addnSection=document.createSection('Additional Details')
         addnPara=addnSection.createParagraph()
-        addnPara.createLink(gumpSafeName(project.getName()) + '_details.xml',	\
+        addnPara.createLink(gumpSafeName(project.getName()) + '_details.html',	\
                             'More project details ...')
-                                        
-                                        
+                                                                            
         document.serialize()
         
         document=XDocDocument('Project Details : ' + project.getName(),	\
