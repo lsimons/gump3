@@ -131,7 +131,7 @@
     <depend project="commons-logging"/>
     <depend project="commons-messenger"/>
     <depend project="dom4j"/>
-    <depend project="hsqldb"/>
+    <depend project="hsqldb" ids="hsqldb"/>
     <depend project="iso-relax"/>
     <depend project="jaf"/>
     <depend project="jakarta-ojb"/>
