@@ -28,7 +28,7 @@
 
     <xsl:text>all)&#10;</xsl:text>
     <xsl:text>  export all=1&#10;</xsl:text>
-    <xsl:for-each select=".//project[not(@name=clean)] | .//module">
+    <xsl:for-each select=".//project[not(@name='clean')] | .//module">
       <xsl:text>  export </xsl:text>
       <xsl:value-of select="translate(@name,'-.','__')"/>
       <xsl:text>=1&#10;</xsl:text>
@@ -446,7 +446,7 @@
   <!-- =================================================================== -->
 
   <xsl:template match="move">
-    <xsl:if test="not(@quiet)">
+    <xsl:if test="@quiet">
       <xsl:text>test -d </xsl:text>
       <xsl:value-of select="translate(@file,'\','/')"/>
       <xsl:text> || </xsl:text>
