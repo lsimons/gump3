@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/Attic/view.py,v 1.24 2003/05/04 22:57:43 nicolaken Exp $
-# $Revision: 1.24 $
-# $Date: 2003/05/04 22:57:43 $
+# $Header: /home/stefano/cvs/gump/python/gump/Attic/view.py,v 1.25 2003/05/05 07:54:35 nicolaken Exp $
+# $Revision: 1.25 $
+# $Date: 2003/05/05 07:54:35 $
 #
 # ====================================================================
 #
@@ -66,7 +66,7 @@ import os
 import popen2
 import thread
 import sys
-import logging
+import logging, logging.config
 
 from xml.sax import parse
 from xml.sax.handler import ContentHandler
@@ -443,6 +443,7 @@ class compileThread:
     self.view.showProject(self.project)
 
 if __name__ == '__main__':
+  logging.config.fileConfig("gump/logconf.ini") 
   app = gumpview(0)
   GumpSplashScreen().Show()
   app.load(sys.argv[1:] or [default.workspace])
