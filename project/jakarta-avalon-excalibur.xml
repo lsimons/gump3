@@ -93,6 +93,7 @@
         <depend project="jakarta-ant" inherit="runtime"/>
         <option project="checkstyle" inherit="runtime"/>
         <depend project="jetty"/>
+        <depend project="jakarta-servletapi-4"/>
         <depend project="junit"/>
         <depend project="jakarta-avalon" runtime="true"/>
         <depend project="xml-xerces"/>
