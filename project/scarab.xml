@@ -17,5 +17,6 @@
   <depend project="jakarta-ecs"/>
   <depend project="jakarta-turbine"/>
   <depend project="village"/>
+  <depend project="torque"/>
 
 </project>

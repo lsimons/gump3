@@ -29,6 +29,12 @@
   <home nested="turbine-2.1-dev-unreleased"/>
   <jar name="turbine-2.1-dev-unreleased.jar"/>
 
+  <project name="torque">
+    <depend project="jakarta-turbine"/>
+    <home nested="bin/torque/torque"/>
+    <jar name="lib/torque.jar"/>
+  </project>
+
   <project name="webmacro">
     <url href="http://www.webmacro.org/"/>
     <description>
