@@ -10,7 +10,7 @@
   <project name="checkstyle">
     <package>com.puppycrawl.tools.checkstyle</package>
   
-    <mkdir dir="classes/checkstyle"/>
+    <mkdir dir="target/checkstyle"/>
     <ant target="gump">
       <property name="version" value="@@DATE@@"/>
     </ant>
@@ -21,9 +21,9 @@
     <depend project="junit"/>
     <depend project="antlr" inherit="jars"/>
     <depend project="jakarta-regexp" inherit="jars"/>
-    <work nested="classes/checkstyle"/>
-    <work nested="classes/tests"/>
+    <work nested="target/checkstyle"/>
+    <work nested="target/tests"/>
 
-    <jar name="dist/checkstyle-@@DATE@@/checkstyle-@@DATE@@.jar"/>
+    <jar name="target/dist/checkstyle-@@DATE@@/checkstyle-@@DATE@@.jar"/>
   </project>
 </module>
