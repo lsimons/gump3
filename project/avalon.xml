@@ -235,12 +235,12 @@
     <!-- runtime dependencies -->
     <depend property="avalon-framework.jar" project="avalon-framework" runtime="true" id="api"/>
     <depend project="avalon-logging-api" runtime="true"/>
-    <depend project="avalon-repository-api" runtime="true"/>
+    <!--depend project="avalon-repository-api" runtime="true"/>
     <depend project="avalon-repository-spi" runtime="true"/>
     <depend project="avalon-repository-main" runtime="true"/>
     <depend project="avalon-util-criteria" runtime="true"/>
     <depend project="avalon-util-i18n" runtime="true"/>
-    <depend project="avalon-util-defaults" runtime="true"/>
+    <depend project="avalon-util-defaults" runtime="true"/-->
     <depend project="excalibur-configuration" runtime="true"/>
 
     <!-- test-time dependencies -->
@@ -281,11 +281,11 @@
     <depend project="avalon-framework" runtime="true" id="api"/>
     <depend project="avalon-logging-api" runtime="true"/>
     <depend project="avalon-logging-spi" runtime="true"/>
-    <depend project="avalon-repository-api" runtime="true"/>
+    <!--depend project="avalon-repository-api" runtime="true"/>
     <depend project="avalon-repository-spi" runtime="true"/>
     <depend project="avalon-util-criteria" runtime="true"/>
     <depend project="avalon-util-i18n" runtime="true"/>
-    <depend project="avalon-util-defaults" runtime="true"/>
+    <depend project="avalon-util-defaults" runtime="true"/-->
     <depend project="excalibur-configuration" runtime="true"/>
 
     <!-- test-time dependencies -->
@@ -326,11 +326,11 @@
     <depend project="avalon-framework" runtime="true" id="api"/>
     <depend project="avalon-logging-api" runtime="true"/>
     <depend project="avalon-logging-spi" runtime="true"/>
-    <depend project="avalon-repository-api" runtime="true"/>
+    <!--depend project="avalon-repository-api" runtime="true"/>
     <depend project="avalon-repository-spi" runtime="true"/>
     <depend project="avalon-util-criteria" runtime="true"/>
     <depend project="avalon-util-i18n" runtime="true"/>
-    <depend project="avalon-util-defaults" runtime="true"/>
+    <depend project="avalon-util-defaults" runtime="true"/-->
     <depend project="excalibur-configuration" runtime="true"/>
 
     <!-- test-time dependencies -->
@@ -371,11 +371,11 @@
     <depend project="avalon-framework" runtime="true" id="api"/>
     <depend project="avalon-logging-api" runtime="true"/>
     <depend project="avalon-logging-spi" runtime="true"/>
-    <depend project="avalon-repository-api" runtime="true"/>
+    <!--depend project="avalon-repository-api" runtime="true"/>
     <depend project="avalon-repository-spi" runtime="true"/>
     <depend project="avalon-util-criteria" runtime="true"/>
     <depend project="avalon-util-i18n" runtime="true"/>
-    <depend project="avalon-util-defaults" runtime="true"/>
+    <depend project="avalon-util-defaults" runtime="true"/-->
     <depend project="excalibur-configuration" runtime="true"/>
 
     <!-- test-time dependencies -->
