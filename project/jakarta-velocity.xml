@@ -1,0 +1,41 @@
+<project name="jakarta-velocity">
+
+  <url href="http://jakarta.apache.org/velocity/index.html"/>
+  <description>
+    Template engine
+  </description>
+
+  <cvs  repository="jakarta"/>
+
+  <ant buildfile="build/build-velocity.xml" target="dist"/>
+  <depend project="jakarta-ant"/>
+  <depend project="xml-xerces"/>
+  <depend project="jakarta-servletapi"/>
+  <depend project="jdom"/>
+  <depend project="jakarta-oro"/>
+  <depend project="werken.xpath"/>
+  <depend project="javaclass"/>
+  <depend project="junit"/>
+  <depend project="framework"/> <!-- for the log class -->
+
+  <home nested="bin"/>
+  <jar  name="velocity-0.72.jar"/>
+
+  <!-- not available via CVS -->
+
+  <project name="werken.xpath">
+    <url href="http://code.werken.com/"/>
+    <jar name="build/lib/werken.xpath.jar"/>
+  </project>
+
+  <!-- not buildable using Ant -->
+
+  <project name="javaclass">
+    <url href="http://www.inf.fu-berlin.de/~dahm/JavaClass/"/>
+    <description>
+      Byte Code Engineering Library
+    </description>
+    <jar name="build/lib/JavaClass.jar"/>
+  </project>
+
+</project>

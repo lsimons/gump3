@@ -1,0 +1,29 @@
+<project name="xml-fop">
+
+  <url href="http://xml.apache.org/fop/index.html"/>
+  <description>
+    XSL:FO (Formatting Objects) processor
+  </description>
+
+  <cvs repository="xml"/>
+
+  <ant target="dist"/>
+
+  <depend project="xml-xerces"/>
+  <depend project="xml-xalan2"/>
+  <depend project="jakarta-ant"/>
+  <depend project="w3c-svg"/>
+  <depend project="bsf"/>
+
+  <!-- extra task definitions -->
+  <work nested="lib/buildtools.jar"/>
+
+  <home nested="build"/>
+  <jar  name="fop.jar"/>
+
+  <!-- Anybody know from whence this came? -->
+  <project name="w3c-svg">
+    <jar name="lib/w3c.jar"/>
+  </project>
+
+</project>

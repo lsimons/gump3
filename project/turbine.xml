@@ -1,0 +1,48 @@
+<project name="turbine">
+
+  <url href="http://java.apache.org/turbine/index.html"/>
+  <description>
+    Servlet based framework
+  </description>
+
+  <cvs repository="turbine"/>
+
+  <ant buildfile="build/build-turbine.xml" target="package"/>
+
+  <depend project="jakarta-ant"/>
+  <depend project="xml-xerces"/>
+  <depend project="xml-xalan1"/>
+  <depend project="jakarta-servletapi"/>
+  <depend project="jakarta-log4j"/>
+  <depend project="jakarta-ecs"/>
+  <depend project="jakarta-velocity"/>
+  <depend project="webmacro"/>
+  <option project="freemarker"/>
+  <depend project="village"/>
+  <depend project="castor"/>
+  <depend project="javamail"/>
+  <depend project="xmlrpc"/>
+  <depend project="jaf"/>
+  <depend project="jdbc"/>
+  <option project="jta"/> <!-- needed for javadoc purposes only -->
+
+  <home nested="turbine-2.1-dev-unreleased"/>
+  <jar name="turbine-2.1-dev-unreleased.jar"/>
+
+  <project name="webmacro">
+    <url href="http://www.webmacro.org/"/>
+    <description>
+      HTML template engine
+    </description>
+    <jar name="lib/webmacro-jdk1.2.jar"/>
+  </project>
+
+  <project name="xmlrpc">
+    <url href="http://classic.helma.at/hannes/xmlrpc/"/>
+    <description>
+      XML Remote Procedure Call
+    </description>
+    <jar name="lib/xmlrpc.jar"/>
+  </project>
+
+</project>

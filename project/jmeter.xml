@@ -1,0 +1,29 @@
+<project name="jmeter">
+
+  <url href="http://java.apache.org/jmeter" />
+  <description>
+    Pure Java load testing and performance measurement tool.
+  </description>
+
+  <cvs repository="jservpub" />
+  <ant />
+
+  <home nested="bin" />
+  <jar name="ApacheJMeter.jar" />
+
+  <depend project="jakarta-ant" />
+  <depend project="xml-xerces" />
+  <depend project="pngencoder" />
+
+  <depend project="jaf" />
+  <depend project="javamail" />
+  <depend project="jsse" />
+
+  <depend project="junit" />
+
+  <project name="pngencoder">
+    <url href="http://catcode.com/pngencoder/" />
+    <jar name="lib/util.jar"/>
+  </project>
+
+</project>

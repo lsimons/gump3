@@ -1,0 +1,21 @@
+<project name="jakarta-taglibs">
+
+  <url href="http://jakarta.apache.org/taglibs/index.html"/>
+  <description>
+    JSP Taglibs
+  </description>
+
+  <cvs repository="jakarta"/>
+
+  <ant target="dist">
+    <property name="oro.jar"
+       reference="jarpath" id="oro" project="jakarta-oro"/>
+  </ant>
+
+  <depend project="xml-xerces"/>
+  <depend project="xml-xalan2"/>
+  <depend project="jakarta-oro"/>
+  <depend project="jakarta-ant"/>
+  <depend project="jakarta-servletapi"/>
+
+</project>

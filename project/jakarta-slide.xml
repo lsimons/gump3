@@ -1,0 +1,25 @@
+<project name="jakarta-slide">
+
+  <url href="http://jakarta.apache.org/slide/index.html"/>
+  <description>
+    WebDAV
+  </description>
+
+  <cvs repository="jakarta"/>
+
+  <ant target="full-dist"/>
+  <depend project="jakarta-ant"/>
+  <depend project="xml-xerces"/>
+  <depend project="xml-xalan1"/>
+  <depend project="jakarta-servletapi-4.0"/>
+  <depend project="jmx"/>
+  <depend project="jta"/>
+  <work parent="build/slide/classes"/>
+
+  <home parent="dist/slide-1.0dev"/>
+  <jar  name="lib/manager.jar"/>
+  <jar  name="lib/slide.jar"/>
+  <jar  name="lib/slidestores.jar"/>
+  <jar  name="lib/webdav.jar"/>
+
+</project>

@@ -1,0 +1,5 @@
+<project name="xml-site">
+
+  <cvs repository="xml"/>
+
+</project>

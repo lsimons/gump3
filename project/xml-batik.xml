@@ -1,0 +1,29 @@
+<project name="xml-batik">
+
+  <note>
+     Crimson dependencies should be replaced with JAXP calls
+  </note>
+
+  <url href="http://xml.apache.org/batik/index.html"/>
+  <description>
+    Scalable Vector Graphics
+  </description>
+
+  <cvs repository="xml"/>
+
+  <ant target="jars"/>
+
+  <depend project="jaxp1.1"/>
+  <depend project="jakarta-ant"/>
+  <depend project="rhino"/>
+  <depend project="xml-xalan1"/>
+
+  <home nested="batik-1.0beta2"/>
+  <jar name="lib/batik-css.jar"/>
+  <jar name="lib/batik-dom.jar"/>
+  <jar name="lib/batik-ext.jar"/>
+  <jar name="lib/batik-svg-dom.jar"/>
+  <jar name="lib/batik-transcoder.jar"/>
+  <jar name="lib/batik-util.jar"/>
+
+</project>

@@ -1,0 +1,10 @@
+<project name="junit">
+
+  <url  href="http://www.junit.org/"/>
+  <description>
+    Unit test framework
+  </description>
+
+  <jar name="junit.jar"/>
+
+</project>

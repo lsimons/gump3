@@ -1,0 +1,32 @@
+<project name="castor">
+
+  <url href="http://castor.exolab.org/"/>
+  <description>
+    Java to XML, SQL, LDAP bindings
+  </description>
+
+  <cvs repository="castor"/>
+
+  <ant buildfile="src/build12.xml" target="jar"/>
+
+  <depend project="jakarta-ant"/>
+  <depend project="xml-xerces"/>
+  <depend project="ldapsdk"/>
+  <depend project="jdbc"/>
+  <depend project="jta"/>
+  <depend project="jakarta-regexp"/>
+
+  <home nested="dist"/>
+  <jar name="castor-0.9.jar"/>
+  <jar name="castor-0.9-xml.jar"/>
+
+  <project name="ldapsdk">
+    <url href="http://www.mozilla.org/directory/javasdk.html"/>
+    <description>
+      Netscape Directory SDK for Java
+    </description>
+    <jar name="lib/ldapjdk.jar"/>
+    <jar name="lib/ldapsp.jar"/>
+  </project>
+
+</project>

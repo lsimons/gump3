@@ -1,0 +1,19 @@
+<project name="xml-axis">
+
+  <url href="http://xml.apache.org/soap/index.html"/>
+  <description>
+    Simple Object Access Protocol
+  </description>
+
+  <cvs repository="xml"/>
+
+  <ant buildfile="java/build.xml" target="dist"/>
+
+  <depend project="xml-xerces"/>
+  <depend project="jakarta-ant"/>
+  <depend project="jakarta-servletapi"/>
+
+  <home nested="java/build"/>
+  <jar name="lib/axis.jar"/>
+
+</project>

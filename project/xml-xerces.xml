@@ -1,0 +1,28 @@
+<project name="xml-xerces">
+
+  <url href="http://xml.apache.org/xerces-j/index.html"/>
+  <description>
+    Java XML Parser
+  </description>
+
+  <cvs repository="xml"/>
+
+  <ant buildfile="java/build.xml" target="jar"/>
+  <depend project="jaxp"/>
+  <depend project="bootstrap-ant"/>
+
+  <home nested="java/build"/>
+  <jar  name="xerces.jar"/>
+
+  <!-- package up the distrution -->
+
+  <project name="dist-xerces">
+    <ant buildfile="java/build.xml" target="pack-bin"/>
+    <depend project="jakarta-ant"/>
+    <depend project="xml-xalan1"/>
+    <depend project="xml-xerces"/>
+    <depend project="xml-stylebook"/>
+    <depend project="xml-site"/>
+  </project>
+
+</project>

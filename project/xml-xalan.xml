@@ -1,0 +1,108 @@
+<project name="xml-xalan">
+
+  <cvs repository="xml"/>
+
+  <!--- ================================================= -->
+  <!---                     Version 1                     -->
+  <!--- ================================================= -->
+
+  <!-- bootstrap -->
+  <project name="xml-xalan1">
+    <url href="http://xml.apache.org/xalan/index.html"/>
+    <description>
+      Release 1.x of the Xalan-Java XSLT processor
+    </description>
+
+    <ant buildfile="build.xml">
+      <property name="bsf.jar"
+         reference="jarpath" id="bsf" project="bsf"/>
+      <property name="xerces.jar"
+         reference="jarpath" id="xerces" project="xml-xerces"/>
+    </ant>
+
+    <depend project="jakarta-ant"/>
+    <depend project="xml-xerces"/>
+    <depend project="bsf"/>
+
+    <home nested="build"/>
+    <jar  name="xalan.jar"/>
+  </project>
+
+  <project name="dist-xalan1">
+    <url href="http://xml.apache.org/xalan/index.html"/>
+    <description>
+      Release 1.x of the Xalan-Java XSLT processor
+    </description>
+
+    <ant buildfile="build.xml" target="dist">
+      <property name="bsf.jar"
+         reference="jarpath" id="bsf" project="bsf"/>
+      <property name="xerces.jar"
+         reference="jarpath" id="xerces" project="xml-xerces"/>
+    </ant>
+
+    <depend project="jakarta-ant"/>
+    <depend project="xml-xerces"/>
+    <depend project="xml-xalan1"/>
+    <depend project="xml-site"/>
+    <depend project="xml-stylebook"/>
+    <depend project="bsf"/>
+    <depend project="jakarta-servletapi"/>
+  </project>
+
+  <!--- ================================================= -->
+  <!---                     Version 2                     -->
+  <!--- ================================================= -->
+
+  <project name="xml-xalan2">
+    <url href="http://xml.apache.org/xalan-j/index.html"/>
+    <description>
+      Release 2.x of the Xalan-Java XSLT processor
+    </description>
+
+    <ant buildfile="java/build.xml"/>
+
+    <depend project="bootstrap-ant"/>
+    <depend project="xml-xerces"/>
+
+    <home nested="java/build"/>
+    <jar  name="xalan.jar"/>
+  </project>
+
+  <project name="dist-xalan2">
+    <url href="http://xml.apache.org/xalan-j/index.html"/>
+    <description>
+      Release 2.x of the Xalan-Java XSLT processor
+    </description>
+
+    <ant buildfile="java/build.xml" target="dist">
+      <property name="bsf.jar"
+         reference="jarpath" id="bsf" project="bsf"/>
+      <property name="xerces.jar"
+         reference="jarpath" id="xerces" project="xml-xerces"/>
+    </ant>
+
+    <depend project="jakarta-ant"/>
+    <depend project="xml-xerces"/>
+    <depend project="jakarta-servletapi"/>
+    <depend project="xml-xalan2"/>
+    <option project="bsf"/>
+
+    <home nested="java/build/xalan-j_2_0_0"/>
+    <jar  name="bin/xalan.jar"/>
+  </project>
+
+  <project name="xml-xalan2-smoketest">
+    <description>
+      Smoke tests
+    </description>
+
+    <ant buildfile="java/build.xml" target="smoketest"/>
+
+    <depend project="jakarta-ant"/>
+    <depend project="xml-xerces"/>
+    <depend project="dist-xalan2"/>
+    <work nested="test/java/build"/>
+  </project>
+
+</project>

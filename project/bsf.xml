@@ -1,0 +1,24 @@
+<project name="bsf">
+
+  <url href="http://oss.software.ibm.com/developerworks/projects/bsf"/>
+  <description>
+    Bean Scripting Framework
+  </description>
+
+  <cvs repository="bsf"/>
+
+  <ant/>
+  <depend project="xml-xerces"/>
+  <depend project="jakarta-ant"/>
+
+  <home nested="build"/>
+  <jar  name="lib/bsf.jar"/>
+
+  <project name="dist-bsf">
+    <ant target="dist"/>
+    <depend project="xml-xerces"/>
+    <depend project="jakarta-ant"/>
+    <depend project="bsf"/>
+    <depend project="rhino"/>
+  </project>
+</project>

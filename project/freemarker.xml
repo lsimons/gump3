@@ -1,0 +1,18 @@
+<project name="freemarker">
+
+  <url href="http://freemarker.sourceforge.net/"/>
+  <description>
+    HTML Templates
+  </description>
+
+  <cvs repository="freemarker"/>
+
+  <ant/>
+
+  <depend project="jakarta-ant"/>
+  <depend project="xml-xerces"/>
+  <depend project="jakarta-servletapi"/>
+
+  <jar name="lib/freemarker.jar"/>
+
+</project>

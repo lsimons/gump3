@@ -1,0 +1,46 @@
+<project name="jakarta-ant">
+
+  <url  href="http://jakarta.apache.org/ant/index.html"/>
+  <description>
+    Java based build tool
+  </description>
+
+  <cvs repository="jakarta"/>
+
+  <depend project="bootstrap-ant"/>
+  <depend project="xml-xerces"/>
+  <option project="xml-xalan2"/>
+
+  <ant>
+    <property name="ant.home" reference="home" project="jakarta-ant"/>
+  </ant>
+
+  <home nested="build"/>
+  <jar name="lib/ant.jar"/>
+  <jar name="lib/optional.jar"/>
+
+  <project name="dist-ant">
+    <depend project="jakarta-ant"/>
+    <depend project="xml-xerces"/>
+    <option project="xml-xalan1"/>
+    <option project="xml-xalan2"/>
+    <option project="bsf"/>
+    <option project="junit"/>
+    <option project="jakarta-regexp"/>
+    <option project="jakarta-oro"/>
+
+    <ant target="dist"/>
+
+    <home nested="dist"/>
+    <jar  name="lib/ant.jar"/>
+    <jar  name="lib/optional.jar"/>
+  </project>
+
+  <project name="bootstrap-ant">
+    <depend project="jaxp"/>
+    <script name="bootstrap"/>
+    <home nested="bootstrap"/>
+    <jar name="lib/ant.jar"/>
+  </project>
+
+</project>

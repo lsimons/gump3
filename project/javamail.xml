@@ -1,0 +1,10 @@
+<project name="javamail">
+
+  <url  href="http://java.sun.com/products/javamail/"/>
+  <description>
+    Java Mail
+  </description>
+
+  <jar  name="mail.jar"/>
+
+</project>

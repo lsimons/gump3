@@ -1,0 +1,11 @@
+<project name="jaxp">
+
+  <url  href="http://java.sun.com/xml/download.html"/>
+  <description>
+    Java API for XML Processing
+  </description>
+
+  <jar  name="jaxp.jar"/>
+  <jar  name="parser.jar" id="parser"/>
+
+</project>

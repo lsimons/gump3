@@ -1,0 +1,7 @@
+<project name="jta">
+   <url href="http://java.sun.com/products/jta/"/>
+   <description>
+     Java Transaction API
+   </description>
+   <jar name="jta-spec1_0_1.jar"/>
+</project>

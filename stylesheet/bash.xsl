@@ -1,0 +1,565 @@
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0">
+  <xsl:strip-space elements="*"/>
+        
+  <xsl:template name="select">
+    <xsl:param name="usage"/>
+
+    <xsl:text>case $1 in&#10;</xsl:text>
+    <xsl:for-each select=".//project">
+      <xsl:value-of select="@name"/>
+      <xsl:text>) export </xsl:text>
+      <xsl:value-of select="translate(@name,'-.','__')"/>
+      <xsl:text>=1;;&#10;</xsl:text>
+    </xsl:for-each>
+
+    <xsl:text>all)&#10;</xsl:text>
+    <xsl:text>  export all=1&#10;</xsl:text>
+    <xsl:for-each select=".//project">
+      <xsl:text>  export </xsl:text>
+      <xsl:value-of select="translate(@name,'-.','__')"/>
+      <xsl:text>=1&#10;</xsl:text>
+    </xsl:for-each>
+
+    <xsl:text>  ;;&#10;</xsl:text>
+    <xsl:text>*)&#10;</xsl:text>
+    <xsl:text>  test -n $1 &amp;&amp; echo Unknown project: $1&#10;</xsl:text>
+
+    <xsl:text>  echo </xsl:text>
+    <xsl:value-of select="normalize-space($usage)"/>
+    <xsl:text>&#10;</xsl:text>
+
+    <xsl:text>  exit 1;;&#10;</xsl:text>
+    <xsl:text>esac&#10;</xsl:text>
+  </xsl:template>
+
+  <!-- =================================================================== -->
+  <!--                               build                                 -->
+  <!-- =================================================================== -->
+
+  <xsl:template match="build">
+    <xsl:text>#/bin/sh&#10;</xsl:text>
+    <xsl:text>export CP=$CLASSPATH&#10;</xsl:text>
+
+    <xsl:call-template name="select">
+      <xsl:with-param name="usage">
+        Usage: build all \| project [target...]
+      </xsl:with-param>
+    </xsl:call-template>
+
+    <xsl:text>shift&#10;</xsl:text>
+    <xsl:text>export TARGET=$*&#10;</xsl:text>
+
+    <xsl:text>if test $all; then&#10;</xsl:text>
+    <xsl:apply-templates/>
+    <xsl:text>fi&#10;</xsl:text>
+  </xsl:template>
+
+  <xsl:template match="build//project">
+    <xsl:text>echo Building </xsl:text>
+    <xsl:value-of select="@name"/>
+    <xsl:text>&#10;</xsl:text>
+
+    <xsl:if test="count(.//ant)=1">
+      <xsl:text>export TARGET=</xsl:text>
+      <xsl:value-of select=".//ant/@target"/>
+      <xsl:text>&#10;</xsl:text>
+    </xsl:if>
+
+    <xsl:apply-templates/>
+  </xsl:template>
+        
+  <!-- =================================================================== -->
+  <!--                             cvs update                              -->
+  <!-- =================================================================== -->
+
+  <xsl:template match="update">
+    <xsl:text>#/bin/sh&#10;</xsl:text>
+
+    <xsl:text>cd </xsl:text>
+    <xsl:value-of select="translate(@cvsdir,'\','/')"/>
+    <xsl:text>&#10;</xsl:text>
+
+    <xsl:text>while test $1; do&#10;</xsl:text>
+
+    <xsl:call-template name="select">
+      <xsl:with-param name="usage">
+        Usage: update all \| project...
+      </xsl:with-param>
+    </xsl:call-template>
+
+    <xsl:text>shift&#10;</xsl:text>
+    <xsl:text>done&#10;</xsl:text>
+
+    <xsl:text>if test $all; then&#10;</xsl:text>
+    <xsl:apply-templates/>
+    <xsl:text>fi&#10;</xsl:text>
+  </xsl:template>
+
+  <xsl:template match="update//project">
+    <xsl:text>echo Updating </xsl:text>
+    <xsl:value-of select="@name"/>
+    <xsl:text>&#10;</xsl:text>
+ 
+    <xsl:apply-templates/>
+  </xsl:template>
+
+  <!-- =================================================================== -->
+  <!--                          cross reference                            -->
+  <!-- =================================================================== -->
+
+  <xsl:template match="xref">
+    <xsl:text>#/bin/sh&#10;</xsl:text>
+    <xsl:apply-templates/>
+  </xsl:template>
+
+  <!-- =================================================================== -->
+  <!--                       publish an xml source                         -->
+  <!-- =================================================================== -->
+
+  <xsl:template match="publish">
+    <xsl:text>#/bin/sh&#10;</xsl:text>
+    <xsl:text>echo - $1&#10;</xsl:text>
+    <xsl:text>export OUT=\&gt;\&gt;$2&#10;</xsl:text>
+    <xsl:apply-templates/>
+  </xsl:template>
+
+  <xsl:template match="publish//arg">
+    <xsl:text>eval "echo $1 $OUT"&#10;</xsl:text>
+  </xsl:template>
+
+  <xsl:template match="sed">
+    <xsl:text>eval "sed -f </xsl:text>
+    <xsl:value-of select="@script"/>
+    <xsl:text> &lt; ../$1 $OUT"&#10;</xsl:text>
+  </xsl:template>
+
+  <!-- =================================================================== -->
+  <!--                      publish all xml sources                        -->
+  <!-- =================================================================== -->
+
+  <xsl:template match="workspace">
+    <xsl:variable name="basedir" select="@basedir"/>
+    <xsl:text>#/bin/sh&#10;</xsl:text>
+
+    <xsl:text>test -e </xsl:text>
+    <xsl:value-of select="translate($basedir,'\','/')"/>
+    <xsl:text> || mkdir </xsl:text>
+    <xsl:value-of select="translate($basedir,'\','/')"/>
+    <xsl:text>&#10;</xsl:text>
+
+    <xsl:text>test -e </xsl:text>
+    <xsl:value-of select="translate($basedir,'\','/')"/>
+    <xsl:text>/log || mkdir </xsl:text>
+    <xsl:value-of select="translate($basedir,'\','/')"/>
+    <xsl:text>/log &#10;</xsl:text>
+
+    <xsl:text>sh publish.sh $1 </xsl:text>
+    <xsl:value-of select="$basedir"/>
+    <xsl:text>/log/source_index.html&#10;</xsl:text>
+
+    <xsl:for-each select="project">
+      <xsl:sort select="@name"/>
+
+      <xsl:text>sh publish.sh </xsl:text>
+      <xsl:value-of select="translate(@href,'\','/')"/>
+      <xsl:text> </xsl:text>
+      <xsl:value-of select="$basedir"/>
+      <xsl:text>/log/source_</xsl:text>
+      <xsl:value-of select="substring-before(substring-after(@href,'/'),'.')"/>
+      <xsl:text>.html&#10;</xsl:text>
+    </xsl:for-each>
+
+    <xsl:text>for i in ../stylesheet/*.xsl; do&#10;</xsl:text>
+    <xsl:text>  sh publish.sh stylesheet/`basename $i` </xsl:text>
+    <xsl:value-of select="$basedir"/>
+    <xsl:text>/log/code_`basename $i`.html&#10;</xsl:text>
+    <xsl:text>done&#10;</xsl:text>
+
+    <xsl:text>sh xref.sh&#10;</xsl:text>
+
+    <xsl:text>cp update.sh </xsl:text>
+    <xsl:value-of select="$basedir"/>
+    <xsl:text>&#10;</xsl:text>
+
+    <xsl:text>cp build.sh </xsl:text>
+    <xsl:value-of select="$basedir"/>
+    <xsl:text>&#10;</xsl:text>
+
+    <xsl:text>echo&#10;</xsl:text>
+  </xsl:template>
+
+  <!-- =================================================================== -->
+  <!--                      core logic for a project                       -->
+  <!-- =================================================================== -->
+
+  <xsl:template match="logic">
+    <xsl:text>eval "echo \&lt;pre\> $OUT"&#10;</xsl:text>
+
+    <xsl:text>fi&#10;</xsl:text>
+    <xsl:text>&#10;if test $</xsl:text>
+    <xsl:value-of select="translate(ancestor::project/@name,'-.','__')"/>
+    <xsl:text>; then&#10;</xsl:text>
+
+    <xsl:apply-templates/>
+
+    <xsl:text>fi&#10;</xsl:text>
+    <xsl:text>&#10;if test $all; then&#10;</xsl:text>
+    <xsl:text>eval "echo \&lt;/pre\> $OUT"&#10;</xsl:text>
+
+  </xsl:template>
+
+  <!-- =================================================================== -->
+  <!--                         status information                          -->
+  <!-- =================================================================== -->
+
+  <xsl:template match="start-time">
+    <xsl:text>eval "echo $START $OUT"&#10;</xsl:text>
+  </xsl:template>
+
+  <xsl:template match="status">
+    <xsl:text>eval "echo $STATUS $OUT"&#10;</xsl:text>
+  </xsl:template>
+
+  <xsl:template match="date">
+    <xsl:text>eval "date \"+%a %x\" $OUT"&#10;</xsl:text>
+  </xsl:template>
+
+  <xsl:template match="date-time">
+    <xsl:text>export STATUS=SUCCESS&#10;</xsl:text>
+    <xsl:text>export START=`date "+%T"`&#10;</xsl:text>
+    <xsl:text>eval "date $OUT"&#10;</xsl:text>
+  </xsl:template>
+
+  <!-- =================================================================== -->
+  <!--                         check for prereqs                           -->
+  <!-- =================================================================== -->
+
+  <xsl:template match="prereq">
+    <xsl:variable name="project" select="ancestor::project/@name"/>
+    <xsl:for-each select="file">
+      <xsl:text>test -e </xsl:text>
+      <xsl:value-of select="translate(@path,'\','/')"/>
+      <xsl:text> || export STATUS="PREREQ FAILURE - </xsl:text>
+      <xsl:value-of select="$project"/>
+      <xsl:text>"&#10;</xsl:text>
+    </xsl:for-each>
+  </xsl:template>
+
+  <!-- =================================================================== -->
+  <!--                        create the claspath                          -->
+  <!-- =================================================================== -->
+
+  <xsl:template match="classpath">
+    <xsl:text>export CLASSPATH=$CP&#10;</xsl:text>
+    <xsl:for-each select="pathelement">
+      <xsl:text>export CLASSPATH=$CLASSPATH:</xsl:text>
+      <xsl:value-of select="translate(@location,'\','/')"/>
+      <xsl:text>&#10;</xsl:text>
+    </xsl:for-each>
+  </xsl:template>
+
+  <!-- =================================================================== -->
+  <!--                      process Ant based builds                       -->
+  <!-- =================================================================== -->
+
+  <xsl:template match="ant">
+
+    <xsl:text>test $STATUS=SUCCESS&amp;&amp;\&#10;</xsl:text>
+    <xsl:text>eval "java org.apache.tools.ant.Main</xsl:text>
+
+    <xsl:if test="@buildfile">
+      <xsl:text> -buildfile </xsl:text>
+      <xsl:value-of select="translate(@buildfile,'\','/')"/>
+    </xsl:if>
+
+    <xsl:for-each select="property">
+      <xsl:text> -D</xsl:text>
+      <xsl:value-of select="@name"/>
+      <xsl:text>=</xsl:text>
+      <xsl:value-of select="@value"/>
+    </xsl:for-each>
+
+    <xsl:choose>
+      <xsl:when test="count(../ant)=1">
+        <xsl:text> $TARGET</xsl:text>
+      </xsl:when>
+      <xsl:when test="@target">
+        <xsl:text> </xsl:text>
+        <xsl:value-of select="@target"/>
+      </xsl:when>
+    </xsl:choose>
+
+    <xsl:text> $OUT 2&gt;&amp;1"&#10;</xsl:text>
+    <xsl:text>test $? -ge 1 &amp;&amp; </xsl:text>
+    <xsl:text>export STATUS="BUILD FAILED"&#10;</xsl:text>
+
+  </xsl:template>
+
+  <!-- =================================================================== -->
+  <!--                          make directories                           -->
+  <!-- =================================================================== -->
+
+  <xsl:template match="mkdir">
+    <xsl:text>test ! -d </xsl:text>
+    <xsl:value-of select="translate(@dir,'\','/')"/>
+    <xsl:text> &amp;&amp; eval "mkdir </xsl:text>
+    <xsl:value-of select="translate(@dir,'\','/')"/>
+    <xsl:text> $OUT 2&gt;&amp;1"&#10;</xsl:text>
+  </xsl:template>
+
+  <!-- =================================================================== -->
+  <!--                         change directories                          -->
+  <!-- =================================================================== -->
+
+  <xsl:template match="chdir">
+    <xsl:text>eval "cd </xsl:text>
+    <xsl:value-of select="translate(@dir,'\','/')"/>
+    <xsl:text> $OUT 2&gt;&amp;1"&#10;</xsl:text>
+  </xsl:template>
+
+  <!-- =================================================================== -->
+  <!--                         remove directories                          -->
+  <!-- =================================================================== -->
+
+  <xsl:template match="delete">
+    <xsl:text>eval "rm -rf </xsl:text>
+    <xsl:value-of select="translate(@dir,'\','/')"/>
+    <xsl:text> $OUT 2&gt;&amp;1"&#10;</xsl:text>
+  </xsl:template>
+
+  <!-- =================================================================== -->
+  <!--                          copy directories                           -->
+  <!-- =================================================================== -->
+
+  <xsl:template match="copy">
+    <xsl:text>cp -r </xsl:text>
+    <xsl:value-of select="translate(@fromdir,'\','/')"/>
+    <xsl:text> </xsl:text>
+    <xsl:value-of select="translate(@todir,'\','/')"/>
+    <xsl:text>&#10;</xsl:text>
+  </xsl:template>
+
+  <!-- =================================================================== -->
+  <!--       initialize a directory if it does not currently exist         -->
+  <!-- =================================================================== -->
+
+  <xsl:template match="initdir">
+    <xsl:text>test -d </xsl:text>
+    <xsl:value-of select="translate(@dir,'\','/')"/>
+    <xsl:text> || cp -r </xsl:text>
+    <xsl:value-of select="translate(@basedon,'\','/')"/>
+    <xsl:text> </xsl:text>
+    <xsl:value-of select="translate(@dir,'\','/')"/>
+    <xsl:text>&#10;</xsl:text>
+  </xsl:template>
+
+  <!-- =================================================================== -->
+  <!--                     batch file / shell scripts                      -->
+  <!-- =================================================================== -->
+
+  <xsl:template match="script">
+    <xsl:text>eval "./</xsl:text>
+    <xsl:value-of select="@name"/>
+    <xsl:text>.sh $OUT" 2&gt;&amp;1&#10;</xsl:text>
+  </xsl:template>
+
+  <!-- =================================================================== -->
+  <!--                            java compile                             -->
+  <!-- =================================================================== -->
+
+  <xsl:template match="javac">
+    <xsl:text>javac </xsl:text>
+
+    <xsl:if test="@sourcedir">
+      <xsl:text>-sourcepath </xsl:text>
+      <xsl:value-of select="javac/@sourcedir"/>
+      <xsl:text> </xsl:text>
+    </xsl:if>
+
+    <xsl:if test="javac/@destdir">
+      <xsl:text>-d </xsl:text>
+      <xsl:value-of select="@destdir"/>
+      <xsl:text> </xsl:text>
+    </xsl:if>
+
+    <xsl:if test="javac/@sourcedir">
+      <xsl:text>-sourcepath </xsl:text>
+      <xsl:value-of select="@sourcedir"/>
+      <xsl:text> </xsl:text>
+      <xsl:value-of select="@sourcedir"/>
+      <xsl:text>/</xsl:text>
+    </xsl:if>
+
+    <xsl:value-of select="javac/@file"/>
+    <xsl:text>&#10;</xsl:text>
+  </xsl:template>
+
+  <!-- =================================================================== -->
+  <!--                             cvs update                              -->
+  <!-- =================================================================== -->
+
+  <xsl:template match="cvs">
+
+    <!-- update -->
+    
+    <xsl:text>test -e </xsl:text>
+    <xsl:value-of select="translate(@srcdir,'\','/')"/>
+    <xsl:text> &amp;&amp; export CMD="cvs -z3 -d </xsl:text>
+    <xsl:value-of select="@repository"/>
+
+    <xsl:text> update -P -d</xsl:text>
+
+    <xsl:if test="@tag">
+      <xsl:text> -r </xsl:text>
+      <xsl:value-of select="@tag"/>
+    </xsl:if>
+    <xsl:if test="not(@tag)">
+      <xsl:text> -A</xsl:text>
+    </xsl:if>
+
+    <xsl:text> </xsl:text>
+    <xsl:value-of select="@srcdir"/>
+    <xsl:text>"&#10;</xsl:text>
+
+    <!-- checkout -->
+    
+    <xsl:text>test -e </xsl:text>
+    <xsl:value-of select="translate(@srcdir,'\','/')"/>
+
+    <xsl:text> || export CMD="cvs -z3 -d </xsl:text>
+    <xsl:value-of select="@repository"/>
+
+    <xsl:text> checkout -P</xsl:text>
+
+    <xsl:if test="@tag">
+      <xsl:text> -r </xsl:text>
+      <xsl:value-of select="@tag"/>
+    </xsl:if>
+
+    <xsl:if test="@module!=@srcdir">
+      <xsl:text> -d </xsl:text>
+      <xsl:value-of select="@srcdir"/>
+    </xsl:if>
+
+    <xsl:text> </xsl:text>
+    <xsl:value-of select="@module"/>
+    <xsl:text>"&#10;</xsl:text>
+
+    <!-- execute -->
+    
+    <xsl:text>eval "echo $CMD $OUT"&#10;</xsl:text>
+    <xsl:text>eval "echo $OUT"&#10;</xsl:text>
+    <xsl:text>eval "$CMD $OUT 2&gt;&amp;1" ||\&#10;</xsl:text>
+    <xsl:text>export STATUS=FAILED&#10;</xsl:text>
+
+  </xsl:template>
+
+  <!-- =================================================================== -->
+  <!--                 default catchers for html and text                  -->
+  <!-- =================================================================== -->
+
+  <xsl:template match="html">
+    <xsl:if test="@log">
+      <xsl:text>export OUT=\&gt;\&gt;</xsl:text>
+      <xsl:value-of select="translate(@log,'\','/')"/>
+      <xsl:text>&#10;</xsl:text>
+    </xsl:if>
+
+    <xsl:text>eval "echo \&lt;html\\$OUT"&#10;</xsl:text>
+    <xsl:apply-templates/>
+    <xsl:text>eval "echo \&lt;/html\> $OUT"&#10;</xsl:text>
+
+    <xsl:if test="ancestor::html/@log">
+      <xsl:text>export OUT=\&gt;\&gt;</xsl:text>
+      <xsl:value-of select="translate(ancestor::html/@log,'\','/')"/>
+      <xsl:text>&#10;</xsl:text>
+    </xsl:if>
+  </xsl:template>
+
+  <xsl:template match="*">
+    <xsl:text>eval "echo \&lt;</xsl:text>
+    <xsl:value-of select="name()"/>
+
+    <xsl:for-each select="@*">
+      <xsl:text> </xsl:text>
+      <xsl:value-of select="name()"/>
+      <xsl:text>=\"</xsl:text>
+      <xsl:call-template name="escape">
+         <xsl:with-param name="string">
+           <xsl:value-of select="normalize-space(.)"/>
+         </xsl:with-param>
+       </xsl:call-template>
+      <xsl:text>\"</xsl:text>
+    </xsl:for-each>
+
+    <xsl:choose>
+      <xsl:when test="count(*|text())=0">
+        <!-- note: to accomodate old browsers, a space before the slash -->
+        <xsl:text> /\&gt; $OUT"&#10;</xsl:text>
+      </xsl:when>
+      <xsl:when test="count(*)=0">
+        <!-- put entire tag on one line -->
+        <xsl:text>\&gt;</xsl:text>
+        <xsl:call-template name="escape">
+          <xsl:with-param name="string">
+            <xsl:value-of select="normalize-space(.)"/>
+          </xsl:with-param>
+        </xsl:call-template>
+        <xsl:text>\&lt;/</xsl:text>
+        <xsl:value-of select="name()"/>
+        <xsl:text>\&gt; $OUT"&#10;</xsl:text>
+      </xsl:when>
+      <xsl:otherwise>
+        <xsl:text>\&gt; $OUT"&#10;</xsl:text>
+
+        <xsl:apply-templates select="*|text()"/>
+
+        <xsl:text>eval "echo \&lt;/</xsl:text>
+        <xsl:value-of select="name()"/>
+        <xsl:text>\&gt; $OUT"&#10;</xsl:text>
+      </xsl:otherwise>
+    </xsl:choose>
+  </xsl:template>
+
+  <xsl:template match="text()">
+    <xsl:text>eval "echo </xsl:text>
+    <xsl:call-template name="escape">
+      <xsl:with-param name="string">
+        <xsl:value-of select="normalize-space(.)"/>
+      </xsl:with-param>
+    </xsl:call-template>
+    <xsl:text> $OUT"&#10;</xsl:text>
+  </xsl:template>
+
+  <!-- =================================================================== -->
+  <!--               escaping strings for the command line                 -->
+  <!-- =================================================================== -->
+
+  <xsl:template name="escape">
+    <xsl:param name="string"/>
+
+    <xsl:variable name="work" select="translate($string,'(){&amp;',';;;;')"/>
+
+    <xsl:choose>
+      <xsl:when test="contains($work,';')">
+
+        <xsl:variable name="pre" select="substring-before($work, ';')"/>
+        <xsl:variable name="char" 
+           select="substring($string, string-length($pre)+1,1)"/>
+
+        <xsl:value-of select="$pre"/>
+        <xsl:text>\</xsl:text>
+        <xsl:value-of select="$char"/>
+        <xsl:call-template name="escape">
+           <xsl:with-param name="string">
+             <xsl:value-of select="substring-after($string, $char)"/>
+           </xsl:with-param>
+        </xsl:call-template>
+      </xsl:when>
+      <xsl:otherwise>
+        <xsl:value-of select="$string"/>
+      </xsl:otherwise>
+    </xsl:choose>
+  </xsl:template>
+
+</xsl:stylesheet>

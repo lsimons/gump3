@@ -1,0 +1,10 @@
+<project name="jms">
+
+  <url  href="http://java.sun.com/products/jms/index.html"/>
+  <description>
+    Java Message Service API
+  </description>
+
+  <jar  name="lib/jms.jar"/>
+
+</project>

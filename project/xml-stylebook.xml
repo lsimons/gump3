@@ -1,0 +1,16 @@
+<project name="xml-stylebook">
+
+  <description>
+    Style book
+  </description>
+
+  <cvs repository="xml"/>
+
+  <ant/>
+
+  <depend project="jakarta-ant"/>
+  <depend project="xml-xerces"/>
+  <depend project="xml-xalan1"/>
+
+  <jar name="bin\stylebook-1.0-b2.jar"/>
+</project>

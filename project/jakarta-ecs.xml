@@ -1,0 +1,19 @@
+<project name="jakarta-ecs">
+
+  <url href="http://jakarta.apache.org/ecs/index.html"/>
+  <description>
+    Element Construction Set
+  </description>
+
+  <cvs repository="jakarta"/>
+
+  <ant buildfile="build/build-ecs.xml" target="package"/>
+
+  <depend project="jakarta-ant"/>
+  <depend project="xml-xerces"/>
+  <depend project="jakarta-regexp"/>
+
+  <home nested="ecs-1.4.1"/>
+  <jar name="ecs-1.4.1.jar"/>
+
+</project>

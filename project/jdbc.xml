@@ -1,0 +1,10 @@
+<project name="jdbc">
+
+  <url href="http://java.sun.com/products/jdbc/download.html"/>
+  <description>
+    JDBC Data Access API
+  </description>
+
+  <jar name="jdbc2_0-stdext.jar"/>
+
+</project>

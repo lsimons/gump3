@@ -1,0 +1,18 @@
+<project name="jdom">
+
+  <url href="http://www.jdom.org"/>
+  <description>
+    Java XML API
+  </description>
+
+  <cvs repository="jdom"/>
+
+  <ant/>
+
+  <depend project="jakarta-ant"/>
+  <depend project="xml-xerces"/>
+
+  <home nested="build"/>
+  <jar name="jdom.jar"/>
+
+</project>

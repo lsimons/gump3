@@ -1,0 +1,12 @@
+<project name="jsse">
+
+  <url href="http://java.sun.com/products/jsse/"/>
+  <description>
+    Java Secure Socket Extension
+  </description>
+
+  <jar  name="lib/jsse.jar"/>
+  <jar  name="lib/jnet.jar"/>
+  <jar  name="lib/jcert.jar"/>
+
+</project>

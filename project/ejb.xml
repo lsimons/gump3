@@ -1,0 +1,7 @@
+<project name="ejb">
+   <url href="http://java.sun.com/products/ejb/docs.html"/>
+   <description>
+     Enterprise JavaBeans
+   </description>
+   <jar name="ejb.jar"/>
+</project>

@@ -1,0 +1,17 @@
+<project name="jakarta-oro">
+
+  <url href="http://jakarta.apache.org/oro/index.html"/>
+  <description>
+    Java Regular Expression package
+  </description>
+
+  <cvs  repository="jakarta"/>
+
+  <ant buildfile="build/build-oro.xml" target="package"/>
+  <depend project="jakarta-ant"/>
+  <depend project="xml-xerces"/>
+
+  <home nested="jakarta-oro-2.0.2-dev-2"/>
+  <jar  name="jakarta-oro-2.0.2-dev-2.jar" id="oro"/>
+
+</project>

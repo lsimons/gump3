@@ -1,0 +1,19 @@
+<project name="xml-cocoon">
+
+  <url href="http://xml.apache.org/cocoon/index.html"/>
+  <description>
+    Cocoon Java publishing framework
+  </description>
+
+  <cvs repository="xml"/>
+
+  <ant target="dist"/>
+
+  <depend project="xml-fop"/>
+  <depend project="xml-xalan1"/>
+  <depend project="xml-xerces"/>
+  <depend project="turbine"/>
+  <depend project="jakarta-ant"/>
+  <depend project="jakarta-servletapi"/>
+
+</project>

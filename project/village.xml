@@ -1,0 +1,17 @@
+<project name="village">
+
+  <url href="http://www.working-dogs.com/village/"/>
+  <description>
+    Database API
+  </description>
+
+  <cvs repository="working-dogs"/>
+
+  <ant buildfile="build/build-village.xml" target="package"/>
+
+  <depend project="jakarta-ant"/>
+  <depend project="xml-xerces"/>
+
+  <home nested="bin"/>
+  <jar name="village-1.5.1-dev.jar"/>
+</project>

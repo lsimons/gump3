@@ -1,0 +1,21 @@
+<project name="jakarta-tomcat">
+
+  <description>
+    Servlet 2.2 and JSP 1.1 Reference Implementation
+  </description>
+  <url href="http://jakarta.apache.org/tomcat/index.html"/>
+
+  <cvs repository="jakarta" tag="tomcat_321_final"/>
+
+  <ant target="dist">
+    <property name="ant.home" reference="home" project="dist-ant"/>
+  </ant>
+
+  <depend project="xml-xerces"/>
+  <depend project="jsse"/>
+  <depend project="dist-ant"/>
+  <depend project="jakarta-servletapi"/>
+  <work parent="build/tomcat/classes"/>
+
+  <home parent="dist/tomcat-4.0"/>
+</project>

@@ -1,0 +1,24 @@
+<project name="jetspeed">
+
+  <url href="http://java.apache.org/jetspeed/site/overview.html"/>
+  <description>
+    Enterprise Information Portal
+  </description>
+
+  <cvs repository="jetspeed"/>
+
+  <ant buildfile="build/build.xml">
+    <property name="JAVAC" value="classic"/>
+  </ant>
+
+  <depend project="jakarta-ant"/>
+  <depend project="xml-xerces"/>
+  <depend project="turbine"/>
+  <depend project="castor"/>
+  <depend project="village"/>
+  <depend project="jakarta-servletapi"/>
+  <depend project="jakarta-ecs"/>
+  <depend project="xml-xalan1"/>
+  <depend project="javamail"/>
+
+</project>

@@ -1,0 +1,26 @@
+<project name="framework">
+
+  <url href="http://java.apache.org/framework/"/>
+  <description>
+    Avalon framework
+  </description>
+
+  <cvs repository="jservpub"/>
+
+  <ant/>
+
+  <depend project="jakarta-ant"/>
+  <depend project="xml-xerces"/>
+  <depend project="jsse"/>
+  <depend project="kawa"/>
+
+  <home nested="build/lib"/>
+  <jar name="avalonapi.jar"/>
+
+  <!-- Anybody want to contribute an ant build.xml to Kawa ;-) -->
+  <project name="kawa">
+    <url href="http://www.gnu.org/software/kawa/"/>
+    <jar name="lib/bytecode.jar"/>
+  </project>
+
+</project>

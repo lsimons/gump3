@@ -1,0 +1,19 @@
+<project name="jakarta-log4j">
+
+  <url href="http://jakarta.apache.org/log4j/index.html"/>
+  <description>
+    Fast and flexible logging package for Java
+  </description>
+
+  <cvs  repository="jakarta"/>
+
+  <ant buildfile="build/build.xml" target="jar"/>
+  <depend project="jakarta-ant"/>
+  <depend project="xml-xerces"/>
+  <depend project="xml-xalan2"/>
+  <depend project="jms"/>
+
+  <jar  name="lib/log4j-core.jar"/>
+  <jar  name="lib/log4j.jar"/>
+
+</project>

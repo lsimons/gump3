@@ -1,0 +1,25 @@
+<project name="xml-soap">
+
+  <url href="http://xml.apache.org/soap/index.html"/>
+  <description>
+    Simple Object Access Protocol
+  </description>
+
+  <cvs repository="xml"/>
+
+  <ant buildfile="java/build.xml" target="dist"/>
+
+  <depend project="xml-xerces"/>
+  <depend project="jakarta-ant"/>
+  <depend project="javamail"/>
+  <depend project="jaf"/>
+  <depend project="jakarta-servletapi"/>
+  <option project="bsf"/>
+  <option project="jsse"/>
+  <option project="ejb"/>
+  <work nested="java/build/lib/soap.jar"/>
+
+  <home nested="java/build"/>
+  <jar name="lib/soap.jar"/>
+
+</project>

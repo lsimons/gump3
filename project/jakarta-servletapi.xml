@@ -1,0 +1,16 @@
+<project name="jakarta-servletapi">
+
+  <description>
+    Servlet 2.2 and JSP 1.1 API
+  </description>
+
+  <cvs repository="jakarta"/>
+
+  <ant target="dist"/>
+  <depend project="xml-xerces"/>
+  <depend project="jakarta-ant"/>
+
+  <home parent="dist/servletapi"/>
+  <jar  name="lib/servlet.jar"/>
+
+</project>

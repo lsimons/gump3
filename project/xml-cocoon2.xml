@@ -1,0 +1,41 @@
+<project name="xml-cocoon2">
+
+  <url href="http://xml.apache.org/cocoon/cocoon2.html"/>
+  <description>
+    Java publishing framework - version 2
+  </description>
+
+  <cvs repository="xml" module="xml-cocoon" tag="xml-cocoon2" />
+
+  <ant target="dist"/>
+
+  <depend project="jakarta-ant"/>
+  <depend project="xml-xerces"/>
+  <depend project="xml-xalan2"/>
+  <depend project="jakarta-servletapi-4.0"/>
+  <depend project="framework"/>
+  <depend project="xml-fop"/>
+  <depend project="jakarta-regexp"/>
+  <depend project="jdom"/>
+  <depend project="xt"/>
+  <option project="xml-batik"/>
+  <depend project="rhino"/>
+  <depend project="jstyle"/>
+
+  <project name="jstyle">
+    <url href="http://astyle.sourceforge.net/"/>
+    <description>
+      Predecessor to Artistic Style?
+    </description>
+    <jar name="lib/jstyle.jar"/>
+  </project>
+
+  <project name="xt">
+    <url href="http://www.jclark.com/xml/xt.html"/>
+    <description>
+      XSL Transformation
+    </description>
+    <jar name="lib/xt.jar"/>
+  </project>
+
+</project>

@@ -1,0 +1,17 @@
+<project name="jakarta-regexp">
+
+  <url href="http://jakarta.apache.org/regexp/index.html"/>
+  <description>
+    Java Regular Expression package
+  </description>
+
+  <cvs  repository="jakarta"/>
+
+  <ant buildfile="build/build-regexp.xml" target="package"/>
+  <depend project="jakarta-ant"/>
+  <depend project="xml-xerces"/>
+
+  <home nested="jakarta-regexp-1.2"/>
+  <jar  name="jakarta-regexp-1.2.jar" id="regexp"/>
+
+</project>
