@@ -27,6 +27,7 @@
         <depend project="jakarta-bcel"/>
         <depend project="commons-attributes" inherit="runtime"/>
         <depend project="excalibur-container"/>
+        <depend project="jakarta-avalon-phoenix"/>
         <work nested="altrmi/build/classes"/>
 
         <home nested="altrmi"/>
