@@ -66,7 +66,7 @@
              [If this option is not specified, the jars aren't copied]
     
 -->
-<workspace version="0.4-dev"
+<workspace version="0.4"
            sync=""
            basedir="C:\jbprojects"
            cvsdir="C:\jbprojects"           
