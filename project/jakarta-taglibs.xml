@@ -51,6 +51,7 @@
       <property name="dist.dir" path="dist"/>
     </ant>
     <depend project="jakarta-ant" inherit="runtime"/>
+    <depend project="xml-xalan2"/>
     <depend project="xml-xerces"/>
     <javadoc nested="dist/doc/doc/bsf-doc/javadoc"/>
     <jar name="dist/bsf/taglibs-bsf.jar"/>
@@ -70,6 +71,7 @@
       <property name="dist.dir" path="dist"/>
     </ant>
     <depend project="jakarta-ant" inherit="runtime"/>
+    <depend project="xml-xalan2"/>
     <depend project="xml-xerces"/>
     <javadoc nested="dist/doc/doc/cache-doc/javadoc"/>
     <jar name="dist/cache/taglibs-cache.jar"/>
@@ -396,6 +398,7 @@
       <property name="dist.dir" path="dist"/>
     </ant>
     <depend project="jakarta-ant" inherit="runtime"/>
+    <depend project="xml-xalan2"/>
     <depend project="xml-xerces"/>
     <javadoc nested="dist/doc/doc/string-doc/javadoc"/>
     <jar name="dist/string/taglibs-string.jar"/>
