@@ -7,7 +7,9 @@
 
   <cvs repository="exolab" host-prefix="castor" dir="castor"/>
 
-  <ant basedir="src" target="jar"/>
+  <ant basedir="src" target="jar">
+    <property name="version" value="gump"/>
+  </ant>
 
   <depend project="jakarta-ant"/>
   <depend project="xml-xerces"/>
@@ -17,16 +19,15 @@
   <depend project="jakarta-regexp"/>
 
   <home nested="dist"/>
-  <jar name="castor-0.9.2.jar"/>
-  <jar name="castor-0.9.2-xml.jar"/>
+  <jar name="castor-gump.jar"/>
+  <jar name="castor-gump-xml.jar"/>
 
   <project name="ldapsdk">
     <url href="http://www.mozilla.org/directory/javasdk.html"/>
     <description>
       Netscape Directory SDK for Java
     </description>
-    <jar name="lib/ldapjdk.jar"/>
-    <jar name="lib/ldapsp.jar"/>
+    <jar name="lib/ldapjdk_4.1.jar"/>
   </project>
 
   <project name="castor-test">
@@ -44,7 +45,7 @@
   </project>
 
   <project name="XMLDiff">
-    <jar name="lib/XMLDiff.jar"/>
+    <jar name="lib/XMLDiff_0.2.jar"/>
   </project>
 
 </project>
