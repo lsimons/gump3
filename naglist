@@ -36,6 +36,12 @@ From: Ted Husted <ted@husted.com>
 Subject: [GUMP] Build Failure - httpclient
 Regex: /BUILD FAILED/
 ------
+Project: commons-jjar
+To: commons-dev@jakarta.apache.org
+From: Ted Husted <ted@husted.com>
+Subject: [GUMP] Build Failure - jjar
+Regex: /BUILD FAILED/
+------
 Project: commons-jxpath
 To: commons-dev@jakarta.apache.org
 From: Ted Husted <ted@husted.com>
@@ -60,10 +66,22 @@ From: Ted Husted <ted@husted.com>
 Subject: [GUMP] Build Failure - messenger
 Regex: /BUILD FAILED/
 ------
+Project: commons-modeler
+To: commons-dev@jakarta.apache.org
+From: Ted Husted <ted@husted.com>
+Subject: [GUMP] Build Failure - modeler
+Regex: /BUILD FAILED/
+------
 Project: commons-pool
 To: commons-dev@jakarta.apache.org
 From: Ted Husted <ted@husted.com>
 Subject: [GUMP] Build Failure - pool
+Regex: /BUILD FAILED/
+------
+Project: commons-util
+To: commons-dev@jakarta.apache.org
+From: Ted Husted <ted@husted.com>
+Subject: [GUMP] Build Failure - util
 Regex: /BUILD FAILED/
 ------
 Project: dist-ant
