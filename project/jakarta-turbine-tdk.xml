@@ -12,13 +12,14 @@
       <property name="tomcat.dist" 
         reference="home" project="jakarta-tomcat-4.0"/>
 
-      <depend property="ant.jar" project="jakarta-ant"/>
-      <depend property="jakarta-cactus.jar" project="jakarta-cactus-23"/>
+      <depend property="ant.jar" project="jakarta-ant" id="ant"/>
+      <depend property="commons-cactus.jar" project="jakarta-cactus-23"/>
       <depend property="commons-collections.jar" project="commons-collections"/>
       <depend property="commons-email.jar" project="commons-email"/>
       <depend property="commons-util.jar" project="commons-util"/>
       <depend property="ecs.jar" project="jakarta-ecs"/>
-      <depend property="flux.jar" project="jakarta-turbine-flux"/>
+      <depend property="flux2.jar" project="jakarta-turbine-flux"/>
+      <depend property="flux3.jar" project="jakarta-turbine-flux"/>
       <depend property="fulcrum.jar" project="jakarta-turbine-fulcrum"/>
       <depend property="httpunit.jar" project="httpunit"/>
       <depend property="jaf.jar" project="jaf"/>
@@ -36,10 +37,15 @@
       <depend property="xalan.jar" project="xml-xalan2"/>
       <depend property="xerces.jar" project="xml-xerces"/>
       <depend property="xmlrpc.jar" project="xml-rpc"/>
+      <depend property="xmlrpc-helma.jar" project="xml-rpc"/>
 
-      <depend property="hsql.jar" project="hsqldb"/>
+      <depend property="hsqldb.jar" project="hsqldb"/>
       <depend property="httpunit.jar" project="httpunit"/>
       <depend property="jstyle.jar" project="jstyle"/>
+
+      <depend property="bcel.jar" project="bcel"/>
+      <depend property="digester.jar" project="commons-digester"/>
+      <depend property="oro.jar" project="jakarta-oro"/>
     </ant>
 
     <depend project="jakarta-ant"/>
