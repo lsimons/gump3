@@ -529,18 +529,18 @@ class Workspace(NamedModelObject, PropertyContainer, Statable, Resultable):
         
     # Get a summary of states for each project
     def getProjectSummary(self,summary=None): 
-        if hasattr(self,'summary'): return self.summary
+        #if hasattr(self,'summary'): return self.summary
                 
         if not summary: 
             summary=ProjectSummary()
         
-        # Subordinates are modules, get their simmary
+        # Subordinates are modules, get their summary
         # information into this summary
         for module in self.getModules():
             module.getProjectSummary(summary)
             
         # Store for later...
-        self.summary = summary
+        #self.summary = summary
         
         return summary
         

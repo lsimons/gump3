@@ -656,6 +656,7 @@ class ForrestDocumenter(Documenter):
         #
         document=XDocDocument('Gump Build Log',	\
                 self.resolver.getFile(workspace,'buildLog'))        
+        
         self.documentSummary(document, workspace.getProjectSummary())
                 
         #
@@ -1928,9 +1929,13 @@ This page helps Gumpmeisters (and others) observe community progress.
                 dependencyRow.createData(depend.getInheritenceDescription())
                 
                 # Ids
-                ids = depend.getIds() or 'All'
-                dependencyRow.createData(ids)
+                ids = depend.getIds()
                 
+                if ids: # Make these stand out
+                    dependencyRow.createData().createStrong(ids)
+                else:
+                    dependencyRow.createData('All')
+                    
                 # State Icon
                 self.insertStateIcon(project,referencingObject,dependencyRow.createData())
                 
