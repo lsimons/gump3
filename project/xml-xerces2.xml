@@ -15,6 +15,7 @@
     <ant basedir="java" target="jars"/>
     <depend project="xml-crimson" />
     <depend project="bootstrap-ant"/>
+    <depend project="xjavac"/>
     <home nested="java/build"/>
     <jar  name="xercesImpl.jar" id="parser"/>
     <jar  name="xmlParserAPIs.jar" id="apis"/>
@@ -44,4 +45,8 @@
          to="xerces-j-dev@xml.apache.org"/>
   </project>
 
+  <project name="xjavac">
+    <home nested="java/tools"/>
+    <jar name="bin/xjavac.jar"/>
+  </project>
 </module>
