@@ -1,0 +1,354 @@
+= An introduction to Gump =
+
+Gump is Apache's continuous integration tool. It is written in python and fully supports Apache Ant, Apache Maven and other build tools. Gump is unique in that it builds and compiles software against the latest development versions of those projects. This allows gump to detect potentially incompatible changes to that software just a few hours after those changes are checked into the version control system. Notifications are sent to the project team as soon as such a change is detected, referencing more detailed reports available online.
+
+You can set up and run Gump on your own machine and run it on your own projects, however it is currently most famous for building most of Apache's java-based projects and their dependencies (which constitutes several million lines of code split up into hundreds of projects). For this purpose, the gump project maintains its own dedicated server.
+
+= Getting the information you need =
+
+Gump is not a trivial project. We compile thousands of sourcefiles every night, and try to send the right reports to hundreds of projects when something bad happens. This means that there's a lot to "get" about gump. We've tried to split the documentation up into useful parts based on their target audience. The following is available:
+
+ * '''''[HowGumpWorks How Gump Works]''''' -- an explanation of how Gump goes about its job, giving both a 50,000 feet overview and some information on our design goals and philosophy.
+
+ * '''''[HowToFixGumpProblems How To Fix Gump Problems]''''' -- this document explains the steps you should take if gump send you or a project you participated in an e-mail.
+
+ * '''''[HowToGetBuiltByGump How To Get Built By Gump]''''' -- this document explains how to add new projects to gump, focussing mostly on the gump object model, our xml descriptors that tell gump how to "do its thing".
+
+ * '''''[GumpObjectModelReference Gump Object Model Reference]''''' -- this document details the entire gump object model.
+
+-------------------------------------------------------------------------------
+= How Gump Works =
+
+Please note that this documentation specifies the plans we have, rather than what we actually do right now. The key difference is that Gump will be made much more intelligent about whom to send what e-mail and what to put in those e-mails. However, the basic ideas for all this are quickly falling into place.
+
+== The actual process ==
+
+Lets start with the low-level overview. Gump has two main parts. The first part takes care of actually performing the build. Internally, we tend to call this part "Gumpy", since its written in python. The second part takes care of the reporting and introspection. It is written in java using Apache Cocoon.
+
+[process.gif]
+
+=== Gumpy, the builder ===
+
+Gumpy is a python script that is fired from cron every few hours. It does some self-initialization, looks at it environment, then starts figuring out what to do. It updates the gump CVS and SVN repositories. The next task is to read in all gump project definitions. For maven-based projects, we read in maven's project.xml files and do some processing on those. For projects using other build tools (like Ant), an XML descriptor describing that project is kept in the Gump subversion repository.
+
+All these project definitions are merged into a database, which we call the GumpModelDatabase. Once our database is filled, we start walking it to figure out the dependencies between all the projects. We then figure out a build order. With our model serialized, we know exactly what to do.
+
+In our just-determined order, we run CVS or SVN updates for our projects, then try to build them (using ant or maven). The precise build commands to use as well as any environment settings (such as references to installed packages like javamail) are all figured out from the gump project definitions (see HowToGetBuiltByGump for more information on how that works).
+
+Now, the tricky bit is specifying dependencies. Rather than use the maven repository or some other place where jars are stored, we set the system classpath to include all the dependencies declared for a project. And rather than point to a specific versioned jar or library, we opt to use the output of the projects that we just built straight from bleeding edge SVN.
+
+Gumpy keeps track of everything it does, and what the results of those actions are. Success and failure states, build logs, and much more are all saved and stored into another database, which we call the ResultMetadataDatabase. This database doesn't just store the current run, but maintains information for all previous runs as well.
+
+If a project fails to build, Gumpy will take special actions to try and figure out what caused that failure. The algorithm used to do this is based on a bit of graph theory, which won't be described here. Interested people should look at the GumpAlgorithm page. (NOTE: this algorithm has been written but not yet implemented!) Suffice saying that Gumpy is often able to determine exactly which CVS or SVN commit caused the build failure, and in other instances is able to give a good hint.
+
+=== DynaGump, the builder ===
+
+Once Gumpy is done, its time for DynaGump to do its thing. DynaGump is a web application which hooks into the ResultMetadataDatabase to generate reports. These reports allow anyone to find out how stable the build for a particular project is, what the main issues are, and the like. We produce figures describing the build history of a project. This can help developers figuring out which dependencies are causing them problems, but also how their changes affect the projects that depend on them (their dependees).
+
+If there's an issue, DynaGump figures out who needs to know about that and sends them e-mail. For example, if a project introduced a code change that results in one or more of their dependees failing to build, we'll let that project know, as well as the project that broke. This allows all the developers involved to start collaborating immediately to resolve the issue.
+
+Advanced reporting and workflow features (similar to the Jira Dashboard) feature will be made available. For example, you will be able to create a custom page which lists information about all the projects that you are interested in, or get that information as an RSS feed.
+-------------------------------------------------------------------------------
+
+= How To Fix Gump Build Problems =
+
+This document is targetted at developers who have received an e=mail from gump and who now want to figure out what to do.
+
+== Asking for help ==
+
+We know gump is far from trivial to use and administer. Fortunately, the gump community consists of a large bunch of very helpful and knowledgeable folks. If you have trouble understanding what's going on, please do not hesistate and just ask us questions!
+
+That said, we do try to write good documentation, so as usual that should be your first source of answers.
+
+== Possible notifications ==
+
+=== Build success notifications ===
+
+If a project has been successfully built after failing for a while, gump will send the maintainers of that project an e-mail. You don't have to do anything when this happens. Here's an example:
+
+{{{
+From: Daily gump build <general@gump.apache.org>
+To: FooBar Development List <dev@foobar.apache.org>
+Subject: [Gump] Build success: foobar-blah
+
+You do not need to do anything with this e-mail. It is purely informational.
+
+After failing to build foobar-blah for 11 days, tonight's build of foobar-blah completed successfully. This will benefit 23 dependent projects. Thanks to everyone who helped fix the issue(s) surrounding the foobar-blah gump build!
+
+More information on foobar-blah in relation to gump can be found at:
+
+  http://gump.apache.org/foobar-blah/
+
+
+best regards,
+
+
+- Apache Gump, your continuous integration system
+
+---
+You received this e-mail because your project participates in the gump buildsystem. You can configure what notifications gump sends you. Please visit http://gump.apache.org/foobar-blah/notification-settings for more information.
+}}}
+
+=== Dependency failure notifications ===
+
+If a piece of software that your project is using (a dependency) has not successfully built for a while, gump will send you an e-mail. This is an issue because your project cannot be built against the latest version of that dependency, and incompatible changes might be introduced there without you being aware of that.
+
+You should probably pay special attention to this dependency. The maintainers of that software will also have been notified of the problem, so immediate action is not normally required. Here is an example message:
+
+{{{
+From: Daily gump build <general@gump.apache.org>
+To: FooBar Development List <dev@foobar.apache.org>
+Subject: [Gump] Dependency wombat-foo is failing to build
+
+Your project is dependent on wombat-foo, which gump has not successfully built for 3 days. If this is the first time you receive a message like this, you probably don't need to do anything, since the wombat-foo developers have been made aware of this and they will hopefully fix the problems soon. But if the problem persists, it might be wise to contact the wombat-foo developers at dev@wombat.apache.org.
+
+More information on foobar-blah in relation to gump can be found at:
+
+  http://gump.apache.org/foobar-blah/
+
+More information on wombat-foo in relation to gump can be found at:
+
+  http://gump.apache.org/wombat-foo/
+
+best regards,
+
+
+- Apache Gump, your continuous integration system
+
+---
+You received this e-mail because your project participates in the gump buildsystem. You can configure what notifications gump sends you. Please visit http://gump.apache.org/foobar-blah/notification-settings for more information.
+}}}
+
+=== Frequent dependency failure notifications ===
+
+If a piece of software that your project is using keeps breaking or has been broken for a long time, gump will send you an e-mail. This is an issue for the same reasons as given above. The difference here is that the failure has been dragging on for a long time.
+
+You should probably contact the maintainers of your dependency and discuss the issue. If it cannot be resolved, it might be a good idea to reconsider being dependent on this project at all. Here is an example message:
+
+{{{
+From: Daily gump build <general@gump.apache.org>
+To: FooBar Development List <dev@foobar.apache.org>
+Subject: [Gump] Dependency wombat-foo is causing problems
+
+Your project is dependent on wombat-foo, which gump has not successfully built for 21 days. If you and the wombat-foo developers are aware of this and working on this issue, you probably can safely ignore this e-mail. If not, it might be wise to contact the wombat-foo developers at dev@wombat.apache.org.
+
+More information on foobar-blah in relation to gump can be found at:
+
+  http://gump.apache.org/foobar-blah/
+
+More information on wombat-foo in relation to gump can be found at:
+
+  http://gump.apache.org/wombat-foo/
+
+best regards,
+
+
+- Apache Gump, your continuous integration system
+
+---
+You received this e-mail because your project participates in the gump buildsystem. You can configure what notifications gump sends you. Please visit http://gump.apache.org/foobar-blah/notification-settings for more information.
+}}}
+
+=== Misconfiguration notifications ===
+
+If the metadata descriptor for your project is causing a problem in some way (invalid XML, specified builds outputs missing, etc), gump will send you an e-mail.
+
+Most often, the appropriate action is to fix the descriptor to match the real situation (for example, make the XML valid or change the descriptor to reflect the fact that you changed the filename for some build output). Taking a look at your descriptor is the first thing to do. In some cases, you might want to change your project in some way so that what happens matches what your gump descriptor specifies. For example, you might have a typo in your ant buildfile but not in the gump descriptor.
+
+{{{
+From: Daily gump build <general@gump.apache.org>
+To: FooBar Development List <dev@foobar.apache.org>
+Subject: [Gump] Problematic descriptor
+
+The descriptor for foobar-blah has a problem:
+
+  target/foobar-blah-1.0.jar as an output jar, but that file is not generated.
+
+All 23 projects dependent on foobar-blah that gump knows about are probably affected by this. Please update either your descriptor or your build system as soon as possible.
+
+best regards,
+
+
+- Apache Gump, your continuous integration system
+
+---
+You received this e-mail because your project participates in the gump buildsystem. You can configure what notifications gump sends you. Please visit http://gump.apache.org/foobar-blah/notification-settings for more information.
+}}}
+
+=== Missing dependency declaration notifications ===
+
+If gump fails to build your project and it is able to detect that you might not be declaring a dependency (for example if javac issues a "Symbol not found" error and gump knows what project contains that symbol, it will send you an e-mail).
+
+You should check that gump its estimation of the problem is correct, and if so, change your descriptor to include that dependency. If it turns out that gump guessed wrong, follow the steps described under "build failure notifications", below.
+
+{{{
+From: Daily gump build <general@gump.apache.org>
+To: FooBar Development List <dev@foobar.apache.org>
+Subject: [Gump] dependency wombat-foo needs to be declared
+
+Gump has failed to build your project. It seems that the build is failing because of the following problem:
+
+   src/java/org/apache/foobar/Blah line 27: cannot find symbol org.apache.wombat.foo.Foo
+
+The org.apache.wombat.foo package is part of the wombat-foo project, but you have not declared that project as a dependency. You most likely need to add something like the following to your maven project.xml file:
+
+   <dependency>
+     <artifactId>foobar-blah</artifactId>
+     <groupId>foobar</groupId>
+     <version>SNAPSHOT</version>
+   </dependency>
+
+More information on foobar-blah in relation to gump can be found at:
+
+  http://gump.apache.org/foobar-blah/
+
+More information on wombat-foo in relation to gump can be found at:
+
+  http://gump.apache.org/wombat-foo/
+
+best regards,
+
+
+- Apache Gump, your continuous integration system
+
+---
+You received this e-mail because your project participates in the gump buildsystem. You can configure what notifications gump sends you. Please visit http://gump.apache.org/foobar-blah/notification-settings for more information.
+}}}
+
+=== Build failure notifications ===
+
+If gump tried to build your project and that failed, it will send you an e-mail.
+
+The first thing you probably want to do is get a fresh copy of your project from version control, and then try to build it with the latest version of your build software. If that results in the same error, fix your project so that the error no longer occurs and wait for the next gump run to complete to be sure that you fixed the problem completely.
+
+If your project builds fine when you build it by hand but gump does fail to build your project, the most likely cause is usually some subtle difference in environment between gump and your local setup. For example, it could be the case that the java compiler you are using is more fault-tolerant than the one that gump uses. Compare build output from your project with build output from gump and try to determine the issue. Gump has reporting features that attempt to help you with this diagnosis (for example, we'll show you all the things that changed since your project built successfully), but often the problem might not be readily apparent and you will need to "dig into it".
+
+{{{
+From: Daily gump build <general@gump.apache.org>
+To: FooBar Development List <dev@foobar.apache.org>
+Subject: [Gump] foobar-blah has failed to build!
+
+Gump has failed to build your project, and is unable to determine what is causing the problem. Please examine the build logs and the other information about foobar-blah in relation to gump at:
+
+   http://gump.apache.org/foobar-blah/
+
+Here are the last few lines of the build output, that might contains hints as to what caused the problem:
+
+---
+Buildfile: build.xml
+
+BUILD FAILED
+/usr/local/gump/main/cvs/foobar/blah/build.xml:77: The element type "ail" must be terminated by the matching end-tag "</ail>".
+
+Total time: 1 second
+---
+
+More information on foobar-blah in relation to gump can be found at:
+
+  http://gump.apache.org/foobar-blah/
+
+More information on wombat-foo in relation to gump can be found at:
+
+  http://gump.apache.org/wombat-foo/
+
+best regards,
+
+
+- Apache Gump, your continuous integration system
+
+---
+You received this e-mail because your project participates in the gump buildsystem. You can configure what notifications gump sends you. Please visit http://gump.apache.org/foobar-blah/notification-settings for more information.
+}}}
+
+== Editing descriptors ==
+
+=== Editing gump descriptors ===
+
+Gump descriptors are placed either within your project its version control system (which is the case if you're using maven for example, where gump utilizes the project.xml file), or inside the gump subversion repository:
+
+  https://svn.apache.org/repos/asf/gump/trunk/metadata/
+
+All ASF committers have read/write access to this part of the gump repository. If you're not an ASF committer but would like to change something, please check out the repository and generate a patch, which you should send to general@gump.apache.org so that someone can apply it. If you are an ASF committer, please do submit your changes directly.
+
+Gump descriptors are XML files. A description of the format of these files is available at
+
+  http://gump.apache.org/docs/GumpObjectModelReference
+
+Please make sure that changes you make to these files follow the rules described on those pages (ie, make sure you're writing well-formed DTD-validated XML). If you have the libxml2 toolkit installed on your system, you can verify the gump descriptors are standards-compliant using the command
+
+  ./gump validate
+
+within the trunk of the gump SVN repository.
+
+You do not really need to read and know all of the gump model details in order to help out with these descriptors. Often, changes are obvious and trivial (like changing the declared name of build outputs your project generates). Just take a look at all the other metadata definitions and use them as examples.
+
+=== Editing maven descriptors ===
+
+If your project is built using maven, you do not need a gump descriptor. Instead, gump parses the maven project.xml files for your project and extracts all the information it needs from those files. As long as you take care to make sure your project.xml files are valid and up-to-date, gump should be able to function properly.
+
+=== Communicating with other projects ===
+
+This is probably the most important action item ever on your list. You will find that it benefits both yourself as well as the software you're project relates to  if you all communicate which each other as early as possible about any issues you encounter.
+
+If one of your dependencies is failing to build or one of your dependees is failing because of your project, you should probably get in touch with their developers. Gump often gives hints about that by providing the e-mail address of a development mailing list associated with a project. We suggest everyone prefixes their messages with "[Gump]" and includes the name of the project that the message is about in the subject line.
+
+For example, the foobar-blah developers may want to send a message like the following to the wombat-foo developers once some hypothetical incompatible change occurs:
+
+{{{
+From: John Doe Developer <johndoe@apache.org>
+To: Wombat Development List <dev@wombat.apache.org>
+CC: FooBar Development List <dev@foobar.apache.org>
+Subject: [Gump] change to wombat-foo impacts foobar-blah
+
+Hi all!
+
+You may have noticed already that foobar-blah is recently failing to build with gump. The reason for this seems to be a change to wombat-foo. You guys introduced a new method jump() on org.apache.wombat.foo.Foo, which is marked final. Because of this, the method named jump() in our class org.apache.foobar.blah.BlahFoo (which is a subclass of Foo) is now illegal. Could you guys please remove the 'final' on the jump() method? Or maybe its a better idea to make the method private instead of protected?
+
+
+thanks,
+
+
+John Doe
+}}}
+
+You may also find yourself in the reverse situation, where your client projects suddenly break. Imagine this situation:
+
+{{{
+From: John Dough Developer <johndough@apache.org>
+To: FooBar Development List <dev@foobar.apache.org>,
+    Banana Development List <banana-dev@fruit.apache.org>
+CC: Wombat Development List <dev@wombat.apache.org>
+Subject: [Gump] change to wombat-foo impacts foobar-blah
+
+Hi all!
+
+You may have noticed already that foobar-blah and banana-boat have started failing to build with gump. The reason for this is that you're still using org.apache.wombat.Foo#dumb(), which has been deprecated for two years now and will be removed in the next release. Please change your code to use notsodumb() instead. For now, I've added back in the dumb() method so you have some time to fix this. We do plan to publish our next release in two weeks or so, so we'd appreciate it if you could make this a priority!
+
+
+thanks,
+
+
+John Dough
+}}}
+
+Clearly, these kinds of changes and decisions involve things that Gump cannot realistically know about or advise on. Always realize that Gump is not perfect, and manual intervention is often required.
+
+== The "black arts" ==
+
+Famous quote from the movie Forrest Gump:
+
+  "Life is like a box of chocolates: you never know what you're gonna get."
+
+while we try to make gump as intelligent, informative and predictable as possible, there remain many subtle issues for which the solutions are often far from obvious. When something is broken and no-one knows why, what we tend to do is debug things like you would any other issue: with small incremental changes, to see if they fix the problem.
+
+Gump has some limited debugging facilities. If you have an account on the machine where gump runs, you can use the
+
+  ./gump run [some-project]
+
+command to try an update and a build of just some-project. This is allows you to make many small changes and check if they work. If everything you try still doesn't help, it could be the case that you've found a bug in gump itself. You can run gump through the python debugger commandline interface using
+
+  ./gump debug [some-project]
+
+You will get a PDB prompt this way. Type help at that prompt for more information on the available options.
+
+Note that the gump development team is usually willing and able to help you do this kind of debugging. To reiterate what was said before: please do ask questions!

@@ -38,6 +38,17 @@ function usage
       will usually want "all" here.
 "
         ;;
+    debug)
+      echo "
+      Run Gumpy in debug mode.
+      
+      Usage:
+        $0 debug [gump.py-args ...]
+    
+      This is the same as executing the 'run' command with a '--debug'
+      parameter.
+"
+        ;;
     test)
       echo "
       Run Gumpy its unit tests.
@@ -46,6 +57,14 @@ function usage
         $0 test
 "
         ;;
+    integration-test)
+      echo "
+      Run Gumpy its integration tests.
+
+      Usage:
+        $0 integration-test [gump.py-args ...]
+"
+		;;
     site)
       echo "
       Use Apache Forrest to build the documentation.
@@ -72,7 +91,7 @@ function usage
       ;;
     validate)
       echo "
-      Run the DTD validation tools on the metadata
+      Run the DTD validation tools on the metadata.
 
       Usage:
         $0 validate
@@ -151,8 +170,14 @@ function delegate
     run)
       run $@
       ;;
+    debug)
+      run --debug $@
+      ;;
     test)
       test $@
+      ;;
+    integration-test)
+      integration_test $@
       ;;
     site)
       site $@
@@ -193,7 +218,7 @@ function run
   cd ..
 }
 
-# Run gump tests
+# Run gumpy unit tests
 function test
 {
   check_env "python" "http://www.python.org/"
@@ -206,6 +231,22 @@ function test
   fi
 
   ./test/gumptest.sh
+}
+
+# Run gumpy integration tests
+function integration_test
+{
+  echo "
+
+This is currently not working! For some strange reason,
+gumpy thinks we have no projects defined :(
+
+"
+
+  local doupdate=$GUMP_NO_SCM_UPDATE
+  export GUMP_NO_SCM_UPDATE=true
+  run --workspace `pwd`/test/fixture/workspace.xml $@ #all
+  export GUMP_NO_SCM_UPDATE=$doupdate
 }
 
 # Use Apache Forrest to build the documentation.
@@ -255,6 +296,7 @@ function get_metadata
   fi
 }
 
+# Run the DTD validation tools on the metadata.
 function validate
 {
   check_env "xmllint" "http://xmlsoft.org/"
@@ -270,7 +312,7 @@ function validate
 # Run the script...
 #############################################################################
 
-# Figure out then run the appropriate function
+# Figure out the action to take then run the appropriate function
 delegate $@
 
 #############################################################################
