@@ -23,6 +23,10 @@
 
     <cvs repository="avalon"/>
 
+    <project name="avalon-phoenix-dependencies">
+        <ant target="get-spice-dependencies" />
+    </project>
+    
     <project name="avalon-phoenix">
         <package>org.apache.avalon.phoenix</package>
 
@@ -32,6 +36,7 @@
             <depend property="mx4j-tools.jar" project="mx4j-tools" id="tools"/>
         </ant>
 
+        <depend project="avalon-phoenix-dependencies"/>
         <depend property="xerces.jar" project="xml-xerces" id="parser" runtime="true"/>
         <depend project="dist-avalon-logkit" runtime="true"/>
         <depend project="avalon-framework" runtime="true" id="combined"/>
