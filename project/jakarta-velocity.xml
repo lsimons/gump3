@@ -35,7 +35,7 @@
   <project name="jakarta-velocity-test">
     <ant basedir="build" buildfile="testcases.xml"/>
     <depend project="jakarta-velocity" inherit="hard"/>
-    <depend project="antlr.runtime"/>
+    <depend project="antlr" ids="antlr"/>
     <work nested="test/cpload/test1.jar"/>
     <work nested="test/cpload/test2.jar"/>
     <work nested="test/multiloader/test1.jar"/>
@@ -43,16 +43,6 @@
     <nag to="velocity-dev@jakarta.apache.org"
          from="Geir Magnusson Jr. &lt;geirm@apache.org&gt;"
          subject="Test Failure - Velocity"/>
-  </project>
-
-  <project name="antlr.runtime">
-    <package>antlr</package>
-    <url href="http://www.antlr.org/"/>
-    <description>
-      ANother Tool for Language Recognition
-    </description>
-
-    <jar name="build/lib/antlr-runtime.jar"/>
   </project>
 
   <!-- not available via CVS -->
