@@ -106,13 +106,13 @@
         <package>org.apache.avalon.excalibur.component</package>
 
         <ant basedir="component">
-            <depend property="excalibur-pool.jar" project="excalibur-pool"/>
-            <depend property="excalibur-logger.jar" project="excalibur-logger"/>
-	    <depend property="commons-collections" project="commons-collections"/>
-            <depend property="excalibur-instrument.jar" project="excalibur-instrument"/>
-            <depend property="excalibur-instrument-manager.jar" project="excalibur-instrument-manager"/>
-            <depend property="excalibur-instrument-manager-interfaces.jar" project="excalibur-instrument-manager"/>
-            <depend property="logkit.jar" project="avalon-logkit"/>
+            <depend property="excalibur-pool.jar" project="excalibur-pool" runtime="true"/>
+            <depend property="excalibur-logger.jar" project="excalibur-logger" runtime="true"/>
+	    <depend property="commons-collections" project="commons-collections" runtime="true"/>
+            <depend property="excalibur-instrument.jar" project="excalibur-instrument" runtime="true"/>
+            <depend property="excalibur-instrument-manager.jar" project="excalibur-instrument-manager" runtime="true"/>
+            <depend property="excalibur-instrument-manager-interfaces.jar" project="excalibur-instrument-manager" runtime="true"/>
+            <depend property="logkit.jar" project="avalon-logkit" runtime="true"/>
             <property name="version" value="@@DATE@@"/>
             <property name="junit.failonerror" value="true"/>
             <property name="do.checkstyle" value="true"/>
