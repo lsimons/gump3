@@ -26,8 +26,8 @@
     <work nested="core/target/test-classes"/>
     <work nested="factory/target/classes"/>
     <work nested="factory/target/test-classes"/>
-    <jar name="/core/dist/directory-naming-core-@@DATE@@.jar"/>
-    <jar name="/factory/dist/directory-naming-factory-@@DATE@@.jar"/>
+    <jar name="core/dist/directory-naming-core-@@DATE@@.jar"/>
+    <jar name="factory/dist/directory-naming-factory-@@DATE@@.jar"/>
     <nag to="directory-dev@incubator.apache.org" 
     	from="directory-naming development &lt;directory-dev@incubator.apache.org&gt;"/>
   </project>
