@@ -26,7 +26,9 @@ log = logging.getLogger(__name__)
 def check(workspace, projectname):
 
   missing=[]
-
+  optionalMissing=[]
+  optionalOnlyMissing=[]
+  
   # for each project
   for projectname in Project.list:
     projectmissing = 0
@@ -35,16 +37,34 @@ def check(workspace, projectname):
     project = Project.list[projectname]
     
     # for each dependency in current project
-    for depend in project.depend+project.option:
+    for depend in project.depend:
       # if the dependency is not present in the projects, it's missing
       if depend.project not in Project.list:
         projectmissing+=1
         print "  missing: "+depend.project
         if depend.project not in missing:
-          missing.append(depend.project)
-    if missing>0:
+          missing.append(depend.project)  
+            
+    for depend in project.option:
+      # if the dependency is not present in the projects, it's missing
+      if depend.project not in Project.list:
+        projectmissing+=1
+        print "  optional missing: "+depend.project
+        if depend.project not in optionalMissing:
+          optionalMissing.append(depend.project)
+            
+    if projectmissing>0:
       print "  total errors: " , projectmissing
 
+  if len(optionalMissing)>0:
+    print
+    print " ***** MISSING OPTIONAL *ONLY* PROJECTS THAT ARE REFRENCED ***** "
+    print
+    for missed in optionalMissing:
+      if missed not in missing:
+        optionalOnlyMissing.append(missed)
+        print "  " + missed
+      
   if len(missing)>0:
     print
     print " ***** MISSING PROJECTS THAT ARE REFRENCED ***** "
@@ -56,10 +76,19 @@ def check(workspace, projectname):
   print " ***** RESULT ***** "  
   print
   if len(missing)>0:
+    print
     print "  - ERROR - Some projects that were referenced are missing in the workspace. "  
     print "    See the above messages for more detailed info."
   else:
     print "  -  OK - All projects that are referenced are present in the workspace."  
+
+  if len(optionalOnlyMissing)>0:
+    print  
+    print "  - WARNING - Some projects that were referenced as optional only are "
+    print "    missing in the workspace. "  
+    print "    See the above messages for more detailed info."
+  else:
+    print "  -  OK - All OPTIONAL projects that are referenced are present in the workspace."  
     print " ***** RESULT ***** "
 
     
