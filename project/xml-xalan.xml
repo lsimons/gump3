@@ -31,7 +31,7 @@
     <depend project="xml-xalan2"/>
     <depend project="xml-stylebook2"/>
     <option project="bsf"/>
-    <depend project="bcel"/>
+    <depend project="jakarta-bcel"/>
     <depend project="java_cup"/>
     <depend project="jlex"/>
     <depend project="xalan2jdoc"/>
