@@ -5,9 +5,9 @@ SETLOCAL
 @REM 
 @REM SET CLASSPATH=%JAXP%\crimson.jar;%JAXP%\jaxp.jar;%JAXP%\xalan.jar;%CLASSPATH%
 
-SET XALAN=C:\opt\xalan-j_2_2_0
-SET CLASSPATH=%XALAN%\bin\xml-apis.jar;%XALAN%\bin\xalan.jar;%CLASSPATH%
-SET CLASSPATH=%XALAN%\bin\xerces.jar;%CLASSPATH%
+IF NOT "%XALAN%"=="" SET CLASSPATH=%XALAN%\bin\xml-apis.jar
+IF NOT "%XALAN%"=="" SET CLASSPATH=%XALAN%\bin\xalan.jar;%CLASSPATH%
+IF NOT "%XALAN%"=="" SET CLASSPATH=%XALAN%\bin\xerces.jar;%CLASSPATH%
 
 SET SOURCE=%1
 

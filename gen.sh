@@ -1,9 +1,5 @@
 #!/bin/bash
 
-if [ -z "$XALAN" ]; then
-    export XALAN=/opt/java/xalan-j_2_2_D13
-fi
-
 if test "$1" = "-cp"; then
   shift
   export CP="$1"
@@ -24,8 +20,10 @@ esac
 # For Cygwin, ensure paths are in UNIX format before anything is touched
 if $cygwin ; then
   export CLASSPATH=`cygpath --path --unix "$CLASSPATH"`
-  export CLASSPATH=$XALAN/bin/xml-apis.jar:$XALAN/bin/xalan.jar:$CLASSPATH
-  export CLASSPATH=$XALAN/bin/xerces.jar:$CLASSPATH
+  if test -n "$XALAN"; then
+    export CLASSPATH=$XALAN/bin/xml-apis.jar:$XALAN/bin/xalan.jar:$CLASSPATH
+    export CLASSPATH=$XALAN/bin/xerces.jar:$CLASSPATH
+  fi
   export CLASSPATH=.:jenny.jar:$CLASSPATH
   export CLASSPATH=`cygpath --path --windows "$CLASSPATH"`
 
@@ -35,8 +33,10 @@ if $cygwin ; then
 
   JSOURCE=`cygpath -a -w -p "$SOURCE"`
 else
-  export CLASSPATH=$XALAN/bin/xml-apis.jar:$XALAN/bin/xalan.jar:$CLASSPATH
-  export CLASSPATH=$XALAN/bin/xerces.jar:$CLASSPATH
+  if test -n "$XALAN"; then
+    export CLASSPATH=$XALAN/bin/xml-apis.jar:$XALAN/bin/xalan.jar:$CLASSPATH
+    export CLASSPATH=$XALAN/bin/xerces.jar:$CLASSPATH
+  fi
   export CLASSPATH=.:jenny.jar:$CLASSPATH
   JSOURCE=$SOURCE
 fi
