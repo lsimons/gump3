@@ -25,6 +25,7 @@
     <depend project="excalibur-configuration" runtime="true"/>
     <depend project="excalibur-converter" runtime="true"/>
     <depend project="excalibur-io" runtime="true"/>
+    <depend project="excalibur-info" runtime="true"/>
     <depend project="excalibur-cli" runtime="true"/>
     <depend project="excalibur-extension" runtime="true"/>
     <depend project="excalibur-threadcontext" runtime="true"/>
