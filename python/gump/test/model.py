@@ -1,7 +1,7 @@
 #!/usr/bin/env python
-# $Header: /home/stefano/cvs/gump/python/gump/test/model.py,v 1.1 2003/11/20 20:51:49 ajack Exp $
-# $Revision: 1.1 $
-# $Date: 2003/11/20 20:51:49 $
+# $Header: /home/stefano/cvs/gump/python/gump/test/model.py,v 1.2 2003/11/20 21:30:06 ajack Exp $
+# $Revision: 1.2 $
+# $Date: 2003/11/20 21:30:06 $
 #
 # ====================================================================
 #
@@ -87,6 +87,8 @@ class ModelTestSuite(UnitTestSuite):
         
         self.repo1=self.workspace.getRepository('repository1')  
                     
+        self.package1=self.workspace.getProject('package1')
+        
         self.project1=self.workspace.getProject('project1')
         self.project2=self.workspace.getProject('project2')             
         self.project3=self.workspace.getProject('project3')
@@ -101,6 +103,9 @@ class ModelTestSuite(UnitTestSuite):
     def testWorkspace(self):
         self.assertNonZero('Has Log Directory',	\
                     self.workspace.getLogDirectory() )
+                    
+    def testPackages(self):
+        self.assertTrue('Is a package', self.package1.isPackaged())
         
     def testRepository(self):
         repo1 = self.repo1

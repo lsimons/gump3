@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/model/project.py,v 1.10 2003/11/20 20:51:48 ajack Exp $
-# $Revision: 1.10 $
-# $Date: 2003/11/20 20:51:48 $
+# $Header: /home/stefano/cvs/gump/python/gump/model/project.py,v 1.11 2003/11/20 21:30:06 ajack Exp $
+# $Revision: 1.11 $
+# $Date: 2003/11/20 21:30:06 $
 #
 # ====================================================================
 #
@@ -327,9 +327,13 @@ class Project(NamedModelObject, Statable):
         if not self.inModule():
             self.addWarning("Not in a module")
             return
+            
+        # Packaged Projects don't need the full treatment..
+        #
+        packaged=self.isPackaged()
 
         # Import any <ant part
-        if self.xml.ant:
+        if self.xml.ant and not packaged:
             self.ant = Ant(self.xml.ant,self)
         
         # :TODO: Scripts
@@ -377,27 +381,28 @@ class Project(NamedModelObject, Statable):
         if self.ant: self.ant.expand(self,workspace)
 
         # Build Dependencies Map [including depends from <ant/<property/<depend
-        (badDepends, badOptions) = self.buildDependenciesMap(workspace)
+        if not packaged:
+            (badDepends, badOptions) = self.buildDependenciesMap(workspace)
         
-        # Complete dependencies so properties can reference the,
-        for dependency in self.getDependencies():
-            dependency.getProject().complete(workspace)
+            # Complete dependencies so properties can reference the,
+            for dependency in self.getDependencies():
+                dependency.getProject().complete(workspace)
         
-        # complete properties
-        if self.ant: self.ant.complete(self,workspace)
+            # complete properties
+            if self.ant: self.ant.complete(self,workspace)
     
-        #
-        # TODO -- move these back?
-        #
-        if badDepends or badOptions: 
-            for xmldepend in badDepends:
-                self.changeState(STATE_FAILED,REASON_CONFIG_FAILED)
-                self.addError("Bad Dependency. Project: " + xmldepend.project + " unknown to *this* workspace")
-                #log.error("Unknown Dependency [" + xmldepend.project + "] on [" + self.getName()  + "]")                    
+            #
+            # TODO -- move these back?
+            #
+            if badDepends or badOptions: 
+                for xmldepend in badDepends:
+                    self.changeState(STATE_FAILED,REASON_CONFIG_FAILED)
+                    self.addError("Bad Dependency. Project: " + xmldepend.project + " unknown to *this* workspace")
+                    #log.error("Unknown Dependency [" + xmldepend.project + "] on [" + self.getName()  + "]")                    
 
-            for xmloption in badOptions:                
-                self.addWarning("Bad *Optional* Dependency. Project: " + xmloption.project + " unknown to *this* workspace")
-                #log.warn("Unknown *Optional* Dependency [" + xmloption.project + "] on [" + self.getName() + "]")    
+                for xmloption in badOptions:                
+                    self.addWarning("Bad *Optional* Dependency. Project: " + xmloption.project + " unknown to *this* workspace")
+                    #log.warn("Unknown *Optional* Dependency [" + xmloption.project + "] on [" + self.getName() + "]")    
         
         self.setComplete(1)
 

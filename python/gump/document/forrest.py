@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/forrest.py,v 1.9 2003/11/20 20:51:50 ajack Exp $
-# $Revision: 1.9 $f
-# $Date: 2003/11/20 20:51:50 $
+# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/forrest.py,v 1.10 2003/11/20 21:30:06 ajack Exp $
+# $Revision: 1.10 $f
+# $Date: 2003/11/20 21:30:06 $
 #
 # ====================================================================
 #
@@ -1194,15 +1194,15 @@ class ForrestDocumenter(Documenter):
         return icons
         
     def insertStateIcon(self,toObject,fromObject,xdocNode):
-        return self.insertStateLink(toObject,fromObject,xdocNode)
+        return self.insertStateLink(toObject,fromObject,xdocNode,1)
     
     def insertTypedLink(self,toObject,fromObject,xdocNode,state=0):
-        return self.insertLink(toObject,fromObject,xdocNode,1,state)
+        return self.insertLink(toObject,fromObject,xdocNode,1,state,0)
         
     def insertStateLink(self,toObject,fromObject,xdocNode,typed=0):
-        return self.insertLink(toObject,fromObject,xdocNode,typed,1)
+        return self.insertLink(toObject,fromObject,xdocNode,typed,1,0)
         
-    def insertLink(self,toObject,fromObject,xdocNode,typed=0,state=0):
+    def insertLink(self,toObject,fromObject,xdocNode,typed=0,state=0,icon=0):
         description=''
         if typed:
            description=toObject.__class__.__name__
@@ -1223,8 +1223,12 @@ class ForrestDocumenter(Documenter):
             return xdocNode.createLink(link,description)
         else:                  
             # Install the <link with an <icon inside
-            node=xdocNode.createLink(link)
-            return self.insertStatePairIcon(node,toObject,fromObject)
+            if icon:
+                node=xdocNode.createLink(link)
+                return self.insertStatePairIcon(node,toObject,fromObject)
+            else:
+                return xdocNode.createLink(link,description)
+            
    
     def getLink(self,toObject,fromObject=None,state=0):
         url=''

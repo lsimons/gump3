@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/test/pyunit.py,v 1.4 2003/11/20 20:51:49 ajack Exp $
-# $Revision: 1.4 $
-# $Date: 2003/11/20 20:51:49 $
+# $Header: /home/stefano/cvs/gump/python/gump/test/pyunit.py,v 1.5 2003/11/20 21:30:06 ajack Exp $
+# $Revision: 1.5 $
+# $Date: 2003/11/20 21:30:06 $
 #
 # ====================================================================
 #
@@ -203,14 +203,13 @@ class UnitTestSuite(Testable):
             
             # Call the test...
             try:
-                log.debug('Perform [' + self.getName() + '::' + \
+                log.info('Perform [' + self.getName() + '::' + \
                         name + ']')
                         
                 if hasattr(self,'setUp'):
                     self.setUp()
     
-                test()
-                
+                test()                
                 
                 if hasattr(self,'tearDown'):
                     self.tearDown()
