@@ -165,7 +165,9 @@
     <package>org.apache.commons.jelly</package>
     <description>Commons Jelly Package</description>
     
-    <ant basedir="jelly" buildfile="build.xml" target="jar"/>
+    <ant basedir="jelly" buildfile="build.xml" target="jar">
+      <property name="final.name" value="commons-jelly-@@DATE@@"/>
+    </ant>
     
     <depend project="jakarta-ant" inherit="runtime"/>
     <depend project="xml-xerces"/>
@@ -173,43 +175,35 @@
     <depend project="antlr"/>
     <depend project="beanshell"/>
     <depend project="bsf"/>
-    <depend project="nekohtml"/>
     <depend project="commons-beanutils"/>
-    <depend project="commons-betwixt"/>
     <depend project="commons-cli"/>
     <depend project="commons-collections"/>
-    <depend project="commons-digester"/>
     <depend project="commons-discovery"/>
     <depend project="commons-grant"/>
-    <depend project="commons-httpclient"/>
     <depend project="commons-jexl"/>
     <depend project="commons-lang"/>
     <depend project="commons-logging"/>
     <depend project="commons-messenger"/>
     <depend project="dom4j"/>
-    <depend project="hsqldb" ids="hsqldb"/>
     <depend project="iso-relax"/>
     <depend project="jaf"/>
     <depend project="jakarta-ojb"/>
     <depend project="jakarta-servletapi-4"/>
-    <depend project="jakarta-velocity"/>
     <depend project="javamail"/>
-    <depend project="jdbc"/>
     <depend project="jms"/>
     <depend project="junit"/>
     <depend project="msv"/>
+    <depend project="nekohtml"/>
     <depend project="quartz"/>
-    <depend project="relaxng"/>
-    <depend project="werkz"/>
-    <depend project="xml-axis"/>
-    <depend project="jetty"/>
-    <depend project="xmlunit"/>
     <depend project="swt"/>
+    <depend project="xml-axis"/>
+    <depend project="xmlunit"/>
+
     <work nested="jelly/target/classes"/>
     <work nested="jelly/target/test-classes"/>
 
     <home nested="jelly/target"/>
-    <jar name="commons-jelly-1.0-dev.jar"/>
+    <jar name="commons-jelly-@@DATE@@.jar"/>
 
     <nag to="commons-dev@jakarta.apache.org"
          from="Stefan Bodewig &lt;bodewig@apache.org&gt;"/>

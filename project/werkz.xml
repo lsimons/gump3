@@ -22,6 +22,7 @@
     </depend>
     <depend project="xml-xerces">
     </depend>
+    <depend project="commons-jelly"/>
     <work nested="target/classes">
     </work>
     <work nested="target/test-classes">
