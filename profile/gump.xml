@@ -196,6 +196,7 @@
 
   <module href="project/barcode4j.xml" />
   <module href="project/antworks-importer.xml"/>
+  <module href="project/antworks-antlets.xml"/>
 
 
   <module href="project/antlr.xml"/>
