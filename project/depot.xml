@@ -166,6 +166,7 @@
 
         <depend inherit="runtime" project="ant"/>
         <depend project="depot-version"/>                
+        <depend project="depot-common"/>
         <depend project="jakarta-regexp"/>
         <depend project="commons-httpclient"/>
         <depend project="commons-vfs"/>
