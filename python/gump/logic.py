@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/Attic/logic.py,v 1.25 2003/10/14 23:29:06 ajack Exp $
-# $Revision: 1.25 $
-# $Date: 2003/10/14 23:29:06 $
+# $Header: /home/stefano/cvs/gump/python/gump/Attic/logic.py,v 1.26 2003/10/15 21:12:28 ajack Exp $
+# $Revision: 1.26 $
+# $Date: 2003/10/15 21:12:28 $
 #
 # ====================================================================
 #
@@ -280,10 +280,10 @@ def getAntCommand(workspace,module,project,ant,context):
         cmd.addParameter('-debug')  
         
     #
-    #	This sets the *default* to be only, a workspace could
-    #	override it.
+    #	This sets the *defaults*, a workspace could override them.
     #
     cmd.addPrefixedParameter('-D','build.sysclasspath','only','=')
+    cmd.addPrefixedParameter('-D','java.awt.headless','true','=')
     
     # These are module level plus project level
     cmd.addNamedParameters(properties)
