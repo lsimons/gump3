@@ -29,6 +29,7 @@
     <depend project="cos"/>
     <depend project="commons-logging"/>
     <depend project="mockobjects"/>
+    <depend project="mockobjects-j2ee-13"/>
     <depend project="multipartrequest"/>
     <depend project="junit"/>
     <depend project="httpunit"/>
