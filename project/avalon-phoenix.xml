@@ -47,6 +47,7 @@
     <depend project="jakarta-site2" inherit="all" />
     <option project="jakarta-servletapi-4" runtime="true"/>
     <depend project="junit"/>
+    <depend project="jakarta-log4j"/>
 
     <work nested="target/classes"/>
 
