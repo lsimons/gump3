@@ -288,7 +288,6 @@ def executeIntoResult(cmd,result,tmp=dir.tmp):
               log.error('Failed to create CWD. Details: ' + str(details))
               raise
         
-        
         # The command line
         execString=cmd.formatCommandLine()        
         
@@ -353,7 +352,7 @@ def executeIntoResult(cmd,result,tmp=dir.tmp):
         result.status=CMD_STATUS_FAILED
         
     finally:
-      if os.path.exists(outputFile):
+      if outputFile and os.path.exists(outputFile):
           result.output=outputFile
         
       # Keep time information
