@@ -129,6 +129,7 @@
     <depend project="commons-httpclient"/>
     <depend project="jakarta-log4j"/>
     <depend project="jakarta-regexp"/>
+    <depend project="jakarta-servletapi-4"/>
     <depend project="jdom"/>
     <depend project="junit"/>
     <option project="jaxen" inherit="runtime"/>
