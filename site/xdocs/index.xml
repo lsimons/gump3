@@ -76,17 +76,15 @@
 
   <section name="When does Gump run?">
     <p>
-      For Gump to have the desired social affects, it must be predictable.
-      For now, I have chosen to run Gump daily - with kickoff being midnight
-      Pacific time.  Given the global scale of open source development, there
-      is clearly no one time when everyone is inactive, but at least this
-      catches most of the North American continent napping, and is early in
-      the business day for most of Europe.
+      For Gump to have the desired social effects, it must be predictable.  
+      Given the global scale of open source development, there is clearly no 
+      one time when everyone is inactive.
     </p>
 
     <p>
-      Interrim runs are now done evey six hours, based on the hardware kindly
-      donated by Sun and Covalent.  Below is the schedule for all runs relative
+      The run at midnight US/Pacific time causes nag emails to be sent.  
+      Interrim runs are now done evey six hours, based on the hardware kindly 
+      donated by Sun and Covalent. Below is the schedule for all runs relative 
       to several representative time zones.
     </p>
 
