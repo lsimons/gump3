@@ -8,6 +8,7 @@ import socket
 class dir:
    base      = ".."
    cache     = "cache"
+   work      = "work"
 
 class default:
   workspace  = socket.gethostname().split('.')[0] + ".xml"

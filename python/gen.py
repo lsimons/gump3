@@ -72,7 +72,9 @@ if __name__=='__main__':
   workspace=load(ws)
 
   try:
-    f=open(dir.cache+'/'+default.merge, 'w')
+    if not os.path.exists(dir.work):
+      os.path.mkdir(dir.work)
+    f=open(dir.work+'/'+default.merge, 'w')
     xmlize('workspace',workspace,f)
   finally:
     # Since we may exit via an exception, close fp explicitly.
