@@ -15,7 +15,7 @@
   limitations under the License.
 -->
 <module name="jakarta-jmeter">
-<!-- Version $Revision: 1.88 $ Last updated $Date: 2004/03/20 14:01:06 $ -->
+<!-- Version $Revision: 1.89 $ Last updated $Date: 2004/03/21 11:44:39 $ -->
   <url href="http://jakarta.apache.org/jmeter/" />
   <description>
     Pure Java load testing and performance measurement tool.
@@ -31,8 +31,8 @@
       <property name="jmeter.version" value="@@DATE@@"/>
       <property name="gump.run" value="true"/>
       <!-- The version of this file -->
-      <property name="version.projectfile" value="$Revision: 1.88 $"/>
-      <property name="date.projectfile" value="$Date: 2004/03/20 14:01:06 $"/>
+      <property name="version.projectfile" value="$Revision: 1.89 $"/>
+      <property name="date.projectfile" value="$Date: 2004/03/21 11:44:39 $"/>
       
       <!--
       	These properties are passed to the build process, so the names need to agree with
@@ -108,8 +108,8 @@
       <property name="jmeter.version" value="@@DATE@@"/>
       <property name="gump.run" value="true"/>
       <!-- The version of this file -->
-      <property name="version.projectfile" value="$Revision: 1.88 $"/>
-      <property name="date.projectfile" value="$Date: 2004/03/20 14:01:06 $"/>
+      <property name="version.projectfile" value="$Revision: 1.89 $"/>
+      <property name="date.projectfile" value="$Date: 2004/03/21 11:44:39 $"/>
 
 		<!-- Ensure work directories don't get dropped from classpath -->
 		<mkdir dir="build/core"/>
@@ -192,8 +192,8 @@
       <property name="jmeter.version" value="@@DATE@@"/>
       <property name="gump.run" value="true"/>
       <!-- The version of this file -->
-      <property name="version.projectfile" value="$Revision: 1.88 $"/>
-      <property name="date.projectfile" value="$Date: 2004/03/20 14:01:06 $"/>
+      <property name="version.projectfile" value="$Revision: 1.89 $"/>
+      <property name="date.projectfile" value="$Date: 2004/03/21 11:44:39 $"/>
     </ant>
 
     <depend project="ant" />
@@ -254,8 +254,8 @@
       <property name="jmeter.version" value="@@DATE@@"/>
       <property name="gump.run" value="true"/>
       <!-- The version of this file -->
-      <property name="version.projectfile" value="$Revision: 1.88 $"/>
-      <property name="date.projectfile" value="$Date: 2004/03/20 14:01:06 $"/>
+      <property name="version.projectfile" value="$Revision: 1.89 $"/>
+      <property name="date.projectfile" value="$Date: 2004/03/21 11:44:39 $"/>
     </ant>
 
     <depend project="ant" />
@@ -278,12 +278,16 @@
     <work nested="lib/logkit-1.2.jar"/>
     <work nested="lib/soap.jar"/>
     <work nested="lib/Tidy.jar"/>
+
+    <work nested="lib/commons-httpclient-2.0.jar"/>
+    <!--work nested="lib/commons-logging.jar"/-->
+
     <!-- work nested="lib/velocity-1.4-dev.jar"/ -->
     <work nested="lib/xalan.jar"/>
     <work nested="lib/xercesImpl.jar"/>
     <work nested="lib/xml-apis.jar"/>
 
-    <!-- Export the JMeter jars -->
+    <!-- Export the JMeter API doc jar -->
     <home nested="." />
     <jar name="dist/jakarta-jmeter-@@DATE@@_api.zip" />
 
