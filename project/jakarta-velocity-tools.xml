@@ -18,7 +18,8 @@
     <depend project="jakarta-servletapi-4"/>
     <depend project="jakarta-struts"/>
     <depend project="velocity-tools-view"/>
-    <depend project="jakarta-velocity"/>
+    <depend project="jakarta-velocity" inherit="runtime"/>
+    <depend project="jakarta-velocity-dvsl" inherit="runtime"/>
     <depend project="jdbc"/>
     <home nested="struts"/>
     <jar name="velocity-tools-struts-@@DATE@@.jar"/>
