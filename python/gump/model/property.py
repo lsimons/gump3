@@ -163,7 +163,7 @@ class PropertySet(Ownable):
             
     def completeProperties(self,workspace):   
         for property in self.getProperties(): 
-            property.complete(self,workspace)
+            property.complete(self.getOwner(),workspace)
                         
     def dump(self, indent=0, output=sys.stdout):
         """ Display the properties """
