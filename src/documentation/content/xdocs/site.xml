@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <!--
-  Copyright 2003-2004 The Apache Software Foundation
+  Copyright 2003-2005 The Apache Software Foundation
 
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -28,11 +28,11 @@
 	    <gettingstarted href="gettingstarted.html" label="Getting Started"/>
 	    <todo href="todo.html" label="Help Wanted"/>
             <license href="http://www.apache.org/licenses/LICENSE-2.0.txt" label="License"/>
+            <nagged href="nagged.html"/>
 	</gump>
 	<results label="Results">
 	    <nightly href="http://brutus.apache.org/gump/public/" label="Nightly"/>
 	    <jars href="http://brutus.apache.org/gump/public-jars/" label="Jars"/>
-	<!--     <index href="http://nagoya.apache.org/~rubys/gump/javadoc.html" label="Javadoc"/> -->
 	</results>
 	<!--
 	<menu label="Cross Reference">
@@ -47,7 +47,7 @@
             <mail href="mail.html" label="Mailing Lists"/>
             <source href="index.html#Where+is+Gump%3F" label="Source"/>
 	    <wiki href="http://wiki.apache.org/gump" label="Wiki"/>
-	    <issues href="http://nagoya.apache.org/jira/secure/BrowseProject.jspa?id=10457" label="Issues"/>
+	    <issues href="http://issues.apache.org/jira/secure/BrowseProject.jspa?id=10457" label="Issues"/>
             <howtocontribute href="http://jakarta.apache.org/site/getinvolved.html" label="Get Involved"/>
             <whoweare href="whoweare.html" label="Who We Are"/>
             <bylaws href="bylaws.html" label="Project Bylaws"/>

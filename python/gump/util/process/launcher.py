@@ -22,6 +22,7 @@ import os
 import sys
 import logging
 import signal
+import re
 
 from string import split
 
@@ -31,7 +32,8 @@ from gump.util import *
 from gump.util.timing import *
 from gump.util.process import command
     
-LAUNCHER = os.path.join(os.path.join(os.path.join(os.path.join('python','gump'),'util'),'process'),'launcher.py')
+# A separate launcher script/process is used on Windows, on Unix we fork/exec.
+LAUNCHER = os.path.join('python','gump','util','process','launcher.py')
 
 def execute(cmd,tmp=dir.tmp):
     res = command.CmdResult(cmd)
@@ -49,24 +51,29 @@ def executeIntoResult(cmd,result,tmp=dir.tmp):
         # The command line
         execString = cmd.formatCommandLine()        
         
-        # Exec File
-        execFile = os.path.abspath(os.path.join(tmp,gumpSafeName(cmd.name)+'.exec'))
-        if os.path.exists(execFile): os.remove(execFile)
-        
         # Output
         outputFile = os.path.abspath(os.path.join(tmp,gumpSafeName(cmd.name)+'.txt'))
         if os.path.exists(outputFile): os.remove(outputFile)
-    
+
+        # Exec File
+        execFile = os.path.abspath(os.path.join(tmp,gumpSafeName(cmd.name)+'.exec'))
+        if os.path.exists(execFile): os.remove(execFile)
+            
         try:            
             f = open(execFile, 'w')
             # The CMD
             f.write( 'CMD: %s\n' % (execString))
+            # The OUTPUT
+            f.write( 'OUTPUT: %s\n' % (outputFile))
             # Dump the TMP
             if tmp: f.write( 'TMP: %s\n' % (tmp))
             # Dump the cwd (if specified)
             if cmd.cwd: f.write( 'CWD: %s\n' % (cmd.cwd))
-            # Write the TIMEOUT
-            if cmd.timeout: f.write( 'TIMEOUT: %s\n' % (cmd.timeout))    
+            
+            if 'posix' != os.name :
+                # Write the TIMEOUT
+                if cmd.timeout: f.write( 'TIMEOUT: %s\n' % (cmd.timeout))    
+                
             # Write ENV over-writes...
             for envKey in cmd.env.iterkeys(): f.write('%s: %s\n' % (envKey, cmd.env[envKey]))    
         finally:
@@ -75,47 +82,99 @@ def executeIntoResult(cmd,result,tmp=dir.tmp):
         
         # make sure that the python path includes the gump modules
         os.environ['PYTHONPATH'] = os.path.abspath(os.path.join(os.getcwd(),'./python'))
+        
+        if 'posix' == os.name :
             
-        fullExec = sys.executable + ' ' + LAUNCHER + ' ' + execFile + ' >>' + str(outputFile) + ' 2>&1'
+            # Fork to get a child 'cos we are going to crap into
+            # it's ENV, and we don't want to mess in our own.
+            forkPID = os.fork();
+            
+            # Child gets PID = 0
+            if 0 == forkPID:
+                # Run the information within this file...
+                os._exit(runProcess(execFile))
+            
+            # Parent gets real PID
+            else:
+                # Timeout support
+                timer = None
+                if cmd.timeout:
+                    import threading
+                    timer = threading.Timer(cmd.timeout, \
+		    		shutdownProcessAndProcessGroup, [forkPID])
+                    timer.start()
+            
+                # Run the command
+                (childPID, waitcode) = os.waitpid(forkPID,0)
+                
+                # Stop timer (if still running)
+                if timer and timer.isAlive(): 
+                    timer.cancel()      
+                
+                # The return code (from system = from wait) is (on Unix):
+                #    a 16 bit number
+                #    top byte    =    exit status
+                #    low byte    =    signal that killed it
+                result.signal = (waitcode & 0xFF)
+                result.exit_code = (((waitcode & 0xFF00) >> 8) & 0xFF)
+            
+                #log.debug('Command returned [' + str(systemReturn)+ '] [Sig:' + str(result.signal) + ' / Exit:' + str(result.exit_code) + '].')
+        
+                # Assume timed out if signal terminated
+                if result.signal > 0:
+                    result.state = command.CMD_STATE_TIMED_OUT
+                    #log.warn('Command timed out. [' + execString + '] [' + str(timeout) + '] seconds.')
+                
+                    # Process Outputs (exit_code and stderr/stdout)
+                elif result.exit_code > 0:    
+                    result.state = command.CMD_STATE_FAILED
+                    #log.warn('Command failed. [' + execString + ']. ExitCode: ' + str(result.exit_code))
+                else:
+                    result.state = command.CMD_STATE_SUCCESS         
+                  
+        else:
+            
+            # Run another python process (to crap into it's ENV not the main, multi-threaded, one.)
+            fullExec = sys.executable + ' ' + LAUNCHER + ' ' + execFile
                                     
-        #log.debug('Executing: ' + execString)
-        #log.debug('     Exec: ' + str(execFile))
-        #log.debug('   Output: ' + str(outputFile))
-        #log.debug('Full Exec: ' + fullExec)
+            #log.debug('Executing: ' + execString)
+            #log.debug('     Exec: ' + str(execFile))
+            #log.debug('   Output: ' + str(outputFile))
+            #log.debug('Full Exec: ' + fullExec)
         
-        # Execute Command & Wait
-        systemReturn = os.system(fullExec)
+            # Execute Command & Wait
+            systemReturn = os.system(fullExec)
         
-        if not os.name == 'dos' and not os.name == 'nt':
-            waitcode = systemReturn
-            # The return code (from system = from wait) is (on Unix):
-            #	a 16 bit number
-            #	top byte	=	exit status
-            #	low byte	=	signal that killed it
-            result.signal = (waitcode & 0xFF)
-            result.exit_code = (((waitcode & 0xFF00) >> 8) & 0xFF)
-        else:
-            result.signal = 0
-            result.exit_code = systemReturn
+            if not os.name == 'dos' and not os.name == 'nt':
+                waitcode = systemReturn
+                # The return code (from system = from wait) is (on Unix):
+                #	a 16 bit number
+                #	top byte	=	exit status
+                #	low byte	=	signal that killed it
+                result.signal = (waitcode & 0xFF)
+                result.exit_code = (((waitcode & 0xFF00) >> 8) & 0xFF)
+            else:
+                result.signal = 0
+                result.exit_code = systemReturn
             
-        #log.debug('Command returned [' + str(systemReturn)+ '] [Sig:' + str(result.signal) + ' / Exit:' + str(result.exit_code) + '].')
+            #log.debug('Command returned [' + str(systemReturn)+ '] [Sig:' + str(result.signal) + ' / Exit:' + str(result.exit_code) + '].')
         
-        # Assume timed out if signal terminated
-        if result.signal > 0:
-            result.state = command.CMD_STATE_TIMED_OUT
-            #log.warn('Command timed out. [' + execString + '] [' + str(timeout) + '] seconds.')
-        # Process Outputs (exit_code and stderr/stdout)
-        elif result.exit_code > 0:    
-            result.state = command.CMD_STATE_FAILED
-            #log.warn('Command failed. [' + execString + ']. ExitCode: ' + str(result.exit_code))
-        else:
-            result.state = command.CMD_STATE_SUCCESS                
+            # Assume timed out if signal terminated
+            if result.signal > 0:
+                result.state = command.CMD_STATE_TIMED_OUT
+                #log.warn('Command timed out. [' + execString + '] [' + str(timeout) + '] seconds.')
+                
+                # Process Outputs (exit_code and stderr/stdout)
+            elif result.exit_code > 0:    
+                result.state = command.CMD_STATE_FAILED
+                #log.warn('Command failed. [' + execString + ']. ExitCode: ' + str(result.exit_code))
+            else:
+                result.state = command.CMD_STATE_SUCCESS                
      
       except Exception, details :
-        log.error('Failed to launch command. Details: ' + str(details))
-        
-        result.exit_code = -1
-        result.state = command.CMD_STATE_FAILED
+          log.error('Failed to launch command. Details: ' + str(details), exc_info=1) 
+          result.exit_code = -1
+          result.state = command.CMD_STATE_FAILED
         
     finally:
       # Clean Up Empty Output Files
@@ -132,6 +191,21 @@ def executeIntoResult(cmd,result,tmp=dir.tmp):
 	  
     return result
     
+def shutdownProcessAndProcessGroup(pid):
+    """
+    Kill this (and all child processes).
+    """
+    log.warn('Kill process group (anything launched by PID' + str(pid) + ')')    
+    try:
+        pgrpID=os.getpgid(pid)
+        if -1 != pgrpID:
+            os.killpg(pgrpID,signal.SIGKILL)
+        else:
+            log.warn('No such PID' + str(pid) + '.')    
+    except Exception, details:
+        log.error('Failed to dispatch signal ' + str(details), exc_info=1)
+        
+        
 def shutdownProcesses():
     """
     Kill this (and all child processes).
@@ -143,7 +217,7 @@ def shutdownProcesses():
         gumpid
     except Exception, details:
         log.error('Failed to dispatch signal ' + str(details), exc_info=1)
-          
+         
 def runProcess(execFilename):
     """
     Read an 'exec file' (formatted by Gump) to detect what to run,
@@ -161,6 +235,7 @@ def runProcess(execFilename):
         #    print 'KEY : ' + key  + ' -> ' + execInfo[key]
         
         cmd = execInfo['CMD']
+        outputFile = execInfo['OUTPUT']
         cwd = None
         if execInfo.has_key('CWD'): cwd = execInfo['CWD']
         tmp = execInfo['TMP']
@@ -189,6 +264,9 @@ def runProcess(execFilename):
             timer.setDaemon(1)
             timer.start()
             
+        # Allow redirect
+        cmd += ' >>' + str(outputFile) + ' 2>&1'
+        
         # Run the command
         systemReturn = os.system(cmd)
                   
@@ -213,7 +291,6 @@ def runProcess(execFilename):
     return exit_code
 
 if __name__=='__main__':
-    import re
     
     exit_code = 0
     execFilename = sys.argv[1]

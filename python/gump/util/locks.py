@@ -22,35 +22,27 @@ import os,sys
 
 #-----------------------------------------------------------------------# 
         
-def establishLock(lockFile):
-
+def acquireLock(lockFile):
+    """ Block to ge an exclusive lock on a file. """
     failed=0
-    info=''
     if 'posix'==os.name:
         import fcntl
                 
         try:            
             lock=open(lockFile,'a+')
-            fcntl.flock(lock.fileno(), fcntl.LOCK_EX | fcntl.LOCK_NB)
+            fcntl.flock(lock.fileno(), fcntl.LOCK_EX)
         except:            
             failed=1
-            info=', and is locked.'
-        
     else:
         if os.path.exists(lockFile):
             failed=1
-        
-        # Write this PID into a lock file
         lock=open(lockFile,'w')
             
     if failed:
-        print """The lock file [%s] exists%s. 
-Either Gump is still running, or it terminated very abnormally.    
-Please resolve this (waiting or removing the lock file) before retrying.
-        """ % (lockFile, info)
-        sys.exit(1)
+        raise RuntimeError, \
+            """The lock file [%s] could not be established.""" % lockFile
     
-    # Leave a mark...
+    # Write this PID into a lock file
     lock.write(`os.getpid()`)
     lock.flush()
         
@@ -75,4 +67,5 @@ def releaseLock(lock,lockFile):
         os.remove(lockFile)
     except:
         # Somehow another could delete this, even if locked...
+        # Or, could be in the process of locking it.
         pass

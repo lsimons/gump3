@@ -23,5 +23,5 @@
 ###############################################################################
 
 # tell Python what modules make up the gump.net package
-__all__ = ["cvs","depot"]
+__all__ = ["cvs"]
 

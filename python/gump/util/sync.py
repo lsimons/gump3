@@ -25,6 +25,7 @@ from stat import *
 import shutil
 
 from gump import log
+from gump.util import getStringFromUnicode
 from gump.util.work import *
 from gump.util.file import *
 from gump.util.note import *
@@ -36,8 +37,8 @@ class PathWalker(Annotatable):
 
     def __init__(self, sourcedir, targetdir, action = SYNC_ACTION, output=None, debug=0):
         Annotatable.__init__(self)
-        self.sourcedir = sourcedir
-        self.targetdir = targetdir
+        self.sourcedir = getStringFromUnicode(sourcedir)
+        self.targetdir = getStringFromUnicode(targetdir)
         self.action = action
         
         if SYNC_ACTION==action:
@@ -176,6 +177,7 @@ class PathWalker(Annotatable):
         #
         #
         for name in names:
+            
             try:    
                 srcname = os.path.join(src, name)
                 dstname = os.path.join(dst, name)
@@ -216,6 +218,7 @@ class PathWalker(Annotatable):
         None
         """
         for afile in existingfiles:
+            
             fullsourcefile = os.path.join(sourcedir, afile)
             fulldestfile = os.path.join(destdir, afile)
             if not afile in acceptablefiles:

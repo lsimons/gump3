@@ -1,6 +1,6 @@
-#!/bin/sh
+#!/bin/bash
 #
-# Copyright 2004 The Apache Software Foundation
+# Copyright 2004-2005 The Apache Software Foundation
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -144,6 +144,16 @@ function error
   exit 1
 }
 
+# Load the environment variables script if it exists
+function load_env
+{
+  local host=`hostname -s`
+  local envfile="`pwd`/cron/local-env-$host.sh"
+  if [[ -f $envfile ]]; then
+    . $envfile
+  fi
+}
+
 # Print a friendly error message if some dependency is missing.
 #
 # Arguments:
@@ -157,6 +167,54 @@ function check_env
 
      $2
      
+and install it."
+  fi
+}
+
+# Print a friendly error message if an environment variable is not set.
+#
+# Arguments:
+#   - name of the variable
+#   - description of what the variable should be set to
+function check_env_var
+{
+  local host=`hostname -s`
+  local envfile="`pwd`/cron/local-env-$host.sh"
+
+  local dereferenced=${!1}
+  if [[ -z "$dereferenced" ]]; then
+    error "The variable $1 has not been set. It should be set to
+$2.
+You can either set this before invoking gump, or set it in a file
+named
+  $envfile.sh
+"
+  fi
+}
+
+# Print a friendly error message i a python library is not available.
+#
+# Arguments:
+#   - the library to import
+#   - url to download location of the library
+function check_env_pylib
+{
+  cat > pycmd.tmp.py <<ENDCOMMAND
+try:
+  import $1
+except:
+  print "error"
+ENDCOMMAND
+  local cmd=`python pycmd.tmp.py`
+  result=`$cmd`
+  rm -f pycmd.tmp.py
+
+  if [[ ! -z "$result" ]]; then
+    error "Required python library $1 is not available.
+Please download it from
+
+  $2
+
 and install it."
   fi
 }
@@ -224,6 +282,12 @@ function run
   check_env "python" "http://www.python.org/"
   check_env "pkill" "http://sourceforge.net/projects/proctools"
 
+  check_env_var "GUMP_HOME" "the location of the gump checkout"
+  check_env_var "JAVA_HOME" "the location of the java jdk"
+  
+  check_env_pylib "rdflib" "http://rdflib.net/"
+  check_env_pylib "MySQLdb" "http://sourceforge.net/projects/mysql-python"
+
   cd cron
   ./gump.sh $@
   cd ..
@@ -233,6 +297,7 @@ function run
 function test
 {
   check_env "python" "http://www.python.org/"
+  check_env_var "GUMP_HOME" "the location of the gump checkout"
 
   local oldpythonpath=$PYTHONPATH
   if [[ -z $oldpythonpath ]]; then
@@ -241,12 +306,15 @@ function test
     export PYTHONPATH=`pwd`/python:`pwd`:$PYTHONPATH
   fi
 
-  #./test/gumptest.sh
+  # Run the tests
   cd python
   python ../bin/testrunner.py -d ../python/gump/test $@
   cd ..
-
-  export PYTHONPATH=$oldpythonpath
+  
+  # Clean up (NB: tests ought to do this themselves...)
+  rm -Rf python/test python/bogus python/x.svg python/gump/test/cache \
+      python/gump/test/temp \
+      python/gump/test/test python/gump/test/work
 }
 
 # Run gumpy integration tests
@@ -350,6 +418,9 @@ function experimental_tests
 #############################################################################
 # Run the script...
 #############################################################################
+
+# Load any environment variables
+load_env
 
 # Figure out the action to take then run the appropriate function
 delegate $@

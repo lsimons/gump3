@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <!--
-  Copyright 2003-2004 The Apache Software Foundation
+  Copyright 2003-2005 The Apache Software Foundation
 
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -538,7 +538,7 @@
 
     <section><title>nag</title>
       <p>If this element is present, an entry for this project will be
-      created in the file naglist.  This enables email reports of
+      created in the file naglist.  This enables <link href="site:nagged">email reports</link> of
       build failures.</p>
 
       <table>

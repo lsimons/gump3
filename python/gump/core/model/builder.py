@@ -154,7 +154,7 @@ class Builder(ModelObject, PropertyContainer):
         ids=getDomAttributeValue(pdom,'id','')
 
         # Runtime?
-        runtime=hasDomAttribute(pdom,'runtime')
+        runtime=domAttributeIsTrue(pdom,'runtime')
 
         if workspace.hasProject(projectName): 
                         

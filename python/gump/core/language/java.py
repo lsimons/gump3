@@ -8,7 +8,7 @@
 # You may obtain a copy of the License at
 # 
 #     http://www.apache.org/licenses/LICENSE-2.0
-# 
+#
 # Unless required by applicable law or agreed to in writing, software
 # distributed under the License is distributed on an "AS IS" BASIS,
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -221,12 +221,21 @@ class JavaHelper(gump.core.run.gumprun.RunSpecific):
 
         # Append sub-projects outputs, if inherited
         for subdependency in project.getDirectDependencies():        
-            #    If the dependency is set to 'all' (or 'hard') we inherit all dependencies
-            # If the dependency is set to 'runtime' we inherit all runtime dependencies
-            # If the dependent project inherited stuff, we inherit that...
-            if        (inherit==gump.core.model.depend.INHERIT_ALL or inherit==gump.core.model.depend.INHERIT_HARD) \
-                    or (inherit==gump.core.model.depend.INHERIT_RUNTIME and subdependency.isRuntime()) \
-                    or (subdependency.inherit > gump.core.model.depend.INHERIT_NONE):      
+        	#
+        	# 	For the main project we working on, we care about it's request for inheritence
+        	#	but we don't recursively inherit. (i.e. we only do this at recursion depth 1).
+        	#
+            #   If the dependency is set to 'all' (or 'hard') we inherit all dependencies.
+            # 	If the dependency is set to 'runtime' we inherit all runtime dependencies.
+            #
+            #	INHERIT_OUTPUTS (aka INHERIT_JARS) is more sticky, and we track that down (and down, ...).
+            #
+            if   (  ( ( 1 == depth ) and \
+                 	(inherit in [ gump.core.model.depend.INHERIT_ALL, gump.core.model.depend.INHERIT_HARD ]) \
+                    	or \
+                    (inherit == gump.core.model.depend.INHERIT_RUNTIME and subdependency.isRuntime()) ) \
+                   or \
+                   	( inherit in [ gump.core.model.depend.INHERIT_OUTPUTS ] ) ) :      
                 (subcp, subbcp) = self._getDependOutputList(project,subdependency,visited,depth+1,debug)
                 self._importClasspaths(classpath,bootclasspath,subcp,subbcp)   
             elif debug:

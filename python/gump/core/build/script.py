@@ -55,7 +55,7 @@ def getArgs(script):
     args = Parameters()
     for arg in script.getProperties():
         if arg.name.startswith('--') or not arg.name.startswith('-'):
-            if arg.value:
+            if arg.value and arg.value != "*Unset*": # TODO: fix this properly. Ugly!
                 args.addNamedParameter(arg.name,arg.value,'=')
             else:
                 args.addParameter(arg.name)

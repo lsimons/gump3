@@ -165,6 +165,11 @@ def hasDomAttribute(element,name):
     if element.hasAttributes():
         return element.hasAttribute(name)
     return False
+    
+def domAttributeIsTrue(element,name):
+    return hasDomAttribute(element,name) and \
+               getDomAttributeValue(element,name) in ['true','True']
+     
 
 def getDomAttributeValue(element,name,default=None):
     return element.getAttribute(name) or default

@@ -66,11 +66,6 @@ def importDomDependency(ownerProject,dependProject,ddom,optional):
     
     annotation = None # 'Expressed Dependency'
     
-    # :TODO: I hate this line of code!!!!
-    # :TODO:#2: I really hate this code, we ought not be trying
-    # to acess the delegate. We do so to check for existence
-    # but w/o value. Not good. Really gotta re-write that XML
-    # loading/merging stuff.
     noclasspath=hasDomChild(ddom,'noclasspath')    
         
     # Construct the dependency

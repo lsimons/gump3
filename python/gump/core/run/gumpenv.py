@@ -1,6 +1,5 @@
 #!/usr/bin/python
-
-
+#
 # Copyright 2003-2004 The Apache Software Foundation
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,16 +15,21 @@
 # limitations under the License.
 
 """
- A gump environment (i.e. what tools are available in this machine's
- environment, and so forth).
+    A gump environment (i.e. what tools are available in this machine's
+    environment, and so forth).
+    
+    TODO: a lot of this stuff needs to be available in other environments
+    as well, for example when we run dynagump or the unit tests we also
+    want to know about our environment. Either this class is refactored so
+    as to be much more decoupled from the rest of gump or we simply move
+    this functionality out into the shell script code so we can get rid of
+    it here.
 """
 
 import os.path
 import sys
 from types import NoneType
 from fnmatch import fnmatch
-
-from gump import log
 
 from gump.core.config import *
 
@@ -40,33 +44,35 @@ from gump.util.tools import *
 from gump.core.model.state import *
 from gump.core.model.propagation import *
 
-from gump.tool.integration.depot import *
-    
-###############################################################################
-# Classes
-###############################################################################
 
+#TODO: any reason checkEnvironment can't simply be called once (on __init__)
+#      and after that simply used? It'd certainly simplify the code a bit..
 class GumpEnvironment(Annotatable,Workable,Propogatable):
     """
-    	Represents the environment that Gump is running within.
-    	
-    	What environment variables are set, what tools are 
-    	available, what Java command to use, etc.
+    Represents the environment that Gump is running within.
+    
+    What environment variables are set, what tools are 
+    available, what Java command to use, etc.
+    
+    If some required bit of environment is missing, this class will actually
+    short-circuit gump and call sys.exit.
     """
 
-    def __init__(self):
+    def __init__(self, log = None):
         Annotatable.__init__(self)
         Workable.__init__(self)
         Propogatable.__init__(self)
-        Stateful.__init__(self)
+        #Stateful.__init__(self) -- redundant, already called from Propogatable.__init__
+        
+        if not log: from gump import log
+        self.log = log
         
         self.checked = False
         self.set = False
     	
         self.noMono = False
         self.noNAnt = False    
-        self.noMaven = False    	 
-        self.noDepot = False    	
+        self.noMaven = False    	
         self.noSvn = False    	
         self.noCvs = False   
         self.noP4 = False   
@@ -84,16 +90,13 @@ class GumpEnvironment(Annotatable,Workable,Propogatable):
         self.javaCommand = 'java'
         self.javacCommand = 'javac'
         
-        # DEPOT_HOME
-        self.depotHome = None
-        
         # Timezone and offset from UTC
         self.timezone = time.tzname
         self.timezoneOffset = time.timezone
         
     def checkEnvironment(self,exitOnError=False):
         """ 
-        Check things that are required/optional 
+        Take a look at the environment and populate this object's properties based on that.
         """
         
         if self.checked: return
@@ -123,12 +126,6 @@ class GumpEnvironment(Annotatable,Workable,Propogatable):
             self.noMaven=True
             self.addWarning('MAVEN_HOME environmental variable not found, no maven builds.')
             
-        if not self.noDepot and not self._checkEnvVariable('DEPOT_HOME',False): 
-            self.noDepot=True
-            self.addWarning('DEPOT_HOME environmental variable not found, no depot downloads.')
-        
-        self.depotHome = getDepotHome(False)
-            
         # Check for executables
         
         self._checkExecutable('env','',False)
@@ -155,11 +152,6 @@ class GumpEnvironment(Annotatable,Workable,Propogatable):
             self.noP4=True
             self.addWarning('"p4" command not found, no Perforce repository updates')
           
-        if not self.noDepot and \
-            not self._checkExecutable(getDepotUpdateCmd(),'-version',False,False,'check_depot_update'): 
-            self.noDepot=True
-            self.addWarning('"depot update" command not found, no package downloads')
-        
         if not self.noMaven and \
             not self._checkExecutable('maven','--version',False,False,'check_maven'): 
             self.noMaven=True
@@ -186,7 +178,7 @@ class GumpEnvironment(Annotatable,Workable,Propogatable):
         
     def setEnvironment(self):
         """ 
-        Set things that are required 
+        Customize the actual environment to reflect the way gump needs things to be.
         """
         
         if self.set: return
@@ -219,7 +211,7 @@ class GumpEnvironment(Annotatable,Workable,Propogatable):
         self.checkEnvironment()
         
         if self.noJavac: 
-            log.error("Can't obtain Java properties since Java Environment was not found")
+            self.log.error("Can't obtain Java properties since Java Environment was not found")
             return {}
 
         import commands, re
@@ -252,11 +244,14 @@ class GumpEnvironment(Annotatable,Workable,Propogatable):
         if os.path.exists(JAVA_CLASS): os.unlink(JAVA_CLASS)
 
         for (name,value) in self.javaProperties.items():
-            log.debug("Java Property: " + name + " => " + value)
+            self.log.debug("Java Property: " + name + " => " + value)
 
         return self.javaProperties
 
     def _checkExecutable(self,command,options,mandatory,logOutput=False,name=None):
+        """
+        Determine whether a particular command is or is not available.
+        """
         ok = False
         try:
             if not name: name = 'check_'+command
@@ -264,12 +259,12 @@ class GumpEnvironment(Annotatable,Workable,Propogatable):
             result = execute(cmd)
             ok = result.isOk()
             if ok:
-                log.warning('Detected [' + command + ' ' + options + ']')   
+                self.log.warning('Detected [' + command + ' ' + options + ']')   
             else:
-                log.warning('Failed to detect [' + command + ' ' + options + ']')   
+                self.log.warning('Failed to detect [' + command + ' ' + options + ']')   
         except Exception, details:
             ok = False
-            log.error('Failed to detect [' + command + ' ' + options + '] : ' + str(details))
+            self.log.error('Failed to detect [' + command + ' ' + options + '] : ' + str(details))
             result = None
        
         # Update 
@@ -290,15 +285,18 @@ class GumpEnvironment(Annotatable,Workable,Propogatable):
         return ok
     
     def _checkEnvVariable(self,env,mandatory=True):
+        """
+        Determine whether a particular environment variable is set.
+        """
         ok = False
         try:
             ok = os.environ.has_key(env)
             if not ok:
-                log.info('Failed to find environment variable [' + env + ']')
+                self.log.info('Failed to find environment variable [' + env + ']')
         
         except Exception, details:
             ok = False
-            log.error('Failed to find environment variable [' + env + '] : ' + str(details))
+            self.log.error('Failed to find environment variable [' + env + '] : ' + str(details))
     
         if not ok and mandatory:
             print

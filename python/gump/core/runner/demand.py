@@ -15,17 +15,9 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-"""
-
-	The OnDemand runner performs a run, but does work on
-	modules as the needs of projects demands it.
-
-"""
-
 import os.path
 import sys
 
-from gump import log
 from gump.core.run.gumprun import *
 from gump.core.runner.runner import *
 from gump.core.config import dir, default, basicConfig
@@ -45,34 +37,23 @@ from gump.core.model.stats import *
 from gump.core.model.state import *
 
 from gump.util.threads.tools import *
+from gump.util.locks import *
 
-
-###############################################################################
-# Classes
-###############################################################################
-  
-class UpdateWork:
-    def __init__(self,runner,module):
-        self.runner=runner
-        self.module=module
-        
-    def __str__(self):
-        return 'UpdateWork:'+`self.module`
-        
-class UpdateWorker(WorkerThread):
-    def performWork(self,work):
-        # Do the work...
-        work.runner.performUpdate(work.module)
-        
 class OnDemandRunner(GumpRunner):
+    """
+	The OnDemand runner updates modules just-in-time before a project is built.
+	
+	However, if gump is configured for multithreading, it also spawns several updater
+	threads in the background which do module updates. This is an effort to maximize
+	network and disk I/O.
+    """
 
-    def __init__(self,run):
-        GumpRunner.__init__(self,run)
+    def __init__(self, run, log=None):
+        GumpRunner.__init__(self,run,log)
 
-    ###########################################
     def spawnUpdateThreads(self, updaters=1):
         """
-        Fork off a bunch of threads.
+        Fork off a bunch of threads for running module updates.
         """
         
         self.workList=ThreadWorkList('Updates')
@@ -93,36 +74,51 @@ class OnDemandRunner(GumpRunner):
         
     def performUpdate(self,module):
         """
-        
-        	Perform a module update (locking whilst doing it)	
+        	Perform the (cvs,svn) update of a single module.
         	
+        	The module is locked during the update. Most of the actual work
+        	is delegated to the updater that's provided by the parent GumpRunner
+        	class.
         """
-        
-        # Lock the module, while we work on it...
-        lock=module.getLock()
-        
+        flock=None
         try:
-            lock.acquire()
+            # Only on POSIX can we block on a file lock,
+            # so only here do we support shared update
+            # staging areas.
+            if 'posix'==os.name:
+                flock = acquireLock(module.getUpdateLockFile())
+              
+            # Normal thread locking...
+            lock=module.getLock()
+            try:
+                lock.acquire()
         
-            if not module.isUpdated():
+                if not module.isUpdated():
                 
-                # Perform Update
-                self.updater.updateModule(module)         
+                    # Perform Update
+                    self.updater.updateModule(module)         
         
-                # Fire event
-                self.run.generateEvent(module)
+                    # Fire event
+                    self.run.generateEvent(module)
         
-                # Mark as done in set
-                self.run.gumpSet.setCompletedModule(module)
+                    # Mark as done in set
+                    self.run.gumpSet.setCompletedModule(module)
                 
-                # Mark Updated
-                module.setUpdated(True)
+                    # Mark Updated
+                    module.setUpdated(True)
+            finally:
+                lock.release()
         finally:
-            lock.release()
+            if flock:
+                releaseLock(flock,module.getUpdateLockFile())
+            
             
     def performBuild(self,project):
         """
-            Perform a project build
+            Perform the actual (ant,maven,make) build of a single project.
+            
+            Most of the actual work is delegated to the builder that's
+            provided by the parent GumpRunner class.
         """
             
         # Perform the build action
@@ -134,11 +130,8 @@ class OnDemandRunner(GumpRunner):
         # Mark completed
         self.run.getGumpSet().setCompletedProject(project)
         
-    ###########################################
-
     def performRun(self):
         """
-        
         	Perform a run, building projects (and updating modules)
         	as needed.
         	
@@ -149,6 +142,9 @@ class OnDemandRunner(GumpRunner):
         	Fire events (1) before everything (2) for each entity
         	[module or project] and (3) after everything.
         	
+        	You may think of this method as performing "all the real beef" for
+        	a gump run, delegating to lots of different helpers and actors in
+        	the process.
         """
         # Initialize to run
         self.initialize(True)
@@ -189,7 +185,7 @@ class OnDemandRunner(GumpRunner):
             if gumpOptions.isUpdate():
                 # W/ multiple project in one module, it may be done
                 if not module.isUpdated():
-                    log.debug('Update module *inlined* (not in background thread) ' + `module` + '.')     
+                    self.log.debug('Update module *inlined* (not in background thread) ' + `module` + '.')     
                     inlined+=1
                     self.performUpdate(module)
 
@@ -223,3 +219,24 @@ class OnDemandRunner(GumpRunner):
             result = EXIT_CODE_FAILED
             
         return result  
+
+class UpdateWork:
+    """
+    Simple internal helper class which defines a unit of module updating work that can be
+    handled by one of the update workers.
+    """
+    def __init__(self,runner,module):
+        self.runner=runner
+        self.module=module
+        
+    def __str__(self):
+        return 'UpdateWork:'+`self.module`
+        
+class UpdateWorker(WorkerThread):
+    """
+    Simple internal worker thread which performs one unit of module updating work (one
+    UpdateWork) each time it is fired up.
+    """
+    def performWork(self,work):
+        # Do the work...
+        work.runner.performUpdate(work.module)

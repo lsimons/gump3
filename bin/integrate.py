@@ -76,8 +76,12 @@ def irun():
     options.setQuick(False)
     options.setCache(False)
     
-    # 
-    options.setObjectives(gump.core.run.options.OBJECTIVE_INTEGRATE)    
+    if not os.environ.has_key('GUMP_WORK_OFFLINE'):
+      options.setObjectives(gump.core.run.options.OBJECTIVE_INTEGRATE)
+    else:
+      options.setCache(True)
+      options.setObjectives(gump.core.run.options.OBJECTIVE_OFFLINE)
+    
     
     # The Run Details...
     run=gump.core.run.gumprun.GumpRun(workspace,ps,options)

@@ -1,0 +1,13 @@
+#!/bin/bash
+
+
+export JAVA_HOME=/opt/local/jre # CHANGE THIS!
+export GUMP_HOME=`pwd`
+
+cd cron
+./gump.sh --workspace $GUMP_HOME/metadata/freej-workspace.xml
+cd ..
+
+echo Now take a look at
+echo   `pwd`/work/freej/log/index.html
+

@@ -156,6 +156,9 @@ class ModelObject(Annotatable,Workable,FileHolder,Propogatable,Ownable):
         Annotatable.dump(self,indent,output)
     
     # Helper methods
+    def domAttributeIsTrue(self,name):
+        return domAttributeIsTrue(self.element,name)
+        
     def hasDomAttribute(self,name):
         return hasDomAttribute(self.element,name)
     

@@ -57,8 +57,9 @@ class ModuleCvs(ModelObject):
             root+=str(self.repository.getHostname()) + ':'
             
             # :TODO: Allow users to override default port
-            if str(self.repository.getMethod())=='pserver': 
-                root+='2401'
+            # this is throwing off the kaffe.org cvs repository...
+            #if str(self.repository.getMethod())=='pserver': 
+            #    root+='2401'
         root+=str(self.repository.getPath())
         
         # If a subdirectory
@@ -402,10 +403,16 @@ class Module(NamedModelObject, Statable, Resultable, Positioned):
                         os.path.join(workspace.getBaseDirectory(),	
                                 self.workdir))
         
-        self.absSrcCtlDir=	\
+        self.absSrcCtlDir=    \
                  os.path.abspath(
-                         os.path.join(	workspace.getSourceControlStagingDirectory(), 
+                         os.path.join(    workspace.getSourceControlStagingDirectory(), 
                                             self.getName())) # todo allow override              
+
+        # For when multiple gump runs share (on posix)
+        self.absUpdateLock=    \
+                 os.path.abspath(
+                         os.path.join(    workspace.getSourceControlStagingDirectory(), 
+                                            self.getName() + '.lock'))
                                
         # :TODO: Consolidate this code, less cut-n-paste but also
         # check the 'type' of the repository is appropriate for the
@@ -673,6 +680,9 @@ class Module(NamedModelObject, Statable, Resultable, Positioned):
         
     def getSourceControlStagingDirectory(self):
         return self.absSrcCtlDir
+        
+    def getUpdateLockFile(self):
+        return self.absUpdateLock
         
     def getWorkingDirectory(self):
         return self.absWorkingDir

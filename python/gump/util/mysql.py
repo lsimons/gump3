@@ -24,10 +24,82 @@ import MySQLdb
 import MySQLdb.cursors
 
 from gump import log
-  
+
+class Database:
+    """
+    Very simple database abstraction layer, basically adding some utilities
+    around MySQLdb and ability to parse the gump DatabaseInformation object.
+    
+    See http://www.python.org/peps/pep-0249.html for more on python and databases.
+    This class adheres to the PEP 249 Connection interface.
+    """
+    def __init__(self,dbInfo):
+        self._dbInfo=dbInfo
+        self._conn=None
+        
+    def __del__(self):
+        self.close()
+    
+    def commit(self):
+        """
+        See PEP 249.
+        """
+        pass
+    
+    def rollback(self):
+        """
+        See PEP 249.
+        """
+        pass
+    
+    def cursor(self):
+        """
+        See PEP 249.
+        """
+        return self._connection().cursor()
+
+    def close(self):
+        """
+        See PEP 249.
+        """
+        if self._conn:
+            self._conn.close()
+            self._conn=None
+
+    def execute(self, statement):
+        """
+        Simple helper method to execute SQL statements that isolates its users
+        from cursor handling.
+        
+        Pass in any SQL command. Retrieve back the results of having a cursor
+        execute that command (normally the number of affected rows).
+        """
+        cursor = None
+        try:
+            cursor = self._connection().cursor()
+            result = cursor.execute(cmd)
+            return result
+        finally:
+            if cursor: cursor.close()
+    
+    def _connection(self):
+        """
+        Get a connection to the actual database, setting one up if neccessary.
+        """
+        if not self._conn:
+            self._conn = MySQLdb.Connect(
+                    host=self._dbInfo.getHost(), 
+                    user=self._dbInfo.getUser(),
+                    passwd=self._dbInfo.getPasswd(), 
+                    db=self._dbInfo.getDatabase(),
+                    compress=1,
+                    cursorclass=MySQLdb.cursors.DictCursor)
+        
+        return self._conn
+
 class DbHelper:
     """
-    	MySQL Statistics Database Interface
+    	MySQL Statistics Database Helper
     """
 
     def __init__(self,conn,database='gump'):

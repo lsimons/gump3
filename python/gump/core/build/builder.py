@@ -67,8 +67,6 @@ from gump.core.model.depend import  ProjectDependency
 from gump.core.model.stats import *
 from gump.core.model.state import *
 
-import gump.tool.integration.depot
-
 
 ###############################################################################
 # Classes
@@ -427,12 +425,11 @@ class GumpBuilder(gump.core.run.gumprun.RunSpecific):
         # See if we have any...
         artifacts = self.repository.extractMostRecentGroup(group)
         if not artifacts:
-            self.checkUpstreamRepositories(project)
             # Then try again...
             artifacts = self.repository.extractMostRecentGroup(group)
             
         # :TODO:
-        # If not artifacts, download using Depot?
+        # If not artifacts, download.
         
         artifactsOk=False
             
@@ -465,26 +462,6 @@ class GumpBuilder(gump.core.run.gumprun.RunSpecific):
         else:                                 
             log.error(' ------ Extracted (fallback) artifacts from Repository : '+ project.getName())  
             project.addInfo('Failed to extract fallback artifacts from Gump Repository')  
-       
-    def checkUpstreamRepositories(self,project):
-        """
-        
-        See if we can download something...
-        
-        """
-        if self.run.getEnvironment().noDepot: return
-        
-        log.info(' ------ Check upstream repositories for : '+ project.getName())    
-        
-        cmd=gump.tool.integration.depot.getGroupUpdateCommand(project.getArtifactGroup(),
-                    self.repository.getRepositoryDir())
-        
-        # Execute the command ....
-        cmdResult=execute(cmd,self.run.getWorkspace().tmpdir)
-    
-        # Update context with the fact that this work was done
-        work=CommandWorkItem(WORK_TYPE_UPDATE,cmd,cmdResult)
-        project.performedWork(work)
          
     def preview(self,project,languageHelper):
         """
