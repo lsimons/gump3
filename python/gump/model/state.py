@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/model/state.py,v 1.1 2003/11/17 22:10:50 ajack Exp $
-# $Revision: 1.1 $
-# $Date: 2003/11/17 22:10:50 $
+# $Header: /home/stefano/cvs/gump/python/gump/model/state.py,v 1.2 2003/11/18 00:29:50 ajack Exp $
+# $Revision: 1.2 $
+# $Date: 2003/11/18 00:29:50 $
 #
 # ====================================================================
 #
@@ -71,14 +71,14 @@ STATE_UNSET=0
 STATE_NONE=1
 STATE_SUCCESS=2
 STATE_FAILED=3
-STATE_PREREQ_FAILURE=4
+STATE_PREREQ_FAILED=4
 STATE_COMPLETE=5
 
 stateDescriptions = { STATE_UNSET : "Unset",
            STATE_NONE : "No Work Performed",
            STATE_SUCCESS : "Success",
            STATE_FAILED : "Failed",
-           STATE_PREREQ_FAILURE : "Prerequisite Failed",
+           STATE_PREREQ_FAILED : "Prerequisite Failed",
            STATE_COMPLETE : "Complete" }
 
 def stateName(state):
@@ -89,7 +89,7 @@ describedState = { "Unset" : STATE_UNSET,
            "No Work Performed" : STATE_NONE,
             "Success" : STATE_SUCCESS,
             "Failed" : STATE_FAILED,
-            "Prerequisite Failed" : STATE_PREREQ_FAILURE,
+            "Prerequisite Failed" : STATE_PREREQ_FAILED,
             "Complete"  : STATE_COMPLETE}
            
 def stateForName(name):
@@ -206,8 +206,8 @@ class Stateful:
         return STATE_SUCCESS == self.statePair.state
                 
     def isFailure(self):
-        return STATE_FAILURE == self.statePair.state
+        return STATE_FAILED == self.statePair.state
         
     def isPrereqFailure(self):
-        return STATE_PREREQ_FAILURE == self.statePair.state
+        return STATE_PREREQ_FAILED == self.statePair.state
         

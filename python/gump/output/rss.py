@@ -110,7 +110,7 @@ def rss(run):
                     
                     # State changes that are newsworthy...
                     if 	s.sequenceInState == 1	\
-                        and not s.currentState == STATE_PREREQ_FAILURE \
+                        and not s.currentState == STATE_PREREQ_FAILED \
                         and not s.currentState == STATE_NONE \
                         and not s.currentState == STATE_COMPLETE :
                             

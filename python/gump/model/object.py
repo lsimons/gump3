@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/model/object.py,v 1.1 2003/11/17 22:10:50 ajack Exp $
-# $Revision: 1.1 $
-# $Date: 2003/11/17 22:10:50 $
+# $Header: /home/stefano/cvs/gump/python/gump/model/object.py,v 1.2 2003/11/18 00:29:50 ajack Exp $
+# $Revision: 1.2 $
+# $Date: 2003/11/18 00:29:50 $
 #
 # ====================================================================
 #
@@ -91,19 +91,20 @@ class Propogatable(Stateful):
 
             # Store it...
             Stateful.setStatePair(self,StatePair(state,reason))        
-                 
-            #
-            # If no-one else to point the finger at ...
-            # ... step up.
-            #
-            if not cause: cause = self
-            
-            # List of things that caused issues...
-            self.addCause(cause)
-            
-            # Send on the changes...
-            self.propagateErrorStateChange(state,reason,cause)
-
+                
+            if not stateOk(state): 
+                #
+                # If no-one else to point the finger at ...
+                # ... step up.
+                #
+                if not cause: cause = self
+                
+                # List of things that caused issues...
+                self.addCause(cause)
+                
+                # Send on the changes...
+                self.propagateErrorStateChange(state,reason,cause)
+    
 
     def propagateErrorStateChange(self,state,reason,cause):
                

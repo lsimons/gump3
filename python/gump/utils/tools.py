@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/utils/tools.py,v 1.1 2003/11/17 22:10:55 ajack Exp $
-# $Revision: 1.1 $
-# $Date: 2003/11/17 22:10:55 $
+# $Header: /home/stefano/cvs/gump/python/gump/utils/tools.py,v 1.2 2003/11/18 00:29:50 ajack Exp $
+# $Revision: 1.2 $
+# $Date: 2003/11/18 00:29:50 $
 #
 # ====================================================================
 #
@@ -87,18 +87,18 @@ def listDirectoryAsWork(workable,directory,name=None):
        
 
    
-def syncDirectories(useRSync,type,cwd,sourcedir,destdir,name=None):                
+def syncDirectories(noRSync,type,cwddir,tmpdir,sourcedir,destdir,name=None):                
     # :TODO: Make this configurable (once again)
     #if not workspace.sync:
     #  workspace.sync = default.syncCommand
     
-    if useRSync:
-        cmd=Cmd('cp','sync_'+name,dir.work)
+    if noRSync:
+        cmd=Cmd('cp','sync_'+name,cwddir)
         cmd.addParameter('-Rf')
         cmd.addParameter(sourcedir)
         cmd.addParameter(destdir)
     else:
-        cmd=Cmd('rsync','rsync_'+name,dir.work)            
+        cmd=Cmd('rsync','rsync_'+name,cwddir)            
         cmd.addParameter('-r')
         cmd.addParameter('-a')
         # Keep it quiet...
@@ -112,7 +112,7 @@ def syncDirectories(useRSync,type,cwd,sourcedir,destdir,name=None):
     log.debug(' ------ Sync\'ing : '+ name)
     
     # Perform the Sync
-    cmdResult=execute(cmd,workspace.tmpdir)
+    cmdResult=execute(cmd,tmpdir)
 
     work=CommandWorkItem(type,cmd,cmdResult)
     

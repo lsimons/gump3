@@ -1,8 +1,8 @@
 #!/usr/bin/python
 
-# $Header: /home/stefano/cvs/gump/python/gump/check.py,v 1.33 2003/11/17 22:10:50 ajack Exp $
-# $Revision: 1.33 $
-# $Date: 2003/11/17 22:10:50 $
+# $Header: /home/stefano/cvs/gump/python/gump/check.py,v 1.34 2003/11/18 00:29:49 ajack Exp $
+# $Revision: 1.34 $
+# $Date: 2003/11/18 00:29:49 $
 #
 # ====================================================================
 #

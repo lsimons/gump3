@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/forrest.py,v 1.1 2003/11/17 22:10:55 ajack Exp $
-# $Revision: 1.1 $
-# $Date: 2003/11/17 22:10:55 $
+# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/forrest.py,v 1.2 2003/11/18 00:29:50 ajack Exp $
+# $Revision: 1.2 $
+# $Date: 2003/11/18 00:29:50 $
 #
 # ====================================================================
 #
@@ -281,7 +281,7 @@ class ForrestDocumenter(Documenter):
         
         self.documentSummary(document,workspace.getProjectSummary())        
         self.documentAnnotations(document,workspace)
-        self.documentXML(document,workspace)
+        #self.documentXML(document,workspace)
         
         detailsSection=document.createSection('Details')
         detailsTable=detailsSection.createTable()
@@ -355,7 +355,7 @@ class ForrestDocumenter(Documenter):
         self.documentSummary(document, workspace.getProjectSummary())
         
         projectsSection=document.createSection('Projects (in build order)')
-        projectsTable=projectsSection.createTable(['Name','Project State','Duration','Elapsed'])
+        projectsTable=projectsSection.createTable(['Name','Project State','Duration in state','Elapsed'])
         pcount=0
         for project in sortedProjectList:
             if not gumpSet.inSequence(project): continue       
@@ -440,7 +440,7 @@ class ForrestDocumenter(Documenter):
         self.documentSummary(document, workspace.getProjectSummary())
         
         modulesSection=document.createSection('Modules with TODOs')        
-        modulesTable=modulesSection.createTable(['Name','Affected','Duration','Module State',	\
+        modulesTable=modulesSection.createTable(['Name','Affected','Duration in state','Module State',	\
                                     'Project State(s)','Elapsed'])
         
         mcount=0
@@ -638,11 +638,11 @@ class ForrestDocumenter(Documenter):
             
         if repo.hasHomePage():
             detailList.createEntry('Homepage: ') \
-                .createLink(repo.getHomePage())
+                .createLink(repo.getHomePage(),repo.getHomePage())
             
         if repo.hasCvsWeb():
             detailList.createEntry('CVS Viewer: ') \
-                .createLink(repo.getCvsWeb())
+                .createLink(repo.getCvsWeb(),repo.getCvsWeb())
             
         detailList.createEntry('State: ' + repo.getStateDescription())
         if not repo.getReason() == REASON_UNSET:
@@ -658,7 +658,7 @@ class ForrestDocumenter(Documenter):
             detailList.createEntry('Path: ', repo.getPath())
             
         if repo.hasHostname():
-            detailList.createEntry('Homename: ', repo.getHostname())
+            detailList.createEntry('Hostname: ', repo.getHostname())
     
         self.documentXML(document,repo)
         

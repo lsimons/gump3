@@ -21,7 +21,7 @@ from gump.model.state import *
 from gump.model.note import Annotatable
 
 from gump.utils import dump, display, getIndent
-from gump.utils.tools import listDirectoryAsWork
+from gump.utils.tools import listDirectoryAsWork,syncDirectories
 
 from gump.document.text import TextDocumenter
 from gump.document.forrest import ForrestDocumenter
@@ -297,6 +297,8 @@ class GumpEngine:
         """copy the raw module (project) materials from source to work dir 
           (hopefully using rsync, cp is fallback) """
 
+        workspace = run.getWorkspace()
+
         log.debug('--- Synchronizing work directories with sources')  
 
         for module in run.getGumpSet().getModules():
@@ -306,10 +308,12 @@ class GumpEngine:
     
             if module.okToPerformWork() and not switch.failtesting:
             
-                sourcedir = os.path.abspath(os.path.join(workspace.cvsdir,module.name)) # todo allow override
+                sourcedir = os.path.abspath(os.path.join(workspace.getCVSDirectory(),module.name)) # todo allow override
                 destdir = os.path.abspath(workspace.getBaseDirectory())
         
-                work=syncDirectories(workspace.noRSync,WORK_TYPE_SYNC,dir.work,sourcedir,destdir,module.name)
+                work=syncDirectories(workspace.noRSync,WORK_TYPE_SYNC,\
+                dir.work,workspace.tmpdir,\
+                sourcedir,destdir,module.name)
         
                 # Perform the sync...
                 module.performedWork(work)
@@ -437,6 +441,8 @@ class GumpEngine:
     def performPostBuild(self, run, project, repository):
         """Perform Post-Build Actions"""
      
+        log.debug(' ------ Performing post-Build Actions (check jars) for : '+ project.getName())
+
         if project.hasOutputs():
             outputsOk=1
             for jar in project.getJars():
@@ -450,7 +456,7 @@ class GumpEngine:
                 for jar in project.getJars():
                     jarPath=os.path.abspath(jar.getPath())
                     # Copy to repository
-                    repository.publish( module.name, jarpath )
+                    repository.publish( project.getModule().getName(), jarPath )
             
                 project.changeState(STATE_SUCCESS)
                     

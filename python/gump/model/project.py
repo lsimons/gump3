@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/model/project.py,v 1.1 2003/11/17 22:10:50 ajack Exp $
-# $Revision: 1.1 $
-# $Date: 2003/11/17 22:10:50 $
+# $Header: /home/stefano/cvs/gump/python/gump/model/project.py,v 1.2 2003/11/18 00:29:50 ajack Exp $
+# $Revision: 1.2 $
+# $Date: 2003/11/18 00:29:50 $
 #
 # ====================================================================
 #
@@ -332,7 +332,7 @@ class Project(NamedModelObject):
                 if dependee.isOptional():
                     dependee.getProject().addWarning("Optional dependency " + self.name + " " + message)
                 else:
-                    dependee.getProject().changeState(STATE_PREREQ_FAILURE,reason,cause)
+                    dependee.getProject().changeState(STATE_PREREQ_FAILED,reason,cause)
                                     
     #
     # We have a potential clash between the <project package attribute and
@@ -977,7 +977,7 @@ class ProjectSummary:
         # Stand up and be counted
         if stateOk(state):
             self.successes+=1
-        elif STATE_PREREQ_FAILURE == state:
+        elif STATE_PREREQ_FAILED == state:
             self.prereqs+=1
         elif STATE_FAILED == state:
             self.failures+=1

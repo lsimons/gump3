@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/model/Attic/ant.py,v 1.1 2003/11/17 22:10:50 ajack Exp $
-# $Revision: 1.1 $
-# $Date: 2003/11/17 22:10:50 $
+# $Header: /home/stefano/cvs/gump/python/gump/model/Attic/ant.py,v 1.2 2003/11/18 00:29:50 ajack Exp $
+# $Revision: 1.2 $
+# $Date: 2003/11/18 00:29:50 $
 #
 # ====================================================================
 #
@@ -124,25 +124,28 @@ class Ant(ModelObject, PropertyContainer):
             # Runtime?
             runtime=0
             if property.runtime: property.runtime=1
-    
-            # Add a dependency (to bring property)
-            dependency=ProjectDependency(project, 	\
-                            workspace.getProject(property.project),	\
-                            INHERIT_ALL,	\
-                            runtime,
-                            0,	\
-                            ids)
+   
+            projectName=property.project
+            if workspace.hasProject(projectName): 
+                # Add a dependency (to bring property)
+                dependency=ProjectDependency(project, 	\
+                                workspace.getProject(property.project),	\
+                                INHERIT_ALL,	\
+                                runtime,
+                                0,	\
+                                ids)
                             
-            dependency.addInfo("Property Based Dependency " + `property`)
+                dependency.addInfo("Property Based Dependency " + `property`)
             
-            # :TODOs:
-            # if not property.classpath: depend['noclasspath']=Single({})
+                # :TODOs:
+                # if not property.classpath: depend['noclasspath']=Single({})
             
             
-            # Add depend to project...
-            # :TODO: Convert to ModelObject
-            project.addDependency(dependency)
-
+                # Add depend to project...
+                # :TODO: Convert to ModelObject
+                project.addDependency(dependency)
+            else:
+                log.error('No such project [' + projectName + '] for property')
 
     def expandDependencies(self,project,workspace):
         #
