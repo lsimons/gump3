@@ -11,7 +11,9 @@
     <package>org.apache.xindice</package>
 
     <mdir dir="build/classes"/>
-    <ant/>
+    <ant>
+      <property name="project.version" value="@@DATE@@"/>
+    </ant>
 
     <depend project="ant" inherit="runtime"/>
     <depend project="xml-xerces"/>
@@ -25,8 +27,8 @@
     <depend project="junit-addons"/>
     <work nested="build/classes"/>
 
-    <home nested="java"/>
-    <jar name="lib/dbXML.jar"/>
+    <home nested="dist"/>
+    <jar name="xindice-@@DATE@@.jar"/>
 
     <license name="LICENSE"/>
 
