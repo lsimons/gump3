@@ -19,7 +19,7 @@
     	these two gump projects. Until then, use 
     	explicit sub-targets. -->
     
-    <ant target="gump.setup,build.bindist">
+    <ant target="gump.setup build.bindist">
       <property name="version" value="@@DATE@@"/>
     </ant>
 
@@ -54,7 +54,7 @@
     <package>com.puppycrawl.tools.checkstyle</package>
   
     <mkdir dir="target/checkstyle"/>
-    <ant target="gump.setup,run.test">
+    <ant target="gump.setup run.test">
       <property name="version" value="@@DATE@@"/>
     </ant>
 
