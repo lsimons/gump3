@@ -42,46 +42,6 @@
          to="commons-dev@jakarta.apache.org"/>
   </project>
 
-  <project name="commons-jelly-tags-ant-1.5">
-    <package>org.apache.commons.jelly.tags.ant</package>
-    <description>This is a Jelly interface for Ant.</description>
-
-    <ant basedir="ant" target="jar">
-      <property name="final.name"  value="commons-jelly-tags-ant-@@DATE@@"/>
-      <sysproperty name="build.clonevm" value="true"/>
-    </ant>
-
-    <depend project="ant-1.5" inherit="runtime"/>
-
-    <!-- core jelly build dependencies -->
-    <depend project="commons-beanutils" runtime="true"/>
-    <depend project="commons-collections" runtime="true"/>
-    <depend project="commons-jexl"/>
-    <depend project="commons-logging" runtime="true"/>
-    <depend project="packaged-dom4j"/>
-    <depend project="junit"/>
-    <depend project="xml-xerces"/>
-
-    <!-- extra dependencies -->
-    <depend project="commons-cli"/>
-    <depend project="commons-discovery"/>
-    <depend project="jakarta-servletapi-4"/>
-    <depend project="nekohtml"/>
-
-    <depend project="commons-jelly"/>
-    <depend project="commons-grant"/>
-    <depend project="commons-jelly-tags-util"/>
-    <depend project="commons-jelly-tags-junit"/>
-
-    <work nested="ant/target/classes"/>
-    <work nested="ant/target/test-classes"/>
-
-    <jar name="ant/target/commons-jelly-tags-ant-@@DATE@@.jar"/>
-
-    <nag from="Morgan Delagrange &lt;mdelagra@yahoo.com&gt;"
-         to="commons-dev@jakarta.apache.org"/>
-  </project>
-
   <project name="commons-jelly-tags-antlr">
     <package>org.apache.commons.jelly.tags.antlr</package>
     <description>This is a Jelly interface for Antlr.</description>
