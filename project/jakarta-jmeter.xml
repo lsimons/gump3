@@ -15,7 +15,7 @@
   limitations under the License.
 -->
 <module name="jakarta-jmeter">
-<!-- Version $Revision: 1.82 $ Last updated $Date: 2004/03/16 10:44:35 $ -->
+<!-- Version $Revision: 1.83 $ Last updated $Date: 2004/03/18 23:02:41 $ -->
   <url href="http://jakarta.apache.org/jmeter/" />
   <description>
     Pure Java load testing and performance measurement tool.
@@ -31,7 +31,7 @@
       <property name="version" value="@@DATE@@"/>
       <property name="gump.run" value="true"/>
       <!-- The version of this file -->
-      <property name="version.projectfile" value="$Revision: 1.82 $"/>
+      <property name="version.projectfile" value="$Revision: 1.83 $"/>
       
       <!--
       	These properties are passed to the build process, so the names need to agree with
@@ -109,7 +109,7 @@
       <property name="version" value="@@DATE@@"/>
       <property name="gump.run" value="true"/>
       <!-- The version of this file -->
-      <property name="version.projectfile" value="$Revision: 1.82 $"/>
+      <property name="version.projectfile" value="$Revision: 1.83 $"/>
     </ant>
 
     <depend project="ant" />
@@ -176,12 +176,12 @@
       <property name="version" value="@@DATE@@"/>
       <property name="gump.run" value="true"/>
       <!-- The version of this file -->
-      <property name="version.projectfile" value="$Revision: 1.82 $"/>
+      <property name="version.projectfile" value="$Revision: 1.83 $"/>
     </ant>
 
     <depend project="ant" />
 
-    <depend project="jakarta-jmeter-cvs" ids="">
+    <depend project="jakarta-jmeter-cvs" ids="none">
     	<noclasspath/>
     </depend>
 
@@ -237,7 +237,7 @@
       <property name="version" value="@@DATE@@"/>
       <property name="gump.run" value="true"/>
       <!-- The version of this file -->
-      <property name="version.projectfile" value="$Revision: 1.82 $"/>
+      <property name="version.projectfile" value="$Revision: 1.83 $"/>
     </ant>
 
     <depend project="ant" />
