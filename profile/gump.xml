@@ -139,7 +139,7 @@
 
     <module href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/*checkout*/krysalis/krysalis-ruper/module.xml"/>
     <module href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/*checkout*/krysalis/krysalis-ant-tasks/module.xml"/>
-    <module href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/*checkout*/krysalis/krysalis-centipede/module.xml" />
+    <module href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/*checkout*/krysalis/krysalis-centipede/gump.xml" />
     <module href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/*checkout*/krysalis/krysalis-template/smoke-test/gump.xml" />
 
     <!-- cents  -->
@@ -147,19 +147,19 @@
     
     <module href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/*checkout*/krysalis/krysalis-cents/antidote/gump.xml"/>
     <module href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/*checkout*/krysalis/krysalis-cents/jtidy/gump.xml"/>
-    <!-- temporarily remove while the centipede/maven/gump naming is worked out
-    <module href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/*checkout*/krysalis/krysalis-cents/antxdoclet/gump.xml"/>
+
+    <!--module href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/*checkout*/krysalis/krysalis-cents/antxdoclet/gump.xml"/-->
     <module href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/*checkout*/krysalis/krysalis-cents/changelog/gump.xml"/>
     <module href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/*checkout*/krysalis/krysalis-cents/checkstyle/gump.xml"/>
     <module href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/*checkout*/krysalis/krysalis-cents/cvsbuild/gump.xml"/>
-    <module href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/*checkout*/krysalis/krysalis-cents/dir2xml/gump.xml"/>
+    <!--module href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/*checkout*/krysalis/krysalis-cents/dir2xml/gump.xml"/-->
     <module href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/*checkout*/krysalis/krysalis-cents/doxygen-gpl/gump.xml"/>
     <module href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/*checkout*/krysalis/krysalis-cents/eclipse/gump.xml"/>
     <module href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/*checkout*/krysalis/krysalis-cents/essmodel-gpl/gump.xml"/>
     <module href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/*checkout*/krysalis/krysalis-cents/forrest/gump.xml"/>
     <module href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/*checkout*/krysalis/krysalis-cents/gump/gump.xml"/>
-    <module href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/*checkout*/krysalis/krysalis-cents/izpress/gump.xml"/>
-    <module href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/*checkout*/krysalis/krysalis-cents/jalopy/gump.xml"/>
+    <!--module href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/*checkout*/krysalis/krysalis-cents/izpress/gump.xml"/-->
+    <!--module href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/*checkout*/krysalis/krysalis-cents/jalopy/gump.xml"/-->
     <module href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/*checkout*/krysalis/krysalis-cents/java/gump.xml"/>
     <module href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/*checkout*/krysalis/krysalis-cents/javasrc/gump.xml"/>
     <module href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/*checkout*/krysalis/krysalis-cents/jdepend/gump.xml"/>
@@ -173,12 +173,12 @@
     <module href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/*checkout*/krysalis/krysalis-cents/scripts/gump.xml"/>
     <module href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/*checkout*/krysalis/krysalis-cents/sourceforge/gump.xml"/>
     <module href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/*checkout*/krysalis/krysalis-cents/statcvs-gpl/gump.xml"/>
-    <module href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/*checkout*/krysalis/krysalis-cents/torque/gump.xml"/>
+    <!--module href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/*checkout*/krysalis/krysalis-cents/torque/gump.xml"/-->
     <module href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/*checkout*/krysalis/krysalis-cents/umldoclet/gump.xml"/>
     <module href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/*checkout*/krysalis/krysalis-cents/xdoclet/gump.xml"/>
     <module href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/*checkout*/krysalis/krysalis-cents/xmldoclet/gump.xml"/>
     
--->
+
 
   <!-- other -->
 
