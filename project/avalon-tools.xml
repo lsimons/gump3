@@ -22,7 +22,7 @@
 
   <svn repository="avalon-svn" dir="trunk/"/>
 
-  <project name="avalon-tools-magic-bootstrap">
+  <project name="magic">
     <license name="central/system/license/LICENSE.TXT"/>
     <ant basedir="tools/magic" buildfile="bootstrap.xml" target="home">
       <property name="gump.signature" value="@@DATE@@"/>
@@ -46,7 +46,7 @@
       <!-- for magic -->
       <property name="gump.signature" value="@@DATE@@"/>
       <depend name="magic.home" reference="home"
-          project="avalon-tools-magic-bootstrap" inherit="runtime"/>
+          project="magic" inherit="runtime"/>
       <!-- external references -->
       <depend property="gump.resource.ant" project="ant" id="ant"/>
       <depend property="gump.resource.junit" project="junit"/>
