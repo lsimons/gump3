@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/model/project.py,v 1.46 2004/02/11 22:07:25 ajack Exp $
-# $Revision: 1.46 $
-# $Date: 2004/02/11 22:07:25 $
+# $Header: /home/stefano/cvs/gump/python/gump/model/project.py,v 1.47 2004/02/11 22:11:34 ajack Exp $
+# $Revision: 1.47 $
+# $Date: 2004/02/11 22:11:34 $
 #
 # ====================================================================
 #
@@ -1018,7 +1018,7 @@ class Project(NamedModelObject, Statable):
 #
 # DO NOT EDIT  DO NOT EDIT  DO NOT EDIT  DO NOT EDIT  DO NOT EDIT  DO NOT EDIT  DO NOT EDIT
 # ------------------------------------------------------------------------
-""")	%	(self.getName()), time.strftime('%Y-%m-%d %H:%M:%S') )
+""")	%	(self.getName(), time.strftime('%Y-%m-%d %H:%M:%S')) )
         
         #
         # Output basic properties
