@@ -54,6 +54,7 @@
   <module href="project/jakarta-oro.xml"/>
   <module href="project/jakarta-poi.xml"/>
   <module href="project/jakarta-poi3.xml"/>
+  <module href="project/jakarta-pluto.xml"/>
   <module href="project/jakarta-regexp.xml"/>
   <module href="project/jakarta-servletapi-4.xml"/>
   <module href="project/jakarta-servletapi-5.xml"/>
