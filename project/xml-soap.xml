@@ -24,7 +24,7 @@
 
     <home nested="java/build"/>
     <jar name="lib/soap.jar"/>
-    <javadoc nested="build/docs/api"/>
+    <javadoc nested="java/build/javadocs"/>
   </project>
 
 </module>

@@ -29,7 +29,7 @@
 
     <javadoc nested="proposals">
       <description dir="persistence/javadoc">PersistenceService</description>
-      <description dir="portletAPI/javadoc">Portlet</description>
+      <description dir="portletAPI/javadoc/api">Portlet</description>
     </javadoc>
   </project>
 

@@ -26,8 +26,8 @@
     <jar name="lib/struts.jar"/>
 
     <javadoc nested="target">
-      <description dir="document/api">Struts Framework</description>
-      <description dir="tiles/document/api">Tiles Framework</description>
+      <description dir="documentation/api">Struts Framework</description>
+      <description dir="tiles/documentation/api">Tiles Framework</description>
     </javadoc>
   </project>
 
