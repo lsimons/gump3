@@ -22,7 +22,6 @@
     <depend project="jdom"/>
     <depend project="junit"/>
     <depend project="jaxen"/>
-    <depend project="saxpath"/>
 
     <work nested="build/classes"/>
     <work nested="build/classes-example"/>

@@ -107,7 +107,6 @@
         <!-- optional dependencies -->
         <option project="jdbc"/>
         <option project="jaxen"/>
-        <option project="saxpath"/>
 
         <jar name="avalon-excalibur-@@DATE@@.jar"/>
 
@@ -898,7 +897,6 @@
             <depend property="excalibur-i18n.jar" project="excalibur-i18n"/>
             <depend property="commons-collections.jar" project="commons-collections"/>
             <depend property="jaxen.jar" project="jaxen"/>
-            <depend property="saxpath.jar" project="saxpath"/>
             <depend property="jtidy.jar" project="jtidy"/>
             <depend property="resolver.jar" project="xml-commons-resolver"/>
             <depend property="excalibur-fortress-tools.jar" project="avalon-fortress-tools" inherit="runtime"/>

@@ -20,8 +20,4 @@
     <license name="LICENSE.txt"/>
   </project>
 
-  <project name="saxpath">
-    <jar name="lib/saxpath.jar"/>
-  </project>
-
 </module>

@@ -18,7 +18,6 @@
     <depend project="xml-xerces"/>
     
     <depend project="jdom"/>
-    <depend project="saxpath"/>
     <depend project="jakarta-servletapi-4"/>
     <depend project="jaxen"/>
     <depend project="junit"/>

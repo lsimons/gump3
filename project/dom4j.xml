@@ -20,7 +20,6 @@
     <depend project="xml-xalan2"/>
     <depend project="tranquilo"/>
     <depend project="xpp"/>
-    <depend project="saxpath"/>
     <depend project="jaxen"/>
     <depend project="xmldb"/>
     <depend project="msv"/>

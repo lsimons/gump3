@@ -23,8 +23,6 @@
     </depend>
     <depend project="junit">
     </depend>
-    <depend project="saxpath">
-    </depend>
     <depend project="xml-apis">
     </depend>
     <depend project="xml-xerces">
