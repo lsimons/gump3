@@ -230,7 +230,7 @@ class GumpEngine:
                 # self.performModulePackageProcessing(module)
                 continue
             
-            if not isUpdatable(): continue
+            if not module.isUpdatable(): continue
             
             log.info('Perform CVS/SVN/Jars Update on #[' + `moduleNo` + \
                         '] of [' + `moduleCount` + ']: ' + module.getName())

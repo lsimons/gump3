@@ -322,7 +322,7 @@ class GumpSet:
         output.write(i+'Expression: ' + self.getProjectExpression() + '\n')   
         
         self.dumpList(self.projects,'Projects :',indent+1,output)
-        self.dumpList(self.projectSequence,'Projects :',indent+1,output)
+        self.dumpList(self.projectSequence,'Project Sequence :',indent+1,output)
         self.dumpList(self.modules,'Modules :',indent+1,output)
         self.dumpList(self.moduleSequence,'Module Sequence :',indent+1,output)
         self.dumpList(self.repositories,'Repositories :',indent+1,output)
