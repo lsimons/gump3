@@ -59,18 +59,14 @@
         <depend project="phoenix-excalibur-monitor" runtime="true"/>
         <depend project="ant" runtime="true"/>
         <depend project="mx4j" runtime="true"/>
+        <depend project="mx4j-tools" runtime="true"/>
         <depend project="xml-xalan2"/>
         <depend project="phoenix-qdox" runtime="true"/>
         <option project="jakarta-servletapi-4" runtime="true"/>
         <depend project="junit"/>
         <depend project="logging-log4j"/>
+        <depend project="jakarta-oro"/>
         
-        <!-- Unlisted Dependencies
-             Spice LoggerStore   http://osdn.dl.sourceforge.net/sourceforge/spice/spice-loggerstore-0.5.tar.gz
-             Spice ConfigKit     http://osdn.dl.sourceforge.net/sourceforge/spice/spice-configkit-1.1.2.tar.gz
-             Spice XMLPolicy     http://osdn.dl.sourceforge.net/sourceforge/spice/spice-xmlpolicy-1.0.tar.gz
-             Spice ClassMan      http://osdn.dl.sourceforge.net/sourceforge/spice/spice-classman-1.0.tar.gz
-        -->
         <work nested="target/classes"/>
 
         <home nested="target/lib"/>
