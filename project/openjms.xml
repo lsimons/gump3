@@ -39,7 +39,7 @@
   </project>
 
   <project name="openjms.exolab.core">
-    <jar name="lib/exolabcore-0.3.1.jar"/>
+    <jar name="lib/exolabcore-0.3.2.jar"/>
   </project>
 
 </module>
