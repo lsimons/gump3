@@ -269,6 +269,12 @@
 
         <jar name="build/lib/excalibur-configuration-@@DATE@@.jar"/>
 
+        <nag>
+          <regexp pattern="/Missing prereq/i"
+            from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"
+            to="dev@avalon.apache.org"
+            subject="PRE-REQ FAILED for excalibur-configuration"/>
+        </nag>
         <nag from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"
                 to="dev@avalon.apache.org"/>
     </project>
@@ -584,6 +590,12 @@
         <home nested="instrument-client"/>
         <jar name="build/lib/excalibur-instrument-client-@@DATE@@.jar"/>
 
+        <nag>
+          <regexp pattern="/Missing prereq/i"
+            from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"
+            to="dev@avalon.apache.org"
+            subject="PRE-REQ FAILED for excalibur-instrument-client"/>
+        </nag>
         <nag from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"
                 to="dev@avalon.apache.org"/>
     </project>
