@@ -388,7 +388,8 @@
         <depend project="bcel"/>
         <depend project="excalibur-logger"/>
         <depend project="excalibur-sourceresolve"/>
-        <depend project="excalibur-lifecycle"/>
+        <depend project="excalibur-lifecycle-api"/>
+        <depend project="excalibur-lifecycle-impl"/>
         <depend project="excalibur-i18n"/>
         <depend project="excalibur-fortress-tools"/>
         <depend project="qdox"/>
