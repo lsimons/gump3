@@ -82,8 +82,8 @@
         <depend inherit="runtime" project="ant"/>
         <depend project="depot-version"/>                
         <depend project="jakarta-regexp"/>
-        <option project="commons-httpclient"/>
-        <option project="commons-vfs"/>
+        <depend project="commons-httpclient"/>
+        <depend project="commons-vfs"/>
 
         <jar name="jars/apache-depot-ruper-@@DATE@@.jar"/>
 
