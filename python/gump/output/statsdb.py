@@ -172,13 +172,22 @@ class StatisticsDB:
             """ Hopefully means it wasn't there... """
         
     def get(self,key):
-        return self.db.get(str(key),'')
+        key=str(key)
+        val=''
+        if self.db.has_key(key): val=str(self.db[key])
+        return val
         
     def getInt(self,key):
-        return int(self.db.get(str(key),0))
+        key=str(key)
+        val=0
+        if self.db.has_key(key): val=int(self.db[key])
+        return val
         
     def getFloat(self,key):
-        return float(self.db.get(str(key),0.0))
+        key=str(key)
+        val=0.0
+        if self.db.has_key(key): val=float(self.db[key])
+        return val
         
     def getDate(self,key):
         dateF=self.getFloat(key)
