@@ -55,7 +55,7 @@ def load(file):
                 )
 
     raise IOError, 'workspace '+file+' not found'
-    
+
   workspace=SAXDispatcher(file,'workspace',Workspace).docElement
   workspace.complete()
   for module in Module.list.values(): module.complete(workspace)
@@ -69,6 +69,7 @@ def load(file):
 # allowing the actual model to be rather simple and compact. All        #
 # elements of the GOM should extend GumpBase or a subclass of GumpBase. #
 #########################################################################
+
 # Base class for the entire Gump object model.  Attributes become
 # properties.  Characters become the string value of the element.
 #
@@ -95,40 +96,32 @@ class GumpBase(object):
     except:
       # print self.__class__, name
       pass
-
   
   def characters(self,string):
     self.__dict__['@text']+=string
-
   
   def __setitem__(self,name,value): 
     self.__dict__[name]=value
-
   
   def __getitem__(self,name): 
     if name in self.__dict__: return self.__dict__[name]
-
   
   def __getattr__(self,name): 
     pass
-
   
   def __str__(self): 
     return self.__dict__['@text'].strip()
-
   
   def init(self):
     pass
 
 # Document root: workspaces and targets of hrefs
 class DocRoot(GumpBase):
-  
   def __init__(self,name,cls):
     GumpBase.__init__(self,{})
     self.name=name
     self.cls=cls
     self.element=None
-
   
   def startElement(self, name, attrs):
     if name<>self.name: 
@@ -162,14 +155,12 @@ class Single(object):
     self.delegate=None
     self.cls=cls
 
-
   def __call__(self,attrs):
     if self.delegate: 
       self.delegate.__dict__.update(dict(attrs))
     else:
       self.delegate=self.cls(attrs)
     return self.delegate
-
 
   def __getattr__(self,name):
     if self.delegate: 
@@ -178,11 +169,9 @@ class Single(object):
       except:
         return self.delegate[name]
 
-
   def __str__(self):
     if self.delegate: return self.delegate.__str__()
     return ''
-
 
   def __nonzero__(self):
     return self.delegate
@@ -193,15 +182,13 @@ class Multiple(list):
     list.__init__(self)
     self.cls=cls
 
-
   def __call__(self,attrs):
     result=self.cls(attrs)
     self.append(result)
     return result
 
 #########################################################################
-#			    Gump Object Model
-#
+#			    Gump Object Model                           #
 #                                                                       #
 # All intelligence and functionality is provided in the base classes    #
 # above, allowing the actual model to be rather simple and compact.     #
@@ -209,7 +196,7 @@ class Multiple(list):
 
 # represents a <workspace/> element
 class Workspace(GumpBase):
-  def init(self): 
+  def init(self):
     self.property=Multiple(Property)
     self.project=Multiple(Project)
     self.module=Multiple(Module)
@@ -257,7 +244,7 @@ class Module(Named):
 class Repository(Named):
   list={}
 
-  def init(self): 
+  def init(self):
     self['home-page']=Single()
     self.title=Single()
     self.cvsweb=Single()
@@ -444,10 +431,10 @@ def dependencies(root, #string
 if __name__=='__main__':
   print "*** starting ***"
   os.chdir(dir.base)
-  workspace=load('rubix.xml')
+  workspace=load(default.workspace)
 
   print
-  print "*** workspace ***"
+  print "*** workspace "+default.workspace+" ***"
   print
   print 'basedir:\t', workspace.basedir
   print 'pkgdir:\t\t', workspace.pkgdir
