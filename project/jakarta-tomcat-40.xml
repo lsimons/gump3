@@ -34,6 +34,7 @@
       <depend property="commons-beanutils.jar" project="commons-beanutils"/>
       <depend property="commons-collections.jar" project="commons-collections"/>
       <depend property="commons-digester.jar" project="commons-digester"/>
+      <depend property="commons-modeler.jar" project="commons-modeler"/>
     </ant>
 
     <depend project="jaf"/>
