@@ -48,7 +48,7 @@
     <package>org.apache.commons.beanutils</package>
     <description>Bean Utilities (Bean Collections)</description>
     <url href="http://jakarta.apache.org/commons/beanutils.html"/>
-    <ant basedir="beanutils/optional/beancollections" target="jar">
+    <ant basedir="beanutils/optional/bean-collections" target="jar">
       <property name="junit.home" reference="home" project="junit"/>
     </ant>
     <depend project="ant" inherit="runtime"/>
@@ -57,8 +57,8 @@
     <depend project="commons-beanutils-core"/>
     <depend project="commons-collections"/>
     <depend project="junit"/>
-    <home nested="beanutils/optional/beancollections/dist"/>    
-    <work nested="beanutils/optional/beancollections/target/classes"/>
+    <home nested="beanutils/optional/bean-collections/dist"/>    
+    <work nested="beanutils/optional/bean-collections/target/classes"/>
     <jar name="commons-beanutils-bean-collections.jar"/>
     <license name="LICENSE"/>
     <javadoc nested="beanutils/dist/docs/api"/>
