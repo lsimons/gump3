@@ -120,7 +120,7 @@ def buildProjects( workspace, projectname, project, build_sequence ):
       srcdir=Module.list[p.module].srcdir
 
       for jar in p.jar:
-        classpath = classpath + os.path.normpath(os.path.join(srcdir,jar.name)) + ';'
+        classpath = classpath + os.path.normpath(os.path.join(srcdir,jar.name)) + os.pathsep
         print '  ',os.path.normpath(os.path.join(srcdir,jar.name))
 
     print
