@@ -144,13 +144,15 @@ WORK_TYPE_CHECK=1
 WORK_TYPE_CONFIG=2
 WORK_TYPE_UPDATE=3
 WORK_TYPE_SYNC=4
-WORK_TYPE_BUILD=5
-WORK_TYPE_DOCUMENT=6
+WORK_TYPE_PREBUILD=5
+WORK_TYPE_BUILD=6
+WORK_TYPE_DOCUMENT=7
 
 workTypeDescriptions = { 	WORK_TYPE_CHECK : "CheckEnvironment",
                 WORK_TYPE_CONFIG : "Config",
                 WORK_TYPE_UPDATE : "Update",
                 WORK_TYPE_SYNC : "Synchronize",
+                WORK_TYPE_PREBUILD : "PreBuild",
                 WORK_TYPE_BUILD : "Build",
                 WORK_TYPE_DOCUMENT : "Document" }    
     
@@ -250,8 +252,10 @@ REASON_CIRCULAR=3
 REASON_CONFIG_FAILED=4
 REASON_UPDATE_FAILED=5
 REASON_SYNC_FAILED=6
-REASON_BUILD_FAILED=7
-REASON_MISSING_OUTPUTS=8
+REASON_PREBUILD_FAILED=7
+REASON_BUILD_FAILED=8
+REASON_BUILD_TIMEDOUT=9
+REASON_MISSING_OUTPUTS=10
 
 reasonCodeDescriptions = { 	REASON_UNSET : "Not Set",
                     REASON_PACKAGE : "Complete Package Install",
@@ -260,6 +264,8 @@ reasonCodeDescriptions = { 	REASON_UNSET : "Not Set",
                     REASON_CONFIG_FAILED : "Configuration Failed",
                     REASON_UPDATE_FAILED : "Update Failed",
                     REASON_SYNC_FAILED : "Synchronize Failed",
+                    REASON_BUILD_FAILED : "Pre-Build Failed",
+                    REASON_BUILD_TIMEDOUT : "Build Timed Out",
                     REASON_BUILD_FAILED : "Build Failed",
                     REASON_MISSING_OUTPUTS : "Missing Build Outputs" }    
     

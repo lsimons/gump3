@@ -81,10 +81,10 @@ from gump.logic import getPackagedProjectContexts, getBuildSequenceForProjects,\
      getProjectsForProjectExpression, getModuleNamesForProjectList, \
      isFullGumpSet, getClasspathLists, AnnotatedPath, hasBuildCommand
 
-def documentText(workspace,context,moduleFilterList=None,projectFilterList=None):    
-    documentTextToFile(sys.stdout,workspace,context,moduleFilterList,projectFilterList)
+def documentText(workspace,context,moduleList=None,projectList=None):    
+    documentTextToFile(sys.stdout,workspace,context,moduleList,projectList)
     
-def documentTextToFile(f,workspace,context,moduleFilterList=None,projectFilterList=None):    
+def documentTextToFile(f,workspace,context,moduleList,projectList):    
     
     f.write("Workspace Status : " + stateName(context.status) + "\n")
     f.write("Workspace Secs : " + str(context.elapsedSecs()) + "\n")
@@ -93,7 +93,7 @@ def documentTextToFile(f,workspace,context,moduleFilterList=None,projectFilterLi
         f.write(" - " + str(note) + "\n")
     for mctxt in context:
         mname=mctxt.name
-        if moduleFilterList and not mctxt.module in moduleFilterList: continue        
+        if moduleList and not mctxt.module in moduleList: continue        
         mname=mctxt.name
         f.write(" Module [" + mname + "] Status: " + stateName(mctxt.status) + "\n")
         f.write(" Projects: " + str(len(mctxt.subcontexts)) + "\n")
@@ -110,7 +110,7 @@ def documentTextToFile(f,workspace,context,moduleFilterList=None,projectFilterLi
         
         for pctxt in mctxt:
             pname=pctxt.name
-            if projectFilterList and not pctxt.project in projectFilterList: continue
+            if projectList and not pctxt.project in projectList: continue
             
             f.write("  Project [" + pname + "] Status: " + stateName(pctxt.status) + "\n")
             f.write("   Work [" + str(len(pctxt.worklist)) + "] [" + str(pctxt.elapsedSecs()) + "] secs."  + "\n")
@@ -125,21 +125,21 @@ def documentTextToFile(f,workspace,context,moduleFilterList=None,projectFilterLi
                         f.write("    Work Cwd  : " + work.command.cwd + "\n")
                     f.write("    Work Exit : " + str(work.result.exit_code) + "\n")
 
-def document(workspace,context,full=None,moduleFilterList=None,projectFilterList=None):
+def document(workspace,context,full=None,moduleList=None,projectList=None):
     
     log.debug('--- Documenting Results')
 
     seedForrest(workspace,context)
     
     # Testing...
-    #documentText(workspace,context,moduleFilterList,projectFilterList)
+    #documentText(workspace,context,moduleList,projectList)
     
     db=StatisticsDB()
   
-    documentWorkspace(workspace,context,db,moduleFilterList,projectFilterList)
+    documentWorkspace(workspace,context,db,moduleList,projectList)
     
     if full or 1: # Testing
-        documentStatistics(workspace,context,db,moduleFilterList,projectFilterList)
+        documentStatistics(workspace,context,db,moduleList,projectList)
         documentXRef(workspace,context)
 
     executeForrest(workspace,context)
@@ -242,7 +242,7 @@ def executeForrest(workspace,context):
 #
 # Model Pieces
 #      
-def documentWorkspace(workspace,context,db,moduleFilterList=None,projectFilterList=None):
+def documentWorkspace(workspace,context,db,moduleList=None,projectList=None):
     
     wdir=getWorkspaceDir(workspace)
     
@@ -323,7 +323,7 @@ def documentWorkspace(workspace,context,db,moduleFilterList=None,projectFilterLi
     # x.write('<p><strong>Workspace Config:</strong> <link href=\'xml.txt\'>XML</link></p>')
     # x.write('<p><strong>RSS :</strong> <link href=\'index.rss\'>News Feed</link></p>')
     
-    documentWorkList(x,workspace,context.worklist,'Workspace-level Work',wdir)
+    documentWorkList(x,workspace,context,context.worklist,'Workspace-level Work',wdir)
         
     footerXDoc(x)
     endXDoc(x)
@@ -347,7 +347,7 @@ def documentWorkspace(workspace,context,db,moduleFilterList=None,projectFilterLi
     for mctxt in context:
         mname=mctxt.name
         if not Module.list.has_key(mname): continue        
-        if moduleFilterList and not mctxt.module in moduleFilterList: continue
+        if moduleList and not mctxt.module in moduleList: continue
         
         #
         # Determine if there are todos, otherwise continue
@@ -420,7 +420,7 @@ def documentWorkspace(workspace,context,db,moduleFilterList=None,projectFilterLi
         if not Module.list.has_key(mname): 
             log.warn("Unknown module : " + mname)
             continue        
-        if moduleFilterList and not mctxt.module in moduleFilterList: 
+        if moduleList and not mctxt.module in moduleList: 
             log.info("Module filtered out: " + mname)
             continue
         mcount+=1
@@ -436,6 +436,40 @@ def documentWorkspace(workspace,context,db,moduleFilterList=None,projectFilterLi
     endTableXDoc(x)
     endSectionXDoc(x)
     
+   
+    #
+    # ----------------------------------------------------------------------
+    #
+    # Projects.xml
+    #
+    if projectList:
+        x=startXDoc(getWorkspaceDocument(workspace,wdir,'projects'))      
+        headerXDoc(x,'All Projects')
+    
+        documentSummary(x,context.getProjectSummary())
+    
+        startSectionXDoc(x,'All Project')
+        startTableXDoc(x)
+        x.write('     <tr>')        
+        x.write('      <th>Name</th><th>Project State</th><th>Elapsed Time</th>')
+        x.write('     </tr>')
+        pcount=0
+        for project in projectList:
+            pctxt=ontext.getProjectContextForProject(project)
+            pname=pctxt.name
+            pcount+=1
+
+            x.write('     <tr><!-- %s -->\n' % (pname))        
+            x.write('      <td><link href=\'%s\'>%s</link></td><td>%s</td><td>%s</td>\n' % \
+                      (	getProjectRelativeUrl(pname),	\
+                        pname,	\
+                        getStateIcon(pctxt)))    
+            x.write('      <td>%s</td>\n' % elapsedTimeToString(pctxt.elapsedTime()))    
+            x.write('     </tr>\n\n')
+            
+        if not pcount: x.write('	<tr><td>None</td></tr>')
+        endTableXDoc(x)
+        endSectionXDoc(x)    
 
     footerXDoc(x)
     endXDoc(x)
@@ -457,7 +491,7 @@ def documentWorkspace(workspace,context,db,moduleFilterList=None,projectFilterLi
     for mctxt in context:
         mname=mctxt.name
         if not Module.list.has_key(mname): continue        
-        if moduleFilterList and not mctxt.module in moduleFilterList: continue
+        if moduleList and not mctxt.module in moduleList: continue
         
         packaged=0
         #
@@ -505,8 +539,8 @@ def documentWorkspace(workspace,context,db,moduleFilterList=None,projectFilterLi
     for mctxt in context:
         mname=mctxt.name    
         if not Module.list.has_key(mname): continue        
-        if moduleFilterList and not mctxt.module in moduleFilterList: continue    
-        documentModule(workspace,context,wdir,mctxt.name,mctxt,db,projectFilterList)
+        if moduleList and not mctxt.module in moduleList: continue    
+        documentModule(workspace,context,wdir,mctxt.name,mctxt,db,projectList)
         
         
     # Document context
@@ -514,7 +548,7 @@ def documentWorkspace(workspace,context,db,moduleFilterList=None,projectFilterLi
     x=startXDoc(getWorkspaceContextDocument(workspace,wdir))
     headerXDoc(x,'Context')    
     x.write('<source>\n')
-    documentTextToFile(x,workspace,context,moduleFilterList,projectFilterList)    
+    documentTextToFile(x,workspace,context,moduleList,projectList)    
     x.write('</source>\n')   
     footerXDoc(x)
     endXDoc(x)
@@ -538,7 +572,7 @@ def getStateIcon(context):
     href=getContextLink(context,0,icon)
     return href
     
-def documentModule(workspace,context,wdir,modulename,modulecontext,db,projectFilterList=None):
+def documentModule(workspace,context,wdir,modulename,modulecontext,db,projectList=None):
     mdir=getModuleDir(workspace,modulename,wdir)
     
     if not Module.list.has_key(modulename): return
@@ -575,7 +609,7 @@ def documentModule(workspace,context,wdir,modulename,modulecontext,db,projectFil
     x.write('     </tr>')
     pcount=0
     for pctxt in modulecontext:     
-        if projectFilterList and not pctxt.project in projectFilterList: continue  
+        if projectList and not pctxt.project in projectList: continue  
         pname=pctxt.name   
         
         #
@@ -607,7 +641,7 @@ def documentModule(workspace,context,wdir,modulename,modulecontext,db,projectFil
     x.write('     </tr>')
     pcount=0
     for pctxt in modulecontext:     
-        if projectFilterList and not pctxt.project in projectFilterList: continue  
+        if projectList and not pctxt.project in projectList: continue  
         pname=pctxt.name    
         pcount+=1
         
@@ -637,14 +671,14 @@ def documentModule(workspace,context,wdir,modulename,modulecontext,db,projectFil
        
 #   x.write('<p><strong>Module Config :</strong> <link href=\'xml.html\'>XML</link></p>')
     
-    documentWorkList(x,workspace,modulecontext.worklist,'Module-level Work',mdir)
+    documentWorkList(x,workspace,modulecontext,modulecontext.worklist,'Module-level Work',mdir)
     
     footerXDoc(x)
     endXDoc(x)
   
     # Document Projects
     for pctxt in modulecontext:
-        if projectFilterList and not pctxt.project in projectFilterList: continue      
+        if projectList and not pctxt.project in projectList: continue      
         documentProject(workspace,context,modulename,mdir,pctxt.name,pctxt,db)
    
     # Document the module XML
@@ -733,7 +767,7 @@ def documentProject(workspace,context,modulename,mdir,projectname,projectcontext
 #    x.write('<p><strong>Project Config :</strong> <link href=\'%s\'>XML</link></p>' \
 #                % (getModuleProjectRelativeUrl(modulename,projectcontext.name)) )
         
-    documentWorkList(x,workspace,projectcontext.worklist,'Project-level Work',mdir)
+    documentWorkList(x,workspace,projectcontext,projectcontext.worklist,'Project-level Work',mdir)
     footerXDoc(x)
     endXDoc(x)    
     
@@ -842,7 +876,7 @@ def documentSummary(x,summary,description='Project Summary'):
     endTableXDoc(x) 
     endSectionXDoc(x)
   
-def documentWorkList(x,workspace,worklist,description='Work',dir='.'):
+def documentWorkList(x,workspace,workcontext,worklist,description='Work',dir='.'):
     if not worklist: return
     startSectionXDoc(x,description)
     
@@ -878,9 +912,9 @@ def documentWorkList(x,workspace,worklist,description='Work',dir='.'):
     endSectionXDoc(x)
     
     for work in worklist:
-        documentWork(workspace,work,dir)
+        documentWork(workspace,workcontext,work,dir)
         
-def documentWork(workspace,work,dir):
+def documentWork(workspace,workcontext,work,dir):
     if isinstance(work,CommandWorkItem):    
         x=startXDoc(getWorkDocument(dir,work.command.name,work.type))
         headerXDoc(x, workTypeName(work.type) + ' : ' + work.command.name)
@@ -888,6 +922,7 @@ def documentWork(workspace,work,dir):
         
         startListXDoc(x) 
         addItemXDoc(x,"Status: ", stateName(work.status))
+        addXItemXDoc(x,"For: ", getTypedContextLink(workcontext))
         # addItemXDoc(x,"Command: ", work.command.name)
         if work.command.cwd:
             addItemXDoc(x,"Working Directory: ", work.command.cwd)
@@ -899,13 +934,10 @@ def documentWork(workspace,work,dir):
         if work.result.signal:
             addItemXDoc(x,"Termination Signal: ", str(work.result.signal))
         addItemXDoc(x,"Exit Code: ", str(work.result.exit_code))
+                
         
-        
-        
-        addItemXDoc(x,"Start Time: ", time.strftime(setting.datetimeformat, \
-                    time.localtime(work.result.start_time)))
-        addItemXDoc(x,"End Time: ", time.strftime(setting.datetimeformat, \
-                    time.localtime(work.result.end_time)))
+        addItemXDoc(x,"Start Time: ", secsToDate(work.result.start_time))
+        addItemXDoc(x,"End Time: ", secsToDate(work.result.end_time))
         addItemXDoc(x,"Elapsed Time: ", secsToString(work.secs))
         
         endListXDoc(x)
@@ -1027,7 +1059,7 @@ def documentWork(workspace,work,dir):
 #
 # Statistics Pages
 #           
-def documentStatistics(workspace,context,db,moduleFilterList=None,projectFilterList=None):
+def documentStatistics(workspace,context,db,moduleList=None,projectList=None):
     
     stats=StatisticsGuru(workspace,context,db)
     
@@ -1046,20 +1078,20 @@ def documentStatistics(workspace,context,db,moduleFilterList=None,projectFilterL
     footerXDoc(x) 
     endXDoc(x)
     
-    documentModulesByElapsed(stats, sdir, moduleFilterList)
-    documentModulesByProjects(stats, sdir, moduleFilterList)
-    documentModulesByDependencies(stats, sdir, moduleFilterList)
-    documentModulesByDependees(stats, sdir, moduleFilterList)
-    documentModulesByFOGFactor(stats, sdir, moduleFilterList)
+    documentModulesByElapsed(stats, sdir, moduleList)
+    documentModulesByProjects(stats, sdir, moduleList)
+    documentModulesByDependencies(stats, sdir, moduleList)
+    documentModulesByDependees(stats, sdir, moduleList)
+    documentModulesByFOGFactor(stats, sdir, moduleList)
     
 
-def documentModulesByElapsed(stats,sdir,moduleFilterList=None):
+def documentModulesByElapsed(stats,sdir,moduleList=None):
     x=startXDoc(os.path.join(sdir,'elapsed.xml'))
     headerXDoc(x, 'Modules By Elapsed Time')
     
     startTableXDoc(x,'Modules By Elapsed')
     for mctxt in stats.modulesByElapsed:        
-        if moduleFilterList and not mctxt.module in moduleFilterList: continue
+        if moduleList and not mctxt.module in moduleList: continue
         titledXDataInTableXDoc(x,getContextLink(mctxt), elapsedTimeToString(mctxt.elapsedTime()))
 
     endTableXDoc(x)
@@ -1067,13 +1099,13 @@ def documentModulesByElapsed(stats,sdir,moduleFilterList=None):
     footerXDoc(x)
     endXDoc(x)
 
-def documentModulesByProjects(stats,sdir,moduleFilterList=None):
+def documentModulesByProjects(stats,sdir,moduleList=None):
     x=startXDoc(os.path.join(sdir,'projects.xml'))
     headerXDoc(x, 'Modules By Project Count')
     
     startTableXDoc(x,'Modules By Project Count')
     for mctxt in stats.modulesByProjectCount:        
-        if moduleFilterList and not mctxt.module in moduleFilterList: continue    
+        if moduleList and not mctxt.module in moduleList: continue    
         startTableRowXDoc(x)
         
         insertTableDataXDoc(x, getContextLink(mctxt))
@@ -1091,13 +1123,13 @@ def documentModulesByProjects(stats,sdir,moduleFilterList=None):
     footerXDoc(x)
     endXDoc(x)
  
-def documentModulesByDependencies(stats,sdir,moduleFilterList=None):
+def documentModulesByDependencies(stats,sdir,moduleList=None):
     x=startXDoc(os.path.join(sdir,'dependencies.xml'))
     headerXDoc(x, 'Modules By Dependency Count')
     
     startTableXDoc(x,'Modules By Dependency Count')
     for mctxt in stats.modulesByTotalDependencies:        
-        if moduleFilterList and not mctxt.module in moduleFilterList: continue    
+        if moduleList and not mctxt.module in moduleList: continue    
         startTableRowXDoc(x)
         insertTableDataXDoc(x, getContextLink(mctxt))
         insertTableDataXDoc(x, mctxt.dependencyCount())
@@ -1116,13 +1148,13 @@ def documentModulesByDependencies(stats,sdir,moduleFilterList=None):
     
  
  
-def documentModulesByDependees(stats,sdir,moduleFilterList=None):
+def documentModulesByDependees(stats,sdir,moduleList=None):
     x=startXDoc(os.path.join(sdir,'dependees.xml'))
     headerXDoc(x, 'Modules By Dependee Count')
     
     startTableXDoc(x,'Modules By Dependee Count')
     for mctxt in stats.modulesByTotalDependees:        
-        if moduleFilterList and not mctxt.module in moduleFilterList: continue    
+        if moduleList and not mctxt.module in moduleList: continue    
         startTableRowXDoc(x)
         insertTableDataXDoc(x, getContextLink(mctxt))
         insertTableDataXDoc(x, mctxt.dependeeCount())
@@ -1139,13 +1171,13 @@ def documentModulesByDependees(stats,sdir,moduleFilterList=None):
     footerXDoc(x)
     endXDoc(x)
     
-def documentModulesByFOGFactor(stats,sdir,moduleFilterList=None):
+def documentModulesByFOGFactor(stats,sdir,moduleList=None):
     x=startXDoc(os.path.join(sdir,'fogfactor.xml'))
     headerXDoc(x, 'Modules By FOG Factor')
     
     startTableXDoc(x,'Modules By FOG Factor')
     for mctxt in stats.modulesByFOGFactor:        
-        if moduleFilterList and not mctxt.module in moduleFilterList: continue    
+        if moduleList and not mctxt.module in moduleList: continue    
         startTableRowXDoc(x)
         insertTableDataXDoc(x,getContextLink(mctxt))
         insertTableDataXDoc(x, str(round(mctxt.getFOGFactor(),2)))
@@ -1168,7 +1200,7 @@ def documentModulesByFOGFactor(stats,sdir,moduleFilterList=None):
 #
 # XRef Pages
 #           
-def documentXRef(workspace,context,moduleFilterList=None,projectFilterList=None):
+def documentXRef(workspace,context,moduleList=None,projectList=None):
     
     xdir=getXRefDir(workspace)
     x=startXDoc(getXRefDocument(workspace,xdir))

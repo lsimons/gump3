@@ -108,9 +108,8 @@ def nag(workspace,context,moduleFilterList=None,projectFilterList=None):
 def nagWorkspace(workspace,context):
     """ Nag for the workspace """
     content=getContent(workspace, context, "There is a workspace problem... \n")
-    email=EmailMessage([workspace.mailinglist],workspace.email,workspace.prefix+': Gump Workspace Problem ',content)
-    mail([ workspace.mailinglist ],workspace.email,email,workspace.mailserver)
-  
+    sendEmail(workspace,workspace.mailinglist,workspace.email,workspace.prefix+': Gump Workspace Problem ',content)
+    
 def nagProject(workspace,context,module,mctxt,project,pctxt):
     """ Nag to a specific project's <nag entry """
     content=''
@@ -147,7 +146,7 @@ def nagProject(workspace,context,module,mctxt,project,pctxt):
             toaddr=getattr(nagEntry,'to',workspace.mailinglist)
             fromaddr=getattr(nagEntry,'from',workspace.mailinglist)
             
-            sendEmail(workspace,workspace.mailinglist,workspace.mailinglist,subject,content)
+            sendEmail(workspace,toaddr,fromaddr,subject,content)
             
             nags+=1
         except Exception, details:

@@ -82,9 +82,7 @@ def integrate(workspace,expr='*',context=GumpContext()):
   
         # Build HTML Result (via Forrest)
         if not context.noForrest:
-            # Bugs, looses some (e.g. packages modules)
-            #document(workspace,context,1,modules,sequence)
-            document(workspace,context,1)
+            document(workspace,context,1,modules,sequence)
   
         #
         # Nag about failures -- only if we are allowed to

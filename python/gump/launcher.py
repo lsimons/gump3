@@ -412,7 +412,7 @@ def executeIntoResult(cmd,result,tmp=dir.tmp):
         #
         # Assume timed out if this is not running...
         #
-        if not timer.isAlive():
+        if result.signal > 0:
             result.status=CMD_STATUS_TIMED_OUT
             log.error('Command timed out. [' + execString + '] [' + str(timeout) + '] seconds.')
         # Process Outputs (exit_code and stderr/stdout)

@@ -1,8 +1,8 @@
 #!/usr/bin/python
 
-# $Header: /home/stefano/cvs/gump/python/gump/build.py,v 1.28 2003/10/29 18:36:31 ajack Exp $
-# $Revision: 1.28 $
-# $Date: 2003/10/29 18:36:31 $
+# $Header: /home/stefano/cvs/gump/python/gump/build.py,v 1.29 2003/11/03 19:42:45 ajack Exp $
+# $Revision: 1.29 $
+# $Date: 2003/11/03 19:42:45 $
 #
 # ====================================================================
 #
@@ -182,74 +182,126 @@ def buildProjects( workspace, sequence, context ):
     
     if pctxt.okToPerformWork():
         
-        #:TODO:Consider looking for outputs and deleting if found
-        
-        # get the module object given the module name,
+        # Get the module object given the module name,
         # which is gotten from the project
         module=Module.list[project.module]
 
-        log.debug(' ------ Building: '+ module.name + ':' + project.name)
+        log.debug(' ------ Performing pre-Build Actions (mkdir/delete) for : '+ module.name + ':' + project.name)
 
-        cmd=getBuildCommand(workspace,module,project,context)
+        performPreBuild( workspace, context, mctxt, module, pctxt, project )
 
-        if cmd:
-            # Execute the command ....
-            cmdResult=execute(cmd,workspace.tmpdir)
+        if pctxt.okToPerformWork():
+        
+            log.debug(' ------ Building: '+ module.name + ':' + project.name)
+
+            cmd=getBuildCommand(workspace,module,project,context)
+
+            if cmd:
+                # Execute the command ....
+                cmdResult=execute(cmd,workspace.tmpdir)
     
-            # Update Context    
-            work=CommandWorkItem(WORK_TYPE_BUILD,cmd,cmdResult)
-            pctxt.performedWork(work)
+                # Update Context    
+                work=CommandWorkItem(WORK_TYPE_BUILD,cmd,cmdResult)
+                pctxt.performedWork(work)
             
-            # Update Context w/ Results  
-            if not cmdResult.status==CMD_STATUS_SUCCESS:
-                pctxt.propagateErrorState(STATUS_FAILED,REASON_BUILD_FAILED)
-            else:
-                if hasOutputs(project,pctxt):
-                    outputsOk=1
-                    for i in range(0,len(project.jar)):
-                        jar=os.path.normpath(project.jar[i].path)
-                        if jar:
-                            if not os.path.exists(jar):
-                                pctxt.propagateErrorState(STATUS_FAILED,REASON_MISSING_OUTPUTS)
-                                outputsOk=0
-                                pctxt.addError("Missing Output: " + str(jar))
-                            
-                    if outputsOk: 
-                        for i in range(0,len(project.jar)):
-                            jar=os.path.normpath(project.jar[i].path)
-                            # Copy to repository
-                            repository.publish( module.name, jar )
-                
-                        pctxt.status=STATUS_SUCCESS  
-                    
-                        # For 'fun' list repository
-                        listDirectoryAsWork(pctxt,repository.getGroupDir(module.name), \
-                                                'list_repo_'+project.name) 
-                    
-                    else:
-                        #
-                        # List all directories that should've contained
-                        # outputs, to see what is there.
-                        #
-                        dirs=[]
-                        dircnt=0
+                # Update Context w/ Results  
+                if not cmdResult.status==CMD_STATUS_SUCCESS:
+                    reason=REASON_BUILD_FAILED
+                    if cmdResult.status==CMD_STATUS_TIMED_OUT:
+                        reason=REASON_BUILD_TIMEDOUT
+                    pctxt.propagateErrorState(STATUS_FAILED,reason)
+                else:
+                    if hasOutputs(project,pctxt):
+                        outputsOk=1
                         for i in range(0,len(project.jar)):
                             jar=os.path.normpath(project.jar[i].path)
                             if jar:
-                                dir=os.path.dirname(jar)
-                                if not dir in dirs and os.path.exists(dir):
-                                    dircnt += 1
-                                    listDirectoryAsWork(pctxt,dir,\
-                                        'list_'+project.name+'_dir'+str(dircnt)+'_'+os.path.basename(dir))
-                                    dirs.append(dir)
-                                else:
-                                    pctxt.addWarning("No such directory (where output is expect) : " + dir)
-                else:
-                    pctxt.status=STATUS_SUCCESS  
-    
-        if not pctxt.status == STATUS_SUCCESS:
-            log.warn('Failed to build project [' + pctxt.name + ']')
+                                if not os.path.exists(jar):
+                                    pctxt.propagateErrorState(STATUS_FAILED,REASON_MISSING_OUTPUTS)
+                                    outputsOk=0
+                                    pctxt.addError("Missing Output: " + str(jar))
+                            
+                        if outputsOk: 
+                            for i in range(0,len(project.jar)):
+                                jar=os.path.normpath(project.jar[i].path)
+                                # Copy to repository
+                                repository.publish( module.name, jar )
             
+                            pctxt.status=STATUS_SUCCESS  
+                    
+                            # For 'fun' list repository
+                            listDirectoryAsWork(pctxt,repository.getGroupDir(module.name), \
+                                                'list_repo_'+project.name) 
+                    
+                        else:
+                            #
+                            # List all directories that should've contained
+                            # outputs, to see what is there.
+                            #
+                            dirs=[]
+                            dircnt=0
+                            for i in range(0,len(project.jar)):
+                                jar=os.path.normpath(project.jar[i].path)
+                                if jar:
+                                    dir=os.path.dirname(jar)
+                                    if not dir in dirs and os.path.exists(dir):
+                                        dircnt += 1
+                                        listDirectoryAsWork(pctxt,dir,\
+                                            'list_'+project.name+'_dir'+str(dircnt)+'_'+os.path.basename(dir))
+                                        dirs.append(dir)
+                                    else:
+                                        pctxt.addWarning("No such directory (where output is expect) : " + dir)
+                    else:
+                        pctxt.status=STATUS_SUCCESS  
+    
+            if not pctxt.status == STATUS_SUCCESS:
+                log.warn('Failed to build project [' + pctxt.name + ']')
+            
+
+def performPreBuild( workspace, context, mctxt, module, pctxt, project ):
+    """ Perform pre-build Actions """
+    
+    # Deletes...
+    dels=0
+    for delete in project.delete:
+        cmd=getDeleteCommand(workspace,context,module,project,delete,dels)
+
+        # Execute the command ....
+        cmdResult=execute(cmd,workspace.tmpdir)
+    
+        # Update Context    
+        work=CommandWorkItem(WORK_TYPE_PREBUILD,cmd,cmdResult)
+        pctxt.performedWork(work)
+            
+        # Update Context w/ Results  
+        if not cmdResult.status==CMD_STATUS_SUCCESS:
+            pctxt.propagateErrorState(STATUS_FAILED,REASON_PREBUILD_FAILED)
+        else:
+            dels+=1
+            pctxt.status=STATUS_SUCCESS  
+                
+    # MkDirs...
+    mkdirs=0
+    for mkdir in project.mkdir:   
+        cmd=getMkDirCommand(workspace,context,module,project,mkdir,mkdirs)
+
+        # Execute the command ....
+        cmdResult=execute(cmd,workspace.tmpdir)
+    
+        # Update Context    
+        work=CommandWorkItem(WORK_TYPE_PREBUILD,cmd,cmdResult)
+        pctxt.performedWork(work)
+            
+        # Update Context w/ Results  
+        if not cmdResult.status==CMD_STATUS_SUCCESS:
+            pctxt.propagateErrorState(STATUS_FAILED,REASON_PREBUILD_FAILED)
+        else:
+            mkdirs+=1
+            pctxt.status=STATUS_SUCCESS  
+                
+    if not pctxt.okToPerformWork():
+        log.warn('Failed to perform prebuild on project [' + pctxt.name + ']')
+        
 # static void main()
 if __name__=='__main__':
 

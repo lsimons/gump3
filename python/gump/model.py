@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/Attic/model.py,v 1.39 2003/10/21 16:15:52 ajack Exp $
-# $Revision: 1.39 $
-# $Date: 2003/10/21 16:15:52 $
+# $Header: /home/stefano/cvs/gump/python/gump/Attic/model.py,v 1.40 2003/11/03 19:42:44 ajack Exp $
+# $Revision: 1.40 $
+# $Date: 2003/11/03 19:42:44 $
 #
 # ====================================================================
 #
@@ -251,6 +251,7 @@ class Project(Named):
     self.junitreport=Single(JunitReport)
     self.work=Multiple(Work)
     self.mkdir=Multiple(Mkdir)
+    self.delete=Multiple(Delete)
     self.redistributable=Single(GumpModelObject)
 
   # provide default elements when not defined in xml
@@ -584,6 +585,9 @@ class JunitReport(GumpModelObject): pass
 
 # represents a <mkdir/> element
 class Mkdir(GumpModelObject): pass
+
+# represents a <delete/> element
+class Delete(GumpModelObject): pass
 
 # represents a <work/> element
 class Work(GumpModelObject): pass

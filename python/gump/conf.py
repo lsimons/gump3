@@ -1,8 +1,8 @@
 #!/usr/bin/python
 
-# $Header: /home/stefano/cvs/gump/python/gump/Attic/conf.py,v 1.34 2003/10/23 19:38:16 ajack Exp $
-# $Revision: 1.34 $
-# $Date: 2003/10/23 19:38:16 $
+# $Header: /home/stefano/cvs/gump/python/gump/Attic/conf.py,v 1.35 2003/11/03 19:42:45 ajack Exp $
+# $Revision: 1.35 $
+# $Date: 2003/11/03 19:42:45 $
 #
 # ====================================================================
 #
@@ -94,7 +94,7 @@ class default:
     globalws   = os.path.normpath('%s/%s' % (dir.base, 'global-workspace.xml'))
     merge      = os.path.normpath('%s/%s' % (dir.work, 'merge.xml'))
     date       = time.strftime('%Y%m%d')
-    logLevel   = logging.INFO
+    logLevel   = logging.INFO # logging.DEBUG 
     classpath = (os.getenv('CLASSPATH') or '').split(os.pathsep)  
     
     logurl		=	'http://cvs.apache.org/builds/gump/nightly/'
@@ -118,7 +118,7 @@ class setting:
     
     datetimeformat="%a, %d %b %Y %H:%M:%S (%Z)"
     
-    timeout=60*40 # 40 minutes (in seconds)
+    timeout=60*60 # 60 minutes (in seconds)
     
 class switch:
     """Configuration of switches """   

@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/Attic/logic.py,v 1.42 2003/10/24 22:18:08 ajack Exp $
-# $Revision: 1.42 $
-# $Date: 2003/10/24 22:18:08 $
+# $Header: /home/stefano/cvs/gump/python/gump/Attic/logic.py,v 1.43 2003/11/03 19:42:45 ajack Exp $
+# $Revision: 1.43 $
+# $Date: 2003/11/03 19:42:45 $
 #
 # ====================================================================
 #
@@ -201,9 +201,11 @@ def getBuildSequenceForProjects(projects):
         for project in todo:
           if project.isReady(todo):
             todo.remove(project)
-            if project.ant or project.script: 
-                if not project in result:
-                    result.append(project)
+            # :TODO: ARBJ -- add even if nothing to do, for completeness.
+            #
+            # if project.ant or project.script: 
+            if not project in result:
+               result.append(project)
             break
         else:
           # we have a circular dependency, remove all innocent victims
@@ -369,6 +371,45 @@ def getScriptCommand(workspace,module,project,script,context):
         cmd.addParameter('-debug')  
     if context.verbose or verbose:
         cmd.addParameter('-verbose')  
+        
+    return cmd
+    
+def getDeleteCommand(workspace,context,module,project,delete,index=0):
+    basedir=os.path.abspath(os.path.join(module.srcdir or dir.base,script.basedir or ''))
+      
+    cmd=Cmd('echo rm','delete_'+module.name+'_'+project.name+'_'+str(index+1),\
+            basedir)
+
+    #
+    # Delete a directory and/or a file
+    #
+    if delete.dir:
+        cmd.addParameter('-rf')  
+        cmd.addParameter(os.path.abspath(os.path.join(basedir,delete.dir)))
+    elif delete.file:
+        cmd.addParameter('-f')  
+        cmd.addParameter(os.path.abspath(os.path.join(basedir,delete.file)))
+    else:
+        log.info('   <delete without \'file\' or \'dir\' attributes.')
+        return None
+        
+    return cmd
+    
+def getMkDirCommand(workspace,context,module,project,mkdir,index=0):
+    basedir=os.path.abspath(os.path.join(module.srcdir or dir.base,script.basedir or ''))
+      
+    cmd=Cmd('echo mkdir','mkdir_'+module.name+'_'+project.name+'_'+str(index+1),\
+            basedir)
+
+    #
+    # Make a directory
+    #
+    if mkdir.dir:
+        cmd.addParameter('-rf')  
+        cmd.addParameter(os.path.abspath(os.path.join(basedir,mkdir.dir)))
+    else:
+        log.info('   <mkdir without \'dir\' attribute.')
+        return None
         
     return cmd
 
