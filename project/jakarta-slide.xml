@@ -24,10 +24,10 @@
       <depend property="junit.jar"   project="junit"/>
       <depend property="log4j.jar"   project="jakarta-log4j" id="log4j"/>
       <depend property="servlet.jar" project="jakarta-servletapi-4"/>
-      <property name="jstl.lib" project="jakarta-taglibs-standard" 
-                id="jstl"/>
-      <property name="taglibs-standard.lib" project="jakarta-taglibs-standard" 
-                id="standard"/>
+      <property name="jstl.jar" project="jakarta-taglibs-standard" 
+                id="jstl" reference="jarpath"/>
+      <property name="taglibs-standard.jar" project="jakarta-taglibs-standard" 
+                id="standard" reference="jarpath"/>
       <depend property="antlr.jar" project="antlr" id="antlr" />
       <depend property="antlr-tools.jar" project="antlr" id="antlr-tools" />
       <depend property="jdbc20ext.jar" project="jdbc" />
