@@ -211,7 +211,7 @@
         <xsl:text>bash publish.sh repository/</xsl:text>
         <xsl:value-of select="@defined-in"/>
         <xsl:text>.xml </xsl:text>
-        <xsl:value-of select="$log"/>
+        <xsl:value-of select="$logdir"/>
         <xsl:text>/repository_</xsl:text>
         <xsl:value-of select="@defined-in"/>
         <xsl:text>.html&#10;</xsl:text>
