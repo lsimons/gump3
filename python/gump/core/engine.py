@@ -600,7 +600,8 @@ class GumpEngine:
                                 project.addError(message)
                                 log.error(message)                     
                     elif project.isRedistributable():
-                        project.addWarning('No license on redistributable project with outputs.')                                        
+                        # :TODO: restore to warning
+                        project.addInfo('No license on redistributable project with outputs.')                                        
                                     
                 if outputsOk: 
                     # Publish them all (if redistributable)
