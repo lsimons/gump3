@@ -212,6 +212,39 @@
       </table>
     </subsection>
 
+
+    <subsection name="javadoc">
+      <p>Enables publishing of a summary page linking all of the javadocs
+      produced in the process.  This will be placed in the workspace log
+      directory with the name "javadoc.html".</p>
+
+      <table>
+        <tr>
+          <th>Attribute</th>
+          <th>Description</th>
+          <th>Required?</th>
+        </tr>
+        <tr>
+          <td>url</td>
+          <td>The prefix to be used for hrefs on the javadoc.html page.
+          This can be used to point directly into the build directory or
+          used in conjunction with the <code>dir</code> attribute described
+          below.  If this attribute is not specified, <code>file:///</code>
+          urls will be generated - this is generally only suitable for
+          viewing on the local machine.</td>
+          <td>No</td>
+        </tr>
+        <tr>
+          <td>dir</td>
+          <td>This attribute tells where the physical directory associated with
+          the url can be found.  <b>Note:</b> the code which copies the
+          javadocs to this directory is currently not integrated into Gump.
+          This will be corrected shortly.</td>
+          <td>No</td>
+        </tr>
+      </table>
+    </subsection>
+
   </section>
 </body>
 </document>
