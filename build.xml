@@ -188,8 +188,16 @@
     <ant dir="site"/>
   </target>
 
+  <!-- Check to see if all of the local packages are installed -->
+  <target name="check" depends="compile">
+    <property name="onlineflag" value="-online"/>
+    <java classname="LocalCheck" fork="yes" classpath="jenny.jar">
+      <arg value="${workspace}"/>
+    </java>
+  </target>
+
   <!-- Do everything -->
-  <target name="all" depends="scripts,javadocs,pubdocs,site"/>
+  <target name="all" depends="scripts,javadocs,pubdocs,site,check"/>
 
   <!-- Remove all outputs and intermediate results -->
   <target name="clean">
