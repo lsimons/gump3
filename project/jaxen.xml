@@ -55,6 +55,7 @@
   </project>
 
   <project name="jaxen">
+    <delete dir="target"/>
     <ant buildfile="build.xml" target="dist">
       <property name="final.name" value="jaxen-@@DATE@@">
       </property>
