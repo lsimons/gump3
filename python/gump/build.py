@@ -33,7 +33,7 @@ logging.basicConfig()
 # base gump logger
 log = logging.getLogger(__name__)
 
-#set verbosity to show all messages of severity >= DEBUG
+#set verbosity to show all messages of severity >= default.logLevel
 log.setLevel(default.logLevel)
 
 ###############################################################################
@@ -158,9 +158,9 @@ def buildProjects( workspace, projectname, project, build_sequence ):
     if ant:
       execString=default.antCommand + ' ' + target
       log.debug('Building using ant!')
-      log.debug('    cd', buildbasedir)
+      log.debug('    cd' +  buildbasedir)
       log.debug('    export CLASSPATH=' + classpath)
-      log.debug('   ', execString)
+      log.debug('   ' + execString)
 
       # TODO: don't just brag about it!
       #os.environ['CLASSPATH']=classpath
