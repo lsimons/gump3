@@ -1,0 +1,14 @@
+#!/bin/bash
+
+cp="."
+for jar in $GUMP_HOME/dynagump/webapp/WEB-INF/lib/*.jar; do
+  cp=$cp:$jar
+done
+mydir=`dirname $0`
+oldpwd=`pwd`
+cd $mydir
+java -classpath $cp Main
+cd $oldpwd
+unset cp
+unset mmydir
+unset oldpwd

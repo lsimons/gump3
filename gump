@@ -619,6 +619,25 @@ function dynagump
   fi
   
   local current=`pwd`
+  cd "$GUMP_HOME/dynagump/tools/mysqlfinder"
+  local mysql_available=`./findmysql`
+  if [[ ! -z "$mysql_available" ]]; then
+     error "Cannot find mysql jdbc driver. Please retrieve it from
+
+     http://www.mysql.com/products/connector/j/
+
+and install the jarfile(s) it provides into
+
+     $GUMP_HOME/dynagump/webapp/WEB-INF/lib/
+
+If it is already installed somehwere else on your system, modify your
+CLASSPATH variable to point to it. You can customize the CLASSPATH
+variable inside a file named
+  
+  $GUMP_ENV_FILE
+  
+if you wish."
+  fi
   cd "$GUMP_HOME/dynagump"
   ./dynagump.sh "$command" $@
   cd "$current"
