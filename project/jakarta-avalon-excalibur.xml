@@ -48,7 +48,7 @@
         <depend project="dist-bsf"/>
         <depend project="rhino"/>
         <depend project="junitperf"/>
-
+        <depend project="jakarta-oro"/>
         <depend project="jakarta-velocity" inherit="runtime"/>
         <depend project="jakarta-log4j"/>
 
