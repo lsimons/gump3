@@ -1,0 +1,21 @@
+<module name="checkstyle">
+
+  <url href="http://checkstyle.sourceforge.net/"/>
+  <description>
+    Java style checker
+  </description>
+
+  <cvs repository="sourceforge" host-prefix="cvs.checkstyle" dir="checkstyle"/>
+
+  <project name="checkstyle">
+    <ant target="run.tests"/>
+    <depend project="jakarta-ant"/>
+    <depend project="xml-xerces"/>
+    <depend project="xml-xalan2"/>
+    <depend project="junit"/>
+    <depend project="antlr"/>
+    <depend project="jakarta-regexp"/>
+    <work nested="classes/checkstyle"/>
+    <work nested="classes/tests"/>
+  </project>
+</module>
