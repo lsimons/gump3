@@ -87,7 +87,7 @@
     <depend project="xml-xerces"/>
     <depend project="junit"/>
     <depend project="commons-collections"/>
-    <home nested="pool/build"/>
+    <home nested="pool/dist"/>
     <jar name="commons-pool.jar"/>
   </project>
 
