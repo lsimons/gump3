@@ -16,6 +16,15 @@
 
 """This module provides the "component wiring" for the gump application."""
 
+# Note that there aren't any unit tests for this module. That's a
+# concious decision. Most of this code has a "glue" function, and
+# is either really trivial or by definition required for a good
+# operation of the entire application. The latter makes it an
+# important candidate for good unit testing. However, this file is
+# one of the places that is expected to change most often, and hence,
+# that would lead to a rather intensive maintainance burden with
+# regard to the unit tests.
+
 __copyright__ = "Copyright (c) 2005 The Apache Software Foundation"
 __license__   = "http://www.apache.org/licenses/LICENSE-2.0"
 

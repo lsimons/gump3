@@ -39,7 +39,7 @@ import smtplib
 
 # for log messages...
 SEP = "------------------------------------------------------------------------------\n"
-GUMP_VERSION = '3.0-alpha-1'
+GUMP_VERSION = '3.0-alpha-2'
 
 # log levels
 DEBUG = 5
@@ -48,9 +48,9 @@ WARNING = 3
 ERROR = 2
 CRITICAL = 1
 
-def print_help():
+def print_help(file=None):
     parser = get_parser()
-    parser.print_help()
+    parser.print_help(file)
 
 def get_parser(_homedir=None, _hostname=None, _projects=None, _workdir=None, _logdir=None, _workspace=None):
     """Pygump uses the optparse package to provide the CLI.
