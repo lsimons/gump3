@@ -15,9 +15,9 @@
     <ant target="gump">
       <property name="lib.jce" project="jce" reference="jarpath"/>
       <property name="jce.download.md5"
-        value="85C64CD754719A4BC8DA7E9AA0E113FD"/>
+        value="83B3DB50763B77EBF9799083555E5733"
       <property name="jce.download.sha1"
-        value="C1F0E975E8C8E0A0105787B249A50615B485D109"/>
+        value="D042D9314C5F3C1E6ABC59A03EF809CAD7D96C7F"
     </ant>
 
     <depend project="ant" inherit="runtime"/>
