@@ -29,6 +29,7 @@
     <depend project="excalibur-logger" runtime="true"/>
     <depend project="excalibur-i18n" runtime="true"/>
     <depend project="excalibur-baxter" runtime="true"/>
+    <depend project="excalibur-util" runtime="true"/>
     <depend project="jakarta-ant"/>
     <depend project="xml-stylebook2"/>
     <depend project="xml-xalan2"/>
