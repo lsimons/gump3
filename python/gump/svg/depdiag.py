@@ -299,7 +299,7 @@ if __name__=='__main__':
         
     from gump.core.gumprun import GumpRun, GumpRunOptions, GumpSet
     from gump.core.commandLine import handleArgv
-    from gump.model.loader import WorkspaceLoader
+    from gump.loader.loader import WorkspaceLoader
     from gump.output.statsdb import *
 
     # Process command line

@@ -22,7 +22,7 @@ import logging
 
 from gump import log
 import gump.core.config
-from gump.model.loader import WorkspaceLoader
+from gump.loader.loader import WorkspaceLoader
 from gump.core.gumprun import GumpSet
 
 def testWorkspace(file):

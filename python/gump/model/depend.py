@@ -23,6 +23,7 @@ from gump.model.object import NamedModelObject
 
 from gump.utils.note import *
 from gump.utils import getIndent
+from gump.utils.domutils import *
 
 # Inheritence
 INHERIT_NONE=0
@@ -43,12 +44,12 @@ def inheritDescription(inherit):
 def importDomDependency(ownerProject,dependProject,ddom,optional):
         
     # Is this a runtime dependency?
-    runtime = hasAttribute(ddom,'runtime')
+    runtime = hasDomAttribute(ddom,'runtime')
         
     # Inheritence
     inherit=INHERIT_NONE
-    if hasAttribute(ddom,'inherit'):
-        inherit=getValue('inherit')
+    if hasDomAttribute(ddom,'inherit'):
+        inherit=getDomAttributeValue(ddom,'inherit')
         if 'runtime' == inherit:
             inherit=INHERIT_RUNTIME
         elif 'all' == inherit:
@@ -60,7 +61,7 @@ def importDomDependency(ownerProject,dependProject,ddom,optional):
         elif 'none' == inherit:
             inherit=INHERIT_NONE
         
-    ids	=	getValue(ddom,'ids','')
+    ids	=	getDomAttributeValue(ddom,'ids','')
     
     annotation = None # 'Expressed Dependency'
     
@@ -69,7 +70,7 @@ def importDomDependency(ownerProject,dependProject,ddom,optional):
     # to acess the delegate. We do so to check for existence
     # but w/o value. Not good. Really gotta re-write that XML
     # loading/merging stuff.
-    noclasspath=hasValue(ddom,'noclasspath')    
+    noclasspath=hasDomChild(ddom,'noclasspath')    
         
     # Construct the dependency
     return ProjectDependency( 	ownerProject,	\
@@ -164,17 +165,22 @@ class ProjectDependency(Annotatable):
     def isNoClasspath(self):
     	return self.noclasspath
                 
-    def dump(self, indent=0, output=sys.stdout):
+    def dump(self, indent=0, output=sys.stdout,dependee=False):
         """ Display the contents of this object """
-        output.write(getIndent(indent)+'Depend: ' + self.project.getName() + '\n')
         
+        i=getIndent(indent)
+        i1=getIndent(indent+1)
+        
+        if dependee:
+            output.write(i+'Depend: ' + self.owner.getName() + '\n')        
+        else:
+            output.write(i+'Depend: ' + self.project.getName() + '\n')        
         if self.hasInheritence():
-            output.write(getIndent(indent)+'Inherit: ' + self.getInheritenceDescription() + '\n')            
+            output.write(i1+'Inherit: ' + self.getInheritenceDescription() + '\n')            
         if self.isNoClasspath():
-            output.write(getIndent(indent)+'*NoClasspath*\n')
+            output.write(i1+'*NoClasspath*\n')
         if self.ids:
-            output.write(getIndent(indent)+'Ids: ' + self.ids + '\n')
-        
+            output.write(i1+'Ids: ' + self.ids + '\n')        
         Annotatable.dump(self,indent+1,output)
                 
     #
@@ -252,9 +258,14 @@ class DependSet:
         return len(self.projectMap)
                 
     def dump(self, indent=0, output=sys.stdout):
-        output.write(getIndent(indent)+'Depend Set\n')    
-        for dep in self.depends:
-            dep.dump(indent+1,output)
+        if self.depends:
+            if self.dependees:
+                output.write(getIndent(indent)+'Dependees Set\n')    
+            else:
+                output.write(getIndent(indent)+'Dependancy Set\n')    
+                
+            for dep in self.depends:
+                dep.dump(indent+1,output,self.dependees)
     	
 class DependencyPath(list):
     """ 'Path' of dependencies between two points """

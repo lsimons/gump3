@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/gui/view.py,v 1.11 2004/05/21 23:15:10 ajack Exp $
-# $Revision: 1.11 $
-# $Date: 2004/05/21 23:15:10 $
+# $Header: /home/stefano/cvs/gump/python/gump/gui/view.py,v 1.11.2.1 2004/06/11 17:09:51 ajack Exp $
+# $Revision: 1.11.2.1 $
+# $Date: 2004/06/11 17:09:51 $
 #
 # ====================================================================
 #
@@ -76,12 +76,11 @@ from wxPython.wx import *
 
 from gump import log
 from gump.core.config import dir, default
-from gump.utils.xmlutils import xmlize
 from gump.core.commandLine import handleArgv
 from gump.model.module import Module
 from gump.model.project import Project
 from gump.model.workspace import Workspace
-from gump.model.loader import WorkspaceLoader
+from gump.loader.loader import WorkspaceLoader
 from gump.core.runner import GumpRunner
 from gump.core.gumprun import GumpSet
 

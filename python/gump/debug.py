@@ -31,7 +31,7 @@ from gump.core.gumpinit import gumpinit
 from gump.runner.runner import getRunner
 from gump.core.gumprun import *
 from gump.core.commandLine import handleArgv
-from gump.model.loader import WorkspaceLoader
+from gump.loader.loader import WorkspaceLoader
 
 
 ###############################################################################

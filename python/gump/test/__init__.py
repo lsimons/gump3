@@ -18,7 +18,7 @@
 # tell Python what modules make up the gump.test package
 #__all__ = ["",""]
 
-from gump.model.loader import WorkspaceLoader
+from gump.loader.loader import WorkspaceLoader
 
 import gump
 import gump.core.config
@@ -26,7 +26,6 @@ import gump.core.config
 from gump.core.gumprun import *
 
 from gump.model.state import *
-from gump.model.rawmodel import XMLWorkspace
 from gump.model.workspace import Workspace
 
 from gump.stats.statsdb import StatisticsDB

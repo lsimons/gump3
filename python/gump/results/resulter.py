@@ -169,7 +169,7 @@ class Resulter(AbstractRunActor):
         # If not told where to stick it, contstruct...
         if not where: where=workspaceResults.getName()+'.xml'
         
-        workspaceResults.writeXMLToFile(where)
+        workspaceResults.writeXmlToFile(where)
 
     def constructResults(self):
         """

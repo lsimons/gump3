@@ -26,35 +26,6 @@ from gump import log
 from gump.utils.tasks import *
 from gump.utils.note import transferAnnotations, Annotatable
 from gump.utils.timing import TimeStampSet
-
-class ObjectKey:
-    def __init__(self,tag,name):
-        self.name=name
-        self.tag=tag
-        
-    # Same if same tag, and same name
-    def __eq__(self,other):
-        return self.__class__ == other.__class__ and \
-                self.tag == other.tag and \
-                self.name == other.name
-        
-    def __cmp__(self,other):
-        return cmp(self.tag,other.tag) or cmp(self.name,other.name)
-        
-    def __hash__(self):
-        return hash(self.tag)+ hash(self.name)
-        
-    def __repr__(self):
-        return str(self)
-        
-    def __str__(self):
-        return self.tag+':'+self.name
-
-    def getTag(self):
-        return self.tag
-        
-    def getName(self):
-        return self.name
         
 class XmlLoader:
     def __init__(self,basedir='.',cache=True):
@@ -151,6 +122,7 @@ class XmlUrlTask(XmlTask):
         XmlTask.__init__(self,url,tag,basedir)
         self.url=url
         
+    def getLocation(self): return self.getUrl()
     def getUrl(self):
         return self.url
                 
@@ -159,6 +131,7 @@ class XmlFileTask(XmlTask):
         XmlTask.__init__(self,file,tag,basedir)
         self.file=file
         
+    def getLocation(self): return self.getFile()
     def getFile(self):
         return self.file
         
@@ -241,8 +214,6 @@ class ModelLoader:
                 if element.hasAttribute('name'):            
                     name=element.getAttribute('name')
         
-                print 'Post-Process Element ', element.tagName, ' ', name
-                
                 # See what the parent has to say about this...
                 parent=None
                 parentObject=None
@@ -260,11 +231,14 @@ class ModelLoader:
                     rootObject=object
                
                 if object:
+                    # Store the metadata
+                    object.setMetadataLocation(task.getLocation())
                     # Resolve entities...
                     object.resolve()                    
                     task.getResult().setObject(object)
             
         if rootObject:
+            rootObject.resolve()
             # Cook the raw model...                    
             rootObject.complete()
              
@@ -277,7 +251,14 @@ class ModelLoader:
     def performTasks(self):
         worker=XmlWorker()
         self.tasks.perform(worker)
-        self.tasks.dump()
+        #self.tasks.dump()
+        
+class WorkspaceLoader(ModelLoader):
+    
+    def load(self,file,cache=True):
+        from gump.model.workspace import Workspace
+        loader=ModelLoader(cache)
+        return loader.loadFile(file,Workspace)
         
 # static void main()
 if __name__=='__main__':

@@ -32,7 +32,6 @@ from xml.sax.saxutils import escape
 
 from gump import log
 from gump.utils import *
-from gump.utils.xmlutils import xmlize
 from gump.utils.owner import *
 
 #

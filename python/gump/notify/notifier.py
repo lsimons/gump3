@@ -32,6 +32,7 @@ from gump.core.actor import AbstractRunActor
 from gump.model.project import *
 from gump.model.module import *
 from gump.model.state import *
+from gump.model.misc import AddressPair
 from gump.net.smtp import *
 from gump.utils import *
 
@@ -40,20 +41,6 @@ from gump.notify.notification import Notification
 
 LINE     ='--   --   --   --   --   --   --   --   --   --   --   --   G U M P'
 SEPARATOR='*********************************************************** G U M P'
-
-class AddressPair:
-    def __init__(self,toAddr,fromAddr):
-        self.toAddr=toAddr
-        self.fromAddr=fromAddr
-        
-    def __str__(self):
-        return '[To:' + self.toAddr + ', From:' + self.fromAddr + ']'
-        
-    def getToAddress(self):
-        return self.toAddr
-        
-    def getFromAddress(self):
-        return self.fromAddr
 
 class Notifier(AbstractRunActor):
     
@@ -278,29 +265,20 @@ The following %s notify%s should have been sent
         # Workspace can override...
         (wsTo, wsFrom) = self.workspace.getNotifyOverrides()
         
-        for notifyEntry in object.xml.nag:
-            #
-            # Determine where to send
-            #
-            toaddr=wsTo or getattr(notifyEntry,'to',self.workspace.mailinglist)
-            fromaddr=wsFrom or getattr(notifyEntry,'from',self.workspace.email)   
-            
-            # Somewhat bogus, but (I think) due to how the XML
-            # objects never admit to not having something
-            if not toaddr: toaddr =    self.workspace.mailinglist
-            if not fromaddr : fromaddr =  self.workspace.email
-                
-            notifys.append(AddressPair(getStringFromUnicode(toaddr),	\
-                                    getStringFromUnicode(fromaddr)))  
+        for pair in object.getNotifys():
+            toaddr=wsTo or pair.getToAddress()
+            fromaddr=wsFrom or pair.getFromAddress()
+            notifys.append(AddressPair(toaddr,fromaddr))  
 
         return notifys
-        
         
     def sendEmails(self, addressPairs, subject, content):
         if addressPairs:
             for pair in addressPairs:
-                self.sendEmail(pair.getToAddress(), pair.getFromAddress(),	\
-                                subject, content)
+                self.sendEmail(	pair.getToAddress(), 
+                                pair.getFromAddress(),
+                                subject, 
+                                content)
         else:
             #
             # This is a catch-all, for all project that

@@ -55,23 +55,23 @@ class NotificationTestSuite(UnitTestSuite):
         resolver=self.run.getOptions().getResolver()
         content1=PositiveNotification(self.run, self.workspace).resolveContent(resolver)
         content2=NegativeNotification(self.run, self.workspace).resolveContent(resolver)    
-        print content1
-        print content2
+        #print content1
+        #print content2
     
         # For all modules...
         for module in self.workspace.getModules():                    
             #print 'Get Content For Module : ' + module.getName()
             content1=PositiveNotification(self.run, module).resolveContent(resolver)
             content2=NegativeNotification(self.run, module).resolveContent(resolver) 
-            print content1
-            print content2
+            #print content1
+            #print content2
             for project in module.getProjects():
                 #print 'Get Content For Project : ' + project.getName()
                 # print 
                 content1=PositiveNotification(self.run, project).resolveContent(resolver)
                 content2=NegativeNotification(self.run, project).resolveContent(resolver)
-                print content1
-                print content2
+                #print content1
+                #print content2
                 
     def testNotifyUnwantedUnsent(self):
     

@@ -39,12 +39,12 @@ from gump.core.config import dir, switch, setting
 #
 # Set the User Agent to be Gump...
 #
-class GumpURLopener(urllib.FancyURLopener):
+class GumpUrlOpener(urllib.FancyURLopener):
     def __init__(self, *args):
         self.version = "Apache-Gump/"+setting.version
         urllib.FancyURLopener.__init__(self, *args)
 
-urllib._urlopener = GumpURLopener()
+urllib._urlopener = GumpUrlOpener()
 
 ###############################################################################
 # Functions

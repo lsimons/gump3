@@ -251,7 +251,7 @@ class GumpBuilder(RunSpecific):
         if 0 and project.okToPerformWork():        
             # Deletes...
             dels=0
-            for delete in project.xml.delete:
+            for delete in project.getDeletes():
                 try:
                     self.performDelete(project,delete,dels)
                     dels+=1
@@ -263,7 +263,7 @@ class GumpBuilder(RunSpecific):
         if project.okToPerformWork():
             # MkDirs...
             mkdirs=0
-            for mkdir in project.xml.mkdir:                             
+            for mkdir in project.getMkDirs():                             
                 try:
                     self.performMkDir(project,mkdir,mkdirs)
                     mkdirs+=1

@@ -27,14 +27,33 @@ from gump.utils.tools import *
 
 from gump.model.state import *
 from gump.model.object import NamedModelObject
+from gump.model.project import Project
 from gump.utils.note import transferAnnotations, Annotatable
+from gump.utils.domutils import *
 
 
 class Profile(NamedModelObject):
     """Gump Profile"""
     def __init__(self,name,dom,workspace):
     	NamedModelObject.__init__(self,name,dom,workspace) 
-    	
+
+    def resolve(self):
+        
+        owner=self.getOwner()
+        
+        for pdom in self.getDomChildIterator('project'):
+            if hasDomAttribute(pdom,'name'):
+                name=getDomAttributeValue(pdom,'name')
+                
+                if owner.hasProject(name):
+                    project=owner.getProject(name)
+                    project.splice(pdom)             
+                    if not self.hasProject(name):
+                        self.addProject(project)
+                else:
+                    project=Project(name,pdom,self)
+                    self.addProject(project)
+                        	
     def complete(self,workspace):        
         if self.isComplete(): return
         
@@ -47,24 +66,18 @@ class Profile(NamedModelObject):
         self.setComplete(1)  
         
     def getObjectForTag(self,tag,dom,name=None):
-        print 'Profile: Instantiate for Tag: ', tag, ' Name: ', name    	
-        
-        object=None
-        
-        if 'module' == tag:
-            from gump.model.module import Module
-            object=Module(name,dom,self)
-            self.addModule(object)
-        elif 'project' == tag:
-            from gump.model.project import Project
-            object=Project(name,dom,self)
-            self.addProject(object)
-
-        return object
+        return self.getOwner().getObjectForTag(tag,dom,name)
                       
     def addModule(self,module):
         self.getOwner().addModule(module)
                       
+    def hasProject(self,name):
+        # Somewhat of a hack
+        self.getOwner().addProject(name)
+            
+    def getProject(self,name):
+        return self.getOwner().getProject(name)
+        
     def addProject(self,project):
         self.getOwner().addProject(project)
     

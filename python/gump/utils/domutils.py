@@ -27,9 +27,35 @@ from gump import log
 # DOM Utilities
 #
 ###############################################################################
+class AbstractChildNodeIterator:
+    """ Iterate over a some nodes """
+    def __init__(self,element):
+        self.element=element
+        
+    def __iter__(self):
+        return self
+        
+class NamedChildElementNodeIterator(AbstractChildNodeIterator):
+    """ Iterator over named child nodes """
+    def __init__(self,element,name):
+        AbstractChildNodeIterator.__init__(self,element)
+        self.name=name
+        self.iter=iter(element.childNodes)
+        
+    def next(self):
+        nextNode=self.iter.next()
+        while nextNode:
+            # Skip all but elements
+            if nextNode.nodeType == xml.dom.Node.ELEMENT_NODE:
+                # Skip if not names as we want
+                if self.name==nextNode.tagName:
+                    return nextNode
+            nextNode=self.iter.next()
+            
+        # Ought never get here, either return the node
+        # or StopIterator ought be thrown
 
-
-def transferInfo(element,target,mapping=None):
+def transferDomInfo(element,target,mapping=None):
     set=0
     
     # Attributes
@@ -40,7 +66,7 @@ def transferInfo(element,target,mapping=None):
             name=attr.name
             value=attr.value        
             if name and value:
-                set+=transferNameValue(target,name,value,mapping)
+                set+=transferDomNameValue(target,name,value,mapping)
                 
     # Child Nodes...
     if element.hasChildNodes():
@@ -53,9 +79,9 @@ def transferInfo(element,target,mapping=None):
                 name=node.tagName
 
             if name and value:
-                set+=transferNameValue(target,name,value,mapping)
+                set+=transferDomNameValue(target,name,value,mapping)
             
-def transferNameValue(target,name,value,mapping=None):
+def transferDomNameValue(target,name,value,mapping=None):
         
     set=0
     
@@ -80,26 +106,42 @@ def transferNameValue(target,name,value,mapping=None):
         else:
             log.warn('Unknown Type %s for Attribute %s' % (attrType, attrName))
             
-        print 'Transfer ', attrName, ' -> ', value, ' [', attrType, ']'
+        #print 'Transfer ', attrName, ' -> ', value, ' [', attrType, ']'
         setattr(target,attrName,value)
         set+=1
             
     return set
 
-def hasChild(element,name):
+def transferDomAttributes(sourceElement,targetElement):   
+    if sourceElement.hasAttributes():  
+        attrs=sourceElement.attributes    
+        for attrIndex in range(attrs.length):
+            attr=attrs.item(attrIndex)
+            targetElement.setAttribute(attr.name,attr.value)     
+            
+def hasDomChild(element,name):
     if element.hasChildNodes():
         for node in element.childNodes:
             if node.nodeType == xml.dom.Node.ELEMENT_NODE:
                 if node.tagName == name: return True
     return False
 
-def getChild(element,name):
+def getDomChild(element,name):
     if element.hasChildNodes():
         for node in element.childNodes:
             if node.nodeType == xml.dom.Node.ELEMENT_NODE:
                 if node.tagName == name: return node
 
-def getChildren(element,name):
+def getDomTextValue(element,default=None): 
+    value=''
+    for childNode in element.childNodes:    
+        if childNode.nodeType == xml.dom.Node.TEXT_NODE:
+            value+=childNode.nodeValue
+    if value: 
+        value=value.strip()
+    return value or default
+    
+def getDomChildren(element,name):
     children=[]
     if element.hasChildNodes():
         for node in element.childNodes:
@@ -108,22 +150,36 @@ def getChildren(element,name):
                     children.append(node)
     return children
     
+def getDomChildIterator(element,name):
+    return NamedChildElementNodeIterator(element,name)
+    
 def dumpDom(dom):
     print dom.toprettyxml()
     
-def hasAttribute(element,name):
+def hasDomAttribute(element,name):
     if element.hasAttributes():
         if element.getAttribute(name): return True
     return False
+
+def getDomAttributeValue(element,name,default=None):
+    return element.getAttribute(name) or default
     
-def getValue(element,name,default=None):  
-    if hasAttribute(element,name):
-        value=element.getAttribute(name) or default
+def getDomChildValue(element,name,default=None):
+    value=''
+    for childNode in element.childNodes:    
+        if childNode.nodeType == xml.dom.Node.ELEMENT_NODE:
+            if childNode.tagName == name:
+                value+=getDomTextValue(childNode)
+    if value: 
+        value=value.strip()
+    return value or default
+    
+def getDomValue(element,name,default=None):  
+    if hasDomAttribute(element,name):
+        value=getDomAttributeValue(element,name,default)
     else:  
-        value=''
-        for childNode in element.childNodes:    
-            if node.nodeType == xml.dom.Node.TEXT_NODE:
-                value+=node.nodeValue
+        value=getDomChildValue(element,name,default)
+        
     return value
     
 

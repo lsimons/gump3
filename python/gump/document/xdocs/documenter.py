@@ -34,7 +34,6 @@ from gump.document.text.documenter import TextDocumenter
 from gump.document.xdocs.xdoc import *
 from gump.document.xdocs.resolver import *
 from gump.utils import *
-from gump.utils.xmlutils import xmlize
 from gump.utils.tools import syncDirectories,copyDirectories,wipeDirectoryTree
 
 from gump.model.stats import *
@@ -43,6 +42,7 @@ from gump.model.state import *
 from gump.model.workspace import Workspace
 from gump.model.module import Module
 from gump.model.project import Project
+from gump.model.misc import Resultable
 
 from gump.notify.logic import NotificationLogic
 
@@ -462,16 +462,17 @@ class XDocDocumenter(Documenter):
         document.createSource(stream.read())
         stream.close()
         document.serialize()
-            
-        if not self.workspace.private:
-            # Document the workspace XML    
-            document=XDocDocument('Definition',self.resolver.getFile(self.workspace,'workspace_defn.xml'))
-            stream=StringIO.StringIO() 
-            xmlize('workspace',self.workspace.xml,stream)
-            stream.seek(0)
-            document.createSource(stream.read())
-            stream.close()
-            document.serialize()     
+        
+        # :TODO: Restore when can serialzie DOM    
+        #if not self.workspace.private:
+        #    # Document the workspace XML    
+        #    document=XDocDocument('Definition',self.resolver.getFile(self.workspace,'workspace_defn.xml'))
+        #    stream=StringIO.StringIO() 
+        #    xmlize('workspace',self.workspace.xml,stream)
+        #    stream.seek(0)
+        #    document.createSource(stream.read())
+        #    stream.close()
+        #    document.serialize()     
             
     #####################################################################           
     #
@@ -494,13 +495,17 @@ class XDocDocumenter(Documenter):
         definitionSection.createNote('This install runs Python Gump, not Traditional Gump.') 
         
         definitionTable=definitionSection.createTable()
-        definitionTable.createEntry('Workspace Name', self.workspace.getName())
-        if hasattr(self.workspace.xml,'description'):
-            definitionTable.createEntry('Description', self.workspace.xml.description)
-        if hasattr(self.workspace.xml,'version'): 
-            definitionTable.createEntry('Workspace Version', self.workspace.xml.version)
-        if not hasattr(self.workspace.xml,'version') \
-            or not self.workspace.xml.version == setting.ws_version:
+        definitionTable.createEntry('Workspace Name', 
+            self.workspace.getName())
+        if self.workspace.hasDomChild('description'):
+            definitionTable.createEntry('Description', 
+                self.workspace.getDomChildValue('description'))
+        if self.workspace.hasDomChild('version'): 
+            definitionTable.createEntry('Workspace Version', 
+                self.workspace.getDomAttributeValue('version'))
+        if not self.workspace.hasDomAttribute('version') \
+            or not self.workspace.getDomAttributeValue('version') \
+                    == setting.ws_version:
             definitionTable.createEntry('Gump Preferred Workspace Version', 
                                         setting.ws_version)
         definitionTable.createEntry('@@DATE@@', str(default.date))
@@ -1243,7 +1248,7 @@ This page helps Gumpmeisters (and others) observe community progress.
 #        if not description:
 #            description='No description provided.'        
 #        if repo.hasURL():
-#            description+=' For more information, see: ' + self.getFork(repo.getURL())
+#            description+=' For more information, see: ' + self.getFork(repo.getUrl())
 #        else:
 #            description+=' (No repo URL provided).'
 #                
@@ -1308,7 +1313,7 @@ This page helps Gumpmeisters (and others) observe community progress.
 #        if not description:
 #            description='No description provided.'        
 #        if server.hasURL():
-#            description+=' For more information, see: ' + self.getFork(server.getURL())
+#            description+=' For more information, see: ' + self.getFork(server.getUrl())
 #        else:
 #            description+=' (No server URL provided).'
 #                
@@ -1387,7 +1392,7 @@ This page helps Gumpmeisters (and others) observe community progress.
 #        if not description:
 #            description='No description provided.'        
 #        if tracker.hasURL():
-#            description+=' For more information, see: ' + self.getFork(tracker.getURL())
+#            description+=' For more information, see: ' + self.getFork(tracker.getUrl())
 #        else:
 #            description+=' (No tracker URL provided).'
 #                
@@ -1437,8 +1442,8 @@ This page helps Gumpmeisters (and others) observe community progress.
                 description+='. '    
         if not description:
             description='No description provided.'        
-        if module.hasURL():
-            description+=' For more information, see: ' + self.getFork(module.getURL())
+        if module.hasUrl():
+            description+=' For more information, see: ' + self.getFork(module.getUrl())
         else:
             description+=' (No module URL provided).'
                 
@@ -1606,8 +1611,8 @@ This page helps Gumpmeisters (and others) observe community progress.
             description+='. '
         if not description:
             description='No description provided.'        
-        if project.hasURL():
-            description+=' For more information, see: ' + self.getFork(project.getURL())
+        if project.hasUrl():
+            description+=' For more information, see: ' + self.getFork(project.getUrl())
         else:        
             description=' (No project URL provided.)'   
                 
@@ -1670,15 +1675,11 @@ This page helps Gumpmeisters (and others) observe community progress.
         detailsList.createEntry('Redistributable: ', getBooleanString(project.isRedistributable()))                
                                                       
         # Display nag information
-        if project.xml.nag:
-            if project.isVerboseOrDebug():
-                for nagEntry in project.xml.nag:
-                    toaddr=getattr(nagEntry,'to') or self.workspace.mailinglist
-                    fromaddr=getStringFromUnicode(getattr(nagEntry,'from') or self.workspace.email)
-                    detailsList.createEntry('Notify To: ').createFork('mailto:'+toaddr,toaddr)
-                    detailsList.createEntry('Notify From: ').createFork('mailto:'+fromaddr,fromaddr)
+        if project.hasNotifys() and project.isVerboseOrDebug():
+            for (toaddr,fromaddr) in project.getNotifys():
+                detailsList.createEntry('Notify To: ').createFork('mailto:'+toaddr,toaddr)
+                detailsList.createEntry('Notify From: ').createFork('mailto:'+fromaddr,fromaddr)
                     
-            
             if project.isFailed() :            
                 detailsList.createEntry('Notification E-mail: ').createLink(
                                 gumpSafeName(project.getName()) + '_notify.html',
@@ -1855,7 +1856,7 @@ This page helps Gumpmeisters (and others) observe community progress.
             # If they don't ask for it, they won't see it.
             part1='could'
             part2=', if request in the metadata.'
-            if project.xml.nag:
+            if project.hasNotifys():
                 part1='ought'
                 part2='.'
      
@@ -2096,7 +2097,7 @@ This page helps Gumpmeisters (and others) observe community progress.
                 syspropertyRow=syspropertiesTable.createRow()
                 syspropertyRow.createData(sysproperty.getName())
                 syspropertyRow.createData(sysproperty.getValue())
-                syspropertyRow.createData(sysproperty.getXMLData())
+                syspropertyRow.createData(sysproperty.getXmlData())
         
         if properties:
             # Standard Properties
@@ -2106,17 +2107,17 @@ This page helps Gumpmeisters (and others) observe community progress.
                 propertyRow=propertiesTable.createRow()
                 propertyRow.createData(property.getName())
                 propertyRow.createData(property.getValue())
-                propertyRow.createData(property.getXMLData())
+                propertyRow.createData(property.getXmlData())
                         
     def documentXML(self,xdocNode,xmlOwner):
         
-        xml=xmlOwner.xml
-        if not xml: return        
+        dom=xmlOwner.dom
+        if not dom: return        
         
         xmlSection=xdocNode.createSection('Definition')
         stream=StringIO.StringIO() 
         try:
-            xmlize(xml.getTagName(),xml,stream)
+            dom.writexml(stream,indent='   ',newl='\n')
         except Exception, details:
             stream.write('Failed to XML serialize the data. ' + str(details))
         stream.seek(0)

@@ -23,9 +23,8 @@ import types, StringIO
 
 from gump import log
 import gump.core.config
-from gump.model.loader import WorkspaceLoader
+from gump.loader.loader import WorkspaceLoader
 from gump.utils import *
-from gump.utils.xmlutils import xmlize
 from gump.test import *
 
 def testWorkspace(url):

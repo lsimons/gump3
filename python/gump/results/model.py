@@ -23,11 +23,12 @@
 
 from time import localtime, strftime, tzname
 from string import lower, capitalize
-from xml.dom.minidom import getDOMImplementation
+from xml.dom import getDOMImplementation
         
 from gump.utils.note import *
 from gump.utils.work import *
 from gump.utils.owner import *
+from gump.utils.domutils import *
 from gump.model.state import *
 
 class ResultModelObject(Annotatable,Ownable,Stateful):
@@ -46,12 +47,20 @@ class ResultModelObject(Annotatable,Ownable,Stateful):
     	# Named
     	self.name=name
     	
-        # The Dom model
-        if dom:
-        	self.dom=dom    
+        # The DOM model
+        if dom: 
+            self.dom=dom
+            if dom.nodeType==xml.dom.Node.DOCUMENT_NODE:
+                self.element=dom.documentElement
+            else:
+                self.element=self.dom 
+        else:
+            self.dom=None
+            self.element=None
+ 
  
         # Internals...
-    	self.completionPerformed=0
+    	self.completionPerformed=False
     	
     def __del__(self):
         Ownable.__del__(self)
@@ -95,38 +104,37 @@ class ResultModelObject(Annotatable,Ownable,Stateful):
         Annotatable.dump(self,indent,output)
     
     def hasDom(self):
-        if hasattr(self,'dom') and self.dom: return 1
-        return 0
+        if self.dom: return True
+        return False
         
     def getDom(self):
         return self.dom
         
-    def hasXMLData(self):
-        if hasattr(self,'xmldata') and self.xmldata: return 1
-        return 0        
+    # Serialization:
+    def writeXml(self,stream,indent='    ',newl='\n') :
+        if not self.hasDom():
+            self.createDom()            
+        self.dom.writexml(stream,indent=indent,newl=newl) 
+        
+    def getXml(self,indent='    ',newl='\n'):        
+        if not self.hasDom():
+            self.createDom()    
+        return self.dom.toprettyxml(indent=indent,newl=newl)
     
-    def getXMLData(self):
-        if not self.hasXMLData():
-            stream=StringIO.StringIO() 
-            
-            # Create on demand (push object attributes
-            # into XML form)
-            if not self.hasDom():
-                self.createDom()
-                
-            self.dom.writexml(stream)
-            
-            stream.seek(0)
-            self.xmldata=stream.read()
-            stream.close()
+    def hasXmlData(self):
+        if hasattr(self,'xmldata') and self.xmldata: return True
+        return False
     
+    def getXmlData(self):
+        if not self.hasXmlData():
+            self.xmldata=self.getXml()    
         return self.xmldata
         
-    def writeXMLToFile(self, outputFile):
+    def writeXmlToFile(self, outputFile):
         """ Serialize to a file """
         try:            
             f=open(outputFile, 'w')
-            f.write(self.getXMLData())
+            self.writeXml(f)
         finally:
             # Since we may exit via an exception, close explicitly.
             if f: f.close()           
@@ -214,15 +222,15 @@ class WorkspaceResult(ResultModelObject):
     # Lists...
     #
     def hasModuleResults(self):
-        if self.moduleResults.values(): return 1
-        return 0
+        if self.moduleResults.values(): return True
+        return False
         
     def getModuleResults(self):
         return self.moduleResults.values()
         
     def hasProjectResults(self):
-        if self.projectResults.values(): return 1
-        return 0    
+        if self.projectResults.values(): return True
+        return False
         
     def getProjectResults(self):
         return self.projectResults.values()  
@@ -232,15 +240,15 @@ class WorkspaceResult(ResultModelObject):
     #
     
     def hasModuleResult(self,name):
-        if name in self.moduleResults: return 1
-        return 0
+        if name in self.moduleResults: return True
+        return False
                 
     def getModuleResult(self,name):
         return self.moduleResults[name]
     
     def hasProjectResult(self,name):
-        if name in self.projectResults: return 1
-        return 0
+        if name in self.projectResults: return True
+        return False
         
     def getProjectResult(self,name):
         return self.projectResults[name]

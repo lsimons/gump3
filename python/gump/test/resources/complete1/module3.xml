@@ -20,7 +20,7 @@
       <!-- This is used to test property dependencies,
       	do not add any other dependencies on project2
       	or the check that this is 'noclasspath' will fail -->
-      <property property="project2.jar" project="project2"/>
+      <property name="project2.jar" project="project2"/>
     </ant>
 
     <home nested="dist"/>

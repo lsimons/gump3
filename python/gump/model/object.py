@@ -13,8 +13,11 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+
 """
-    This module contains information on
+
+    This module contains the base model objects (plain and Named)
+    
 """
 
 from time import localtime, strftime, tzname
@@ -24,7 +27,6 @@ from gump.utils.note import *
 from gump.utils.work import *
 from gump.utils.file import *
 from gump.utils.owner import *
-from gump.utils.xmlutils import xmlize
 from gump.utils.domutils import *
 
 from gump.model.state import *
@@ -49,15 +51,18 @@ class ModelObject(Annotatable,Workable,FileHolder,Propogatable,Ownable):
         # Can propogate states
         Ownable.__init__(self,owner)
 
-        # The XML model
+        # The DOM model
     	self.dom=dom
     	if dom.nodeType==xml.dom.Node.DOCUMENT_NODE:
     	    self.element=dom.documentElement
         else:
             self.element=self.dom
     	
+    	self.spliced=False
+    	
     	self.debug=False
     	self.verbose=False
+    	self.metadata=None
     	
     	self.completionPerformed=0
     	
@@ -81,38 +86,81 @@ class ModelObject(Annotatable,Workable,FileHolder,Propogatable,Ownable):
         self.debug=debug
        
     def isDebug(self):
-        return self.debug or hasattr(self.dom,'debug')
+        return self.debug or self.hasDomAttribute('debug')
         
     def setVerbose(self,verbose):
         self.verbose=verbose
        
     def isVerbose(self):
-        return self.verbose or hasattr(self.xml,'verbose')
+        return self.verbose or self.hasDomAttribute('verbose')
          
     def isVerboseOrDebug(self):
         return self.isVerbose() or self.isDebug()
         
+    def hasMatadataLocation(self):
+        if self.metadata: return True
+        return False
+    
+    def setMetadataLocation(self,metadata):
+        self.metadata=metadata
+        
+    def getMetadataLocation(self):
+        return self.metadata
+    
     def dump(self, indent=0, output=sys.stdout):
         """ Display the contents of this object """
+        # output.write(getIndent(indent)+'Class: ' + self.__class__.__name__ + '\n')
+        if self.hasOwner():
+            output.write(getIndent(indent)+'Owner: ' + `self.getOwner()` + '\n')
+        if self.isSpliced():
+            output.write(getIndent(indent)+'Was *Spliced*\n')
         Annotatable.dump(self,indent,output)
     
-    def hasXMLData(self):
+    # Helper methods
+    def hasDomAttribute(self,name):
+        if hasDomAttribute(self.element,name): return True
+        return False   
+    
+    def getDomAttributeValue(self,name,default=None):
+        return getDomAttributeValue(self.element,name,default)
+        
+    def hasDomChild(self,name):
+        if hasDomChild(self.element,name): return True
+        return False  
+        
+    def getDomChild(self,name):
+        return getDomChild(self.element,name)
+        
+    def getDomChildValue(self,name,default=None):
+        return getDomChildValue(self.element,name,default)
+        
+    def getDomChildIterator(self,name):
+        return getDomChildIterator(self.element,name)
+   
+    # Serialization:
+    def writeXml(self,stream,indent='    ',newl='\n') :
+        self.dom.writexml(stream,indent=i,newl=n) 
+        
+    def getXml(self,indent='    ',newl='\n'):
+        return self.dom.toprettyxml(indent=indent,newl=newl)
+        
+    # Misc..
+    
+    def getDomValue(self,name,default=None):
+        return getDomValue(self.element,name,default)
+    
+    def hasXmlData(self):
         return hasattr(self,'xmldata')
         
-    def getXMLData(self):
-        if not self.hasXMLData():
-            stream=StringIO.StringIO() 
-            xmlize(self.xml.getTagName(),self.xml,stream)
-            stream.seek(0)
-            self.xmldata=stream.read()
-            stream.close()
-    
+    def getXmlData(self):
+        if not self.hasXmlData():
+            self.xmldata=self.getXml()    
         return self.xmldata
         
-    def writeXMLToFile(self, outputFile):
+    def writeXmlToFile(self, outputFile):
         try:            
             f=open(outputFile, 'w')
-            f.write(self.getXMLData())
+            f.write(self.getXmlData())
         finally:
             # Since we may exit via an exception, close explicitly.
             if f: f.close()    
@@ -151,7 +199,30 @@ class ModelObject(Annotatable,Workable,FileHolder,Propogatable,Ownable):
         
     def resolve(self): 
         pass
-                                
+                         
+    # Splice in attributes (other) from 'overrides', e.g. 
+    # setting a project packagfe (in the workspace).
+    
+    def isSpliced(self):
+        return self.spliced
+    
+    def setSpliced(self,spliced):
+        self.spliced=spliced
+        
+    def splice(self,dom): 
+        # Import overrides from DOM
+        transferDomInfo(dom, self, {})   
+        self.setSpliced(True) 
+                            	
+    def complete(self):
+        if self.isComplete(): return    
+        
+        # Import overrides from DOM
+        transferDomInfo( self.element, self, {})    
+        
+        # Done, don't redo
+        self.setComplete(True)    
+              
 class NamedModelObject(ModelObject):
     """Context for a single entity"""
     def __init__(self,name,dom,owner=None):
@@ -160,6 +231,8 @@ class NamedModelObject(ModelObject):
     	
     	# Named
     	self.name=name
+    	if not name:
+    	    raise RuntimeError, self.__class__.__name__ + ' needs a name.'
       
     #
     # Same if same type, and same name
@@ -186,136 +259,3 @@ class NamedModelObject(ModelObject):
         """ Display the contents of this object """
         output.write(getIndent(indent)+'Name: ' + self.name + '\n')
         ModelObject.dump(self,indent+1,output)
-
-class Positioned:
-    def __init__(self): 
-        self.posn=-1
-        
-    def setPosition(self,posn):
-        self.posn=posn
-
-    def getPosition(self):
-        return self.posn
-
-          
-class Resultable:
-    def __init__(self): 
-        pass
-    
-    # Stats are loaded separately and cached on here,
-    # hence they may exist on an object at all times.
-    def hasServerResults(self):
-        return hasattr(self,'serverResults')
-        
-    def setServerResults(self,serverResults):
-        self.serverResults=serverResults
-        
-    def getServerResults(self):
-        if not self.hasServerResults():
-            raise RuntimeError, "ServerResults not available [yet]: " \
-                    + self.getName()
-        return self.serverResults
-        
-    
-    # Stats are loaded separately and cached on here,
-    # hence they may exist on an object at all times.
-    def hasResults(self):
-        return hasattr(self,'results')
-        
-    def setResults(self,results):
-        self.results=results
-        
-    def getResults(self):
-        if not self.hasResults():
-            raise RuntimeError, "Results not available [yet]: " \
-                    + self.getName()
-        return self.results
-        
-        
-        
-# represents a <nag/> element
-class Nag(ModelObject):
-    def __init__(self,toaddr,fromaddr):
-    	ModelObject.__init__(self,xml,workspace)
-
-# represents a <javadoc/> element
-class Javadoc(ModelObject): pass
-      
-# represents a <description/> element
-class Description(ModelObject): pass
-
-# represents a <home/> element
-class Home(ModelObject): pass
-
-# represents a <jar/> element
-class Jar(NamedModelObject):
-    def __init__(self,name,dom,owner):
-    	NamedModelObject.__init__(self,name,dom,owner)
-    	self.id=None
-    	self.type=None
-    	
-    def complete(self):
-        if self.isComplete(): return    
-        
-        # Import overrides from DOM
-        transferInfo( self.element, self, {})    
-        
-        # Done, don't redo
-        self.setComplete(True)    
-    	
-    def setPath(self,path):
-        self.path=path
-    
-    def getPath(self):
-        return self.path;
-        
-    def hasId(self):
-        if self.id: return True
-        return False
-        
-    def setId(self,id):
-        self.id = id
-        
-    def getId(self):
-        return self.id
-        
-    def getType(self):
-        return self.type
-
-class Resolvable(ModelObject):
-    def __init__(self,dom,owner):
-        ModelObject.__init__(self,dom,owner)                
-        
-    def getResolvedPath(self):  
-        path=None
-        if self.xml.nested:
-            path=os.path.abspath(	\
-                    os.path.join(	self.owner.getModule().getWorkingDirectory(),	\
-                                    self.xml.nested))
-        elif self.xml.parent:
-            path=os.path.abspath(	\
-                    os.path.join(self.owner.getWorkspace().getBaseDirectory(),	\
-                                 self.xml.parent))
-                                 
-        return path
-              
-# represents a <junitreport/> element
-class JunitReport(Resolvable):
-    def __init__(self,dom,owner):
-        Resolvable.__init__(self,dom,owner)    
-    
-# represents a <mkdir/> element
-class Mkdir(Resolvable):
-    def __init__(self,dom,owner):
-        Resolvable.__init__(self,dom,owner)    
-
-# represents a <delete/> element
-class Delete(Resolvable): 
-    def __init__(self,dom,owner):
-        Resolvable.__init__(self,dom,owner)    
-
-# represents a <work/> element
-class Work(Resolvable): 
-    def __init__(self,dom,owner):
-        Resolvable.__init__(self,dom,owner)    
-        

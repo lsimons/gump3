@@ -15,7 +15,7 @@
 # limitations under the License.
 
 #
-# $Header: /home/stefano/cvs/gump/python/gump/update.py,v 1.29.2.1 2004/06/08 21:36:35 ajack Exp $
+# $Header: /home/stefano/cvs/gump/python/gump/update.py,v 1.29.2.2 2004/06/11 17:09:49 ajack Exp $
 # 
 
 """
@@ -35,7 +35,7 @@ from gump.core.gumpinit import gumpinit
 from gump.runner.runner import getRunner
 from gump.core.gumprun import *
 from gump.core.commandLine import handleArgv
-from gump.model.loader import WorkspaceLoader
+from gump.loader.loader import WorkspaceLoader
 
 
 ###############################################################################

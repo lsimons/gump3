@@ -31,11 +31,12 @@ from gump.model.tracker import Tracker
 from gump.model.module import Module
 from gump.model.project import Project, ProjectSummary
 from gump.model.profile import Profile
-from gump.model.object import NamedModelObject, Resultable
+from gump.model.object import NamedModelObject
+from gump.model.misc import Resultable
 from gump.model.property import PropertyContainer
 from gump.model.stats import Statable, Statistics
 from gump.utils.note import transferAnnotations, Annotatable
-from gump.utils.domutils import transferInfo
+from gump.utils.domutils import *
 
 import gump.core.config
 
@@ -227,6 +228,8 @@ class Workspace(NamedModelObject, PropertyContainer, Statable, Resultable):
         self.cvsdir=''
         self.pkgdir=''
         
+        self.logurl=''
+        
         self.private=False
         self.email = default.email     
         self.mailinglist = default.mailinglist  
@@ -236,7 +239,7 @@ class Workspace(NamedModelObject, PropertyContainer, Statable, Resultable):
         self.signature=default.signature
         
         # Import overrides from DOM
-        transferInfo(	self.element, 
+        transferDomInfo(self.element, 
                         self, 
                         {	'banner-image':'bannerImage',
                             'banner-link' :'bannerLink'})
@@ -371,37 +374,49 @@ class Workspace(NamedModelObject, PropertyContainer, Statable, Resultable):
         NamedModelObject.dump(self, indent+1, output)
         
         for profile in self.profiles.values():
-            profile.dump(indent+2,output)
-            
-        for repo in self.repositories.values():
-            repo.dump(indent+2,output)
+            profile.dump(indent+2,output)            
         
         for module in self.getModules():
             module.dump(indent+2,output)
         
         for project in self.getProjects():
             project.dump(indent+2,output)
+        
+        for repo in self.repositories.values():
+            repo.dump(indent+2,output)
+            
+        for server in self.getServers():
+            server.dump(indent+2,output)
+        
+        for tracker in self.getTrackers():
+            tracker.dump(indent+2,output)
 
     def isNotify(self):
-        return hasattr(self.xml,'nag')
+        return self.hasDomChild('nag')
         
     def hasNotifyToOverride(self):
-        return self.isNotify() and hasattr(self.xml.nag,'to')
+        if not self.isNotify(): return False
+        nag=self.getDomChild('nag')
+        return hasDomAttribute(nag,'to')
         
     def getNotifyToOverride(self):
-        return getattr(self.xml.nag,'to')
+        if not self.isNotify(): return False
+        nag=self.getDomChild('nag')
+        return getDomAttributeValue(nag,'to')
         
     def hasNotifyFromOverride(self):
-        return self.isNotify() and hasattr(self.xml.nag,'from')
+        if not self.isNotify(): return False
+        nag=self.getDomChild('nag')
+        return hasDomAttribute(nag,'from')
         
     def getNotifyFromOverride(self):
-        return getattr(self.xml.nag,'from')
+        if not self.isNotify(): return False
+        nag=self.getDomChild('nag')
+        return getDomAttributeValue(nag,'from')
         
     def getNotifyOverrides(self):
-          
-        #
+        
         # Nag Overrides
-        #
         wsNotifyToOverrideAddr=None
         wsNotifyFromOverrideAddr=None
         
@@ -414,8 +429,8 @@ class Workspace(NamedModelObject, PropertyContainer, Statable, Resultable):
         return ( wsNotifyToOverrideAddr, wsNotifyFromOverrideAddr)
              
     def getVersion(self):
-        if hasattr(self.xml,'version'):
-            return self.xml.version.value()
+        if self.hasDomAttribute('version'):
+            return self.getDomAttributeValue('version')
 
     def getBaseDirectory(self):
         return self.basedir
@@ -444,25 +459,65 @@ class Workspace(NamedModelObject, PropertyContainer, Statable, Resultable):
         return self.cvsdir
 
     def getObjectForTag(self,tag,dom,name=None):
-        print 'Instantiate for Tag: ', tag, ' Name: ', name    	
-        
         object=None
         
         if 'profile' == tag:
             if self.hasProfile(name):
                 object=self.getProfile(name)
+                object.splice(dom)
             else:
                 object=Profile(name,dom,self)
-                self.profiles[name]=object            
+                self.profiles[name]=object      
+        elif 'repository' == tag:
+            if self.hasRepository(name):
+                object=self.getRepository(name)
+                object.splice(dom)
+            else:
+                object=Repository(name,dom,self)
+                self.repositories[name]=object
+        elif 'server' == tag:
+            if self.hasServer(name):
+                object=self.getServer(name)
+                object.splice(dom)
+            else:
+                object=Server(name,dom,self)
+                self.servers[name]=object
+        elif 'tracker' == tag:
+            if self.hasTracker(name):
+                object=self.getTracker(name)
+                object.splice(dom)
+            else:
+                object=Tracker(name,dom,self)
+                self.trackers[name]=object
+        elif 'module' == tag:
+            if self.hasModule(name):
+                object=self.getModule(name)
+                object.splice(dom)
+            else:
+                object=Module(name,dom,self)
+                self.modules[name]=object
+        elif 'project' == tag:
+            if self.hasProject(name):
+                object=self.getProject(name)
+                object.splice(dom)
+            else:
+                object=Project(name,dom,self)
+                self.projects[name]=object
 
         return object
         
-        #self.repositories={}
-        #self.modules={}
-        #self.projects={}
-        #self.profiles={}
-        #self.servers={}
-        #self.trackers={}
+    def resolve(self):
+        
+        for pdom in self.getDomChildIterator('project'):
+            if hasDomAttribute(pdom,'name'):
+                name=getDomAttributeValue(pdom,'name')
+                
+                if self.hasProject(name):
+                    project=self.getProject(name)
+                    project.splice(pdom)
+                else:
+                    project=Project(name,pdom,self)
+                    self.addProject(project)        
 
 class WorkspaceStatistics(Statistics):
     """Statistics Holder"""

@@ -25,11 +25,12 @@ from gump.model.stats import *
 from gump.model.object import NamedModelObject
 
 from gump.utils import getIndent
+from gump.utils.domutils import *
 
 class Tracker(NamedModelObject):
     """A named Tracker"""
-    def __init__(self,xml,workspace):
-    	NamedModelObject.__init__(self,xml.getName(),xml,workspace)
+    def __init__(self,name,xml,workspace):
+    	NamedModelObject.__init__(self,name,xml,workspace)
         
         self.resolver=None
             
@@ -40,32 +41,32 @@ class Tracker(NamedModelObject):
         pass
         
     def hasType(self):
-        return hasattr(self.xml,'type') and self.xml.type
+        return self.hasDomAttribute('type')
            
     def getType(self):
-        return str(self.xml.type)
+        return self.getDomAttributeValue('type')
         
     def hasSite(self):
-        return hasattr(self.xml,'site') and self.xml.site
+        return self.hasDomAttribute('site')
            
     def getSite(self):
-        return str(self.xml.site)
+        return self.getDomAttributeValue('site')
         
     def hasUrl(self):
-        return hasattr(self.xml,'url') and self.xml.url
+        return self.hasDomAttribute('url')
            
     def getUrl(self):
-        return str(self.xml.url)
+        return self.getDomAttributeValue('url')
         
     def hasTitle(self): 
-        return hasattr(self.xml,'title') and self.xml.title
+        return self.hasDomAttribute('title')
         
     def getTitle(self): 
-        return str(self.xml.title)
+        return self.getDomAttributeValue('title')
         
     def hasResolver(self): 
-        if self.resolver: return 1
-        return 0
+        if self.resolver: return True
+        return False
         
     def getResolver(self): 
         return self.resolver            

@@ -91,7 +91,7 @@ class GumpRunner(RunSpecific):
             
         # Write workspace to a 'merge' file        
         if not self.run.getOptions().isQuick():
-            workspace.writeXMLToFile(default.merge)
+            workspace.writeXmlToFile(default.merge)
             workspace.setMergeFile(default.merge)
                  
         # :TODO: Put this somewhere else, and/or make it depend upon something...

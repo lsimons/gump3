@@ -24,7 +24,7 @@ import types, StringIO
 from gump import log
 import gump.core.config
 from gump.model.state import *
-from gump.model.loader import WorkspaceLoader
+from gump.loader.loader import WorkspaceLoader
 from gump.guru.xref import XRefGuru
 from gump.utils import *
 from gump.test import getWorkedTestWorkspace

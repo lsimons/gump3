@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/test/model.py,v 1.21.2.1 2004/06/08 21:36:37 ajack Exp $
-# $Revision: 1.21.2.1 $
+# $Header: /home/stefano/cvs/gump/python/gump/test/model.py,v 1.21.2.2 2004/06/11 17:09:51 ajack Exp $
+# $Revision: 1.21.2.2 $
 #!/usr/bin/env python
 # Copyright 2003-2004 The Apache Software Foundation
 #
@@ -27,7 +27,6 @@ import types, StringIO
 from gump import log
 import gump.core.config
 from gump.model.state import *
-from gump.model.loader import WorkspaceLoader
 from gump.utils import *
 from gump.test import getWorkedTestWorkspace
 from gump.test.pyunit import UnitTestSuite
@@ -68,6 +67,7 @@ class ModelTestSuite(UnitTestSuite):
                     self.workspace.getLogDirectory() )
                     
     def testPackages(self):
+        self.assertTrue('Is a package marked', self.package1.isPackageMarked())
         self.assertTrue('Is a package', self.package1.isPackaged())
         self.assertTrue('Is a package', self.packagedModule1.isPackaged())
         
@@ -178,27 +178,25 @@ class ModelTestSuite(UnitTestSuite):
         #print "Classpath:" + classpath     
         #print "Bootclasspath:" + bootclasspath
         
-    def testMaven(self):
-                
+    def testMaven(self):                
         self.assertTrue('Maven project has a Maven object', self.maven1.hasMaven())
                  
     def testNoClasspath(self):
         
-        tested=0
+        tested=False
         for depend in self.project5.getDirectDependencies():
             if self.project4 == depend.getProject():
-                tested=1
+                tested=True
                 self.assertTrue('NoClasspath', depend.isNoClasspath())
         self.assertTrue('Did a NoClasspath test', tested)
                 
-        tested=0                
+        tested=False          
         for depend in self.project4.getDirectDependencies():
-            tested=1                
-            print "Depend:" + `depend`
+            tested=True           
             self.assertFalse('Not NoClasspath', depend.isNoClasspath())
         self.assertTrue('Did a NOT NoClasspath test', tested)
         
-    def testNoClasspathOnProperty(self):
+    def testNoClasspathOnProperty(self):  
         self.assertFalse('<ant <property does NOT gives full dependency (noclasspath)',	\
                 self.project3.hasFullDependencyOnNamedProject('project2'))
                 
@@ -211,6 +209,11 @@ class ModelTestSuite(UnitTestSuite):
                     pathPart)
         
     def testClasspathOnDepend(self):
+        for depend in self.project3.getDirectDependencies():
+            print "Depend:" + `depend`        
+        else:
+            print 'No p3 deps:'
+            
         self.assertTrue('<ant <depend gives full dependency (classpath)', \
                 self.project3.hasFullDependencyOnNamedProject('project1'))
                 

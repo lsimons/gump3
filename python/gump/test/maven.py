@@ -26,7 +26,6 @@ import types, StringIO
 from gump import log
 import gump.core.config
 from gump.model.state import *
-from gump.model.loader import WorkspaceLoader
 from gump.build.maven import MavenBuilder
 
 from gump.utils import *

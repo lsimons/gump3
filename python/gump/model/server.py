@@ -28,8 +28,8 @@ from gump.utils import getIndent
 
 class Server(NamedModelObject):
     """A named server"""
-    def __init__(self,xml,workspace):
-    	NamedModelObject.__init__(self,xml.getName(),xml,workspace)
+    def __init__(self,name,dom,workspace):
+    	NamedModelObject.__init__(self,name,dom,workspace)
         
         self.resolver=None
             
@@ -47,37 +47,37 @@ class Server(NamedModelObject):
         return self.hasType() and 'python' == self.getType()
         
     def hasType(self):
-        return hasattr(self.xml,'type') and self.xml.type
+        return self.hasDomAttribute('type')
            
     def getType(self):
-        return str(self.xml.type)
+        return self.getDomAttributeValue('type')
         
     def hasStatus(self):
-        return hasattr(self.xml,'status') and self.xml.status
+        return self.hasDomAttribute('status')
            
     def getStatus(self):
-        return str(self.xml.status)
+        return self.getDomAttributeValue('status')
         
     def isUp(self):
         return self.hasStatus() and 'up' == self.getStatus()
         
     def hasSite(self):
-        return hasattr(self.xml,'site') and self.xml.site
+        return self.hasDomChild('site')
            
     def getSite(self):
-        return str(self.xml.site)
+        return  self.getDomChildValue('site')
         
     def hasUrl(self):
-        return hasattr(self.xml,'url') and self.xml.url
+        return self.hasDomChild('url')
            
     def getUrl(self):
-        return str(self.xml.url)
+        return  self.getDomChildValue('url')
         
     def hasNote(self):
-        return hasattr(self.xml,'note') and self.xml.note
+        return self.hasDomChild('note')
            
     def getNote(self):
-        return str(self.xml.note)
+        return self.getDomChildValue('note')
         
     def hasResultsUrl(self):
         return self.isPython() and self.hasUrl()
@@ -95,10 +95,10 @@ class Server(NamedModelObject):
         return self.results
         
     def hasTitle(self): 
-        return hasattr(self.xml,'title') and self.xml.title
+        return self.hasDomAttribute('title')
         
     def getTitle(self): 
-        return str(self.xml.title)
+        return self.getDomAttributeValue('title')
         
     def hasResolver(self): 
         if self.resolver: return 1

@@ -23,22 +23,23 @@ from time import localtime, strftime, tzname
 from gump.model.state import *
 from gump.model.stats import Statable, Statistics
 from gump.model.project import *
-from gump.model.object import NamedModelObject, Resultable, Positioned
+from gump.model.object import NamedModelObject
+from gump.model.misc import Resultable, Positioned, AddressPair
 from gump.utils import getIndent
 from gump.utils.note import transferAnnotations, Annotatable
 from gump.utils.domutils import *
 
 class ModuleCvs(ModelObject):
-    def __init__(self,xml,repository):
-        ModelObject.__init__(self,xml)
+    def __init__(self,dom,repository):
+        ModelObject.__init__(self,dom)
         
         self.repository=repository
         
         # Extract settings
-        self.tag			=	xml.transfer('tag')
-        self.module			=	xml.transfer('module')
-        self.hostPrefix 	=   xml.transfer('host-prefix')
-        self.dir			=	xml.transfer('dir')
+        self.tag			=	self.getDomAttributeValue('tag')
+        self.module			=	self.getDomAttributeValue('module')
+        self.hostPrefix 	=   self.getDomAttributeValue('host-prefix')
+        self.dir			=	self.getDomAttributeValue('dir','')
         
     def getCvsRoot(self):
         """Construct the CVS root for this set of information"""
@@ -64,29 +65,29 @@ class ModuleCvs(ModelObject):
         return root
     
     def hasTag(self):
-        if self.tag: return 1
-        return 0
+        if self.tag: return True
+        return False
         
     def getTag(self):
         return str(self.tag)
         
     def hasHostPrefix(self):
-        if self.hostPrefix: return 1
-        return 0
+        if self.hostPrefix: return True
+        return False
         
     def getHostPrefix(self):
         return str(self.hostPrefix)
         
     def hasDir(self):
-        if self.dir: return 1
-        return 0
+        if self.dir: return True
+        return False
         
     def getDir(self):
         return str(self.dir)
     
     def hasModule(self):
-        if self.module: return 1
-        return 0
+        if self.module: return True
+        return False
         
     def getModule(self):
         return str(self.module)
@@ -101,15 +102,14 @@ class ModuleCvs(ModelObject):
         return url
         
 class ModuleSvn(ModelObject):
-    def __init__(self,xml,repository):
-        ModelObject.__init__(self,xml)
+    def __init__(self,dom,repository):
+        ModelObject.__init__(self,dom)
         
         # Reference to the shared repository
         self.repository=repository    
             
         # Extract settings
-        if xml.dir:
-            self.dir	=	str(xml.dir)
+        self.dir	=	self.getDomAttributeValue('dir')
 
     def getRootUrl(self):
         url=self.repository.getUrl()
@@ -128,15 +128,15 @@ class ModuleSvn(ModelObject):
         return self.getRootUrl()
          
 class ModuleArtifacts(ModelObject):
-    def __init__(self,xml,repository):
-        ModelObject.__init__(self,xml)
+    def __init__(self,dom,repository):
+        ModelObject.__init__(self,dom)
         
         # Reference to the shared repository
         self.repository=repository
         
         # Extract settings
-        self.url = xml.transfer('url')
-        self.group=xml.transfer('group')
+        self.url = self.getDomAttributeValue('url')
+        self.group=self.getDomAttributeValue('group')
     
     def getRootUrl(self):
         url=self.repository.getUrl()
@@ -156,8 +156,8 @@ class ModuleArtifacts(ModelObject):
         
 class Module(NamedModelObject, Statable, Resultable, Positioned):
     """Set of Modules (which contain projects)"""
-    def __init__(self,name,xml,owner):
-    	NamedModelObject.__init__(self,name,xml,owner)
+    def __init__(self,name,dom,owner):
+    	NamedModelObject.__init__(self,name,dom,owner)
             	
     	Statable.__init__(self)
     	Resultable.__init__(self)
@@ -166,44 +166,66 @@ class Module(NamedModelObject, Statable, Resultable, Positioned):
     	self.totalDepends=[]
     	self.totalDependees=[]
     
+        
     	self.projects={}
     	
+        self.notifys=[]
+        
     	self.repository=None
+    	self.cvs=None
+    	self.svn=None
+    	self.artifacts=None
     	
-        self.packaged		=	0
+        self.packaged		=	False
         
         # Changes were found (when updating)
-    	self.modified		=	0
+    	self.modified		=	False
     	
     	# The task of updating has occured..
-    	self.updated		=	0
+    	self.updated		=	False
     	
     	self.affected		=	0
         	
         # Extract settings
-        self.tag=None
+        self.tag=''
                 
+        self.url=None
+        self.desc=''
+        
         # 
+        self.workspace=None
         self.workdir=None
         
     def resolve(self):
-        print 'RESOLVE MODULE:'+`self`   
-        for pdom in getChildren(self.element,'project'):
-            project=Project(getValue(pdom,'name'),pdom,self)
-            print 'PROJECT:'+`project`
-            self.addProject(project)
+        
+        owner=self.getOwner()
+        
+        for pdom in self.getDomChildIterator('project'):
+            if hasDomAttribute(pdom,'name'):
+                name=getDomAttributeValue(pdom,'name')
                 
-
+                if owner.hasProject(name):
+                    project=owner.getProject(name)
+                    project.splice(pdom)                    
+                    if not self.hasProject(name):
+                        self.addProject(project)
+                else:
+                    project=Project(name,pdom,self)
+                    self.addProject(project)
+                
     # provide default elements when not defined in xml
     def complete(self,workspace):
       
         if self.isComplete(): return
 
+        # :TODO: hacky   
+        self.workspace=workspace
+        
         # Defaults
         self.workdir=self.getName()
              
         # Import overrides from DOM
-        transferInfo( self.element, self, {'srcdir':'workdir'})
+        transferDomInfo( self.element, self, {'srcdir':'workdir'})
                             
         packaged=False
                 
@@ -217,12 +239,13 @@ class Module(NamedModelObject, Statable, Resultable, Positioned):
                         
         for project in self.getProjects():
           
+            #
+            # Check for duplications
+            #
             if not project.inModule():
-                #
                 # Claim ownership
-                #
                 self.addProject(project)
-            else:
+            elif not self == project.getModule():
                 workspace.addError('Duplicate project [' + project.getName() + '] in [' \
                         + project.getModule().getName() + '] and now [' + self.getName() + ']')
                 
@@ -235,32 +258,30 @@ class Module(NamedModelObject, Statable, Resultable, Positioned):
                 self.addInfo('Packaged Project: ' + project.getName())
                 packageCount+=1                
        
-            # Must be one to be all
-            if not packageCount: allPackaged=False
+        # Must be one to be all
+        if not packageCount: allPackaged=False
     
-            #
-            # Give this module a second try,  if some are packaged, and
-            # check if the others have no outputs, then call them good.
-            #
-            if packageCount and not allPackaged:
-                allPackaged=True
-                for project in self.getProjects():
-                    if not project.isPackaged():
-                        if not project.hasOutputs():
-                            # 
-                            # Honorary package (allow folks to only mark the main
-                            # project in a module as a package, and those that do
-                            # not product significant outputs (e.g. test projects)
-                            # will be asssumed to be packages.
-                            #                
-                            project.setHonoraryPackage(1)            
-                            project.changeState(STATE_COMPLETE,REASON_PACKAGE)    
-                            packageCount+=1
-                        else:    
-                            allPackaged=False
-                            if packageCount:
-                                self.addWarning('Incomplete \'Packaged\' Module. Project: ' + \
-                                        project.getName() + ' is not packaged')  
+        # Give this module a second try,  if some are packaged, and
+        # check if the others have no outputs, then call them good.
+        if packageCount and not allPackaged:
+            allPackaged=True
+            for project in self.getProjects():
+                if not project.isPackaged():
+                    if not project.hasOutputs():
+                        # 
+                        # Honorary package (allow folks to only mark the main
+                        # project in a module as a package, and those that do
+                        # not product significant outputs (e.g. test projects)
+                        # will be asssumed to be packages.
+                        #                
+                        project.setHonoraryPackage(True)            
+                        project.changeState(STATE_COMPLETE,REASON_PACKAGE)    
+                        packageCount+=1
+                    else:    
+                        allPackaged=False
+                        if packageCount:
+                            self.addWarning('Incomplete \'Packaged\' Module. Project: ' + \
+                                    project.getName() + ' is not packaged')  
                
         # If packages module, accept it... 
         if allPackaged:
@@ -287,23 +308,24 @@ class Module(NamedModelObject, Statable, Resultable, Positioned):
         # use (eg. type='cvs' if referenced by CVS).
         if not packaged:
             # We have a CVS entry, expand it...
-            if hasChild(self.dom,'cvs'):
-                repoName=getValue(getChild(self.dom,'cvs'),'repository')
+            if self.hasDomChild('cvs'):
+                cvs=self.getDomChild('cvs')
+                repoName=getDomAttributeValue(cvs,'repository')
                 if repoName:
                     if workspace.hasRepository(repoName):
                         # It references this repository...
                         repo=workspace.getRepository(repoName)
                         self.repository=repo
                         repo.addModule(self)
-                        self.cvs=ModuleCvs(self.xml.cvs,repo)
+                        self.cvs=ModuleCvs(cvs,repo)
                     else:
                         self.changeState(STATE_FAILED,REASON_CONFIG_FAILED)               
                         self.addError('No such repository ['+ str(repoName) +'] in workspace on [' \
                                 + self.getName() + ']')
                             
-            elif hasChild(self.dom,'svn'):
-                rdom=getChild(self.dom,'svn')
-                repoName=getValue(rdom,'repository')
+            elif self.hasDomChild('svn'):
+                rdom=self.getDomChild('svn')
+                repoName=getDomAttributeValue(rdom,'repository')
                 if repoName:
                     if workspace.hasRepository(repoName):
                         # It references this repository...
@@ -316,8 +338,8 @@ class Module(NamedModelObject, Statable, Resultable, Positioned):
                         self.addError('No such repository ['+ str(repoName) +'] in workspace on [' \
                                 + self.getName() + ']')                 
                                                 
-            elif hasChild(self.dom,'artifact'):
-                adom=getChild(self.dom,'artifact')
+            elif self.hasDomChild('artifact'):
+                adom=self.getDomChild('artifact')
                 repoName=getValue(adom,'repository')
                 if repoName:
                     if workspace.hasRepository(repoName):
@@ -331,6 +353,24 @@ class Module(NamedModelObject, Statable, Resultable, Positioned):
                         self.addError('No such repository ['+ str(repoName) +'] in workspace on [' \
                                 + self.getName() + ']')                 
 
+            # Grab all notifications
+            for notifyEntry in self.getDomChildIterator('nag'):
+                # Determine where to send
+                toaddr=getDomAttributeValue(notifyEntry,'to',workspace.mailinglist)
+                fromaddr=getDomAttributeValue(notifyEntry,'from',workspace.email)   
+                self.notifys.append(
+                        AddressPair(
+                            getStringFromUnicode(toaddr),	\
+                            getStringFromUnicode(fromaddr)))  
+        
+
+        if self.hasDomChild('url'):
+            url=self.getDomChild('url')
+            self.url=getDomAttributeValue(url,'href')
+            
+        if self.hasDomChild('description'):
+            self.desc=self.getDomChildValue('description')           
+
         # For prettiness
         self.sortedProjects=createOrderedList(self.getProjects())
                             
@@ -339,14 +379,25 @@ class Module(NamedModelObject, Statable, Resultable, Positioned):
                 
         self.setComplete(1)            
         
+    def hasNotifys(self):
+        if self.notifys: return True
+        return False
+        
+    def getNotifys(self):
+        return self.notifys
+        
     def addProject(self,project):
         project.setModule(self)
         self.projects[project.getName()]=project
         
-        self.getOwner().addProject(project)
+        if not self.getOwner().hasProject(project.getName()):
+            self.getOwner().addProject(project)
                      
-    def getProject(self,projectname):
-        return self.projects[projectname]
+    def hasProject(self,name):
+        return self.projects.has_key(name)
+        
+    def getProject(self,name):
+        return self.projects[name]
         
     def getProjects(self):
         return self.projects.values()
@@ -363,10 +414,9 @@ class Module(NamedModelObject, Statable, Resultable, Positioned):
     def setPackaged(self,packaged):
         self.packaged=packaged
         
-        
     def isRedistributable(self):
         # Existence means 'true'
-        return hasattr(self.xml,'redistributable') \
+        return self.hasDomAttribute('redistributable') \
             or (self.repository and self.repository.isRedistributable())
         
     #
@@ -440,7 +490,7 @@ class Module(NamedModelObject, Statable, Resultable, Positioned):
     # Get a summary of states for each project
     def getProjectSummary(self,summary=None):  
     
-        # Fails 'ocs count into other's summary
+        # Fails 'cos count into other's summary
         # if hasattr(self,'summary'): return self.summary
         
         if not summary: 
@@ -478,8 +528,6 @@ class Module(NamedModelObject, Statable, Resultable, Positioned):
         return self.affected    
           
     def getObjectForTag(self,tag,dom,name=None):
-        print 'Module: Instantiate for Tag: ', tag, ' Name: ', name    	
-        
         object=None
       
         if 'project' == tag:
@@ -494,8 +542,8 @@ class Module(NamedModelObject, Statable, Resultable, Positioned):
         NamedModelObject.dump(self, indent+1, output)
         
     def hasTag(self):
-        if self.tag: return 1
-        return 0
+        if self.tag: return True
+        return False
         
     def getTag(self):
         return str(self.tag)
@@ -509,24 +557,25 @@ class Module(NamedModelObject, Statable, Resultable, Positioned):
     def getModuleDirName(self):
         return self.workdir
         
-    def hasURL(self):
-        return self.getURL()
+    def hasUrl(self):
+        if self.url: return True
+        return False
         
-    def getURL(self):
-        if self.xml.url and self.xml.url.href: return str(self.xml.url.href)
+    def getUrl(self):
+        return self.url
         
     def hasDescription(self):
-        return str(self.xml.description)   
+        if self.desc: return True
+        return False
         
     def getDescription(self):
-        return str(self.xml.description)        
+        return self.desc     
         
     def getWorkspace(self):
         return self.workspace
     
     def getMetadataLocation(self):
-        # I think the bogus 'anonymous' module, needs this safety check
-        if self.xml: return str(self.xml.href)        
+        return self.metadata            
         
     def getMetadataViewUrl(self):
         location=self.getMetadataLocation()
@@ -539,16 +588,16 @@ class Module(NamedModelObject, Statable, Resultable, Positioned):
         return self.hasCvs() or self.hasSvn() or self.hasArtifacts()
                 
     def hasCvs(self):
-        if hasattr(self,'cvs') and self.cvs: return 1
-        return 0
+        if self.cvs: return True
+        return False
         
     def hasSvn(self):
-        if hasattr(self,'svn') and self.svn: return 1
-        return 0
+        if self.svn: return True
+        return False
         
     def hasArtifacts(self):
-        if hasattr(self,'artifacts') and self.artifacts: return 1
-        return 0
+        if self.artifacts: return True
+        return False
         
     # Where the contents (at the repository) Modified?
     def isModified(self):
@@ -575,8 +624,7 @@ class Module(NamedModelObject, Statable, Resultable, Positioned):
             return self.cvs.getViewUrl()
         elif self.hasSvn():
             return self.svn.getViewUrl()            
-   
-     
+
 class ModuleStatistics(Statistics):
     """ 
         Module Statistics Holder

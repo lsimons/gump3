@@ -18,7 +18,7 @@
 """
 import os
 import sys
-from types import NoneType, StringType, TypeType, MethodType
+from types import NoneType, StringTypes, TypeType, MethodType
 import types
 import logging
 
@@ -110,7 +110,7 @@ class Testable:
         self.assertEqual(message,object,sequence[posn] )
             
     def assertString(self,message,object):
-        if not type(object) == types.StringType:
+        if not isinstance(object,types.StringTypes):
             self.raiseIssue(['Ought be a String type', message, object, type(object)])
             
     def assertNonZeroString(self,message,object):
@@ -349,9 +349,6 @@ if __name__=='__main__':
     
     from gump.test.drawing import DrawingTestSuite  
     runner.addSuite(DrawingTestSuite())
-    
-    from gump.test.xmlutils import XmlTestSuite  
-    runner.addSuite(XmlTestSuite())
     
     # Any args are pattern matches
     patterns=list(sys.argv)

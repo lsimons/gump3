@@ -26,7 +26,7 @@ class Property(NamedModelObject):
     
     def __init__(self,name,dom,parent):
     	NamedModelObject.__init__(self,name,dom,parent)
-    	self.value=getValue(dom,'value','*Unset*')
+    	self.value=self.getDomAttributeValue('value')
     	
     def setValue(self,value):
         self.value = value
@@ -41,35 +41,37 @@ class Property(NamedModelObject):
         # Properties are either on the workspace, or on
         # an ant entry within a project. Pick workspace or project.
         responsibleParty=workspace
-        if not parent==workspace: responsibleParty=parent.getOwner()
-        
-        reference=getValue(self.element,'reference')
-        if reference=='home':
-            project=getValue(self.element,'project')            
+        if not parent==workspace: responsibleParty=parent.getOwner()    
+            
+        project=self.getDomAttributeValue('project')   
+            
+        reference=self.getDomAttributeValue('reference')
+        if reference=='home':         
             if not workspace.hasProject(project):
-                responsibleParty.addError('Cannot resolve homedir of *unknown* [' + self.xml.project + ']')                
+                responsibleParty.addError('Cannot resolve homedir of *unknown* [' + project + ']')                
             else:
-                self.setValue(workspace.getProject(self.xml.project).getHomeDirectory())
+                self.setValue(workspace.getProject(project).getHomeDirectory())
                 
         elif reference=='srcdir':
-            if not workspace.hasProject(self.xml.project):
-                responsibleParty.addError('Cannot resolve srcdir of *unknown* [' + self.xml.project + ']')
+            if not workspace.hasProject(project):
+                responsibleParty.addError('Cannot resolve srcdir of *unknown* [' + project + ']')
             else:
-                self.setValue(workspace.getProject(self.xml.project).getModule().getWorkingDirectory())
+                self.setValue(workspace.getProject(project).getModule().getWorkingDirectory())
                 
         elif reference=='jarpath' or reference=='jar':            
-            if hasattr(self.xml,'project'):
-                if not workspace.hasProject(self.xml.project):
+            if self.hasDomAttribute('project'):
+                if not workspace.hasProject(project):
                     responsibleParty.addError('Cannot resolve jar/jarpath of *unknown* [' \
-                        + self.xml.project + ']')
+                        + project + ']')
                 else:
-                    targetProject=workspace.getProject(self.xml.project)
+                    targetProject=workspace.getProject(project)
                 
-                    if hasattr(self.xml,'id'):
+                    if self.hasDomAttribute('id'):
+                        id=self.getDomAttributeValue('id')
                         # Find the referenced id
                         for jar in targetProject.getJars():
-                            if jar.getId()==self.xml.id:
-                                if self.xml.reference=='jarpath':
+                            if jar.getId()==id:
+                                if reference=='jarpath':
                                     self.setValue(jar.getPath())
                                 else:
                                     self.setValue(jar.getName())
@@ -77,7 +79,7 @@ class Property(NamedModelObject):
                         else:
                             responsibleParty.addError(	\
                                ("jar with id %s was not found in project %s ") % \
-                                (self.xml.id, targetProject.getName()))
+                                (id, targetProject.getName()))
                     elif targetProject.getJarCount()==1:
                         # There is only one, so pick it...
                         self.setValue(targetProject.getJars()[0].getPath())
@@ -94,38 +96,37 @@ class Property(NamedModelObject):
             else:
                 responsibleParty.addError('No project specified.')      
                                 
-        elif hasAttribute(self.element,'path'):
-            #
+        elif self.hasDomAttribute('path'):
             # If a property on a project..
-            #
             if not parent==workspace: 
                 relativeProject=None
                 # If on a referenced project
-                if hasAttribute(self.element,'project'):
-                    if not workspace.hasProject(self.xml.project):
-                        responsibleParty.addError('Cannot resolve relative to *unknown* [' + self.xml.project + '] for ' + \
+                if self.hasDomAttribute('project'):
+                    project=self.getDomAttributeValue('project')
+                    if not workspace.hasProject(project):
+                        responsibleParty.addError('Cannot resolve relative to *unknown* [' + project + '] for ' + \
                                     self.getName())                
                     else:    
                         # Relative to referenced project
-                        relativeProject=workspace.getProject(self.xml.project)
+                        relativeProject=workspace.getProject(project)
                 else:
                     # Relative to this project...
                     relativeProject=responsibleParty
                 
                 if relativeProject:                        
-                    #
-                    # Path relative to module's srcdir (doesn't work in workspace)
-                    #        
+                    # Path relative to module's srcdir (doesn't work in workspace)     
+                    path=self.getDomAttributeValue('path')
                     self.value=os.path.abspath(os.path.join(	\
                             relativeProject.getModule().getWorkingDirectory(),
-                            self.xml.path))
+                            path))
             else:
                 responsibleParty.addError('Can\'t have path on property on workspace: ' + \
                     + self.getName())
         
-        if not hasattr(self,'value'):
+        if not self.value:
             responsibleParty.addError('Unhandled Property: ' + self.getName() + ' on: ' + \
                     str(parent))
+            self.value='*Unset*'
                 
         self.setComplete(1)
         
@@ -168,8 +169,17 @@ class PropertySet(Ownable):
     def getProperties(self):
         return self.properties.values()
             
-    def importProperty(self,pdom):
-        self.addProperty(Property(getValue(pdom,'name'),pdom,self.getOwner()))
+    def importProperty(self,pdom):        
+        property=None
+        
+        if hasDomAttribute(pdom,'name'):
+            name=getDomAttributeValue(pdom,'name')
+            property=Property(name,pdom,self.getOwner())
+            self.addProperty(property)
+        else:
+            self.getOwner().addError('Property without name : ' + pdom.toprettyxml())
+            
+        return property
             
     def completeProperties(self,workspace):   
         for property in self.getProperties(): 
@@ -193,15 +203,15 @@ class PropertyContainer:
         self.sysproperties=PropertySet(self, sysproperties)
         
     def hasProperties(self):
-        if self.properties: return 1
-        return 0
+        if self.properties: return True
+        return False
                 
     def getProperties(self):
         return self.properties.getProperties()
         
     def hasSysProperties(self):
-        if self.sysproperties: return 1
-        return 0                
+        if self.sysproperties: return True
+        return False
         
     def getSysProperties(self):
         return self.sysproperties.getProperties()
@@ -214,10 +224,10 @@ class PropertyContainer:
                 
     def importProperties(self,dom):
         """ Import all properties (from DOM to model). """
-        for element in getChildren(dom,'property'):
+        for element in getDomChildIterator(dom,'property'):
             self.importProperty(element)
                 
-        for element in getChildren(dom,'sysproperty'):
+        for element in getDomChildIterator(dom,'sysproperty'):
             self.importSysProperty(element)
                             
     def completeProperties(self,workspace=None):        

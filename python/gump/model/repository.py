@@ -24,38 +24,44 @@ from gump.model.stats import *
 from gump.model.object import NamedModelObject
 
 from gump.utils import getIndent
+from gump.utils.domutils import *
 
 class Repository(NamedModelObject, Statable):
     """A named repository"""
-    def __init__(self,xml,workspace):
-    	NamedModelObject.__init__(self,xml.getName(),xml,workspace)
+    def __init__(self,name,dom,workspace):
+    	NamedModelObject.__init__(self,name,dom,workspace)
             
-        if 'cvs'==xml.type:
-            self.type='CVS'
-            if hasattr(xml,'root'):
-                self.method=xml.root.transfer('method')  
-                self.user=xml.root.transfer('user')
-                self.password=xml.root.transfer('password')
-                self.path=xml.root.transfer('path')
-                self.hostname=xml.root.transfer('hostname')
-                self.web=xml.transfer('cvsweb') or \
-                        xml.transfer('web')
+        self.url=None
+        
+        type=self.getDomAttributeValue('type')
+        
+        if 'cvs'==type:
+            self.type='CVS'    
+            self.web=self.getDomChildValue('cvsweb') or \
+                        self.getDomChildValue('web')                            
+            if self.hasDomChild('root'):
+                root=self.getDomChild('root')
+                self.method=getDomAttributeValue(root,'method')  
+                self.user=getDomAttributeValue(root,'user')
+                self.password=getDomAttributeValue(root,'password')
+                self.path=getDomAttributeValue(root,'path')
+                self.hostname=getDomAttributeValue(root,'hostname')
             else:
                 raise RuntimeError, 'No XML <root on repository: ' + self.getName()
-        elif 'svn'==xml.type:  
+        elif 'svn'==type:  
             self.type='Subversion'
-            if hasattr(xml,'url'):
-                self.url=str(xml.url)
+            if self.hasDomChild('url'):
+                self.url=self.getDomChildValue('url')
             else:
                 raise RuntimeError, 'No URL on SVN repository: ' + self.getName()
-            self.web=xml.transfer('web')
-        elif 'artifact'==xml.type:
-            self.type='Java Archives'
-            if hasattr(xml,'url'):
-                self.url=str(xml.url)
+            self.web=self.getDomChildValue('web')
+        elif 'artifact'==type:
+            self.type='Artifacts'
+            if self.hasDomChild('url'):
+                self.url=self.getDomChildValue('url')
             else:
                 raise RuntimeError, 'No URL on Jars repository: ' + self.getName()                
-            self.web=xml.transfer('web')
+            self.web=self.getDomChildValue('web')
         else:
             raise RuntimeError, 'Invalid Repository Type:' + str(xml.type)         
             
@@ -70,12 +76,12 @@ class Repository(NamedModelObject, Statable):
             self.addWarning('Unused Repository (not referenced by modules)')
     
     def hasModules(self):
-        if self.modules: return 1
-        return 0
+        if self.modules: return True
+        return False
     
     def hasType(self):
-        if self.type: return 1
-        return 0            
+        if self.type: return True
+        return False
            
     def getType(self):
         return self.type
@@ -88,17 +94,18 @@ class Repository(NamedModelObject, Statable):
         NamedModelObject.dump(self,indent+1,output)
         
     def hasTitle(self): 
-        return hasattr(self.xml,'title') and self.xml.title
+        return self.hasDomAttribute('title')
         
     def hasHomePage(self): 
-        return hasattr(self.xml,'home-page') and getattr(self.xml,'home-page')
+        return self.hasDomAttribute('home-page')
         
     def hasWeb(self): 
         return self.web
 
     def isRedistributable(self):
         # Existence means 'true'
-        return hasattr(self.xml,'redistributable')
+        return self.hasDomAttribute('redistributable')
+        
         
     def hasUser(self): return hasattr(self,'user')
     def hasPassword(self): return hasattr(self,'password')
@@ -106,19 +113,22 @@ class Repository(NamedModelObject, Statable):
     def hasMethod(self): return hasattr(self,'method')
     def hasHostname(self): return hasattr(self,'hostname')   
     
-    
-    def getTitle(self): return self.xml.transfer('title')
-    def getHomePage(self): return self.xml.transfer('home-page')
+    def getTitle(self): return self.getDomAttributeValue('title')
+    def getHomePage(self): return self.getDomAttributeValue('home-page')
     def getWeb(self): return self.web
     
-    def getUser(self): return str(self.user)
-    def getPassword(self): return str(self.password)
-    def getPath(self): return str(self.path)
-    def getMethod(self): return str(self.method)
-    def getHostname(self): return str(self.hostname)
+    def getUser(self): return self.user
+    def getPassword(self): return self.password
+    def getPath(self): return self.path
+    def getMethod(self): return self.method
+    def getHostname(self): return self.hostname
     
-    def hasUrl(self): return hasattr(self,'url')
-    def getUrl(self): return str(self.url)
+    def hasUrl(self): 
+        if self.url: return True
+        return False
+        
+    def getUrl(self): 
+        return self.url
     
     def addModule(self,module):
         self.modules.append(module)

@@ -39,11 +39,19 @@ def gumpSafeName(name):
 ###############################################################################
 # Dump an object (as best possible generically)
 ###############################################################################
-def dump(obj,indent=""):
+def dump(obj,indent="",visited=None):
+    
     print indent+"Object: ["+str(obj.__class__)+"] "+str(obj)
+    
+    if not visited:
+        visited=[]
+    if obj in visited: return
+    visited.append(obj)
+    
     if not obj: return
     if isinstance(obj,types.TypeType): return
     if isinstance(obj,types.MethodType): return
+    
       
     # iterate over the own properties
     try:
@@ -62,15 +70,16 @@ def dump(obj,indent=""):
           for v in var:
              i+=1
              print indent+"  (" + str(i) + ") " + str(name)
-             dump(v, indent+"  ")
+             dump(v, indent+"  ", visited)
         elif isinstance(var,dict): 
           print "  Dictionary Name:" + str(name) + " " + str(var.__class__)
           for (k,v) in var.iteritems():
              print indent+"    Key:" + str(k) + " " + str(v.__class__)
-             dump(v,indent+"  ")
+             dump(v,indent+"  ", visited)
         elif isinstance(var,object) and not isinstance(var,str): 
           print indent+"  Object Name:" + str(name) + " " + str(var.__class__)
-          dump(var,indent+"  ")
+          if not 'owner' == str(name):
+              dump(var,indent+"  ", visited)
         else:
           try:
             print indent+"  " + str(name) + " :-> " + str(var)
