@@ -27,6 +27,26 @@
     elements are precisely equivalent to specifying both a property to be
     passed to Ant, as well as a separate depend element.</p>
 
+    <table>
+      <tr>
+        <th>Attribute</th>
+        <th>Description</th>
+        <th>Required?</th>
+      </tr>
+      <tr>
+        <td>name</td>
+        <td>The name of the project.</td>
+        <td>Yes</td>
+      </tr>
+      <tr>
+        <td>target</td>
+        <td>Override the <a href="ant.html">ant</a> target to be used.</td>
+        <td>No</td>
+      </tr>
+    </table>
+
+    <p/>
+
     <subsection name="ant">
       <p>Identifies this project as "buildable", and specifies the
       target to build and the properties to be passed to ant.  The full

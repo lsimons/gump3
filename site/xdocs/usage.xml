@@ -102,13 +102,13 @@
       <p>For Unix and cygwin installations using bash:</p>
 
       <xmp>
-         bash ./build.sh ( all | clean | (project [ target ... ] ) )
+         bash ./build.sh ( all | clean | ( project [ target ... ] ) )
       </xmp>
 
       <p>For Windows NT and 2K installations:</p>
 
       <xmp>
-         build ( all | clean | (project [ target ... ] ) )
+         build ( all | clean | ( project [ target ... ] ) )
       </xmp>
 
       <p>With this command you can specify you either want to build all or a 

@@ -12,6 +12,26 @@
     <p>A module is a collection of projects that are physically stored in a 
     single repository.</p>
 
+    <table>
+      <tr>
+        <th>Attribute</th>
+        <th>Description</th>
+        <th>Required?</th>
+      </tr>
+      <tr>
+        <td>name</td>
+        <td>The name of the module.</td>
+        <td>Yes</td>
+      </tr>
+      <tr>
+        <td>tag</td>
+        <td>Override the <a href="#cvs">cvs</a> tag to be used.</td>
+        <td>No</td>
+      </tr>
+    </table>
+
+    <p/>
+
     <subsection name="url">
       <p>This is the homepage for the collection of projects contained in
       this module.  This element is optional, but if present, will be
@@ -83,6 +103,11 @@
           <td>module</td>
           <td>An override for the name of the cvs module.</td>
           <td>No.  Defaults to the name of the repository.</td>
+        </tr>
+        <tr>
+          <td>tag</td>
+          <td>Specify the cvs tag desired.</td>
+          <td>No.  Effectively defaults to HEAD.</td>
         </tr>
       </table>
     </subsection>

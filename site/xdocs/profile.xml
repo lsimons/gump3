@@ -14,6 +14,21 @@
     of installable dependencies, or tagged versions of cvs modules to be used.
     </p>
 
+    <table>
+      <tr>
+        <th>Attribute</th>
+        <th>Description</th>
+        <th>Required?</th>
+      </tr>
+      <tr>
+        <td>name</td>
+        <td>The name of the profile.</td>
+        <td>Yes</td>
+      </tr>
+    </table>
+
+    <p/>
+
     <subsection name="module">
       <p>An individual module to be included.  While a complete
       module can be defined here, typically one is referenced via
