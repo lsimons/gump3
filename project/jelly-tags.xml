@@ -25,6 +25,7 @@
 
     <ant basedir="ant" target="jar">
       <property name="final.name"  value="commons-jelly-tags-ant-@@DATE@@"/>
+      <sysproperty name="build.clonevm" value="true"/>
     </ant>
 
     <depend project="commons-jelly" inherit="all"/>
@@ -186,6 +187,7 @@
 
     <ant basedir="define" target="jar">
       <property name="final.name"  value="commons-jelly-tags-define-@@DATE@@"/>
+      <sysproperty name="build.clonevm" value="true"/>
     </ant>
 
     <depend project="commons-jelly" inherit="all"/>
@@ -278,6 +280,7 @@
 
     <ant basedir="html" target="jar">
       <property name="final.name"  value="commons-jelly-tags-html-@@DATE@@"/>
+      <sysproperty name="build.clonevm" value="true"/>
     </ant>
 
     <depend project="commons-jelly" inherit="all"/>
@@ -637,6 +640,7 @@
 
     <ant basedir="validate" target="jar">
       <property name="final.name"  value="commons-jelly-tags-validate-@@DATE@@"/>
+      <sysproperty name="build.clonevm" value="true"/>
     </ant>
 
     <depend project="commons-jelly" inherit="all"/>
