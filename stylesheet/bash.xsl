@@ -233,7 +233,7 @@
     <xsl:text>for i in ../stylesheet/*.xsl; do&#10;</xsl:text>
     <xsl:text>  bash publish.sh stylesheet/`basename $i` </xsl:text>
     <xsl:value-of select="$logdir"/>
-    <xsl:text>/code_`basename $i`.html&#10;</xsl:text>
+    <xsl:text>/code_`basename $i .xsl`.html&#10;</xsl:text>
     <xsl:text>done&#10;</xsl:text>
 
     <xsl:text>bash xref.sh&#10;</xsl:text>
