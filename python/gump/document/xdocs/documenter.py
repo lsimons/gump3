@@ -487,7 +487,7 @@ class XDocDocumenter(Documenter):
             
         if not workspace.private:
             # Document the workspace XML    
-            document=XDocDocument('Definition',self.resolver.getFile(workspace,'workspace.xml'))
+            document=XDocDocument('Definition',self.resolver.getFile(workspace,'workspace_defn.xml'))
             stream=StringIO.StringIO() 
             xmlize('workspace',workspace.xml,stream)
             stream.seek(0)
@@ -516,6 +516,7 @@ class XDocDocumenter(Documenter):
         definitionSection.createNote('This install runs Python Gump, not Traditional Gump.') 
         
         definitionTable=definitionSection.createTable()
+        definitionTable.createEntry('Workspace Name', workspace.getName())
         if workspace.xml.description:
                 definitionTable.createEntry('Description', workspace.xml.description)
         if workspace.xml.version: 
@@ -542,7 +543,7 @@ class XDocDocumenter(Documenter):
         if not workspace.private:            
             syndRow=definitionTable.createRow()
             syndRow.createData('Definition')
-            syndRow.createData().createLink('workspace.html','XML')
+            syndRow.createData().createLink('workspace_defn.html','XML')
                             
         self.documentSummary(document,workspace.getProjectSummary())        
         self.documentAnnotations(document,workspace)
