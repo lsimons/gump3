@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/utils/tools.py,v 1.11 2004/02/24 19:32:28 ajack Exp $
-# $Revision: 1.11 $
-# $Date: 2004/02/24 19:32:28 $
+# $Header: /home/stefano/cvs/gump/python/gump/utils/tools.py,v 1.12 2004/02/24 22:14:49 ajack Exp $
+# $Revision: 1.12 $
+# $Date: 2004/02/24 22:14:49 $
 #
 # ====================================================================
 #
@@ -141,7 +141,7 @@ def listDirectoryToFileHolder(holder,directory,type=FILE_TYPE_MISC):
     #
     return reference.exists() and reference.isDirectory()
     
-def catDirectoryContentsToFileHolder(holder,directory,name=None):
+def catDirectoryContentsToFileHolder(holder,directory,type=FILE_TYPE_MISC,name=None):
     try:
         if os.path.exists(directory) and  os.path.isdir(directory):
             for fileName in os.listdir(directory):
@@ -152,7 +152,7 @@ def catDirectoryContentsToFileHolder(holder,directory,name=None):
                         workName=baseName+'_'+fileName
                     else:
                         workName=fileName
-                    catFileToFileHolder(holder,	file, workName)
+                    catFileToFileHolder(holder,	file, type, workName)
     except:
         try:
             holder.addWarning('No such directory [' + str(directory) + ']')
@@ -160,10 +160,10 @@ def catDirectoryContentsToFileHolder(holder,directory,name=None):
             pass
     
         
-def catFileToFileHolder(holder,file,name=None):
+def catFileToFileHolder(holder,file,type=FILE_TYPE_MISC,name=None):
        
     # Create a reference to the file
-    reference=FileReference(file,type)
+    reference=FileReference(file,type,name)
     
     #
     # Update holder w/ reference to directory, 'cat'

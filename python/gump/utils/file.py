@@ -73,10 +73,12 @@ from gump.utils.owner import *
 FILE_TYPE_MISC=1
 FILE_TYPE_CONFIG=2
 FILE_TYPE_OUTPUT=3
+FILE_TYPE_LOG=4
 
 fileTypeDescriptions = { 	FILE_TYPE_MISC : "Miscellaneous",
                 FILE_TYPE_CONFIG : "Config",
-                FILE_TYPE_OUTPUT : "Output", }    
+                FILE_TYPE_OUTPUT : "Output",
+                FILE_TYPE_LOG : "Log" }    
     
 def fileTypeDescription(type):
     return fileTypeDescriptions.get(type,'Unknown File Type:' + str(type))

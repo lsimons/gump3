@@ -1,7 +1,7 @@
 #!/usr/bin/env python
-# $Header: /home/stefano/cvs/gump/python/gump/test/tools.py,v 1.4 2004/02/24 19:32:28 ajack Exp $
-# $Revision: 1.4 $
-# $Date: 2004/02/24 19:32:28 $
+# $Header: /home/stefano/cvs/gump/python/gump/test/tools.py,v 1.5 2004/02/24 22:14:49 ajack Exp $
+# $Revision: 1.5 $
+# $Date: 2004/02/24 22:14:49 $
 #
 # ====================================================================
 #
@@ -105,7 +105,7 @@ class ToolsTestSuite(UnitTestSuite):
         catFileToFileHolder(self.testfileholder,'./text.xml','test')
         
     def testCatDirToFileHolder(self):
-        catDirectoryContentsToFileHolder(self.testfileholder,'.','test')
+        catDirectoryContentsToFileHolder(self.testfileholder,'.')
         
     def testFileClone(self):
         self.testfileholder.getFileList().clone()

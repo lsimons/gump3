@@ -622,6 +622,7 @@ class GumpEngine:
                             dircnt += 1            
                             if os.path.exists(dir):
                                 listDirectoryToFileHolder(project,dir,\
+                                    FILE_TYPE_OUTPUT,
                                     'list_'+project.getName()+'_dir'+str(dircnt)+'_'+os.path.basename(dir))
                                 dirs.append(dir)
                                 listed += 1
@@ -641,7 +642,7 @@ class GumpEngine:
             for report in project.getReports():
                 reportDir=report.getResolvedPath() 
                 project.addInfo('Reports in: ' + reportDir)
-                catDirectoryContentsToFileHolder(project,reportDir)
+                catDirectoryContentsToFileHolder(project,reportDir,FILE_TYPE_OUTPUT)
     
         # Maven generates a maven.log...
         if project.hasMaven() and not project.isPackaged():
@@ -650,6 +651,7 @@ class GumpEngine:
                 project.addDebug('Maven Log in: ' + logFile)                
                 try:
                     catFileToFileHolder(project,logFile,	\
+                        FILE_TYPE_LOG,
                         project.getName() + ' ' + os.path.basename(logFile))
                 except:
                     log.error('Display Log [ ' + logFile + '] Failed', exc_info=1)   

@@ -150,8 +150,20 @@ def catFile(output,file,title=None):
         # Next...
         line = input.readline()
         
+# Allow a lock
+lockFile=os.path.abspath('gumpy.lock')
+if os.path.exists(lockFile):
+    print """The lock file [%s] exists. 
+Either Gump is still running, or it terminated very abnormally.    
+Please resolve this (waiting or removing the lock file) before retrying.
+    """ % lockFile
+    sys.exit(1)
+lock=open(lockFile,'w')
+lock.write(`os.getpid()`)
+lock.close()
+
 # Enable a log
-logFile='gumpy.log'
+logFile=os.path.abspath('gumpy.log')
 log=open(logFile,'w')
 
 result=0
@@ -239,9 +251,12 @@ finally:
     # Close the log
     log.close()
     
+    os.remove(lockFile)
+    
     if 1 or result:
         # Cat log if failed...
         catFile(sys.stdout, logFile, 'The Gump log...')
+        
 
 # bye!
 sys.exit(result)

@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/forrest.py,v 1.82 2004/02/24 20:25:21 ajack Exp $
-# $Revision: 1.82 $f
-# $Date: 2004/02/24 20:25:21 $
+# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/forrest.py,v 1.83 2004/02/24 22:14:49 ajack Exp $
+# $Revision: 1.83 $f
+# $Date: 2004/02/24 22:14:49 $
 #
 # ====================================================================
 #
@@ -1646,16 +1646,17 @@ class ForrestDocumenter(Documenter):
         fileSection=fdocument.createSection('Details')
             
         fileList=fileSection.createList() 
-        fileList.createEntry("State: ", fileReference.getTypeDescription())
+        fileList.createEntry("Type: ", fileReference.getTypeDescription())
             
         self.insertTypedLink(fileReference.getOwner(),	\
                     fileReference,	\
-                    fileList.createEntry("For: "))
+                    fileList.createEntry("Owner (Referencer): "))
             
         if fileReference.exists():
-            if fileReference.isDirectory():
+            if fileReference.isDirectory():                
+                
                 listingSection=fdocument.createSection('Directory Contents')
-                listingTable=listingSection.createTable(['Filename'])
+                listingTable=listingSection.createTable(['Filename','Type','Size'])
                 
                 directory=fileReference.getPath()
                 
@@ -1664,8 +1665,16 @@ class ForrestDocumenter(Documenter):
                 files.sort()
                 for file in files:
                     listingRow=listingTable.createRow()
-                    listingRow.createData(file)                                    
-                        
+                    
+                    #
+                    listingRow.createData(file)    
+                    
+                    if os.path.isdir(file):
+                        listingRow.createData('Directory')
+                        listingRow.createData('N/A')
+                    else:
+                        listingRow.createData('File')    
+                        listingRow.createData(str(os.path.getsize(file)))                                                
             else:    
                 #
                 # Show the content...
