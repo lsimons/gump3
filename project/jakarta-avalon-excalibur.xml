@@ -803,6 +803,7 @@
             <depend property="commons-collections.jar" project="commons-collections"/>
             <depend property="excalibur-instrument.jar" project="excalibur-instrument"/>
             <depend property="logkit.jar" project="jakarta-avalon-logkit" runtime="true"/>
+            <property name="jar.name" value="excalibur-thread-@@DATE@@.jar"/>
             <property name="version" value="@@DATE@@"/>
             <property name="junit.failonerror" value="true"/>
             <property name="do.checkstyle" value="true"/>
