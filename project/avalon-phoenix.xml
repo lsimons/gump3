@@ -110,32 +110,6 @@
                 to="dev@avalon.apache.org"/>
     </project>
 
-    <project name="phoenix-example-demo">
-        <package>org.apache.avalon.demos</package>
-
-        <mkdir dir="examples/demo/build/classes"/>
-        <ant basedir="examples/demo"/>
-
-        <depend project="junit"/>
-        <depend project="ant"/>
-        <depend project="xml-xerces" id="parser" runtime="true"/>
-        <depend project="xml-xalan2" id="transformer" runtime="true"/>
-        <option project="checkstyle" inherit="runtime"/>
-        <depend project="avalon-framework" id="combined"/>
-        <depend project="avalon-phoenix" inherit="all"/>
-        <depend project="avalon-components"/>
-
-        <home nested="examples/demo"/>
-        <work nested="examples/demo/target"/>
-
-        <jar name="lib/avalon-demo.sar" id="demo" />
-        <jar name="lib/avalon-rmidemo.sar" id="demo-rmi" />
-        <jar name="lib/avalon-lifecycledemo.sar" id="demo-lifecycle" />
-        
-        <nag from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"
-            to="dev@avalon.apache.org"/>
-    </project>
-
     <project name="phoenix-example-pdk">
         <package>org.apache.avalon.pdk</package>
 
@@ -149,37 +123,12 @@
 
         <option project="checkstyle" inherit="runtime"/>
 
-        <home nested="examples/pdk"/>
-
         <work nested="examples/pdk/target"/>
-        <jar name="lib/phoenix-demo.sar"/>
+        <home nested="examples/pdk"/>
+        <jar name="target/lib/phoenix-demo.sar"/>
 
         <nag from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"
                 to="dev@avalon.apache.org"/>
-    </project>
-
-    <project name="phoenix-example-testserver">
-        <package>org.apache.avalon.testserver</package>
-
-        <ant basedir="examples/testserver"/>
-
-        <depend project="junit"/>
-        <depend project="ant"/>
-        <depend project="xml-xerces"/>
-        <depend project="avalon-framework" id="combined"/>
-        <depend project="avalon-phoenix" inherit="all"/>
-        <depend project="avalon-components"/>
-        <depend project="excalibur-thread"/>
-
-        <option project="checkstyle" inherit="runtime"/>
-
-        <home nested="examples/testserver"/>
-
-        <work nested="examples/testserver/target"/>
-        <jar name="lib/avalon-testserver.sar"/>
-
-        <nag from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"
-            to="dev@avalon.apache.org"/>
     </project>
 
 </module>
