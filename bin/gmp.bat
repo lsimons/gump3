@@ -14,10 +14,10 @@ REM  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 REM  See the License for the specific language governing permissions and
 REM  limitations under the License.
 REM
-REM _ J A K A R T A  G U M P _ J A K A R T A  G U M P _ J A K A R T A  G U M P _ 
+REM _ A P A C H E  G U M P _ A P A C H E   G U M P _ A P A C H E   G U M P _ 
 REM
 REM
-REM $Header: /home/stefano/cvs/gump/bin/gmp.bat,v 1.1 2004/04/08 12:31:01 nicolaken Exp $
+REM $Header: /home/stefano/cvs/gump/bin/gmp.bat,v 1.2 2004/04/09 12:52:02 nicolaken Exp $
 REM
 REM
 if "%OS%"=="Windows_NT" @SETLOCAL
@@ -39,6 +39,9 @@ if "%OS%"=="Windows_NT" @ENDLOCAL
 REM _ J A K A R T A  G U M P _ J A K A R T A  G U M P _ J A K A R T A  G U M P _ 
 REM
 REM $Log: gmp.bat,v $
+REM Revision 1.2  2004/04/09 12:52:02  nicolaken
+REM Bye bye jakarta!
+REM
 REM Revision 1.1  2004/04/08 12:31:01  nicolaken
 REM Add the new commandline stuff before I lose it on my cranky HD.
 REM
