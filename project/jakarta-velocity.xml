@@ -20,7 +20,7 @@
   <depend project="jakarta-log4j"/>
 
   <home nested="bin"/>
-  <jar  name="velocity-0.76.jar"/>
+  <jar  name="velocity-0.94.jar"/>
 
   <!-- not available via CVS -->
 
