@@ -17,7 +17,7 @@
 
 """
 
-    Statistics manipulation [e.g. reseting, etc.]
+    A tool for statistics manipulation [e.g. reseting, etc.]
     
 """
 

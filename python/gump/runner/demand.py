@@ -134,15 +134,19 @@ class OnDemandRunner(GumpRunner):
         gumpOptions=self.run.getOptions() 
         workspace = self.run.getWorkspace()
         
+        # If we want to do updates
         if gumpOptions.isUpdate():
+            # If we want multithreaded (and workspace allows)
             if workspace.isMultithreading() and workspace.hasUpdaters():
-                # Experimental...
+                # Experimental: Spawn some...
                 self.spawnUpdateThreads(workspace.getUpdaters())
         
         # The project TODO list...
         if gumpOptions.isQuick():
+            # Just the projects
             sequence=gumpSet.getProjects()
         else:
+            # The full build sequence
             sequence=gumpSet.getProjectSequence()
         
         # In order...

@@ -24,16 +24,15 @@
 import os.path
 import os
 import sys
-from fnmatch import fnmatch
+import fnmatch
 
 from gump import log
 from gump.core.config import dir, default, basicConfig
 from gump.core.gumpenv import GumpEnvironment
 
-
-from gump.utils.work import *
-from gump.utils import dump, display, getIndent
-from gump.utils.note import Annotatable
+import gump.utils
+import gump.utils.work
+import gump.utils.note
 
 from gump.model.workspace import Workspace
 from gump.model.module import Module
@@ -52,8 +51,25 @@ SEPARATOR='-------------------------------------------------------------'
 ###############################################################################
 
 class GumpSet:
-    """ Contains the primary works sets -- to save recalculating and
-    passing so many individual things around """
+    """ 
+    
+    Contains the primary works sets -- to save recalculating and
+    passing so many individual things around.
+    
+    First, a project expression (list of * or all or wildcarded) is matched 
+    against the projects in the workspace, and a like of projects is found.
+    That list of projects is expanded to includes all their dependencies, in
+    build order, and this is store as the projectSequence.
+    
+    Second, the project list and projectSequence are converted to the same,
+    but for modules. 
+    
+    As such the gumpset identifies what work needs to be done.
+    
+    Additionally there are list of what entities have been completed (e.g.
+    modules updated, projects built).
+    
+    """
     def __init__(self, workspace, pexpr=None, \
                         projects=None, projectSequence=None, \
                         modules=None, moduleSequence=None, \
@@ -66,41 +82,31 @@ class GumpSet:
         if not pexpr:
             self.projectexpression='*'
         
-        #
         # Requested Projects
-        #
         if not projects:
             self.projects=self.getProjectsForProjectExpression(pexpr)
         else:
             self.projects=projects
         
-        #
         # Project Build Sequence
-        #
         if not projectSequence:
             self.projectSequence=self.getBuildSequenceForProjects(self.projects)
         else:
             self.projectSequence=projectSequence
             
-        #
         # Module List
-        #
         if not modules:
             self.modules=self.getModulesForProjectList(self.projects)
         else:
             self.modules=modules 
         
-        #
         # Module Sequence
-        #
         if not moduleSequence:
             self.moduleSequence=self.getModulesForProjectList(self.projectSequence)
         else:
             self.moduleSequence=moduleSequence
         
-        #
         # Repository List
-        #
         if not repositories:
             self.repositories=self.getRepositoriesForModuleList(self.moduleSequence)
         else:
@@ -168,22 +174,40 @@ class GumpSet:
         return self.projects
               
     def inProjects(self,project):
+        """
+        Is this project one of the requested projects?
+        """
         return project in self.projects
       
     def getProjectExpression(self):
+        """
+        Return the user provided project list/expression
+        """
         return self.projectexpression
         
     def getCompletedProjects(self):
+        """
+        The projects completed so far
+        """
         return self.completedProjects
         
     def setCompletedProject(self,project):
+        """
+        This project has become completed.
+        """
         self.completedProjects.append(project)
         
     def getProjectSequence(self):
+        """
+        The full (with dependencies) project sequence
+        """
         return self.projectSequence    
 
     def inProjectSequence(self,project):
-        # Optimization
+        """
+        Is this project within the main seuqence?
+        """
+        # Optimization ('all' means, of course...)
         if self.isFull(): return True    
         # Go look...
         return project in self.projectSequence
@@ -257,7 +281,7 @@ class GumpSet:
                 for pattern in expr.split(','):
                     try:
                         if pattern=="all": pattern='*'
-                        if fnmatch(project.getName(),pattern): break                    
+                        if fnmatch.fnmatch(project.getName(),pattern): break                    
                     except Exception, detail:
                         log.error('Failed to regexp: ' + pattern + '. Details: ' + str(detail))
                         continue
@@ -357,7 +381,7 @@ class GumpSet:
 
     def dump(self, indent=0, output=sys.stdout):
         """ Display the contents of this object """
-        i=getIndent(indent)
+        i=gump.utils.getIndent(indent)
         output.write(i+'Expression: ' + self.getProjectExpression() + '\n')   
         
         self.dumpList(self.projects,'Projects :',indent+1,output)
@@ -368,7 +392,7 @@ class GumpSet:
             
     def dumpList(self,list,title,indent=0,output=sys.stdout):
         """ Display a single list """  
-        i=getIndent(indent)              
+        i=gump.utils.getIndent(indent)              
         output.write(SEPARATOR)          
         output.write('\n')
         output.write(i + title + '[' + str(len(list)) + '] : \n') 
@@ -489,21 +513,9 @@ class GumpRunOptions:
     def setObjectives(self,objectives):
         self.objectives=objectives
         
-    def testObjectiveIsSet(self,objective):
+    def _testObjectiveIsSet(self,objective):
         if (self.objectives & objective): return True
         return False
-        
-    def isUpdate(self):
-        return self.testObjectiveIsSet(OBJECTIVE_UPDATE)        
-        
-    def isBuild(self):
-        return self.testObjectiveIsSet(OBJECTIVE_BUILD)
-              
-    def isCheck(self):
-        return self.testObjectiveIsSet(OBJECTIVE_CHECK)
-        
-    def isDocument(self):
-        return self.testObjectiveIsSet(OBJECTIVE_DOCUMENT)
         
     # Features...
     def setFeatures(self,features):
@@ -515,33 +527,75 @@ class GumpRunOptions:
     def enableFeature(self,feature):
         self.features = (self.features | feature)
         
-    def testFeatureIsSet(self,feature):
+    def _testFeatureIsSet(self,feature):
+        """
+        A utility method to see if a feature is set.
+        """
         if (self.features & feature): return True
         return False
+        
+    def isUpdate(self):
+        """
+        Are Updates (CVS|SVN|...) to be performed?
+        """
+        return self._testObjectiveIsSet(OBJECTIVE_UPDATE)        
+        
+    def isBuild(self):
+        """
+        Are Builds (Ant|...) to be performed?
+        """
+        return self._testObjectiveIsSet(OBJECTIVE_BUILD)
+              
+    def isCheck(self): 
+        """
+        Is this really jsut a 'check' or things?
+        """
+        return self._testObjectiveIsSet(OBJECTIVE_CHECK) 
 
     def isNotify(self):
-        return self.testFeatureIsSet(FEATURE_NOTIFY)
+        """
+        Are notifications (nag e-mails) to be produced?
+        """
+        return self._testFeatureIsSet(FEATURE_NOTIFY)
 
     def isResults(self):
-        return self.testFeatureIsSet(FEATURE_RESULTS)
+        """
+        Are results to be downloaded/produced for this run?
+        """
+        return self._testFeatureIsSet(FEATURE_RESULTS)
 
     def isStatistics(self):
-        return self.testFeatureIsSet(FEATURE_STATISTICS)
+        return self._testFeatureIsSet(FEATURE_STATISTICS)
 
     def isDocument(self):
-        return self.testFeatureIsSet(FEATURE_DOCUMENT)
+        """
+        Is documentation to be created for this run?
+        """
+        
+    def isDocument(self):
+        return  self._testObjectiveIsSet(OBJECTIVE_DOCUMENT) and \
+                self._testFeatureIsSet(FEATURE_DOCUMENT)
 
     def isSyndicate(self):
-        return self.testFeatureIsSet(FEATURE_SYNDICATE)
+        """
+        Is syndication (RSS|Atom) to be performed for this run?
+        """
+        return self._testFeatureIsSet(FEATURE_SYNDICATE)
 
     def isDiagram(self):
-        return self.testFeatureIsSet(FEATURE_DIAGRAM)
+        """
+        Are SVG dependency diagrams to be generated for this run?
+        """
+        return self._testFeatureIsSet(FEATURE_DIAGRAM)
 
         
 class RunSpecific:
     """
-    
-        A class that is it specific to an instance of a run
+        A class that is it specific to an instance of a run.
+        
+        A run is so central to Gump that it is like a thread,
+        the basis for everything, so many things are specific
+        to a single run (for conveinience).
         
     """
     def __init__(self, run):
@@ -549,7 +603,6 @@ class RunSpecific:
         
     def getRun(self):
         return self.run
-
 
 
 class RunEvent(RunSpecific):
@@ -563,8 +616,17 @@ class RunEvent(RunSpecific):
     def __repr__(self):
         return self.__class__.__name__
         
-class InitializeRunEvent(RunEvent): pass
-class FinalizeRunEvent(RunEvent): pass
+class InitializeRunEvent(RunEvent): 
+    """
+    	The run is starting...
+    """
+    pass
+    
+class FinalizeRunEvent(RunEvent): 
+    """
+        The run is completed...
+    """
+    pass
         
 class EntityRunEvent(RunEvent):
     """
@@ -591,6 +653,8 @@ class EntityRunEvent(RunEvent):
                 
 class RunRequest(RunEvent):
     """
+    
+    	A request for some work (not used yet)
 
     """            
     def __init__(self, run, type):
@@ -606,9 +670,11 @@ class RunRequest(RunEvent):
         
 class EntityRunRequest(RunEvent):
     """
-
+    
+		An request regarding a known entity (e.g. Workspace/Module/Project).
+		(not used yet)
+		
     """
-            
     def __init__(self, run, type, entity):
         RunEvent.__init__(self, run, type)
         
@@ -620,42 +686,32 @@ class EntityRunRequest(RunEvent):
     def getEntity(self):
         return self.entity 
                 
-class GumpRun(Workable,Annotatable,Stateful):
+class GumpRun(gump.utils.work.Workable,gump.utils.note.Annotatable,Stateful):
     def __init__(self,workspace,expr=None,options=None,env=None):
         
-        Workable.__init__(self)
-        Annotatable.__init__(self)
+        gump.utils.work.Workable.__init__(self)
+        gump.utils.note.Annotatable.__init__(self)
         Stateful.__init__(self)
         
-        #
         # The workspace being worked upon
-        #
         self.workspace=workspace
         
-        #
         # The set of modules/projects/repos in use
-        #
         self.gumpSet=GumpSet(self.workspace,expr)
         
-        #
         # The run options
-        #
         if options:
             self.options=options
         else:
             self.options=GumpRunOptions()
         
-        #
-        # The run options
-        #
+        # The environment
         if env:
             self.env=env
         else:
             self.env=GumpEnvironment()
         
-        #
         # A repository interface...
-        #
         from gump.repository.artifact import ArtifactRepository
         self.outputsRepository=ArtifactRepository(workspace.jardir)
                   
@@ -698,7 +754,7 @@ class GumpRun(Workable,Annotatable,Stateful):
     def dump(self, indent=0, output=sys.stdout):
         """ Display the contents of this object """
         
-        i=getIndent(indent)
+        i=gump.utils.getIndent(indent)
         #output.write(i+'Expression: ' + self.gumpSet. + '\n')
         output.write(i+'Gump Set:\n')
         self.gumpSet.dump(indent+1,output)
@@ -707,7 +763,7 @@ class GumpRun(Workable,Annotatable,Stateful):
         log.debug('Register Actor : ' + `actor`)
         self.actors.append(actor)
         
-    def dispatchEvent(self,event):    	
+    def _dispatchEvent(self,event):    	
     	"""
     		Perform the dispatch
     	"""
@@ -717,7 +773,7 @@ class GumpRun(Workable,Annotatable,Stateful):
             actor._processEvent(event)
         inspectGarbageCollection(`event`)
             
-    def dispatchRequest(self,request):
+    def _dispatchRequest(self,request):
     	"""
     		Perform the dispatch
     	"""
@@ -731,10 +787,10 @@ class GumpRun(Workable,Annotatable,Stateful):
         """
     		Fire off an entity event.
     	"""
-        self.dispatchEvent(EntityRunEvent(self, entity))
+        self._dispatchEvent(EntityRunEvent(self, entity))
         
     def generateRequest(self,type):
     	"""
     		Fire off a typed request.
     	"""
-        self.dispatchRequest(RunRequest(self, type))
+        self._dispatchRequest(RunRequest(self, type))

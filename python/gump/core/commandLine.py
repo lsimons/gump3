@@ -16,7 +16,10 @@
 
 """
 
-    Commandline Handling
+    Commandline Handling.
+    
+    Note: All gump scripts currently have the same command line
+    
     
 """
 import sys

@@ -58,22 +58,16 @@ class GumpRunner(RunSpecific):
         
         logResourceUtilization('Before initialize')
         
-        #
         # Perform start-up logic 
-        #
         workspace = self.run.getWorkspace()
                 
-        #
-        #
-        #
+        #Check out environment
         if not self.run.getOptions().isQuick():
             logResourceUtilization('Before check environment')            
             self.run.getEnvironment().checkEnvironment(exitOnError)
             logResourceUtilization('After check environment')
         
-        #
         # Modify the log location on the fly, if --dated
-        #
         if self.run.getOptions().isDated():
             workspace.setDatedDirectories()     
                     
@@ -101,9 +95,14 @@ class GumpRunner(RunSpecific):
         self.initializeActors()             
  
         # Let's get going...
-        self.run.dispatchEvent(InitializeRunEvent(self.run))
+        self.run._dispatchEvent(InitializeRunEvent(self.run))
     
     def initializeActors(self):
+        """
+        
+        Install the appropriate actors..
+        
+        """
         
         # Stamp times
         self.run.registerActor(TimeKeeper(self.run))
@@ -111,13 +110,14 @@ class GumpRunner(RunSpecific):
         # Update statistics
         self.run.registerActor(Statistician(self.run))
         
-        # Generate results
-        if self.run.getOptions().isResults():
+        # Load/Generate results (if we are in a multi-server)
+        # environment, where result sharing is important
+        if self.run.getOptions().isResults() and \
+            self.run.getWorkspace().hasMultiplePythonServers():
             self.run.registerActor(Resulter(self.run))            
               
         # Document..
         # Use XDOCS if not overridden...
-        #
         documenter=None
         if self.run.getOptions().isText() :
             documenter=TextDocumenter(self.run)
@@ -138,7 +138,7 @@ class GumpRunner(RunSpecific):
                     
     def finalize(self):            
         # About to shutdown...
-        self.run.dispatchEvent(FinalizeRunEvent(self.run))
+        self.run._dispatchEvent(FinalizeRunEvent(self.run))
         
     def getUpdater(self):
         return self.updater

@@ -24,8 +24,8 @@
 	Example actors are:
 	
 		Statistician (keeps track of statistics, in a DB)
-		
- 
+		TimeKeeper (keeps track of time spent on various things)
+		Documenter (writes HTML for the work)
 """
 
 import os.path

@@ -15,11 +15,13 @@
 # limitations under the License.
 
 #
-# $Header: /home/stefano/cvs/gump/python/gump/core/gumpinit.py,v 1.4 2004/07/08 20:33:09 ajack Exp $
+# $Header: /home/stefano/cvs/gump/python/gump/core/gumpinit.py,v 1.5 2004/07/13 18:44:35 ajack Exp $
 # 
 
 """
+
   Gump Entry Points.
+  
 """
 
 import os.path
@@ -47,13 +49,14 @@ def gumpinit(level=None):
     # Initialize GC (sometimes w/ debug)
     initializeGarbageCollection()
     
-    #
+    # If a .timestamp exists, use it.
     timestamp=os.path.join(dir.base,'.timestamp')
     if os.path.exists(timestamp):
         default.time = os.path.getmtime(timestamp)
     else:
         default.time = time.time()
 
+    # Generate for local and date...
     default.ltime=time.localtime(default.time)
     default.date = time.strftime('%Y%m%d',default.ltime)
     default.datetime = time.strftime('%Y%m%d %H:%M:%S',default.ltime)

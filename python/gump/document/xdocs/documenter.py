@@ -47,8 +47,6 @@ from gump.model.module import Module
 from gump.model.project import Project
 from gump.model.misc import Resultable
 
-from gump.notify.logic import NotificationLogic
-
 from gump.guru.stats import StatisticsGuru
 from gump.guru.xref import XRefGuru
 
@@ -68,9 +66,6 @@ class XDocDocumenter(Documenter):
         
         resolver=XDocResolver(dirBase,urlBase,self.config)
         self.setResolver(resolver)    
-        
-        # A utility    
-        self.notifyLogic=NotificationLogic(self.run)
         
     def prepareRun(self):
     
@@ -268,10 +263,13 @@ class XDocDocumenter(Documenter):
             
         success=True
         try:
-            #
-            # Sync over public pages...
-            #
-            syncDirectories(xdocWorkDir,logDirectory)
+            
+            if self.run.getOptions().isOfficial():
+                # Sync over public pages...
+                syncDirectories(xdocWorkDir,logDirectory)
+            else:
+                # Copy over public pages...
+                copyDirectories(xdocWorkDir,logDirectory)
             
             cleanUp=True       
             if cleanUp:
@@ -775,9 +773,12 @@ class XDocDocumenter(Documenter):
             projects = len(self.gumpSet.getCompletedProjects())
         
             document.createWarning("""This Gump run is currently in progress.
-            It started at %s. So far %s modules have been updated, and %s projects built.""" \
-                % (self.workspace.getStartDateTime(), modules, projects ))
-            
+            It started at %s. As of this moment (%s), %s modules have been updated, and %s projects built.""" \
+                % (self.workspace.getStartDateTime(), time.strftime('%H:%M:%S'), modules, projects ))
+                
+            document.createNote("""Only projects with significant information 
+            (e.g a recent change of state, a failure, etc.) are listed at runtime.""")
+          	
         else:
             document.createNote("""This Gump run is complete. 
             It started at %s and ended at %s.""" 
@@ -836,7 +837,13 @@ class XDocDocumenter(Documenter):
         projectsTable=projectsSection.createTable(['Index','Time','Name','State','Duration\nin state','Last Modified','Notes'])
         pcount=0
         for project in self.gumpSet.getCompletedProjects():
-            
+                       
+            if realTime and \
+                (project.getState()==STATE_FAILED or \
+                    ((project.getState()<>STATE_PREREQ_FAILED) and \
+                     (project.getStats().sequenceInState < INSIGNIFICANT_DURATION))):
+                continue
+                
             pcount+=1
     
             projectRow=projectsTable.createRow()            
@@ -995,9 +1002,8 @@ class XDocDocumenter(Documenter):
         projectsSection.createParagraph("""These are the project that need 'fixing'.
 This page helps Gumpmeisters (and others) locate the main areas to focus attention. 
 The count of affected indicates relative importance of fixing this project.""")        
-        projectsTable=projectsSection.createTable(['Name','Affected',	\
-                    'Dependees',	\
-                    'Duration\nin state','Project State'])
+        projectsTable=projectsSection.createTable(['Name','Affected',
+                    'Dependees','Project State','Duration\nin state'])
         pcount=0
         
         affectedOrder=createOrderedList(sortedProjectList,compareProjectsByAffected)
@@ -1018,8 +1024,6 @@ The count of affected indicates relative importance of fixing this project.""")
             
             totalAffected += affected
             
-            # How long been like this
-            seq=stats=project.getStats().sequenceInState
                     
             projectRow=projectsTable.createRow()
             projectRow.createComment(project.getName())
@@ -1030,9 +1034,11 @@ The count of affected indicates relative importance of fixing this project.""")
             
             projectRow.createData( project.getFullDependeeCount())
             
-            projectRow.createData(seq)
-            
             self.insertStateIcon(project,self.workspace,projectRow.createData())
+            
+            # How long been like this
+            seq=stats=project.getStats().sequenceInState 
+            projectRow.createData(seq)
                 
         if not pcount: 
             projectsTable.createLine('None')    
@@ -1060,8 +1066,7 @@ This page helps Gumpmeisters (and others) observe community progress.
         """ % INSIGNIFICANT_DURATION)      
         
         projectsTable=projectsSection.createTable(['Name',	\
-                    'Dependees',	\
-                    'Duration\nin state','Project State'])
+                    'Dependees','Project State','Duration\nin state'])
         pcount=0
         for project in sortedProjectList:
             if not self.gumpSet.inProjectSequence(project): continue       
@@ -1073,9 +1078,6 @@ This page helps Gumpmeisters (and others) observe community progress.
                 
             pcount+=1
             
-            # How long been like this
-            seq=stats=project.getStats().sequenceInState
-                    
             projectRow=projectsTable.createRow()
             projectRow.createComment(project.getName())
                                     
@@ -1083,9 +1085,11 @@ This page helps Gumpmeisters (and others) observe community progress.
             
             projectRow.createData( project.getFullDependeeCount())
             
-            projectRow.createData(seq)
-            
             self.insertStateIcon(project,self.workspace,projectRow.createData())
+            
+            # How long been like this
+            seq=stats=project.getStats().sequenceInState
+            projectRow.createData(seq)
                 
         if not pcount: 
             projectsTable.createLine('None')   
@@ -1715,12 +1719,12 @@ This page helps Gumpmeisters (and others) observe community progress.
                 detailsList.createEntry('Containing Module: '))        
         
         if project.isSpliced():
-            detailsList.createEntry('XML Spliced: ', `project.isSpliced()`)
+            detailsList.createEntry('Metadata form from multiple XML pieces: ', `project.isSpliced()`)
             
-        if project.hasHomeDirectory() and project.isVerboseOrDebug():
+        if project.hasHomeDirectory():
             detailsList.createEntry('Home Directory: ', project.getHomeDirectory())
             
-        if project.hasBaseDirectory() and project.isVerboseOrDebug():
+        if project.hasBaseDirectory():
             detailsList.createEntry('Base Directory: ', project.getBaseDirectory())
             
         if project.hasCause() and not project==project.getCause():
@@ -1739,10 +1743,6 @@ This page helps Gumpmeisters (and others) observe community progress.
                 detailsList.createEntry('Notify To: ').createFork('mailto:'+toaddr,toaddr)
                 detailsList.createEntry('Notify From: ').createFork('mailto:'+fromaddr,fromaddr)
                     
-            if project.isFailed() :            
-                detailsList.createEntry('Notification E-mail: ').createLink(
-                                gumpSafeName(project.getName()) + '_notify.html',
-                                'Contents')   
         elif not project.isPackaged() and project.hasBuildCommand():            
             document.createWarning('This project does not utilize Gump notification.')  
                              
@@ -1817,7 +1817,7 @@ This page helps Gumpmeisters (and others) observe community progress.
         #	Outputs (e.g. Jars)
         #
         if project.hasJars():
-            outputSection = miscSection.createSection('Outputs')
+            outputSection = miscSection.createSection('Output Artifacts')
             outputTable = outputSection.createTable(['Name','Id'])
             
             for jar in project.getJars():
@@ -1830,7 +1830,7 @@ This page helps Gumpmeisters (and others) observe community progress.
                 id=jar.getId() or 'N/A'
                 outputRow.createData(id)    
         else:
-            miscSection.createWarning('No outputs (e.g. jars) produced')
+            miscSection.createWarning('No output artifacts (e.g. jars) produced')
         
         if project.hasBuildCommand():
             
@@ -1882,6 +1882,7 @@ This page helps Gumpmeisters (and others) observe community progress.
                     True, False, 
                     project)
 
+        # :TODO: Re-enable?
         if False:
             if project.isVerboseOrDebug():
                 self.documentDependenciesList(dependencySection, 
@@ -1921,30 +1922,6 @@ This page helps Gumpmeisters (and others) observe community progress.
         
         document.serialize()
         document=None
-        
-        # Document notifications
-        notification = self.notifyLogic.notification(project)
-        if notification:
-            nspec=self.resolver.getFileSpec(project,project.getName() + '_notify')    
-            document=XDocDocument('Project Details : ' + project.getName(),
-                    nspec.getFile(),
-                    self.config,
-                    nspec.getRootPath())
-                                            
-            # If they don't ask for it, they won't see it.
-            part1='could'
-            part2=', if request in the metadata.'
-            if project.hasNotifys():
-                part1='ought'
-                part2='.'
-     
-            nagSection=document.createSection('Notification')
-            nagSection.createParagraph(('This is the notification mail that %s have been sent%s') \
-                                            % (part1,part2))
-            nagSection.createSource(notification.resolveContent(self.resolver))
-            
-            document.serialize()
-            document=None
         
         # Document the project XML
     #    x=startXDoc(getProjectXMLDocument(self.workspace,modulename,project.name))
@@ -2114,7 +2091,7 @@ This page helps Gumpmeisters (and others) observe community progress.
             
     def documentServerLinks(self,xdocNode,linkable,depth=-1):
         
-        servers=self.workspace.getServers()
+        servers=self.workspace.getPythonServers()
         if not servers: return    
         if len(servers) == 1: return # Assume this one.     
         
@@ -2634,7 +2611,9 @@ This page helps Gumpmeisters (and others) observe community progress.
     #     
     def getFork(self,href,name=None):
         if not name: name = href
-        return '<fork href=\'%s\'>%s</fork>' % (escape(href),escape(name))
+        if self.config.isXhtml():
+            return '<a target="_new" href="%s">%s</a>' % (escape(href),escape(name))
+        return '<fork href="%s">%s</fork>' % (escape(href),escape(name))
             
     def insertStateDescription(self,toObject,fromObject,xdocNode):
         node=xdocNode.createText(stateDescription(toObject.getState()))
@@ -3148,9 +3127,9 @@ This page helps Gumpmeisters (and others) observe community progress.
             fileName='project_depdepth'       
         spec=self.resolver.getFileSpec(stats,fileName)   
         document=XDocDocument(title,    
-                spec.getFile() ,
-                self.config,
-                spec.getRootPath()) 
+                    spec.getFile() ,
+                    self.config,
+                    spec.getRootPath()) 
         durTable=document.createTable(['Project','Dependency Depth','Total Dependency Depth'])
         if total: 
             list = stats.projectsByTotalDependencyDepth
@@ -3181,7 +3160,7 @@ This page helps Gumpmeisters (and others) observe community progress.
    
         spec=self.resolver.getFileSpec(xref)
         document=XDocDocument('Cross Reference',self.resolver.getFile(xref),
-                self.config)
+                self.config,spec.getRootPath())
     
         document.createParagraph("""
         Obscure views into projects/modules... 

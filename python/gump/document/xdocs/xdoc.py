@@ -246,8 +246,9 @@ class XDocSection(XDocPiece):
     def end(self):
         if not self.config.isXhtml():      
             self.context.writeLineIndented('</section>')
-        else:
-            self.context.writeLineIndented('<hr/>')    
+        # Not pretty.
+        #else:
+        #    self.context.writeLineIndented('<hr/>')    
         
     def createParagraph(self,text=None,transient=False):
         return self.storePiece(XDocParagraph(self.createSubContext(transient),self.config,text))
@@ -779,7 +780,7 @@ class XDocDocument(XDocPiece):
             self.context.writeLine('</document>')            
         else:
             from gump.core.config import default
-            self.context.writeLine('<p align="right">Last Updated: %s.<img align="right" src="%s/images/PythonPowered.gif" alt="Python Logo"/></p>' \
+            self.context.writeLine('<p align="right">Last Updated: %s.<A TARGET="_new" HREF="http://python.org"><img border ="0" align="right" src="%s/images/PythonPowered.gif" alt="Python Logo"/></A></p>' \
                                     % (default.datetime, self.rootpath)) 
             self.context.writeLine('</html>')            
         self.close()                  

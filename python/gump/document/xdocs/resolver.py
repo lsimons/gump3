@@ -15,7 +15,9 @@
 # limitations under the License.
 
 """
-    Resolving URLs/Files.
+
+    Resolving URLs/Files for Gump objects.
+    
 """
 
 import time

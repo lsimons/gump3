@@ -16,7 +16,7 @@
 # limitations under the License.
 
 """
-
+	An Ant builder (uses ant to build projects)
 """
 
 import os.path
@@ -26,10 +26,8 @@ from gump import log
 from gump.core.gumprun import *
 from gump.core.config import dir, default, basicConfig
 
-from gump.build.abstract import AbstractJavaBuilder
+import gump.build.abstract
 
-from gump.utils import dump, display, getIndent, logResourceUtilization, \
-                            invokeGarbageCollection
 from gump.utils.note import Annotatable
 from gump.utils.work import *
 
@@ -42,52 +40,53 @@ from gump.model.depend import  ProjectDependency
 from gump.model.stats import *
 from gump.model.state import *
 
-
-###############################################################################
-# Classes
-###############################################################################
-
-class AntBuilder(AbstractJavaBuilder):
+class AntBuilder(gump.build.abstract.AbstractJavaBuilder):
     
     def __init__(self,run):
-        AbstractJavaBuilder.__init__(self,run)
-
+        """
+        	The Ant Builder is a Java Builder
+    	""" 
+        gump.build.abstract.AbstractJavaBuilder.__init__(self,run)
 
     def buildProject(self,project,stats):
+        """
+        	Build a project using Ant, based off the <ant metadata.
+        	
+        	Note: switch on -verbose|-debug based of the stats for this
+        	project, i.e. how long in a state of failure.
+        """
         
         workspace=self.run.getWorkspace()
                  
         log.info('Run Ant on Project: #[' + `project.getPosition()` + '] : ' + project.getName())
     
-        #
         # Get the appropriate build command...
-        #
         cmd=self.getAntCommand(project, self.run.getEnvironment().getJavaCommand())
 
         if cmd:
             # Execute the command ....
             cmdResult=execute(cmd,workspace.tmpdir)
     
-            # Update Context    
+            # Update context with the fact that this work was done
             work=CommandWorkItem(WORK_TYPE_BUILD,cmd,cmdResult)
             project.performedWork(work)
             project.setBuilt(1)
                     
-            # Update Context w/ Results  
+            # Update context state based of the result  
             if not cmdResult.state==CMD_STATE_SUCCESS:
                 reason=REASON_BUILD_FAILED
                 if cmdResult.state==CMD_STATE_TIMED_OUT:
                     reason=REASON_BUILD_TIMEDOUT
-                project.changeState(STATE_FAILED,reason)
-                        
+                project.changeState(STATE_FAILED,reason)                        
             else:                         
                 # For now, things are going good...
                 project.changeState(STATE_SUCCESS)
-   
-    #
-    # Build an ANT command for this project
-    #        
+    
     def getAntCommand(self,project,javaCommand='java'):
+        """
+        	Build an ANT command for this project, based on the <ant metadata
+   			select targets and build files as appropriate.     	
+        """
         
         # The original model information...
         ant=project.ant
@@ -101,80 +100,46 @@ class AntBuilder(AbstractJavaBuilder):
         verbose=ant.isVerbose()
         debug=ant.isDebug()
     
-        #
         # Where to run this:
-        #
         basedir = ant.getBaseDirectory() or project.getBaseDirectory()
     
-        #
         # Build a classpath (based upon dependencies)
-        #
         (classpath,bootclasspath)=project.getClasspaths()
     
-        #
         # Get properties
-        #
         properties=self.getAntProperties(project)
    
-        #
-        # Get properties
-        #
+        # Get system properties
         sysproperties=self.getAntSysProperties(project)
    
-        #
-        # Get properties
-        #
-        jvmargs=self.getJVMArgs(project)
-   
-        #
         # Run java on apache Ant...
-        #
         cmd=Cmd(javaCommand,'build_'+project.getModule().getName()+'_'+project.getName(),\
             basedir,{'CLASSPATH':classpath})
             
         # These are workspace + project system properties
         cmd.addNamedParameters(sysproperties)
         
-        
-        # :NOTE: Commented out since <sysproperty was implemented.
-        #
-        # Set this as a system property. Setting it here helps JDK1.4+
-        # AWT implementations cope w/o an X11 server running (e.g. on
-        # Linux)
-        # cmd.addPrefixedParameter('-D','java.awt.headless','true','=')
-    
-    
-        # :NOTE: Commented out since <sysproperty was implemented.
-        #
-        # This helps ant maintain VM information for sub-VMs it launches.
-        #
-        # cmd.addPrefixedParameter('-D','build.clonevm','true','=')
-        
-        #
         # Add BOOTCLASSPATH
-        #
         if bootclasspath:
             cmd.addPrefixedParameter('-X','bootclasspath/p',bootclasspath,':')
             
+        # Get/set JVM properties
+        jvmargs=self.getJVMArgs(project)
         if jvmargs:
             cmd.addParameters(jvmargs)
             
+        # The Ant interface
         cmd.addParameter('org.apache.tools.ant.Main')  
     
-        #
         # Allow ant-level debugging...
-        #
         if project.getWorkspace().isDebug() or project.isDebug() or debug: 
             cmd.addParameter('-debug')  
         if project.getWorkspace().isVerbose()  or project.isVerbose() or verbose: 
             cmd.addParameter('-verbose')  
-        
-        #
-        #	This sets the *defaults*, a workspace could override them.
-        #        
-        # :NOTE: Commented out since <property on workspace works.
-        # cmd.addPrefixedParameter('-D','build.sysclasspath','only','=')
     
+        # Some builds might wish for this information
+        # :TODO: Grant greater access to Gump variables from
+        # within.
         mergeFile=project.getWorkspace().getMergeFile()
         if mergeFile:
             cmd.addPrefixedParameter('-D','gump.merge',str(mergeFile),'=')        
@@ -186,7 +151,7 @@ class AntBuilder(AbstractJavaBuilder):
         # Pass the buildfile
         if buildfile: cmd.addParameter('-f',buildfile)
     
-        # End with the target...
+        # End with the target (or targets)...
         if target: 
             for targetParam in target.split():
                 cmd.addParameter(targetParam)
@@ -194,20 +159,23 @@ class AntBuilder(AbstractJavaBuilder):
         return cmd
   
     def getAntProperties(self,project):
-        """Get properties for a project"""
+        """ Get properties for a project """
         properties=Parameters()
         for property in project.getWorkspace().getProperties()+project.getAnt().getProperties():
             properties.addPrefixedNamedParameter('-D',property.name,property.value,'=')
         return properties
 
     def getAntSysProperties(self,project):
-        """Get sysproperties for a project"""
+        """ Get sysproperties for a project """
         properties=Parameters()
         for property in project.getWorkspace().getSysProperties()+project.getAnt().getSysProperties():
             properties.addPrefixedNamedParameter('-D',property.name,property.value,'=')
         return properties
                 
     def preview(self,project,stats):        
+        """
+        	Preview what an Ant build would look like.
+        """
         command=self.getAntCommand(project) 
         command.dump()
  

@@ -15,12 +15,12 @@
 # limitations under the License.
 
 #
-# $Header: /home/stefano/cvs/gump/python/gump/admin/__init__.py,v 1.1 2004/04/16 17:28:42 ajack Exp $
+# $Header: /home/stefano/cvs/gump/python/gump/admin/__init__.py,v 1.2 2004/07/13 18:44:35 ajack Exp $
 # 
 
 """
 
-  Gump Core Entry Points.
+  Gump Admin entry points.
   
 """
 

@@ -48,9 +48,15 @@ from gump.model.state import *
 class ScriptBuilder(RunSpecific):
     
     def __init__(self,run):
+        """
+        A script 'builder'
+        """
         RunSpecific.__init__(self,run)
 
     def buildProject(self,project,stats):
+        """
+        Run a project's script (a .bat or a .sh as appropriate)
+        """
         
         workspace=self.run.getWorkspace()
                  
@@ -85,9 +91,7 @@ class ScriptBuilder(RunSpecific):
         """ Return the command object for a <script entry """
         script=project.script
            
-        #
         # Where to run this:
-        #
         basedir = script.getBaseDirectory() or project.getBaseDirectory()
 
         # Add .sh  or .bat as appropriate to platform
@@ -96,11 +100,8 @@ class ScriptBuilder(RunSpecific):
             scriptfullname += '.sh'
         else:
             scriptfullname += '.bat'
-      
-        # Optional 'verbose' or 'debug'
-        #verbose=script.isVerbose()
-        #debug=script.isDebug()
-       
+  
+        # The script
         scriptfile=os.path.abspath(os.path.join(basedir, scriptfullname))
         
         # Not sure this is relevent...
@@ -108,33 +109,13 @@ class ScriptBuilder(RunSpecific):
 
         cmd=Cmd(scriptfile,'buildscript_'+project.getModule().getName()+'_'+project.getName(),\
             basedir,{'CLASSPATH':classpath})    
-            
-        # Set this as a system property. Setting it here helps JDK1.4+
-        # AWT implementations cope w/o an X11 server running (e.g. on
-        # Linux)
-        #    
-        # Per GUMP-48 scripts do not want this.
-        # cmd.addPrefixedParameter('-D','java.awt.headless','true','=')
-    
-        #
-        # Add BOOTCLASSPATH
-        #
-        # Per GUMP-48 scripts do not want this.
-        #if bootclasspath:
-        #    cmd.addPrefixedParameter('-X','bootclasspath/p',bootclasspath,':')
-                    
-        #
-        # Allow script-level debugging...
-        #
-        # Per GUMP-48 scripts do not want this.        
-        #if project.getWorkspace().isDebug() or project.isDebug() or debug:
-        #    cmd.addParameter('-debug')  
-        #if project.getWorkspace().isVerbose()  or project.isVerbose() or verbose:
-        #    cmd.addParameter('-verbose')  
         
         return cmd
         
         
     def preview(self,project,stats):        
+        """
+        Preview what this would do
+        """
         command=self.getScriptCommand(project) 
         command.dump()

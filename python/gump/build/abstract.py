@@ -17,39 +17,21 @@
 
 """
 
+	An Abstract Java Builder, with the ability to get JVM arguments
+
 """
 
-import os.path
-import sys
-
 from gump import log
-from gump.core.gumprun import *
-from gump.core.config import dir, default, basicConfig
-
-from gump.utils import dump, display, getIndent, logResourceUtilization, \
-                            invokeGarbageCollection
-from gump.utils.note import Annotatable
-from gump.utils.work import *
-from gump.utils.domutils import *
-
-from gump.utils.tools import *
-
-from gump.model.workspace import *
-from gump.model.module import Module
-from gump.model.project import Project
-from gump.model.depend import  ProjectDependency
-from gump.model.stats import *
-from gump.model.state import *
-
+import gump.core.gumprun
 
 ###############################################################################
 # Classes
 ###############################################################################
 
-class AbstractJavaBuilder(RunSpecific):
+class AbstractJavaBuilder(gump.core.gumprun.RunSpecific):
     
     def __init__(self,run):
-        RunSpecific.__init__(self,run)
+        gump.core.gumprun.RunSpecific.__init__(self,run)
 
     def getJVMArgs(self,project):
         """Get JVM arguments for a project"""

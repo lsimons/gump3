@@ -15,7 +15,7 @@
 
 """
 
-    'Nag' (notification) e-mail generation...
+    A 'Nag' (notification) content.
     
 """
 

@@ -17,7 +17,8 @@
 
 """
 
- A gump environment
+ A gump environment (i.e. what tools are available in this machines
+ environment, and so forth).
  
 """
 
@@ -48,6 +49,13 @@ from gump.integration.depot import *
 TZ='%+.2d:00' % (-time.timezone/3600)
 
 class GumpEnvironment(Annotatable,Workable,Propogatable):
+    """
+    	Represents the environment that Gump is running within.
+    	
+    	What environment variables are set, what tools are 
+    	available, what Java command to use, etc.
+    	
+    """
 
     def __init__(self):
         Annotatable.__init__(self)
@@ -80,13 +88,13 @@ class GumpEnvironment(Annotatable,Workable,Propogatable):
         # DEPOT_HOME
         self.depotHome = None
         
-        #
         # Offset from UTC
-        #
         self.timezoneOffset=TZ
         
     def checkEnvironment(self,exitOnError=False):
-        """ Check Things That are Required """
+        """ 
+        Check Things That are Required 
+        """
         
         if self.checked: return
     
@@ -117,19 +125,19 @@ class GumpEnvironment(Annotatable,Workable,Propogatable):
         #	JAVA_HOME for bootstrap ant?
         #	CLASSPATH
     
-        if not self.noJavaHome and not self.checkEnvVariable('JAVA_HOME',False):    
+        if not self.noJavaHome and not self._checkEnvVariable('JAVA_HOME',False):    
             self.noJavaHome=True    
             self.addWarning('JAVA_HOME environmental variable not found. Might not be needed.')
                 
-        if not self.noClasspath and not self.checkEnvVariable('CLASSPATH',False):
+        if not self.noClasspath and not self._checkEnvVariable('CLASSPATH',False):
             self.noClasspath=True    
             self.addWarning('CLASSPATH environmental variable not found. Might not be needed.')
                 
-        if not self.noMaven and not self.checkEnvVariable('MAVEN_HOME',False): 
+        if not self.noMaven and not self._checkEnvVariable('MAVEN_HOME',False): 
             self.noMaven=True
             self.addWarning('MAVEN_HOME environmental variable not found, no maven builds.')
             
-        if not self.noDepot and not self.checkEnvVariable('DEPOT_HOME',False): 
+        if not self.noDepot and not self._checkEnvVariable('DEPOT_HOME',False): 
             self.noDepot=True
             self.addWarning('DEPOT_HOME environmental variable not found, no depot downloads.')
         
@@ -143,44 +151,44 @@ class GumpEnvironment(Annotatable,Workable,Propogatable):
         #	cvs
         #	svn
         #
-        self.checkExecutable('env','',False)
+        self._checkExecutable('env','',False)
 
-        if not self.noJava and not self.checkExecutable(self.javaCommand,'-version',exitOnError,1):
+        if not self.noJava and not self._checkExecutable(self.javaCommand,'-version',exitOnError,1):
             self.noJava=True
             self.noJavac=True
 
-        if not self.noJavac and not self.checkExecutable('javac','-help',False):
+        if not self.noJavac and not self._checkExecutable('javac','-help',False):
             self.noJavac=True
 
-        if not self.noJavac and not self.checkExecutable('java com.sun.tools.javac.Main','-help',False,False,'check_java_compiler'):
+        if not self.noJavac and not self._checkExecutable('java com.sun.tools.javac.Main','-help',False,False,'check_java_compiler'):
             self.noJavac=True
 
-        if not self.noCvs and not self.checkExecutable('cvs','--version',False):
+        if not self.noCvs and not self._checkExecutable('cvs','--version',False):
             self.noCvs=True
             self.addWarning('"cvs" command not found, no CVS repository updates')
         
-        if not self.noSvn and not self.checkExecutable('svn','--version',False):
+        if not self.noSvn and not self._checkExecutable('svn','--version',False):
             self.noSvn=True
             self.addWarning('"svn" command not found, no SVN repository updates')
         
         if not self.noTimeout:
-            if	not self.checkExecutable('timeout','60 env',False): 
+            if	not self._checkExecutable('timeout','60 env',False): 
                 self.noTimeout=True
                 self.addWarning('"timeout" command not found, no in-line command time outs')
             else:
                 setting.timeoutCommand=True
             
         if not self.noUpdate and \
-            not self.checkExecutable(getDepotUpdateCmd(),'-version',False,False,'check_depot_update'): 
+            not self._checkExecutable(getDepotUpdateCmd(),'-version',False,False,'check_depot_update'): 
             self.noUpdate=True
             self.addWarning('"update.py" command not found, no package downloads')
         
         if not self.noMaven and \
-            not self.checkExecutable('maven','--version',False,False,'check_maven'): 
+            not self._checkExecutable('maven','--version',False,False,'check_maven'): 
             self.noMaven=True
             self.addWarning('"maven" command not found, no Maven builds')
         
-        if not self.noPGrep and not self.checkExecutable('pgrep','-help',False): 
+        if not self.noPGrep and not self._checkExecutable('pgrep','-help',False): 
             self.noPGrep=True
             self.addWarning('"pgrep" command not found, no process clean-ups can occur')        
     
@@ -192,6 +200,7 @@ class GumpEnvironment(Annotatable,Workable,Propogatable):
         if not isinstance(self.javaProperties,NoneType): 
             return self.javaProperties
 
+        # Ensure we've determined the Java Compiler to use
         self.checkEnvironment()
         
         if self.noJavac: return {}
@@ -231,7 +240,7 @@ class GumpEnvironment(Annotatable,Workable,Propogatable):
 
         return self.javaProperties
 
-    def checkExecutable(self,command,options,mandatory,logOutput=False,name=None):
+    def _checkExecutable(self,command,options,mandatory,logOutput=False,name=None):
         ok=False
         try:
             if not name: name='check_'+command
@@ -263,7 +272,7 @@ class GumpEnvironment(Annotatable,Workable,Propogatable):
             
         return ok
     
-    def checkEnvVariable(self,env,mandatory=True):
+    def _checkEnvVariable(self,env,mandatory=True):
         ok=False
         try:
             ok=os.environ.has_key(env)

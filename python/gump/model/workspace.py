@@ -156,6 +156,19 @@ class Workspace(NamedModelObject, PropertyContainer, Statable, Resultable):
     def getServers(self):
         return self.servers.values()
         
+    def getPythonServers(self):
+        """
+        	Return the Python servers
+        """
+        return [server for server in self.getServers() if server.isPython() ]
+        
+    def hasMultiplePythonServers(self):
+        """
+        	Has more than one server (typically, for assuming that this one
+        	is the one, if one, so not doing server stuff).
+        """
+        return len(self.getPythonServers()) > 1
+        
     def getSortedServers(self):
         return self.sortedServers
 

@@ -76,6 +76,8 @@ class default:
     signature="\r\n--\r\nApache Gump\nhttp://gump.apache.org/ " \
         + '[Instance: ' + gumpfullhost + "]\n"
         
+        
+    # Information for portability
     if not os.name == 'dos' and not os.name == 'nt':
         classpathSeparator=':'
         shellQuote='\''

@@ -15,7 +15,7 @@
   limitations under the License.
 -->
 
-<server name="try" type="python" status="up">
+<server name="try" type="traditional" status="up">
   <attribution>Sybase Corporation</attribution>
   <title>TrySybase</title>
   <url>http://gump.try.sybase.com</url>

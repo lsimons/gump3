@@ -14,7 +14,9 @@
 # limitations under the License.
 
 """
-    'Nag' (notification) e-mail generation...
+
+    The 'Nag' (notification) e-mail generation Actor...
+    
 """
 
 import socket

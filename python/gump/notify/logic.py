@@ -14,7 +14,11 @@
 # limitations under the License.
 
 """
-    'Nag' (notification) e-mail generation...
+
+    The logic for 'Nag' (notification) e-mail generation, i.e. do it
+    when official or when first changes state (failed to success or
+    succes to failed).
+    
 """
 
 import socket
@@ -22,8 +26,6 @@ import time
 import os
 import sys
 import logging
-
-from string import lower, capitalize
 
 from gump import log
 from gump.core.config import *
