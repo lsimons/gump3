@@ -33,6 +33,7 @@
   <depend project="jakarta-velocity"/>
   <option project="jtidy"/>
   <option project="phpservlt"/>
+  <work nested="bin"/>
 
   <project name="jstyle">
     <url href="http://astyle.sourceforge.net/"/>
