@@ -26,6 +26,8 @@
       <regexp to="gump@jakarta.apache.org"/>
       <regexp pattern="/Dropping project/" subject="Project(s) dropped"
               to="gump@jakarta.apache.org"/>
+      <regexp pattern="/Dropping project \w+-block/" subject="Project(s) dropped"
+	      to="cocoon-dev@xml.apache.org"/>
     </nag>
   </project>
 </module>
