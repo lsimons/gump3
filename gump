@@ -98,6 +98,36 @@ function usage
         $0 test
 "
         ;;
+    dynagump)
+      echo "
+      Run Dynagump.
+
+      Usage:
+        $0 dynagump dynagump-action [dynagump-args ...]
+
+      Run
+        $0 dynagump help
+      for more information about the options dynagump accepts. If no action is
+      specified, gump passes run as the action to execute.
+"
+        ;;
+    create-database)
+      echo "
+      Create a new MySQL database with the gump database schema.
+
+      Usage:
+        $0 create-database [database-name] [mysql-args ...]
+
+      If no database-name is specified, gump will assume the database should
+      be named "gump". All other provided arguments are passed on to mysql, so
+      if you need to connect using a different username and password you can
+      do so, for example
+      
+        $0 create-database gump -u gump -p password_for_gump_user
+      
+      This command will fail if the specifed database already exists.
+"
+        ;;
     *)
       echo "
       Utility commandline interface for Gump.
@@ -123,19 +153,6 @@ function usage
       
       for more information about the environment variables that alter gump its
       behaviour.
-"
-      ;;
-    dynagump)
-      echo "
-      Run Dynagump.
-
-      Usage:
-        $0 dynagump dynagump-action [dynagump-args ...]
-
-      Run
-        $0 dynagump help
-      for more information about the options dynagump accepts. If no action is
-      specified, gump passes run as the action to execute.
 "
         ;;
   esac
@@ -320,6 +337,8 @@ function check_environment
 {
   check_command "$GUMP_PYTHON" "http://www.python.org/"
   check_command "pkill" "http://sourceforge.net/projects/proctools"
+  check_command "mysql" "http://www.mysql.com/"
+  check_command "mysqladmin" "http://www.mysql.com/"
 
   check_env_var "JAVA_HOME" "the location of the java jdk"
   
@@ -396,6 +415,33 @@ function dynagump
   cd "$current"
 }
 
+function create_database
+{
+  local db="$1"
+  shift
+  if [[ -z "$db" ]]; then
+    db="gump"
+  fi
+  
+  # this will also ensure we don't delete an existing database since the
+  # create command will fail
+  local mysqladminresult=`mysqladmin create "$db" $@`
+  if [[ ! -z "$mysqladminresult" ]]; then
+    error "Gump failed to create the database $db. mysqladmin said:
+
+$mysqladminresult"
+  fi
+  
+  local mysqlresult=`mysql create "$db" $@ <
+    $GUMP_HOME/gumpdb/src/sql/gump3-database-definition.sql`
+  
+  if [[ ! -z "$mysqlresult" ]]; then
+    error "Gump failed to populate the database $db. mysql said:
+
+$mysqlresult"
+  fi
+}
+
 #############################################################################
 # Main
 #############################################################################
@@ -426,6 +472,9 @@ function delegate
       ;;
     dynagump)
       dynagump $@
+      ;;
+    create-database)
+      create-database $@
       ;;
     help* | usage | --help | -help | -H | -h)
       usage $@
