@@ -19,10 +19,11 @@ __license__   = "http://www.apache.org/licenses/LICENSE-2.0"
 
 import platform
 
-from gump.core.run.gumprun import *
-import gump.core.run.actor
+# comment out stuff to make it import without errors...
+#from gump.core.run.gumprun import *
+#import gump.core.run.actor
 
-class Dynagumper(gump.core.run.actor.AbstractRunActor):
+class Dynagumper: #(gump.core.run.actor.AbstractRunActor):
     """
     Populate the DynaGump run metadata database.
     """
@@ -36,7 +37,7 @@ class Dynagumper(gump.core.run.actor.AbstractRunActor):
         Optional argument: log, instance of logging.logger or similar.
         Will use log from gump.logging if not provided.
         """
-        gump.core.run.actor.AbstractRunActor.__init__(self,run)    
+        #gump.core.run.actor.AbstractRunActor.__init__(self,run)    
         self.db = db
         
         if not log: from gump import log

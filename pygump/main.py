@@ -220,7 +220,7 @@ def send_email(toaddr,fromaddr,subject,data,server,port=25):
 
 def send_error_email(Exception,details,options,log):
     """
-    TODO. Send an error report by e-mail.
+    Send an error report by e-mail.
     """
     if options.mailserver and options.mailport and options.mailto and options.mailfrom:
         subject="Fatal error during pygump run [%s: %s]" % (options.hostname, options.name)
@@ -273,9 +273,10 @@ The full run log of this run:
 
 def start_engine(log,options):
     """
-    TODO. Fire up the core pygump engine to do its thing.
+    Fire up the core pygump engine to do its thing.
     """
-    pass
+    import gump.engine
+    engine.main(options)
 
 def main():
     """
