@@ -94,7 +94,7 @@ python gump/build.py -w ../myworkspace.xml all
 == Automating the "integration process" using integrate.py ==
 
 * install 'regular' gump as per http://jakarta.apache.org/gump/usage.html
-* install [http://www.activestate.com/Products/ActivePython/ Python 2.2]
+* install [http://www.activestate.com/Products/ActivePython/ Python 2.3]
 * open a shell and do something similar to:
 <source>
 SET PYTHONPATH=C:\jakarta-gump\python
