@@ -56,9 +56,11 @@
     <mkdir dir="modules/build/web/classes"/>
 
     <ant target="docs">
+      <property name="ant.home" project="jakarta-ant" reference="home"/>
       <property name="version" value="@@DATE@@"/>
     </ant>
 
+    <depend project="jakarta-ant" inherit="all" />
     <depend project="xdoclet-compile-core" inherit="all" />
     <depend project="xdoclet-xdoclet-module-prepare" />
 
