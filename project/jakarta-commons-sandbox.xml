@@ -127,6 +127,7 @@
     <depend project="commons-grant"/>
     <depend project="commons-httpclient"/>
     <depend project="commons-jexl"/>
+    <depend project="commons-lang"/>
     <depend project="commons-logging"/>
     <depend project="commons-messenger"/>
     <depend project="dom4j"/>
