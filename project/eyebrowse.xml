@@ -50,8 +50,8 @@
     <depend project="jakarta-servletapi"/>
     <depend project="commons-collections"/>
 
-    <javadoc nested="build/javadocs"/>
-    <home nested="eyebrowse-@@DATE@@/lib"/>    
+    <javadoc nested="target/eyebrowse-@@DATE@@/docs/api"/>
+    <home nested="target/eyebrowse-@@DATE@@/WEB-INF/lib"/>    
     <jar name="eyebrowse.jar"/>
   </project>
 
