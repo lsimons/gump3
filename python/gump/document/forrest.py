@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/forrest.py,v 1.99 2004/03/11 16:13:50 ajack Exp $
-# $Revision: 1.99 $f
-# $Date: 2004/03/11 16:13:50 $
+# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/forrest.py,v 1.100 2004/03/12 02:50:52 ajack Exp $
+# $Revision: 1.100 $f
+# $Date: 2004/03/12 02:50:52 $
 #
 # ====================================================================
 #
@@ -67,6 +67,7 @@ import time
 import os
 import sys
 import logging
+import shutil
 from string import lower,replace
 from xml.sax.saxutils import escape
 
@@ -111,8 +112,9 @@ class ForrestDocumenter(Documenter):
         gumpSet=run.getGumpSet()
     
         # Seed with default/site skins/etc.
-        self.seedForrest(workspace)
+        self.prepareForrest(workspace)
        
+       # Document...
         self.documentWorkspace(run,workspace,gumpSet)    
         if gumpSet.isFull():
             self.documentStatistics(run,workspace,gumpSet)
@@ -139,30 +141,45 @@ class ForrestDocumenter(Documenter):
         fdir=os.path.abspath(os.path.join(dir.template,'site-forrest'))
         return fdir  
     
-    def seedForrest(self,workspace):   
+    def prepareForrest(self,workspace):   
         """ 
         
-        Copy the main template (perhaps with site tweaks) to seed
+        Copy the main template (perhaps with site tweaks) to prepare
         
         """        
-        
+        #
+        # First deleted the tree (if exists), then ensure created
+        #
+        forrestDir=self.getForrestDirectory(workspace)
+        if os.path.exists(forrestDir):
+            shutil.rmtree(forrestDir)            
+        os.makedirs(forrestDir)
+            
         # Copy in the defaults        
         forrestTemplate=self.getForrestTemplateDirectory()           
         syncDirectories(	forrestTemplate,	\
-                            self.getForrestDirectory(workspace),	\
+                            forrestDir,	\
                             workspace)    
                                     
         # Copy over the local site defaults (if any)        
         forrestSiteTemplate=self.getForrestSiteTemplateDirectory()  
         if os.path.exists(forrestSiteTemplate):
             copyDirectories(forrestSiteTemplate,	\
-                            self.getForrestDirectory(workspace),	\
+                            forrestDir,	\
                             workspace)               
          
     def executeForrest(self,workspace):
         # The project tree
         xdocs=self.resolver.getDirectory(workspace)      
         forrestDir=self.getForrestDirectory(workspace)      
+        
+        #
+        # First deleted the tree (if exists), then ensure created
+        #
+        logDirectory=workspace.getLogDirectory()
+        if os.path.exists(logDirectory):
+            shutil.rmtree(logDirectory)            
+        os.makedirs(logDirectory)
         
         # Then generate...        
         forrest=Cmd('forrest','forrest',forrestDir)
@@ -174,7 +191,7 @@ class ForrestDocumenter(Documenter):
         #    xdocs, '=')
             
         forrest.addPrefixedParameter('-D','project.site-dir',  \
-            workspace.getLogDirectory(), '=')
+            logDirectory, '=')
          
         #   
         # Do we just tweak forrest.properties?
@@ -1213,17 +1230,17 @@ class ForrestDocumenter(Documenter):
         depees = 0
         
         depens += self.documentDependenciesList(dependencySection, "Project Dependencies",	\
-                    project.getDirectDependencies(), 0, project)
+                    project.getDirectDependencies(), 0, 0, project)
                     
         depees += self.documentDependenciesList(dependencySection, "Project Dependees",		\
-                    project.getDirectDependees(), 1, project)
+                    project.getDirectDependees(), 1, 0, project)
                     
         if project.isVerboseOrDebug():
             self.documentDependenciesList(dependencySection, "Full Project Dependencies",	\
-                    project.getFullDependencies(), 0, project)
+                    project.getFullDependencies(), 0, 1, project)
                                                 
             self.documentDependenciesList(dependencySection, "Full Project Dependees",		\
-                    project.getFullDependees(), 1, project)
+                    project.getFullDependees(), 1, 1, project)
         
         deps = depees + depens
         
@@ -1292,12 +1309,16 @@ class ForrestDocumenter(Documenter):
         if not paths:        
             pathTable.createLine('No ' + title + ' entries')
                      
-    def documentDependenciesList(self,xdocNode,title,dependencies,dependees,referencingObject):        
+    def documentDependenciesList(self,xdocNode,title,dependencies,dependees,full,referencingObject):        
         totalDeps=0
                 
         if dependencies:
             dependencySection=xdocNode.createSection(title)
-            dependencyTable=dependencySection.createTable(['Name','Type','Inheritence','Ids','State','Contributor','Notes'])
+            titles=['Name','Type','Inheritence','Ids','State']
+            if full:
+                titles.append('Contributor')
+            titles.append('Notes')
+            dependencyTable=dependencySection.createTable(titles)
             for depend in dependencies:
                 
                 totalDeps += 1
@@ -1331,12 +1352,13 @@ class ForrestDocumenter(Documenter):
                 # State Icon
                 self.insertStateIcon(project,referencingObject,dependencyRow.createData())
                 
-                # Contributor
-                if not dependees:
-                    contributor=depend.getOwnerProject()
-                else:
-                    contributor=depend.getProject()
-                self.insertLink( contributor, referencingObject, dependencyRow.createData())      
+                if full:
+                    # Contributor
+                    if not dependees:
+                        contributor=depend.getOwnerProject()
+                    else:
+                        contributor=depend.getProject()
+                    self.insertLink( contributor, referencingObject, dependencyRow.createData())      
                 
                 # Dependency Annotations
                 noteData=dependencyRow.createData()

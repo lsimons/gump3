@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/document/resolver.py,v 1.16 2004/03/09 23:20:32 ajack Exp $
-# $Revision: 1.16 $
-# $Date: 2004/03/09 23:20:32 $
+# $Header: /home/stefano/cvs/gump/python/gump/document/resolver.py,v 1.17 2004/03/12 02:50:52 ajack Exp $
+# $Revision: 1.17 $
+# $Date: 2004/03/12 02:50:52 $
 #
 # ====================================================================
 #
@@ -425,4 +425,4 @@ class Resolver:
         return (url, description)
         
     def getImageUrl(self,name):
-        return self.getAbsoluteUrlForRelative('gump_images/'+name)
+        return self.getAbsoluteUrlForRelative('images/'+name)

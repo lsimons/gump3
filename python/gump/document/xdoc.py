@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/xdoc.py,v 1.16 2004/03/05 23:42:22 ajack Exp $
-# $Revision: 1.16 $
-# $Date: 2004/03/05 23:42:22 $
+# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/xdoc.py,v 1.17 2004/03/12 02:50:52 ajack Exp $
+# $Revision: 1.17 $
+# $Date: 2004/03/12 02:50:52 $
 #
 # ====================================================================
 #
@@ -67,6 +67,8 @@ import time
 import os
 import sys
 import logging
+import types
+
 from types import NoneType
 from xml.sax.saxutils import escape
 
@@ -75,6 +77,23 @@ from gump import log
 from gump.utils import *
 from gump.utils.xmlutils import xmlize
 from gump.utils.owner import *
+
+#
+# MAP anything outside 32..128 to _
+#
+MAP=[]
+UMAP=[]
+i=0
+while i<=255:
+    if i == 10 or i==13 or (i >= 32 and i < 128):
+        MAP.append(chr(i))
+        UMAP.append(unicode(chr(i)))
+    else:
+        MAP.append(chr(95))
+        UMAP.append(unicode(chr(95)))
+    i+=1
+STRING_MAP_TABLE=''.join(MAP)
+UNICODE_MAP_TABLE=unicode('').join(UMAP)
 
 class XDocContext(Ownable):
     def __init__(self,stream=None,pretty=1,depth=0):
@@ -129,20 +148,20 @@ class XDocContext(Ownable):
     def writeRawLineIndented(self,raw):
         if self.pretty:
             self.performIO(getIndent(self.depth))    
-        self.performIO(escape(raw))
+        self.performIO(self.map(raw))
         self.performIO('\n')
         
-    def writeRawLine(self,raw):
-        self.performIO(escape(raw))
+    def writeRawLine(self,raw):   
+        self.performIO(self.map(raw))
         self.performIO('\n')
         
     def writeRawIndented(self,raw):
         if self.pretty:
             self.performIO(getIndent(self.depth))    
-        self.performIO(escape(raw))
+        self.performIO(self.map(raw))
         
     def writeRaw(self,raw): 
-        self.performIO(escape(raw))
+        self.performIO(self.map(raw))
     
     def isTransient(self):
         return isinstance(self.stream,StringIO.StringIO)
@@ -170,6 +189,11 @@ class XDocContext(Ownable):
                 self.stream.close()
             except: pass
             
+    def map(self,raw):
+        if isinstance(raw,types.UnicodeType):
+            return escape(raw.translate(UNICODE_MAP_TABLE))
+        return escape(raw.translate(STRING_MAP_TABLE))
+        
 class XDocPiece(Ownable):
     def __init__(self,context=XDocContext()):
         Ownable.__init__(self)    

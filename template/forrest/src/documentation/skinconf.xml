@@ -90,8 +90,8 @@ be used to configure the chosen Forrest skin.
   want these, set the attributes to blank. The DTD purposefully requires them.
   -->
   <trail>
-    <link1 name="Jakarta" href="http://jakarta.apache.org/"/>
-    <link2 name="Jakarta Gump" href="http://jakarta.apache.org/gump/"/>
+    <link1 name="Gump" href="http://gump.apache.org/"/>
+    <link2 name="" href=""/>
     <link3 name="" href=""/>
   </trail>
 

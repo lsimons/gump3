@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/utils/Attic/launcher.py,v 1.14 2004/03/11 16:13:50 ajack Exp $
-# $Revision: 1.14 $
-# $Date: 2004/03/11 16:13:50 $
+# $Header: /home/stefano/cvs/gump/python/gump/utils/Attic/launcher.py,v 1.15 2004/03/12 02:50:52 ajack Exp $
+# $Revision: 1.15 $
+# $Date: 2004/03/12 02:50:52 $
 #
 # ====================================================================
 #
@@ -332,24 +332,34 @@ def killChildProcesses():
     gumpid=default.gumpid
     log.warn('Kill all child processed (anything launched by Gumpy) [PID' + str(gumpid) + ']')    
     pidsFile = dir.tmp + '/childPIDs.txt'
+    
+    #
+    # :TODO:
+    # This sucks, we need to get to *ALL* children, not
+    # just direct children.
+    #
     command='pgrep -P ' + str(gumpid) + ' -l > ' + pidsFile
     os.system(command)
     
     ids=None
     try:     
-        ids=open(pidsFile,'r')
+        try:
+            ids=open(pidsFile,'r')
     
-        line=ids.readline()
-        while line:            
-            parts=line.split()
-            childPID=int(parts[0])
-            process=parts[1]
-            if not process=='python':
-                log.warn('Terminate PID [' + str(childPID) + '] Process: [' + process + ']')            
-                os.kill(childPID,signal.SIGKILL)
-            
-            # Get next PID/process combination
             line=ids.readline()
+            while line:            
+                parts=line.split()
+                childPID=int(parts[0])
+                process=parts[1]
+                if not process=='python':
+                    log.warn('Terminate PID [' + str(childPID) + '] Process: [' + process + ']')            
+                    os.kill(childPID,signal.SIGKILL)
+            
+                # Get next PID/process combination
+                line=ids.readline()
+        except Exception, details:
+            log.error('Failed to dispatch signal ' + str(details), exc_info=1)
+            
     finally:
         if ids: ids.close()
     
