@@ -9,7 +9,7 @@
     <method>pserver</method>
     <user>anonymous</user>
     <password></password>
-    <hostname>cvs.sourceforge.net</hostname>
+    <hostname>sourceforge.net</hostname>
     <path>/cvsroot</path>
   </root>
 </repository>
