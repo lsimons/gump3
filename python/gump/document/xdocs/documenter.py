@@ -519,15 +519,15 @@ class XDocDocumenter(Documenter):
             syndRow=definitionTable.createRow()
             syndRow.createData('Definition')
             syndRow.createData().createLink('workspace_defn.html','XML')
-                            
-        self.documentSummary(document,self.workspace.getProjectSummary())        
+                                
         self.documentAnnotations(document,self.workspace)
         #self.documentXML(document,self.workspace)
         
         detailsSection=document.createSection('Details')
                     
         detailsTable=detailsSection.createTable()
-        detailsTable.createEntry("State : ", self.workspace.getStateDescription()) 
+        detailsTable.createEntry("State : ", 
+                self.workspace.getStateDescription()) 
 
         e = secsToElapsedTimeString(self.workspace.getElapsedSecs())
         if e : detailsTable.createEntry("Elapsed Time : ", e)
@@ -1021,8 +1021,7 @@ This page helps Gumpmeisters (and others) observe community progress.
         # module_todos.xml
         #
         document=XDocDocument('Modules with issues',
-                    self.resolver.getFile(self.workspace,'module_todos'),)            
-        self.documentSummary(document, self.workspace.getProjectSummary())
+                    self.resolver.getFile(self.workspace,'module_todos'),)   
         
         modulesSection=document.createSection('Modules with TODOs')               
         modulesSection.createParagraph("""These are the modules that need 'fixing', or contained projects that need fixing.
@@ -1084,8 +1083,7 @@ The count of affected indicates relative importance of fixing this module.""")
         # module_fixes.xml
         #
         document=XDocDocument('Modules with fixes',
-                    self.resolver.getFile(self.workspace,'module_fixes'),)            
-        self.documentSummary(document, self.workspace.getProjectSummary())
+                    self.resolver.getFile(self.workspace,'module_fixes'),)     
         
         modulesSection=document.createSection('Modules recently fixed')           
         modulesSection.createParagraph("""These are the modules that were 'fixed' (state changed to success), or contained projects that were fixed, within %s runs.
@@ -1143,9 +1141,7 @@ This page helps Gumpmeisters (and others) observe community progress.
         # Modules.xml
         #
         document=XDocDocument( 'All Modules',	\
-            self.resolver.getFile(self.workspace,'modules'))
-        
-        self.documentSummary(document, self.workspace.getProjectSummary())
+            self.resolver.getFile(self.workspace,'modules'))        
         
         modulesSection=document.createSection('All Modules')
         modulesTable=modulesSection.createTable(['Name','Module State','Project State(s)','Elapsed','FOG Factor'])
@@ -1526,16 +1522,10 @@ This page helps Gumpmeisters (and others) observe community progress.
         #document=XDocDocument('Module Details : ' + module.getName(),	\
         #            self.resolver.getFile(module, \
         #                            'index_details', \
-        #                                '.xml'))
-            
-        detailSection=document.createSection('Module Details')
-        detailList=detailSection.createList()
-        detailList.createEntry("State: " + module.getStateDescription())
-        if not module.getReason() == REASON_UNSET:
-            detailList.createEntry("Reason: ", module.getReasonDescription())
-        if module.cause and not module==module.cause:
-             self.insertTypedLink( module.cause, module, detailList.createEntry( "Root Cause: ")) 
+        #                                '.xml'))            
              
+        detailsSection=document.createSection('Details')
+        
         if module.hasRepository():
             
             repoSection=detailSection.createSection('Repository')
@@ -2307,7 +2297,7 @@ This page helps Gumpmeisters (and others) observe community progress.
                         
                         # Do the transfer..
                         copyfile(output,displayedOutput)                        
-                        outputSection.createParagraph().createLink(outputBaseName,'Output File')
+                        outputSection.createParagraph().createLink(outputBaseName,'Complete Output File')
                         
                     else: 
                         #
@@ -2424,7 +2414,7 @@ This page helps Gumpmeisters (and others) observe community progress.
                         
                             # Do the transfer..
                             copyfile(output,displayedOutput)                        
-                            outputSection.createParagraph().createLink(outputBaseName,'Output File')
+                            outputSection.createParagraph().createLink(outputBaseName,'Complete File')
                         else:
                             outputSource=outputSection.createSource()    
                             o=None
