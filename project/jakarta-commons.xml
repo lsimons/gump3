@@ -55,6 +55,15 @@
     <jar name="commons-collections.jar"/>
   </project>
 
+  <project name="commons-httpclient">
+    <url href="http://jakarta.apache.org/commons/"/>
+
+    <ant basedir="httpclient" target="dist"/>
+    <depend project="jakarta-ant"/>
+    <depend project="xml-xerces"/>
+    <home nested="httpclient/build"/>
+  </project>
+
   <project name="commons-dbcp">
     <url href="http://jakarta.apache.org/commons/"/>
 
