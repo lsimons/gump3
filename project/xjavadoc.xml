@@ -5,8 +5,7 @@
     Enhanced Doclet engine.
   </description>
 
-  <cvs repository="sourceforge" host-prefix="cvs.xdoclet" dir="xdoclet"
-    tag="jboss_1_1"/>
+  <cvs repository="sourceforge" host-prefix="cvs.xdoclet" dir="xdoclet" />
   
   <project name="xjavadoc">
     <package>xjavadoc</package>
@@ -18,6 +17,7 @@
     <depend project="jrefactory"/>
     <depend project="jakarta-log4j"/>
     <depend project="junit"/>
-    <jar name="xjavadoc.jar"/>
+    <depend project="commons-logging" />
+    <jar name="dist/xjavadoc.jar"/>
   </project>
 </module>
