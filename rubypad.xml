@@ -49,7 +49,7 @@
   <project href="project/bsf.xml"/>
   <project href="project/castor.xml"/>
   <project href="project/jdom.xml"/>
-  <project href="project/junit.xml" home="C:\junit3.5"/>
+  <project href="project/junit.xml"/>
   <project href="project/freemarker.xml"/>
   <project href="project/rhino.xml"/>
   <project href="project/village.xml"/>

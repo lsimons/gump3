@@ -5,6 +5,17 @@
     Unit test framework
   </description>
 
+  <cvs repository="junit"/>
+
+  <ant>
+    <property name="dist" reference="home" project="junit"/>
+  </ant>
+
+  <depend project="jakarta-ant"/>
+  <depend project="xml-xerces"/>
+  <work parent="dist/junit/junit.jar"/>
+
+  <home parent="dist/junit"/>
   <jar name="junit.jar" id="junit"/>
 
 </project>
