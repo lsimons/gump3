@@ -139,9 +139,10 @@
     <jar name="lib/crossdb.jar" />
   </project>
   
-  <!-- CVS is temporarily down, this seems to be the latest released version -->
+  <!-- CVS is temporarily down, this seems to be the latest released version
   <project name="hsqldb">
     <jar name="lib/hsqldb.jar" />
   </project>
+  -->
 
 </module>
