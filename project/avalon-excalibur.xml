@@ -39,7 +39,6 @@
         <depend project="excalibur-collections" runtime="true" inherit="jars"/>
         <depend project="excalibur-configuration" runtime="true" inherit="jars"/>
         <depend project="excalibur-container" runtime="true" inherit="jars"/>
-        <depend project="excalibur-converter" runtime="true" inherit="jars"/>
         <depend project="excalibur-datasource" runtime="true" inherit="jars"/>
         <depend project="excalibur-event" runtime="true" inherit="jars"/>
         <depend project="excalibur-extension" runtime="true" inherit="jars"/>
@@ -286,33 +285,6 @@
         <jar name="build/lib/excalibur-container-@@DATE@@.jar"/>
 
         <nag from="Stephen McConnell &lt;mcconnell@apache.org&gt;"
-                to="dev@avalon.apache.org"/>
-    </project>
-
-    <project name="excalibur-converter">
-        <package>org.apache.excalibur.converter</package>
-
-        <ant basedir="converter">
-            <property name="jakarta-site.dir" project="jakarta-site2"
-                    reference="srcdir" />
-            <property name="version" value="@@DATE@@"/>
-            <property name="junit.failonerror" value="true"/>
-            <property name="do.checkstyle" value="true"/>
-            <property name="skip.dependencies" value="true"/>
-        </ant>
-
-        <depend project="ant" inherit="runtime"/>
-        <depend project="avalon" runtime="true"/>
-        <option project="checkstyle" inherit="runtime"/>
-        <depend project="junit"/>
-        <depend project="xml-xerces"/>
-        <depend project="excalibur-i18n" runtime="true"/>
-        <work nested="converter/build/classes"/>
-
-        <home nested="converter"/>
-        <jar name="build/lib/excalibur-converter-@@DATE@@.jar"/>
-
-        <nag from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"
                 to="dev@avalon.apache.org"/>
     </project>
 
