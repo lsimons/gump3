@@ -129,7 +129,7 @@
   </project>
   
   <project name="ojb-torque">
-    <jar name="lib/torque-3.0-rc1.jar" />
+    <jar name="lib/torque-3.0.jar" />
   </project>
   
   <project name="ojb-jcs">
