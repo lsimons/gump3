@@ -168,6 +168,7 @@
   <module href="project/krysalis-version.xml" />
   <module href="project/krysalis-ruper.xml"/>
   <module href="project/ruper2.xml"/>
+  <module href="project/krysalis-viprom.xml"/>
   <module href="project/krysalis-centipede.xml" />
   <module href="project/krysalis-antlibs.xml"/>
   <module href="project/krysalis-template-smoketest.xml"/>
