@@ -120,6 +120,7 @@
     </ant>
     <depend project="jakarta-ant"/>
     <depend project="xml-xerces"/>
+    <depend project="commons-logging"/>
     <depend project="jakarta-servletapi-4"/>
     <depend project="jms"/>
     <jar name="messenger/dist/commons-messenger.jar"/>
