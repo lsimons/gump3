@@ -14,6 +14,8 @@
       <property name="jaxp.home" reference="home" project="jaxp"/>
       <property name="ant.home" reference="home" project="ant"/>
       <property name="jsse.home" reference="home" project="jsse"/>
+      <property name="commons-logging.home" reference="home" 
+        project="commons-logging" />
 
       <property name="jakarta-tomcat-connectors" reference="srcdir"
         project="jakarta-tomcat-connectors-coyote_10"/>
