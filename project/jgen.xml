@@ -33,7 +33,7 @@
     
     <depend project="commons-jxpath"/>
     <depend project="jakarta-servletapi-4"/>
-    <depend project="jakarta-log4j"/>
+    <depend project="logging-log4j"/>
     <depend project="jaxen"/>
     <depend project="junit"/>
     <depend project="commons-jexl"/>

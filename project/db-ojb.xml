@@ -45,7 +45,7 @@
     <depend project="jakarta-velocity"/>
     <depend project="excalibur-component"/>
     <depend project="avalon-logkit"/>
-    <depend project="jakarta-log4j"/>
+    <depend project="logging-log4j"/>
     <depend project="jakarta-regexp"/>
     <depend project="jakarta-servletapi"/>
     <depend project="jdbc"/>
@@ -99,7 +99,7 @@
     <depend project="jakarta-velocity"/>
     <depend project="excalibur-component"/>
     <depend project="avalon-logkit"/>
-    <depend project="jakarta-log4j"/>
+    <depend project="logging-log4j"/>
     <depend project="jakarta-regexp"/>
     <depend project="jakarta-servletapi"/>
     <depend project="jdbc"/>

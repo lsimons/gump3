@@ -66,8 +66,6 @@
   <module href="project/jakarta-ecs.xml"/>
   <module href="project/jakarta-jetspeed.xml"/>
   <module href="project/jakarta-jmeter.xml"/>
-  <module href="project/jakarta-log4j.xml"/>
-  <module href="project/jakarta-log4j-12.xml"/>
   <module href="project/jakarta-lucene.xml"/>
   <module href="project/jakarta-oro.xml"/>
   <module href="project/jakarta-poi.xml"/>
@@ -116,6 +114,10 @@
 
   <module href="project/gump-test.xml"/>
   
+<!-- Apache.Logging -->
+  <module href="project/logging-log4j.xml"/>
+  <module href="project/logging-log4j-12.xml"/>
+
 <!-- Apache.Maven -->
   <module href="project/maven.xml"/>
 
@@ -333,6 +335,7 @@
   <repository href="repository/james.xml"/>
   <repository href="repository/javanet.xml"/>
   <repository href="repository/jdom.xml"/>
+  <repository href="repository/logging.xml"/>
   <repository href="repository/maven.xml"/>
   <repository href="repository/mozilla.xml"/>
   <repository href="repository/tigris.xml"/>

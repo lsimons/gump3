@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="ISO-8859-1" ?>
 <!--
-  Copyright 2001-2004 The Apache Software Foundation
+  Copyright 2004 The Apache Software Foundation
 
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -14,16 +14,16 @@
   See the License for the specific language governing permissions and
   limitations under the License.
 -->
-<module name="jakarta-log4j-12" tag="v1_2-branch">
+<module name="logging-log4j-12" tag="v1_2-branch">
 
-  <url href="http://jakarta.apache.org/log4j/index.html"/>
+  <url href="http://logging.apache.org/log4j/index.html"/>
   <description>
     Fast and flexible logging package for Java
   </description>
 
-  <cvs repository="jakarta" module="jakarta-log4j"/>
+  <cvs repository="logging" module="logging-log4j"/>
   
-  <project name="jakarta-log4j-12">
+  <project name="logging-log4j-12">
     <package>org.apache.log4j</package>
 
     <ant target="jar">
@@ -41,7 +41,7 @@
     <!--home nested="dist"/-->
     <jar  name="dist/lib/log4j-@@DATE@@.jar"/>
     
-    <nag to="log4j-dev@jakarta.apache.org"
+    <nag to="log4j-dev@logging.apache.org"
          subject="Build Failure 1.2 branch"
          from="Ceki Gülcü &lt;ceki@apache.org&gt;"/>
   </project>
@@ -56,14 +56,14 @@
     <depend project="ant" />
     <depend project="xml-xerces" />
     <depend project="junit" />
-    <depend project="jakarta-log4j-12" />
+    <depend project="logging-log4j-12" />
     <depend project="jakarta-oro" />
 
     <work nested="dist/classes" />
     <work nested="tests/classes" />
     <work nested="tests/resources" />
 
-    <nag to="log4j-dev@jakarta.apache.org"
+    <nag to="log4j-dev@logging.apache.org"
          subject="Test Failure 1.2 branch"
          from="Ceki Gülcü &lt;ceki@apache.org&gt;"/>
   </project>

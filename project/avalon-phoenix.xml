@@ -47,7 +47,7 @@
         <depend project="phoenix-qdox" runtime="true"/>
         <option project="jakarta-servletapi-4" runtime="true"/>
         <depend project="junit"/>
-        <depend project="jakarta-log4j"/>
+        <depend project="logging-log4j"/>
 
         <work nested="target/classes"/>
 

@@ -378,7 +378,7 @@
     <depend project="xml-xerces"/>
     <depend project="xml-xalan2"/>
     <depend project="commons-httpclient" inherit="runtime"/>
-    <depend project="jakarta-log4j"/>
+    <depend project="logging-log4j"/>
     <depend project="jakarta-regexp"/>
     <depend project="jakarta-servletapi-4"/>
     <depend project="jdom"/>
@@ -420,7 +420,7 @@
     <ant basedir="logging" target="dist"/>
     <depend project="ant" inherit="runtime"/>
     <depend project="xml-xerces"/>
-    <depend project="jakarta-log4j"/>
+    <depend project="logging-log4j"/>
     <depend project="avalon-logkit"/>
     <home nested="logging/dist"/>
     <jar name="commons-logging.jar" id="all" />

@@ -37,7 +37,7 @@
     <depend project="ant" inherit="runtime"/>
     <depend project="xml-xerces"/>
     <depend project="javacc"/>
-    <depend project="jakarta-log4j"/>
+    <depend project="logging-log4j"/>
     <depend project="junit"/>
     <depend project="commons-logging" runtime="true"/>
     <depend project="commons-collections" runtime="true"/>

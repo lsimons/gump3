@@ -541,7 +541,7 @@
         <option project="checkstyle" inherit="runtime"/>
         <depend project="junit"/>
         <depend project="avalon-framework" runtime="true" id="combined"/>
-        <depend project="jakarta-log4j" runtime="true"/>
+        <depend project="logging-log4j" runtime="true"/>
         <depend project="xml-xerces"/>
         <depend project="xml-xalan2"/>
 

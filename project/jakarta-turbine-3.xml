@@ -56,7 +56,7 @@
     <depend project="httpunit"/>
     <depend project="jakarta-regexp"/>
     <depend project="junit"/>
-    <depend project="jakarta-log4j"/>
+    <depend project="logging-log4j"/>
     <depend project="jakarta-servletapi"/>
     <depend project="jakarta-turbine-stratum"/>
     <depend project="jtidy"/>

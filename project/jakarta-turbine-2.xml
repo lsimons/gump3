@@ -59,7 +59,7 @@
     <depend project="jaf"/>
     <depend project="jdbc"/>
     <depend project="jndi"/>
-    <depend project="jakarta-log4j" runtime="true"/>
+    <depend project="logging-log4j" runtime="true"/>
     <depend project="jakarta-servletapi-4"/>
     <depend project="jakarta-turbine-stratum" runtime="true"/>
     <depend project="db-torque" runtime="true"/>

@@ -43,7 +43,7 @@
     <depend project="commons-dbcp" />
     <depend project="commons-logging" />
     <depend project="commons-pool" />
-    <depend project="jakarta-log4j"/>
+    <depend project="logging-log4j"/>
     <depend project="jakarta-servletapi-5-servlet"/>
     <depend project="jakarta-struts"/>
     <depend project="javamail"/>

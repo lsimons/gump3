@@ -41,7 +41,7 @@
     <depend project="db-torque"/>
     <depend project="jaf"/>
     <depend project="javamail"/>
-    <depend project="jakarta-log4j"/>
+    <depend project="logging-log4j"/>
     <option project="jakarta-lucene"/>
     <option project="commons-util"/>
     <depend project="jakarta-turbine-fulcrum"/>

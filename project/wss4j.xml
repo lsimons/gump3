@@ -41,7 +41,7 @@
     <depend project="cryptix"/>
     <depend project="jce"/>
     <depend project="junit"/>
-    <depend property="log4j.jar" project="jakarta-log4j" id="log4j"/>
+    <depend property="log4j.jar" project="logging-log4j" id="log4j"/>
     <depend project="javamail"/>
     <depend project="wsdl4j"/>
     <depend project="xml-xalan2" inherit="runtime"/>

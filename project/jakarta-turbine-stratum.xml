@@ -48,7 +48,7 @@
     <depend project="commons-logging"/>
     <depend project="commons-betwixt"/>
     <depend project="commons-digester"/>
-    <depend project="jakarta-log4j"/>
+    <depend project="logging-log4j"/>
     <depend project="commons-messenger"/>
     <depend project="jms"/>
     <depend project="junit"/>
@@ -87,7 +87,7 @@
     <depend project="commons-logging"/>
     <depend project="commons-betwixt"/>
     <depend project="commons-digester"/>
-    <depend project="jakarta-log4j"/>
+    <depend project="logging-log4j"/>
     <depend project="bootstrap-ojb"/>
     <depend project="commons-messenger"/>
     <depend project="jms"/>

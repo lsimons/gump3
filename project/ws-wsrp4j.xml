@@ -36,7 +36,7 @@
     <depend project="ant" inherit="runtime"/>
     <depend project="castor"/>
     <depend project="junit"/>
-    <depend project="jakarta-log4j"/>
+    <depend project="logging-log4j"/>
     <depend project="jakarta-pluto"/>
     <depend project="jakarta-regexp"/>
     <depend project="jakarta-servletapi-4"/>

@@ -34,7 +34,7 @@
     <depend project="ant" runtime="false"/>
     <depend project="junit" runtime="true"/>
     <depend project="commons-logging" runtime="true"/>
-    <depend project="jakarta-log4j" runtime="true"/>
+    <depend project="logging-log4j" runtime="true"/>
     <depend project="javacc" runtime="false"/> 
 
     <work nested="smartfrog/build"/>

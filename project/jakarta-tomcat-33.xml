@@ -51,7 +51,7 @@
     <depend project="jakarta-tomcat-util"/>
     <depend project="jsse"/>
     <depend project="jmx"/>
-    <option project="jakarta-log4j" />
+    <option project="logging-log4j" />
     <work nested="build/tomcat/classes"/>
     <home nested="build/tomcat"/>
     <jar name="lib/common/tomcat_core.jar"/>

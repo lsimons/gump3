@@ -111,7 +111,7 @@
     <depend project="ant"/>
     <depend project="jdepend"/>
     <depend project="junit"/>
-    <depend project="jakarta-log4j"/>
+    <depend project="logging-log4j"/>
     <depend project="nsuml"/>
     <depend project="xml-apis"/>
     <depend project="xml-xerces"/>

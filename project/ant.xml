@@ -73,7 +73,7 @@
     <option project="jaf"/>
     <option project="jakarta-bcel"/>
     <option project="jakarta-bsf"/>
-    <option project="jakarta-log4j"/>
+    <option project="logging-log4j"/>
     <option project="jakarta-oro"/>
     <option project="jakarta-regexp"/>
     <option project="jakarta-servletapi-4" />

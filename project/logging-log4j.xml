@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="ISO-8859-1" ?>
 <!--
-  Copyright 2001-2004 The Apache Software Foundation
+  Copyright 2004 The Apache Software Foundation
 
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -14,16 +14,20 @@
   See the License for the specific language governing permissions and
   limitations under the License.
 -->
-<module name="jakarta-log4j">
+<module name="logging-log4j">
 
-  <url href="http://jakarta.apache.org/log4j/index.html"/>
+  <url href="http://logging.apache.org/log4j/index.html"/>
   <description>
     Fast and flexible logging package for Java
   </description>
 
-  <cvs repository="jakarta"/>
+  <cvs repository="logging"/>
   
   <project name="jakarta-log4j">
+    <depend project="logging-log4j" inherit="jars"/>
+  </project>
+
+  <project name="logging-log4j">
     <package>org.apache.log4j</package>
 
     <ant target="jar">
@@ -42,7 +46,7 @@
     <jar  name="log4j-lf5-@@DATE@@.jar" id="lf5"/>
     <jar  name="log4j-chainsaw-@@DATE@@.jar" id="chainsaw"/>
     
-    <nag to="log4j-dev@jakarta.apache.org"
+    <nag to="log4j-dev@logging.apache.org"
          from="Ceki Gülcü &lt;ceki@apache.org&gt;"/>
   </project>
 
@@ -55,7 +59,7 @@
     <depend project="ant" />
     <depend project="xml-xerces" />
     <depend project="junit" />
-    <depend project="jakarta-log4j" />
+    <depend project="logging-log4j" />
     <depend project="jakarta-oro" />
 
     <work nested="dist/classes" />
@@ -63,7 +67,7 @@
     <work nested="tests/resources" />
     <work nested="examples/classes"/>
 
-    <nag to="log4j-dev@jakarta.apache.org"
+    <nag to="log4j-dev@logging.apache.org"
          subject="Test Failure"
          from="Ceki Gülcü &lt;ceki@apache.org&gt;"/>
   </project>

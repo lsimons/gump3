@@ -39,7 +39,7 @@
     <option project="javamail" runtime="true"/>
     <option project="jaf" runtime="true"/>
     <option project="jakarta-servletapi-4" runtime="true"/>
-    <option project="jakarta-log4j" runtime="true"/>
+    <option project="logging-log4j" runtime="true"/>
 
     <home nested="build/lib"/>
     <jar name="logkit.jar"/>
@@ -81,7 +81,7 @@
     <depend project="javamail" runtime="true"/>
     <depend project="jaf" runtime="true"/>
     <depend project="jakarta-servletapi-4" runtime="true"/>
-    <depend project="jakarta-log4j" runtime="true"/>
+    <depend project="logging-log4j" runtime="true"/>
 
     <home nested="build/lib"/>
     <jar name="logkit.jar"/>

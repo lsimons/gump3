@@ -47,7 +47,7 @@
     <depend project="commons-lang"/>
     <depend project="concurrent"/>
     <depend project="hsqldb"/>
-    <depend project="jakarta-log4j"/>
+    <depend project="logging-log4j"/>
     <depend project="jakarta-servletapi"/>
     <depend project="javagroups"/>
     <depend project="jisp"/>

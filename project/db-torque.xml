@@ -46,7 +46,7 @@
     <depend project="dom4j"/>
     <depend project="ant"/>
 
-    <depend project="jakarta-log4j"/>
+    <depend project="logging-log4j"/>
     <depend project="jakarta-turbine-jcs"/>
     <depend project="jakarta-turbine-stratum"/>
     <depend project="jakarta-velocity"/>
@@ -84,7 +84,7 @@
     <depend project="commons-logging"/>
     <depend project="ant"/>
 
-    <depend project="jakarta-log4j"/>
+    <depend project="logging-log4j"/>
     <depend project="jakarta-velocity"/>
     <depend project="village"/>
     <depend project="xml-xerces"/>

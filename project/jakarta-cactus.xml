@@ -51,7 +51,7 @@
       <property name="project.version" value="@@DATE@@"/>
 
       <depend property="j2ee.jar" project="jakarta-servletapi"/>
-      <depend property="log4j.jar" project="jakarta-log4j" id="log4j"/>
+      <depend property="log4j.jar" project="logging-log4j" id="log4j"/>
       <depend property="commons.logging.jar" project="commons-logging" id="all"/>
       <depend property="commons.httpclient.jar" project="commons-httpclient"/>
       <depend property="httpunit.jar" project="httpunit"/>
@@ -99,7 +99,7 @@
       <property name="project.version" value="@@DATE@@"/>
 
       <depend property="j2ee.jar" project="jakarta-servletapi-4"/>
-      <depend property="log4j.jar" project="jakarta-log4j" id="log4j"/>
+      <depend property="log4j.jar" project="logging-log4j" id="log4j"/>
       <depend property="commons.logging.jar" project="commons-logging" id="all"/>
       <depend property="commons.httpclient.jar" project="commons-httpclient"/>
       <depend property="httpunit.jar" project="httpunit"/>
@@ -312,7 +312,7 @@
       <depend property="j2ee.jar" project="jakarta-servletapi"/>
       <depend property="jetty.jar" project="jetty"/>
       <depend property="junit.jar" project="junit"/>
-      <depend property="log4j.jar" project="jakarta-log4j" id="log4j"/>
+      <depend property="log4j.jar" project="logging-log4j" id="log4j"/>
       <depend property="nekohtml.jar" project="nekohtml" id="nekohtml"/>
       
     </ant>
@@ -376,7 +376,7 @@
       <depend property="j2ee.jar" project="jakarta-servletapi-4"/>
       <depend property="jetty.jar" project="jetty"/>
       <depend property="junit.jar" project="junit"/>
-      <depend property="log4j.jar" project="jakarta-log4j" id="log4j"/>
+      <depend property="log4j.jar" project="logging-log4j" id="log4j"/>
       <depend property="nekohtml.jar" project="nekohtml" id="nekohtml"/>
 
     </ant>
@@ -423,7 +423,7 @@
       <property name="project.version" value="@@DATE@@"/>
 
       <depend property="servlet.jar" project="jakarta-servletapi"/>
-      <depend property="log4j.jar" project="jakarta-log4j" id="log4j"/>
+      <depend property="log4j.jar" project="logging-log4j" id="log4j"/>
       <depend property="commons.logging.jar" project="commons-logging"
         id="all"/>
       <depend property="commons.httpclient.jar" project="commons-httpclient"/>
@@ -483,7 +483,7 @@
       <property name="project.version" value="@@DATE@@"/>
 
       <depend property="servlet.jar" project="jakarta-servletapi-4"/>
-      <depend property="log4j.jar" project="jakarta-log4j" id="log4j"/>
+      <depend property="log4j.jar" project="logging-log4j" id="log4j"/>
       <depend property="commons.logging.jar" project="commons-logging" 
         id="all"/>
       <depend property="commons.httpclient.jar" project="commons-httpclient"/>

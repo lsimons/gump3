@@ -38,7 +38,7 @@
       <property name="axis.lib.dir" value="lib"/>
       <property name="env.ANT_HOME" reference="home" project="ant"/>
       <depend name="wsdl4j.jar" project="wsdl4j" id="wsdl4j"/>
-      <depend name="log4j-core.jar" project="jakarta-log4j" id="log4j"/>
+      <depend name="log4j-core.jar" project="logging-log4j" id="log4j"/>
       <depend property="xalan.jar" project="xml-xalan2" id="transformer"/>
       <depend property="xercesImpl.jar" project="xml-xerces" id="parser"/>
       <depend property="xmlParserAPIs.jar" project="xml-xerces" id="parser"/>
@@ -88,7 +88,7 @@
       <property name="axis.lib.dir" value="lib"/>
       <property name="env.ANT_HOME" reference="home" project="ant"/>
       <depend name="wsdl4j.jar" project="wsdl4j" id="wsdl4j"/>
-      <depend name="log4j-core.jar" project="jakarta-log4j" id="log4j"/>
+      <depend name="log4j-core.jar" project="logging-log4j" id="log4j"/>
       <depend property="xalan.jar" project="xml-xalan2" id="transformer"/>
       <depend property="xercesImpl.jar" project="xml-xerces" id="parser"/>
       <depend property="xmlParserAPIs.jar" project="xml-xerces" id="parser"/>

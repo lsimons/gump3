@@ -73,7 +73,7 @@
     </depend>
     <depend project="junit">
     </depend>
-    <depend project="jakarta-log4j">
+    <depend project="logging-log4j">
     </depend>
     <depend project="avalon-logkit">
     </depend>

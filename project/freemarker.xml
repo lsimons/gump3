@@ -38,7 +38,7 @@
     <depend project="jaxen"/>
     <depend project="junit"/>
     <depend project="jython"/>
-    <depend project="jakarta-log4j"/>
+    <depend project="logging-log4j"/>
     <depend project="jakarta-oro"/>
     <depend project="werken.xpath"/>
     <depend project="javacc"/>

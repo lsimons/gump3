@@ -39,7 +39,7 @@
     <depend project="xml-xerces"/>
     <depend project="ant" inherit="runtime"/>
     <depend project="hsqldb"/>
-    <depend project="jakarta-log4j"/>
+    <depend project="logging-log4j"/>
     <depend project="xmldb"/>
     <option project="junit"/>
 
