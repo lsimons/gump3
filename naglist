@@ -35,6 +35,18 @@ From: Sam Ruby <rubys@us.ibm.com>
 Subject: [GUMP] Build Failure - Xalan2 dist
 Regex: /BUILD FAILED/
 ------
+Project: dist-xerces1
+To: xerces-j-dev@xml.apache.org
+From: Sam Ruby <rubys@us.ibm.com>
+Subject: [GUMP] Build Failure - Xerces1 dist
+Regex: /BUILD FAILED/
+------
+Project: dist-xerces2
+To: xerces-j-dev@xml.apache.org
+From: Sam Ruby <rubys@us.ibm.com>
+Subject: [GUMP] Build Failure - Xerces2 dist
+Regex: /BUILD FAILED/
+------
 Project: jakarta-alexandria
 To: alexandria-dev@jakarta.apache.org
 From: Sam Ruby <rubys@us.ibm.com>

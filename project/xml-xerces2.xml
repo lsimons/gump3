@@ -14,4 +14,15 @@
   <home nested="java/build"/>
   <jar  name="xerces.jar" id="parser"/>
 
+  <!-- package up the distribution -->
+
+  <project name="dist-xerces2">
+    <ant basedir="java" target="pack-bin"/>
+    <depend project="jakarta-ant"/>
+    <depend project="xml-xalan2"/>
+    <depend project="xml-xerces2"/>
+    <depend project="xml-stylebook2"/>
+    <depend project="xml-site"/>
+  </project>
+
 </project>
