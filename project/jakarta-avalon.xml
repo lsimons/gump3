@@ -12,6 +12,7 @@
       <depend property="xerces.jar"  project="xml-xerces"/>
       <depend property="logkit.jar"  project="jakarta-avalon-logkit"/>
       <depend property="testlet.jar" project="jakarta-avalon-testlet"/>
+      <depend property="junit.jar"   project="junit"/>
     </ant>
     <depend project="jakarta-ant"/>
     <depend project="xml-xalan2"/>
@@ -25,6 +26,7 @@
       <depend property="xerces.jar"  project="xml-xerces"/>
       <depend property="logkit.jar"  project="jakarta-avalon-logkit"/>
       <depend property="testlet.jar" project="jakarta-avalon-testlet"/>
+      <depend property="junit.jar"   project="junit"/>
     </ant>
     <depend project="jakarta-ant"/>
     <depend project="xml-cocoon2"/>
