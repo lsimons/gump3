@@ -7,7 +7,7 @@
   
   <project name="javacc">
     <home nested="bin"/>
-    <jar name="lib/javaCC.zip"/>
+    <jar name="lib/JavaCC.zip"/>
   </project>
 
 </module>
