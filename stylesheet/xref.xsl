@@ -8,7 +8,7 @@
 
     <xref>
 
-      <html log="{@logdir}/xref.html" 
+      <html log="{@logdir}/xref.html"
         banner-image="{@banner-image}" banner-link="{@banner-link}">
 
         <title>Cross Reference</title>

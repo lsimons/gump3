@@ -25,7 +25,7 @@
       <mkdir dir="{$logdir}"/>
       <mkdir dir="{@cvsdir}"/>
 
-      <html log="{$logdir}/cvs_index.html" 
+      <html log="{$logdir}/cvs_index.html"
         banner-image="{$banner-image}" banner-link="{$banner-link}">
 
         <title>
@@ -73,7 +73,7 @@
     <xsl:copy>
       <xsl:copy-of select="@*"/>
 
-      <html log="{$logdir}/cvs_{@name}.html" 
+      <html log="{$logdir}/cvs_{@name}.html"
         banner-image="{$banner-image}" banner-link="{$banner-link}">
 
         <title>
@@ -135,7 +135,7 @@
         <xsl:for-each select="//repository[@name=$repository]">
 
           <!-- method -->
-	  <xsl:text>:</xsl:text>
+          <xsl:text>:</xsl:text>
           <xsl:choose>
             <xsl:when test="@method">
               <xsl:value-of select="@method"/>
@@ -146,7 +146,7 @@
           </xsl:choose>
 
           <!-- user -->
-	  <xsl:text>:</xsl:text>
+          <xsl:text>:</xsl:text>
           <xsl:choose>
             <xsl:when test="@user">
               <xsl:value-of select="@user"/>
@@ -157,7 +157,7 @@
           </xsl:choose>
 
           <!-- host -->
-	  <xsl:text>@</xsl:text>
+          <xsl:text>@</xsl:text>
           <xsl:if test="$host-prefix">
             <xsl:value-of select="$host-prefix"/>
             <xsl:text>.</xsl:text>
@@ -172,7 +172,7 @@
           </xsl:choose>
 
           <!-- path -->
-	  <xsl:text>:</xsl:text>
+          <xsl:text>:</xsl:text>
           <xsl:choose>
             <xsl:when test="@path">
               <xsl:value-of select="@path"/>
@@ -185,7 +185,7 @@
             <xsl:text>/</xsl:text>
             <xsl:value-of select="$dir"/>
           </xsl:if>
-	</xsl:for-each>
+        </xsl:for-each>
       </xsl:attribute>
 
       <!-- specify the module (defaults to project name) -->
