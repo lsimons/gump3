@@ -33,7 +33,9 @@ from gump.model.state import *
 from gump.shared.comparator import *
   
 class StatisticsDB:
-    """Statistics Interface"""
+    """
+    	Statistics Database Interface
+    """
 
     def __init__(self,dbdir=None,name=None):
         if not name: name='stats.db'
@@ -43,6 +45,7 @@ class StatisticsDB:
         if not os.path.exists(self.dbpath):
             log.info('*New* Statistics Database:' + self.dbpath)
             
+        # Unfortuantely Python on M$ does not have an implementation (yet)
         log.debug('Open Statistic Database:' + self.dbpath)
         if not os.name == 'dos' and not os.name == 'nt':
             self.db		=	anydbm.open(self.dbpath,'c')
@@ -50,6 +53,9 @@ class StatisticsDB:
             self.db={}
  
     def dumpProjects(self):
+        """
+        Show all that is there
+        """
         for key in self.db.keys():
             if not -1 == key.find('-pname'):
                 pname=key[0:len(key)-6]
@@ -139,6 +145,9 @@ class StatisticsDB:
         self.putInt(stats.sequenceInStateKey(), stats.sequenceInState)
 
     def delBaseStats(self,stats):
+        """
+        Store the common stats
+        """
         try:
             del self.db[stats.nameKey()]
         except:
@@ -193,12 +202,18 @@ class StatisticsDB:
         return val
         
     def getFloat(self,key):
+        """
+        Get a float from the DB
+        """
         key=str(key)
         val=0.0
         if self.db.has_key(key): val=float(self.db[key])
         return val
         
     def getDate(self,key):
+        """
+        Get a date from the DB
+        """
         dateF=self.getFloat(key)
         
         # Hack to patch values incorrectly set to 0
@@ -212,12 +227,24 @@ class StatisticsDB:
         self.db[str(key)]=val
         
     def putInt(self,key,val=0):
+        """
+        Store an int
+        """
         self.db[str(key)]=str(val)
         
     def putDate(self,key,val=-1):
+        """
+        Store a date (as an int)
+        """
         self.putInt(str(key),val)
         
     def loadStatistics(self,workspace):
+        """
+        
+        Load statistics from the DB onto the objects, so they can
+        reference the latest information (e.g. to set -debug)
+        
+        """
         log.debug('--- Loading Statistics')
                   
                         
@@ -225,7 +252,6 @@ class StatisticsDB:
         ws=self.getWorkspaceStats(workspace.getName())
         workspace.setStats(ws)            
                 
-                  
         for repo in workspace.getRepositories():
                         
             # Load the statistics
@@ -248,8 +274,12 @@ class StatisticsDB:
                 # Stash for later...
                 project.setStats(ps)            
             
-                       
     def updateStatistics(self,workspace):
+        """
+        
+        Go through the tree updating statistics as you go...
+        
+        """
         log.debug('--- Updating Statistics')
         
         # Load the W/S statistics
@@ -300,6 +330,10 @@ class StatisticsDB:
         self.sync()
         
     def sync(self):
+        """
+        Try to sync the DB to disk (assuming it has a sync, which
+        some implementations do not).
+        """
         if hasattr(self.db, 'sync'):
             self.db.sync()
           

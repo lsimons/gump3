@@ -607,6 +607,7 @@ class XDocDocumenter(Documenter):
             detailsTable.createEntry("Prefix: ", self.workspace.prefix)
             detailsTable.createEntry("Signature: ", self.workspace.signature)
         
+        self.documentStats(document,self.workspace)
         self.documentProperties(detailsSection, self.workspace, 'Workspace Properties')
         
         # Does this self.workspace send notification (nag) mails?
@@ -1576,6 +1577,7 @@ This page helps Gumpmeisters (and others) observe community progress.
             
             if not pcount: pallTable.createLine('None')
                            
+        self.documentStats(document,module,realTime)
         self.documentFileList(document,module,'Module-level Files')
         self.documentWorkList(document,module,'Module-level Work')
         
@@ -1751,41 +1753,7 @@ This page helps Gumpmeisters (and others) observe community progress.
         if metadataLocation and metadataUrl:  
             detailsList.createEntry('Gump Metadata: ').createFork(metadataUrl, metadataLocation)
                              
-        # Note: Leverages previous extraction from project statistics DB
-        stats=project.getStats()
-        
-        statsSection=document.createSection('Statistics')  
-        
-        #
-        # Start annotating with issues...
-        #
-        if project.isNotOk() and stats.sequenceInState >= SIGNIFICANT_DURATION:
-            statsSection.createWarning(	\
-                'This project has existed in this failed state for a significant duration.')
-        
-        statsTable=statsSection.createTable()           
-        
-        if (not realTime) and self.config.isXdocs():
-            # Generate an SVG for FOG:
-            (file,title) = self.diagramFOG(project)
-            if file:
-                statsTable.createEntry("FOG Factor: ").createData().createIcon(file,title)
-            
-        statsTable.createEntry("FOG Factor: ", '%02.2f' % stats.getFOGFactor())
-        statsTable.createEntry('Dependency Depth: ', project.getDependencyDepth())        
-        statsTable.createEntry('Total Dependency Depth: ', project.getTotalDependencyDepth())        
-        statsTable.createEntry("Successes: ", stats.successes)
-        statsTable.createEntry("Failures: ", stats.failures)
-        statsTable.createEntry("Prerequisite Failures: ", stats.prereqs)
-        statsTable.createEntry("Current State: ", stateDescription(stats.currentState))
-        statsTable.createEntry("Duration in state: ", stats.sequenceInState)
-        statsTable.createEntry("Start of state: ", secsToDateTime(stats.startOfState))
-        statsTable.createEntry("Previous State: ", stateDescription(stats.previousState))
-        
-        if stats.first:
-            statsTable.createEntry("First Success: ", secsToDateTime(stats.first))
-        if stats.last:
-            statsTable.createEntry("Last Success: ", secsToDateTime(stats.last))
+        self.documentStats(document,project,realTime)
                 
         self.documentFileList(document,project,'Project-level Files')  
                 
@@ -1934,6 +1902,49 @@ This page helps Gumpmeisters (and others) observe community progress.
     #    footerXDoc(x)
     #    endXDoc(x)
     
+    def documentStats(self,node,entity,realTime=False):
+       
+        # Note: Leverages previous extraction from project statistics DB
+        stats=entity.getStats()
+        
+        statsSection=node.createSection('Statistics')  
+        
+        # Start annotating with issues...
+        if entity.isNotOk() and stats.sequenceInState >= SIGNIFICANT_DURATION:
+            statsSection.createWarning(    \
+                'This entity has existed in this failed state for a significant duration.')
+        
+        statsTable=statsSection.createTable()           
+        
+        if not isinstance(entity,Workspace):
+            if (not realTime) and self.config.isXdocs():
+                # Generate an SVG for FOG:
+                (file,title) = self.diagramFOG(entity)
+                if file:
+                    statsTable.createEntry("FOG Factor: ").createData().createIcon(file,title)
+            
+        statsTable.createEntry("FOG Factor: ", '%02.2f' % stats.getFOGFactor())
+        
+        if isinstance(entity,Project):
+            statsTable.createEntry('Dependency Depth: ', entity.getDependencyDepth())        
+            statsTable.createEntry('Total Dependency Depth: ', entity.getTotalDependencyDepth())        
+            
+        statsTable.createEntry("Successes: ", stats.successes)
+        statsTable.createEntry("Failures: ", stats.failures)
+        
+        if not isinstance(entity,Workspace):
+            statsTable.createEntry("Prerequisite Failures: ", stats.prereqs)
+            
+        statsTable.createEntry("Current State: ", stateDescription(stats.currentState))
+        statsTable.createEntry("Duration in state: ", stats.sequenceInState)
+        statsTable.createEntry("Start of state: ", secsToDateTime(stats.startOfState))
+        statsTable.createEntry("Previous State: ", stateDescription(stats.previousState))
+        
+        if stats.first:
+            statsTable.createEntry("First Success: ", secsToDateTime(stats.first))
+        if stats.last:
+            statsTable.createEntry("Last Success: ", secsToDateTime(stats.last))
+            
     def displayClasspath(self,document,classpath,title,referencingObject):
         
         if not classpath.getPathParts(): return
