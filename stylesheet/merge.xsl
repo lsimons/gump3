@@ -4,6 +4,15 @@
 
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0">
 
+  <xsl:output method="xml" indent="yes" omit-xml-declaration="yes"/>
+  <xsl:strip-space elements="*"/>
+
+  <xsl:template match="*|@*">
+    <xsl:copy>
+      <xsl:apply-templates select="* | @* | text()"/>
+    </xsl:copy>
+  </xsl:template>
+
   <!-- =================================================================== -->
   <!--           process all projects referenced in a workspace            -->
   <!-- =================================================================== -->
@@ -50,10 +59,6 @@
 
       <xsl:for-each select="project[@href]">
         <xsl:variable name="home" select="@home"/>
-        <xsl:message>
-          <xsl:text>- </xsl:text>
-          <xsl:value-of select="@href"/>
-        </xsl:message>
         <xsl:text>&#10;&#10;</xsl:text>
 
         <!-- is the href found? -->
@@ -114,7 +119,7 @@
     </xsl:variable>
 
     <xsl:copy>
-      <xsl:copy-of select="@*[name()!='srcdir']"/>
+      <xsl:apply-templates select="@*[name()!='srcdir']"/>
 
       <xsl:if test="$defined-in">
         <xsl:attribute name="defined-in">
@@ -126,7 +131,7 @@
         <xsl:value-of select="$srcdir"/>
       </xsl:attribute>
 
-      <xsl:copy-of select="*[not(self::home|self::project)] | text()"/>
+      <xsl:apply-templates select="*[not(self::home|self::project)] | text()"/>
 
       <!-- Compute fully qualified home directory -->
 
@@ -195,6 +200,30 @@
       </xsl:call-template>
     </xsl:for-each>
 
+  </xsl:template>
+
+  <!-- =================================================================== -->
+  <!--                         resolve buildpath                           -->
+  <!-- =================================================================== -->
+
+  <xsl:template match="ant">
+    <xsl:copy>
+      <xsl:attribute name="buildpath">
+        <xsl:if test="@basedir">
+          <xsl:value-of select="@basedir"/>
+          <xsl:text>/</xsl:text>
+        </xsl:if>
+
+        <xsl:if test="@buildfile">
+          <xsl:value-of select="@buildfile"/>
+        </xsl:if>
+        <xsl:if test="not(@buildfile)">
+          <xsl:text>build.xml</xsl:text>
+        </xsl:if>
+      </xsl:attribute>
+
+      <xsl:copy-of select="@* | * | text()"/>
+    </xsl:copy>
   </xsl:template>
 
 </xsl:stylesheet>

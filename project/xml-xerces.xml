@@ -7,7 +7,7 @@
 
   <cvs repository="xml"/>
 
-  <ant buildfile="java/build.xml" target="jar"/>
+  <ant basedir="java" target="jar"/>
   <depend project="jaxp1.1"/>
   <depend project="bootstrap-ant"/>
 
@@ -17,7 +17,7 @@
   <!-- package up the distrution -->
 
   <project name="dist-xerces">
-    <ant buildfile="java/build.xml" target="pack-bin"/>
+    <ant basedir="java" target="pack-bin"/>
     <depend project="jakarta-ant"/>
     <depend project="xml-xalan2"/>
     <depend project="xml-xerces"/>

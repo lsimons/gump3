@@ -13,7 +13,7 @@
       Release 1.x of the Xalan-Java XSLT processor
     </description>
 
-    <ant buildfile="build.xml">
+    <ant>
       <property name="bsf.jar"
          reference="jarpath" id="bsf" project="bsf"/>
       <property name="xerces.jar"
@@ -34,7 +34,7 @@
       Release 1.x of the Xalan-Java XSLT processor
     </description>
 
-    <ant buildfile="build.xml" target="dist">
+    <ant target="dist">
       <property name="bsf.jar"
          reference="jarpath" id="bsf" project="bsf"/>
       <property name="xerces.jar"
@@ -60,7 +60,7 @@
       Release 2.x of the Xalan-Java XSLT processor
     </description>
 
-    <ant buildfile="java/build.xml"/>
+    <ant basedir="java"/>
 
     <depend project="bootstrap-ant"/>
     <depend project="xml-xerces"/>
@@ -75,7 +75,7 @@
       Release 2.x of the Xalan-Java XSLT processor
     </description>
 
-    <ant buildfile="java/build.xml" target="dist">
+    <ant basedir="java" target="dist">
       <property name="bsf.jar"
          reference="jarpath" id="bsf" project="bsf"/>
       <property name="xerces.jar"
@@ -98,7 +98,7 @@
       Smoke tests
     </description>
 
-    <ant buildfile="java/build.xml" target="smoketest"/>
+    <ant basedir="java" target="smoketest"/>
 
     <depend project="jakarta-ant"/>
     <depend project="xml-xerces"/>
