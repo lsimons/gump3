@@ -51,6 +51,7 @@
         <depend project="avalon-framework" runtime="true" id="impl"/>
         
         <depend project="cornerstone-threads-api" runtime="true"/>
+        <depend project="cornerstone-threads-impl" runtime="true"/>
         <depend project="cornerstone-sockets-api" runtime="true"/>
         
         <depend project="excalibur-thread" runtime="true"/>
@@ -69,7 +70,7 @@
         <work nested="connection-api/target/classes"/>
 
         <home nested="connection-api"/>
-        <jar name="target/connection-api-@@DATE@@.jar" />
+        <jar name="target/cornerstone-connection-api-@@DATE@@.jar" />
 
         <nag from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"
                 to="dev@avalon.apache.org"/>
@@ -106,7 +107,7 @@
         <work nested="connection-impl/target/classes"/>
 
         <home nested="connection-impl"/>
-        <jar name="target/connection-impl-@@DATE@@.jar" />
+        <jar name="target/cornerstone-connection-impl-@@DATE@@.jar" />
 
         <nag from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"
                 to="dev@avalon.apache.org"/>
