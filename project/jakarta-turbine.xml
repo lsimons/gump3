@@ -24,7 +24,7 @@
   <depend project="jakarta-turbine-torque"/>
   <depend project="village"/>
   <depend project="javamail"/>
-  <depend project="xmlrpc"/>
+  <depend project="xml-rpc"/>
   <depend project="jaf"/>
   <depend project="jdbc"/>
   <option project="jta"/> <!-- needed for javadoc purposes only -->
@@ -33,13 +33,5 @@
 
   <home nested="bin"/>
   <jar name="turbine-gump.jar"/>
-
-  <project name="xmlrpc">
-    <url href="http://classic.helma.at/hannes/xmlrpc/"/>
-    <description>
-      XML Remote Procedure Call
-    </description>
-    <jar name="lib/xmlrpc.jar"/>
-  </project>
 
 </project>

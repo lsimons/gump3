@@ -1,0 +1,20 @@
+<project name="xml-rpc">
+
+  <url href="http://xmlrpc.helma.org/"/>
+  <description>
+    A Java implementation of XML-RPC
+  </description>
+
+  <cvs repository="xml"/>
+
+  <ant basedir="build"/>
+
+  <depend project="xml-xerces"/>
+  <depend project="jakarta-ant"/>
+  <option project="jakarta-servletapi"/>
+  <option project="jsse"/>
+
+  <home nested="build"/>
+  <jar name="xmlrpc.jar"/>
+
+</project>
