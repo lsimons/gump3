@@ -190,7 +190,7 @@
         <ant basedir="component">
             <!-- runtime dependencies -->
             <depend property="avalon-framework.jar" project="avalon" runtime="true"/>
-            <depend property="commons-collections" project="commons-collections" runtime="true"/>
+            <depend property="commons-collections.jar" project="commons-collections" runtime="true"/>
             <depend property="excalibur-instrument.jar" project="excalibur-instrument" runtime="true"/>
             <depend property="excalibur-instrument-manager.jar" project="excalibur-instrument-manager" runtime="true"/>
             <depend property="excalibur-instrument-manager-interfaces.jar" project="excalibur-instrument-manager" runtime="true"/>
@@ -304,27 +304,41 @@
     </project>
 
     <project name="excalibur-event">
-        <package>org.apache.avalon.excalibur.event</package>
+        <package>org.apache.excalibur.event</package>
 
         <ant basedir="event">
+            <!-- runtime dependencies -->
+            <depend property="avalon-framework.jar" project="avalon" runtime="true"/>
+            <depend property="commons-collections.jar" project="commons-collections" runtime="true"/>
+            <depend property="util.concurrent.jar" project="concurrent" runtime="true"/>
+
+            <!-- test-time dependencies -->
+            <depend property="junit.jar" project="junit"/>
             <depend property="excalibur-pool.jar" project="excalibur-pool"/>
-            <depend property="excalibur-threadcontext.jar" project="excalibur-threadcontext"/>
-            <depend property="excalibur-thread.jar" project="excalibur-thread"/>
-             <property name="package-version" value="@@DATE@@"/>
+            <depend property="excalibur-instrument.jar" project="excalibur-instrument"/>
+            <depend property="excalibur-component.jar" project="excalibur-component" id="component"/>
+            <depend property="excalibur-testcase.jar" project="excalibur-component" id="testcase"/>
+            <depend property="logkit.jar" project="avalon-logkit"/>
+
+            <!-- optional dependencies -->
+            <property name="checkstyle.jar" project="checkstyle" reference="jarpath"/>
+
+            <property name="package-version" value="@@DATE@@"/>
             <property name="junit.failonerror" value="true"/>
             <property name="do.checkstyle" value="true"/>
             <property name="skip.dependencies" value="true"/>
         </ant>
 
+        <!-- build-time dependencies -->
         <depend project="ant" inherit="runtime"/>
-        <option project="checkstyle" inherit="runtime"/>
-        <depend project="junit"/>
-        <depend project="avalon" runtime="true"/>
         <depend project="xml-xerces"/>
         <depend project="xml-xalan2"/>
-        <depend project="commons-collections"/>
-        <depend project="concurrent"/>
+
+        <!-- optional dependencies -->
+        <option project="checkstyle" inherit="runtime"/>
+
         <work nested="event/build/classes"/>
+        <work nested="event/build/testclasses"/>
 
         <home nested="event"/>
         <jar name="build/lib/excalibur-event-@@DATE@@.jar"/>
@@ -337,18 +351,28 @@
         <package>org.apache.excalibur.extension</package>
 
         <ant basedir="extension">
+            <!-- optional dependencies -->
+            <property name="checkstyle.jar" project="checkstyle" reference="jarpath"/>
+
+            <!-- test-time dependencies -->
+            <depend property="junit.jar" project="junit"/>
+
             <property name="package-version" value="@@DATE@@"/>
             <property name="junit.failonerror" value="true"/>
             <property name="do.checkstyle" value="true"/>
             <property name="skip.dependencies" value="true"/>
         </ant>
 
+        <!-- build-time dependencies -->
         <depend project="ant" inherit="runtime"/>
-        <option project="checkstyle" inherit="runtime"/>
-        <depend project="junit"/>
         <depend project="xml-xerces"/>
         <depend project="xml-xalan2"/>
+
+        <!-- optional dependencies -->
+        <option project="checkstyle" inherit="runtime"/>
+
         <work nested="extension/build/classes"/>
+        <work nested="extension/build/testclasses"/>
 
         <home nested="extension"/>
         <jar name="build/lib/excalibur-extension-@@DATE@@.jar"/>
@@ -358,34 +382,66 @@
     </project>
 
     <project name="excalibur-fortress">
-        <package>org.apache.excalibur.fortress</package>
-        <package>org.apache.excalibur.mpool</package>
+        <package>org.apache.avalon.fortress</package>
 
-        <ant basedir="fortress" target="jar" >
+        <ant basedir="fortress">
+            <!-- runtime dependencies -->
+            <depend property="avalon-framework.jar" project="avalon" runtime="true"/>
             <depend property="logkit.jar" project="avalon-logkit" runtime="true"/>
+            <depend property="commons-collections.jar" project="commons-collections" runtime="true"/>
+            <depend property="excalibur-event.jar" project="excalibur-event" runtime="true"/>
+            <depend property="excalibur-instrument.jar" project="excalibur-instrument" runtime="true"/>
+            <depend property="excalibur-instrument-manager.jar" project="excalibur-instrument-manager" runtime="true"/>
+            <depend property="excalibur-instrument-manager-interfaces.jar" project="excalibur-instrument-manager" runtime="true"/>
+            <depend property="excalibur-lifecycle.jar" project="excalibur-lifecycle" runtime="true"/>
+            <depend property="excalibur-logger.jar" project="excalibur-logger" runtime="true"/>
+            <depend property="excalibur-pool.jar" project="excalibur-pool" runtime="true"/>
+            <depend property="excalibur-sourceresolve.jar" project="excalibur-sourceresolve" runtime="true"/>
+            <depend property="logkit.jar" project="avalon-logkit" runtime="true"/>
+            <depend property="util.concurrent.jar" project="concurrent" runtime="true"/>
+
+            <!-- tool dependencies -->
+            <depend property="qdox.jar" project="phoenix-qdox"/>
+
+            <!-- test-time dependencies -->
+            <depend property="junit.jar" project="junit"/>
+<!--            <depend property="altrmi-common.jar" project="incubator-altrmi" id="common"/>
+            <depend property="altrmi-client-interfaces.jar" project="incubator-altrmi" id="client-api"/>
+            <depend property="altrmi-client-impl.jar" project="incubator-altrmi" id="client-impl"/>
+            <depend property="altrmi-server-interfaces.jar" project="incubator-altrmi" id="server-api"/>
+            <depend property="altrmi-server-impl.jar" project="incubator-altrmi" id="server-impl"/>-->
+            <depend property="altrmi-common.jar" project="excalibur-altrmi-0.9.2" id="common"/>
+            <depend property="altrmi-client-interfaces.jar" project="excalibur-altrmi-0.9.2" id="client-api"/>
+            <depend property="altrmi-client-impl.jar" project="excalibur-altrmi-0.9.2" id="client-impl"/>
+            <depend property="altrmi-server-interfaces.jar" project="excalibur-altrmi-0.9.2" id="server-api"/>
+            <depend property="altrmi-server-impl.jar" project="excalibur-altrmi-0.9.2" id="server-impl"/>
+            <depend property="excalibur-component.jar" project="excalibur-component" id="component"/>
+            <depend property="excalibur-datasource.jar" project="excalibur-datasource"/>
+            <depend property="excalibur-i18n.jar" project="excalibur-i18n"/>
+            <depend property="excalibur-monitor.jar" project="excalibur-monitor"/>
+            <depend property="excalibur-testcase.jar" project="excalibur-component" id="testcase"/>
+            <depend property="excalibur-xmlutil.jar" project="excalibur-xmlutil"/>
+            <depend property="jaxen-full.jar" project="jaxen"/>
+            <depend property="xalan.jar" project="xml-xalan2"/>
+
+            <!-- optional dependencies -->
+            <property name="checkstyle.jar" project="checkstyle" reference="jarpath"/>
+
             <property name="version" value="@@DATE@@"/>
             <property name="junit.failonerror" value="true"/>
             <property name="do.checkstyle" value="true"/>
             <property name="skip.dependencies" value="true"/>
         </ant>
 
+        <!-- build-time dependencies -->
         <depend project="ant" inherit="runtime"/>
-        <depend project="avalon" runtime="true"/>
-        <!--<depend project="incubator-altrmi" runtime="true"/>-->
-        <depend project="excalibur-instrument" runtime="true"/>
-        <depend project="excalibur-instrument-manager"/>
-        <depend project="commons-collections" runtime="true"/>
-        <depend project="concurrent" runtime="true"/>
-	<depend project="excalibur-lifecycle" runtime="true"/>
-        <depend project="excalibur-event" runtime="true"/>
-        <depend project="excalibur-logger" runtime="true"/>
-        <depend project="excalibur-sourceresolve" runtime="true"/>
-        <depend project="excalibur-thread" runtime="true"/>
-        <option project="checkstyle" inherit="runtime"/>
-        <depend project="junit"/>
         <depend project="xml-xerces"/>
-        <depend project="xml-xalan2"/>
+
+        <!-- optional dependencies -->
+        <option project="checkstyle" inherit="runtime"/>
+
         <work nested="fortress/build/classes"/>
+        <work nested="fortress/build/testclasses"/>
 
         <home nested="fortress"/>
         <jar name="build/lib/excalibur-fortress-@@DATE@@.jar"/>
@@ -397,20 +453,27 @@
     <project name="excalibur-fortress-examples">
         <package>org.apache.excalibur.fortress.examples</package>
 
-        <ant basedir="fortress/examples" target="jar">
+        <ant basedir="fortress/examples">
+            <!-- runtime dependencies -->
+            <property name="excalibur-fortress.jar" project="excalibur-fortress" reference="jarpath"/>
+            <depend property="commons-collections.jar" project="commons-collections" runtime="true"/>
+            <depend property="excalibur-lifecycle.jar" project="excalibur-lifecycle" runtime="true"/>
+            <depend property="util.concurrent.jar" project="concurrent" runtime="true"/>
+
             <property name="version" value="@@DATE@@"/>
-            <depend property="excalibur-fortress.jar" project="excalibur-fortress" reference="jarpath"/>
-            <depend property="excalibur-lifecycle.jar" project="excalibur-lifecycle" reference="jarpath"/>
-            <depend property="commons-collections.jar" project="commons-collections"/>
-            <depend property="util.concurrent.jar"
-                      project="concurrent" reference="jarpath"/>
         </ant>
 
+        <!-- runtime dependencies -->
         <depend project="excalibur-fortress" inherit="all" runtime="true"/>
-	<depend project="excalibur-lifecycle" runtime="true"/>
         <!-- for the servlet examples -->
         <depend project="jakarta-servletapi"/>
 
+        <!-- build-time dependencies -->
+        <depend project="ant" inherit="runtime"/>
+
+        <work nested="fortress/examples/build/classes"/>
+
+        <home nested="fortress/examples"/>
         <jar name="build/lib/excalibur-fortress-examples-@@DATE@@.jar"/>
 
         <nag from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"
@@ -421,18 +484,27 @@
         <package>org.apache.avalon.excalibur.i18n</package>
 
         <ant basedir="i18n">
+            <!-- optional dependencies -->
+            <property name="checkstyle.jar" project="checkstyle" reference="jarpath"/>
+
+            <!-- test-time dependencies -->
+
             <property name="package-version" value="@@DATE@@"/>
             <property name="junit.failonerror" value="true"/>
             <property name="do.checkstyle" value="true"/>
             <property name="skip.dependencies" value="true"/>
         </ant>
 
+        <!-- build-time dependencies -->
         <depend project="ant" inherit="runtime"/>
-        <option project="checkstyle" inherit="runtime"/>
-        <depend project="junit"/>
         <depend project="xml-xerces"/>
         <depend project="xml-xalan2"/>
+
+        <!-- optional dependencies -->
+        <option project="checkstyle" inherit="runtime"/>
+
         <work nested="i18n/build/classes"/>
+        <work nested="i18n/build/testclasses"/>
 
         <home nested="i18n"/>
         <jar name="build/lib/excalibur-i18n-@@DATE@@.jar"/>
@@ -444,22 +516,31 @@
     <project name="excalibur-instrument">
         <package>org.apache.avalon.excalibur.instrument</package>
 
-        <mkdir dir="instrument/build/classes"/>
-
         <ant basedir="instrument">
+            <!-- optional dependencies -->
+            <property name="avalon-framework.jar" project="avalon" reference="jarpath"/>
+            <property name="checkstyle.jar" project="checkstyle" reference="jarpath"/>
+
+            <!-- test-time dependencies -->
+            <depend property="junit.jar" project="junit"/>
+
             <property name="version" value="@@DATE@@"/>
             <property name="junit.failonerror" value="true"/>
             <property name="do.checkstyle" value="true"/>
             <property name="skip.dependencies" value="true"/>
         </ant>
 
+        <!-- build-time dependencies -->
         <depend project="ant" inherit="runtime"/>
-        <option project="avalon" runtime="true"/>
-        <option project="checkstyle" inherit="runtime"/>
-        <depend project="junit"/>
         <depend project="xml-xerces"/>
         <depend project="xml-xalan2"/>
+
+        <!-- optional dependencies -->
+        <option project="avalon" runtime="true"/>
+        <option project="checkstyle" inherit="runtime"/>
+
         <work nested="instrument/build/classes"/>
+        <work nested="instrument/build/testclasses"/>
 
         <home nested="instrument"/>
         <jar name="build/lib/excalibur-instrument-@@DATE@@.jar"/>
@@ -476,20 +557,32 @@
         <mkdir dir="instrument-manager/build/classes"/>
 
         <ant basedir="instrument-manager">
+            <!-- runtime dependencies -->
+            <depend property="avalon-framework.jar" project="avalon" runtime="true"/>
+            <depend property="excalibur-instrument.jar" project="excalibur-instrument" runtime="true"/>
+
+            <!-- optional dependencies -->
+            <property name="checkstyle.jar" project="checkstyle" reference="jarpath"/>
+
+            <!-- test-time dependencies -->
+            <depend property="junit.jar" project="junit"/>
+
             <property name="version" value="@@DATE@@"/>
             <property name="junit.failonerror" value="true"/>
             <property name="do.checkstyle" value="true"/>
             <property name="skip.dependencies" value="true"/>
         </ant>
 
-        <depend project="ant" inherit="runtime" runtime="true"/>
-        <depend project="avalon" runtime="true"/>
-        <depend project="excalibur-instrument" runtime="true"/>
-        <option project="checkstyle" inherit="runtime"/>
-        <depend project="junit"/>
+        <!-- build-time dependencies -->
+        <depend project="ant" inherit="runtime"/>
         <depend project="xml-xerces"/>
         <depend project="xml-xalan2"/>
+
+        <!-- optional dependencies -->
+        <option project="checkstyle" inherit="runtime"/>
+
         <work nested="instrument-manager/build/classes"/>
+        <work nested="instrument-manager/build/testclasses"/>
 
         <home nested="instrument-manager"/>
         <jar name="build/lib/excalibur-instrument-manager-@@DATE@@.jar"/>
@@ -507,6 +600,18 @@
         <mkdir dir="instrument-manager/build/classes"/>
 
         <ant basedir="instrument-manager">
+            <!-- runtime dependencies -->
+<!--            <depend property="altrmi-common.jar" project="incubator-altrmi" id="common"/>
+            <depend property="altrmi-client-interfaces.jar" project="incubator-altrmi" id="client-api"/>
+            <depend property="altrmi-client-impl.jar" project="incubator-altrmi" id="client-impl"/>
+            <depend property="altrmi-server-interfaces.jar" project="incubator-altrmi" id="server-api"/>
+            <depend property="altrmi-server-impl.jar" project="incubator-altrmi" id="server-impl"/>-->
+            <depend property="altrmi-common.jar" project="excalibur-altrmi-0.9.2" id="common"/>
+            <depend property="altrmi-client-interfaces.jar" project="excalibur-altrmi-0.9.2" id="client-api"/>
+            <depend property="altrmi-client-impl.jar" project="excalibur-altrmi-0.9.2" id="client-impl"/>
+            <depend property="altrmi-server-interfaces.jar" project="excalibur-altrmi-0.9.2" id="server-api"/>
+            <depend property="altrmi-server-impl.jar" project="excalibur-altrmi-0.9.2" id="server-impl"/>
+
             <property name="version" value="@@DATE@@"/>
             <property name="junit.failonerror" value="true"/>
             <property name="do.checkstyle" value="true"/>
@@ -514,8 +619,9 @@
         </ant>
 
         <depend project="excalibur-instrument-manager" inherit="all" runtime="true"/>
-        <depend project="excalibur-altrmi-0.9.2" runtime="true"/>
+
         <work nested="instrument-manager/build/classes"/>
+        <work nested="instrument-manager/build/testclasses"/>
 
         <home nested="instrument-manager"/>
         <jar name="build/lib/excalibur-instrument-manager-@@DATE@@.jar"/>
@@ -531,20 +637,38 @@
         <mkdir dir="instrument-client/build/classes"/>
 
         <ant basedir="instrument-client">
+            <!-- runtime dependencies -->
+<!--            <depend property="altrmi-common.jar" project="incubator-altrmi" id="common"/>
+            <depend property="altrmi-client-interfaces.jar" project="incubator-altrmi" id="client-api"/>
+            <depend property="altrmi-client-impl.jar" project="incubator-altrmi" id="client-impl"/>
+            <depend property="altrmi-server-interfaces.jar" project="incubator-altrmi" id="server-api"/>
+            <depend property="altrmi-server-impl.jar" project="incubator-altrmi" id="server-impl"/>-->
+            <depend property="altrmi-common.jar" project="excalibur-altrmi-0.9.2" id="common"/>
+            <depend property="altrmi-client-interfaces.jar" project="excalibur-altrmi-0.9.2" id="client-api"/>
+            <depend property="altrmi-client-impl.jar" project="excalibur-altrmi-0.9.2" id="client-impl"/>
+            <depend property="altrmi-server-interfaces.jar" project="excalibur-altrmi-0.9.2" id="server-api"/>
+            <depend property="altrmi-server-impl.jar" project="excalibur-altrmi-0.9.2" id="server-impl"/>
+            <depend property="avalon-framework.jar" project="avalon" runtime="true"/>
+            <depend property="excalibur-instrument-manager.jar" project="excalibur-instrument-manager" runtime="true"/>
+
+            <!-- optional dependencies -->
+            <property name="checkstyle.jar" project="checkstyle" reference="jarpath"/>
+
             <property name="version" value="@@DATE@@"/>
             <property name="junit.failonerror" value="true"/>
             <property name="do.checkstyle" value="true"/>
             <property name="skip.dependencies" value="true"/>
         </ant>
 
+        <!-- build-time dependencies -->
         <depend project="ant" inherit="runtime"/>
-        <depend project="avalon" runtime="true"/>
-        <depend project="excalibur-altrmi-0.9.2" runtime="true"/>
-        <depend project="excalibur-instrument-manager" runtime="true"/>
-        <option project="checkstyle" inherit="runtime"/>
-        <depend project="junit"/>
         <depend project="xml-xerces"/>
         <depend project="xml-xalan2"/>
+
+        <!-- optional dependencies -->
+        <option project="avalon" runtime="true"/>
+        <option project="checkstyle" inherit="runtime"/>
+
         <work nested="instrument-client/build/classes"/>
 
         <home nested="instrument-client"/>
@@ -582,6 +706,7 @@
         <option project="checkstyle" inherit="runtime"/>
 
         <work nested="lifecycle/build/classes"/>
+        <work nested="lifecycle/build/testclasses"/>
 
         <home nested="lifecycle"/>
         <jar name="build/lib/excalibur-lifecycle-@@DATE@@.jar"/>
@@ -609,7 +734,9 @@
         <depend project="xml-xerces"/>
         <depend project="xml-xalan2"/>
         <depend project="jakarta-oro"/>
+
         <work nested="loader/build/classes"/>
+        <work nested="logger/build/testclasses"/>
 
         <home nested="loader"/>
         <jar name="build/lib/excalibur-loader-@@DATE@@.jar"/>
@@ -621,7 +748,7 @@
     <project name="excalibur-logger">
         <package>org.apache.avalon.excalibur.logger</package>
 
-        <ant basedir="logger">
+        <ant basedir="logger" target="jar">
             <depend property="logkit.jar" project="avalon-logkit" runtime="true"/>
             <property name="package-version" value="@@DATE@@"/>
             <property name="junit.failonerror" value="true"/>
@@ -638,6 +765,18 @@
         <depend project="xml-xerces"/>
         <depend project="xml-xalan2"/>
 
+        <!-- test-time dependencies -->
+        <!--
+
+        circular dependency involving component & pool, so no tests
+        run.
+
+        <depend project="excalibur-component" id="testcase"/>
+        <depend project="excalibur-component" id="component"/>
+        <depend project="excalibur-pool"/>
+        <depend project="excalibur-instrument"/>
+        <depend project="commons-collections"/>-->
+
         <option project="jdbc" runtime="true"/>
         <option project="jms" runtime="true"/>
         <option project="javamail" runtime="true"/>
@@ -645,6 +784,7 @@
         <option project="jakarta-servletapi-4" runtime="true"/>
 
         <work nested="logger/build/classes"/>
+        <work nested="logger/build/testclasses"/>
 
         <home nested="logger"/>
         <jar name="build/lib/excalibur-logger-@@DATE@@.jar"/>
@@ -704,7 +844,9 @@
         <depend project="junit"/>
         <depend project="xml-xerces"/>
         <depend project="xml-xalan2"/>
+
         <work nested="naming/build/classes"/>
+        <work nested="naming/build/testclasses"/>
 
         <home nested="naming"/>
         <jar name="build/lib/excalibur-naming-@@DATE@@.jar"/>
@@ -729,7 +871,9 @@
         <depend project="excalibur-i18n" runtime="true"/>
         <depend project="xml-xerces"/>
         <depend project="xml-xalan2"/>
+
         <work nested="policy/build/classes"/>
+        <work nested="policy/build/testclasses"/>
 
         <home nested="policy"/>
         <jar name="build/lib/excalibur-policy-@@DATE@@.jar"/>
@@ -741,10 +885,11 @@
     <project name="excalibur-pool">
         <package>org.apache.avalon.excalibur.pool</package>
 
-        <ant basedir="pool">
+        <ant basedir="pool" target="jar">
             <depend property="commons-collections" project="commons-collections"/>
             <depend property="excalibur-instrument.jar" project="excalibur-instrument"/>
             <depend property="logkit.jar" project="avalon-logkit" runtime="true"/>
+
             <property name="package-version" value="@@DATE@@"/>
             <property name="junit.failonerror" value="true"/>
             <property name="do.checkstyle" value="true"/>
@@ -753,12 +898,24 @@
 
         <depend project="ant" inherit="runtime"/>
         <option project="checkstyle" inherit="runtime"/>
-        <depend project="junit"/>
         <depend project="concurrent"/>
         <depend project="avalon" runtime="true"/>
         <depend project="xml-xerces"/>
         <depend project="xml-xalan2"/>
+
+        <!-- test-time dependencies -->
+        <!--
+
+        circular dependency involving component & pool, so no tests
+        run.
+
+        <depend project="junit"/>
+        <depend project="junitperf"/>
+        <depend project="excalibur-component" id="testcase"/>
+        <depend project="avalon-logkit"/>-->
+
         <work nested="pool/build/classes"/>
+        <work nested="pool/build/testclasses"/>
 
         <home nested="pool"/>
         <jar name="build/lib/excalibur-pool-@@DATE@@.jar"/>
@@ -784,7 +941,9 @@
         <depend project="avalon" runtime="true"/>
         <depend project="xml-xerces"/>
         <depend project="xml-xalan2"/>
+
         <work nested="sourceresolve/build/classes"/>
+        <work nested="sourceresolve/build/testclasses"/>
 
         <home nested="sourceresolve"/>
         <jar name="build/lib/excalibur-sourceresolve-@@DATE@@.jar"/>
@@ -810,7 +969,9 @@
         <depend project="xml-xerces"/>
         <depend project="xml-xalan2"/>
         <depend project="jisp"/>
+
         <work nested="store/build/classes"/>
+        <work nested="store/build/testclasses"/>
 
         <home nested="store"/>
         <jar name="build/lib/excalibur-store-@@DATE@@.jar"/>
@@ -828,11 +989,12 @@
         <package>org.apache.avalon.excalibur.thread</package>
 
         <ant basedir="thread">
-		<depend project="commons-collections" runtime="true"/>
+            <depend project="commons-collections" runtime="true"/>
             <depend property="excalibur-pool.jar" project="excalibur-pool" runtime="true"/>
             <depend property="excalibur-threadcontext.jar" project="excalibur-threadcontext" runtime="true"/>
             <depend property="excalibur-instrument.jar" project="excalibur-instrument" runtime="true"/>
             <depend property="logkit.jar" project="avalon-logkit" runtime="true"/>
+
             <property name="package-version" value="@@DATE@@"/>
             <property name="junit.failonerror" value="true"/>
             <property name="do.checkstyle" value="true"/>
@@ -841,10 +1003,15 @@
 
         <depend project="ant" inherit="runtime"/>
         <option project="checkstyle" inherit="runtime"/>
-        <depend project="junit"/>
         <depend project="avalon" runtime="true"/>
         <depend project="xml-xerces"/>
         <depend project="xml-xalan2"/>
+
+        <!-- test-time dependencies -->
+        <depend project="junit"/>
+        <depend project="junitperf"/>
+        <depend project="excalibur-component" id="testcase"/>
+
         <work nested="thread/build/classes"/>
 
         <home nested="thread"/>
@@ -889,6 +1056,12 @@
             <depend property="excalibur-pool.jar" project="excalibur-pool"/>
             <depend property="excalibur-sourceresolve.jar" project="excalibur-sourceresolve"/>
             <depend property="excalibur-store.jar" project="excalibur-store"/>
+
+            <!-- test-time dependencies -->
+            <depend property="excalibur-testcase.jar" project="excalibur-component" id="testcase"/>
+            <depend property="excalibur-i18n.jar" project="excalibur-i18n"/>
+            <depend property="commons-collections.jar" project="commons-collections"/>
+
             <property name="version" value="@@DATE@@"/>
             <property name="junit.failonerror" value="true"/>
             <property name="do.checkstyle" value="true"/>
@@ -930,6 +1103,16 @@
         <jar id="generator" name="lib/altrmi-generator-0.9.2.jar"/>
         <jar id="server-impl" name="lib/altrmi-server-impl-0.9.2.jar"/>
         <jar id="server-api" name="lib/altrmi-server-interfaces-0.9.2.jar"/>
+
+        <nag from="Gump Integration Build &lt;general@incubator.apache.org&gt;"
+                to="dev@avalon.apache.org"/>
+    </project>
+
+    <project name="junitperf">
+        <package>com.clarkware.junitperf</package>
+
+        <jar name="lib/junitperf.jar"/>
+
         <nag from="Gump Integration Build &lt;general@incubator.apache.org&gt;"
                 to="dev@avalon.apache.org"/>
     </project>
