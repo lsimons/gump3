@@ -22,7 +22,6 @@
     <depend project="excalibur-thread"/>
     <depend project="excalibur-threadcontext"/>
     <depend project="jakarta-avalon-phoenix" inherit="runtime"/>
-    <depend project="xdoclet-ant15" inherit="runtime"/>
     <depend project="jakarta-ant" inherit="runtime"/>
     <depend project="jakarta-velocity" inherit="runtime"/>
 
