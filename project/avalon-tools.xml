@@ -49,7 +49,7 @@
       <!-- for magic -->
       <property name="magic.home" reference="home" project="magic"/>
       <property name="gump.signature" value="@@DATE@@"/>
-      <property name="build.sysclasspath" value=""/> <!-- testing -->
+      <property name="build.sysclasspath" value="last"/> <!-- testing -->
       <!-- external references -->
       <depend property="gump.resource.ant" project="ant" id="ant"/>
       <depend property="gump.resource.junit" project="junit"/>
