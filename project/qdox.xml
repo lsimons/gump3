@@ -1,0 +1,42 @@
+<module name="qdox">
+
+  <url  href="http://qdox.sourceforge.org/"/>
+  <description>
+    QDox is a high speed, small footprint parser for extracting class/interface/method definitions from source files complete with JavaDoc @tags. It is designed to be used by active code generators or documentation tools.  
+  </description>
+
+  <cvs repository="sourceforge" host-prefix="cvs.qdox" 
+       module="qdox"/>
+  
+  <project name="qdox">
+    <package>com.thoughtworks.qdox</package>
+
+    <ant>
+      <property name="yacc.exe" value="yacc"/>
+      <property name="version" value="@@DATE@@"/>
+    </ant>
+
+    <depend project="jakarta-ant" inherit="runtime"/>
+    <depend project="xml-xerces"/>
+    <depend project="junit"/>
+    <depend project="jflex"/>
+    <depend project="mockmaker"/>
+
+    <jar name="build/qdox-@@DATE@@.jar"/>
+
+    <nag from="Peter Donald &lt;peter@apache.org&gt;"
+	    to="alexandria-dev@jakarta.apache.org"/>
+
+  </project>
+
+  <project name="jflex">
+    <jar name="bootstrap/jflex.jar"/>
+  </project>
+
+  <project name="mockmaker">
+    <!-- Another project should be made for mock maker -->
+    <jar name="bootstrap/mockmaker.jar"/>
+  </project>
+
+
+</module>
