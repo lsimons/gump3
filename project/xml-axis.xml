@@ -11,6 +11,7 @@
 
   <depend project="xml-xerces"/>
   <depend project="jakarta-ant"/>
+  <depend project="jdom"/>
   <depend project="jakarta-servletapi"/>
   <work nested="java/build/lib/axis.jar"/>
 
