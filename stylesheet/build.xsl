@@ -29,7 +29,7 @@
       <delete dir="dist"/>
 
       <!-- clean up old build directories -->
-      <project>
+      <project name="clean">
         <logic name="clean">
           <mkdir dir="trashbin"/>
           <xsl:for-each select="module[cvs]">
