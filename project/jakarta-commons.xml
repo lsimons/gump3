@@ -38,6 +38,7 @@
     </description>
 
     <ant basedir="cactus" buildfile="build/build.xml" target="all">
+      <property name="test.port" value="8081"/>
       <property name="tomcat.home.33" reference="home"
                 project="jakarta-tomcat"/>
       <depend property="servlet22.jar" project="jakarta-servletapi"/>
@@ -70,6 +71,7 @@
     </description>
 
     <ant basedir="cactus" buildfile="build/build.xml" target="all">
+      <property name="test.port" value="8082"/>
       <property name="tomcat.home.40" reference="home"
                 project="jakarta-tomcat-4.0"/>
       <depend property="servlet23.jar" project="jakarta-servletapi-4"/>
