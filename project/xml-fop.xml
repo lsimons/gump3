@@ -24,6 +24,7 @@
   <project name="fop-buildtools">
     <depend project="xml-xerces"/>
     <depend project="jakarta-ant"/>
+    <option project="xml-xalan2"/>
     <ant buildfile="buildtools.xml"/>
     <jar name="lib/buildtools.jar"/>
   </project>
