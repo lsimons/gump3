@@ -166,7 +166,7 @@
 
           <!-- prereq check -->
 
-          <xsl:for-each select="depend">
+          <xsl:for-each select="depend[not(noclasspath)]">
             <prereq project="{@project}">
               <xsl:for-each select="jar">
                 <file path="{../@home}/{@name}"/>
@@ -183,7 +183,7 @@
 
             <classpath>
 
-              <xsl:for-each select="depend[not(noclasspath)]|option">
+              <xsl:for-each select="depend[not(noclasspath)]|option[not(noclasspath)]">
                 <xsl:for-each select="jar">
                   <pathelement location="{../@home}/{@name}">
                     <xsl:copy-of select="@type"/>
