@@ -277,26 +277,9 @@ class XDocDocumenter(Documenter):
         definitionTable.createEntry('Gump Run (Hex) GUID', self.run.getRunHexGuid())
         definitionTable.createEntry('Gump Version', setting.VERSION)
         
-        rssSyndRow=definitionTable.createRow()
-        rssSyndRow.createData().createStrong('Syndication')
-        rssArea=rssSyndRow.createData()
-        rssArea.createFork('rss.xml','RSS')
-        rssUrl=self.resolver.getUrl(self.workspace,'rss','.xml')
-        rssArea.createFork('http://www.feedvalidator.org/check.cgi?url=' + rssUrl) \
-                .createIcon(self.resolver.getImageUrl('valid-rss.png'), alt='[Valid RSS]') #, title='Validate my RSS feed', width='88', height='31')
-                 
-        atomSyndRow=definitionTable.createRow()
-        atomSyndRow.createData().createStrong('Syndication')
-        atomArea=atomSyndRow.createData()
-        atomArea.createFork('atom.xml','Atom')
-        atomUrl=self.resolver.getUrl(self.workspace,'atom','.xml')
-        atomArea.createFork('http://www.feedvalidator.org/check.cgi?url=' + atomUrl) \
-                .createIcon(self.resolver.getImageUrl('valid-atom.png'), alt='[Valid Atom]') #, title='Validate my Atom feed', width='88', height='31')
+        # RSS|Atom|RDF
+        self.documentXMLLinks(document, definitionTable, depth=getDepthForObject(self.workspace))       
         
-        rdfSyndRow=definitionTable.createRow()
-        rdfSyndRow.createData().createStrong('Metadata')
-        rdfArea=rdfSyndRow.createData()
-        rdfArea.createFork('gump.rdf','RDF')
         #rdfUrl=self.resolver.getUrl(self.workspace,'gump','.rdf')
         #rdfArea.createFork('http://www.feedvalidator.org/check.cgi?url=' + rdfUrl) \
         #        .createIcon(self.resolver.getImageUrl('valid-rdf.png'), alt='[Valid Atom]') #, title='Validate my Atom feed', width='88', height='31')
@@ -391,6 +374,37 @@ class XDocDocumenter(Documenter):
      
         document.serialize()    
         document=None
+       
+    def documentXMLLinks(self, document=None, table=None, rdf=True, depth=0):
+        """
+        
+        Show RSS|Atom|RDF.
+                
+        """
+        if not table:
+            table=document.createTable(['XML Description','Links'])
+            
+        rssSyndRow=table.createRow()
+        rssSyndRow.createData().createStrong('RSS Syndication')
+        rssArea=rssSyndRow.createData()
+        rssArea.createFork('rss.xml','RSS')
+        rssUrl=self.resolver.getUrl(self.workspace,'rss','.xml')
+        rssArea.createFork('http://www.feedvalidator.org/check.cgi?url=' + rssUrl) \
+                .createIcon(self.resolver.getImageUrl('valid-rss.png',depth), alt='[Valid RSS]') #, title='Validate my RSS feed', width='88', height='31')
+                 
+        atomSyndRow=table.createRow()
+        atomSyndRow.createData().createStrong('Atom Syndication')
+        atomArea=atomSyndRow.createData()
+        atomArea.createFork('atom.xml','Atom')
+        atomUrl=self.resolver.getUrl(self.workspace,'atom','.xml')
+        atomArea.createFork('http://www.feedvalidator.org/check.cgi?url=' + atomUrl) \
+                .createIcon(self.resolver.getImageUrl('valid-atom.png',depth), alt='[Valid Atom]') #, title='Validate my Atom feed', width='88', height='31')
+        
+        if rdf:
+            rdfRow=table.createRow()
+            rdfRow.createData().createStrong('RDF Metadata')
+            rdfArea=rdfRow.createData()
+            rdfArea.createFork('gump.rdf','RDF')
         
     def documentPartial(self,node):
             notice=node.createWarning()
@@ -1521,6 +1535,9 @@ This page helps Gumpmeisters (and others) observe community progress.
         if metadataLocation and metadataUrl:  
             descriptionSection.createParagraph('Gump Metadata: ').createFork(metadataUrl, metadataLocation)
             
+        # RSS|Atom
+        self.documentXMLLinks(document,None,False, depth=getDepthForObject(module))
+        
         if module.cause and not module==module.cause:
              self.insertTypedLink( module.cause, module, \
                  document.createNote( "This module failed due to: "))     
@@ -1759,7 +1776,10 @@ This page helps Gumpmeisters (and others) observe community progress.
         metadataUrl=project.getMetadataViewUrl()
         if metadataLocation and metadataUrl:  
             detailsList.createEntry('Gump Metadata: ').createFork(metadataUrl, metadataLocation)
-                             
+        
+        # RSS|Atom|RDF
+        self.documentXMLLinks(document, depth=getDepthForObject(project))
+        
         self.documentStats(document,project,realTime)
                 
         self.documentFileList(document,project,'Project-level Files')  

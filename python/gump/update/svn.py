@@ -196,11 +196,10 @@ class SvnUpdater(RunSpecific):
         """
             Build the appropriate SVN command for checkout/update
         """
-        
         repository=module.repository
         
-        log.debug("SubVersion  Module Update : " + module.getName() + \
-                       ", Repository Name: " + str(repository.getName()))
+        log.debug("SubVersion Module Update : " + module.getName() + \
+                       ", Repository Name: " + repository.getName())
                                         
         url=module.svn.getRootUrl()
       

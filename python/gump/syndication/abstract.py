@@ -29,6 +29,7 @@ from gump.run.gumprun import *
 from gump.model.state import *
 from gump.model.project import ProjectStatistics
 
+from gump.document.xdocs.resolver import getDepthForObject
 
 class AbstractSyndicator(RunSpecific):
     def __init__(self,run):
@@ -70,7 +71,7 @@ class AbstractSyndicator(RunSpecific):
         
         content='<p>Project ' + project.getName()  + ', '
                                 
-        content += self.getStateContent(project.getStatePair())
+        content += self.getStateContent(project.getStatePair(), getDepthForObject(project))
                         
         content += 'Duration in state: <b>' + `stats.sequenceInState` + '</b> (runs) '
         
@@ -104,7 +105,7 @@ class AbstractSyndicator(RunSpecific):
         
         content='<p>Module ' + module.getName() + ', '
                                     
-        content += self.getStateContent(module.getStatePair())
+        content += self.getStateContent(module.getStatePair(), getDepthForObject(module))
         
         content += 'Duration in state: <b>' + `stats.sequenceInState`  + '</b> (runs)'
                         
@@ -125,7 +126,7 @@ class AbstractSyndicator(RunSpecific):
                 
         return content
 
-    def getStateContent(self,statePair):
+    def getStateContent(self,statePair,depth=0):
         """
             Construct the generic (HTML) contents for state
         """    
@@ -139,7 +140,7 @@ class AbstractSyndicator(RunSpecific):
                 + statePair.getReasonDescription()
         
         content += ( '&nbsp;<img src=\'%s\' alt=\'%s\'/>' ) % \
-            resolver.getStateIconInformation(statePair)
+            resolver.getStateIconInformation(statePair,depth)
             
         content += '<br/><br/>'
         
@@ -179,14 +180,13 @@ class AbstractSyndicator(RunSpecific):
         
         return content
 
-    #
-    # Only report once per state change
-    # Don't report on prereq failed, or if just came from that
-    # Don't report on packages
-    # Don't report on bogus states (testing)
-    #
     def moduleOughtBeWidelySyndicated(self, module):
-        
+        """
+        Only report once per state change
+    	Don't report on prereq failed, or if just came from that
+    	Don't report on packages
+    	Don't report on bogus states (testing)   
+        """        
         stats=module.getStats()
         
         return stats.sequenceInState == 1	\
@@ -199,14 +199,13 @@ class AbstractSyndicator(RunSpecific):
                 stats.previousState == STATE_PREREQ_FAILED ) \
             and not module.isPackaged()       
               
-              
-    #
-    # Only report once per state change
-    # Don't report on prereq failed, or if just came from that
-    # Don't report on packages
-    # Don't report on bogus states (testing)
-    #
     def projectOughtBeWidelySyndicated(self, project):
+        """
+        Only report once per state change
+    	Don't report on prereq failed, or if just came from that
+    	Don't report on packages
+    	Don't report on bogus states (testing)
+        """
         
         stats=project.getStats()
         
