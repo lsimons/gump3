@@ -183,7 +183,7 @@ if __name__=='__main__':
        
         # Write ENV over-writes...
         for envKey in execInfo.iterkeys():
-            if not envKen in ['CMD','TMP','CWD']:
+            if not envKey in ['CMD','TMP','CWD']:
                 os.environ[envKey]=execInfo[envKey]
                 
         systemReturn=os.system(cmd)
