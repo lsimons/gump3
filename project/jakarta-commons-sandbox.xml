@@ -94,6 +94,22 @@
          from="dIon Gillard &lt;dion@multitask.com.au&gt;"/>
   </project>
 
+  <project name="commons-functor">
+    <package>org.apache.commons.functor</package>
+    <description>Functor: Function Objects</description>
+    <url href="http://jakarta.apache.org/commons/sandbox/functor/"/>
+    <ant basedir="functor" target="dist">
+      <property name="junit.home" reference="home" project="junit"/>
+    </ant>
+    <depend project="jakarta-ant" inherit="runtime"/>
+    <depend project="junit"/>
+    <home nested="functor/target/dist"/>
+    <jar name="commons-functor.jar"/>
+    <javadoc nested="functor/target/dist/docs/api"/>
+    <nag to="commons-dev@jakarta.apache.org"
+         from="Rod Waldhoff &lt;commons-dev@jakarta.apache.org&gt;"/>
+  </project>
+
   <project name="commons-graph">
     <ant basedir="graph2" buildfile="build.xml" target="dist">
       <property name="final.name" value="commons-graph-@@DATE@@">
