@@ -1,0 +1,37 @@
+<module name="jstl-jsp-12" tag="STANDARD_1_0_BRANCH">
+  <url href="http://jakarta.apache.org/taglibs/index.html"/>
+  <description>
+    JSP Taglibs
+  </description>
+
+  <cvs repository="jakarta" module="jakarta-taglibs"/>
+
+  <project name="jstl-jsp-12">
+    <package>org.apache.taglibs.standard</package>
+    <description>Standard Taglib for JSP 1.2</description>
+    <ant basedir="standard" target="dist">
+      <depend property="dom.jar" project="jaxp" id="dom"/>
+      <depend property="jdbc2_0-stdext.jar" project="jdbc"/>
+      <depend property="jaxp-api.jar" project="jaxp" id="jaxp-api"/>
+      <depend property="sax.jar" project="jaxp" id="sax"/>
+      <depend property="servlet23.jar" project="jakarta-servletapi-4"/>
+      <depend property="xalan.jar" project="xml-xalan2" id="transformer"/>
+      <depend property="xercesImpl.jar" project="xml-xerces" id="parser"/>
+      <property name="build.dir" path="build"/>
+      <property name="build.library" path="build/standard/standard"/>
+      <property name="build.examples" path="build/standard/standard-examples"/>
+      <property name="build.doc" path="build/standard/standard-doc"/>
+      <property name="library.src" path="standard/src"/>
+      <property name="dist.dir" path="dist"/>
+    </ant>
+    <depend project="ant" inherit="runtime"/>
+    <depend project="xml-xerces"/>
+    <depend project="jaxen"/>
+    <javadoc nested="dist/doc/doc/standard-doc/javadoc"/>
+    <jar name="dist/standard/lib/jstl.jar" id="jstl" />
+    <jar name="dist/standard/lib/standard.jar" id="standard" />
+    <nag to="taglibs-dev@jakarta.apache.org"
+         from="Ted Husted &lt;ted@husted.com&gt;"/>
+  </project>
+
+</module>
