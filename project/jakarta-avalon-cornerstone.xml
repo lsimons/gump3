@@ -14,10 +14,6 @@
       <depend property="xerces.jar" project="xml-xerces" id="parser"/>
       <depend property="logkit.jar" project="jakarta-avalon-logkit"/>
       <depend property="avalon-framework.jar" project="jakarta-avalon"/>
-      <depend property="avalon-excalibur.jar" 
-        project="jakarta-avalon-excalibur" id="excalibur-core"/>
-      <depend property="avalon-scratchpad.jar" 
-        project="jakarta-avalon-excalibur" id="excalibur-scratchpad"/>
       <depend property="junit.jar"   project="junit"/>
     </ant>
 
@@ -29,6 +25,7 @@
     <depend project="jakarta-avalon-phoenix" inherit="runtime"/>
     <depend project="xdoclet-ant14" inherit="runtime"/>
     <depend project="jakarta-ant" inherit="runtime"/>
+    <depend project="jakarta-velocity" inherit="runtime"/>
 
     <!--
     <depend project="jakarta-regexp"/>
