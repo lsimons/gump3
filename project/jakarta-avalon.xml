@@ -13,10 +13,10 @@
   <depend project="jakarta-avalon-logkit"/>
   <depend project="jakarta-avalon-testlet"/>
   <depend project="xml-xerces"/>
-  <depend project="xml-xalan2"/>
+  <depend project="xml-xalan1"/>
   <depend project="jsse"/>
   <depend project="kawa"/>
-  <depend project="xml-stylebook2"/>
+  <depend project="xml-stylebook"/>
 
   <home nested="build/lib"/>
   <jar name="avalonapi.jar"/>
