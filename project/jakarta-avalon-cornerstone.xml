@@ -10,14 +10,10 @@
   <project name="jakarta-avalon-cornerstone">
     <package>org.apache.avalon.cornerstone</package>
 
-    <mkdir dir="apps/db/build/classes"/>
-    <mkdir dir="apps/demo/build/classes"/>
-
     <ant>
       <depend property="xerces.jar" project="xml-xerces" id="parser"/>
       <depend property="logkit.jar" project="jakarta-avalon-logkit"/>
       <depend property="avalon-framework.jar" project="jakarta-avalon"/>
-      <depend property="phoenix-client.jar" project="jakarta-avalon-phoenix"/>
       <depend property="avalon-excalibur.jar" 
         project="jakarta-avalon-excalibur" id="excalibur-core"/>
       <depend property="avalon-scratchpad.jar" 
@@ -26,23 +22,23 @@
     </ant>
 
     <depend project="excalibur-io"/>
-    <depend project="excalibur-cli"/>
-    <depend project="excalibur-extension"/>
-    <depend project="excalibur-event"/>
-    <depend project="excalibur-collections"/>
     <depend project="excalibur-datasource"/>
     <depend project="excalibur-i18n"/>
     <depend project="excalibur-thread"/>
     <depend project="excalibur-threadcontext"/>
+    <depend project="jakarta-avalon-phoenix" inherit="runtime"/>
+    <depend project="xdoclet-ant14"/>
     <depend project="jakarta-ant"/>
-    <depend project="jakarta-bcel"/>
+
+    <!--
     <depend project="jakarta-regexp"/>
+     -->
+
+    <option project="excalibur-event"/>
+    <option project="excalibur-altrmi" inherit="runtime"/>
+    <option project="jakarta-bcel"/>
     <option project="jsse"/>
-    <depend project="xml-stylebook2"/>
-    <depend project="xml-xalan2"/>
-    <depend project="hsqldb"/>
-    <depend project="bsf"/>
-    <depend project="excalibur-altrmi"/>
+
     <work nested="build/classes"/>
     <work nested="apps/db/build/classes"/>
     <work nested="apps/demo/build/classes"/>
