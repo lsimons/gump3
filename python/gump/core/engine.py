@@ -154,13 +154,13 @@ class GumpEngine:
                     
         # Check the workspace
         if not workspace.getVersion() >= setting.ws_version:
-            message='Workspace version ['+workspace.getVersion()+'] below preferred [' + setting.ws_version + ']'
+            message='Workspace version ['+str(workspace.getVersion())+'] below preferred [' + setting.ws_version + ']'
             workspace.addWarning(message)
             log.warn(message)   
             
         # Check the workspace
         if not workspace.getVersion() >= setting.ws_minimum_version:
-            message='Workspace version ['+workspace.getVersion()+'] below minimum [' + setting.ws_minimum_version + ']'
+            message='Workspace version ['+strworkspace.getVersion())+'] below minimum [' + setting.ws_minimum_version + ']'
             workspace.addError(message)
             log.error(message)   
             
