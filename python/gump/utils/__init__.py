@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/utils/__init__.py,v 1.20 2004/02/23 21:55:35 ajack Exp $
-# $Revision: 1.20 $
-# $Date: 2004/02/23 21:55:35 $
+# $Header: /home/stefano/cvs/gump/python/gump/utils/__init__.py,v 1.21 2004/02/23 23:02:57 ajack Exp $
+# $Revision: 1.21 $
+# $Date: 2004/02/23 23:02:57 $
 #
 # ====================================================================
 #
@@ -63,6 +63,7 @@
 """
 
 import logging
+import os
 import sys
 import types, StringIO
 import time
@@ -365,7 +366,7 @@ def formatException(ei):
     
 def logResourceUtilization(message=None,):
     try:
-        import resource
+        from resource import getrusage
         
         if not message:
             message=''
@@ -376,10 +377,13 @@ def logResourceUtilization(message=None,):
         resources=resource.getrusage(resource.RUSAGE_CHILDREN)
         log.debug('Child Resources ' + message + ' ' + `resources`)        
     
-        resources=resource.getrusage(resource.RUSAGE_BOTH)
-        log.debug('All Resources ' + message  + ' ' + `resources`)
+        #resources=resource.getrusage(resource.RUSAGE_BOTH)
+        #log.debug('All Resources ' + message  + ' ' + `resources`)
         
-    except: pass
+    except Exception, details:        
+        if not os.name == 'dos' and not os.name == 'nt':
+            log.error("Failed get resource utilization." \
+                        + " : " + str(details), exc_info=1)
         
 if __name__=='__main__':
 
