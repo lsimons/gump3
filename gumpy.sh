@@ -61,7 +61,8 @@ export GUMP_PYTHON=$GUMP/python
 export GUMP_TMP=$GUMP/tmp
 export GUMP_WS_TMP=$GUMP_WS/tmp
 export GUMP_DATE=`date`
-export GUMP_LOG=$GUMP_LOG_DIR/gumpy.html
+export GUMP_LOG=$GUMP_WS_TMP/gumpy.html
+export GUMP_FINAL_LOG=$GUMP_LOG_DIR/gumpy.html
 export GUMP_PROFILE_LOG_DIR=$GUMP_LOG_DIR/myprofile
 
 if [ -z "$GUMP_WORKSPACE" ] ; then
@@ -225,6 +226,8 @@ fi
 cd $GUMP
 
 echo \</XMP\> >> $GUMP_LOG
+
+cp $GUMP_LOG $GUMP_FINAL_LOG
 
 #
 # Ensure nothing we started (directly) is left running after we end...
