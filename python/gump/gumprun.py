@@ -402,7 +402,7 @@ class GumpRunOptions:
         return self.cache
         
     def setCache(self,cache):
-        self.cache-cache
+        self.cache=cache
         
     def isDebug(self):
         return self.debug
