@@ -20,8 +20,13 @@ http://gump.chalko.com/gb/blog/BoardReports/?preview=true&smm=y&permalink=200403
 <p>
 Most of the past few weeks has been filled with infrastructure stuff. 
 </p><p>
-We've successfully migrated web-site, CVS module, bug-tracking and the mailing 
-list to gump.apache.org - many thanks to the infrastructure team for making 
+We've successfully migrated 
+<a href="http://gump.apache.org">web-site</a>, 
+<a href="http://cvs.apache.org/viewcvs/gump/">CVS module</a>, 
+<a href="http://nagoya.apache.org/jira/secure/BrowseProject.jspa?id=10457"bug-tracking</a>
+ and the
+<a href="http://gump.apache.org/mail.html"> mailing list</a> 
+to gump.apache.org - many thanks to the infrastructure team for making 
 the transition that smooth. 
 </p><p>
 All Apache committers have been Gump committers with the old setup and this 
@@ -31,15 +36,19 @@ sticking to CVS for now since we can reach most Apache committers that way.
 Gump will probably be one of the last projects that make the transition to 
 Subversion. 
 </p><p>
-Work on the project bylaws has started and we expect to have them ready for the
+Work on the <a href="http://wiki.apache.org/gump/Drafts/ProjectBylaws">project bylaws</a>
+has started and we expect to have them ready for the
 next board meeting. Gump is unique when it comes to committer status so we'll 
 have to put some thoughts into the definition of that role. 
 </p><p>
 Gump has been quite successful in pointing out problems in some builds recently 
 and we are happy that most of them have been resolved between projects easily. 
-Our biggest problem right now is building Avalon, but this may be due to the 
+Our biggest problem right now is building 
+<a href="http://avalon.apache.org/">Avalon</a>,
+but this may be due to the 
 fact that Gump is using a different build system than Avalon more than anything
-else. Once Gump supports Maven as a build option, things may become easier for
+else. Once Gump supports 
+<a href="http://maven.apache.org/">Maven</a> as a build option, things may become easier for
 Avalon. 
 </p><p>
 We continue improving the Python rewrite of Gump and have come quite a long 
