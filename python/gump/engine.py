@@ -468,6 +468,7 @@ class GumpEngine:
         #
         #
         # NOTE --------------- NOT TURNED ON YET!!!!!!
+        # Security concerns...
         #
         #
         if 0 and project.okToPerformWork():        
@@ -501,7 +502,8 @@ class GumpEngine:
                 project.addInfo('Maven Properties in: ' + propertiesFile)
                 
                 try:
-                    catFileAsWork(project,propertiesFile)
+                    catFileAsWork(project,propertiesFile,	\
+                        project.getName() + ' ' + os.path.basename(propertiesFile))
                 except:
                     log.error('Display Properties [ ' + propertiesFile + '] Failed', exc_info=1)   
                 

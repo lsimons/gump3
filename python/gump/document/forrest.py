@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/forrest.py,v 1.71 2004/02/10 22:48:53 ajack Exp $
-# $Revision: 1.71 $f
-# $Date: 2004/02/10 22:48:53 $
+# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/forrest.py,v 1.72 2004/02/11 22:07:25 ajack Exp $
+# $Revision: 1.72 $f
+# $Date: 2004/02/11 22:07:25 $
 #
 # ====================================================================
 #
@@ -1280,7 +1280,8 @@ class ForrestDocumenter(Documenter):
     def documentServerLinks(self,xdocNode,linkable,workspace):
         
         servers=workspace.getServers()
-        if not servers: return        
+        if not servers: return    
+        if len(servers) == 1: return # Assume this one.     
         
         serversSection=xdocNode.createSection('Servers')        
         serversTable=serversSection.createTable()
