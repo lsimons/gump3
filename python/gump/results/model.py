@@ -16,7 +16,9 @@
 
 
 """
-    This module contains information on
+
+    Results (a tree of status)
+    
 """
 
 from time import localtime, strftime, tzname

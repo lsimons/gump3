@@ -94,6 +94,8 @@ class ForrestDocumenter(Documenter):
         
         if not runOptions.isXDoc():
             ret=self.executeForrest(workspace)
+        else:
+            ret=self.syncXDocs(workspace)
             
         return ret
 
@@ -204,6 +206,27 @@ class ForrestDocumenter(Documenter):
                 success=0
         
         return success
+                            
+    def syncXDocs(self,workspace):
+        
+        # The three dirs, work, output (staging), public
+        forrestWorkDir=self.getForrestWorkDirectory(workspace)
+        logDirectory=workspace.getLogDirectory()
+        
+        try:
+            #
+            # Sync over public pages...
+            #
+            syncDirectories(forrestWorkDir,logDirectory)
+            # 
+            # Clean up
+            #
+            wipeDirectoryTree(forrestWorkDir)
+        except:        
+            log.error('--- Failed to work->log sync and/or clean-up', exc_info=1)
+            success=0
+        
+        return success
               
     #####################################################################           
     #
@@ -265,8 +288,8 @@ class ForrestDocumenter(Documenter):
             if not method: continue
             if isinstance(method,types.TypeType): continue
             if not isinstance(method,types.MethodType): continue
-            if not callable(meth): continue
-            if not name.startswith('get') or not name.startswith('is') : continue
+            if not callable(method): continue
+            if not (name.startswith('get') or name.startswith('is')) : continue
             
             optTable.createEntry(str(name),str(method()))
             opts+=1
