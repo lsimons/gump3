@@ -351,7 +351,7 @@
     <depend project="commons-jelly" inherit="all"/>
 
     <depend project="commons-httpclient"/>
-    <depend project="jetty"/>
+    <depend project="jetty4"/>
     <depend project="commons-jelly-tags-http"/>
 
     <work nested="jetty/target/classes"/>

@@ -170,6 +170,7 @@
   <!--module href="project/javasrc.xml"/-->
   <module href="project/jaxen.xml"/>
   <module href="project/jetty.xml"/>
+  <module href="project/jetty4.xml"/>
   <module href="project/jfor.xml"/>
   <module href="project/jgen.xml"/>
   <module href="project/jgroups.xml"/>
@@ -321,6 +322,7 @@
   <project name="nsuml"            package="nsuml"/>
   <project name="packaged-jaxen"   package="jaxen-1.0-FCS"/>
   <project name="packaged-jetty"   package="Jetty-5.0.beta2"/>
+  <project name="jetty4"           package="jetty-4.2.21"/>
   <project name="saxpath"          package="jaxen-1.0-FCS"/>
   <project name="saxon"            package="saxon7-9"/>
   <project name="saxon6"           package="saxon6_5_3"/>
