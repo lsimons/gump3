@@ -93,6 +93,7 @@
   <module href="project/aspectj.xml"/>
   <module href="project/bsf.xml"/>
   <module href="project/castor.xml"/>
+  <module href="project/dougLea.xml"/>
   <module href="project/eyebrowse.xml"/>
   <module href="project/javacc.xml"/>
   <module href="project/jce.xml"/>
@@ -127,6 +128,7 @@
   <!-- Installed packages -->
 
   <project name="aspectj"        package="aspectj1.0"/>
+  <project name="concurrent"     package="dougLea"/>
   <project name="ejb"            package="ejb-2_0-pfd"/>
   <project name="j2ee-connector" package="j2ee_connector-1_0-pfd2"/>
   <project name="jaas"           package="jaas1_0"/>

@@ -1,0 +1,12 @@
+<module name="dougLea">
+
+  <url href="http://gee.cs.oswego.edu/dl/classes/EDU/oswego/cs/dl/util/concurrent/intro.html"/>
+  <description>
+    Doug Lea's concurrent programming classes
+  </description>
+  
+  <project name="concurrent">
+   <jar name="concurrent.jar"/>
+  </project>
+
+</module>

@@ -36,6 +36,7 @@
     <depend project="jisp"/>
     <depend project="javagroups"/>
     <depend project="hsqldb"/>
+    <depend project="concurrent"/>
 
     <home nested="bin"/>
     <jar name="stratum-@@DATE@@.jar"/>
