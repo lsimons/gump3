@@ -113,30 +113,12 @@ test -n "$FAIL" || \
 java org.apache.xalan.xslt.Process -text -in work/merge.xml -xsl stylesheet/sedmap.xsl -out work/map.pl || \
 export FAIL=1
 
-# ********************************************************************
-
-echo Generating module xref instructions
-test -n "$FAIL" || \
-java org.apache.xalan.xslt.Process -xml -in work/sorted.xml -xsl stylesheet/modxref.xsl -out work/modxref.xml || \
-export FAIL=1
-
-echo Applying web site stylesheet
-test -n "$FAIL" || \
-java org.apache.xalan.xslt.Process -xml -in work/modxref.xml -xsl stylesheet/jakarta.xsl -out work/modxrefsite.xml || \
-export FAIL=1
-
-echo Generating modxref script
-test -n "$FAIL" || \
-java org.apache.xalan.xslt.Process -text -in work/modxrefsite.xml -xsl stylesheet/bash.xsl -out work/modxref.sh || \
-export FAIL=1
-
 # **** publish ***
 if test -z "$FAIL"; then
   echo
   echo Publishing
   cd work
   chmod +x *.sh
-  bash modxref.sh
   bash puball.sh $SOURCE
   cd ..
 fi

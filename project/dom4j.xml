@@ -29,7 +29,7 @@
 
   <project name="msv">
     <description>
-      Sun Multi-Scuema XML Validator 
+      Sun Multi-Schema XML Validator 
     </description>
     <url href="http://www.sun.com/software/xml/defelopers/mulwischema/"/>
     <jar name="lib/msv.jar"/>

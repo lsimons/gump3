@@ -1,12 +1,12 @@
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0">
 
-  <!-- =================================================================== -->
-  <!--         Produce a cross reference of project dependencies           -->
-  <!-- =================================================================== -->
-
   <xsl:template match="workspace">
 
     <xref>
+
+      <!-- =============================================================== -->
+      <!--       Produce a cross reference of project dependencies         -->
+      <!-- =============================================================== -->
 
       <html log="{@logdir}/xref.html"
         banner-image="{@banner-image}" banner-link="{@banner-link}">
@@ -87,6 +87,212 @@
           <blockquote>
             [] : optional dependency
             <br/> ${} : property reference
+          </blockquote>
+        </content>
+
+      </html>
+
+      <!-- =============================================================== -->
+      <!--        Produce a listing of modules sorted by repository        -->
+      <!-- =============================================================== -->
+
+      <html log="{@logdir}/modxref.html"
+        banner-image="{@banner-image}" banner-link="{@banner-link}">
+
+        <title>List of modules, sorted by repository</title>
+
+        <sidebar>
+          <strong>Repositories</strong>
+          <ul>
+            <xsl:for-each select="/workspace/repository">
+              <xsl:sort select="@name"/>
+              <li>
+                <a href="#{@name}"><xsl:value-of select="title"/></a>
+              </li>
+            </xsl:for-each>
+          </ul>
+        </sidebar>
+
+        <menu>
+          <xsl:text>Workspace: </xsl:text>
+          <a href="workspace.html">definition</a>
+          <a href="xref.html">cross reference</a>
+          <a href="cvs_index.html">cvs logs</a>
+          <a href="index.html">build logs</a>
+        </menu>
+
+        <content>
+          <blockquote>
+            <xsl:for-each select="/workspace/module/cvs">
+              <xsl:sort select="@repository"/>
+              <xsl:variable name="r" select="@repository"/>
+
+              <xsl:if test="not(preceding::cvs[@repository=$r])">
+                <p/>
+
+                <table width="100%" cellpadding="2" cellspacing="0" border="0">
+                  <tr>
+                    <td class="subtitle">
+                      <xsl:for-each select="/workspace/repository[@name=$r]">
+                        <a class="subtitle" name="{$r}" href="{home-page}">
+                          <xsl:value-of select="title"/>
+                        </a>
+                      </xsl:for-each>
+                    </td>
+                  </tr>
+                </table>
+
+                <blockquote>
+                  <table class="content">
+                    <tr>
+                      <th class="content">Module</th>
+                      <th class="content">Description</th>
+                    </tr>
+
+                    <xsl:for-each 
+                      select="/workspace/module[cvs/@repository=$r]">
+                      <tr>
+                        <td class="content">
+                          <xsl:if test="url/@href">
+                            <a href="{url/@href}">
+                              <xsl:value-of select="@name"/>
+                            </a>
+                          </xsl:if>
+                          <xsl:if test="not(url/@href)">
+                            <xsl:value-of select="@name"/>
+                          </xsl:if>
+                        </td>
+                        <td class="content">
+                          <xsl:value-of select="normalize-space(description)"/>
+                        </td>
+                      </tr>
+                    </xsl:for-each>
+
+                  </table>
+                </blockquote>
+
+              </xsl:if>
+            </xsl:for-each>
+          </blockquote>
+
+        </content>
+
+      </html>
+
+      <!-- =============================================================== -->
+      <!--             Produce a listing of installed packages             -->
+      <!-- =============================================================== -->
+
+      <html log="{@logdir}/packages.html"
+        banner-image="{@banner-image}" banner-link="{@banner-link}">
+
+        <title>List of installed packages</title>
+
+        <sidebar>
+          <strong><a href="index.html">Build logs</a></strong>
+          <ul>
+            <xsl:for-each select="project[ant|script]">
+              <xsl:sort select="@name"/>
+              <li>
+                <a href="{@name}.html"><xsl:value-of select="@name"/></a>
+              </li>
+            </xsl:for-each>
+          </ul>
+        </sidebar>
+
+        <menu>
+          <xsl:text>Workspace: </xsl:text>
+          <a href="workspace.html">definition</a>
+          <a href="xref.html">cross reference</a>
+          <a href="cvs_index.html">cvs logs</a>
+          <a href="index.html">build logs</a>
+        </menu>
+
+        <content>
+
+          <blockquote>
+             <table class="content">
+               <tr>
+                 <th class="content">Package</th>
+                 <th class="content">Version</th>
+                 <th class="content">Description</th>
+               </tr>
+
+               <xsl:for-each select="/workspace/project[@package]">
+                 <xsl:sort select="@name"/>
+                 <xsl:variable name="project" select="@name"/>
+                 <xsl:variable name="package" select="@package"/>
+                 <xsl:variable name="module" select="@module"/>
+
+                 <xsl:for-each select="/workspace/module[@name=$module]">
+                   <tr>
+                     <td class="content">
+                       <xsl:if test="url/@href">
+                         <a href="{url/@href}">
+                           <xsl:value-of select="$project"/>
+                         </a>
+                       </xsl:if>
+                       <xsl:if test="not(url/@href)">
+                         <xsl:value-of select="$project"/>
+                       </xsl:if>
+                     </td>
+                     <td class="content">
+                       <xsl:value-of select="$package"/>
+                     </td>
+                     <td class="content">
+                       <xsl:value-of select="normalize-space(description)"/>
+                     </td>
+                   </tr>
+                 </xsl:for-each>
+
+               </xsl:for-each>
+
+             </table>
+          </blockquote>
+
+          <a name="cvsjars">
+            <table width="100%" cellpadding="2" cellspacing="0" border="0">
+              <tr>
+                <td class="title">List of jars used from cvs</td>
+              </tr>
+            </table>
+          </a>
+
+          <blockquote>
+             <table class="content">
+               <tr>
+                 <th class="content">Package</th>
+                 <th class="content">Module</th>
+                 <th class="content">Description</th>
+               </tr>
+
+               <xsl:for-each select="/workspace/project
+                 [jar and not(depend|script) and not(@package)]">
+
+                 <xsl:sort select="@name"/>
+
+                 <tr>
+                   <td class="content">
+                     <xsl:if test="url/@href">
+                       <a href="{url/@href}">
+                         <xsl:value-of select="@name"/>
+                       </a>
+                     </xsl:if>
+                     <xsl:if test="not(url/@href)">
+                       <xsl:value-of select="@name"/>
+                     </xsl:if>
+                   </td>
+                   <td class="content">
+                     <xsl:value-of select="@module"/>
+                   </td>
+                   <td class="content">
+                     <xsl:value-of select="normalize-space(description)"/>
+                   </td>
+                 </tr>
+
+               </xsl:for-each>
+
+             </table>
           </blockquote>
         </content>
 
