@@ -14,7 +14,7 @@
       <property name="base.dir" reference="home" project="jakarta-taglibs"/>
       <property name="build.dir" path="build"/>
       <property name="dist.dir" path="dist"/>
-      <property name="standard.jar" path="dist/standard/standard.jar"/>
+      <property name="standard.jar" path="dist/standard/lib/standard.jar"/>
       <depend property="xerces.jar" project="xml-xerces" id="parser"/>
       <depend property="crimson.jar" project="xml-xerces" id="parser"/>
       <depend property="jaxp.jar" project="xml-xerces" id="apis"/>
@@ -45,8 +45,8 @@
     <option project="bsf"/>
     <option project="javamail"/>
     <depend project="jaf"/>
-    <work nested="dist/standard/jstl.jar"/>
-    <work nested="dist/standard/standard.jar"/>
+    <work nested="dist/standard/lib/jstl.jar"/>
+    <work nested="dist/standard/lib/standard.jar"/>
 
     <javadoc nested="dist/doc/doc">
       <description dir="application-doc/javadoc">application</description>
