@@ -173,14 +173,14 @@ class PropertySet(Ownable):
 class PropertyContainer:
     """ 
     
-    Can hold properties 
+    Can hold two sets of properties (normal and system)
     
     Note: This depends upon the 'user' class being 'Ownable'.
     
     """
     def __init__(self,properties=None,sysproperties=None):
-        self.properties=PropertySet(self.getOwner(), properties)    
-        self.sysproperties=PropertySet(self.getOwner(), sysproperties)
+        self.properties=PropertySet(self, properties)    
+        self.sysproperties=PropertySet(self, sysproperties)
         
     def hasProperties(self):
         if self.properties: return 1
