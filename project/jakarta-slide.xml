@@ -46,6 +46,7 @@
     <depend project="jakarta-tomcat-4.0"/>
     <depend project="jakarta-struts"/>
     <depend project="jakarta-oro"/>
+    <depend project="xmlunit"/>
     <option project="jakarta-taglibs-standard" ids="jstl standard"/>
 
     <work nested="build/classes"/>
