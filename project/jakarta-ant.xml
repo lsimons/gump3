@@ -183,6 +183,7 @@
   </project>
 
   <project name="ant-xdocs-proposal">
+    <mkdir dir="proposal/xdocs/build/classes"/>
     <ant basedir="proposal/xdocs" target="docs-from-scratch">
       <jvmarg value="-Xmx256m"/>
       <property name="ant.home" reference="home" project="jakarta-ant"/>
@@ -193,6 +194,11 @@
     <depend project="jakarta-velocity-dvsl" inherit="runtime"/>
     <nag to="ant-dev@jakarta.apache.org"
          from="Erik Hatcher &lt;jakarta-ant@ehatchersolutions.com&gt;"/>
+    <work nested="proposal/xdocs/build/classes"/>
+    <javadoc nested="proposal/xdocs/build/docs/manual"
+             project="Ant xdocs proposal">
+      <description>Ant Task Documentation Generated from Sources</description>
+    </javadoc>
   </project>
 </module>
 
