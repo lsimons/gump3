@@ -30,6 +30,7 @@
     <jar name="lib/batik-svggen.jar"/>
     <jar name="lib/batik-transcoder.jar"/>
     <jar name="lib/batik-util.jar"/>
+    <jar name="lib/batik-xml.jar"/>
   </project>
 
   <project name="xml-batik-rasterizer">
