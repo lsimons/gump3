@@ -1790,7 +1790,7 @@ This page helps Gumpmeisters (and others) observe community progress.
                     # Insert the Icon...
                     if -1 <> depth:
                         depth=getDepthForObject(linkable)
-                    self.insertStatePairIconAtDepth(dataNode,statePair,depth)      
+                    self.insertStatePairIconAtDepth(xdocNode,statePair,depth)      
                     
                 if utcTime:
                     xdocNode.createBreak()    
