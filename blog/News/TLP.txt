@@ -20,6 +20,7 @@ edit their modules cvs data to keep the builds fresh.
 <p>To make all this official, on <a href="http://apache.org/foundation/records/minutes/2004/board_minutes_2004_02_18.txt"
 >18 Feb 2004</a> The Board voted to create the  Gump PMC.
 </p>
+<more/>
 <blockquote>
 Quote the board and link
 Waiting on the <a href="http://apache.org/foundation/board/calendar.html"
