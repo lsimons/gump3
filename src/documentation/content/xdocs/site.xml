@@ -32,6 +32,7 @@
 	    <searchmailinglists href="http://marc.theaimsgroup.com/?l=alexandria-dev&amp;r=1&amp;w=2" label="Search List"/>
 	    <browsemailinglists href="http://nagoya.apache.org/eyebrowse/SummarizeList?listId=198" label="Browse List"/>
 	    <wiki href="http://nagoya.apache.org/wiki/apachewiki.cgi?GumpProjectPages" label="Wiki"/>
+	    <issues href="http://nagoya.apache.org/jira/secure/BrowseProject.jspa?id=10457" label="Issues"/>
 	</getinvolved>
 
 	<om label="Object Model" tab="metadata">
