@@ -72,6 +72,7 @@ class GumpEnvironment(Annotatable,Workable,Propogatable):
         self.noP4 = False   
         self.noJava = False
         self.noJavac = False
+        self.noMake = False    
         
         self.javaProperties = None
     
@@ -173,6 +174,11 @@ class GumpEnvironment(Annotatable,Workable,Propogatable):
             not self._checkExecutable('mono','--help',False,False,'check_mono'): 
             self.noMono=True
             self.addWarning('"Mono" command not found, no Mono runtime')
+       
+        if not self.noMake and \
+            not self._checkExecutable('make','--help',False,False,'check_Make'): 
+            self.noMake=True
+            self.addWarning('"make" command not found, no make builds')
        
         self.checked = True
         

@@ -30,7 +30,7 @@ from gump.core.model.misc import Jar, Assembly, BaseOutput, \
                             AddressPair
 from gump.core.model.stats import Statable, Statistics
 from gump.core.model.property import Property
-from gump.core.model.builder import Ant,NAnt,Maven,Script
+from gump.core.model.builder import Ant,NAnt,Maven,Script,Configure,Make
 from gump.util import getIndent
 from gump.util.file import *
 from gump.core.model.depend import *
@@ -80,6 +80,8 @@ class Project(NamedModelObject, Statable, Resultable, Dependable, Positioned):
         self.nant=None
     	self.maven=None
     	self.script=None
+        self.configure = None
+        self.make = None
 
     	self.works=[]
     	self.mkdirs=[]
@@ -159,6 +161,14 @@ class Project(NamedModelObject, Statable, Resultable, Dependable, Positioned):
         if self.script: return True
         return False
     
+    def hasConfigure(self):
+        if self.configure: return True
+        return False
+        
+    def hasMake(self):
+        if self.make: return True
+        return False
+        
     def getAnt(self):
         return self.ant
         
@@ -171,6 +181,12 @@ class Project(NamedModelObject, Statable, Resultable, Dependable, Positioned):
     def getScript(self):
         return self.script
     
+    def getConfigure(self):
+        return self.configure
+        
+    def getMake(self):
+        return self.make
+
     def hasUrl(self):
         if self.url or self.getModule().hasUrl(): return True
         return False
@@ -372,6 +388,20 @@ class Project(NamedModelObject, Statable, Resultable, Dependable, Positioned):
             
             # Copy over any XML errors/warnings
             # :TODO:#1: transferAnnotations(self.xml.script, self)
+        
+        # Import any <nant part [if not packaged]
+        if self.hasDomChild('make') and not packaged:
+            self.make = Make(self.getDomChild('make'),self)
+            
+            # Copy over any XML errors/warnings
+            # :TODO:#1: transferAnnotations(self.xml.make, self)
+        
+        # Import any <nant part [if not packaged]
+        if self.hasDomChild('configure') and not packaged:
+            self.configure = Configure(self.getDomChild('configure'),self)
+            
+            # Copy over any XML errors/warnings
+            # :TODO:#1: transferAnnotations(self.xml.configure, self)
         
         # Set this up to be the base directory of this project,
         # if one is set

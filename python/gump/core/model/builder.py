@@ -255,6 +255,12 @@ class NAnt(BaseAnt):
     """ A NAnt command (within a project) """
     pass
     
+# represents a <make/> element
+# will probably need to extend Builder directly later
+class Make(BaseAnt):
+    """ A make command (within a project) """
+    pass
+
 # represents an <maven/> element
 class Maven(Builder):
     """ A Maven command (within a project)"""
@@ -284,5 +290,10 @@ class Script(Builder):
     	
     def getName(self):
         return self.name
-    
+
+# represents an <configure/> element
+class Configure(Builder):
+    """ A configure command (within a project)"""
+    pass
+
     	
