@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-# Copyright 2003-2004 The Apache Software Foundation
+# Copyright 2004-2005 The Apache Software Foundation
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -13,6 +13,9 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+
+__copyright__ = "Copyright (c) 2004-2005 The Apache Software Foundation"
+__license__   = "http://www.apache.org/licenses/LICENSE-2.0"
 
 """
     This is an example of a testcase. Simply copy and rename this file
