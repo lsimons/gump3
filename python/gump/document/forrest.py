@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/forrest.py,v 1.35 2003/12/11 18:56:27 ajack Exp $
-# $Revision: 1.35 $f
-# $Date: 2003/12/11 18:56:27 $
+# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/forrest.py,v 1.36 2003/12/12 16:32:51 ajack Exp $
+# $Revision: 1.36 $f
+# $Date: 2003/12/12 16:32:51 $
 #
 # ====================================================================
 #
@@ -1395,6 +1395,11 @@ class ForrestDocumenter(Documenter):
         
         document=XDocDocument('Statistics',self.resolver.getFile(stats))
         
+        document.createParagraph("""
+        Statistics from Gump show the depth and health of relationship. 
+        See side menu for choices.
+        """)
+        
         overviewSection=document.createSection('Overview')
         overviewList=overviewSection.createList()
         overviewList.createEntry('Modules: ', stats.wguru.modulesInWorkspace)
@@ -1409,10 +1414,15 @@ class ForrestDocumenter(Documenter):
         self.documentModulesByDependencies(stats, run, workspace, gumpSet)
         self.documentModulesByDependees(stats, run, workspace, gumpSet)
         self.documentModulesByFOGFactor(stats, run, workspace, gumpSet)        
+        # Individual Pages...
+        self.documentProjectsByElapsed(stats, run, workspace, gumpSet)
+        self.documentProjectsByDependencies(stats, run, workspace, gumpSet)
+        self.documentProjectsByDependees(stats, run, workspace, gumpSet)
+        self.documentProjectsByFOGFactor(stats, run, workspace, gumpSet)        
     
     def documentModulesByElapsed(self,stats,run,workspace,gumpSet):
         document=XDocDocument('Modules By Elapsed Time',	\
-            self.resolver.getFile(stats,'elapsed.xml'))
+            self.resolver.getFile(stats,'module_elapsed.xml'))
         
         elapsedTable=document.createTable(['Modules By Elapsed'])
         for module in stats.modulesByElapsed:        
@@ -1425,7 +1435,7 @@ class ForrestDocumenter(Documenter):
     
     def documentModulesByProjects(self,stats,run,workspace,gumpSet):
         document=XDocDocument('Modules By Project Count',	\
-            self.resolver.getFile(stats,'projects.xml'))
+            self.resolver.getFile(stats,'module_projects.xml'))
         
         mprojsTable=document.createTable(['Modules By Project Count'])
         for module in stats.modulesByProjectCount:         
@@ -1448,14 +1458,14 @@ class ForrestDocumenter(Documenter):
      
     def documentModulesByDependencies(self,stats,run,workspace,gumpSet):
         document=XDocDocument('Modules By Dependency Count',	\
-            self.resolver.getFile(stats,'dependencies.xml'))
+            self.resolver.getFile(stats,'module_dependencies.xml'))
         
         dependenciesTable=document.createTable(['Modules By Dependency Count'])
         for module in stats.modulesByTotalDependencies:         
             if not gumpSet.inModules(module): continue   
             dependenciesRow=dependenciesTable.createRow()
             self.insertLink( module, stats, dependenciesRow.createData())
-            dependenciesRow.createData( module.dependencyCount())
+            dependenciesRow.createData( module.getDependencyCount())
             
             #projectsString=''
             #for project in module.getDepends():
@@ -1468,14 +1478,14 @@ class ForrestDocumenter(Documenter):
      
     def documentModulesByDependees(self,stats,run,workspace,gumpSet):
         document=XDocDocument('Modules By Dependee Count',
-                    self.resolver.getFile(stats,'dependees.xml'))
+                    self.resolver.getFile(stats,'module_dependees.xml'))
         
         dependeesTable=document.createTable(['Modules By Dependee Count'])
         for module in stats.modulesByTotalDependees:         
             if not gumpSet.inModules(module): continue   
             dependeesRow=dependeesTable.createRow()
             self.insertLink( module, stats, dependeesRow.createData())
-            dependeesRow.createData(module.dependeeCount())
+            dependeesRow.createData(module.getDependeeCount())
             
             #projectsString=''
             #for project in module.getDependees():
@@ -1487,23 +1497,87 @@ class ForrestDocumenter(Documenter):
         
     def documentModulesByFOGFactor(self,stats,run,workspace,gumpSet):
         document=XDocDocument('Modules By FOG Factor',	\
-                    self.resolver.getFile(stats,'fogfactor.xml'),)        
-        fogTable=document.createTable(['Modules By FOG Factor'])
+                    self.resolver.getFile(stats,'module_fogfactor.xml'),)        
+        fogTable=document.createTable(['Module','FOG Factor'])
         for module in stats.modulesByFOGFactor:        
             if not gumpSet.inModules(module): continue    
             fogRow=fogTable.createRow()            
             self.insertLink( module, stats, fogRow.createData())                
             fogRow.createData(round(module.getFOGFactor(),2))
             
-            #projectsString=''
-            #for project in module:
-            #    projectsString+=getContextLink(project)
-            #    projectsString+='='            
-            #    projectsString+=str(round(project.getFOGFactor(),2))
-            #    projectsString+='  '            
-            #fogRow.createData(projectsString)
+        document.serialize()
+    
+    def documentProjectsByElapsed(self,stats,run,workspace,gumpSet):
+        document=XDocDocument('Projects By Elapsed Time',	\
+            self.resolver.getFile(stats,'project_elapsed.xml'))
+        
+        elapsedTable=document.createTable(['Projects By Elapsed'])
+        for project in stats.projectsByElapsed:        
+            if not gumpSet.inSequence(project): continue
+            elapsedRow=elapsedTable.createRow()
+            self.insertLink( project, stats, elapsedRow.createData())
+            elapsedRow.createData(secsToElapsedString(project.getElapsedSecs()))
             
         document.serialize()
+     
+    def documentProjectsByDependencies(self,stats,run,workspace,gumpSet):
+        document=XDocDocument('Projects By Dependency Count',	\
+            self.resolver.getFile(stats,'project_dependencies.xml'))
+        
+        dependenciesTable=document.createTable(['Projects By Dependency Count'])
+        for project in stats.projectsByTotalDependencies:         
+            if not gumpSet.inSequence(project): continue   
+            dependenciesRow=dependenciesTable.createRow()
+            self.insertLink( project, stats, dependenciesRow.createData())
+            dependenciesRow.createData( project.getDependencyCount())
+            
+            #projectsString=''
+            #for project in module.getDepends():
+            #    projectsString+=getContextLink(project)
+            #    projectsString+=' '            
+            #dependenciesRow.createData(projectsString)        
+        
+        document.serialize()
+             
+     
+    def documentProjectsByDependees(self,stats,run,workspace,gumpSet):
+        document=XDocDocument('Projects By Dependee Count',
+                    self.resolver.getFile(stats,'project_dependees.xml'))
+        
+        dependeesTable=document.createTable(['Projects By Dependee Count'])
+        for project in stats.projectsByTotalDependees:         
+            if not gumpSet.inSequence(project): continue   
+            dependeesRow=dependeesTable.createRow()
+            self.insertLink( project, stats, dependeesRow.createData())
+            dependeesRow.createData(project.getDependeeCount())
+            
+            #projectsString=''
+            #for project in module.getDependees():
+            #    projectsString+=getContextLink(project)
+            #    projectsString+=' '            
+            #dependeesRow.createData(projectsString)
+        
+        document.serialize()
+        
+    def documentProjectsByFOGFactor(self,stats,run,workspace,gumpSet):
+        document=XDocDocument('Projects By FOG Factor',	\
+                    self.resolver.getFile(stats,'project_fogfactor.xml'),)        
+        fogTable=document.createTable(['Project','Successes','Failures','Preq-Failures','FOG Factor'])
+        for project in stats.projectsByFOGFactor:        
+            if not gumpSet.inSequence(project): continue    
+            fogRow=fogTable.createRow()            
+            self.insertLink( project, stats, fogRow.createData())  
+                 
+            pstats=project.getStats()
+            
+            fogRow.createData(pstats.successes)
+            fogRow.createData(pstats.failures)
+            fogRow.createData(pstats.prereqs)
+            fogRow.createData(round(pstats.getFOGFactor(),2))
+            
+        document.serialize()
+   
+
         
     #####################################################################           
     #
@@ -1515,8 +1589,10 @@ class ForrestDocumenter(Documenter):
         
         document=XDocDocument('Cross Reference',self.resolver.getFile(xref))
     
-        # :TODO: Packages and such...
-        document.createParagraph('To be completed...')
+        document.createParagraph("""
+        Relationships are what Gump is about, this section shows relationship. 
+        See side menu for choices.
+        """)
     
         document.serialize()
         
@@ -1533,7 +1609,8 @@ class ForrestDocumenter(Documenter):
         for repo in createOrderedList(repoMap.keys()):
             moduleList=createOrderedList(repoMap.get(repo))            
             repoSection=document.createSection(repo.getName())            
-            self.insertLink( repo, xref, repoSection.createParagraph('Repository Definition: '))
+            self.insertLink( repo, xref, 	\
+                repoSection.createParagraph('Repository Definition: '))
             
             moduleRepoTable=repoSection.createTable(['Modules'])
             for module in moduleList:        
@@ -1550,7 +1627,7 @@ class ForrestDocumenter(Documenter):
         packageTable=document.createTable(['Modules By Package'])
         
         packageMap=xref.getPackageToModuleMap()
-        for package in packageMap.keys():
+        for package in createOrderedList(packageMap.keys()):
             
             moduleList=createOrderedList(packageMap.get(package)) 
             

@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/model/project.py,v 1.22 2003/12/03 18:36:13 ajack Exp $
-# $Revision: 1.22 $
-# $Date: 2003/12/03 18:36:13 $
+# $Header: /home/stefano/cvs/gump/python/gump/model/project.py,v 1.23 2003/12/12 16:32:50 ajack Exp $
+# $Revision: 1.23 $
+# $Date: 2003/12/12 16:32:50 $
 #
 # ====================================================================
 #
@@ -337,6 +337,10 @@ class Project(NamedModelObject, Statable):
         
     def getFOGFactor(self):
         return self.getStats().getFOGFactor()
+        
+    # Only modules get updated.
+    def getLastUpdated(self):
+        return self.getModule().getStats().getLastUpdated()  
         
     def determineAffected(self):
         affected=0
@@ -742,6 +746,7 @@ class Project(NamedModelObject, Statable):
         #	This sets the *defaults*, a workspace could override them.
         #
         cmd.addPrefixedParameter('-D','build.sysclasspath','only','=')
+        cmd.addPrefixedParameter('-D','build.clonevm','true','=')
     
         # These are module level plus project level
         cmd.addNamedParameters(properties)

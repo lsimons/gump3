@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/model/module.py,v 1.20 2003/12/01 21:23:20 ajack Exp $
-# $Revision: 1.20 $
-# $Date: 2003/12/01 21:23:20 $
+# $Header: /home/stefano/cvs/gump/python/gump/model/module.py,v 1.21 2003/12/12 16:32:50 ajack Exp $
+# $Revision: 1.21 $
+# $Date: 2003/12/12 16:32:50 $
 #
 # ====================================================================
 #
@@ -376,7 +376,7 @@ class Module(NamedModelObject, Statable):
         self.totalDependees.sort()
         return self.totalDependees
             
-    def dependeeCount(self):         
+    def getDependeeCount(self):         
         return len(self.getDependees())   
             
     def getDepends(self):   
@@ -392,7 +392,7 @@ class Module(NamedModelObject, Statable):
         self.totalDepends.sort()
         return self.totalDepends
             
-    def dependencyCount(self):         
+    def getDependencyCount(self):         
         return len(self.getDepends())   
         
     def getFOGFactor(self):

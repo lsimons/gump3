@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/utils/Attic/launcher.py,v 1.4 2003/12/11 18:56:26 ajack Exp $
-# $Revision: 1.4 $
-# $Date: 2003/12/11 18:56:26 $
+# $Header: /home/stefano/cvs/gump/python/gump/utils/Attic/launcher.py,v 1.5 2003/12/12 16:32:51 ajack Exp $
+# $Revision: 1.5 $
+# $Date: 2003/12/12 16:32:51 $
 #
 # ====================================================================
 #
@@ -192,8 +192,9 @@ class Parameters:
         
     def getEscapedEntry(self,entry):
         if not entry: return
-        escapedEntry=entry.replace(default.shellEscape,default.shellEscape+default.shellEscape)        
-        escapedEntry=escapedEntry.replace(default.shellQuote,default.shellEscape+default.shellQuote)
+        # Try without escape escape for now...
+        #escapedEntry=entry.replace(default.shellEscape,default.shellEscape+default.shellEscape)        
+        escapedEntry=entry.replace(default.shellQuote,default.shellEscape+default.shellQuote)
         return escapedEntry
         
     def items(self):

@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/output/Attic/statsdb.py,v 1.3 2003/12/03 18:36:13 ajack Exp $
-# $Revision: 1.3 $
-# $Date: 2003/12/03 18:36:13 $
+# $Header: /home/stefano/cvs/gump/python/gump/output/Attic/statsdb.py,v 1.4 2003/12/12 16:32:50 ajack Exp $
+# $Revision: 1.4 $
+# $Date: 2003/12/12 16:32:50 $
 #
 # ====================================================================
 #
@@ -353,8 +353,12 @@ class WorkspaceStatisticsGuru:
         #
         self.averageProjectsPerModule=	\
             round(self.projectsInWorkspace/self.modulesInWorkspace,2)
+            
+#
+# Module Comparisons
+#            
         
-def sortByElapsed(module1,module2):
+def compareModulesByElapsed(module1,module2):
     elapsed1=module1.getElapsedSecs()
     elapsed2=module2.getElapsedSecs()
     c = 0
@@ -363,47 +367,96 @@ def sortByElapsed(module1,module2):
     if not c: c=cmp(module1,module2)
     return c
 
-def sortByProjectCount(module1,module2):
+def compareModulesByProjectCount(module1,module2):
     count1=len(module1.getProjects())
     count2=len(module2.getProjects())
     c = count2 - count1                  
     if not c: c=cmp(module1,module2)
     return c
 
-def sortByDependencyCount(module1,module2):
-    count1=module1.dependencyCount()
-    count2=module2.dependencyCount()
+def compareModulesByDependencyCount(module1,module2):
+    count1=module1.getDependencyCount()
+    count2=module2.getDependencyCount()
     c= count2 - count1                 
     if not c: c=cmp(module1,module2)
     return c        
         
-def sortByDependeeCount(module1,module2):
-    count1=module1.dependeeCount()
-    count2=module2.dependeeCount()
+def compareModulesByDependeeCount(module1,module2):
+    count1=module1.getDependeeCount()
+    count2=module2.getDependeeCount()
     c= count2 - count1                  
     if not c: c=cmp(module1,module2)
     return c       
     
-def sortByFOGFactor(module1,module2):
+def compareModulesByFOGFactor(module1,module2):
     fog1=module1.getFOGFactor()
     fog2=module2.getFOGFactor()
     c= int(round(fog2 - fog1,0))                  
     if not c: c=cmp(module1,module2)
     return c             
             
-def sortByFOGFactor(module1,module2):
+def compareModulesByFOGFactor(module1,module2):
     fog1=module1.getFOGFactor()
     fog2=module2.getFOGFactor()
     c= int(round(fog2 - fog1,0))                  
     if not c: c=cmp(module1,module2)
     return c             
             
-def sortByLastUpdated(module1,module2):
+def compareModulesByLastUpdated(module1,module2):
     fog1=module1.getLastUpdated()
     fog2=module2.getLastUpdated()
     c= int(round(fog2 - fog1,0))                  
     if not c: c=cmp(module1,module2)
     return c             
+            
+#
+# Project Comparisons
+#            
+        
+
+def compareProjectsByElapsed(project1,project2):
+    elapsed1=project1.getElapsedSecs()
+    elapsed2=project2.getElapsedSecs()
+    c = 0
+    if elapsed1 > elapsed2: c = -1
+    if elapsed1 < elapsed2: c = 1       
+    if not c: c=cmp(project1,project2)
+    return c
+
+def compareProjectsByDependencyCount(project1,project2):
+    count1=project1.getDependencyCount()
+    count2=project2.getDependencyCount()
+    c= count2 - count1                 
+    if not c: c=cmp(project1,project2)
+    return c        
+        
+def compareProjectsByDependeeCount(project1,project2):
+    count1=project1.getDependeeCount()
+    count2=project2.getDependeeCount()
+    c= count2 - count1                  
+    if not c: c=cmp(project1,project2)
+    return c       
+    
+def compareProjectsByFOGFactor(project1,project2):
+    fog1=project1.getFOGFactor()
+    fog2=project2.getFOGFactor()
+    c= int(round(fog2 - fog1,0))                  
+    if not c: c=cmp(project1,project2)
+    return c             
+            
+def compareProjectsByFOGFactor(project1,project2):
+    fog1=project1.getFOGFactor()
+    fog2=project2.getFOGFactor()
+    c= int(round(fog2 - fog1,0))                  
+    if not c: c=cmp(project1,project2)
+    return c             
+            
+def compareProjectsByLastUpdated(project1,project2):
+    fog1=project1.getLastUpdated()
+    fog2=project2.getLastUpdated()
+    c= int(round(fog2 - fog1,0))                  
+    if not c: c=cmp(project1,project2)
+    return c                         
             
 class StatisticsGuru:
     """ Know it all ... """
@@ -412,11 +465,22 @@ class StatisticsGuru:
         self.workspace=workspace
         
         # One for the whole workspace
-        self.wguru=WorkspaceStatisticsGuru(workspace)                
-        self.modulesByElapsed=createOrderedList(workspace.getModules(),sortByElapsed)
-        self.modulesByProjectCount=createOrderedList(workspace.getModules(),sortByProjectCount)
-        self.modulesByTotalDependencies=createOrderedList(workspace.getModules(),sortByDependencyCount)
-        self.modulesByTotalDependees=createOrderedList(workspace.getModules(),sortByDependeeCount)
-        self.modulesByFOGFactor=createOrderedList(workspace.getModules(),sortByFOGFactor)
-        self.modulesByLastUpdated=createOrderedList(workspace.getModules(),sortByLastUpdated)
+        self.wguru=WorkspaceStatisticsGuru(workspace)      
+        
+        # All Modules          
+        self.modulesByElapsed=createOrderedList(workspace.getModules(),compareModulesByElapsed)
+        self.modulesByProjectCount=createOrderedList(workspace.getModules(),compareModulesByProjectCount)
+        self.modulesByTotalDependencies=createOrderedList(workspace.getModules(),compareModulesByDependencyCount)
+        self.modulesByTotalDependees=createOrderedList(workspace.getModules(),compareModulesByDependeeCount)
+        self.modulesByFOGFactor=createOrderedList(workspace.getModules(),compareModulesByFOGFactor)
+        self.modulesByLastUpdated=createOrderedList(workspace.getModules(),compareModulesByLastUpdated)
+        
+        
+        
+        # All Projects                
+        self.projectsByElapsed=createOrderedList(workspace.getProjects(),compareProjectsByElapsed)
+        self.projectsByTotalDependencies=createOrderedList(workspace.getProjects(),compareProjectsByDependencyCount)
+        self.projectsByTotalDependees=createOrderedList(workspace.getProjects(),compareProjectsByDependeeCount)
+        self.projectsByFOGFactor=createOrderedList(workspace.getProjects(),compareProjectsByFOGFactor)
+        self.projectsByLastUpdated=createOrderedList(workspace.getProjects(),compareProjectsByLastUpdated)
         
