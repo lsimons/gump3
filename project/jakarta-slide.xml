@@ -77,18 +77,17 @@
 
     <depend project="textmining-word-extractor"/>
     <depend project="pdfbox"/>
-	<depend project="ehcache"/>
+    <depend project="ehcache"/>
     <depend project="commons-httpclient-contrib"/>
 
     <work nested="build/classes"/>
     <work nested="build/client/classes"/>
     <work nested="webdavclient/build/clientlib/classes"/>
 
-    <!--home nested="dist"/-->
-
     <jar name="webdavclient/dist/lib/jakarta-slide-commandline-@@DATE@@.jar" id="client"/>
     <jar name="webdavclient/dist/lib/jakarta-slide-webdavlib-@@DATE@@.jar" id="client-webdavlib"/>
 
+    <jar name="dist/slide/lib/slide-jaas-@@DATE@@" id="jaas"/>
     <jar name="dist/slide/lib/slide-jdk14logger-@@DATE@@.jar" id="jdk14logger"/>
     <jar name="dist/slide/lib/slide-kernel-@@DATE@@.jar" id="kernel"/>
     <jar name="dist/slide/lib/slide-log4jlogger-@@DATE@@.jar" id="log4jlogger"/>
@@ -96,14 +95,7 @@
     <jar name="dist/slide/lib/slide-stores-@@DATE@@.jar" id="stores"/>
     <jar name="dist/slide/lib/slide-webdavservlet-@@DATE@@.jar" id="webdavservlet"/>
 
-    <!--jar name="slide/lib/slide-taglib-common.jar" id="taglib-common"/-->
-    <!--jar name="slide/lib/slide-taglib-jstl.jar" id="taglib-jstl"/-->
-    <!--jar name="slide/lib/slide-taglib-struts.jar" id="taglib-struts"/-->
-
     <jar name="dist/slide/wrappers/slide-catalinawrapper-@@DATE@@.jar" id="catalina-wrapper"/>
-    <!--jar name="slide/wrappers/slide-jmxwrapper.jar" id="jmx-wrapper"/-->
-    <!--jar name="slide/wrappers/slide-jndiwrapper.jar" id="jndi-wrapper"/-->
-    <!--jar name="slide/wrappers/slide-log4jwrapper.jar" id="log4j-wrapper"/-->
 
     <license name="LICENSE"/>
 
@@ -128,16 +120,6 @@
     <jar name="lib/PDFBox-0.6.5.jar"/>
   </project>
   
-  <!-- This is (should be?) inheritted from Cocoon's definition.
-       Uncomment if build still fails -->
-  <!--
-  <project name="ehcache">
-    <url href="http://ehcache.sourceforge.net"/>
-    <description>A simple, fast and thread safe cache for Java</description>
-    <jar name="lib/ehcache-0.8.jar"/>
-  </project>
-  -->
-
   <!-- FIXME 
 
        we need to find a way to build this from sources, but I don't
