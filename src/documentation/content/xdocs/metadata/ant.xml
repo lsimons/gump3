@@ -175,6 +175,61 @@
         </tr>
       </table>
     </section>
+
+    <section><title>sysproperty</title>
+      <p>Java system property to be passed to the Java Virtual Machine.</p>
+
+      <table>
+        <tr>
+          <th>Attribute</th>
+          <th>Description</th>
+          <th>Required?</th>
+        </tr>
+        <tr>
+          <td>name</td>
+          <td>Name of the property to set.</td>
+          <td>Yes</td>
+        </tr>
+        <tr>
+          <td>value</td>
+          <td>Desired value</td>
+          <td>No</td>
+        </tr>
+        <tr>
+          <td>project</td>
+          <td>The name of the referenced project.  Required if the reference
+          attribute is "home", "jar", "jarpath", or "srcdir".</td>
+          <td>No</td>
+        </tr>
+        <tr>
+          <td>reference</td>
+          <td>
+            One of the following values:<br/>
+            <strong>home:</strong> the home directory for the referenced project<br/>
+            <strong>jar:</strong> the simple name (path relative to home) of the jar in a
+              referenced project.<br/>
+            <strong>jarpath:</strong> the fully qualified path of the jar in a referenced
+              project.<br/>
+            <strong>srcdir:</strong> the srcdir for the module containing the project.<br/>
+          </td>
+          <td>No</td>
+        </tr>
+        <tr>
+          <td>path</td>
+          <td>a path which is to be interpreted relative to the srcdir for the module containing 
+          	the project if specified, or this project otherwise.  This option is 
+          ignored if reference is specified.</td>
+          <td>No</td>
+        </tr>
+        <tr>
+          <td>id</td>
+          <td>Specifies which jar is desired.  Required only for projects which
+          define more than one jar.</td>
+          <td>No</td>
+        </tr>
+      </table>
+    </section>
+
   </section>
 
 </body>

@@ -136,6 +136,35 @@
       </table>
     </section>
 
+    <section><title>sysproperty</title>
+
+      <p>Global properties which are to be applied to every Ant
+      execution.  Unlike <link href="#property">property</link> this
+      will be translated into a Java system property that is passed to
+      the Java VM instead of the application.  Commonly used to
+      specify the "java.awt.headless" property which tells the Java VM
+      to run in "headless mode" so that it doesn't require an X-server
+      on Unix or a logged in user on MacOS X.</p>
+
+      <table>
+        <tr>
+          <th>Attribute</th>
+          <th>Description</th>
+          <th>Required?</th>
+        </tr>
+        <tr>
+          <td>name</td>
+          <td>Name of the property to set.</td>
+          <td>Yes</td>
+        </tr>
+        <tr>
+          <td>value</td>
+          <td>Desired value</td>
+          <td>Yes</td>
+        </tr>
+      </table>
+    </section>
+
     <section><title>profile</title>
       <p>Collections of projects and repositories.  While a complete
       profile can be defined here, typically one is referenced via
