@@ -7,7 +7,8 @@
   <module href="project/jakarta-ant-antidote.xml"/>
   <module href="http://cvs.apache.org/viewcvs/~checkout~/jakarta-ant-myrmidon/gump.xml"/>
   <module href="http://cvs.apache.org/viewcvs/~checkout~/jakarta-avalon-apps/common/gump.xml"/>
-  <module href="project/jakarta-avalon-cornerstone.xml"/>
+  <!-- <module href="project/jakarta-avalon-cornerstone.xml"/> -->
+  <module href="http://cvs.apache.org/viewcvs/~checkout~/jakarta-avalon-cornerstone/gump.xml"/>
   <module href="http://cvs.apache.org/viewcvs/~checkout~/jakarta-avalon-excalibur/gump.xml"/>
   <!-- <module href="project/jakarta-avalon-excalibur.xml"/> -->
   <module href="project/jakarta-avalon-logkit.xml"/>
