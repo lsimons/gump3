@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/Attic/view.py,v 1.30 2003/05/05 12:23:14 nicolaken Exp $
-# $Revision: 1.30 $
-# $Date: 2003/05/05 12:23:14 $
+# $Header: /home/stefano/cvs/gump/python/gump/Attic/view.py,v 1.31 2003/05/05 12:34:51 nicolaken Exp $
+# $Revision: 1.31 $
+# $Date: 2003/05/05 12:34:51 $
 #
 # ====================================================================
 #
@@ -415,6 +415,9 @@ class gumpview(wxApp):
   # display a modal dialog box
   def msgbox(self,message,title="Warning"):
     log.error(title + ": "+message)
+    textStyle = wx.wxTextAttr("RED", "YELLOW")
+    self.logview.SetDefaultStyle( textStyle ) 
+    self.logview.AppendText(title + ": "+message+"\n")
     if not self.logview.IsShown():
       dlg=wxMessageDialog(None, message, title, wx.wxOK)
       dlg.ShowModal()
