@@ -1,14 +1,14 @@
 <module name="openjmx">
 
-  <url href="http://openjmx.sourceforge.net/"/>
+  <url href="http://mx4j.sourceforge.net/"/>
   <description>
     OpenSource implementation of a JMX agent
   </description>
 
-  <cvs repository="sourceforge" host-prefix="cvs.openjmx" dir="openjmx"/>
+  <cvs repository="sourceforge" host-prefix="cvs.mx4j" dir="mx4j"/>
 
-  <project name="openjmx">
-    <package>openjmx</package>
+  <project name="mx4j">
+    <package>mx4j</package>
     <package>javax.management</package>
 
     <ant basedir="build" target="test"/>
@@ -27,13 +27,13 @@
     <work nested="classes/tools"/>
  
     <home nested="dist"/>
-    <jar name="lib/openjmx.jar"/>
-    <jar name="lib/openjmx-tools.jar"/>
+    <jar name="lib/mx4j.jar"/>
+    <jar name="lib/mx4j-tools.jar"/>
   </project>
 
-  <project name="openjmx-release">
+  <project name="mx4j-release">
     <ant basedir="build" target="release"/>
-    <depend project="openjmx" inherit="all"/>
+    <depend project="mx4j" inherit="all"/>
     <depend project="xdoclet"/>
     <work nested="classes/core"/>
     <work nested="classes/examples"/>
@@ -43,7 +43,7 @@
 
   <project name="saxon">
     <package>com.icl.saxon</package>
-    <url href="http://openjmx.sourceforge.net/"/>
+    <url href="http://mx4j.sourceforge.net/"/>
     <description>
       XSLT processor developed by Michael Kay
     </description>

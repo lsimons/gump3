@@ -17,7 +17,7 @@
     <depend project="jmx"/>
     <depend project="ejb2"/>
     <depend project="jms"/>
-    <depend project="openjmx"/>
+    <depend project="mx4j"/>
     <depend project="jrefactory-pretty"/>
     <depend project="jakarta-servletapi-4"/>
     <work nested="core/build/classes"/>

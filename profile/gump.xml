@@ -83,7 +83,7 @@
   <module href="project/jrefactory.xml"/>
   <module href="project/jtidy.xml"/>
   <module href="project/junit.xml"/>
-  <module href="project/openjmx.xml"/>
+  <module href="project/mx4j.xml"/>
   <module href="project/webwork.xml"/>
   <module href="project/xdoclet.xml"/>
   <module href="project/xmlunit.xml"/>
