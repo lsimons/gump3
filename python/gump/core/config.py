@@ -70,6 +70,8 @@ class setting:
     UTC_TIME_PRESENTATION_FORMAT='%H:%M:%S (UTC)'
     
     TIMEOUT=60*60 # 60 minutes (in seconds)
+    if os.environ.has_key('GUMP_TIMEOUT'):
+            TIMEOUT = string.atoi(os.environ['GUMP_TIMEOUT'])
     
 class default:
     """Configuration of default settings"""
