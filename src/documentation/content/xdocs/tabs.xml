@@ -6,9 +6,9 @@
         copyright="Foo"
         xmlns:xlink="http://www.w3.org/1999/xlink">
 
-        <tab label="Home" dir=""/>
-        <tab label="Object Model" dir="metadata/"/>
-        <tab label="Traditional Gump" dir="traditional/"/>
-        <tab label="Python Gump" dir="python/"/>
+        <tab id="home" label="Home" dir=""/>
+        <tab id="metadata" label="Object Model" dir="metadata/"/>
+        <tab id="traditional" label="Traditional Gump" dir="traditional/"/>
+        <tab id="python" label="Python Gump" dir="python/"/>
 
     </tabs>

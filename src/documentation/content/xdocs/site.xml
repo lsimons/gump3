@@ -1,43 +1,56 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <!DOCTYPE book PUBLIC "-//APACHE//DTD Cocoon Documentation Book V1.0//EN" "book-cocoon-v10.dtd">
-<site label="Gump" href="" xmlns="http://apache.org/forrest/linkmap/1.0">
-<menu label="Gump">
-    <index href="index.html" label="Home"/>
-    <index href="status.html" label="Status"/>
-    <index href="http://cvs.apache.org/viewcvs/jakarta-gump/" label="Source"/>
-    <index href="faq.html" label="FAQ"/>
-    <index href="gettingstarted.html" label="Getting Started"/>
-</menu>
-<menu label="Results">
-    <index href="http://gump.covalent.net/log/" label="Nightly"/>
-    <index href="http://gump.covalent.net/jars/" label="Jars"/>
-<!--     <index href="http://nagoya.apache.org/~rubys/gump/javadoc.html" label="Javadoc"/> -->
-</menu>
-<!--
-<menu label="Cross Reference">
-    <index href="http://cvs.apache.org/builds/gump/latest/xref.html" label="By dependency"/>
-    <index href="http://cvs.apache.org/builds/gump/latest/modxref.html" label="Modules by repository"/>
-    <index href="http://cvs.apache.org/builds/gump/latest/packages.html" label="Installed packages"/>
-    <index href="http://cvs.apache.org/builds/gump/latest/cvsjars.html" label="Jars by module"/>
-    <index href="http://cvs.apache.org/builds/gump/latest/bypackage.html" label="By Java package Name"/>
-</menu>
--->
-<menu label="Object Model">
-    <index href="metadata/index.html" label="Overview"/>
-    <index href="metadata/workspace.html" label="Workspace"/>
-    <index href="metadata/profile.html" label="Profile"/>
-    <index href="metadata/repository.html" label="Repository"/>
-    <index href="metadata/module.html" label="Module"/>
-    <index href="metadata/project.html" label="Project"/>
-</menu>
-<menu label="Get Involved">
-    <index href="/site/getinvolved.html" label="Overview"/>
-    <index href="http://jakarta.apache.org/getinvolved/mail.html" label="Join mailing lists"/>
-    <index href="http://marc.theaimsgroup.com/?l=alexandria-dev&amp;r=1&amp;w=2" label="Search mailing lists"/>
-    <index href="http://nagoya.apache.org/eyebrowse/" label="Browse mailing lists"/>
-    <index href="http://nagoya.apache.org/wiki/apachewiki.cgi?GumpProjectPages" label="Wiki"/>
-</menu>
+<site label="Gump" href="" xmlns="http://apache.org/forrest/linkmap/1.0" tab="home">
+	<menu label="Gump">
+	    <index href="index.html" label="Home"/>
+	    <index href="status.html" label="Status"/>
+	    <index href="http://cvs.apache.org/viewcvs/jakarta-gump/" label="Source"/>
+	    <index href="faq.html" label="FAQ"/>
+	    <index href="gettingstarted.html" label="Getting Started"/>
+	</menu>
+	<menu label="Results">
+	    <index href="http://gump.covalent.net/log/" label="Nightly"/>
+	    <index href="http://gump.covalent.net/jars/" label="Jars"/>
+	<!--     <index href="http://nagoya.apache.org/~rubys/gump/javadoc.html" label="Javadoc"/> -->
+	</menu>
+	<!--
+	<menu label="Cross Reference">
+	    <index href="http://cvs.apache.org/builds/gump/latest/xref.html" label="By dependency"/>
+	    <index href="http://cvs.apache.org/builds/gump/latest/modxref.html" label="Modules by repository"/>
+	    <index href="http://cvs.apache.org/builds/gump/latest/packages.html" label="Installed packages"/>
+	    <index href="http://cvs.apache.org/builds/gump/latest/cvsjars.html" label="Jars by module"/>
+	    <index href="http://cvs.apache.org/builds/gump/latest/bypackage.html" label="By Java package Name"/>
+	</menu>
+	-->
+	<menu label="Get Involved">
+	    <index href="/site/getinvolved.html" label="Overview"/>
+	    <index href="http://jakarta.apache.org/getinvolved/mail.html" label="Join mailing lists"/>
+	    <index href="http://marc.theaimsgroup.com/?l=alexandria-dev&amp;r=1&amp;w=2" label="Search mailing lists"/>
+	    <index href="http://nagoya.apache.org/eyebrowse/" label="Browse mailing lists"/>
+	    <index href="http://nagoya.apache.org/wiki/apachewiki.cgi?GumpProjectPages" label="Wiki"/>
+	</menu>
 
+	<menu label="Object Model" tab="metadata">
+	    <index href="metadata/index.html" label="Overview"/>
+	    <index href="metadata/workspace.html" label="Workspace"/>
+	    <index href="metadata/profile.html" label="Profile"/>
+	    <index href="metadata/repository.html" label="Repository"/>
+    	<index href="metadata/module.html" label="Module"/>
+	    <index href="metadata/project.html" label="Project"/>
+	    <index href="metadata/ant.html" label="Ant"/>
+	</menu>
+
+	<menu label="Traditional" tab="traditional">
+	    <index href="traditional/index.html" label="Overview"/>
+	    <index href="traditional/usage.html" label="Usage"/>
+	    <!-- index href="traditional/gettingstarted.html" label="Getting Started"/ -->
+	</menu>
+	
+	<menu label="Python" tab="python">
+	    <index href="python/index.html" label="Overview"/>
+	    <index href="python/usage.html" label="Usage"/>
+	    <!-- index href="python/gettingstarted.html" label="Getting Started"/ -->
+	</menu>
 
   <external-refs>
     <xml.apache.org href="http://xml.apache.org/">

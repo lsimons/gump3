@@ -243,7 +243,7 @@
       <p>The home directory for a project is the directory which contains the
       files referenceable by another project.  In many cases, it is possible
       for another project element by the same name (see the
-      <link href="overview.html">overview</link>) to extend a project definition
+      <link href="index.html">overview</link>) to extend a project definition
       for an installable package in such a way that the result actually builds
       the project.</p>
 

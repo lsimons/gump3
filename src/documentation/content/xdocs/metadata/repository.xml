@@ -28,7 +28,7 @@
       <tr>
         <td>type</td>
         <td>Type of repository.</td>
-        <td>Yes, though cvs is the only type supported currently.</td>
+        <td><strong>cvs</strong>,<strong>svn</strong>,<strong>jars</strong> currently supported.</td>
       </tr>
       <tr>
         <td>compress</td>
@@ -69,6 +69,7 @@
     <p/>
 
     <section><title>root</title>
+      <note>This is for type='cvs' only.</note>
       <p>This specifies all of the elements which are combined to form
       a CVSROOT.  They are split out into separate entities so that each
       can be individually overridden in a workspace definition.  When an

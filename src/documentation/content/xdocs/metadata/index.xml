@@ -8,7 +8,6 @@
 
 <body>
 
-  <section><title>Gump Object Model (GOM) -- Data Definition Overview</title>
     <p>The data definitions for Gump are organized around the various
     roles a developer may perform.  The overall approach is that elements
     (e.g. project definitions) can be repeated in multiple contexts (e.g.,
@@ -93,6 +92,5 @@
       contained.</p>
     </section>
 
-  </section>
 </body>
 </document>

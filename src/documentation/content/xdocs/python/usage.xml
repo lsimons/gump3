@@ -9,133 +9,118 @@
 
 <body>
 
-  <section><title>Building projects for yourself using Gump</title>
-
-    <section><title>Planning</title>
-      <p>The bare minimum required to get started is a JDK, a JAXP 1.1
-      compliant parser, a command prompt (bash or Windows NT/2K), and Perl.
-      Perl is only used at the moment for some of the publishing and
-      notification, so it can be omitted.</p>
-
-      <p>It is highly recommended at this point that you review the
-      description of the data definitions used by Gump, starting with
-      the <link href="overview.html">overview</link>.</p>
-
+    <section><title>Getting Started</title>
+    <note>
+    	Python Gump shares the first few steps with Traditional Gump, 
+    	so start <link href="../gettingstarted.html">here</link>
+    </note>
     </section>
 
-    <section><title>Getting the source to Gump</title>
-      <source>
-      export CVSROOT=:pserver:anoncvs@cvs.apache.org:/home/cvspublic
-      cvs login
-      cvs co jakarta-gump
-      </source>
+	<section><title>Select your interface</title>
+	<p>
+	Python Gump has two primary usage interfaces:
+	</p>
+	<ul>
+		<li><strong>Graphic User Interface (human users)</strong><br/>
+			This leverages wxPython's wxWindows
+		</li>
+		<li><strong>Command Line (human and automatic users, e.g. cron)</strong><br/>
+			This provides the basics functions of existing gump (gen/update/build)
+		</li>
+	</ul>
+	</section>
+	
+	<section><title>Graphical User Interface</title>		
 
-      <p>If prompted for the password, enter <strong>anoncvs</strong></p>
-    </section>
+	<ul>
+		<li>install gump as per <link href="../gettingstarted.html">here</link></li>
+		<li>install (or have available) Python 2.3 <fork href="http://www.activestate.com/Products/ActivePython/">e.g ActiveState Python</fork></li>
+		<li>install (or have available) <fork href="http://www.wxpython.org/">wxwindows</fork></li>
+		<li>open a shell and do or something equivalent:
+		</li>
+	</ul>		
+		<source>
+SET PYTHONPATH=C:\jakarta-gump\python
+CD /d C:\jakarta-gump\python
+python gump\gui\view.py -w ..\myworkspace.xml
+		</source>
+		<source>
+cd /jakarta-gump/python
+export PYTHONPATH=`pwd`
+python gump/gui/view.py -w ../myworspace.xml
+		</source>
+	</section>
+	
+	<section><title>GUI Usage</title>
+	<p>
+If you select a project, you can walk the project dependencies in both directions, see what prereqs aren't installed, see the actual classpath and properties used in the ant builds, and see what jars a project produces.  One pane initially shows the fully expanded XML project definition (implicit dependencies added, properties resolved, etc).
 
-    <section><title>Defining your workspace</title>
-      <p>Two sample workspaces are provided, rubix and rubypad.  Find the
-      one that is closest to your needs and make a copy of it.  The suggested
-      name for the file you create is your host name.</p>
+You actually can run a build from this tool.  A typical scenario is to select the project that you are interested in, check the prereqs and dependencies tabs.  If a dependency failed, you can click on it to go to that project.  Press the 'run' icon to build it.  If it succeeds, press the 'back' button to return to the project you started with and repeat.
 
-      <p>Again, reference the <link href="overview.html">overview</link> to see
-      how you can add projects, define your own profiles, and the modify
-      which version of referenced projects you want to build.</p>
+More detailed information on what is being done can be found in the console window which you can access by pressing the console icon.
+	</p>
+	</section>
 
-      <p>You will also need to directly modify the <code>gen.bat</code>
-      or <code>gen.sh</code> scripts to specify where to find the JAXP
-      implementation to use.  At the present time, recent releases of
-      Xalan are recommended for performance reasons; but the JAXP
-      reference implementation will likely catch up shortly.</p>
+	<section><title>Command Line Tools:</title>
+	<ul>
+		<li>install gump as per <link href="../gettignstarted.html">here</link></li>
+		<li>install (or have available) Python 2.3 <fork href="http://www.activestate.com/Products/ActivePython/">e.f ActiveState Python</fork></li>
+		<li>install (or have available) <fork href="http://www.wxpython.org/">wxwindows</fork></li>
+		<li>open a shell and do or something equivalent:
+		</li>
+	</ul>		
+		<source>
+SET PYTHONPATH=C:\jakarta-gump\python
+CD /d C:\jakarta-gump\python
+python gump\build.py -w ..\myworkspace.xml all
+		</source>
+		<source>
+cd /jakarta-gump/python
+export PYTHONPATH=`pwd`
+python gump/build.py -w ../myworkspace.xml all
+		</source>
+	<note>
+	There are some similar tools w/ similar command line arguments:
+	<br/><strong>update.py</strong> -- update project(s) from source control
+	<br/><strong>build.py</strong> -- build project(s)
+	<br/><strong>integrate.py</strong> -- does "the works" check/update/build/statistics/document/nag
+	</note>
+	<note>
+	The command line arguments accept a regular expression that resolves over project names <strong>NOT</strong> module names. "all" is converted to the regular expression "*". This is a new feature in Python Gump, and a mild divergence from traditional gump usage. When (say) updating a "list of modules" the utilities calculate the modules containing the requests projects, and hence translates for the user.
+	</note>
+</section>
+<!--
+== Automating the "integration process" using integrate.py ==
 
-      <p><strong>Note:</strong> Yes, it is tacky that you should have to modify this
-      file directly.  Patches are welcome.  Meanwhile, cvs does a fairly
-      good job of merging changes.</p>
-    </section>
+* install 'regular' gump as per http://jakarta.apache.org/gump/usage.html
+* install [http://www.activestate.com/Products/ActivePython/ Python 2.2]
+* open a shell and do something similar to:
+<source>
+SET PYTHONPATH=C:\jakarta-gump\python
+CD /d C:\jakarta-gump\python
+python jakarta-gump\integrate.py -w ..\myworkspace.xml all
+</source>
+<source>
+cd /jakarta-gump/python
+export PYTHONPATH=`pwd`
+python jakarta-gump/integrate.py -w ../myworkspace.xml krysalis-*
+</source>
 
-    <section><title>Installing Packages</title>
-      <p>Packages for which source is not easily accessible are not built by Gump.
-      Where such packages are required prerequisites for building other projects, Gump
-      allows binary versions of the package to be installed to satisfy the prerequisites.
-      Your workspace definition specifies where installed packages are to be found.
-      </p>
+This tool is intended for use from cron, or similar scheduling software. It does:
 
-      <p>A list of some of the packages you might want to install can be found
-      <link href="http://cvs.apache.org/builds/gump/latest/packages.html">
-      here</link>.</p>
+* Reads the workspace and project information
+* Performs updates (from source control)
+* Performs synchronization (into build directory)
+* Performs builds
+* All results affect the per module/per project "state"
+* State and "work" is maintained in memory and files
+* Statistics (FOG Factor and others) are calculated from states & updated
+* Once complete the run is "documented" by creating xdocs (for Forrest)
+* Forrest is launched to convert this documentation to a site
+* Nag e-mails are sent as appropriate. [currently commented out]
 
-      <p><strong>JDK 1.4</strong> includes both <code>jaxp</code> and <code>jsse</code>
-      which were previously available as separately installable packaged.
-      The dependencies on these packages are now marked as optional. If you are
-      using a JDK prior to 1.4, the packages must be installed. For JDK 1.4 and
-      later the packages need not be installed and the version provided with the
-      JDK will be utilised.
-      </p>
-    </section>
-
-    <section><title>Generation</title>
-      <p>For Unix and cygwin installations using bash:</p>
-
-      <source>
-        bash ./gen.sh
-      </source>
-
-      <p>For Windows NT and 2K installations:</p>
-
-      <source>
-        gen
-      </source>
-
-      <p>This process generates the update and build scripts used in
-      subsequent steps.  It also logs you onto any :pserver: cvs
-      repository defined which you are not currently logged onto, and
-      generates the various cross reference pages.</p>
-    </section>
-
-    <section><title>Update</title>
-      <p>For Unix and cygwin installations using bash:</p>
-
-      <source>
-         bash ./update.sh ( all | module ... )
-      </source>
-
-      <p>For Windows NT and 2K installations:</p>
-
-      <source>
-         update ( all | module ... )
-      </source>
-
-      <p>With this command you can specify you either want to update all or a
-      specified list or modules.  If the module had not been previously
-      checked out (or the target cvs directory has been removed) then a
-      checkout is done instead.  If <code>all</code> is specified then a
-      web page containing the logs for each update is produced, as well as
-      a summary page.  If specific modules are listed, then the output comes
-      to the screen.</p>
-    </section>
-
-    <section><title>Build</title>
-      <p>For Unix and cygwin installations using bash:</p>
-
-      <source>
-         bash ./build.sh ( all | clean | ( project [ target ... ] ) )
-      </source>
-
-      <p>For Windows NT and 2K installations:</p>
-
-      <source>
-         build ( all | clean | ( project [ target ... ] ) )
-      </source>
-
-      <p>With this command you can specify you either want to build all or a
-      specified project.  If <code>all</code> is specified then a
-      web page containing the logs for each build is produced, as well as
-      a summary page.  If <code>clean</code> is specified then the only
-      action that is performed is to synchronize the build directories from
-      the cvs directories.  If a project is specified, then the output comes
-      to the screen, using the target you provide.</p>
-    </section>
-  </section>
+See: http://lsd.student.utwente.nl/gump/
+-->
 
 </body>
 </document>

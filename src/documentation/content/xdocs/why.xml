@@ -4,12 +4,10 @@
 
   <header>
     
-    <title>Gump</title>
+    <title>Why was Gump written?</title>
   <authors><person name="Sam Ruby" email="rubys@us.ibm.com"/></authors></header>
 
 <body>
-
-  <section><title>Why was Gump written?</title>
 
   <p>
     I've read with great amusement the motivations attributed to why Gump
@@ -123,6 +121,13 @@
     used the one of your choosing.</p>
   </section>
 
+  <section><title>2003</title>
+  	<p>As a heavy user of a lot of OSS software, combining it into deep stacks,
+  		<link href="http://www.krysalis.org/version/jar-hell.html">JAR Hell</link> became
+  		a pet peave of <link href="http://www.apache.org/~ajack/">Adam Jack</link>.
+  		Supporting heathly re-use became a passion.
+  		</p>
+  	<p>Gump keeps software re-use fresh and healthy and reduces JAR Hell.</p>
   </section>
 
 </body>

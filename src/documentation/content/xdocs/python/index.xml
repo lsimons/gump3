@@ -15,6 +15,12 @@
     <link href="http://nagoya.apache.org/wiki/apachewiki.cgi?GumpPython">
     See Background</link>.
   </p>
+      <section><title>GUI</title>
+      	<p>The Python viewer.</p>
+      	<p>
+      		<img alt="GUI" src="../graphics/view.jpg"/>
+      	</p>
+      </section>
   </section>
 </body>
 </document>

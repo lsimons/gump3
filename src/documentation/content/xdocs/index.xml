@@ -5,14 +5,18 @@
   <header>
     
     <title>Gump</title>
-  <authors><person name="Sam Ruby" email="rubys@us.ibm.com"/></authors></header>
 
+  	<authors>
+  		<person name="Sam Ruby" email="rubys AT us.ibm DOT com"/>
+  		<person name="Adam Jack" email="ajack AT sybase DOT com"/>
+  	</authors>
+  </header>
 <body>
 
   <section><title>What is Gump?</title>
 
   <p>
-    Gump is a social experiment.  The primary goal of Gump is to get diverse
+    <strong>Gump is a social experiment.</strong>  The primary goal of Gump is to get diverse
     projects to communicate early and often about integration, dependencies,
     and versioning management.  One way to think about it is that some of the
     concepts of
@@ -21,35 +25,48 @@
     <link href="http://www.martinfowler.com/articles/continuousIntegration.html">
     Continuous Integration</link> on an unprecedented scale.
   </p>
-
-  <p>
-    <link href="traditional/index.html">Traditional Gump</link> is undergoing re-write to <link href="python/index.html">Python</link>, see
-    <link href="http://nagoya.apache.org/wiki/apachewiki.cgi?GumpPython">Python Gump</link>
-  </p>
    
   <p>
     Essentially, the reasoning goes like this - if continuous integration is a
     good thing on a small project, why not apply it recursively and include all
     dependencies for which access to source is provided?
   </p>
-
+  <note>The Gump team are looking for volunteers to extend Gump, to install/manage public/private/cascaded Gumps,
+  	and generally spread Gump to an even broader section of the OSS community. Interested? Contact us on the
+  	Gump <link href="mailto:gump@jakarta.apache.org">mailing list</link></note>
   </section>
 
   <section><title>How does Gump work?</title>
+
+  <warning>
+    <link href="traditional/index.html">Traditional Gump</link> is undergoing a re-write into <link href="http://nagoya.apache.org/wiki/apachewiki.cgi?GumpPython">Python</link>, see
+    <link href="python/index.html">Python Gump</link>. Be aware that some of this documentation might be in transition,
+    or state traditional information (when Python information difers.) Please report any such findings to us.
+  </warning>
+  
     <p>
-      <link href="http://cvs.apache.org/viewcvs/jakarta-gump/project">
-      Project</link> definitions are converted from XML to scripts native to the
-      platform on which you are running.  These scripts execute cvs update
+      With Traditional Gump, <link href="http://cvs.apache.org/viewcvs/jakarta-gump/project">
+      project</link> definitions are converted from XML to scripts native to the
+      platform on which you are running.  With Python Gump the XML is mapped into in memory
+      objects for processing. Scripts execute cvs or svn update
       commands for every module which contains a project being built, and
       invoke builds for each project in an order that ensures that dependencies
-      are satisfied.
+      are satisfied. Build outputs are processed and, if successful, dependent projects
+      are then built on these outputs.
     </p>
 
     <p>
       The commands use the actual build.xml files from the projects, but do
-      not use the scripts or jar files checked into CVS.  Instead, the
+      not use the scripts or jar files checked into CVS/SVN.  Instead, the
       CLASSPATH is set and properties are passed on the command line.
     </p>
+    
+    <note>
+    	Gump set's Ant's <link href="http://ant.apache.org/manual/sysclasspath.html">build.sysclasspath</link> to <strong>only</strong> and manages the system classpath:<br/>
+    	To quote Ant:<br/>
+    	<em>Only the system classpath is used and classpaths specified in build files, etc are ignored. 
+    		This situation could be considered as the person running the build file knows more about the environment than the person writing the build file</em>
+    </note>
 
     <p>
       The net effect is that every project is built every day with the latest
@@ -96,51 +113,38 @@
 
     <table>
       <tr>
-        <td/>
-        <th>US, Pacific</th>
-        <th>US, Eastern</th>
-        <th>GMT</th>
-        <th>Melbourne</th>
+        <th>Site</th>
+        <th>JVM</th>
         <th>Comments</th>
       </tr>
       <tr>
         <td><link href="http://cvs.apache.org/builds/gump/latest">Rubix</link> </td>
-        <td>8 pm</td>
-        <td>11 pm</td>
-        <td>0400</td>
-        <td>1 pm</td>
+        <td/>
         <td>Unavailable</td>
       </tr>
       <tr>
         <td><link href="http://nagoya.apache.org/~rubys/gump/">Nagoya</link> </td>
-        <td>4 am</td>
-        <td>7 am</td>
-        <td>1200</td>
-        <td>9 pm</td>
         <td/>
+        <td>Unavailable</td>
       </tr>
       <tr>
         <td><link href="http://gump.covalent.net/log/index.html">Covalent</link> </td>
-        <td>Noon</td>
-        <td>3 pm</td>
-        <td>2000</td>
-        <td>5 am</td>
+        <td/>
         <td></td>
       </tr>
       <tr>
         <td><link href="http://gump.cocoondev.org/">CocoonDev</link> </td>
-        <td>3 pm</td>
-        <td>6 pm</td>
-        <td>2300</td>
-        <td>8 am</td>
+        <td/>
         <td/>
       </tr>
       <tr>
         <td><link href="http://lsd.student.utwente.nl/gump/">LSD</link> </td>
-        <td>5 pm</td>
-        <td>8 pm</td>
-        <td>0100</td>
-        <td>10 am</td>
+        <td>1.4.2-b28</td>
+        <td>Python Gump</td>
+      </tr>
+      <tr>
+        <td><link href="http://gump.dotnot.org/">DotNot</link> </td>
+        <td>1.4.1_02-b06</td>
         <td>Python Gump</td>
       </tr>
     </table>

@@ -1,18 +1,21 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <!DOCTYPE document PUBLIC "-//APACHE//DTD Documentation V1.1//EN" "document-v11.dtd">
 <document>
-
-  <header>
-    
+  <header>    
     <title>Gump - Frequently Asked Questions</title>
-  <authors><person name="Sam Ruby" email="rubys@us.ibm.com"/></authors></header>
-
+  
+  	<authors>
+  		<person name="Sam Ruby" email="rubys AT us.ibm DOT com"/>
+  		<person name="Adam Jack" email="ajack AT sybase DOT com"/>
+  	</authors>
+  </header>    
 <body>
 
-	<section><title>Which version of Ant (or JUnit or log4j or...) does Gump use?</title>
-    <p><strong>Answer: </strong>The latest from cvs.</p>
+	<section><title>Question: Which version of Ant (or JUnit or log4j or...) does Gump use?</title>
+    <p><strong>Answer: </strong>The latest from cvs (as of the instant of the Gump run).</p>
     </section>
-	<section><title>Gump is building the latest version of everything?</title>
+    
+	<section><title>Question: Gump is building the latest version of everything?</title>
 	<p>That could never work, could it?  How can you debug anything when
               you have so many variables to deal with?</p> 
               <p><strong>Answer: </strong>It isn't as hard as it seems.  Getting it to work initially
@@ -25,89 +28,46 @@
               one by one until the problem reappears.  I've used this technique
               numerous times to produce test cases and patches to projects
               that I know virtually nothing about their internal design.</p>
-                </section>
-    	<section><title>I've just got a "nag" e-mail about a failure...what
+     </section>
+                
+    	<section><title>Question: I've just got a "nag" e-mail about a failure...what
               should I do about it?</title>
     		<p><strong>Answer: </strong>This question deserves it's own
               <link href="nagged.html">page</link>.</p>
     	</section>
-      <section><title>I've got a fix, how do I get Gump to pick it up?</title>
+    	
+      <section><title>Question: I've got a fix, how do I get Gump to pick it up?</title>
     		<p><strong>Answer: </strong>Check it into cvs.</p>
     	</section>
-<!--
-      <tr>
-        <td id="5">5.</td>
-        <td>
-          <table>
-            <tr>
-              <th>Q:</th>
-              <td>I checked in a fix, how do I know if Gump picked it up?</td>
-            </tr>
-            <tr>
-              <th>A:</th>
-              <td>On the build log, click on the link marked <us>cvs</us>.  It 
+    	
+<section><title>Question: I checked in a fix, how do I know if Gump picked it up?</title>
+    		<p><strong>Answer: </strong>On the build log, click on the link marked <code>cvs</code>.  It 
               will tell you when the latest cvs update or checkout was 
-              performed and what source files were obtained in the process.</td>
-            </tr>
-          </table>
-        </td>
-      </tr>
-
-      <tr>
-        <td id="6">6.</td>
-        <td>
-          <table>
-            <tr>
-              <th>Q:</th>
-              <td>How do I get nagging to stop (or start)?</td>
-            </tr>
-            <tr>
-              <th>A:</th>
-              <td>If there is consensus on your project, send an e-mail to
+              performed and what source files were obtained in the process.</p>
+    	</section>
+    	
+<section><title>Question: How do I get nagging to stop (or start)?</title>
+    		<p><strong>Answer: </strong>If there is consensus on your project, send an e-mail to
               <link href="mailto:gump@jakarta.apache.org">
               gump@jakarta.apache.org</link> letting us know what
-              the outcome was, and it will be respected.</td>
-            </tr>
-          </table>
-        </td>
-      </tr>
-
-      <tr>
-        <td id="7">7.</td>
-        <td>
-          <table>
-            <tr>
-              <th>Q:</th>
-              <td>My project depends on a specific version of a dependency,
-              how can I get Gump to use that version?</td>
-            </tr>
-            <tr>
-              <th>A:</th>
-              <td>The combinatorics of building each project with distinct
+              the outcome was, and it will be respected.</p>
+    	</section>
+    	
+<section><title>Question: My project depends on a specific version of a dependency,
+              how can I get Gump to use that version?</title>
+    		<p><strong>Answer: </strong>The combinatorics of building each project with distinct
               versions of its dependencies is a bit too much for me to track.
               If the dependent project is undergoing a major revision, and the
               prior version is still actively supported, exceptions may be made.
               Otherwise, feel free to set up your own builds, with or without
               using the codebase of Gump to track the set of dependencies that
-              interest you.</td>
-            </tr>
-          </table>
-        </td>
-      </tr>
-
-      <tr>
-        <td id="8">8.</td>
-        <td>
-          <table>
-            <tr>
-              <th>Q:</th>
-              <td>I've got a change I would like to make to the project
+              interest you.</p>
+    	</section>
+              
+            <section><title>Question: I've got a change I would like to make to the project
               definition for a project I'm a committer on...how do I get
-              the change to be made?</td>
-            </tr>
-            <tr>
-              <th>A:</th>
-              <td>The 
+              the change to be made?</title>
+    		<p><strong>Answer: </strong>The 
               <link href="http://cvs.apache.org/viewcvs/jakarta-gump/">
               gump cvs repository</link> is open to all ASF committers.
               Simply check it out and commit your changes.  It is highly
@@ -115,62 +75,30 @@
               provided build.xml in order to verify that your changes
               are syntatically correct.  Don't be scared... this takes
               only a minute and only  requires that you have ant and JDK
-              1.4.  (or ant + xerces + xalan + JDK 1.2 or later).
-              </td>
-            </tr>
-          </table>
-        </td>
-      </tr>
+              1.4.  (or ant + xerces + xalan + JDK 1.2 or later).</p>
+    	</section>
 
-      <tr>
-        <td id="9">9.</td>
-        <td>
-          <table>
-            <tr>
-              <th>Q:</th>
-              <td>How do I get a project to be added to Gump?  Must it
-              be an Apache project?</td>
-            </tr>
-            <tr>
-              <th>A:</th>
-              <td>Send an e-mail (preferably a patch) to
+              <section><title>Question: How do I get a project to be added to Gump?  Must it
+              be an Apache project?</title>
+    		<p><strong>Answer: </strong>Send an e-mail (preferably a patch) to
               <link href="mailto:gump@jakarta.apache.org">
               gump@jakarta.apache.org</link>.  Being Apache related
               (i.e, used by or a consumer of other Apache projects) helps,
               but is not required.  What is important is that your code be
               publicly accessible via cvs and that it be buildable in an
-              OS independent manner.</td>
-            </tr>
-          </table>
-        </td>
-      </tr>
-
-      <tr>
-        <td id="10">10.</td>
-        <td>
-          <table>
-            <tr>
-              <th>Q:</th>
-              <td>Shouldn't the project definitions for a project be kept
-              within the project itself?</td>
-            </tr>
-            <tr>
-              <th>A:</th>
-              <td>That's supported too, as long as your project supports
+              OS independent manner.</p>
+    	</section>
+    	
+            <section><title>Question: Shouldn't the project definitions for a project be kept
+              within the project itself?</title>
+    		<p><strong>Answer: </strong>That's supported too, as long as your project supports
               viewcvs or equivalent.  Simply put the URL of the project
               definition in the 
               <link href="http://cvs.apache.org/viewcvs/jakarta-gump/profile/gump.xml?rev=HEAD&amp;content-type=text/vnd.viewcvs-markup">
               gump profile</link>.  However, if you are an ASF committer, why
               not consider leaving it in the gump cvs repository, that
               way others can also help out too?
-              </td>
-            </tr>
-          </table>
-        </td>
-      </tr>
-
-    </table>
-  
-  -->
+             </p>
+    	</section>
 </body>
 </document>
