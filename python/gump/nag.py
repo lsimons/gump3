@@ -76,9 +76,13 @@ from gump.mailer import *
 from gump.document import getContextAbsoluteUrl
 
 def nag(workspace,context,moduleFilterList=None,projectFilterList=None):
+    #
+    # Nag about the workspace (if it needs it)
+    #
     if STATUS_FAILED==context.status:
         nagWorkspace(workspace,context)
     
+    # For all modules...
     for mctxt in context:
         mname=mctxt.name
         if Module.list.has_key(mname):
@@ -103,8 +107,8 @@ def nag(workspace,context,moduleFilterList=None,projectFilterList=None):
                 
 def nagWorkspace(workspace,context):
     """ Nag for the workspace """
-    content=getContent(workspace, context, "Workspace ... \n")
-    email=EmailMessage(workspace.prefix+': Gump Workspace Problem ',content)
+    content=getContent(workspace, context, "There is a workspace problem... \n")
+    email=EmailMessage([workspace.mailinglist],workspace.email,workspace.prefix+': Gump Workspace Problem ',content)
     mail([ workspace.mailinglist ],workspace.email,email,workspace.mailserver)
   
 def nagProject(workspace,context,module,mctxt,project,pctxt):
@@ -114,29 +118,24 @@ def nagProject(workspace,context,module,mctxt,project,pctxt):
     #
     # Form the content...
     #
-    content+="----------------------------------------------------\n"
     content+=getContent(workspace,mctxt,"Module: " + module.name + "\n")
-    content+="\n\n\n"
-    content+="----------------------------------------------------\n"
     content+=getContent(workspace,pctxt,"Project: " + project.name + "\n"    )
-    content+="\n\n\n"
         
+    #
+    # Form the sujhect
+    #
+    subject=workspace.prefix+': '+module.name+'/'+project.name+' '+lower(stateName(pctxt.status))
+    
     nags=0
     for nagEntry in project.nag:
         try:
             #
             # Form and send the e-mail...
             #
-            email=EmailMessage(workspace.prefix+': '+module.name+'/'+project.name+' '+stateName(pctxt.status),content)
             toaddr=getattr(nagEntry,'to',workspace.mailinglist)
-            #fromaddr=getattr(nagEntry,'from',workspace.mailinglist)
-            fromaddr=workspace.email
-        
-            # We send to a list, but a list of one is fine..
-            toaddrs=[ workspace.mailinglist ] # :TODO: toaddr -> to users...
-        
-            # Fire ...
-            mail(toaddrs,fromaddr,email,workspace.mailserver) 
+            fromaddr=getattr(nagEntry,'from',workspace.mailinglist)
+            
+            sendEmail(workspace,workspace.mailinglist,workspace.mailinglist,subject,content)
             
             nags+=1
         except Exception, details:
@@ -146,16 +145,24 @@ def nagProject(workspace,context,module,mctxt,project,pctxt):
             
     # Belt and braces (nag to us if not nag to them)
     if not nags:
-        email=EmailMessage(workspace.prefix+': '+module.name+'/'+project.name+' '+stateName(pctxt.status),content)
-        toaddr=workspace.mailinglist
-        fromaddr=workspace.email
-        
-        # We send to a list, but a list of one is fine..
-        toaddrs=[ workspace.mailinglist ] # :TODO: toaddr -> to users...
-        
-        # Fire ...
-        mail(toaddrs,fromaddr,email,workspace.mailserver) 
-    
+        sendEmail(workspace,workspace.mailinglist,workspace.mailinglist,subject,content)
+            
+def sendEmail(workspace, toaddr, fromaddr, subject, content):
+    #
+    # We send to a list, but a list of one is fine..
+    #
+    toaddrs=[ toaddr ]
+            
+    #
+    # Form the user visable part ...
+    #
+    email=EmailMessage( toaddrs, \
+                        fromaddr, \
+                        subject, \
+                        content)                            
+    # Fire ...
+    mail(toaddrs,fromaddr,email,workspace.mailserver) 
+            
 def getContent(workspace,context,message=''):
     content=''
     
@@ -192,7 +199,6 @@ def getContent(workspace,context,message=''):
         content+="\n\nWork Items:\n"
         for workitem in context.worklist:
             content+=workitem.overview()+"\n"            
-  
     
     return content
     

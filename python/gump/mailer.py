@@ -69,28 +69,70 @@ from gump.utils import *
 import smtplib, string
         
 class EmailMessage:
-	def __init__(self,subject,text):
-		self.subject=subject
-		self.text=text
         
-def mail(toaddrs,fromaddr,message,server='localhost'):
-    """E-mail"""
-    # Add the From: and To: headers at the start!
-    data = ("From: %s\r\nTo: %s\r\nSubject: %s\r\n\r\n%s%s"
-       	% (	fromaddr, 
-       		string.join(toaddrs, ", "),
-       		message.subject,
-       		message.text,
-       		default.signature))
+	# A *list* if recipients
+	# A single sender
+	# The subject
+    # The text of the message (the main bodypart)
+    def __init__(self,toaddrs,fromaddr,subject,text,signature=None):
+        self.toaddrs=toaddrs
+        self.fromaddr=fromaddr
+        self.subject=subject
+        self.text=text
+		
+		# The signature
+        self.signature=signature
+		
+		# Defaults
+        if not self.signature:
+            self.signature=default.signature
+
+    #
+    # Serialize for sending
+    #
+    def getSerialized(self):
+        """E-mail"""
+        # Add the From: and To: headers at the start!
+        data = ("From: %s\r\nTo: %s\r\nSubject: %s\r\n\r\n%s%s"
+           	% (	self.fromaddr, 
+           		string.join(self.toaddrs, ", "),
+                self.subject,
+           		self.text,
+           		default.signature))
+           		
+        return data;
+     
+#
+#	Send an e-mail to a list of addresses, from an address, with content.
+#	Use the specified server/port.
+#   
+def mail(toaddrs,fromaddr,message,server='localhost',port=25):
+    #
+    # Sanitize e-mail addresses
+    #
+    sane_toaddrs=[]
+    for toaddr in toaddrs:
+        sane_toaddrs.append(sanitizeAddress(toaddr))
+        
+    sane_fromaddr = sanitizeAddress(fromaddr)
+    
+    #
+    # Get servialized data for e-mail bodyparts...
+    #
+    if isinstance(message,EmailMessage):
+        data = message.getSerialized()
+    else:
+        data = EmailMessage(toaddrs,fromaddr,'',str(message)).getSerialized()
     
     try:
         #
         # Attach to the SMTP server to send....
         #
-        server = smtplib.SMTP(server)
+        server = smtplib.SMTP(server,port)
         server.set_debuglevel(1)
-        server.sendmail(fromaddr, toaddrs, data)
+        server.sendmail(sane_fromaddr, sane_toaddrs, data)
         server.quit()
+        
     except Exception, details:
         log.error("Failed to send e-mail: " + str(details))
         log.error("Server :" + str(server))
@@ -98,6 +140,14 @@ def mail(toaddrs,fromaddr,message,server='localhost'):
         log.error("To     :" + str(toaddrs))
         log.error("------------------------------------------------------")
         log.error(data)
+    
+def sanitizeAddress(addr):
+    parts=addr.split('<')
+    if len(parts) > 1:
+        addr=parts[1]
+    parts=addr.split('>')
+    addr=parts[0]
+    return addr
     
 if __name__=='__main__':
 
@@ -107,10 +157,12 @@ if __name__=='__main__':
   #set verbosity to show all messages of severity >= default.logLevel
   log.setLevel(default.logLevel)
    
-  email=EmailMessage('There','Hi')
+  # email=EmailMessage('There','Hi')
   
-  mail([default.email],default.email,email,default.mailserver)
+  # mail([default.email],default.email,email,default.mailserver)
   
-  mail([ 'ajack@trysybase.com' ],default.email,email,default.mailserver)
+  # mail([ 'ajack@trysybase.com' ],default.email,email,default.mailserver)
+  
+  print sanitizeAddress('Adam Jack <ajack@trysybase.com>')
   
   

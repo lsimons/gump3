@@ -1,8 +1,8 @@
 #!/usr/bin/python
 
-# $Header: /home/stefano/cvs/gump/python/gump/Attic/conf.py,v 1.30 2003/10/20 23:58:37 ajack Exp $
-# $Revision: 1.30 $
-# $Date: 2003/10/20 23:58:37 $
+# $Header: /home/stefano/cvs/gump/python/gump/Attic/conf.py,v 1.31 2003/10/21 16:15:52 ajack Exp $
+# $Revision: 1.31 $
+# $Date: 2003/10/21 16:15:52 $
 #
 # ====================================================================
 #
@@ -103,6 +103,7 @@ class default:
     email = 'gump@' + gumpfullhost
     mailinglist = 'gump@jakarta.apache.org'
     mailserver = 'mail.apache.org'
+    mailport = 25
     prefix = '[GUMPY@' + gumphost + ']'
     signature="\r\n--\r\nGump http://jakarta.apache.org/gump\n" \
         + '[' + gumpfullhost + "]\n"
