@@ -16,7 +16,6 @@
     <depend project="xml-xerces"/>
     <depend project="xml-xalan2"/>
     <option project="xml-stylebook2"/>
-    <option project="xml-xalan1-compat"/>
     <option project="junit"/>
 
     <home nested="dist"/>
