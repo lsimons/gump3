@@ -17,6 +17,7 @@
   <depend project="tranquilo"/>
   <depend project="xpp"/>
   <depend project="saxpath"/>
+  <depend project="jaxen"/>
   <depend project="xmldb"/>
 
   <jar name="build/dom4j.jar" id="dom4j"/>
@@ -31,7 +32,11 @@
   </project>
 
   <project name="saxpath">
-    <jar name="lib/org.saxpath.jar"/>
+    <jar name="lib/saxpath.jar"/>
+  </project>
+
+  <project name="jaxen">
+    <jar name="lib/jaxen.jar"/>
   </project>
 
 </project>
