@@ -15,7 +15,10 @@
 #   See the License for the specific language governing permissions and
 #   limitations under the License.
 #
-# $Header: $
+__revision__  = "$Revision$"
+__date__      = "$Date$"
+__copyright__ = "Copyright (c) 1999-2004 Apache Software Foundation"
+__license__   = "http://www.apache.org/licenses/LICENSE-2.0"
 
 """
 
