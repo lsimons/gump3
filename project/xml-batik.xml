@@ -19,6 +19,7 @@
   <depend project="xml-xalan1"/>
 
   <home nested="batik-1.0beta2"/>
+  <jar name="lib/batik-bridge.jar"/>
   <jar name="lib/batik-css.jar"/>
   <jar name="lib/batik-dom.jar"/>
   <jar name="lib/batik-ext.jar"/>
