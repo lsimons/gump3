@@ -23,6 +23,7 @@
   <depend project="tyrex"/>
   <depend project="openorb"/>
   <depend project="junit"/>
+  <depend project="castor"/>
   <work nested="build/openejb/classes"/>
 
   <project name="opentools.minerva">

@@ -90,6 +90,7 @@
     <ant basedir="httpclient" target="dist"/>
     <depend project="jakarta-ant"/>
     <depend project="xml-xerces"/>
+    <depend project="jsse"/>
 
     <home nested="httpclient/dist"/>
     <jar name="commons-httpclient.jar"/>
