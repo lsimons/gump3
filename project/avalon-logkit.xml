@@ -28,10 +28,14 @@
       <depend project="avalon-logkit" inherit="jars" />
     </project>
     
-    <project name="avalon-logkit" buildfile="buildsystem/gump-build.xml">
+    <project name="avalon-logkit">
         <package>org.apache.log</package>
-        <ant target="jar" >
+        <ant target="jar" buildfile="buildsystem/gump-build.xml">
             <property name="project.version" value="@@DATE@@"></property>
+            <property name="avalon.buildsystem"
+                      project="avalon-logkit" path="buildsystem"/>
+            <property name="basedir"
+                      project="avalon-logkit" path="."/>
         </ant>
         <depend project="ant" inherit="runtime"/>
         <depend project="xml-xerces"/>
@@ -43,6 +47,9 @@
         <option project="jaf" runtime="true"/>
         <option project="jakarta-servletapi-4" runtime="true"/>
         <option project="logging-log4j" runtime="true"/>
+
+        <work nested="target/classes"/>
+        <work nested="target/test-classes"/>
 
         <home nested="target"/>
         <jar name="avalon-logkit-@@DATE@@.jar" />
