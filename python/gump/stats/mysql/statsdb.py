@@ -179,8 +179,21 @@ class StatisticsDB:
         for (attr, column) in StatisticsDB.ATTR_COLUMN_MAP.items():
             if settings.has_key(column) and settings[column]:
                 if hasattr(stats,attr):
-                    #print "GET ATTR : " + `type(getattr(stats,attr))`                    
-                    setattr(stats,attr,settings[column])
+                    value=settings[column]
+                    
+                    # Seems some SQL interfaces do not return datetime objects
+                    # but strings, for SQL:datetime.
+                    
+                    
+                    if column in StatisticsDB.DATES:   
+                        print "GET ATTR : " + `type(getattr(stats,attr))`                      
+                        if isinstance(value,datetime.datetime):
+                            setattr(stats,attr,value)
+                        else:
+                            setattr(stats,attr,
+                                datetime.datetime.fromtimestamp(time.strptime(value,'%Y-%m-%d %H:%M:%S')))
+                    else:    
+                        setattr(stats,attr,value)
         
     def _putBaseStats(self,stats,column_name): 
         """
