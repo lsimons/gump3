@@ -421,7 +421,7 @@
       </xsl:when>
     </xsl:choose>
 
-    <xsl:text> $OUT 2&gt;&amp;1"&#10;</xsl:text>
+    <xsl:text> &lt;dev/null $OUT 2&gt;&amp;1"&#10;</xsl:text>
     <xsl:text>test $? -ge 1 &amp;&amp; </xsl:text>
     <xsl:text>export STATUS="FAILED"&#10;</xsl:text>
     <xsl:text>fi&#10;</xsl:text>

@@ -1,6 +1,6 @@
 <module name="jakarta-poi">
 
-  <url href="http://poi.sourceforge.net/"/>
+  <url href="http://jakarta.apache.org/poi/"/>
   <description>
     Ports of file formats based on Microsoft's OLE 2 Compound Document 
     Format (tm) to pure Java (tm). 
@@ -9,19 +9,46 @@
   <cvs repository="jakarta"/>
   
   <project name="jakarta-poi">
+  
     <package>org.apache.poi</package>
 
-    <ant target="all"/>
+    <ant target="gump"/>
+    
+    <script name="build"/>
+    
     <depend project="jakarta-ant"/>
     <depend project="xml-xerces"/>
     <depend project="xml-xalan2"/>
     <depend project="jtidy"/>
-    <depend project="jakarta-log4j"/>
+    <depend project="junit"/>
+    <depend project="commons-logging"/>
+    <depend project="IzPress"/>
+    
+    <option project="jakarta-log4j"/>
+      
     <work nested="build/jakarta-poi/classes"/>
+    <work nested="tools/tmp/anttasks"/>
 
     <home nested="build/poi"/>
-    <jar  name="poi.jar" id="poi"/>
-    <jar  name="poi-scratchpad.jar" id="scratchpad"/>
+    
+    <jar name="jakarta-poi.jar"            id="poi"/>
+    <jar name="jakarta-poi-scratchpad.jar" id="scratchpad"/>
+    <jar name="jakarta-poi-contrib.jar"    id="contrib"/>
+    <jar name="jakarta-poi-examples.jar"   id="examples"/>
+    
+    <javadoc parent="build/jakarta-poi/docs/apidocs"/>
+
+  </project>
+
+  <project name="IzPress">
+    <url href="http://www.izforge.com/izpress/"/>
+    <description>
+      IzPress is a small Java tool that you can use in order to reduce the 
+      size of your HTML pages by up to 20%. It preserves your code and only 
+      removes the useless characters in it.
+    </description>
+    <home nested="tools/centipede"/>
+    <jar name="lib/IzPress.jar"/>
   </project>
 
 </module>

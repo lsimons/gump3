@@ -369,7 +369,7 @@
       </xsl:when>
     </xsl:choose>
 
-    <xsl:text> %OUT% 2&gt;&amp;1&#10;</xsl:text>
+    <xsl:text> &lt;nul %OUT% 2&gt;&amp;1&#10;</xsl:text>
     <xsl:text>if errorlevel 1 SET STATUS=FAILED&#10;</xsl:text>
 
   </xsl:template>
