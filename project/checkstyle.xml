@@ -63,10 +63,8 @@
     
     <work nested="target/tests"/>
 
-	<!-- Give it a few runs before seeing if nagging is
-		appropriate ... -->
-    <!-- nag from="Conor MacNeill &lt;conor@apache.org&gt;"
-         to="checkstyle-devel@sourceforge.net"/ -->
+	<nag from="Conor MacNeill &lt;conor@apache.org&gt;"
+         to="checkstyle-devel@sourceforge.net"/>
   </project>
   
 </module>
