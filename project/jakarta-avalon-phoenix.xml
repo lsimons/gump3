@@ -14,6 +14,8 @@
       <property name="checkstyle.failOnError" value="true"/>
       <property name="jakarta-site.dir" project="jakarta-site2"
                 reference="home" />
+      <depend property="mx4j.jar" project="mx4j" id="jmx"/>
+      <depend property="mx4j-tools.jar" project="mx4j" id="tools"/>
     </ant>
 
     <depend property="xerces.jar" project="xml-xerces" id="parser"/>
