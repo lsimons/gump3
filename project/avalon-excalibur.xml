@@ -799,6 +799,7 @@
         <option project="checkstyle" inherit="runtime"/>
         <depend project="junit"/>
 	<depend project="avalon-framework" runtime="true" id="combined"/>
+        <depend project="avalon-fortress-container"/>
 	<depend project="avalon-fortress-tools" runtime="true"/>
         <depend project="xml-xerces"/>
         <depend project="xml-xalan2"/>
