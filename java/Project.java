@@ -11,6 +11,7 @@ import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.Set;
 import java.util.TreeSet;
+import java.util.Vector;
 
 public class Project {
 
@@ -310,6 +311,8 @@ public class Project {
      * Process all inherited dependencies.  
      */
     private void inheritDependencies() {
+        Vector inheritance = new Vector();
+
         for (Enumeration e=dependsOn.elements(); e.hasMoreElements(); ) {
             Element depend = (Element) e.nextElement();
             String inherit = depend.getAttribute("inherit");
@@ -336,9 +339,7 @@ public class Project {
                         Jenny.moveChildren(clone, renamed);
                         clone = renamed;
                     }
-                    clone.setAttribute("inherited", "true");
-                    dependsOn.put(name,clone);
-                    element.appendChild(clone);
+                    inheritance.add(clone);
 
                 // look for runtime="true" dependencies in the referenced
                 // project.  Convert depends to options if the reference to
@@ -351,9 +352,7 @@ public class Project {
                             Jenny.moveChildren(clone, renamed);
                             clone = renamed;
                         }
-                        clone.setAttribute("inherited", "true");
-                        dependsOn.put(name,clone);
-                        element.appendChild(clone);
+                        inheritance.add(clone);
                     }
                 }
 
@@ -362,12 +361,18 @@ public class Project {
                 // that dependency.
                 if (source.getAttribute("inherit").equals("jars")) {
                     Element clone = (Element) source.cloneNode(true);
-                    clone.setAttribute("inherited", "true");
-                    clone.removeAttribute("inherit");
-                    dependsOn.put(name,clone);
-                    element.appendChild(clone);
+                    clone.setAttribute("inherit", "runtime");
+                    inheritance.add(clone);
                 }
             }
+        }
+
+        // Add the inherited nodes
+        for (Enumeration e=inheritance.elements(); e.hasMoreElements(); ) {
+            Element inherited = (Element) e.nextElement();
+            inherited.setAttribute("inherited", "true");
+            dependsOn.put(inherited.getAttribute("project"),inherited);
+            element.appendChild(inherited);
         }
     }
 
