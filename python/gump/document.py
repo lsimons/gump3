@@ -285,11 +285,11 @@ def documentWorkspace(workspace,context,db,moduleFilterList=None,projectFilterLi
         if moduleFilterList and not mctxt.module in moduleFilterList: continue
         mcount+=1
         (mhours, mmins, msecs) 	= mctxt.elapsedTime();
-        x.write('     <tr><!-- %s -->' % (mname))        
-        x.write('      <td><link href=\'%s\'>%s</link></td><td>%s</td>' % \
+        x.write('     <tr><!-- %s -->\n' % (mname))        
+        x.write('      <td><link href=\'%s\'>%s</link></td><td>%s</td>\n' % \
           (getModuleRelativeUrl(mname),mname,getStateIcons(mctxt.aggregateStates())))    
-        x.write('      <td>%s:%s:%s</td>' % (str(mhours),str(mmins),str(msecs)))    
-        x.write('     </tr>')
+        x.write('      <td>%s:%s:%s</td>\n' % (str(mhours),str(mmins),str(msecs)))    
+        x.write('     </tr>\n\n')
     if not mcount: x.write('	<tr><td>None</td></tr>')
     endTableXDoc(x)
     endSectionXDoc(x)
@@ -976,7 +976,7 @@ def getStatePairIcon(pair,depth=0):
         uniqueName+='_'+rstring
     
     # Build the URL
-    iconName=gumpSafeName(uniqueName)
+    iconName=gumpSafeName(lower(uniqueName))
     url = getUp(depth)+"resources/icons/"+iconName+".png";
     
     # Build the <icon xdoc
