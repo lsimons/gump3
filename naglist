@@ -226,16 +226,16 @@ To: <lucene-dev@lists.sourceforge.net>
 From: Jon Stevens <jon@latchkey.com>
 Subject: [GUMP] Build Failure - Lucene
 Regex: /BUILD FAILED/
-------
-Project: scarab
-To: dev@scarab.tigris.org
-From: Jon Stevens <jon@latchkey.com>
-Subject: [GUMP] Build Failure - Scarab
-Regex: /BUILD FAILED/
-Subject: [GUMP] Prereq Failure - Scarab
-Regex: /^$/
-Subject: [GUMP] Build Log - Scarab
-Regex: /.*/
+#------
+#Project: scarab
+#To: dev@scarab.tigris.org
+#From: Jon Stevens <jon@latchkey.com>
+#Subject: [GUMP] Build Failure - Scarab
+#Regex: /BUILD FAILED/
+#Subject: [GUMP] Prereq Failure - Scarab
+#Regex: /^$/
+#Subject: [GUMP] Build Log - Scarab
+#Regex: /.*/
 ------
 Project: test-ant
 To: ant-dev@jakarta.apache.org
