@@ -122,7 +122,7 @@
             <a href="{url/@href}">home</a>
           </xsl:if>
 
-          <a href="source_{@defined-in}.html">definition</a>
+          <a href="project_{@defined-in}.html">definition</a>
 
           <xsl:for-each select="//project[cvs and @srcdir=$srcdir]">
             <a href="cvs_{@name}.html">cvs</a>
@@ -142,7 +142,7 @@
                   </a>
                 </xsl:when>
                 <xsl:otherwise>
-                  <a href="source_{@srcdir}.html">
+                  <a href="project_{@srcdir}.html">
                     <xsl:value-of select="$dependent"/>
                   </a>
                 </xsl:otherwise>

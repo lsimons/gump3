@@ -40,7 +40,7 @@
 
               <tr>
                 <td>
-                  <a href="source_{@srcdir}.html">
+                  <a href="project_{@srcdir}.html">
                     <xsl:value-of select="@name"/>
                   </a>
                 </td>
