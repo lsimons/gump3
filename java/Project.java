@@ -299,6 +299,68 @@ public class Project {
     }
 
     /**
+     * Process all inherited dependencies.  
+     */
+    private void inheritDependencies() {
+        for (Enumeration e=dependsOn.elements(); e.hasMoreElements(); ) {
+            Element depend = (Element) e.nextElement();
+            String inherit = depend.getAttribute("inherit");
+            Project p = (Project) projects.get(depend.getAttribute("project"));
+            if (p == null) continue;
+
+            // if inherit="all" is specified on a depends element, then all
+            // of the optional and depends elements on the referenced project
+            // are inherited by this project.
+            //
+            // if inherit="hard", the same thing happens except that all 
+            // optional dependencies are converted to "hard" dependencies in 
+            // the copy.
+            if (inherit.equals("all") || inherit.equals("hard")) {
+                for (Enumeration d=p.dependsOn.keys(); d.hasMoreElements(); ) {
+                    String name = (String) d.nextElement();
+                    if (dependsOn.get(name) == null) {
+                        Element source = (Element) p.dependsOn.get(name);
+                        String type = source.getNodeName();
+                        Element clone;
+                        if (inherit.equals("hard") && type.equals("option")) {
+                            clone = document.createElement("depend");
+                            Jenny.copyChildren(source, clone);
+                        } else {
+                            clone = (Element) source.cloneNode(true);
+                        }
+                        clone.setAttribute("inherited", "true");
+                        dependsOn.put(name,clone);
+                        element.appendChild(clone);
+                    }
+                }
+            } else if (inherit.equals("runtime")) {
+                // look for runtime="true" dependencies in the referenced
+                // project.  Convert depends to options if the reference to
+                // the project is an option.
+                String type = depend.getNodeName();
+                for (Enumeration d=p.dependsOn.keys(); d.hasMoreElements(); ) {
+                    String name = (String) d.nextElement();
+                    if (dependsOn.get(name) == null) {
+                        Element source = (Element) p.dependsOn.get(name);
+                        if (source.getAttribute("runtime").equals("true")) {
+                            Element clone;
+                            if (type.equals("option")) {
+                                clone = document.createElement("option");
+                                Jenny.copyChildren(source, clone);
+                            } else {
+                                clone = (Element) source.cloneNode(true);
+                            }
+                            clone.setAttribute("inherited", "true");
+                            dependsOn.put(name,clone);
+                            element.appendChild(clone);
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    /**
      * Implement a deterministing sort order.  Projects which are most
      * referenced get priority.  After that, order is determined alphabetically.
      */
@@ -320,6 +382,8 @@ public class Project {
     /**
      * Sort all projects in an order that respects the dependencies.  If such
      * an order can not be determined, print out the ones that form a loop.
+     * As we determine the order, process the inherited dependencies.  This
+     * way the inheritance will recurse properly.
      */
     private static void sort() throws Exception {
         TreeSet todo = new TreeSet(new Ranker());
@@ -331,6 +395,7 @@ public class Project {
             Project p = (Project) projects.get(i.next());
             if (p.isReady(todo)) {
                 p.moveToLast();
+                p.inheritDependencies();
                 todo.remove(p.name);
                 i=todo.iterator();
             }

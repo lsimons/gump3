@@ -9,19 +9,19 @@
   
   <project name="jakarta-velocity">
     <ant basedir="build" target="dist">
-      <depend property="log.jar" project="jakarta-avalon-logkit"/>
+      <depend property="log.jar" project="jakarta-avalon-logkit" runtime="true"/>
       <depend property="oro.jar" project="jakarta-oro"/>
       <property name="version" value="gump"/>
     </ant>
     <depend project="jakarta-ant"/>
     <depend project="xml-xerces"/>
     <depend project="jakarta-servletapi"/>
-    <depend project="jdom"/>
+    <depend project="jdom" runtime="true"/>
     <depend project="werken.xpath"/>
     <depend project="bcel"/>
     <depend project="junit"/>
     <depend project="jakarta-log4j"/>
-    <depend project="commons-collections"/>
+    <depend project="commons-collections" runtime="true"/>
     <home nested="bin"/>
     <jar name="velocity-gump.jar"/>
     <javadoc nested="docs/api"/>
@@ -29,17 +29,8 @@
   
   <project name="jakarta-velocity-test">
     <ant basedir="build" buildfile="testcases.xml"/>
-    <depend project="jakarta-ant"/>
-    <depend project="xml-xerces"/>
-    <depend project="junit"/>
-    <depend project="jakarta-velocity"/>
-    <depend project="commons-collections"/>
-    <depend project="jdom"/>
-    <depend project="werken.xpath"/>
+    <depend project="jakarta-velocity" inherit="hard"/>
     <depend project="antlr.runtime"/>
-    <depend project="jakarta-avalon-logkit"/>
-    <depend project="jakarta-log4j"/>
-    <depend project="jakarta-oro"/>
     <work nested="test/cpload/test1.jar"/>
     <work nested="test/cpload/test2.jar"/>
     <work nested="test/multiloader/test1.jar"/>

@@ -26,13 +26,9 @@
   <project name="dist-ant">
     <ant target="distribution"/>
 
-    <depend project="bootstrap-ant"/>
-    <depend project="xml-xerces"/>
-    <depend project="xml-xalan2"/>
+    <depend project="jakarta-ant" inherit="all"/>
     <option project="xml-xalan1-compat"/>
-    <option project="xml-stylebook2"/>
     <option project="bsf"/>
-    <option project="junit"/>
     <option project="jakarta-regexp"/>
     <option project="jakarta-oro"/>
     <option project="jakarta-log4j"/>
@@ -50,12 +46,7 @@
     <mkdir dir="build/testcases"/>
     <ant target="run-tests"/>
 
-    <depend project="dist-ant"/>
-    <depend project="xml-xerces"/>
-    <depend project="xml-xalan2"/>
-    <depend project="junit"/>
-    <depend project="jakarta-regexp"/>
-    <depend project="jakarta-oro"/>
+    <depend project="dist-ant" inherit="hard"/>
 
     <work nested="build/classes"/>
     <work nested="build/testcases"/>

@@ -111,6 +111,22 @@
           <td>The name of the project depended on.</td>
           <td>Yes</td>
         </tr>
+        <tr>
+          <td>inherit</td>
+          <td>Specifies whether dependendencies of this dependency are to be
+          inherited.  Default is "none".  Other choices are "all" which will
+          copy all dependencies as, "runtime" which will only copy the runtime
+          dependencies, and "hard" which will not only copy all
+          dependencies, but will also convert option elements into depend
+          elements in the process.</td>
+          <td>No</td>
+        </tr>
+        <tr>
+          <td>runtime</td>
+          <td>Specifies whether this dependency is needed at runtime.
+          Choices are "true" and "false" with the default being false.</td>
+          <td>No</td>
+        </tr>
       </table>
     </subsection>
 
@@ -134,6 +150,22 @@
           <td>project</td>
           <td>The name of the project depended on.</td>
           <td>Yes</td>
+        </tr>
+        <tr>
+          <td>inherit</td>
+          <td>Specifies whether dependendencies of this dependency are to be
+          inherited.  Default is "none".  Other choices are "all" which will
+          copy all dependencies as, "runtime" which will only copy the runtime
+          dependencies, and "hard" which will not only copy all
+          dependencies, but will also convert option elements into depend
+          elements in the process.</td>
+          <td>No</td>
+        </tr>
+        <tr>
+          <td>runtime</td>
+          <td>Specifies whether this dependency is needed at runtime.
+          Choices are "true" and "false" with the default being false.</td>
+          <td>No</td>
         </tr>
       </table>
     </subsection>

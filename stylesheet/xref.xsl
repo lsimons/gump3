@@ -66,6 +66,11 @@
                     <xsl:sort select="@name"/>
 
                     <!-- "decorate open" link based on type of dependency -->
+                      <xsl:if test="depend[@project=$project and @inherited] |
+                                    option[@project=$project and @inherited]">
+                        <xsl:text>(</xsl:text>
+                      </xsl:if>
+
                       <xsl:if test="not(depend[@project=$project])">
                         <xsl:text>[</xsl:text>
                       </xsl:if>
@@ -88,6 +93,11 @@
                       <xsl:if test="not(depend[@project=$project])">
                         <xsl:text>]</xsl:text>
                       </xsl:if>
+                      
+                      <xsl:if test="depend[@project=$project and @inherited] |
+                                    option[@project=$project and @inherited]">
+                        <xsl:text>)</xsl:text>
+                      </xsl:if>
                     <!-- end "decoration" -->
                   </xsl:for-each>
                 </td>
@@ -97,7 +107,8 @@
 
           <br/> Legend:
           <blockquote>
-            [] : optional dependency
+            () : inherited dependency
+            <br/> [] : optional dependency
             <br/> ${} : property reference
           </blockquote>
         </content>
