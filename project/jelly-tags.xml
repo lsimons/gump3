@@ -1,7 +1,7 @@
 <module name="jelly-tags">
 
   <cvs repository="jakarta" 
-    module="jakarta-commons-sandbox/jelly/jelly-tags"/>
+    module="jakarta-commons/jelly/jelly-tags"/>
 
   <project name="commons-jelly-tags-ant">
     <package>org.apache.commons.jelly.tags.ant</package>
