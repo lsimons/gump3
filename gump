@@ -116,11 +116,14 @@ Run pygump.
       Usage:
         $0 dynagump dynagump-action [dynagump-args ...]
 
-      Run
-        $0 dynagump help
-      for more information about the options dynagump accepts. If no action is
-      specified, gump passes run as the action to execute.
+      The available actions are:
 "
+
+      dynagump help | grep -v '^Usage' | grep -v '^actions'
+
+      echo "
+      If no action is specified, gump passes run as the action to
+      execute."
       ;;
     update-host)
       echo "
@@ -162,7 +165,7 @@ Run pygump.
       Compiles all pygump source files.
 
       Usage:
-        $0 pycompile.
+        $0 pycompile
       
       Please run this before committing changed sourcefiles, to make sure they
       at least compile.
