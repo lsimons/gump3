@@ -14,9 +14,7 @@
     <!-- Standard Maven target to produce Javadocs, source -->
     <!-- and binary distributions.                         -->
     
-    <ant buildfile="build-gump.xml" target="jar">
-      <property name="final.name" value="maven-@@DATE@@"/>
-    </ant>
+    <ant buildfile="build.xml" target="jar"/>
     
     <!-- All Maven projects need Ant and Xerces to build. -->
     <depend project="jakarta-ant" inherit="runtime"/>
