@@ -78,7 +78,7 @@ fileTypeDescriptions = { 	FILE_TYPE_MISC : "Miscellaneous",
                 FILE_TYPE_CONFIG : "Config",
                 FILE_TYPE_OUTPUT : "Output", }    
     
-def fileTypeName(type):
+def fileTypeDescription(type):
     return fileTypeDescriptions.get(type,'Unknown File Type:' + str(type))
                    
 class FileReference(Ownable,Annotatable):
@@ -100,7 +100,7 @@ class FileReference(Ownable,Annotatable):
             self.addInfo(message)
             
     def overview(self, lines=50):
-        overview='File Name: ' + self.name +' (Type: ' + fileTypeName(self.type)+')\n'
+        overview='File Name: ' + self.name +' (Type: ' + fileTypeDescription(self.type)+')\n'
         
         #
         # :TODO: Annotations....
@@ -126,8 +126,11 @@ class FileReference(Ownable,Annotatable):
     def getType(self):
         return self.type
 
-    def getTypeName(self):
-        return fileTypeName(self.type)
+    def getTypeDescription(self):
+        return fileTypeDescription(self.type)
+        
+    def getPath(self):
+        return self.path
         
     def getName(self):
         return self.name

@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/utils/__init__.py,v 1.23 2004/02/23 23:29:39 ajack Exp $
-# $Revision: 1.23 $
-# $Date: 2004/02/23 23:29:39 $
+# $Header: /home/stefano/cvs/gump/python/gump/utils/__init__.py,v 1.24 2004/02/24 20:18:29 ajack Exp $
+# $Revision: 1.24 $
+# $Date: 2004/02/24 20:18:29 $
 #
 # ====================================================================
 #
@@ -391,10 +391,10 @@ def logResourceUtilization(message=None,):
             kid_ru_msgrcv, kid_ru_nsignals, kid_ru_nvcsw, 	\
             kid_ru_nivcsw)=kidresources
             
-        log.info('My Memory ' + message + ' ' + `my_ru_maxrss`)
-        log.info('My Resources ' + message + ' ' + `myresources`)
-        log.info('Child Memory ' + message + ' ' + `kid_ru_maxrss`)
-        log.info('Child Resources ' + message + ' ' + `kidresources`)        
+        log.debug('My Memory ' + message + ' ' + `my_ru_maxrss`)
+        log.debug('My Resources ' + message + ' ' + `myresources`)
+        log.debug('Child Memory ' + message + ' ' + `kid_ru_maxrss`)
+        log.debug('Child Resources ' + message + ' ' + `kidresources`)        
     
         #resources=resource.getrusage(resource.RUSAGE_BOTH)
         #log.debug('All Resources ' + message  + ' ' + `resources`)

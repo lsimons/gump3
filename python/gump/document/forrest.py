@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/forrest.py,v 1.80 2004/02/24 19:32:28 ajack Exp $
-# $Revision: 1.80 $f
-# $Date: 2004/02/24 19:32:28 $
+# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/forrest.py,v 1.81 2004/02/24 20:18:30 ajack Exp $
+# $Revision: 1.81 $f
+# $Date: 2004/02/24 20:18:30 $
 #
 # ====================================================================
 #
@@ -344,6 +344,7 @@ class ForrestDocumenter(Documenter):
         # x.write('<p><strong>Workspace Config:</strong> <link href=\'xml.txt\'>XML</link></p>')
         # x.write('<p><strong>RSS :</strong> <link href=\'index.rss\'>News Feed</link></p>')
         
+        self.documentFileList(document,workspace,'Workspace-level Files')
         self.documentWorkList(document,workspace,'Workspace-level Work')
      
         document.serialize()
@@ -795,6 +796,7 @@ class ForrestDocumenter(Documenter):
     
         self.documentXML(document,repo)
         
+        self.documentFileList(document,repo,'Repository-level Files')
         self.documentWorkList(document,repo,'Repository-level Work')
 
         document.serialize()
@@ -844,6 +846,7 @@ class ForrestDocumenter(Documenter):
             
         self.documentXML(document,server)
         
+        self.documentFileList(document,server,'Server-level Files')
         self.documentWorkList(document,server,'Server-level Work')
 
         document.serialize()
@@ -894,6 +897,7 @@ class ForrestDocumenter(Documenter):
             
         self.documentXML(document,tracker)
         
+        self.documentFileList(document,tracker,'Tracker-level Files')
         self.documentWorkList(document,tracker,'Tracker-level Work')
 
         document.serialize()
@@ -986,6 +990,7 @@ class ForrestDocumenter(Documenter):
             
         if not pcount: pallTable.createLine('None')
                            
+        self.documentFileList(document,module,'Module-level Files')
         self.documentWorkList(document,module,'Module-level Work')
         
         addnSection=document.createSection('Additional Details')
@@ -1166,6 +1171,7 @@ class ForrestDocumenter(Documenter):
         if stats.last:
             statsTable.createEntry("Last Success: ", secsToDate(stats.last))
                 
+        self.documentFileList(document,project,'Project-level Files')  
         self.documentWorkList(document,project,'Project-level Work')  
                 
         addnSection=document.createSection('Additional Details')
@@ -1616,13 +1622,13 @@ class ForrestDocumenter(Documenter):
         if not filelist: return
         
         fileSection=xdocNode.createSection(description)        
-        fileTable=fileSection.createTable(['Name','Type','PAth'])
+        fileTable=fileSection.createTable(['Name','Type','Path'])
         
         for file in filelist:
             fileRow=fileTable.createRow()
             fileRow.createComment(file.getName())            
             self.insertLink(file,holder,fileRow.createData())  
-            fileRow.createData(fileTypeDescription(file.getType()))
+            fileRow.createData(file.getTypeDescription())
             fileRow.createData(file.getPath())
                         
         #
@@ -1634,13 +1640,13 @@ class ForrestDocumenter(Documenter):
     def documentFile(self,workspace,fileReference):
         
         fdocument=XDocDocument(	\
-                fileTypeName(fileReference.getType()) + ' : ' + fileReference.getName(),	\
+                fileReference.getTypeDescription() + ' : ' + fileReference.getName(),	\
                 self.resolver.getFile(fileReference))
                     
         fileSection=fdocument.createSection('Details')
             
         fileList=fileSection.createList() 
-        fileList.createEntry("State: ", fileTypeName(fileReference.getType()))
+        fileList.createEntry("State: ", fileReference.getTypeDescription())
             
         self.insertTypedLink(fileReference.getOwner(),	\
                     fileReference,	\
@@ -1663,7 +1669,7 @@ class ForrestDocumenter(Documenter):
                 #
                 # Show the content...
                 #
-                outputSection=fdocument.createSection('Output')
+                outputSection=fdocument.createSection('File Contents')
                 outputSource=outputSection.createSource()
                 output=fileReference.getPath()
                 if output:
@@ -1695,7 +1701,7 @@ class ForrestDocumenter(Documenter):
                 else:
                     outputSource.createText('No contents in this file.')
         else:
-            fdocument.createText('No such file or directory.')
+            fdocument.createParagraph('No such file or directory.')
            
         fdocument.serialize()
         fdocument=None
