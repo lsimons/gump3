@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/document/resolver.py,v 1.13 2004/02/15 17:32:05 ajack Exp $
-# $Revision: 1.13 $
-# $Date: 2004/02/15 17:32:05 $
+# $Header: /home/stefano/cvs/gump/python/gump/document/resolver.py,v 1.14 2004/02/24 19:32:28 ajack Exp $
+# $Revision: 1.14 $
+# $Date: 2004/02/24 19:32:28 $
 #
 # ====================================================================
 #
@@ -76,6 +76,8 @@ from gump.utils import *
 
 from gump.output.statsdb import StatisticsGuru
 from gump.output.xref import XRefGuru
+from gump.utils.work import *
+from gump.utils.file import *
 from gump.model.repository import Repository
 from gump.model.server import Server
 from gump.model.tracker import Tracker
@@ -156,7 +158,9 @@ def getPathForObject(object,visited=None):
     elif isinstance(object, Project):
         path=getPathForObject(object.getModule())
     elif isinstance(object, WorkItem):
-        path=getPathForObject(object.getOwner()).getPostfixed('work')        
+        path=getPathForObject(object.getOwner()).getPostfixed('gump_work')  
+    elif isinstance(object, FileReference):
+        path=getPathForObject(object.getOwner()).getPostfixed('gump_file')        
     elif isinstance(object, Ownable):
         if not object.getOwner() in visited:
             path=getPathForObject(object.getOwner())
@@ -241,6 +245,7 @@ def getDocumentForObject(object, extn='.xml', visited=None):
         or isinstance(object, Server)	\
         or isinstance(object, Tracker)	\
         or isinstance(object, Repository)	\
+        or isinstance(object, FileReference)		\
         or isinstance(object, WorkItem):    
         document=gumpSafeName(object.getName()) + extn
     elif isinstance(object, Ownable) :
@@ -263,7 +268,8 @@ def getIndexForObject(object):
         isinstance(object, XRefGuru)	or	\
         isinstance(object, Module)		or	\
         isinstance(object, Project)		or	\
-        isinstance(object, Work):  
+        isinstance(object, WorkItem)	or	\
+        isinstance(object, FileReference):  
         index=None
     elif isinstance(object, Ant):
         index='Build'

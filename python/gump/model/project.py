@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/model/project.py,v 1.54 2004/02/23 17:00:05 ajack Exp $
-# $Revision: 1.54 $
-# $Date: 2004/02/23 17:00:05 $
+# $Header: /home/stefano/cvs/gump/python/gump/model/project.py,v 1.55 2004/02/24 19:32:28 ajack Exp $
+# $Revision: 1.55 $
+# $Date: 2004/02/24 19:32:28 $
 #
 # ====================================================================
 #
@@ -612,8 +612,8 @@ class Project(NamedModelObject, Statable):
                 #
                 # List them, why not...
                 #            
-                from gump.utils.tools import listDirectoryAsWork
-                listDirectoryAsWork(self,self.getHomeDirectory(),	\
+                from gump.utils.tools import listDirectoryToFileHolder
+                listDirectoryToFileHolder(self,self.getHomeDirectory(),	\
                     'list_package_'+self.getName())                                            
         
     def importDependencies(self,workspace):        

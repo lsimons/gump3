@@ -524,7 +524,7 @@ class GumpEngine:
                 project.addDebug('Maven Properties in: ' + propertiesFile)
                 
                 try:
-                    catFileAsWork(project,propertiesFile,	\
+                    catFileToFileHolder(project,propertiesFile,	\
                         project.getName() + ' ' + os.path.basename(propertiesFile))
                 except:
                     log.error('Display Properties [ ' + propertiesFile + '] Failed', exc_info=1)   
@@ -605,7 +605,7 @@ class GumpEngine:
                     project.changeState(STATE_SUCCESS)
                     
                     # For 'fun' list repository
-                    listDirectoryAsWork(project,repository.getGroupDir(project.getModule().getName()), \
+                    listDirectoryToFileHolder(project,repository.getGroupDir(project.getModule().getName()), \
                                         'list_repo_'+project.getName())                     
                                         
                 if not outputsOk:
@@ -621,7 +621,7 @@ class GumpEngine:
                         if not dir in dirs:                        
                             dircnt += 1            
                             if os.path.exists(dir):
-                                listDirectoryAsWork(project,dir,\
+                                listDirectoryToFileHolder(project,dir,\
                                     'list_'+project.getName()+'_dir'+str(dircnt)+'_'+os.path.basename(dir))
                                 dirs.append(dir)
                                 listed += 1
@@ -641,7 +641,7 @@ class GumpEngine:
             for report in project.getReports():
                 reportDir=report.getResolvedPath() 
                 project.addInfo('Reports in: ' + reportDir)
-                catDirectoryContentsAsWork(project,reportDir)
+                catDirectoryContentsToFileHolder(project,reportDir)
     
         # Maven generates a maven.log...
         if project.hasMaven() and not project.isPackaged():
@@ -649,7 +649,7 @@ class GumpEngine:
                 logFile=project.locateMavenLog()                                
                 project.addDebug('Maven Log in: ' + logFile)                
                 try:
-                    catFileAsWork(project,logFile,	\
+                    catFileToFileHolder(project,logFile,	\
                         project.getName() + ' ' + os.path.basename(logFile))
                 except:
                     log.error('Display Log [ ' + logFile + '] Failed', exc_info=1)   

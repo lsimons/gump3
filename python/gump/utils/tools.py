@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/utils/tools.py,v 1.10 2004/01/19 20:16:59 ajack Exp $
-# $Revision: 1.10 $
-# $Date: 2004/01/19 20:16:59 $
+# $Header: /home/stefano/cvs/gump/python/gump/utils/tools.py,v 1.11 2004/02/24 19:32:28 ajack Exp $
+# $Revision: 1.11 $
+# $Date: 2004/02/24 19:32:28 $
 #
 # ====================================================================
 #
@@ -67,6 +67,7 @@ import types, StringIO
 
 from gump import log
 from gump.utils.work import *
+from gump.utils.file import *
 from gump.utils.launcher import *
     
 def listDirectoryAsWork(workable,directory,name=None):
@@ -123,6 +124,57 @@ def catFileAsWork(workable,file,name=None):
     workable.performedWork(CommandWorkItem(WORK_TYPE_DOCUMENT,cmd,result))    
     
     return ok
+
+def listDirectoryToFileHolder(holder,directory,type=FILE_TYPE_MISC):
+       
+    # Create a reference to the directory
+    reference=FileReference(directory,type)
+    
+    #
+    # Update holder w/ reference to directory, 'listing'
+    # is implied (from it being a directory)
+    #
+    holder.addFileReference(reference)
+    
+    #
+    # This is 'ok', if it exists, and is a directory
+    #
+    return reference.exists() and reference.isDirectory()
+    
+def catDirectoryContentsToFileHolder(holder,directory,name=None):
+    try:
+        if os.path.exists(directory) and  os.path.isdir(directory):
+            for fileName in os.listdir(directory):
+                baseName=name    
+                file=os.path.abspath(os.path.join(directory,fileName))                
+                if os.path.exists(file) and os.path.isfile(file):
+                    if baseName: 
+                        workName=baseName+'_'+fileName
+                    else:
+                        workName=fileName
+                    catFileToFileHolder(holder,	file, workName)
+    except:
+        try:
+            holder.addWarning('No such directory [' + str(directory) + ']')
+        except:
+            pass
+    
+        
+def catFileToFileHolder(holder,file,name=None):
+       
+    # Create a reference to the file
+    reference=FileReference(file,type)
+    
+    #
+    # Update holder w/ reference to directory, 'cat'
+    # is implied (from it being a file)
+    #
+    holder.addFileReference(reference)
+    
+    #
+    # This is 'ok', if it exists, and is not a directory
+    #
+    return reference.exists() and reference.isNotDirectory()
 
    
 def syncDirectories(noRSync,type,cwddir,tmpdir,sourcedir,destdir,name=None):                

@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/forrest.py,v 1.79 2004/02/23 21:55:35 ajack Exp $
-# $Revision: 1.79 $f
-# $Date: 2004/02/23 21:55:35 $
+# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/forrest.py,v 1.80 2004/02/24 19:32:28 ajack Exp $
+# $Revision: 1.80 $f
+# $Date: 2004/02/24 19:32:28 $
 #
 # ====================================================================
 #
@@ -1609,6 +1609,96 @@ class ForrestDocumenter(Documenter):
            
         wdocument.serialize()
         wdocument=None
+          
+    def documentFileList(self,xdocNode,holder,description='Files'):
+        filelist=holder.getFileList()
+        
+        if not filelist: return
+        
+        fileSection=xdocNode.createSection(description)        
+        fileTable=fileSection.createTable(['Name','Type','PAth'])
+        
+        for file in filelist:
+            fileRow=fileTable.createRow()
+            fileRow.createComment(file.getName())            
+            self.insertLink(file,holder,fileRow.createData())  
+            fileRow.createData(fileTypeDescription(file.getType()))
+            fileRow.createData(file.getPath())
+                        
+        #
+        # Go document the others...
+        #
+        for fileReference in filelist:
+            self.documentFile(workspace,fileReference)
+            
+    def documentFile(self,workspace,fileReference):
+        
+        fdocument=XDocDocument(	\
+                fileTypeName(fileReference.getType()) + ' : ' + fileReference.getName(),	\
+                self.resolver.getFile(fileReference))
+                    
+        fileSection=fdocument.createSection('Details')
+            
+        fileList=fileSection.createList() 
+        fileList.createEntry("State: ", fileTypeName(fileReference.getType()))
+            
+        self.insertTypedLink(fileReference.getOwner(),	\
+                    fileReference,	\
+                    fileList.createEntry("For: "))
+            
+        if fileReference.exists():
+            if fileReference.isDirectory():
+                listingSection=fdocument.createSection('Directory Contents')
+                listingTable=listingSection.createTable(['Filename'])
+                
+                directory=fileReference.getPath()
+                
+                # Change to os.walk once we can move to Python 2.3
+                files=os.listdir(directory).sort()
+                for file in files:
+                    listingRow=listingTable.createRow()
+                    listingRow.createData(file)                                    
+                        
+            else:    
+                #
+                # Show the content...
+                #
+                outputSection=fdocument.createSection('Output')
+                outputSource=outputSection.createSource()
+                output=fileReference.getPath()
+                if output:
+                    try:
+                        o=None
+                        try:
+                            # Keep a length count to not exceed 32K
+                            size=0
+                            o=open(output, 'r')
+                            line=o.readline()
+                            while line:
+                            
+                                line=wrapLine(line,'...<br/>','    ',100)
+                            
+                                length = len(line)
+                                size += length
+                                # Crude to 'ensure' that escaped
+                                # it doesn't exceed 32K.
+                                if size > 20000:
+                                    outputSection.createParagraph('Continuation...')
+                                    outputSource=outputSection.createSource()
+                                    size = length
+                                outputSource.createText(line)
+                                line=o.readline()
+                        finally:
+                            if o: o.close()
+                    except Exception, details:
+                        outputSource.createText('Failed to copy contents from :' + output + ' : ' + str(details))
+                else:
+                    outputSource.createText('No contents in this file.')
+        else:
+            fdocument.createText('No such file or directory.')
+           
+        fdocument.serialize()
+        fdocument=None
             
     #####################################################################           
     #
@@ -1688,7 +1778,7 @@ class ForrestDocumenter(Documenter):
         
         #
         # If we are looking for what set the state, look at
-        # work first. Pick the first...
+        # work first. Pick the first not working...
         #
         if state and isinstance(toObject,Workable):
             for work in toObject.getWorkList():

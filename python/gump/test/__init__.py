@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/test/__init__.py,v 1.7 2004/01/09 19:57:19 ajack Exp $
-# $Revision: 1.7 $
-# $Date: 2004/01/09 19:57:19 $
+# $Header: /home/stefano/cvs/gump/python/gump/test/__init__.py,v 1.8 2004/02/24 19:32:28 ajack Exp $
+# $Revision: 1.8 $
+# $Date: 2004/02/24 19:32:28 $
 #
 # ====================================================================
 #
@@ -72,7 +72,7 @@ from gump.model.rawmodel import XMLWorkspace
 from gump.model.workspace import Workspace
 
 from gump.output.statsdb import StatisticsDB
-from gump.utils.tools import listDirectoryAsWork
+from gump.utils.tools import listDirectoryToFileHolder
 
 def getTestWorkspace(xml=None):
     if not xml: xml='gump/test/resources/full1/workspace.xml'
@@ -91,11 +91,11 @@ def getWorkedTestWorkspace(xml=None):
     db.loadStatistics(workspace)
 
     # Some work items...
-    listDirectoryAsWork(workspace,workspace.getBaseDirectory())        
+    listDirectoryToFileHolder(workspace,workspace.getBaseDirectory())        
     for module in workspace.getModules():        
-        listDirectoryAsWork(module,module.getSourceDirectory())
+        listDirectoryToFileHolder(module,module.getSourceDirectory())
         for project in module.getProjects():
-            listDirectoryAsWork(project,project.getHomeDirectory())     
+            listDirectoryToFileHolder(project,project.getHomeDirectory())     
      
     #       
     # Try to set some statii

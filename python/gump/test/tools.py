@@ -1,7 +1,7 @@
 #!/usr/bin/env python
-# $Header: /home/stefano/cvs/gump/python/gump/test/tools.py,v 1.3 2004/01/09 19:57:19 ajack Exp $
-# $Revision: 1.3 $
-# $Date: 2004/01/09 19:57:19 $
+# $Header: /home/stefano/cvs/gump/python/gump/test/tools.py,v 1.4 2004/02/24 19:32:28 ajack Exp $
+# $Revision: 1.4 $
+# $Date: 2004/02/24 19:32:28 $
 #
 # ====================================================================
 #
@@ -62,8 +62,15 @@
 """
 
 from gump.utils.tools import *
+from gump.utils.work import *
+from gump.utils.file import *
 from gump.test.pyunit import UnitTestSuite
 
+class TestFileHolder(FileHolder):
+    def __init__(self):    
+        # Holds work (with state)
+    	FileHolder.__init__(self)    
+    	
 class TestWorkable(Workable):
     def __init__(self):    
         # Holds work (with state)
@@ -75,6 +82,7 @@ class ToolsTestSuite(UnitTestSuite):
         
     def suiteSetUp(self):
         self.testworkable=TestWorkable()
+        self.testfileholder=TestFileHolder()
         
     def testListAsWork(self):
         listDirectoryAsWork(self.testworkable,'.','test')
@@ -88,4 +96,17 @@ class ToolsTestSuite(UnitTestSuite):
     # :TODO: Move to work unit tests module (once written)
     def testWorkClone(self):
         self.testworkable.getWorkList().clone()
+        
+        
+    def testListToFileHolder(self):
+        listDirectoryToFileHolder(self.testfileholder,'.','test')
+    
+    def testCatFileToFileHolder(self):
+        catFileToFileHolder(self.testfileholder,'./text.xml','test')
+        
+    def testCatDirToFileHolder(self):
+        catDirectoryContentsToFileHolder(self.testfileholder,'.','test')
+        
+    def testFileClone(self):
+        self.testfileholder.getFileList().clone()
         

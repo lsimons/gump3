@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/model/object.py,v 1.17 2004/02/17 21:54:20 ajack Exp $
-# $Revision: 1.17 $
-# $Date: 2004/02/17 21:54:20 $
+# $Header: /home/stefano/cvs/gump/python/gump/model/object.py,v 1.18 2004/02/24 19:32:28 ajack Exp $
+# $Revision: 1.18 $
+# $Date: 2004/02/24 19:32:28 $
 #
 # ====================================================================
 #
@@ -67,6 +67,7 @@ from string import lower, capitalize
 
 from gump.utils.note import *
 from gump.utils.work import *
+from gump.utils.file import *
 from gump.utils.owner import *
 from gump.utils.xmlutils import xmlize
 
@@ -145,12 +146,15 @@ class Propogatable(Stateful):
         return self.causes
         
 
-class ModelObject(Annotatable,Workable,Propogatable,Ownable):
+class ModelObject(Annotatable,Workable,FileHolder,Propogatable,Ownable):
     """Base model object for a single entity"""
     def __init__(self,xml,owner=None):
                 
         # Can scribble on this thing...
     	Annotatable.__init__(self)
+    	
+    	# Holds file references
+    	FileHolder.__init__(self)
     	
     	# Holds work (with state)
     	Workable.__init__(self)
