@@ -22,7 +22,7 @@
 import os.path
 import sys
 
-from gump.utils.timing import TimeStamp
+from gump.utils.timing import TimeStampRange
 from gump.utils.owner import Ownable
 from gump.utils import dump, display, getIndent
 
@@ -33,8 +33,9 @@ class Task(Ownable):
         
         self.name=name
         self.id=id
+        
         # Timing...
-        self.stamp=None
+        self.timeRange=None
         
         # Tasks can spawn tasks...
         self.parentTask=parentTask
@@ -61,9 +62,9 @@ class Task(Ownable):
                 s+=':'
                 s+=`parent.getId()`
          
-        if self.stamp:
+        if self.timeRange:
             s+=':'
-            s+=self.stamp.getElapsedTimeString()
+            s+=self.timeRange.getElapsedTimeString()
         
         if self.isFailed():
          s+=': *** '
@@ -88,10 +89,10 @@ class Task(Ownable):
         return hasattr(self,'id') and self.id
         
     def workInitiated(self):
-        self.stamp=TimeStamp(self.name)
+        self.timeRange=TimeStampRange(self.name)
         
     def workCompleted(self):
-        self.stamp.setEndTime()
+        self.timeRange.setEndTime()
 
     def setFailed(self,failed):
         self.failed=failed

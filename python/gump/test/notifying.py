@@ -29,7 +29,7 @@ from gump.stats.statistician import Statistician
 from gump.test import getWorkedTestRun
 from gump.test.pyunit import UnitTestSuite
 
-from gump.notify.notifier import notify,Notifier
+from gump.notify.notifier import Notifier
 from gump.notify.notification import PositiveNotification,NegativeNotification
 from gump.utils.smtp import *
 
@@ -123,7 +123,4 @@ class NotificationTestSuite(UnitTestSuite):
                     
         notifier.getUnwantedContent()
         notifier.getUnsentContent()
-                
-    def testNotify(self):  
-        notify(self.run)
         

@@ -300,6 +300,12 @@ class Dependable:
         self.depth=0
         self.totalDepth=0
         
+    def __del__(self):
+        self.directDependencies=None
+        self.directDependees=None
+        self.fullDependencies=None
+        self.fullDependees=None
+        
     #
     # Dependencies
     # 

@@ -49,7 +49,7 @@ def getConfiguredOptions():
 def getTestWorkspace(xml=None):
     if not xml: xml='gump/test/resources/full1/workspace.xml'    
     #print "Workspace File: " + str(xml)    
-    workspace = WorkspaceLoader().load(xml)
+    workspace = WorkspaceLoader(False).load(xml)
     return workspace
     
 def getWorkedTestWorkspace(xml=None):

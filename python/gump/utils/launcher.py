@@ -30,6 +30,7 @@ from string import split
 from gump import log
 from gump.core.config import *
 from gump.utils import *
+from gump.utils.timing import *
 
 CMD_STATE_NOT_YET_RUN=0
 CMD_STATE_SUCCESS=1
@@ -277,10 +278,10 @@ class CmdResult:
         if self.start_time and self.end_time: return 1
         return 0
         
-    def getStartTimeSecs(self):
+    def getStartSecs(self):
         return self.start_time
         
-    def getEndTimeSecs(self):
+    def getEndSecs(self):
         return self.end_time
         
     def getElapsedSecs(self):

@@ -255,7 +255,7 @@ class ModelLoader:
         
 class WorkspaceLoader(ModelLoader):
     
-    def __init__(self,cache):
+    def __init__(self,cache=False):
         ModelLoader.__init__(self,cache)
     
     def load(self,file):

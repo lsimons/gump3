@@ -127,8 +127,6 @@ class AbstractRunActor(RunActor):
         log.debug('Process Workspace [' + `workspace` + '] using [' + `self` + ']')        
         self.processWorkspace()
         
-            
-            
     #
     # Call a method called 'processModule(module)', if it
     # is available on the sub-class (i.e. if needed)
@@ -139,7 +137,6 @@ class AbstractRunActor(RunActor):
         log.debug('Process Module [' + `module` + '] using [' + `self` + ']')        
         self.processModule(module)
         
-            
             
     #
     # Call a method called 'processProject(Project)', if it

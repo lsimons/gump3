@@ -14,33 +14,20 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+
 """
-    Manage Depot Interactions
+    XDOC generation, for Forrest
 """
-import os
-
-from gump import log
-from gump.core.config import *
-
-def getDepotHome(visual=True):
-    if os.environ.has_key('DEPOT_UPDATE_HOME'):        
-        return os.environ['DEPOT_UPDATE_HOME']
-    if os.environ.has_key('DEPOT_HOME'):        
-        return os.environ['DEPOT_HOME']
-    if visual:
-        return '${DEPOT_HOME|DEPOT_UPDATE_HOME}'
-    
-def getDepotUpdatePath():
-    return os.path.join(
-            os.path.join(getDepotHome(),'bin'),
-            'update.py')
-    
-    
-def getDepotUpdateCmd():
-    return 'python '+getDepotUpdatePath()
-    
-    
-
-
-
+class XDocConfig:
  
+    def __init__(self,xhtml=True):
+        self.xhtml=xhtml
+        
+    def isXhtml(self):
+        return self.xhtml
+        
+    def getExtension(self):
+        if self.isXhtml():
+            return '.html'
+        else:
+            return '.xml'

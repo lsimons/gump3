@@ -329,7 +329,6 @@ class Workspace(NamedModelObject, PropertyContainer, Statable, Resultable):
             
         self.setComplete(1)
 
-        
    
     def setDatedDirectories(self,date=None):
         

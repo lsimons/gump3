@@ -86,6 +86,13 @@ class Project(NamedModelObject, Statable, Resultable, Dependable, Positioned):
         
         self.built=0
         
+    def __del__(self):
+        NamedModelObject.__del__(self)
+        Statable.__del__(self)
+        Resultable.__del__(self)
+        Dependable.__del__(self)
+        Positioned.__del__(self)
+        
     def hasNotifys(self):
         if self.notifys: return True
         return False

@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/test/model.py,v 1.21.2.2 2004/06/11 17:09:51 ajack Exp $
-# $Revision: 1.21.2.2 $
+# $Header: /home/stefano/cvs/gump/python/gump/test/model.py,v 1.21.2.3 2004/06/14 21:31:45 ajack Exp $
+# $Revision: 1.21.2.3 $
 #!/usr/bin/env python
 # Copyright 2003-2004 The Apache Software Foundation
 #
@@ -61,6 +61,10 @@ class ModelTestSuite(UnitTestSuite):
         self.module3=self.workspace.getModule('module3')
         self.module4=self.workspace.getModule('module4')
         self.module5=self.workspace.getModule('module5')
+        
+    def setTearDown(self):
+        self.workspace=None
+        self.repo1=None
 
     def testWorkspace(self):
         self.assertNonZero('Has Log Directory',	\
@@ -203,7 +207,7 @@ class ModelTestSuite(UnitTestSuite):
         (classpath,bootclasspath)=self.project3.getClasspathObjects()
         
         for pathPart in classpath.getSimpleClasspathList():
-            print "pathPart:" + `pathPart`
+            #print "pathPart:" + `pathPart`
             self.assertNotSubstring('Ought not get output2.jar from project2',	\
                     'output2.jar',	\
                     pathPart)

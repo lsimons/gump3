@@ -345,8 +345,7 @@ OBJECTIVE_BUILD=0x02
 OBJECTIVE_CHECK=0x04
 OBJECTIVE_DOCUMENT=0x08
 
-OBJECTIVE_=OBJECTIVE_UPDATE | OBJECTIVE_BUILD
-
+OBJECTIVE_DEBUG=OBJECTIVE_UPDATE | OBJECTIVE_BUILD
 OBJECTIVE_INTEGRATE=OBJECTIVE_UPDATE | OBJECTIVE_BUILD | \
                         OBJECTIVE_DOCUMENT
 
@@ -667,7 +666,10 @@ class GumpRun(Workable,Annotatable,Stateful):
         log.debug('Register Actor : ' + `actor`)
         self.actors.append(actor)
         
-    def dispatchEvent(self,event):
+    def dispatchEvent(self,event):    	
+    	"""
+    		Perform the dispatch
+    	"""
         log.debug('Dispatch Event : ' + `event`)        
         for actor in self.actors:
             #log.debug('Dispatch Event : ' + `event` + ' to ' + `actor`)     
@@ -675,6 +677,9 @@ class GumpRun(Workable,Annotatable,Stateful):
         inspectGarbageCollection(`event`)
             
     def dispatchRequest(self,request):
+    	"""
+    		Perform the dispatch
+    	"""
         log.debug('Dispatch Request : ' + `request`)    
         for actor in self.actors:
             log.debug('Dispatch Request : ' + `request` + ' to ' + `actor`)       
@@ -682,8 +687,13 @@ class GumpRun(Workable,Annotatable,Stateful):
         inspectGarbageCollection(`request`)
             
     def generateEvent(self,entity):
+        """
+    		Fire off an entity event.
+    	"""
         self.dispatchEvent(EntityRunEvent(self, entity))
         
     def generateRequest(self,type):
+    	"""
+    		Fire off a typed request.
+    	"""
         self.dispatchRequest(RunRequest(self, type))
-                

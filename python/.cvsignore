@@ -6,6 +6,10 @@ cache
 forrest
 forrest-work
 forrest*
+xdocs
+xdocs-work
+xdocs-staging
+xdocs*
 work
 test
 tmp

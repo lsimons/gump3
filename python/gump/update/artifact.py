@@ -127,10 +127,16 @@ class ArtifactUpdater(RunSpecific):
     
         # The URL (ought be optional)
         if url:
+            cmd.addParameter('-r')    
             cmd.addParameter(url)
     
         # Group (mandatory)
+        cmd.addParameter('-g')
         cmd.addParameter(group)
+        
+        # Target
+        cmd.addParameter('-t')
+        cmd.addParameter(module.getName())  
    
         return cmd
      

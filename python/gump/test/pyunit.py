@@ -237,7 +237,7 @@ class UnitTestSuite(Testable):
         
             if hasattr(self,'suiteTearDown'):
                 self.suiteTearDown()
-    
+                
         return (len(tests), results)
 
       
@@ -250,8 +250,8 @@ class TestRunner:
         
     def run(self,args):
         
-        #log.setLevel(logging.DEBUG ) 
-        log.setLevel(logging.INFO ) 
+        log.setLevel(logging.DEBUG ) 
+        #log.setLevel(logging.INFO ) 
         initializeGarbageCollection()
         
         # Sort to resolve dependency order
@@ -285,6 +285,12 @@ class TestRunner:
         if not problems:
             log.info('No Problems Detected')
         
+        problems=None
+        self.suites=None
+        
+        # Seems a nice place to peek/clean-up...    
+        invokeGarbageCollection('Done Testing')
+                
         if problems:   sys.exit(1)
         sys.exit(0)
                     
@@ -347,8 +353,14 @@ if __name__=='__main__':
     from gump.test.svg import SvgTestSuite  
     runner.addSuite(SvgTestSuite())
     
+    from gump.test.timing import TimingTestSuite  
+    runner.addSuite(TimingTestSuite())
+    
     from gump.test.drawing import DrawingTestSuite  
     runner.addSuite(DrawingTestSuite())
+    
+    from gump.test.xdocs import XDocsTestSuite  
+    runner.addSuite(XDocsTestSuite())
     
     # Any args are pattern matches
     patterns=list(sys.argv)

@@ -133,7 +133,8 @@ class GumpRunner(RunSpecific):
         self.run.registerActor(Syndicator(self.run))   
             
         # Notify last
-        self.run.registerActor(Notifier(self.run))         
+        if self.run.getOptions().isNotify():
+            self.run.registerActor(Notifier(self.run))         
                     
     def finalize(self):            
         # About to shutdown...

@@ -45,6 +45,7 @@ from gump.model.object import *
 from gump.model.state import *
 
 from gump.document.resolver import *
+from gump.document.xdocs.config import *
 
 from gump.guru.stats import *
 from gump.guru.xref import *
@@ -91,7 +92,7 @@ def getPathForObject(object,visited=None):
 def getDepthForObject(object):
     return len(getPathForObject(object))
 
-def getRelativeLocation(toObject,fromObject,extn='.xml'):
+def getRelativeLocation(toObject,fromObject,extn):
         
     #
     # Get the target location, get the from path
@@ -108,12 +109,12 @@ def getRelativeLocation(toObject,fromObject,extn='.xml'):
                         toLocation.getIndex() )
         
         
-def getLocationForObject(object,extn='.xml'):
+def getLocationForObject(object,extn):
     return Location(getPathForObject(object),
                     getDocumentForObject(object,extn),
                     getIndexForObject(object))
                     
-def getDocumentForObject(object, extn='.xml', visited=None):
+def getDocumentForObject(object, extn, visited=None):
     if not visited:visited=[] 
     visited.append(object)
             
@@ -168,30 +169,49 @@ def getIndexForObject(object):
 
 class XDocResolver(Resolver):
     
-    def __init__(self,rootDir,rootUrl):
+    def __init__(self,rootDir,rootUrl,config=None):
         
         Resolver.__init__(self,rootDir,rootUrl)
 
+        if not config:
+            config=XDocConfig()
+        self.config=config
+        
+        
         # Content
-        #contentSubPath=Path(['forrest-work','src','documentation','content'])
-        contentSubPath=Path(['forrest-work','content'])
+        #contentSubPath=Path(['xdocs-work','src','documentation','content'])
+        if not self.config.isXhtml():
+            contentSubPath=Path(['xdocs-work','content'])
+        else:
+            contentSubPath=Path(['xdocs-work'])
         self.makePath(contentSubPath,rootDir)                
         self.contentDir=concatenate(rootDir,contentSubPath.serialize())
-        
-        # XDocs
-        #xdocsSubPath=Path(['forrest-work','src','documentation','content','xdocs'])
-        xdocsSubPath=Path(['forrest-work','content','xdocs'])
-        self.makePath(xdocsSubPath,rootDir)                
-        self.xdocsDir=concatenate(rootDir,xdocsSubPath.serialize())
+            
+        if not self.config.isXhtml():
+            
+            # XDocs
+            #xdocsSubPath=Path(['xdocs-work','src','documentation','content','xdocs'])
+            xdocsSubPath=Path(['xdocs-work','content','xdocs'])
+            self.makePath(xdocsSubPath,rootDir)                
+            self.xdocsDir=concatenate(rootDir,xdocsSubPath.serialize())
+        else:
+            # :TODO: Clean-up this. Don't set xdocsDir, don't use it...
+            self.xdocsDir=self.contentDir
     
    # :TODO: Do we need to also have this for content not xdocs?
     def getAbsoluteDirectory(self,object):
         path=getPathForObject(object)
         self.makePath(path)
+        
         return concatenate(self.xdocsDir,path.serialize())
         
-    def getAbsoluteFile(self,object,documentName=None,extn='.xml',notXDocs=None):
-        location=getLocationForObject(object)
+        
+    def getAbsoluteFile(self,object,documentName=None,extn=None,notXDocs=None):
+        
+        if not extn:
+            extn=self.config.getExtension()
+            
+        location=getLocationForObject(object,extn)
         if documentName: 
             if not documentName.endswith(extn):
                 documentName += extn
@@ -227,7 +247,9 @@ class XDocResolver(Resolver):
     def getDirectoryUrl(self,object):
         return self.getAbsoluteDirectory(object)
         
-    def getFile(self,object,documentName=None,extn='.xml',notXDocs=None):
+    def getFile(self,object,documentName=None,extn=None,notXDocs=None):
+        if not extn:
+            extn=self.config.getExtension() 
         return self.getAbsoluteFile(object,documentName,extn,notXDocs)
         
     def getUrl(self,object,documentName=None,extn='.html'):

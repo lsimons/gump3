@@ -154,7 +154,7 @@ class XDocContext(Ownable):
         return escape(raw.translate(STRING_MAP_TABLE))
         
 class XDocPiece(Ownable):
-    def __init__(self,context=None):
+    def __init__(self,context=None,config=None):
         Ownable.__init__(self)            
         if not context:
             context=XDocContext()
@@ -162,6 +162,8 @@ class XDocPiece(Ownable):
         self.subpieces=[]
         self.keeper=1
         self.emptyOk=0        
+        
+        self.config=config
         
     def __del__(self):
         Ownable.__del__(self)
@@ -188,6 +190,10 @@ class XDocPiece(Ownable):
         
         # Capture Ownership
         piece.setOwner(self)
+        
+        # Transfer Configuration
+        if self.config:
+            piece.config=self.config
         
         return piece
 
@@ -265,10 +271,17 @@ class XDocSection(XDocPiece):
         return self.__class__.__name__ + ':' + self.title
         
     def start(self):
-        self.context.writeLineIndented('<section><title>%s</title>' % (self.title))
+        if not self.config.isXhtml():    
+            self.context.writeLineIndented('<section><title>%s</title>' % (self.title))
+        else:
+            self.context.writeLineIndented('<h3>%s</h3>' % (self.title))    
+        
         
     def end(self):
-        self.context.writeLineIndented('</section>')
+        if not self.config.isXhtml():      
+            self.context.writeLineIndented('</section>')
+        else:
+            self.context.writeLineIndented('<br/>')    
         
     def createParagraph(self,text=None,transient=0):
         return self.storePiece(XDocParagraph(self.createSubContext(transient),text))
@@ -621,10 +634,16 @@ class XDocLink(XDocPiece):
             self.createText(text)
         
     def start(self):
-        self.context.write('<link href=\'' + escape(self.href) + '\'>')
+        if not self.config.isXhtml():    
+            self.context.write('<link href=\'' + escape(self.href) + '\'>')
+        else:
+            self.context.write('<a href=\'' + escape(self.href) + '\'>')
         
     def end(self):
-        self.context.write('</link>')
+        if not self.config.isXhtml():    
+            self.context.write('</link>')
+        else:
+            self.context.write('</a>')
         
     def createText(self,text):
         return self.storePiece(XDocText(self.createSubContext(),text))     
@@ -642,13 +661,19 @@ class XDocFork(XDocPiece):
         if not href: raise RuntimeError, 'Can not fork with nowhere to go.'
         self.href=href
         if text:
-            self.createText(text)
+            self.createText(text) 
         
     def start(self):
-        self.context.write('<fork href=\'' + escape(self.href) + '\'>')
+        if not self.config.isXhtml():    
+            self.context.write('<fork href=\'' + escape(self.href) + '\'>')
+        else:
+            self.context.write('<a target=\'_new\' href=\'' + escape(self.href) + '\'>')
         
-    def end(self):
-        self.context.write('</fork>')
+    def end(self): 
+        if not self.config.isXhtml():    
+            self.context.write('</fork>')
+        else:
+            self.context.write('</a>')
         
     def createText(self,text=None):
         return self.storePiece(XDocText(self.createSubContext(),text))    
@@ -660,6 +685,7 @@ class XDocFork(XDocPiece):
         return self.storePiece(XDocIcon(self.createSubContext(),href,alt))               
         
 class XDocIcon(XDocPiece):
+    
     def __init__(self,context,href,alt):
         XDocPiece.__init__(self,context)
         self.href=href
@@ -669,8 +695,12 @@ class XDocIcon(XDocPiece):
             self.alt=href
         
     def start(self):
-        self.context.write('<icon src=\'' + escape(self.href) + 	\
-                '\' alt=\'' + escape(self.alt) + '\' />')
+        if not self.config.isXhtml():       
+            tag='icon'
+        else:
+            tag='img'
+        self.context.write('<' + tag + ' src=\'' + escape(self.href) + 	\
+                    '\' alt=\'' + escape(self.alt) + '\' />')
                 
     def middle(self): pass          
         
@@ -696,41 +726,70 @@ class XDocRaw(XDocPiece):
         
     def middle(self):
         self.context.writeLine(str(self.raw))
-        
+       
 class XDocDocument(XDocPiece):
-    def __init__(self,title,output=None):
-        XDocPiece.__init__(self)  
+    
+    def __init__(self,title,output=None,config=None,rootpath='.'):
+        XDocPiece.__init__(self,config=config)  
         if isinstance(output,types.StringTypes):    
             self.xfile=output
-            log.debug("Documenting to file : [" + self.xfile + "]")                    
+            log.debug("Documenting to file : [" + self.xfile + "] " + `self.config`)                    
             self.output=open(self.xfile, 'w')
         else:
             self.output=output        
         self.context=XDocContext(self.output)
         self.title=title
+        self.rootpath=rootpath
                 
     def start(self):
+        
+        if self.config.isXhtml():
+            self.context.writeLine('<?xml version="1.0" encoding="ISO-8859-1"?>')
+            self.context.writeLine('<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">')
+            self.context.writeLine('<!-- Automatically Generated by Python Gump: http://gump.apache.org/ -->')
+            self.context.writeLine('<html>')
+            self.context.writeLine(' <head>')
+            self.context.writeLine('  <title>%s</title>' % (self.title))
+            self.context.writeLine('  <meta name="author" content="general@gump.apache.org"/>')
+            self.context.writeLine('  <meta name="copyright" content="Apache Software Foundation"/>')
             
-        self.context.writeLine('<?xml version="1.0" encoding="ISO-8859-1"?>')
-        self.context.writeLine('<!DOCTYPE document PUBLIC "-//APACHE//DTD Documentation V1.1//EN" "./dtd/document-v11.dtd">')
-        self.context.writeLine('<!-- Automatically Generated by Python Gump: http://gump.apache.org/ -->\n')
-        self.context.writeLine('<document>')
-        self.context.writeLine(' <header>')
-        self.context.writeLine('  <title>%s</title>' % (self.title))
-        self.context.writeLine('  <authors>')
-        self.context.writeLine('   <person id="gump" name="Gump" email="gump@lists.apache.org"/>')
-        self.context.writeLine('  </authors>')
-        self.context.writeLine(' </header>')
-        self.context.writeLine('<body>')    
+            self.context.writeLine('  <link rel="stylesheet" type="text/css" href="%s/style.css" title="Style"/>' % self.rootpath)
+            
+            self.context.writeLine(' </head>')
+            self.context.writeLine('<body>')  
+            self.context.writeLine('<table>')  
+            self.context.writeLine(' <tr>')  
+            self.context.writeLine(' <td><a href="%s/index.html">Index</a></td><td>|</td>' % self.rootpath) 
+            self.context.writeLine(' <td><a href="%s/buildLog.html">Log</a></td><td>|</td>' % self.rootpath)  
+            self.context.writeLine(' <td><a href="%s/project_todos.html">Issues</a></td><td>|</td>' % self.rootpath)  
+            self.context.writeLine(' <td><a href="%s/gump_stats/index.html">Stats</a></td><td>|</td>' % self.rootpath)  
+            self.context.writeLine(' <td><a href="%s/gump_xref/index.html">XRef</a></td><td>|</td>' % self.rootpath)  
+            self.context.writeLine(' </tr>')  
+            self.context.writeLine('</table>')    
+        else: 
+            self.context.writeLine('<?xml version="1.0" encoding="ISO-8859-1"?>')
+            self.context.writeLine('<!DOCTYPE document PUBLIC "-//APACHE//DTD Documentation V1.1//EN" "./dtd/document-v11.dtd">')
+            self.context.writeLine('<!-- Automatically Generated by Python Gump: http://gump.apache.org/ -->')
+            self.context.writeLine('<document>')
+            self.context.writeLine(' <header>')
+            self.context.writeLine('  <title>%s</title>' % (self.title))
+            self.context.writeLine('  <authors>')
+            self.context.writeLine('   <person id="gump" name="Gump" email="gump@lists.apache.org"/>')
+            self.context.writeLine('  </authors>')
+            self.context.writeLine(' </header>')
+            self.context.writeLine('<body>')    
+            
         
     def end(self):
         self.context.writeLine('</body>')
-        self.context.writeLine('</document>')            
+        if not self.config.isXhtml():
+            self.context.writeLine('</document>')            
+        else:
+            self.context.writeLine('</html>')            
         self.close()  
         
         # Probably ought do this higher up
         self.unlink()
-        invokeGarbageCollection()
         
 
     def createSection(self,title,transient=0):
