@@ -1,5 +1,5 @@
 <module name="jakarta-jmeter">
-<!-- Version $Revision: 1.60 $ Last updated $Date: 2003/12/18 18:29:30 $ -->
+<!-- Version $Revision: 1.61 $ Last updated $Date: 2003/12/19 12:10:50 $ -->
   <url href="http://jakarta.apache.org/jmeter/" />
   <description>
     Pure Java load testing and performance measurement tool.
@@ -14,7 +14,7 @@
       <property name="version" value="@@DATE@@"/>
       <property name="gump.run" value="true"/>
       <!-- The version of this file -->
-      <property name="version.projectfile" value="$Revision: 1.60 $"/>
+      <property name="version.projectfile" value="$Revision: 1.61 $"/>
       
 <!-- Temporary standalone trial build
       <depend property="avalon-framework.jar" project="avalon-framework" id="combined"/>
@@ -108,7 +108,13 @@
 
   <project name="jakarta-jmeter-test">
     <ant target="gump-test">
+      <property name="version" value="@@DATE@@"/>
+      <property name="gump.run" value="true"/>
+      <!-- The version of this file -->
+      <property name="version.projectfile" value="$Revision: 1.61 $"/>
     </ant>
+
+    <depend project="ant" />
 
     <work nested="lib/avalon-excalibur-4.1.jar"/>
     <work nested="lib/avalon-framework-4.1.4.jar"/>
@@ -138,7 +144,14 @@
   
   <project name="jakarta-jmeter-javadoc">
     <ant target="gump-javadoc">
+      <property name="version" value="@@DATE@@"/>
+      <property name="gump.run" value="true"/>
+      <!-- The version of this file -->
+      <property name="version.projectfile" value="$Revision: 1.61 $"/>
     </ant>
+
+    <depend project="ant" />
+
     <work nested="lib/avalon-excalibur-4.1.jar"/>
     <work nested="lib/avalon-framework-4.1.4.jar"/>
     <work nested="lib/commons-collections.jar"/>
