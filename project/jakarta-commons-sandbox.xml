@@ -103,7 +103,7 @@
     <url href="http://jakarta.apache.org/commons/sandbox/functor/"/>
     <mkdir dir="functor/target/classes"/>
     <mkdir dir="functor/target/test-classes"/>
-    <ant basedir="functor" target="dist">
+    <ant basedir="functor" target="gump">
       <property name="junit.home" reference="home" project="junit"/>
     </ant>
     <depend project="ant" inherit="runtime"/>
@@ -201,7 +201,7 @@
     <url href="http://jakarta.apache.org/commons/sandbox/jux/"/>
     <mkdir dir="jux/target/classes"/>
     <mkdir dir="jux/target/test-classes"/>
-    <ant basedir="jux" target="dist">
+    <ant basedir="jux" target="gump">
       <property name="junit.home" reference="home" project="junit"/>
     </ant>
     <depend project="ant" inherit="runtime"/>
