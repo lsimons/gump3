@@ -19,7 +19,7 @@
     <javadoc parent="build/jakarta-poi/docs/apidocs"/>
 
     <nag to="poi-dev@jakarta.apache.org"
-         from="Gump :-( &lt;gump@jakarta.apache.org&gt;"/>
+         from="&quot;Gump :-(&quot; &lt;gump@jakarta.apache.org&gt;"/>
          
   </project>
   
