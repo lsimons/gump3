@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/Attic/view.py,v 1.32 2003/05/05 12:39:17 nicolaken Exp $
-# $Revision: 1.32 $
-# $Date: 2003/05/05 12:39:17 $
+# $Header: /home/stefano/cvs/gump/python/gump/Attic/view.py,v 1.33 2003/05/05 14:38:47 nicolaken Exp $
+# $Revision: 1.33 $
+# $Date: 2003/05/05 14:38:47 $
 #
 # ====================================================================
 #
@@ -95,7 +95,6 @@ if(classpath):
 ###############################################################################
 
 class gumpview(wxApp):
-  log.debug("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")  
     
   # model
   mySubs=None
@@ -178,9 +177,10 @@ class gumpview(wxApp):
 
     self.data=wxTextCtrl(split2,-1,style=wxTE_MULTILINE)
 
-    self.logview=wxTextCtrl(self.logsplitter,-1,style=wxTE_MULTILINE|wxTE_RICH2)   
+    self.logview=wxTextCtrl(self.logsplitter,-1,style=wxTE_MULTILINE|wxTE_RICH|wxTE_AUTO_URL|wxTE_NOHIDESEL  )   
     self.logview.SetEditable(False)
-
+    self.logview.SetDefaultStyle(wx.wxTextAttr("WHITE", "BLACK", 
+                                     wxFont(9, wx.wxMODERN, wx.wxNORMAL, wx.wxNORMAL)))
     
 
     # attach the panes to the frame
@@ -484,6 +484,7 @@ class ViewHandler(logging.Handler):
         self.view.SetDefaultStyle( textStyle ) 
 
         self.view.AppendText(msg)
+        
         
         
 class GumpSplashScreen(wxSplashScreen):
