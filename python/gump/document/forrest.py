@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/forrest.py,v 1.12 2003/11/21 19:04:10 ajack Exp $
-# $Revision: 1.12 $f
-# $Date: 2003/11/21 19:04:10 $
+# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/forrest.py,v 1.13 2003/11/23 06:16:39 ajack Exp $
+# $Revision: 1.13 $f
+# $Date: 2003/11/23 06:16:39 $
 #
 # ====================================================================
 #
@@ -766,7 +766,7 @@ class ForrestDocumenter(Documenter):
                                 module, \
                                 repoList.createEntry( "Repository: ") )
                                 
-            if module.isCvs():
+            if module.hasCvs():
                 if module.cvs.hasModule():
                      repoList.createEntry( "CVS Module: ", module.cvs.getModule()) 
                      
@@ -779,11 +779,15 @@ class ForrestDocumenter(Documenter):
                 if module.cvs.hasHostPrefix():
                      repoList.createEntry( "CVS Host Prefix: ", module.cvs.getHostPrefix()) 
                      
-                repoList.createEntry( "CVSROOT: ", module.cvs.getCVSRoot()) 
+                repoList.createEntry( "CVSROOT: ", module.cvs.getCvsRoot()) 
 
-            if module.isSvn():
+            if module.hasSvn():
                 if module.svn.hasUrl():
                      repoList.createEntry( "SVN URL: ", module.svn.getUrl())                 
+
+            if module.hasJars():
+                if module.jars.hasUrl():
+                     repoList.createEntry( "Jars URL: ", module.jars.getUrl())                 
 
                 
            
@@ -1002,8 +1006,7 @@ class ForrestDocumenter(Documenter):
             workRow=workTable.createRow()
             workRow.createComment(workTypeName(work.type))
             
-            self.insertLink(work,workable, workRow.createData())                 
-            
+            self.insertLink(work,workable,workRow.createData())                             
             workRow.createData(workTypeName(work.type)) 
             workRow.createData(stateName(work.state))
             workRow.createData(secsToDate(work.result.start_time))
@@ -1021,7 +1024,7 @@ class ForrestDocumenter(Documenter):
                         # Write out the 'tail'
                         #
                         workSection	\
-                            .createSection(workTypeName(work.type))	\
+                            .createSection(workTypeName(work.type) + ' : ' + work.command.name)	\
                             .createSource(tail)
                 
         

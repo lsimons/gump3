@@ -203,7 +203,7 @@ class GumpSet:
                         if fnmatch(project.getName(),pattern): break                    
                     except Exception, detail:
                         log.error('Failed to regexp: ' + pattern + '. Details: ' + str(detail))
-                        break
+                        continue
                 else:
                     # no match, advance to the next name
                     continue

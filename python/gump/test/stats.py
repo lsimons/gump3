@@ -1,7 +1,7 @@
 #!/usr/bin/env python
-# $Header: /home/stefano/cvs/gump/python/gump/test/stats.py,v 1.2 2003/11/21 02:32:41 ajack Exp $
-# $Revision: 1.2 $
-# $Date: 2003/11/21 02:32:41 $
+# $Header: /home/stefano/cvs/gump/python/gump/test/stats.py,v 1.3 2003/11/23 06:16:39 ajack Exp $
+# $Revision: 1.3 $
+# $Date: 2003/11/23 06:16:39 $
 #
 # ====================================================================
 #
@@ -105,9 +105,19 @@ class StatsTestSuite(UnitTestSuite):
         
     def testLoadAndUpdateStats(self):
         self.statsDB.loadStatistics(self.workspace)
+        
+        # Mark Updated (so we get an updated reading)
+        self.module1.setUpdated(1)
+        
         self.statsDB.updateStatistics(self.workspace)   
         
-        rough=getGeneralDifferenceDescription(default.time, self.module1.getLastUpdated())
-        self.assertNotIn('Date Diff String', 'year', rough)
+        lastUpdated=self.module1.getLastUpdated()
+        
+        # Give some padding.
+        lastUpdated -= (60*60*7)
+        
+        rough=getGeneralDifferenceDescription(default.time, lastUpdated)
+        self.assertNonZeroString('Date Diff String', rough)
+        self.assertNotIn('Date Diff String', 'year', rough)        
      
         

@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/model/module.py,v 1.10 2003/11/21 19:04:10 ajack Exp $
-# $Revision: 1.10 $
-# $Date: 2003/11/21 19:04:10 $
+# $Header: /home/stefano/cvs/gump/python/gump/model/module.py,v 1.11 2003/11/23 06:16:38 ajack Exp $
+# $Revision: 1.11 $
+# $Date: 2003/11/23 06:16:38 $
 #
 # ====================================================================
 #
@@ -70,7 +70,7 @@ from gump.model.project import *
 from gump.model.object import NamedModelObject
 from gump.utils import getIndent
 
-class ModuleCVS(ModelObject):
+class ModuleCvs(ModelObject):
     def __init__(self,xml,repository):
         ModelObject.__init__(self,xml)
         
@@ -83,7 +83,7 @@ class ModuleCVS(ModelObject):
         self.dir			=	xml.dir    
         
                 
-    def getCVSRoot(self):
+    def getCvsRoot(self):
         # Form the CVS root
         root=':' + str(self.repository.getMethod()) + ':'
         if self.repository.hasUser(): root+=str(self.repository.getUser())
@@ -127,7 +127,26 @@ class ModuleCVS(ModelObject):
     def getModule(self):
         return self.module
          
-class ModuleSVN(ModelObject):
+class ModuleSvn(ModelObject):
+    def __init__(self,xml,repository):
+        ModelObject.__init__(self,xml)
+        
+        # Reference to the shared repository
+        self.repository=repository
+        
+        # Extract settings
+        if xml.url:
+            self.url	=	str(xml.url)
+        elif self.repository.hasUrl():
+            self.url 	=  self.repository.getUrl()
+    
+    def hasUrl(self):
+        return (hasattr(self,'url') and self.url)
+        
+    def getUrl(self):
+        return self.url
+         
+class ModuleJars(ModelObject):
     def __init__(self,xml,repository):
         ModelObject.__init__(self,xml)
         
@@ -263,7 +282,7 @@ class Module(NamedModelObject, Statable):
                     repo=workspace.getRepository(repoName)
                     self.repository=repo
                     repo.addModule(self)
-                    self.cvs=ModuleCVS(self.xml.cvs,repo)
+                    self.cvs=ModuleCvs(self.xml.cvs,repo)
                 else:
                     self.changeState(STATE_FAILED,REASON_CONFIG_FAILED)               
                     log.error(':TODO: No such repository in w/s ['+ repoName +'] on [' \
@@ -276,7 +295,20 @@ class Module(NamedModelObject, Statable):
                     repo=workspace.getRepository(repoName)
                     self.repository=repo
                     repo.addModule(self)
-                    self.svn=ModuleSVN(self.xml.svn,repo)
+                    self.svn=ModuleSvn(self.xml.svn,repo)
+                else:
+                    self.changeState(STATE_FAILED,REASON_CONFIG_FAILED)               
+                    log.error(':TODO: No such repository in w/s ['+ repoName +'] on [' \
+                            + self.getName() + ']')                 
+                                                
+            elif self.xml.jars:                
+                repoName=self.xml.jars.repository
+                if workspace.hasRepository(repoName):
+                    # It references this repository...
+                    repo=workspace.getRepository(repoName)
+                    self.repository=repo
+                    repo.addModule(self)
+                    self.svn=ModuleJars(self.xml.jars,repo)
                 else:
                     self.changeState(STATE_FAILED,REASON_CONFIG_FAILED)               
                     log.error(':TODO: No such repository in w/s ['+ repoName +'] on [' \
@@ -435,11 +467,14 @@ class Module(NamedModelObject, Statable):
     def getWorkspace(self):
         return self.workspace
     
-    def isCvs(self):
+    def hasCvs(self):
         return hasattr(self,'cvs') and self.cvs
         
-    def isSvn(self):
+    def hasSvn(self):
         return hasattr(self,'svn') and self.svn
+        
+    def hasJars(self):
+        return hasattr(self,'jars') and self.jars
         
     # Where the contents (at the repository) updated?
     def isUpdated(self):
@@ -455,20 +490,19 @@ class Module(NamedModelObject, Statable):
         return self.repository
         
     def getUpdateCommand(self,exists=0):
-        if self.isCvs():
+        if self.hasCvs():
             return self.getCvsUpdateCommand(exists)
-        elif self.isSvn():
+        elif self.hasSvn():
             return self.getSvnUpdateCommand(exists)
-        
-        #:TODO: SubVersion
-        pass
+        elif self.hasJars():
+            return self.getJarsUpdateCommand(exists)        
            
     def getCvsUpdateCommand(self,exists=0):
         
         log.debug("CVS Update Module " + self.getName() + \
                        ", Repository Name: " + str(self.repository.getName()))
                                         
-        root=self.cvs.getCVSRoot()
+        root=self.cvs.getCvsRoot()
       
         log.debug("CVS Root " + root + " on Repository: " + self.repository.getName())
      
@@ -512,7 +546,7 @@ class Module(NamedModelObject, Statable):
                 cmd.addParameter('-r',self.cvs.getTag(),' ')
             else:
                 cmd.addParameter('-A')
-                cmd.addParameter(self.getName())
+            cmd.addParameter(self.getName())
 
         else:
 
@@ -522,9 +556,11 @@ class Module(NamedModelObject, Statable):
             if self.cvs.hasTag():
                 cmd.addParameter('-r',self.cvs.getTag(),' ')
 
-            if self.cvs.hasModule():
-                if not self.cvs.getModule() == self.getName(): 
+            if 	not self.cvs.hasModule() or \
+                not self.cvs.getModule() == self.getName(): 
                     cmd.addParameter('-d',self.getName(),' ')
+                    
+            if self.cvs.hasModule():
                 cmd.addParameter(self.cvs.getModule())
         
         return (self.repository, root, cmd)
@@ -540,7 +576,7 @@ class Module(NamedModelObject, Statable):
         log.debug("SVN URL: [" + url + "] on Repository: " + self.repository.getName())
      
         #
-        # Prepare CVS checkout/update command...
+        # Prepare SVN checkout/update command...
         # 
         cmd=Cmd('svn','update_'+self.getName(),self.getWorkspace().cvsdir)
     
@@ -569,6 +605,36 @@ class Module(NamedModelObject, Statable):
         # Request non-interactive
         #
         cmd.addParameter('--non-interactive')
+
+        return (self.repository, url, cmd)
+         
+     
+    def getJarsUpdateCommand(self,exists=0):
+        
+        log.debug("Jars Update Module " + self.getName() + \
+                       ", Repository Name: " + str(self.repository.getName()))
+                                        
+        url=self.jars.getUrl()
+      
+        log.debug("Jars URL: [" + url + "] on Repository: " + self.repository.getName())
+     
+        #
+        # Prepare SVN checkout/update command...
+        # 
+        cmd=Cmd('java  org.krysalis.ruper2.tool.ResourceTool','update_'+self.getName(),self.getWorkspace().cvsdir)
+    
+
+        if self.svn.hasUrl():
+            cmd.addParameter(self.jars.getUrl())
+          
+        #
+        # Be 'quiet' (but not silent) unless requested otherwise.
+        #
+        if 	not self.isDebug() 	\
+            and not self.isVerbose() \
+            and not self.jars.isDebug()	\
+            and not self.jars.isVerbose():    
+            cmd.addParameter('-q')
 
         return (self.repository, url, cmd)
      

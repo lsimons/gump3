@@ -1,7 +1,7 @@
 #!/usr/bin/env python
-# $Header: /home/stefano/cvs/gump/python/gump/test/model.py,v 1.4 2003/11/21 19:04:10 ajack Exp $
-# $Revision: 1.4 $
-# $Date: 2003/11/21 19:04:10 $
+# $Header: /home/stefano/cvs/gump/python/gump/test/model.py,v 1.5 2003/11/23 06:16:39 ajack Exp $
+# $Revision: 1.5 $
+# $Date: 2003/11/23 06:16:39 $
 #
 # ====================================================================
 #
@@ -143,18 +143,18 @@ class ModelTestSuite(UnitTestSuite):
         self.assertAt('Project Third', project2, ordered, 2)
         self.assertAt('Project Fourth', project2, ordered, 3)        
     
-    def testCVS(self):
+    def testCvs(self):
         module1=self.module1
         
-        self.assertTrue('Module is CVS', module1.isCvs())
-        self.assertFalse('Module is NOT SVN', module1.isSvn())
-        self.assertNonZeroString('CVSROOT',module1.cvs.getCVSRoot())
+        self.assertTrue('Module has CVS', module1.hasCvs())
+        self.assertFalse('Module has NOT SVN', module1.hasSvn())
+        self.assertNonZeroString('CVSROOT',module1.cvs.getCvsRoot())
     
-    def testSVN(self):
+    def testSvn(self):
         svnmodule1= self.workspace.getModule('svn_module1')
         
-        self.assertTrue('Module is SVN', svnmodule1.isSvn())
-        self.assertFalse('Module is NOT CVS', svnmodule1.isCvs())
+        self.assertTrue('Module has SVN', svnmodule1.hasSvn())
+        self.assertFalse('Module has NOT CVS', svnmodule1.hasCvs())
         self.assertNonZeroString('SVN URL',svnmodule1.svn.getUrl())
     
     def testDependencyMapping(self):

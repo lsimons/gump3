@@ -162,8 +162,8 @@ class GumpEngine:
         workspace = run.getWorkspace()
         
         # :TODO: A tad bogus to move here
-        os.chdir(workspace.getCVSDirectory())
-        log.debug("Workspace CVS Directory: " + workspace.getCVSDirectory())
+        os.chdir(workspace.getCvsDirectory())
+        log.debug("Workspace CVS Directory: " + workspace.getCvsDirectory())
 
         #
         # A stash of known logins.
@@ -175,9 +175,11 @@ class GumpEngine:
         # Update all the modules that have CVS repositories
         for module in run.getGumpSet().getModules():          
         
-            if not module.isCvs() and not module.isSvn(): continue
+            if not module.hasCvs() \
+                and not module.hasSvn()	\
+                and not module.hasJars(): continue
             
-            log.debug('Perform CVS/SVN Update on: ' + module.getName())
+            log.debug('Perform CVS/SVN/Jars Update on: ' + module.getName())
     
             if module.okToPerformWork():
                 
@@ -189,7 +191,7 @@ class GumpEngine:
                 #
                 (repository, root, cmd ) = module.getUpdateCommand(exists)
                 
-                if module.isCvs():
+                if module.hasCvs():
                     #
                     # Provide CVS logins, if not already there
                     #
@@ -227,11 +229,12 @@ class GumpEngine:
         for module in run.getGumpSet().getModules():
     
             # If no CVS, nothing to sync   
-            if not module.isCvs() and not module.isSvn(): continue
+            if not module.hasCvs() \
+                and not module.hasSvn(): continue
     
             if module.okToPerformWork():
             
-                sourcedir = os.path.abspath(os.path.join(workspace.getCVSDirectory(),module.name)) # todo allow override
+                sourcedir = os.path.abspath(os.path.join(workspace.getCvsDirectory(),module.name)) # todo allow override
                 destdir = os.path.abspath(workspace.getBaseDirectory())
         
                 work=syncDirectories(workspace.noRSync,WORK_TYPE_SYNC,\

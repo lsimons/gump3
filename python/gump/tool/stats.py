@@ -1,6 +1,7 @@
 #!/usr/bin/env python
-# $Header: /home/stefano/cvs/gump/python/gump/test/updater.py,v 1.2 2003/11/23 06:16:39 ajack Exp $
-# $Revision: 1.2 $
+
+# $Header: /home/stefano/cvs/gump/python/gump/tool/Attic/stats.py,v 1.1 2003/11/23 06:16:39 ajack Exp $
+# $Revision: 1.1 $
 # $Date: 2003/11/23 06:16:39 $
 #
 # ====================================================================
@@ -58,46 +59,41 @@
 # <http://www.apache.org/>.
 
 """
-    Model Testing
+    Statistics manipulation [e.g. reseting, etc.]
 """
 
+import time
 import os
+import sys
 import logging
-import types, StringIO
+import anydbm
 
 from gump import log
-import gump.config
-from gump.output.statsdb import *
-from gump.test import getWorkedTestWorkspace
-from gump.test.pyunit import UnitTestSuite
+from gump.config import *
+from gump.output.stats import Project, ProjectStatistics
+from gump.model.module import Module, ModuleStatistics
+from gump.model.repository import Repository, RepositoryStatistics
+from gump.output.stats import StatisticsDB
+from gump.model.state import *
+  
+class StatisticsTools:
+    """Statistics Interface"""
 
-class UpdaterTestSuite(UnitTestSuite):
-    def __init__(self):
-        UnitTestSuite.__init__(self)
+    def __init__(self,db=None):
+        if not db: db=StatisticsDB()
         
-    def suiteSetUp(self):
-        #
-        # Load a decent Workspace
-        #
-        self.workspace=getWorkedTestWorkspace()          
-        self.assertNotNone('Needed a workspace', self.workspace)
-        
-        self.repo1=self.workspace.getRepository('repository1')                  
-        self.svnRepo1=self.workspace.getRepository('svn_repository1')                  
-        
-        self.module1=self.workspace.getModule('module1')      
-        self.svnModule1=self.workspace.getModule('svn_module1')
-        self.downloadModule1=self.workspace.getModule('download1')
-            
-    def testCommandLines(self):
-        
-        # Checkouts
-        (repo, root, cmd) = command=self.module1.getUpdateCommand(0)  
+    # :TODO: Complete...
+                  
+if __name__=='__main__':
     
-        (repo, url, cmd) = command=self.svnModule1.getUpdateCommand(0)  
+    # init logging
+    logging.basicConfig()
+
+    #set verbosity to show all messages of severity >= default.logLevel
+    log.setLevel(gump.default.logLevel)
         
-        # Updates
-        (repo, root, cmd) = command=self.module1.getUpdateCommand(1)  
-        
-        (repo, url, cmd) = command=self.svnModule1.getUpdateCommand(1)  
+    tool=StatisticsTool()
+    
+    tool.dump()
+            
         

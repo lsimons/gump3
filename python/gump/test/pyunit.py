@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/test/pyunit.py,v 1.7 2003/11/21 19:04:10 ajack Exp $
-# $Revision: 1.7 $
-# $Date: 2003/11/21 19:04:10 $
+# $Header: /home/stefano/cvs/gump/python/gump/test/pyunit.py,v 1.8 2003/11/23 06:16:39 ajack Exp $
+# $Revision: 1.8 $
+# $Date: 2003/11/23 06:16:39 $
 #
 # ====================================================================
 #
@@ -69,7 +69,8 @@ import logging
 from gump import log
 import gump.config
 from gump.utils import createOrderedList,printSeparator,formatException
-    
+
+from fnmatch import fnmatch    
 
 class Testable:       
     def __init__(self):
@@ -183,13 +184,11 @@ class UnitTestSuite(Testable):
     def getName(self):
         return self.name
         
-    def performTests(self):
+    def performTests(self,patterns=None):
     
+        tests=[]
         results=[]
         
-        if hasattr(self,'suiteSetUp'):
-            self.suiteSetUp()
-    
         # iterate over this suites properties
         for name in self.__class__.__dict__:
             if name.startswith('__') and name.endswith('__'): continue
@@ -201,31 +200,56 @@ class UnitTestSuite(Testable):
             if not callable(test): continue
             if not name.startswith('test'): continue
             
-            # Call the test...
-            try:
-                log.info('Perform [' + self.getName() + '::' + \
-                        name + ']')
-                        
-                if hasattr(self,'setUp'):
-                    self.setUp()
-    
-                test()                
+            # If arguments, they are patterns to match
+            if patterns:
+                for pattern in patterns:    
+                    try:
+                        if pattern=="all": pattern='*'
+                        if fnmatch(name,pattern): break         
+                    except Exception, detail:
+                        log.error('Failed to regexp: ' + pattern + '. Details: ' + str(detail))
+                        continue
+                else:
+                    # no match, advance to the next name
+                    continue
                 
-                if hasattr(self,'tearDown'):
-                    self.tearDown()
+            # Store to perform
+            tests.append(test)
         
-            except Exception, details:
-                log.error('Failed')    
-                import traceback
-                ei = sys.exc_info()
-                message=formatException(ei)
-                del ei                
-                results.append(Problem(self,name,message))
-        
-        if hasattr(self,'suiteTearDown'):
-            self.suiteTearDown()
+        if tests:
+            if hasattr(self,'suiteSetUp'):
+                self.suiteSetUp()
     
-        return results
+            for test in tests:
+                # Call the test...
+                try:
+                    log.info('Perform [' + self.getName() + '::' + \
+                        str(test) + ']')
+                        
+                    if hasattr(self,'setUp'):
+                        self.setUp()
+    
+                    test()                
+                
+                    if hasattr(self,'tearDown'):
+                        self.tearDown()
+        
+                except Exception, details:
+                    log.error('Failed')    
+                    
+                    # Log the traceback    
+                    import traceback
+                    ei = sys.exc_info()
+                    message=formatException(ei)
+                    del ei                
+                    
+                    # Record the problem
+                    results.append(Problem(self,name,message))
+        
+            if hasattr(self,'suiteTearDown'):
+                self.suiteTearDown()
+    
+        return (len(tests), results)
 
       
 class TestRunner:
@@ -235,16 +259,19 @@ class TestRunner:
     def addSuite(self,suite):
         self.suites.append(suite)
         
-    def run(self):
+    def run(self,args):
         # Sort to resolve dependency order
         runOrder=createOrderedList(self.suites)
         
+        testsRun=0
         problems=[]
         
         # Perform the tests
         for suite in runOrder:
             try:
-                problems += suite.performTests()
+                (runs, results) = suite.performTests(args)
+                testsRun += runs
+                problems += results
             except Exception, details:
                 log.error('Failed')
                 import traceback
@@ -254,6 +281,9 @@ class TestRunner:
                 problems.append(Problem(suite,'performTests',message)) 
            
         printSeparator()
+        
+        log.info('Performed [' + `testsRun` + '] with [' + `len(problems)` + '] issues.')
+        
         for problem in problems:
             log.error('PROBLEM: ' + str(problem))
             
@@ -290,7 +320,11 @@ if __name__=='__main__':
     from gump.test.updater import UpdaterTestSuite  
     runner.addSuite(UpdaterTestSuite())
     
+    # Any args are pattern matches
+    patterns=list(sys.argv)
+    del patterns[0:1]
+    
     # Perform the tests...
-    runner.run()
+    runner.run(patterns)
     
     

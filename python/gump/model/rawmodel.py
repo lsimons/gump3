@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/model/Attic/rawmodel.py,v 1.4 2003/11/21 19:04:10 ajack Exp $
-# $Revision: 1.4 $
-# $Date: 2003/11/21 19:04:10 $
+# $Header: /home/stefano/cvs/gump/python/gump/model/Attic/rawmodel.py,v 1.5 2003/11/23 06:16:39 ajack Exp $
+# $Revision: 1.5 $
+# $Date: 2003/11/23 06:16:39 $
 #
 # ====================================================================
 #
@@ -134,6 +134,7 @@ class XMLModule(Named):
   def init(self):
     self.cvs=Single(GumpXMLModelObject)
     self.svn=Single(GumpXMLModelObject)
+    self.jars=Single(GumpXMLModelObject)
     self.url=Single(GumpXMLModelObject)
     self.description=Single(GumpXMLModelObject)
     self.redistributable=Single(GumpXMLModelObject)
