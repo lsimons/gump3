@@ -68,17 +68,4 @@
 
     <license name="LICENSE.txt"/>
   </project>
-
-  <project name="avalon-exceptionutil">
-    <depend project="ant" inherit="runtime"/>
-    <depend project="xml-xerces"/>
-    <ant target="jar-exceptionutil"/>
-    <home nested="target/lib"/>
-    <jar name="exceptionutil.jar"/>
-    <nag from="Peter Donald &lt;peter@apache.org&gt;"
-            to="dev@avalon.apache.org"/>
-
-    <license name="LICENSE.txt"/>
-  </project>
-
 </module>
