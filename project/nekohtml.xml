@@ -7,7 +7,7 @@
   
   <project name="nekohtml">
     <package>org.cyberneko.html</package>
-    <jar name="nekohtml.jar"/>
+    <jar name="nekohtml.jar" id="nekohtml"/>
     <jar name="nekohtmlXni.jar"/>
   </project>
 
