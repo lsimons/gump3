@@ -76,6 +76,6 @@
   </project>
 
   <project name="jarv">
-    <jar name="lib/jing/isorelax.jar"/>
+    <jar name="lib/container/isorelax.jar"/>
   </project>
 </module>
