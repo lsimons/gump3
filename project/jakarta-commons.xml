@@ -56,7 +56,7 @@
     <work nested="cactus/target/classes"/>
     <work nested="cactus/target/servlet22/classes"/>
 
-    <home nested="cactus/out"/>
+    <home nested="cactus/target"/>
     <jar name="servlet22/dist/lib/commons-cactus.jar"/>
   </project>
 
@@ -87,7 +87,7 @@
     <work nested="cactus/target/classes"/>
     <work nested="cactus/target/servlet23/classes"/>
 
-    <home nested="cactus/out"/>
+    <home nested="cactus/target"/>
     <jar name="servlet23/dist/lib/commons-cactus.jar"/>
   </project>
 
