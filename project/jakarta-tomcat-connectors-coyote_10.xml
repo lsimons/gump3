@@ -1,11 +1,11 @@
-<module name="jakarta-tomcat-connectors-coyote_10" tag="coyote_10">
+<module name="jakarta-tomcat-connectors-coyote_10" >
 
   <description>
     Connectors to various web servers
   </description>
   <url href="http://jakarta.apache.org/tomcat/index.html"/>
 
-  <cvs repository="jakarta" module="jakarta-tomcat-connectors"/>
+  <cvs repository="jakarta" module="jakarta-tomcat-connectors" tag="coyote_10"/>
 
   <project name="jakarta-tomcat-connectors-coyote_10">
     <!-- dummy to provide a "home" reference for the tomcat-catalina build -->
