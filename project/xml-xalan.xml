@@ -10,20 +10,20 @@
   <project name="xml-xalan2">
     <package>org.apache.xalan</package>
 
-    <ant basedir="java">
+    <ant basedir="java" target="unbundledjar">
       <property name="bcel.jar" reference="jarpath" project="jakarta-bcel"/>
     </ant>
 
     <depend project="bootstrap-ant"/>
     <depend project="xml-xerces"/>
-    <depend project="java_cup"/>
-    <depend project="jlex"/>
-    <depend project="jakarta-bcel"/>
+    <depend project="java_cup" runtime="true"/>
+    <depend project="jlex" runtime="true"/>
+    <depend project="jakarta-bcel" runtime="true"/>
     <depend project="xml-apis" inherit="jars"/>
     <work nested="java/build/classes"/>
 
     <home nested="java/build"/>
-    <jar  name="xalan.jar" type="boot" id="transformer" />
+    <jar  name="xalan-unbundled.jar" type="boot" id="transformer" />
 
     <nag from="Sam Ruby &lt;rubys@us.ibm.com&gt;"
          to="xalan-dev@xml.apache.org"/>
