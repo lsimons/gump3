@@ -401,16 +401,19 @@ def executeIntoResult(cmd,result,tmp=dir.tmp):
             
         #############################################################                
         log.debug('Executing: ' + execString + ' (Output to ' + str(outputFile) + ')')
-            
-        # Allow use of 'timeout N cmd args'
-        if setting.timeoutCommand:
-            execString='timeout ' + str(timeout) + ' ' + execString
-        else:
-            # Set the signal handler and an N-second alarm
-            timeout=cmd.timeout or setting.timeout
-            timer = Timer(timeout, killChildProcesses)
-            timer.setDaemon(1)
-            timer.start()
+         
+        # Set the signal handler and an N-second alarm
+        timer=None
+        timeout=cmd.timeout or setting.timeout
+        
+        if timeout:
+            # Allow use of 'timeout N cmd args'
+            if setting.timeoutCommand:
+                execString='timeout ' + str(timeout) + ' ' + execString
+            else:
+                timer = Timer(timeout, killChildProcesses)
+                timer.setDaemon(1)
+                timer.start()
 
         #
         # Execute Command & Wait
@@ -450,11 +453,10 @@ def executeIntoResult(cmd,result,tmp=dir.tmp):
         else:
             result.state=CMD_STATE_SUCCESS                
             
-    
         #
         # Stop it (if still running)
         #
-        timer.cancel()            
+        if timer: timer.cancel()            
                     
       except Exception, details :
         log.error('Failed to launch command. Details: ' + str(details))

@@ -513,7 +513,7 @@ class ForrestDocumenter(Documenter):
         
                 ncount+=1
                 
-        if not ncount: notesTable.createLine('None')
+        if not ncount: notesSection.createParagraph('None.')
         
         document.serialize()
            
