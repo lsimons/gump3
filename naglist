@@ -37,103 +37,103 @@ Regex: /BUILD FAILED/
 ------
 Project: jakarta-ant
 To: ant-dev@jakarta.apache.org
-From: Sam Ruby <rubys@us.ibm.com>
+From: Diane Holt <holtdl@apache.org>
 Subject: [GUMP] Build Failure - Ant
 Regex: /BUILD FAILED/
 ------
 Project: jakarta-avalon
 To: avalon-dev@jakarta.apache.org
-From: Sam Ruby <rubys@us.ibm.com>
+From: Peter Donald <donaldp@apache.org>
 Subject: [GUMP] Build Failure - Avalon
 Regex: /BUILD FAILED/
 ------
 Project: jakarta-avalon-clutil
 To: avalon-dev@jakarta.apache.org
-From: Sam Ruby <rubys@us.ibm.com>
+From: Peter Donald <donaldp@apache.org>
 Subject: [GUMP] Build Failure - Clutil
 Regex: /BUILD FAILED/
 ------
 Project: jakarta-avalon-cornerstone
 To: avalon-dev@jakarta.apache.org
-From: Sam Ruby <rubys@us.ibm.com>
+From: Peter Donald <donaldp@apache.org>
 Subject: [GUMP] Build Failure - Cornerstone
 Regex: /BUILD FAILED/
 ------
 Project: jakarta-avalon-logkit
 To: avalon-dev@jakarta.apache.org
-From: Sam Ruby <rubys@us.ibm.com>
+From: Peter Donald <donaldp@apache.org>
 Subject: [GUMP] Build Failure - Logkit
 Regex: /BUILD FAILED/
 ------
 Project: jakarta-avalon-phoenix
 To: avalon-dev@jakarta.apache.org
-From: Sam Ruby <rubys@us.ibm.com>
+From: Peter Donald <donaldp@apache.org>
 Subject: [GUMP] Build Failure - Phoenix
 Regex: /BUILD FAILED/
 ------
 Project: jakarta-avalon-testlet
 To: avalon-dev@jakarta.apache.org
-From: Sam Ruby <rubys@us.ibm.com>
+From: Peter Donald <donaldp@apache.org>
 Subject: [GUMP] Build Failure - Testlet
 Regex: /BUILD FAILED/
 ------
 Project: jakarta-log4j
 To: log4j-dev@jakarta.apache.org
-From: Sam Ruby <rubys@us.ibm.com>
+From: Ceki Gülcü <ceki@apache.org>
 Subject: [GUMP] Build Failure - Log4j
 Regex: /BUILD FAILED/
 ------
 Project: jakarta-james
 To: james-dev@jakarta.apache.org
-From: Jon Stevens <jon@latchkey.com>
+From: Peter Donald <donaldp@apache.org>
 Subject: [GUMP] Build Failure - James
 Regex: /BUILD FAILED/
 ------
 Project: jakarta-jetspeed
 To: jetspeed-dev@jakarta.apache.org
-From: Jon Stevens <jon@latchkey.com>
+From: Jason van Zyl <jvanzyl@apache.org>
 Subject: [GUMP] Build Failure - Jetspeed
 Regex: /BUILD FAILED/
 ------
 Project: jakarta-struts
 To: struts-dev@jakarta.apache.org
-From: Sam Ruby <rubys@us.ibm.com>
+From: Craig McClanahan <craigmcc@apache.org>
 Subject: [GUMP] Build Failure - Struts
 Regex: /BUILD FAILED/
 ------
 Project: jakarta-tomcat
 To: tomcat-dev@jakarta.apache.org
-From: Sam Ruby <rubys@us.ibm.com>
+From: Craig McClanahan <craigmcc@apache.org>
 Subject: [GUMP] Build Failure - Tomcat 3.x
 Regex: /BUILD FAILED/
 ------
 Project: jakarta-tomcat-4.0
 To: tomcat-dev@jakarta.apache.org
-From: Sam Ruby <rubys@us.ibm.com>
+From: Craig McClanahan <craigmcc@apache.org>
 Subject: [GUMP] Build Failure - Tomcat 4.0
 Regex: /BUILD FAILED/
 ------
 Project: jakarta-turbine
 To: turbine-dev@jakarta.apache.org
-From: Jon Stevens <jon@latchkey.com>
+From: Jason van Zyl <jvanzyl@apache.org>
 Subject: [GUMP] Build Failure - Turbine
 Regex: /BUILD FAILED/
 -------
 Project: jakarta-velocity
 To: velocity-dev@jakarta.apache.org
-From: Sam Ruby <rubys@us.ibm.com>
+From: Geir Magnusson Jr. <geirm@apache.org>
 Subject: [GUMP] Build Failure - Velocity
 Regex: /BUILD FAILED/
 -------
 Project: jakarta-velocity-test
 To: velocity-dev@jakarta.apache.org
-From: Sam Ruby <rubys@us.ibm.com>
+From: Geir Magnusson Jr. <geirm@apache.org>
 Subject: [GUMP] Test Failure - Velocity
 Regex: /BUILD FAILED/
 ------
 Project: test-ant
 To: ant-dev@jakarta.apache.org
-From: Sam Ruby <rubys@us.ibm.com>
+From: Diane Holt <holtdl@apache.org>
 Subject: [GUMP] Test Failure - Ant
 Regex: /BUILD FAILED/
 ------
