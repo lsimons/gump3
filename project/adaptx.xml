@@ -1,0 +1,22 @@
+<module name="adaptx">
+
+  <url href="http://virtuals.intalio.com"/>
+  <description>
+    Exolab's XSLT Transformer
+  </description>
+
+  <cvs repository="intalio" dir="adaptx"/>
+  
+  <project name="adaptx">
+    <package>org.exolab.adaptx</package>
+
+    <ant basedir="src" target="jar">
+      <property name="version" value="@@DATE@@"/>
+    </ant>
+    <depend project="bootstrap-ant"/>
+    <depend project="xml-xerces"/>
+    <home nested="dist"/>
+    <jar name="adaptx_@@DATE@@.jar"/>
+  </project>
+
+</module>

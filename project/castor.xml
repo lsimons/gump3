@@ -35,17 +35,6 @@
     <jar name="lib/ldapjdk_4.1.jar"/>
   </project>
 
-  <project name="castor-test">
-    <ant buildfile="src/build.xml" target="tests"/>
-    <depend project="jakarta-ant"/>
-    <depend project="xml-xerces"/>
-    <depend project="castor"/>
-    <depend project="junit"/>
-    <depend project="jtf"/>
-    <depend project="XMLDiff"/>
-    <depend project="jdbc"/>
-  </project>
-
   <project name="jtf">
     <jar name="lib/jtf-0.1.jar"/>
   </project>

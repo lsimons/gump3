@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<repository name="intalio" type="cvs">
+  <title>Intalio</title>
+  <home-page>http://virtuals.intalio.com/</home-page>
+  <cvsweb>http://virtuals.intalio.com/cgi-bin/cvsweb.cgi/</cvsweb>
+
+  <root>
+    <method>pserver</method>
+    <user>anoncvs</user>
+    <password>anoncvs</password>
+    <hostname>virtuals.intalio.com</hostname>
+    <path>/cvs</path>
+  </root>
+</repository>
