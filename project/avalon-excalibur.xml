@@ -284,6 +284,7 @@
             <depend property="excalibur-logger.jar" project="excalibur-logger"/>
             <depend property="excalibur-component.jar" project="excalibur-component" id="component"/>
             <depend property="excalibur-testcase.jar" project="excalibur-component" id="testcase"/>
+            <depend property="excalibur-fortress-tools.jar" project="excalibur-fortress" id="fortress-tools"/>
             <depend property="logkit.jar" project="avalon-logkit"/>
             <property name="version" value="@@DATE@@"/>
             <property name="junit.failonerror" value="true"/>
@@ -448,7 +449,8 @@
         <work nested="fortress/build/tools"/>
 
         <home nested="fortress"/>
-        <jar name="build/lib/excalibur-fortress-@@DATE@@.jar"/>
+        <jar name="build/lib/excalibur-fortress-@@DATE@@.jar" id="fortress"/>
+        <jar name="build/lib/excalibur-fortress-tools-@@DATE@@.jar" id="fortress-tools"/>
 
         <nag from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"
                 to="dev@avalon.apache.org"/>
@@ -459,7 +461,8 @@
 
         <ant basedir="fortress/examples">
             <!-- runtime dependencies -->
-            <property name="excalibur-fortress.jar" project="excalibur-fortress" reference="jarpath"/>
+            <property name="excalibur-fortress.jar" project="excalibur-fortress" reference="jarpath" id="fortress"/>
+            <property name="excalibur-fortress-tools.jar" project="excalibur-fortress" reference="jarpath" id="fortress-tools"/>
             <depend property="commons-collections.jar" project="commons-collections" runtime="true"/>
             <depend property="excalibur-lifecycle.jar" project="excalibur-lifecycle" runtime="true"/>
             <depend property="util.concurrent.jar" project="concurrent" runtime="true"/>
@@ -780,6 +783,7 @@
             <property name="junit.failonerror" value="true"/>
             <property name="do.checkstyle" value="false"/>
             <property name="skip.dependencies" value="true"/>
+            <depend property="excalibur-fortress-tools.jar" project="excalibur-fortress" id="fortress-tools"/>
         </ant>
 
         <home nested="monitor"/>
@@ -797,6 +801,7 @@
         <depend project="excalibur-sourceresolve" inherit="runtime"/>
         <depend project="xml-xerces"/>
         <depend project="xml-xalan2"/>
+
 
         <!-- test-time dependencies -->
         <depend project="commons-collections" inherit="runtime"/>
@@ -962,6 +967,7 @@
             <depend property="saxpath.jar" project="saxpath"/>
             <depend property="jtidy.jar" project="jtidy"/>
             <depend property="resolver.jar" project="xml-commons-resolver"/>
+            <depend property="excalibur-fortress-tools.jar" project="excalibur-fortress" id="fortress-tools"/>
 
             <property name="version" value="@@DATE@@"/>
             <property name="junit.failonerror" value="true"/>
