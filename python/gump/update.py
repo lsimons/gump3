@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/update.py,v 1.4 2003/05/08 06:35:41 nicolaken Exp $
-# $Revision: 1.4 $
-# $Date: 2003/05/08 06:35:41 $
+# $Header: /home/stefano/cvs/gump/python/gump/update.py,v 1.5 2003/05/09 10:37:58 nicolaken Exp $
+# $Revision: 1.5 $
+# $Date: 2003/05/09 10:37:58 $
 #
 # ====================================================================
 #
@@ -61,7 +61,13 @@
 """
 Execute the appropriate cvs checkout or update commands
 """
+import os
 
+from gump import load
+from gump.conf import *
+from gump.model import Module,Repository
+from fnmatch import fnmatch
+ 
 # password encryption table used by cvs
 shifts = [
     0,  1,  2,  3,  4,  5,  6,  7,  8,  9, 10, 11, 12, 13, 14, 15,
@@ -85,14 +91,7 @@ shifts = [
 def mangle(passwd):
   return 'A' +''.join(map(chr,[shifts[ord(c)] for c in str(passwd or '')]))
 
-if __name__=='__main__':
-  from gump import load
-  from gump.conf import *
-  from gump.model import Module,Repository
-  from fnmatch import fnmatch
-
-  import os
-
+def update(workspace_path, project_name = 'all'):
   # read the list of cvs repositories that the user is already logged into
   password={}
   cvspassfile=os.path.expanduser(os.path.join('~','.cvspass'))
@@ -103,14 +102,12 @@ if __name__=='__main__':
     cvspass.close()
   except:
     pass
-
-  args = handleArgv(sys.argv)
   
   # load the workspace
-  workspace=load(args[0])
+  workspace=load(workspace_path)
 
   # determine which modules the user desires (wildcards are permitted)
-  selected=args[1]
+  selected=project_name
 
   # determine which modules are available
   modules=Module.list.keys()
@@ -167,3 +164,9 @@ if __name__=='__main__':
       print line
       sys.stdout.flush()
       line=stdout.read()
+  
+if __name__=='__main__':
+
+  args = handleArgv(sys.argv)
+
+  update(args[0], args[1])
