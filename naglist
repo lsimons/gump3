@@ -102,6 +102,7 @@ Subject: [GUMP] Build Failure - Jetspeed
 Regex: /BUILD FAILED/
 To: turbine-dev@jakarta.apache.org
 Regex: /Class.*turbine.*not found/
+Regex: /must be declared abstract. It does not define.*from.*turbine/
 ------
 Project: jakarta-struts
 To: struts-dev@jakarta.apache.org
