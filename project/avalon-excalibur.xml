@@ -24,7 +24,7 @@
         -->
         <package>org.apache.avalon.excalibur</package>
 
-	    <ant basedir="compatibility" target="jar">
+        <ant basedir="compatibility" target="jar">
             <property name="project.version" value="@@DATE@@"/>
         </ant>
 
@@ -98,14 +98,14 @@
     <project name="excalibur-configuration">
         <package>org.apache.excalibur.configuration</package>
 
-	<ant basedir="configuration" target="dist">
+    <ant basedir="configuration" target="dist">
             <property name="project.name" value="excalibur-configuration"/>
             <property name="package-version" value="@@DATE@@"/>
             <property name="junit.failonerror" value="true"/>
             <property name="do.checkstyle" value="false"/>
-	    <property name="skip.dependencies" value="true"/>
-	    
-	    <!-- runtime dependencies -->
+        <property name="skip.dependencies" value="true"/>
+
+        <!-- runtime dependencies -->
             <depend property="avalon-framework.jar" project="avalon-framework" runtime="true" id="combined"/>
             <depend property="isorelax.jar" project="iso-relax" runtime="true"/>
             <depend property="jing.jar" project="jing" runtime="true"/>
@@ -339,6 +339,8 @@
             <depend property="junit.jar" project="junit"/>
 
             <property name="project.version" value="@@DATE@@"/>
+
+            <property name="src.exclude.pattern" value="**/package.html, **/altrmi/*"/>
         </ant>
 
         <!-- build-time dependencies -->
@@ -443,7 +445,7 @@
     <project name="excalibur-lifecycle">
         <package>org.apache.avalon.lifecycle</package>
 
-	    <ant basedir="lifecycle" target="jar">
+        <ant basedir="lifecycle" target="jar">
             <!-- runtime dependencies -->
             <depend property="avalon-framework.jar" project="avalon-framework" runtime="true" id="combined"/>
 
@@ -484,6 +486,7 @@
             <property name="do.checkstyle" value="true"/>
             <property name="skip.dependencies" value="true"/>
             <property name="project.version" value="@@DATE@@"/>
+            <property name="do.not.test" value="true"/>
         </ant>
 
         <depend project="ant" inherit="runtime"/>
@@ -514,10 +517,35 @@
         <option project="jakarta-servletapi-4" runtime="true"/>
 
         <work nested="logger/target/classes"/>
-        <work nested="logger/target/test-classes"/>
 
         <home nested="logger"/>
         <jar name="target/excalibur-logger-@@DATE@@.jar"/>
+
+        <nag from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"
+                to="dev@avalon.apache.org"/>
+    </project>
+
+    <project name="excalibur-logger-tests">
+        <package>org.apache.avalon.excalibur.logger</package>
+
+        <ant basedir="logger" target="jar">
+            <property name="project.version" value="@@DATE@@-tested"/>
+            <!--<property name="do.not.test" value="true"/>-->
+        </ant>
+
+        <depend project="excalibur-logger" inherit="all"/>
+
+        <!-- test-time dependencies -->
+        <depend project="excalibur-component" id="testcase"/>
+        <depend project="excalibur-component" id="component"/>
+        <depend project="excalibur-pool"/>
+        <depend project="excalibur-instrument"/>
+        <depend project="commons-collections"/>
+
+        <work nested="logger/target/classes"/>
+        <work nested="logger/target/test-classes"/>
+
+        <home nested="logger"/>
 
         <nag from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"
                 to="dev@avalon.apache.org"/>
@@ -527,7 +555,7 @@
         <package>org.apache.excalibur.monitor</package>
 
         <ant basedir="monitor" target="jar">
-            
+
             <depend property="qdox.jar" project="phoenix-qdox"/>
             <property name="project.version" value="@@DATE@@"/>
         </ant>
@@ -573,6 +601,7 @@
             <property name="do.checkstyle" value="true"/>
             <property name="skip.dependencies" value="true"/>
             <property name="project.version" value="@@DATE@@"/>
+            <property name="do.not.test" value="true"/>
         </ant>
 
         <depend project="ant" inherit="runtime"/>
@@ -586,10 +615,33 @@
         <depend project="junitperf"/>
 
         <work nested="pool/target/classes"/>
-        <work nested="pool/target/test-classes"/>
 
         <home nested="pool"/>
         <jar name="target/excalibur-pool-@@DATE@@.jar"/>
+
+        <nag from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"
+                to="dev@avalon.apache.org"/>
+        <nag>
+          <regexp pattern="/Missing prereq/i"
+            from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"
+            to="dev@avalon.apache.org"
+            subject="PRE-REQ FAILED for excalibur-pool"/>
+        </nag>
+    </project>
+
+    <project name="excalibur-pool-tests">
+        <package>org.apache.avalon.excalibur.pool</package>
+
+        <ant basedir="pool" target="jar">
+            <property name="project.version" value="@@DATE@@-tested"/>
+        </ant>
+
+        <depend project="excalibur-pool" inherit="all"/>
+
+        <work nested="pool/target/classes"/>
+        <work nested="pool/target/test-classes"/>
+
+        <home nested="pool"/>
 
         <nag from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"
                 to="dev@avalon.apache.org"/>
@@ -648,9 +700,9 @@
         <depend project="ant" inherit="runtime"/>
         <option project="checkstyle" inherit="runtime"/>
         <depend project="junit"/>
-	<depend project="avalon-framework" runtime="true" id="combined"/>
+    <depend project="avalon-framework" runtime="true" id="combined"/>
         <depend project="avalon-fortress-container"/>
-	<depend project="avalon-fortress-tools" runtime="true"/>
+    <depend project="avalon-fortress-tools" runtime="true"/>
         <depend project="xml-xerces"/>
         <depend project="xml-xalan2"/>
 
@@ -677,8 +729,8 @@
         <depend project="ant" inherit="runtime"/>
         <option project="checkstyle" inherit="runtime"/>
         <depend project="junit"/>
-	<depend project="avalon-framework" runtime="true" id="combined"/>
-	<depend project="avalon-fortress-tools" runtime="true"/>
+    <depend project="avalon-framework" runtime="true" id="combined"/>
+    <depend project="avalon-fortress-tools" runtime="true"/>
         <depend project="xml-xerces"/>
         <depend project="xml-xalan2"/>
         <depend project="jisp"/>
