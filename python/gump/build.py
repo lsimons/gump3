@@ -1,8 +1,8 @@
 #!/usr/bin/python
 
-# $Header: /home/stefano/cvs/gump/python/gump/build.py,v 1.34 2003/11/05 19:09:22 ajack Exp $
-# $Revision: 1.34 $
-# $Date: 2003/11/05 19:09:22 $
+# $Header: /home/stefano/cvs/gump/python/gump/build.py,v 1.35 2003/11/05 19:42:00 ajack Exp $
+# $Revision: 1.35 $
+# $Date: 2003/11/05 19:42:00 $
 #
 # ====================================================================
 #
@@ -285,10 +285,7 @@ if __name__=='__main__':
   
   # get parsed workspace definition
   workspace=load(ws,context)
-  
-  module=Module.list.
-  performPreBuild( workspace, context, mctxt, module, pctxt, project ):
-    
+
   #
   # Perform build tasks
   #
