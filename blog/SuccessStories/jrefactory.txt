@@ -23,7 +23,7 @@ http://gump.chalko.com/gb/blog/SuccessStories?preview=true&smm=y&permalink=jrefa
 issue of line ending with PrettyPrinter task
 </h3>
 <p>
-Antoine L&Egrave;vy-Lambert  had found a problem with the PrettyPrinter task supplied by 
+Antoine L&eacute;vy-Lambert  had found a problem with the PrettyPrinter task supplied by 
 <a href="http://jrefactory.sourceforge.net/">JRefactory</a>.
 Without any clear announcement, the JRefactory team had changed their 
 <a href="http://jrefactory.sourceforge.net/Main_components_prettyprint.html">PrettyPrinter
