@@ -26,6 +26,8 @@
 
     <property name="jndi.home" reference="home" project="jndi"/>
 
+    <property name="site2.home" reference="home" project="jakarta-site2"/>
+
     <property name="regexp.home"
        reference="home" project="jakarta-regexp"/>
     <property name="regexp.jar"
@@ -33,6 +35,7 @@
   </ant>
 
   <depend project="xml-xerces"/>
+  <depend project="xml-xalan2"/>
   <depend project="jsse"/>
   <depend project="jmx"/>
   <depend project="jakarta-regexp"/>
