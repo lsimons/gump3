@@ -60,7 +60,6 @@
     <jar name="phoenix-loader.jar" id="loader"/>
     <jar name="phoenix-engine.jar" id="metagenerate"/>
     <jar name="phoenix-punit.jar" id="punit"/>
-    <jar name="phoenix-containerkit.jar" id="containerkit"/>
 
     <license name="LICENSE.txt"/>
     <javadoc nested="target/javadocs" module="avalon"/>
