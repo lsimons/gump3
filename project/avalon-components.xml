@@ -387,6 +387,7 @@
         <depend project="avalon-framework" runtime="true" id="api"/>
         <depend project="avalon-framework" runtime="true" id="impl"/>
         <depend project="excalibur-thread-api" runtime="true"/>
+        <depend project="excalibur-thread-impl" runtime="true"/>
         <depend project="cornerstone-store-api" runtime="true"/>
         <depend project="cornerstone-threads-api" runtime="true"/>
 
