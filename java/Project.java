@@ -1,7 +1,7 @@
 /*
- * $Header: /home/stefano/cvs/gump/java/Project.java,v 1.49 2003/02/07 01:09:25 rubys Exp $
- * $Revision: 1.49 $
- * $Date: 2003/02/07 01:09:25 $
+ * $Header: /home/stefano/cvs/gump/java/Project.java,v 1.50 2003/02/11 09:12:12 bodewig Exp $
+ * $Revision: 1.50 $
+ * $Date: 2003/02/11 09:12:12 $
  *
  * ====================================================================
  *
@@ -344,8 +344,6 @@ public class Project {
 
         if (redistributable) {
             element.setAttribute("redistributable","true");
-        } else {
-            jardir = "";
         }
 
         for (Enumeration e=dependsOn.keys(); e.hasMoreElements(); ) {
@@ -388,7 +386,7 @@ public class Project {
                 }
             }
 
-            if (buildable && !jardir.equals("")) {
+            if (buildable && !jardir.equals("") && target.isRedistributable()) {
                 String module = target.get("module");
                 depend.setAttribute("home", jardir + "/" + module);
                 child=depend.getFirstChild();
@@ -862,5 +860,9 @@ public class Project {
             nag.appendChild(regexp);
         }
 
+    }
+    
+    public boolean isRedistributable() {
+        return redistributable;
     }
 }
