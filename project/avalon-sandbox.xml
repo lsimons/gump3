@@ -7,9 +7,6 @@
 
     <cvs repository="avalon"/>
 
-    <!-- need to review - lifecycle package is being been moved to
-         Excalibur or Avalon CVS -->
-
     <project name="avalon-cache">
         <package>org.apache.avalon.excalibur.cache</package>
 
@@ -30,30 +27,6 @@
 
         <home nested="cache"/>
         <jar name="build/lib/avalon-cache-@@DATE@@.jar"/>
-
-        <nag from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"
-                to="dev@avalon.apache.org"/>
-    </project>
-
-    <project name="avalon-sandbox-lifecycle">
-        <package>org.apache.avalon.lifecycle</package>
-
-        <ant basedir="lifecycle">
-            <property name="package-version" value="@@DATE@@"/>
-            <property name="junit.failonerror" value="true"/>
-            <property name="jakarta-site.dir" project="jakarta-site2"
-                      reference="home" />
-        </ant>
-
-        <depend project="ant" inherit="runtime"/>
-        <depend project="avalon" runtime="true"/>
-        <depend project="xml-xerces"/>
-        <work nested="lifecycle/build/classes"/>
-
-        <home nested="lifecycle"/>
-        <jar name="build/lib/avalon-lifecycle-@@DATE@@.jar"/>
-
-        <license name="LICENSE.txt"/>
 
         <nag from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"
                 to="dev@avalon.apache.org"/>
