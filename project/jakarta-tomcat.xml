@@ -8,15 +8,16 @@
   <cvs repository="jakarta" />
 
   <ant target="dist">
-    <property name="jaxp" reference="home" project="jaxp"/>
+    <property name="jaxp.home" reference="home" project="jaxp"/>
     <property name="ant.home" reference="home" project="jakarta-ant"/>
-    <property name="watchdog.home" reference="home" project="jakarta-watchdog"/>
+    <property name="jsse.home" reference="home" project="jsse"/>
   </ant>
 
   <depend project="xml-xerces"/>
   <depend project="jsse"/>
   <depend project="jakarta-ant"/>
   <depend project="jakarta-servletapi"/>
-  <work parent="build/tomcat/classes"/>
+  <depend project="jsse"/>
+  <work nested="build/tomcat/classes"/>
 
 </project>
