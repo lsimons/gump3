@@ -11,7 +11,8 @@
   <module href="http://cvs.apache.org/viewcvs/~checkout~/jakarta-avalon-cornerstone/gump.xml"/>
   <module href="http://cvs.apache.org/viewcvs/~checkout~/jakarta-avalon-excalibur/gump.xml"/>
   <!-- <module href="project/jakarta-avalon-excalibur.xml"/> -->
-  <module href="project/jakarta-avalon-logkit.xml"/>
+  <module href="http://cvs.apache.org/viewcvs/~checkout~/jakarta-avalon-logkit/gump.xml"/>
+  <!-- <module href="project/jakarta-avalon-logkit.xml"/> -->
   <module href="http://cvs.apache.org/viewcvs/~checkout~/jakarta-avalon-phoenix/gump.xml"/>
   <!-- <module href="project/jakarta-avalon-phoenix.xml"/> -->
   <module href="project/jakarta-avalon-site.xml"/>
