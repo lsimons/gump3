@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/model/depend.py,v 1.7 2004/01/23 23:32:26 ajack Exp $
-# $Revision: 1.7 $
-# $Date: 2004/01/23 23:32:26 $
+# $Header: /home/stefano/cvs/gump/python/gump/model/depend.py,v 1.8 2004/02/05 14:50:07 ajack Exp $
+# $Revision: 1.8 $
+# $Date: 2004/02/05 14:50:07 $
 #
 # ====================================================================
 #
@@ -107,7 +107,7 @@ def importXMLDependency(ownerProject,dependProject,xmldepend,optional):
         
     ids	=	xmldepend.ids
     
-    annotation = 'Expressed Dependency'
+    annotation = None # 'Expressed Dependency'
     
     #
     # Construct the dependency

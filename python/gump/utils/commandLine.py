@@ -1,8 +1,8 @@
 #!/usr/bin/python
 
-# $Header: /home/stefano/cvs/gump/python/gump/utils/Attic/commandLine.py,v 1.6 2004/01/20 21:55:23 ajack Exp $
-# $Revision: 1.6 $
-# $Date: 2004/01/20 21:55:23 $
+# $Header: /home/stefano/cvs/gump/python/gump/utils/Attic/commandLine.py,v 1.7 2004/02/05 14:50:07 ajack Exp $
+# $Revision: 1.7 $
+# $Date: 2004/02/05 14:50:07 $
 #
 # ====================================================================
 #
@@ -151,7 +151,7 @@ class CommandLine:
                 sys.exit(1)
     
         for arg in self.args:
-            log.info("Arguments:" + arg)
+            log.debug("Command Line Argument : " + arg)
 
     def getArguments(self):
         return self.args

@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/forrest.py,v 1.62 2004/02/01 18:44:44 ajack Exp $
-# $Revision: 1.62 $f
-# $Date: 2004/02/01 18:44:44 $
+# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/forrest.py,v 1.63 2004/02/05 14:50:07 ajack Exp $
+# $Revision: 1.63 $f
+# $Date: 2004/02/05 14:50:07 $
 #
 # ====================================================================
 #
@@ -1108,18 +1108,18 @@ class ForrestDocumenter(Documenter):
         
         dependencySection=document.createSection('Dependency')
         
-        self.documentDependenciesList(dependencySection, "Project Dependees",		\
-                    project.getDependees(), 1, project)
-                    
-        self.documentDependenciesList(dependencySection, "Full Project Dependees",		\
-                    project.getFullDependees(), 1, project)
-        
         self.documentDependenciesList(dependencySection, "Project Dependencies",	\
                     project.getDependencies(), 0, project)
+                    
+        self.documentDependenciesList(dependencySection, "Project Dependees",		\
+                    project.getDependees(), 1, project)
                     
         self.documentDependenciesList(dependencySection, "Full Project Dependencies",	\
                     project.getFullDependencies(), 0, project)
                                                 
+        self.documentDependenciesList(dependencySection, "Full Project Dependees",		\
+                    project.getFullDependees(), 1, project)
+        
         
         document.serialize()
         

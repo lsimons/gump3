@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/text.py,v 1.6 2004/02/05 05:43:56 ajack Exp $
-# $Revision: 1.6 $
-# $Date: 2004/02/05 05:43:56 $
+# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/text.py,v 1.7 2004/02/05 14:50:07 ajack Exp $
+# $Revision: 1.7 $
+# $Date: 2004/02/05 14:50:07 $
 #
 # ====================================================================
 #
@@ -96,6 +96,13 @@ class TextDocumenter(Documenter):
         gumpSet = run.getGumpSet()
         output=self.output
             
+            
+        # Pretty sorting...
+        sortedModuleList=createOrderedList(gumpSet.getModules())
+        sortedProjectList=createOrderedList(gumpSet.getSequence())
+        sortedRepositoryList=createOrderedList(gumpSet.getRepositories())        
+        sortedServerList=createOrderedList(workspace.getServers())
+        
         output.write(indent + "Workspace State : " + workspace.getStateDescription() + "\n")
         output.write(indent + "Workspace Secs : " + str(workspace.getElapsedSecs()) + "\n")
     
@@ -104,7 +111,7 @@ class TextDocumenter(Documenter):
         self.documentAnnotations(indent,workspace)
         
         indent += ' '
-        for module in workspace.getModules():
+        for module in sortedModuleList:
             if not gumpSet.inModules(module): continue       
             output.write(indent + "Module [" + module.getName() + "] State: " + module.getStateDescription() + "\n")
             output.write(indent + "Projects: " + str(len(module.getProjects())) + "\n")
@@ -133,6 +140,9 @@ class TextDocumenter(Documenter):
         self.documentWork(indent,project)
 
     def documentWork(self, indent, workable):
+        
+        if not workable or not workable.worklist: return
+        
         indent += ' '
         output=self.output    
         output.write(indent+"Work [" + str(len(workable.worklist)) \
