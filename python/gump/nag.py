@@ -78,21 +78,24 @@ def nag(workspace,context,moduleFilterList=None,projectFilterList=None):
     if STATUS_FAILED==context.status:
         nagWorkspace(workspace,context)
     
-    for (mname,mctxt) in context.subcontexts.iteritems():
+    for mctxt in context:
         if not STATUS_SUCCESS == mctxt.status:
+            mname=mctxt.name
             if Module.list.has_key(mname):
                 # :TODO: Something doesn't work w/ this.
                 # if moduleFilterList and not mname in moduleFilterList: continue    
                 module=Module.list[mname]
-                for (pname,pctxt) in mctxt.subcontexts.iteritems():
+                for pctxt in mctxt:
+                    pname=pctxt.name
                     if STATUS_FAILED == pctxt.status:
-                        # :TODO: Something doesn't work w/ this.
-                        # if projectFilterList and not pctxt.project in projectFilterList: continue
-                        project=Project.list[pname]
-                        if project.nag:
-                            nagProject(workspace,context,module,mctxt,project,pctxt)
-                        else:
-                            log.error("Project naggable w/ nowhere to nag")
+                        if Project.list.has_key(pname):
+                            # :TODO: Something doesn't work w/ this.
+                            # if projectFilterList and not pctxt.project in projectFilterList: continue
+                            project=Project.list[pname]
+                            if project.nag:
+                                nagProject(workspace,context,module,mctxt,project,pctxt)
+                            else:
+                                log.error("Project naggable w/ nowhere to nag")
                 
 def nagWorkspace(workspace,context):
     """ Nag for the workspace """
@@ -112,14 +115,19 @@ def nagProject(workspace,context,module,mctxt,project,pctxt):
     content+=getContent(pctxt,"Project: " + project.name + "\n"    )
     content+="----------------------------------------------------\n"
         
-    #
-    # Form and send the e-mail...
-    #
-    email=EmailMessage(workspace.prefix+':'+module.name+'/'+project.name+' '+stateName(pctxt.status),content)
-    toaddr=project.nag.toaddr or workspace.mailinglist
-    fromaddr=project.nag.fromaddr or workspace.mailinglist
-    toaddrs=[ toaddr or workspace.mailinglist ]
-    mail(toaddrs,fromaddr,email,workspace.mailserver) 
+    for nagEntry in project.nag:
+        #
+        # Form and send the e-mail...
+        #
+        email=EmailMessage(workspace.prefix+': '+module.name+'/'+project.name+' '+stateName(pctxt.status),content)
+        toaddr=getattr(nagEntry,'to',workspace.mailinglist)
+        fromaddr=getattr(nagEntry,'from',workspace.mailinglist)
+        
+        # We send to a list, but a list of one is fine..
+        toaddrs=[ toaddr ]
+        
+        # Fire ...
+        mail(toaddrs,fromaddr,email,workspace.mailserver) 
     
 def getContent(context,message=''):
     content=''

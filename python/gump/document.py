@@ -661,7 +661,16 @@ def documentProject(workspace,context,modulename,mdir,projectname,projectcontext
         addItemXDoc(x,"First Success: ", str(stats.first))
     if stats.last:
         addItemXDoc(x,"Last Success: ", str(stats.last))
+        
+    # Display nag information
+    for nagEntry in project.nag:
+        toaddr=getattr(nagEntry,'to',workspace.mailinglist)
+        fromaddr=getattr(nagEntry,'from',workspace.mailinglist)
+        addItemXDoc(x,"Nag To: ", toaddr)
+        addItemXDoc(x,"Nag From: ", toaddr)     
+        
     endListXDoc(x)
+        
     endSectionXDoc(x)
     
     documentProjectContextList(x,"Project Dependencies",projectcontext.depends)    
