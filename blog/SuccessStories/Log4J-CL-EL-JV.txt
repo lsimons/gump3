@@ -2,6 +2,11 @@ PREVIEW Log4j-CL-EL-JV.txt
 Preview at 
 http://gump.chalko.com/gb/blog/SuccessStories/?permalink=Log4J-CL-EL-JV.txt&preview=true&smm=y
 <hr/>
+<P>
+Recently <A HREF="http://logging.apache.org/log4j/">log4j</A> removed some deprecated 
+classes/methods. This after years of deprecation, seemed like it ought be trivial. 
+This is what transpired...
+</P><more/>
 <!--
   Copyright 2004 The Apache Software Foundation
 
@@ -17,9 +22,7 @@ http://gump.chalko.com/gb/blog/SuccessStories/?permalink=Log4J-CL-EL-JV.txt&prev
   See the License for the specific language governing permissions and
   limitations under the License.
 -->
-<P>
-Recently <A HREF="http://logging.apache.org/log4j/">log4j</A> remover some deprecated classes/methods. This after years of deprecation, seemed ike it ought be trivial. This is what transpired...
-</P>
+
 
 <P>
 First, the next Gump run detected that <A HREF="http://jakarta.apache.org/commons/logging/">Commons Logging</A>, 
