@@ -43,7 +43,7 @@ some of the mis-communication that led to some time lag.)
 <HR/>
 <P>For each of the three projects directly affected...</P>
 <P>
-<B>Avalon<B>: Some things deprecated had not been marked as such, so they were immediately restored by log4j. This helped restore Avalon. What was noticed here
+<B>Avalon</B>: Some things deprecated had not been marked as such, so they were immediately restored by log4j. This helped restore Avalon. What was noticed here
 was that Gump pages obscured the build log (somewhat backwards since that is likely the key information) so a fix was attempted,
 moving that nearer to the top of the page.
 </P>
