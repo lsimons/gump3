@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/utils/__init__.py,v 1.12 2003/12/11 22:07:35 ajack Exp $
-# $Revision: 1.12 $
-# $Date: 2003/12/11 22:07:35 $
+# $Header: /home/stefano/cvs/gump/python/gump/utils/__init__.py,v 1.13 2003/12/11 22:16:05 ajack Exp $
+# $Revision: 1.13 $
+# $Date: 2003/12/11 22:16:05 $
 #
 # ====================================================================
 #
@@ -333,6 +333,8 @@ def wrapLine(line,wrapLen=100, eol='\n', marker='[WRAPPED]'):
             startPosn+=increment
             endPosn+=increment
             print `startPosn` + " : " + `endPosn` + " : " + `totalLen` + ' : ' + `increment`
+    else:
+        wrappedLine=line
             
     return wrappedLine
     
