@@ -10,7 +10,7 @@
   <module href="project/jakarta-avalon.xml"/> 
   <module href="project/jakarta-avalon-apps.xml"/> 
   <module href="project/jakarta-avalon-cornerstone.xml"/> 
-  <module href="project/jakarta-avalon-excalibur.xml"/> 
+  <module href="http://cvs.apache.org/viewcvs/~checkout~/jakarta-avalon-excalibur/project-info.xml"/> 
   <module href="project/jakarta-avalon-logkit.xml"/>
   <module href="project/jakarta-avalon-phoenix.xml"/>
   <module href="project/jakarta-avalon-site.xml"/>
