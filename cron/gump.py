@@ -430,7 +430,7 @@ try:
             #
             # Process/build command line
             #        
-            iargs = '-w ' + workspaceName + ' ' + projectsExpr + ' ' + ' '.join(args[1:])
+            iargs = '-w ../' + workspaceName + ' ' + projectsExpr + ' ' + ' '.join(args[1:])
             
             # Allow a check not an integrate
             check=0
