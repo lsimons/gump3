@@ -434,7 +434,7 @@ finally:
             catFile(sys.stdout, logFile, logTitle)
         
         if mailserver and mailport and mailto and mailfrom:
-            
+            mailData=''
             if published and logurl:
                 mailData='There is a problem with the run at : ' + logurl + '\n'
             else:
@@ -462,10 +462,10 @@ finally:
                 pass
                 
             # Tack a version on there
-            maildata += '--\n'
-            maildata += 'Gumpy Version: '
-            maildata += GUMPY_VERSION
-            maildata += '\n'
+            mailData += '--\n'
+            mailData += 'Gumpy Version: '
+            mailData += GUMPY_VERSION
+            mailData += '\n'
             
             sendEmail(mailto,mailfrom,logTitle,mailData,mailserver,mailport)
             
