@@ -397,7 +397,11 @@ class ForrestDocumenter(Documenter):
         for name in ['java.vendor', 'java.version', 'os.name', 'os.arch', 'os.version']:
             if name in javaproperties:
                 definitionTable.createEntry(name, javaproperties[name])	  
-        
+
+        tracked=inspectGarbageCollection()
+        if tracked:
+            definitionTable.createEntry('Garbage Collector Tracked', tracked)    
+            
         rssSyndRow=definitionTable.createRow()
         rssSyndRow.createData('Syndication')
         rssSyndRow.createData().createFork('rss.xml','RSS')
@@ -1620,36 +1624,36 @@ This page helps Gumpmeisters (and others) observe community progress.
     #                % (getModuleProjectRelativeUrl(modulename,project.name)) )                     
            
            
-        if project.isDebug():
-            miscSection=document.createSection('Miscellaneous')
+        miscSection=document.createSection('Miscellaneous')
         
-            #
-            #	Outputs (e.g. Jars)
-            #
-            if project.hasJars():
-                outputSection = miscSection.createSection('Outputs')
-                outputTable = outputSection.createTable(['Name','Id'])
+        #
+        #	Outputs (e.g. Jars)
+        #
+        if project.hasJars():
+            outputSection = miscSection.createSection('Outputs')
+            outputTable = outputSection.createTable(['Name','Id'])
             
-                for jar in project.getJars():
-                    outputRow=outputTable.createRow()
+            for jar in project.getJars():
+                outputRow=outputTable.createRow()
                 
-                    # The name (path) of the jar
-                    outputRow.createData(jar.getName())
+                # The name (path) of the jar
+                outputRow.createData(jar.getName())
                 
-                    # The jar id
-                    id=jar.getId() or 'N/A'
-                    outputRow.createData(id)                                
+                # The jar id
+                id=jar.getId() or 'N/A'
+                outputRow.createData(id)                                
         
             
-            if project.hasBuildCommand():
+        if project.hasBuildCommand():
             
-                if project.hasAnt():                
-                    self.documentProperties(miscSection, project.getAnt(), 'Ant Properties')
+            if project.hasAnt():                
+                self.documentProperties(miscSection, project.getAnt(), 'Ant Properties')
             
-                (classpath,bootclasspath)=project.getClasspathObjects()            
-                self.displayClasspath(miscSection, classpath,'Classpath',project)        
-                self.displayClasspath(miscSection, bootclasspath,'Boot Classpath',project) 
+            (classpath,bootclasspath)=project.getClasspathObjects()            
+            self.displayClasspath(miscSection, classpath,'Classpath',project)        
+            self.displayClasspath(miscSection, bootclasspath,'Boot Classpath',project) 
        
+        if project.isDebug():
             self.documentXML(miscSection,project)
         
         dependencySection=document.createSection('Dependency')
@@ -1743,18 +1747,20 @@ This page helps Gumpmeisters (and others) observe community progress.
         if not classpath.getPathParts(): return
         
         pathSection=document.createSection(title)
-        pathTable=pathSection.createTable(['Path Entry','Contributor','Instigator','Annotation'])       
+        pathTable=pathSection.createTable(['Path Entry','Contributor','Instigator','Id','Annotation'])       
         paths=0
         for path in classpath.getPathParts(): 
             if isinstance(path,AnnotatedPath):
                 pathStr=path.getPath()
                 contributor=path.getContributor()
                 instigator=path.getInstigator()
+                id=path.getId()
                 note=path.note
             else:
                 pathStr=path
                 contributor=referencingObject.getWorkspace()
                 instigator=None
+                id=None
                 note=''
             
             pathRow=pathTable.createRow()
@@ -1771,6 +1777,9 @@ This page helps Gumpmeisters (and others) observe community progress.
                 self.insertLink( instigator, referencingObject, pathRow.createData())
             else:
                 pathRow.createData('')
+            
+            # The identifier....
+            pathRow.createData(id)
             
             # Additional Notes...
             pathRow.createData(note)
@@ -2446,7 +2455,8 @@ This page helps Gumpmeisters (and others) observe community progress.
     # Statistics Pages
     #           
     def documentStatistics(self,run,workspace,gumpSet):
-        
+                
+        log.info('Generate Statistic Guru')
         stats=StatisticsGuru(workspace)
         
         document=XDocDocument('Statistics',self.resolver.getFile(stats))
@@ -2817,6 +2827,7 @@ This page helps Gumpmeisters (and others) observe community progress.
     #           
     def documentXRef(self,run,workspace,gumpSet):
                     
+        log.info('Generate XRef Guru')
         xref=XRefGuru(workspace)    
         
         document=XDocDocument('Cross Reference',self.resolver.getFile(xref))

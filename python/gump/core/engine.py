@@ -27,7 +27,8 @@ from gump import log
 from gump.core.gumprun import *
 from gump.core.config import dir, default, basicConfig
 
-from gump.utils import dump, display, getIndent, logResourceUtilization
+from gump.utils import dump, display, getIndent, logResourceUtilization, \
+                            invokeGarbageCollection
 from gump.utils.note import Annotatable
 from gump.utils.work import *
 
@@ -106,6 +107,10 @@ class GumpEngine:
         for task in taskList:
             log.info('Perform task [' + task.getName() + ']')
             task.invoke(run)
+            
+            
+            # Seems a nice place to clean up...    
+            invokeGarbageCollection()
             
     ###########################################
     
@@ -550,7 +555,7 @@ class GumpEngine:
                 try:
                     catFileToFileHolder(project,propertiesFile,	\
                         FILE_TYPE_CONFIG,	\
-                        project.getName() + ' ' + os.path.basename(propertiesFile))
+                        os.path.basename(propertiesFile))
                 except:
                     log.error('Display Properties [ ' + propertiesFile + '] Failed', exc_info=1)   
                 
@@ -674,20 +679,27 @@ class GumpEngine:
                 catDirectoryContentsToFileHolder(project,reportDir,FILE_TYPE_OUTPUT)
     
         # Maven generates a maven.log...
-        if project.hasMaven() and wasBuilt and not project.isPackaged():
-            try:
-                logFile=project.locateMavenLog()                                
+        if project.hasMaven() and not project.isPackaged():
+            pomFile=project.locateMavenProjectFile() 
+            if os.path.exists(pomFile):                               
+                project.addDebug('Maven POM in: ' + pomFile) 
+                catFileToFileHolder(project,pomFile,	\
+                        FILE_TYPE_CONFIG,	\
+                        os.path.basename(pomFile)) 
+                    
+            projpFile=project.locateMavenProjectPropertiesFile() 
+            if os.path.exists(projpFile):                                                
+                project.addDebug('Maven project properties in: ' + projpFile)                
+                catFileToFileHolder(project,pomFile,	\
+                        FILE_TYPE_CONFIG,	\
+                        os.path.basename(projpFile)) 
+            
+            logFile=project.locateMavenLog()                                
+            if os.path.exists(logFile):
                 project.addDebug('Maven Log in: ' + logFile)                
-                try:
-                    catFileToFileHolder(project,logFile,	\
+                catFileToFileHolder(project,logFile,	\
                         FILE_TYPE_LOG,	\
-                        project.getName() + ' ' + os.path.basename(logFile))
-                except:
-                    log.error('Display Log [ ' + logFile + '] Failed', exc_info=1)   
-                
-            except:
-                log.warning('Display Maven Log Failed', exc_info=1)    
-                # Not worth crapping out over...
+                        os.path.basename(logFile))
             
                         
     def performProjectPackageProcessing(self, run, project, stats):

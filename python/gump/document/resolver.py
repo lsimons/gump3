@@ -190,12 +190,12 @@ class Resolver:
     def makePath(self,path,root=None):
         if not root: root=self.rootDir
         if not os.path.exists(root):
-            log.debug('Make directory : [' + root + ']')
+            #log.debug('Make directory : [' + root + ']')
             os.makedirs(root)
         for p in path:
             root=os.path.join(root,p)
             if not os.path.exists(root):
-                log.debug('Make directory : [' + root + ']')    
+                #log.debug('Make directory : [' + root + ']')    
                 os.mkdir(root)
                 
     def getRootUrl(self): 

@@ -44,11 +44,12 @@ class PathWalker(Annotatable):
     the class can be also used to copy from one directory to another
     x = Sync(sourcedir, targetdir, )
     """
-    def __init__(self, sourcedir, targetdir, action = SYNC_ACTION):
+    def __init__(self, sourcedir, targetdir, action = SYNC_ACTION, debug=0):
         Annotatable.__init__(self)
         self.sourcedir = sourcedir
         self.targetdir = targetdir
         self.action = action
+        self.debug=debug
         
     def execute(self):
         log.debug('Starting %s from [%s]' % (self.action,self.sourcedir))
@@ -74,7 +75,10 @@ class PathWalker(Annotatable):
     def isCopy(self): return (COPY_ACTION == self.action)
     def isSync(self): return (SYNC_ACTION == self.action)
     def isDiff(self): return (DIFF_ACTION == self.action)
-            
+    
+    def setDebug(self, debug): self.sebug = debug
+    def isDebug(self): return self.debug
+        
     def copytree(self, src, dst, symlinks=0):
         
         # Only supported on some platforms.
@@ -153,10 +157,10 @@ class PathWalker(Annotatable):
                 tobedeleted = os.path.join(destdir, afile)
                 destinationStat = os.stat(tobedeleted)
                 if S_ISDIR(destinationStat[ST_MODE]):
-                    log.debug('attempting to remove directory [%s]' % (`tobedeleted`))
+                    if self.isDebug(): log.debug('Attempting to remove directory [%s]' % (`tobedeleted`))
                     shutil.rmtree(tobedeleted)
                 else:    
-                    log.debug('attempting to remove file [%s]' % (`tobedeleted`))
+                    if self.isDebug(): log.debug('Attempting to remove file [%s]' % (`tobedeleted`))
                     os.remove(tobedeleted)
                     
     def removenonmatching(self, sourcedir, destdir, acceptablefiles, existingfiles):
@@ -179,12 +183,14 @@ class PathWalker(Annotatable):
                 fulldestfile = os.path.join(destdir, afile)
             
                 if os.path.isdir(fullsourcefile) and not os.path.isdir(fulldestfile):
-                    log.debug('removing file [%s] to be replaced by directory' 
+                    if self.isDebug(): 
+                        log.debug('Removing file [%s] to be replaced by directory' 
                                 %(`fulldestfile`))
                     os.remove(fulldestfile)
                     removed.append(afile)
                 elif os.path.isfile(fullsourcefile) and os.path.isdir(fulldestfile):              
-                    log.debug('removing directory [%s] to be replaced by file' 
+                    if self.isDebug(): 
+                        log.debug('Removing directory [%s] to be replaced by file' 
                                 %(`fulldestfile`))
                     shutil.rmtree(fulldestfile)
                     removed.append(afile)
@@ -219,7 +225,7 @@ class PathWalker(Annotatable):
             performCopy = 1
             
         if performCopy:
-            log.debug("Attempting copy from [%s] to [%s]" %(`srcname`, `dstname`))    
+            if self.isDebug(): log.debug("Attempting copy from [%s] to [%s]" %(`srcname`, `dstname`))    
             shutil.copy2(srcname, dstname)    
         #else:
         #    log.debug("Do not copy from [%s:%s] to [%s:%s]" \

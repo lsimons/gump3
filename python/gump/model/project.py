@@ -979,23 +979,27 @@ maven.jar.override = on
         # :TODO: write...
         for annotatedPath in classpath.getPathParts():
             if isinstance(annotatedPath,AnnotatedPath):
-                id=annotatedPath.getId()
-                path=annotatedPath.getPath()
-                props.write(('maven.jar.%s=%s\n') % (id,path))
+                props.write(('# Contributor: %s\nmaven.jar.%s=%s\n') % \
+                    (	annotatedPath.getContributor(),	\
+                        annotatedPath.getId(),	\
+                        annotatedPath.getPath()))
 
         return propertiesFile
       
     def locateMavenLog(self):
-        """Return Maven log location"""
-        
-        #
-        # Where to put this:
-        #
+        """Return Maven log location"""  
         basedir = self.maven.getBaseDirectory() or self.getBaseDirectory()
-        logFile=os.path.abspath(os.path.join(\
-                    basedir,'maven.log'))
+        return os.path.abspath(os.path.join(basedir,'maven.log'))
+      
+    def locateMavenProjectPropertiesFile(self):
+        """Return Maven project properties file location""" 
+        basedir = self.maven.getBaseDirectory() or self.getBaseDirectory()
+        return os.path.abspath(os.path.join(basedir,'project.properties'))
         
-        return logFile
+    def locateMavenProjectFile(self):
+        """Return Maven project file location"""      
+        basedir = self.maven.getBaseDirectory() or self.getBaseDirectory()
+        return os.path.abspath(os.path.join(basedir,'project.xml'))        
         
     def dump(self, indent=0, output=sys.stdout):
         """ Display the contents of this object """

@@ -397,13 +397,27 @@ def logResourceUtilization(message=None): pass
 #        if not os.name == 'dos' and not os.name == 'nt':
 #            log.error("Failed get resource utilization." \
 #                   
-def invokeGarbageCollection():
+def inspectGarbageCollection():
+    tracked = 0
     try:
         import gc
         tracked = len(gc.get_objects())
         log.debug('Objects Tracked by GC : ' + `tracked`)
+    except:
+        pass  
+    return tracked
+                    
+def invokeGarbageCollection():
+    try:
+        # See what GC thinks
+        inspectGarbageCollection()
+        
+        # Perform GC
+        import gc        
         unreachable = gc.collect()
+        
+        # Curiousity..
         if unreachable:
             log.debug('Objects Unreachable by GC : ' + `unreachable`)
     except:
-        raise
+        pass
