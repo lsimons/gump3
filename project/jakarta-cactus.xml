@@ -450,7 +450,7 @@
 
       <property name="project.version" value="@@DATE@@"/>
 
-      <depend property="j2ee.jar" project="jakarta-servletapi-4"/>
+      <depend property="servlet.jar" project="jakarta-servletapi-4"/>
       <depend property="log4j.jar" project="jakarta-log4j" id="log4j"/>
       <depend property="commons.logging.jar" project="commons-logging" 
         id="all"/>
