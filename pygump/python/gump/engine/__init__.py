@@ -66,12 +66,17 @@ def main(settings):
     # get engine dependencies
     log = get_logger(config.log_level, "engine")
     db  = get_db(config)
-    vfsdir = os.path.join(config.paths_work, "vfs-cache" )
+    
+    vfsdir = os.path.join(config.paths_work, "vfs-cache")
     if not os.path.isdir(vfsdir):
         os.mkdir(vfsdir);
     vfs = get_vfs(config.paths_metadata, vfsdir)
-    modeller_loader = get_modeller_loader(vfs, log)
-    modeller_objectifier = get_modeller_objectifier()
+    
+    modeller_log = get_logger(config.log_level, "modeller")
+    mergefile = os.path.join(config.paths_work, "merge.xml")
+    dropfile = os.path.join(config.paths_work, "dropped.xml")
+    modeller_loader = get_modeller_loader(modeller_log, vfs, mergefile, dropfile)
+    modeller_objectifier = get_modeller_objectifier(modeller_log)
     
     # create engine
     engine = Engine(config, log, db, modeller_loader, modeller_objectifier)
@@ -158,13 +163,13 @@ def get_vfs(filesystem_root, cache_dir):
     from gump.engine.vfs import VFS
     return VFS(filesystem_root, cache_dir)
 
-def get_modeller_loader(vfs, log):
+def get_modeller_loader(log, vfs=None, mergefile=None, dropfile=None):
     from gump.engine.modeller import Loader
-    return Loader(vfs, log)
+    return Loader(log, vfs, mergefile, dropfile)
 
-def get_modeller_objectifier():
+def get_modeller_objectifier(log):
     from gump.engine.modeller import Objectifier
-    return Objectifier()
+    return Objectifier(log)
 
 ###
 ### Classes

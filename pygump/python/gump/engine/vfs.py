@@ -60,7 +60,7 @@ class VFS:
                                  it is not possible to "escape" from this
                                  root.
             - cachedir -- path to the directory on this machine that should
-                          be used as the 
+                          be used as the cache for downloaded files.
         """
         if filesystem_root:
             self.filesystem_root = os.path.abspath(filesystem_root)
@@ -86,7 +86,7 @@ class VFS:
         """
         
         if not url_or_path:
-            raise Error, "Bad url or path requested: %s" % url_or_path
+            raise Error, "Bad url or path requested: '%s'" % url_or_path
         
         if string.find(url_or_path, ':') != -1:
             return self._get_url_as_stream(url_or_path)
@@ -113,19 +113,19 @@ class VFS:
         a Error will be thrown.
         """
         if not self.filesystem_root:
-            raise Error, "This VFS does not support retrieving local files (%s was requested)!" % path
+            raise Error, "This VFS does not support retrieving local files ('%s' was requested)!" % path
         
         relpath = path.lstrip('/') # transform absolute paths into paths
                                    # relative to the VFS filesystem "root"
         fullpath = os.path.abspath(os.path.join( self.filesystem_root, relpath ))
         
         if not fullpath.startswith(self.filesystem_root):
-            raise Error, "The requested resource %s is not part of the VFS!" % path
+            raise Error, "The requested resource '%s' is not part of the VFS!" % path
         
         if not os.path.exists(fullpath):
-            raise Error, "No resource %s found in VFS!" % path
+            raise Error, "No resource '%s' found in VFS!" % path
         if not os.path.isfile(fullpath):
-            raise Error, "Requested resource %s is not a stream!" % path
+            raise Error, "Requested resource '%s' is not a stream!" % path
         
         return open(fullpath)
 
