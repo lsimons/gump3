@@ -19,6 +19,7 @@
     
 """
 
+import types
 import MySQLdb
 import MySQLdb.cursors
 
@@ -37,12 +38,27 @@ class DbHelper:
         if self.conn:
             self.conn.close()
             self.conn=None
+            
+    def value(self,value):
+        """
+        Escape and Quote a Value
+        """
+        escaped_encoded = ''
+        
+        if isinstance(value,types.StringTypes):
+            escaped_encoded = "'" 
+            escaped_encoded += MySQLdb.escape_string(value).replace("\\","\\\\").replace("'","\\'")
+            escaped_encoded += "'"            
+        else:
+            escaped_encoded = value
+            
+        return escaped_encoded
  
     def generateSelect(self,table_name,column_name,entity_name):
         """
         Generate a select statement, index is a single name
         """ 
-        statement="SELECT * FROM %s.gump_%s WHERE %s='%s'" % (self.database, table_name, column_name, entity_name) 
+        statement="SELECT * FROM %s.%s WHERE %s='%s'" % (self.database, table_name, column_name, entity_name) 
         return statement
         
     def select(self,table_name,column_name,entity_name,columns):
@@ -75,18 +91,27 @@ class DbHelper:
 
     def set(self,table_name,column_name,entity_name,settings):
         
+        # Unfortunately affected is returning 0 even when
+        # there is a match.
+        
         # Attempt an update (and ensure we affected something)
-        updated=(self.update(table_name,column_name,entity_name,settings) > 0)
+        #updated=(self.update(table_name,column_name,entity_name,settings) > 0)
             
-        if not updated:
-            # Attempt an insert
-            self.insert(table_name,settings)
+        #if not updated:
+        #   # Attempt an insert if not update occured (i.e no match)
+        #    self.insert(table_name,settings)
+        
+        # Gak -- but see above.
+        self.delete(table_name,column_name,entity_name)
+        self.insert(table_name,settings)
+            
+        return
             
     def generateInsert(self,table_name,settings): 
         """ 
         Perform an SQL INSERT 
         """
-        statement = "INSERT INTO %s.gump_%s (" % (self.database, table_name)
+        statement = "INSERT INTO %s.%s (" % (self.database, table_name)
         keys=settings.keys()
         statement += ", ".join(keys)
         statement += ") VALUES ("
@@ -121,7 +146,7 @@ class DbHelper:
         Take a dictionary of settings (column names/types) and 
         generate an update statement. Note: The index is a single name.        
         """
-        statement = "UPDATE %s.gump_%s SET " % (self.database, table_name)
+        statement = "UPDATE %s.%s SET " % (self.database, table_name)
         keys=settings.keys()
         keys.remove(column_name)
         statement += ", ".join([key + '=' + str(settings[key]) for key in keys])
@@ -140,8 +165,8 @@ class DbHelper:
             try:
                 cursor = self.conn.cursor()
                 log.debug('SQL: ' + statement)
-                affected = cursor.execute(statement)    
-                log.debug('SQL Affected: ' + `affected`)                  
+                affected = cursor.execute(statement)  
+                log.debug('SQL Affected: ' + `affected` + ':' + `result`)
             except Exception, details:
                 if cursor: self.logWarnings(cursor)    
                 log.error('SQL Error on [%s] : %s' % (statement, details), exc_info=1)
@@ -155,7 +180,7 @@ class DbHelper:
         Perform an SQL DELETE 
         Index is single name
         """
-        statement = "DELETE FROM %s.gump_%s WHERE %s='%s'" \
+        statement = "DELETE FROM %s.%s WHERE %s='%s'" \
                         % (self.database, table_name, column_name, entity_name)
         return statement
 

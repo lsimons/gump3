@@ -118,8 +118,8 @@ class GumpBuilder(gump.core.run.gumprun.RunSpecific):
             if project.okToPerformWork():        
                 log.debug('Performing Build Upon: [' + `project.getPosition()` + '] ' + project.getName())
 
-                if project.isPrereqFailed():
-                    project.addWarning('Building despite certain prerequisite failures [repository build].')
+                #if project.isPrereqFailed():
+                #    project.addWarning('Building despite certain prerequisite failures [repository build].')
                     
                 # Turn on --verbose or --debug if failing ...
                 #if stats:

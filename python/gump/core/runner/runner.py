@@ -135,12 +135,24 @@ class GumpRunner(RunSpecific):
 
         # Add Database storer
         if self.run.getOptions().isOfficial() and \
-            self.run.getWorkspace().hasDatabaseInformation():
+            self.run.getWorkspace().hasDatabaseInformation() and \
+            not self.run.getOptions().isHistorical():    
             try:
                 import gump.actor.mysql.databaser
                 self.run.registerActor(gump.actor.mysql.databaser.Databaser(self.run))
             except Exception, details:
                 log.warning('Unable to register Database Actor :  %s ' % details,
+                            exc_info=1)
+        
+        # Add Historical Database storer
+        if self.run.getOptions().isOfficial() and \
+            self.run.getWorkspace().hasDatabaseInformation() and \
+            self.run.getOptions().isHistorical():       
+            try:
+                import gump.actor.history.historical
+                self.run.registerActor(gump.actor.history.historical.Historical(self.run))
+            except Exception, details:
+                log.warning('Unable to register Historical Database Actor :  %s ' % details,
                             exc_info=1)
         
         # Document..

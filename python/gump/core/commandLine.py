@@ -113,6 +113,10 @@ class CommandLine:
                 #
                 self.options.setDated(True)                    
                 log.info('Dated Operation (add date to log dir)')
+            elif arg in ['-H','--historical']:
+                removers.append(arg)    
+                self.options.setHistorical(True)                    
+                log.info('Historical Database Operation')
             elif arg in ['-O','--official']:
                 removers.append(arg)    
                 self.options.setOfficial(True)                    

@@ -83,52 +83,52 @@ class StatisticsDB:
     def getWorkspaceStats(self,workspaceName):
         stats=WorkspaceStatistics(workspaceName)
         try:
-            self._getStats('workspace_stats','workspace_name',workspaceName,stats)
+            self._getStats('gump_workspace_stats','workspace_name',workspaceName,stats)
         except IndexError:
             pass
         return stats
         
     def putWorkspaceStats(self,stats):
-        self._putStats('workspace_stats','workspace_name',stats)
+        self._putStats('gump_workspace_stats','workspace_name',stats)
 
     def delWorkspaceStats(self,stats):
-        self._delStats('workspace_stats','workspace_name',stats)          
+        self._delStats('gump_workspace_stats','workspace_name',stats)          
         
     # Project    
     def getProjectStats(self,projectName):
         stats=ProjectStatistics(projectName)         
         try:
-            self._getStats('project_stats','project_name',projectName,stats)         
+            self._getStats('gump_project_stats','project_name',projectName,stats)         
         except IndexError:
             pass
         return stats
                 
     def putProjectStats(self,stats): 
-        self._putStats('project_stats','project_name',stats)
+        self._putStats('gump_project_stats','project_name',stats)
         
     def delProjectStats(self,stats): 
-        self._delStats('project_stats','project_name',stats)
+        self._delStats('gump_project_stats','project_name',stats)
 
     # Repository 
     def getRepositoryStats(self,repositoryName):
         stats=RepositoryStatistics(repositoryName)     
         try:   
-            self._getStats('repository_stats','repository_name',repositoryName,stats)
+            self._getStats('gump_repository_stats','repository_name',repositoryName,stats)
         except IndexError:
             pass    
         return stats
                 
     def putRepositoryStats(self,stats):
-        self._putStats('repository_stats','repository_name',stats)  
+        self._putStats('gump_repository_stats','repository_name',stats)  
 
     def delRepositoryStats(self,stats):
-        self._delStats('repository_stats','repository_name',stats)          
+        self._delStats('gump_repository_stats','repository_name',stats)          
 
     # Module    
     def getModuleStats(self,moduleName):
         stats=ModuleStatistics(moduleName)        
         try:
-            settings = self._getStats('module_stats','module_name',moduleName,stats)
+            settings = self._getStats('gump_module_stats','module_name',moduleName,stats)
             
             # Extract that extra
             if settings.has_key('last_modified') and settings['last_modified']:
@@ -148,10 +148,10 @@ class StatisticsDB:
         extras=None
         if stats.lastModified:
             extras={'last_modified':"'" + stats.lastModified.strftime('%Y-%m-%d %H:%M:%S') + "'"}        
-        self._putStats('module_stats','module_name',stats,extras)
+        self._putStats('gump_module_stats','module_name',stats,extras)
 
     def delModuleStats(self,stats):
-        self._delStats('module_stats','module_name',stats)     
+        self._delStats('gump_module_stats','module_name',stats)     
         
         
     # Helpers...
