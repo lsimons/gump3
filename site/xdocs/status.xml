@@ -20,23 +20,24 @@
     </subsection>
 
     <subsection name="dbxml">
-      <p>The Xalan team is in the process of changing an API that dbxml uses.
-      The reason for the change is to support DTM, however the change is
-      apparently not being made in a backwards compatbile manner.</p>
+      <p>The Xalan team is in the process of changing an undocumented API that 
+      dbxml uses.  The dbxml team is aware of this pending change and intends
+      to support the new API when it becomes available.</p>
     </subsection>
 
     <subsection name="openejb">
       <p>In Junit 3.7, a previously protected method was made public,
-      impacting extenders of junit.textui.TestRunner.  A patch was provided
-      to them that worked with both the release that they are using (3.5)
-      and the current release.  No acknowledgement of the patch was
+      impacting extenders of junit.textui.TestRunner.  A 
+      <a href="http://openejb.exolab.org/list-archive/msg01404.html">patch</a>
+      was provided to them that worked with both the release that they are 
+      using (3.5) and the current release.  No acknowledgement of the patch was
       received.</p>
     </subsection>
 
     <subsection name="jakarta-velocity-test">
       <p><a href="http://cvs.apache.org/viewcvs/jakarta-velocity/src/java/org/apache/velocity/texen/ant/TexenTask.java.diff?r1=1.31&amp;r2=1.32">This</a>
-      change apparently is not compatible with Velocity being multiple times
-      from the classpath with Ant 1.4.</p>
+      change apparently is not compatible with Velocity being on the
+      classpath with Ant 1.4.</p>
     </subsection>
 
     <subsection name="xml-fop">
