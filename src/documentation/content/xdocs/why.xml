@@ -1,14 +1,15 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE document PUBLIC "-//APACHE//DTD Documentation V1.1//EN" "document-v11.dtd">
 <document>
 
-  <properties>
-    <author email="rubys@us.ibm.com">Sam Ruby</author>
+  <header>
+    
     <title>Gump</title>
-  </properties>
+  <authors><person name="Sam Ruby" email="rubys@us.ibm.com"/></authors></header>
 
 <body>
 
-  <section name="Why was Gump written?">
+  <section><title>Why was Gump written?</title>
 
   <p>
     I've read with great amusement the motivations attributed to why Gump
@@ -22,10 +23,10 @@
     <li>It is easier to get a patch accepted against the most current version
     of a project than some previous baseline.</li>
     <li>It is much more effective to express your opinion on a change that
-    will affect you <b>before</b> that change is released than afterwards.</li>
+    will affect you <strong>before</strong> that change is released than afterwards.</li>
   </ul>
 
-  <subsection name="1999">
+  <section><title>1999</title>
     <p>To help set the context, in 1999 the ink was hardly dry on the XML 
     specifications; and what is now known as XSLT, FOP, and XPath were all 
     interwoven in a confused jumble.  JDK 1.2 was only recently introduced
@@ -47,9 +48,9 @@
     labors when working with projects like cocoon.  Ultimately, I found
     that I could get what I wanted by writing my own scripts to set up
     the classpath as I wanted.</p>
-  </subsection>
+  </section>
 
-  <subsection name="2000">
+  <section><title>2000</title>
     <p>In 2000, Ant developed the ability to control one's classpath.
     This completely defeated my ability to select which versions I wanted
     to use.  At first, this was done on projects I wasn't active in, but
@@ -67,9 +68,9 @@
     can't be built in one run against both Tomcat 3 and Tomcat 4.</p>
 
     <p>But it was the only way I could regain control.</p>
-  </subsection>
+  </section>
 
-  <subsection name="2001">
+  <section><title>2001</title>
     <p>Now that I had a technological solution to my problems, the number of
     projects I was interested in following grew.  This resulted in a number
     of problems of scalability: the first being that the scripts were 
@@ -94,9 +95,9 @@
     perennially in alpha, so it was argued that nobody should depend on them.
     Now, there are stable releases of each.  Deprecation is now actively 
     used by all three.</p>
-  </subsection>
+  </section>
 
-  <subsection name="2002">
+  <section><title>2002</title>
     <p>There is a growing trend for projects to split into multiple cvs trees -
     Avalon, Tomcat, and Turbine are examples.  The creation of "commons"
     areas shared between projects makes it more and more likely that other
@@ -120,10 +121,9 @@
     versions will be shipping with the JDK, it would also be nice if each
     project stopped shipping duplicate copies of these jars too, and instead
     used the one of your choosing.</p>
-  </subsection>
+  </section>
 
   </section>
 
 </body>
 </document>
-

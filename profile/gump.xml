@@ -2,7 +2,7 @@
   
 <!-- Gump Self Testing -->
 
-  <module href="project/svn-test.xml"/>
+  <module href="http://cvs.apache.org/repos/test/testdir/gump.xml"/>
   
 <!-- Apache.Ant -->
 

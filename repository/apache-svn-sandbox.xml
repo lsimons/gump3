@@ -3,10 +3,9 @@
 <repository name="apache-svn-sandbox" type="svn">
   <title>Apache SubVersion Sandbox</title>
   <home-page>http://nagoya.apache.org/wiki/apachewiki.cgi?Subversion</home-page>
-  <cvsweb>http://cvs.apache.org/repos/test/</cvsweb>
+  <cvsweb>http://svn.apache.org/repos/test/</cvsweb>
   
-  
-  <url>http://cvs.apache.org/repos/test/</url>
+  <url>http://svn.apache.org/repos/test/</url>
   
   <redistributable/>
 </repository>

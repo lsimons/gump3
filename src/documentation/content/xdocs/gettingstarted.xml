@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE document PUBLIC "-//APACHE//DTD Documentation V1.1//EN" "document-v11.dtd">
+<document>
+
+  <header>
+    
+    <title>Gump: Getting Started</title>
+  <authors><person name="Adam R. B. Jack" email="ajack@apache.org"/></authors></header>
+
+<body>
+
+  <section><title>Getting started with Gump</title>     
+    <p>There are a number of ways to work with Gump, and
+    </p>
+    <table>
+        <tr><th>Interest</th><th>Why</th><th>Descriprion</th></tr>
+                <tr>
+            <td>What is Gump&gt;</td>
+            <td>Want Gump 101</td>
+            <td/>
+        </tr>
+        
+        <tr>
+            <td>Getting your project Gumped</td>
+            <td>Continuous integrate is powerful</td>
+            <td>This is a typical entry point, you know Gump is there, you want to
+                benefit from the service (but you don't have time to look deeper into
+                Gump's internals)</td>
+        </tr>
+        
+        <tr>
+            <td>Getting your own (custom) Gump</td>
+            <td>You want to Gump your private projects</td>
+            <td>This is becomming more and more popular, as Gump matures
+                to be more easily installable.</td>
+        </tr>
+        
+        <tr>
+            <td>Developing Gump</td>
+            <td>You wish it did more</td>
+            <td>Gump is an awesome continuous integration build tool,
+                but in custom environments there are site specific additions
+                that might be nice, or there are core features it lacks.
+                Here is how to start.</td>
+        </tr>
+    </table>
+
+    <section><title>gump101</title>
+      <p/>
+    </section>
+    
+    <section><title>project</title>
+      <p>Submitting a new <link href="project.html">project</link> </p>
+    </section>
+
+    <section><title>custom</title>
+     <p>You wish to install a local Gump</p>
+    </section>
+
+    <section><title>developer</title>
+     <p/>
+    </section>
+  </section>
+</body>
+</document>

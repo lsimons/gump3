@@ -1,14 +1,15 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE document PUBLIC "-//APACHE//DTD Documentation V1.1//EN" "document-v11.dtd">
 <document>
 
-  <properties>
-    <author email="rubys@us.ibm.com">Sam Ruby</author>
+  <header>
+    
     <title>Gump</title>
-  </properties>
+  <authors><person name="Sam Ruby" email="rubys@us.ibm.com"/></authors></header>
 
 <body>
 
-  <section name="repository">
+  <section><title>repository</title>
     <p>This represents the location from which modules can be obtained.</p>
 
     <table>
@@ -67,7 +68,7 @@
     </table>
     <p/>
 
-    <subsection name="root">
+    <section><title>root</title>
       <p>This specifies all of the elements which are combined to form
       a CVSROOT.  They are split out into separate entities so that each
       can be individually overridden in a workspace definition.  When an
@@ -84,33 +85,32 @@
         </tr>
         <tr>
           <td>method</td>
-          <td></td>
+          <td/>
           <td>Yes</td>
         </tr>
         <tr>
           <td>user</td>
-          <td></td>
+          <td/>
           <td>No</td>
         </tr>
         <tr>
           <td>password</td>
-          <td></td>
+          <td/>
           <td>No</td>
         </tr>
         <tr>
           <td>hostname</td>
-          <td></td>
+          <td/>
           <td>No</td>
         </tr>
         <tr>
           <td>path</td>
-          <td></td>
+          <td/>
           <td>Yes</td>
         </tr>
       </table>
-    </subsection>
+    </section>
 
   </section>
 </body>
 </document>
-

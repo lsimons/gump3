@@ -1,14 +1,15 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE document PUBLIC "-//APACHE//DTD Documentation V1.1//EN" "document-v11.dtd">
 <document>
 
-  <properties>
-    <author email="rubys@us.ibm.com">Sam Ruby</author>
+  <header>
+    
     <title>Gump</title>
-  </properties>
+  <authors><person name="Sam Ruby" email="rubys@us.ibm.com"/></authors></header>
 
 <body>
 
-  <section name="workspace">
+  <section><title>workspace</title>
     <p>This represents the combination of projects (either referenced
     directly or indirectly, via profiles) that are to be built together.
     By default, workspaces are named after the hostname of the computer
@@ -82,14 +83,14 @@
         <td>If this value is set to "yes", it will enable placing jars on the
           bootclasspath.  Default is "no".  Consider this function 
           experimental at this time.  See the description for
-          <a href="project.html">project</a> for details.
+          <link href="project.html">project</link> for details.
         </td>
         <td>No</td>
       </tr>
     </table>
     <p/>
 
-    <subsection name="property">
+    <section><title>property</title>
       <p>Global properties which are to be applied to every Ant execution.
       Commonly used to specify the "build.sysclasspath" property which
       tells Ant how to deal with classpaths specified inside the build.xml
@@ -112,13 +113,13 @@
           <td>Yes</td>
         </tr>
       </table>
-    </subsection>
+    </section>
 
-    <subsection name="profile">
+    <section><title>profile</title>
       <p>Collections of projects and repositories.  While a complete
       profile can be defined here, typically one is referenced via
       href.  For a complete description, see the documentation for
-      <a href="profile.html">profile</a>.</p>
+      <link href="profile.html">profile</link>.</p>
 
       <table>
         <tr>
@@ -132,13 +133,13 @@
           <td>Yes</td>
         </tr>
       </table>
-    </subsection>
+    </section>
 
-    <subsection name="module">
+    <section><title>module</title>
       <p>An individual module to be included.  While a complete
       module can be defined here, typically one is referenced via
       href.  For a complete description, see the documentation for
-      <a href="module.html">module</a>.</p>
+      <link href="module.html">module</link>.</p>
 
       <table>
         <tr>
@@ -152,13 +153,13 @@
           <td>Yes</td>
         </tr>
       </table>
-    </subsection>
+    </section>
 
-    <subsection name="project">
+    <section><title>project</title>
       <p>An individual project to be included.  While a complete
       project can be defined here, typically one is referenced via
       href.  For a complete description, see the documentation for
-      <a href="project.html">project</a>.</p>
+      <link href="project.html">project</link>.</p>
 
       <table>
         <tr>
@@ -179,13 +180,13 @@
           <td>No</td>
         </tr>
       </table>
-    </subsection>
+    </section>
 
-    <subsection name="repository">
+    <section><title>repository</title>
       <p>An repository from which one or more modules may be obtained
       While a complete repository can be defined here, typically one is
       referenced via href.  For a complete description, see the documentation
-      for <a href="repository.html">repository</a>.</p>
+      for <link href="repository.html">repository</link>.</p>
 
       <table>
         <tr>
@@ -220,10 +221,10 @@
           <td>No</td>
         </tr>
       </table>
-    </subsection>
+    </section>
 
 
-    <subsection name="javadoc">
+    <section><title>javadoc</title>
       <p>Enables publishing of a summary page linking all of the javadocs
       produced in the process.  This will be placed in the workspace log
       directory with the name "javadoc.html".</p>
@@ -247,16 +248,16 @@
         <tr>
           <td>dir</td>
           <td>This attribute tells where the physical directory associated with
-          the url can be found.  <b>Note:</b> the script which copies the
+          the url can be found.  <strong>Note:</strong> the script which copies the
           javadocs to this directory is named pubdoc.pl and is placed in the
           work subdirectory of gump.  Normally, it would be executed
           immediately after a "build all"</td>
           <td>No</td>
         </tr>
       </table>
-    </subsection>
+    </section>
 
-    <subsection name="junitreport">
+    <section><title>junitreport</title>
       <p>Enables publishing of a summary page linking all of the junit
       reports produced in the process.  This will be placed in the
       workspace log directory with the name "junitreport.html".</p>
@@ -281,7 +282,7 @@
         <tr>
           <td>dir</td>
           <td>This attribute tells where the physical directory
-          associated with the url can be found.  <b>Note:</b> the script
+          associated with the url can be found.  <strong>Note:</strong> the script
           which copies the reports to this directory is named
           pubreport.pl and is placed in the work subdirectory of gump.
           You can generate this script using 'ant pubreport'.
@@ -290,17 +291,17 @@
           <td>No</td>
         </tr>
       </table>
-    </subsection>
+    </section>
 
-    <subsection name="nag">
+    <section><title>nag</title>
       <p>Gump will create a file called naglist in the work
       subdirectory that can be used together with nag.pl to send email
       reports of build failures to a list of recipients.
-      <b>Note:</b> reports will not be sent automatically, you have to
+      <strong>Note:</strong> reports will not be sent automatically, you have to
       run nag.pl yourself.</p>
 
       <p>A nag element in the workspace can be used to override some
-      values in project&apos;s <a href="project.html#nag">nag</a>
+      values in project's <link href="project.html#nag">nag</link>
       elements, which are used to define which reports will be
       sent.</p>
 
@@ -319,12 +320,11 @@
         <tr>
           <td>prefix</td>
           <td>A prefix to put into the subject of all generated nag
-          mails, defaults to &quot;[GUMP]&quot;.</td>
+          mails, defaults to "[GUMP]".</td>
           <td>No</td>
         </tr>
       </table>
-    </subsection>
+    </section>
   </section>
 </body>
 </document>
-

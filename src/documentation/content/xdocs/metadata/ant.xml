@@ -1,14 +1,15 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE document PUBLIC "-//APACHE//DTD Documentation V1.1//EN" "document-v11.dtd">
 <document>
 
-  <properties>
-    <author email="rubys@us.ibm.com">Sam Ruby</author>
+  <header>
+    
     <title>Gump</title>
-  </properties>
+  <authors><person name="Sam Ruby" email="rubys@us.ibm.com"/></authors></header>
 
 <body>
 
-  <section name="ant">
+  <section><title>ant</title>
     <p>Specifies the arguments to be passed to Ant.</p>
 
     <table>
@@ -39,7 +40,7 @@
     </table>
     <p/>
 
-    <subsection name="property">
+    <section><title>property</title>
       <p>Property overrides to be passed to the Ant command</p>
 
       <table>
@@ -67,15 +68,13 @@
         <tr>
           <td>reference</td>
           <td>
-            <p>One of the following values:</p>
-            <ul>
-              <li>home: the home directory for the referenced project</li>
-              <li>jar: the simple name (path relative to home) of the jar in a
-              referenced project.</li>
-              <li>jarpath: the fully qualified path of the jar in a referenced
-              project.</li>
-              <li>srcdir: the srcdir for the module containing the project.</li>
-            </ul>
+            One of the following values:<br/>
+            <strong>home:</strong> the home directory for the referenced project<br/>
+            <strong>jar:</strong> the simple name (path relative to home) of the jar in a
+              referenced project.<br/>
+            <strong>jarpath:</strong> the fully qualified path of the jar in a referenced
+              project.<br/>
+            <strong>srcdir:</strong> the srcdir for the module containing the project.<br/>
           </td>
           <td>No</td>
         </tr>
@@ -93,9 +92,9 @@
           <td>No</td>
         </tr>
       </table>
-    </subsection>
+    </section>
 
-    <subsection name="depend">
+    <section><title>depend</title>
       <p>This is equivalent to a property reference="jarpath" as well as a
       dependency element in the enclosing project.  This was introduced as
       that has become a common enough practice that it makes sense to
@@ -131,9 +130,9 @@
           <td>No</td>
         </tr>
       </table>
-    </subsection>
+    </section>
 
-    <subsection name="jvmarg">
+    <section><title>jvmarg</title>
       <p>Additional command line parameters to pass to the Java
           Virtual Machine running Ant.</p>
 
@@ -150,9 +149,8 @@
           <td>Yes</td>
         </tr>
       </table>
-    </subsection>
+    </section>
   </section>
 
 </body>
 </document>
-

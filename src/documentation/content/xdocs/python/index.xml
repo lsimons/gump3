@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE document PUBLIC "-//APACHE//DTD Documentation V1.1//EN" "document-v11.dtd">
+<document>
+ <header>    
+  	<title>Gump</title>
+  	<authors>
+  		<person name="Sam Ruby" email="rubys AT us.ibm DOT com"/>
+  		<person name="Adam Jack" email="ajack AT sybase DOT com"/>
+  	</authors>
+ </header>
+
+<body>
+  <section><title>Python Gump</title>
+  <p>
+    <link href="http://nagoya.apache.org/wiki/apachewiki.cgi?GumpPython">
+    See Background</link>.
+  </p>
+  </section>
+</body>
+</document>

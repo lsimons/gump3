@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE document PUBLIC "-//APACHE//DTD Documentation V1.1//EN" "document-v11.dtd">
+<document>
+
+  <header>    
+    <title>GOM : Profile</title>
+  <authors>
+  	<person name="Sam Ruby" email="rubys@us.ibm.com"/>
+  	</authors>
+  	</header>
+
+<body>
+
+  <section><title>profile</title>
+    <p>A profile is a collection of projects and repositories that are
+    logically to be considered a unit. A profile can provide a consistent set
+    of installable dependencies, or tagged versions of cvs modules to be used.
+    </p>
+
+    <table>
+      <tr>
+        <th>Attribute</th>
+        <th>Description</th>
+        <th>Required?</th>
+      </tr>
+      <tr>
+        <td>name</td>
+        <td>The name of the profile.</td>
+        <td>Yes</td>
+      </tr>
+    </table>
+
+    <p/>
+
+    <section><title>module</title>
+      <p>An individual module to be included.  While a complete
+      module can be defined here, typically one is referenced via
+      href.  For a complete description, see the documentation for
+      <link href="module.html">module</link>.</p>
+
+      <table>
+        <tr>
+          <th>Attribute</th>
+          <th>Description</th>
+          <th>Required?</th>
+        </tr>
+        <tr>
+          <td>href</td>
+          <td>URI of the file containing the module definition</td>
+          <td>Yes</td>
+        </tr>
+      </table>
+    </section>
+
+    <section><title>project</title>
+      <p>An individual project to be extended.  For a complete description,
+      see the documentation for <link href="project.html">project</link>.</p>
+
+      <table>
+        <tr>
+          <th>Attribute</th>
+          <th>Description</th>
+          <th>Required?</th>
+        </tr>
+        <tr>
+          <td>name</td>
+          <td>Name of the project to be modified</td>
+          <td>Yes</td>
+        </tr>
+        <tr>
+          <td>package</td>
+          <td>Specifies the name of the subdirectory relative to the pkgdir
+          specified in the workspace definition.
+          </td>
+          <td>No</td>
+
+        </tr>
+      </table>
+    </section>
+
+    <section><title>repository</title>
+      <p>An repository to be included.  While a complete repository can be
+      defined here, typically one is referenced via href.  For a complete
+      description, see the documentation for
+      <link href="repository.html">repository</link>.</p>
+
+      <table>
+        <tr>
+          <th>Attribute</th>
+          <th>Description</th>
+          <th>Required?</th>
+        </tr>
+        <tr>
+          <td>href</td>
+          <td>URI of the file containing the repository definition</td>
+          <td>Yes</td>
+        </tr>
+      </table>
+    </section>
+
+  </section>
+</body>
+</document>

@@ -1,14 +1,14 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE document PUBLIC "-//APACHE//DTD Documentation V1.1//EN" "document-v11.dtd">
 <document>
 
-  <properties>
-    <author email="rubys@us.ibm.com">Sam Ruby</author>
-    <title>Gump</title>
-  </properties>
+  <header>    
+    <title>Gump Object Model</title>
+  <authors><person name="Sam Ruby" email="rubys@us.ibm.com"/></authors></header>
 
 <body>
 
-  <section name="Data Definition Overview">
+  <section><title>Gump Object Model (GOM) -- Data Definition Overview</title>
     <p>The data definitions for Gump are organized around the various
     roles a developer may perform.  The overall approach is that elements
     (e.g. project definitions) can be repeated in multiple contexts (e.g.,
@@ -43,8 +43,8 @@
     individual XML data elements, and contain links to more full
     descriptions</p>
 
-    <subsection name="project">
-      <p>A <a href="project.html">project</a> represents the unit of
+    <section><title>project</title>
+      <p>A <link href="project.html">project</link> represents the unit of
       integration for Gump.  It could represent a buildable project, or an
       installable package.  Its primary roles are to be a target of a
       dependency or the provider of jars and/or other source files.</p>
@@ -56,34 +56,34 @@
       <p>Note the project definitions contain the names of the jar or
       jars that they export.  Consuming projects simply name the projects
       that they depend on.</p>
-    </subsection>
+    </section>
 
-    <subsection name="module">
-      <p>A <a href="module.html">module</a> is a collection of projects that
+    <section><title>module</title>
+      <p>A <link href="module.html">module</link> is a collection of projects that
       are physically stored in a single repository.  Due to the way that Gump
       will combine definitions, a module definition can be spread across
       multiple files.</p>
 
       <p>While a module references a repository, it can also contain prefixes
       and suffixes that modify the value of the CVSROOT used.</p>
-    </subsection>
+    </section>
 
-    <subsection name="repository">
-      <p>A <a href="repository.html">repository</a> specifies where modules
+    <section><title>repository</title>
+      <p>A <link href="repository.html">repository</link> specifies where modules
       can physically be located.  In the case of cvs (the only option
       supported at the present time), it contains the information used to
       form the CVSROOT used on checkout and update commands.</p>
-    </subsection>
+    </section>
 
-    <subsection name="profile">
-      <p>A <a href="profile.html">profile</a> is a collection of projects and
+    <section><title>profile</title>
+      <p>A <link href="profile.html">profile</link> is a collection of projects and
       repositories that are logically to be considered a unit.  A profile can
       provide a consistent set of installable dependencies, or tagged versions
       of cvs modules to be used.</p>
-    </subsection>
+    </section>
 
-    <subsection name="workspace">
-      <p>A <a href="workspace.html">workspace</a> defines the ultimate
+    <section><title>workspace</title>
+      <p>A <link href="workspace.html">workspace</link> defines the ultimate
       word as to what projects and repositories are to be used, and the
       options (e.g., properties, tags, targets, and dependencies) are to
       be used to build.</p>
@@ -91,9 +91,8 @@
       <p>A workspace definition should also be the only place where
       absolute path names and other machine specific information is
       contained.</p>
-    </subsection>
+    </section>
 
   </section>
 </body>
 </document>
-

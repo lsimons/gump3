@@ -1,14 +1,17 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE document PUBLIC "-//APACHE//DTD Documentation V1.1//EN" "document-v11.dtd">
 <document>
 
-  <properties>
-    <author email="rubys@us.ibm.com">Sam Ruby</author>
-    <title>Gump</title>
-  </properties>
+  <header>    
+    <title>GOM :  Project</title>
+  	<authors>
+  		<person name="Sam Ruby" email="rubys@us.ibm.com"/>
+  	</authors>
+  </header>
+
 
 <body>
-
-  <section name="project">
+  <section><title>project"</title>
     <p>A project is the atomic unit of integration.  It can describe an
     installable package or a buildable product.  The nested elements of
     a project definition fall into three different "groups", each optional:</p>
@@ -40,12 +43,12 @@
       </tr>
       <tr>
         <td>target</td>
-        <td>Override the <a href="ant.html">ant</a> target to be used.</td>
+        <td>Override the <link href="ant.html">ant</link> target to be used.</td>
         <td>No</td>
       </tr>
       <tr>
         <td>buildfile</td>
-        <td>Override the <a href="ant.html">ant</a> build file to be used.</td>
+        <td>Override the <link href="ant.html">ant</link> build file to be used.</td>
         <td>No</td>
       </tr>
       <tr>
@@ -62,18 +65,18 @@
 
     <p/>
 
-    <subsection name="ant">
+    <section><title>ant</title>
       <p>Identifies this project as "buildable", and specifies the
       target to build and the properties to be passed to ant.  The full
       description of this XML element can be found
-      <a href="ant.html">here</a></p>
+      <link href="ant.html">here</link></p>
 
-      <p><a href="http://ant.apache.org/">Apache Ant</a> is the
+      <p><link href="http://ant.apache.org/">Apache Ant</link> is the
       defacto build tool used by a large number of Open Source Java
       projects.</p>
-    </subsection>
+    </section>
 
-    <subsection name="script">
+    <section><title>script</title>
       <p>Identifies this project as "buildable", and specifies the
       script to be executed in order to make this happen.  The assumption
       is that the script can be invoked in a platform independent manner,
@@ -101,9 +104,9 @@
           <td>Yes</td>
         </tr>
       </table>
-    </subsection>
+    </section>
 
-    <subsection name="depend">
+    <section><title>depend</title>
       <p>Specifies the name of a required prerequisite project.  If a
       definition for that project is not found in the workspace, the
       generation will fail.</p>
@@ -145,16 +148,16 @@
         </tr>
         <tr>
           <td>ids</td>
-          <td>Space separated list of <a href="#jarid">id</a>s for the
+          <td>Space separated list of <link href="#jarid">id</link>s for the
           jars this project depends on.  Can be used if only a
           subset of all jars is needed.  If ommitted, all jars of the
           referenced project will be used.</td>
           <td>No</td>
         </tr>
       </table>
-    </subsection>
+    </section>
 
-    <subsection name="option">
+    <section><title>option</title>
       <p>Specifies the name of an optional prerequisite project.  If a
       definition for that project is not found in the workspace, the
       dependency is ignored.</p>
@@ -193,16 +196,16 @@
         </tr>
         <tr>
           <td>ids</td>
-          <td>Space separated list of <a href="#jarid">id</a>s for the
+          <td>Space separated list of <link href="#jarid">id</link>s for the
           jars this project depends on.  Can be used if only a
           subset of all jars is needed.  If ommitted, all jars of the
           referenced project will be used.</td>
           <td>No</td>
         </tr>
       </table>
-    </subsection>
+    </section>
 
-    <subsection name="work">
+    <section><title>work</title>
       <p>Adds a directory or a file to the class path.  This is to allow
       projects which have compilation dependencies on byproducts of the build
       (e.g., tests which import the project itself).  This is necessary when
@@ -234,13 +237,13 @@
           <td>No</td>
         </tr>
       </table>
-    </subsection>
+    </section>
 
-    <subsection name="home">
+    <section><title>home</title>
       <p>The home directory for a project is the directory which contains the
       files referenceable by another project.  In many cases, it is possible
       for another project element by the same name (see the
-      <a href="overview.html">overview</a>) to extend a project definition
+      <link href="overview.html">overview</link>) to extend a project definition
       for an installable package in such a way that the result actually builds
       the project.</p>
 
@@ -271,9 +274,9 @@
           <td>No</td>
         </tr>
       </table>
-    </subsection>
+    </section>
 
-    <subsection name="license">
+    <section><title>license</title>
       <p>The filename of the license, relative to the src directory.
       This file will accompany any redistributable jars.</p>
 
@@ -289,9 +292,9 @@
           <td>Yes</td>
         </tr>
       </table>
-    </subsection>
+    </section>
 
-    <subsection name="jar">
+    <section><title>jar</title>
       <p>The name of an output jar, relative to the home directory.</p>
 
       <table>
@@ -306,7 +309,7 @@
           <td>Yes</td>
         </tr>
         <tr>
-          <td><a name="jarid">id</a></td>
+          <td>id</td>
           <td>Provides a unique id which can be used to provide selection
           between multiple jars definitions.</td>
           <td>No</td>
@@ -316,17 +319,17 @@
           <td>If the value of this attribute is "boot" then the jar is
           prepended to the bootclasspath instead of being appended to the 
           classpath.  This attribute is ignored unless bootclass="yes"
-          is specified on the <a href="workspace.html">workspace</a>.</td>
+          is specified on the <link href="workspace.html">workspace</link>.</td>
           <td>No</td>
         </tr>
       </table>
-    </subsection>
+    </section>
 
-    <subsection name="javadoc">
+    <section><title>javadoc</title>
       <p>This declares where the outputs of the
-      <a href="http://java.sun.com/j2se/javadoc/index.html">javadoc</a> tool
+      <link href="http://java.sun.com/j2se/javadoc/index.html">javadoc</link> tool
       outputs are placed.  This option only has any meaning if the
-      <a href="workspace.html#javadoc">&lt;javadoc&gt;</a> element is present
+      <link href="workspace.html#javadoc">&lt;javadoc&gt;</link> element is present
       in the workspace definition.</p>
 
       <table>
@@ -338,9 +341,9 @@
         <tr>
           <td>nested</td>
           <td>Name of a directory or file, relative to the srcdir of
-          the module containing this project. <b>Note that this
-          ignores any <a href="#home">&lt;home&gt;</a>
-          settings.</b></td>
+          the module containing this project. <strong>Note that this
+          ignores any</strong> <link href="#home">&lt;home&gt;</link>
+          <strong>settings.</strong></td>
           <td>No</td>
         </tr>
         <tr>
@@ -373,9 +376,9 @@
 
       <p>The &lt;javadoc&gt; elements of all projects are used to
       create two pages, &quot;javadoc.html&quot; (like 
-      <a href="http://nagoya.apache.org/~rubys/gump/javadoc.html">this</a>)
+      <link href="http://nagoya.apache.org/~rubys/gump/javadoc.html">this</link>)
       and &quot;nojavadoc.html&quot; (like 
-      <a href="http://nagoya.apache.org/~rubys/gump/nojavadoc.html">this</a>)
+      <link href="http://nagoya.apache.org/~rubys/gump/nojavadoc.html">this</link>)
       listing the available sets of documentation and the modules
       without documentation.</p>
 
@@ -385,25 +388,25 @@
       <ol>
         <li>This is the only &lt;javadoc&gt; element associated with
         the module, the result will look like<br/><br/>
-        <a href="#">label</a> - description<br/><br/></li>
+        <link href="#">label</link> - description<br/><br/></li>
 
         <li>There are several &lt;javadoc&gt; elements associated with
         the module, their labels are different from the name of the
         module - the result will look like<br/><br/>
-        <b>name of the module</b> - description of the module
-        <blockquote>
-            <a href="#">label</a> - description<br/>
-            <a href="#">label2</a> - description2<br/>
-        </blockquote></li>
+        <strong>name of the module</strong> - description of the module
+        <br/>
+            <link href="#">label</link> - description<br/>
+            <link href="#">label2</link> - description2<br/>
+        </li>
 
         <li>There are several &lt;javadoc&gt; elements associated with
         the module, their labels are all the same as the name of the
         module - the result will look like<br/><br/>
-        <b>name of the module</b> - description of the module
-        <blockquote>
-            <a href="#">description</a><br/>
-            <a href="#">description2</a><br/>
-        </blockquote></li>
+        <strong>name of the module</strong> - description of the module
+        <br/>
+            <link href="#">description</link><br/>
+            <link href="#">description2</link><br/>
+        </li>
 
       </ol>
 
@@ -414,24 +417,24 @@
       <p>If a given project wants to publish more than one javadoc
       set, multiple &lt;description&gt; elements like in</p>
 
-      <source><![CDATA[
-    <javadoc nested="java/build/docs/javadocs" project="xml-xerces2">
-      <description dir="api">XML Standard API</description>
-      <description dir="xni">Xerces Native Interface</description>
-      <description dir="xerces">Xerces2 Implementation</description>
-      <description dir="other">Other Classes</description>
-    </javadoc>
-]]></source>
+      <source>
+    &lt;javadoc nested=&quot;java/build/docs/javadocs&quot; project=&quot;xml-xerces2&quot;&gt;
+      &lt;description dir=&quot;api&quot;&gt;XML Standard API&lt;/description&gt;
+      &lt;description dir=&quot;xni&quot;&gt;Xerces Native Interface&lt;/description&gt;
+      &lt;description dir=&quot;xerces&quot;&gt;Xerces2 Implementation&lt;/description&gt;
+      &lt;description dir=&quot;other&quot;&gt;Other Classes&lt;/description&gt;
+    &lt;/javadoc&gt;
+		</source>
 
       <p>must be used.</p>
 
-    </subsection>
+    </section>
 
-    <subsection name="junitreport">
+    <section><title>junitreport</title>
       <p>This declares where the outputs of the
-      <a href="http://ant.apache.org/manual/OptionalTasks/junitreport.html">junitreport</a>
+      <link href="http://ant.apache.org/manual/OptionalTasks/junitreport.html">junitreport</link>
       tool outputs are placed.  This option only has any meaning if the
-      <a href="workspace.html#junitreport">&lt;junitreport&gt;</a> element
+      <link href="workspace.html#junitreport">&lt;junitreport&gt;</link> element
       is present in the workspace definition.</p>
 
       <table>
@@ -443,9 +446,9 @@
         <tr>
           <td>nested</td>
           <td>Name of a directory or file, relative to the srcdir of
-          the module containing this project. <b>Note that this
-          ignores any <a href="#home">&lt;home&gt;</a>
-          settings.</b></td>
+          the module containing this project. <strong>Note that this
+          ignores any</strong> <link href="#home">&lt;home&gt;</link>
+          <strong>settings.</strong></td>
           <td>No</td>
         </tr>
         <tr>
@@ -478,7 +481,7 @@
 
       <p>The &lt;junitreport&gt; elements of all projects are used to
       create a single page, &quot;junitreport.html&quot; (like 
-      <a href="http://lsd.student.utwente.nl/gump/junitreport.html">this</a>)
+      <link href="http://lsd.student.utwente.nl/gump/junitreport.html">this</link>)
       listing the available sets of junit reports.</p>
 
       <p>There are three different layouts a &lt;junitreport&gt; element
@@ -487,25 +490,25 @@
       <ol>
         <li>This is the only &lt;junitreport&gt; element associated with
         the module, the result will look like<br/><br/>
-        <a href="#">label</a> - description<br/><br/></li>
+        <link href="#">label</link> - description<br/><br/></li>
 
         <li>There are several &lt;junitreport&gt; elements associated with
         the module, their labels are different from the name of the
         module - the result will look like<br/><br/>
-        <b>name of the module</b> - description of the module
-        <blockquote>
-            <a href="#">label</a> - description<br/>
-            <a href="#">label2</a> - description2<br/>
-        </blockquote></li>
+        <strong>name of the module</strong> - description of the module
+        <br/>
+            <link href="#">label</link> - description<br/>
+            <link href="#">label2</link> - description2<br/>
+        </li>
 
         <li>There are several &lt;junitreport&gt; elements associated with
         the module, their labels are all the same as the name of the
         module - the result will look like<br/><br/>
-        <b>name of the module</b> - description of the module
-        <blockquote>
-            <a href="#">description</a><br/>
-            <a href="#">description2</a><br/>
-        </blockquote></li>
+        <strong>name of the module</strong> - description of the module
+        <br/>
+            <link href="#">description</link><br/>
+            <link href="#">description2</link><br/>
+        </li>
 
       </ol>
 
@@ -516,20 +519,20 @@
       <p>If a given project wants to publish more than one junitreport
       set, multiple &lt;description&gt; elements like in</p>
 
-      <source><![CDATA[
-    <junitreport nested="java/build/docs/reports" project="xml-xerces2">
-      <description dir="api">XML Standard API</description>
-      <description dir="xni">Xerces Native Interface</description>
-      <description dir="xerces">Xerces2 Implementation</description>
-      <description dir="other">Other Classes</description>
-    </junitreport>
-]]></source>
+      <source>
+    &lt;junitreport nested=&quot;java/build/docs/reports&quot; project=&quot;xml-xerces2&quot;&gt;
+      &lt;description dir=&quot;api&quot;&gt;XML Standard API&lt;/description&gt;
+      &lt;description dir=&quot;xni&quot;&gt;Xerces Native Interface&lt;/description&gt;
+      &lt;description dir=&quot;xerces&quot;&gt;Xerces2 Implementation&lt;/description&gt;
+      &lt;description dir=&quot;other&quot;&gt;Other Classes&lt;/description&gt;
+    &lt;/junitreport&gt;
+		</source>
 
       <p>must be used.</p>
 
-    </subsection>
+    </section>
 
-    <subsection name="nag">
+    <section><title>nag</title>
       <p>If this element is present, an entry for this project will be
       created in the file naglist.  This enables email reports of
       build failures.</p>
@@ -544,8 +547,8 @@
           <td>subject</td>
           <td>value for the Subject header of the mail report.
           Defaults to &quot;Build Failure - &quot; and the name of the
-          project.  Will be prefixed by the prefix defined in the <a
-          href="workspace.html#nag">workspace</a>.</td>
+          project.  Will be prefixed by the prefix defined in the <link
+          href="workspace.html#nag">workspace</link>.</td>
           <td>No</td>
         </tr>
         <tr>
@@ -558,7 +561,7 @@
           <td>to</td>
           <td>Recipient of the email report.  Will be overridden by a
           &quot;to&quot; attribute in the 
-          <a href="workspace.html#nag">workspace</a>.</td>
+          <link href="workspace.html#nag">workspace</link>.</td>
           <td>Yes, unless there is a &quot;to&quot; attribute in each
           nested regexp element.</td>
         </tr>
@@ -578,20 +581,20 @@
       <p>The nag element itself can be used to set default values for
       nested child elements:</p>
 
-      <source><![CDATA[
-<nag from="from@example.org" to="to@example.org" />
-]]></source>
+      <source>
+&lt;nag from=&quot;from@example.org&quot; to=&quot;to@example.org&quot; /&gt;
+</source>
 
       <p>is a short-cut for</p>
 
-      <source><![CDATA[
-<nag>
-  <regexp pattern="/BUILD FAILED/i"
-          from="from@example.org" 
-          to="to@example.org" 
-          subject="Build Failure - @name of project element@"/>
-</nag>
-]]></source>
+      <source>
+&lt;nag&gt;
+  &lt;regexp pattern=&quot;/BUILD FAILED/i&quot;
+          from=&quot;from@example.org&quot; 
+          to=&quot;to@example.org&quot; 
+          subject=&quot;Build Failure - @name of project element@&quot;/&gt;
+&lt;/nag&gt;
+</source>
 
        <p>
          Multiple <code>regexp</code> elements may be specified. The
@@ -602,42 +605,42 @@
        <p>
          To send email on success or failure, you could use:
        </p>
-      <source><![CDATA[
-<nag>
-  <!-- pattern default is /BUILD FAILED/i -->
-  <regexp from="from@example.org" 
-          to="to@example.org" 
-          subject="Build Failure - @name of project element@"/>
-  <regexp pattern="/BUILD SUCCCESSFUL/"
-          from="from@example.org" 
-          to="to@example.org" 
-          subject="Gump Build Success - @name of project element@"/>
-</nag>
-]]></source>
+      <source>
+&lt;nag&gt;
+  &lt;!-- pattern default is /BUILD FAILED/i --&gt;
+  &lt;regexp from=&quot;from@example.org&quot; 
+          to=&quot;to@example.org&quot; 
+          subject=&quot;Build Failure - @name of project element@&quot;/&gt;
+  &lt;regexp pattern=&quot;/BUILD SUCCCESSFUL/&quot;
+          from=&quot;from@example.org&quot; 
+          to=&quot;to@example.org&quot; 
+          subject=&quot;Gump Build Success - @name of project element@&quot;/&gt;
+&lt;/nag&gt;
+</source>
       <p>
         You may want to nag on deprecation if you are particularly
         sensitive to a given dependency. The nag for that would
         look like this:
       </p>
-      <source><![CDATA[
-<nag>
-  <!-- pattern default is /BUILD FAILED/i -->
-  <regexp from="from@example.org" 
-          to="to@example.org" 
-          subject="Build Failure - @name of project element@"/>
-  <regexp pattern="/deprecat/"
-          from="from@example.org" 
-          to="to@example.org" 
-          subject="Gump Build Warning - Deprecated methods used"/>
-</nag>
-]]></source>
-    </subsection>
+      <source>
+&lt;nag&gt;
+  &lt;!-- pattern default is /BUILD FAILED/i --&gt;
+  &lt;regexp from=&quot;from@example.org&quot; 
+          to=&quot;to@example.org&quot; 
+          subject=&quot;Build Failure - @name of project element@&quot;/&gt;
+  &lt;regexp pattern=&quot;/deprecat/&quot;
+          from=&quot;from@example.org&quot; 
+          to=&quot;to@example.org&quot; 
+          subject=&quot;Gump Build Warning - Deprecated methods used&quot;/&gt;
+&lt;/nag&gt;
+	</source>
+    </section>
 
-    <subsection name="redistributable">
+    <section><title>redistributable</title>
       <p>If present, indicates that outputs of builds from this module
       are redistributable.  Defaults to the redistributable value for
       the repository.</p>
-    </subsection>
+    </section>
   </section>
 </body>
 </document>

@@ -1,29 +1,30 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE document PUBLIC "-//APACHE//DTD Documentation V1.1//EN" "document-v11.dtd">
 <document>
 
-  <properties>
-    <author email="rubys@us.ibm.com">Sam Ruby</author>
+  <header>
+    
     <title>Gump</title>
-  </properties>
+  <authors><person name="Sam Ruby" email="rubys@us.ibm.com"/></authors></header>
 
 <body>
 
-  <section name="What is Gump?">
+  <section><title>What is Gump?</title>
 
   <p>
     Gump is a social experiment.  The primary goal of Gump is to get diverse
     projects to communicate early and often about integration, dependencies,
     and versioning management.  One way to think about it is that some of the
     concepts of
-    <a href="http://www.extremeprogramming.org/">Extreme programming</a>
+    <link href="http://www.extremeprogramming.org/">Extreme programming</link>
     applied to
-    <a href="http://www.martinfowler.com/articles/continuousIntegration.html">
-    Continuous Integration</a> on an unprecedented scale.
+    <link href="http://www.martinfowler.com/articles/continuousIntegration.html">
+    Continuous Integration</link> on an unprecedented scale.
   </p>
 
   <p>
- 	Gump is experimenting with a re-write, see
- 	<a href="http://nagoya.apache.org/wiki/apachewiki.cgi?GumpPython">Python Gump</a>
+    <link href="traditional/index.html">Traditional Gump</link> is undergoing re-write to <link href="python/index.html">Python</link>, see
+    <link href="http://nagoya.apache.org/wiki/apachewiki.cgi?GumpPython">Python Gump</link>
   </p>
    
   <p>
@@ -34,10 +35,10 @@
 
   </section>
 
-  <section name="How does Gump work?">
+  <section><title>How does Gump work?</title>
     <p>
-      <a href="http://cvs.apache.org/viewcvs/jakarta-gump/project">
-      Project</a> definitions are converted from XML to scripts native to the
+      <link href="http://cvs.apache.org/viewcvs/jakarta-gump/project">
+      Project</link> definitions are converted from XML to scripts native to the
       platform on which you are running.  These scripts execute cvs update
       commands for every module which contains a project being built, and
       invoke builds for each project in an order that ensures that dependencies
@@ -71,15 +72,15 @@
     </p>
   </section>
 
-  <section name="Where is Gump?">
+  <section><title>Where is Gump?</title>
     <ul>
-      <li><a href="http://cvs.apache.org/viewcvs/jakarta-gump/">Source</a></li>
-      <li><a href="http://cvs.apache.org/builds/gump/latest/">Latest Results</a></li>
-      <li><a href="http://nagoya.apache.org/~rubys/gump/">Experimental runs</a></li>
+      <li><link href="http://cvs.apache.org/viewcvs/jakarta-gump/">Source</link></li>
+      <li><link href="http://cvs.apache.org/builds/gump/latest/">Latest Results</link></li>
+      <li><link href="http://nagoya.apache.org/~rubys/gump/">Experimental runs</link></li>
     </ul>
   </section>
 
-  <section name="When does Gump run?">
+  <section><title>When does Gump run?</title>
     <p>
       For Gump to have the desired social effects, it must be predictable.  
       Given the global scale of open source development, there is clearly no 
@@ -95,7 +96,7 @@
 
     <table>
       <tr>
-        <td></td>
+        <td/>
         <th>US, Pacific</th>
         <th>US, Eastern</th>
         <th>GMT</th>
@@ -103,39 +104,39 @@
         <th>Comments</th>
       </tr>
       <tr>
-        <td><a href="http://cvs.apache.org/builds/gump/latest">Rubix</a> </td>
+        <td><link href="http://cvs.apache.org/builds/gump/latest">Rubix</link> </td>
         <td>8 pm</td>
         <td>11 pm</td>
         <td>0400</td>
         <td>1 pm</td>
-        <td></td>
+        <td>Unavailable</td>
       </tr>
       <tr>
-        <td><a href="http://nagoya.apache.org/~rubys/gump/">Nagoya</a> </td>
+        <td><link href="http://nagoya.apache.org/~rubys/gump/">Nagoya</link> </td>
         <td>4 am</td>
         <td>7 am</td>
         <td>1200</td>
         <td>9 pm</td>
-        <td></td>
+        <td/>
       </tr>
       <tr>
-        <td><a href="http://gump.covalent.net/log/index.html">Covalent</a> </td>
+        <td><link href="http://gump.covalent.net/log/index.html">Covalent</link> </td>
         <td>Noon</td>
         <td>3 pm</td>
         <td>2000</td>
         <td>5 am</td>
-        <td>Unavailable</td>
+        <td></td>
       </tr>
       <tr>
-        <td><a href="http://gump.cocoondev.org/">CocoonDev</a> </td>
+        <td><link href="http://gump.cocoondev.org/">CocoonDev</link> </td>
         <td>3 pm</td>
         <td>6 pm</td>
         <td>2300</td>
         <td>8 am</td>
-        <td></td>
+        <td/>
       </tr>
       <tr>
-        <td><a href="http://lsd.student.utwente.nl/gump/">LSD</a> </td>
+        <td><link href="http://lsd.student.utwente.nl/gump/">LSD</link> </td>
         <td>5 pm</td>
         <td>8 pm</td>
         <td>0100</td>
@@ -146,10 +147,10 @@
 
   </section>
 
-  <section name="Who is Gump?">
+  <section><title>Who is Gump?</title>
     <p>
       Gump was named after
-      <a href="http://www.ionet.net/~lesinokc/gump/gump.html">Forrest Gump</a>,
+      <fork href="http://www.google.com/search?q=Forrest+Gump">Forrest Gump</fork>,
       the title character in a movie.  The process for building was to do a
       "Generate", followed by cvs "Updates", followed by a "Build All".  This
       was repetitive, so a command was created to combine these operations -
@@ -161,7 +162,7 @@
       This seemed oddly appropriate to me as much of the motivation I had
       derived from the frustrations I had building a project that I was and
       continue to be a big fan of - Cocoon.  The
-      <a href="http://xml.apache.org/cocoon/faqs.html#faq-whyname">FAQ</a> for
+      <link href="http://xml.apache.org/cocoon/faqs.html#faq-whyname">FAQ</link> for
       that project indicate that the project was named after a movie that the
       creator of that project was particularly fond of, so it seemed fitting
       that this effort would be named after a movie that I am fond of.
@@ -181,12 +182,11 @@
     </p>
   </section>
 
-  <section name="Why was Gump written?">
+  <section><title>Why was Gump written?</title>
     <p>
       That question is complex enough that it deserves a
-      <a href="why.html">separate page</a>.
+      <link href="why.html">separate page</link>.
     </p>
   </section>
 </body>
 </document>
-

@@ -1,14 +1,15 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE document PUBLIC "-//APACHE//DTD Documentation V1.1//EN" "document-v11.dtd">
 <document>
 
-  <properties>
-    <author email="rubys@us.ibm.com">Sam Ruby</author>
+  <header>
+    
     <title>Gump</title>
-  </properties>
+  <authors><person name="Sam Ruby" email="rubys@us.ibm.com"/></authors></header>
 
 <body>
 
-  <section name="I got nagged!  Now what?">
+  <section><title>I got nagged!  Now what?</title>
 
   <p>
     Gump can be configured to send out e-mails to anywhere based on finding
@@ -25,7 +26,7 @@
     that might impact you.
   </p>
 
-  <subsection name="intra-project oops's">
+  <section><title>intra-project oops's</title>
     <p>This is actually the most common type of error found by Gump.  Somebody
     checked something in and it either doesn't compile outright, or doesn't
     work with some other change within the same project.  The most common
@@ -35,9 +36,9 @@
     <p>While in an ideal world, this should never happen, and people should
     verify every change before committing, realize that it happens to all of
     us.  What is important is that it is quickly responded to.</p>
-  </subsection>
+  </section>
 
-  <subsection name="cross-project breakages">
+  <section><title>cross-project breakages</title>
     <p>These problems are comparatively infrequent, but when you track enough
     projects, there generally is an instance of this somewhere.  And if it is
     somewhere, Gump will generally find it.</p>
@@ -61,9 +62,9 @@
     you release is likely the prudent approach.  Unless you ask for the
     reminders to be turned off, you will continue to be reminded, but remember
     it is up to you to decide what to do with this information.</p>
-  </subsection>
+  </section>
 
-  <subsection name="Gump goofs">
+  <section><title>Gump goofs</title>
     <p>Gump is software, and therefore may introduce bugs.  It also may build
     your project in a way different than you traditionally do.  In particular,
     the dependencies must be declared to Gump prior to the build, and can not
@@ -71,16 +72,15 @@
 
     <p>The most common occurrence of problems here is introducing a new
     dependency without the Gump project definition being updated.  A note
-    to <a href="mailto:gump@jakarta.apache.org">
-    gump@jakarta.apache.org</a> letting us know what is going on
+    to <link href="mailto:gump@jakarta.apache.org">
+    gump@jakarta.apache.org</link> letting us know what is going on
     is appreciated when this occurs.</p>
 
     <p>Of course, you should always send e-mail if you suspect that Gump itself
     is the cause.</p>
-  </subsection>
+  </section>
 
   </section>
 
 </body>
 </document>
-

@@ -1,16 +1,17 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE document PUBLIC "-//APACHE//DTD Documentation V1.1//EN" "document-v11.dtd">
 <document>
 
-  <properties>
-    <author email="rubys@us.ibm.com">Sam Ruby</author>
+  <header>
+    
     <title>Gump</title>
-  </properties>
+  <authors><person name="Sam Ruby" email="rubys@us.ibm.com"/></authors></header>
 
 <body>
 
-  <section name="Building projects for yourself using Gump">
+  <section><title>Building projects for yourself using Gump</title>
 
-    <subsection name="Planning">
+    <section><title>Planning</title>
       <p>The bare minimum required to get started is a JDK, a JAXP 1.1
       compliant parser, a command prompt (bash or Windows NT/2K), and Perl.
       Perl is only used at the moment for some of the publishing and
@@ -18,26 +19,26 @@
 
       <p>It is highly recommended at this point that you review the
       description of the data definitions used by Gump, starting with
-      the <a href="overview.html">overview</a>.</p>
+      the <link href="overview.html">overview</link>.</p>
 
-    </subsection>
+    </section>
 
-    <subsection name="Getting the source to Gump">
+    <section><title>Getting the source to Gump</title>
       <source>
-
       export CVSROOT=:pserver:anoncvs@cvs.apache.org:/home/cvspublic
       cvs login
-      cvs co jakarta-gump</source>
+      cvs co jakarta-gump
+      </source>
 
-      <p>If prompted for the password, enter <b><tt>anoncvs</tt></b></p>
-    </subsection>
+      <p>If prompted for the password, enter <strong>anoncvs</strong></p>
+    </section>
 
-    <subsection name="Defining your workspace">
+    <section><title>Defining your workspace</title>
       <p>Two sample workspaces are provided, rubix and rubypad.  Find the
       one that is closest to your needs and make a copy of it.  The suggested
       name for the file you create is your host name.</p>
 
-      <p>Again, reference the <a href="overview.html">overview</a> to see
+      <p>Again, reference the <link href="overview.html">overview</link> to see
       how you can add projects, define your own profiles, and the modify
       which version of referenced projects you want to build.</p>
 
@@ -47,12 +48,12 @@
       Xalan are recommended for performance reasons; but the JAXP
       reference implementation will likely catch up shortly.</p>
 
-      <p><b>Note:</b> Yes, it is tacky that you should have to modify this
+      <p><strong>Note:</strong> Yes, it is tacky that you should have to modify this
       file directly.  Patches are welcome.  Meanwhile, cvs does a fairly
       good job of merging changes.</p>
-    </subsection>
+    </section>
 
-    <subsection name="Installing Packages">
+    <section><title>Installing Packages</title>
       <p>Packages for which source is not easily accessible are not built by Gump.
       Where such packages are required prerequisites for building other projects, Gump
       allows binary versions of the package to be installed to satisfy the prerequisites.
@@ -60,49 +61,49 @@
       </p>
 
       <p>A list of some of the packages you might want to install can be found
-      <a href="http://cvs.apache.org/builds/gump/latest/packages.html">
-      here</a>.</p>
+      <link href="http://cvs.apache.org/builds/gump/latest/packages.html">
+      here</link>.</p>
 
-      <p><b>JDK 1.4</b> includes both <code>jaxp</code> and <code>jsse</code>
+      <p><strong>JDK 1.4</strong> includes both <code>jaxp</code> and <code>jsse</code>
       which were previously available as separately installable packaged.
       The dependencies on these packages are now marked as optional. If you are
       using a JDK prior to 1.4, the packages must be installed. For JDK 1.4 and
       later the packages need not be installed and the version provided with the
       JDK will be utilised.
       </p>
-    </subsection>
+    </section>
 
-    <subsection name="Generation">
+    <section><title>Generation</title>
       <p>For Unix and cygwin installations using bash:</p>
 
-      <xmp>
+      <source>
         bash ./gen.sh
-      </xmp>
+      </source>
 
       <p>For Windows NT and 2K installations:</p>
 
-      <xmp>
+      <source>
         gen
-      </xmp>
+      </source>
 
       <p>This process generates the update and build scripts used in
       subsequent steps.  It also logs you onto any :pserver: cvs
       repository defined which you are not currently logged onto, and
       generates the various cross reference pages.</p>
-    </subsection>
+    </section>
 
-    <subsection name="Update">
+    <section><title>Update</title>
       <p>For Unix and cygwin installations using bash:</p>
 
-      <xmp>
+      <source>
          bash ./update.sh ( all | module ... )
-      </xmp>
+      </source>
 
       <p>For Windows NT and 2K installations:</p>
 
-      <xmp>
+      <source>
          update ( all | module ... )
-      </xmp>
+      </source>
 
       <p>With this command you can specify you either want to update all or a
       specified list or modules.  If the module had not been previously
@@ -111,20 +112,20 @@
       web page containing the logs for each update is produced, as well as
       a summary page.  If specific modules are listed, then the output comes
       to the screen.</p>
-    </subsection>
+    </section>
 
-    <subsection name="Build">
+    <section><title>Build</title>
       <p>For Unix and cygwin installations using bash:</p>
 
-      <xmp>
+      <source>
          bash ./build.sh ( all | clean | ( project [ target ... ] ) )
-      </xmp>
+      </source>
 
       <p>For Windows NT and 2K installations:</p>
 
-      <xmp>
+      <source>
          build ( all | clean | ( project [ target ... ] ) )
-      </xmp>
+      </source>
 
       <p>With this command you can specify you either want to build all or a
       specified project.  If <code>all</code> is specified then a
@@ -133,7 +134,7 @@
       action that is performed is to synchronize the build directories from
       the cvs directories.  If a project is specified, then the output comes
       to the screen, using the target you provide.</p>
-    </subsection>
+    </section>
   </section>
 
 </body>
