@@ -17,7 +17,7 @@
     <depend project="bootstrap-ant"/>
     <depend project="xjavac"/>
     <home nested="java/build"/>
-    <jar  name="xercesImpl.jar" id="parser"/>
+    <jar  name="xercesImpl.jar" id="parser" type="boot"/>
     <jar  name="xmlParserAPIs.jar" id="apis"/>
 
     <nag from="Sam Ruby &lt;rubys@us.ibm.com&gt;"
