@@ -1,0 +1,47 @@
+<module name="jakarta-servletapi-5">
+
+  <description>
+    JSRs 152 and 154
+  </description>
+
+  <cvs repository="jakarta"/>
+  
+  <project name="jakarta-servletapi-5-servlet">
+    <package>javax.servlet</package>
+    <package>javax.servlet.http</package>
+
+    <description>
+      JSR 154
+    </description>
+
+    <mkdir dir="jsr154/build/classes"/>
+    <ant basedir="jsr154" target="dist"/>
+    <depend project="xml-xerces"/>
+    <depend project="jakarta-ant" inherit="runtime"/>
+    <work nested="jsr154/build/classes"/>
+    <home nested="jsr154/dist"/>
+    <jar name="lib/servlet-api.jar"/>
+    <javadoc nested="jsr154/build/docs/api" module="jakarta-tomcat-5"/>
+  </project>
+
+  <project name="jakarta-servletapi-5-jsp">
+    <package>javax.servlet.jsp</package>
+
+    <description>
+      JSR 152
+    </description>
+
+    <mkdir dir="jsr152/build/classes"/>
+    <ant basedir="jsr152" target="dist">
+      <depend property="servlet-api.jar" 
+              project="jakarta-servletapi-5-servlet" />
+    </ant>
+    <depend project="xml-xerces"/>
+    <depend project="jakarta-ant" inherit="runtime"/>
+    <work nested="jsr152/build/classes"/>
+    <home nested="jsr152/dist"/>
+    <jar name="lib/jsp-api.jar"/>
+    <javadoc nested="jsr152/build/docs/api" module="jakarta-tomcat-5"/>
+  </project>
+
+</module>
