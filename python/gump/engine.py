@@ -157,7 +157,6 @@ class GumpEngine:
             workspace.writeXMLToFile(default.merge)
             workspace.setMergeFile(default.merge)
 
-
     """
     
         ******************************************************************
@@ -983,6 +982,9 @@ class GumpTaskList(list):
             task=GumpTask(name,['preprocess','loadStatistics'])                    
         elif 'build'==name:
             # Build using Ant|Maven|...
+            task=GumpTask(name,['preprocess','loadStatistics'])                    
+        elif 'check'==name:
+            # Check metadata
             task=GumpTask(name,['preprocess','loadStatistics'])             
         elif 'prepareDocumentation'==name:
             # Prepare documentation (e.g. create forest templates)
