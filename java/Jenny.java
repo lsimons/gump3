@@ -1,7 +1,7 @@
 /*
- * $Header: /home/stefano/cvs/gump/java/Jenny.java,v 1.21 2003/01/16 17:04:46 bodewig Exp $
- * $Revision: 1.21 $
- * $Date: 2003/01/16 17:04:46 $
+ * $Header: /home/stefano/cvs/gump/java/Jenny.java,v 1.22 2003/01/17 06:46:31 bodewig Exp $
+ * $Revision: 1.22 $
+ * $Date: 2003/01/17 06:46:31 $
  *
  * ====================================================================
  *
@@ -264,6 +264,8 @@ public class Jenny {
                    String cache = getCachedNodeName(elem);
                    File f = new File(cache);
                    if (f.exists()) {
+                       System.err.println("Using cached document " 
+                                          + cache + ".");
                        Node sub = parse(cache);
                        Document doc = elem.getOwnerDocument();
                        Element copy = null;
@@ -288,6 +290,8 @@ public class Jenny {
                        copy.setAttribute("extern-prefix", "../cache/");
 
                        child = copy;
+                   } else {
+                       System.err.println("No cache " + cache + " available.");
                    }
                }
            }
