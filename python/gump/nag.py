@@ -94,9 +94,13 @@ def nag(workspace,context,moduleFilterList=None,projectFilterList=None):
                             # if projectFilterList and not pctxt.project in projectFilterList: continue
                             project=Project.list[pname]
                             if project.nag:
-                                nagProject(workspace,context,module,mctxt,project,pctxt)
+                                try:
+                                    nagProject(workspace,context,module,mctxt,project,pctxt)
+                                except:
+                                    log.error("Failed to send nag e-mail for project " + pname)
                             else:
-                                log.error("Project naggable w/ nowhere to nag")
+                                log.error("Project naggable w/ nowhere to nag")   
+                
                 
 def nagWorkspace(workspace,context):
     """ Nag for the workspace """
@@ -134,7 +138,7 @@ def nagProject(workspace,context,module,mctxt,project,pctxt):
             mail(toaddrs,fromaddr,email,workspace.mailserver) 
         except:
             log.error("Failed to send nag e-mail for project " + project.name)
-            log.error(context)
+            log.error(content)
     
 def getContent(workspace,context,message=''):
     content=''
