@@ -190,8 +190,10 @@ class StatisticsDB:
                         if isinstance(value,datetime.datetime):
                             setattr(stats,attr,value)
                         else:
-                            setattr(stats,attr,
-                                datetime.datetime.fromtimestamp(time.mktime(time.strptime(value,'%Y-%m-%d %H:%M:%S'))))
+                            if not value == '0000-00-00 00:00:00':
+                                setattr(stats,attr,
+                                    datetime.datetime.fromtimestamp(time.mktime(time.strptime(value,
+                                                                                '%Y-%m-%d %H:%M:%S'))))
                     else:    
                         setattr(stats,attr,value)
         
