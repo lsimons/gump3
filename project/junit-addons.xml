@@ -7,9 +7,14 @@
 
   <cvs repository="sourceforge" host-prefix="cvs.junit-addons" dir="junit-addons"/>
   
+  <redistributable/>
+
   <project name="junit-addons">
 
-    <ant/>
+    <ant target="release">
+      <property name="project.name" value="junit-addons"/>
+      <property name="project.version" value="@@DATE@@"/>
+    </ant>
 
     <depend project="ant" inherit="runtime"/>
     <depend project="xml-apis"/>
@@ -17,9 +22,12 @@
     <depend project="jdom"/>
     <depend project="junit"/>
     <depend project="jaxen"/>
+    <depend project="saxpath"/>
 
     <work nested="build/classes"/>
-    <jar name="lib/junit-addons-@@DATE@@.jar"/>
+    <work nested="build/classes-example"/>
+    <jar name="dist/junit-addons-@@DATE@@.jar"/>
+    <javadoc nested="dist/api"/>
 
     <license name="LICENSE"/>
 
