@@ -9,7 +9,7 @@
   <project name="commons-beanutils">
     <url href="http://jakarta.apache.org/commons/beanutils.html"/>
 
-    <ant basedir="beanutils" target="dist">
+    <ant basedir="beanutils/build" target="dist">
       <property name="junit.home" reference="homepath" project="junit"/>
     </ant>
     <depend project="jakarta-ant"/>
