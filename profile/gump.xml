@@ -6,6 +6,7 @@
   <module href="project/jakarta-ant.xml"/>
   <module href="project/jakarta-ant-antidote.xml"/>
   <module href="http://cvs.apache.org/viewcvs/~checkout~/jakarta-ant-myrmidon/gump.xml"/>
+  <module href="project/avalon-sandbox.xml"/> 
   <module href="project/jakarta-avalon.xml"/> 
   <module href="project/jakarta-avalon-apps.xml"/> 
   <module href="project/jakarta-avalon-cornerstone.xml"/> 
