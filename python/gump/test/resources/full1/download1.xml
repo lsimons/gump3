@@ -1,6 +1,6 @@
 <module name="download1">
 
-  <url  href="http://ant.apache.org/index.html"/>
+  <url  href="http://jakarta.apache.org/gump/index.html"/>
   <description>
     Test of downloading a package
   </description>
@@ -21,8 +21,8 @@
 
     <license name="LICENSE"/>
 
-    <nag from="Gump Integration Build &lt;dev@ant.apache.org&gt;"
-         to="dev@ant.apache.org"/>
+    <nag from="Gump Integration Build &lt;gump@jakarta.apache.org&gt;"
+         to="gump@jakarta.apache.org"/>
   </project>
 
 </module>

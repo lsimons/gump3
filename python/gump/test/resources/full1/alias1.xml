@@ -1,6 +1,6 @@
 <module name="alias1">
 
-  <url  href="http://ant.apache.org/index.html"/>
+  <url  href="http://jakarta.apache.org/gump/index.html"/>
   <description>
     Jakarta Gump Alias1 -- test of aliasing
     i.e. dependency w/ inherit='jars'.

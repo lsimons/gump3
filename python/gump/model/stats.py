@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/model/stats.py,v 1.8 2004/01/13 00:03:25 ajack Exp $
-# $Revision: 1.8 $
-# $Date: 2004/01/13 00:03:25 $
+# $Header: /home/stefano/cvs/gump/python/gump/model/stats.py,v 1.9 2004/01/21 18:52:30 ajack Exp $
+# $Revision: 1.9 $
+# $Date: 2004/01/21 18:52:30 $
 #
 # ====================================================================
 #
@@ -72,6 +72,12 @@ import gump
 from gump.config import *
 from gump.model.state import *
 
+#
+# Durations (in 'runs')
+#
+
+SIGNIFICANT_DURATION=30
+
 class Statistics:
     """Statistics Holder"""
     def __init__(self,name):
@@ -79,11 +85,11 @@ class Statistics:
         self.successes=0
         self.failures=0
         self.prereqs=0
-        self.first=0
-        self.last=0
+        self.first=-1
+        self.last=-1
         self.currentState=STATE_UNSET
         self.previousState=STATE_UNSET
-        self.startOfState=0        
+        self.startOfState=-1        
         self.sequenceInState=0
                 
     def getFOGFactor(self):

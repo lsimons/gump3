@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/output/Attic/statsdb.py,v 1.12 2004/01/15 19:42:24 ajack Exp $
-# $Revision: 1.12 $
-# $Date: 2004/01/15 19:42:24 $
+# $Header: /home/stefano/cvs/gump/python/gump/output/Attic/statsdb.py,v 1.13 2004/01/21 18:52:30 ajack Exp $
+# $Revision: 1.13 $
+# $Date: 2004/01/21 18:52:30 $
 #
 # ====================================================================
 #
@@ -233,7 +233,14 @@ class StatisticsDB:
         return float(val)
         
     def getDate(self,key):
-        return self.getFloat(key)
+        dateF=self.getFloat(key)
+        
+        # Hack to patch values incorrectly set to 0
+        # not -1 by default.
+        if 0 == dateF:
+            dateF == -1
+            
+        return dateF
         
     def put(self,key,val=''):
         self.db[key]=val
@@ -241,7 +248,7 @@ class StatisticsDB:
     def putInt(self,key,val=0):
         self.db[key]=str(val)
         
-    def putDate(self,key,val=0):
+    def putDate(self,key,val=-1):
         self.putInt(key,val)
         
     def loadStatistics(self,workspace):
@@ -461,6 +468,13 @@ def compareProjectsByLastUpdated(project1,project2):
     fog2=project2.getLastUpdated()
     c= int(round(fog2 - fog1,0))                  
     if not c: c=cmp(project1,project2)
+    return c              
+            
+def compareProjectsBySequenceInState(project1,project2):
+    seq1=project1.getStats().sequenceInState
+    seq2=project2.getStats().sequenceInState
+    c= int(round(seq2 - seq1,0))                  
+    if not c: c=cmp(project1,project2)
     return c                         
             
 class StatisticsGuru:
@@ -488,4 +502,5 @@ class StatisticsGuru:
         self.projectsByTotalDependees=createOrderedList(workspace.getProjects(),compareProjectsByDependeeCount)
         self.projectsByFOGFactor=createOrderedList(workspace.getProjects(),compareProjectsByFOGFactor)
         self.projectsByLastUpdated=createOrderedList(workspace.getProjects(),compareProjectsByLastUpdated)
+        self.projectsBySequenceInState=createOrderedList(workspace.getProjects(),compareProjectsBySequenceInState)
         

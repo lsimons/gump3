@@ -1,6 +1,6 @@
 <module name="broken1">
 
-  <url  href="http://ant.apache.org/index.html"/>
+  <url  href="http://jakarta.apache.org/gump/index.html"/>
   <description>
     Broken module: 
     1) Duplicate project definitions

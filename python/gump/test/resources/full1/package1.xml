@@ -1,6 +1,6 @@
 <module name="package1">
 
-  <url  href="http://ant.apache.org/index.html"/>
+  <url  href="http://jakarta.apache.org/gump/index.html"/>
   <description>
     Package #1
   </description>
@@ -21,12 +21,12 @@
 
     <license name="LICENSE"/>
 
-    <nag from="Gump Integration Build &lt;dev@ant.apache.org&gt;"
-         to="dev@ant.apache.org"/>
+    <nag from="Gump Integration Build &lt;gump@jakarta.apache.org&gt;"
+         to="gump@jakarta.apache.org"/>
   </project>
   
   <project name="honorary1">
-    <package>org.apache.tools.ant</package>
+    <package>org.apache.tools.honarary1</package>
     <depend project="random"/>
     <option project="random"/>
     <home nested="dist"/>

@@ -1,4 +1,4 @@
-REM @ECHO OFFF
+@ECHO OFF
 REM
 REM _ J A K A R T A  G U M P _ J A K A R T A  G U M P _ J A K A R T A  G U M P _ 
 REM
@@ -87,10 +87,10 @@ IF EXIST %GUMP_PROFILE_LOG_DIR% GOTO hasProfileLogDir
 	goto end
 :hasProfileLogDir
 
-COPY %GUMP%\gumpy.sh %GUMP_PROFILE_LOG_DIR%
-COPY %GUMP_HOST%.xml  %GUMP_PROFILE_LOG_DIR%
-IF EXIST %LOCAL_ENV% COPY %LOCAL_ENV% %GUMP_PROFILE_LOG_DIR%
-IF EXIST %HOST_LOCAL_ENV% COPY %HOST_LOCAL_ENV% %GUMP_PROFILE_LOG_DIR%
+COPY /Y %GUMP%\gumpy.sh %GUMP_PROFILE_LOG_DIR%
+COPY /Y %GUMP_HOST%.xml  %GUMP_PROFILE_LOG_DIR%
+IF EXIST %LOCAL_ENV% COPY /Y %LOCAL_ENV% %GUMP_PROFILE_LOG_DIR%
+IF EXIST %HOST_LOCAL_ENV% COPY /Y %HOST_LOCAL_ENV% %GUMP_PROFILE_LOG_DIR%
 
 REM  :TODO:  cp -R `grep profile %GUMP_HOST%.xml  | cut -d\" -f2` %GUMP_PROFILE_LOG_DIR%
 
@@ -100,13 +100,13 @@ REM Preliminary cleanup
 REM
 
 REM Gump-level tmp
-IF EXIST %GUMP_TMP% REMOVE %GUMP_TMP%\*.txt
+IF EXIST %GUMP_TMP% DEL /Q %GUMP_TMP%\*.txt
 
 REM Gump work tmp
-IF EXIST %GUMP_WS_TMP% REMOVE %GUMP_WS_TMP%\*.txt
+IF EXIST %GUMP_WS_TMP% DEL /Q %GUMP_WS_TMP%\*.txt
 
 REM Clear the forrest build area...
-IF EXIST %GUMP_WS%\forrest\build\ REMOVE %GUMP_WS%\forrest\build\
+IF EXIST %GUMP_WS%\forrest\build\ DEL /Q %GUMP_WS%\forrest\build\
 
 REM
 REM Do a CVS update
@@ -161,7 +161,7 @@ CD %GUMP_TMP%
 ECHO %SEPARATOR% >> %GUMP_LOG%
 IF NOT EXIST check_forrest.txt GOTO noCheckForrest
 	TYPE check_forrest.txt >> %GUMP_LOG%
-	COPY check_forrest.txt %GUMP_LOG_DIR%
+	COPY /Y check_forrest.txt %GUMP_LOG_DIR%
 	GOTO checkedForrest
 :noCheckForrest:
 	ECHO "No Forrest Output file @ %GUMP_TMP%\check_forrest.txt" >> %GUMP_LOG%
@@ -171,7 +171,7 @@ ECHO %SEPARATOR% >> %GUMP_LOG%
 
 IF NOT EXIST forrest.txt GOTO noForrestOutput
 	TYPE forrest.txt >> %GUMP_LOG%
-	COPY forrest.txt %GUMP_LOG_DIR%
+	COPY /Y forrest.txt %GUMP_LOG_DIR%
 	GOTO forrested
 :noForrestOutput
 	ECHO "No Forrest Output file @ %GUMP_TMP%\forrest.txt" >> %GUMP_LOG%
@@ -183,7 +183,7 @@ IF NOT EXIST %GUMP_WS%\forrest\build\tmp\brokenlinks.txt GOTO noBrokenLinks
 	ECHO %SEPARATOR% >> %GUMP_LOG%
 	TYPE %GUMP_WS%\forrest\build\tmp\brokenlinks.txt >> %GUMP_LOG%
 	ECHO %SEPARATOR% >> %GUMP_LOG%
-	COPY %GUMP_WS%\forrest\build\tmp\brokenlinks.txt %GUMP_LOG_DIR%
+	COPY /Y %GUMP_WS%\forrest\build\tmp\brokenlinks.txt %GUMP_LOG_DIR%
 :noBrokenLinks
 
 :end

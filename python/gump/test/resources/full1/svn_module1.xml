@@ -1,6 +1,6 @@
 <module name="svn_module1">
 
-  <url  href="http://ant.apache.org/index.html"/>
+  <url  href="http://jakarta.apache.org/gump/index.html"/>
   <description>
     Java based build tool
   </description>
@@ -8,7 +8,7 @@
   <svn repository="svn_repository1" dir='svndir'/>
 
   <project name="svn_project1">
-    <package>org.apache.tools.ant</package>
+    <package>org.apache.tools.svn_project1</package>
     <ant target="gump"/>
     <depend project="random"/>
     <option project="random"/>
@@ -16,8 +16,8 @@
     <jar name="lib/outputSVN.jar" id="outputSVN"/>
     <license name="LICENSE"/>
 
-    <nag from="Gump Integration Build &lt;dev@ant.apache.org&gt;"
-         to="dev@ant.apache.org"/>
+    <nag from="Gump Integration Build &lt;gump@jakarta.apache.org&gt;"
+         to="gump@jakarta.apache.org"/>
   </project>
 
 </module>

@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/forrest.py,v 1.54 2004/01/19 22:41:14 ajack Exp $
-# $Revision: 1.54 $f
-# $Date: 2004/01/19 22:41:14 $
+# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/forrest.py,v 1.55 2004/01/21 18:52:30 ajack Exp $
+# $Revision: 1.55 $f
+# $Date: 2004/01/21 18:52:30 $
 #
 # ====================================================================
 #
@@ -79,6 +79,7 @@ from gump.document.resolver import *
 from gump.utils import *
 from gump.utils.xmlutils import xmlize
 from gump.model import *
+from gump.model.stats import *
 from gump.model.project import AnnotatedPath,  ProjectStatistics
 from gump.output.statsdb import StatisticsGuru
 from gump.output.xref import XRefGuru
@@ -940,11 +941,22 @@ class ForrestDocumenter(Documenter):
         stats=project.getStats()
         
         statsSection=document.createSection('Statistics')  
+        
+        #
+        # Start annotating with issues...
+        #
+        if project.isNotOk() and stats.sequenceInState >= SIGNIFICANT_DURATION:
+            statsSection.createWarning(	\
+                'This project has existed in this failed state for a significant duration.')
+        
         statsTable=statsSection.createTable()           
         statsTable.createEntry("FOG Factor: ", round(stats.getFOGFactor(),2))
         statsTable.createEntry("Successes: ", stats.successes)
         statsTable.createEntry("Failures: ", stats.failures)
         statsTable.createEntry("Prerequisite Failures: ", stats.prereqs)
+        statsTable.createEntry("Current State: ", stateName(stats.currentState))
+        statsTable.createEntry("Duration in state: ", stats.sequenceInState)
+        statsTable.createEntry("Start of state: ", secsToDate(stats.startOfState))
         statsTable.createEntry("Previous State: ", stateName(stats.previousState))
         
         if stats.first:
@@ -1095,7 +1107,8 @@ class ForrestDocumenter(Documenter):
         annotationsSection=xdocNode.createSection('Annotations')
         
         if annotatable.containsNasties():
-            annotationsSection.createWarning('Some warnings and/or errors are present within these annotations.')
+            annotationsSection.createWarning(	\
+                'Some warnings and/or errors are present within these annotations.')
         
         annotationsTable=annotationsSection.createTable()
         for note in annotations:      
@@ -1463,12 +1476,14 @@ class ForrestDocumenter(Documenter):
         self.documentModulesByProjects(stats, run, workspace, gumpSet)
         self.documentModulesByDependencies(stats, run, workspace, gumpSet)
         self.documentModulesByDependees(stats, run, workspace, gumpSet)
-        self.documentModulesByFOGFactor(stats, run, workspace, gumpSet)        
+        self.documentModulesByFOGFactor(stats, run, workspace, gumpSet)       
+        self.documentModulesByLastUpdated(stats, run, workspace, gumpSet)        
         # Individual Pages...
         self.documentProjectsByElapsed(stats, run, workspace, gumpSet)
         self.documentProjectsByDependencies(stats, run, workspace, gumpSet)
         self.documentProjectsByDependees(stats, run, workspace, gumpSet)
-        self.documentProjectsByFOGFactor(stats, run, workspace, gumpSet)        
+        self.documentProjectsByFOGFactor(stats, run, workspace, gumpSet)    
+        self.documentProjectsBySequenceInState(stats, run, workspace, gumpSet)
     
     def documentModulesByElapsed(self,stats,run,workspace,gumpSet):
         document=XDocDocument('Modules By Elapsed Time',	\
@@ -1557,6 +1572,18 @@ class ForrestDocumenter(Documenter):
             
         document.serialize()
     
+    def documentModulesByLastUpdated(self,stats,run,workspace,gumpSet):
+        document=XDocDocument('Modules By Last Updated',	\
+                    self.resolver.getFile(stats,'module_updated.xml'),)        
+        updTable=document.createTable(['Module','Last Updated'])
+        for module in stats.modulesByLastUpdated:        
+            if not gumpSet.inModules(module): continue    
+            updRow=updTable.createRow()            
+            self.insertLink( module, stats, updRow.createData())                
+            updRow.createData(secsToDate(module.getLastUpdated()))
+            
+        document.serialize()
+    
     def documentProjectsByElapsed(self,stats,run,workspace,gumpSet):
         document=XDocDocument('Projects By Elapsed Time',	\
             self.resolver.getFile(stats,'project_elapsed.xml'))
@@ -1627,8 +1654,23 @@ class ForrestDocumenter(Documenter):
             fogRow.createData(pstats.prereqs)
             fogRow.createData(round(pstats.getFOGFactor(),2))
             
+        document.serialize()   
+        
+    def documentProjectsBySequenceInState(self,stats,run,workspace,gumpSet):
+        document=XDocDocument('Projects By Duration In State',	\
+                    self.resolver.getFile(stats,'project_durstate.xml'),)        
+        durTable=document.createTable(['Project','Duration\nIn State','State'])
+        for project in stats.projectsBySequenceInState:        
+            if not gumpSet.inSequence(project): continue    
+            durRow=durTable.createRow()            
+            self.insertLink( project, stats, durRow.createData())  
+                 
+            pstats=project.getStats()
+            
+            durRow.createData(pstats.sequenceInState)
+            durRow.createData(stateName(pstats.currentState))
+            
         document.serialize()
-   
 
         
     #####################################################################           

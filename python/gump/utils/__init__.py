@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/utils/__init__.py,v 1.15 2004/01/09 19:57:19 ajack Exp $
-# $Revision: 1.15 $
-# $Date: 2004/01/09 19:57:19 $
+# $Header: /home/stefano/cvs/gump/python/gump/utils/__init__.py,v 1.16 2004/01/21 18:52:30 ajack Exp $
+# $Revision: 1.16 $
+# $Date: 2004/01/21 18:52:30 $
 #
 # ====================================================================
 #
@@ -235,13 +235,18 @@ def elapsedTimeTripleToString(elapsed):
     
     return elapsedString    
     
+# Note: Should've defaulted values to -1, but (by accident)
+# set some to 0, which then stuck in the DB. Leave this
+# check in until fixed that (perhaps by looking for 0 in
+# DB).
 def secsToDate(secs):
-    if -1 == secs: return '-'    
+    if -1 == secs or 0 == secs: return '-'    
     return time.strftime(setting.datetimeformat, \
                     time.localtime(secs))    
-                     
+    
+# See note on secsToDate               
 def secsToTime(secs):
-    if -1 == secs: return '-'
+    if -1 == secs or 0 == secs: return '-'
     return time.strftime(setting.timeformat, \
                     time.localtime(secs))                    
                 

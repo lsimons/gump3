@@ -37,6 +37,7 @@
     <index label="by Project #" href="gump_stats/module_projects.html"/>
     <index label="by Depends #" href="gump_stats/module_dependencies.html"/>
     <index label="by Dependees #" href="gump_stats/module_dependees.html"/>
+    <index label="by Updated" href="gump_stats/module_updated.html"/>
   </stats>
  
   <stats label="Projects" tab="statistics">
@@ -44,6 +45,7 @@
     <index label="by Elapsed" href="gump_stats/project_elapsed.html"/>
     <index label="by Depends #" href="gump_stats/project_dependencies.html"/>
     <index label="by Dependees #" href="gump_stats/project_dependees.html"/>
+    <index label="by Duration" href="gump_stats/project_durstate.html"/>
   </stats>
 
   <stats label="XRef" tab="xref">
