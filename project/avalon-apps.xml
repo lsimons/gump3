@@ -102,28 +102,6 @@
                 to="dev@avalon.apache.org"/>
     </project>
 
-    <project name="avalon-apps-overlord">
-        <package>org.apache.avalon.overlord</package>
-
-        <ant basedir="overlord"/>
-
-        <depend project="junit"/>
-        <depend project="ant"/>
-        <depend project="xml-xerces"/>
-        <depend project="avalon"/>
-        <depend project="avalon-phoenix" inherit="all"/>
-        <depend project="avalon-cornerstone"/>
-
-        <option project="checkstyle" inherit="runtime"/>
-
-        <home nested="overlord"/>
-
-        <jar name="build/lib/overlord-@@DATE@@.sar"/>
-
-        <nag from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"
-                to="dev@avalon.apache.org"/>
-    </project>
-
     <project name="avalon-apps-phyre">
         <package>org.apache.avalon.phyre</package>
 
