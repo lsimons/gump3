@@ -440,10 +440,10 @@ try:
             #
             # Run the main Gump...
             #    
-            command='bin/integrate.py'
+            command='integrate.py'
             if check:
-                command='vin/check.py'
-            integrationExit = runCommand(sys.executable+ ' '+command, iargs, 'python')
+                command='check.py'
+            integrationExit = runCommand(sys.executable+ ' '+command, iargs, 'bin')
             if integrationExit:
                 result=1
 
