@@ -72,6 +72,19 @@
     <work nested="test/java/src"/>
   </project>
 
+  <project name="xml-xalan2-smoketest-experimental">
+    <description>
+      Xalan-J 2.x developer's smoketests
+    </description>
+ 
+    <ant basedir="test" target="smoketest.gump"/>
+ 
+    <depend project="jakarta-ant"/>
+    <depend project="xml-xerces"/>
+    <depend project="dist-xalan2"/>
+    <work nested="test/java/build"/>
+  </project>
+
   <project name="bcel">
     <url href="http://bcel.sourceforge.net/"/>
     <home nested="java"/>
