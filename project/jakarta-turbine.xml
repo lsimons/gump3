@@ -22,7 +22,6 @@
   <depend project="jakarta-oro"/>
   <depend project="jakarta-velocity"/>
   <depend project="village"/>
-  <option project="castor"/>
   <depend project="javamail"/>
   <depend project="xmlrpc"/>
   <depend project="jaf"/>
