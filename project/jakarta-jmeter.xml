@@ -1,20 +1,20 @@
 <module name="jakarta-jmeter">
-<!-- Version $Revision: 1.59 $ Last updated $Date: 2003/12/15 11:49:08 $ -->
+<!-- Version $Revision: 1.60 $ Last updated $Date: 2003/12/18 18:29:30 $ -->
   <url href="http://jakarta.apache.org/jmeter/" />
   <description>
     Pure Java load testing and performance measurement tool.
   </description>
 
   <cvs repository="jakarta" />
-
-  <project name="jakarta-jmeter">
+  
+  	<project name="jakarta-jmeter">
     <package>org.apache.jmeter</package>
 
-    <ant target="dist">
+    <ant target="gump-build">
       <property name="version" value="@@DATE@@"/>
       <property name="gump.run" value="true"/>
       <!-- The version of this file -->
-      <property name="version.projectfile" value="$Revision: 1.59 $"/>
+      <property name="version.projectfile" value="$Revision: 1.60 $"/>
       
 <!-- Temporary standalone trial build
       <depend property="avalon-framework.jar" project="avalon-framework" id="combined"/>
@@ -105,5 +105,57 @@
         <regexp pattern="/FAILURES!!!|OK \(0 tests\)/" subject="JMeter Unit Test Failure"/>
     </nag>
   </project>
+
+  <project name="jakarta-jmeter-test">
+    <ant target="gump-test">
+    </ant>
+
+    <work nested="lib/avalon-excalibur-4.1.jar"/>
+    <work nested="lib/avalon-framework-4.1.4.jar"/>
+    <work nested="lib/commons-collections.jar"/>
+    <work nested="lib/jakarta-oro-2.0.7.jar"/>
+    <work nested="lib/jdom-b8.jar"/>
+    <work nested="lib/junit.jar"/>
+    <work nested="lib/js.jar"/>
+    <work nested="lib/logkit-1.2.jar"/>
+    <work nested="lib/soap.jar"/>
+    <work nested="lib/Tidy.jar"/>
+    <!-- work nested="lib/velocity-1.4-dev.jar"/ -->
+    <work nested="lib/xalan.jar"/>
+    <work nested="lib/xercesImpl.jar"/>
+    <work nested="lib/xml-apis.jar"/>
+
+    <work nested="lib/ext/ApacheJMeter_components.jar"/>
+    <work nested="lib/ext/ApacheJMeter_core.jar"/>
+    <work nested="lib/ext/ApacheJMeter_ftp.jar"/>
+    <work nested="lib/ext/ApacheJMeter_functions.jar"/>
+    <work nested="lib/ext/ApacheJMeter_http.jar"/>
+    <work nested="lib/ext/ApacheJMeter_java.jar"/>
+    <work nested="lib/ext/ApacheJMeter_jdbc.jar"/>
+    <work nested="lib/ext/ApacheJMeter_ldap.jar"/>
+    <work nested="lib/ext/ApacheJMeter_tcp.jar"/>
+  </project>
+  
+  <project name="jakarta-jmeter-javadoc">
+    <ant target="gump-javadoc">
+    </ant>
+    <work nested="lib/avalon-excalibur-4.1.jar"/>
+    <work nested="lib/avalon-framework-4.1.4.jar"/>
+    <work nested="lib/commons-collections.jar"/>
+    <work nested="lib/jakarta-oro-2.0.7.jar"/>
+    <work nested="lib/jdom-b8.jar"/>
+    <work nested="lib/junit.jar"/>
+    <work nested="lib/js.jar"/>
+    <work nested="lib/logkit-1.2.jar"/>
+    <work nested="lib/soap.jar"/>
+    <work nested="lib/Tidy.jar"/>
+    <!-- work nested="lib/velocity-1.4-dev.jar"/ -->
+    <work nested="lib/xalan.jar"/>
+    <work nested="lib/xercesImpl.jar"/>
+    <work nested="lib/xml-apis.jar"/>
+
+  </project>
+
+
 
 </module>
