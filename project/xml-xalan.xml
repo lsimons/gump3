@@ -40,6 +40,7 @@
     <depend project="xml-xalan2"/>
     <depend project="xml-stylebook2"/>
     <option project="bsf"/>
+    <depend project="ejb"/>
     <depend project="xalan2jdoc"/>
     <work nested="java/build/classes"/>
 
