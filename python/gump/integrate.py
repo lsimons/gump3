@@ -49,7 +49,7 @@ def preprocess(workspace,expr='*',context=GumpContext()):
     #
     # Store for later
     #
-    context.gumpset=getGumpSetForProjectExpression(expr)
+    context.gumpset=GumpSet(expr)
     
     
 def integrate(workspace,expr='*',context=GumpContext()):
@@ -82,7 +82,7 @@ def integrate(workspace,expr='*',context=GumpContext()):
   
         # Build HTML Result (via Forrest)
         if not context.noForrest:
-            document(workspace,context,1,modules,sequence)
+            document(workspace,context,modules,sequence)
   
         #
         # Nag about failures -- only if we are allowed to

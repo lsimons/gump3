@@ -79,12 +79,15 @@ from gump.model import *
 from gump.statistics import StatisticsDB,ProjectStatistics,StatisticsGuru
 from gump.logic import getPackagedProjectContexts, getBuildSequenceForProjects,\
      getProjectsForProjectExpression, getModuleNamesForProjectList, \
-     isFullGumpSet, getClasspathLists, AnnotatedPath, hasBuildCommand
+    getClasspathLists, AnnotatedPath, hasBuildCommand
 
-def documentText(workspace,context,moduleList=None,projectList=None):    
-    documentTextToFile(sys.stdout,workspace,context,moduleList,projectList)
+def documentText(workspace,context):    
+    documentTextToFile(sys.stdout,workspace,context)
     
-def documentTextToFile(f,workspace,context,moduleList,projectList):    
+def documentTextToFile(f,workspace,context):    
+    
+    moduleList=context.gumpset.getModules()
+    projectList=context.gumpset.getSequence()
     
     f.write("Workspace Status : " + stateName(context.status) + "\n")
     f.write("Workspace Secs : " + str(context.elapsedSecs()) + "\n")
@@ -125,20 +128,20 @@ def documentTextToFile(f,workspace,context,moduleList,projectList):
                         f.write("    Work Cwd  : " + work.command.cwd + "\n")
                     f.write("    Work Exit : " + str(work.result.exit_code) + "\n")
 
-def document(workspace,context,full=None,moduleList=None,projectList=None):
+def document(workspace,context):
     
     log.debug('--- Documenting Results')
 
-    seedForrest(workspace,context)
+    moduleList=context.gumpset.getModules()
+    projectList=context.gumpset.getSequence()
     
-    # Testing...
-    #documentText(workspace,context,moduleList,projectList)
+    seedForrest(workspace,context)
     
     db=StatisticsDB()
   
     documentWorkspace(workspace,context,db,moduleList,projectList)
     
-    if full or 1: # Testing
+    if context.gumpset.isFull():
         documentStatistics(workspace,context,db,moduleList,projectList)
         documentXRef(workspace,context)
 
@@ -242,7 +245,7 @@ def executeForrest(workspace,context):
 #
 # Model Pieces
 #      
-def documentWorkspace(workspace,context,db,moduleList=None,projectList=None):
+def documentWorkspace(workspace,context,db,moduleList,projectList):
     
     wdir=getWorkspaceDir(workspace)
     
@@ -274,7 +277,7 @@ def documentWorkspace(workspace,context,db,moduleList=None,projectList=None):
     endTableXDoc(x)
     endSectionXDoc(x)                
     
-    if not isFullGumpSet(context.gumpset):
+    if not context.gumpset.isFull():
         note="""This output does not represent the a complete workspace,
         but a partial one.         
         Only projects, and their dependents, matching this regular expression """ + \
@@ -444,37 +447,36 @@ def documentWorkspace(workspace,context,db,moduleList=None,projectList=None):
     #
     # Projects.xml
     #
-    if projectList:
-        x=startXDoc(getWorkspaceDocument(workspace,wdir,'projects'))      
-        headerXDoc(x,'All Projects')
+    x=startXDoc(getWorkspaceDocument(workspace,wdir,'projects'))      
+    headerXDoc(x,'All Projects')
     
-        documentSummary(x,context.getProjectSummary())
+    documentSummary(x,context.getProjectSummary())
     
-        startSectionXDoc(x,'All Project')
-        startTableXDoc(x)
-        x.write('     <tr>')        
-        x.write('      <th>Name</th><th>Project State</th><th>Elapsed Time</th>')
-        x.write('     </tr>')
-        pcount=0
-        for project in projectList:
-            pctxt=context.getProjectContextForProject(project)
-            pname=pctxt.name
-            pcount+=1
+    startSectionXDoc(x,'All Project')
+    startTableXDoc(x)
+    x.write('     <tr>')        
+    x.write('      <th>Name</th><th>Project State</th><th>Elapsed Time</th>')
+    x.write('     </tr>')
+    pcount=0
+    for project in projectList:
+        pctxt=context.getProjectContextForProject(project)
+        pname=pctxt.name
+        pcount+=1
 
-            x.write('     <tr><!-- %s -->\n' % (pname))        
-            x.write('      <td><link href=\'%s\'>%s</link></td><td>%s</td>\n' % \
+        x.write('     <tr><!-- %s -->\n' % (pname))        
+        x.write('      <td><link href=\'%s\'>%s</link></td><td>%s</td>\n' % \
                       (	getProjectRelativeUrl(pname),	\
                         pname,	\
                         getStateIcon(pctxt)))    
-            x.write('      <td>%s</td>\n' % elapsedTimeToString(pctxt.elapsedTime()))    
-            x.write('     </tr>\n\n')
+        x.write('      <td>%s</td>\n' % elapsedTimeToString(pctxt.elapsedTime()))    
+        x.write('     </tr>\n\n')
             
-        if not pcount: x.write('	<tr><td>None</td></tr>')
-        endTableXDoc(x)
-        endSectionXDoc(x)    
+    if not pcount: x.write('	<tr><td>None</td></tr>')
+    endTableXDoc(x)
+    endSectionXDoc(x)    
 
-        footerXDoc(x)
-        endXDoc(x)
+    footerXDoc(x)
+    endXDoc(x)
     
     #
     # ----------------------------------------------------------------------
@@ -544,13 +546,11 @@ def documentWorkspace(workspace,context,db,moduleList=None,projectList=None):
         if moduleList and not mctxt.module in moduleList: continue    
         documentModule(workspace,context,wdir,mctxt.name,mctxt,db,projectList)
         
-        
     # Document context
-    
     x=startXDoc(getWorkspaceContextDocument(workspace,wdir))
     headerXDoc(x,'Context')    
     x.write('<source>\n')
-    documentTextToFile(x,workspace,context,moduleList,projectList)    
+    documentTextToFile(x,workspace,context)    
     x.write('</source>\n')   
     footerXDoc(x)
     endXDoc(x)
@@ -574,7 +574,7 @@ def getStateIcon(context):
     href=getContextStateLink(context,0,icon)
     return href
     
-def documentModule(workspace,context,wdir,modulename,modulecontext,db,projectList=None):
+def documentModule(workspace,context,wdir,modulename,modulecontext,db,projectList):
     mdir=getModuleDir(workspace,modulename,wdir)
     
     if not Module.list.has_key(modulename): return
@@ -1061,7 +1061,7 @@ def documentWork(workspace,workcontext,work,dir):
 #
 # Statistics Pages
 #           
-def documentStatistics(workspace,context,db,moduleList=None,projectList=None):
+def documentStatistics(workspace,context,db,moduleList,projectList):
     
     stats=StatisticsGuru(workspace,context,db)
     
@@ -1087,7 +1087,7 @@ def documentStatistics(workspace,context,db,moduleList=None,projectList=None):
     documentModulesByFOGFactor(stats, sdir, moduleList)
     
 
-def documentModulesByElapsed(stats,sdir,moduleList=None):
+def documentModulesByElapsed(stats,sdir,moduleList):
     x=startXDoc(os.path.join(sdir,'elapsed.xml'))
     headerXDoc(x, 'Modules By Elapsed Time')
     
@@ -1101,7 +1101,7 @@ def documentModulesByElapsed(stats,sdir,moduleList=None):
     footerXDoc(x)
     endXDoc(x)
 
-def documentModulesByProjects(stats,sdir,moduleList=None):
+def documentModulesByProjects(stats,sdir,moduleList):
     x=startXDoc(os.path.join(sdir,'projects.xml'))
     headerXDoc(x, 'Modules By Project Count')
     
@@ -1125,7 +1125,7 @@ def documentModulesByProjects(stats,sdir,moduleList=None):
     footerXDoc(x)
     endXDoc(x)
  
-def documentModulesByDependencies(stats,sdir,moduleList=None):
+def documentModulesByDependencies(stats,sdir,moduleList):
     x=startXDoc(os.path.join(sdir,'dependencies.xml'))
     headerXDoc(x, 'Modules By Dependency Count')
     
@@ -1150,7 +1150,7 @@ def documentModulesByDependencies(stats,sdir,moduleList=None):
     
  
  
-def documentModulesByDependees(stats,sdir,moduleList=None):
+def documentModulesByDependees(stats,sdir,moduleList):
     x=startXDoc(os.path.join(sdir,'dependees.xml'))
     headerXDoc(x, 'Modules By Dependee Count')
     
@@ -1173,7 +1173,7 @@ def documentModulesByDependees(stats,sdir,moduleList=None):
     footerXDoc(x)
     endXDoc(x)
     
-def documentModulesByFOGFactor(stats,sdir,moduleList=None):
+def documentModulesByFOGFactor(stats,sdir,moduleList):
     x=startXDoc(os.path.join(sdir,'fogfactor.xml'))
     headerXDoc(x, 'Modules By FOG Factor')
     
@@ -1202,7 +1202,7 @@ def documentModulesByFOGFactor(stats,sdir,moduleList=None):
 #
 # XRef Pages
 #           
-def documentXRef(workspace,context,moduleList=None,projectList=None):
+def documentXRef(workspace,context,moduleList,projectList):
     
     xdir=getXRefDir(workspace)
     x=startXDoc(getXRefDocument(workspace,xdir))
@@ -1335,6 +1335,14 @@ def getContextAbsoluteUrl(root,context):
     url += getContextUrl(context,0)
     return url
         
+def getContextDirUrl(context,depth=1):
+    if isinstance(context,GumpContext):
+        url=getWorkspaceDirRelativeUrl(depth)
+    elif isinstance(context,ModuleContext):
+        url=getModuleDirRelativeUrl(context.name,depth)
+    else:        
+        url=getModuleDirProjectRelativeUrl(context.parent.name,depth)
+    return url
         
 def getContextUrl(context,depth=1,state=0):
     url=None
@@ -1346,7 +1354,8 @@ def getContextUrl(context,depth=1,state=0):
         for work in context.worklist:
             if not url:
                 if not work.status==STATUS_SUCCESS:
-                    url=getWorkRelativeUrl(work.type,work.command.name)
+                    url=getContextDirRelativeUrl(context,depth) 
+                    url+=getWorkRelativeUrl(work.type,work.command.name)
         
     #
     # Otherwise return link to context...
@@ -1392,7 +1401,10 @@ def getContextStateDescription(context):
     return xdoc
 
 def getWorkspaceRelativeUrl(depth=0):
-    return getUp(depth)+'index.html'
+    return getWorkspaceDirRelativeUrl(depth)+'index.html'
+    
+def getWorkspaceDirRelativeUrl(depth=0):
+    return getUp(depth)+'/'
     
 def getWorkspaceRelativeUrlFromModule():
     return getWorkspaceRelativeUrl(1)
@@ -1401,7 +1413,10 @@ def getWorkspaceRelativeUrlFromProject():
     return getWorkspaceRelativeUrl(1)
     
 def getModuleRelativeUrl(name,depth=0):
-    return getUp(depth)+gumpSafeName(name)+'/index.html'
+    return getModuleDirRelativeUrl(name,depth)+'index.html'
+    
+def getModuleDirRelativeUrl(name,depth=0):
+    return getUp(depth)+gumpSafeName(name)+'/'
     
 def getModuleRelativeUrlFromModule(name,depth=1):
     return getModuleRelativeUrl(name,depth)
@@ -1595,7 +1610,7 @@ if __name__=='__main__':
   #set verbosity to show all messages of severity >= default.logLevel
   log.setLevel(default.logLevel)
   
-  args = handleArgv(sys.argv,0)
+  args = handleArgv(sys.argv)
   ws=args[0]
   ps=args[1]
 
@@ -1613,8 +1628,8 @@ if __name__=='__main__':
   #
   # Store for later
   #
-  from gump.logic import getGumpSetForProjectExpression
-  context.gumpset=getGumpSetForProjectExpression(ps)
-  
+  from gump.logic import GumpSet
+  context.gumpset=GumpSet(ps)
+    
   # Document
-  document(workspace, context, 1);
+  document(workspace, context);

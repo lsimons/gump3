@@ -1,8 +1,8 @@
 #!/usr/bin/python
 
-# $Header: /home/stefano/cvs/gump/python/gump/Attic/conf.py,v 1.35 2003/11/03 19:42:45 ajack Exp $
-# $Revision: 1.35 $
-# $Date: 2003/11/03 19:42:45 $
+# $Header: /home/stefano/cvs/gump/python/gump/Attic/conf.py,v 1.36 2003/11/04 16:15:03 ajack Exp $
+# $Revision: 1.36 $
+# $Date: 2003/11/04 16:15:03 $
 #
 # ====================================================================
 #
@@ -197,9 +197,16 @@ def handleArgv(argv, requireProject=1):
       print " No project specified, please supply a project expressions or 'all'."
       print " Project wildcards are accepted, e.g. \"jakarta-*\"."
       sys.exit(1)
-     
+    
   # Allow extras...
   args += argv
-     
+  
+  # 
+  for arg in args:
+      if arg in ['-d','--debug']: 
+          log.setLevel(logging.DEBUG ) 
+      if arg in ['-v','--verbose']: 
+          log.setLevel(logging.VERBOSE )  
+    
   return args
     

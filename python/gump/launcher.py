@@ -252,7 +252,7 @@ class CmdResult:
         if self.elapsed:
           overview += indent+"Elapsed: " + str(self.elapsed)
         if self.signal:
-          overview += indent+"Signal: " + str(self.signal)
+          overview += indent+"Termination Signal: " + str(self.signal)
         if self.exit_code:
           overview += indent+"ExitCode: " + str(self.exit_code)
         
@@ -409,8 +409,10 @@ def executeIntoResult(cmd,result,tmp=dir.tmp):
         result.signal=(waitcode & 0xFF)
         result.exit_code=(((waitcode & 0xFF00) >> 8) & 0xFF)
         
+        log.debug('Command . [' + str(waitcode)+ '] [' + str(result.signal) + '/' + str(result.exit_code) + '].')
+            
         #
-        # Assume timed out if this is not running...
+        # Assume timed out if signal terminated
         #
         if result.signal > 0:
             result.status=CMD_STATUS_TIMED_OUT
@@ -418,7 +420,7 @@ def executeIntoResult(cmd,result,tmp=dir.tmp):
         # Process Outputs (exit_code and stderr/stdout)
         elif result.exit_code > 0:    
             result.status=CMD_STATUS_FAILED
-            log.error('Failed to launch/execute command. [' + execString + ']. ExitCode: ' + str(result.exit_code))
+            log.error('Command failed. [' + execString + ']. ExitCode: ' + str(result.exit_code))
         else:
             result.status=CMD_STATUS_SUCCESS
     
@@ -426,9 +428,7 @@ def executeIntoResult(cmd,result,tmp=dir.tmp):
         # Stop it (if still running)
         #
         timer.cancel()            
-                  
-    
-                
+                    
       except Exception, details :
         log.error('Failed to launch command. Details: ' + str(details))
         

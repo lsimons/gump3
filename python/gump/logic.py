@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/Attic/logic.py,v 1.43 2003/11/03 19:42:45 ajack Exp $
-# $Revision: 1.43 $
-# $Date: 2003/11/03 19:42:45 $
+# $Header: /home/stefano/cvs/gump/python/gump/Attic/logic.py,v 1.44 2003/11/04 16:15:03 ajack Exp $
+# $Revision: 1.44 $
+# $Date: 2003/11/04 16:15:03 $
 #
 # ====================================================================
 #
@@ -101,7 +101,7 @@ class GumpSet:
         if not projects:
             self.projects=getProjectsForProjectExpression(pexpr)
         else:
-            self.projects = projects
+            self.projects=projects
         
         #
         # Project Build Sequence
@@ -119,18 +119,34 @@ class GumpSet:
         else:
             self.modules=modules
             
+        print self.projectexpression
+        print self.projects
+        print self.modules
+        print self.sequence
+        
+    # No Projects
+    def isEmpty(self):
+        return not self.projects
+        
+    # All Projects
+    def isFull(self):
+        return isAllProjects(self.projectexpression)
+        
+    def getModules(self):
+        return self.modules
+        
+    def getProjects(self):
+        return self.projects
+        
+    def getSequence(self):
+        return self.sequence        
+        
     
 ###############################################################################
 # Functions
 ###############################################################################
 def isAllProjects(pexpr):
     return pexpr=='all' or pexpr=='*'
-    
-def isFullGumpSet(set):
-    return isAllProjects(set.projectexpression)
-        
-def getGumpSetForProjectExpression(expr):
-  return GumpSet(expr)
 
 def getModuleNamesForProjectExpression(expr):
   return getModuleNamesForProjectList(getProjectsForProjectExpression(expr))
@@ -375,7 +391,7 @@ def getScriptCommand(workspace,module,project,script,context):
     return cmd
     
 def getDeleteCommand(workspace,context,module,project,delete,index=0):
-    basedir=os.path.abspath(os.path.join(module.srcdir or dir.base,script.basedir or ''))
+    basedir=os.path.abspath(module.srcdir or dir.base)
       
     cmd=Cmd('echo rm','delete_'+module.name+'_'+project.name+'_'+str(index+1),\
             basedir)
@@ -396,7 +412,7 @@ def getDeleteCommand(workspace,context,module,project,delete,index=0):
     return cmd
     
 def getMkDirCommand(workspace,context,module,project,mkdir,index=0):
-    basedir=os.path.abspath(os.path.join(module.srcdir or dir.base,script.basedir or ''))
+    basedir=os.path.abspath(module.srcdir or dir.base)
       
     cmd=Cmd('echo mkdir','mkdir_'+module.name+'_'+project.name+'_'+str(index+1),\
             basedir)

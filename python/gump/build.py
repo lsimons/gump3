@@ -1,8 +1,8 @@
 #!/usr/bin/python
 
-# $Header: /home/stefano/cvs/gump/python/gump/build.py,v 1.31 2003/11/03 22:06:06 ajack Exp $
-# $Revision: 1.31 $
-# $Date: 2003/11/03 22:06:06 $
+# $Header: /home/stefano/cvs/gump/python/gump/build.py,v 1.32 2003/11/04 16:15:03 ajack Exp $
+# $Revision: 1.32 $
+# $Date: 2003/11/04 16:15:03 $
 #
 # ====================================================================
 #
@@ -255,7 +255,7 @@ def buildProjects( workspace, sequence, context ):
                     else:
                         pctxt.status=STATUS_SUCCESS  
     
-            if not pctxt.status == STATUS_SUCCESS:
+            if not pctxt.okToPerformWork():
                 log.warn('Failed to build project [' + pctxt.name + ']')
             
 
