@@ -49,10 +49,15 @@ class Statistics:
         self.sequenceInState=0
         self.lastUpdated=0
                 
+    #           
+    # FOG is (at pressent) effectively the
+    # 'odds of success' (based off historical results).
+    #
     def getFOGFactor(self):
         good=self.successes
-        bad=(self.failures+self.prereqs) or 1
-        return float(good)/float(bad)
+        bad=(self.failures+self.prereqs)
+        total=(good+bad) or 1
+        return float(good)/float(total)
         
     def getLastUpdated(self):
         return (self.lastUpdated)

@@ -424,7 +424,7 @@ class Project(NamedModelObject, Statable, Resultable, Dependable):
                             reduction=-1 * len(datePostfix)
                             newId=newId[:reduction]
                         # Assign...
-                        self.addWarning('Jar [' + basename + '] identifier set to jar basename: [' + newId + ']')    
+                        self.addInfo('Jar [' + basename + '] identifier set to jar basename: [' + newId + ']')    
                         jar.setId(newId)
         
         # Grab all the work

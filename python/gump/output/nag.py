@@ -413,6 +413,8 @@ and/or contact general@gump.apache.org.
             content += LINE   
             content += "\nGump performed this work:\n\n"
             for workitem in object.worklist:
+                workurl=self.run.getOptions().getResolver().getUrl(workitem)
+                content+=workurl+'\n'
                 content+=workitem.overview()+'\n\n'   
                                 
         if feedPrefix:

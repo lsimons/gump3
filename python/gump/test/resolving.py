@@ -1,0 +1,138 @@
+#!/usr/bin/env python
+
+# Copyright 2003-2004 The Apache Software Foundation
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+# 
+#     http://www.apache.org/licenses/LICENSE-2.0
+# 
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+ 
+"""
+    Model Testing
+"""
+
+import os
+import logging
+import types, StringIO
+
+from gump import log
+import gump.config
+from gump.test import *
+from gump.document.resolver import *
+
+from gump.test.pyunit import UnitTestSuite
+
+
+class ResolvingTestSuite(UnitTestSuite):
+    def __init__(self):
+        UnitTestSuite.__init__(self)
+        
+    def suiteSetUp(self):
+        #
+        # Load a decent Workspace
+        #
+        self.workspace=getWorkedTestWorkspace()          
+        self.assertNotNone('Needed a workspace', self.workspace)
+        
+        self.module1=self.workspace.getModule('module1')
+        self.module2=self.workspace.getModule('module2')    
+        self.project1=self.workspace.getProject('project1')    
+        self.project2=self.workspace.getProject('project2')    
+        self.ant1=self.project1.getAnt()
+        
+    def checkRelativePath(self,path1,path2):      
+        rpath=gump.document.resolver.getRelativePath(path1,path2)
+    
+        self.assertNotNone('Relative Path: ', rpath)
+
+        #print 'From ' + `path2` + ' to ' + `path1` + \
+        #    ' -> ' + `rpath` + ', length ' + `len(rpath)`
+    
+    def checkLocation(self,object1):
+        location=getLocationForObject(object1)
+        #printSeparator()
+        self.assertNotNone('Location: ', location)
+        self.assertNotNone('Location: ', location.serialize())
+    
+    def checkRelativeLocation(self,object1,object2):    
+        location1=getLocationForObject(object1)    
+        location2=getLocationForObject(object2)
+        location=getRelativeLocation(object1,object2)
+        #printSeparator()
+        self.assertNotNone('To       Location: ', location1)
+        self.assertNotNone('From     Location: ', location2)
+        self.assertNotNone('Relative Location: ', location)
+        self.assertNotNone('Relative Location: ', location.serialize())
+
+    def checkResolve(self,object):
+        
+        #printSeparator()
+        self.assertNotNone("Resolved Object: ", object)
+        self.assertNotNone("Resolved Object: ", resolver.getDirectory(object))
+        self.assertNotNone("Resolved Object: ", resolver.getFile(object))
+        self.assertNotNone("Resolver Object: ", resolver.getDirectoryUrl(object))
+        self.assertNotNone("Resolver Object: ", resolver.getUrl(object))
+        
+    def testPaths(self):
+
+        #set verbosity to show all messages of severity >= default.logLevel
+        log.setLevel(gump.default.logLevel)
+
+        path=Path()
+        path1=path.getPostfixed('ABC')
+        path2=path1.getPostfixed('DEF')
+        path3=path2.getPostfixed(['GHI','JKL'])
+        path4=path3.getPrefixed('789')
+        path5=path4.getPrefixed(['123','456'])
+        self.assertNotNone("Sub-Path 1: ", path1.serialize())
+        self.assertNotNone("Sub-Path 2: ", path2.serialize())
+        self.assertNotNone("Sub-Path 3: ", path3.serialize())
+        self.assertNotNone("Sub-Path 4: ", path4.serialize())
+        self.assertNotNone("Sub-Path 5: ", path5.serialize())
+    
+        # Relative Tests
+    
+        self.checkRelativePath(['A'],['A'])
+        self.checkRelativePath(['A'],['A','B'])
+        self.checkRelativePath(['A','B'],['A','B'])
+        self.checkRelativePath(['A'],['A','B'])
+        self.checkRelativePath(['A','B','C','D','E1'],['A','B','C','D','E2'])
+        self.checkRelativePath(['A','B1','C','D','E1'],['A','B2','C','D','E2'])
+        
+    def testLocations(self):
+    
+        self.checkLocation(self.workspace)
+        self.checkLocation(module1)
+        self.checkLocation(module2)    
+        self.checkLocation(project1)    
+    
+        self.checkRelativeLocation(self.project1,self.project1)
+        self.checkRelativeLocation(self.project1,self.module1)
+        self.checkRelativeLocation(self.module1,self.module2)
+        self.checkRelativeLocation(self.module1,self.ant1)
+        self.checkRelativeLocation(self.ant1,self.module1)
+    
+    def testResolving(self):
+        resolver=Resolver('.','http://somewhere/something')
+
+        #printSeparator()
+        self.assertNotNone("Resolved Module: ", resolver.getDirectory(self.module1))
+        self.assertNotNone("Resolved Module: ", resolver.getFile(self.module1))
+        self.assertNotNone("Resolver Module: ", resolver.getDirectoryUrl(self.module1))
+        self.assertNotNone("Resolver Module: ", resolver.getUrl(self.module1))
+    
+        self.assertNotEmpty('Need work on workspace', self.workspace.getWorkList())        
+        for work in self.workspace.getWorkList():
+            #printSeparator()    
+            self.assertNotNone("Resolved Work: ", work)
+            self.assertNotNone("Resolved Work: ", resolver.getDirectory(work))
+            self.assertNotNone("Resolved Work: ", resolver.getFile(work))
+            self.assertNotNone("Resolver Work: ", resolver.getDirectoryUrl(work))
+            self.assertNotNone("Resolver Work: ", resolver.getUrl(work))

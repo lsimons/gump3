@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/storage/results/Attic/resulter.py,v 1.3 2004/03/15 16:12:23 ajack Exp $
-# $Revision: 1.3 $
-# $Date: 2004/03/15 16:12:23 $
+# $Header: /home/stefano/cvs/gump/python/storage/random/results/Attic/resulter.py,v 1.1 2004/04/02 16:48:07 ajack Exp $
+# $Revision: 1.1 $
+# $Date: 2004/04/02 16:48:07 $
 #
 # ====================================================================
 #

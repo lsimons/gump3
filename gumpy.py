@@ -1,63 +1,20 @@
-#!/usr/bin/env python
+#!/bin/bash
 #
-# $Header:  1.7 2003/05/10 18:20:36 nicolaken Exp $
-# $Revision: 1.7 $
-# $Date: 2003/05/10 18:20:36 $
+#   Copyright 2003-2004 The Apache Software Foundation
 #
-# ====================================================================
+#   Licensed under the Apache License, Version 2.0 (the "License");
+#   you may not use this file except in compliance with the License.
+#   You may obtain a copy of the License at
 #
-# The Apache Software License, Version 1.1
+#       http://www.apache.org/licenses/LICENSE-2.0
 #
-# Copyright (c) 2004 The Apache Software Foundation.  All rights
-# reserved.
+#   Unless required by applicable law or agreed to in writing, software
+#   distributed under the License is distributed on an "AS IS" BASIS,
+#   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+#   See the License for the specific language governing permissions and
+#   limitations under the License.
 #
-# Redistribution and use in source and binary forms, with or without
-# modification, are permitted provided that the following conditions
-# are met:
-#
-# 1. Redistributions of source code must retain the above copyright
-#    notice, this list of conditions and the following disclaimer.
-#
-# 2. Redistributions in binary form must reproduce the above copyright
-#    notice, this list of conditions and the following disclaimer in
-#    the documentation and/or other materials provided with the
-#    distribution.
-#
-# 3. The end-user documentation included with the redistribution, if
-#    any, must include the following acknowlegement:
-#       "This product includes software developed by the
-#        Apache Software Foundation (http://www.apache.org/)."
-#    Alternately, this acknowlegement may appear in the software itself,
-#    if and wherever such third-party acknowlegements normally appear.
-#
-# 4. The names "The Jakarta Project", "Alexandria", and "Apache Software
-#    Foundation" must not be used to endorse or promote products derived
-#    from this software without prior written permission. For written
-#    permission, please contact apache@apache.org.
-#
-# 5. Products derived from this software may not be called "Apache"
-#    nor may "Apache" appear in their names without prior written
-#    permission of the Apache Group.
-#
-# THIS SOFTWARE IS PROVIDED ``AS IS'' AND ANY EXPRESSED OR IMPLIED
-# WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
-# OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
-# DISCLAIMED.  IN NO EVENT SHALL THE APACHE SOFTWARE FOUNDATION OR
-# ITS CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
-# SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
-# LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF
-# USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
-# ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
-# OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT
-# OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
-# SUCH DAMAGE.
-# ====================================================================
-#
-# This software consists of voluntary contributions made by many
-# individuals on behalf of the Apache Software Foundation.  For more
-# information on the Apache Software Foundation, please see
-# <http://www.apache.org/>.
-
+# $Header: $
 
 """
   This is the commandline entrypoint into Python Gump,
@@ -175,6 +132,9 @@ def sendEmail(toaddr,fromaddr,subject,data,server,port=25):
 # Allow a lock
 lockFile=os.path.abspath('gumpy.lock')
 if os.path.exists(lockFile):
+    # :TODO: Ought we look at the contents, get the PID of the
+    # supposed other Gump, and determine if it is still alive
+    # or not?
     print """The lock file [%s] exists. 
 Either Gump is still running, or it terminated very abnormally.    
 Please resolve this (waiting or removing the lock file) before retrying.
@@ -184,11 +144,13 @@ Please resolve this (waiting or removing the lock file) before retrying.
 # Set the signal handler to ignore hangups
 try:
     # Not supported by all OSs
+    # :TODO: Does the variable signal.SIG_HUP even exist? Test
+    # this code on Linux w/o the try/except.
     signal.signal(signal.SIG_HUP, ignoreHangup)
 except:
     pass
     
-    
+# Write this PID into a lock file
 lock=open(lockFile,'w')
 lock.write(`os.getpid()`)
 lock.close()
@@ -304,9 +266,11 @@ try:
         if cvsExit:
             result=1
             
-        #
+        # :TODO: Need to remove all *.pyc (other than this one)
+        # because a Gump refactor can leave old/stale compiled
+        # classes around.
+            
         # :TODO: Is this a CVS thing, or a Gump historical thing?
-        #
         if os.path.exists('.timestamp'): 
             os.remove('.timestamp')            
     
@@ -332,8 +296,8 @@ try:
             if integrationExit:
                 result=1
 
-            # :TODO: Copy outputs (especially forrest) into log...
-
+            # :TODO: Copy outputs (especially forrest) into log dir
+            # for remote debuging.         
 
     except KeyboardInterrupt:    
         log.write('Terminated by user interrupt...\n')
@@ -349,15 +313,26 @@ finally:
     # Close the log
     log.close()
     
+    # :TODO: We have issues when python is killed, we get a lock
+    # left around despite this finally.
     os.remove(lockFile)
     
     if 1 or result:
         logTitle='The Apache Gump log...'
         
+        # :TODO: Need to check if stdout is a plain terminal? Not sure, see next.
+        # :TODO: On some cron set-ups this will mail the log, on
+        # others it won't.
+        #
         # Cat log if failed...
         catFile(sys.stdout, logFile, logTitle)
         
         if mailserver and mailport and mailto and mailfrom and logurl:
+            
+            #:TODO:
+            # We need to move the gumpy.log to the log
+            # directory, so we can mail a URL to it.
+        
             # :TODO: Sucky to read file into memory...
             # Need to figure out attachments, if that
             # helps & doesn't just do same...

@@ -3,6 +3,8 @@
 *.opt
 cache
 forrest
+forrest-work
+forrest*
 work
 test
 tmp

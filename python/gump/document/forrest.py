@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/forrest.py,v 1.123 2004/03/31 18:37:51 ajack Exp $
-# $Revision: 1.123 $f
-# $Date: 2004/03/31 18:37:51 $
+# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/forrest.py,v 1.124 2004/04/02 16:48:07 ajack Exp $
+# $Revision: 1.124 $f
+# $Date: 2004/04/02 16:48:07 $
 #
 # ====================================================================
 #
@@ -1329,12 +1329,6 @@ This page helps Gumpmeisters (and others) observe community progress.
         self.insertLink(project.getModule(),project,	\
                 detailsList.createEntry('Containing Module: '))        
         
-        if project.getDependencyDepth():
-            detailsList.createEntry('Dependency Depth: ', project.getDependencyDepth())
-        
-        if project.getTotalDependencyDepth():
-            detailsList.createEntry('Total Dependency Depth: ', project.getTotalDependencyDepth())
-        
         if project.hasHomeDirectory() and project.isVerboseOrDebug():
             detailsList.createEntry('Home Directory: ', project.getHomeDirectory())
             
@@ -1377,6 +1371,8 @@ This page helps Gumpmeisters (and others) observe community progress.
         
         statsTable=statsSection.createTable()           
         statsTable.createEntry("FOG Factor: ", '%02.2f' % stats.getFOGFactor())
+        statsTable.createEntry('Dependency Depth: ', project.getDependencyDepth())        
+        statsTable.createEntry('Total Dependency Depth: ', project.getTotalDependencyDepth())        
         statsTable.createEntry("Successes: ", stats.successes)
         statsTable.createEntry("Failures: ", stats.failures)
         statsTable.createEntry("Prerequisite Failures: ", stats.prereqs)
