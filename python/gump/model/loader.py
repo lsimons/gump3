@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/model/Attic/loader.py,v 1.2 2003/12/15 19:36:51 ajack Exp $
-# $Revision: 1.2 $
-# $Date: 2003/12/15 19:36:51 $
+# $Header: /home/stefano/cvs/gump/python/gump/model/Attic/loader.py,v 1.3 2003/12/16 17:13:48 ajack Exp $
+# $Revision: 1.3 $
+# $Date: 2003/12/16 17:13:48 $
 #
 # ====================================================================
 #
@@ -69,6 +69,7 @@ from gump.model.workspace import Workspace
 from gump.model.module import Module
 from gump.utils.xmlutils import SAXDispatcher
 from gump.utils.note import transferAnnotations, Annotatable
+from gump.utils import dump
 
 class WorkspaceLoader:
     def __init__(self):
@@ -113,7 +114,8 @@ class WorkspaceLoader:
       #
       # Cook the raw model...
       #
-      workspace.complete(XMLProfile.map,XMLRepository.map,XMLModule.map,XMLProject.map)
+      workspace.complete(XMLProfile.map,XMLRepository.map,	\
+                          XMLModule.map,XMLProject.map)
 
       #
       # Clear out the maps [so don't continue to use them]
@@ -123,8 +125,7 @@ class WorkspaceLoader:
       XMLProfile.map={}
       XMLRepository.map={}
   
-      return workspace
-      
+      return workspace      
       
     def loadModule(self,url,workspace):
         
@@ -137,7 +138,6 @@ class WorkspaceLoader:
     
         if not xmlmodule:
             raise IOError, "Failed to load module: " + url
-
 
         #
         #for xmlproject in xmlmodule.project:

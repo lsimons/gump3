@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/model/workspace.py,v 1.18 2003/12/15 19:59:19 ajack Exp $
-# $Revision: 1.18 $
-# $Date: 2003/12/15 19:59:19 $
+# $Header: /home/stefano/cvs/gump/python/gump/model/workspace.py,v 1.19 2003/12/16 17:13:48 ajack Exp $
+# $Revision: 1.19 $
+# $Date: 2003/12/16 17:13:48 $
 #
 # ====================================================================
 #
@@ -77,6 +77,15 @@ from gump.model.profile import Profile
 from gump.model.object import ModelObject
 from gump.model.property import PropertyContainer
 from gump.utils.note import transferAnnotations, Annotatable
+
+#
+# :TODO: Need to createa GumpEnvironment to move these to..
+#
+
+SUCCESS=0
+FAILED=1
+MISSING_UTILITY=2
+BAD_ENVIRONMENT=3
 
 
 class Workspace(ModelObject,PropertyContainer):

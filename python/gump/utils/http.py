@@ -1,8 +1,8 @@
 #!/usr/bin/python
 
-# $Header: /home/stefano/cvs/gump/python/gump/utils/http.py,v 1.1 2003/11/17 22:10:55 ajack Exp $
-# $Revision: 1.1 $
-# $Date: 2003/11/17 22:10:55 $
+# $Header: /home/stefano/cvs/gump/python/gump/utils/http.py,v 1.2 2003/12/16 17:13:48 ajack Exp $
+# $Revision: 1.2 $
+# $Date: 2003/12/16 17:13:48 $
 #
 # ====================================================================
 #
@@ -143,7 +143,7 @@ def cacheHTTP(href,cacheDir=dir.cache):
         #
         urllib.urlretrieve(href, cachedHrefFile)
       except IOError, detail:
-        log.error('Failed to download ['+href+']. Details: ' + detail)
+        log.error('Failed to download ['+href+']. Details: ' + str(detail))
         try:
           os.remove(cachedHrefFile)
         except:

@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/model/Attic/rawmodel.py,v 1.8 2003/12/15 19:36:51 ajack Exp $
-# $Revision: 1.8 $
-# $Date: 2003/12/15 19:36:51 $
+# $Header: /home/stefano/cvs/gump/python/gump/model/Attic/rawmodel.py,v 1.9 2003/12/16 17:13:48 ajack Exp $
+# $Revision: 1.9 $
+# $Date: 2003/12/16 17:13:48 $
 #
 # ====================================================================
 #
@@ -100,6 +100,7 @@ class GumpXMLModelObject(GumpXMLObject):
   def __init__(self,attrs):
     GumpXMLObject.__init__(self,attrs)
     
+    
     # :TODO: This is too low level, do later/higher (somehow)
     
     # parse out '@@DATE@@'
@@ -117,7 +118,6 @@ class XMLWorkspace(GumpXMLModelObject):
     self.repository=Multiple(XMLRepository)
     self.profile=Multiple(XMLProfile)
     self.version=Single(GumpXMLModelObject)
-
 
     
 # represents a <profile/> element
@@ -219,71 +219,6 @@ class XMLProperty(GumpXMLModelObject):
     
   def getName(self):
     return self.name    
-        
-  # provide default elements when not defined in xml
-  def complete(self,project):
-    if self.isComplete(): return    
-        
-    if self.reference=='home':
-      try:
-        self.value=Project.list[self.project].home
-      except:
-        log.warn( "Cannot resolve homedir of " + self.project + " for " + project.name)
-
-    elif self.reference=='srcdir':
-      try:
-        module=Project.list[self.project].module
-        self.value=Module.list[module].srcdir
-      except:
-        log.warn( "Cannot resolve srcdir of " + self.project + " for " + project.name)
-
-    elif self.reference=='jarpath' or self.reference=='jar':
-      try:
-        target=Project.list[self.project]
-        if self.id:
-          for jar in target.jar:
-            if jar.id==self.id:
-              if self.reference=='jarpath':
-                  self.value=jar.path
-              else:
-                  self.value=jar.name
-              break
-          else:
-            self.value=("jar with id %s was not found in project %s " +
-              "referenced by %s") % (self.id, target.name, project.name)
-            log.error(self.value)
-        elif len(target.jar)==1:
-          self.value=target.jar[0].path
-        elif len(target.jar)>1:
-          self.value=("Multiple jars defined by project %s referenced by %s; " + \
-            "an id attribute is required to select the one you want") % \
-              (target.name, project.name)
-          log.error(self.value)
-        else:
-          self.value=("Project %s referenced by %s defines no jars as output") % \
-            (target.name, project.name)
-          log.error(self.value)
-
-      except Exception, details:
-        log.warn( "Cannot resolve jarpath of " + self.project + \
-          " for " + project.name + ". Details: " + str(details))
-    elif self.path:
-        #
-        # Path relative to module's srcdir (or
-        #
-        module=Project.list[project.name].module
-        srcdir=Module.list[module].srcdir
-        
-        # :TODO: ARBJ, this correct? I think it is close, but not...
-        # Is module's srcdir same as project's ?
-        self.value=os.path.abspath(os.path.join(srcdir,self.path))
-    elif not hasattr(self,'value'):
-        log.error('Unhandled Property: ' + self.name + ' on project: ' + \
-                    project.name)
-                      
-
-    self.setComplete(1)
-        
         
 # TODO: set up the below elements with defaults using complete()
 

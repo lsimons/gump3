@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/model/profile.py,v 1.1 2003/12/15 19:36:51 ajack Exp $
-# $Revision: 1.1 $
-# $Date: 2003/12/15 19:36:51 $
+# $Header: /home/stefano/cvs/gump/python/gump/model/profile.py,v 1.2 2003/12/16 17:13:48 ajack Exp $
+# $Revision: 1.2 $
+# $Date: 2003/12/16 17:13:48 $
 #
 # ====================================================================
 #
@@ -84,6 +84,7 @@ class Profile(NamedModelObject):
         
         # Copy over any XML errors/warnings
         transferAnnotations(self.xml, workspace)  
+        
         # :TODO: Until we document the profile
         # add these to workspace transferAnnotations(self.xml, self)  
                 

@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/model/module.py,v 1.22 2003/12/15 19:36:51 ajack Exp $
-# $Revision: 1.22 $
-# $Date: 2003/12/15 19:36:51 $
+# $Header: /home/stefano/cvs/gump/python/gump/model/module.py,v 1.23 2003/12/16 17:13:47 ajack Exp $
+# $Revision: 1.23 $
+# $Date: 2003/12/16 17:13:47 $
 #
 # ====================================================================
 #
@@ -207,6 +207,19 @@ class Module(NamedModelObject, Statable):
       
         if self.isComplete(): return
            
+        if self.getName() == 'broken1':
+            print "------------------------------------------------------------------------"
+            print "COMPLETE MODULE"
+            self.xml.dump()
+            print "------------------------------------------------------------------------"        
+            print "COMPLETE MODULE"
+            dump(self.xml)
+            print "------------------------------------------------------------------------"
+            from gump.utils.xmlutils import xmlize
+            print xmlize('module',self.xml)
+            print "COMPLETED MODULE"
+            print "------------------------------------------------------------------------"
+        
         
         packaged=0
                 
@@ -367,14 +380,14 @@ class Module(NamedModelObject, Statable):
     # Get a full list of all the projects that depend
     # upon projects in this module 
     #
-    def getDependees(self):   
+    def getFullDependees(self):   
         # Calculated once only...
         if self.totalDependees: return self.totalDependees
                 
         for project in self.getProjects():
             if not project in self.totalDependees:
                 self.totalDependees.append(project)
-                for dependee in project.getDependees():
+                for dependee in project.getFullDependees():
                     dependeeProject=dependee.getProject()
                     if not dependeeProject in self.totalDependees:
                         self.totalDependees.append(dependeeProject)   
@@ -383,24 +396,24 @@ class Module(NamedModelObject, Statable):
         self.totalDependees.sort()
         return self.totalDependees
             
-    def getDependeeCount(self):         
-        return len(self.getDependees())   
+    def getFullDependeeCount(self):         
+        return len(self.getFullDependees())   
             
-    def getDepends(self):   
+    def getFullDepends(self):   
         if self.totalDepends: return self.totalDepends
                 
         for project in self.getProjects():
             if not project in self.totalDepends:
                 self.totalDepends.append(project)
-                for depend in project.getDependencies():
+                for depend in project.getFullDependencies():
                     dependProject=depend.getProject()
                     if not dependProject in self.totalDepends:
                         self.totalDepends.append(dependProject)                        
         self.totalDepends.sort()
         return self.totalDepends
             
-    def getDependencyCount(self):         
-        return len(self.getDepends())   
+    def getFullDependencyCount(self):         
+        return len(self.getFullDepends())   
         
     def getFOGFactor(self):
         fogFactor=0
@@ -443,7 +456,7 @@ class Module(NamedModelObject, Statable):
         affected=0
         
         # Get all dependenees (optional/otherwise)
-        dependees=self.getDependees()
+        dependees=self.getFullDependees()
         
         # Look through all dependees
         for project in dependees:

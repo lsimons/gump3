@@ -18,7 +18,7 @@ from gump.utils.work import *
 
 from gump.utils.tools import *
 
-from gump.model.workspace import Workspace
+from gump.model.workspace import *
 from gump.model.module import Module
 from gump.model.project import Project
 from gump.model.depend import  ProjectDependency
@@ -33,15 +33,6 @@ from gump.output.statsdb import *
 from gump.output.repository import JarRepository
 from gump.output.nag import nag
 from gump.syndication import syndicate
-
-###############################################################################
-# Initialize
-###############################################################################
-
-SUCCESS=0
-FAILED=1
-MISSING_UTILITY=2
-BAD_ENVIRONMENT=3
 
     
 ###############################################################################

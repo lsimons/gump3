@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/output/Attic/statsdb.py,v 1.5 2003/12/15 19:36:51 ajack Exp $
-# $Revision: 1.5 $
-# $Date: 2003/12/15 19:36:51 $
+# $Header: /home/stefano/cvs/gump/python/gump/output/Attic/statsdb.py,v 1.6 2003/12/16 17:13:48 ajack Exp $
+# $Revision: 1.6 $
+# $Date: 2003/12/16 17:13:48 $
 #
 # ====================================================================
 #
@@ -375,15 +375,15 @@ def compareModulesByProjectCount(module1,module2):
     return c
 
 def compareModulesByDependencyCount(module1,module2):
-    count1=module1.getDependencyCount()
-    count2=module2.getDependencyCount()
+    count1=module1.getFullDependencyCount()
+    count2=module2.getFullDependencyCount()
     c= count2 - count1                 
     if not c: c=cmp(module1,module2)
     return c        
         
 def compareModulesByDependeeCount(module1,module2):
-    count1=module1.getDependeeCount()
-    count2=module2.getDependeeCount()
+    count1=module1.getFullDependeeCount()
+    count2=module2.getFullDependeeCount()
     c= count2 - count1                  
     if not c: c=cmp(module1,module2)
     return c       

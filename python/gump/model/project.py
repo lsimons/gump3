@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/model/project.py,v 1.24 2003/12/15 19:36:51 ajack Exp $
-# $Revision: 1.24 $
-# $Date: 2003/12/15 19:36:51 $
+# $Header: /home/stefano/cvs/gump/python/gump/model/project.py,v 1.25 2003/12/16 17:13:48 ajack Exp $
+# $Revision: 1.25 $
+# $Date: 2003/12/16 17:13:48 $
 #
 # ====================================================================
 #
@@ -305,7 +305,7 @@ class Project(NamedModelObject, Statable):
             return self.totalDepends
         
         for dependency in self.depends:
-            if not dependeny in self.totalDepends: 
+            if not dependency in self.totalDepends: 
                 self.totalDepends.append(dependency)
                 for subdepend in dependency.getProject().getFullDependencies():
                     if not subdepend in self.totalDepends:
@@ -333,7 +333,7 @@ class Project(NamedModelObject, Statable):
         # Store once
         return self.totalDependees            
                         
-    def getFullDependeesCount(self):         
+    def getFullDependeeCount(self):         
         return len(self.getFullDependees())             
         
     def getFOGFactor(self):

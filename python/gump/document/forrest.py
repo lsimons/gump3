@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/forrest.py,v 1.38 2003/12/15 19:36:52 ajack Exp $
-# $Revision: 1.38 $f
-# $Date: 2003/12/15 19:36:52 $
+# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/forrest.py,v 1.39 2003/12/16 17:13:49 ajack Exp $
+# $Revision: 1.39 $f
+# $Date: 2003/12/16 17:13:49 $
 #
 # ====================================================================
 #
@@ -1465,7 +1465,7 @@ class ForrestDocumenter(Documenter):
             if not gumpSet.inModules(module): continue   
             dependenciesRow=dependenciesTable.createRow()
             self.insertLink( module, stats, dependenciesRow.createData())
-            dependenciesRow.createData( module.getDependencyCount())
+            dependenciesRow.createData( module.getFullDependencyCount())
             
             #projectsString=''
             #for project in module.getDepends():
@@ -1485,7 +1485,7 @@ class ForrestDocumenter(Documenter):
             if not gumpSet.inModules(module): continue   
             dependeesRow=dependeesTable.createRow()
             self.insertLink( module, stats, dependeesRow.createData())
-            dependeesRow.createData(module.getDependeeCount())
+            dependeesRow.createData(module.getFullDependeeCount())
             
             #projectsString=''
             #for project in module.getDependees():
@@ -1544,12 +1544,13 @@ class ForrestDocumenter(Documenter):
         document=XDocDocument('Projects By Dependee Count',
                     self.resolver.getFile(stats,'project_dependees.xml'))
         
-        dependeesTable=document.createTable(['Projects By Dependee Count'])
+        dependeesTable=document.createTable(['Project','Direct Dependee Count', 'Full Dependee Count'])
         for project in stats.projectsByTotalDependees:         
             if not gumpSet.inSequence(project): continue   
             dependeesRow=dependeesTable.createRow()
             self.insertLink( project, stats, dependeesRow.createData())
             dependeesRow.createData(project.getDependeeCount())
+            dependeesRow.createData(project.getFullDependeeCount())
             
             #projectsString=''
             #for project in module.getDependees():

@@ -29,14 +29,6 @@ from gump.document.text import TextDocumenter
 from gump.output.statsdb import *
 from gump.output.repository import JarRepository
 
-###############################################################################
-# Initialize
-###############################################################################
-
-SUCCESS=0
-FAILED=1
-MISSING_UTILITY=2
-BAD_ENVIRONMENT=3
     
 ###############################################################################
 # Functions

@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/utils/__init__.py,v 1.13 2003/12/11 22:16:05 ajack Exp $
-# $Revision: 1.13 $
-# $Date: 2003/12/11 22:16:05 $
+# $Header: /home/stefano/cvs/gump/python/gump/utils/__init__.py,v 1.14 2003/12/16 17:13:48 ajack Exp $
+# $Revision: 1.14 $
+# $Date: 2003/12/16 17:13:48 $
 #
 # ====================================================================
 #
@@ -96,7 +96,7 @@ def dump(obj,indent=""):
         if isinstance(var,types.MethodType): continue
 
         if isinstance(var,list): 
-          print indent+"  List Name:" + str(name)
+          print indent+"  List Name:" + str(name) + ' len:' + str(len(var))
           i=0
           for v in var:
              i+=1

@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/utils/Attic/xmlutils.py,v 1.5 2003/12/15 19:36:52 ajack Exp $
-# $Revision: 1.5 $
-# $Date: 2003/12/15 19:36:52 $
+# $Header: /home/stefano/cvs/gump/python/gump/utils/Attic/xmlutils.py,v 1.6 2003/12/16 17:13:48 ajack Exp $
+# $Revision: 1.6 $
+# $Date: 2003/12/16 17:13:48 $
 #
 # ====================================================================
 #
@@ -113,15 +113,18 @@ class SAXDispatcher(ContentHandler,ErrorHandler,Annotatable):
         attributes['@basedir']=self.basedir
         
         # The newly loaded object moves to top of stack
-        extractedObject=self.topOfStack.startElement(name,attributes)
-        if not isinstance(extractedObject,Annotation):
-            self.topOfStack=extractedObject
-        else:
-            # Nasty hack to try to return/annotate errors
-            if self.topOfStack and isinstance(self.topOfStack,Annotatable):  
-                self.topOfStack.addAnnotationObject(extractedObject)
-                self.topOfStack.dump()
+        try:
+            extractedObject=self.topOfStack.startElement(name,attributes)
         
+            # Extract object
+            self.topOfStack=extractedObject
+            
+        except Exception, detail:
+            message=str(detail)
+            if self.topOfStack and isinstance(self.topOfStack,Annotatable):  
+                self.topOfStack.addError(message)              
+            else:
+                self.addError(message)
     self.elementStack.append(self.topOfStack)
 
   def characters(self, string):
@@ -136,12 +139,12 @@ class SAXDispatcher(ContentHandler,ErrorHandler,Annotatable):
   def error(self, exception):
     self.addError('XML error : ' + str(exception))
     log.error("Handle a recoverable error." + str(exception), exc_info=1)
-    raise exception
+    # raise exception
     
   def fatalError(self, exception):
     self.addError('XML error : ' + str(exception))
     log.error("Handle a non-recoverable error." + str(exception), exc_info=1)
-    raise exception
+    # raise exception
 
   def warning(self, exception):
     self.addWarning('XML warning' + str(exception))
@@ -163,12 +166,14 @@ class GumpXMLObject(Annotatable,object):
     attributes)."""
 
   def __init__(self,attrs):
-      
-    Annotatable.__init__(self)    
+    
+    # Ensure we have an 'annotations' list
+    if not hasattr(self,'annotations') or not isinstance(self.annotations,list):
+        Annotatable.__init__(self)    
     
     # Transfer attributes
     for (name,value) in attrs.items():
-        if not name == '@basedir' and not name=='annotations':
+        if not name == '@basedir':
             self.__dict__[name]=value
     # Setup internal character field
     if not '@text' in self.__dict__: self.init()
@@ -223,7 +228,7 @@ class GumpXMLObject(Annotatable,object):
   def __delitem__(self,name):
     del self.__dict__[name]
 
-  def __getattr__(self,name):
+  def __getattr__(self,name):  
     pass
 
   def __str__(self):
@@ -257,12 +262,12 @@ class Named(GumpXMLObject):
 
   def __new__(cls,attrs):
     """ A Named element """   
-     
+    
     #
     # Note: The first time a named is imported it is probably
     # not 'named' but with an 'href' to the 'remote' metadata.
     #
-    name=attrs.get('name')
+    name=attrs.get('name')    
     
     #   
     # A 'named' element can also be 'downloaded' via an href
@@ -291,10 +296,12 @@ class Named(GumpXMLObject):
             tag =  cls.__name__.lower().replace('xml','')
                         
             try:
-                parser=SAXDispatcher(newHref, \
-                                  tag, cls,\
-                                  basedir)
-                                  
+                parser=SAXDispatcher( newHref, \
+                                      tag, \
+                                      cls,\
+                                      basedir)
+                                
+                # Get the extracted object
                 element=parser.docElement     
                 
                 # Copy over any XML errors/warnings
@@ -303,16 +310,17 @@ class Named(GumpXMLObject):
             except Exception, detail:
                 message='Failed to parse XML @ [' + newHref + ']. Details: ' + str(detail)
                 log.error(message, exc_info=1)   
-                element=Annotation(LEVEL_ERROR, message)
+                raise RuntimeError, message
         else:
             # :TODO: Set any object "invalid"?
-            log.warn("HREF: ["+href+"] not loaded", exc_info=1)
-            element=Annotation(LEVEL_ERROR, message)
+            message='HREF ['+href+'] not loaded'
+            log.error(message, exc_info=1)
+            raise RuntimeError, message
         
         #
         # Stash for general reference/interest
         #
-        if element and not isinstance(element,Annotation):
+        if element:
             element.href=href                    
         
         # Return the downloaded element instead...
@@ -323,12 +331,13 @@ class Named(GumpXMLObject):
           # We've this already?
           element=cls.map[name]
         except:
-          # Create it first time...
-          element=GumpXMLObject.__new__(cls,attrs)
+          # Store in class map
+          if name: 
+              log.debug(str(cls) + ' : ' + name + ' ... not downloaded from HREF first')        
+              # Create it first time...
+              element=GumpXMLObject.__new__(cls,attrs)
       
-        # Store in class map
-        if name: 
-            cls.map[name]=element
+              cls.map[name]=element
       
     return element
                 
@@ -398,8 +407,9 @@ class Multiple(list,GumpXMLObject):
 
   def __init__(self,cls=GumpXMLObject):
     """The cls passed in determines what type the delegate instances will have."""
-    list.__init__(self)
-    
+    list.__init__(self)    
+    GumpXMLObject.__init__(self,{}) 
+       
     # Store the type of class we are a multiple of..
     self.cls=cls
 
@@ -427,6 +437,8 @@ def xmlize(nodeName,object,f=None,indent='',delta='  '):
   # iterate over the object properties
   for name in object.__dict__:
     if name.startswith('__') and name.endswith('__'): continue
+    if name == 'annotations': continue
+    
     var=getattr(object,name)
 
     # avoid nulls, metadata, and methods
