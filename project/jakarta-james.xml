@@ -28,7 +28,7 @@
 
   <project name="dnsjava">
     <url href="http://enigma.xbill.org/dnsjava/"/>
-    <jar name="lib/dnsjava.jar" />
+    <jar name="lib/dnsjava-1.2.3.jar" />
   </project>
 
 </module>
