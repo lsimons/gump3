@@ -53,7 +53,7 @@
     </ant>
     <depend project="jakarta-ant"/>
     <depend project="xml-xerces"/>
-    <jar name="io/dist/commons-io-@@DATE@@.jar"/>
+    <jar name="io/dist/commons-io.jar"/>
     <javadoc nested="io/dist/docs/api"/>
   </project>
 

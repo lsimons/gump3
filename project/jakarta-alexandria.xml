@@ -32,4 +32,35 @@
     <home nested="proposal/maven"/>
     <jar name="bin/maven-@@DATE@@.jar"/>
   </project>
+  
+  <project name="vindico">
+    <ant basedir="proposal/vindico" target="jar">
+      <property name="component.version" value="@@DATE@@"/>
+    </ant>
+
+    <depend project="jakarta-ant"/>
+    <depend project="jakarta-log4j"/>
+    <depend project="xml-xerces"/>
+    <depend project="commons-logging"/>
+    <depend project="commons-collections"/>
+    <depend project="commons-beanutils"/>
+    <depend project="commons-digester"/>
+    <depend project="commons-io"/>
+    <depend project="junit"/>
+    <depend project="jakarta-log4j"/>
+    <depend project="cvsclient"/>
+
+    <home nested="proposal/vindico/dist"/>
+    <jar name="commons-vindico.jar"/>
+  </project>
+
+  <project name="cvsclient">
+    <url href="http://javacvs.netbeans.org/"/>
+    <description>
+      CVS client library written in Java
+    </description>
+
+    <home nested="proposal/vindico"/>
+    <jar name="lib/cvslib.jar"/>
+  </project>
 </module>
