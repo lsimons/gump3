@@ -73,7 +73,9 @@
   <!-- test that the ant tasks work; uses ant's test harness -->
   <project name="smartfrog-tasks-test">
     <package>org.smartfrog.tools.ant</package>
-    <ant basedir="extras/ant" target="test" />
+    <ant basedir="extras/ant" target="test" >
+      <property name="system.tests" value="false" /> 
+    </ant>    
     <depend project="ant" runtime="true"/>
     <depend project="ant-testutil" runtime="true"/>
     <depend project="junit" runtime="true"/>
