@@ -114,6 +114,29 @@ def syncDirectories(context,workspace,type,cwd,sourcedir,destdir,name=None):
     
     return work        
     
+def tail(file,lines):
+    """ Return the last N lines of a file as a list """
+    taillines=[]
+    try:
+        try:
+            # Read lines from the file...
+            o=open(file, 'r')
+            line=o.readline()
+            
+            # Store the lines
+            taillines.append(line)
+            
+            # But dump any before 'lines'
+            size=len(taillines)
+            if size > lines:
+                del taillines[0:size-lines]
+        finally:
+            if o: o.close()
+    except:
+        x.write('Failed to tail :' + file)    
+                            
+    return taillines
+    
 if __name__=='__main__':
 
   # init logging

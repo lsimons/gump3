@@ -240,7 +240,20 @@ class CmdResult:
           overview += indent+"Elapsed: " + str(self.elapsed)
         if self.exit_code:
           overview += indent+"ExitCode: " + str(self.exit_code)
+        
         return overview
+        
+    def tail(self,lines):
+        tail = "---------------------------------------------"
+        
+        if self.output:
+            tail += gump.tools.tail(self.output,lines)
+        else:
+            tail += "No output"
+            
+        tail += "---------------------------------------------"
+            
+        return tail
           
     def dump(self,indent):
         print self.overview(indent)

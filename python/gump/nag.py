@@ -183,7 +183,7 @@ def getContent(workspace,context,message=''):
     if context.worklist:
         content+="\n\nWork Items:\n"
         for workitem in context.worklist:
-            content+=workitem.overview()+"\n"
+            content+=workitem.overview()+"\n"            
                            
     #
     # Link them back here...

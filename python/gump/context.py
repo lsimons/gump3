@@ -200,6 +200,10 @@ class CommandWorkItem(TimedWorkItem):
     def overview(self):
         overview=TimedWorkItem.overview(self)
         overview += self.command.overview()
+        
+        if not workitem.status == STATUS_SUCCESS:
+            overview+=self.result.tail(50)
+            
         return overview
             
 class WorkList(list):
