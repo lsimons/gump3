@@ -452,6 +452,7 @@
     </ant>
     <depend project="ant" inherit="runtime"/>
     <depend project="xml-xerces"/>
+    <depend project="jaxen"/>
     <javadoc nested="dist/doc/doc/xtags-doc/javadoc"/>
     <jar name="dist/xtags/taglibs-xtags.jar"/>
     <nag to="taglibs-dev@jakarta.apache.org"
