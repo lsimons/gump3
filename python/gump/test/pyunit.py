@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/test/pyunit.py,v 1.6 2003/11/21 02:32:41 ajack Exp $
-# $Revision: 1.6 $
-# $Date: 2003/11/21 02:32:41 $
+# $Header: /home/stefano/cvs/gump/python/gump/test/pyunit.py,v 1.7 2003/11/21 19:04:10 ajack Exp $
+# $Revision: 1.7 $
+# $Date: 2003/11/21 19:04:10 $
 #
 # ====================================================================
 #
@@ -286,6 +286,9 @@ if __name__=='__main__':
     
     from gump.test.documenter import DocumenterTestSuite  
     runner.addSuite(DocumenterTestSuite())
+    
+    from gump.test.updater import UpdaterTestSuite  
+    runner.addSuite(UpdaterTestSuite())
     
     # Perform the tests...
     runner.run()

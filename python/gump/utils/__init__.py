@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/utils/__init__.py,v 1.4 2003/11/21 02:32:41 ajack Exp $
-# $Revision: 1.4 $
-# $Date: 2003/11/21 02:32:41 $
+# $Header: /home/stefano/cvs/gump/python/gump/utils/__init__.py,v 1.5 2003/11/21 19:04:10 ajack Exp $
+# $Revision: 1.5 $
+# $Date: 2003/11/21 19:04:10 $
 #
 # ====================================================================
 #
@@ -170,7 +170,6 @@ def createOrderedList(disorderedList,sortfunc=None):
     # Return it sorted
     return sorted   
 
-# :TODO: Go find the one I lost...
 def banner():
     printSeparator()
     print
@@ -215,8 +214,26 @@ def secsToString(secs):
     return elapsedTimeToString(secsToElapsedTime(secs))           
     
 def elapsedTimeToString(elapsed):
-    #:TODO: Don't show hours if 0, show mins/secs words
-    return ('%02d:%02d:%02d' % elapsed)        
+    elapsedString=''
+    
+    (hours,mins,secs) = elapsed
+    
+    if hours:
+        if elapsedString: elapsedString += ' '
+        elapsedString += str(hours)+' hour'
+        if hours: elapsedString += 's'
+        
+    if mins:
+        if elapsedString: elapsedString += ' '    
+        elapsedString += str(mins)+' min'
+        if mins: elapsedString += 's'
+        
+    if secs:
+        if elapsedString: elapsedString += ' '    
+        elapsedString += str(secs)+' sec'
+        if secs: elapsedString += 's'
+    
+    return elapsedString    
     
 def secsToDate(secs):
     return time.strftime(setting.datetimeformat, \

@@ -1,7 +1,7 @@
 #!/usr/bin/env python
-# $Header: /home/stefano/cvs/gump/python/gump/test/Attic/gumpset_tests.py,v 1.1 2003/11/17 22:10:53 ajack Exp $
-# $Revision: 1.1 $
-# $Date: 2003/11/17 22:10:53 $
+# $Header: /home/stefano/cvs/gump/python/gump/test/Attic/gumpset_tests.py,v 1.2 2003/11/21 19:04:10 ajack Exp $
+# $Revision: 1.2 $
+# $Date: 2003/11/21 19:04:10 $
 #
 # ====================================================================
 #
@@ -103,5 +103,5 @@ if __name__=='__main__':
     log.setLevel(gump.default.logLevel)
 
     #testWorkspace('gump/test/resources/simple1/standalone_workspace.xml')
-    testWorkspace('gump/test/resources/simple3/workspace.xml')
+    testWorkspace('gump/test/resources/full1/workspace.xml')
 

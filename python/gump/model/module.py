@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/model/module.py,v 1.9 2003/11/21 04:41:22 ajack Exp $
-# $Revision: 1.9 $
-# $Date: 2003/11/21 04:41:22 $
+# $Header: /home/stefano/cvs/gump/python/gump/model/module.py,v 1.10 2003/11/21 19:04:10 ajack Exp $
+# $Revision: 1.10 $
+# $Date: 2003/11/21 19:04:10 $
 #
 # ====================================================================
 #
@@ -127,6 +127,25 @@ class ModuleCVS(ModelObject):
     def getModule(self):
         return self.module
          
+class ModuleSVN(ModelObject):
+    def __init__(self,xml,repository):
+        ModelObject.__init__(self,xml)
+        
+        # Reference to the shared repository
+        self.repository=repository
+        
+        # Extract settings
+        if xml.url:
+            self.url	=	str(xml.url)
+        elif self.repository.hasUrl():
+            self.url 	=  self.repository.getUrl()
+    
+    def hasUrl(self):
+        return (hasattr(self,'url') and self.url)
+        
+    def getUrl(self):
+        return self.url
+         
 def createUnnamedModule(workspace):
     #
     # Create an Unnamed Module (for projects not in modules)
@@ -249,8 +268,19 @@ class Module(NamedModelObject, Statable):
                     self.changeState(STATE_FAILED,REASON_CONFIG_FAILED)               
                     log.error(':TODO: No such repository in w/s ['+ repoName +'] on [' \
                             + self.getName() + ']')
-            
-     
+                            
+            elif self.xml.svn:                
+                repoName=self.xml.svn.repository
+                if workspace.hasRepository(repoName):
+                    # It references this repository...
+                    repo=workspace.getRepository(repoName)
+                    self.repository=repo
+                    repo.addModule(self)
+                    self.svn=ModuleSVN(self.xml.svn,repo)
+                else:
+                    self.changeState(STATE_FAILED,REASON_CONFIG_FAILED)               
+                    log.error(':TODO: No such repository in w/s ['+ repoName +'] on [' \
+                            + self.getName() + ']')                 
                     
         self.setComplete(1)            
         
@@ -405,8 +435,11 @@ class Module(NamedModelObject, Statable):
     def getWorkspace(self):
         return self.workspace
     
-    def isCVS(self):
+    def isCvs(self):
         return hasattr(self,'cvs') and self.cvs
+        
+    def isSvn(self):
+        return hasattr(self,'svn') and self.svn
         
     # Where the contents (at the repository) updated?
     def isUpdated(self):
@@ -422,8 +455,10 @@ class Module(NamedModelObject, Statable):
         return self.repository
         
     def getUpdateCommand(self,exists=0):
-        if self.isCVS():
+        if self.isCvs():
             return self.getCvsUpdateCommand(exists)
+        elif self.isSvn():
+            return self.getSvnUpdateCommand(exists)
         
         #:TODO: SubVersion
         pass
@@ -487,12 +522,55 @@ class Module(NamedModelObject, Statable):
             if self.cvs.hasTag():
                 cmd.addParameter('-r',self.cvs.getTag(),' ')
 
-        if self.cvs.hasModule():
-            if self.cvs.getModule()<>self.getName(): 
-                cmd.addParameter('-d',self.getName(),' ')
-            cmd.addParameter(self.cvs.getModule())
+            if self.cvs.hasModule():
+                if not self.cvs.getModule() == self.getName(): 
+                    cmd.addParameter('-d',self.getName(),' ')
+                cmd.addParameter(self.cvs.getModule())
         
         return (self.repository, root, cmd)
+     
+     
+    def getSvnUpdateCommand(self,exists=0):
+        
+        log.debug("SubVersion Update Module " + self.getName() + \
+                       ", Repository Name: " + str(self.repository.getName()))
+                                        
+        url=self.svn.getUrl()
+      
+        log.debug("SVN URL: [" + url + "] on Repository: " + self.repository.getName())
+     
+        #
+        # Prepare CVS checkout/update command...
+        # 
+        cmd=Cmd('svn','update_'+self.getName(),self.getWorkspace().cvsdir)
+    
+        if exists:
+
+            # do a cvs update
+            cmd.addParameter('update')
+
+        else:
+
+            # do a cvs checkout
+            cmd.addParameter('checkout')
+            if self.svn.hasUrl():
+                cmd.addParameter(self.svn.getUrl())
+          
+        #
+        # Be 'quiet' (but not silent) unless requested otherwise.
+        #
+        if 	not self.isDebug() 	\
+            and not self.isVerbose() \
+            and not self.svn.isDebug()	\
+            and not self.svn.isVerbose():    
+            cmd.addParameter('-q')
+          
+        #
+        # Request non-interactive
+        #
+        cmd.addParameter('--non-interactive')
+
+        return (self.repository, url, cmd)
      
      
 class ModuleStatistics(Statistics):

@@ -1,8 +1,8 @@
 #!/usr/bin/python
 
-# $Header: /home/stefano/cvs/gump/python/gump/Attic/config.py,v 1.4 2003/11/20 20:51:49 ajack Exp $
-# $Revision: 1.4 $
-# $Date: 2003/11/20 20:51:49 $
+# $Header: /home/stefano/cvs/gump/python/gump/Attic/config.py,v 1.5 2003/11/21 19:04:10 ajack Exp $
+# $Revision: 1.5 $
+# $Date: 2003/11/21 19:04:10 $
 #
 # ====================================================================
 #
@@ -112,6 +112,11 @@ class default:
     prefix = '[GUMP@' + gumphost + ']'
     signature="\r\n--\r\nGump http://jakarta.apache.org/gump\n" \
         + '[' + gumpfullhost + "]\n"
+        
+    if not os.name == 'dos' and not os.name == 'nt':
+        classpathSeparator=':'
+    else:
+        classpathSeparator=';'
     
 class setting:    
     """Configuration of hardcoded settings"""

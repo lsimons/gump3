@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/model/repository.py,v 1.3 2003/11/20 20:51:48 ajack Exp $
-# $Revision: 1.3 $
-# $Date: 2003/11/20 20:51:48 $
+# $Header: /home/stefano/cvs/gump/python/gump/model/repository.py,v 1.4 2003/11/21 19:04:10 ajack Exp $
+# $Revision: 1.4 $
+# $Date: 2003/11/21 19:04:10 $
 #
 # ====================================================================
 #
@@ -74,18 +74,26 @@ class Repository(NamedModelObject, Statable):
     def __init__(self,xml,workspace):
     	NamedModelObject.__init__(self,xml.getName(),xml,workspace)
     
-        if xml.root:
-            if xml.root.method: 
-                self.method=xml.root.method
-            # :TODO: And if not? Default?            
-            
-            if xml.root.user: self.user=xml.root.user
-            if xml.root.password: self.password=xml.root.password
-            if xml.root.path: self.path=xml.root.path
-            if xml.root.hostname: self.hostname=self.xml.root.hostname
-        else:
-            raise RuntimeError, 'No XML <root on repository: ' + self.getName()
         
+        if 'cvs'==xml.type:
+            if xml.root:
+                if xml.root.method: 
+                    self.method=xml.root.method
+                # :TODO: And if not? Default?            
+            
+                if xml.root.user: self.user=xml.root.user
+                if xml.root.password: self.password=xml.root.password
+                if xml.root.path: self.path=xml.root.path
+                if xml.root.hostname: self.hostname=self.xml.root.hostname
+            else:
+                raise RuntimeError, 'No XML <root on repository: ' + self.getName()
+        elif 'svn'==xml.type:  
+
+            if xml.url:
+                self.url=str(xml.url)
+            else:
+                raise RuntimeError, 'No URL on SVN repository: ' + self.getName()
+            
         # Modules referencing this repository
         self.modules=[]
             
@@ -124,6 +132,7 @@ class Repository(NamedModelObject, Statable):
     def hasMethod(self): return hasattr(self,'method')
     def hasHostname(self): return hasattr(self,'hostname')   
     
+    
     def getTitle(self): return str(self.xml.title)
     def getHomePage(self): return str(getattr(self.xml,'home-page'))
     def getCvsWeb(self): return str(self.xml.cvsweb)
@@ -133,6 +142,9 @@ class Repository(NamedModelObject, Statable):
     def getPath(self): return str(self.path)
     def getMethod(self): return str(self.method)
     def getHostname(self): return str(self.hostname)
+    
+    def hasUrl(self): return hasattr(self,'url')
+    def getUrl(self): return str(self.url)
     
     def addModule(self,module):
         self.modules.append(module)

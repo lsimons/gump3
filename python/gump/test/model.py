@@ -1,7 +1,7 @@
 #!/usr/bin/env python
-# $Header: /home/stefano/cvs/gump/python/gump/test/model.py,v 1.3 2003/11/21 02:32:41 ajack Exp $
-# $Revision: 1.3 $
-# $Date: 2003/11/21 02:32:41 $
+# $Header: /home/stefano/cvs/gump/python/gump/test/model.py,v 1.4 2003/11/21 19:04:10 ajack Exp $
+# $Revision: 1.4 $
+# $Date: 2003/11/21 19:04:10 $
 #
 # ====================================================================
 #
@@ -115,6 +115,9 @@ class ModelTestSuite(UnitTestSuite):
         self.assertNonZero('Repository CVSWEB',repo1.getCvsWeb())
         self.assertNonZeroString('Repository CVSWEB',repo1.getCvsWeb())        
         self.assertTrue('Repository has Modules', repo1.hasModules())
+        
+        repo2 = self.workspace.getRepository('svn_repository1')  
+        self.assertNonZeroString('Repository SVN URL',repo2.getUrl())
 
     def testComparisons(self):
         project1 = self.project1
@@ -143,8 +146,16 @@ class ModelTestSuite(UnitTestSuite):
     def testCVS(self):
         module1=self.module1
         
-        self.assertTrue('Module is CVS', module1.isCVS())
+        self.assertTrue('Module is CVS', module1.isCvs())
+        self.assertFalse('Module is NOT SVN', module1.isSvn())
         self.assertNonZeroString('CVSROOT',module1.cvs.getCVSRoot())
+    
+    def testSVN(self):
+        svnmodule1= self.workspace.getModule('svn_module1')
+        
+        self.assertTrue('Module is SVN', svnmodule1.isSvn())
+        self.assertFalse('Module is NOT CVS', svnmodule1.isCvs())
+        self.assertNonZeroString('SVN URL',svnmodule1.svn.getUrl())
     
     def testDependencyMapping(self):
         

@@ -1,0 +1,24 @@
+<module name="svn_module1">
+
+  <url  href="http://ant.apache.org/index.html"/>
+  <description>
+    Java based build tool
+  </description>
+
+  <svn repository="svn_repository1"/>
+
+  <project name="svn_project1">
+    <package>org.apache.tools.ant</package>
+    <ant target="gump"/>
+    <depend project="random"/>
+    <option project="random"/>
+    <home nested="dist"/>
+    <jar name="lib/output.jar" id="output"/>
+    <license name="LICENSE"/>
+
+    <nag from="Gump Integration Build &lt;dev@ant.apache.org&gt;"
+         to="dev@ant.apache.org"/>
+  </project>
+
+</module>
+

@@ -175,9 +175,9 @@ class GumpEngine:
         # Update all the modules that have CVS repositories
         for module in run.getGumpSet().getModules():          
         
-            if not module.isCVS(): continue
+            if not module.isCvs() and not module.isSvn(): continue
             
-            log.debug('Perform CVS Update on: ' + module.getName())
+            log.debug('Perform CVS/SVN Update on: ' + module.getName())
     
             if module.okToPerformWork():
                 
@@ -189,12 +189,15 @@ class GumpEngine:
                 #
                 (repository, root, cmd ) = module.getUpdateCommand(exists)
                 
-                #
-                # Provide logins, if not already there
-                #
-                loginToRepositoryOnDemand(repository,root,logins)
+                if self.isCvs():
+                    #
+                    # Provide CVS logins, if not already there
+                    #
+                    loginToRepositoryOnDemand(repository,root,logins)
                
+                #
                 # Execute the command and capture results        
+                #
                 cmdResult=execute(cmd,workspace.tmpdir)
       
                 work=CommandWorkItem(WORK_TYPE_UPDATE,cmd,cmdResult)
@@ -224,7 +227,7 @@ class GumpEngine:
         for module in run.getGumpSet().getModules():
     
             # If no CVS, nothing to sync   
-            if not module.isCVS(): continue
+            if not module.isCvs() and not module.isSvn(): continue
     
             if module.okToPerformWork():
             

@@ -1,7 +1,7 @@
 #!/usr/bin/env python
-# $Header: /home/stefano/cvs/gump/python/gump/test/Attic/loader_tests.py,v 1.1 2003/11/17 22:10:53 ajack Exp $
-# $Revision: 1.1 $
-# $Date: 2003/11/17 22:10:53 $
+# $Header: /home/stefano/cvs/gump/python/gump/test/Attic/loader_tests.py,v 1.2 2003/11/21 19:04:10 ajack Exp $
+# $Revision: 1.2 $
+# $Date: 2003/11/21 19:04:10 $
 #
 # ====================================================================
 #
@@ -94,7 +94,7 @@ if __name__=='__main__':
 
     #testWorkspace('gump/test/resources/simple2/workspace.xml').dump()
     
-    #testWorkspace('gump/test/resources/simple3/workspace.xml').dump()
+    #testWorkspace('gump/test/resources/full1/workspace.xml').dump()
 
     #try:
     #    testWorkspace('gump/test/resources/broken1/broken_workspace.xml') 

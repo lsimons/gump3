@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/model/workspace.py,v 1.7 2003/11/21 04:41:22 ajack Exp $
-# $Revision: 1.7 $
-# $Date: 2003/11/21 04:41:22 $
+# $Header: /home/stefano/cvs/gump/python/gump/model/workspace.py,v 1.8 2003/11/21 19:04:10 ajack Exp $
+# $Revision: 1.8 $
+# $Date: 2003/11/21 19:04:10 $
 #
 # ====================================================================
 #
@@ -84,7 +84,7 @@ class Workspace(ModelObject,PropertyContainer):
     	PropertyContainer.__init__(self)
     	
     	#
-    	# Named repositories (e.g. CVS)
+    	# Named repositories (e.g. CVS,SVN,etc.)
     	# Named modules
     	# named projects
     	#
@@ -99,7 +99,8 @@ class Workspace(ModelObject,PropertyContainer):
     	# Set to true if not found, see checkEnvironment
     	#
     	self.noRSync=0
-    	self.noForrest=0    	
+    	self.noForrest=0    
+    	self.noRuper=0    	
     	
     	#
     	# JAVACMD can override this, see checkEnvironment
@@ -440,9 +441,15 @@ class Workspace(ModelObject,PropertyContainer):
         self.checkExecutable('javac','-help',exitOnError)
         self.checkExecutable('java com.sun.tools.javac.Main','-help',exitOnError,0,'check_java_compiler')    
         self.checkExecutable('cvs','--version',exitOnError)
+        
         if not self.noForrest and not self.checkExecutable('forrest','-projecthelp',0): 
             self.noForrest=1
             self.addWarning('"forrest" command not found, no xdoc output')
+        
+        if not self.noRuper and \
+            not self.checkExecutable('java  org.krysalis.ruper2.tool.ResourceTool','-version',exitOnError,0,'check_ruper'): 
+            self.noRuper=1
+            self.addWarning('"ruper" command not found, no package downloads')
         
         if not self.checkExecutable('rsync','-help',0): 
             self.noRSync=1

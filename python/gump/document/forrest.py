@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/forrest.py,v 1.11 2003/11/21 02:32:41 ajack Exp $
-# $Revision: 1.11 $f
-# $Date: 2003/11/21 02:32:41 $
+# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/forrest.py,v 1.12 2003/11/21 19:04:10 ajack Exp $
+# $Revision: 1.12 $f
+# $Date: 2003/11/21 19:04:10 $
 #
 # ====================================================================
 #
@@ -766,7 +766,7 @@ class ForrestDocumenter(Documenter):
                                 module, \
                                 repoList.createEntry( "Repository: ") )
                                 
-            if module.isCVS():
+            if module.isCvs():
                 if module.cvs.hasModule():
                      repoList.createEntry( "CVS Module: ", module.cvs.getModule()) 
                      
@@ -780,6 +780,10 @@ class ForrestDocumenter(Documenter):
                      repoList.createEntry( "CVS Host Prefix: ", module.cvs.getHostPrefix()) 
                      
                 repoList.createEntry( "CVSROOT: ", module.cvs.getCVSRoot()) 
+
+            if module.isSvn():
+                if module.svn.hasUrl():
+                     repoList.createEntry( "SVN URL: ", module.svn.getUrl())                 
 
                 
            
@@ -1076,7 +1080,7 @@ class ForrestDocumenter(Documenter):
                     val = param.value
                     # :TODO: Hack for BOOTCLASSPATH
                     if param.name.startswith('bootclasspath'):
-                       val=';:\n'.join(val.split(';'))
+                       val=default.classpathSeparator+'\n'.join(val.split(default.classpathSeparator))
 
                     paramRow.createData(val or'')
                         
@@ -1093,7 +1097,7 @@ class ForrestDocumenter(Documenter):
                     if value:
                         # :TODO: Hack for CLASSPATH
                         if name == "CLASSPATH":
-                            value=';\n'.join(value.split(';'))
+                            value=default.classpathSeparator+'\n'.join(value.split(default.classpathSeparator))
                         envRow.createData(escape(value))
                     else:
                         envRow.createData('N/A')

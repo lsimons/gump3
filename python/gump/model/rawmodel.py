@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/model/Attic/rawmodel.py,v 1.3 2003/11/19 15:42:16 ajack Exp $
-# $Revision: 1.3 $
-# $Date: 2003/11/19 15:42:16 $
+# $Header: /home/stefano/cvs/gump/python/gump/model/Attic/rawmodel.py,v 1.4 2003/11/21 19:04:10 ajack Exp $
+# $Revision: 1.4 $
+# $Date: 2003/11/21 19:04:10 $
 #
 # ====================================================================
 #
@@ -133,6 +133,7 @@ class XMLModule(Named):
   list={}
   def init(self):
     self.cvs=Single(GumpXMLModelObject)
+    self.svn=Single(GumpXMLModelObject)
     self.url=Single(GumpXMLModelObject)
     self.description=Single(GumpXMLModelObject)
     self.redistributable=Single(GumpXMLModelObject)
@@ -145,6 +146,7 @@ class XMLRepository(Named):
     self['home-page']=Single(GumpXMLModelObject)
     self.title=Single(GumpXMLModelObject)
     self.cvsweb=Single(GumpXMLModelObject)
+    self.url=Single(GumpXMLModelObject)
     self.root=Single(XMLRepositoryRoot)
     self.redistributable=Single(GumpXMLModelObject)
 

@@ -1,7 +1,6 @@
 #!/usr/bin/env python
-
-# $Header: /home/stefano/cvs/gump/python/gump/test/__init__.py,v 1.4 2003/11/21 19:04:10 ajack Exp $
-# $Revision: 1.4 $
+# $Header: /home/stefano/cvs/gump/python/gump/test/updater.py,v 1.1 2003/11/21 19:04:10 ajack Exp $
+# $Revision: 1.1 $
 # $Date: 2003/11/21 19:04:10 $
 #
 # ====================================================================
@@ -58,49 +57,46 @@
 # information on the Apache Software Foundation, please see
 # <http://www.apache.org/>.
 
+"""
+    Model Testing
+"""
 
-# tell Python what modules make up the gump.test package
-#__all__ = ["",""]
+import os
+import logging
+import types, StringIO
 
-from gump.model.loader import WorkspaceLoader
-
-import gump
+from gump import log
 import gump.config
+from gump.output.statsdb import *
+from gump.test import getWorkedTestWorkspace
+from gump.test.pyunit import UnitTestSuite
 
-from gump.model.rawmodel import XMLWorkspace
-from gump.model.workspace import Workspace
-
-from gump.output.statsdb import StatisticsDB
-from gump.utils.tools import listDirectoryAsWork
-
-def getTestWorkspace(xml=None):
-    if not xml: xml='gump/test/resources/full1/workspace.xml'
+class UpdaterTestSuite(UnitTestSuite):
+    def __init__(self):
+        UnitTestSuite.__init__(self)
+        
+    def suiteSetUp(self):
+        #
+        # Load a decent Workspace
+        #
+        self.workspace=getWorkedTestWorkspace()          
+        self.assertNotNone('Needed a workspace', self.workspace)
+        
+        self.repo1=self.workspace.getRepository('repository1')                  
+        self.svnRepo1=self.workspace.getRepository('svn_repository1')                  
+        
+        self.module1=self.workspace.getModule('module1')      
+        self.svnModule1=self.workspace.getModule('svn_module1')
+            
+    def testCommandLines(self):
+        
+        # Checkouts
+        (repo, root, cmd) = command=self.module1.getUpdateCommand(0)  
     
-    print "Workspace File: " + str(xml)
-    #
-    workspace = WorkspaceLoader().load(xml)
-
-    return workspace
-    
-def getWorkedTestWorkspace(xml=None):
-    workspace=getTestWorkspace(xml)
-       
-    # Load statistics for this workspace
-    db=StatisticsDB(gump.dir.test,'test.db')  
-    db.loadStatistics(workspace)
-
-    # Some work items...
-    listDirectoryAsWork(workspace,workspace.getBaseDirectory())        
-    for module in workspace.getModules():        
-        listDirectoryAsWork(module,module.getSourceDirectory())
-        for project in module.getProjects():
-            listDirectoryAsWork(project,project.getHomeDirectory())        
-
-    return workspace
-    
-def createTestWorkspace():
-    xmlworkspace=XMLWorkspace({})
-    workspace=Workspace(xmlworkspace)
-    return workspace
-  
-    
+        (repo, url, cmd) = command=self.svnModule1.getUpdateCommand(0)  
+        
+        # Updates
+        (repo, root, cmd) = command=self.module1.getUpdateCommand(1)  
+        
+        (repo, url, cmd) = command=self.svnModule1.getUpdateCommand(1)  
+        
