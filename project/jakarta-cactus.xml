@@ -59,6 +59,10 @@
       <depend property="aspectjrt.jar" project="aspectj" id="aspectjrt"/>
       <depend property="junit.jar" project="junit"/>
       <depend property="mockobjects.jar" project="mockobjects" id="core"/>
+      <!-- Note: the Jetty jar should only be needed for framework-13 but our
+           framework build.xml does not make the distinction between 12 or 13 
+           for dependencies -->
+      <depend property="jetty.jar" project="jetty"/>
 
     </ant>
   
