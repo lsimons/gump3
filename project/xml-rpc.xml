@@ -19,7 +19,8 @@
     <option project="jakarta-servletapi"/>
     <option project="jsse"/>
     <depend project="fesi"/>
-    <home nested="target"/>
+
+    <home nested="bin"/>
     <jar name="xmlrpc-@@DATE@@.jar"/>
 
     <nag from="Sam Ruby &lt;rubys@us.ibm.com&gt;"
