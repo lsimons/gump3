@@ -28,7 +28,7 @@
     </description>
 
     <ant basedir="cactus" buildfile="build/build.xml" target="all">
-      <property name="tomcat.home" reference="homepath"
+      <property name="tomcat.home.40" reference="homepath"
                 project="jakarta-tomcat-4.0"/>
       <property name="servlet23.jar" reference="jarpath" id="servlet"
                 project="jakarta-servletapi-4"/>
