@@ -17,6 +17,24 @@ From: Ted Husted <ted@husted.com>
 Subject: [GUMP] Build Failure - cactus
 Regex: /BUILD FAILED/
 ------
+Project: commons-collections
+To: jakarta-commons@jakarta.apache.org
+From: Ted Husted <ted@husted.com>
+Subject: [GUMP] Build Failure - collections
+Regex: /BUILD FAILED/
+------
+Project: commons-dbcp
+To: jakarta-commons@jakarta.apache.org
+From: Ted Husted <ted@husted.com>
+Subject: [GUMP] Build Failure - dbcp
+Regex: /BUILD FAILED/
+------
+Project: commons-pool
+To: jakarta-commons@jakarta.apache.org
+From: Ted Husted <ted@husted.com>
+Subject: [GUMP] Build Failure - pool
+Regex: /BUILD FAILED/
+------
 Project: dist-ant
 To: ant-dev@jakarta.apache.org
 From: Sam Ruby <rubys@us.ibm.com>
