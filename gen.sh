@@ -1,7 +1,7 @@
 # export JAXP=/opt/jaxp-1.1
 # export CLASSPATH=$JAXP/crimson.jar:$JAXP/jaxp.jar:$JAXP/xalan.jar:$CLASSPATH
 
-export XALAN=/opt/xalan-j_2_0_0
+export XALAN=/opt/xalan-j_2_1_0
 
 if test "$1" = "-cp"; then
   shift
