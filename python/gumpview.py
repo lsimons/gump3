@@ -3,7 +3,7 @@
         Graphic GUI to navigate a Gump workspace
 """
 
-import sys
+import sys, logging
 from xml.sax import parse
 from xml.sax.handler import ContentHandler
 
@@ -13,6 +13,11 @@ from wxPython.wx import *
 from gumpcore import load,Module,Project,buildSequence
 from gen import xmlize
 from gumpconf import *
+
+# init logging
+logging.basicConfig()
+log = logging.getLogger(__name__)
+log.setLevel(logging.DEBUG) #set verbosity to show all messages of severity >= DEBUG
 
 class gumpview(wxApp):
   # model

@@ -3,11 +3,13 @@
    Utility functions for Gump
 """
 
-import os, os.path, sys, urllib, urlparse
+import os, os.path, sys, urllib, urlparse, logging
 from gumpconf import *
 
-# output debug messages or not
-debug = False #True
+# init logging
+logging.basicConfig()
+log = logging.getLogger(__name__)
+log.setLevel(logging.DEBUG) #set verbosity to show all messages of severity >= DEBUG
 
 #########################################################################
 #                     Utility functions                                 #
@@ -25,7 +27,7 @@ def gumpCache(href):
   if not href.startswith('http://'):
     newHref=gumpPath(href);
   else:
-   if debug: print 'url: ' + href
+   log.debug('url: ' + href)
    if not os.path.exists(dir.cache):  os.mkdir(dir.cache)
 
    #the name of the cached descriptor
@@ -35,11 +37,11 @@ def gumpCache(href):
 
    #download the file if not present in the cache
    if os.path.exists(newHref):
-     if debug: print 'using cached descriptor'
+     log.debug('using cached descriptor')
    else:
-     if debug: print 'caching...'
+     log.debug('caching...')
      urllib.urlretrieve(href, newHref)
-     if debug: print '...done'
+     log.debug('...done')
 
   return newHref
 

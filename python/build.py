@@ -11,9 +11,14 @@
 """
 
 
-import os.path,os,sys
+import os.path,os,sys,logging
 from gumpcore import *
 from gumpconf import *
+
+# init logging
+logging.basicConfig()
+log = logging.getLogger(__name__)
+log.setLevel(logging.DEBUG) #set verbosity to show all messages of severity >= DEBUG
 
 # dump all dependencies to build a project to the output
 def dumpDeps(workspace, projectname):
@@ -59,7 +64,6 @@ def syncWorkDir( workspace, build_sequence ):
       workspace.sync = default.syncCommand
     execString = workspace.sync + ' ' + sourcedir + ' ' + destdir
 
-    #if default.debug:
     print 'Synchronizing:', execString
     # TODO: don't just brag about it!
     #exec( execString )

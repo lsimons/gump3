@@ -13,14 +13,18 @@
 	of the projects in the profile.
 """
 
-import os.path, os, time, urllib, urlparse, shutil, string, os.path
+import os.path, os, time, urllib, urlparse, shutil, string, os.path, logging
 from xml.sax import parse
 from xml.sax.handler import ContentHandler
 from gumputil import *
 from gumpconf import *
 #from Cheetah.Template import Template
 
-  
+# init logging
+logging.basicConfig()
+log = logging.getLogger(__name__)
+log.setLevel(logging.DEBUG) #set verbosity to show all messages of severity >= DEBUG
+
 #########################################################################
 #	  SAX Dispatcher: maintain a stack of active elements		#
 #########################################################################
@@ -131,7 +135,7 @@ class Named(GumpBase):
 
     if href:
       newHref=gumpCache(href)
-      if default.debug: print 'opening: ' + newHref + '\n'
+      log.debug('opening: ' + newHref + '\n')
       element=SAXDispatcher(open(newHref),cls.__name__.lower(),cls).docElement
     else:
       name=attrs.get('name')      

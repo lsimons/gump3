@@ -62,9 +62,9 @@ Ruper == Resource UPdatER
 """
 
 __author__  = "Apache Software Foundation"
-__status__  = "$Header: /home/stefano/cvs/gump/python/ruper/Attic/__init__.py,v 1.1 2003/04/27 13:16:27 nicolaken Exp $"
-__version__ = "$Revision: 1.1 $"
-__date__    = "$Date: 2003/04/27 13:16:27 $"
+__status__  = "$Header: /home/stefano/cvs/gump/python/ruper/Attic/__init__.py,v 1.2 2003/04/28 07:30:26 nicolaken Exp $"
+__version__ = "$Revision: 1.2 $"
+__date__    = "$Date: 2003/04/28 07:30:26 $"
 
 import os, os.path, sys, urllib, logging
 
@@ -106,9 +106,9 @@ class Repository(object):
    if os.path.exists('%s/%s' % (destinationDir,resource.standardName())):
      log.debug('using cached file')
    else:
-     if default.debug: print 'caching file...'
+     log.debug('caching file...')
      download((self, resource, destinationDir))
-     if default.debug: print '...done'
+     log.debug('...done')
 
 # Resource
 class Resource(object):

@@ -3,9 +3,14 @@
 Generate the merged XML description of the workspace
 """
 
-import os.path,os,sys
+import os.path,os,sys,logging
 from gumpcore import *
 from gumpconf import *
+
+# init logging
+logging.basicConfig()
+log = logging.getLogger(__name__)
+log.setLevel(logging.DEBUG) #set verbosity to show all messages of severity >= DEBUG
 
 #########################################################################
 #                     Dump the object module as XML                     #

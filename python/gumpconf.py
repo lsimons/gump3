@@ -3,7 +3,7 @@
     Global configuration settings for gump, done as Python classes
 """
 
-import socket, time, os, os.path, sys
+import socket, time, os, os.path,sys
 
 class dir:
     cmdpath   = os.path.abspath(sys.argv[0])
@@ -21,7 +21,6 @@ class default:
     project    = "krysalis-ruper-test"
     merge      = os.path.normpath('%s/%s' % (dir.work, 'merge.xml'))
     date       = time.strftime('%Y%m%d')
-    debug      = True
     antCommand = 'java org.apache.tools.ant.Main -Dbuild.sysclasspath=only'
     syncCommand= 'cp -Rf'
 
