@@ -35,7 +35,7 @@
     <option project="jta" version="1.0.1"/> <!-- needed for javadoc purposes only -->
     <depend project="bsf" version="2.2"/>
     <work nested="bin/classes"/>
-    <home nested="bin"/>
+    <home nested="target"/>
     <jar name="turbine-@@DATE@@.jar"/>
   </project>    
 
