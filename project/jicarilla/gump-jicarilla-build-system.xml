@@ -22,6 +22,7 @@
     <depend project="dist-ant" runtime="true" inherit="jars"/>
     <depend project="jakarta-bsf" runtime="true" inherit="jars"/>
     <depend project="rhino" runtime="true" inherit="jars"/>
+    <depend project="xml-xerces" runtime="true" inherit="jars"/>
 
     <home nested="buildsystem/install"/>
 
