@@ -194,6 +194,10 @@ def executeForrest(workspace,context):
     
     # Then generate...        
     forrest=Cmd('forrest','forrest',forrest)
+    
+    # Temporary
+    forrest.addParameter('-debug')
+    
     forrest.addPrefixedParameter('-D','java.awt.headless','true','=')
     forrest.addPrefixedParameter('-D','project.content-dir',  \
         content, '=')    
@@ -282,7 +286,7 @@ def documentWorkspace(workspace,context,db,moduleFilterList=None,projectFilterLi
         (mhours, mmins, msecs) 	= mctxt.elapsedTime();
         x.write('     <tr><!-- %s -->' % (mname))        
         x.write('      <td><link href=\'%s\'>%s</link></td><td>%s</td>' % \
-          (getModuleRelativeUrl(mname),mname,str(mctxt.aggregateStates())))    
+          (getModuleRelativeUrl(mname),mname,getStateIcons(mctxt.aggregateStates())))    
         x.write('      <td>%s:%s:%s</td>' % (str(mhours),str(mmins),str(msecs)))    
         x.write('     </tr>')
     if not mcount: x.write('	<tr><td>None</td></tr>')
@@ -359,7 +363,12 @@ def documentWorkspace(workspace,context,db,moduleFilterList=None,projectFilterLi
     xml = xmlize('workspace',workspace,f)
     f.close()  
     
-        
+def getStateIcons(pairs):
+    icons=''
+    for pair in pairs:
+        icons+=getStatePairIcon(pair)
+    return icons
+    
 def documentModule(workspace,wdir,modulename,modulecontext,db,projectFilterList=None):
     mdir=getModuleDir(workspace,modulename,wdir)
     
@@ -949,6 +958,24 @@ def getModuleProjectRelativeUrlFromProject(mname,pname):
 def getWorkRelativeUrl(type,name):
     tdir=gumpSafeName(lower(workTypeName(type)))
     return tdir+'/'+gumpSafeName(name)+'.html'
+    
+def getStatePairIcon(pair,depth=0):
+
+    stateName=stateName(pair.status)
+    reasonString=reasonString(pair.reason)    
+    
+    description=stateName    
+    uniqueName=stateName
+    if not pair.reason==REASON_UNSET: 
+        description+=' '+reasonString
+        uniqueName+='_'+reasonString
+    
+    # Build the URL
+    iconName=gumpSafeName(uniqueName)
+    url = getUp(depth)+"/resources/icons/"+iconName+".png";
+    
+    # Build the <icon xdoc
+    return '<icon src=\'' + url + '\' alt=\'' + description +'\'/>'
     
 def getUp(depth):
     url=''
