@@ -1,6 +1,6 @@
 <module name="xml-xindice">
 
-  <url href="http://www.dbxml.org/"/>
+  <url href="http://xml.apache.org/xindice/"/>
   <description>
     native XML database
   </description>
@@ -19,6 +19,7 @@
     <depend project="xml-rpc"/>
     <depend project="commons-logging"/>
     <depend project="jakarta-servletapi"/>
+    <depend project="junit"/>
     <work nested="java/classes"/>
 
     <home nested="java"/>
