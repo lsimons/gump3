@@ -42,7 +42,7 @@
     <option project="xmldb"/>
     <depend project="deli"/>
     <work nested="build/cocoon/classes"/>
-    <work nested="bin/anttasks"/>  <!-- no build instructions? -->
+    <work nested="tools/anttasks"/>
 
     <home nested="build/cocoon"/>
     <jar name="cocoon.jar"/>
