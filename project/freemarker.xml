@@ -30,5 +30,6 @@
     
     <work nested="build"/>
     <jar name="lib/freemarker.jar"/>
+    <license name="LICENSE.txt"/>
   </project>
 </module>

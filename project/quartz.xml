@@ -27,6 +27,8 @@
     <depend project="jakarta-servletapi-5-servlet"/>
     <jar name="lib/quartz.jar"/>
 
+    <license name="license.txt"/>
+
     <nag to="jhouserizer@part.net"
 	    from="Sam Ruby &lt;rubys@apache.org&gt;"/>
   </project>

@@ -72,6 +72,8 @@
 
         <jar name="avalon-excalibur-@@DATE@@.jar"/>
 
+        <license name="LICENSE.txt"/>
+
         <javadoc nested="build/javadocs" module="avalon"/>
 
         <nag from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"

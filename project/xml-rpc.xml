@@ -23,6 +23,8 @@
     <home nested="target"/>
     <jar name="xmlrpc-@@DATE@@.jar"/>
 
+    <license name="LICENSE.txt"/>
+
     <nag from="Sam Ruby &lt;rubys@us.ibm.com&gt;"
          to="rpc-dev@xml.apache.org"/>
   </project>

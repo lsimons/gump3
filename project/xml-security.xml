@@ -34,6 +34,7 @@
 
     <home nested="build"/>
     <jar name="xmlsec.jar"/>
+    <license name="LICENSE.txt"/>
     <javadoc nested="build/doc/html/api"/>
 
     <nag from="Sam Ruby &lt;rubys@us.ibm.com&gt;"

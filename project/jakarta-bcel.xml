@@ -18,6 +18,8 @@
 
     <jar name="bin/bcel.jar"/>
 
+    <license name="LICENSE.txt"/>
+
     <nag from="Jason van Zyl &lt;jvanzyl@apache.org&gt;"
          to="bcel-dev@jakarta.apache.org"/>
   </project>

@@ -26,6 +26,7 @@
     <depend project="commons-collections" runtime="true"/>
     <home nested="bin"/>
     <jar name="velocity-@@DATE@@.jar"/>
+    <license name="LICENSE.txt"/>
     <javadoc nested="docs/api"/>
     <nag to="velocity-dev@jakarta.apache.org"
          from="Geir Magnusson Jr. &lt;geirm@apache.org&gt;"/>

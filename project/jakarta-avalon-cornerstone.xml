@@ -35,6 +35,8 @@
     <home nested="build/lib"/>
     <jar name="cornerstone.jar"/>
 
+    <license name="LICENSE.txt"/>
+
     <nag from="Peter Donald &lt;peter@apache.org&gt;"
             to="dev@avalon.apache.org"/>
   </project>

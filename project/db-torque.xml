@@ -42,6 +42,7 @@
     <work nested="target/classes"/>
     <home nested="target"/>
     <jar name="torque-@@DATE@@.jar"/>
+    <license name="LICENSE.txt"/>
     <javadoc nested="docs/apidocs"/>
 
     <!--

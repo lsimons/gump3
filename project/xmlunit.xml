@@ -20,6 +20,7 @@
     <depend project="junit"/>
     <work nested="classes"/>
     <jar name="lib/xmlunit@@DATE@@.jar"/>
+    <license name="LICENSE.txt"/>
     <nag from="Sam Ruby &lt;rubys@us.ibm.com&gt;"
          to="timbacon@users.sourceforge.net"/>
   </project>

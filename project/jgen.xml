@@ -30,6 +30,7 @@
     <depend project="enterprisedt.ftp"/>
 
     <jar name="lib/jgen.jar"/>
+    <license name="LICENSE"/>
   </project>
 
   <project name="resin">

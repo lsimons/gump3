@@ -54,6 +54,7 @@
     <home nested="build/lib"/>
     <jar name="phoenix-client.jar"/>
     <jar name="phoenix-metagenerate.jar"/>
+    <license name="LICENSE.txt"/>
     <javadoc nested="build/javadocs" module="avalon"/>
 
     <nag>

@@ -24,6 +24,8 @@
 
     <jar name="build/qdox-@@DATE@@.jar"/>
 
+    <license name="LICENSE.txt"/>
+
     <nag from="Peter Donald &lt;peter@apache.org&gt;"
 	    to="alexandria-dev@jakarta.apache.org"/>
 

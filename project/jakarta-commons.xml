@@ -21,6 +21,7 @@
     <depend project="junit"/>
     <home nested="beanutils/dist"/>
     <jar name="commons-beanutils.jar"/>
+    <license name="LICENSE"/>
     <javadoc nested="beanutils/dist/docs/api"/>
 
     <nag to="commons-dev@jakarta.apache.org"

@@ -26,6 +26,7 @@
     <depend project="relaxng"/>
     <depend project="xml-fop" inherit="runtime"/>
     <jar name="build/dom4j.jar" id="dom4j"/>
+    <license name="LICENSE.txt"/>
   </project>
 
   <project name="xpp">

@@ -37,6 +37,8 @@
     <jar name="lib/batik-util.jar"/>
     <jar name="lib/batik-xml.jar"/>
 
+    <license name="LICENSE"/>
+
     <nag from="Sam Ruby &lt;rubys@us.ibm.com&gt;"
          to="batik-dev@xml.apache.org"/>
   </project>

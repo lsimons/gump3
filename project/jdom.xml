@@ -17,6 +17,7 @@
     <depend project="xml-xalan2"/>
     <home nested="build"/>
     <jar name="jdom.jar" id="jdom"/>
+    <license name="LICENSE.txt"/>
   </project>
 
   <project name="saxpath">

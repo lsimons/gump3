@@ -34,6 +34,7 @@
     <depend project="jaf" />
     <home nested="build" />
     <jar name="james.bar" />
+    <license name="LICENSE.txt"/>
     <javadoc nested="www/mailet"/>
 
     <nag from="Peter Donald &lt;peter@apache.org&gt;"

@@ -14,6 +14,7 @@
     <depend project="jakarta-ant" inherit="runtime"/>
     <depend project="xml-xerces"/>
     <jar name="build/Tidy.jar"/>
+    <license name="LICENSE"/>
     <javadoc nested="doc/api"/>
   </project>
 

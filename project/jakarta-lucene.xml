@@ -22,6 +22,7 @@
 
     <home nested="bin"/>
     <jar name="lucene-@@DATE@@.jar"/>
+    <license name="LICENSE.txt"/>
     <javadoc nested="bin/docs/api"/>
 
     <nag to="lucene-dev@jakarta.apache.org"

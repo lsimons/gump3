@@ -22,6 +22,7 @@
     <option project="jdbc"/>
 
     <jar  name="dist/jython.jar"/>
+    <license name="LICENSE.txt"/>
   </project>
 
 </module>

@@ -25,6 +25,7 @@
     <depend project="xml-apis"/>
 
     <jar name="lib/jgen.jar"/>
+    <license name="LICENSE"/>
   </project>
 
 </module>

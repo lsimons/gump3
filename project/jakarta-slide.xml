@@ -73,6 +73,8 @@
     <jar name="slide/wrappers/slide-jndiwrapper.jar" id="jndi-wrapper"/>
     <jar name="slide/wrappers/slide-log4jwrapper.jar" id="log4j-wrapper"/>
 
+    <license name="LICENSE"/>
+
     <javadoc nested="dist/doc">
       <description dir="clientjavadoc">WebDAV Client </description>
       <description dir="javadoc">Slide API</description>

@@ -46,6 +46,7 @@
     <!-- JMeter doesn't currently export any JARs
     <home nested="bin" />
     <jar name="ApacheJMeter.jar" />
+    <license name="LICENSE"/>
     -->
 
     <nag from="Geir Magnusson Jr. &lt;geirm@apache.org&gt;"

@@ -23,6 +23,7 @@
 
     <home nested="build/beepcore-@@DATE@@"/>
     <jar name="lib/beepcore.jar"/>
+    <license name="LICENSE.txt"/>
   </project>
 
   <project name="edu.concurrent">

@@ -92,6 +92,8 @@
     <jar name="common/lib/jasper-compiler.jar" id="jasper-compiler"/>
     <jar name="common/lib/jasper-runtime.jar" id="jasper-runtime"/>
 
+    <license name="LICENSE"/>
+
     <javadoc nested="dist/webapps/tomcat-docs">
       <description dir="catalina/docs/api">Catalina API</description>
       <description dir="jasper/docs/api">Jasper API</description>

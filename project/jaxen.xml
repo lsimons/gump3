@@ -19,6 +19,7 @@
 
     <home nested="build"/>
     <jar name="jaxen-full.jar"/>
+    <license name="LICENSE"/>
     <javadoc nested="build/doc/javadoc"/>
 
     <nag from="Sam Ruby &lt;rubys@apache.org&gt;"

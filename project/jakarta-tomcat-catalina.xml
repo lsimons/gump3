@@ -93,6 +93,8 @@
     <jar name="common/lib/naming-common.jar"/>
     <jar name="common/lib/naming-resources.jar"/>
 
+    <license name="LICENSE"/>
+
     <nag to="tomcat-dev@jakarta.apache.org"
          from="bobh@apache.org" />
   </project>

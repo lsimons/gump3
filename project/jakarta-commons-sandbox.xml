@@ -22,6 +22,7 @@
     <work nested="attributes/target/test-classes"/>
 
     <jar name="attributes/target/commons-attributes-@@DATE@@.jar"/>
+    <license name="LICENSE"/>
     <javadoc nested="attributes/dist/docs/api"/>
  
     <nag from="Sam Ruby &lt;rubys@us.ibm.com&gt;"

@@ -31,6 +31,8 @@
 
     <jar name="target/dist/checkstyle-@@DATE@@/checkstyle-@@DATE@@.jar"/>
 
+    <license name="LICENSE"/>
+
     <nag from="Conor MacNeill &lt;conor@apache.org&gt;"
          to="oli-gump@puppycrawl.com"/>
   </project>

@@ -43,6 +43,7 @@
     <work nested="target/classes"/>
     <home nested="target"/>
     <jar name="jcs-@@DATE@@.jar"/>
+    <license name="LICENSE.txt"/>
     <javadoc nested="docs/apidocs"/>
 
     <nag to="turbine-jcs-dev@jakarta.apache.org"

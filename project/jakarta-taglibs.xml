@@ -21,6 +21,7 @@
     <depend project="xml-xerces"/>
     <javadoc nested="dist/doc/doc/application-doc/javadoc"/>
     <jar name="dist/application/taglibs-application.jar"/>
+    <license name="LICENSE"/>
     <nag to="taglibs-dev@jakarta.apache.org"
          from="Ted Husted &lt;ted@husted.com&gt;"/>
   </project>

@@ -43,6 +43,8 @@
     <jar name="lib/jaxrpc.jar"/>
     <jar name="lib/saaj.jar"/>
 
+    <license name="LICENSE"/>
+
     <javadoc nested="java/build/javadocs"/>
 
     <nag from="Sam Ruby &lt;rubys@us.ibm.com&gt;"

@@ -36,6 +36,8 @@
     <home nested="scarab-@@DATE@@/webapps/scarab/WEB-INF"/>
     <jar nested="lib/scarab-@@DATE@@/jar"/>
 
+    <license name="LICENSE.txt"/>
+
     <nag to="dev@scarab.tigris.org"
          from="Jon Stevens &lt;jon@latchkey.com&gt;"/>
   </project>

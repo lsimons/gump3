@@ -18,6 +18,7 @@
     <javadoc nested="build/docs/api"/>
     <home nested="build"/>
     <jar name="crimson.jar"/>
+    <license name="LICENSE"/>
     <nag from="Sam Ruby &lt;rubys@us.ibm.com&gt;"
          to="crimson-cvs@xml.apache.org"/>
   </project>

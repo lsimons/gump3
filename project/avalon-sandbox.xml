@@ -25,6 +25,8 @@
         <home nested="lifecycle"/>
         <jar name="build/lib/avalon-lifecycle-@@DATE@@.jar"/>
 
+        <license name="LICENSE.txt"/>
+
         <nag from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"
                 to="dev@avalon.apache.org"/>
     </project>
