@@ -8,14 +8,14 @@
   <cvs repository="jakarta"/>
   
   <project name="jakarta-oro">
-    <ant buildfile="build.xml" target="package">
+    <ant buildfile="build.xml" target="jar">
       <property name="version" value="@@DATE@@"/>
     </ant>
     <depend project="jakarta-ant"/>
     <depend project="xml-xerces"/>
     <home nested="jakarta-oro-@@DATE@@"/>
     <jar  name="jakarta-oro-@@DATE@@.jar" id="oro"/>
-    <javadoc nested="jakarta-oro-@@DATE@@/docs/api"/>
+    <!-- javadoc nested="jakarta-oro-@@DATE@@/docs/api"/ -->
   </project>
 
 </module>
