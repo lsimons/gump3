@@ -18,6 +18,7 @@
     <depend project="commons-logging" runtime="true"/>
     <depend project="xml-xerces"/>
     <depend project="mx4j"/>
+    <depend project="mx4j-tools"/>
     <work nested="classes"/>
 
     <jar name="lib/org.mortbay.jetty.jar"/>
