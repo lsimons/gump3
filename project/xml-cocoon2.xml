@@ -37,6 +37,7 @@
     <option project="jndi"/>
     <option project="xmldb"/>
     <option project="xml-axis"/>
+    <option project="jisp"/>
     <work nested="build/cocoon/classes"/>
     <work nested="tools/anttasks"/>
 
@@ -44,4 +45,11 @@
     <jar name="cocoon.jar"/>
   </project>
 
+  <project name="jisp">
+    <url href="http://www.coyotegulch.com/jisp/"/>
+    <description>
+      Java Indexed Serialization Package
+    </description>
+    <jar name="scratchpad/lib/jisp_1_0_2.jar"/>
+  </project>
 </module>
