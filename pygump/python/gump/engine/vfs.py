@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-# Copyright 2003-2004 The Apache Software Foundation
+# Copyright 2004-2005 The Apache Software Foundation
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -14,21 +14,21 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-__revision__  = "$Rev: 36667 $"
-__date__      = "$Date: 2004-08-20 08:55:45 -0600 (Fri, 20 Aug 2004) $"
-__copyright__ = "Copyright (c) 1999-2004 Apache Software Foundation"
+__copyright__ = "Copyright (c) 2004-2005 The Apache Software Foundation"
 __license__   = "http://www.apache.org/licenses/LICENSE-2.0"
 
-
-#
-# $Header: /home/stefano/cvs/gump/python/gump/core/__init__.py,v 1.5 2004/07/19 16:07:56 ajack Exp $
-# 
-
-"""
-
-  Gump Core Components.
-  
-"""
-
-# tell Python what modules make up the gump.core package
-__all__ = ["commandLine","config","gumpinit"]
+class VFS:
+    """
+    Provides homogenized access to local files, as well as files residing
+    on remote servers (HTTP or FTP or ...).
+    """
+    def __init__(filesystem_root = None, cachedir = None):
+        self.filesystem_root = filesystem_root
+        self.cachedir = cachedir
+    
+    def get_as_stream(self, url_or_path):
+        """
+        Get access to a file as a stream. Files that live remotely are cached
+        locally.
+        """
+        raise RuntimeError, "not implemented!" # TODO
