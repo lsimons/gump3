@@ -7,14 +7,6 @@ import os.path,os,sys
 from gumpcore import *
 from gumpconf import *
 
-os.chdir(dir.base)
-debug=True #False
-
-if len(sys.argv)>1 :
-  ws=sys.argv[1]
-else:
-  ws=default.workspace
-
 #########################################################################
 #                     Dump the object module as XML                     #
 #########################################################################
@@ -68,6 +60,14 @@ def xmlize(nodeName,object,f,indent='',delta='  '):
 
   
 if __name__=='__main__':
+  os.chdir(dir.base)
+  debug=True #False
+
+  if len(sys.argv)>1 :
+    ws=sys.argv[1]
+  else:
+    ws=default.workspace
+
   workspace=load(ws)
 
   try:
