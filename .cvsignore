@@ -21,9 +21,7 @@ local-eny-py.sh
 tsws1.xml
 test
 x.txt
-gumpy.log
-*_log.txt
-*_runlog.txt
+gumpy*log*.txt
 gumpy.lock
 out.tmp
 *.wpr

@@ -28,7 +28,9 @@ from gump.utils.domutils import *
 
 class Repository(NamedModelObject, Statable):
     """ 
+    
     A named repository (CVS|SVN|Artifacts) 
+    
     """
     def __init__(self,name,dom,workspace):
     	NamedModelObject.__init__(self,name,dom,workspace)

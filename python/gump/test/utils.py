@@ -32,25 +32,6 @@ class UtilsTestSuite(UnitTestSuite):
     def suiteSetUp(self):
         self.now=default.time
     
-        
-    def testSpacesInCommandLines(self):
-        params=Parameters()
-        params.addParameter('NoSpaces', 'aaaaa','=')
-        params.addParameter('WithValueSpaces', 'aa aa a','=')
-        params.addParameter('With Name Spaces', 'aaaaa','=')
-        params.addParameter('WithQuotesAndSpaces', 'aa \' \" aa a','=')
-        params.addParameter('WithEscapes', 'aa\\a','=')
-        
-        #print params.formatCommandLine()
-        
-        params=Parameters()
-        params.addPrefixedParameter('-D','X', 'aaaaa','=')
-        params.addPrefixedParameter('-D','Y', 'aa aa a','=')
-        params.addPrefixedParameter('-D','Z', 'aa \' aa a','=')
-        params.addPrefixedParameter('-D','Z', 'aa \" aa a','=')
-        
-        #print params.formatCommandLine()
-        
     def testWrap(self):
         
         eol='\n'

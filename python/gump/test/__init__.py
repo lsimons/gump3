@@ -58,7 +58,7 @@ def getWorkedTestWorkspace(xml=None):
     workspace=getTestWorkspace(xml)
        
     # Load statistics for this workspace
-    db=StatisticsDB(dir.test,'test.db')  
+    db=StatisticsDB(gump.core.config.dir.test,'test.db')  
     db.loadStatistics(workspace)
 
     # Some file items...

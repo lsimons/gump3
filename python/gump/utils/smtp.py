@@ -93,7 +93,7 @@ def mail(toaddrs,fromaddr,message,server='localhost',port=25):
     else:
         data = EmailMessage(toaddrs,fromaddr,'',str(message)).getSerialized()
     
-    sent=0
+    sent=False
     try:
         #
         # Attach to the SMTP server to send....
@@ -103,16 +103,25 @@ def mail(toaddrs,fromaddr,message,server='localhost',port=25):
         failures = server.sendmail(sane_fromaddr, sane_toaddrs, data)
         server.quit()
         
-		# Note: w/o an exception it was accepted to some folk...
-		# Failures is a list of tuples of error code plus recipient
-		# that was refused.
-        if not failures: sent=1
+        # Note: w/o an exception it was accepted to some folk...
+        # Failures is a list of tuples of error code plus recipient
+        # that was refused.
+        
+        if not failures: 
+            sent=True
+        else:
+            for failure in failures:
+                log.error('Failed to send e-mail to : ' + `failure`)
         
     except Exception, details:
-        sent=0
+        sent=False
+        
         log.error('Failed to send e-mail: ' + str(details))
         log.error(data, exc_info=1)
         log.error('Server :' + str(server) + ' From   :' + str(fromaddr) + ' To     :' + str(toaddrs))
+        
+        # Keep it going...
+        raise
     
     return sent
     

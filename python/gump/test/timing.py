@@ -18,6 +18,7 @@
 """
 
 from gump.utils import *
+from gump.utils.timing import *
 from gump.test.pyunit import UnitTestSuite
 
 class TimingTestSuite(UnitTestSuite):

@@ -358,14 +358,13 @@ The following %s notify%s should have been sent
             #print 'Server:' + `self.workspace.mailserver`
             #print 'e-mail:' + `email`    
             # Fire ...
-            sent=mail(toaddrs,fromaddr,email,	\
-                        self.workspace.mailserver,	\
+            sent=mail(toaddrs,fromaddr,email,
+                        self.workspace.mailserver,
                         self.workspace.mailport)  
                    
         except Exception, details:
             sent=False
-            log.error('Failed to send notify e-mail: ' + str(details), \
-                        exc_info=1)
+            log.error('Failed to send notify e-mail: ' + str(details), exc_info=1)
                         
             # Add why unset along with content stored (and e-mailed) below.            
             content = 'Failed to send notify e-mail: ' + str(details) + '\n' + content
@@ -375,5 +374,7 @@ The following %s notify%s should have been sent
             
             self._addUnsent(subject,content)                                        
             log.error('Failed with to: ['+str(toaddr)+'] from: ['+str(fromaddr)+']' )
+        else:
+            self.sents+=1                        
             
         return sent

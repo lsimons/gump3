@@ -30,7 +30,7 @@ from gump.test import getWorkedTestRun
 from gump.test.pyunit import UnitTestSuite
 
 from gump.notify.notifier import Notifier
-from gump.notify.notification import PositiveNotification,NegativeNotification
+from gump.notify.notification import SuccessNotification,FailureNotification,WarningNotification
 from gump.utils.smtp import *
 
 class NotificationTestSuite(UnitTestSuite):
@@ -53,38 +53,44 @@ class NotificationTestSuite(UnitTestSuite):
     def testNotificationContents(self):
         
         resolver=self.run.getOptions().getResolver()
-        content1=PositiveNotification(self.run, self.workspace).resolveContent(resolver)
-        content2=NegativeNotification(self.run, self.workspace).resolveContent(resolver)    
+        content1=SuccessNotification(self.run, self.workspace).resolveContent(resolver)
+        content2=FailureNotification(self.run, self.workspace).resolveContent(resolver)   
+        content3=WarningNotification(self.run, self.workspace).resolveContent(resolver)    
         #print content1
         #print content2
+        #print content3
     
         # For all modules...
         for module in self.workspace.getModules():                    
             #print 'Get Content For Module : ' + module.getName()
-            content1=PositiveNotification(self.run, module).resolveContent(resolver)
-            content2=NegativeNotification(self.run, module).resolveContent(resolver) 
+            content1=SuccessNotification(self.run, module).resolveContent(resolver)
+            content2=FailureNotification(self.run, module).resolveContent(resolver) 
+            content3=WarningNotification(self.run, module).resolveContent(resolver) 
             #print content1
             #print content2
+            #print content3
             for project in module.getProjects():
                 #print 'Get Content For Project : ' + project.getName()
                 # print 
-                content1=PositiveNotification(self.run, project).resolveContent(resolver)
-                content2=NegativeNotification(self.run, project).resolveContent(resolver)
+                content1=SuccessNotification(self.run, project).resolveContent(resolver)
+                content2=FailureNotification(self.run, project).resolveContent(resolver)
+                content3=WarningNotification(self.run, project).resolveContent(resolver)
                 #print content1
                 #print content2
+                #print content3
                 
     def testNotifyUnwantedUnsent(self):
     
         notifier=Notifier(self.run)
         
-        self.assertFalse( 'No Unwanted', notifier.hasUnwanted() )
-        self.assertFalse( 'No Unsent', notifier.hasUnsent() )
+        self.assertFalse( 'No Unwanted', notifier._hasUnwanted() )
+        self.assertFalse( 'No Unsent', notifier._hasUnsent() )
         
-        notifier.addUnwanted('test subject','test content')
-        notifier.addUnsent('test subject','test content')
+        notifier._addUnwanted('test subject','test content')
+        notifier._addUnsent('test subject','test content')
         
-        self.assertTrue( 'Has Unwanted', notifier.hasUnwanted() )
-        self.assertTrue( 'Has Unsent', notifier.hasUnsent() )
+        self.assertTrue( 'Has Unwanted', notifier._hasUnwanted() )
+        self.assertTrue( 'Has Unsent', notifier._hasUnsent() )
                 
     def testNotifyAddresses(self):
     
@@ -121,6 +127,6 @@ class NotificationTestSuite(UnitTestSuite):
                             'Test Content')       
                     #print str(email)
                     
-        notifier.getUnwantedContent()
-        notifier.getUnsentContent()
+        notifier._getUnwantedContent()
+        notifier._getUnsentContent()
         

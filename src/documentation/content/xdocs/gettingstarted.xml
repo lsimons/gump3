@@ -99,10 +99,10 @@
       		<li>SVN -- <fork href="http://subversion.tigris.org">Subversion</fork></li>
       	</ul>
       	</section>
-      	<section><title>Jar Download</title>
+      	<section><title>Jar Downloading</title>
       	<p>This is optional.</p>
       	<ul>
-      		<li>Ruper -- <fork href="http://incubator.apache.org/projects/ruper.html">Resource Updater</fork></li>
+      		<li>Ruper -- <fork href="http://incubator.apache.org/depot">Depot Updater</fork></li>
       	</ul>
 		</section>
 	  </section>
@@ -119,23 +119,13 @@
     </section>
 
     <section><title>Defining your workspace</title>
-      <p>Two sample workspaces are provided, rubix and rubypad.  Find the
-      one that is closest to your needs and make a copy of it.  The suggested
+      <p>Sample workspaces are provided, 'gump' and 'minimal-workspace'.  Find 
+      take one an edit it to fit your environment/needs.  The suggested
       name for the file you create is your host name.</p>
 
       <p>Again, reference the <link href="site:om/overview">overview</link> to see
       how you can add projects, define your own profiles, and the modify
       which version of referenced projects you want to build.</p>
-
-      <p>You will also need to directly modify the <code>gen.bat</code>
-      or <code>gen.sh</code> scripts to specify where to find the JAXP
-      implementation to use.  At the present time, recent releases of
-      Xalan are recommended for performance reasons; but the JAXP
-      reference implementation will likely catch up shortly.</p>
-
-      <p><strong>Note:</strong> Yes, it is tacky that you should have to modify this
-      file directly.  Patches are welcome.  Meanwhile, cvs does a fairly
-      good job of merging changes.</p>
     </section>
 
     <section><title>Installing Packages</title>
@@ -146,7 +136,7 @@
       </p>
 
       <p>A list of some of the packages you might want to install can be found
-      <link href="http://cvs.apache.org/builds/gump/latest/packages.html">
+      <link href="http://brutus.apache.org/gump/public/packages.html">
       here</link>.</p>
 
       <p><strong>JDK 1.4</strong> includes both <code>jaxp</code> and <code>jsse</code>

@@ -24,6 +24,8 @@ import types, StringIO
 from gump import log
 import gump.core.config
 from gump.stats.statsdb import *
+from gump.utils import *
+from gump.utils.timing import *
 from gump.test import getWorkedTestWorkspace
 from gump.test.pyunit import UnitTestSuite
 

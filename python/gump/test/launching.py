@@ -26,6 +26,24 @@ class LaunchingTestSuite(UnitTestSuite):
     def __init__(self):
         UnitTestSuite.__init__(self)
         
+    def testSpacesInCommandLines(self):
+        params=gump.process.command.Parameters()
+        params.addParameter('NoSpaces', 'aaaaa','=')
+        params.addParameter('WithValueSpaces', 'aa aa a','=')
+        params.addParameter('With Name Spaces', 'aaaaa','=')
+        params.addParameter('WithQuotesAndSpaces', 'aa \' \" aa a','=')
+        params.addParameter('WithEscapes', 'aa\\a','=')
+        
+        #print params.formatCommandLine()
+        
+        params=gump.process.command.Parameters()
+        params.addPrefixedParameter('-D','X', 'aaaaa','=')
+        params.addPrefixedParameter('-D','Y', 'aa aa a','=')
+        params.addPrefixedParameter('-D','Z', 'aa \' aa a','=')
+        params.addPrefixedParameter('-D','Z', 'aa \" aa a','=')
+        
+        #print params.formatCommandLine()
+        
     def testGoodLaunch(self):
         env=gump.process.command.Cmd('env')
         result=gump.process.launcher.execute(env)

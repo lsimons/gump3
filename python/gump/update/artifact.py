@@ -16,7 +16,7 @@
 # limitations under the License.
 
 """
-
+    The artifact updater
 """
 
 import os.path
@@ -53,10 +53,8 @@ class ArtifactUpdater(RunSpecific):
         RunSpecific.__init__(self,run)
 
     def updateModule(self,module):
-        """
-        
-            Perform an Artifact update on a module
-            
+        """        
+            Perform an Artifact update on a module            
         """            
         log.info('Perform Artifact Update on #[' + `module.getPosition()` + \
                         '] : ' + module.getName())
@@ -70,9 +68,7 @@ class ArtifactUpdater(RunSpecific):
         # Execute the command and capture results        
         cmdResult=execute(cmd, module.getWorkspace().tmpdir)
       
-        #
         # Store this as work, on both the module and (cloned) on the repo
-        #
         work=CommandWorkItem(WORK_TYPE_UPDATE,cmd,cmdResult)
         module.performedWork(work)  
         module.getRepository().performedWork(work.clone())
@@ -93,15 +89,16 @@ class ArtifactUpdater(RunSpecific):
                 # Kinda bogus, but better than nowt (for now)
                 module.changeState(STATE_SUCCESS,REASON_UPDATE_FAILED)
         else:
+            self.mapArtifacts(module)
+            
             module.changeState(STATE_SUCCESS)       
                 
         return module.okToPerformWork()                                                 
          
-    def preview(self,module):            
-        command = self.getArtifactUpdateCommand(module)
-        command.dump()                                            
-         
     def getArtifactUpdateCommand(self,module):
+        """
+        Create the Depot command line for updating this module.
+        """
         
         log.debug("Artifact Update Module " + module.getName() + \
                        ", Repository Name: " + str(module.repository.getName()))
@@ -139,4 +136,16 @@ class ArtifactUpdater(RunSpecific):
         cmd.addParameter(module.getName())  
    
         return cmd
-     
+    
+    def mapArtifacts(self,module):
+        """
+        Map the artifacts to jars ids (within projects)
+        """
+        
+    def preview(self,module):            
+        """
+        Preview the command
+        """
+        command = self.getArtifactUpdateCommand(module)
+        command.dump()                                            
+         
