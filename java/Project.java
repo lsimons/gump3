@@ -131,8 +131,9 @@ public class Project {
         String basedir = Workspace.getBaseDir();
         String pkgdir = Workspace.getPkgDir();
 
-        String module = element.getAttribute("module");
-        String srcdir = Module.find(module).getSrcDir();
+        Module module = Module.find(element.getAttribute("module"));
+        if (module == null) return;
+        String srcdir = module.getSrcDir();
 
         // compute home directory
         String result=element.getAttribute("home");
