@@ -1,24 +1,21 @@
 <module name="rhino">
 
-  <note>
-    Can't build package until I figure out what
-    "../../../mozilla-org/html/rhino/" is supposed to be.
-  </note>
-
   <url href="http://www.mozilla.org/rhino/"/>
   <description>
     JavaScript for Java
   </description>
 
   <cvs repository="mozilla" module="mozilla/js/rhino"/>
-  
+
   <project name="rhino">
-    <ant target="jar">
+    <ant target="dist">
       <property name="version" value="_gump"/>
     </ant>
+
     <depend project="jakarta-ant"/>
     <depend project="bsf"/>
     <depend project="xml-xerces"/>
+
     <home nested="build/rhino_gump"/>
     <jar name="js.jar"/>
   </project>
