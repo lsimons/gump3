@@ -84,11 +84,14 @@ def main(settings):
 
 def _banner(version):
     """Print a fancy ASCII-art gump logo."""
+    print
+    print
     print "      _____"
     print "     |   __|_ Apache_ ___"
     print "     |  |  | | |     | . |"
     print "     |_____|___|_|_|_|  _|"
     print "                     |_|     ~ v. " + version + " ~"
+    print
     print
 
 ###
