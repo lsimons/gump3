@@ -14,12 +14,6 @@
     release, in other cases they may represent an abject failure to
     communicate.</p>
 
-    <subsection name="jakarta-velocity-test">
-      <p><a href="http://cvs.apache.org/viewcvs/jakarta-velocity/src/java/org/apache/velocity/texen/ant/TexenTask.java.diff?r1=1.31&amp;r2=1.32">This</a>
-      change apparently is not compatible with Velocity being on the
-      classpath with Ant 1.4.</p>
-    </subsection>
-
     <subsection name="openejb">
       <p>In Junit 3.7, a previously protected method was made public,
       impacting extenders of junit.textui.TestRunner.  A 
@@ -55,6 +49,16 @@
       coexist in a classpath.  The jakarta-jetspeed, jakarta-turbine-jyve, and
       jakarta-turbine-orgami projects depend on turbine-2.  The
       jakarta-turbine-flux project depends on turbine-3.</p>
+    </subsection>
+
+    <subsection name="jakarta-velocity">
+      <p>The combination of Texen, Ant 1.4 or later, and placing jars on your
+      classpath can result in unexpected behavior.  This has been isolated
+      to a standalone 
+      <a href="http://marc.theaimsgroup.com/?l=ant-dev&amp;m=100264908721443&amp;w=2">test case</a> 
+      and being investigated by the Ant development team.  Meanwhile, an 
+      undocumented attribute, reverseloader, which when set to the value "true"
+      on taskdefs which defines texen may help.</p>
     </subsection>
   </section>
 
