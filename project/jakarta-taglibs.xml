@@ -464,7 +464,10 @@
 
   <project name="jakarta-taglibs-documentation">
     <package>org.apache.taglibs</package>
-    <ant target="dist.documentation"/>
+    <ant target="dist.documentation">
+      <property name="build.dir" path="build"/>
+      <property name="dist.dir" path="dist"/>
+    </ant>
     <depend project="ant" inherit="runtime"/>
     <depend project="xml-xalan2"/>
     <depend project="xml-xerces"/>
