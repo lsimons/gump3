@@ -84,9 +84,7 @@
   </target>
 
   <!-- Merge the xml sources, resolving references -->
-  <target name="gen" depends="compile" unless="uptodate"
-    description="Verify the project definitions">
-
+  <target name="gen" depends="compile" unless="uptodate">
     <property name="onlineflag" value="-online"/>
     <java classname="Jenny" fork="yes" failonerror="true" classpath="jenny.jar">
       <jvmarg value="-Dhttp.proxyHost=${http.proxyHost}"/>
@@ -95,6 +93,11 @@
       <arg value="${onlineflag}"/>
     </java>
   </target>
+
+  <!-- Alias of 'gen' target, used to verify correctness and completeness
+       of a project definition -->
+  <target name="verify" depends="gen"
+    description="Verify the project definitions"/>
 
   <!-- Extract the info necessary to produce the update script -->
   <target name="update" depends="gen">
