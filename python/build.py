@@ -153,8 +153,11 @@ def buildProjects( workspace, projectname, project, build_sequence ):
 
 # static void main()
 if __name__=='__main__':
+  # -----------DISABLED-----------
+  # use all absolutized pathnames
+  # ------------------------------
   # cd into the base Gump dir; all dirs are relative to it
-  os.chdir(dir.base)
+  #os.chdir(dir.base)
     
   # load commandline args or use default values
   if len(sys.argv)>1 :
@@ -168,7 +171,7 @@ if __name__=='__main__':
     ps=default.project    
 
   # get parsed workspace definition
-  workspace=load(ws)
+  workspace=load( gumpPath(ws) )
   # print info on the definition
   dumpDeps(workspace, ps);          
   sys.exit(0)

@@ -54,4 +54,8 @@ def gumpMessage(type, error, description):
   print ' ****************************************************************'
   print
   print
-                        
+
+# returns the path absolutized relative to the base gump dir
+def gumpPath(path):
+  return os.path.normpath('%s/%s' % (dir.base,path))
+                 
