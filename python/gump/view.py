@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/Attic/view.py,v 1.17 2003/05/04 08:50:40 nicolaken Exp $
-# $Revision: 1.17 $
-# $Date: 2003/05/04 08:50:40 $
+# $Header: /home/stefano/cvs/gump/python/gump/Attic/view.py,v 1.18 2003/05/04 13:24:43 rubys Exp $
+# $Revision: 1.18 $
+# $Date: 2003/05/04 13:24:43 $
 #
 # ====================================================================
 #
@@ -401,6 +401,8 @@ class compileThread:
     cmd="java org.apache.tools.ant.Main"
     for property in self.view.workspace.property+self.project.ant.property:
       cmd+=" -D"+property.name+"="+property.value
+
+    if self.project.ant.buildfile: cmd+=" -f "+self.project.ant.buildfile
     if self.project.ant.target: cmd+=" "+self.project.ant.target
 
     (stdout,stdin)=popen2.popen2(cmd + ' 2>&1')
