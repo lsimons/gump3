@@ -1,0 +1,87 @@
+<?xml version="1.0"?>
+<module name="krysalis-barcode" fullname="Krysalis BarCode">
+
+
+    <url href="http://www.krysalis.org/barcode"/>
+
+    <site hostname="krysalis.sourceforge.net"
+        remotedir="/home/groups/k/kr/krysalis/htdocs/barcode"/>
+
+  	<cvs repository="sourceforge" host-prefix="cvs.krysalis" 
+  		dir="krysalis"/>
+      
+    <description>
+      BarCode --- for identifying/managing/processing barcodes.
+    </description>
+
+    <detailed>
+       Barcode Generation.
+    </detailed>
+
+    <what>
+        <goal>Provide tools for Barcode Generation</goal>
+    </what>
+
+    <why>
+	Barcode Generation.
+    </why>
+
+    <vendor>Krysalis Community Project</vendor>
+
+    <licence legal="./legal">
+             This software is released under the Krysalis Patchy Software License 1.1_01.
+             For detailed legal and licensing issues, please read the LICENSE.* files
+             in the /legal directory.
+    </licence>
+
+    <credits>
+        <credit>This software includes software developed by the Apache Software Foundation
+                (http://www.apache.org/).
+        </credit>
+    </credits>
+
+    <project name="krysalis-barcode" 
+    	fullname="Krysalis BarCode">
+
+        <barcode major="1"
+            minor="0"
+            fix  ="0"
+            tag="HEAD"/>
+
+        <package>org.krysalis.barcode</package>
+
+        <ant target="dist">
+        	  <property name="DATE_STAMP" value="@@DATE@@"/>        	
+        </ant>
+
+        <!-- Work dirs to be included in classpath  -->
+        <work nested="build/classes"/>
+        <home nested="build/"/>
+        <code type="java/plain" dir="src/java"/>
+ 
+    	<depend project="ant" inherit="runtime"/>
+        <depend project="avalon-framework"/>
+    	<depend project="jakarta-servletapi-4" />
+        <depend project="jdom"/>
+        <depend project="commons-cli"/>
+        <depend project="junit"/>        
+        <depend project="xerces"/>      
+        <depend project="xalan"/>
+    
+	    <jar name="krysalis-barcode-@@DATE@@.jar"/>
+        
+   		<nag to="krysalis-developers@lists.sourceforge.net"
+         	from="Jeremias Maerki &lt;dev.jeremias@greenmail.ch&gt;"/>    
+    </project>
+   
+</module>
+
+
+    
+
+
+
+
+
+
+
