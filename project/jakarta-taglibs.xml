@@ -20,7 +20,7 @@
     <depend project="jakarta-ant" inherit="runtime"/>
     <depend project="xml-xerces"/>
     <javadoc nested="dist/doc/doc/application-doc/javadoc"/>
-    <jar name="dist/application/lib/taglibs-application.jar"/>
+    <jar name="dist/application/taglibs-application.jar"/>
     <nag to="taglibs-dev@jakarta.apache.org"
          from="Ted Husted &lt;ted@husted.com&gt;"/>
   </project>
@@ -36,7 +36,7 @@
     <depend project="jakarta-ant" inherit="runtime"/>
     <depend project="xml-xerces"/>
     <javadoc nested="dist/doc/doc/benchmark-doc/javadoc"/>
-    <jar name="dist/benchmark/lib/taglibs-benchmark.jar"/>
+    <jar name="dist/benchmark/taglibs-benchmark.jar"/>
     <nag to="taglibs-dev@jakarta.apache.org"
          from="Ted Husted &lt;ted@husted.com&gt;"/>
   </project>
@@ -53,7 +53,7 @@
     <depend project="jakarta-ant" inherit="runtime"/>
     <depend project="xml-xerces"/>
     <javadoc nested="dist/doc/doc/bsf-doc/javadoc"/>
-    <jar name="dist/bsf/lib/taglibs-bsf.jar"/>
+    <jar name="dist/bsf/taglibs-bsf.jar"/>
     <nag to="taglibs-dev@jakarta.apache.org"
          from="Ted Husted &lt;ted@husted.com&gt;"/>
   </project>
@@ -72,7 +72,7 @@
     <depend project="jakarta-ant" inherit="runtime"/>
     <depend project="xml-xerces"/>
     <javadoc nested="dist/doc/doc/cache-doc/javadoc"/>
-    <jar name="dist/cache/lib/taglibs-cache.jar"/>
+    <jar name="dist/cache/taglibs-cache.jar"/>
     <nag to="taglibs-dev@jakarta.apache.org"
          from="Ted Husted &lt;ted@husted.com&gt;"/>
   </project>
@@ -89,7 +89,7 @@
     <depend project="jakarta-taglibs-request"/>
     <depend project="xml-xerces"/>
     <javadoc nested="dist/doc/doc/datetime-doc/javadoc"/>
-    <jar name="dist/datetime/lib/taglibs-datetime.jar"/>
+    <jar name="dist/datetime/taglibs-datetime.jar"/>
     <nag to="taglibs-dev@jakarta.apache.org"
          from="Ted Husted &lt;ted@husted.com&gt;"/>
   </project>
@@ -106,7 +106,7 @@
     <depend project="jakarta-ant" inherit="runtime"/>
     <depend project="xml-xerces"/>
     <javadoc nested="dist/doc/doc/dbtags-doc/javadoc"/>
-    <jar name="dist/dbtags/lib/taglibs-dbtags.jar"/>
+    <jar name="dist/dbtags/taglibs-dbtags.jar"/>
     <nag to="taglibs-dev@jakarta.apache.org"
          from="Ted Husted &lt;ted@husted.com&gt;"/>
   </project>
@@ -122,7 +122,7 @@
     <depend project="jakarta-ant" inherit="runtime"/>
     <depend project="xml-xerces"/>
     <javadoc nested="dist/doc/doc/i18n-doc/javadoc"/>
-    <jar name="dist/i18n/lib/taglibs-i18n.jar"/>
+    <jar name="dist/i18n/taglibs-i18n.jar"/>
     <nag to="taglibs-dev@jakarta.apache.org"
          from="Ted Husted &lt;ted@husted.com&gt;"/>
   </project>
@@ -138,7 +138,7 @@
     <depend project="jakarta-ant" inherit="runtime"/>
     <depend project="xml-xerces"/>
     <javadoc nested="dist/doc/doc/input-doc/javadoc"/>
-    <jar name="dist/input/lib/taglibs-input.jar"/>
+    <jar name="dist/input/taglibs-input.jar"/>
     <nag to="taglibs-dev@jakarta.apache.org"
          from="Ted Husted &lt;ted@husted.com&gt;"/>
   </project>
@@ -154,7 +154,7 @@
     <depend project="jakarta-ant" inherit="runtime"/>
     <depend project="xml-xerces"/>
     <javadoc nested="dist/doc/doc/io-doc/javadoc"/>
-    <jar name="dist/io/lib/taglibs-io.jar"/>
+    <jar name="dist/io/taglibs-io.jar"/>
     <nag to="taglibs-dev@jakarta.apache.org"
          from="Ted Husted &lt;ted@husted.com&gt;"/>
   </project>
@@ -182,7 +182,7 @@
     <depend project="jakarta-ant" inherit="runtime"/>
     <depend project="xml-xerces"/>
     <javadoc nested="dist/doc/doc/jmstags-doc/javadoc"/>
-    <jar name="dist/jmstags/lib/taglibs-jmstags.jar"/>
+    <jar name="dist/jmstags/taglibs-jmstags.jar"/>
     <nag to="taglibs-dev@jakarta.apache.org"
          from="Ted Husted &lt;ted@husted.com&gt;"/>
   </project>
@@ -198,7 +198,7 @@
     <depend project="jakarta-ant" inherit="runtime"/>
     <depend project="xml-xerces"/>
     <javadoc nested="dist/doc/doc/jndi-doc/javadoc"/>
-    <jar name="dist/jndi/lib/taglibs-jndi.jar"/>
+    <jar name="dist/jndi/taglibs-jndi.jar"/>
     <nag to="taglibs-dev@jakarta.apache.org"
          from="Ted Husted &lt;ted@husted.com&gt;"/>
   </project>
@@ -215,7 +215,7 @@
     <depend project="jakarta-ant" inherit="runtime"/>
     <depend project="xml-xerces"/>
     <javadoc nested="dist/doc/doc/log-doc/javadoc"/>
-    <jar name="dist/log/lib/taglibs-log.jar"/>
+    <jar name="dist/log/taglibs-log.jar"/>
     <nag to="taglibs-dev@jakarta.apache.org"
          from="Ted Husted &lt;ted@husted.com&gt;"/>
   </project>
@@ -234,7 +234,7 @@
     <depend project="javamail"/>
     <depend project="xml-xerces"/>
     <javadoc nested="dist/doc/doc/mailer-doc/javadoc"/>
-    <jar name="dist/mailer/lib/taglibs-mailer.jar"/>
+    <jar name="dist/mailer/taglibs-mailer.jar"/>
     <nag to="taglibs-dev@jakarta.apache.org"
          from="Ted Husted &lt;ted@husted.com&gt;"/>
   </project>
@@ -250,7 +250,7 @@
     <depend project="jakarta-ant" inherit="runtime"/>
     <depend project="xml-xerces"/>
     <javadoc nested="dist/doc/doc/page-doc/javadoc"/>
-    <jar name="dist/page/lib/taglibs-page.jar"/>
+    <jar name="dist/page/taglibs-page.jar"/>
     <nag to="taglibs-dev@jakarta.apache.org"
          from="Ted Husted &lt;ted@husted.com&gt;"/>
   </project>
@@ -266,7 +266,7 @@
     <depend project="jakarta-ant" inherit="runtime"/>
     <depend project="xml-xerces"/>
     <javadoc nested="dist/doc/doc/random-doc/javadoc"/>
-    <jar name="dist/random/lib/taglibs-random.jar"/>
+    <jar name="dist/random/taglibs-random.jar"/>
     <nag to="taglibs-dev@jakarta.apache.org"
          from="Ted Husted &lt;ted@husted.com&gt;"/>
   </project>
@@ -283,7 +283,7 @@
     <depend project="jakarta-ant" inherit="runtime"/>
     <depend project="xml-xerces"/>
     <javadoc nested="dist/doc/doc/regexp-doc/javadoc"/>
-    <jar name="dist/regexp/lib/taglibs-regexp.jar"/>
+    <jar name="dist/regexp/taglibs-regexp.jar"/>
     <nag to="taglibs-dev@jakarta.apache.org"
          from="Ted Husted &lt;ted@husted.com&gt;"/>
   </project>
@@ -299,7 +299,7 @@
     <depend project="jakarta-ant" inherit="runtime"/>
     <depend project="xml-xerces"/>
     <javadoc nested="dist/doc/doc/request-doc/javadoc"/>
-    <jar name="dist/request/lib/taglibs-request.jar"/>
+    <jar name="dist/request/taglibs-request.jar"/>
     <nag to="taglibs-dev@jakarta.apache.org"
          from="Ted Husted &lt;ted@husted.com&gt;"/>
   </project>
@@ -316,7 +316,7 @@
     <depend project="jakarta-taglibs-request"/>
     <depend project="xml-xerces"/>
     <javadoc nested="dist/doc/doc/response-doc/javadoc"/>
-    <jar name="dist/response/lib/taglibs-response.jar"/>
+    <jar name="dist/response/taglibs-response.jar"/>
     <nag to="taglibs-dev@jakarta.apache.org"
          from="Ted Husted &lt;ted@husted.com&gt;"/>
   </project>
@@ -333,7 +333,7 @@
     <depend project="jakarta-ant" inherit="runtime"/>
     <depend project="xml-xerces"/>
     <javadoc nested="dist/doc/doc/scrape-doc/javadoc"/>
-    <jar name="dist/scrape/lib/taglibs-scrape.jar"/>
+    <jar name="dist/scrape/taglibs-scrape.jar"/>
     <nag to="taglibs-dev@jakarta.apache.org"
          from="Ted Husted &lt;ted@husted.com&gt;"/>
   </project>
@@ -349,7 +349,7 @@
     <depend project="jakarta-ant" inherit="runtime"/>
     <depend project="xml-xerces"/>
     <javadoc nested="dist/doc/doc/session-doc/javadoc"/>
-    <jar name="dist/session/lib/taglibs-session.jar"/>
+    <jar name="dist/session/taglibs-session.jar"/>
     <nag to="taglibs-dev@jakarta.apache.org"
          from="Ted Husted &lt;ted@husted.com&gt;"/>
   </project>
@@ -398,7 +398,7 @@
     <depend project="jakarta-ant" inherit="runtime"/>
     <depend project="xml-xerces"/>
     <javadoc nested="dist/doc/doc/string-doc/javadoc"/>
-    <jar name="dist/string/lib/taglibs-string.jar"/>
+    <jar name="dist/string/taglibs-string.jar"/>
     <nag to="taglibs-dev@jakarta.apache.org"
          from="Ted Husted &lt;ted@husted.com&gt;"/>
   </project>
@@ -414,7 +414,7 @@
     <depend project="jakarta-ant" inherit="runtime"/>
     <depend project="xml-xerces"/>
     <javadoc nested="dist/doc/doc/utility-doc/javadoc"/>
-    <jar name="dist/utility/lib/taglibs-utility.jar"/>
+    <jar name="dist/utility/taglibs-utility.jar"/>
     <nag to="taglibs-dev@jakarta.apache.org"
          from="Ted Husted &lt;ted@husted.com&gt;"/>
   </project>
@@ -434,7 +434,7 @@
     <depend project="jakarta-ant" inherit="runtime"/>
     <depend project="xml-xerces"/>
     <javadoc nested="dist/doc/doc/xtags-doc/javadoc"/>
-    <jar name="dist/xtags/lib/taglibs-xtags.jar"/>
+    <jar name="dist/xtags/taglibs-xtags.jar"/>
     <nag to="taglibs-dev@jakarta.apache.org"
          from="Ted Husted &lt;ted@husted.com&gt;"/>
   </project>
