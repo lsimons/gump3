@@ -1,0 +1,20 @@
+<project name="jakarta-watchdog">
+
+  <description>
+    Servlet 2.2 and JSP 1.1 Validation Tests
+  </description>
+  <url href="http://jakarta.apache.org/watchdog/index.html"/>
+
+  <cvs repository="jakarta" />
+
+  <ant>
+    <property name="ant.home" reference="home" project="jakarta-ant"/>
+  </ant>
+
+  <depend project="xml-xerces"/>
+  <depend project="jakarta-ant"/>
+  <depend project="jakarta-servletapi"/>
+  <depend project="jakarta-tools"/>
+
+  <home nested="dist"/>
+</project>

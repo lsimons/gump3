@@ -1,0 +1,17 @@
+<project name="jakarta-tools">
+
+  <description>
+    Common tools
+  </description>
+
+  <cvs repository="jakarta" />
+
+  <ant buildfile="moo/build.xml" target="dist"/>
+
+  <depend project="xml-xerces"/>
+  <depend project="jakarta-ant"/>
+  <depend project="jakarta-servletapi"/>
+
+  <jar name="moo.jar"/>
+
+</project>

@@ -8,7 +8,9 @@
   <cvs repository="jakarta" />
 
   <ant target="dist">
+    <property name="jaxp" reference="home" project="jaxp"/>
     <property name="ant.home" reference="home" project="dist-ant"/>
+    <property name="watchdog.home" reference="home" project="jakarta-watchdog"/>
   </ant>
 
   <depend project="xml-xerces"/>
