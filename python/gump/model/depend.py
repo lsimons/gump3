@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/model/depend.py,v 1.9 2004/03/09 19:57:06 ajack Exp $
-# $Revision: 1.9 $
-# $Date: 2004/03/09 19:57:06 $
+# $Header: /home/stefano/cvs/gump/python/gump/model/depend.py,v 1.10 2004/03/09 20:40:29 ajack Exp $
+# $Revision: 1.10 $
+# $Date: 2004/03/09 20:40:29 $
 #
 # ====================================================================
 #
@@ -245,7 +245,7 @@ class DependSet:
         #
         dependProject=None
         if self.dependees:
-            dependPRoejct = depend.getOwnerProject()
+            dependProject = depend.getOwnerProject()
         else:
             dependProject = depend.getProject()        
         if not self.projectMap.has_key(dependProject):
@@ -254,6 +254,9 @@ class DependSet:
         
     def containsDepend(self, depend):
         return (depend in self.depends)
+        
+    def containsProject(self, project):
+        return self.projectMap.has_key(project)
         
     def getDepends(self):
         return self.depends
@@ -271,7 +274,7 @@ class Dependable:
         self.fullDependencies=None
         
         # Direct & Full Dependees
-        self.directDependees=DependSet()
+        self.directDependees=DependSet(1)
         self.fullDependees=None
         
     #
@@ -289,14 +292,17 @@ class Dependable:
         #
         # Build (once) upon demand
         #
-        self.fullDependencies=DependSet()
+        self.fullDependencies=DependSet(1)
         for depend in self.directDependencies.getDepends():
             if not self.fullDependencies.containsDepend(depend):
                 self.fullDependencies.addDepend(depend)
-                # Get Sub Dependencies
-                for subdepend in depend.getProject().getFullDependencies():
-                    if not self.fullDependencies.containsDepend(subdepend):
-                        self.fullDependencies.addDepend(depend)
+                
+                dependProject=depend.getProject()
+                if not self.fullDependencies.containsProject(dependProject):
+                    # Get Sub Dependencies
+                    for subdepend in dependProject.getFullDependencies():
+                        if not self.fullDependencies.containsDepend(subdepend):
+                            self.fullDependencies.addDepend(depend)
             
         return self.fullDependencies.getDepends()
                 
@@ -325,10 +331,13 @@ class Dependable:
         for depend in self.directDependees.getDepends():
             if not self.fullDependees.containsDepend(depend):    
                 self.fullDependees.addDepend(depend)
-                # Get Sub Dependees
-                for subdepend in depend.getProject().getFullDependees():
-                    if not self.fullDependees.containsDepend(subdepend):    
-                        self.fullDependees.addDepend(depend)
+                
+                dependProject=depend.getOwnerProject()
+                if not self.fullDependees.containsProject(dependProject):
+                    # Get Sub Dependees
+                    for subdepend in dependProject.getFullDependees():
+                        if not self.fullDependees.containsDepend(subdepend):    
+                            self.fullDependees.addDepend(depend)
             
         return self.fullDependees.getDepends()
         
