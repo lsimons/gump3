@@ -756,7 +756,7 @@ class XDocDocument(XDocPiece):
             self.context.writeLine(' <td><a href="%s/gump_stats/index.html">Stats</a></td><td>|</td>' % self.rootpath)  
             self.context.writeLine(' <td><a href="%s/gump_xref/index.html">XRef</a></td>' % self.rootpath) 
             
-            self.context.writeLine(' <td colspan="3"><img align="right" src="%s/images/gump-logo.png" alt="Logo"/></td>' % self.rootpath)  
+            self.context.writeLine(' <td colspan="3"><img align="right" src="%s/images/gump-logo.png" alt="Gump Logo"/></td>' % self.rootpath)  
             self.context.writeLine(' </tr>')  
             self.context.writeLine('</table>')  
         else: 
@@ -779,7 +779,7 @@ class XDocDocument(XDocPiece):
             self.context.writeLine('</document>')            
         else:
             from gump.core.config import default
-            self.context.writeLine('<p align="right">Last Updated: %s</p>' % default.datetime) 
+            self.context.writeLine('<p align="right">Last Updated: %s.<img align="right" src="%s/images/PythonPowered.gif" alt="Python Logo"/></p>' % default.datetime) 
             self.context.writeLine('</html>')            
         self.close()                  
             

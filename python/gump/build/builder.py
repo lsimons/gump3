@@ -16,6 +16,18 @@
 # limitations under the License.
 
 """
+	
+	This is the main project builder for gump. 
+	
+	1) Pre build tasks (deleting directories/files, making directories)
+	are performed here.
+	
+	2) Leveraging ant and/or maven and/or script 'assistants' the
+	project work is done (based of 'stat's, so --debug can be set in
+	a series of failures)
+	
+	3) Post build tasks (verifying jars exist, publishing to repositories,
+	etc).
 
 """
 
@@ -183,6 +195,13 @@ class GumpBuilder(RunSpecific):
 
     def performDelete(self,project,delete,index=0):
         """ Return the delete command for a <delete entry """
+        
+        return
+        
+        # :TODO: Re-instate this some time, when can delete
+        # non-empty directories.
+        
+        
         basedir=os.path.abspath(project.getModule().getWorkingDirectory() or dir.base)
     
         #
@@ -191,7 +210,8 @@ class GumpBuilder(RunSpecific):
         if delete.hasDirectory():
             dir=delete.getDirectory()
             try:
-                os.rmdir(dir)
+                import shutil
+                shutil.rmtree(dir)
                 project.addInfo('Deleted directory ['+dir+']')
             except:
                 project.addError('Failed to delete directory ['+dir+']')
