@@ -130,6 +130,7 @@
     <depend project="commons-betwixt"/>
     <depend project="commons-digester"/>
     <depend project="commons-jelly-tags-junit" inherit="runtime"/>
+    <depend project="commons-jelly-tags-log" inherit="runtime"/>
 
     <work nested="jelly/jelly-tags/betwixt/target/classes"/>
     <work nested="jelly/jelly-tags/betwixt/target/test-classes"/>
