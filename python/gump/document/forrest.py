@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/forrest.py,v 1.104 2004/03/12 18:55:24 ajack Exp $
-# $Revision: 1.104 $f
-# $Date: 2004/03/12 18:55:24 $
+# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/forrest.py,v 1.105 2004/03/13 00:17:40 ajack Exp $
+# $Revision: 1.105 $f
+# $Date: 2004/03/13 00:17:40 $
 #
 # ====================================================================
 #
@@ -67,7 +67,6 @@ import time
 import os
 import sys
 import logging
-import shutil
 from string import lower,replace
 from xml.sax.saxutils import escape
 
@@ -79,7 +78,7 @@ from gump.document.xdoc import *
 from gump.document.resolver import *
 from gump.utils import *
 from gump.utils.xmlutils import xmlize
-from gump.utils.tools import syncDirectories,copyDirectories
+from gump.utils.tools import syncDirectories,copyDirectories,wipeDirectoryTree
 from gump.model import *
 from gump.model.stats import *
 from gump.model.project import AnnotatedPath,  ProjectStatistics
@@ -104,24 +103,31 @@ class ForrestDocumenter(Documenter):
     def getResolverForRun(self,run):
         return self.resolver
     
-    def documentRun(self, run):
+    def prepareRun(self, run):
     
-        log.debug('--- Documenting Results')
+        log.debug('--- Prepare for Documenting Results')
 
         workspace=run.getWorkspace()
         gumpSet=run.getGumpSet()
     
         # Seed with default/site skins/etc.
         self.prepareForrest(workspace)
-       
-       # Document...
+
+    def documentRun(self, run):
+    
+        log.debug('--- Documenting Results')
+
+        workspace=run.getWorkspace()
+        gumpSet=run.getGumpSet()
+        
+        # Document...
         self.documentWorkspace(run,workspace,gumpSet)    
         if gumpSet.isFull():
             self.documentStatistics(run,workspace,gumpSet)
             self.documentXRef(run,workspace,gumpSet)
 
         # Launch Forrest...
-        self.executeForrest(workspace)
+        return self.executeForrest(workspace)
 
     #####################################################################
     #
@@ -133,11 +139,18 @@ class ForrestDocumenter(Documenter):
         fdir=os.path.abspath(os.path.join(workspace.getBaseDirectory(),'forrest'))
         return fdir
         
+    def getForrestOutputDirectory(self,workspace):
+        """ Staging Area for built output """
+        fdir=os.path.abspath(os.path.join(workspace.getBaseDirectory(),'forrest-site'))
+        return fdir
+        
     def getForrestTemplateDirectory(self):
+        """ Template (forrest skin/config) """
         fdir=os.path.abspath(os.path.join(dir.template,'forrest'))
         return fdir  
         
     def getForrestSiteTemplateDirectory(self):
+        """ Site Template (forrest skin/config tweaks) """    
         fdir=os.path.abspath(os.path.join(dir.template,'site-forrest'))
         return fdir  
     
@@ -148,75 +161,47 @@ class ForrestDocumenter(Documenter):
         
         """        
         #
-        # First deleted the tree (if exists), then ensure created
+        # First deleted the work tree (if exists), then ensure created
         #
-        forrestDir=self.getForrestDirectory(workspace)
-        if os.path.exists(forrestDir):
-            shutil.rmtree(forrestDir)            
-        os.makedirs(forrestDir)
-            
+        forrestWorkDir=self.getForrestDirectory(workspace)
+        wipeDirectoryTree(forrestWorkDir)
+                    
         # Copy in the defaults        
-        forrestTemplate=self.getForrestTemplateDirectory()           
-        # :TODO: We need to sync, but we write to contents...
-        copyDirectories(	forrestTemplate,	\
-                            forrestDir,	\
+        forrestTemplate=self.getForrestTemplateDirectory()   
+        syncDirectories(	forrestTemplate,	\
+                            forrestWorkDir,	\
                             workspace)    
                                     
         # Copy over the local site defaults (if any)        
         forrestSiteTemplate=self.getForrestSiteTemplateDirectory()  
         if os.path.exists(forrestSiteTemplate):
             copyDirectories(forrestSiteTemplate,	\
-                            forrestDir,	\
-                            workspace)               
+                            forrestWorkDir,	\
+                            workspace)                               
+                             
+        #    
+        # Delete the output tree
+        #   
+        outputDirectory=self.getForrestOutputDirectory(workspace)
+        wipeDirectoryTree(outputDirectory)
+        
          
     def executeForrest(self,workspace):
         # The project tree
         xdocs=self.resolver.getDirectory(workspace)      
-        forrestDir=self.getForrestDirectory(workspace)      
         
-        #
-        # :TODO:
-        #	1)	We need to do this sooner ('cos things write into content before this module)
-        #	2)	We need a staging area that we write to, then we Sync to the real output
-        #		so we have less of a window of missing public files.
-        #
-        #
-        #    #
-        #    # First deleted the tree (if exists), then ensure created
-        #    #
+        # The three dirs, work, output (staging), public
+        forrestWorkDir=self.getForrestDirectory(workspace)
+        outputDirectory=self.getForrestOutputDirectory(workspace)
         logDirectory=workspace.getLogDirectory()
-        #    if os.path.exists(logDirectory):
-        #        try:
-        #            shutil.rmtree(logDirectory)  
-        #        except: pass
-        #    if not os.path.exists(logDirectory):          
-        #        os.makedirs(logDirectory)
         
-        # Then generate...        
-        forrest=Cmd('forrest','forrest',forrestDir)
+        # Generate...        
+        forrest=Cmd('forrest','forrest',forrestWorkDir)
       
         forrest.addPrefixedParameter('-D','java.awt.headless','true','=')
-        #forrest.addPrefixedParameter('-D','project.content-dir',  \
-        #    content, '=')    
-        #forrest.addPrefixedParameter('-D','project.xdocs-dir',  \
-        #    xdocs, '=')
-            
         forrest.addPrefixedParameter('-D','project.site-dir',  \
-            logDirectory, '=')
-         
-        #   
-        # Do we just tweak forrest.properties?
-        #
-        #forrest.addPrefixedParameter('-D','project.sitemap-dir',  \
-        #    docroot, '=')    
-        #forrest.addPrefixedParameter('-D','project.stylesheets-dir',  \
-        #    docroot, '=')    
-        #forrest.addPrefixedParameter('-D','project.images-dir',  \
-        #    docroot, '=')    
-    
-        #forrest.addPrefixedParameter('-D','project.skinconf', \
-        #    getWorkspaceSiteDirectory(workspace), '=' )
-          
+            outputDirectory, '=')
+                
         # Temporary
         # Too verbose ... forrest.addParameter('-debug')
         #forrest.addParameter('-verbose')
@@ -233,6 +218,18 @@ class ForrestDocumenter(Documenter):
         # Update Context    
         work=CommandWorkItem(WORK_TYPE_DOCUMENT,forrest,forrestResult)
         workspace.performedWork(work)    
+        
+        # If ok move from staging to publish
+        if forrestResult.state==CMD_STATE_SUCCESS:
+            #
+            # Sync over public pages...
+            #
+            syncDirectories(outputDirectory,logDirectory)
+            # 
+            # Clean up
+            wipeDirectoryTree(outputDirectory)
+            wipeDirectoryTree(forrestWorkDir)
+        
          
     #####################################################################           
     #
@@ -2236,12 +2233,18 @@ This page helps Gumpmeisters (and others) observe community progress.
         fileName='module_updated'
         file=self.resolver.getFile(stats,fileName)    
         document=XDocDocument('Modules By Last Updated', file)        
-        updTable=document.createTable(['Module','Last Updated'])
+        updTable=document.createTable(['Module','Last Updated Date','Last Updated'])
+        modules=0
         for module in stats.modulesByLastUpdated:        
-            if not gumpSet.inModuleSequence(module): continue    
+            if not gumpSet.inModuleSequence(module): continue   
+            if module.isPackaged(): continue 
             updRow=updTable.createRow()            
             self.insertLink( module, stats, updRow.createData())                
             updRow.createData(secsToDate(module.getLastUpdated()))
+            updRow.createData(	\
+                getGeneralSinceDescription(module.getLastUpdated()))
+            modules+=1                    
+        if not modules: updTable.createLine('None')
             
         document.serialize()
         

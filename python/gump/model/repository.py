@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/model/repository.py,v 1.8 2004/01/20 21:55:23 ajack Exp $
-# $Revision: 1.8 $
-# $Date: 2004/01/20 21:55:23 $
+# $Header: /home/stefano/cvs/gump/python/gump/model/repository.py,v 1.9 2004/03/13 00:17:39 ajack Exp $
+# $Revision: 1.9 $
+# $Date: 2004/03/13 00:17:39 $
 #
 # ====================================================================
 #
@@ -171,9 +171,6 @@ class RepositoryStatistics(Statistics):
     """Statistics Holder"""
     def __init__(self,repositoryName):
         Statistics.__init__(self,repositoryName)
-        
-    def getFOGFactor(self):
-        return (self.successes / (self.failures - self.prereqs))
 
     def getKeyBase(self):
         return 'repository:'+ self.name        

@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/document/documenter.py,v 1.9 2004/02/17 21:54:21 ajack Exp $
-# $Revision: 1.9 $
-# $Date: 2004/02/17 21:54:21 $
+# $Header: /home/stefano/cvs/gump/python/gump/document/documenter.py,v 1.10 2004/03/13 00:17:40 ajack Exp $
+# $Revision: 1.10 $
+# $Date: 2004/03/13 00:17:40 $
 #
 # ====================================================================
 #
@@ -74,7 +74,16 @@ class Documenter:
     def __init__(self):  pass
     
     #
-    # Populate a method called 'document(run)'
+    # Call a method called 'prepareRun(run)', if needed
+    #
+    def prepare(self,run):
+        if not hasattr(self,'prepareRun'): return        
+        if not callable(self.prepareRun):  return        
+        log.info('Prepare to document run using [' + `self` + ']')        
+        self.prepareRun(run)
+    
+    #
+    # Call a method called 'documentRun(run)'
     #
     def document(self,run):
         if not hasattr(self,'documentRun'):

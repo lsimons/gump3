@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/model/project.py,v 1.62 2004/03/09 19:57:06 ajack Exp $
-# $Revision: 1.62 $
-# $Date: 2004/03/09 19:57:06 $
+# $Header: /home/stefano/cvs/gump/python/gump/model/project.py,v 1.63 2004/03/13 00:17:39 ajack Exp $
+# $Revision: 1.63 $
+# $Date: 2004/03/13 00:17:39 $
 #
 # ====================================================================
 #
@@ -304,6 +304,7 @@ class Project(NamedModelObject, Statable, Resultable, Dependable):
         
     def getReports(self):
         return self.reports
+        
     def getFOGFactor(self):
         return self.getStats().getFOGFactor()
         
@@ -1222,11 +1223,6 @@ class ProjectStatistics(Statistics):
     """Statistics Holder"""
     def __init__(self,projectName):
         Statistics.__init__(self,projectName)
-        
-    def getFOGFactor(self):
-        good=self.successes
-        bad=(self.failures+self.prereqs) or 1
-        return good/bad
 
     def getKeyBase(self):
         return 'project:'+ self.name        

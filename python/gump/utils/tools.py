@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/utils/tools.py,v 1.18 2004/03/12 02:57:50 ajack Exp $
-# $Revision: 1.18 $
-# $Date: 2004/03/12 02:57:50 $
+# $Header: /home/stefano/cvs/gump/python/gump/utils/tools.py,v 1.19 2004/03/13 00:17:40 ajack Exp $
+# $Revision: 1.19 $
+# $Date: 2004/03/13 00:17:40 $
 #
 # ====================================================================
 #
@@ -64,6 +64,7 @@
 
 import logging
 import types, StringIO
+import shutil
 
 from gump import log
 from gump.utils.note import *
@@ -206,7 +207,15 @@ def syncDirectories(sourcedir,destdir,annotatable=None):
     finally:
         if annotatable:
             transferAnnotations(sync, annotatable)    
-    
+            
+def wipeDirectoryTree(dir):
+    if os.path.exists(dir):
+        try:
+            shutil.rmtree(dir)            
+        except: pass
+    if not os.path.exists(dir):
+        os.makedirs(dir)
+                
 def tailFile(file,lines,wrapLen=0,eol=None,marker=None):
     """ Return the last N lines of a file as a list """
     taillines=[]

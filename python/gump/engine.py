@@ -102,7 +102,6 @@ class GumpEngine:
 
     def continuous(self):
         
-        
         # :TODO: WORK IN PROGRESS NOT COMPLETE!!!
         
         while 0:
@@ -147,7 +146,12 @@ class GumpEngine:
         #
         logResourceUtilization('Before generate results')
         gatherResults(run)
-          
+        
+        # Prepare for documentation        
+        documenter=run.getOptions().getDocumenter()        
+        if documenter :
+            documenter.prepare(run)
+            
         # Update Statistics/Results on full runs            
         if run.getGumpSet().isFull():
             
@@ -170,7 +174,6 @@ class GumpEngine:
         # Build HTML Result (via Forrest or ...)
         #
         logResourceUtilization('Before document')
-        documenter=run.getOptions().getDocumenter()
         if documenter :
             documenter.document(run)
                         
@@ -225,11 +228,15 @@ class GumpEngine:
         # Check the metadata
         #
         self.checkWorkspace(run)
-                 
+             
+        # Prepare for documentation        
+        documenter=run.getOptions().getDocumenter()        
+        if documenter :
+            documenter.prepare(run)
+                
         #   
         # Build HTML Result (via Forrest or ...)
         #
-        documenter=run.getOptions().getDocumenter()
         if documenter :
             documenter.document(run)
 
@@ -474,10 +481,10 @@ class GumpEngine:
                     if (not STATE_SUCCESS == stats.currentState) and \
                             not project.isVerboseOrDebug():
                         if stats.sequenceInState > INSIGNIFICANT_DURATION:
-                            project.addInfo('Enable "debug" output, due to error.')
+                            project.addInfo('Enable "debug" output, due to a sequence of %s previous errors.' % stats.sequenceInState)
                             project.setDebug(1)
                         else:
-                            project.addInfo('Enable "verbose" output, due to error.')    
+                            project.addInfo('Enable "verbose" output, due to %s previous error(s).' % stats.sequenceInState)    
                             project.setVerbose(1)
 
                 #

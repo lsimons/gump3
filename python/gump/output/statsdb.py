@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/output/Attic/statsdb.py,v 1.14 2004/02/23 20:55:08 ajack Exp $
-# $Revision: 1.14 $
-# $Date: 2004/02/23 20:55:08 $
+# $Header: /home/stefano/cvs/gump/python/gump/output/Attic/statsdb.py,v 1.15 2004/03/13 00:17:40 ajack Exp $
+# $Revision: 1.15 $
+# $Date: 2004/03/13 00:17:40 $
 #
 # ====================================================================
 #
@@ -417,22 +417,22 @@ def compareModulesByDependeeCount(module1,module2):
 def compareModulesByFOGFactor(module1,module2):
     fog1=module1.getFOGFactor()
     fog2=module2.getFOGFactor()
-    c= int(round(fog2 - fog1,2))                  
+    # Allow comparison to 2 decimal places, by *100
+    c= int(round((fog2 - fog1)*100,0))                  
     if not c: c=cmp(module1,module2)
     return c             
             
 def compareModulesByLastUpdated(module1,module2):
-    fog1=module1.getLastUpdated()
-    fog2=module2.getLastUpdated()
-    c= int(round(fog2 - fog1,0))                  
+    lu1=module1.getLastUpdated()
+    lu2=module2.getLastUpdated()
+    c= int(round((lu2 - lu1)*100,0))                  
     if not c: c=cmp(module1,module2)
     return c             
             
 #
 # Project Comparisons
 #            
-        
-
+    
 def compareProjectsByElapsed(project1,project2):
     elapsed1=project1.getElapsedSecs()
     elapsed2=project2.getElapsedSecs()
@@ -459,14 +459,15 @@ def compareProjectsByDependeeCount(project1,project2):
 def compareProjectsByFOGFactor(project1,project2):
     fog1=project1.getFOGFactor()
     fog2=project2.getFOGFactor()
-    c= int(round(fog2 - fog1,0))                  
+    # Allow comparison to 2 decimal places, by *100
+    c= int(round((fog2 - fog1)*100,0))                  
     if not c: c=cmp(project1,project2)
     return c             
             
 def compareProjectsByLastUpdated(project1,project2):
-    fog1=project1.getLastUpdated()
-    fog2=project2.getLastUpdated()
-    c= int(round(fog2 - fog1,0))                  
+    lu1=project1.getLastUpdated()
+    lu2=project2.getLastUpdated()
+    c= int(round((lu2 - lu1)*100,0))                  
     if not c: c=cmp(project1,project2)
     return c              
             
