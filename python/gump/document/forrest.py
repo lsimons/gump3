@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/forrest.py,v 1.42 2004/01/08 17:58:51 ajack Exp $
-# $Revision: 1.42 $f
-# $Date: 2004/01/08 17:58:51 $
+# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/forrest.py,v 1.43 2004/01/08 20:46:59 ajack Exp $
+# $Revision: 1.43 $f
+# $Date: 2004/01/08 20:46:59 $
 #
 # ====================================================================
 #
@@ -948,8 +948,7 @@ class ForrestDocumenter(Documenter):
         addnPara=addnSection.createParagraph()
         addnPara.createLink( 	\
             self.resolver.getUrl(project, \
-                                    project.getName() + '_details', \
-                                        '.xml'),	\
+                                    project.getName() + '_details'),	\
                             'For more...')
                                         
                                         
