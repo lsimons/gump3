@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/forrest.py,v 1.103 2004/03/12 18:25:28 ajack Exp $
-# $Revision: 1.103 $f
-# $Date: 2004/03/12 18:25:28 $
+# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/forrest.py,v 1.104 2004/03/12 18:55:24 ajack Exp $
+# $Revision: 1.104 $f
+# $Date: 2004/03/12 18:55:24 $
 #
 # ====================================================================
 #
@@ -184,7 +184,7 @@ class ForrestDocumenter(Documenter):
         #    #
         #    # First deleted the tree (if exists), then ensure created
         #    #
-        #    logDirectory=workspace.getLogDirectory()
+        logDirectory=workspace.getLogDirectory()
         #    if os.path.exists(logDirectory):
         #        try:
         #            shutil.rmtree(logDirectory)  
@@ -1334,36 +1334,38 @@ This page helps Gumpmeisters (and others) observe community progress.
     #    x.write('<p><strong>Project Config :</strong> <link href=\'%s\'>XML</link></p>' \
     #                % (getModuleProjectRelativeUrl(modulename,project.name)) )                     
            
-        miscSection=document.createSection('Miscellaneous')
+           
+        if project.isDebug():
+            miscSection=document.createSection('Miscellaneous')
         
-        #
-        #	Outputs (e.g. Jars)
-        #
-        if project.hasJars():
-            outputSection = miscSection.createSection('Outputs')
-            outputTable = outputSection.createTable(['Name','Id'])
+            #
+            #	Outputs (e.g. Jars)
+            #
+            if project.hasJars():
+                outputSection = miscSection.createSection('Outputs')
+                outputTable = outputSection.createTable(['Name','Id'])
             
-            for jar in project.getJars():
-                outputRow=outputTable.createRow()
+                for jar in project.getJars():
+                    outputRow=outputTable.createRow()
                 
-                # The name (path) of the jar
-                outputRow.createData(jar.getName())
+                    # The name (path) of the jar
+                    outputRow.createData(jar.getName())
                 
-                # The jar id
-                id=jar.getId() or 'N/A'
-                outputRow.createData(id)                                
+                    # The jar id
+                    id=jar.getId() or 'N/A'
+                    outputRow.createData(id)                                
         
             
-        if project.hasBuildCommand():
+            if project.hasBuildCommand():
             
-            if project.hasAnt():                
-                self.documentProperties(miscSection, project.getAnt(), 'Ant Properties')
+                if project.hasAnt():                
+                    self.documentProperties(miscSection, project.getAnt(), 'Ant Properties')
             
-            (classpath,bootclasspath)=project.getClasspathLists()            
-            self.displayClasspath(miscSection, classpath,'Classpath',project)        
-            self.displayClasspath(miscSection, bootclasspath,'Boot Classpath',project) 
+                (classpath,bootclasspath)=project.getClasspathLists()            
+                self.displayClasspath(miscSection, classpath,'Classpath',project)        
+                self.displayClasspath(miscSection, bootclasspath,'Boot Classpath',project) 
        
-        self.documentXML(miscSection,project)
+            self.documentXML(miscSection,project)
         
         dependencySection=document.createSection('Dependency')
         
