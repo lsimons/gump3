@@ -80,7 +80,7 @@ from gump.model import *
 from gump.statistics import StatisticsDB,ProjectStatistics,StatisticsGuru
 from gump.logic import getPackagedProjectContexts, getBuildSequenceForProjects,\
      getProjectsForProjectExpression, getModuleNamesForProjectList, \
-     isFullGumpSet, getClasspathList, AnnotatedPath, hasBuildCommand
+     isFullGumpSet, getClasspathLists, AnnotatedPath, hasBuildCommand
 
 def documentText(workspace,context,moduleFilterList=None,projectFilterList=None):    
     documentTextToFile(sys.stdout,workspace,context,moduleFilterList,projectFilterList)
@@ -687,43 +687,9 @@ def documentProject(workspace,context,modulename,mdir,projectname,projectcontext
     documentProjectContextList(x,"Optional Project Dependees",projectcontext.optionees)                  
 
     if hasBuildCommand(project):
-        startSectionXDoc(x,'Classpath')
-        startTableXDoc(x)
-        x.write('      <tr><th>Path Entry</th><th>Contributor</th><th>Instigator</th><th>Annotation</th></tr>')       
-        classpath=getClasspathList(project,workspace,context)
-        paths=0
-        for path in classpath: 
-            if isinstance(path,AnnotatedPath):
-                pcontext=path.context
-                ppcontext=path.pcontext
-                note=path.note
-            else:
-                pcontext=context
-                ppcontext=None
-                note=''
-            startTableRowXDoc(x)
-            insertTableDataXDoc(x, path)
-        
-            # Contributor
-            insertTableDataXDoc(x, getContextLink(pcontext))
-        
-            # Instigator (if not Gump)
-            link=''
-            if ppcontext: link=getContextLink(ppcontext)
-            insertTableDataXDoc(x, link)
-        
-            # Additional Notes...
-            insertTableDataXDoc(x, note)
-            endTableRowXDoc(x)
-            paths+=1
-            
-        if not paths:        
-            startTableRowXDoc(x)    
-            insertTableDataXDoc(x,"None")
-            endTableRowXDoc(x)
-            
-        endTableXDoc(x)
-        endSectionXDoc(x)
+        (classpath,bootclasspath)=getClasspathLists(project,workspace,context)            
+        displayClasspath(x,classpath,'Classpath',context)        
+        displayClasspath(x,bootclasspath,'Boot Classpath',context)    
        
 #    x.write('<p><strong>Project Config :</strong> <link href=\'%s\'>XML</link></p>' \
 #                % (getModuleProjectRelativeUrl(modulename,projectcontext.name)) )
@@ -743,6 +709,47 @@ def documentProject(workspace,context,modulename,mdir,projectname,projectcontext
 #    footerXDoc(x)
 #    endXDoc(x)
 
+def displayClasspath(x,classpath,title,context):
+     
+    startSectionXDoc(x,title)
+    startTableXDoc(x)
+    
+    x.write('      <tr><th>Path Entry</th><th>Contributor</th><th>Instigator</th><th>Annotation</th></tr>')       
+    paths=0
+    for path in classpath: 
+        if isinstance(path,AnnotatedPath):
+            pcontext=path.context
+            ppcontext=path.pcontext
+            note=path.note
+        else:
+            pcontext=context
+            ppcontext=None
+            note=''
+        
+        startTableRowXDoc(x)
+        insertTableDataXDoc(x, path)
+        
+        # Contributor
+        insertTableDataXDoc(x, getContextLink(pcontext))
+        
+        # Instigator (if not Gump)
+        link=''
+        if ppcontext: link=getContextLink(ppcontext)
+        insertTableDataXDoc(x, link)
+        
+        # Additional Notes...
+        insertTableDataXDoc(x, note)
+        endTableRowXDoc(x)
+        paths+=1
+
+    if not paths:        
+        startTableRowXDoc(x)    
+        insertTableDataXDoc(x,'No ' + title + ' entries')
+        endTableRowXDoc(x)
+   
+    endTableXDoc(x)
+    endSectionXDoc(x)
+                 
 def documentProjectContextList(x,title,projects):
   if projects:
         startSectionXDoc(x,title)

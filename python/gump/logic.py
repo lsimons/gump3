@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/Attic/logic.py,v 1.40 2003/10/23 23:10:22 ajack Exp $
-# $Revision: 1.40 $
-# $Date: 2003/10/23 23:10:22 $
+# $Header: /home/stefano/cvs/gump/python/gump/Attic/logic.py,v 1.41 2003/10/24 18:31:35 ajack Exp $
+# $Revision: 1.41 $
+# $Date: 2003/10/24 18:31:35 $
 #
 # ====================================================================
 #
@@ -270,7 +270,7 @@ def getAntCommand(workspace,module,project,ant,context):
     #
     # Build a classpath (based upon dependencies)
     #
-    classpath=getClasspath(project,workspace,context)
+    (classpath,bootclasspath)=getClasspaths(project,workspace,context)
     
     #
     # Get properties
@@ -294,6 +294,12 @@ def getAntCommand(workspace,module,project,ant,context):
     #    
     cmd.addPrefixedParameter('-D','java.awt.headless','true','=')
     
+    #
+    # Add BOOTCLASSPATH
+    #
+    if bootclasspath:
+        cmd.addPrefixedParameter('-X','bootclasspath/p',bootclasspath,':')
+            
     if jvmargs:
         cmd.addParameters(jvmargs)
             
@@ -338,12 +344,25 @@ def getScriptCommand(workspace,module,project,script,context):
     debug=script.debug
        
     scriptfile=os.path.normpath(os.path.join(basedir, scriptfullname))
-    classpath=getClasspath(project,workspace,context)
+    (classpath,bootclasspath)=getClasspaths(project,workspace,context)
 
     cmd=Cmd(scriptfile,'buildscript_'+module.name+'_'+project.name,\
             basedir,{'CLASSPATH':classpath})
+    
             
-              #
+    # Set this as a system property. Setting it here helps JDK1.4+
+    # AWT implementations cope w/o an X11 server running (e.g. on
+    # Linux)
+    #    
+    cmd.addPrefixedParameter('-D','java.awt.headless','true','=')
+    
+    #
+    # Add BOOTCLASSPATH
+    #
+    if bootclasspath:
+        cmd.addPrefixedParameter('-X','bootclasspath/p',bootclasspath,':')
+                    
+    #
     # Allow ant-level debugging...
     #
     if context.debug or debug:
@@ -406,6 +425,40 @@ def getOutputsList(project, pctxt):
 #                  
 def hasOutputs(project,pctxt):
     return (len(getOutputsList(project,pctxt)) > 0)
+    
+#
+# Return a (classpath, bootclaspath) tuple for this project
+#
+def getClasspaths(project,workspace,context):
+  #
+  # Calculate classpath and bootclasspath
+  #
+  (classpath, bootclasspath) = getClasspathLists(project,workspace,context)
+  
+  #
+  # Convert path and AnnotatedPath to simple paths.
+  #
+  (scp, sbcp) = (	getSimpleClasspathList(classpath), \
+                      getSimpleClasspathList(bootclasspath) )
+
+  #
+  # Join using path separator, and return tuple
+  #
+  return (os.pathsep.join(scp),os.pathsep.join(sbcp) )
+
+#
+# Convert path and AnnotatedPath to simple paths.
+# 
+def getSimpleClasspathList(cp):
+    """ Return simple string list """
+    classpath=[]
+    for p  in cp:
+        if isinstance(p,AnnotatedPath):
+            classpath.append(p.path)
+        else:
+            classpath.append(p)
+    return classpath
+            
 
 
 #
@@ -423,26 +476,32 @@ def getSystemClasspathList():
         syscp=''
     return split(syscp,os.pathsep)
 
-# :TODO: Runtime?
 #
-# BOOTCLASSPATH?
-def getClasspathList(project,workspace,context,debug=0):
+# Return a tuple of (CLASSPATH, BOOTCLASSPATH) for a project
+#
+def getClasspathLists(project,workspace,context,debug=0):
   """Get a TOTAL classpath for a project (including it's dependencies)"""
 
   # Context for this project
   pctxt=context.getProjectContextForProject(project)
 
   #
-  # Do this once only... storing it on the context
+  # Do this once only... storing it on the context. Not as nice as 
+  # doing it OO (each project context stores it's own, but a step..)
   #
-  if hasattr(pctxt,'resolvedClasspath'):
-      if debug: print "Claspath previously resolved..."
-      return pctxt.resolvedClasspath
+  if hasattr(pctxt,'resolvedClasspath') and \
+      hasattr(pctxt,'resolvedBootclasspath') :
+      if debug: print "Claspath/Bootclasspath previously resolved..."
+      return ( pctxt.resolvedClasspath, pctxt.resolvedBootclasspath )
   
   # Start with the system classpath (later remove this)
   classpath=getSystemClasspathList()
+  bootclasspath=[] # :TODO: Get from ?
 
-  # Add this project's work directories
+  #
+  # Add this project's work directories (these go into
+  # CLASSPATH, never BOOTCLASSPATH)
+  #
   srcdir=Module.list[project.module].srcdir
   for work in project.work:
       path=None
@@ -465,23 +524,22 @@ def getClasspathList(project,workspace,context,debug=0):
   if project.depend:
     # For each
     for depend in project.depend:
-        for path in getDependOutputList(pctxt,project,pctxt,depend,context,visited,0,debug):
-          if not path in classpath:
-              classpath.append(path)
-              
+        (subcp, subbcp) = getDependOutputList(pctxt,project,pctxt,depend,context,visited,0,debug)
+        importClasspaths(pctxt,classpath,bootclasspath,subcp,subbcp)
+        
   # Same as above, but for optional...
   if project.option:    
     for option in project.option:
-        for path in getDependOutputList(pctxt,project,pctxt,option,context,visited,0,debug):
-          if not path in classpath:
-              classpath.append(path)
+        (subocp, subobcp) = getDependOutputList(pctxt,project,pctxt,option,context,visited,0,debug)
+        importClasspaths(pctxt,classpath,bootclasspath,subocp,subobcp)   
   
   #
   # Store so we don't do this twice.
   #            
   pctxt.resolvedClasspath = classpath
+  pctxt.resolvedBootclasspath = bootclasspath
   
-  return classpath
+  return (classpath, bootclasspath)
 
 #
 # Perform this 'dependency' (mandatory or optional)
@@ -490,6 +548,7 @@ def getClasspathList(project,workspace,context,debug=0):
 # 2) Do NOT bring in the working entities (directories/jars)
 # 3) Bring in the sub-depends (or optional) if inherit='all' or 'hard'
 # 4) Bring in the runtime sub-depends if inherit='runtime'
+# 5) Also: *** Bring in any depenencies that the dependency inherits ***
 #
 def getDependOutputList(beneficiary,parent,parentctxt,depend,context,visited,depth=0,debug=0):      
   """Get a classpath of outputs for a project (including it's dependencies)"""            
@@ -502,7 +561,7 @@ def getDependOutputList(beneficiary,parent,parentctxt,depend,context,visited,dep
         print str(depth) + ") Previously Visits  : "
         for v in visited:
           print str(depth) + ")  - " + str(v)
-      return []
+      return ([],[])
   visited.append(depend)
   if debug:
       print str(depth) + ") Perform : " + str(depend) + " in " + parent.name
@@ -515,10 +574,13 @@ def getDependOutputList(beneficiary,parent,parentctxt,depend,context,visited,dep
       if projectname:
           beneficiary.addError("Unknown project (in acquiring classpath) [" + projectname \
                   + "] for [" + str(depend) + "]")
-      return []
+      return ([],[])
       
   # 
+  #
+  #
   classpath=[]
+  bootclasspath=[]
 
   #
   # Context for this dependecy project...
@@ -566,10 +628,18 @@ def getDependOutputList(beneficiary,parent,parentctxt,depend,context,visited,dep
       # If 'all' or in ids list:
       if (not ids) or (jar.id in ids):   
           if ids: dependStr += ' Id = ' + jar.id
-          path=AnnotatedPath(jar.path,pctxt,parentctxt,dependStr)                  
-          if not path in classpath:
-              if debug:   print str(depth) + ') Append JAR : ' + str(path)
-              classpath.append(path)
+          path=AnnotatedPath(jar.path,pctxt,parentctxt,dependStr) 
+          
+              # Add to CLASSPATH
+          if not jar.type == 'boot':
+              if not path in classpath:
+                  if debug:   print str(depth) + ') Append JAR : ' + str(path)
+                  classpath.append(path)
+          else:
+              # Add to BOOTCLASSPATH
+              if not path in bootclasspath:
+                  if debug:   print str(depth) + ') Append *BOOTCLASSPATH* JAR : ' + str(path)
+                  bootclasspath.append(path)    
 
   #
   # Double check
@@ -577,19 +647,23 @@ def getDependOutputList(beneficiary,parent,parentctxt,depend,context,visited,dep
   if ids:
       for id in ids:
           if not id in projectIds:
-                  parentctxt.addWarning("Invalid ID [" + id \
-                      + "] for dependency on [" + projectname + "]")
+              # :TODO: This will cause repeats of this message
+              # for every dep who tries to use this
+              # Gumpy really needs to be OO!!!!
+              parentctxt.addWarning("Invalid ID [" + id \
+                  + "] for dependency on [" + projectname + "]")
 
   # Append sub-projects outputs, if inherited
   if project.depend:
       for subdepend in project.depend:        
           #	If the dependency is set to 'all' (or 'hard') we inherit all dependencies
           # If the dependency is set to 'runtime' we inherit all runtime dependencies
+          # If the dependent project inherited stuff, we inherit that...
           if    (inherit=='all' or inherit=='hard') \
-             or (inherit=='runtime' and subdepend.runtime):      
-              for path in getDependOutputList(beneficiary,project,pctxt,subdepend,context,visited,depth+1,debug):
-                  if not path in classpath:    
-                      classpath.append(path)
+             or (inherit=='runtime' and subdepend.runtime) \
+             or (subdepend.inherit and not subdepend.inherit=='none'):      
+              (subcp, subbcp) = getDependOutputList(beneficiary,project,pctxt,subdepend,context,visited,depth+1,debug)
+              importClasspaths(beneficiary,classpath,bootclasspath,subcp,subbcp)   
           elif debug:
               print str(depth) + ') Skip : ' + str(subdepend) + ' in ' + project.name
 
@@ -598,30 +672,36 @@ def getDependOutputList(beneficiary,parent,parentctxt,depend,context,visited,dep
       for suboption in project.option:   
           # See similar loop above here for logic...
           if    (inherit=='all' or inherit=='hard') \
-             or (inherit=='runtime' and suboption.runtime):      
-              for path in getDependOutputList(beneficiary,project,pctxt,suboption,context,visited,depth+1,debug):
-                  if not path in classpath:    
-                      classpath.append(path)
+             or (inherit=='runtime' and suboption.runtime) \
+             or (suboption.inherit and not suboption.inherit=='none'):      
+              (subocp, subobcp) = getDependOutputList(beneficiary,project,pctxt,suboption,context,visited,depth+1,debug)
+              importClasspaths(beneficiary,classpath,bootclasspath,subocp,subobcp)   
           elif debug:
               print str(depth) + ') Skip optional : ' + str(suboption) + ' in ' + project.name
 
-  return classpath
+  return (classpath, bootclasspath)
     
-# BOOTCLASSPATH?
-def getClasspath(project,workspace,context):
-  return os.pathsep.join(getSimpleClasspathList(getClasspathList(project,workspace,context)))
 
-def getSimpleClasspathList(cp):
-    """ Return simple string list """
-    classpath=[]
-    for p  in cp:
-        if isinstance(p,AnnotatedPath):
-            classpath.append(p.path)
+#
+# Import cp and bcp into classpath and bootclasspath,
+# but do not accept duplicates. Report duplicates
+#
+def importClasspaths(beneficiary,classpath,bootclasspath,cp,bcp):
+
+    # Import the CLASSPATH stuff
+    for path in cp:
+        if not path in classpath:
+            classpath.append(path)
         else:
-            classpath.append(p)
-    return classpath
-            
-  
+            beneficiary.addInfo("Duplicated classpath JAR [" + str(path) + "]")                    
+              
+    # Import the BOOTCLASSPATH stuff
+    for bpath in bcp:
+        if not bpath in bootclasspath:
+            bootclasspath.append(bpath)       
+        else:
+            beneficiary.addInfo("Duplicated bootclasspath JAR [" + str(bpath) + "]")                        
+                
 def getJVMArgs(workspace,ant):
   """Get JVM arguments for a project"""
   args=Parameters()
@@ -797,7 +877,7 @@ if __name__=='__main__':
   # documentText(workspace, context, ps)
   
   for project in projects:
-      cp=getClasspathList(project,workspace,context,1)
+      (cp,bcp)=getClasspathLists(project,workspace,context,1)
       print "Project : " + project.name 
       for p in cp:
           if isinstance(p,AnnotatedPath):
@@ -808,6 +888,16 @@ if __name__=='__main__':
               print " - " + str(p) + " : " + pp + " : " + ppp + " : " + str(p.note)
           else:
               print " + " + str(p)
+              
+      for p in bcp:
+          if isinstance(p,AnnotatedPath):
+              pp='Unnamed'
+              ppp='Unnamed'
+              if p.context: pp=p.context.name
+              if p.pcontext: ppp=p.pcontext.name
+              print " - " + str(p) + " : " + pp + " : " + ppp + " : " + str(p.note) + " --- BOOT"
+          else:
+              print " + " + str(p) + " --- BOOT"
               
       cmd=getBuildCommand(workspace,Module.list[project.module],project,context)
       if cmd:
