@@ -1,6 +1,4 @@
-PREVIEW Gump Storm
-Preview at 
-http://gump.chalko.com/gb/blog/Issues/?preview=true&smm=y&permalink=GumpStorm.txt
+Gump Storm
 <hr/>
 <!--
   Copyright 2004 The Apache Software Foundation
@@ -17,9 +15,14 @@ http://gump.chalko.com/gb/blog/Issues/?preview=true&smm=y&permalink=GumpStorm.tx
   See the License for the specific language governing permissions and
   limitations under the License.
 -->
-<P>A <A HREF="http://gump.apache.org">Gump</A> change was commit to attempt:<BR/>
-	<A HREF="http://issues.apache.org/eyebrowse/ReadMsg?listName=general@gump.apache.org&msgNo=6870">Notification Mail Rework</A><BR/>
-Which was intended simply to ensure that Gump was a little more communicative, a little more timely. It way over compensated...
+<P>
+A <A HREF="http://gump.apache.org">Gump</A> change was commit to attempt the following:
+</P>
+<P>
+	<A HREF="http://issues.apache.org/eyebrowse/ReadMsg?listName=general@gump.apache.org&msgNo=6870">Notification Mail Rework</A>
+</P>
+<P>
+It was intended simply to ensure that Gump was a little more communicative, a little more timely. It way over compensated...
 </P>
 <P>
 Unfortunately, the Ant bootstrap failed sending 456 projects into a state that
