@@ -294,7 +294,7 @@ def documentWorkspace(workspace,context,db,moduleFilterList=None,projectFilterLi
         #
         todos=0
         for pair in mctxt.aggregateStates():
-            if pair.state==STATUS_FAILED:
+            if pair.status==STATUS_FAILED:
                 todos=1
                 
         if not todos: continue
@@ -482,7 +482,7 @@ def documentModule(workspace,wdir,modulename,modulecontext,db,projectFilterList=
         #
         todos=0
         for pair in pctxt.aggregateStates():
-            if pair.state==STATUS_FAILED:
+            if pair.status==STATUS_FAILED:
                 todos=1
                 
         if not todos: continue
@@ -1098,7 +1098,7 @@ def getWorkRelativeUrl(type,name):
     
 def getStatePairIcon(pair,depth=0):
 
-    sname=stateName(pair.state)
+    sname=stateName(pair.status)
     rstring=reasonString(pair.reason)    
     
     description=sname    

@@ -261,24 +261,24 @@ def reasonString(reasonCode):
           
 class StatePair:
     """Contains a State Plus Reason"""
-    def __init__(self,state=STATUS_UNSET,reason=REASON_UNSET):
-        self.state=state
+    def __init__(self,status=STATUS_UNSET,reason=REASON_UNSET):
+        self.status=status
         self.reason=reason
         
     def __repr__(self):
         return str(self)
         
     def __str__(self):
-        result=stateName(self.state)
+        result=stateName(self.status)
         if not self.reason == REASON_UNSET:
             result += ":" + reasonString(self.reason)
         return result
         
     def __eq__(self,other):
-        return self.state == other.state and self.reason == other.reason
+        return self.status == other.status and self.reason == other.reason
                 
     def __cmp__(self,other):
-        cmp = self.state < other.state
+        cmp = self.status < other.status
         if not cmp: cmp = self.reason < other.reason
         return cmp
 
@@ -334,8 +334,8 @@ class Context:
             else:
                 print indent + ' ' + 'Tree Done...'
             
-    def setState(self,state,reason=REASON_UNSET,cause=None):  
-        self.status=state
+    def setState(self,status,reason=REASON_UNSET,cause=None):  
+        self.status=status
         self.reason=reason
         self.cause=cause
             
@@ -346,7 +346,7 @@ class Context:
         if not states: states=[]
         pair=self.getStatePair()
         # Add state, if not already there
-        if not stateUnset(pair.state) and not pair in states: \
+        if not stateUnset(pair.status) and not pair in states: \
             states.append(pair)
         # Subbordinates
         for ctxt in self:
@@ -358,18 +358,18 @@ class Context:
             summary=Summary(0,0,0,0,[])
             
         # Stand up and be counted
-        if not stateUnit(self.state):
-            if stateOk(self.state):
+        if not stateUnit(self.status):
+            if stateOk(self.status):
                 summary.successes+=1
-            elif STATUS_PREREQ_FAILURE == self.state:
+            elif STATUS_PREREQ_FAILURE == self.status:
                 summary.prereqs+=1
-            elif STATUS_FAILED == self.state:
+            elif STATUS_FAILED == self.status:
                 summary.failures+=1
             else:
                 summary.other+=1
                 
         # Add state, if not already there
-        if not stateUnset(pair.state) and not pair in summary.statepairs: \
+        if not stateUnset(pair.status) and not pair in summary.statepairs: \
             summary.statepairs.append(pair)
        
         # Subordinates
@@ -378,7 +378,7 @@ class Context:
             
         return summary;
             
-    def propagateErrorState(self,state,reason=REASON_UNSET,cause=None):
+    def propagateErrorState(self,status,reason=REASON_UNSET,cause=None):
         #
         # If no-one else to point the finger at ...
         # ... step up.
@@ -390,10 +390,10 @@ class Context:
         #
         if stateUnsetOrOk(self.status):
             # Modify self
-            self.setState(state,reason,cause)
+            self.setState(status,reason,cause)
             # .. then push this error down
             for ctxt in self:
-                ctxt.propagateErrorState(state,reason,cause)        
+                ctxt.propagateErrorState(status,reason,cause)        
         
     def elapsedSecs(self):
         elapsedSecs=self.worklist.elapsedSecs()
@@ -523,7 +523,7 @@ class ProjectContext(Context):
             
         return round(fogFactor/fogFactors,2)
         
-    def propagateErrorState(self,state,reason=REASON_UNSET,cause=None): 
+    def propagateErrorState(self,status,reason=REASON_UNSET,cause=None): 
         #
         # If no-one else to point the finger at ...
         # ... step up.
@@ -533,12 +533,12 @@ class ProjectContext(Context):
         # Do NOT over-write a preexisting condition
         if stateUnsetOrOk(self.status):
             # Call the superclass behaviour
-            Context.propagateErrorState(self,state,reason,cause)
+            Context.propagateErrorState(self,status,reason,cause)
             
             #
             #
             #
-            message = lower(stateName(state))
+            message = lower(stateName(status))
             if not REASON_UNSET == reason:
                 message += " with reason " + lower(reasonString(reason))            
             self.addError(capitalize(message))

@@ -61,28 +61,7 @@
 """
     A Repository 
 """
-class RepositoryEntry:
-    """Contains epository Conten"""
-    def __init__(self,state=STATUS_UNSET,reason=REASON_UNSET):
-        self.state=state
-        self.reason=reason
-        
-    def __repr__(self):
-        return str(self)
-        
-    def __str__(self):
-        result=stateName(self.state)
-        if not self.reason == REASON_UNSET:
-            result += ":" + reasonString(self.reason)
-        return result
-        
-    def __eq__(self,other):
-        return self.state == other.state and self.reason == other.reason
-                
-    def __cmp__(self,other):
-        cmp = self.state < other.state
-        if not cmp: cmp = self.reason < other.reason
-        return cmp
+
 
 class Repository:
     """Contains Repository Contents"""

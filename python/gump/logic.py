@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/Attic/logic.py,v 1.9 2003/09/29 22:50:07 ajack Exp $
-# $Revision: 1.9 $
-# $Date: 2003/09/29 22:50:07 $
+# $Header: /home/stefano/cvs/gump/python/gump/Attic/logic.py,v 1.10 2003/09/29 23:54:50 ajack Exp $
+# $Revision: 1.10 $
+# $Date: 2003/09/29 23:54:50 $
 #
 # ====================================================================
 #
@@ -281,8 +281,7 @@ def getOutputsList(project):
     outputs=[]
     for i in range(0,len(project.jar)):
         jar=os.path.normpath(project.jar[i].path)
-        outputs.append(jar)
-        
+        outputs.append(jar)        
     return outputs
                    
 def hasOutputs(project):
@@ -382,7 +381,7 @@ def preprocessContext(workspace,context=GumpContext()):
                         log.error("Missing Jar [" + str(jarpath) + "] on *packaged* [" + pctxt.name + "]")
     
             if outputsOk:
-                pctxt.state=STATUS_COMPLETE
+                pctxt.status=STATUS_COMPLETE
                 pctxt.reason=REASON_PACKAGE
                 
             #
@@ -427,7 +426,7 @@ def preprocessContext(workspace,context=GumpContext()):
                         # will be asssumed to be packages.
                         # 
                     pctxt=context.getProjectContextForProject(project)
-                    pctxt.state=STATUS_COMPLETE
+                    pctxt.status=STATUS_COMPLETE
                     pctxt.reason=REASON_PACKAGE
                 else:    
                     allPackaged=0  
@@ -438,7 +437,7 @@ def preprocessContext(workspace,context=GumpContext()):
                 packageCount+=1
                 
         if allPackaged:
-            mctxt.state=STATUS_COMPLETE
+            mctxt.status=STATUS_COMPLETE
             mctxt.reason=REASON_PACKAGE
             mctxt.addInfo("\'Packaged\' Module. (Packaged projects: " + \
                                     str(packageCount) + '.)')   
