@@ -74,7 +74,7 @@ def getPathForObject(object,visited=None):
     elif isinstance(object, Tracker):
         path=Path(['gump_track'])
     elif isinstance(object, StatisticsGuru):
-        path=Path(['gump.actor.stats'])
+        path=Path(['gump_stats'])
     elif isinstance(object, XRefGuru):
         path=Path(['gump_xref'])
     elif isinstance(object, Module):
