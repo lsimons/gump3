@@ -25,6 +25,7 @@
     <depend project="commons-dbcp"/>
     <depend project="commons-io"/>
     <depend project="commons-lang"/>
+    <depend project="commons-logging"/>
     <depend project="commons-pool"/>
     <depend project="dom4j"/>
     <depend project="ant"/>
