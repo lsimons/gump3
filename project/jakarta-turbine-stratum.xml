@@ -9,7 +9,7 @@
   <cvs repository="jakarta"/>
   
   <project name="jakarta-turbine-stratum">
-    <package>org.apache.turbine.stratum</package>
+    <package>org.apache.stratum</package>
 
     <ant>
       <depend property="dom4j.jar" project="dom4j" version="1.1"/>
