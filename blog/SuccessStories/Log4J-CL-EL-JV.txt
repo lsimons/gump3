@@ -1,6 +1,6 @@
 PREVIEW Log4j-CL-EL-JV.txt
 Preview at 
-http://gump.chalko.com/gb/blog/SuccessStories?preview=true&smm=y&permalink=Log4j-CL-EL-JV.txt
+http://gump.chalko.com/gb/blog/SuccessStories/?permalink=Log4J-CL-EL-JV.txt&preview=true
 <hr/>
 <!--
   Copyright 2004 The Apache Software Foundation
