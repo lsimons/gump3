@@ -7,7 +7,10 @@
 
   <cvs  repository="jakarta"/>
 
-  <ant buildfile="build/build.xml" target="jar"/>
+  <ant buildfile="build/build.xml" target="jar">
+    <property name="java.source.dir" value="../src/java"/>
+  </ant>
+
   <depend project="jakarta-ant"/>
   <depend project="xml-xerces"/>
   <depend project="xml-xalan2"/>
