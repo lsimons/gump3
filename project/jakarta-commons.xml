@@ -443,8 +443,8 @@
     <ant basedir="logging" target="dist"/>
     <depend project="ant" inherit="runtime"/>
     <depend project="xml-xerces"/>
-    <depend project="logging-log4j"/>
-    <depend project="avalon-logkit"/>
+    <option project="logging-log4j"/>
+    <option project="avalon-logkit"/>
     <home nested="logging/dist"/>
     <jar name="commons-logging.jar" id="all" />
     <jar name="commons-logging-api.jar" id="api" />
