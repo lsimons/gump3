@@ -118,9 +118,9 @@ def runCommand(command,args='',dir=None,outputFile=None):
             #
             # The return code (from system = from wait) is (on Unix):
             #
-            #	a 16 bit number
-            #	top byte	=	exit status
-            #	low byte	=	signal that killed it
+            #    a 16 bit number
+            #    top byte    =    exit status
+            #    low byte    =    signal that killed it
             #
             exit_code=(((waitcode & 0xFF00) >> 8) & 0xFF)
         
@@ -265,9 +265,12 @@ try:
 
         #
         # Update Gump from CVS
-        #	
+        #    
         cvsExit = 0
         if not os.environ.has_key('GUMP_NO_CVS_UPDATE'):
+            cvsroot=':pserver:anoncvs@cvs.apache.org:/home/cvspublic'
+            os.environ['CVSROOT']=cvsroot
+            # :TODO: ??? delete os.environ['CVS_RSH']
             cvsExit = runCommand('cvs -q update -dP')
         else:
             log.write('CVS update skipped per environment setting.\n')
@@ -289,7 +292,7 @@ try:
                 if args: args += ' '
                 args += arg    
         
-            iargs = '-w ' + workspaceName + ' ' + projectsExpr + args
+            iargs = '-w ../' + workspaceName + ' ' + projectsExpr + args
   
             #
             # Run the main Gump...
