@@ -34,7 +34,6 @@
     <depend project="excalibur-loader" runtime="true"/>
     <depend project="excalibur-logger" runtime="true"/>
     <depend project="excalibur-i18n" runtime="true"/>
-    <depend project="excalibur-baxter" runtime="true"/>
     <depend project="excalibur-policy" runtime="true"/>
     <depend project="excalibur-monitor" runtime="true"/>
     <depend project="excalibur-util" runtime="true"/>
