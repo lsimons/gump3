@@ -64,6 +64,12 @@ class Server(NamedModelObject):
     def getUrl(self):
         return str(self.xml.url)
         
+    def hasNote(self):
+        return hasattr(self.xml,'note') and self.xml.note
+           
+    def getNote(self):
+        return str(self.xml.note)
+        
     def hasResultsUrl(self):
         return self.isPython() and self.hasUrl()
         

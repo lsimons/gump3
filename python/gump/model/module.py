@@ -363,6 +363,12 @@ class Module(NamedModelObject, Statable, Resultable):
     def setPackaged(self,packaged):
         self.packaged=packaged
         
+        
+    def isRedistributable(self):
+        # Existence means 'true'
+        return hasattr(self.xml,'redistributable') \
+            or (self.repository and self.repository.isRedistributable())
+        
     #
     # Get a full list of all the projects that depend
     # upon projects in this module 

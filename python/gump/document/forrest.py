@@ -403,12 +403,8 @@ class ForrestDocumenter(Documenter):
         
         self.documentProperties(detailsSection, workspace, 'Workspace Properties')
         
-        # Does this workspace send nag mails?
-        if workspace.isNag():
-            nag='true'
-        else:
-            nag='false'
-        detailsTable.createEntry("Send Nag E-mails: ", nag)
+        # Does this workspace send notification (nag) mails?
+        detailsTable.createEntry("Send Nag E-mails: ", getBooleanString(workspace.isNag()))
         
         #document.createRaw('<p><strong>Context Tree:</strong> <link href=\'workspace.html\'>workspace</link></p>')
         # x.write('<p><strong>Workspace Config:</strong> <link href=\'xml.txt\'>XML</link></p>')
@@ -455,7 +451,7 @@ class ForrestDocumenter(Documenter):
             self.resolver.getFile(workspace,'servers'))
                 
         serversSection=document.createSection('All Servers')
-        serversTable=serversSection.createTable(['Name','Results','Start (Local)','Start (UTC)','End (UTC)'])
+        serversTable=serversSection.createTable(['Name','Notes','Results','Start (Local)','Start (UTC)','End (UTC)'])
 
         scount=0
         for server in sortedServerList:
@@ -466,6 +462,11 @@ class ForrestDocumenter(Documenter):
             serverRow.createComment(server.getName())
                        
             self.insertLink( server, workspace, serverRow.createData())
+                                        
+            if server.hasNote():
+                serverTow.createData(server.getNote())
+            else:
+                serverRow.createData('')
             
             if server.hasResultsUrl():
                 serverRow.createData().createFork(	\
@@ -475,8 +476,7 @@ class ForrestDocumenter(Documenter):
                 serverRow.createData('Not Available')
                 
             if server.hasResults():
-                serverRow.createData(server.getResults().getStartDateTime() + ' ' + \
-                                        server.getResults().getTimezone())
+                serverRow.createData(server.getResults().getStartDateTime())
                 serverRow.createData(server.getResults().getStartDateTimeUtc())
                 serverRow.createData(server.getResults().getEndDateTimeUtc())
             else:
@@ -1089,6 +1089,8 @@ This page helps Gumpmeisters (and others) observe community progress.
             
         if repo.hasHostname():
             detailList.createEntry('Hostname: ', repo.getHostname())
+            
+        detailList.createEntry('Redistributable: ', getBooleanString(repo.isRedistributable()))
     
         self.documentXML(document,repo)
         
@@ -1361,10 +1363,14 @@ This page helps Gumpmeisters (and others) observe community progress.
                      repoList.createEntry( "SVN Directory: ", module.svn.getDir()) 
                 repoList.createEntry( "SVN URL: ", module.svn.getRootUrl())                 
 
-            if module.hasJars():
-                if module.jars.hasUrl():
-                     repoList.createEntry( "Jars URL: ", module.jars.getUrl())                 
 
+            repoList.createEntry('Redistributable: ', getBooleanString(module.isRedistributable()))
+                
+            if module.isRedistributable():
+        
+                if module.hasJars():
+                    if module.jars.hasUrl():
+                         repoList.createEntry( "Jars URL: ", module.jars.getUrl())                 
                 
            
     #   x.write('<p><strong>Module Config :</strong> <link href=\'xml.html\'>XML</link></p>')
@@ -1453,6 +1459,8 @@ This page helps Gumpmeisters (and others) observe community progress.
             
         e = secsToElapsedTimeString(project.getElapsedSecs())
         if e and project.isVerboseOrDebug(): detailsList.createEntry("Elapsed: ", e)
+                
+        detailsList.createEntry('Redistributable: ', getBooleanString(project.isRedistributable()))                
                                                       
         # Display nag information
         if project.xml.nag:
@@ -1759,8 +1767,12 @@ This page helps Gumpmeisters (and others) observe community progress.
         if not servers: return    
         if len(servers) == 1: return # Assume this one.     
         
-        serversSection=xdocNode.createSection('Servers')  
-        serversSection.createParagraph('These links represent this location (and, when available, the status) on other servers.')      
+        # Hack to keep 'tighter' in diffsLog page
+        serversSection=xdocNode
+        if -1 == depth:
+            serversSection=xdocNode.createSection('Servers')  
+            serversSection.createParagraph('These links represent this location (and, when available, the status and time) on other servers.')
+            
         serversTable=serversSection.createTable()
         serverRow=serversTable.createRow()
         
@@ -1898,7 +1910,7 @@ This page helps Gumpmeisters (and others) observe community progress.
         for work in worklist:
             if isinstance(work,CommandWorkItem):      
                 if not STATE_SUCCESS == work.state:
-                    tail=work.tail(50,'...<br/>','    ',100)
+                    tail=work.tail(50,100,'...\n','    ')
                     if tail:
                         #
                         # Write out the 'tail'
@@ -2027,7 +2039,7 @@ This page helps Gumpmeisters (and others) observe community progress.
                         line=o.readline()
                         while line:
                             
-                            line=wrapLine(line,100,'...<br/>','    ')
+                            line=wrapLine(line,100,'...\n','    ')
                             
                             length = len(line)
                             size += length
@@ -2127,7 +2139,7 @@ This page helps Gumpmeisters (and others) observe community progress.
                             line=o.readline()
                             while line:
                             
-                                line=wrapLine(line,100,'...<br/>','    ')
+                                line=wrapLine(line,100,'...\n','    ')
                             
                                 length = len(line)
                                 size += length

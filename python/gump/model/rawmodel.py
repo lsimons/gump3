@@ -114,6 +114,7 @@ class XMLServer(Named):
     self.title=Single(GumpXMLModelObject)
     self.url=Single(GumpXMLModelObject)
     self.site=Single(GumpXMLModelObject)
+    self.note=Single(GumpXMLModelObject)
     
 # represents a <tracker/> element
 class XMLTracker(Named):

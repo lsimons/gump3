@@ -161,9 +161,9 @@ class GumpXMLObject(Annotatable,object):
       if isinstance(attr,Single): return attr(attrs)
       if isinstance(attr,Multiple): return attr(attrs)
       
-      # Simple attributes
-      
+      # Simple attributes      
       return attr # :TODO: Get this checked out
+      
     except AttributeError:
       # It is OK if people extend the GOM...
       message="No metadata related to tag '%s' on %s" % \

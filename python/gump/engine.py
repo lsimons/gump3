@@ -609,22 +609,22 @@ class GumpEngine:
                                 message='Failed to publish license [' + licensePath + '] to repository : ' + str(details)
                                 project.addError(message)
                                 log.error(message)                     
-                    else:
-                        project.addWarning('No license on project with outputs.')                                        
+                    elif project.isRedistributable():
+                        project.addWarning('No license on redistributable project with outputs.')                                        
                                     
                 if outputsOk: 
-                    # Publish them all (if distributable)
-                    # :TODO: check for distributable...
-                    for jar in project.getJars():
-                        # :TODO: Relative to module source?
-                        jarPath=os.path.abspath(jar.getPath())
-                        # Copy to repository
-                        try:
-                            repository.publish( project.getModule().getName(), jarPath )           
-                        except Exception, details:
-                            message='Failed to publish [' + jarPath + '] to repository : ' + str(details)
-                            project.addError(message)
-                            log.error(message)
+                    # Publish them all (if redistributable)
+                    if project.isRedistributable():
+                        for jar in project.getJars():
+                            # :TODO: Relative to module source?
+                            jarPath=os.path.abspath(jar.getPath())
+                            # Copy to repository
+                            try:
+                                repository.publish( project.getModule().getName(), jarPath )           
+                            except Exception, details:
+                                message='Failed to publish [' + jarPath + '] to repository : ' + str(details)
+                                project.addError(message)
+                                log.error(message)
                         
                     project.changeState(STATE_SUCCESS)
                     

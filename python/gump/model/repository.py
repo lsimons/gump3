@@ -95,7 +95,9 @@ class Repository(NamedModelObject, Statable):
     def hasCvsWeb(self): 
         return hasattr(self.xml,'cvsweb') and self.xml.cvsweb
 
-    # :TODO: Redistributable...
+    def isRedistributable(self):
+        # Existence means 'true'
+        return hasattr(self.xml,'redistributable')
         
     def hasUser(self): return hasattr(self,'user')
     def hasPassword(self): return hasattr(self,'password')

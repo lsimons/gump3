@@ -253,6 +253,11 @@ class Project(NamedModelObject, Statable, Resultable, Dependable):
         
     def getJarAt(self,index):
         return self.jars.values()[index]
+                
+    def isRedistributable(self):
+        # Existence means 'true'
+        return hasattr(self.xml,'redistributable') \
+            or (self.module and self.module.isRedistributable())
         
     def hasReports(self):
         if self.reports: return 1
@@ -332,18 +337,23 @@ class Project(NamedModelObject, Statable, Resultable, Dependable):
         # Import any <ant part [if not packaged]
         if self.xml.ant and not packaged:
             self.ant = Ant(self.xml.ant,self)
+            
+            # Copy over any XML errors/warnings
+            transferAnnotations(self.xml.ant, self)
         
         # Import any <maven part [if not packaged]
         if self.xml.maven and not packaged:
             self.maven = Maven(self.xml.maven,self)
             
-        # Import any <maven part [if not packaged]
-        if self.xml.maven and not packaged:
-            self.maven = Maven(self.xml.maven,self)
+            # Copy over any XML errors/warnings
+            transferAnnotations(self.xml.maven, self)
             
         # Import any <script part [if not packaged]
         if self.xml.script and not packaged:
             self.script = Script(self.xml.script,self)
+            
+            # Copy over any XML errors/warnings
+            transferAnnotations(self.xml.script, self)
         
         # Set this up to be the base directory of this project,
         # if one is set

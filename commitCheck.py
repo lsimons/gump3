@@ -14,7 +14,7 @@
 #   See the License for the specific language governing permissions and
 #   limitations under the License.
 #
-# $Header: /home/stefano/cvs/gump/Attic/commitCheck.py,v 1.1 2004/04/12 18:57:37 ajack Exp $
+# $Header: /home/stefano/cvs/gump/Attic/commitCheck.py,v 1.2 2004/04/13 15:59:25 ajack Exp $
 
 """
   Used to do Python testing prior to commiting a code change.
@@ -133,7 +133,7 @@ lock.write(`os.getpid()`)
 lock.close()
 
 # Enable a log
-logFile=os.path.abspath('gumpy__check_log.txt')
+logFile=os.path.abspath('gumpy_check_log.txt')
 log=open(logFile,'w',0) # Unbuffered...
 
 result=0
@@ -192,7 +192,6 @@ try:
         for dirpath, dirs, files in os.walk(os.path.abspath(os.path.join(absGumpPython,'gump'))):
             possiblePackages.append(dirpath)
         
-        
         # :TODO: Make dynamic (use os.walk or something)
         for p in possiblePackages:
             if not result:
@@ -210,13 +209,15 @@ try:
         if not result:
             # PyUnit            
             unitExit = runCommand('python gump/test/pyunit.py','*',str(absGumpPython))
-            if unitExit:
+            if unitExit: 
+                log.write('***************** Unit Tests Failed ***************')
                 result=1
             
         if not result:
             # A test run...
             integrationExit = runCommand('gumpy')
-            if integrationExit:
+            if integrationExit:                 
+                log.write('**************** Test Run Failed ***************')
                 result=1           
 
     except KeyboardInterrupt:    
@@ -237,9 +238,10 @@ finally:
     # left around despite this finally.
     os.remove(lockFile)
     
-    if 1 or result:
+    if result:
         logTitle='The Apache Gump log...'
         catFile(sys.stdout, logFile, logTitle)
+        print "Something failed..."
         
 # bye!
 sys.exit(result)

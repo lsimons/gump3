@@ -256,6 +256,10 @@ def getGeneralDifferenceDescription(newerSecs,olderSecs):
     
     return diffString
     
+def getBooleanString(bool):
+    if bool: return 'True'
+    return 'False'
+    
 #
 # Get into ASCII, but make an attempt at coping with
 # non-ASCII

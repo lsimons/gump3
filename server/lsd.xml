@@ -20,4 +20,5 @@
   <title>Leo Simmons (LSD)</title>
   <url>http://lsd.student.utwente.nl/gump</url>
   <site>http://lsd.student.utwente.nl/</site>
+  <note>Primary, server which send notification e-mails.</note>
 </server>
