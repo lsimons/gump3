@@ -1,8 +1,8 @@
 #!/usr/bin/python
 
-# $Header: /home/stefano/cvs/gump/python/gump/utils/Attic/commandLine.py,v 1.3 2003/12/05 00:51:49 ajack Exp $
-# $Revision: 1.3 $
-# $Date: 2003/12/05 00:51:49 $
+# $Header: /home/stefano/cvs/gump/python/gump/utils/Attic/commandLine.py,v 1.4 2003/12/19 00:23:02 dims Exp $
+# $Revision: 1.4 $
+# $Date: 2003/12/19 00:23:02 $
 #
 # ====================================================================
 #
@@ -110,6 +110,20 @@ class CommandLine:
                 print "For suggestions: <gump@jakarta.apache.org/>."
                 sys.exit(0)
       
+        # 
+        # Process global arguments
+        #
+        for arg in argv:
+            if arg in ['-d','--debug']:
+                argv.remove(arg) 
+                log.info('Setting log level to DEBUG')
+                log.setLevel(logging.DEBUG ) 
+            elif arg in ['-v','--verbose']: 
+                argv.remove(arg) 
+                log.info('Setting log level to VERBOSE')
+                # :TODO:
+                log.setLevel(logging.DEBUG )  
+
         if len(argv)>2 and argv[1] in ['-w','--workspace']:
             self.args.append(argv[2])
             del argv[1:3]
@@ -118,12 +132,17 @@ class CommandLine:
             log.info("No workspace defined with -w or -workspace.")
             log.info("Using default workspace: " + default.workspace)
     
+        # Remove the XXX.PY
+        del argv[0] 
+          
         # determine which modules the user desires (wildcards are permitted)
         if requireProject:
-            if len(argv)>1:
-                self.args.append(argv[1] or '*')
-                if self.args[1]=='all': self.args[1]='*'
-                del argv[1:1]
+            if len(argv)>0:
+                for arg in argv:
+                    if arg=='all':
+                        self.args.append('*')
+                    else: 
+                        self.args.append(arg)
             else:
                 banner()
                 print
@@ -131,21 +150,9 @@ class CommandLine:
                 print " Project wildcards are accepted, e.g. \"jakarta-*\"."
                 sys.exit(1)
     
-        # Allow extras...
-        self.args += argv
-  
-        # 
-        # Process global arguments
-        #
         for arg in self.args:
-            if arg in ['-d','--debug']: 
-                log.info('Setting log level to DEBUG')
-                log.setLevel(logging.DEBUG ) 
-            elif arg in ['-v','--verbose']: 
-                log.info('Setting log level to VERBOSE')
-                # :TODO:
-                log.setLevel(logging.DEBUG )  
-    
+            log.info("Arguments:" + arg)
+
     def getArguments(self):
         return self.args
 

@@ -40,8 +40,7 @@ if __name__=='__main__':
     args = handleArgv(sys.argv)
     ws=args[0]
     ps=args[1]
-    quick=args[2]
-    
+
     # get parsed workspace definition
     workspace=WorkspaceLoader().load(ws)
       
@@ -69,7 +68,7 @@ if __name__=='__main__':
     #
     #    Perform this integration run...
     #
-    if not quick:
+    if '*' in args:
         result = engine.buildAll(run)
     else:
         result = engine.buildProjects(run)

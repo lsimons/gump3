@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/forrest.py,v 1.39 2003/12/16 17:13:49 ajack Exp $
-# $Revision: 1.39 $f
-# $Date: 2003/12/16 17:13:49 $
+# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/forrest.py,v 1.40 2003/12/19 00:23:02 dims Exp $
+# $Revision: 1.40 $f
+# $Date: 2003/12/19 00:23:02 $
 #
 # ====================================================================
 #
@@ -162,7 +162,7 @@ class ForrestDocumenter(Documenter):
         forrestTemplate=self.getForrestTemplateDirectory()   
         
         forrestSeed=Cmd('cp','forrest_seed',forrestParentDir)
-        forrestSeed.addParameter('-Rufv')
+        forrestSeed.addParameter('-Rfv')
         forrestSeed.addParameter(forrestTemplate)    
         forrestSeed.addParameter(os.path.abspath(workspace.getBaseDirectory()))    
         forrestSeedResult=execute(forrestSeed)
@@ -173,7 +173,7 @@ class ForrestDocumenter(Documenter):
         forrestSiteTemplate=self.getForrestSiteTemplateDirectory()  
         if os.path.exists(forrestSiteTemplate):
             forrestSiteSeed=Cmd('cp','forrest_site_seed',forrestParentDir)
-            forrestSiteSeed.addParameter('-Rufv')
+            forrestSiteSeed.addParameter('-Rfv')
             forrestSiteSeed.addParameter(forrestSiteTemplate)    
             forrestSiteSeed.addParameter(workspace.getBaseDirectory())  
             forrestSiteSeedResult=execute(forrestSiteSeed)

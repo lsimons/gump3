@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/utils/tools.py,v 1.7 2003/12/06 00:12:54 ajack Exp $
-# $Revision: 1.7 $
-# $Date: 2003/12/06 00:12:54 $
+# $Header: /home/stefano/cvs/gump/python/gump/utils/tools.py,v 1.8 2003/12/19 00:23:02 dims Exp $
+# $Revision: 1.8 $
+# $Date: 2003/12/19 00:23:02 $
 #
 # ====================================================================
 #
@@ -132,7 +132,7 @@ def syncDirectories(noRSync,type,cwddir,tmpdir,sourcedir,destdir,name=None):
     
     if noRSync:
         cmd=Cmd('cp','sync_'+name,cwddir)
-        cmd.addParameter('-Rf')
+        cmd.addParameter('-Rfv')
         cmd.addParameter(sourcedir)
         cmd.addParameter(destdir)
     else:
