@@ -27,7 +27,6 @@
     <option project="junit"/>
     <option project="jaf"/>
     <option project="javamail"/>
-    <option project="xml-security" inherit="runtime"/>
     <work nested="java/build/classes"/>
 
     <home nested="java/build"/>
@@ -41,6 +40,32 @@
          to="axis-dev@xml.apache.org">
       <regexp  subject="Build Failure - Axis"/>
       <regexp pattern="/timed out/" subject="Build timed out - Axis"/>
+    </nag>
+  </project>
+
+  <project name="xml-axis-security">
+    <ant basedir="java" target="secure-tests">
+      <depend name="wsdl4j.jar" project="wsdl4j"/>
+      <depend name="log4j-core.jar" project="jakarta-log4j"/>
+      <depend name="clutil.jar" project="excalibur-cli"/>
+    </ant>
+
+    <depend project="xml-axis" inherit="all"/>
+    <depend project="jsse"/>
+    <depend project="xml-security" inherit="runtime"/>
+    <work nested="java/build/classes"/>
+
+    <home nested="java/build"/>
+    <jar name="lib/axis.jar"/>
+    <jar name="lib/jaxrpc.jar"/>
+    <jar name="lib/saaj.jar"/>
+
+    <javadoc nested="java/build/javadocs"/>
+
+    <nag from="Sam Ruby &lt;rubys@us.ibm.com&gt;"
+         to="axis-dev@xml.apache.org">
+      <regexp  subject="Build Failure - Axis Security"/>
+      <regexp pattern="/timed out/" subject="Build timed out - Axis security"/>
     </nag>
   </project>
 
