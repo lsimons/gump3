@@ -1,3 +1,5 @@
+#!/bin/bash
+
 export XALAN=/opt/xalan-j_2_2_D13
 
 if test "$1" = "-cp"; then
