@@ -1035,18 +1035,62 @@
         <ant basedir="merlin/activation/api" target="jar">
             <property name="project.version" value="@@DATE@@"/>
         </ant>
+
         <depend project="ant" inherit="runtime"/>
         <depend project="junit"/>
         <depend project="xml-xerces"/>
         <depend project="avalon-framework" id="api" />
         <depend project="avalon-meta-api" />
         <depend project="avalon-composition-api" />
+
         <mkdir dir="merlin/activation/api/target/classes"/>
         <work nested="merlin/activation/api/target/classes"/>
         <home nested="merlin/activation/api"/>
         <jar name="target/avalon-activation-api-@@DATE@@.jar"/>
         <javadoc nested="merlin/activation/api/target/docs/apidocs"/>
         <junitreport nested="merlin/composition/api/target/test-reports"/>
+        <nag to="dev@avalon.apache.org" 
+          from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"/>
+    </project>
+
+    <project name="avalon-activation-impl">
+        <package>org.apache.avalon.activation</package>
+        <ant basedir="merlin/activation/impl" target="jar">
+            <property name="project.version" value="@@DATE@@"/>
+        </ant>
+
+        <depend project="ant" inherit="runtime"/>
+        <depend project="junit"/>
+        <depend project="xml-xerces"/>
+        <depend project="avalon-repository-api"/>
+        <depend project="avalon-repository-spi"/>
+        <depend project="avalon-repository-util"/>
+        <depend project="avalon-repository-main"/>
+        <depend project="avalon-logging-api" />
+        <depend project="avalon-logging-spi" />
+        <depend project="avalon-activation-api"/>
+        <depend project="avalon-composition-api" />
+        <depend project="avalon-composition-spi" />
+        <depend project="avalon-composition-impl" />
+        <depend project="avalon-meta-api" />
+        <depend project="avalon-meta-spi" />
+        <depend project="avalon-meta-impl" />
+        <depend project="avalon-util-extension-api" />
+        <depend project="avalon-util-extension-impl" />
+        <depend project="avalon-util-i18n" />
+        <depend project="avalon-framework" id="api" />
+        <depend project="avalon-framework" id="impl" />
+        <depend project="excalibur-lifecycle-api" runtime="true"/>
+        <depend project="excalibur-configuration" runtime="true"/>
+
+        <mkdir dir="merlin/activation/impl/target/classes"/>
+        <work nested="merlin/activation/impl/target/classes"/>
+        <mkdir dir="merlin/activation/impl/target/test-classes"/>
+        <work nested="merlin/activation/impl/target/test-classes"/>
+        <home nested="merlin/activation/impl"/>
+        <jar name="target/avalon-activation-impl-@@DATE@@.jar"/>
+        <javadoc nested="merlin/activation/impl/target/docs/apidocs"/>
+        <junitreport nested="merlin/composition/impl/target/test-reports"/>
         <nag to="dev@avalon.apache.org" 
           from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"/>
     </project>
