@@ -193,11 +193,11 @@ Regex: /BUILD FAILED/
 Project: scarab
 To: dev@scarab.tigris.org
 From: Jon Stevens <jon@latchkey.com>
-Subject: [GUMP] Build Failure
+Subject: [GUMP] Build Failure - Scarab
 Regex: /BUILD FAILED/
-Subject: [GUMP] Prereq Failure
+Subject: [GUMP] Prereq Failure - Scarab
 Regex: /^$/
-Subject: [GUMP] Build Log
+Subject: [GUMP] Build Log - Scarab
 Regex: /.*/
 -------
 Project: xml-axis
