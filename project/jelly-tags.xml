@@ -350,7 +350,7 @@
 
     <depend project="commons-jelly" inherit="all"/>
 
-    <depend project="commons-httpclient"/>
+    <depend project="commons-httpclient" inherit="runtime"/>
     <depend project="jetty4"/>
     <depend project="commons-jelly-tags-http"/>
 
