@@ -8,9 +8,8 @@
   <project name="jmx">
     <package>javax.management</package>
 
-    <jar name="jmx/lib/jmxgrinder.jar"/>
-    <jar name="jmx/lib/jmxri.jar" id="jmxri"/>
-    <jar name="jmx/lib/jmxtools.jar" id="jmxtools"/>
+    <jar name="lib/jmxri.jar" id="jmxri"/>
+    <jar name="lib/jmxtools.jar" id="jmxtools"/>
   </project>
 
 </module>
