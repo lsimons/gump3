@@ -12,7 +12,9 @@
   <project name="webwork">
     <package>webwork</package>
 
-    <ant basedir="src/build" />
+    <ant basedir="src/build">
+      <property name="lib.dir" reference="home" project="javacc"/>
+    </ant>
     <depend project="ant" inherit="runtime"/>
     <depend project="xml-xerces"/>
     <depend project="javacc"/>

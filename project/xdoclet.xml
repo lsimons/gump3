@@ -15,6 +15,7 @@
     <ant basedir="core" target="compile">
       <property name="ant.home" project="ant" reference="home"/>
       <property name="version" value="@@DATE@@"/>
+      <property name="lib.dir" reference="home" project="javacc"/>
     </ant>
 
     <depend project="ant" runtime="true"/>
@@ -196,6 +197,7 @@
 
     <ant target="samples">
       <property name="ant.home" project="ant" reference="home"/>
+      <property name="lib.dir" reference="home" project="javacc"/>
     </ant>
     <depend project="xdoclet" inherit="all"/>
     <depend project="javacc"/>

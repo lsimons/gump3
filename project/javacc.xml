@@ -1,13 +1,13 @@
 <module name="javacc">
 
-  <url href="http://www.webgain.com/products/java_cc/"/>
+  <url href="http://www.experimentalstuff.com/Technologies/JavaCC/index.html"/>
   <description>
     Java Compiler Compiler - The Java Parser Generator
   </description>
   
   <project name="javacc">
-    <package>COM.sun.labs.javacc</package>
-    <jar name="bin/lib/JavaCC.zip"/>
+    <package>org.netbeans.javacc</package>
+    <jar name="bin/lib/javacc.jar"/>
   </project>
 
 </module>
