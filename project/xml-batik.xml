@@ -1,9 +1,5 @@
 <project name="xml-batik">
 
-  <note>
-     Crimson dependencies should be replaced with JAXP calls
-  </note>
-
   <url href="http://xml.apache.org/batik/index.html"/>
   <description>
     Scalable Vector Graphics
