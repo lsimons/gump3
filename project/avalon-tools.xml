@@ -22,7 +22,7 @@
 
   <svn href="https://svn.apache.org/repos/asf/avalon/trunk"/>
 
-  <project name="avalon-tools-magic">
+  <project name="avalon-tools-magic-bootstrap">
     <license name="central/system/license/LICENSE.TXT"/>
     <ant basedir="tools/magic" buildfile=bootstrap.xml" target="gump">
       <property name="gump.signature" value="@@DATE@@"/>
