@@ -66,6 +66,8 @@ import os
 import sys
 import logging
 import signal
+
+from threading import Timer
     
 from string import split
 
@@ -286,14 +288,7 @@ def killChildProcesses():
     log.warn('Kill all child processed (anything launched by Gumpy) [PID' + str(pid) + ']')    
     command='pkill -KILL -P ' + str(pid)
     exitcode=os.system(command)
-    log.warn('Command: [' + command + '] exited with [' + str(exitcode) + ']')
-    
-#
-# Kill the children 
-#
-def timeoutHandler(signum, frame):
-    log.info('Timeout Handler Called [Signal : ' + str(signum) + ']')
-    killChildProcesses()
+    log.warn('Command: [' + command + '] exited with [' + str(exitcode) + ']')    
     
 def execute(cmd,tmp=dir.tmp):
     res=CmdResult(cmd)
@@ -363,16 +358,17 @@ def executeIntoResult(cmd,result,tmp=dir.tmp):
         log.info('Executing: ' + execString + ' (Output to ' + str(outputFile) + ')')
     
         # Set the signal handler and an N-second alarm
-        if not os.name == 'dos' and not os.name == 'nt':
-            signal.signal(signal.SIGALRM, timeoutHandler)
-            timeout=cmd.timeout or setting.timeout
-            signal.alarm(timeout)
+        timeout=cmd.timeout or setting.timeout
+        timer = Timer(timeout, killChildProcesses)
+        timer.start()
 
         # Execute Command & Wait
         result.exit_code=os.system(execString + ' >>' + str(outputFile) + ' 2>&1')
+        
+        log.info('Executed. ExitCode: ' + str(result.exit_code))
     
-        if not os.name == 'dos' and not os.name == 'nt':
-            signal.alarm(0)          # Disable the alarm
+        # Stop it (if still running)
+        timer.cancel()              
 
         # Process Outputs (exit_code and stderr/stdout)
         if result.exit_code < 0:

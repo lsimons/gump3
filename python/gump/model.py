@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/Attic/model.py,v 1.35 2003/10/20 14:20:09 ajack Exp $
-# $Revision: 1.35 $
-# $Date: 2003/10/20 14:20:09 $
+# $Header: /home/stefano/cvs/gump/python/gump/Attic/model.py,v 1.36 2003/10/20 16:37:17 ajack Exp $
+# $Revision: 1.36 $
+# $Date: 2003/10/20 16:37:17 $
 #
 # ====================================================================
 #
@@ -404,10 +404,10 @@ class Ant(GumpModelObject):
       property['reference']='jarpath'
       
       # Name the property...
-      name=depend.property
-      if name:
+      if depend.property:
         property['name']=depend.property
-      else:
+      elif not hasattr(property,'name'):
+        # :TODO: Reconsider later, but default to project name for now...
         property['name']=depend.project
         log.warn('Unnamed property in depend for: ' + depend.project + ' on ' + project.name)
         
