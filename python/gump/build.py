@@ -1,8 +1,8 @@
 #!/usr/bin/python
 
-# $Header: /home/stefano/cvs/gump/python/gump/build.py,v 1.20 2003/10/07 19:26:58 ajack Exp $
-# $Revision: 1.20 $
-# $Date: 2003/10/07 19:26:58 $
+# $Header: /home/stefano/cvs/gump/python/gump/build.py,v 1.21 2003/10/07 21:59:25 ajack Exp $
+# $Revision: 1.21 $
+# $Date: 2003/10/07 21:59:25 $
 #
 # ====================================================================
 #
@@ -73,7 +73,9 @@ import logging
 
 from gump import log, load
 from gump.context import *
-from gump.logic import getBuildSequenceForProjects, getBuildCommand, getProjectsForProjectExpression, getModulesForProjectList
+from gump.logic import getBuildSequenceForProjects, getBuildCommand, \
+        getProjectsForProjectExpression, getModulesForProjectList, \
+        hasOutputs
 from gump.repository import JarRepository
 from gump.conf import dir, default, handleArgv
 from gump.model import Workspace, Module, Project
@@ -202,22 +204,32 @@ def buildProjects( workspace, sequence, context=GumpContext() ):
             if not cmdResult.status==CMD_STATUS_SUCCESS:
                 pctxt.propagateErrorState(STATUS_FAILED,REASON_BUILD_FAILED)
             else:
-                outputsOk=1
-                for i in range(0,len(project.jar)):
-                    jar=os.path.normpath(project.jar[i].path)
-                    if jar:
-                        if not os.path.exists(jar):
-                            pctxt.propagateErrorState(STATUS_FAILED,REASON_MISSING_OUTPUTS)
-                            outputsOk=0
-                            pctxt.addError("Missing Output: " + str(jar))
-                        else:
+                if hasOutputs(project,pctxt):
+                    outputsOk=1
+                    for i in range(0,len(project.jar)):
+                        jar=os.path.normpath(project.jar[i].path)
+                        if jar:
+                            if not os.path.exists(jar):
+                                pctxt.propagateErrorState(STATUS_FAILED,REASON_MISSING_OUTPUTS)
+                                outputsOk=0
+                                pctxt.addError("Missing Output: " + str(jar))
+                            
+                    if outputsOk: 
+                        for i in range(0,len(project.jar)):
+                            jar=os.path.normpath(project.jar[i].path)
                             # Copy to repository
                             repository.publish( module.name, jar )
-                            
-                if outputsOk: 
+                
+                        pctxt.status=STATUS_SUCCESS  
+                    
+                        # For 'fun' list repository
+                        listDirectoryAsWork(pctxt,repository.getGroupDir(module.name), \
+                                                'list_repo_'+project.name) 
+                    
+                    elif project.home:
+                        listDirectoryAsWork(pctxt,project.home,'list_'+project.name)                          
+                else:
                     pctxt.status=STATUS_SUCCESS  
-                elif project.home:
-                    listDirectoryAsWork(pctxt,project.home,'list_'+project.name)      
 
 # static void main()
 if __name__=='__main__':

@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/update.py,v 1.14 2003/09/29 23:10:12 ajack Exp $
-# $Revision: 1.14 $
-# $Date: 2003/09/29 23:10:12 $
+# $Header: /home/stefano/cvs/gump/python/gump/update.py,v 1.15 2003/10/07 21:59:25 ajack Exp $
+# $Revision: 1.15 $
+# $Date: 2003/10/07 21:59:25 $
 #
 # ====================================================================
 #
@@ -106,17 +106,22 @@ def readLogins():
   # read the list of cvs repositories that the user is already logged into
   logins={}
   cvspassfile=os.path.expanduser(os.path.join('~','.cvspass'))
+  # print 'CVS Password File : ' + cvspassfile
   try:
     cvspass=open(cvspassfile)
     for line in cvspass.readlines():
         clean=line.strip()
         parts=clean.split(' ')
-        root=parts[0]
-        mangle=parts[1]
+      
         # Cope with new format .cvspass 
-        if len(parts) > 2:
-            root=parts[1]
-            mangle=parts[2] 
+        rootPart=0
+        if '/1' == parts[0]:
+            rootPart=1
+        root=parts[rootPart]
+        
+        # Cope w/ spaces in mangles
+        mangle=' '.join(parts[rootPart+1:])
+        
         # Stash this mangle for this root               
         logins[root]=mangle
     cvspass.close()
@@ -135,8 +140,9 @@ def loginToRepositoryOnDemand(repository,root,logins):
             # Open with append...
             try:
                 cvspassfile=os.path.expanduser(os.path.join('~','.cvspass'),'a')
-                cvspassfile.write('/1 '+root+' '+newpass+'\n')
-                cvspassfile.close()
+                cvspass=open(cvspassfile,'a')
+                cvspass.write('/1 '+root+' '+newpass+'\n')
+                cvspass.close()
             except Exception, detail:
                 log.error('Failed to append to ~/.cvspass. Details: ' + str(detail))
                 
@@ -245,7 +251,7 @@ if __name__=='__main__':
   logins=readLogins()
   
   dump(logins)
-  
+          
   # update(workspace, ps, context)
   
   # dump(context)
