@@ -89,11 +89,6 @@ test -n "$FAIL" || \
 java org.apache.xalan.xslt.Process -EDUMP -text -in work/buildsite.xml -xsl stylesheet/bash.xsl -out work/build.sh -PARAM cmd-prefix "$CP" -PARAM os-type "$OSTYPE" || \
 export FAIL=1
 
-#echo Generating Myrmidon build script
-#test -n "$FAIL" || \
-#java org.apache.xalan.xslt.Process -EDUMP -text -in work/buildsite.xml -xsl stylesheet/bash.xsl -out work/myrmidon-build.sh -PARAM cmd-prefix "$CP" -PARAM os-type "$OSTYPE" -PARAM ant-cmd "org.apache.myrmidon.launcher.Main" || \
-#export FAIL=1
-
 # ********************************************************************
 
 echo Generate crossreference data
