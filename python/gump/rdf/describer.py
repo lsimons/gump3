@@ -164,12 +164,15 @@ class RDFDescriber(AbstractRunActor):
                         Literal(project.getName()),
                         'Named')
         
-        #  With a repository...
-        self.addTriple( store,
-                        pSubject, 
-                        RDFDescriber.GUMP_NS["residesWithin"], 
-                        self.createURIRef(project.getModule().getRepository()),
-                        'Resides within')            
+        #  Within a repository...
+        
+        # :TODO: Why can this return None?
+        if project.getModule().hasRepository():
+            self.addTriple( store,
+                            pSubject, 
+                            RDFDescriber.GUMP_NS["residesWithin"], 
+                            self.createURIRef(project.getModule().getRepository()),
+                            'Resides within')            
                             
         # Describe dependencies...
         for dependency in project.getDirectDependencies():
