@@ -73,6 +73,7 @@
 
   <!-- other -->
 
+  <module href="project/bcel.xml"/>
   <module href="project/bsf.xml"/>
   <module href="project/cruisecontrol.xml"/>
   <module href="project/dom4j.xml"/>

@@ -81,12 +81,6 @@
     <work nested="test/java/build"/>
   </project>
 
-  <project name="bcel">
-    <url href="http://bcel.sourceforge.net/"/>
-    <home nested="java"/>
-    <jar name="bin/BCEL.jar"/>
-  </project>
-
   <project name="java_cup">
     <url href="http://www.cs.princeton.edu/~appel/modern/java/CUP/"/>
     <home nested="java"/>

@@ -18,7 +18,7 @@
     <depend project="jakarta-servletapi"/>
     <depend project="jdom"/>
     <depend project="werken.xpath"/>
-    <depend project="javaclass"/>
+    <depend project="bcel"/>
     <depend project="junit"/>
     <depend project="jakarta-log4j"/>
     <depend project="commons-collections"/>
@@ -53,16 +53,6 @@
   <project name="werken.xpath">
     <url href="http://code.werken.com/"/>
     <jar name="build/lib/werken.xpath.jar"/>
-  </project>
-
-  <!-- not buildable using Ant -->
-
-  <project name="javaclass">
-    <url href="http://www.inf.fu-berlin.de/~dahm/JavaClass/"/>
-    <description>
-      Byte Code Engineering Library
-    </description>
-    <jar name="build/lib/JavaClass.jar"/>
   </project>
 
 </module>
