@@ -14,6 +14,7 @@
     <depend project="jakarta-ant" inherit="runtime"/>
     <depend project="xml-xerces"/>
     <depend project="jdbc"/>
+    <depend project="jta"/>
     <depend project="commons-collections" />
     <depend project="commons-dbcp" />
     <depend project="commons-logging" />
