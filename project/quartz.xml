@@ -10,7 +10,10 @@
   <project name="quartz">
     <package>org.quartz</package>
 
-    <ant/>
+    <ant>
+      <property name="version" value="@@DATE@@"/>
+    </ant>
+
     <depend project="jakarta-ant" inherit="runtime"/>
     <depend project="xml-xerces"/>
     <depend project="jdbc"/>
@@ -21,7 +24,7 @@
     <depend project="commons-pool" />
     <depend project="jakarta-log4j"/>
     <depend project="jakarta-servletapi-5-servlet"/>
-    <jar name="lib/quartz.jar"/>
+    <jar name="lib/quartz-@@DATE@@.jar"/>
   </project>
 
 </module>
