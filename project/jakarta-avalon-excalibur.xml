@@ -778,6 +778,13 @@
         <depend project="jakarta-log4j"/>
         <depend project="xml-xerces"/>
         <depend project="xml-xalan2"/>
+
+        <option project="jdbc" runtime="true"/>
+        <option project="jms" runtime="true"/>
+        <option project="javamail" runtime="true"/>
+        <option project="jaf" runtime="true"/>
+	<option project="jakarta-servletapi-4" runtime="true"/>
+
         <work nested="logger/build/classes"/>
 
         <home nested="logger"/>
