@@ -335,6 +335,8 @@
         <package>org.apache.excalibur.converter</package>
 
         <ant basedir="converter">
+            <property name="jakarta-site.dir" project="jakarta-site2" 
+                    reference="srcdir" />
             <property name="version" value="@@DATE@@"/>
             <property name="junit.failonerror" value="true"/>
             <property name="do.checkstyle" value="true"/>
