@@ -24,12 +24,18 @@
     <depend project="openorb"/>
     <depend project="junit"/>
     <depend project="castor"/>
-    <depend project="jts"/>
+    <depend project="ots-jts"/>
     <work nested="build/openejb/classes"/>
   </project>
 
   <project name="opentools.minerva">
     <jar name="lib/minerva.jar"/>
+  </project>
+
+  <project name="ots-jts">
+    <url href="http://java.sun.com/products/jts/"/>
+    <!-- jts 1.0, actually compiled, and with portable stubs generated -->
+    <jar name="lib/ots-jts_1.0.jar"/>
   </project>
 
   <project name="opentools.jedi">
