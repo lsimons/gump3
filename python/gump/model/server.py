@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/model/server.py,v 1.5 2004/02/10 20:53:39 ajack Exp $
-# $Revision: 1.5 $
-# $Date: 2004/02/10 20:53:39 $
+# $Header: /home/stefano/cvs/gump/python/gump/model/server.py,v 1.6 2004/02/10 21:00:20 ajack Exp $
+# $Revision: 1.6 $
+# $Date: 2004/02/10 21:00:20 $
 #
 # ====================================================================
 #
@@ -64,6 +64,8 @@
 
 from gump.model.state import *
 from gump.model.stats import *
+
+from gump.document.resolver import *
 
 from gump.model.object import NamedModelObject
 
