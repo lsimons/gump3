@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/forrest.py,v 1.108 2004/03/16 19:50:15 ajack Exp $
-# $Revision: 1.108 $f
-# $Date: 2004/03/16 19:50:15 $
+# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/forrest.py,v 1.109 2004/03/17 20:55:22 ajack Exp $
+# $Revision: 1.109 $f
+# $Date: 2004/03/17 20:55:22 $
 #
 # ====================================================================
 #
@@ -571,7 +571,7 @@ The count of affected indicates relative importance of fixing this project.""")
             self.resolver.getFile(workspace,'project_fixes'))        
         self.documentSummary(document, workspace.getProjectSummary())
         
-        projectsSection=document.createSection('Projects with fixes...')
+        projectsSection=document.createSection('Projects recently fixed...')
         projectsSection.createParagraph("""These are the projects that were 'fixed' (state changed to success) within %s runs.
 This page helps Gumpmeisters (and others) observe community progress.
         """ % INSIGNIFICANT_DURATION)      
@@ -596,8 +596,6 @@ This page helps Gumpmeisters (and others) observe community progress.
             projectRow.createComment(project.getName())
                                     
             self.insertLink(project,workspace,projectRow.createData())   
-                        
-            projectRow.createData(affected)
             
             projectRow.createData( project.getFullDependeeCount())
             
@@ -682,7 +680,7 @@ The count of affected indicates relative importance of fixing this module.""")
                     self.resolver.getFile(workspace,'module_fixes'),)            
         self.documentSummary(document, workspace.getProjectSummary())
         
-        modulesSection=document.createSection('Modules with fixes')           
+        modulesSection=document.createSection('Modules recently fixed')           
         modulesSection.createParagraph("""These are the modules that were 'fixed' (state changed to success), or contained projects that were fixed, within %s runs.
 This page helps Gumpmeisters (and others) observe community progress.
         """ % INSIGNIFICANT_DURATION)      
