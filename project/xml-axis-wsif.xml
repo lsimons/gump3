@@ -1,6 +1,6 @@
 <module name="xml-axis-wsif">
 
-  <url href="http://xml.apache.org/axis/"/>
+  <url href="http://ws.apache.org/wsif/"/>
   <description>
     Web Services Invocation Framework
   </description>
