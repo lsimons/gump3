@@ -391,6 +391,33 @@ class GumpEngine:
         ******************************************************************
     
     """
+    def build(self,run,all=1):
+            
+        #
+        # Load the statistics (so we can use them during
+        # other operations).
+        #
+        #logResourceUtilization('Before load statistics')
+        #self.loadStatistics(run)        
+          
+        #
+        # Run the build commands
+        #
+        logResourceUtilization('Before build')
+        if all:
+            self.buildAll(run)
+        else:
+            self.buildProjects(run)
+  
+        # Return an exit code based off success
+        # :TODO: Move onto run
+        if run.getWorkspace().isSuccess():
+            result = SUCCESS 
+        else: 
+            result = FAILED
+        
+        return result
+        
     
     def buildAll(self,run):
         """ Build a GumpRun's Full Project Stack """
@@ -426,28 +453,31 @@ class GumpEngine:
         
             
             # Extract stats (in case we want to do conditional processing)            
-            stats=project.getStats()
+            stats=None
+            if project.hasStats():
+                stats=project.getStats()
             
             if project.isPackaged():             
-                self.performPackageProcessing( run, project, stats)
+                self.performPackageProcessing(run, project, stats)
                 continue
                 
             # Do this even if not ok
-            self.performPreBuild( run, project, stats )
+            self.performPreBuild(run, project, stats)
 
             wasBuilt=0
             if project.okToPerformWork():        
                 log.debug(' ------ Building: [' + `projectNo` + '] ' + project.getName())
 
                 # Turn on --verbose or --debug if failing ...
-                if (not STATE_SUCCESS == stats.currentState) and \
-                        not project.isVerboseOrDebug():
-                    if stats.sequenceInState > 5:
-                        project.addInfo('Enable "debug" output, due to error.')
-                        project.setDebug(1)
-                    else:
-                        project.addInfo('Enable "verbose" output, due to error.')    
-                        project.setVerbose(1)
+                if stats:
+                    if (not STATE_SUCCESS == stats.currentState) and \
+                            not project.isVerboseOrDebug():
+                        if stats.sequenceInState > 5:
+                            project.addInfo('Enable "debug" output, due to error.')
+                            project.setDebug(1)
+                        else:
+                            project.addInfo('Enable "verbose" output, due to error.')    
+                            project.setVerbose(1)
 
                 #
                 # Get the appropriate build command...

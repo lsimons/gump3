@@ -65,11 +65,8 @@ if __name__=='__main__':
     #
     #    Perform this integration run...
     #
-    if '*' in args:
-        result = engine.buildAll(run)
-    else:
-        result = engine.buildProjects(run)
-
+    result = engine.build(run, '*' in args)
+    
     #
     log.info('Gump Build complete. Exit code:' + str(result))
           
