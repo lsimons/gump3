@@ -24,9 +24,9 @@
         <work nested="build/test-classes"/>
         <work nested="build/scratchpad-test-classes"/>
         <home nested="build/dist"/>
-        <jar name="poi-1.10.0-dev-@@DATE@@.jar"/>
-        <jar name="poi-contrib-1.10.0-dev-@@DATE@@.jar"/>
-        <jar name="poi-scratchpad-1.10.0-dev-@@DATE@@.jar"/>
+        <jar name="poi-2.00.0-pre-@@DATE@@.jar"/>
+        <jar name="poi-contrib-2.00.0-pre-@@DATE@@.jar"/>
+        <jar name="poi-scratchpad-2.00.0-pre-@@DATE@@.jar"/>
         <javadoc module="jakarta-poi" nested="build/tmp/site/build/site/apidocs"/>
 
         <nag to="poi-dev@jakarta.apache.org"
