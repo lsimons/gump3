@@ -23,6 +23,7 @@
     <depend project="jmx"/>
     <depend project="bsf"/>
     <depend project="rhino"/>
+    <option project="jakarta-servletapi-4"/>
     <home nested="build/lib"/>
     <jar name="phoenix-client.jar"/>
   </project>
