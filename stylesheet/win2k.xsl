@@ -35,11 +35,7 @@
   <xsl:template match="build//project">
     <xsl:choose>
       <xsl:when test="@name='clean'">
-        <xsl:text>&#10;if "%1"=="all" goto end_clean&#10;</xsl:text>
-      </xsl:when>
-
-      <xsl:when test="@name='sync'">
-        <xsl:text>&#10;echo Synchronizing&#10;</xsl:text>
+        <xsl:text>&#10;echo Restoring build directories&#10;</xsl:text>
       </xsl:when>
 
       <xsl:otherwise>

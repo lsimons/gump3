@@ -28,7 +28,7 @@
 
     <xsl:text>all)&#10;</xsl:text>
     <xsl:text>  export all=1&#10;</xsl:text>
-    <xsl:for-each select=".//project[not(@name='clean')] | .//module">
+    <xsl:for-each select=".//project | .//module">
       <xsl:text>  export </xsl:text>
       <xsl:value-of select="translate(@name,'-.','__')"/>
       <xsl:text>=1&#10;</xsl:text>
@@ -79,12 +79,7 @@
   <xsl:template match="build//project">
     <xsl:choose>
       <xsl:when test="@name='clean'">
-        <xsl:text>fi&#10;</xsl:text>
-        <xsl:text>&#10;if test $all; then&#10;</xsl:text>
-      </xsl:when>
-
-      <xsl:when test="@name='sync'">
-        <xsl:text>echo Synchronizing&#10;</xsl:text>
+        <xsl:text>echo Restoring build directories&#10;</xsl:text>
       </xsl:when>
 
       <xsl:otherwise>
