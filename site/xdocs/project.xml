@@ -43,6 +43,21 @@
         <td>Override the <a href="ant.html">ant</a> target to be used.</td>
         <td>No</td>
       </tr>
+      <tr>
+        <td>buildfile</td>
+        <td>Override the <a href="ant.html">ant</a> build file to be used.</td>
+        <td>No</td>
+      </tr>
+      <tr>
+        <td>basedir</td>
+        <td>Override the base directory used for the ant build file.</td>
+        <td>No</td>
+      </tr>
+      <tr>
+        <td>vm</td>
+        <td>Override the Java Virtual Machine version expected to be used.</td>
+        <td>No</td>
+      </tr>
     </table>
 
     <p/>
