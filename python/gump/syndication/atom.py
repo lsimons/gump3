@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/syndication/atom.py,v 1.15 2004/05/05 15:08:53 ajack Exp $
-# $Revision: 1.15 $
-# $Date: 2004/05/05 15:08:53 $
+# $Header: /home/stefano/cvs/gump/python/gump/syndication/atom.py,v 1.16 2004/05/05 23:15:32 ajack Exp $
+# $Revision: 1.16 $
+# $Date: 2004/05/05 23:15:32 $
 #
 # ====================================================================
 #
@@ -185,6 +185,8 @@ class AtomSyndicator(Syndicator):
                     
         # build information 
         for module in self.workspace.getModules():
+            if not self.run.getGumpSet().inModuleSequence(module): continue               
+            
             self.syndicateModule(module,self.feed)
             
         self.feed.serialize()
@@ -228,6 +230,8 @@ class AtomSyndicator(Syndicator):
             
         # Syndicate each project
         for project in module.getProjects():  
+            if not self.run.getGumpSet().inProjectSequence(project): continue               
+            
             self.syndicateProject(project,moduleFeed,mainFeed)      
                   
         moduleFeed.serialize()        

@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/syndication/rss.py,v 1.22 2004/05/05 13:58:24 ajack Exp $
-# $Revision: 1.22 $
-# $Date: 2004/05/05 13:58:24 $
+# $Header: /home/stefano/cvs/gump/python/gump/syndication/rss.py,v 1.23 2004/05/05 23:15:32 ajack Exp $
+# $Revision: 1.23 $
+# $Date: 2004/05/05 23:15:32 $
 #
 # ====================================================================
 #
@@ -285,6 +285,8 @@ class RSSSyndicator(Syndicator):
         
         # build information 
         for module in self.workspace.getModules():
+            if not self.run.getGumpSet().inModuleSequence(module): continue               
+            
             self.syndicateModule(module,self.rss)
             
         self.rss.serialize()
@@ -329,6 +331,8 @@ class RSSSyndicator(Syndicator):
             mainRSS.addItem(item)
             
         for project in module.getProjects():  
+            if not self.run.getGumpSet().inProjectSequence(project): continue               
+            
             self.syndicateProject(project,moduleRSS,mainRSS)      
                   
         moduleRSS.serialize()        

@@ -1760,7 +1760,7 @@ This page helps Gumpmeisters (and others) observe community progress.
                 pathStr=path
                 contributor=referencingObject.getWorkspace()
                 instigator=None
-                id=None
+                id=''
                 note=''
             
             pathRow=pathTable.createRow()
@@ -2159,27 +2159,46 @@ This page helps Gumpmeisters (and others) observe community progress.
             outputSection=wdocument.createSection('Output')
             outputSource=outputSection.createSource()
             output=work.result.output
-            if output:
+            if output:                
                 try:
-                    o=None
-                    try:
-                        # Keep a length count to not exceed 32K
-                        size=0
-                        o=open(output, 'r')
-                        line=o.readline()
-                        while line:
-                            length = len(line)
-                            size += length
-                            # Crude to 'ensure' that escaped
-                            # it doesn't exceed 32K.
-                            if size > 20000:
-                                outputSection.createParagraph('Continuation...')
-                                outputSource=outputSection.createSource()
-                                size = length
-                            outputSource.createText(line)
+                    if os.path.getsize(output) > 100000:
+                        #
+                        # This is *big* just copy/point to it
+                        #
+                        from shutil import copyfile
+                        # Extract name, to make relative to group
+                        outputBaseName=os.path.basename(output)
+                        (outputName,outputExtn)=os.path.splitext(outputBaseName)
+                        displayedOutput=self.resolver.getFile(work, outputName, oututExtn, 0)
+                        
+                        # Do the transfer..
+                        copyfile(output,displayedOutput)                        
+                        outputSource.createLink(outputBaseName)
+                        
+                    else:
+                        #
+                        # Display it 'prettily' in HTML
+                        #
+                        o=None
+                        try:
+                            # Keep a length count to not exceed 32K
+                            size=0
+                            o=open(output, 'r')
                             line=o.readline()
-                    finally:
-                        if o: o.close()
+                            while line:
+                                length = len(line)
+                                size += length
+                                # Crude to 'ensure' that escaped
+                                # it doesn't exceed 32K.
+                                if size > 20000:
+                                    outputSection.createParagraph('Continuation...')
+                                    outputSource=outputSection.createSource()
+                                    size = length
+                                outputSource.createText(line)
+                                line=o.readline()
+                        finally:
+                            if o: o.close()
+                            
                 except Exception, details:
                     outputSource.createText('Failed to copy contents from :' + output + ' : ' + str(details))
             else:
@@ -2250,6 +2269,7 @@ This page helps Gumpmeisters (and others) observe community progress.
                         listingRow.createData('File')    
                         listingRow.createData(str(os.path.getsize(filePath)))                                                
             else:    
+                    
                 #
                 # Show the content...
                 #
@@ -2257,29 +2277,40 @@ This page helps Gumpmeisters (and others) observe community progress.
                 outputSource=outputSection.createSource()
                 output=fileReference.getPath()
                 if output:
-                    try:
-                        o=None
-                        try:
-                            # Keep a length count to not exceed 32K
-                            size=0
-                            o=open(output, 'r')
-                            line=o.readline()
-                            while line:
-                            
-                                line=wrapLine(line,100,'...\n','    ')
-                            
-                                length = len(line)
-                                size += length
-                                # Crude to 'ensure' that escaped
-                                # it doesn't exceed 32K.
-                                if size > 20000:
-                                    outputSection.createParagraph('Continuation...')
-                                    outputSource=outputSection.createSource()
-                                    size = length
-                                outputSource.createText(line)
+                    try:            
+                        if os.path.getsize(output) > 100000:
+                            #
+                            # This is *big* just copy/point to it
+                            #
+                            from shutil import copyfile
+                            # Extract name, to make relative to group
+                            outputBaseName=os.path.basename(output)
+                            (outputName,outputExtn)=os.path.splitext(outputBaseName)
+                            displayedOutput=self.resolver.getFile(fileReference, outputName, oututExtn, 0)
+                        
+                            # Do the transfer..
+                            copyfile(output,displayedOutput)                        
+                            outputSource.createLink(outputBaseName)
+                        else:
+                            o=None
+                            try:
+                                # Keep a length count to not exceed 32K
+                                size=0
+                                o=open(output, 'r')
                                 line=o.readline()
-                        finally:
-                            if o: o.close()
+                                while line:
+                                    length = len(line)
+                                    size += length
+                                    # Crude to 'ensure' that escaped
+                                    # it doesn't exceed 32K.
+                                    if size > 20000:
+                                        outputSection.createParagraph('Continuation...')
+                                        outputSource=outputSection.createSource()
+                                        size = length
+                                    outputSource.createText(line)
+                                    line=o.readline()
+                            finally:
+                                if o: o.close()
                     except Exception, details:
                         outputSource.createText('Failed to copy contents from :' + output + ' : ' + str(details))
                 else:
