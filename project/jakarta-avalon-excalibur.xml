@@ -6,7 +6,7 @@
     </description>
 
     <cvs repository="jakarta"/>
-    <!--
+
     <project name="jakarta-avalon-excalibur">
         <package>org.apache.avalon.excalibur</package>
 
@@ -72,7 +72,6 @@
         <nag from="Peter Donald &lt;peter@apache.org&gt;"
             to="avalon-dev@jakarta.apache.org"/>
     </project>
-    -->
 
     <project name="excalibur-altrmi">
         <package>org.apache.excalibur.altrmi</package>
