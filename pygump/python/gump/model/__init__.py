@@ -52,6 +52,7 @@ class Workspace(ModelObject):
     def add_repository(self, repository):
         assert isinstance(repository, Repository)
         assert not self.repositories.has_key(repository.name)
+        assert self == repository.workspace
         
         self.repositories[repository.name] = repository
 
@@ -87,10 +88,12 @@ class Repository(ModelObject):
         self.redistributable = redistributable
 
         self.modules={}
-        
-        workspace.add_repository(self)
 
     def add_module(self, module):
+        assert isinstance(module, Module)
+        assert not self.modules.has_key(module.name)
+        assert self == module.repository
+        
         self.modules[module.name] = module
     
 
@@ -121,19 +124,21 @@ class CvsRepository(Repository):
                  method = CVS_METHOD_PSERVER,
                  user = None,
                  password = None):
+        assert isinstance(hostname,str)
+        assert isinstance(path,str)
         Repository.__init__(self, workspace, name, title, home_page, cvsweb, redistributable)
         
         self.hostname = hostname
-        self.path     = path,
-        self.method   = method,
-        self.user     = user,
+        self.path     = path
+        self.method   = method
+        self.user     = user
         self.password = password
     
     def to_url(self):
         url = ":%s:" % self.method
         if self.user:
-            url = "%s%s@" % (url, tuple(self.user)[0]) #TODO figure out where on earth this becomes a tuple!!!
-        url = "%s%s:%s" % (url, self.hostname, tuple(self.path)[0])
+            url = "%s%s@" % (url, self.user)
+        url = "%s%s:%s" % (url, self.hostname, self.path)
         
         return url
             
