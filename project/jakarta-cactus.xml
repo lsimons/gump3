@@ -492,8 +492,8 @@
 
       <!-- Note: We cannot use the jstl and standard jars from CVS HEAD as
            they require Servlet API 2.4 and JSP API 2.0 -->
-      <property name="jstl.jar" reference="jar" project="jstl-jsp-12" id="jstl"/>
-      <property name="standard.jar" reference="jar" project="jstl-jsp-12" id="standard"/>
+      <property name="jstl.jar" reference="jarpath" project="jstl-jsp-12" id="jstl"/>
+      <property name="standard.jar" reference="jarpath" project="jstl-jsp-12" id="standard"/>
 
       <depend property="nekohtml.jar" project="nekohtml" id="nekohtml"/>
       <depend property="cactus.jar" project="jakarta-cactus-framework-13"/>
