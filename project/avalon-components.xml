@@ -284,7 +284,7 @@
         <work nested="sockets-impl/target/classes"/>
 
         <home nested="sockets-impl"/>
-        <jar name="target/sockets-impl-@@DATE@@.jar" />
+        <jar name="target/cornerstone-sockets-impl-@@DATE@@.jar" />
 
         <nag from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"
                 to="dev@avalon.apache.org"/>
@@ -342,7 +342,7 @@
         <work nested="store-impl/target/classes"/>
 
         <home nested="store-impl"/>
-        <jar name="target/store-impl-@@DATE@@.jar" />
+        <jar name="target/cornerstore-store-impl-@@DATE@@.jar" />
 
         <nag from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"
                 to="dev@avalon.apache.org"/>
@@ -370,7 +370,7 @@
         <work nested="threads-api/target/classes"/>
 
         <home nested="threads-api"/>
-        <jar name="target/threads-api-@@DATE@@.jar" />
+        <jar name="target/cornerstone-threads-api-@@DATE@@.jar" />
 
         <nag from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"
                 to="dev@avalon.apache.org"/>
@@ -386,7 +386,9 @@
         <!-- runtime dependencies -->
         <depend project="avalon-framework" runtime="true" id="api"/>
         <depend project="avalon-framework" runtime="true" id="impl"/>
+        <depend project="excalibur-thread-api" runtime="true"/>
         <depend project="cornerstone-store-api" runtime="true"/>
+        <depend project="cornerstone-threads-api" runtime="true"/>
 
         <!-- build-time dependencies -->
         <depend project="ant" inherit="runtime"/>
@@ -400,7 +402,7 @@
         <work nested="threads-impl/target/classes"/>
 
         <home nested="threads-impl"/>
-        <jar name="target/threads-impl-@@DATE@@.jar" />
+        <jar name="target/cornerstone-threads-impl-@@DATE@@.jar" />
 
         <nag from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"
                 to="dev@avalon.apache.org"/>
