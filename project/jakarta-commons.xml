@@ -189,6 +189,7 @@
     <depend project="ant" inherit="runtime"/>
     <depend project="jakarta-servletapi-5-servlet"/>
     <depend project="jakarta-servletapi-5-jsp"/>
+    <depend project="commons-logging"/>
     <home nested="el/dist"/>
     <jar name="commons-el.jar"/>
     <javadoc nested="el/dist/docs/api"/>
