@@ -11,7 +11,9 @@
   <depend project="jakarta-ant"/>
   <depend project="xml-xerces"/>
   <depend project="xml-xalan2"/>
-  <depend project="jms"/>
+  <option project="jms"/>
+  <option project="junit"/>
+  <option project="javamail"/>
 
   <jar  name="lib/log4j-core.jar"/>
   <jar  name="lib/log4j.jar" id="log4j"/>
