@@ -65,6 +65,7 @@
 
   <project href="project/bsf.xml"/>
   <project href="project/dom4j.xml"/>
+  <project href="project/dbxml.xml"/>
   <project href="project/jdom.xml"/>
   <project href="project/jtidy.xml"/>
   <project href="project/junit.xml"/>
@@ -96,6 +97,7 @@
   <!-- CVS Repository overrides -->
   <repository href="repository/devworks.xml"/>
   <repository href="repository/exolab.xml"/>
+  <repository href="repository/dbxml.xml"/>
   <repository href="repository/sourceforge.xml"/>
 
 </profile>

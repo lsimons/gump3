@@ -17,6 +17,7 @@
   <depend project="tranquilo"/>
   <depend project="xpp"/>
   <depend project="saxpath"/>
+  <depend project="xmldb"/>
 
   <jar name="build/dom4j.jar" id="dom4j"/>
 

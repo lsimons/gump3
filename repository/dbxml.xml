@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<repository name="dbxml" type="cvs">
+  <title>dbXML</title>
+  <home-page>http://www.dbxml.org/</home-page>
+  <cvsweb></cvsweb>
+
+  <root>
+    <method>pserver</method>
+    <user>anoncvs</user>
+    <password>anoncvs</password>
+    <hostname>cvs.dbxml.com</hostname>
+    <path>/home/cvs</path>
+  </root>
+</repository>
