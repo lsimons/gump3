@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/Attic/gen.py,v 1.3 2003/04/28 23:32:37 rubys Exp $
-# $Revision: 1.3 $
-# $Date: 2003/04/28 23:32:37 $
+# $Header: /home/stefano/cvs/gump/python/gump/Attic/gen.py,v 1.4 2003/04/30 23:28:53 rubys Exp $
+# $Revision: 1.4 $
+# $Date: 2003/04/30 23:28:53 $
 #
 # ====================================================================
 #
@@ -141,13 +141,12 @@ if __name__=='__main__':
 
   workspace=load(ws)
 
+  f=open( default.merge, 'w')
   try:
-    f=open( default.merge, 'w')
     xmlize('workspace',workspace,f)
   finally:
     # Since we may exit via an exception, close fp explicitly.
-    if f:
-      f.close()
+    f.close()
 
 
 
