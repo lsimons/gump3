@@ -42,10 +42,10 @@ class Documenter(AbstractRunActor):
         workspace=self.run.getWorkspace()        
         
         if isinstance(event,InitializeRunEvent):
-            self.prepareRun()
+            self.prepare()
         elif isinstance(event,FinalizeRunEvent):
             if self.run.getOptions().isDocument():
-                self.documentRun()
+                self.document()
             
     #
     # Call a method called 'prepareRun(run)', if it
