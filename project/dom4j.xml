@@ -22,6 +22,7 @@
     <depend project="xmldb"/>
     <depend project="msv"/>
     <depend project="relaxng"/>
+    <depend project="xml-fop"/>
     <jar name="build/dom4j.jar" id="dom4j"/>
   </project>
 
