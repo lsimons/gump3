@@ -24,6 +24,7 @@
     <depend project="bsf"/>
     <depend project="rhino"/>
     <option project="jaxen"/>
+    <option project="saxpath"/>
     <work nested="build/classes"/>
 
     <home nested="build/lib"/>
