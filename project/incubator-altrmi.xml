@@ -10,7 +10,7 @@
     <project name="incubator-altrmi">
         <package>org.apache.altrmi</package>
 
-        <ant>
+        <ant target="jar">
             <property name="version" value="@@DATE@@"/>
             <property name="junit.failonerror" value="true"/>
             <property name="do.checkstyle" value="true"/>
@@ -34,9 +34,9 @@
         <depend project="phoenix-qdox"/>
         <depend project="avalon-sandbox-info"/>
 
-        <work nested="altrmi/build/classes"/>
+        <work nested="build/classes"/>
 
-        <home nested="altrmi"/>
+        <home nested="build/lib"/>
         <jar id="client-impl" name="build/lib/altrmi-client-impl-@@DATE@@.jar"/>
         <jar id="client-api" name="build/lib/altrmi-client-interfaces-@@DATE@@.jar"/>
         <jar id="common" name="build/lib/altrmi-common-@@DATE@@.jar"/>
