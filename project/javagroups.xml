@@ -16,7 +16,7 @@
     <depend project="xml-xerces"/>
     <depend project="junit"/>
     <depend project="jms"/>
-    <jar name="dist/javagroups.jar"/>
+    <jar name="dist/javagroups-all.jar"/>
     <javadoc nested="doc/javadoc"/>
   </project>
 
