@@ -198,7 +198,7 @@ class MavenBuilder(AbstractJavaBuilder):
                 project.changeState(STATE_FAILED,REASON_PREBUILD_FAILED)
  
     # The propertiesFile parameter is primarily for testing.
-    def generateMavenProperties(self,propertiesFile=None):
+    def generateMavenProperties(self,project,propertiesFile=None):
         """Set properties/overrides for a Maven project"""
         
         #:TODO: Does Maven have the idea of system properties?
@@ -206,13 +206,13 @@ class MavenBuilder(AbstractJavaBuilder):
         #
         # Where to put this:
         #
-        basedir = self.maven.getBaseDirectory() or self.getBaseDirectory()
+        basedir = project.maven.getBaseDirectory() or project.getBaseDirectory()
         if not propertiesFile: 
             propertiesFile=os.path.abspath(os.path.join(	\
                     basedir,'build.properties'))
         
         if os.path.exists(propertiesFile):
-            self.addWarning('Overriding Maven properties: ['+propertiesFile+']')
+            project.addWarning('Overriding Maven properties: ['+propertiesFile+']')
     
         
         props=open(propertiesFile,'w')
@@ -228,12 +228,12 @@ class MavenBuilder(AbstractJavaBuilder):
 #
 # DO NOT EDIT  DO NOT EDIT  DO NOT EDIT  DO NOT EDIT  DO NOT EDIT  DO NOT EDIT  DO NOT EDIT
 # ------------------------------------------------------------------------
-""")	%	(self.getName(), time.strftime('%Y-%m-%d %H:%M:%S')) )
+""")	%	(project.getName(), time.strftime('%Y-%m-%d %H:%M:%S')) )
         
         #
         # Output basic properties
         #
-        for property in self.getWorkspace().getProperties()+self.getMaven().getProperties():
+        for property in project.getWorkspace().getProperties()+project.getMaven().getProperties():
             # build.sysclasspath makes Maven sick.
             if not 'build.sysclasspath' == property.name:
                 props.write(('%s=%s\n') % (property.name,property.value))            
@@ -252,7 +252,7 @@ maven.jar.override = on
 # ------------------------------------------------------------------------
 """)
         
-        (classpath,bootclasspath)=self.getClasspathObjects()
+        (classpath,bootclasspath)=project.getClasspathObjects()
         
         # :TODO: write...
         for annotatedPath in classpath.getPathParts():
