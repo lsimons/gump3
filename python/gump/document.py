@@ -355,7 +355,38 @@ def documentWorkspace(workspace,context,db,moduleFilterList=None,projectFilterLi
     # x.write('<p><strong>RSS :</strong> <link href=\'index.rss\'>News Feed</link></p>')
     
     documentWorkList(x,workspace,context.worklist,'Workspace-level Work',wdir)
-     
+       
+    startSectionXDoc(x,'Packaged Modules')
+    startTableXDoc(x)
+    x.write('     <tr>')        
+    x.write('      <th>Name</th><th>Project State(s)</th><th>Elapsed Time</th>')
+    x.write('     </tr>')
+    mcount=0
+    for mctxt in context:
+        mname=mctxt.name
+        if not Module.list.has_key(mname): continue        
+        if moduleFilterList and not mctxt.module in moduleFilterList: continue
+        
+        packaged=0
+        #
+        # Determine if there are todos, otherwise continue
+        #
+        if mctxt.status==STATUS_COMPLETE and mctxt.reason==REASON_PACKAGE:
+            packaged=1
+                
+        if not packaged: continue
+    
+        mcount+=1
+
+        x.write('     <tr><!-- %s -->\n' % (mname))        
+        x.write('      <td><link href=\'%s\'>%s</link></td><td>%s</td>\n' % \
+          (getModuleRelativeUrl(mname),mname,getStateIcons(mctxt.aggregateStates())))    
+        x.write('      <td>%s</td>\n' % elapsedTimeToString(mctxt.elapsedTime()))    
+        x.write('     </tr>\n\n')
+    if not mcount: x.write('	<tr><td>None</td></tr>')
+    endTableXDoc(x)
+    endSectionXDoc(x)
+    
     startSectionXDoc(x,'Packaged Projects')
     packages=getPackagedProjectContexts(context)
     if packages:
@@ -492,6 +523,8 @@ def documentModule(workspace,wdir,modulename,modulecontext,db,projectFilterList=
     startSectionXDoc(x,'Module Details')
     startListXDoc(x)
     addItemXDoc(x,"Status: " + stateName(modulecontext.status))
+    if not modulecontext.reason == REASON_UNSET:
+        addItemXDoc(x,"Reason: " + reasonString(modulecontext.reason))
     if modulecontext.cause and not modulecontext==modulecontext.cause:
          addItemXDoc(x, "Root Cause: ", getTypedContextLink(modulecontext.cause)) 
     if module.cvs.repository:
@@ -558,6 +591,8 @@ def documentProject(workspace,modulename,mdir,projectname,projectcontext,db):
     startSectionXDoc(x,'Details')
     startListXDoc(x)
     addItemXDoc(x,"Status: ", stateName(projectcontext.status))  
+    if not projectcontext.reason == REASON_UNSET:
+        addItemXDoc(x,"Reason: " + reasonString(projectcontext.reason))
     addItemXDoc(x,"Module: ", getContextLink(projectcontext.parent))
     if projectcontext.cause and not projectcontext==projectcontext.cause:
         addItemXDoc(x,"Root Cause: ", getTypedContextLink(projectcontext.cause))

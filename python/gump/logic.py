@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/Attic/logic.py,v 1.7 2003/09/29 17:47:18 ajack Exp $
-# $Revision: 1.7 $
-# $Date: 2003/09/29 17:47:18 $
+# $Header: /home/stefano/cvs/gump/python/gump/Attic/logic.py,v 1.8 2003/09/29 22:28:53 ajack Exp $
+# $Revision: 1.8 $
+# $Date: 2003/09/29 22:28:53 $
 #
 # ====================================================================
 #
@@ -419,19 +419,19 @@ def preprocessContext(workspace,context=GumpContext()):
         allPackaged=1
         for project in module.project:
             if not isPackaged(project):
-                allPackaged=0  
-                if packageCount:
-                    if not hasOutputs(project):
+                if not hasOutputs(project):
                         # 
                         # Honorary package (allow folks to only mark the main
                         # project in a module as a package, and those that do
                         # not product significant outputs (e.g. test projects)
                         # will be asssumed to be packages.
                         # 
-                        pctxt=context.getProjectContextForProject(project)
-                        pctxt.state=STATUS_COMPLETE
-                        pctxt.reason=REASON_PACKAGE
-                    else:
+                    pctxt=context.getProjectContextForProject(project)
+                    pctxt.state=STATUS_COMPLETE
+                    pctxt.reason=REASON_PACKAGE
+                else:    
+                    allPackaged=0  
+                    if packageCount:
                         mctxt.addWarning("Incomplete \'Packaged\' Module. Project: " + \
                                     project.name + " is not packaged")                  
             else:
@@ -440,6 +440,8 @@ def preprocessContext(workspace,context=GumpContext()):
         if allPackaged:
             mctxt.state=STATUS_COMPLETE
             mctxt.reason=REASON_PACKAGE
+            mctxt.addInfo("\'Packaged\' Module. (Packaged projects: " + \
+                                    packageCount + '.)')   
                         
 # static void main()
 if __name__=='__main__':

@@ -1,8 +1,8 @@
 #!/usr/bin/python
 
-# $Header: /home/stefano/cvs/gump/python/gump/check.py,v 1.21 2003/09/29 17:47:18 ajack Exp $
-# $Revision: 1.21 $
-# $Date: 2003/09/29 17:47:18 $
+# $Header: /home/stefano/cvs/gump/python/gump/check.py,v 1.22 2003/09/29 22:28:53 ajack Exp $
+# $Revision: 1.22 $
+# $Date: 2003/09/29 22:28:53 $
 #
 # ====================================================================
 #
@@ -331,7 +331,8 @@ def peekInGlobalProfile(missing):
       currentmodule = Module.list[currentproject.module]
       print "  ",currentmodule.description
       print
-      print "   project url: " , currentproject.url.href
+      if not currentproject.url.href == currentmodule.url.href:
+            print "   project url: " , currentproject.url.href
       print "   module  url: " , currentmodule.url.href
       print "   module  cvs: " , currentmodule.cvsroot()
       if currentmodule.redistributable:
