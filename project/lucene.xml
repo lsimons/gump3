@@ -1,0 +1,23 @@
+<project name="lucene">
+
+  <url  href="http://www.lucene.com/"/>
+  <description>
+     Java Based Search Engine
+  </description>
+
+  <cvs repository="sourceforge" host-prefix="cvs.lucene" dir="lucene"/>
+
+  <depend project="javacc"/>
+
+  <ant target="jar">
+    <property name="version" value="gump"/>
+  </ant>
+
+  <jar name="lucene-gump.jar"/>
+
+  <!-- not available via CVS -->
+  <project name="javacc">
+    <jar name="lib/JavaCC.zip"/>
+  </project>
+
+</project>
