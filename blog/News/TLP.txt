@@ -8,9 +8,9 @@ http://gump.chalko.com/gb/blog/News?permalink=TLP.txt&preview=true
 We will release when the gump website is ready.
 <hr/>
 <p>
-http://gump.apache.org
+<a href="http://gump.apache.org">http://gump.apache.org</a>
 </p>
-<p>The Board voted ...
+<p>On [date] The Board voted ...
 </p>
 <blockquote>
 Quote the board and link
