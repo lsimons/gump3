@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/forrest.py,v 1.116 2004/03/25 15:28:52 ajack Exp $
-# $Revision: 1.116 $f
-# $Date: 2004/03/25 15:28:52 $
+# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/forrest.py,v 1.117 2004/03/26 02:27:15 ajack Exp $
+# $Revision: 1.117 $f
+# $Date: 2004/03/26 02:27:15 $
 #
 # ====================================================================
 #
@@ -1417,16 +1417,19 @@ This page helps Gumpmeisters (and others) observe community progress.
         # The 'cause' is something upstream. Possibly a project,
         # possibly a module (so determine paths to module projects).
         #
-        if project.cause and not project==project.cause:
-            if isinstance(project.cause, Project):
-                for path in project.getDependencyPaths(project.cause):
-                    self.documentDependenciesPath(dependencySection, 'Root Cause Dependency Path',	\
-                            path, 0, 1, project, gumpSet)
-            elif isinstance(project.cause, Module):
-                for causeProject in project.cause.getProjects():
-                    for path in project.getDependencyPaths(causeProject):
-                        self.documentDependenciesPath(dependencySection, 'Root Cause Module Dependency Path',	\
-                                path, 0, 1, project, gumpSet)
+        
+#        
+#        if project.cause and not project==project.cause:
+#            if isinstance(project.cause, Project):
+#                for path in project.getDependencyPaths(project.cause):
+#                    self.documentDependenciesPath(dependencySection, 'Root Cause Dependency Path',	\
+#                            path, 0, 1, project, gumpSet)
+#            elif isinstance(project.cause, Module):
+#                for causeProject in project.cause.getProjects():
+#                    for path in project.getDependencyPaths(causeProject):
+#                        self.documentDependenciesPath(dependencySection, 'Root Cause Module Dependency Path',	\
+#                                path, 0, 1, project, gumpSet)
+#
                 
         depens += self.documentDependenciesList(dependencySection, 'Project Dependencies',	\
                     project.getDirectDependencies(), 0, 0, project, gumpSet)
