@@ -13,6 +13,7 @@
     <depend project="xml-xerces"/>
     <depend project='junit'/>
     <home nested="v1/build"/>
+    <work nested="v1/build/classes/common"/>    
     <work nested="v1/build/classes/xmlinputstream"/>
     <work nested="v1/build/classes/xmlpublic"/>    
     <work nested="v1/external/lib/oldxbean.jar"/>
