@@ -15,6 +15,7 @@
       <property name="build.compiler" value="modern"/>
     </ant>
     <depend project="ant" inherit="runtime"/>
+    <depend project="beanshell"/>
     <depend project="xml-xerces"/>
     <depend project="junit"/>
     <depend project="jms"/>
