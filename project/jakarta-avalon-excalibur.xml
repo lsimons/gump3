@@ -44,7 +44,6 @@
         <depend project="excalibur-threadcontext"/>
         <depend project="excalibur-xmlutil"/>
         <depend project="excalibur-util"/>
-        <depend project="excalibur-zip"/>
 
         <!-- build-time dependencies -->
         <depend project="dist-bsf"/>
@@ -71,7 +70,6 @@
 
         <!-- additional classpaths for projects not currently depended upon
              TODO: use project descriptions instead -->
-        <work nested="bzip2/build/classes"/>
         <work nested="cli/build/classes"/>
         <work nested="monitor/build/classes"/>
 
@@ -146,30 +144,6 @@
 
         <home nested="baxter"/>
         <jar name="build/lib/excalibur-baxter-@@DATE@@.jar"/>
-        <nag from="Gump Integration Build &lt;avalon-dev@jakarta.apache.org&gt;"
-             to="avalon-dev@jakarta.apache.org"/>
-    </project>
-
-    <project name="excalibur-bzip2">
-        <package>org.apache.excalibur.bzip2</package>
-
-        <ant basedir="bzip2">
-            <property name="version" value="@@DATE@@"/>
-            <property name="junit.failonerror" value="true"/>
-            <property name="do.checkstyle" value="true"/>
-            <property name="skip.dependencies" value="true"/>
-        </ant>
-
-        <depend project="jakarta-ant" inherit="runtime"/>
-        <option project="checkstyle" inherit="runtime"/>
-        <depend project="junit"/>
-        <depend project="xml-xerces"/>
-        <depend project="xml-xalan2"/>
-        <work nested="bzip2/build/classes"/>
-
-        <home nested="bzip2"/>
-        <jar name="build/lib/excalibur-bzip2-@@DATE@@.jar"/>
-
         <nag from="Gump Integration Build &lt;avalon-dev@jakarta.apache.org&gt;"
              to="avalon-dev@jakarta.apache.org"/>
     </project>
@@ -905,30 +879,6 @@
              to="avalon-dev@jakarta.apache.org"/>
     </project>
 
-    <project name="excalibur-tar">
-        <package>org.apache.excalibur.tar</package>
-
-        <ant basedir="tar">
-            <property name="version" value="@@DATE@@"/>
-            <property name="junit.failonerror" value="true"/>
-            <property name="do.checkstyle" value="true"/>
-            <property name="skip.dependencies" value="true"/>
-        </ant>
-
-        <depend project="jakarta-ant" inherit="runtime"/>
-        <option project="checkstyle" inherit="runtime"/>
-        <depend project="junit"/>
-        <depend project="xml-xerces"/>
-        <depend project="xml-xalan2"/>
-        <work nested="tar/build/classes"/>
-
-        <home nested="tar"/>
-        <jar name="build/lib/excalibur-tar-@@DATE@@.jar"/>
-
-        <nag from="Gump Integration Build &lt;avalon-dev@jakarta.apache.org&gt;"
-             to="avalon-dev@jakarta.apache.org"/>
-    </project>
-
     <project name="excalibur-testcase">
         <package>org.apache.avalon.excalibur.testcase</package>
 
@@ -1063,30 +1013,6 @@
 
         <home nested="xmlutil"/>
         <jar name="build/lib/excalibur-xmlutil-@@DATE@@.jar"/>
-
-        <nag from="Gump Integration Build &lt;avalon-dev@jakarta.apache.org&gt;"
-             to="avalon-dev@jakarta.apache.org"/>
-    </project>
-
-    <project name="excalibur-zip">
-        <package>org.apache.excalibur.zip</package>
-
-        <ant basedir="zip">
-            <property name="version" value="@@DATE@@"/>
-            <property name="junit.failonerror" value="true"/>
-            <property name="do.checkstyle" value="true"/>
-            <property name="skip.dependencies" value="true"/>
-        </ant>
-
-        <depend project="jakarta-ant" inherit="runtime"/>
-        <option project="checkstyle" inherit="runtime"/>
-        <depend project="junit"/>
-        <depend project="xml-xerces"/>
-        <depend project="xml-xalan2"/>
-        <work nested="zip/build/classes"/>
-
-        <home nested="zip"/>
-        <jar name="build/lib/excalibur-zip-@@DATE@@.jar"/>
 
         <nag from="Gump Integration Build &lt;avalon-dev@jakarta.apache.org&gt;"
              to="avalon-dev@jakarta.apache.org"/>
