@@ -15,7 +15,7 @@ for project in workspace.getElementsByTagName('project'):
 logdir=workspace.documentElement.getAttribute('logdir')
 latest=logdir + '/index.html'
 
-def analyze(file,pstat):
+def analyze(file,pstat,date):
   print file
   index=urllib.urlopen(file).read()
   for (time, url, project, status) in summary.findall(index):
@@ -27,9 +27,9 @@ def analyze(file,pstat):
 pstat={}
 builds=urllib.urlopen(gumproot).read()
 for date in re.findall('<a href="([\d-]*)/">',builds):
-  analyze(gumproot+date,pstat)
+  analyze(gumproot+date,pstat,date)
 
-analyze(latest,pstat)
+analyze(latest,pstat,time.strftime('%Y-%m-%d'))
 
 result=pstat.values()
 result.sort()
