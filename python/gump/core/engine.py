@@ -280,11 +280,15 @@ class GumpEngine:
                 else:
                     module.changeState(STATE_SUCCESS)
                     
-                    # Were the contents of the repository modified?                                        
-                    module.setUpdated(cmdResult.hasOutput())
+                    if cmdResult.hasOutput():                    
+                        # Were the contents of the repository modified?                                        
+                        module.setUpdated(1)                        
+                        log.info('Update(s) received via CVS/SVN/Jars on #[' + `moduleNo` + \
+                                '] of [' + `moduleCount` + ']: ' + module.getName())
+    
         
             #
-            # Sync if appropriate
+            # Sync if appropriate.
             #
             if module.okToPerformWork():
             
