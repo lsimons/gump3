@@ -45,4 +45,5 @@
   <home nested="dist"/>
   <jar name="bin/bootstrap.jar"/>
   <jar name="server/lib/catalina.jar"/>
+  <jar name="common/lib/naming.jar"/>
 </project>
