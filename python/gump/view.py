@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/Attic/view.py,v 1.31 2003/05/05 12:34:51 nicolaken Exp $
-# $Revision: 1.31 $
-# $Date: 2003/05/05 12:34:51 $
+# $Header: /home/stefano/cvs/gump/python/gump/Attic/view.py,v 1.32 2003/05/05 12:39:17 nicolaken Exp $
+# $Revision: 1.32 $
+# $Date: 2003/05/05 12:39:17 $
 #
 # ====================================================================
 #
@@ -95,6 +95,8 @@ if(classpath):
 ###############################################################################
 
 class gumpview(wxApp):
+  log.debug("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")  
+    
   # model
   mySubs=None
   items=None
@@ -415,9 +417,6 @@ class gumpview(wxApp):
   # display a modal dialog box
   def msgbox(self,message,title="Warning"):
     log.error(title + ": "+message)
-    textStyle = wx.wxTextAttr("RED", "YELLOW")
-    self.logview.SetDefaultStyle( textStyle ) 
-    self.logview.AppendText(title + ": "+message+"\n")
     if not self.logview.IsShown():
       dlg=wxMessageDialog(None, message, title, wx.wxOK)
       dlg.ShowModal()
@@ -528,7 +527,8 @@ class compileThread:
 if __name__ == '__main__':
 
   # init logging and add specific Gui handler
-  logging.config.fileConfig("gump/logconf.ini")
+  #logging.config.fileConfig("gump/logconf.ini")
+  logging.basicConfig();
   
   # load app
   app = gumpview(0)
