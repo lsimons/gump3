@@ -72,6 +72,7 @@
       <property name="env.ANT_HOME" reference="home" project="ant"/>
       <depend name="wsdl4j.jar" project="wsdl4j" id="wsdl4j"/>
       <depend name="log4j-core.jar" project="jakarta-log4j" id="log4j"/>
+      <sysproperty name="build.clonevm" value="true"/>
     </ant>
 
     <depend project="xml-xerces" inherit="runtime" runtime="true"/>
