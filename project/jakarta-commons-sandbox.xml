@@ -176,8 +176,8 @@
     <depend project="jms"/>
 
     <work nested="target/classes"/>
-    <home nested="target"/>
-    <jar name="messenger/commons-messenger-@@DATE@@.jar"/>
+    <home nested="messenger/target"/>
+    <jar name="commons-messenger-@@DATE@@.jar"/>
     <javadoc nested="messenger/docs/apidocs"/>
 
     <nag to="commons-dev@jakarta.apache.org"
