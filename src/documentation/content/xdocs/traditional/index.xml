@@ -30,6 +30,8 @@
     <link href="http://nagoya.apache.org/wiki/apachewiki.cgi?GumpPython">Python</link>.
   </p>
   <p>Traditional Gump is written in shell (BASH/DOS), XSLT, and Perl.</p>
+  	<warning>Traditional Gump will likely soon be retired from service, since
+  		extension (added to Python Gump) would be non-trivial to support.</warning>
   </section>
 </body>
 </document>

@@ -196,7 +196,7 @@ class RSS:
         log.debug("RSS Newsfeed written to : " + self.rssFile);          
         
     def serialize(self):
-        log.info("RSS Newsfeed to : " + self.rssFile);         
+        log.debug("RSS Newsfeed to : " + self.rssFile);         
         self.rssStream = open(self.rssFile,'w')
         
         self.startRSS()

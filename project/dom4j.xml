@@ -30,6 +30,7 @@
     <ant target="gump">
       <property name="jaxen.src" project="jaxen-from-packaged-dom4j"
                 path="src/java/main"/>
+      <sysproperty name="build.clonevm" value="true"/>
     </ant>
     <depend project="ant" inherit="runtime"/>
     <depend project="xml-xerces"/>
@@ -43,8 +44,11 @@
     <depend project="relaxng"/>
     <depend project="stax" ids="api"/>
     <depend project="xml-fop" inherit="runtime"/>
+    <depend project="jtidy"/>
+    <depend project="junitperf"/>
     <jar name="build/dom4j.jar" id="dom4j"/>
     <license name="LICENSE.txt"/>
+    <nag from="Maarten Coene &lt;MacBelgium@toughguy.net&gt;" to="dom4j-dev@lists.sourceforge.net" />
   </project>
 
   <project name="xpp">

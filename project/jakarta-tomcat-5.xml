@@ -60,7 +60,7 @@
               project="jakarta-servletapi-5-servlet"/>
       <depend property="jsp-api.jar" project="jakarta-servletapi-5-jsp"/>
       <depend property="xercesImpl.jar" project="xml-xerces" id="parser"/>
-      <depend property="xmlParserAPIs.jar" project="xml-xerces" id="parser"/>
+      <depend property="xml-apis.jar" project="xml-xerces" id="apis"/>
       <depend property="tomcat-util.jar" project="jakarta-tomcat-util"/>
       <depend property="commons-beanutils.jar" project="commons-beanutils-core"
         runtime="true"/>

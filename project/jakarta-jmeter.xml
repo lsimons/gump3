@@ -15,7 +15,7 @@
   limitations under the License.
 -->
 <module name="jakarta-jmeter">
-<!-- Version $Revision: 1.97 $ Last updated $Date: 2004/05/20 22:14:47 $ -->
+<!-- Version $Revision: 1.97.2.1 $ Last updated $Date: 2004/06/21 04:06:09 $ -->
   <url href="http://jakarta.apache.org/jmeter/" />
   <description>
     Pure Java load testing and performance measurement tool.
@@ -31,8 +31,8 @@
       <property name="jmeter.version" value="@@DATE@@"/>
       <property name="gump.run" value="true"/>
       <!-- The version of this file -->
-      <property name="version.projectfile" value="$Revision: 1.97 $"/>
-      <property name="date.projectfile" value="$Date: 2004/05/20 22:14:47 $"/>
+      <property name="version.projectfile" value="$Revision: 1.97.2.1 $"/>
+      <property name="date.projectfile" value="$Date: 2004/06/21 04:06:09 $"/>
       
       <!--
         These properties are passed to the build process, so the names need to agree with
@@ -85,6 +85,8 @@
     <depend project="excalibur-pool"/>
     <depend project="excalibur-instrument"/>
 
+    <depend project="xml-batik"/>
+
     <depend project="commons-logging"/>
     <depend project="commons-httpclient"/>
 
@@ -95,6 +97,10 @@
     <work nested="build/htmlparser"/>
     <work nested="build/jorphan"/>
     
+    <!-- Not available as Gump projects -->
+    <work nested="lib/xpp3-1.1.3.4.D.jar"/>
+    <work nested="lib/xstream-1.0.1.jar"/>
+
     <!-- Allow http to build: -->
     <work nested="build/components"/>
 
@@ -116,8 +122,8 @@
       <property name="jmeter.version" value="@@DATE@@"/>
       <property name="gump.run" value="true"/>
       <!-- The version of this file -->
-      <property name="version.projectfile" value="$Revision: 1.97 $"/>
-      <property name="date.projectfile" value="$Date: 2004/05/20 22:14:47 $"/>
+      <property name="version.projectfile" value="$Revision: 1.97.2.1 $"/>
+      <property name="date.projectfile" value="$Date: 2004/06/21 04:06:09 $"/>
 
       <!-- Ensure work directories don't get dropped from classpath -->
       <mkdir dir="build/core"/>
@@ -156,6 +162,11 @@
     <work nested="build/protocol/http"/>
     <work nested="build/monitor/model"/>
     
+    <work nested="lib/batik-awt-util.jar"/>
+
+    <work nested="lib/xpp3-1.1.3.4.D.jar"/>
+    <work nested="lib/xstream-1.0.1.jar"/>
+
     <work nested="lib/excalibur-logger-1.1.jar"/>
     <work nested="lib/excalibur-compatibility-1.1.jar"/>
     <work nested="lib/excalibur-i18n-1.1.jar"/>
@@ -210,8 +221,8 @@
       <!-- Temp hack to make up for missing workspace property ... -->
       <property name="java.awt.headless" value="true"/>
       <!-- The version of this file -->
-      <property name="version.projectfile" value="$Revision: 1.97 $"/>
-      <property name="date.projectfile" value="$Date: 2004/05/20 22:14:47 $"/>
+      <property name="version.projectfile" value="$Revision: 1.97.2.1 $"/>
+      <property name="date.projectfile" value="$Date: 2004/06/21 04:06:09 $"/>
     </ant>
 
     <depend project="ant" />
@@ -227,6 +238,11 @@
 
     <option project="beanshell" ids="bsh-core"/>
     <option project="jakarta-bsf"/>
+
+    <work nested="lib/batik-awt-util.jar"/>
+
+    <work nested="lib/xpp3-1.1.3.4.D.jar"/>
+    <work nested="lib/xstream-1.0.1.jar"/>
 
     <work nested="lib/excalibur-logger-1.1.jar"/>
     <work nested="lib/excalibur-compatibility-1.1.jar"/>
@@ -279,8 +295,8 @@
       <property name="jmeter.version" value="@@DATE@@"/>
       <property name="gump.run" value="true"/>
       <!-- The version of this file -->
-      <property name="version.projectfile" value="$Revision: 1.97 $"/>
-      <property name="date.projectfile" value="$Date: 2004/05/20 22:14:47 $"/>
+      <property name="version.projectfile" value="$Revision: 1.97.2.1 $"/>
+      <property name="date.projectfile" value="$Date: 2004/06/21 04:06:09 $"/>
     </ant>
 
     <depend project="ant" />
@@ -292,6 +308,11 @@
 
     <option project="beanshell" ids="bsh-core"/>
     <option project="jakarta-bsf"/>
+
+    <work nested="lib/batik-awt-util.jar"/>
+
+    <work nested="lib/xpp3-1.1.3.4.D.jar"/>
+    <work nested="lib/xstream-1.0.1.jar"/>
 
     <work nested="lib/excalibur-logger-1.1.jar"/>
     <work nested="lib/excalibur-compatibility-1.1.jar"/>

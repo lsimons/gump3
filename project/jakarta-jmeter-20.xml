@@ -15,7 +15,7 @@
   limitations under the License.
 -->
 <module name="jakarta-jmeter-20" tag="rel-2_0">
-<!-- Version $Revision: 1.6 $ Last updated $Date: 2004/05/24 09:43:52 $ -->
+<!-- Version $Revision: 1.6.2.1 $ Last updated $Date: 2004/06/21 04:06:09 $ -->
   <url href="http://jakarta.apache.org/jmeter/" />
   <description>
     Pure Java load testing and performance measurement tool.
@@ -33,8 +33,8 @@
       <property name="jmeter.version" value="2_0_@@DATE@@"/>
       <property name="gump.run" value="true"/>
       <!-- The version of this file -->
-      <property name="version.projectfile" value="$Revision: 1.6 $"/>
-      <property name="date.projectfile" value="$Date: 2004/05/24 09:43:52 $"/>
+      <property name="version.projectfile" value="$Revision: 1.6.2.1 $"/>
+      <property name="date.projectfile" value="$Date: 2004/06/21 04:06:09 $"/>
 
 		<!-- Ensure work directories don't get dropped from classpath -->
 		<mkdir dir="build/core"/>
@@ -109,7 +109,7 @@
     <jar name="NOTICE" />
     <jar name="INSTALLING" />
 
-    <nag from="Sebb &lt;sebb@apache.org&gt;"
+    <nag from="Gump-build &lt;sebb@apache.org&gt;"
          to="jmeter-dev@jakarta.apache.org">
         <regexp pattern="/BUILD FAILED/" subject="JMeter CVS Build Failure"/>
     </nag>
@@ -121,8 +121,8 @@
       <property name="jmeter.version" value="2_0_@@DATE@@"/>
       <property name="gump.run" value="true"/>
       <!-- The version of this file -->
-      <property name="version.projectfile" value="$Revision: 1.6 $"/>
-      <property name="date.projectfile" value="$Date: 2004/05/24 09:43:52 $"/>
+      <property name="version.projectfile" value="$Revision: 1.6.2.1 $"/>
+      <property name="date.projectfile" value="$Date: 2004/06/21 04:06:09 $"/>
     </ant>
 
     <depend project="ant" />
@@ -174,7 +174,7 @@
     <work nested="lib/ext/ApacheJMeter_monitors.jar"/>
     <work nested="lib/ext/ApacheJMeter_tcp.jar"/>
 
-    <nag from="Sebb &lt;sebb@apache.org&gt;"
+    <nag from="Gump-build &lt;sebb@apache.org&gt;"
          to="jmeter-dev@jakarta.apache.org">
         <regexp pattern="/FAILURES!!!|OK \(0 tests\)/" subject="JMeter Unit Test Failure"/>
     </nag>

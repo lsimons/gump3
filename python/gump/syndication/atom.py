@@ -111,7 +111,7 @@ class AtomFeed:
 """)
                 
     def serialize(self):
-        log.info("Atom Feed to : " + self.file);         
+        log.debug("Atom News Feed to : " + self.file);         
         stream = open(self.file,'w')
         
         modified=time.strftime('%Y-%m-%dT%H:%M:%SZ', gmtime())

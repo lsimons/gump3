@@ -60,18 +60,9 @@
     	    <module href="metadata/module.html" label="Module"/>
 	    <project href="metadata/project.html" label="Project"/>
 	    <ant href="metadata/ant.html" label="Ant"/>
+	    <maven href="metadata/maven.html" label="Maven"/>
 	    <goodpractices href="metadata/practices.html" label="Good Practices"/>
 	</om>
-
-	<menu label="Object Model" tab="metadata">
-	    <index href="metadata/index.html" label="Overview"/>
-	    <index href="metadata/workspace.html" label="Workspace"/>
-	    <index href="metadata/profile.html" label="Profile"/>
-	    <index href="metadata/repository.html" label="Repository"/>
-    	    <index href="metadata/module.html" label="Module"/>
-	    <index href="metadata/project.html" label="Project"/>
-	    <index href="metadata/ant.html" label="Ant"/>
-	</menu>
 
 	<traditional label="Traditional" tab="traditional">
 	    <overview href="traditional/index.html" label="Overview"/>

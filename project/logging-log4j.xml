@@ -36,6 +36,7 @@
 
     <depend project="ant" inherit="runtime"/>
     <depend project="xml-xerces"/>
+    <depend project="jakarta-oro"/>
     <work nested="dist/classes"/>
     <option project="jakarta-servletapi-4"/>
     <option project="jms"/>

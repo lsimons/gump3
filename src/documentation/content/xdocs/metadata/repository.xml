@@ -72,7 +72,12 @@
       </tr>
       <tr>
         <td>cvsweb</td>
-        <td>Web interface to the repository</td>
+        <td>Web interface to the repository. <strong>To be deprecated, see &lt;web.</strong></td>
+        <td>No</td>
+      </tr>
+      <tr>
+        <td>web</td>
+        <td>Web interface to the repository. (More approprice for multiple types).</td>
         <td>No</td>
       </tr>
       <tr>
@@ -83,9 +88,11 @@
     </table>
     <p/>
 
-    <section><title>root</title>
-      <note>This is for type='cvs' only.</note>
-      <p>This specifies all of the elements which are combined to form
+	<section>
+		<title>CVS Usage</title>
+		<section><title>root</title>
+			<note>This is for type='cvs' only.</note>
+			<p>This specifies all of the elements which are combined to form
       a CVSROOT.  They are split out into separate entities so that each
       can be individually overridden in a workspace definition.  When an
       entity is listed a required below, it means that when all of the
@@ -126,7 +133,7 @@
         </tr>
       </table>
     </section>
-
+	</section>
   </section>
 </body>
 </document>

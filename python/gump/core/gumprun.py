@@ -291,7 +291,6 @@ class GumpSet:
             self.addToTodoList(project,todo)
             
         projectIndex=0
-        projectTotal=len(projects)
             
         while todo:
             # one by one, remove the first ready project and append 
@@ -304,7 +303,6 @@ class GumpSet:
                         sequence.append(todoProject)
                         projectIndex += 1
                         todoProject.setPosition(projectIndex)
-                        todoProject.setTotal(projectTotal)
    
                         log.debug('Identify ' + todoProject.getName() + ' at position #' + `todoProject.getPosition()`)     
                     #else:
@@ -320,7 +318,15 @@ class GumpSet:
                             break
                     else:
                         loop=", ".join([project.getName() for todoProject in todo])
-                        raise RuntimeError, "Circular Dependency Loop: " + str(loop)              
+                        raise RuntimeError, "Circular Dependency Loop: " + str(loop) 
+                        
+                        
+        # Identify the size of overall sequence
+        projectTotal=len(sequence)
+        for project in sequence:
+            project.setTotal(projectTotal)               
+            log.debug('Identify ' + project.getName() + ' at position #' + `project.getPosition()`)     
+                       
         return sequence
 
                 

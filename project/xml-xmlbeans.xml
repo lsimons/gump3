@@ -27,6 +27,7 @@
     <url href='http://xml.apache.org/xmlbeans/'/>         
     <depend project="bootstrap-ant"/>
     <depend project="xml-xerces"/>
+    <depend project='jaxen'/>
     <depend project='junit'/>
     <home nested="v1/build"/>
     <work nested="v1/build/classes/common"/>    

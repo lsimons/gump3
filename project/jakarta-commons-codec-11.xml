@@ -21,27 +21,11 @@
     Jakarta Commons Codec 1.1
   </description>
 
-  <cvs repository="jakarta"  tag="CODEC_1_1" module="jakarta-commons/codec"/>
-
-  <project name="commons-codec-11">
+  <project name="commons-codec-11">  	
     <package>org.apache.commons.codec</package>
     <description>Commons Encoding/Decoding Package</description>
     <url href="http://jakarta.apache.org/commons/codec/"/>
-
-    <ant basedir="codec" target="dist">
-      <property name="component.version"  value="@@DATE@@"/>
-    </ant>
-    <depend project="ant" inherit="runtime"/>
-    <depend project="xml-xerces"/>
-
-    <!-- tests -->
-    <depend project="junit"/>
-    <work nested="codec/target/classes"/>
-    <work nested="codec/target/test-classes"/>
-    <jar name="codec/dist/commons-codec-@@DATE@@.jar"/>
-    <javadoc nested="codec/dist/docs/api"/>
-    <nag to="commons-dev@jakarta.apache.org"
-         from="Tim OBrien &lt;tobrien@apache.org&gt;"/>
+    <jar name="commons-codec-1.1.jar"/>    
   </project>
 
 </module>
