@@ -2,7 +2,7 @@
 
   <url href="http://xml.apache.org/axis/"/>
   <description>
-    Web Services Inspection Language 
+    Web Services Invocation Framework
   </description>
 
   <cvs repository="xml"/>
