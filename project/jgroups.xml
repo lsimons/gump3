@@ -40,6 +40,9 @@
     <jar name="dist/jgroups-all.jar"/>
 
     <javadoc nested="dist/javadoc"/>
+	
+	<nag to="javagroups-build@lists.sourceforge.com" 
+			from="Bela Ban &lt;belaban@yahoo.com&gt;"/>
   </project>
 
 </module>

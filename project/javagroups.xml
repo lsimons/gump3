@@ -39,6 +39,9 @@
     <depend project="concurrent"/>
     <jar name="dist/javagroups-all.jar"/>
     <javadoc nested="doc/javadoc"/>
+	
+	<nag to="javagroups-build@lists.sourceforge.com" 
+			from="Bela Ban &lt;belaban@yahoo.com&gt;"/>
   </project>
 
 </module>
