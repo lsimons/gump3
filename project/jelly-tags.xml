@@ -43,6 +43,53 @@
     <nag from="Morgan Delagrange &lt;mdelagra@yahoo.com&gt;"
          to="commons-dev@jakarta.apache.org"/>
   </project>
+
+  <project name="commons-jelly-tags-bean">
+    <package>org.apache.commons.jelly.tags.bean</package>
+    <description> A tag library for mapping tags to beans using a similar approach to Ant.</description>
+    
+    <!-- maven-generated ant scripts don't work if there is no test directory -->
+    <mkdir dir="jelly/jelly-tags/bean/src/test/"/>
+
+    <ant basedir="jelly/jelly-tags/bean" target="jar">
+      <property name="final.name"  value="commons-jelly-tags-bean-@@DATE@@"/>
+    </ant>
+
+    <depend project="commons-jelly" inherit="all"/>
+    <depend project="commons-jelly-tags-ant"/>
+    <depend project="commons-grant"/>
+
+    <work nested="jelly/jelly-tags/bean/target/classes"/>
+    <work nested="jelly/jelly-tags/bean/target/test-classes"/>
+
+    <jar name="jelly/jelly-tags/bean/target/commons-jelly-tags-bean-@@DATE@@.jar"/>
+ 
+    <nag from="Morgan Delagrange &lt;mdelagra@yahoo.com&gt;"
+         to="commons-dev@jakarta.apache.org"/>
+  </project>
+
+  <project name="commons-jelly-tags-beanshell">
+    <package>org.apache.commons.jelly.tags.beanshell</package>
+    <description>This is a Jelly interface for BeanShell.</description>
+    
+    <!-- maven-generated ant scripts don't work if there is no test directory -->
+    <mkdir dir="jelly/jelly-tags/beanshell/src/test/"/>
+
+    <ant basedir="jelly/jelly-tags/beanshell" target="jar">
+      <property name="final.name"  value="commons-jelly-tags-beanshell-@@DATE@@"/>
+    </ant>
+
+    <depend project="commons-jelly" inherit="all"/>
+    <depend project="beanshell"/>
+
+    <work nested="jelly/jelly-tags/beanshell/target/classes"/>
+    <work nested="jelly/jelly-tags/beanshell/target/test-classes"/>
+
+    <jar name="jelly/jelly-tags/beanshell/target/commons-jelly-tags-beanshell-@@DATE@@.jar"/>
+ 
+    <nag from="Morgan Delagrange &lt;mdelagra@yahoo.com&gt;"
+         to="commons-dev@jakarta.apache.org"/>
+  </project>
   
   <project name="commons-jelly-tags-betwixt">
     <package>org.apache.commons.jelly.tags.betwixt</package>
@@ -368,6 +415,28 @@
     <work nested="jelly/jelly-tags/swing/target/test-classes"/>
 
     <jar name="jelly/jelly-tags/swt/target/commons-jelly-tags-swt-@@DATE@@.jar"/>
+ 
+    <nag from="Morgan Delagrange &lt;mdelagra@yahoo.com&gt;"
+         to="commons-dev@jakarta.apache.org"/>
+  </project>
+  
+  <project name="commons-jelly-tags-threads">
+    <package>org.apache.commons.jelly.tags.threads</package>
+    <description> A library for processing Jelly scripts using multiple threads.</description>
+    
+    <!-- maven-generated ant scripts don't work if there is no test directory -->
+    <mkdir dir="jelly/jelly-tags/threads/src/test/"/>
+
+    <ant basedir="jelly/jelly-tags/threads" target="jar">
+      <property name="final.name"  value="commons-jelly-tags-threads-@@DATE@@"/>
+    </ant>
+
+    <depend project="commons-jelly" inherit="all"/>
+
+    <work nested="jelly/jelly-tags/threads/target/classes"/>
+    <work nested="jelly/jelly-tags/threads/target/test-classes"/>
+
+    <jar name="jelly/jelly-tags/threads/target/commons-jelly-tags-threads-@@DATE@@.jar"/>
  
     <nag from="Morgan Delagrange &lt;mdelagra@yahoo.com&gt;"
          to="commons-dev@jakarta.apache.org"/>
