@@ -33,7 +33,7 @@ def xmlize(nodeName,object,f,indent='',delta='  '):
     # determine if the property is text, attribute, or element
     if name=='@text':
       text=var
-    elif isinstance(var,types.StringTypes): 
+    elif isinstance(var,types.StringTypes):
       attrs.append('%s="%s"' % (name,escape(var)))
     else:
       elements.append((name,var))
@@ -42,12 +42,12 @@ def xmlize(nodeName,object,f,indent='',delta='  '):
   if not elements:
     # use compact form for elements without children
     if text.strip():
-      f.write( '%s<%s>%s</%s>' % (indent.encode(encoding),' '.join(attrs).encode(encoding),text.strip().encode(encoding),nodeName))
+      f.write( '%s<%s>%s</%s>\n' % (indent.encode(encoding),' '.join(attrs).encode(encoding),text.strip().encode(encoding),nodeName))
     else:
-      f.write( '%s<%s/>' % (indent.encode(encoding),' '.join(attrs).encode(encoding)))
+      f.write( '%s<%s/>\n' % (indent.encode(encoding),' '.join(attrs).encode(encoding)))
   else:
     # use full form for elements with children
-    f.write( '%s<%s>' % (indent.encode(encoding),' '.join(attrs).encode(encoding)))
+    f.write( '%s<%s>\n' % (indent.encode(encoding),' '.join(attrs).encode(encoding)))
     newindent=indent+delta
     for (name,var) in elements:
       if isinstance(var,list):
@@ -56,9 +56,9 @@ def xmlize(nodeName,object,f,indent='',delta='  '):
       elif isinstance(var,Single):
        # single valued elements
         xmlize(name,var.delegate,f,newindent,delta)
-    f.write( '%s</%s>' % (indent.encode(encoding),nodeName.encode(encoding)))
+    f.write( '%s</%s>\n' % (indent.encode(encoding),nodeName.encode(encoding)))
 
-  
+
 if __name__=='__main__':
   # cd into the base Gump dir; all dirs are relative to it
   os.chdir(dir.base)
