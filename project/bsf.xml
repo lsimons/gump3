@@ -16,16 +16,20 @@
 -->
 <module name="bsf">
 
-  <url href="http://oss.software.ibm.com/developerworks/projects/bsf"/>
+  <url href="http://jakarta.apache.org/bsf/
+"/>
   <description>
     Bean Scripting Framework
   </description>
   <redistributable/>
 
-  <cvs repository="devworks" dir="bsf"/>
+  <cvs repository="jakarta" dir="jakarta-bsf"/>
   
+  <nag to="bsf-dev@jakarta.apache.org"
+         from="Sam Ruby &lt;rubys@us.ibm.com&gt;"/>
+		 
   <project name="bsf">
-    <package>com.ibm.bsf</package>
+    <package>org.apache.bsf</package>
 
     <ant target="samples"/>
 
@@ -38,8 +42,6 @@
 
     <license name="license.html"/>
 
-    <nag to="bsf-discussion@dwoss.lotus.com"
-         from="Sam Ruby &lt;rubys@us.ibm.com&gt;"/>
   </project>
 
   <project name="dist-bsf">
