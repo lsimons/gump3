@@ -79,6 +79,21 @@
     <javadoc nested="modeler/dist/docs/api"/>
   </project>
 
+  <project name="commons-services">
+    <description>Basic Services Architecture</description>
+    <ant basedir="services" target="dist">
+    </ant>
+
+    <depend project="commons-beanutils"/>
+    <depend project="commons-collections"/>
+    <depend project="commons-digester"/>
+    <depend project="commons-logging"/>
+    <depend project="commons-pool"/>
+
+    <jar name="services/dist/commons-digester.jar"/>
+    <javadoc nested="services/dist/docs/api"/>
+  </project>
+
   <project name="commons-util">
     <description>Commons Utility Package</description>
     <ant basedir="util" target="dist">

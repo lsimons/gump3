@@ -18,6 +18,7 @@
       <depend property="commons-logging.jar"     project="commons-logging"/>
       <depend property="commons-pool.jar"        project="commons-pool"/>
       <depend property="commons-dbcp.jar"        project="commons-dbcp"/>
+      <depend property="commons-services.jar"    project="commons-services"/>
     </ant>
 
     <depend project="xml-xalan2"/>
