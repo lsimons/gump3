@@ -274,7 +274,7 @@
   <project name="multipartrequest" package="MultipartRequest130b2"/>
   <project name="relaxng"          package="relaxngDatatype-1.0"/>
   <project name="resolver"         package="resolver-0_2"/>
-  <project name="eclipse"          package="eclipse-2.1RC1"/>
+  <project name="eclipse"          package="eclipse-2.1RC2"/>
   <project name="tranquilo"        package="xsdlib-20010424"/>
   <project name="nsuml"            package="nsuml"/>
 
