@@ -103,11 +103,7 @@
 
         <home nested="component"/>
         <jar name="target/excalibur-component-@@DATE@@.jar" id="component"/>
-        <jar name="target/excalibur-component-@@DATE@@-api.jar"
-             id="component-api"/>
-        <jar name="target/excalibur-component-@@DATE@@-impl.jar"
-             id="component-impl"/>
-
+        
         <junitreport nested="component/target/docs/junitreports"/>
 
         <nag from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"
