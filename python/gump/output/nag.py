@@ -32,8 +32,8 @@ from gump.model.state import *
 from gump.net.mailer import *
 from gump.utils import *
 
-LINE     ='-  -  -  -  - -- -- ------------------------------------ G U M P'
-SEPARATOR='******************************************************** G U M P'
+LINE     ='--   --   --   --   --   --   --   --   --   --   --   --   G U M P'
+SEPARATOR='*********************************************************** G U M P'
 
 class AddressPair:
     def __init__(self,toAddr,fromAddr):
@@ -356,12 +356,12 @@ and/or contact general@gump.apache.org.
         content += type + ' ' + name + ' has an issue affecting its community integration'
                 
         if affected:
-            content += '. This issue affects ' + `affected` + ' projects'
+            content += '.\nThis issue affects ' + `affected` + ' projects'
             
         if duration and duration > 1:
             content += ', and has been outstanding for ' + `duration` + ' runs'
         
-        content += '. '
+        content += '.\n'
         
         if isinstance(object,Project) and affected:
             affectedProjects=object.determineAffectedProjects()
@@ -375,7 +375,7 @@ and/or contact general@gump.apache.org.
                     content += '    - ' + project.getName() 
                     
                     if project.hasDescription():
-                        content += '  '
+                        content += ' :  '
                         content += project.getLimitedDescription()
                         
                     content += '\n'
@@ -407,9 +407,10 @@ and/or contact general@gump.apache.org.
         # Link them back here...
         #
         url=self.run.getOptions().getResolver().getUrl(object)
-        content += "\nFull details are available at: " + url 
-        
-        
+        content += "\nFull details are available at:\n    " 
+        content += url 
+        content += "\n"
+                
         if object.annotations or object.worklist:
             content += ', however some snippets follow:\n'
             

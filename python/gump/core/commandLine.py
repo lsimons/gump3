@@ -117,6 +117,7 @@ class CommandLine:
                 self.options.setTemplate(1)
                 log.info('Use template (not forrest).')
                 
+        # Remove 
         for arg in removers:
             argv.remove(arg)
 
@@ -146,8 +147,11 @@ class CommandLine:
                 print " Project wildcards are accepted, e.g. \"jakarta-*\"."
                 sys.exit(1)
     
-        for arg in self.args:
+        for arg in argv:
             log.warn("Unused command line argument : " + arg)
+            
+        for arg in self.args:
+            log.warn("Argument : " + arg)
 
     def getArguments(self):
         return self.args

@@ -358,7 +358,7 @@ finally:
     
     releaseLock(lock,lockFile)
     
-    if 1 or result:
+    if result:
         logTitle='The Apache Gump log...'
         
         # :TODO: Need to check if stdout is a plain terminal? Not sure, see next.
@@ -377,7 +377,7 @@ finally:
             except:
                 published=0
                 
-        if 1 or not published:
+        if not published:
             catFile(sys.stdout, logFile, logTitle)
         
         if mailserver and mailport and mailto and mailfrom and logurl:

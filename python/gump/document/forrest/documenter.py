@@ -1555,7 +1555,7 @@ This page helps Gumpmeisters (and others) observe community progress.
         # Generate an SVG for FOG:
         (pngFile,pngTitle) = self.diagramFOG(project)
         if pngFile:
-            statsTable.createEntry('FOG Factor').createData().createIcon(pngFile,pngTitle)
+            statsTable.createEntry("FOG Factor: ").createData().createIcon(pngFile,pngTitle)
             
         statsTable.createEntry("FOG Factor: ", '%02.2f' % stats.getFOGFactor())
         statsTable.createEntry('Dependency Depth: ', project.getDependencyDepth())        

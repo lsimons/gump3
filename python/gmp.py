@@ -14,7 +14,7 @@
 #   See the License for the specific language governing permissions and
 #   limitations under the License.
 #
-# $Header: /home/stefano/cvs/gump/python/gmp.py,v 1.5 2004/04/16 20:38:11 ajack Exp $
+# $Header: /home/stefano/cvs/gump/python/gmp.py,v 1.6 2004/04/23 18:09:24 ajack Exp $
 
 """
   This is the commandline entrypoint into Python Gump as a
@@ -127,12 +127,18 @@ try:
         # The path of this command
         gmpPath = os.path.abspath(args[0])
         del args[0]     
-
-        # Workspace is 'workspace.xml', unless overridden
-        workspaceName = 'workspace.xml'
-        if len(args)>1 and args[0] in ['-w','--workspace']:
-            workspaceName=args[1]
-            del args[0:2]
+       
+        # Workspace is the `hostname`.xml or workspace.xml, 
+        # unless overridden
+        workspaceName = hostname + '.xml'
+        if not os.path.abspath(workspaceName):
+            workspaceName='workspace.xml'
+            
+        if os.environ.has_key('GUMP_WORKSPACE'):        
+            workspaceName = os.environ['GUMP_WORKSPACE'] + '.xml'   
+        if len(args)>2 and args[1] in ['-w','--workspace']:
+            workspaceName=args[2]
+            del args[1:3]     
         workspacePath = os.path.abspath(workspaceName)
 
         # Nope, can't find the workspace...

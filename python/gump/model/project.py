@@ -297,13 +297,12 @@ class Project(NamedModelObject, Statable, Resultable, Dependable):
     def gatherAffected(self):
         # Look through all dependees
         for project in self.getFullDependeeProjectList():
+            # Something caused that some grief
+            # The something was this project
             cause=project.getCause()
-            # Something caused this some grief
-            if cause:
-                # The something was this project
-                if cause == self:
-                    if not project in self.affectedProjects:
-                        self.affectedProjects.append(project)
+            if cause and cause == self:
+                if not project in self.affectedProjects:
+                    self.affectedProjects.append(project)
         
     def propagateErrorStateChange(self,state,reason,cause,message):
         

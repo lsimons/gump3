@@ -33,7 +33,8 @@
         <work nested="common/target/classes"/>
         <home nested="common/dist"/>
 
-        <depend inherit="runtime" project="ant"/>
+        <depend project="antworks-importer"/>
+        <depend project="antworks-antlets"/>
 
         <jar name="depot-common-@@DATE@@.jar"/>
 
