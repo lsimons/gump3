@@ -174,12 +174,15 @@
     <jar id="xdoclet-jmx" name="lib/xdoclet-jmx-module-@@DATE@@.jar"/>
     <jar id="xdoclet-libelis" name="lib/xdoclet-libelis-module-@@DATE@@.jar"/>
     <jar id="xdoclet-macromedia" name="lib/xdoclet-macromedia-module-@@DATE@@.jar"/>
+    <jar id="xdoclet-mockobjects" name="lib/xdoclet-mockobjects-module-@@DATE@@.jar"/>
     <jar id="xdoclet-mvcsoft" name="lib/xdoclet-mvcsoft-module-@@DATE@@.jar"/>
     <jar id="xdoclet-mx4j" name="lib/xdoclet-mx4j-module-@@DATE@@.jar"/>
     <jar id="xdoclet-objectweb" name="lib/xdoclet-objectweb-module-@@DATE@@.jar"/>
+    <jar id="xdoclet-oracle" name="lib/xdoclet-oracle-module-@@DATE@@.jar"/>
     <jar id="xdoclet-orion" name="lib/xdoclet-orion-module-@@DATE@@.jar"/>
     <jar id="xdoclet-pramati" name="lib/xdoclet-pramati-module-@@DATE@@.jar"/>
     <jar id="xdoclet-solarmetric" name="lib/xdoclet-solarmetric-module-@@DATE@@.jar"/>
+    <jar id="xdoclet-sun" name="lib/xdoclet-sun-module-@@DATE@@.jar"/>
     <jar id="xdoclet-sybase" name="lib/xdoclet-sybase-module-@@DATE@@.jar"/>
     <jar id="xdoclet-tjdo" name="lib/xdoclet-tjdo-module-@@DATE@@.jar"/>
     <jar id="xdoclet-web" name="lib/xdoclet-web-module-@@DATE@@.jar"/>
