@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/forrest.py,v 1.84 2004/02/24 22:49:10 ajack Exp $
-# $Revision: 1.84 $f
-# $Date: 2004/02/24 22:49:10 $
+# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/forrest.py,v 1.85 2004/02/26 18:47:33 ajack Exp $
+# $Revision: 1.85 $f
+# $Date: 2004/02/26 18:47:33 $
 #
 # ====================================================================
 #
@@ -1222,20 +1222,33 @@ class ForrestDocumenter(Documenter):
         
         dependencySection=document.createSection('Dependency')
         
-        deps = self.documentDependenciesList(dependencySection, "Project Dependencies",	\
+        deps = 0
+        depens = 0
+        depees = 0
+        
+        depens += self.documentDependenciesList(dependencySection, "Project Dependencies",	\
                     project.getDependencies(), 0, project)
                     
-        deps += self.documentDependenciesList(dependencySection, "Project Dependees",		\
+        depees += self.documentDependenciesList(dependencySection, "Project Dependees",		\
                     project.getDependees(), 1, project)
                     
-        deps += self.documentDependenciesList(dependencySection, "Full Project Dependencies",	\
+        depens += self.documentDependenciesList(dependencySection, "Full Project Dependencies",	\
                     project.getFullDependencies(), 0, project)
                                                 
-        deps += self.documentDependenciesList(dependencySection, "Full Project Dependees",		\
+        depees += self.documentDependenciesList(dependencySection, "Full Project Dependees",		\
                     project.getFullDependees(), 1, project)
         
+        deps = depees + depens
+        
         if not deps:
-            dependencySection.createParagraph('No dependency information available.')
+            dependencySection.createNote(	\
+            """This project depends upon no others, and no others depend upon it. This project is an island...""")
+        else:
+            if not depees:
+                dependencySection.createNote('No projects depend upon this project.')    
+            if not depens:
+                dependencySection.createNote('This project depends upon no others.')    
+                
         
         document.serialize()
         
@@ -1793,16 +1806,25 @@ class ForrestDocumenter(Documenter):
    
     def getLink(self,toObject,fromObject=None,state=0):
         url=''
+        postfix=''
         
         #
         # If we are looking for what set the state, look at
-        # work first. Pick the first not working...
+        # work first. Pick the first not working. If not found
+        # link to the annotations section.
         #
         if state and isinstance(toObject,Workable):
             for work in toObject.getWorkList():
                 if not url:
                     if not work.state==STATE_SUCCESS:
                         url=getRelativeLocation(work,fromObject,'.html').serialize()
+                        
+            # This assumes that if it failed, but doesn't have work that
+            # mark's it as failed then something in the nasties must refer
+            # to the problem.
+            if not url:
+                if isinstance(toObject,Annotatable) and toObject.containsNasties()
+                    postfix='#Annotations'
         
         if not url:
             if fromObject:
@@ -1810,7 +1832,7 @@ class ForrestDocumenter(Documenter):
             else:
                 url=self.resolver.getAbsoluteUrl(toObject)
             
-        return url
+        return url + postfix
     
     def insertStatePairIcon(self,xdocNode,toObject,fromObject):
         pair=toObject.getStatePair()

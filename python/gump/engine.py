@@ -114,19 +114,24 @@ class GumpEngine:
         
     def integrate(self,run):    
       
-        logResourceUtilization('Before preprocess')
         
         #
         # Prepare the context
         #
+        logResourceUtilization('Before preprocess')
         self.preprocess(run)
-  
-      
-        logResourceUtilization('Before update')
+        
+        #
+        # Laod the statistics (so we can use them during
+        # other operations).
+        #
+        logResourceUtilization('Before load statistics')
+        self.loadStatistics(run)        
         
         #
         # Checkout from source code repositories
         #
+        logResourceUtilization('Before update')
         self.update(run)
 
         logResourceUtilization('Before build')
@@ -137,23 +142,24 @@ class GumpEngine:
         self.buildAll(run)
   
       
-        logResourceUtilization('Before statistics')
+        if run.getGumpSet().isFull()
+            logResourceUtilization('Before statistics update')
         
-        # Update [or load if not 'all'] Statistics
-        self.updateStatistics(run)
+            # Update Statistics
+            self.updateStatistics(run)
               
-        logResourceUtilization('Before syndicate')
         
         #
         # Provide a news feed (or few)
         #
+        logResourceUtilization('Before syndicate')
         syndicate(run)
                  
-        logResourceUtilization('Before document')
         
         #   
         # Build HTML Result (via Forrest or ...)
         #
+        logResourceUtilization('Before document')
         documenter=run.getOptions().getDocumenter()
         if documenter :
             documenter.document(run)
@@ -168,11 +174,11 @@ class GumpEngine:
   
             log.info('Nag about failures... ')
             
-            logResourceUtilization('Before nag')
-        
+            
             #
             # Nag about failures
             #
+            logResourceUtilization('Before nag')
             nag(run)  
 
         # Return an exit code based off success
@@ -671,27 +677,38 @@ class GumpEngine:
     
     """
     
-    def updateStatistics(self,run):
+    def loadStatistics(self,run):   
+        """ Load Statistics into the run (to get current values) """
+        self.processStatistics(run,1)
+         
+    def updateStatistics(self,run):        
+        """ Update Statistics into the run (to set current values) """
+        self.processStatistics(run,0)
+        
+    def processStatistics(self,run,load):
     
-        log.debug('--- Updating Project Statistics')
+        if load:
+            log.debug('--- Loading Project Statistics')
+        else:
+            log.debug('--- Updating Project Statistics')
     
         db=StatisticsDB()   
         
         workspace=run.getWorkspace()        
         
-        if run.getGumpSet().isFull():
+        if not load:
             #
             # Update stats (and stash onto projects)
             #
             db.updateStatistics(workspace)
+            
+            db.sync()
         else:
             #
             # Load stats (and stash onto projects)
             #    
             db.loadStatistics(workspace)
             
-            
-        db.sync()
                 
     """
     
