@@ -1,0 +1,24 @@
+<project name="jakarta-commons-sandbox">
+
+  <description>
+    Jakarta commons sandbox
+  </description>
+
+  <cvs repository="jakarta"/>
+
+  <project name="commons-util">
+
+    <ant basedir="util" target="dist">
+      <property name="component.version"  value="gump"/>
+      <property name="junit.jar" 
+        reference="jarpath" project="junit" id="junit"/>
+    </ant>
+
+    <depend project="jakarta-ant"/>
+    <depend project="xml-xerces"/>
+    <depend project="junit"/>
+
+    <jar id="util" name="util/commons-util-gump.jar"/>
+  </project>
+
+</project>
