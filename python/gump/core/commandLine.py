@@ -51,16 +51,16 @@ class CommandLine:
         import gump.core.run.options
         self.options=gump.core.run.options.GumpRunOptions()
         
+        # Print the banner
+        banner()
+
         # Extract the workspace
         if len(argv)==2: 
             if argv[1] in ['-V','--version']:
-                banner()
                 sys.exit(0)      
             elif argv[1] in ['-h','--help']:
-                banner()
-      
                 print "command: " , __name__    
-                print "Usage: python "+__name__+".py -w {workspaceFile} [OPTION]... [PROJECT]... [OTHER]..."
+                print "Usage: python "+__name__+".py -w {workspaceFile} [OPTION] [PROJECT]"
                 print 
                 print "Mandatory arguments to long options are mandatory for short options too."
                 print 
@@ -79,8 +79,6 @@ class CommandLine:
                 print "  -c,  --cache             Use local cache (do not download over HTTP)."
                 print "  -t,  --text              Use text not xdocs."
                 print "  -X,  --xdocs             Output xdocs, not XHTML."
-                
-                print
                 print
                 print "For bug reports use JIRA: http://issues.apache.org/."
                 print "For suggestions: <general@gump.apache.org/>."
@@ -158,12 +156,10 @@ class CommandLine:
                         self.args.append(arg)
                     removers.append(arg)        
             else:
-                #banner()
-                #print
-                #print " No project specified, please supply a comma separated list of project expressions or 'all'."
-                #print " Project wildcards are accepted, e.g. \"jakarta-*\"."
-                #sys.exit(1)
-                self.args.append('*')
+                print
+                print " No project specified, please supply a comma separated list of project expressions or 'all'."
+                print " Project wildcards are accepted, e.g. \"jakarta-*\"."
+                sys.exit(1)
              
         # Remove those used
         for arg in removers: argv.remove(arg)

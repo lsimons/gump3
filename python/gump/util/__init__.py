@@ -141,16 +141,12 @@ def createOrderedList(disorderedList,sortfunc=None):
     return sorted   
 
 def banner():
-    printSeparator()
     print
-    print "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
-    print "Apache Python Gump (" + setting.VERSION + "), a multi-project builder."
-    print  
-    print "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
-    print
-    print "Copyright (C) 2003/2004 Apache Software Foundation. All rights reserved."
-    print "See the Apache Software License 1.1 for more details."
-    print "http://www.apache.org/"
+    print "      _____"
+    print "     |   __|_ Apache_ ___"
+    print "     |  |  | | |     | . |"
+    print "     |_____|___|_|_|_|  _|"
+    print "                     |_|     ~ v. " + setting.VERSION + " ~"
     print
     
 def printSeparator(indent=''):

@@ -43,20 +43,16 @@ import smtplib
 import StringIO
 from xml.dom import minidom
 
-LINE=' - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - GUMP'
-
-GUMP_VERSION='2.0.2-alpha-0003'
+GUMP_VERSION='2.1'
 
 def runCommand(command,args='',dir=None,outputFile=None):
     """ Run a command, and check the result... """
     
-    #    
     originalCWD=None
     if dir:     
         originalCWD=os.getcwd()
         cwdpath=os.path.abspath(dir)
         try:
-            sys.stdout.write('Executing with CWD: [' + dir + ']\n')    
             if not os.path.exists(cwdpath): os.makedirs(dir)
             os.chdir(cwdpath)
         except Exception, details :
@@ -66,8 +62,12 @@ def runCommand(command,args='',dir=None,outputFile=None):
               
     try:              
         fullCommand = command + ' ' + args  
-        sys.stdout.write('Execute : ' + fullCommand + '\n')
-       
+        sys.stdout.write('\nExecuting: "' + fullCommand + '"')
+        if dir:
+            sys.stdout.write(' in directory "' + dir + '"\n')
+        else:
+            sys.stdout.write('\n')
+            
         # Execute Command & Calculate Exit Code
         systemReturn=os.system(fullCommand)
         
@@ -94,18 +94,20 @@ def runCommand(command,args='',dir=None,outputFile=None):
       
     return exit_code
 
+#-----------------------------------------------------------------------# 
+
 def catFile(output,file,title=None):
     """ Cat a file to a stream... """
     if title:
-        output.write(LINE + '\n')    
-        output.write(title + '\n\n')
+        output.write(title + ' ------------------------ \n\n')
         
     input=open(file,'r')
     line = input.readline()
     while line:
         output.write(line)
-        # Next...
         line = input.readline()
+
+#-----------------------------------------------------------------------# 
         
 def establishLock(lockFile):
 
@@ -140,6 +142,8 @@ Please resolve this (waiting or removing the lock file) before retrying.
     lock.flush()
         
     return lock
+
+#-----------------------------------------------------------------------# 
         
 def releaseLock(lock,lockFile):
       
@@ -159,152 +163,159 @@ def releaseLock(lock,lockFile):
     except:
         # Somehow another could delete this, even if locked...
         pass
-             
-# Ensure we start in the correct directory, setting GUMP_HOME
-gumpHome=os.path.abspath(os.getcwd())
-os.environ['GUMP_HOME']=gumpHome     
-os.chdir(gumpHome)
 
-# Allow a lock    
-lockFile=os.path.abspath('gump.lock')
-lock=establishLock(lockFile)        
+#-----------------------------------------------------------------------# 
+
+def main():        
+
+    # Ensure we start in the correct directory, setting GUMP_HOME
+    gumpHome=os.path.abspath(os.getcwd())
+    os.environ['GUMP_HOME']=gumpHome     
+    os.chdir(gumpHome)
     
-hostname='Unknown'
-workspaceName='Unknown'
+    # Allow a lock    
+    lockFile=os.path.abspath('gump.lock')
+    lock=establishLock(lockFile)        
         
-args=sys.argv
-result=0
-svnExit = -1
-cvsExit = -1
-integrationExit = -1
-        
-try:
+    hostname='Unknown'
+    workspaceName='Unknown'
 
+    args = sys.argv
+    result = 0
+    svnExit = -1
+    cvsExit = -1
+    integrationExit = -1
+            
     try:
-        
-        # Process Environment
-        hostname = socket.gethostname()
-
-        sys.stdout.write('- ************************************\n')
-        sys.stdout.write('-            Apache Gump \n')
-        sys.stdout.write('- ************************************\n')
-        sys.stdout.write('- GUMP run on host   : ' + hostname + '\n')
-        sys.stdout.write('- GUMP run @         : ' + time.strftime('%d %b %Y %H:%M:%S', time.localtime()) + '\n')
-        sys.stdout.write('- GUMP run @  UTC    : ' + time.strftime('%d %b %Y %H:%M:%S', time.gmtime()) + '\n')
-        sys.stdout.write('- GUMP run by Python : ' + `sys.version` + '\n')
-        sys.stdout.write('- GUMP run by Python : ' + `sys.executable` + '\n')
-        sys.stdout.write('- GUMP run by Gump   : ' + GUMP_VERSION + '\n')
-        sys.stdout.write('- GUMP run on OS     : ' + `os.name` + '\n')
-        
-        #sys.stdout.write('- GUMP run in env    : \n')        
-        #for envkey in os.environ.keys():
-        #    envval=os.environ[envkey]
-        #    sys.stdout.write('      ' + envkey + ' -> [' + envval + ']\n')
-        
-        # Workspace is the hostname, unless overridden
-        workspaceName = 'metadata/' + hostname + '.xml'
-        if len(args)>2 and args[1] in ['-w','--workspace']:
-            workspaceName=args[2]
-            del args[1:3]     
-        workspacePath = os.path.abspath(workspaceName)
-            
-        projectsExpr='all'
-        if len(args)>1:
-            projectsExpr=args[1]
-            del args[1:2]      
-            
-        # Check version information
-        (major, minor, micro, releaselevel, serial) = sys.version_info
-        if not major >=2 and minor >= 3:
-            raise RuntimeError('Gump requires Python 2.3 or above. [' + sys.version() + ']')
-            
-        # Nope, can't find the workspace...
-        if not os.path.exists(workspacePath):
-            raise RuntimeError('No such workspace at ' + str(workspacePath))
-   
-        # Add Gump to Python Path...
-        pythonPath=''
-        if os.environ.has_key('PYTHONPATH'):
-            pythonPath=os.environ['PYTHONPATH']
-            pythonPath+=os.pathsep
-        pythonDir=str(os.path.abspath(os.path.join(os.getcwd(),'python')))
-        pythonPath+=pythonDir
-        sys.stdout.write('- GUMP PYTHONPATH  :  ' + pythonPath + '\n')
-        os.environ['PYTHONPATH']=pythonPath
-        
-        # Wipe all *.pyc from the pythonPath (so we don't
-        # have old code lying around as compiled zombies)
-        for root, dirs, files in os.walk(pythonDir):
-            for name in files:
-                if name.endswith('.pyc'):
-                    fullname=os.path.join(root, name)
-                    # sys.stdout.write('- Remove PYC : ' + fullname + '\n')    
-                    os.remove(fullname)       
-        
-        # Update Gump code from SVN
-        if not os.environ.has_key('GUMP_NO_SVN_UPDATE') and \
-            not os.environ.has_key('GUMP_NO_SCM_UPDATE'):
-            svnExit = runCommand('svn','update --non-interactive')
-        else:
-            sys.stdout.write('SVN update skipped per environment setting.\n')
-            svnExit=0
-        if svnExit:
-            result=1     
-        
-        if not result:
-            # Update Gump metadata from CVS
-            if not os.environ.has_key('GUMP_NO_CVS_UPDATE') and \
-                not os.environ.has_key('GUMP_NO_SCM_UPDATE'):
-                cvsroot=':pserver:anoncvs@cvs.apache.org:/home/cvspublic'
-                os.environ['CVSROOT']=cvsroot
-                # :TODO: ??? delete os.environ['CVS_RSH']
-                cvsExit = runCommand('cvs','-q update -dP','metadata')
-            else:
-                sys.stdout.write('CVS update skipped per environment setting.\n')
-                cvsExit=0
-            if cvsExit:
-                result=1
-            
-        # :TODO: Need to remove all *.pyc (other than this one)
-        # because a Gump refactor can leave old/stale compiled
-        # classes around.
-            
-        # :TODO: Is this a CVS thing, or a Gump historical thing?
-        if os.path.exists('.timestamp'): 
-            os.remove('.timestamp')            
     
-        if not result:
-            # Process/build command line
-            iargs = '-w ' + workspaceName + ' ' + projectsExpr + ' ' + ' '.join(args[1:])
+        try:
             
-            # Allow a check not an integrate
-            check=0
-            if '--check' in args:
-                check=0
-            
-            #
-            # Run the main Gump...
-            #    
-            command='bin/integrate.py'
-            if check:
-                command='bin/check.py'
-            integrationExit = runCommand(sys.executable+ ' '+command, iargs)
-            if integrationExit:
-                result=1
-
-    except KeyboardInterrupt:    
-        sys.stdout.write('Terminated by user interrupt...\n')
-        result = 1
-        raise
-        
-    except:    
-        sys.stdout.write('Terminated unintentionally...\n')
-        result = 1
-        raise
+            # Process Environment
+            hostname = socket.gethostname()
     
-finally:
- 
-    releaseLock(lock,lockFile) 
+            sys.stdout.write('\n - Host       : ' + hostname + '\n')
+            sys.stdout.write(' - Time       : ' + time.strftime('%d %b %Y %H:%M:%S', time.localtime()) + '\n')
+            sys.stdout.write(' - OS         : ' + `os.name` + '\n')
+            sys.stdout.write(' - Python     : ' + sys.version + '\n[' + sys.executable + ']\n')
+            
+            #sys.stdout.write('- GUMP run in env    : \n')        
+            #for envkey in os.environ.keys():
+            #    envval=os.environ[envkey]
+            #    sys.stdout.write('      ' + envkey + ' -> [' + envval + ']\n')
+            
+            # Workspace is the hostname, unless overridden
+            workspaceName = 'metadata/' + hostname + '.xml'
+            if len(args)>2 and args[1] in ['-w','--workspace']:
+                workspaceName=args[2]
+                del args[1:3]     
+            workspacePath = os.path.abspath(workspaceName)
+                
+            projectsExpr='all'
+            if len(args)>1:
+                projectsExpr=args[1]
+                del args[1:2]      
+                
+            # Check version information
+            (major, minor, micro, releaselevel, serial) = sys.version_info
+            if not major >=2 and minor >= 3:
+                raise RuntimeError('Gump requires Python 2.3 or above. [' + sys.version() + ']')
+                
+            # Nope, can't find the workspace...
+            if not os.path.exists(workspacePath):
+                raise RuntimeError('No such workspace at ' + str(workspacePath))
        
-# bye!
-sys.exit(result)
+            # Add Gump to Python Path...
+            pythonPath=''
+            if os.environ.has_key('PYTHONPATH'):
+                pythonPath=os.environ['PYTHONPATH']
+                pythonPath+=os.pathsep
+            pythonDir=str(os.path.abspath(os.path.join(os.getcwd(),'python')))
+            pythonPath+=pythonDir
+            sys.stdout.write(' - PYTHONPATH : ' + pythonPath + '\n')
+            os.environ['PYTHONPATH']=pythonPath
+
+            sys.stdout.write('\n')
+                        
+            # Wipe all *.pyc from the pythonPath (so we don't
+            # have old code lying around as compiled zombies)
+            for root, dirs, files in os.walk(pythonDir):
+                for name in files:
+                    if name.endswith('.pyc'):
+                        fullname=os.path.join(root, name)
+                        # sys.stdout.write('- Remove PYC : ' + fullname + '\n')    
+                        os.remove(fullname)       
+            
+            # Update Gump code from SVN
+            if not os.environ.has_key('GUMP_NO_SVN_UPDATE') and \
+                not os.environ.has_key('GUMP_NO_SCM_UPDATE'):
+                svnExit = runCommand('svn','update --non-interactive')
+            else:
+                sys.stdout.write('SVN update skipped per environment setting.\n')
+                svnExit=0
+            if svnExit:
+                result=1     
+            
+            if not result:
+                # Update Gump metadata from CVS
+                if not os.environ.has_key('GUMP_NO_CVS_UPDATE') and \
+                    not os.environ.has_key('GUMP_NO_SCM_UPDATE'):
+                    cvsroot=':pserver:anoncvs@cvs.apache.org:/home/cvspublic'
+                    os.environ['CVSROOT']=cvsroot
+                    # :TODO: ??? delete os.environ['CVS_RSH']
+                    cvsExit = runCommand('cvs','-q update -dP','metadata')
+                else:
+                    sys.stdout.write('CVS update skipped per environment setting.\n')
+                    cvsExit=0
+                if cvsExit:
+                    result=1
+                
+            # :TODO: Need to remove all *.pyc (other than this one)
+            # because a Gump refactor can leave old/stale compiled
+            # classes around.
+                
+            # :TODO: Is this a CVS thing, or a Gump historical thing?
+            if os.path.exists('.timestamp'): 
+                os.remove('.timestamp')            
+        
+            if not result:
+                # Process/build command line
+                iargs = '-w ' + workspaceName + ' ' + projectsExpr + ' ' + ' '.join(args[1:])
+                
+                # Allow a check not an integrate
+                check=0
+                if '--check' in args:
+                    check=0
+                
+                #
+                # Run the main Gump...
+                #    
+                command='bin/integrate.py'
+                if check:
+                    command='bin/check.py'
+                integrationExit = runCommand(sys.executable+ ' '+command, iargs)
+                if integrationExit:
+                    result=1
+    
+        except KeyboardInterrupt:    
+            sys.stdout.write('Terminated by user interrupt...\n')
+            result = 1
+            raise
+            
+        except:    
+            sys.stdout.write('Terminated unintentionally...\n')
+            result = 1
+            raise
+        
+    finally:
+     
+        releaseLock(lock,lockFile) 
+           
+    return result
+
+#-----------------------------------------------------------------------# 
+
+if __name__ == "__main__":
+    sys.exit(main())
+
+#---------------------------- End of File ------------------------------# 
+    
