@@ -2157,7 +2157,6 @@ This page helps Gumpmeisters (and others) observe community progress.
             # Show the content...
             #
             outputSection=wdocument.createSection('Output')
-            outputSource=outputSection.createSource()
             output=work.result.output
             if output:                
                 try:
@@ -2173,12 +2172,13 @@ This page helps Gumpmeisters (and others) observe community progress.
                         
                         # Do the transfer..
                         copyfile(output,displayedOutput)                        
-                        outputSource.createLink(outputBaseName)
+                        outputSection.createParagraph().createLink(outputBaseName)
                         
-                    else:
+                    else: 
                         #
                         # Display it 'prettily' in HTML
                         #
+                        outputSource=outputSection.createSource()   
                         o=None
                         try:
                             # Keep a length count to not exceed 32K
@@ -2200,9 +2200,9 @@ This page helps Gumpmeisters (and others) observe community progress.
                             if o: o.close()
                             
                 except Exception, details:
-                    outputSource.createText('Failed to copy contents from :' + output + ' : ' + str(details))
+                    outputSection.createParagraph('Failed to copy contents from :' + output + ' : ' + str(details))
             else:
-                outputSource.createText('No output to stdout/stderr from this command.')
+                outputSection.createParagraph('No output to stdout/stderr from this command.')
            
             wdocument.serialize()
             wdocument=None
@@ -2274,7 +2274,6 @@ This page helps Gumpmeisters (and others) observe community progress.
                 # Show the content...
                 #
                 outputSection=fdocument.createSection('File Contents')
-                outputSource=outputSection.createSource()
                 output=fileReference.getPath()
                 if output:
                     try:            
@@ -2290,8 +2289,9 @@ This page helps Gumpmeisters (and others) observe community progress.
                         
                             # Do the transfer..
                             copyfile(output,displayedOutput)                        
-                            outputSource.createLink(outputBaseName)
+                            outputSection.createParagraph().createLink(outputBaseName)
                         else:
+                            outputSource=outputSection.createSource()    
                             o=None
                             try:
                                 # Keep a length count to not exceed 32K
@@ -2312,9 +2312,9 @@ This page helps Gumpmeisters (and others) observe community progress.
                             finally:
                                 if o: o.close()
                     except Exception, details:
-                        outputSource.createText('Failed to copy contents from :' + output + ' : ' + str(details))
+                        outputSection.createParagraph('Failed to copy contents from :' + output + ' : ' + str(details))
                 else:
-                    outputSource.createText('No contents in this file.')
+                    outputSection.createParagraph('No contents in this file.')
         else:
             fdocument.createParagraph('No such file or directory.')
            
