@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 export XALAN=/opt/xalan-j_2_2_D13
 
@@ -11,12 +11,26 @@ fi
 test -n "$1" && SOURCE=$1
 test -z "$1" && SOURCE=`hostname | sed s/[.].*//`.xml
 
-if test "$OSTYPE" = "cygwin32" -o "$OSTYPE" = "cygwin"; then
+# ----- Cygwin Unix Paths Setup -----------------------------------------------
+
+# Cygwin support.  $cygwin _must_ be set to either true or false.
+case "`uname`" in
+  CYGWIN*) cygwin=true ;;
+  *) cygwin=false ;;
+esac
+ 
+# For Cygwin, ensure paths are in UNIX format before anything is touched
+if $cygwin ; then
   export CLASSPATH=`cygpath --path --unix "$CLASSPATH"`
   export CLASSPATH=$XALAN/bin/xml-apis.jar:$XALAN/bin/xalan.jar:$CLASSPATH
   export CLASSPATH=$XALAN/bin/xerces.jar:$CLASSPATH
   export CLASSPATH=.:jenny.jar:$CLASSPATH
   export CLASSPATH=`cygpath --path --windows "$CLASSPATH"`
+
+  if test "$OSTYPE" = "" ; then
+  	export OSTYPE="cygwin"
+  fi
+
   JSOURCE=`cygpath -a -w -p "$SOURCE"`
 else
   export CLASSPATH=$XALAN/bin/xml-apis.jar:$XALAN/bin/xalan.jar:$CLASSPATH
