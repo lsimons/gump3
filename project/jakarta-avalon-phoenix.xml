@@ -21,6 +21,8 @@
     <depend project="xml-stylebook2"/>
     <depend project="xml-xalan2"/>
     <depend project="jmx"/>
+    <depend project="bsf"/>
+    <depend project="rhino"/>
     <home nested="build/lib"/>
     <jar name="phoenix-client.jar"/>
   </project>
