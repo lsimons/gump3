@@ -247,7 +247,7 @@ REASON_BUILD_FAILED=7
 REASON_MISSING_OUTPUTS=8
 
 reasonCodeDescriptions = { 	REASON_UNSET : "Not Set",
-                    REASON_PACKAGE : "Package Install",
+                    REASON_PACKAGE : "Complete Package Install",
                     REASON_PACKAGE_BAD : "Bad Package Installation",
                     REASON_CIRCULAR : "Circular Dependency",
                     REASON_CONFIG_FAILED : "Configuration Failed",

@@ -1,8 +1,8 @@
 #!/usr/bin/python
 
-# $Header: /home/stefano/cvs/gump/python/gump/check.py,v 1.20 2003/09/25 20:31:43 ajack Exp $
-# $Revision: 1.20 $
-# $Date: 2003/09/25 20:31:43 $
+# $Header: /home/stefano/cvs/gump/python/gump/check.py,v 1.21 2003/09/29 17:47:18 ajack Exp $
+# $Revision: 1.21 $
+# $Date: 2003/09/29 17:47:18 $
 #
 # ====================================================================
 #
@@ -219,14 +219,19 @@ def check(workspace, expr='*', context=GumpContext()):
   
   # for each project
   for project in projects:
+    printed_header=0;    
     projectmissing = 0
-    print    
-    print " TESTING " + project.name + " ************* "
+    if not printed_header: 
+      printHeader(project)
+      printed_header=1
     
     # for each dependency in current project
     for depend in project.depend:
       # if the dependency is not present in the projects, it's missing
       if depend.project not in Project.list:
+        if not printed_header: 
+          printHeader(project)
+          printed_header=1    
         projectmissing+=1
         print "  missing: "+depend.project
         if depend.project not in missing:
@@ -235,6 +240,9 @@ def check(workspace, expr='*', context=GumpContext()):
     for depend in project.option:
       # if the dependency is not present in the projects, it's missing
       if depend.project not in Project.list:
+        if not printed_header: 
+          printHeader(project)
+          printed_header=1    
         projectmissing+=1
         print "  optional missing: "+depend.project
         if depend.project not in optionalMissing:
@@ -243,18 +251,25 @@ def check(workspace, expr='*', context=GumpContext()):
     if projectmissing>0:
       print "  total errors: " , projectmissing
 
-  if len(optionalMissing)>0:
+  if len(optionalMissing)>0:      
+    if not printed_header: 
+      printHeader(project)
+      printed_header=1
     print
-    print " ***** MISSING OPTIONAL *ONLY* PROJECTS THAT ARE REFRENCED ***** "
+    print " ***** MISSING OPTIONAL *ONLY* PROJECTS THAT ARE REFERENCED ***** "
     print
     for missed in optionalMissing:
       if missed not in missing:
         optionalOnlyMissing.append(missed)
         print "  " + missed
+           
+  if not printed_header: 
+      printHeader(project)
+      printed_header=1
       
   if len(missing)>0:
     print
-    print " ***** MISSING PROJECTS THAT ARE REFRENCED ***** "
+    print " ***** MISSING PROJECTS THAT ARE REFERENCED ***** "
     print
     for missed in missing:
       print "  " + missed
@@ -288,10 +303,13 @@ def check(workspace, expr='*', context=GumpContext()):
   else:
     print "  -  OK - All OPTIONAL projects that are referenced are present in the workspace."  
     print " ***** RESULT ***** "
-
     
   return 0
   
+def printHeader(project):
+    print "  *****************************************************"       
+    print " Project: " + project.name
+    
 def peekInGlobalProfile(missing):
    
   print  

@@ -236,9 +236,7 @@ def executeForrest(workspace,context):
 
     # Update Context    
     work=CommandWorkItem(WORK_TYPE_DOCUMENT,forrest,forrestResult)
-    context.performedWork(work)
-    
-     
+    context.performedWork(work)    
      
 #####################################################################           
 #
@@ -362,11 +360,12 @@ def documentWorkspace(workspace,context,db,moduleFilterList=None,projectFilterLi
     packages=getPackagedProjectContexts(context)
     if packages:
         startTableXDoc(x)
-        x.write('      <tr><th>Name</th><th>State</th><th>Location</th></tr>')
+        x.write('      <tr><th>Name</th><th>State</th><th>State</th><th>Location</th></tr>')
         for pctxt in packages:
             x.write('     <tr><!-- %s -->' % (pctxt.name))        
             x.write('      <td>%s</td>' % getContextLink(pctxt,0))   
             x.write('      <td>%s</td>' % getContextStateDescription(pctxt))
+            x.write('      <td>%s</td>' % getStatePairIcon(pctxt.getStatePair()))            
             x.write('      <td>%s</td>' % pctxt.project.home)    
             x.write('     </tr>')
         endTableXDoc(x)
@@ -436,7 +435,40 @@ def documentModule(workspace,wdir,modulename,modulecontext,db,projectFilterList=
         
     documentAnnotations(x,modulecontext.annotations)
     
-    startSectionXDoc(x,'Projects')
+      
+    startSectionXDoc(x,'Projects with TODOs')
+    x.write('    <table>\n')
+    x.write('     <tr>')        
+    x.write('      <th>Name</th><th>State</th><th>Elapsed Time</th>')
+    x.write('     </tr>')
+    pcount=0
+    for pctxt in modulecontext:     
+        if projectFilterList and not pctxt.project in projectFilterList: continue  
+        pname=pctxt.name   
+        
+        #
+        # Determine if there are todos, otherwise continue
+        #
+        todos=0
+        for pair in pctxt.aggregateStates():
+            if pair.state==STATUS_FAILED:
+                todos=1
+                
+        if not todos: continue
+         
+        pcount+=1
+        
+        x.write('     <tr><!-- %s -->' % (pname))        
+        x.write('      <td><link href=\'%s\'>%s</link></td><td>%s</td>' % \
+          (getProjectRelativeUrl(pname),pname,getStatePairIcon(pctxt.getStatePair(),1)))    
+        x.write('      <td>%s</td>' % elapsedTimeToString(pctxt.elapsedTime()))    
+        x.write('     </tr>')
+        
+    if not pcount: x.write('	<tr><td>None</td></tr>')
+    x.write('    </table>\n')
+    endSectionXDoc(x)        
+    
+    startSectionXDoc(x,'All Projects')
     x.write('    <table>\n')
     x.write('     <tr>')        
     x.write('      <th>Name</th><th>State</th><th>Elapsed Time</th>')
@@ -1046,7 +1078,7 @@ def getStatePairIcon(pair,depth=0):
     
     # Build the URL
     iconName=gumpSafeName(lower(replace(uniqueName,' ','_')))
-    url = getUp(depth)+"icons/"+iconName+".png";
+    url = getUp(depth)+"gump_icons/"+iconName+".png";
     
     # Build the <icon xdoc
     return '<icon src=\'' + url + '\' alt=\'' + description +'\'/>'

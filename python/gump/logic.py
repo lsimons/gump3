@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/Attic/logic.py,v 1.6 2003/09/26 19:09:52 ajack Exp $
-# $Revision: 1.6 $
-# $Date: 2003/09/26 19:09:52 $
+# $Header: /home/stefano/cvs/gump/python/gump/Attic/logic.py,v 1.7 2003/09/29 17:47:18 ajack Exp $
+# $Revision: 1.7 $
+# $Date: 2003/09/29 17:47:18 $
 #
 # ====================================================================
 #
@@ -271,9 +271,23 @@ def getScriptCommand(workspace,module,project,script,context):
     scriptfile=os.path.normpath(os.path.join(basedir, scriptfullname))
     classpath=getClasspath(project,workspace)
 
-    return Cmd(scriptfile,'buildscript_'+module.name+'_'+project.name,basedir,{'CLASSPATH':classpath})
-    
+    return Cmd(scriptfile,'buildscript_'+module.name+'_'+project.name,\
+            basedir,{'CLASSPATH':classpath})
 
+#
+# 
+#    
+def getOutputsList(project):
+    outputs=[]
+    for i in range(0,len(project.jar)):
+        jar=os.path.normpath(project.jar[i].path)
+        outputs.append(jar)
+        
+    return outputs
+                   
+def hasOutputs(project):
+    return (len(getOutputsList(project)) > 0)
+    
 #
 # Maybe this is dodgy (it is inefficient) but we need some
 # way to get the sun tools for a javac compiler for ant and
@@ -308,12 +322,12 @@ def getClasspathList(project,workspace):
       else:
           log.error("<work element without nested or parent attributes on " + project.name )
           
+  # Append projects
   for depend in project.depend:
     for jar in depend.jars():
       classpath.append(jar.path) 
   
-  # :TODO: Check Exist... hmm, or not same result perhaps
-  # albeit cleaner to remove
+  # Append optional projects (that may not exist)
   for option in project.option:
     for jar in option.jars():
       classpath.append(jar.path)
@@ -407,7 +421,19 @@ def preprocessContext(workspace,context=GumpContext()):
             if not isPackaged(project):
                 allPackaged=0  
                 if packageCount:
-                    mctxt.addWarning("Incomplete \'Packaged\' Module. Project: " + project.name + " is not packaged")                  
+                    if not hasOutputs(project):
+                        # 
+                        # Honorary package (allow folks to only mark the main
+                        # project in a module as a package, and those that do
+                        # not product significant outputs (e.g. test projects)
+                        # will be asssumed to be packages.
+                        # 
+                        pctxt=context.getProjectContextForProject(project)
+                        pctxt.state=STATUS_COMPLETE
+                        pctxt.reason=REASON_PACKAGE
+                    else:
+                        mctxt.addWarning("Incomplete \'Packaged\' Module. Project: " + \
+                                    project.name + " is not packaged")                  
             else:
                 packageCount+=1
                 
