@@ -5,6 +5,9 @@ SETLOCAL
 @REM 
 @REM SET CLASSPATH=%JAXP%\crimson.jar;%JAXP%\jaxp.jar;%JAXP%\xalan.jar;%CLASSPATH%
 
+@REM set local variables in LOCAL-ENV.bat
+if exist LOCAL-ENV.bat call LOCAL-ENV.bat
+
 set OS_stylesheet=winxp
 ver | find "Windows 2000" >nul
 if errorlevel 1 goto xalan
@@ -23,6 +26,8 @@ IF "%HOME%"=="" SET HOME=%USERPROFILE%
 IF "%HOME%"=="" SET HOME=%HOMEDRIVE%%HOMEPATH%
 IF "%HOME%"=="" SET HOME=C:\
 
+
+
 if exist work rmdir /s /q work
 mkdir work
 if not exist cache mkdir cache
@@ -37,7 +42,7 @@ if errorlevel 1 goto fail
 jar cf jenny.jar -C classes .
 if errorlevel 1 goto fail
 echo.
-java "-Duser.home=%HOME%" -classpath "jenny.jar;%CLASSPATH%" Jenny %SOURCE%
+java "-Duser.home=%HOME%"  %JENNY_OPT% -classpath "jenny.jar;%CLASSPATH%" Jenny %SOURCE%
 if not errorlevel 0 goto fail
 
 @REM ********************************************************************
@@ -136,6 +141,6 @@ echo *** FAILED ***
 echo.
 echo Checking for local dependencies in %SOURCE%
 echo.
-java "-Duser.home=%HOME%" -classpath "jenny.jar;%CLASSPATH%" LocalCheck %SOURCE%
+java "-Duser.home=%HOME%" %JENNY_OPT%  -classpath "jenny.jar;%CLASSPATH%" LocalCheck %SOURCE%
 
 ENDLOCAL

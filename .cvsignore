@@ -12,3 +12,4 @@ javadocs
 velocity.log
 build
 *~
+LOCAL-ENV.bat
