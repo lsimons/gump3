@@ -12,6 +12,9 @@
 
     <property name="dist.dir" reference="home" project="jakarta-taglibs"/>
 
+    <property name="xerces.jar"
+       reference="jarpath" id="parser" project="xml-xerces"/>
+
     <property name="xalan.jar"
        reference="jarpath" id="xalan" project="xml-xalan2"/>
 
