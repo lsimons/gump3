@@ -799,6 +799,7 @@
         </ant>
 
         <depend project="jakarta-ant" inherit="runtime"/>
+	<depend project="excalibur-i18n" inherit="runtime"/>
         <option project="checkstyle" inherit="runtime"/>
         <depend project="junit"/>
         <depend project="jakarta-avalon" runtime="true"/>
