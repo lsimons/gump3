@@ -8,8 +8,7 @@
     <!-- Note: this project is provided in source form.  Download and build
          using "ant -DDSTAMP=gump" -->
 
-    <home nested="dist"/>
-    <jar name="lib/jsch-gump.jar"/>
+    <jar name="dist/lib/jsch-gump.jar"/>
   </project>
 
 </module>
