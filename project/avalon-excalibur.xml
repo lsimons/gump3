@@ -1,10 +1,14 @@
 <module name="avalon-excalibur">
     <!-- ===================================================================
           General notes
-          
-          Avalon-Excalibur is built using maven now. We use a very basic
+
+          * Avalon-Excalibur is built using maven now. We use a very basic
           buildfile which delegates to a common buildfile which emulates
           most of the maven behaviour.
+
+          * I didn't bother to update/simplify all of the dependency
+          references; but do note all the bla-di-blah.jar properties are now
+          unused, and could safely be replaced by 'normal' depend tags.
     -->
 
     <url href="http://avalon.apache.org/excalibur/"/>
@@ -37,6 +41,8 @@
 
         <home nested="compatibility"/>
         <jar name="target/excalibur-compatibility-@@DATE@@.jar"/>
+
+        <junitreport nested="compatibility/target/docs/junitreports"/>
 
         <nag from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"
                 to="dev@avalon.apache.org"/>
@@ -91,6 +97,8 @@
         <jar name="target/excalibur-component-@@DATE@@.jar" id="component"/>
         <jar name="target/excalibur-testcase-@@DATE@@.jar" id="testcase"/>
 
+        <junitreport nested="component/target/docs/junitreports"/>
+
         <nag from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"
                 to="dev@avalon.apache.org"/>
     </project>
@@ -133,6 +141,8 @@
 
         <jar name="target/excalibur-configuration-@@DATE@@.jar"/>
 
+        <junitreport nested="configuration/target/docs/junitreports"/>
+
         <nag>
           <regexp pattern="/Missing prereq/i"
             from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"
@@ -170,6 +180,8 @@
 
         <home nested="datasource"/>
         <jar name="target/excalibur-datasource-@@DATE@@.jar"/>
+
+        <junitreport nested="datasource/target/docs/junitreports"/>
 
         <nag from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"
                 to="dev@avalon.apache.org"/>
@@ -215,6 +227,8 @@
 
         <home nested="event"/>
         <jar name="target/excalibur-event-@@DATE@@.jar"/>
+
+        <junitreport nested="event/target/docs/junitreports"/>
 
         <nag from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"
                 to="dev@avalon.apache.org"/>
@@ -283,6 +297,8 @@
         <home nested="i18n"/>
         <jar name="target/excalibur-i18n-@@DATE@@.jar"/>
 
+        <junitreport nested="i18n/target/docs/junitreports"/>
+
         <nag from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"
                 to="dev@avalon.apache.org"/>
     </project>
@@ -315,6 +331,8 @@
 
         <home nested="instrument"/>
         <jar name="target/excalibur-instrument-@@DATE@@.jar"/>
+
+        <junitreport nested="instrument/target/docs/junitreports"/>
 
         <nag from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"
                 to="dev@avalon.apache.org"/>
@@ -391,6 +409,8 @@
         <jar name="target/excalibur-instrument-manager-@@DATE@@.jar"/>
         <jar name="target/excalibur-instrument-manager-interfaces-@@DATE@@.jar"/>
 
+        <junitreport nested="instrument-manager/target/docs/junitreports"/>
+
         <nag from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"
                 to="dev@avalon.apache.org"/>
     </project>
@@ -432,6 +452,8 @@
         <home nested="instrument-client"/>
         <jar name="target/excalibur-instrument-client-@@DATE@@.jar"/>
 
+        <junitreport nested="instrument-client/target/docs/junitreports"/>
+
         <nag>
           <regexp pattern="/Missing prereq/i"
             from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"
@@ -471,6 +493,8 @@
 
         <home nested="lifecycle"/>
         <jar name="target/excalibur-lifecycle-@@DATE@@.jar"/>
+
+        <junitreport nested="lifecycle/target/docs/junitreports"/>
 
         <nag from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"
                 to="dev@avalon.apache.org"/>
@@ -547,6 +571,8 @@
 
         <home nested="logger"/>
 
+        <junitreport nested="logger/target/docs/junitreports"/>
+
         <nag from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"
                 to="dev@avalon.apache.org"/>
     </project>
@@ -565,6 +591,8 @@
         <work nested="monitor/target/test-classes"/>
 
         <jar name="target/excalibur-monitor-@@DATE@@.jar"/>
+
+        <junitreport nested="monitor/target/docs/junitreports"/>
 
         <nag from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"
                 to="dev@avalon.apache.org"/>
@@ -643,6 +671,8 @@
 
         <home nested="pool"/>
 
+        <junitreport nested="pool/target/docs/junitreports"/>
+
         <nag from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"
                 to="dev@avalon.apache.org"/>
         <nag>
@@ -678,6 +708,8 @@
 
         <home nested="sourceresolve"/>
         <jar name="target/excalibur-sourceresolve-@@DATE@@.jar"/>
+
+        <junitreport nested="sourceresolve/target/docs/junitreports"/>
 
         <nag from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"
                 to="dev@avalon.apache.org"/>
@@ -722,7 +754,7 @@
         <ant basedir="store" target="jar">
             <depend property="excalibur-fortress-tools.jar" project="avalon-fortress-tools" inherit="runtime"/>
             <depend property="qdox.jar" project="phoenix-qdox"/>
-            
+
             <property name="project.version" value="@@DATE@@"/>
         </ant>
 
@@ -741,6 +773,8 @@
 
         <home nested="store"/>
         <jar name="target/excalibur-store-@@DATE@@.jar"/>
+
+        <junitreport nested="store/target/docs/junitreports"/>
 
         <nag from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"
                 to="dev@avalon.apache.org"/>
@@ -779,6 +813,8 @@
 
         <home nested="thread"/>
         <jar name="target/excalibur-thread-@@DATE@@.jar"/>
+
+        <junitreport nested="thread/target/docs/junitreports"/>
 
         <nag from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"
                 to="dev@avalon.apache.org"/>
@@ -822,6 +858,8 @@
 
         <home nested="xmlutil"/>
         <jar name="target/excalibur-xmlutil-@@DATE@@.jar"/>
+
+        <junitreport nested="xmlutil/target/docs/junitreports"/>
 
         <nag from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"
                 to="dev@avalon.apache.org"/>
