@@ -1,8 +1,8 @@
 #!/usr/bin/python
 
-# $Header: /home/stefano/cvs/gump/python/gump/build.py,v 1.29 2003/11/03 19:42:45 ajack Exp $
-# $Revision: 1.29 $
-# $Date: 2003/11/03 19:42:45 $
+# $Header: /home/stefano/cvs/gump/python/gump/build.py,v 1.30 2003/11/03 19:56:31 ajack Exp $
+# $Revision: 1.30 $
+# $Date: 2003/11/03 19:56:31 $
 #
 # ====================================================================
 #
@@ -74,6 +74,7 @@ import logging
 from gump import log, load
 from gump.context import *
 from gump.logic import getBuildSequenceForProjects, getBuildCommand, \
+        getMkDirCommand, getDeleteCommand, \
         getProjectsForProjectExpression, getModulesForProjectList, \
         hasOutputs
 from gump.repository import JarRepository
