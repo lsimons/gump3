@@ -71,13 +71,13 @@
     </project>
     
     
-    <project name="depot-ruper" fullname="Depot Ruper" >
+    <project name="depot-update" fullname="Depot Update" >
 
-        <package>org.apache.ruper</package>
+        <package>org.apache.update</package>
 
         <!-- Work dirs to be included in classpath  -->
-        <work nested="ruper/target/classes"/>
-        <home nested="ruper/target/dist"/>
+        <work nested="update/target/classes"/>
+        <home nested="update/target/dist"/>
 
         <depend inherit="runtime" project="ant"/>
         <depend project="depot-version"/>                
@@ -85,9 +85,9 @@
         <depend project="commons-httpclient"/>
         <depend project="commons-vfs"/>
 
-        <jar name="jars/apache-depot-ruper-@@DATE@@.jar"/>
+        <jar name="jars/apache-depot-update-@@DATE@@.jar"/>
 
-        <ant basedir="ruper" buildfile="build.xml" target="gump" vm="1.4">
+        <ant basedir="update" buildfile="build.xml" target="gump" vm="1.4">
           <property name="ant.home" project="ant" reference="home" />
           <property name="DATE_STAMP" value="@@DATE@@"/>        	
         </ant>
@@ -98,19 +98,19 @@
               
     </project>
     
-    <project name="depot-ruper-test" fullname="Depot Ruper Test">
+    <project name="depot-update-test" fullname="Depot Update Test">
     	
-        <package>org.apache.ruper.test</package>
+        <package>org.apache.update.test</package>
 
         <!-- Work dirs to be included in classpath  -->
-        <work nested="ruper/target/unit/classes"/>
-        <home nested="ruper/dist"/>
+        <work nested="update/target/unit/classes"/>
+        <home nested="update/dist"/>
 
-        <depend project="depot-ruper" inherit="all"/>
+        <depend project="depot-update" inherit="all"/>
         <depend project="ant-testutil"/>
         <depend project="junit"/>
 
-        <ant  basedir="ruper" buildfile="build.xml" target="test" vm="1.4">
+        <ant  basedir="update" buildfile="build.xml" target="test" vm="1.4">
         	<property name="ant.home" project="ant" reference="home" />
         </ant>
 
