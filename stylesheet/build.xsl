@@ -133,7 +133,7 @@
             <a href="{url/@href}">home</a>
           </xsl:if>
 
-          <a href="project_{@defined-in}.html">definition</a>
+          <a href="module_{@defined-in}.html">definition</a>
 
           <xsl:for-each select="/workspace/module[cvs and @name=$module]">
             <a href="cvs_{@defined-in}.html">cvs</a>
@@ -153,7 +153,7 @@
                   </a>
                 </xsl:when>
                 <xsl:otherwise>
-                  <a href="project_{@module}.html">
+                  <a href="module_{@module}.html">
                     <xsl:value-of select="$dependent"/>
                   </a>
                 </xsl:otherwise>

@@ -166,7 +166,7 @@
           <xsl:value-of select="@defined-in"/>
           <xsl:text>.xml </xsl:text>
           <xsl:value-of select="$logdir"/>
-          <xsl:text>\project_</xsl:text>
+          <xsl:text>\module_</xsl:text>
           <xsl:value-of select="@defined-in"/>
           <xsl:text>.html&#10;</xsl:text>
         </xsl:if>

@@ -40,7 +40,7 @@
 
               <tr>
                 <td>
-                  <a href="project_{@module}.html">
+                  <a href="module_{@module}.html">
                     <xsl:value-of select="@name"/>
                   </a>
                 </td>
