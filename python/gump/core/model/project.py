@@ -573,12 +573,12 @@ class Project(NamedModelObject, Statable, Resultable, Dependable, Positioned):
         if self.hasDomChild('description'):
             self.desc=self.getDomChildValue('description')   
     
-        for jvmarg in self.getDomChildIterator('jvmarg'):
-            if hasDomAttribute(jvmarg,'value'):                
-                self.jvmargs.addParameter(getDomAttributeValue(jvmarg,'value'))
-            else:
-                log.error('Bogus JVM Argument w/ Value')            
-            
+        if self.ant:
+            self.addJVMArgs(self.getDomChild("ant"))
+
+        if self.maven:
+            self.addJVMArgs(self.getDomChild("maven"))
+
         #
         # complete properties
         #
@@ -633,6 +633,14 @@ class Project(NamedModelObject, Statable, Resultable, Dependable, Positioned):
         
         # Done, don't redo
         self.setComplete(True)
+
+    # turn the <jvmarg> children of domchild into jvmargs
+    def addJVMArgs(self,domChild):        
+        for jvmarg in domChild.getDomChildIterator('jvmarg'):
+            if hasDomAttribute(jvmarg, 'value'):                
+                self.jvmargs.addParameter(getDomAttributeValue(jvmarg, 'value'))
+            else:
+                log.error('Bogus JVM Argument w/ Value')
 
     def importDependencies(self,workspace):        
         badDepends=[]
