@@ -21,6 +21,8 @@
     <jar name="plugins/org.eclipse.jface_2.1.0/jface.jar" id="jface"/>
     <jar name="plugins/org.eclipse.ant.core_2.1.0/antsupport.jar" id="antsupport"/>
     <jar name="plugins/org.eclipse.ui.workbench_2.1.0/workbench.jar" id="workbench"/>
+    <jar name="plugins/org.eclipse.jdt.junit_2.1.0/junitsupport.jar" id="jdtjunit"/>
+    <jar name="plugins/org.eclipse.jdt.ui_2.1.0/jdt.jar" id="jdtui"/>
 
   </project>
 
