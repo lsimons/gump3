@@ -20,7 +20,7 @@
     <depend project="xml-xerces"/>
     <depend project="junit"/>
 
-    <jar id="util" name="util/commons-util-gump.jar"/>
+    <jar id="util" name="util/dist/commons-util-gump.jar"/>
   </project>
 
   <project name="commons-jjar">

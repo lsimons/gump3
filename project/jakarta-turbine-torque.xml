@@ -23,7 +23,7 @@
     <property name="jakarta-site2"
        reference="home" project="jakarta-site2"/>
     <property name="commons-util.jar"
-       reference="jarpath" id="commons-util" project="commons-util"/>
+       reference="jarpath" id="util" project="commons-util"/>
 
     <property name="final.name" value="torque-gump"/>
     <property name="deprecation" path="on"/>
