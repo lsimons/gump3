@@ -19,6 +19,7 @@
     <depend project="jakarta-ant"/>
     <home nested="build"/>
     <jar name="lib/wsdl4j.jar"/>
+    <jar name="lib/qname.jar"/>
     <javadoc nested="build/javadocs"/>
   </project>
 
