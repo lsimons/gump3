@@ -1,6 +1,16 @@
 #!/usr/bin/python
 """
-	Gump core model
+	Gump core functionality. It contains a sax dispatcher tool, a dependency
+	walker, and an object model which is built from an xmlfile using
+	the sax dispatcher.
+
+    The idea is that a subclass of GumpBase is used for each of the various
+    xml tags which can appear in a gump profile, with a saxdispatcher
+    generating a tree of GumpBase objects from the profile, dynamically
+    merging as it finds href references.
+
+    You can then use the dependencies() method to get an ordered, flat vector
+    of the projects in the profile.
 """
 
 import os.path, os, time, urllib, urlparse, shutil, string, os.path

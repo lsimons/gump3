@@ -1,7 +1,13 @@
 #!/usr/bin/python
 """
-        Look for obsolete installed packages, cvs checkouts, and build
-        directories.
+        This is the entrypoint into gump. It at the moment basically
+        calls gumpcore.load() to get the workspace, then dumps
+        information about what it should be doing to stdout.
+
+        The main thing to do here is to clone dumpDeps to create a
+        build() method which executes the appropriate script
+        (probably only ant at the moment; would be nice to have)
+        support for maven) for each of the dependencies.        
 """
 
 import os.path,os,sys
@@ -90,6 +96,8 @@ if __name__=='__main__':
   else:
     ps=default.project    
 
+  # get parsed workspace definition
   workspace=load(ws)
+  # print info on the definition
   dumpDeps(workspace, ps);          
   sys.exit(0)
