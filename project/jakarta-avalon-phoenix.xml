@@ -11,6 +11,7 @@
     <package>org.apache.avalon.phoenix</package>
 
     <ant target="dist">
+      <property name="checkstyle.failOnError" value="true"/>
       <depend property="xerces.jar" project="xml-xerces" id="parser"/>
       <depend property="logkit.jar" project="jakarta-avalon-logkit"/>
       <depend property="framework.jar" project="jakarta-avalon"/>
