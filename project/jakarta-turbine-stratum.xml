@@ -28,8 +28,30 @@
     <depend project="dom4j" version="1.1"/>
     <depend project="jisp"/>
     <depend project="jetty"/>
+    <depend project="jgl"/>
+    <depend project="hsqldb"/>
 
     <home nested="bin"/>
     <jar name="stratum-@@DATE@@.jar"/>
   </project>    
+
+  <project name="jakarta-turbine-repo">
+    <mkdir dir="lib.repo"/>
+    <ant target="update-jars">
+      <property name="lib.repo" path="lib.repo"/>
+    </ant>
+    <depend project="jakarta-ant"/>
+    <depend project="xml-xerces"/>
+    <depend project="jakarta-turbine-tdk"/>
+  </project>
+
+  <project name="jgl">
+    <url href="http://www.recursionsw.com/products/jgl/"/>
+    <description>
+       Advanced collections and more than 50 generic algorithms
+    </description>
+    <depend project="jakarta-turbine-repo"/>
+    <home nested="lib.repo"/>
+    <jar name="jgl3.1.0.jar"/>
+  </project>
 </module>

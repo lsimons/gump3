@@ -7,12 +7,24 @@
 
   <cvs repository="jakarta"/>
   
-  <project name="jakarta-turbine-tdk">
+  <project name="jakarta-turbine-tdk-docs">
     <ant target="docs"/>
 
     <depend project="jakarta-ant"/>
     <depend project="xml-xerces"/>
     <depend project="jakarta-velocity" inherit="runtime"/>
+  </project>    
+
+  <project name="jakarta-turbine-tdk">
+    <ant target="jar"/>
+
+    <depend project="jakarta-ant"/>
+    <depend project="xml-xerces"/>
+    <depend project="jakarta-velocity" inherit="runtime"/>
+    <depend project="commons-util"/>
+    <depend project="commons-digester"/>
+    <depend project="jakarta-oro"/>
+    <jar name="bin/tdk.jar"/>
   </project>    
 
 </module>

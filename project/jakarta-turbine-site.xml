@@ -20,7 +20,7 @@
     <depend project="jakarta-avalon-logkit"/>
     <depend project="jakarta-turbine-2"/>
     <depend project="jakarta-turbine-fulcrum"/>
-    <depend project="jakarta-turbine-tdk"/>
+    <depend project="jakarta-turbine-tdk-docs"/>
     <depend project="jakarta-turbine-torque"/>
     <depend project="jdom"/>
   </project>    
