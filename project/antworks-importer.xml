@@ -36,8 +36,6 @@
 
 
     <jar  name="dist/antworks-importer-0.1-gump-@@DATE@@.jar" />
-\    
-
     <nag to="antworks-developers@lists.sourceforge.net"
          from="nick@chalko.com"/>
   </project>
