@@ -127,9 +127,6 @@
          from="Ted Husted &lt;ted@husted.com&gt;"/>
   </project>
 
-  <!--
-  giving up, dependencies are added too quickly for me to follow, many
-  of them not buildable by Gump
   <project name="commons-jelly">
     <package>org.apache.commons.jelly</package>
     <description>Commons Jelly Package</description>
@@ -139,12 +136,17 @@
     <depend project="jakarta-ant" inherit="runtime"/>
     <depend project="xml-xerces"/>
 
+    <depend project="antlr"/>
     <depend project="beanshell"/>
     <depend project="bsf"/>
+    <!-- depend project="cyberneko"/ -->
     <depend project="commons-beanutils"/>
+    <depend project="commons-betwixt"/>
+    <depend project="commons-cli"/>
     <depend project="commons-collections"/>
     <depend project="commons-digester"/>
     <depend project="commons-discovery"/>
+    <!-- depend project="commons-grant"/ -->
     <depend project="commons-httpclient"/>
     <depend project="commons-jexl"/>
     <depend project="commons-logging"/>
@@ -152,22 +154,26 @@
     <depend project="dom4j"/>
     <depend project="hsqldb"/>
     <depend project="iso-relax"/>
+    <depend project="jaf"/>
     <depend project="jakarta-ojb"/>
     <depend project="jakarta-velocity"/>
+    <depend project="javamail"/>
     <depend project="jdbc"/>
     <depend project="jms"/>
+    <depend project="junit"/>
     <depend project="msv"/>
+    <depend project="quartz"/>
     <depend project="relaxng"/>
-    <depend project="werkz"/>
+    <!-- depend project="werkz"/ -->
+    <depend project="xml-axis"/>
 
     <work nested="jelly/target/classes"/>
     <home nested="jelly/target"/>
     <jar name="commons-jelly-1.0-dev.jar"/>
 
     <nag to="commons-dev@jakarta.apache.org"
-         from="James Strachan &lt;jstrachan@apache.org&gt;"/>
+         from="Stefan Bodewig &lt;bodewig@apache.org&gt;"/>
   </project>
-  -->
 
   <project name="commons-jexl">
     <package>org.apache.commons.jexl</package>
