@@ -110,7 +110,7 @@ class Nagger:
                 
         
         # Workspace can override...
-        (wsTo, wsFrom) = self.workspace.getOverrides()        
+        (wsTo, wsFrom) = self.workspace.getNagOverrides()        
                 
         # Belt and braces (nag to us if not nag to them)
         if self.hasUnwanted():
@@ -253,13 +253,11 @@ The following %s nag%s should have been sent
         # Send those e-mails
         self.sendEmails(self.getAddressPairs(project),subject,content)
     
-    def g
-    
     def getAddressPairs(self, object):
         nags=[]
         
         # Workspace can override...
-        (wsTo, wsFrom) = self.workspace.getOverrides()
+        (wsTo, wsFrom) = self.workspace.getNagOverrides()
         
         for nagEntry in object.xml.nag:
             #
