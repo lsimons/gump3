@@ -10,12 +10,13 @@ IF "%1"=="" SET SOURCE=%COMPUTERNAME%.xml
 if exist work rmdir /s /q work
 mkdir work
 
-echo Merging projects into workspace
-java org.apache.xalan.xslt.Process -xml -in %SOURCE% -xsl stylesheet\merge.xsl -out work/merge.xml
-if not errorlevel 0 goto fail
+REM ********************************************************************
 
-echo Sorting projects into dependency order
-java org.apache.xalan.xslt.Process -xml -in work\merge.xml -xsl stylesheet\sortdep.xsl -out work\sorted.xml
+echo Merging projects into workspace
+javac gen.java
+if errorlevel 1 goto fail
+echo.
+java gen %SOURCE%
 if not errorlevel 0 goto fail
 
 REM ********************************************************************
@@ -63,7 +64,7 @@ if not errorlevel 0 goto fail
 REM ********************************************************************
 
 echo Generate script to publish all xml source files
-java org.apache.xalan.xslt.Process -text -in %SOURCE% -xsl stylesheet\win2k.xsl -out work\puball.bat
+java org.apache.xalan.xslt.Process -text -in work\merge.xml -xsl stylesheet\win2k.xsl -out work\puball.bat
 if not errorlevel 0 goto fail
 
 echo Generate template for publishing an xml source file
@@ -79,7 +80,7 @@ java org.apache.xalan.xslt.Process -EDUMP -text -in work\pubsite.xml -xsl styles
 if not errorlevel 0 goto fail
 
 echo Generate editing instructions
-java org.apache.xalan.xslt.Process -text -in %SOURCE% -xsl stylesheet\sedmap.xsl -out work\map.sed
+java org.apache.xalan.xslt.Process -text -in work\merge.xml -xsl stylesheet\sedmap.xsl -out work\map.sed
 if not errorlevel 0 goto fail
 
 REM ********************************************************************

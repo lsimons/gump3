@@ -1,0 +1,90 @@
+<profile>
+
+  <!-- Apache.Jakarta -->
+
+  <project href="project/jakarta-alexandria.xml"/>
+  <project href="project/jakarta-ant.xml"/>
+  <project href="project/jakarta-avalon-cornerstone.xml"/>
+  <project href="project/jakarta-avalon-logkit.xml"/>
+  <project href="project/jakarta-avalon-phoenix.xml"/>
+  <project href="project/jakarta-avalon-testlet.xml"/>
+  <project href="project/jakarta-avalon.xml"/>
+  <project href="project/jakarta-commons.xml"/>
+  <project href="project/jakarta-ecs.xml"/>
+  <project href="project/jakarta-james.xml"/>
+  <project href="project/jakarta-jetspeed.xml"/>
+  <project href="project/jakarta-jmeter.xml"/>
+  <project href="project/jakarta-log4j.xml"/>
+  <project href="project/jakarta-oro.xml"/>
+  <project href="project/jakarta-regexp.xml"/>
+  <project href="project/jakarta-servletapi-4.xml"/>
+  <project href="project/jakarta-servletapi.xml"/>
+  <project href="project/jakarta-site2.xml"/>
+  <project href="project/jakarta-slide.xml"/>
+  <project href="project/jakarta-struts.xml"/>
+  <project href="project/jakarta-taglibs.xml"/>
+  <project href="project/jakarta-tomcat-40.xml"/>
+  <!-- project href="project/jakarta-tomcat-41.xml"/ -->
+  <project href="project/jakarta-tomcat.xml"/>
+  <project href="project/jakarta-tools.xml"/>
+  <project href="project/jakarta-turbine.xml"/>
+  <project href="project/jakarta-velocity.xml"/>
+  <project href="project/jakarta-watchdog.xml"/>
+
+  <!-- Apache.XML -->
+
+  <project href="project/xml-axis.xml"/>
+  <project href="project/xml-batik.xml"/>
+  <project href="project/xml-cocoon.xml"/>
+  <project href="project/xml-cocoon2.xml"/>
+  <project href="project/xml-crimson.xml"/>
+  <project href="project/xml-fop.xml"/>
+  <project href="project/xml-site.xml"/>
+  <project href="project/xml-soap.xml"/>
+  <project href="project/xml-stylebook.xml"/>
+  <project href="project/xml-xalan.xml"/>
+  <project href="project/xml-xerces.xml"/>
+  <project href="project/xml-xerces2.xml"/>
+
+  <!-- exolab -->
+
+  <project href="project/castor.xml"/>
+  <project href="project/openejb.xml"/>
+  <project href="project/openjms.xml"/>
+  <project href="project/openorb.xml"/>
+  <project href="project/tyrex.xml"/>
+
+  <!-- other -->
+
+  <project href="project/bsf.xml"/>
+  <project href="project/freemarker.xml"/>
+  <project href="project/jdom.xml"/>
+  <project href="project/jtidy.xml"/>
+  <project href="project/junit.xml"/>
+  <project href="project/rhino.xml"/>
+  <project href="project/scarab.xml"/>
+  <project href="project/town.xml"/>
+  <project href="project/village.xml"/>
+
+  <!-- Sun -->
+
+  <project href="project/ejb.xml"/>
+  <project href="project/j2ee-connector.xml"/>
+  <project href="project/jaas.xml"/>
+  <project href="project/jaf.xml"/>
+  <project href="project/javamail.xml"/>
+  <project href="project/jaxp.xml"/>
+  <project href="project/jaxp11.xml"/>
+  <project href="project/jdbc.xml"/>
+  <project href="project/jms.xml"/>
+  <project href="project/jmx.xml"/>
+  <project href="project/jndi.xml"/>
+  <project href="project/jsse.xml"/>
+  <project href="project/jta.xml"/>
+  <project href="project/jts.xml"/>
+
+  <!-- CVS Repository overrides -->
+  <repository href="repository/exolab.xml"/>
+  <repository href="repository/sourceforge.xml"/>
+
+</profile>

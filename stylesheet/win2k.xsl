@@ -154,17 +154,45 @@
 
     <xsl:text>call publish.bat %1 </xsl:text>
     <xsl:value-of select="$basedir"/>
-    <xsl:text>\log\source_index.html&#10;</xsl:text>
+    <xsl:text>\log\workspace.html&#10;</xsl:text>
 
     <xsl:for-each select="project">
-      <xsl:sort select="@name"/>
+      <xsl:sort select="@defined-in"/>
+      <xsl:variable name="defined-in" select="@defined-in"/>
+      <xsl:if test="not(preceding::project[@defined-in=$defined-in])">
+        <xsl:text>call publish project\</xsl:text>
+        <xsl:value-of select="@defined-in"/>
+        <xsl:text>.xml </xsl:text>
+        <xsl:value-of select="$basedir"/>
+        <xsl:text>\log\project_</xsl:text>
+        <xsl:value-of select="@defined-in"/>
+        <xsl:text>.html&#10;</xsl:text>
+      </xsl:if>
+    </xsl:for-each>
 
-      <xsl:text>call publish </xsl:text>
-      <xsl:value-of select="translate(@href,'/','\\')"/>
-      <xsl:text> </xsl:text>
+    <xsl:for-each select="repository">
+      <xsl:sort select="defined-in"/>
+      <xsl:variable name="defined-in" select="@defined-in"/>
+      <xsl:if test="not(preceding::project[@defined-in=$defined-in])">
+        <xsl:text>call publish repository\</xsl:text>
+        <xsl:value-of select="@defined-in"/>
+        <xsl:text>.xml </xsl:text>
+        <xsl:value-of select="$basedir"/>
+        <xsl:text>\log\repository_</xsl:text>
+        <xsl:value-of select="@defined-in"/>
+        <xsl:text>.html&#10;</xsl:text>
+      </xsl:if>
+    </xsl:for-each>
+
+    <xsl:for-each select="profile">
+      <xsl:sort select="defined-in"/>
+
+      <xsl:text>call publish profile\</xsl:text>
+      <xsl:value-of select="@defined-in"/>
+      <xsl:text>.xml </xsl:text>
       <xsl:value-of select="$basedir"/>
-      <xsl:text>\log\source_</xsl:text>
-      <xsl:value-of select="substring-before(substring-after(@href,'/'),'.')"/>
+      <xsl:text>\log\profile_</xsl:text>
+      <xsl:value-of select="@defined-in"/>
       <xsl:text>.html&#10;</xsl:text>
     </xsl:for-each>
 

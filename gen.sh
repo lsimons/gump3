@@ -25,15 +25,12 @@ fi
 test -d work && rm -rf work
 mkdir work
 
-echo Merging projects into workspace
-test -n "$FAIL" || \
-java org.apache.xalan.xslt.Process -EDUMP -xml -in $SOURCE -xsl stylesheet/merge.xsl -out work/merge.xml || \
-export FAIL=1
+# ********************************************************************
 
-echo Sort projects into dependency order
-test -n "$FAIL" || \
-java org.apache.xalan.xslt.Process -xml -in work/merge.xml -xsl stylesheet/sortdep.xsl -out work/sorted.xml || \
-export FAIL=1
+echo Merging projects into workspace
+javac gen.java || export FAIL=1
+echo
+java gen $SOURCE || export FAIL=1
 
 # ********************************************************************
 

@@ -14,39 +14,44 @@
     <xsl:text>&lt;font color="green"&gt;</xsl:text>
     <xsl:text>&amp;&lt;\/font&gt;/g&#10;</xsl:text>
 
-    <xsl:text>s/project *href="\(.*\)\/\(.*\).xml"/</xsl:text>
-    <xsl:text>project href="&lt;a href="source_\2.html"&gt;</xsl:text>
+    <xsl:text>s/repository *href="\(.*\)\/\(.*\).xml"/</xsl:text>
+    <xsl:text>repository href="&lt;a href="repository_\2.html"&gt;</xsl:text>
     <xsl:text>\1\/\2.xml&lt;\/a&gt;"/g&#10;</xsl:text>
+
+    <xsl:text>s/profile *href="\(.*\)\/\(.*\).xml"/</xsl:text>
+    <xsl:text>profile href="&lt;a href="profile_\2.html"&gt;</xsl:text>
+    <xsl:text>\1\/\2.xml&lt;\/a&gt;"/g&#10;</xsl:text>
+
+    <xsl:text>s/project *href="\(.*\)\/\(.*\).xml"/</xsl:text>
+    <xsl:text>project href="&lt;a href="project_\2.html"&gt;</xsl:text>
+    <xsl:text>\1\/\2.xml&lt;\/a&gt;"/g&#10;</xsl:text>
+
+    <xsl:text>s/home-page&amp;gt;\(.*\)&amp;lt;/</xsl:text>
+    <xsl:text>home-page&gt;&lt;a href="\1"&gt;</xsl:text>
+    <xsl:text>\1&lt;\/a&gt;\&amp;lt;/g&#10;</xsl:text>
+
+    <xsl:text>s/cvs-web&amp;gt;\(.*\)&amp;lt;/</xsl:text>
+    <xsl:text>cvs-web&gt;&lt;a href="\1"&gt;</xsl:text>
+    <xsl:text>\1&lt;\/a&gt;\&amp;lt;/g&#10;</xsl:text>
 
     <xsl:text>s/url *href="\(.*\)"/</xsl:text>
     <xsl:text>url href="&lt;a href="\1"&gt;\1&lt;\/a&gt;"/g&#10;</xsl:text>
 
-    <xsl:text>s/project *name="\(.*\)"/</xsl:text>
+    <xsl:text>s/project *name="\([^ ]*\)"/</xsl:text>
     <xsl:text>project name="&lt;font color="red"&gt;</xsl:text>
     <xsl:text>\1&lt;\/font&gt;"/g&#10;</xsl:text>
 
-    <xsl:for-each select="project[@href]">
+    <xsl:for-each select="*[@defined-in]">
 
-      <xsl:variable name="filename"
-        select="substring-before(substring-after(@href,'/'),'.')"/>
-
-      <xsl:variable name="file" select="document(@href,.)"/>
-      <xsl:if test="not($file/project)">
-         <xsl:message terminate="yes">
-            <xsl:text>Unable to open </xsl:text>
-            <xsl:value-of select="@href"/>
-         </xsl:message>
-      </xsl:if>
-
-      <xsl:for-each select="$file//project">
-        <xsl:text>s/ project="</xsl:text>
-        <xsl:value-of select="@name"/>
-        <xsl:text>"/ project="&lt;a href="source_</xsl:text>
-        <xsl:value-of select="$filename"/>
-        <xsl:text>.html"&gt;</xsl:text>
-        <xsl:value-of select="@name"/>
-        <xsl:text>&lt;\/a&gt;"/g&#10;</xsl:text>
-      </xsl:for-each>
+      <xsl:text>s/ project="</xsl:text>
+      <xsl:value-of select="@name"/>
+      <xsl:text>"/ project="&lt;a href="</xsl:text>
+      <xsl:value-of select="name()"/>
+      <xsl:text>_</xsl:text>
+      <xsl:value-of select="@defined-in"/>
+      <xsl:text>.html"&gt;</xsl:text>
+      <xsl:value-of select="@name"/>
+      <xsl:text>&lt;\/a&gt;"/g&#10;</xsl:text>
 
     </xsl:for-each>
 

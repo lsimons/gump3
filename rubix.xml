@@ -3,92 +3,22 @@
 
   <build sysclasspath="only"/>
 
-  <!-- Apache.Jakarta -->
+  <!-- Installed packages -->
 
-  <project href="project/jakarta-alexandria.xml"/>
-  <project href="project/jakarta-ant.xml"/>
-  <project href="project/jakarta-avalon-cornerstone.xml"/>
-  <project href="project/jakarta-avalon-logkit.xml"/>
-  <project href="project/jakarta-avalon-phoenix.xml"/>
-  <project href="project/jakarta-avalon-testlet.xml"/>
-  <project href="project/jakarta-avalon.xml"/>
-  <project href="project/jakarta-commons.xml"/>
-  <project href="project/jakarta-ecs.xml"/>
-  <project href="project/jakarta-james.xml"/>
-  <project href="project/jakarta-jetspeed.xml"/>
-  <project href="project/jakarta-jmeter.xml"/>
-  <project href="project/jakarta-log4j.xml"/>
-  <project href="project/jakarta-oro.xml"/>
-  <project href="project/jakarta-regexp.xml"/>
-  <project href="project/jakarta-servletapi-4.xml"/>
-  <project href="project/jakarta-servletapi.xml"/>
-  <project href="project/jakarta-site2.xml"/>
-  <project href="project/jakarta-slide.xml"/>
-  <project href="project/jakarta-struts.xml"/>
-  <project href="project/jakarta-taglibs.xml"/>
-  <project href="project/jakarta-tomcat-40.xml"/>
-  <!-- project href="project/jakarta-tomcat-41.xml"/ -->
-  <project href="project/jakarta-tomcat.xml"/>
-  <project href="project/jakarta-tools.xml"/>
-  <project href="project/jakarta-turbine.xml"/>
-  <project href="project/jakarta-velocity.xml"/>
-  <project href="project/jakarta-watchdog.xml"/>
-
-  <!-- Apache.XML -->
-
-  <project href="project/xml-axis.xml"/>
-  <project href="project/xml-batik.xml"/>
-  <project href="project/xml-cocoon.xml"/>
-  <project href="project/xml-cocoon2.xml"/>
-  <project href="project/xml-crimson.xml"/>
-  <project href="project/xml-fop.xml"/>
-  <project href="project/xml-site.xml"/>
-  <project href="project/xml-soap.xml"/>
-  <project href="project/xml-stylebook.xml"/>
-  <project href="project/xml-xalan.xml"/>
-  <project href="project/xml-xerces.xml"/>
-  <project href="project/xml-xerces2.xml"/>
-
-  <!-- Apache.Java -->
-
-  <project href="project/town.xml"/>
-
-  <!-- other -->
-
-  <project href="project/bsf.xml"/>
-  <project href="project/castor.xml"/>
-  <project href="project/freemarker.xml"/>
-  <project href="project/jdom.xml"/>
-  <project href="project/jtidy.xml"/>
-  <project href="project/junit.xml"/>
-  <project href="project/openejb.xml"/>
-  <project href="project/openjms.xml"/>
-  <project href="project/openorb.xml"/>
-  <project href="project/rhino.xml"/>
-  <project href="project/scarab.xml"/>
-  <project href="project/tyrex.xml"/>
-  <project href="project/village.xml"/>
-
-  <!-- Sun -->
-
-  <project href="project/ejb.xml"      home="/opt/ejb-2_0-pfd"/>
-  <project href="project/j2ee-connector.xml" home="/opt/j2ee_connector-1_0-pfd2"/>
-  <project href="project/jaas.xml"     home="/opt/jaas1_0"/>
-  <project href="project/jaf.xml"      home="/opt/jaf-1.0.1"/>
-  <project href="project/javamail.xml" home="/opt/javamail-1.2"/>
-  <project href="project/jaxp.xml"     home="/opt/jaxp1.0.1"/>
-  <project href="project/jaxp11.xml"   home="/opt/jaxp-1.1"/>
-  <project href="project/jdbc.xml"     home="/opt/jdbc2_0"/>
-  <project href="project/jms.xml"      home="/opt/jms1.0.2"/>
-  <project href="project/jmx.xml"      home="/opt/jmx-1_0"/>
-  <project href="project/jndi.xml"     home="/opt/jndi1_2_1"/>
-  <project href="project/jsse.xml"     home="/opt/jsse1.0.2"/>
-  <project href="project/jta.xml"      home="/opt/jta-spec1_0_1"/>
-  <project href="project/jts.xml"      home="/opt/jts1_0"/>
-
-  <!-- CVS Repository overrides -->
-  <repository href="repository/exolab.xml"/>
-  <repository href="repository/sourceforge.xml"/>
+  <project name="ejb"            home="/opt/ejb-2_0-pfd"/>
+  <project name="j2ee-connector" home="/opt/j2ee_connector-1_0-pfd2"/>
+  <project name="jaas"           home="/opt/jaas1_0"/>
+  <project name="jaf"            home="/opt/jaf-1.0.1"/>
+  <project name="javamail"       home="/opt/javamail-1.2"/>
+  <project name="jaxp"           home="/opt/jaxp1.0.1"/>
+  <project name="jaxp11"         home="/opt/jaxp-1.1"/>
+  <project name="jdbc"           home="/opt/jdbc2_0"/>
+  <project name="jms"            home="/opt/jms1.0.2"/>
+  <project name="jmx"            home="/opt/jmx-1_0"/>
+  <project name="jndi"           home="/opt/jndi1_2_1"/>
+  <project name="jsse"           home="/opt/jsse1.0.2"/>
+  <project name="jta"            home="/opt/jta-spec1_0_1"/>
+  <project name="jts"            home="/opt/jts1_0"/>
 
   <cvs-repository>
     <tree name="bsf"

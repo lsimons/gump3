@@ -60,7 +60,7 @@
 
         <menu>
           <xsl:text>Workspace: </xsl:text>
-          <a href="source_index.html">definition</a>
+          <a href="workspace.html">definition</a>
           <a href="xref.html">cross reference</a>
           <a href="cvs_index.html">cvs logs</a>
         </menu>
