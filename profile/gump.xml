@@ -45,6 +45,7 @@
   <!-- module href="project/jakarta-turbine-tdk.xml"/ -->
   <module href="project/jakarta-turbine-torque.xml"/>
   <module href="project/jakarta-velocity.xml"/>
+  <module href="project/jakarta-velocity-dvsl.xml"/>
   <module href="project/jakarta-watchdog.xml"/>
 
   <!-- Apache.XML -->
