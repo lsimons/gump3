@@ -306,20 +306,19 @@ class Summary:
     def addState(self,pair):            
         status=pair.status
         # Stand up and be counted
-        if not stateUnset(status):
-            if stateOk(status):
-                self.successes+=1
-            elif STATUS_PREREQ_FAILURE == status:
-                self.prereqs+=1
-            elif STATUS_FAILED == status:
-                self.failures+=1
-            elif STATUS_NONE == status:
-                self.noworks+=1
-            elif STATUS_COMPLETE == status:
-                # :TODO: Accurate?
-                self.packages+=1
-            else:
-                self.others+=1
+        if stateOk(status):
+            self.successes+=1
+        elif STATUS_PREREQ_FAILURE == status:
+            self.prereqs+=1
+        elif STATUS_FAILED == status:
+            self.failures+=1
+        elif STATUS_NONE == status:
+            self.noworks+=1
+        elif STATUS_COMPLETE == status:
+            # :TODO: Accurate?
+            self.packages+=1
+        else:
+            self.others+=1
                 
         # One more project...
         self.projects += 1
