@@ -139,7 +139,7 @@ def establishLock(lockFile):
                 
         try:            
             lock=open(lockFile,'a+')
-            fcntl.flock(lock.fileno(), fcntl.LOCK_EX)
+            fcntl.flock(lock.fileno(), fcntl.LOCK_EX | fnctl.LOCK_NB)
         except:
             failed=1
         
@@ -175,11 +175,13 @@ def releaseLock(lock,lockFile):
     # Close it, so we can dispose of it
     lock.close()    
     
-    # :TODO: We have issues when python is killed, we get a lock
-    # left around despite this finally.
-    os.remove(lockFile)
-
-
+    # Others might be blocked on this
+    try:
+        os.remove(lockFile)
+    except:
+        # Somehow another could delete this, even if locked...
+        pass
+                
 # Allow a lock    
 lockFile=os.path.abspath('gumpy.lock')
 lock=establishLock(lockFile)        
