@@ -46,4 +46,5 @@
   <jar name="bin/bootstrap.jar"/>
   <jar name="server/lib/catalina.jar"/>
   <jar name="common/lib/naming.jar"/>
+  <jar name="common/lib/resources.jar"/>
 </project>
