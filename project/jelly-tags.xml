@@ -160,6 +160,53 @@
          to="commons-dev@jakarta.apache.org"/>
   </project>
 
+  <project name="commons-jelly-tags-define">
+    <package>org.apache.commons.jelly.tags.define</package>
+    <description> This is a Jelly taglib for defining new tags and tag libraries.</description>
+
+    <ant basedir="jelly/jelly-tags/define" target="jar">
+      <property name="final.name"  value="commons-jelly-tags-define-@@DATE@@"/>
+    </ant>
+
+    <depend project="commons-jelly" inherit="all"/>
+
+    <!-- for unit tests -->
+    <depend project="commons-jelly-tags-dynabean" inherit="all"/>
+    <depend project="commons-jelly-tags-junit" inherit="all"/>
+    <depend project="commons-jelly-tags-log" inherit="all"/>
+    <depend project="commons-jelly-tags-xml" inherit="all"/>
+    
+    <work nested="jelly/jelly-tags/define/target/classes"/>
+    <work nested="jelly/jelly-tags/define/target/test-classes"/>
+
+    <jar name="jelly/jelly-tags/define/target/commons-jelly-tags-define-@@DATE@@.jar"/>
+ 
+    <nag from="Morgan Delagrange &lt;mdelagra@yahoo.com&gt;"
+         to="commons-dev@jakarta.apache.org"/>
+  </project>  
+
+  <project name="commons-jelly-tags-dynabean">
+    <package>org.apache.commons.jelly.tags.dynabean</package>
+    <description> This is a Jelly taglib for defining new tags and tag libraries.</description>
+
+    <ant basedir="jelly/jelly-tags/dynabean" target="jar">
+      <property name="final.name"  value="commons-jelly-tags-dynabean-@@DATE@@"/>
+    </ant>
+
+    <depend project="commons-jelly" inherit="all"/>
+
+    <!-- for unit tests -->
+    <depend project="commons-jelly-tags-junit" inherit="all"/>
+    
+    <work nested="jelly/jelly-tags/dynabean/target/classes"/>
+    <work nested="jelly/jelly-tags/dynabean/target/test-classes"/>
+
+    <jar name="jelly/jelly-tags/dynabean/target/commons-jelly-tags-dynabean-@@DATE@@.jar"/>
+ 
+    <nag from="Morgan Delagrange &lt;mdelagra@yahoo.com&gt;"
+         to="commons-dev@jakarta.apache.org"/>
+  </project>
+  
   <project name="commons-jelly-tags-email">
     <package>org.apache.commons.jelly.tags.email</package>
     <description>This is a Jelly interface for Email</description>
