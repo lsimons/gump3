@@ -18,6 +18,9 @@
     <depend project="jakarta-oro"/>
     <depend project="starteam"/>
     <depend project="jmx"/>
+    <depend project="junit"/>
+
+    <work nested="classes"/>
   </project>
 
   <project name="starteam">
