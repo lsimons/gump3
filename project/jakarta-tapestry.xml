@@ -1,0 +1,28 @@
+<module name="jakarta-tapestry">
+
+  <url href="http://jakarta.apache.org/proposals/tapestry/index.html"/>
+  <description>
+    Tapestry is a powerful, open-source, all-Java framework for creating 
+    leading edge web applications in Java.
+  </description>
+
+  <cvs repository="jakarta"/>
+  
+  <project name="jakarta-tapestry">
+    <package>org.apache.tapestry</package>
+
+    <ant buildfile="build.xml" target="jar">
+      <property name="framework.version" value="@@DATE@@"/>
+      <property name="jetty.dir" reference="home" project="jetty"/>
+    </ant>
+
+    <depend project="ant" inherit="runtime"/>
+    <depend project="xml-xerces"/>
+
+    <license name="LICENSE.txt"/>
+
+    <nag from="Andrew C. Oliver &lt;acoliver@apache.org&gt;"
+         to="tapestry-dev@jakarta.apache.org"/>
+  </project>
+
+</module>
