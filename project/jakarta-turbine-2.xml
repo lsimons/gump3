@@ -38,7 +38,7 @@
     <depend project="jdbc"/>
     <depend project="jndi"/>
     <depend project="jakarta-log4j" runtime="true"/>
-    <depend project="jakarta-servletapi"/>
+    <depend project="jakarta-servletapi-4"/>
     <depend project="jakarta-turbine-stratum" runtime="true"/>
     <depend project="jakarta-turbine-torque" runtime="true"/>
     <depend project="jakarta-velocity"/>
@@ -53,9 +53,6 @@
     <depend project="jakarta-cactus-ant"/>
     <depend project="jtidy"/>
     <depend project="junit"/>
-    <depend project="castor"/>
-    <depend project="webmacro"/>
-    <depend project="freemarker"/>
     <depend project="jython"/>
 
     <work nested="target/classes"/>
@@ -64,8 +61,8 @@
     <javadoc nested="docs/apidocs"/>
 
     <nag from="turbine-dev@jakarta.apache.org" to="turbine-dev@jakarta.apache.org"/>
-    
+
   </project>
-  
+
 </module>
 
