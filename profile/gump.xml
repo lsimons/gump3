@@ -156,7 +156,7 @@
 
   <module href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/*checkout*/krysalis/krysalis-ruper/gump.xml"/>
   <module href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/*checkout*/krysalis/krysalis-centipede/gump.xml" />
-  <module href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/*checkout*/krysalis/krysalis-template/smoke-test/gump.xml" />
+  <!--module href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/*checkout*/krysalis/krysalis-template/smoke-test/gump.xml" /-->
   <module href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/*checkout*/metamorphosis/krysalis-version/gump.xml" />
 
   <!-- antlibs  nicolaken: refactoring in progress-->
