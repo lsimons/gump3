@@ -196,7 +196,7 @@ Subject: [GUMP] Empty jar - CLI
 Regex: /Note: creating empty jar/
 ------
 Project: jakarta-avalon-cornerstone
-To: avalon-dev@jakarta.apache.org
+To: avalon-apps-dev@jakarta.apache.org
 From: Peter Donald <donaldp@apache.org>
 Subject: [GUMP] Build Failure - Cornerstone
 Regex: /BUILD FAILED/
@@ -222,7 +222,7 @@ Subject: [GUMP] Build Failure - Logkit
 Regex: /BUILD FAILED/
 ------
 Project: jakarta-avalon-phoenix
-To: avalon-dev@jakarta.apache.org
+To: avalon-phoenix-dev@jakarta.apache.org
 From: Peter Donald <donaldp@apache.org>
 Subject: [GUMP] Build Failure - Phoenix
 Regex: /BUILD FAILED/
