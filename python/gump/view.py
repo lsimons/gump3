@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/Attic/view.py,v 1.36 2003/05/07 15:53:11 nicolaken Exp $
-# $Revision: 1.36 $
-# $Date: 2003/05/07 15:53:11 $
+# $Header: /home/stefano/cvs/gump/python/gump/Attic/view.py,v 1.37 2003/05/08 02:50:59 rubys Exp $
+# $Revision: 1.37 $
+# $Date: 2003/05/08 02:50:59 $
 #
 # ====================================================================
 #
@@ -273,6 +273,7 @@ class gumpview(wxApp):
      self.logsplitter.Unsplit(self.logview)
    else:
      self.logsplitter.SplitHorizontally(self.mainsplit, self.logview)
+     self.logview.SetColumnWidth(0,wxLIST_AUTOSIZE_USEHEADER)
      self.logview.Show()
     
   # select a single feed and display titles from each item
@@ -484,7 +485,6 @@ class GumpLogView(wxListCtrl):
         self.attr_debug.SetBackgroundColour("light blue")
         
         self.InsertColumn(0, "Message")
-        self.SetColumnWidth(0, 500)
 
         self.SetItemCount(0)
 
@@ -529,7 +529,7 @@ class GumpLogView(wxListCtrl):
 
         
     def OnGetItemText(self, item, col):
-        return self.logmsg[item]
+        return self.logmsg[item].strip()
 
     def OnGetItemImage(self, item):
         currentLogLevel = self.log[item].levelno
