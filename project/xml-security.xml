@@ -10,7 +10,9 @@
   <!-- build -->
 
   <project name="xml-security">
-    <ant target="gump"/>
+    <ant target="gump">
+      <depend property="lib.jce" project="jce"/>
+    </ant>
 
     <depend project="jakarta-ant"/>
     <depend project="xml-xerces"/>
