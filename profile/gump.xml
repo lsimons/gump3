@@ -40,6 +40,7 @@
   <module href="project/jakarta-struts.xml"/>
   <module href="project/jakarta-taglibs.xml"/>
   <module href="project/jakarta-turbine-2.xml"/>
+  <module href="project/jakarta-turbine-fulcrum.xml"/>
   <module href="http://cvs.apache.org/viewcvs/~checkout~/jakarta-tomcat-4.0/gump.xml"/>
   <module href="http://cvs.apache.org/viewcvs/~checkout~/jakarta-tomcat-catalina/gump.xml"/>
   <module href="http://cvs.apache.org/viewcvs/~checkout~/jakarta-tomcat-5/gump.xml"/>
@@ -51,7 +52,6 @@
 
   <!-- Turbine projects taken from cvs -->
   <module href="http://cvs.apache.org/viewcvs/~checkout~/jakarta-turbine-3/Attic/gump.xml"/>
-  <module href="http://cvs.apache.org/viewcvs/~checkout~/jakarta-turbine-fulcrum/gump.xml"/>
   <module href="project/jakarta-turbine-jcs.xml"/>
   <module href="project/jakarta-turbine-stratum.xml"/>
   <module href="http://cvs.apache.org/viewcvs/~checkout~/jakarta-turbine-torque/gump.xml"/>
@@ -138,6 +138,7 @@
   <module href="project/aspectj.xml"/>
   <module href="project/bsf.xml"/>
   <module href="project/castor.xml"/>
+  <module href="project/cryptix.xml"/>
   <module href="project/dougLea.xml"/>
   <module href="project/eyebrowse.xml"/>
   <module href="project/javacc.xml"/>
@@ -184,6 +185,7 @@
   <project name="aspectj"        package="aspectj1.0"/>
   <project name="concurrent"     package="dougLea"/>
   <project name="cos"            package="cos-09May2002"/>
+  <project name="cryptix"        package="cryptix32-20001002-r3.2.0"/>
   <project name="ejb"            package="ejb-2_0-fr"/>
   <project name="fesi"           package="fesi"/>
   <project name="iso-relax"      package="isorelax.20020707"/>
