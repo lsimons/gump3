@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/syndication/rss.py,v 1.23 2004/05/05 23:15:32 ajack Exp $
-# $Revision: 1.23 $
-# $Date: 2004/05/05 23:15:32 $
+# $Header: /home/stefano/cvs/gump/python/gump/syndication/rss.py,v 1.23.2.1 2004/05/17 21:41:21 ajack Exp $
+# $Revision: 1.23.2.1 $
+# $Date: 2004/05/17 21:41:21 $
 #
 # ====================================================================
 #
@@ -321,7 +321,7 @@ class RSSSyndicator(Syndicator):
                   ('%sT%s%s') % (datestr,timestr,TZ))
         
         # Generate changes, only if the module had changed
-        if module.isUpdated() and not module.getStatePair().isUnset(): 
+        if module.isModified() and not module.getStatePair().isUnset(): 
             log.debug("Add module to RSS Newsfeed for : " + module.getName())    
             moduleRSS.addItem(item)  
             
@@ -366,7 +366,7 @@ class RSSSyndicator(Syndicator):
                   ('%sT%s%s') % (datestr,timestr,TZ))
 
         # Generate changes, only if the module changed
-        if project.getModule().isUpdated() and not project.getStatePair().isUnset():    
+        if project.getModule().isModified() and not project.getStatePair().isUnset():    
             log.debug("Add project to RSS Newsfeed for : " + project.getName())
             projectRSS.addItem(item)
             moduleRSS.addItem(item)  

@@ -617,15 +617,15 @@ class WorkspaceStatistics(Statistics):
     """Statistics Holder"""
     def __init__(self):
         Statistics.__init__(self,'workspace')    
-        self.lastUpdated=-1        
+        self.lastModified=-1        
         
-    def getLastUpdated(self):
-        return (self.lastUpdated)
+    def getLastModified(self):
+        return (self.lastModified)
         
     def getKeyBase(self):
         return self.name
         
-    def lastUpdatedKey(self):
+    def lastModifiedKey(self):
         return self.getKeyBase() + '-last-updated'
 
     def update(self,module):      
@@ -634,8 +634,8 @@ class WorkspaceStatistics(Statistics):
         #
         # Track code updates/changes
         # 
-        if module.isUpdated():
-            self.lastUpdated=default.time        
+        if module.isModified():
+            self.lastModified=default.time        
             
             
 class ModelEvent(Event):

@@ -178,6 +178,11 @@ class Module(NamedModelObject, Statable, Resultable, Positioned):
     	self.repository=None
     	
         self.packaged		=	0
+        
+        # Changes were found (when updating)
+    	self.modified		=	0
+    	
+    	# The task of updating has occured..
     	self.updated		=	0
     	
     	self.affected		=	0
@@ -435,8 +440,8 @@ class Module(NamedModelObject, Statable, Resultable, Positioned):
             
         return float(historicalOdds)/float(historicalOddses)
         
-    def getLastUpdated(self):
-        return self.getStats().getLastUpdated()                
+    def getLastModified(self):
+        return self.getStats().getLastModified()                
     
     # Get a summary of states for each project
     def getProjectSummary(self,summary=None):  
@@ -536,7 +541,14 @@ class Module(NamedModelObject, Statable, Resultable, Positioned):
         if hasattr(self,'jars') and self.jars: return 1
         return 0
         
-    # Where the contents (at the repository) updated?
+    # Where the contents (at the repository) Modified?
+    def isModified(self):
+        return self.modified
+        
+    def setModified(self,modified):
+        self.modified=modified
+    
+    # Where the contents (at the repository) Updated?
     def isUpdated(self):
         return self.updated
         
@@ -562,15 +574,15 @@ class ModuleStatistics(Statistics):
     """
     def __init__(self,moduleName):
         Statistics.__init__(self,moduleName)    
-        self.lastUpdated=-1        
+        self.lastModified=-1        
         
-    def getLastUpdated(self):
-        return (self.lastUpdated)
+    def getLastModified(self):
+        return (self.lastModified)
         
     def getKeyBase(self):
         return 'module:'+ self.name
         
-    def lastUpdatedKey(self):
+    def lastModifiedKey(self):
         return self.getKeyBase() + '-last-updated'
 
     def update(self,module):      
@@ -579,5 +591,5 @@ class ModuleStatistics(Statistics):
         #
         # Track code updates/changes
         # 
-        if module.isUpdated():
-            self.lastUpdated=default.time
+        if module.isModified():
+            self.lastModified=default.time

@@ -28,7 +28,7 @@ import logging
 
 from gump import log
 from gump.core.gumpinit import gumpinit
-from gump.core.tasks import SequentialTaskRunner
+from gump.core.runner import getRunner
 from gump.core.gumprun import GumpRun, GumpRunOptions, GumpSet
 from gump.core.commandLine import handleArgv
 from gump.model.loader import WorkspaceLoader
@@ -64,7 +64,7 @@ if __name__=='__main__':
     #
     #    Perform this integration run...
     #
-    result = SequentialTaskRunner(run).performDebug()
+    result = getRunner(run).performDebug()
 
     #
     log.info('Gump Debug complete. Exit code:' + str(result))

@@ -281,9 +281,9 @@ class Project(NamedModelObject, Statable, Resultable, Dependable, Positioned):
     def getHistoricalOddsOfSuccess(self):
         return self.getStats().getHistoricalOddsOfSuccess()
         
-    # Only modules get updated.
-    def getLastUpdated(self):
-        return self.getModule().getStats().getLastUpdated()  
+    # Only modules get Modified.
+    def getLastModified(self):
+        return self.getModule().getStats().getLastModified()  
         
     def determineAffected(self):
         if self.affectedProjects: return len(self.affectedProjects)

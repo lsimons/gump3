@@ -94,17 +94,17 @@ class StatisticsDB:
     def getModuleStats(self,moduleName):
         stats=ModuleStatistics(moduleName)        
         self.getBaseStats(stats)
-        stats.lastUpdated=self.getDate(stats.lastUpdatedKey())
+        stats.lastModified=self.getDate(stats.lastModifiedKey())
         return stats
                 
     def putModuleStats(self,stats):
         self.putBaseStats(stats)
-        self.putDate(stats.lastUpdatedKey(), stats.lastUpdated)
+        self.putDate(stats.lastModifiedKey(), stats.lastModified)
 
     def delModuleStats(self,stats):
         self.delBaseStats(stats)
         try:
-            del self.db[stats.lastUpdatedKey()]
+            del self.db[stats.lastModifiedKey()]
         except:
             """ Hopefully means it wasn't there... """                
 
@@ -354,7 +354,7 @@ class StatisticsGuru:
         self.modulesByTotalDependencies=createOrderedList(workspace.getModules(),compareModulesByDependencyCount)
         self.modulesByTotalDependees=createOrderedList(workspace.getModules(),compareModulesByDependeeCount)
         self.modulesByFOGFactor=createOrderedList(workspace.getModules(),compareModulesByFOGFactor)
-        self.modulesByLastUpdated=createOrderedList(workspace.getModules(),compareModulesByLastUpdated)
+        self.modulesByLastModified=createOrderedList(workspace.getModules(),compareModulesByLastModified)
         
         
         # All Projects                
@@ -362,7 +362,7 @@ class StatisticsGuru:
         self.projectsByTotalDependencies=createOrderedList(workspace.getProjects(),compareProjectsByDependencyCount)
         self.projectsByTotalDependees=createOrderedList(workspace.getProjects(),compareProjectsByDependeeCount)
         self.projectsByFOGFactor=createOrderedList(workspace.getProjects(),compareProjectsByFOGFactor)
-        self.projectsByLastUpdated=createOrderedList(workspace.getProjects(),compareProjectsByLastUpdated)
+        self.projectsByLastModified=createOrderedList(workspace.getProjects(),compareProjectsByLastModified)
         self.projectsBySequenceInState=createOrderedList(workspace.getProjects(),compareProjectsBySequenceInState)
         self.projectsByDependencyDepth=createOrderedList(workspace.getProjects(),compareProjectsByDependencyDepth)
         self.projectsByTotalDependencyDepth=createOrderedList(workspace.getProjects(),compareProjectsByTotalDependencyDepth)

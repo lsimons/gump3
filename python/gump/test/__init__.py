@@ -74,7 +74,7 @@ def getWorkedTestWorkspace(xml=None):
             module.changeState(STATE_FAILED)
         else:
             if m % 2 == 0:
-                module.setUpdated(1)
+                module.setModified(1)
             module.changeState(STATE_SUCCESS)
         p=0
         for project in module.getProjects(): 

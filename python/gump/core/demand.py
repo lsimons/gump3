@@ -57,47 +57,29 @@ from gump.syndication.syndicator import syndicate
 # Classes
 ###############################################################################
 
-class OnDemandTaskRunner(GumpRunner):
+class OnDemandRunner(GumpRunner):
 
     def __init__(self,run):
-        GumpRunner.__init__(self,eun)
+        GumpRunner.__init__(self,run)
 
     ###########################################
-        
-    def performUpdate(self):
-        return self.perform(run, GumpTaskList(['update','document']) )
-    
-    def performBuild(self):
-        return self.perform(run, GumpTaskList(['build','document']) )
-    
-    def performDebug(self):
-        return self.perform(run, GumpTaskList(['update','build','document']) )
-    
+
     def performIntegrate(self):
-        return self.perform(run, \
-                GumpTaskList(['update','build','syndicate','generateResults','document','notify']) )
         
-    def performCheck(self):
-        return self.perform(run, GumpTaskList(['check','document']) )
-        
-    ###########################################
-    
-    def perform(self):     
-    
         # In order...
-        for project in self.run.getBuildSequence():
+        for project in self.run.getGumpSet().getProjectSequence():
 
+            # Process the module, upon demand
             module=project.getModule()
-
-            # Update on demand
-            if not module.hasBeenUpdated():
+            if not module.isUpdated():
                 self.processModule(module)
+                module.setUpdated(1) #:TODO: Move this...
 
             # Process
             self.processProject(project)
 
             # Keep track of progress...
-            documentBuildList()
+            #documentBuildList()
 
         # The wrap up...
         documentWorkspace()
@@ -105,18 +87,18 @@ class OnDemandTaskRunner(GumpRunner):
     def processModule(self,module):
         
         # Update Module
-        module.update()
-        module.updateStats()
-        module.document()
-        module.syndicate()
-        module.notify()
+        self.updater.updateModule(module)
+        #module.updateStats()
+        #module.document()
+        #module.syndicate()
+        #module.notify()
                 
     def processProject(self,project):
         
         # Build project
-        project.build()
-        product.publishArtefacts()
-        project.updateStats()
-        project.document()
-        project.syndicate()
-        project.notify()
+        self.builder.buildProject(project)
+        #product.publishArtefacts()
+        #project.updateStats()
+        #project.document()
+        #project.syndicate()
+        #project.notify()

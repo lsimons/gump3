@@ -47,7 +47,7 @@ class Statistics:
         self.previousState=STATE_UNSET
         self.startOfState=-1        
         self.sequenceInState=0
-        self.lastUpdated=0
+        self.lastModified=0
                 
     #           
     # FOG is (at pressent) effectively the
@@ -68,8 +68,8 @@ class Statistics:
         total=(good+bad) or 1
         return float(good)/float(total)
         
-    def getLastUpdated(self):
-        return (self.lastUpdated)
+    def getLastModified(self):
+        return (self.lastModified)
         
     def nameKey(self):
         return self.getKeyBase() + '-name'
@@ -89,7 +89,7 @@ class Statistics:
     def lastKey(self):
         return self.getKeyBase() + '-last'
         
-    def lastUpdatededKey(self):
+    def lastModifiededKey(self):
         return self.getKeyBase() + '-last-updated'
         
     def currentStateKey(self):

@@ -6,7 +6,7 @@
   </description>
 
   <cvs repository="repository1" 
-		module="gump/resources/test/module1"/>
+		module="gump/resources/test/cvs-modules/module1"/>
 
   <nag from="Ms. Dev 1 &lt;dev1@jakarta.apache.org&gt;"
          to="project1@jakarta.apache.org"/>

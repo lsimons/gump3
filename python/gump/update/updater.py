@@ -153,6 +153,8 @@ class GumpUpdater(Runnable):
             Synchronize the storage area with the build area
                 
         """
+        workspace = module.getWorkspace()
+        
         sourcedir = os.path.abspath(	\
                             os.path.join(	workspace.getCvsDirectory(), \
                                                 module.name)) # todo allow override
@@ -174,7 +176,7 @@ class GumpUpdater(Runnable):
                     
             # Were the contents of the repository modified?                                        
             if modified:
-                module.setUpdated(1)                        
+                module.setModified(1)                        
                 log.info('Update(s) received via CVS/SVN/Jars on #[' \
                                 + `module.getPosition()` + \
                                 '] of [' + `moduleCount` + ']: ' + module.getName())

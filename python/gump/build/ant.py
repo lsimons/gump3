@@ -57,13 +57,13 @@ class AntBuilder(AbstractJavaBuilder):
         
         workspace=self.run.getWorkspace()
                  
-        log.info(' Project: #[' + `project.getPosition()` + '] of [' + `projectCount` + '] : ' + project.getName())
+        log.info(' Project: #[' + `project.getPosition()` + '] : ' + project.getName())
     
     
         #
         # Get the appropriate build command...
         #
-        cmd=self.getAntCommand(self.run.getEnvironment().getJavaCommand())
+        cmd=self.getAntCommand(project, self.run.getEnvironment().getJavaCommand())
 
         if cmd:
             # Execute the command ....
@@ -95,8 +95,9 @@ class AntBuilder(AbstractJavaBuilder):
     #        
     def getAntCommand(self,project,javaCommand='java'):
         
-        ant=self.ant
-        antxml=self.xml.ant
+        # The original model information...
+        ant=project.ant
+        antxml=project.xml.ant
     
         # The ant target (or none == ant default target)
         target= antxml.target or ''
@@ -116,7 +117,7 @@ class AntBuilder(AbstractJavaBuilder):
         #
         # Build a classpath (based upon dependencies)
         #
-        (classpath,bootclasspath)=self.getClasspaths()
+        (classpath,bootclasspath)=project.getClasspaths()
     
         #
         # Get properties
@@ -131,12 +132,12 @@ class AntBuilder(AbstractJavaBuilder):
         #
         # Get properties
         #
-        jvmargs=self.getJVMArgs(project)
+        jvmargs=self.getJVMArgs(antxml)
    
         #
         # Run java on apache Ant...
         #
-        cmd=Cmd(javaCommand,'build_'+self.getModule().getName()+'_'+self.getName(),\
+        cmd=Cmd(javaCommand,'build_'+project.getModule().getName()+'_'+project.getName(),\
             basedir,{'CLASSPATH':classpath})
             
         # These are workspace + project system properties
@@ -171,9 +172,9 @@ class AntBuilder(AbstractJavaBuilder):
         #
         # Allow ant-level debugging...
         #
-        if self.getWorkspace().isDebug() or self.isDebug() or debug: 
+        if project.getWorkspace().isDebug() or project.isDebug() or debug: 
             cmd.addParameter('-debug')  
-        if self.getWorkspace().isVerbose()  or self.isVerbose() or verbose: 
+        if project.getWorkspace().isVerbose()  or project.isVerbose() or verbose: 
             cmd.addParameter('-verbose')  
         
         #
@@ -182,7 +183,7 @@ class AntBuilder(AbstractJavaBuilder):
         # :NOTE: Commented out since <property on workspace works.
         # cmd.addPrefixedParameter('-D','build.sysclasspath','only','=')
     
-        mergeFile=self.getWorkspace().getMergeFile()
+        mergeFile=project.getWorkspace().getMergeFile()
         if mergeFile:
             cmd.addPrefixedParameter('-D','gump.merge',str(mergeFile),'=')        
     
@@ -202,17 +203,17 @@ class AntBuilder(AbstractJavaBuilder):
 
                 
   
-    def getAntProperties(self):
+    def getAntProperties(self,project):
         """Get properties for a project"""
         properties=Parameters()
-        for property in self.getWorkspace().getProperties()+self.getAnt().getProperties():
+        for property in project.getWorkspace().getProperties()+project.getAnt().getProperties():
             properties.addPrefixedNamedParameter('-D',property.name,property.value,'=')
         return properties
 
-    def getAntSysProperties(self):
+    def getAntSysProperties(self,project):
         """Get sysproperties for a project"""
         properties=Parameters()
-        for property in self.getWorkspace().getSysProperties()+self.getAnt().getSysProperties():
+        for property in project.getWorkspace().getSysProperties()+project.getAnt().getSysProperties():
             properties.addPrefixedNamedParameter('-D',property.name,property.value,'=')
         return properties
  

@@ -85,11 +85,26 @@ class SequentialTaskRunner(GumpRunner):
     
         
     # A few proxies...
+    
     def preprocess(self): self.misc.preprocess()
+    
+    def loadStatistics(self): self.misc.loadStatistics()
+    def updateStatistics(self): self.misc.updateStatistics()
+    
     def build(self): self.builder.build()
     def update(self): self.updater.update()
+    
+    def prepareDocumentation(self): self.misc.prepareDocumentation()
     def document(self): self.misc.document()
+    
+    def generateResults(self): self.misc.generateResults()
+    def gatherResults(self): self.misc.gatherResults()
+    
+    def notify(self): self.misc.notify()
+    
     def syndicate(self): self.misc.syndicate()
+    
+    def setEndTime(self): self.misc.setEndTime()
     
     ###########################################
     
@@ -103,7 +118,7 @@ class SequentialTaskRunner(GumpRunner):
                 
         # Return an exit code based off success
         # :TODO: Move onto run
-        if run.getWorkspace().isSuccess():
+        if self.run.getWorkspace().isSuccess():
             result = EXIT_CODE_SUCCESS 
         else: 
             result = EXIT_CODE_FAILED
@@ -151,8 +166,8 @@ class GumpTask:
         self.method=getattr(engine,self.name,None)            
         
         # For debugging ...        
-        #if not (isinstance(self.method,types.MethodType) and callable(self.method)): 
-        #    raise RuntimeError, 'Failed to bind task name [' + self.name + '] to engine [' + `engine` + ']'
+        if not (isinstance(self.method,types.MethodType) and callable(self.method)): 
+            raise RuntimeError, 'Failed to bind task name [' + self.name + '] to engine [' + `engine` + ']'
         
     def invoke(self):
         if self.method:

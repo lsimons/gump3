@@ -683,7 +683,7 @@ class ForrestDocumenter(Documenter):
             moduleRow.createData(module.getStats().sequenceInState)    
             moduleRow.createData(	\
                 getGeneralSinceDescription(	\
-                    module.getStats().getLastUpdated()))
+                    module.getStats().getLastModified()))
                     
             notes=''
             if module.isVerbose():
@@ -721,7 +721,7 @@ class ForrestDocumenter(Documenter):
             projectRow.createData(project.getStats().sequenceInState)    
             projectRow.createData(	\
                 getGeneralSinceDescription(	\
-                    project.getModule().getStats().getLastUpdated()))
+                    project.getModule().getStats().getLastModified()))
                     
             notes=''
             if project.isVerbose():
@@ -2629,10 +2629,10 @@ This page helps Gumpmeisters (and others) observe community progress.
         mstatsRow.createData().createLink(mByFOG, 'Modules By FOG Factor')
         mstatsRow.createData('Friend of Gump (FOG) Factor. A measure of dependability (for other Gumpers).')
                 
-        # Modules By Last Updated
-        mByLU=self.documentModulesByLastUpdated(stats, run, workspace, gumpSet)           
+        # Modules By Last Modified
+        mByLU=self.documentModulesByLastModified(stats, run, workspace, gumpSet)           
         mstatsRow=mstatsTable.createRow()
-        mstatsRow.createData().createLink(mByLU, 'Modules By Last Updated')
+        mstatsRow.createData().createLink(mByLU, 'Modules By Last Modified')
         mstatsRow.createData('Best guess at last code change (in source control).')
                                 
         pstatsSection=document.createSection('Project Statistics')
@@ -2784,20 +2784,20 @@ This page helps Gumpmeisters (and others) observe community progress.
         
         return fileName + '.html'
     
-    def documentModulesByLastUpdated(self,stats,run,workspace,gumpSet):
-        fileName='module_updated'
+    def documentModulesByLastModified(self,stats,run,workspace,gumpSet):
+        fileName='module_modified'
         documentFile=self.resolver.getFile(stats,fileName)    
-        document=XDocDocument('Modules By Last Updated', documentFile)        
-        updTable=document.createTable(['Module','Last Updated Date','Last Updated'])
+        document=XDocDocument('Modules By Last Modified', documentFile)        
+        updTable=document.createTable(['Module','Last Modified Date','Last Modified'])
         modules=0
-        for module in stats.modulesByLastUpdated:        
+        for module in stats.modulesByLastModified:        
             if not gumpSet.inModuleSequence(module): continue   
             if module.isPackaged(): continue 
             updRow=updTable.createRow()            
             self.insertLink( module, stats, updRow.createData())                
-            updRow.createData(secsToDate(module.getLastUpdated()))
+            updRow.createData(secsToDate(module.getLastModified()))
             updRow.createData(	\
-                getGeneralSinceDescription(module.getLastUpdated()))
+                getGeneralSinceDescription(module.getLastModified()))
             modules+=1                    
         if not modules: updTable.createLine('None')
             

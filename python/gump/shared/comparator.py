@@ -15,7 +15,7 @@
 # limitations under the License.
 
 #
-# $Header: /home/stefano/cvs/gump/python/gump/shared/comparator.py,v 1.3 2004/04/22 22:58:17 ajack Exp $
+# $Header: /home/stefano/cvs/gump/python/gump/shared/comparator.py,v 1.3.2.1 2004/05/17 21:41:22 ajack Exp $
 # 
             
 #
@@ -60,9 +60,9 @@ def compareModulesByFOGFactor(module1,module2):
     if not c: c=cmp(module1,module2)
     return c             
             
-def compareModulesByLastUpdated(module1,module2):
-    lu1=module1.getLastUpdated()
-    lu2=module2.getLastUpdated()
+def compareModulesByLastModified(module1,module2):
+    lu1=module1.getLastModified()
+    lu2=module2.getLastModified()
     c= int(round(lu2 - lu1,0))                  
     if not c: c=cmp(module1,module2)
     return c             
@@ -102,9 +102,9 @@ def compareProjectsByFOGFactor(project1,project2):
     if not c: c=cmp(project1,project2)
     return c             
             
-def compareProjectsByLastUpdated(project1,project2):
-    lu1=project1.getLastUpdated()
-    lu2=project2.getLastUpdated()
+def compareProjectsByLastModified(project1,project2):
+    lu1=project1.getLastModified()
+    lu2=project2.getLastModified()
     c= int(round(lu2 - lu1,0))                  
     if not c: c=cmp(project1,project2)
     return c              

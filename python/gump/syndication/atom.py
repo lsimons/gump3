@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/syndication/atom.py,v 1.16 2004/05/05 23:15:32 ajack Exp $
-# $Revision: 1.16 $
-# $Date: 2004/05/05 23:15:32 $
+# $Header: /home/stefano/cvs/gump/python/gump/syndication/atom.py,v 1.16.2.1 2004/05/17 21:41:21 ajack Exp $
+# $Revision: 1.16.2.1 $
+# $Date: 2004/05/17 21:41:21 $
 #
 # ====================================================================
 #
@@ -219,7 +219,7 @@ class AtomSyndicator(Syndicator):
                   content)
         
         # Generate changes, only if the module had changed
-        if module.isUpdated() and not module.getStatePair().isUnset():  
+        if module.isModified() and not module.getStatePair().isUnset():  
             log.debug("Add module to Atom Newsfeed for : " + module.getName())    
             moduleFeed.addEntry(entry)  
             
@@ -261,7 +261,7 @@ class AtomSyndicator(Syndicator):
                   content )
 
         # Generate changes, only if the project changed
-        if project.getModule().isUpdated() and not project.getStatePair().isUnset():      
+        if project.getModule().isModified() and not project.getStatePair().isUnset():      
             log.debug("Add project to Atom Newsfeed for : " + project.getName())         
             projectFeed.addEntry(entry)
             moduleFeed.addEntry(entry)  

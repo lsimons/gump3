@@ -267,12 +267,12 @@ class GumpMiscellaneous(Runnable):
     def loadStatistics(self):   
         """ Load Statistics into the self.run (to get current values) """
         logResourceUtilization('Before load statistics')
-        self.processStatistics(self.run,1)
+        self.processStatistics(1)
          
     def updateStatistics(self):        
         """ Update Statistics into the self.run (to set current values) """
         logResourceUtilization('Before update statistics')
-        self.processStatistics(self.run,0)
+        self.processStatistics(0)
         
     def processStatistics(self,load):
     

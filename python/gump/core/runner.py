@@ -50,3 +50,9 @@ class GumpRunner(Runnable):
         self.builder=GumpBuilder(run)
         
 
+def getRunner(run):
+    from gump.core.tasks import SequentialTaskRunner
+    return SequentialTaskRunner(run)
+    
+    #from gump.core.demand import OnDemandRunner
+    #return OnDemandRunner(run)

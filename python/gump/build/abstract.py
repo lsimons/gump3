@@ -51,16 +51,11 @@ class AbstractJavaBuilder(Runnable):
         Runnable.__init__(self,run)
 
 
-    def getJVMArgs(self):
+    def getJVMArgs(self,xml):
         """Get JVM arguments for a project"""
         args=Parameters()
         
-        if self.hasAnt():
-            jvmargs=self.getAnt().xml.jvmarg
-        elif self.hasMaven():
-            jvmargs=self.getMaven().xml.jvmarg
-                
-        for jvmarg in jvmargs:
+        for jvmarg in xml.jvmarg:
             if jvmarg.value:
                 args.addParameter(jvmarg.value)
             else:
