@@ -284,7 +284,7 @@ class XDocResolver(Resolver):
             location.setDocument(documentName)
         return concatenateUrl(self.rootUrl,location.serialize()) 
         
-    def getStateIconInformation(self,statePair):
+    def getStateIconInformation(self,statePair,depth=0):
         """
         	Get the URL (and ALT description) for a state pair
         """
@@ -299,7 +299,7 @@ class XDocResolver(Resolver):
         
         # Build the URL to the icon
         iconName=gumpSafeName(lower(replace(sname,' ','_')))
-        url = self.getIconUrl(iconName+'.png')
+        url = self.getIconUrl(iconName+'.png',depth)
         
         return (url, description)
         

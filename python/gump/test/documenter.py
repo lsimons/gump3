@@ -26,7 +26,6 @@ from gump.run.gumprun import GumpRun
 from gump.document.documenter import Documenter
 from gump.document.text.documenter import TextDocumenter
 from gump.document.xdocs.documenter import XDocDocumenter
-from gump.stats.statsdb import *
 from gump.test import getWorkedTestRun
 from gump.test.pyunit import UnitTestSuite
 
@@ -50,7 +49,7 @@ class DocumenterTestSuite(UnitTestSuite):
         out.close()
         
     def testXDocs(self):
-        xtest=os.path.join(dir.test,'xdocs')
+        xtest=os.path.join(gump.core.config.dir.test,'xdocs')
         if not os.path.exists(xtest): os.mkdir(xtest)
         documenter=XDocDocumenter(self.run,xtest,'http://someplace')
         documenter.document()

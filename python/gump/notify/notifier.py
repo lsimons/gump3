@@ -270,7 +270,7 @@ The following %s notify%s should have been sent
                 
         # Form the subject
         subject=self.workspace.prefix+	\
-                ': '+module.getName()+' '+	\
+                ': Module '+module.getName()+' '+	\
                 lower(stateDescription(module.getState()))
                     
         if notification.isWarning():
@@ -289,9 +289,9 @@ The following %s notify%s should have been sent
         content=notification.resolveContent(self.resolver, self.getNextIdentifier())
                 
         # Form the subject
-        subject=self.workspace.prefix+': '	\
-            + module.getName() + '/' +project.getName()	\
-            +' '+lower(stateDescription(project.getState()))
+        subject=self.workspace.prefix+': Project '+ project.getName()	\
+            + ' (in Module ' + module.getName() + ') ' \
+            + lower(stateDescription(project.getState()))
             
         if notification.isWarning():
             subject += ', but with warnings.'

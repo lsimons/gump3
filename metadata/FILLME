@@ -1,0 +1,15 @@
+
+   -=-----------------------------[ N O T E ]-----------------------------=-
+
+   Gump code currently resides in SVN, yet Gump metadata still resides in CVS.
+
+   There is no way for SVN to automatically fetch an external CVS repository
+   so you have to do it yourself by checking out the "gump" CVS module, which
+   is normally obtained by doing
+
+      cvs -d:pserver:anoncvs@cvs.apache.org:/home/cvspublic co gump
+
+   in the current folder.
+
+   Enjoy.
+

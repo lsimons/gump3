@@ -161,7 +161,7 @@ class NAntBuilder(gump.run.gumprun.RunSpecific):
     
         # End with the target (or targets)...
         if target: 
-            for targetParam in target.split():
+            for targetParam in target.split(','):
                 cmd.addParameter(targetParam)
     
         return cmd

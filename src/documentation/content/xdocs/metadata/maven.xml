@@ -64,7 +64,7 @@
       </tr>
       <tr>
         <td>goal</td>
-        <td>The Maven goal to invoke.  <em>This can be a space separated list.</em></td>
+        <td>The Maven goal to invoke.  <em>This can be a comma separated list. Spaces are preserved.</em></td>
         <td>No. Defaults to <strong>jar</strong>.</td>
       </tr>
     </table>

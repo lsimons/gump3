@@ -104,6 +104,6 @@ class WorkerThreadGroup:
         # Try to acquire every count
         for i in range(self.count):    
             self.done.acquire() 
-            log.debug('Completed #' + `i` + '.')    
+            log.debug('Completed. Thread #' + `i` + '.')    
             
         log.debug('All threads completed.')    
