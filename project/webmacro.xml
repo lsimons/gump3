@@ -6,7 +6,7 @@
     Webapplication Framework
   </description>
 
-  <cvs repository="webmacro"/>
+  <cvs repository="sourceforge" dir="webmacro" host-prefix="cvs.webmacro"/>
   
   <project name="webmacro">
     <package>org.webmacro</package>
