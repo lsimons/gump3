@@ -354,10 +354,10 @@ public class Project {
     private void resolveJavadoc(Element javadoc) throws Exception {
         if (javadoc == null) return;
 
-        // retrieve href and dir of javadoc from the workspace
+        // retrieve url and dir of javadoc from the workspace
         Element config = Workspace.getJavaDoc();
         if (config == null) return;
-        String href = config.getAttribute("href");
+        String url = config.getAttribute("url");
         String javadocDir = config.getAttribute("dir");
 
         // default project attribute to the name of this project
@@ -385,7 +385,7 @@ public class Project {
             fullpath = Workspace.getBaseDir() + "/" + path;
         }
 
-        // for each description entry, resolve source, href, and dest attrs.
+        // for each description entry, resolve source, url, and dest attrs.
         Node child=javadoc.getFirstChild();
         for (; child != null; child=child.getNextSibling()) {
             if (child.getNodeName().equals("description")) {
@@ -396,10 +396,10 @@ public class Project {
 
                 desc.setAttribute("source", fullpath + append);
 
-                if (href.equals("")) {
-                    desc.setAttribute("href", "file:///" + fullpath);
+                if (url.equals("")) {
+                    desc.setAttribute("url", "file:///" + fullpath);
                 } else {
-                    desc.setAttribute("href", href + path + append);
+                    desc.setAttribute("url", url + path + append);
                 }
 
                 if (!javadocDir.equals("")) {
