@@ -319,7 +319,7 @@ Regex: /BUILD FAILED/
 Project: jakarta-turbine-site
 To: turbine-dev@jakarta.apache.org
 From: Jason van Zyl <jvanzyl@apache.org>
-Subject: [GUMP] Build Failure - Torque
+Subject: [GUMP] Build Failure - Site
 Regex: /BUILD FAILED/
 -------
 Project: jakarta-velocity
