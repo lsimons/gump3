@@ -139,7 +139,7 @@ class GumpEngine:
         if run.getEnvironment().noForrest \
             or run.getOptions().isTemplate() \
             or run.getOptions().isText() :
-            if run.getOptions().isTemaplate():
+            if run.getOptions().isTemplate():
                 documenter=TemplateDocumenter()
             else:
                 documenter=TextDocumenter()
