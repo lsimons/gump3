@@ -20,10 +20,11 @@
       <depend property="xalan.jar" project="xml-xalan2"/>
       <depend property="servlet.jar"   project="jakarta-servletapi-4"/>
       <depend property="servlet23.jar" project="jakarta-servletapi-4"/>
-      <depend property="log4j-core.jar" project="jakarta-log4j" id="log4j-core"/>
+      <depend property="log4j-core.jar" project="jakarta-log4j"/>
       <depend property="dom4j.jar"          project="dom4j"/>
       <depend property="jakarta-oro2.jar"   project="jakarta-oro"/>
       <depend property="jdbc2_0-stdext.jar" project="jdbc"/>
+      <depend property="jxpath.jar" project="commons-jxpath"/>
     </ant>
     <depend project="jakarta-ant"/>
     <option project="bsf"/>
