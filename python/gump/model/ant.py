@@ -64,6 +64,10 @@ class Builder(ModelObject, PropertyContainer):
     # Expands
     #
     def expandProperty(self,property,project,workspace):
+        
+        # :TODO: Cleanup this Workaround
+        if not property.name and property.project:
+            property.name=property.project
             
         # Check if the property comes from another project
         if not property.project: return      
@@ -131,6 +135,11 @@ class Builder(ModelObject, PropertyContainer):
         
             # :TODO: AJ added this, no idea if it is right/needed.
             if depend.id: xmlproperty['ids']= depend.id
+            
+            # <depend wants the classpath
+            if not xmlproperty.noclasspath:
+                xmlproperty['classpath']='add'
+            
             # Store it
             self.expandProperty(xmlproperty,project,workspace)            
             self.importProperty(xmlproperty) 

@@ -1,7 +1,7 @@
 #!/usr/bin/env python
-# $Header: /home/stefano/cvs/gump/python/gump/test/model.py,v 1.16 2004/03/15 22:07:07 ajack Exp $
-# $Revision: 1.16 $
-# $Date: 2004/03/15 22:07:07 $
+# $Header: /home/stefano/cvs/gump/python/gump/test/model.py,v 1.17 2004/03/19 18:19:18 ajack Exp $
+# $Revision: 1.17 $
+# $Date: 2004/03/19 18:19:18 $
 #
 # ====================================================================
 #
@@ -230,6 +230,31 @@ class ModelTestSuite(UnitTestSuite):
             tested=1                
             self.assertFalse('Not NoClaspath', depend.isNoClasspath())
         self.assertTrue('Did a NOT NoClasspath test', tested)
+        
+    def testNoClasspathOnProperty(self):
+        self.assertFalse('<ant <property does NOT gives full dependency (noclasspath)',	\
+                self.project3.hasFullDependencyOnNamedProject('project2'))
+                
+                
+        (classpath,bootclasspath)=self.project3.getClasspathObjects()
+        
+        for pathPart in classpath.getSimpleClasspathList():
+            self.assertNotSubstring('Ought not get output2.jar from project2',	\
+                    'output2.jar',	\
+                    pathPart)
+        
+    def testNoClasspathOnDepend(self):
+        self.assertTrue('<ant <depend gives full dependency (classpath)', \
+                self.project3.hasFullDependencyOnNamedProject('project1'))
+                
+        (classpath,bootclasspath)=self.project3.getClasspathObjects()
+        
+        found=0
+        for pathPart in classpath.getSimpleClasspathList():
+            if not -1 == pathPart.find('output1.jar'):
+                found=1
+            
+        self.assertTrue('Ought find output1.jar', found)
         
     def testJunitReport(self):
                 

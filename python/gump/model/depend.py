@@ -340,8 +340,7 @@ class Dependable:
         for dependency in self.getDirectDependencies():
             if dependency.getProject().getName()==name	\
                 and not dependency.isNoClasspath() :
-                return 1
-            
+                return 1            
         return 0
 
     # determine if this project is a prereq of any project on the todo list

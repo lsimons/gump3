@@ -113,6 +113,8 @@ if [ ! -d $GUMP_PROFILE_LOG_DIR ] ; then
 	mkdir $GUMP_PROFILE_LOG_DIR; 
 fi
 if [ ! -d $GUMP_PROFILE_LOG_DIR ] ; then
+	echo \</XMP\> >> $GUMP_LOG
+	cp $GUMP_LOG $GUMP_FINAL_LOG
 	exit 1
 fi
 
@@ -189,7 +191,9 @@ if [ ${INTEGRATION_EXIT} -gt 0 ] ; then
         echo "Failed to integrate, exited with [${INTEGRATION_EXIT}], exiting..." >> $GUMP_LOG
         echo "Failed to integrate, exited with [${INTEGRATION_EXIT}], exiting..."
         # For cron to mail to owner...
-        cat $GUMP_LOG
+        cat $GUMP_LOG        
+		echo \</XMP\> >> $GUMP_LOG
+		cp $GUMP_LOG $GUMP_FINAL_LOG
         exit 1
 fi;
 
@@ -226,7 +230,6 @@ fi
 cd $GUMP
 
 echo \</XMP\> >> $GUMP_LOG
-
 cp $GUMP_LOG $GUMP_FINAL_LOG
 
 #

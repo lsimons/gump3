@@ -11,12 +11,17 @@
     <package>org.apache.project3</package>
 
     <ant target="gump" debug="true">      
+	  <!-- This is used to test depends in ant, which
+	  	are like properties only with classpath="add".
+	  	Please do not add any other dependences on project1
+	  	or this test will be silently invalidated -->
       <depend property="project1.jar" project="project1"/>
+      
+      <!-- This is used to test property dependencies,
+      	do not add any other dependencies on project2
+      	or the check that this is 'noclasspath' will fail -->
+      <property property="project2.jar" project="project2"/>
     </ant>
-
-    <option project="project1" />
-
-    <depend project="project2" runtime="true"/>
 
     <home nested="dist"/>
 	

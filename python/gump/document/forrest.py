@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/forrest.py,v 1.110 2004/03/18 23:24:55 ajack Exp $
-# $Revision: 1.110 $f
-# $Date: 2004/03/18 23:24:55 $
+# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/forrest.py,v 1.111 2004/03/19 18:19:18 ajack Exp $
+# $Revision: 1.111 $f
+# $Date: 2004/03/19 18:19:18 $
 #
 # ====================================================================
 #
@@ -1346,7 +1346,7 @@ This page helps Gumpmeisters (and others) observe community progress.
                 if project.hasAnt():                
                     self.documentProperties(miscSection, project.getAnt(), 'Ant Properties')
             
-                (classpath,bootclasspath)=project.getClasspathLists()            
+                (classpath,bootclasspath)=project.getClasspathObjects()            
                 self.displayClasspath(miscSection, classpath,'Classpath',project)        
                 self.displayClasspath(miscSection, bootclasspath,'Boot Classpath',project) 
        

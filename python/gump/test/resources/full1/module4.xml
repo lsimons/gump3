@@ -17,7 +17,10 @@
     </ant>
 
     <depend project="project1"/>
+    <depend project="project2" runtime="true"/>
     <depend project="project3"/>
+
+    <option project="project1" />
 
     <home nested="dist"/>
 
