@@ -8,29 +8,29 @@
   <cvs repository="sourceforge" host-prefix="cvs.JRefactory" dir="jrefactory" 
        module="JRefactory"/>
   
-  <project name="jrefactory">
+  <project name="jrefactory-cvs">
     <package>org.acm.seguin</package>
 
     <ant target="jar"/>
     <depend project="jakarta-ant" inherit="runtime"/>
     <depend project="xml-xerces"/>
     <depend project="junit"/>
-    <option project="jrefactory-pretty"><noclasspath/></option>
+    <option project="jrefactory-pretty-cvs"><noclasspath/></option>
     <work nested="ant.build/classes"/>
     <work nested="test/classes"/>
     <jar name="ant.build/lib/jrefactory.jar"/>
   </project>
 
-  <project name="jrefactory-pretty">
+  <project name="jrefactory-pretty-cvs">
     <package>org.acm.seguin.pretty</package>
     <ant target="pretty">
-      <property name="version" value="0.0.0"/>
+      <property name="version" value="@@DATE@@"/>
     </ant>
     <depend project="jakarta-ant" inherit="runtime"/>
     <depend project="xml-xerces"/>
     <depend project="junit"/>
     <work nested="ant.build/classes"/>
-    <jar name="ant.build/lib/PrettyPrinter-0.0.0.jar"/>
+    <jar name="ant.build/lib/PrettyPrinter-@@DATE@@.jar"/>
   </project>
 
 </module>

@@ -12,7 +12,7 @@
     <description>Intermediate target that compiles xdoclet&apos;s core
     classes</description>
 
-    <ant basedir="core" target="compile" />
+    <ant basedir="core" target="compile"/>
 
     <depend project="jakarta-ant" runtime="true"/>
     <depend project="xml-xerces"/>
@@ -110,6 +110,10 @@
     <depend project="mx4j"/>
     <nag from="Peter Donald &lt;peter@apache.org&gt;"
          to="xdoclet-devel@lists.sourceforge.net"/>
+  </project>
+
+  <project name="jrefactory-pretty">
+    <jar name="lib/prettyprinter.jar"/>
   </project>
 
 </module>

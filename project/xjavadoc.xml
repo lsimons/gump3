@@ -18,6 +18,10 @@
     <depend project="jakarta-log4j"/>
     <depend project="junit"/>
     <depend project="commons-logging" />
-    <jar name="dist/xjavadoc.jar"/>
+    <jar name="build/lib/xjavadoc.jar"/>
+  </project>
+
+  <project name="jrefactory">
+    <jar name="lib/jrefactory.jar"/>
   </project>
 </module>
