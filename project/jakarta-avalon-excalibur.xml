@@ -829,7 +829,7 @@
 
         <ant basedir="sourceresolve">
             <depend property="excalibur-pool.jar" project="excalibur-pool" runtime="true"/>
-            <property name="version" value="@@DATE@@"/>
+            <property name="package-version" value="@@DATE@@"/>
             <property name="junit.failonerror" value="true"/>
             <property name="do.checkstyle" value="true"/>
             <property name="skip.dependencies" value="true"/>
