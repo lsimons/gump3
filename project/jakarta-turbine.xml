@@ -7,7 +7,7 @@
 
   <cvs repository="jakarta"/>
 
-  <ant basedir="build" buildfile="build-turbine.xml" target="package"/>
+  <ant basedir="build" target="package"/>
 
   <depend project="jakarta-ant"/>
   <depend project="xml-xerces"/>
