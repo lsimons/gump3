@@ -68,13 +68,6 @@
         </xsl:attribute>
       </xsl:if>
 
-      <!-- default build style, if not present -->
-      <xsl:if test="not(@build-sequence)">
-        <xsl:attribute name="build-sequence">
-          <xsl:text>bulk</xsl:text>
-        </xsl:attribute>
-      </xsl:if>
-
       <!-- copy the rest -->
       <xsl:apply-templates select="* | @* | text()"/>
 

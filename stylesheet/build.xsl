@@ -15,15 +15,13 @@
   <xsl:variable name="banner-link"  select="/workspace/@banner-link"/>
   <xsl:variable name="banner-image" select="/workspace/@banner-image"/>
 
-  <xsl:variable name="build-sequence" select="/workspace/@build-sequence"/>
-
   <!-- =================================================================== -->
   <!-- provide support for specifying desired projects on the command line -->
   <!-- =================================================================== -->
 
   <xsl:template match="workspace">
 
-    <build build-sequence="{$build-sequence}">
+    <build>
 
       <chdir dir="{$basedir}"/>
       <mkdir dir="{$logdir}"/>

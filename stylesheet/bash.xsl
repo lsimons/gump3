@@ -467,14 +467,6 @@
 
   <xsl:template match="initdir">
     <xsl:variable name="dir" select="translate(@dir,'\','/')"/>
-
-    <xsl:if test="/build/@build-sequence = 'progressive'">
-      <xsl:text>test -d </xsl:text>
-      <xsl:value-of select="$dir"/>
-      <xsl:text> &amp;&amp; rm -rf </xsl:text>
-      <xsl:value-of select="$dir"/>
-      <xsl:text>&#10;</xsl:text>
-    </xsl:if>
     <xsl:text>test -d </xsl:text>
     <xsl:value-of select="$dir"/>
     <xsl:text> || cp -r </xsl:text>
