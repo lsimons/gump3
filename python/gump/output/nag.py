@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/output/Attic/nag.py,v 1.22 2004/03/03 20:32:14 ajack Exp $
-# $Revision: 1.22 $
-# $Date: 2004/03/03 20:32:14 $
+# $Header: /home/stefano/cvs/gump/python/gump/output/Attic/nag.py,v 1.23 2004/03/04 17:26:09 ajack Exp $
+# $Revision: 1.23 $
+# $Date: 2004/03/04 17:26:09 $
 #
 # ====================================================================
 #
@@ -169,7 +169,7 @@ class Nagger:
             self.unwantedSubjects=''
             self.unwanteds=0    
         else:
-            log.info('No unwanted nags.')
+            log.debug('No unwanted nags.')
                 
         # Belt and braces (nag to us if not nag to them)
         if self.hasUnsent():
@@ -184,7 +184,7 @@ class Nagger:
             self.unsentSubjects=''
             self.unsents=0
         else:
-            log.info('No unsent nags.')
+            log.debug('No unsent nags.')
                 
     def addUnwanted(self,subject,content):
         if self.unwanted:
@@ -337,7 +337,9 @@ The following %s nag%s should have been sent
     
         try:
                
-            log.info('Send Nag e-mail to: ' + str(toaddr) + ' from: ' + str(fromaddr))
+            log.info('Send Nag e-mail to: ' + str(toaddr) + \
+                ' from: ' + str(fromaddr) + \
+                'Subject: ' + str(subject))
            
             #
             # Form the user visable part ...
@@ -346,8 +348,6 @@ The following %s nag%s should have been sent
                                 fromaddr, \
                                 subject, \
                                 content)       
-              
-            log.info('Subject: ' + str(subject))
                         
             #print '-------------------------------------------------------------------'
             #print 'To:' + `toaddr`

@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/forrest.py,v 1.90 2004/03/03 20:32:14 ajack Exp $
-# $Revision: 1.90 $f
-# $Date: 2004/03/03 20:32:14 $
+# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/forrest.py,v 1.91 2004/03/04 17:26:09 ajack Exp $
+# $Revision: 1.91 $f
+# $Date: 2004/03/04 17:26:09 $
 #
 # ====================================================================
 #
@@ -1140,7 +1140,7 @@ class ForrestDocumenter(Documenter):
         elif not project.isPackaged() and project.hasBuildCommand():            
             document.createWarning('This project does not utilize Gump nagging.')  
                              
-        metadataLocation=str(project.xml.href) or str(module.xml.href)
+        metadataLocation=project.getMetadataLocation()
         if metadataLocation:  
             detailsList.createEntry('Gump Metadata: ', metadataLocation)
                              
@@ -1384,7 +1384,7 @@ class ForrestDocumenter(Documenter):
         if len(servers) == 1: return # Assume this one.     
         
         serversSection=xdocNode.createSection('Servers')  
-        serversSection.createParagraph('These links represent this location on other servers.')      
+        serversSection.createParagraph('These links represent this location (and, when available, the status) on other servers.')      
         serversTable=serversSection.createTable()
         serverRow=serversTable.createRow()
         

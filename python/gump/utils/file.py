@@ -72,12 +72,18 @@ from gump.utils.owner import *
                
 FILE_TYPE_MISC=1
 FILE_TYPE_CONFIG=2
-FILE_TYPE_OUTPUT=3
-FILE_TYPE_LOG=4
+FILE_TYPE_PACKAGE=3
+FILE_TYPE_OUTPUT=4
+FILE_TYPE_REPORT=5
+FILE_TYPE_REPO=6
+FILE_TYPE_LOG=7
 
 fileTypeDescriptions = { 	FILE_TYPE_MISC : "Miscellaneous",
                 FILE_TYPE_CONFIG : "Config",
+                FILE_TYPE_PACKAGE : "Package",
                 FILE_TYPE_OUTPUT : "Output",
+                FILE_TYPE_REPORT : "Report",
+                FILE_TYPE_REPO : "Repository",
                 FILE_TYPE_LOG : "Log" }    
     
 def fileTypeDescription(type):

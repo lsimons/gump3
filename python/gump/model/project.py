@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/model/project.py,v 1.58 2004/03/01 18:58:00 ajack Exp $
-# $Revision: 1.58 $
-# $Date: 2004/03/01 18:58:00 $
+# $Header: /home/stefano/cvs/gump/python/gump/model/project.py,v 1.59 2004/03/04 17:26:08 ajack Exp $
+# $Revision: 1.59 $
+# $Date: 2004/03/04 17:26:08 $
 #
 # ====================================================================
 #
@@ -73,6 +73,7 @@ from gump.model.property import Property
 from gump.model.ant import Ant,Maven,Script
 from gump.model.rawmodel import Single
 from gump.utils import getIndent
+from gump.utils.file import *
 from gump.model.depend import *
 from gump.utils.note import transferAnnotations, Annotatable
 
@@ -261,13 +262,17 @@ class Project(NamedModelObject, Statable, Resultable):
     
     def getURL(self):
         if self.xml.url and self.xml.url.href: return str(self.xml.url.href)
-        return self.getModule().getURL()
+        return self.getModule().getURL()            
         
     def hasDescription(self):
         return str(self.xml.description) or self.getModule().hasDescription()  
         
     def getDescription(self):
         return str(self.xml.description) or self.getModule().getDescription()    
+        
+    def getMetadataLocation(self):
+        if self.xml.href and str(self.xml.href): return self.xml.href
+        return self.getModule().getMetadataLocation()
         
     def addJar(self,jar):
         self.jars[jar.getName()]=jar
@@ -618,7 +623,7 @@ class Project(NamedModelObject, Statable, Resultable):
                 #            
                 from gump.utils.tools import listDirectoryToFileHolder
                 listDirectoryToFileHolder(self,self.getHomeDirectory(),	\
-                    'list_package_'+self.getName())                                            
+                    FILE_TYPE_PACKAGE, 'list_package_'+self.getName())                                            
         
     def importDependencies(self,workspace):        
         badDepends=[]

@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/results/resulter.py,v 1.12 2004/03/03 01:19:45 ajack Exp $
-# $Revision: 1.12 $
-# $Date: 2004/03/03 01:19:45 $
+# $Header: /home/stefano/cvs/gump/python/gump/results/resulter.py,v 1.13 2004/03/04 17:26:09 ajack Exp $
+# $Revision: 1.13 $
+# $Date: 2004/03/04 17:26:09 $
 #
 # ====================================================================
 #
@@ -131,7 +131,8 @@ class Resulter:
             if not server in self.serverResults:
                 results=None
                 try:
-                    results=self.loadResultsForServer(server)            
+                    if server.isPython():
+                        results=self.loadResultsForServer(server)            
                 except Exception, details:
                     log.warn('Failed to load results for [' + str(server) + '] : ' \
                             + str(details), exc_info=1)

@@ -1,7 +1,7 @@
 #!/usr/bin/env python
-# $Header: /home/stefano/cvs/gump/python/gump/test/model.py,v 1.14 2004/02/17 21:54:21 ajack Exp $
-# $Revision: 1.14 $
-# $Date: 2004/02/17 21:54:21 $
+# $Header: /home/stefano/cvs/gump/python/gump/test/model.py,v 1.15 2004/03/04 17:26:10 ajack Exp $
+# $Revision: 1.15 $
+# $Date: 2004/03/04 17:26:10 $
 #
 # ====================================================================
 #
@@ -194,6 +194,13 @@ class ModelTestSuite(UnitTestSuite):
         
         self.assertEqual('State ought propagate to here', project4.getState(), STATE_PREREQ_FAILED)
         self.assertNotEqual('State ought NOT propagate like this', project4.getState(), STATE_FAILED)
+    
+    def testMetadataLocations(self):
+        module1=self.module1
+        project1=self.project1
+        
+        self.assertNotEmpty('Ought have a location', module1.getMetadataLocation() )
+        self.assertNotEmpty('Ought have a location', project1.getMetadataLocation() )
         
     def testClasspaths(self):
         

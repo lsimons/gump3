@@ -278,14 +278,18 @@ class GumpEngine:
 
         #log.debug('Modules to update:') 
     
+        list=run.getGumpSet().getModules()
+        moduleCount=len(list)
+        moduleNo=1     
         # Update all the modules that have CVS repositories
-        for module in run.getGumpSet().getModules():          
+        for module in list: 
         
             if not module.hasCvs() \
                 and not module.hasSvn()	\
                 and not module.hasJars(): continue
             
-            log.debug('Perform CVS/SVN/Jars Update on: ' + module.getName())
+            log.debug('Perform CVS/SVN/Jars Update on #[' + `moduleNo` + \
+                        '] of [' + `moduleCount` + ']: ' + module.getName())
     
             if module.okToPerformWork():
                 
@@ -413,15 +417,14 @@ class GumpEngine:
         projectNo=1
         for project in list:  
         
-            log.info(' ------ Project: #[' + `projectNo` + '] of [' + `projectCount` + '] : ' + project.getName())
-        
+            log.debug(' ------ Project: #[' + `projectNo` + '] of [' + `projectCount` + '] : ' + project.getName())
         
             if project.isPackaged(): continue
             
-                
             # Do this even if not ok
             self.performPreBuild( run, project )
 
+            wasBuilt=0
             if project.okToPerformWork():        
                 log.debug(' ------ Building: [' + `projectNo` + '] ' + project.getName())
 
@@ -434,7 +437,8 @@ class GumpEngine:
                     # Update Context    
                     work=CommandWorkItem(WORK_TYPE_BUILD,cmd,cmdResult)
                     project.performedWork(work)
-            
+                    wasBuilt=1
+                    
                     # Update Context w/ Results  
                     if not cmdResult.state==CMD_STATE_SUCCESS:
                         reason=REASON_BUILD_FAILED
@@ -446,11 +450,14 @@ class GumpEngine:
                         project.changeState(STATE_SUCCESS)
                     
             # Do this even if not ok
-            self.performPostBuild( run, project, repository )
+            self.performPostBuild( run, project, repository, wasBuilt )
     
-            if not project.okToPerformWork():
+            if project.isFailed():
                 log.warn('Failed to build project #[' + `projectNo` + '] [' + project.getName() + '], state:' \
                         + project.getStateDescription())
+                        
+                        
+            projectNo+=1
 
 
     def performDelete(self,project,delete,index=0):
@@ -572,7 +579,7 @@ class GumpEngine:
             log.warn('Failed to perform prebuild on project [' + project.getName() + ']')
 
 
-    def performPostBuild(self, run, project, repository):
+    def performPostBuild(self, run, project, repository, wasBuilt):
         """Perform Post-Build Actions"""
      
         log.debug(' ------ Performing post-Build Actions (check jars) for : '+ project.getName())
@@ -640,7 +647,7 @@ class GumpEngine:
                     
                     # For 'fun' list repository
                     listDirectoryToFileHolder(project,repository.getGroupDir(project.getModule().getName()), \
-                                        'list_repo_'+project.getName())                     
+                                                FILE_TYPE_REPO, 'list_repo_'+project.getName())                     
                                         
                 if not outputsOk:
                     #
@@ -671,7 +678,7 @@ class GumpEngine:
         #   
         # Display report output, even if failed...
         #
-        if project.hasReports():
+        if project.hasReports() and wasBuilt:
             project.addInfo('Project produces reports')    
             for report in project.getReports():
                 reportDir=report.getResolvedPath() 
@@ -679,7 +686,7 @@ class GumpEngine:
                 catDirectoryContentsToFileHolder(project,reportDir,FILE_TYPE_OUTPUT)
     
         # Maven generates a maven.log...
-        if project.hasMaven() and not project.isPackaged():
+        if project.hasMaven() and wasBuilt and not project.isPackaged():
             try:
                 logFile=project.locateMavenLog()                                
                 project.addDebug('Maven Log in: ' + logFile)                
@@ -767,7 +774,7 @@ class GumpEngine:
         moduleNo=1
         for module in list:      
         
-            log.info(' ------ Module: #[' + `moduleNo` + '] of [' + `moduleCount` + '] : ' + module.getName())
+            log.info(' ------ Check Module: #[' + `moduleNo` + '] of [' + `moduleCount` + '] : ' + module.getName())
                         
             module.changeState(STATE_SUCCESS)        
             moduleNo+=1
@@ -780,7 +787,7 @@ class GumpEngine:
         projectNo=1
         for project in list:  
         
-            log.info(' ------ Project: #[' + `projectNo` + '] of [' + `projectCount` + '] : ' + project.getName())
+            log.info(' ------ Check Project: #[' + `projectNo` + '] of [' + `projectCount` + '] : ' + project.getName())
             
             # :TODO: Do some actualy checking...
         

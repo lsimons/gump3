@@ -27,9 +27,6 @@
 
   <todo>
     <actions priority="High Priority">
-    <action context="community" dev="community">
-      	Propose gump as an Apache top level project.
-      </action> 
       <action context="community" dev="community">
       	Keep project metadata clean/healthy, keep re-use strong.
       </action>
@@ -44,6 +41,10 @@
       
       <action context="admin" dev="community">
         Make it easier for folks to install/get started with local/private Gumps.
+      </action>
+      
+      <action context="port" dev="community">
+        Port Gumpy to pure Python for Windows implementations.
       </action>
       
       <action context="admin" dev="admins">
@@ -76,7 +77,7 @@
       </action>
             
       <action context="docs" dev="community">
-        Document gumpy.[bat|sh] and gump.[bat|sh].
+        Document gumpy.py and the other gump/*.py scripts.
       </action>
     </actions>
     

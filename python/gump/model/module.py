@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/model/module.py,v 1.34 2004/03/01 18:58:00 ajack Exp $
-# $Revision: 1.34 $
-# $Date: 2004/03/01 18:58:00 $
+# $Header: /home/stefano/cvs/gump/python/gump/model/module.py,v 1.35 2004/03/04 17:26:08 ajack Exp $
+# $Revision: 1.35 $
+# $Date: 2004/03/04 17:26:08 $
 #
 # ====================================================================
 #
@@ -257,7 +257,8 @@ class Module(NamedModelObject, Statable, Resultable):
                     #
                     self.addProject(project)
                 else:
-                    workspace.addError('Duplicate project [' + xmlproject.name + ']')
+                    workspace.addError('Duplicate project [' + xmlproject.name + '] in [' \
+                            + project.getModule().getName() + '] and now [' + self.getName() + ']')
                 
                 #
                 # Check for packaged
@@ -530,6 +531,11 @@ class Module(NamedModelObject, Statable, Resultable):
     def getWorkspace(self):
         return self.workspace
     
+    def getMetadataLocation(self):
+        # I think the bogus 'anonymous' module, needs this safety check
+        if self.xml: return str(self.xml.href)
+        
+        
     def hasCvs(self):
         if hasattr(self,'cvs') and self.cvs: return 1
         return 0

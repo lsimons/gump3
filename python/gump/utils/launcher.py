@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/utils/Attic/launcher.py,v 1.12 2004/02/18 00:04:52 ajack Exp $
-# $Revision: 1.12 $
-# $Date: 2004/02/18 00:04:52 $
+# $Header: /home/stefano/cvs/gump/python/gump/utils/Attic/launcher.py,v 1.13 2004/03/04 17:26:09 ajack Exp $
+# $Revision: 1.13 $
+# $Date: 2004/03/04 17:26:09 $
 #
 # ====================================================================
 #
@@ -472,11 +472,11 @@ def executeIntoResult(cmd,result,tmp=dir.tmp):
         #
         if result.signal > 0:
             result.state=CMD_STATE_TIMED_OUT
-            log.error('Command timed out. [' + execString + '] [' + str(timeout) + '] seconds.')
+            log.warn('Command timed out. [' + execString + '] [' + str(timeout) + '] seconds.')
         # Process Outputs (exit_code and stderr/stdout)
         elif result.exit_code > 0:    
             result.state=CMD_STATE_FAILED
-            log.error('Command failed. [' + execString + ']. ExitCode: ' + str(result.exit_code))
+            log.warn('Command failed. [' + execString + ']. ExitCode: ' + str(result.exit_code))
         else:
             result.state=CMD_STATE_SUCCESS                
             

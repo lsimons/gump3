@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/model/server.py,v 1.9 2004/02/15 17:32:05 ajack Exp $
-# $Revision: 1.9 $
-# $Date: 2004/02/15 17:32:05 $
+# $Header: /home/stefano/cvs/gump/python/gump/model/server.py,v 1.10 2004/03/04 17:26:08 ajack Exp $
+# $Revision: 1.10 $
+# $Date: 2004/03/04 17:26:08 $
 #
 # ====================================================================
 #
@@ -86,6 +86,9 @@ class Server(NamedModelObject):
                      
     def check(self,workspace):
         pass
+        
+    def isPython(self):
+        return self.hasType() and 'python' == self.getType()
         
     def hasType(self):
         return hasattr(self.xml,'type') and self.xml.type
