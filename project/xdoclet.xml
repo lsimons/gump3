@@ -30,7 +30,7 @@
          to="xdoclet-devel@lists.sourceforge.net"/>
     --> 
     <nag from="Peter Donald &lt;peter@apache.org&gt;"
-         to="peter@apache.org"/>
+         to="alexandria-dev@jakarta.apache.org"/>
    </project>
 
   <project name="xdoclet-examples">
