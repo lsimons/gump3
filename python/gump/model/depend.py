@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/model/depend.py,v 1.12 2004/03/09 21:03:05 ajack Exp $
-# $Revision: 1.12 $
-# $Date: 2004/03/09 21:03:05 $
+# $Header: /home/stefano/cvs/gump/python/gump/model/depend.py,v 1.13 2004/03/09 21:08:52 ajack Exp $
+# $Revision: 1.13 $
+# $Date: 2004/03/09 21:08:52 $
 #
 # ====================================================================
 #
@@ -310,7 +310,8 @@ class Dependable:
         return self.directDependencies.getUniqueProjectDependCount()
         
     def getFullDependencyCount(self):
-        return self.getFullDependencies().getUniqueProjectDependCount()
+        self.getFullDependencies()
+        return fullDependencies.getUniqueProjectDependCount()
                 
     #
     # Dependees
@@ -346,7 +347,8 @@ class Dependable:
         return self.directDependees.getUniqueProjectDependCount()
                 
     def getFullDependeeCount(self):
-        return self.getFullDependees().getUniqueProjectDependCount()
+        self.getFullDependees()
+        return self.fullDependees.getUniqueProjectDependCount()
         
         
     def buildDependenciesMap(self,workspace):        
