@@ -30,7 +30,7 @@
       <property name="version" value="@@DATE@@"/>
     </ant>
     <depend project="ant" inherit="runtime"/>
-    <depend project="xml-xerces1"/>
+    <work nested="lib/xerces-J_1.4.0.jar"/>
     <depend project="ldapsdk"/>
     <depend project="jdbc"/>
     <depend project="jta"/>
