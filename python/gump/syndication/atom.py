@@ -138,12 +138,6 @@ class AtomSyndicator(AbstractSyndicator):
                        'Apache Gump',		\
                         self.workspace.logurl,	\
                         """Life is like a box of chocolates""")
-                    
-        # build information 
-        for module in self.workspace.getModules():
-            if not self.run.getGumpSet().inModuleSequence(module): continue               
-            
-            self.syndicateModule(module,self.feed)
             
     def completeRun(self):
         self.feed.serialize()
