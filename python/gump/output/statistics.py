@@ -225,7 +225,7 @@ class StatisticsDB:
             del self.db[s.lastKey()]
         except:
             """ Hopefully means it wasn't there... """
-         try:
+        try:
             del self.db[s.lastModifiedKey()]
         except:
             """ Hopefully means it wasn't there... """
