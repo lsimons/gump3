@@ -7,13 +7,14 @@
 
   <cvs repository="jakarta"/>
 
-  <ant/>
+  <ant target="dist"/>
 
   <depend project="jakarta-ant"/>
   <depend project="xml-xerces"/>
   <depend project="jakarta-avalon"/>
   <depend project="jakarta-avalon-testlet"/>
   <depend project="jakarta-avalon-phoenix"/>
+  <option project="jsse"/>
 
   <home nested="build/lib"/>
   <jar name="cornerstone.bar"/>
