@@ -75,7 +75,7 @@
         <nag from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"
                 to="dev@avalon.apache.org"/>
     </project>
-
+    <!--
     <project name="avalon-apps-phyre">
         <package>org.apache.avalon.phyre</package>
 
@@ -114,8 +114,7 @@
         <depend project="jetty" runtime="true"/>
         <depend project="jakarta-tomcat-catalina" runtime="true"/>
         <depend project="commons-digester"/>
-        <!-- todo: build with jo! as well
-        <depend project="tagtraum-jo" runtime="true"/>-->
+        <depend project="tagtraum-jo" runtime="true"/>
 
         <option project="checkstyle" inherit="runtime"/>
 
@@ -126,7 +125,7 @@
         <nag from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"
                 to="dev@avalon.apache.org"/>
     </project>
-
+    -->
     <project name="avalon-apps-simpleserver">
         <package>org.apache.avalon.simpleserver</package>
 
