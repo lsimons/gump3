@@ -1,6 +1,6 @@
-#!/bin/sh
+#!/bin/bash
 
-export XALAN=/opt/xalan-j_2_2_D13
+export XALAN=/data/package/xalan-j_2_2_D13
 
 if test "$1" = "-cp"; then
   shift

@@ -20,6 +20,10 @@
         project="jakarta-avalon-excalibur" id="avalon-scratchpad"/>
     </ant>
 
+    <depend project="excalibur-io"/>
+    <depend project="excalibur-cli"/>
+    <depend project="excalibur-extension"/>
+    <depend project="excalibur-i18n"/>
     <depend project="jakarta-ant"/>
     <depend project="xml-stylebook2"/>
     <depend project="xml-xalan2"/>

@@ -5,8 +5,10 @@
   <module href="project/jakarta-alexandria.xml"/>
   <module href="project/jakarta-ant.xml"/>
   <module href="project/jakarta-ant-antidote.xml"/>
+  <module href="http://cvs.apache.org/viewcvs/~checkout~/jakarta-avalon-apps/gump.xml"/>
   <module href="project/jakarta-avalon-cornerstone.xml"/>
-  <module href="project/jakarta-avalon-excalibur.xml"/>
+  <module href="http://cvs.apache.org/viewcvs/~checkout~/jakarta-avalon-excalibur/gump.xml"/>
+  <!-- <module href="project/jakarta-avalon-excalibur.xml"/> -->
   <module href="project/jakarta-avalon-logkit.xml"/>
   <module href="project/jakarta-avalon-phoenix.xml"/>
   <module href="project/jakarta-avalon-site.xml"/>
@@ -41,7 +43,6 @@
   <module href="project/jakarta-turbine-flux.xml"/>
   <module href="project/jakarta-turbine-fulcrum.xml"/>
   <module href="project/jakarta-turbine-jyve.xml"/>
-  <module href="http://cvs.apache.org/viewcvs/~checkout~/jakarta-avalon-apps/gump.xml"/>
   <module href="http://cvs.apache.org/viewcvs/~checkout~/jakarta-turbine-maven/jakarta-turbine-maven.xml"/>
   <module href="project/jakarta-turbine-orgami.xml"/>
   <module href="project/jakarta-turbine-site.xml"/>

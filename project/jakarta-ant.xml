@@ -72,6 +72,10 @@
     <depend project="jakarta-ant"/>
     <depend project="xml-xerces"/>
     <depend project="jakarta-avalon"/>
+    <depend project="excalibur-cli"/>
+    <depend project="excalibur-io"/>
+    <depend project="excalibur-extension"/>
+    <depend project="excalibur-i18n"/>
     <depend project="jakarta-avalon-excalibur"/>
     <depend project="jakarta-avalon-logkit"/>
     <depend project="jakarta-log4j"/>
