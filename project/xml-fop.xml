@@ -12,6 +12,7 @@
   <project name="xml-fop">
     <package>org.apache.fop</package>
 
+    <mkdir dir="build/classes"/>
     <ant target="gump"/>
     <depend project="xml-xerces"/>
     <depend project="xml-xalan2"/>
@@ -21,6 +22,9 @@
     <depend project="avalon" runtime="true"/>
     <depend project="jfor"/>
     <depend project="jakarta-servletapi"/>
+
+    <!-- for SerializeHyphPattern task -->
+    <work nested="build/classes"/>
 
     <home nested="build"/>
     <jar  name="fop.jar"/>
