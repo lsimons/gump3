@@ -36,6 +36,7 @@
         <depend project="excalibur-testcase"/>
         <depend project="excalibur-io"/>
         <depend project="excalibur-thread"/>
+        <depend project="excalibur-altrmi"/>
         <depend project="excalibur-concurrent"/>
         <depend project="excalibur-threadcontext"/>
         <depend project="excalibur-util"/>
