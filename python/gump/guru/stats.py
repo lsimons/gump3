@@ -28,10 +28,10 @@ from gump.model.module import Module, ModuleStatistics
 from gump.model.repository import Repository, RepositoryStatistics
 from gump.model.workspace import Workspace, WorkspaceStatistics
 from gump.model.state import *
+from gump.utils import createOrderedList
 
 from gump.shared.comparator import *
 
-                
 class WorkspaceStatisticsGuru:                        
     """ Know it all for a workspace... """
     def __init__(self, workspace):
