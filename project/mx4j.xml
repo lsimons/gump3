@@ -23,6 +23,7 @@
     <option project="javamail"/>
     <option project="jsse"/>
     <option project="jaf"/>
+    <option project="jython"/>
     <work nested="classes/core"/>
     <work nested="classes/examples"/>
     <work nested="classes/test"/>
