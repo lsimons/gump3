@@ -119,16 +119,18 @@ class NAntBuilder(gump.run.gumprun.RunSpecific):
         # Library Path
         libpath=languageHelper.getAssemblyPath(project)
         
-        # Launch with mono if available
-        exe=''
-        if not self.run.getEnvironment().noMono:
-            exe='mono '
-        exe+='NAnt.exe'
-   
         # Run java on apache NAnt...
-        cmd=Cmd(exe,'build_'+project.getModule().getName()+'_'+project.getName(),
+        cmd=Cmd('NAnt.exe','build_'+project.getModule().getName()+'_'+project.getName(),
             basedir,{'LIBPATH':libpath})
-            
+        
+        # Launch with specified framework (e.g. mono-1.0.1) if
+        # required.
+        workspace=self.run.getWorkspace()
+        if workspace.hasDotNetInformation():
+            dotnetInfo=workspace.getDotNetInformation()
+            if dotnetInfo.hasFramework():                
+                cmd.addParameter('-t:',dotnetInfo.getFramework(),'')
+   
         # These are workspace + project system properties
         cmd.addNamedParameters(sysproperties)
         
