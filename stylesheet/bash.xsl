@@ -381,7 +381,6 @@
       <xsl:text>\&lt;/a\&gt;\&lt;/p\&gt; $OUT"&#10;</xsl:text>
 
       <xsl:text>  eval echo "$PROJECT Missing prereq </xsl:text>
-      <xsl:value-of select="translate(@path,'\','/')"/>
       <xsl:text> from </xsl:text>
       <xsl:value-of select="$project"/>
       <xsl:text> " $SCORECARD&#10;</xsl:text>
