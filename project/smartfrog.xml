@@ -77,6 +77,7 @@
       <property name="system.tests" value="false" /> 
     </ant>    
     <depend project="ant" runtime="true"/>
+    <depend project="xml-xerces"/>
     <depend project="ant-testutil" runtime="true"/>
     <depend project="junit" runtime="true"/>
     <depend project="smartfrog" runtime="true"/>
@@ -104,6 +105,7 @@
       <property name="system.tests" value="false" /> 
     </ant>
     <depend project="ant" runtime="true"/>
+    <depend project="xml-xerces"/>
     <depend project="ant-testutil" runtime="true"/>
     <depend project="junit" runtime="true"/>
     <depend project="smartfrog" runtime="true"/>
