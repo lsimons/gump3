@@ -465,7 +465,7 @@ def documentWorkspace(workspace,context,db,moduleList,projectList):
 
         x.write('     <tr><!-- %s -->\n' % (pname))        
         x.write('      <td><link href=\'%s\'>%s</link></td><td>%s</td>\n' % \
-                      (	getProjectRelativeUrl(pname),	\
+                      (	getModuleProjectRelativeUrl(pctxt.parent.name, pname),	\
                         pname,	\
                         getStateIcon(pctxt)))    
         x.write('      <td>%s</td>\n' % elapsedTimeToString(pctxt.elapsedTime()))    
@@ -1341,7 +1341,7 @@ def getContextDirRelativeUrl(context,depth=1):
     elif isinstance(context,ModuleContext):
         url=getModuleDirRelativeUrl(context.name,depth)
     else:        
-        url=getModuleDirProjectRelativeUrl(context.parent.name,depth)
+        url=getModuleDirRelativeUrl(context.parent.name,depth)
     return url
         
 def getContextUrl(context,depth=1,state=0):
