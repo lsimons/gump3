@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/forrest.py,v 1.88 2004/03/01 21:28:00 ajack Exp $
-# $Revision: 1.88 $f
-# $Date: 2004/03/01 21:28:00 $
+# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/forrest.py,v 1.89 2004/03/01 22:46:41 ajack Exp $
+# $Revision: 1.89 $f
+# $Date: 2004/03/01 22:46:41 $
 #
 # ====================================================================
 #
@@ -1391,6 +1391,8 @@ class ForrestDocumenter(Documenter):
         serverResults=None
         if isinstance(linkable,Resultable) and linkable.hasServerResults():
             serverResults=linkable.getServerResults()
+        else:
+            log.debug('Have no Resultable for statePair ' + `linkable`)
             
         for server in servers: 
         
@@ -1398,7 +1400,11 @@ class ForrestDocumenter(Documenter):
             statePair=None
             if serverResults and serverResults.has_key(server):
                 results=serverResults[server]
-                statePair=results.getStatePair()
+                if results:
+                    log.debug('Have statePair ' + `statePair`)
+                    statePair=results.getStatePair()
+                else:
+                    log.debug('Have no results for statePair ' + `server`)
                                 
             # If we can resolve this object to a URL, then do
             xdocNode=None
@@ -1413,8 +1419,9 @@ class ForrestDocumenter(Documenter):
                             server.getUrl())  
             
             if xdocNode and statePair:
+                log.debug('Have xdocNode and statePair ' + `statePair`)
                 depth=getDepthForObject(linkable)
-                self.insertStatePairIconAtDepth(xdocNode, statePair,depth)
+                self.insertStatePairIconAtDepth(xdocNode,statePair,depth)
             else:
                 xdocNode.createText('On ' + server.getName())
                 
