@@ -21,6 +21,18 @@
       <depend property="junit.jar"   project="junit"/>
       <depend property="log4j.jar"   project="jakarta-log4j"/>
       <depend property="servlet.jar" project="jakarta-servletapi-4"/>
+      <property name="jstl.lib" project="jakarta-taglibs" 
+                path="dist/standard"/>
+      <property name="taglibs-standard.lib" project="jakarta-taglibs" 
+                path="dist/standard"/>
+      <depend property="antlr.jar" project="antlr" id="antlr" />
+      <depend property="antlr-tools.jar" project="antlr" id="antlr-tools" />
+      <depend property="jdbc20ext.jar" project="jdbc" />
+      <depend property="commons-modeler.jar" project="commons-modeler"/>
+      <depend property="jndi.jar" project="jndi"/>
+      <property name="catalina.dist" project="jakarta-tomcat-4.0"
+                path="dist"/>
+      <property name="version" value="@@DATE@@" />
     </ant>
 
     <depend project="dist-ant" />
@@ -30,10 +42,8 @@
     <depend project="jakarta-tomcat-4.0"/>
     <depend project="commons-httpclient"/>
     <depend project="jakarta-struts"/>
-    <depend project="commons-modeler"/>
-    <depend project="jdbc"/>
-    <depend project="antlr"/>
     <depend project="jakarta-oro"/>
+    <option project="jakarta-taglibs"/>
     <work nested="build/classes"/>
     <work nested="build/client/classes"/>
 
@@ -60,7 +70,7 @@
       ANother Tool for Language Recognition
     </description>
 
-    <jar name="lib/antlr-tools.jar"/>
-    <jar name="lib/antlr.jar"/>
+    <jar name="lib/antlr-tools.jar" id="antlr-tools"/>
+    <jar name="lib/antlr.jar" id="antlr"/>
   </project>
 </module>
