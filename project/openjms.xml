@@ -9,7 +9,7 @@
   
   <project name="openjms">
     <ant buildfile="src/build.xml" target="jar"/>
-    <depend project="jakarta-ant"/>
+    <depend project="dist-ant"/>
     <depend project="xml-xerces"/>
     <depend project="openjms.ant.extensions"/>
     <depend project="antlr"/>
@@ -23,6 +23,8 @@
     <depend project="jakarta-regexp"/>
     <depend project="jakarta-log4j"/>
     <depend project="junit"/>
+    <depend project="bsf"/>
+    <depend project="rhino"/>
     <work nested="build/classes"/>
   </project>
 
