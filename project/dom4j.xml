@@ -16,6 +16,7 @@
   <depend project="xml-xalan2"/>
   <depend project="saxon"/>
   <depend project="tranquilo"/>
+  <depend project="xpp"/>
 
   <jar name="build/dom4j.jar"/>
 
