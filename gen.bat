@@ -4,8 +4,9 @@ REM SET JAXP=C:\jaxp-1.1
 REM 
 REM SET CLASSPATH=%JAXP%\crimson.jar;%JAXP%\jaxp.jar;%JAXP%\xalan.jar;%CLASSPATH%
 
-SET XALAN=C:\xalan-j_2_2_D8
-SET CLASSPATH=%XALAN%\bin\xalan.jar;%XALAN%\bin\xerces.jar;%CLASSPATH%
+SET XALAN=C:\opt\xalan-j_2_2_D13
+SET CLASSPATH=%XALAN%\bin\xml-apis.jar;%XALAN%\bin\xalan.jar;%CLASSPATH%
+SET CLASSPATH=%XALAN%\bin\xerces.jar;%CLASSPATH%
 
 SET SOURCE=%1
 

@@ -1,7 +1,4 @@
-# export JAXP=/opt/jaxp-1.1
-# export CLASSPATH=$JAXP/crimson.jar:$JAXP/jaxp.jar:$JAXP/xalan.jar:$CLASSPATH
-
-export XALAN=/opt/xalan-j_2_2_D8
+export XALAN=/opt/xalan-j_2_2_D13
 
 if test "$1" = "-cp"; then
   shift
@@ -14,11 +11,15 @@ test -z "$1" && SOURCE=`hostname | sed s/[.].*//`.xml
 
 if test "$OSTYPE" = "cygwin32" -o "$OSTYPE" = "cygwin"; then
   export CLASSPATH=`cygpath --path --unix "$CLASSPATH"`
-  export CLASSPATH=.:jenny.jar:$XALAN/bin/xerces.jar:$XALAN/bin/xalan.jar:$CLASSPATH
+  export CLASSPATH=$XALAN/bin/xml-apis.jar:$XALAN/bin/xalan.jar:$CLASSPATH
+  export CLASSPATH=$XALAN/bin/xerces.jar:$CLASSPATH
+  export CLASSPATH=.:jenny.jar:$CLASSPATH
   export CLASSPATH=`cygpath --path --windows "$CLASSPATH"`
   JSOURCE=`cygpath -a -w -p "$SOURCE"`
 else
-  export CLASSPATH=.:jenny.jar:$XALAN/bin/xerces.jar:$XALAN/bin/xalan.jar:$CLASSPATH
+  export CLASSPATH=$XALAN/bin/xml-apis.jar:$XALAN/bin/xalan.jar:$CLASSPATH
+  export CLASSPATH=$XALAN/bin/xerces.jar:$CLASSPATH
+  export CLASSPATH=.:jenny.jar:$CLASSPATH
   JSOURCE=$SOURCE
 fi
 
