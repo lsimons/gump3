@@ -21,7 +21,6 @@
     <depend project="jakarta-servletapi"/>
     <option project="junit"/>
     <work nested="java/build/classes"/>
-    <work nested="java/build"/>
 
     <home nested="java/build"/>
     <jar name="lib/axis.jar"/>
@@ -34,6 +33,7 @@
       <property name="test.functional.usefile" value="false"/>
       <depend name="wsdl4j.jar" project="wsdl4j"/>
       <depend name="log4j-core.jar" project="jakarta-log4j"/>
+      <depend name="clutil.jar" project="jakarta-avalon-clutil"/>
     </ant>
     <depend project="xml-xerces"/>
     <depend project="jakarta-ant"/>
@@ -41,7 +41,6 @@
     <option project="junit"/>
     <depend project="xml-axis"/>
     <work nested="java/build/classes"/>
-    <work nested="java/build"/>
   </project>
 
 </module>
