@@ -147,6 +147,7 @@
   <module href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/*checkout*/ant-contrib/ant-contrib/src/etc/gump-descriptor.xml" />
   <module href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/*checkout*/ant-contrib/cpptasks/src/etc/gump-descriptor.xml" />
   <module href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/*checkout*/spice/spice/module.xml" />
+  <module href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/*checkout*/spice/spice/module.xml?rev=PRE_EVOLVE-branch&amp;content-type=text/xml"/>
   <module href="project/forehead.xml"/>
   <module href="project/werkz.xml"/>
   <module href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/*checkout*/ldapd/ldapd-common/gump.xml?rev=HEAD&amp;content-type=text/xml"/>
