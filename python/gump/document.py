@@ -578,10 +578,6 @@ def documentProject(workspace,modulename,mdir,projectname,projectcontext,db):
             
     paragraphXDoc(x,description)
     endSectionXDoc(x)
-    if description:
-        startSectionXDoc(x,'Description')     
-        paragraphXDoc(x,description)
-        endSectionXDoc(x)
 
     documentAnnotations(x,projectcontext.annotations)
     

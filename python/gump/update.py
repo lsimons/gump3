@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/update.py,v 1.13 2003/09/26 19:25:35 ajack Exp $
-# $Revision: 1.13 $
-# $Date: 2003/09/26 19:25:35 $
+# $Header: /home/stefano/cvs/gump/python/gump/update.py,v 1.14 2003/09/29 23:10:12 ajack Exp $
+# $Revision: 1.14 $
+# $Date: 2003/09/29 23:10:12 $
 #
 # ====================================================================
 #
@@ -224,9 +224,6 @@ def updateModules(workspace, modules, context=GumpContext()):
           log.error('Failed to update module: ' + module.name + ' : ' + str(detail))
         
           mctxt.propagateErrorState(STATUS_FAILED,REASON_UPDATE_FAILED)  
-    else:
-        # :TODO: Redundant?
-        mctxt.propagateErrorState(mctxt.status,mctxt.reason)
         
 if __name__=='__main__':
 

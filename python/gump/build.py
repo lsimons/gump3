@@ -1,8 +1,8 @@
 #!/usr/bin/python
 
-# $Header: /home/stefano/cvs/gump/python/gump/build.py,v 1.17 2003/09/27 14:36:18 ajack Exp $
-# $Revision: 1.17 $
-# $Date: 2003/09/27 14:36:18 $
+# $Header: /home/stefano/cvs/gump/python/gump/build.py,v 1.18 2003/09/29 23:10:12 ajack Exp $
+# $Revision: 1.18 $
+# $Date: 2003/09/29 23:10:12 $
 #
 # ====================================================================
 #
@@ -163,9 +163,6 @@ def syncWorkDir( workspace, sequence, context=GumpContext() ):
             mctxt.propagateErrorState(STATUS_FAILED,REASON_SYNC_FAILED)
         else:
             mctxt.status=STATUS_SUCCESS
-    else:
-        # :TODO: Is this redundant, ought it not have already be published?
-        mctxt.propagateErrorState(mctxt.status,mctxt.reason)
 
 def buildProjects( workspace, sequence, context=GumpContext() ):
   """actually perform the build of the specified project and its deps"""
@@ -214,10 +211,6 @@ def buildProjects( workspace, sequence, context=GumpContext() ):
                     pctxt.status=STATUS_SUCCESS  
                 elif project.home:
                     listDirectoryAsWork(pctxt,project.home,'list_'+project.name)      
-    else:
-        # :TODO: Redundant? 
-        #
-        pctxt.propagateErrorState(pctxt.status,pctxt.reason)
 
 # static void main()
 if __name__=='__main__':
