@@ -20,6 +20,7 @@
     <depend project="xml-batik"/>
     <depend project="jakarta-avalon-excalibur"/>
     <depend project="jakarta-regexp"/>
+    <depend project="commons-httpclient"/>
     <depend project="jdom"/>
     <depend project="maybeupload"/>
     <depend project="bsf"/>
