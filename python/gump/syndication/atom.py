@@ -114,7 +114,7 @@ class AtomFeed:
         log.debug("Atom News Feed to : " + self.file);         
         stream = open(self.file,'w')
         
-        modified=time.strftime('%Y-%m-%dT%H:%M:%SZ', gmtime())
+        modified=time.strftime('%Y-%m-%dT%H:%M:%SZ', time.gmtime())
         
         self.serializeToStream(stream,modified)
             
