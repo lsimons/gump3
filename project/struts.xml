@@ -43,7 +43,7 @@
       <depend property="commons-digester.jar"    project="commons-digester"/>
       <depend property="commons-fileupload.jar"  project="commons-fileupload"/>
       <depend property="commons-lang.jar"        project="commons-lang"/>
-      <depend property="commons-logging.jar"     project="commons-logging" id="all"/>
+      <depend property="commons-logging.jar"     project="commons-logging" id="commons-logging"/>
       <depend property="commons-validator.jar"   project="commons-validator"/>
       <depend property="jakarta-oro.jar"         project="jakarta-oro"/>
 

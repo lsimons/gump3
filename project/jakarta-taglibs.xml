@@ -189,7 +189,7 @@
       <depend property="commons-digester.jar" project="commons-digester"
         runtime="true"/>
       <depend property="commons-logging.jar" project="commons-logging"
-        id="all" runtime="true"/>
+        id="commons-logging" runtime="true"/>
       <depend property="commons-messenger.jar" project="commons-messenger"
         runtime="true"/>
       <depend property="jms.jar" project="jms"/>
@@ -227,7 +227,7 @@
     <description>Log Taglib</description>
     <ant basedir="log" target="dist">
       <depend property="commons-logging.jar" project="commons-logging"
-              id="all"/>
+              id="commons-logging"/>
       <depend property="servlet.jar" project="jakarta-servletapi-4"/>
       <property name="build.dir" path="build"/>
       <property name="dist.dir" path="dist"/>

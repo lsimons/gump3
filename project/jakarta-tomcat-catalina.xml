@@ -80,7 +80,7 @@
       <depend property="commons-dbcp.jar" project="commons-dbcp"/>
       <depend property="commons-pool.jar" project="commons-pool"/>
       <depend property="commons-logging.jar" project="commons-logging"
-        runtime="true" id="all"/>
+        runtime="true" id="commons-logging"/>
       <depend property="commons-logging-api.jar" project="commons-logging"
         runtime="true" id="api"/>
       <depend property="commons-launcher.jar" project="commons-launcher"/>

@@ -52,7 +52,7 @@
 
       <depend property="j2ee.jar" project="jakarta-servletapi"/>
       <depend property="log4j.jar" project="logging-log4j" id="log4j"/>
-      <depend property="commons.logging.jar" project="commons-logging" id="all"/>
+      <depend property="commons.logging.jar" project="commons-logging" id="commons-logging"/>
       <depend property="commons.httpclient.jar" project="commons-httpclient-2.0-branch"/>
       <depend property="httpunit.jar" project="httpunit"/>
       <depend property="aspectjrt.jar" project="aspectj" id="aspectjrt"/>
@@ -101,7 +101,7 @@
 
       <depend property="j2ee.jar" project="jakarta-servletapi-4"/>
       <depend property="log4j.jar" project="logging-log4j" id="log4j"/>
-      <depend property="commons.logging.jar" project="commons-logging" id="all"/>
+      <depend property="commons.logging.jar" project="commons-logging" id="commons-logging"/>
       <depend property="commons.httpclient.jar" project="commons-httpclient-2.0-branch"/>
       <depend property="httpunit.jar" project="httpunit"/>
       <depend property="aspectjrt.jar" project="aspectj" id="aspectjrt"/>
@@ -152,7 +152,7 @@
 
       <depend property="j2ee.jar" project="jakarta-servletapi"/>
       <depend property="servlet.jar" project="jakarta-servletapi"/>
-      <depend property="commons.logging.jar" project="commons-logging" id="all"/>
+      <depend property="commons.logging.jar" project="commons-logging" id="commons-logging"/>
       <depend property="junit.jar" project="junit"/>
       <depend property="xerces.jar" project="xml-xerces" id="parser"/>
       <depend property="xmlapis.jar" project="xml-xerces" id="apis"/>
@@ -201,7 +201,7 @@
 
       <depend property="j2ee.jar" project="jakarta-servletapi-4"/>
       <depend property="servlet.jar" project="jakarta-servletapi-4"/>
-      <depend property="commons.logging.jar" project="commons-logging" id="all"/>
+      <depend property="commons.logging.jar" project="commons-logging" id="commons-logging"/>
       <depend property="junit.jar" project="junit"/>
       <depend property="xerces.jar" project="xml-xerces" id="parser"/>
       <depend property="xmlapis.jar" project="xml-xerces" id="apis"/>
@@ -296,7 +296,7 @@
       <depend property="aspectjrt.jar" project="aspectj" id="aspectjrt"/>
       <depend property="cactus.jar" project="jakarta-cactus-framework-12"/>
       <depend property="commons.httpclient.jar" project="commons-httpclient-2.0-branch"/>
-      <depend property="commons.logging.jar" project="commons-logging" id="all"/>
+      <depend property="commons.logging.jar" project="commons-logging" id="commons-logging"/>
       <depend property="eclipse.ant.core.jar" project="eclipse" id="antsupport"/>
       <depend property="eclipse.core.boot.jar" project="eclipse" id="boot"/>
       <depend property="eclipse.core.resources.jar" project="eclipse" id="resources"/>
@@ -360,7 +360,7 @@
       <depend property="aspectjrt.jar" project="aspectj" id="aspectjrt"/>
       <depend property="cactus.jar" project="jakarta-cactus-framework-12"/>
       <depend property="commons.httpclient.jar" project="commons-httpclient-2.0-branch"/>
-      <depend property="commons.logging.jar" project="commons-logging" id="all"/>
+      <depend property="commons.logging.jar" project="commons-logging" id="commons-logging"/>
       <depend property="eclipse.ant.core.jar" project="eclipse" id="antsupport"/>
       <depend property="eclipse.core.boot.jar" project="eclipse" id="boot"/>
       <depend property="eclipse.core.resources.jar" project="eclipse" id="resources"/>
@@ -428,7 +428,7 @@
       <depend property="servlet.jar" project="jakarta-servletapi"/>
       <depend property="log4j.jar" project="logging-log4j" id="log4j"/>
       <depend property="commons.logging.jar" project="commons-logging"
-        id="all"/>
+        id="commons-logging"/>
       <depend property="commons.httpclient.jar" project="commons-httpclient-2.0-branch"/>
       <depend property="httpunit.jar" project="httpunit"/>
       <depend property="aspectjrt.jar" project="aspectj" id="aspectjrt"/>
@@ -487,7 +487,7 @@
       <depend property="servlet.jar" project="jakarta-servletapi-4"/>
       <depend property="log4j.jar" project="logging-log4j" id="log4j"/>
       <depend property="commons.logging.jar" project="commons-logging" 
-        id="all"/>
+        id="commons-logging"/>
       <depend property="commons.httpclient.jar" project="commons-httpclient-2.0-branch"/>
       <depend property="httpunit.jar" project="httpunit"/>
       <depend property="aspectjrt.jar" project="aspectj" id="aspectjrt"/>
@@ -563,7 +563,7 @@
 
       <depend property="servlet.jar" project="jakarta-servletapi-4"/>
       <depend property="commons.logging.jar" project="commons-logging"
-        id="all"/>
+        id="commons-logging"/>
       <depend property="commons.httpclient.jar" project="commons-httpclient-2.0-branch"/>
       <depend property="httpunit.jar" project="httpunit"/>
       <depend property="aspectjrt.jar" project="aspectj" id="aspectjrt"/>

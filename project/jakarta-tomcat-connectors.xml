@@ -33,7 +33,7 @@
       <property name="jmx.home" reference="home" project="jmx"/>
       <property name="jmx.jar" project="jmx" path="jmx/lib/jmxri.jar" />
       <property name="jsse.home" reference="home" project="jsse"/>
-      <property name="commons-logging.jar" reference="jarpath" id="all" project="commons-logging"/>
+      <property name="commons-logging.jar" reference="jarpath" id="commons-logging" project="commons-logging"/>
     </ant>
 
     <depend project="ant"/>
