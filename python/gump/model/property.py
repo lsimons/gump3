@@ -19,13 +19,14 @@
 """
 
 from gump.model.object import *
+from gump.utils.domutils import *
 
 # represents a <property/> element
 class Property(NamedModelObject):
     
-    def __init__(self,xml,parent):
-    	NamedModelObject.__init__(self,xml.getName(),xml,parent)
-    	self.value=xml.transfer('value','*Unset*')
+    def __init__(self,name,dom,parent):
+    	NamedModelObject.__init__(self,name,dom,parent)
+    	self.value=getValue(dom,'value','*Unset*')
     	
     def setValue(self,value):
         self.value = value
@@ -42,9 +43,10 @@ class Property(NamedModelObject):
         responsibleParty=workspace
         if not parent==workspace: responsibleParty=parent.getOwner()
         
-        reference=self.xml.transfer('reference')
+        reference=getValue(self.element,'reference')
         if reference=='home':
-            if not workspace.hasProject(self.xml.project):
+            project=getValue(self.element,'project')            
+            if not workspace.hasProject(project):
                 responsibleParty.addError('Cannot resolve homedir of *unknown* [' + self.xml.project + ']')                
             else:
                 self.setValue(workspace.getProject(self.xml.project).getHomeDirectory())
@@ -92,14 +94,14 @@ class Property(NamedModelObject):
             else:
                 responsibleParty.addError('No project specified.')      
                                 
-        elif hasattr(self.xml,'path'):
+        elif hasAttribute(self.element,'path'):
             #
             # If a property on a project..
             #
             if not parent==workspace: 
                 relativeProject=None
                 # If on a referenced project
-                if hasattr(self.xml,'project'):
+                if hasAttribute(self.element,'project'):
                     if not workspace.hasProject(self.xml.project):
                         responsibleParty.addError('Cannot resolve relative to *unknown* [' + self.xml.project + '] for ' + \
                                     self.getName())                
@@ -115,7 +117,7 @@ class Property(NamedModelObject):
                     # Path relative to module's srcdir (doesn't work in workspace)
                     #        
                     self.value=os.path.abspath(os.path.join(	\
-                            relativeProject.getModule().getWorkingDirectory(),	\
+                            relativeProject.getModule().getWorkingDirectory(),
                             self.xml.path))
             else:
                 responsibleParty.addError('Can\'t have path on property on workspace: ' + \
@@ -166,8 +168,8 @@ class PropertySet(Ownable):
     def getProperties(self):
         return self.properties.values()
             
-    def importProperty(self,xmlproperty):
-        self.addProperty(Property(xmlproperty,self.getOwner()))
+    def importProperty(self,pdom):
+        self.addProperty(Property(getValue(pdom,'name'),pdom,self.getOwner()))
             
     def completeProperties(self,workspace):   
         for property in self.getProperties(): 
@@ -204,21 +206,20 @@ class PropertyContainer:
     def getSysProperties(self):
         return self.sysproperties.getProperties()
         
-    def importProperty(self,xmlproperty):
-        self.properties.importProperty(xmlproperty)
+    def importProperty(self,domproperty):
+        self.properties.importProperty(domproperty)
         
-    def importSysProperty(self,xmlproperty):
-        self.sysproperties.importProperty(xmlproperty)
+    def importSysProperty(self,domproperty):
+        self.sysproperties.importProperty(domproperty)
                 
     def importProperties(self,dom):
         """ Import all properties (from DOM to model). """
-        for element in dom.getElementsByName('property'):
-                self.importProperty(element)
+        for element in getChildren(dom,'property'):
+            self.importProperty(element)
                 
-        if hasattr(xml,'sysproperty'):
-            for xmlproperty in xml.sysproperty:
-                self.importSysProperty(xmlproperty)
-            
+        for element in getChildren(dom,'sysproperty'):
+            self.importSysProperty(element)
+                            
     def completeProperties(self,workspace=None):        
         # The only entity not to pass the workspace,
         # can be the workspace itself.

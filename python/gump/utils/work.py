@@ -220,7 +220,7 @@ class Workable(Stateful):
         self.worklist=WorkList(self)
                 
     def __del__(self):
-        # No such @ present ... Stateful.__del__(self)
+        # None @ present ... Stateful.__del__(self)
         self.worklist=None
         
     def getWorkList(self):

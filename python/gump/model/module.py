@@ -26,6 +26,7 @@ from gump.model.project import *
 from gump.model.object import NamedModelObject, Resultable, Positioned
 from gump.utils import getIndent
 from gump.utils.note import transferAnnotations, Annotatable
+from gump.utils.domutils import *
 
 class ModuleCvs(ModelObject):
     def __init__(self,xml,repository):
@@ -152,21 +153,11 @@ class ModuleArtifacts(ModelObject):
         
     def getGroup(self):
         return self.group
-         
-def createUnnamedModule(workspace):
-    #
-    # Create an Unnamed Module (for projects not in modules)
-    #
-    from gump.model.rawmodel import XMLModule
-    unnamedXML=XMLModule({'name':'Anonymous'})
-    unnamedModule=Module(unnamedXML,workspace)
-    unnamedModule.complete(workspace)
-    return unnamedModule
         
 class Module(NamedModelObject, Statable, Resultable, Positioned):
     """Set of Modules (which contain projects)"""
-    def __init__(self,xml,workspace):
-    	NamedModelObject.__init__(self,xml.getName(),xml,workspace)
+    def __init__(self,name,xml,owner):
+    	NamedModelObject.__init__(self,name,xml,owner)
             	
     	Statable.__init__(self)
     	Resultable.__init__(self)
@@ -174,8 +165,7 @@ class Module(NamedModelObject, Statable, Resultable, Positioned):
     	
     	self.totalDepends=[]
     	self.totalDependees=[]
-    	
-    	self.workspace=workspace 
+    
     	self.projects={}
     	
     	self.repository=None
@@ -191,27 +181,31 @@ class Module(NamedModelObject, Statable, Resultable, Positioned):
     	self.affected		=	0
         	
         # Extract settings
-        self.tag=xml.transfer('tag')
+        self.tag=None
+                
+        # 
+        self.workdir=None
+        
+    def resolve(self):
+        print 'RESOLVE MODULE:'+`self`   
+        for pdom in getChildren(self.element,'project'):
+            project=Project(getValue(pdom,'name'),pdom,self)
+            print 'PROJECT:'+`project`
+            self.addProject(project)
+                
 
     # provide default elements when not defined in xml
     def complete(self,workspace):
       
         if self.isComplete(): return
-           
-        #if self.getName() == 'broken1':
-        #    print "------------------------------------------------------------------------"
-        #    print "COMPLETE MODULE"
-        #    self.xml.dump()
-        #    print "------------------------------------------------------------------------"        
-        #    print "COMPLETE MODULE"
-        #    dump(self.xml)
-        #    print "------------------------------------------------------------------------"
-        #    from gump.utils.xmlutils import xmlize
-        #    print xmlize('module',self.xml)
-        #    print "COMPLETED MODULE"
-        #    print "------------------------------------------------------------------------"        
-        
-        packaged=0
+
+        # Defaults
+        self.workdir=self.getName()
+             
+        # Import overrides from DOM
+        transferInfo( self.element, self, {'srcdir':'workdir'})
+                            
+        packaged=False
                 
         # Claim ownership & check for packages
         # ###################################################
@@ -219,49 +213,37 @@ class Module(NamedModelObject, Statable, Resultable, Positioned):
         # well be considered packages, no need to update from CVS
         # since we won't be building.
         packageCount=0
-        allPackaged=1
+        allPackaged=True
                         
-        #print 'PROJECTs:'+`self.xml.project`
-        for xmlproject in self.xml.project:
-            #print 'PROJECT:'+`xmlproject`
-            if workspace.hasProject(xmlproject.name):
-                
+        for project in self.getProjects():
+          
+            if not project.inModule():
                 #
-                # The project pretty much better be in the
-                # workspace, but avoid crashing...
+                # Claim ownership
                 #
-                project=workspace.getProject(xmlproject.name)
-                
-                if not project.inModule():
-                    #
-                    # Claim ownership
-                    #
-                    self.addProject(project)
-                else:
-                    workspace.addError('Duplicate project [' + xmlproject.name + '] in [' \
-                            + project.getModule().getName() + '] and now [' + self.getName() + ']')
-                
-                #
-                # Check for packaged
-                #
-                if not project.isPackaged():
-                    allPackaged=0  
-                else:
-                    self.addInfo('Packaged Project: ' + project.getName())
-                    packageCount+=1                
+                self.addProject(project)
             else:
-                log.error(':TODO: No such project in w/s ['+ `xmlproject.name` +'] on [' \
-                      + self.getName() + ']')
+                workspace.addError('Duplicate project [' + project.getName() + '] in [' \
+                        + project.getModule().getName() + '] and now [' + self.getName() + ']')
                 
+            #
+            # Check for packaged
+            #
+            if not project.isPackaged():
+                allPackaged=False
+            else:
+                self.addInfo('Packaged Project: ' + project.getName())
+                packageCount+=1                
+       
             # Must be one to be all
-            if not packageCount: allPackaged=0
+            if not packageCount: allPackaged=False
     
             #
             # Give this module a second try,  if some are packaged, and
             # check if the others have no outputs, then call them good.
             #
             if packageCount and not allPackaged:
-                allPackaged=1
+                allPackaged=True
                 for project in self.getProjects():
                     if not project.isPackaged():
                         if not project.hasOutputs():
@@ -275,39 +257,38 @@ class Module(NamedModelObject, Statable, Resultable, Positioned):
                             project.changeState(STATE_COMPLETE,REASON_PACKAGE)    
                             packageCount+=1
                         else:    
-                            allPackaged=0  
+                            allPackaged=False
                             if packageCount:
                                 self.addWarning('Incomplete \'Packaged\' Module. Project: ' + \
                                         project.getName() + ' is not packaged')  
                
-            # If packages module, accept it... 
-            if allPackaged:
-                packaged=1
-                self.setPackaged(1)                
-                self.changeState(STATE_COMPLETE,REASON_PACKAGE)  
-                self.addInfo("\'Packaged\' Module. (Packaged projects: " + \
-                                    str(packageCount) + '.)')                                            
+        # If packages module, accept it... 
+        if allPackaged:
+            packaged=True
+            self.setPackaged(True)
+            self.changeState(STATE_COMPLETE,REASON_PACKAGE)  
+            self.addInfo("\'Packaged\' Module. (Packaged projects: " + \
+                                    `packageCount` + '.)')                                            
 
     
         # Determine source directory
-        self.workdir=self.xml.transfer('srcdir') or self.xml.getName()
         self.absWorkingDir=	\
                 os.path.abspath(
-                        os.path.join(workspace.getBaseDirectory(),	\
+                        os.path.join(workspace.getBaseDirectory(),	
                                 self.workdir))
         
         self.absSrcCtlDir=	\
                  os.path.abspath(
-                         os.path.join(	workspace.getSourceControlStagingDirectory(), \
-                                            self.name)) # todo allow override              
+                         os.path.join(	workspace.getSourceControlStagingDirectory(), 
+                                            self.getName())) # todo allow override              
                                
         # :TODO: Consolidate this code, less cut-n-paste but also
         # check the 'type' of the repository is appropriate for the
         # use (eg. type='cvs' if referenced by CVS).
         if not packaged:
             # We have a CVS entry, expand it...
-            if self.xml.cvs:
-                repoName=self.xml.cvs.repository
+            if hasChild(self.dom,'cvs'):
+                repoName=getValue(getChild(self.dom,'cvs'),'repository')
                 if repoName:
                     if workspace.hasRepository(repoName):
                         # It references this repository...
@@ -317,35 +298,37 @@ class Module(NamedModelObject, Statable, Resultable, Positioned):
                         self.cvs=ModuleCvs(self.xml.cvs,repo)
                     else:
                         self.changeState(STATE_FAILED,REASON_CONFIG_FAILED)               
-                        self.addError('No such repository in w/s ['+ str(repoName) +'] on [' \
+                        self.addError('No such repository ['+ str(repoName) +'] in workspace on [' \
                                 + self.getName() + ']')
                             
-            elif self.xml.svn:                
-                repoName=self.xml.svn.repository
+            elif hasChild(self.dom,'svn'):
+                rdom=getChild(self.dom,'svn')
+                repoName=getValue(rdom,'repository')
                 if repoName:
                     if workspace.hasRepository(repoName):
                         # It references this repository...
                         repo=workspace.getRepository(repoName)
                         self.repository=repo
                         repo.addModule(self)
-                        self.svn=ModuleSvn(self.xml.svn,repo)
+                        self.svn=ModuleSvn(rdom,repo)
                     else:
                         self.changeState(STATE_FAILED,REASON_CONFIG_FAILED)               
-                        self.addError('No such repository in w/s ['+ str(repoName) +'] on [' \
+                        self.addError('No such repository ['+ str(repoName) +'] in workspace on [' \
                                 + self.getName() + ']')                 
                                                 
-            elif self.xml.artifacts:                
-                repoName=self.xml.artifacts.repository
+            elif hasChild(self.dom,'artifact'):
+                adom=getChild(self.dom,'artifact')
+                repoName=getValue(adom,'repository')
                 if repoName:
                     if workspace.hasRepository(repoName):
                         # It references this repository...
                         repo=workspace.getRepository(repoName)	
                         self.repository=repo	
                         repo.addModule(self)
-                        self.artifacts=ModuleArtifacts(self.xml.artifacts,repo)
+                        self.artifacts=ModuleArtifacts(adom,repo)
                     else:
                         self.changeState(STATE_FAILED,REASON_CONFIG_FAILED)               
-                        self.addError('No such repository in w/s ['+ str(repoName) +'] on [' \
+                        self.addError('No such repository ['+ str(repoName) +'] in workspace on [' \
                                 + self.getName() + ']')                 
 
         # For prettiness
@@ -359,6 +342,8 @@ class Module(NamedModelObject, Statable, Resultable, Positioned):
     def addProject(self,project):
         project.setModule(self)
         self.projects[project.getName()]=project
+        
+        self.getOwner().addProject(project)
                      
     def getProject(self,projectname):
         return self.projects[projectname]
@@ -427,9 +412,9 @@ class Module(NamedModelObject, Statable, Resultable, Positioned):
         fogFactor=0
         fogFactors=0
         for project in self.getProjects():
-                projectFOGFactor = project.getFOGFactor()
-                fogFactor += projectFOGFactor
-                fogFactors += 1
+            projectFOGFactor = project.getFOGFactor()
+            fogFactor += projectFOGFactor
+            fogFactors += 1
                 
         if not fogFactors:
             fogFactors=1 # 0/1 is better than 0/0
@@ -491,7 +476,19 @@ class Module(NamedModelObject, Statable, Resultable, Positioned):
                     self.affected += 1            
         
         return self.affected    
-    
+          
+    def getObjectForTag(self,tag,dom,name=None):
+        print 'Module: Instantiate for Tag: ', tag, ' Name: ', name    	
+        
+        object=None
+      
+        if 'project' == tag:
+            from gump.model.project import Project
+            object=Project(name,dom,self)
+            self.addProject(object)
+
+        return object                                          
+        
     def dump(self, indent=0, output=sys.stdout):
         output.write(getIndent(indent)+'Module : ' + self.name + '\n')
         NamedModelObject.dump(self, indent+1, output)

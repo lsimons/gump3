@@ -27,7 +27,6 @@ from gump.utils.tasks import *
 from gump.utils.note import transferAnnotations, Annotatable
 from gump.utils.timing import TimeStampSet
 
-
 class ObjectKey:
     def __init__(self,tag,name):
         self.name=name
@@ -57,7 +56,6 @@ class ObjectKey:
     def getName(self):
         return self.name
         
-
 class XmlLoader:
     def __init__(self,basedir='.',cache=True):
         self.annotations=[]
@@ -104,6 +102,10 @@ class XmlLoader:
         log.debug("Launch XML/DOM Parser onto : " + file);
               
         dom=xml.dom.minidom.parse(file)
+        
+        # We normalize the thing, 'cos we don't care about
+        # pieces of text (just text as one value)
+        dom.normalize()
         
         # Do tag validation (if requested)        
         xtag=dom.documentElement.tagName
@@ -248,27 +250,29 @@ class ModelLoader:
                     parent=task.getParentTask()
                 if parent:
                     parentObject=parent.getResult().getObject()
-                    
+                
+                # Allow context instantiation, or we are root
                 if parentObject:
-                    object=parentObject.getObjectForTag(element.tagName,name)
+                    object=parentObject.getObjectForTag(element.tagName,dom,name)
                 else:
-                    if name:
-                        object=cls(name,dom)
-                    else:
-                        object.cls(dom)
+                    if name: object=cls(name,dom)
+                    else:    object.cls(dom)
                     rootObject=object
                
                 if object:
+                    # Resolve entities...
+                    object.resolve()                    
                     task.getResult().setObject(object)
             
-
-        # Cook the raw model...                    
-        rootObject.complete(dom)
+        if rootObject:
+            # Cook the raw model...                    
+            rootObject.complete()
              
         # Copy over any XML errors/warnings
         #if isinstance(object,Annotatable):
         #    transferAnnotations(parser, object)
-                     #object.complete()
+        
+        return rootObject
         
     def performTasks(self):
         worker=XmlWorker()
@@ -285,4 +289,4 @@ if __name__=='__main__':
     import sys
     from gump.model.workspace import Workspace
     loader=ModelLoader()
-    loader.loadFile(sys.argv[1] or 'workspace.xml',Workspace)
+    loader.loadFile(sys.argv[1] or 'workspace.xml',Workspace).dump()

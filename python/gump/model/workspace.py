@@ -28,23 +28,23 @@ from gump.model.state import *
 from gump.model.repository import Repository
 from gump.model.server import Server
 from gump.model.tracker import Tracker
-from gump.model.module import Module, createUnnamedModule
+from gump.model.module import Module
 from gump.model.project import Project, ProjectSummary
 from gump.model.profile import Profile
 from gump.model.object import NamedModelObject, Resultable
 from gump.model.property import PropertyContainer
 from gump.model.stats import Statable, Statistics
 from gump.utils.note import transferAnnotations, Annotatable
-from gump.utils.listener import Listener, Event
+from gump.utils.domutils import transferInfo
 
 import gump.core.config
 
-#
-#
-#
-
 class Workspace(NamedModelObject, PropertyContainer, Statable, Resultable):
-    """Gump Workspace"""
+    """
+            
+    Gump Workspace: Contains where/what ... lots of good stuff
+            
+    """
     def __init__(self,name,dom):
                 
     	NamedModelObject.__init__(self,name,dom)   
@@ -64,18 +64,13 @@ class Workspace(NamedModelObject, PropertyContainer, Statable, Resultable):
         self.projects={}
         self.profiles={}
         self.servers={}
-        self.trackers={}
-        
-        #
-    	PropertyContainer.importProperties(self,self.xml)    	
+        self.trackers={}        
                     
         # Set times
         self.initializeTimes()
 
         # Where the merged XML was put
         self.mergeFile=None
-        
-        self.listener=ModelListener()
         
     def initializeTimes(self):
         # Store timezone
@@ -112,8 +107,7 @@ class Workspace(NamedModelObject, PropertyContainer, Statable, Resultable):
         self.endDateTimeUtc=time.strftime(setting.utcdatetimeformat, \
                                             time.gmtime())
         self.endDateTime=time.strftime(setting.datetimeformat, \
-                                            time.localtime())
-                                            
+                                            time.localtime())                                            
         
     def getTimezone(self):
         return self.timezone
@@ -133,8 +127,7 @@ class Workspace(NamedModelObject, PropertyContainer, Statable, Resultable):
     def getChildren(self):
         return self.getModules() 
     
-    # Repository Interface
-    
+    # Repository Interface    
     def hasRepository(self,rname):
         return self.repositories.has_key(rname)
         
@@ -147,9 +140,7 @@ class Workspace(NamedModelObject, PropertyContainer, Statable, Resultable):
     def getSortedRepositories(self):
         return self.sortedRepositories
 
-
-    # Server Interface
-    
+    # Server Interface    
     def hasServer(self,rname):
         return self.servers.has_key(rname)
         
@@ -162,9 +153,7 @@ class Workspace(NamedModelObject, PropertyContainer, Statable, Resultable):
     def getSortedServers(self):
         return self.sortedServers
 
-
-    # Tracker Interface
-    
+    # Tracker Interface    
     def hasTracker(self,rname):
         return self.trackers.has_key(rname)
         
@@ -177,9 +166,7 @@ class Workspace(NamedModelObject, PropertyContainer, Statable, Resultable):
     def getSortedTrackers(self):
         return self.sortedTrackers
 
-
-    # Profile Interface
-        
+    # Profile Interface        
     def hasProfile(self,mname):
         return self.profiles.has_key(mname)
         
@@ -192,10 +179,12 @@ class Workspace(NamedModelObject, PropertyContainer, Statable, Resultable):
     def getSortedProfiles(self):
         return self.sortedProfiles   
                 
-    # Module Interface
-        
+    # Module Interface        
     def hasModule(self,mname):
         return self.modules.has_key(mname)
+        
+    def addModule(self,module):
+        self.modules[module.getName()]=module
         
     def getModule(self,mname):
         return self.modules.get(mname,None)
@@ -206,12 +195,14 @@ class Workspace(NamedModelObject, PropertyContainer, Statable, Resultable):
     def getSortedModules(self):
         return self.sortedModules   
                 
-                
     # All projects in the workspace (also available
-    # through the owned moduleS)
+    # through the owning modules)
                 
     def hasProject(self,pname):
         return self.projects.has_key(pname)
+        
+    def addProject(self,project):
+        self.projects[project.getName()]=project
         
     def getProject(self,pname):
         return self.projects[pname]
@@ -222,143 +213,72 @@ class Workspace(NamedModelObject, PropertyContainer, Statable, Resultable):
     def getSortedProjects(self):
         return self.sortedProjects       
         
-    def complete(self, xmlprofiles, xmlrepositories, \
-                    xmlmodules, xmlprojects,	\
-                    xmlservers, xmltrackers):        
+    def complete(self):        
         if self.isComplete(): return
         
-        #
-        # provide default elements when not defined in xml
-        # expand those in XML
-        #
-        if not hasattr(self.xml,'banner-image'):
-            self.bannerImage=default.bannerimage
-        else:
-            self.bannerImage=getattr(self.xml,'banner-image')
+        # Set defaults...        
+        self.basedir=''
+        self.bannerImnage=default.bannerimage
+        self.bannerLink="http://gump.apache.org"
+        
+        self.tmpdir=''
+        self.logdir=''
+        self.jardir=''
+        self.cvsdir=''
+        self.pkgdir=''
+        
+        self.private=False
+        self.email = default.email     
+        self.mailinglist = default.mailinglist  
+        self.mailserver = default.mailserver
+        self.mailport = int(default.mailport)
+        self.prefix=default.prefix
+        self.signature=default.signature
+        
+        # Import overrides from DOM
+        transferInfo(	self.element, 
+                        self, 
+                        {	'banner-image':'bannerImage',
+                            'banner-link' :'bannerLink'})
+    
+        if not self.basedir:
+            raise RuntimeError, "A workspace cannot operate without a 'basedir'."
             
-        if not hasattr(self.xml,'banner-link'): 
-            self.bannerLink="http://gump.apache.org"
-        else:
-            self.bannerLink=getattr(self.xml,'banner-link')
+        if not self.tmpdir: self.tmpdir=os.path.join(self.getBaseDirectory(),"tmp")
+        if not self.logdir: self.logdir=os.path.join(self.getBaseDirectory(),"log")
+        if not self.jardir: self.jardir=os.path.join(self.getBaseDirectory(),"repo") 
+        if not self.cvsdir: self.cvsdir=os.path.join(self.getBaseDirectory(),"cvs")
+        if not self.pkgdir: self.pkgdir=self.getBaseDirectory()
+            
+        # Construct dirs on demand         
+        if not os.path.exists(self.tmpdir): os.makedirs(self.tmpdir)    
+        if not os.path.exists(self.logdir): os.makedirs(self.logdir)
+        if not os.path.exists(self.jardir): os.makedirs(self.jardir)
+        if not os.path.exists(self.cvsdir): os.makedirs(self.cvsdir)
+    
+        #
+    	PropertyContainer.importProperties(self,self.element)    	
+    	
+        # Complete all profiles
+        for profile in self.profiles.values(): 
+            profile.complete(self)
+            
+        # Complete all repositories
+        for repository in self.repositories.values(): 
+            repository.complete(self)
 
-        self.completeDirectories()
-        
-        # Allow per workspace overrides
-        self.logurl = self.xml.transfer('logurl',default.logurl)
-            
-        # Keep some details private, if requested...
-        self.private=hasattr(self.xml,'private')
-            
-        # Sending e-mail address
-        self.email = self.xml.transfer('email', default.email)            
-        # Gump List...
-        self.mailinglist = self.xml.transfer('mailinglist',default.mailinglist)        
-        # Mail server
-        self.mailserver = self.xml.transfer('mailserver',default.mailserver)
-            
-        # Get mailport as an int
-        self.mailport = int(self.xml.transfer('mailport',default.mailport))
-            
-        # Mail subject prefix
-        self.prefix = self.xml.transfer('prefix',default.prefix)
-            
-        # Mail .sig
-        self.signature = self.xml.transfer('signature',default.signature)        
-      
-        #
-        # Import all profiles
-        #  
-        for xmlprofile in xmlprofiles.values(): 
-            profile=Profile(xmlprofile,self)
-            profileName=profile.getName()
-            if profileName in self.profiles:
-                # Duplicate, uh oh...
-                self.addError("Duplicate profile name [" + profileName + "]")
-            else:        
-                profile.complete(self)
-                self.profiles[profileName] = profile
-        
-            self.listener.handleEvent(ModelEvent())
+        # Complete all servers
+        for server in self.servers.values(): 
+            server.complete(self)
 
-        #
-        # Import all repositories
-        #  
-        for xmlrepository in xmlrepositories.values(): 
-            repository=Repository(xmlrepository,self)
-            repoName=repository.getName()
-            if repoName in self.repositories:
-                # Duplicate, uh oh...
-                self.addError("Duplicate repository name [" + repoName + "]")
-            else:        
-                repository.complete(self)
-                self.repositories[repoName] = repository
-        
-            self.listener.handleEvent(ModelEvent())
-
-        #
-        # Import all servers
-        #  
-        for xmlserver in xmlservers.values(): 
-            server=Server(xmlserver,self)
-            serverName=server.getName()
-            if serverName in self.servers:
-                # Duplicate, uh oh...
-                self.addError("Duplicate server name [" + serverName + "]")
-            else:        
-                server.complete(self)
-                self.servers[serverName] = server
-        
-            self.listener.handleEvent(ModelEvent())
-
-        #
-        # Import all trackers
-        #  
-        for xmltracker in xmltrackers.values(): 
-            tracker=Tracker(xmltracker,self)
-            trackerName=tracker.getName()
-            if trackerName in self.trackers:
-                # Duplicate, uh oh...
-                self.addError("Duplicate tracker name [" + trackerName + "]")
-            else:        
-                tracker.complete(self)
-                self.trackers[trackerName] = tracker
-        
-            self.listener.handleEvent(ModelEvent())
-
-        #
-        # Import all modules
-        #  
-        for xmlmodule in xmlmodules.values(): 
-            module=Module(xmlmodule,self)
-            moduleName=module.getName()
-            if moduleName in self.modules:
-                # Duplicate, uh oh...
-                self.addError("Duplicate Module name [" + moduleName + "]")
-            else:        
-                self.modules[moduleName] = module
-        
-            self.listener.handleEvent(ModelEvent())
-            
-        #
-        # Import all projects
-        #  
-        for xmlproject in xmlprojects.values(): 
-            project=Project(xmlproject,self)
-            projectName=project.getName()
-            if projectName in self.projects:
-                # Duplicate, uh oh...
-                self.addError("Duplicate Project name [" + projectName + "]")
-            else:        
-                self.projects[projectName] = project 
-        
-            self.listener.handleEvent(ModelEvent())
+        # Complete all trackers
+        for tracker in self.trackers.values(): 
+            tracker.complete(self)
 
         # Complete the modules
         for module in self.getModules():
             module.complete(self)
         
-            self.listener.handleEvent(ModelEvent())
-            
         #
         # Check repositories, now modules have been imported,
         # so we can report those unused ones.
@@ -366,15 +286,11 @@ class Workspace(NamedModelObject, PropertyContainer, Statable, Resultable):
         for repository in self.getRepositories(): 
             repository.check(self)           
         
-            self.listener.handleEvent(ModelEvent()) 
-        
         #
         # Check servers.
         #
         for server in self.getServers(): 
             server.check(self)            
-        
-            self.listener.handleEvent(ModelEvent())
         
         #
         # Check Trackers.
@@ -382,26 +298,15 @@ class Workspace(NamedModelObject, PropertyContainer, Statable, Resultable):
         for tracker in self.getTrackers(): 
             tracker.check(self)           
         
-            self.listener.handleEvent(ModelEvent()) 
-        
         # Complete the projects   
         haveUnnamedModule=0
         for project in self.getProjects():
             # Projects needs a module (even if pseudo)
             if not project.inModule():
-                if not haveUnnamedModule:
-                    # A container for projects outside of
-                    # modules
-                    unnamedModule=createUnnamedModule(self)
-                    self.addModule(unnamedModule)
-                    haveUnnamedModule=1
-        
-                unnamedModule.addProject(project)
+                log.error('Project not in module. ' + project.getName())
             
             # Complete the project
             project.complete(self)   
-        
-            self.listener.handleEvent(ModelEvent())
                                                              
         # Complete the properies
         self.completeProperties()
@@ -418,40 +323,10 @@ class Workspace(NamedModelObject, PropertyContainer, Statable, Resultable):
         
         # Copy over any XML errors/warnings
         # :TODO:#1: transferAnnotations(self.xml, self)  
-                
-        self.listener.handleEvent(ModelEvent())
             
         self.setComplete(1)
 
-    def completeDirectories(self):
-            
-        if self.xml.basedir:
-            self.basedir=self.xml.basedir
-        else:
-            raise RuntimeError, "A workspace cannot operate without a 'basedir'."
-            
-        # Construct tmp on demand
-        self.tmpdir=self.xml.transfer('tmpdir',os.path.join(self.getBaseDirectory(),"tmp"))            
-        if not os.path.exists(self.tmpdir): 
-            os.makedirs(self.tmpdir)    
-    
-        # Construct logdir on demand
-        self.logdir=self.xml.transfer('logdir',os.path.join(self.getBaseDirectory(),"log"))        
-        if not os.path.exists(self.logdir): os.makedirs(self.logdir)
-    
-        # Construct repository dir on demand
-        self.jardir=self.xml.transfer('jardir',os.path.join(self.getBaseDirectory(),"repo"))   
-        if not os.path.exists(self.jardir): os.makedirs(self.jardir)
-    
-        # Construct CVS directory on demand
-        self.cvsdir=self.xml.transfer('cvsdir',os.path.join(self.getBaseDirectory(),"cvs"))
-        if not os.path.exists(self.cvsdir): os.makedirs(self.cvsdir)
-    
-        # Package Dir Ought Exist
-        self.pkgdir=self.xml.transfer('pkgdir',self.getBaseDirectory())
         
-        if not hasattr(self.xml,'deliver'):
-            self.scratchdir=self.xml.transfer('scratchdir',os.path.join(self.getBaseDirectory(),"scratch"))
    
     def setDatedDirectories(self,date=None):
         
@@ -496,16 +371,16 @@ class Workspace(NamedModelObject, PropertyContainer, Statable, Resultable):
         NamedModelObject.dump(self, indent+1, output)
         
         for profile in self.profiles.values():
-            profile.dump(indent+1,output)
+            profile.dump(indent+2,output)
             
         for repo in self.repositories.values():
-            repo.dump(indent+1,output)
+            repo.dump(indent+2,output)
         
         for module in self.getModules():
-            module.dump(indent+1,output)
+            module.dump(indent+2,output)
         
         for project in self.getProjects():
-            project.dump(indent+1,output)
+            project.dump(indent+2,output)
 
     def isNotify(self):
         return hasattr(self.xml,'nag')
@@ -568,22 +443,18 @@ class Workspace(NamedModelObject, PropertyContainer, Statable, Resultable):
     def getSourceControlStagingDirectory(self):
         return self.cvsdir
 
-    def getObjectForTag(self,tag,name=None):
-        print "***************** Instantiate for ", tag, name    	
+    def getObjectForTag(self,tag,dom,name=None):
+        print 'Instantiate for Tag: ', tag, ' Name: ', name    	
         
         object=None
         
         if 'profile' == tag:
-            if self.profiles.has_key(name):
-                object=self.profiles[name]
+            if self.hasProfile(name):
+                object=self.getProfile(name)
             else:
-                object=Profile(name)
+                object=Profile(name,dom,self)
                 self.profiles[name]=object            
-        
-        # Who I am...
-        if object and hasattr(object,'setWorkspace'):
-            object.setWorkspace(self)
-            
+
         return object
         
         #self.repositories={}
@@ -600,19 +471,4 @@ class WorkspaceStatistics(Statistics):
         
     def getKeyBase(self):
         return 'workspace:'+ self.name        
-    
-            
-class ModelEvent(Event):
-    def __init__(self):		pass
-
-class ModelListener(Listener):
-    def __init__(self):  	pass
-    
-    #
-    # Called with events
-    #
-    def notify(self,event):
-        pass
-        #print '.',
-        
             

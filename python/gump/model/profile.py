@@ -32,8 +32,8 @@ from gump.utils.note import transferAnnotations, Annotatable
 
 class Profile(NamedModelObject):
     """Gump Profile"""
-    def __init__(self,xml,workspace):
-    	NamedModelObject.__init__(self,xml.getName(),xml,workspace) 
+    def __init__(self,name,dom,workspace):
+    	NamedModelObject.__init__(self,name,dom,workspace) 
     	
     def complete(self,workspace):        
         if self.isComplete(): return
@@ -44,7 +44,29 @@ class Profile(NamedModelObject):
         # :TODO: Until we document the profile
         # add these to workspace transferAnnotations(self.xml, self)  
                 
-        self.setComplete(1)                
+        self.setComplete(1)  
+        
+    def getObjectForTag(self,tag,dom,name=None):
+        print 'Profile: Instantiate for Tag: ', tag, ' Name: ', name    	
+        
+        object=None
+        
+        if 'module' == tag:
+            from gump.model.module import Module
+            object=Module(name,dom,self)
+            self.addModule(object)
+        elif 'project' == tag:
+            from gump.model.project import Project
+            object=Project(name,dom,self)
+            self.addProject(object)
+
+        return object
+                      
+    def addModule(self,module):
+        self.getOwner().addModule(module)
+                      
+    def addProject(self,project):
+        self.getOwner().addProject(project)
     
     def dump(self, indent=0, output=sys.stdout):
         output.write(getIndent(indent)+'Profile : ' + self.name + '\n')   

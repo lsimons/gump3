@@ -25,6 +25,7 @@ from gump.utils.work import *
 from gump.utils.file import *
 from gump.utils.owner import *
 from gump.utils.xmlutils import xmlize
+from gump.utils.domutils import *
 
 from gump.model.state import *
 from gump.model.propagation import *
@@ -50,6 +51,10 @@ class ModelObject(Annotatable,Workable,FileHolder,Propogatable,Ownable):
 
         # The XML model
     	self.dom=dom
+    	if dom.nodeType==xml.dom.Node.DOCUMENT_NODE:
+    	    self.element=dom.documentElement
+        else:
+            self.element=self.dom
     	
     	self.debug=False
     	self.verbose=False
@@ -59,8 +64,8 @@ class ModelObject(Annotatable,Workable,FileHolder,Propogatable,Ownable):
     def __del__(self):
         Annotatable.__del__(self)
         Workable.__del__(self)
-        FileHolder.__del__(self)
-        Propogatable.__del__(self)
+        #FileHolder.__del__(self)
+        #Propogatable.__del__(self)
         Ownable.__del__(self)
         
         # No longer need this...
@@ -141,9 +146,11 @@ class ModelObject(Annotatable,Workable,FileHolder,Propogatable,Ownable):
             
         return states
         
-    def getObjectForTag(self,tag,name=None):
+    def getObjectForTag(self,tag,dom,name=None):
         pass
         
+    def resolve(self): 
+        pass
                                 
 class NamedModelObject(ModelObject):
     """Context for a single entity"""
@@ -180,7 +187,6 @@ class NamedModelObject(ModelObject):
         output.write(getIndent(indent)+'Name: ' + self.name + '\n')
         ModelObject.dump(self,indent+1,output)
 
-          
 class Positioned:
     def __init__(self): 
         self.posn=-1
@@ -243,10 +249,19 @@ class Home(ModelObject): pass
 
 # represents a <jar/> element
 class Jar(NamedModelObject):
-    def __init__(self,xml,owner):
-    	NamedModelObject.__init__(self,xml.getName(),xml,owner)
+    def __init__(self,name,dom,owner):
+    	NamedModelObject.__init__(self,name,dom,owner)
+    	self.id=None
+    	self.type=None
     	
-    	self.id = self.xml.id
+    def complete(self):
+        if self.isComplete(): return    
+        
+        # Import overrides from DOM
+        transferInfo( self.element, self, {})    
+        
+        # Done, don't redo
+        self.setComplete(True)    
     	
     def setPath(self,path):
         self.path=path
@@ -265,11 +280,11 @@ class Jar(NamedModelObject):
         return self.id
         
     def getType(self):
-        return self.xml.transfer('type')
+        return self.type
 
 class Resolvable(ModelObject):
-    def __init__(self,xml,owner):
-        ModelObject.__init__(self,xml,owner)                
+    def __init__(self,dom,owner):
+        ModelObject.__init__(self,dom,owner)                
         
     def getResolvedPath(self):  
         path=None
@@ -286,21 +301,21 @@ class Resolvable(ModelObject):
               
 # represents a <junitreport/> element
 class JunitReport(Resolvable):
-    def __init__(self,xml,owner):
-        Resolvable.__init__(self,xml,owner)    
+    def __init__(self,dom,owner):
+        Resolvable.__init__(self,dom,owner)    
     
 # represents a <mkdir/> element
 class Mkdir(Resolvable):
-    def __init__(self,xml,owner):
-        Resolvable.__init__(self,xml,owner)    
+    def __init__(self,dom,owner):
+        Resolvable.__init__(self,dom,owner)    
 
 # represents a <delete/> element
 class Delete(Resolvable): 
-    def __init__(self,xml,owner):
-        Resolvable.__init__(self,xml,owner)    
+    def __init__(self,dom,owner):
+        Resolvable.__init__(self,dom,owner)    
 
 # represents a <work/> element
 class Work(Resolvable): 
-    def __init__(self,xml,owner):
-        Resolvable.__init__(self,xml,owner)    
+    def __init__(self,dom,owner):
+        Resolvable.__init__(self,dom,owner)    
         

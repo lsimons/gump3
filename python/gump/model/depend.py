@@ -40,26 +40,28 @@ inheritDescriptions = { INHERIT_NONE : "None",
 def inheritDescription(inherit):
     return inheritDescriptions.get(inherit,'Unknown Inherit:' + str(inherit))
            
-def importXMLDependency(ownerProject,dependProject,xmldepend,optional):
+def importDomDependency(ownerProject,dependProject,ddom,optional):
         
     # Is this a runtime dependency?
-    runtime = hasattr(xmldepend,'runtime')
+    runtime = hasAttribute(ddom,'runtime')
         
     # Inheritence
     inherit=INHERIT_NONE
-    if hasattr(xmldepend,'inherit'):
-        if 'runtime' == xmldepend.inherit:
+    if hasAttribute(ddom,'inherit'):
+        inherit=getValue('inherit')
+        if 'runtime' == inherit:
             inherit=INHERIT_RUNTIME
-        elif 'all' == xmldepend.inherit:
+        elif 'all' == inherit:
             inherit=INHERIT_ALL
-        elif 'hard' == xmldepend.inherit:
+        elif 'hard' == inherit:
             inherit=INHERIT_HARD
-        elif 'jars' == xmldepend.inherit:
+        elif 'jars' == inherit:
             inherit=INHERIT_JARS
-        elif 'none' == xmldepend.inherit:
+        elif 'none' == inherit:
             inherit=INHERIT_NONE
         
-    ids	=	xmldepend.transfer('ids','')
+    ids	=	getValue(ddom,'ids','')
+    
     annotation = None # 'Expressed Dependency'
     
     # :TODO: I hate this line of code!!!!
@@ -67,11 +69,9 @@ def importXMLDependency(ownerProject,dependProject,xmldepend,optional):
     # to acess the delegate. We do so to check for existence
     # but w/o value. Not good. Really gotta re-write that XML
     # loading/merging stuff.
-    noclasspath=hasattr(xmldepend,'noclasspath') and not (None==xmldepend.noclasspath.delegate)    
+    noclasspath=hasValue(ddom,'noclasspath')    
         
-    #
     # Construct the dependency
-    #        
     return ProjectDependency( 	ownerProject,	\
                                 dependProject,	\
                                 inherit,		\
