@@ -21,28 +21,62 @@
   <project name="commons-betwixt">
     <package>org.apache.commons.betwixt</package>
     <description>Commons Betwixt Package</description>
-    <url href="http://jakarta.apache.org/commons/betwixt.html"/>
-    <ant basedir="betwixt" target="dist">
-      <property name="component.version"  value="@@DATE@@"/>
-      <depend property="commons-digester.jar" project="commons-digester"/>
-      <depend property="commons-collections.jar" project="commons-collections"/>
-      <depend property="commons-beanutils.jar" project="commons-beanutils"/>
-      <depend property="junit.jar"  project="junit"/>
+    <url href="http://jakarta.apache.org/commons/sandbox/betwixt/"/>
+    
+    <!-- Standard Maven target to produce Javadocs, source -->
+    <!-- and binary distributions.                         -->
+    
+    <ant basedir="betwixt" buildfile="build-gump.xml" target="jar">
+      <property name="maven.final.name" value="commons-betwixt-@@DATE@@"/>
     </ant>
+    
+    <!-- All Maven projects need Ant and Xerces to build. -->
     <depend project="jakarta-ant"/>
     <depend project="xml-xerces"/>
+
+    <depend project="commons-digester"/>
+    <depend project="commons-collections"/>
+    <depend project="commons-beanutils"/>
     <depend project="commons-logging"/>
-    <jar name="betwixt/dist/commons-betwixt.jar"/>
-    <javadoc nested="betwixt/dist/docs/api"/>
+
+    <work nested="target/classes"/>
+    <home nested="target"/>
+    <jar name="betwixt/commons-betwixt-@@DATE@@.jar"/>
+    <javadoc nested="betwixt/docs/apidocs"/>
 
     <nag to="commons-dev@jakarta.apache.org"
-         from="Ted Husted &lt;ted@husted.com&gt;"/>
+         from="James Strachan &lt;jstrachan@apache.org&gt;"/>
   </project>
 
   <project name="commons-cli">
     <package>org.apache.commons.cli</package>
     <description>Commons CLI Package</description>
-    <url href="http://jakarta.apache.org/commons/cli.html"/>
+    <url href="http://jakarta.apache.org/commons/sandbox/cli/"/>
+    
+    <!-- Standard Maven target to produce Javadocs, source -->
+    <!-- and binary distributions.                         -->
+    
+    <ant basedir="cli" buildfile="build-gump.xml" target="jar">
+      <property name="maven.final.name" value="commons-cli-@@DATE@@"/>
+    </ant>
+    
+    <!-- All Maven projects need Ant and Xerces to build. -->
+    <depend project="jakarta-ant"/>
+    <depend project="xml-xerces"/>
+
+    <depend project="commons-logging"/>
+
+    <work nested="target/classes"/>
+    <home nested="target"/>
+    <jar name="cli/commons-cli-@@DATE@@.jar"/>
+    <javadoc nested="cli/docs/apidocs"/>
+
+    <nag to="commons-dev@jakarta.apache.org"
+         from="James Strachan &lt;jstrachan@apache.org&gt;"/>
+    
+    
+    
+    
     <ant basedir="cli" target="dist">
       <property name="component.version"  value="@@DATE@@"/>
       <depend property="junit.jar"  project="junit"/>
@@ -194,22 +228,33 @@
   <project name="commons-messenger">
     <package>org.apache.commons.messenger</package>
     <description>A web based JMS framework</description>
-    <url href="http://jakarta.apache.org/commons/messenger.html"/>
-    <ant basedir="messenger" target="dist">
-      <depend property="commons-digester.jar" project="commons-digester"/>
-      <depend property="commons-collections.jar" project="commons-collections"/>
-      <depend property="commons-beanutils.jar" project="commons-beanutils"/>
+    <url href="http://jakarta.apache.org/commons/sandbox/messenger/"/>
+    
+    <!-- Standard Maven target to produce Javadocs, source -->
+    <!-- and binary distributions.                         -->
+    
+    <ant basedir="messenger" buildfile="build-gump.xml" target="jar">
+      <property name="maven.final.name" value="commons-messenger-@@DATE@@"/>
     </ant>
+    
+    <!-- All Maven projects need Ant and Xerces to build. -->
     <depend project="jakarta-ant"/>
     <depend project="xml-xerces"/>
+
+    <depend project="commons-digester"/>
+    <depend project="commons-collections"/>
+    <depend project="commons-beanutils"/>
     <depend project="commons-logging"/>
     <depend project="jakarta-servletapi-4"/>
     <depend project="jms"/>
-    <jar name="messenger/dist/commons-messenger.jar"/>
-    <javadoc nested="messenger/dist/doc/api"/>
+
+    <work nested="target/classes"/>
+    <home nested="target"/>
+    <jar name="messenger/commons-messenger-@@DATE@@.jar"/>
+    <javadoc nested="messenger/docs/apidocs"/>
 
     <nag to="commons-dev@jakarta.apache.org"
-         from="Ted Husted &lt;ted@husted.com&gt;"/>
+         from="James Strachan &lt;jstrachan@apache.org&gt;"/>
   </project>
 
   <project name="commons-services">
