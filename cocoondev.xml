@@ -5,7 +5,10 @@
            version="0.3">
 
   <property name="build.sysclasspath" value="only"/>
-
+  
+  <!-- Not sure if Coocoon supports sysproperty. If so, can change the next line -->
+  <property name="java.awt.headless" value="true"/>
+  
   <profile href="profile/gump.xml"/>
 
   <!-- After the bootstrap -->
