@@ -7,6 +7,8 @@
   <cvs module="werkz" repository="werken" dir="werkz">
   </cvs>
   <project name="werkz">
+    <mkdir dir="target/classes"/>
+    <mkdir dir="target/test-classes"/>
     <ant buildfile="build.xml" target="dist">
       <property name="final.name" value="werkz-@@DATE@@">
       </property>
@@ -21,6 +23,8 @@
     <depend project="xml-xerces">
     </depend>
     <work nested="target/classes">
+    </work>
+    <work nested="target/test-classes">
     </work>
     <home nested="target">
     </home>
