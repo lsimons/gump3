@@ -17,27 +17,11 @@ http://gump.chalko.com/gb/blog/Issues/?preview=true&smm=y&permalink=GumpStorm.tx
   See the License for the specific language governing permissions and
   limitations under the License.
 -->
-<B>History Repeating Itself</B>
-<P>
-About 6-7 years ago I was managing a small website for my mother on a local ISP. 
-I had a ~/.foward in ajack@ISP as simple as "ajack@THEN_WORK_ADDRESS.com". Everything was fine until
-DNS guy at THEN_WORK_ADDRESS quit, and time went buy w/ unpaid Internic bills. Suddenly that
-address was ripped from the Internet, no longer valid [within DNS cache]. 
-When a message was sent to ajack@ISP (from me, a CGI script), it was returned (to me) along with a bounce notification. Two problems from one.
-Things degraded exponentially! It brought down the ISP (SendMail in a hard in spin), and I was accused of intentional mail bombing. 
-Not so, but tonight sure felt the same. :(
-</P>
-<P>
-Today, I disconnected early (lightening putting my sad modem at risk) and I just re-joined. Uh oh ... way to much Gump mail!
-</P>
-<P>I'd attempted this:<BR/>
+<P>A <A HREF="http://gump.apache.org">Gump</A> change was commit to attempt:<BR/>
 	<A HREF="http://issues.apache.org/eyebrowse/ReadMsg?listName=general@gump.apache.org&msgNo=6870">Notification Mail Rework</A><BR/>
-Which was intended simply to ensure that Gump was a little more communicative, a little more timely. I way over compensated...
+Which was intended simply to ensure that Gump was a little more communicative, a little more timely. It way over compensated...
 </P>
 <P>
-Unfortunately, the Ant bootstrap (old faithful, ultra reliable, solid base) failed sending 456 projects into a state that
-incorrectly generated an e-mail. Another bad coincidence, another storm. History repeating itself.
-</P>
-<P>
-<B>Sorry folks...</B>
+Unfortunately, the Ant bootstrap failed sending 456 projects into a state that
+incorrectly generated an e-mail. Apologies for the noise...
 </P>
