@@ -625,7 +625,7 @@
     <xsl:param name="string"/>
 
     <xsl:variable name="work"
-      select="translate($string,'(){&amp;#&quot;',';;;;;;')"/>
+      select="translate($string,'(){&amp;#&quot;&apos;',';;;;;;;')"/>
 
     <xsl:choose>
       <xsl:when test="contains($work,';')">
