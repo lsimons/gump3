@@ -288,7 +288,7 @@ def killChildProcesses():
     log.warn('Kill all child processed (anything launched by Gumpy) [PID' + str(gumpid) + ']')    
     pidsFile = dir.tmp + '/childPIDs.txt'
     command='pgrep -P ' + str(gumpid) + ' -l > ' + pidsFile
-    os.system(command):
+    os.system(command)
     
     ids=None
     try:     
