@@ -283,7 +283,7 @@
             <depend property="excalibur-logger.jar" project="excalibur-logger"/>
             <depend property="excalibur-component.jar" project="excalibur-component" id="component"/>
             <depend property="excalibur-testcase.jar" project="excalibur-component" id="testcase"/>
-            <depend property="excalibur-fortress-tools.jar" project="avalon-fortress-tools" runtime="true"/>
+            <depend property="excalibur-fortress-tools.jar" project="avalon-fortress-tools" inherit="runtime"/>
             <depend property="logkit.jar" project="avalon-logkit"/>
             <property name="version" value="@@DATE@@"/>
             <property name="junit.failonerror" value="true"/>
@@ -681,7 +681,7 @@
             <property name="junit.failonerror" value="true"/>
             <property name="do.checkstyle" value="false"/>
             <property name="skip.dependencies" value="true"/>
-            <depend property="excalibur-fortress-tools.jar" project="avalon-fortress-tools" runtime="true"/>
+            <depend property="excalibur-fortress-tools.jar" project="avalon-fortress-tools" inherit="runtime"/>
             <depend property="qdox.jar" project="phoenix-qdox"/>
         </ant>
 
@@ -785,7 +785,7 @@
         <package>org.apache.excalibur.source</package>
 
         <ant basedir="sourceresolve">
-            <depend property="excalibur-fortress-tools.jar" project="avalon-fortress-tools" runtime="true"/>
+            <depend property="excalibur-fortress-tools.jar" project="avalon-fortress-tools" inherit="runtime"/>
             <depend property="qdox.jar" project="phoenix-qdox"/>
             <depend property="excalibur-pool.jar" project="excalibur-pool" runtime="true"/>
             <property name="package-version" value="@@DATE@@"/>
@@ -815,7 +815,7 @@
         <package>org.apache.excalibur.store</package>
 
         <ant basedir="store">
-            <depend property="excalibur-fortress-tools.jar" project="avalon-fortress-tools" runtime="true"/>
+            <depend property="excalibur-fortress-tools.jar" project="avalon-fortress-tools" inherit="runtime"/>
             <depend property="qdox.jar" project="phoenix-qdox"/>
             <property name="version" value="@@DATE@@"/>
             <property name="junit.failonerror" value="true"/>
@@ -898,7 +898,7 @@
             <depend property="saxpath.jar" project="saxpath"/>
             <depend property="jtidy.jar" project="jtidy"/>
             <depend property="resolver.jar" project="xml-commons-resolver"/>
-            <depend property="excalibur-fortress-tools.jar" project="avalon-fortress-tools" runtime="true"/>
+            <depend property="excalibur-fortress-tools.jar" project="avalon-fortress-tools" inherit="runtime"/>
 
             <depend property="qdox.jar" project="phoenix-qdox"/>
 
