@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/Attic/view.py,v 1.33 2003/05/05 14:38:47 nicolaken Exp $
-# $Revision: 1.33 $
-# $Date: 2003/05/05 14:38:47 $
+# $Header: /home/stefano/cvs/gump/python/gump/Attic/view.py,v 1.34 2003/05/05 15:49:30 nicolaken Exp $
+# $Revision: 1.34 $
+# $Date: 2003/05/05 15:49:30 $
 #
 # ====================================================================
 #
@@ -177,10 +177,13 @@ class gumpview(wxApp):
 
     self.data=wxTextCtrl(split2,-1,style=wxTE_MULTILINE)
 
-    self.logview=wxTextCtrl(self.logsplitter,-1,style=wxTE_MULTILINE|wxTE_RICH|wxTE_AUTO_URL|wxTE_NOHIDESEL  )   
-    self.logview.SetEditable(False)
-    self.logview.SetDefaultStyle(wx.wxTextAttr("WHITE", "BLACK", 
-                                     wxFont(9, wx.wxMODERN, wx.wxNORMAL, wx.wxNORMAL)))
+    self.logview=wxListCtrl(self.logsplitter,-1,style=wxLC_REPORT|wxNO_BORDER )
+    self.logview.InsertColumn(0, "Console")
+    self.logview.SetColumnWidth(0,self.frame.GetRect().GetWidth())    
+    #self.logview=wxTextCtrl(self.logsplitter,-1,style=wxTE_MULTILINE|wxTE_RICH|wxTE_AUTO_URL|wxTE_NOHIDESEL  )   
+    #self.logview.SetEditable(False)
+    #self.logview.SetDefaultStyle(wx.wxTextAttr("WHITE", "BLACK", 
+    #                                 wxFont(9, wx.wxMODERN, wx.wxNORMAL, wx.wxNORMAL)))
     
 
     # attach the panes to the frame
@@ -468,24 +471,41 @@ class ViewHandler(logging.Handler):
         
         textStyle = None;
         
-        if(record.levelno == logging.FATAL):
-         textStyle = wx.wxTextAttr("YELLOW", "RED")
-        elif(record.levelno ==logging.ERROR):     
-         textStyle = wx.wxTextAttr("RED", "YELLOW")
-        elif(record.levelno == logging.WARN):     
-         textStyle = wx.wxTextAttr("RED", "GRAY")
-        elif(record.levelno == logging.INFO):     
-         textStyle = wx.wxTextAttr("BLACK", "WHITE")
-        elif(record.levelno == logging.DEBUG):    
-         textStyle = wx.wxTextAttr("GRAY", "WHITE")
-        else:
-         textStyle = wx.wxTextAttr("WHITE", "BLACK")
+        #if(record.levelno == logging.FATAL):
+        # textStyle = wx.wxTextAttr("YELLOW", "RED")
+        #elif(record.levelno ==logging.ERROR):     
+        # textStyle = wx.wxTextAttr("RED", "YELLOW")
+        #elif(record.levelno == logging.WARN):     
+        # textStyle = wx.wxTextAttr("RED", "GRAY")
+        #elif(record.levelno == logging.INFO):     
+        # textStyle = wx.wxTextAttr("BLACK", "WHITE")
+        #elif(record.levelno == logging.DEBUG):    
+        # textStyle = wx.wxTextAttr("GRAY", "WHITE")
+        #else:
+        # textStyle = wx.wxTextAttr("WHITE", "BLACK")
          
-        self.view.SetDefaultStyle( textStyle ) 
+        #self.view.SetDefaultStyle( textStyle ) 
 
-        self.view.AppendText(msg)
+        #self.view.AppendText(msg)
+
+        position = self.view.InsertStringItem(self.view.GetItemCount(),msg)
+        item = self.view.GetItem(position)
+
+        if(record.levelno == logging.FATAL):
+         textStyle = wx.wxRED
+        elif(record.levelno ==logging.ERROR):     
+         textStyle = wx.wxRED
+        elif(record.levelno == logging.WARN):     
+         textStyle = wx.wxRED
+        elif(record.levelno == logging.INFO):     
+         textStyle = wx.wxBLACK
+        elif(record.levelno == logging.DEBUG):    
+         textStyle = wx.wxGRAY
+        else:
+         textStyle = wx.wxBLACK
         
-        
+        item.SetTextColour(textStyle)
+        self.view.SetItem(item)
         
 class GumpSplashScreen(wxSplashScreen):
   def __init__(self):
