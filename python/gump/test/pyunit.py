@@ -299,10 +299,9 @@ class TestRunner:
         invokeGarbageCollection('Done Testing')
                 
         if problems:   sys.exit(1)
-        sys.exit(0)
+        #sys.exit(0)
                     
-if __name__=='__main__':
-        
+def doRun(patterns):
     gumpinit()
     
     runner=TestRunner()
@@ -391,11 +390,12 @@ if __name__=='__main__':
     #runner.addSuite(RDFDescriberTestSuite())
  
     
+    # Perform the tests...
+    runner.run(patterns)
+    
+if __name__=='__main__':
     # Any args are pattern matches
     patterns=list(sys.argv)
     del patterns[0:1]
     
-    # Perform the tests...
-    runner.run(patterns)
-    
-    
+    doRun(patterns)

@@ -243,7 +243,7 @@ function test
 
   #./test/gumptest.sh
   cd python
-  python ../bin/testrunner.py -f ../python/gump/test/pyunit.py $@
+  python ../bin/testrunner.py -d ../python/gump/test $@
   cd ..
 
   export PYTHONPATH=$oldpythonpath
