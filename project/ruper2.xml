@@ -13,6 +13,10 @@
   <project name="krysalis-ruper2-core">
     <package>org.krysalis.ruper</package>
 
+    <!-- Work dirs to be included in classpath  -->
+    <work nested="build/ant-bootstrap/krysalis-ruper2-core/classes"/>
+    <home nested="build/ant-bootstrap/krysalis-ruper2-core"/>
+    
     <ant target="gump">
       <property name="ant.home" reference="home" project="ant"/>
       <property name="project.name" value="krysalis-ruper2"/>
@@ -28,7 +32,7 @@
     
     <jar name="build/krysalis-ruper2-core-@@DATE@@.jar"/>
     
-    <javadoc nested="doc/api" project="krysalis-ruper"/>
+    <javadoc nested="doc/api" project="krysalis-ruper2"/>
         
     <nag to="krysalis-developers@lists.sourceforge.net"
          from="Adam Jack &lt;arb_jack@users.sourceforge.net&gt;"/>    
@@ -38,6 +42,8 @@
   <project name="krysalis-ruper2-ant">
     <package>org.krysalis.ruper</package>
 
+    <home nested="build/ant-bootstrap/krysalis-ruper2-ant"/>
+    
     <ant target="gump">
       <property name="ant.home" reference="home" project="ant"/>
       <property name="project.name" value="krysalis-ruper2-ant"/>
