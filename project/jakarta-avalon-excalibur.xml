@@ -93,6 +93,7 @@
         <depend project="xml-xerces"/>
         <depend project="xml-xalan2"/>
         <depend project="jakarta-bcel"/>
+        <depend project="commons-attributes"/>
         <work nested="altrmi/build/classes"/>
 
         <home nested="altrmi"/>
