@@ -19,7 +19,7 @@
 
     <depend project="jakarta-ant" inherit="runtime"/>
     <depend project="xml-xerces"/>
-    <depend project="junit"/>
+    <depend project="junit" runtime="true"/>
     <work nested="out/core/classes"/>
     <work nested="out/jdk/classes"/>
 
