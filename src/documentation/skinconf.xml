@@ -86,7 +86,7 @@ be used to configure the chosen Forrest skin.
   <!-- Do we want to disable w3c compliance links? -->
   <disable-compliance-links>false</disable-compliance-links>
   <!-- Whether to render mailto: links unrecognisable by spam harvesters -->
-  <obfuscate-mail-links>true</obfuscate-mail-links>
+  <obfuscate-mail-links>false</obfuscate-mail-links>
 
   <searchsite-domain>gump.apache.org</searchsite-domain>  
   <searchsite-name>Apache Gump</searchsite-name>  
