@@ -267,8 +267,6 @@ class Project(NamedModelObject, Statable, Resultable, Dependable, Positioned):
         
     # provide elements when not defined in xml
     def complete(self,workspace): 
-        log.info('Complete ' + `self`)
-        
         if self.isComplete(): return
 
         if not self.inModule():
@@ -505,7 +503,6 @@ class Project(NamedModelObject, Statable, Resultable, Dependable, Positioned):
         
         # Done, don't redo
         self.setComplete(True)
-        log.info('Complete ' + `self`)
 
     def importDependencies(self,workspace):        
         badDepends=[]

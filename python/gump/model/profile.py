@@ -39,8 +39,6 @@ class Profile(NamedModelObject):
 
     def resolve(self):
         
-        log.info('Resolve ' + `self`)
-        
         owner=self.getOwner()
         
         for pdom in self.getDomChildIterator('project'):

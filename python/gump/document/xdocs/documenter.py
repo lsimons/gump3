@@ -119,8 +119,35 @@ class XDocDocumenter(Documenter):
     #
     # XDocing...
     def getXDocWorkDirectory(self):
-        fdir=os.path.abspath(os.path.join(self.workspace.getBaseDirectory(),'xdocs-work'))
-        return fdir
+        if hasattr(self,'workDir'): return self.workDir
+        
+        wdir=os.path.abspath(os.path.join(
+                    self.workspace.getBaseDirectory(),'xdocs-work'))
+        
+        if self.config.isXdocs():
+            wdir=os.path.abspath(os.path.join(wdir,'content'))
+            
+        if not os.path.exists(wdir):
+            os.makedirs(wdir)
+            
+        self.workDir=wdir
+        
+        return self.workDir
+        
+    def getXDocLogDirectory(self):
+        if hasattr(self,'logDir'): return self.logDir
+        
+        ldir=self.workspace.getLogDirectory()
+        
+        if self.config.isXdocs():
+            ldir=os.path.abspath(os.path.join(ldir,'content'))
+            
+        if not os.path.exists(ldir):
+            os.makedirs(ldir)
+            
+        self.logDir=ldir
+        
+        return self.logDir
         
     def getXDocTemplateDirectory(self):
         """ Template (XDoc skin/config) """   
@@ -144,11 +171,10 @@ class XDocDocumenter(Documenter):
         Copy the main template (perhaps with site tweaks) to prepare
         
         """                
-        log.info('Prepare XDoc work with template')
+        log.info('Prepare XDoc work with template') 
+        xdocLogDir=self.getXDocLogDirectory()
         
-        #
         # First deleted the work tree (if exists), then ensure created
-        #
         xdocWorkDir=self.getXDocWorkDirectory()
         wipeDirectoryTree(xdocWorkDir)
                     
@@ -175,15 +201,7 @@ class XDocDocumenter(Documenter):
                 
         # The move contents/xdocs from work directory to log
         xdocWorkDir=self.getXDocWorkDirectory()
-        logDirectory=self.workspace.getLogDirectory()
-        
-        if self.config.isXdocs():
-            # .. but only the stuff under 'content', so as not to
-            # break the webapp.
-            xdocWorkDir=os.path.abspath(
-                            os.path.join(xdocWorkDir,'content'))
-            logDirectory=os.path.abspath(
-                            os.path.join(logDirectory,'content'))
+        logDirectory=self.getXDocLogDirectory()
         
         workContents=os.path.abspath(
                         os.path.join(xdocWorkDir,objDir))
@@ -206,14 +224,14 @@ class XDocDocumenter(Documenter):
         logSpec=self.resolver.getFileSpec(self.workspace, 'buildLog')
         
         xdocWorkDir=self.getXDocWorkDirectory()
-        logDirectory=self.workspace.getLogDirectory()
-        
+        logDirectory=self.getXDocLogDirectory()
+                                                        
         # Current status
         logSource=os.path.abspath(
                     os.path.join(xdocWorkDir,logSpec.getDocument()))
         logTarget=os.path.abspath(
                     os.path.join(logDirectory,logSpec.getDocument()))
-             
+                    
         # Do the transfer..
         success=True
         try:
@@ -227,19 +245,9 @@ class XDocDocumenter(Documenter):
         
     def syncXDocs(self):
         
-        
         # The move contents/xdocs from work directory to log
         xdocWorkDir=self.getXDocWorkDirectory()
-        logDirectory=self.workspace.getLogDirectory()
-        
-        if self.config.isXdocs():
-            # .. but only the stuff under 'content', so as not to
-            # break the webapp.
-            workContents=os.path.abspath(os.path.join(xdocWorkDir,'content'))
-            logContents=os.path.abspath(os.path.join(logDirectory,'content'))
-        else:
-            workContents=xdocWorkDir
-            logContents=logDirectory
+        logDirectory=self.getXDocLogDirectory()
         
         log.info('Syncronize work->log, and clean-up...')
             
@@ -248,7 +256,7 @@ class XDocDocumenter(Documenter):
             #
             # Sync over public pages...
             #
-            syncDirectories(workContents,logContents)
+            syncDirectories(xdocWorkDir,logDirectory)
             
             cleanUp=True       
             if cleanUp:

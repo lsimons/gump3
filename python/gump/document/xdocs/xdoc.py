@@ -781,9 +781,7 @@ class XDocDocument(XDocPiece):
             from gump.core.config import default
             self.context.writeLine('<p align="right">Last Updated: %s</p>' % default.datetime) 
             self.context.writeLine('</html>')            
-        self.close()  
-        
-        log.debug('Closed Document.')                    
+        self.close()                  
             
     def createSection(self,title,transient=False):
         return self.storePiece(XDocSection(self.createSubContext(transient),self.config,title))

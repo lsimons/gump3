@@ -244,8 +244,6 @@ class Workspace(NamedModelObject, PropertyContainer, Statable, Resultable):
         
     def complete(self):        
         if self.isComplete(): return
-        
-        log.info('Complete ' + `self`)
                 
         # Set defaults...        
         self.basedir=''
@@ -553,8 +551,6 @@ class Workspace(NamedModelObject, PropertyContainer, Statable, Resultable):
         """
         if self.isResolved(): return
         
-        log.info('Resolve ' + `self`)
-        
         for pdom in self.getDomChildIterator('project'):
             if hasDomAttribute(pdom,'name'):
                 name=getDomAttributeValue(pdom,'name')
@@ -565,8 +561,6 @@ class Workspace(NamedModelObject, PropertyContainer, Statable, Resultable):
                 else:
                     project=Project(name,pdom,self)
                     self.addProject(project)   
-        
-        log.info('Resolved ' + `self`)   
         
         self.setResolved()  
 

@@ -225,8 +225,6 @@ class Module(NamedModelObject, Statable, Resultable, Positioned):
         
         if self.isResolved(): return
         
-        log.info('Resolve ' + `self`)
-        
         owner=self.getOwner()
         
         for pdom in self.getDomChildIterator('project'):
@@ -248,17 +246,13 @@ class Module(NamedModelObject, Statable, Resultable, Positioned):
                     project.splice(pdom)
                 else:
                     project=Project(name,pdom,self)
-                    self.addProject(project)
-                    
-        log.info('Resolved ' + `self`)
+                    self.addProject(project) 
         
         self.setResolved()
                 
     # provide default elements when not defined in xml
     def complete(self,workspace):
-      
-        log.info('Complete ' + `self`)
-        
+     
         if self.isComplete(): return
 
         # :TODO: hacky   
