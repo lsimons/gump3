@@ -69,25 +69,30 @@
   <module href="project/xml-xerces2.xml"/>
   <module href="project/xml-xindice.xml"/>
 
-  <!-- exolab -->
+  <!-- SourceForge -->
 
-  <module href="project/castor.xml"/>
-  <module href="project/openorb.xml"/>
+  <module href="project/dom4j.xml"/>
+  <module href="project/hsqldb.xml"/>
+  <module href="project/httpunit.xml"/>
+  <module href="project/jaxen.xml"/>
+  <module href="project/jrefactory.xml"/>
+  <module href="project/jtidy.xml"/>
+  <module href="project/junit.xml"/>
+  <module href="project/openjmx.xml"/>
+  <module href="project/webwork.xml"/>
+  <module href="project/xdoclet.xml"/>
+  <module href="project/xmlunit.xml"/>
 
   <!-- other -->
 
   <module href="project/aspectj.xml"/>
   <module href="project/bsf.xml"/>
-  <module href="project/dom4j.xml"/>
+  <module href="project/castor.xml"/>
   <module href="project/eyebrowse.xml"/>
-  <module href="project/hsqldb.xml"/>
-  <module href="project/httpunit.xml"/>
   <module href="project/javacc.xml"/>
-  <module href="project/jaxen.xml"/>
   <module href="project/jce.xml"/>
   <module href="project/jdom.xml"/>
-  <module href="project/jtidy.xml"/>
-  <module href="project/junit.xml"/>
+  <module href="project/openorb.xml"/>
   <module href="project/rhino.xml"/>
   <module href="project/scarab.xml"/>
   <module href="project/town.xml"/>

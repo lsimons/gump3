@@ -1,0 +1,20 @@
+<module name="webwork">
+
+  <url href="http://webwork.sourceforge.net/"/>
+  <description>
+    WebWork web application framework.
+  </description>
+
+  <cvs repository="sourceforge" host-prefix="cvs.webwork" dir="webwork"/>
+  
+  <project name="webwork">
+    <ant basedir="src/build" />
+    <depend project="jakarta-ant"/>
+    <depend project="xml-xerces"/>
+    <depend project="javacc"/>
+    <depend project="jakarta-log4j"/>
+    <depend project="jakarta-servletapi-4"/>
+    <jar id="webwork" name="build/result/web/WEB-INF/lib/webwork.jar"/>
+  </project>
+
+</module>

@@ -26,6 +26,7 @@
       <depend property="commons-util.jar" project="commons-util" version="1.0"/>
       <depend property="regexp.jar" project="jakarta-regexp" version="1.3-dev"/>
       <depend property="commons-email.jar" project="commons-email" version="0.1-dev"/>
+      <depend property="torque.jar" project="jakarta-turbine-torque"/>
 
       <property name="jakarta-site2" reference="home" project="jakarta-site2"/>
       <property name="final.name" value="fulcrum-@@DATE@@"/>

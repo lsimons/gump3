@@ -1,0 +1,16 @@
+<module name="xmlunit">
+
+  <url href="http://xmlunit.sourceforge.net/"/>
+  <description>
+    JUnit extension for XML unit tests.
+  </description>
+
+  <cvs repository="sourceforge" host-prefix="cvs.xmlunit" dir="xmlunit"/>
+  
+  <project name="xmlunit">
+    <ant target="dist"/>
+    <depend project="xml-xerces"/>
+    <jar id="xmlunit" name="lib/xmlunit.jar"/>
+  </project>
+
+</module>

@@ -1,0 +1,22 @@
+<module name="openjmx">
+
+  <url href="http://openjmx.sourceforge.net/"/>
+  <description>
+    OpenSource implementation of a JMX agent
+  </description>
+
+  <cvs repository="sourceforge" host-prefix="cvs.openjmx" dir="openjmx"/>
+  
+  <project name="openjmx">
+    <anti basedir="build"/>
+    <depend project="jakarta-ant"/>
+    <depend project="xml-xerces"/>
+    <option project="javamail"/>
+    <option project="jsse"/>
+
+    <home nested="dist"/>
+    <jar name="lib/openjmx.jar"/>
+    <jar name="lib/openjmx-tools.jar"/>
+  </project>
+
+</module>
