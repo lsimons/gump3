@@ -25,6 +25,8 @@
   <project href="project/jakarta-taglibs.xml"/>
   <project href="project/jakarta-tomcat-40.xml"/>
   <!-- project href="project/jakarta-tomcat-41.xml"/ -->
+  <project href="project/jakarta-tomcat-connectors.xml"/>
+  <project href="project/jakarta-tomcat-jasper.xml"/>
   <project href="project/jakarta-tomcat.xml"/>
   <project href="project/jakarta-tools.xml"/>
   <project href="project/jakarta-turbine.xml"/>

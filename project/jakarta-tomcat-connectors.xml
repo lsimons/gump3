@@ -1,0 +1,10 @@
+<project name="jakarta-tomcat-connectors">
+
+  <description>
+    Connectors to various web servers
+  </description>
+  <url href="http://jakarta.apache.org/tomcat/index.html"/>
+
+  <cvs repository="jakarta" />
+
+</project>
