@@ -11,13 +11,15 @@
     <package>mx4j</package>
     <package>javax.management</package>
 
-    <ant basedir="build" target="test"/>
+    <ant basedir="build" target="release"/>
     <depend project="jakarta-ant"/>
     <depend project="xml-xerces"/>
     <depend project="xmlunit"/>
     <depend project="jakarta-log4j"/>
+    <depend project="jakarta-bcel"/>
     <depend project="junit"/>
     <depend project="saxon"/>
+    <depend project="xdoclet"/>
     <option project="javamail"/>
     <option project="jsse"/>
     <option project="jaf"/>
@@ -29,16 +31,6 @@
     <home nested="dist"/>
     <jar name="lib/openjmx.jar"/>
     <jar name="lib/openjmx-tools.jar"/>
-  </project>
-
-  <project name="mx4j-release">
-    <ant basedir="build" target="release"/>
-    <depend project="mx4j" inherit="all"/>
-    <depend project="xdoclet"/>
-    <work nested="classes/core"/>
-    <work nested="classes/examples"/>
-    <work nested="classes/test"/>
-    <work nested="classes/tools"/>
   </project>
 
   <project name="saxon">
