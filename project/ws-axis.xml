@@ -63,7 +63,7 @@
   <project name="ws-axis-test">
     <package>org.apache.axis</package>
 
-    <ant basedir="java" target="test">
+    <ant basedir="java" target="junit">
       <property name="axis.lib.dir" value="lib"/>
       <property name="env.ANT_HOME" reference="home" project="ant"/>
       <depend name="wsdl4j.jar" project="wsdl4j" id="wsdl4j"/>
