@@ -48,4 +48,13 @@
     <jar name="exceptionutil.jar"/>
   </project>
 
+  <project name="junitperf">
+    <description>
+       JUnit test decorators for measuring performance and scalability
+    </description>
+    <url href="http://www.clarkware.com/software/JUnitPerf.html"/>
+    <home nested="tools/lib"/>
+    <jar name="junitperf.jar"/>
+  </project>
+
 </module>
