@@ -234,7 +234,8 @@ try:
         mailserver=wsw.getAttribute('mailserver')
         mailport=wsw.getAttribute('mailport') or 25
         mailto=wsw.getAttribute('mailinglist')        
-        mailfrom=wsw.getAttribute('email')
+        mailfrom=wsw.getAttribute('email')     
+        logurl=wsw.getAttribute('logurl')
         # Extract the mail server/address
         ws.unlink()
         
@@ -248,6 +249,8 @@ try:
             log.write('- GUMP mail from      : ' + mailfrom + '\n')
         if mailto:
             log.write('- GUMP mail to        : ' + mailto + '\n')
+        if logurl:
+            log.write('- GUMP log is @       : ' + logurl + '\n')
 
         #
         # Add Gump to Python Path...
@@ -314,16 +317,17 @@ finally:
         # Cat log if failed...
         catFile(sys.stdout, logFile, logTitle)
         
-        if mailserver and mailport and mailto and mailfrom:
+        if mailserver and mailport and mailto and mailfrom and logurl:
             # :TODO: Sucky to read file into memory...
             # Need to figure out attachments, if that
             # helps & doesn't just do same...
-            tmpStream=StringIO.StringIO() 
-            catFile(tmpStream, logFile, logTitle)
-            tmpStream.seek(0)
-            logData=tmpStream.read()
-            tmpStream.close()
-            tmpStream=None
+            #tmpStream=StringIO.StringIO() 
+            #catFile(tmpStream, logFile, logTitle)
+            #tmpStream.seek(0)
+            #logData=tmpStream.read()
+            #tmpStream.close()
+            #tmpStream=None
+            logData='There is a problem with the run at : ' + logurl
             sendEmail(mailto,mailfrom,logTitle,logData,mailserver,mailport)
 
 # bye!
