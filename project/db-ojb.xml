@@ -25,7 +25,7 @@
     <depend project="hsqldb"/>
     <depend project="j2ee-connector" />
     <depend project="jaas" />
-    <depend project="avalon"/>
+    <depend project="avalon-framework" id="combined"/>
     <depend project="jakarta-velocity"/>
     <depend project="excalibur-component"/>
     <depend project="avalon-logkit"/>
@@ -78,7 +78,7 @@
     <depend project="hsqldb"/>
     <depend project="j2ee-connector" />
     <depend project="jaas" />
-    <depend project="avalon"/>
+    <depend project="avalon-framework" id="combined"/>
     <depend project="jakarta-velocity"/>
     <depend project="excalibur-component"/>
     <depend project="avalon-logkit"/>

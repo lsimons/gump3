@@ -19,7 +19,7 @@
     <ant />
 
     <!-- runtime dependencies -->
-    <depend project="avalon" runtime="true"/>
+    <depend project="avalon-framework" runtime="true" id="combined"/>
     <depend project="avalon-logkit" runtime="true"/>
     <depend project="xml-xerces" id="parser" runtime="true"/>
     <depend project="excalibur-compatibility" runtime="true"/>

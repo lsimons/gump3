@@ -13,7 +13,7 @@
     <ant target="dist">
       <property name="version" value="@@DATE@@"/>
 
-      <depend property="avalon-framework.jar" project="avalon"/>
+      <depend property="avalon-framework.jar" project="avalon-framework" id="combined"/>
       <depend property="jakarta-oro.jar" project="jakarta-oro"/>
       <depend property="junit.jar" project="junit"/>
       <depend property="logkit.jar" project="avalon-logkit"/>

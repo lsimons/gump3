@@ -61,7 +61,7 @@
 
     <depend project="commons-jelly" inherit="all"/>
     <depend project="commons-cli"/>
-    <depend project="avalon"/>
+    <depend project="avalon-framework" id="combined"/>
 
     <work nested="avalon/target/classes"/>
     <work nested="avalon/target/test-classes"/>

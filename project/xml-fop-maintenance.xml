@@ -18,7 +18,7 @@
     <depend project="xml-xalan2"/>
     <depend project="ant" inherit="runtime"/>
     <depend project="xml-batik"/>
-    <depend project="avalon" runtime="true"/>
+    <depend project="avalon-framework" runtime="true" id="combined"/>
 
     <!-- for SerializeHyphPattern task -->
     <work nested="build/classes"/>

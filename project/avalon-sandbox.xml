@@ -20,7 +20,7 @@
         <depend project="ant" inherit="runtime"/>
         <option project="checkstyle" inherit="runtime"/>
         <depend project="junit"/>
-        <depend project="avalon" runtime="true"/>
+        <depend project="avalon-framework" runtime="true" id="combined"/>
         <depend project="xml-xerces"/>
         <depend project="xml-xalan2"/>
         <work nested="cache/build/classes"/>

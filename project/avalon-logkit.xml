@@ -41,7 +41,7 @@
           reference="srcdir" />
     </ant>
     <depend project="avalon-logkit" inherit="all"/>
-    <depend project="avalon"/>
+    <depend project="avalon-framework" id="combined"/>
 
     <home nested="build/lib"/>
     <jar name="logkit.jar"/>

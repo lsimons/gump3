@@ -12,7 +12,7 @@
       </property>
     </ant>
     <package>org.apache.fulcrum</package>
-    <depend project="avalon">
+    <depend project="avalon-framework" id="combined">
     </depend>
     <depend project="bsf">
     </depend>

@@ -7,7 +7,7 @@
   <!--<module href="http://cvs.apache.org/viewcvs/~checkout~/jakarta-ant-myrmidon/gump.xml"/>-->
 
 <!-- Apache.Avalon -->
-
+  <module href="http://cvs.apache.org/viewcvs.cgi/*checkout*/avalon/buildsystem/gump-integration/project/avalon.xml"/>
   <module href="project/avalon-sandbox.xml"/>
   <module href="project/avalon.xml"/>
   <module href="project/avalon-cornerstone.xml"/>
@@ -165,7 +165,7 @@
   <module href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/*checkout*/krysalis/krysalis-antlibs/forrest/gump.xml"/>
   <module href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/*checkout*/krysalis/krysalis-antlibs/junit/gump.xml"/>
   <module href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/*checkout*/krysalis/krysalis-antlibs/java/gump.xml"/>
-    
+
   <!--<module href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/*checkout*/krysalis/krysalis-cents/antidote/gump.xml"/>-->
   <!--<module href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/*checkout*/krysalis/krysalis-cents/jtidy/gump.xml"/>-->
   <!--module href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/*checkout*/krysalis/krysalis-cents/antxdoclet/gump.xml"/-->
@@ -291,7 +291,7 @@
   <project name="nsuml"            package="nsuml"/>
 
 <!-- CVS Repository definitions -->
-  
+
   <repository href="repository/ant.xml"/>
   <repository href="repository/avalon.xml"/>
   <repository href="repository/cocoon.xml"/>
@@ -313,7 +313,7 @@
   <repository href="repository/xml.xml"/>
 
 <!-- server definitions -->
-  
+
   <server href="server/daedalus.apache.org.xml"/>
   <server href="server/icarus.apache.org.xml"/>
 

@@ -18,7 +18,7 @@
 
         <depend property="xerces.jar" project="xml-xerces" id="parser" runtime="true"/>
         <depend project="dist-avalon-logkit" runtime="true"/>
-        <depend project="avalon" runtime="true"/>
+        <depend project="avalon-framework" runtime="true" id="combined"/>
         <depend project="excalibur-compatibility" runtime="true"/>
         <depend project="spice-configkit" runtime="true" inherit="runtime"/>
         <depend project="spice-classman" runtime="true" inherit="runtime"/>
@@ -79,7 +79,7 @@
         <depend project="xml-xerces" id="parser" runtime="true"/>
         <depend project="xml-xalan2" id="transformer" runtime="true"/>
         <option project="checkstyle" inherit="runtime"/>
-        <depend project="avalon"/>
+        <depend project="avalon-framework" id="combined"/>
         <depend project="avalon-phoenix" inherit="all"/>
         <depend project="avalon-cornerstone"/>
 
@@ -104,7 +104,7 @@
         <depend project="junit"/>
         <depend project="ant"/>
         <depend project="xml-xerces"/>
-        <depend project="avalon"/>
+        <depend project="avalon-framework" id="combined"/>
         <depend project="avalon-phoenix" inherit="all"/>
 
         <option project="checkstyle" inherit="runtime"/>
@@ -131,7 +131,7 @@
         <depend project="junit"/>
         <depend project="ant"/>
         <depend project="xml-xerces"/>
-        <depend project="avalon"/>
+        <depend project="avalon-framework" id="combined"/>
         <depend project="avalon-phoenix" inherit="all"/>
         <depend project="avalon-cornerstone"/>
         <depend project="excalibur-thread"/>

@@ -19,7 +19,7 @@
     <depend project="ant" inherit="runtime"/>
     <depend project="xml-batik"/>
     <!--depend project="avalon-logkit" runtime="true"/-->
-    <depend project="avalon" runtime="true"/>
+    <depend project="avalon-framework" runtime="true" id="combined"/>
     <depend project="commons-io"/>
     <depend project="jfor"/>
     <depend project="jakarta-servletapi"/>
