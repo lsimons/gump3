@@ -13,6 +13,8 @@
 
     <ant>
       <property name="version" value="@@DATE@@"/>
+      <property name="weblogic.lib.dir" value="."/>
+      <property name="jboss.dir" value="."/>
     </ant>
 
     <depend project="ant" inherit="runtime"/>
