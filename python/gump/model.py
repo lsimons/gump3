@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/Attic/model.py,v 1.17 2003/09/23 23:16:20 ajack Exp $
-# $Revision: 1.17 $
-# $Date: 2003/09/23 23:16:20 $
+# $Header: /home/stefano/cvs/gump/python/gump/Attic/model.py,v 1.18 2003/09/24 16:57:12 ajack Exp $
+# $Revision: 1.18 $
+# $Date: 2003/09/24 16:57:12 $
 #
 # ====================================================================
 #
@@ -343,7 +343,7 @@ class Script(GumpModelObject):
   
 # represents an <ant/> element
 class Ant(GumpModelObject):
-  def init(self):
+  def init(self):  
     self.depend=Multiple(Depend)
     self.property=Multiple(Property)
     self.jvmarg=Multiple(GumpModelObject)

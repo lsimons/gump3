@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/Attic/logic.py,v 1.3 2003/09/23 23:16:20 ajack Exp $
-# $Revision: 1.3 $
-# $Date: 2003/09/23 23:16:20 $
+# $Header: /home/stefano/cvs/gump/python/gump/Attic/logic.py,v 1.4 2003/09/24 16:57:12 ajack Exp $
+# $Revision: 1.4 $
+# $Date: 2003/09/24 16:57:12 $
 #
 # ====================================================================
 #
@@ -237,18 +237,23 @@ def getBuildCommand(workspace,module,project,context):
         
 def getAntCommand(workspace,module,project,ant,context):
     target= ant.target or ''
-
+    buildfile = ant.buildfile or ''
+    
     basedir = os.path.normpath(os.path.join(module.srcdir or dir.base,ant.basedir or ''))
     classpath=getClasspath(project,workspace)
     properties=getAntProperties(workspace,ant)
    
-    cmd=Cmd(context.javaCommand,'build_'+module.name+'_'+project.name,basedir,{'CLASSPATH':classpath})
+    cmd=Cmd(context.javaCommand,'build_'+module.name+'_'+project.name,\
+            basedir,{'CLASSPATH':classpath})
     cmd.addParameter('org.apache.tools.ant.Main')  
     if context.debug:
         cmd.addParameter('-debug')  
     cmd.addPrefixedParameter('-D','build.sysclasspath','only','=')
+    
+    # These are module level plus project level
     cmd.addNamedParameters(properties)
-    # build file?
+    
+    if buildfile: cmd.addParameter('-f',buildfile)
     if target: cmd.addParameter(target)
     
     return cmd
@@ -323,7 +328,7 @@ def getClasspath(project,workspace):
 def getAntProperties(workspace,ant):
   """Get properties for a project"""
   properties=Parameters()
-  for property in workspace.property:#+ant.property:
+  for property in workspace.property+ant.property:
     properties.addPrefixedNamedParameter('-D',property.name,property.value,'=')
   return properties
 
