@@ -131,7 +131,14 @@ class StatisticsDB:
             
             # Extract that extra
             if settings.has_key('last_modified') and settings['last_modified']:
-                stats.lastModified=settings['last_modified']
+                value=settings['last_modified']
+                if isinstance(value,datetime.datetime):
+                    stats.lastModified=value
+                else:
+                    if not value == '0000-00-00 00:00:00':
+                        setattr(stats,attr,
+                                datetime.datetime.fromtimestamp(time.mktime(time.strptime(value,
+                                                                                '%Y-%m-%d %H:%M:%S'))))                    
         except IndexError:
             pass
         return stats

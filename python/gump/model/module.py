@@ -682,4 +682,4 @@ class ModuleStatistics(Statistics):
         # Track code updates/changes
         # 
         if module.isModified():
-            self.lastModified=default.default.datetimeObject
+            self.lastModified=default.datetimeObject
