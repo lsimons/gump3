@@ -36,6 +36,7 @@
     <project name="avalon-apps-demo">
         <package>org.apache.avalon.demos</package>
 
+        <mkdir dir="demo/build/classes"/>
         <ant basedir="demo"/>
 
         <depend project="junit"/>
@@ -50,7 +51,7 @@
 
         <home nested="demo"/>
 
-        <work nested="build/classes"/>
+        <work nested="demo/build/classes"/>
 
         <jar name="build/lib/avalon-demo-@@DATE@@.jar"/>
 
