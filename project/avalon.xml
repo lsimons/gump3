@@ -987,4 +987,48 @@
           from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"/>
     </project>
 
+    <project name="avalon-composition-impl">
+        <package>org.apache.avalon.composition</package>
+        <ant basedir="merlin/composition/impl" target="jar">
+            <property name="project.version" value="@@DATE@@"/>
+        </ant>
+
+        <depend project="ant" inherit="runtime"/>
+        <depend project="junit"/>
+        <depend project="xml-xerces"/>
+        <depend project="avalon-repository-api"/>
+        <depend project="avalon-repository-spi"/>
+        <depend project="avalon-repository-util"/>
+        <depend project="avalon-repository-main"/>
+        <depend project="avalon-logging-api" />
+        <depend project="avalon-logging-spi" />
+        <depend project="avalon-framework" id="api" />
+        <depend project="avalon-framework" id="impl" />
+        <depend project="avalon-meta-api" />
+        <depend project="avalon-meta-spi" />
+        <depend project="avalon-meta-impl" />
+        <depend project="avalon-composition-api" />
+        <depend project="avalon-composition-spi" />
+        <depend project="avalon-util-extension-api" />
+        <depend project="avalon-util-extension-impl" />
+        <depend project="avalon-util-exception" />
+        <depend project="avalon-util-i18n" />
+        <depend project="avalon-logkit" runtime="true"/>
+        <depend project="excalibur-lifecycle-api" runtime="true"/>
+        <depend project="excalibur-configuration" runtime="true"/>
+
+        <mkdir dir="merlin/composition/impl/target/classes"/>
+        <mkdir dir="merlin/composition/impl/target/test-classes"/>
+        <work nested="merlin/composition/impl/target/classes"/>
+        <work nested="merlin/composition/impl/target/test-classes"/>
+        <home nested="merlin/composition/impl"/>
+
+        <jar name="target/avalon-composition-impl-@@DATE@@.jar"/>
+        <javadoc nested="merlin/composition/impl/target/docs/apidocs"/>
+        <junitreport nested="merlin/composition/impl/target/test-reports"/>
+        <nag to="dev@avalon.apache.org" 
+          from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"/>
+    </project>
+
+
 </module>
