@@ -32,6 +32,7 @@
     <depend project="xml-xerces"/>
  
     <depend project="commons-collections"/>
+    <depend project="commons-lang"/>
     <depend project="commons-logging"/>
  
     <work nested="target/classes"/>
