@@ -17,6 +17,7 @@
     </ant>
     <depend project="jakarta-ant"/>
     <depend project="xml-xalan2"/>
+    <depend project="jakarta-log4j"/>
 
     <home nested="build/lib"/>
     <jar name="avalon-framework.jar"/>
