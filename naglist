@@ -104,6 +104,12 @@ To: turbine-dev@jakarta.apache.org
 Regex: /Class.*turbine.*not found/
 Regex: /must be declared abstract. It does not define.*from.*turbine/
 ------
+Project: jakarta-slide
+To: slide-dev@jakarta.apache.org
+From: Craig McClanahan <craigmcc@apache.org>
+Subject: [GUMP] Build Failure - Slide
+Regex: /BUILD FAILED/
+------
 Project: jakarta-struts
 To: struts-dev@jakarta.apache.org
 From: Craig McClanahan <craigmcc@apache.org>
