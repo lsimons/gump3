@@ -23,6 +23,7 @@
     </cvs>
     <project name="jakarta-poi">
         <ant buildfile="build.xml" target="gump">
+          <property name="DSTAMP" value="@@DATE@@"/>
         </ant>
         <package>org.apache.poi</package>
         <depend project="ant"/>
