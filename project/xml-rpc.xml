@@ -18,7 +18,7 @@
     <depend project="jakarta-ant" inherit="runtime"/>
     <option project="jakarta-servletapi"/>
     <option project="jsse"/>
-    <depend project="fesi"/>
+    <!-- depend project="fesi"/ -->
 
     <home nested="target"/>
     <jar name="xmlrpc-@@DATE@@.jar"/>
