@@ -1,0 +1,142 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+  <meta content="text/html; charset=ISO-8859-1"
+ http-equiv="content-type">
+  <title>How To Run Your Own Gump</title>
+</head>
+<body>
+<h1>How To Run Your Own Gump</h1>
+<p>Please note that this documentation specifies the plans we have,
+rather than what we actually do right now. The key difference is that
+Gump will be made much more intelligent about whom to send what e-mail
+and what to put in those e-mails. However, the basic ideas for all this
+are quickly falling into place.<br>
+</p>
+<h2>Why do it?</h2>
+<p>Maybe you want to use gump on your own software that isn't built by
+gump itself (perhaps its closed-source). Maybe you're a gump developer
+and you want to test out changes locally. Maybe you just want to
+understand better how gump works. Maybe you want to run a copy of the
+main gump installation using a different operating system. There are
+lots of reasons, really.<br>
+</p>
+<h2>Required knowledge</h2>
+<p>To be able to run gump you should have understand the basics of what
+gump is all about.
+You should also have some experience with cvs, subversion, the command
+line
+and xml. Python experience is not required.<br>
+</p>
+<h2>Required software</h2>
+<p>Gump needs a unix-like environment. Prerequisites include:<br>
+</p>
+<ul>
+  <li>the Bash shell;<br>
+  </li>
+  <li>Python 2.3 or later;</li>
+  <li>the pkill program;</li>
+  <li>the hostname program;</li>
+  <li>the cvs program;</li>
+  <li>the svn program.</li>
+</ul>
+<p>Optional software includes:</p>
+<ul>
+  <li>the rdflib python library for outputting RSS feeds;<br>
+  </li>
+  <li>a java development kit (jdk) for building java software;</li>
+  <li>the Apache Ant program for building java software;</li>
+  <li>the Apache Maven program for building java software;</li>
+  <li>the make,automake,autoconf,gcc programs and related tools for
+building many other kinds of software;<br>
+  </li>
+  <li>the xmllint program for checking the gump metadata validity;<br>
+  </li>
+  <li>the xsltproc program for checking the gump metadata validity;<br>
+  </li>
+  <li>the Apache Forrest program for generating html from the results
+and building the gump website;</li>
+</ul>
+<p>The gump command line tool tries to be intelligent about detecting
+the
+availability of these tools. As long as you have bash, cvs, svn and
+hostname available it should be able to guide you to the right
+locations
+for getting these libraries.</p>
+<p>For Debian users, it is mostly possible to mirror the main gump
+installation by following the procedures described on
+<a href="http://wiki.apache.org/gump/BrutusConfig">this page</a>.</p>
+<h2>Downloading the sources</h2>
+<p>Gump doesn't publish distributions. Instead, you need to check it
+out from cvs/svn:<br>
+</p>
+<pre>$ mkdir ~/gump/local<br>$ cd ~/gump/local<br>$ svn checkout https://svn.apache.org/repos/asf/gump/trunk .<br>$ cvs -d :pserver:anoncvs@cvs.apache.org:/home/cvspublic login<br># password is "anoncvs"<br>$ cvs -d :pserver:anoncvs@cvs.apache.org:/home/cvspublic checkout gump<br>$ mv gump/* metadata<br>$ rm -Rf gump<br></pre>
+<h2><span style="font-weight: bold;"></span>Setting up your environment</h2>
+<p>The next step is to let gump know about your computer. Create a file
+named <code>~/gump/local/cron/local-env-${HOST}.sh</code>, where <code>${HOST}</code>
+should be replaced with the short name of your computer (ie the part
+before the first "."). You can find your hostname using the command <code>hostname
+-s</code>.<br>
+</p>
+<p>This file is a bash script which gets read by gump everytime it is
+run, before it does anything significant. In it, you can define
+environment variables by exporting them. For now, we'll define only the
+required <code>GUMP_HOME</code> and a <code>JAVA_HOME</code> because
+we will be building a java project:<br>
+</p>
+<pre>export GUMP_HOME=~/gump/local<br>export JAVA_HOME=/System/Library/Frameworks/JavaVM.framework/Versions/CurrentJDK/Home<br></pre>
+<h2>The gump command line</h2>
+<p>Your main interface into gump will be the command line program
+named, aptly, <code>gump</code>. You can find out about its basic
+functionality using the "help" command:<br>
+</p>
+<pre>$ cd ~/gump/local<br>$ ./gump help<br><br>      Utility commandline interface for Gump.<br>     <br>      Usage:<br>        ./gump command [opts ...]<br>     <br>      Available commands are:<br>     <br>        run -- run Gumpy<br>        test -- run Gumpy its unit tests<br>        get-metadata -- Check out or update metadata from CVS<br>        validate -- validate the metadata<br>        help -- print this information<br>        site -- use Apache Forrest to build the documentation<br>        site-publish -- use SVN and SSH to publish the site to the website<br>     <br>      Run<br>     <br>        ./gump help [command]<br>     <br>      for more information about a particular command.<br></pre>
+<p>Note that you need to <code>cd</code> into the <code>GUMP_HOME</code>
+directory before
+executing this command. (Yes, we know that's annoying.) One thing you
+might wish to do is use a small wrapper script that you place
+elsewhere, ie you could create the following as <code>~/bin/gump</code>
+(assuming
+<code>~/bin</code> is on your path):<br>
+</p>
+<pre>#!/bin/sh<br>#<br># Simple wrapper script which fires off gump<br>olddir=`pwd`<br>cd ~/local/gump<br>./gump $@<br>cd $olddir<br></pre>
+<h2>Running the unit tests</h2>
+<p>Next, we'll run the gump unit tests using the command line
+interface. It would be nice if these tests would all always work, but
+this isn't the case, so simply don't worry if some of them fail:<br>
+</p>
+<pre>cd ~/gump/local<br>./gump test<br></pre>
+<p>If the test suite gets run, that means you have all the neccessary
+prerequisites available. Finally! Now comes the fun bit.<br>
+</p>
+<h2>Defining a workspace and a profile</h2>
+<p>Gump reads an xml file from <code>GUMP_HOME/metadata</code> that
+should be named <code>${HOST}.xml</code>. This file defines a <em>workspace</em>,
+where you can customize
+just about everything about gump's behaviour. For now, simply copy the
+<code>minimal-workspace.xml</code> file that's in CVS into <code>${HOST}.xml</code>.
+This file
+references a profile definition. The profile defines what stuff
+gump will build. The file referenced is <code>profile/minimal-profile.xml</code>,
+which builds Apache Ant, and nothing else.<br>
+</p>
+<h2>Running gump</h2>
+<p>Pfew. You're still here? Good. Let's do an actual "gump run":</p>
+<pre>cd ~/local/gump<br>./gump run<br></pre>
+<p>This will take quite a while, with surprisingly little output on the
+screen. Because gump is architected to be run from cronjobs, it sends
+all
+its output to logfiles. The main one to look at for now is <code>log/gump_log.txt</code>.
+However, most of the gump logs are output as HTML, so you'll normally
+will want to
+take a look at <code>log/index.html</code> using your web browser. Be
+aware that every new gump run overwrites these logs so if you want to
+keep a particular run make sure to make a copy of the logs somewhere.</p>
+<h2>It doesn't work!</h2>
+<p>Don't worry, that's normal :-D. Since gump is about "bleeding edge"
+by
+design, things tend to break a lot. Just pop on over on the general
+_at_ gump _dot_
+apache _dot_ org mailing list and ask what's going on.</p>
+</body>
+</html>
