@@ -33,7 +33,6 @@ from xml.sax.saxutils import escape
 
 from gump import log
 from gump.utils import *
-from gump.utils.owner import *
 
 #
 # MAP anything outside 32..128 to _
@@ -54,10 +53,8 @@ while i<=255:
 STRING_MAP_TABLE=''.join(MAP)
 UNICODE_MAP_TABLE=unicode('').join(UMAP)
 
-class XDocContext(Ownable):
-    def __init__(self,stream=None,pretty=True,depth=0):        
-        Ownable.__init__(self)
-        
+class XDocContext:
+    def __init__(self,stream=None,pretty=False,depth=0):  
         self.depth=depth
         self.pretty=pretty
         
@@ -66,11 +63,7 @@ class XDocContext(Ownable):
         else:
             log.debug('Create transient stream ['+`self.depth`+']...')
             self.stream=StringIO.StringIO()
-                    	
-    def __del__(self):  
-        Ownable.__del__(self)
-        self.stream=None  
-        
+                
     def createSubContext(self,transient=False):
         if not transient:
             # sub = XDocContext(self.stream,self.pretty,self.depth+1)
@@ -78,7 +71,6 @@ class XDocContext(Ownable):
             sub = self
         else:              
             sub = XDocContext(None,self.pretty,self.depth+1)
-            sub.setOwner(self)
         return sub
     
     def performIO(self,stuff):
@@ -86,7 +78,6 @@ class XDocContext(Ownable):
             self.stream.write(stuff)
         except Exception, details:
             log.error('Failed to write [' + stuff + '] @ ['+`self.depth`+'] : ' + str(details))
-            self.displayOwnership()
             raise
             
     def writeIndented(self,xdoc):
@@ -154,30 +145,15 @@ class XDocContext(Ownable):
             return escape(raw.translate(UNICODE_MAP_TABLE))
         return escape(raw.translate(STRING_MAP_TABLE))
         
-class XDocPiece(Ownable):
+class XDocPiece:
     def __init__(self,context=None,config=None,style=None):
-        Ownable.__init__(self)            
-        if not context:
-            context=XDocContext()
-            
-        # Stream context...
+        if not context: context=XDocContext()
         self.context=context
-        
-        # 
-        self.subpieces=None
-        
-        self.style=style
-        
-        self.keeper=True
-        self.emptyOk=False        
-        
         self.config=config
+        self.subpieces=None
+        self.style=style
+        self.keeper=True      
         
-    def __del__(self):
-        Ownable.__del__(self)
-        self.subpieces=None        
-        self.context=None
-                
     def __repr__(self):
         return self.__class__.__name__
         
@@ -197,14 +173,10 @@ class XDocPiece(Ownable):
             
         self.subpieces.append(piece)
         
-        # Capture Ownership
-        piece.setOwner(self)
-        
         return piece
 
     def serialize(self):
-        
-        if self.isKeeper(): 
+        if self.keeper: 
             self.callStart()        
             self.middle()
             self.callEnd()
@@ -215,15 +187,14 @@ class XDocPiece(Ownable):
             piece.start()
             
     def middle(self):
-        if not self.subpieces and not self.isEmptyOk():
+        if not self.subpieces:
             log.warn('Empty [' + `self.__class__` + '] probably isn\'t good...')
-            self.displayOwnership()
             
         for sub in self.subpieces:
             sub.serialize()
             
             # Gather 
-            if sub.isTransient() and sub.isKeeper():
+            if sub.isTransient() and sub.keeper:
                 self.context.writeContext(sub.context)
 
     def callEnd(self,piece=None):
@@ -245,26 +216,6 @@ class XDocPiece(Ownable):
         
     def isKeeper(self):
         return self.keeper
-        
-    def setEmptyOk(self, ok):
-        self.emptyOk=ok
-        
-    def isEmptyOk(self):
-        return self.emptyOk
-        
-    def unlink(self):
-        # Unlink subpieces...
-        if self.subpieces:
-            for subpiece in self.subpieces:
-                subpiece.unlink()
-        
-        # Then destroy the list
-        self.subpieces=None
-        
-        self.context=None
-        
-        # Unlink oneself
-        self.setOwner(None)
         
     def setStyle(self,style):
         self.style=style
@@ -434,7 +385,7 @@ class XDocItem(XDocPiece):
         XDocPiece.__init__(self,context,config)
         if text:
             self.createText(text)
-        
+            
     def start(self):
         self.context.writeIndented('<li>')
         
@@ -539,10 +490,7 @@ class XDocTableData(XDocPiece):
         XDocPiece.__init__(self,context,config)
         if not isinstance(text,NoneType):
             self.createText(str(text))
-        
-        # Empty (no data) 'ok'
-        # self.setEmptyOk(1)
-        
+            
     def start(self):
         self.context.writeIndented('<td' + self.getStyleAttribute() + '>')
         
@@ -575,7 +523,7 @@ class XDocNote(XDocPiece):
         XDocPiece.__init__(self,context,config)
         if text:
             self.createText(text)
-              
+            
     def start(self):
         if self.config.isXhtml():    
             self.context.writeLineIndented('<table><tr><td class="WARN"><p>')
@@ -667,7 +615,7 @@ class XDocLink(XDocPiece):
         self.href=href
         if text: 
             self.createText(text)
-        
+            
     def start(self):
         if not self.config.isXhtml():    
             self.context.write('<link href=\'' + escape(self.href) + '\'>')
@@ -742,14 +690,10 @@ class XDocIcon(XDocPiece):
 class XDocText(XDocPiece):
     def __init__(self,context,config,text):
         XDocPiece.__init__(self,context,config)
-        self.text = text
+        self.text = text      
         
     def middle(self):
         self.context.writeRaw(self.text)
-        
-    def unlink(self):
-        XDocPiece.unlink(self)             
-        self.text=None
         
 #       
 # Some raw xdocs (for when too lazy to create classes)
@@ -765,19 +709,19 @@ class XDocRaw(XDocPiece):
 class XDocDocument(XDocPiece):
     
     def __init__(self,title,output=None,config=None,rootpath='.'):
-        XDocPiece.__init__(self,config=config)  
         if isinstance(output,types.StringTypes):    
             self.xfile=output
-            log.debug("Documenting to file : [" + self.xfile + "] " + `self.config`)                    
+            log.debug('Documenting to file : [' + self.xfile + ']')                    
             # Open for writing with a decent sized buffer.
             self.output=open(self.xfile, 'w', 4096)
         else:
             self.output=output        
-        self.context=XDocContext(self.output)
+        XDocPiece.__init__(self,XDocContext(self.output),config)  
+        
         self.title=title
         self.rootpath=rootpath
         # :DEV: if not self.rootpath: raise RuntimeError, 'Bad rootpath'
-                
+        
     def start(self):
         
         if self.config.isXhtml():
@@ -831,12 +775,8 @@ class XDocDocument(XDocPiece):
             self.context.writeLine('</html>')            
         self.close()  
         
-        # Probably ought do this higher up
-        self.unlink()
-        
-        log.debug('Closed Documenting')                    
+        log.debug('Closed Document.')                    
             
-
     def createSection(self,title,transient=False):
         return self.storePiece(XDocSection(self.createSubContext(transient),self.config,title))
                 

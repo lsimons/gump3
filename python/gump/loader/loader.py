@@ -78,6 +78,10 @@ class XmlLoader:
         # pieces of text (just text as one value)
         dom.normalize()
         
+        # :TODO:: Hmm, do we want to remove empty text? Might be
+        # nicer for presentation. Seems (somehow) we get extra <CR>
+        # with them (when we ask for XML pretty).
+        
         # Do tag validation (if requested)        
         xtag=dom.documentElement.tagName
         if tag:

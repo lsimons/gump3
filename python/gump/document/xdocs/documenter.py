@@ -407,9 +407,10 @@ class XDocDocumenter(Documenter):
         javaTable=javaSection.createTable()
         javaTable.createEntry('Java Command', self.run.getEnvironment().javaCommand)
         javaproperties=self.run.getEnvironment().getJavaProperties()
-        for name in ['java.vendor', 'java.version', 'os.name', 'os.arch', 'os.version']:
-            if name in javaproperties:
-                javaTable.createEntry(name, javaproperties[name])	  
+        if javaproperties:
+            for name in ['java.vendor', 'java.version', 'os.name', 'os.arch', 'os.version']:
+                if name in javaproperties:
+                    javaTable.createEntry(name, javaproperties[name])	  
                             
         self.documentSummary(document,self.workspace.getProjectSummary())        
         self.documentAnnotations(document,self.run)

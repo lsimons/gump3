@@ -13,7 +13,7 @@ xdocs*
 work
 test
 tmp
-x.txt
+x.*
 build
 *.log
 bogus

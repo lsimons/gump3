@@ -23,6 +23,7 @@
 
 import os.path
 import sys
+from types import NoneType
 from fnmatch import fnmatch
 
 from gump import log
@@ -189,7 +190,7 @@ class GumpEnvironment(Annotatable,Workable,Propogatable):
         self.changeState(STATE_SUCCESS)
     
     def getJavaProperties(self):
-        if self.javaProperties: return self.javaProperties
+        if not self.javaProperties is NoneType: return self.javaProperties
 
         self.checkEnvironment()
         
@@ -221,7 +222,9 @@ class GumpEnvironment(Annotatable,Workable,Propogatable):
         cmd=self.javaCommand + ' -cp ' + dir.tmp + ' sysprop'
         self.javaProperties = \
 	    dict(re.findall('(.*?): (.*)', commands.getoutput(cmd)))
-        os.unlink(JAVA_SOURCE.replace('.java','.class'))
+        JAVA_CLASS=JAVA_SOURCE.replace('.java','.class')
+        if os.path.exists(JAVA_CLASS):
+            os.unlink(JAVA_CLASS)
 
         for (name,value) in self.javaProperties.items():
             log.debug("Java Property: " + name + " => " + value)

@@ -24,7 +24,9 @@ from gump.utils import getIndent
 class Ownable:
     """Contains ownership """
     def __init__(self,owner=None):
-        self.setOwner(owner)
+        if self == owner:
+            raise RuntimeError, "Can set owner to self on " + `self`
+        self.owner=owner
     
     def __del__(self):
         self.owner=None
