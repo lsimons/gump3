@@ -470,7 +470,7 @@ finally:
             sendEmail(mailto,mailfrom,logTitle,mailData,mailserver,mailport)
             
         else:
-            print 'Unable to mail report of failure'
+            print 'Unable to mail report of failure : ' + `[mailserver,mailport,mailto,mailfrom]`
 
 # bye!
 sys.exit(result)
