@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/__init__.py,v 1.9 2003/05/05 21:09:37 nicolaken Exp $
-# $Revision: 1.9 $
-# $Date: 2003/05/05 21:09:37 $
+# $Header: /home/stefano/cvs/gump/python/gump/__init__.py,v 1.10 2003/05/10 18:20:35 nicolaken Exp $
+# $Revision: 1.10 $
+# $Date: 2003/05/10 18:20:35 $
 #
 # ====================================================================
 #
@@ -109,6 +109,8 @@ log = logging.getLogger(__name__)
 
 # ensure dirs exists
 conf.basicConfig()
+
+
 
 ###############################################################################
 # SAX Dispatcher mechanism
@@ -241,8 +243,11 @@ class Named(GumpBase):
 
     if href:
       newHref=gumpCache(href)
-      log.debug('opening: ' + newHref + '\n')
-      element=SAXDispatcher(open(newHref),cls.__name__.lower(),cls).docElement
+      if newHref:
+        log.debug('opening: ' + newHref + '\n')
+        element=SAXDispatcher(open(newHref),cls.__name__.lower(),cls).docElement
+      else:
+        log.warn("href:"+newHref+" not loaded")
     else:
       name=attrs.get('name')
       try:
@@ -332,25 +337,41 @@ def gumpCache(href):
       log.debug('using cached descriptor')
     else:
       log.debug('caching...')
-      urllib.urlretrieve(href, newHref)
-      log.debug('...done')
+      log.info('downloading '+href)      
+      try:
+        urllib.urlretrieve(href, newHref)
+      except IOError, detail:
+        log.error(detail)
+        try:
+          os.remove(newHref)
+        except:
+          log.debug('No faulty cached file to remove')
+      else: 
+         log.debug('...done')
 
   return newHref
 
 def load(file):
+  try:
+    loadWorkspace(file)
+  except IOError, detail:
+    log.critical(detail)  
+    sys.exit(1)
+    
+def loadWorkspace(file):
   """Run a file through a saxdispatcher.
 
     This builds a GOM in memory from the xml file. Return the generated GOM."""
 
   if not os.path.exists(file):
-    log.error("""Workspace %s not found!
+    log.error('workspace '+file+' not found')
+
+    raise IOError, """workspace %s not found!
 
   You need to specify a valid workspace for Gump to run
   If you are new to Gump, simply copy minimal-workspace.xml
   to a file with the name of your computer (mycomputer.xml)
-  and rerun this program.""" % file )
-
-    raise IOError, 'workspace '+file+' not found'
+  and rerun this program.""" % file 
 
   from gump.model import Workspace, Repository, Module, Project, Profile
   

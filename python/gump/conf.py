@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/Attic/conf.py,v 1.6 2003/05/08 09:44:10 nicolaken Exp $
-# $Revision: 1.6 $
-# $Date: 2003/05/08 09:44:10 $
+# $Header: /home/stefano/cvs/gump/python/gump/Attic/conf.py,v 1.7 2003/05/10 18:20:36 nicolaken Exp $
+# $Revision: 1.7 $
+# $Date: 2003/05/10 18:20:36 $
 #
 # ====================================================================
 #
@@ -96,25 +96,56 @@ def basicConfig():
 
     if dir.base not in sys.path: sys.path.insert(0, dir.base)
         
-def handleArgv(argv):
+def handleArgv(argv, requireProject=1):
   args = []  
   # the workspace
+  if len(argv)==2: 
+    if argv[1] in ['-V','--version']:
+      print "Apache Python Gump Alpha"
+      print  
+      print "Copyright (C) 2003 Apache Software Foundation. All rights reserved."
+      print "See the Apache Software License 1.1 for more details."
+      print "http://www.apache.org/"
+      sys.exit(0)
+      
+    elif argv[1] in ['-h','--help']:
+      print "Apache Python Gump, a multi-project builder."
+      print "command: " , __name__    
+      print "Usage: python "+__name__+".py [OPTION]... [PROJECT]... [OTHER]..."
+      print 
+      print "Mandatory arguments to long options are mandatory for short options too."
+      print 
+      print "Startup:"
+      print "  -V,  --version           display the version of Gump and exit."
+      print "  -h,  --help              print this help."
+      print "  -w,  --workspace         use this workspace for Gump."
+      print
+      print "For bug reports use Bugzilla: http://bugzilla.apache.org/."
+      print "For suggestions: <gump@jakarta.apache.org/>."
+      sys.exit(0)
+      
   if len(argv)>2 and argv[1] in ['-w','--workspace']:
     args.append(argv[2])
     del argv[1:3]
   else:
     args.append(default.workspace)
     print
-    print " No workspace defined, using default:"
+    print " No workspace defined with -w or -workspace, using default:"
     print "  " , default.workspace
-    print
+
     
   # determine which modules the user desires (wildcards are permitted)
-  if len(argv)>2:
+  if len(argv)>1:
    args.append(argv[1] or '*')
    if args[1]=='all': args[1]='*'
   else:
-   args.append(default.project)  
-      
+    if requireProject:
+      print
+      print " No project specified, please supply a project name or 'all'."
+      print "  " , default.workspace
+      sys.exit(0)
+    else:
+     args.append(default.project)
+     
   return args
     

@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/Attic/view.py,v 1.42 2003/05/09 13:02:02 nicolaken Exp $
-# $Revision: 1.42 $
-# $Date: 2003/05/09 13:02:02 $
+# $Header: /home/stefano/cvs/gump/python/gump/Attic/view.py,v 1.43 2003/05/10 18:20:36 nicolaken Exp $
+# $Revision: 1.43 $
+# $Date: 2003/05/10 18:20:36 $
 #
 # ====================================================================
 #
@@ -694,7 +694,7 @@ if __name__ == '__main__':
   logger.addHandler(lh)
 
   # loadspecified or default workspace
-  args = handleArgv(sys.argv)
+  args = handleArgv(sys.argv,0)
   app.load([args[0]])
 
   # start app

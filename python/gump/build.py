@@ -35,6 +35,12 @@ log = logging.getLogger(__name__)
 def run(workspace, projectname):
   """dump all dependencies to build a project to the output"""
 
+  # if the project is not there, exit with error
+  if projectname not in Project.list:
+    print
+    print "The project '"+projectname+"' is not defined in the workspace."
+    sys.exit(1)
+
   # get the project object given the project name
   project=Project.list[projectname]
 

@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/Attic/gen.py,v 1.7 2003/05/08 06:35:41 nicolaken Exp $
-# $Revision: 1.7 $
-# $Date: 2003/05/08 06:35:41 $
+# $Header: /home/stefano/cvs/gump/python/gump/Attic/gen.py,v 1.8 2003/05/10 18:20:36 nicolaken Exp $
+# $Revision: 1.8 $
+# $Date: 2003/05/10 18:20:36 $
 #
 # ====================================================================
 #
@@ -139,7 +139,7 @@ if __name__=='__main__':
   log.setLevel(default.logLevel)
 
   # load commandline args or use default values
-  args = handleArgv(sys.argv)
+  args = handleArgv(sys.argv,0)
   ws=args[0]
 
   workspace=load(ws)
@@ -147,6 +147,7 @@ if __name__=='__main__':
   f=open( default.merge, 'w')
   try:
     xmlize('workspace',workspace,f)
+    print "Generated Successfully"
   finally:
     # Since we may exit via an exception, close fp explicitly.
     f.close()

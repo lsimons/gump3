@@ -149,7 +149,7 @@ if __name__=='__main__':
   #set verbosity to show all messages of severity >= default.logLevel
   log.setLevel(default.logLevel)
   
-  args = handleArgv(sys.argv)
+  args = handleArgv(sys.argv,0)
   ws=args[0]
   ps=args[1]
 
