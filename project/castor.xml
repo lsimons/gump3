@@ -31,13 +31,14 @@
   </project>
 
   <project name="castor-test">
+    <ant buildfile="src/build.xml" target="tests"/>
     <depend project="jakarta-ant"/>
     <depend project="xml-xerces"/>
     <depend project="castor"/>
     <depend project="junit"/>
     <depend project="jtf"/>
     <depend project="XMLDiff"/>
-    <ant buildfile="src/build.xml" target="runtests"/>
+    <depend project="jdbc"/>
   </project>
 
   <project name="jtf">
