@@ -19,6 +19,7 @@
     
     <depend project="jdom"/>
     <depend project="jakarta-servletapi"/>
+    <depend project="jaxen"/>
     <depend project="junit"/>
     <depend project="jython"/>
     <depend project="jakarta-log4j"/>
