@@ -28,6 +28,8 @@
       <depend property="commons-collections.jar" project="commons-collections" version="1.0"/>
       <depend property="commons-lang.jar" project="commons-lang"/>
       <depend property="commons-codec.jar" project="commons-codec"/>
+      <depend property="commons-fileupload.jar"
+              project="commons-fileupload" />
       <depend property="commons-util.jar" project="commons-util" version="1.0"/>
       <depend property="regexp.jar" project="jakarta-regexp" version="1.3-dev"/>
       <depend property="commons-email.jar" project="commons-email" version="0.1-dev"/>
