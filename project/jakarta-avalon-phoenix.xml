@@ -23,6 +23,10 @@
     <depend project="excalibur-io" runtime="true"/>
     <depend project="excalibur-cli" runtime="true"/>
     <depend project="excalibur-extension" runtime="true"/>
+    <depend project="excalibur-threadcontext" runtime="true"/>
+    <depend project="excalibur-thread" runtime="true"/>
+    <depend project="excalibur-pool" runtime="true"/>
+    <depend project="excalibur-logger" runtime="true"/>
     <depend project="excalibur-i18n" runtime="true"/>
     <depend project="excalibur-baxter" runtime="true"/>
     <depend project="jakarta-ant"/>
