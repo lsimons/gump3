@@ -7,7 +7,10 @@
   <project name="jakarta-ojb">
     <package>org.apache.ojb</package>
 
-    <ant />
+    <mkdir dir="target/classes" />
+    <ant target="snapshot">
+      <property name="archive" value="jakarta-ojb-@@DATE@@" />
+    </ant>
 
     <depend project="jakarta-ant"/>
     <depend project="xml-xerces"/>
@@ -29,14 +32,46 @@
     <depend project="crossdb"/>
 
     <depend project="ojb-jboss" />
+    <!-- replace with jakarta-turbine-torque if we ever manage to build it -->
+    <depend project="ojb-torque" />
 
-    <nag from="Jason van Zyl &lt;jvanzyl@apache.org&gt;"
+    <!-- needed by test sources -->
+    <depend project="ejb" />
+
+    <!-- needed for documentation -->
+    <depend project="xml-xalan2"/>
+
+    <work nested="target/classes" />
+
+    <jar name="dist/jakarta-ojb-@@DATE@@.jar" />
+    <javadoc nested="target/doc/api" />
+
+    <nag from="Stefan Bodewig &lt;bodewig@apache.org&gt;"
          to="ojb-dev@jakarta.apache.org"/>
+  </project>
+
+  <project name="test-ojb">
+    <ant target="junit" />
+
+    <depend project="jakarta-ojb" inherit="all" />
+    <work nested="target/classestest" />
+
+    <nag from="Stefan Bodewig &lt;bodewig@apache.org&gt;"
+         to="ojb-dev@jakarta.apache.org"
+         subject="Test Failure - OJB" />
   </project>
 
   <project name="ojb-jboss">
     <jar name="lib/jboss-common.jar" />
     <jar name="lib/jboss-system.jar" />
+  </project>
+  
+  <!-- we haven't been able to build torque for weeks -->
+  <project name="ojb-torque">
+    <jar name="lib/torque-3.0-b3-dev.jar" />
+    <jar name="lib/commons-collections-2.0.jar" />
+    <jar name="lib/commons-lang-0.1-dev.jar" />
+    <jar name="lib/velocity-1.3-dev.jar" />
   </project>
   
   <!-- Mavenized build, http://sourceforge.net/projects/crossdb/ -->
