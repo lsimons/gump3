@@ -15,7 +15,7 @@
   <depend project="jakarta-velocity"/>
   <depend project="jakarta-servletapi"/>
   <depend project="jakarta-ecs"/>
-  <depend project="jakarta-turbine"/>
+  <depend project="jakarta-turbine-3"/>
   <depend project="village"/>
   <depend project="jakarta-turbine-torque"/>
   <option project="lucene"/>

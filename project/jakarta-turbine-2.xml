@@ -7,32 +7,39 @@
 
   <cvs repository="jakarta"/>
 
-  <ant>
+  <ant basedir="build" target="package">
     <property name="version" value="gump"/>
   </ant>
 
   <depend project="jakarta-ant"/>
   <depend project="xml-xerces"/>
-  <depend project="xml-xalan2"/>
-  <depend project="commons-collections"/>
+  <depend project="xml-xalan1-compat"/>
   <depend project="jakarta-servletapi"/>
   <depend project="jakarta-regexp"/>
   <depend project="jakarta-log4j"/>
   <depend project="jakarta-ecs"/>
   <depend project="jakarta-oro"/>
   <depend project="jakarta-velocity"/>
-  <depend project="jakarta-turbine-torque"/>
-  <depend project="jakarta-turbine-fulcrum"/>
   <depend project="village"/>
   <depend project="javamail"/>
   <depend project="xml-rpc"/>
   <depend project="jaf"/>
   <depend project="jdbc"/>
+  <depend project="webmacro"/>
+  <depend project="helma-xmlrpc"/>
   <option project="jta"/> <!-- needed for javadoc purposes only -->
-  <depend project="bsf"/>
   <work nested="bin/classes"/>
 
   <home nested="bin"/>
   <jar name="turbine-gump.jar"/>
 
+  <project name="webmacro">
+    <home nested="lib"/>
+    <jar name="webmacro-0.94.jar"/>
+  </project>
+
+  <project name="helma-xmlrpc">
+    <home nested="lib"/>
+    <jar name="xmlrpc.jar"/>
+  </project>
 </project>

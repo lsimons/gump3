@@ -227,10 +227,16 @@ From: Craig McClanahan <craigmcc@apache.org>
 Subject: [GUMP] Build Failure - Tomcat 4.0
 Regex: /BUILD FAILED/
 ------
-Project: jakarta-turbine
+Project: jakarta-turbine-2
 To: turbine-dev@jakarta.apache.org
 From: Jason van Zyl <jvanzyl@apache.org>
-Subject: [GUMP] Build Failure - Turbine
+Subject: [GUMP] Build Failure - Turbine 2
+Regex: /BUILD FAILED/
+-------
+Project: jakarta-turbine-3
+To: turbine-dev@jakarta.apache.org
+From: Jason van Zyl <jvanzyl@apache.org>
+Subject: [GUMP] Build Failure - Turbine 3
 Regex: /BUILD FAILED/
 -------
 Project: jakarta-turbine-flux
