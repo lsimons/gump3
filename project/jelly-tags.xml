@@ -165,6 +165,7 @@
     </ant>
 
     <depend project="commons-jelly" inherit="all"/>
+    <depend project="commons-jelly-tags-xml"/>
 
     <work nested="jelly/jelly-tags/html/target/classes"/>
     <work nested="jelly/jelly-tags/html/target/test-classes"/>
@@ -541,6 +542,7 @@
     </ant>
 
     <depend project="commons-jelly" inherit="all"/>
+    <depend project="commons-jelly-tags-xml"/>
     
     <depend project="xmlunit"/>
     <depend project="xml-xalan2"/>
