@@ -124,17 +124,17 @@ To: velocity-dev@jakarta.apache.org
 From: Sam Ruby <rubys@us.ibm.com>
 Subject: [GUMP] Build Failure - Velocity
 Regex: /BUILD FAILED/
+-------
+Project: jakarta-velocity-test
+To: velocity-dev@jakarta.apache.org
+From: Sam Ruby <rubys@us.ibm.com>
+Subject: [GUMP] Test Failure - Velocity
+Regex: /BUILD FAILED/
 ------
 Project: test-ant
 To: ant-dev@jakarta.apache.org
 From: Sam Ruby <rubys@us.ibm.com>
 Subject: [GUMP] Test Failure - Ant
-Regex: /BUILD FAILED/
--------
-Project: test-velocity
-To: velocity-dev@jakarta.apache.org
-From: Sam Ruby <rubys@us.ibm.com>
-Subject: [GUMP] Test Failure - Velocity
 Regex: /BUILD FAILED/
 ------
 Project: scarab
