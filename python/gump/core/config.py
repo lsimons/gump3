@@ -25,6 +25,7 @@ import datetime
 import os
 import sys
 import logging
+import string
 
 from gump import log
 
