@@ -1,7 +1,7 @@
 /*
- * $Header: /home/stefano/cvs/gump/java/Jenny.java,v 1.23 2003/02/16 13:25:55 rubys Exp $
- * $Revision: 1.23 $
- * $Date: 2003/02/16 13:25:55 $
+ * $Header: /home/stefano/cvs/gump/java/Jenny.java,v 1.24 2003/05/23 08:16:19 bodewig Exp $
+ * $Revision: 1.24 $
+ * $Date: 2003/05/23 08:16:19 $
  *
  * ====================================================================
  *
@@ -439,9 +439,34 @@ public class Jenny {
      */
     private String getCachedNodeName(Element node) {
         String hrefAttribute = node.getAttribute("href");
-        return "cache/" 
-            + hrefAttribute.replace('/', '_').replace(':', '_')
-                           .replace('*', '_').replace('~', '_')
-            + ".xml";
+        StringBuffer sb = new StringBuffer("cache/");
+        int len = hrefAttribute.length();
+        for (int i = 0; i < len; i++) {
+            char c = hrefAttribute.charAt(i);
+            switch (c) {
+            case '/':
+            case ':':
+            case '*':
+            case '~':
+            case '?':
+            case '&':
+            case '\\':
+            case ';':
+            case '(':
+            case ')':
+            case ' ':
+            case '=':
+                // these may cause trouble in file names or on the
+                // command line
+                sb.append('_');
+                break;
+                
+            default:
+                sb.append(c);
+                break;
+            }
+        }
+        
+        return sb.toString() + ".xml";
     }
 }
