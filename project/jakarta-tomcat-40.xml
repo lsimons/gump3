@@ -77,6 +77,8 @@
         runtime="true"/>
     </ant>
 
+    <depend project="jakarta-ant"/>
+    <depend project="xml-xerces"/>
     <depend project="jaf"/>
     <depend project="javamail"/>
     <depend project="jmx"/>
