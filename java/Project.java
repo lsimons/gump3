@@ -361,6 +361,22 @@ public class Project {
                         element.appendChild(clone);
                     }
                 }
+            } else {
+                // if this project depends on any project which in turn has
+                // a dependency which specifies inherit="jars", then inherit
+                // that dependency.
+                for (Enumeration d=p.dependsOn.keys(); d.hasMoreElements(); ) {
+                    String name = (String) d.nextElement();
+                    if (dependsOn.get(name) != null) continue;
+                    Element source = (Element) p.dependsOn.get(name);
+                    if (source.getAttribute("inherit").equals("jars")) {
+                        Element clone = (Element) source.cloneNode(true);
+                        clone.setAttribute("inherited", "true");
+                        clone.removeAttribute("inherit");
+                        dependsOn.put(name,clone);
+                        element.appendChild(clone);
+                    }
+                }
             }
         }
     }

@@ -118,7 +118,8 @@
           copy all dependencies as, "runtime" which will only copy the runtime
           dependencies, and "hard" which will not only copy all
           dependencies, but will also convert option elements into depend
-          elements in the process.</td>
+          elements in the process, and "jars" which will actually copy the
+          dependent jars into the list of jars exported by this project.</td>
           <td>No</td>
         </tr>
         <tr>
