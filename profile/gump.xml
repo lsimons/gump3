@@ -145,6 +145,7 @@
   <module href="project/nekohtml.xml"/>
   <module href="project/rhino.xml"/>
   <module href="project/scarab.xml"/>
+  <module href="project/swt.xml"/>
   <module href="project/town.xml"/>
   <module href="project/uddi4j.xml"/>
   <module href="project/village.xml"/>
@@ -211,6 +212,7 @@
            package="MultipartRequest120"/>
   <project name="relaxng"        package="relaxngDatatype-1.0"/>
   <project name="resolver"       package="resolver-0_2"/>
+  <project name="swt"            package="swt"/>
   <project name="tranquilo"      package="xsdlib-20010424"/>
 
   <!-- CVS Repository definitions -->

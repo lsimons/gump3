@@ -171,7 +171,7 @@
     <depend project="xml-axis"/>
     <depend project="jetty"/>
     <depend project="xmlunit"/>
-
+    <depend project="swt"/>
     <work nested="jelly/target/classes"/>
     <work nested="jelly/target/test-classes"/>
 
