@@ -37,6 +37,6 @@ if "%OS%"=="Windows_NT" @ENDLOCAL
 
 REM _ A P A C H E  G U M P _ A P A C H E   G U M P _ A P A C H E   G U M P _ 
 REM
-REM $Log: gumpy.sh,v $
+REM $Log: gump.sh,v $
 REM
 REM _ A P A C H E  G U M P _ A P A C H E   G U M P _ A P A C H E   G U M P _ 

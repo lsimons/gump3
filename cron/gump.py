@@ -136,7 +136,7 @@ def sendEmail(toaddr,fromaddr,subject,data,server,port=25):
         
 def writeRunLogEntry(entry):
     # Enable a run log
-    runlogFileName='gumpy_runlog.txt'
+    runlogFileName='gump_runlog.txt'
     runlogFile=os.path.abspath(runlogFileName)
     runlog=None
     try:
@@ -246,15 +246,16 @@ def tailFile(file,lines,eol=None,marker=None):
 def tailFileToString(file,lines,eol=None,marker=None):
     return "".join(tailFile(file,lines,eol,marker))
 
-# Ensure we start in the correct directory
-gumppath=os.path.join(os.getcwd(),'..')
-os.chdir(gumppath)
+# Ensure we start in the correct directory, setting GUMP_HOME
+gumpHome=os.path.abspath(os.path.join(os.getcwd(),'..'))
+os.environ['GUMP_HOME']=gumpHome     
+os.chdir(gumpHome)
 
 # Starting up...
 writeRunLogEntry('Gump Start-up. Arguments [%s]' % sys.argv)
 
 # Allow a lock    
-lockFile=os.path.abspath('gumpy.lock')
+lockFile=os.path.abspath('gump.lock')
 lock=establishLock(lockFile)        
     
 # Set the signal handler to ignore hangups
@@ -267,7 +268,7 @@ except:
     pass
 
 # Enable a log
-logFileName='gumpy_log_' + time.strftime('%d%m%Y_%H%M%S') + '.txt'
+logFileName='gump_log_' + time.strftime('%d%m%Y_%H%M%S') + '.txt'
 logFile=os.path.abspath(logFileName)
 log=open(logFile,'w',0) # Unbuffered...
 
@@ -372,9 +373,7 @@ try:
         if logdir:
             log.write('- GUMP log is @       : ' + logdir + '\n')
 
-        #
         # Add Gump to Python Path...
-        #
         pythonPath=''
         if os.environ.has_key('PYTHONPATH'):
             pythonPath=os.environ['PYTHONPATH']
@@ -383,11 +382,10 @@ try:
         pythonPath+=pythonDir
         log.write(' - GUMP PYTHONPATH  :  ' + pythonPath + '\n')
         os.environ['PYTHONPATH']=pythonPath
-
-        #
+        
+        
         # Wipe all *.pyc from the pythonPath (so we don't
-        # have old code lying around compiled)
-        #
+        # have old code lying around as compiled zombies)
         for root, dirs, files in os.walk(pythonDir):
             for name in files:
                 if name.endswith('.pyc'):
@@ -396,7 +394,8 @@ try:
                     os.remove(fullname)       
         
         # Update Gump code from SVN
-        if not os.environ.has_key('GUMP_NO_SVN_UPDATE'):
+        if not os.environ.has_key('GUMP_NO_SVN_UPDATE') and \
+            not os.environ.has_key('GUMP_NO_SCM_UPDATE'):
             svnExit = runCommand('svn','update --non-interactive')
         else:
             log.write('SVN update skipped per environment setting.\n')
@@ -406,7 +405,8 @@ try:
         
         if not result:
             # Update Gump metadata from CVS
-            if not os.environ.has_key('GUMP_NO_CVS_UPDATE'):
+            if not os.environ.has_key('GUMP_NO_CVS_UPDATE') and \
+                not os.environ.has_key('GUMP_NO_SCM_UPDATE'):
                 cvsroot=':pserver:anoncvs@cvs.apache.org:/home/cvspublic'
                 os.environ['CVSROOT']=cvsroot
                 # :TODO: ??? delete os.environ['CVS_RSH']
@@ -426,11 +426,8 @@ try:
             os.remove('.timestamp')            
     
         if not result:
-            #
-            #
             # Process/build command line
-            #        
-            iargs = '-w ../' + workspaceName + ' ' + projectsExpr + ' ' + ' '.join(args[1:])
+            iargs = '-w ' + workspaceName + ' ' + projectsExpr + ' ' + ' '.join(args[1:])
             
             # Allow a check not an integrate
             check=0
@@ -440,10 +437,10 @@ try:
             #
             # Run the main Gump...
             #    
-            command='integrate.py'
+            command='bin/integrate.py'
             if check:
-                command='check.py'
-            integrationExit = runCommand(sys.executable+ ' '+command, iargs, 'bin')
+                command='bin/check.py'
+            integrationExit = runCommand(sys.executable+ ' '+command, iargs)
             if integrationExit:
                 result=1
 
@@ -470,7 +467,7 @@ finally:
     # Publish logfile
     published=0
     if logdir:
-        publishedLogFile=os.path.abspath(os.path.join(logdir,'gumpy_log.txt'))
+        publishedLogFile=os.path.abspath(os.path.join(logdir,'gump_log.txt'))
         if '--xdocs' in args:
             publishedLogFile=os.path.abspath(
                                 os.path.join(

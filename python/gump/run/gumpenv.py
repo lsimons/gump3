@@ -79,6 +79,9 @@ class GumpEnvironment(Annotatable,Workable,Propogatable):
         
         self.javaProperties=None
     
+        # GUMP_HOME
+        self.gumpHome = None
+        
     	# JAVACMD can override this, see checkEnvironment
     	self.javaHome = None
         self.javaCommand = 'java'
@@ -109,6 +112,10 @@ class GumpEnvironment(Annotatable,Workable,Propogatable):
         #
         #    Directories...
      
+    
+        self._checkEnvVariable('GUMP_HOME')                
+        self.gumpHome  = os.environ['GUMP_HOME']
+            
         # JAVACMD can be set (perhaps for JRE verse JDK)
         if os.environ.has_key('JAVACMD'):        
             self.javaCommand  = os.environ['JAVACMD']
@@ -185,6 +192,11 @@ class GumpEnvironment(Annotatable,Workable,Propogatable):
         os.environ['CLASSPATH']=''
   
         self.set=True
+        
+    def getGumpHome(self):
+        # Ensure we've determined the Gump Home
+        self.checkEnvironment()    
+        return self.gumpHome
         
     def getJavaHome(self):
         # Ensure we've determined the Java Home

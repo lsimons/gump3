@@ -107,7 +107,7 @@ def catFile(output,file,title=None):
         line = input.readline()
         
 # Allow a lock
-lockFile=os.path.abspath('gumpy_check.lock')
+lockFile=os.path.abspath('gump_check.lock')
 if os.path.exists(lockFile):
     # :TODO: Ought we look at the contents, get the PID of the
     # supposed other Gump, and determine if it is still alive
@@ -133,7 +133,7 @@ lock.write(`os.getpid()`)
 lock.close()
 
 # Enable a log
-logFile=os.path.abspath('gumpy_check_log.txt')
+logFile=os.path.abspath('gump_check_log.txt')
 log=open(logFile,'w',0) # Unbuffered...
 
 result=0
@@ -215,7 +215,7 @@ try:
             
         if not result:
             # A test run...
-            integrationExit = runCommand('gumpy')
+            integrationExit = runCommand('gump')
             if integrationExit:                 
                 log.write('**************** Test Run Failed ***************\n')
                 result=1           

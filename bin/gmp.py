@@ -94,7 +94,7 @@ def callGmpCommand(ws,command,projects,iargs):
     
 
 if not os.environ.has_key('GUMP_HOME'):
-    print 'Please set GUMP_HOME to where Gump is installed.'
+    print 'Please set GUMP_HOME to where Gump (SVN code) is installed.'
     sys.exit(1)
         
 # Allow a lock
