@@ -571,7 +571,7 @@ public class Project {
 
             throw new Exception(
                "Project \"" + projectName + "\" referenced by project " + 
-               name + "defines no jars as output.");
+               name + " defines no jars as output.");
 
         }
 

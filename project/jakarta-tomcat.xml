@@ -29,6 +29,8 @@
     <work nested="build/tomcat/classes"/>
     <home nested="dist/tomcat"/>
     <jar name="lib/common/etomcat.jar"/>
+    <jar name="lib/common/tomcat-core.jar"/>
+    <jar name="lib/container/tomcat-util.jar"/>
     <javadoc nested="build/tomcat/webapps/ROOT/javadoc"/>
   </project>
 

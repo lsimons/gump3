@@ -341,6 +341,12 @@ From: Craig McClanahan <craigmcc@apache.org>
 Subject: [GUMP] Build Failure - Tomcat 3.x
 Regex: /BUILD FAILED/
 ------
+Project: jakarta-tomcat-coyote
+To: tomcat-dev@jakarta.apache.org
+From: Craig McClanahan <craigmcc@apache.org>
+Subject: [GUMP] Build Failure - Coyote
+Regex: /BUILD FAILED/
+------
 Project: jakarta-tomcat-4.0
 To: tomcat-dev@jakarta.apache.org
 From: Craig McClanahan <craigmcc@apache.org>

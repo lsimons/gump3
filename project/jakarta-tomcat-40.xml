@@ -7,6 +7,32 @@
 
   <cvs repository="jakarta"/>
   
+  <project name="tomcat-catalina">
+    <ant basedir="catalina" target="deploy-catalina">
+      <depend property="servlet.jar" project="jakarta-servletapi-4"/>
+      <depend property="commons-collections.jar" project="commons-collections"
+        runtime="true"/>
+      <depend property="commons-beanutils.jar" project="commons-beanutils"
+        runtime="true"/>
+      <depend property="commons-digester.jar" project="commons-digester"
+        runtime="true"/>
+      <depend property="commons-logging.jar" project="commons-logging"
+        runtime="true"/>
+      <property name="regexp.jar"
+        reference="jarpath" id="regexp" project="jakarta-regexp"/>
+      <property name="jtc.home" reference="srcdir" 
+        project="jakarta-tomcat-connectors"/>
+    </ant>
+    <depend project="jakarta-ant"/>
+    <depend project="xml-xerces"/>
+    <depend project="jakarta-tomcat-util"/>
+    <depend project="jakarta-servletapi-4"/>
+    <depend project="jakarta-regexp"/>
+
+    <home nested="build"/>
+    <jar name="server/lib/catalina.jar"/>
+  </project>
+  
   <project name="jakarta-tomcat-4.0">
     <package>org.apache.catalina</package>
 
@@ -52,9 +78,6 @@
     </ant>
 
     <depend project="jaf"/>
-    <depend project="jakarta-ant"/>
-    <depend project="jakarta-regexp"/>
-    <depend project="jakarta-servletapi-4"/>
     <depend project="javamail"/>
     <depend project="jmx"/>
     <depend project="jsse"/>
@@ -62,6 +85,7 @@
     <option project="jakarta-avalon"/>
     <option project="jakarta-avalon-phoenix"/>
     <depend project="jakarta-tomcat-coyote"/>
+    <depend project="tomcat-catalina" inherit="all"/>
     <work nested="catalina/build/server/classes"/>
 
     <home nested="dist"/>
