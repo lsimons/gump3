@@ -57,8 +57,7 @@ class AntBuilder(AbstractJavaBuilder):
         
         workspace=self.run.getWorkspace()
                  
-        log.info(' Project: #[' + `project.getPosition()` + '] : ' + project.getName())
-    
+        log.info(' Ant-ing: #[' + `project.getPosition()` + '] : ' + project.getName())
     
         #
         # Get the appropriate build command...
@@ -80,11 +79,6 @@ class AntBuilder(AbstractJavaBuilder):
                 if cmdResult.state==CMD_STATE_TIMED_OUT:
                     reason=REASON_BUILD_TIMEDOUT
                 project.changeState(STATE_FAILED,reason)
-                        
-                if not project.isDebug():
-                    # Display...
-                    project.addInfo('Enable "debug" output, due to build failure.')
-                    project.setDebug(1)
                         
             else:                         
                 # For now, things are going good...

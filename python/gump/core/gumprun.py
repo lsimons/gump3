@@ -544,7 +544,7 @@ class GumpRun(Workable,Annotatable,Stateful):
         self.actors=list()
 
     def getRunGuid(self):
-        return self.id
+        return self.guid
         
     def getRunHexGuid(self):
         return self.hexguid

@@ -116,9 +116,11 @@ class XDocDocumenter(Documenter):
         runOptions=self.run.getOptions()
         
         # Document...
+        self.documentRunDetails(workspace,gumpSet)   
+        self.documentRunOptions(workspace)  
         self.documentEnvironment(workspace)    
-        self.documentWorkspace(workspace,gumpSet)  
-        self.documentRunOptions(workspace)    
+        self.documentWorkspace(workspace)  
+        self.documentEverythingElse(workspace,gumpSet)
         
         # Document these (even if not a full build)
         self.documentStatistics(workspace,gumpSet)
@@ -363,9 +365,9 @@ class XDocDocumenter(Documenter):
                 
     #####################################################################           
     #
-    # Model Pieces
+    # Workspace Pieces
     #      
-    def documentWorkspace(self,workspace,gumpSet):
+    def documentRunDetails(self,workspace,gumpSet):
         
         
         #
@@ -374,21 +376,17 @@ class XDocDocumenter(Documenter):
         # Index.xml
         #
         
-        document=XDocDocument('Workspace',	\
-                self.resolver.getFile(workspace))    
+        document=XDocDocument('Gump Run',	\
+                self.resolver.getFile(self.run))    
         
-        definitionSection=document.createSection('Workspace Definition')    
+        definitionSection=document.createSection('Run Details')    
         
         definitionSection.createNote('This install runs Python Gump, not Traditional Gump.') 
         
         definitionTable=definitionSection.createTable()
+        definitionTable.createEntry('Gump Run GUID', self.run.getRunGuid())
+        definitionTable.createEntry('Gump Run (Hex) GUID', self.run.getRunHexGuid())
         definitionTable.createEntry('Gump Version', setting.version)
-        if workspace.xml.description:
-                definitionTable.createEntry('Description', workspace.xml.description)
-        if workspace.xml.version: 
-            definitionTable.createEntry('Workspace Version', workspace.xml.version)
-        if not workspace.xml.version or not workspace.xml.version == setting.ws_version:
-            definitionTable.createEntry('Gump Preferred Workspace Version', setting.ws_version)
         definitionTable.createEntry('Java Command', self.run.getEnvironment().javaCommand)
         definitionTable.createEntry('Python', str(sys.version))
         definitionTable.createEntry('Operating System (Name)', str(os.name))
@@ -413,15 +411,6 @@ class XDocDocumenter(Documenter):
         atomSyndRow.createData('Syndication')
         atomSyndRow.createData().createFork('atom.xml','Atom')
                 
-        textRow=definitionTable.createRow()
-        textRow.createData('Workspace Documentation')
-        textRow.createData().createLink('context.html','Text')
-                
-        if not workspace.private:            
-            syndRow=definitionTable.createRow()
-            syndRow.createData('Definition')
-            syndRow.createData().createLink('workspace.html','XML')
-                
         if not gumpSet.isFull():
             notice=definitionSection.createWarning()
             
@@ -440,48 +429,14 @@ class XDocDocumenter(Documenter):
                             
         
         self.documentSummary(document,workspace.getProjectSummary())        
-        self.documentAnnotations(document,workspace)
-        #self.documentXML(document,workspace)
-        
-        detailsSection=document.createSection('Details')
-                    
-        detailsTable=detailsSection.createTable()
-        detailsTable.createEntry("State : ", workspace.getStateDescription()) 
-
-        e = secsToElapsedTimeString(workspace.getElapsedSecs())
-        if e : detailsTable.createEntry("Elapsed Time : ", e)
-        detailsTable.createEntry("Base Directory : ", workspace.getBaseDirectory())
-        detailsTable.createEntry("Temporary Directory : ", workspace.tmpdir)
-        #if workspace.scratchdir:
-        #    detailsTable.createEntry("Scratch Directory : ", workspace.scratchdir))    
-        # :TODO: We have duplicate dirs? tmp = scratch?
-        detailsTable.createEntry("Log Directory : ", workspace.logdir)
-        detailsTable.createEntry("Jars Repository : ", workspace.jardir)
-        detailsTable.createEntry("CVS Directory : ", workspace.cvsdir)
-        detailsTable.createEntry("Package Directory : ", workspace.pkgdir)
-        if not workspace.private:
-            detailsTable.createEntry("E-mail Server: ", workspace.mailserver)
-            detailsTable.createEntry("E-mail Port: ", workspace.mailport)
-            detailsTable.createEntry("List Address: ", workspace.mailinglist)
-            detailsTable.createEntry("E-mail Address: ", workspace.email)            
-            detailsTable.createEntry("Prefix: ", workspace.prefix)
-            detailsTable.createEntry("Signature: ", workspace.signature)
-        
-        self.documentProperties(detailsSection, workspace, 'Workspace Properties')
-        
-        # Does this workspace send notification (nag) mails?
-        detailsTable.createEntry("Send Notification E-mails: ", getBooleanString(workspace.isNotify()))
-        
-        #document.createRaw('<p><strong>Context Tree:</strong> <link href=\'workspace.html\'>workspace</link></p>')
-        # x.write('<p><strong>Workspace Config:</strong> <link href=\'xml.txt\'>XML</link></p>')
-        # x.write('<p><strong>RSS :</strong> <link href=\'index.rss\'>News Feed</link></p>')
-        
-        self.documentFileList(document,workspace,'Workspace-level Files')
-        self.documentWorkList(document,workspace,'Workspace-level Work')
-     
-        document.serialize()
+        self.documentAnnotations(document,self.run)
     
+     
+        document.serialize()    
         document=None
+        
+        
+    def documentEverythingElse(self,workspace,gumpSet):
         
         self.documentRepositories(workspace,gumpSet)
         self.documentServers(workspace,gumpSet)
@@ -538,7 +493,100 @@ class XDocDocumenter(Documenter):
             stream.seek(0)
             document.createSource(stream.read())
             stream.close()
-            document.serialize()            
+            document.serialize()     
+            
+    #####################################################################           
+    #
+    # Workspace 
+    #      
+    def documentWorkspace(self,workspace):
+        
+        
+        #
+        # ----------------------------------------------------------------------
+        #
+        # Index.xml
+        #
+        
+        document=XDocDocument('Workspace',	\
+                self.resolver.getFile(workspace))    
+        
+        definitionSection=document.createSection('Workspace Definition')    
+        
+        definitionSection.createNote('This install runs Python Gump, not Traditional Gump.') 
+        
+        definitionTable=definitionSection.createTable()
+        if workspace.xml.description:
+                definitionTable.createEntry('Description', workspace.xml.description)
+        if workspace.xml.version: 
+            definitionTable.createEntry('Workspace Version', workspace.xml.version)
+        if not workspace.xml.version or not workspace.xml.version == setting.ws_version:
+            definitionTable.createEntry('Gump Preferred Workspace Version', setting.ws_version)
+        definitionTable.createEntry('@@DATE@@', str(default.date))
+        definitionTable.createEntry('Start Date/Time (UTC)', workspace.getStartDateTimeUtc())
+        definitionTable.createEntry('Start Date/Time', workspace.getStartDateTime())
+        definitionTable.createEntry('Timezone', workspace.timezone)
+   
+            
+        rssSyndRow=definitionTable.createRow()
+        rssSyndRow.createData('Syndication')
+        rssSyndRow.createData().createFork('rss.xml','RSS')
+        atomSyndRow=definitionTable.createRow()
+        atomSyndRow.createData('Syndication')
+        atomSyndRow.createData().createFork('atom.xml','Atom')
+                
+        textRow=definitionTable.createRow()
+        textRow.createData('Workspace Documentation')
+        textRow.createData().createLink('context.html','Text')
+                
+        if not workspace.private:            
+            syndRow=definitionTable.createRow()
+            syndRow.createData('Definition')
+            syndRow.createData().createLink('workspace.html','XML')
+                            
+        self.documentSummary(document,workspace.getProjectSummary())        
+        self.documentAnnotations(document,workspace)
+        #self.documentXML(document,workspace)
+        
+        detailsSection=document.createSection('Details')
+                    
+        detailsTable=detailsSection.createTable()
+        detailsTable.createEntry("State : ", workspace.getStateDescription()) 
+
+        e = secsToElapsedTimeString(workspace.getElapsedSecs())
+        if e : detailsTable.createEntry("Elapsed Time : ", e)
+        detailsTable.createEntry("Base Directory : ", workspace.getBaseDirectory())
+        detailsTable.createEntry("Temporary Directory : ", workspace.tmpdir)
+        #if workspace.scratchdir:
+        #    detailsTable.createEntry("Scratch Directory : ", workspace.scratchdir))    
+        # :TODO: We have duplicate dirs? tmp = scratch?
+        detailsTable.createEntry("Log Directory : ", workspace.logdir)
+        detailsTable.createEntry("Jars Repository : ", workspace.jardir)
+        detailsTable.createEntry("CVS Directory : ", workspace.cvsdir)
+        detailsTable.createEntry("Package Directory : ", workspace.pkgdir)
+        if not workspace.private:
+            detailsTable.createEntry("E-mail Server: ", workspace.mailserver)
+            detailsTable.createEntry("E-mail Port: ", workspace.mailport)
+            detailsTable.createEntry("List Address: ", workspace.mailinglist)
+            detailsTable.createEntry("E-mail Address: ", workspace.email)            
+            detailsTable.createEntry("Prefix: ", workspace.prefix)
+            detailsTable.createEntry("Signature: ", workspace.signature)
+        
+        self.documentProperties(detailsSection, workspace, 'Workspace Properties')
+        
+        # Does this workspace send notification (nag) mails?
+        detailsTable.createEntry("Send Notification E-mails: ", getBooleanString(workspace.isNotify()))
+        
+        #document.createRaw('<p><strong>Context Tree:</strong> <link href=\'workspace.html\'>workspace</link></p>')
+        # x.write('<p><strong>Workspace Config:</strong> <link href=\'xml.txt\'>XML</link></p>')
+        # x.write('<p><strong>RSS :</strong> <link href=\'index.rss\'>News Feed</link></p>')
+        
+        self.documentFileList(document,workspace,'Workspace-level Files')
+        self.documentWorkList(document,workspace,'Workspace-level Work')
+     
+        document.serialize()    
+        document=None
+              
             
     def documentRepositories(self,workspace,gumpSet):        
           
@@ -571,6 +619,7 @@ class XDocDocumenter(Documenter):
         if not rcount: reposTable.createLine('None')
         
         document.serialize()
+        document=None
        
     def documentServers(self,workspace,gumpSet):   
     

@@ -55,26 +55,13 @@ class MavenBuilder(AbstractJavaBuilder):
     def buildProject(self,project,stats):
         
         workspace=self.run.getWorkspace()
-                 
-        log.info(' Project: #[' + `project.getPosition()` + '] : ' + project.getName())
-    
-        # Do this even if not ok
+                
+        log.debug(' ------ Maven-ing: [' + `project.getPosition()` + '] ' + project.getName())
+        
         self.performPreBuild(project, stats)
-
+          
         wasBuilt=0
-        if project.okToPerformWork():        
-            log.debug(' ------ Building: [' + `projectNo` + '] ' + project.getName())
-
-            # Turn on --verbose or --debug if failing ...
-            if stats:
-                if (not STATE_SUCCESS == stats.currentState) and \
-                        not project.isVerboseOrDebug():
-                    if stats.sequenceInState > INSIGNIFICANT_DURATION:
-                        project.addInfo('Enable "debug" output, due to a sequence of %s previous errors.' % stats.sequenceInState)
-                        project.setDebug(1)
-                    else:
-                        project.addInfo('Enable "verbose" output, due to %s previous error(s).' % stats.sequenceInState)    
-                        project.setVerbose(1)
+        if project.okToPerformWork():
 
             #
             # Get the appropriate build command...
@@ -95,13 +82,7 @@ class MavenBuilder(AbstractJavaBuilder):
                     reason=REASON_BUILD_FAILED
                     if cmdResult.state==CMD_STATE_TIMED_OUT:
                         reason=REASON_BUILD_TIMEDOUT
-                    project.changeState(STATE_FAILED,reason)
-                        
-                    if not project.isDebug():
-                        # Display...
-                        project.addInfo('Enable "debug" output, due to build failure.')
-                        project.setDebug(1)
-                        
+                    project.changeState(STATE_FAILED,reason)                        
                 else:                         
                     # For now, things are going good...
                     project.changeState(STATE_SUCCESS)
@@ -196,6 +177,25 @@ class MavenBuilder(AbstractJavaBuilder):
     
         return cmd
   
+        # Do this even if not ok
+    def performPreBuild(self, project, stats):
+                   
+        # Maven requires a build.properties to be generated...
+        if project.okToPerformWork():
+            try:
+                propertiesFile=project.generateMavenProperties()                                
+                project.addDebug('Maven Properties in: ' + propertiesFile)
+                
+                try:
+                    catFileToFileHolder(project,propertiesFile,	\
+                        FILE_TYPE_CONFIG,	\
+                        os.path.basename(propertiesFile))
+                except:
+                    log.error('Display Properties [ ' + propertiesFile + '] Failed', exc_info=1)   
+                
+            except:
+                log.error('Generate Maven Properties Failed', exc_info=1)    
+                project.changeState(STATE_FAILED,REASON_PREBUILD_FAILED)
  
     # The propertiesFile parameter is primarily for testing.
     def generateMavenProperties(self,propertiesFile=None):

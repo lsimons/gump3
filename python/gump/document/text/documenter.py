@@ -56,7 +56,7 @@ class TextDocumenter(Documenter):
     def processProject(self,project):
         verbose=self.run.getOptions().isVerbose()
         debug=self.run.getOptions().isDebug()
-        self.documentModule('',project,1,debug,verbose)  
+        self.documentProject('',project,1,debug,verbose)  
         
         
     def documentRun(self):    

@@ -32,6 +32,7 @@ from gump.utils.work import *
 from gump.utils.file import *
 
 from gump.core.gumpenv import GumpEnvironment
+from gump.core.gumprun import GumpRun
 
 from gump.model.repository import Repository
 from gump.model.server import Server
@@ -54,7 +55,7 @@ def getPathForObject(object,visited=None):
     visited.append(object)
            
     # Determine Path
-    if isinstance(object, Workspace):
+    if isinstance(object, Workspace) or isinstance(object, GumpRun):
         path=Path()
     elif isinstance(object, GumpEnvironment):
         path=Path()
@@ -116,12 +117,14 @@ def getDocumentForObject(object, extn='.xml', visited=None):
     if not visited:visited=[] 
     visited.append(object)
             
-    if isinstance(object, Workspace) \
+    if isinstance(object, GumpRun) \
         or isinstance(object, Module) \
         or isinstance(object, Project) 	\
         or isinstance(object,StatisticsGuru) 	\
         or isinstance(object,XRefGuru) :    
         document="index"+extn
+    elif isinstance(object, Workspace):
+        document="workspace"+extn           
     elif isinstance(object, GumpEnvironment):
         document="environment"+extn            
     elif isinstance(object, Server)	\

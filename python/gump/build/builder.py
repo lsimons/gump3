@@ -170,6 +170,14 @@ class GumpBuilder(RunSpecific):
                 self.ant.buildProject(project, stats)
             if project.hasMaven():
                 self.maven.buildProject(project, stats)
+            
+            # A build attempt was made...
+            wasBuilt=1
+            
+            if not project.okToPerformWork() and not project.isDebug():
+                # Display...
+                project.addInfo('Enable "debug" output, due to build failure.')
+                project.setDebug(1)
                     
         # Do this even if not ok
         self.performPostBuild( project, wasBuilt, stats )
@@ -272,23 +280,7 @@ class GumpBuilder(RunSpecific):
                 except:
                     log.error('PerformMkdir Failed', exc_info=1)    
                     project.changeState(STATE_FAILED,REASON_PREBUILD_FAILED)
-                
-        # Maven requires a build.properties to be generated...
-        if project.okToPerformWork() and project.hasMaven():
-            try:
-                propertiesFile=project.generateMavenProperties()                                
-                project.addDebug('Maven Properties in: ' + propertiesFile)
-                
-                try:
-                    catFileToFileHolder(project,propertiesFile,	\
-                        FILE_TYPE_CONFIG,	\
-                        os.path.basename(propertiesFile))
-                except:
-                    log.error('Display Properties [ ' + propertiesFile + '] Failed', exc_info=1)   
-                
-            except:
-                log.error('Generate Maven Properties Failed', exc_info=1)    
-                project.changeState(STATE_FAILED,REASON_PREBUILD_FAILED)
+     
             
         if startedOk and not project.okToPerformWork():
             log.warn('Failed to perform pre-build on project [' + project.getName() + ']')

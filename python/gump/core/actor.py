@@ -74,7 +74,7 @@ class  RunActor(RunSpecific):
     def _processEvent(self,event):
         if not hasattr(self,'processEvent'): return        
         if not callable(self.processEvent):  return        
-        log.debug('Process event [' + `event` + '] using [' + `self` + ']')        
+        #log.debug('Process event [' + `event` + '] using [' + `self` + ']')        
         self.processEvent(event)
 
 class AbstractRunActor(RunActor):    
@@ -154,7 +154,7 @@ class AbstractRunActor(RunActor):
     def _processOtherEvent(self,event):
         if not hasattr(self,'processOtherEvent'): return        
         if not callable(self.processOtherEvent):  return        
-        log.debug('Process Event [' + `event` + '] using [' + `self` + ']')        
+        log.debug('Process (Other) Event [' + `event` + '] using [' + `self` + ']')        
         self.processOtherEvent(event)
         
             
