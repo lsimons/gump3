@@ -47,7 +47,6 @@
   <!-- Apache.Java -->
 
   <project href="project/town.xml"/>
-  <project href="project/turbine.xml"/>
 
   <!-- other -->
 
