@@ -256,6 +256,42 @@
       </table>
     </subsection>
 
+    <subsection name="junitreport">
+      <p>Enables publishing of a summary page linking all of the junit
+      reports produced in the process.  This will be placed in the
+      workspace log directory with the name "junitreport.html".</p>
+
+      <table>
+        <tr>
+          <th>Attribute</th>
+          <th>Description</th>
+          <th>Required?</th>
+        </tr>
+        <tr>
+          <td>url</td>
+          <td>The prefix to be used for hrefs on the junitreport.html
+          page. This can be used to point directly into the build
+          directory or used in conjunction with the <code>dir</code>
+          attribute described below.  If this attribute is not
+          specified, <code>file:///</code> urls will be generated - this
+          is generally only suitable for viewing on the local
+          machine.</td>
+          <td>No</td>
+        </tr>
+        <tr>
+          <td>dir</td>
+          <td>This attribute tells where the physical directory
+          associated with the url can be found.  <b>Note:</b> the script
+          which copies the reports to this directory is named
+          pubreport.pl and is placed in the work subdirectory of gump.
+          You can generate this script using 'ant pubreport'.
+          Normally, it would be executed immediately after a
+          "build all"</td>
+          <td>No</td>
+        </tr>
+      </table>
+    </subsection>
+
     <subsection name="nag">
       <p>Gump will create a file called naglist in the work
       subdirectory that can be used together with nag.pl to send email

@@ -343,8 +343,8 @@
         <tr>
           <td>module</td>
           <td>Make the entry for this project in the javadoc listing
-          (see below) appear under the named instead of the enclosing
-          module.</td>
+          (see below) appear under the named module instead of the
+          enclosing module.</td>
           <td>No</td>
         </tr>
       </table>
@@ -406,6 +406,108 @@
       <description dir="xerces">Xerces2 Implementation</description>
       <description dir="other">Other Classes</description>
     </javadoc>
+]]></source>
+
+      <p>must be used.</p>
+
+    </subsection>
+
+    <subsection name="junitreport">
+      <p>This declares where the outputs of the
+      <a href="http://ant.apache.org/manual/OptionalTasks/junitreport.html">junitreport</a>
+      tool outputs are placed.  This option only has any meaning if the
+      <a href="workspace.html#junitreport">&lt;junitreport&gt;</a> element
+      is present in the workspace definition.</p>
+
+      <table>
+        <tr>
+          <th>Attribute</th>
+          <th>Description</th>
+          <th>Required?</th>
+        </tr>
+        <tr>
+          <td>nested</td>
+          <td>Name of a directory or file, relative to the srcdir of
+          the module containing this project. <b>Note that this
+          ignores any <a href="#home">&lt;home&gt;</a>
+          settings.</b></td>
+          <td>No</td>
+        </tr>
+        <tr>
+          <td>parent</td>
+          <td>Name of a directory or file, relative to the base directory
+          of the workspace.</td>
+          <td>No</td>
+        </tr>
+        <tr>
+          <td>project</td>
+          <td>Label to use in the junitreport listing (see below).
+          Default is the name of the project.</td>
+          <td>No</td>
+        </tr>
+        <tr>
+          <td>module</td>
+          <td>Make the entry for this project in the junitreport listing
+          (see below) appear under the named module instead of the
+          enclosing module.</td>
+          <td>No</td>
+        </tr>
+      </table>
+
+      <p>&lt;junitreport&gt; supports a nested &lt;description&gt;
+      element, which can be used to set the title in the junitreport
+      listing.  If no &lt;description&gt; element has been specified,
+      the title defaults to the description of the
+      project. &lt;description&gt; itself only supports nested
+      text and an optional dir attribute.</p>
+
+      <p>The &lt;junitreport&gt; elements of all projects are used to
+      create a single page, &quot;junitreport.html&quot; (like 
+      <a href="http://lsd.student.utwente.nl/gump/junitreport.html">this</a>)
+      listing the available sets of junit reports.</p>
+
+      <p>There are three different layouts a &lt;junitreport&gt; element
+      may create in the junitreport listing &quot;junitreport.html&quot;:</p>
+
+      <ol>
+        <li>This is the only &lt;junitreport&gt; element associated with
+        the module, the result will look like<br/><br/>
+        <a href="#">label</a> - description<br/><br/></li>
+
+        <li>There are several &lt;junitreport&gt; elements associated with
+        the module, their labels are different from the name of the
+        module - the result will look like<br/><br/>
+        <b>name of the module</b> - description of the module
+        <blockquote>
+            <a href="#">label</a> - description<br/>
+            <a href="#">label2</a> - description2<br/>
+        </blockquote></li>
+
+        <li>There are several &lt;junitreport&gt; elements associated with
+        the module, their labels are all the same as the name of the
+        module - the result will look like<br/><br/>
+        <b>name of the module</b> - description of the module
+        <blockquote>
+            <a href="#">description</a><br/>
+            <a href="#">description2</a><br/>
+        </blockquote></li>
+
+      </ol>
+
+      <p><em>label</em> in this lists will be created from the project
+      attribute and <em>description</em> from the description child
+      element of &lt;junitreport&gt;</p>
+
+      <p>If a given project wants to publish more than one junitreport
+      set, multiple &lt;description&gt; elements like in</p>
+
+      <source><![CDATA[
+    <junitreport nested="java/build/docs/reports" project="xml-xerces2">
+      <description dir="api">XML Standard API</description>
+      <description dir="xni">Xerces Native Interface</description>
+      <description dir="xerces">Xerces2 Implementation</description>
+      <description dir="other">Other Classes</description>
+    </junitreport>
 ]]></source>
 
       <p>must be used.</p>
