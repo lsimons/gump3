@@ -20,7 +20,7 @@
   <home-page>http://avalon.apache.org</home-page>
   
   <!-- Bogus, need to rename & just use url below -->
-  <cvsweb>http://cvs.apache.org/viewcvs.cgi/forrest/?root=Apache-SVN</cvsweb>  
+  <cvsweb>http://cvs.apache.org/viewcvs.cgi/avalon/?root=Apache-SVN</cvsweb>  
   
   <url>http://svn.apache.org/repos/asf/avalon/</url>
   

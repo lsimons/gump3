@@ -34,7 +34,7 @@
 
 <!-- Apache.Cocoon -->
 
-  <module href="http://cvs.apache.org/viewcvs/~checkout~/cocoon-2.1/gump.xml"/>
+  <module href="http://svn.apache.org/repos/asf/cocoon/trunk/gump.xml"/>
   <module href="http://cvs.apache.org/viewcvs/~checkout~/cocoon-lenya/gump.xml"/>
 
 <!-- Apache.DB -->
