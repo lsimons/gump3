@@ -47,7 +47,7 @@
 
         <jar name="phoenix-tools.jar" id="metagenerate"/>
         <jar name="phoenix-loader.jar" id="loader"/>
-        <jar name="phoenix-engine.jar" id="metagenerate"/>
+        <jar name="phoenix-engine.jar" id="metagenerate-2"/>
         <jar name="phoenix-punit.jar" id="punit"/>
 
         <license name="LICENSE.txt"/>
