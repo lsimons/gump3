@@ -15,7 +15,7 @@
   limitations under the License.
 -->
 <module name="jakarta-jmeter">
-<!-- Version $Revision: 1.79 $ Last updated $Date: 2004/03/10 13:41:03 $ -->
+<!-- Version $Revision: 1.80 $ Last updated $Date: 2004/03/12 00:06:23 $ -->
   <url href="http://jakarta.apache.org/jmeter/" />
   <description>
     Pure Java load testing and performance measurement tool.
@@ -31,7 +31,7 @@
       <property name="version" value="@@DATE@@"/>
       <property name="gump.run" value="true"/>
       <!-- The version of this file -->
-      <property name="version.projectfile" value="$Revision: 1.79 $"/>
+      <property name="version.projectfile" value="$Revision: 1.80 $"/>
       
       <!--
       	These properties are passed to the build process, so the names need to agree with
@@ -106,7 +106,7 @@
       <property name="version" value="@@DATE@@"/>
       <property name="gump.run" value="true"/>
       <!-- The version of this file -->
-      <property name="version.projectfile" value="$Revision: 1.79 $"/>
+      <property name="version.projectfile" value="$Revision: 1.80 $"/>
     </ant>
 
     <depend project="ant" />
@@ -118,7 +118,9 @@
     <option project="jakarta-bsf"/>
 
     <!-- Try to ensure that cvs builds after jmeter -->
-    <option project="jakarta-jmeter"/>
+    <option project="jakarta-jmeter">
+    	<noclasspath/>
+    </option>
     
     <work nested="build/core"/>
     <work nested="build/htmlparser"/>
@@ -168,7 +170,7 @@
       <property name="version" value="@@DATE@@"/>
       <property name="gump.run" value="true"/>
       <!-- The version of this file -->
-      <property name="version.projectfile" value="$Revision: 1.79 $"/>
+      <property name="version.projectfile" value="$Revision: 1.80 $"/>
     </ant>
 
     <depend project="ant" />
@@ -176,6 +178,14 @@
     <depend project="jakarta-jmeter-cvs">
     	<noclasspath/>
     </depend>
+
+<!-- Add jars that would otherwise come from jmeter-cvs -->
+    <depend project="jaf" />
+    <depend project="javamail" />
+    <depend project="jsse" />
+
+    <option project="beanshell" ids="bsh-core"/>
+    <option project="jakarta-bsf"/>
 
 <!-- are these needed ? -->
     <work nested="lib/avalon-excalibur-4.1.jar"/>
@@ -218,7 +228,7 @@
       <property name="version" value="@@DATE@@"/>
       <property name="gump.run" value="true"/>
       <!-- The version of this file -->
-      <property name="version.projectfile" value="$Revision: 1.79 $"/>
+      <property name="version.projectfile" value="$Revision: 1.80 $"/>
     </ant>
 
     <depend project="ant" />
