@@ -264,12 +264,12 @@
         <!-- optional dependencies -->
         <option project="checkstyle" inherit="runtime"/>
 
-        <work nested="configuration/build/classes"/>
-        <work nested="configuration/build/testclasses"/>
+        <work nested="configuration/target/classes"/>
+        <work nested="configuration/target/test-classes"/>
 
         <home nested="configuration"/>
 
-        <jar name="build/lib/excalibur-configuration-@@DATE@@.jar"/>
+        <jar name="target/lib/excalibur-configuration-@@DATE@@.jar"/>
 
         <nag>
           <regexp pattern="/Missing prereq/i"
