@@ -428,7 +428,7 @@
     <ant basedir="xtags" target="dist">
       <depend property="crimson.jar" project="xml-xerces" id="parser"/>
       <depend property="dom4j.jar" project="dom4j"/>
-      <option property="jaxp.jar" project="xml-xerces" id="apis"/>
+      <depend property="jaxp.jar" project="xml-xerces" id="apis"/>
       <depend property="servlet.jar" project="jakarta-servletapi-4"/>
       <depend property="xalan.jar" project="xml-xalan2"/>
       <property name="build.dir" path="build"/>
