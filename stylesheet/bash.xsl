@@ -327,9 +327,9 @@
 
       <xsl:text>  eval echo "\&lt;p\&gt;Missing prereq \&lt;code\&gt;</xsl:text>
       <xsl:value-of select="translate(@path,'\','/')"/>
-      <xsl:text>\&lt;/code\&gt; from \&lt;a href=\"</xsl:text>
+      <xsl:text>\&lt;/code\&gt; from \&lt;a href=\\\"</xsl:text>
       <xsl:value-of select="$project"/>
-      <xsl:text>.html\"\&gt;</xsl:text>
+      <xsl:text>.html\\\"\&gt;</xsl:text>
       <xsl:value-of select="$project"/>
       <xsl:text>\&lt;/a\&gt;\&lt;/p\&gt; $OUT"&#10;</xsl:text>
 
@@ -639,9 +639,9 @@
   </xsl:template>
 
   <xsl:template match="a[count(*)=0 and count(@*)=1]">
-    <xsl:text>eval "echo \&lt;a href=\"</xsl:text>
+    <xsl:text>eval "echo \&lt;a href=\\\"</xsl:text>
     <xsl:value-of select="@href"/>
-    <xsl:text>\"\&gt;</xsl:text>
+    <xsl:text>\\\"\&gt;</xsl:text>
     <xsl:value-of select="."/>
     <xsl:text>\&lt;/a\&gt; $OUT"&#10;</xsl:text>
   </xsl:template>
@@ -653,13 +653,13 @@
     <xsl:for-each select="@*">
       <xsl:text> </xsl:text>
       <xsl:value-of select="name()"/>
-      <xsl:text>=\"</xsl:text>
+      <xsl:text>=\\\"</xsl:text>
       <xsl:call-template name="escape">
          <xsl:with-param name="string">
            <xsl:value-of select="normalize-space(.)"/>
          </xsl:with-param>
        </xsl:call-template>
-      <xsl:text>\"</xsl:text>
+      <xsl:text>\\\"</xsl:text>
     </xsl:for-each>
 
     <xsl:choose>
@@ -719,8 +719,18 @@
            select="substring($string, string-length($pre)+1,1)"/>
 
         <xsl:value-of select="$pre"/>
-        <xsl:text>\</xsl:text>
+
+        <xsl:choose>
+          <xsl:when test="$char='&amp;quot;'">
+            <xsl:text>\\\</xsl:text>
+          </xsl:when>
+          <xsl:otherwise>
+            <xsl:text>\</xsl:text>
+          </xsl:otherwise>
+        </xsl:choose>
+
         <xsl:value-of select="$char"/>
+
         <xsl:call-template name="escape">
            <xsl:with-param name="string">
              <xsl:value-of select="substring-after($string, $char)"/>
