@@ -130,7 +130,7 @@
     <depend project="xml-xerces"/>
     <work nested="graph2/target/classes"/>
     <work nested="graph2/target/test-classes"/>
-    <home nested="target"/>
+    <home nested="graph2/target"/>
     <jar name="commons-graph-@@DATE@@.jar"/>
     <javadoc module="jakarta-commons-sandbox" nested="target/docs/apidocs">
     </javadoc>
