@@ -73,6 +73,7 @@
   <!-- SourceForge -->
 
   <module href="project/checkstyle.xml"/>
+  <module href="project/beepcore.xml"/>
   <module href="project/dom4j.xml"/>
   <module href="project/hsqldb.xml"/>
   <module href="project/httpunit.xml"/>

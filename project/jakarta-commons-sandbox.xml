@@ -23,10 +23,6 @@
     <javadoc nested="altrmi/dist/docs/api"/>
   </project>
   
-  <project name="beepcore">
-    <jar name="altrmi/lib/beepcore.jar"/>
-  </project>
-
   <project name="commons-codec">
     <package>org.apache.commons.codec</package>
     <description>Commons Encoding/Decoding Package</description>
