@@ -21,7 +21,7 @@
     <depend project="jdom"/>
     <depend project="junit"/>
     <depend project="jakarta-servletapi-4"/>
-    <depend project="bsf"/>
+    <depend project="dist-bsf"/>
     <depend project="rhino"/>
     <option project="jaxen"/>
     <option project="saxpath"/>
