@@ -7,6 +7,7 @@
 
   <cvs repository="repository1" tag="module1Tag"/>
 
+  <!-- leave here to allow test of <nag on module -->
   <nag from="Ms. Dev 1 &lt;dev1@jakarta.apache.org&gt;"
          to="project1@jakarta.apache.org"/>
          

@@ -67,7 +67,13 @@ class ModelObject(Annotatable,Workable,FileHolder,Propogatable,Ownable):
     	
         self.resolutionPerformed=False
         self.completionPerformed=False
-    	
+        	
+    def __repr__(self):
+        return str(self)
+        
+    def __str__(self):
+        return self.__class__.__name__
+        
     def __del__(self):
         Annotatable.__del__(self)
         Workable.__del__(self)
@@ -151,8 +157,7 @@ class ModelObject(Annotatable,Workable,FileHolder,Propogatable,Ownable):
     
     # Helper methods
     def hasDomAttribute(self,name):
-        if hasDomAttribute(self.element,name): return True
-        return False   
+        return hasDomAttribute(self.element,name)
     
     def getDomAttributeValue(self,name,default=None):
         return self.expandVariables(
@@ -302,10 +307,7 @@ class NamedModelObject(ModelObject):
     def __hash__(self):
         if self.hash: return self.hash
         self.hash=hash(self.name)
-        return self.hash
-        
-    def __repr__(self):
-        return str(self)
+        return self.hash        
         
     def __str__(self):
         return self.__class__.__name__+':'+self.name

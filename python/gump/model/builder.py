@@ -45,6 +45,15 @@ class Builder(ModelObject, PropertyContainer):
         # Store owning project
         self.project=project
             	
+    def __str__(self):
+        """
+        Display what project this is on, if possible.
+        """       
+        if not self.project:
+            return self.__class__.__name__
+        else:
+            return self.__class__.__name__ + ' on ' + `self.project`
+        
     #
     # expand properties - in other words, do everything to complete the
     # entry that does NOT require referencing another project

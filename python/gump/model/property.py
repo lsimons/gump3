@@ -20,32 +20,52 @@
 
 from gump.model.object import *
 from gump.utils.domutils import *
+from types import NoneType
 
 # represents a <property/> element
 class Property(NamedModelObject):
     
     def __init__(self,name,dom,parent):
     	NamedModelObject.__init__(self,name,dom,parent)
-    	self.value=self.getDomAttributeValue('value')
+        
+        self.value=None
+        
     	
     def setValue(self,value):
+        """
+        Set a value for this property
+        """
         self.value = value
         
     def getValue(self):
+        """
+        Get a value
+        """
         return self.value
         
     # provide default elements when not defined in xml
     def complete(self,parent,workspace):
         if self.isComplete(): return
     
+        if self.hasDomAttribute('value'):
+            self.value=self.getDomAttributeValue('value','')
+            if not self.value:
+                self.value=''
+        else:
+            self.value=None
+            
         # Properties are either on the workspace, or on
         # an ant entry within a project. Pick workspace or project.
         responsibleParty=workspace
         if not parent==workspace: responsibleParty=parent.getOwner()    
             
-        project=self.getDomAttributeValue('project')   
-            
+        # Get what this might refer to.
+        project=self.getDomAttributeValue('project')               
         reference=self.getDomAttributeValue('reference')
+        
+        #
+        # Do we have a reference to process?
+        #
         if reference=='home':         
             if not workspace.hasProject(project):
                 responsibleParty.addError('Cannot resolve homedir of *unknown* [' + project + ']')                
@@ -61,8 +81,8 @@ class Property(NamedModelObject):
         elif reference=='jarpath' or reference=='jar':            
             if self.hasDomAttribute('project'):
                 if not workspace.hasProject(project):
-                    responsibleParty.addError('Cannot resolve jar/jarpath of *unknown* [' \
-                        + project + ']')
+                    responsibleParty.addError( \
+                        'Cannot resolve jar/jarpath of *unknown* [' + project + ']')
                 else:
                     targetProject=workspace.getProject(project)
                 
@@ -80,6 +100,7 @@ class Property(NamedModelObject):
                             responsibleParty.addError(	\
                                ("jar with id %s was not found in project %s ") % \
                                 (id, targetProject.getName()))
+                                
                     elif targetProject.getJarCount()==1:
                         # There is only one, so pick it...
                         self.setValue(targetProject.getJars()[0].getPath())
@@ -120,15 +141,17 @@ class Property(NamedModelObject):
                             relativeProject.getModule().getWorkingDirectory(),
                             path))
             else:
-                responsibleParty.addError('Can\'t have path on property on workspace: ' + \
-                    + self.getName())
+                responsibleParty.addError( \
+                    'Can\'t have path on property on workspace: ' + self.getName())
         
-        if not self.value:
-            responsibleParty.addError('Unhandled Property: ' + self.getName() + ' on: ' + \
-                    str(parent))
+        #
+        # Do we have a value yet?
+        #
+        if isinstance(self.value,NoneType):
+            responsibleParty.addError('Unhandled Property: ' + self.getName() + ' on: ' + str(parent))
             self.value='*Unset*'
                 
-        self.setComplete(1)
+        self.setComplete(True)
         
     def dump(self, indent=0, output=sys.stdout):
         """ Display the property """
@@ -166,9 +189,15 @@ class PropertySet(Ownable):
         return False
         
     def getProperties(self):
+        """
+        Get a list of all the property objects
+        """
         return self.properties.values()
             
-    def importProperty(self,pdom):        
+    def importProperty(self,pdom):     
+        """
+        Import a project from the DOM   
+        """
         property=None
         
         if hasDomAttribute(pdom,'name'):

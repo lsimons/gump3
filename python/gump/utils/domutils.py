@@ -163,7 +163,7 @@ def dumpDom(dom):
     
 def hasDomAttribute(element,name):
     if element.hasAttributes():
-        if element.getAttribute(name): return True
+        return element.hasAttribute(name)
     return False
 
 def getDomAttributeValue(element,name,default=None):

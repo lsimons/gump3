@@ -13,6 +13,8 @@
     <ant target="gump">
       <property name="ant.home" reference="home" project="project1"/>
       <property name="containsSpaces" value="a b c '' d e"/>      
+      <property name="blank-ok" value=""/>      
+      <property name="blank-bogus"/>      
       <depend property="project1.jar" project="project1"/>
     </ant>
 
@@ -26,6 +28,7 @@
 
     <license name="LICENSE"/>
 
+	<!-- leave here to allow test of <nag on project -->
     <nag from="Mr Dev 2 &lt;dev2@jakarta.apache.org&gt;"
          to="project2@jakarta.apache.org"/>
   </project>

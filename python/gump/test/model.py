@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/test/model.py,v 1.23 2004/07/14 20:47:02 ajack Exp $
-# $Revision: 1.23 $
+# $Header: /home/stefano/cvs/gump/python/gump/test/model.py,v 1.24 2004/07/23 15:23:33 ajack Exp $
+# $Revision: 1.24 $
 #!/usr/bin/env python
 # Copyright 2003-2004 The Apache Software Foundation
 #
@@ -78,6 +78,21 @@ class ModelTestSuite(UnitTestSuite):
         self.assertTrue('Is a package', self.package1.isPackaged())
         self.assertTrue('Has Jars', self.package1.hasJars())
         self.assertTrue('Is a package', self.packagedModule1.isPackaged())
+        
+    def testNotifys(self):
+        
+        self.assertTrue('Project1 has notifications', self.project1.hasNotifys())
+        self.assertTrue('Module1 has notifications', self.module1.hasNotifys())
+        self.assertTrue('Project2 has notifications', self.project2.hasNotifys())
+        self.assertFalse('Module2 has NO notifications', self.module2.hasNotifys())
+        
+    def testProperties(self):
+        properties=project2.getProperties()
+        self.assertNotNone('Project2 has properties', project2.hasProperties())
+        self.assertNotNone('Project2 has properties', properties)
+        self.assertNotEmpty('Project2 has some properties', properties)
+        self.assertEqual('Explicit blank is ok', properties.getProperty('blank-ok'), "")
+        self.assertNotNone('Explicit blank is NOT ok', properties.getProperty('blank-bogus'))
         
     def testRepository(self):
         repo1 = self.repo1

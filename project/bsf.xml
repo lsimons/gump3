@@ -24,7 +24,7 @@
   <redistributable/>
 
   <project name="bsf">
- 
+
     <jar  name="lib/bsf.jar"/>
     <license name="license.html"/>
   </project>
