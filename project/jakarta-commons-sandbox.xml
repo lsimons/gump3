@@ -57,6 +57,7 @@
     <depend project="xml-xerces"/>
  
     <depend project="commons-collections"/>
+    <depend project="commons-digester"/>
     <depend project="commons-lang"/>
     <depend project="commons-logging"/>
     <depend project="dom4j"/>
