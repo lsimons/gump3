@@ -1,7 +1,7 @@
 /*
- * $Header: /home/stefano/cvs/gump/scratchpad/localcheck/src/java/org/apache/gump/Attic/LocalCheck.java,v 1.2 2003/01/19 22:33:33 mvdb Exp $
- * $Revision: 1.2 $
- * $Date: 2003/01/19 22:33:33 $
+ * $Header: /home/stefano/cvs/gump/java/LocalCheck.java,v 1.1 2003/01/24 17:10:43 mvdb Exp $
+ * $Revision: 1.1 $
+ * $Date: 2003/01/24 17:10:43 $
  *
  * ====================================================================
  *
@@ -58,8 +58,6 @@
  * <http://www.apache.org/>.
  *
  */
-package org.apache.gump;
-
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -74,16 +72,13 @@ import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXParseException;
 
-//import Workspace;
-import Workspace;
-
 /**
  * This will check if the pkgDir references are still up-to-date
  * and present. This way you can take action before you run the 
  * gump build.
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bent</a>
- * @version $Id: LocalCheck.java,v 1.2 2003/01/19 22:33:33 mvdb Exp $
+ * @version $Id: LocalCheck.java,v 1.1 2003/01/24 17:10:43 mvdb Exp $
  */
 public class LocalCheck {
     
@@ -107,7 +102,7 @@ public class LocalCheck {
         space.init((Element)doc.getFirstChild());
         this.pkgDir = space.getPkgDir();
         this.pkgDir+=((pkgDir.endsWith(File.separator))?"":File.separator);
-        currentDir = new File(workspaceFile).getParent()+File.separator;
+        currentDir = new File(workspaceFile).getAbsoluteFile().getParent()+File.separator;
         String profileFile = doc.getElementsByTagName("profile").item(0).getAttributes().getNamedItem("href").getNodeValue();
         this.profile = parse(currentDir+profileFile);
         parseProfile();
@@ -216,17 +211,17 @@ public class LocalCheck {
     }
         
 
-	public static void main(String[] args) throws Exception {
-        String workSpace = DEFAULT_WORKSPACE_FILE;
-        if (args.length >= 1) {
-            workSpace = args[0];
-            if (args[1] != null) {
-                if (args[1].equals("-verbose")) {
-                    verbose = true;
-                }
+	public static void main(String[] args)  {
+        try {
+            String workSpace = DEFAULT_WORKSPACE_FILE;
+            if (args.length >= 1) {
+                workSpace = args[0];
             }
+            new LocalCheck(workSpace);
+        }catch(Exception e) {
+            System.out.println("Unexpected failure in LocalCheck");
+            e.printStackTrace(System.out);
         }
-        new LocalCheck(workSpace);
 	}
     
     /**
