@@ -9,9 +9,12 @@
   <cvs repository="sourceforge" host-prefix="cvs.wss4j" dir="wss4j"/>
   
   <project name="wss4j">
-    <package>org.apache.ws</package>
+    <package>org.apache.ws.security</package>
 
-    <ant target="gump"/>
+    <ant target="gump">
+        <property name="jar.library" value="wss4j-@DATE@.jar"/>
+    </ant>
+
     <depend project="jaf"/>
     <depend project="ws-axis"/>
     <depend project="xml-xerces"/>
@@ -26,11 +29,16 @@
     <depend project="xml-xalan2" runtime="true"/>
     <depend project="xml-security" inherit="runtime"/>
 
-    <jar name="build/wss4j.jar"/>
+    <work nested="build/classes"/>
+
+    <jar name="build/wss4j-@DATE@.jar"/>
 
     <license name="LICENSE"/>
 
     <javadoc nested="build/doc/html/api"/>
+
+    <nag from="Davanum Srinivas &lt;dims@yahoo.com&gt;"
+         to="wss4j-devel@lists.sourceforge.net"/>
   </project>
 
 </module>
