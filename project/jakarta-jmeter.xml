@@ -15,7 +15,7 @@
   limitations under the License.
 -->
 <module name="jakarta-jmeter">
-<!-- Version $Revision: 1.96 $ Last updated $Date: 2004/04/06 14:16:44 $ -->
+<!-- Version $Revision: 1.97 $ Last updated $Date: 2004/05/20 22:14:47 $ -->
   <url href="http://jakarta.apache.org/jmeter/" />
   <description>
     Pure Java load testing and performance measurement tool.
@@ -31,8 +31,8 @@
       <property name="jmeter.version" value="@@DATE@@"/>
       <property name="gump.run" value="true"/>
       <!-- The version of this file -->
-      <property name="version.projectfile" value="$Revision: 1.96 $"/>
-      <property name="date.projectfile" value="$Date: 2004/04/06 14:16:44 $"/>
+      <property name="version.projectfile" value="$Revision: 1.97 $"/>
+      <property name="date.projectfile" value="$Date: 2004/05/20 22:14:47 $"/>
       
       <!--
         These properties are passed to the build process, so the names need to agree with
@@ -51,6 +51,8 @@
       <depend property="jdom.jar" project="jdom"/>
       <depend property="js.jar" project="rhino"/>
       <depend property="soap.jar" project="ws-soap"/>
+
+
 
       <!-- Ensure work directories don't get dropped from classpath -->
       <mkdir dir="build/core"/>
@@ -79,6 +81,10 @@
     <depend project="excalibur-logger" />
     <depend project="excalibur-i18n" />
 
+    <depend project="excalibur-datasource"/>
+    <depend project="excalibur-pool"/>
+    <depend project="excalibur-instrument"/>
+
     <depend project="commons-logging"/>
     <depend project="commons-httpclient"/>
 
@@ -96,7 +102,7 @@
     <work nested="build/protocol/http"/>
     <work nested="build/monitor/model"/>
 
-    <nag from="Sebb &lt;sebb@apache.org&gt;"
+    <nag from="Gump-build &lt;sebb@apache.org&gt;"
          to="jmeter-dev@jakarta.apache.org">
         <regexp pattern="/BUILD FAILED/" subject="JMeter Build Failure"/>
     </nag>
@@ -110,8 +116,8 @@
       <property name="jmeter.version" value="@@DATE@@"/>
       <property name="gump.run" value="true"/>
       <!-- The version of this file -->
-      <property name="version.projectfile" value="$Revision: 1.96 $"/>
-      <property name="date.projectfile" value="$Date: 2004/04/06 14:16:44 $"/>
+      <property name="version.projectfile" value="$Revision: 1.97 $"/>
+      <property name="date.projectfile" value="$Date: 2004/05/20 22:14:47 $"/>
 
       <!-- Ensure work directories don't get dropped from classpath -->
       <mkdir dir="build/core"/>
@@ -154,6 +160,10 @@
     <work nested="lib/excalibur-compatibility-1.1.jar"/>
     <work nested="lib/excalibur-i18n-1.1.jar"/>
     
+    <work nested="lib/excalibur-datasource-1.1.1.jar"/>
+    <work nested="lib/excalibur-pool-1.2.jar"/>
+    <work nested="lib/excalibur-instrument-1.0.jar"/>
+    
     <work nested="lib/avalon-framework-4.1.4.jar"/>
     <work nested="lib/commons-collections.jar"/>
     <work nested="lib/jakarta-oro-2.0.8.jar"/>
@@ -186,7 +196,7 @@
     <jar name="NOTICE" />
     <jar name="INSTALLING" />
 
-    <nag from="Sebb &lt;sebb@apache.org&gt;"
+    <nag from="Gump-build &lt;sebb@apache.org&gt;"
          to="jmeter-dev@jakarta.apache.org">
         <regexp pattern="/BUILD FAILED/" subject="JMeter CVS Build Failure"/>
     </nag>
@@ -200,8 +210,8 @@
       <!-- Temp hack to make up for missing workspace property ... -->
       <property name="java.awt.headless" value="true"/>
       <!-- The version of this file -->
-      <property name="version.projectfile" value="$Revision: 1.96 $"/>
-      <property name="date.projectfile" value="$Date: 2004/04/06 14:16:44 $"/>
+      <property name="version.projectfile" value="$Revision: 1.97 $"/>
+      <property name="date.projectfile" value="$Date: 2004/05/20 22:14:47 $"/>
     </ant>
 
     <depend project="ant" />
@@ -221,6 +231,10 @@
     <work nested="lib/excalibur-logger-1.1.jar"/>
     <work nested="lib/excalibur-compatibility-1.1.jar"/>
     <work nested="lib/excalibur-i18n-1.1.jar"/>
+    
+    <work nested="lib/excalibur-datasource-1.1.1.jar"/>
+    <work nested="lib/excalibur-pool-1.2.jar"/>
+    <work nested="lib/excalibur-instrument-1.0.jar"/>
     
     <work nested="lib/avalon-framework-4.1.4.jar"/>
     <work nested="lib/commons-collections.jar"/>
@@ -253,7 +267,7 @@
     <work nested="lib/ext/ApacheJMeter_monitors.jar"/>
     <work nested="lib/ext/ApacheJMeter_tcp.jar"/>
 
-    <nag from="Sebb &lt;sebb@apache.org&gt;"
+    <nag from="Gump-build &lt;sebb@apache.org&gt;"
          to="jmeter-dev@jakarta.apache.org">
         <regexp pattern="/FAILURES!!!|OK \(0 tests\)/" subject="JMeter Unit Test Failure"/>
     </nag>
@@ -265,8 +279,8 @@
       <property name="jmeter.version" value="@@DATE@@"/>
       <property name="gump.run" value="true"/>
       <!-- The version of this file -->
-      <property name="version.projectfile" value="$Revision: 1.96 $"/>
-      <property name="date.projectfile" value="$Date: 2004/04/06 14:16:44 $"/>
+      <property name="version.projectfile" value="$Revision: 1.97 $"/>
+      <property name="date.projectfile" value="$Date: 2004/05/20 22:14:47 $"/>
     </ant>
 
     <depend project="ant" />
@@ -282,6 +296,10 @@
     <work nested="lib/excalibur-logger-1.1.jar"/>
     <work nested="lib/excalibur-compatibility-1.1.jar"/>
     <work nested="lib/excalibur-i18n-1.1.jar"/>
+    
+    <work nested="lib/excalibur-datasource-1.1.1.jar"/>
+    <work nested="lib/excalibur-pool-1.2.jar"/>
+    <work nested="lib/excalibur-instrument-1.0.jar"/>
     
     <work nested="lib/avalon-framework-4.1.4.jar"/>
     <work nested="lib/commons-collections.jar"/>
