@@ -171,6 +171,15 @@
          from="Ted Husted &lt;ted@husted.com&gt;"/>
   </project>
 
+  <project name="commons-collections-testframework">
+    <package>org.apache.commons.collections</package>
+    <depend project="commons-collections"><noclasspath/></depend>
+    <home nested="collections/build"/>
+    <jar name="commons-collections-testframework-@@DATE@@.jar"/>
+    <nag to="commons-dev@jakarta.apache.org"
+         from="Gump &lt;general@gump.apache.org&gt;"/>
+  </project>
+
   <project name="commons-daemon">
     <package>org.apache.commons.daemon</package>
     <description>Commons Daemon</description>
@@ -555,6 +564,29 @@
 
     <nag to="commons-dev@jakarta.apache.org"
          from="Ted Husted &lt;ted@husted.com&gt;"/>
+  </project>
+
+  <project name="commons-primitives">
+    <package>org.apache.commons.collections.primitives</package>
+    <description>Provides a collection of types and utilities optimized for working with Java primitives</description>
+    <ant basedir="primitives" target="dist">
+      <property name="component.version" value="@@DATE@@"/>
+    </ant>
+
+    <depend project="ant" inherit="runtime"/>
+    <depend project="xml-xerces"/>
+
+    <!-- test time dependencies -->
+    <depend project="commons-collections-testframework"/>
+    <depend project="junit"/>
+    <work nested="primitives/target/classes"/>
+    <work nested="primitives/target/test-classes"/>
+
+    <jar name="primitives/target/commons-primitives-@@DATE@@.jar"/>
+    <javadoc nested="primitives/target/docs/api"/>
+
+    <nag to="commons-dev@jakarta.apache.org"
+         from="Gump &lt;general@gump.apache.org&gt;"/>
   </project>
 
   <project name="commons-validator">

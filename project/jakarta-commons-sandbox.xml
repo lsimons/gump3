@@ -308,7 +308,9 @@
   <project name="commons-sql">
     <package>org.apache.commons.services</package>
     <description>Basic Services Architecture</description>
-    <ant basedir="sql" target="dist"/>
+    <ant basedir="sql" target="dist">
+      <property name="final.name" value="commons-sql-@@DATE@@"/>
+    </ant>
 
     <depend project="ant" inherit="runtime"/>
     <depend project="commons-beanutils-core"/>
@@ -323,11 +325,12 @@
 
     <!-- test time dependencies -->
     <depend project="axion"/>
+    <depend project="commons-primitives"/>
     <depend project="junit"/>
     <work nested="sql/target/classes"/>
     <work nested="sql/target/test-classes"/>
 
-    <jar name="sql/dist/commons-sql.jar"/>
+    <jar name="sql/target/commons-sql-@@DATE@@.jar"/>
     <javadoc nested="sql/dist/docs/api"/>
 
     <nag to="commons-dev@jakarta.apache.org"
