@@ -21,6 +21,8 @@
     <depend project="jakarta-log4j" />
     <depend project="jtidy" />
     <depend project="junit" />
+    <depend project="jakarta-avalon" />
+    <depend project="excalibur-cli" />
     <home nested="bin" />
     <jar name="ApacheJMeter.jar" />
 
