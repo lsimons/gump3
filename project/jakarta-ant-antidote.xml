@@ -8,11 +8,12 @@
   <cvs repository="jakarta"/>
 
   <project name="jakarta-ant-antidote">
-    <ant target="dist-lite"/>
+    <ant target="internal_dist"/>
     <depend project="bootstrap-ant"/>
     <depend project="xml-xerces"/>
     <home nested="dist"/>
     <jar name="lib/antidote.jar"/>
+    <javadoc nested="dist/docs/api"/>
   </project>
 
 </module>
