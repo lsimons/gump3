@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="ISO-8859-1"?>
-
-<tracker name="apache-jira" type="jira" status="up">
-  <attribution>Apache</attribution>
-  <title>Apache JIRA</title>
-  <url>http://issues.apache.org/jira</url>
-</tracker>
