@@ -22,7 +22,11 @@
   <project name="jts"            home="C:\jts1_0"/>
   <project name="tranquilo"      home="C:\xsdlib-20010424"/>
 
-  <!-- CVS Repository overrides -->
+  <!-- Project overrides -->
+
+  <project name="commons-cactus-22" target="jar"/>
+
+  <!-- Repository overrides -->
 
   <repository name="jakarta" method="ext" user="rubys" path="/home/cvs"/>
   <repository name="xml" method="ext" user="rubys" path="/home/cvs"/>

@@ -226,7 +226,18 @@
     </xsl:if>
 
     <xsl:copy>
-      <xsl:apply-templates select="@*"/>
+      <xsl:choose>
+        <xsl:when test="ancestor::project/@target">
+          <xsl:attribute name="target">
+            <xsl:value-of select="ancestor::project/@target"/>
+          </xsl:attribute>
+        </xsl:when>
+        <xsl:when test="@target">
+          <xsl:copy-of select="@target"/>
+        </xsl:when>
+      </xsl:choose>
+
+      <xsl:apply-templates select="@*[name()!='target']"/>
       <xsl:apply-templates select="*[name()!='property']"/>
 
       <xsl:for-each select="/workspace/property|property">
