@@ -33,7 +33,7 @@
         <depend project="junit"/>
         <depend project="mx4j"/>
         <depend project="xml-xerces"/>
-        <nag to="geronimo-dev@incobator.apache.org" 
+        <nag to="geronimo-dev@incubator.apache.org" 
     	    from="Davanum Srinivas &lt;dims@yahoo.com&gt;"/>
     </project>
 
