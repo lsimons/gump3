@@ -1,4 +1,5 @@
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0">
+  <xsl:output method="XML" indent="yes" />
 
   <xsl:variable name="basedir" select="/workspace/@basedir"/>
   <xsl:variable name="logdir"  select="/workspace/@logdir"/>
