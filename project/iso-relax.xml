@@ -1,0 +1,12 @@
+<module name="iso-relax">
+  <url href="http://iso-relax.sourceforge.net"/>
+  <description>
+    defines/shares/maintains codes and documents related to ISO RELAX.
+  </description>
+
+  <project name="iso-relax">
+    <package>org.iso_relax</package>
+
+    <jar name="iso-relax.jar" />
+  </project>
+</module>

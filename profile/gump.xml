@@ -90,6 +90,7 @@
   <module href="project/freemarker.xml"/>
   <module href="project/hsqldb.xml"/>
   <module href="project/httpunit.xml"/>
+  <module href="project/iso-relax.xml"/>
   <module href="project/javagroups.xml"/>
   <module href="project/jaxen.xml"/>
   <module href="project/jgen.xml"/>
@@ -98,6 +99,7 @@
   <module href="project/junit.xml"/>
   <module href="project/jython.xml"/>
   <module href="project/mx4j.xml"/>
+  <module href="project/relaxng.xml"/>
   <module href="project/webwork.xml"/>
   <module href="project/xdoclet.xml"/>
   <module href="project/xjavadoc.xml"/>
@@ -144,7 +146,6 @@
   <module href="project/jts.xml"/>
   <module href="project/ldap.xml"/>
   <module href="project/msv.xml"/>
-  <module href="project/relaxng.xml"/>
   <module href="project/resolver.xml"/>
   <module href="project/tranquilo.xml"/>
 
@@ -154,6 +155,7 @@
   <project name="concurrent"     package="dougLea"/>
   <project name="cos"            package="cos-09May2002"/>
   <project name="ejb"            package="ejb-2_0-fr"/>
+  <project name="iso-relax"      package="isorelax-dev-20020320"/>
   <project name="j2ee-connector" package="j2ee_connector-1_0-pfd2"/>
   <project name="jaas"           package="jaas1_0"/>
   <project name="jaf"            package="jaf-1.0.1"/>

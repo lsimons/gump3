@@ -125,7 +125,7 @@
   <!--
       missing from Gump for now:
       werkz == requires Maven to build
-      ojb, isorelax == cannot connect to sourceforge since hours
+      ojb == cannot connect to sourceforge since hours
   <project name="commons-jelly">
     <package>org.apache.commons.jelly</package>
     <description>Commons Jelly Package</description>
@@ -152,7 +152,7 @@
     <depend project="jms"/>
     <depend project="commons-messenger"/>
     <depend project="commons-httpclient"/>
-    <depend project="isorelax"/>
+    <depend project="iso-relax"/>
     <depend project="msv"/>
     <depend project="relaxng"/>
     <depend project="hsqldb"/>
@@ -166,7 +166,7 @@
          from="James Strachan &lt;jstrachan@apache.org&gt;"/>
   </project>
   -->
-  
+
   <project name="commons-jexl">
     <package>org.apache.commons.jexl</package>
     <description>Commons Jexl Package</description>
