@@ -643,7 +643,11 @@
 
     <xsl:text>test -d </xsl:text>
     <xsl:value-of select="translate(@srcdir,'\','/')"/>
-    <xsl:text> &amp;&amp; export CMD="cvs -z3 -d </xsl:text>
+    <xsl:text> &amp;&amp; export CMD="cvs</xsl:text>
+    <xsl:if test="@compress='true'">
+      <xsl:text> -z3</xsl:text>
+    </xsl:if>
+    <xsl:text> -d </xsl:text>
     <xsl:value-of select="@cvsroot"/>
 
     <xsl:text> update -P -d</xsl:text>
@@ -665,7 +669,11 @@
     <xsl:text>test -d </xsl:text>
     <xsl:value-of select="translate(@srcdir,'\','/')"/>
 
-    <xsl:text> || export CMD="cvs -z3 -d </xsl:text>
+    <xsl:text> || export CMD="cvs</xsl:text>
+    <xsl:if test="@compress='true'">
+      <xsl:text> -z3</xsl:text>
+    </xsl:if>
+    <xsl:text> -d </xsl:text>
     <xsl:value-of select="@cvsroot"/>
 
     <xsl:text> checkout -P</xsl:text>

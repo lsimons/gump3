@@ -1,13 +1,13 @@
 /*
- * $Header: /home/stefano/cvs/gump/java/Module.java,v 1.19 2002/08/27 14:54:09 nicolaken Exp $
- * $Revision: 1.19 $
- * $Date: 2002/08/27 14:54:09 $
+ * $Header: /home/stefano/cvs/gump/java/Module.java,v 1.20 2003/01/14 13:21:49 bodewig Exp $
+ * $Revision: 1.20 $
+ * $Date: 2003/01/14 13:21:49 $
  *
  * ====================================================================
  *
  * The Apache Software License, Version 1.1
  *
- * Copyright (c) 1999-2002 The Apache Software Foundation.  All rights
+ * Copyright (c) 1999-2003 The Apache Software Foundation.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -305,6 +305,10 @@ public class Module {
 
             cvs.setAttribute("cvsroot", cvsroot);
             cvs.setAttribute("password", r.get("password"));
+
+            if (cvs.getAttributeNode("compress") == null) {
+                cvs.setAttribute("compress", "true");
+            }
         }
     }
 

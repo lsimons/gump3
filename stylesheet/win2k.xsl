@@ -576,7 +576,11 @@
 
     <xsl:text>if exist </xsl:text>
     <xsl:value-of select="translate(@srcdir,'/','\')"/>
-    <xsl:text> SET CMD=cvs -z3 -d </xsl:text>
+    <xsl:text> SET CMD=cvs</xsl:text>
+    <xsl:if test="@compress='true'">
+      <xsl:text> -z3</xsl:text>
+    </xsl:if>
+    <xsl:text> -d </xsl:text>
     <xsl:value-of select="@cvsroot"/>
 
     <xsl:text> update -P -d</xsl:text>
@@ -598,7 +602,11 @@
     <xsl:text>if not exist </xsl:text>
     <xsl:value-of select="translate(@srcdir,'/','\')"/>
 
-    <xsl:text> SET CMD=cvs -z3 -d </xsl:text>
+    <xsl:text> SET CMD=cvs</xsl:text>
+    <xsl:if test="@compress='true'">
+      <xsl:text> -z3</xsl:text>
+    </xsl:if>
+    <xsl:text> -d </xsl:text>
     <xsl:value-of select="@cvsroot"/>
 
     <xsl:text> checkout -P</xsl:text>
