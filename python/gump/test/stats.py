@@ -26,7 +26,7 @@ import gump.core.config
 from gump.stats.statsdb import *
 from gump.utils import *
 from gump.utils.timing import *
-from gump.test import getWorkedTestWorkspace
+from gump.test import getWorkedTestRun
 from gump.test.pyunit import UnitTestSuite
 
 class StatsTestSuite(UnitTestSuite):
@@ -35,10 +35,13 @@ class StatsTestSuite(UnitTestSuite):
         
     def suiteSetUp(self):
         #
-        # Load a decent Workspace
+        # Load a decent Run/Workspace
         #
-        self.workspace=getWorkedTestWorkspace()          
+        self.run=getWorkedTestRun()  
+        self.assertNotNone('Needed a run', self.run)
+        self.workspace=self.run.getWorkspace()          
         self.assertNotNone('Needed a workspace', self.workspace)
+        
         
         self.repo1=self.workspace.getRepository('repository1')                  
         self.project1=self.workspace.getProject('project1')        
@@ -113,7 +116,7 @@ class StatsTestSuite(UnitTestSuite):
         # Give some padding.
         lastModified -= (60*60*7)
         
-        rough=getGeneralDifferenceDescription(default.time, lastModified)
+        rough=getGeneralDifferenceDescription(default.datetime, lastModified)
         self.assertNonZeroString('Date Diff String', rough)
         self.assertNotSubstring('Date Diff String', 'year', rough)        
      

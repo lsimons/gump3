@@ -86,18 +86,24 @@ class WorkItem(Ownable):
 
 class TimedWorkItem(WorkItem):
     """ Unit of Work w/ times """
-    def __init__(self,name,type,state,startSecs,endSecs,message=''):
+    def __init__(self,name,type,state,start,end,message=''):
         WorkItem.__init__(self,name,type,state,message)
         self.timerange=TimeStampRange(name,
-                                TimeStamp(name,startSecs),
-                                TimeStamp(name,endSecs),
+                                TimeStamp(name,start),
+                                TimeStamp(name,end),
                                 True)
     
-    def getStartSecs(self):   
-        return self.timerange.getStartTimeStamp().getTime()
+    def hasStart(self):
+        return self.timerange.hasStart()
         
-    def getEndSecs(self):   
-        return self.timerange.getEndTimeStamp().getTime()
+    def getStart(self):   
+        return self.timerange.getStart()
+        
+    def hasEnd(self):
+        return self.timerange.hasEnd()
+        
+    def getEnd(self):   
+        return self.timerange.getEnd()
         
     def getElapsedSecs(self):   
         if self.timerange.hasTimes():
@@ -118,8 +124,8 @@ class TimedWorkItem(WorkItem):
         
     def clone(self):
         return TimedWorkItem(self.name,self.type,self.state,
-                                self.timerange.getStartTime(),
-                                self.timerange.getEndTime(),
+                                self.timerange.getStart().getTimestamp(),
+                                self.timerange.getEnd().getTimestamp(),
                                 self.message)
        
        
@@ -135,10 +141,11 @@ class CommandWorkItem(TimedWorkItem):
     """ Unit of Work"""
     def __init__(self,type,command,result=None,message=''):
         if not result: result=gump.process.command.CmdResult(command)
-        TimedWorkItem.__init__(self,command.name,type,\
-                commandStateToWorkState(result.state),	\
-                result.getStartSecs(),	\
-                result.getEndSecs(),message)
+        TimedWorkItem.__init__(self,command.name,type,
+                commandStateToWorkState(result.state),
+                result.getStart(),
+                result.getEnd(),
+                message)
         self.command=command
         self.result=result
                 
@@ -212,23 +219,35 @@ class WorkList(list,Ownable):
         
         # Let this item know its owner
         item.setOwner(self.getOwner())
+        
+    def hasStart(self):
+        if self.getStart(): return True
+        return False
     
-    def getStartSecs(self):
-        startSecs=0
+    def getStart(self):
+        start=None
         for item in self:
             if isinstance(item,TimedWorkItem): 
-                if not startSecs or item.getStartSecs() < startSecs:
-                    startSecs=item.getStartSecs()
-        if startSecs: return startSecs
+                if not start or item.getStart() < start:
+                    start=item.getStart()
+        return start
     
-    def getEndSecs(self):
-        endSecs=0
+    def hasEnd(self):
+        if self.getEnd(): return True
+        return False
+            
+    def getEnd(self):
+        end=None
         for item in self:
             if isinstance(item,TimedWorkItem): 
-                if not endSecs or item.getEndSecs() < endSecs:
-                    endSecs=item.getEndSecs()
-        if endSecs: return endSecs
+                if not end or item.getEnd() > end:
+                    end=item.getEnd()
+        return end
     
+    def hasTimes(self):
+        if self.getStart() and self.getEnd(): return True
+        return False
+        
     def getElapsedSecs(self):
         elapsedSecs=0
         for item in self:
@@ -262,13 +281,22 @@ class Workable(Stateful):
         	
     def okToPerformWork(self):
         return self.isUnset() or self.isSuccess()        
-               
-    def getStartSecs(self):
-        return self.worklist.getStartSecs()   
+    
+    def hasStart(self):
+        return self.worklist.hasStart()
           
-    def getEndSecs(self):
-        return self.worklist.getEndSecs()       
+    def getStart(self):
+        return self.worklist.getStart()   
+          
+    def hasEnd(self):
+        return self.worklist.hasStart()
+          
+    def getEnd(self):
+        return self.worklist.getEnd()       
                
+    def hasTimes(self):
+        return self.worklist.hasTimes()
+        
     def getElapsedSecs(self):
         return self.worklist.getElapsedSecs()
         

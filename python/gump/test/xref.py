@@ -27,7 +27,7 @@ from gump.model.state import *
 from gump.loader.loader import WorkspaceLoader
 from gump.guru.xref import XRefGuru
 from gump.utils import *
-from gump.test import getWorkedTestWorkspace
+from gump.test import getWorkedTestRun
 from gump.test.pyunit import UnitTestSuite
 
 class XRefTestSuite(UnitTestSuite):
@@ -36,11 +36,12 @@ class XRefTestSuite(UnitTestSuite):
         
     def suiteSetUp(self):
         #
-        # Load a decent Workspace
+        # Load a decent Run/Workspace
         #
-        self.workspace=getWorkedTestWorkspace() 
-        self.assertNotNone('Needed a workspace', self.workspace)    
-        
+        self.run=getWorkedTestRun()  
+        self.assertNotNone('Needed a run', self.run)
+        self.workspace=self.run.getWorkspace()          
+        self.assertNotNone('Needed a workspace', self.workspace)
         
     def testXRefGuru(self):
         gug=XRefGuru(self.workspace)

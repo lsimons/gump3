@@ -144,7 +144,7 @@ def banner():
     printSeparator()
     print
     print "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
-    print "Apache Python Gump (" + setting.version + "), a multi-project builder."
+    print "Apache Python Gump (" + setting.VERSION + "), a multi-project builder."
     print  
     print "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
     print

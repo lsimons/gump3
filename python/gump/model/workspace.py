@@ -98,64 +98,10 @@ class Workspace(NamedModelObject, PropertyContainer, Statable, Resultable):
                     
         # Database Informaton
         self.dbInfo=None
-        
-        # Set times
-        self.initializeTimes()
 
         # Where the merged XML was put
         self.mergeFile=None
-        
-    def initializeTimes(self):
-        # Store timezone
-        self.timezone=str(time.tzname)    
-        
-        self.startDateTimeUtc=''
-        self.startDateTime=''
-                                 
-        self.endDateTimeUtc=''
-        self.endDateTime=''
-                
-    # :TODO: Move these to run, like much dynamic stuff on W/S
-
-    def setStartTime(self):                
-                
-        # :TODO: Ensure no clock ticks between these two,
-        # i.e. make one.
-        self.startDateTimeUtc=time.strftime(setting.utcdatetimeformat, \
-                                            time.gmtime())
-        self.startDateTime=time.strftime(setting.datetimeformat, \
-                                            time.localtime())
-                                                    
-        self.endDateTimeUtc=''
-        self.endDateTime=''
-        
-    def setEndTime(self):
-        
-        # Don't do more than once.
-        if self.endDateTimeUtc and self.endDateTime: return
-            
-        
-        # :TODO: Ensure no clock ticks between these two,
-        # i.e. make one.
-        self.endDateTimeUtc=time.strftime(setting.utcdatetimeformat, \
-                                            time.gmtime())
-        self.endDateTime=time.strftime(setting.datetimeformat, \
-                                            time.localtime())                                            
-        
-    def getTimezone(self):
-        return self.timezone
-        
-    def getStartDateTime(self):
-        return self.startDateTime
-        
-    def getStartDateTimeUtc(self):
-        return self.startDateTimeUtc
-        
-    def getEndDateTime(self):
-        return self.endDateTime
-        
-    def getEndDateTimeUtc(self):
-        return self.endDateTimeUtc
+ 
         
     def getChildren(self):
         return self.getModules() 
@@ -414,7 +360,7 @@ class Workspace(NamedModelObject, PropertyContainer, Statable, Resultable):
     def setDatedDirectories(self,date=None):
         
         # This build date
-        if not date: date = default.date
+        if not date: date = default.date_s
             
         # Construct tmp on demand
         self.tmpdir=os.path.join(self.tmpdir,date)            

@@ -136,7 +136,7 @@ class Channel:
         
         self.rssStream.write('  <language>en-us</language>\n')
         self.rssStream.write('  <copyright>Copyright 2003, Apache Software Foundation</copyright>\n')
-        self.rssStream.write(('  <generator>Jakarta Gump : %s</generator>\n') % (escape(setting.version)))
+        self.rssStream.write(('  <generator>Jakarta Gump : %s</generator>\n') % (escape(setting.VERSION)))
         self.rssStream.write('  <webMaster>general@gump.apache.org</webMaster>\n')
         self.rssStream.write('  <docs>http://blogs.law.harvard.edu/tech/rss</docs>\n')
         self.rssStream.write('  <category domain="http://www.apache.org/namespaces">Gump</category>\n')
@@ -153,7 +153,7 @@ class Channel:
 
     <sy:updateFrequency>1</sy:updateFrequency>
     <sy:updatePeriod>daily</sy:updatePeriod>
-""" % setting.version)
+""" % setting.VERSION)
             
     def endChannel(self):
         self.rssStream.write('  </channel>\n')

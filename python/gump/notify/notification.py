@@ -263,8 +263,8 @@ and/or contact folk at general@gump.apache.org.
         if id:
             stream.write('Gump E-mail Identifier (within run) #%s.\n' % id )
         stream.write('Produced by Gump %s.\n[Run (%s, %s)]' %	\
-                        (	setting.version, 
-                            default.datetime, 
+                        (	setting.VERSION, 
+                            default.datetime_s, 
                             self.run.getRunGuid() ))
         stream.write('\n')
 

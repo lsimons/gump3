@@ -21,6 +21,7 @@
 
 import socket
 import time
+import datetime
 import os
 import sys
 import logging
@@ -49,7 +50,28 @@ def gumpPath(path,basedir=None):
   """returns the path absolutized relative to the base gump dir"""
 
   return os.path.abspath(os.path.join(basedir or dir.base,path))
-
+    
+class setting:    
+    """Configuration of hardcoded settings"""
+    
+    VERSION='2.1.0-alpha-0002'
+    
+    WS_VERSION="0.4"
+    WS_MINIMUM_VERSION="0.3"
+    
+    DATETIME_FORMAT='%S%M%H%d%m%Y'
+    DATE_FORMAT='%d%m%Y'
+    
+    DATE_PRESENTATION_FORMAT='%a, %d %b %Y'
+    
+    DATETIME_PRESENTATION_FORMAT='%a, %d %b %Y %H:%M:%S (%Z)'
+    TIME_PRESENTATION_FORMAT='%H:%M:%S (%Z)'
+    
+    UTC_DATETIME_PRESENTATION_FORMAT='%a, %d %b %Y %H:%M:%S (UTC)'
+    UTC_TIME_PRESENTATION_FORMAT='%H:%M:%S (UTC)'
+    
+    TIMEOUT=60*60 # 60 minutes (in seconds)
+    
 class default:
     """Configuration of default settings"""
     
@@ -59,8 +81,12 @@ class default:
     workspace  = os.path.abspath('%s/%s.xml' % (dir.base, gumphost))
     globalws   = os.path.abspath('%s/%s' % (dir.base, 'global-workspace.xml'))
     merge      = os.path.abspath('%s/%s' % (dir.work, 'merge.xml'))
-    date       = time.strftime('%Y%m%d')
-    datetime   = time.strftime('%Y%m%d %H:%M:%S')
+    
+    # Note, these can be updated by gumpinit
+    timestamp    = time.time()
+    datetime     = datetime.datetime.fromtimestamp(timestamp)
+    datetime_str = datetime.strftime(setting.DATETIME_FORMAT)
+    date_str     = datetime.strftime(setting.DATE_FORMAT)
     
     logLevel   = logging.INFO # logging.DEBUG
     classpath = (os.getenv('CLASSPATH') or '').split(os.pathsep)  
@@ -86,21 +112,7 @@ class default:
         classpathSeparator=';'
         shellQuote='"'
         shellEscape='\\'
-    
-class setting:    
-    """Configuration of hardcoded settings"""
-    
-    version='2.1.0-alpha-0002'
-    
-    ws_version="0.4"
-    ws_minimum_version="0.3"
-    
-    datetimeformat='%a, %d %b %Y %H:%M:%S (%Z)'
-    timeformat='%H:%M:%S (%Z)'
-    utcdatetimeformat='%a, %d %b %Y %H:%M:%S (UTC)'
-    utctimeformat='%H:%M:%S (UTC)'
-    
-    timeout=60*60 # 60 minutes (in seconds)
+
     
 class switch:
     """Configuration of switches """   

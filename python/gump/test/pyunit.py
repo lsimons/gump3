@@ -117,6 +117,9 @@ class Testable:
         self.assertNonZero(message,object)
         self.assertString(message,object)
         
+    def failed(self,message):
+        self.raiseIssue(['Failed', message])    
+        
 class Problem:
     def __init__(self,suite,test,error=None):
         self.suite=suite

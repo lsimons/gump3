@@ -307,7 +307,7 @@ class XDocDocumenter(Documenter):
         definitionTable=definitionSection.createTable()
         definitionTable.createEntry('Gump Run GUID', self.run.getRunGuid())
         definitionTable.createEntry('Gump Run (Hex) GUID', self.run.getRunHexGuid())
-        definitionTable.createEntry('Gump Version', setting.version)
+        definitionTable.createEntry('Gump Version', setting.VERSION)
         
         rssSyndRow=definitionTable.createRow()
         rssSyndRow.createData().createStrong('Syndication')
@@ -320,12 +320,12 @@ class XDocDocumenter(Documenter):
         
         dtSection=definitionSection.createSection('Dates/Times')            
         dtTable=dtSection.createTable()        
-        dtTable.createEntry('@@DATE@@', str(default.date))
-        dtTable.createEntry('Start Date/Time (UTC)', self.workspace.getStartDateTimeUtc())
-        dtTable.createEntry('End Date/Time (UTC)', self.workspace.getEndDateTimeUtc())
-        dtTable.createEntry('Timezone', self.workspace.timezone)
-        dtTable.createEntry('Start Date/Time', self.workspace.getStartDateTime())
-        dtTable.createEntry('End Date/Time', self.workspace.getEndDateTime())
+        dtTable.createEntry('@@DATE@@', default.date_s)
+        dtTable.createEntry('Start Date/Time (UTC)', self.run.getStart().getUtc())
+        dtTable.createEntry('End Date/Time (UTC)', self.run.getEnd().getUtc())
+        dtTable.createEntry('Timezone', self.run.getEnvironment().getTimezone())
+        dtTable.createEntry('Start Date/Time', self.run.getStart().getLocal())
+        dtTable.createEntry('End Date/Time', self.run.getEnd().getLocal())
 
         pythonSection=definitionSection.createSection('Python Information')            
         pythonTable=pythonSection.createTable()
@@ -519,13 +519,13 @@ class XDocDocumenter(Documenter):
                 self.workspace.getDomAttributeValue('version'))
         if not self.workspace.hasDomAttribute('version') \
             or not self.workspace.getDomAttributeValue('version') \
-                    == setting.ws_version:
+                    == setting.WS_VERSION:
             definitionTable.createEntry('Gump Preferred Workspace Version', 
-                                        setting.ws_version)
-        definitionTable.createEntry('@@DATE@@', str(default.date))
-        definitionTable.createEntry('Start Date/Time (UTC)', self.workspace.getStartDateTimeUtc())
-        definitionTable.createEntry('Start Date/Time', self.workspace.getStartDateTime())
-        definitionTable.createEntry('Timezone', self.workspace.timezone)
+                                        setting.WS_VERSION)
+        definitionTable.createEntry('@@DATE@@', default.date_s)
+        definitionTable.createEntry('Start Date/Time (UTC)', self.run.getStart().getUtc())
+        definitionTable.createEntry('Start Date/Time', self.run.getStart().getLocal())
+        definitionTable.createEntry('Timezone', self.run.getEnvironment().getTimezone())
    
             
         rssSyndRow=definitionTable.createRow()
@@ -676,9 +676,8 @@ class XDocDocumenter(Documenter):
                 serverRow.createData('Not Available')
                 
             if server.hasResults():
-                serverRow.createData(server.getResults().getStartDateTime())
-                serverRow.createData(server.getResults().getStartDateTimeUtc())
-                serverRow.createData(server.getResults().getEndDateTimeUtc())
+                serverRow.createData(server.getResults().getStart().getLocal())
+                serverRow.createData(server.getResults().getEnd().getLocal())
                 serverRow.createData(server.getResults().getTimezoneOffset())
             else:
                 serverRow.createData('N/A')
@@ -740,7 +739,7 @@ class XDocDocumenter(Documenter):
         
             document.createWarning("""This Gump run is currently in progress.
             It started at %s. As of this moment (%s), %s modules have been updated, and %s projects built.""" \
-                % (self.workspace.getStartDateTime(), time.strftime('%H:%M:%S'), modules, projects ))
+                % (self.run.getStart().getLocal(), time.strftime('%H:%M:%S'), modules, projects ))
                 
             #document.createNote("""Only projects with significant information 
             #(e.g a recent change of state, a failure, etc.) are listed at runtime.""")
@@ -748,8 +747,8 @@ class XDocDocumenter(Documenter):
         else:
             document.createNote("""This Gump run is complete. 
             It started at %s and ended at %s.""" 
-                % ( self.workspace.getStartDateTime(),
-                    self.workspace.getEndDateTime()))
+                % ( self.run.getStart().getLocal(),
+                    self.run.getEnd().getLocal()))
                     
         if not self.gumpSet.isFull():
                 self.documentPartial(document)
@@ -775,7 +774,11 @@ class XDocDocumenter(Documenter):
                 
                 moduleRow.createData(module.getPositionIndex())    
             
-                startData=moduleRow.createData(secsToTime(module.getStartSecs()))          
+                if module.hasStart():
+                    startData=moduleRow.createData(module.getStart().getLocal())          
+                else:                    
+                    startData=moduleRow.createData('-')       
+                    
                 self.setStyleFromState(startData,module.getStatePair())
                         
                 self.insertLink(module,self.workspace,moduleRow.createData())   
@@ -819,7 +822,10 @@ class XDocDocumenter(Documenter):
             
             projectRow.createData(project.getPositionIndex())    
             
-            projectRow.createData(secsToTime(project.getStartSecs()))  
+            if project.hasStart():
+                projectRow.createData(project.getStart().getLocal())  
+            else:
+                projectRow.createData('-')  
                       
             self.insertLink(project,self.workspace,projectRow.createData())   
             self.insertStateIcon(project,self.workspace,projectRow.createData())      
@@ -2295,7 +2301,7 @@ This page helps Gumpmeisters (and others) observe community progress.
             workRow.setStyle(stateName(work.state).upper())
                 
             if isinstance(work,TimedWorkItem):      
-                workRow.createData(secsToDateTime(work.result.start_time))
+                workRow.createData(work.result.start.isoformat())
                 workRow.createData(secsToElapsedTimeString(work.getElapsedSecs()))
             else:
                 workRow.createData('N/A')
@@ -2363,8 +2369,8 @@ This page helps Gumpmeisters (and others) observe community progress.
                 workList.createEntry("Termination Signal: ", str(work.result.signal))
             workList.createEntry("Exit Code: ", str(work.result.exit_code))
                                 
-            workList.createEntry("Start Time: ", secsToDateTime(work.result.start_time))
-            workList.createEntry("End Time: ", secsToDateTime(work.result.end_time))
+            workList.createEntry("Start Time: ", work.result.start.isoformat())
+            workList.createEntry("End Time: ", work.result.end.isoformat())
             e = secsToElapsedTimeString(work.getElapsedSecs())
             if e : workList.createEntry("Elapsed Time: ", e)
                    
@@ -3023,10 +3029,15 @@ This page helps Gumpmeisters (and others) observe community progress.
             if not self.gumpSet.inModuleSequence(module): continue   
             if module.isPackaged(): continue 
             updRow=updTable.createRow()            
-            self.insertLink( module, stats, updRow.createData())                
-            updRow.createData(secsToDateTime(module.getLastModified()))
-            updRow.createData(	\
-                getGeneralSinceDescription(module.getLastModified()))
+            self.insertLink( module, stats, updRow.createData())
+            if module.hasLastModified():
+                updRow.createData(module.getLastModified().isoformat())
+                updRow.createData(	\
+                    getGeneralSinceDescription(module.getLastModified()))
+            else:
+                updRow.createData('-')
+                updRow.createData('-')
+                
             modules+=1                    
         if not modules: updTable.createLine('None')
             

@@ -92,7 +92,7 @@ class Task(Ownable):
         self.timeRange=TimeStampRange(self.name)
         
     def workCompleted(self):
-        self.timeRange.setEndTime()
+        self.timeRange.setEnd()
 
     def setFailed(self,failed):
         self.failed=failed

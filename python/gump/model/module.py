@@ -547,6 +547,9 @@ class Module(NamedModelObject, Statable, Resultable, Positioned):
             
         return float(historicalOdds)/float(historicalOddses)
         
+    def hasLastModified(self):
+        return self.getStats().hasLastModified()                
+    
     def getLastModified(self):
         return self.getStats().getLastModified()                
     
@@ -666,8 +669,12 @@ class ModuleStatistics(Statistics):
         Statistics.__init__(self,moduleName)    
         self.lastModified=None
         
+    def hasLastModified(self):
+        if self.lastModified: return True
+        return False
+        
     def getLastModified(self):
-        return (self.lastModified)
+        return self.lastModified
         
     def getKeyBase(self):
         return 'module:'+ self.name
@@ -682,4 +689,4 @@ class ModuleStatistics(Statistics):
         # Track code updates/changes
         # 
         if module.isModified():
-            self.lastModified=default.datetimeObject
+            self.lastModified=default.datetime

@@ -59,7 +59,7 @@ from gump.model.state import *
 ###############################################################################
 
 
-class GumpRun(gump.utils.work.Workable,gump.utils.note.Annotatable,Stateful):
+class GumpRun(gump.utils.timing.Timeable,gump.utils.work.Workable,gump.utils.note.Annotatable,Stateful):
     """
     The container for all information for this run
     """
@@ -68,6 +68,7 @@ class GumpRun(gump.utils.work.Workable,gump.utils.note.Annotatable,Stateful):
         gump.utils.work.Workable.__init__(self)
         gump.utils.note.Annotatable.__init__(self)
         Stateful.__init__(self)
+        gump.utils.timing.Timeable.__init__(self, workspace.getName())
         
         # The workspace being worked upon
         self.workspace=workspace
@@ -95,10 +96,10 @@ class GumpRun(gump.utils.work.Workable,gump.utils.note.Annotatable,Stateful):
         import md5
         import socket        
         m=md5.new()
-        self.guid = socket.getfqdn()  + ':' + workspace.getName() + ':' + default.datetime
+        self.guid = socket.getfqdn()  + ':' + workspace.getName() + ':' + default.datetime_s
         m.update(self.guid)
         self.hexguid=m.hexdigest().upper()     
-        log.debug('Run GUID [' + `self.guid` + '] using [' + `self.hexguid` + ']')    
+        log.info('Run GUID [' + `self.guid` + '] using [' + `self.hexguid` + ']')    
         
         # Actor Queue
         self.actors=list()
@@ -194,6 +195,7 @@ class GumpRun(gump.utils.work.Workable,gump.utils.note.Annotatable,Stateful):
     		Fire off a typed request.
     	"""
         self._dispatchRequest(RunRequest(self, type))
+   
         
 class RunSpecific:
     """

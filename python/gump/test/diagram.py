@@ -22,7 +22,7 @@ from gump import log
 from gump.svg.drawing import *
 from gump.svg.scale import ScaleDiagram
 from gump.svg.depdiag import DependencyDiagram
-from gump.test import getWorkedTestWorkspace
+from gump.test import getWorkedTestRun
 from gump.test.pyunit import UnitTestSuite
 
 import StringIO
@@ -33,10 +33,14 @@ class DiagramTestSuite(UnitTestSuite):
         
     def suiteSetUp(self):
         #
-        # Load a decent Workspace
+        # Load a decent Run/Workspace
         #
-        self.workspace=getWorkedTestWorkspace() 
+        self.run=getWorkedTestRun()  
+        self.assertNotNone('Needed a run', self.run)
+        self.workspace=self.run.getWorkspace()          
         self.assertNotNone('Needed a workspace', self.workspace)
+        
+        
         self.project5=self.workspace.getProject('project5')
         
     def testDependencyDiagramGeneration(self):

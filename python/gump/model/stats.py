@@ -66,9 +66,6 @@ class Statistics:
     def getTotalRuns(self):
         return (self.successes+self.failures+self.prereqs)
         
-    def getLastModified(self):
-        return (self.lastModified)
-        
     def nameKey(self):
         return self.getKeyBase() + '-name'
         
@@ -106,7 +103,7 @@ class Statistics:
         if statable.isSuccess():
 
             self.successes += 1
-            self.last = default.datetimeObject
+            self.last = default.datetime
             
             # A big event...
             if not self.first:
@@ -135,7 +132,7 @@ class Statistics:
             self.sequenceInState += 1            
         else:
             self.previousState=lastCurrentState  
-            self.startOfState = default.datetimeObject       
+            self.startOfState = default.datetime       
             self.sequenceInState = 1
            
     def dump(self, indent=0, output=sys.stdout):

@@ -30,7 +30,7 @@ import gump.run.options
 from gump.model.state import *
 from gump.model.workspace import Workspace
 
-from gump.stats.statsdb import StatisticsDB
+from gump.stats.statistician import Statistician
 from gump.utils.tools import listDirectoryToFileHolder
 from gump.utils.work import *
 
@@ -39,27 +39,13 @@ def getTestRun(workspaceXml=None):
     return gump.run.gumprun.GumpRun(workspace,'*',getConfiguredOptions())
     
 def getWorkedTestRun(workspaceXml=None):
-    workspace=getWorkedTestWorkspace(workspaceXml)
-    return gump.run.gumprun.GumpRun(workspace,'*',getConfiguredOptions())
+    workspace=getTestWorkspace(workspaceXml)
     
-def getConfiguredOptions():
-    options=gump.run.options.GumpRunOptions()
-    from gump.document.xdocs.resolver import XDocResolver
-    options.setResolver(XDocResolver('./test/bogus','http://bogus.org/'))
-    return options
-
-def getTestWorkspace(xml=None):
-    if not xml: xml='gump/test/resources/full1/workspace.xml'    
-    #print "Workspace File: " + str(xml)    
-    workspace = WorkspaceLoader(False).load(xml)
-    return workspace
+    run = gump.run.gumprun.GumpRun(workspace,'*',getConfiguredOptions())
     
-def getWorkedTestWorkspace(xml=None):
-    workspace=getTestWorkspace(xml)
-       
     # Load statistics for this workspace
-    db=StatisticsDB(gump.core.config.dir.test,'test.db')  
-    db.loadStatistics(workspace)
+    stats=Statistician(run)  
+    stats.loadStatistics()
 
     # Some file items...
     listDirectoryToFileHolder(workspace,workspace.getBaseDirectory())        
@@ -103,7 +89,19 @@ def getWorkedTestWorkspace(xml=None):
                 project.changeState(STATE_FAILED)
             else:
                 project.changeState(STATE_SUCCESS)
+    
+    return run
+    
+def getConfiguredOptions():
+    options=gump.run.options.GumpRunOptions()
+    from gump.document.xdocs.resolver import XDocResolver
+    options.setResolver(XDocResolver('./test/bogus','http://bogus.org/'))
+    return options
 
+def getTestWorkspace(xml=None):
+    if not xml: xml='gump/test/resources/full1/workspace.xml'    
+    #print "Workspace File: " + str(xml)    
+    workspace = WorkspaceLoader(False).load(xml)
     return workspace
     
 def createTestWorkspace():

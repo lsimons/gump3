@@ -136,9 +136,9 @@ class StatisticsDB:
                     stats.lastModified=value
                 else:
                     if not value == '0000-00-00 00:00:00':
-                        setattr(stats,attr,
-                                datetime.datetime.fromtimestamp(time.mktime(time.strptime(value,
-                                                                                '%Y-%m-%d %H:%M:%S'))))                    
+                        stats.lastModified=datetime.datetime.fromtimestamp( \
+                                                time.mktime(time.strptime(value,
+                                                                          '%Y-%m-%d %H:%M:%S')))                 
         except IndexError:
             pass
         return stats
@@ -193,7 +193,7 @@ class StatisticsDB:
                     
                     
                     if column in StatisticsDB.DATES:   
-                        print "GET ATTR : " + `type(getattr(stats,attr))`                      
+                        #print "GET ATTR : " + `type(getattr(stats,attr))`                      
                         if isinstance(value,datetime.datetime):
                             setattr(stats,attr,value)
                         else:

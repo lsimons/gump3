@@ -84,7 +84,7 @@ class ArtifactRepository:
         #
         if id:
             (artifactRoot, artifactExtn) = os.path.splitext(artifactName)
-            artifactName=id + '-gump-' + str(default.date) + artifactExtn
+            artifactName=id + '-gump-' + default.date.strftime(setting.DATE_FORMAT) + artifactExtn
         
         newArtifact=os.path.join(cdir,artifactName)
         

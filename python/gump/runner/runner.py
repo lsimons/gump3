@@ -86,14 +86,14 @@ class GumpRunner(RunSpecific):
             workspace.setDatedDirectories()     
                     
         # Check the workspace
-        if not workspace.getVersion() >= setting.ws_version:
-            message='Workspace version ['+str(workspace.getVersion())+'] below preferred [' + setting.ws_version + ']'
+        if not workspace.getVersion() >= setting.WS_VERSION:
+            message='Workspace version ['+str(workspace.getVersion())+'] below preferred [' + setting.WS_VERSION + ']'
             workspace.addWarning(message)
             log.warn(message)   
             
         # Check the workspace
-        if not workspace.getVersion() >= setting.ws_minimum_version:
-            message='Workspace version ['+str(workspace.getVersion())+'] below minimum [' + setting.ws_minimum_version + ']'
+        if not workspace.getVersion() >= setting.WS_MINIMUM_VERSION:
+            message='Workspace version ['+str(workspace.getVersion())+'] below minimum [' + setting.WS_MINIMUM_VERSION + ']'
             workspace.addError(message)
             log.error(message)   
             

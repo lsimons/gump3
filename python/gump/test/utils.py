@@ -30,7 +30,7 @@ class UtilsTestSuite(UnitTestSuite):
         UnitTestSuite.__init__(self)
         
     def suiteSetUp(self):
-        self.now=default.time
+        self.now=default.datetime
     
     def testWrap(self):
         

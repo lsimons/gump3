@@ -23,12 +23,29 @@ import sys
 
 import os
 import os.path
+
 import time
+import datetime
 
 from gump.utils import getIndent
 from gump.core.config import default, setting
 
-def secsToElapsedTimeTriple(secs):   
+ZERO_DELTA=datetime.timedelta(seconds=0)
+
+def deltaToSecs(delta):
+    """
+    	Convert a delta into it's total seconds
+    """
+    if delta < ZERO_DELTA:
+        raise RuntimeError, "Can not cope with backwards deltas"
+        
+    # Convert days to seconds, and add extra seconds.
+    return int(round(((delta.days * 24 * 3600) + delta.seconds),0))
+    
+def deltaToElapsedTimeTriple(delta):  
+        
+    secs = deltaToSecs(delta)
+    
     # Extract Hours
     if secs > 3600:
         hours    =    int(secs / 3600)
@@ -49,7 +66,10 @@ def secsToElapsedTimeTriple(secs):
     return (hours, mins, secs)
     
 def secsToElapsedTimeString(secs):
-    return elapsedTimeTripleToString(secsToElapsedTimeTriple(secs))           
+    return deltaToElapsedTimeString(datetime.timedelta(seconds=secs))
+     
+def deltaToElapsedTimeString(delta):
+    return elapsedTimeTripleToString(deltaToElapsedTimeTriple(delta))           
     
 def elapsedTimeTripleToString(elapsed,noTimeText=None):
     elapsedString=''
@@ -76,30 +96,40 @@ def elapsedTimeTripleToString(elapsed,noTimeText=None):
     
     return elapsedString    
     
-def secsToDateTime(secs):
-    if not secs: return '-'
-    return time.strftime(setting.datetimeformat, time.localtime(secs))    
+def toDateTime(datetime):
+    if not datetime: return '-'
+    return datetime.strftime(setting.DATETIME_PRESENTATION_FORMAT)    
     
-# See note on secsToDate               
-def secsToTime(secs):
-    if not secs: return '-'
-    return time.strftime(setting.timeformat, time.localtime(secs))                    
+# See note on toDate               
+def toTime(datetime):
+    if not datetime: return '-'
+    return datetime.strftime(setting.TIME_PRESENTATION_FORMAT)                    
                 
 def getGeneralSinceDescription(secs, since=None):
-    if not since: since = default.time
+    if not since: since = default.datetime
     return getGeneralDifferenceDescription( since, secs )
             
-def getGeneralDifferenceDescription(newerSecs,olderSecs):
-    if not 0 >= olderSecs and not olderSecs >= newerSecs:
-        diffString='~ '
-        diffSecs=newerSecs - olderSecs
+def getGeneralDifferenceDescription(newer,older):
+    if not newer: return '-'
+    if not older: return '-'
+    
+    """
+    Get a presentation format for a time difference,
+    	e.g 1 day or 1 hour, etc.
+    """
+    if older < newer:
         
-        diffSecs    =    int(diffSecs)
-        diffMins    =    int(diffSecs / 60)
+        diffSecs = deltaToSecs(newer - older)
+        
+        diffString='~ '
+        diff=newer - older
+        
+        diffSecs     =    int(diffSecs)
+        diffMins     =    int(diffSecs / 60)
         diffHours    =    int(diffSecs / 3600)
-        diffDays    =    int(diffHours / 24)
+        diffDays     =    int(diffHours / 24)
         diffWeeks    =    int(diffDays / 7)
-        diffMonths    =    int(diffDays / 31)
+        diffMonths   =    int(diffDays / 31)
         diffYears    =    int(diffDays / 365)
         
         if diffYears:
@@ -124,47 +154,46 @@ def getGeneralDifferenceDescription(newerSecs,olderSecs):
             diffString += str(diffSecs) + ' sec'
             if diffSecs > 1: diffString += 's'
         else:
-            diffString = 'This run: ' + secsToTime(newerSecs)
-    elif olderSecs == newerSecs:
-        diffString = 'This run: ' + secsToTime(newerSecs)
+            diffString = 'This run: ' + toTime(newer)
+    elif older == newer:
+        diffString = 'This run: ' + toTime(newer)
     else:
         diffString = 'N/A'
     
     return diffString
     
-
 class TimeStamp:       
     def __init__(self,name,stamp=None):
-        self.name=name       
-        
+        self.name=name               
         if not stamp:
-            stamp=time.time()
-        self.stampTime=stamp       
+            stamp=datetime.datetime.now()
+        self.timestamp=stamp       
         
     # Representations:
-    def getUtc():
+    def getUtc(self):
         if hasattr(self,'utc'): return self.utc 
-        self.utc=time.strftime(setting.utcdatetimeformat, time.gmtime(self.stampTime))
+        self.utc=self.timestamp.strftime(setting.UTC_DATETIME_PRESENTATION_FORMAT)
         return self.utc
         
     # Representations:
-    def getLocal():
+    def getLocal(self):
         if hasattr(self,'local'): return self.local 
-        self.local=time.strftime(setting.datetimeformat, time.localtime(self.stampTime))
+        self.local=self.timestamp.strftime(setting.UTC_DATETIME_PRESENTATION_FORMAT)
         return self.local
+    
+    def getTimestamp(self):
+        return self.timestamp
      
     def __nonzero__(self):
-        return self.stampTime > 0
+        if self.timestamp: return True
+        return False
         
     def __str__(self):
         return 'TimeStamp: '+self.name+' : '+ \
-                secsToDateTime(self.stampTime) 
+                toDateTime(self.timestamp) 
                 
     def __cmp__(self,other):
-        return int(self.stampTime - other.stampTime) 
-        
-    def getTime(self):
-        return self.stampTime
+        return int(self.timestamp - other.timestamp) 
         
 class TimeStampRange:       
     def __init__(self,name,start=None,end=None,external=False):
@@ -187,23 +216,30 @@ class TimeStampRange:
         return 'TimeStamp: '+self.name+' : '+ \
                 secsToElapsedTimeString(self.getElapsedSecs()) 
                 
-    def setEndTime(self,end=None):             
+    def setEnd(self,end=None):             
         if not end:
             end=TimeStamp('End of ' + self.name)    
         self.endTimeStamp=end
         
-    def getStartTimeStamp(self):
-        return self.startTimeStamp
-         
-    def getEndTimeStamp(self):
-        return self.endTimeStamp
-        
-    def hasTimes(self):
-        if self.startTimeStamp and self.endTimeStamp: return True
+    def hasStart(self):
+        if self.startTimeStamp: return True
         return False
         
+    def getStart(self):
+        return self.startTimeStamp
+         
+    def getEnd(self):
+        return self.endTimeStamp
+        
+    def hasEnd(self):
+        if self.endTimeStamp: return True
+        return False
+        
+    def hasTimes(self):
+        return self.hasStart() and self.hasEnd()
+        
     def getElapsedSecs(self):
-        return self.endTimeStamp.getTime() - self.startTimeStamp.getTime()
+        return deltaToSecs(self.endTimeStamp.getTimestamp() - self.startTimeStamp.getTimestamp())
         
     def getElapsedTimeString(self):
         return secsToElapsedTimeString(self.getElapsedSecs()) 
@@ -215,10 +251,8 @@ class TimeStampRange:
         return self.external
 
 class TimeStampSet(list):
-    """
-    
-        A named collection of timestamps    
-            
+    """   
+        A named collection of timestamps                
     """
     def __init__(self,name,start=None):
         list.__init__(self)
@@ -236,8 +270,8 @@ class TimeStampSet(list):
         
     def registerRange(self,range):  
         # :TODO: don't assume stored in time order
-        self.endTimeStamp=range.getEndTimeStamp()         
-        return self.store(range)
+        self.endTimeStamp=range.getEnd()         
+        return self._store(range)
             
     def stamp(self,sname):
         """
@@ -245,15 +279,15 @@ class TimeStampSet(list):
         """
         # Stamp (end calculated)...       
         stamp=TimeStamp(sname)  
-        return self.store(stamp)
+        return self._store(stamp)
         
-    def store(self,stamp):
+    def _store(self,stamp):
         # Store for posterity
         self.append(stamp) 
         return stamp
         
     def getElapsedSecs(self):
-        return self.endTimeStamp.getTime() - self.startTimeStamp.getTime()
+        return self.endTimeStamp.getTimestamp() - self.startTimeStamp.getTimestamp()
         
     def getTotalTimes(self):
         
@@ -272,6 +306,20 @@ class TimeStampSet(list):
         elapsed=self.getElapsedSecs()
         
         return (elapsed, accounted, external)
+       
+    # :TODO: Move these to run, like much dynamic stuff on W/S
+
+    def setStart(self,comment='Start'):                                
+        self.stamp(comment)
+        
+    def setEnd(self,comment='End'):                             
+        self.stamp(comment)                                   
+        
+    def getStart(self):
+        return self.startTimeStamp
+        
+    def getEnd(self):
+        return self.endTimeStamp
         
     def importTimes(self,otherSet):
         for entry in otherSet:
@@ -289,7 +337,6 @@ class TimeStampSet(list):
             output.write(spacing)
             output.write(str(entry))
             output.write('\n')
-            
             
 class TimeStampSetSet(list):   
     def __init__(self):
@@ -311,4 +358,30 @@ class TimeStampSetSet(list):
             
         return (elapsed, accounted, external)
         
+class Timeable:
+    def __init__(self,name):        
+        if not name:
+            name = self.__class__.__name__
+        self.times=TimeStampSet(name)
+        
+    def getTimes(self):
+        return self.times
+        
+    def hasStart(self):
+        return self.times.hasStart()
+        
+    def setStart(self,comment=None):
+        self.times.setStart(comment)
+        
+    def getStart(self):
+        return self.times.getStart()
+    
+    def hasEnd(self):
+        return self.times.hasEnd()
+        
+    def setEnd(self,comment=None):
+        self.times.setEnd(comment)
+        
+    def getEnd(self):
+        return self.times.getEnd()
     

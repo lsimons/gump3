@@ -163,7 +163,7 @@ class Parameters:
       
 class Cmd:
     """Command Line (executable plus parameters)"""
-    def __init__(self,command,name=None,cwd=None,env=None,timeout=setting.timeout):
+    def __init__(self,command,name=None,cwd=None,env=None,timeout=setting.TIMEOUT):
         self.cmdpath=command
         self.name=name
         if not self.name:
@@ -241,8 +241,8 @@ class CmdResult:
         self.exit_code=-1
         
         # To calculate elapsed
-        self.start_time=None
-        self.end_time=None
+        self.start=None
+        self.end=None
         
     def overview(self,indent):
         overview = indent+"State: " + states[self.state]
@@ -278,17 +278,17 @@ class CmdResult:
         return self.output
         
     def hasTimes(self):
-        if self.start_time and self.end_time: return 1
+        if self.start and self.end: return 1
         return 0
         
-    def getStartSecs(self):
-        return self.start_time
+    def getStart(self):
+        return self.start
         
-    def getEndSecs(self):
-        return self.end_time
+    def getEnd(self):
+        return self.end
         
     def getElapsedSecs(self):
-        return int(round(self.end_time-self.start_time,0))        
+        return deltaToSecs(self.end-self.start)        
         
     def dump(self,indent):
         print self.overview(indent)

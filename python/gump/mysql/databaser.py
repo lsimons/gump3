@@ -65,8 +65,9 @@ class Databaser(gump.run.actor.AbstractRunActor):
             if module.hasCause():
                 settings['cause']="'" + module.getCause().getName() + "'"
                 
-            #settings['start']=
-            #settings['end']=
+            if module.hasTimes():
+                settings['start']="'" + module.getStart().getTimestamp().strftime('%Y-%m-%d %H:%M:%S') + "'"
+                settings['end']="'" + module.getEnd().getTimestamp().strftime('%Y-%m-%d %H:%M:%S') + "'"
             
             helper.insert('module_run',settings)
             
@@ -94,8 +95,9 @@ class Databaser(gump.run.actor.AbstractRunActor):
             if project.hasCause():
                 settings['cause']="'" + project.getCause().getName() + "'"
                 
-            #settings['start']=
-            #settings['end']=
+            if project.hasTimes():
+                settings['start']="'" + project.getStart().getTimestamp().strftime('%Y-%m-%d %H:%M:%S') + "'"
+                settings['end']="'" + project.getEnd().getTimestamp().strftime('%Y-%m-%d %H:%M:%S') + "'"
             
             helper.insert('project_run',settings)
             

@@ -89,7 +89,8 @@ class GumpEnvironment(Annotatable,Workable,Propogatable):
         # DEPOT_HOME
         self.depotHome = None
         
-        # Offset from UTC
+        # Timezone and offset from UTC
+        self.timezone=time.timezone
         self.timezoneOffset=TZ
         
     def checkEnvironment(self,exitOnError=False):
@@ -310,6 +311,9 @@ class GumpEnvironment(Annotatable,Workable,Propogatable):
         
     def getJavaCommand(self):
         return self.javaCommand
+        
+    def getTimezone(self):
+        return self.timezone
         
     def getTimezoneOffset(self):
         return self.timezoneOffset

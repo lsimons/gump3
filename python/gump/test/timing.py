@@ -16,6 +16,7 @@
 """
     Timing Utilities Testing
 """
+import time
 
 from gump.utils import *
 from gump.utils.timing import *
@@ -26,19 +27,25 @@ class TimingTestSuite(UnitTestSuite):
         UnitTestSuite.__init__(self)
         
     def suiteSetUp(self):
-        self.now=default.time
+        self.nowTimestamp=time.time()
+        self.now=datetime.datetime.utcfromtimestamp(self.nowTimestamp)
         
     def testDateTimeUtils(self):
-        oneHourBefore=self.now - (60*60)
-        twoHoursBefore=self.now - (60*60*2)
-        oneDayBefore=self.now - (60*60*24)
-        twoDaysBefore=self.now - (60*60*24*2)
-        oneWeekBefore=self.now - (60*60*24*7)
-        twoWeeksBefore=self.now - (60*60*24*7*2)
-        oneMonthBefore=self.now - (60*60*24*31)
-        twoMonthsBefore=self.now - (60*60*24*31*2)
-        oneYearBefore=self.now - (60*60*24*365)
-        twoYearsBefore=self.now - (60*60*24*365*2)
+        oneHourBefore=datetime.datetime.utcfromtimestamp(self.nowTimestamp - (60*60))
+        twoHoursBefore=datetime.datetime.utcfromtimestamp(self.nowTimestamp - (60*60*2))
+        oneDayBefore=datetime.datetime.utcfromtimestamp(self.nowTimestamp - (60*60*24))
+        twoDaysBefore=datetime.datetime.utcfromtimestamp(self.nowTimestamp - (60*60*24*2))
+        oneWeekBefore=datetime.datetime.utcfromtimestamp(self.nowTimestamp - (60*60*24*7))
+        twoWeeksBefore=datetime.datetime.utcfromtimestamp(self.nowTimestamp - (60*60*24*7*2))
+        oneMonthBefore=datetime.datetime.utcfromtimestamp(self.nowTimestamp - (60*60*24*31))
+        twoMonthsBefore=datetime.datetime.utcfromtimestamp(self.nowTimestamp - (60*60*24*31*2))
+        oneYearBefore=datetime.datetime.utcfromtimestamp(self.nowTimestamp - (60*60*24*365))
+        twoYearsBefore=datetime.datetime.utcfromtimestamp(self.nowTimestamp - (60*60*24*365*2))
+        
+        try:
+            getGeneralDifferenceDescription(oneHourBefore, self.now)
+            self.failed('Expect exception on reverse time')
+        except: pass
         
         rough=getGeneralDifferenceDescription(self.now, oneHourBefore)
         self.assertInString('Date Diff String', '1 hour', rough)
@@ -71,10 +78,9 @@ class TimingTestSuite(UnitTestSuite):
         self.assertInString('Date Diff String', '2 years', rough)
         
     def testRandomStuff(self):
-        # :TODO: Clean this up, just moved it here so as not to loose it.
+        # :TODO: Clean this up, just moved it here so as not to lose it.
         secsToElapsedTimeTriple(1340)
         secsToElapsedTimeString(1340)
-        secsToTime(1340)
         elapsedTimeTripleToString(secsToElapsedTimeTriple(1340))
   
     def testTimeStampSet(self):
@@ -89,13 +95,13 @@ class TimingTestSuite(UnitTestSuite):
         
         range1=TimeStampRange('Range1')
         time.sleep(5)
-        range1.setEndTime()
+        range1.setEnd()
         range1.setExternal(True)
         set.registerRange(range1)
         
         range2=TimeStampRange('Range2')
         time.sleep(5)
-        range2.setEndTime()
+        range2.setEnd()
         range2.setExternal(False)
         set.registerRange(range2)
         

@@ -173,7 +173,7 @@ class ModelObject(Annotatable,Workable,FileHolder,Propogatable,Ownable):
         if not value: return value
         
         # Right now just one supported
-        return value.replace('@@DATE@@',default.date)
+        return value.replace('@@DATE@@',default.date_s)
     
         
     def hasDomChild(self,name):

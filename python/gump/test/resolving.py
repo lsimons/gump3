@@ -37,9 +37,11 @@ class ResolvingTestSuite(UnitTestSuite):
         
     def suiteSetUp(self):
         #
-        # Load a decent Workspace
+        # Load a decent Run/Workspace
         #
-        self.workspace=getWorkedTestWorkspace()          
+        self.run=getWorkedTestRun()  
+        self.assertNotNone('Needed a run', self.run)
+        self.workspace=self.run.getWorkspace()          
         self.assertNotNone('Needed a workspace', self.workspace)
         
         self.module1=self.workspace.getModule('module1')

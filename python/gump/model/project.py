@@ -423,7 +423,7 @@ class Project(NamedModelObject, Statable, Resultable, Dependable, Positioned):
                         if newId.endswith('.jar'):
                             newId=newId[:-4]
                         # Strip off -@@DATE@@
-                        datePostfix='-' + str(default.date)
+                        datePostfix='-' + str(default.date_s)
                         if newId.endswith(datePostfix):
                             reduction=-1 * len(datePostfix)
                             newId=newId[:reduction]

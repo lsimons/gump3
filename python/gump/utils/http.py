@@ -41,7 +41,7 @@ from gump.core.config import dir, switch, setting
 #
 class GumpUrlOpener(urllib.FancyURLopener):
     def __init__(self, *args):
-        self.version = "Apache-Gump/"+setting.version
+        self.version = "Apache-Gump/"+setting.VERSION
         urllib.FancyURLopener.__init__(self, *args)
 
 urllib._urlopener = GumpUrlOpener()
