@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/test/pyunit.py,v 1.14 2004/01/09 23:02:32 ajack Exp $
-# $Revision: 1.14 $
-# $Date: 2004/01/09 23:02:32 $
+# $Header: /home/stefano/cvs/gump/python/gump/test/pyunit.py,v 1.15 2004/01/09 23:18:02 ajack Exp $
+# $Revision: 1.15 $
+# $Date: 2004/01/09 23:18:02 $
 #
 # ====================================================================
 #
@@ -117,10 +117,19 @@ class Testable:
         if not object in sequence:
             self.raiseIssue(['Ought evaluate as in', message, object, sequence])
             
+    def assertSubstring(self,message,subString,mainString):
+        if not -1 == mainSequence.find(subString):
+            self.raiseIssue(['Ought evaluate as in', message, object, sequence])
+            
     def assertNotIn(self,message,object,sequence):
         if object in sequence:
             self.raiseIssue(['Ought NOT evaluate as in', message, object, sequence])
 
+    def assertNotSubstring(self,message,subString,mainString):
+        if -1 == mainSequence.find(subString):
+            self.raiseIssue(['Ought evaluate as in', message, object, sequence])
+            
+    
     def assertLengthAbove(self,message,object,length):
         if not len(object) >= length:
             self.raiseIssue(['Ought be longer than', message, object, length])

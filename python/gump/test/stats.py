@@ -1,7 +1,7 @@
 #!/usr/bin/env python
-# $Header: /home/stefano/cvs/gump/python/gump/test/stats.py,v 1.5 2004/01/09 23:02:32 ajack Exp $
-# $Revision: 1.5 $
-# $Date: 2004/01/09 23:02:32 $
+# $Header: /home/stefano/cvs/gump/python/gump/test/stats.py,v 1.6 2004/01/09 23:18:02 ajack Exp $
+# $Revision: 1.6 $
+# $Date: 2004/01/09 23:18:02 $
 #
 # ====================================================================
 #
@@ -152,6 +152,6 @@ class StatsTestSuite(UnitTestSuite):
         
         rough=getGeneralDifferenceDescription(default.time, lastUpdated)
         self.assertNonZeroString('Date Diff String', rough)
-        self.assertNotIn('Date Diff String', 'year', rough)        
+        self.assertNotSubstring('Date Diff String', 'year', rough)        
      
         
