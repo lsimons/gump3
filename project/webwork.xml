@@ -24,6 +24,7 @@
     <depend project="db40"/>
     <depend project="xml-axis"/>
     <depend project="cos"/>
+    <depend project="commons-logging"/>
     <depend project="multipartrequest"/>
     <jar id="webwork" name="build/result/web/WEB-INF/lib/webwork.jar"/>
   </project>
