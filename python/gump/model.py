@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/Attic/model.py,v 1.22 2003/10/13 18:51:20 ajack Exp $
-# $Revision: 1.22 $
-# $Date: 2003/10/13 18:51:20 $
+# $Header: /home/stefano/cvs/gump/python/gump/Attic/model.py,v 1.23 2003/10/13 21:19:03 ajack Exp $
+# $Revision: 1.23 $
+# $Date: 2003/10/13 21:19:03 $
 #
 # ====================================================================
 #
@@ -175,7 +175,7 @@ class Module(Named):
     if repository.root.hostname:
       root+='@'
       if self.cvs['host-prefix']: root+=self.cvs['host-prefix']+'.'
-      root+=str(repository.root.hostname) + ':'
+      root+=str(repository.root.hostname) + ':2401'
     root+=str(repository.root.path)
     if self.cvs.dir: root+='/'+str(self.cvs.dir)
 
