@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/Attic/view.py,v 1.19 2003/05/04 21:04:12 nicolaken Exp $
-# $Revision: 1.19 $
-# $Date: 2003/05/04 21:04:12 $
+# $Header: /home/stefano/cvs/gump/python/gump/Attic/view.py,v 1.20 2003/05/04 21:15:42 nicolaken Exp $
+# $Revision: 1.20 $
+# $Date: 2003/05/04 21:15:42 $
 #
 # ====================================================================
 #
@@ -146,20 +146,20 @@ class gumpview(wxApp):
     self.frame.toolbar.Realize()
         
     # layout
-    split0 = wxSplitterWindow(self.frame,-1)    
-    split1 = wxSplitterWindow(split0,-1)
-    split2 = wxSplitterWindow(split1,-1)
-    notebook = wxNotebook(split2, -1, style=wxCLIP_CHILDREN)
+    split0 = wxSplitterWindow(self.frame,-1,style=wxSP_NOBORDER )    
+    split1 = wxSplitterWindow(split0,-1,style=wxSP_NOBORDER)
+    split2 = wxSplitterWindow(split1,-1,style=wxSP_NOBORDER)
+    notebook = wxNotebook(split2, -1, style=wxCLIP_CHILDREN )
 
     # panes
     self.tree=wxTreeCtrl(split1,-1)
     
-    self.list=wxListCtrl(notebook,-1,style=wxLC_REPORT|wxSUNKEN_BORDER)
-    self.dependencies=wxListCtrl(notebook,-1,style=wxLC_REPORT|wxSUNKEN_BORDER)
-    self.prereqs=wxListCtrl(notebook,-1,style=wxLC_REPORT|wxSUNKEN_BORDER)
-    self.classpath=wxListCtrl(notebook,-1,style=wxLC_REPORT|wxSUNKEN_BORDER)
-    self.property=wxListCtrl(notebook,-1,style=wxLC_REPORT|wxSUNKEN_BORDER)
-    self.exports=wxListCtrl(notebook,-1,style=wxLC_REPORT|wxSUNKEN_BORDER)
+    self.list=wxListCtrl(notebook,-1,style=wxLC_REPORT|wxNO_BORDER )
+    self.dependencies=wxListCtrl(notebook,-1,style=wxLC_REPORT|wxNO_BORDER )
+    self.prereqs=wxListCtrl(notebook,-1,style=wxLC_REPORT|wxNO_BORDER )
+    self.classpath=wxListCtrl(notebook,-1,style=wxLC_REPORT|wxNO_BORDER )
+    self.property=wxListCtrl(notebook,-1,style=wxLC_REPORT|wxNO_BORDER )
+    self.exports=wxListCtrl(notebook,-1,style=wxLC_REPORT|wxNO_BORDER )
 
     self.data=wxTextCtrl(split2,-1,style=wxTE_MULTILINE)
 
@@ -425,8 +425,6 @@ class compileThread:
     cmd="java org.apache.tools.ant.Main"
     for property in self.view.workspace.property+self.project.ant.property:
       cmd+=" -D"+property.name+"="+property.value
-
-    if self.project.ant.buildfile: cmd+=" -f "+self.project.ant.buildfile
     if self.project.ant.target: cmd+=" "+self.project.ant.target
 
     (stdout,stdin)=popen2.popen2(cmd + ' 2>&1')
