@@ -7,11 +7,20 @@ http://gump.chalko.com/gb/blog/News?permalink=TLP.txt&preview=true
 <br/>
 We will release when the gump website is ready.
 <hr/>
-<p>
-<a href="http://gump.apache.org">http://gump.apache.org</a>
+<p>Apache 
+<a href="http://gump.apache.org">gump</a> is not a top level Apache project.   
+Our <a href="http://gump.apache.org/#What+is+Gump%3F">mission</a>
+is still the same 
+<emp>get diverse projects to communicate early and often about integration, 
+dependencies, and versioning management</emp>.  However since gump is now primarily 
+written in python and serves a community large than Jakarta we haved moved out on our own.  
+All Apache commiters still have write access to the entire gump CVS, and our encoured to 
+edit their modules cvs data to keep the builds fresh.
 </p>
-<p>On [date] The Board voted ...
+<p>To make all this official, on [date] The Board voted to create the  Gump PMC.
 </p>
 <blockquote>
 Quote the board and link
+Waiting on the <a href="http://apache.org/foundation/board/calendar.html"
+>Meeting notes</a> to be Approved.
 </blockquote>
