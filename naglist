@@ -199,6 +199,36 @@ From: Peter Donald <peter@apache.org>
 Subject: [GUMP] Build Failure - Avalon
 Regex: /BUILD FAILED/
 ------
+Project: excalibur-naming
+To: avalon-dev@jakarta.apache.org
+From: Peter Donald <peter@apache.org>
+Subject: [GUMP] Build Failure - Excalibur Naming
+Regex: /BUILD FAILED/
+------
+Project: excalibur-io
+To: avalon-dev@jakarta.apache.org
+From: Peter Donald <peter@apache.org>
+Subject: [GUMP] Build Failure - Excalibur IO
+Regex: /BUILD FAILED/
+------
+Project: excalibur-cache
+To: avalon-dev@jakarta.apache.org
+From: Peter Donald <peter@apache.org>
+Subject: [GUMP] Build Failure - Excalibur Cache 
+Regex: /BUILD FAILED/
+------
+Project: excalibur-extension
+To: avalon-dev@jakarta.apache.org
+From: Peter Donald <peter@apache.org>
+Subject: [GUMP] Build Failure - Excalibur Extension
+Regex: /BUILD FAILED/
+------
+Project: excalibur-i18n
+To: avalon-dev@jakarta.apache.org
+From: Peter Donald <peter@apache.org>
+Subject: [GUMP] Build Failure - Excalibur i18n
+Regex: /BUILD FAILED/
+------
 Project: excalibur-cli
 To: avalon-dev@jakarta.apache.org
 From: Peter Donald <peter@apache.org>
