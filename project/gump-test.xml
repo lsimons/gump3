@@ -9,13 +9,13 @@
 
   <project name="gump-test-maven1">
     <maven target="dist" basedir="maven-project1"/>        
-    <home nested="target"/>    
+    <home nested="maven-project1/target"/>    
     <jar name="gump-test-maven1-0.1.jar"/>
   </project>
   
   <project name="gump-test-maven2">
     <maven target="dist" basedir="maven-project2"/>       
-    <home nested="target"/>    
+    <home nested="maven-project1/target"/>    
     <jar name="gump-test-maven1-0.2.jar"/>
     
     <depend project="gump-test-maven1"/>
