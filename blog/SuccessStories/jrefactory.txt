@@ -22,36 +22,38 @@ http://gump.chalko.com/gb/blog/SuccessStories?preview=true&smm=y&permalink=jrefa
 <h3>
 issue of line ending with PrettyPrinter task
 </h3>
-
-I had found a problem with the PrettyPrinter task supplied by JRefactory.
-Without any clear announcement, the JRefactory team had changed their PrettyPrinter
-task to delegate processing of line endings to the ant fixcrlf task - which is good.
+<p>
+Antoine Lévy-Lambert  had found a problem with the PrettyPrinter task supplied by 
+<a href="http://jrefactory.sourceforge.net/">JRefactory</a>.
+Without any clear announcement, the JRefactory team had changed their 
+<a href="http://jrefactory.sourceforge.net/Main_components_prettyprint.html">PrettyPrinter
+task</a> to delegate processing of line endings to the ant fixcrlf task - which is good.
 <more/>
 As a consequence, the acceptable values for the lineending setting of PrettyPrinter
 changed to become the one's of ant's fixcrlf task.
-<br>
+</p><p>
 This caused the build of xdoclet to fail around mid January.
-<br>
-I entered a bug report in the bug tracking system of JRefactory,
+</p><p>
+Antoine entered a bug report in the bug tracking system of JRefactory,
 and also asked the xdoclet team to adapt their build file to the new behavior of
 PrettyPrinter, which they did.
 
 <a href="http://sourceforge.net/tracker/index.php?func=detail&aid=877400&group_id=13219&atid=113219">
 pretty.settings end.line property comments need a fix</a>
-<br>
+</p><p>
 Mike Atkinson seems to have worked on this issue yesterday (March 25th 2004).
-<br>
+</p>
 <h3>
 jaxen/saxpath changes
 </h3>
-
+<p>
 Due to changes in jaxen, which has absorbed saxpath, JRefactory had
 a compilation failure.
-<br>
-I sent a mail to the JRefactory mailing list on the 24th of March,
+</p><p>
+Antoine sent a mail to the JRefactory mailing list on the 24th of March,
 and Mike Atkinson fixed the faulty org.acm.seguin.pmd.jaxen.DocumentNavigator
 yesterday (March 25th).
-<br>
+</p><p>
 So, yes, human nagging is effective. When it is effective, and how you do 
 it diplomatically is another issue.
-<br>
+</p>
