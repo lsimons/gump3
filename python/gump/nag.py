@@ -170,7 +170,13 @@ def getContent(workspace,context,message=''):
     
     if not context.reason == REASON_UNSET:
         content +=  "Reason: " + reasonString(context.reason) + "\n"
-        
+                                 
+    #
+    # Link them back here...
+    #
+    url=getContextAbsoluteUrl(workspace.logurl,context)
+    content += "URL: " + url + "\n"
+    
     #
     # Add an info/error/etc...
     #
@@ -186,12 +192,7 @@ def getContent(workspace,context,message=''):
         content+="\n\nWork Items:\n"
         for workitem in context.worklist:
             content+=workitem.overview()+"\n"            
-                           
-    #
-    # Link them back here...
-    #
-    url=getContextAbsoluteUrl(workspace.logurl,context)
-    content += "URL: " + url + "\n"
+  
     
     return content
     

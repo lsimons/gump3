@@ -662,6 +662,11 @@ class GumpContext(Context):
         #
         self.debug=0	
         
+        #
+        # Turns on ant '-verbose'
+        #
+        self.verbose=0	
+        
         #    
         self.startdatetime=time.strftime(setting.datetimeformat, \
                                 time.localtime())

@@ -776,29 +776,19 @@ def documentWorkList(x,workspace,worklist,description='Work',dir='.'):
     x.write('    </table>\n')
     
     #
-    # Do a tail on work that failed...
+    # Do a tail on all work that failed...
     #
-    shown=0
     for work in worklist:
         if isinstance(work,CommandWorkItem):      
             if not STATUS_SUCCESS == work.status:
                 tail=work.tail()
                 if tail:
                     #
-                    # Write the header once only...
-                    #
-                    if not shown:
-                        shown=1
-                        x.write('    <table>\n')
-                    
-                    #
                     # Write out the 'tail'
                     #
-                    x.write('<tr><td><strong>Name:</strong> %s</td></tr><tr><td>%s</td></tr>' %
-                            ( workTypeName(work.type), escapse(tail) ) )
-   
-    if shown:
-        x.write('    </table>\n')
+                    startSectionXDoc(x,workTypeName(work.type))
+                    sourceXDoc(x,tail)
+                    endSectionXDoc(x)
             
     endSectionXDoc(x)
     
@@ -830,8 +820,14 @@ def documentWork(workspace,work,dir):
         endListXDoc(x)
         endSectionXDoc(x)
        
+        #
+        # Show parameters
+        #
         if work.command.params:
-            startSectionXDoc(x,'Parameter')    
+            title='Parameter'
+            if len(work.command.params) > 1:
+                title += 's'
+            startSectionXDoc(x,title)    
             x.write('<table><tr><th>Prefix</th><th>Name</th><th>Value</th></tr>')
             for param in work.command.params.items():
                 x.write('<tr><td>')
@@ -848,7 +844,10 @@ def documentWork(workspace,work,dir):
                 x.write('</td></tr>\n')        
             x.write('</table>\n')
             endSectionXDoc(x)
-        
+                
+        #
+        # Show ENV overrides
+        #
         if work.command.env:
             startSectionXDoc(x,'Environment Overrides')    
             x.write('<table><tr><th>Name</th><th>Value</th></tr>')
@@ -859,7 +858,7 @@ def documentWork(workspace,work,dir):
                 if value:
                     # :TODO: Hack for CLASSPATH
                     if name == "CLASSPATH":
-                        value=': '.join(value.split(':'))
+                        value=':\n'.join(value.split(':'))
                     x.write(escape(value))
                 else:
                     x.write('N/A')
@@ -867,10 +866,34 @@ def documentWork(workspace,work,dir):
             x.write('</table>\n')
             endSectionXDoc(x)
         
+        #
+        # Wrap the command line..
+        #
+        parts=work.command.formatCommandLine().split(' ')
+        line=''
+        commandLine=''
+        for part in parts:
+            if (len(line) + len(part)) > 80
+                commandLine += line
+                commandLine += '\n        '
+                line=part
+            else:
+                if line: line+=' '
+                line+=part
+        if line:
+            commandLine += '\n        '
+            commandLine += line
+        
+        #
+        # Show the wrapped command line
+        #
         startSectionXDoc(x,'Command Line')
-        sourceXDoc(x,'\t\n'.join(work.command.formatCommandLine().split(' ')))
+        sourceXDoc(x,commandLine)
         endSectionXDoc(x)
         
+        #
+        # Show the content...
+        #
         startSectionXDoc(x,'Output')
         output=work.result.output
         x.write('<source>')
@@ -1409,7 +1432,7 @@ def noteXDoc(f,text):
       
 def sourceXDoc(f,text):
     f.write('<source>\n')
-    f.write(text)
+    f.write(escape(text))
     f.write('</source>\n')                
     
     

@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/Attic/logic.py,v 1.29 2003/10/17 23:13:26 ajack Exp $
-# $Revision: 1.29 $
-# $Date: 2003/10/17 23:13:26 $
+# $Header: /home/stefano/cvs/gump/python/gump/Attic/logic.py,v 1.30 2003/10/18 22:20:27 ajack Exp $
+# $Revision: 1.30 $
+# $Date: 2003/10/18 22:20:27 $
 #
 # ====================================================================
 #
@@ -247,6 +247,10 @@ def getAntCommand(workspace,module,project,ant,context):
     # The ant build file (or none == build.xml)
     buildfile = ant.buildfile or ''
     
+    # Optional 'verbose' or 'debug'
+    verbose=ant.verbose
+    debug=ant.debug
+    
     #
     # Where to run this:
     #
@@ -276,8 +280,10 @@ def getAntCommand(workspace,module,project,ant,context):
     #
     # Allow ant-level debugging...
     #
-    if context.debug:
+    if context.debug or debug:
         cmd.addParameter('-debug')  
+    if context.verbose or verbose:
+        cmd.addParameter('-verbose')  
         
     #
     #	This sets the *defaults*, a workspace could override them.
@@ -305,12 +311,26 @@ def getScriptCommand(workspace,module,project,script,context):
         scriptfullname += '.sh'
     else:
         scriptfullname += '.bat'
-        
+      
+    # Optional 'verbose' or 'debug'
+    verbose=script.verbose
+    debug=script.debug
+       
     scriptfile=os.path.normpath(os.path.join(basedir, scriptfullname))
     classpath=getClasspath(project,workspace,context)
 
-    return Cmd(scriptfile,'buildscript_'+module.name+'_'+project.name,\
+    cmd=Cmd(scriptfile,'buildscript_'+module.name+'_'+project.name,\
             basedir,{'CLASSPATH':classpath})
+            
+              #
+    # Allow ant-level debugging...
+    #
+    if context.debug or debug:
+        cmd.addParameter('-debug')  
+    if context.verbose or verbose:
+        cmd.addParameter('-verbose')  
+        
+    return cmd
 
 #
 # An annotated path has a path entry, plus the context
@@ -330,13 +350,21 @@ class AnnotatedPath:
     def __str__(self):
         return self.path
         
+    # Equal if same string
     def __eq__(self,other):
-        return self.path == other.path \
-            and self.context == other.context
+        if not isinstance(other,AnnotatedPath):
+            otherPath == other
+        else:
+            otherPath == other.path             
+        return self.path = otherPath
                 
+    # Equal if same string
     def __cmp__(self,other):
-        cmp = self.path < other.path
-        if not cmp: cmp = self.context < other.context
+        if not isinstance(other,AnnotatedPath):
+            otherPath == other
+        else:
+            otherPath == other.path                         
+        cmp = self.path < otherPath        
         return cmp
         
 #
@@ -464,27 +492,41 @@ def getDependOutputList(parent,parentctxt,depend,context,visited):
   #
   dependStr=''
   if inherit: 
-      if dependStr: dependStr += ','
-      dependStr += 'Inherit='+str(inherit)
+      if dependStr: dependStr += ', '
+      dependStr += 'Inherit:'+str(inherit)
   if runtime: 
-      if dependStr: dependStr += ','
-      dependStr += ',Runtime'
-  if ids: dependStr += ', IDs [' + ' '.join(ids) + ']'
+      if dependStr: dependStr += ', '
+      dependStr += 'Runtime'
+      
+  #
+  # No need to show this, will show later
+  #if ids: 
+  #    if dependStr: dependStr += ', '
+  #    dependStr += 'IDs [' + ', '.join(ids) + ']'
   
   #
   # Append JARS for this project
   #	(respect ids)
   #
+  projectIds=[]
   for jar in project.jar:
+      # Sote for double checking
+      if jar.id: projectIds.append(jar.id)
       # If 'all' or in ids list:
       if (not ids) or (jar.id in ids):   
-          if ids: dependStr += 'id = ' + jar.id
+          if ids: dependStr += ' Id = ' + jar.id
           path=AnnotatedPath(jar.path,pctxt,parentctxt,dependStr)
           if not path in classpath:
               classpath.append(path)
 
-  # :TODO: List all jar ids and check ones we asked for exists
-  # and log if not as warning
+  #
+  # Double check
+  #
+  if ids:
+      for id in ids:
+          if not id in projectIds:
+                  parentctxt.addWarning("Invalid ID [" + id \
+                      + "] for dependency on [" + projectname + "]")
 
   #
   # Deep copy all/hard (or those for runtime)
