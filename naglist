@@ -131,6 +131,12 @@ From: Sam Ruby <rubys@us.ibm.com>
 Subject: [GUMP] Test Failure - Ant
 Regex: /BUILD FAILED/
 -------
+Project: test-velocity
+To: velocity-dev@jakarta.apache.org
+From: Sam Ruby <rubys@us.ibm.com>
+Subject: [GUMP] Test Failure - Velocity
+Regex: /BUILD FAILED/
+------
 Project: scarab
 To: dev@scarab.tigris.org
 From: Jon Stevens <jon@latchkey.com>
