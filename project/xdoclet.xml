@@ -31,7 +31,7 @@
     <ant basedir="core" target="compile">
       <property name="ant.home" project="ant" reference="home"/>
       <property name="version" value="@@DATE@@"/>
-      <depend name="xjavadoc.unicode.jar" project="xjavadoc"/>
+      <depend name="xjavadoc.jar" project="xjavadoc"/>
     </ant>
 
     <depend project="ant" runtime="true"/>
@@ -143,10 +143,8 @@
 
     <ant target="docs">
       <property name="ant.home" project="ant" reference="home"/>
-      <!-- squeeze dependency checking for xjavadoc until build file allows us to say where xjavadoc is living -->
-      <property name="xjavadoc.uptodate" value="true"/>
       <property name="version" value="@@DATE@@"/>
-      <depend name="xjavadoc.unicode.jar" project="xjavadoc"/>
+      <depend name="xjavadoc.jar" project="xjavadoc"/>
     </ant>
 
     <depend project="ant" inherit="all" />
@@ -221,7 +219,7 @@
 
     <ant target="samples">
       <property name="ant.home" project="ant" reference="home"/>
-      <depend name="xjavadoc.unicode.jar" project="xjavadoc"/>
+      <depend name="xjavadoc.jar" project="xjavadoc"/>
     </ant>
     <depend project="xdoclet" inherit="all"/>
     <depend project="javacc"/>
