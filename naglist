@@ -18,18 +18,6 @@ From: Ted Husted <ted@husted.com>
 Subject: [GUMP] Build Failure - beanutils
 Regex: /BUILD FAILED/
 ------
-Project: commons-cactus-22
-To: jakarta-commons@jakarta.apache.org
-From: Ted Husted <ted@husted.com>
-Subject: [GUMP] Build Failure - cactus-22
-Regex: /BUILD FAILED/
-------
-Project: commons-cactus-23
-To: jakarta-commons@jakarta.apache.org
-From: Ted Husted <ted@husted.com>
-Subject: [GUMP] Build Failure - cactus-23
-Regex: /BUILD FAILED/
-------
 Project: commons-collections
 To: jakarta-commons@jakarta.apache.org
 From: Ted Husted <ted@husted.com>
@@ -168,6 +156,24 @@ Project: jakarta-avalon-testlet
 To: avalon-dev@jakarta.apache.org
 From: Peter Donald <donaldp@apache.org>
 Subject: [GUMP] Build Failure - Testlet
+Regex: /BUILD FAILED/
+------
+Project: jakarta-cactus-ant
+To: jakarta-commons@jakarta.apache.org
+From: Ted Husted <ted@husted.com>
+Subject: [GUMP] Build Failure - cactus-ant
+Regex: /BUILD FAILED/
+------
+Project: jakarta-cactus-22
+To: jakarta-commons@jakarta.apache.org
+From: Ted Husted <ted@husted.com>
+Subject: [GUMP] Build Failure - cactus-22
+Regex: /BUILD FAILED/
+------
+Project: jakarta-cactus-23
+To: jakarta-commons@jakarta.apache.org
+From: Ted Husted <ted@husted.com>
+Subject: [GUMP] Build Failure - cactus-23
 Regex: /BUILD FAILED/
 ------
 Project: jakarta-ecs
