@@ -52,7 +52,7 @@ class TextDocumenter(Documenter):
         
         workspace = run.getWorkspace()
         gumpSet = run.getGumpSet()
-        gumpEnv = run.getGumpEnvironment()
+        gumpEnv = run.getEnvironment()
         
         #
         #

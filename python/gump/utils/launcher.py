@@ -400,7 +400,6 @@ def executeIntoResult(cmd,result,tmp=dir.tmp):
                 if f: f.close()    
             
         #############################################################                
-        log.debug('Executing: ' + execString + ' (Output to ' + str(outputFile) + ')')
          
         # Set the signal handler and an N-second alarm
         timer=None
@@ -415,6 +414,8 @@ def executeIntoResult(cmd,result,tmp=dir.tmp):
                 timer.setDaemon(1)
                 timer.start()
 
+        log.debug('Executing: ' + execString + ' (Output to ' + str(outputFile) + ')')
+        
         #
         # Execute Command & Wait
         #

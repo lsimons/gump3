@@ -81,6 +81,7 @@ class ForrestDocumenter(Documenter):
         # Document...
         self.documentEnvironment(run,workspace)    
         self.documentWorkspace(run,workspace,gumpSet)  
+        self.documentRunOptions(run,workspace)    
         
         # Document these (even if not a full build)
         self.documentStatistics(run,workspace,gumpSet)
@@ -218,7 +219,7 @@ class ForrestDocumenter(Documenter):
         # env.xml
         #
         
-        document=XDocDocument('Workspace',	\
+        document=XDocDocument('Gump Environment',	\
                 self.resolver.getFile(workspace, 'environment.xml'))       
                         
         envSection=document.createSection('Gump Environment')
@@ -228,6 +229,49 @@ class ForrestDocumenter(Documenter):
         self.documentAnnotations(document,environment)        
         #self.documentFileList(document,environment,'Environment-level Files')        
         self.documentWorkList(document,environment,'Environment-level Work')
+     
+        document.serialize()
+                
+    #####################################################################           
+    #
+    # Options
+    #      
+    def documentRunOptions(self,run,workspace):
+        
+        options=run.getOptions()
+           
+        #
+        # ----------------------------------------------------------------------
+        #
+        # env.xml
+        #
+        
+        document=XDocDocument('Run Options',	\
+                self.resolver.getFile(workspace, 'options.xml'))       
+                        
+        optSection=document.createSection('Gump Run Options')
+        optSection.createParagraph(
+            """The options selected for this Gump run.""")            
+        
+        #self.documentAnnotations(document,options)        
+        
+        optTable=optSection.createTable(['Name','Value'])
+        opts=0
+        # iterate over this suites properties
+        for name in options.__dict__:
+            if name.startswith('__') and name.endswith('__'): continue
+            method=getattr(options,name)            
+            # avoid nulls, metadata, and methods other than test*
+            if not method: continue
+            if isinstance(method,types.TypeType): continue
+            if not isinstance(method,types.MethodType): continue
+            if not callable(meth): continue
+            if not name.startswith('get') or not name.startswith('is') : continue
+            
+            optTable.createEntry(str(name),str(method()))
+            opts+=1
+            
+        if not opts: optTable.createEntry('None')
      
         document.serialize()
                 
