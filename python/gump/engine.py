@@ -363,33 +363,34 @@ class GumpEngine:
         repository=run.getOutputsRepository()
 
         # build all projects this project depends upon, then the project itself
-        for project in sequence:                 
+        for project in sequence:  
+            if project.isPackaged(): continue
+            
             if project.okToPerformWork():     
                 self.performPreBuild( run, project )
 
             if project.okToPerformWork():        
                 log.debug(' ------ Building: ' + project.getName())
 
-            cmd=project.getBuildCommand()
+                cmd=project.getBuildCommand()
 
-            if cmd:
-                # Execute the command ....
-                cmdResult=execute(cmd,workspace.tmpdir)
+                if cmd:
+                    # Execute the command ....
+                    cmdResult=execute(cmd,workspace.tmpdir)
     
-                # Update Context    
-                work=CommandWorkItem(WORK_TYPE_BUILD,cmd,cmdResult)
-                project.performedWork(work)
+                    # Update Context    
+                    work=CommandWorkItem(WORK_TYPE_BUILD,cmd,cmdResult)
+                    project.performedWork(work)
             
-                # Update Context w/ Results  
-                if not cmdResult.state==CMD_STATE_SUCCESS:
-                    reason=REASON_BUILD_FAILED
-                    if cmdResult.state==CMD_STATE_TIMED_OUT:
-                        reason=REASON_BUILD_TIMEDOUT
-                    project.changeState(STATE_FAILED,reason)
-                else:
-                         
-                    # For now, things are going good...
-                    project.changeState(STATE_SUCCESS)
+                    # Update Context w/ Results  
+                    if not cmdResult.state==CMD_STATE_SUCCESS:
+                        reason=REASON_BUILD_FAILED
+                        if cmdResult.state==CMD_STATE_TIMED_OUT:
+                            reason=REASON_BUILD_TIMEDOUT
+                        project.changeState(STATE_FAILED,reason)
+                    else:                         
+                        # For now, things are going good...
+                        project.changeState(STATE_SUCCESS)
                     
             if project.okToPerformWork():                 
                 # Double check the outputs...
