@@ -395,6 +395,8 @@
         <package>org.apache.avalon.excalibur.i18n</package>
 
         <ant basedir="i18n" target="dist">
+            <property name="project.name" value="excalibur-i18n"/>
+            <property name="project.version" value="@@DATE@@"/>
             <!-- optional dependencies -->
             <property name="checkstyle.jar" project="checkstyle" reference="jarpath"/>
 
@@ -419,7 +421,7 @@
         <work nested="i18n/target/test-classes"/>
 
         <home nested="i18n"/>
-        <jar name="build/lib/excalibur-i18n-@@DATE@@.jar"/>
+        <jar name="build/target/excalibur-i18n-@@DATE@@.jar"/>
 
         <nag from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"
                 to="dev@avalon.apache.org"/>
