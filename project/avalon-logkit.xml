@@ -7,11 +7,6 @@
 
   <cvs repository="avalon"/>
 
-    <!-- deprecated! -->
-    <project name="jakarta-avalon-logkit">
-      <depend project="avalon" inherit="jars"/>
-    </project>
-
   <project name="avalon-logkit">
     <package>org.apache.log</package>
 
