@@ -53,9 +53,7 @@ class UpdaterTestSuite(UnitTestSuite):
             
     def testCommandLines(self):
         
-        pass
-        
-        #
         # Hmm, need to test checkouts and updates and status...
-        # but how, since we now delegate more
-        #
+        # but how, since we now delegate more    
+        
+        pass

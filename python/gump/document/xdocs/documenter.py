@@ -739,43 +739,44 @@ class XDocDocumenter(Documenter):
         if not realTime: 
             self.documentSummary(document, self.workspace.getProjectSummary())                
         
-        #
-        # Modules...
-        #        
-        modulesSection=document.createSection('Modules (in update order)')
-        modulesTable=modulesSection.createTable(['Index','Updated','Name','State','Duration\nin state','Last Modified','Notes'])
-        mcount=0
-        for module in self.gumpSet.getCompletedModules():        
+        if not realTime: 
+            #
+            # Modules...
+            #        
+            modulesSection=document.createSection('Modules (in update order)')
+            modulesTable=modulesSection.createTable(['Index','Updated','Name','State','Duration\nin state','Last Modified','Notes'])
+            mcount=0
+            for module in self.gumpSet.getCompletedModules():        
             
-            mcount+=1
+                mcount+=1
     
-            moduleRow=modulesTable.createRow()            
-            moduleRow.createComment(module.getName())  
+                moduleRow=modulesTable.createRow()            
+                moduleRow.createComment(module.getName())  
             
-            self.setStyleFromState(moduleRow,module.getStatePair())
+                self.setStyleFromState(moduleRow,module.getStatePair())
                 
-            moduleRow.createData(module.getPositionIndex())    
+                moduleRow.createData(module.getPositionIndex())    
             
-            startData=moduleRow.createData(secsToTime(module.getStartSecs()))          
-            self.setStyleFromState(startData,module.getStatePair())
+                startData=moduleRow.createData(secsToTime(module.getStartSecs()))          
+                self.setStyleFromState(startData,module.getStatePair())
                         
-            self.insertLink(module,self.workspace,moduleRow.createData())   
-            self.insertStateIcon(module,self.workspace,moduleRow.createData())      
-            moduleRow.createData(module.getStats().sequenceInState)    
-            moduleRow.createData(	\
-                getGeneralSinceDescription(	\
-                    module.getStats().getLastModified()))
+                self.insertLink(module,self.workspace,moduleRow.createData())   
+                self.insertStateIcon(module,self.workspace,moduleRow.createData())      
+                moduleRow.createData(module.getStats().sequenceInState)    
+                moduleRow.createData(	\
+                    getGeneralSinceDescription(	\
+                        module.getStats().getLastModified()))
                     
-            notes=''
-            if module.isVerbose():
-                if notes: notes += ' '
-                notes += 'Verbose'
-            if module.isDebug():
-                if notes: notes += ' '
-                notes += 'Debug'            
-            moduleRow.createData(notes) 
+                notes=''
+                if module.isVerbose():
+                    if notes: notes += ' '
+                    notes += 'Verbose'
+                if module.isDebug():
+                    if notes: notes += ' '
+                    notes += 'Debug'            
+                moduleRow.createData(notes) 
                 
-        if not mcount: modulesTable.createLine('None')
+            if not mcount: modulesTable.createLine('None')
         
         #
         # Projects...
@@ -2144,20 +2145,35 @@ This page helps Gumpmeisters (and others) observe community progress.
         summarySection.createParagraph('Overall project success : ' +	\
                 '%02.2f' % summary.overallPercentage + '%')
         
-        summaryTable=summarySection.createTable(['Projects','Successes','Failures','Prereqs',	\
-            'No Works','Packages'])
+        successStyle=stateName(STATE_SUCCESS).upper()
+        failedStyle=stateName(STATE_FAILED).upper()
+        prereqStyle=stateName(STATE_PREREQ_FAILED).upper()
+        noworkStyle=stateName(STATE_UNSET).upper()
+        completeStyle=stateName(STATE_COMPLETE).upper()
         
-        summaryTable.createRow([ '%02d' % summary.projects, \
-                                '%02d' % summary.successes + \
-                                ' (' + '%02.2f' % summary.successesPercentage + '%)', \
-                                '%02d' % summary.failures + \
-                                ' (' + '%02.2f' % summary.failuresPercentage + '%)',	\
-                                '%02d' % summary.prereqs + \
-                                ' (' + '%02.2f' % summary.prereqsPercentage + '%)', \
-                                '%02d' % summary.noworks + \
-                                ' (' + '%02.2f' % summary.noworksPercentage + '%)', \
-                                '%02d' % summary.packages + \
-                                ' (' + '%02.2f' % summary.packagesPercentage + '%)'] )
+        summaryTable=summarySection.createTable(['Projects',
+                                ('Successes', successStyle),
+                                ('Failures',failedStyle),
+                                ('Prereqs', prereqStyle),
+                                ('No Works', noworkStyle),
+                                ('Packages', completeStyle) ])
+        
+        summaryTable.createRow([ '%02d' % summary.projects,
+                                ('%02d' % summary.successes +  \
+                                ' (' + '%02.2f' % summary.successesPercentage + '%)',
+                                    successStyle), 
+                                ('%02d' % summary.failures +   \
+                                ' (' + '%02.2f' % summary.failuresPercentage + '%)',
+                                    failedStyle),
+                                ('%02d' % summary.prereqs + \
+                                ' (' + '%02.2f' % summary.prereqsPercentage + '%)',
+                                    prereqStyle),
+                                ('%02d' % summary.noworks + \
+                                ' (' + '%02.2f' % summary.noworksPercentage + '%)',
+                                    noworkStyle),
+                                ('%02d' % summary.packages + \
+                                ' (' + '%02.2f' % summary.packagesPercentage + '%)',
+                                    completeStyle) ])
         
       
     def documentWorkList(self,xdocNode,workable,description='Work',tailFail=1,note='',warn=''):

@@ -27,9 +27,8 @@ import sys
 import logging
 import types
 
-from types import NoneType
+from types import NoneType, TupleType
 from xml.sax.saxutils import escape
-
 
 from gump import log
 from gump.utils import *
@@ -216,6 +215,7 @@ class XDocPiece:
         return self.keeper
         
     def setStyle(self,style):
+        # Force Style to be upper case
         self.style=style
         
     def getStyle(self,style):
@@ -417,7 +417,11 @@ class XDocTable(XDocPiece):
         if headings:
             headerRow=self.createRow()
             for heading in headings:
-                headerRow.createHeader(heading)
+                if isinstance(heading,TupleType):
+                    (title,style)=heading
+                    headerRow.createHeader(title).setStyle(style)
+                else:
+                    headerRow.createHeader(heading)    
         
     def start(self):
         self.context.writeLineIndented('<table>')
@@ -432,7 +436,12 @@ class XDocTable(XDocPiece):
             row=self.createRow()
             if isinstance(datum,list):
                 for data in datum:
-                    row.createData(data)
+                    if isinstance(data,TupleType):
+                        (value,style)=data
+                        row.createData(value).setStyle(style)
+                    else:
+                        row.createData(data)
+                        
             else:
                 row.createData(datum)
             return row
@@ -472,7 +481,7 @@ class XDocTableHeader(XDocPiece):
             self.createText(text)
         
     def start(self):
-        self.context.writeIndented('<th>')
+        self.context.writeIndented('<th' + self.getStyleAttribute() + '>')
         
     def end(self):
         self.context.writeLine('</th>')
