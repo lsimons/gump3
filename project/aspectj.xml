@@ -1,0 +1,14 @@
+<module name="aspectj">
+
+  <url href="http://aspectj.org/servlets/AJSite"/>
+  <description>
+    Aspect-oriented programming
+  </description>
+  
+  <project name="aspectj">
+    <jar name="lib/aspectjtools.jar"/>
+    <jar name="lib/aspectjrt.jar" id="aspectjrt"/>
+    <jar name="lib/aspectj-ant.jar"/>
+  </project>
+
+</module>
