@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 
-<repository name="exolab" type="cvs" compress="-z0">
+<repository name="exolab" type="cvs">
   <title>ExoLab</title>
   <home-page>http://www.exolab.org/</home-page>
   <cvsweb>http://virtuals.intalio.com/cgi-bin/cvsweb.cgi/castor/?cvsroot=castor</cvsweb>
