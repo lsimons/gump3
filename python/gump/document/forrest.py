@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/forrest.py,v 1.40 2003/12/19 00:23:02 dims Exp $
-# $Revision: 1.40 $f
-# $Date: 2003/12/19 00:23:02 $
+# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/forrest.py,v 1.41 2004/01/06 21:35:46 ajack Exp $
+# $Revision: 1.41 $f
+# $Date: 2004/01/06 21:35:46 $
 #
 # ====================================================================
 #
@@ -270,6 +270,7 @@ class ForrestDocumenter(Documenter):
         syndRow=definitionTable.createRow()
         syndRow.createData('Syndication')
         syndRow.createData().createFork('index.rss','RSS')
+        syndRow.createData().createFork('index.atom','Atom')
                 
         textRow=definitionTable.createRow()
         textRow.createData('Workspace Documentation')
@@ -889,6 +890,9 @@ class ForrestDocumenter(Documenter):
         
         if project.isPackaged():
             document.createNote('This is a packaged project, not Gumped.')
+        elif not project.hasBuildCommand():
+            document.createNote('This project is not built by Gump.')
+        
             
         stateSection=document.createSection('State')
         
@@ -947,11 +951,11 @@ class ForrestDocumenter(Documenter):
     #    x.write('<p><strong>Project Config :</strong> <link href=\'%s\'>XML</link></p>' \
     #                % (getModuleProjectRelativeUrl(modulename,project.name)) )
             
-        self.documentWorkList(document,project,'Project-level Work')
+        self.documentWorkList(document,project,'Project-level Work')           
            
         miscSection=document.createSection('Miscellaneous')
-        if project.hasBuildCommand():
             
+        if project.hasBuildCommand():
             if project.hasAnt():                
                 self.documentProperties(miscSection, project.getAnt(), 'Ant Properties')
             

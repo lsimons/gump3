@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/syndication/rss.py,v 1.10 2003/12/14 17:57:39 ajack Exp $
-# $Revision: 1.10 $
-# $Date: 2003/12/14 17:57:39 $
+# $Header: /home/stefano/cvs/gump/python/gump/syndication/rss.py,v 1.11 2004/01/06 21:35:45 ajack Exp $
+# $Revision: 1.11 $
+# $Date: 2004/01/06 21:35:45 $
 #
 # ====================================================================
 #
@@ -287,7 +287,7 @@ class RSSSyndicator(Syndicator):
             self.syndicateModule(module,self.rss)
             
         self.rss.serialize()
-        
+    
     def syndicateModule(self,module,mainRSS):
         
         rssFile=self.run.getOptions().getResolver().getFile(module,'index','.rss')
@@ -299,8 +299,7 @@ class RSSSyndicator(Syndicator):
                     moduleUrl,	\
                     escape(module.getDescription()), \
                     self.gumpImage))
-                      
-        s=module.getStats()
+                    
         datestr=time.strftime('%Y-%m-%d')
         timestr=time.strftime('%H:%M:%S')
          
@@ -319,18 +318,11 @@ class RSSSyndicator(Syndicator):
                   ('%sT%s%s') % (datestr,timestr,TZ))
         
         # Generate changes, only if the module had changed
-        if module.isUpdated():
-            if not s.currentState == STATE_NONE and	\
-                not s.currentState == STATE_UNSET:   
+        if module.isUpdated() and not module.getState().isUnset():
                 moduleRSS.addItem(item)  
             
         # State changes that are newsworthy...
-        if 	s.sequenceInState == 1	\
-            and not s.currentState == STATE_PREREQ_FAILED \
-            and not s.currentState == STATE_UNSET \
-            and not s.currentState == STATE_NONE \
-            and not s.currentState == STATE_COMPLETE  \
-            and not module.isPackaged() :       
+        if 	self.moduleOughtBeWidelySyndicated(module):       
             mainRSS.addItem(item)
             
         for project in module.getProjects():  
@@ -350,7 +342,6 @@ class RSSSyndicator(Syndicator):
                     escape(project.getDescription()), \
                     self.gumpImage))
                     
-        s=project.getStats()
         datestr=time.strftime('%Y-%m-%d')
         timestr=time.strftime('%H:%M:%S')
          
@@ -368,19 +359,12 @@ class RSSSyndicator(Syndicator):
                   ('%sT%s%s') % (datestr,timestr,TZ))
 
         # Generate changes, only if the module changed
-        if project.getModule().isUpdated():
-            if not s.currentState == STATE_NONE and	\
-                not s.currentState == STATE_UNSET:           
+        if project.getModule().isUpdated() and not project.getState().isUnset():           
                 projectRSS.addItem(item)
                 moduleRSS.addItem(item)  
 
         # State changes that are newsworthy...
-        if 	s.sequenceInState == 1	\
-            and not s.currentState == STATE_PREREQ_FAILED \
-            and not s.currentState == STATE_UNSET \
-            and not s.currentState == STATE_NONE \
-            and not s.currentState == STATE_COMPLETE 	\
-            and not project.isPackaged() :       
+        if self.projectOughtBeWidelySyndicated(project) :    
             mainRSS.addItem(item)
                                                         
         projectRSS.serialize()

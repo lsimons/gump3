@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/syndication/syndicator.py,v 1.7 2003/12/09 00:48:36 ajack Exp $
-# $Revision: 1.7 $
-# $Date: 2003/12/09 00:48:36 $
+# $Header: /home/stefano/cvs/gump/python/gump/syndication/syndicator.py,v 1.8 2004/01/06 21:35:45 ajack Exp $
+# $Revision: 1.8 $
+# $Date: 2004/01/06 21:35:45 $
 #
 # ====================================================================
 #
@@ -185,13 +185,40 @@ class Syndicator:
         
         return content
 
+    def moduleOughtBeWidelySyndicated(self, module):
         
+        stats=module.getStats()
+        
+        return stats.sequenceInState == 1	\
+            and not stats.currentState == STATE_PREREQ_FAILED \
+            and not stats.currentState == STATE_UNSET \
+            and not stats.currentState == STATE_NONE \
+            and not stats.currentState == STATE_COMPLETE  \
+            and not module.isPackaged()       
+              
+    def projectOughtBeWidelySyndicated(self, project):
+        
+        stats=project.getStats()
+        
+        return stats.sequenceInState == 1	\
+            and not stats.currentState == STATE_PREREQ_FAILED \
+            and not stats.currentState == STATE_UNSET \
+            and not stats.currentState == STATE_NONE \
+            and not stats.currentState == STATE_COMPLETE 	\
+            and not project.isPackaged()    
               
 def syndicate(run):
-    
-    from gump.syndication.rss import RSSSyndicator
-    simple=RSSSyndicator()
-    simple.syndicate(run)
-    
-    #atom=AtomSyndicator()
-    #atom.syndicate(run)
+
+    try:    
+        from gump.syndication.rss import RSSSyndicator
+        simple=RSSSyndicator()
+        simple.syndicate(run)    
+    except:
+        pass
+        
+    try:
+        from gump.syndication.atom import AtomSyndicator
+        atom=AtomSyndicator()
+        atom.syndicate(run)
+    except:
+        pass
