@@ -1,0 +1,103 @@
+<module name="jakarta-tomcat-5">
+
+  <url href="http://jakarta.apache.org/tomcat/index.html"/>
+  <description>
+    Servlet 2.4 and JSP 2.0 Reference Implementation
+  </description>
+
+  <cvs repository="jakarta"/>
+  
+  <project name="jakarta-tomcat-5">
+    <package>org.apache.catalina</package>
+
+
+<!-- this is basically the release target, but without the clean - which was destroying freshly built repos. -->  
+    <ant target="prepare-release dist dist-source installer package-zip package-tgz package-src-zip package-src-tgz">
+      <property name="tomcat33.home" value=""/>
+      <property name="ant.home" reference="home" project="jakarta-ant"/>
+      <property name="jsse.home" reference="home" project="jsse"/>
+      <property name="jmx.home" reference="home" project="jmx"/>
+      <property name="jmxtools.jar" reference="jarpath" 
+        project="jmx" id="jmxtools"/>
+      <property name="jndi.home" reference="home" project="jndi"/>
+      <property name="site2.home" reference="home" project="jakarta-site2"/>
+      <property name="regexp.home"
+        reference="home" project="jakarta-regexp"/>
+      <property name="regexp.jar"
+        reference="jarpath" id="regexp" project="jakarta-regexp"/>
+      <property name="mail.home" reference="home" project="javamail"/>
+      <property name="tomcat-coyote.home" reference="home" 
+        project="jakarta-tomcat-coyote_tc5"/>
+      <property name="jasper.home" reference="home" 
+        project="jakarta-tomcat-jasper_tc5"/>
+      <depend property="mail.jar" project="javamail"/>
+      <property name="activation.home" reference="home" project="jaf"/>
+      <depend property="activation.jar" project="jaf"/>
+      <depend property="jdbc20ext.jar" project="jdbc"/>
+      <depend property="jndi.jar" project="jndi"/>
+      <depend property="jaas.jar" project="jaas"/>
+      <depend property="jmx.jar" project="jmx" reference="jarpath" id="jmxri"/>
+      <depend property="jta.jar" project="jta"/>
+      <depend property="ldap.jar" project="ldap"/>
+      <depend property="servlet-api.jar" 
+              project="jakarta-servletapi-5-servlet"/>
+      <depend property="jsp-api.jar" project="jakarta-servletapi-5-jsp"/>
+      <depend property="xercesImpl.jar" project="xml-xerces" id="parser"/>
+      <depend property="xmlParserAPIs.jar" project="xml-xerces" id="parser"/>
+      <depend property="tomcat-util.jar" project="jakarta-tomcat-util"/>
+      <depend property="commons-beanutils.jar" project="commons-beanutils"
+        runtime="true"/>
+      <depend property="commons-collections.jar" project="commons-collections"
+        runtime="true"/>
+      <depend property="commons-digester.jar" project="commons-digester"
+        runtime="true"/>
+      <depend property="commons-modeler.jar" project="commons-modeler"/>
+      <depend property="commons-dbcp.jar" project="commons-dbcp"/>
+      <depend property="commons-pool.jar" project="commons-pool"/>
+      <depend property="commons-logging.jar" project="commons-logging"
+        runtime="true" id="all"/>
+      <depend property="commons-logging-api.jar" project="commons-logging"
+        runtime="true" id="api"/>
+    </ant>
+
+    <depend project="jakarta-ant"/>
+    <depend project="xml-xerces"/>
+    <depend project="jaf"/>
+    <depend project="javamail"/>
+    <depend project="jmx"/>
+    <depend project="jsse" runtime="true"/>
+    <depend project="xml-xalan2"/>
+    <option project="jakarta-avalon"/>
+    <option project="jakarta-avalon-phoenix"/>
+    <depend project="jakarta-tomcat-coyote_tc5"/>
+    <depend project="jakarta-tomcat-catalina"/>
+    <depend project="jakarta-tomcat-jasper_tc5"/>
+    <depend project="jakarta-tomcat-util" runtime="true"/>
+    <depend project="jakarta-servletapi-5-servlet"/>
+    <depend project="jakarta-servletapi-5-jsp"/>
+    <depend project="jakarta-regexp"/>
+    <option project="junit" />
+    <work nested="catalina/build/server/classes"/>
+
+    <home nested="dist"/>
+    <jar name="bin/bootstrap.jar"/>
+    <jar name="server/lib/catalina.jar"/>
+    <jar name="server/lib/servlets-common.jar"/>
+    <jar name="server/lib/servlets-default.jar"/>
+    <jar name="server/lib/servlets-invoker.jar"/>
+    <jar name="common/lib/naming-common.jar"/>
+    <jar name="common/lib/naming-resources.jar"/>
+
+    <jar name="common/lib/jasper-compiler.jar" id="jasper-compiler"/>
+    <jar name="common/lib/jasper-runtime.jar" id="jasper-runtime"/>
+
+    <javadoc nested="dist/webapps/tomcat-docs">
+      <description dir="catalina/docs/api">Catalina API</description>
+      <description dir="jasper/docs/api">Jasper API</description>
+    </javadoc>
+
+    <nag to="tomcat-dev@jakarta.apache.org"
+         from="bobh@apache.org" />
+  </project>
+
+</module>

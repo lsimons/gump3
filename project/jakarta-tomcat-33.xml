@@ -1,0 +1,42 @@
+<module name="jakarta-tomcat">
+
+  <url href="http://jakarta.apache.org/tomcat/index.html"/>
+  <description>
+    Servlet 2.2 and JSP 1.1 Reference Implementation
+  </description>
+
+  <cvs repository="jakarta" />
+  
+  <project name="jakarta-tomcat">
+    <package>org.apache.tomcat</package>
+
+    <ant target="main.lite">
+      <property name="jaxp.home" reference="home" project="jaxp"/>
+      <property name="ant.home" reference="home" project="jakarta-ant"/>
+      <property name="jsse.home" reference="home" project="jsse"/>
+
+      <property name="jakarta-tomcat-connectors" reference="srcdir"
+        project="jakarta-tomcat-connectors"/>
+      <property name="jakarta-tomcat-jasper" reference="srcdir"
+        project="jakarta-tomcat-jasper"/>
+    </ant>
+    <depend project="xml-xerces"/>
+    <depend project="jakarta-ant"/>
+    <depend project="jakarta-servletapi"/>
+    <depend project="jakarta-tomcat-util"/>
+    <depend project="jsse"/>
+    <depend project="mx4j"/>
+    <work nested="build/tomcat/classes"/>
+    <home nested="build/tomcat"/>
+    <jar name="lib/common/tomcat_core.jar"/>
+    <jar name="lib/common/core_util.jar"/>
+    <jar name="lib/container/container_util.jar"/>
+    <jar name="lib/container/tomcat_modules.jar"/>
+    <javadoc nested="build/tomcat/webapps/ROOT/javadoc"/>
+
+    <nag to="tomcat-dev@jakarta.apache.org"
+         from="Craig McClanahan &lt;craigmcc@apache.org&gt;"
+         subject="Build Failure - Tomcat 3.x"/>
+  </project>
+
+</module>

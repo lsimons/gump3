@@ -1,0 +1,14 @@
+<module name="jakarta-tomcat-jasper_tc4" tag="tomcat_4_branch">
+
+  <description>
+    JavaServer Pages JSP 1.2 implementation (for Tomcat 4.1.x)
+  </description>
+  <url href="http://jakarta.apache.org/tomcat/index.html"/>
+
+  <cvs repository="jakarta" module="jakarta-tomcat-jasper"/>
+  <project name="jakarta-tomcat-jasper_tc4">
+      <home nested="jasper2"/>
+  </project>
+  
+  <depend project="commons-logging"/>
+</module>

@@ -1,0 +1,18 @@
+
+<!-- similar to gump2.xml, but no "tag=" attribute in the module (using HEAD) -->
+
+<module name="jakarta-tomcat-jasper_tc5">
+
+  <description>
+    JavaServer Pages JSP 2.0 implementation (for Tomcat 5.x)
+  </description>
+  <url href="http://jakarta.apache.org/tomcat/index.html"/>
+
+  <cvs repository="jakarta" module="jakarta-tomcat-jasper"/>
+  <project name="jakarta-tomcat-jasper_tc5">
+      <home nested="jasper2" />
+      <jar name="lib/jsp20el.jar" />
+  </project>
+
+  <depend project="commons-logging"/>
+</module>
