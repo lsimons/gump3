@@ -1,48 +1,100 @@
 <module name="jakarta-avalon-apps">
 
-  <url href="http://jakarta.apache.org/avalon/"/>
-  <description>
-    Set of applications running on Avalon/Phoenix
-  </description>
+    <url href="http://jakarta.apache.org/avalon/"/>
+    <description>
+        Set of applications running on Avalon/Phoenix
+    </description>
 
-  <cvs repository="jakarta"/>
-  
-  <project name="jakarta-avalon-db">
-    <package>org.apache.avalon.db</package>
+    <cvs repository="jakarta"/>
 
-    <ant basedir="db"/>
+    <project name="avalon-apps-db">
+        <package>org.apache.avalon.db</package>
 
-    <depend project="junit"/>
-    <depend project="jakarta-ant"/>
-    <depend project="xml-xerces" id="parser" runtime="true"/>
-    <depend project="xml-xalan2" id="transformer" runtime="true"/>
-    <option project="checkstyle" inherit="runtime"/>
-    <depend project="jakarta-avalon"/>
-    <depend project="jakarta-avalon-phoenix" inherit="runtime"/>
-    <depend project="jakarta-avalon-cornerstone"/>
-    <depend project="excalibur-altrmi" runtime="true"/>
-    <depend project="bsf" runtime="true"/>
+        <ant basedir="db"/>
 
-    <home nested="db"/>
-    <jar name="build/lib/avalon-db.jar"/>
-  </project>
+        <depend project="junit"/>
+        <depend project="jakarta-ant"/>
+        <depend project="xml-xerces" id="parser" runtime="true"/>
+        <depend project="xml-xalan2" id="transformer" runtime="true"/>
+        <option project="checkstyle" inherit="runtime"/>
+        <depend project="jakarta-avalon"/>
+        <depend project="jakarta-avalon-phoenix" inherit="runtime"/>
+        <depend project="jakarta-avalon-cornerstone"/>
+        <depend project="excalibur-altrmi" runtime="true"/>
+        <depend project="bsf" runtime="true"/>
 
-  <project name="jakarta-avalon-ftpserver">
-    <package>org.apache.avalon.ftpserver</package>
+        <home nested="db"/>
 
-    <ant basedir="ftpserver">
-    </ant>
+        <jar name="build/lib/avalon-db-@@DATE@@.jar"/>
 
-    <depend project="junit"/>
-    <depend project="jakarta-ant"/>
-    <depend project="xml-xerces" id="parser" runtime="true"/>
-    <depend project="jakarta-avalon"/>
-    <depend project="jakarta-avalon-phoenix" inherit="runtime"/>
-    <depend project="jakarta-avalon-cornerstone"/>
+        <nag from="Gump Integration Build &lt;avalon-dev@jakarta.apache.org&gt;"
+            to="avalon-dev@jakarta.apache.org"/>
+    </project>
 
-    <home nested="ftpserver"/>
-    <jar name="build/lib/ftp-server.sar"/>
-  </project>
+    <project name="avalon-apps-demo">
+        <package>org.apache.avalon.demos</package>
+
+        <ant basedir="demo"/>
+
+        <depend project="junit"/>
+        <depend project="jakarta-ant"/>
+        <depend project="xml-xerces" id="parser" runtime="true"/>
+        <depend project="xml-xalan2" id="transformer" runtime="true"/>
+        <option project="checkstyle" inherit="runtime"/>
+        <depend project="jakarta-avalon"/>
+        <depend project="jakarta-avalon-phoenix" inherit="runtime"/>
+        <depend project="jakarta-avalon-cornerstone"/>
+        <depend project="excalibur-altrmi" runtime="true"/>
+
+        <home nested="demo"/>
+
+        <jar name="build/lib/avalon-demo-@@DATE@@.jar"/>
+
+        <nag from="Gump Integration Build &lt;avalon-dev@jakarta.apache.org&gt;"
+            to="avalon-dev@jakarta.apache.org"/>
+    </project>
+
+    <project name="avalon-apps-hsql">
+        <package>org.apache.avalon.hsql</package>
+
+        <ant basedir="hsql"/>
+
+        <depend project="junit"/>
+        <depend project="jakarta-ant"/>
+        <depend project="xml-xerces" id="parser" runtime="true"/>
+        <depend project="xml-xalan2" id="transformer" runtime="true"/>
+        <option project="checkstyle" inherit="runtime"/>
+        <depend project="jakarta-avalon"/>
+        <depend project="jakarta-avalon-phoenix" inherit="runtime"/>
+        <depend project="jakarta-avalon-cornerstone"/>
+
+        <home nested="hsql"/>
+
+        <jar name="build/lib/avalon-hsql-@@DATE@@.jar"/>
+
+        <nag from="Gump Integration Build &lt;avalon-dev@jakarta.apache.org&gt;"
+            to="avalon-dev@jakarta.apache.org"/>
+    </project>
+
+    <project name="avalon-apps-ftpserver">
+        <package>org.apache.avalon.ftpserver</package>
+
+        <ant basedir="ftpserver"/>
+
+        <depend project="junit"/>
+        <depend project="jakarta-ant"/>
+        <depend project="xml-xerces" id="parser" runtime="true"/>
+        <depend project="jakarta-avalon"/>
+        <depend project="jakarta-avalon-phoenix" inherit="runtime"/>
+        <depend project="jakarta-avalon-cornerstone"/>
+
+        <home nested="ftpserver"/>
+
+        <jar name="build/lib/ftp-server-@@DATE@@.sar"/>
+
+        <nag from="Gump Integration Build &lt;avalon-dev@jakarta.apache.org&gt;"
+            to="avalon-dev@jakarta.apache.org"/>
+    </project>
 
 </module>
 
