@@ -19,9 +19,9 @@
       <depend property="avalon-framework.jar" project="jakarta-avalon"/>
       <depend property="phoenix-client.jar" project="jakarta-avalon-phoenix"/>
       <depend property="avalon-excalibur.jar" 
-        project="jakarta-avalon-excalibur" id="avalon-excalibur"/>
+        project="jakarta-avalon-excalibur" id="excalibur-core"/>
       <depend property="avalon-scratchpad.jar" 
-        project="jakarta-avalon-excalibur" id="avalon-scratchpad"/>
+        project="jakarta-avalon-excalibur" id="excalibur-scratchpad"/>
       <depend property="junit.jar"   project="junit"/>
     </ant>
 
