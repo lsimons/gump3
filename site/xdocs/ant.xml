@@ -69,10 +69,15 @@
               <li>jarpath: the fully qualified path of the jar in a referenced
               project.</li>
               <li>srcdir: the srcdir for the module containing the project.</li>
-              <li>path: a path which is to be interpreted relative to the
-              srcdir for the module containing this project</li>
             </ul>
           </td>
+          <td>No</td>
+        </tr>
+        <tr>
+          <td>path</td>
+          <td>a path which is to be interpreted relative to the srcdir for the 
+          module containing this project.  This option is ignored if
+          reference is specified.</td>
           <td>No</td>
         </tr>
         <tr>
