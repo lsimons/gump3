@@ -1,7 +1,7 @@
 #!/usr/bin/env python
-# $Header: /home/stefano/cvs/gump/python/gump/test/Attic/nagging.py,v 1.2 2004/01/28 22:54:49 ajack Exp $
-# $Revision: 1.2 $
-# $Date: 2004/01/28 22:54:49 $
+# $Header: /home/stefano/cvs/gump/python/gump/test/Attic/nagging.py,v 1.3 2004/02/12 00:24:16 ajack Exp $
+# $Revision: 1.3 $
+# $Date: 2004/02/12 00:24:16 $
 #
 # ====================================================================
 #
@@ -92,10 +92,10 @@ class NaggingTestSuite(UnitTestSuite):
         # For all modules...
         for module in self.workspace.getModules():                    
             print 'Get Content For Module : ' + module.getName()
-            print nagger.getContent(module,'test','Testing Module...')
+            print nagger.getNamedTypedContent(module,'test')
             for project in module.getProjects():
                 print 'Get Content For Project : ' + project.getName()
-                print nagger.getContent(project,'test','Testing Project...')
+                print nagger.getNamedTypedContent(project,'test')
                 
     def testNagAddresses(self):
     

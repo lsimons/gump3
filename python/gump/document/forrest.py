@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/forrest.py,v 1.72 2004/02/11 22:07:25 ajack Exp $
-# $Revision: 1.72 $f
-# $Date: 2004/02/11 22:07:25 $
+# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/forrest.py,v 1.73 2004/02/12 00:24:16 ajack Exp $
+# $Revision: 1.73 $f
+# $Date: 2004/02/12 00:24:16 $
 #
 # ====================================================================
 #
@@ -1283,19 +1283,22 @@ class ForrestDocumenter(Documenter):
         if not servers: return    
         if len(servers) == 1: return # Assume this one.     
         
-        serversSection=xdocNode.createSection('Servers')        
+        serversSection=xdocNode.createSection('Servers')  
+        serversSection.createParagraph('These links represent this location on other servers.')      
         serversTable=serversSection.createTable()
         serverRow=serversTable.createRow()
         for server in servers: 
+            # If we can resolve this object to a URL, then do
             if server.hasResolver():
                 serverRow.createData().createFork(	\
                         server.getResolver().getUrl(linkable), \
-                        server.getName() )
+                        'On ' + server.getName() )
             else:
+                # Else just link to the server.
                 if server.hasUrl():
                     serverRow.createData().createFork(	\
                             server.getUrl(), \
-                            server.getName() )    
+                            '~ ' + server.getName() )    
                 
                         
     def documentProperties(self,xdocNode,propertyContainer,title='Properties'):

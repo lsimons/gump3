@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/output/Attic/nag.py,v 1.9 2004/01/30 17:22:57 ajack Exp $
-# $Revision: 1.9 $
-# $Date: 2004/01/30 17:22:57 $
+# $Header: /home/stefano/cvs/gump/python/gump/output/Attic/nag.py,v 1.10 2004/02/12 00:24:16 ajack Exp $
+# $Revision: 1.10 $
+# $Date: 2004/02/12 00:24:16 $
 #
 # ====================================================================
 #
@@ -78,7 +78,7 @@ from gump.model.state import *
 from gump.net.mailer import *
 from gump.utils import *
 
-LINE='------------------------------------------------- G U M P Y\n'
+LINE='- - - - ----------------------------------------- G U M P Y\n'
 
 class AddressPair:
     def __init__(self,toAddr,fromAddr):
@@ -184,7 +184,7 @@ class Nagger:
     
     def nagWorkspace(self):
         """ Nag for the workspace """
-        content=self.getContent(self.workspace,'index',"There is a workspace problem... \n")
+        content=self.getGenericContent(self.workspace,'index',"There is a workspace problem... \n")
         
         self.sendEmail(self.workspace.mailinglist,	\
                         self.workspace.email,	\
@@ -197,7 +197,7 @@ class Nagger:
         #
         # Form the content...
         #
-        content+=self.getContent(module,'index',"Module: " + module.getName() + "\n")
+        content+=self.getNamedTypedContent(module,'index')
                 
         #
         # Form the subject
@@ -222,17 +222,11 @@ class Nagger:
         displayedProject=0
         if not module.isSuccess():
             displayedModule=1
-            content+=self.getContent(module,'index',"Module: " + module.getName() + "\n")
+            content+=self.getNamedTypedContent(module,'index')
         
         if not project.isSuccess():
             displayedProject=1    
-            content+=self.getContent(project, project.getName(), "Project: " + project.getName() + "\n"    )
-        
-        # No clue why this would happen, but fallback safe...
-        if not displayedModule and not displayedProject:
-            content+=self.getContent(module,'index',"Module: " + module.getName() + "\n") 
-            content+="\n"
-            content+=self.getContent(project,project.getName(), "Project: " + project.getName() + "\n")
+            content+=self.getNamedTypedContent(project, project.getName() )        
                 
         #
         # Form the subject
@@ -301,7 +295,28 @@ class Nagger:
             self.addUnsent(subject,content)
                 
             
-    def getContent(self,object,feedPrefix=None,message=None):
+    def getNamedTypedContent(self,object,feedPrefix=None,message=None):
+        content='To whom is may concern,\n\nThis is an automated request, but not an unsolicited one. Please see: http://jakarta.apache.org/gump/nagged.html\n\n'
+    
+        name=object.getName()
+        type=object.__class__.__name__
+        affected=object.determineAffected()
+        
+        # Optional message
+        if message:
+            content+=message             
+            
+        content += type + ': ' + name + ' has an issue affecting it\'s community integration.'
+        if affected:
+            content += ' This issue affects ' + `affected` + ' projects.\n'
+        else:
+            content += '\n'
+            
+        content += self.getGenericContent(object,feedPrefix)
+        
+        return content
+            
+    def getGenericContent(self,object,feedPrefix=None,message=None):
         content=''
     
         # Optional message
@@ -311,23 +326,26 @@ class Nagger:
         #
         # Add State (and reason)
         #
-        content += "State: " + object.getStateDescription() + "\n"
+        content += "State: " + object.getStateDescription()
     
         if not object.hasReason():
-            content +=  "Reason: " + object.getReasonDescription() + "\n"
+            content +=  ', Reason: ' + object.getReasonDescription() + '\n'
+        else:
+            content += '\n'
                                  
         #
         # Link them back here...
         #
         url=self.run.getOptions().getResolver().getUrl(object)
-        content += "URL: " + url + "\n"
-    
+        content += "\nThe URL for full details is: " + url + "\n"
+        content += '\n'
+        
         #
         # Add an info/error/etc...
         #
         if object.annotations:
             content += LINE
-            content += "\n\nAnnotations:\n"
+            content += "\n\nGump provided these annotations:\n\n"
             for note in object.annotations:      
                 content += (' - %s - %s\n' % (levelName(note.level), note.text))
     
@@ -336,14 +354,15 @@ class Nagger:
         #
         if object.worklist: 
             content+="\n\n"
+            content += LINE   
+            content += "\nGump performed this work:\n\n"
             for workitem in object.worklist:
-                content += LINE   
-                content+=workitem.overview()+"\n"   
+                content+=workitem.overview()+'\n\n'   
                 
                 
     
         if feedPrefix:
-            content += LINE       
+            content += '\n\nTo subscribe to this information via syndication:\n'      
             
             #
             # Link them back here...
