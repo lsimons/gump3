@@ -65,7 +65,7 @@
     <jar name="slide/lib/slide-webdavservlet.jar" id="webdavservlet"/>
 
     <jar name="slide/lib/slide-taglib-common.jar" id="taglib-common"/>
-    <jar name="slide/lib/slide-taglib-jstl.jar" id="taglib-jstl"/>
+    <!--jar name="slide/lib/slide-taglib-jstl.jar" id="taglib-jstl"/-->
     <jar name="slide/lib/slide-taglib-struts.jar" id="taglib-struts"/>
 
     <jar name="slide/wrappers/slide-catalinawrapper.jar" id="catalina-wrapper"/>
