@@ -19,6 +19,7 @@
     <depend project="ant" inherit="runtime"/>
     <depend project="junit"/>
     <depend project="jakarta-regexp"/>
+    <depend project="ws-axis"/>
 
     <work nested="build/ant/lib/ForeachTask.jar"/>
 
