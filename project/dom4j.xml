@@ -30,7 +30,7 @@
   </project>
 
   <project name="saxpath">
-    <jar name="lib/saxpath.jar"/>
+    <jar name="lib/org.saxpath.jar"/>
   </project>
 
 </project>
