@@ -1,8 +1,8 @@
 #!/usr/bin/python
 
-# $Header: /home/stefano/cvs/gump/python/gump/Attic/config.py,v 1.9 2003/12/04 23:16:23 ajack Exp $
-# $Revision: 1.9 $
-# $Date: 2003/12/04 23:16:23 $
+# $Header: /home/stefano/cvs/gump/python/gump/Attic/config.py,v 1.10 2003/12/11 18:56:26 ajack Exp $
+# $Revision: 1.10 $
+# $Date: 2003/12/11 18:56:26 $
 #
 # ====================================================================
 #
@@ -115,8 +115,12 @@ class default:
         
     if not os.name == 'dos' and not os.name == 'nt':
         classpathSeparator=':'
+        shellQuote='\''
+        shellEscape='\\'
     else:
         classpathSeparator=';'
+        shellQuote='"'
+        shellEscape='\\'
     
 class setting:    
     """Configuration of hardcoded settings"""

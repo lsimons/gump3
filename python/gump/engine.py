@@ -91,7 +91,18 @@ class GumpEngine:
             workspace.addWarning(message)
             log.warn(message)   
 
-    def integrate(self,run):
+    def continuous(self):
+        
+        while 0:
+            
+            try:
+                # Do the integration
+                ok=self.integrate(run)
+            except:
+                log.error('Failed to integrate...')
+                pass
+        
+    def integrate(self,run):    
   
         #
         # Prepare the context

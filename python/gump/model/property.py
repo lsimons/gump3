@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/model/property.py,v 1.6 2003/11/18 22:54:50 ajack Exp $
-# $Revision: 1.6 $
-# $Date: 2003/11/18 22:54:50 $
+# $Header: /home/stefano/cvs/gump/python/gump/model/property.py,v 1.7 2003/12/11 18:56:27 ajack Exp $
+# $Revision: 1.7 $
+# $Date: 2003/12/11 18:56:27 $
 #
 # ====================================================================
 #
@@ -168,12 +168,19 @@ class PropertyContainer(object):
     def getProperty(self,name):
         return self.properties[name]
         
+    def hasProperties(self):
+        if self.properties: return 1
+        return 0
+        
     def getProperties(self):
         return self.properties.values()
         
     def importProperties(self,xml):
         for xmlproperty in xml.property:
-            self.addProperty(Property(xmlproperty,self))
+            self.importProperty(xmlproperty)
+            
+    def importProperty(self,xmlproperty):
+        self.addProperty(Property(xmlproperty,self))
             
     def completeProperties(self,workspace=None):        
         if not workspace: workspace=self

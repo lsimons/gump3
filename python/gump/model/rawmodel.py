@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/model/Attic/rawmodel.py,v 1.6 2003/12/01 17:34:07 ajack Exp $
-# $Revision: 1.6 $
-# $Date: 2003/12/01 17:34:07 $
+# $Header: /home/stefano/cvs/gump/python/gump/model/Attic/rawmodel.py,v 1.7 2003/12/11 18:56:27 ajack Exp $
+# $Revision: 1.7 $
+# $Date: 2003/12/11 18:56:27 $
 #
 # ====================================================================
 #
@@ -216,6 +216,7 @@ class XMLJavadoc(GumpXMLModelObject):
 
 # represents a <property/> element
 class XMLProperty(GumpXMLModelObject):
+    
   def getName(self):
     return self.name    
         

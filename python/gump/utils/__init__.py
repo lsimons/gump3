@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/utils/__init__.py,v 1.10 2003/12/09 22:26:09 ajack Exp $
-# $Revision: 1.10 $
-# $Date: 2003/12/09 22:26:09 $
+# $Header: /home/stefano/cvs/gump/python/gump/utils/__init__.py,v 1.11 2003/12/11 18:56:26 ajack Exp $
+# $Revision: 1.11 $
+# $Date: 2003/12/11 18:56:26 $
 #
 # ====================================================================
 #
@@ -310,6 +310,30 @@ def getStringFromUnicode(u):
             s += sc
             
     return s
+
+def wrapLine(line,wrapLen=100, eol='\n', marker='[WRAPPED]'):
+    #
+    # Provide some wrapping (at ~ 100)
+    #
+    if len(line) > wrapLen:      
+        startPosn=0
+        endPosn=wrapLen
+        increment=wrapLen
+        totalLen=len(line)
+        wrappedLine=''                                
+        while increment > 0:
+            wrappedLine+=line[startPosn:endPosn]
+            if totalLen - endPosn > wrapLen:
+                increment=wrapLen
+            else:
+                increment=(totalLen - endPosn)
+            if increment:
+                wrappedLine+=eol+marker
+            startPosn+=increment
+            endPosn+=increment
+            print `startPosn` + " : " + `endPosn` + " : " + `totalLen` + ' : ' + `increment`
+            
+    return wrappedLine
     
 def getIndent(depth=0):
     indent=''

@@ -1,7 +1,7 @@
 #!/usr/bin/env python
-# $Header: /home/stefano/cvs/gump/python/gump/test/model.py,v 1.10 2003/12/05 00:51:50 ajack Exp $
-# $Revision: 1.10 $
-# $Date: 2003/12/05 00:51:50 $
+# $Header: /home/stefano/cvs/gump/python/gump/test/model.py,v 1.11 2003/12/11 18:56:27 ajack Exp $
+# $Revision: 1.11 $
+# $Date: 2003/12/11 18:56:27 $
 #
 # ====================================================================
 #
@@ -212,5 +212,15 @@ class ModelTestSuite(UnitTestSuite):
         
         for report in self.project3.getReports():
             self.assertNonZero('Need a directory', report.getResolvedPath())
+            
+    def testProperties(self):
+        self.assertTrue('Has <ant <property', self.project2.getAnt().hasProperties())
         
+        #for property in self.project2.getAnt().getProperties():
+        #    print `property`
         
+        commandLine=self.project2.getBuildCommand().formatCommandLine()        
+        self.assertIn('Need ant.home', 'ant.home', commandLine)
+        self.assertIn('Need project1.jar', 'project1.jar', commandLine)      
+        
+        print commandLine  

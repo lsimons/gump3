@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/model/Attic/ant.py,v 1.9 2003/12/01 20:48:12 ajack Exp $
-# $Revision: 1.9 $
-# $Date: 2003/12/01 20:48:12 $
+# $Header: /home/stefano/cvs/gump/python/gump/model/Attic/ant.py,v 1.10 2003/12/11 18:56:27 ajack Exp $
+# $Revision: 1.10 $
+# $Date: 2003/12/11 18:56:27 $
 #
 # ====================================================================
 #
@@ -101,8 +101,12 @@ class AntBuilder(ModelObject, PropertyContainer):
         # into dependencies
         #
         for property in self.xml.property:
-            self.expandProperty(property,project,workspace)        
+            self.expandProperty(property,project,workspace)       
+            self.importProperty(property)
     
+    #
+    # Expands
+    #
     def expandProperty(self,property,project,workspace):
             
         # Check if the property comes from another project
@@ -151,21 +155,22 @@ class AntBuilder(ModelObject, PropertyContainer):
         #
         for depend in self.xml.depend:
             # Generate the property
-            property=XMLProperty(depend.__dict__)
-            property['reference']='jarpath'
+            xmlproperty=XMLProperty(depend.__dict__)
+            xmlproperty['reference']='jarpath'
       
-            # Name the property...
+            # Name the xmlproperty...
             if depend.property:
-                property['name']=depend.property
-            elif not hasattr(property,'name') or not property['name']:
+                xmlproperty['name']=depend.property
+            elif not hasattr(xmlproperty,'name') or not xmlproperty['name']:
                 # :TODO: Reconsider later, but default to project name for now...
-                property['name']=depend.project
+                xmlproperty['name']=depend.project
                 project.addWarning('Unnamed property for [' + project.name + '] in depend on: ' + depend.project )
         
             # :TODO: AJ added this, no idea if it is right/needed.
-            if depend.id: property['ids']= depend.id
+            if depend.id: xmlproperty['ids']= depend.id
             # Store it
-            self.expandProperty(property,project,workspace)      
+            self.expandProperty(xmlproperty,project,workspace)            
+            self.importProperty(xmlproperty) 
 
         
     #
@@ -178,7 +183,7 @@ class AntBuilder(ModelObject, PropertyContainer):
         # Import the properties..
     	PropertyContainer.importProperties(self,self.xml)
     	
-    	# Compelte them all
+    	# Complete them all
         self.completeProperties(workspace)
                 
         self.setComplete(1)

@@ -1,8 +1,8 @@
 #!/usr/bin/python
 
-# $Header: /home/stefano/cvs/gump/python/gump/check.py,v 1.34 2003/11/18 00:29:49 ajack Exp $
-# $Revision: 1.34 $
-# $Date: 2003/11/18 00:29:49 $
+# $Header: /home/stefano/cvs/gump/python/gump/check.py,v 1.35 2003/12/11 18:56:26 ajack Exp $
+# $Revision: 1.35 $
+# $Date: 2003/12/11 18:56:26 $
 #
 # ====================================================================
 #
@@ -68,14 +68,16 @@ import sys
 import traceback
 import logging
 
-from gump import log
-from gump.logic import getBuildSequenceForProjects, getProjectsForProjectExpression
-from gump.config import dir, default, handleArgv,
-from gump.model import Workspace, Module, Project
-from gump.context import Workspace, CommandWorkItem, WORK_TYPE_CHECK, STATE_SUCCESS
-from gump.tools import tailFileToString
+import os.path
+import os
+import sys
+import logging
 
-from gump.launcher import getCmdFromString, execute
+from gump import log
+from gump.engine import GumpEngine
+from gump.gumprun import GumpRun, GumpRunOptions, GumpSet
+from gump.utils.commandLine import handleArgv
+from gump.model.loader import WorkspaceLoader
 
 ###############################################################################
 # Initialize
@@ -86,7 +88,7 @@ from gump.launcher import getCmdFromString, execute
 # Functions
 ###############################################################################
 
-def check(workspace, expr='*', context=GumpContext(),display=1):
+def check(workspace,run,display=1):
   """dump all dependencies to build a project to the output"""
 
   projects=getProjectsForProjectExpression(expr)
@@ -238,29 +240,29 @@ def printHeader(project):
 #      print "   install the artifacts of " + missed +" manually."
 #            
 
+
 # static void main()
 if __name__=='__main__':
 
-  # init logging
-  logging.basicConfig()
+    # Process command line
+    args = handleArgv(sys.argv)
+    ws=args[0]
+    ps=args[1]
+    
+    # get parsed workspace definition
+    workspace=WorkspaceLoader().load(ws)
+      
+    
+    # TODO populate...
+    options=GumpRunOptions()
+    
+    # The Run Details...
+    run=GumpRun(workspace,ps,options)
+    
 
-  #set verbosity to show all messages of severity >= default.logLevel
-  log.setLevel(default.logLevel)
-  
-  args = handleArgv(sys.argv,0)
-  ws=args[0]
-  ps=args[1]
 
-  # get parsed workspace definition
-  workspace=load(ws)
- 
-  context=GumpContext()
- 
-  #
-  checkEnvironment(workspace,context,0)
-
-  # check
-  result = check(workspace, ps, context, 1)
-
-  # bye!
-  sys.exit(result)
+    #
+    log.info('Gump Integration complete. Exit code:' + str(result))
+          
+    # bye!
+    sys.exit(result)

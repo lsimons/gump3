@@ -1,7 +1,7 @@
 #!/usr/bin/env python
-# $Header: /home/stefano/cvs/gump/python/gump/test/utils.py,v 1.1 2003/11/20 20:51:49 ajack Exp $
-# $Revision: 1.1 $
-# $Date: 2003/11/20 20:51:49 $
+# $Header: /home/stefano/cvs/gump/python/gump/test/utils.py,v 1.2 2003/12/11 18:56:27 ajack Exp $
+# $Revision: 1.2 $
+# $Date: 2003/12/11 18:56:27 $
 #
 # ====================================================================
 #
@@ -62,6 +62,7 @@
 """
 
 from gump.utils import *
+from gump.utils.launcher import Parameters
 from gump.test.pyunit import UnitTestSuite
 
 class UtilsTestSuite(UnitTestSuite):
@@ -112,4 +113,28 @@ class UtilsTestSuite(UnitTestSuite):
         
         rough=getGeneralDifferenceDescription(self.now, twoYearsBefore)
         self.assertIn('Date Diff String', '2 years', rough)
+        
+    def testSpacesInCommandLines(self):
+        params=Parameters()
+        params.addParameter('NoSpaces', 'aaaaa','=')
+        params.addParameter('WithValueSpaces', 'aa aa a','=')
+        params.addParameter('With Name Spaces', 'aaaaa','=')
+        params.addParameter('WithQuotesAndSpaces', 'aa \' \" aa a','=')
+        params.addParameter('WithEscapes', 'aa\\a','=')
+        
+        print params.formatCommandLine()
+        
+        params=Parameters()
+        params.addPrefixedParameter('-D','X', 'aaaaa','=')
+        params.addPrefixedParameter('-D','Y', 'aa aa a','=')
+        params.addPrefixedParameter('-D','Z', 'aa \' aa a','=')
+        params.addPrefixedParameter('-D','Z', 'aa \" aa a','=')
+        
+        print params.formatCommandLine()
+        
+    def testWrap(self):
+        line='xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'
+        print wrapLine(line)
+        line='1234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890'
+        print wrapLine(line)
         

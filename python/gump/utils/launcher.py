@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/utils/Attic/launcher.py,v 1.3 2003/12/03 18:36:13 ajack Exp $
-# $Revision: 1.3 $
-# $Date: 2003/12/03 18:36:13 $
+# $Header: /home/stefano/cvs/gump/python/gump/utils/Attic/launcher.py,v 1.4 2003/12/11 18:56:26 ajack Exp $
+# $Revision: 1.4 $
+# $Date: 2003/12/11 18:56:26 $
 #
 # ====================================================================
 #
@@ -96,6 +96,21 @@ class Parameter:
       self.separator=separator
       self.prefix=prefix
     
+        
+    def isRequiresQuoting(self):
+        if self.name:
+            if ' ' in self.name: return 1
+            if default.shellQuote in self.name: return 1
+            if default.shellEscape in self.name: return 1
+                        
+        if self.value:
+            if ' ' in self.value: return 1
+            if default.shellQuote in self.value: return 1
+            if default.shellEscape in self.value: return 1
+            
+        return 0
+                
+    
 def getParameterFromString(strp):
     """Extract a Parameter Object from a String"""
     parts=split(strp,'=')
@@ -152,16 +167,35 @@ class Parameters:
     def formatCommandLine(self):
       line = ''
       for param in self.list:
+        requiresQuoting=param.isRequiresQuoting()
+        
+        if requiresQuoting:
+            line+=default.shellQuote
+        
         if param.prefix: 
           line += param.prefix
-        line += param.name
+          
+        #
+        # Deal w/ escaping quotes
+        #
+        line += self.getEscapedEntry(param.name)
         val = param.value
         if val:
             line += param.separator
-            line += val
-        line += " "  
+            line += self.getEscapedEntry(val)        
+            
+        if requiresQuoting:
+            line+=default.shellQuote            
+        line += ' '
+        
       return line
-      
+        
+    def getEscapedEntry(self,entry):
+        if not entry: return
+        escapedEntry=entry.replace(default.shellEscape,default.shellEscape+default.shellEscape)        
+        escapedEntry=escapedEntry.replace(default.shellQuote,default.shellEscape+default.shellQuote)
+        return escapedEntry
+        
     def items(self):
       return self.list
       

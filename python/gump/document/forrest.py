@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/forrest.py,v 1.34 2003/12/10 15:33:02 ajack Exp $
-# $Revision: 1.34 $f
-# $Date: 2003/12/10 15:33:02 $
+# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/forrest.py,v 1.35 2003/12/11 18:56:27 ajack Exp $
+# $Revision: 1.35 $f
+# $Date: 2003/12/11 18:56:27 $
 #
 # ====================================================================
 #
@@ -319,6 +319,8 @@ class ForrestDocumenter(Documenter):
         detailsTable.createEntry("E-mail Server: ", workspace.mailserver)
         detailsTable.createEntry("Prefix: ", workspace.prefix)
         detailsTable.createEntry("Signature: ", workspace.signature)
+        
+        self.documentProperties(detailsSection, workspace, 'Workspace Properties')
         
         # Does this workspace send nag mails?
         if workspace.xml.nag:
@@ -949,9 +951,14 @@ class ForrestDocumenter(Documenter):
            
         miscSection=document.createSection('Miscellaneous')
         if project.hasBuildCommand():
+            
+            if project.hasAnt():                
+                self.documentProperties(miscSection, project.getAnt(), 'Ant Properties')
+            
             (classpath,bootclasspath)=project.getClasspathLists()            
             self.displayClasspath(miscSection, classpath,'Classpath',project)        
-            self.displayClasspath(miscSection, bootclasspath,'Boot Classpath',project)    
+            self.displayClasspath(miscSection, bootclasspath,'Boot Classpath',project) 
+               
            
         self.documentXML(miscSection,project)
         
@@ -1047,6 +1054,20 @@ class ForrestDocumenter(Documenter):
             # TODO if 'text' is a list go through list and
             # when not string get the object link and <link it...
             noteRow.createData(note.text) 
+                        
+    def documentProperties(self,xdocNode,propertyContainer,title='Properties'):
+        
+        properties=propertyContainer.getProperties()
+        if not properties: return        
+        
+        propertiesSection=xdocNode.createSection(title)
+        
+        propertiesTable=propertiesSection.createTable(['Name','Value','XML'])
+        for property in properties:      
+            propertyRow=propertiesTable.createRow()
+            propertyRow.createData(property.getName())
+            propertyRow.createData(property.getValue())
+            propertyRow.createData(property.getViewData())
                         
     def documentXML(self,xdocNode,xmlOwner):
         
@@ -1226,6 +1247,9 @@ class ForrestDocumenter(Documenter):
                         o=open(output, 'r')
                         line=o.readline()
                         while line:
+                            
+                            line=wrapLine(line,'...<br/>','    ',100)
+                            
                             length = len(line)
                             size += length
                             # Crude to 'ensure' that escaped
