@@ -273,10 +273,15 @@ function test
     export PYTHONPATH=`pwd`/python:`pwd`:$PYTHONPATH
   fi
 
-  #./test/gumptest.sh
+  # Run the tests
   cd python
   python ../bin/testrunner.py -d ../python/gump/test $@
   cd ..
+  
+  # Clean up (NB: tests ought to do this themselves...)
+  rm -Rf python/test python/bogus python/x.svg python/gump/test/cache \
+      python/gump/test/temp \
+      python/gump/test/test python/gump/test/work
 }
 
 # Run gumpy integration tests
