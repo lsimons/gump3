@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/model/workspace.py,v 1.31 2004/03/01 18:58:00 ajack Exp $
-# $Revision: 1.31 $
-# $Date: 2004/03/01 18:58:00 $
+# $Header: /home/stefano/cvs/gump/python/gump/model/workspace.py,v 1.32 2004/03/09 21:13:18 ajack Exp $
+# $Revision: 1.32 $
+# $Date: 2004/03/09 21:13:18 $
 #
 # ====================================================================
 #
@@ -125,7 +125,6 @@ class Workspace(NamedModelObject, PropertyContainer, Statable, Resultable):
         #
     	# Set to true if not found, see checkEnvironment
     	#
-    	self.noRSync=0
     	self.noForrest=0    
     	self.noMaven=0    	
     	self.noRuper=0    	
@@ -634,7 +633,6 @@ class Workspace(NamedModelObject, PropertyContainer, Statable, Resultable):
         #
         #	These ought set a switch..
         #
-        #	rsync or cp
         #	forrest (for documentation)
         #
         self.checkExecutable('env','',0)
@@ -663,10 +661,6 @@ class Workspace(NamedModelObject, PropertyContainer, Statable, Resultable):
             not self.checkExecutable('maven','--version',0,0,'check_maven'): 
             self.noMaven=1
             self.addWarning('"maven" command not found, no Maven builds')
-        
-        if not self.checkExecutable('rsync','-help',0): 
-            self.noRSync=1
-            self.addWarning('"rsync" command not found, so attempting recursive copy "cp -R"')
         
         if not self.checkExecutable('pgrep','-help',0): 
             self.noPGrep=1

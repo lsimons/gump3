@@ -356,8 +356,7 @@ class GumpEngine:
                     module.setUpdated(cmdResult.hasOutput())
                 
     def syncWorkDirs( self, run ):
-        """copy the raw module (project) materials from source to work dir 
-          (hopefully using rsync, cp is fallback) """
+        """copy the raw module (project) materials from source to work dir"""
 
         workspace = run.getWorkspace()
 
