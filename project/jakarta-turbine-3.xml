@@ -25,7 +25,7 @@
 
     <depend project="jaf"/>
     <depend project="jakarta-cactus-framework-12"/>
-    <depend project="jakarta-cactus-ant"/>
+    <depend project="jakarta-cactus-anttasks"/>
     <depend project="commons-beanutils"/>
     <depend project="commons-collections"/>
     <depend project="commons-configuration"/>

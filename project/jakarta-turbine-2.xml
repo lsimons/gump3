@@ -52,7 +52,7 @@
     <depend project="commons-httpclient"/>
     <depend project="httpunit"/>
     <depend project="jakarta-cactus-framework-12"/>
-    <depend project="jakarta-cactus-ant"/>
+    <depend project="jakarta-cactus-anttasks"/>
     <depend project="jtidy"/>
     <depend project="junit"/>
     <depend project="jython"/>
