@@ -1,6 +1,6 @@
 <workspace basedir="/usr/serverlocal/gump"
            logdir="/www/gump.cocoondev.org/webapps/ROOT"
-           pkgdir="/home/r/rubys/opt"
+           pkgdir="/usr/serverlocal/gump/opt"
            sync="rsync -r -a --delete"
            version="0.3">
 
