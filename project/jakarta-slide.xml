@@ -29,6 +29,7 @@
     <depend project="commons-httpclient"/>
     <depend project="jakarta-struts"/>
     <depend project="commons-modeler"/>
+    <depend project="jdbc"/>
     <work nested="build/classes"/>
     <work nested="build/client/classes"/>
 
