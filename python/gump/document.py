@@ -822,7 +822,7 @@ def getContextUrl(context,depth=1):
     elif isinstance(context,ModuleContext):
         url=getModuleRelativeUrl(context.name,depth)
     else:        
-        url=getModuleProjectRelativeUrl(context.parent.name,context,name,1)
+        url=getModuleProjectRelativeUrl(context.parent.name,context.name,1)
     return 
     
 def getWorkspaceRelativeUrl(depth=0):
