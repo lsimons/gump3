@@ -143,6 +143,8 @@
 
     <ant target="docs">
       <property name="ant.home" project="ant" reference="home"/>
+      <!-- squeeze dependency checking for xjavadoc until build file allows us to say where xjavadoc is living -->
+      <property name="xjavadoc.uptodate" value="true"/>
       <property name="version" value="@@DATE@@"/>
       <depend name="xjavadoc.unicode.jar" project="xjavadoc"/>
     </ant>
