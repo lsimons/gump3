@@ -1,4 +1,4 @@
-<workspace basedir="D:\jakarta" cvsdir="D:\jakarta\cvs">
+<workspace basedir="D:\jakarta" cvsdir="D:\jakarta\cvs" version="0.2">
 
   <build sysclasspath="only"/>
 

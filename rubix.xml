@@ -1,4 +1,5 @@
-<workspace basedir="/home/rubys/jakarta" cvsdir="/home/rubys/jakarta/cvs">
+<workspace basedir="/home/rubys/jakarta" cvsdir="/home/rubys/jakarta/cvs" 
+           version="0.2">
 
   <build sysclasspath="only"/>
 

@@ -4,7 +4,7 @@
 
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0">
 
-  <xsl:output method="xml" indent="yes" omit-xml-declaration="yes"/>
+  <xsl:output indent="yes"/>
   <xsl:strip-space elements="*"/>
 
   <xsl:template match="*|@*">
@@ -18,6 +18,17 @@
   <!-- =================================================================== -->
 
   <xsl:template match="workspace">
+    <xsl:variable name="version">0.2</xsl:variable>
+    <xsl:if test="not(@version)">
+      <xsl:message terminate="yes">
+Cannot find version number, should be &lt;workspace version="<xsl:value-of select="$version"/>"&gt;
+      </xsl:message>
+    </xsl:if>
+    <xsl:if test="not(@version=$version)">
+      <xsl:message terminate="yes">
+Hmm, looks like the wrong version <xsl:value-of select="@version"/>, expecting <xsl:value-of select="$version"/>
+      </xsl:message>
+    </xsl:if>
     <xsl:variable name="basedir" select="@basedir"/>
     <xsl:copy>
 
@@ -51,7 +62,9 @@
       </xsl:if>
 
       <xsl:copy-of select="@*"/>
-      <xsl:copy-of select="*[not(self::project)]"/>
+
+      <!-- Drop pre-processing versions of project and repository -->
+      <xsl:copy-of select="*[not(self::project|self::repository)]"/>
 
       <!-- process any directly nested projects verbatim -->
 
@@ -82,13 +95,36 @@
 
         <xsl:variable name="defined-in"
            select="substring-before(substring-after(@href,'/'),'.')"/>
+        <xsl:variable name="tag" select="@tag"/>
         <xsl:for-each select="$file/project">
           <xsl:call-template name="project">
             <xsl:with-param name="home" select="$home"/>
             <xsl:with-param name="basedir" select="$basedir"/>
+            <xsl:with-param name="tag" select="$tag"/>
             <xsl:with-param name="defined-in" select="$defined-in"/>
           </xsl:call-template>
         </xsl:for-each>
+
+      </xsl:for-each>
+
+      <!-- Process repositories -->
+      <xsl:for-each select="repository[@href]">
+        <xsl:text>&#10;&#10;</xsl:text>
+
+        <!-- is the file found? -->
+
+        <xsl:variable name="file" select="document(@href,.)"/>
+        <xsl:if test="not($file/repository)">
+          <xsl:message terminate="yes">
+            <xsl:text>Unable to open </xsl:text>
+            <xsl:value-of select="@href"/>
+          </xsl:message>
+        </xsl:if>
+
+        <!-- process it -->
+
+        <xsl:copy-of select="$file[not(self::home|self::project)] |@*| text()"/>
+
 
       </xsl:for-each>
 
@@ -102,6 +138,7 @@
   <xsl:template name="project">
     <xsl:param name="home"/>
     <xsl:param name="basedir"/>
+    <xsl:param name="tag"/>
     <xsl:param name="defined-in"/>
 
     <xsl:variable name="project" select="@name"/>
@@ -136,6 +173,10 @@
 
       <xsl:attribute name="srcdir">
         <xsl:value-of select="$srcdir"/>
+      </xsl:attribute>
+
+      <xsl:attribute name="tag">
+        <xsl:value-of select="$tag"/>
       </xsl:attribute>
 
       <xsl:apply-templates select="*[not(self::home|self::project)] | text()"/>
