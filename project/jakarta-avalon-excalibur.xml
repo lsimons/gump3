@@ -23,6 +23,7 @@
     <depend project="junit"/>
     <depend project="jakarta-servletapi-4"/>
     <depend project="bsf"/>
+    <depend project="rhino"/>
     <work nested="build/classes"/>
 
     <home nested="build/lib"/>
