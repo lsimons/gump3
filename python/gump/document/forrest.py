@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/forrest.py,v 1.95 2004/03/08 16:04:08 ajack Exp $
-# $Revision: 1.95 $f
-# $Date: 2004/03/08 16:04:08 $
+# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/forrest.py,v 1.96 2004/03/08 22:28:08 ajack Exp $
+# $Revision: 1.96 $f
+# $Date: 2004/03/08 22:28:08 $
 #
 # ====================================================================
 #
@@ -236,8 +236,8 @@ class ForrestDocumenter(Documenter):
     def documentWorkspace(self,run,workspace,gumpSet):
         
         # Pretty sorting...
-        sortedModuleList=createOrderedList(gumpSet.getModules())
-        sortedProjectList=createOrderedList(gumpSet.getSequence())
+        sortedModuleList=createOrderedList(gumpSet.getModuleSequence())
+        sortedProjectList=createOrderedList(gumpSet.getProjectSequence())
         sortedRepositoryList=createOrderedList(gumpSet.getRepositories())        
         sortedServerList=createOrderedList(workspace.getServers())       
         sortedTrackerList=createOrderedList(workspace.getTrackers())
@@ -438,9 +438,9 @@ class ForrestDocumenter(Documenter):
         projectsSection=document.createSection('Projects (in build order)')
         projectsTable=projectsSection.createTable(['Time','Updated','Name','Project State','Duration\nin state','Last Modified','Elapsed'])
         pcount=0
-        for project in gumpSet.getSequence():
+        for project in gumpSet.getProjectSequence():
             # :TODO: Next line irrelevent?
-            if not gumpSet.inSequence(project): continue       
+            if not gumpSet.inProjectSequence(project): continue       
             
             pcount+=1
     
@@ -476,7 +476,7 @@ class ForrestDocumenter(Documenter):
         projectsTable=projectsSection.createTable(['Name','Project State','Elapsed Time','FOG Factor'])
         pcount=0
         for project in sortedProjectList:
-            if not gumpSet.inSequence(project): continue    
+            if not gumpSet.inProjectSequence(project): continue    
             
             pcount+=1
     
@@ -508,7 +508,7 @@ class ForrestDocumenter(Documenter):
                     'Duration\nin state','Project State'])
         pcount=0
         for project in sortedProjectList:
-            if not gumpSet.inSequence(project): continue       
+            if not gumpSet.inProjectSequence(project): continue       
             
             if not project.getState()==STATE_FAILED:
                 continue
@@ -562,7 +562,7 @@ class ForrestDocumenter(Documenter):
         
         mcount=0
         for module in sortedModuleList:      
-            if not gumpSet.inModules(module): continue
+            if not gumpSet.inModuleSequence(module): continue
             
             #
             # Determine if there are todos, otherwise continue
@@ -623,7 +623,7 @@ class ForrestDocumenter(Documenter):
 
         mcount=0
         for module in sortedModuleList:
-            if not gumpSet.inModules(module): continue
+            if not gumpSet.inModuleSequence(module): continue
             
             mcount+=1
                     
@@ -653,7 +653,7 @@ class ForrestDocumenter(Documenter):
         mpkgTable=mpkgSection.createTable(['Name','State','Project State(s)'])
         mcount=0
         for module in sortedModuleList:           
-            if not gumpSet.inModules(module): continue
+            if not gumpSet.inModuleSequence(module): continue
             
             packaged=0
             #
@@ -680,7 +680,7 @@ class ForrestDocumenter(Documenter):
         if packages:
             pkgsTable=pkgsSection.createTable(['Name','State','Location'])
             for project in sortedProjectList:
-                if not gumpSet.inSequence(project): continue   
+                if not gumpSet.inProjectSequence(project): continue   
                 if not project.isPackaged(): continue
                 
                 packageRow=pkgsTable.createRow()                
@@ -718,7 +718,7 @@ class ForrestDocumenter(Documenter):
         # Document modules
         #
         for module in workspace.getModules():
-            if not gumpSet.inModules(module): continue  
+            if not gumpSet.inModuleSequence(module): continue  
             self.documentModule(module,workspace,gumpSet)
             
         # Document workspace
@@ -959,7 +959,7 @@ class ForrestDocumenter(Documenter):
             ptodosTable=ptodosSection.createTable(['Name','State','Elapsed'])
             pcount=0
             for project in module.getProjects():     
-                if not gumpSet.inSequence(project): continue  
+                if not gumpSet.inProjectSequence(project): continue  
             
                 #
 	            # Determine if there are todos, otherwise continue
@@ -986,7 +986,7 @@ class ForrestDocumenter(Documenter):
         
         pcount=0
         for project in module.getProjects():     
-            if not gumpSet.inSequence(project): continue  
+            if not gumpSet.inProjectSequence(project): continue  
             pcount+=1
             
             projectRow=pallTable.createRow()
@@ -1062,7 +1062,7 @@ class ForrestDocumenter(Documenter):
       
         # Document Projects
         for project in module.getProjects():
-            if not gumpSet.inSequence(project): continue      
+            if not gumpSet.inProjectSequence(project): continue      
             self.documentProject(project,workspace,gumpSet)
        
     # Document the module XML
@@ -1789,7 +1789,7 @@ class ForrestDocumenter(Documenter):
     def insertStateIcons(self,gumpSet,module,fromObject,xdocNode):
         icons=''
         for project in module.getProjects():
-            if not gumpSet.inSequence(project): continue     
+            if not gumpSet.inProjectSequence(project): continue     
             self.insertStateIcon(project,fromObject,xdocNode)
             # A separator, to allow line wrapping
             xdocNode.createText(' ')
@@ -1989,7 +1989,7 @@ class ForrestDocumenter(Documenter):
         
         elapsedTable=document.createTable(['Modules By Elapsed'])
         for module in stats.modulesByElapsed:        
-            if not gumpSet.inModules(module): continue
+            if not gumpSet.inModuleSequence(module): continue
             elapsedRow=elapsedTable.createRow()
             self.insertLink( module, stats, elapsedRow.createData())
             elapsedRow.createData(secsToElapsedString(module.getElapsedSecs()))
@@ -2005,7 +2005,7 @@ class ForrestDocumenter(Documenter):
         
         mprojsTable=document.createTable(['Modules By Project Count'])
         for module in stats.modulesByProjectCount:         
-            if not gumpSet.inModules(module): continue     
+            if not gumpSet.inModuleSequence(module): continue     
             mprojsRow=mprojsTable.createRow()
             
             self.insertLink( module, stats, mprojsRow.createData())
@@ -2031,7 +2031,7 @@ class ForrestDocumenter(Documenter):
         
         dependenciesTable=document.createTable(['Module','Full Dependency Count'])
         for module in stats.modulesByTotalDependencies:         
-            if not gumpSet.inModules(module): continue   
+            if not gumpSet.inModuleSequence(module): continue   
             dependenciesRow=dependenciesTable.createRow()
             self.insertLink( module, stats, dependenciesRow.createData())
             dependenciesRow.createData( module.getFullDependencyCount())
@@ -2054,7 +2054,7 @@ class ForrestDocumenter(Documenter):
         
         dependeesTable=document.createTable(['Module','Full Dependee Count'])
         for module in stats.modulesByTotalDependees:         
-            if not gumpSet.inModules(module): continue   
+            if not gumpSet.inModuleSequence(module): continue   
             dependeesRow=dependeesTable.createRow()
             self.insertLink( module, stats, dependeesRow.createData())
             dependeesRow.createData(module.getFullDependeeCount())
@@ -2075,7 +2075,7 @@ class ForrestDocumenter(Documenter):
         document=XDocDocument('Modules By FOG Factor',	file)        
         fogTable=document.createTable(['Module','FOG Factor'])
         for module in stats.modulesByFOGFactor:        
-            if not gumpSet.inModules(module): continue    
+            if not gumpSet.inModuleSequence(module): continue    
             fogRow=fogTable.createRow()            
             self.insertLink( module, stats, fogRow.createData())                
             fogRow.createData('%02.2f' % module.getFOGFactor())
@@ -2090,7 +2090,7 @@ class ForrestDocumenter(Documenter):
         document=XDocDocument('Modules By Last Updated', file)        
         updTable=document.createTable(['Module','Last Updated'])
         for module in stats.modulesByLastUpdated:        
-            if not gumpSet.inModules(module): continue    
+            if not gumpSet.inModuleSequence(module): continue    
             updRow=updTable.createRow()            
             self.insertLink( module, stats, updRow.createData())                
             updRow.createData(secsToDate(module.getLastUpdated()))
@@ -2106,7 +2106,7 @@ class ForrestDocumenter(Documenter):
         
         elapsedTable=document.createTable(['Projects By Elapsed'])
         for project in stats.projectsByElapsed:        
-            if not gumpSet.inSequence(project): continue
+            if not gumpSet.inProjectSequence(project): continue
             elapsedRow=elapsedTable.createRow()
             self.insertLink( project, stats, elapsedRow.createData())
             elapsedRow.createData(secsToElapsedString(project.getElapsedSecs()))
@@ -2122,7 +2122,7 @@ class ForrestDocumenter(Documenter):
         
         dependenciesTable=document.createTable(['Project','Direct Dependency Count', 'Full Dependency Count'])
         for project in stats.projectsByTotalDependencies:         
-            if not gumpSet.inSequence(project): continue   
+            if not gumpSet.inProjectSequence(project): continue   
             dependenciesRow=dependenciesTable.createRow()
             self.insertLink( project, stats, dependenciesRow.createData())
             dependenciesRow.createData( project.getDependencyCount())
@@ -2146,7 +2146,7 @@ class ForrestDocumenter(Documenter):
         
         dependeesTable=document.createTable(['Project','Direct Dependee Count', 'Full Dependee Count'])
         for project in stats.projectsByTotalDependees:         
-            if not gumpSet.inSequence(project): continue   
+            if not gumpSet.inProjectSequence(project): continue   
             dependeesRow=dependeesTable.createRow()
             self.insertLink( project, stats, dependeesRow.createData())
             dependeesRow.createData(project.getDependeeCount())
@@ -2168,7 +2168,7 @@ class ForrestDocumenter(Documenter):
         document=XDocDocument('Projects By FOG Factor',	 file)        
         fogTable=document.createTable(['Project','Successes','Failures','Preq-Failures','FOG Factor'])
         for project in stats.projectsByFOGFactor:        
-            if not gumpSet.inSequence(project): continue    
+            if not gumpSet.inProjectSequence(project): continue    
             fogRow=fogTable.createRow()            
             self.insertLink( project, stats, fogRow.createData())  
                  
@@ -2189,7 +2189,7 @@ class ForrestDocumenter(Documenter):
         document=XDocDocument('Projects By Duration In State',	file)        
         durTable=document.createTable(['Project','Duration\nIn State','State'])
         for project in stats.projectsBySequenceInState:        
-            if not gumpSet.inSequence(project): continue    
+            if not gumpSet.inProjectSequence(project): continue    
             durRow=durTable.createRow()            
             self.insertLink( project, stats, durRow.createData())  
                  
@@ -2289,7 +2289,7 @@ class ForrestDocumenter(Documenter):
         
                 moduleRepoTable=repoSection.createTable(['Modules'])
                 for module in moduleList:        
-                    if not gumpSet.inModules(module): continue
+                    if not gumpSet.inModuleSequence(module): continue
                     moduleRepoRow=moduleRepoTable.createRow()
                     self.insertLink( module, xref, moduleRepoRow.createData())
                     
@@ -2314,7 +2314,7 @@ class ForrestDocumenter(Documenter):
             
             hasSome=0
             for module in moduleList:        
-                if not gumpSet.inModules(module): continue
+                if not gumpSet.inModuleSequence(module): continue
                 hasSome=1
                 
             if hasSome:
@@ -2323,7 +2323,7 @@ class ForrestDocumenter(Documenter):
             
                 moduleData=packageRow.createData()
                 for module in moduleList:        
-                    if not gumpSet.inModules(module): continue                
+                    if not gumpSet.inModuleSequence(module): continue                
                     self.insertLink(module, xref, moduleData)
                     moduleData.createText(' ')
           
@@ -2346,7 +2346,7 @@ class ForrestDocumenter(Documenter):
             
             hasSome=0
             for module in moduleList:        
-                if not gumpSet.inModules(module): continue
+                if not gumpSet.inModuleSequence(module): continue
                 hasSome=1
                 
             if hasSome:
@@ -2355,7 +2355,7 @@ class ForrestDocumenter(Documenter):
             
                 moduleData=descriptionRow.createData()
                 for module in moduleList:        
-                    if not gumpSet.inModules(module): continue                
+                    if not gumpSet.inModuleSequence(module): continue                
                     self.insertLink(module, xref, moduleData)
                     moduleData.createText(' ')
           
@@ -2377,7 +2377,7 @@ class ForrestDocumenter(Documenter):
             
             hasSome=0
             for project in projectList:        
-                if not gumpSet.inSequence(project): continue
+                if not gumpSet.inProjectSequence(project): continue
                 hasSome=1
                 
             if hasSome:
@@ -2386,7 +2386,7 @@ class ForrestDocumenter(Documenter):
             
                 projectData=packageRow.createData()
                 for project in projectList:        
-                    if not gumpSet.inSequence(project): continue                
+                    if not gumpSet.inProjectSequence(project): continue                
                     self.insertLink(project, xref, projectData)
                     projectData.createText(' ')
           
@@ -2408,7 +2408,7 @@ class ForrestDocumenter(Documenter):
             
             hasSome=0
             for project in projectList:        
-                if not gumpSet.inSequence(project): continue
+                if not gumpSet.inProjectSequence(project): continue
                 hasSome=1
                 
             if hasSome:
@@ -2417,7 +2417,7 @@ class ForrestDocumenter(Documenter):
             
                 projectData=descriptionRow.createData()
                 for project in projectList:        
-                    if not gumpSet.inSequence(project): continue                
+                    if not gumpSet.inProjectSequence(project): continue                
                     self.insertLink(project, xref, projectData)
                     projectData.createText(' ')
           
@@ -2440,7 +2440,7 @@ class ForrestDocumenter(Documenter):
             
             hasSome=0
             for project in projectList:        
-                if not gumpSet.inSequence(project): continue
+                if not gumpSet.inProjectSequence(project): continue
                 hasSome=1
                 
             if hasSome:
@@ -2449,7 +2449,7 @@ class ForrestDocumenter(Documenter):
             
                 projectData=outputRow.createData()
                 for project in projectList:        
-                    if not gumpSet.inSequence(project): continue                
+                    if not gumpSet.inProjectSequence(project): continue                
                     self.insertLink(project, xref, projectData)
                     projectData.createText(' ')
           
@@ -2471,7 +2471,7 @@ class ForrestDocumenter(Documenter):
             
             hasSome=0
             for project in projectList:        
-                if not gumpSet.inSequence(project): continue
+                if not gumpSet.inProjectSequence(project): continue
                 hasSome=1
                 
             if hasSome:
@@ -2480,7 +2480,7 @@ class ForrestDocumenter(Documenter):
             
                 projectData=descLocnRow.createData()
                 for project in projectList:        
-                    if not gumpSet.inSequence(project): continue                
+                    if not gumpSet.inProjectSequence(project): continue                
                     self.insertLink(project, xref, projectData)
                     projectData.createText(' ')
           

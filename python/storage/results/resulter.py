@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/storage/results/Attic/resulter.py,v 1.1 2004/02/28 00:08:48 ajack Exp $
-# $Revision: 1.1 $
-# $Date: 2004/02/28 00:08:48 $
+# $Header: /home/stefano/cvs/gump/python/storage/results/Attic/resulter.py,v 1.2 2004/03/08 22:28:09 ajack Exp $
+# $Revision: 1.2 $
+# $Date: 2004/03/08 22:28:09 $
 #
 # ====================================================================
 #
@@ -127,7 +127,7 @@ class Resulter:
     
         # For all modules...
         for module in self.workspace.getModules():        
-                if not self.gumpSet.inModules(module): continue
+                if not self.gumpSet.inModuleSequence(module): continue
                 
                 #
                 # Generate results for this module, and
@@ -141,7 +141,7 @@ class Resulter:
                 
                 # Add projects
                 for project in module.getProjects():
-                    if not self.gumpSet.inSequence(project): continue    
+                    if not self.gumpSet.inProjectSequence(project): continue    
                     
                     #
                     # Add a project

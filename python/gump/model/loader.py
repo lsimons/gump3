@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/model/Attic/loader.py,v 1.7 2004/02/17 21:54:20 ajack Exp $
-# $Revision: 1.7 $
-# $Date: 2004/02/17 21:54:20 $
+# $Header: /home/stefano/cvs/gump/python/gump/model/Attic/loader.py,v 1.8 2004/03/08 22:28:09 ajack Exp $
+# $Revision: 1.8 $
+# $Date: 2004/03/08 22:28:09 $
 #
 # ====================================================================
 #
@@ -73,68 +73,86 @@ from gump.utils.xmlutils import SAXDispatcher
 from gump.utils.note import transferAnnotations, Annotatable
 from gump.utils import dump
 
+from gump.config import dir, switch, setting
+
 class WorkspaceLoader:
     def __init__(self):
         self.annotations=[]
         
-    def load(self,file):
-      """Builds a GOM in memory from the xml file. Return the generated GOM."""
+    def load(self,file,quick=0):
+        """Builds a GOM in memory from the xml file. Return the generated GOM."""
 
-      if not os.path.exists(file):
-        log.error('Workspace metadata file ['+file+'] not found')
-        raise IOError, """Workspace %s not found!
+        if not os.path.exists(file):
+            log.error('Workspace metadata file ['+file+'] not found')
+            raise IOError, """Workspace %s not found!
 
       You need to specify a valid workspace for Gump to run
       If you are new to Gump, simply copy minimal-workspace.xml
       to a file with the name of your computer (`hostname`.xml)
       and rerun this program.""" % file 
     
-      #
-      # Clear out the maps
-      #
-      XMLWorkspace.map={}
-      XMLProfile.map={}
-      XMLRepository.map={}
-      XMLModule.map={}
-      XMLProject.map={}
-      XMLServer.map={}
-      XMLTracker.map={}
+        #
+        # Clear out the maps
+        #
+        XMLWorkspace.map={}
+        XMLProfile.map={}
+        XMLRepository.map={}
+        XMLModule.map={}
+        XMLProject.map={}
+        XMLServer.map={}
+        XMLTracker.map={}
     
-      log.debug("Launch SAX Dispatcher onto : " + file);
-              
-      parser=SAXDispatcher(file,'workspace',XMLWorkspace)
+        log.debug("Launch SAX Dispatcher onto : " + file);
     
-      # Extract the root XML
-      xmlworkspace=parser.docElement
+        o=0
+        on=0
+        try:
+            if quick:
+                # Hack, temporarily turn on optimization
+                o=switch.optimize 
+                on=switch.optimizenetwork
+                switch.optimize=1 
+                switch.optimizenetwork=1
+          
+            parser=SAXDispatcher(file,'workspace',XMLWorkspace)
     
-      if not xmlworkspace:
-        raise IOError, "Failed to load workspace" + file
+            # Extract the root XML
+            xmlworkspace=parser.docElement
     
-      # Construct object around XML.
-      workspace=Workspace(xmlworkspace)
+            if not xmlworkspace:
+                raise IOError, "Failed to load workspace" + file
+    
+            # Construct object around XML.
+            workspace=Workspace(xmlworkspace)
       
-      # Copy over any XML errors/warnings
-      transferAnnotations(parser, workspace)
+            # Copy over any XML errors/warnings
+            transferAnnotations(parser, workspace)
   
-      #
-      # Cook the raw model...
-      #
-      workspace.complete(XMLProfile.map,XMLRepository.map,	\
+            #
+            # Cook the raw model...
+            #
+            workspace.complete(XMLProfile.map,XMLRepository.map,	\
                           XMLModule.map,XMLProject.map,	\
                           XMLServer.map, XMLTracker.map)
-
-      #
-      # Clear out the maps [so don't continue to use them]
-      #
-      XMLWorkspace.map={}
-      XMLModule.map={}
-      XMLProject.map={}
-      XMLProfile.map={}
-      XMLRepository.map={}
-      XMLTracker.map={}
-      XMLServer.map={}
+                          
+        finally:
+            #
+            # Clear out the maps [so don't continue to use them]
+            #
+            XMLWorkspace.map={}
+            XMLModule.map={}
+            XMLProject.map={}
+            XMLProfile.map={}
+            XMLRepository.map={}
+            XMLTracker.map={}
+            XMLServer.map={}
   
-      return workspace      
+            if quick:
+                # Hack, temporarily turn on optimization
+                switch.optimize=o
+                switch.optimizenetwork=on
+                
+        return workspace      
       
     def loadModule(self,url,workspace):
         

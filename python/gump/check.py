@@ -1,8 +1,8 @@
 #!/usr/bin/python
 
-# $Header: /home/stefano/cvs/gump/python/gump/check.py,v 1.37 2004/03/02 21:11:39 ajack Exp $
-# $Revision: 1.37 $
-# $Date: 2004/03/02 21:11:39 $
+# $Header: /home/stefano/cvs/gump/python/gump/check.py,v 1.38 2004/03/08 22:28:08 ajack Exp $
+# $Revision: 1.38 $
+# $Date: 2004/03/08 22:28:08 $
 #
 # ====================================================================
 #
@@ -92,16 +92,12 @@ from gump.model.loader import WorkspaceLoader
 if __name__=='__main__':
 
     # Process command line
-    args = handleArgv(sys.argv)
+    (args,options) = handleArgv(sys.argv)
     ws=args[0]
     ps=args[1]
     
     # get parsed workspace definition
-    workspace=WorkspaceLoader().load(ws)
-      
-    
-    # TODO populate...
-    options=GumpRunOptions()
+    workspace=WorkspaceLoader().load(ws, options.isQuick())
     
     # The Run Details...
     run=GumpRun(workspace,ps,options)

@@ -46,8 +46,9 @@ class GumpSet:
     """ Contains the primary works sets -- to save recalculating and
     passing so many individual things around """
     def __init__(self, workspace, pexpr=None, \
-                        projects=None, sequence=None, \
-                        modules=None, repositories=None ):
+                        projects=None, projectSequence=None, \
+                        modules=None, moduleSequence=None, \
+                        repositories=None ):
         self.workspace=workspace
         if not self.workspace:
             raise RuntimeError, 'A non-None workspace is require'
@@ -67,24 +68,32 @@ class GumpSet:
         #
         # Project Build Sequence
         #
-        if not sequence:
-            self.sequence=self.getBuildSequenceForProjects(self.projects)
+        if not projectSequence:
+            self.projectSequence=self.getBuildSequenceForProjects(self.projects)
         else:
-            self.sequence=sequence
+            self.projectSequence=projectSequence
             
         #
         # Module List
         #
         if not modules:
-            self.modules=self.getModulesForProjectList(self.sequence)
+            self.modules=self.getModulesForProjectList(self.projects)
         else:
             self.modules=modules 
+        
+        #
+        # Module Sequence
+        #
+        if not moduleSequence:
+            self.moduleSequence=self.getModulesForProjectList(self.projectSequence)
+        else:
+            self.moduleSequence=moduleSequence
         
         #
         # Repository List
         #
         if not repositories:
-            self.repositories=self.getRepositoriesForModuleList(self.modules)
+            self.repositories=self.getRepositoriesForModuleList(self.moduleSequence)
         else:
             self.repositories=repositories
                 
@@ -121,7 +130,14 @@ class GumpSet:
     def inModules(self,module):
         return module in self.modules
         
+    def getModuleSequence(self):
+        return self.moduleSequence
+            
+    def inModuleSequence(self,module):
+        return module in self.moduleSequence
+        
     def getRepositories(self):
+        """ The list of repositories encountered by the module sequence """
         return self.repositories
             
     def inRepositories(self,repository):
@@ -136,11 +152,11 @@ class GumpSet:
     def getProjectExpression(self):
         return self.projectexpression
         
-    def getSequence(self):
-        return self.sequence    
+    def getProjectSequence(self):
+        return self.projectSequence    
 
-    def inSequence(self,project):
-        return project in self.sequence
+    def inProjectSequence(self,project):
+        return project in self.projectSequence
     
     def getModuleNamesForProjectExpression(self,expr):
         return self.getModuleNamesForProjectList(	\
@@ -295,6 +311,7 @@ class GumpRunOptions:
  
         self.debug=0	
         self.verbose=0	
+        self.quick=1	# Defaults to QUICK
         self.dated=0	# Defaults to NOT dated.
         
         # Default is Text        
@@ -316,6 +333,24 @@ class GumpRunOptions:
         
     def setDated(self,dated):
         self.dated=dated
+        
+    def isQuick(self):
+        return self.quick
+        
+    def setQuick(self,quick):
+        self.quick=quick
+        
+    def isDebug(self):
+        return self.debug
+        
+    def setDebug(self,debug):
+        self.debug=debug
+        
+    def isVerbose(self):
+        return self.verbose
+        
+    def setVerbose(self,verbose):
+        self.verbose=verbose
         
 class GumpRun(Workable,Annotatable,Stateful):
     def __init__(self,workspace,expr=None,options=None):

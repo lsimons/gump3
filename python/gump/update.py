@@ -37,12 +37,12 @@ from gump.model.loader import WorkspaceLoader
 if __name__=='__main__':
 
     # Process command line
-    args = handleArgv(sys.argv)
+    (args,options) = handleArgv(sys.argv)
     ws=args[0]
     ps=args[1]
     
     # get parsed workspace definition
-    workspace=WorkspaceLoader().load(ws)
+    workspace=WorkspaceLoader().load(ws, options.isQuick())
       
     #
     # Check Environment (eventually not do this each time)
@@ -56,9 +56,6 @@ if __name__=='__main__':
     # to screen.
     #
     #check(workspace, ps, context, 0)    
-    
-    # TODO populate...
-    options=GumpRunOptions()
     
     # The Run Details...
     run=GumpRun(workspace,ps,options)

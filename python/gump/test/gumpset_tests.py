@@ -1,7 +1,7 @@
 #!/usr/bin/env python
-# $Header: /home/stefano/cvs/gump/python/gump/test/Attic/gumpset_tests.py,v 1.4 2004/02/17 21:54:21 ajack Exp $
-# $Revision: 1.4 $
-# $Date: 2004/02/17 21:54:21 $
+# $Header: /home/stefano/cvs/gump/python/gump/test/Attic/gumpset_tests.py,v 1.5 2004/03/08 22:28:08 ajack Exp $
+# $Revision: 1.5 $
+# $Date: 2004/03/08 22:28:08 $
 #
 # ====================================================================
 #
@@ -87,7 +87,7 @@ print "Workspace File: " + str(file)
    for p in projects:
        print " Project : " + p.getName()
        
-   sequence=gumpSet.getSequence()   
+   sequence=gumpSet.getProjectSequence()   
    print "Project Sequence:" + str(len(sequence))
    for p in sequence:
        print " Sequence: " + p.getName()

@@ -261,10 +261,27 @@ class GumpEngine:
         #
         # Checkout from source code repositories
         #
-        self.syncWorkDirs(run)
+        self.syncWorkDirs(run)  
+  
+        # Return an exit code based off success
+        # :TODO: Move onto run
+        if run.getWorkspace().isSuccess():
+            result = SUCCESS 
+        else: 
+            result = FAILED
+        
+        return result
   
     def updateModules(self, run):
- 
+        return self.performUpdateModules( run, \
+                                run.getGumpSet().getModules())
+        
+    def updateModulesAll(self, run):    
+        return self.performUpdateModules( run, \
+                                run.getGumpSet().getModuleSequence())
+
+    def performUpdateModules(self, run, list):    
+    
         workspace = run.getWorkspace()
         
         # :TODO: A tad bogus to move here
@@ -278,7 +295,6 @@ class GumpEngine:
 
         #log.debug('Modules to update:') 
     
-        list=run.getGumpSet().getModules()
         moduleCount=len(list)
         moduleNo=1     
         # Update all the modules that have CVS repositories
@@ -347,7 +363,7 @@ class GumpEngine:
 
         log.debug('--- Synchronizing work directories with sources')  
 
-        for module in run.getGumpSet().getModules():
+        for module in run.getGumpSet().getModuleSequence():
     
             # If no CVS/SVN, nothing to sync   
             if not module.hasCvs() \
@@ -389,7 +405,7 @@ class GumpEngine:
     
     def buildAll(self,run):
         """ Build a GumpRun's Full Project Stack """
-        sequence=run.getGumpSet().getSequence()
+        sequence=run.getGumpSet().getProjectSequence()
 
         return self.buildProjectList(run,sequence)
   
@@ -837,7 +853,7 @@ class GumpEngine:
         
     def checkModules(self,run):
         # Check all the modules
-        list=run.getGumpSet().getModules()
+        list=run.getGumpSet().getModuleSequence()
         moduleCount=len(list)
         moduleNo=1
         for module in list:      

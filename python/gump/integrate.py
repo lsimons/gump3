@@ -1,9 +1,9 @@
 #!/usr/bin/python
 #!/usr/bin/env python
 #
-# $Header: /home/stefano/cvs/gump/python/gump/integrate.py,v 1.20 2004/02/23 21:55:35 ajack Exp $
-# $Revision: 1.20 $
-# $Date: 2004/02/23 21:55:35 $
+# $Header: /home/stefano/cvs/gump/python/gump/integrate.py,v 1.21 2004/03/08 22:28:08 ajack Exp $
+# $Revision: 1.21 $
+# $Date: 2004/03/08 22:28:08 $
 #
 # ====================================================================
 #
@@ -99,26 +99,19 @@ from gump.model.loader import WorkspaceLoader
 if __name__=='__main__':
 
     # Process command line
-    args = handleArgv(sys.argv)
+    (args,options) = handleArgv(sys.argv)
     ws=args[0]
     ps=args[1]    
                 
     logResourceUtilization('Before load workspace')
         
     # get parsed workspace definition
-    workspace=WorkspaceLoader().load(ws)
-      
-    
-    # TODO populate...
-    options=GumpRunOptions()
-  
-    #
-    # Dated means add the date to the log dir...
-    #
-    if '-d' in args or '--dated' in args:
-        options.setDated(1)    
-    
+    workspace=WorkspaceLoader().load(ws, 0)
+
     logResourceUtilization('Before create run')
+    
+    # Has to be absolute latest descriptors, not cached...
+    options.setQuick(0)
     
     # The Run Details...
     run=GumpRun(workspace,ps,options)

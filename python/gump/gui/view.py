@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/gui/view.py,v 1.4 2003/12/15 19:36:52 ajack Exp $
-# $Revision: 1.4 $
-# $Date: 2003/12/15 19:36:52 $
+# $Header: /home/stefano/cvs/gump/python/gump/gui/view.py,v 1.5 2004/03/08 22:28:09 ajack Exp $
+# $Revision: 1.5 $
+# $Date: 2004/03/08 22:28:09 $
 #
 # ====================================================================
 #
@@ -379,7 +379,7 @@ class gumpview(wxApp):
 
     # gather a list of project dependencies unrolled to build
     run=GumpSet(self.workspace,project.getName())
-    self.build_sequence = run.getSequence()
+    self.build_sequence = run.getProjectSequence()
     
     # display the project dependencies
     self.dependencies.DeleteAllItems()
@@ -689,7 +689,7 @@ if __name__ == '__main__':
   logger.addHandler(lh)
 
   # loadspecified or default workspace
-  args = handleArgv(sys.argv,0)
+  (args,options) = handleArgv(sys.argv,0)
   app.load([args[0]])
 
   # start app

@@ -1,8 +1,8 @@
 #!/usr/bin/python
 
-# $Header: /home/stefano/cvs/gump/python/gump/utils/Attic/commandLine.py,v 1.8 2004/02/29 19:16:20 ajack Exp $
-# $Revision: 1.8 $
-# $Date: 2004/02/29 19:16:20 $
+# $Header: /home/stefano/cvs/gump/python/gump/utils/Attic/commandLine.py,v 1.9 2004/03/08 22:28:09 ajack Exp $
+# $Revision: 1.9 $
+# $Date: 2004/03/08 22:28:09 $
 #
 # ====================================================================
 #
@@ -73,6 +73,7 @@ from gump import log
 from gump.config import default
 from gump.utils import banner
 
+
 #
 # Process the command line, returning:
 #
@@ -82,7 +83,11 @@ from gump.utils import banner
 #
 class CommandLine:
     def __init__(self,argv,requireProject=1):
-        self.args = []  
+        self.args = []
+        
+        # For storing options
+        from gump.gumprun import GumpRunOptions  
+        self.options=GumpRunOptions()
         
         # Extract the workspace
         if len(argv)==2: 
@@ -117,12 +122,26 @@ class CommandLine:
             if arg in ['-d','--debug']:
                 argv.remove(arg) 
                 log.info('Setting log level to DEBUG')
-                log.setLevel(logging.DEBUG ) 
+                self.options.setDebug(1)
+                log.setLevel(logging.DEBUG) 
             elif arg in ['-v','--verbose']: 
                 argv.remove(arg) 
                 log.info('Setting log level to VERBOSE')
-                # :TODO:
-                log.setLevel(logging.DEBUG )  
+                self.options.setVerbose(1)
+                # :TODO: VERBOSE doesn't exist within logging...
+                log.setLevel(logging.DEBUG)  
+            elif arg in ['-l','--latest']:
+                argv.remove(arg)
+                self.options.setQuick(0)
+                log.info('Absolute Latest [no use of cache, non-stack]')
+            elif arg in ['-D','--dated']:
+                argv.remove(arg)    
+                #
+                # Dated means add the date to the log dir...
+                #
+                options.setDated(1)                    
+                log.info('Dated Operation (add date to log dir)')
+
 
         if len(argv)>2 and argv[1] in ['-w','--workspace']:
             self.args.append(argv[2])
@@ -155,8 +174,11 @@ class CommandLine:
 
     def getArguments(self):
         return self.args
+        
+    def getOptions(self):
+        return self.options
 
 def handleArgv(argv, requireProject=1):
     cl=CommandLine(argv,requireProject)
-    return cl.getArguments()
+    return (cl.getArguments(), cl.getOptions())
     

@@ -37,17 +37,13 @@ from gump.model.loader import WorkspaceLoader
 if __name__=='__main__':
 
     # Process command line
-    args = handleArgv(sys.argv)
+    (args,options) = handleArgv(sys.argv)
     ws=args[0]
     ps=args[1]
     
     # get parsed workspace definition
-    workspace=WorkspaceLoader().load(ws)
-      
+    workspace=WorkspaceLoader().load(ws, options.isQuick())
     
-    # TODO populate...
-    options=GumpRunOptions()
-  
     #
     # Dated means add the date to the log dir...
     #

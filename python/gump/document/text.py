@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/text.py,v 1.9 2004/02/17 21:54:21 ajack Exp $
-# $Revision: 1.9 $
-# $Date: 2004/02/17 21:54:21 $
+# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/text.py,v 1.10 2004/03/08 22:28:09 ajack Exp $
+# $Revision: 1.10 $
+# $Date: 2004/03/08 22:28:09 $
 #
 # ====================================================================
 #
@@ -98,8 +98,8 @@ class TextDocumenter(Documenter):
             
             
         # Pretty sorting...
-        sortedModuleList=createOrderedList(gumpSet.getModules())
-        sortedProjectList=createOrderedList(gumpSet.getSequence())
+        sortedModuleList=createOrderedList(gumpSet.getModuleSequence())
+        sortedProjectList=createOrderedList(gumpSet.getProjectSequence())
         sortedRepositoryList=createOrderedList(gumpSet.getRepositories())        
         sortedServerList=createOrderedList(workspace.getServers())     
         sortedTrackerList=createOrderedList(workspace.getTrackers())
@@ -113,14 +113,14 @@ class TextDocumenter(Documenter):
         
         indent += ' '
         for module in sortedModuleList:
-            if not gumpSet.inModules(module): continue       
+            if not gumpSet.inModuleSequence(module): continue       
             output.write(indent + "Module [" + module.getName() + "] State: " + module.getStateDescription() + "\n")
             output.write(indent + "Projects: " + str(len(module.getProjects())) + "\n")
 
             self.documentAnnotations(indent,module)
                     
             for project in module.getProjects():
-                if not gumpSet.inSequence(project): continue
+                if not gumpSet.inProjectSequence(project): continue
             
                 self.documentProject(indent,project)
                 

@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/output/Attic/nag.py,v 1.24 2004/03/04 17:54:18 ajack Exp $
-# $Revision: 1.24 $
-# $Date: 2004/03/04 17:54:18 $
+# $Header: /home/stefano/cvs/gump/python/gump/output/Attic/nag.py,v 1.25 2004/03/08 22:28:09 ajack Exp $
+# $Revision: 1.25 $
+# $Date: 2004/03/08 22:28:09 $
 #
 # ====================================================================
 #
@@ -131,7 +131,7 @@ class Nagger:
     
         # For all modules...
         for module in self.workspace.getModules():        
-                if not self.gumpSet.inModules(module): continue
+                if not self.gumpSet.inModuleSequence(module): continue
 
                 if module.isFailed():
                     try:
@@ -144,7 +144,7 @@ class Nagger:
                 else:
                     for project in module.getProjects():
                         if project.isFailed() :
-                            if not self.gumpSet.inSequence(project): continue                        
+                            if not self.gumpSet.inProjectSequence(project): continue                        
                         
                             try:                        
                                 log.info('Nag for project: ' + project.getName())                                                        
