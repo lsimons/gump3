@@ -22,6 +22,7 @@
     <depend project="maybeupload"/>
     <depend project="bsf"/>
     <depend project="jakarta-velocity"/>
+    <depend project="resolver"/>
     <option project="xml-fop"/>
     <option project="jtidy"/>
     <option project="phpservlt"/>
@@ -55,6 +56,14 @@
       Maybe Upload
     </description>
     <jar name="lib/maybeupload.jar"/>
+  </project>
+
+  <project name="resolver">
+    <url href="http://www.sun.com/xml/developers/resolver/"/>
+    <description>
+      XML Entity and URI resolvers
+    </description>
+    <jar name="lib/resolver.jar"/>
   </project>
 
 </module>
