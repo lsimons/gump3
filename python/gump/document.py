@@ -825,7 +825,7 @@ def documentWork(workspace,work,dir):
         #
         if work.command.params:
             title='Parameter'
-            if len(work.command.params) > 1:
+            if len(work.command.params.items()) > 1:
                 title += 's'
             startSectionXDoc(x,title)    
             x.write('<table><tr><th>Prefix</th><th>Name</th><th>Value</th></tr>')
