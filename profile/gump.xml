@@ -99,9 +99,9 @@
 
 <!-- Apache.XML -->
 
-  <module href="project/xml-axis.xml"/>
-  <module href="project/xml-axis-wsif.xml"/>
-  <module href="project/xml-axis-wsil.xml"/>
+  <module href="project/ws-axis.xml"/>
+  <module href="project/ws-wsif.xml"/>
+  <module href="project/ws-wsil.xml"/>
   <module href="project/xml-batik.xml"/>
   <module href="project/xml-commons.xml"/>
   <module href="project/xml-crimson.xml"/>
@@ -291,6 +291,7 @@
   <repository href="repository/webmacro.xml"/>
   <repository href="repository/werken.xml"/>
   <repository href="repository/whichever.xml"/>
+  <repository href="repository/ws.xml"/>
   <repository href="repository/xml.xml"/>
 
 <!-- server definitions -->

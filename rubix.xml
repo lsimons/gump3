@@ -22,6 +22,7 @@
   <repository name="ant" method="ext" user="rubys" path="/home/cvs"/>
   <repository name="cocoon" method="ext" user="rubys" path="/home/cvs"/>
   <repository name="jakarta" method="ext" user="rubys" path="/home/cvs"/>
+  <repository name="ws" method="ext" user="rubys" path="/home/cvs"/>
   <repository name="xml" method="ext" user="rubys" path="/home/cvs"/>
 
   <!-- After the bootstrap -->

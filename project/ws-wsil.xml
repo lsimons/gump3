@@ -1,15 +1,21 @@
-<module name="xml-axis-wsil">
+<module name="ws-wsil">
 
   <url href="http://xml.apache.org/axis/"/>
   <description>
     Web Services Inspection Language 
   </description>
 
-  <cvs repository="xml"/>
+  <cvs repository="ws"/>
+
+  <!-- alias -->
+
+  <project name="xml-axis-wsil">
+    <depend project="ws-wsil" inherit="jars"/>
+  </project>
 
   <!-- build -->
 
-  <project name="xml-axis-wsil">
+  <project name="ws-wsil">
     <package>org.apache.wsil</package>
 
     <ant basedir="java" target="all"/>

@@ -25,7 +25,7 @@
     <depend project="jdom"/>
     <depend project="jasperreports"/>
     <depend project="db40"/>
-    <depend project="xml-axis"/>
+    <depend project="ws-axis"/>
     <depend project="cos"/>
     <depend project="commons-logging"/>
     <depend project="mockobjects"/>

@@ -491,7 +491,7 @@
 
     <depend project="commons-jelly" inherit="all"/>
 
-    <depend project="xml-axis"/>
+    <depend project="ws-axis"/>
     <!--
       probably won't work right off the bat
       maven lists dependencies on jaxrpc and saaj

@@ -21,7 +21,7 @@
     <depend project="junit"/>
     <depend project="commons-codec" />
     <depend project="commons-logging" />
-    <depend project="xml-axis"/>
+    <depend project="ws-axis"/>
     <option project="javamail"/>
     <option project="jsse"/>
     <option project="jaf"/>

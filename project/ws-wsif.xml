@@ -1,15 +1,21 @@
-<module name="xml-axis-wsif">
+<module name="ws-wsif">
 
   <url href="http://ws.apache.org/wsif/"/>
   <description>
     Web Services Invocation Framework
   </description>
 
-  <cvs repository="xml"/>
+  <cvs repository="ws"/>
+
+  <!-- alias -->
+
+  <project name="xml-axis-wsif">
+    <depend project="ws-wsif" inherit="jars"/>
+  </project>
 
   <!-- build -->
 
-  <project name="xml-axis-wsif">
+  <project name="ws-wsif">
     <package>org.apache.wsif</package>
 
     <ant basedir="java" target="bindist">
@@ -26,7 +32,7 @@
     <depend project="commons-logging"/>
     <depend project="jms"/>
     <depend project="wsdl4j"/>
-    <depend project="xml-axis"/>
+    <depend project="ws-axis"/>
     <depend project="xml-soap"/>
     <depend project="j2ee-connector"/>
 
