@@ -325,7 +325,19 @@ finally:
         # others it won't.
         #
         # Cat log if failed...
-        catFile(sys.stdout, logFile, logTitle)
+        published=0
+        if logdir:
+            publishedLogFile=os.path.abspath(os.path.join(logdir,'gumpy.log'))
+            try:
+                publishedLog=open(publishedLogFile,'w',0) # Unbuffered...
+                catFile(publishedLog, logFile, logTitle)    
+                publishedLog.close()
+                published=1
+            except:
+                published=0
+                
+        if not published:
+            catFile(sys.stdout, logFile, logTitle)
         
         if mailserver and mailport and mailto and mailfrom and logurl:
             
