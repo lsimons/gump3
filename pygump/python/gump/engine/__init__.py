@@ -77,13 +77,17 @@ def main(settings):
     
     modeller_log = _get_logger(config.log_level, "modeller")
     modeller_loader = _get_modeller_loader(modeller_log, vfs)
+    modeller_normalizer = _get_modeller_normalizer()
     modeller_objectifier = _get_modeller_objectifier(modeller_log)
+    modeller_verifier = _get_modeller_verifier()
     
     mergefile = os.path.join(config.paths_work, "merge.xml")
     dropfile = os.path.join(config.paths_work, "dropped.xml")
 
     # create engine
-    engine = _Engine(log, db, modeller_loader, modeller_objectifier, config.paths_workspace, mergefile, dropfile)
+    engine = _Engine(log, db, modeller_loader, modeller_normalizer,
+                     modeller_objectifier, modeller_verifier,
+                     config.paths_workspace, mergefile, dropfile)
     
     # run it
     engine.run()
@@ -173,10 +177,20 @@ def _get_modeller_loader(log, vfs=None, mergefile=None, dropfile=None):
     from gump.engine.modeller import Loader
     return Loader(log, vfs, mergefile, dropfile)
 
+def _get_modeller_normalizer():
+    """Provide a Normalizer implementation."""
+    from gump.engine.modeller import Normalizer
+    return Normalizer()
+
 def _get_modeller_objectifier(log):
     """Provide a Objectifier implementation."""
     from gump.engine.modeller import Objectifier
     return Objectifier(log)
+
+def _get_modeller_verifier():
+    """Provide a Verifier implementation."""
+    from gump.engine.modeller import Verifier
+    return Verifier()
 
 ###
 ### Classes
@@ -200,15 +214,22 @@ class _Config:
 class _Engine:
     """This is the core of the core of the pygump application."""
     
-    def __init__(self, log, db, workspace_loader, workspace_objectifier, workspace, merge_to=None, drop_to=None):
+    def __init__(self, log, db, workspace_loader, workspace_normalizer,
+                 workspace_objectifier, workspace_verifier,
+                 workspace, merge_to=None, drop_to=None):
         """Store all config and dependencies as properties.
         
-        Arguments
+        Arguments:
+            
             - log -- the log to write debug and error messages to.
             - db -- the database to store all activity in.
             - workspace_loader -- the component providing the dom tree.
+            - workspace_normalizer -- the component transforming the dom tree
+                into a standard format
             - workspace_objectifier -- the component transforming the dom into
-                                       object form
+                object form
+            - workspace_verifier -- the component making sure the object model
+                is correct
 
             - workspace -- the resource containing the workspace xml.
             - merge_to -- the resource to write the merged workspace xml to.
@@ -217,7 +238,9 @@ class _Engine:
         self.log = log
         self.db = db
         self.workspace_loader = workspace_loader
+        self.workspace_normalizer = workspace_normalizer
         self.workspace_objectifier = workspace_objectifier
+        self.workspace_verifier = workspace_verifier
 
         self.workspace = open_file_or_stream(workspace,'r')
         self.merge_to = open_file_or_stream(merge_to,'w')
@@ -226,20 +249,31 @@ class _Engine:
     def run(self):
         """Perform a run."""
         try:
-            # 1) merge workspace into big DOM tree
-            (dom, dropped_nodes) = self.workspace_loader.get_workspace_tree(self.workspace)
+            # * merge workspace into big DOM tree
+            (domtree, dropped_nodes) = self.workspace_loader.get_workspace_tree(self.workspace)
+            # * clean it up and structure it properly
+            self.workspace_normalizer.normalize(domtree)
+            # * write the merged, normalized tree out to a new xml file
+            self._write_merge_files(domtree, dropped_nodes)
+            # * convert that DOM tree into python objects
+            workspace = self.workspace_objectifier.get_workspace(domtree)
+            # * we're done with the xml stuff, allow GC
+            domtree.unlink()
+            for node in dropped_nodes:
+                node.unlink()
+            # * verify that our model is correct (for example, that it has
+            #   no circular dependencies)
+            self.workspace_verifier.verify(domtree)
+            # * store those objects in the database
+
+            raise RuntimeError, "Not Implemented!"
             
-            # 2) write the merged tree out to a new xml file
-            self._write_merge_files(dom, dropped_nodes)
-            
-            # 2) convert that DOM tree into python objects
-            workspace = self.workspace_objectifier.get_workspace(dom.documentElement)
-            # 3) store those objects in the database
             self.store_workspace(self.workspace) #TODO
-            # 4) determine the tasks to perform
+
+            # * determine the tasks to perform
             self.tasks = self.create_ordered_tasklist() #TODO
             
-            # 5) now make the workers perform those tasks
+            # * now make the workers perform those tasks
             self.create_workers() #TODO
             self.start_workers() #TODO
             self.wait_for_workers() #TODO
