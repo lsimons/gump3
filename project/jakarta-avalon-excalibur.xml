@@ -38,7 +38,7 @@
         <depend project="excalibur-testcase"/>
         <depend project="excalibur-io"/>
         <depend project="excalibur-thread"/>
-        <depend project="excalibur-altrmi"/>
+        <depend project="excalibur-altrmi" inherit="runtime"/>
         <depend project="excalibur-concurrent"/>
         <depend project="excalibur-threadcontext"/>
         <depend project="excalibur-util"/>
@@ -92,7 +92,7 @@
 
         <depend project="jakarta-ant" inherit="runtime"/>
         <option project="checkstyle" inherit="runtime"/>
-        <depend project="jetty"/>
+        <depend project="jetty" runtime="true"/>
         <depend project="jakarta-servletapi-4"/>
         <depend project="junit"/>
         <depend project="jakarta-avalon" runtime="true"/>
