@@ -122,6 +122,8 @@
   <module href="project/village.xml"/>
   <module href="project/webmacro.xml"/>
   <module href="project/wsdl4j.xml"/>
+  <module href="project/cos.xml"/>
+  <module href="project/multipartrequest.xml"/>
 
   <!-- Sun -->
 
@@ -164,6 +166,9 @@
   <project name="ldap"           package="ldap-1_2_3"/>
   <project name="resolver"       package="resolver-0_2"/>
   <project name="tranquilo"      package="xsdlib-20010424"/>
+  <project name="cos"            package="cos-09May2002"/>
+  <project name="multipartrequest"            
+           package="MultipartRequest120"/>
 
   <!-- CVS Repository definitions -->
   <repository href="repository/dbxml.xml"/>

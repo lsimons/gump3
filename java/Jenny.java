@@ -283,6 +283,7 @@ public class Jenny {
             timestamp.createNewFile();
             lastModified = new Date(timestamp.lastModified());
         } catch (java.io.IOException ioe) {
+            ioe.printStackTrace();
         }
         String dstamp = (new SimpleDateFormat("yyyyMMdd")).format(lastModified);
 

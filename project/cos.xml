@@ -1,0 +1,15 @@
+<module name="cos">
+
+  <url href="http://www.servlets.com/cos/index.html"/>
+  <description>
+    com.oreilly.servlet classes
+  </description>
+
+  <project name="cos">
+    <package>com.oreilly.servlet</package>
+
+    <jar name="lib/cos.jar"/>
+    <javadoc nested="doc" />
+  </project>
+  
+</module>

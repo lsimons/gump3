@@ -1,0 +1,15 @@
+<module name="multipartrequest">
+
+  <url href="http://www.geocities.com/jasonpell/programs.html#multipartrequest"/>
+  <description>
+    Parses a Multipart form data input stream and writes out any files found.
+  </description>
+
+  <project name="multipartrequest">
+    <package>http.utils.multipartrequest</package>
+
+    <jar name="multipartrequest.jar"/>
+    <javadoc nested="javadoc" />
+  </project>
+  
+</module>
