@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/forrest.py,v 1.64 2004/02/09 18:26:00 ajack Exp $
-# $Revision: 1.64 $f
-# $Date: 2004/02/09 18:26:00 $
+# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/forrest.py,v 1.65 2004/02/09 19:09:36 ajack Exp $
+# $Revision: 1.65 $f
+# $Date: 2004/02/09 19:09:36 $
 #
 # ====================================================================
 #
@@ -794,8 +794,13 @@ class ForrestDocumenter(Documenter):
         detailSection=document.createSection('Server Details')
         detailList=detailSection.createList()        
         
-        #if server.hasTitle():
-        #    detailList.createEntry('Title: ', server.getTitle())
+        detailList.createEntry('Name: ', server.getName())
+    
+        if server.hasType():
+            detailList.createEntry('Type: ', server.getType())
+    
+        if server.hasTitle():
+            detailList.createEntry('Title: ', server.getTitle())
     
         self.documentXML(document,server)
         

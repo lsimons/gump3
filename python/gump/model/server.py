@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/model/server.py,v 1.1 2004/02/01 18:44:44 ajack Exp $
-# $Revision: 1.1 $
-# $Date: 2004/02/01 18:44:44 $
+# $Header: /home/stefano/cvs/gump/python/gump/model/server.py,v 1.2 2004/02/09 19:09:36 ajack Exp $
+# $Revision: 1.2 $
+# $Date: 2004/02/09 19:09:36 $
 #
 # ====================================================================
 #
@@ -87,6 +87,11 @@ class Server(NamedModelObject, Statable):
            
     def getType(self):
         return self.type
+        
+    def hasTitle(self): 
+        return hasattr(self.xml,'title') and self.xml.title
+        
+    def getTitle(self): return str(self.xml.title)
             
     
     def dump(self, indent=0, output=sys.stdout):
