@@ -15,7 +15,7 @@
   limitations under the License.
 -->
 <module name="jakarta-jmeter">
-<!-- Version $Revision: 1.81 $ Last updated $Date: 2004/03/15 15:50:45 $ -->
+<!-- Version $Revision: 1.82 $ Last updated $Date: 2004/03/16 10:44:35 $ -->
   <url href="http://jakarta.apache.org/jmeter/" />
   <description>
     Pure Java load testing and performance measurement tool.
@@ -31,7 +31,7 @@
       <property name="version" value="@@DATE@@"/>
       <property name="gump.run" value="true"/>
       <!-- The version of this file -->
-      <property name="version.projectfile" value="$Revision: 1.81 $"/>
+      <property name="version.projectfile" value="$Revision: 1.82 $"/>
       
       <!--
       	These properties are passed to the build process, so the names need to agree with
@@ -63,6 +63,9 @@
     <depend project="jakarta-velocity" />
     <depend project="jtidy" />
     <depend project="excalibur-compatibility" />
+
+    <depend project="commons-logging"/>
+    <depend project="commons-httpclient"/>
 
     <option project="beanshell" ids="bsh-core"/>
     <option project="jakarta-bsf"/>
@@ -106,7 +109,7 @@
       <property name="version" value="@@DATE@@"/>
       <property name="gump.run" value="true"/>
       <!-- The version of this file -->
-      <property name="version.projectfile" value="$Revision: 1.81 $"/>
+      <property name="version.projectfile" value="$Revision: 1.82 $"/>
     </ant>
 
     <depend project="ant" />
@@ -140,6 +143,9 @@
     <work nested="lib/soap.jar"/>
     <work nested="lib/Tidy.jar"/>
 
+    <work nested="lib/commons-logging.jar"/>
+    <work nested="lib/commons-httpclient-2.0.jar"/>
+
     <!-- needed ? -->
     <work nested="lib/velocity-1.4-dev.jar"/>
     
@@ -170,7 +176,7 @@
       <property name="version" value="@@DATE@@"/>
       <property name="gump.run" value="true"/>
       <!-- The version of this file -->
-      <property name="version.projectfile" value="$Revision: 1.81 $"/>
+      <property name="version.projectfile" value="$Revision: 1.82 $"/>
     </ant>
 
     <depend project="ant" />
@@ -198,6 +204,9 @@
     <work nested="lib/logkit-1.2.jar"/>
     <work nested="lib/soap.jar"/>
     <work nested="lib/Tidy.jar"/>
+    <work nested="lib/commons-httpclient-2.0.jar"/>
+    <work nested="lib/commons-logging.jar"/>
+
     <!-- work nested="lib/velocity-1.4-dev.jar"/ -->
     <work nested="lib/xalan.jar"/>
     <work nested="lib/xercesImpl.jar"/>
@@ -228,7 +237,7 @@
       <property name="version" value="@@DATE@@"/>
       <property name="gump.run" value="true"/>
       <!-- The version of this file -->
-      <property name="version.projectfile" value="$Revision: 1.81 $"/>
+      <property name="version.projectfile" value="$Revision: 1.82 $"/>
     </ant>
 
     <depend project="ant" />
