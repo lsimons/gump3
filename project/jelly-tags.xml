@@ -449,7 +449,7 @@
 
     <depend project="commons-jelly" inherit="all"/>
     
-    <depend project="jakarta-ojb"/>
+    <depend project="db-ojb"/>
     <depend project="commons-lang"/>
 
     <work nested="ojb/target/classes"/>

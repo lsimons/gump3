@@ -20,7 +20,6 @@
   <module href="project/jakarta-log4j.xml"/>
   <module href="project/jakarta-log4j-12.xml"/>
   <module href="project/jakarta-lucene.xml"/>
-  <module href="project/jakarta-ojb.xml"/>
   <module href="project/jakarta-oro.xml"/>
   <module href="http://cvs.apache.org/viewcvs/~checkout~/jakarta-poi/module.xml"/>
   <module href="project/jakarta-regexp.xml"/>
@@ -96,6 +95,10 @@
   <module href="project/jakarta-avalon-logkit.xml"/>
   <module href="project/jakarta-avalon-phoenix.xml"/>
   <module href="project/jakarta-avalon-site.xml"/>
+
+  <!-- Apache.DB -->
+
+  <module href="project/db-ojb.xml"/>
 
   <!-- SourceForge -->
 
@@ -265,6 +268,7 @@
   <project name="nsuml"          package="nsuml"/>
 
   <!-- CVS Repository definitions -->
+  <repository href="repository/db.xml"/>
   <repository href="repository/dbxml.xml"/>
   <repository href="repository/devworks.xml"/>
   <repository href="repository/exolab.xml"/>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<repository name="db" type="cvs">
+  <title>Apache DB Project</title>
+  <home-page>http://db.apache.org/</home-page>
+  <cvsweb>http://cvs.apache.org/viewcvs/</cvsweb>
+
+  <root>
+    <method>pserver</method>
+    <user>anoncvs</user>
+    <password>anoncvs</password>
+    <hostname>cvs.apache.org</hostname>
+    <path>/home/cvspublic</path>
+  </root>
+</repository>

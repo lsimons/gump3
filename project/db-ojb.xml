@@ -1,9 +1,9 @@
-<module name="jakarta-ojb">
+<module name="db-ojb">
   <description>
     ObjectRelationalBridge
   </description>
 
-  <cvs repository="jakarta"/>
+  <cvs repository="db"/>
   <project name="bootstrap-ojb">
     <package>org.apache.ojb</package>
 
@@ -55,10 +55,10 @@
     <javadoc nested="target/doc/api" />
 
     <nag from="Stefan Bodewig &lt;bodewig@apache.org&gt;"
-         to="ojb-dev@jakarta.apache.org"/>
+         to="ojb-dev@db.apache.org"/>
   </project>
 
-  <project name="jakarta-ojb">
+  <project name="db-ojb">
     <package>org.apache.ojb</package>
 
     <mkdir dir="target/classes" />
@@ -109,7 +109,7 @@
     <javadoc nested="target/doc/api" />
 
     <nag from="Stefan Bodewig &lt;bodewig@apache.org&gt;"
-         to="ojb-dev@jakarta.apache.org"/>
+         to="ojb-dev@db.apache.org"/>
   </project>
 
   <project name="test-ojb">
@@ -119,7 +119,7 @@
     <work nested="target/classestest" />
 
     <nag from="Stefan Bodewig &lt;bodewig@apache.org&gt;"
-         to="ojb-dev@jakarta.apache.org"
+         to="ojb-dev@db.apache.org"
          subject="Test Failure - OJB" />
   </project>
 
