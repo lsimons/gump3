@@ -197,14 +197,15 @@
         <work nested="update/build/depot-home/classes"/>
         <home nested="update/"/>
 
-        <depend inherit="runtime" project="ant"/>
+        <depend project="ant" inherit="runtime"/>
         <depend project="depot-version-antlet" inherit="runtime"/> 
         <depend project="antworks-antlets" inherit="runtime"/> 
-        <depend project="depot-version"/> 
-        <depend project="depot-common"/>
-        <depend project="jakarta-regexp"/>
-        <depend project="commons-httpclient" inherit="runtime"/>
-        <depend project="commons-vfs" inherit="runtime"/>
+        
+        <depend project="depot-version" runtime="true"/> 
+        <depend project="depot-common" runtime="true"/>
+        <depend project="jakarta-regexp" runtime="true"/>
+        <depend project="commons-httpclient" runtime="true"/>
+        <depend project="commons-vfs" runtime="true"/>
 
         <jar name="dist/depot-update-gump-@@DATE@@.jar"/>
 
@@ -248,7 +249,7 @@
     <!-- Exercise Repository Code with VFS in the environment -->
     <project name="depot-update-ant-sample-vfs" fullname="Depot Update Ant Sample">    	
 
-        <depend project="depot-update" inherit="all"/>
+        <depend project="depot-update" inherit="runtime"/>
         <depend project="ant" inherit="runtime"/>
         
         <ant  basedir="update" buildfile="build-ant-sample.xml" target="gump" vm="1.4">
