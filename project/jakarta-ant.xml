@@ -78,7 +78,7 @@
 
     <nag from="Diane Holt &lt;holtdl@apache.org&gt;"
          to="ant-dev@jakarta.apache.org"
-         subject="[GUMP] Test Failure - Ant"/>
+         subject="Test Failure - Ant"/>
   </project>
 
   <project name="bootstrap-ant">
@@ -91,7 +91,7 @@
 
     <nag from="Diane Holt &lt;holtdl@apache.org&gt;"
          to="ant-dev@jakarta.apache.org"
-         subject="[GUMP] Bootstrap Failure - Ant">
+         subject="Bootstrap Failure - Ant">
       <regexp pattern="/error/"/>
       <regexp pattern="/Failed/"/>
       <regexp />      

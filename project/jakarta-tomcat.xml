@@ -36,7 +36,7 @@
 
     <nag to="tomcat-dev@jakarta.apache.org"
          from="Craig McClanahan &lt;craigmcc@apache.org&gt;"
-         subject="[GUMP] Build Failure - Tomcat 3.x"/>
+         subject="Build Failure - Tomcat 3.x"/>
   </project>
 
 </module>

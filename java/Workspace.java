@@ -11,6 +11,7 @@ public class Workspace {
     private static String basedir;
     private static Element javadoc;
     private static Element deliver;
+    private static Element nag;
     private static HashMap servers = new HashMap();
     private static HashMap sites = new HashMap();
 
@@ -44,6 +45,14 @@ public class Workspace {
      */
     public static Element getJavaDoc() {
         return javadoc;
+    }
+
+    /**
+     * Static property accessor for nag element.
+     * @return Javadoc element (if any) associated with this workspace
+     */
+    public static Element getNag() {
+        return nag;
     }
 
     /**
@@ -118,6 +127,8 @@ public class Workspace {
         for (; child != null; child=child.getNextSibling()) {
             if (child.getNodeName().equals("javadoc")) {
                 javadoc = (Element) child;
+            } else if (child.getNodeName().equals("nag")) {
+                nag = (Element) child;
             } else if (child.getNodeName().equals("deliver")) {
                 handleDeliver((Element) child);
             }

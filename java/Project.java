@@ -27,6 +27,9 @@ public class Project {
     private Element url;
     private Vector deliver = new Vector();
 
+    private static String nagTo = null;
+    private static String nagPrefix = null;
+
     /**
      * Create a set of Project definitions based on XML nodes.
      * @param elements list of &lt;project&gt; elements
@@ -708,12 +711,29 @@ public class Project {
      * Push attributes to nested regexp elements
      */
     private void expandNag(Element nag) {
-        String subject = "[GUMP] Build Failure - "+name;
-        String to = nag.getAttribute("to");
+        if (nagPrefix == null) {
+            Element workspaceNag = Workspace.getNag();
+            if (workspaceNag == null) {
+                nagPrefix = "[GUMP]";
+            } else {
+                if (!workspaceNag.getAttribute("prefix").equals("")) {
+                    nagPrefix = workspaceNag.getAttribute("prefix");
+                } else {
+                    nagPrefix = "[GUMP]";
+                }
+                if (!workspaceNag.getAttribute("to").equals("")) {
+                    nagTo = workspaceNag.getAttribute("to");
+                }
+            }
+        }
+        
+
+        String subject = nagPrefix + " Build Failure - "+name;
+        String to = nagTo == null ? nag.getAttribute("to") : nagTo;
         String from = nag.getAttribute("from");
 
         if (!nag.getAttribute("subject").equals("")) {
-            subject = nag.getAttribute("subject");
+            subject = nagPrefix + " " + nag.getAttribute("subject");
         }
         
         if (!nag.hasChildNodes()) {
@@ -733,12 +753,20 @@ public class Project {
                     if (regexp.getAttribute("pattern").equals("")) {
                         regexp.setAttribute("pattern", "/BUILD FAILED/");
                     }
+
                     if (regexp.getAttribute("subject").equals("")) {
                         regexp.setAttribute("subject", subject);
+                    } else {
+                        String orig = regexp.getAttribute("subject");
+                        regexp.setAttribute("subject", nagPrefix + " " + orig);
+                        
                     }
-                    if (regexp.getAttribute("to").equals("")) {
+
+                    if (nagTo != null 
+                        || regexp.getAttribute("to").equals("")) {
                         regexp.setAttribute("to", to);
                     }
+
                     if (regexp.getAttribute("from").equals("")) {
                         regexp.setAttribute("from", from);
                     }

@@ -41,7 +41,7 @@
     <work nested="test/texen-classpath/test.jar"/>
     <nag to="velocity-dev@jakarta.apache.org"
          from="Geir Magnusson Jr. &lt;geirm@apache.org&gt;"
-         subject="[GUMP] Test Failure - Velocity"/>
+         subject="Test Failure - Velocity"/>
   </project>
 
   <project name="antlr.runtime">
