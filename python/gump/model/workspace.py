@@ -37,6 +37,8 @@ from gump.model.stats import Statable, Statistics
 from gump.utils.note import transferAnnotations, Annotatable
 from gump.utils.listener import Listener, Event
 
+import gump.config
+
 #
 #
 #
