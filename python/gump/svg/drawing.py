@@ -34,7 +34,8 @@ class Point:
         self.y=y
         
     def getX(self): return self.x
-    def getY(self): return self.y
+    def getY(self): return self.y    
+    def getXY(self): return (self.x, self.y)
         
     def dump(self, indent=0, output=sys.stdout):
         """ Display the contents of this object """
@@ -171,6 +172,9 @@ class ScaledDrawingContext(StandardDrawingContext):
     def __init__(self,name=None,context=None,rect=None,scaledWidth=1,scaledHeight=1):
         StandardDrawingContext.__init__(self,name,context,rect)
         
+        if not scaledWidth: raise RuntimeError, 'Can\'t scale with 0 width.'
+        if not scaledHeight: raise RuntimeError, 'Can\'t scale with 0 height.'
+            
         self.scaledWidth=scaledWidth
         self.scaledHeight=scaledHeight
         

@@ -44,8 +44,13 @@ class DependencyNode:
         
     def getRowCol(self):
         return (self.rowNo,self.colNo)
+        
+    def setPoint(self,point):
+        self.point=point
+        
+    def getPoint(self):
+        return self.point
 
-   
 def compareNodesByProjectFOGFactor(node1,node2):
     project1=node1.getProject()    
     project2=node2.getProject()
@@ -177,6 +182,15 @@ class DependencyDiagram:
         # context rectangle.
         svg=SimpleSvg(rect.getWidth(),rect.getHeight())
 
+
+        #
+        # Find centers
+        #
+        for node in self.matrix.getNodes():
+            (row, col) = node.getRowCol()
+            (x,y) = context.realPoint(col,rows-row)
+            node.setPoint(Point(x,y))
+                
         #
         # Draw dependency lines
         #
@@ -193,11 +207,8 @@ class DependencyDiagram:
                 depNode=self.matrix.getNodeForProject(dependProject)
                 (depRow,depCol) = depNode.getRowCol()                
                 
-                (x,y) = context.realPoint(col,rows-row)
-                (x1,y1) = context.realPoint(depCol,rows-depRow)
-                
-                print 'VIRTUAL LINE: %s,%s -> %s,%s' % (row,col,depRow,depCol),
-                print 'LINE: %s,%s -> %s,%s' % (x,y,x1,y1)
+                (x,y) = node.getPoint().getXY()
+                (x1,y1) = depNode.getPoint().getXY()
                 
                 width=1+(dependProject.getFOGFactor()*3)
                 # Shape color
@@ -222,8 +233,10 @@ class DependencyDiagram:
             project = node.getProject()
             (row,col) = node.getRowCol()    
             
-            (x,y) = context.realPoint(col-0.25,(rows-row)-0.25)
-            (x1,y1) = context.realPoint(col+0.25,(rows-row)+0.25)
+            
+            (centerX,centerY) = node.getPoint().getXY()
+            (x,y) = context.realPoint(centerX-0.25,centerY-0.25)
+            (x1,y1) = context.realPoint(centerX+0.25,centerY+0.25)
             
             print 'RECTANGLE %s,%s -> %s,%s' % (x,y,x1,y1)
             

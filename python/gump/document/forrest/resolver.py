@@ -193,7 +193,7 @@ class ForrestResolver(Resolver):
             location.setDocument(documentName)
             
         # XDocs in one place, content in another...
-        if not extn == '.xml' or notXDocs:
+        if (not extn == '.xml' and not extn == '.svg') or notXDocs:
             self.makePath(location.getPath(),self.contentDir)
             file=concatenate(self.contentDir,location.serialize())
         else:

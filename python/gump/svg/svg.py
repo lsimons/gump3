@@ -121,7 +121,7 @@ class SimpleSvg:
         self.y=y
         
         # Try to size for the user...
-        if -1 == width or -1 == heigth:
+        if -1 == width or -1 == height:
             (self.width, self.height) = getSvgSizes(x,y)
         
         self.description=None

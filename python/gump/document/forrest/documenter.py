@@ -2616,8 +2616,17 @@ This page helps Gumpmeisters (and others) observe community progress.
             
             # Generate an SVG:
             # ,'FOG'
-            #svgFile=self.resolver.getFile(stats,project.getName()+'_FOG','.svg')
-            #fogRow.createData().createIcon(svgName.replace('.svg','.png'),'FOG Factor')
+            if pstats.successes+pstats.failures+pstats.prereqs > 0:
+                svgFile=self.resolver.getFile(stats,project.getName()+'_FOG','.svg')
+                pngFile=os.path.basename(svgFile).replace('.svg','.png')
+                from gump.svg.scale import ScaleDiagram
+                diagram=ScaleDiagram(pstats.successes,pstats.failures+pstats.prereqs)
+                diagram.generateDiagram().serializeToFile(svgFile)
+                fogRow.createData().createIcon(pngFile,'FOG Factor')
+            else:
+                fogRow.createData('Not Available')    
+                
+                
             
         document.serialize()   
         

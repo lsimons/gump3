@@ -27,10 +27,10 @@ from gump.svg.svg import *
 class ScaleDiagram:
     """ The interface to a chainable context """
     def __init__(self, val1, val2, width=3, height=0.5) : 
-        self.width=width
-        self.height=height
         self.val1=val1
         self.val2=val2
+        self.width=width
+        self.height=height
         
     def generateDiagram(self):
         
