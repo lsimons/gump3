@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/Attic/view.py,v 1.28 2003/05/05 12:16:03 nicolaken Exp $
-# $Revision: 1.28 $
-# $Date: 2003/05/05 12:16:03 $
+# $Header: /home/stefano/cvs/gump/python/gump/Attic/view.py,v 1.29 2003/05/05 12:21:51 nicolaken Exp $
+# $Revision: 1.29 $
+# $Date: 2003/05/05 12:21:51 $
 #
 # ====================================================================
 #
@@ -79,12 +79,20 @@ from gump.conf import dir, default
 from gump.gen import xmlize
 from gump.model import Module, Project
 
-# init logging
+###############################################################################
+# Initialize
+###############################################################################
+
+# base gump logger
 log = logging.getLogger(__name__)
 
 classpath = os.getenv('CLASSPATH')
 if(classpath):
   classpath = classpath.split(os.pathsep)
+
+###############################################################################
+# Main App
+###############################################################################
 
 class gumpview(wxApp):
   # model
@@ -453,7 +461,7 @@ class ViewHandler(logging.Handler):
         #INFO = 20
         #DEBUG = 10
         #NOTSET = 0
-
+        print "EMIT"
         msg = "%s\n" % self.format(record)
         
         textStyle = None;
