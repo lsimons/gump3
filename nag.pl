@@ -41,6 +41,7 @@ foreach (<LIST>) {
 
     # extract just the stuff from inside the XMP tag
     if (m! .* <XMP> \s* (.*) \s* </XMP> !xs) {
+      $1 || m!(<p>.*</p>)!s; # if nothing found, look for prereqs
       $pageData = $1;
     } else {
       $pageData = "";
