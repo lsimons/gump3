@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/forrest.py,v 1.58 2004/01/28 00:13:39 ajack Exp $
-# $Revision: 1.58 $f
-# $Date: 2004/01/28 00:13:39 $
+# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/forrest.py,v 1.59 2004/01/29 03:49:58 ajack Exp $
+# $Revision: 1.59 $f
+# $Date: 2004/01/29 03:49:58 $
 #
 # ====================================================================
 #
@@ -280,9 +280,11 @@ class ForrestDocumenter(Documenter):
         textRow.createData('Workspace Documentation')
         textRow.createData().createLink('context.html','Text')
                 
-        syndRow=definitionTable.createRow()
-        syndRow.createData('Definition')
-        syndRow.createData().createLink('workspace.html','XML')
+                
+        if not workspace.private:            
+            syndRow=definitionTable.createRow()
+            syndRow.createData('Definition')
+            syndRow.createData().createLink('workspace.html','XML')
                 
         if not gumpSet.isFull():
             note=definitionSection.createNote()
@@ -320,11 +322,13 @@ class ForrestDocumenter(Documenter):
         detailsTable.createEntry("Jars Repository : ", workspace.jardir)
         detailsTable.createEntry("CVS Directory : ", workspace.cvsdir)
         detailsTable.createEntry("Package Directory : ", workspace.pkgdir)
-        detailsTable.createEntry("List Address: ", workspace.mailinglist)
-        detailsTable.createEntry("E-mail Address: ", workspace.email)
-        detailsTable.createEntry("E-mail Server: ", workspace.mailserver)
-        detailsTable.createEntry("Prefix: ", workspace.prefix)
-        detailsTable.createEntry("Signature: ", workspace.signature)
+        if not workspace.private:
+            detailsTable.createEntry("E-mail Server: ", workspace.mailserver)
+            detailsTable.createEntry("E-mail Port: ", workspace.mailport)
+            detailsTable.createEntry("List Address: ", workspace.mailinglist)
+            detailsTable.createEntry("E-mail Address: ", workspace.email)            
+            detailsTable.createEntry("Prefix: ", workspace.prefix)
+            detailsTable.createEntry("Signature: ", workspace.signature)
         
         self.documentProperties(detailsSection, workspace, 'Workspace Properties')
         
@@ -660,14 +664,15 @@ class ForrestDocumenter(Documenter):
         stream.close()
         document.serialize()
             
-        # Document the workspace XML    
-        document=XDocDocument('Definition',self.resolver.getFile(workspace,'workspace.xml'))
-        stream=StringIO.StringIO() 
-        xmlize('workspace',workspace.xml,stream)
-        stream.seek(0)
-        document.createSource(stream.read())
-        stream.close()
-        document.serialize()
+        if not workspace.private:
+            # Document the workspace XML    
+            document=XDocDocument('Definition',self.resolver.getFile(workspace,'workspace.xml'))
+            stream=StringIO.StringIO() 
+            xmlize('workspace',workspace.xml,stream)
+            stream.seek(0)
+            document.createSource(stream.read())
+            stream.close()
+            document.serialize()
       
     def documentRepository(self,repo,workspace,gumpSet):
         

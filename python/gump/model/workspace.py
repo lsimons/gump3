@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/model/workspace.py,v 1.22 2004/01/09 19:57:18 ajack Exp $
-# $Revision: 1.22 $
-# $Date: 2004/01/09 19:57:18 $
+# $Header: /home/stefano/cvs/gump/python/gump/model/workspace.py,v 1.23 2004/01/29 03:49:58 ajack Exp $
+# $Revision: 1.23 $
+# $Date: 2004/01/29 03:49:58 $
 #
 # ====================================================================
 #
@@ -220,18 +220,24 @@ class Workspace(ModelObject,PropertyContainer, Statable):
         else:
             self.logurl = self.xml.logurl
             
+        # Keep some details private, if requested...
+        if self.xml.private:
+            self.private=1
+        else:
+            self.private=0
+            
         # Sending e-mail address
         if not self.xml.email: 
             self.email = default.email
         else:
             self.email = self.xml.email
             
-        # Sending server
+        # Gump List...
         if not self.xml.mailinglist: 
             self.mailinglist = default.mailinglist    
         else:
             self.mailinglist = self.xml.mailinglist
-            
+                    
         # Mail server
         if not self.xml.mailserver: 
             self.mailserver = default.mailserver

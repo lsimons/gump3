@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/output/Attic/xref.py,v 1.8 2004/01/28 22:54:50 ajack Exp $
-# $Revision: 1.8 $
-# $Date: 2004/01/28 22:54:50 $
+# $Header: /home/stefano/cvs/gump/python/gump/output/Attic/xref.py,v 1.9 2004/01/29 03:49:58 ajack Exp $
+# $Revision: 1.9 $
+# $Date: 2004/01/29 03:49:58 $
 #
 # ====================================================================
 #
@@ -167,9 +167,9 @@ class XRefGuru:
     def mapDescriptorLocations(self):
         for module in self.workspace.getModules():            
             for project in module.getProjects():                
-                metadataLocation=str(project.xml.href)
+                metadataLocation=str(project.xml.href) or str(module.xml.href)
                 
-                print project.getName() + ' : ' + metadataLocation + "\n";
+                # print project.getName() + ' : Metadata Location = ' + metadataLocation + "\n";
                 
                 if metadataLocation:          
                     if not self.descriptorLocationToProject.has_key(metadataLocation):
