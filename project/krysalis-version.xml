@@ -289,7 +289,7 @@
         <depend project="krysalis-centipede" inherit="all"/>
         <depend project="junit"/>
 
-      	<ant basedir="." buildfile="centibuild.xml" target="eclipse-gump" vm="1.2">
+      	<ant basedir="." buildfile="centibuild.xml" target="dist-gump" vm="1.2">
         	<property name="ant.home" project="ant" reference="home"/>
         	<property name="project.name" value="krysalis-version"/>
 			<property name="DATE_STAMP" value="@@DATE@@"/>   
