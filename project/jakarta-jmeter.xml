@@ -1,5 +1,5 @@
 <module name="jakarta-jmeter">
-<!-- Version $Revision: 1.52 $ Last updated $Date: 2003/11/30 03:11:26 $ -->
+<!-- Version $Revision: 1.53 $ Last updated $Date: 2003/12/08 23:28:22 $ -->
   <url href="http://jakarta.apache.org/jmeter/" />
   <description>
     Pure Java load testing and performance measurement tool.
@@ -13,6 +13,8 @@
     <ant target="dist">
       <property name="version" value="@@DATE@@"/>
       <property name="gump.run" value="true"/>
+      <!-- Check to make sure headless will work OK (TEMP) -->
+      <property name="java.awt.headless" value="true"/>
 <!-- Temporary standalone trial build
       <depend property="avalon-framework.jar" project="avalon-framework" id="combined"/>
       <depend property="jakarta-oro.jar" project="jakarta-oro"/>
