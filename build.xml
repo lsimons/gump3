@@ -64,6 +64,7 @@
   <target name="compile" depends="platform_props">
     <mkdir dir="classes"/>
     <mkdir dir="work"/>
+    <mkdir dir="cache"/>
     <javac srcdir="java" destdir="classes"/>
     <jar destfile="jenny.jar" basedir="classes"/>
 
@@ -132,8 +133,16 @@
            style="stylesheet/nag.xsl"/>
   </target>
 
+  <!-- generate the move script -->
+  <target name="move" depends="gen">
+    <style in="work/merge.xml" out="work/move.xml"
+           style="stylesheet/move.xsl"/>
+    <style in="work/move.xml" out="work/move.${extension}"
+           style="stylesheet/${target}.xsl"/>
+  </target>
+
   <!-- Add in the website information -->
-  <target name="website" depends="build,update,publish,xref,deliver,naglist">
+  <target name="website" depends="build,update,publish,xref,deliver,naglist,move">
     <style basedir="work" destdir="work" includes="*.def" extension=".site"
            style="${webstyle}"/>
   </target>
@@ -149,6 +158,9 @@
     <exec dir="work" executable="${shell}">
       <arg value="puball.${extension}"/>
       <arg value="../${workspace}"/>
+    </exec>
+    <exec executable="${shell}">
+      <arg value="work/move.${extension}"/>
     </exec>
    </target>
 
