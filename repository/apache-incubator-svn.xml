@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<repository name="apache-incubator-svn" type="svn">
+  <title>Apache Incubator SubVersion</title>
+  <home-page>http://nagoya.apache.org/wiki/apachewiki.cgi?Subversion</home-page>
+  <cvsweb>http://svn.apache.org/repos/test/incubator-directory</cvsweb>
+  
+  <url>http://svn.apache.org/repos/test/incubator-directory</url>
+  
+  <redistributable/>
+</repository>

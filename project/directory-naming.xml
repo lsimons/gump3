@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<module name="directory-naming">
+  <description>Apache Directory Naming Component</description>
+  <url href="http://incubator.apache.org/directory/naming/"/>
+  
+  <svn repository="apache-incubator-svn" dir="directory/naming"/>
+  
+  <project name="directory-naming">
+    <ant buildfile="build.xml" target="dist">
+      <property name="final.name" value="directory-naming-@@DATE@@"/>
+    </ant>
+    <package>org.apache.directory.naming</package>
+    <depend project="commons-collections"/>
+    <depend project="ant" inherit="runtime"/>
+    <depend project="junit"/>
+    <depend project="mx4j"/>
+    <depend project="xml-xerces"/>
+    <work nested="target/classes"/>
+    <home nested="target"/>
+    <jar name="directory-naming-@@DATE@@.jar"/>
+    <javadoc nested="target/docs/apidocs"/>
+    <nag to="commons-dev@jakarta.apache.org" 
+    	from="directory-naming development &lt;commons-dev@jakarta.apache.org&gt;"/>
+  </project>
+  
+   
+  <project name="directory-naming-maven">
+    <maven goal="dist">
+      <property name="final.name" value="directory-naming-@@DATE@@"/>
+    </maven>
+    <package>org.apache.directory.naming</package>
+    <depend project="commons-collections"/>
+    <depend project="maven" inherit="runtime"/>
+    <depend project="junit"/>
+    <depend project="mx4j"/>
+    <depend project="xml-xerces"/>
+    <work nested="target/classes"/>
+    <home nested="target"/>
+    <jar name="directory-naming-@@DATE@@.jar"/>
+    <javadoc nested="target/docs/apidocs"/>
+    <nag to="commons-dev@jakarta.apache.org" 
+    	from="directory-naming development &lt;commons-dev@jakarta.apache.org&gt;"/>
+  </project>
+</module>

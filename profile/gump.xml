@@ -32,6 +32,7 @@
 <!-- Apache.Incubator -->
 
   <module href="project/incubator-altrmi.xml"/>
+  <module href="project/directory-naming.xml"/>
 
 <!-- Apache.James -->
 
@@ -287,6 +288,7 @@
 <!-- SVN Repository definitions -->
 
   <repository href="repository/apache-svn-sandbox.xml"/>
+  <repository href="repository/apache-incubator-svn.xml"/>
 
 <!-- CVS Repository definitions -->
 
