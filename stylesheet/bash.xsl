@@ -254,7 +254,7 @@
   <!-- =================================================================== -->
 
   <xsl:template match="logic">
-    <xsl:text>eval "echo \&lt;pre\> $OUT"&#10;</xsl:text>
+    <xsl:text>eval "echo \&lt;XMP\> $OUT"&#10;</xsl:text>
 
     <xsl:text>fi&#10;</xsl:text>
     <xsl:text>&#10;if test $</xsl:text>
@@ -265,7 +265,7 @@
 
     <xsl:text>fi&#10;</xsl:text>
     <xsl:text>&#10;if test $all; then&#10;</xsl:text>
-    <xsl:text>eval "echo \&lt;/pre\> $OUT"&#10;</xsl:text>
+    <xsl:text>eval "echo \&lt;/XMP\> $OUT"&#10;</xsl:text>
 
   </xsl:template>
 

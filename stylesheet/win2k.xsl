@@ -223,7 +223,7 @@
   <!-- =================================================================== -->
 
   <xsl:template match="logic">
-    <xsl:text>echo ^&lt;pre^> %OUT%&#10;</xsl:text>
+    <xsl:text>echo ^&lt;XMP^> %OUT%&#10;</xsl:text>
 
     <xsl:text>:</xsl:text>
     <xsl:value-of select="@name"/>
@@ -232,7 +232,7 @@
     <xsl:apply-templates/>
 
     <xsl:text>if not "%1"=="all" goto eoj&#10;</xsl:text>
-    <xsl:text>echo ^&lt;/pre^> %OUT%&#10;</xsl:text>
+    <xsl:text>echo ^&lt;/XMP^> %OUT%&#10;</xsl:text>
 
     <xsl:text>:end_</xsl:text>
     <xsl:value-of select="@name"/>
