@@ -232,7 +232,7 @@
           <xsl:when test="@reference='home'">
             <xsl:variable name="project" select="@project"/>
             <xsl:for-each select="//project[@name=$project]">
-              <property name="{$name}" value="{home}"/>
+              <property name="{$name}" value="{home}" type="path"/>
             </xsl:for-each>
           </xsl:when>
 
@@ -240,7 +240,7 @@
             <xsl:variable name="project" select="@project"/>
             <xsl:variable name="id" select="@id"/>
             <xsl:for-each select="//project[@name=$project]">
-              <property name="{$name}" value="{jar[@id=$id]/@name}"/>
+              <property name="{$name}" value="{jar[@id=$id]/@name}" type="path"/>
             </xsl:for-each>
           </xsl:when>
 
@@ -248,12 +248,12 @@
             <xsl:variable name="project" select="@project"/>
             <xsl:variable name="id" select="@id"/>
             <xsl:for-each select="//project[@name=$project]">
-              <property name="{$name}" value="{home}/{jar[@id=$id]/@name}"/>
+              <property name="{$name}" value="{home}/{jar[@id=$id]/@name}" type="path"/>
             </xsl:for-each>
           </xsl:when>
 
           <xsl:when test="@path">
-            <property name="{$name}" value="{$basedir}/{ancestor::project/@srcdir}/{@path}"/>
+            <property name="{$name}" value="{$basedir}/{ancestor::project/@srcdir}/{@path}" type="path"/>
           </xsl:when>
 
           <xsl:otherwise>

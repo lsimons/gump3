@@ -341,7 +341,12 @@
       <xsl:text> -D</xsl:text>
       <xsl:value-of select="@name"/>
       <xsl:text>=</xsl:text>
-      <xsl:value-of select="@value"/>
+      <xsl:choose>
+        <xsl:when test="@type = 'path' and $cygwin = 1">
+          <xsl:text>'`cygpath --path --windows "</xsl:text><xsl:value-of select="@value"/><xsl:text>"`'</xsl:text>
+        </xsl:when>
+        <xsl:otherwise><xsl:value-of select="@value"/></xsl:otherwise>
+      </xsl:choose>
     </xsl:for-each>
 
     <xsl:choose>
