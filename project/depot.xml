@@ -204,6 +204,7 @@
         <depend project="depot-common" runtime="true"/>
         <depend project="jakarta-regexp" runtime="true"/>
         <depend project="commons-httpclient" runtime="true"/>
+        <depend project="commons-logging" runtime="true"/>
         <depend project="commons-vfs" runtime="true"/>
 
         <jar name="dist/depot-update-gump-@@DATE@@.jar"/>
