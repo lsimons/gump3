@@ -1633,7 +1633,7 @@ This page helps Gumpmeisters (and others) observe community progress.
         
         note=''
         if project.wasBuilt():
-            if project.getreason() == REASON_BUILD_FAILED:
+            if project.getReason() == REASON_BUILD_FAILED:
                 warn='Project build output (failure) found here...'
             else:
                 note='Project build output found here...'
