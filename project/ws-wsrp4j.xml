@@ -61,10 +61,8 @@
 
     <javadoc nested="docs/apidocs"/>
 
-    <nag from="Davanum Srinivas &lt;dims@yahoo.com&gt;"
+    <nag from="Julie MacNaught &lt;jmacna@apache.org&gt;"
          to="wsrp4j-dev@ws.apache.org">
-      <regexp  subject="Build Failure - wsrp4j"/>
-      <regexp pattern="/timed out/" subject="Build timed out - wsrp4j"/>
     </nag>
   </project>
   
