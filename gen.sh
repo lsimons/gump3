@@ -173,7 +173,6 @@ test -n "$FAIL" || bash work/move.sh
 
 echo
 echo Checking for local dependencies in $JSOURCE
-echo NOTE: This will not let the generation fail!
 echo
 java -classpath "$CLASSPATH" LocalCheck $JSOURCE
 echo
