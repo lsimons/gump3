@@ -4,6 +4,7 @@
   <description>
     OpenSource implementation of a JMX agent
   </description>
+  <redistributable/>
 
   <cvs repository="sourceforge" host-prefix="cvs.mx4j" dir="mx4j"/>
 
@@ -34,6 +35,7 @@
     <home nested="dist"/>
     <jar name="lib/mx4j-jmx.jar" id="jmx"/>
     <jar name="lib/mx4j-tools.jar" id="tools"/>
+    <license name="src/docs/english/license.xml"/>
   </project>
 
   <project name="saxon">
