@@ -3,7 +3,7 @@
 
   <url href="http://smartfrog.org/"/>
   <description>
-    Smartfrog: Distributed Application Deployment Framework from HP Laboratories
+    Smartfrog: Distributed Application Deployment from HP Laboratories
   </description>
   <redistributable/>
 
@@ -13,15 +13,15 @@
   <project name="smartfrog">
     <package>org.smartfrog</package>
 
-    <!-- <ant basedir="core" target="gump-dist" /> -->
-    <ant basedir="core/smartfrog" target="dist" />    
+    <ant basedir="." target="gump-dist" />
+    <!-- <ant basedir="smartfrog" target="dist" /> -->    
     <depend project="ant" runtime="false"/>
     <depend project="junit" runtime="true"/>
     <depend project="commons-logging" runtime="true"/>
     <depend project="jakarta-log4j" runtime="true"/>
     <depend project="javacc" runtime="false"/> 
 
-    <home nested="core/smartfrog/dist"/>
+    <home nested="smartfrog/dist"/>
     <jar name="lib/smartfrog.jar" id="smartfrog" />
     <jar name="lib/sfServices.jar" id="smartfrog-services" />
     <jar name="lib/sfExamples.jar" id="smartfrog-examples" />
