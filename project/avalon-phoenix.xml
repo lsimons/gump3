@@ -68,11 +68,8 @@
   This must be version 1.1.1, and not the 2.0 that gets used.
   
         <depend project="mx4j" runtime="true"/>
-<<<<<<< avalon-phoenix.xml
--->
-=======
         <depend project="mx4j-tools" runtime="true"/>
->>>>>>> 1.61
+-->
         <depend project="xml-xalan2"/>
         <depend project="phoenix-qdox" runtime="true"/>
         <option project="jakarta-servletapi-4" runtime="true"/>
@@ -123,14 +120,6 @@
         <home nested="examples/demo"/>
         <work nested="examples/demo/target/classes"/>
 
-<!--
-        <nag>
-            <regexp pattern="/Missing prereq/i"
-                from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"
-                to="dev@avalon.apache.org"
-                subject="PRE-REQ FAILED for phoenix-example-demo"/>
-        </nag>
--->
         <nag from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"
             to="dev@avalon.apache.org"/>
     </project>
@@ -152,14 +141,6 @@
 
         <jar name="target/lib/pdk-@@DATE@@.sar"/>
 
-<!--
-        <nag>
-            <regexp pattern="/Missing prereq/i"
-                from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"
-                to="dev@avalon.apache.org"
-                subject="PRE-REQ FAILED for phoenix-example-pdk"/>
-        </nag>
--->
         <nag from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"
                 to="dev@avalon.apache.org"/>
     </project>
@@ -183,14 +164,6 @@
 
         <jar name="target/lib/avalon-testserver.sar"/>
 
-<!--
-        <nag>
-            <regexp pattern="/Missing prereq/i"
-                from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"
-                to="dev@avalon.apache.org"
-                subject="PRE-REQ FAILED for phoenix-example-testserver"/>
-        </nag>
--->
         <nag from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"
             to="dev@avalon.apache.org"/>
     </project>
