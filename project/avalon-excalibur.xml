@@ -611,7 +611,7 @@
         <depend project="xml-xalan2"/>
 
         <!-- build-time dependencies -->
-        <depend project="avalon-fortress-tools" inherit="runtime"/>
+        <!--depend project="avalon-fortress-tools" inherit="runtime"/-->
 
         <depend property="qdox.jar" project="phoenix-qdox"/>
         
@@ -979,7 +979,7 @@
         <mkdir dir="thread/impl/target/classes"/>
 
         <home nested="thread/impl"/>
-        <jar name="target/excalibur-thread-@@DATE@@.jar"/>
+        <jar name="target/excalibur-thread-impl-@@DATE@@.jar"/>
         <nag from="Gump Integration Build &lt;dev@avalon.apache.org&gt;" to="dev@avalon.apache.org"/>
     </project>
 
