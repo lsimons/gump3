@@ -595,7 +595,7 @@
       Java Indexed Serialization Package
     </description>
     <home nested="lib/core"/>
-    <jar name="Jisp2.0.1.jar"/>
+    <jar name="jisp-2.0.1.jar"/>
   </project>
 
   <project name="jing">
