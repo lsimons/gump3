@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/output/Attic/nag.py,v 1.18 2004/02/29 19:16:19 ajack Exp $
-# $Revision: 1.18 $
-# $Date: 2004/02/29 19:16:19 $
+# $Header: /home/stefano/cvs/gump/python/gump/output/Attic/nag.py,v 1.19 2004/03/02 21:11:39 ajack Exp $
+# $Revision: 1.19 $
+# $Date: 2004/03/02 21:11:39 $
 #
 # ====================================================================
 #
@@ -78,7 +78,8 @@ from gump.model.state import *
 from gump.net.mailer import *
 from gump.utils import *
 
-LINE='-  -  -  -  - -- -- ------------------------------------ G U M P'
+LINE     ='-  -  -  -  - -- -- ------------------------------------ G U M P'
+SEPARATOR='******************************************************** G U M P'
 
 class AddressPair:
     def __init__(self,toAddr,fromAddr):
@@ -102,8 +103,12 @@ class Nagger:
         self.gumpSet=run.getGumpSet()
     
         self.unsent=''
-        self.unwanted=''
+        self.unsentSubjects=''
+        self.unsents=0
         
+        self.unwanted=''
+        self.unwantedSubjects=''
+        self.unwanteds=0
         
     def nag(self):
     
@@ -155,11 +160,14 @@ class Nagger:
             log.info('We have some unwanted\'s to send to list...')
             
             self.sendEmail(self.workspace.mailinglist,self.workspace.email,	\
-                        'All dressed up, with nowhere to go...',self.unwanted)
+                        'BATCH: All dressed up, with nowhere to go...',\
+                        self.getUnwantedContent())
                         
             # A bit paranoid, ought just rely upon object being
             # destroyed,
-            self.unwanted=''      
+            self.unwanted=''  
+            self.unwantedSubjects=''
+            self.unwanteds=0    
         else:
             log.info('No unwanted nags.')
                 
@@ -167,30 +175,66 @@ class Nagger:
         if self.hasUnsent():
             log.info('We have some unsented\'s to send to list...')    
             self.sendEmail(self.workspace.mailinglist,self.workspace.email,	\
-                        'Unable to send...',self.unsent)
+                        'BATCH: Unable to send...',self.unsent)
                         
             # A bit paranoid, ought just rely upon object being
             # destroyed,
             self.unsent=''
+            self.unsentSubjects=''
+            self.unsents=0
         else:
             log.info('No unsent nags.')
                 
     def addUnwanted(self,subject,content):
         if self.unwanted:
-            self.unwanted += '-------------------------------------------------------------\n'
+            self.unwanted += SEPARATOR
+            self.unwanted += '\n'
         self.unwanted += subject
         self.unwanted += '\n'
         self.unwanted += content
         self.unwanted += '\n'
+        
+        self.unwantedSubjects += subject
+        self.unwanteds += 1
     
     def addUnsent(self,subject,content):
         if self.unsent:
-            self.unsent += '-------------------------------------------------------------\n'
+            self.unsent += SEPARATOR
+            self.unsent += '\n'
         self.unsent += subject
         self.unsent += '\n'
         self.unsent += content
         self.unsent += '\n'
-                    
+        
+        self.unsentSubjects += subject
+        self.unsents += 1
+        
+    def getUnwantedContent(self):
+        content = ''
+        
+        if self.unwanteds:
+            plural=''
+            if self.unwanted > 0:
+                plural='s'
+                
+            content = """Dear Gumpmeisters,
+            
+The following %s nag%s could have been sent (if requested)
+
+""" % (`self.unwanteds`, plural)
+            
+            content += SEPARATOR
+            content += '\n'
+            
+            content += self.unwantedSubjects
+            
+            content += SEPARATOR
+            content += '\n'
+            
+            content += self.unwanted
+            
+        return content
+            
     def hasUnwanted(self):
         if self.unwanted: return 1
         return 0

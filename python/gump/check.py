@@ -1,8 +1,8 @@
 #!/usr/bin/python
 
-# $Header: /home/stefano/cvs/gump/python/gump/check.py,v 1.36 2004/02/05 05:43:56 ajack Exp $
-# $Revision: 1.36 $
-# $Date: 2004/02/05 05:43:56 $
+# $Header: /home/stefano/cvs/gump/python/gump/check.py,v 1.37 2004/03/02 21:11:39 ajack Exp $
+# $Revision: 1.37 $
+# $Date: 2004/03/02 21:11:39 $
 #
 # ====================================================================
 #
@@ -112,7 +112,7 @@ if __name__=='__main__':
     result = GumpEngine().check(run)
 
     #
-    log.info('Gump Integration complete. Exit code:' + str(result))
+    log.info('Gump Check complete. Exit code:' + str(result))
           
     # bye!
     sys.exit(result)

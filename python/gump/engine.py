@@ -208,6 +208,14 @@ class GumpEngine:
         self.preprocess(run, 0)
   
         #
+        # Load the statistics (so we can use them during
+        # other operations).
+        #
+        logResourceUtilization('Before load statistics')
+        self.loadStatistics(run)        
+        
+        
+        #
         # Check the metadata
         #
         self.checkWorkspace(run)
@@ -396,14 +404,21 @@ class GumpEngine:
         repository=run.getOutputsRepository()
 
         # build all projects this project depends upon, then the project itself
+        projectCount=len(list)
+        projectNo=1
         for project in list:  
+        
+            log.info(' ------ Project: #[' + `projectNo` + '] of [' + `projectCount` + '] : ' + project.getName())
+        
+        
             if project.isPackaged(): continue
             
+                
             # Do this even if not ok
             self.performPreBuild( run, project )
 
             if project.okToPerformWork():        
-                log.debug(' ------ Building: ' + project.getName())
+                log.debug(' ------ Building: [' + `projectNo` + '] ' + project.getName())
 
                 cmd=project.getBuildCommand()
 
@@ -429,7 +444,7 @@ class GumpEngine:
             self.performPostBuild( run, project, repository )
     
             if not project.okToPerformWork():
-                log.warn('Failed to build project [' + project.getName() + '], state:' \
+                log.warn('Failed to build project #[' + `projectNo` + '] [' + project.getName() + '], state:' \
                         + project.getStateDescription())
 
 

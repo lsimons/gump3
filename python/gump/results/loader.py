@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/results/loader.py,v 1.2 2004/02/28 00:08:49 ajack Exp $
-# $Revision: 1.2 $
-# $Date: 2004/02/28 00:08:49 $
+# $Header: /home/stefano/cvs/gump/python/gump/results/loader.py,v 1.3 2004/03/02 21:11:39 ajack Exp $
+# $Revision: 1.3 $
+# $Date: 2004/03/02 21:11:39 $
 #
 # ====================================================================
 #
@@ -69,6 +69,7 @@ from gump import log
 from gump.results.model import WorkspaceResult
 
 from gump.utils.note import transferAnnotations, Annotatable
+from gump.utils.http import cacheHTTP
 from gump.utils import dump
 from gump.config import gumpPath
 

@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/results/resulter.py,v 1.7 2004/03/01 21:28:00 ajack Exp $
-# $Revision: 1.7 $
-# $Date: 2004/03/01 21:28:00 $
+# $Header: /home/stefano/cvs/gump/python/gump/results/resulter.py,v 1.8 2004/03/02 21:11:39 ajack Exp $
+# $Revision: 1.8 $
+# $Date: 2004/03/02 21:11:39 $
 #
 # ====================================================================
 #
@@ -110,7 +110,7 @@ class Resulter:
                     elif isinstance(object,Project):
                         result=serverResults.getProjectResult(name)
                     else:
-                        raise RuntimeError('Not understood')
+                        raise RuntimeError('Object [' + object.__class__.__name__ + '] NOT understood for Results')
                 
             if result:
                 results[server] = result
@@ -118,21 +118,30 @@ class Resulter:
         return results
             
     def loadResultsForServers(self):
+                
+        if self.serversLoaded: return
+            
         for server in self.workspace.getServers():       
             if not server in self.serverResults:
                 results=None
                 try:
-                    results=loadResultsForServer(server)            
-                except:
-                    pass
+                    results=self.loadResultsForServer(server)            
+                except Exception, details:
+                    log.warn('Failed to load results for [' + str(server) + '] : ' \
+                            + str(details), exc_info=1)
+                            
                 if results:
+                    self.workspace.addInfo('Loaded results for server [' + str(server) + ']')
                     self.serverResults(server, results)
+                    
+        self.serversLoaded=1
             
     def loadResultsForServer(self, server):
-        return loadResults(server.getUrl() + '/results.xml')
+        return self.loadResults(server.getUrl() + '/results.xml')
         
     def loadResults(self, url):    
-        loader =  WorkspaceResultLoader()        
+        loader =  WorkspaceResultLoader()
+        log.debug('Load results from URL : [' + url + ']')        
         return loader.loadFromUrl(url)
         
     def gatherResults(self):

@@ -182,7 +182,7 @@ lock.close()
 
 # Enable a log
 logFile=os.path.abspath('gumpy.log')
-log=open(logFile,'w')
+log=open(logFile,'w',0) # Unbuffered...
 
 result=0
         
@@ -210,8 +210,7 @@ try:
         
         workspaceName = hostname + '.xml'
         if os.environ.has_key('GUMP_WORKSPACE'):        
-            workspaceName = os.environ['GUMP_WORKSPACE'] + '.xml'
-        
+            workspaceName = os.environ['GUMP_WORKSPACE'] + '.xml'        
         workspacePath = os.path.abspath(workspaceName)
             
         projectsExpr='all'
@@ -285,14 +284,9 @@ try:
         if not result:
             #
             #
-            # Process command line
-            #
-            args=''
-            for arg in sys.argv[1:]:
-                if args: args += ' '
-                args += arg    
-        
-            iargs = '-w ../' + workspaceName + ' ' + projectsExpr + args
+            # Process/build command line
+            #        
+            iargs = '-w ../' + workspaceName + ' ' + projectsExpr + ' ' + ' '.join(sys.argv[1:])
   
             #
             # Run the main Gump...

@@ -1,7 +1,7 @@
 #!/usr/bin/env python
-# $Header: /home/stefano/cvs/gump/python/gump/test/Attic/nagging.py,v 1.4 2004/02/17 21:54:21 ajack Exp $
-# $Revision: 1.4 $
-# $Date: 2004/02/17 21:54:21 $
+# $Header: /home/stefano/cvs/gump/python/gump/test/Attic/nagging.py,v 1.5 2004/03/02 21:11:39 ajack Exp $
+# $Revision: 1.5 $
+# $Date: 2004/03/02 21:11:39 $
 #
 # ====================================================================
 #
@@ -144,6 +144,9 @@ class NaggingTestSuite(UnitTestSuite):
                             'Test Subject', \
                             'Test Content')       
                     #print str(email)
+                    
+        nagger.getUnwantedContent()
+        nagger.getSentContent()
                 
     def testNag(self):  
         nag(self.run)
