@@ -22,7 +22,19 @@
 export
 
 #
+# Determine the Python to use...
+# 
+export GUMP_PYTHON="`which python2.3`"
+if [ "" == "$GUMP_PYTHON" ] ; then
+ export GUMP_PYTHON="`which python`"
+ if [ "" == "$GUMP_PYTHON" ] ; then
+ 	echo "No Python (python2.3 nor python) found in path."
+ 	exit 1
+ fi
+fi
+
+#
 # Perform some Gumpy unit test
 #
 cd python
-python gump/test/pyunit.py
+$GUMP_PYTHON gump/test/pyunit.py

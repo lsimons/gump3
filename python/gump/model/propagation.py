@@ -75,9 +75,6 @@ class Propogatable(Stateful):
             for object in self.getChildren():
                 object.changeState(state,reason,cause,message)        
                             
-    def setCause(self,cause):
-        if not self.cause: self.cause=cause
-        
     def hasCause(self):
         return self.cause
         
@@ -85,7 +82,7 @@ class Propogatable(Stateful):
         return self.cause
         
     def addCause(self,cause):
-        if not self.cause: self.setCause(cause)
+        if not self.cause: self.cause=cause
         self.causes.append(cause)
         
     def getCauses(self):

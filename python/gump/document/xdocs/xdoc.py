@@ -526,13 +526,13 @@ class XDocNote(XDocPiece):
             
     def start(self):
         if self.config.isXhtml():    
-            self.context.writeLineIndented('<table><tr><td class="WARN"><p>')
+            self.context.writeLineIndented('<table><tr><td class="NOTE">')
         else:
             self.context.writeLineIndented('<note>')    
         
     def end(self):
         if self.config.isXhtml():    
-            self.context.writeLine('</p></td></tr></table>')
+            self.context.writeLine('</td></tr></table>')
         else:
             self.context.writeLine('</note>')
         
@@ -562,13 +562,13 @@ class XDocWarning(XDocPiece):
         
     def start(self):
         if self.config.isXhtml():    
-            self.context.writeLineIndented('<table><tr><td class="WARN"><p>')
+            self.context.writeLineIndented('<table><tr><td class="WARN">')
         else:
             self.context.writeLineIndented('<warning>')    
         
     def end(self):
         if self.config.isXhtml():    
-            self.context.writeLine('</p></td></tr></table>')
+            self.context.writeLine('</td></tr></table>')
         else:
             self.context.writeLine('</warning>')
         
@@ -737,19 +737,18 @@ class XDocDocument(XDocPiece):
             self.context.writeLine('  <link rel="stylesheet" type="text/css" href="%s/css/style.css" title="Style"/>' % self.rootpath)
             
             self.context.writeLine(' </head>')
-            self.context.writeLine('<body>')  
-            self.context.writeLine('<img align="right" src="%s/images/gump-logo.png" alt="Logo"/>' % self.rootpath) 
-            self.context.writeLine('<br clear="all"/>')   
-            self.context.writeLine('<table>')  
+            self.context.writeLine('<body>')    
+            self.context.writeLine('<table class="TRANSPARENT">')  
             self.context.writeLine(' <tr>')  
             self.context.writeLine(' <td><a href="%s/index.html">Index</a></td><td>|</td>' % self.rootpath) 
             self.context.writeLine(' <td><a href="%s/buildLog.html">Log</a></td><td>|</td>' % self.rootpath)  
             self.context.writeLine(' <td><a href="%s/project_todos.html">Issues</a></td><td>|</td>' % self.rootpath)  
             self.context.writeLine(' <td><a href="%s/gump_stats/index.html">Stats</a></td><td>|</td>' % self.rootpath)  
-            self.context.writeLine(' <td><a href="%s/gump_xref/index.html">XRef</a></td><td>|</td>' % self.rootpath)  
+            self.context.writeLine(' <td><a href="%s/gump_xref/index.html">XRef</a></td>' % self.rootpath) 
+            
+            self.context.writeLine(' <td colspan="3"><img align="right" src="%s/images/gump-logo.png" alt="Logo"/></td>' % self.rootpath)  
             self.context.writeLine(' </tr>')  
             self.context.writeLine('</table>')  
-            self.context.writeLine('<hr/>')     
         else: 
             self.context.writeLine('<?xml version="1.0" encoding="ISO-8859-1"?>')
             self.context.writeLine('<!DOCTYPE document PUBLIC "-//APACHE//DTD Documentation V1.1//EN" "./dtd/document-v11.dtd">')

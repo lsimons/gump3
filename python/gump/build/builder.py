@@ -188,20 +188,16 @@ class GumpBuilder(RunSpecific):
         #
         # Delete a directory and/or a file
         #
-        # :TODO: Before turning this on, we need to ensure that the command
-        # will not self.run wild. We need to ensure that there is no ";" and we
-        # need to ensure the directory/file is under the workspace.
-        #
-        if delete.dir:
-            dir=os.path.abspath(os.path.join(basedir,delete.dir))
+        if delete.hasDirectory():
+            dir=delete.getDirectory()
             try:
                 os.rmdir(dir)
                 project.addInfo('Deleted directory ['+dir+']')
             except:
                 project.addError('Failed to delete directory ['+dir+']')
                 raise
-        elif delete.file:
-            file=os.path.abspath(os.path.join(basedir,delete.file))
+        elif delete.hasFile():
+            file=delete.getFile()
             try:
                 os.remove(file)
                 project.addInfo('Deleted file ['+file+']')
@@ -219,9 +215,8 @@ class GumpBuilder(RunSpecific):
         #
         # Make a directory
         #
-        if mkdir.dir:
-            
-            dirToMake=os.path.abspath(os.path.join(basedir,mkdir.dir))
+        if mkdir.hasDirectory(): 
+            dirToMake=delete.getDirectory()
             try:
                 if not os.path.exists(dirToMake):
                     os.makedirs(dirToMake)
@@ -242,11 +237,6 @@ class GumpBuilder(RunSpecific):
         
         startedOk =  project.okToPerformWork()
             
-        #
-        #
-        # NOTE --------------- NOT TURNED ON YET!!!!!!
-        # Security concerns...
-        #
         #
         if 0 and project.okToPerformWork():        
             # Deletes...

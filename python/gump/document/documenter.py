@@ -69,7 +69,7 @@ class Documenter(AbstractRunActor):
             raise RuntimeError, \
                     'Class [' + `self.__class__` + '] needs a callable documentRun(self,run)'
         
-        log.debug('Document run using [' + `self` + ']')
+        log.info('Document run using [' + `self` + ']')
         
         self.documentRun()
         

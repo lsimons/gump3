@@ -162,7 +162,7 @@ class XmlWorker:
             task.setFailed(str(details))
       
     def postProcess(self,task,dom):        
-        log.debug("Post Process DOM : " + `dom`)   
+        #log.debug("Post Process DOM : " + `dom`)   
         
         taskList=task.getOwner()
         
