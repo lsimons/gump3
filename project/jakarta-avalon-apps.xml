@@ -17,7 +17,7 @@
     <depend project="jakarta-ant"/>
     <depend project="xml-xerces" id="parser" runtime="true"/>
     <depend project="jakarta-avalon"/>
-    <depend project="jakarta-avalon-phoenix"/>
+    <depend project="jakarta-avalon-phoenix" inherit="runtime"/>
     <depend project="jakarta-avalon-cornerstone"/>
 
     <home nested="ftpserver"/>
