@@ -13,6 +13,10 @@
 
 <project name="gump" default="scripts" basedir=".">
 
+  <!-- Default properties. Define them before to override them.-->
+  <property name="workspace" value="rubypad.xml"/>
+  <property name="webstyle" value="jakarta.xsl"/>
+      
   <!-- Build the code used to generate the merged xml scripts -->
   <target name="compile">
     <mkdir dir="classes"/>
@@ -37,7 +41,7 @@
 
   <!-- Merge the xml sources, resolving references -->
   <target name="gen" depends="compile" unless="uptodate">
-    <java classname="Jenny" fork="yes" failonerror="true">
+    <java classname="Jenny" fork="yes" failonerror="true" classpath="jenny.jar">
       <arg value="${workspace}"/>
     </java>
   </target>
