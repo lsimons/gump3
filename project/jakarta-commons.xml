@@ -85,7 +85,7 @@
     <depend project="commons-cactus-ant"/>
 
     <work nested="cactus/target/classes"/>
-    <work nested="cactus/target/servlet22/classes"/>
+    <work nested="cactus/target/servlet23/classes"/>
 
     <home nested="cactus/out"/>
     <jar name="servlet23/dist/lib/commons-cactus.jar"/>
