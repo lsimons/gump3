@@ -20,7 +20,7 @@
     <depend project="junit"/>
     <depend project="jakarta-log4j"/>
     <depend project="jakarta-regexp"/>
-    <depend project="jakarta-servletapi-5-servlet"/>
+    <depend project="jakarta-servletapi"/>
     <depend project="ws-axis"/>
     <depend project="jakarta-pluto"/>
     <depend project="commons-discovery"/>
