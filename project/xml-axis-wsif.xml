@@ -1,0 +1,30 @@
+<module name="xml-axis-wsif">
+
+  <url href="http://xml.apache.org/axis/"/>
+  <description>
+    Web Services Inspection Language 
+  </description>
+
+  <cvs repository="xml"/>
+
+  <!-- build -->
+
+  <project name="xml-axis-wsif">
+    <package>org.apache.wsif</package>
+
+    <ant basedir="java" target="all"/>
+
+    <depend project="jakarta-ant"/>
+    <depend project="xml-xerces"/>
+    <depend project="bsf"/>
+    <depend project="ejb"/>
+    <depend project="javamail"/>
+    <depend project="jms"/>
+    <depend project="wsdl4j"/>
+    <depend project="xml-axis"/>
+    <depend project="xml-soap"/>
+
+    <work nested="java/build/classes"/>
+  </project>
+
+</module>
