@@ -27,6 +27,7 @@
     <depend project="jndi" version="1.2.1"/>
     <depend project="webmacro" version="0.94"/>
     <depend project="helma-xmlrpc" version="0.9"/>
+    <depend project="jakarta-turbine-stratum" version="0.1-dev"/>
     <option project="jta" version="1.0.1"/> <!-- needed for javadoc purposes only -->
     <work nested="bin/classes"/>
     <home nested="bin"/>
