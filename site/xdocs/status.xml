@@ -19,6 +19,12 @@
       httpclient, nor the current (CVS head) 2.0 release.</p>
     </subsection>
 
+    <subsection name="jakarta-velocity-test">
+      <p><a href="http://cvs.apache.org/viewcvs/jakarta-velocity/src/java/org/apache/velocity/texen/ant/TexenTask.java.diff?r1=1.31&amp;r2=1.32">This</a>
+      change apparently is not compatible with Velocity being on the
+      classpath with Ant 1.4.</p>
+    </subsection>
+
     <subsection name="openejb">
       <p>In Junit 3.7, a previously protected method was made public,
       impacting extenders of junit.textui.TestRunner.  A 
@@ -26,12 +32,6 @@
       was provided to them that worked with both the release that they are 
       using (3.5) and the current release.  No acknowledgement of the patch was
       received.</p>
-    </subsection>
-
-    <subsection name="jakarta-velocity-test">
-      <p><a href="http://cvs.apache.org/viewcvs/jakarta-velocity/src/java/org/apache/velocity/texen/ant/TexenTask.java.diff?r1=1.31&amp;r2=1.32">This</a>
-      change apparently is not compatible with Velocity being on the
-      classpath with Ant 1.4.</p>
     </subsection>
 
     <subsection name="xml-fop">
@@ -43,12 +43,6 @@
       the two projects, and the fop team understands and agrees to this change.
       They have already resynched once, and will try to track to the
       release.</p>
-    </subsection>
-
-    <subsection name="xml-xalan2-smoketest">
-      <p>The xalan2 team has acknowledged that there will be known failures
-      until they finish up this release cycle.  These failures are internal
-      to Xalan and not caused by changes to any other code base.</p>
     </subsection>
   </section>
 
