@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/syndication/atom.py,v 1.4 2004/01/07 18:57:00 ajack Exp $
-# $Revision: 1.4 $
-# $Date: 2004/01/07 18:57:00 $
+# $Header: /home/stefano/cvs/gump/python/gump/syndication/atom.py,v 1.5 2004/01/08 01:28:11 ajack Exp $
+# $Revision: 1.5 $
+# $Date: 2004/01/08 01:28:11 $
 #
 # ====================================================================
 #
@@ -95,18 +95,24 @@ class Entry:
         self.description=description        
         self.content=content
      
-    def serializeToStream(self, stream, modified):
+    def serializeToStream(self, stream, modified, uri, id):
         
         # Write the header part...
         stream.write("""		<entry>
+        <author>Gump</author>
+        <id>tag:gump:%s:%s-%s</id>
         <title>%s</title>
         <link rel="alternate" type="text/html" href="%s"/>
+        <issued>%s</issued>        
         <modified>%s</modified>        
         """	\
-        % (self.description, self.link, modified) )
+        % (	    uri, modified, id, \
+                self.link, \
+                self.description, \
+                modified, modified) )
 
         if self.content:
-            stream.write("""<content>%s</content>"""	\
+            stream.write("""<content type='text/html'>%s</content>"""	\
             % (escape(self.content)) )
             
         # Write the trailer part...
@@ -114,9 +120,10 @@ class Entry:
         
 class AtomFeed:
     
-    def __init__(self,url,file,title,link,description):
+    def __init__(self,url,file,uri,title,link,description):
         self.url=url
         self.file=file
+        self.uri=uri
         self.title=title
         self.link=link
         self.description=description
@@ -136,8 +143,10 @@ class AtomFeed:
         <modified>%s</modified>        
 """	% (self.description, self.link, modified) )
         
+        id=0
         for entry in self.entries:
-            entry.serializeToStream(stream, modified)
+            entry.serializeToStream(stream, modified, self.uri, id)
+            id+=1
         
         # Write the trailer part...
         stream.write("""
@@ -170,6 +179,7 @@ class AtomSyndicator(Syndicator):
         feedUrl=self.run.getOptions().getResolver().getUrl(self.workspace,'index','.atom')
     
         self.feed=AtomFeed(feedUrl,feedFile,	\
+                        'workspace',	\
                        'Jakarta Gump',		\
                         self.workspace.logurl,	\
                         """Life is like a box of chocolates""")
@@ -188,6 +198,7 @@ class AtomSyndicator(Syndicator):
         moduleUrl=self.run.getOptions().getResolver().getUrl(module)
         
         moduleFeed=AtomFeed(feedUrl,feedFile,	
+                        'module',	\
                         'Gump : Module ' + escape(module.getName()),	\
                         moduleUrl,	\
                         escape(module.getDescription()))
@@ -229,6 +240,7 @@ class AtomSyndicator(Syndicator):
         projectUrl=self.run.getOptions().getResolver().getUrl(project)
         
         projectFeed=AtomFeed(feedUrl, feedFile,	\
+                        'project',	\
                     'Gump : Project ' + escape(project.getName()),	\
                     projectUrl,	\
                     escape(project.getDescription()))

@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/syndication/syndicator.py,v 1.10 2004/01/07 17:47:25 ajack Exp $
-# $Revision: 1.10 $
-# $Date: 2004/01/07 17:47:25 $
+# $Header: /home/stefano/cvs/gump/python/gump/syndication/syndicator.py,v 1.11 2004/01/08 01:28:11 ajack Exp $
+# $Revision: 1.11 $
+# $Date: 2004/01/08 01:28:11 $
 #
 # ====================================================================
 #
@@ -95,7 +95,7 @@ class Syndicator:
         
         stats=project.getStats()
         
-        content='Project ' + project.getName() 
+        content='Project ' + project.getName()  + ', '
                                 
         content += self.getStateContent(project.getStatePair())
                         
@@ -119,7 +119,7 @@ class Syndicator:
         
         stats=module.getStats()
         
-        content='Module ' + module.getName()
+        content='Module ' + module.getName() + ', '
                                     
         content += self.getStateContent(module.getStatePair())
         
