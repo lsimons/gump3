@@ -1,4 +1,5 @@
-#!/usr/bin/env python
+#!/usr/bin/python
+
 
 # Copyright 2003-2004 The Apache Software Foundation
 #
@@ -14,17 +15,38 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-#
-# $Header: /home/stefano/cvs/gump/python/gump/core/__init__.py,v 1.1.2.1 2004/05/17 20:22:03 ajack Exp $
-# 
+"""
 
 """
 
-  Gump Core Entry Points.
-  
-"""
+import os.path
+import sys
 
-# tell Python what modules make up the gump.core package
-__all__ = ["init","commandLine","config","runner",	\
-            "misc","builder","updater",	\
-            "tasks","gumpenv","gumprun"]
+from gump import log
+
+
+
+from gump.core.misc import *
+from gump.update.updater import *
+from gump.build.builder import *
+
+
+
+
+###############################################################################
+# Classes
+###############################################################################
+
+
+class GumpRunner(Runnable):
+
+    def __init__(self, run):
+        
+        #
+        Runnable.__init__(self, run)
+        
+        self.misc=GumpMiscellaneous(run)    
+        self.updater=GumpUpdater(run)
+        self.builder=GumpBuilder(run)
+        
+

@@ -25,27 +25,27 @@ import types, StringIO
 from gump import log
 import gump.core.config
 from gump.core.gumprun import GumpRun
-from gump.core.engine import GumpTask, GumpTaskList, GumpEngine
+from gump.core.tasks import SequentialTaskRunner, GumpTaskList
 from gump.test.pyunit import UnitTestSuite
 
-class EngineTestSuite(UnitTestSuite):
+class TasksTestSuite(UnitTestSuite):
     def __init__(self):
         UnitTestSuite.__init__(self)
             
     def testBuildTasks(self):
-        engine=GumpEngine()
+        engine=SequentialTaskRunner()
         taskList=GumpTaskList(['build'])
         taskList.bind(engine)
         #print `taskList`
             
     def testBuildDocumentTasks(self):
-        engine=GumpEngine()    
+        engine=SequentialTaskRunner()    
         taskList=GumpTaskList(['build','document'])
         taskList.bind(engine)
         #print `taskList`
             
     def testUpdateBuildStatsTasks(self):
-        engine=GumpEngine()    
+        engine=SequentialTaskRunner()    
         taskList=GumpTaskList(['update','build','updateStatistics'])
         taskList.bind(engine)
         #print `taskList`

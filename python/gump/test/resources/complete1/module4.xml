@@ -1,0 +1,35 @@
+<module name="module4">
+
+  <url  href="http://jakarta.apache.org/gump/index.html"/>
+  <description>
+    Module #4
+  </description>
+
+  <cvs repository="repository1"/>
+
+  <project name="project4">
+    <package>org.apache.project4</package>
+
+	<!-- Not, a list of space separated targets... -->
+    <ant target="gump1 gump2 gump3">
+      <property name="project1.home" reference="home" project="project1"/>
+      <!-- property name="project1.src" project="project1" noclasspath=""/ -->
+    </ant>
+
+    <depend project="project1"/>
+    <depend project="project2" runtime="true"/>
+    <depend project="project3"/>
+
+    <option project="project1" />
+
+    <home nested="dist"/>
+
+    <jar name="lib/output4.jar" id="output4"/>
+
+    <license name="LICENSE"/>
+
+    <nag from="Gump Integration Build &lt;general@gump.apache.org&gt;"
+         to="general@gump.apache.org"/>
+  </project>
+</module>
+

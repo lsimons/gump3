@@ -44,7 +44,7 @@ from gump.model.workspace import Workspace
 from gump.model.module import Module
 from gump.model.project import Project
 
-from gump.output.nag import Nagger
+from gump.output.notify import Notifier
 from gump.output.statsdb import StatisticsGuru
 from gump.output.xref import XRefGuru
 from gump.core.gumprun import *
@@ -460,7 +460,7 @@ class ForrestDocumenter(Documenter):
         self.documentProperties(detailsSection, workspace, 'Workspace Properties')
         
         # Does this workspace send notification (nag) mails?
-        detailsTable.createEntry("Send Nag E-mails: ", getBooleanString(workspace.isNag()))
+        detailsTable.createEntry("Send Notification E-mails: ", getBooleanString(workspace.isNotify()))
         
         #document.createRaw('<p><strong>Context Tree:</strong> <link href=\'workspace.html\'>workspace</link></p>')
         # x.write('<p><strong>Workspace Config:</strong> <link href=\'xml.txt\'>XML</link></p>')
@@ -1813,7 +1813,7 @@ This page helps Gumpmeisters (and others) observe community progress.
      
             nagSection=document.createSection('Notification')
             nagSection.createParagraph('This is the notification mail that is to be sent')
-            nagger=Nagger(run)
+            nagger=Notifier(run)
             content=nagger.getNamedTypedContent(project)            
             nagSection.createSource(content)
                     

@@ -357,9 +357,7 @@ class GumpRunOptions:
         
         # Default is Text unless Forrest is in the environment,
         # but can also force text with --text 
-        self.text=0      
-        # A new alternative is Template --template
-        self.template=0      
+        self.text=0        
         
         # If using Forrest, this say leave xdocs, do NOT run
         # the 'forrest' build inlined.
@@ -402,12 +400,6 @@ class GumpRunOptions:
         
     def setText(self,text):
         self.text=text
-        
-    def isTemplate(self):
-        return self.template
-        
-    def setTemplate(self,template):
-        self.template=template
         
     def isXDocs(self):
         return self.xdocs
@@ -498,5 +490,12 @@ class GumpRun(Workable,Annotatable,Stateful):
         
         self.gumpSet.dump(indent+1,output)
         
+class Runnable:
+    
+    def __init__(self, run):
+        self.run	=	run
+        
+    def getRun(self):
+        return self.run
         
         

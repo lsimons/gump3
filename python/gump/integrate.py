@@ -15,7 +15,7 @@
 # limitations under the License.
 
 #
-# $Header: /home/stefano/cvs/gump/python/gump/integrate.py,v 1.27 2004/04/24 15:25:18 ajack Exp $
+# $Header: /home/stefano/cvs/gump/python/gump/integrate.py,v 1.27.2.1 2004/05/17 20:22:01 ajack Exp $
 # 
 
 """
@@ -32,7 +32,7 @@ import logging
 
 from gump import log
 from gump.core.gumpinit import gumpinit
-from gump.core.engine import GumpEngine
+from gump.core.tasks import SequentialTaskRunner
 from gump.core.gumprun import GumpRun, GumpRunOptions, GumpSet
 from gump.core.commandLine import handleArgv
 from gump.utils import logResourceUtilization
@@ -76,7 +76,7 @@ def irun():
     #
     #    Perform this integration run...
     #
-    result = GumpEngine().performIntegrate(run)
+    result = SequentialTaskRunner(run).performIntegrate()
 
     logResourceUtilization('Before exit')
     
@@ -95,7 +95,6 @@ if __name__=='__main__':
         signal.signal(signal.SIG_HUP, ignoreHangup)
     except:
         pass
-    
 
     #print 'Profiling....'
     #import profile

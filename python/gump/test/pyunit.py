@@ -322,8 +322,8 @@ if __name__=='__main__':
     from gump.test.tools import ToolsTestSuite  
     runner.addSuite(ToolsTestSuite())
     
-    from gump.test.nagging import NaggingTestSuite  
-    runner.addSuite(NaggingTestSuite())
+    from gump.test.notifying import NotificationTestSuite  
+    runner.addSuite(NotificationTestSuite())
     
     from gump.test.resulting import ResultingTestSuite  
     runner.addSuite(ResultingTestSuite())
@@ -334,8 +334,8 @@ if __name__=='__main__':
     from gump.test.unicode import UnicodeTestSuite  
     runner.addSuite(UnicodeTestSuite())
     
-    from gump.test.thomas import EngineTestSuite  
-    runner.addSuite(EngineTestSuite())
+    from gump.test.tasks import TasksTestSuite  
+    runner.addSuite(TasksTestSuite())
     
     from gump.test.diagram import DiagramTestSuite  
     runner.addSuite(DiagramTestSuite())

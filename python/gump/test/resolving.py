@@ -27,7 +27,6 @@ import gump.core.config
 from gump.test import *
 from gump.document.text.resolver import *
 from gump.document.forrest.resolver import *
-from gump.document.template.resolver import *
 
 from gump.test.pyunit import UnitTestSuite
 
@@ -120,8 +119,7 @@ class ResolvingTestSuite(UnitTestSuite):
     
     def testResolving(self):
         for resolver in [	TextResolver('./test','http://somewhere/something'),	\
-                            ForrestResolver('./test','http://somewhere/something'),	\
-                            TemplateResolver('./test','http://somewhere/something') ] :
+                            ForrestResolver('./test','http://somewhere/something') ] :
 
 
             #print `resolver`            

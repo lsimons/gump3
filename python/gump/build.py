@@ -29,7 +29,7 @@ import sys
 
 from gump import log
 from gump.core.gumpinit import gumpinit
-from gump.core.engine import GumpEngine
+from gump.core.tasks import SequentialTaskRunner
 from gump.core.gumprun import GumpRun, GumpRunOptions, GumpSet
 from gump.core.commandLine import handleArgv
 from gump.model.loader import WorkspaceLoader
@@ -60,7 +60,7 @@ if __name__=='__main__':
     #
     #    Perform this integration run...
     #
-    result = GumpEngine().performBuild(run)
+    result = SequentialTaskRunner(run).performBuild()
     
     #
     log.info('Gump Build complete. Exit code:' + str(result))

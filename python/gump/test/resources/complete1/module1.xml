@@ -1,0 +1,31 @@
+<module name="module1">
+
+  <url  href="http://gump.apache.org/index.html"/>
+  <description>
+    Module 1
+  </description>
+
+  <cvs repository="repository1" 
+		module="gump/resources/test/module1"/>
+
+  <nag from="Ms. Dev 1 &lt;dev1@jakarta.apache.org&gt;"
+         to="project1@jakarta.apache.org"/>
+         
+  <project name="project1">
+    <package>org.apache.project1</package>
+
+    <ant target="gump"/>
+
+    <option project="random"/>
+
+    <home nested="dist"/>
+
+    <jar name="lib/output1.jar" id="output1"/>
+
+    <license name="LICENSE"/>
+
+    <nag from="Ms. Dev 1 &lt;dev1@jakarta.apache.org&gt;"
+         to="project1@jakarta.apache.org"/>
+  </project>
+</module>
+

@@ -49,7 +49,7 @@ class AddressPair:
     def getFromAddress(self):
         return self.fromAddr
 
-class Nagger:
+class Notifier:
     
     def __init__(self,run):        
         self.run = run
@@ -64,12 +64,12 @@ class Nagger:
         self.unwantedSubjects=''
         self.unwanteds=0
         
-    def nag(self):
+    def notify(self):
     
         #
         # Belt and braces...
         #
-        if not self.workspace.isNag():
+        if not self.workspace.isNotify():
             return
     
         # A bit paranoid, ought just rely upon object being
@@ -81,7 +81,7 @@ class Nagger:
         # Nag about the workspace (if it needs it)
         #
         if self.workspace.isFailed():
-            self.nagWorkspace(run,self.workspace)
+            self.notifyWorkspace(run,self.workspace)
     
         # For all modules...
         for module in self.workspace.getModules():        
@@ -90,10 +90,10 @@ class Nagger:
                 if module.isFailed():
                     try:
                         log.info('Nag for module: ' + module.getName())
-                        self.nagModule(module)   
+                        self.notifyModule(module)   
                     
                     except Exception, details:
-                        log.error("Failed to send nag e-mails for module " + module.getName()\
+                        log.error("Failed to send notify e-mails for module " + module.getName()\
                                     + " : " + str(details), exc_info=1)
                 else:
                     for project in module.getProjects():
@@ -102,17 +102,17 @@ class Nagger:
                         
                             try:                        
                                 log.info('Nag for project: ' + project.getName())                                                        
-                                self.nagProject(project)                        
+                                self.notifyProject(project)                        
                                 
                             except Exception, details:
-                                log.error("Failed to send nag e-mails for project " + project.getName()\
+                                log.error("Failed to send notify e-mails for project " + project.getName()\
                                             + " : " + str(details), exc_info=1)
                 
         
         # Workspace can override...
         (wsTo, wsFrom) = self.workspace.getNagOverrides()        
                 
-        # Belt and braces (nag to us if not nag to them)
+        # Belt and braces (notify to us if not notify to them)
         if self.hasUnwanted():
             log.info('We have some unwanted\'s to send to list...')
             
@@ -126,9 +126,9 @@ class Nagger:
             self.unwantedSubjects=''
             self.unwanteds=0    
         else:
-            log.debug('No unwanted nags.')
+            log.debug('No unwanted notifys.')
                 
-        # Belt and braces (nag to us if not nag to them)
+        # Belt and braces (notify to us if not notify to them)
         if self.hasUnsent():
             log.info('We have some unsented\'s to send to list...')    
             self.sendEmail(wsTo or self.workspace.mailinglist,wsFrom or self.workspace.email,	\
@@ -141,7 +141,7 @@ class Nagger:
             self.unsentSubjects=''
             self.unsents=0
         else:
-            log.debug('No unsent nags.')
+            log.debug('No unsent notifys.')
                 
     def addUnwanted(self,subject,content):
         if self.unwanted:
@@ -183,7 +183,7 @@ class Nagger:
                 
             content = """Dear Gumpmeisters,
             
-The following %s nag%s should have been sent
+The following %s notify%s should have been sent
 
 """ % (`self.unwanteds`, plural)
             
@@ -208,7 +208,7 @@ The following %s nag%s should have been sent
         return 0
     
     
-    def nagWorkspace(self):
+    def notifyWorkspace(self):
         """ Nag for the workspace """
         content=self.getGenericContent(self.workspace,'There is a workspace problem... \n')
         
@@ -216,8 +216,8 @@ The following %s nag%s should have been sent
                         self.workspace.email,	\
                         self.workspace.prefix+': Gump Workspace Problem ',content)
     
-    def nagModule(self,module):
-        """ Nag to a specific module's <nag entry """
+    def notifyModule(self,module):
+        """ Nag to a specific module's <notify entry """
         
         #
         # Form the content...
@@ -234,8 +234,8 @@ The following %s nag%s should have been sent
         self.sendEmails(self.getAddressPairs(module),subject,content)
             
     
-    def nagProject(self,project):
-        """ Nag to a specific project's <nag entry """
+    def notifyProject(self,project):
+        """ Nag to a specific project's <notify entry """
         module=project.getModule()
     
         #
@@ -254,27 +254,27 @@ The following %s nag%s should have been sent
         self.sendEmails(self.getAddressPairs(project),subject,content)
     
     def getAddressPairs(self, object):
-        nags=[]
+        notifys=[]
         
         # Workspace can override...
         (wsTo, wsFrom) = self.workspace.getNagOverrides()
         
-        for nagEntry in object.xml.nag:
+        for notifyEntry in object.xml.notify:
             #
             # Determine where to send
             #
-            toaddr=wsTo or getattr(nagEntry,'to',self.workspace.mailinglist)
-            fromaddr=wsFrom or getattr(nagEntry,'from',self.workspace.email)   
+            toaddr=wsTo or getattr(notifyEntry,'to',self.workspace.mailinglist)
+            fromaddr=wsFrom or getattr(notifyEntry,'from',self.workspace.email)   
             
             # Somewhat bogus, but (I think) due to how the XML
             # objects never admit to not having something
             if not toaddr: toaddr =    self.workspace.mailinglist
             if not fromaddr : fromaddr =  self.workspace.email
                 
-            nags.append(AddressPair(getStringFromUnicode(toaddr),	\
+            notifys.append(AddressPair(getStringFromUnicode(toaddr),	\
                                     getStringFromUnicode(fromaddr)))  
 
-        return nags
+        return notifys
         
         
     def sendEmails(self, addressPairs, subject, content):
@@ -285,7 +285,7 @@ The following %s nag%s should have been sent
         else:
             #
             # This is a catch-all, for all project that
-            # don't have <nag's assigned.
+            # don't have <notify's assigned.
             #
             self.addUnwanted(subject,content)
                     
@@ -323,7 +323,7 @@ The following %s nag%s should have been sent
             
         except Exception, details:
             sent=0
-            log.error('Failed to send nag e-mail: ' + str(details), \
+            log.error('Failed to send notify e-mail: ' + str(details), \
                         exc_info=1)
                   
         if not sent:
@@ -451,7 +451,7 @@ and/or contact general@gump.apache.org.
     
         return content
     
-def nag(run):
-    nagger=Nagger(run)
-    nagger.nag()
+def notify(run):
+    notifier=Nagger(run)
+    notifier.notify()
     

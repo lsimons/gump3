@@ -1,0 +1,14 @@
+<module name="alias1">
+
+  <url  href="http://jakarta.apache.org/gump/index.html"/>
+  <description>
+    Jakarta Gump Alias1 -- test of aliasing
+    i.e. dependency w/ inherit='jars'.
+  </description>
+
+  <project name="alias1">
+    <depend project="project4" inherit="jars"/>
+  </project>
+
+</module>
+

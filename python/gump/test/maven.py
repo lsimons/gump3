@@ -32,6 +32,11 @@ from gump.test import getWorkedTestWorkspace
 from gump.test.pyunit import UnitTestSuite
 
 class MavenTestSuite(UnitTestSuite):
+    """
+    
+        Maven Test suite
+        
+    """
     def __init__(self):
         UnitTestSuite.__init__(self)
         

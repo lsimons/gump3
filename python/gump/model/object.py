@@ -165,6 +165,18 @@ class NamedModelObject(ModelObject):
         """ Display the contents of this object """
         output.write(getIndent(indent)+'Name: ' + self.name + '\n')
         ModelObject.dump(self,indent+1,output)
+
+          
+class Positioned:
+    def __init__(self): 
+        self.posn=-1
+        
+    def setPosition(self,posn):
+        self.posn=posn
+
+    def getPosition(self):
+        return self.posn
+
           
 class Resultable:
     def __init__(self): 

@@ -26,10 +26,10 @@ import gump.core.config
 from gump.core.gumprun import GumpRun
 from gump.test import getWorkedTestWorkspace
 from gump.test.pyunit import UnitTestSuite
-from gump.output.nag import nag,Nagger
+from gump.output.notify import notify,Notifier
 from gump.net.mailer import *
 
-class NaggingTestSuite(UnitTestSuite):
+class NotificationTestSuite(UnitTestSuite):
     def __init__(self):
         UnitTestSuite.__init__(self)
         
@@ -41,9 +41,9 @@ class NaggingTestSuite(UnitTestSuite):
         self.assertNotNone('Needed a workspace', self.workspace)
         self.run=GumpRun(self.workspace)
         
-    def testNagContents(self):
+    def testNotificationContents(self):
     
-        nagger=Nagger(self.run)
+        nagger=Notifier(self.run)
         
         # For all modules...
         for module in self.workspace.getModules():                    
@@ -54,9 +54,9 @@ class NaggingTestSuite(UnitTestSuite):
                 # print 
                 nagger.getNamedTypedContent(project,'test')
                 
-    def testNagUnwantedUnsent(self):
+    def testNotifyUnwantedUnsent(self):
     
-        nagger=Nagger(self.run)
+        nagger=Notifier(self.run)
         
         self.assertFalse( 'No Unwanted', nagger.hasUnwanted() )
         self.assertFalse( 'No Unsent', nagger.hasUnsent() )
@@ -69,12 +69,12 @@ class NaggingTestSuite(UnitTestSuite):
                 
     def testNagAddresses(self):
     
-        nagger=Nagger(self.run)
+        notifier=Notifier(self.run)
            
         # For all modules...
         for module in self.workspace.getModules():                    
             #print 'Get Addresses For Module : ' + module.getName()
-            addresses=nagger.getAddressPairs(module)
+            addresses=notifier.getAddressPairs(module)
             for addr in addresses:
                 #print 'AddressPair : ' + str(addr)
                 pass
@@ -87,7 +87,7 @@ class NaggingTestSuite(UnitTestSuite):
                              
     def testNagEmails(self):
     
-        nagger=Nagger(self.run)
+        notifier=Notifier(self.run)
            
         # For all modules...
         for module in self.workspace.getModules(): 
@@ -102,9 +102,9 @@ class NaggingTestSuite(UnitTestSuite):
                             'Test Content')       
                     #print str(email)
                     
-        nagger.getUnwantedContent()
-        nagger.getUnsentContent()
+        notifier.getUnwantedContent()
+        notifier.getUnsentContent()
                 
-    def testNag(self):  
-        nag(self.run)
+    def testNotify(self):  
+        notify(self.run)
         

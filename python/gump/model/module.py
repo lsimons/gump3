@@ -23,7 +23,7 @@ from time import localtime, strftime, tzname
 from gump.model.state import *
 from gump.model.stats import Statable, Statistics
 from gump.model.project import *
-from gump.model.object import NamedModelObject, Resultable
+from gump.model.object import NamedModelObject, Resultable, Positioned
 from gump.utils import getIndent
 from gump.utils.note import transferAnnotations, Annotatable
 
@@ -160,13 +160,14 @@ def createUnnamedModule(workspace):
     unnamedModule.complete(workspace)
     return unnamedModule
         
-class Module(NamedModelObject, Statable, Resultable):
+class Module(NamedModelObject, Statable, Resultable, Positioned):
     """Set of Modules (which contain projects)"""
     def __init__(self,xml,workspace):
     	NamedModelObject.__init__(self,xml.getName(),xml,workspace)
             	
     	Statable.__init__(self)
     	Resultable.__init__(self)
+    	Positioned.__init__(self)
     	
     	self.totalDepends=[]
     	self.totalDependees=[]
@@ -553,187 +554,12 @@ class Module(NamedModelObject, Statable, Resultable):
             return self.cvs.getViewUrl()
         elif self.hasSvn():
             return self.svn.getViewUrl()            
-        
-    def getUpdateCommand(self,exists=0):
-        if self.hasCvs():
-            return self.getCvsUpdateCommand(exists)
-        elif self.hasSvn():
-            return self.getSvnUpdateCommand(exists)
-        elif self.hasJars():
-            return self.getJarsUpdateCommand(exists)        
-           
-    def getCvsUpdateCommand(self,exists=0):
-        
-        log.debug("CVS Update Module " + self.getName() + \
-                       ", Repository Name: " + str(self.repository.getName()))
-                                        
-        root=self.cvs.getCvsRoot()
-      
-        log.debug("CVS Root " + root + " on Repository: " + self.repository.getName())
-     
-        #
-        # Prepare CVS checkout/update command...
-        # 
-        cmd=Cmd('cvs','update_'+self.getName(),self.getWorkspace().cvsdir)
-          
-        #
-        # Be 'quiet' (but not silent) unless requested otherwise.
-        #
-        if 	not self.isDebug() 	\
-            and not self.isVerbose() \
-            and not self.cvs.isDebug()	\
-            and not self.cvs.isVerbose():    
-            cmd.addParameter('-q')
-          
-        #
-        # Allow trace for debug
-        #
-        if self.isDebug():
-            cmd.addParameter('-t')
-          
-        #
-        # Request compression
-        #
-        cmd.addParameter('-z3')
-          
-        #
-        # Set the CVS root
-        #
-        cmd.addParameter('-d', root)
-    
-        #
-        # Determine if a tag is set, on <cvs or on <module
-        #
-        tag=None
-        if self.cvs.hasTag():
-            tag=self.cvs.getTag()
-        elif self.hasTag():
-            tag=self.getTag()
-            
-        if exists:
-
-            # do a cvs update
-            cmd.addParameter('update')
-            cmd.addParameter('-P')
-            cmd.addParameter('-d')
-            if tag:
-                cmd.addParameter('-r',tag,' ')
-            else:
-                cmd.addParameter('-A')
-            cmd.addParameter(self.getName())
-
-        else:
-
-            # do a cvs checkout
-            cmd.addParameter('checkout')
-            cmd.addParameter('-P')
-            if tag:
-                cmd.addParameter('-r',tag,' ')
-
-            if 	not self.cvs.hasModule() or \
-                not self.cvs.getModule() == self.getName(): 
-                    cmd.addParameter('-d',self.getName(),' ')
-                    
-            if self.cvs.hasModule():
-                cmd.addParameter(self.cvs.getModule())
-            else:
-                cmd.addParameter(self.getName())            
-        
-        return (self.repository, root, cmd)
-     
-     
-    def getSvnUpdateCommand(self,exists=0):
-        
-        log.debug("SubVersion Update Module " + self.getName() + \
-                       ", Repository Name: " + str(self.repository.getName()))
-                                        
-        url=self.svn.getRootUrl()
-      
-        log.debug("SVN URL: [" + url + "] on Repository: " + self.repository.getName())
-     
-        #
-        # Prepare SVN checkout/update command...
-        # 
-        cmd=Cmd('svn','update_'+self.getName(),self.getWorkspace().cvsdir)
-       
-        #
-        # Be 'quiet' (but not silent) unless requested otherwise.
-        #
-        if 	not self.isDebug() 	\
-            and not self.isVerbose() \
-            and not self.svn.isDebug()	\
-            and not self.svn.isVerbose():    
-            cmd.addParameter('--quiet')
-                  
-        #
-        # Allow trace for debug
-        #
-        #
-        # SVN complains about -v|--verbose, don't ask me why
-        #
-        # if self.isDebug() or  self.svn.isDebug():
-        #    cmd.addParameter('--verbose')
-            
-        if exists:
-
-            # do a cvs update
-            cmd.addParameter('update')
-
-        else:
-
-            # do a cvs checkout
-            cmd.addParameter('checkout')
-            cmd.addParameter(url)
-       
-        #
-        # Request non-interactive
-        #
-        cmd.addParameter('--non-interactive')
-
-        #
-        # If module name != SVN directory, tell SVN to put it into
-        # a directory named after our module
-        #
-        if self.svn.hasDir():
-            if not self.svn.getDir() == self.getName():
-                cmd.addParameter(self.getName())
-        
-
-        return (self.repository, url, cmd)
-         
-     
-    def getJarsUpdateCommand(self,exists=0):
-        
-        log.debug("Jars Update Module " + self.getName() + \
-                       ", Repository Name: " + str(self.repository.getName()))
-
-        url=self.jars.getRootUrl()
-      
-        log.debug("Jars URL: [" + url + "] on Repository: " + self.repository.getName())
-     
-        #
-        # Prepare Jars checkout/update command...
-        # 
-        cmd=Cmd('ruper',	\
-                'update_'+self.getName(),	\
-                self.getWorkspace().cvsdir)
-    
-        cmd.addParameter(url)
-          
-        #
-        # Be 'quiet' (but not silent) unless requested otherwise.
-        #
-        if 	not self.isDebug() 	\
-            and not self.isVerbose() \
-            and not self.jars.isDebug()	\
-            and not self.jars.isVerbose():    
-            cmd.addParameter('-q')
-
-        return (self.repository, url, cmd)
-     
+   
      
 class ModuleStatistics(Statistics):
-    """Statistics Holder"""
+    """ 
+        Module Statistics Holder
+    """
     def __init__(self,moduleName):
         Statistics.__init__(self,moduleName)    
         self.lastUpdated=-1        

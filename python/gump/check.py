@@ -28,7 +28,7 @@ import sys
 
 from gump import log
 from gump.core.gumpinit import gumpinit
-from gump.core.engine import GumpEngine
+from gump.core.tasks import SequentialTaskRunner
 from gump.core.gumprun import GumpRun, GumpRunOptions, GumpSet
 from gump.core.commandLine import handleArgv
 from gump.model.loader import WorkspaceLoader
@@ -51,7 +51,7 @@ if __name__=='__main__':
     #
     #    Perform this check run...
     #
-    result = GumpEngine().performCheck(run)
+    result = SequentialTaskRunner(run).performCheck()
 
     #
     log.info('Gump Check complete. Exit code:' + str(result))

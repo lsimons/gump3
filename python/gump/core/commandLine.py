@@ -68,7 +68,6 @@ class CommandLine:
                 print "  -O,  --official          Full run, publishing notifications, etc."
                 print "  -D,  --dated             Dated log files."
                 print "  -t,  --text              Use text not Forrest."
-                print "  -T,  --templates         Use temapltes not Forrest."
                 print "  -X,  --xdocs             Output xdocs, do not run Forrest."
                 
                 print
@@ -117,10 +116,6 @@ class CommandLine:
                 removers.append(arg)        
                 self.options.setXDocs(1)
                 log.info('Output xdocs (do not run forrest).')
-            elif arg in ['-t','--template']:
-                removers.append(arg)        
-                self.options.setTemplate(1)
-                log.info('Use template (not forrest).')
                 
         # Remove 
         for arg in removers:

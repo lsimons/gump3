@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 
+#!/usr/bin/env python
 # Copyright 2003-2004 The Apache Software Foundation
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,17 +15,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-#
-# $Header: /home/stefano/cvs/gump/python/gump/core/__init__.py,v 1.1.2.1 2004/05/17 20:22:03 ajack Exp $
-# 
+# tell Python what modules make up the gump.test package
+__all__ = ["builder"]
 
-"""
-
-  Gump Core Entry Points.
-  
-"""
-
-# tell Python what modules make up the gump.core package
-__all__ = ["init","commandLine","config","runner",	\
-            "misc","builder","updater",	\
-            "tasks","gumpenv","gumprun"]
+    

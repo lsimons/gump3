@@ -26,12 +26,14 @@ STATE_UNSET=0
 STATE_NONE=1
 STATE_SUCCESS=2
 STATE_FAILED=3
-STATE_PREREQ_FAILED=4
-STATE_COMPLETE=5
+STATE_STALE=4
+STATE_PREREQ_FAILED=5
+STATE_COMPLETE=6
 
 stateNames = { STATE_UNSET : "Unset",
            STATE_NONE : "NoWork",
            STATE_SUCCESS : "Success",
+           STATE_STALE : "Stale",
            STATE_FAILED : "Failed",
            STATE_PREREQ_FAILED : "PrereqFailed",
            STATE_COMPLETE : "Complete" }
@@ -40,6 +42,7 @@ stateDescriptions = { STATE_UNSET : "Unset",
            STATE_NONE : "No Work Performed",
            STATE_SUCCESS : "Success",
            STATE_FAILED : "Failed",
+           STATE_STALE : "Stale",
            STATE_PREREQ_FAILED : "Prerequisite Failed",
            STATE_COMPLETE : "Complete" }
 
@@ -53,6 +56,7 @@ namedState = { "Unset" : STATE_UNSET,
            "NoWork" : STATE_NONE,
             "Success" : STATE_SUCCESS,
             "Failed" : STATE_FAILED,
+            "Stale" : STATE_STALE,
             "PrereqFailed" : STATE_PREREQ_FAILED,
             "Complete"  : STATE_COMPLETE}
             
@@ -60,6 +64,7 @@ describedState = { "Unset" : STATE_UNSET,
            "No Work Performed" : STATE_NONE,
             "Success" : STATE_SUCCESS,
             "Failed" : STATE_FAILED,
+            "Stale" : STATE_STALE,
             "Prerequisite Failed" : STATE_PREREQ_FAILED,
             "Complete"  : STATE_COMPLETE}
            
