@@ -166,6 +166,10 @@ class Notifier(AbstractRunActor):
         self.unsentSubjects += subject + '\n'
         self.unsents += 1
         
+    def getNextIdentifier(self):
+        self.id += 1 
+        return self.id
+        
     def getUnwantedContent(self):
         return self.getBatchContent(self.unwanteds,self.unwantedSubjects,self.unwanted)
              
@@ -209,8 +213,7 @@ The following %s notify%s should have been sent
     def notifyWorkspace(self,notification):
         """ Notify for the workspace """
         
-        content=notification.resolveContent(self.resolver, self.id)
-        self.id+=1 
+        content=notification.resolveContent(self.resolver, self.getNextIdentifier())
         
         subject=self.workspace.prefix+': Gump Workspace ' + self.workspace.getName()
         
@@ -222,8 +225,7 @@ The following %s notify%s should have been sent
         """ Notify to a specific module's <notify entry """
         
         # Form the content...
-        content=notification.resolveContent(self.resolver, self.id)
-        self.id+=1 
+        content=notification.resolveContent(self.resolver, self.getNextIdentifier())
                 
         # Form the subject
         subject=self.workspace.prefix+	\
@@ -240,8 +242,7 @@ The following %s notify%s should have been sent
         #
         # Form the content...
         #
-        content=notification.resolveContent(self.resolver, self.id)
-        self.id+=1 
+        content=notification.resolveContent(self.resolver, self.getNextIdentifier())
                 
         # Form the subject
         subject=self.workspace.prefix+': '	\

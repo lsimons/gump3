@@ -106,6 +106,20 @@ class OnDemandRunner(GumpRunner):
                 module.setUpdated(True)
         finally:
             lock.release()
+            
+    def performBuild(self,project):
+        """
+            Perform a project build
+        """
+            
+        # Perform the build action
+        self.builder.buildProject(project)   
+        
+        # Generate the build event
+        self.run.generateEvent(project)
+        
+        # Mark completed
+        gumpSet.setCompletedProject(project)
         
     ###########################################
 
@@ -132,10 +146,8 @@ class OnDemandRunner(GumpRunner):
                 log.debug('Update module *inlined* ' + `module` + '.')     
                 self.performUpdate(module)
 
-            # Process
-            self.builder.buildProject(project)   
-            self.run.generateEvent(project)
-            gumpSet.setCompletedProject(project)
+            # Process the project
+            self.performBuild(project)
             
             # Seems a nice place to peek/clean-up...    
             #printTopRefs(100,'Before Loop GC')
@@ -144,6 +156,7 @@ class OnDemandRunner(GumpRunner):
             #invokeGarbageCollection(self.__class__.__name__)
             #printTopRefs(100,'After GC')
         
+        # Kinda pointless given above
         if workspace.isMultithreading() and workspace.hasUpdaters():    
             self.waitForThreads()
         
