@@ -18,7 +18,7 @@
   <depend project="xpp"/>
   <depend project="saxpath"/>
 
-  <jar name="build/dom4j.jar"/>
+  <jar name="build/dom4j.jar" id="dom4j"/>
 
   <project name="saxon">
     <jar name="lib/saxon.jar"/>

@@ -15,8 +15,23 @@
     <property name="xerces.jar"
        reference="jarpath" id="parser" project="xml-xerces"/>
 
+    <property name="crimson.jar"
+       reference="jarpath" id="parser" project="xml-xerces"/>
+
+    <property name="jaxp.jar"
+       reference="jarpath" id="parser" project="xml-xerces"/>
+
+    <property name="dom4j.jar"
+       reference="jarpath" id="dom4j" project="dom4j"/>
+
     <property name="xalan1.jar"
        reference="jarpath" id="xalan1" project="xml-xalan1-compat"/>
+
+    <property name="xalanj1compat.jar"
+       reference="jarpath" id="xalan1" project="xml-xalan1-compat"/>
+
+    <property name="log4j-core.jar"
+       reference="jarpath" id="log4j-core" project="jakarta-log4j"/>
 
     <property name="xalan.jar"
        reference="jarpath" id="xalan" project="xml-xalan2"/>
@@ -26,9 +41,13 @@
 
     <property name="servlet.jar"
        reference="jarpath" id="servlet" project="jakarta-servletapi-4"/>
+
+    <property name="servlet23.jar"
+       reference="jarpath" id="servlet" project="jakarta-servletapi-4"/>
   </ant>
 
   <depend project="xml-xerces"/>
+  <depend project="xml-xalan1-compat"/>
   <depend project="xml-xalan2"/>
   <depend project="jakarta-oro"/>
   <depend project="jakarta-ant"/>
@@ -41,4 +60,5 @@
   <depend project="jakarta-log4j"/>
   <depend project="jaf"/>
 
+  <work nested="build/jsptl/jsptl"/>
 </project>
