@@ -52,6 +52,7 @@
 
     <home nested="build/lib"/>
     <jar name="phoenix-client.jar"/>
+    <jar name="phoenix-metagenerate.jar"/>
     <javadoc nested="build/javadocs" module="jakarta-avalon"/>
 
     <!--<nag>
