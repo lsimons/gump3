@@ -39,16 +39,21 @@
   <module href="project/jakarta-tomcat-jasper.xml"/>
   <module href="project/jakarta-tomcat.xml"/>
   <module href="project/jakarta-tools.xml"/>
-  <module href="project/jakarta-turbine-2.xml"/>
-  <module href="project/jakarta-turbine-3.xml"/>
+
+  <!-- Turbine projects taken from cvs -->
+  <module href="http://cvs.apache.org/viewcvs/~checkout~/jakarta-turbine-2/jakarta-turbine-2.xml"/>
+  <module href="http://cvs.apache.org/viewcvs/~checkout~/jakarta-turbine-3/jakarta-turbine-3.xml"/>
+  <module href="http://cvs.apache.org/viewcvs/~checkout~/jakarta-turbine-fulcrum/jakarta-turbine-fulcrum.xml"/>
+  <module href="http://cvs.apache.org/viewcvs/~checkout~/jakarta-turbine-stratum/jakarta-turbine-stratum.xml"/>
+  <module href="http://cvs.apache.org/viewcvs/~checkout~/jakarta-turbine-torque/jakarta-turbine-torque.xml"/>
+  
+  <!-- Turbine projects not fully mavenized -->
   <module href="project/jakarta-turbine-flux.xml"/>
-  <module href="project/jakarta-turbine-fulcrum.xml"/>
   <module href="project/jakarta-turbine-jyve.xml"/>
   <module href="project/jakarta-turbine-orgami.xml"/>
   <module href="project/jakarta-turbine-site.xml"/>
-  <module href="project/jakarta-turbine-stratum.xml"/>
   <module href="project/jakarta-turbine-tdk.xml"/>
-  <module href="project/jakarta-turbine-torque.xml"/>
+
   <module href="project/jakarta-velocity.xml"/>
   <module href="project/jakarta-velocity-tools.xml"/>
   <module href="project/jakarta-velocity-dvsl.xml"/>
