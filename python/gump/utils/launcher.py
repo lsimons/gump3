@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/utils/Attic/launcher.py,v 1.11 2004/02/17 21:54:21 ajack Exp $
-# $Revision: 1.11 $
-# $Date: 2004/02/17 21:54:21 $
+# $Header: /home/stefano/cvs/gump/python/gump/utils/Attic/launcher.py,v 1.12 2004/02/18 00:04:52 ajack Exp $
+# $Revision: 1.12 $
+# $Date: 2004/02/18 00:04:52 $
 #
 # ====================================================================
 #
@@ -394,7 +394,7 @@ def executeIntoResult(cmd,result,tmp=dir.tmp):
               log.debug('Executing with CWD: [' + cmd.cwd + ']')
     
               cwdpath=os.path.abspath(cmd.cwd)
-              if not os.path.exists(cwdpath): os.mkdir(cwdpath)
+              if not os.path.exists(cwdpath): os.makedirs(cwdpath)
               os.chdir(cwdpath)
           except Exception, details :
               # Log the problem and re-raise
