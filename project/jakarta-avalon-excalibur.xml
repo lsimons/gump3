@@ -49,6 +49,7 @@
         <depend project="junitperf"/>
 
         <depend project="jakarta-velocity" inherit="runtime"/>
+        <depend project="jakarta-log4j"/>
 
         <option project="jdbc"/>
         <option project="jaxen"/>
