@@ -654,6 +654,8 @@
         <ant basedir="meta/impl" target="jar">
             <property name="project.version" value="@@DATE@@"/>
         </ant>
+        <depend project="avalon-meta-api" />
+        <depend project="avalon-meta-spi" />
         <depend project="ant" inherit="runtime"/>
         <depend project="junit"/>
         <depend project="xml-xalan2"/>
