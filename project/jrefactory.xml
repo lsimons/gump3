@@ -23,7 +23,11 @@
 
   <cvs repository="sourceforge" host-prefix="cvs.JRefactory" dir="jrefactory" 
        module="JRefactory"/>
-  
+  <project name="jai">
+    <jar name="jar/jai_codec.jar"/>
+    <jar name="jar/jai_core.jar"/>
+  </project>
+
   <project name="jrefactory">
     <package>org.acm.seguin</package>
 
@@ -33,27 +37,26 @@
     <depend project="jaxen"/>
     <depend project="junit"/>
     <depend project="dom4j"/>
+    <depend project="jai"/> 
+    <depend project="jakarta-bcel"/>
     <depend project="javacc"/>
+    <depend project="saxpath"/>
     <option project="jrefactory-pretty"><noclasspath/></option>
     <work nested="ant.build/classes"/>
     <work nested="test/classes"/>
     <work nested="jar/ErrorList.jar"/>
     <work nested="jar/ProjectViewer.jar"/>
-    <work nested="jar/bcel.jar"/>
     <work nested="jar/collect.jar"/>
     <work nested="jar/core.jar"/>
     <work nested="jar/coreplugin.jar"/>
     <work nested="jar/findbugs.jar"/>
     <work nested="jar/findbugsGUI.jar"/>
     <work nested="jar/gjc-rt.jar"/>
-    <work nested="jar/jai_codec.jar"/>
-    <work nested="jar/jai_core.jar"/>
     <work nested="jar/jbuilder.jar"/>
     <work nested="jar/jedit.jar"/>
     <work nested="jar/openide.jar"/>
     <work nested="jar/primetime.jar"/>
     <work nested="jar/proguard.jar"/>
-    <work nested="jar/saxpath-1.0-fcs.jar"/>
     <jar name="ant.build/lib/jrefactory.jar"/>
   </project>
 
