@@ -16,7 +16,7 @@
   <project name="gump-test-maven2">
     <maven target="dist" basedir="maven-project2" debug="true"/>       
     <home nested="maven-project2/target"/>    
-    <jar name="gump-test-maven2-0.2.jar"/>
+    <jar name="gump-test-maven2-0.1.jar"/>
     
     <depend project="gump-test-maven1"/>
     
