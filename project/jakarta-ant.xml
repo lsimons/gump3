@@ -6,7 +6,7 @@
   </description>
 
   <cvs repository="jakarta"/>
-  
+
   <project name="jakarta-ant">
     <package>org.apache.tools.ant</package>
 
@@ -88,10 +88,10 @@
     <depend project="jakarta-avalon"/>
     <depend project="excalibur-cli"/>
     <depend project="excalibur-io"/>
+    <depend project="excalibur-tar"/>
     <depend project="excalibur-extension"/>
     <depend project="excalibur-i18n"/>
     <depend project="jakarta-avalon-excalibur"/>
-    <depend project="jakarta-avalon-logkit"/>
     <depend project="jakarta-log4j"/>
     <depend project="xdoclet"/>
     <depend project="jakarta-oro"/>
@@ -106,7 +106,7 @@
     <work nested="proposal/myrmidon/build/tasks"/>
     <work nested="proposal/myrmidon/build/test/classes"/>
   </project>
-  
+
   <project name="jakarta-ant-mutant">
     <ant basedir="proposal/mutant"/>
 
