@@ -21,6 +21,7 @@
   <option project="xml-batik"/>
   <depend project="rhino"/>
   <depend project="jstyle"/>
+  <depend project="maybeupload"/>
 
   <project name="jstyle">
     <url href="http://astyle.sourceforge.net/"/>
@@ -36,6 +37,14 @@
       XSL Transformation
     </description>
     <jar name="lib/xt.jar"/>
+  </project>
+
+  <project name="maybeupload">
+    <url href="http://www.weft.co.uk/library/maybeupload/"/>
+    <description>
+      Maybe Upload
+    </description>
+    <jar name="lib/maybeupload.jar"/>
   </project>
 
 </project>
