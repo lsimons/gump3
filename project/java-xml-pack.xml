@@ -15,6 +15,8 @@
     <package>javax.xml</package>
 
     <jar name="jaxp-1.2/jaxp-api.jar" id="jaxp-api" />
+    <jar name="jaxp-1.2/dom.jar" id="dom" />
+    <jar name="jaxp-1.2/sax.jar" id="sax" />
     <jar name="jaxp-1.2/xercesImpl.jar" id="parser" />
     <jar name="jaxp-1.2/xalan.jar" id="transformer" />
   </project>
