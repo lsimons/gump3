@@ -905,8 +905,7 @@ class GumpEngine:
     def updateStatistics(self,run):        
         """ Update Statistics into the run (to set current values) """
         logResourceUtilization('Before update statistics')
-        if run.getOptions().isOfficial():
-            self.processStatistics(run,0)
+        self.processStatistics(run,0)
         
     def processStatistics(self,run,load):
     
