@@ -2169,7 +2169,7 @@ This page helps Gumpmeisters (and others) observe community progress.
                         # Extract name, to make relative to group
                         outputBaseName=os.path.basename(output)
                         (outputName,outputExtn)=os.path.splitext(outputBaseName)
-                        displayedOutput=self.resolver.getFile(work, outputName, oututExtn, 0)
+                        displayedOutput=self.resolver.getFile(work, outputName, outputExtn, 0)
                         
                         # Do the transfer..
                         copyfile(output,displayedOutput)                        
@@ -2286,7 +2286,7 @@ This page helps Gumpmeisters (and others) observe community progress.
                             # Extract name, to make relative to group
                             outputBaseName=os.path.basename(output)
                             (outputName,outputExtn)=os.path.splitext(outputBaseName)
-                            displayedOutput=self.resolver.getFile(fileReference, outputName, oututExtn, 0)
+                            displayedOutput=self.resolver.getFile(fileReference, outputName, outputExtn, 0)
                         
                             # Do the transfer..
                             copyfile(output,displayedOutput)                        
