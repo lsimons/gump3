@@ -5,7 +5,7 @@
     XSL-FO (Formatting Objects) processor (Maintenance branch)
   </description>
 
-  <cvs repository="xml" tag="fop-0_20_2-maintain"/>
+  <cvs repository="xml" tag="fop-0_20_2-maintain" module="xml-fop"/>
 
   <!-- main project -->
 
