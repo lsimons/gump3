@@ -21,8 +21,6 @@
   <depend project="jakarta-ecs"/>
   <depend project="jakarta-oro"/>
   <depend project="jakarta-velocity"/>
-  <depend project="webmacro"/>
-  <option project="freemarker"/>
   <depend project="village"/>
   <option project="castor"/>
   <depend project="javamail"/>
@@ -46,14 +44,6 @@
     </ant>
     <home nested="bin/torque/torque"/>
     <jar name="lib/torque.jar"/>
-  </project>
-
-  <project name="webmacro">
-    <url href="http://www.webmacro.org/"/>
-    <description>
-      HTML template engine
-    </description>
-    <jar name="lib/webmacro-0.94.jar"/>
   </project>
 
   <project name="xmlrpc">
