@@ -33,13 +33,11 @@
        for more information. -->
 
   <module href="project/ant.xml"/>
-  <module href="project/ant-antidote.xml"/>
   <module href="project/xml-commons.xml"/>
   <module href="project/xml-crimson.xml"/>
   <module href="project/xml-xalan.xml"/>
   <module href="project/xml-xerces.xml"/>
   <module href="project/xml-xerces2.xml"/>
-  <module href="http://cvs.apache.org/viewcvs/~checkout~/xml-forrest/module.xml"/>
   <module href="project/xml-stylebook.xml"/>
   <module href="project/junit.xml"/>
 
