@@ -20,7 +20,8 @@
     <depend project="jakarta-avalon"/>
     <depend project="jakarta-avalon-phoenix" inherit="runtime"/>
     <depend project="jakarta-avalon-cornerstone"/>
-    <depend project="excalibur-altrmi" ids="common client-api client-impl" runtime="true"/>
+    <depend project="excalibur-altrmi" runtime="true"/>
+    <depend project="bsf" runtime="true"/>
 
     <home nested="db"/>
     <jar name="build/lib/avalon-db.jar"/>
