@@ -119,18 +119,22 @@ def nagProject(workspace,context,module,mctxt,project,pctxt):
     content+="\n\n\n"
         
     for nagEntry in project.nag:
-        #
-        # Form and send the e-mail...
-        #
-        email=EmailMessage(workspace.prefix+': '+module.name+'/'+project.name+' '+stateName(pctxt.status),content)
-        toaddr=getattr(nagEntry,'to',workspace.mailinglist)
-        fromaddr=getattr(nagEntry,'from',workspace.mailinglist)
+        try:
+            #
+            # Form and send the e-mail...
+            #
+            email=EmailMessage(workspace.prefix+': '+module.name+'/'+project.name+' '+stateName(pctxt.status),content)
+            toaddr=getattr(nagEntry,'to',workspace.mailinglist)
+            fromaddr=getattr(nagEntry,'from',workspace.mailinglist)
         
-        # We send to a list, but a list of one is fine..
-        toaddrs=[ 'ajack@trysybase.com' ]
+            # We send to a list, but a list of one is fine..
+            toaddrs=[ 'ajack@trysybase.com' ]
         
-        # Fire ...
-        mail(toaddrs,fromaddr,email,workspace.mailserver) 
+            # Fire ...
+            mail(toaddrs,fromaddr,email,workspace.mailserver) 
+        except:
+            log.error("Failed to send nag e-mail for project " + pname)
+            log.error(context)
     
 def getContent(workspace,context,message=''):
     content=''
