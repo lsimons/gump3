@@ -5,7 +5,7 @@
     Module 1
   </description>
 
-  <cvs repository="repository1"/>
+  <cvs repository="repository1" tag="module1Tag"/>
 
   <nag from="Ms. Dev 1 &lt;dev1@jakarta.apache.org&gt;"
          to="project1@jakarta.apache.org"/>

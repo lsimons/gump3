@@ -1,7 +1,7 @@
 #!/usr/bin/env python
-# $Header: /home/stefano/cvs/gump/python/gump/test/model.py,v 1.12 2004/01/09 19:57:19 ajack Exp $
-# $Revision: 1.12 $
-# $Date: 2004/01/09 19:57:19 $
+# $Header: /home/stefano/cvs/gump/python/gump/test/model.py,v 1.13 2004/02/12 13:41:52 ajack Exp $
+# $Revision: 1.13 $
+# $Date: 2004/02/12 13:41:52 $
 #
 # ====================================================================
 #
@@ -148,10 +148,13 @@ class ModelTestSuite(UnitTestSuite):
     
     def testCvs(self):
         module1=self.module1
+        module2=self.module2
         
         self.assertTrue('Module has CVS', module1.hasCvs())
         self.assertFalse('Module has NOT SVN', module1.hasSvn())
         self.assertNonZeroString('CVSROOT',module1.cvs.getCvsRoot())
+        self.assertNonZeroString('Has Tag',module1.cvs.getTag())
+        self.assertNonZeroString('Has Tag',module2.getTag())
     
     def testSvn(self):
         svnmodule1= self.workspace.getModule('svn_module1')

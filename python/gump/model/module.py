@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/model/module.py,v 1.31 2004/02/10 19:20:44 ajack Exp $
-# $Revision: 1.31 $
-# $Date: 2004/02/10 19:20:44 $
+# $Header: /home/stefano/cvs/gump/python/gump/model/module.py,v 1.32 2004/02/12 13:41:52 ajack Exp $
+# $Revision: 1.32 $
+# $Date: 2004/02/12 13:41:52 $
 #
 # ====================================================================
 #
@@ -599,14 +599,23 @@ class Module(NamedModelObject, Statable):
         #
         cmd.addParameter('-d', root)
     
+        #
+        # Determine if a tag is set, on <cvs or on <module
+        #
+        tag=None
+        if self.cvs.hasTag():
+            tag=self.cvs.getTag()
+        elif self.hasTag():
+            tag=self.getTag()
+            
         if exists:
 
             # do a cvs update
             cmd.addParameter('update')
             cmd.addParameter('-P')
             cmd.addParameter('-d')
-            if self.cvs.hasTag() or self.hasTag():
-                cmd.addParameter('-r',self.cvs.getTag() or self.getTag(),' ')
+            if tag:
+                cmd.addParameter('-r',tag,' ')
             else:
                 cmd.addParameter('-A')
             cmd.addParameter(self.getName())
@@ -616,8 +625,8 @@ class Module(NamedModelObject, Statable):
             # do a cvs checkout
             cmd.addParameter('checkout')
             cmd.addParameter('-P')
-            if self.cvs.hasTag() or self.hasTag():
-                cmd.addParameter('-r',self.cvs.getTag() or self.getTag(),' ')
+            if tag:
+                cmd.addParameter('-r',tag,' ')
 
             if 	not self.cvs.hasModule() or \
                 not self.cvs.getModule() == self.getName(): 
@@ -626,8 +635,7 @@ class Module(NamedModelObject, Statable):
             if self.cvs.hasModule():
                 cmd.addParameter(self.cvs.getModule())
             else:
-                cmd.addParameter(self.getName())
-            
+                cmd.addParameter(self.getName())            
         
         return (self.repository, root, cmd)
      

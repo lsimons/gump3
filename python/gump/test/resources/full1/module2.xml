@@ -1,4 +1,4 @@
-<module name="module2">
+<module name="module2" tag="module1Tag">
 
   <url  href="http://jakarta.apache.org/gump/index.html"/>
   <description>
