@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/syndication/syndicator.py,v 1.14 2004/01/15 19:42:24 ajack Exp $
-# $Revision: 1.14 $
-# $Date: 2004/01/15 19:42:24 $
+# $Header: /home/stefano/cvs/gump/python/gump/syndication/syndicator.py,v 1.15 2004/01/15 22:57:13 ajack Exp $
+# $Revision: 1.15 $
+# $Date: 2004/01/15 22:57:13 $
 #
 # ====================================================================
 #
@@ -99,11 +99,11 @@ class Syndicator:
                                 
         content += self.getStateContent(project.getStatePair())
                         
-        content += 'Duration in state: <b>' + `stats.sequenceInState` + '</b> (runs), '
+        content += 'Duration in state: <b>' + `stats.sequenceInState` + '</b> (runs) '
         
         if not stats.previousState == STATE_NONE \
             and not stats.previousState == STATE_UNSET:
-            content += 'Previous state: <b>' \
+            content += ', Previous state: <b>' \
                                     + stateName(stats.previousState)  \
                                     + '</b>'
     
@@ -133,11 +133,11 @@ class Syndicator:
                                     
         content += self.getStateContent(module.getStatePair())
         
-        content += 'Duration in state: <b>' + `stats.sequenceInState`  + '</b> (runs), '
+        content += 'Duration in state: <b>' + `stats.sequenceInState`  + '</b> (runs)'
                         
         if not stats.previousState == STATE_NONE \
             and not stats.previousState == STATE_UNSET:
-            content += 'Previous state: <b>' \
+            content += ', Previous state: <b>' \
                                     + stateName(stats.previousState) \
                                     + '</b>'
                                     
@@ -146,7 +146,7 @@ class Syndicator:
         if module.hasDescription():
             content+='<p>'            
             content+=module.getDescription()
-            content+='<p>'
+            content+='</p>'
             
         content += self.getSundries(module)
                 
