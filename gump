@@ -236,12 +236,17 @@ function test
 
   local oldpythonpath=$PYTHONPATH
   if [[ -z $oldpythonpath ]]; then
-    export PYTHONPATH=`pwd`/python
+    export PYTHONPATH=`pwd`/python:`pwd`
   else
-    export PYTHONPATH=`pwd`/python:$PYTHONPATH
+    export PYTHONPATH=`pwd`/python:`pwd`:$PYTHONPATH
   fi
 
-  ./test/gumptest.sh
+  #./test/gumptest.sh
+  cd python
+  python ../bin/testrunner.py -f ../python/gump/test/pyunit.py $@
+  cd ..
+
+  export PYTHONPATH=$oldpythonpath
 }
 
 # Run gumpy integration tests
@@ -322,6 +327,13 @@ function experimental_tests
 {
   check_env "python" "http://www.python.org/"
 
+  local oldpythonpath=$PYTHONPATH
+  if [[ -z $oldpythonpath ]]; then
+    export PYTHONPATH=`pwd`/src/py:`pwd`
+  else
+    export PYTHONPATH=`pwd`/src/py:`pwd`:$PYTHONPATH
+  fi
+
   local dir=$1
   if [[ -z "$dir" ]]; then
     dir='src/py'
@@ -331,6 +343,8 @@ function experimental_tests
 
   find $dir -name *.pyc | xargs rm -Rf  # get rid of compiled files
   python bin/testrunner.py -d $dir $@   # run the tests
+
+  export PYTHONPATH=$oldpythonpath
 }
 
 #############################################################################
