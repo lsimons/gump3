@@ -1,8 +1,8 @@
 #!/usr/bin/python
 
-# $Header: /home/stefano/cvs/gump/python/gump/build.py,v 1.30 2003/11/03 19:56:31 ajack Exp $
-# $Revision: 1.30 $
-# $Date: 2003/11/03 19:56:31 $
+# $Header: /home/stefano/cvs/gump/python/gump/build.py,v 1.31 2003/11/03 22:06:06 ajack Exp $
+# $Revision: 1.31 $
+# $Date: 2003/11/03 22:06:06 $
 #
 # ====================================================================
 #
@@ -181,7 +181,7 @@ def buildProjects( workspace, sequence, context ):
 
     (mctxt,pctxt) = context.getContextsForProject(project)
     
-    if pctxt.okToPerformWork():
+    if pctxt.okToPerformWork() and Module.list.has_key(project.module) :
         
         # Get the module object given the module name,
         # which is gotten from the project
