@@ -1,40 +1,31 @@
 <module name="jakarta-cactus">
 
   <url href="http://jakarta.apache.org/cactus/"/>
+
   <description>
-      Unit test framework for J2EE server-side java code
+      Unit test framework for server-side java code
   </description>
 
   <cvs repository="jakarta"/>
 
-  <!-- Build the Cactus project ant tasks -->
-  <project name="jakarta-cactus-ant">
-    <ant buildfile="anttasks/build.xml" target="nightly"/>
+  <!-- Build the Cactus project for J2EE 1.2 -->
+  <project name="jakarta-cactus-12">
 
-    <depend project="jakarta-ant"/>
-    <depend project="xml-xerces"/>
-
-    <home nested="anttasks/dist"/>
-    <jar name="lib/cactus-ant.jar"/>
-  </project>
-
-  <!-- Build the Cactus project for Servlet API 2.2 -->
-  <project name="jakarta-cactus-22">
     <package>org.apache.cactus</package>
 
-    <ant buildfile="build/build.xml" target="gump">
-      <property name="test.port" value="8081"/>
-      <property name="tomcat.home.33" reference="home"
-                project="jakarta-tomcat"/>
-      <depend property="cactus.ant.jar" project="jakarta-cactus-ant"/>
-      <depend property="servlet22.jar"  project="jakarta-servletapi"/>
-      <depend property="junit.jar"      project="junit"/>
-      <depend property="log4j.jar"      project="jakarta-log4j"/>
-      <depend property="httpunit.jar"   project="httpunit"/>
-      <depend property="httpclient.jar" project="commons-httpclient"/>
-      <depend property="aspectjrt.jar"  project="aspectj" id="aspectjrt"/>
-    </ant>
+    <ant buildfile="build.xml" target="nightly">
 
+      <depend property="j2ee.jar" project="jakarta-servletapi"/>
+      <depend property="log4j.jar" project="jakarta-log4j"/>
+      <depend property="commons.httpclient.jar" project="commons-httpclient"/>
+      <depend property="httpunit.jar" project="httpunit"/>
+      <depend property="aspectjrt.jar" project="aspectj" id="aspectjrt"/>
+      <depend property="junit.jar" project="junit"/>
+      <property name="test.port" value="8081"/>
+      <property name="tomcat.home.33" reference="home" project="jakarta-tomcat"/>
+
+    </ant>
+  
     <depend project="jakarta-ant"/>
     <depend project="xml-xerces"/>
     <depend project="xml-stylebook2"/>
@@ -42,31 +33,34 @@
     <depend project="jakarta-tomcat"/>
     <depend project="aspectj"/>
 
-    <work nested="target/classes"/>
-    <work nested="target/servlet22/classes"/>
+    <work nested="framework/target/classes/java"/>
+    <work nested="framework/target/classes/test"/>
 
-    <home nested="target"/>
-    <jar name="servlet22/dist/lib/cactus.jar"/>
-    <javadoc nested="target/servlet22/dist/doc/javadoc" title="servlet22 API"/>
+    <home nested="dist"/>
+    <jar name="lib/cactus-ant.jar"/>
+    <jar name="lib/cactus.jar"/>
+    <javadoc nested="doc/api/anttasks" title="Cactus Custom Ant tasks API"/>
+    <javadoc nested="doc/api/framework" title="Cactus J2EE 1.2 API"/>
   </project>
 
-  <!-- Build the Cactus project for Servlet API 2.3 -->
-  <project name="jakarta-cactus-23">
+  <!-- Build the Cactus project for J2EE 1.3 -->
+  <project name="jakarta-cactus-13">
+
     <package>org.apache.cactus</package>
 
-    <ant buildfile="build/build.xml" target="gump">
-      <property name="test.port" value="8082"/>
-      <property name="tomcat.home.40" reference="home"
-                project="jakarta-tomcat-4.0"/>
-      <depend property="cactus.ant.jar" project="jakarta-cactus-ant"/>
-      <depend property="servlet23.jar"  project="jakarta-servletapi-4"/>
-      <depend property="junit.jar"      project="junit"/>
-      <depend property="log4j.jar"      project="jakarta-log4j"/>
-      <depend property="httpunit.jar"   project="httpunit"/>
-      <depend property="httpclient.jar" project="commons-httpclient"/>
-      <depend property="aspectjrt.jar"  project="aspectj" id="aspectjrt"/>
-    </ant>
+    <ant buildfile="build.xml" target="nightly">
 
+      <depend property="j2ee.jar" project="jakarta-servletapi-4"/>
+      <depend property="log4j.jar" project="jakarta-log4j"/>
+      <depend property="commons.httpclient.jar" project="commons-httpclient"/>
+      <depend property="httpunit.jar" project="httpunit"/>
+      <depend property="aspectjrt.jar" project="aspectj" id="aspectjrt"/>
+      <depend property="junit.jar" project="junit"/>
+      <property name="test.port" value="8082"/>
+      <property name="tomcat.home.40" reference="home" project="jakarta-tomcat-4.0"/>
+
+    </ant>
+  
     <depend project="jakarta-ant"/>
     <depend project="xml-xerces"/>
     <depend project="xml-stylebook2"/>
@@ -74,12 +68,14 @@
     <depend project="jakarta-tomcat-4.0" inherit="runtime"/>
     <depend project="aspectj"/>
 
-    <work nested="target/classes"/>
-    <work nested="target/servlet23/classes"/>
+    <work nested="framework/target/classes/java"/>
+    <work nested="framework/target/classes/test"/>
 
-    <home nested="target"/>
-    <jar name="servlet23/dist/lib/cactus.jar"/>
-    <javadoc nested="target/servlet23/dist/doc/javadoc" title="servlet23 API"/>
+    <home nested="dist"/>
+    <jar name="lib/cactus-ant.jar"/>
+    <jar name="lib/cactus.jar"/>
+    <javadoc nested="doc/api/anttasks" title="Cactus Custom Ant tasks API"/>
+    <javadoc nested="doc/api/framework" title="Cactus J2EE 1.3 API"/>
   </project>
 
 </module>
