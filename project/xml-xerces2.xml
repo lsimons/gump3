@@ -29,6 +29,7 @@
   <project name="dist-xerces">
     <ant basedir="java" target="pack-bin"/>
     <depend project="jakarta-ant" inherit="runtime"/>
+    <depend project="xjavac"/>
     <depend project="xml-xalan2"/>
     <depend project="xml-xerces"/>
     <depend project="xml-stylebook2"/>
