@@ -32,7 +32,7 @@
         <!-- inserting the dependencies of phoenix-metagenerate.jar by hand here
              until avalon-phoenix-metagenerate becomes available seperately -->
         <depend project="phoenix-qdox"/>
-        <depend project="excalibur-info"/>
+        <depend project="avalon-sandbox-info"/>
 
         <work nested="altrmi/build/classes"/>
 

@@ -1,18 +1,30 @@
 <module name="avalon-excalibur">
+    <!-- excalibur projects missing from GUMP:
+
+    - cache
+    - configuration
+    - jprocess
+    - xfc
+
+    note the future of these is uncertain and they are all in fact alpha packages
+
+    -->
 
     <url href="http://avalon.apache.org/excalibur"/>
     <description>
-      A repository of reusable components
+      A repository of reusable components supporting the avalon patterns of Inversion of
+      Control and Seperation of Concerns by using avalon-framework.
     </description>
 
     <cvs repository="avalon"/>
 
-    <project name="avalon-excalibur">
+    <project name="dist-avalon-excalibur">
         <!-- this basically depends on all excalibur subprojects and their dependencies.
              It creates a rather big jar if successful -->
 
         <package>org.apache.excalibur</package>
         <package>org.apache.avalon.excalibur</package>
+        <package>org.apache.avalon.fortress</package>
 
         <ant target="dist">
             <depend property="logkit.jar" project="avalon-logkit" runtime="true"/>
@@ -22,30 +34,36 @@
         </ant>
 
         <!-- 'internal deps'. Should be full list of all excalibur-* projects -->
-        <depend project="incubator-altrmi" inherit="runtime"/>
-        <depend project="excalibur-cli" runtime="true"/>
-        <depend project="excalibur-component" runtime="true"/>
-        <depend project="excalibur-collections" runtime="true"/>
-        <depend project="excalibur-container" runtime="true"/>
-        <depend project="excalibur-concurrent"/>
-        <depend project="excalibur-datasource" runtime="true"/>
-        <depend project="excalibur-event" runtime="true"/>
-        <depend project="excalibur-extension" runtime="true"/>
-        <depend project="excalibur-i18n" runtime="true"/>
-        <depend project="excalibur-info" runtime="true" inherit="runtime"/>
-        <depend project="excalibur-instrument-manager" runtime="true"/>
-        <depend project="excalibur-instrument" runtime="true"/>
-        <depend project="excalibur-io"/>
-        <depend project="excalibur-logger" runtime="true"/>
-        <depend project="excalibur-meta" runtime="true"/>
-        <depend project="excalibur-monitor" runtime="true"/>
-        <depend project="excalibur-pool" runtime="true"/>
-        <depend project="excalibur-sourceresolve"/>
-        <depend project="excalibur-testcase"/>
-        <depend project="excalibur-thread"/>
-        <depend project="excalibur-threadcontext"/>
-        <depend project="excalibur-xmlutil"/>
-        <depend project="excalibur-util"/>
+        <depend project="excalibur-baxter" runtime="true" inherit="jars"/>
+        <depend project="excalibur-cli" runtime="true" inherit="jars"/>
+        <depend project="excalibur-component" runtime="true" inherit="jars"/>
+        <depend project="excalibur-collections" runtime="true" inherit="jars"/>
+        <depend project="excalibur-configuration" runtime="true" inherit="jars"/>
+        <depend project="excalibur-container" runtime="true" inherit="jars"/>
+        <depend project="excalibur-converter" runtime="true" inherit="jars"/>
+        <depend project="excalibur-datasource" runtime="true" inherit="jars"/>
+        <depend project="excalibur-event" runtime="true" inherit="jars"/>
+        <depend project="excalibur-extension" runtime="true" inherit="jars"/>
+        <depend project="excalibur-fortress" runtime="true" inherit="jars"/>
+        <depend project="excalibur-i18n" runtime="true" inherit="jars"/>
+        <depend project="excalibur-instrument" runtime="true" inherit="jars"/>
+        <depend project="excalibur-instrument-client" runtime="true" inherit="jars"/>
+        <depend project="excalibur-instrument-manager" runtime="true" inherit="jars"/>
+        <depend project="excalibur-io" runtime="true" inherit="jars"/>
+        <depend project="excalibur-loader" runtime="true" inherit="jars"/>
+        <depend project="excalibur-logger" runtime="true" inherit="jars"/>
+        <depend project="excalibur-meta" runtime="true" inherit="jars"/>
+        <depend project="excalibur-monitor" runtime="true" inherit="jars"/>
+        <depend project="excalibur-naming" runtime="true" inherit="jars"/>
+        <depend project="excalibur-policy" runtime="true" inherit="jars"/>
+        <depend project="excalibur-pool" runtime="true" inherit="jars"/>
+        <depend project="excalibur-sourceresolve" runtime="true" inherit="jars"/>
+        <depend project="excalibur-store" runtime="true" inherit="jars"/>
+        <depend project="excalibur-testcase" runtime="true" inherit="jars"/>
+        <depend project="excalibur-thread" runtime="true" inherit="jars"/>
+        <depend project="excalibur-threadcontext" runtime="true" inherit="jars"/>
+        <depend project="excalibur-xmlutil" runtime="true" inherit="jars"/>
+        <depend project="excalibur-util" runtime="true" inherit="jars"/>
 
         <!-- build-time dependencies -->
         <depend project="dist-bsf"/>
@@ -57,11 +75,18 @@
         <depend project="jdom"/>
         <depend project="junit"/>
         <depend project="rhino"/>
-        <depend project="xml-cocoon2"/>
+        <depend project="xml-forrest"/>
         <depend project="xml-xalan2"/>
 
         <!-- runtime dependencies -->
         <depend project="avalon" runtime="true"/>
+
+        <depend project="excalibur-concurrent" runtime="true"/>
+
+        <!-- this should go -->
+        <depend project="avalon-sandbox-info" runtime="true" inherit="runtime"/>
+
+        <depend project="incubator-altrmi" inherit="runtime" runtime="true"/>
         <depend project="xml-xerces" id="parser" runtime="true"/>
 
         <!-- optional dependencies -->

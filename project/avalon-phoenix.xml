@@ -30,7 +30,7 @@
     <depend project="excalibur-configuration" runtime="true"/>
     <depend project="excalibur-converter" runtime="true"/>
     <depend project="excalibur-io" runtime="true"/>
-    <depend project="excalibur-info" runtime="true"/>
+    <depend project="avalon-sandbox-info" runtime="true"/>
     <depend project="excalibur-cli" runtime="true"/>
     <depend project="excalibur-extension" runtime="true"/>
     <depend project="excalibur-threadcontext" runtime="true"/>
@@ -59,7 +59,7 @@
     <home nested="build/lib"/>
     <jar name="phoenix-client.jar" id="client"/>
 
-    <!-- metagenerate depends only on qdox and excalibur-info.
+    <!-- metagenerate depends only on qdox and avalon-sandbox-info.
          phoenix build should be updated to split this out -->
     <jar name="phoenix-metagenerate.jar" id="metagenerate"/>
     <jar name="phoenix-loader.jar" id="loader"/>

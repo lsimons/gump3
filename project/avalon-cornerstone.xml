@@ -1,5 +1,11 @@
 <module name="avalon-cornerstone">
 
+  <!-- cornerstone has been partially split into seperate
+       projects, and this needs to be updated to reflect
+       that to allow more granular depenencies. But as we
+       might be further integrating cornerstone and
+       excalibur this is on hold -->
+
   <url href="http://avalon.apache.org/"/>
   <description>
     Set of default services for Avalon/Phoenix
@@ -17,16 +23,26 @@
 
     <ant />
 
-    <depend project="avalon"/>
-    <depend project="avalon-logkit"/>
-    <depend project="xml-xerces" id="parser"/>
+    <!-- runtime dependencies -->
+    <depend project="avalon" runtime="true"/>
+    <depend project="avalon-logkit" runtime="true"/>
+    <depend project="xml-xerces" id="parser" runtime="true"/>
+    <depend project="excalibur-io" runtime="true"/>
+    <depend project="excalibur-datasource" runtime="true"/>
+    <depend project="excalibur-i18n" runtime="true"/>
+    <depend project="excalibur-thread" runtime="true"/>
+    <depend project="excalibur-threadcontext" runtime="true"/>
+    <depend project="avalon-phoenix"
+        ids="client metagenerate" inherit="all" runtime="true"/>
+
+    <!-- buildtime dependencies -->
     <depend project="junit"/>
     <depend project="excalibur-io"/>
     <depend project="excalibur-datasource"/>
     <depend project="excalibur-i18n"/>
     <depend project="excalibur-thread"/>
     <depend project="excalibur-threadcontext"/>
-    <depend project="avalon-phoenix" ids="client metagenerate"/>
+    <depend project="avalon-phoenix" ids="client metagenerate" inherit="runtime"/>
     <depend project="ant" inherit="runtime"/>
     <depend project="jakarta-velocity" inherit="runtime"/>
 
