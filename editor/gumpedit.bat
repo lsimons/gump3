@@ -1,0 +1,1 @@
+java -cp %classpath%;lib\xybrix.jar;lib\xerces.jar;lib\saxpath.jar;lib\jaxen.jar;lib\kunststoff.jar org.jbrix.gui.app.Application -a gumpedit.app
