@@ -51,7 +51,8 @@ class NaggingTestSuite(UnitTestSuite):
             nagger.getNamedTypedContent(module,'test')
             for project in module.getProjects():
                 #print 'Get Content For Project : ' + project.getName()
-                print nagger.getNamedTypedContent(project,'test')
+                # print 
+                nagger.getNamedTypedContent(project,'test')
                 
     def testNagUnwantedUnsent(self):
     

@@ -17,7 +17,7 @@
     Sync Testing
 """
 
-from gump.utils.sync import Sync
+from gump.utils.sync import Sync,Copy
 from gump.test.pyunit import UnitTestSuite
 from gump import log
 import os.path
@@ -55,6 +55,7 @@ class SyncTestSuite(UnitTestSuite):
         if os.path.exists(self.destination):
             log.debug('attempting to remove directory [%s]' % (`self.destination`))
             shutil.rmtree(self.destination)    
+            
     def testSimpleSync(self):
         """
         assuming the setUp gets done,
@@ -211,6 +212,7 @@ class SyncTestSuite(UnitTestSuite):
             self.raiseIssue(['destination text file remained a file',
              self.destination_alphatxt])
         self.genericCompare(self.source_alphatxt, self.destination_alphatxt)
+        
     def testSymbolicLink(self):
         """
         this test only runs on operating systems where os.name will return
@@ -227,6 +229,7 @@ class SyncTestSuite(UnitTestSuite):
             mySync = Sync(self.source, self.destination)
             mySync.execute()
             self.genericCompare(self.source, self.destination)
+            
     def testCopy1(self):
         """
         the setUp gets done
@@ -251,8 +254,8 @@ class SyncTestSuite(UnitTestSuite):
         sometime=[2000,5,20,12,7,40,5,141,-1]
         epoch_sometime = time.mktime(sometime)
         os.utime(source_betatxt, (epoch_sometime, epoch_sometime))
-        mySync = Sync(self.source, self.destination, 1)
-        mySync.execute()
+        myCopy = Copy(self.source, self.destination)
+        myCopy.execute()
         # check that alpha.txt was preserved on the destination side
         if not os.path.exists(self.destination_alphatxt):
             self.raiseIssue(['file was deleted on the destination side in a copy'
@@ -282,8 +285,7 @@ class SyncTestSuite(UnitTestSuite):
                 self.assertTrue([inode_dest, ' points to ', linkto_source ],
                 linkto_source==linkto_dest)
             elif os.path.isdir(inode_source):
-                self.genericCompare(inode_source, inode_dest)    
-                            
+                self.genericCompare(inode_source, inode_dest)                                
                     
     def compareFiles(self, inode_source, inode_dest):
         """

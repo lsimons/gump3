@@ -77,6 +77,9 @@ class PathWalker(Annotatable):
             
     def copytree(self, src, dst, symlinks=0):
         
+        # Only supported on some platforms.
+        if 'posix'<>os.name: symlinks=0
+        
         #
         # List all the files in the source location
         #

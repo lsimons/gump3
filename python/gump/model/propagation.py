@@ -21,10 +21,13 @@ from time import localtime, strftime, tzname
 from string import lower, capitalize
 
 from gump.model.state import *
+from gump.utils.work import *
 
 class Propogatable(Stateful):
     
     def __init__(self):     
+        Stateful.__init__(self)
+        
         # Problems        
         self.cause=None	# Primary Cause
         self.causes=[]
@@ -57,8 +60,9 @@ class Propogatable(Stateful):
                 if not message:
                     message = lower(stateDescription(state))
                     if not REASON_UNSET == reason:
-                        message += " with reason " + lower(reasonDescription(reason))            
-                self.addInfo(capitalize(message))
+                        message += " with reason " + lower(reasonDescription(reason))   
+                if isinstance(self,Workable):
+                    self.addInfo(capitalize(message))
         
                 # Send on the changes...
                 self.propagateErrorStateChange(state,reason,cause,message)

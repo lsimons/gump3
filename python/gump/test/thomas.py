@@ -36,16 +36,16 @@ class EngineTestSuite(UnitTestSuite):
         engine=GumpEngine()
         taskList=GumpTaskList(['build'])
         taskList.bind(engine)
-        print `taskList`
+        #print `taskList`
             
     def testBuildDocumentTasks(self):
         engine=GumpEngine()    
         taskList=GumpTaskList(['build','document'])
         taskList.bind(engine)
-        print `taskList`
+        #print `taskList`
             
     def testUpdateBuildStatsTasks(self):
         engine=GumpEngine()    
         taskList=GumpTaskList(['update','build','updateStatistics'])
         taskList.bind(engine)
-        print `taskList`
+        #print `taskList`

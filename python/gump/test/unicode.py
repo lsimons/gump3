@@ -52,7 +52,7 @@ class UnicodeTestSuite(UnitTestSuite):
             i+=1
         edata=data.translate(self.maps)
         xmld='<xml>'+escape(edata)+'</xml>'     
-        print xmld   
+        #print xmld   
         dom=xml.dom.minidom.parseString(xmld)
     
         

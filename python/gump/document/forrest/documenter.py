@@ -49,6 +49,8 @@ from gump.output.statsdb import StatisticsGuru
 from gump.output.xref import XRefGuru
 from gump.core.gumprun import *
 
+from gump.shared.comparator import *
+
 def getUpUrl(depth):
     url=''
     i = 0
@@ -742,7 +744,10 @@ The count of affected indicates relative importance of fixing this project.""")
                     'Dependees',	\
                     'Duration\nin state','Project State'])
         pcount=0
-        for project in sortedProjectList:
+        
+        affectedOrder=createOrderedList(sortedProjectList,compareProjectsByAffected)
+  
+        for project in affectedOrder:
             if not gumpSet.inProjectSequence(project): continue       
             
             if not project.getState()==STATE_FAILED:

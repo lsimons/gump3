@@ -197,7 +197,7 @@ class StatisticsDB:
         # Hack to patch values incorrectly set to 0
         # not -1 by default.
         if 0 == dateF:
-            dateF == -1
+            dateF = -1
             
         return dateF
         

@@ -30,7 +30,7 @@ from gump import log
 from gump.core.gumpinit import gumpinit
 from gump.core.engine import GumpEngine
 from gump.core.gumprun import GumpRun, GumpRunOptions, GumpSet
-from gump.core.utils.commandLine import handleArgv
+from gump.core.commandLine import handleArgv
 from gump.model.loader import WorkspaceLoader
 
 

@@ -475,18 +475,7 @@ class Module(NamedModelObject, Statable, Resultable):
                 if cause == self or cause in self.getProjects():
                     self.affected += 1            
         
-        return self.affected
-                   
-    def getProjectStatistics(self,db=None):
-        if not hasattr(self,'stats'):
-            # Load the DB, if not loaded
-            if not db:
-                db=StatisticsDB()
-            # Extract from project statistics DB
-            stats=db.getProjectStats(pctxt.name)
-            self.stats=stats
-            
-        return self.stats                
+        return self.affected    
     
     def dump(self, indent=0, output=sys.stdout):
         output.write(getIndent(indent)+'Module : ' + self.name + '\n')

@@ -244,7 +244,7 @@ class CmdResult:
         if self.output:
           overview += indent+"Output: " + self.output
         if self.hasTimes():
-          overview += indent+"Elapsed: " + self.getElapsedTimeString()
+          overview += indent+"Elapsed: " + secsToElapsedTimeString(self.getElapsedSecs())
         if self.signal:
           overview += indent+"Termination Signal: " + str(self.signal)
         if self.exit_code:

@@ -261,7 +261,7 @@ try:
         basePath=os.path.abspath(baseDir)
         # Mail reporting
         private=wsw.getAttribute('private')
-        mailserver=wsw.getAttribute('mailserver')
+        mailserver=wsw.getAttribute('mailserver') or 'mail.apache.org'
         mailport=wsw.getAttribute('mailport') or 25
         mailto=wsw.getAttribute('mailinglist') or 'general@gump.apache.org'  
         mailfrom=wsw.getAttribute('email') or 'general@gump.apache.org'  

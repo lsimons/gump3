@@ -600,7 +600,8 @@ class GumpEngine:
                                 project.addError(message)
                                 log.error(message)                     
                     elif project.isRedistributable():
-                        # :TODO: restore to warning
+                        # :TODO: restore to warning. made info so
+                        # annotation page was useful (and not overloaded).
                         project.addInfo('No license on redistributable project with outputs.')                                        
                                     
                 if outputsOk: 

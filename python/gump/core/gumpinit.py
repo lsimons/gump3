@@ -15,7 +15,7 @@
 # limitations under the License.
 
 #
-# $Header: /home/stefano/cvs/gump/python/gump/core/gumpinit.py,v 1.1 2004/04/16 17:28:41 ajack Exp $
+# $Header: /home/stefano/cvs/gump/python/gump/core/gumpinit.py,v 1.2 2004/04/22 22:58:16 ajack Exp $
 # 
 
 """
@@ -25,9 +25,6 @@
 import os.path
 import sys
 import time
-
-# Either python-2.3 or http://www.red-dove.com/python_logging.html
-import logging
 
 # tell Python what modules make up the gump package
 # __all__ = ["config"]

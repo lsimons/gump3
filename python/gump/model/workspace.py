@@ -546,7 +546,7 @@ class Workspace(NamedModelObject, PropertyContainer, Statable, Resultable):
         
     def dump(self, indent=0, output=sys.stdout):
         output.write('Workspace : \n')
-        ModelObject.dump(self, indent+1, output)
+        NamedModelObject.dump(self, indent+1, output)
         
         for profile in self.profiles.values():
             profile.dump(indent+1,output)

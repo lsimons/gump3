@@ -18,11 +18,9 @@
     Resolving URLs/Files.
 """
 
-import socket
 import time
 import os
 import sys
-import logging
 from xml.sax.saxutils import escape
 from string import lower,replace
 

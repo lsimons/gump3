@@ -100,16 +100,10 @@ class TimedWorkItem(WorkItem):
         if self.hasTimes():
             return int(round(self.endSecs-self.startSecs,0))
         return 0
-        
-    def getElapsedTimeString(self):   
-        return secsToElapsedTimeString(self.getElapsedSecs())
-        
-    def getElapsedTimeTriple(self):   
-        return secsToElapsedTimeTriple(self.getElapsedSecs())
          
     def overview(self):
         overview=WorkItem.overview(self)
-        (hours,mins,secs)=self.getElapsedTimeTriple()
+        (hours,mins,secs)=secsToElapsedTimeTriple(self.getElapsedSecs())
         overview+='Elapsed: '
         overview+=str(hours) + ' hours, ' 
         overview+=str(mins) + ' minutes, ' 
@@ -201,9 +195,6 @@ class WorkList(list,Ownable):
             if isinstance(item,TimedWorkItem): 
                 elapsedSecs += item.getElapsedSecs()
         return elapsedSecs
-    
-    def getElapsedTime(self):   
-        return secsToElapsedTime(self.getElapsedSecs())
                 
     def clone(self):
         cloned=WorkList()
@@ -233,7 +224,4 @@ class Workable(Stateful):
                
     def getElapsedSecs(self):
         return self.worklist.getElapsedSecs()
-    
-    def getElapsedTime(self):   
-        return self.worklist.getElapsedTime()
     

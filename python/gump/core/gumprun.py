@@ -427,6 +427,11 @@ class GumpRunOptions:
         
 class GumpRun(Workable,Annotatable,Stateful):
     def __init__(self,workspace,expr=None,options=None,env=None):
+        
+        Workable.__init__(self)
+        Annotatable.__init__(self)
+        Stateful.__init__(self)
+        
         #
         # The workspace being worked upon
         #

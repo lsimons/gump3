@@ -124,8 +124,7 @@ class ResolvingTestSuite(UnitTestSuite):
                             TemplateResolver('./test','http://somewhere/something') ] :
 
 
-            print `resolver`
-            
+            #print `resolver`            
             #printSeparator()
             
             message = "Resolver [" + resolver.__class__.__name__ + "] "
