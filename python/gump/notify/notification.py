@@ -51,7 +51,11 @@ class Notification(RunSpecific):
     FAILURE_TYPE=2
     WARNING_TYPE=3    
     
-    def __init__(self,run,entity,type=SUCCESS_TYPE,intro=''):      
+    def __init__(self,run,entity,type=SUCCESS_TYPE,intro=''):   
+        """
+        	Create a notification (of success/failure/etc.)
+        """
+        
         RunSpecific.__init__(self,run)
         
         self.entity=entity
@@ -78,13 +82,13 @@ class Notification(RunSpecific):
         return False
         
     def isSuccess(self):
-        return SUCCESS_TYPE == self.type
+        return Notification.SUCCESS_TYPE == self.type
         
     def isFailure(self):
-        return FAILURE_TYPE == self.type
+        return Notification.FAILURE_TYPE == self.type
         
     def isWarning(self):
-        return WARNING_TYPE == self.type
+        return Notification.WARNING_TYPE == self.type
         
     def resolveContent(self,resolver,id=None,stream=None):
         

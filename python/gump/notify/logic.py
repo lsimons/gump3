@@ -43,30 +43,43 @@ class NotificationLogic(RunSpecific):
         RunSpecific.__init__(self,run)
             
             # :TODO: First Ever?
-            # :TODO What is M$ (i.e. not dbm) and/or no stats db
+            # :TODO What if M$ (i.e. not dbm) and/or no stats db
             
     def notification(self,entity):
+        """
+        Determine if a notification is appropriate, and
+        generate it (the content)
+        """
         
         notification=None
         
         # Stats had better have been set
         stats=entity.getStats()            
-            
-        #
-        # Determine if we want to notify
+         
+        #   
+        # Determine if we want to notify, and if so
+        # with what (Failure/Warning/Success)
         #
         if entity.isFailed():
+            #
             # Notify on first failure, or each official
             # run.
+            #
             if self.run.getOptions().isOfficial() \
                 or (1 == stats.sequenceInState):                           
                 notification=gump.notify.notification.FailureNotification(self.run,entity)            
         elif entity.isSuccess():
+            #
+            # Notify on first success, after a failure.
+            #
             if (stats.sequenceInState == 1):            
                 if not STATE_PREREQ_FAILED == stats.previousState:
                     if stats.getTotalRuns() > 1:    
                         notification=gump.notify.notification.SuccessNotification(self.run,entity)
             else:
+                #
+                # Notify on official if contains 'errors'.
+                #
                 if self.run.getOptions().isOfficial() and entity.containsRealNasties():
                     notification=gump.notify.notification.WarningNotification(self.run,entity,' contains errors')   
                         

@@ -264,7 +264,7 @@ except:
     pass
 
 # Enable a log
-logFileName='gumpy_log.txt'
+logFileName='gumpy_log_' + time.strftime('%d%m%Y_%H%M%S') + '.txt'
 logFile=os.path.abspath(logFileName)
 log=open(logFile,'w',0) # Unbuffered...
 
@@ -458,7 +458,7 @@ finally:
     # Publish logfile
     published=0
     if logdir:
-        publishedLogFile=os.path.abspath(os.path.join(logdir,logFileName))
+        publishedLogFile=os.path.abspath(os.path.join(logdir,'gumpy_log.txt'))
         if '--xdocs' in args:
             publishedLogFile=os.path.abspath(
                                 os.path.join(
@@ -479,7 +479,7 @@ finally:
          
     if result:     
         # Cat to screen (if running to screen)
-        tty=0
+        tty=False
         try:
             tty=sys.stdout.isatty()  
         except:

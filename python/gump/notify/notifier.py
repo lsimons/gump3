@@ -50,10 +50,15 @@ class Notifier(AbstractRunActor):
         
         AbstractRunActor.__init__(self,run)
         
+        # Successful notifications
+        self.sents=0
+        
+        # Unsuccesful
         self.unsent=''
         self.unsentSubjects=''
         self.unsents=0
         
+        # Unwanted
         self.unwanted=''
         self.unwantedSubjects=''
         self.unwanteds=0
@@ -62,25 +67,39 @@ class Notifier(AbstractRunActor):
         self.logic=NotificationLogic(self.run)
         
         self.id=0
-                                        
+                                  
+    def processOtherEvent(self,event):    
+        """
+        
+        At the end of the run...
+        
+        """
+        if isinstance(event,FinalizeRunEvent):          
+            self.processWorkspace()              
+            
     def processWorkspace(self):
         """
+        
         	Notify about the workspace (if it needs it)
+        	
        	"""
         notification = self.logic.notification(self.workspace)
         if notification:
             self.notifyWorkspace(notification)   
          
+        log.info('Notifications: Sent:%s Unsent:%s  Unwanted: %s' % \
+                    (self.sents, self.unsents, self.unwanteds) )
+         
         # Workspace can override...
         (wsTo, wsFrom) = self.workspace.getNotifyOverrides()        
                 
         # Belt and braces (notify to us if not notify to them)
-        if self.hasUnwanted():
+        if self._hasUnwanted():
             log.info('We have some unwanted\'s to send to list...')
             
-            self.sendEmail(wsTo or self.workspace.mailinglist,wsFrom or self.workspace.email,    \
-                        'BATCH: All dressed up, with nowhere to go...',\
-                        self.getUnwantedContent())
+            self.sendEmail(wsTo or self.workspace.mailinglist,wsFrom or self.workspace.email,
+                        'BATCH: All dressed up, with nowhere to go...',
+                        self._getUnwantedContent())
                         
             # A bit paranoid, ought just rely upon object being
             # destroyed,
@@ -91,11 +110,11 @@ class Notifier(AbstractRunActor):
             log.debug('No unwanted notifys.')
                 
         # Belt and braces (notify to us if not notify to them)
-        if self.hasUnsent():
+        if self._hasUnsent():
             log.info('We have some unsented\'s to send to list...')    
-            self.sendEmail(wsTo or self.workspace.mailinglist,wsFrom or self.workspace.email,    \
-                        'BATCH: Unable to send...',\
-                         self.getUnsentContent())
+            self.sendEmail(wsTo or self.workspace.mailinglist,wsFrom or self.workspace.email,
+                        'BATCH: Unable to send...',
+                         self._getUnsentContent())
                         
             # A bit paranoid, ought just rely upon object being
             # destroyed,
@@ -136,7 +155,7 @@ class Notifier(AbstractRunActor):
                 log.error("Failed to send notify e-mails for project " + project.getName()\
                                     + " : " + str(details), exc_info=1)
  
-    def addUnwanted(self,subject,content):
+    def _addUnwanted(self,subject,content):
         """
         	Add this notification to the 'unwanted' list, since
         	no addresses were found for it.
@@ -152,7 +171,7 @@ class Notifier(AbstractRunActor):
         self.unwantedSubjects += subject + '\n'
         self.unwanteds += 1
     
-    def addUnsent(self,subject,content):
+    def _addUnsent(self,subject,content):
         """
             Add this notification to the 'unsent' list, since
             it failed to be sent.
@@ -169,16 +188,30 @@ class Notifier(AbstractRunActor):
         self.unsents += 1
         
     def getNextIdentifier(self):
+        """
+        Get's the next identifier.
+        
+        Note: Side effect, increments the identifier
+        """
         self.id += 1 
         return self.id
         
-    def getUnwantedContent(self):
-        return self.getBatchContent(self.unwanteds,self.unwantedSubjects,self.unwanted)
+    def _getUnwantedContent(self):
+        """        
+        Generate content for the batch of unwanted notifications.        
+        """
+        return self._getBatchContent(self.unwanteds,self.unwantedSubjects,self.unwanted)
              
-    def getUnsentContent(self):
-        return self.getBatchContent(self.unsents,self.unsentSubjects,self.unsent)
+    def _getUnsentContent(self):
+        """        
+        Generate content for the batch of unsent notifications.        
+        """
+        return self._getBatchContent(self.unsents,self.unsentSubjects,self.unsent)
              
-    def getBatchContent(self,count,subjects,batch):
+    def _getBatchContent(self,count,subjects,batch):
+        """
+        Generate batch content
+        """
         content = ''
         
         if count:
@@ -204,13 +237,19 @@ The following %s notify%s should have been sent
             
         return content
             
-    def hasUnwanted(self):
-        if self.unwanted: return 1
-        return 0
+    def _hasUnwanted(self):
+        """
+        Do we have any mails that should have been sent, but had nowhere to go?
+        """
+        if self.unwanted: return True
+        return False
     
-    def hasUnsent(self):
-        if self.unsent: return 1
-        return 0
+    def _hasUnsent(self):
+        """
+        Do we have any mails that failed to be sent?
+        """
+        if self.unsent: return True
+        return False
     
     def notifyWorkspace(self,notification):
         """ Notify for the workspace """
@@ -273,7 +312,9 @@ The following %s notify%s should have been sent
         
     def sendEmails(self, addressPairs, subject, content):
         """
-        	Try to send them (if any to send, or store)
+        	Try to send them to interested parties
+        	
+        	Note: if nowhere to send, store them as 'unwanted'
         """
         if addressPairs:
             for pair in addressPairs:
@@ -286,11 +327,12 @@ The following %s notify%s should have been sent
             # This is a catch-all, for all project that
             # don't have <notify's assigned.
             #
-            self.addUnwanted(subject,content)
+            self._addUnwanted(subject,content)
                     
     def sendEmail(self, toaddr, fromaddr, subject, content):
         """
-        	Perform the SMTP send.
+        	Perform the SMTP send.	
+        	If it fails, add the mail to the list of unsent
         """
         
         #
@@ -331,7 +373,7 @@ The following %s notify%s should have been sent
         if not sent:
             content = 'Failed with to: ['+str(toaddr)+'] from: ['+str(fromaddr)+']\n' + content
             
-            self.addUnsent(subject,content)                                        
+            self._addUnsent(subject,content)                                        
             log.error('Failed with to: ['+str(toaddr)+'] from: ['+str(fromaddr)+']' )
             
         return sent

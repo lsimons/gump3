@@ -15,7 +15,9 @@
 # limitations under the License.
 
 """
-    This module contains information on
+
+    This module contains information on <module and it's repository references.
+    
 """
 
 from time import localtime, strftime, tzname
@@ -175,7 +177,8 @@ class Module(NamedModelObject, Statable, Resultable, Positioned):
     	self.svn=None
     	self.artifacts=None
     	
-        self.packaged		=	False
+        self.packaged		=	False 
+        self.redistributable=   False
         
         # Changes were found (when updating)
     	self.modified		=	False
@@ -221,6 +224,10 @@ class Module(NamedModelObject, Statable, Resultable, Positioned):
         return object                                          
       
     def resolve(self):
+	"""
+	Resolving requires creating objects (in the correct lists/maps) for
+	certain high level XML elements, e.g. <project.
+	"""
         
         if self.isResolved(): return
         
@@ -406,6 +413,9 @@ class Module(NamedModelObject, Statable, Resultable, Positioned):
             
         if self.hasDomChild('description'):
             self.desc=self.getDomChildValue('description')           
+        
+        # Existence means 'true'
+        self.redistributable=self.hasDomChild('redistributable')    
 
         # For prettiness
         self.sortedProjects=createOrderedList(self.getProjects())
@@ -469,8 +479,8 @@ class Module(NamedModelObject, Statable, Resultable, Positioned):
         
     def isRedistributable(self):
         # Existence means 'true'
-        return self.hasDomChild('redistributable') \
-            or (self.repository and self.repository.isRedistributable())
+        return self.redistributable or \
+            (self.repository and self.repository.isRedistributable())
         
     #
     # Get a full list of all the projects that depend

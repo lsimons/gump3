@@ -77,7 +77,7 @@ class Project(NamedModelObject, Statable, Resultable, Dependable, Positioned):
         self.url=None
         self.desc=''
         
-        self.distributable=False
+        self.redistributable=False
         self.packageMarker=None
         self.jvmargs=gump.process.command.Parameters()
         self.packageNames=None
@@ -101,10 +101,24 @@ class Project(NamedModelObject, Statable, Resultable, Dependable, Positioned):
         Positioned.__del__(self)
         
     def hasNotifys(self):
+        """
+        Does this project have any notification addresses, and if not
+        does the module?
+        
+        boolean true if some
+        """
         if self.notifys: return True
+        if self.module: return self.module.hasNotifys()
         return False
         
     def getNotifys(self):
+        """
+        	Return the list of notification addresses for this project
+        	but if none, see if the module has any.
+        """
+        if not self.notifys: 
+            if self.module:
+                return self.module.getNotifys()
         return self.notifys
         
     def hasAnt(self):

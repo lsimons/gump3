@@ -256,7 +256,7 @@ class XDocDocumenter(Documenter):
         xdocWorkDir=self.getXDocWorkDirectory()
         logDirectory=self.getXDocLogDirectory()
         
-        log.info('Syncronize work->log, and clean-up...')
+        log.info('Synchronize work->log, and clean-up...')
             
         success=True
         try:
