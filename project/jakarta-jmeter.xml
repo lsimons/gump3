@@ -1,5 +1,5 @@
 <module name="jakarta-jmeter">
-<!-- Version $Revision: 1.67 $ Last updated $Date: 2004/01/04 18:52:19 $ -->
+<!-- Version $Revision: 1.68 $ Last updated $Date: 2004/01/06 22:38:55 $ -->
   <url href="http://jakarta.apache.org/jmeter/" />
   <description>
     Pure Java load testing and performance measurement tool.
@@ -15,7 +15,7 @@
       <property name="version" value="@@DATE@@"/>
       <property name="gump.run" value="true"/>
       <!-- The version of this file -->
-      <property name="version.projectfile" value="$Revision: 1.67 $"/>
+      <property name="version.projectfile" value="$Revision: 1.68 $"/>
       
       <!--
       	These properties are passed to the build process, so the names need to agree with
@@ -90,7 +90,7 @@
       <property name="version" value="@@DATE@@"/>
       <property name="gump.run" value="true"/>
       <!-- The version of this file -->
-      <property name="version.projectfile" value="$Revision: 1.67 $"/>
+      <property name="version.projectfile" value="$Revision: 1.68 $"/>
     </ant>
 
     <depend project="ant" />
@@ -114,7 +114,7 @@
     <work nested="lib/avalon-excalibur-4.1.jar"/>
     <work nested="lib/avalon-framework-4.1.4.jar"/>
     <work nested="lib/commons-collections.jar"/>
-    <work nested="lib/jakarta-oro-2.0.7.jar"/>
+    <work nested="lib/jakarta-oro-2.0.8.jar"/>
     <work nested="lib/jdom-b8.jar"/>
     <work nested="lib/junit.jar"/>
     <work nested="lib/js.jar"/>
@@ -150,7 +150,7 @@
       <property name="version" value="@@DATE@@"/>
       <property name="gump.run" value="true"/>
       <!-- The version of this file -->
-      <property name="version.projectfile" value="$Revision: 1.67 $"/>
+      <property name="version.projectfile" value="$Revision: 1.68 $"/>
     </ant>
 
     <depend project="ant" />
@@ -198,7 +198,7 @@
       <property name="version" value="@@DATE@@"/>
       <property name="gump.run" value="true"/>
       <!-- The version of this file -->
-      <property name="version.projectfile" value="$Revision: 1.67 $"/>
+      <property name="version.projectfile" value="$Revision: 1.68 $"/>
     </ant>
 
     <depend project="ant" />
