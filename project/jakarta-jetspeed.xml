@@ -25,9 +25,11 @@
     <depend project="jakarta-regexp"/>
     <depend project="jakarta-servletapi"/>
     <depend project="jakarta-velocity" inherit="runtime"/>
+    <depend project="commons-logging"/>
     <depend project="jakarta-ecs"/>
     <depend project="xml-xalan2"/>
     <depend project="javamail"/>
+    <depend project="jaf"/>
     <depend project="jdbc"/>
     <depend project="xml-soap"/>
     <depend project="uddi4j"/>
