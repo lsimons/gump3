@@ -36,8 +36,8 @@
     <depend project="xml-batik"/>
     <!--depend project="avalon-logkit" runtime="true"/-->
     <depend project="avalon-framework" runtime="true" id="combined"/>
-    <depend project="commons-logging"/>
-    <depend project="commons-io"/>
+    <depend project="commons-logging" runtime="true"/>
+    <depend project="commons-io" runtime="true"/>
     <depend project="jfor"/>
     <depend project="jakarta-servletapi"/>
 
