@@ -42,6 +42,7 @@
       <depend property="xalan.jar" project="xml-xalan2" id="transformer"/>
       <depend property="xercesImpl.jar" project="xml-xerces" id="parser"/>
       <depend property="xmlParserAPIs.jar" project="xml-xerces" id="parser"/>
+      <sysproperty name="build.clonevm" value="true"/>
     </ant>
 
     <depend project="xml-xerces" inherit="runtime" runtime="true"/>

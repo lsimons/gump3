@@ -55,6 +55,7 @@
     <ant basedir="betwixt" target="jar">
       <property name="final.name" value="commons-betwixt-@@DATE@@"/>
       <property name="resourcedir" path="betwixt"/>
+      <sysproperty name="build.clonevm" value="true"/>
     </ant>
 
     <!-- All Maven projects need Ant and Xerces to build. -->
