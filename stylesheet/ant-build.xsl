@@ -57,9 +57,9 @@
         
       </xsl:text>
       <target name="all" >
-        <xsl:foreach select="project">
+        <xsl:for-each select="project">
           <antcall target="{project}" />
-        </xsl:foreach>
+        </xsl:for-each>
       </target>
       <xsl:text>
         
