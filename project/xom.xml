@@ -18,8 +18,14 @@
     <depend project="jakarta-servletapi-5-servlet"/>
     <work nested="lib/normalizer.jar"/>
     <jar name="build/xom-@@DATE@@.jar"/>
-    <nag from="Elliotte Harold &lt;elharo@metalab.unc.edu&gt;"
-         to="elharo@metalab.unc.edu"/>
+    <nag>
+      <regexp 
+        from="Elliotte Harold &lt;elharo@metalab.unc.edu&gt;"
+        to="elharo@metalab.unc.edu"/>
+      <regexp
+        from="&lt;elharo@dev.java.net&gt;"
+        to="cvs@xom.dev.java.net"/>
+    </nag>
   </project>
 
 </module>
