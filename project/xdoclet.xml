@@ -20,7 +20,7 @@
     <depend project="jms"/>
     <depend project="jrefactory-pretty"/>
     <depend project="jakarta-servletapi-4"/>
-    <depend project="xjavadoc" inherit="jars" runtime="true"/>
+    <depend project="incvs-xjavadoc" inherit="jars" runtime="true"/>
     <depend project="jakarta-bcel" runtime="true"/>
     <depend project="junit"/>
     <work nested="core/build/classes"/>
@@ -44,6 +44,10 @@
 
   <project name="ejb2">
     <jar id="xdoclet" name="lib/ejb.jar"/>
+  </project>
+
+  <project name="incvs-xjavadoc">
+    <jar id="xdoclet" name="lib/xjavadoc.jar"/>
   </project>
 
 </module>
