@@ -515,6 +515,18 @@
 
     <xsl:text>eval "echo $CMD $OUT"&#10;</xsl:text>
     <xsl:text>eval "echo $OUT"&#10;</xsl:text>
+
+    <xsl:text>if ! eval </xsl:text>
+    <xsl:if test="$cmd-prefix">
+       <xsl:text>"</xsl:text>
+       <xsl:value-of select="$cmd-prefix"/>
+       <xsl:text>" </xsl:text>
+    </xsl:if>
+    <xsl:text>"$CMD $OUT 2&gt;&amp;1"; then&#10;</xsl:text>
+
+    <xsl:text>sleep 90&#10;</xsl:text>
+    <xsl:text>echo Retrying...&#10;</xsl:text>
+
     <xsl:text>eval </xsl:text>
     <xsl:if test="$cmd-prefix">
        <xsl:text>"</xsl:text>
@@ -523,6 +535,8 @@
     </xsl:if>
     <xsl:text>"$CMD $OUT 2&gt;&amp;1" ||\&#10;</xsl:text>
     <xsl:text>export STATUS=FAILED&#10;</xsl:text>
+
+    <xsl:text>fi&#10;</xsl:text>
 
   </xsl:template>
 
@@ -610,7 +624,7 @@
   <xsl:template name="escape">
     <xsl:param name="string"/>
 
-    <xsl:variable name="work" 
+    <xsl:variable name="work"
       select="translate($string,'(){&amp;#&quot;',';;;;;;')"/>
 
     <xsl:choose>
