@@ -18,7 +18,7 @@
   <depend project="bsf"/>
   <depend project="xml-xerces"/>
 
-  <home nested="build/rhino15R2pre"/>
+  <home nested="build/rhino1_5R2pre"/>
   <jar name="js.jar"/>
 
 </project>
