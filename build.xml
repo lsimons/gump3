@@ -111,10 +111,14 @@
            style="stylesheet/build.xsl"/>
   </target>
 
-  <!-- Extract the info necessary to produce the xref script -->
+  <!-- Produce the xref script -->
   <target name="xref" depends="gen">
     <style in="work/merge.xml" out="work/xref.def"
            style="stylesheet/xref.xsl"/>
+    <style basedir="work" destdir="work" includes="xref.def" extension=".site"
+           style="${webstyle}"/>
+    <style basedir="work" destdir="work" includes="xref.site"
+           extension=".${extension}" style="stylesheet/${target}.xsl"/>
   </target>
 
   <!-- Extract the info necessary to produce the publish script -->
@@ -147,16 +151,16 @@
   </target>
 
   <!-- Add in the website information -->
-  <target name="website" depends="build,update,publish,xref,deliver,naglist,move">
+  <target name="website" depends="build,update,publish,deliver,naglist,move">
     <style basedir="work" destdir="work" includes="*.def" extension=".site"
-           style="${webstyle}"/>
+           excludes="xref.*" style="${webstyle}"/>
   </target>
 
   <!-- Generate the scripts -->
   <target name="scripts" depends="website"
     description="Generate the update and build scripts">
 
-    <style basedir="work" destdir="work" includes="*.site"
+    <style basedir="work" destdir="work" includes="*.site" excludes="xref.*" 
            extension=".${extension}" style="stylesheet/${target}.xsl"/>
   </target>
 
@@ -206,7 +210,7 @@
   </target>
 
   <!-- Do everything -->
-  <target name="all" depends="scripts,javadocs,pubdocs,site,check"
+  <target name="all" depends="scripts,xref,javadocs,pubdocs,site,check"
     description="Generate scripts, docs, sites, and check local packages"/>
 
   <!-- Remove all outputs and intermediate results -->
