@@ -7,11 +7,14 @@
 
   <cvs  repository="jakarta"/>
 
-  <ant basedir="build" buildfile="build-oro.xml" target="package"/>
+  <ant basedir="build" buildfile="build-oro.xml" target="package">
+    <property name="version" value="gump"/>
+  </ant>
+
   <depend project="jakarta-ant"/>
   <depend project="xml-xerces"/>
 
-  <home nested="jakarta-oro-2.0.2-dev-2"/>
-  <jar  name="jakarta-oro-2.0.2-dev-2.jar" id="oro"/>
+  <home nested="jakarta-oro-gump"/>
+  <jar  name="jakarta-oro-gump.jar" id="oro"/>
 
 </project>
