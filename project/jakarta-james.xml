@@ -1,11 +1,11 @@
-<project name="james">
+<project name="jakarta-james">
 
-  <url href="http://java.apache.org/james/index.html" />
+  <url href="http://jakarta.apache.org/james/index.html" />
   <description>
     Java Apache Mail Enterprise Server 
   </description>
 
-  <cvs repository="jservpub" />
+  <cvs repository="jakarta" />
   <ant />
 
   <home nested="build" />

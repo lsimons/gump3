@@ -4,20 +4,21 @@
 
   <!-- Apache.Jakarta -->
 
-  <project href="project/jakarta-ant.xml"/>
   <project href="project/jakarta-alexandria.xml"/>
+  <project href="project/jakarta-ant.xml"/>
   <project href="project/jakarta-ecs.xml"/>
-  <project href="project/jakarta-oro.xml"/>
+  <project href="project/jakarta-james.xml"/>
   <project href="project/jakarta-log4j.xml"/>
+  <project href="project/jakarta-oro.xml"/>
   <project href="project/jakarta-regexp.xml"/>
-  <project href="project/jakarta-slide.xml"/>
   <project href="project/jakarta-servletapi-4.xml"/>
   <project href="project/jakarta-servletapi.xml"/>
+  <project href="project/jakarta-slide.xml"/>
   <project href="project/jakarta-struts.xml"/>
   <project href="project/jakarta-taglibs.xml"/>
-  <project href="project/jakarta-tomcat.xml"/>
   <project href="project/jakarta-tomcat-40.xml"/>
   <project href="project/jakarta-tomcat-41.xml"/>
+  <project href="project/jakarta-tomcat.xml"/>
   <project href="project/jakarta-velocity.xml"/>
 
   <!-- Apache.XML -->
