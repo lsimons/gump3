@@ -1,6 +1,6 @@
 PREVIEW Sample Title
 Preview at 
-http://gump.chalko.com/gb/blog/?permalink=Template.txt&preview=true&smm=y
+http://gump.chalko.com/gb/blog/?preview=true&smm=y&permalink=Template.txt
 <hr/>
 <!--
   Copyright 2004 The Apache Software Foundation
