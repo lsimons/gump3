@@ -27,7 +27,7 @@
   <option project="jmx"/>
   <option project="junit"/>
   <option project="jakarta-log4j"/>
-  <option project="framework"/>
+  <option project="jakarta-avalon"/>
   <option project="jakarta-tomcat-4.0"/>
 
   <work nested="build/classes"/>

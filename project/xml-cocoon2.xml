@@ -13,7 +13,7 @@
   <depend project="xml-xerces"/>
   <depend project="xml-xalan2"/>
   <depend project="jakarta-servletapi-4"/>
-  <depend project="framework"/>
+  <depend project="jakarta-avalon"/>
   <depend project="xml-fop"/>
   <depend project="jakarta-regexp"/>
   <depend project="jdom"/>
