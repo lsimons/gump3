@@ -24,7 +24,7 @@
     
     <cvs repository="avalon"/>
 
-    <project name="excalibur-compatibility">
+      <project name="excalibur-compatibility">
         <!-- this project is the merge of several packages which previously
              existed seperately:
 
@@ -87,10 +87,10 @@
         <depend project="ant" inherit="runtime"/>
         <depend project="xml-xalan2"/>
         <depend project="xml-xerces"/>
+        <depend project="jakarta-servletapi" inherit="runtime"/>
 
         <!-- optional dependencies -->
         <option project="checkstyle" inherit="runtime"/>
-        <option project="jakarta-servletapi" inherit="runtime"/>
 
         <mkdir dir="component/target/classes"/>
         <mkdir dir="component/target/test-classes"/>
@@ -579,9 +579,9 @@
         <depend project="junit"/>
         <depend project="xml-xerces"/>
         <depend project="xml-xalan2"/>
+        <depend project="avalon-framework" runtime="true" id="combined"/>
 
         <!-- optional dependencies -->
-        <option project="avalon-framework" runtime="true" id="combined"/>
         <option project="checkstyle" inherit="runtime"/>
 
         <work nested="instrument/target/classes"/>
