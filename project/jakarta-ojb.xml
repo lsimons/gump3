@@ -29,6 +29,8 @@
 
     <depend project="ojb-jboss" />
 
+    <nag from="Jason van Zyl &lt;jvanzyl@apache.org&gt;"
+         to="ojb-dev@jakarta.apache.org"/>
   </project>
 
   <project name="ojb-jboss">
