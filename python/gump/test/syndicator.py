@@ -1,7 +1,7 @@
 #!/usr/bin/env python
-# $Header: /home/stefano/cvs/gump/python/gump/test/syndicator.py,v 1.4 2004/01/06 23:44:25 ajack Exp $
-# $Revision: 1.4 $
-# $Date: 2004/01/06 23:44:25 $
+# $Header: /home/stefano/cvs/gump/python/gump/test/syndicator.py,v 1.5 2004/01/07 18:57:00 ajack Exp $
+# $Revision: 1.5 $
+# $Date: 2004/01/07 18:57:00 $
 #
 # ====================================================================
 #
@@ -68,7 +68,6 @@ import types, StringIO
 from gump import log
 import gump.config
 from gump.gumprun import GumpRun
-from gump.syndication import syndicate
 from gump.syndication.rss import RSSSyndicator
 from gump.syndication.atom import AtomSyndicator
 from gump.test import getWorkedTestWorkspace

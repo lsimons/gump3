@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/test/__init__.py,v 1.5 2004/01/06 23:44:25 ajack Exp $
-# $Revision: 1.5 $
-# $Date: 2004/01/06 23:44:25 $
+# $Header: /home/stefano/cvs/gump/python/gump/test/__init__.py,v 1.6 2004/01/07 18:57:00 ajack Exp $
+# $Revision: 1.6 $
+# $Date: 2004/01/07 18:57:00 $
 #
 # ====================================================================
 #
@@ -96,18 +96,27 @@ def getWorkedTestWorkspace(xml=None):
         listDirectoryAsWork(module,module.getSourceDirectory())
         for project in module.getProjects():
             listDirectoryAsWork(project,project.getHomeDirectory())     
-            
+     
+    #       
     # Try to set some statii
-        
+    #
     m=0
     for module in workspace.getModules():   
+        #
+        # Set one in three modules as failed.
+        #
         m+=1 
         if m % 3 == 0:
             module.changeState(STATE_FAILED)
         else:
+            if m % 2 == 0:
+                module.setUpdated(1)
             module.changeState(STATE_SUCCESS)
         p=0
-        for project in module.getProjects():   
+        for project in module.getProjects(): 
+            #
+            # Set one in three projects as failed.
+            #
             p+=1
             if p % 3 == 0:
                 project.changeState(STATE_FAILED)

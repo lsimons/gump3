@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/syndication/atom.py,v 1.3 2004/01/07 18:12:50 ajack Exp $
-# $Revision: 1.3 $
-# $Date: 2004/01/07 18:12:50 $
+# $Header: /home/stefano/cvs/gump/python/gump/syndication/atom.py,v 1.4 2004/01/07 18:57:00 ajack Exp $
+# $Revision: 1.4 $
+# $Date: 2004/01/07 18:57:00 $
 #
 # ====================================================================
 #
@@ -124,7 +124,7 @@ class AtomFeed:
         self.entries=[]
         
     def addEntry(self,entry):
-        self.entries += entry
+        self.entries.append(entry)
         
     def serializeToStream(self, stream, modified):
         
@@ -199,7 +199,7 @@ class AtomSyndicator(Syndicator):
         content=self.getModuleContent(module,self.run)
                         
         #
-        #
+        # Entry
         #
         entry=Entry(('%s %s') % (module.getName(),module.getStateDescription()), \
                   moduleUrl, \
@@ -207,13 +207,13 @@ class AtomSyndicator(Syndicator):
                   content)
         
         # Generate changes, only if the module had changed
-        if module.isUpdated():
-            if not s.currentState == STATE_NONE and	\
-                not s.currentState == STATE_UNSET:   
-                moduleFeed.addEntry(entry)  
+        if module.isUpdated() and not module.getStatePair().isUnset():  
+            log.info("Add module to Atom Newsfeed for : " + module.getName())    
+            moduleFeed.addEntry(entry)  
             
         # State changes that are newsworthy...
-        if 	self.moduleOughtBeWidelySyndicated(module):            
+        if 	self.moduleOughtBeWidelySyndicated(module):      
+            log.info("Add module to widely distributed Atom Newsfeed for : " + module.getName())      
             mainFeed.addEntry(entry)
             
         # Syndicate each project
@@ -246,12 +246,14 @@ class AtomSyndicator(Syndicator):
                   content )
 
         # Generate changes, only if the project changed
-        if project.getModule().isUpdated() and not project.getStatePair().isUnset():            
+        if project.getModule().isUpdated() and not project.getStatePair().isUnset():      
+            log.info("Add project to Atom Newsfeed for : " + project.getName())         
             projectFeed.addEntry(entry)
             moduleFeed.addEntry(entry)  
 
         # State changes that are newsworthy...
         if 	self.projectOughtBeWidelySyndicated(project) :
+            log.info("Add project to widely distributed Atom Newsfeed for : " + project.getName())    
             mainFeed.addEntry(entry)
                                                         
         projectFeed.serialize()
