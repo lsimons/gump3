@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/forrest.py,v 1.53 2004/01/16 23:11:24 ajack Exp $
-# $Revision: 1.53 $f
-# $Date: 2004/01/16 23:11:24 $
+# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/forrest.py,v 1.54 2004/01/19 22:41:14 ajack Exp $
+# $Revision: 1.54 $f
+# $Date: 2004/01/19 22:41:14 $
 #
 # ====================================================================
 #
@@ -1660,17 +1660,22 @@ class ForrestDocumenter(Documenter):
             self.resolver.getFile(xref,'repo_module.xml'))
         
         repoMap=xref.getRepositoryToModuleMap()
-        for repo in createOrderedList(repoMap.keys()):
-            moduleList=createOrderedList(repoMap.get(repo))            
-            repoSection=document.createSection(repo.getName())            
-            self.insertLink( repo, xref, 	\
-                repoSection.createParagraph('Repository Definition: '))
-            
-            moduleRepoTable=repoSection.createTable(['Modules'])
-            for module in moduleList:        
-                if not gumpSet.inModules(module): continue
-                moduleRepoRow=moduleRepoTable.createRow()
-                self.insertLink( module, xref, moduleRepoRow.createData())
+        repoList=createOrderedList(repoMap.keys())
+        if repoList:
+            for repo in repoList:
+                moduleList=createOrderedList(repoMap.get(repo))            
+                repoSection=document.createSection(repo.getName())            
+                self.insertLink( repo, xref, 	\
+                    repoSection.createParagraph('Repository Definition: '))
+        
+                moduleRepoTable=repoSection.createTable(['Modules'])
+                for module in moduleList:        
+                    if not gumpSet.inModules(module): continue
+                    moduleRepoRow=moduleRepoTable.createRow()
+                    self.insertLink( module, xref, moduleRepoRow.createData())
+                    
+        else:
+            document.createParagraph('No repositories')
           
         document.serialize()    
         
