@@ -460,7 +460,7 @@ def documentWorkspace(workspace,context,db,moduleList=None,projectList=None):
             pcount+=1
 
             x.write('     <tr><!-- %s -->\n' % (pname))        
-            x.write('      <td><link href=\'%s\'>%s</link></td><td>%s</td><td>%s</td>\n' % \
+            x.write('      <td><link href=\'%s\'>%s</link></td><td>%s</td>\n' % \
                       (	getProjectRelativeUrl(pname),	\
                         pname,	\
                         getStateIcon(pctxt)))    
