@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/net/Attic/mailer.py,v 1.7 2004/03/03 16:24:48 bodewig Exp $
-# $Revision: 1.7 $
-# $Date: 2004/03/03 16:24:48 $
+# $Header: /home/stefano/cvs/gump/python/gump/net/Attic/mailer.py,v 1.8 2004/03/04 17:45:17 ajack Exp $
+# $Revision: 1.8 $
+# $Date: 2004/03/04 17:45:17 $
 #
 # ====================================================================
 #
@@ -136,7 +136,7 @@ def mail(toaddrs,fromaddr,message,server='localhost',port=25):
         # Attach to the SMTP server to send....
         #
         server = smtplib.SMTP(server,port)
-        # server.set_debuglevel(1)
+        server.set_debuglevel(1)
         server.sendmail(sane_fromaddr, sane_toaddrs, data)
         server.quit()
         
@@ -155,18 +155,20 @@ def sanitizeAddress(addr):
     
 if __name__=='__main__':
 
-  # init logging
-  logging.basicConfig()
+    # init logging
+    logging.basicConfig()
 
-  #set verbosity to show all messages of severity >= default.logLevel
-  log.setLevel(default.logLevel)
+    #set verbosity to show all messages of severity >= default.logLevel
+    log.setLevel(default.logLevel)
    
-  # email=EmailMessage('There','Hi')
+    email=EmailMessage('Adam Jack <ajack@trysybase.com>',\
+                    'Adam Jack <ajack@trysybase.com>',\
+                    'Hi','There')
   
-  # mail([default.email],default.email,email,default.mailserver)
+    mail([default.email],default.email,email,default.mailserver)
   
-  # mail([ 'ajack@trysybase.com' ],default.email,email,default.mailserver)
+    mail([ 'ajack@trysybase.com' ],default.email,email,default.mailserver)
   
-  print sanitizeAddress('Adam Jack <ajack@trysybase.com>')
+    print sanitizeAddress('Adam Jack <ajack@trysybase.com>')
   
   
