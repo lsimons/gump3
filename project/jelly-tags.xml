@@ -1,6 +1,6 @@
 <module name="jakarta-commons-sandbox">
 
-  <project name="jelly-tags-ant">
+  <project name="commons-jelly-tags-ant">
     <package>org.apache.commons.jelly.tags.ant</package>
     <description>This is a Jelly interface for Ant.</description>
 

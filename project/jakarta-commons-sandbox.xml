@@ -207,38 +207,6 @@
          from="Stefan Bodewig &lt;bodewig@apache.org&gt;"/>
   </project>
 
-  <project name="commons-jelly-tags-ant">
-    <package>org.apache.commons.jelly.tags.ant</package>
-    <description>Ant Taglib for Commons Jelly</description>
-    
-    <ant basedir="jelly" buildfile="build.xml" target="jar">
-      <property name="final.name" value="commons-jelly-tags-ant-@@DATE@@"/>
-    </ant>
-    
-    <depend project="jakarta-ant" inherit="runtime"/>
-    
-    <!-- core jelly build dependencies -->
-    <depend project="commons-beanutils"/>
-    <depend project="commons-collections"/>
-    <depend project="commons-jexl"/>
-    <depend project="commons-logging"/>
-    <depend project="dom4j"/>
-    <depend project="junit"/>
-    <depend project="xml-xerces"/>
-    
-    <!-- tag-specific dependencies -->
-    <depend project="commons-grant"/>
-    <depend project="commons-jelly"/>
-    
-    <work nested="jelly/jelly-tags/ant/target/classes"/>
-    <work nested="jelly/jelly-tags/ant/target/test-classes"/>
-
-    <home nested="jelly/jelly-tags/ant/target"/>
-    <jar name="commons-jelly-tags-ant-@@DATE@@.jar"/>
-
-    <nag to="commons-dev@jakarta.apache.org"
-         from="James Strachan &lt;jstrachan@apache.org&gt;"/>
-  </project>  
   
   <project name="commons-jexl">
     <package>org.apache.commons.jexl</package>
