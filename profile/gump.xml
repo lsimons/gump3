@@ -38,7 +38,7 @@
   <module href="project/jakarta-taglibs.xml"/>
   <module href="http://cvs.apache.org/viewcvs/~checkout~/jakarta-tomcat-4.0/gump.xml"/>
   <module href="http://cvs.apache.org/viewcvs/~checkout~/jakarta-tomcat-connectors/gump.xml"/>
-  <module href="http://cvs.apache.org/viewcvs/~checkout~/jakarta-tomcat-jasper/gump.xml"/>
+  <module href="http://cvs.apache.org/viewcvs/~checkout~/jakarta-tomcat-jasper/gump2.xml"/>
   <module href="http://cvs.apache.org/viewcvs/~checkout~/jakarta-tomcat/gump.xml"/>
   <module href="project/jakarta-tools.xml"/>
 
