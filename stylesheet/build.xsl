@@ -23,6 +23,8 @@
 
     <build sync="{@sync}">
 
+      <scorecard file="{$logdir}/results.txt"/>
+
       <chdir dir="{$basedir}"/>
       <mkdir dir="{$logdir}"/>
       <delete dir="build"/>

@@ -52,9 +52,14 @@
   <!--                               build                                 -->
   <!-- =================================================================== -->
 
+  <xsl:template match="scorecard">
+  </xsl:template>
+
   <xsl:template match="build">
     <xsl:text>#!/bin/bash&#10;</xsl:text>
-
+    <xsl:text>export SCORECARD_FILE="</xsl:text><xsl:value-of select="scorecard/@file"/><xsl:text>"&#10;</xsl:text>
+    <xsl:text>export SCORECARD="&gt;&gt;$SCORECARD_FILE"&#10;</xsl:text>
+    <xsl:text>rm -f $SCORECARD_FILE&#10;</xsl:text>
     <xsl:if test="$cygwin=1">
       <xsl:text>export CP=`cygpath --path --unix "$CLASSPATH"`&#10;</xsl:text>
     </xsl:if>
@@ -79,6 +84,11 @@
   </xsl:template>
 
   <xsl:template match="build//project">
+
+    <xsl:text>export PROJECT=</xsl:text>
+    <xsl:value-of select="@name"/>
+    <xsl:text>&#10;</xsl:text>
+
     <xsl:choose>
       <xsl:when test="@name='clean'">
         <xsl:text>echo Restoring build directories&#10;</xsl:text>
@@ -370,6 +380,12 @@
       <xsl:value-of select="$project"/>
       <xsl:text>\&lt;/a\&gt;\&lt;/p\&gt; $OUT"&#10;</xsl:text>
 
+      <xsl:text>  eval echo "$PROJECT Missing prereq </xsl:text>
+      <xsl:value-of select="translate(@path,'\','/')"/>
+      <xsl:text> from </xsl:text>
+      <xsl:value-of select="$project"/>
+      <xsl:text> " $SCORECARD&#10;</xsl:text>
+
       <xsl:text>fi&#10;</xsl:text>
     </xsl:for-each>
   </xsl:template>
@@ -459,7 +475,10 @@
     <xsl:text> &lt;/dev/null $OUT 2&gt;&amp;1"&#10;</xsl:text>
     <xsl:text>test $? -ge 1 &amp;&amp; </xsl:text>
     <xsl:text>export STATUS="FAILED"&#10;</xsl:text>
+
     <xsl:text>fi&#10;</xsl:text>
+
+    <xsl:text>eval "echo $PROJECT $STATUS" $SCORECARD&#10;</xsl:text>
 
   </xsl:template>
 
