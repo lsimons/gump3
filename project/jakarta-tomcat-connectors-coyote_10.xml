@@ -7,6 +7,10 @@
 
   <cvs repository="jakarta" module="jakarta-tomcat-connectors"/>
 
+  <project name="jakarta-tomcat-connectors-coyote_10">
+    <!-- dummy to provide a "home" reference for the tomcat-catalina build -->
+  </project>
+
   <project name="jakarta-tomcat-util-coyote_10">
     <package>org.apache.tomcat.util</package>
     <ant basedir="util">

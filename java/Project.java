@@ -1,7 +1,7 @@
 /*
- * $Header: /home/stefano/cvs/gump/java/Project.java,v 1.47 2003/01/16 14:53:03 bodewig Exp $
- * $Revision: 1.47 $
- * $Date: 2003/01/16 14:53:03 $
+ * $Header: /home/stefano/cvs/gump/java/Project.java,v 1.48 2003/01/27 09:00:52 bodewig Exp $
+ * $Revision: 1.48 $
+ * $Date: 2003/01/27 09:00:52 $
  *
  * ====================================================================
  *
@@ -608,8 +608,10 @@ public class Project {
                 value = project.get("home") + "/" + jar.getAttribute("name"); 
                 property.setAttribute("type", "path");
             } else if (reference.equals("srcdir")) {
-                Module module = Module.find(projectName);
-                require (module, "module", projectName);
+                Project project = (Project) projects.get(projectName);
+                require (project, "project", projectName);
+                Module module = Module.find(project.get("module"));
+                require (module, "module containing project", projectName);
                 value = module.getSrcDir();
                 property.setAttribute("type", "path");
             } else if (property.getAttributeNode("path") != null) {
