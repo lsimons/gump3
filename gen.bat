@@ -7,6 +7,9 @@ SET CLASSPATH=%JAXP%\crimson.jar;%JAXP%\jaxp.jar;%JAXP%\xalan.jar;%CLASSPATH%
 SET SOURCE=%1
 IF "%1"=="" SET SOURCE=%COMPUTERNAME%.xml
 
+if exist work rmdir /s /q work
+mkdir work
+
 echo Merging projects into workspace
 java org.apache.xalan.xslt.Process -xml -in %SOURCE% -xsl stylesheet\merge.xsl -out work/merge.xml
 if not errorlevel 0 goto fail
