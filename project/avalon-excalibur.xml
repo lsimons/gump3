@@ -1019,7 +1019,7 @@
         <mkdir dir="thread/instrumented/target/classes"/>
 
         <home nested="thread/instrumented"/>
-        <jar name="target/excalibur-thread-@@DATE@@.jar"/>
+        <jar name="target/excalibur-thread-instrumented-@@DATE@@.jar"/>
         <nag from="Gump Integration Build &lt;dev@avalon.apache.org&gt;" to="dev@avalon.apache.org"/>
     </project>
 
