@@ -165,6 +165,7 @@ def syncDirectories(sourcedir,destdir,annotatable=None):
             transferAnnotations(sync, annotatable)    
             
 def wipeDirectoryTree(dir):
+    log.info('Wipe Directory [' + `dir` + ']') 
     if os.path.exists(dir):
         try:
             shutil.rmtree(dir)            

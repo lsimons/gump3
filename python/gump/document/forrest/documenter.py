@@ -151,7 +151,9 @@ class ForrestDocumenter(Documenter):
         
         Copy the main template (perhaps with site tweaks) to prepare
         
-        """        
+        """                
+        log.info('Prepare Forrest work with template')
+        
         #
         # First deleted the work tree (if exists), then ensure created
         #
@@ -167,15 +169,15 @@ class ForrestDocumenter(Documenter):
         # Copy over the local site defaults (if any)        
         forrestSiteTemplate=self.getForrestSiteTemplateDirectory()  
         if os.path.exists(forrestSiteTemplate):
+            log.info('Prepare Forrest work with *site* template')            
             copyDirectories(forrestSiteTemplate,	\
                             forrestWorkDir,	\
                             workspace)                               
                              
         #    
-        # Wipe the staging tree
+        # Wipe the staging tree (to produce into).
         #   
-        stagingDirectory=self.getForrestStagingDirectory(workspace)
-        wipeDirectoryTree(stagingDirectory)
+        wipeDirectoryTree(self.getForrestStagingDirectory(workspace))
                  
     def executeForrest(self,workspace):
         # The project tree
@@ -2890,8 +2892,12 @@ This page helps Gumpmeisters (and others) observe community progress.
         
         repoMap=xref.getRepositoryToModuleMap()
         repoList=createOrderedList(repoMap.keys())
+        rcount=0
         if repoList:
             for repo in repoList:
+                if not gumpSet.inRepositories(repo): continue
+                rcount+=1
+                
                 moduleList=createOrderedList(repoMap.get(repo))            
                 repoSection=document.createSection(repo.getName())            
                 self.insertLink( repo, xref, 	\
@@ -2903,7 +2909,7 @@ This page helps Gumpmeisters (and others) observe community progress.
                     moduleRepoRow=moduleRepoTable.createRow()
                     self.insertLink( module, xref, moduleRepoRow.createData())
                     
-        else:
+        if not rcount:
             document.createParagraph('No repositories')
           
         document.serialize()    

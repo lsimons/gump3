@@ -143,7 +143,7 @@ class XDocContext(Ownable):
         #    self.stream.seek(0)
         #    print(self.stream.read())
         #else:
-        if not self.isTransient():
+        if not self.isTransient():     
             self.stream.close()
             
     def map(self,raw):

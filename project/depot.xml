@@ -249,6 +249,7 @@
     	debug="true">    	
 
         <depend project="depot-update" inherit="runtime"/>
+        <depend project="commons-logging" inherit="runtime"/>
         <depend project="ant" inherit="runtime"/>
         
         <ant  basedir="update" buildfile="build-ant-sample.xml" target="gump" vm="1.4">
