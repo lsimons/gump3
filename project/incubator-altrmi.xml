@@ -43,7 +43,7 @@
         <depend project="jakarta-bcel"/>
         <depend project="logging-log4j"/>
         <depend project="commons-attributes" inherit="runtime"/>
-        <depend project="excalibur-lifecycle"/>
+        <depend project="excalibur-lifecycle-api"/>
         <depend project="avalon-components"/>
         <depend project="avalon-phoenix"/>
         <depend project="commons-betwixt"/>

@@ -487,10 +487,10 @@
                 to="dev@avalon.apache.org"/>
     </project>
 
-    <project name="excalibur-lifecycle">
+    <project name="excalibur-lifecycle-api">
         <package>org.apache.avalon.lifecycle</package>
 
-        <ant basedir="lifecycle" target="jar">
+        <ant basedir="lifecycle/api" target="jar">
             <!-- runtime dependencies -->
             <depend property="avalon-framework.jar" project="avalon-framework" runtime="true" id="combined"/>
 
@@ -510,16 +510,48 @@
 
         <mkdir dir="lifecycle/api/target/classes"/>
         <mkdir dir="lifecycle/api/target/test-classes"/>
-        <mkdir dir="lifecycle/impl/target/classes"/>
-        <mkdir dir="lifecycle/impl/target/test-classes"/>
         
         <work nested="lifecycle/api/target/classes"/>
         <work nested="lifecycle/api/target/test-classes"/>
+
+        <home nested="lifecycle/api"/>
+        <jar name="target/excalibur-lifecycle-api-@@DATE@@.jar" id="api" />
+
+        <junitreport nested="lifecycle/api/target/docs/junitreports"/>
+
+        <nag from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"
+                to="dev@avalon.apache.org"/>
+    </project>
+
+    <project name="excalibur-lifecycle-impl">
+        <package>org.apache.avalon.lifecycle</package>
+
+        <ant basedir="lifecycle/impl" target="jar">
+            <!-- runtime dependencies -->
+            <depend property="avalon-framework.jar" project="avalon-framework" runtime="true" id="combined"/>
+
+            <!-- test-time dependencies -->
+            <depend property="junit.jar" project="junit"/>
+
+            <property name="project.version" value="@@DATE@@"/>
+        </ant>
+
+        <!-- build-time dependencies -->
+        <depend project="ant" inherit="runtime"/>
+        <depend project="xml-xerces"/>
+        <depend project="xml-xalan2"/>
+        <depend project="excalibur-lifecycle-api" />
+
+        <!-- optional dependencies -->
+        <option project="checkstyle" inherit="runtime"/>
+
+        <mkdir dir="lifecycle/impl/target/classes"/>
+        <mkdir dir="lifecycle/impl/target/test-classes"/>
+        
         <work nested="lifecycle/impl/target/classes"/>
         <work nested="lifecycle/impl/target/test-classes"/>
 
-        <home nested="lifecycle"/>
-        <jar name="target/excalibur-lifecycle-api-@@DATE@@.jar" id="api" />
+        <home nested="lifecycle/impl"/>
         <jar name="target/excalibur-lifecycle-impl-@@DATE@@.jar" id="impl" />
 
         <junitreport nested="lifecycle/target/docs/junitreports"/>
@@ -527,7 +559,7 @@
         <nag from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"
                 to="dev@avalon.apache.org"/>
     </project>
-
+    
     <project name="excalibur-logger">
         <package>org.apache.avalon.excalibur.logger</package>
 
