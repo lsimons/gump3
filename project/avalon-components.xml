@@ -5,7 +5,7 @@
     A set of cause-grain components.
   </description>
 
-  <cvs repository="avalon-components"/>
+  <cvs repository="avalon"/>
   
   <project name="avalon-components">
     <package>org.apache.avalon.cornerstone</package>

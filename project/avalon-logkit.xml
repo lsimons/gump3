@@ -59,6 +59,7 @@
     <depend project="xml-xerces"/>
     <depend project="junit"/>
 
+    <depend project="avalon-framework" runtime="true"/>
     <depend project="jdbc" runtime="true"/>
     <depend project="jms" runtime="true"/>
     <depend project="javamail" runtime="true"/>
