@@ -23,6 +23,7 @@
   	<authors>
   	<person name="Sam Ruby" email="rubys@us.ibm.com"/>
   	<person name="Adam R. B. Jack" email="ajack@apache.org"/>
+  	<person name="Stephen McConnell" email="mcconnell@apache.org"/>
   	</authors>
   </header>
 
@@ -48,7 +49,7 @@
         <td>
         	The ant target to invoke. <em>This can be a space separated list.</em>
         </td>
-        <td>No Defaults to <strong>gump</strong>.</td>
+        <td>No. Defaults to the default target defined by the build file.</td>
       </tr>
     </table>
     
