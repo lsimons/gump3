@@ -142,7 +142,7 @@ class NAntBuilder(gump.run.gumprun.RunSpecific):
         # within.
         mergeFile=project.getWorkspace().getMergeFile()
         if mergeFile:
-            cmd.addPrefixedParameter('-D','gump.merge',str(mergeFile),'=')        
+            cmd.addPrefixedParameter('-D:','gump.merge',str(mergeFile),'=')        
     
         # These are from the project and/or workspace
         # These are 'normal' properties.
@@ -162,14 +162,14 @@ class NAntBuilder(gump.run.gumprun.RunSpecific):
         """ Get properties for a project """
         properties=Parameters()
         for property in project.getWorkspace().getProperties()+project.getNAnt().getProperties():
-            properties.addPrefixedNamedParameter('-D',property.name,property.value,'=')
+            properties.addPrefixedNamedParameter('-D:',property.name,property.value,'=')
         return properties
 
     def getNAntSysProperties(self,project):
         """ Get sysproperties for a project """
         properties=Parameters()
         for property in project.getWorkspace().getSysProperties()+project.getNAnt().getSysProperties():
-            properties.addPrefixedNamedParameter('-D',property.name,property.value,'=')
+            properties.addPrefixedNamedParameter('-D:',property.name,property.value,'=')
         return properties
                 
     def preview(self,project,language,stats):        

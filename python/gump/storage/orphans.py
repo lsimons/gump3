@@ -75,7 +75,7 @@ class Workspace(ContentHandler):
     pkgdir = None
     logdir = None
     basedir = None
-    jardir = ""
+    repodir = ""
     modules=[]
     packages=[]
     def startElement(self, name, attrs):
@@ -84,7 +84,7 @@ class Workspace(ContentHandler):
             self.pkgdir = attrs['pkgdir']
             self.cvsdir = attrs['cvsdir']
             self.basedir = attrs['basedir']
-            if 'jardir' in attrs: self.jardir = attrs['jardir']
+            if 'repodir' in attrs: self.repodir = attrs['repodir']
             self.logdir = attrs['logdir']
         if name == 'module':
             attrs=dict(attrs)
@@ -113,7 +113,7 @@ for dir in glob(workspace.basedir+'/*'):
     if not dir[len(workspace.basedir)+1:] in workspace.modules:
         dir=dir.replace('/',os.sep)
         if dir==workspace.basedir.replace('/',os.sep)+os.sep+"dist": continue
-        if dir==workspace.jardir.replace('/',os.sep): continue
+        if dir==workspace.repodir.replace('/',os.sep): continue
         if dir==workspace.logdir.replace('/',os.sep): continue
         if dir==workspace.cvsdir.replace('/',os.sep): continue
         if os.path.isdir(dir): print dir

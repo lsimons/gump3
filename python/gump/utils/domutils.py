@@ -87,7 +87,7 @@ def transferDomNameValue(target,name,value,mapping=None):
     
     # See what attribute we'd like to set with this
     attrName=name
-    if mapping and mapping.has_key(attrName): attrName=mapping[tag]
+    if mapping and mapping.has_key(name): attrName=mapping[name]
         
     # We have somewhere to put this value... 
     if hasattr(target,attrName):

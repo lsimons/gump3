@@ -90,7 +90,7 @@ class GumpRun(gump.utils.timing.Timeable,gump.utils.work.Workable,gump.utils.not
         
         # A repository interface...
         from gump.repository.artifact import ArtifactRepository
-        self.outputsRepository=ArtifactRepository(workspace.jardir)
+        self.outputsRepository=ArtifactRepository(workspace.repodir)
                   
         # Generate a GUID (or close)
         import md5

@@ -185,7 +185,7 @@ class GumpEnvironment(Annotatable,Workable,Propogatable):
             self.addWarning('"maven" command not found, no Maven builds')
        
         if not self.noNAnt and \
-            not self._checkExecutable('NAnt','--help',False,False,'check_NAnt'): 
+            not self._checkExecutable('NAnt','-help',False,False,'check_NAnt'): 
             self.noNAnt=True
             self.addWarning('"NAnt" command not found, no NAnt builds')
        

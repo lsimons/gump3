@@ -105,24 +105,24 @@ class XRefGuru:
     def mapOutputs(self):
         for module in self.workspace.getModules():            
             for project in module.getProjects():                
-                if project.hasJars():
-                    for jar in project.getJars():  
-                        jarName=os.path.basename(jar.getName())  
-                        jarId=jar.getId() or 'No Identifier'
+                if project.hasOutputs():
+                    for output in project.getOutputs():  
+                        outputName=os.path.basename(output.getName())  
+                        outputId=output.getId() or 'No Identifier'
                         
                         # Create a list to hold multiple (if needed)          
-                        if not self.outputToProject.has_key(jarName):
-                            self.outputToProject[jarName]=[]
+                        if not self.outputToProject.has_key(outputName):
+                            self.outputToProject[outputName]=[]
                         
                         # Create a list to hold multiple (if needed)          
-                        if not self.outputIdToProject.has_key(jarId):
-                            self.outputIdToProject[jarId]=[]
+                        if not self.outputIdToProject.has_key(outputId):
+                            self.outputIdToProject[outputId]=[]
                     
                         # Store the Project
-                        if not project in self.outputToProject[jarName]:
-                            self.outputToProject[jarName].append(project)
-                        if not project in self.outputIdToProject[jarId]:
-                            self.outputIdToProject[jarId].append(project)
+                        if not project in self.outputToProject[outputName]:
+                            self.outputToProject[outputName].append(project)
+                        if not project in self.outputIdToProject[outputId]:
+                            self.outputIdToProject[outputId].append(project)
     
     def mapDescriptorLocations(self):
         for module in self.workspace.getModules():            

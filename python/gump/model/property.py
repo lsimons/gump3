@@ -78,41 +78,42 @@ class Property(NamedModelObject):
             else:
                 self.setValue(workspace.getProject(project).getModule().getWorkingDirectory())
                 
-        elif reference=='jarpath' or reference=='jar':            
+        elif reference=='jarpath' or reference=='jar' \
+            or reference=='outputpath' or reference=='output':            
             if self.hasDomAttribute('project'):
                 if not workspace.hasProject(project):
                     responsibleParty.addError( \
-                        'Cannot resolve jar/jarpath of *unknown* [' + project + ']')
+                        'Cannot resolve output/outputpath of *unknown* [' + project + ']')
                 else:
                     targetProject=workspace.getProject(project)
                 
                     if self.hasDomAttribute('id'):
                         id=self.getDomAttributeValue('id')
                         # Find the referenced id
-                        for jar in targetProject.getJars():
-                            if jar.getId()==id:
-                                if reference=='jarpath':
-                                    self.setValue(jar.getPath())
+                        for output in targetProject.getOutputs():
+                            if output.getId()==id:
+                                if reference=='jarpath' or reference=='outputpath':
+                                    self.setValue(output.getPath())
                                 else:
-                                    self.setValue(jar.getName())
+                                    self.setValue(output.getName())
                                 break
                         else:
                             responsibleParty.addError(	\
-                               ("jar with id %s was not found in project %s ") % \
+                               ("Output with id %s was not found in project %s ") % \
                                 (id, targetProject.getName()))
                                 
-                    elif targetProject.getJarCount()==1:
+                    elif targetProject.getOutputCount()==1:
                         # There is only one, so pick it...
-                        self.setValue(targetProject.getJars()[0].getPath())
-                    elif  targetProject.getJarCount()>1:
+                        self.setValue(targetProject.getOutputAt(0).getPath())
+                    elif  targetProject.getOutputCount()>1:
 	                    # Don't know which....
 	                    responsibleParty.addError(	\
-                            ("Multiple jars defined by project %s; " + \
+                            ("Multiple outputs defined by project %s; " + \
                             "an id attribute is required to select the one you want") % \
                               (targetProject.getName()))
                     else:
                         responsibleParty.addError(	\
-                            ('Project %s defines no jars as output') % \
+                            ('Project %s defines no outputs') % \
                             (targetProject.getName()))      
             else:
                 responsibleParty.addError('No project specified.')      

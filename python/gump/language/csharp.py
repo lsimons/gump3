@@ -103,7 +103,7 @@ class CSharpHelper(gump.run.gumprun.RunSpecific):
                Perform this 'dependency' (mandatory or optional)
                
             1) Bring in the JARs (or those specified by id in depend ids)
-            2) Do NOT bring in the working entities (directories/jars)
+            2) Do NOT bring in the working entities (directories/libs)
             3) Bring in the sub-depends (or optional) if inherit='all' or 'hard'
             4) Bring in the runtime sub-depends if inherit='runtime'
             5) Also: *** Bring in any depenencies that the dependency inherits ***
@@ -164,14 +164,14 @@ class CSharpHelper(gump.run.gumprun.RunSpecific):
         # from the repository. [This has been done already,
         # so is transparent here.]
         projectIds=[]
-        for jar in project.getJars():
+        for output in project.getOutputs():
             # Store for double checking
-            if jar.getId(): projectIds.append(jar.getId())
+            if output.getId(): projectIds.append(output.getId())
             
             # If 'all' or in ids list:
-            if (not ids) or (jar.getId() in ids):   
-                if ids: dependStr += ' Id = ' + jar.getId()
-                path=gump.language.path.AnnotatedPath(jar.getId(),jar.path,project,dependency.getOwnerProject(),dependStr) 
+            if (not ids) or (output.getId() in ids):   
+                if ids: dependStr += ' Id = ' + output.getId()
+                path=gump.language.path.AnnotatedPath(output.getId(),output.path,project,dependency.getOwnerProject(),dependStr) 
           
                 # Add to CLASSPATH
                 if debug:   print str(depth) + ') Append JAR : ' + str(path)

@@ -63,15 +63,15 @@ class RepositoryPublisher(gump.run.actor.AbstractRunActor):
                     project.addError(message)
                     log.error(message)                     
                                     
-            # For all output artifacts (jars)
-            for jar in project.getJars():
+            # For all output artifacts (outputs)
+            for output in project.getOutputs():
                 # :TODO: Relative to module source?
-                jarPath=os.path.abspath(jar.getPath())
+                outputPath=os.path.abspath(output.getPath())
                 try:
                     # Publish under artifact identifier...
-                    self.repository.publish( groupName, jarPath, jar.getId())
+                    self.repository.publish( groupName, outputPath, output.getId())
                 except Exception, details:
-                    message='Failed to publish [' + jarPath + '] to repository : ' + str(details)
+                    message='Failed to publish [' + outputPath + '] to repository : ' + str(details)
                     project.addError(message)
                     log.error(message)
             

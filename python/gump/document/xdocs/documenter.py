@@ -548,7 +548,7 @@ class XDocDocumenter(Documenter):
         #    detailsTable.createEntry("Scratch Directory : ", self.workspace.scratchdir))    
         # :TODO: We have duplicate dirs? tmp = scratch?
         detailsTable.createEntry("Log Directory : ", self.workspace.logdir)
-        detailsTable.createEntry("Jars Repository : ", self.workspace.jardir)
+        detailsTable.createEntry("Outputs Repository : ", self.workspace.repodir)
         detailsTable.createEntry("CVS Directory : ", self.workspace.cvsdir)
         detailsTable.createEntry("Package Directory : ", self.workspace.pkgdir)
         if not self.workspace.private:
@@ -1636,7 +1636,7 @@ This page helps Gumpmeisters (and others) observe community progress.
 
             if module.hasArtifacts():
                 if module.artifacts.hasUrl():
-                    repoList.createEntry( "Jars URL: ", module.jars.getUrl())   
+                    repoList.createEntry( "Jars URL: ", module.artifacts.getUrl())   
 
             repoList.createEntry('Redistributable: ', module.isRedistributable())              
            
@@ -1788,23 +1788,23 @@ This page helps Gumpmeisters (and others) observe community progress.
         miscSection=document.createSection('Miscellaneous')
         
         #
-        #	Outputs (e.g. Jars)
+        #	Outputs (e.g. Outputs)
         #
-        if project.hasJars():
+        if project.hasOutputs():
             outputSection = miscSection.createSection('Output Artifacts')
             outputTable = outputSection.createTable(['Name','Artifact Id'])
             
-            for jar in project.getJars():
+            for output in project.getOutputs():
                 outputRow=outputTable.createRow()
                 
-                # The name (path) of the jar
-                outputRow.createData(jar.getName())
+                # The name (path) of the output
+                outputRow.createData(output.getName())
                 
-                # The jar id
-                id=jar.getId() or 'N/A'
+                # The output id
+                id=output.getId() or 'N/A'
                 outputRow.createData(id)    
         else:
-            miscSection.createWarning('No output artifacts (e.g. jars) produced')
+            miscSection.createWarning('No output artifacts (e.g. outputs) produced')
         
         if project.hasBuilder():
             
@@ -3261,13 +3261,13 @@ This page helps Gumpmeisters (and others) observe community progress.
         pByO=self.documentProjectsByOutput(xref)                
         pxrefRow=pxrefTable.createRow()
         pxrefRow.createData().createLink(pByO, 'Projects By Output')
-        pxrefRow.createData('The outputs for the project, e.g. jars.')
+        pxrefRow.createData('The outputs for the project, e.g. outputs.')
              
         # Projects By Output Ids
         pByOI=self.documentProjectsByOutputId(xref)                
         pxrefRow=pxrefTable.createRow()
         pxrefRow.createData().createLink(pByOI, 'Projects By Output Identifier')
-        pxrefRow.createData('The identifiers for outputs for the project, e.g. jars.')
+        pxrefRow.createData('The identifiers for outputs for the project, e.g. outputs.')
              
         # Projects By Descriptor Location
         pByDL=self.documentProjectsByDescriptorLocation(xref)                
@@ -3452,12 +3452,12 @@ This page helps Gumpmeisters (and others) observe community progress.
     def documentProjectsByOutput(self,xref):
         fileName='output_project'
         spec=self.resolver.getFileSpec(xref,fileName)
-        document=XDocDocument('Projects By Outputs (e.g. Jars)',	
+        document=XDocDocument('Projects By Outputs (e.g. Outputs)',	
                 spec.getFile() ,
                 self.config,
                 spec.getRootPath())
         
-        outputTable=document.createTable(['Projects By Outputs (e.g. Jars)'])
+        outputTable=document.createTable(['Projects By Outputs (e.g. Outputs)'])
         
         outputMap=xref.getOutputToProjectMap()
         for output in createOrderedList(outputMap.keys()):

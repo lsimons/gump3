@@ -78,8 +78,8 @@ class Builder(ModelObject, PropertyContainer):
             # the property
             transferDomAttributes(ddom,pelement)
                 
-            # Fix the reference to a jarpath
-            pelement.setAttribute('reference','jarpath')
+            # Fix the reference to a outputpath
+            pelement.setAttribute('reference','outputpath')
 
             # Name the xmlproperty...
             if hasDomAttribute(ddom,'property'):

@@ -193,7 +193,7 @@ class JavaHelper(gump.run.gumprun.RunSpecific):
         # from the repository. [This has been done already,
         # so is transparent here.]
         projectIds=[]
-        for jar in project.getJars():
+        for jar in project.getOutputs():
             # Store for double checking
             if jar.getId(): projectIds.append(jar.getId())
             

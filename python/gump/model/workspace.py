@@ -244,7 +244,7 @@ class Workspace(NamedModelObject, PropertyContainer, Statable, Resultable):
         
         self.tmpdir=''
         self.logdir=''
-        self.jardir=''
+        self.repodir=''
         self.cvsdir=''
         self.pkgdir=''
         
@@ -261,7 +261,8 @@ class Workspace(NamedModelObject, PropertyContainer, Statable, Resultable):
         # Import overrides from DOM
         transferDomInfo(self.element, 
                         self, 
-                        {	'banner-image':'bannerImage',
+                        {	'jardir':'repodir',
+                            'banner-image':'bannerImage',
                             'banner-link' :'bannerLink'})
     
         if not self.basedir:
@@ -269,14 +270,14 @@ class Workspace(NamedModelObject, PropertyContainer, Statable, Resultable):
             
         if not self.tmpdir: self.tmpdir=os.path.join(self.getBaseDirectory(),"tmp")
         if not self.logdir: self.logdir=os.path.join(self.getBaseDirectory(),"log")
-        if not self.jardir: self.jardir=os.path.join(self.getBaseDirectory(),"repo") 
+        if not self.repodir: self.repodir=os.path.join(self.getBaseDirectory(),"repo") 
         if not self.cvsdir: self.cvsdir=os.path.join(self.getBaseDirectory(),"cvs")
         if not self.pkgdir: self.pkgdir=self.getBaseDirectory()
             
         # Construct dirs on demand         
         if not os.path.exists(self.tmpdir): os.makedirs(self.tmpdir)    
         if not os.path.exists(self.logdir): os.makedirs(self.logdir)
-        if not os.path.exists(self.jardir): os.makedirs(self.jardir)
+        if not os.path.exists(self.repodir): os.makedirs(self.repodir)
         if not os.path.exists(self.cvsdir): os.makedirs(self.cvsdir)
     
         # Get all properties
