@@ -19,6 +19,7 @@
       <depend property="commons-pool.jar"        project="commons-pool"/>
       <depend property="commons-dbcp.jar"        project="commons-dbcp"/>
       <depend property="commons-services.jar"    project="commons-services"/>
+      <depend property="commons-validator.jar"   project="commons-validator"/>
     </ant>
 
     <depend project="xml-xalan2"/>
