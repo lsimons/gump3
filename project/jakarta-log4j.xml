@@ -30,4 +30,24 @@
          from="Ceki Gülcü &lt;ceki@apache.org&gt;"/>
   </project>
 
+  <project name="log4j-tests">
+
+    <mkdir dir="tests/classes" />
+
+    <ant basedir="tests" target="regression" />
+
+    <depend project="jakarta-ant" />
+    <depend project="xml-xerces" />
+    <depend project="junit" />
+    <depend project="jakarta-log4j" />
+    <depend project="jakarta-oro" />
+
+    <work nested="dist/classes" />
+    <work nested="tests/classes" />
+    <work nested="tests/resources" />
+
+    <nag to="log4j-dev@jakarta.apache.org"
+         subject="Test Failure"
+         from="Ceki Gülcü &lt;ceki@apache.org&gt;"/>
+  </project>
 </module>
