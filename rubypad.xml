@@ -16,4 +16,15 @@
   <repository name="jakarta" method="ext" user="rubys" path="/home/cvs"/>
   <repository name="xml" method="ext" user="rubys" path="/home/cvs"/>
 
+  <!-- After the bootstrap -->
+  <module href="project/gump.xml"/>
+  <project name="gump" home="D:\gump">
+    <ant>
+      <property name="workspace" value="rubypad.xml"/>
+      <property name="webstyle" value="stylesheet/jakarta.xsl"/>
+      <property name="target" value="win2k"/>
+      <property name="extension" value="bat"/>
+    </ant>
+  </project>
+
 </workspace>
