@@ -2,7 +2,7 @@
 
   <url href="http://jakarta.apache.org/turbine/"/>
   <description>
-    Servlet based framework
+    Persistence Layer
   </description>
 
   <cvs repository="jakarta"/>
