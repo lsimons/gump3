@@ -1,0 +1,79 @@
+------
+Project: bsf
+To: rubys@nc.rr.com
+From: Sam Ruby <rubys@us.ibm.com>
+Subject: [GUMP] Build Failure - BSF
+Regex: /BUILD FAILED/
+------
+Project: jakarta-alexandria
+To: alexandria-dev@jakarta.apache.org
+From: Sam Ruby <rubys@us.ibm.com>
+Subject: [GUMP] Build Failure
+Regex: /BUILD FAILED/
+------
+Project: jakarta-ant
+To: ant-dev@jakarta.apache.org
+From: Sam Ruby <rubys@us.ibm.com>
+Subject: [GUMP] Build Failure - Ant
+Regex: /BUILD FAILED/
+------
+Project: jakarta-log4j
+To: log4j-dev@jakarta.apache.org
+From: Sam Ruby <rubys@us.ibm.com>
+Subject: [GUMP] Build Failure - Log4j
+Regex: /BUILD FAILED/
+------
+Project: jakarta-james
+To: james-dev@jakarta.apache.org
+From: Jon Stevens <jon@latchkey.com>
+Subject: [GUMP] Build Failure - James
+Regex: /BUILD FAILED/
+------
+Project: jetspeed
+To: jetspeed@list.working-dogs.com
+From: Jon Stevens <jon@latchkey.com>
+Subject: [GUMP] Build Failure - Jetspeed
+Regex: /BUILD FAILED/
+-------
+Project: turbine
+To: turbine@list.working-dogs.com
+From: Jon Stevens <jon@latchkey.com>
+Subject: [GUMP] Build Failure - Turbine
+Regex: /BUILD FAILED/
+-------
+Project: xml-axis
+To: axis-dev@xml.apache.org
+From: Sam Ruby <rubys@us.ibm.com>
+Subject: [GUMP] Build Failure - Axis
+Regex: /BUILD FAILED/
+------
+Project: xml-cocoon2
+To: cocoon-dev@xml.apache.org
+From: Sam Ruby <rubys@us.ibm.com>
+Subject: [GUMP] Build Failure - Cocoon2
+Regex: /BUILD FAILED/
+------
+Project: xml-fop
+To: fop-dev@xml.apache.org
+From: Sam Ruby <rubys@us.ibm.com>
+Subject: [GUMP] Build Failure - Fop
+Regex: /BUILD FAILED/
+------
+Project: xml-soap
+To: soap-dev@xml.apache.org
+From: Sam Ruby <rubys@us.ibm.com>
+Subject: [GUMP] Build Failure - Soap
+Regex: /BUILD FAILED/
+------
+Project: xml-xalan2
+To: xalan-dev@xml.apache.org
+From: Sam Ruby <rubys@us.ibm.com>
+Subject: [GUMP] Build Failure - Xalan2
+Regex: /BUILD FAILED/
+------
+Project: xml-xerces
+To: xerces-j-dev@xml.apache.org
+From: Sam Ruby <rubys@us.ibm.com>
+Subject: [GUMP] Build Failure - Xerces
+Regex: /BUILD FAILED/
+-------
