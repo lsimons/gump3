@@ -33,15 +33,13 @@
     <!-- <ant basedir="smartfrog" target="dist" /> -->    
     <depend project="ant" runtime="false"/>
     <depend project="junit" runtime="true"/>
-    <depend project="commons-logging" runtime="true"/>
-    <depend project="logging-log4j" runtime="true"/>
     <depend project="javacc" runtime="false"/> 
 
     <work nested="smartfrog/build"/>
-    <home nested="smartfrog/dist"/>
-    <jar name="lib/smartfrog.jar" id="smartfrog" />
-    <jar name="lib/sfServices.jar" id="smartfrog-services" />
-    <jar name="lib/sfExamples.jar" id="smartfrog-examples" />
+    <home nested="smartfrog/dist/lib"/>
+    <jar name="smartfrog.jar" id="smartfrog" />
+    <jar name="sfServices.jar" id="smartfrog-services" />
+    <jar name="sfExamples.jar" id="smartfrog-examples" />
 
     <license name="smartfrog/LICENSE.txt"/>
     <!-- <javadoc nested="doc/javadocs"/> -->
@@ -52,4 +50,70 @@
 
   </project>
 
+  <!-- ant tasks -->
+  <project name="smartfrog-tasks">
+    <package>org.smartfrog.tools.ant</package>
+    <ant basedir="extras/ant" target="dist" />
+    <depend project="ant" runtime="true"/>
+    <depend project="junit" runtime="true"/>
+    <depend project="smartfrog" runtime="true"/> 
+
+    <work nested="extras/ant/build/classes"/>
+    <home nested="extras/ant/build/dist/lib"/>
+    <jar name="smartfrog-tasks.jar" id="smartfrog-tasks" />
+
+    <license name="smartfrog/LICENSE.txt"/>
+    <!-- <javadoc nested="doc/javadocs"/> -->
+    <nag from="Smartfrog &lt;smartfrog@users.sf.net&gt;"
+        to="smartfrog-developer@lists.sourceforge.net.">
+      <regexp subject="[Gump:Smartfrog] Build Failure"/>
+    </nag>
+  </project>
+
+  <!-- test that the ant tasks work; uses ant's test harness -->
+  <project name="smartfrog-tasks-test">
+    <package>org.smartfrog.tools.ant</package>
+    <ant basedir="extras/ant" target="test" />
+    <depend project="ant" runtime="true"/>
+    <depend project="ant-testutils" runtime="true"/>
+    <depend project="junit" runtime="true"/>
+    <depend project="smartfrog" runtime="true"/>
+    <depend project="smartfrog-tasks" runtime="true"/>
+
+    <work nested="extras/ant/build/test/classes"/>
+    <!-- <javadoc nested="doc/javadocs"/> -->
+    <junitreport nested="extras/ant/build/test/reports"/>
+    
+    <nag from="Smartfrog &lt;smartfrog@users.sf.net&gt;"
+        to="smartfrog-developer@lists.sourceforge.net.">
+      <regexp subject="[Gump:Smartfrog] Build Failure"/>
+    </nag>
+  </project>
+  
+  <!-- test that smartfrog works (needs ant tasks) -->
+  <!-- important: full tests here are functional and bring up an RMI server
+      on port 3800 that let people download and run stuff; unless
+      security in enabled -that means *anybody*. You must disable the tests
+      if that is not what you want. 
+      -->
+  <project name="smartfrog-test">
+    <package>org.smartfrog</package>
+    <ant basedir="testharness" target="test" >
+      <property name="system.tests" value="false" /> 
+    </ant>
+    <depend project="ant" runtime="true"/>
+    <depend project="ant-testutils" runtime="true"/>
+    <depend project="junit" runtime="true"/>
+    <depend project="smartfrog" runtime="true"/>
+    <depend project="smartfrog-tasks" runtime="true"/>
+
+    <work nested="testharness/build/test/classes"/>
+    <junitreport nested="testharness/build/test/reports"/>
+    
+    <nag from="Smartfrog &lt;smartfrog@users.sf.net&gt;"
+        to="smartfrog-developer@lists.sourceforge.net.">
+      <regexp subject="[Gump:Smartfrog] Build Failure"/>
+    </nag>
+  </project>
+  
 </module>
