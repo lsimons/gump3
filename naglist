@@ -5,6 +5,13 @@ From: Sam Ruby <rubys@us.ibm.com>
 Subject: [GUMP] Build Failure - BSF
 Regex: /BUILD FAILED/
 ------
+Project: bootstrap-ant
+To: ant-dev@jakarta.apache.org
+From: Diane Holt <holtdl@apache.org>
+Subject: [GUMP] Bootstrap Failure - Ant
+Regex: /error/
+Regex: /BUILD FAILED/
+------
 Project: commons-beanutils
 To: jakarta-commons@jakarta.apache.org
 From: Ted Husted <ted@husted.com>
@@ -37,7 +44,7 @@ Regex: /BUILD FAILED/
 ------
 Project: dist-ant
 To: ant-dev@jakarta.apache.org
-From: Sam Ruby <rubys@us.ibm.com>
+From: Diane Holt <holtdl@apache.org>
 Subject: [GUMP] Build Failure - Ant distribution
 Regex: /BUILD FAILED/
 ------
