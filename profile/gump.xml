@@ -201,7 +201,7 @@
 
   <!-- Sun -->
 
-  <module href="project/fesi.xml"/>
+  <!--module href="project/fesi.xml"/-->
   <module href="project/ejb.xml"/>
   <module href="project/j2ee-connector.xml"/>
   <module href="project/jaas.xml"/>
@@ -216,7 +216,7 @@
   <module href="project/jndi.xml"/>
   <module href="project/jsse.xml"/>
   <module href="project/jta.xml"/>
-  <module href="project/jts.xml"/>
+  <!--module href="project/jts.xml"/-->
   <module href="project/ldap.xml"/>
   <module href="project/msv.xml"/>
   <module href="project/resolver.xml"/>
@@ -229,7 +229,7 @@
   <project name="cos"            package="cos-09May2002"/>
   <project name="cryptix"        package="cryptix32-20001002-r3.2.0"/>
   <project name="ejb"            package="ejb-2_0-fr"/>
-  <project name="fesi"           package="fesi"/>
+  <!--project name="fesi"           package="fesi"/-->
   <project name="iso-relax"      package="isorelax.20020707"/>
   <project name="j2ee-connector" package="j2ee_connector-1_0-fr"/>
   <project name="jaas"           package="jaas1_0"/>
@@ -252,7 +252,7 @@
   <project name="jsch"           package="jsch-0.0.11"/>
   <project name="jsse"           package="jsse1.0.3"/>
   <project name="jta"            package="jta-spec1_0_1"/>
-  <project name="jts"            package="jts1_0"/>
+  <!--project name="jts"            package="jts1_0"/-->
   <project name="ldap"           package="ldap-1_2_3"/>
   <project name="nekohtml"       package="nekohtml-0.7.3"/>
   <project name="msv"            package="msv-20020414"/>
