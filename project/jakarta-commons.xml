@@ -55,17 +55,6 @@
     <jar name="commons-collections.jar"/>
   </project>
 
-  <project name="commons-httpclient">
-    <url href="http://jakarta.apache.org/commons/"/>
-
-    <ant basedir="httpclient" target="dist"/>
-    <depend project="jakarta-ant"/>
-    <depend project="xml-xerces"/>
-
-    <home nested="httpclient/dist"/>
-    <jar name="commons-httpclient.jar"/>
-  </project>
-
   <project name="commons-dbcp">
     <url href="http://jakarta.apache.org/commons/"/>
 
@@ -75,8 +64,34 @@
     <depend project="jdbc"/>
     <depend project="junit"/>
     <depend project="commons-pool"/>
+    <depend project="commons-collections"/>
+    <work nested="dbcp/dist/classes"/>
     <home nested="dbcp/build"/>
     <jar name="commons-dbcp.jar"/>
+  </project>
+
+  <project name="commons-digester">
+    <url href="http://jakarta.apache.org/commons/"/>
+
+    <ant basedir="digester" target="dist"/>
+    <depend project="jakarta-ant"/>
+    <depend project="xml-xerces"/>
+    <depend project="junit"/>
+    <depend project="commons-beanutils"/>
+    <depend project="commons-collections"/>
+    <home nested="digester/build"/>
+    <jar name="commons-digester.jar"/>
+  </project>
+
+  <project name="commons-httpclient">
+    <url href="http://jakarta.apache.org/commons/"/>
+
+    <ant basedir="httpclient" target="dist"/>
+    <depend project="jakarta-ant"/>
+    <depend project="xml-xerces"/>
+
+    <home nested="httpclient/dist"/>
+    <jar name="commons-httpclient.jar"/>
   </project>
 
   <project name="commons-pool">
