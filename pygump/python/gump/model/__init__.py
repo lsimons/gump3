@@ -41,6 +41,8 @@ class Workspace(ModelObject):
         - dependencies -- list of all dependencies between projects
     """
     def __init__(self, name):
+        assert isinstance(name, str)
+    
         self.name = name
         self.repositories = {}
         self.modules = {}
@@ -48,6 +50,9 @@ class Workspace(ModelObject):
         self.dependencies = []
     
     def add_repository(self, repository):
+        assert isinstance(repository, Repository)
+        assert not self.repositories.has_key(repository.name)
+        
         self.repositories[repository.name] = repository
 
 class Repository(ModelObject):
@@ -71,6 +76,9 @@ class Repository(ModelObject):
                  home_page = None,
                  cvsweb = None,
                  redistributable = False):
+        assert isinstance(workspace, Workspace)
+        assert isinstance(name, str)
+        
         self.workspace       = workspace
         self.name            = name
         self.title           = title
@@ -79,6 +87,8 @@ class Repository(ModelObject):
         self.redistributable = redistributable
 
         self.modules={}
+        
+        workspace.add_repository(self)
 
     def add_module(self, module):
         self.modules[module.name] = module

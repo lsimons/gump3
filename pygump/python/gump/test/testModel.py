@@ -45,10 +45,14 @@ class ModelTestCase(unittest.TestCase):
         self.assertEquals([], w.dependencies)
         
         r = Repository(w, "blahblah")
-        self.assertEquals({}, w.repositories)
-        w.add_repository(r)
         self.assertEquals(w.repositories["blahblah"], r)
         self.assertEquals(1, len(w.repositories))
+        
+        self.assertRaises(AssertionError, Workspace, None)
+        self.assertRaises(AssertionError, Workspace, r)
+        self.assertRaises(AssertionError, w.add_repository, None)
+        self.assertRaises(AssertionError, w.add_repository, "blah")
+        self.assertRaises(AssertionError, Repository, w, "blahblah")
 
 
 # this is used by testrunner.py to determine what tests to run
