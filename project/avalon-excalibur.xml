@@ -971,6 +971,7 @@
             <property name="skip.dependencies" value="true"/>
         </ant>
 
+        <depend property="jaxen-full.jar" project="jaxen"/>
         <depend project="ant" inherit="runtime"/>
         <option project="checkstyle" inherit="runtime"/>
         <depend project="junit"/>
