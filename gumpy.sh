@@ -30,17 +30,18 @@ fi
 #
 # Calculated
 #
+export GUMPY_VERSION="1.0.1"
 export GUMP_PYTHON=$GUMP/python
 export GUMP_HOST=`hostname -s`
 export GUMP_DATE=`date`
-export GUMP_LOG=$GUMP_LOG_DIR/gumpy.html
+export GUMP_LOG=$GUMP_LOG_DIR/site/gumpy.html
 export GUMP_PROFILE_LOG_DIR=$GUMP_LOG_DIR/myprofile
 
 if [ -z "$GUMP_WORKSPACE" ] ; then
 	export GUMP_WORKSPACE=${GUMP_HOST}
 fi
 
-export SEPARATOR='------------------------------------------------------- G U M P P Y'
+export SEPARATOR='------------------------------------------------------- G U M P Y'
 
 #
 # Generate gumpy.html from this (into the WWW site)
@@ -59,6 +60,7 @@ echo "GUMP W/S    : $GUMP_WS" >> $GUMP_LOG
 echo "GUMP LOG    : $GUMP_LOG_DIR" >> $GUMP_LOG
 echo >> $GUMP_LOG
 echo $SEPARATOR >> $GUMP_LOG
+echo "GUMPY.sh version $GUMPY_VERSION" >> $GUMP_LOG
 echo $SEPARATOR >> $GUMP_LOG
 echo >> $GUMP_LOG
 
