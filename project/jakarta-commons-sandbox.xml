@@ -269,26 +269,6 @@
          from="rwaldhoff@apache.org"/>
   </project>
 
-  <project name="commons-net">
-    <mkdir dir="net/target/classes"/>
-    <mkdir dir="net/target/test-classes"/>
-    <package>org.apache.commons.net</package>
-    <description>Commons Net</description>
-    <ant basedir="net" target="dist">
-      <property name="final.name" value="commons-net-@@DATE@@" />
-    </ant>
-    <depend project="jakarta-ant" inherit="runtime"/>
-    <depend project="xml-xerces"/>
-    <depend project="jakarta-oro"/>
-    <depend project="junit"/>
-    <work nested="net/target/classes"/>
-    <work nested="net/target/test-classes"/>
-    <jar name="net/dist/commons-net-@@DATE@@.jar" />
-    <javadoc nested="net/dist/docs/apidocs" />
-    <nag to="commons-dev@jakarta.apache.org"
-         from="Stefan Bodewig &lt;bodewig@apache.org&gt;"/>
-  </project>
-
   <project name="commons-messenger">
     <package>org.apache.commons.messenger</package>
     <description>A web based JMS framework</description>
