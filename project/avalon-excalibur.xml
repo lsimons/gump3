@@ -58,12 +58,8 @@
     </project>
 
     <project name="excalibur-component">
-        <!-- this project recently absorbed excalibur-testcase,
-             which is still produced as a seperate jar 
 
-             apparently this is no longer true - SB 20040202    -->
         <package>org.apache.avalon.excalibur.component</package>
-        <!--package>org.apache.avalon.excalibur.testcase</package-->
 
         <ant basedir="component" target="jar" buildfile="gump-build.xml">
             <property name="checkstyle.jar" project="checkstyle" reference="jarpath"/>
@@ -109,6 +105,41 @@
         <nag from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"
                 to="dev@avalon.apache.org"/>
     </project>
+
+    <project name="excalibur-testcase">
+
+        <package>org.apache.avalon.excalibur.testcase</package>
+
+        <ant basedir="testcase" target="jar" buildfile="gump-build.xml">
+            <property name="checkstyle.jar" project="checkstyle" reference="jarpath"/>
+            <property name="project.version" value="@@DATE@@"/>
+        </ant>
+
+        <depend project="avalon-framework" runtime="true" id="combined"/>
+        <depend project="avalon-logkit" runtime="true"/>
+        <depend project="excalibur-component" runtime="true" inherit="runtime"/>
+        <depend project="junit" runtime="true"/>
+
+        <!-- build-time dependencies -->
+        <depend project="ant" inherit="runtime"/>
+        <depend project="xml-xalan2"/>
+        <depend project="xml-xerces"/>
+
+        <!-- optional dependencies -->
+        <option project="checkstyle" inherit="runtime"/>
+
+        <mkdir dir="testcase/target/classes"/>
+        <mkdir dir="testcase/target/test-classes"/>
+        <work nested="testcase/target/classes"/>
+        <work nested="testcase/target/test-classes"/>
+
+        <home nested="testcase"/>
+        <jar name="target/excalibur-testcase-@@DATE@@.jar"/>
+        
+        <nag from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"
+                to="dev@avalon.apache.org"/>
+    </project>
+
 
     <project name="excalibur-configuration">
         <package>org.apache.excalibur.configuration</package>
@@ -164,7 +195,7 @@
         <depend project="excalibur-pool" runtime="true"/>
         <depend project="excalibur-logger"/>
         <depend project="excalibur-component" id="component"/>
-        <depend property="excalibur-testcase.jar" project="excalibur-component" id="component"/>
+        <depend project="excalibur-testcase"/>
         <!--<depend property="qdox.jar" project="phoenix-qdox"/>-->
         <!--<depend property="excalibur-fortress-tools.jar" project="avalon-fortress-tools" inherit="runtime"/>-->
         <depend property="logkit.jar" project="avalon-logkit"/>
@@ -890,7 +921,7 @@
         <!-- test-time dependencies -->
         <depend project="commons-collections" inherit="runtime"/>
         <depend project="excalibur-i18n" inherit="runtime"/>
-        <depend project="excalibur-component" inherit="runtime"/> <!-- for testcase -->
+        <depend project="excalibur-testcase" inherit="runtime"/> <!-- for testcase -->
         <depend project="excalibur-compatibility" inherit="runtime"/>
         <depend project="excalibur-instrument" inherit="runtime"/>
         <depend project="junit"/>
