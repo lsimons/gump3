@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/syndication/syndicator.py,v 1.6 2003/12/07 18:15:45 ajack Exp $
-# $Revision: 1.6 $
-# $Date: 2003/12/07 18:15:45 $
+# $Header: /home/stefano/cvs/gump/python/gump/syndication/syndicator.py,v 1.7 2003/12/09 00:48:36 ajack Exp $
+# $Revision: 1.7 $
+# $Date: 2003/12/09 00:48:36 $
 #
 # ====================================================================
 #
@@ -178,9 +178,10 @@ class Syndicator:
                     '</a></td><td>' + state + 		\
                     '</td></tr>\n')                   
             content += '<table></p>'
-            
-        content += ('<br><hr>\n<img align=\'left\' alt=\'Brought to you by Jakarta Gump\' src=\'%s\'/>') \
-                        %	resolver.getImageUrl('apache.png')
+
+# Overkill           
+#        content += ('<br><hr>\n<img align=\'left\' alt=\'Brought to you by Jakarta Gump\' src=\'%s\'/>') \
+#                        %	resolver.getImageUrl('apache.png')
         
         return content
 

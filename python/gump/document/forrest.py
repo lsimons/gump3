@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/forrest.py,v 1.32 2003/12/08 16:34:14 ajack Exp $
-# $Revision: 1.32 $f
-# $Date: 2003/12/08 16:34:14 $
+# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/forrest.py,v 1.33 2003/12/09 00:48:36 ajack Exp $
+# $Revision: 1.33 $f
+# $Date: 2003/12/09 00:48:36 $
 #
 # ====================================================================
 #
@@ -247,7 +247,9 @@ class ForrestDocumenter(Documenter):
         
         document=XDocDocument('Workspace',	\
                 self.resolver.getFile(workspace))    
-            
+        
+        document.createNote('This install runs Python Gump, not Traditional Gump.')  
+                    
         definitionSection=document.createSection('Workspace Definition')    
         
         definitionTable=definitionSection.createTable()
@@ -298,9 +300,7 @@ class ForrestDocumenter(Documenter):
         #self.documentXML(document,workspace)
         
         detailsSection=document.createSection('Details')
-        
-        detailsSection.createNote('This install runs Python Gump, not Traditional Gump.')  
-        
+                    
         detailsTable=detailsSection.createTable()
         detailsTable.createEntry("State : ", workspace.getStateDescription()) 
         

@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/syndication/rss.py,v 1.8 2003/12/08 17:16:31 ajack Exp $
-# $Revision: 1.8 $
-# $Date: 2003/12/08 17:16:31 $
+# $Header: /home/stefano/cvs/gump/python/gump/syndication/rss.py,v 1.9 2003/12/09 00:48:36 ajack Exp $
+# $Revision: 1.9 $
+# $Date: 2003/12/09 00:48:36 $
 #
 # ====================================================================
 #
@@ -129,17 +129,20 @@ class Item:
         self.rssStream.write('   <item>\n')
         
         # Tag on description
-        tagOn=("""
-        <a href="http://feedvalidator.org/check?url=%s">
-            <img align="right" src="http://feedvalidator.org/images/valid-rss.png" 
-                alt="[Valid RSS]" title="Validate my RSS feed" width="88" height="31" />
-        </a><br clear='ALL'><hr>""") % (self.rssUrl)
+#        tagOn=("""
+#        <a href="http://feedvalidator.org/check?url=%s">
+#            <img align="right" src="http://feedvalidator.org/images/valid-rss.png" 
+#                alt="[Valid RSS]" title="Validate my RSS feed" width="88" height="31" />
+#        </a><br clear='ALL'><hr>""") % (self.rssUrl)
         
         # Mandatory Fields
         self.rssStream.write(('    <title>%s</title>\n') %(escape(self.title)))
         self.rssStream.write(('    <link>%s</link>\n') %(escape(self.link)))
-        self.rssStream.write(('    <description>%s%s</description>\n') \
-                %(escape(self.description),escape(tagOn)))
+        self.rssStream.write(('    <description>%s</description>\n') \
+                %(escape(self.description)))
+# Not yet                
+#        self.rssStream.write(('    <description>%s%s</description>\n') \
+#               %(escape(self.description),escape(tagOn)))
         self.rssStream.write('    <author>gump@jakarta.apache.org</author>\n')                
         
         self.rssStream.write(('      <dc:subject>%s</dc:subject>\n') %(escape(self.subject)))

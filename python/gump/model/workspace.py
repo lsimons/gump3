@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/model/workspace.py,v 1.15 2003/12/06 18:01:48 ajack Exp $
-# $Revision: 1.15 $
-# $Date: 2003/12/06 18:01:48 $
+# $Header: /home/stefano/cvs/gump/python/gump/model/workspace.py,v 1.16 2003/12/09 00:48:36 ajack Exp $
+# $Revision: 1.16 $
+# $Date: 2003/12/09 00:48:36 $
 #
 # ====================================================================
 #
@@ -502,7 +502,7 @@ class Workspace(ModelObject,PropertyContainer):
             self.addWarning('"forrest" command not found, no xdoc output')
         
         if not self.noRuper and \
-            not self.checkExecutable('java  org.krysalis.ruper2.tool.ResourceTool','-version',exitOnError,0,'check_ruper'): 
+            not self.checkExecutable('ruper','-version',exitOnError,0,'check_ruper'): 
             self.noRuper=1
             self.addWarning('"ruper" command not found, no package downloads')
         
