@@ -45,7 +45,8 @@
     <depend project="commons-pool"/>
     <depend project="commons-collections"/>
     <work nested="dbcp/dist/classes"/>
-    <home nested="dbcp/build"/>
+
+    <home nested="dbcp/dist"/>
     <jar name="commons-dbcp.jar"/>
     <javadoc nested="dbcp/dist/docs/api"/>
   </project>
