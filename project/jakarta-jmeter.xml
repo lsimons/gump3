@@ -15,7 +15,7 @@
   limitations under the License.
 -->
 <module name="jakarta-jmeter">
-<!-- Version $Revision: 1.78 $ Last updated $Date: 2004/03/09 23:57:25 $ -->
+<!-- Version $Revision: 1.79 $ Last updated $Date: 2004/03/10 13:41:03 $ -->
   <url href="http://jakarta.apache.org/jmeter/" />
   <description>
     Pure Java load testing and performance measurement tool.
@@ -31,7 +31,7 @@
       <property name="version" value="@@DATE@@"/>
       <property name="gump.run" value="true"/>
       <!-- The version of this file -->
-      <property name="version.projectfile" value="$Revision: 1.78 $"/>
+      <property name="version.projectfile" value="$Revision: 1.79 $"/>
       
       <!--
       	These properties are passed to the build process, so the names need to agree with
@@ -106,7 +106,7 @@
       <property name="version" value="@@DATE@@"/>
       <property name="gump.run" value="true"/>
       <!-- The version of this file -->
-      <property name="version.projectfile" value="$Revision: 1.78 $"/>
+      <property name="version.projectfile" value="$Revision: 1.79 $"/>
     </ant>
 
     <depend project="ant" />
@@ -168,12 +168,14 @@
       <property name="version" value="@@DATE@@"/>
       <property name="gump.run" value="true"/>
       <!-- The version of this file -->
-      <property name="version.projectfile" value="$Revision: 1.78 $"/>
+      <property name="version.projectfile" value="$Revision: 1.79 $"/>
     </ant>
 
     <depend project="ant" />
 
-    <depend project="jakarta-jmeter-cvs" inherit="none" ids="none"/>
+    <depend project="jakarta-jmeter-cvs">
+    	<noclasspath/>
+    </depend>
 
 <!-- are these needed ? -->
     <work nested="lib/avalon-excalibur-4.1.jar"/>
@@ -216,7 +218,7 @@
       <property name="version" value="@@DATE@@"/>
       <property name="gump.run" value="true"/>
       <!-- The version of this file -->
-      <property name="version.projectfile" value="$Revision: 1.78 $"/>
+      <property name="version.projectfile" value="$Revision: 1.79 $"/>
     </ant>
 
     <depend project="ant" />
