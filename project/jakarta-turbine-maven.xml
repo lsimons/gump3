@@ -20,27 +20,28 @@
     <depend project="jakarta-ant" inherit="runtime"/>
     <depend project="xml-xerces"/>
 
-    <depend project="jakarta-bcel"/>
-    <depend project="jakarta-velocity"/>
-    <depend project="jakarta-oro"/>
-    <depend project="jakarta-log4j"/>
-    <depend project="dom4j"/>
+    <depend project="antlr"/>
+    <depend project="checkstyle"/>
+    <depend project="commons-beanutils"/>
+    <depend project="commons-betwixt"/>
     <depend project="commons-cli"/>
-    <depend project="commons-lang"/>
-    <depend project="commons-logging"/>
+    <depend project="commons-collections"/>
+    <depend project="commons-grant"/>
     <depend project="commons-io"/>
     <!-- depend project="commons-jelly"/ -->
     <depend project="commons-jexl"/>
-    <depend project="commons-beanutils"/>
-    <depend project="commons-collections"/>
+    <depend project="commons-lang"/>
+    <depend project="commons-logging"/>
+    <depend project="dom4j"/>
+    <depend project="forehead"/>
+    <depend project="jakarta-bcel"/>
+    <depend project="jakarta-log4j"/>
+    <depend project="jakarta-oro"/>
+    <depend project="jakarta-velocity"/>
     <depend project="jakarta-velocity-dvsl"/>
     <depend project="jdepend"/>
-    <depend project="checkstyle"/>
-    <depend project="antlr"/>
-    <depend project="forehead"/>
     <depend project="werkz"/>
     <depend project="xml-commons-which"/>
-    <depend project="commons-betwixt"/>
 
     <work nested="target/classes"/>
     <home nested="target"/>
