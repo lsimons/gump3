@@ -14,7 +14,6 @@
   <depend project="jakarta-ant"/>
   <depend project="xml-xerces"/>
   <depend project="rhino"/>
-  <depend project="xml-xalan1"/>
 
   <home nested="batik-gump"/>
   <jar name="lib/batik-awt-util.jar"/>
