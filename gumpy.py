@@ -459,7 +459,7 @@ finally:
             catFile(publishedLog, logFile, logTitle)    
             publishedLog.close()
             published=1
-        except Exception, detauls:
+        except Exception, details:
             print 'Failed to publish log file. ', str(details)    
             published=0
     else:

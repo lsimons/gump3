@@ -27,6 +27,8 @@ import logging
 from string import lower,replace
 from xml.sax.saxutils import escape
 
+from shutil import copyfile
+
 from gump import log
 from gump.core.config import *
 from gump.document.documenter import Documenter
@@ -106,12 +108,8 @@ class XDocDocumenter(Documenter):
         self.documentXRef()
 
         # Synchronize xdocs...
-        ret=0
+        return self.syncXDocs()
         
-        ret=self.syncXDocs()
-            
-        return ret
-
     #####################################################################
     #
     # XDocing...
@@ -190,19 +188,28 @@ class XDocDocumenter(Documenter):
         
         success=True
         try:
-            #
             # Sync over public pages...
-            #
             syncDirectories(workContents,logContents)
          
         except:        
-            log.error('--- Failed to work->log sync and/or clean-up', exc_info=1)
+            log.error('--- Failed to sync work->log ', exc_info=1)
             success=False
         
-        if success:
+        if success: 
+            logSpec=self.resolver.getFileSpec(self.workspace, 'buildLog')
+            
             # Current status
-            buildLog=self.resolver.getFile(self.workspace,'buildLog'),
-                
+            logSource=os.path.join(workContents,logSpec.getDocument())
+            logTarget=os.path.join(logContents,logSpec.getDocument())
+             
+            # Do the transfer..
+            try:
+                log.debug('Copy %s to %s' % ( logSource, logTarget))    
+                copyfile(logSource,logTarget)    
+            except:        
+                log.error('--- Failed to sync buildLog work->log', exc_info=1)
+                success=False
+        
         return success
         
     def syncXDocs(self):
@@ -697,7 +704,7 @@ class XDocDocumenter(Documenter):
         
         document.serialize()
        
-    def documentBuildLog(self,realTime=0): 
+    def documentBuildLog(self,realTime=False): 
         #
         # ----------------------------------------------------------------------
         #
@@ -708,7 +715,16 @@ class XDocDocumenter(Documenter):
                 spec.getFile() ,
                 self.config,
                 spec.getRootPath())
-        
+                
+        if realTime: 
+            document.createWarning('This Gump run is currently in progress...')
+        else:
+            document.createNote("""This Gump run is complete. 
+            It started at %s and ended at %s, both %s.""" 
+                % ( self.workspace.getStartDateTime(),
+                    self.workspace.getEndDateTime(),
+                    self.workspace.timezone) )
+                    
         self.documentSummary(document, self.workspace.getProjectSummary())                
         
         #
@@ -2377,7 +2393,6 @@ This page helps Gumpmeisters (and others) observe community progress.
                         #
                         # This is *big* just copy/point to it
                         #
-                        from shutil import copyfile
                         # Extract name, to make relative to group
                         outputBaseName=os.path.basename(output)
                         (outputName,outputExtn)=os.path.splitext(outputBaseName)
