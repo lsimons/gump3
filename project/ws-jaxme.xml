@@ -11,7 +11,8 @@
   <project name="ws-jaxme">
     <package>org.apache.ws.jaxme</package>
 
-    <ant basedir="java" target="all">
+    <mkdir dir="build/js/classes"/>
+    <ant target="all">
       <property name="env.ANT_HOME" reference="home" project="ant"/>
     </ant>
 
@@ -20,6 +21,8 @@
     <depend project="hsqldb"/>
     <depend project="jakarta-log4j"/>
     <option project="junit"/>
+
+    <work nested="build/js/classes"/>
 
     <home nested="dist"/>
     <jar name="jaxme2-rt.jar"/>
