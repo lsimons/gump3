@@ -107,7 +107,7 @@ class GumpEngine:
         documenter=run.getOptions().getDocumenter()
         if documenter :
             documenter.document(run)
-            
+                        
         #
         # Only an 'all' is an official build, for them:
         #
@@ -121,8 +121,9 @@ class GumpEngine:
             #
             nag(run)
   
-            # Provide a news feed
-            syndicate(run)
+        # Provide a news feed
+        syndicate(run)
+            
 
         # Return an exit code based off success
         # :TODO: Move onto run
