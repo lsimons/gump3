@@ -38,6 +38,8 @@
         </menu>
 
         <content>
+          <p/>
+
           <table border="1">
             <tr>
               <th>Project</th>
