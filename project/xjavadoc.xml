@@ -13,6 +13,7 @@
     <ant target="jar">
       <property name="ant.home" project="jakarta-ant" reference="home"/>
       <property name="version" value="@@DATE@@"/>
+      <property name="xjavadoc.unicode" value="true"/>
     </ant>
     <depend project="jakarta-ant" inherit="runtime"/>
     <depend project="xml-xerces"/>
@@ -22,7 +23,7 @@
     <depend project="junit"/>
     <depend project="commons-logging" runtime="true"/>
     <depend project="commons-collections" runtime="true"/>
-    <jar name="build/lib/xdoclet-xjavadoc-@@DATE@@.jar"/>
+    <jar name="build/lib/xdoclet-xjavadoc-uc-@@DATE@@.jar"/>
   </project>
 
 </module>

@@ -14,6 +14,7 @@
 
     <ant basedir="core" target="compile">
       <property name="ant.home" project="jakarta-ant" reference="home"/>
+      <property name="version" value="@@DATE@@"/>
     </ant>
 
     <depend project="jakarta-ant" runtime="true"/>
@@ -22,7 +23,7 @@
     <depend project="jrefactory-pretty"/>
     <depend project="javacc" />
     <depend project="jakarta-log4j" runtime="true"/>
-    <depend project="xjavadoc" inherit="jars" runtime="true"/>
+    <depend project="xjavadoc" runtime="true"/>
     <depend project="commons-logging" runtime="true" />
     <depend project="commons-collections" runtime="true"/>
     <depend project="junit"/>
