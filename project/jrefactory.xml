@@ -15,6 +15,7 @@
     <depend project="jakarta-ant"/>
     <depend project="xml-xerces"/>
     <depend project="junit"/>
+    <option project="jrefactory-pretty"><noclasspath/></option>
     <work nested="ant.build/classes"/>
     <work nested="test/classes"/>
     <jar name="ant.build/lib/jrefactory.jar"/>
