@@ -1,7 +1,7 @@
 <module name="xml-commons">
 
   <description>
-    XML commons($Revision: 1.17 $) externally defined standards - DOM,SAX,JAXP; plus xml utilities
+    XML commons($Revision: 1.18 $) externally defined standards - DOM,SAX,JAXP; plus xml utilities
   </description>
 
   <cvs repository="xml"/>
@@ -34,7 +34,7 @@
       Catalog based entity and URI resolution
     </description>
     <package>org.apache.xml.resolver</package>
-    <ant basedir="java" buildfile="resolver.xml" target="jar javadocs"/>
+    <ant basedir="java" buildfile="resolver.xml" target="gump"/>
     <depend project="xml-xerces"/>
     <depend project="xml-apis"/>
     <depend project="ant" inherit="runtime"/>
