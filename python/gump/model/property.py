@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/model/property.py,v 1.3 2003/11/18 19:02:25 ajack Exp $
-# $Revision: 1.3 $
-# $Date: 2003/11/18 19:02:25 $
+# $Header: /home/stefano/cvs/gump/python/gump/model/property.py,v 1.4 2003/11/18 19:37:38 ajack Exp $
+# $Revision: 1.4 $
+# $Date: 2003/11/18 19:37:38 $
 #
 # ====================================================================
 #
@@ -101,7 +101,7 @@ class Property(NamedModelObject):
                 
                 if self.xml.id:
                     for jar in targetProject.getJars():
-                        if jar.id==self.xml.id:
+                        if jar.getId()==self.xml.id:
                             if self.xml.reference=='jarpath':
                                 self.setValue(jar.getPath())
                             else:
@@ -109,7 +109,8 @@ class Property(NamedModelObject):
                             break
                     else:
                         self.value=("jar with id %s was not found in project %s " +
-                                  "referenced by %s") % (self.xml.id, targetProject.getName(), project.getName())
+                                  "referenced by %s") % \
+                            (self.xml.id, targetProject.getName(), project.getName())
                         log.error(self.value)
                 elif targetProject.getJarCount()==1:
                     self.value=targetProject.getJars()[0].getPath()
