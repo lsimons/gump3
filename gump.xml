@@ -13,12 +13,18 @@
   <!-- After the bootstrap -->
   <module href="project/gump.xml"/>
   <project name="gump">
-    <ant>
+    <ant target="all">
       <property name="workspace" value="gump.xml"/>
       <property name="webstyle" value="stylesheet/jakarta.xsl"/>
       <property name="target" value="bash"/>
       <property name="extension" value="sh"/>
     </ant>
+
+    <depend project="ant" inherit="runtime"/>
+    <depend project="xml-xerces"/>
+    <depend project="xml-xalan2"/>
+    <work nested="classes"/>
+    <javadoc nested="javadocs"/>
   </project>
 
 </workspace>
