@@ -92,6 +92,7 @@
     <depend project="excalibur-zip"/>
     <depend project="excalibur-extension"/>
     <depend project="excalibur-i18n"/>
+    <depend project="excalibur-bzip2"/>
     <depend project="jakarta-avalon-excalibur"/>
     <depend project="jakarta-log4j"/>
     <depend project="xdoclet"/>
