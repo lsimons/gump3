@@ -766,25 +766,20 @@ class GumpEngine:
                 # directories
                 outputs.append(licensePath)
                                                             
-                #
-                # List all directories that should've contained
-                # outputs, to see what is there.
-                #
-                dirs=[]
-                dircnt=0
-                listed=0
-                for output in outputs:
-                    dir=os.path.dirname(output)
-                    if not dir in dirs:                        
-                        dircnt += 1            
-                        if os.path.exists(dir):
-                            listDirectoryToFileHolder(project,dir,\
-                                FILE_TYPE_PACKAGE,
-                                'list_'+project.getName()+'_dir'+str(dircnt)+'_'+os.path.basename(dir))
-                            dirs.append(dir)
-                            listed += 1
-                        else:
-                            project.addError("No such directory (where package output is expected) : " + dir)                                
+            #
+            # List all directories that should've contained
+            # outputs, to see what is there.
+            #
+            dirs=[]
+            dircnt=0
+            for output in outputs:
+                dir=os.path.dirname(output)
+                if not dir in dirs:                        
+                    dircnt += 1         
+                    listDirectoryToFileHolder(project,dir,\
+                        FILE_TYPE_PACKAGE,
+                        'list_'+project.getName()+'_dir'+str(dircnt)+'_'+os.path.basename(dir))
+                    dirs.append(dir)                               
                 
     """
     
@@ -826,8 +821,7 @@ class GumpEngine:
             #
             # Load stats (and stash onto projects)
             #    
-            db.loadStatistics(workspace)
-            
+            db.loadStatistics(workspace)            
                 
     """
     
