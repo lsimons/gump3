@@ -17,6 +17,8 @@ public class Project {
     private Element ant = null;
     private Hashtable depends = new Hashtable();
     private Hashtable jars = new Hashtable();
+    private Element description;
+    private Element url;
 
     /**
      * Create a set of Project definitions based on XML nodes.
@@ -66,6 +68,10 @@ public class Project {
                 ant = (Element)child;
             } else if (child.getNodeName().equals("home")) {
                 home = (Element)child;
+            } else if (child.getNodeName().equals("description")) {
+                description = (Element)child;
+            } else if (child.getNodeName().equals("url")) {
+                url = (Element)child;
             } else if (child.getNodeName().equals("jar")) {
                 jars.put(((Element)child).getAttribute("id"), child);
             }
@@ -76,6 +82,8 @@ public class Project {
         if (ant != null) {
             genProperties(ant);
             genDepends(ant);
+            if (!get("target").equals("")) 
+                ant.setAttribute("target", get("target"));
         }
 
         // if only one jar is found, make sure that it can be accessed without
@@ -152,7 +160,8 @@ public class Project {
     }
 
     /**
-     * Resolve home directory.
+     * Resolve home directory.  In the process copy any description and
+     * url elements necessary to complete this definition.
      * @param home &lt;ant&gt; element which may contain info
      */
     private void computeHome(Element home) {
@@ -162,6 +171,23 @@ public class Project {
         Module module = Module.find(element.getAttribute("module"));
         if (module == null) return;
         String srcdir = module.getSrcDir();
+        element.setAttribute("srcdir", srcdir);
+
+        // if a description is not provided, copy the one from the module
+        if (description == null) {
+            description = module.getDescription();
+            if (description != null) {
+                element.appendChild(description.cloneNode(true));
+            }
+        }
+
+        // if a url is not provided, copy the one from the module
+        if (url == null) {
+            url = module.getUrl();
+            if (url != null) {
+                element.appendChild(url.cloneNode(true));
+            }
+        }
 
         // compute home directory
         String result=element.getAttribute("home");

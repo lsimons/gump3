@@ -9,6 +9,7 @@
   <!-- Project overrides -->
 
   <project name="jakarta-cactus-22" target="jar"/>
+  <project name="xml-xalan2-smoketest" target="jar"/>
 
   <!-- Repository overrides -->
 

@@ -100,8 +100,6 @@
   <xsl:template match="project">
     <xsl:copy>
       <xsl:copy-of select="@*"/>
-      <xsl:variable name="module" select="@module"/>
-      <xsl:variable name="srcdir" select="../module[@name=$module]/@srcdir"/>
 
       <html log="{$logdir}/{@name}.html"
         banner-image="{$banner-image}" banner-link="{$banner-link}">
@@ -109,18 +107,10 @@
         <title>
           <xsl:text>Build </xsl:text>
           <xsl:value-of select="@name"/>
-          <xsl:choose>
-            <xsl:when test="description">
-              <xsl:text> - </xsl:text>
-              <xsl:value-of select="normalize-space(description)"/>
-            </xsl:when>
-            <xsl:otherwise>
-              <xsl:for-each select="../module[@name=$module]/description">
-                <xsl:text> - </xsl:text>
-                <xsl:value-of select="normalize-space(.)"/>
-              </xsl:for-each>
-            </xsl:otherwise>
-          </xsl:choose>
+          <xsl:if test="description">
+            <xsl:text> - </xsl:text>
+            <xsl:value-of select="normalize-space(description)"/>
+          </xsl:if>
         </title>
 
         <xsl:copy-of select="note"/>
@@ -142,18 +132,14 @@
           <br/>
 
           <xsl:text>Module: </xsl:text>
+
+          <a href="module_{@defined-in}.html">definition</a>
+
           <xsl:if test="url">
             <a href="{url/@href}">home</a>
           </xsl:if>
 
-          <a href="module_{@defined-in}.html">definition</a>
-
-          <xsl:for-each select="/workspace/module[cvs and @name=$module]">
-            <xsl:if test="url">
-              <a href="{url/@href}">home</a>
-            </xsl:if>
-            <a href="cvs_{@defined-in}.html">cvs</a>
-          </xsl:for-each>
+          <a href="cvs_{@module}.html">cvs</a>
 
           <!-- dependencies -->
 
@@ -188,7 +174,8 @@
           </xsl:for-each>
 
           <logic name="{@name}">
-            <initdir dir="{$srcdir}" basedon="{$cvsdir}/{$module}"/>
+            <xsl:variable name="srcdir" select="@srcdir"/>
+            <initdir dir="{$srcdir}" basedon="{$cvsdir}/{@module}"/>
             <chdir dir="{$srcdir}"/>
 
             <xsl:copy-of select="mkdir"/>
@@ -245,35 +232,19 @@
   <xsl:template match="ant">
 
     <xsl:if test="@basedir">
-      <xsl:variable name="module" select="ancestor::project/@module"/>
-      <xsl:variable name="srcdir" 
-        select="/workspace/module[@name=$module]/@srcdir"/>
-      <chdir dir="{$srcdir}/{@basedir}"/>
+      <chdir dir="{ancestor::project/@srcdir}/{@basedir}"/>
     </xsl:if>
 
     <xsl:copy>
-      <xsl:choose>
-        <xsl:when test="ancestor::project/@target">
-          <xsl:attribute name="target">
-            <xsl:value-of select="ancestor::project/@target"/>
-          </xsl:attribute>
-        </xsl:when>
-        <xsl:when test="@target">
-          <xsl:copy-of select="@target"/>
-        </xsl:when>
-      </xsl:choose>
-
-      <xsl:apply-templates select="@*[name()!='target']"/>
+      <xsl:apply-templates select="@*"/>
       <xsl:apply-templates select="/workspace/property"/>
       <xsl:apply-templates select="*"/>
 
       <xsl:if test="/workspace[@bootclass='yes']">
-        <xsl:for-each select="../depend/jar[@type='boot']">
-          <bootclass location="{../@home}/{@name}"/>
-        </xsl:for-each>
-
-        <xsl:for-each select="../option/jar[@type='boot']">
-          <bootclass location="{../@home}/{@name}"/>
+        <xsl:for-each select="../depend | ../option">
+          <xsl:for-each select="jar[@type='boot']">
+            <bootclass location="{../@home}/{@name}"/>
+          </xsl:for-each>
         </xsl:for-each>
      </xsl:if>
     </xsl:copy>

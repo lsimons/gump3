@@ -19,6 +19,8 @@ public class Module {
     private Element cvs;
     private String name;
     private String srcdir;
+    private Element description;
+    private Element url;
 
     private static String cvspass = System.getProperty("user.home")+"/.cvspass";
 
@@ -74,6 +76,15 @@ public class Module {
         promoteProjects();
         resolveCvsroot();
 
+        Node child=element.getFirstChild();
+        for (; child != null; child=child.getNextSibling()) {
+            if (child.getNodeName().equals("description")) {
+                description = (Element) child;
+            } else if (child.getNodeName().equals("url")) {
+                url = (Element) child;
+            }
+        }
+
         modules.put(name, this);
     }
 
@@ -83,6 +94,24 @@ public class Module {
      */
     public String getSrcDir() {
         return srcdir;
+    }
+
+    /**
+     * Property accessor for description attribute.
+     * @param name attribute name
+     * @return Value of the specified attribute.
+     */
+    public Element getDescription() {
+        return description;
+    }
+
+    /**
+     * Property accessor for url attribute.
+     * @param name attribute name
+     * @return Value of the specified attribute.
+     */
+    public Element getUrl() {
+        return url;
     }
 
     /**
