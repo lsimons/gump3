@@ -397,4 +397,9 @@ def logResourceUtilization(message=None): pass
 #            log.error("Failed get resource utilization." \
 #                        + " : " + str(details), exc_info=1)
         
-
+def invokeGarbageCollection():
+    try:
+        import gc
+        gc.collect()
+    except:
+        raise

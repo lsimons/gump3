@@ -191,6 +191,7 @@ class XDocPiece(Ownable):
         
         # Probably ought do this higher up
         self.unlink()
+        invokeGarbageCollection()
         
     def callStart(self,piece=None):
         if not piece: piece = self
