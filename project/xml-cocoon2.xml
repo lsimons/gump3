@@ -50,7 +50,7 @@
     <description>
       Java Indexed Serialization Package
     </description>
-    <home nested="src/scratchpad"/>
-    <jar name="lib/jisp_1_0_2.jar"/>
+    <home nested="lib/optional"/>
+    <jar name="jisp_1_0_2.jar"/>
   </project>
 </module>
