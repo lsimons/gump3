@@ -592,7 +592,7 @@ def documentModule(workspace,context,wdir,modulename,modulecontext,db,projectFil
     if not modulecontext.reason == REASON_UNSET:
         addItemXDoc(x,"Reason: " + reasonString(modulecontext.reason))
     if modulecontext.cause and not modulecontext==modulecontext.cause:
-         addItemXDoc(x, "Root Cause: ", getTypedContextLink(modulecontext.cause)) 
+         addXItemXDoc(x, "Root Cause: ", getTypedContextLink(modulecontext.cause)) 
     if module.cvs.repository:
          addItemXDoc(x, "CVS Repository: ", module.cvs.repository) 
     if module.cvs.module:
@@ -657,7 +657,7 @@ def documentProject(workspace,context,modulename,mdir,projectname,projectcontext
         addItemXDoc(x,"Reason: " + reasonString(projectcontext.reason))
     addXItemXDoc(x,"Module: ", getContextLink(projectcontext.parent))
     if projectcontext.cause and not projectcontext==projectcontext.cause:
-        addItemXDoc(x,"Root Cause: ", getTypedContextLink(projectcontext.cause))
+        addXItemXDoc(x,"Root Cause: ", getTypedContextLink(projectcontext.cause))
     addItemXDoc(x,"Elapsed: ", str(projectcontext.elapsedSecs()))
     addItemXDoc(x,"FOG Factor: ", str(round(stats.getFOGFactor(),2)))
     addItemXDoc(x,"Successes: ", str(stats.successes))

@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/Attic/logic.py,v 1.34 2003/10/20 04:34:29 ajack Exp $
-# $Revision: 1.34 $
-# $Date: 2003/10/20 04:34:29 $
+# $Header: /home/stefano/cvs/gump/python/gump/Attic/logic.py,v 1.35 2003/10/21 19:03:08 ajack Exp $
+# $Revision: 1.35 $
+# $Date: 2003/10/21 19:03:08 $
 #
 # ====================================================================
 #
@@ -445,13 +445,17 @@ def getClasspathList(project,workspace,context):
   if project.depend:
     # For each
     for depend in project.depend:
-        classpath += getDependOutputList(project,pctxt,depend,context,visited)  
+        for path in getDependOutputList(project,pctxt,depend,context,visited):
+          if not path in classpath:
+              classpath.append(path)
               
   # Same as above, but for optional...
   if project.option:    
     for option in project.option:
-        classpath += getDependOutputList(project,pctxt,option,context,visited)
-      
+        for path in getDependOutputList(project,pctxt,option,context,visited):
+          if not path in classpath:
+              classpath.append(path)
+              
   return classpath
 
 #
@@ -462,8 +466,13 @@ def getDependOutputList(parent,parentctxt,depend,context,visited):
    
   # Don't loop...
   if depend in visited:
+      #print "Visited : " + str(depend)
+      #print "Visits  : "
+      #for v in visited:
+      #    print " - " + str(v)
       return []
   visited.append(depend)
+  print "Perform : " + str(depend) + " in " + parent.name
           
   #
   # Check we can get the project...
@@ -524,7 +533,7 @@ def getDependOutputList(parent,parentctxt,depend,context,visited):
       # If 'all' or in ids list:
       if (not ids) or (jar.id in ids):   
           if ids: dependStr += ' Id = ' + jar.id
-          path=AnnotatedPath(jar.path,pctxt,parentctxt,dependStr)
+          path=AnnotatedPath(jar.path,pctxt,parentctxt,dependStr)                  
           if not path in classpath:
               classpath.append(path)
 
@@ -541,20 +550,21 @@ def getDependOutputList(parent,parentctxt,depend,context,visited):
   # Deep copy all/hard (or those for runtime)
   #
   # Append sub-projects outputs
-  if project.depend:
-    for subdepend in project.depend:            
-        if subdepend.inherit or ( runtime and subdepend.runtime ):      
-          for path in getDependOutputList(project,pctxt,subdepend,context,visited):
-            if not path in classpath:
-              classpath.append(path)
+  if inherit and not inherit=='none':
+      if project.depend:
+        for subdepend in project.depend:            
+            if not inherit=='runtime' or subdepend.runtime:      
+              for path in getDependOutputList(project,pctxt,subdepend,context,visited):
+                if not path in classpath:    
+                  classpath.append(path)
   
           # Append optional sub-project's output (that may not exist)
-  if project.option:
-    for suboption in project.option:
-        if suboption.inherit or ( runtime and suboption.runtime ):          
-          for path in getDependOutputList(project,pctxt,suboption,context,visited):
-            if not path in classpath:
-              classpath.append(path)
+      if project.option:
+        for suboption in project.option:
+            if not inherit=='runtime' or suboption.runtime:          
+              for path in getDependOutputList(project,pctxt,suboption,context,visited):
+                if not path in classpath:       
+                  classpath.append(path)
 
   return classpath
     
