@@ -7,8 +7,8 @@
 
   <svn repository="apache-svn-sandbox" dir="gump-test"/>
 
-  <project name="gump-test-maven1" basedir="maven-project">
-    <maven target="dist"/>
+  <project name="gump-test-maven1">
+    <maven target="dist" basedir="maven-project"/>
   </project>
   
 </module>
