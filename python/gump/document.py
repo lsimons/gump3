@@ -665,7 +665,7 @@ def documentProject(workspace,context,modulename,mdir,projectname,projectcontext
     # Display nag information
     for nagEntry in project.nag:
         toaddr=getattr(nagEntry,'to',workspace.mailinglist)
-        fromaddr=getattr(nagEntry,'from',workspace.email)
+        fromaddr=getStringFromUnicode(getattr(nagEntry,'from',workspace.email))
         addItemXDoc(x,"Nag To: ", toaddr)
         addItemXDoc(x,"Nag From: ", fromaddr)     
         
