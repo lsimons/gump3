@@ -3,7 +3,7 @@
 	       basedir="/data/gump" 
            jardir="/data/gump/jars/latest"
            pkgdir="/data/package"
-           sync="rsync -r -a --delete" version="0.3">
+           version="0.4">
   <property name="build.sysclasspath" value="only"/>
   <profile href="no_such_profile.xml"/>
 </workspace>

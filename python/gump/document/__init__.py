@@ -17,4 +17,4 @@
 
 
 # tell Python what modules make up the gump.document package
-__all__ = ["documenter", "forrest","text"]
+__all__ = ["documenter","resolver", "forrest","text","template"]

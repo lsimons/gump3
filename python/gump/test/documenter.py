@@ -25,6 +25,7 @@ import gump.config
 from gump.gumprun import GumpRun
 from gump.document.documenter import Documenter
 from gump.document.text import TextDocumenter
+from gump.document.template import TemplateDocumenter
 from gump.document.forrest import ForrestDocumenter
 from gump.output.statsdb import *
 from gump.test import getWorkedTestWorkspace
@@ -45,6 +46,12 @@ class DocumenterTestSuite(UnitTestSuite):
     def testText(self):
         out=StringIO.StringIO()
         documenter=TextDocumenter(out)
+        documenter.document(self.run)
+        out.close()
+        
+    def testTemplate(self):
+        out=StringIO.StringIO()
+        documenter=TemplateDocumenter(out)
         documenter.document(self.run)
         out.close()
         

@@ -44,6 +44,7 @@ from gump.model.state import *
 from gump.net.cvs import *
 
 from gump.document.text import TextDocumenter
+from gump.document.template import TemplateDocumenter
 from gump.document.forrest import ForrestDocumenter
 
 from gump.output.statsdb import *
@@ -135,8 +136,13 @@ class GumpEngine:
         #
         # Use forrest if available & not overridden...
         #
-        if run.getOptions().isText() or run.getEnvironment().noForrest:
-            documenter=TextDocumenter()
+        if run.getEnvironment().noForrest \
+            or run.getOptions().isTemplate() \
+            or run.getOptions().isText() :
+            if run.getOptions().isTemaplate():
+                documenter=TemplateDocumenter()
+            else:
+                documenter=TextDocumenter()
         else:
             documenter=ForrestDocumenter(workspace.getBaseDirectory(), \
                                          workspace.getLogUrl())                        
