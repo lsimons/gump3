@@ -1,8 +1,8 @@
 #!/usr/bin/python
 
-# $Header: /home/stefano/cvs/gump/python/gump/check.py,v 1.30 2003/10/29 19:24:12 ajack Exp $
-# $Revision: 1.30 $
-# $Date: 2003/10/29 19:24:12 $
+# $Header: /home/stefano/cvs/gump/python/gump/check.py,v 1.31 2003/10/29 19:34:05 ajack Exp $
+# $Revision: 1.31 $
+# $Date: 2003/10/29 19:34:05 $
 #
 # ====================================================================
 #
@@ -73,6 +73,7 @@ from gump.logic import getBuildSequenceForProjects, getProjectsForProjectExpress
 from gump.conf import dir, default, handleArgv, banner
 from gump.model import Workspace, Module, Project
 from gump.context import GumpContext, CommandWorkItem, WORK_TYPE_CHECK, STATUS_SUCCESS
+from gump.tools import tailFileToString
 
 from gump.launcher import getCmdFromString, execute, CMD_STATUS_SUCCESS
 
