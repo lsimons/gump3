@@ -418,6 +418,11 @@ class GumpEngine:
                         if cmdResult.state==CMD_STATE_TIMED_OUT:
                             reason=REASON_BUILD_TIMEDOUT
                         project.changeState(STATE_FAILED,reason)
+                        
+                        # Display...
+                        project.addInfo('Enable "debug" output, due to build failure.')
+                        project.setDebug(1)
+                        
                     else:                         
                         # For now, things are going good...
                         project.changeState(STATE_SUCCESS)

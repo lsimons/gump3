@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/forrest.py,v 1.113 2004/03/19 23:11:46 ajack Exp $
-# $Revision: 1.113 $f
-# $Date: 2004/03/19 23:11:46 $
+# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/forrest.py,v 1.114 2004/03/24 15:19:22 ajack Exp $
+# $Revision: 1.114 $f
+# $Date: 2004/03/24 15:19:22 $
 #
 # ====================================================================
 #
@@ -1218,6 +1218,9 @@ This page helps Gumpmeisters (and others) observe community progress.
                 
         projectsSection.createParagraph().createRaw(description)
         
+        #
+        # The 'cause' is something upstream.
+        #
         if project.cause and not project==project.cause:
              self.insertTypedLink( project.cause, project, \
                  document.createNote( "This project failed due to: "))              
@@ -1246,6 +1249,12 @@ This page helps Gumpmeisters (and others) observe community progress.
             
         self.insertLink(project.getModule(),project,	\
                 detailsList.createEntry('Containing Module: '))        
+        
+        if project.getDependencyDepth():
+            detailsList.createEntry('Dependency Depth: ', project.getDependencyDepth())
+        
+        if project.getTotalDependencyDepth():
+            detailsList.createEntry('Total Dependency Depth: ', project.getTotalDependencyDepth())
         
         if project.hasHomeDirectory() and project.isVerboseOrDebug():
             detailsList.createEntry('Home Directory: ', project.getHomeDirectory())
@@ -1358,17 +1367,33 @@ This page helps Gumpmeisters (and others) observe community progress.
         depens = 0
         depees = 0
         
-        depens += self.documentDependenciesList(dependencySection, "Project Dependencies",	\
+        
+        #
+        # The 'cause' is something upstream. Possibly a project,
+        # possibly a module (so determine paths to module projects).
+        #
+        if project.cause and not project==project.cause:
+            if isinstance(project.cause, Project):
+                for path in project.getDependencyPaths(project.cause):
+                    self.documentDependenciesPath(dependencySection, 'Root Cause Dependency Path',	\
+                            path, 0, 1, project, gumpSet)
+            elif isinstance(project.cause, Module):
+                for causeProject in project.cause.getProjects():
+                    for path in project.getDependencyPaths(causeProject):
+                        self.documentDependenciesPath(dependencySection, 'Root Cause Module Dependency Path',	\
+                                path, 0, 1, project, gumpSet)
+                
+        depens += self.documentDependenciesList(dependencySection, 'Project Dependencies',	\
                     project.getDirectDependencies(), 0, 0, project, gumpSet)
                     
-        depees += self.documentDependenciesList(dependencySection, "Project Dependees",		\
+        depees += self.documentDependenciesList(dependencySection, 'Project Dependees',		\
                     project.getDirectDependees(), 1, 0, project, gumpSet)
                     
         if project.isVerboseOrDebug():
-            self.documentDependenciesList(dependencySection, "Full Project Dependencies",	\
+            self.documentDependenciesList(dependencySection, 'Full Project Dependencies',	\
                     project.getFullDependencies(), 0, 1, project, gumpSet)
                                                 
-            self.documentDependenciesList(dependencySection, "Full Project Dependees",		\
+            self.documentDependenciesList(dependencySection, 'Full Project Dependees',		\
                     project.getFullDependees(), 1, 1, project, gumpSet)
         
         deps = depees + depens
@@ -1438,6 +1463,10 @@ This page helps Gumpmeisters (and others) observe community progress.
         if not paths:        
             pathTable.createLine('No ' + title + ' entries')
                      
+    def documentDependenciesPath(self,xdocNode,title,path,dependees,full,referencingObject,gumpSet):        
+        # :TODO: show start and end?
+        self.documentDependenciesList(xdocNode,title,path,dependees,full,referencingObject,gumpSet)
+        
     def documentDependenciesList(self,xdocNode,title,dependencies,dependees,full,referencingObject,gumpSet):        
         totalDeps=0
                 
@@ -1598,7 +1627,7 @@ This page helps Gumpmeisters (and others) observe community progress.
         stream.seek(0)
         xmldata=stream.read()
         if len(xmldata) < 32000:
-            xmlSection.createSource(stream.read())
+            xmlSection.createSource(xmldata)
         else:
             xmlSection.createParagraph('XML Data too large to display.')
         stream.close()

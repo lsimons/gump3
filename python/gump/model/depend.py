@@ -233,6 +233,21 @@ class DependSet:
     def getUniqueProjectDependCount(self):
         return len(self.projectMap)
     	
+class DependencyPath(list):
+    """ 'Path' of dependencies between two points """
+    def __init__(self,startDependable,endDependable):
+        self.startDependable=startDependable
+        self.endDependable=endDependable
+        
+    def appendDepend(self,depend):
+        self.append(depend)
+        self.endDependable=depend.getProject()
+    
+    def getStart(self):
+        return self.startDependable
+        
+    def getEnd(self):
+        return self.endDependable
                 
 class Dependable:
     
@@ -246,6 +261,10 @@ class Dependable:
         # Direct & Full Dependees
         self.directDependees=DependSet(1)
         self.fullDependees=None
+    
+        # Depth
+        self.depth=0
+        self.totalDepth=0
         
     #
     # Dependencies
@@ -283,7 +302,53 @@ class Dependable:
     def getFullDependencyCount(self):
         self.getFullDependencies()
         return self.fullDependencies.getUniqueProjectDependCount()
-                
+
+    #
+    # Depth
+    #
+    def getDependencyDepth(self):
+        if self.depth: return self.depth
+        maxDepth=1
+        for depend in self.directDependencies.getDepends():
+            dependencyDepth=depend.getProject().getDependencyDepth() + 1
+            if maxDepth <  dependencyDepth:
+                maxDepth=dependencyDepth
+        self.depth=maxDepth
+        return self.depth
+     
+     
+    #
+    # Total Depth
+    #
+    def getTotalDependencyDepth(self):
+        if self.totalDepth: return self.totalDepth
+        for depend in self.directDependencies.getDepends():
+            dependencyDepth=depend.getProject().getDependencyDepth()
+            self.totalDepth += dependencyDepth
+        return self.totalDepth
+        
+    #
+    # Dependency Paths (None, One, Some).
+    #
+    def getDependencyPaths(self, dependable):
+        paths=[]
+        # Determine the dependency paths for any direct dependencies
+        # and 
+        for depend in self.directDependencies.getDepends():
+            directDependable=depend.getProject()
+            if dependable == directDependable:
+                # A simple path
+                path=DependencyPath(dependable,self)
+                path.appendDepend(depend)
+                paths.append(path)
+            elif directDependable.hasDependencyOn(dependable):
+                # Clearly there is at least one path (maybe more)
+                for path in directDependable.getDependencyPaths(dependable):
+                    # Take each path and extend it...
+                    path.appendDepend(depend)
+                    paths.append(path)
+        return paths
+        
     #
     # Dependees
     # 
@@ -292,6 +357,7 @@ class Dependable:
             
     def getDirectDependees(self):
         return self.directDependees.getDepends()
+        
         
     def getFullDependees(self):
         if self.fullDependees: return self.fullDependees.getDepends()
@@ -345,13 +411,22 @@ class Dependable:
 
     # determine if this project is a prereq of any project on the todo list
     def hasDirectDependencyOn(self,project):
+        """ Does this project exist as a dependency """    
         for dependency in self.getDirectDependencies():
             if dependency.getProject()==project: return 1
     
+    # determine if this project is a prereq of any project on the todo sequence
+    def hasDependencyOn(self,project):
+        """ Does this project exist as any dependency """        
+        for dependency in self.getFullDependencies():
+            if dependency.getProject()==project: return 1
+    
     def hasDirectDependee(self,project):
+        """ Does this project exist as a direct dependee """    
         for dependee in self.getDirectDependees():
             if dependee.getOwnerProject()==project: return 1
             
     def hasDependee(self,project):
+        """ Does this project exist as any dependee """
         for dependee in self.getFullDependees():
             if dependee.getOwnerProject()==project: return 1
