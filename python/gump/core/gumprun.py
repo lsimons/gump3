@@ -333,7 +333,31 @@ class GumpSet:
         for object in list:
             idx+=1
             output.write(i+str(idx)+': '+object.getName() + '\n')
-            
+     
+
+# Overall objectives
+OBJECTIVE_UNSET=0
+OBJECTIVE_UPDATE=0x01
+OBJECTIVE_BUILD=0x02
+OBJECTIVE_CHECK=0x04
+OBJECTIVE_DOCUMENT=0x08
+
+OBJECTIVE_=OBJECTIVE_UPDATE | OBJECTIVE_BUILD
+
+OBJECTIVE_INTEGRATE=OBJECTIVE_UPDATE | OBJECTIVE_BUILD | \
+                        OBJECTIVE_DOCUMENT
+
+# Features            
+FEATURE_UNSET=0
+FEATURE_STATISTICS=0x01
+FEATURE_RESULTS=0x02
+FEATURE_NOTIFY=0x04
+FEATURE_DIAGRAM=0x08
+FEATURE_SYNDICATE=0x10
+FEATURE_DOCUMENT=0x20
+
+FEATURE_ALL=FEATURE_STATISTICS|FEATURE_RESULTS|FEATURE_NOTIFY|FEATURE_DIAGRAM|	\
+                FEATURE_SYNDICATE|FEATURE_DOCUMENT
             
 class GumpRunOptions:
     """
@@ -359,6 +383,9 @@ class GumpRunOptions:
         # If using Forrest, this say leave xdocs, do NOT run
         # the 'forrest' build inlined.
         self.xdocs=0
+        
+        self.objectivse=OBJECTIVE_INTEGRATE
+        self.features=FEATURE_ALL
         
     def isDated(self):
         return self.dated
@@ -414,6 +441,60 @@ class GumpRunOptions:
     def getResolver(self):
         return self.resolver
         
+        
+    # Objectives...
+    def setObjectives(self,objectives):
+        self.objectives=objectives
+        
+    def testObjectiveIsSet(self,objective):
+        if (self.objectives & objective): return 1
+        return 0    
+        
+    def isUpdate(self):
+        return self.testObjectiveIsSet(OBJECTIVE_UPDATE)        
+        
+    def isBuild(self):
+        return self.testObjectiveIsSet(OBJECTIVE_BUILD)
+              
+    def isCheck(self):
+        return self.testObjectiveIsSet(OBJECTIVE_CHECK)
+        
+    def isDocument(self):
+        return self.testObjectiveIsSet(OBJECTIVE_DOCUMENT)
+        
+    # Features...
+    def setFeatures(self,features):
+        self.features=features
+        
+    def disableFeature(self,feature):
+        self.features = (self.features ^ feature)
+        
+    def enableFeature(self,feature):
+        self.features = (self.features | feature)
+        
+    def testFeatureIsSet(self,feature):
+        if (self.features & feature): return 1
+        return 0
+
+    def isNotify(self):
+        return self.testFeatureIsSet(FEATURE_NOTIFY)
+
+    def isResults(self):
+        return self.testFeatureIsSet(FEATURE_RESULTS)
+
+    def isStatistics(self):
+        return self.testFeatureIsSet(FEATURE_STATISTICS)
+
+    def isDocument(self):
+        return self.testFeatureIsSet(FEATURE_DOCUMENT)
+
+    def isSyndicate(self):
+        return self.testFeatureIsSet(FEATURE_SYNDICATE)
+
+    def isDiagram(self):
+        return self.testFeatureIsSet(FEATURE_DIAGRAM)
+
+        
 class RunSpecific:
     """
     
@@ -427,7 +508,6 @@ class RunSpecific:
         return self.run
 
 
-STATE_UNSET=0
 
 class RunEvent(RunSpecific):
     """
@@ -540,7 +620,7 @@ class GumpRun(Workable,Annotatable,Stateful):
         import md5
         import socket        
         m=md5.new()
-        self.guid = `socket.gethostname()`  + ':' + workspace.getName() + ':' + default.datetime
+        self.guid = socket.gethostname()  + ':' + workspace.getName() + ':' + default.datetime
         m.update(self.guid)
         self.hexguid=m.hexdigest().upper()     
         log.debug('Run GUID [' + `self.guid` + '] using [' + `self.hexguid` + ']')    

@@ -58,7 +58,6 @@ class TextDocumenter(Documenter):
         debug=self.run.getOptions().isDebug()
         self.documentProject('',project,1,debug,verbose)  
         
-        
     def documentRun(self):    
         indent=' '
         

@@ -44,12 +44,13 @@ class Statistician(AbstractRunActor):
             #
             # Load stats (and stash onto projects)
             #    
-            self.db.loadStatistics(workspace)            
-            self.db.sync()
+            self.db.loadStatistics(workspace) 
+            
         elif isinstance(event,FinalizeRunEvent):
           
-            #
-            # Update stats (and stash onto projects)
-            #
-            self.db.updateStatistics(workspace)            
-            self.db.sync()
+            if self.run.getOptions().isStatistics():
+                #
+                # Update stats (and stash onto projects)
+                #
+                self.db.updateStatistics(workspace)            
+                self.db.sync()

@@ -15,7 +15,7 @@
 # limitations under the License.
 
 #
-# $Header: /home/stefano/cvs/gump/python/gump/update.py,v 1.28.2.3 2004/05/18 20:10:44 ajack Exp $
+# $Header: /home/stefano/cvs/gump/python/gump/update.py,v 1.28.2.4 2004/05/21 19:34:24 ajack Exp $
 # 
 
 """
@@ -33,7 +33,7 @@ import logging
 from gump import log
 from gump.core.gumpinit import gumpinit
 from gump.runner.runner import getRunner
-from gump.core.gumprun import GumpRun, GumpRunOptions, GumpSet
+from gump.core.gumprun import *
 from gump.core.commandLine import handleArgv
 from gump.model.loader import WorkspaceLoader
 
@@ -62,6 +62,9 @@ if __name__=='__main__':
     
     # Ensure we use text, not forrest...
     options.setText(1)
+    
+    # 
+    options.setObjectives(OBJECTIVE_UPDATE)    
     
     # The Run Details...
     run=GumpRun(workspace,ps,options)

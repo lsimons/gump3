@@ -58,9 +58,6 @@ class Notifier(AbstractRunActor):
         
         AbstractRunActor.__init__(self,run)
         
-        self.workspace=run.getWorkspace()
-        self.gumpSet=run.getGumpSet()
-    
         self.unsent=''
         self.unsentSubjects=''
         self.unsents=0
@@ -69,13 +66,18 @@ class Notifier(AbstractRunActor):
         self.unwantedSubjects=''
         self.unwanteds=0
         
+                
+                
+    def processOtherEvent(self,event):            
+        if isinstance(event,FinalizeRunEvent):          
+            # Notifications are wanted...
+            if self.options.isNotify() and self.gumpSet.isFull():
+                # This workspace allows/wants notifications..
+                if self.workspace.isNotify():
+                    # Notify
+                    self.notify()
+                
     def notify(self):
-    
-        #
-        # Belt and braces...
-        #
-        if not self.workspace.isNotify():
-            return
     
         # A bit paranoid, ought just rely upon object being
         # destroyed,
@@ -101,6 +103,11 @@ class Notifier(AbstractRunActor):
                         log.error("Failed to send notify e-mails for module " + module.getName()\
                                     + " : " + str(details), exc_info=1)
                 else:
+                    
+                    #
+                    # Notify for each project...
+                    #
+                    
                     for project in module.getProjects():
                         if project.isFailed() :
                             if not self.gumpSet.inProjectSequence(project): continue                        

@@ -53,7 +53,7 @@ class OnDemandRunner(GumpRunner):
 
     ###########################################
 
-    def performIntegrate(self):
+    def performRun(self):
         
         self.initialize(1)
         

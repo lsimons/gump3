@@ -85,6 +85,16 @@ class Workspace(NamedModelObject, PropertyContainer, Statable, Resultable):
     def initializeTimes(self):
         # Store timezone
         self.timezone=str(time.tzname)    
+        
+        self.startDateTimeUtc=''
+        self.startDateTime=''
+                                 
+        self.endDateTimeUtc=''
+        self.endDateTime=''
+                
+    # :TODO: Move these to run, like much dynamic stuff on W/S
+
+    def setStartTime(self):                
                 
         # :TODO: Ensure no clock ticks between these two,
         # i.e. make one.

@@ -64,6 +64,11 @@ class  RunActor(RunSpecific):
     def __init__(self, run):
         RunSpecific.__init__(self,run)
         
+        # Oft used references..
+        self.workspace=run.getWorkspace()
+        self.options=run.getOptions()
+        self.gumpSet=run.getGumpSet()
+        
     def __repr__(self):
         return self.__class__.__name__
         

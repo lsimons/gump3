@@ -30,6 +30,7 @@ from gump.build.builder import *
 from gump.document.text.documenter import TextDocumenter
 from gump.document.xdocs.documenter import XDocDocumenter
 
+from gump.time.keeper import TimeKeeper
 from gump.stats.statistician import Statistician
 from gump.repository.publisher import RepositoryPublisher
 from gump.notify.notifier import Notifier
@@ -103,9 +104,12 @@ class GumpRunner(RunSpecific):
         self.run.dispatchEvent(InitializeRunEvent(self.run))
     
     def initializeActors(self):
+        self.run.registerActor(TimeKeeper(self.run))
         self.run.registerActor(Statistician(self.run))
-        self.run.registerActor(Resulter(self.run))
-        self.run.registerActor(Notifier(self.run))
+        
+        
+        self.run.registerActor(Resulter(self.run))    
+        self.run.registerActor(Syndicator(self.run))   
               
         #
         # Use Forrest if available & not overridden...
@@ -120,13 +124,8 @@ class GumpRunner(RunSpecific):
                                         self.run.getWorkspace().getLogUrl())  
         self.run.getOptions().setResolver(documenter.getResolver())                                                  
         self.run.registerActor(documenter)    
-        
-        self.run.registerActor(Syndicator(self.run))
-        
-    def setEndTime(self):
-        logResourceUtilization('Set End Time')
-        # :TODO: Move this to run
-        self.run.getWorkspace().setEndTime()
+                
+        self.run.registerActor(Notifier(self.run))         
                     
     def finalize(self):            
         # About to shutdown...

@@ -31,8 +31,7 @@ from gump.utils.launcher import *
 from gump.utils.note import *
 
 SYNC_ACTION=1
-COPY_ACTION=2
-DIFF_ACTION=3
+COPY_ACTION=2=
 
 class PathWalker(Annotatable):
 
@@ -41,6 +40,12 @@ class PathWalker(Annotatable):
         self.sourcedir = sourcedir
         self.targetdir = targetdir
         self.action = action
+        
+        if SYNC_ACTION==action
+            self.actionString='Sync'
+        elif COPY_ACTION==action
+            self.actionString='Copy'
+            
         self.debug=debug
         
         # A place to 'log' actions        
@@ -51,8 +56,8 @@ class PathWalker(Annotatable):
         self.actionsOccured=0
         
     def execute(self):
-        log.debug('Starting %s from [%s]' % (self.action,self.sourcedir))
-        log.debug('      target dir [' + self.targetdir + ']')
+        log.debug('Starting %s from [%s]' % (self.actionString,self.sourcedir))
+        log.debug('        target dir [' + self.targetdir + ']')
         
         # Allow user to pass an open stream, or a filename
         # In later case control open/close.

@@ -27,6 +27,7 @@ import logging
 
 from gump import log
 
+from gump.core.gumprun import *
 from gump.core.actor import AbstractRunActor
 
 class Documenter(AbstractRunActor):
@@ -35,6 +36,17 @@ class Documenter(AbstractRunActor):
         #
         AbstractRunActor.__init__(self, run)
     
+        
+    def processOtherEvent(self,event):
+            
+        workspace=self.run.getWorkspace()        
+        
+        if isinstance(event,InitializeRunEvent):
+            self.prepareRun()
+        elif isinstance(event,FinalizeRunEvent):
+            if self.run.getOptions().isDocument():
+                self.documentRun()
+            
     #
     # Call a method called 'prepareRun(run)', if it
     # is available on the sub-class (i.e. if needed)

@@ -29,7 +29,7 @@ import sys
 from gump import log
 from gump.core.gumpinit import gumpinit
 from gump.runner.runner import getRunner
-from gump.core.gumprun import GumpRun, GumpRunOptions, GumpSet
+from gump.core.gumprun import *
 from gump.core.commandLine import handleArgv
 from gump.model.loader import WorkspaceLoader
 
@@ -44,6 +44,9 @@ if __name__=='__main__':
     
     # get parsed workspace definition
     workspace=WorkspaceLoader().load(ws, options.isQuick())
+    
+    # 
+    options.setObjectives(OBJECTIVE_CHECK)    
     
     # The Run Details...
     run=GumpRun(workspace,ps,options)
