@@ -261,7 +261,6 @@ class Project(Named):
     self.description=Single()
     self.url=Single()
     self.option=Multiple(Depend)
-    self.property=Single(Property)
     self.package=Multiple()
     self.jar=Multiple(Jar)
     self.home=Single(Home)

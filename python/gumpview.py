@@ -41,6 +41,7 @@ class gumpview(wxApp):
     self.list=wxListCtrl(notebook,-1,style=wxLC_REPORT|wxSUNKEN_BORDER)
     self.dependencies=wxListCtrl(notebook,-1,style=wxLC_REPORT|wxSUNKEN_BORDER)
     self.classpath=wxListCtrl(notebook,-1,style=wxLC_REPORT|wxSUNKEN_BORDER)
+    self.property=wxListCtrl(notebook,-1,style=wxLC_REPORT|wxSUNKEN_BORDER)
     self.data=wxTextCtrl(split2,-1,style=wxTE_MULTILINE)
 
     # attach the panes to the frame
@@ -48,6 +49,7 @@ class gumpview(wxApp):
     notebook.AddPage(self.list, 'referenced')
     notebook.AddPage(self.dependencies, 'dependencies')
     notebook.AddPage(self.classpath, 'classpath')
+    notebook.AddPage(self.property, 'property')
     split2.SplitHorizontally(notebook, self.data)
     self.SetTopWindow(frame)
     frame.Show(true)
@@ -156,16 +158,29 @@ class gumpview(wxApp):
 
     # add in depends and options
     for depend in project.depend+project.option:
-      project=Project.list[depend.project]
-      srcdir=Module.list[project.module].srcdir
-      for jar in project.jar:
+      p=Project.list[depend.project]
+      srcdir=Module.list[p.module].srcdir
+      for jar in p.jar:
         jarpath=os.path.normpath(os.path.join(srcdir,jar.name))
 	self.classpath.InsertStringItem(i,jarpath)
 	i=i+1
 
-
     self.classpath.SetColumnWidth(0,wxLIST_AUTOSIZE_USEHEADER)
 
+    # display the properties
+    self.property.DeleteAllItems()
+    if not self.property.GetColumn(0):
+      self.property.InsertColumn(0, 'Name')
+      self.property.InsertColumn(1, 'Value')
+
+    i=0
+    if project.ant:
+      for property in self.workspace.property+project.ant.property:
+        self.property.InsertStringItem(i,property.name or '')
+	self.property.SetStringItem(i,1,property.value or '')
+        i=i+1
+
+    self.property.SetColumnWidth(0,wxLIST_AUTOSIZE_USEHEADER)
 
   # show the xml description for a single item
   def selectItem(self, event):
