@@ -1,0 +1,14 @@
+<module name="jakarta-avalon-site">
+
+  <url href="http://jakarta.apache.org/avalon/"/>
+  <description>
+    Avalon framework
+  </description>
+
+  <cvs repository="jakarta"/>
+  
+  <project name="jakarta-avalon-site">
+    <home nested="docs"/>
+  </project>
+
+</module>
