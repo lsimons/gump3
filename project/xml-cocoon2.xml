@@ -24,7 +24,7 @@
     <depend project="excalibur-cli"/>
     <depend project="excalibur-naming"/>
     <depend project="excalibur-sourceresolve"/>
-    <depend project="excalibur-xmlbundle"/>
+    <depend project="excalibur-xmlutil"/>
     <depend project="excalibur-store"/>
     <depend project="jakarta-regexp"/>
     <depend project="commons-httpclient"/>
