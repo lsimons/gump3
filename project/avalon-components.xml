@@ -10,7 +10,9 @@
   <project name="avalon-components">
     <package>org.apache.avalon.cornerstone</package>
 
-    <ant />
+    <ant>
+      <property name="version" value="@@DATE@@"/>
+    </ant>
 
     <depend project="avalon-framework" runtime="true" id="combined"/>
     <depend project="avalon-logkit" runtime="true"/>
