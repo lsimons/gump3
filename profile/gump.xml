@@ -84,7 +84,6 @@
   <module href="project/jaxen.xml"/>
   <module href="project/jdom.xml"/>
   <module href="project/jce.xml"/>
-  <module href="project/jetty.xml"/>
   <module href="project/jtidy.xml"/>
   <module href="project/junit.xml"/>
   <module href="project/rhino.xml"/>
