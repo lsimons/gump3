@@ -36,6 +36,8 @@ class RepositoryPublisher(gump.core.actor.AbstractRunActor):
         """
         gump.core.actor.AbstractRunActor.__init__(self,run)
         
+        self.repository=run.getOutputsRepository()
+        
     def processProject(self,project):
         """
         
