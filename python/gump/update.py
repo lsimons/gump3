@@ -52,7 +52,7 @@ if __name__=='__main__':
     ps=args[1]
     
     # get parsed workspace definition
-    workspace=WorkspaceLoader().load(ws, options.isQuick()) 
+    workspace=WorkspaceLoader().load(ws, options.isCache()) 
     
     # The Run Details...
     run=GumpRun(workspace,ps,options)
@@ -60,7 +60,7 @@ if __name__=='__main__':
     #
     #    Perform this integration run...
     #
-    result = GumpEngine().update(run)
+    result = GumpEngine().performUpdate(run)
 
     #
     log.info('Gump Update complete. Exit code:' + str(result))

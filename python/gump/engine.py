@@ -1,4 +1,20 @@
 #!/usr/bin/python
+
+
+# Copyright 2003-2004 The Apache Software Foundation
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+# 
+#     http://www.apache.org/licenses/LICENSE-2.0
+# 
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
 """
 
 """
@@ -47,37 +63,74 @@ def isAllProjects(pexpr):
 # Classes
 ###############################################################################
 
-
 class GumpEngine:
+
+    ###########################################
+        
+    def performUpdate(self,run):
+        return self.perform(run, GumpTaskList(['update']) )
+    
+    def performBuild(self,run):
+        return self.perform(run, GumpTaskList(['build']) )
+    
+    def performIntegrate(self,run):
+        return self.perform(run, GumpTaskList(['update','build','document','syndicate']) )
+        
+    def performCheck(self,run):
+        return self.perform(run, GumpTaskList(['update','check','document','syndicate']) )
+        
+    ###########################################
+    
+    def perform(self,run,taskList):     
+    
+        # Bind this list to these methods (on this engine)
+        taskList.bind(self)
+        
+        # Run the method sequence...
+        self.performTasks(run,taskList)      
+                
+        # Return an exit code based off success
+        # :TODO: Move onto run
+        if run.getWorkspace().isSuccess():
+            result = SUCCESS 
+        else: 
+            result = FAILED
+        
+        return result  
+    
+    def performTasks(self,run,taskList):
+        for task in taskList:
+            task.invoke(run)
+            
+    ###########################################
     
     def preprocess(self,run,exitOnError=1):
         
-
+        logResourceUtilization('Before preprocess')
+        
         #
         # Perform start-up logic 
         #
         workspace = run.getWorkspace()
                 
-        logResourceUtilization('Before check environment')
-        
         #
         #
         #
-        workspace.checkEnvironment(exitOnError)
-        
-        
-        logResourceUtilization('After check environment')
+        if not run.getOptions().isQuick():
+            logResourceUtilization('Before check environment')            
+            run.getEnvironment().checkEnvironment(exitOnError)
+            logResourceUtilization('After check environment')
         
         #
-        # Modify the log on the fly, if --dated
+        # Modify the log location on the fly, if --dated
         #
         if run.getOptions().isDated():
             workspace.setDatedDirectories()
         
         #
-        # Use forrest if available...
+        # Use forrest if available & not overridden...
         #
-        if workspace.noForrest:
+        if run.getOptions().isText() or run.getEnvironment().noForrest:
             documenter=TextDocumenter()
         else:
             documenter=ForrestDocumenter(workspace.getBaseDirectory(), \
@@ -96,157 +149,10 @@ class GumpEngine:
             workspace.addError(message)
             log.error(message)   
             
-        # Write workspace to a 'merge' file
-        workspace.writeXMLToFile(default.merge)
-        workspace.setMergeFile(default.merge)
-
-    def continuous(self):
-        
-        # :TODO: WORK IN PROGRESS NOT COMPLETE!!!
-        
-        while 0:
-            
-            try:
-                # Do the integration
-                ok=self.integrate(run)
-            except:
-                log.error('Failed to integrate...')
-                pass
-        
-    def integrate(self,run):    
-      
-        
-        #
-        # Prepare the context
-        #
-        logResourceUtilization('Before preprocess')
-        self.preprocess(run)
-        
-        #
-        # Load the statistics (so we can use them during
-        # other operations).
-        #
-        logResourceUtilization('Before load statistics')
-        self.loadStatistics(run)        
-        
-        #
-        # Checkout from source code repositories
-        #
-        logResourceUtilization('Before update')
-        self.update(run)
-        
-        #
-        # Run the build commands
-        #
-        logResourceUtilization('Before build')
-        self.buildAll(run)
-  
-        #
-        # Gather results.xml from other servers/workspaces
-        #
-        logResourceUtilization('Before generate results')
-        gatherResults(run)
-        
-        # Prepare for documentation        
-        documenter=run.getOptions().getDocumenter()        
-        if documenter :
-            documenter.prepare(run)
-            
-        # Update Statistics/Results on full runs            
-        if run.getGumpSet().isFull():
-            
-            logResourceUtilization('Before statistics update')
-            self.updateStatistics(run)
-            
-            #
-            # Generate results.xml for this run, on this server/workspace
-            #
-            logResourceUtilization('Before generate results')
-            generateResults(run)
-                    
-        #
-        # Provide a news feed (or few)
-        #
-        logResourceUtilization('Before syndicate')
-        syndicate(run)
-                        
-        #   
-        # Build HTML Result (via Forrest or ...)
-        #
-        logResourceUtilization('Before document')
-        if documenter :
-            documenter.document(run)
-                        
-        #
-        # Only an 'all' is an official build, for them:
-        #
-        #	Send Naggin E-mails
-        #
-        if run.getGumpSet().isFull() \
-            and run.getWorkspace().isNag():
-  
-            log.info('Nag about failures... ')            
-            
-            #
-            # Nag about failures
-            #
-            logResourceUtilization('Before nag')
-            nag(run)  
-
-        # Return an exit code based off success
-        # :TODO: Move onto run
-        if run.getWorkspace().isSuccess():
-            result = SUCCESS 
-        else: 
-            result = FAILED
-        
-        return result
-
-       
-    def check(self,run):    
-  
-        #
-        # Prepare the context
-        #
-        self.preprocess(run, 0)
-  
-        #
-        # Load the statistics (so we can use them during
-        # other operations).
-        #
-        logResourceUtilization('Before load statistics')
-        self.loadStatistics(run)        
-        
-        #
-        # Gather results.xml from other servers/workspaces
-        #
-        logResourceUtilization('Before generate results')
-        gatherResults(run)
-        
-        #
-        # Check the metadata
-        #
-        self.checkWorkspace(run)
-             
-        # Prepare for documentation        
-        documenter=run.getOptions().getDocumenter()        
-        if documenter :
-            documenter.prepare(run)
-                
-        #   
-        # Build HTML Result (via Forrest or ...)
-        #
-        if documenter :
-            documenter.document(run)
-
-        # Return an exit code based off success
-        # :TODO: Move onto run
-        if run.getWorkspace().isSuccess():
-            result = SUCCESS 
-        else: 
-            result = FAILED
-        
-        return result
+        # Write workspace to a 'merge' file        
+        if not run.getOptions().isQuick():
+            workspace.writeXMLToFile(default.merge)
+            workspace.setMergeFile(default.merge)
 
 
     """
@@ -258,7 +164,8 @@ class GumpEngine:
         ******************************************************************
     
     """
-    def update(self, run):
+    def update(self, run):        
+        logResourceUtilization('Before update')
         
         #
         # Checkout from source code repositories
@@ -388,7 +295,7 @@ class GumpEngine:
                     module.changeState(STATE_SUCCESS)
                 except:
                     module.changeState(STATE_FAILED,REASON_SYNC_FAILED)
-                
+           
     """
     
         ******************************************************************
@@ -398,15 +305,18 @@ class GumpEngine:
         ******************************************************************
     
     """
-    def build(self,run,all=1):
+    
+    
+
+    def build(self,run):
             
+        logResourceUtilization('Before build')
+        
         #
-        # Load the statistics (so we can use them during
-        # other operations).
+        # Doing a full build?
         #
-        #logResourceUtilization('Before load statistics')
-        #self.loadStatistics(run)        
-          
+        all=not run.getOptions().isQuick()
+        
         #
         # Run the build commands
         #
@@ -421,22 +331,17 @@ class GumpEngine:
         if run.getWorkspace().isSuccess():
             result = SUCCESS 
         else: 
-            result = FAILED
-        
+            result = FAILED        
         return result
         
     
     def buildAll(self,run):
         """ Build a GumpRun's Full Project Stack """
-        sequence=run.getGumpSet().getProjectSequence()
-
-        return self.buildProjectList(run,sequence)
+        return self.buildProjectList(run,run.getGumpSet().getProjectSequence())
   
     def buildProjects(self,run):
         """ Build a GumpRun's Projects """
-        list=run.getGumpSet().getProjects()
-
-        return self.buildProjectList(run,list)
+        return self.buildProjectList(run,run.getGumpSet().getProjects())
   
     def buildProjectList(self,run,list):
     
@@ -489,7 +394,7 @@ class GumpEngine:
                 #
                 # Get the appropriate build command...
                 #
-                cmd=project.getBuildCommand()
+                cmd=project.getBuildCommand(run.getEnvironment().getJavaCommand())
 
                 if cmd:
                     # Execute the command ....
@@ -560,25 +465,13 @@ class GumpEngine:
         #
         if mkdir.dir:
             
-            # ----------------------------------------------------------------
-            # :TODO: HACK HACK HACK HACK HACK HACK HACK
-            # :TODO: HACK HACK HACK HACK HACK HACK HACK
-            # :TODO: HACK HACK HACK HACK HACK HACK HACK
-            # Rsync should delete these things, not allow
-            # them to exist. We should NOT do this.
             dirToMake=os.path.abspath(os.path.join(basedir,mkdir.dir))
-            if not os.path.exists(dirToMake): 
-                # :TODO: HACK HACK HACK HACK HACK HACK HACK
-                # :TODO: HACK HACK HACK HACK HACK HACK HACK
-                # :TODO: HACK HACK HACK HACK HACK HACK HACK
-                # ----------------------------------------------------------------  
-           
-                try:
-                    os.makedirs(dirToMake)
-                    project.addInfo('Made directory ['+dirToMake+']')
-                except:
-                    project.addError('Failed to make directory ['+dirToMake+']')
-                    raise           
+            try:
+                os.makedirs(dirToMake)
+                project.addInfo('Made directory ['+dirToMake+']')
+            except:
+                project.addError('Failed to make directory ['+dirToMake+']')
+                raise           
         else:
             project.addError('   <mkdir without \'dir\' attribute.')
             raise RuntimeError('Bad <mkdir, missing \'dir\' attribute')
@@ -808,50 +701,9 @@ class GumpEngine:
                     listDirectoryToFileHolder(project,dir,\
                         FILE_TYPE_PACKAGE,
                         'list_'+project.getName()+'_dir'+str(dircnt)+'_'+os.path.basename(dir))
-                    dirs.append(dir)                               
-                
-    """
-    
-        ******************************************************************
-        
-           MISC STUFF
-        
-        ******************************************************************
-    
-    """
-    
-    def loadStatistics(self,run):   
-        """ Load Statistics into the run (to get current values) """
-        self.processStatistics(run,1)
-         
-    def updateStatistics(self,run):        
-        """ Update Statistics into the run (to set current values) """
-        self.processStatistics(run,0)
-        
-    def processStatistics(self,run,load):
-    
-        if load:
-            log.debug('--- Loading Project Statistics')
-        else:
-            log.debug('--- Updating Project Statistics')
-    
-        db=StatisticsDB()   
-        
-        workspace=run.getWorkspace()        
-        
-        if not load:
-            #
-            # Update stats (and stash onto projects)
-            #
-            db.updateStatistics(workspace)
-            
-            db.sync()
-        else:
-            #
-            # Load stats (and stash onto projects)
-            #    
-            db.loadStatistics(workspace)            
-                
+                    dirs.append(dir)          
+                    
+                          
     """
     
         ******************************************************************
@@ -910,4 +762,248 @@ class GumpEngine:
 
         
     
+                                   
+    """
+    
+        ******************************************************************
         
+            THE DOCUMENATION INTERFACE
+        
+        ******************************************************************
+    
+    """
+    
+    
+
+    def prepareDocumentation(self,run):
+        
+        logResourceUtilization('Before document preparation')
+        
+        # Prepare for documentation        
+        documenter=run.getOptions().getDocumenter()        
+        if documenter :
+            documenter.prepare(run)            
+            
+    def document(self,run):
+        
+        #   
+        # Build HTML Result (via Forrest or ...)
+        #
+        logResourceUtilization('Before document')
+        documenter=run.getOptions().getDocumenter()        
+        if documenter :
+            documenter.document(run)
+                              
+                
+    """
+    
+        ******************************************************************
+        
+           MISC STUFF
+        
+        ******************************************************************
+    
+    """
+    
+    
+    def notify(self,run):
+                
+        #
+        # Only an 'all' is an official build, for them:
+        #
+        #	Send Naggin E-mails
+        #
+        if run.getGumpSet().isFull() \
+            and run.getWorkspace().isNag():
+  
+            log.info('Nag about failures... ')            
+            
+            #
+            # Nag about failures
+            #
+            logResourceUtilization('Before nag')
+            nag(run)  
+    
+    def updateStatistics(self,run):
+        
+        # Update Statistics/Results on full runs            
+        if run.getGumpSet().isFull():
+            
+            logResourceUtilization('Before statistics update')
+            self.updateStatistics(run)
+        
+    def gatherResults(self,run):
+        #
+        # Gather results.xml from other servers/workspaces
+        #
+        logResourceUtilization('Before gather results')
+        gatherResults(run)
+        
+    def generateResults(self,run):
+            
+        logResourceUtilization('Before generate results')
+        # Update Statistics/Results on full runs            
+        if run.getGumpSet().isFull():
+            
+            #
+            # Generate results.xml for this run, on this server/workspace
+            #
+            logResourceUtilization('Before generate results')
+            generateResults(run)
+            
+        
+    def syndicate(self,run):
+        logResourceUtilization('Before syndicate')
+        #
+        # Provide a news feed (or few)
+        #
+        syndicate(run)
+                
+    
+    def loadStatistics(self,run):   
+        """ Load Statistics into the run (to get current values) """
+        logResourceUtilization('Before load statistics')
+        self.processStatistics(run,1)
+         
+    def updateStatistics(self,run):        
+        """ Update Statistics into the run (to set current values) """
+        logResourceUtilization('Before update statistics')
+        self.processStatistics(run,0)
+        
+    def processStatistics(self,run,load):
+    
+        if load:
+            log.debug('--- Loading Project Statistics')
+        else:
+            log.debug('--- Updating Project Statistics')
+    
+        db=StatisticsDB()   
+        
+        workspace=run.getWorkspace()        
+        
+        if not load:
+            #
+            # Update stats (and stash onto projects)
+            #
+            db.updateStatistics(workspace)
+            
+            db.sync()
+        else:
+            #
+            # Load stats (and stash onto projects)
+            #    
+            db.loadStatistics(workspace)            
+          
+
+    
+class GumpTask:
+    
+    def __init__(self, name, dependencyNames):
+        self.dependencyNames=dependencyNames
+        self.name=name
+        self.method=None
+        self.performed=0
+            
+    def __repr__(self):
+        return self.__class__.__name__ + ':' + self.getName()
+        
+    def __str__(self):
+        return self.getName()
+        
+    def getName(self):
+        return self.name
+        
+    def getDependentTaskNames(self):
+        return self.dependencyNames
+    
+    def setPerformed(self,performed):
+        self.performed=performed
+    
+    def isPerformed(self):
+        return self.performed
+        
+        
+    def bind(self,engine):
+        self.method=getattr(engine,self.name)            
+         
+        if not (isinstance(self.method,types.MethodType) and callable(self.method)): 
+            raise RuntimeError, 'Failed to bind task name [' + self.name + '] to engine [' + `engine` + ']'
+        
+    def invoke(self,run):
+        return self.method(run)
+                                
+class GumpTaskList(list):
+    
+    def __init__(self,taskNames=None):
+        self.tasks={}
+        if taskNames:
+            self.populateForTaskNameList(taskNames)
+        
+    def addTask(self,task):
+        if not self.hasTask(task):
+            self.append(task)
+            self.tasks[task.getName()]=task
+    
+    def hasTaskByName(self,name):
+        return self.tasks.has_key(name)
+        
+    def hasTask(self,task):
+        return self.hasTaskByName(task.getName())
+        
+    def getTask(self,name):
+        if self.tasks.has_key(name):
+            return self.tasks[name]     
+                   
+        #
+        # The rules (the bare minimum of what needs
+        # to have run, for a task to run w/o crashing).
+        #
+        if 'preprocess'==name:
+            task=GumpTask(name,[])            
+        elif 'loadStatistics'==name:
+            task=GumpTask(name,['preprocess'])  
+        elif 'updateStatistics'==name:
+            task=GumpTask(name,['preprocess','gatherResults'])           
+        elif 'update'==name:
+            task=GumpTask(name,['preprocess','loadStatistics'])                    
+        elif 'build'==name:
+            task=GumpTask(name,['preprocess','loadStatistics'])             
+        elif 'prepareDocumentation'==name:
+            task=GumpTask(name,['preprocess',])   
+        elif 'document'==name:
+            task=GumpTask(name,['preprocess','loadStatistics','prepareDocumentation','gatherResults'])    
+        elif 'notify'==name:
+            task=GumpTask(name,['preprocess','loadStatistics'])  
+        elif 'syndicate'==name:
+            task=GumpTask(name,['preprocess','loadStatistics'])  
+        elif 'gatherResults'==name:
+            task=GumpTask(name,['preprocess'])   
+        elif 'generateResults'==name:
+            task=GumpTask(name,['preprocess','loadStatistics'])  
+        else:
+            raise RuntimeError, 'Unknown task name ['+name+']'            
+        return task
+            
+    def getDependentTasks(self,task):
+        dependencies=[]
+        taskNames=task.getDependentTaskNames()
+        for taskName in taskNames:
+            dependencies.append(self.getTask(taskName))        
+        return dependencies 
+        
+    def populateForTaskNameList(self,taskNames):        
+        for taskName in taskNames:
+            self.populateForTaskName(taskName)
+        
+    def populateForTaskName(self,taskName):
+        self.populateForTask(self.getTask(taskName))
+        
+    def populateForTask(self,task):
+        if not task in self:
+            for depend in self.getDependentTasks(task):
+                self.populateForTask(depend)
+            self.addTask(task)                            
+            
+    def bind(self,engine):
+        for task in self: task.bind(engine)
+                    

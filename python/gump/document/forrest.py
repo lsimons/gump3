@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/forrest.py,v 1.107 2004/03/15 22:07:07 ajack Exp $
-# $Revision: 1.107 $f
-# $Date: 2004/03/15 22:07:07 $
+# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/forrest.py,v 1.108 2004/03/16 19:50:15 ajack Exp $
+# $Revision: 1.108 $f
+# $Date: 2004/03/16 19:50:15 $
 #
 # ====================================================================
 #
@@ -275,7 +275,7 @@ class ForrestDocumenter(Documenter):
             definitionTable.createEntry('Workspace Version', workspace.xml.version)
         if not workspace.xml.version or not workspace.xml.version == setting.ws_version:
             definitionTable.createEntry('Gump Preferred Workspace Version', setting.ws_version)
-        definitionTable.createEntry('Java Command', workspace.javaCommand)
+        definitionTable.createEntry('Java Command', run.getEnvironment().javaCommand)
         definitionTable.createEntry('Python', str(sys.version))
         definitionTable.createEntry('Operating System (Name)', str(os.name))
         definitionTable.createEntry('@@DATE@@', str(default.date))
@@ -571,14 +571,12 @@ The count of affected indicates relative importance of fixing this project.""")
             self.resolver.getFile(workspace,'project_fixes'))        
         self.documentSummary(document, workspace.getProjectSummary())
         
-        totalAffected=0
-        
         projectsSection=document.createSection('Projects with fixes...')
         projectsSection.createParagraph("""These are the projects that were 'fixed' (state changed to success) within %s runs.
 This page helps Gumpmeisters (and others) observe community progress.
         """ % INSIGNIFICANT_DURATION)      
         
-        projectsTable=projectsSection.createTable(['Name','Affected',	\
+        projectsTable=projectsSection.createTable(['Name',	\
                     'Dependees',	\
                     'Duration\nin state','Project State'])
         pcount=0
@@ -590,13 +588,6 @@ This page helps Gumpmeisters (and others) observe community progress.
                 continue
                 
             pcount+=1
-        
-            #
-            # Determine the number of projects this module (or its projects)
-            # cause not to be run.
-            #
-            affected=project.determineAffected()            
-            totalAffected += affected
             
             # How long been like this
             seq=stats=project.getStats().sequenceInState
@@ -615,10 +606,7 @@ This page helps Gumpmeisters (and others) observe community progress.
             self.insertStateIcon(project,workspace,projectRow.createData())
                 
         if not pcount: 
-            projectsTable.createLine('None')    
-        else:
-            projectsSection.createParagraph(
-                    'Total Affected Projects: ' + str(totalAffected))
+            projectsTable.createLine('None')   
                     
         document.serialize()
            
@@ -699,7 +687,7 @@ The count of affected indicates relative importance of fixing this module.""")
 This page helps Gumpmeisters (and others) observe community progress.
         """ % INSIGNIFICANT_DURATION)      
              
-        modulesTable=modulesSection.createTable(['Name','Affected','Duration\nin state','Module State',	\
+        modulesTable=modulesSection.createTable(['Name','Duration\nin state','Module State',	\
                                     'Project State(s)','Elapsed'])
         
         mcount=0
@@ -727,19 +715,12 @@ This page helps Gumpmeisters (and others) observe community progress.
                 if project.getState()==STATE_FAILED:
                     stats=project.getStats()        
                     if stats.sequenceInState > seq: seq = stats.sequenceInState
-    
-            #
-            # Determine the number of projects this module (or its projects)
-            # cause not to be run.
-            #
-            affected=module.determineAffected()
             
             # Display
             moduleRow=modulesTable.createRow()
             moduleRow.createComment(module.getName())     
             self.insertLink(module,workspace,moduleRow.createData())
             
-            moduleRow.createData(affected)
             moduleRow.createData(seq)
                         
             self.insertStateIcon(module,workspace,moduleRow.createData())

@@ -30,7 +30,7 @@ import logging
 from gump import log
 from gump.engine import GumpEngine
 from gump.gumprun import GumpRun, GumpRunOptions, GumpSet
-from gump.utils.commandLine import handleArgv
+from gump.commandLine import handleArgv
 from gump.utils import logResourceUtilization
 from gump.model.loader import WorkspaceLoader
 
@@ -57,8 +57,9 @@ def irun():
 
     logResourceUtilization('Before create run')
     
-    # Has to be absolute latest descriptors, not cached...
+    # Has to be absolute latest descriptors, not quick/cached...
     options.setQuick(0)
+    options.setCache(0)
     
     # The Run Details...
     run=GumpRun(workspace,ps,options)
@@ -66,7 +67,7 @@ def irun():
     #
     #    Perform this integration run...
     #
-    result = GumpEngine().integrate(run)
+    result = GumpEngine().performIntegrate(run)
 
     logResourceUtilization('Before exit')
     

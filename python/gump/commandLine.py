@@ -30,7 +30,6 @@ from gump import log
 from gump.config import default
 from gump.utils import banner
 
-
 #
 # Process the command line, returning:
 #
@@ -39,6 +38,7 @@ from gump.utils import banner
 #	
 #
 class CommandLine:
+    
     def __init__(self,argv,requireProject=1):
         self.args = []
         
@@ -55,7 +55,7 @@ class CommandLine:
                 banner()
       
                 print "command: " , __name__    
-                print "Usage: python "+__name__+".py [OPTION]... [PROJECT]... [OTHER]..."
+                print "Usage: python "+__name__+".py -w {workspaceFile} [OPTION]... [PROJECT]... [OTHER]..."
                 print 
                 print "Mandatory arguments to long options are mandatory for short options too."
                 print 
@@ -67,6 +67,12 @@ class CommandLine:
                 print "General:"
                 print "  -v,  --verbose           verbose logging."
                 print "  -d,  --debug             debug logging."
+                print
+                print " Not relevent to all scripts:"
+                print "  -D,  --dated             Dated log files."
+                print "  -t,  --text              Use text not Forrest."
+                
+                print
                 print
                 print "For bug reports use JIRA: http://issues.apache.org/."
                 print "For suggestions: <general@gump.apache.org/>."
@@ -89,8 +95,9 @@ class CommandLine:
                 log.setLevel(logging.DEBUG)  
             elif arg in ['-l','--latest']:
                 argv.remove(arg)
+                self.options.setCache(0)
                 self.options.setQuick(0)
-                log.info('Absolute Latest [no use of cache, non-stack]')
+                log.info('Absolute Latest [no use of cache, don\'t skip stack]')
             elif arg in ['-D','--dated']:
                 argv.remove(arg)    
                 #
@@ -98,6 +105,10 @@ class CommandLine:
                 #
                 options.setDated(1)                    
                 log.info('Dated Operation (add date to log dir)')
+            elif arg in ['-t','--text']:
+                argv.remove(arg)        
+                self.options.setText(1)
+                log.info('Use text (not forrest).')
 
 
         if len(argv)>2 and argv[1] in ['-w','--workspace']:

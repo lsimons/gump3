@@ -27,7 +27,7 @@
 	and build stuff. If you use any packages available as
 	binaries only, you need to set pkgdir as well.
 -->
-<workspace basedir="C:\jakarta" pkgdir="C:\opt" version="0.3">
+<workspace name="minimal" basedir="C:\jakarta" pkgdir="C:\opt" version="0.3">
 
 	<!-- this tells Ant to completely ignore all classpath
 	     elements in build scripts. This makes sure we build

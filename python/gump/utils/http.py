@@ -69,7 +69,7 @@ def cacheHTTP(href,cacheDir=dir.cache,optimize=0):
     usecached=0
     if optimize or (switch.optimize and switch.optimizenetwork):
         if os.path.exists(cachedHrefFile):
-          log.info('Using cached descriptor for ' + href)
+          log.debug('Using cached descriptor for ' + href)
           usecached=1
           
     if not usecached:

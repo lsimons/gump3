@@ -23,7 +23,7 @@
 from gump import log
 from gump.engine import GumpEngine
 from gump.gumprun import GumpRun, GumpRunOptions, GumpSet
-from gump.utils.commandLine import handleArgv
+from gump.commandLine import handleArgv
 from gump.model.loader import WorkspaceLoader
 
 

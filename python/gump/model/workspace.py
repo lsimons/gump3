@@ -1,63 +1,18 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/model/workspace.py,v 1.32 2004/03/09 21:13:18 ajack Exp $
-# $Revision: 1.32 $
-# $Date: 2004/03/09 21:13:18 $
+# Copyright 2003-2004 The Apache Software Foundation
 #
-# ====================================================================
-#
-# The Apache Software License, Version 1.1
-#
-# Copyright (c) 2003 The Apache Software Foundation.  All rights
-# reserved.
-#
-# Redistribution and use in source and binary forms, with or without
-# modification, are permitted provided that the following conditions
-# are met:
-#
-# 1. Redistributions of source code must retain the above copyright
-#    notice, this list of conditions and the following disclaimer.
-#
-# 2. Redistributions in binary form must reproduce the above copyright
-#    notice, this list of conditions and the following disclaimer in
-#    the documentation and/or other materials provided with the
-#    distribution.
-#
-# 3. The end-user documentation included with the redistribution, if
-#    any, must include the following acknowlegement:
-#       "This product includes software developed by the
-#        Apache Software Foundation (http://www.apache.org/)."
-#    Alternately, this acknowlegement may appear in the software itself,
-#    if and wherever such third-party acknowlegements normally appear.
-#
-# 4. The names "The Jakarta Project", "Alexandria", and "Apache Software
-#    Foundation" must not be used to endorse or promote products derived
-#    from this software without prior written permission. For written
-#    permission, please contact apache@apache.org.
-#
-# 5. Products derived from this software may not be called "Apache"
-#    nor may "Apache" appear in their names without prior written
-#    permission of the Apache Group.
-#
-# THIS SOFTWARE IS PROVIDED ``AS IS'' AND ANY EXPRESSED OR IMPLIED
-# WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
-# OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
-# DISCLAIMED.  IN NO EVENT SHALL THE APACHE SOFTWARE FOUNDATION OR
-# ITS CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
-# SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
-# LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF
-# USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
-# ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
-# OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT
-# OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
-# SUCH DAMAGE.
-# ====================================================================
-#
-# This software consists of voluntary contributions made by many
-# individuals on behalf of the Apache Software Foundation.  For more
-# information on the Apache Software Foundation, please see
-# <http://www.apache.org/>.
-
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+# 
+#     http://www.apache.org/licenses/LICENSE-2.0
+# 
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
 """
     This module contains information on
 """
@@ -80,6 +35,7 @@ from gump.model.object import NamedModelObject, Resultable
 from gump.model.property import PropertyContainer
 from gump.model.stats import Statable, Statistics
 from gump.utils.note import transferAnnotations, Annotatable
+from gump.utils.listener import Listener, Event
 
 #
 # :TODO: Need to createa GumpEnvironment to move these to..
@@ -122,19 +78,7 @@ class Workspace(NamedModelObject, PropertyContainer, Statable, Resultable):
         #
     	PropertyContainer.importProperties(self,self.xml)    	
     	                 	
-        #
-    	# Set to true if not found, see checkEnvironment
-    	#
-    	self.noForrest=0    
-    	self.noMaven=0    	
-    	self.noRuper=0    	
-    	self.noSvn=0    	
-    	self.noCvs=0    	
-    	
-    	#
-    	# JAVACMD can override this, see checkEnvironment
-    	#
-        self.javaCommand = 'java'
+ 
         
         #    
         self.startdatetime=time.strftime(setting.datetimeformat, \
@@ -143,6 +87,8 @@ class Workspace(NamedModelObject, PropertyContainer, Statable, Resultable):
 
         # Where the merged XML was put
         self.mergeFile=None
+        
+        self.listener=ModelListener()
         
     def getChildren(self):
         return self.getModules() 
@@ -319,6 +265,8 @@ class Workspace(NamedModelObject, PropertyContainer, Statable, Resultable):
             else:        
                 profile.complete(self)
                 self.profiles[profileName] = profile
+        
+            self.listener.handleEvent(ModelEvent())
 
         #
         # Import all repositories
@@ -332,6 +280,8 @@ class Workspace(NamedModelObject, PropertyContainer, Statable, Resultable):
             else:        
                 repository.complete(self)
                 self.repositories[repoName] = repository
+        
+            self.listener.handleEvent(ModelEvent())
 
         #
         # Import all servers
@@ -345,6 +295,8 @@ class Workspace(NamedModelObject, PropertyContainer, Statable, Resultable):
             else:        
                 server.complete(self)
                 self.servers[serverName] = server
+        
+            self.listener.handleEvent(ModelEvent())
 
         #
         # Import all trackers
@@ -358,6 +310,8 @@ class Workspace(NamedModelObject, PropertyContainer, Statable, Resultable):
             else:        
                 tracker.complete(self)
                 self.trackers[trackerName] = tracker
+        
+            self.listener.handleEvent(ModelEvent())
 
         #
         # Import all modules
@@ -370,6 +324,9 @@ class Workspace(NamedModelObject, PropertyContainer, Statable, Resultable):
                 self.addError("Duplicate Module name [" + moduleName + "]")
             else:        
                 self.modules[moduleName] = module
+        
+            self.listener.handleEvent(ModelEvent())
+            
         #
         # Import all projects
         #  
@@ -381,17 +338,23 @@ class Workspace(NamedModelObject, PropertyContainer, Statable, Resultable):
                 self.addError("Duplicate Project name [" + projectName + "]")
             else:        
                 self.projects[projectName] = project 
+        
+            self.listener.handleEvent(ModelEvent())
 
         # Complete the modules
         for module in self.getModules():
             module.complete(self)
+        
+            self.listener.handleEvent(ModelEvent())
             
         #
         # Check repositories, now modules have been imported,
         # so we can report those unused ones.
         #
         for repository in self.getRepositories(): 
-            repository.check(self)            
+            repository.check(self)           
+        
+            self.listener.handleEvent(ModelEvent()) 
         
         #
         # Check servers.
@@ -399,11 +362,15 @@ class Workspace(NamedModelObject, PropertyContainer, Statable, Resultable):
         for server in self.getServers(): 
             server.check(self)            
         
+            self.listener.handleEvent(ModelEvent())
+        
         #
         # Check trackers.
         #
         for tracker in self.getTrackers(): 
-            tracker.check(self)            
+            tracker.check(self)           
+        
+            self.listener.handleEvent(ModelEvent()) 
         
         # Complete the projects   
         haveUnnamedModule=0
@@ -422,10 +389,14 @@ class Workspace(NamedModelObject, PropertyContainer, Statable, Resultable):
             # Complete the project
             project.complete(self)   
         
+            self.listener.handleEvent(ModelEvent())
+        
         # Check they are complete...
         for project in self.getProjects():
             if not project.isPackaged(): continue
-            project.checkPackage()                   
+            project.checkPackage()          
+        
+            self.listener.handleEvent(ModelEvent())         
                                                              
         # Complete the properies
         self.completeProperties()
@@ -443,6 +414,9 @@ class Workspace(NamedModelObject, PropertyContainer, Statable, Resultable):
         # Copy over any XML errors/warnings
         transferAnnotations(self.xml, self)  
                 
+        
+        self.listener.handleEvent(ModelEvent())
+            
         self.setComplete(1)
 
     def completeDirectories(self):
@@ -577,157 +551,6 @@ class Workspace(NamedModelObject, PropertyContainer, Statable, Resultable):
     def getCvsDirectory(self):
         return self.cvsdir
 
-    def checkEnvironment(self,exitOnError=0):
-        """ Check Things That are Required """
-    
-        #
-        # :TODO: Complete this, it ought be an important early warning...
-        #
-    
-    
-        #:TODO: Take more from runAnt.py on:
-        # - ANT_OPTS?
-        # - How to ensure lib/tools.jar is in classpath
-        # - Others?
-    
-        #
-        #	Directories...
-    
-    
-        #
-        # JAVACMD can be set (perhaps for JRE verse JDK)
-        #
-        if os.environ.has_key('JAVACMD'):        
-            self.javaCommand  = os.environ['JAVACMD']
-            self.addInfo('JAVACMD environmental variable setting java command to ' \
-                + self.javaCommand )
-    
-    
-        #	Envs:
-        #	JAVA_HOME for bootstrap ant?
-        #	CLASSPATH
-        #	FORREST_HOME?
-    
-        if not self.checkEnvVariable('JAVA_HOME',0):    
-            self.noJavaHome=1    
-            self.addWarning('JAVA_HOME environmental variable not found. Might not be needed.')
-                
-        if not self.checkEnvVariable('CLASSPATH',0):    
-            self.noClasspath=1    
-            self.addWarning('CLASSPATH environmental variable not found. Might not be needed.')
-                
-        if not self.checkEnvVariable('FORREST_HOME',0): 
-            self.noForrest=1
-            self.addWarning('FORREST_HOME environmental variable not found, no xdoc output.')
-                
-        if not self.checkEnvVariable('MAVEN_HOME',0): 
-            self.noMaven=1
-            self.addWarning('MAVEN_HOME environmental variable not found, no maven builds.')
-            
-        #
-        # Check for executables:
-        #
-        #	java
-        #	javac (for bootstrap ant & beyond)
-        #	cvs
-        #
-        #	These ought set a switch..
-        #
-        #	forrest (for documentation)
-        #
-        self.checkExecutable('env','',0)
-        self.checkExecutable(self.javaCommand,'-version',exitOnError,1)
-        self.checkExecutable('javac','-help',0)
-        self.checkExecutable('java com.sun.tools.javac.Main','-help',0,0,'check_java_compiler')    
-
-        if not self.noCvs and not self.checkExecutable('cvs','--version',0):
-            self.noCvs=1
-            self.addWarning('"cvs" command not found, no CVS repository updates')
-        
-        if not self.noSvn and not self.checkExecutable('svn','--version',0):
-            self.noSvn=1
-            self.addWarning('"svn" command not found, no SVN repository updates')
-        
-        if not self.noForrest and not self.checkExecutable('forrest','-projecthelp',0): 
-            self.noForrest=1
-            self.addWarning('"forrest" command not found, no xdoc output')
-        
-        if not self.noRuper and \
-            not self.checkExecutable('ruper','-version',0,0,'check_ruper'): 
-            self.noRuper=1
-            self.addWarning('"ruper" command not found, no package downloads')
-        
-        if not self.noMaven and \
-            not self.checkExecutable('maven','--version',0,0,'check_maven'): 
-            self.noMaven=1
-            self.addWarning('"maven" command not found, no Maven builds')
-        
-        if not self.checkExecutable('pgrep','-help',0): 
-            self.noPGrep=1
-            self.addWarning('"pgrep" command not found, no process clean-ups can occur')        
-    
-        self.changeState(STATE_SUCCESS)
-    
-    def checkExecutable(self,command,options,mandatory,logOutput=0,name=None):
-        ok=0
-        try:
-            if not name: name='check_'+command
-            cmd=getCmdFromString(command+" "+options,name)
-            result=execute(cmd)
-            ok=result.state==CMD_STATE_SUCCESS 
-            if not ok:
-                log.error('Failed to detect [' + command + ']')   
-        except Exception, details:
-            ok=0
-            log.error('Failed to detect [' + command + '] : ' + str(details))
-            result=None
-       
-        # Update 
-        self.performedWork(CommandWorkItem(WORK_TYPE_CHECK,cmd,result))
-        
-        if not ok and mandatory:
-            banner()
-            print
-            print " Unable to detect/test mandatory [" + command+ "] in path (see next)."
-            for p in sys.path:
-                print "  " + str(os.path.abspath(p))
-            sys.exit(MISSING_UTILITY)
-        
-        # Store the output
-        if logOutput and result.output:
-            out=tailFileToString(result.output,10)
-            self.addInfo(name + ' produced: \n' + out)
-            
-        return ok
-    
-    def checkEnvVariable(self,env,mandatory=1):
-        ok=0
-        try:
-            ok=os.environ.has_key(env)
-            if not ok:
-                log.error('Failed to find environment variable [' + env + ']')
-        
-        except Exception, details:
-            ok=0
-            log.error('Failed to find environment variable [' + env + '] : ' + str(details))
-    
-        if not ok and mandatory:
-            banner()
-            print
-            print " Unable to find mandatory [" + env + "] in environment (see next)."
-            for e in os.environ.keys():
-                try:
-                    v=os.environ[e]
-                    print "  " + e + " = " + v
-                except:
-                    print "  " + e 
-            sys.exit(BAD_ENVIRONMENT)
-    
-        return ok
-        
-    def getJavaCommand(self):
-        return self.javaCommand
-        
 
 class WorkspaceStatistics(Statistics):
     """Statistics Holder"""
@@ -752,3 +575,19 @@ class WorkspaceStatistics(Statistics):
         # 
         if module.isUpdated():
             self.lastUpdated=default.time        
+            
+            
+class ModelEvent(Event):
+    def __init__(self):		pass
+
+class ModelListener(Listener):
+    def __init__(self):  	pass
+    
+    #
+    # Called with events
+    #
+    def notify(self,event):
+        pass
+        #print '.',
+        
+            

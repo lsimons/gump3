@@ -42,6 +42,8 @@ class SAXDispatcher(ContentHandler,ErrorHandler,Annotatable):
       
     Annotatable.__init__(self)
     
+    #print '.',
+    
     """    
         Creates a DocRoot and parses the specified file into a GOM tree.
 

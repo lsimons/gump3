@@ -26,7 +26,7 @@
 from gump import log
 from gump.engine import GumpEngine
 from gump.gumprun import GumpRun, GumpRunOptions, GumpSet
-from gump.utils.commandLine import handleArgv
+from gump.commandLine import handleArgv
 from gump.model.loader import WorkspaceLoader
 
 # static void main()
@@ -46,7 +46,7 @@ if __name__=='__main__':
     #
     #    Perform this check run...
     #
-    result = GumpEngine().check(run)
+    result = GumpEngine().performCheck(run)
 
     #
     log.info('Gump Check complete. Exit code:' + str(result))

@@ -28,6 +28,7 @@ from fnmatch import fnmatch
 
 from gump import log
 from gump.config import dir, default, basicConfig
+from gump.gumpenv import GumpEnvironment
 
 
 from gump.utils.work import *
@@ -320,15 +321,24 @@ class GumpSet:
         output.write(getIndent(indent)+'GumpSet: ' + self.getProjectExpression() + '\n')        
 
 class GumpRunOptions:
+    """
+    
+    GumpRunOptions are the 'switches' that dictate the code path
+    
+    """
     def __init__(self):
         self.optimize=0
  
         self.debug=0	
         self.verbose=0	
-        self.quick=1	# Defaults to QUICK
+        self.cache=1	# Defaults to QUICK
+        self.quick=1	# Defaults to CACHE
         self.dated=0	# Defaults to NOT dated.
+        self.optimize=0	# Do the least ammount of work...
         
-        # Default is Text        
+        # Default is Text unless Forrest is in the environment,
+        # but can also force text with --text 
+        self.text=0      
         self.documenter=TextDocumenter()
 
     def setDocumenter(self, documenter):
@@ -354,6 +364,18 @@ class GumpRunOptions:
     def setQuick(self,quick):
         self.quick=quick
         
+    def isText(self):
+        return self.text
+        
+    def setText(self,text):
+        self.text=text
+        
+    def isCache(self):
+        return self.cache
+        
+    def setCache(self,cache):
+        self.cache-cache
+        
     def isDebug(self):
         return self.debug
         
@@ -367,7 +389,7 @@ class GumpRunOptions:
         self.verbose=verbose
         
 class GumpRun(Workable,Annotatable,Stateful):
-    def __init__(self,workspace,expr=None,options=None):
+    def __init__(self,workspace,expr=None,options=None,env=None):
         #
         # The workspace being worked upon
         #
@@ -387,12 +409,26 @@ class GumpRun(Workable,Annotatable,Stateful):
             self.options=GumpRunOptions()
         
         #
+        # The run options
+        #
+        if env:
+            self.env=env
+        else:
+            self.env=GumpEnvironment()
+        
+        #
         # A repository interface...
         #
         self.outputsRepository=JarRepository(workspace.jardir)
         
     def getWorkspace(self):
         return self.workspace
+
+    def setEnvironment(self,env):
+        self.env=env
+
+    def getEnvironment(self):
+        return self.env
 
     def getOptions(self):
         return self.options

@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/test/pyunit.py,v 1.23 2004/03/12 02:50:52 ajack Exp $
-# $Revision: 1.23 $
-# $Date: 2004/03/12 02:50:52 $
+# $Header: /home/stefano/cvs/gump/python/gump/test/pyunit.py,v 1.24 2004/03/16 19:50:15 ajack Exp $
+# $Revision: 1.24 $
+# $Date: 2004/03/16 19:50:15 $
 #
 # ====================================================================
 #
@@ -375,6 +375,9 @@ if __name__=='__main__':
     
     from gump.test.unicode import UnicodeTestSuite  
     runner.addSuite(UnicodeTestSuite())
+    
+    from gump.test.thomas import EngineTestSuite  
+    runner.addSuite(EngineTestSuite())
     
     # Any args are pattern matches
     patterns=list(sys.argv)

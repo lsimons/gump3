@@ -32,7 +32,7 @@ import logging
 from gump import log
 from gump.engine import GumpEngine
 from gump.gumprun import GumpRun, GumpRunOptions, GumpSet
-from gump.utils.commandLine import handleArgv
+from gump.commandLine import handleArgv
 from gump.model.loader import WorkspaceLoader
 
 
@@ -49,8 +49,7 @@ if __name__=='__main__':
     ps=args[1]
 
     # get parsed workspace definition
-    workspace=WorkspaceLoader().load(ws, options.isQuick())
-    
+    workspace=WorkspaceLoader().load(ws, options.isCache())    
     
     # The Run Details...
     run=GumpRun(workspace,ps,options)
@@ -58,7 +57,7 @@ if __name__=='__main__':
     #
     #    Perform this integration run...
     #
-    result = GumpEngine().build(run, '*' in args)
+    result = GumpEngine().performBuild(run)
     
     #
     log.info('Gump Build complete. Exit code:' + str(result))
