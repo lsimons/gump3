@@ -13,10 +13,10 @@ mkdir work
 REM ********************************************************************
 
 echo Merging projects into workspace
-javac gen.java
+javac -classpath .;%CLASSPATH% gen.java
 if errorlevel 1 goto fail
 echo.
-java gen %SOURCE%
+java -classpath .;%CLASSPATH% gen %SOURCE%
 if not errorlevel 0 goto fail
 
 REM ********************************************************************

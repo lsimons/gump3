@@ -28,9 +28,9 @@ mkdir work
 # ********************************************************************
 
 echo Merging projects into workspace
-javac gen.java || export FAIL=1
+javac -classpath .:$CLASSPATH gen.java || export FAIL=1
 echo
-java gen $SOURCE || export FAIL=1
+java -classpath .:$CLASSPATH gen $SOURCE || export FAIL=1
 
 # ********************************************************************
 
