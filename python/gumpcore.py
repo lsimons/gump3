@@ -18,9 +18,11 @@ from xml.sax import parse
 from xml.sax.handler import ContentHandler
 from gumputil import *
 from gumpconf import *
+#from Cheetah.Template import Template
+
   
 #########################################################################
-#	  SAX Dispatcher Mechanism                                          #
+#	  SAX Dispatcher: maintain a stack of active elements		#
 #########################################################################
 
 # a stack of active xml elements
@@ -30,14 +32,11 @@ class SAXDispatcher(ContentHandler):
     self.elementStack=[self.topOfStack]
     parse(file,self)
     self.docElement=self.topOfStack.element
-    
   def startElement (self, name, attrs):
     if self.topOfStack: self.topOfStack=self.topOfStack.startElement(name,attrs)
     self.elementStack.append(self.topOfStack);
-    
   def characters(self, string):
     if self.topOfStack: self.topOfStack.characters(string)
-    
   def endElement (self, name):
     del self.elementStack[-1]
     self.topOfStack=self.elementStack[-1]
@@ -84,7 +83,6 @@ class GumpBase(object):
     # setup internal character field
     if not '@text' in self.__dict__: self.init()
     self.__dict__['@text']=''
-  
   def startElement(self, name, attrs):
     # possibility to customize behaviour based on
     # type of the element
@@ -96,22 +94,16 @@ class GumpBase(object):
     except:
       # print self.__class__, name
       pass
-  
   def characters(self,string):
     self.__dict__['@text']+=string
-  
   def __setitem__(self,name,value): 
     self.__dict__[name]=value
-  
   def __getitem__(self,name): 
     if name in self.__dict__: return self.__dict__[name]
-  
   def __getattr__(self,name): 
     pass
-  
   def __str__(self): 
     return self.__dict__['@text'].strip()
-  
   def init(self):
     pass
 
@@ -122,7 +114,6 @@ class DocRoot(GumpBase):
     self.name=name
     self.cls=cls
     self.element=None
-  
   def startElement(self, name, attrs):
     if name<>self.name: 
       raise "Incorrect element, expected %s, found %s" % (self.name,name)
@@ -217,7 +208,6 @@ class Workspace(GumpBase):
 # represents a <profile/> element
 class Profile(Named):
   list={}
-
   def init(self): 
     self.project=Multiple(Project)
     self.module=Multiple(Module)
@@ -226,7 +216,6 @@ class Profile(Named):
 # represents a <module/> element
 class Module(Named):
   list={}
-
   def init(self): 
     self.cvs=Single()
     self.url=Single()
@@ -243,7 +232,6 @@ class Module(Named):
 # represents a <repository/> element
 class Repository(Named):
   list={}
-
   def init(self):
     self['home-page']=Single()
     self.title=Single()
@@ -253,7 +241,6 @@ class Repository(Named):
 
 # represents a <root/> element within a <repository/> element
 class RepositoryRoot(GumpBase):
-
   def init(self): 
     self.method=Single()
     self.user=Single()
@@ -264,7 +251,6 @@ class RepositoryRoot(GumpBase):
 # represents a <project/> element
 class Project(Named):
   list={}
-
   def init(self): 
     self.ant=Single(Ant)
     self.script=Single()
@@ -319,7 +305,6 @@ class Javadoc(GumpBase):
 
 # represents a <property/> element
 class Property(GumpBase): 
-
   # provide default elements when not defined in xml
   def complete(self,project):
     if self.reference=='home':
