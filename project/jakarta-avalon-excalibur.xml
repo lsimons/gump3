@@ -914,6 +914,7 @@
         <depend project="jakarta-avalon" runtime="true"/>
         <depend project="xml-xerces"/>
         <depend project="xml-xalan2"/>
+        <depend project="jisp"/>
         <work nested="store/build/classes"/>
 
         <home nested="store"/>
