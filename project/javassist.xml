@@ -1,6 +1,7 @@
-<?xml version="1.0?>
-  <!-- $Id: javassist.xml,v 1.1 2003/09/03 18:05:57 hlship Exp $ -->
-	<module name="javassist">
+
+<!-- $Id: javassist.xml,v 1.2 2003/09/03 18:07:52 hlship Exp $ -->
+
+<module name="javassist">
 
   <url href="http://www.jboss.org/index.html?module=html&amp;op=userdisplay&amp;id=developers/projects/javassist"/>
   <description>
