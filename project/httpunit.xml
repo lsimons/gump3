@@ -1,0 +1,19 @@
+<project name="httpunit">
+
+  <url  href="http://httpunit.sourceforge.net/"/>
+  <description>
+    framework for unit testing web sites
+  </description>
+
+  <cvs repository="sourceforge" host-prefix="cvs.httpunit" dir="httpunit"/>
+
+  <ant>
+  </ant>
+
+  <depend project="jakarta-ant"/>
+  <depend project="xml-xerces"/>
+  <depend project="jtidy"/>
+
+  <jar id="httpunit" name="lib/httpunit.jar"/>
+
+</project>

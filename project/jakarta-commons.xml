@@ -37,6 +37,8 @@
                 project="junit"/>
       <property name="log4j.jar" reference="jarpath" id="log4j-core"
                 project="jakarta-log4j"/>
+      <property name="httpunit.jar" reference="jarpath" id="httpunit"
+                project="httpunit"/>
     </ant>
 
     <depend project="jakarta-ant"/>
@@ -47,6 +49,7 @@
     <depend project="xml-xalan2"/>
     <depend project="jakarta-log4j"/>
     <depend project="jakarta-tomcat"/>
+    <depend project="httpunit"/>
     <work nested="cactus/out/servlet22/classes/"/>
     <work nested="cactus/out/classes/"/>
 

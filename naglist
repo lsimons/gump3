@@ -21,13 +21,13 @@ Regex: /BUILD FAILED/
 Project: commons-cactus-22
 To: jakarta-commons@jakarta.apache.org
 From: Ted Husted <ted@husted.com>
-Subject: [GUMP] Build Failure - cactus
+Subject: [GUMP] Build Failure - cactus-22
 Regex: /BUILD FAILED/
 ------
 Project: commons-cactus-23
 To: jakarta-commons@jakarta.apache.org
 From: Ted Husted <ted@husted.com>
-Subject: [GUMP] Build Failure - cactus
+Subject: [GUMP] Build Failure - cactus-23
 Regex: /BUILD FAILED/
 ------
 Project: commons-collections

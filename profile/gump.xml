@@ -67,6 +67,7 @@
   <project href="project/bsf.xml"/>
   <project href="project/dom4j.xml"/>
   <project href="project/dbxml.xml"/>
+  <project href="project/httpunit.xml"/>
   <project href="project/jdom.xml"/>
   <project href="project/jtidy.xml"/>
   <project href="project/junit.xml"/>
