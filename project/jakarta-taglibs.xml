@@ -14,6 +14,7 @@
       <property name="base.dir" reference="home" project="jakarta-taglibs"/>
       <property name="build.dir" path="build"/>
       <property name="dist.dir" path="dist"/>
+      <property name="standard.jar" path="dist/standard/standard.jar"/>
       <depend property="xerces.jar" project="xml-xerces" id="parser"/>
       <depend property="crimson.jar" project="xml-xerces" id="parser"/>
       <depend property="jaxp.jar" project="xml-xerces" id="apis"/>
@@ -50,11 +51,14 @@
     <javadoc nested="dist/doc/doc">
       <description dir="application-doc/javadoc">application</description>
       <description dir="benchmark-doc/javadoc">benchmark</description>
+      <description dir="bsf-doc/javadoc">bsf</description>
+      <description dir="cache-doc/javadoc">cache</description>
       <description dir="datetime-doc/javadoc">datetime</description>
       <description dir="dbtags-doc/javadoc">dbtags</description>
       <description dir="i18n-doc/javadoc">i18n</description>
       <description dir="input-doc/javadoc">input</description>
       <description dir="io-doc/javadoc">io</description>
+      <description dir="jmstags-doc/javadoc">jmstags</description>
       <description dir="jndi-doc/javadoc">jndi</description>
       <description dir="log-doc/javadoc">log</description>
       <description dir="mailer-doc/javadoc">mailer</description>
@@ -65,7 +69,10 @@
       <description dir="response-doc/javadoc">response</description>
       <description dir="scrape-doc/javadoc">scrape</description>
       <description dir="session-doc/javadoc">session</description>
+      <description dir="standard-doc/javadoc">standard</description>
       <description dir="string-doc/javadoc">string</description>
+      <description dir="ultradev4-doc/javadoc">ultradev4</description>
+      <description dir="utility-doc/javadoc">utility</description>
       <description dir="xtags-doc/javadoc">xtags</description>
     </javadoc>
 
