@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/Attic/view.py,v 1.15 2003/05/02 12:40:40 rubys Exp $
-# $Revision: 1.15 $
-# $Date: 2003/05/02 12:40:40 $
+# $Header: /home/stefano/cvs/gump/python/gump/Attic/view.py,v 1.16 2003/05/03 10:13:51 nicolaken Exp $
+# $Revision: 1.16 $
+# $Date: 2003/05/03 10:13:51 $
 #
 # ====================================================================
 #
@@ -79,7 +79,9 @@ from gump.conf import dir, default
 from gump.gen import xmlize
 from gump.model import Module, Project
 
-classpath=os.environ['CLASSPATH'].split(os.pathsep)
+classpath = os.getenv('CLASSPATH')
+if(classpath):
+  classpath = classpath.split(os.pathsep)
 
 class gumpview(wxApp):
   # model
