@@ -15,7 +15,7 @@
   limitations under the License.
 -->
 <module name="jakarta-jmeter">
-<!-- Version $Revision: 1.94 $ Last updated $Date: 2004/03/31 18:05:20 $ -->
+<!-- Version $Revision: 1.95 $ Last updated $Date: 2004/04/01 13:35:07 $ -->
   <url href="http://jakarta.apache.org/jmeter/" />
   <description>
     Pure Java load testing and performance measurement tool.
@@ -31,8 +31,8 @@
       <property name="jmeter.version" value="@@DATE@@"/>
       <property name="gump.run" value="true"/>
       <!-- The version of this file -->
-      <property name="version.projectfile" value="$Revision: 1.94 $"/>
-      <property name="date.projectfile" value="$Date: 2004/03/31 18:05:20 $"/>
+      <property name="version.projectfile" value="$Revision: 1.95 $"/>
+      <property name="date.projectfile" value="$Date: 2004/04/01 13:35:07 $"/>
       
       <!--
       	These properties are passed to the build process, so the names need to agree with
@@ -110,8 +110,8 @@
       <property name="jmeter.version" value="@@DATE@@"/>
       <property name="gump.run" value="true"/>
       <!-- The version of this file -->
-      <property name="version.projectfile" value="$Revision: 1.94 $"/>
-      <property name="date.projectfile" value="$Date: 2004/03/31 18:05:20 $"/>
+      <property name="version.projectfile" value="$Revision: 1.95 $"/>
+      <property name="date.projectfile" value="$Date: 2004/04/01 13:35:07 $"/>
 
 		<!-- Ensure work directories don't get dropped from classpath -->
 		<mkdir dir="build/core"/>
@@ -200,8 +200,8 @@
       <!-- Temp hack to make up for missing workspace property ... -->
       <property name="java.awt.headless" value="true"/>
       <!-- The version of this file -->
-      <property name="version.projectfile" value="$Revision: 1.94 $"/>
-      <property name="date.projectfile" value="$Date: 2004/03/31 18:05:20 $"/>
+      <property name="version.projectfile" value="$Revision: 1.95 $"/>
+      <property name="date.projectfile" value="$Date: 2004/04/01 13:35:07 $"/>
     </ant>
 
     <depend project="ant" />
@@ -265,8 +265,8 @@
       <property name="jmeter.version" value="@@DATE@@"/>
       <property name="gump.run" value="true"/>
       <!-- The version of this file -->
-      <property name="version.projectfile" value="$Revision: 1.94 $"/>
-      <property name="date.projectfile" value="$Date: 2004/03/31 18:05:20 $"/>
+      <property name="version.projectfile" value="$Revision: 1.95 $"/>
+      <property name="date.projectfile" value="$Date: 2004/04/01 13:35:07 $"/>
     </ant>
 
     <depend project="ant" />
@@ -304,6 +304,8 @@
     <!-- Export the JMeter API doc jar -->
     <home nested="." />
     <jar name="dist/jakarta-jmeter-@@DATE@@_api.zip" />
+    <!-- needs licenze to keep Gump happy -->
+    <license name="LICENSE"/>
 
   </project>
 
