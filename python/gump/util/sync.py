@@ -205,12 +205,15 @@ class PathWalker(Annotatable):
     def epurate(self, sourcedir, destdir, acceptablefiles, existingfiles):        
         """
         this routine will delete from a set of existing files
-        in a directory the one which are not part of an 
-        array of acceptablefiles
+        in a directory [the ones which are not part of an 
+        array of acceptablefiles]
+        
         sourcedir = directory from which the copy is taking place
         destdir = directory where the epuration is to take place 
         acceptablefiles = array of filenames of files which are accepted at destination
         existingfiles = array of filenames which exist at destination                                     
+        
+        None
         """
         for afile in existingfiles:
             fullsourcefile = os.path.join(sourcedir, afile)
@@ -228,7 +231,9 @@ class PathWalker(Annotatable):
                         self.displayAction(False,' -F ', tobedeleted)    
                         os.remove(tobedeleted)
                 except (IOError, os.error), why:
-                    os.remove(tobedeleted)
+                    log.warning('Error removing [%s] - %s. Try again.' % (`tobedeleted`, why))
+                    self.displayAction(False,' -X ', tobedeleted)    
+                    shutil.rmtree(tobedeleted, True)
                     
     def removenonmatching(self, sourcedir, destdir, acceptablefiles, existingfiles):
         """

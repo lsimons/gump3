@@ -139,7 +139,6 @@ class GumpUpdater(RunSpecific):
             if ok:
                 self.syncModule(module)     
                     
-
     
     def syncModule(self,module):
         """
@@ -178,14 +177,17 @@ class GumpUpdater(RunSpecific):
                                 + `module.getPosition()` + \
                                 '] : ' + module.getName())
                                 
-                if os.path.exists(changesFile):  
-                    catFileToFileHolder(module, changesFile, FILE_TYPE_LOG) 
                         
         except Exception, details:
             module.changeState(STATE_FAILED,REASON_SYNC_FAILED)
             message='Synchronize Failed: ' + str(details)
             module.addError(message)
             log.error(message, exc_info=1)
+            
+            
+        # Might help even with sync failures.
+        if os.path.exists(changesFile):  
+            catFileToFileHolder(module, changesFile, FILE_TYPE_LOG) 
            
         return module.okToPerformWork()
         
