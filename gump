@@ -52,7 +52,7 @@ function usage
                          may have some unpredictable effects.
         GUMP_PYTHON   -- the name of the python executable to use. Defaults to
                          the latest version of python that is installed. Note
-                         that pygump is supported only on python2.3.
+                         that pygump is supported only on python2.4.
         GUMP_WORKDIR  -- the directory that pygump will generate various files in
                          (like log output). Defaults to GUMP_HOME/pygump/work.
         JAVA_HOME     -- the location of a java development kit. Gump tries to
@@ -432,6 +432,7 @@ function check_environment
   #check_pylib "rdflib" "http://rdflib.net/"
   check_pylib "MySQLdb" "http://sourceforge.net/projects/mysql-python"
   check_pylib "pmock" "http://pmock.sourceforge.net/"
+  check_pylib "subprocess" "http://www.lysator.liu.se/~astrand/popen5/"
 }
 
 # create a .pid file
@@ -494,7 +495,7 @@ function pycompile
   cd $GUMP_HOME/pygump
   local files=`find . -name '*.py' | sed -e 's/\.\///g' -e 's/\//./g' -e 's/\.py//g' -e 's/python\.//g' | grep -v __init__`
   for i in $files; do
-    python -c "import $i"
+    $GUMP_PYTHON -c "import $i"
   done
   cd $current
 
