@@ -248,7 +248,7 @@ class GumpBuilder(RunSpecific):
                 except Exception, details:
                     message='Failed to perform delete ' + `delete` + ':' + str(details)
                     log.error(message, exc_info=1)
-                    self.addError(message)
+                    project.addError(message)
                     project.changeState(STATE_FAILED,REASON_PREBUILD_FAILED)
                 
         if project.okToPerformWork():
@@ -262,7 +262,7 @@ class GumpBuilder(RunSpecific):
                 except Exception, details:
                     message='Failed to perform mkdir ' + `mkdir` + ':' + str(details)
                     log.error(message, exc_info=1)
-                    self.addError(message)
+                    project.addError(message)
                     project.changeState(STATE_FAILED,REASON_PREBUILD_FAILED)
      
         if startedOk and not project.okToPerformWork():
