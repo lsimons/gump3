@@ -31,6 +31,9 @@
       <depend property="tyrex.jar" project="tyrex"/>
       <depend property="xerces.jar" project="xml-xerces"/>
       <depend property="tomcat-util.jar" project="jakarta-tomcat-util"/>
+      <depend property="commons-beanutils.jar" project="commons-beanutils"/>
+      <depend property="commons-collections.jar" project="commons-collections"/>
+      <depend property="commons-digester.jar" project="commons-digester"/>
     </ant>
 
     <depend project="jaf"/>
