@@ -56,7 +56,7 @@
       <xsl:text>  s/ project="</xsl:text>
       <xsl:value-of select="@name"/>
       <xsl:text>"/ project="&lt;a href="</xsl:text>
-      <xsl:value-of select="concat(name(),'_',@defined-in,'.html')"/>
+      <xsl:value-of select="concat('module_',@defined-in,'.html')"/>
       <xsl:text>"&gt;</xsl:text>
       <xsl:value-of select="@name"/>
       <xsl:text>&lt;\/a&gt;"/g;&#10;</xsl:text>
