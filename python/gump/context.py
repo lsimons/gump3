@@ -350,7 +350,7 @@ class Context:
         if not stateUnset(pair.status) and not pair in states: \
             states.append(pair)
         
-        return states + self.getSubbordinateStates();
+        return self.getSubbordinateStates(states);
         
     def getSubbordinateStates(self, states=None):
         if not states: states=[]
@@ -358,6 +358,7 @@ class Context:
         # Subbordinates
         for ctxt in self:
             ctxt.aggregateStates(states)
+            
         return states;
         
     def getSummary(self,summary=None):            
