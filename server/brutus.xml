@@ -18,6 +18,6 @@
 <server name="brutus" type="python" status="up">
   <attribution>The Apache Software Foundation</attribution>
   <title>Brutus</title>
-  <url>http://brutus.apache.org/gump/public</url>
+  <url>http://brutus.apache.org:8080/gump</url>
   <site>http://gump.apache.org</site>
 </server>
