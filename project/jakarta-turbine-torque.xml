@@ -18,6 +18,7 @@
       <depend property="jdom.jar" project="jdom" version="b6"/>
       <depend property="commons-util.jar" project="commons-util" version="1.0"/>
       <depend property="commons-collections.jar" project="commons-collections" version="1.0"/>
+      <depend property="stratum.jar" project="jakarta-turbine-stratum"/>
       <property name="jakarta-site2" reference="home" project="jakarta-site2"/>
       <property name="final.name" value="torque-@@DATE@@"/>
       <property name="deprecation" value="on"/>

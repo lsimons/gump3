@@ -11,6 +11,7 @@
   <project name="jakarta-turbine-stratum">
     <ant>
       <depend property="dom4j.jar" project="dom4j" version="1.1"/>
+      <depend property="commons-collections.jar" project="commons-collections"/>
       <depend property="commons-util.jar" project="commons-util" version="1.0"/>
       <depend property="commons-beanutils.jar" project="commons-beanutils" version="1.0"/>
       <depend property="junit.jar" version="3.7" project="junit"/>
