@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/syndication/syndicator.py,v 1.12 2004/01/09 19:57:20 ajack Exp $
-# $Revision: 1.12 $
-# $Date: 2004/01/09 19:57:20 $
+# $Header: /home/stefano/cvs/gump/python/gump/syndication/syndicator.py,v 1.13 2004/01/11 18:42:32 ajack Exp $
+# $Revision: 1.13 $
+# $Date: 2004/01/11 18:42:32 $
 #
 # ====================================================================
 #
@@ -99,13 +99,13 @@ class Syndicator:
                                 
         content += self.getStateContent(project.getStatePair())
                         
-        content += 'Sequence in state: ' + `stats.sequenceInState`
+        content += 'Duration in state: <b>' + `stats.sequenceInState` + '</b> (runs), '
         
         if not stats.previousState == STATE_NONE \
             and not stats.previousState == STATE_UNSET:
-            content += 'Previous state: ' \
+            content += 'Previous state: <b>' \
                                     + stateName(stats.previousState)  \
-                                    + '\n\n'
+                                    + '</b>\n\n'
     
         content += self.getSundries(project)
                 

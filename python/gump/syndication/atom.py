@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/syndication/atom.py,v 1.7 2004/01/09 19:57:20 ajack Exp $
-# $Revision: 1.7 $
-# $Date: 2004/01/09 19:57:20 $
+# $Header: /home/stefano/cvs/gump/python/gump/syndication/atom.py,v 1.8 2004/01/11 18:42:32 ajack Exp $
+# $Revision: 1.8 $
+# $Date: 2004/01/11 18:42:32 $
 #
 # ====================================================================
 #
@@ -99,8 +99,8 @@ class Entry:
         
         # Write the header part...
         stream.write("""		<entry>
-        <author>Gump</author>
-        <id>tag:gump:%s:%s-%s</id>
+        <author><name>Gump</name></author>
+        <id>gump:%s:%s-%s</id>
         <title>%s</title>
         <link rel="alternate" type="text/html" href="%s"/>
         <issued>%s</issued>        
