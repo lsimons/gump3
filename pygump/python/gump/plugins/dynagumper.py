@@ -24,9 +24,9 @@ from gump.plugins import AbstractPlugin
 class Dynagumper(AbstractPlugin):
     """
     Populate the DynaGump run metadata database.
-    """
-    
-    def __init__(self, db, log, startdate_property_name, enddate_property_name):
+    """    
+    def __init__(self, db, log, startdate_property_name='startdate', enddate_property_name='enddate'):
+        AbstractPlugin.__init__(self,log)
         """Set up the Dynagumper.
 
         Arguments:

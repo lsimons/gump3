@@ -18,37 +18,35 @@ __copyright__ = "Copyright (c) 2004-2005 The Apache Software Foundation"
 __license__   = "http://www.apache.org/licenses/LICENSE-2.0"
 
 import unittest
-from unittest import TestCase
 
 from gump.test.mockobjects import *
-
-from gump.plugins.dynagumper import *
+from gump.plugins.dynagumper import Dynagumper
 
 mock = MockObjects()
 
-class DynagumperTestCase(TestCase):
+class DynagumperTestCase(unittest.TestCase):
     def setUp(self):
-        self.dynagumper = Dynagumper(mock.run,mock.database,log=mock.log)
+        self.dynagumper = Dynagumper(mock.run,mock.database,mock.log)
     
     def testEnsureThisHostIsInDatabase(self):
         #TODO actual tests
         self.dynagumper.ensureThisHostIsInDatabase()
 
-    def testProcessOtherEvent(self):
+    def testVisitOtherEvent(self):
         #TODO
-        self.dynagumper.processOtherEvent("blah")
+        self.dynagumper.VisitOtherEvent("blah")
     
-    def testProcessWorkSpace(self):
+    def testVisitWorkSpace(self):
         #TODO
-        self.dynagumper.processWorkspace()
+        self.dynagumper.visit_workspace("blah")
     
-    def testProcessModule(self):
+    def testVisitModule(self):
         #TODO
-        self.dynagumper.processModule("blah")
+        self.dynagumper.visit_module("blah")
     
-    def testProcessProject(self):
+    def testVisitProject(self):
         #TODO
-        self.dynagumper.processProject("blah")
+        self.dynagumper.visit_project("blah")
 
 # this is used by testrunner.py to determine what tests to run
 def test_suite():
