@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/Attic/model.py,v 1.28 2003/10/17 03:48:14 ajack Exp $
-# $Revision: 1.28 $
-# $Date: 2003/10/17 03:48:14 $
+# $Header: /home/stefano/cvs/gump/python/gump/Attic/model.py,v 1.29 2003/10/18 23:54:20 ajack Exp $
+# $Revision: 1.29 $
+# $Date: 2003/10/18 23:54:20 $
 #
 # ====================================================================
 #
@@ -363,36 +363,54 @@ class Ant(GumpModelObject):
     self.property=Multiple(Property)
     self.jvmarg=Multiple(GumpModelObject)
 
+  #
   # expand properties - in other words, do everything to complete the
   # entry that does NOT require referencing another project
+  #
   def expand(self,project):
 
+    #
     # convert property elements which reference a project into dependencies
+    #
     for property in self.property:
-      if not property.project: continue
+        
+      # Check if the property comes from another project
+      if not property.project: continue      
+      # If that project is the one we have in hand
       if property.project==project.name: continue
+      # If the property is not as simple as srcdir
       if property.reference=="srcdir": continue
+      # If it isn't already a dependency
       if project.hasFullDependencyOn(property.project): continue
 
       # Add a dependency (to bring property)
       depend=Depend({'project':property.project})
       if not property.classpath: depend['noclasspath']=Single({})
       if property.runtime: depend['runtime']=property.runtime
+      if property.id: depend['ids']= [ property.id ]
       project.depend.append(depend)
 
-    # convert all depend elements into property elements
+    #
+    # convert all depend elements into property elements, and
+    # move the dependency onto the project
+    #
     for depend in self.depend:
+      # Generate the property
       property=Property(depend.__dict__)
       property['reference']='jarpath'
       property['name']=depend.project
-      self.property.append(property)
+      # Store it
+      self.property.append(property)      
+      # Move onto project
       project.depend.append(depend)
+      
     self.depend=None
 
+  #
   # complete the definition - it is safe to reference other projects
   # at this point
+  #
   def complete(self,project):
-
     for property in self.property: property.complete(project)
 
 
