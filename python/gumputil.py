@@ -1,6 +1,6 @@
 #!/usr/bin/python
 """
-	Utility functions for Gump
+        Utility functions for Gump
 """
 
 import os, os.path, sys, urllib, urlparse

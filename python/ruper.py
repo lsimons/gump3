@@ -1,6 +1,6 @@
 #!/usr/bin/python
 """
-	Resource updater for Gump
+        Resource updater for Gump
 """
 
 import os, os.path, sys, urllib

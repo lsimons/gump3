@@ -1,6 +1,6 @@
 #!/usr/bin/python
 """
-	Generate the merged XML description of the workspace
+        Generate the merged XML description of the workspace
 """
 
 import os.path,os,sys

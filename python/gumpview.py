@@ -1,6 +1,6 @@
 #!/usr/bin/python
 """
-	Graphic GUI to navigate a Gump workspace
+        Graphic GUI to navigate a Gump workspace
 """
 
 import sys

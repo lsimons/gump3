@@ -1,7 +1,7 @@
 #!/usr/bin/python
 """
-	Look for obsolete installed packages, cvs checkouts, and build
-	directories.
+        Look for obsolete installed packages, cvs checkouts, and build
+        directories.
 """
 
 from xml.sax import parse

@@ -1,6 +1,6 @@
 #!/usr/bin/python
 """
-	Configuration for Gump, done as Python classes
+        Configuration for Gump, done as Python classes
 """
 
 import socket
