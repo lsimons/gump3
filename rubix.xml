@@ -60,11 +60,14 @@
   <project href="project/junit.xml"/>
   <project href="project/rhino.xml"/>
   <project href="project/scarab.xml"/>
+  <project href="project/tyrex.xml"/>
   <project href="project/village.xml"/>
 
   <!-- Sun -->
 
   <project href="project/ejb.xml"      home="/opt/ejb-1_1"/>
+  <project href="project/j2ee-connector.xml" home="/opt/j2ee_connector-1_0-pfd2"/>
+  <project href="project/jaas.xml"     home="/opt/jaas1_0"/>
   <project href="project/jaf.xml"      home="/opt/jaf-1.0.1"/>
   <project href="project/javamail.xml" home="/opt/javamail-1.2"/>
   <project href="project/jaxp.xml"     home="/opt/jaxp1.0.1"/>
@@ -75,6 +78,7 @@
   <project href="project/jndi.xml"     home="/opt/jndi1_2_1"/>
   <project href="project/jsse.xml"     home="/opt/jsse1.0.2"/>
   <project href="project/jta.xml"      home="/opt/jta-spec1_0_1"/>
+  <project href="project/jts.xml"      home="/opt/jts1_0"/>
 
   <!-- CVS Repository overrides -->
 
@@ -106,6 +110,9 @@
       root=":pserver:jservpub@cvs.working-dogs.com:/products/cvs/master"/>
 
     <tree name="tigris" root=":pserver:guest@cvs.tigris.org:/cvs"/>
+
+    <tree name="tyrex"
+      root=":pserver:anoncvs@tyrex.exolab.org:/cvs/tyrex"/>
 
     <tree name="xml"
       root=":pserver:anoncvs@xml.apache.org:/home/cvspublic"/>

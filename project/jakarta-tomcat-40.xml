@@ -40,6 +40,7 @@
   <depend project="jakarta-servletapi-4"/>
   <option project="jakarta-avalon"/>
   <option project="jakarta-avalon-phoenix"/>
+  <option project="tyrex"/>
 
   <home nested="dist"/>
   <jar name="bin/bootstrap.jar"/>

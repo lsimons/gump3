@@ -28,8 +28,8 @@
   <project href="project/jakarta-tomcat-40.xml"/>
   <!-- project href="project/jakarta-tomcat-41.xml"/ -->
   <project href="project/jakarta-tomcat.xml"/>
-  <project href="project/jakarta-turbine.xml"/>
   <project href="project/jakarta-tools.xml"/>
+  <project href="project/jakarta-turbine.xml"/>
   <project href="project/jakarta-velocity.xml"/>
   <project href="project/jakarta-watchdog.xml"/>
 
@@ -40,8 +40,8 @@
   <project href="project/xml-cocoon.xml"/>
   <project href="project/xml-cocoon2.xml"/>
   <project href="project/xml-fop.xml"/>
-  <project href="project/xml-soap.xml"/>
   <project href="project/xml-site.xml"/>
+  <project href="project/xml-soap.xml"/>
   <project href="project/xml-stylebook.xml"/>
   <project href="project/xml-xalan.xml"/>
   <project href="project/xml-xerces.xml"/>
@@ -54,17 +54,20 @@
 
   <project href="project/bsf.xml"/>
   <project href="project/castor.xml"/>
+  <project href="project/freemarker.xml"/>
+  <project href="project/j2eeunit.xml"/>
   <project href="project/jdom.xml"/>
   <project href="project/junit.xml"/>
-  <project href="project/j2eeunit.xml"/>
-  <project href="project/freemarker.xml"/>
   <project href="project/rhino.xml"/>
   <project href="project/scarab.xml"/>
+  <project href="project/tyrex.xml"/>
   <project href="project/village.xml"/>
 
   <!-- Sun -->
 
   <project href="project/ejb.xml"      home="C:\ejb-1_1"/>
+  <project href="project/j2ee-connector.xml" home="C:\j2ee_connector-1_0-pfd2"/>
+  <project href="project/jaas.xml"     home="C:\jaas1_0"/>
   <project href="project/jaf.xml"      home="C:\jaf-1.0.1"/>
   <project href="project/javamail.xml" home="C:\javamail-1.2"/>
   <project href="project/jaxp.xml"     home="C:\jaxp1.0.1"/>
@@ -75,6 +78,7 @@
   <project href="project/jndi.xml"     home="C:\jndi1_2_1"/>
   <project href="project/jsse.xml"     home="C:\jsse1.0.2"/>
   <project href="project/jta.xml"      home="C:\jta-spec1_0_1"/>
+  <project href="project/jts.xml"      home="C:\jts1_0"/>
 
   <!-- CVS Repository overrides -->
 
@@ -105,6 +109,9 @@
       root=":pserver:jservpub@cvs.working-dogs.com:/products/cvs/master"/>
 
     <tree name="tigris" root=":pserver:guest@cvs.tigris.org:/cvs"/>
+
+    <tree name="tyrex"
+      root=":pserver:anoncvs@tyrex.exolab.org:/cvs/tyrex"/>
 
     <tree name="xml" root=":pserver:rubys@localhost:/home/cvs"/>
 

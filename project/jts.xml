@@ -1,0 +1,28 @@
+<project name="jts">
+
+  <url href="http://java.sun.com/products/jts/"/>
+  <description>
+    Java Transaction Service
+  </description>
+
+  <note>
+    The distribution appears to contain an incomplete set of classes.
+    The necessary build.xml used to build a complete set is included below
+    as a comment.
+  </note>
+
+  <!--
+
+    <project name="jts" default="main">
+      <target name="main">
+        <mkdir dir="build"/>
+        <javac srcdir="src" destdir="build"/>
+        <jar jarfile="jts.jar" basedir="build"/>
+      </target>
+    </project>
+
+  -->
+ 
+  <jar name="jts.jar"/>
+
+</project>

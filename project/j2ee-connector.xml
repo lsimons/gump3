@@ -1,0 +1,10 @@
+<project name="j2ee-connector">
+
+  <url href="http://java.sun.com/j2ee/download.html#connectorspec"/>
+  <description>
+    J2EE Connector Architecture 
+  </description>
+
+  <jar  name="connector-1_0-pfd2-classes.jar"/>
+
+</project>
