@@ -166,7 +166,7 @@
         <work nested="datasurces-impl/target/classes"/>
 
         <home nested="datasources-impl"/>
-        <jar name="target/datasources-impl-@@DATE@@.jar" />
+        <jar name="target/cornerstone-datasources-impl-@@DATE@@.jar" />
 
         <nag from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"
                 to="dev@avalon.apache.org"/>

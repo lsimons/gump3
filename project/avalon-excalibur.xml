@@ -171,7 +171,7 @@
         <depend project="ant" inherit="runtime"/>
         <option project="checkstyle" inherit="runtime"/>
         <depend project="junit"/>
-        <depend project="avalon-fortress-tools" inherit="runtime"/>
+        <!--depend project="avalon-fortress-tools" inherit="runtime"/-->
         <depend project="avalon-framework" runtime="true" id="combined"/>
         <depend project="xml-xerces"/>
         <depend project="xml-xalan2"/>
@@ -889,9 +889,11 @@
             <property name="skip.dependencies" value="true"/>
             <property name="project.version" value="@@DATE@@"/>
         </ant>
+        <depend project="avalon-logkit" runtime="true"/>
         <depend project="avalon-framework" runtime="true" id="api"/>
         <depend project="avalon-framework" runtime="true" id="impl"/>
         <depend project="excalibur-pool" runtime="true"/>
+        <depend project="excalibur-instrument" runtime="true"/>
         <depend project="commons-collections" runtime="true"/>
         <depend project="concurrent"/>
 
@@ -904,6 +906,7 @@
         <!-- test-time dependencies -->
         <depend project="junit"/>
         <depend project="junitperf"/>
+        <depend project="excalibur-component"/>
 
         <work nested="thread/target/classes"/>
         <mkdir dir="thread/target/classes"/>
