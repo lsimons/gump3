@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/forrest.py,v 1.126 2004/04/03 02:36:35 rubys Exp $
-# $Revision: 1.126 $f
-# $Date: 2004/04/03 02:36:35 $
+# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/forrest.py,v 1.127 2004/04/03 17:32:18 ajack Exp $
+# $Revision: 1.127 $f
+# $Date: 2004/04/03 17:32:18 $
 #
 # ====================================================================
 #
@@ -1557,7 +1557,7 @@ This page helps Gumpmeisters (and others) observe community progress.
                 
         if dependencies:
             dependencySection=xdocNode.createSection(title)
-            titles=['Name','Type','Inheritence','Ids','State']
+            titles=['Name','Type','Inheritence','Ids','State','FOG']
             if full:
                 titles.append('Contributor')
             titles.append('Notes')
@@ -1602,6 +1602,9 @@ This page helps Gumpmeisters (and others) observe community progress.
                 
                 # State Icon
                 self.insertStateIcon(project,referencingObject,dependencyRow.createData())
+                
+                # FOG Factor
+                dependencyRow.createData(project.getFOGFactor())
                 
                 if full:
                     # Contributor

@@ -120,7 +120,7 @@ class ResolvingTestSuite(UnitTestSuite):
         self.checkRelativeLocation(self.ant1,self.module1)
     
     def testResolving(self):
-        resolver=Resolver('.','http://somewhere/something')
+        resolver=Resolver('./test','http://somewhere/something')
 
         #printSeparator()
         self.assertNotNone("Resolved Module: ", resolver.getDirectory(self.module1))

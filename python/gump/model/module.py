@@ -413,7 +413,20 @@ class Module(NamedModelObject, Statable, Resultable):
         if not fogFactors:
             fogFactors=1 # 0/1 is better than 0/0
             
-        return fogFactor/fogFactors
+        return float(fogFactor)/float(fogFactors)
+        
+    def getHistoricalOddsOfSuccess(self):
+        historicalOdds=0
+        historicalOddses=0
+        for project in self.getProjects():
+                projectHistoricalOddsOfSuccess = project.getHistoricalOddsOfSuccess()
+                historicalOdds += projectHistoricalOddsOfSuccess
+                historicalOddses += 1
+                
+        if not historicalOddses:
+            historicalOddses=1 # 0/1 is better than 0/0
+            
+        return float(historicalOdds)/float(historicalOddses)
         
     def getLastUpdated(self):
         return self.getStats().getLastUpdated()                

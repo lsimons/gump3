@@ -264,6 +264,9 @@ class Project(NamedModelObject, Statable, Resultable, Dependable):
     def getFOGFactor(self):
         return self.getStats().getFOGFactor()
         
+    def getHistoricalOddsOfSuccess(self):
+        return self.getStats().getHistoricalOddsOfSuccess()
+        
     # Only modules get updated.
     def getLastUpdated(self):
         return self.getModule().getStats().getLastUpdated()  

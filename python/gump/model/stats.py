@@ -53,7 +53,16 @@ class Statistics:
     # FOG is (at pressent) effectively the
     # 'odds of success' (based off historical results).
     #
+    # We ought find a way to factor in durations and
+    # age into this
+    #
     def getFOGFactor(self):
+        return self.getHistoricalOddsOfSuccess()        
+        
+    #           
+    # 'odds of success' (based off historical results).
+    #
+    def getHistoricalOddsOfSuccess(self):
         good=self.successes
         bad=(self.failures+self.prereqs)
         total=(good+bad) or 1
