@@ -40,11 +40,11 @@ foreach (<LIST>) {
     close (FILE);
 
     # extract just the stuff from inside the XMP tag
-    if (m! .* <XMP> \s* (.*) \s* </XMP> !xs) {
-      $1 || m!(<p>.*</p>)!s; # if nothing found, look for prereqs
-      $pageData = $1;
-    } else {
-      $pageData = "";
+    ($pagedata)=m! .* <XMP> \s* (.*) \s* </XMP> !xs;
+    if (not $pagedata) {
+      # if none found, go for the html, and remove the tags
+      ($pagedata)=m! .* <p> \s* (.*) \s* </p> !xs;
+      $pagedata =~ s/<.*?>//g;
     }
   }
 
