@@ -13,6 +13,8 @@
     <ant buildfile="buildtools.xml"/>
     <depend project="xml-xerces"/>
     <depend project="jakarta-ant"/>
+    <depend project="jakarta-avalon-logkit"/>
+    <depend project="jakarta-avalon"/>
     <option project="xml-xalan2"/>
     <jar name="lib/buildtools.jar"/>
   </project>
@@ -25,6 +27,8 @@
     <depend project="xml-xalan2"/>
     <depend project="jakarta-ant"/>
     <depend project="xml-batik"/>
+    <depend project="jakarta-avalon-logkit"/>
+    <depend project="jakarta-avalon"/>
     <depend project="bsf"/>
     <depend project="fop-buildtools"/>
     <home nested="build"/>
