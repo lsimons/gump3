@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/Attic/logic.py,v 1.41 2003/10/24 18:31:35 ajack Exp $
-# $Revision: 1.41 $
-# $Date: 2003/10/24 18:31:35 $
+# $Header: /home/stefano/cvs/gump/python/gump/Attic/logic.py,v 1.42 2003/10/24 22:18:08 ajack Exp $
+# $Revision: 1.42 $
+# $Date: 2003/10/24 22:18:08 $
 #
 # ====================================================================
 #
@@ -555,7 +555,7 @@ def getDependOutputList(beneficiary,parent,parentctxt,depend,context,visited,dep
    
   # Don't loop...
   if depend in visited:  
-      beneficiary.addInfo("Duplicated dependency [" + str(depend) + "]")          
+      #beneficiary.addInfo("Duplicated dependency [" + str(depend) + "]")          
       if debug:
         print str(depth) + ") Already Visited : " + str(depend)
         print str(depth) + ") Previously Visits  : "
@@ -692,15 +692,15 @@ def importClasspaths(beneficiary,classpath,bootclasspath,cp,bcp):
     for path in cp:
         if not path in classpath:
             classpath.append(path)
-        else:
-            beneficiary.addInfo("Duplicated classpath JAR [" + str(path) + "]")                    
+        #else:
+            #beneficiary.addInfo("Duplicated classpath JAR [" + str(path) + "]")                    
               
     # Import the BOOTCLASSPATH stuff
     for bpath in bcp:
         if not bpath in bootclasspath:
             bootclasspath.append(bpath)       
-        else:
-            beneficiary.addInfo("Duplicated bootclasspath JAR [" + str(bpath) + "]")                        
+        #else:
+            #beneficiary.addInfo("Duplicated bootclasspath JAR [" + str(bpath) + "]")                        
                 
 def getJVMArgs(workspace,ant):
   """Get JVM arguments for a project"""
