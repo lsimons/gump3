@@ -23,6 +23,7 @@
     <depend project="xml-xerces">
     </depend>
     <depend project="commons-jelly"/>
+    <depend project="jelly-tags-ant"/>
     <work nested="target/classes">
     </work>
     <work nested="target/test-classes">

@@ -47,6 +47,7 @@
   <module href="project/jakarta-turbine-jcs.xml"/>
   <module href="project/jakarta-turbine-stratum.xml"/>
   <module href="http://cvs.apache.org/viewcvs/~checkout~/jakarta-turbine-torque/gump.xml"/>
+  <module href="project/jelly-tags.xml"/>
   
 
   <!-- Turbine projects not fully mavenized -->

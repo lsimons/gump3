@@ -1,0 +1,21 @@
+<module name="jakarta-commons-sandbox">
+
+  <project name="jelly-tags-ant">
+    <package>org.apache.commons.jelly.tags.ant</package>
+    <description>This is a Jelly interface for Ant.</description>
+
+    <ant basedir="jelly/jelly-tags/ant" target="jar">
+      <property name="final.name"  value="commons-jelly-tags-ant-@@DATE@@"/>
+    </ant>
+
+    <depend project="commons-jelly" inherit="all"/>
+
+    <work nested="jelly/jelly-tags/ant/target/classes"/>
+
+    <jar name="attributes/target/commons-attributes-@@DATE@@.jar"/>
+ 
+    <nag from="Sam Ruby &lt;rubys@us.ibm.com&gt;"
+         to="commons-dev@jakarta.apache.org"/>
+  </project>
+
+</module>
