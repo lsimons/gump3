@@ -77,9 +77,9 @@
 
     <javadoc nested="target/docs/apidocs" module="avalon"/>
     <junitreport nested="target/docs/junitreports" module="avalon"/>
-    <license name="LICENSE"/>
-        <nag from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"
-                to="dev@avalon.apache.org"/>
+    <license name="LICENSE.txt"/>
+    <nag from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"
+      to="dev@avalon.apache.org"/>
   </project>
 
 </module>
