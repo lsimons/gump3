@@ -34,7 +34,6 @@
         </ant>
 
         <!-- 'internal deps'. Should be full list of all excalibur-* projects -->
-        <depend project="excalibur-baxter" runtime="true" inherit="jars"/>
         <depend project="excalibur-cli" runtime="true" inherit="jars"/>
         <depend project="excalibur-component" runtime="true" inherit="jars"/>
         <depend project="excalibur-collections" runtime="true" inherit="jars"/>
@@ -106,30 +105,6 @@
             <regexp pattern="/Checkstyle Failure/"/>
         </nag>
 
-        <nag from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"
-                to="dev@avalon.apache.org"/>
-    </project>
-
-    <project name="excalibur-baxter">
-        <package>org.apache.avalon.excalibur.baxter</package>
-
-        <ant basedir="baxter">
-            <depend property="jmx.jar" project="jmx" runtime="true"/>
-            <property name="version" value="@@DATE@@"/>
-            <property name="junit.failonerror" value="true"/>
-            <property name="do.checkstyle" value="true"/>
-            <property name="skip.dependencies" value="true"/>
-        </ant>
-
-        <depend project="ant" inherit="runtime"/>
-        <option project="checkstyle" inherit="runtime"/>
-        <depend project="junit"/>
-        <depend project="xml-xerces"/>
-        <depend project="xml-xalan2"/>
-        <work nested="baxter/build/classes"/>
-
-        <home nested="baxter"/>
-        <jar name="build/lib/excalibur-baxter-@@DATE@@.jar"/>
         <nag from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"
                 to="dev@avalon.apache.org"/>
     </project>
