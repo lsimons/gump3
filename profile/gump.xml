@@ -230,9 +230,6 @@
   <module href="project/packaged-jaxen.xml"/>
   <module href="project/packaged-jetty.xml"/>
   <module href="project/packaged-dom4j.xml"/>
-  <module href="project/jicarilla/jicarilla-sandbox.xml"/>
-  <module href="project/jicarilla/jicarilla-maven-repository.xml"/>
-  <module href="project/jicarilla/jicarilla-suf.xml"/>
 
 <!-- CodeHaus -->
 
