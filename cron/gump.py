@@ -245,301 +245,320 @@ def tailFile(file,lines,eol=None,marker=None):
 def tailFileToString(file,lines,eol=None,marker=None):
     return "".join(tailFile(file,lines,eol,marker))
 
+def doRun():
+    # Starting up...
+    writeRunLogEntry('Gump Start-up. Arguments [%s]' % sys.argv)
+    
+    # Allow a lock    
+    lockFile=os.path.abspath('gump.lock')
+    lock=establishLock(lockFile)        
+        
+    # Set the signal handler to ignore hangups
+    try:
+        # Not supported by all OSs
+        # :TODO: Does the variable signal.SIG_HUP even exist? Test
+        # this code on Linux w/o the try/except.
+        signal.signal(signal.SIG_HUP, ignoreHangup)
+    except:
+        pass
+    
+
+    
+    hostname='Unknown'
+    workspaceName='Unknown'
+    wsName='Unknown'
+            
+    mailserver=None
+    mailport=None
+    mailfrom=None
+    mailto=None
+    logurl=None
+    logdir=None
+            
+    args=sys.argv
+    result=0
+    svnExit = -1
+    cvsExit = -1
+    integrationExit = -1
+            
+    try:
+    
+        try:
+            
+            # Process Environment
+            hostname = socket.gethostname()
+    
+            log.write('- GUMP run on host   : ' + hostname + '\n')
+            log.write('- GUMP run @         : ' + time.strftime('%d %b %Y %H:%M:%S', time.localtime()) + '\n')
+            log.write('- GUMP run @  UTC    : ' + time.strftime('%d %b %Y %H:%M:%S', time.gmtime()) + '\n')
+            log.write('- GUMP run by Python : ' + `sys.version` + '\n')
+            log.write('- GUMP run by Python : ' + `sys.executable` + '\n')
+            log.write('- GUMP run by Gump   : ' + GUMP_VERSION + '\n')
+            log.write('- GUMP run on OS     : ' + `os.name` + '\n')
+            log.write('- GUMP run in env    : \n')
+            
+            for envkey in os.environ.keys():
+                envval=os.environ[envkey]
+                log.write('      ' + envkey + ' -> [' + envval + ']\n')
+            
+            # Workspace is the hostname, unless overridden
+            workspaceName = os.path.abspath('metadata/' + hostname + '.xml')
+            if os.environ.has_key('GUMP_WORKSPACE'):        
+                workspaceName = os.environ['GUMP_WORKSPACE'] + '.xml'   
+            if len(args)>2 and args[1] in ['-w','--workspace']:
+                workspaceName=args[2]
+                del args[1:3]     
+            workspacePath = workspaceName
+                
+            projectsExpr='all'
+            if os.environ.has_key('GUMP_PROJECTS'):        
+                projectsExpr = os.environ['GUMP_PROJECTS']        
+            if len(args)>1:
+                projectsExpr=args[1]
+                del args[1:2]      
+                
+            # Check version information
+            (major, minor, micro, releaselevel, serial) = sys.version_info
+            if not major >=2 and minor >= 3:
+                raise RuntimeError('Gump requires Python 2.3 or above. [' + sys.version() + ']')
+                
+            # Nope, can't find the workspace...
+            if not os.path.exists(workspacePath):
+                raise RuntimeError('\n  No workspace at ' + str(workspacePath) +
+                  '!\n  Maybe you need to check out the metadata from CVS?\n' +
+                  '  See the file metadata/FILLME for more information...')
+            
+            #
+            # Process the workspace...
+            #     
+            ws = minidom.parse(workspacePath)
+            workspaceElementList=ws.getElementsByTagName('workspace')
+            if not workspaceElementList.length == 1: # LSD: this is kinda lame way to parse this
+                                                      #      better to just validate against a DTD
+                raise RuntimeError('Need one (only) <workspace> tag. Found ' + \
+                           ` workspaceElementList.length` + '.')    
+            wsw=workspaceElementList.item(0)
+            wsName=wsw.getAttribute('name')
+            # Extract the base directory
+            baseDir=wsw.getAttribute('basedir')      
+            basePath=os.path.abspath(baseDir)
+            # Mail reporting
+            private=wsw.getAttribute('private')
+            mailserver=wsw.getAttribute('mailserver') or 'mail.apache.org'
+            mailport=wsw.getAttribute('mailport') or 25
+            mailto=wsw.getAttribute('administrator') 
+            mailfrom=wsw.getAttribute('email') 
+            # Log (site) location(s)   
+            logurl=wsw.getAttribute('logurl')   
+            logdir=wsw.getAttribute('logdir') or os.path.join(basePath,'log')
+            # Extract the mail server/address
+            ws.unlink()
+            
+            log.write('- GUMP base directory : ' + baseDir + '\n')
+            log.write('- GUMP base path      : ' + str(basePath) + '\n')
+            if mailserver and not private:
+                log.write('- GUMP mail server    : ' + mailserver + '\n')
+            if mailport and not private:
+                log.write('- GUMP mail port      : ' + str(mailport) + '\n')
+            if mailfrom:
+                log.write('- GUMP mail from      : ' + mailfrom + '\n')
+            if mailto:
+                log.write('- GUMP mail to        : ' + mailto + '\n')
+            if logurl:
+                log.write('- GUMP log is @       : ' + logurl + '\n')
+            if logdir:
+                log.write('- GUMP log is @       : ' + logdir + '\n')
+    
+            # Add Gump to Python Path...
+            pythonPath=''
+            if os.environ.has_key('PYTHONPATH'):
+                pythonPath=os.environ['PYTHONPATH']
+                pythonPath+=os.pathsep
+            pythonDir=str(os.path.abspath(os.path.join(os.getcwd(),'python')))
+            pythonPath+=pythonDir
+            log.write(' - GUMP PYTHONPATH  :  ' + pythonPath + '\n')
+            os.environ['PYTHONPATH']=pythonPath
+            
+            
+            # Wipe all *.pyc from the pythonPath (so we don't
+            # have old code lying around as compiled zombies)
+            for root, dirs, files in os.walk(pythonDir):
+                for name in files:
+                    if name.endswith('.pyc'):
+                        fullname=os.path.join(root, name)
+                        # log.write('- Remove PYC : ' + fullname + '\n')    
+                        os.remove(fullname)       
+            
+            # Update Gump code from SVN
+            if not os.environ.has_key('GUMP_NO_SVN_UPDATE') and \
+                not os.environ.has_key('GUMP_NO_SCM_UPDATE'):
+                svnExit = runCommand('svn','update --non-interactive')
+            else:
+                log.write('SVN update skipped per environment setting.\n')
+                svnExit=0
+            if svnExit:
+                result=1   
+            
+            if not result:
+                # Update Gump metadata from CVS
+                if not os.environ.has_key('GUMP_NO_CVS_UPDATE') and \
+                    not os.environ.has_key('GUMP_NO_SCM_UPDATE'):
+                    cvsroot=':pserver:anoncvs@cvs.apache.org:/home/cvspublic'
+                    os.environ['CVSROOT']=cvsroot
+                    # :TODO: ??? delete os.environ['CVS_RSH']
+                    cvsExit = runCommand('cvs','-q update -dP','metadata')
+                else:
+                    log.write('CVS update skipped per environment setting.\n')
+                    cvsExit=0
+                if cvsExit:
+                    result=1
+                
+            # :TODO: Need to remove all *.pyc (other than this one)
+            # because a Gump refactor can leave old/stale compiled
+            # classes around.
+                
+            # :TODO: Is this a CVS thing, or a Gump historical thing?
+            if os.path.exists('.timestamp'): 
+                os.remove('.timestamp')            
+        
+            if not result:
+                # Process/build command line
+                iargs = '-w ' + workspaceName + ' ' + projectsExpr + ' ' + ' '.join(args[1:])
+                
+                # Allow a check not an integrate
+                check=0
+                if '--check' in args:
+                    check=0
+                
+                #
+                # Run the main Gump...
+                #    
+                command='bin/integrate.py'
+                if check:
+                    command='bin/check.py'
+                integrationExit = runCommand(sys.executable+ ' '+command, iargs)
+                if integrationExit:
+                    result=1
+    
+        except KeyboardInterrupt:    
+            log.write('Terminated by user interrupt...\n')
+            result = 1
+            raise
+            
+        except:    
+            log.write('Terminated unintentionally...\n')
+            result = 1
+            raise
+        
+    finally:
+        # Close the log
+        log.close()
+        
+        releaseLock(lock,lockFile)
+        
+        logTitle='Apache Gump Logfile'
+        if result:
+            logTitle='Problem running Apache Gump [%s]' % wsName
+            
+        # Publish logfile
+        published=False
+        if logdir:
+            publishedLogName='gump_log.txt'
+            publishedLogFile=os.path.abspath(os.path.join(logdir,publishedLogName))
+            if '--xdocs' in args:
+                publishedLogFile=os.path.abspath(
+                                    os.path.join(
+                                        os.path.abspath(
+                                            os.path.join(logdir,'content'),
+                                        logFileName)))
+                                    
+            try:
+                publishedLog=open(publishedLogFile,'w',0) # Unbuffered...
+                catFile(publishedLog, logFile, logTitle)    
+                publishedLog.close()
+                published=True
+            except Exception, details:
+                print 'Failed to publish log file. ', str(details)    
+                published=False
+        else:
+            print 'Unable to publish log file.'
+             
+        if result:     
+            # Cat to screen (if running to screen)
+            tty=False
+            try:
+                tty=sys.stdout.isatty()  
+            except:
+                pass
+            if tty or not published:
+                catFile(sys.stdout, logFile, logTitle)
+            
+            if mailserver and mailport and mailto and mailfrom:
+                mailData='There is a problem with run \'%s\' (%s)' % (wsName, runDateTime)
+                if published and logurl:
+                    mailData+=', location : ' + logurl + '\n'
+                else:
+                    mailData+=', at : ' + hostname + ':' + workspaceName + '\n'
+                
+                #
+                try:
+                    maxTailLines=50
+                    tailData=tailFileToString(logFile,maxTailLines)        
+                    
+                    if published and logurl:   
+                        mailData += '------------------------------------------------------------\n' 
+                        mailData += 'The log ought be at:\n'
+                        mailData += '   '
+                        logFileUrl=logurl
+                        if not logFileUrl.endswith('/'): 
+                            logFileUrl+='/'
+                        logFileUrl+=publishedLogName
+                        mailData += logFileUrl
+                        mailData += '\n'
+                        
+                    mailData += '------------------------------------------------------------\n'                     
+                    mailData += 'The last (up to) %s lines of the log are :\n' % maxTailLines
+                    mailData += tailData
+                except:
+                    pass
+                    
+                # Tack a version on there
+                mailData += '--\n'
+                mailData += 'Gump Version: '
+                mailData += GUMP_VERSION
+                mailData += '\n'
+            
+                sendEmail(mailto,mailfrom,logTitle,mailData,mailserver,mailport)
+            
+            else:
+                print 'Unable to mail failure report : ' + `[mailserver,mailport,mailto,mailfrom]`
+            
+            
+    writeRunLogEntry('Complete [%s svn:%s,cvs:%s,run:%s]' % (result, svnExit, cvsExit, integrationExit))
+
+    # bye!
+    sys.exit(result)
+
+# Do it! Do it!
+
 # Ensure we start in the correct directory, setting GUMP_HOME
 gumpHome=os.path.abspath(os.path.join(os.getcwd(),'..'))
 os.environ['GUMP_HOME']=gumpHome     
 os.chdir(gumpHome)
 
-# Starting up...
-writeRunLogEntry('Gump Start-up. Arguments [%s]' % sys.argv)
-
-# Allow a lock    
-lockFile=os.path.abspath('gump.lock')
-lock=establishLock(lockFile)        
-    
-# Set the signal handler to ignore hangups
-try:
-    # Not supported by all OSs
-    # :TODO: Does the variable signal.SIG_HUP even exist? Test
-    # this code on Linux w/o the try/except.
-    signal.signal(signal.SIG_HUP, ignoreHangup)
-except:
-    pass
+# various parts of this file write logs to this dir...
+logDir='log'
+if not os.path.isdir(logDir):
+    os.mkdir(logDir)
 
 # Enable a log
 runDateTime=time.strftime('%d%m%Y_%H%M%S')
 logFileName='gump_log_' + runDateTime + '.txt'
-logFile=os.path.abspath(os.path.join('log',logFileName))
+logFile=os.path.abspath(os.path.join(logDir,logFileName))
 log=open(logFile,'w',0) # Unbuffered...
 
-hostname='Unknown'
-workspaceName='Unknown'
-wsName='Unknown'
-        
-mailserver=None
-mailport=None
-mailfrom=None
-mailto=None
-logurl=None
-logdir=None
-        
-args=sys.argv
-result=0
-svnExit = -1
-cvsExit = -1
-integrationExit = -1
-        
-try:
-
-    try:
-        
-        # Process Environment
-        hostname = socket.gethostname()
-
-        log.write('- GUMP run on host   : ' + hostname + '\n')
-        log.write('- GUMP run @         : ' + time.strftime('%d %b %Y %H:%M:%S', time.localtime()) + '\n')
-        log.write('- GUMP run @  UTC    : ' + time.strftime('%d %b %Y %H:%M:%S', time.gmtime()) + '\n')
-        log.write('- GUMP run by Python : ' + `sys.version` + '\n')
-        log.write('- GUMP run by Python : ' + `sys.executable` + '\n')
-        log.write('- GUMP run by Gump   : ' + GUMP_VERSION + '\n')
-        log.write('- GUMP run on OS     : ' + `os.name` + '\n')
-        log.write('- GUMP run in env    : \n')
-        
-        for envkey in os.environ.keys():
-            envval=os.environ[envkey]
-            log.write('      ' + envkey + ' -> [' + envval + ']\n')
-        
-        # Workspace is the hostname, unless overridden
-        workspaceName = 'metadata/' + hostname + '.xml'
-        if os.environ.has_key('GUMP_WORKSPACE'):        
-            workspaceName = os.environ['GUMP_WORKSPACE'] + '.xml'   
-        if len(args)>2 and args[1] in ['-w','--workspace']:
-            workspaceName=args[2]
-            del args[1:3]     
-        workspacePath = os.path.abspath(workspaceName)
-            
-        projectsExpr='all'
-        if os.environ.has_key('GUMP_PROJECTS'):        
-            projectsExpr = os.environ['GUMP_PROJECTS']        
-        if len(args)>1:
-            projectsExpr=args[1]
-            del args[1:2]      
-            
-        # Check version information
-        (major, minor, micro, releaselevel, serial) = sys.version_info
-        if not major >=2 and minor >= 3:
-            raise RuntimeError('Gump requires Python 2.3 or above. [' + sys.version() + ']')
-            
-        # Nope, can't find the workspace...
-        if not os.path.exists(workspacePath):
-            raise RuntimeError('No such workspace at ' + str(workspacePath))
-        
-        #
-        # Process the workspace...
-        #     
-        ws = minidom.parse(workspacePath)
-        workspaceElementList=ws.getElementsByTagName('workspace')
-        if not workspaceElementList.length == 1:
-            raise RuntimeError('Need one (only) <workspace> tag. Found ' + \
-                       ` workspaceElementList.length` + '.')    
-        wsw=workspaceElementList.item(0)
-        wsName=wsw.getAttribute('name')
-        # Extract the base directory
-        baseDir=wsw.getAttribute('basedir')      
-        basePath=os.path.abspath(baseDir)
-        # Mail reporting
-        private=wsw.getAttribute('private')
-        mailserver=wsw.getAttribute('mailserver') or 'mail.apache.org'
-        mailport=wsw.getAttribute('mailport') or 25
-        mailto=wsw.getAttribute('administrator') 
-        mailfrom=wsw.getAttribute('email') 
-        # Log (site) location(s)   
-        logurl=wsw.getAttribute('logurl')   
-        logdir=wsw.getAttribute('logdir') or os.path.join(basePath,'log')
-        # Extract the mail server/address
-        ws.unlink()
-        
-        log.write('- GUMP base directory : ' + baseDir + '\n')
-        log.write('- GUMP base path      : ' + str(basePath) + '\n')
-        if mailserver and not private:
-            log.write('- GUMP mail server    : ' + mailserver + '\n')
-        if mailport and not private:
-            log.write('- GUMP mail port      : ' + str(mailport) + '\n')
-        if mailfrom:
-            log.write('- GUMP mail from      : ' + mailfrom + '\n')
-        if mailto:
-            log.write('- GUMP mail to        : ' + mailto + '\n')
-        if logurl:
-            log.write('- GUMP log is @       : ' + logurl + '\n')
-        if logdir:
-            log.write('- GUMP log is @       : ' + logdir + '\n')
-
-        # Add Gump to Python Path...
-        pythonPath=''
-        if os.environ.has_key('PYTHONPATH'):
-            pythonPath=os.environ['PYTHONPATH']
-            pythonPath+=os.pathsep
-        pythonDir=str(os.path.abspath(os.path.join(os.getcwd(),'python')))
-        pythonPath+=pythonDir
-        log.write(' - GUMP PYTHONPATH  :  ' + pythonPath + '\n')
-        os.environ['PYTHONPATH']=pythonPath
-        
-        
-        # Wipe all *.pyc from the pythonPath (so we don't
-        # have old code lying around as compiled zombies)
-        for root, dirs, files in os.walk(pythonDir):
-            for name in files:
-                if name.endswith('.pyc'):
-                    fullname=os.path.join(root, name)
-                    # log.write('- Remove PYC : ' + fullname + '\n')    
-                    os.remove(fullname)       
-        
-        # Update Gump code from SVN
-        if not os.environ.has_key('GUMP_NO_SVN_UPDATE') and \
-            not os.environ.has_key('GUMP_NO_SCM_UPDATE'):
-            svnExit = runCommand('svn','update --non-interactive')
-        else:
-            log.write('SVN update skipped per environment setting.\n')
-            svnExit=0
-        if svnExit:
-            result=1   
-        
-        if not result:
-            # Update Gump metadata from CVS
-            if not os.environ.has_key('GUMP_NO_CVS_UPDATE') and \
-                not os.environ.has_key('GUMP_NO_SCM_UPDATE'):
-                cvsroot=':pserver:anoncvs@cvs.apache.org:/home/cvspublic'
-                os.environ['CVSROOT']=cvsroot
-                # :TODO: ??? delete os.environ['CVS_RSH']
-                cvsExit = runCommand('cvs','-q update -dP','metadata')
-            else:
-                log.write('CVS update skipped per environment setting.\n')
-                cvsExit=0
-            if cvsExit:
-                result=1
-            
-        # :TODO: Need to remove all *.pyc (other than this one)
-        # because a Gump refactor can leave old/stale compiled
-        # classes around.
-            
-        # :TODO: Is this a CVS thing, or a Gump historical thing?
-        if os.path.exists('.timestamp'): 
-            os.remove('.timestamp')            
-    
-        if not result:
-            # Process/build command line
-            iargs = '-w ' + workspaceName + ' ' + projectsExpr + ' ' + ' '.join(args[1:])
-            
-            # Allow a check not an integrate
-            check=0
-            if '--check' in args:
-                check=0
-            
-            #
-            # Run the main Gump...
-            #    
-            command='bin/integrate.py'
-            if check:
-                command='bin/check.py'
-            integrationExit = runCommand(sys.executable+ ' '+command, iargs)
-            if integrationExit:
-                result=1
-
-    except KeyboardInterrupt:    
-        log.write('Terminated by user interrupt...\n')
-        result = 1
-        raise
-        
-    except:    
-        log.write('Terminated unintentionally...\n')
-        result = 1
-        raise
-    
-finally:
-    # Close the log
-    log.close()
-    
-    releaseLock(lock,lockFile)
-    
-    logTitle='Apache Gump Logfile'
-    if result:
-        logTitle='Problem running Apache Gump [%s]' % wsName
-        
-    # Publish logfile
-    published=False
-    if logdir:
-        publishedLogName='gump_log.txt'
-        publishedLogFile=os.path.abspath(os.path.join(logdir,publishedLogName))
-        if '--xdocs' in args:
-            publishedLogFile=os.path.abspath(
-                                os.path.join(
-                                    os.path.abspath(
-                                        os.path.join(logdir,'content'),
-                                    logFileName)))
-                                
-        try:
-            publishedLog=open(publishedLogFile,'w',0) # Unbuffered...
-            catFile(publishedLog, logFile, logTitle)    
-            publishedLog.close()
-            published=True
-        except Exception, details:
-            print 'Failed to publish log file. ', str(details)    
-            published=False
-    else:
-        print 'Unable to publish log file.'
-         
-    if result:     
-        # Cat to screen (if running to screen)
-        tty=False
-        try:
-            tty=sys.stdout.isatty()  
-        except:
-            pass
-        if tty or not published:
-            catFile(sys.stdout, logFile, logTitle)
-        
-        if mailserver and mailport and mailto and mailfrom:
-            mailData='There is a problem with run \'%s\' (%s)' % (wsName, runDateTime)
-            if published and logurl:
-                mailData+=', location : ' + logurl + '\n'
-            else:
-                mailData+=', at : ' + hostname + ':' + workspaceName + '\n'
-            
-            #
-            try:
-                maxTailLines=50
-                tailData=tailFileToString(logFile,maxTailLines)        
-                
-                if published and logurl:   
-                    mailData += '------------------------------------------------------------\n' 
-                    mailData += 'The log ought be at:\n'
-                    mailData += '   '
-                    logFileUrl=logurl
-                    if not logFileUrl.endswith('/'): 
-                        logFileUrl+='/'
-                    logFileUrl+=publishedLogName
-                    mailData += logFileUrl
-                    mailData += '\n'
-                    
-                mailData += '------------------------------------------------------------\n'                     
-                mailData += 'The last (up to) %s lines of the log are :\n' % maxTailLines
-                mailData += tailData
-            except:
-                pass
-                
-            # Tack a version on there
-            mailData += '--\n'
-            mailData += 'Gump Version: '
-            mailData += GUMP_VERSION
-            mailData += '\n'
-            
-            sendEmail(mailto,mailfrom,logTitle,mailData,mailserver,mailport)
-            
-        else:
-            print 'Unable to mail failure report : ' + `[mailserver,mailport,mailto,mailfrom]`
-            
-            
-    writeRunLogEntry('Complete [%s svn:%s,cvs:%s,run:%s]' % (result, svnExit, cvsExit, integrationExit))
-
-# bye!
-sys.exit(result)
+if '--debug' in sys.argv:
+    import pdb
+    pdb.run('doRun()')
+else:
+    doRun()

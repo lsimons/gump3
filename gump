@@ -1,0 +1,371 @@
+#!/bin/sh
+#
+# Copyright 2004 The Apache Software Foundation
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+#
+# A (supposedly ) friendly commandline interface to the common gump tasks
+#
+#############################################################################
+# Documentation
+#############################################################################
+
+# Documentation for the different commands.
+function usage
+{
+  case $1 in
+    run)
+      echo "
+      Run Gumpy.
+
+      Usage:
+        $0 run [gump.py-args ...]
+
+      See http://wiki.apache.org/gump/GumpCommandLineOptions for more
+      information about the options Gumpy accepts. The one mandatory
+      argument is the "project expression" detailing what to run. You
+      will usually want "all" here.
+"
+        ;;
+    debug)
+      echo "
+      Run Gumpy in debug mode.
+      
+      Usage:
+        $0 debug [gump.py-args ...]
+    
+      This is the same as executing the 'run' command with a '--debug'
+      parameter.
+"
+        ;;
+    test)
+      echo "
+      Run Gumpy its unit tests.
+
+      Usage:
+        $0 test
+"
+        ;;
+    integration-test)
+      echo "
+      Run Gumpy its integration tests.
+
+      Usage:
+        $0 integration-test [gump.py-args ...]
+"
+		;;
+    site)
+      echo "
+      Use Apache Forrest to build the documentation.
+
+      Usage:
+        $0 site
+"
+      ;;
+    site-publish)
+      echo "
+      Use svn and ssh to publish the site.
+
+      Usage:
+        $0 site-publish
+"
+      ;;
+    get-metadata)
+      echo "
+      Use CVS to check out or update the metadata.
+
+      Usage:
+        $0 get-metadata [CVSROOT]
+"
+      ;;
+    validate)
+      echo "
+      Run the DTD validation tools on the metadata.
+
+      Usage:
+        $0 validate
+"
+      ;;
+    experimental-tests)
+      echo "
+      Run the experimental new unit tests using testrunner.py.
+
+      Usage:
+        $0 experimental-tests
+"
+      ;;
+    *)
+      echo "
+      Utility commandline interface for Gump.
+     
+      Usage:
+        $0 command [opts ...]
+     
+      Available commands are:
+     
+        run -- run Gumpy
+        test -- run Gumpy its unit tests
+        get-metadata -- Check out or update metadata from CVS
+        validate -- validate the metadata
+        help -- print this information
+        site -- use Apache Forrest to build the documentation
+        site-publish -- use SVN and SSH to publish the site to the website
+     
+      Run
+     
+        $0 help [command]
+     
+      for more information about a particular command.
+"
+      ;;
+  esac
+}
+
+#############################################################################
+# Utility methods
+#############################################################################
+
+# Print an error message and then exit.
+function error
+{
+  echo "$0: $1"
+#  usage
+  exit 1
+}
+
+# Print a friendly error message if some dependency is missing.
+#
+# Arguments:
+#   - name of the command
+#   - url to download the package that provides it
+function check_env
+{
+  local cmd=`bin/PrintPath $1`;
+  if [[ -z "$cmd" ]]; then
+     error "Cannot find $1. Please retrieve it from 
+
+     $2
+     
+and install it."
+  fi
+}
+
+# Figure out which action to execute.
+function delegate
+{
+  local called_as=$0
+  local command=$1
+  shift
+
+  if [[ -z "$command" ]]; then
+    error "Illegal command '$command'"
+  fi
+
+  # delegate to the command handling functions
+  case $command in
+
+    run)
+      run $@
+      ;;
+    debug)
+      run --debug $@
+      ;;
+    test)
+      test $@
+      ;;
+    integration-test)
+      integration_test $@
+      ;;
+    site)
+      site $@
+      ;;
+    site-publish)
+      site_publish $@
+      ;;
+    get-metadata)
+      get_metadata $@
+      ;;
+    validate)
+      validate $0
+      ;;
+    help | usage | --help | -help | -H | -h)
+      usage $@
+      ;;
+    experimental-tests)
+      experimental_tests $@
+      ;;
+    '')
+      error "Please specify a command"
+      ;;
+    *)
+      error "Unknown command '$command'"
+      ;;
+  esac
+}
+
+#############################################################################
+# Actions
+#############################################################################
+
+# Run gumpy.
+function run
+{
+  check_env "python" "http://www.python.org/"
+  check_env "pkill" "http://sourceforge.net/projects/proctools"
+
+  cd cron
+  ./gump.sh $@
+  cd ..
+}
+
+# Run gumpy unit tests
+function test
+{
+  check_env "python" "http://www.python.org/"
+
+  local oldpythonpath=$PYTHONPATH
+  if [[ -z $oldpythonpath ]]; then
+    export PYTHONPATH=`pwd`/python:`pwd`
+  else
+    export PYTHONPATH=`pwd`/python:`pwd`:$PYTHONPATH
+  fi
+
+  #./test/gumptest.sh
+  cd python
+  python ../bin/testrunner.py -d ../python/gump/test $@
+  cd ..
+
+  export PYTHONPATH=$oldpythonpath
+}
+
+# Run gumpy integration tests
+function integration_test
+{
+  echo "
+
+This is currently not working! For some strange reason,
+gumpy thinks we have no projects defined :(
+
+"
+
+  local doupdate=$GUMP_NO_SCM_UPDATE
+  export GUMP_NO_SCM_UPDATE=true
+  run --workspace `pwd`/test/fixture/workspace.xml $@ #all
+  export GUMP_NO_SCM_UPDATE=$doupdate
+}
+
+# Use Apache Forrest to build the documentation.
+function site
+{
+  check_env "forrest" "http://forrest.apache.org/mirrors.cgi"
+
+  forrest
+}
+
+# Use svn and ssh to publish the site.
+function site_publish
+{
+  check_env "svn" "http://subversion.tigris.org/"
+  check_env "ssh" "http://www.openssh.org/"
+
+  error 'This functionality is not yet tested!'
+
+  cp -Rf build/site/* ../site/
+  cd ../site/
+  find . -type d -or -type -f -not -path '*/.svn*' -exec svn add \{\} \;
+  svn commit -m "Publishing site..."
+  ssh minotaur.apache.org svn up /www/gump.apache.org
+  cd ../trunk/
+}
+
+# Check out or update the gump metadata.
+function get_metadata
+{
+  check_env "cvs" "http://www.cvshome.org/"
+
+  local cvsroot=$1
+  if [[ -z "$cvsroot" ]]; then
+    cvsroot=":pserver:anoncvs@cvs.apache.org:/home/cvspublic"
+  fi
+
+  if [[ -d "metadata/CVS" ]]; then
+    cvs -d $cvsroot up -Pd metadata
+  else
+    # This is not dumb. Cannot check out into an existing checkout,
+    # and cannot remove the metadata either because 'svn up' will
+    # get confused that way
+    cvs -d $cvsroot co -d gump.cvs gump
+    mv gump.cvs/* metadata/
+    rm -Rf gump.cvs
+  fi
+}
+
+# Run the DTD validation tools on the metadata.
+function validate
+{
+  check_env "xmllint" "http://xmlsoft.org/"
+  check_env "xsltproc" "http://xmlsoft.org/"
+
+  cd metadata
+  ./validate
+  cd ..
+}
+
+# Run the experimental new unit tests.
+function experimental_tests
+{
+  check_env "python" "http://www.python.org/"
+
+  local oldpythonpath=$PYTHONPATH
+  if [[ -z $oldpythonpath ]]; then
+    export PYTHONPATH=`pwd`/src/py:`pwd`
+  else
+    export PYTHONPATH=`pwd`/src/py:`pwd`:$PYTHONPATH
+  fi
+
+  local dir=$1
+  if [[ -z "$dir" ]]; then
+    dir='src/py'
+  else
+    shift
+  fi
+
+  find $dir -name *.pyc | xargs rm -Rf  # get rid of compiled files
+  python bin/testrunner.py -d $dir $@   # run the tests
+
+  export PYTHONPATH=$oldpythonpath
+}
+
+#############################################################################
+# Run the script...
+#############################################################################
+
+# Figure out the action to take then run the appropriate function
+delegate $@
+
+#############################################################################
+# And some mess below...
+#############################################################################
+
+#option=$@
+#previous_argument=
+#for option
+#do
+   # get argument to options with arguments
+#  if test -n "$previous_argument"; then
+#    eval "$previous_argument=\$option"
+#    previous_argument=
+#    continue
+#  fi
+#done

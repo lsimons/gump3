@@ -72,11 +72,11 @@ class NotificationLogic(RunSpecific):
             #
             # Notify on first success, after a failure.
             #
-            if (stats.sequenceInState == 1):            
-                if not STATE_PREREQ_FAILED == stats.previousState:
-                    if stats.getTotalRuns() > 1:    
-                        notification=gump.actor.notify.notification.SuccessNotification(self.run,entity)
-            else:
+            #if (stats.sequenceInState == 1):            
+            #    if not STATE_PREREQ_FAILED == stats.previousState:
+            #        if stats.getTotalRuns() > 1:    
+            #            notification=gump.actor.notify.notification.SuccessNotification(self.run,entity)
+            #else:
                 #
                 # Notify on official if contains 'errors'.
                 #

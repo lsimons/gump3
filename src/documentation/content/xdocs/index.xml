@@ -32,29 +32,21 @@
   <section><title>What is Gump?</title>
 
   <p>
-    <strong>Gump is a social experiment.</strong>  The primary goal of Gump is to get diverse
-    projects to communicate early and often about integration, dependencies,
-    and versioning management.  One way to think about it is that some of the
-    concepts of
-    <link href="http://www.extremeprogramming.org/">Extreme programming</link>
-    applied to
-    <link href="http://www.martinfowler.com/articles/continuousIntegration.html">
-    Continuous Integration</link> on an unprecedented scale.
+Gump is Apache's continuous integration tool. It is written in python and fully supports Apache Ant, 
+Apache Maven and other build tools. Gump is unique in that it builds and compiles software against 
+the latest development versions of those projects. This allows gump to detect potentially 
+incompatible changes to that software just a few hours after those changes are checked into the 
+version control system. Notifications are sent to the project team as soon as such a change is 
+detected, referencing more detailed reports available online.
   </p>
-   
+
   <p>
-    Essentially, the reasoning goes like this - if continuous integration is a
-    good thing on a small project, why not apply it recursively and include all
-    dependencies for which access to source is provided?
+You can set up and run Gump on your own machine and run it on your own projects, however it is 
+currently most famous for building most of Apache's java-based projects and their dependencies (which 
+constitutes several million lines of code split up into hundreds of projects). For this purpose, the 
+gump project maintains its own dedicated server.
   </p>
-  <fixme author="Community">The Gump team are looking for volunteers to extend Gump, to install/manage public/private/cascaded Gumps,
-  	and generally spread Gump to an even broader section of the OSS community. Interested?<br/>
-  	Also, Gump is developing, and a has <link href="todo.html">outstanding TODOS</link> that
-  		you could help with.<br/>
-  	
-  	Contact us on the
-  	Gump <link href="mail.html">mailing list</link>
-  </fixme>
+
   </section>
 
   <section><title>How does Gump work?</title>
