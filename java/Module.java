@@ -158,8 +158,9 @@ public class Module {
         String definedIn = element.getAttribute("defined-in");
         for (Enumeration e=projects.elements(); e.hasMoreElements(); ) {
             Element project = (Element) e.nextElement();
-            if (project.getAttributeNode("defined-in") == null)
+            if (project.getAttributeNode("defined-in") == null) {
                project.setAttribute("defined-in", definedIn);
+            }
             element.removeChild(project);
             parent.appendChild(project);
         }
@@ -175,7 +176,7 @@ public class Module {
         Node child=element.getFirstChild();
         for (; child != null; child=child.getNextSibling()) {
             if (! child.getNodeName().equals("cvs")) continue;
-            if (cvs == null)  {
+            if (cvs == null) {
                 cvs = (Element) child;
             } else {
                 Jenny.moveChildren((Element) child, cvs);
@@ -197,13 +198,15 @@ public class Module {
             cvsroot += ":" + r.get("user");
 
             cvsroot += "@";
-            if (cvs.getAttributeNode("host-prefix") != null)
+            if (cvs.getAttributeNode("host-prefix") != null) {
                 cvsroot += cvs.getAttribute("host-prefix") + ".";
+            }
             cvsroot += r.get("hostname");
 
             cvsroot += ":" + r.get("path");
-            if (cvs.getAttributeNode("dir") != null)
+            if (cvs.getAttributeNode("dir") != null) {
                 cvsroot += "/" + cvs.getAttribute("dir");
+            }
 
             cvs.setAttribute("cvsroot", cvsroot);
             cvs.setAttribute("password", r.get("password"));

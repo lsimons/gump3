@@ -97,8 +97,9 @@ public class Project {
         if (ant != null) {
             genProperties(ant);
             genDepends(ant);
-            if (!get("target").equals("")) 
+            if (!get("target").equals("")) {
                 ant.setAttribute("target", get("target"));
+            }
         }
 
         resolveJavadoc(javadoc);
@@ -168,12 +169,14 @@ public class Project {
 
             Element depend = document.createElement("depend");
             depend.setAttribute("project", dependency);
-            if (property.getAttributeNode("classpath") == null)
+            if (property.getAttributeNode("classpath") == null) {
                 depend.appendChild(document.createElement("noclasspath"));
+            }
 
             Attr runtime = property.getAttributeNode("runtime");
-            if (runtime != null) 
+            if (runtime != null) {
                 depend.setAttribute("runtime", runtime.getValue());
+            }
 
             element.appendChild(depend);
             dependsOn.put(dependency, depend);
@@ -247,8 +250,9 @@ public class Project {
             Project target = (Project)projects.get(name);
 
             Element depend = (Element) dependsOn.get(name);
-            if (!depend.getNodeName().equals("option"))
+            if (!depend.getNodeName().equals("option")) {
                 require(target, "project", name);
+            }
             if (target == null) continue;
 
             target.referencedBy.put(this, depend);
@@ -553,8 +557,9 @@ public class Project {
         // if there are no child nodes, add this project's description
         if (!javadoc.hasChildNodes() && description!=null) {
             Element desc = (Element) description.cloneNode(true);
-            if (javadoc.getAttributeNode("title") != null)
+            if (javadoc.getAttributeNode("title") != null) {
                desc.setAttribute("title", javadoc.getAttribute("title"));
+            }
             javadoc.appendChild(desc);
         }
 

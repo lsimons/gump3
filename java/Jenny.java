@@ -91,11 +91,13 @@ public class Jenny {
            String source=href.getValue();
            Node sub = parse(source);
 
-           if (source.lastIndexOf(".")>0)
+           if (source.lastIndexOf(".")>0) {
                source=source.substring(0,source.lastIndexOf("."));
+           }
 
-           if (source.lastIndexOf("/")>0)
+           if (source.lastIndexOf("/")>0) {
                source=source.substring(source.lastIndexOf("/")+1);
+           }
 
            node.removeAttribute("href");
            node.setAttribute("defined-in", source);
@@ -117,7 +119,9 @@ public class Jenny {
        Node child=node.getFirstChild();
        while (child != null) {
            Node next=child.getNextSibling();
-           if (child.getNodeType()==Node.ELEMENT_NODE) expand((Element)child);
+           if (child.getNodeType()==Node.ELEMENT_NODE) {
+               expand((Element)child);
+           }
            child=next;
        }
     }
@@ -145,8 +149,9 @@ public class Jenny {
             if (priorDefinition != null && priorDefinition != element) {
                 Element parent  = (Element)priorDefinition.getParentNode();
                 String definedIn = parent.getAttribute("defined-in");
-                if (!definedIn.equals(""))
+                if (!definedIn.equals("")) {
                     element.setAttribute("defined-in",definedIn);
+                }
 
                 moveChildren(priorDefinition, element);
                 parent.removeChild(priorDefinition);
@@ -190,10 +195,11 @@ public class Jenny {
      */
     public static void main(String[] args) {
         try {
-            if (args.length == 1)
+            if (args.length == 1) {
                 new Jenny(args[0]);
-            else
+            } else {
                 System.out.println("Usage: Jenny workspace.xml");
+            }
         } catch (Exception e) {
             e.printStackTrace();
             System.exit(99);
