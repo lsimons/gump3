@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/model/project.py,v 1.52 2004/02/23 15:43:06 ajack Exp $
-# $Revision: 1.52 $
-# $Date: 2004/02/23 15:43:06 $
+# $Header: /home/stefano/cvs/gump/python/gump/model/project.py,v 1.53 2004/02/23 16:22:43 ajack Exp $
+# $Revision: 1.53 $
+# $Date: 2004/02/23 16:22:43 $
 #
 # ====================================================================
 #
@@ -1350,6 +1350,7 @@ class ProjectSummary:
         self.statepairs=statepairs
         
         # Percentages
+        self.overallPercentage=0
         self.successesPercentage=0
         self.failuresPercentage=0
         self.prereqsPercentage=0
@@ -1406,13 +1407,18 @@ class ProjectSummary:
         self.calculatePercentages()
         
     def calculatePercentages(self):
-    
+        """ Keep counters correct """
         if self.projects > 0:            
-            self.successesPercentage=round((self.successes/self.projects)*100,2)
-            self.failuresPercentage=round((self.failures/self.projects)*100,2)
-            self.prereqsPercentage=round((self.prereqs/self.projects)*100,2)
-            self.noworksPercentage=round((self.noworks/self.projects)*100,2)
-            self.packagesPercentage=round((self.packages/self.projects)*100,2)
-            self.othersPercentage=round((self.others/self.projects)*100,2)
+            self.successesPercentage=round((float(self.successes)*100)/self.projects,2)
+            self.failuresPercentage=round((float(self.failures)*100)/self.projects,2)
+            self.prereqsPercentage=round((float(self.prereqs)*100)/self.projects,2)
+            self.noworksPercentage=round((float(self.noworks)*100)/self.projects,2)
+            self.packagesPercentage=round((float(self.packages)*100)/self.projects,2)
+            self.othersPercentage=round((float(self.others)*100)/self.projects,2)
             
-            self.overalPercentage=(round(((self.successes + self.packages)/self.projects)*100),2)
+            # This is the overall success of a run...
+            self.overallPercentage=(round((float(self.successes + self.packages)*100)/self.projects),2)
+            
+    def getOverallPercentage(self):
+        """ Return the overall success """
+        return self.overallPercentage
