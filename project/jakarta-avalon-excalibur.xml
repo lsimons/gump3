@@ -410,6 +410,7 @@
         <depend project="excalibur-pool" inherit="runtime"/>
         <depend project="excalibur-testcase" inherit="runtime"/>
         <depend project="excalibur-component" inherit="runtime"/>
+        <depend project="excalibur-source" inherit="runtime"/>
         <depend project="xml-xerces"/>
         <depend project="xml-xalan2"/>
         <work nested="monitor/build/classes"/>
