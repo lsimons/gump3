@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/Attic/model.py,v 1.29 2003/10/18 23:54:20 ajack Exp $
-# $Revision: 1.29 $
-# $Date: 2003/10/18 23:54:20 $
+# $Header: /home/stefano/cvs/gump/python/gump/Attic/model.py,v 1.30 2003/10/19 00:09:10 ajack Exp $
+# $Revision: 1.30 $
+# $Date: 2003/10/19 00:09:10 $
 #
 # ====================================================================
 #
@@ -387,7 +387,13 @@ class Ant(GumpModelObject):
       depend=Depend({'project':property.project})
       if not property.classpath: depend['noclasspath']=Single({})
       if property.runtime: depend['runtime']=property.runtime
+      
+      #
+      # :TODO: AJ added this, no idea if it is right/needed.
+      #
       if property.id: depend['ids']= [ property.id ]
+      
+      # Add depend to project...
       project.depend.append(depend)
 
     #
@@ -472,7 +478,7 @@ class Property(GumpModelObject):
       except Exception, details:
         log.warn( "Cannot resolve jarpath of " + self.project + \
           " for " + project.name + ". Details: " + str(details))
-        log.debug( traceback.format_stack() )
+        # log.debug( traceback.format_stack() )
         
 # TODO: set up the below elements with defaults using complete()
 
