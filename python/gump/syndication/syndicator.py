@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/syndication/syndicator.py,v 1.1 2003/12/05 00:51:49 ajack Exp $
-# $Revision: 1.1 $
-# $Date: 2003/12/05 00:51:49 $
+# $Header: /home/stefano/cvs/gump/python/gump/syndication/syndicator.py,v 1.2 2003/12/05 12:25:54 ajack Exp $
+# $Revision: 1.2 $
+# $Date: 2003/12/05 12:25:54 $
 #
 # ====================================================================
 #
@@ -168,7 +168,7 @@ class Syndicator:
                     '</td></tr>\n')                   
             content += '<table>'
             
-        context += '\n\n\n<img alt=\'Brought to you by Jakarta Gump\' src=\'http://jakarta.apache.org/gump/images/bench.png\'/>'
+        content += '\n\n\n<img alt=\'Brought to you by Jakarta Gump\' src=\'http://jakarta.apache.org/gump/images/bench.png\'/>'
               
 def syndicate(run):
     
