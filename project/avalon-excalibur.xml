@@ -1012,6 +1012,7 @@
         <depend project="junit"/>
         <depend project="junitperf"/>
         <depend project="excalibur-component" id="testcase"/>
+        <depend project="concurrent"/>
 
         <work nested="thread/build/classes"/>
         <work nested="thread/build/testclasses"/>
