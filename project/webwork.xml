@@ -22,6 +22,10 @@
   </project>
 
   <project name="db40">
+    <url href="http://www.db4o.com/"/>
+    <description>
+      Object Database Engine 
+    </description>
     <home nested="src"/>
     <jar name="lib/db4o.jar"/>
   </project>

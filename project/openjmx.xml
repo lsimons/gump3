@@ -12,6 +12,7 @@
     <depend project="jakarta-ant"/>
     <depend project="xml-xerces"/>
     <depend project="jakarta-log4j"/>
+    <depend project="saxon"/>
     <option project="javamail"/>
     <option project="jsse"/>
 
@@ -20,4 +21,11 @@
     <jar name="lib/openjmx-tools.jar"/>
   </project>
 
+  <project name="saxon">
+    <url href="http://openjmx.sourceforge.net/"/>
+    <description>
+      XSLT processor developed by Michael Kay
+    </description>
+    <jar name="lib/saxon.jar"/>
+  </project>
 </module>
