@@ -152,7 +152,7 @@ python -V >> $GUMP_LOG 2>&1
 #
 cd $GUMP_PYTHON
 echo $SEPARATOR >> $GUMP_LOG
-python gump/integrate.py -w ../${GUMP_WORKSPACE}.xml ${GUMP_TARGET} >> $GUMP_LOG 2>&1 
+python gump/integrate.py -w ../${GUMP_WORKSPACE}.xml ${GUMP_TARGET}  "$@" >> $GUMP_LOG 2>&1 
 export INTEGRATION_EXIT=$?
 echo "Integration completed with exit code : " ${INTEGRATION_EXIT} >> $GUMP_LOG
 if [ ${INTEGRATION_EXIT} -gt 0 ] ; then
