@@ -32,7 +32,7 @@ from gump.utils.timing import *
 
 import gump.process.command
 
-LAUNCHER=os.path.join(os.path.join('gump','process'),'launcher.py')
+LAUNCHER=os.path.join(os.path.join(os.path.join(os.path.join('..','python'),'gump'),'process'),'launcher.py')
 
 def execute(cmd,tmp=dir.tmp):
     res=gump.process.command.CmdResult(cmd)
