@@ -30,6 +30,7 @@
     <depend project="jakarta-struts"/>
     <depend project="commons-modeler"/>
     <depend project="jdbc"/>
+    <depend project="antlr.runtime"/>
     <work nested="build/classes"/>
     <work nested="build/client/classes"/>
 
