@@ -33,6 +33,7 @@
     <depend project="jakarta-avalon"/>
     <depend project="dist-avalon-logkit"/>
     <depend project="xml-xalan2"/>
+    <depend project="xml-batik"/>
     <depend project="bsf"/>
     <depend project="rhino"/>
     <depend project="jakarta-avalon-excalibur"/>
