@@ -14,7 +14,9 @@ public class Project {
     private Document document;
     private Element element;
     private String name;
+    private Element ant = null;
     private Hashtable depends = new Hashtable();
+    private Hashtable jars = new Hashtable();
 
     /**
      * Create a set of Project definitions based on XML nodes.
@@ -25,9 +27,12 @@ public class Project {
            new Project((Element)elements.nextElement());
         }
 
-        // expand dependencies for easier generation
+        // Resolve all references so that the XML can be processed in
+        // one pass.
         for (Enumeration e=projects.elements(); e.hasMoreElements();) {
-            ((Project)(e.nextElement())).expandDepends();
+            Project p = ((Project)(e.nextElement()));
+            p.expandDepends();
+            p.resolveProperties();
         }
     }
 
@@ -50,7 +55,6 @@ public class Project {
         name = element.getAttribute("name");
 
         Element home = null;
-        Element ant = null;
 
         Node child=element.getFirstChild();
         for (; child != null; child=child.getNextSibling()) {
@@ -62,6 +66,8 @@ public class Project {
                 ant = (Element)child;
             } else if (child.getNodeName().equals("home")) {
                 home = (Element)child;
+            } else if (child.getNodeName().equals("jar")) {
+                jars.put(((Element)child).getAttribute("id"), child);
             }
         }
 
@@ -70,6 +76,12 @@ public class Project {
         if (ant != null) {
             genProperties(ant);
             genDepends(ant);
+        }
+
+        // if only one jar is found, make sure that it can be accessed without
+        // specifying an id.
+        if (jars.size() == 1) {
+            jars.put("", jars.elements().nextElement());
         }
 
         projects.put(name, this);
@@ -195,11 +207,68 @@ public class Project {
                 if (child.getNodeName().equals("jar")) {
                     depend.appendChild(child.cloneNode(false));
                 } else if (child.getNodeName().equals("ant")) {
-                    depend.appendChild(child.cloneNode(false));
+                    depend.appendChild(document.createElement("ant"));
                 } else if (child.getNodeName().equals("script")) {
-                    depend.appendChild(child.cloneNode(false));
+                    depend.appendChild(document.createElement("script"));
                 }
             }
+        }
+    }
+
+    /**
+     * Resolve property references, based on the value of "reference"
+     * attribute (if present).  Supported values for reference are:
+     *
+     * <ul>
+     * <li> home: the home directory for the referenced project </li>
+     * <li> jar: the simple name (path relative to home) of the jar in a 
+     * referenced project. </li>
+     * <li> jarpath: the fully qualified path of the jar in a referenced 
+     * project. </li>
+     * <li> srcdir: the srcdir for the module containing the project. </li>
+     * <li> path: a path which is to be interpreted relative to the srcdir 
+     * for the module containing this project </li>
+     * </ul>
+     */
+    private void resolveProperties() throws Exception {
+        if (ant == null) return;
+
+        Node child=ant.getFirstChild();
+        for (;child!=null; child=child.getNextSibling()) {
+            if (!child.getNodeName().equals("property")) continue;
+            Element property = (Element) child;
+            if (property.getAttributeNode("value") != null) continue;
+
+            String reference = property.getAttribute("reference");
+            String projectName = property.getAttribute("project");
+            Project project = (Project) projects.get(projectName);
+
+            String value = null;
+
+            if (reference.equals("home")) {
+                value = project.get("home");
+                property.setAttribute("type", "path");
+            } else if (reference.equals("jar")) {
+                String id = property.getAttribute("id");
+                Element jar = (Element)project.jars.get(id);
+                value = jar.getAttribute("name"); 
+            } else if (reference.equals("jarpath")) {
+                String id = property.getAttribute("id");
+                Element jar = (Element)project.jars.get(id);
+                value = project.get("home") + "/" + jar.getAttribute("name"); 
+                property.setAttribute("type", "path");
+            } else if (reference.equals("srcdir")) {
+                Module module = Module.find(projectName);
+                value = module.getSrcDir();
+                property.setAttribute("type", "path");
+            } else if (property.getAttributeNode("path") != null) {
+                Module module = Module.find(this.get("module"));
+                value = module.getSrcDir();
+                value += "/" + property.getAttribute("path");
+                property.setAttribute("type", "path");
+            }
+
+            if (value != null) property.setAttribute("value", value);
         }
     }
 }
