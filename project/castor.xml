@@ -20,6 +20,7 @@
     <depend project="jta"/>
     <depend project="jakarta-regexp"/>
     <depend project="jakarta-oro"/>
+    <depend project="commons-logging"/>
     <home nested="dist"/>
     <jar name="castor-@@DATE@@.jar"/>
     <jar name="castor-@@DATE@@-xml.jar"/>
