@@ -8,7 +8,7 @@
 
 <body>
 
-  <section name="Workspace">
+  <section name="workspace">
     <p>This represents the combination of projects (either referenced
     directly or indirectly, via profiles) that are to be built together.
     By default, workspaces are named after the hostname of the computer
@@ -72,12 +72,12 @@
           <th>Required?</th>
         </tr>
         <tr>
-          <td>Name</td>
+          <td>name</td>
           <td>Name of the property to set.</td>
           <td>Yes</td>
         </tr>
         <tr>
-          <td>Value</td>
+          <td>value</td>
           <td>Desired value</td>
           <td>Yes</td>
         </tr>
@@ -99,7 +99,7 @@
         <tr>
           <td>href</td>
           <td>URI of the file containing the profile definition</td>
-          <td>Yes.</td>
+          <td>Yes</td>
         </tr>
       </table>
     </subsection>
@@ -119,7 +119,7 @@
         <tr>
           <td>href</td>
           <td>URI of the file containing the module definition</td>
-          <td>Yes.</td>
+          <td>Yes</td>
         </tr>
       </table>
     </subsection>
@@ -139,14 +139,14 @@
         <tr>
           <td>name</td>
           <td>Name of the project to be modified</td>
-          <td>Yes.</td>
+          <td>Yes</td>
         </tr>
         <tr>
           <td>home</td>
           <td>Convenient way to specify an override for a root/home
             element.
           </td>
-          <td>No.</td>
+          <td>No</td>
         </tr>
       </table>
     </subsection>
@@ -166,28 +166,28 @@
         <tr>
           <td>href</td>
           <td>URI of the file containing the repository definition</td>
-          <td>Yes.</td>
+          <td>Yes</td>
         </tr>
         <tr>
           <td>method</td>
           <td>Convenient way to specify an override for a root/method
             element
           </td>
-          <td>No.</td>
+          <td>No</td>
         </tr>
         <tr>
           <td>user</td>
           <td>Convenient way to specify an override for a root/user
             element
           </td>
-          <td>No.</td>
+          <td>No</td>
         </tr>
         <tr>
           <td>path</td>
           <td>Convenient way to specify an override for a root/path
             element
           </td>
-          <td>No.</td>
+          <td>No</td>
         </tr>
       </table>
     </subsection>

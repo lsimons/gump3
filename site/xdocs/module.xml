@@ -9,8 +9,8 @@
 <body>
 
   <section name="module">
-    <p>A <a href="module.html">module</a> is a collection of projects that
-    are physically stored in a single repository.</p>
+    <p>A module is a collection of projects that are physically stored in a 
+    single repository.</p>
 
     <subsection name="url">
       <p>This is the homepage for the collection of projects contained in
@@ -30,7 +30,13 @@
         <tr>
           <td>href</td>
           <td>URL of home page</td>
-          <td>Yes.</td>
+          <td>Yes</td>
+        </tr>
+        <tr>
+          <td>srcdir</td>
+          <td>The directory (relative to the workspace's basedir) which
+          the checked out sources are to be copied for build purposes.</td>
+          <td>No.  Defaults to the name of the module.</td>
         </tr>
       </table>
     </subsection>
@@ -57,21 +63,21 @@
         <tr>
           <td>repository</td>
           <td>The name of the repository in which this module resides.</td>
-          <td>Yes.</td>
+          <td>Yes</td>
         </tr>
         <tr>
           <td>host-prefix</td>
           <td>Additional information which will be added in the front of the
           host name.  Useful for repositories like sorceforge which define
           a separate virtual host for every project</td>
-          <td>No.</td>
+          <td>No</td>
         </tr>
         <tr>
           <td>dir</td>
           <td>The subdirectory in which the cvs module is present.  Useful
           for repositories like developerworks which organize related modules
           into directories.</td>
-          <td>No.</td>
+          <td>No</td>
         </tr>
         <tr>
           <td>module</td>

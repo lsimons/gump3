@@ -9,8 +9,8 @@
 <body>
 
   <section name="profile">
-    <p>A profile is a collection of projects and repositories that are 
-    logically to be considered a unit. A profile can provide a consistent set 
+    <p>A profile is a collection of projects and repositories that are
+    logically to be considered a unit. A profile can provide a consistent set
     of installable dependencies, or tagged versions of cvs modules to be used.
     </p>
 
@@ -29,13 +29,13 @@
         <tr>
           <td>href</td>
           <td>URI of the file containing the module definition</td>
-          <td>Yes.</td>
+          <td>Yes</td>
         </tr>
       </table>
     </subsection>
 
     <subsection name="project">
-      <p>An individual project to be extended.  For a complete description, 
+      <p>An individual project to be extended.  For a complete description,
       see the documentation for <a href="project.html">project</a>.</p>
 
       <table>
@@ -47,22 +47,23 @@
         <tr>
           <td>name</td>
           <td>Name of the project to be modified</td>
-          <td>Yes.</td>
+          <td>Yes</td>
         </tr>
         <tr>
           <td>package</td>
           <td>Specifies the name of the subdirectory relative to the pkgdir
           specified in the workspace definition.
           </td>
-          <td>No.</td>
+          <td>No</td>
+
         </tr>
       </table>
     </subsection>
 
     <subsection name="repository">
-      <p>An repository to be included.  While a complete repository can be 
-      defined here, typically one is referenced via href.  For a complete 
-      description, see the documentation for 
+      <p>An repository to be included.  While a complete repository can be
+      defined here, typically one is referenced via href.  For a complete
+      description, see the documentation for
       <a href="repository.html">repository</a>.</p>
 
       <table>
@@ -74,7 +75,7 @@
         <tr>
           <td>href</td>
           <td>URI of the file containing the repository definition</td>
-          <td>Yes.</td>
+          <td>Yes</td>
         </tr>
       </table>
     </subsection>

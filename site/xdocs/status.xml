@@ -11,7 +11,8 @@
   <section name="Recurring build problems">
     <p>These represent "known problems".  In some cases, they represent a
     temporary problem that will be synched up at the point of the next
-    release, in other cases they represent an abject failure to communicate</p>
+    release, in other cases they may represent an abject failure to
+    communicate.</p>
 
     <subsection name="commons-latka">
       <p>Latka depends on function which was subsequently rolled back from
@@ -88,9 +89,25 @@
   </section>
 
   <section name="Recent success stories">
-    <p>TBD</p>
+    <p>This section describes cross project compatibility issues which were:
+    </p>
+
+    <ul>
+      <li>detected by gump</li>
+      <li>the changes would likely have otherwise gone undetected until
+      release</li>
+      <li>involved changes to one or both products</li>
+      <li>the changes were done prior to release.</li>
+    </ul>
+
+    <subsection name="jakarta-log4j">
+      <p>September 2001: in order to more closely resemble the JSR 47 API,
+      the Level class replaced the Priority class, and the Logger class
+      replaced the Category class.  This was originally done in a manner which
+      was thought to be backwards compatible, but there was subtle reasons why
+      this was not the case.</p>
+    </subsection>
   </section>
 
 </body>
 </document>
-

@@ -9,30 +9,207 @@
 <body>
 
   <section name="project">
-    <p>TBD</p>
+    <p>A project is the atomic unit of integration.  It can describe an
+    installable package or a buildable product.  The nested elements of
+    a project definition fall into three different "groups", each optional:</p>
+
+    <ul>
+    <li>Build instructions: &lt;ant&gt; and &lt;script&gt;.  Describes how to
+    produce the outputs from the inputs.</li>
+    <li>Inputs: &lt;depend&gt;, &lt;option&gt;, and &lt;work&gt;.  Describes
+    where to find the inputs (primarily jar files, but can be directories and
+    files).</li>
+    <li>Outputs: &lt;home&gt; and &lt;jar&gt;.  Describes where to locate
+    the output files.</li>
+    </ul>
+
+    <p>Note that &lt;depend&gt; elements nested within &lt;ant&gt;
+    elements are precisely equivalent to specifying both a property to be
+    passed to Ant, as well as a separate depend element.</p>
 
     <subsection name="ant">
-      <p></p>
+      <p>Identifies this project as "buildable", and specifies the
+      target to build and the properties to be passed to ant.  The full
+      description of this XML element can be found
+      <a href="ant.html">here</a></p>
+
+      <p><a href="http://jakarta.apache.org/ant/">Jakarta Ant</a> is the
+      defacto build tool used by a large number of Open Source Java
+      projects.</p>
+    </subsection>
+
+    <subsection name="script">
+      <p>Identifies this project as "buildable", and specifies the
+      script to be executed in order to make this happen.  The assumption
+      is that the script can be invoked in a platform independent manner,
+      though the contents of the script may be platform specific.
+      Specifically, if the name of the script is "name", it will be
+      invoked as follows:</p>
+
+      <p>At the present time, the only use of this is during the bootstrap
+      process for Ant.</p>
+
+      <ul>
+        <li>On Windows/batch, "call .\name.bat"</li>
+        <li>On Unix/bash, "./name.sh"</li>
+      </ul>
+
+      <table>
+        <tr>
+          <th>Attribute</th>
+          <th>Description</th>
+          <th>Required?</th>
+        </tr>
+        <tr>
+          <td>name</td>
+          <td>The name of the script to execute.</td>
+          <td>Yes</td>
+        </tr>
+      </table>
     </subsection>
 
     <subsection name="depend">
-      <p></p>
+      <p>Specifies the name of a required prerequisite project.  If a
+      definition for that project is not found in the workspace, the
+      generation will fail.</p>
+
+      <p>For a build "all", the invocation of ant or the script is bypassed
+      if any of the outputs of the specified project can not be found.</p>
+
+      <p>For both script and ant based builds, any jars defined by the
+      specified project as outputs are added to the CLASSPATH prior to
+      invoking the build operation.</p>
+
+      <table>
+        <tr>
+          <th>Attribute</th>
+          <th>Description</th>
+          <th>Required?</th>
+        </tr>
+        <tr>
+          <td>project</td>
+          <td>The name of the project depended on.</td>
+          <td>Yes</td>
+        </tr>
+      </table>
     </subsection>
 
     <subsection name="option">
-      <p></p>
+      <p>Specifies the name of an optional prerequisite project.  If a
+      definition for that project is not found in the workspace, the
+      dependency is ignored.</p>
+
+      <p>For both script and ant based builds, any jars defined by the
+      specified project as outputs are added to the CLASSPATH prior to
+      invoking the build operation.  If the files are not present,
+      this will have little effect.</p>
+
+      <table>
+        <tr>
+          <th>Attribute</th>
+          <th>Description</th>
+          <th>Required?</th>
+        </tr>
+        <tr>
+          <td>project</td>
+          <td>The name of the project depended on.</td>
+          <td>Yes</td>
+        </tr>
+      </table>
     </subsection>
 
     <subsection name="work">
-      <p></p>
+      <p>Adds a directory or a file to the class path.  This is to allow
+      projects which have compilation dependencies on byproducts of the build
+      (example: tests which import the project itself.  This is necessary when
+      using the Ant build.sysclasspath="ignore".</p>
+
+      <p>It generally is OK if the directory is not present prior to the
+      build.  However, if this directory is deleted during the course of
+      the build, the behavior of the JVM may become unpredictable.</p>
+
+      <p>If neither the parent nor the nested attributes are present, then
+      the srcdir for the module is added to the classpath.</p>
+
+      <table>
+        <tr>
+          <th>Attribute</th>
+          <th>Description</th>
+          <th>Required?</th>
+        </tr>
+        <tr>
+          <td>parent</td>
+          <td>Name of a directory or file, relative to the base directory
+          of the workspace.</td>
+          <td>No</td>
+        </tr>
+        <tr>
+          <td>nested</td>
+          <td>Name of a directory or file, relative to the srcdir of the module
+          containing this project.</td>
+          <td>No</td>
+        </tr>
+      </table>
     </subsection>
 
     <subsection name="home">
-      <p></p>
+      <p>The home directory for a project is the directory which contains the
+      files referenceable by another project.  In many cases, it is possible
+      for another project element by the same name (see the
+      <a href="overview.html">overview</a>) to extend a project definition
+      for an installable package in such a way that the result actually builds
+      the project.</p>
+
+      <p>A home attribute on a project definition will override this value.</p>
+
+      <p>A package attribute on a project will provide a default for this
+      value.  Such a default would be relative to the workspace pkgdir</p>
+
+      <p>If none of these attributes or elements, the default value is
+      the srcdir for the module.</p>
+
+      <table>
+        <tr>
+          <th>Attribute</th>
+          <th>Description</th>
+          <th>Required?</th>
+        </tr>
+        <tr>
+          <td>parent</td>
+          <td>Name of a directory or file, relative to the base directory
+          of the workspace.</td>
+          <td>No</td>
+        </tr>
+        <tr>
+          <td>nested</td>
+          <td>Name of a directory or file, relative to the srcdir of the module
+          containing this project.</td>
+          <td>No</td>
+        </tr>
+      </table>
     </subsection>
 
     <subsection name="jar">
-      <p></p>
+      <p>The name of an output jar, relative to the home directory.</p>
+
+      <table>
+        <tr>
+          <th>Attribute</th>
+          <th>Description</th>
+          <th>Required?</th>
+        </tr>
+        <tr>
+          <td>name</td>
+          <td>The name of the jar</td>
+          <td>Yes</td>
+        </tr>
+        <tr>
+          <td>id</td>
+          <td>Provides a unique id which can be used to provide selection
+          between multiple jars definitions.</td>
+          <td>No</td>
+        </tr>
+      </table>
     </subsection>
 
   </section>

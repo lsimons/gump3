@@ -1,0 +1,122 @@
+<?xml version="1.0"?>
+<document>
+
+  <properties>
+    <author email="rubys@us.ibm.com">Sam Ruby</author>
+    <title>Gump</title>
+  </properties>
+
+<body>
+
+  <section name="ant">
+    <p>Specifies the arguments to be passed to Ant.</p>
+
+    <table>
+      <tr>
+        <th>Attribute</th>
+        <th>Description</th>
+        <th>Required?</th>
+      </tr>
+      <tr>
+        <td>basedir</td>
+        <td>The base directory in which the build is executed.  The generated
+          build script will make this directory the current working directory
+          prior to invoking Ant.
+        </td>
+        <td>No</td>
+      </tr>
+      <tr>
+        <td>target</td>
+        <td>The ant target to invoke.</td>
+        <td>No</td>
+      </tr>
+    </table>
+    <p/>
+
+    <subsection name="property">
+      <p>Property overrides to be passed to the Ant command</p>
+
+      <table>
+        <tr>
+          <th>Attribute</th>
+          <th>Description</th>
+          <th>Required?</th>
+        </tr>
+        <tr>
+          <td>name</td>
+          <td>Name of the property to set.</td>
+          <td>Yes</td>
+        </tr>
+        <tr>
+          <td>value</td>
+          <td>Desired value</td>
+          <td>No</td>
+        </tr>
+        <tr>
+          <td>project</td>
+          <td>The name of the referenced project.  Required if the reference
+          attribute is "home", "jar", "jarpath", or "srcdir".</td>
+          <td>No</td>
+        </tr>
+        <tr>
+          <td>reference</td>
+          <td>
+            <p>One of the following values:</p>
+            <ul>
+              <li>home: the home directory for the referenced project</li>
+              <li>jar: the simple name (path relative to home) of the jar in a
+              referenced project.</li>
+              <li>jarpath: the fully qualified path of the jar in a referenced
+              project.</li>
+              <li>srcdir: the srcdir for the module containing the project.</li>
+              <li>path: a path which is to be interpreted relative to the
+              srcdir for the module containing this project</li>
+            </ul>
+          </td>
+          <td>No</td>
+        </tr>
+        <tr>
+          <td>id</td>
+          <td>Specifies which jar is desired.  Required only for projects which
+          define more than one jar.</td>
+          <td>No</td>
+        </tr>
+      </table>
+    </subsection>
+
+    <subsection name="depend">
+      <p>This is equivalent to a property reference="jarpath" as well as a
+      dependency element in the enclosing project.  This was introduced as
+      that has become a common enough practice that it makes sense to
+      introduce this element</p>
+
+      <table>
+        <tr>
+          <th>Attribute</th>
+          <th>Description</th>
+          <th>Required?</th>
+        </tr>
+        <tr>
+          <td>property</td>
+          <td>The name of the property which will receive the full jarpath
+          of the specified jar.</td>
+          <td>Yes</td>
+        </tr>
+        <tr>
+          <td>project</td>
+          <td>The name of the project depended on.</td>
+          <td>Yes</td>
+        </tr>
+        <tr>
+          <td>id</td>
+          <td>Specifies which jar is desired.  Required only for projects which
+          define more than one jar.</td>
+          <td>No</td>
+        </tr>
+      </table>
+    </subsection>
+  </section>
+
+</body>
+</document>
+

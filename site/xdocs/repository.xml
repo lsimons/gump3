@@ -8,7 +8,7 @@
 
 <body>
 
-  <section name="Repository">
+  <section name="repository">
     <p>This represents the location from which modules can be obtained.</p>
 
     <table>
