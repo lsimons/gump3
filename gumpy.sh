@@ -30,11 +30,12 @@ fi
 #
 # Calculated
 #
-export GUMPY_VERSION="1.0.1"
+export GUMPY_VERSION="1.0.2"
 export GUMP_PYTHON=$GUMP/python
+export GUMP_TMP=$GUMP/tmp
 export GUMP_HOST=`hostname -s`
 export GUMP_DATE=`date`
-export GUMP_LOG=$GUMP_LOG_DIR/site/gumpy.html
+export GUMP_LOG=$GUMP_LOG_DIR/gumpy.html
 export GUMP_PROFILE_LOG_DIR=$GUMP_LOG_DIR/myprofile
 
 if [ -z "$GUMP_WORKSPACE" ] ; then
@@ -42,6 +43,19 @@ if [ -z "$GUMP_WORKSPACE" ] ; then
 fi
 
 export SEPARATOR='------------------------------------------------------- G U M P Y'
+
+#
+# Ensure directory structure to write into 
+#
+cd $GUMP
+if [ ! -d $GUMP_LOG_DIR ] ; then
+	mkdir $GUMP_LOG_DIR; 
+fi
+if [ ! -d $GUMP_LOG_DIR ] ; then
+	echo "Failed to create the directory \$GUMP_LOG_DIR variable, can't continue."
+	exit 1
+fi
+
 
 #
 # Generate gumpy.html from this (into the WWW site)
@@ -67,13 +81,6 @@ echo >> $GUMP_LOG
 #
 # Store the profile (into a myprofile dir)
 #
-cd $GUMP
-if [ ! -d $GUMP_LOG_DIR ] ; then
-	mkdir $GUMP_LOG_DIR; 
-fi
-if [ ! -d $GUMP_LOG_DIR ] ; then
-	exit 1
-fi
 
 if [ ! -d $GUMP_PROFILE_LOG_DIR ] ; then
 	mkdir $GUMP_PROFILE_LOG_DIR; 
@@ -120,6 +127,19 @@ cd $GUMP_PYTHON
 echo $SEPARATOR >> $GUMP_LOG
 python gump/integrate.py -w ../${GUMP_WORKSPACE}.xml ${GUMP_TARGET} >> $GUMP_LOG 2>&1 
 echo >> $GUMP_LOG
+
+# 
+cd $GUMP_TMP
+echo $SEPARATOR >> $GUMP_LOG
+if [ -f forrest.txt ] ; then
+	cat forrest.txt >> $GUMP_LOG
+else
+	echo "No Forrest Output file @ $GUMP_TMP/forrest.txt" >> $GUMP_LOG
+fi
+echo $SEPARATOR >> $GUMP_LOG
+
+# Just in case...
+cd $GUMP
 
 echo \</XMP\> >> $GUMP_LOG
 pkill -P $$ 
