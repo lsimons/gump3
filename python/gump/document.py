@@ -285,11 +285,11 @@ def documentWorkspace(workspace,context,db,moduleFilterList=None,projectFilterLi
         if not Module.list.has_key(mname): continue        
         if moduleFilterList and not mctxt.module in moduleFilterList: continue
         mcount+=1
-        (mhours, mmins, msecs) 	= mctxt.elapsedTime();
+
         x.write('     <tr><!-- %s -->\n' % (mname))        
         x.write('      <td><link href=\'%s\'>%s</link></td><td>%s</td>\n' % \
           (getModuleRelativeUrl(mname),mname,getStateIcons(mctxt.aggregateStates())))    
-        x.write('      <td>%s:%s:%s</td>\n' % (str(mhours),str(mmins),str(msecs)))    
+        x.write('      <td>%s</td>\n' % elapsedTimeToString(mctxt.elapsedTime()))    
         x.write('     </tr>\n\n')
     if not mcount: x.write('	<tr><td>None</td></tr>')
     endTableXDoc(x)
@@ -401,12 +401,11 @@ def documentModule(workspace,wdir,modulename,modulecontext,db,projectFilterList=
         if projectFilterList and not pctxt.project in projectFilterList: continue  
         pname=pctxt.name    
         pcount+=1
-           
-        (phours, pmins, psecs) 	= pctxt.elapsedTime();
+        
         x.write('     <tr><!-- %s -->' % (pname))        
         x.write('      <td><link href=\'%s\'>%s</link></td><td>%s</td><td>%s</td>' % \
           (getProjectRelativeUrl(pname),pname,stateName(pctxt.status),reasonString(pctxt.reason)))    
-        x.write('      <td>%s:%s:%s</td>' % (str(phours),str(pmins),str(psecs)))    
+        x.write('      <td>%s</td>' % elapsedTimeToString(pctxt.elapsedTime()))    
         x.write('     </tr>')
         
     if not pcount: x.write('	<tr><td>None</td></tr>')
@@ -536,7 +535,7 @@ def documentWorkList(x,workspace,worklist,description='Work',dir='.'):
         x.write('     <tr><!-- %s -->' % (workTypeName(work.type)))       
         x.write('      <td><link href=\'%s\'>%s</link></td>' % (getWorkRelativeUrl(work.type,work.command.name),work.command.name))    
         x.write('      <td>%s</td>' % (workTypeName(work.type))) 
-        x.write('      <td>%s</td><td>%s secs.</td>' % (stateName(work.status), str(work.secs)))    
+        x.write('      <td>%s</td><td>%s</td>' % (stateName(work.status), secsToString(work.secs)))    
         x.write('     </tr>')
     x.write('    </table>\n')
     endSectionXDoc(x)
@@ -680,9 +679,7 @@ def documentModulesByElapsed(stats,sdir,moduleFilterList=None):
     startTableXDoc(x,'Modules By Elapsed')
     for mctxt in stats.modulesByElapsed:        
         if moduleFilterList and not mctxt.module in moduleFilterList: continue
-        (hours,mins,secs)=mctxt.elapsedTime()
-        timeFormat=str(hours)+":"+str(mins)+":"+str(secs)
-        titledXDataInTableXDoc(x,getContextLink(mctxt), timeFormat)
+        titledXDataInTableXDoc(x,getContextLink(mctxt), elapsedTimeToString(mctxt.elapsedTime()))
 
     endTableXDoc(x)
     
@@ -982,7 +979,7 @@ def getStatePairIcon(pair,depth=0):
     
     # Build the URL
     iconName=gumpSafeName(lower(replace(uniqueName,' ','_')))
-    url = getUp(depth)+"resources/icons/"+iconName+".png";
+    url = getUp(depth)+"icons/"+iconName+".png";
     
     # Build the <icon xdoc
     return '<icon src=\'' + url + '\' alt=\'' + description +'\'/>'

@@ -65,6 +65,9 @@
 import logging
 import types, StringIO
 
+from gump  import log
+from gump.conf import default
+
 ###############################################################################
 # Base classes for the Displayable Objects
 ###############################################################################
@@ -164,6 +167,32 @@ def printSeparatorToFile(f=None,indent=''):
     if not f: f = sys.stdout
     f.write( '%s\n' % (indent + ' ---------------------------------------------------- Gumpy'))
 
+def secsToElapsedTime(secs):   
+    # Extract Hours
+    if secs > 3600:
+        hours	=	int(secs / 3600)
+        secs	%=	3600
+    else:
+        hours	=	0
+          
+    # Extract Minutes  
+    if secs > 60:
+        mins	=	int(secs / 60)
+        secs	%=	60
+    else:
+        mins 	= 	0
+            
+    # Seconds
+    secs 	=	int(round(secs,0))
+        
+    return (hours, mins, secs)
+    
+def secsToString(secs):
+    return ('%02d:%02d:%02d' % secsToElapsedTime(secs))           
+    
+def elapsedTimeToString(elapsed):
+    return ('%02d:%02d:%02d' % elapsed)           
+    
 if __name__=='__main__':
 
   # init logging
@@ -172,5 +201,9 @@ if __name__=='__main__':
   #set verbosity to show all messages of severity >= default.logLevel
   log.setLevel(default.logLevel)
   
-  dump(log)
+  #dump(log)
+
+  print "secsToElapsedTime(1340) : " + str(secsToElapsedTime(1340))
+  print "secsToString(1340) : " + secsToString(1340)
+  print "elapsedTimeToString(secsToElapsedTime(1340)) : " + elapsedTimeToString(secsToElapsedTime(1340))
   

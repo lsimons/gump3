@@ -91,8 +91,8 @@ def integrate(workspace,expr='*',context=GumpContext()):
         # Provide a news feed
         rss(workspace,context)
 
-    #display(context)
-    result = context.status
+    # Return an exit code based off success
+    result = stateOk(context.status) ? 0 : 1
 
 # static void main()
 if __name__=='__main__':

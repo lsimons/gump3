@@ -125,8 +125,7 @@ levelDescriptions = { 	LEVEL_UNSET : "Not Set",
                     LEVEL_INFO : "Info",
                     LEVEL_WARNING : "Warning",
                     LEVEL_ERROR : "Error",
-                    LEVEL_FATAL : "Fatal" }    
-           
+                    LEVEL_FATAL : "Fatal" }               
 
 def levelName(level):
     return levelDescriptions.get(level,'Unknown Level:' + str(level))
@@ -296,6 +295,15 @@ class StatePair:
         cmp = self.state < other.state
         if not cmp: cmp = self.reason < other.reason
         return cmp
+
+class Summary:
+    """ Contains an overview """
+    def __init__(self,successes,failures,prereqs,other,statepairs):
+        self.successes=successes
+        self.failures=failures
+        self.prereqs=prereqs
+        self.other=other
+        self.statepair=statepairs
         
 class Context:
     """Context for a single entity"""
@@ -351,13 +359,38 @@ class Context:
     def aggregateStates(self, states=None):
         if not states: states=[]
         pair=self.getStatePair()
-        # Add self, if not already there
+        # Add state, if not already there
         if not stateUnset(pair.state) and not pair in states: \
             states.append(pair)
         # Subbordinates
         for ctxt in self:
             ctxt.aggregateStates(states)
         return states;
+        
+    def getSummary(self,summary=None):            
+        if not summary: 
+            summary=Summary(0,0,0,0,[])
+            
+        # Stand up and be counted
+        if not stateUnit(self.state):
+            if stateOk(self.state):
+                summary.successes+=1
+            elif STATUS_PREREQ_FAILURE == self.state:
+                summary.prereqs+=1
+            elif STATUS_FAILED == self.state:
+                summary.failures+=1
+            else:
+                summary.other+=1
+                
+        # Add state, if not already there
+        if not stateUnset(pair.state) and not pair in summary.statepairs: \
+            summary.statepairs.append(pair)
+       
+        # Subordinates
+        for ctxt in self:
+            ctxt.getSummary(summary)
+            
+        return summary;
             
     def propagateErrorState(self,state,reason=REASON_UNSET,cause=None):
         #
