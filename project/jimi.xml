@@ -1,0 +1,14 @@
+<module name="jimi">
+
+  <url  href="http://java.sun.com/products/jimi/"/>
+  <description>
+    Image I/O classes 
+  </description>
+
+  <project name="jimi">
+    <package>com.sun.jimi</package>
+
+    <jar  name="JimiProClasses.zip"/>
+  </project>
+
+</module>
