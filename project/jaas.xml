@@ -1,10 +1,12 @@
-<project name="jaas">
+<module name="jaas">
 
   <url href="http://java.sun.com/products/jaas/"/>
   <description>
     Java Authentication and Authorization Service
   </description>
+  
+  <project name="jaas">
+    <jar  name="lib/jaas.jar"/>
+  </project>
 
-  <jar  name="lib/jaas.jar"/>
-
-</project>
+</module>

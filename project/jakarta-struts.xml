@@ -1,4 +1,4 @@
-<project name="jakarta-struts">
+<module name="jakarta-struts">
 
   <url href="http://jakarta.apache.org/struts/index.html"/>
   <description>
@@ -6,20 +6,20 @@
   </description>
 
   <cvs repository="jakarta"/>
+  
+  <project name="jakarta-struts">
+    <ant target="dist">
+      <depend property="jdbc20ext.jar" project="jdbc"/>
+      <depend property="servlet.jar" project="jakarta-servletapi-4"/>
+      <depend property="xerces.jar" project="xml-xerces"/>
+      <depend property="commons-beanutils.jar"   project="commons-beanutils"/>
+      <depend property="commons-collections.jar" project="commons-collections"/>
+      <depend property="commons-digester.jar"    project="commons-digester"/>
+    </ant>
+    <depend project="xml-xalan2"/>
+    <depend project="jakarta-ant"/>
+    <work nested="target/library/classes"/>
+    <work nested="target/tiles/library/classes"/>
+  </project>
 
-  <ant target="dist">
-    <depend property="jdbc20ext.jar" project="jdbc"/>
-    <depend property="servlet.jar"   project="jakarta-servletapi-4"/>
-    <depend property="xerces.jar"    project="xml-xerces"/>
-
-    <depend property="commons-beanutils.jar"   project="commons-beanutils"/>
-    <depend property="commons-collections.jar" project="commons-collections"/>
-    <depend property="commons-digester.jar"    project="commons-digester"/>
-  </ant>
-
-  <depend project="xml-xalan2"/>
-  <depend project="jakarta-ant"/>
-  <work nested="target/library/classes"/>
-  <work nested="target/tiles/library/classes"/>
-
-</project>
+</module>

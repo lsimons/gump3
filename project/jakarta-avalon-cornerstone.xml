@@ -1,4 +1,4 @@
-<project name="jakarta-avalon-cornerstone">
+<module name="jakarta-avalon-cornerstone">
 
   <url href="http://jakarta.apache.org/avalon/"/>
   <description>
@@ -6,27 +6,26 @@
   </description>
 
   <cvs repository="jakarta"/>
+  
+  <project name="jakarta-avalon-cornerstone">
+    <ant target="dist">
+      <depend property="xerces.jar" project="xml-xerces"/>
+      <depend property="logkit.jar" project="jakarta-avalon-logkit"/>
+      <depend property="avalon-framework.jar" project="jakarta-avalon"/>
+      <depend property="phoenix-client.jar" project="jakarta-avalon-phoenix"/>
+      <depend property="testlet.jar" project="jakarta-avalon-testlet"/>
+      <depend property="avalon-excalibur.jar" 
+        project="jakarta-avalon-excalibur" id="avalon-excalibur"/>
+      <depend property="avalon-scratchpad.jar" 
+        project="jakarta-avalon-excalibur" id="avalon-scratchpad"/>
+    </ant>
+    <depend project="jakarta-ant"/>
+    <option project="jsse"/>
+    <depend project="xml-stylebook2"/>
+    <depend project="xml-xalan2"/>
+    <home nested="build/lib"/>
+    <jar name="cornerstone.bar"/>
+  </project>
 
-  <ant target="dist">
-    <depend property="xerces.jar"           project="xml-xerces"/>
-    <depend property="logkit.jar"           project="jakarta-avalon-logkit"/>
-    <depend property="avalon-framework.jar" project="jakarta-avalon"/>
-    <depend property="phoenix-client.jar"   project="jakarta-avalon-phoenix"/>
-    <depend property="testlet.jar"          project="jakarta-avalon-testlet"/>
-
-    <depend property="avalon-excalibur.jar" 
-      project="jakarta-avalon-excalibur" id="avalon-excalibur"/>
-    <depend property="avalon-scratchpad.jar" 
-      project="jakarta-avalon-excalibur" id="avalon-scratchpad"/>
-  </ant>
-
-  <depend project="jakarta-ant"/>
-  <option project="jsse"/>
-  <depend project="xml-stylebook2"/>
-  <depend project="xml-xalan2"/>
-
-  <home nested="build/lib"/>
-  <jar name="cornerstone.bar"/>
-
-</project>
+</module>
 

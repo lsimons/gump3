@@ -1,4 +1,4 @@
-<project name="jakarta-avalon-testlet">
+<module name="jakarta-avalon-testlet">
 
   <url href="http://jakarta.apache.org/avalon/"/>
   <description>
@@ -6,14 +6,14 @@
   </description>
 
   <cvs repository="jakarta"/>
+  
+  <project name="jakarta-avalon-testlet">
+    <ant target="dist"/>
+    <depend project="jakarta-ant"/>
+    <depend project="xml-xerces"/>
+    <depend project="jakarta-avalon-clutil"/>
+    <home nested="build/lib"/>
+    <jar name="testlet.jar"/>
+  </project>
 
-  <ant target="dist"/>
-
-  <depend project="jakarta-ant"/>
-  <depend project="xml-xerces"/>
-  <depend project="jakarta-avalon-clutil"/>
-
-  <home nested="build/lib"/>
-  <jar name="testlet.jar"/>
-
-</project>
+</module>

@@ -1,4 +1,4 @@
-<project name="openjms">
+<module name="openjms">
 
   <url href="http://openjms.exolab.org/"/>
   <description>
@@ -6,21 +6,22 @@
   </description>
 
   <cvs repository="exolab" host-prefix="openjms" dir="openjms"/>
-
-  <ant buildfile="src/build.xml" target="jar"/>
-
-  <depend project="jakarta-ant"/>
-  <depend project="xml-xerces"/>
-  <depend project="openjms.ant.extensions"/>
-  <depend project="antlr"/>
-  <depend project="castor"/>
-  <depend project="openjms.exolab.core"/>
-  <depend project="jms"/>
-  <depend project="jtf"/> <!-- from castor -->
-  <depend project="jta"/>
-  <depend project="jdbc"/>
-  <depend project="tyrex"/>
-  <depend project="jakarta-regexp"/>
+  
+  <project name="openjms">
+    <ant buildfile="src/build.xml" target="jar"/>
+    <depend project="jakarta-ant"/>
+    <depend project="xml-xerces"/>
+    <depend project="openjms.ant.extensions"/>
+    <depend project="antlr"/>
+    <depend project="castor"/>
+    <depend project="openjms.exolab.core"/>
+    <depend project="jms"/>
+    <depend project="jtf"/> <!-- from castor -->
+    <depend project="jta"/>
+    <depend project="jdbc"/>
+    <depend project="tyrex"/>
+    <depend project="jakarta-regexp"/>
+  </project>
 
   <project name="antlr">
     <jar name="lib/antlrall_2.7.1.jar"/>
@@ -35,4 +36,4 @@
     <jar name="lib/exolabcore-0.3.jar"/>
   </project>
 
-</project>
+</module>

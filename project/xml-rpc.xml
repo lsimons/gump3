@@ -1,4 +1,4 @@
-<project name="xml-rpc">
+<module name="xml-rpc">
 
   <url href="http://xmlrpc.helma.org/"/>
   <description>
@@ -7,14 +7,14 @@
 
   <cvs repository="xml"/>
 
-  <ant basedir="build"/>
+  <project name="xml-rpc">
+    <ant basedir="build"/>
+    <depend project="xml-xerces"/>
+    <depend project="jakarta-ant"/>
+    <option project="jakarta-servletapi"/>
+    <option project="jsse"/>
+    <home nested="bin"/>
+    <jar name="xmlrpc.jar"/>
+  </project>
 
-  <depend project="xml-xerces"/>
-  <depend project="jakarta-ant"/>
-  <option project="jakarta-servletapi"/>
-  <option project="jsse"/>
-
-  <home nested="bin"/>
-  <jar name="xmlrpc.jar"/>
-
-</project>
+</module>

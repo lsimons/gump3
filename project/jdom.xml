@@ -1,4 +1,4 @@
-<project name="jdom">
+<module name="jdom">
 
   <url href="http://www.jdom.org"/>
   <description>
@@ -7,13 +7,13 @@
 
   <cvs repository="jdom"/>
 
-  <ant/>
+  <project name="jdom">
+    <ant/>
+    <depend project="jakarta-ant"/>
+    <depend project="xml-xerces"/>
+    <depend project="xml-xalan2"/>
+    <home nested="build"/>
+    <jar name="jdom.jar" id="jdom"/>
+  </project>
 
-  <depend project="jakarta-ant"/>
-  <depend project="xml-xerces"/>
-  <depend project="xml-xalan2"/>
-
-  <home nested="build"/>
-  <jar name="jdom.jar" id="jdom"/>
-
-</project>
+</module>

@@ -1,4 +1,4 @@
-<project name="xml-cocoon2">
+<module name="xml-cocoon2">
 
   <url href="http://xml.apache.org/cocoon/cocoon2.html"/>
   <description>
@@ -6,31 +6,32 @@
   </description>
 
   <cvs repository="xml"/>
-
-  <ant target="dist">
-    <depend property="logkit.jar"    project="dist-avalon-logkit"/>
-    <depend property="avalonapi.jar" project="jakarta-avalon"/>
-  </ant>
-
-  <depend project="jakarta-ant"/>
-  <depend project="xml-xerces"/>
-  <depend project="xml-xalan2"/>
-  <depend project="xml-batik"/>
-  <option project="jakarta-servletapi-4"/>
-  <depend project="jakarta-avalon-excalibur"/>
-  <option project="xml-fop"/>
-  <depend project="jakarta-regexp"/>
-  <depend project="jdom"/>
-  <option project="xt"/>
-  <option project="xml-batik"/>
-  <option project="rhino"/>
-  <option project="jstyle"/>
-  <depend project="maybeupload"/>
-  <depend project="bsf"/>
-  <depend project="jakarta-velocity"/>
-  <option project="jtidy"/>
-  <option project="phpservlt"/>
-  <work nested="bin"/>
+  
+  <project name="xml-cocoon2">
+    <ant target="dist">
+      <depend property="logkit.jar"    project="dist-avalon-logkit"/>
+      <depend property="avalonapi.jar" project="jakarta-avalon"/>
+    </ant>
+    <depend project="jakarta-ant"/>
+    <depend project="xml-xerces"/>
+    <depend project="xml-xalan2"/>
+    <depend project="xml-batik"/>
+    <depend project="jakarta-avalon-excalibur"/>
+    <depend project="jakarta-regexp"/>
+    <depend project="jdom"/>
+    <depend project="maybeupload"/>
+    <depend project="bsf"/>
+    <depend project="jakarta-velocity"/>
+    <option project="xml-fop"/>
+    <option project="jtidy"/>
+    <option project="phpservlt"/>
+    <option project="jakarta-servletapi-4"/>
+    <option project="xt"/>
+    <option project="xml-batik"/>
+    <option project="rhino"/>
+    <option project="jstyle"/>
+    <work nested="bin"/>
+  </project>
 
   <project name="jstyle">
     <url href="http://astyle.sourceforge.net/"/>
@@ -56,4 +57,4 @@
     <jar name="lib/maybeupload.jar"/>
   </project>
 
-</project>
+</module>

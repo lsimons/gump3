@@ -1,4 +1,4 @@
-<project name="jakarta-turbine-flux">
+<module name="jakarta-turbine-flux">
 
   <url href="http://jakarta.apache.org/turbine/"/>
   <description>
@@ -6,16 +6,16 @@
   </description>
 
   <cvs repository="jakarta"/>
+  
+  <project name="jakarta-turbine-flux">
+    <ant target="jar"/>
+    <depend project="jakarta-ant"/>
+    <depend project="xml-xerces"/>
+    <depend project="jakarta-turbine-3"/>
+    <depend project="jakarta-velocity"/>
+    <depend project="jakarta-servletapi"/>
+    <home nested="bin"/>
+    <jar name="flux.jar"/>
+  </project>      
 
-  <ant target="jar"/>
-
-  <depend project="jakarta-ant"/>
-  <depend project="xml-xerces"/>
-  <depend project="jakarta-turbine-3"/>
-  <depend project="jakarta-velocity"/>
-  <depend project="jakarta-servletapi"/>
-
-  <home nested="bin"/>
-  <jar name="flux.jar"/>
-
-</project>
+</module>

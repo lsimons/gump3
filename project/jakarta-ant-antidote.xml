@@ -1,4 +1,4 @@
-<project name="jakarta-ant-antidote">
+<module name="jakarta-ant-antidote">
 
   <url href="http://jakarta.apache.org/ant/index.html"/>
   <description>
@@ -6,12 +6,13 @@
   </description>
 
   <cvs repository="jakarta"/>
+  
+  <project name="jakarta-ant-antidote">
+    <ant target="dist-lite"/>
+    <depend project="bootstrap-ant"/>
+    <depend project="xml-xerces"/>
+    <home nested="dist"/>
+    <jar name="lib/antidote.jar"/>
+  </project>
 
-  <depend project="bootstrap-ant"/>
-  <depend project="xml-xerces"/>
-
-  <ant target="dist-lite" />
-  <home nested="dist"/>
-  <jar name="lib/antidote.jar"/>
-
-</project>
+</module>

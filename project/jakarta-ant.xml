@@ -1,4 +1,4 @@
-<project name="jakarta-ant">
+<module name="jakarta-ant">
 
   <url  href="http://jakarta.apache.org/ant/index.html"/>
   <description>
@@ -6,23 +6,24 @@
   </description>
 
   <cvs repository="jakarta"/>
-
-  <depend project="bootstrap-ant"/>
-  <depend project="xml-xerces"/>
-  <option project="xml-xalan2"/>
-  <option project="xml-stylebook2"/>
-  <option project="xml-xalan1-compat"/>
-  <option project="junit"/>
-
-  <ant target="dist-lite">
-    <property name="ant.home" reference="home" project="jakarta-ant"/>
-  </ant>
-
-  <home nested="dist"/>
-  <jar name="lib/ant.jar"/>
-  <jar name="lib/optional.jar"/>
+  
+  <project name="jakarta-ant">
+    <ant target="dist-lite">
+      <property name="ant.home" reference="home" project="jakarta-ant"/>
+    </ant>
+    <depend project="bootstrap-ant"/>
+    <depend project="xml-xerces"/>
+    <option project="xml-xalan2"/>
+    <option project="xml-stylebook2"/>
+    <option project="xml-xalan1-compat"/>
+    <option project="junit"/>
+    <home nested="dist"/>
+    <jar name="lib/ant.jar"/>
+    <jar name="lib/optional.jar"/>
+  </project>
 
   <project name="dist-ant">
+    <ant target="distribution"/>
     <depend project="bootstrap-ant"/>
     <depend project="xml-xerces"/>
     <option project="xml-xalan2"/>
@@ -36,15 +37,13 @@
     <option project="jakarta-log4j"/>
     <option project="jaf"/>
     <option project="javamail"/>
-
-    <ant target="distribution"/>
-
     <home nested="build"/>
-    <jar  name="lib/ant.jar"/>
-    <jar  name="lib/optional.jar"/>
+    <jar name="lib/ant.jar"/>
+    <jar name="lib/optional.jar"/>
   </project>
 
   <project name="test-ant">
+    <ant target="run-tests"/>
     <depend project="dist-ant"/>
     <depend project="xml-xerces"/>
     <option project="xml-xalan2"/>
@@ -53,8 +52,6 @@
     <option project="jakarta-oro"/>
     <work nested="build/classes"/>
     <work nested="build/testcases"/>
-
-    <ant target="run-tests"/>
   </project>
 
   <project name="bootstrap-ant">
@@ -80,4 +77,4 @@
     <ant basedir="proposal/mutant"/>
   </project>
 
-</project>
+</module>

@@ -1,4 +1,4 @@
-<project name="jakarta-ecs">
+<module name="jakarta-ecs">
 
   <url href="http://jakarta.apache.org/ecs/index.html"/>
   <description>
@@ -6,14 +6,14 @@
   </description>
 
   <cvs repository="jakarta"/>
+  
+  <project name="jakarta-ecs">
+    <ant basedir="build" buildfile="build-ecs.xml" target="package"/>
+    <depend project="jakarta-ant"/>
+    <depend project="xml-xerces"/>
+    <depend project="jakarta-regexp"/>
+    <home nested="ecs-1.4.1"/>
+    <jar name="ecs-1.4.1.jar"/>
+  </project>
 
-  <ant basedir="build" buildfile="build-ecs.xml" target="package"/>
-
-  <depend project="jakarta-ant"/>
-  <depend project="xml-xerces"/>
-  <depend project="jakarta-regexp"/>
-
-  <home nested="ecs-1.4.1"/>
-  <jar name="ecs-1.4.1.jar"/>
-
-</project>
+</module>

@@ -1,4 +1,4 @@
-<project name="xml-soap">
+<module name="xml-soap">
 
   <url href="http://xml.apache.org/soap/index.html"/>
   <description>
@@ -6,22 +6,22 @@
   </description>
 
   <cvs repository="xml"/>
+  
+  <project name="xml-soap">
+    <ant basedir="java" target="dist"/>
+    <depend project="xml-xerces"/>
+    <depend project="jakarta-ant"/>
+    <depend project="javamail"/>
+    <depend project="jaf"/>
+    <depend project="jakarta-servletapi"/>
+    <option project="bsf"/>
+    <option project="jsse"/>
+    <option project="ejb"/>
+    <option project="junit"/>
+    <work nested="java/build/lib/soap.jar"/>
+    <work nested="java/build"/>
+    <home nested="java/build"/>
+    <jar name="lib/soap.jar"/>
+  </project>
 
-  <ant basedir="java" target="dist"/>
-
-  <depend project="xml-xerces"/>
-  <depend project="jakarta-ant"/>
-  <depend project="javamail"/>
-  <depend project="jaf"/>
-  <depend project="jakarta-servletapi"/>
-  <option project="bsf"/>
-  <option project="jsse"/>
-  <option project="ejb"/>
-  <option project="junit"/>
-  <work nested="java/build/lib/soap.jar"/>
-  <work nested="java/build"/>
-
-  <home nested="java/build"/>
-  <jar name="lib/soap.jar"/>
-
-</project>
+</module>

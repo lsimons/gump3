@@ -15,4 +15,5 @@
     <depend project="xml-xalan2"/>
     <jar name="bin\stylebook-1.0-b3_xalan-2.jar"/>
   </project>
+
 </module>

@@ -1,4 +1,4 @@
-<project name="jakarta-avalon">
+<module name="jakarta-avalon">
 
   <url href="http://jakarta.apache.org/avalon/"/>
   <description>
@@ -6,18 +6,18 @@
   </description>
 
   <cvs repository="jakarta"/>
-
-  <ant target="dist">
-    <depend property="xerces.jar"  project="xml-xerces"/>
-    <depend property="logkit.jar"  project="jakarta-avalon-logkit"/>
-    <depend property="testlet.jar" project="jakarta-avalon-testlet"/>
-  </ant>
-
-  <depend project="jakarta-ant"/>
-  <depend project="xml-stylebook2"/>
-
-  <home nested="build/lib"/>
-  <jar name="avalon-framework.jar"/>
+  
+  <project name="jakarta-avalon">
+    <ant target="dist">
+      <depend property="xerces.jar"  project="xml-xerces"/>
+      <depend property="logkit.jar"  project="jakarta-avalon-logkit"/>
+      <depend property="testlet.jar" project="jakarta-avalon-testlet"/>
+    </ant>
+    <depend project="jakarta-ant"/>
+    <depend project="xml-stylebook2"/>
+    <home nested="build/lib"/>
+    <jar name="avalon-framework.jar"/>
+  </project>
 
   <project name="jakarta-avalon-exceptionutil">
     <depend project="jakarta-ant"/>
@@ -26,4 +26,5 @@
     <home nested="build/lib"/>
     <jar name="exceptionutil.jar"/>
   </project>
-</project>
+
+</module>

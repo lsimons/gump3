@@ -1,4 +1,4 @@
-<project name="openejb">
+<module name="openejb">
 
   <url href="http://openejb.exolab.org/"/>
   <description>
@@ -6,25 +6,26 @@
   </description>
 
   <cvs repository="exolab" host-prefix="openejb" dir="openejb"/>
-
-  <ant basedir="src" target="jar"/>
-
-  <depend project="jakarta-ant"/>
-  <depend project="xml-xerces"/>
-  <depend project="j2ee-connector"/>
-  <depend project="jta"/>
-  <depend project="ejb"/>
-  <depend project="jaas"/>
-  <depend project="opentools.minerva"/>
-  <depend project="jms"/>
-  <depend project="jdbc"/>
-  <depend project="opentools.jedi"/>
-  <depend project="opentools.proxies"/>
-  <depend project="tyrex"/>
-  <depend project="openorb"/>
-  <depend project="junit"/>
-  <depend project="castor"/>
-  <work nested="build/openejb/classes"/>
+  
+  <project name="openejb">
+    <ant basedir="src" target="jar"/>
+    <depend project="jakarta-ant"/>
+    <depend project="xml-xerces"/>
+    <depend project="j2ee-connector"/>
+    <depend project="jta"/>
+    <depend project="ejb"/>
+    <depend project="jaas"/>
+    <depend project="opentools.minerva"/>
+    <depend project="jms"/>
+    <depend project="jdbc"/>
+    <depend project="opentools.jedi"/>
+    <depend project="opentools.proxies"/>
+    <depend project="tyrex"/>
+    <depend project="openorb"/>
+    <depend project="junit"/>
+    <depend project="castor"/>
+    <work nested="build/openejb/classes"/>
+  </project>
 
   <project name="opentools.minerva">
     <jar name="lib/minerva.jar"/>
@@ -39,4 +40,4 @@
     <jar name="lib/jdk12-proxies.jar"/>
   </project>
 
-</project>
+</module>

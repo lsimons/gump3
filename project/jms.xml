@@ -1,10 +1,12 @@
-<project name="jms">
+<module name="jms">
 
   <url  href="http://java.sun.com/products/jms/index.html"/>
   <description>
     Java Message Service API
   </description>
+  
+  <project name="jms">
+    <jar  name="lib/jms.jar"/>
+  </project>
 
-  <jar  name="lib/jms.jar"/>
-
-</project>
+</module>

@@ -1,4 +1,4 @@
-<project name="town">
+<module name="town">
 
   <url href="http://www.working-dogs.com/town/"/>
   <description>
@@ -6,13 +6,14 @@
   </description>
 
   <cvs repository="whichever"/>
-  <ant />
+  
+  <project name="town">
+    <ant/>
+    <depend project="jakarta-ant" />
+    <depend project="xml-xerces" />
+    <depend project="jakarta-servletapi" />
+    <home nested="build"/>
+    <jar name="town.jar"/>
+  </project>
 
-  <depend project="jakarta-ant" />
-  <depend project="xml-xerces" />
-  <depend project="jakarta-servletapi" />
-
-  <home nested="build"/>
-  <jar name="town.jar"/>
-
-</project>
+</module>

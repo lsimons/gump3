@@ -1,4 +1,4 @@
-<project name="jakarta-jetspeed">
+<module name="jakarta-jetspeed">
 
   <url href="http://jakarta.apache.org/jetspeed/site/index.html"/>
   <description>
@@ -6,23 +6,24 @@
   </description>
 
   <cvs repository="jakarta"/>
+  
+  <project name="jakarta-jetspeed">
+    <ant basedir="build">
+      <property name="JAVAC" value="classic"/>
+    </ant>
+    <depend project="jakarta-ant"/>
+    <depend project="xml-xerces"/>
+    <depend project="jakarta-turbine-2"/>
+    <depend project="castor"/>
+    <depend project="village"/>
+    <depend project="jakarta-servletapi"/>
+    <depend project="jakarta-velocity"/>
+    <depend project="jakarta-ecs"/>
+    <depend project="xml-xalan2"/>
+    <depend project="javamail"/>
+    <depend project="jdbc"/>
+    <depend project="commons-cactus-23"/>
+    <depend project="junit"/>
+  </project>
 
-  <ant basedir="build">
-    <property name="JAVAC" value="classic"/>
-  </ant>
-
-  <depend project="jakarta-ant"/>
-  <depend project="xml-xerces"/>
-  <depend project="jakarta-turbine-2"/>
-  <depend project="castor"/>
-  <depend project="village"/>
-  <depend project="jakarta-servletapi"/>
-  <depend project="jakarta-velocity"/>
-  <depend project="jakarta-ecs"/>
-  <depend project="xml-xalan2"/>
-  <depend project="javamail"/>
-  <depend project="jdbc"/>
-  <depend project="commons-cactus-23"/>
-  <depend project="junit"/>
-
-</project>
+</module>

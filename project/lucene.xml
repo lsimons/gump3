@@ -1,4 +1,4 @@
-<project name="lucene">
+<module name="lucene">
 
   <url  href="http://www.lucene.com/"/>
   <description>
@@ -6,22 +6,22 @@
   </description>
 
   <cvs repository="sourceforge" host-prefix="cvs.lucene" dir="lucene"/>
-
-  <depend project="jakarta-ant"/>
-  <depend project="xml-xerces"/>
-  <depend project="javacc"/>
-
-  <ant target="jar">
-    <property name="version" value="gump"/>
-    <property name="javacc.home" reference="home" project="javacc"/>
-  </ant>
-
-  <home nested="ant.build"/>
-  <jar name="lucene-gump.jar"/>
+  
+  <project name="lucene">
+    <depend project="jakarta-ant"/>
+    <depend project="xml-xerces"/>
+    <depend project="javacc"/>
+    <ant target="jar">
+      <property name="version" value="gump"/>
+      <property name="javacc.home" reference="home" project="javacc"/>
+    </ant>
+    <home nested="ant.build"/>
+    <jar name="lucene-gump.jar"/>
+  </project>
 
   <!-- not available via CVS -->
   <project name="javacc">
     <jar name="lib/JavaCC.zip"/>
   </project>
 
-</project>
+</module>

@@ -1,4 +1,4 @@
-<project name="jakarta-commons">
+<module name="jakarta-commons">
 
   <description>
     Jakarta commons
@@ -8,7 +8,6 @@
 
   <project name="commons-beanutils">
     <url href="http://jakarta.apache.org/commons/beanutils.html"/>
-
     <ant basedir="beanutils" target="dist">
       <property name="junit.home" reference="home" project="junit"/>
     </ant>
@@ -22,12 +21,10 @@
 
   <!-- Build the Cactus project for Servlet API 2.2 -->
   <project name="commons-cactus-22">
-
     <url href="http://jakarta.apache.org/commons/cactus/index.html"/>
     <description>
       Unit test framework for J2EE server-side java code
     </description>
-
     <ant basedir="cactus" buildfile="build/build.xml" target="all">
       <property name="tomcat.home.33" reference="home"
                 project="jakarta-tomcat"/>
@@ -36,7 +33,6 @@
       <depend property="log4j.jar"     project="jakarta-log4j" id="log4j-core"/>
       <depend property="httpunit.jar"  project="httpunit"/>
     </ant>
-
     <depend project="jakarta-ant"/>
     <depend project="xml-xerces"/>
     <depend project="xml-stylebook2"/>
@@ -44,7 +40,6 @@
     <depend project="jakarta-tomcat"/>
     <work nested="cactus/out/servlet22/classes/"/>
     <work nested="cactus/out/classes/"/>
-
     <home nested="cactus/out"/>
     <jar name="commons-cactus-ant.jar"/>
     <jar name="servlet22/dist/lib/commons-cactus.jar"/>
@@ -52,12 +47,10 @@
 
   <!-- Build the Cactus project for Servlet API 2.3 -->
   <project name="commons-cactus-23">
-
     <url href="http://jakarta.apache.org/commons/cactus/index.html"/>
     <description>
       Unit test framework for J2EE server-side java code
     </description>
-
     <ant basedir="cactus" buildfile="build/build.xml" target="all">
       <property name="tomcat.home.40" reference="home"
                 project="jakarta-tomcat-4.0"/>
@@ -66,7 +59,6 @@
       <depend property="log4j.jar" project="jakarta-log4j" id="log4j-core"/>
       <depend property="httpunit.jar"  project="httpunit"/>
     </ant>
-
     <depend project="jakarta-ant"/>
     <depend project="xml-xerces"/>
     <depend project="xml-stylebook2"/>
@@ -74,7 +66,6 @@
     <depend project="jakarta-tomcat-4.0"/>
     <work nested="cactus/out/servlet23/classes/"/>
     <work nested="cactus/out/classes/"/>
-
     <home nested="cactus/out"/>
     <jar name="commons-cactus-ant.jar"/>
     <jar name="servlet23/dist/lib/commons-cactus.jar"/>
@@ -82,7 +73,6 @@
 
   <project name="commons-collections">
     <url href="http://jakarta.apache.org/commons/"/>
-
     <ant basedir="collections" target="dist"/>
     <depend project="jakarta-ant"/>
     <depend project="xml-xerces"/>
@@ -94,7 +84,6 @@
 
   <project name="commons-dbcp">
     <url href="http://jakarta.apache.org/commons/"/>
-
     <ant basedir="dbcp" target="dist"/>
     <depend project="jakarta-ant"/>
     <depend project="xml-xerces"/>
@@ -109,7 +98,6 @@
 
   <project name="commons-digester">
     <url href="http://jakarta.apache.org/commons/"/>
-
     <ant basedir="digester" target="dist"/>
     <depend project="jakarta-ant"/>
     <depend project="xml-xerces"/>
@@ -122,20 +110,17 @@
 
   <project name="commons-httpclient">
     <url href="http://jakarta.apache.org/commons/"/>
-
     <ant basedir="httpclient" target="dist"/>
     <depend project="jakarta-ant"/>
     <depend project="xml-xerces"/>
     <depend project="jsse"/>
     <depend project="jakarta-log4j"/>
-
     <home nested="httpclient/dist"/>
     <jar name="commons-httpclient.jar"/>
   </project>
 
   <project name="commons-pool">
     <url href="http://jakarta.apache.org/commons/"/>
-
     <ant basedir="pool" target="dist"/>
     <depend project="jakarta-ant"/>
     <depend project="xml-xerces"/>
@@ -145,4 +130,4 @@
     <jar name="commons-pool.jar"/>
   </project>
 
-</project>
+</module>

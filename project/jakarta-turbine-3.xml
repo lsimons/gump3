@@ -1,4 +1,4 @@
-<project name="jakarta-turbine-3">
+<module name="jakarta-turbine-3">
 
   <url href="http://jakarta.apache.org/turbine/"/>
   <description>
@@ -6,34 +6,34 @@
   </description>
 
   <cvs repository="jakarta"/>
+  
+  <project name="jakarta-turbine-3">
+    <ant>
+      <property name="version" value="gump"/>
+      <depend property="velocity.jar" project="jakarta-velocity"/>
+      <depend property="log4j.jar"    project="jakarta-log4j" id="log4j"/>
+      <depend property="servlet.jar"  project="jakarta-servletapi-4"/>
+      <depend property="fulcrum.jar"  project="jakarta-turbine-fulcrum"/>
+      <depend property="regexp.jar"  project="jakarta-regexp"/>
+      <depend property="torque.jar"   project="jakarta-turbine-torque"/>
+      <depend property="jaf.jar"      project="jaf"/>
+      <depend property="jdom.jar"     project="jdom"/>
+      <depend property="commons-util.jar" project="commons-util"/>
+      <depend property="commons-collections.jar" project="commons-collections"/>
+    </ant>
+    <depend project="jakarta-ant"/>
+    <depend project="xml-xerces"/>
+    <depend project="xml-xalan2"/>
+    <depend project="jakarta-oro"/>
+    <depend project="village"/>
+    <depend project="javamail"/>
+    <depend project="xml-rpc"/>
+    <depend project="jdbc"/>
+    <option project="jta"/> <!-- needed for javadoc purposes only -->
+    <depend project="bsf"/>
+    <work nested="bin/classes"/>
+    <home nested="bin"/>
+    <jar name="turbine-gump.jar"/>
+  </project>    
 
-  <ant>
-    <property name="version" value="gump"/>
-    <depend property="velocity.jar" project="jakarta-velocity"/>
-    <depend property="log4j.jar"    project="jakarta-log4j" id="log4j"/>
-    <depend property="servlet.jar"  project="jakarta-servletapi-4"/>
-    <depend property="fulcrum.jar"  project="jakarta-turbine-fulcrum"/>
-    <depend property="regexp.jar"  project="jakarta-regexp"/>
-    <depend property="torque.jar"   project="jakarta-turbine-torque"/>
-    <depend property="jaf.jar"      project="jaf"/>
-    <depend property="jdom.jar"     project="jdom"/>
-    <depend property="commons-util.jar" project="commons-util"/>
-    <depend property="commons-collections.jar" project="commons-collections"/>
-  </ant>
-
-  <depend project="jakarta-ant"/>
-  <depend project="xml-xerces"/>
-  <depend project="xml-xalan2"/>
-  <depend project="jakarta-oro"/>
-  <depend project="village"/>
-  <depend project="javamail"/>
-  <depend project="xml-rpc"/>
-  <depend project="jdbc"/>
-  <option project="jta"/> <!-- needed for javadoc purposes only -->
-  <depend project="bsf"/>
-  <work nested="bin/classes"/>
-
-  <home nested="bin"/>
-  <jar name="turbine-gump.jar"/>
-
-</project>
+</module>

@@ -1,4 +1,4 @@
-<project name="cruisecontrol">
+<module name="cruisecontrol">
 
   <url  href="http://cruisecontrol.sourceforge.net"/>
   <description>
@@ -7,20 +7,22 @@
 
   <cvs repository="sourceforge" host-prefix="cvs.cruisecontrol" 
                                 dir="cruisecontrol"/>
-
-  <ant/>
-
-  <depend project="dist-ant"/>
-  <depend project="xml-xerces"/>
-  <depend project="xml-xalan2"/>
-  <depend project="jakarta-servletapi-4"/>
-  <depend project="javamail"/>
-  <depend project="jakarta-oro"/>
-  <depend project="starteam"/>
-  <depend project="jmx"/>
+  
+  <project name="cruisecontrol">
+    <ant/>
+    <depend project="dist-ant"/>
+    <depend project="xml-xerces"/>
+    <depend project="xml-xalan2"/>
+    <depend project="jakarta-servletapi-4"/>
+    <depend project="javamail"/>
+    <depend project="jakarta-oro"/>
+    <depend project="starteam"/>
+    <depend project="jmx"/>
+  </project>
 
   <project name="starteam">
     <home nested="lib"/>
     <jar name="starteam-sdk-interfaceonly.jar"/>
   </project>
-</project>
+
+</module>

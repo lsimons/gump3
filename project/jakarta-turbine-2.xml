@@ -1,4 +1,4 @@
-<project name="jakarta-turbine-2">
+<module name="jakarta-turbine-2">
 
   <url href="http://jakarta.apache.org/turbine/"/>
   <description>
@@ -7,32 +7,32 @@
 
   <cvs repository="jakarta"/>
 
-  <ant basedir="build" target="package">
-    <property name="version" value="gump"/>
-  </ant>
-
-  <depend project="jakarta-ant"/>
-  <depend project="xml-xerces"/>
-  <depend project="xml-xalan1-compat"/>
-  <depend project="jakarta-servletapi"/>
-  <depend project="jakarta-regexp"/>
-  <depend project="jakarta-log4j"/>
-  <depend project="jakarta-ecs"/>
-  <depend project="jakarta-oro"/>
-  <depend project="jakarta-velocity"/>
-  <depend project="village"/>
-  <depend project="javamail"/>
-  <depend project="xml-rpc"/>
-  <depend project="jaf"/>
-  <depend project="jdbc"/>
-  <depend project="webmacro"/>
-  <depend project="helma-xmlrpc"/>
-  <option project="jta"/> <!-- needed for javadoc purposes only -->
-  <work nested="bin/classes"/>
-
-  <home nested="bin"/>
-  <jar name="turbine-gump.jar"/>
-
+  <project name="jakarta-turbine-2">
+    <ant basedir="build" target="package">
+      <property name="version" value="gump"/>
+    </ant>
+    <depend project="jakarta-ant"/>
+    <depend project="xml-xerces"/>
+    <depend project="xml-xalan1-compat"/>
+    <depend project="jakarta-servletapi"/>
+    <depend project="jakarta-regexp"/>
+    <depend project="jakarta-log4j"/>
+    <depend project="jakarta-ecs"/>
+    <depend project="jakarta-oro"/>
+    <depend project="jakarta-velocity"/>
+    <depend project="village"/>
+    <depend project="javamail"/>
+    <depend project="xml-rpc"/>
+    <depend project="jaf"/>
+    <depend project="jdbc"/>
+    <depend project="webmacro"/>
+    <depend project="helma-xmlrpc"/>
+    <option project="jta"/> <!-- needed for javadoc purposes only -->
+    <work nested="bin/classes"/>
+    <home nested="bin"/>
+    <jar name="turbine-gump.jar"/>
+  </project>
+  
   <project name="webmacro">
     <url href="http://www.webmacro.org/"/>
     <home nested="lib"/>
@@ -44,4 +44,5 @@
     <home nested="lib"/>
     <jar name="xmlrpc.jar"/>
   </project>
-</project>
+
+</module>

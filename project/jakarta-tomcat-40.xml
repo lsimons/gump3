@@ -1,53 +1,47 @@
-<project name="jakarta-tomcat-4.0">
+<module name="jakarta-tomcat-4.0">
 
   <description>
     Servlet 2.3 and JSP 1.2 Reference Implementation
   </description>
 
   <cvs repository="jakarta"/>
-
-  <ant target="dist">
-    <property name="catalina.jaxp.home"
-       reference="home" project="jaxp1.1"/>
-    <property name="catalina.jaxp.parser.jar"
+  
+  <project name="jakarta-tomcat-4.0">
+    <ant target="dist">
+      <property name="catalina.jaxp.home"
+        reference="home" project="jaxp1.1"/>
+      <property name="catalina.jaxp.parser.jar"
        reference="jar" id="parser" project="jaxp1.1"/>
+      <property name="jasper.jaxp.home"
+        reference="home" project="jaxp1.1"/>
+      <property name="jasper.jaxp.parser.jar"
+        reference="jar" id="parser" project="jaxp1.1"/>
+      <property name="servletapi.home"
+        reference="home" project="jakarta-servletapi-4"/>
+      <property name="jsse.home" reference="home" project="jsse"/>
+      <property name="jmx.home" reference="home" project="jmx"/>
+      <property name="jndi.home" reference="home" project="jndi"/>
+      <property name="site2.home" reference="home" project="jakarta-site2"/>
+      <property name="regexp.home"
+        reference="home" project="jakarta-regexp"/>
+      <property name="regexp.jar"
+        reference="jarpath" id="regexp" project="jakarta-regexp"/>
+    </ant>
+    <depend project="xml-xerces"/>
+    <depend project="xml-xalan2"/>
+    <depend project="jsse"/>
+    <depend project="jmx"/>
+    <depend project="jakarta-regexp"/>
+    <depend project="jakarta-ant"/>
+    <depend project="jakarta-servletapi-4"/>
+    <option project="jakarta-avalon"/>
+    <option project="jakarta-avalon-phoenix"/>
+    <option project="tyrex"/>
+    <home nested="dist"/>
+    <jar name="bin/bootstrap.jar"/>
+    <jar name="server/lib/catalina.jar"/>
+    <jar name="common/lib/naming.jar"/>
+    <jar name="common/lib/resources.jar"/>
+  </project>
 
-    <property name="jasper.jaxp.home"
-       reference="home" project="jaxp1.1"/>
-    <property name="jasper.jaxp.parser.jar"
-       reference="jar" id="parser" project="jaxp1.1"/>
-
-    <property name="servletapi.home"
-       reference="home" project="jakarta-servletapi-4"/>
-
-    <property name="jsse.home" reference="home" project="jsse"/>
-
-    <property name="jmx.home" reference="home" project="jmx"/>
-
-    <property name="jndi.home" reference="home" project="jndi"/>
-
-    <property name="site2.home" reference="home" project="jakarta-site2"/>
-
-    <property name="regexp.home"
-       reference="home" project="jakarta-regexp"/>
-    <property name="regexp.jar"
-       reference="jarpath" id="regexp" project="jakarta-regexp"/>
-  </ant>
-
-  <depend project="xml-xerces"/>
-  <depend project="xml-xalan2"/>
-  <depend project="jsse"/>
-  <depend project="jmx"/>
-  <depend project="jakarta-regexp"/>
-  <depend project="jakarta-ant"/>
-  <depend project="jakarta-servletapi-4"/>
-  <option project="jakarta-avalon"/>
-  <option project="jakarta-avalon-phoenix"/>
-  <option project="tyrex"/>
-
-  <home nested="dist"/>
-  <jar name="bin/bootstrap.jar"/>
-  <jar name="server/lib/catalina.jar"/>
-  <jar name="common/lib/naming.jar"/>
-  <jar name="common/lib/resources.jar"/>
-</project>
+</module>

@@ -1,4 +1,4 @@
-<project name="xml-batik">
+<module name="xml-batik">
 
   <url href="http://xml.apache.org/batik/index.html"/>
   <description>
@@ -6,25 +6,25 @@
   </description>
 
   <cvs repository="xml"/>
+  
+  <project name="xml-batik">
+    <ant target="jars">
+      <property name="version" value="gump"/>
+    </ant>
+    <depend project="jakarta-ant"/>
+    <depend project="xml-xerces"/>
+    <depend project="rhino"/>
+    <home nested="batik-gump"/>
+    <jar name="lib/batik-awt-util.jar"/>
+    <jar name="lib/batik-bridge.jar"/>
+    <jar name="lib/batik-css.jar"/>
+    <jar name="lib/batik-dom.jar"/>
+    <jar name="lib/batik-ext.jar"/>
+    <jar name="lib/batik-gvt.jar"/>
+    <jar name="lib/batik-parser.jar"/>
+    <jar name="lib/batik-svg-dom.jar"/>
+    <jar name="lib/batik-transcoder.jar"/>
+    <jar name="lib/batik-util.jar"/>
+  </project>
 
-  <ant target="jars">
-    <property name="version" value="gump"/>
-  </ant>
-
-  <depend project="jakarta-ant"/>
-  <depend project="xml-xerces"/>
-  <depend project="rhino"/>
-
-  <home nested="batik-gump"/>
-  <jar name="lib/batik-awt-util.jar"/>
-  <jar name="lib/batik-bridge.jar"/>
-  <jar name="lib/batik-css.jar"/>
-  <jar name="lib/batik-dom.jar"/>
-  <jar name="lib/batik-ext.jar"/>
-  <jar name="lib/batik-gvt.jar"/>
-  <jar name="lib/batik-parser.jar"/>
-  <jar name="lib/batik-svg-dom.jar"/>
-  <jar name="lib/batik-transcoder.jar"/>
-  <jar name="lib/batik-util.jar"/>
-
-</project>
+</module>

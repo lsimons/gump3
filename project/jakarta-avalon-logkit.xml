@@ -1,4 +1,4 @@
-<project name="jakarta-avalon-logkit">
+<module name="jakarta-avalon-logkit">
 
   <url href="http://jakarta.apache.org/avalon/"/>
   <description>
@@ -6,19 +6,19 @@
   </description>
 
   <cvs repository="jakarta"/>
-
-  <ant target="jar"/>
-
-  <depend project="jakarta-ant"/>
-  <depend project="xml-xerces"/>
-  <depend project="jakarta-avalon-testlet"/>
-  <option project="jakarta-servletapi-4"/>
-  <depend project="jdbc"/>
-  <depend project="jms"/>
-  <depend project="junit"/>
-
-  <home nested="build/lib"/>
-  <jar name="logkit.jar"/>
+  
+  <project name="jakarta-avalon-logkit">
+    <ant target="jar"/>
+    <depend project="jakarta-ant"/>
+    <depend project="xml-xerces"/>
+    <depend project="jakarta-avalon-testlet"/>
+    <option project="jakarta-servletapi-4"/>
+    <depend project="jdbc"/>
+    <depend project="jms"/>
+    <depend project="junit"/>
+    <home nested="build/lib"/>
+    <jar name="logkit.jar"/>
+  </project>
 
   <project name="dist-avalon-logkit">
     <ant target="jar"/>
@@ -30,8 +30,8 @@
     <option project="jakarta-servletapi-4"/>
     <depend project="xml-stylebook2"/>
     <depend project="xml-xalan2"/>
-
     <home nested="build/lib"/>
     <jar name="logkit.jar"/>
   </project>
-</project>
+
+</module>

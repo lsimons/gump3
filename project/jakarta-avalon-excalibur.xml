@@ -1,4 +1,4 @@
-<project name="jakarta-avalon-excalibur">
+<module name="jakarta-avalon-excalibur">
 
   <url href="http://jakarta.apache.org/avalon/"/>
   <description>
@@ -6,25 +6,25 @@
   </description>
 
   <cvs repository="jakarta"/>
-
-  <ant target="dist">
-    <depend property="xerces.jar"    project="xml-xerces"/>
-    <depend property="framework.jar" project="jakarta-avalon"/>
-    <depend property="logkit.jar"    project="jakarta-avalon-logkit"/>
-    <depend property="testlet.jar"   project="jakarta-avalon-testlet"/>
-  </ant>
-
-  <depend project="jakarta-ant"/>
-  <depend project="xml-xalan2"/>
-  <depend project="kawa"/>
-  <option project="jdbc"/>
-  <depend project="jdom"/>
-  <depend project="junit"/>
-  <work nested="build/classes"/>
- 
-  <home nested="build/lib"/>
-  <jar name="avalon-excalibur.jar" id="avalon-excalibur"/>
-  <jar name="avalon-scratchpad.jar" id="avalon-scratchpad"/>
+  
+  <project name="jakarta-avalon-excalibur">
+    <ant target="dist">
+      <depend property="xerces.jar"    project="xml-xerces"/>
+      <depend property="framework.jar" project="jakarta-avalon"/>
+      <depend property="logkit.jar"    project="jakarta-avalon-logkit"/>
+      <depend property="testlet.jar"   project="jakarta-avalon-testlet"/>
+    </ant>
+    <depend project="jakarta-ant"/>
+    <depend project="xml-xalan2"/>
+    <depend project="kawa"/>
+    <option project="jdbc"/>
+    <depend project="jdom"/>
+    <depend project="junit"/>
+    <work nested="build/classes"/>
+    <home nested="build/lib"/>
+    <jar name="avalon-excalibur.jar" id="avalon-excalibur"/>
+    <jar name="avalon-scratchpad.jar" id="avalon-scratchpad"/>
+  </project>
 
   <!-- Anybody want to contribute an ant build.xml to Kawa ;-) -->
   <project name="kawa">
@@ -39,4 +39,5 @@
     <home nested="build/lib"/>
     <jar name="clutil.jar"/>
   </project>
-</project>
+
+</module>

@@ -1,4 +1,4 @@
-<project name="jakarta-taglibs">
+<module name="jakarta-taglibs">
 
   <url href="http://jakarta.apache.org/taglibs/index.html"/>
   <description>
@@ -6,34 +6,30 @@
   </description>
 
   <cvs repository="jakarta"/>
+  
+  <project name="jakarta-taglibs">
+    <ant target="dist">
+      <property name="base.dir" reference="home" project="jakarta-taglibs"/>
+      <property name="build.dir" path="build"/>
+      <property name="dist.dir" path="dist"/>
+      <depend property="xerces.jar" project="xml-xerces"/>
+      <depend property="crimson.jar" project="xml-xerces"/>
+      <depend property="jaxp.jar" project="xml-xerces"/>
+      <depend property="xalan1.jar" project="xml-xalan1-compat"/>
+      <depend property="xalanj1compat.jar" project="xml-xalan1-compat"/>
+      <depend property="xalan.jar" project="xml-xalan2"/>
+      <depend property="servlet.jar"   project="jakarta-servletapi-4"/>
+      <depend property="servlet23.jar" project="jakarta-servletapi-4"/>
+      <depend property="log4j-core.jar" project="jakarta-log4j" id="log4j-core"/>
+      <depend property="dom4j.jar"          project="dom4j"/>
+      <depend property="jakarta-oro2.jar"   project="jakarta-oro"/>
+      <depend property="jdbc2_0-stdext.jar" project="jdbc"/>
+    </ant>
+    <depend project="jakarta-ant"/>
+    <option project="bsf"/>
+    <option project="javamail"/>
+    <depend project="jaf"/>
+    <work nested="build/jsptl/jsptl"/>
+  </project>
 
-  <ant target="dist">
-    <property name="base.dir" reference="home" project="jakarta-taglibs"/>
-    <property name="build.dir" path="build"/>
-    <property name="dist.dir" path="dist"/>
-
-    <depend property="xerces.jar"  project="xml-xerces"/>
-    <depend property="crimson.jar" project="xml-xerces"/>
-    <depend property="jaxp.jar"    project="xml-xerces"/>
-
-    <depend property="xalan1.jar"        project="xml-xalan1-compat"/>
-    <depend property="xalanj1compat.jar" project="xml-xalan1-compat"/>
-    <depend property="xalan.jar"         project="xml-xalan2"/>
-
-    <depend property="servlet.jar"   project="jakarta-servletapi-4"/>
-    <depend property="servlet23.jar" project="jakarta-servletapi-4"/>
-
-    <depend property="log4j-core.jar" project="jakarta-log4j" id="log4j-core"/>
-
-    <depend property="dom4j.jar"          project="dom4j"/>
-    <depend property="jakarta-oro2.jar"   project="jakarta-oro"/>
-    <depend property="jdbc2_0-stdext.jar" project="jdbc"/>
-  </ant>
-
-  <depend project="jakarta-ant"/>
-  <option project="bsf"/>
-  <option project="javamail"/>
-  <depend project="jaf"/>
-
-  <work nested="build/jsptl/jsptl"/>
-</project>
+</module>

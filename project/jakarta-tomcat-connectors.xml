@@ -1,4 +1,4 @@
-<project name="jakarta-tomcat-connectors">
+<module name="jakarta-tomcat-connectors">
 
   <description>
     Connectors to various web servers
@@ -6,5 +6,6 @@
   <url href="http://jakarta.apache.org/tomcat/index.html"/>
 
   <cvs repository="jakarta" />
-
-</project>
+  <project name="jakarta-tomcat-connectors"/>
+  
+</module>

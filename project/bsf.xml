@@ -1,4 +1,4 @@
-<project name="bsf">
+<module name="bsf">
 
   <url href="http://oss.software.ibm.com/developerworks/projects/bsf"/>
   <description>
@@ -6,14 +6,15 @@
   </description>
 
   <cvs repository="devworks" dir="bsf"/>
-
-  <ant target="samples"/>
-  <depend project="xml-xerces"/>
-  <depend project="jakarta-ant"/>
-  <work nested="build/classes"/>
-
-  <home nested="build"/>
-  <jar  name="lib/bsf.jar"/>
+  
+  <project name="bsf">
+    <ant target="samples"/>
+    <depend project="xml-xerces"/>
+    <depend project="jakarta-ant"/>
+    <work nested="build/classes"/>
+    <home nested="build"/>
+    <jar  name="lib/bsf.jar"/>
+  </project>
 
   <project name="dist-bsf">
     <ant target="dist"/>
@@ -22,4 +23,5 @@
     <depend project="bsf"/>
     <option project="rhino"/>
   </project>
-</project>
+
+</module>

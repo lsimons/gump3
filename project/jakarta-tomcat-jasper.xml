@@ -1,4 +1,4 @@
-<project name="jakarta-tomcat-jasper">
+<module name="jakarta-tomcat-jasper">
 
   <description>
     JavaServer Pages implementation
@@ -6,5 +6,6 @@
   <url href="http://jakarta.apache.org/tomcat/index.html"/>
 
   <cvs repository="jakarta" />
-
-</project>
+  <project name="jakarta-tomcat-jasper"/>
+  
+</module>

@@ -1,12 +1,14 @@
-<project name="jmx">
+<module name="jmx">
 
   <url  href="http://java.sun.com/products/JavaManagement/"/>
   <description>
     Java Management Extensions
   </description>
+  
+  <project name="jmx">
+    <jar name="lib/jmxgrinder.jar"/>
+    <jar name="lib/jmxri.jar"/>
+    <jar name="lib/jmxtools.jar"/>
+  </project>
 
-  <jar  name="lib/jmxgrinder.jar"/>
-  <jar  name="lib/jmxri.jar"/>
-  <jar  name="lib/jmxtools.jar"/>
-
-</project>
+</module>

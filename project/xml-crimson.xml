@@ -1,4 +1,4 @@
-<project name="xml-crimson">
+<module name="xml-crimson">
 
   <url href="http://xml.apache.org/crimson/index.html"/>
   <description>
@@ -6,14 +6,14 @@
   </description>
 
   <cvs repository="xml"/>
+  
+  <project name="xml-crimson">
+    <ant target="dist">
+      <property name="build.dir" value="build"/>
+    </ant>
+    <depend project="jaxp1.1"/>
+    <depend project="bootstrap-ant"/>
+    <home parent="build/crimson"/>
+  </project>
 
-  <ant target="dist">
-    <property name="build.dir" value="build"/>
-  </ant>
-
-  <depend project="jaxp1.1"/>
-  <depend project="bootstrap-ant"/>
-
-  <home parent="build/crimson"/>
-
-</project>
+</module>

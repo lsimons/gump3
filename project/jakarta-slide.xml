@@ -1,4 +1,4 @@
-<project name="jakarta-slide">
+<module name="jakarta-slide">
 
   <url href="http://jakarta.apache.org/slide/index.html"/>
   <description>
@@ -15,35 +15,34 @@
   </note>
 
   <cvs repository="jakarta"/>
+  
+  <project name="jakarta-slide">
+    <ant target="full-dist">
+      <property name="ant.home" reference="home" project="jakarta-ant"/>
+      <property name="jaxp.home" reference="home" project="jaxp1.1"/>
+      <property name="jmx.home" reference="home" project="jmx"/>
+      <property name="jdom.home" reference="home" project="jdom"/>
+      <depend property="jta.jar"     project="jta"/>
+      <depend property="junit.jar"   project="junit"/>
+      <depend property="log4j.jar"   project="jakarta-log4j" id="log4j"/>
+      <depend property="servlet.jar" project="jakarta-servletapi"/>
+    </ant>
+    <depend project="dist-ant"/>
+    <depend project="xml-xerces"/>
+    <depend project="xml-xalan2"/>
+    <depend project="jdom"/>
+    <option project="jmx"/>
+    <depend project="jakarta-tomcat-4.0"/>
+    <depend project="commons-httpclient"/>
+    <work nested="build/classes"/>
+    <work nested="build/client/classes"/>
+    <home nested="dist"/>
+    <jar name="client/lib/webdavlib.jar"/>
+    <jar name="lib/manager.jar"/>
+    <jar name="lib/roles.jar"/>
+    <jar name="lib/slide.jar"/>
+    <jar name="lib/slidestores.jar"/>
+    <jar name="lib/webdav.jar"/>
+  </project>
 
-  <ant target="full-dist">
-    <property name="ant.home" reference="home" project="jakarta-ant"/>
-    <property name="jaxp.home" reference="home" project="jaxp1.1"/>
-    <property name="jmx.home" reference="home" project="jmx"/>
-    <property name="jdom.home" reference="home" project="jdom"/>
-    <depend property="jta.jar"     project="jta"/>
-    <depend property="junit.jar"   project="junit"/>
-    <depend property="log4j.jar"   project="jakarta-log4j" id="log4j"/>
-    <depend property="servlet.jar" project="jakarta-servletapi"/>
-  </ant>
-
-  <depend project="dist-ant"/>
-  <depend project="xml-xerces"/>
-  <depend project="xml-xalan2"/>
-  <depend project="jdom"/>
-  <option project="jmx"/>
-  <depend project="jakarta-tomcat-4.0"/>
-  <depend project="commons-httpclient"/>
-
-  <work nested="build/classes"/>
-  <work nested="build/client/classes"/>
-
-  <home nested="dist"/>
-  <jar  name="client/lib/webdavlib.jar"/>
-  <jar  name="lib/manager.jar"/>
-  <jar  name="lib/roles.jar"/>
-  <jar  name="lib/slide.jar"/>
-  <jar  name="lib/slidestores.jar"/>
-  <jar  name="lib/webdav.jar"/>
-
-</project>
+</module>

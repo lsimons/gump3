@@ -1,4 +1,4 @@
-<project name="dbxml">
+<module name="dbxml">
 
   <url href="http://www.dbxml.org/"/>
   <description>
@@ -6,18 +6,18 @@
   </description>
 
   <cvs repository="dbxml" module="dbXML-Core"/>
-
-  <ant basedir="java"/>
-
-  <depend project="jakarta-ant"/>
-  <depend project="xml-xerces"/>
-  <depend project="jacorb"/>
-  <depend project="xmldb"/>
-  <depend project="juggernaut"/>
-  <depend project="infozone"/>
-  <depend project="xml-xalan2"/>
-
-  <jar name="java/lib/dbXML.jar"/>
+  
+  <project name="dbxml">
+    <ant basedir="java"/>
+    <depend project="jakarta-ant"/>
+    <depend project="xml-xerces"/>
+    <depend project="jacorb"/>
+    <depend project="xmldb"/>
+    <depend project="juggernaut"/>
+    <depend project="infozone"/>
+    <depend project="xml-xalan2"/>
+    <jar name="java/lib/dbXML.jar"/>
+  </project>
 
   <project name="jacorb">
     <url href="http://jacorb.inf.fu-berlin.de/"/>
@@ -45,4 +45,5 @@
     <jar name="infozone-lexus.jar"/>
     <jar name="infozone-tools.jar"/>
   </project>
-</project>
+
+</module>

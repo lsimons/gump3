@@ -1,4 +1,4 @@
-<project name="castor">
+<module name="castor">
 
   <url href="http://castor.exolab.org/"/>
   <description>
@@ -6,21 +6,21 @@
   </description>
 
   <cvs repository="exolab" host-prefix="castor" dir="castor"/>
-
-  <ant basedir="src" target="jar">
-    <property name="version" value="gump"/>
-  </ant>
-
-  <depend project="jakarta-ant"/>
-  <depend project="xml-xerces"/>
-  <depend project="ldapsdk"/>
-  <depend project="jdbc"/>
-  <depend project="jta"/>
-  <depend project="jakarta-regexp"/>
-
-  <home nested="dist"/>
-  <jar name="castor-gump.jar"/>
-  <jar name="castor-gump-xml.jar"/>
+  
+  <project name="castor">
+    <ant basedir="src" target="jar">
+      <property name="version" value="gump"/>
+    </ant>
+    <depend project="jakarta-ant"/>
+    <depend project="xml-xerces"/>
+    <depend project="ldapsdk"/>
+    <depend project="jdbc"/>
+    <depend project="jta"/>
+    <depend project="jakarta-regexp"/>
+    <home nested="dist"/>
+    <jar name="castor-gump.jar"/>
+    <jar name="castor-gump-xml.jar"/>
+  </project>
 
   <project name="ldapsdk">
     <url href="http://www.mozilla.org/directory/javasdk.html"/>
@@ -48,4 +48,4 @@
     <jar name="lib/XMLDiff_0.2.jar"/>
   </project>
 
-</project>
+</module>

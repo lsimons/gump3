@@ -1,7 +1,11 @@
-<project name="ejb">
+<module name="ejb">
    <url href="http://java.sun.com/products/ejb/docs.html"/>
    <description>
      Enterprise JavaBeans
    </description>
-   <jar name="ejb.jar"/>
-</project>
+   
+   <project name="ebj">
+     <jar name="ejb.jar"/>
+   </project>
+   
+</module>

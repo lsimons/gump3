@@ -1,4 +1,4 @@
-<project name="jtidy">
+<module name="jtidy">
 
   <url href="http://sourceforge.net/projects/jtidy"/>
   <description>
@@ -6,12 +6,12 @@
   </description>
 
   <cvs repository="sourceforge" host-prefix="cvs.jtidy" dir="jtidy"/>
+  
+  <project name="jtidy">
+    <ant/>
+    <depend project="jakarta-ant"/>
+    <depend project="xml-xerces"/>
+    <jar name="build/Tidy.jar"/>
+  </project>
 
-  <ant/>
-
-  <depend project="jakarta-ant"/>
-  <depend project="xml-xerces"/>
-
-  <jar name="build/Tidy.jar"/>
-
-</project>
+</module>

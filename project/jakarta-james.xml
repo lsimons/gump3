@@ -1,4 +1,4 @@
-<project name="jakarta-james">
+<module name="jakarta-james">
 
   <url href="http://jakarta.apache.org/james/index.html" />
   <description>
@@ -6,27 +6,29 @@
   </description>
 
   <cvs repository="jakarta" />
-  <ant />
-
-  <home nested="build" />
-  <jar name="james.bar" />
-
-  <depend project="jakarta-ant" />
-  <depend project="jakarta-site2" />
-  <depend project="xml-xerces" />
-  <depend project="javamail" />
-  <depend project="jakarta-avalon" />
-  <depend project="jakarta-avalon-cornerstone" />
-  <depend project="jakarta-avalon-excalibur" />
-  <depend project="jakarta-avalon-logkit" />
-  <depend project="jakarta-avalon-phoenix" />
-  <depend project="jakarta-oro"/>
-  <depend project="town" />
-  <depend project="dnsjava" />
-  <depend project="jaf" />
+  
+  <project name="jakarta-james">
+    <ant/>
+    <depend project="jakarta-ant" />
+    <depend project="jakarta-site2" />
+    <depend project="xml-xerces" />
+    <depend project="javamail" />
+    <depend project="jakarta-avalon" />
+    <depend project="jakarta-avalon-cornerstone" />
+    <depend project="jakarta-avalon-excalibur" />
+    <depend project="jakarta-avalon-logkit" />
+    <depend project="jakarta-avalon-phoenix" />
+    <depend project="jakarta-oro"/>
+    <depend project="town" />
+    <depend project="dnsjava" />
+    <depend project="jaf" />
+    <home nested="build" />
+    <jar name="james.bar" />
+  </project>
 
   <project name="dnsjava">
     <url href="http://enigma.xbill.org/dnsjava/"/>
     <jar name="lib/dnsjava.jar" />
   </project>
-</project>
+
+</module>

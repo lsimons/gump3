@@ -1,20 +1,20 @@
-<project name="jakarta-oro">
+<module name="jakarta-oro">
 
   <url href="http://jakarta.apache.org/oro/index.html"/>
   <description>
     Java Regular Expression package
   </description>
 
-  <cvs  repository="jakarta"/>
+  <cvs repository="jakarta"/>
+  
+  <project name="jakarta-oro">
+    <ant basedir="build" buildfile="build.xml" target="package">
+      <property name="version" value="gump"/>
+    </ant>
+    <depend project="jakarta-ant"/>
+    <depend project="xml-xerces"/>
+    <home nested="jakarta-oro-gump"/>
+    <jar  name="jakarta-oro-gump.jar" id="oro"/>
+  </project>
 
-  <ant basedir="build" buildfile="build.xml" target="package">
-    <property name="version" value="gump"/>
-  </ant>
-
-  <depend project="jakarta-ant"/>
-  <depend project="xml-xerces"/>
-
-  <home nested="jakarta-oro-gump"/>
-  <jar  name="jakarta-oro-gump.jar" id="oro"/>
-
-</project>
+</module>

@@ -1,4 +1,4 @@
-<project name="jakarta-velocity">
+<module name="jakarta-velocity">
 
   <url href="http://jakarta.apache.org/velocity/index.html"/>
   <description>
@@ -6,26 +6,26 @@
   </description>
 
   <cvs  repository="jakarta"/>
-
-  <ant basedir="build" target="dist">
-    <depend property="log.jar" project="jakarta-avalon-logkit"/>
-    <depend property="oro.jar" project="jakarta-oro"/>
-    <property name="version" value="gump"/>
-  </ant>
-
-  <depend project="jakarta-ant"/>
-  <depend project="xml-xerces"/>
-  <depend project="jakarta-servletapi"/>
-  <depend project="jdom"/>
-  <depend project="werken.xpath"/>
-  <depend project="javaclass"/>
-  <depend project="junit"/>
-  <depend project="jakarta-log4j"/>
-  <depend project="commons-collections"/>
-
-  <home nested="bin"/>
-  <jar name="velocity-gump.jar"/>
-
+  
+  <project name="jakarta-velocity">
+    <ant basedir="build" target="dist">
+      <depend property="log.jar" project="jakarta-avalon-logkit"/>
+      <depend property="oro.jar" project="jakarta-oro"/>
+      <property name="version" value="gump"/>
+    </ant>
+    <depend project="jakarta-ant"/>
+    <depend project="xml-xerces"/>
+    <depend project="jakarta-servletapi"/>
+    <depend project="jdom"/>
+    <depend project="werken.xpath"/>
+    <depend project="javaclass"/>
+    <depend project="junit"/>
+    <depend project="jakarta-log4j"/>
+    <depend project="commons-collections"/>
+    <home nested="bin"/>
+    <jar name="velocity-gump.jar"/>
+  </project>
+  
   <project name="jakarta-velocity-test">
     <ant basedir="build" buildfile="testcases.xml"/>
     <depend project="jakarta-ant"/>
@@ -64,4 +64,4 @@
     <jar name="build/lib/JavaClass.jar"/>
   </project>
 
-</project>
+</module>

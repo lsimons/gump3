@@ -1,4 +1,4 @@
-<project name="dom4j">
+<module name="dom4j">
 
   <url href="http://www.dom4j.org"/>
   <description>
@@ -6,21 +6,21 @@
   </description>
 
   <cvs repository="sourceforge" host-prefix="cvs.dom4j" dir="dom4j"/>
-
-  <ant/>
-
-  <depend project="jakarta-ant"/>
-  <depend project="xml-xerces"/>
-  <depend project="junit"/>
-  <depend project="xml-xalan2"/>
-  <depend project="tranquilo"/>
-  <depend project="xpp"/>
-  <depend project="saxpath"/>
-  <depend project="jaxen"/>
-  <depend project="xmldb"/>
-  <depend project="msv"/>
-
-  <jar name="build/dom4j.jar" id="dom4j"/>
+  
+  <project name="dom4j">
+    <ant/>
+    <depend project="jakarta-ant"/>
+    <depend project="xml-xerces"/>
+    <depend project="junit"/>
+    <depend project="xml-xalan2"/>
+    <depend project="tranquilo"/>
+    <depend project="xpp"/>
+    <depend project="saxpath"/>
+    <depend project="jaxen"/>
+    <depend project="xmldb"/>
+    <depend project="msv"/>
+    <jar name="build/dom4j.jar" id="dom4j"/>
+  </project>
 
   <project name="xpp">
     <url href="http://www.extreme.indiana.edu/soap/xpp/"/>
@@ -43,4 +43,4 @@
     <jar name="lib/jaxen.jar"/>
   </project>
 
-</project>
+</module>

@@ -1,4 +1,4 @@
-<project name="jakarta-turbine-torque">
+<module name="jakarta-turbine-torque">
 
   <url href="http://jakarta.apache.org/turbine/"/>
   <description>
@@ -6,25 +6,23 @@
   </description>
 
   <cvs repository="jakarta"/>
+  
+  <project name="jakarta-turbine-torque">
+    <ant>
+      <depend property="velocity.jar" project="jakarta-velocity"/>
+      <depend property="xerces.jar"   project="xml-xerces"/>
+      <depend property="village.jar"  project="village"/>
+      <depend property="log4j.jar"    project="jakarta-log4j" id="log4j"/>
+      <depend property="jdbc.jar"     project="jdbc"/>
+      <depend property="jdom.jar"     project="jdom"/>
+      <depend property="commons-util.jar" project="commons-util"/>
+      <property name="jakarta-site2" reference="home" project="jakarta-site2"/>
+      <property name="final.name" value="torque-gump"/>
+      <property name="deprecation" value="on"/>
+    </ant>
+    <depend project="jakarta-ant"/>
+    <home nested="bin"/>
+    <jar id="torque" name="torque-gump.jar"/>
+  </project>    
 
-  <ant>
-    <depend property="velocity.jar" project="jakarta-velocity"/>
-    <depend property="xerces.jar"   project="xml-xerces"/>
-    <depend property="village.jar"  project="village"/>
-    <depend property="log4j.jar"    project="jakarta-log4j" id="log4j"/>
-    <depend property="jdbc.jar"     project="jdbc"/>
-    <depend property="jdom.jar"     project="jdom"/>
-    <depend property="commons-util.jar" project="commons-util"/>
-
-    <property name="jakarta-site2" reference="home" project="jakarta-site2"/>
-
-    <property name="final.name" value="torque-gump"/>
-    <property name="deprecation" value="on"/>
-  </ant>
-
-  <depend project="jakarta-ant"/>
-
-  <home nested="bin"/>
-  <jar id="torque" name="torque-gump.jar"/>
-
-</project>
+</module>

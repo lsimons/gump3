@@ -1,4 +1,4 @@
-<project name="scarab">
+<module name="scarab">
 
   <url href="http://scarab.tigris.org/"/>
   <description>
@@ -6,20 +6,21 @@
   </description>
 
   <cvs repository="tigris"/>
+  
+  <project name="scarab">
+    <ant basedir="build"/>
+    <depend project="jakarta-ant"/>
+    <depend project="xml-xerces"/>
+    <depend project="jdbc"/>
+    <depend project="jakarta-velocity"/>
+    <depend project="jakarta-servletapi"/>
+    <depend project="jakarta-ecs"/>
+    <depend project="jakarta-turbine-3"/>
+    <depend project="village"/>
+    <depend project="jakarta-turbine-torque"/>
+    <depend project="jaf"/>
+    <depend project="jakarta-log4j"/>
+    <option project="lucene"/>
+  </project>
 
-  <ant basedir="build"/>
-
-  <depend project="jakarta-ant"/>
-  <depend project="xml-xerces"/>
-  <depend project="jdbc"/>
-  <depend project="jakarta-velocity"/>
-  <depend project="jakarta-servletapi"/>
-  <depend project="jakarta-ecs"/>
-  <depend project="jakarta-turbine-3"/>
-  <depend project="village"/>
-  <depend project="jakarta-turbine-torque"/>
-  <option project="lucene"/>
-  <depend project="jaf"/>
-  <depend project="jakarta-log4j"/>
-
-</project>
+</module>

@@ -1,7 +1,12 @@
-<project name="jta">
+<module name="jta">
+   
    <url href="http://java.sun.com/products/jta/"/>
    <description>
      Java Transaction API
    </description>
-   <jar name="jta-spec1_0_1.jar" id="jta"/>
-</project>
+   
+   <project name="jta">
+     <jar name="jta-spec1_0_1.jar" id="jta"/>
+   </project>
+
+</module>

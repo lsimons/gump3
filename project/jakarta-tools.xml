@@ -1,17 +1,17 @@
-<project name="jakarta-tools">
+<module name="jakarta-tools">
 
   <description>
     Common tools
   </description>
 
   <cvs repository="jakarta" />
+  
+  <project name="jakarta-tools">
+    <ant basedir="moo" target="dist"/>
+    <depend project="xml-xerces"/>
+    <depend project="jakarta-ant"/>
+    <depend project="jakarta-servletapi"/>
+    <jar name="moo.jar"/>
+  </project>
 
-  <ant basedir="moo" target="dist"/>
-
-  <depend project="xml-xerces"/>
-  <depend project="jakarta-ant"/>
-  <depend project="jakarta-servletapi"/>
-
-  <jar name="moo.jar"/>
-
-</project>
+</module>

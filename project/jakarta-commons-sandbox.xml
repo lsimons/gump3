@@ -1,4 +1,4 @@
-<project name="jakarta-commons-sandbox">
+<module name="jakarta-commons-sandbox">
 
   <description>
     Jakarta commons sandbox
@@ -7,31 +7,25 @@
   <cvs repository="jakarta"/>
 
   <project name="commons-util">
-
     <ant basedir="util" target="dist">
       <property name="component.version"  value="gump"/>
       <property name="minml2.jar" reference="jarpath" project="minml2"/>
       <depend property="junit.jar"  project="junit"/>
     </ant>
-
     <depend project="jakarta-ant"/>
     <depend project="xml-xerces"/>
-
     <jar name="util/dist/commons-util-gump.jar"/>
   </project>
 
   <project name="commons-email">
-
     <ant basedir="email" target="dist">
       <property name="component.version"  value="gump"/>
     </ant>
-
     <depend project="jakarta-ant"/>
     <depend project="xml-xerces"/>
     <depend project="jaf"/>
     <depend project="javamail"/>
     <depend project="commons-util"/>
-
     <jar name="email/dist/commons-email-gump.jar"/>
   </project>
 
@@ -40,12 +34,10 @@
       <depend property="minml2.jar"  project="minml2"/>
       <depend property="junit.jar"   project="junit"/>
     </ant>
-
     <depend project="jakarta-ant"/>
     <depend project="xml-xerces"/>
     <work nested="jjar/classes"/>
     <work nested="jjar/tests"/>
-
     <jar name="jjar/commons-jjar.jar"/>
   </project>
 
@@ -54,4 +46,4 @@
     <jar name="jjar/lib/MinML2.jar"/>
   </project>
 
-</project>
+</module>

@@ -1,4 +1,4 @@
-<project name="jakarta-site2">
+<module name="jakarta-site2">
 
   <url href="http://jakarta.apache.org/site/jakarta-site2.html"/>
   <description>
@@ -6,13 +6,14 @@
   </description>
 
   <cvs repository="jakarta"/>
+  
+  <project name="jakarta-site2">
+    <ant/>
+    <depend project="jakarta-ant"/>
+    <depend project="xml-xerces"/>
+    <depend project="jdom"/>
+    <depend project="jakarta-velocity"/>
+    <depend project="jakarta-avalon-logkit"/>
+  </project>
 
-  <ant/>
-
-  <depend project="jakarta-ant"/>
-  <depend project="xml-xerces"/>
-  <depend project="jdom"/>
-  <depend project="jakarta-velocity"/>
-  <depend project="jakarta-avalon-logkit"/>
-
-</project>
+</module>

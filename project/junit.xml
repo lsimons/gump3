@@ -1,4 +1,4 @@
-<project name="junit">
+<module name="junit">
 
   <url  href="http://www.junit.org/"/>
   <description>
@@ -6,16 +6,16 @@
   </description>
 
   <cvs repository="sourceforge" host-prefix="cvs.JUnit" dir="junit"/>
+  
+  <project name="junit">
+    <ant>
+      <property name="dist" reference="home" project="junit"/>
+    </ant>
+    <depend project="bootstrap-ant"/>
+    <depend project="xml-xerces"/>
+    <work parent="junit/tests/test.jar"/>
+    <home parent="dist/junit"/>
+    <jar name="junit.jar" id="junit"/>
+  </project>
 
-  <ant>
-    <property name="dist" reference="home" project="junit"/>
-  </ant>
-
-  <depend project="bootstrap-ant"/>
-  <depend project="xml-xerces"/>
-  <work parent="junit/tests/test.jar"/>
-
-  <home parent="dist/junit"/>
-  <jar name="junit.jar" id="junit"/>
-
-</project>
+</module>

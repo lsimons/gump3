@@ -1,4 +1,4 @@
-<project name="jts">
+<module name="jts">
 
   <url href="http://java.sun.com/products/jts/"/>
   <description>
@@ -22,7 +22,9 @@
     </project>
 
   -->
- 
-  <jar name="jts.jar"/>
+  
+  <project name="jts">
+    <jar name="jts.jar"/>
+  </project>
 
-</project>
+</module>
