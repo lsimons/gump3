@@ -41,8 +41,14 @@
     <javadoc nested="build/docs/api" module="avalon"/>
     <license name="LICENSE.txt"/>
 
+    <nag>
+      <regexp pattern="/Missing prereq/i"
+        from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"
+        to="dev@avalon.apache.org"
+        subject="PRE-REQ FAILED for avalon-components"/>
+    </nag>
     <nag from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"
-            to="dev@avalon.apache.org"/>
+      to="dev@avalon.apache.org"/>
   </project>
 
 </module>
