@@ -146,7 +146,7 @@ class StatisticsDB:
     def putModuleStats(self,stats):
         extras=None
         if stats.lastModified:
-            extras={'last_modified':stats.lastModified}        
+            extras={'last_modified':"'" + stats.lastModified.strftime('%Y-%m-%d %H:%M:%S') + "'"}        
         self._putStats('module_stats','module_name',stats,extras)
 
     def delModuleStats(self,stats):
