@@ -40,6 +40,7 @@
       <depend property="commons-httpclient.jar" project="commons-httpclient-2.0-branch"/>
     </ant>
 
+    <depend project="commons-collections"/>
     <depend project="dist-ant" />
     <depend project="xml-xerces"/>
     <depend project="xml-xalan2"/>
@@ -86,13 +87,4 @@
          from="Craig McClanahan &lt;craigmcc@apache.org&gt;"/>
   </project>
 
-  <!--project name="antlr">
-    <url href="http://www.antlr.org/"/>
-    <description>
-      ANother Tool for Language Recognition
-    </description>
-
-    <jar name="lib/antlr-tools.jar" id="antlr-tools"/>
-    <jar name="lib/antlr.jar" id="antlr"/>
-  </project-->
 </module>
