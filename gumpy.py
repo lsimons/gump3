@@ -403,27 +403,25 @@ finally:
     
     releaseLock(lock,lockFile)
     
+    logTitle='Apache Gump Logfile'
     if result:
         logTitle='Problem running Apache Gump...'
         
-        # :TODO: Need to check if stdout is a plain terminal? Not sure, see next.
-        # :TODO: On some cron set-ups this will mail the log, on
-        # others it won't.
-        #
-        # Cat log if failed...
-        published=0
-        if logdir:
-            publishedLogFile=os.path.abspath(os.path.join(logdir,logFileName))
-            try:
-                publishedLog=open(publishedLogFile,'w',0) # Unbuffered...
-                catFile(publishedLog, logFile, logTitle)    
-                publishedLog.close()
-                published=1
-            except:
-                published=0
-        else:
-            print 'Unable to publish log file (containing failures)'
-              
+    # Publish logfile
+    published=0
+    if logdir:
+        publishedLogFile=os.path.abspath(os.path.join(logdir,logFileName))
+        try:
+            publishedLog=open(publishedLogFile,'w',0) # Unbuffered...
+            catFile(publishedLog, logFile, logTitle)    
+            publishedLog.close()
+            published=1
+        except:
+            published=0
+    else:
+        print 'Unable to publish log file.'
+         
+    if result:     
         # Cat to screen (if running to screen)
         tty=0
         try:
@@ -441,9 +439,6 @@ finally:
                 mailData='There is a problem with the run at : ' + hostname + ':' + workspaceName + '\n'
             
             #
-            # :TODO: Add link to log 
-            # :TODO: Tail log
-            #
             try:
                 maxTailLines=50
                 tailData=tailFileToString(logFile,maxTailLines)           
@@ -451,7 +446,8 @@ finally:
                 mailData += 'The log ought be at:\n'
                 mailData += '   '
                 logFileUrl=logurl
-                if not logFileUrl.endswith('/'): logFileUrl+='/'
+                if not logFileUrl.endswith('/'): 
+                    logFileUrl+='/'
                 logFileUrl+=logFileName
                 mailData += logFileUrl
                 mailData += '\n'
@@ -470,7 +466,7 @@ finally:
             sendEmail(mailto,mailfrom,logTitle,mailData,mailserver,mailport)
             
         else:
-            print 'Unable to mail report of failure : ' + `[mailserver,mailport,mailto,mailfrom]`
+            print 'Unable to mail failure report : ' + `[mailserver,mailport,mailto,mailfrom]`
 
 # bye!
 sys.exit(result)
