@@ -23,6 +23,7 @@
   <depend project="kawa"/>
   <depend project="jdbc"/>
   <depend project="xml-stylebook1"/>
+  <depend project="jdom"/>
 
   <work nested="build/classes"/>
 
