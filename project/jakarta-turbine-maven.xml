@@ -29,6 +29,17 @@
 
     <depend project="jakarta-ant" inherit="runtime"/>
     <depend project="xml-xerces"/>
+    <depend project="commons-betwixt"/>
+    <depend project="commons-collections"/>
+    <depend project="commons-digester"/>
+    <depend project="commons-jexl"/>
+    <depend project="commons-jelly"/>
+    <depend project="commons-jelly-tags-ant"/>
+    <depend project="commons-jelly-tags-define"/>
+    <depend project="commons-grant"/>
+    <depend project="commons-graph"/>
+    <depend project="commons-io"/>
+    <depend project="jdepend"/>
 
     <work nested="bootstrap/bootstrap-classes"/>
   </project>
@@ -56,7 +67,7 @@
     <depend project="commons-grant"/>
     <depend project="commons-graph"/>
     <depend project="commons-io"/>
-    <!-- depend project="commons-jelly"/ -->
+    <depend project="commons-jelly"/>
     <depend project="commons-jexl"/>
     <depend project="commons-lang"/>
     <depend project="commons-logging"/>
