@@ -24,5 +24,5 @@ export
 #
 # Perform some Gumpy unit test
 #
-cd $GUMP_PYTHON
+cd python
 python gump/test/pyunit.py

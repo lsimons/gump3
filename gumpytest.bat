@@ -16,5 +16,5 @@ REM  limitations under the License.
 
 SET
 
-CD %GUMP_PYTHON%
+CD python
 python gump\test\pyunit.py
