@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/Attic/view.py,v 1.11 2003/05/01 19:55:22 rubys Exp $
-# $Revision: 1.11 $
-# $Date: 2003/05/01 19:55:22 $
+# $Header: /home/stefano/cvs/gump/python/gump/Attic/view.py,v 1.12 2003/05/02 11:42:48 rubys Exp $
+# $Revision: 1.12 $
+# $Date: 2003/05/02 11:42:48 $
 #
 # ====================================================================
 #
@@ -107,11 +107,14 @@ class gumpview(wxApp):
 
     # panes
     self.tree=wxTreeCtrl(split1,-1)
+
     self.list=wxListCtrl(notebook,-1,style=wxLC_REPORT|wxSUNKEN_BORDER)
     self.dependencies=wxListCtrl(notebook,-1,style=wxLC_REPORT|wxSUNKEN_BORDER)
     self.prereqs=wxListCtrl(notebook,-1,style=wxLC_REPORT|wxSUNKEN_BORDER)
     self.classpath=wxListCtrl(notebook,-1,style=wxLC_REPORT|wxSUNKEN_BORDER)
     self.property=wxListCtrl(notebook,-1,style=wxLC_REPORT|wxSUNKEN_BORDER)
+    self.exports=wxListCtrl(notebook,-1,style=wxLC_REPORT|wxSUNKEN_BORDER)
+
     self.data=wxTextCtrl(split2,-1,style=wxTE_MULTILINE)
 
     # attach the panes to the frame
@@ -121,6 +124,7 @@ class gumpview(wxApp):
     notebook.AddPage(self.prereqs, 'prereqs')
     notebook.AddPage(self.classpath, 'classpath')
     notebook.AddPage(self.property, 'property')
+    notebook.AddPage(self.exports, 'exports')
     split2.SplitHorizontally(notebook, self.data)
     self.SetTopWindow(self.frame)
     self.frame.Show(true)
@@ -283,6 +287,19 @@ class gumpview(wxApp):
 
     self.property.SetColumnWidth(0,wxLIST_AUTOSIZE_USEHEADER)
     self.property.SetColumnWidth(1,wxLIST_AUTOSIZE_USEHEADER)
+
+    # display what jars this project produces
+    self.exports.DeleteAllItems()
+    if not self.exports.GetColumn(0):
+      self.exports.InsertColumn(0, 'Exports')
+
+    for i in range(0,len(project.jar)):
+      jar=project.jar[i].path or 'UNNAMED'
+      row=self.exports.InsertStringItem(i,jar)
+      if not os.path.exists(jar):
+        self.exports.SetItemBackgroundColour(row,wxRED)
+
+    self.exports.SetColumnWidth(0,wxLIST_AUTOSIZE_USEHEADER)
 
   # show the xml description for a single item
   def selectProject(self, event):
