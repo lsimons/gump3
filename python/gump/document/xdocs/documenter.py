@@ -1528,7 +1528,7 @@ This page helps Gumpmeisters (and others) observe community progress.
         
         if module.hasRepository():
             
-            repoSection=detailSection.createSection('Repository')
+            repoSection=detailsSection.createSection('Repository')
             repoList=repoSection.createList()
             self.insertLink( 	module.getRepository(), \
                                 module, \
@@ -1566,7 +1566,7 @@ This page helps Gumpmeisters (and others) observe community progress.
            
     #   x.write('<p><strong>Module Config :</strong> <link href=\'xml.html\'>XML</link></p>')
             
-        self.documentXML(detailSection,module)
+        self.documentXML(detailsSection,module)
 
         document.serialize()
         document=None

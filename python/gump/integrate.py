@@ -15,7 +15,7 @@
 # limitations under the License.
 
 #
-# $Header: /home/stefano/cvs/gump/python/gump/integrate.py,v 1.27.2.4 2004/05/21 19:34:24 ajack Exp $
+# $Header: /home/stefano/cvs/gump/python/gump/integrate.py,v 1.27.2.5 2004/05/21 20:42:34 ajack Exp $
 # 
 
 """
@@ -28,7 +28,6 @@
 import os.path
 import os
 import sys
-import logging
 
 from gump import log
 from gump.core.gumpinit import gumpinit

@@ -30,7 +30,7 @@ from gump.build.builder import *
 from gump.document.text.documenter import TextDocumenter
 from gump.document.xdocs.documenter import XDocDocumenter
 
-from gump.time.keeper import TimeKeeper
+from gump.timing.keeper import TimeKeeper
 from gump.stats.statistician import Statistician
 from gump.repository.publisher import RepositoryPublisher
 from gump.notify.notifier import Notifier
