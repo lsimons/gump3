@@ -22,7 +22,8 @@
         <depend project="excalibur-compatibility" runtime="true"/>
         <depend project="spice-configkit" runtime="true" inherit="runtime"/>
         <depend project="spice-classman" runtime="true" inherit="runtime"/>
-        <depend project="spice-xmlpolicy" runtime="true"/>
+        <depend project="spice-xmlpolicy" runtime="true" inherit="runtime"/>
+        <depend project="spice-loggerstore" runtime="true" inherit="runtime"/>
         <depend project="excalibur-logger" runtime="true"/>
         <depend project="excalibur-i18n" runtime="true"/>
         <depend project="excalibur-instrument-manager" runtime="true"/>
