@@ -52,7 +52,7 @@
     <jar name="api/target/portlet-api-1.0.jar" id="api"/>
     <jar name="portal/target/pluto-portal-1.0.jar" id="portal"/>
 
-    <license name="LICENSE"/>
+    <license name="LICENSE.TXT"/>
 
     <javadoc nested="docs/apidocs"/>
 
