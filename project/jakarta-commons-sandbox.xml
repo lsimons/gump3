@@ -10,17 +10,14 @@
 
     <ant basedir="util" target="dist">
       <property name="component.version"  value="gump"/>
-      <property name="minml2.jar" 
-        reference="jarpath" project="minml2" id="minml2"/>
-      <property name="junit.jar" 
-        reference="jarpath" project="junit" id="junit"/>
+      <property name="minml2.jar" reference="jarpath" project="minml2"/>
+      <depend property="junit.jar"  project="junit"/>
     </ant>
 
     <depend project="jakarta-ant"/>
     <depend project="xml-xerces"/>
-    <depend project="junit"/>
 
-    <jar id="util" name="util/dist/commons-util-gump.jar"/>
+    <jar name="util/dist/commons-util-gump.jar"/>
   </project>
 
   <project name="commons-email">
@@ -29,34 +26,32 @@
       <property name="component.version"  value="gump"/>
     </ant>
 
+    <depend project="jakarta-ant"/>
+    <depend project="xml-xerces"/>
     <depend project="jaf"/>
     <depend project="javamail"/>
     <depend project="commons-util"/>
 
-    <jar id="email" name="email/dist/commons-email-gump.jar"/>
+    <jar name="email/dist/commons-email-gump.jar"/>
   </project>
 
   <project name="commons-jjar">
     <ant basedir="jjar" target="dist">
-      <property name="minml2.jar" 
-        reference="jarpath" project="minml2" id="minml2"/>
-      <property name="junit.jar" 
-        reference="jarpath" project="junit" id="junit"/>
+      <depend property="minml2.jar"  project="minml2"/>
+      <depend property="junit.jar"   project="junit"/>
     </ant>
 
     <depend project="jakarta-ant"/>
     <depend project="xml-xerces"/>
-    <depend project="minml2"/>
-    <depend project="junit"/>
     <work nested="jjar/classes"/>
     <work nested="jjar/tests"/>
 
-    <jar id="jjar" name="jjar/commons-jjar.jar"/>
+    <jar name="jjar/commons-jjar.jar"/>
   </project>
 
   <project name="minml2">
     <url href="http://www.wilson.co.uk/xml/minml2.htm"/>
-    <jar id="minml2" name="jjar/lib/MinML2.jar"/>
+    <jar name="jjar/lib/MinML2.jar"/>
   </project>
 
 </project>
