@@ -32,12 +32,10 @@ def getDepotHome(visual=True):
         return '${DEPOT_HOME|DEPOT_UPDATE_HOME}'
     
 def getDepotUpdatePath():
-    return os.path.join(
-            os.path.join(getDepotHome(),'bin'),
-            'update.py')
+    return os.path.join(getDepotHome(),'depot.py')
     
 def getDepotUpdateCmd():
-    return sys.executable+' '+getDepotUpdatePath()
+    return sys.executable+' '+getDepotUpdatePath()+' update'
     
     
 
