@@ -30,6 +30,7 @@
   <depend project="jstyle"/>
   <depend project="maybeupload"/>
   <depend project="bsf"/>
+  <depend project="jakarta-velocity"/>
 
   <project name="jstyle">
     <url href="http://astyle.sourceforge.net/"/>
