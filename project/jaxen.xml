@@ -21,74 +21,65 @@
   </url>
   <cvs module="jaxen" repository="codehaus" dir="jaxen">
   </cvs>
+  
   <project name="jaxen-from-packaged-dom4j">
-    <ant buildfile="build.xml" target="dist">
-      <property name="final.name" value="jaxen-@@DATE@@">
-      </property>
+    <ant buildfile="build.xml" target="gump">
+      <property name="final.name" value="jaxen-@@DATE@@"/>
     </ant>
-    <package>org.jaxen</package>
-    <depend project="packaged-dom4j">
-    </depend>
-    <depend project="ant">
-    </depend>
-    <depend project="jdom">
-    </depend>
-    <depend project="junit">
-    </depend>
-    <depend project="xml-apis">
-    </depend>
-    <depend project="xml-xerces">
-    </depend>
-    <depend project="xom"/>
-    <work nested="target/classes">
-    </work>
-    <work nested="target/test-classes">
-    </work>
-    <home nested="target">
-    </home>
-    <jar name="jaxen-@@DATE@@.jar">
-    </jar>
-    <javadoc module="jaxen" nested="target/docs/apidocs">
-    </javadoc>
     
-    <!-- Allow viewing of failure reports -->
-    <junitreport nested="target/test-reports"/>
+    <package>org.jaxen</package>
+	<depend project="packaged-dom4j"/>
+	<depend project="ant"/>
+	<depend project="jdom"/>
+	<depend project="xml-apis"/>
+	<depend project="xml-xerces"/>
+	<depend project="xom"/>
+	<work nested="target/classes"/>
+	<home nested="target"/>
+	<jar name="jaxen-@@DATE@@.jar"/>
+	<javadoc module="jaxen" nested="target/docs/apidocs"/>
+    
+	<nag to="jaxen-interest@lists.codehaus.org" 
+			from="Jaxen Gump &lt;scott@dotnot.org&gt;"/>
+  </project>
+
+  <project name="jaxen-from-packaged-dom4j-test">
+    <ant buildfile="build.xml" target="test">
+      <property name="final.name" value="jaxen-@@DATE@@"/>
+    </ant>
+    
+    <package>org.jaxen</package>
+	<depend project="jaxen-from-packaged-dom4j" inherit="all"/>
+	<depend project="junit"/>
+	<work nested="target/test-classes"/>
+	<home nested="target"/>
+	<javadoc module="jaxen" nested="target/docs/apidocs"/>
+    
+	<!-- Allow viewing of failure reports -->
+	<junitreport nested="target/test-reports"/>
        
-    <nag to="jaxen-interest@lists.codehaus.org" from="Jaxen Gump &lt;scott@dotnot.org&gt;">
-    </nag>
+	<nag to="jaxen-interest@lists.codehaus.org" 
+			from="Jaxen Gump &lt;scott@dotnot.org&gt;"/>
   </project>
 
   <project name="jaxen">
     <delete dir="target"/>
     <ant buildfile="build.xml" target="dist">
-      <property name="final.name" value="jaxen-@@DATE@@">
-      </property>
+      <property name="final.name" value="jaxen-@@DATE@@"/>
     </ant>
     <package>org.jaxen</package>
-    <depend project="dom4j">
-    </depend>
-    <depend project="ant">
-    </depend>
-    <depend project="jdom">
-    </depend>
-    <depend project="junit">
-    </depend>
-    <depend project="xml-apis">
-    </depend>
-    <depend project="xml-xerces">
-    </depend>
+    <depend project="dom4j"/>
+    <depend project="ant"/>
+    <depend project="jdom"/>
+    <depend project="junit"/>
+    <depend project="xml-apis"/>
+    <depend project="xml-xerces"/>
     <depend project="xom"/>
-    <work nested="target/classes">
-    </work>
-    <work nested="target/test-classes">
-    </work>
-    <home nested="target">
-    </home>
-    <jar name="jaxen-@@DATE@@.jar">
-    </jar>
-    <javadoc module="jaxen" nested="target/docs/apidocs">
-    </javadoc>
-    <nag to="jaxen-interest@lists.codehaus.org" from="Jaxen Gump &lt;scott@dotnot.org&gt;">
-    </nag>
+    <work nested="target/classes"/>
+    <work nested="target/test-classes"/>
+    <home nested="target"/>
+    <jar name="jaxen-@@DATE@@.jar"/>
+    <javadoc module="jaxen" nested="target/docs/apidocs"/>
+    <nag to="jaxen-interest@lists.codehaus.org" from="Jaxen Gump &lt;scott@dotnot.org&gt;"/>
   </project>
 </module>
