@@ -23,6 +23,35 @@
 
   <cvs repository="jakarta"/>
 
+  <project name="commons-attributes">
+    <package>org.apache.commons.attributes</package>
+    <description>Commons Attributes</description>
+    <ant basedir="attributes" target="dist">
+      <property name="final.name.api"  
+                value="commons-attributes-api-@@DATE@@"/>
+      <property name="final.name.compiler" 
+                value="commons-attributes-compiler-@@DATE@@"/>
+    </ant>
+    <depend project="ant" inherit="runtime"/>
+    <depend project="xml-xerces"/>
+    <depend project="commons-logging"/>
+    <depend project="xjavadoc" runtime="true"/>
+    <depend project="junit"/>
+
+    <work nested="attributes/target/classes"/>
+    <work nested="attributes/target/test-classes"/>
+
+    <jar name="attributes/target/commons-attributes-api-@@DATE@@.jar"
+         id="api"/>
+    <jar name="attributes/target/commons-attributes-compiler-@@DATE@@.jar"
+         id="compiler"/>
+    <license name="LICENSE"/>
+    <javadoc nested="attributes/dist/docs/api"/>
+ 
+    <nag from="Sam Ruby &lt;rubys@us.ibm.com&gt;"
+         to="commons-dev@jakarta.apache.org"/>
+  </project>
+
   <project name="commons-beanutils-core">
     <package>org.apache.commons.beanutils</package>
     <description>Bean Utilities (Core)</description>
