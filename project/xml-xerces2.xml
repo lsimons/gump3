@@ -18,7 +18,7 @@
     <depend project="xjavac"/>
     <home nested="java/build"/>
     <jar  name="xercesImpl.jar" id="parser" type="boot"/>
-    <jar  name="xmlParserAPIs.jar" id="apis"/>
+    <jar  name="xmlParserAPIs.jar" id="apis" type="boot"/>
 
     <nag from="Sam Ruby &lt;rubys@us.ibm.com&gt;"
          to="xerces-j-dev@xml.apache.org"/>
