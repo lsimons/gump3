@@ -17,6 +17,7 @@
     <depend project="xmldb"/>
     <depend project="infozone"/>
     <depend project="xml-xalan2"/>
+    <depend project="xml-rpc"/>
     <depend project="openorb"/>
     <work nested="java/classes"/>
 
