@@ -21,7 +21,7 @@
 
     <depend project="jakarta-ant"/>
     <depend project="xml-xerces"/>
-    <depend name="commons-collections.jar"/>
+    <depend project="commons-collections"/>
 
     <home nested="bin"/>
     <jar name="flux-gump.jar"/>
