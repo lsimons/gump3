@@ -12,11 +12,10 @@
 
     <depend project="bootstrap-ant"/>
     <depend project="xml-xerces"/>
-    <depend project="xml-apis"/>
+    <depend project="xml-apis" inherit="runtime"/>
 
     <home nested="java/build"/>
     <jar  name="xalan.jar" type="boot"/>
-    <jar  name="xml-apis.jar" type="boot"/>
   </project>
 
   <project name="xml-xalan1-compat">
