@@ -54,7 +54,7 @@
     <depend project="xml-xerces"/>
     <ant target="jar-exceptionutil"/>
     <home nested="target/lib"/>
-    <jar name="exceptionutil-@@DATE@@.jar"/>
+    <jar name="exceptionutil.jar"/>
     <nag from="Peter Donald &lt;peter@apache.org&gt;"
             to="dev@avalon.apache.org"/>
   </project>
