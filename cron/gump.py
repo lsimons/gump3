@@ -267,12 +267,14 @@ except:
     pass
 
 # Enable a log
-logFileName='gump_log_' + time.strftime('%d%m%Y_%H%M%S') + '.txt'
+runDateTime=time.strftime('%d%m%Y_%H%M%S')
+logFileName='gump_log_' + runDateTime + '.txt'
 logFile=os.path.abspath(os.path.join('log',logFileName))
 log=open(logFile,'w',0) # Unbuffered...
 
 hostname='Unknown'
 workspaceName='Unknown'
+wsName='Unknown'
         
 mailserver=None
 mailport=None
@@ -400,7 +402,7 @@ try:
             log.write('SVN update skipped per environment setting.\n')
             svnExit=0
         if svnExit:
-            result=1     
+            result=1   
         
         if not result:
             # Update Gump metadata from CVS
@@ -461,12 +463,13 @@ finally:
     
     logTitle='Apache Gump Logfile'
     if result:
-        logTitle='Problem running Apache Gump...'
+        logTitle='Problem running Apache Gump [%s]' % wsName
         
     # Publish logfile
-    published=0
+    published=False
     if logdir:
-        publishedLogFile=os.path.abspath(os.path.join(logdir,'gump_log.txt'))
+        publishedLogName='gump_log.txt'
+        publishedLogFile=os.path.abspath(os.path.join(logdir,publishedLogName))
         if '--xdocs' in args:
             publishedLogFile=os.path.abspath(
                                 os.path.join(
@@ -478,10 +481,10 @@ finally:
             publishedLog=open(publishedLogFile,'w',0) # Unbuffered...
             catFile(publishedLog, logFile, logTitle)    
             publishedLog.close()
-            published=1
+            published=True
         except Exception, details:
             print 'Failed to publish log file. ', str(details)    
-            published=0
+            published=False
     else:
         print 'Unable to publish log file.'
          
@@ -496,26 +499,29 @@ finally:
             catFile(sys.stdout, logFile, logTitle)
         
         if mailserver and mailport and mailto and mailfrom:
-            mailData=''
+            mailData='There is a problem with run \'%s\' (%s)' % (wsName, runDateTime)
             if published and logurl:
-                mailData='There is a problem with the run at : ' + logurl + '\n'
+                mailData+=', location : ' + logurl + '\n'
             else:
-                mailData='There is a problem with the run at : ' + hostname + ':' + workspaceName + '\n'
+                mailData+=', at : ' + hostname + ':' + workspaceName + '\n'
             
             #
             try:
                 maxTailLines=50
-                tailData=tailFileToString(logFile,maxTailLines)           
-                mailData += '------------------------------------------------------------\n' 
-                mailData += 'The log ought be at:\n'
-                mailData += '   '
-                logFileUrl=logurl
-                if not logFileUrl.endswith('/'): 
-                    logFileUrl+='/'
-                logFileUrl+=logFileName
-                mailData += logFileUrl
-                mailData += '\n'
-                mailData += '------------------------------------------------------------\n' 
+                tailData=tailFileToString(logFile,maxTailLines)        
+                
+                if published and logurl:   
+                    mailData += '------------------------------------------------------------\n' 
+                    mailData += 'The log ought be at:\n'
+                    mailData += '   '
+                    logFileUrl=logurl
+                    if not logFileUrl.endswith('/'): 
+                        logFileUrl+='/'
+                    logFileUrl+=publishedLogName
+                    mailData += logFileUrl
+                    mailData += '\n'
+                    
+                mailData += '------------------------------------------------------------\n'                     
                 mailData += 'The last (up to) %s lines of the log are :\n' % maxTailLines
                 mailData += tailData
             except:
