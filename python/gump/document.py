@@ -132,7 +132,7 @@ def document(workspace,context,full=None,moduleFilterList=None,projectFilterList
     seedForrest(workspace,context)
     
     # Testing...
-    documentText(workspace,context,moduleFilterList,projectFilterList)
+    #documentText(workspace,context,moduleFilterList,projectFilterList)
     
     db=StatisticsDB()
   
@@ -248,7 +248,7 @@ def documentWorkspace(workspace,context,db,moduleFilterList=None,projectFilterLi
         note="""This output does not represent the a complete workspace,
         but a partial one.         
         Only projects, and their dependents, matching this regular expression """ + \
-            "<strong>" + context.projectexpression + "</strong>"
+            "<strong>[" + context.projectexpression + "]</strong>."
         
         note+="\n\nRequested Projects:\n"
         for project in context.gumpset.projects:
@@ -296,20 +296,23 @@ def documentWorkspace(workspace,context,db,moduleFilterList=None,projectFilterLi
     endSectionXDoc(x)       
     
     x.write('<p><strong>Context Tree:</strong> <link href=\'context.html\'>context</link></p>')
+    x.write('<p><strong>Workspace Config:</strong> <link href=\'xml.txt\'>XML</link></p>')
     x.write('<p><strong>RSS :</strong> <link href=\'index.rss\'>News Feed</link></p>')
     
     documentWorkList(x,workspace,context.worklist,'Workspace-level Work',wdir)
      
+    startSectionXDoc(x,'Packaged Projects')
     packages=getPackagedProjects()
     if packages:
-        startSectionXDoc(x,'Packaged Projects')
         startTableXDoc(x)
         for project in packages:
             x.write('     <tr><!-- %s -->' % (project.name))        
             x.write('      <td>%s</td><td>%s</td>' % (project.name, project.home))    
             x.write('     </tr>')
         endTableXDoc(x)
-        endSectionXDoc(x)
+    else:
+        x.write('<p><strong>No packaged projects installed.</strong></p>')   
+    endSectionXDoc(x)
       
     footerXDoc(x)
     endXDoc(x)
@@ -333,6 +336,13 @@ def documentWorkspace(workspace,context,db,moduleFilterList=None,projectFilterLi
     x.write('</source>\n')   
     footerXDoc(x)
     endXDoc(x)
+        
+    # Document the workspace XML
+    
+    f=open(getWorkspaceXMLAsTextDocument(workspace), 'w')
+    xml = xmlize('workspace',workspace,f)
+    f.close()  
+    
         
 def documentModule(workspace,wdir,modulename,modulecontext,db,projectFilterList=None):
     mdir=getModuleDir(workspace,modulename,wdir)
@@ -379,6 +389,8 @@ def documentModule(workspace,wdir,modulename,modulecontext,db,projectFilterList=
     endListXDoc(x)
     endSectionXDoc(x)
        
+#   x.write('<p><strong>Module Config :</strong> <link href=\'xml.html\'>XML</link></p>')
+    
     documentWorkList(x,workspace,modulecontext.worklist,'Module-level Work',mdir)
     
     footerXDoc(x)
@@ -389,6 +401,17 @@ def documentModule(workspace,wdir,modulename,modulecontext,db,projectFilterList=
         if projectFilterList and not pctxt.project in projectFilterList: continue      
         documentProject(workspace,modulename,mdir,pctxt.name,pctxt,db)
    
+    # Document the module XML
+#    x=startXDoc(getModuleXMLDocument(workspace,modulename,mdir))
+#    headerXDoc(x,'Module XML')    
+#    x.write('<source>\n')
+#    xf=StringIO.StringIO()
+#    xml = xmlize('module',module,xf)
+#    x.write(escape(xml))    
+#    x.write('</source>\n')   
+#    footerXDoc(x)
+#    endXDoc(x)
+    
 def documentProject(workspace,modulename,mdir,projectname,projectcontext,db): 
     module=Module.list[modulename]
     project=Project.list[projectname]
@@ -457,10 +480,25 @@ def documentProject(workspace,modulename,mdir,projectname,projectcontext,db):
           addItemXDoc(x,option.name)
         endListXDoc(x)
         endSectionXDoc(x)
-                      
+                  
+       
+#    x.write('<p><strong>Project Config :</strong> <link href=\'%s\'>XML</link></p>' \
+#                % (getModuleProjectRelativeUrl(modulename,projectcontext.name)) )
+        
     documentWorkList(x,workspace,projectcontext.worklist,'Project-level Work',mdir)
     footerXDoc(x)
-    endXDoc(x)
+    endXDoc(x)    
+    
+    # Document the project XML
+#    x=startXDoc(getProjectXMLDocument(workspace,modulename,projectcontext.name))
+#    headerXDoc(x,'Project XML')    
+#    x.write('<source>\n')
+#    xf=StringIO.StringIO()
+#    xml = xmlize('project',project,xf)
+#    x.write(escape(xml))    
+#    x.write('</source>\n')   
+#    footerXDoc(x)
+#    endXDoc(x)
 
 def documentAnnotations(x,annotations):
     if not annotations: return
@@ -795,6 +833,13 @@ def getWorkspaceContextDocument(workspace,workspacedir=None):
     if not workspacedir: workspacedir = getWorkspaceDir(workspace)    
     return os.path.join(workspacedir,'context.xml')
     
+    
+# Couldn't cope w/ log4j nagger's name characterset, so bailed
+# and went to text...
+def getWorkspaceXMLAsTextDocument(workspace,contentdir=None):
+    if not contentdir: contentdir = getContentDir(workspace)    
+    return os.path.join(contentdir,'xml.txt')
+    
 def getStatisticsDocument(workspace,statsdir=None):
     if not statsdir: statsdir = getStatisticsDir(workspace)    
     return os.path.join(statsdir,'index.xml')
@@ -808,10 +853,20 @@ def getModuleDocument(workspace, modulename,moduledir=None):
     if not moduledir: moduledir=getModuleDir(workspace, modulename)
     return os.path.join(moduledir,'index.xml')
 
+def getModuleXMLDocument(workspace, modulename,moduledir=None):
+    mdir=gumpSafeName(modulename)
+    if not moduledir: moduledir=getModuleDir(workspace, modulename)
+    return os.path.join(moduledir,'xml.xml')
+
 def getProjectDocument(workspace,modulename,projectname,moduledir=None):
     pname=gumpSafeName(projectname)
     if not moduledir: moduledir=getModuleDir(workspace, modulename)
     return os.path.join(moduledir,pname+'.xml')
+    
+def getProjectXMLDocument(workspace,modulename,projectname,moduledir=None):
+    pname=gumpSafeName(projectname)
+    if not moduledir: moduledir=getModuleDir(workspace, modulename)
+    return os.path.join(moduledir,pname+'_xml.xml')
 
 def getWorkDocument(rootdir,name,type,wdir=None):
     wname=gumpSafeName(name)
@@ -851,6 +906,9 @@ def getProjectRelativeUrl(name,depth=0):
 def getModuleProjectRelativeUrl(mname,pname,depth=0):
     return getUp(depth)+gumpSafeName(mname)+'/'+gumpSafeName(pname)+'.html'
     
+def getModuleProjectXMLRelativeUrl(mname,pname,depth=0):
+    return getUp(depth)+gumpSafeName(mname)+'/'+gumpSafeName(pname)+'_xml.html'
+    
 def getModuleProjectRelativeUrlFromModule(mname,pname):
     return getProjectRelativeUrl(mname,pname,1)
 
@@ -864,7 +922,7 @@ def getWorkRelativeUrl(type,name):
 def getUp(depth):
     url=''
     i = 0
-    while i < depth:
+    while i < int(depth):
         url+='../'
         i += 1
     return url
