@@ -80,6 +80,7 @@
          reference="jarpath" id="bsf" project="bsf"/>
       <property name="xerces.jar"
          reference="jarpath" id="xerces" project="xml-xerces"/>
+      <property name="version" value="gump"/>
     </ant>
 
     <depend project="jakarta-ant"/>
@@ -93,7 +94,7 @@
     <depend project="jlex"/>
     <work nested="java/build/classes"/>
 
-    <home nested="java/build/xalan-j_2_0_1"/>
+    <home nested="java/build/xalan-j_gump"/>
     <jar  name="bin/xalan.jar"/>
   </project>
 
