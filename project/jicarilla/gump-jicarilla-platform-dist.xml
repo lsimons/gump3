@@ -27,8 +27,9 @@
 
     <!-- project dependencies -->
     <depend project="jicarilla-platform-consolidate"/>
+    <depend project="jicarilla-lang-impl" runtime="true" inherit="all" optional="false"/>
+
     <depend project="avalon-framework" runtime="true" inherit="runtime" optional="false"/>
-    <depend project="jicarilla-avalon-fortress-container" runtime="true" inherit="runtime" optional="false"/>
     <depend project="avalon-logkit" runtime="true" inherit="runtime" optional="false"/>
     <depend project="beanshell" runtime="true" inherit="runtime" optional="false"/>
     <depend project="commons-cli" runtime="true" inherit="runtime" optional="false"/>
@@ -37,6 +38,19 @@
     <depend project="concurrent" runtime="true" inherit="runtime" optional="false"/>
     <depend project="jetty" runtime="true" inherit="runtime" optional="false"/>
     <depend project="junit" runtime="true" inherit="runtime" optional="false"/>
+
+    <depend project="jicarilla-avalon-fortress-container" runtime="true" inherit="runtime" optional="false"/>
+    <depend project="jicarilla-xstream" runtime="true" inherit="runtime" optional="false"/>
+    <depend project="jicarilla-picocontainer" runtime="true" inherit="runtime" optional="false"/>
+    <depend project="jicarilla-picocontainer-tck" runtime="true" inherit="runtime" optional="false"/>
+    <depend project="jicarilla-spring" runtime="true" inherit="runtime" optional="false"/>
+    <depend project="jicarilla-spring-tck" runtime="true" inherit="runtime" optional="false"/>
+    <depend project="jicarilla-easymock" runtime="true" inherit="runtime" optional="false"/>
+    <depend project="jicarilla-dna-api" runtime="true" inherit="runtime" optional="false"/>
+    <depend project="jicarilla-dna-impl" runtime="true" inherit="runtime" optional="false"/>
+    <depend project="jicarilla-dna-tools" runtime="true" inherit="runtime" optional="false"/>
+    <depend project="jicarilla-spice-metaclass" runtime="true" inherit="runtime" optional="false"/>
+    <depend project="jicarilla-spice-configkit" runtime="true" inherit="runtime" optional="false"/>
 
     <mkdir dir="platform/target/base/target/classes"/>
     <mkdir dir="platform/target/base/target/test-classes"/>
