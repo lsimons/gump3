@@ -28,7 +28,38 @@
         <jar name="build/lib/excalibur-containerkit-@@DATE@@.jar"/>
 
         <nag from="Peter Donald &lt;peter@apache.org&gt;"
+            to="excalibur-dev@jakarta.apache.org"/>
+    </project>
+
+    <project name="excalibur-info">
+        <package>org.apache.avalon.framework.info</package>
+
+        <ant basedir="info">
+            <property name="version" value="@@DATE@@"/>
+            <property name="junit.failonerror" value="true"/>
+            <property name="do.checkstyle" value="true"/>
+            <property name="skip.dependencies" value="true"/>
+        </ant>
+
+        <depend project="jakarta-ant" inherit="runtime"/>
+        <option project="checkstyle" inherit="runtime"/>
+        <depend project="junit"/>
+	<depend project="excalibur-qdox" runtime="true" inherit="runtime"/>
+        <depend project="jakarta-avalon" runtime="true"/>
+        <depend project="excalibur-i18n" runtime="true"/>
+        <depend project="xml-xerces"/>
+        <depend project="xml-xalan2"/>
+        <work nested="info/build/classes"/>
+
+        <home nested="info"/>
+        <jar name="build/lib/excalibur-info-@@DATE@@.jar"/>
+
+        <nag from="Peter Donald &lt;peter@apache.org&gt;"
             to="avalon-dev@jakarta.apache.org"/>
+    </project>
+
+    <project name="excalibur-qdox">
+        <jar name="info/lib/qdox-20021116-patched.jar"/>
     </project>
 
 </module>
