@@ -20,7 +20,7 @@
     
 """
 from gump import log
-from gump.config import *
+from gump.core.config import *
 from gump.utils import *
 from email.Header import Header
 

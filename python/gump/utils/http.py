@@ -30,7 +30,7 @@ import urlparse
 import logging
 
 from gump import log
-from gump.config import dir, switch, setting
+from gump.core.config import dir, switch, setting
 
 ###############################################################################
 # Initialize

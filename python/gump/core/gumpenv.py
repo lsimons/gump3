@@ -27,7 +27,7 @@ from fnmatch import fnmatch
 
 from gump import log
 
-from gump.config import *
+from gump.core.config import *
 
 from gump.utils.note import Annotatable
 from gump.utils.work import *

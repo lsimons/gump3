@@ -124,7 +124,7 @@ class DependencyMatrix:
         
     def getExtent(self):        
         # Max by max
-        return (self.maxNumAtDepth, len(self.depths.keys()))
+        return (len(self.depths.keys()),self.maxNumAtDepth)
         
     def getRowWidth(self,row):
         return len(self.depths[row])
@@ -175,37 +175,55 @@ class DependencyDiagram:
         rect=mainContext.realRect()
         
         print 'RECT: ' + str(rect)
+        print '(ROWS,COLS) : ' + `(rows, cols)`
         
         context=GridDrawingContext('Grid', mainContext, rows, cols )
         
         # Build an SVG to fit the real world size, and the
         # context rectangle.
         svg=SimpleSvg(rect.getWidth(),rect.getHeight())
-
+        
+        svg.addBorder()
 
         #
         # Find centers
         #
         for node in self.matrix.getNodes():
             (row, col) = node.getRowCol()
-            (x,y) = context.realPoint(col,rows-row)
+            
+            # rowWidth=self.matrix.getRowWidth(row+1)
+            
+            # Center...
+            #centeredCol = (float(rowWidth)/cols) * (1+col)
+            
+            #print cols,rowWidth,row,col,' -> ',centeredCol
+            
+            print '(ROW,COL) : ' + `(row, col)`
+            (x,y) = context.realPoint(col,(rows-row)+2)
+            print '(X,Y) : ' + `(x, y)`
             node.setPoint(Point(x,y))
+            
+        for x in range(0,rows):
+            for y in range(0,cols):
+                print 'DOTTY : ' + `(x,y)`
+                (x1,y1)=context.realPoint(x,y)
+                svg.addSpot(x1,y1)
                 
         #
         # Draw dependency lines
         #
         for node in self.matrix.getNodes():
             project = node.getProject()
-            (row, col) = node.getRowCol()
             
             # Draw lines to represent dependencies
             for dependency in project.getDirectDependencies():
+                
+                if dependency.isRuntime(): continue
                 
                 # For each dependent project
                 dependProject=dependency.getProject()
                 
                 depNode=self.matrix.getNodeForProject(dependProject)
-                (depRow,depCol) = depNode.getRowCol()                
                 
                 (x,y) = node.getPoint().getXY()
                 (x1,y1) = depNode.getPoint().getXY()
@@ -213,6 +231,8 @@ class DependencyDiagram:
                 width=1+(dependProject.getFOGFactor()*3)
                 # Shape color
                 color='black'
+                if dependency.isOptional(): 
+                    color='green'
                 if project.isPackaged(): 
                     color='blue'
                 elif not project.hasBuildCommand():
@@ -220,23 +240,21 @@ class DependencyDiagram:
                 elif project.getFOGFactor() < 0.1:
                     color='red'
                     
+                print 'LINE %s,%s -> %s,%s' % (x,y,x1,y1)
                 svg.addLine(x,y,x1,y1, \
                     { 'stroke':color, \
                       'stroke-width':width, \
                       'comment': project.getName() + ' to ' + dependProject.getName() } )
-                      
-                      
+                                          
         #
         # The shapes and text
         #                            
         for node in self.matrix.getNodes():
             project = node.getProject()
-            (row,col) = node.getRowCol()    
             
-            
-            (centerX,centerY) = node.getPoint().getXY()
-            (x,y) = context.realPoint(centerX-0.25,centerY-0.25)
-            (x1,y1) = context.realPoint(centerX+0.25,centerY+0.25)
+            (row, col) = node.getRowCol()
+            (x,y) = context.realPoint(col-0.25,(rows-row)+2-0.25)
+            (x1,y1) = context.realPoint(col+0.25,(rows-row)+2+0.25)
             
             print 'RECTANGLE %s,%s -> %s,%s' % (x,y,x1,y1)
             
@@ -253,9 +271,10 @@ class DependencyDiagram:
                     { 	'fill':color, \
                         'comment':project.getName() } )
                         
+            (x,y) = context.realPoint(col-0.25,(rows-row)+2-0.27)
             print 'TEXT %s,%s' % (x,y)
             
-            svg.addText(x,y,project.getName(),  \
+            svg.addText(x,y,project.getName() + ' (' + `project.getFOGFactor()` + ')',  \
                     { 	'fill':'red', \
                         'comment':project.getName() } )
                         
@@ -266,9 +285,9 @@ class DependencyDiagram:
 if __name__=='__main__':
         
         
-    from gump.gumprun import GumpRun, GumpRunOptions, GumpSet
-    from gump.commandLine import handleArgv
-    from gump.model.loader import WorkspaceLoader
+    from gump.core.gumprun import GumpRun, GumpRunOptions, GumpSet
+    from gump.core.commandLine import handleArgv
+    from gump.core.model.loader import WorkspaceLoader
     from gump.output.statsdb import *
 
     # Process command line

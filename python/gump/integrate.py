@@ -14,6 +14,9 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+#
+# $Header: /home/stefano/cvs/gump/python/gump/integrate.py,v 1.26 2004/04/16 17:28:38 ajack Exp $
+# 
 
 """
     This is the main commandline entrypoint into gump.
@@ -28,9 +31,10 @@ import sys
 import logging
 
 from gump import log
-from gump.engine import GumpEngine
-from gump.gumprun import GumpRun, GumpRunOptions, GumpSet
-from gump.commandLine import handleArgv
+from gump.core.gumpinit import gumpinit
+from gump.core.engine import GumpEngine
+from gump.core.gumprun import GumpRun, GumpRunOptions, GumpSet
+from gump.core.commandLine import handleArgv
 from gump.utils import logResourceUtilization
 from gump.model.loader import WorkspaceLoader
 
@@ -47,6 +51,8 @@ def ignoreHangup(signum):
     pass
     
 def irun():
+    
+    gumpinit()  
     
     # Process command line
     (args,options) = handleArgv(sys.argv)

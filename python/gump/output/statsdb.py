@@ -23,7 +23,7 @@ import logging
 import anydbm
 
 from gump import log
-from gump.config import *
+from gump.core.config import *
 from gump.model.project import Project, ProjectStatistics
 from gump.model.module import Module, ModuleStatistics
 from gump.model.repository import Repository, RepositoryStatistics

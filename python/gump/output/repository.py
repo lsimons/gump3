@@ -18,7 +18,7 @@
 
 import os
 
-from gump.config import *
+from gump.core.config import *
 from gump import log
 from gump.model import *
 

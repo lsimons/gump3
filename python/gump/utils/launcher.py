@@ -28,7 +28,7 @@ from threading import Timer
 from string import split
 
 from gump import log
-from gump.config import *
+from gump.core.config import *
 from gump.utils import *
 
 CMD_STATE_NOT_YET_RUN=0

@@ -21,8 +21,8 @@ import logging
 import types, StringIO
 
 from gump import log
-import gump.config
-from gump.gumprun import GumpRun
+import gump.core.config
+from gump.core.gumprun import GumpRun
 from gump.document.documenter import Documenter
 from gump.document.text.documenter import TextDocumenter
 from gump.document.template.documenter import TemplateDocumenter

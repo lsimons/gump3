@@ -28,7 +28,7 @@ import time
 import urllib
 
 from gump  import log
-from gump.config import default, setting
+from gump.core.config import default, setting
 
 def gumpSafeName(name):
   """returns a file system safe name"""
@@ -397,24 +397,4 @@ def logResourceUtilization(message=None): pass
 #            log.error("Failed get resource utilization." \
 #                        + " : " + str(details), exc_info=1)
         
-if __name__=='__main__':
 
-  # init logging
-  logging.basicConfig()
-
-  #set verbosity to show all messages of severity >= default.logLevel
-  log.setLevel(default.logLevel)
-  
-  #dump(log)
-
-  print "secsToElapsedTimeTriple(1340) : " + str(secsToElapsedTimeTriple(1340))
-  print "secsToElapsedTimeString(1340) : " + secsToElapsedTimeString(1340)
-  print "secsToTime(1340) : " + secsToTime(1340)
-  print "elapsedTimeTripleToString(secsToElapsedTimeTriple(1340)) : " + elapsedTimeTripleToString(secsToElapsedTimeTriple(1340))
-  print "Date (for SMTP) : " + time.strftime('%d %b %y %H:%M:%S')
-  print "str = " + getStringFromUnicode("Ceki Gülcü")
-  
-  print "indent = [" + getIndent(5) + "]"
-  
-  logResourceUtilization()
-  

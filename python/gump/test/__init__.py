@@ -21,7 +21,7 @@
 from gump.model.loader import WorkspaceLoader
 
 import gump
-import gump.config
+import gump.core.config
 
 from gump.model.state import *
 from gump.model.rawmodel import XMLWorkspace
@@ -41,7 +41,7 @@ def getWorkedTestWorkspace(xml=None):
     workspace=getTestWorkspace(xml)
        
     # Load statistics for this workspace
-    db=StatisticsDB(gump.dir.test,'test.db')  
+    db=StatisticsDB(dir.test,'test.db')  
     db.loadStatistics(workspace)
 
     # Some file items...

@@ -14,7 +14,7 @@
 #   See the License for the specific language governing permissions and
 #   limitations under the License.
 #
-# $Header: /home/stefano/cvs/gump/Attic/commitCheck.py,v 1.2 2004/04/13 15:59:25 ajack Exp $
+# $Header: /home/stefano/cvs/gump/Attic/commitCheck.py,v 1.3 2004/04/16 17:28:42 ajack Exp $
 
 """
   Used to do Python testing prior to commiting a code change.
@@ -210,14 +210,14 @@ try:
             # PyUnit            
             unitExit = runCommand('python gump/test/pyunit.py','*',str(absGumpPython))
             if unitExit: 
-                log.write('***************** Unit Tests Failed ***************')
+                log.write('***************** Unit Tests Failed ***************\n')
                 result=1
             
         if not result:
             # A test run...
             integrationExit = runCommand('gumpy')
             if integrationExit:                 
-                log.write('**************** Test Run Failed ***************')
+                log.write('**************** Test Run Failed ***************\n')
                 result=1           
 
     except KeyboardInterrupt:    

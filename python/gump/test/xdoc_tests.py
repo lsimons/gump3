@@ -22,17 +22,14 @@ import logging
 import types, StringIO
 
 from gump import log
-import gump.config
+import gump.core.config
 from gump.document.xdoc import *
 
 
 if __name__=='__main__':
 
-    # init logging
-    logging.basicConfig()
 
-    #set verbosity to show all messages of severity >= default.logLevel
-    log.setLevel(gump.default.logLevel)
+    gumpinit()
 
     stream=StringIO.StringIO() 
       

@@ -22,7 +22,7 @@
 import os
 
 from gump import log
-from gump.config import *
+from gump.core.config import *
  
 # password encryption table used by cvs
 shifts = [

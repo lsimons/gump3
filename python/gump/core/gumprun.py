@@ -27,8 +27,8 @@ import sys
 from fnmatch import fnmatch
 
 from gump import log
-from gump.config import dir, default, basicConfig
-from gump.gumpenv import GumpEnvironment
+from gump.core.config import dir, default, basicConfig
+from gump.core.gumpenv import GumpEnvironment
 
 
 from gump.utils.work import *

@@ -28,7 +28,7 @@ from gump.results.model import WorkspaceResult
 from gump.utils.note import transferAnnotations, Annotatable
 from gump.utils.http import cacheHTTP
 from gump.utils import dump
-from gump.config import gumpPath
+from gump.core.config import gumpPath
 
 class WorkspaceResultLoader:
     def __init__(self):

@@ -28,7 +28,7 @@ from string import lower,replace
 from xml.sax.saxutils import escape
 
 from gump import log
-from gump.config import *
+from gump.core.config import *
 from gump.document.documenter import Documenter
 from gump.document.text.documenter import TextDocumenter
 from gump.document.forrest.xdoc import *
@@ -46,7 +46,7 @@ from gump.model.project import Project
 
 from gump.output.statsdb import StatisticsGuru
 from gump.output.xref import XRefGuru
-from gump.gumprun import *
+from gump.core.gumprun import *
 
 def getUpUrl(depth):
     url=''
@@ -2620,7 +2620,7 @@ This page helps Gumpmeisters (and others) observe community progress.
                 svgFile=self.resolver.getFile(stats,project.getName()+'_FOG','.svg')
                 pngFile=os.path.basename(svgFile).replace('.svg','.png')
                 from gump.svg.scale import ScaleDiagram
-                diagram=ScaleDiagram(pstats.successes,pstats.failures+pstats.prereqs)
+                diagram=ScaleDiagram([pstats.successes,pstats.prereqs,pstats.failures])
                 diagram.generateDiagram().serializeToFile(svgFile)
                 fogRow.createData().createIcon(pngFile,'FOG Factor')
             else:

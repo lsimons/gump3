@@ -37,7 +37,7 @@ from gump.model.stats import Statable, Statistics
 from gump.utils.note import transferAnnotations, Annotatable
 from gump.utils.listener import Listener, Event
 
-import gump.config
+import gump.core.config
 
 #
 #
@@ -509,7 +509,7 @@ class Workspace(NamedModelObject, PropertyContainer, Statable, Resultable):
     def setDatedDirectories(self,date=None):
         
         # This build date
-        if not date: date = gump.default.date
+        if not date: date = default.date
             
         # Construct tmp on demand
         self.tmpdir=os.path.join(self.tmpdir,date)            

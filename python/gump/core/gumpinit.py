@@ -1,0 +1,57 @@
+#!/usr/bin/env python
+
+# Copyright 2003-2004 The Apache Software Foundation
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+# 
+#     http://www.apache.org/licenses/LICENSE-2.0
+# 
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+#
+# $Header: /home/stefano/cvs/gump/python/gump/core/gumpinit.py,v 1.1 2004/04/16 17:28:41 ajack Exp $
+# 
+
+"""
+  Gump Entry Points.
+"""
+
+import os.path
+import sys
+import time
+
+# Either python-2.3 or http://www.red-dove.com/python_logging.html
+import logging
+
+# tell Python what modules make up the gump package
+# __all__ = ["config"]
+
+from gump import log
+from gump.core.config import dir, default, setting, switch, basicConfig
+
+###############################################################################
+# Initialize
+###############################################################################
+def gumpinit():
+    #set verbosity to show all messages of severity >= default.logLevel
+    log.setLevel(default.logLevel)
+
+    # Ensure dirs exists,
+    basicConfig()
+
+    #
+    timestamp=os.path.join(dir.base,'.timestamp')
+    if os.path.exists(timestamp):
+        default.time = os.path.getmtime(timestamp)
+    else:
+        default.time = time.time()
+
+    default.ltime=time.localtime(default.time)
+    default.date = time.strftime('%Y%m%d',default.ltime)
+    

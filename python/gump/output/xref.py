@@ -22,7 +22,7 @@ import sys
 import logging
 
 from gump import log
-from gump.config import *
+from gump.core.config import *
 from gump.model.project import Project
 from gump.model.state import *
             

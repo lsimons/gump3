@@ -24,8 +24,8 @@ import sys
 from fnmatch import fnmatch
 
 from gump import log
-from gump.gumprun import *
-from gump.config import dir, default, basicConfig
+from gump.core.gumprun import *
+from gump.core.config import dir, default, basicConfig
 
 from gump.utils import dump, display, getIndent, logResourceUtilization
 from gump.utils.note import Annotatable

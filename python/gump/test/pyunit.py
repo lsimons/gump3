@@ -23,7 +23,8 @@ import types
 import logging
 
 from gump import log
-import gump.config
+from gump.core.gumpinit import gumpinit
+import gump.core.config
 from gump.utils import createOrderedList,printSeparator,formatException
 
 from fnmatch import fnmatch    
@@ -278,12 +279,8 @@ class TestRunner:
         sys.exit(0)
                     
 if __name__=='__main__':
-    
-    # init logging
-    logging.basicConfig()
-
-    #set verbosity to show all messages of severity >= default.logLevel
-    log.setLevel(gump.default.logLevel)
+        
+    gumpinit()
     
     runner=TestRunner()
     

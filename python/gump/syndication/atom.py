@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/syndication/atom.py,v 1.12 2004/04/08 18:11:43 ajack Exp $
-# $Revision: 1.12 $
-# $Date: 2004/04/08 18:11:43 $
+# $Header: /home/stefano/cvs/gump/python/gump/syndication/atom.py,v 1.13 2004/04/16 17:28:43 ajack Exp $
+# $Revision: 1.13 $
+# $Date: 2004/04/16 17:28:43 $
 #
 # ====================================================================
 #
@@ -71,7 +71,7 @@ from gump import log
 from gump.model.state import *
 from gump.model.project import ProjectStatistics
 
-from gump.config import setting
+from gump.core.config import setting
 
 from gump.syndication.syndicator import Syndicator
 

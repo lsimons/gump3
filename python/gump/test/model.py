@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/test/model.py,v 1.19 2004/04/02 16:48:06 ajack Exp $
-# $Revision: 1.19 $
+# $Header: /home/stefano/cvs/gump/python/gump/test/model.py,v 1.20 2004/04/16 17:28:35 ajack Exp $
+# $Revision: 1.20 $
 #!/usr/bin/env python
 # Copyright 2003-2004 The Apache Software Foundation
 #
@@ -25,7 +25,7 @@ import logging
 import types, StringIO
 
 from gump import log
-import gump.config
+import gump.core.config
 from gump.model.state import *
 from gump.model.loader import WorkspaceLoader
 from gump.utils import *

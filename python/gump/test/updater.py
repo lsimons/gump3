@@ -22,7 +22,7 @@ import logging
 import types, StringIO
 
 from gump import log
-import gump.config
+import gump.core.config
 from gump.output.statsdb import *
 from gump.test import getWorkedTestWorkspace
 from gump.test.pyunit import UnitTestSuite

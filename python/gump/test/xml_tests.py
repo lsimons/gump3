@@ -22,18 +22,15 @@ import logging
 import types, StringIO
 
 from gump import log
-import gump.config
+import gump.core.config
 from gump.utils.xmlutils import *
 
 from gump.test import getTestWorkspace
 
 if __name__=='__main__':
 
-    # init logging
-    logging.basicConfig()
 
-    #set verbosity to show all messages of severity >= default.logLevel
-    log.setLevel(gump.default.logLevel)
+    gumpinit()
 
     workspace=getTestWorkspace() 
         

@@ -104,3 +104,17 @@ class UtilsTestSuite(UnitTestSuite):
         attrs=getBeanAttributes(TestBean())
         self.assertNotEmpty('Ought be some', attrs)
         self.assertNotNone('Ought be one called X', attrs['X'])
+        
+    def testRandomStuff(self):
+        # :TODO: Clean this up, just moved it here so as not to loose it.
+        secsToElapsedTimeTriple(1340)
+        secsToElapsedTimeString(1340)
+        secsToTime(1340)
+        elapsedTimeTripleToString(secsToElapsedTimeTriple(1340))
+        getIndent(5)
+        logResourceUtilization()
+  
+    def testUnicode(self):
+        getStringFromUnicode("Ceki Gülcü")
+  
+  

@@ -26,7 +26,7 @@ import logging
 import anydbm
 
 from gump import log
-from gump.config import *
+from gump.core.config import *
 from gump.output.stats import Project, ProjectStatistics
 from gump.model.module import Module, ModuleStatistics
 from gump.model.repository import Repository, RepositoryStatistics
@@ -43,11 +43,7 @@ class StatisticsTools:
                   
 if __name__=='__main__':
     
-    # init logging
-    logging.basicConfig()
-
-    #set verbosity to show all messages of severity >= default.logLevel
-    log.setLevel(gump.default.logLevel)
+    gumpinit()
         
     tool=StatisticsTool()
     

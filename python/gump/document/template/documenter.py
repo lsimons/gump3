@@ -34,6 +34,7 @@ from gump.model.state import *
 
 from gump.document.documenter import Documenter
 from gump.document.resolver import *
+from gump.document.template.resolver import TemplateResolver
 
 class TemplateDocumenter(Documenter):
     

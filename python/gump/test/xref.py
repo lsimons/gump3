@@ -22,7 +22,7 @@ import logging
 import types, StringIO
 
 from gump import log
-import gump.config
+import gump.core.config
 from gump.model.state import *
 from gump.model.loader import WorkspaceLoader
 from gump.output.xref import XRefGuru

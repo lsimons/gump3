@@ -114,15 +114,15 @@ def getSvgSizes(w,h):
     return (int(svgW), int(svgH))
         
 class SimpleSvg:
-    def __init__(self,x=80,y=120,width=-1,height=-1):
+    def __init__(self,viewWidth=80,viewHeight=120,width=-1,height=-1):
         self.width=width
         self.height=height
-        self.x=x
-        self.y=y
+        self.viewWidth=float(viewWidth)
+        self.viewHeight=float(viewHeight)
         
         # Try to size for the user...
         if -1 == width or -1 == height:
-            (self.width, self.height) = getSvgSizes(x,y)
+            (self.width, self.height) = getSvgSizes(viewWidth,viewHeight)
         
         self.description=None
         
@@ -172,6 +172,19 @@ class SimpleSvg:
         # Store it ...
         self.actions.append(self.formatElement(type,attrs,content))
         
+    def addBorder(self):
+        x=self.viewWidth*0.05
+        y=self.viewHeight*0.05
+        w=min(self.viewWidth*0.02,self.viewHeight*0.02)
+        self.addRect(x,y,self.viewWidth-(2*x),self.viewHeight-(2*y),	\
+                        {'stroke':'black','stroke-width':w,'fill':'none',	\
+                            'comment':'Border Rectangle'})
+        
+    def addSpot(self,x,y):
+        self.addRect(x-2,y-2,4,4,	\
+                        {'stroke':'black','stroke-width':1,'fill':'black',	\
+                            'comment':'Spot Rectangle'})
+        
     def addRect(self,x,y,w,h,attrs):
         
         # Side effect...
@@ -205,7 +218,7 @@ class SimpleSvg:
         
         try:
             writeHeader(stream)
-            writeSvgHeader(stream,self.width,self.height,self.x,self.y)
+            writeSvgHeader(stream,self.width,self.height,self.viewWidth,self.viewHeight)
             if self.description:
                 writeDesc(stream,self.description)
                     

@@ -17,7 +17,7 @@
 """
     This module contains information on
 """
-import os, os.path
+import os.path
 
 from gump import log
 from gump.model.rawmodel import XMLWorkspace,XMLProfile,	\
@@ -29,7 +29,7 @@ from gump.utils.xmlutils import SAXDispatcher
 from gump.utils.note import transferAnnotations, Annotatable
 from gump.utils import dump
 
-from gump.config import dir, switch, setting
+from gump.core.config import dir, switch, setting
 
 class WorkspaceLoader:
     def __init__(self):

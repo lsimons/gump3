@@ -22,7 +22,7 @@ import logging
 import types, StringIO
 
 from gump import log
-import gump.config
+import gump.core.config
 from gump.model.loader import WorkspaceLoader
 from gump.utils import *
 from gump.utils.xmlutils import xmlize
@@ -38,11 +38,7 @@ def testModule(url,ws):
 
 if __name__=='__main__':
 
-    # init logging
-    logging.basicConfig()
-
-    #set verbosity to show all messages of severity >= default.logLevel
-    log.setLevel(gump.default.logLevel)
+    gumpinit()
 
     #:TODO: Do a loop over directories and load all?
     

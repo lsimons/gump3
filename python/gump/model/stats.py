@@ -25,7 +25,7 @@ import logging
 import anydbm
 
 import gump
-from gump.config import *
+from gump.core.config import *
 from gump.model.state import *
 
 #
@@ -111,7 +111,7 @@ class Statistics:
         if statable.isSuccess():
 
             self.successes += 1
-            self.last = gump.default.time
+            self.last = default.time
             
             # A big event...
             if not self.first:

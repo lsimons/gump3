@@ -26,17 +26,18 @@ from gump.svg.svg import *
 
 class ScaleDiagram:
     """ The interface to a chainable context """
-    def __init__(self, val1, val2, width=3, height=0.5) : 
-        self.val1=val1
-        self.val2=val2
+    def __init__(self, vals, width=3, height=0.5) : 
+        self.vals=vals
         self.width=width
         self.height=height
+        
+        self.total=sum(self.vals)
         
     def generateDiagram(self):
         
         context=ScaledDrawingContext('Scale', None,	\
                         Rect(0,0,self.width,self.height),	\
-                        (self.val1 + self.val2), 1)
+                        (self.total), 1)
                         
         # Let the context define the rect.
         rect=context.realRect()
@@ -45,19 +46,27 @@ class ScaleDiagram:
         # context rectangle.
         svg=SimpleSvg(rect.getWidth(),rect.getHeight(),self.width,self.height)
         
-        # Border box ...           
-        (x1,y1)=context.realPoint(0,0)
-        (x2,y2)=context.realPoint(self.val1+self.val2,1)        
-        svg.addRect(x1,y1,x2-0.1,y2-0.1, { 'fill':'none','stroke':'black','stroke-width':'0.2' })
+        runningTotal=0
+        colorId=0
+        color=None
+        for v in self.vals:  
+            colorId = colorId % 3
+            if 0 == colorId: color='green'
+            elif 1 == colorId: color='blue'
+            else: color='red'
+            
+            if v > 0:
+                # Box...           
+                (x1,y1)=context.realPoint(runningTotal,0)
+                (x2,y2)=context.realPoint(runningTotal+v,1)        
+                svg.addRect(x1,y1,x2,y2, { 'fill':color })
+                runningTotal+=v
+                
+            colorId+=1
         
-        # Red box [right side]...           
-        (x1,y1)=context.realPoint(self.val1,0)
-        (x2,y2)=context.realPoint(self.val1+self.val2,1)        
-        svg.addRect(x1,y1,x2,y2, { 'fill':'red' })
         
-        # Green box [left side]...                
-        (x1,y1)=context.realPoint(0,0)
-        (x2,y2)=context.realPoint(self.val1,1)
-        svg.addRect(x1,y1,x2,y2, { 'fill':'green' })
+        # Last, since likely overlaps
+        
+        svg.addBorder()
         
         return svg

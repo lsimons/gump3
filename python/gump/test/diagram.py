@@ -44,7 +44,7 @@ class DiagramTestSuite(UnitTestSuite):
         svg.serializeToFile('x.svg')
         
     def testScaleDiagramGeneration(self):
-        diagram=ScaleDiagram(10,20)                
+        diagram=ScaleDiagram([10,20])                
         svg=diagram.generateDiagram()
         svg.serialize()
         

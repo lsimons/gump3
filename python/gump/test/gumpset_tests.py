@@ -21,9 +21,9 @@ import os
 import logging
 
 from gump import log
-import gump.config
+import gump.core.config
 from gump.model.loader import WorkspaceLoader
-from gump.engine import GumpSet
+from gump.core.gumprun import GumpSet
 
 def testWorkspace(file):
 print "Workspace File: " + str(file)
@@ -52,11 +52,7 @@ print "Workspace File: " + str(file)
 
 if __name__=='__main__':
 
-    # init logging
-    logging.basicConfig()
-
-    #set verbosity to show all messages of severity >= default.logLevel
-    log.setLevel(gump.default.logLevel)
+    gumpinit()
 
     #testWorkspace('gump/test/resources/simple1/standalone_workspace.xml')
     testWorkspace('gump/test/resources/full1/workspace.xml')

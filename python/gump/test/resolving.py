@@ -23,7 +23,7 @@ import logging
 import types, StringIO
 
 from gump import log
-import gump.config
+import gump.core.config
 from gump.test import *
 from gump.document.text.resolver import *
 from gump.document.forrest.resolver import *
@@ -83,9 +83,6 @@ class ResolvingTestSuite(UnitTestSuite):
         self.assertNotNone("Resolved Object: ", resolver.getUrl(object))
         
     def testPaths(self):
-
-        #set verbosity to show all messages of severity >= default.logLevel
-        log.setLevel(gump.default.logLevel)
 
         path=Path()
         path1=path.getPostfixed('ABC')

@@ -15,27 +15,14 @@
 # limitations under the License.
 
 #
-# $Header: /home/stefano/cvs/gump/python/gump/__init__.py,v 1.23 2004/04/16 17:28:38 ajack Exp $
+# $Header: /home/stefano/cvs/gump/python/gump/admin/__init__.py,v 1.1 2004/04/16 17:28:42 ajack Exp $
 # 
 
 """
 
-  Gump Basic Init.
+  Gump Core Entry Points.
   
 """
 
-# tell Python what modules make up the gump package
-__all__ = ["build","check","continuous","debug","integrate","preview","update"]
-
-
-# Either python-2.3 or http://www.red-dove.com/python_logging.html
-import logging
-
-# base gump logger
-log = logging.getLogger(__name__)
-
-# init logging
-logging.basicConfig()
-
-#set verbosity to show all messages of severity >= default.logLevel
-log.setLevel(logging.INFO) # logging.DEBUG
+# tell Python what modules make up the gump.core package
+__all__ = ["stats"]

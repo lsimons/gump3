@@ -22,8 +22,8 @@ import logging
 import types, StringIO
 
 from gump import log
-import gump.config
-from gump.gumprun import GumpRun
+import gump.core.config
+from gump.core.gumprun import GumpRun
 from gump.test import getWorkedTestWorkspace
 from gump.test.pyunit import UnitTestSuite
 from gump.output.nag import nag,Nagger

@@ -23,7 +23,7 @@ import sys
 import logging
 
 from gump import log
-from gump.config import default
+from gump.core.config import default
 from gump.utils import banner
 
 #
@@ -39,7 +39,7 @@ class CommandLine:
         self.args = []
         
         # For storing options
-        from gump.gumprun import GumpRunOptions  
+        from gump.core.gumprun import GumpRunOptions  
         self.options=GumpRunOptions()
         
         # Extract the workspace

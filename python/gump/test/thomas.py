@@ -23,9 +23,9 @@ import logging
 import types, StringIO
 
 from gump import log
-import gump.config
-from gump.gumprun import GumpRun
-from gump.engine import GumpTask, GumpTaskList, GumpEngine
+import gump.core.config
+from gump.core.gumprun import GumpRun
+from gump.core.engine import GumpTask, GumpTaskList, GumpEngine
 from gump.test.pyunit import UnitTestSuite
 
 class EngineTestSuite(UnitTestSuite):

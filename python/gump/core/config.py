@@ -111,7 +111,8 @@ def basicConfig():
     if not os.path.exists(dir.tmp): os.mkdir(dir.tmp)
     if not os.path.exists(dir.test): os.mkdir(dir.test)
 
-    if dir.base not in sys.path: sys.path.insert(0, dir.base)
+    if dir.base not in sys.path: 
+        sys.path.insert(0, dir.base)
 
 
 if __name__ == '__main__':

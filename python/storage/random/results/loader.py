@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/storage/random/results/Attic/loader.py,v 1.1 2004/04/02 16:48:07 ajack Exp $
-# $Revision: 1.1 $
-# $Date: 2004/04/02 16:48:07 $
+# $Header: /home/stefano/cvs/gump/python/storage/random/results/Attic/loader.py,v 1.2 2004/04/16 17:28:43 ajack Exp $
+# $Revision: 1.2 $
+# $Date: 2004/04/16 17:28:43 $
 #
 # ====================================================================
 #
@@ -69,7 +69,7 @@ from gump.results.model import WorkspaceResult
 from gump.utils.xmlutils import SAXDispatcher
 from gump.utils.note import transferAnnotations, Annotatable
 from gump.utils import dump
-from gump.config import gumpPath
+from gump.core.config import gumpPath
 
 class WorkspaceResultLoader:
     def __init__(self):

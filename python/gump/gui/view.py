@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/gui/view.py,v 1.9 2004/03/19 18:19:18 ajack Exp $
-# $Revision: 1.9 $
-# $Date: 2004/03/19 18:19:18 $
+# $Header: /home/stefano/cvs/gump/python/gump/gui/view.py,v 1.10 2004/04/16 17:28:42 ajack Exp $
+# $Revision: 1.10 $
+# $Date: 2004/04/16 17:28:42 $
 #
 # ====================================================================
 #
@@ -75,15 +75,15 @@ from xml.sax.handler import ContentHandler
 from wxPython.wx import *
 
 from gump import log
-from gump.config import dir, default
+from gump.core.config import dir, default
 from gump.utils.xmlutils import xmlize
-from gump.commandLine import handleArgv
+from gump.core.commandLine import handleArgv
 from gump.model.module import Module
 from gump.model.project import Project
 from gump.model.workspace import Workspace
 from gump.model.loader import WorkspaceLoader
-from gump.engine import GumpEngine
-from gump.gumprun import GumpSet
+from gump.core.engine import GumpEngine
+from gump.core.gumprun import GumpSet
 
 ###############################################################################
 # Initialize

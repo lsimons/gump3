@@ -1,5 +1,4 @@
-#!/usr/bin/python
-
+#!/usr/bin/env python
 
 # Copyright 2003-2004 The Apache Software Foundation
 #
@@ -15,6 +14,10 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+#
+# $Header: /home/stefano/cvs/gump/python/gump/preview.py,v 1.2 2004/04/16 17:28:38 ajack Exp $
+# 
+
 """
   This is one commandline entrypoint into Gump.
 
@@ -28,8 +31,9 @@ import sys
 import logging
 
 from gump import log
-from gump.gumprun import GumpRun, GumpRunOptions, GumpSet
-from gump.utils.commandLine import handleArgv
+from gump.core.gumpinit import gumpinit
+from gump.core.gumprun import GumpRun, GumpRunOptions, GumpSet
+from gump.core.commandLine import handleArgv
 from gump.model.loader import WorkspaceLoader
 
 
@@ -45,6 +49,8 @@ from gump.model.loader import WorkspaceLoader
 # static void main()
 if __name__=='__main__':
 
+    gumpinit()    
+    
     # Process command line
     (args,options) = handleArgv(sys.argv)
     ws=args[0]

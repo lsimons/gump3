@@ -16,9 +16,9 @@
 
 import os,types
 
-import logging
+from gump import log
+from gump.core.config import default
 
-import gump.config
 from gump.utils.xmlutils import SAXDispatcher, GumpXMLObject, Single, Multiple, Named
 
 """
@@ -37,7 +37,6 @@ from gump.utils.xmlutils import SAXDispatcher, GumpXMLObject, Single, Multiple, 
   Then there's some basic procedures to work with the GOM, like load().
 
 """
-from gump import log
 
 ###############################################################################
 # Initialize
@@ -63,7 +62,7 @@ class GumpXMLModelObject(GumpXMLObject):
     for (name,value) in attrs.items():
         if value and isinstance(value,types.StringTypes):
             if not name == '@basedir' and not name == 'annotations':
-                self.__dict__[name]=value.replace('@@DATE@@',gump.default.date)
+                self.__dict__[name]=value.replace('@@DATE@@',default.date)
       
 class XMLWorkspace(Named,GumpXMLModelObject):
   """Represents a <workspace/> element."""

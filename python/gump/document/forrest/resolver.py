@@ -27,7 +27,7 @@ from xml.sax.saxutils import escape
 from string import lower,replace
 
 from gump import log
-from gump.config import *
+from gump.core.config import *
 from gump.utils import *
 
 from gump.output.statsdb import StatisticsGuru
@@ -35,7 +35,7 @@ from gump.output.xref import XRefGuru
 from gump.utils.work import *
 from gump.utils.file import *
 
-from gump.gumpenv import GumpEnvironment
+from gump.core.gumpenv import GumpEnvironment
 
 from gump.model.repository import Repository
 from gump.model.server import Server

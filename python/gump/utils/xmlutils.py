@@ -19,7 +19,6 @@
 """
 
 import os.path
-import logging
 import types, StringIO
 
 from xml.sax import parse
@@ -29,7 +28,7 @@ from xml.sax.saxutils import escape
 from gump import log
 from gump.utils.http import cacheHTTP
 from gump.utils.note import *
-from gump.config import gumpPath
+from gump.core.config import gumpPath
 
 ###############################################################################
 # SAX Dispatcher mechanism
@@ -83,6 +82,9 @@ class SAXDispatcher(ContentHandler,ErrorHandler,Annotatable):
                 self.topOfStack.addError(message)              
             else:
                 self.addError(message)
+                
+            # log.warn('Failed to parse XML : ' + message, exc_info=1)
+            
     self.elementStack.append(self.topOfStack)
 
   def characters(self, string):

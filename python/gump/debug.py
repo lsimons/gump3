@@ -27,9 +27,10 @@ import sys
 import logging
 
 from gump import log
-from gump.engine import GumpEngine
-from gump.gumprun import GumpRun, GumpRunOptions, GumpSet
-from gump.utils.commandLine import handleArgv
+from gump.core.gumpinit import gumpinit
+from gump.core.engine import GumpEngine
+from gump.core.gumprun import GumpRun, GumpRunOptions, GumpSet
+from gump.core.utils.commandLine import handleArgv
 from gump.model.loader import WorkspaceLoader
 
 
@@ -44,6 +45,7 @@ from gump.model.loader import WorkspaceLoader
 
 # static void main()
 if __name__=='__main__':
+    gumpinit()   
 
     # Process command line
     (args,options) = handleArgv(sys.argv)

@@ -25,7 +25,7 @@ import logging
 from string import lower, capitalize
 
 from gump import log
-from gump.config import *
+from gump.core.config import *
 from gump.model.project import *
 from gump.model.module import *
 from gump.model.state import *
