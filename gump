@@ -431,6 +431,7 @@ function check_environment
   
   #check_pylib "rdflib" "http://rdflib.net/"
   check_pylib "MySQLdb" "http://sourceforge.net/projects/mysql-python"
+  check_pylib "pmock" "http://pmock.sourceforge.net/"
 }
 
 # create a .pid file
@@ -579,7 +580,6 @@ function kill
 # Run pygump unit tests
 function test
 {
-  check_pylib "pmock" "http://pmock.sourceforge.net/"
   lock
   
   # add pygump to python path
