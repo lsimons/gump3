@@ -8,10 +8,8 @@
   <cvs  repository="jakarta"/>
 
   <ant basedir="build" target="dist">
-    <property name="log.jar"
-       reference="jarpath" id="logkit" project="jakarta-avalon-logkit"/>
-    <property name="oro.jar"
-       reference="jarpath" id="oro" project="jakarta-oro"/>
+    <depend property="log.jar" project="jakarta-avalon-logkit"/>
+    <depend property="oro.jar" project="jakarta-oro"/>
     <property name="version" value="gump"/>
   </ant>
 
@@ -19,16 +17,14 @@
   <depend project="xml-xerces"/>
   <depend project="jakarta-servletapi"/>
   <depend project="jdom"/>
-  <depend project="jakarta-oro"/>
   <depend project="werken.xpath"/>
   <depend project="javaclass"/>
   <depend project="junit"/>
-  <depend project="jakarta-avalon-logkit"/>
   <depend project="jakarta-log4j"/>
   <depend project="commons-collections"/>
 
   <home nested="bin"/>
-  <jar name="velocity-gump.jar" id="velocity"/>
+  <jar name="velocity-gump.jar"/>
 
   <project name="jakarta-velocity-test">
     <ant basedir="build" buildfile="testcases.xml"/>

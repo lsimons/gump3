@@ -15,7 +15,7 @@
   <option project="jakarta-servletapi-4"/>
 
   <home nested="build/lib"/>
-  <jar name="logkit.jar" id="logkit"/>
+  <jar name="logkit.jar"/>
 
   <project name="dist-avalon-logkit">
     <ant target="jar"/>
@@ -29,6 +29,6 @@
     <depend project="xml-xalan2"/>
 
     <home nested="build/lib"/>
-    <jar name="logkit.jar" id="logkit"/>
+    <jar name="logkit.jar"/>
   </project>
 </project>

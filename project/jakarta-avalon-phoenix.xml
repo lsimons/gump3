@@ -8,28 +8,22 @@
   <cvs repository="jakarta"/>
 
   <ant target="dist">
-    <property name="logkit.jar"
-       reference="jarpath" id="logkit" project="jakarta-avalon-logkit"/>
-    <property name="avalon-framework.jar"
-       reference="jarpath" id="avalon-framework" project="jakarta-avalon"/>
-    <property name="avalon-excalibur.jar"
-       reference="jarpath" id="avalon-excalibur" project="jakarta-avalon"/>
-    <property name="avalon-scratchpad.jar"
-       reference="jarpath" id="avalon-scratchpad" project="jakarta-avalon"/>
-    <property name="xerces.jar"
-       reference="jarpath" id="parser" project="xml-xerces"/>
+    <depend property="xerces.jar"           project="xml-xerces"/>
+    <depend property="logkit.jar"           project="jakarta-avalon-logkit"/>
+    <depend property="avalon-framework.jar" project="jakarta-avalon"/>
+
+    <depend property="avalon-excalibur.jar" 
+      project="jakarta-avalon-excalibur" id="avalon-excalibur"/>
+    <depend property="avalon-scratchpad.jar" 
+      project="jakarta-avalon-excalibur" id="avalon-scratchpad"/>
   </ant>
 
   <depend project="jakarta-ant"/>
-  <depend project="xml-xerces"/>
-  <depend project="jakarta-avalon"/>
-  <depend project="jakarta-avalon-excalibur"/>
-  <depend project="jakarta-avalon-logkit"/>
   <depend project="xml-stylebook2"/>
   <depend project="xml-xalan2"/>
   <depend project="jmx"/>
 
   <home nested="build/lib"/>
-  <jar name="phoenix-client.jar" id="client"/>
+  <jar name="phoenix-client.jar"/>
 
 </project>

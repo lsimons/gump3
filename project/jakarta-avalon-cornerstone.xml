@@ -8,27 +8,19 @@
   <cvs repository="jakarta"/>
 
   <ant target="dist">
-    <property name="xerces.jar"
-       reference="jarpath" id="parser" project="xml-xerces"/>
-    <property name="logkit.jar"
-       reference="jarpath" id="logkit" project="jakarta-avalon-logkit"/>
-    <property name="avalon-framework.jar"
-       reference="jarpath" id="avalon-framework" project="jakarta-avalon"/>
-    <property name="avalon-excalibur.jar"
-       reference="jarpath" id="avalon-excalibur" project="jakarta-avalon"/>
-    <property name="avalon-scratchpad.jar"
-       reference="jarpath" id="avalon-scratchpad" project="jakarta-avalon"/>
-    <property name="phoenix-client.jar"
-       reference="jarpath" id="client" project="jakarta-avalon-phoenix"/>
+    <depend property="xerces.jar"           project="xml-xerces"/>
+    <depend property="logkit.jar"           project="jakarta-avalon-logkit"/>
+    <depend property="avalon-framework.jar" project="jakarta-avalon"/>
+    <depend property="phoenix-client.jar"   project="jakarta-avalon-phoenix"/>
+    <depend property="testlet.jar"          project="jakarta-avalon-testlet"/>
+
+    <depend property="avalon-excalibur.jar" 
+      project="jakarta-avalon-excalibur" id="avalon-excalibur"/>
+    <depend property="avalon-scratchpad.jar" 
+      project="jakarta-avalon-excalibur" id="avalon-scratchpad"/>
   </ant>
 
   <depend project="jakarta-ant"/>
-  <depend project="xml-xerces"/>
-  <depend project="jakarta-avalon"/>
-  <depend project="jakarta-avalon-excalibur"/>
-  <depend project="jakarta-avalon-logkit"/>
-  <depend project="jakarta-avalon-testlet"/>
-  <depend project="jakarta-avalon-phoenix"/>
   <option project="jsse"/>
   <depend project="xml-stylebook2"/>
   <depend project="xml-xalan2"/>
