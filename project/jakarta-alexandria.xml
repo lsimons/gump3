@@ -34,7 +34,7 @@
   </project>
   
   <project name="vindico">
-    <ant basedir="proposal/vindico" target="jar">
+    <ant basedir="proposal/vindico" target="dist">
       <property name="component.version" value="@@DATE@@"/>
     </ant>
 
@@ -46,20 +46,10 @@
     <depend project="commons-digester"/>
     <depend project="commons-io"/>
     <depend project="junit"/>
-    <depend project="jakarta-log4j"/>
-    <depend project="cvsclient"/>
 
     <home nested="proposal/vindico/dist"/>
     <jar name="vindico-@@DATE@@.jar"/>
+    <javadoc nested="proposal/vindico/dist/docs/api"/>
   </project>
 
-  <project name="cvsclient">
-    <url href="http://javacvs.netbeans.org/"/>
-    <description>
-      CVS client library written in Java
-    </description>
-
-    <home nested="proposal/vindico"/>
-    <jar name="lib/cvslib.jar"/>
-  </project>
 </module>
