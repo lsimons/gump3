@@ -4,7 +4,7 @@
   <description>werkz: Goal-Oriented Process (GOP) Framework</description>
   <url href="http://werkz.werken.com/">
   </url>
-  <cvs module="codehaus" repository="werken" dir="werkz">
+  <cvs module="codehaus" repository="codehaus_scm" dir="werkz">
   </cvs>
   <project name="werkz">
     <mkdir dir="target/classes"/>
