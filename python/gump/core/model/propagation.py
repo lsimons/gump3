@@ -65,7 +65,6 @@ class Propogatable(Stateful):
                 # Send on the changes...
                 self.propagateErrorStateChange(state,reason,cause,message)
     
-
     def propagateErrorStateChange(self,state,reason,cause,message):
                
         # .. then push this error down

@@ -65,6 +65,7 @@ FEATURE_SYNDICATE=0x10
 FEATURE_DESCRIBE=0x20
 FEATURE_PUBLISH=0x40
 FEATURE_DOCUMENT=0x80
+FEATURE_HISTORICAL=0x80
 
 FEATURE_DEFAULT=FEATURE_STATISTICS|FEATURE_SYNDICATE|FEATURE_DESCRIBE|FEATURE_DOCUMENT|FEATURE_NOTIFY
             
@@ -93,6 +94,7 @@ class GumpRunOptions:
         self.dated=False	# Defaults to NOT dated.
         self.optimize=False	# Do the least ammount of work...
         self.official=False	# Do a full run (with publishing e-mail)
+        self.historical=False # Historical Database
         
         # Default is XDOCS/XHTML, but can also force text with --text 
         self.text=False        
@@ -107,7 +109,13 @@ class GumpRunOptions:
         return self.dated
         
     def setDated(self,dated):
-        self.dated=dated
+        self.dated=dated        
+        
+    def isHistorical(self):
+        return self.historical
+        
+    def setHistorical(self,historical):
+        self.historical=historical
         
     def isOfficial(self):
         """
@@ -272,6 +280,9 @@ class GumpRunOptions:
 
     def isStatistics(self):
         return self._testFeatureIsSet(FEATURE_STATISTICS)
+
+    def isHistorical(self):
+        return self._testFeatureIsSet(FEATURE_HISTORICAL)
 
     def isDocument(self):
         """
