@@ -12,6 +12,8 @@
 
     <ant target="dist">
       <property name="checkstyle.failOnError" value="true"/>
+      <property name="jakarta-site.dir" project="jakarta-site2"
+                reference="home" />
       <depend property="xerces.jar" project="xml-xerces" id="parser"/>
       <depend property="logkit.jar" project="jakarta-avalon-logkit"/>
       <depend property="framework.jar" project="jakarta-avalon"/>
@@ -38,6 +40,7 @@
     <depend project="dist-bsf"/>
     <depend project="rhino"/>
     <depend project="xdoclet" inherit="jars"/>
+    <depend project="jakarta-site2" inherit="all" />
     <option project="jakarta-servletapi-4"/>
 
     <home nested="build/lib"/>
