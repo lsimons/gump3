@@ -40,7 +40,6 @@
     <depend project="jmx" runtime="true"/>
     <depend project="dist-bsf"/>
     <depend project="rhino"/>
-    <depend project="mx4j"/>
     <depend project="phoenix-qdox"/>
     <depend project="jarv" runtime="true"/>
     <depend project="jakarta-site2" inherit="all" />
