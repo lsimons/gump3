@@ -15,7 +15,7 @@
 # limitations under the License.
 #
 #
-# A (supposedly ) friendly commandline interface to the common gump tasks
+# The command line interface to the common gump tasks.
 #
 ##############################################################################
 # Documentation
@@ -164,6 +164,17 @@ function usage
       This command will fail if the specifed database already exists.
 "
       ;;
+    pycompile)
+      echo "
+      Compiles all pygump source files.
+
+      Usage:
+        $0 pycompile.
+      
+      Please run this before committing changed sourcefiles, to make sure they
+      at least compile.
+"
+        ;;
     *)
       echo "
       Utility commandline interface for Gump.
@@ -179,6 +190,7 @@ function usage
         dynagump        -- run the dynagump web application server
         update-host     -- update the configuration of a gump host
         create-database -- create a new gump MySQL database
+        pycompile       -- compile all pyump source files
      
       Run
      
@@ -418,16 +430,6 @@ function check_environment
   check_pylib "MySQLdb" "http://sourceforge.net/projects/mysql-python"
 }
 
-# compile all of pygump
-function pycompile
-{
-  # get rid of old stuff
-  find $GUMP_HOME/pygump -type f -name '*.pyc' | xargs rm -Rf
-
-  # compile everything
-  $GUMP_PYTHON -c "import re; from compileall import compile_dir; compile_dir('$GUMP_HOME/pygump/python', 10, '$GUMP_HOME', False, re.compile('\.svn'), True)"  
-}
-
 # create a .pid file
 function lock
 {
@@ -465,6 +467,30 @@ function unlock
 # There is one of these for each command that gump understands. Stricly
 # speaking, the usage function above is also an action function, but we put
 # it at the top of the file for readability :-D
+
+# compile all of pygump
+function pycompile
+{
+  # get rid of old stuff
+  find $GUMP_HOME/pygump -type f -name '*.pyc' | xargs rm -Rf
+
+  # compile everything
+  $GUMP_PYTHON -c "import re; from compileall import compile_dir; compile_dir('$GUMP_HOME/pygump/python', 10, '$GUMP_HOME', False, re.compile('\.svn'), True)"  
+  
+  # add pygump to python path
+  local oldpythonpath="$PYTHONPATH"
+  if [[ -z "$oldpythonpath" ]]; then
+    export PYTHONPATH="$GUMP_HOME/pygump/python:$GUMP_HOME/pygump"
+  else
+    export PYTHONPATH="$GUMP_HOME/pygump/python:$GUMP_HOME/pygump:$PYTHONPATH"
+  fi
+  
+  # import all modules, one by one, to check syntax
+  local files=`find . -name '*.py' | sed -e 's/\.\///g' -e 's/\//./g' -e 's/\.py//g' -e 's/python\.//g' | grep -v __init__`
+  for i in $files; do
+    python -c "import $i"
+  done
+}
 
 # Run pygump using the specified python command
 function do_run
@@ -676,6 +702,9 @@ function delegate
       ;;
     update-host)
       update_host $@
+      ;;
+    pycompile)
+      pycompile $@
       ;;
     # this is short-circuited below because we don't really
     # want to load complain about missing environment settings

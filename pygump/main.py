@@ -34,6 +34,7 @@ import os
 import sys
 import time
 from xml.dom import minidom
+import smtplib
 
 # for log messages...
 SEP = "------------------------------------------------------------------------------\n"
@@ -84,47 +85,52 @@ class Logger:
     
     def debug(self, msg):
         message = 'DEBUG: %s\n' % (msg)
-        if self.level >= DEBUG:
-            self.target.write(message);
         if self.console_level >= DEBUG:
             print message,
+        if self.level >= DEBUG:
+            self.target.write(message);
     
     def info(self, msg):
         message = 'INFO: %s\n' % (msg)
-        if self.level >= INFO:
-            self.target.write(message);
         if self.console_level >= INFO:
             print message,
+        if self.level >= INFO:
+            self.target.write(message);
     
     def warning(self, msg):
         message = 'WARNING: %s\n' % (msg)
-        if self.level >= WARNING:
-            self.target.write(message);
         if self.console_level >= WARNING:
             print message,
+        if self.level >= WARNING:
+            self.target.write(message);
     
     def error(self, msg):
         message = 'ERROR: %s\n' % (msg)
-        if self.level >= ERROR:
-            self.target.write(message);
         if self.console_level >= ERROR:
             print message,
+        if self.level >= ERROR:
+            self.target.write(message);
 
     def critical(self, msg):
         message = 'CRITICAL: %s\n' % (msg)
-        if self.level >= CRITICAL:
-            self.target.write(message);
         if self.console_level >= CRITICAL:
             print message,
+        if self.level >= CRITICAL:
+            self.target.write(message);
+
+class GumpConfigError(Exception):
+    pass
+
+class GumpEnvironmentError(Exception):
+    pass
 
 def check_version():
     """
-    Prints error message and exits if python version < 2.3.
+    Raises exception if python version < 2.3.
     """
     (major, minor, micro, releaselevel, serial) = sys.version_info
     if not major >=2 and minor >= 3:
-        print 'CRITICAL: Gump requires Python 2.3 or above. The current version is %s.' % sys.version()
-        exit(1)
+        raise GumpEnvironmentError, 'CRITICAL: Gump requires Python 2.3 or above. The current version is %s.' % sys.version()
         
 def parse_workspace(filename, options):
     """
@@ -141,12 +147,20 @@ def parse_workspace(filename, options):
     # options.basedir     = w.getAttribute('basedir')
     # options.basepath    = os.path.abspath(basedir)
 
+    # determine which user is doing stuff
+    user = "gump"
+    try:
+        from getpass import getuser
+        user = getuser()
+    except:
+        pass
+
     # Mail reporting
-    options.private     = w.getAttribute('private')
+    # unused options.private     = w.getAttribute('private')
     options.mailserver  = w.getAttribute('mailserver') or 'localhost'
     options.mailport    = w.getAttribute('mailport') or 25
     options.mailto      = w.getAttribute('administrator') 
-    options.mailfrom    = w.getAttribute('email') 
+    options.mailfrom    = w.getAttribute('email') or "%s@%s" % (user, options.hostname)
 
     # log (site) location(s)
     options.logurl      = w.getAttribute('logurl') 
@@ -160,13 +174,13 @@ def svn_update(log, options):
     """
     Updates pygump itself from SVN.
     """
-    command = "svn update --non-interactive "
+    command = "sh -c 'svn update --non-interactive "
+    if not options.debug: command += "-q " # suppress output
     svnlogfile = os.path.join( options.logdir, "svnuplog.txt" )
-    if not options.debug: command += "-q" # suppress output
     
     command += os.path.join(options.homedir,'pygump')
     
-    command += " > " + svnlogfile
+    command += " >" + svnlogfile + " 2>&1'"
 
     try:
         result = os.system(command)
@@ -176,17 +190,17 @@ def svn_update(log, options):
         if result: # any not 0 is bad...
             msg = "An error occurred while self-updating pygump from svn"
             log.error( msg + ":")
-            log.target.write(SEP)
+            log.target.write(SEP); print SEP,
             
             svnlog=open(svnlogfile,'r')
             line = svnlog.readline()
             while line:
-                log.target.write(line)
-                line = input.readline()
+                log.target.write(line); print line,
+                line = svnlog.readline()
     
-            svnlog.close
-            log.target.write(SEP)
-            raise RuntimeError, msg
+            svnlog.close()
+            log.target.write(SEP); print SEP,
+            raise GumpEnvironmentError, msg
     finally:
         os.remove(svnlogfile)
 
@@ -204,10 +218,58 @@ def send_email(toaddr,fromaddr,subject,data,server,port=25):
     server.sendmail(fromaddr, toaddr, rawdata)
     server.quit()
 
-def send_error_email(Exception,details,log):
+def send_error_email(Exception,details,options,log):
     """
     TODO. Send an error report by e-mail.
     """
+    if options.mailserver and options.mailport and options.mailto and options.mailfrom:
+        subject="Fatal error during pygump run [%s: %s]" % (options.hostname, options.name)
+        body="""An unexpected error occurred during the pygump run on
+%s (start time: %s, workspace: %s).
+
+The reported exception:
+------------------------------------------------------------------------------
+%s: %s
+------------------------------------------------------------------------------
+More information may be available at:
+    %s
+
+The full run log of this run:
+------------------------------------------------------------------------------
+%s
+------------------------------------------------------------------------------"""
+        
+        # get logfile contents
+        logbody = ""
+        logfile = None
+        try:
+            log.target.close(); log.target = None
+            logfile = open(log.filename, 'r')
+            line = logfile.readline()
+            while line:
+                logbody += line
+                line = logfile.readline()
+            
+            logfile.close()
+            log.target = open(log.filename, 'w', 0)
+        except Exception, details:
+            if not log.target:
+                log.target = open(log.filename, 'w', 0)
+            log.error("Exception occurred reading log file: %s: %s" % (Exception, details))
+            if logfile: logfile.close()
+            if logbody == "":
+                logbody = "ERROR: unable to read logfile!"
+        
+        # construct full body
+        body = body % (options.hostname, options.starttime, options.name,
+                       Exception, details, options.logurl, logbody)
+        
+        # send it off
+        send_email(options.mailfrom, options.mailto, subject, body, options.mailserver,
+                   options.mailport)
+    else:
+        raise GumpConfigError, "Insufficient information in the workspace for sending e-mail."
+
 
 def start_engine(log,options):
     """
@@ -243,8 +305,10 @@ def main():
             _projects  = os.environ["GUMP_PROJECTS"]
         except:
             pass
-    except:
-        print "pygump: environment not setup properly. Please run pygump using the 'gump' script only."
+    except Exception, details:
+        print "ERROR: environment not setup properly. Please run pygump using the 'gump' script only."
+        print "ERROR: The reported exception:"
+        print "ERROR: %s: %s" % (Exception, details)
     
     # and some basic settings calculated from those
     _logdir        = os.path.join(_workdir, "log")
@@ -283,6 +347,9 @@ def main():
                       default=False)
     options, args = parser.parse_args()
     
+    options.starttime = time.strftime('%d %b %Y %H:%M:%S', time.localtime())
+    options.starttimeutc = time.strftime('%d %b %Y %H:%M:%S', time.gmtime())
+    
     # create logger
     log = Logger(options.logdir)
     try:
@@ -294,8 +361,8 @@ def main():
         log.info("  (the detailed log is written to %s)" % (log.filename) )
         log.debug('  - hostname           : ' + options.hostname)
         log.debug('  - homedir            : ' + options.homedir)
-        log.debug('  - current time       : ' + time.strftime('%d %b %Y %H:%M:%S', time.localtime()))
-        log.debug('  - current time (UTC) : ' + time.strftime('%d %b %Y %H:%M:%S', time.gmtime()))
+        log.debug('  - current time       : ' + options.starttime)
+        log.debug('  - current time (UTC) : ' + options.starttimeutc)
         log.debug('  - python version     : ' + sys.version)
         log.debug('  - python command     : ' + pythoncmd)
         
@@ -325,13 +392,14 @@ def main():
             # finally: fire us up!
             start_engine(log, options)
             log.info("Run completed!")
+            raise GumpConfigError, "Sample error"
         except Exception, details:
             # this is not good. Send e-mail to the admin, complaining rather loudly.
-            log.error("gump: an uncaught exception occurred: %s\n%s" % (Exception, details))
+            log.error("an uncaught exception occurred: %s: %s" % (Exception, details))
             try:
-                send_error_email(Exception, details, log)
+                send_error_email(Exception, details, options, log)
             except Exception, details:
-                log.error("gump: additionally, an error occurred sending an e-mail about that exception: " + details)
+                log.error("Unable to send e-mail to administrator: %s: %s" % (Exception, details))
                 pass
             
             sys.exit(1)
@@ -340,3 +408,5 @@ def main():
             log.close()
         except:
             pass
+    
+    sys.exit(0)
