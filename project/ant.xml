@@ -114,6 +114,7 @@
     <ant target="run-tests">
       <property name="test.haltonfailure" value="false"/>
       <property name="have.cvs" value="true"/>
+      <property name="ant.home" reference="home" project="ant"/>
     </ant>
 
     <depend project="ant-testutil" inherit="all"/>
