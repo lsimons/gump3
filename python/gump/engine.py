@@ -493,7 +493,7 @@ class GumpEngine:
         #   
         # Display report output...
         #
-        if project.hasReport():
+        if project.hasReports():
             project.addInfo('Project produces reports')    
             for report in project.getReports():
                 reportDir=report.getResolvedPath() 
