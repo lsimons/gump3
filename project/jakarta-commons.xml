@@ -32,7 +32,7 @@
     </ant>
     <depend project="ant" inherit="runtime"/>
     <depend project="xml-xerces"/>
-    <depend project="commons-logging"/>
+    <depend project="commons-logging" runtime="true"/>
     <depend project="junit"/>
     <home nested="beanutils/dist"/>    
     <work nested="beanutils/target/classes"/>
@@ -410,7 +410,7 @@
     </ant>
     <depend project="ant" inherit="runtime"/>
     <depend project="jakarta-site2" inherit="all"/>
-    <depend project="commons-beanutils-core" runtime="true"/>
+    <depend project="commons-beanutils-core" runtime="true" inherit="runtime"/>
     <work nested="jxpath/target/classes"/>
     <work nested="jxpath/target/test-classes"/>
     <home nested="jxpath/dist"/>
