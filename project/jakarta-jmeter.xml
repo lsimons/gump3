@@ -15,7 +15,7 @@
   limitations under the License.
 -->
 <module name="jakarta-jmeter">
-<!-- Version $Revision: 1.85 $ Last updated $Date: 2004/03/19 13:23:53 $ -->
+<!-- Version $Revision: 1.86 $ Last updated $Date: 2004/03/20 11:20:01 $ -->
   <url href="http://jakarta.apache.org/jmeter/" />
   <description>
     Pure Java load testing and performance measurement tool.
@@ -28,10 +28,10 @@
     <package>org.apache.jmeter</package>
 
     <ant target="gump-compile">
-      <property name="version" value="@@DATE@@"/>
+      <property name="jmeter.version" value="@@DATE@@"/>
       <property name="gump.run" value="true"/>
       <!-- The version of this file -->
-      <property name="version.projectfile" value="$Revision: 1.85 $"/>
+      <property name="version.projectfile" value="$Revision: 1.86 $"/>
       
       <!--
       	These properties are passed to the build process, so the names need to agree with
@@ -90,10 +90,10 @@
     <package>org.apache.jmeter</package>
 
     <ant target="gump-build">
-      <property name="version" value="@@DATE@@"/>
+      <property name="jmeter.version" value="@@DATE@@"/>
       <property name="gump.run" value="true"/>
       <!-- The version of this file -->
-      <property name="version.projectfile" value="$Revision: 1.85 $"/>
+      <property name="version.projectfile" value="$Revision: 1.86 $"/>
     </ant>
 
     <depend project="ant" />
@@ -160,10 +160,10 @@
   <project name="jakarta-jmeter-test">
     <package>org.apache.jmeter</package>
     <ant target="gump-test">
-      <property name="version" value="@@DATE@@"/>
+      <property name="jmeter.version" value="@@DATE@@"/>
       <property name="gump.run" value="true"/>
       <!-- The version of this file -->
-      <property name="version.projectfile" value="$Revision: 1.85 $"/>
+      <property name="version.projectfile" value="$Revision: 1.86 $"/>
     </ant>
 
     <depend project="ant" />
@@ -221,10 +221,10 @@
   <project name="jakarta-jmeter-javadoc">
     <package>org.apache.jmeter</package>
     <ant target="gump-javadoc">
-      <property name="version" value="@@DATE@@"/>
+      <property name="jmeter.version" value="@@DATE@@"/>
       <property name="gump.run" value="true"/>
       <!-- The version of this file -->
-      <property name="version.projectfile" value="$Revision: 1.85 $"/>
+      <property name="version.projectfile" value="$Revision: 1.86 $"/>
     </ant>
 
     <depend project="ant" />
