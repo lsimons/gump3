@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/model/project.py,v 1.55 2004/02/24 19:32:28 ajack Exp $
-# $Revision: 1.55 $
-# $Date: 2004/02/24 19:32:28 $
+# $Header: /home/stefano/cvs/gump/python/gump/model/project.py,v 1.56 2004/02/26 17:22:35 ajack Exp $
+# $Revision: 1.56 $
+# $Date: 2004/02/26 17:22:35 $
 #
 # ====================================================================
 #
@@ -816,6 +816,11 @@ class Project(NamedModelObject, Statable):
         cmd.addPrefixedParameter('-D','java.awt.headless','true','=')
     
         #
+        # This helps ant maintain VM information for sub-VMs it launches.
+        #
+        cmd.addPrefixedParameter('-D','build.clonevm','true','=')
+        
+        #
         # Add BOOTCLASSPATH
         #
         if bootclasspath:
@@ -836,7 +841,6 @@ class Project(NamedModelObject, Statable):
         #	This sets the *defaults*, a workspace could override them.
         #
         cmd.addPrefixedParameter('-D','build.sysclasspath','only','=')
-        cmd.addPrefixedParameter('-D','build.clonevm','true','=')
     
         mergeFile=self.getWorkspace().getMergeFile()
         if mergeFile:
@@ -993,8 +997,8 @@ class Project(NamedModelObject, Statable):
             if jvmarg.value:
                 args.addParameter(jvmarg.value)
             else:
-                log.error('Bogus JVM Argument w/ Value')
-            
+                log.error('Bogus JVM Argument w/ Value')            
+        
         return args
   
     def getAntProperties(self):
