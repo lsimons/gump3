@@ -237,9 +237,10 @@
         <tr>
           <td>dir</td>
           <td>This attribute tells where the physical directory associated with
-          the url can be found.  <b>Note:</b> the code which copies the
-          javadocs to this directory is currently not integrated into Gump.
-          This will be corrected shortly.</td>
+          the url can be found.  <b>Note:</b> the script which copies the
+          javadocs to this directory is named pubdoc.pl and is placed in the
+          work subdirectory of gump.  Normally, it would be executed
+          immediately after a "build all"</td>
           <td>No</td>
         </tr>
       </table>

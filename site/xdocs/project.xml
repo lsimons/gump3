@@ -272,6 +272,27 @@
       </table>
     </subsection>
 
+    <subsection name="javadoc">
+      <p>This declares where the outputs of the
+      <a href="http://java.sun.com/j2se/javadoc/index.html">javadoc</a> tool
+      outputs are placed.  This option only has any meaning if the
+      <a href="workspace.html#javadoc">&lt;javadoc&gt;</a> element is present
+      in the workspace definition.</p>
+
+      <table>
+        <tr>
+          <th>Attribute</th>
+          <th>Description</th>
+          <th>Required?</th>
+        </tr>
+        <tr>
+          <td>nested</td>
+          <td>Name of a directory or file, relative to the srcdir of the module
+          containing this project.</td>
+          <td>No</td>
+        </tr>
+      </table>
+    </subsection>
   </section>
 </body>
 </document>

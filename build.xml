@@ -87,13 +87,19 @@
       classpath="jenny.jar"/>
   </target>
 
+  <!-- Generate publish instructions for the javadocs -->
+  <target name="pubdocs" depends="gen">
+    <style in="work/merge.xml" out="work/pubdoc.pl" 
+           style="stylesheet/pubdocs.xsl"/>
+  </target>
+
   <!-- Produce the gump web site -->
   <target name="site">
     <ant dir="site"/>
   </target>
 
   <!-- Do everything -->
-  <target name="all" depends="scripts,javadocs,site"/>
+  <target name="all" depends="scripts,javadocs,pubdocs,site"/>
 
   <!-- Remove all outputs and intermediate results -->
   <target name="clean">
