@@ -20,7 +20,6 @@
     <depend project="werken.xpath"/>
     <depend project="junit"/>
     <depend project="jakarta-log4j"/>
-    <depend project="bcel"/>
     <depend project="commons-collections" runtime="true"/>
     <home nested="bin"/>
     <jar name="velocity-@@DATE@@.jar"/>
