@@ -15,10 +15,10 @@ if test "$OSTYPE" = "cygwin32" -o "$OSTYPE" = "cygwin"; then
   test -z "$1" && export SOURCE=`hostname`.xml
 
   export CLASSPATH=`cygpath --path --unix "$CLASSPATH"`
-  export CLASSPATH=.:$XALAN/bin/xerces.jar:$XALAN/bin/xalan.jar:$CLASSPATH
+  export CLASSPATH=.:jenny.jar:$XALAN/bin/xerces.jar:$XALAN/bin/xalan.jar:$CLASSPATH
   export CLASSPATH=`cygpath --path --windows "$CLASSPATH"`
 else
-  export CLASSPATH=.:$XALAN/bin/xerces.jar:$XALAN/bin/xalan.jar:$CLASSPATH
+  export CLASSPATH=.:jenny.jar:$XALAN/bin/xerces.jar:$XALAN/bin/xalan.jar:$CLASSPATH
   test -z "$1" && export SOURCE=`hostname`.xml
 fi
 
@@ -33,7 +33,7 @@ mkdir classes
 javac -d classes java/*.java || export FAIL=1
 jar cf jenny.jar -C classes . || export FAIL=1
 echo
-java -classpath jenny.jar:$CLASSPATH Jenny $SOURCE || export FAIL=1
+java -classpath "$CLASSPATH" Jenny $SOURCE || export FAIL=1
 
 # ********************************************************************
 
