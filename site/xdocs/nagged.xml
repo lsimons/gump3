@@ -1,0 +1,86 @@
+<?xml version="1.0"?>
+<document>
+
+  <properties>
+    <author email="rubys@us.ibm.com">Sam Ruby</author>
+    <title>Gump</title>
+  </properties>
+
+<body>
+
+  <section name="I got nagged!  Now what?">
+
+  <p>
+    Gump can be configured to send out e-mails to anywhere based on finding
+    any regular expression of your choosing in the output web page.  This most
+    often is done to inform developers of build or test failures.  While the
+    appropriate response to each message will depend on the individual
+    circumstances, generally the correct response involves actually talking
+    to someone about it.
+  </p>
+
+  <p>
+    In short, Gump doesn't tell you what to do, but it does tend to let you
+    know when would be a good time to actually talk to someone about a change
+    that might impact you.
+  </p>
+
+  <subsection name="intra-project oops's">
+    <p>This is actually the most common type of error found by Gump.  Somebody
+    checked something in and it either doesn't compile outright, or doesn't
+    work with some other change within the same project.  The most common
+    instance of this is somebody creating a new file on their machine and
+    forgetting to add it to cvs.</p>
+
+    <p>While in an ideal world, this should never happen, and people should
+    verify every change before committing, realize that it happens to all of
+    us.  What is important is that it is quickly responded to.</p>
+  </subsection>
+
+  <subsection name="cross-project breakages">
+    <p>These problems are comparatively infrequent, but when you track enough
+    projects, there generally is an instance of this somewhere.  And if it is
+    somewhere, Gump will generally find it.</p>
+
+    <p>The first thing to realize is that the Gump message is merely
+    informational.  The correct response may be to convince the project that
+    made the change to consider another design alternative that is backwards
+    compatible.  As a general rule, this is the preferred approach</p>
+
+    <p>For some changes, this may not be practical.  For others, the API in
+    question may actually have already been deprecated for an extended period
+    of time, and is now just finally being removed.  Many times, you can find a
+    change which works with both the old and new version.  This is ideal as
+    it helps decouple the releases - people who keep current with your software
+    can choose when they want to upgrade your dependencies.</p>
+
+    <p>When all else fails, you need to make a choice as to how to proceed.
+    Keeping up with the absolute latest changes is probably the way to go if
+    the next release of your software is likely to be a ways off.  If, on the
+    other hand, you are close to a release boundary - holding off until after
+    you release is likely the prudent approach.  Unless you ask for the
+    reminders to be turned off, you will continue to be reminded, but remember
+    it is up to you to decide what to do with this information.</p>
+  </subsection>
+
+  <subsection name="Gump goofs">
+    <p>Gump is software, and therefore may introduce bugs.  It also may build
+    your project in a way different than you traditionally do.  In particular,
+    the dependencies must be declared to Gump prior to the build, and can not
+    change during the course of a build.</p>
+
+    <p>The most common occurrence of problems here is introducing a new
+    dependency without the Gump project definition being updated.  A note
+    to <a href="mailto:alexandria-dev@jakarta.apache.org">
+    alexandria-dev@jakarta.apache.org</a> letting us know what is going on
+    is appreciated when this occurs.</p>
+
+    <p>Of course, you should always send e-mail if you suspect that Gump itself
+    is the cause.</p>
+  </subsection>
+
+  </section>
+
+</body>
+</document>
+

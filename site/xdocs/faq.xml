@@ -1,0 +1,256 @@
+<?xml version="1.0"?>
+<document>
+
+  <properties>
+    <author email="rubys@us.ibm.com">Sam Ruby</author>
+    <title>Gump</title>
+  </properties>
+
+<body>
+
+  <section name="Frequently Asked Questions">
+
+    <table>
+      <tr>
+        <td><a name="1">1.</a></td>
+        <td>
+          <table>
+            <tr>
+              <th valign="top">Q:</th>
+              <td>Which version of Ant (or JUnit or log4j or...) does Gump
+              use?</td>
+            </tr>
+            <tr>
+              <th valign="top">A:</th>
+              <td>The latest from cvs.</td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+
+      <tr>
+        <td><a name="2">2.</a></td>
+        <td>
+          <table>
+            <tr>
+              <th valign="top">Q:</th>
+              <td>Gump is building the latest version of everything?  That
+              could never work, could it?  How can you debug anything when
+              you have so many variables to deal with?</td>
+            </tr>
+            <tr>
+              <th valign="top">A:</th>
+              <td>It isn't as hard as it seems.  Getting it to work initially
+              was done by incrementally adding one project at a time.  Keeping
+              it working is only requires a small amount of effort over a long
+              period of time.  
+              <p>When builds are "mostly" clean and frequent, isolating
+              problems is fairly easy.  Rollback projects one by one until the
+              problem disappears, and then reapply changes within that project
+              one by one until the problem reappears.  I've used this technique
+              numerous times to produce test cases and patches to projects
+              that I know virtually nothing about their internal design.</p>
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+
+      <tr>
+        <td><a name="3">3.</a></td>
+        <td>
+          <table>
+            <tr>
+              <th valign="top">Q:</th>
+              <td>I've just got a "nag" e-mail about a failure...what
+              should I do about it?</td>
+            </tr>
+            <tr>
+              <th valign="top">A:</th>
+              <td>This question deserves it's own
+              <a href="nagged.html">web page</a>.</td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+
+      <tr>
+        <td><a name="4">4.</a></td>
+        <td>
+          <table>
+            <tr>
+              <th valign="top">Q:</th>
+              <td>I've got a fix, how do I get Gump to pick it up?</td>
+            </tr>
+            <tr>
+              <th valign="top">A:</th>
+              <td>Check it into cvs.</td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+
+      <tr>
+        <td><a name="5">5.</a></td>
+        <td>
+          <table>
+            <tr>
+              <th valign="top">Q:</th>
+              <td>I checked in a fix, how do I know if Gump picked it up?</td>
+            </tr>
+            <tr>
+              <th valign="top">A:</th>
+              <td>On the build log, click on the link marked <us>cvs</us>.  It 
+              will tell you when the latest cvs update or checkout was 
+              performed and what source files were obtained in the process.</td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+
+      <tr>
+        <td><a name="6">6.</a></td>
+        <td>
+          <table>
+            <tr>
+              <th valign="top">Q:</th>
+              <td>How do I get nagging to stop (or start)?</td>
+            </tr>
+            <tr>
+              <th valign="top">A:</th>
+              <td>If there is consensus on your project, send an e-mail to
+              <a href="mailto:alexandria-dev@jakarta.apache.org">
+              alexandria-dev@jakarta.apache.org</a> letting us know what
+              the outcome was, and it will be respected.</td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+
+      <tr>
+        <td><a name="7">7.</a></td>
+        <td>
+          <table>
+            <tr>
+              <th valign="top">Q:</th>
+              <td>My project depends on a specific version of a dependency,
+              how can I get Gump to use that version?</td>
+            </tr>
+            <tr>
+              <th valign="top">A:</th>
+              <td>The combinatorics of building each project with distinct
+              versions of its dependencies is a bit too much for me to track.
+              If the dependent project is undergoing a major revision, and the
+              prior version is still actively supported, exceptions may be made.
+              Otherwise, feel free to set up your own builds, with or without
+              using the codebase of Gump to track the set of dependencies that
+              interest you.</td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+
+      <tr>
+        <td><a name="8">8.</a></td>
+        <td>
+          <table>
+            <tr>
+              <th valign="top">Q:</th>
+              <td>I've got a change I would like to make to the project
+              definition for a project I'm a committer on...how do I get
+              the change to be made?</td>
+            </tr>
+            <tr>
+              <th valign="top">A:</th>
+              <td>Submit a patch to 
+              <a href="mailto:alexandria-dev@jakarta.apache.org">
+              alexandria-dev@jakarta.apache.org</a>.  If this is likely to 
+              become a regular occurrence, and you demonstrate some ability to 
+              work with (or even run) the existing code base, then we'll 
+              likely vote you in as a committer.
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+
+      <tr>
+        <td><a name="9">9.</a></td>
+        <td>
+          <table>
+            <tr>
+              <th valign="top">Q:</th>
+              <td>How do I get a project to be added to Gump?  Must it
+              be an Apache project?</td>
+            </tr>
+            <tr>
+              <th valign="top">A:</th>
+              <td>Send an e-mail (preferably a patch) to
+              <a href="mailto:alexandria-dev@jakarta.apache.org">
+              alexandria-dev@jakarta.apache.org</a>.  Being Apache related
+              (i.e, used by or a consumer of other Apache projects) helps,
+              but is not required.  What is important is that your code be
+              publicly accessible via cvs and that it be buildable in an
+              OS independent manner.</td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+
+      <tr>
+        <td><a name="10">10.</a></td>
+        <td>
+          <table>
+            <tr>
+              <th valign="top">Q:</th>
+              <td>Shouldn't the project definitions for a project be kept
+              within the project itself?</td>
+            </tr>
+            <tr>
+              <th valign="top">A:</th>
+              <td>That was part of the original design (in fact, you will
+              notice that all modules are referenced via "href" attributes.)
+              When the project was completely XSLT based, it probably worked,
+              but now that part is in Java, so it will require a small amount
+              of code.  All that code is in one place, so it should be
+              relatively straightforward to address this need.  There still
+              will need to be a small amount of "locator" information in
+              Gump, but the contents of the project definition could be
+              elsewhere.
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+
+      <tr>
+        <td><a name="11">11.</a></td>
+        <td>
+          <table>
+            <tr>
+              <th valign="top">Q:</th>
+              <td>Why is Gump merely a "proposal" and not a Jakarta subproject?
+              </td>
+            </tr>
+            <tr>
+              <th valign="top">A:</th>
+              <td><p>While it has a large user base (developers who find this
+              information helpful and base decisions on the results), Gump
+              itself does not enjoy a large development community.  Once more
+              people actually run the tool themselves and a few submit an
+              occasional patch, it will be.</p>
+              <p>And there still is a faint hope that the embers still 
+              smoldering in the Alexandria community will reignite, and a
+              merging of the two code bases will make sense.</p>
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+
+    </table>
+
+  </section>
+</body>
+</document>
+
