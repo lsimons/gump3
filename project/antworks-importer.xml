@@ -21,20 +21,20 @@
     <project name="antworks-importer" fullname="Antworks Importer">
         <package>org.krysalis.antworks.importer</package>
         <ant buildfile="build-bootstrap.xml" target="gump">
-            <property name="project.version" value="0.1-gump-@@DATE@@"/>
+            <property name="project.version" value="0.2-gump-@@DATE@@"/>
         </ant>
         <depend project="ant" inherit="runtime"/>
-        <jar name="dist/antworks-importer-0.1-gump-@@DATE@@.jar"/>
+        <jar name="dist/antworks-importer-0.2-gump-@@DATE@@.jar"/>
         <nag to="antworks-developers@lists.sourceforge.net" from="nick@chalko.com"/>
     </project>
     <project name="antworks-importer-with-depot" fullname="Antworks Importer with Depot">
         <package>org.krysalis.antworks.importer</package>
         <ant buildfile="build.xml" target="gump">
-            <property name="project.version" value="0.1-gump-@@DATE@@"/>
+            <property name="project.version" value="0.2-gump-@@DATE@@"/>
         </ant>
         <depend project="ant" inherit="runtime"/>
         <depend project="depot-update" inherit="runtime"/>
-        <jar name="dist/antworks-importer-0.1-gump-@@DATE@@.jar"/>
+        <jar name="dist/antworks-importer-0.2-gump-@@DATE@@.jar"/>
         <nag to="antworks-developers@lists.sourceforge.net" from="nick@chalko.com"/>
     </project>
 </module>
