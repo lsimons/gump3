@@ -63,13 +63,24 @@
          to="ant-dev@jakarta.apache.org"/>
   </project>
 
-  <project name="test-ant">
-    <mkdir dir="build/testcases"/>
-    <ant target="run-tests"/>
+  <project name="jakarta-ant-testutil">
+    <ant target="test-jar"/>
 
     <depend project="dist-ant" inherit="hard"/>
-    <option project="xml-commons-which"/>
     <option project="jakarta-tomcat-4.0" ids="jasper-compiler jasper-runtime"/>
+
+    <home nested="build/lib"/>
+    <jar name="ant-testutil.jar" id="ant-testutil"/>
+
+    <nag from="Diane Holt &lt;holtdl@apache.org&gt;"
+         to="ant-dev@jakarta.apache.org"/>
+  </project>
+
+  <project name="test-ant">
+    <ant target="run-tests"/>
+
+    <depend project="jakarta-ant-testutil" inherit="all"/>
+    <option project="xml-commons-which"/>
 
     <work nested="build/testcases"/>
     <work nested="src/testcases"/>
