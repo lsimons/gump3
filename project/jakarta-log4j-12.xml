@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<module name="jakarta-log4j-12" tag="v1_2-branch">
+
+  <url href="http://jakarta.apache.org/log4j/index.html"/>
+  <description>
+    Fast and flexible logging package for Java
+  </description>
+
+  <cvs repository="jakarta" module="jakarta-log4j"/>
+  
+  <project name="jakarta-log4j-12">
+    <package>org.apache.log4j</package>
+
+    <ant target="jar">
+      <property name="version" value="@@DATE@@"/>
+    </ant>
+
+    <depend project="jakarta-ant" inherit="runtime"/>
+    <depend project="xml-xerces"/>
+    <option project="jms"/>
+    <option project="jmx"/>
+    <option project="junit"/>
+    <option project="javamail"/>
+
+    <home nested="dist"/>
+    <jar  name="lib/log4j-@@DATE@@.jar"/>
+    
+    <nag to="log4j-dev@jakarta.apache.org"
+         subject="Build Failure 1.2 branch"
+         from="Ceki Gülcü &lt;ceki@apache.org&gt;"/>
+  </project>
+
+  <project name="log4j-tests-12">
+
+    <mkdir dir="tests/classes" />
+
+    <ant basedir="tests" target="regression" />
+
+    <depend project="jakarta-ant" />
+    <depend project="xml-xerces" />
+    <depend project="junit" />
+    <depend project="jakarta-log4j-12" />
+    <depend project="jakarta-oro" />
+
+    <work nested="dist/classes" />
+    <work nested="tests/classes" />
+    <work nested="tests/resources" />
+
+    <nag to="log4j-dev@jakarta.apache.org"
+         subject="Test Failure 1.2 branch"
+         from="Ceki Gülcü &lt;ceki@apache.org&gt;"/>
+  </project>
+</module>

@@ -25,6 +25,7 @@
   <module href="project/jakarta-jetspeed.xml"/>
   <module href="project/jakarta-jmeter.xml"/>
   <module href="project/jakarta-log4j.xml"/>
+  <module href="project/jakarta-log4j-12.xml"/>
   <module href="project/jakarta-lucene.xml"/>
   <module href="project/jakarta-ojb.xml"/>
   <module href="project/jakarta-oro.xml"/>
