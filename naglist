@@ -409,4 +409,10 @@ To: xerces-j-dev@xml.apache.org
 From: Sam Ruby <rubys@us.ibm.com>
 Subject: [GUMP] Build Failure - Xerces2
 Regex: /BUILD FAILED/
+------
+Project: xml-xindice
+To: xindice-dev@xml.apache.org
+From: Sam Ruby <rubys@us.ibm.com>
+Subject: [GUMP] Build Failure - Xindice
+Regex: /BUILD FAILED/
 -------

@@ -63,6 +63,7 @@
   <module href="project/xml-xalan.xml"/>
   <module href="project/xml-xerces.xml"/>
   <module href="project/xml-xerces2.xml"/>
+  <module href="project/xml-xindice.xml"/>
 
   <!-- exolab -->
 
@@ -75,7 +76,6 @@
   <module href="project/bcel.xml"/>
   <module href="project/bsf.xml"/>
   <module href="project/cruisecontrol.xml"/>
-  <module href="project/dbxml.xml"/>
   <module href="project/dom4j.xml"/>
   <module href="project/hsqldb.xml"/>
   <module href="project/httpunit.xml"/>

@@ -1,0 +1,35 @@
+<module name="xml-xindice">
+
+  <url href="http://www.dbxml.org/"/>
+  <description>
+    native XML database
+  </description>
+
+  <cvs repository="xml"/>
+  
+  <project name="xml-xindice">
+    <ant/>
+    <depend project="jakarta-ant"/>
+    <depend project="xml-xerces"/>
+    <depend project="xmldb"/>
+    <depend project="infozone"/>
+    <depend project="xml-xalan2"/>
+    <depend project="openorb"/>
+    <jar name="java/lib/dbXML.jar"/>
+  </project>
+
+  <project name="xmldb">
+    <url href="http://www.xmldb.org/xapi/index.html"/>
+    <home nested="java/lib"/>
+    <jar name="xmldb.jar"/>
+    <jar name="xmldb-sdk.jar"/>
+  </project>
+
+  <project name="infozone">
+    <url href="http://infozone-group.org/"/>
+    <home nested="java/lib"/>
+    <jar name="infozone-lexus.jar"/>
+    <jar name="infozone-tools.jar"/>
+  </project>
+
+</module>
