@@ -227,13 +227,13 @@
         <!-- optional dependencies -->
         <option project="checkstyle" inherit="runtime"/>
 
-        <work nested="event/target/classes"/>
-        <work nested="event/target/test-classes"/>
+        <!--work nested="event/target/classes"/>
+        <work nested="event/target/test-classes"/-->
 
         <home nested="event"/>
-        <jar name="target/excalibur-event-@@DATE@@.jar"/>
+        <jar name="build/lib/excalibur-event-@@DATE@@.jar"/>
 
-        <junitreport nested="event/target/docs/junitreports"/>
+        <!--junitreport nested="event/target/docs/junitreports"/-->
 
         <nag from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"
                 to="dev@avalon.apache.org"/>
