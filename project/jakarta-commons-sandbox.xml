@@ -119,6 +119,10 @@
          from="Ted Husted &lt;ted@husted.com&gt;"/>
   </project>
 
+  <!--
+     Two missing dependencies, werkz and beanshell.
+     werkz needs Maven to build: http://werkz.sf.net
+     beanshell could be built from sources http://www.beanshell.org
   <project name="commons-jelly">
     <package>org.apache.commons.jelly</package>
     <description>Commons Jelly Package</description>
@@ -133,7 +137,7 @@
     <depend project="jaxen" />
     <depend project="jdbc" />
     <depend project="dom4j" />
-    <depend project="werken.xpath" />
+    <depend project="bsf" />
 
     <depend project="commons-beanutils" />
     <depend project="commons-collections" />
@@ -146,6 +150,7 @@
     <nag to="commons-dev@jakarta.apache.org"
          from="James Strachan &lt;jstrachan@apache.org&gt;"/>
   </project>
+  -->
   
   <project name="commons-jexl">
     <package>org.apache.commons.jexl</package>
