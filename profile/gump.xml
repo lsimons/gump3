@@ -257,6 +257,7 @@
   <module href="project/ldap.xml"/>
   <module href="project/msv.xml"/>
   <module href="project/tranquilo.xml"/>
+  <module href="project/stax.xml"/>
 
 <!-- java.net -->
 
@@ -312,6 +313,7 @@
   <project name="saxpath"          package="jaxen-1.0-FCS"/>
   <project name="saxon"            package="saxon7-9"/>
   <project name="saxon6"           package="saxon6_5_3"/>
+  <project name="stax"             package="stax"/>
   <project name="packaged-dom4j"   package="dom4j-1.4"/>
 
 
