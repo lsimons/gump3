@@ -12,16 +12,14 @@ fi
 test -n "$1" && export SOURCE=$1
 
 if test "$OSTYPE" = "cygwin32" -o "$OSTYPE" = "cygwin"; then
-  test -z "$1" && export SOURCE=`hostname`.xml
-
   export CLASSPATH=`cygpath --path --unix "$CLASSPATH"`
   export CLASSPATH=.:jenny.jar:$XALAN/bin/xerces.jar:$XALAN/bin/xalan.jar:$CLASSPATH
   export CLASSPATH=`cygpath --path --windows "$CLASSPATH"`
 else
   export CLASSPATH=.:jenny.jar:$XALAN/bin/xerces.jar:$XALAN/bin/xalan.jar:$CLASSPATH
-  test -z "$1" && export SOURCE=`hostname`.xml
 fi
 
+test -z "$1" && export SOURCE=`hostname | sed s/[.].*//`.xml
 test -d work && rm -rf work
 mkdir work
 
