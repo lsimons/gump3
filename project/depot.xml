@@ -53,7 +53,7 @@
         <package>org.apache.depot.common.test</package>
 
         <!-- Work dirs to be included in classpath  -->
-        <work nested="common/target/unit/classes"/>
+        <work nested="common/target/tests"/>
         <home nested="common/dist"/>
 
         <depend project="depot-common" inherit="all"/>
@@ -104,7 +104,7 @@
         <package>org.apache.depot.version.test</package>
 
         <!-- Work dirs to be included in classpath  -->
-        <work nested="version/target/unit/classes"/>
+        <work nested="version/target/tests"/>
         <home nested="version/dist"/>
 
         <depend project="depot-version" inherit="all"/>
@@ -188,7 +188,7 @@
         <package>org.apache.depot.update.test</package>
 
         <!-- Work dirs to be included in classpath  -->
-        <work nested="update/target/unit/classes"/>
+        <work nested="update/target/tests"/>
         <home nested="update/dist"/>
 
         <depend project="depot-update" inherit="all"/>
