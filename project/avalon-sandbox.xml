@@ -127,8 +127,4 @@
                 to="dev@avalon.apache.org"/>
     </project>
 
-    <project name="avalon-sandbox-qdox">
-        <jar name="info/lib/qdox-20021116-patched.jar"/>
-    </project>
-
 </module>
