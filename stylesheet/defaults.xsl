@@ -84,7 +84,8 @@
                                          not(@reference='srcdir')]">
 
         <xsl:variable name="dependency" select="@project"/>
-        <xsl:if test="not(../../depend[@project=$dependency])">
+        <xsl:if test="not(../../depend[@project=$dependency]) and
+                      not(../../option[@project=$dependency])">
 
           <xsl:variable name="position" select="position()"/>
           <xsl:if test="not(../property[position() &lt; $position and
