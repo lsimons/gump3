@@ -226,7 +226,7 @@ class RSSSyndicator(AbstractSyndicator):
                     'Apache Gump', \
                     'http://gump.apache.org/')
         
-    def prepareToSyndicate(self):
+    def prepareRun(self):
         
         # Main syndication document
         self.workspace=self.run.getWorkspace()   
@@ -239,7 +239,7 @@ class RSSSyndicator(AbstractSyndicator):
                     """Life is like a box of chocolates""", \
                 self.gumpImage))
        
-    def completeSyndication(self):
+    def completeRun(self):
         self.rss.serialize()
     
     def syndicateModule(self,module):
