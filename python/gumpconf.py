@@ -1,9 +1,9 @@
 #!/usr/bin/python
 """
-        Configuration for Gump, done as Python classes
+        Global configuration settings for gump, done as Python classes
 """
 
-import socket
+import socket, time
 
 class dir:
    base      = ".."
@@ -14,4 +14,6 @@ class default:
   workspace  = socket.gethostname().split('.')[0] + ".xml"
   project    = "krysalis-ruper-test"
   merge      = "merge.xml"
-
+  date       = time.strftime('%Y%m%d')
+  debug      = false
+  

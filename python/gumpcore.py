@@ -20,16 +20,6 @@ from gumputil import *
 from gumpconf import *
   
 #########################################################################
-#	  Global Settings                                                   #
-#########################################################################
-
-# output debug messages or not
-debug = False #True
-  
-# right now
-DATE=time.strftime('%Y%m%d')
-
-#########################################################################
 #	  SAX Dispatcher Mechanism                                          #
 #########################################################################
 
@@ -89,7 +79,7 @@ class GumpBase(object):
   def __init__(self,attrs):
     # parse out '@@DATE@@'
     for (name,value) in attrs.items():
-      self.__dict__[name]=value.replace('@@DATE@@',DATE)
+      self.__dict__[name]=value.replace('@@DATE@@',default.date)
     
     # setup internal character field
     if not '@text' in self.__dict__: self.init()
@@ -148,7 +138,7 @@ class Named(GumpBase):
     
     if href: 
       newHref=gumpCache(href)
-      if debug: print 'opening: ' + newHref + '\n'
+      if default.debug: print 'opening: ' + newHref + '\n'
       element=SAXDispatcher(open(newHref),cls.__name__.lower(),cls).docElement
     else:
       name=attrs.get('name')      
@@ -384,7 +374,7 @@ def dependencies(root, #string
                 print ("\nIt is needed for project `" + parent + "'.");
                 raise
 
-        if debug:
+        if default.debug:
           print '------------------------- VISITING ' + root
           
         for depend in project.depend:#+project.option:
