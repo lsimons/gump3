@@ -418,6 +418,7 @@
         <depend project="excalibur-lifecycle-impl"/>
         <depend project="excalibur-i18n"/>
         <depend project="excalibur-fortress-meta"/>
+        <depend project="excalibur-fortress-container-impl"/>
         <depend project="qdox"/>
         
         <!-- optional dependencies -->
@@ -425,6 +426,8 @@
 
         <mkdir dir="fortress/container-test/target/classes"/>
         <mkdir dir="fortress/container-test/target/test-classes"/>
+        <mkdir dir="fortress/container-test/target/test-reports"/>
+
         <work nested="fortress/container-test/target/classes"/>
         <work nested="fortress/container-test/target/test-classes"/>
 
