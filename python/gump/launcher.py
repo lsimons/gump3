@@ -90,6 +90,7 @@ class Parameter:
     def __init__(self,name,value=None,separator=' ',prefix=None):        
       #if not name:
       #    raise 'Unnamed Parameter'
+      if not name: log.error('Unnamed Parameter')
       self.name=name
       self.value=value
       self.separator=separator
@@ -254,17 +255,12 @@ class CmdResult:
         
         return overview
         
-    def tail(self,lines):
-        tail = "---------------------------------------------\n"
-        
-        
+    def tail(self,lines):                
         if self.output:
             from gump.tools import tailFileToString            
-            tail += tailFileToString(self.output,lines)
+            tail = tailFileToString(self.output,lines)
         else:
-            tail += "No output\n"
-            
-        tail += "---------------------------------------------\n"
+            tail = "No output\n"
             
         return tail
           

@@ -201,7 +201,9 @@ class CommandWorkItem(TimedWorkItem):
         overview=TimedWorkItem.overview(self)
         overview += self.command.overview()        
         if self.result:
+            overview += "---------------------------------------------\n"                
             overview+=self.result.tail(lines)            
+            overview += "---------------------------------------------\n"
         return overview
         
     def tail(self,lines=50):

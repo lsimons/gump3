@@ -893,7 +893,6 @@ def documentWork(workspace,work,dir):
                 if line: line+=' '
                 line+=part
         if line:
-            commandLine += '\n        '
             commandLine += line
         
         #
