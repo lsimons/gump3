@@ -1,7 +1,7 @@
 /*
- * $Header: /home/stefano/cvs/gump/java/Project.java,v 1.55 2003/04/10 07:48:24 bodewig Exp $
- * $Revision: 1.55 $
- * $Date: 2003/04/10 07:48:24 $
+ * $Header: /home/stefano/cvs/gump/java/Project.java,v 1.56 2003/04/10 09:51:12 bodewig Exp $
+ * $Revision: 1.56 $
+ * $Date: 2003/04/10 09:51:12 $
  *
  * ====================================================================
  *
@@ -462,7 +462,9 @@ public class Project {
 
             for (Enumeration d=p.dependsOn.keys(); d.hasMoreElements(); ) {
                 String name = (String) d.nextElement();
-                if (dependsOn.get(name) != null) continue;
+                if (hasFullDependencyOn(name)) {
+                    continue;
+                }
                 Element source = (Element) p.dependsOn.get(name);
                 String type = source.getNodeName();
 
@@ -512,12 +514,29 @@ public class Project {
         for (Enumeration e=inheritance.elements(); e.hasMoreElements(); ) {
             Element inherited = (Element) e.nextElement();
             String project = inherited.getAttribute("project");
-            if (dependsOn.get(project) == null) {
+            if (!hasFullDependencyOn(project)) {
+                Element depend = (Element) dependsOn.get(project);
+                if (depend != null && depend.getParentNode() != null) {
+                    depend.getParentNode().removeChild(depend);
+                }
                 inherited.setAttribute("inherited", "true");
                 dependsOn.put(project, inherited);
                 element.appendChild(inherited);
             }
         }
+    }
+
+    /**
+     * Whether this project already depends on the named project fully.
+     *
+     * <p>Fully means that it is not a "noclasspath" dependency, which
+     * in turn means we are going to return true if we'd already want
+     * the named project's jars on out classpath.</p>
+     */
+    private boolean hasFullDependencyOn(String name) {
+        Element depend = (Element) dependsOn.get(name);
+        return depend != null &&
+            depend.getElementsByTagName("noclasspath").getLength() == 0;
     }
 
     /**
