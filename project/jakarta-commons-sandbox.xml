@@ -123,9 +123,7 @@
   </project>
 
   <!--
-     Two missing dependencies, werkz and beanshell.
      werkz needs Maven to build: http://werkz.sf.net
-     beanshell could be built from sources http://www.beanshell.org
   <project name="commons-jelly">
     <package>org.apache.commons.jelly</package>
     <description>Commons Jelly Package</description>
@@ -146,7 +144,7 @@
     <depend project="velocity"/>
     <depend project="jdbc"/>
     <depend project="werkz"/>
-    <depend project="bsh"/>
+    <depend project="beanshell"/>
     <depend project="bsf"/>
     <depend project="ojb"/>
     <depend project="jms"/>
