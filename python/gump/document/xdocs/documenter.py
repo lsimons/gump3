@@ -1095,9 +1095,10 @@ This page helps Gumpmeisters (and others) observe community progress.
             
             projectRow.createData(project.getFullDependencyCount())
             
+            # Count unbuilt dependencies
             unbuilt=0
-            for project in project.getFullDependencyProjectList():
-                if not project.isSuccess():
+            for dep in project.getFullDependencyProjectList():
+                if not dep.isSuccess():
                     unbuilt+=1
             projectRow.createData(unbuilt)
             
