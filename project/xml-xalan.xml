@@ -89,7 +89,7 @@
     <depend project="xml-stylebook2"/>
     <option project="bsf"/>
 
-    <home nested="java/build/xalan-j_2_0_0"/>
+    <home nested="java/build/xalan-j_2_0_1"/>
     <jar  name="bin/xalan.jar"/>
   </project>
 
