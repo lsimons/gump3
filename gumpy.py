@@ -294,6 +294,7 @@ try:
         log.write('- GUMP run @         : ' + time.strftime('%d %b %y %H:%M:%S', time.localtime()) + '\n')
         log.write('- GUMP run @  UTC    : ' + time.strftime('%d %b %y %H:%M:%S', time.gmtime()) + '\n')
         log.write('- GUMP run by Python : ' + `sys.version` + '\n')
+        log.write('- GUMP run by Python : ' + `sys.executable` + '\n')
         log.write('- GUMP run by Gumpy  : ' + GUMPY_VERSION + '\n')
         log.write('- GUMP run on OS     : ' + `os.name` + '\n')
         log.write('- GUMP run in env    : \n')
@@ -317,6 +318,11 @@ try:
         if len(args)>1:
             projectsExpr=args[1]
             del args[1:2]      
+            
+        # Check version information
+        (major, minor, micro, releaselevel, serial) = sys.version_info
+        if not major >=2 and minor >= 3:
+            raise RuntimeError('Gump requires Python 2.3 or above. [' + sys.version() + ']')
             
         # Nope, can't find the workspace...
         if not os.path.exists(workspacePath):
@@ -413,7 +419,7 @@ try:
             command='gump/integrate.py'
             if check:
                 command='gump/check.py'
-            integrationExit = runCommand('python '+command, iargs, 'python')
+            integrationExit = runCommand(sys.executable+ ' '+command, iargs, 'python')
             if integrationExit:
                 result=1
 

@@ -18,6 +18,7 @@
     Manage Depot Interactions
 """
 import os
+import sys
 
 from gump import log
 from gump.core.config import *
@@ -37,7 +38,7 @@ def getDepotUpdatePath():
     
     
 def getDepotUpdateCmd():
-    return 'python '+getDepotUpdatePath()
+    return sys.executable+getDepotUpdatePath()
     
     
 
