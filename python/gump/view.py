@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/Attic/view.py,v 1.22 2003/05/04 21:56:22 nicolaken Exp $
-# $Revision: 1.22 $
-# $Date: 2003/05/04 21:56:22 $
+# $Header: /home/stefano/cvs/gump/python/gump/Attic/view.py,v 1.23 2003/05/04 22:44:03 rubys Exp $
+# $Revision: 1.23 $
+# $Date: 2003/05/04 22:44:03 $
 #
 # ====================================================================
 #
@@ -179,6 +179,7 @@ class gumpview(wxApp):
     notebook.AddPage(self.exports, 'exports')
     split2.SplitHorizontally(notebook, self.data)
     self.SetTopWindow(self.frame)
+    self.logsplitter.Unsplit(self.logview)
     self.frame.Show(true)
 
     # resize
@@ -250,10 +251,11 @@ class gumpview(wxApp):
 
   # help action
   def consoleAction(self,event):
-   if event.IsChecked():
-     self.logsplitter.SplitHorizontally(self.mainsplit, self.logview)
-   else:
+   if self.logsplitter.IsSplit():
      self.logsplitter.Unsplit(self.logview)
+   else:
+     self.logsplitter.SplitHorizontally(self.mainsplit, self.logview)
+     self.logview.Show()
     
   # select a single feed and display titles from each item
   def selectTree(self, event):
