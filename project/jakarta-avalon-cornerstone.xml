@@ -28,6 +28,7 @@
     <depend project="xml-xalan2"/>
     <depend project="jesktop"/>
     <depend project="hsqldb"/>
+    <depend project="bsf"/>
     <work nested="build/classes"/>
 
     <home nested="build/lib"/>
