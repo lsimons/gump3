@@ -299,6 +299,10 @@
 
         <package>org.krysalis.version</package>
 
+        <!-- Work dirs to be included in classpath  -->
+        <work nested="build/krysalis-version/classes"/>
+        <home nested="build/krysalis-version-ant"/>
+        
         <code type="java/plain" dir="src/main"/>
         <code type="cent/plain" dir="src/cent"/>
         <test type="test/junit" dir="src/test/main"/>
