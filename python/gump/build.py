@@ -1,8 +1,8 @@
 #!/usr/bin/python
 
-# $Header: /home/stefano/cvs/gump/python/gump/build.py,v 1.14 2003/09/26 19:09:52 ajack Exp $
-# $Revision: 1.14 $
-# $Date: 2003/09/26 19:09:52 $
+# $Header: /home/stefano/cvs/gump/python/gump/build.py,v 1.15 2003/09/26 21:47:22 ajack Exp $
+# $Revision: 1.15 $
+# $Date: 2003/09/26 21:47:22 $
 #
 # ====================================================================
 #
@@ -78,7 +78,7 @@ from gump.conf import dir, default, handleArgv
 from gump.model import Workspace, Module, Project
 from gump.launcher import Cmd, CmdResult, execute
 from gump.utils import dump
-from gump.tools import listDirectoryAsWork
+from gump.tools import listDirectoryAsWork, syncDirectories
 
 ###############################################################################
 # Initialize
