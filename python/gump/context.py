@@ -291,6 +291,11 @@ class StatePair:
         
     def __eq__(self,other):
         return self.state == other.state and self.reason == other.reason
+                
+    def __cmp__(self,other):
+        cmp = self.state < other.state
+        if not cmp: cmp = self.reason < other.reason
+        return cmp
         
 class Context:
     """Context for a single entity"""
@@ -346,8 +351,10 @@ class Context:
     def aggregateStates(self, states=None):
         if not states: states=[]
         pair=self.getStatePair()
+        # Add self, if not already there
         if not stateUnset(pair.state) and not pair in states: \
             states.append(pair)
+        # Subbordinates
         for ctxt in self:
             ctxt.aggregateStates(states)
         return states;

@@ -249,6 +249,8 @@ def documentWorkspace(workspace,context,db,moduleFilterList=None,projectFilterLi
     if workspace.version: 
         titledDataInTableXDoc(x,'Workspace Version', workspace.version)
     titledDataInTableXDoc(x,'Java Command', context.javaCommand)
+    titledDataInTableXDoc(x,'@@DATE@@', str(default.date))
+    
     endTableXDoc(x)
     endSectionXDoc(x)                
     
@@ -269,7 +271,7 @@ def documentWorkspace(workspace,context,db,moduleFilterList=None,projectFilterLi
     startSectionXDoc(x,'Modules')
     startTableXDoc(x)
     x.write('     <tr>')        
-    x.write('      <th>Name</th><th>State</th><th>Project State(s)</th><th>Elapsed Time</th>')
+    x.write('      <th>Name</th><th>Project State(s)</th><th>Elapsed Time</th>')
     x.write('     </tr>')
     mcount=0
     for mctxt in context:
@@ -279,8 +281,8 @@ def documentWorkspace(workspace,context,db,moduleFilterList=None,projectFilterLi
         mcount+=1
         (mhours, mmins, msecs) 	= mctxt.elapsedTime();
         x.write('     <tr><!-- %s -->' % (mname))        
-        x.write('      <td><link href=\'%s\'>%s</link></td><td>%s</td><td>%s</td>' % \
-          (getModuleRelativeUrl(mname),mname,stateName(mctxt.status),str(mctxt.aggregateStates())))    
+        x.write('      <td><link href=\'%s\'>%s</link></td><td>%s</td>' % \
+          (getModuleRelativeUrl(mname),mname,str(mctxt.aggregateStates())))    
         x.write('      <td>%s:%s:%s</td>' % (str(mhours),str(mmins),str(msecs)))    
         x.write('     </tr>')
     if not mcount: x.write('	<tr><td>None</td></tr>')
