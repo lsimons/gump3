@@ -10,7 +10,7 @@
   <project name="jakarta-avalon-phoenix">
     <package>org.apache.avalon.phoenix</package>
 
-    <ant target="dist">
+    <ant target="jars">
       <property name="checkstyle.failOnError" value="true"/>
       <property name="jakarta-site.dir" project="jakarta-site2"
                 reference="home" />
