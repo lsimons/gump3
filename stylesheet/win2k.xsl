@@ -380,6 +380,11 @@
       </xsl:for-each>
     </xsl:if>
 
+    <xsl:for-each select="jvmarg">
+      <xsl:text> </xsl:text>
+      <xsl:value-of select="@value"/>
+    </xsl:for-each>
+
     <xsl:text> org.apache.tools.ant.Main</xsl:text>
 
     <xsl:if test="@buildfile">

@@ -126,6 +126,25 @@
         </tr>
       </table>
     </subsection>
+
+    <subsection name="jvmarg">
+      <p>Additional command line parameters to pass to the Java
+          Virtual Machine running Ant.</p>
+
+      <table>
+        <tr>
+          <th>Attribute</th>
+          <th>Description</th>
+          <th>Required?</th>
+        </tr>
+        <tr>
+          <td>value</td>
+          <td>The parameter to pass to the command line.  This will be
+            passed verbatim without any additional quotes.</td>
+          <td>Yes</td>
+        </tr>
+      </table>
+    </subsection>
   </section>
 
 </body>

@@ -441,6 +441,11 @@
       </xsl:for-each>
     </xsl:if>
 
+    <xsl:for-each select="jvmarg">
+      <xsl:text> </xsl:text>
+      <xsl:value-of select="@value"/>
+    </xsl:for-each>
+
     <xsl:text> </xsl:text><xsl:value-of select="$ant-cmd"/>
 
     <xsl:if test="@buildfile">
