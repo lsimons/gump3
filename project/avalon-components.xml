@@ -38,7 +38,7 @@
 
     <home nested="build/lib"/>
 
-    <jar name="build/cornerstone-@@DATE@@.jar"/>
+    <jar name="cornerstone-@@DATE@@.jar"/>
 
     <javadoc nested="build/docs/api" module="avalon"/>
     <license name="LICENSE.txt"/>
