@@ -337,7 +337,7 @@ class Project(NamedModelObject, Statable, Resultable, Dependable, Positioned):
                     os.path.join(self.getModule().getWorkingDirectory(),
                                     nested))
             elif hasDomAttribute(home,'parent'):
-                nested=getDomAttributeValue(home,'parent')    
+                parent=getDomAttributeValue(home,'parent')    
                 self.home=os.path.abspath(
                     os.path.join(workspace.getBaseDirectory(),parent))
             else:

@@ -206,9 +206,18 @@ class Module(NamedModelObject, Statable, Resultable, Positioned):
                 
                 if owner.hasProject(name):
                     project=owner.getProject(name)
+                    
+                    # Hmm, safe even if duplicate?
+                    # Ought we detect before?
                     project.splice(pdom)                    
                     if not self.hasProject(name):
-                        self.addProject(project)
+                        if not project.inModule() or (project.getModule() == self):
+                            self.addProject(project)
+                        else:
+                            pass 
+                            # Duplicate project... Hmm
+                            # :TODO:
+                            
                 else:
                     project=Project(name,pdom,self)
                     self.addProject(project)

@@ -75,7 +75,7 @@ class Builder(ModelObject, PropertyContainer):
             # Name the xmlproperty...
             if hasDomAttribute(ddom,'property'):
                 pelement.setAttribute('name',getDomAttributeValue(ddom,'property'))
-            elif not hasDomAttribute(pdom,'name'):                   
+            elif not hasDomAttribute(pelement,'name'):                   
                 # :TODO: Reconsider later, but default to project name for now...
                 pname=getDomAttributeValue(ddom,'project')
                 pelement.setAttribute('name',pname)
@@ -83,7 +83,7 @@ class Builder(ModelObject, PropertyContainer):
         
             # :TODO: AJ added this, no idea if it is right/needed.
             if hasDomAttribute(ddom,'id'):
-                pelement.setAttribute('ids',getDomAttributeValue('id'))
+                pelement.setAttribute('ids',getDomAttributeValue(ddom,'id'))
             
             # <depend wants the classpath, unless <noclasspath/> stated
             # as a child element or attribute.
