@@ -2,7 +2,7 @@
 
   <url href="http://jakarta.apache.org/avalon/"/>
   <description>
-    Avalon framework and Component repository
+    Avalon Component repository
   </description>
 
   <cvs repository="jakarta"/>
@@ -12,6 +12,8 @@
        reference="jarpath" id="parser" project="xml-xerces"/>
     <property name="logkit.jar"
        reference="jarpath" id="logkit" project="jakarta-avalon-logkit"/>
+    <property name="framework.jar"
+       reference="jarpath" id="avalon-framework" project="jakarta-avalon"/>
   </ant>
 
   <depend project="jakarta-ant"/>
@@ -21,6 +23,7 @@
   <depend project="jakarta-avalon-testlet"/>
   <depend project="xml-xalan2"/>
   <depend project="kawa"/>
+  <option project="jdbc"/>
   <depend project="jdom"/>
  
   <work nested="build/classes"/>
@@ -35,7 +38,6 @@
 
   <project name="jakarta-avalon-clutil">
     <depend project="jakarta-ant"/>
-    <depend project="jakarta-avalon-logkit"/>
     <depend project="xml-xerces"/>
     <ant target="jar-clutil"/>
     <home nested="build/lib"/>

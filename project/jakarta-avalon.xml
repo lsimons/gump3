@@ -2,7 +2,7 @@
 
   <url href="http://jakarta.apache.org/avalon/"/>
   <description>
-    Avalon framework and Component repository
+    Avalon framework
   </description>
 
   <cvs repository="jakarta"/>
@@ -18,8 +18,6 @@
   <depend project="jakarta-avalon-logkit"/>
   <depend project="jakarta-avalon-testlet"/>
   <depend project="xml-xerces"/>
-  <depend project="jsse"/>
-  <depend project="jdbc"/>
   <depend project="xml-stylebook2"/>
 
   <home nested="build/lib"/>
