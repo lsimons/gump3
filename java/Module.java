@@ -213,7 +213,7 @@ public class Module {
                     writer = new PrintWriter(new FileWriter(cvspass, true));
                 }
                 String data = mangle(cvs.getAttribute("password"));
-                writer.println(cvsroot + " " + data);
+                writer.println(cvsroot + " A" + data);
             }
         }
 
