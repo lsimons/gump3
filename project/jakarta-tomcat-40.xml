@@ -39,4 +39,8 @@
   <depend project="jakarta-ant"/>
   <depend project="jakarta-servletapi-4"/>
   <option project="jakarta-avalon"/>
+  <option project="jakarta-avalon-phoenix"/>
+
+  <home nested="build"/>
+  <jar name="server/lib/catalina.jar"/>
 </project>
