@@ -19,6 +19,7 @@ IF "%HOME%"=="" SET HOME=C:\
 
 if exist work rmdir /s /q work
 mkdir work
+if not exist cache mkdir cache
 
 @REM ********************************************************************
 
@@ -101,12 +102,23 @@ echo Generate naglist
 java org.apache.xalan.xslt.Process -text -in work\merge.xml -xsl stylesheet\nag.xsl -out work\naglist
 if not errorlevel 0 goto fail
 
+echo Generate move instructions for cached files
+java org.apache.xalan.xslt.Process -xml -in work\merge.xml -xsl stylesheet\move.xsl -out work\move.xml
+if not errorlevel 0 goto fail
+
+echo Generate move script for cached files
+java org.apache.xalan.xslt.Process -text -in work\move.xml -xsl stylesheet\win2k.xsl -out work\move.bat
+if not errorlevel 0 goto fail
+
 @REM ********************************************************************
 
 echo Publishing
 cd work
 call puball ..\%SOURCE%
 cd ..
+
+echo saving cached files
+call work\move.bat
 
 goto eof
 :fail

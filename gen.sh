@@ -43,6 +43,7 @@ fi
 
 test -d work && rm -rf work
 mkdir work
+test -d cache || mkdir cache
 
 # ********************************************************************
 
@@ -147,6 +148,16 @@ test -n "$FAIL" || \
 java org.apache.xalan.xslt.Process -text -in work/merge.xml -xsl stylesheet/nag.xsl -out work/naglist || \
 export FAIL=1
 
+echo Generate move instructions for cached files
+test -n "$FAIL" || \
+java org.apache.xalan.xslt.Process -xml -in work/merge.xml -xsl stylesheet/move.xsl -out work/move.xml || \
+export FAIL=1
+
+echo Generate move script for cached files
+test -n "$FAIL" || \
+java org.apache.xalan.xslt.Process -text -in work/move.xml -xsl stylesheet/bash.xsl -out work/move.sh || \
+export FAIL=1
+
 # **** publish ***
 if test -z "$FAIL"; then
   echo
@@ -156,6 +167,9 @@ if test -z "$FAIL"; then
   bash puball.sh ../$SOURCE
   cd ..
 fi
+
+echo saving cached files
+test -n "$FAIL" || bash work/move.sh
 
 test -z "$FAIL" || echo "*** FAILED ***"
 

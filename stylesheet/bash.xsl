@@ -926,4 +926,13 @@
     </xsl:choose>
   </xsl:template>
 
+  <!-- =================================================================== -->
+  <!--          Generate the move script for the cached files              -->
+  <!-- =================================================================== -->
+
+  <xsl:template match="movefiles">
+    <xsl:text>#!/bin/bash&#10;</xsl:text>
+    <xsl:apply-templates/>
+  </xsl:template>
+
 </xsl:stylesheet>

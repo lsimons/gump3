@@ -1,13 +1,13 @@
 /*
- * $Header: /home/stefano/cvs/gump/java/Jenny.java,v 1.20 2002/12/12 03:17:23 conor Exp $
- * $Revision: 1.20 $
- * $Date: 2002/12/12 03:17:23 $
+ * $Header: /home/stefano/cvs/gump/java/Jenny.java,v 1.21 2003/01/16 17:04:46 bodewig Exp $
+ * $Revision: 1.21 $
+ * $Date: 2003/01/16 17:04:46 $
  *
  * ====================================================================
  *
  * The Apache Software License, Version 1.1
  *
- * Copyright (c) 1999-2002 The Apache Software Foundation.  All rights
+ * Copyright (c) 1999-2003 The Apache Software Foundation.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -171,7 +171,7 @@ public class Jenny {
        Attr href = node.getAttributeNode("href");
        
        if (href != null && !node.getNodeName().equals("url")) {
-           String source=href.getValue();
+           String source = href.getValue();
            if (source.startsWith("http://") && !online) {
                throw new ConnectException("Not online");
            }
@@ -189,6 +189,7 @@ public class Jenny {
                    source=source.substring(source.lastIndexOf("/")+1);
                }
 
+               String cacheName = getCachedNodeName(node);
                node.removeAttribute("href");
                node.setAttribute("defined-in", source);
 
@@ -220,6 +221,7 @@ public class Jenny {
                    output (sub, "work/" + prefix + source + ".xml");
                    node.setAttribute("defined-in", source);
                    node.setAttribute("extern-prefix",prefix);
+                   node.setAttribute("cache-as", cacheName);
                }
            }
        }
@@ -258,6 +260,35 @@ public class Jenny {
                    System.err.println("Failed to expand "
                                       + name.toString());
                    System.err.println("   - " + t);
+                   
+                   String cache = getCachedNodeName(elem);
+                   File f = new File(cache);
+                   if (f.exists()) {
+                       Node sub = parse(cache);
+                       Document doc = elem.getOwnerDocument();
+                       Element copy = null;
+                       Node firstNode = sub.getFirstChild();
+                       for (Node childNode = firstNode; childNode != null; 
+                            childNode = childNode.getNextSibling()) {
+                           if (childNode.getNodeType() == Node.ELEMENT_NODE) {
+                               copy = (Element)doc.importNode(childNode, true);
+                               break;
+                           }
+                       }
+
+                       moveChildren(elem, copy);
+
+                       elem.getParentNode().replaceChild(copy, elem);
+
+                       cache = cache.substring(6 /* "cache/".length() */,
+                                               cache.length() 
+                                               - 4 /* ".xml".length() */);
+
+                       copy.setAttribute("defined-in", cache);
+                       copy.setAttribute("extern-prefix", "../cache/");
+
+                       child = copy;
+                   }
                }
            }
        }
@@ -397,5 +428,16 @@ public class Jenny {
             e.printStackTrace();
             System.exit(99);
         }
+    }
+
+    /**
+     * Name of the cache file.
+     */
+    private String getCachedNodeName(Element node) {
+        String hrefAttribute = node.getAttribute("href");
+        return "cache/" 
+            + hrefAttribute.replace('/', '_').replace(':', '_')
+                           .replace('*', '_').replace('~', '_')
+            + ".xml";
     }
 }
