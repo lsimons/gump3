@@ -246,6 +246,10 @@ class ForrestDocumenter(Documenter):
         forrestWorkDir=self.getForrestWorkDirectory(workspace)
         logDirectory=workspace.getLogDirectory()
         
+        
+        workContents=os.path.abspath(os.path.join(forrestWorkDir,'contents'))
+        logContents=os.path.abspath(os.path.join(logDirectory,'contents'))
+        
         log.info('Syncronize work->log, and clean-up...')
             
         success=1
@@ -253,11 +257,13 @@ class ForrestDocumenter(Documenter):
             #
             # Sync over public pages...
             #
-            syncDirectories(forrestWorkDir,logDirectory)
+            syncDirectories(workContents,logContents)
+            
             # 
             # Clean up
             #
             wipeDirectoryTree(forrestWorkDir)
+            
         except:        
             log.error('--- Failed to work->log sync and/or clean-up', exc_info=1)
             success=0
@@ -578,8 +584,12 @@ class ForrestDocumenter(Documenter):
                     project.getModule().getStats().getLastUpdated()))
                     
             notes=''
-            if project.isVerbose(): notes += 'Verbose'
-            if project.isDebug(): notes += 'Debug'            
+            if project.isVerbose():
+                if notes: notes += ' '
+                notes += 'Verbose'
+            if project.isDebug():
+                if notes: notes += ' '
+                notes += 'Debug'            
             projectRow.createData(notes) 
                 
         if not pcount: projectsTable.createLine('None')
