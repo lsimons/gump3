@@ -1,12 +1,13 @@
-<module name="jakarta-commons-sandbox-jelly-tags">
+<module name="jelly-tags">
 
-  <cvs repository="jakarta" module="jakarta-commons-sandbox"/>
+  <cvs repository="jakarta" 
+    module="jakarta-commons-sandbox/jelly/jelly-tags"/>
 
   <project name="commons-jelly-tags-ant">
     <package>org.apache.commons.jelly.tags.ant</package>
     <description>This is a Jelly interface for Ant.</description>
 
-    <ant basedir="jelly/jelly-tags/ant" target="jar">
+    <ant basedir="ant" target="jar">
       <property name="final.name"  value="commons-jelly-tags-ant-@@DATE@@"/>
     </ant>
 
@@ -15,10 +16,10 @@
     <depend project="commons-jelly-tags-util"/>
     <depend project="commons-jelly-tags-junit"/>
 
-    <work nested="jelly/jelly-tags/ant/target/classes"/>
-    <work nested="jelly/jelly-tags/ant/target/test-classes"/>
+    <work nested="ant/target/classes"/>
+    <work nested="ant/target/test-classes"/>
 
-    <jar name="jelly/jelly-tags/ant/target/commons-jelly-tags-ant-@@DATE@@.jar"/>
+    <jar name="ant/target/commons-jelly-tags-ant-@@DATE@@.jar"/>
  
     <nag from="Morgan Delagrange &lt;mdelagra@yahoo.com&gt;"
          to="commons-dev@jakarta.apache.org"/>
@@ -29,19 +30,19 @@
     <description>This is a Jelly interface for Antlr.</description>
     
     <!-- maven-generated ant scripts don't work if there is no test directory -->
-    <mkdir dir="jelly/jelly-tags/antlr/src/test/"/>
+    <mkdir dir="antlr/src/test/"/>
 
-    <ant basedir="jelly/jelly-tags/antlr" target="jar">
+    <ant basedir="antlr" target="jar">
       <property name="final.name"  value="commons-jelly-tags-antlr-@@DATE@@"/>
     </ant>
 
     <depend project="commons-jelly" inherit="all"/>
     <depend project="antlr"/>
 
-    <work nested="jelly/jelly-tags/antlr/target/classes"/>
-    <work nested="jelly/jelly-tags/antlr/target/test-classes"/>
+    <work nested="antlr/target/classes"/>
+    <work nested="antlr/target/test-classes"/>
 
-    <jar name="jelly/jelly-tags/antlr/target/commons-jelly-tags-antlr-@@DATE@@.jar"/>
+    <jar name="antlr/target/commons-jelly-tags-antlr-@@DATE@@.jar"/>
  
     <nag from="Morgan Delagrange &lt;mdelagra@yahoo.com&gt;"
          to="commons-dev@jakarta.apache.org"/>
@@ -52,9 +53,9 @@
     <description>This is a Jelly interface for avalon.</description>
     
     <!-- maven-generated ant scripts don't work if there is no test directory -->
-    <mkdir dir="jelly/jelly-tags/avalon/src/test/"/>
+    <mkdir dir="avalon/src/test/"/>
 
-    <ant basedir="jelly/jelly-tags/avalon" target="jar">
+    <ant basedir="avalon" target="jar">
       <property name="final.name"  value="commons-jelly-tags-avalon-@@DATE@@"/>
     </ant>
 
@@ -62,10 +63,10 @@
     <depend project="commons-cli"/>
     <depend project="jakarta-avalon"/>
 
-    <work nested="jelly/jelly-tags/avalon/target/classes"/>
-    <work nested="jelly/jelly-tags/avalon/target/test-classes"/>
+    <work nested="avalon/target/classes"/>
+    <work nested="avalon/target/test-classes"/>
 
-    <jar name="jelly/jelly-tags/avalon/target/commons-jelly-tags-avalon-@@DATE@@.jar"/>
+    <jar name="avalon/target/commons-jelly-tags-avalon-@@DATE@@.jar"/>
  
     <nag from="Morgan Delagrange &lt;mdelagra@yahoo.com&gt;"
          to="commons-dev@jakarta.apache.org"/>
@@ -76,9 +77,9 @@
     <description> A tag library for mapping tags to beans using a similar approach to Ant.</description>
     
     <!-- maven-generated ant scripts don't work if there is no test directory -->
-    <mkdir dir="jelly/jelly-tags/bean/src/test/"/>
+    <mkdir dir="bean/src/test/"/>
 
-    <ant basedir="jelly/jelly-tags/bean" target="jar">
+    <ant basedir="bean" target="jar">
       <property name="final.name"  value="commons-jelly-tags-bean-@@DATE@@"/>
     </ant>
 
@@ -86,10 +87,10 @@
     <depend project="commons-jelly-tags-junit" inherit="all"/>
     <depend project="commons-jelly-tags-log" inherit="all"/>
 
-    <work nested="jelly/jelly-tags/bean/target/classes"/>
-    <work nested="jelly/jelly-tags/bean/target/test-classes"/>
+    <work nested="bean/target/classes"/>
+    <work nested="bean/target/test-classes"/>
 
-    <jar name="jelly/jelly-tags/bean/target/commons-jelly-tags-bean-@@DATE@@.jar"/>
+    <jar name="bean/target/commons-jelly-tags-bean-@@DATE@@.jar"/>
  
     <nag from="Morgan Delagrange &lt;mdelagra@yahoo.com&gt;"
          to="commons-dev@jakarta.apache.org"/>
@@ -100,9 +101,9 @@
     <description>This is a Jelly interface for BeanShell.</description>
     
     <!-- maven-generated ant scripts don't work if there is no test directory -->
-    <mkdir dir="jelly/jelly-tags/beanshell/src/test/"/>
+    <mkdir dir="beanshell/src/test/"/>
 
-    <ant basedir="jelly/jelly-tags/beanshell" target="jar">
+    <ant basedir="beanshell" target="jar">
       <property name="final.name"  value="commons-jelly-tags-beanshell-@@DATE@@"/>
     </ant>
 
@@ -111,10 +112,10 @@
 
     <depend project="commons-jelly-tags-junit" inherit="runtime"/>
 
-    <work nested="jelly/jelly-tags/beanshell/target/classes"/>
-    <work nested="jelly/jelly-tags/beanshell/target/test-classes"/>
+    <work nested="beanshell/target/classes"/>
+    <work nested="beanshell/target/test-classes"/>
 
-    <jar name="jelly/jelly-tags/beanshell/target/commons-jelly-tags-beanshell-@@DATE@@.jar"/>
+    <jar name="beanshell/target/commons-jelly-tags-beanshell-@@DATE@@.jar"/>
  
     <nag from="Morgan Delagrange &lt;mdelagra@yahoo.com&gt;"
          to="commons-dev@jakarta.apache.org"/>
@@ -124,7 +125,7 @@
     <package>org.apache.commons.jelly.tags.betwixt</package>
     <description>This is a Jelly interface for Betwixt.</description>
 
-    <ant basedir="jelly/jelly-tags/betwixt" target="jar">
+    <ant basedir="betwixt" target="jar">
       <property name="final.name"  value="commons-jelly-tags-betwixt-@@DATE@@"/>
     </ant>
 
@@ -134,10 +135,10 @@
     <depend project="commons-jelly-tags-junit" inherit="runtime"/>
     <depend project="commons-jelly-tags-log" inherit="runtime"/>
 
-    <work nested="jelly/jelly-tags/betwixt/target/classes"/>
-    <work nested="jelly/jelly-tags/betwixt/target/test-classes"/>
+    <work nested="betwixt/target/classes"/>
+    <work nested="betwixt/target/test-classes"/>
 
-    <jar name="jelly/jelly-tags/betwixt/target/commons-jelly-tags-betwixt-@@DATE@@.jar"/>
+    <jar name="betwixt/target/commons-jelly-tags-betwixt-@@DATE@@.jar"/>
  
     <nag from="Morgan Delagrange &lt;mdelagra@yahoo.com&gt;"
          to="commons-dev@jakarta.apache.org"/>
@@ -147,17 +148,17 @@
     <package>org.apache.commons.jelly.tags.bsf</package>
     <description> This is a Jelly interface for the Bean Scripting Framework.</description>
 
-    <ant basedir="jelly/jelly-tags/bsf" target="jar">
+    <ant basedir="bsf" target="jar">
       <property name="final.name"  value="commons-jelly-tags-bsf-@@DATE@@"/>
     </ant>
 
     <depend project="commons-jelly" inherit="all"/>
     <depend project="jakarta-bsf"/>
 
-    <work nested="jelly/jelly-tags/bsf/target/classes"/>
-    <work nested="jelly/jelly-tags/bsf/target/test-classes"/>
+    <work nested="bsf/target/classes"/>
+    <work nested="bsf/target/test-classes"/>
 
-    <jar name="jelly/jelly-tags/bsf/target/commons-jelly-tags-bsf-@@DATE@@.jar"/>
+    <jar name="bsf/target/commons-jelly-tags-bsf-@@DATE@@.jar"/>
  
     <nag from="Morgan Delagrange &lt;mdelagra@yahoo.com&gt;"
          to="commons-dev@jakarta.apache.org"/>
@@ -167,7 +168,7 @@
     <package>org.apache.commons.jelly.tags.define</package>
     <description> This is a Jelly taglib for defining new tags and tag libraries.</description>
 
-    <ant basedir="jelly/jelly-tags/define" target="jar">
+    <ant basedir="define" target="jar">
       <property name="final.name"  value="commons-jelly-tags-define-@@DATE@@"/>
     </ant>
 
@@ -179,10 +180,10 @@
     <depend project="commons-jelly-tags-log" inherit="all"/>
     <depend project="commons-jelly-tags-xml" inherit="all"/>
     
-    <work nested="jelly/jelly-tags/define/target/classes"/>
-    <work nested="jelly/jelly-tags/define/target/test-classes"/>
+    <work nested="define/target/classes"/>
+    <work nested="define/target/test-classes"/>
 
-    <jar name="jelly/jelly-tags/define/target/commons-jelly-tags-define-@@DATE@@.jar"/>
+    <jar name="define/target/commons-jelly-tags-define-@@DATE@@.jar"/>
  
     <nag from="Morgan Delagrange &lt;mdelagra@yahoo.com&gt;"
          to="commons-dev@jakarta.apache.org"/>
@@ -192,7 +193,7 @@
     <package>org.apache.commons.jelly.tags.dynabean</package>
     <description> This is a Jelly taglib for defining new tags and tag libraries.</description>
 
-    <ant basedir="jelly/jelly-tags/dynabean" target="jar">
+    <ant basedir="dynabean" target="jar">
       <property name="final.name"  value="commons-jelly-tags-dynabean-@@DATE@@"/>
     </ant>
 
@@ -201,10 +202,10 @@
     <!-- for unit tests -->
     <depend project="commons-jelly-tags-junit" inherit="all"/>
     
-    <work nested="jelly/jelly-tags/dynabean/target/classes"/>
-    <work nested="jelly/jelly-tags/dynabean/target/test-classes"/>
+    <work nested="dynabean/target/classes"/>
+    <work nested="dynabean/target/test-classes"/>
 
-    <jar name="jelly/jelly-tags/dynabean/target/commons-jelly-tags-dynabean-@@DATE@@.jar"/>
+    <jar name="dynabean/target/commons-jelly-tags-dynabean-@@DATE@@.jar"/>
  
     <nag from="Morgan Delagrange &lt;mdelagra@yahoo.com&gt;"
          to="commons-dev@jakarta.apache.org"/>
@@ -215,9 +216,9 @@
     <description>This is a Jelly interface for Email</description>
 
     <!-- maven-generated ant scripts don't work if there is no test directory -->
-    <mkdir dir="jelly/jelly-tags/email/src/test/"/>
+    <mkdir dir="email/src/test/"/>
     
-    <ant basedir="jelly/jelly-tags/email" target="jar">
+    <ant basedir="email" target="jar">
       <property name="final.name"  value="commons-jelly-tags-email-@@DATE@@"/>
     </ant>
 
@@ -225,10 +226,10 @@
     <depend project="jaf"/>
     <depend project="javamail"/>
 
-    <work nested="jelly/jelly-tags/email/target/classes"/>
-    <work nested="jelly/jelly-tags/email/target/test-classes"/>
+    <work nested="email/target/classes"/>
+    <work nested="email/target/test-classes"/>
 
-    <jar name="jelly/jelly-tags/email/target/commons-jelly-tags-email-@@DATE@@.jar"/>
+    <jar name="email/target/commons-jelly-tags-email-@@DATE@@.jar"/>
  
     <nag from="Morgan Delagrange &lt;mdelagra@yahoo.com&gt;"
          to="commons-dev@jakarta.apache.org"/>
@@ -238,7 +239,7 @@
     <package>org.apache.commons.jelly.tags.fmt</package>
     <description>This is a set of Jelly i18n tags.</description>
 
-    <ant basedir="jelly/jelly-tags/fmt" target="jar">
+    <ant basedir="fmt" target="jar">
       <property name="final.name"  value="commons-jelly-tags-fmt-@@DATE@@"/>
     </ant>
 
@@ -247,10 +248,10 @@
     <depend project="commons-jelly-tags-ant" inherit="runtime"/>
     <depend project="commons-jelly-tags-beanshell" inherit="runtime"/>
 
-    <work nested="jelly/jelly-tags/fmt/target/classes"/>
-    <work nested="jelly/jelly-tags/fmt/target/test-classes"/>
+    <work nested="fmt/target/classes"/>
+    <work nested="fmt/target/test-classes"/>
 
-    <jar name="jelly/jelly-tags/fmt/target/commons-jelly-tags-fmt-@@DATE@@.jar"/>
+    <jar name="fmt/target/commons-jelly-tags-fmt-@@DATE@@.jar"/>
  
     <nag from="Morgan Delagrange &lt;mdelagra@yahoo.com&gt;"
          to="commons-dev@jakarta.apache.org"/>
@@ -260,7 +261,7 @@
     <package>org.apache.commons.jelly.tags.html</package>
     <description>These Jelly tags can scrub commons errors in HTML syntax.</description>
 
-    <ant basedir="jelly/jelly-tags/html" target="jar">
+    <ant basedir="html" target="jar">
       <property name="final.name"  value="commons-jelly-tags-html-@@DATE@@"/>
     </ant>
 
@@ -268,10 +269,10 @@
     <depend project="commons-jelly-tags-xml"/>
     <depend project="commons-jelly-tags-junit"/>
 
-    <work nested="jelly/jelly-tags/html/target/classes"/>
-    <work nested="jelly/jelly-tags/html/target/test-classes"/>
+    <work nested="html/target/classes"/>
+    <work nested="html/target/test-classes"/>
 
-    <jar name="jelly/jelly-tags/html/target/commons-jelly-tags-html-@@DATE@@.jar"/>
+    <jar name="html/target/commons-jelly-tags-html-@@DATE@@.jar"/>
  
     <nag from="Morgan Delagrange &lt;mdelagra@yahoo.com&gt;"
          to="commons-dev@jakarta.apache.org"/>
@@ -281,7 +282,7 @@
     <package>org.apache.commons.jelly.tags.http</package>
     <description>These Jelly tags provide a simple XML syntax for HttpClient.</description>
 
-    <ant basedir="jelly/jelly-tags/http" target="jar">
+    <ant basedir="http" target="jar">
       <property name="final.name"  value="commons-jelly-tags-http-@@DATE@@"/>
     </ant>
 
@@ -289,10 +290,10 @@
     
     <depend project="commons-httpclient"/>
 
-    <work nested="jelly/jelly-tags/http/target/classes"/>
-    <work nested="jelly/jelly-tags/http/target/test-classes"/>
+    <work nested="http/target/classes"/>
+    <work nested="http/target/test-classes"/>
 
-    <jar name="jelly/jelly-tags/http/target/commons-jelly-tags-http-@@DATE@@.jar"/>
+    <jar name="http/target/commons-jelly-tags-http-@@DATE@@.jar"/>
  
     <nag from="Morgan Delagrange &lt;mdelagra@yahoo.com&gt;"
          to="commons-dev@jakarta.apache.org"/>
@@ -303,18 +304,18 @@
     <description>This is a Jelly interface to the user.</description>
     
     <!-- maven-generated ant scripts don't work if there is no test directory -->
-    <mkdir dir="jelly/jelly-tags/interaction/src/test/"/>
+    <mkdir dir="interaction/src/test/"/>
 
-    <ant basedir="jelly/jelly-tags/interaction" target="jar">
+    <ant basedir="interaction" target="jar">
       <property name="final.name"  value="commons-jelly-tags-http-@@DATE@@"/>
     </ant>
 
     <depend project="commons-jelly" inherit="all"/>
 
-    <work nested="jelly/jelly-tags/interaction/target/classes"/>
-    <work nested="jelly/jelly-tags/interaction/target/test-classes"/>
+    <work nested="interaction/target/classes"/>
+    <work nested="interaction/target/test-classes"/>
 
-    <jar name="jelly/jelly-tags/interaction/target/commons-jelly-tags-interaction-@@DATE@@.jar"/>
+    <jar name="interaction/target/commons-jelly-tags-interaction-@@DATE@@.jar"/>
  
     <nag from="Morgan Delagrange &lt;mdelagra@yahoo.com&gt;"
          to="commons-dev@jakarta.apache.org"/>
@@ -324,7 +325,7 @@
     <package>org.apache.commons.jelly.tags.jetty</package>
     <description>These are Jelly tags that can set up an in-process web server.</description>
 
-    <ant basedir="jelly/jelly-tags/jetty" target="jar">
+    <ant basedir="jetty" target="jar">
       <property name="final.name"  value="commons-jelly-tags-jetty-@@DATE@@"/>
     </ant>
 
@@ -334,10 +335,10 @@
     <depend project="jetty"/>
     <depend project="commons-jelly-tags-http"/>
 
-    <work nested="jelly/jelly-tags/jetty/target/classes"/>
-    <work nested="jelly/jelly-tags/jetty/target/test-classes"/>
+    <work nested="jetty/target/classes"/>
+    <work nested="jetty/target/test-classes"/>
 
-    <jar name="jelly/jelly-tags/jetty/target/commons-jelly-tags-jetty-@@DATE@@.jar"/>
+    <jar name="jetty/target/commons-jelly-tags-jetty-@@DATE@@.jar"/>
  
     <nag from="Morgan Delagrange &lt;mdelagra@yahoo.com&gt;"
          to="commons-dev@jakarta.apache.org"/>
@@ -347,7 +348,7 @@
     <package>org.apache.commons.jelly.tags.jms</package>
     <description>This is a Jelly interface for the Java Message Service.</description>
 
-    <ant basedir="jelly/jelly-tags/jms" target="jar">
+    <ant basedir="jms" target="jar">
       <property name="final.name"  value="commons-jelly-tags-jms-@@DATE@@"/>
     </ant>
 
@@ -356,10 +357,10 @@
     <depend project="commons-messenger"/>
     <depend project="jms"/>
 
-    <work nested="jelly/jelly-tags/jms/target/classes"/>
-    <work nested="jelly/jelly-tags/jms/target/test-classes"/>
+    <work nested="jms/target/classes"/>
+    <work nested="jms/target/test-classes"/>
 
-    <jar name="jelly/jelly-tags/jms/target/commons-jelly-tags-jms-@@DATE@@.jar"/>
+    <jar name="jms/target/commons-jelly-tags-jms-@@DATE@@.jar"/>
  
     <nag from="Morgan Delagrange &lt;mdelagra@yahoo.com&gt;"
          to="commons-dev@jakarta.apache.org"/>
@@ -369,7 +370,7 @@
     <package>org.apache.commons.jelly.tags.jsl</package>
     <description>The Jelly Stylesheet Library (JSL)</description>
 
-    <ant basedir="jelly/jelly-tags/jsl" target="jar">
+    <ant basedir="jsl" target="jar">
       <property name="final.name"  value="commons-jelly-tags-jsl-@@DATE@@"/>
     </ant>
 
@@ -382,10 +383,10 @@
     <depend project="commons-jelly-tags-junit" inherit="all"/>
     <depend project="commons-jelly-tags-log" inherit="all"/>
 
-    <work nested="jelly/jelly-tags/jsl/target/classes"/>
-    <work nested="jelly/jelly-tags/jsl/target/test-classes"/>
+    <work nested="jsl/target/classes"/>
+    <work nested="jsl/target/test-classes"/>
 
-    <jar name="jelly/jelly-tags/jsl/target/commons-jelly-tags-jsl-@@DATE@@.jar"/>
+    <jar name="jsl/target/commons-jelly-tags-jsl-@@DATE@@.jar"/>
  
     <nag from="Morgan Delagrange &lt;mdelagra@yahoo.com&gt;"
          to="commons-dev@jakarta.apache.org"/>
@@ -395,7 +396,7 @@
     <package>org.apache.commons.jelly.tags.junit</package>
     <description>The Jelly Unit Test Tags</description>
 
-    <ant basedir="jelly/jelly-tags/junit" target="jar">
+    <ant basedir="junit" target="jar">
       <property name="final.name"  value="commons-jelly-tags-junit-@@DATE@@"/>
     </ant>
 
@@ -403,10 +404,10 @@
     
     <depend project="junit" runtime="true"/>
 
-    <work nested="jelly/jelly-tags/junit/target/classes"/>
-    <work nested="jelly/jelly-tags/junit/target/test-classes"/>
+    <work nested="junit/target/classes"/>
+    <work nested="junit/target/test-classes"/>
 
-    <jar name="jelly/jelly-tags/junit/target/commons-jelly-tags-junit-@@DATE@@.jar"/>
+    <jar name="junit/target/commons-jelly-tags-junit-@@DATE@@.jar"/>
  
     <nag from="Morgan Delagrange &lt;mdelagra@yahoo.com&gt;"
          to="commons-dev@jakarta.apache.org"/>
@@ -417,19 +418,19 @@
     <description>The Jelly Logging Tags</description>
 
     <!-- maven-generated ant scripts don't work if there is no test directory -->
-    <mkdir dir="jelly/jelly-tags/log/src/test/"/>
+    <mkdir dir="log/src/test/"/>
     
-    <ant basedir="jelly/jelly-tags/log" target="jar">
+    <ant basedir="log" target="jar">
       <property name="final.name"  value="commons-jelly-tags-log-@@DATE@@"/>
     </ant>
 
     <depend project="commons-jelly" inherit="all"/>
     <depend project="commons-jelly-tags-junit" inherit="all"/>
     
-    <work nested="jelly/jelly-tags/log/target/classes"/>
-    <work nested="jelly/jelly-tags/log/target/test-classes"/>
+    <work nested="log/target/classes"/>
+    <work nested="log/target/test-classes"/>
 
-    <jar name="jelly/jelly-tags/log/target/commons-jelly-tags-log-@@DATE@@.jar"/>
+    <jar name="log/target/commons-jelly-tags-log-@@DATE@@.jar"/>
  
     <nag from="Morgan Delagrange &lt;mdelagra@yahoo.com&gt;"
          to="commons-dev@jakarta.apache.org"/>
@@ -440,9 +441,9 @@
     <description>A variety of tags for working with the ObjectBridge persistence engine</description>
 
     <!-- maven-generated ant scripts don't work if there is no test directory -->
-    <mkdir dir="jelly/jelly-tags/ojb/src/test/"/>
+    <mkdir dir="ojb/src/test/"/>
     
-    <ant basedir="jelly/jelly-tags/ojb" target="jar">
+    <ant basedir="ojb" target="jar">
       <property name="final.name"  value="commons-jelly-tags-ojb-@@DATE@@"/>
     </ant>
 
@@ -451,10 +452,10 @@
     <depend project="jakarta-ojb"/>
     <depend project="commons-lang"/>
 
-    <work nested="jelly/jelly-tags/ojb/target/classes"/>
-    <work nested="jelly/jelly-tags/ojb/target/test-classes"/>
+    <work nested="ojb/target/classes"/>
+    <work nested="ojb/target/test-classes"/>
 
-    <jar name="jelly/jelly-tags/ojb/target/commons-jelly-tags-ojb-@@DATE@@.jar"/>
+    <jar name="ojb/target/commons-jelly-tags-ojb-@@DATE@@.jar"/>
  
     <nag from="Morgan Delagrange &lt;mdelagra@yahoo.com&gt;"
          to="commons-dev@jakarta.apache.org"/>
@@ -464,7 +465,7 @@
     <package>org.apache.commons.jelly.tags.quartz</package>
     <description>This is a Jelly interface for the Quartz Scheduler.</description>
 
-    <ant basedir="jelly/jelly-tags/quartz" target="jar">
+    <ant basedir="quartz" target="jar">
       <property name="final.name"  value="commons-jelly-tags-quartz-@@DATE@@"/>
     </ant>
 
@@ -472,10 +473,10 @@
     
     <depend project="quartz"/>
 
-    <work nested="jelly/jelly-tags/quartz/target/classes"/>
-    <work nested="jelly/jelly-tags/quartz/target/test-classes"/>
+    <work nested="quartz/target/classes"/>
+    <work nested="quartz/target/test-classes"/>
 
-    <jar name="jelly/jelly-tags/quartz/target/commons-jelly-tags-quartz-@@DATE@@.jar"/>
+    <jar name="quartz/target/commons-jelly-tags-quartz-@@DATE@@.jar"/>
  
     <nag from="Morgan Delagrange &lt;mdelagra@yahoo.com&gt;"
          to="commons-dev@jakarta.apache.org"/>
@@ -485,7 +486,7 @@
     <package>org.apache.commons.jelly.tags.soap</package>
     <description>This is a Jelly interface for SOAP.</description>
 
-    <ant basedir="jelly/jelly-tags/soap" target="jar">
+    <ant basedir="soap" target="jar">
       <property name="final.name"  value="commons-jelly-tags-soap-@@DATE@@"/>
     </ant>
 
@@ -499,10 +500,10 @@
     <depend project="saaj"/>
     -->
 	
-    <work nested="jelly/jelly-tags/soap/target/classes"/>
-    <work nested="jelly/jelly-tags/soap/target/test-classes"/>
+    <work nested="soap/target/classes"/>
+    <work nested="soap/target/test-classes"/>
 
-    <jar name="jelly/jelly-tags/soap/target/commons-jelly-tags-soap-@@DATE@@.jar"/>
+    <jar name="soap/target/commons-jelly-tags-soap-@@DATE@@.jar"/>
  
     <nag from="Morgan Delagrange &lt;mdelagra@yahoo.com&gt;"
          to="commons-dev@jakarta.apache.org"/>
@@ -512,7 +513,7 @@
     <package>org.apache.commons.jelly.tags.sql</package>
     <description>This is a Jelly interface for SQL</description>
 
-    <ant basedir="jelly/jelly-tags/sql" target="jar">
+    <ant basedir="sql" target="jar">
       <property name="final.name"  value="commons-jelly-tags-sql-@@DATE@@"/>
     </ant>
 
@@ -521,10 +522,10 @@
     
     <!-- also depends on JDBC 2.0 -->
 	
-    <work nested="jelly/jelly-tags/sql/target/classes"/>
-    <work nested="jelly/jelly-tags/sql/target/test-classes"/>
+    <work nested="sql/target/classes"/>
+    <work nested="sql/target/test-classes"/>
 
-    <jar name="jelly/jelly-tags/sql/target/commons-jelly-tags-sql-@@DATE@@.jar"/>
+    <jar name="sql/target/commons-jelly-tags-sql-@@DATE@@.jar"/>
  
     <nag from="Morgan Delagrange &lt;mdelagra@yahoo.com&gt;"
          to="commons-dev@jakarta.apache.org"/>
@@ -534,16 +535,16 @@
     <package>org.apache.commons.jelly.tags.swing</package>
     <description>This is a Jelly interface for configuring Swing applications.</description>
 
-    <ant basedir="jelly/jelly-tags/swing" target="jar">
+    <ant basedir="swing" target="jar">
       <property name="final.name"  value="commons-jelly-tags-swing-@@DATE@@"/>
     </ant>
 
     <depend project="commons-jelly" inherit="all"/>
 	
-    <work nested="jelly/jelly-tags/swing/target/classes"/>
-    <work nested="jelly/jelly-tags/swing/target/test-classes"/>
+    <work nested="swing/target/classes"/>
+    <work nested="swing/target/test-classes"/>
 
-    <jar name="jelly/jelly-tags/swing/target/commons-jelly-tags-swing-@@DATE@@.jar"/>
+    <jar name="swing/target/commons-jelly-tags-swing-@@DATE@@.jar"/>
  
     <nag from="Morgan Delagrange &lt;mdelagra@yahoo.com&gt;"
          to="commons-dev@jakarta.apache.org"/>
@@ -553,7 +554,7 @@
     <package>org.apache.commons.jelly.tags.swt</package>
     <description>This is a Jelly interface for configuring Swing applications.</description>
 
-    <ant basedir="jelly/jelly-tags/swt" target="jar">
+    <ant basedir="swt" target="jar">
       <property name="final.name"  value="commons-jelly-tags-swt-@@DATE@@"/>
     </ant>
 
@@ -561,10 +562,10 @@
 
     <depend project="swt"/>
     
-    <work nested="jelly/jelly-tags/swing/target/classes"/>
-    <work nested="jelly/jelly-tags/swing/target/test-classes"/>
+    <work nested="swing/target/classes"/>
+    <work nested="swing/target/test-classes"/>
 
-    <jar name="jelly/jelly-tags/swt/target/commons-jelly-tags-swt-@@DATE@@.jar"/>
+    <jar name="swt/target/commons-jelly-tags-swt-@@DATE@@.jar"/>
  
     <nag from="Morgan Delagrange &lt;mdelagra@yahoo.com&gt;"
          to="commons-dev@jakarta.apache.org"/>
@@ -575,19 +576,19 @@
     <description> A library for processing Jelly scripts using multiple threads.</description>
     
     <!-- maven-generated ant scripts don't work if there is no test directory -->
-    <mkdir dir="jelly/jelly-tags/threads/src/test/"/>
+    <mkdir dir="threads/src/test/"/>
 
-    <ant basedir="jelly/jelly-tags/threads" target="jar">
+    <ant basedir="threads" target="jar">
       <property name="final.name"  value="commons-jelly-tags-threads-@@DATE@@"/>
     </ant>
 
     <depend project="commons-jelly" inherit="all"/>
     <depend project="commons-jelly-tags-junit" inherit="runtime"/>
 
-    <work nested="jelly/jelly-tags/threads/target/classes"/>
-    <work nested="jelly/jelly-tags/threads/target/test-classes"/>
+    <work nested="threads/target/classes"/>
+    <work nested="threads/target/test-classes"/>
 
-    <jar name="jelly/jelly-tags/threads/target/commons-jelly-tags-threads-@@DATE@@.jar"/>
+    <jar name="threads/target/commons-jelly-tags-threads-@@DATE@@.jar"/>
  
     <nag from="Morgan Delagrange &lt;mdelagra@yahoo.com&gt;"
          to="commons-dev@jakarta.apache.org"/>
@@ -597,17 +598,17 @@
     <package>org.apache.commons.jelly.tags.util</package>
     <description>This is a set of Jelly utility tags.</description>
 
-    <ant basedir="jelly/jelly-tags/util" target="jar">
+    <ant basedir="util" target="jar">
       <property name="final.name"  value="commons-jelly-tags-util-@@DATE@@"/>
     </ant>
 
     <depend project="commons-jelly" inherit="all"/>
     <depend project="commons-jelly-tags-junit" inherit="runtime"/>
 
-    <work nested="jelly/jelly-tags/util/target/classes"/>
-    <work nested="jelly/jelly-tags/util/target/test-classes"/>
+    <work nested="util/target/classes"/>
+    <work nested="util/target/test-classes"/>
 
-    <jar name="jelly/jelly-tags/util/target/commons-jelly-tags-util-@@DATE@@.jar"/>
+    <jar name="util/target/commons-jelly-tags-util-@@DATE@@.jar"/>
  
     <nag from="Morgan Delagrange &lt;mdelagra@yahoo.com&gt;"
          to="commons-dev@jakarta.apache.org"/>
@@ -617,7 +618,7 @@
     <package>org.apache.commons.jelly.tags.validate</package>
     <description>This is a Jelly interface for XML validation.</description>
 
-    <ant basedir="jelly/jelly-tags/validate" target="jar">
+    <ant basedir="validate" target="jar">
       <property name="final.name"  value="commons-jelly-tags-validate-@@DATE@@"/>
     </ant>
 
@@ -631,10 +632,10 @@
         <depend project="xsdlib"/>
     -->
 
-    <work nested="jelly/jelly-tags/validate/target/classes"/>
-    <work nested="jelly/jelly-tags/validate/target/test-classes"/>
+    <work nested="validate/target/classes"/>
+    <work nested="validate/target/test-classes"/>
 
-    <jar name="jelly/jelly-tags/validate/target/commons-jelly-tags-validate-@@DATE@@.jar"/>
+    <jar name="validate/target/commons-jelly-tags-validate-@@DATE@@.jar"/>
  
     <nag from="Morgan Delagrange &lt;mdelagra@yahoo.com&gt;"
          to="commons-dev@jakarta.apache.org"/>
@@ -644,7 +645,7 @@
     <package>org.apache.commons.jelly.tags.velocity</package>
     <description>This is a Jelly interface for Velocity.</description>
 
-    <ant basedir="jelly/jelly-tags/velocity" target="jar">
+    <ant basedir="velocity" target="jar">
       <property name="final.name"  value="commons-jelly-tags-velocity-@@DATE@@"/>
     </ant>
 
@@ -652,10 +653,10 @@
     
     <depend project="jakarta-velocity"/>
 
-    <work nested="jelly/jelly-tags/velocity/target/classes"/>
-    <work nested="jelly/jelly-tags/velocity/target/test-classes"/>
+    <work nested="velocity/target/classes"/>
+    <work nested="velocity/target/test-classes"/>
 
-    <jar name="jelly/jelly-tags/velocity/target/commons-jelly-tags-velocity-@@DATE@@.jar"/>
+    <jar name="velocity/target/commons-jelly-tags-velocity-@@DATE@@.jar"/>
  
     <nag from="Morgan Delagrange &lt;mdelagra@yahoo.com&gt;"
          to="commons-dev@jakarta.apache.org"/>
@@ -665,10 +666,10 @@
     <package>org.apache.commons.jelly.tags.xml</package>
     <description>???</description>
 
-    <mkdir dir="jelly/jelly-tags/xml/target/classes"/>
-    <mkdir dir="jelly/jelly-tags/xml/target/test-classes"/>
+    <mkdir dir="xml/target/classes"/>
+    <mkdir dir="xml/target/test-classes"/>
 
-    <ant basedir="jelly/jelly-tags/xml" target="jar">
+    <ant basedir="xml" target="jar">
       <property name="final.name"  value="commons-jelly-tags-xml-@@DATE@@"/>
     </ant>
 
@@ -677,10 +678,10 @@
     
     <depend project="commons-jelly-tags-junit" inherit="runtime"/>
 
-    <work nested="jelly/jelly-tags/xml/target/classes"/>
-    <work nested="jelly/jelly-tags/xml/target/test-classes"/>
+    <work nested="xml/target/classes"/>
+    <work nested="xml/target/test-classes"/>
 
-    <jar name="jelly/jelly-tags/xml/target/commons-jelly-tags-xml-@@DATE@@.jar"/>
+    <jar name="xml/target/commons-jelly-tags-xml-@@DATE@@.jar"/>
  
     <nag from="Morgan Delagrange &lt;mdelagra@yahoo.com&gt;"
          to="commons-dev@jakarta.apache.org"/>
@@ -690,7 +691,7 @@
     <package>org.apache.commons.jelly.tags.xmlunit</package>
     <description>This is a Jelly interface for unit testing XML applications.</description>
 
-    <ant basedir="jelly/jelly-tags/xmlunit" target="jar">
+    <ant basedir="xmlunit" target="jar">
       <property name="final.name"  value="commons-jelly-tags-xmlunit-@@DATE@@"/>
     </ant>
 
@@ -701,10 +702,10 @@
     <depend project="xmlunit"/>
     <depend project="xml-xalan2"/>
 
-    <work nested="jelly/jelly-tags/xmlunit/target/classes"/>
-    <work nested="jelly/jelly-tags/xmlunit/target/test-classes"/>
+    <work nested="xmlunit/target/classes"/>
+    <work nested="xmlunit/target/test-classes"/>
 
-    <jar name="jelly/jelly-tags/xmlunit/target/commons-jelly-tags-xmlunit-@@DATE@@.jar"/>
+    <jar name="xmlunit/target/commons-jelly-tags-xmlunit-@@DATE@@.jar"/>
  
     <nag from="Morgan Delagrange &lt;mdelagra@yahoo.com&gt;"
          to="commons-dev@jakarta.apache.org"/>
