@@ -22,10 +22,12 @@
     <depend project="xml-xerces"/>
     <depend project="jakarta-oro"/>
     <depend project="jakarta-ant" inherit="runtime"/>
+    <depend project="commons-discovery"/>
     <depend project="commons-logging"/>
     <depend project="jakarta-servletapi"/>
     <depend project="tt-bytecode"/>
     <depend project="httpunit"/>
+    <option project="commons-httpclient"/>
     <option project="junit"/>
     <option project="jaf"/>
     <option project="javamail"/>
