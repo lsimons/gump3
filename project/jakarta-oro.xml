@@ -7,7 +7,7 @@
 
   <cvs  repository="jakarta"/>
 
-  <ant basedir="build" buildfile="build-oro.xml" target="package">
+  <ant basedir="build" buildfile="build.xml" target="package">
     <property name="version" value="gump"/>
   </ant>
 
