@@ -16,7 +16,7 @@
 -->
 
 <server name="brutus" type="python" status="up">
-  <attribution>Apache Software Foundation</attribution>
+  <attribution>The Apache Software Foundation</attribution>
   <title>Brutus</title>
   <url>http://brutus.apache.org/gump/public</url>
   <site>http://gump.apache.org</site>
