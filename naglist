@@ -316,6 +316,12 @@ From: Jason van Zyl <jvanzyl@apache.org>
 Subject: [GUMP] Build Failure - Torque
 Regex: /BUILD FAILED/
 -------
+Project: jakarta-turbine-stratum
+To: turbine-dev@jakarta.apache.org
+From: Jason van Zyl <jvanzyl@apache.org>
+Subject: [GUMP] Build Failure - Stratum
+Regex: /BUILD FAILED/
+-------
 Project: jakarta-turbine-site
 To: turbine-dev@jakarta.apache.org
 From: Jason van Zyl <jvanzyl@apache.org>

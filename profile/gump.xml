@@ -42,6 +42,7 @@
   <module href="project/jakarta-turbine-jyve.xml"/>
   <module href="project/jakarta-turbine-orgami.xml"/>
   <module href="project/jakarta-turbine-site.xml"/>
+  <module href="project/jakarta-turbine-stratum.xml"/>
   <module href="project/jakarta-turbine-tdk.xml"/>
   <module href="project/jakarta-turbine-torque.xml"/>
   <module href="project/jakarta-velocity.xml"/>
