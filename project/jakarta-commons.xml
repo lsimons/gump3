@@ -21,7 +21,7 @@
   </project>
 
   <project name="commons-collections">
-    <url href="http://jakarta.apache.org/commons/"/>
+    <url href="http://jakarta.apache.org/commons/collections.html"/>
     <ant basedir="collections" target="dist"/>
     <depend project="jakarta-ant"/>
     <depend project="xml-xerces"/>
@@ -32,7 +32,6 @@
   </project>
 
   <project name="commons-dbcp">
-    <url href="http://jakarta.apache.org/commons/"/>
     <ant basedir="dbcp" target="dist"/>
     <depend project="jakarta-ant"/>
     <depend project="xml-xerces"/>
@@ -46,7 +45,7 @@
   </project>
 
   <project name="commons-digester">
-    <url href="http://jakarta.apache.org/commons/"/>
+    <url href="http://jakarta.apache.org/commons/digester.html"/>
     <ant basedir="digester" target="dist"/>
     <depend project="jakarta-ant"/>
     <depend project="xml-xerces"/>
@@ -58,7 +57,7 @@
   </project>
 
   <project name="commons-httpclient">
-    <url href="http://jakarta.apache.org/commons/"/>
+    <url href="http://jakarta.apache.org/commons/httpclient/"/>
     <ant basedir="httpclient" target="dist"/>
     <depend project="jakarta-ant"/>
     <depend project="xml-xerces"/>
@@ -69,7 +68,6 @@
   </project>
 
   <project name="commons-jxpath">
-    <url href="http://jakarta.apache.org/commons/"/>
     <ant basedir="jxpath" target="dist">
       <property name="component.version" value="gump"/>
       <depend property="junit.jar" project="junit"/>
@@ -83,7 +81,6 @@
   </project>
 
   <project name="commons-latka">
-    <url href="http://jakarta.apache.org/commons/"/>
     <ant basedir="latka" target="dist"/>
     <depend project="jakarta-ant"/>
     <depend project="xml-xerces"/>
@@ -92,12 +89,12 @@
     <depend project="jakarta-log4j"/>
     <depend project="jakarta-regexp"/>
     <depend project="jdom"/>
+    <depend project="junit"/>
     <home nested="latka/dist"/>
     <jar name="commons-latka.jar"/>
   </project>
 
   <project name="commons-pool">
-    <url href="http://jakarta.apache.org/commons/"/>
     <ant basedir="pool" target="dist"/>
     <depend project="jakarta-ant"/>
     <depend project="xml-xerces"/>
