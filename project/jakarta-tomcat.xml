@@ -22,4 +22,5 @@
   <depend project="jakarta-tomcat-jasper"/>
   <work nested="build/tomcat/classes"/>
 
+  <home nsted="dist/tomcat/lib"/>
 </project>
