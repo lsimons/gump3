@@ -40,6 +40,7 @@
         <depend project="excalibur-concurrent"/>
         <depend project="excalibur-threadcontext"/>
         <depend project="excalibur-util"/>
+        <depend project="excalibur-zip"/>
 
         <depend project="xml-xalan2"/>
         <depend project="jdom"/>
