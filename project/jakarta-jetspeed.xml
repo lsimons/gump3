@@ -19,7 +19,7 @@
   <depend project="jakarta-servletapi"/>
   <depend project="jakarta-velocity"/>
   <depend project="jakarta-ecs"/>
-  <depend project="xml-xalan1"/>
+  <depend project="xml-xalan2"/>
   <depend project="javamail"/>
   <depend project="jdbc"/>
 

@@ -5,7 +5,7 @@
     Java publishing framework - version 2
   </description>
 
-  <cvs repository="xml" module="xml-cocoon2"/>
+  <cvs repository="xml"/>
 
   <ant target="dist">
     <property name="logkit.jar"
@@ -19,7 +19,7 @@
   <depend project="xml-xalan2"/>
   <depend project="xml-batik"/>
   <option project="jakarta-servletapi-4"/>
-  <depend project="jakarta-avalon-logkit"/>
+  <depend project="dist-avalon-logkit"/>
   <depend project="jakarta-avalon"/>
   <option project="xml-fop"/>
   <depend project="jakarta-regexp"/>
