@@ -413,6 +413,7 @@
 
     <ant basedir="junit" target="jar">
       <property name="final.name"  value="commons-jelly-tags-junit-@@DATE@@"/>
+      <sysproperty name="build.clonevm" value="true"/>
     </ant>
 
     <depend project="commons-jelly" inherit="all"/>
