@@ -6,6 +6,17 @@
 
   <cvs repository="jakarta"/>
 
+  <project name="commons-altrmi">
+    <description>Commons Email Package</description>
+    <ant basedir="altrmi" target="dist">
+      <property name="component.version"  value="gump"/>
+    </ant>
+    <depend project="jakarta-ant"/>
+    <depend project="xml-xerces"/>
+    <jar name="altrmi/dist/commons-altrmi-gump.jar"/>
+    <javadoc nested="altrmi/dist/docs/api"/>
+  </project>
+
   <project name="commons-email">
     <description>Commons Email Package</description>
     <ant basedir="email" target="dist">

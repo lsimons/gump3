@@ -1,4 +1,4 @@
-------
+-lt-----
 Project: bsf
 To: bsf-discussion@dwoss.lotus.com
 From: Sam Ruby <rubys@us.ibm.com>
@@ -10,6 +10,12 @@ To: ant-dev@jakarta.apache.org
 From: Diane Holt <holtdl@apache.org>
 Subject: [GUMP] Bootstrap Failure - Ant
 Regex: /error/
+Regex: /BUILD FAILED/
+------
+Project: commons-altrmi
+To: commons-dev@jakarta.apache.org
+From: Ted Husted <ted@husted.com>
+Subject: [GUMP] Build Failure - altrmi
 Regex: /BUILD FAILED/
 ------
 Project: commons-beanutils
