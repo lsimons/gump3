@@ -84,7 +84,7 @@ public class Jenny {
      * Expand hrefs in place, recursively.
      * @param node source element
      */
-    private void expand(Element node) throws Exception {
+    private Element expand(Element node) throws Exception {
        // expand hrefs
        Attr href = node.getAttributeNode("href");
        if (href != null && !node.getNodeName().equals("url")) {
@@ -106,24 +106,30 @@ public class Jenny {
            Element copy=(Element)doc.importNode(sub.getFirstChild(), true);
            moveChildren(node, copy);
 
-           Element parent = (Element)node.getParentNode();
-           if (node.getNodeName().equals("profile")) {
-               copy.removeAttribute("defined-in");
-               moveChildren(copy, parent);
-           } else {
-               parent.replaceChild(copy,node);
+           node.getParentNode().replaceChild(copy,node);
+           node = copy;
+       }
+
+       // move all profile information to the front
+       Node first = node.getFirstChild();
+       for (Node child=first; child!=null; child=child.getNextSibling()) {
+           if (child.getNodeName().equals("profile")) {
+              child = expand((Element)child);
+              while (child.getFirstChild() != null) {
+                 node.insertBefore(child.getFirstChild(), first); 
+              }
            }
        }
 
        // recurse through the children
-       Node child=node.getFirstChild();
-       while (child != null) {
-           Node next=child.getNextSibling();
+       first = node.getFirstChild();
+       for (Node child=first; child != null; child=child.getNextSibling()) {
            if (child.getNodeType()==Node.ELEMENT_NODE) {
-               expand((Element)child);
+               child=expand((Element)child);
            }
-           child=next;
        }
+
+       return node;
     }
 
     /**
