@@ -25,6 +25,7 @@
         <depend project="excalibur-collections" runtime="true"/>
         <depend project="excalibur-container" runtime="true"/>
         <depend project="excalibur-event" runtime="true"/>
+        <depend project="excalibur-extension" runtime="true"/>
         <depend project="excalibur-info" runtime="true" inherit="runtime"/>
         <depend project="excalibur-i18n" runtime="true"/>
         <depend project="excalibur-logger" runtime="true"/>
