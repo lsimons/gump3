@@ -695,7 +695,8 @@ class XDocDocumenter(Documenter):
         document=XDocDocument('Gump Build Log',	\
                 self.resolver.getFile(self.workspace,'buildLog'))        
         
-        self.documentSummary(document, self.workspace.getProjectSummary())                
+        if not realTime:
+            self.documentSummary(document, self.workspace.getProjectSummary())                
         
         #
         # Modules...
