@@ -1,7 +1,7 @@
 /*
- * $Header: /home/stefano/cvs/gump/java/Jenny.java,v 1.24 2003/05/23 08:16:19 bodewig Exp $
- * $Revision: 1.24 $
- * $Date: 2003/05/23 08:16:19 $
+ * $Header: /home/stefano/cvs/gump/java/Jenny.java,v 1.25 2003/07/27 03:40:04 nickchalko Exp $
+ * $Revision: 1.25 $
+ * $Date: 2003/07/27 03:40:04 $
  *
  * ====================================================================
  *
@@ -412,7 +412,7 @@ public class Jenny {
             boolean onlineOption = true;
             boolean usageOK = true;
             
-            if (args.length > 2) {
+            if (args.length > 2 || args.length==0) {
                 usageOK = false;
             } else if (args.length == 2) {
                 if (args[1].equalsIgnoreCase("-offline")) {
@@ -420,7 +420,7 @@ public class Jenny {
                 } else if (!args[1].equalsIgnoreCase("-online")) {
                     usageOK = false;
                 }
-            }
+            } 
             
             if (usageOK) {
                 new Jenny(args[0], onlineOption);
