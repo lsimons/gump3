@@ -1,5 +1,5 @@
 <module name="jakarta-jmeter">
-<!-- Version $Revision: 1.66 $ Last updated $Date: 2004/01/03 12:49:39 $ -->
+<!-- Version $Revision: 1.67 $ Last updated $Date: 2004/01/04 18:52:19 $ -->
   <url href="http://jakarta.apache.org/jmeter/" />
   <description>
     Pure Java load testing and performance measurement tool.
@@ -15,7 +15,7 @@
       <property name="version" value="@@DATE@@"/>
       <property name="gump.run" value="true"/>
       <!-- The version of this file -->
-      <property name="version.projectfile" value="$Revision: 1.66 $"/>
+      <property name="version.projectfile" value="$Revision: 1.67 $"/>
       
       <!--
       	These properties are passed to the build process, so the names need to agree with
@@ -37,9 +37,12 @@
     </ant>
 
     <depend project="ant" />
+
+    <!-- Probably no longer needed with Java 1.4 -->
     <depend project="jaf" />
     <depend project="javamail" />
     <depend project="jsse" />
+
     <depend project="commons-collections"/>
     <depend project="jakarta-velocity" />
     <depend project="jtidy" />
@@ -87,7 +90,7 @@
       <property name="version" value="@@DATE@@"/>
       <property name="gump.run" value="true"/>
       <!-- The version of this file -->
-      <property name="version.projectfile" value="$Revision: 1.66 $"/>
+      <property name="version.projectfile" value="$Revision: 1.67 $"/>
     </ant>
 
     <depend project="ant" />
@@ -98,6 +101,9 @@
     <option project="beanshell" ids="bsh-core"/>
     <option project="jakarta-bsf"/>
 
+    <!-- Try to ensure that cvs builds after jmeter -->
+    <option project="jakarta-jmeter"/>
+    
     <work nested="build/core"/>
     <work nested="build/htmlparser"/>
     <work nested="build/jorphan"/>
@@ -139,11 +145,12 @@
   </project>
 
   <project name="jakarta-jmeter-test">
+    <package>org.apache.jmeter</package>
     <ant target="gump-test">
       <property name="version" value="@@DATE@@"/>
       <property name="gump.run" value="true"/>
       <!-- The version of this file -->
-      <property name="version.projectfile" value="$Revision: 1.66 $"/>
+      <property name="version.projectfile" value="$Revision: 1.67 $"/>
     </ant>
 
     <depend project="ant" />
@@ -186,15 +193,17 @@
   </project>
   
   <project name="jakarta-jmeter-javadoc">
+    <package>org.apache.jmeter</package>
     <ant target="gump-javadoc">
       <property name="version" value="@@DATE@@"/>
       <property name="gump.run" value="true"/>
       <!-- The version of this file -->
-      <property name="version.projectfile" value="$Revision: 1.66 $"/>
+      <property name="version.projectfile" value="$Revision: 1.67 $"/>
     </ant>
 
     <depend project="ant" />
 
+    <!-- Probably no longer needed with Java 1.4 -->
     <depend project="jaf" />
     <depend project="javamail" />
     <depend project="jsse" />
