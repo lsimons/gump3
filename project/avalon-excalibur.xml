@@ -313,6 +313,10 @@
             <property name="version" value="@@DATE@@"/>
             <property name="excalibur-fortress.jar" project="excalibur-fortress" reference="jarpath"/>
             <property name="excalibur-lifecycle.jar" project="excalibur-lifecycle" reference="jarpath"/>
+            <property name="commons-collections.jar"
+                      project="commons-collections" reference="jarpath"/>
+            <property name="util.concurrent.jar"
+                      project="concurrent" reference="jarpath"/>
         </ant>
 
                 <depend project="excalibur-fortress" inherit="all" runtime="true"/>
