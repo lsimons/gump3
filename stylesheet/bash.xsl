@@ -1,6 +1,19 @@
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0">
   <xsl:strip-space elements="*"/>
   <xsl:param name="cmd-prefix"/>
+  <xsl:param name="os-type"/>
+
+  <xsl:variable name="cygwin">
+    <xsl:choose>
+      <xsl:when test="$os-type='cygwinx'">1</xsl:when>
+      <xsl:when test="$os-type='cygwin32'">1</xsl:when>
+      <xsl:otherwise>0</xsl:otherwise>
+    </xsl:choose>
+  </xsl:variable>
+
+  <!-- =================================================================== -->
+  <!--             parse command line option for project name              -->
+  <!-- =================================================================== -->
 
   <xsl:template name="select">
     <xsl:param name="usage"/>
@@ -39,7 +52,14 @@
 
   <xsl:template match="build">
     <xsl:text>#/bin/sh&#10;</xsl:text>
-    <xsl:text>export CP=$CLASSPATH&#10;</xsl:text>
+
+    <xsl:if test="$cygwin=1">
+      <xsl:text>export CP=`cygpath --path --unix "$CLASSPATH"`&#10;</xsl:text>
+    </xsl:if>
+
+    <xsl:if test="$cygwin=0">
+      <xsl:text>export CP=$CLASSPATH&#10;</xsl:text>
+    </xsl:if>
 
     <xsl:call-template name="select">
       <xsl:with-param name="usage">
@@ -285,6 +305,12 @@
   <xsl:template match="ant">
 
     <xsl:text>if test "$STATUS" = "SUCCESS"; then \&#10;</xsl:text>
+
+    <xsl:if test="$cygwin=1">
+      <xsl:text>export CLASSPATH=</xsl:text>
+      <xsl:text>`cygpath --path --windows "$CLASSPATH"`&#10;</xsl:text>
+    </xsl:if>
+
     <xsl:text>eval </xsl:text>
     <xsl:if test="$cmd-prefix">
        <xsl:text>"</xsl:text>

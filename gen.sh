@@ -2,7 +2,6 @@
 # export CLASSPATH=$JAXP/crimson.jar:$JAXP/jaxp.jar:$JAXP/xalan.jar:$CLASSPATH
 
 export XALAN=/opt/xalan-j_2_0_0
-export CLASSPATH=$XALAN/bin/xerces.jar:$XALAN/bin/xalan.jar:$CLASSPATH
 
 if test "$1" = "-cp"; then
   shift
@@ -11,7 +10,17 @@ if test "$1" = "-cp"; then
 fi
 
 test -n "$1" && export SOURCE=$1
-test -z "$1" && export SOURCE=`hostname -s`.xml
+
+if test "$OSTYPE" = "cygwin32" -o "$OSTYPE" = "cygwin"; then
+  test -z "$1" && export SOURCE=`hostname`.xml
+
+  export CLASSPATH=`cygpath --path --unix "$CLASSPATH"`
+  export CLASSPATH=$XALAN/bin/xerces.jar:$XALAN/bin/xalan.jar:$CLASSPATH
+  export CLASSPATH=`cygpath --path --windows "$CLASSPATH"`
+else
+  export CLASSPATH=$XALAN/bin/xerces.jar:$XALAN/bin/xalan.jar:$CLASSPATH
+  test -z "$1" && export SOURCE=`hostname -s`.xml
+fi
 
 test -d work && rm -rf work
 mkdir work
@@ -40,7 +49,7 @@ export FAIL=1
 
 echo Generating update script
 test -n "$FAIL" || \
-java org.apache.xalan.xslt.Process -text -in work/updatesite.xml -xsl stylesheet/bash.xsl -out work/update.sh -PARAM cmd-prefix "$CP" || \
+java org.apache.xalan.xslt.Process -text -in work/updatesite.xml -xsl stylesheet/bash.xsl -out work/update.sh -PARAM cmd-prefix "$CP" -PARAM os-type "$OSTYPE" || \
 export FAIL=1
 
 # ********************************************************************
@@ -57,7 +66,7 @@ export FAIL=1
 
 echo Generating build script
 test -n "$FAIL" || \
-java org.apache.xalan.xslt.Process -EDUMP -text -in work/buildsite.xml -xsl stylesheet/bash.xsl -out work/build.sh -PARAM cmd-prefix "$CP" || \
+java org.apache.xalan.xslt.Process -EDUMP -text -in work/buildsite.xml -xsl stylesheet/bash.xsl -out work/build.sh -PARAM cmd-prefix "$CP" -PARAM os-type "$OSTYPE" || \
 export FAIL=1
 
 # ********************************************************************
@@ -110,7 +119,7 @@ if test -z "$FAIL"; then
   echo Publishing
   cd work
   chmod +x *.sh
-  ./puball.sh $SOURCE
+  sh puball.sh $SOURCE
 fi
 
 test -z "$FAIL" || echo "*** FAILED ***"
