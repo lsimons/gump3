@@ -4,6 +4,7 @@
   <description>
     Java HTTP Servlet Server
   </description>
+  <redistributable/>
 
   <cvs repository="sourceforge" host-prefix="cvs.jetty" dir="jetty"
     module="Jetty"/>
@@ -19,6 +20,7 @@
     <work nested="classes"/>
 
     <jar name="lib/org.mortbay.jetty.jar"/>
+    <license name="LICENSE.html"/>
   </project>
 
 </module>

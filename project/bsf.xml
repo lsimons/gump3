@@ -4,6 +4,7 @@
   <description>
     Bean Scripting Framework
   </description>
+  <redistributable/>
 
   <cvs repository="devworks" dir="bsf"/>
   
@@ -18,6 +19,8 @@
 
     <home nested="build"/>
     <jar  name="lib/bsf.jar"/>
+
+    <license name="license.html"/>
 
     <nag to="bsf-discussion@dwoss.lotus.com"
          from="Sam Ruby &lt;rubys@us.ibm.com&gt;"/>

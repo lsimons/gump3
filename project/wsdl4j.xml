@@ -4,6 +4,7 @@
   <description>
     JSR 110 
   </description>
+  <redistributable/>
 
   <cvs repository="devworks" dir="wsdl4j"/>
   
@@ -20,6 +21,7 @@
     <home nested="build"/>
     <jar name="lib/wsdl4j.jar" id="wsdl4j"/>
     <jar name="lib/qname.jar"  id="qname"/>
+    <license name="license.html"/>
     <javadoc nested="build/javadocs"/>
   </project>
 
