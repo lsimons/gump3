@@ -1,0 +1,18 @@
+<project name="town">
+
+  <url href="http://www.working-dogs.com/town/"/>
+  <description>
+    An extension of a Villiage
+  </description>
+
+  <cvs repository="working-dogs" dir="town" />
+  <ant />
+
+  <depend project="jakarta-ant" />
+  <depend project="xml-xerces" />
+  <depend project="jakarta-servletapi" />
+
+  <home nested="build"/>
+  <jar name="town.jar"/>
+
+</project>

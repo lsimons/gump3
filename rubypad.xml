@@ -39,6 +39,7 @@
   <project href="project/james.xml"/>
   <project href="project/jetspeed.xml"/>
   <project href="project/jmeter.xml"/>
+  <project href="project/town.xml"/>
   <project href="project/turbine.xml"/>
 
   <!-- other -->

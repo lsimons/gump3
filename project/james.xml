@@ -8,8 +8,8 @@
   <cvs repository="jservpub" />
   <ant />
 
-  <home nested="bin" />
-  <jar name="ApacheJMeter.jar" />
+  <home nested="build" />
+  <jar name="james.bar" />
 
   <depend project="jakarta-ant" />
   <depend project="xml-xerces" />
@@ -19,11 +19,6 @@
   <depend project="town" />
   <depend project="dnsjava" />
   <depend project="jaf" />
-
-  <project name="town">
-    <url href="http://www.working-dogs.com/town/"/>
-    <jar name="lib/town.jar" />
-  </project>
 
   <project name="dnsjava">
     <url href="http://enigma.xbill.org/dnsjava/"/>
