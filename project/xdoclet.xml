@@ -142,6 +142,7 @@
     <depend project="jakarta-servletapi-4"/>
     <depend project="jakarta-bcel" runtime="true"/>
     <depend project="jakarta-site2" inherit="all"/>
+    <depend project="mockobjects"/>
 
     <work nested="core/build/classes" />
     <work nested="modules/build/apache/classes"/>
