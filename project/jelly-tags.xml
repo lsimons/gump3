@@ -239,6 +239,27 @@
     <nag from="Morgan Delagrange &lt;mdelagra@yahoo.com&gt;"
          to="commons-dev@jakarta.apache.org"/>
   </project>
+
+  <project name="commons-jelly-tags-sql">
+    <package>org.apache.commons.jelly.tags.sql</package>
+    <description>This is a Jelly interface for SQL</description>
+
+    <ant basedir="jelly/jelly-tags/sql" target="jar">
+      <property name="final.name"  value="commons-jelly-tags-sql-@@DATE@@"/>
+    </ant>
+
+    <depend project="commons-jelly" inherit="all"/>
+    
+    <!-- also depends on JDBC 2.0 -->
+	
+    <work nested="jelly/jelly-tags/sql/target/classes"/>
+    <work nested="jelly/jelly-tags/sql/target/test-classes"/>
+
+    <jar name="jelly/jelly-tags/sql/target/commons-jelly-tags-sql-@@DATE@@.jar"/>
+ 
+    <nag from="Morgan Delagrange &lt;mdelagra@yahoo.com&gt;"
+         to="commons-dev@jakarta.apache.org"/>
+  </project>
   
   <project name="commons-jelly-tags-util">
     <package>org.apache.commons.jelly.tags.util</package>
