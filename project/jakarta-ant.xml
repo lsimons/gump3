@@ -45,14 +45,14 @@
     <option project="commons-logging" />
 
     <home nested="build"/>
-    <jar name="lib/ant.jar"/>
-    <jar name="lib/optional.jar"/>
+    <jar name="lib/ant.jar" id="ant"/>
+    <jar name="lib/optional.jar" id="optional"/>
     <javadoc nested="build/javadocs" project="jakarta-ant"/>
 
     <deliver fromdir="distribution/src" tosite="stefans-test"
-             todir="ant1.5beta/@@DATE@@/" />
+             todir="ant1.5.1alpha/@@DATE@@/" />
     <deliver fromdir="distribution/bin" tosite="stefans-test"
-             todir="ant1.5beta/@@DATE@@/" />
+             todir="ant1.5.1alpha/@@DATE@@/" />
 
     <deliver fromdir="distribution/src" tosite="jakarta.apache.org"
              todir="builds/jakarta-ant/nightly/@@DATE@@/" />
@@ -95,5 +95,4 @@
       <regexp />      
     </nag>
   </project>
-
 </module>
