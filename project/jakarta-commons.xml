@@ -31,6 +31,8 @@
       <property name="tomcat.home.40" reference="homepath"/>
       <property name="servlet23.jar" reference="jarpath" id="servlet"
                 project="jakarta-servletapi-4"/>
+      <property name="junit.jar" reference="jarpath" id="junit"
+                project="junit"/>
     </ant>
 
     <depend project="jakarta-ant"/>
