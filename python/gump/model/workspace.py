@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/model/workspace.py,v 1.26 2004/02/10 16:08:36 ajack Exp $
-# $Revision: 1.26 $
-# $Date: 2004/02/10 16:08:36 $
+# $Header: /home/stefano/cvs/gump/python/gump/model/workspace.py,v 1.27 2004/02/12 13:48:20 ajack Exp $
+# $Revision: 1.27 $
+# $Date: 2004/02/12 13:48:20 $
 #
 # ====================================================================
 #
@@ -594,7 +594,7 @@ class Workspace(ModelObject,PropertyContainer, Statable):
         self.checkExecutable('env','',0)
         self.checkExecutable(self.javaCommand,'-version',exitOnError,1)
         self.checkExecutable('javac','-help',0)
-        self.checkExecutable('java com.sun.tools.javac.Main','-help',exitOnError,0,'check_java_compiler')    
+        self.checkExecutable('java com.sun.tools.javac.Main','-help',0,0,'check_java_compiler')    
 
         if not self.noCvs and not self.checkExecutable('cvs','--version',0):
             self.noCvs=1
