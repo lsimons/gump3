@@ -41,7 +41,8 @@
     <depend project="jmx" runtime="true"/>
     <depend project="dist-bsf"/>
     <depend project="rhino"/>
-    <depend project="xdoclet" inherit="jars"/>
+    <!-- depend project="xdoclet" inherit="jars"/ -->
+    <depend project="xdoclet-ant14" runtime="true"/>
     <depend project="jakarta-site2" inherit="all" />
     <option project="jakarta-servletapi-4"/>
 
@@ -52,5 +53,11 @@
     <nag from="Peter Donald &lt;peter@apache.org&gt;"
          to="avalon-phoenix-dev@jakarta.apache.org"/>
   </project>
+
+  <project name="xdoclet-ant14">
+    <jar name="lib/xdoclet/xdoclet-20021804.jar"/>
+    <jar name="lib/xdoclet/xjavadoc-20021804.jar"/>
+  </project>
+
 
 </module>
