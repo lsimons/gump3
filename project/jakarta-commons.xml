@@ -291,7 +291,7 @@
   <project name="commons-validator">
     <package>org.apache.commons.validator</package>
     <description>Validation Framework</description>
-    <ant basedir="validator" target="javadocs"/>
+    <ant basedir="validator" target="dist"/>
     <depend project="jakarta-ant" inherit="runtime"/>
     <depend project="xml-xerces"/>
     <depend project="junit"/>
