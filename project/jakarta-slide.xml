@@ -74,6 +74,7 @@
 
     <depend project="textmining-word-extractor"/>
     <depend project="pdfbox"/>
+    <depend project="commons-httpclient-contrib"/>
 
     <work nested="build/classes"/>
     <work nested="build/client/classes"/>
@@ -121,6 +122,16 @@
     <url href="http://www.pdfbox.org/"/>
     <description>PDFBox is a Java PDF Library.</description>
     <jar name="lib/PDFBox-0.6.5.jar"/>
+  </project>
+
+  <!-- FIXME 
+
+       we need to find a way to build this from sources, but I don't
+       see an Ant or Maven build recipe for it in commons-httpclient's
+       CVS tree.
+  -->
+  <project name="commons-httpclient-contrib">
+    <jar name="webdavclient/lib/commons-httpclient-contrib.jar"/>
   </project>
 
 </module>
