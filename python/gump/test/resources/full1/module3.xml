@@ -14,7 +14,7 @@
       <property name="ant.home" reference="home" project="project1"/>
     </ant>
 
-    <depend project="project2"/>
+    <depend project="project2" runtime="true"/>
     <option project="random"/>
 
     <home nested="dist"/>

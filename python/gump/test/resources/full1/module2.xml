@@ -14,7 +14,7 @@
       <property name="ant.home" reference="home" project="project1"/>
     </ant>
 
-    <depend project="project1"/>
+    <depend project="project1" inherit="runtime"/>
     <option project="random"/>
 
     <home nested="dist"/>

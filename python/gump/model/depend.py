@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/model/depend.py,v 1.4 2003/11/24 01:45:15 ajack Exp $
-# $Revision: 1.4 $
-# $Date: 2003/11/24 01:45:15 $
+# $Header: /home/stefano/cvs/gump/python/gump/model/depend.py,v 1.5 2003/11/25 04:58:04 ajack Exp $
+# $Revision: 1.5 $
+# $Date: 2003/11/25 04:58:04 $
 #
 # ====================================================================
 #
@@ -155,7 +155,7 @@ class ProjectDependency(Annotatable):
         if self.inherit:
             output+=' inherit=\'' + self.getInheritenceDescription() + '\''
         if self.runtime:
-            output+=' runtime=\'' + self.runtime + '\''
+            output+=' runtime=\'' + str(self.runtime) + '\''
         if self.ids:
             output+=' ids=\'' + self.ids + '\''
         return output
