@@ -1,17 +1,22 @@
-<module name="jakarta-ant">
+<module name="ant">
 
   <url  href="http://ant.apache.org/index.html"/>
   <description>
     Java based build tool
   </description>
 
-  <cvs repository="jakarta"/>
+  <!--cvs repository="ant"/-->
+  <cvs repository="jakarta" module="jakarta-ant"/>
 
   <project name="jakarta-ant">
+    <depend project="ant" inherit="jars"/>
+  </project>
+
+  <project name="ant">
     <package>org.apache.tools.ant</package>
 
     <ant target="dist-lite">
-      <property name="ant.home" reference="home" project="jakarta-ant"/>
+      <property name="ant.home" reference="home" project="ant"/>
     </ant>
 
     <depend project="bootstrap-ant"/>
@@ -37,6 +42,8 @@
 
     <nag from="Diane Holt &lt;holtdl@apache.org&gt;"
          to="ant-dev@jakarta.apache.org"/>
+    <!--nag from="Diane Holt &lt;holtdl@apache.org&gt;"
+         to="dev@ant.apache.org"/-->
   </project>
 
   <project name="dist-ant">
@@ -44,7 +51,7 @@
       <property name="chmod.fail" value="false"/>
     </ant>
 
-    <depend project="jakarta-ant" inherit="all"/>
+    <depend project="ant" inherit="all"/>
 
     <option project="antlr"/>
     <option project="commons-logging" />
@@ -81,13 +88,19 @@
     <jar name="lib/ant-xalan2.jar" id="xalan2"/>
     <jar name="lib/nodeps.jar" id="nodeps"/>
 
-    <javadoc nested="build/javadocs" project="jakarta-ant"/>
+    <javadoc nested="build/javadocs" project="ant"/>
 
     <nag from="Diane Holt &lt;holtdl@apache.org&gt;"
          to="ant-dev@jakarta.apache.org"/>
+    <!--nag from="Diane Holt &lt;holtdl@apache.org&gt;"
+         to="dev@ant.apache.org"/-->
   </project>
 
   <project name="jakarta-ant-testutil">
+    <depend project="ant-testutil" inherit="jars"/>
+  </project>
+
+  <project name="ant-testutil">
     <ant target="test-jar"/>
 
     <depend project="dist-ant" inherit="all"/>
@@ -98,6 +111,8 @@
 
     <nag from="Diane Holt &lt;holtdl@apache.org&gt;"
          to="ant-dev@jakarta.apache.org"/>
+    <!--nag from="Diane Holt &lt;holtdl@apache.org&gt;"
+         to="dev@ant.apache.org"/-->
   </project>
 
   <project name="test-ant">
@@ -106,7 +121,7 @@
       <property name="have.cvs" value="true"/>
     </ant>
 
-    <depend project="jakarta-ant-testutil" inherit="all"/>
+    <depend project="ant-testutil" inherit="all"/>
     <option project="xml-commons-which"/>
     <option project="rhino"/>
     <option project="beanshell"/>
@@ -118,6 +133,9 @@
     <nag from="Diane Holt &lt;holtdl@apache.org&gt;"
          to="ant-dev@jakarta.apache.org"
          subject="Test Failure - Ant"/>
+    <!--nag from="Diane Holt &lt;holtdl@apache.org&gt;"
+         to="dev@ant.apache.org"
+         subject="Test Failure - Ant"/-->
   </project>
 
   <project name="bootstrap-ant">
@@ -135,13 +153,24 @@
       <regexp pattern="/Failed/"/>
       <regexp />
     </nag>
+    <!--nag from="Diane Holt &lt;holtdl@apache.org&gt;"
+         to="dev@ant.apache.org"
+         subject="Bootstrap Failure - Ant">
+      <regexp pattern="/error/"/>
+      <regexp pattern="/Failed/"/>
+      <regexp />
+    </nag-->
   </project>
 
   <project name="jakarta-ant-embed">
+    <depend project="ant-embed" inherit="jars"/>
+  </project>
+
+  <project name="ant-embed">
     <package>org.apache.tools.ant</package>
 
     <ant basedir="proposal/embed">
-      <property name="ant.home" reference="home" project="jakarta-ant"/>
+      <property name="ant.home" reference="home" project="ant"/>
       <depend id="api" project="commons-logging"
               property="commons-logging.jar"/>
       <depend property="jxpath.jar" project="commons-jxpath"/>
@@ -151,21 +180,27 @@
       <depend property="commons-discovery.jar" project="commons-discovery"/>
     </ant>
 
-    <depend project="jakarta-ant" inherit="all"/>
+    <depend project="ant" inherit="all"/>
 
     <home nested="proposal/embed/build"/>
     <jar name="ant-sax2.jar" id="embed"/>
 
     <nag to="ant-dev@jakarta.apache.org"
          from="Nicola Ken Barozzi &lt;nicolaken@apache.org&gt;"/>
+    <!--nag to="dev@ant.apache.org"
+         from="Nicola Ken Barozzi &lt;nicolaken@apache.org&gt;"/-->
 
   </project>
 
   <project name="jakarta-ant-embed-optional">
+    <depend project="ant-embed-optional" inherit="jars"/>
+  </project>
+
+  <project name="ant-embed-optional">
     <package>org.apache.tools.ant</package>
 
     <ant basedir="proposal/embed" target="embed-optional" >
-      <property name="ant.home" reference="home" project="jakarta-ant"/>
+      <property name="ant.home" reference="home" project="ant"/>
       <depend id="api" project="commons-logging"
               property="commons-logging.jar"/>
       <depend property="jxpath.jar" project="commons-jxpath"/>
@@ -175,20 +210,22 @@
       <depend property="commons-discovery.jar" project="commons-discovery"/>
     </ant>
 
-    <depend project="jakarta-ant" inherit="all"/>
+    <depend project="ant" inherit="all"/>
 
     <home nested="proposal/embed/build"/>
     <jar name="optional-dynprop.jar" id="embed-optional"/>
 
     <nag to="ant-dev@jakarta.apache.org"
          from="Nicola Ken Barozzi &lt;nicolaken@apache.org&gt;"/>
+    <!--nag to="dev@ant.apache.org"
+         from="Nicola Ken Barozzi &lt;nicolaken@apache.org&gt;"/-->
   </project>
 
   <project name="ant-xdocs-proposal">
     <mkdir dir="proposal/xdocs/build/classes"/>
     <ant basedir="proposal/xdocs" target="docs-from-scratch">
       <jvmarg value="-Xmx256m"/>
-      <property name="ant.home" reference="home" project="jakarta-ant"/>
+      <property name="ant.home" reference="home" project="ant"/>
     </ant>
     <depend project="dist-ant" inherit="all"/>
     <depend project="xml-xerces"/>
@@ -196,6 +233,8 @@
     <depend project="jakarta-velocity-dvsl" inherit="runtime"/>
     <nag to="ant-dev@jakarta.apache.org"
          from="Erik Hatcher &lt;jakarta-ant@ehatchersolutions.com&gt;"/>
+    <!--nag to="dev@ant.apache.org"
+         from="Erik Hatcher &lt;jakarta-ant@ehatchersolutions.com&gt;"/-->
     <work nested="proposal/xdocs/build/classes"/>
     <javadoc nested="proposal/xdocs/build/docs/manual"
              project="Ant xdocs proposal">

@@ -3,8 +3,8 @@
   <!-- Apache.Jakarta -->
 
   <!--module href="project/jakarta-alexandria.xml"/-->
-  <module href="project/jakarta-ant.xml"/>
-  <module href="project/jakarta-ant-antidote.xml"/>
+  <module href="project/ant.xml"/>
+  <module href="project/ant-antidote.xml"/>
   <!--<module href="http://cvs.apache.org/viewcvs/~checkout~/jakarta-ant-myrmidon/gump.xml"/>-->
   <module href="project/jakarta-bcel.xml"/>
   <module href="project/jakarta-bsf.xml"/>
@@ -273,6 +273,7 @@
   <project name="nsuml"          package="nsuml"/>
 
   <!-- CVS Repository definitions -->
+  <repository href="repository/ant.xml"/>
   <repository href="repository/avalon.xml"/>
   <repository href="repository/db.xml"/>
   <repository href="repository/dbxml.xml"/>

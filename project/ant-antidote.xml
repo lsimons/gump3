@@ -1,13 +1,18 @@
-<module name="jakarta-ant-antidote">
+<module name="ant-antidote">
 
   <url href="http://ant.apache.org/index.html"/>
   <description>
     GUI frontend to Ant
   </description>
 
-  <cvs repository="jakarta"/>
+  <!--cvs repository="ant"/-->
+  <cvs repository="jakarta" module="jakarta-ant-antidote"/>
 
   <project name="jakarta-ant-antidote">
+    <depend project="ant-antidote" inherit="jars"/>
+  </project>
+
+  <project name="ant-antidote">
     <package>org.apache.tools.ant.gui</package>
 
     <ant target="internal_dist"/>
@@ -16,10 +21,12 @@
     <home nested="dist"/>
     <jar name="lib/antidote.jar"/>
     <license name="LICENSE.txt"/>
-    <javadoc nested="dist/docs/api" module="jakarta-ant"/>
+    <javadoc nested="dist/docs/api" module="ant"/>
 
     <nag from="Diane Holt &lt;holtdl@apache.org&gt;"
          to="ant-dev@jakarta.apache.org"/>
+    <!--nag from="Diane Holt &lt;holtdl@apache.org&gt;"
+         to="dev@ant.apache.org"/-->
   </project>
 
 </module>

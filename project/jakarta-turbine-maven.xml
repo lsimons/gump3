@@ -21,13 +21,13 @@
       <depend project="commons-logging" property="maven.jar.commons-logging" id="all"/> 
       <depend project="dom4j" property="maven.jar.dom4j"/> 
       <depend project="forehead" property="maven.jar.forehead"/> 
-      <depend project="jakarta-ant" property="maven.jar.ant" id="ant"/> 
+      <depend project="ant" property="maven.jar.ant" id="ant"/> 
       <depend project="jakarta-velocity" property="maven.jar.velocity"/> 
       <depend project="werkz" property="maven.jar.werkz"/> 
       <depend project="xml-commons-which" property="maven.jar.which"/> 
     </ant>
 
-    <depend project="jakarta-ant" inherit="runtime"/>
+    <depend project="ant" inherit="runtime"/>
     <depend project="xml-xerces"/>
     <depend project="commons-betwixt"/>
     <depend project="commons-collections"/>
@@ -58,7 +58,7 @@
     <ant buildfile="build.xml" target="jar"/>
     
     <!-- All Maven projects need Ant and Xerces to build. -->
-    <depend project="jakarta-ant" inherit="runtime"/>
+    <depend project="ant" inherit="runtime"/>
     <depend project="xml-xerces"/>
 
     <depend project="antlr"/>
