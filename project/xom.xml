@@ -1,0 +1,22 @@
+<module name="xom">
+
+  <description>XOM is a new XML object model.</description>
+  <url href="http://www.cafeconleche.org/XOM/"/>
+
+  <cvs repository="java.net"/>
+
+  <project name="xom">
+    <package>no.xom</package>
+    <ant target="jar">
+      <property name="version" value="@@DATE@@"/>
+    </ant>
+
+    <depend project="ant"/>
+    <depend project="junit"/>
+    <depend project="xml-xerces"/>
+    <depend project="xml-apis"/>
+    <depend project="jakarta-servletapi-5-servlet"/>
+    <work nested="lib/normalizer.jar"/>
+  </project>
+
+</module>

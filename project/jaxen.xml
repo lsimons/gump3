@@ -24,6 +24,7 @@
     </depend>
     <depend project="xml-xerces">
     </depend>
+    <depend project="xom"/>
     <work nested="target/classes">
     </work>
     <home nested="target">
@@ -54,6 +55,7 @@
     </depend>
     <depend project="xml-xerces">
     </depend>
+    <depend project="xom"/>
     <work nested="target/classes">
     </work>
     <home nested="target">

@@ -241,6 +241,10 @@
   <module href="project/msv.xml"/>
   <module href="project/tranquilo.xml"/>
 
+<!-- java.net -->
+
+  <module href="project/xom.xml"/>
+
 <!-- Installed packages -->
 
   <project name="antlr"            package="antlr-2.7.2"/>
@@ -275,7 +279,7 @@
   <project name="junitperf"        package="junitperf-1.8"/>
   <!--project name="jts"              package="jts1_0"/-->
   <project name="ldap"             package="ldap-1_2_4"/>
-  <project name="nekohtml"         package="nekohtml-0.8"/>
+  <project name="nekohtml"         package="nekohtml-0.8.2"/>
   <project name="msv"              package="msv-20020414"/>
   <project name="multipartrequest" package="MultipartRequest-1.30b4"/>
   <project name="relaxng"          package="relaxngDatatype-1.0"/>
@@ -308,6 +312,7 @@
   <repository href="repository/incubator.xml"/>
   <repository href="repository/jakarta.xml"/>
   <repository href="repository/james.xml"/>
+  <repository href="repository/javanet.xml"/>
   <repository href="repository/jdom.xml"/>
   <repository href="repository/maven.xml"/>
   <repository href="repository/mozilla.xml"/>
