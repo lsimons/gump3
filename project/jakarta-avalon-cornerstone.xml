@@ -37,7 +37,7 @@
     <depend project="xml-xalan2"/>
     <depend project="hsqldb"/>
     <depend project="bsf"/>
-    <depend project="commons-altrmi"/>
+    <depend project="excalibur-altrmi"/>
     <work nested="build/classes"/>
     <work nested="apps/db/build/classes"/>
     <work nested="apps/demo/build/classes"/>
