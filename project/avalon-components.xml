@@ -51,7 +51,6 @@
         <depend project="avalon-framework" runtime="true" id="impl"/>
         
         <depend project="cornerstone-threads-api" runtime="true"/>
-        <depend project="cornerstone-threads-impl" runtime="true"/>
         <depend project="cornerstone-sockets-api" runtime="true"/>
         
         <depend project="excalibur-thread" runtime="true"/>
