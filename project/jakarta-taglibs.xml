@@ -365,11 +365,8 @@
     <ant basedir="standard" target="dist">
       <depend property="dom.jar" project="jaxp" id="dom"/>
       <depend property="jdbc2_0-stdext.jar" project="jdbc"/>
-      <depend property="jaxen-full.jar" project="jaxen"/>
       <depend property="jaxp-api.jar" project="jaxp" id="jaxp-api"/>
-      <depend property="jxpath.jar" project="commons-jxpath"/>
       <depend property="sax.jar" project="jaxp" id="sax"/>
-      <depend property="saxpath.jar" project="saxpath"/>
       <depend property="jsp20.jar" project="jakarta-servletapi-5-jsp"/>
       <depend property="servlet24.jar" project="jakarta-servletapi-5-servlet"/>
       <depend property="xalan.jar" project="xml-xalan2"/>
