@@ -56,15 +56,4 @@
             
   </project>
 
-  <project name="IzPress">
-    <url href="http://www.izforge.com/izpress/"/>
-    <description>
-      IzPress is a small Java tool that you can use in order to reduce the 
-      size of your HTML pages by up to 20%. It preserves your code and only 
-      removes the useless characters in it.
-    </description>
-    <home nested="tools/centipede"/>
-    <jar name="lib/IzPress.jar"/>
-  </project>
-
 </module>

@@ -633,3 +633,9 @@ From: Stefan Bodewig <bodewig@bost.de>
 Subject: [GUMP] Build Failure - Cpptasks
 Regex: /BUILD FAILED/
 -------
+Project: krysalis-centipede
+To: krysalis-developers@lists.sourceforge.net 
+From: Nicola Ken Barozzi <nicolaken@apache.org >
+Subject: [GUMP] Build Failure - Krysalis Centipede
+Regex: /BUILD FAILED/
+-------
