@@ -35,6 +35,7 @@
       <depend property="commons-beanutils.jar"   project="commons-beanutils"/>
       <depend property="commons-collections.jar" project="commons-collections"/>
       <depend property="commons-digester.jar"    project="commons-digester"/>
+      <depend property="commons-digester-rss.jar"    project="commons-digester-rss"/>
       <depend property="commons-fileupload.jar"  project="commons-fileupload"/>
       <depend property="commons-lang.jar"        project="commons-lang"/>
       <depend property="commons-logging.jar"     project="commons-logging" id="commons-logging"/>
