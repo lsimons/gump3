@@ -656,6 +656,108 @@
         <nag to="dev@avalon.apache.org" from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"/>
     </project>
     
+    <project name="avalon-repository-api">
+        <package>org.apache.avalon.repository</package>
+        <ant basedir="repository/api">
+            <property name="project.version" value="@@DATE@@"/>
+        </ant>
+        <work nested="repository/api/target/classes"/>
+        <home nested="repository/api"/>
+        <jar name="target/jars/avalon-repository-api-@@DATE@@.jar" id="api"/>
+        <javadoc nested="repository/api/target/docs/apidocs"/>
+        <junitreport nested="repository/api/target/test-reports"/>
+        <nag to="dev@avalon.apache.org" from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"/>
+    </project>
+    
+    <project name="avalon-repository-cli">
+        <package>org.apache.avalon.repository.cli</package>
+        <ant basedir="repository/cli">
+            <property name="project.version" value="@@DATE@@"/>
+        </ant>
+        <depend project="avalon-repository-main" />
+        <depend project="commons-cli" />
+        <depend project="avalon-util-i18n" />
+        <work nested="repository/cli/target/classes"/>
+        <home nested="repository/cli"/>
+        <jar name="target/jars/avalon-repository-cli-@@DATE@@.jar" id="api"/>
+        <javadoc nested="repository/cli/target/docs/apidocs"/>
+        <junitreport nested="repository/cli/target/test-reports"/>
+        <nag to="dev@avalon.apache.org" from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"/>
+    </project>
+    
+    <project name="avalon-repository-impl">
+        <package>org.apache.avalon.repository.impl</package>
+        <ant basedir="repository/impl">
+            <property name="project.version" value="@@DATE@@"/>
+        </ant>
+        <depend project="avalon-repository-api" />
+        <depend project="avalon-repository-spi" />
+        <depend project="avalon-repository-util" />
+        <depend project="avalon-util-criteria" />
+        <depend project="avalon-util-defaults" />
+        <depend project="avalon-util-exception" />
+        <depend project="avalon-util-criteria" />
+        <depend project="avalon-util-env" />
+        <depend project="avalon-util-i18n" />
+        
+        <work nested="repository/impl/target/classes"/>
+        <home nested="repository/impl"/>
+        <jar name="target/jars/avalon-repository-impl-@@DATE@@.jar" id="api"/>
+        <javadoc nested="repository/impl/target/docs/apidocs"/>
+        <junitreport nested="repository/impl/target/test-reports"/>
+        <nag to="dev@avalon.apache.org" from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"/>
+    </project>
+    
+    <project name="avalon-repository-main">
+        <package>org.apache.avalon.repository.main</package>
+        <ant basedir="repository/main">
+            <property name="project.version" value="@@DATE@@"/>
+        </ant>
+        <depend project="avalon-repository-api" />
+        <depend project="avalon-repository-spi" />
+        <depend project="avalon-repository-util" />
+        <depend project="commons-cli" />
+        <depend project="avalon-util-criteria" />
+        <depend project="avalon-util-defaults" />
+        <depend project="avalon-util-exception" />
+        <depend project="avalon-util-criteria" />
+        <depend project="avalon-util-env" />
+        <work nested="repository/main/target/classes"/>
+        <home nested="repository/main"/>
+        <jar name="target/jars/avalon-repository-main-@@DATE@@.jar" id="api"/>
+        <javadoc nested="repository/main/target/docs/apidocs"/>
+        <junitreport nested="repository/main/target/test-reports"/>
+        <nag to="dev@avalon.apache.org" from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"/>
+    </project>
+    
+    <project name="avalon-repository-spi">
+        <package>org.apache.avalon.repository</package>
+        <ant basedir="repository/spi">
+            <property name="project.version" value="@@DATE@@"/>
+        </ant>
+        <depend project="avalon-repository-api" />
+        <work nested="repository/spi/target/classes"/>
+        <home nested="repository/spi"/>
+        <jar name="target/jars/avalon-repository-spi-@@DATE@@.jar" id="api"/>
+        <javadoc nested="repository/spi/target/docs/apidocs"/>
+        <junitreport nested="repository/spi/target/test-reports"/>
+        <nag to="dev@avalon.apache.org" from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"/>
+    </project>
+    
+    <project name="avalon-repository-util">
+        <package>org.apache.avalon.repository.util</package>
+        <ant basedir="repository/util">
+            <property name="project.version" value="@@DATE@@"/>
+        </ant>
+        <depend project="avalon-repository-api" />
+        <work nested="repository/util/target/classes"/>
+        <home nested="repository/util"/>
+        <jar name="target/jars/avalon-repository-util-@@DATE@@.jar" id="api"/>
+        <javadoc nested="repository/util/target/docs/apidocs"/>
+        <junitreport nested="repository/util/target/test-reports"/>
+        <nag to="dev@avalon.apache.org" from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"/>
+    </project>
+    
     <project name="avalon-util-criteria">
         <package>org.apache.avalon.util.criteria</package>
         <ant basedir="util/criteria">
