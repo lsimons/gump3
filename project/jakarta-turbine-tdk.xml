@@ -8,7 +8,7 @@
   <cvs repository="jakarta"/>
   
   <project name="jakarta-turbine-tdk">
-    <ant>
+    <ant target="docs">
       <property name="tomcat.dist" 
         reference="home" project="jakarta-tomcat-4.0"/>
 
@@ -38,6 +38,7 @@
       <depend property="xerces.jar" project="xml-xerces"/>
       <depend property="xmlrpc.jar" project="xml-rpc"/>
       <depend property="xmlrpc-helma.jar" project="xml-rpc"/>
+      <depend property="jdom.jar" project="jdom"/>
 
       <depend property="hsqldb.jar" project="hsqldb"/>
       <depend property="httpunit.jar" project="httpunit"/>

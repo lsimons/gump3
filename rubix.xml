@@ -13,6 +13,10 @@
     <jar name="lib/php/phpsrvlt.jar"/>
   </project>
 
+  <project name="xml-cocoon2">
+    <option project="phpservlet"/>
+  </project>
+
   <!-- Repository overrides -->
 
   <repository name="jakarta" method="ext" user="rubys" path="/home/cvs"/>
