@@ -5,6 +5,8 @@
     Velocity tools project
   </description>
 
+  <package>org.apache.velocity.tools</package>
+
   <cvs  repository="jakarta"/>
 
   <project name="velocity-tools-struts">

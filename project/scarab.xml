@@ -5,6 +5,8 @@
     Issue Tracking Built for the Ages
   </description>
 
+  <package>org.tigris.scarab</package>
+
   <cvs repository="tigris"/>
   
   <project name="scarab">

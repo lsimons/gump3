@@ -5,6 +5,8 @@
     JSP Taglibs
   </description>
 
+  <package>org.apache.taglibs</package>
+
   <cvs repository="jakarta"/>
   
   <project name="jakarta-taglibs">

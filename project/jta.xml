@@ -4,7 +4,9 @@
    <description>
      Java Transaction API
    </description>
-   
+
+   <package>javax.transaction</package>
+
    <project name="jta">
      <jar name="jta-spec1_0_1.jar" id="jta"/>
    </project>

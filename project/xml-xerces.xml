@@ -5,6 +5,8 @@
     Java XML Parser
   </description>
 
+  <package>org.apache.xerces</package>
+
   <cvs repository="xml" tag="xerces_j_1"/>
 
   <!-- build bootstrap -->

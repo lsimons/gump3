@@ -5,6 +5,8 @@
     Java Apache Mail Enterprise Server 
   </description>
 
+  <package>org.apache.james</package>
+
   <cvs repository="jakarta" />
   
   <project name="jakarta-james">

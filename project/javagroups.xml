@@ -5,6 +5,8 @@
     A Reliable Multicast Communication Toolkit for Java
   </description>
 
+  <package>org.javagroups</package>
+
   <cvs repository="sourceforge" host-prefix="cvs.javagroups" dir="javagroups"
     module="JavaGroups-2.0"/>
   

@@ -5,6 +5,8 @@
     WebWork web application framework.
   </description>
 
+  <package>webwork</package>
+
   <cvs repository="sourceforge" host-prefix="cvs.webwork" dir="webwork"/>
   
   <project name="webwork">

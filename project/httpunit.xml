@@ -5,6 +5,8 @@
     framework for unit testing web sites
   </description>
 
+  <package>???</package>
+
   <cvs repository="sourceforge" host-prefix="cvs.httpunit" dir="httpunit"/>
   
   <project name="httpunit">

@@ -5,6 +5,8 @@
     Doug Lea's concurrent programming classes
   </description>
   
+  <package>EDU.oswego.cs.dl.util.concurrent</package>
+  
   <project name="concurrent">
    <jar name="concurrent.jar"/>
   </project>

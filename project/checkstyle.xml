@@ -4,7 +4,9 @@
   <description>
     Java style checker
   </description>
-
+  
+  <package>???</package>
+  
   <cvs repository="sourceforge" host-prefix="cvs.checkstyle" dir="checkstyle"/>
 
   <project name="checkstyle">

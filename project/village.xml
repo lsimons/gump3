@@ -5,6 +5,8 @@
     Database API
   </description>
 
+  <package>com.workingdogs.village</package>
+
   <cvs repository="whichever"/>
   
   <project name="village">

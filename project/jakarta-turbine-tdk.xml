@@ -5,6 +5,8 @@
     Turbine Development Kit (TDK)
   </description>
 
+  <package>org.apache.turbine.tdk</package>
+
   <cvs repository="jakarta"/>
   
   <project name="jakarta-turbine-tdk-docs">

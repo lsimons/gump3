@@ -5,6 +5,8 @@
     Avalon Component repository
   </description>
 
+  <package>org.apache.avalon.excalibur</package>
+
   <cvs repository="jakarta"/>
   
   <project name="jakarta-avalon-excalibur">

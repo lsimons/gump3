@@ -5,6 +5,8 @@
     The flexible XML framework for Java
   </description>
 
+  <package>org.dom4j</package>
+
   <cvs repository="sourceforge" host-prefix="cvs.dom4j" dir="dom4j"/>
   
   <project name="dom4j">

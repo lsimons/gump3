@@ -5,6 +5,8 @@
     Java documentation management system
   </description>
 
+  <package>org.apache.alexandria</package>
+
   <cvs repository="jakarta"/>
   
   <project name="jakarta-alexandria">

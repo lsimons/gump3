@@ -5,6 +5,8 @@
     XSL:FO (Formatting Objects) processor
   </description>
 
+  <package>org.apache.fop</package>
+
   <cvs repository="xml"/>
 
   <!-- task definitions used by the build process -->

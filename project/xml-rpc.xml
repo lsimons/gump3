@@ -5,6 +5,8 @@
     A Java implementation of XML-RPC
   </description>
 
+  <package>org.apache.xmlrpc</package>
+
   <cvs repository="xml"/>
 
   <project name="xml-rpc">

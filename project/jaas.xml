@@ -4,7 +4,9 @@
   <description>
     Java Authentication and Authorization Service
   </description>
-  
+
+  <package>???</package>
+
   <project name="jaas">
     <jar  name="lib/jaas.jar"/>
   </project>

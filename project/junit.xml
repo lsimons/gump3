@@ -5,6 +5,8 @@
     Unit test framework
   </description>
 
+  <package>org.junit</package>
+
   <cvs repository="sourceforge" host-prefix="cvs.JUnit" dir="junit"/>
   
   <project name="junit">

@@ -1,8 +1,10 @@
 <module name="xml-commons">
 
   <description>
-    XML commons($Revision: 1.7 $) externally defined standards - DOM,SAX,JAXP; plus xml utilities
+    XML commons($Revision: 1.8 $) externally defined standards - DOM,SAX,JAXP; plus xml utilities
   </description>
+
+  <package>org.apache.xml</package>
 
   <cvs repository="xml"/>
   

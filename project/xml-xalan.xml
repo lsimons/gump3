@@ -5,6 +5,8 @@
     Release 2.x of the Xalan-Java XSLT processor
   </description>
 
+  <package>org.apache.xalan</package>
+
   <cvs repository="xml"/>
 
   <project name="xml-xalan2">

@@ -5,6 +5,8 @@
     OpenSource implementation of a JMX agent
   </description>
 
+  <package>???</package>
+
   <cvs repository="sourceforge" host-prefix="cvs.openjmx" dir="openjmx"/>
 
   <project name="openjmx">

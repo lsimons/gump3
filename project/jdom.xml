@@ -5,6 +5,8 @@
     Java XML API
   </description>
 
+  <package>org.jdom</package>
+
   <cvs repository="jdom"/>
 
   <project name="jdom">

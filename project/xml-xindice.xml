@@ -5,6 +5,8 @@
     native XML database
   </description>
 
+  <package>org.apache.xindice</package>
+
   <cvs repository="xml"/>
   
   <project name="xml-xindice">

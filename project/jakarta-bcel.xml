@@ -5,6 +5,8 @@
      Byte Code Engineering Library
   </description>
 
+  <package>org.apache.bcel</package>
+
   <cvs repository="jakarta"/>
   
   <project name="jakarta-bcel">

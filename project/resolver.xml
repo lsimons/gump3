@@ -4,7 +4,9 @@
   <description>
     XML Entity and URI Resolvers
   </description>
-  
+
+  <package>???</package>
+
   <project name="resolver">
     <jar  name="resolver.jar"/>
   </project>

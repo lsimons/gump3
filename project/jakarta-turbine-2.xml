@@ -5,6 +5,8 @@
     Servlet based framework
   </description>
 
+  <package>org.apache.turbine</package>
+
   <cvs repository="jakarta"/>
 
   <project name="jakarta-turbine-2">

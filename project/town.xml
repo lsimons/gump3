@@ -5,6 +5,8 @@
     An extension of a Villiage
   </description>
 
+  <package>???</package>
+
   <cvs repository="whichever"/>
   
   <project name="town">

@@ -7,6 +7,7 @@
   <cvs repository="jakarta"/>
 
   <project name="commons-altrmi">
+    <package>org.apache.commons.altrmi</package>
     <description>Alternate RMI Package</description>
     <ant basedir="altrmi" target="dist"/>
     <depend project="jakarta-ant"/>
@@ -27,6 +28,7 @@
   </project>
 
   <project name="commons-codec">
+    <package>org.apache.commons.codec</package>
     <description>Commons Encoding/Decoding Package</description>
     <ant basedir="codec" target="dist">
       <property name="component.version"  value="@@DATE@@"/>
@@ -38,6 +40,7 @@
   </project>
 
   <project name="commons-betwixt">
+    <package>org.apache.commons.betwixt</package>
     <description>Commons Betwixt Package</description>
     <url href="http://jakarta.apache.org/commons/betwixt.html"/>
     <ant basedir="betwixt" target="dist">
@@ -55,6 +58,7 @@
   </project>
 
   <project name="commons-email">
+    <package>org.apache.commons.email</package>
     <description>Commons Email Package</description>
     <ant basedir="email" target="dist">
       <property name="component.version"  value="@@DATE@@"/>
@@ -69,6 +73,7 @@
   </project>
 
   <project name="commons-io">
+    <package>org.apache.commons.io</package>
     <description>Commons I/O Utility Package</description>
     <ant basedir="io" target="dist">
       <property name="component.version"  value="@@DATE@@"/>
@@ -80,6 +85,7 @@
   </project>
 
   <project name="commons-jjar">
+    <package>org.apache.commons.jjar</package>
     <description>Jakarta Jar Archive Repository</description>
     <ant basedir="jjar" target="dist">
       <depend property="minml2.jar"  project="minml2"/>
@@ -94,6 +100,7 @@
   </project>
 
   <project name="commons-graph">
+    <package>org.apache.commons.graph</package>
     <description>Jakarta Graph Utilities</description>
     <ant basedir="graph" target="dist"/>
     <depend project="jakarta-ant"/>
@@ -104,6 +111,7 @@
   </project>
 
   <project name="commons-lang">
+    <package>org.apache.commons.lang</package>
     <description>utilities for the classes that are in java.lang's hierarchy</description>
     <ant basedir="lang" target="dist">
       <property name="component.version"  value="@@DATE@@"/>
@@ -115,6 +123,7 @@
   </project>
 
   <project name="commons-messenger">
+    <package>org.apache.commons.messenger</package>
     <description>A web based JMS framework</description>
     <url href="http://jakarta.apache.org/commons/messenger.html"/>
     <ant basedir="messenger" target="dist">
@@ -132,6 +141,7 @@
   </project>
 
   <project name="commons-modeler">
+    <package>org.apache.commons.modeler</package>
     <description>Modeler MBeans</description>
     <ant basedir="modeler" target="dist">
     </ant>
@@ -147,6 +157,7 @@
   </project>
 
   <project name="commons-services">
+    <package>org.apache.commons.services</package>
     <description>Basic Services Architecture</description>
     <ant basedir="services" target="dist"/>
 
@@ -163,6 +174,7 @@
   </project>
 
   <project name="commons-threading">
+    <package>org.apache.commons.threading</package>
     <description>Commons Threading Utility Package</description>
     <ant basedir="threading" target="dist">
       <property name="component.version"  value="@@DATE@@"/>
@@ -174,6 +186,7 @@
   </project>
 
   <project name="commons-util">
+    <package>org.apache.commons.util</package>
     <description>Commons Utility Package</description>
     <ant basedir="util" target="dist">
       <property name="component.version"  value="@@DATE@@"/>

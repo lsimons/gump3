@@ -5,6 +5,8 @@
     Enterprise Information Portal
   </description>
 
+  <package>org.apache.jetspeed</package>
+
   <cvs repository="jakarta"/>
   
   <project name="jakarta-jetspeed">

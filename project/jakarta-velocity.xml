@@ -5,6 +5,8 @@
     Template engine
   </description>
 
+  <package>org.apache.velocity</package>
+
   <cvs  repository="jakarta"/>
   
   <project name="jakarta-velocity">

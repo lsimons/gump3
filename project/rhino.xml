@@ -5,6 +5,8 @@
     JavaScript for Java
   </description>
 
+  <package>???</package>
+
   <cvs repository="mozilla" module="mozilla/js/rhino"/>
 
   <project name="rhino">

@@ -5,6 +5,8 @@
     FAQ-O-Matic 
   </description>
 
+  <package>org.apache.turbine.jyve</package>
+
   <cvs repository="jakarta"/>
   
   <project name="jakarta-turbine-jyve">

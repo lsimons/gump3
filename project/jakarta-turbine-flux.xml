@@ -5,6 +5,8 @@
     Servlet based framework
   </description>
 
+  <package>org.apache.turbine.flux</package>
+
   <cvs repository="jakarta"/>
   
   <project name="jakarta-turbine-flux">

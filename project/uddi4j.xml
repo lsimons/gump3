@@ -5,6 +5,8 @@
     UDDI client
   </description>
 
+  <package>???</package>
+
   <cvs repository="devworks" dir="uddi4j"/>
   
   <project name="uddi4j">

@@ -4,7 +4,9 @@
   <description>
     JavaBeans Activation Framework
   </description>
-  
+
+  <package>javax.activation</package>
+
   <project name="jaf">
    <jar name="activation.jar"/>
   </project>

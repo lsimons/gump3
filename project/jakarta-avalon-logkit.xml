@@ -5,6 +5,8 @@
     Fast lightweight Logging toolkit
   </description>
 
+  <package>org.apache.avalon.logkit</package>
+
   <cvs repository="jakarta"/>
   
   <project name="jakarta-avalon-logkit">

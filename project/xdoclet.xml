@@ -5,6 +5,8 @@
     Enhanced Doclet engine.
   </description>
 
+  <package>???</package>
+
   <cvs repository="sourceforge" host-prefix="cvs.xdoclet" dir="xdoclet"/>
   
   <project name="xdoclet">

@@ -5,6 +5,8 @@
     JSR 110 
   </description>
 
+  <package>???</package>
+
   <cvs repository="devworks" dir="wsdl4j"/>
   
   <project name="wsdl4j">

@@ -5,6 +5,8 @@
     Java to XML, SQL, LDAP bindings
   </description>
 
+  <package>org.exolab.castor</package>
+
   <cvs repository="exolab" host-prefix="castor" dir="castor"/>
   
   <project name="castor">

@@ -5,6 +5,8 @@
     Content Management System based on WebDAV technology
   </description>
 
+  <package>org.apache.slide</package>
+
   <cvs repository="jakarta"/>
   
   <project name="jakarta-slide">

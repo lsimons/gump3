@@ -5,6 +5,8 @@
     A refactoring tool for the Java programming language.
   </description>
 
+  <package>org.acm.seguin</package>
+
   <cvs repository="sourceforge" host-prefix="cvs.JRefactory" dir="jrefactory" 
        module="JRefactory"/>
   

@@ -4,7 +4,9 @@
   <description>
     Java Message Service API
   </description>
-  
+
+  <package>javax.jms</package>
+
   <project name="jms">
     <jar  name="lib/jms.jar"/>
   </project>

@@ -5,6 +5,8 @@
      Java Based Search Engine
   </description>
 
+  <package>org.apache.lucene</package>
+
   <cvs repository="jakarta"/>
   
   <project name="jakarta-lucene">

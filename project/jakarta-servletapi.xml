@@ -4,6 +4,8 @@
     Servlet 2.2 and JSP 1.1 API
   </description>
 
+  <package>javax.servlet</package>
+
   <cvs repository="jakarta"/>
   
   <project name="jakarta-servletapi">

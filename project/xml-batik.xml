@@ -5,6 +5,8 @@
     Scalable Vector Graphics
   </description>
 
+  <package>org.apache.batik</package>
+  
   <cvs repository="xml"/>
   
   <project name="xml-batik">

@@ -5,6 +5,8 @@
     Java based build tool
   </description>
 
+  <package>org.apache.tools.ant</package>
+
   <cvs repository="jakarta"/>
   
   <project name="jakarta-ant">

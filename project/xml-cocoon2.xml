@@ -5,6 +5,8 @@
     Java publishing framework - version 2
   </description>
 
+  <package>org.apache.cocoon</package>
+
   <cvs repository="xml"/>
   
   <project name="xml-cocoon2">

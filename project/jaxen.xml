@@ -5,6 +5,8 @@
     The flexible XML framework for Java
   </description>
 
+  <package>org.jaxen</package>
+
   <cvs repository="sourceforge" host-prefix="cvs.jaxen" dir="jaxen"/>
   
   <project name="jaxen">

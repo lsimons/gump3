@@ -4,7 +4,9 @@
   <description>
     Java API for XML Processing
   </description>
-  
+
+  <package>javax.xml</package>
+
   <project name="jaxp">
     <jar name="jaxp.jar"/>
     <jar name="crimson.jar" id="parser"/>

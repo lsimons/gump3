@@ -4,7 +4,9 @@
   <description>
     XML-Signature Syntax and Processing 
   </description>
-
+  
+  <package>???</package>
+  
   <cvs repository="xml"/>
 
   <!-- build -->

@@ -5,6 +5,8 @@
     Java Transaction Service
   </description>
 
+  <package>???</package>
+
   <note>
     The distribution appears to contain an incomplete set of classes.
     The necessary build.xml used to build a complete set is included below

@@ -6,6 +6,8 @@
     Format (tm) to pure Java (tm). 
   </description>
 
+  <package>org.apache.poi</package>
+
   <cvs repository="jakarta"/>
   
   <project name="jakarta-poi">

@@ -6,6 +6,8 @@
     the commons.
   </description>
 
+  <package>org.apache.turbine.stratum</package>
+
   <cvs repository="jakarta"/>
   
   <project name="jakarta-turbine-stratum">

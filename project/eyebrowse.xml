@@ -5,6 +5,8 @@
      Web-based mail archive browsing
   </description>
 
+  <package>org.tigris.eyebrowse</package>
+  
   <cvs repository="tigris"/>
   
   <project name="eyebrowse">

@@ -5,6 +5,8 @@
     Simple Object Access Protocol
   </description>
 
+  <package>org.apache.axis</package>
+
   <cvs repository="xml"/>
 
   <!-- build -->

@@ -3,7 +3,9 @@
    <description>
      Enterprise JavaBeans
    </description>
-   
+
+   <package>???</package>
+
    <project name="ejb">
      <jar name="ejb.jar"/>
    </project>

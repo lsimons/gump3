@@ -5,6 +5,8 @@
     EJB container
   </description>
 
+  <package>???</package>
+
   <cvs repository="exolab" host-prefix="openorb" dir="openorb" module="OpenORB"/>
   
   <project name="openorb">

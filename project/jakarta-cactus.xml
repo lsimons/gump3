@@ -5,6 +5,8 @@
       Unit test framework for J2EE server-side java code
   </description>
 
+  <package>org.apache.cactus</package>
+
   <cvs repository="jakarta"/>
 
   <!-- Build the Cactus project ant tasks -->

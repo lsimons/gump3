@@ -4,7 +4,9 @@
   <description>
     Bouncy Castle Crypto APIs
   </description>
-  
+
+  <package>???</package>
+
   <project name="jce">
     <jar  name="jce-jdk13-112.jar"/>
   </project>

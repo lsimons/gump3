@@ -5,6 +5,8 @@
     GUI frontend to Ant
   </description>
 
+  <package>???</package>
+
   <cvs repository="jakarta"/>
 
   <project name="jakarta-ant-antidote">

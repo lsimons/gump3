@@ -5,6 +5,8 @@
     Simple Object Access Protocol
   </description>
 
+  <package>???</package>
+
   <cvs repository="xml"/>
   
   <project name="xml-soap">

@@ -4,7 +4,9 @@
   <description>
     Sun's Java Technology Implementation of XML Schema Part 2
   </description>
-  
+
+  <package>???</package>
+
   <project name="tranquilo">
     <jar name="xsdlib.jar"/>
   </project>

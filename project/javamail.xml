@@ -4,7 +4,9 @@
   <description>
     Java Mail
   </description>
-  
+
+  <package>javax.mail</package>
+
   <project name="javamail">
     <jar  name="mail.jar"/>
   </project>

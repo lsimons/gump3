@@ -4,7 +4,9 @@
   <description>
     LDAP Service Provider
   </description>
-  
+
+  <package>???</package>
+
   <project name="ldap">
     <jar name="lib/ldap.jar"/>
   </project>

@@ -5,6 +5,8 @@
     Java Regular Expression package
   </description>
 
+  <package>org.apache.oro</package>
+
   <cvs repository="jakarta"/>
   
   <project name="jakarta-oro">

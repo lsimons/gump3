@@ -5,6 +5,8 @@
     Services Framework
   </description>
 
+  <package>org.apache.fulcrum</package>
+
   <cvs repository="jakarta"/>
   
   <project name="jakarta-turbine-fulcrum">

@@ -5,6 +5,8 @@
     Cross project build tool
   </description>
 
+  <package>???</package>
+
   <project name="gump">
     <ant target="all">
       <property name="site.dir" reference="srcdir" project="jakarta-site2"/>

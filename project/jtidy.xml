@@ -5,6 +5,8 @@
     HTML Templates
   </description>
 
+  <package>org.w3c.tidy</package>
+
   <cvs repository="sourceforge" host-prefix="cvs.jtidy" dir="jtidy"/>
   
   <project name="jtidy">

@@ -5,6 +5,8 @@
     Pure Java load testing and performance measurement tool.
   </description>
 
+  <package>org.apache.jmeter</package>
+
   <cvs repository="jakarta" />
   
   <project name="jakarta-jmeter">

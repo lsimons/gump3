@@ -5,6 +5,8 @@
     Element Construction Set
   </description>
 
+  <package>org.apache.ecs</package>
+
   <cvs repository="jakarta"/>
   
   <project name="jakarta-ecs">

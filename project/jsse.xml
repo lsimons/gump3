@@ -4,7 +4,9 @@
   <description>
     Java Secure Socket Extension
   </description>
-  
+
+  <package>javax.net.ssl</package>
+
   <project name="jsse">
     <jar name="lib/jsse.jar"/>
     <jar name="lib/jnet.jar"/>

@@ -5,6 +5,8 @@
   </description>
   <url href="http://jakarta.apache.org/watchdog/index.html"/>
 
+  <package>???</package>
+
   <cvs repository="jakarta" />
   
   <project name="jakarta-watchdog">

@@ -8,6 +8,7 @@
   <cvs repository="jakarta"/>
 
   <project name="commons-beanutils">
+    <package>org.apache.commons.beanutils</package>
     <description>Bean Utilities</description>
     <url href="http://jakarta.apache.org/commons/beanutils.html"/>
     <ant basedir="beanutils" target="dist">
@@ -24,6 +25,7 @@
   </project>
 
   <project name="commons-collections">
+    <package>org.apache.commons.collections</package>
     <description>Collections</description>
     <url href="http://jakarta.apache.org/commons/collections.html"/>
     <ant basedir="collections" target="dist"/>
@@ -37,6 +39,7 @@
   </project>
 
   <project name="commons-dbcp">
+    <package>org.apache.commons.dbcp</package>
     <description>Database Connection Pool</description>
     <ant basedir="dbcp" target="dist"/>
     <depend project="jakarta-ant"/>
@@ -53,6 +56,7 @@
   </project>
 
   <project name="commons-digester">
+    <package>org.apache.commons.digester</package>
     <description>XML to Java Object Configuration</description>
     <url href="http://jakarta.apache.org/commons/digester.html"/>
     <ant basedir="digester" target="dist"/>
@@ -68,6 +72,7 @@
   </project>
 
   <project name="commons-httpclient">
+    <package>org.apache.commons.httpclient</package>
     <description>HTTP Client Library</description>
     <url href="http://jakarta.apache.org/commons/httpclient/"/>
     <ant basedir="httpclient" target="dist"/>
@@ -81,6 +86,7 @@
   </project>
 
   <project name="commons-jxpath">
+    <package>org.apache.commons.jxpath</package>
     <description>XPath traversal of JavaBeans</description>
     <ant basedir="jxpath" target="dist">
       <property name="component.version" value="@@DATE@@"/>
@@ -96,6 +102,7 @@
   </project>
 
   <project name="commons-latka">
+    <package>org.apache.commons.latka</package>
     <description>Functional Testing Suite</description>
     <ant basedir="latka" target="dist">
       <property name="jaxen.jar" reference="jar" project="jaxen"/>
@@ -115,6 +122,7 @@
   </project>
 
   <project name="commons-logging">
+    <package>org.apache.commons.logging</package>
     <description>Logging Library Package</description>
     <url href="http://jakarta.apache.org/commons/"/>
     <ant basedir="logging" target="dist"/>
@@ -128,6 +136,7 @@
   </project>
 
   <project name="commons-pool">
+    <package>org.apache.commons.pool</package>
     <description>Object Pooling</description>
     <ant basedir="pool" target="dist"/>
     <depend project="jakarta-ant"/>
@@ -140,6 +149,7 @@
   </project>
 
   <project name="commons-validator">
+    <package>org.apache.commons.validator</package>
     <description>Validation Framework</description>
     <ant basedir="validator" target="javadocs"/>
     <depend project="jakarta-ant"/>
