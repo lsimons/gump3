@@ -1810,6 +1810,9 @@ This page helps Gumpmeisters (and others) observe community progress.
             
             if project.hasAnt():                
                 self.documentProperties(miscSection, project.getAnt(), 'Ant Properties')
+            elif project.hasNAnt():                
+                self.documentProperties(miscSection, project.getNAnt(), 'NAnt Properties')
+            # :TODO: Maven?
             
             javaHelper=self.run.getJavaHelper()            
             (classpath,bootclasspath)=javaHelper.getClasspathObjects(project)            
@@ -1962,7 +1965,7 @@ This page helps Gumpmeisters (and others) observe community progress.
         pathTable=pathSection.createTable(['Path Entry','Contributor','Instigator','Id','Annotation'])       
         paths=0
         for path in classpath.getPathParts(): 
-            if isinstance(path,gump.java.cp.AnnotatedPath):
+            if isinstance(path,gump.language.path.AnnotatedPath):
                 pathStr=path.getPath()
                 contributor=path.getContributor()
                 instigator=path.getInstigator()

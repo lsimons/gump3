@@ -108,7 +108,6 @@ class GumpRun(gump.utils.timing.Timeable,gump.utils.work.Workable,gump.utils.not
         self.builder=None
         self.updater=None
         
-        
     def setBuilder(self,builder):
         self.builder=builder
         
@@ -127,7 +126,12 @@ class GumpRun(gump.utils.timing.Timeable,gump.utils.work.Workable,gump.utils.not
     def getJavaHelper(self):
         return self.javaHelper
         
-    
+    def setCSharpHelper(self,csharpHelper):
+        self.csharpHelper=csharpHelper
+        
+    def getCSharpHelper(self):
+        return self.csharpHelper
+        
     def getRunGuid(self):
         return self.guid
         

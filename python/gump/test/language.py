@@ -28,7 +28,8 @@ from gump import log
 
 import gump.core.config
 import gump.build.builder
-import gump.java.helper
+import gump.language.java
+import gump.language.csharp
 
 from gump.model.state import *
 from gump.utils import *
@@ -68,7 +69,7 @@ class LanguageTestSuite(UnitTestSuite):
         self.module5=self.workspace.getModule('module5')
         
         self.builder=gump.build.builder.GumpBuilder(self.run)
-        self.java=gump.java.helper.JavaHelper(self.run)
+        self.java=gump.language.java.JavaHelper(self.run)
         
     def suiteTearDown(self):
         self.run=None

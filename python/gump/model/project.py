@@ -29,7 +29,7 @@ from gump.model.misc import Jar,Resultable, Positioned, \
                             AddressPair
 from gump.model.stats import Statable, Statistics
 from gump.model.property import Property
-from gump.model.builder import Ant,Maven,Script
+from gump.model.builder import Ant,NAnt,Maven,Script
 from gump.utils import getIndent
 from gump.utils.file import *
 from gump.model.depend import *
@@ -133,6 +133,10 @@ class Project(NamedModelObject, Statable, Resultable, Dependable, Positioned):
         if self.ant: return True
         return False
         
+    def hasNAnt(self):
+        if self.nant: return True
+        return False
+        
     def hasMaven(self):
         if self.maven: return True
         return False
@@ -143,6 +147,9 @@ class Project(NamedModelObject, Statable, Resultable, Dependable, Positioned):
     
     def getAnt(self):
         return self.ant
+        
+    def getNAnt(self):
+        return self.nant
         
     def getMaven(self):
         return self.maven
@@ -324,6 +331,13 @@ class Project(NamedModelObject, Statable, Resultable, Dependable, Positioned):
             
             # Copy over any XML errors/warnings
             # :TODO:#1: transferAnnotations(self.xml.ant, self)
+        
+        # Import any <nant part [if not packaged]
+        if self.hasDomChild('nant') and not packaged:
+            self.nant = NAnt(self.getDomChild('nant'),self)
+            
+            # Copy over any XML errors/warnings
+            # :TODO:#1: transferAnnotations(self.xml.nant, self)
         
         # Import any <maven part [if not packaged]
         if self.hasDomChild('maven') and not packaged:
@@ -667,7 +681,7 @@ class Project(NamedModelObject, Statable, Resultable, Dependable, Positioned):
         outputs=[]
         for jar in self.getJars():
             jarpath=jar.getPath()
-            outputs.append(gump.java.cp.AnnotatedPath(jar.getId(),jarpath,self,None,"Project output"))                    
+            outputs.append(gump.language.path.AnnotatedPath(jar.getId(),jarpath,self,None,"Project output"))                    
         return outputs
                         
     def hasOutputs(self):

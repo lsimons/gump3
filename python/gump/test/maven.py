@@ -28,7 +28,7 @@ import gump.core.config
 from gump.model.state import *
 from gump.build.maven import MavenBuilder
 
-import gump.java.helper
+import gump.language.java
 
 from gump.utils import *
 from gump.test import getWorkedTestRun
@@ -57,7 +57,7 @@ class MavenTestSuite(UnitTestSuite):
         self.assertNotNone('Needed a maven project', self.maven1)
         
         self.mavenBuilder=MavenBuilder(self.run)
-        self.javaHelper=gump.java.helper.JavaHelper(self.run)
+        self.javaHelper=gump.language.java.JavaHelper(self.run)
         
     def testMavenProperties(self):
                 

@@ -252,7 +252,7 @@ maven.jar.override = on
         
         # :TODO: write...
         for annotatedPath in classpath.getPathParts():
-            if isinstance(annotatedPath,gump.java.cp.AnnotatedPath):
+            if isinstance(annotatedPath,gump.language.path.AnnotatedPath):
                 props.write(('# Contributor: %s\nmaven.jar.%s=%s\n') % \
                     (	annotatedPath.getContributor(),	
                         annotatedPath.getId(),	

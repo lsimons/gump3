@@ -58,13 +58,14 @@ class GumpRunner(RunSpecific):
         
         
         # A helper per language/type
-        # Note: All are Java right now...
-        self.java=gump.java.helper.JavaHelper(run)
+        self.java=gump.language.java.JavaHelper(run)
+        self.java=gump.language.csharp.CSharpHelper(run)
         
         # Stash them for reference...
         run.setUpdater(self.updater)
         run.setBuilder(self.builder)        
-        run.setJavaHelper(self.java)
+        run.setJavaHelper(self.java)  
+        run.setJavaHelper(self.csharp)
         
     def initialize(self,exitOnError=True):
         

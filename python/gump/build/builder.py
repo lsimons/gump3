@@ -47,6 +47,7 @@ from gump.core.config import dir, default, basicConfig
 
 from gump.build.script import ScriptBuilder
 from gump.build.ant import AntBuilder
+from gump.build.nant import NAntBuilder
 from gump.build.maven import MavenBuilder
 
 from gump.utils import dump, display, getIndent, logResourceUtilization, \
@@ -66,8 +67,6 @@ from gump.model.state import *
 
 import gump.integration.depot
 
-import gump.java.helper
-
 
 ###############################################################################
 # Classes
@@ -79,6 +78,7 @@ class GumpBuilder(gump.run.gumprun.RunSpecific):
         gump.run.gumprun.RunSpecific.__init__(self,run)
         
         self.ant=AntBuilder(run)
+        self.nant=NAntBuilder(run)
         self.maven=MavenBuilder(run)
         self.script=ScriptBuilder(run)
 
@@ -134,6 +134,8 @@ class GumpBuilder(gump.run.gumprun.RunSpecific):
                     self.script.buildProject(project, languageHelper, stats)
                 elif project.hasAnt():
                     self.ant.buildProject(project, languageHelper, stats)
+                elif project.hasNAnt():
+                    self.nant.buildProject(project, languageHelper, stats)
                 elif project.hasMaven():
                     self.maven.buildProject(project, languageHelper, stats)
               
@@ -495,6 +497,8 @@ class GumpBuilder(gump.run.gumprun.RunSpecific):
             self.script.preview(project, languageHelper, stats)
         elif project.hasAnt():
             self.ant.preview(project,  languageHelper, stats)
+        elif project.hasNAnt():
+            self.nant.preview(project,  languageHelper, stats)
         elif project.hasMaven():
             self.maven.preview(project,  languageHelper, stats)
         else:
