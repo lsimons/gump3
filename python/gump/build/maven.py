@@ -102,14 +102,13 @@ class MavenBuilder(AbstractJavaBuilder):
     #        
     def getMavenCommand(self,project):
         maven=project.maven
-        mavenxml=project.xml.maven
     
         # The ant goal (or none == ant default goal)
         goal=maven.getGoal()
     
         # Optional 'verbose' or 'debug'
-        verbose=mavenxml.verbose
-        debug=mavenxml.debug
+        verbose=maven.isVerbose()
+        debug=maven.isDebug()
     
         #
         # Where to run this:
@@ -167,7 +166,9 @@ class MavenBuilder(AbstractJavaBuilder):
         #cmd.addPrefixedParameter('-D','build.sysclasspath','only','=')
     
         # End with the goal...
-        cmd.addParameter(goal)
+        if goal: 
+            for goalParam in goal.split():
+                cmd.addParameter(goalParam)
     
         return cmd
   
