@@ -128,18 +128,35 @@
     </ant>
 
     <depend project="jakarta-ant" inherit="all"/>
-    <depend project="commons-jxpath"/>
-    <depend project="commons-jexl"/>    
-    <depend project="jakarta-velocity"/>   
-    <depend project="commons-discovery"/>   
-    <depend project="commons-logging"/>   
     
-    <home nested="proposal/embed"/>
-    <jar name="lib/ant-sax2.jar" id="embed"/>
+    <jar name="build/ant-sax2.jar" id="embed"/>
 
     <nag to="ant-dev@jakarta.apache.org"
          from="Nicola Ken Barozzi &lt;nicolaken@apache.org&gt;"/>    
          
   </project>
+  
+  <project name="jakarta-ant-embed-optional">
+    <package>org.apache.tools.ant</package>
+
+    <ant basedir="proposal/embed" target="embed-optional" >
+      <property name="ant.home" value="."/>
+    </ant>
+
+    <depend project="jakarta-ant" inherit="all"/>
+    <depend project="commons-jxpath"/>
+    <depend project="commons-jexl"/>    
+    <depend project="jakarta-velocity"/>   
+    <depend project="commons-discovery"/>   
+    <depend project="commons-logging"/>   
+
+    <jar name="build/optional-dynprop.jar" id="embed-optional"/>
+
+    <nag to="ant-dev@jakarta.apache.org"
+         from="Nicola Ken Barozzi &lt;nicolaken@apache.org&gt;"/>    
+         
+
+  </project>  
    
 </module>
+
