@@ -2,7 +2,7 @@
 
 <repository name="whichever" type="cvs">
   <title>Whichever</title>
-  <home-page>http://share.shichever.org/</home-page>
+  <home-page>http://share.whichever.com/</home-page>
   <cvsweb>http://share.whichever.com/viewcvs.cgi/</cvsweb>
 
   <root>
