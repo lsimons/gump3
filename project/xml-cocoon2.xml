@@ -5,7 +5,7 @@
     Java publishing framework - version 2
   </description>
 
-  <cvs repository="xml" module="xml-cocoon" tag="xml-cocoon2" />
+  <cvs repository="xml" module="xml-cocoon2"/>
 
   <ant target="dist">
     <property name="logkit.jar"
