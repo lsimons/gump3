@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/output/Attic/xref.py,v 1.3 2003/12/03 18:36:13 ajack Exp $
-# $Revision: 1.3 $
-# $Date: 2003/12/03 18:36:13 $
+# $Header: /home/stefano/cvs/gump/python/gump/output/Attic/xref.py,v 1.4 2003/12/14 17:57:39 ajack Exp $
+# $Revision: 1.4 $
+# $Date: 2003/12/14 17:57:39 $
 #
 # ====================================================================
 #
@@ -80,6 +80,7 @@ class XRefGuru:
     
         self.repositoryToModule={}
         self.packageToModule={}
+        self.packageToProject={}
         
         # Build Information Maps
         self.mapRepositories()
@@ -105,15 +106,24 @@ class XRefGuru:
             
                         if not self.packageToModule.has_key(packageName):
                                 self.packageToModule[packageName]=[]
+            
+                        if not self.packageToProject.has_key(packageName):
+                                self.packageToProject[packageName]=[]
                 
                         # Store
                         if not module in self.packageToModule[packageName]:
                             self.packageToModule[packageName].append(module)
+    
+                        if not project in self.packageToProject[packageName]:
+                            self.packageToProject[packageName].append(project)
     
     def getRepositoryToModuleMap(self):
         return self.repositoryToModule
                 
     def getPackageToModuleMap(self):
         return self.packageToModule
+        
+    def getPackageToProjectMap(self):
+        return self.packageToProject
         
         

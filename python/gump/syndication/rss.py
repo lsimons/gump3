@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/syndication/rss.py,v 1.9 2003/12/09 00:48:36 ajack Exp $
-# $Revision: 1.9 $
-# $Date: 2003/12/09 00:48:36 $
+# $Header: /home/stefano/cvs/gump/python/gump/syndication/rss.py,v 1.10 2003/12/14 17:57:39 ajack Exp $
+# $Revision: 1.10 $
+# $Date: 2003/12/14 17:57:39 $
 #
 # ====================================================================
 #
@@ -318,10 +318,11 @@ class RSSSyndicator(Syndicator):
                   module.getName(), \
                   ('%sT%s%s') % (datestr,timestr,TZ))
         
-        # Generate changes
-        if not s.currentState == STATE_NONE and	\
-            not s.currentState == STATE_UNSET:   
-            moduleRSS.addItem(item)  
+        # Generate changes, only if the module had changed
+        if module.isUpdated():
+            if not s.currentState == STATE_NONE and	\
+                not s.currentState == STATE_UNSET:   
+                moduleRSS.addItem(item)  
             
         # State changes that are newsworthy...
         if 	s.sequenceInState == 1	\
@@ -366,11 +367,12 @@ class RSSSyndicator(Syndicator):
                   project.getModule().getName() + ":" + project.getName(), \
                   ('%sT%s%s') % (datestr,timestr,TZ))
 
-        # Generate changes
-        if not s.currentState == STATE_NONE and	\
-            not s.currentState == STATE_UNSET:           
-            projectRSS.addItem(item)
-            moduleRSS.addItem(item)  
+        # Generate changes, only if the module changed
+        if project.getModule().isUpdated():
+            if not s.currentState == STATE_NONE and	\
+                not s.currentState == STATE_UNSET:           
+                projectRSS.addItem(item)
+                moduleRSS.addItem(item)  
 
         # State changes that are newsworthy...
         if 	s.sequenceInState == 1	\

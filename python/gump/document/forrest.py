@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/forrest.py,v 1.36 2003/12/12 16:32:51 ajack Exp $
-# $Revision: 1.36 $f
-# $Date: 2003/12/12 16:32:51 $
+# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/forrest.py,v 1.37 2003/12/14 17:57:39 ajack Exp $
+# $Revision: 1.37 $f
+# $Date: 2003/12/14 17:57:39 $
 #
 # ====================================================================
 #
@@ -1590,7 +1590,7 @@ class ForrestDocumenter(Documenter):
         document=XDocDocument('Cross Reference',self.resolver.getFile(xref))
     
         document.createParagraph("""
-        Relationships are what Gump is about, this section shows relationship. 
+        Gump is about relationships, and this section shows relationship. 
         See side menu for choices.
         """)
     
@@ -1599,6 +1599,8 @@ class ForrestDocumenter(Documenter):
          # Individual Pages...
         self.documentModulesByRepository(xref, run, workspace, gumpSet)
         self.documentModulesByPackage(xref, run, workspace, gumpSet)
+        
+        self.documentProjectsByPackage(xref, run, workspace, gumpSet)
         
         
     def documentModulesByRepository(self,xref,run,workspace,gumpSet):
@@ -1647,5 +1649,34 @@ class ForrestDocumenter(Documenter):
                     moduleData.createText(' ')
           
         document.serialize()
+        
+    def documentProjectsByPackage(self,xref,run,workspace,gumpSet):
+        document=XDocDocument('Projects By Package',	\
+            self.resolver.getFile(xref,'package_project.xml'))
+        
+        packageTable=document.createTable(['Projects By Package'])
+        
+        packageMap=xref.getPackageToProjectMap()
+        for package in createOrderedList(packageMap.keys()):
+                            
+            projectList=createOrderedList(packageMap.get(package)) 
+            
+            hasSome=0
+            for project in projectList:        
+                if not gumpSet.inSequence(project): continue
+                hasSome=1
+                
+            if hasSome:
+                packageRow=packageTable.createRow()
+                packageRow.createData(package)
+            
+                projectData=packageRow.createData()
+                for project in projectList:        
+                    if not gumpSet.inSequence(project): continue                
+                    self.insertLink(project, xref, projectData)
+                    projectData.createText(' ')
+          
+        document.serialize()
  
+        
         

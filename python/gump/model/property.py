@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/model/property.py,v 1.7 2003/12/11 18:56:27 ajack Exp $
-# $Revision: 1.7 $
-# $Date: 2003/12/11 18:56:27 $
+# $Header: /home/stefano/cvs/gump/python/gump/model/property.py,v 1.8 2003/12/14 17:57:39 ajack Exp $
+# $Revision: 1.8 $
+# $Date: 2003/12/14 17:57:39 $
 #
 # ====================================================================
 #
@@ -114,20 +114,19 @@ class Property(NamedModelObject):
                             break
                     else:
                         responsibleParty.addError(	\
-                            "jar with id %s was not found in project %s " +
-                                  "referenced by %s") % \
-                            (self.xml.id, targetProject.getName(), project.getName())
+                            "jar with id %s was not found in project %s ") % \
+                            (self.xml.id, targetProject.getName())
                 elif targetProject.getJarCount()==1:
                     self.setValue(targetProject.getJars()[0].getPath())
                 elif  targetProject.getJarCount()>1:
                     responsibleParty.addError(	\
-                        "Multiple jars defined by project %s referenced by %s; " + \
+                        "Multiple jars defined by project %s; " + \
                         "an id attribute is required to select the one you want") % \
-                          (targetProject.getName(), project.getName())
+                          (targetProject.getName())
                 else:
                     responsibleParty.addError(	\
-                        'Project %s referenced by %s defines no jars as output') % \
-                        (targetProject.getName(), project.getName())      
+                        'Project %s defines no jars as output') % \
+                        (targetProject.getName())      
                                 
         elif self.xml.path:
             #

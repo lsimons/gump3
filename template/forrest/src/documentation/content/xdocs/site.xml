@@ -42,7 +42,6 @@
   <stats label="Projects" tab="statistics">
     <index label="by FOG Factor" href="gump_stats/project_fogfactor.html"/>
     <index label="by Elapsed" href="gump_stats/project_elapsed.html"/>
-    <index label="by Project #" href="gump_stats/project_projects.html"/>
     <index label="by Depends #" href="gump_stats/project_dependencies.html"/>
     <index label="by Dependees #" href="gump_stats/project_dependees.html"/>
   </stats>
