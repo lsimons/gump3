@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/model/project.py,v 1.18 2003/12/01 17:34:07 ajack Exp $
-# $Revision: 1.18 $
-# $Date: 2003/12/01 17:34:07 $
+# $Header: /home/stefano/cvs/gump/python/gump/model/project.py,v 1.19 2003/12/01 20:48:12 ajack Exp $
+# $Revision: 1.19 $
+# $Date: 2003/12/01 20:48:12 $
 #
 # ====================================================================
 #
@@ -221,15 +221,15 @@ class Project(NamedModelObject, Statable):
         self.honoraryPackage=0
         
     def hasAnt(self):
-        if hasattr(self,'ant'): return 1
+        if hasattr(self,'ant') and self.ant: return 1
         return 0
         
     def hasMaven(self):
-        if hasattr(self,'maven'): return 1
+        if hasattr(self,'maven') and self.maven: return 1
         return 0
         
     def hasScript(self):
-        if hasattr(self,'script'): return 1
+        if hasattr(self,'script') and self.script: return 1
         return 0
     
       
@@ -706,7 +706,7 @@ class Project(NamedModelObject, Statable):
         maven=self.xml.maven
     
         # The ant goal (or none == ant default goal)
-        goal=maven.goal or ''
+        goal=self.maven.getGoal()
     
         # Optional 'verbose' or 'debug'
         verbose=maven.verbose
@@ -752,13 +752,18 @@ class Project(NamedModelObject, Statable):
         if jvmargs:
             cmd.addParameters(jvmargs)
             
-        cmd.addParameter('org.apache.tools.ant.Main')  
+        cmd.addParameter('org.apache.maven.cli.App')  
     
         #
-        # Allow ant-level debugging...
+        # Allow maven-level debugging...
         #
         if debug: cmd.addParameter('--debug')  
-        if verbose: cmd.addParameter('--exception')  
+        if verbose: cmd.addParameter('--exception') 
+        
+        #
+        # Suppress downloads
+        #          
+        cmd.addParameter('--offline')  
         
         #
         #	This sets the *defaults*, a workspace could override them.
@@ -774,7 +779,13 @@ class Project(NamedModelObject, Statable):
     def getJVMArgs(self):
         """Get JVM arguments for a project"""
         args=Parameters()
-        for jvmarg in self.getAnt().xml.jvmarg:
+        
+        if self.hasAnt():
+            jvmargs=self.getAnt().xml.jvmarg
+        elif self.hasMaven():
+            jvmargs=self.getMaven().xml.jvmarg
+                
+        for jvmarg in jvmargs:
             if jvmarg.value:
                 args.addParameter(jvmarg.value)
             else:

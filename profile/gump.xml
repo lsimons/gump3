@@ -138,6 +138,7 @@
   <module href="project/hsqldb.xml"/>
   <module href="project/httpunit.xml"/>
   <module href="project/iso-relax.xml"/>
+  <module href="project/invicta.xml"/>
   <module href="project/javagroups.xml"/>
   <module href="project/javassist.xml"/>
   <module href="project/jaxen.xml"/>

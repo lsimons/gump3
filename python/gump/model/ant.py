@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/model/Attic/ant.py,v 1.8 2003/12/01 17:34:07 ajack Exp $
-# $Revision: 1.8 $
-# $Date: 2003/12/01 17:34:07 $
+# $Header: /home/stefano/cvs/gump/python/gump/model/Attic/ant.py,v 1.9 2003/12/01 20:48:12 ajack Exp $
+# $Revision: 1.9 $
+# $Date: 2003/12/01 20:48:12 $
 #
 # ====================================================================
 #
@@ -226,7 +226,7 @@ class Maven(AntBuilder):
     	AntBuilder.__init__(self,xml,project)
     	
         # Import the goal
-    	self.goal='gump'
+    	self.goal='jar'
     	if xml.goal:
     	    self.goal=xml.goal
             	    

@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+<module name="invicta">
+
+  <url href="http://invicta.sourceforge.net/"/>
+  <description>
+		Open-source build management tool.
+  </description>
+
+  <cvs repository="sourceforge" 
+  	host-prefix="cvs.invicta" 
+  	dir="invicta"/>
+  
+  <project name="invicta">
+    <package>net.sf.invicta</package>
+
+    <!-- Work dirs to be included in classpath  -->
+    <work nested="target/antclasses"/>
+    <home nested="target/lib"/>
+    
+    <ant target="pack">
+      <property name="ant.home" reference="home" project="ant"/>
+      <property name="invicta.jar.file" value="invicta-@@DATE@@.jar"/>
+    </ant>
+   
+    <depend project="ant"/>
+    <depend project="ant-contrib"/>		
+    <depend project="commons-logging"/>
+    <depend project="commons-digester"/>
+    <depend project="commons-lang"/>
+    <depend project="commons-beanutils"/>
+    <depend project="commons-collections"/>
+    <depend project="xml-xerces"/>
+    
+    <jar name="invicta-@@DATE@@.jar"/>
+    
+    <javadoc nested="doc/api" project="invicta"/>
+    
+  </project>  
+</module>

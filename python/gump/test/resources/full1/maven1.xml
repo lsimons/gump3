@@ -12,6 +12,7 @@
 
     <maven target="gump"/>
 
+    <depend project="project4"/>
     <option project="random"/>
 
     <home nested="dist"/>

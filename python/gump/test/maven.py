@@ -1,7 +1,7 @@
 #!/usr/bin/env python
-# $Header: /home/stefano/cvs/gump/python/gump/test/maven.py,v 1.1 2003/12/01 17:34:08 ajack Exp $
-# $Revision: 1.1 $
-# $Date: 2003/12/01 17:34:08 $
+# $Header: /home/stefano/cvs/gump/python/gump/test/maven.py,v 1.2 2003/12/01 20:48:12 ajack Exp $
+# $Revision: 1.2 $
+# $Date: 2003/12/01 20:48:12 $
 #
 # ====================================================================
 #
@@ -93,4 +93,7 @@ class MavenTestSuite(UnitTestSuite):
         
         self.maven1.generateMavenProperties()
         
+        cmd=self.maven1.getMavenCommand()
+        
+        cmd.dump()
         
