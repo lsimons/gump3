@@ -1,8 +1,9 @@
 @echo off
+@if "%GUMP_ECHO%" == "on" echo %GUMP_ECHO%
 SETLOCAL
-REM SET JAXP=C:\jaxp-1.1
-REM 
-REM SET CLASSPATH=%JAXP%\crimson.jar;%JAXP%\jaxp.jar;%JAXP%\xalan.jar;%CLASSPATH%
+@REM SET JAXP=C:\jaxp-1.1
+@REM 
+@REM SET CLASSPATH=%JAXP%\crimson.jar;%JAXP%\jaxp.jar;%JAXP%\xalan.jar;%CLASSPATH%
 
 SET XALAN=C:\opt\xalan-j_2_2_0
 SET CLASSPATH=%XALAN%\bin\xml-apis.jar;%XALAN%\bin\xalan.jar;%CLASSPATH%
@@ -19,7 +20,7 @@ IF "%HOME%"=="" SET HOME=C:\
 if exist work rmdir /s /q work
 mkdir work
 
-REM ********************************************************************
+@REM ********************************************************************
 
 echo Merging projects into workspace
 if exist classes rmdir /s /q classes
@@ -32,7 +33,7 @@ echo.
 java "-Duser.home=%HOME%" -classpath "jenny.jar;%CLASSPATH%" Jenny %SOURCE%
 if not errorlevel 0 goto fail
 
-REM ********************************************************************
+@REM ********************************************************************
 
 echo Generating checkout instructions
 java org.apache.xalan.xslt.Process -xml -in work\merge.xml -xsl stylesheet\update.xsl -out work\update.xml
@@ -46,7 +47,7 @@ echo Generating update script
 java org.apache.xalan.xslt.Process -EDUMP -text -in work\updatesite.xml -xsl stylesheet\win2k.xsl -out work\update.bat
 if not errorlevel 0 goto fail
 
-REM ********************************************************************
+@REM ********************************************************************
 
 echo Generating build definition
 java org.apache.xalan.xslt.Process -EDUMP -indent 2 -xml -in work\merge.xml -xsl stylesheet\build.xsl -out work\build.xml
@@ -60,7 +61,7 @@ echo Generating build script
 java org.apache.xalan.xslt.Process -EDUMP -text -in work\buildsite.xml -xsl stylesheet\win2k.xsl -out work\build.bat
 if not errorlevel 0 goto fail
 
-REM ********************************************************************
+@REM ********************************************************************
 
 echo Generate crossreference data
 java org.apache.xalan.xslt.Process -xml -in work\merge.xml -xsl stylesheet\xref.xsl -out work\xref.xml
@@ -74,7 +75,7 @@ echo Generating xref script
 java org.apache.xalan.xslt.Process -EDUMP -text -in work\xrefsite.xml -xsl stylesheet\win2k.xsl -out work\xref.bat
 if not errorlevel 0 goto fail
 
-REM ********************************************************************
+@REM ********************************************************************
 
 echo Generate script to publish all xml source files
 java org.apache.xalan.xslt.Process -text -in work\merge.xml -xsl stylesheet\win2k.xsl -out work\puball.bat
@@ -100,7 +101,7 @@ echo Generate naglist
 java org.apache.xalan.xslt.Process -text -in work\merge.xml -xsl stylesheet\nag.xsl -out work\naglist
 if not errorlevel 0 goto fail
 
-REM ********************************************************************
+@REM ********************************************************************
 
 echo Publishing
 cd work

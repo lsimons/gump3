@@ -8,6 +8,7 @@
 
   <xsl:template match="build">
     <xsl:text>@echo off&#10;</xsl:text>
+    <xsl:text>@if "%GUMP_ECHO%" == "on" echo %GUMP_ECHO%&#10;</xsl:text>
     <xsl:text>SETLOCAL&#10;</xsl:text>
     <xsl:text>SET CP=%CLASSPATH%&#10;</xsl:text>
     <xsl:text>if "%1"=="all" goto header&#10;</xsl:text>
