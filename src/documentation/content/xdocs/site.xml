@@ -23,7 +23,7 @@
 	    <index href="index.html" label="Home"/>
 	    <status href="status.html" label="Status"/>
 	    <source href="http://cvs.apache.org/viewcvs/gump/" label="Source"/>
-	    <faq href="faq.html" label="FAQ"/>
+	    <faq href="http://wiki.apache.org/gump/FrequentlyAskedQuestions" label="FAQ"/>
 	    <gettingstarted href="gettingstarted.html" label="Getting Started"/>
 	    <todo href="todo.html" label="Help Wanted"/>
             <license href="http://www.apache.org/licenses/LICENSE-2.0.txt" label="License"/>
