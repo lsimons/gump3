@@ -126,7 +126,7 @@
 
   <xsl:template match="cvs">
     <xsl:variable name="repository" select="@repository"/>
-    <cvs srcdir="{ancestor::project/@srcdir}">
+    <cvs srcdir="{ancestor::project/@module}">
 
       <xsl:variable name="dir" select="@dir"/>
       <xsl:variable name="host-prefix" select="@host-prefix"/>
