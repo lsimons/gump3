@@ -9,17 +9,18 @@ if test "$1" = "-cp"; then
   shift
 fi
 
-test -n "$1" && export SOURCE=$1
+test -n "$1" && SOURCE=$1
+test -z "$1" && SOURCE=`hostname | sed s/[.].*//`.xml
 
 if test "$OSTYPE" = "cygwin32" -o "$OSTYPE" = "cygwin"; then
   export CLASSPATH=`cygpath --path --unix "$CLASSPATH"`
   export CLASSPATH=.:jenny.jar:$XALAN/bin/xerces.jar:$XALAN/bin/xalan.jar:$CLASSPATH
   export CLASSPATH=`cygpath --path --windows "$CLASSPATH"`
+  SOURCE=`cygpath -a -w -p "$SOURCE"`
 else
   export CLASSPATH=.:jenny.jar:$XALAN/bin/xerces.jar:$XALAN/bin/xalan.jar:$CLASSPATH
 fi
 
-test -z "$1" && export SOURCE=`hostname | sed s/[.].*//`.xml
 test -d work && rm -rf work
 mkdir work
 
@@ -31,11 +32,7 @@ mkdir classes
 javac -d classes java/*.java || export FAIL=1
 jar cf jenny.jar -C classes . || export FAIL=1
 echo
-if ( [ $OSTYPE = "cygwin32" ] || [ $OSTYPE = "cygwin" ] ) && [ -L $SOURCE ] ; then
-      java -classpath "$CLASSPATH" Jenny `cygpath -a -w -p "$SOURCE"` || export FAIL=1
-else
-      java -classpath "$CLASSPATH" Jenny $SOURCE || export FAIL=1
-fi
+java -classpath "$CLASSPATH" Jenny $SOURCE || export FAIL=1
 
 # ********************************************************************
 
