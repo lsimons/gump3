@@ -45,14 +45,6 @@
     <p>These represent versioning issues that will not show up in any
     gump run, but you may need to be aware.</p>
 
-    <subsection name="jakarta-avalon">
-      <p>Despite the relatively recent release of Ant, most Avalon projects
-      will not build with that version of Ant.  They require a small but
-      important change in the jar task.  Of course, they build with the version
-      of Ant checked into their respective cvs's, but the question is: do we
-      really want or need a separate version of Ant for every component?</p>
-    </subsection>
-
     <subsection name="jakarta-tomcat-4.0">
       <p>Tomcat4 integration with tyrex depends on interfaces which tyrex
       removed over six months ago.</p>
