@@ -6,17 +6,44 @@
   </url>
   <cvs module="jaxen" repository="werken" dir="jaxen">
   </cvs>
+  <project name="jaxen-from-packaged-dom4j">
+    <ant buildfile="build.xml" target="dist">
+      <property name="final.name" value="jaxen-@@DATE@@">
+      </property>
+    </ant>
+    <package>org.jaxen</package>
+    <depend project="packaged-dom4j">
+    </depend>
+    <depend project="jakarta-ant">
+    </depend>
+    <depend project="jdom">
+    </depend>
+    <depend project="junit">
+    </depend>
+    <depend project="xml-apis">
+    </depend>
+    <depend project="xml-xerces">
+    </depend>
+    <work nested="target/classes">
+    </work>
+    <home nested="target">
+    </home>
+    <jar name="jaxen-@@DATE@@.jar">
+    </jar>
+    <javadoc module="jaxen" nested="target/docs/apidocs">
+    </javadoc>
+    <nag to="jaxen-interest@lists.codehaus.org" from="Jaxen Gump &lt;scott@dotnot.org&gt;">
+    </nag>
+  </project>
+
   <project name="jaxen">
     <ant buildfile="build.xml" target="dist">
       <property name="final.name" value="jaxen-@@DATE@@">
       </property>
     </ant>
     <package>org.jaxen</package>
-    <!-- 
-        DOM4J includes jaxen source in its build, so that piece is gump'ified there
     <depend project="dom4j">
     </depend>
-    -->
     <depend project="jakarta-ant">
     </depend>
     <depend project="jdom">

@@ -1,0 +1,13 @@
+<module name="packaged-dom4j">
+
+  <url href="http://www.dom4j.org"/>
+  <description>
+    The flexible XML framework for Java
+  </description>
+
+  <project name="packaged-dom4j">
+    <package>org.dom4j</package>
+    <jar name="dom4j-full.jar"/>
+    <license name="doc/license.html"/>
+  </project>
+</module>

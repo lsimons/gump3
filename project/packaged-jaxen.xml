@@ -1,0 +1,12 @@
+<module name="packaged-jaxen">
+
+  <url href="http://jaxen.org/"/>
+  <description>Universal Java XPath Engine</description>
+
+  <project name="packaged-jaxen">
+    <package>org.jaxen</package>
+
+    <jar name="jaxen-full.jar"/>
+    <license name="LICENSE"/>
+  </project>
+</module>

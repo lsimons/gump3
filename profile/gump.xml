@@ -198,6 +198,8 @@
   <module href="project/wsdl4j.xml"/>
   <module href="project/cos.xml"/>
   <module href="project/multipartrequest.xml"/>
+  <module href="project/packaged-jaxen.xml"/>
+  <module href="project/packaged-dom4j.xml"/>
 
 <!-- Sun -->
 
@@ -262,6 +264,8 @@
   <project name="eclipse"          package="eclipse-2.1"/>
   <project name="tranquilo"        package="xsdlib-20010424"/>
   <project name="nsuml"            package="nsuml"/>
+  <project name="packaged-jaxen"   package="jaxen-1.0-FCS"/>
+  <project name="packaged-dom4j"   package="dom4j-1.4"/>
 
 <!-- CVS Repository definitions -->
 

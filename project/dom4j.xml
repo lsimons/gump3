@@ -12,7 +12,8 @@
     <package>org.dom4j</package>
 
     <ant target="gump">
-      <property name="jaxen.src" project="jaxen" path="src/java/main"/>
+      <property name="jaxen.src" project="jaxen-from-packaged-dom4j"
+                path="src/java/main"/>
     </ant>
     <depend project="ant" inherit="runtime"/>
     <depend project="xml-xerces"/>
@@ -20,7 +21,7 @@
     <depend project="xml-xalan2"/>
     <depend project="tranquilo"/>
     <depend project="xpp"/>
-    <depend project="jaxen"/>
+    <depend project="jaxen-from-packaged-dom4j"/>
     <depend project="xmldb"/>
     <depend project="msv"/>
     <depend project="relaxng"/>
