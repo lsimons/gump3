@@ -52,9 +52,9 @@
     <work nested="build/ant/lib/ForeachTask.jar"/>
 
     <home nested="temp"/>
-    <jar name="container/target/pluto-@@DATE@@.jar" id="container"/>
-    <jar name="api/target/portlet-api-@@DATE@@.jar" id="api"/>
-    <jar name="portal/target/pluto-portal-impl-@@DATE@@.jar" id="portal"/>
+    <jar name="container/target/pluto-1.0.jar" id="container"/>
+    <jar name="api/target/portlet-api-1.0.jar" id="api"/>
+    <jar name="portal/target/pluto-portal-impl-1.0.jar" id="portal"/>
 
     <license name="LICENSE"/>
 
