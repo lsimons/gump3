@@ -46,7 +46,7 @@
     
     <p>
     	 Gump generates a <strong>build.properties</strong> file for Maven, in which is specifies the jar
-		 overrides, and also any <link href="project.html#property">properties</link> that are passes into
+		 <link href="http://maven.apache.org/reference/user-guide.html#Overriding_Stated_Dependencies">overrides</link>, and also any <link href="project.html#property">properties</link> that are passes into
 		 the &lt;maven element.
     </p>
     
