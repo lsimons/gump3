@@ -187,8 +187,35 @@ function check_env_var
 $2.
 You can either set this before invoking gump, or set it in a file
 named
-  `pwd`/cron/local-env-$envfile.sh
+  $envfile.sh
 "
+  fi
+}
+
+# Print a friendly error message i a python library is not available.
+#
+# Arguments:
+#   - the library to import
+#   - url to download location of the library
+function check_env_pylib
+{
+  cat > pycmd.tmp.py <<ENDCOMMAND
+try:
+  import $1
+except:
+  print "error"
+ENDCOMMAND
+  local cmd=`python pycmd.tmp.py`
+  result=`$cmd`
+  rm -f pycmd.tmp.py
+
+  if [[ ! -z "$result" ]]; then
+    error "Required python library $1 is not available.
+Please download it from
+
+  $2
+
+and install it."
   fi
 }
 
@@ -254,6 +281,11 @@ function run
 {
   check_env "python" "http://www.python.org/"
   check_env "pkill" "http://sourceforge.net/projects/proctools"
+
+  check_env_var "GUMP_HOME" "the location of the gump checkout"
+  check_env_var "JAVA_HOME" "the location of the java jdk"
+  
+  check_env_pylib "rdflib" "http://rdflib.net/"
 
   cd cron
   ./gump.sh $@
