@@ -312,7 +312,8 @@ public class Project {
      */
     private boolean isPrereq(Set todo) {
         for (Enumeration e=referencedBy.keys(); e.hasMoreElements();) {
-            if (todo.contains(e.nextElement())) return true;
+            Project p = (Project)e.nextElement();
+            if (todo.contains(p.name)) return true;
         }
         return false;
     }
@@ -457,7 +458,7 @@ public class Project {
         // Construct a list of the rest, and throw an exception
         String message="Circular dependency loop involving:";
         for (Iterator i=todo.iterator(); i.hasNext();) {
-            Project p = ((Project)(i.next()));
+            Project p = (Project) projects.get(i.next());
             message += "\n  " + p.name;
         }
         throw new Exception(message);
