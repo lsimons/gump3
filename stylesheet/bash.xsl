@@ -620,6 +620,14 @@
     </xsl:if>
   </xsl:template>
 
+  <xsl:template match="a[count(*)=0]">
+    <xsl:text>eval "echo \&lt;a href=\"</xsl:text>
+    <xsl:value-of select="@href"/>
+    <xsl:text>\"\&gt;</xsl:text>
+    <xsl:value-of select="."/>
+    <xsl:text>\&lt;/a\&gt; $OUT"&#10;</xsl:text>
+  </xsl:template>
+
   <xsl:template match="*">
     <xsl:text>eval "echo \&lt;</xsl:text>
     <xsl:value-of select="name()"/>
