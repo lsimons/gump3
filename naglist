@@ -200,6 +200,12 @@ From: Ceki Gülcü <ceki@apache.org>
 Subject: [GUMP] Build Failure - Log4j
 Regex: /BUILD FAILED/
 ------
+Project: jakarta-lucene
+To: lucene-dev@jakarta.apache.org
+From: Jason van Zyl <jvanzyl@apache.org>
+Subject: [GUMP] Build Failure - Lucene
+Regex: /BUILD FAILED/
+------
 Project: jakarta-oro
 To: oro-dev@jakarta.apache.org
 From: Daniel Savarese <dfs@apache.org>
@@ -302,9 +308,9 @@ From: Geir Magnusson Jr. <geirm@apache.org>
 Subject: [GUMP] Test Failure - Velocity
 Regex: /BUILD FAILED/
 ------
-Project: lucene
-To: <lucene-dev@lists.sourceforge.net>
-From: Jon Stevens <jon@latchkey.com>
+Project: jakarta-lucene
+To: lucene-dev@jakarta.apache.org
+From: Jason van Zyl <jvanzyl@apache.org>
 Subject: [GUMP] Build Failure - Lucene
 Regex: /BUILD FAILED/
 #------

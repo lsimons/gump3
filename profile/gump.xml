@@ -20,6 +20,7 @@
   <module href="project/jakarta-jetspeed.xml"/>
   <module href="project/jakarta-jmeter.xml"/>
   <module href="project/jakarta-log4j.xml"/>
+  <module href="project/jakarta-lucene.xml"/>
   <module href="project/jakarta-oro.xml"/>
   <module href="project/jakarta-regexp.xml"/>
   <module href="project/jakarta-servletapi-4.xml"/>
@@ -80,7 +81,6 @@
   <module href="project/jdom.xml"/>
   <module href="project/jtidy.xml"/>
   <module href="project/junit.xml"/>
-  <module href="project/lucene.xml"/>
   <module href="project/rhino.xml"/>
   <module href="project/scarab.xml"/>
   <module href="project/town.xml"/>

@@ -20,7 +20,7 @@
     <depend project="jakarta-turbine-torque"/>
     <depend project="jaf"/>
     <depend project="jakarta-log4j"/>
-    <option project="lucene"/>
+    <option project="jakarta-lucene"/>
     <option project="commons-util"/>
     <depend project="jakarta-turbine-fulcrum"/>
   </project>
