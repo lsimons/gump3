@@ -1,0 +1,29 @@
+<module name="rhino-cocoondev">
+
+  <url href="http://www.mozilla.org/rhino/"/>
+  <description>
+    JavaScript for Java * with continuations
+  </description>
+  <redistributable/>
+
+  <cvs repository="cocoondev" dir="rhino" module="rhino1_5R4pre"/>
+
+  <project name="rhino-cocoondev">
+    <package>org.mozilla.classfile</package>
+    <package>org.mozilla.javascript</package>
+
+    <ant target="dist">
+      <property name="version" value="_@@DATE@@"/>
+    </ant>
+
+    <depend project="ant" inherit="runtime"/>
+    <depend project="bsf"/>
+    <depend project="xml-xerces"/>
+
+    <home nested="build/rhino_@@DATE@@"/>
+    <jar name="js.jar"/>
+    <license name="README.html"/>
+    <javadoc nested="build/rhino_@@DATE@@/docs/apidocs"/>
+  </project>
+
+</module>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<repository name="cocoondev" type="cvs">
+  <title>CocoonDev</title>
+  <home-page>http://www.cocoondev.org/index.html</home-page>
+  <cvsweb>http://cvs.cocoondev.org/cgi-bin/viewcvs.cgi/</cvsweb>
+
+  <root>
+    <method>pserver</method>
+    <user>anoncvs</user>
+    <password>anoncvs</password>
+    <hostname>cvs.cocoondev.org</hostname>
+    <path>/var/cvs</path>
+  </root>
+</repository>

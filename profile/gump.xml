@@ -207,6 +207,7 @@
   <module href="project/nekohtml.xml"/>
   <module href="project/nsuml.xml"/>
   <module href="project/rhino.xml"/>
+  <module href="project/rhino-cocoondev.xml"/>
   <module href="project/scarab.xml"/>
   <module href="project/eclipse.xml"/>
   <module href="project/town.xml"/>
@@ -286,6 +287,7 @@
   <repository href="repository/ant.xml"/>
   <repository href="repository/avalon.xml"/>
   <repository href="repository/cocoon.xml"/>
+  <repository href="repository/cocoondev.xml"/>
   <repository href="repository/db.xml"/>
   <repository href="repository/dbxml.xml"/>
   <repository href="repository/devworks.xml"/>
