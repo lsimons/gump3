@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/xdoc.py,v 1.18 2004/03/12 16:10:39 ajack Exp $
-# $Revision: 1.18 $
-# $Date: 2004/03/12 16:10:39 $
+# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/xdoc.py,v 1.19 2004/03/26 05:30:57 ajack Exp $
+# $Revision: 1.19 $
+# $Date: 2004/03/26 05:30:57 $
 #
 # ====================================================================
 #
@@ -234,6 +234,9 @@ class XDocPiece(Ownable):
         self.middle()
         self.callEnd()
         
+        # Probably ought do this higher up
+        self.unlink()
+        
     def callStart(self,piece=None):
         if not piece: piece = self
         if hasattr(piece,'start') and callable(piece.start):
@@ -276,6 +279,13 @@ class XDocPiece(Ownable):
         
     def isEmptyOk(self):
         return self.emptyOk
+        
+    def unlink(self):
+        # Unlink subpieces...
+        for subpiece in self.subpieces:
+            subpiece.unlink()
+        # Unlink oneself
+        self.setOwner(None)
                 
 class XDocSection(XDocPiece):
     def __init__(self,context,title):
@@ -671,7 +681,11 @@ class XDocText(XDocPiece):
         
     def middle(self):
         self.context.writeRaw(self.text)
- 
+        
+    def unlink(self):
+        XDocPiece.unlink(self)             
+        self.text=None
+        
 #       
 # Some raw xdocs (for when too lazy to create classes)
 #
