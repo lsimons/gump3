@@ -40,6 +40,22 @@
       <depend project="avalon-dist" inherit="jars"/>
     </project>
 
+    <project name="avalon-junitreport">
+        <ant target="test-report">
+          <depend property="xerces.jar"  project="xml-xerces" id="parser"/>
+          <depend property="junit.jar"   project="junit"/>
+        </ant>
+
+        <depend project="avalon" inherit="all"/>
+
+        <work nested="target/classes"/>
+
+        <junitreport nested="target/docs/test" module="avalon"/>
+
+        <nag from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"
+                to="dev@avalon.apache.org"/>
+    </project>
+
   <project name="avalon-dist">
     <ant target="dist">
       <depend property="xerces.jar"  project="xml-xerces" id="parser"/>
