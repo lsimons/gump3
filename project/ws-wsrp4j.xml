@@ -17,8 +17,11 @@
 
     <depend project="xml-xerces"/>
     <depend project="ant" inherit="runtime"/>
+    <depend project="castor"/>
     <depend project="junit"/>
+    <depend project="jakarta-log4j"/>
     <depend project="jakarta-regexp"/>
+    <depend project="jakarta-servletapi-5-servlet"/>
     <depend project="ws-axis"/>
 
     <work nested="build/ant/lib/ForeachTask.jar"/>
