@@ -272,6 +272,7 @@
     </ant>
 
     <depend project="commons-jelly" inherit="all"/>
+    <depend project="commons-jelly-tags-xml"/>
     
     <!-- ant taglib and dependencies used in tests -->
     <depend project="commons-jelly-tags-ant"/>
@@ -508,6 +509,30 @@
          to="commons-dev@jakarta.apache.org"/>
   </project>  
   
+  <project name="commons-jelly-tags-xml">
+    <package>org.apache.commons.jelly.tags.xml</package>
+    <description>???</description>
+
+    <ant basedir="jelly/jelly-tags/xml" target="jar">
+      <property name="final.name"  value="commons-jelly-tags-xml-@@DATE@@"/>
+    </ant>
+
+    <depend project="commons-jelly" inherit="all"/>
+    <depend project="xml-xalan2"/>
+    
+    <work nested="jelly/jelly-tags/xmlunit/target/classes"/>
+    <work nested="jelly/jelly-tags/xmlunit/target/test-classes"/>
+
+    <jar name="jelly/jelly-tags/xmlunit/target/commons-jelly-tags-xmlunit-@@DATE@@.jar"/>
+ 
+    <nag from="Morgan Delagrange &lt;mdelagra@yahoo.com&gt;"
+         to="commons-dev@jakarta.apache.org">
+      <regexp pattern="/BUILD FAILED/"/>
+      <!-- Buildfile: build.xml does not exist! -->
+      <regexp pattern="/Build failed/"/>
+    </nag>
+  </project>  
+
   <project name="commons-jelly-tags-xmlunit">
     <package>org.apache.commons.jelly.tags.xmlunit</package>
     <description>This is a Jelly interface for unit testing XML applications.</description>
