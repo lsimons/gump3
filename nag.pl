@@ -39,8 +39,8 @@ foreach (<LIST>) {
     $_ = join('',<FILE>);
     close (FILE);
 
-    # extract just the stuff from inside the pre tag
-    if (m! .* <pre> \s* (.*) \s* </pre> !xs) {
+    # extract just the stuff from inside the XMP tag
+    if (m! .* <XMP> \s* (.*) \s* </XMP> !xs) {
       $pageData = $1;
     } else {
       $pageData = "";
