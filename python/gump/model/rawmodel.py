@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/model/Attic/rawmodel.py,v 1.2 2003/11/18 17:29:17 ajack Exp $
-# $Revision: 1.2 $
-# $Date: 2003/11/18 17:29:17 $
+# $Header: /home/stefano/cvs/gump/python/gump/model/Attic/rawmodel.py,v 1.3 2003/11/19 15:42:16 ajack Exp $
+# $Revision: 1.3 $
+# $Date: 2003/11/19 15:42:16 $
 #
 # ====================================================================
 #
@@ -190,64 +190,6 @@ class XMLAnt(GumpXMLModelObject):
     self.depend=Multiple(XMLDepend)
     self.property=Multiple(XMLProperty)
     self.jvmarg=Multiple(GumpXMLModelObject)
-
-  #
-  # expand properties - in other words, do everything to complete the
-  # entry that does NOT require referencing another project
-  #
-  def expand(self,project):
-
-    #
-    # convert property elements which reference a project into dependencies
-    #
-    for property in self.property:
-        
-      # Check if the property comes from another project
-      if not property.project: continue      
-      # If that project is the one we have in hand
-      if property.project==project.getName(): continue
-      # If the property is not as simple as srcdir
-      if property.reference=="srcdir": continue
-      # If it isn't already a dependency
-      if project.hasFullDependencyOn(property.project): continue
-
-      # Add a dependency (to bring property)
-      depend=XMLDepend({'project':property.project})
-      if not property.classpath: depend['noclasspath']=Single({})
-      if property.runtime: depend['runtime']=property.runtime
-    
-      # :TODO: AJ added this, no idea if it is right/needed.
-      if property.id: depend['ids']= property.id
-      
-      # Add depend to project...
-      project.xml.depend.append(depend)
-
-    #
-    # convert all depend elements into property elements, and
-    # move the dependency onto the project
-    #
-    for depend in self.depend:
-      # Generate the property
-      property=XMLProperty(depend.__dict__)
-      property['reference']='jarpath'
-      
-      # Name the property...
-      if depend.property:
-        property['name']=depend.property
-      elif not hasattr(property,'name') or not property['name']:
-        # :TODO: Reconsider later, but default to project name for now...
-        property['name']=depend.project
-        log.warn('Unnamed property for ' + project.name + ' in depend on: ' + depend.project )
-        
-      # :TODO: AJ added this, no idea if it is right/needed.
-      if depend.id: property['ids']= depend.id
-      # Store it
-      self.property.append(property)      
-      # Move onto project
-      project.depend.append(depend)
-      
-    self.depend=None
-
 
 # represents a <nag/> element
 class XMLNag(GumpXMLModelObject):

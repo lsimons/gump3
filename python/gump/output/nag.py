@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/output/Attic/nag.py,v 1.2 2003/11/18 03:57:47 ajack Exp $
-# $Revision: 1.2 $
-# $Date: 2003/11/18 03:57:47 $
+# $Header: /home/stefano/cvs/gump/python/gump/output/Attic/nag.py,v 1.3 2003/11/19 15:42:16 ajack Exp $
+# $Revision: 1.3 $
+# $Date: 2003/11/19 15:42:16 $
 #
 # ====================================================================
 #
@@ -67,6 +67,8 @@ import time
 import os
 import sys
 import logging
+
+from string import lower, capitalize
 
 from gump import log
 from gump.config import *

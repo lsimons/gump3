@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/model/Attic/ant.py,v 1.4 2003/11/18 20:58:18 ajack Exp $
-# $Revision: 1.4 $
-# $Date: 2003/11/18 20:58:18 $
+# $Header: /home/stefano/cvs/gump/python/gump/model/Attic/ant.py,v 1.5 2003/11/19 15:42:16 ajack Exp $
+# $Revision: 1.5 $
+# $Date: 2003/11/19 15:42:16 $
 #
 # ====================================================================
 #
@@ -63,7 +63,6 @@
 """
 
 from time import localtime, strftime, tzname
-from string import lower, capitalize
 
 from gump.model.state import *
 from gump.model.note import *
@@ -118,7 +117,7 @@ class Ant(ModelObject, PropertyContainer):
         # If the property is not as simple as srcdir
         if property.reference=="srcdir": return
         # If it isn't already a classpath dependency
-        if project.hasFullDependencyOn(property.project): return
+        if project.hasFullDependencyOnNamedProject(property.project): return
             
         # If there are IDs specified
         ids=''

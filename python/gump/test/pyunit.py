@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/test/pyunit.py,v 1.2 2003/11/18 19:02:25 ajack Exp $
-# $Revision: 1.2 $
-# $Date: 2003/11/18 19:02:25 $
+# $Header: /home/stefano/cvs/gump/python/gump/test/pyunit.py,v 1.3 2003/11/19 15:42:16 ajack Exp $
+# $Revision: 1.3 $
+# $Date: 2003/11/19 15:42:16 $
 #
 # ====================================================================
 #
@@ -78,8 +78,8 @@ class Testable:
     def raiseIssue(self, stuff):
         message=''
         for s in stuff:
-            if message: message += '. '
             message += str(s)
+            message += '. '
             
         raise RuntimeError, message
         
@@ -96,9 +96,17 @@ class Testable:
         if not object1 == object2:
             self.raiseIssue(['Ought evaluate as equal', message, object1, object2])
             
+    def assertNotEqual(self,message,object1,object2):
+        if object1 == object2:
+            self.raiseIssue(['Ought NOT evaluate as equal', message, object1, object2])
+            
     def assertTrue(self,message,object):
         if not object:
             self.raiseIssue(['Ought evaluate as true', message, object])
+            
+    def assertFalse(self,message,object):
+        if object:
+            self.raiseIssue(['Ought evaluate as false', message, object])
             
     def assertIn(self,message,object,sequence):
         if not object in sequence:

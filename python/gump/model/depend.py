@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/model/depend.py,v 1.1 2003/11/17 22:10:49 ajack Exp $
-# $Revision: 1.1 $
-# $Date: 2003/11/17 22:10:49 $
+# $Header: /home/stefano/cvs/gump/python/gump/model/depend.py,v 1.2 2003/11/19 15:42:16 ajack Exp $
+# $Revision: 1.2 $
+# $Date: 2003/11/19 15:42:16 $
 #
 # ====================================================================
 #
@@ -125,25 +125,27 @@ class ProjectDependency(Annotatable):
     # :TODO: if same ids, but different order/spacing, it ought match..
     def __eq__(self,other):
         return 	self.project == other.project \
+                and self.owner == other.owner	\
                 and self.inherit == other.inherit \
                 and self.runtime == other.runtime \
                 and self.ids == other.ids
                 
     def __cmp__(self,other):
         c = cmp(self.project,other.project)
+        if not c: c = cmp(self.owner,other.owner)
         if not c: c = cmp(self.inherit,other.inherit)
         if not c: c = cmp(self.runtime,other.runtime)
         if not c: c = cmp(self.ids,other.ids)
         return c
     
     def __str__(self):
-        output=self.project
+        output=self.project.getName()
         if self.inherit:
-            output+=' inherit="' + self.getInheritenceDescription() + '"'
+            output+=' inherit=\'' + self.getInheritenceDescription() + '\''
         if self.runtime:
-            output+=' runtime="' + self.runtime + '"'
+            output+=' runtime=\'' + self.runtime + '\''
         if self.ids:
-            output+=' ids="' + self.ids + '"'
+            output+=' ids=\'' + self.ids + '\''
         return output
             
     def getOwnerProject(self):

@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/document/resolver.py,v 1.1 2003/11/17 22:10:55 ajack Exp $
-# $Revision: 1.1 $
-# $Date: 2003/11/17 22:10:55 $
+# $Header: /home/stefano/cvs/gump/python/gump/document/resolver.py,v 1.2 2003/11/19 15:42:16 ajack Exp $
+# $Revision: 1.2 $
+# $Date: 2003/11/19 15:42:16 $
 #
 # ====================================================================
 #
@@ -67,7 +67,6 @@ import time
 import os
 import sys
 import logging
-from string import lower,replace
 from xml.sax.saxutils import escape
 
 from gump import log

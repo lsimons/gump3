@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/model/object.py,v 1.3 2003/11/18 17:29:17 ajack Exp $
-# $Revision: 1.3 $
-# $Date: 2003/11/18 17:29:17 $
+# $Header: /home/stefano/cvs/gump/python/gump/model/object.py,v 1.4 2003/11/19 15:42:16 ajack Exp $
+# $Revision: 1.4 $
+# $Date: 2003/11/19 15:42:16 $
 #
 # ====================================================================
 #
@@ -83,7 +83,7 @@ class Propogatable(Stateful):
         self.cause=None	# Primary Cause
         self.causes=[]
             
-    def changeState(self,state,reason=REASON_UNSET,cause=None):  
+    def changeState(self,state,reason=REASON_UNSET,cause=None,message=None):  
         #
         # Do NOT over-write a pre-determined condition
         #            
@@ -101,17 +101,26 @@ class Propogatable(Stateful):
                 
                 # List of things that caused issues...
                 self.addCause(cause)
-                
+                                   
+                #
+                # Describe the problem
+                #
+                if not message:
+                    message = lower(stateName(state))
+                    if not REASON_UNSET == reason:
+                        message += " with reason " + lower(reasonString(reason))            
+                self.addError(capitalize(message))
+        
                 # Send on the changes...
-                self.propagateErrorStateChange(state,reason,cause)
+                self.propagateErrorStateChange(state,reason,cause,message)
     
 
-    def propagateErrorStateChange(self,state,reason,cause):
+    def propagateErrorStateChange(self,state,reason,cause,message):
                
         # .. then push this error down
         if hasattr(self,'getChildren'):
             for object in self.getChildren():
-                object.changeState(state,reason,cause)        
+                object.changeState(state,reason,cause,message)        
                             
     def setCause(self,cause):
         if not self.cause: self.cause=cause

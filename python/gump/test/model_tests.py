@@ -67,6 +67,7 @@ import types, StringIO
 
 from gump import log
 import gump.config
+from gump.model.state import *
 from gump.model.loader import WorkspaceLoader
 from gump.utils import *
 from gump.test import getWorkedTestWorkspace
@@ -130,3 +131,19 @@ class ModelTestSuite(UnitTestSuite):
         
         self.assertTrue('Module is CVS', module1.isCVS())
         self.assertNonZeroString('CVSROOT',module1.cvs.getCVSRoot())
+        
+    def testStatePropogation(self):
+        module1=self.module1
+        project1=self.project1
+        project2=self.project2
+        
+        module1.changeState(STATE_FAILED)
+        
+        self.assertTrue('Project2 depends upon Project1', project2.hasDirectDependencyOn(project1))
+        self.assertTrue('Project1 has Project2 as a Dependee', project1.hasDirectDependee(project2))
+        self.assertFalse('Project1 ought NOT have Project1 as a Dependee', project1.hasDirectDependee(project1))
+        
+        self.assertEqual('State ought propagate down', project1.getState(), STATE_FAILED)
+        self.assertEqual('State ought propagate to here', project2.getState(), STATE_PREREQ_FAILED)
+        self.assertNotEqual('State ought NOT propagate like this', project2.getState(), STATE_FAILED)
+        

@@ -95,7 +95,7 @@ def rss(run):
     <link>http://jakarta.apache.org/gump/</link>
     <description>Life is like a box of chocolates</description>
 
-    <admin:generatorAgent rdf:resource="http://cvs.apache.org/viewcvs/jakarta-gump/python/gump/rss.py"/>
+    <admin:generatorAgent rdf:resource="http://cvs.apache.org/viewcvs/jakarta-gump/python/gump/output/rss.py"/>
     <admin:errorReportsTo rdf:resource="mailto:gump@jakarta.apache.org"/>
 
     <sy:updateFrequency>1</sy:updateFrequency>
@@ -143,7 +143,7 @@ def rss(run):
                               <dc:subject>%s</dc:subject>
                               <dc:date>%sT%s%s</dc:date>
                             </item>""" % \
-                          (project.getName(),project.getStateDescriptionus(),datestr, link, \
+                          (project.getName(),project.getStateDescription(),datestr, link, \
                                content, \
                                module.getName() + ":" + project.getName(), \
                                datestr,timestr,TZ))

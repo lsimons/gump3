@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/model/project.py,v 1.4 2003/11/18 19:02:25 ajack Exp $
-# $Revision: 1.4 $
-# $Date: 2003/11/18 19:02:25 $
+# $Header: /home/stefano/cvs/gump/python/gump/model/project.py,v 1.5 2003/11/19 15:42:16 ajack Exp $
+# $Revision: 1.5 $
+# $Date: 2003/11/19 15:42:16 $
 #
 # ====================================================================
 #
@@ -63,7 +63,6 @@
 """
 
 from time import localtime, strftime, tzname
-from string import lower, capitalize
 
 from gump.model.state import *
 from gump.model.object import ModelObject, NamedModelObject, Jar
@@ -277,15 +276,16 @@ class Project(NamedModelObject):
         if self.totalDependees: return self.totalDependees
         
         for dependee in self.dependees:
-            if not dependcee in self.totalDependees: 
+            if not dependee in self.totalDependees: 
+                # We have a new dependee
                 self.totalDependees.append(dependee)
-                for subdependee in dependee.getProject().getFullDependeeProjects():
+                for subdependee in dependee.getProject().getFullDependees():
                     if not subdependee in self.totalDependees:
                         self.totalDependees.append(subdependee)
         self.totalDependees.sort()
         
         # Store once
-        return self.totalDependees
+        return self.totalDependees            
                         
     def getFullDependeesCount(self):         
         return len(self.getFullDependees())             
@@ -307,28 +307,22 @@ class Project(NamedModelObject):
     def getFOGFactor(self):
         return self.getStats().getFOGFactor()
         
-    def propagateErrorStateChange(self,state,reason,cause):
-        # Do NOT over-write a preexisting condition
-        if self.stateUnsetOrOk():
-            
-            #
-            #
-            #
-            message = lower(stateName(state))
-            if not REASON_UNSET == reason:
-                message += " with reason " + lower(reasonString(reason))            
-            self.addError(capitalize(message))
-            
-            #
-            # Mark depend*ee*s as failed for this cause...
-            # Warn option*ee*s
-            #
-            for dependee in self.dependees:
+    def propagateErrorStateChange(self,state,reason,cause,message):
+        
+        #
+        # Mark depend*ee*s as failed for this cause...
+        # Warn option*ee*s
+        #
+        for dependee in self.getFullDependees():  
+    
+            # This is a backwards link, so use the owner
+            dependeeProject=dependee.getOwnerProject()
+        
+            if dependee.isOptional():
+                dependeeProject.addWarning("Optional dependency " + self.name + " " + message)
+            else:
                 dependee.addError("Dependency " + self.name + " " + message)
-                if dependee.isOptional():
-                    dependee.getProject().addWarning("Optional dependency " + self.name + " " + message)
-                else:
-                    dependee.getProject().changeState(STATE_PREREQ_FAILED,reason,cause)
+                dependeeProject.changeState(STATE_PREREQ_FAILED,reason,cause)
                                     
     #
     # We have a potential clash between the <project package attribute and
@@ -433,50 +427,82 @@ class Project(NamedModelObject):
                                 
                 # Add a dependency
                 self.addDependency(dependency)
-                    
-                # Add us as a dependee on them
-                if not dependency in dependProject.dependees:
-                    dependProject.dependees.append(dependency)
             else:
-                badDepends.append(xmldepend)                
-        
+                badDepends.append(xmldepend)    
+                
         # Walk the XML parts converting
         badOptions=[]
         for xmloption in self.xml.option:
             optionProjectName=xmloption.project
             if workspace.hasProject(optionProjectName):
                 optionProject=workspace.getProject(optionProjectName)
-                
+                                
+                # Import the dependency
                 dependency=importXMLDependency(self, optionProject, xmloption, 1)
                                 
                 # Add a dependency
-                self.addDependency(dependency)
-                    
-                # Add us as a dependee on them
-                if not dependency in optionProject.dependees:
-                    optionProject.dependees.append(dependency)
+                self.addDependency(dependency)                    
             else:
                 badOptions.append(xmloption)
-                
+        
+        #
+        # Provide backwards links  [Note: ant might have added some
+        # dependencies, so this is done here * not just with the direct
+        # xml depend/option elements]
+        #
+        for dependency in self.getDependencies():
+            dependProject=dependency.getProject()
+            # Add us as a dependee on them
+            dependProject.addDependee(dependency)  
                         
         return (badDepends, badOptions)
                                 
     def addDependency(self,dependency):
+        #
+        # TODO check this against any matching dependency
+        # not equal?
+        #
         if not dependency in self.depends:
-            self.depends.append(dependency)
+            if not dependency.getProject()==self:
+                self.depends.append(dependency)
+            #else:
+            #    print 'Not Adding : ' + dependency
 
-    # determine if this project is a prereq of any project on the todo list
-    def hasFullDependencyOn(self,name):
+    def addDependee(self,dependency):
+        #
+        # TODO check this against any matching dependency
+        # not equal?
+        #
+        if not dependency in self.dependees:
+            if not dependency.getOwnerProject()==self:
+                self.dependees.append(dependency)
+            #else:
+            #    print 'Not Adding : ' + dependency
+
+    # 
+    def hasFullDependencyOnNamedProject(self,name):
         for dependency in self.depends:
-          if dependency.getProject().getName()==name: return 1
-          
-    def getHomeDirectory(self):
-        return self.home
-        
+            if dependency.getProject().getName()==name: return 1
 # :TODO:        
 #           and not dependency.noclasspath: return 1
 #:TODO: noclasspath????
-
+              
+    # determine if this project is a prereq of any project on the todo list
+    def hasDirectDependencyOn(self,project):
+        for dependency in self.depends:
+            if dependency.getProject()==project: return 1
+    
+    def hasDirectDependee(self,project):
+        for dependee in self.dependees:
+            if dependee.getOwnerProject()==project: return 1
+            
+    def hasDependee(self,project):
+        for dependee in self.getFullDependees():
+            if dependee.getOwnerProject()==project: return 1
+            
+    def getHomeDirectory(self):
+        return self.home
+        
     def inModule(self):
         return hasattr(self,'module') and self.module
         
