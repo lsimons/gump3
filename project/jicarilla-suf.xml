@@ -1,0 +1,69 @@
+<?xml version="1.0"?>
+
+<module name="jicarilla-sandbox">
+    <url href="http://jicarilla.org/"/>
+    <description>
+        Some Unnamed Fork.
+    </description>
+
+    <cvs repository="sourceforge" host-prefix="cvs.jicarilla"
+        module="jicarilla-suf" dir="jicarilla"/>
+
+    <project name="jicarilla-suf">
+        <package>org.apache</package>
+        <ant basedir="jicarilla-suf" target="jar">
+            <property name="project.version" value="@@DATE@@"/>
+            <property name="skip.dependencies" value="true"/>
+        </ant>
+
+        <!-- common dependencies -->
+        <depend project="jicarilla-build-system" inherit="all"/>
+
+        <!-- project dependencies -->
+        <depend project="xml-xerces" runtime="true" inherit="runtime" optional="false"/>
+        <depend project="xml-apis" runtime="true" inherit="runtime" optional="false"/>
+        <depend project="jisp" runtime="true" inherit="runtime" optional="false"/>
+        <depend project="xml-commons-resolver" runtime="true" inherit="runtime" optional="false"/>
+        <depend project="xml-xalan2" runtime="true" inherit="runtime" optional="false"/>
+        <depend project="saxpath" runtime="true" inherit="runtime" optional="false"/>
+        <depend project="jaxen" runtime="true" inherit="runtime" optional="false"/>
+        <depend project="saxon6" runtime="true" inherit="runtime" optional="false"/>
+        <depend project="saxon" runtime="true" inherit="runtime" optional="false"/>
+        <depend project="iso-relax" runtime="true" inherit="runtime" optional="false"/>
+        <depend project="msv" runtime="true" inherit="runtime" optional="false"/>
+        <depend project="relaxng" runtime="true" inherit="runtime" optional="false"/>
+        <depend project="hsqldb" runtime="true" inherit="runtime" optional="false"/>
+        <depend project="avalon-logkit" runtime="true" inherit="runtime" optional="false"/>
+        <depend project="log4j" runtime="true" inherit="runtime" optional="false"/>
+        <depend project="commons-httpclient" runtime="true" inherit="runtime" optional="false"/>
+        <depend project="commons-beanutils" runtime="true" inherit="runtime" optional="false"/>
+        <depend project="commons-collections" runtime="true" inherit="runtime" optional="false"/>
+        <depend project="concurrent" runtime="true" inherit="runtime" optional="false"/>
+        <depend project="incubator-altrmi" runtime="true" inherit="runtime" optional="false"/>
+        <depend project="jakarta-servletapi" runtime="true" inherit="runtime" optional="false"/>
+        <depend project="javamail" runtime="false" inherit="none" optional="false"/>
+        <depend project="jms" runtime="true" inherit="runtime" optional="false"/>
+        <depend project="jsse" runtime="true" inherit="runtime" optional="false"/>
+        <depend project="qdox" runtime="true" inherit="runtime" optional="false"/>
+        <depend project="junitperf" runtime="true" inherit="runtime" optional="false"/>
+        <depend project="jtidy" runtime="true" inherit="runtime" optional="false"/>
+        <depend project="jakarta-bcel" runtime="true" inherit="runtime" optional="false"/>
+        <depend project="ant" runtime="true" inherit="runtime" optional="false"/>
+        <depend project="junit" runtime="true" inherit="runtime" optional="false"/>
+
+
+        <mkdir dir="jicarilla-suf/target/classes"/>
+        <mkdir dir="jicarilla-suf/target/test-classes"/>
+        <work nested="jicarilla-suf/target/classes"/>
+        <work nested="jicarilla-suf/target/test-classes"/>
+
+        <home nested="jicarilla-suf"/>
+        <jar name="target/jicarilla-suf-@@DATE@@.jar"/>
+        <!--<javadoc nested="jicarilla-suf/target/docs/apidocs"/>
+        <junitreport nested="jicarilla-suf/target/docs/junitreports"/>-->
+
+        <nag from="Gump Integration Build &lt;jicarilla-devel@lists.sourceforge.net&gt;"
+            to="jicarilla-devel@lists.sourceforge.net"/>
+    </project>
+
+</module>
