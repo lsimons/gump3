@@ -1,5 +1,5 @@
 <module name="jakarta-jmeter">
-<!-- Version $Revision: 1.56 $ Last updated $Date: 2003/12/10 10:44:37 $ -->
+<!-- Version $Revision: 1.57 $ Last updated $Date: 2003/12/11 11:28:57 $ -->
   <url href="http://jakarta.apache.org/jmeter/" />
   <description>
     Pure Java load testing and performance measurement tool.
@@ -14,7 +14,7 @@
       <property name="version" value="@@DATE@@"/>
       <property name="gump.run" value="true"/>
       <!-- The version of this file -->
-      <property name="version.projectfile" value="$Revision: 1.56 $"/>
+      <property name="version.projectfile" value="1.57"/>
 <!-- Temporary standalone trial build
       <depend property="avalon-framework.jar" project="avalon-framework" id="combined"/>
       <depend property="jakarta-oro.jar" project="jakarta-oro"/>
