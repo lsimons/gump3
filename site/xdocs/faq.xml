@@ -119,8 +119,8 @@
             <tr>
               <th valign="top">A:</th>
               <td>If there is consensus on your project, send an e-mail to
-              <a href="mailto:alexandria-dev@jakarta.apache.org">
-              alexandria-dev@jakarta.apache.org</a> letting us know what
+              <a href="mailto:gump@jakarta.apache.org">
+              gump@jakarta.apache.org</a> letting us know what
               the outcome was, and it will be respected.</td>
             </tr>
           </table>
@@ -162,12 +162,15 @@
             </tr>
             <tr>
               <th valign="top">A:</th>
-              <td>Submit a patch to 
-              <a href="mailto:alexandria-dev@jakarta.apache.org">
-              alexandria-dev@jakarta.apache.org</a>.  If this is likely to 
-              become a regular occurrence, and you demonstrate some ability to 
-              work with (or even run) the existing code base, then we'll 
-              likely vote you in as a committer.
+              <td>The 
+              <a href="http://cvs.apache.org/viewcvs/jakarta-gump/">
+              gump cvs repository</a> is open to all ASF committers.
+              Simply check it out and commit your changes.  It is highly
+              recommended that you build the "gen" target first of the
+              provided build.xml in order to verify that your changes
+              are syntatically correct.  Don't be scared... this takes
+              only a minute and only  requires that you have ant and JDK
+              1.4.  (or ant + xerces + xalan + JDK 1.2 or later).
               </td>
             </tr>
           </table>
@@ -186,8 +189,8 @@
             <tr>
               <th valign="top">A:</th>
               <td>Send an e-mail (preferably a patch) to
-              <a href="mailto:alexandria-dev@jakarta.apache.org">
-              alexandria-dev@jakarta.apache.org</a>.  Being Apache related
+              <a href="mailto:gump@jakarta.apache.org">
+              gump@jakarta.apache.org</a>.  Being Apache related
               (i.e, used by or a consumer of other Apache projects) helps,
               but is not required.  What is important is that your code be
               publicly accessible via cvs and that it be buildable in an
@@ -208,15 +211,13 @@
             </tr>
             <tr>
               <th valign="top">A:</th>
-              <td>That was part of the original design (in fact, you will
-              notice that all modules are referenced via "href" attributes.)
-              When the project was completely XSLT based, it probably worked,
-              but now that part is in Java, so it will require a small amount
-              of code.  All that code is in one place, so it should be
-              relatively straightforward to address this need.  There still
-              will need to be a small amount of "locator" information in
-              Gump, but the contents of the project definition could be
-              elsewhere.
+              <td>That's supported too, as long as your project supports
+              viewcvs or equivalent.  Simply put the URL of the project
+              definition in the 
+              <a href="http://cvs.apache.org/viewcvs/jakarta-gump/profile/gump.xml?rev=HEAD&amp;content-type=text/vnd.viewcvs-markup">
+              gump profile</a>.  However, if you are an ASF committer, why
+              not consider leaving it in the gump cvs repository, that
+              way others can also help out too?
               </td>
             </tr>
           </table>

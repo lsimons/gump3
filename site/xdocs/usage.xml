@@ -32,7 +32,7 @@
 
       export CVSROOT=:pserver:anoncvs@cvs.apache.org:/home/cvspublic
       cvs login
-      cvs co -d gump jakarta-alexandria/proposal/gump</source>
+      cvs co jakarta-gump</source>
 
       <p>If prompted for the password, enter <b><tt>anoncvs</tt></b></p>
     </subsection>
