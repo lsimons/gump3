@@ -123,5 +123,7 @@ if __name__=='__main__':
     #
     result = integrate(workspace, ps, context)
 
+    log.info('Gump Integration complete. Exit code:' + result)
+          
     # bye!
     sys.exit(result)
