@@ -6,7 +6,7 @@
     </description>
 
     <cvs repository="jakarta"/>
-
+    <!--
     <project name="jakarta-avalon-excalibur">
         <package>org.apache.avalon.excalibur</package>
 
@@ -63,8 +63,6 @@
         <jar name="excalibur-scratchpad.jar" id="excalibur-scratchpad"/>
         <javadoc nested="build/javadocs" module="jakarta-avalon"/>
 
-        <!-- doesn't work yet. Need to wait till next release of checkstyle
-        then use failureProperty="" to guard printing of the next line -->
         <nag from="Peter Donald &lt;peter@apache.org&gt;"
             to="avalon-dev@jakarta.apache.org"
               subject="Audit Failure">
@@ -74,6 +72,7 @@
         <nag from="Peter Donald &lt;peter@apache.org&gt;"
             to="avalon-dev@jakarta.apache.org"/>
     </project>
+    -->
 
     <project name="excalibur-altrmi">
         <package>org.apache.excalibur.altrmi</package>
@@ -550,8 +549,8 @@
         <depend project="excalibur-container" runtime="true"/>
         <depend project="excalibur-concurrent" runtime="true"/>
         <depend project="excalibur-event" runtime="true"/>
-	<depend project="excalibur-logger" runtime="true"/>
-	<depend project="excalibur-meta" runtime="true"/>
+        <depend project="excalibur-logger" runtime="true"/>
+        <depend project="excalibur-meta" runtime="true"/>
         <depend project="excalibur-sourceresolve" runtime="true"/>
         <depend project="excalibur-thread" runtime="true"/>
         <depend project="excalibur-util" runtime="true"/>
