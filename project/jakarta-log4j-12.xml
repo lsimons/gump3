@@ -30,6 +30,7 @@
          from="Ceki Gülcü &lt;ceki@apache.org&gt;"/>
   </project>
 
+  <!-- disable until it can work on JDK 1.4
   <project name="log4j-tests-12">
 
     <mkdir dir="tests/classes" />
@@ -50,4 +51,5 @@
          subject="Test Failure 1.2 branch"
          from="Ceki Gülcü &lt;ceki@apache.org&gt;"/>
   </project>
+  -->
 </module>
