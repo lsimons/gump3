@@ -10,6 +10,8 @@
   <ant target="dist">
     <property name="oro.jar"
        reference="jarpath" id="oro" project="jakarta-oro"/>
+    <property name="xalan.jar"
+       reference="jarpath" id="xalan" project="xml-xalan1"/>
   </ant>
 
   <depend project="xml-xerces"/>

@@ -8,11 +8,12 @@
   <cvs repository="jakarta"/>
 
   <ant target="dist">
-    <property name="jdbc20ext.jar" reference="jar" id="stdext" project="jdbc"/>
-    <property name="servlet.jar"   reference="jar" id="servlet" 
-              project="jakarta-servletapi-4"/>
-    <property name="xerces.jar"    reference="jar" id="parser" 
-              project="xml-xerces"/>
+    <property name="jdbc20ext.jar" reference="jarpath" 
+              id="stdext" project="jdbc"/>
+    <property name="servlet.jar"   reference="jarpath" 
+              id="servlet" project="jakarta-servletapi-4"/>
+    <property name="xerces.jar"    reference="jarpath" 
+              id="parser" project="xml-xerces"/>
   </ant>
 
   <depend project="xml-xerces"/>
