@@ -101,9 +101,18 @@ def nagWorkspace(workspace,context):
 def nagProject(workspace,context,module,mctxt,project,pctxt):
     """ Nag to a specific project's <nag entry """
     content=''
+    
+    #
+    # Form the content...
+    #
+    content+="----------------------------------------------------\n"
     content+=getContent(mctxt,"Module: " + module.name + "\n")
     content+=getContent(pctxt,"Project: " + project.name + "\n"    )
+    content+="----------------------------------------------------\n"
         
+    #
+    # Form and send the e-mail...
+    #
     email=EmailMessage(workspace.prefix+':'+module.name+'/'+project.name+' '+stateName(pctxt.status),content)
     toaddr=project.nag.toaddr or workspace.email
     fromaddr=project.nag.fromaddr or workspace.email
@@ -113,10 +122,28 @@ def nagProject(workspace,context,module,mctxt,project,pctxt):
 def getContent(context,message=''):
     content=''
     
+    # Optional message
     if message:
         content=message
     
+    #
+    # Add status (and reason)
+    #
+    content += "Status: " + stateName(context.status)
+    
+    if not context.reason == REASON_UNSET:
+        content +=  "Reason: " + reasonString(context.reason)
+    #
+    # Add an info/error/etc...
+    #
+    for note in context.annotations:      
+        content += (' - %s - %s' % (levelName(note.level), note.text))
+    
+    #
+    # Work
+    #
     if context.worklist:
+        context+="\n"
         for workitem in context.worklist:
             content+=workitem.overview()+"\n"
             
