@@ -155,7 +155,6 @@ def writeRunLogEntry(entry):
             runlog.close()
     
 
-            
 def establishLock(lockFile):
 
     failed=0

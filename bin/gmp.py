@@ -86,9 +86,9 @@ def callGmpCommand(ws,command,projects,iargs):
     #
     # Actually run the Gump command
     #    
-    command=os.path.join(os.environ['GUMP_HOME'],'python/gump/'+command+'.py')
+    command=os.path.join(os.environ['GUMP_HOME'],'bin/'+command+'.py')
 
-    exitValue = runCommand('python '+command+' -w '+ws+' '+projects, iargs, 'python')
+    exitValue = runCommand('python '+command+' -w '+ws+' '+projects, iargs)
     
     return exitValue
     

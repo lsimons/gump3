@@ -70,12 +70,6 @@
       are then built on these outputs.
     </p>
 
-  <warning>
-    <link href="traditional/index.html">Traditional Gump</link> is undergoing a re-write into <link href="http://nagoya.apache.org/wiki/apachewiki.cgi?GumpPython">Python</link>, see
-    <link href="python/index.html">Python Gump</link>. Be aware that some of this documentation might be in transition,
-    or state traditional information (when Python information difers.) <strong>Please report any such findings to us</strong>.
-  </warning>
-  
     <p>
       The commands use the actual build.xml files from the projects, but do
       not use the scripts or jar files checked into CVS/SVN.  Instead, the

@@ -23,7 +23,6 @@
 
         <tab id="home" label="Home" dir=""/>
         <tab id="metadata" label="Object Model" dir="metadata/"/>
-        <tab id="traditional" label="Traditional Gump" dir="traditional/"/>
         <tab id="python" label="Python Gump" dir="python/"/>
 
     </tabs>

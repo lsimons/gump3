@@ -102,20 +102,33 @@
       	<section><title>Jar Downloading</title>
       	<p>This is optional.</p>
       	<ul>
-      		<li>Ruper -- <fork href="http://incubator.apache.org/depot">Depot Updater</fork></li>
+      		<li>Depot -- <fork href="http://incubator.apache.org/depot">Depot Updater</fork></li>
       	</ul>
 		</section>
 	  </section>
     </section>
 
-    <section><title>Getting the source to Gump</title>
+    <section><title>Getting the source/metadata for Gump</title>
+  	  <section><title>Getting the source</title>
+		<p>Gump source code resides in Subversion <fork href="http://cvs.apache.org/viewcvs.cgi/gump/?root=Apache-SVN">here</fork>.</p>
       <source>
+      svn checkout https://svn.apache.org/repos/asf/gump/trunk/ gump 
+      </source>      
+	  <p>This checks out the source code into a sub-directory called <strong>gump</strong>. 
+		Export $GUMP_HOME to (fully qualified) point to that directory.</p>
+	  </section>
+	  <section><title>Getting the metadata</title>
+
+		<p>The shared Gump metadata resides in CVS <fork href="http://cvs.apache.org/viewcvs.cgi/gump/">here</fork>.</p>
+	<source>
+      cd gump
       export CVSROOT=:pserver:anoncvs@cvs.apache.org:/home/cvspublic
       cvs login
       cvs co -d metadata gump
       </source>
-
-      <p>If prompted for the password, enter <strong>anoncvs</strong></p>
+	  </section>
+      <p>If prompted for the password, enter <strong>anoncvs</strong>.</p>
+	  <p>This checks out the metadata into a sub-directory called metadata, under gump.</p>
     </section>
 
     <section><title>Defining your workspace</title>
