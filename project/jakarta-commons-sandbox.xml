@@ -122,9 +122,6 @@
          from="Ted Husted &lt;ted@husted.com&gt;"/>
   </project>
 
-  <!--
-      missing from Gump for now:
-      werkz == requires Maven to build
   <project name="commons-jelly">
     <package>org.apache.commons.jelly</package>
     <description>Commons Jelly Package</description>
@@ -164,7 +161,6 @@
     <nag to="commons-dev@jakarta.apache.org"
          from="James Strachan &lt;jstrachan@apache.org&gt;"/>
   </project>
-  -->
 
   <project name="commons-jexl">
     <package>org.apache.commons.jexl</package>

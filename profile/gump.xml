@@ -109,6 +109,7 @@
   <module href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/*checkout*/ant-contrib/ant-contrib/src/etc/gump-descriptor.xml" />
   <module href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/*checkout*/ant-contrib/cpptasks/src/etc/gump-descriptor.xml" />
   <module href="project/krysalis-centipede.xml"/>
+  <module href="project/werkz.xml"/>
 
   <!-- other -->
 
@@ -181,6 +182,7 @@
   <project name="relaxng"        package="relaxngDatatype-1.0"/>
   <project name="resolver"       package="resolver-0_2"/>
   <project name="tranquilo"      package="xsdlib-20010424"/>
+  <project name="werkz"          package="werkz-1.0-beta-2"/>
 
   <!-- CVS Repository definitions -->
   <repository href="repository/dbxml.xml"/>

@@ -30,9 +30,7 @@
     <depend project="commons-cli"/>
     <depend project="commons-lang"/>
     <depend project="commons-io"/>
-    <!-- need a way to build werkz first
-     depend project="commons-jelly" 
-    -->
+    <depend project="commons-jelly"/>
     <depend project="commons-jexl"/>
     <depend project="commons-beanutils"/>
     <depend project="commons-collections"/>

@@ -1,0 +1,14 @@
+<module name="werkz">
+
+  <url  href="http://werkz.sourceforge.net/"/>
+  <description>
+    Light-Weight Goal-Oriented Process Framework
+  </description>
+
+  <project name="werkz">
+    <package>com.werken.werkz</package>
+
+    <jar name="werkz.jar"/>
+  </project>
+
+</module>
