@@ -13,6 +13,7 @@
   <depend project="xml-xerces"/>
   <depend project="jakarta-avalon"/>
   <depend project="jakarta-avalon-testlet"/>
+  <depend project="jakarta-avalon-phoenix"/>
 
   <home nested="build/lib"/>
   <jar name="cornerstone.bar"/>

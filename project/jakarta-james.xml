@@ -16,6 +16,7 @@
   <depend project="javamail" />
   <depend project="jakarta-avalon" />
   <depend project="jakarta-avalon-cornerstone" />
+  <depend project="jakarta-avalon-phoenix" />
   <depend project="town" />
   <depend project="dnsjava" />
   <depend project="jaf" />
