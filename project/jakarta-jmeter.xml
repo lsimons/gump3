@@ -58,6 +58,7 @@
     <jar name="lib/ext/ApacheJMeter_java.jar" />
     <jar name="lib/ext/ApacheJMeter_jdbc.jar" />
     <jar name="lib/ext/ApacheJMeter_ldap.jar" />
+    <jar name="dist/jakarta-jmeter-@@DATE@@_src.zip" />
     <license name="LICENSE"/>
 
     <nag from="Geir Magnusson Jr. &lt;geirm@apache.org&gt;"
