@@ -53,6 +53,8 @@ function usage
         GUMP_PYTHON   -- the name of the python executable to use. Defaults to
                          the latest version of python that is installed. Note
                          that pygump is supported only on python2.3.
+        GUMP_WORKDIR  -- the directory that pygump will generate various files in
+                         (like log output). Defaults to GUMP_HOME/pygump/work.
         JAVA_HOME     -- the location of a java development kit. Gump tries to
                          work with any JDK, but results may vary (for example,
                          both ant and maven require jdk 1.2 at least).
@@ -74,7 +76,7 @@ function usage
       ;;
     run)
       echo "
-      Run Pygump.
+      Run pygump.
 
       Usage:
         $0 run [gump.py-args ...]
@@ -85,6 +87,14 @@ function usage
       will usually want "all" here.
 "
       ;;
+    kill)
+      echo "
+      Prematurely end a pygump run.
+      
+      Usage:
+        $0 kill
+"
+      ;;
     debug)
       echo "
       Run pygump in debug mode.
@@ -92,8 +102,10 @@ function usage
       Usage:
         $0 debug [gump.py-args ...]
     
-      This is the same as executing the 'run' command with a '--debug'
-      parameter.
+      This is not the same as executing the 'run' command with a '--debug'
+      parameter. Using this command will actually start the command line
+      debugger pdb to run gump in, whereas the '--debug' option customizes
+      the log verbosity gump will use.
 "
       ;;
     test)
@@ -246,6 +258,19 @@ function find_home
 the root of your svn checkout!"
 }
 
+# Determine the location of the work directory
+function find_workdir
+{
+  if [[ ! -z "$GUMP_WORKDIR" ]]; then
+    return
+  fi
+  
+  export GUMP_WORKDIR="$GUMP_HOME/pygump/work"
+  if [[ ! -d $GUMP_WORKDIR ]]; then
+    mkdir "$GUMP_WORKDIR"
+  fi
+}
+
 # Determine the location of the environment variables script
 function find_env_file
 {
@@ -289,6 +314,7 @@ function setup_env
   fi
   
   find_python
+  find_workdir
 }
 
 ##############################################################################
@@ -392,6 +418,47 @@ function check_environment
   check_pylib "MySQLdb" "http://sourceforge.net/projects/mysql-python"
 }
 
+# compile all of pygump
+function pycompile
+{
+  # get rid of old stuff
+  find $GUMP_HOME/pygump -type f -name '*.pyc' | xargs rm -Rf
+
+  # compile everything
+  $GUMP_PYTHON -c "import re; from compileall import compile_dir; compile_dir('$GUMP_HOME/pygump/python', 10, '$GUMP_HOME', False, re.compile('\.svn'), True)"  
+}
+
+# create a .pid file
+function lock
+{
+  local pidfile="$GUMP_HOME/pygump/pygump.pid"
+  if [[ -f "$pidfile" ]]; then
+    error "Pygump lock file $pidfile already exists. Run
+
+$0 kill
+
+to stop the current pygump un."
+  fi
+  
+  echo $$ > $pidfile
+}
+
+# remove our .pid file
+function unlock
+{
+  local pidfile="$GUMP_HOME/pygump/pygump.pid"
+  if [[ ! -f "$pidfile" ]]; then
+    error "Pygump lock file $pidfile not found!"
+  fi
+  
+  local pid=`cat $pidfile`
+  if [[ "$$" != "$pid" ]]; then
+    error "Pygump lockfile pid is $pid but we're $$!"
+  fi
+  
+  rm -f $pidfile
+}
+
 #############################################################################
 # Action functions
 #############################################################################
@@ -399,9 +466,11 @@ function check_environment
 # speaking, the usage function above is also an action function, but we put
 # it at the top of the file for readability :-D
 
-# Run pygump
-function run
+# Run pygump using the specified python command
+function do_run
 {
+  lock
+
   # add pygump to python path
   local oldpythonpath="$PYTHONPATH"
   if [[ -z "$oldpythonpath" ]]; then
@@ -409,22 +478,72 @@ function run
   else
     export PYTHONPATH="$GUMP_HOME/pygump/python:$GUMP_HOME/pygump:$PYTHONPATH"
   fi
-
+  
+  local command="$1"
+  shift
+  
   # run pygump
   local current=`pwd`
   cd "$GUMP_HOME/pygump"
-  $GUMP_PYTHON gump.py $*
+  pycompile
+
+  $GUMP_PYTHON -e "$command" $@
   cd "$current"
 
   # restore python path
   if [[ ! -z "$oldpythonpath" ]]; then
     export PYTHONPATH="$oldpythonpath"
   fi
+  
+  unlock
+}
+
+
+# Run pygump in normal mode
+function run
+{
+  do_run "from gump.main import main; main()" $@
+}
+
+# Run pygump in the debugger
+function debug
+{
+  do_run "from gump.main import main; import pdb; pdb.run('main()')" $@
+}
+
+# Prematurely shut down pygump
+function kill
+{
+  local pidfile="$GUMP_HOME/pygump/pygump.pid"
+  if [[ ! -f "$pidfile" ]]; then
+    error "Pygump lock file $pidfile not found, no process to kill!"
+  fi
+  
+  local pid=`cat $pidfile`
+
+  local findpid=`ps -o pid --no-headers $pid | sed -e 's/ //g'`
+  if [[ -z "$findpid" ]]; then
+    error "Process ID specified in Pygump lockfile not found, no process to kill!"
+  fi
+  
+  kill $pid
+  
+  local findpid=`ps -o pid --no-headers $pid | sed -e 's/ //g'`
+  if [[ ! -z "$findpid" ]]; then
+    kill -SIGKILL $pid
+  fi
+  
+  local findpid=`ps -o pid --no-headers $pid | sed -e 's/ //g'`
+  if [[ ! -z "$findpid" ]]; then
+    error "Unable Process ID $pid. Do you have enough permissions to kill it?"
+  fi
 }
 
 # Run pygump unit tests
 function test
 {
+  lock
+  
   # add pygump to python path
   local oldpythonpath="$PYTHONPATH"
   if [[ -z "$oldpythonpath" ]]; then
@@ -433,9 +552,11 @@ function test
     export PYTHONPATH="$GUMP_HOME/pygump/python:$GUMP_HOME/pygump:$PYTHONPATH"
   fi
 
-  # Run the pygump tests
   local current=`pwd`
   cd "$GUMP_HOME/pygump/python"
+  pycompile
+  
+  # Run the pygump tests
   python ../../bin/testrunner.py -d ../python/gump/test $@
   cd "$current"
   
@@ -443,6 +564,8 @@ function test
   if [[ ! -z "$oldpythonpath" ]]; then
     export PYTHONPATH="$oldpythonpath"
   fi
+  
+  unlock
 }
 
 # Run dynagump
@@ -452,12 +575,12 @@ function dynagump
   local command="$1"
   shift
   if [[ -z "$command" ]]; then
-    $command="run"
+    command="run"
   fi
   
   local current=`pwd`
   cd "$GUMP_HOME/dynagump"
-  ./dynagump.sh $command $@
+  ./dynagump.sh "$command" $@
   cd "$current"
 }
 
@@ -537,7 +660,10 @@ function delegate
       run $@
       ;;
     debug)
-      run --debug $@
+      debug $@
+      ;;
+    kill)
+      kill $@
       ;;
     test)
       test $@
