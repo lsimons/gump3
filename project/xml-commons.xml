@@ -1,0 +1,16 @@
+<project name="xml-commons">
+
+  <description>
+    XML commons
+  </description>
+
+  <cvs repository="xml"/>
+
+  <ant basedir="java/external"/>
+  <depend project="jakarta-ant"/>
+  <depend project="xml-xerces"/>
+
+  <home nested="build"/>
+  <jar name="xml-apis.jar"/>
+
+</project>
