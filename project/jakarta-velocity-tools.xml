@@ -26,6 +26,7 @@
   <project name="jakarta-velocity-tools">
     <package>org.apache.velocity.tools</package>
 
+    <mkdir dir="build/classes"/>
     <ant target="all">
       <property name="project.version" value="@@DATE@@"/>
     </ant>
@@ -40,6 +41,10 @@
     <depend project="jdbc"/>
     <depend project="struts-sslext"/>
     <depend project="xml-xerces"/>
+
+    <!-- needed for examples -->
+    <work nested="build/classes"/>
+
     <jar name="velocity-tools-@@DATE@@.jar"/>
     <javadoc nested="docs/javadoc"/>
     <nag to="velocity-dev@jakarta.apache.org"
