@@ -27,11 +27,34 @@
       <depend property="jxpath.jar" project="commons-jxpath"/>
       <depend property="js.jar" project="rhino"/>
     </ant>
+
     <depend project="jakarta-ant"/>
     <option project="bsf"/>
     <option project="javamail"/>
     <depend project="jaf"/>
     <work nested="build/jsptl/jsptl"/>
+
+    <javadoc nested="dist/doc/doc" project="xml-xerces2">
+      <description dir="application-doc">application</description>
+      <description dir="benchmark-doc">benchmark</description>
+      <description dir="datetime-doc">datetime</description>
+      <description dir="dbtags-doc">dbtags</description>
+      <description dir="i18n-doc">i18n</description>
+      <description dir="input-doc">input</description>
+      <description dir="io-doc">io</description>
+      <description dir="jndi-doc">jndi</description>
+      <description dir="log-doc">log</description>
+      <description dir="mailer-doc">mailer</description>
+      <description dir="page-doc">page</description>
+      <description dir="random-doc">random</description>
+      <description dir="regexp-doc">regexp</description>
+      <description dir="request-doc">request</description>
+      <description dir="response-doc">response</description>
+      <description dir="scrape-doc">scrape</description>
+      <description dir="session-doc">session</description>
+      <description dir="string-doc">string</description>
+      <description dir="xtags-doc">xtags</description>
+    </javadoc>
   </project>
 
 </module>
