@@ -384,7 +384,7 @@ class GumpRunOptions:
         # the 'forrest' build inlined.
         self.xdocs=0
         
-        self.objectivse=OBJECTIVE_INTEGRATE
+        self.objectives=OBJECTIVE_INTEGRATE
         self.features=FEATURE_ALL
         
     def isDated(self):

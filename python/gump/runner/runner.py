@@ -132,8 +132,5 @@ class GumpRunner(RunSpecific):
         self.run.dispatchEvent(FinalizeRunEvent(self.run))
 
 def getRunner(run):
-    #from gump.runner.tasks import SequentialTaskRunner
-    #return SequentialTaskRunner(run)
-    
     from gump.runner.demand import OnDemandRunner
     return OnDemandRunner(run)

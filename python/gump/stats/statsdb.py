@@ -58,10 +58,17 @@ class StatisticsDB:
                 dump(s)
                 
     # Workspace
-    def getWorkspaceStats(self):
-        stats=WorkspaceStatistics()
+    def getWorkspaceStats(self,workspaceName):
+        stats=WorkspaceStatistics(workspaceName)
         self.getBaseStats(stats)
         return stats
+        
+    def putWorkspaceStats(self,stats):
+        self.putBaseStats(stats)
+
+    def delWorkspaceStats(self,stats):
+        self.delBaseStats(stats)          
+        
         
     # Project
     
@@ -213,55 +220,55 @@ class StatisticsDB:
     def loadStatistics(self,workspace):
         log.debug('--- Loading Statistics')
                   
-        for repo in workspace.getRepositories():
                         
-            # Load the statistics
-            rs=self.getRepositoryStats(repo.getName())
+        # Load the W/S statistics
+        ws=self.getWorkspaceStats(workspace.getName())
+        workspace.setStats(ws)            
                 
-            #
-            # Stash for later...
-            #
-            repo.setStats(rs)    
-                      
-        for module in workspace.getModules():
-            #
-            # Load the statistics...
-            #
-            ms=self.getModuleStats(module.getName())        
-                
-            #
-            # Stash for later...
-            #
-            module.setStats(ms)     
-            
-            for project in module.getProjects():
-                #
-                # Load the statistics...
-                #
-                ps=self.getProjectStats(project.getName())        
-                
-                #
-                # Stash for later...
-                #
-                project.setStats(ps)            
-            
-                       
-    def updateStatistics(self,workspace):
-        log.debug('--- Updating Statistics')
                   
         for repo in workspace.getRepositories():
                         
             # Load the statistics
             rs=self.getRepositoryStats(repo.getName())
+                
+            # Stash for later...
+            repo.setStats(rs)    
+                      
+        for module in workspace.getModules():
+            # Load the statistics...
+            ms=self.getModuleStats(module.getName())        
+                
+            # Stash for later...
+            module.setStats(ms)     
             
-            #
+            for project in module.getProjects():
+                # Load the statistics...
+                ps=self.getProjectStats(project.getName())        
+                
+                # Stash for later...
+                project.setStats(ps)            
+            
+                       
+    def updateStatistics(self,workspace):
+        log.debug('--- Updating Statistics')
+        
+                  
+                        
+        # Load the W/S statistics
+        ws=self.getWorkspaceStats(workspace.getName())
+        # Update for this workspace based off this run
+        ws.update(workspace)
+        workspace.setStats(ws)            
+                
+        for repo in workspace.getRepositories():
+                        
+            # Load the statistics
+            rs=self.getRepositoryStats(repo.getName())
+            
             # Update for this repo based off this run
-            #
             rs.update(repo)
                 
-            #
             # Stash for later...
-            #
             repo.setStats(rs)    
               
         for module in workspace.getModules():
@@ -269,19 +276,13 @@ class StatisticsDB:
             # Load the statistics
             ms=self.getModuleStats(module.getName())
             
-            #
             # Update for this project based off this run
-            #
             ms.update(module)
                 
-            #
             # Stash for later...
-            #
             module.setStats(ms)            
                 
-            #
             # Write out the updates
-            #
             self.putModuleStats(ms)     
             
             for project in module.getProjects():
@@ -289,21 +290,17 @@ class StatisticsDB:
                 # Load the statistics
                 ps=self.getProjectStats(project.getName())
             
-                #
                 # Update for this project based off this run
-                #
                 ps.update(project)
                 
-                #
                 # Stash for later...
-                #
                 project.setStats(ps)            
                 
-                #
                 # Write out the updates
-                #
                 self.putProjectStats(ps) 
                 
+        self.sync()
+        
     def sync(self):
         if hasattr(self.db, 'sync'):
             self.db.sync()

@@ -35,6 +35,9 @@ from gump.model.state import *
 from gump.net.smtp import *
 from gump.utils import *
 
+from gump.notify.logic import NotificationLogic
+from gump.notify.notification import Notification
+
 LINE     ='--   --   --   --   --   --   --   --   --   --   --   --   G U M P'
 SEPARATOR='*********************************************************** G U M P'
 
@@ -54,7 +57,7 @@ class AddressPair:
 
 class Notifier(AbstractRunActor):
     
-    def __init__(self,run):      
+    def __init__(self,run,resolver=None):      
         
         AbstractRunActor.__init__(self,run)
         
@@ -66,8 +69,9 @@ class Notifier(AbstractRunActor):
         self.unwantedSubjects=''
         self.unwanteds=0
         
-                
-                
+        self.resolver=self.run.getOptions().getResolver()
+        self.logic=NotificationLogic(self.run)
+                                        
     def processOtherEvent(self,event):            
         if isinstance(event,FinalizeRunEvent):          
             # Notifications are wanted...
@@ -87,17 +91,20 @@ class Notifier(AbstractRunActor):
         #
         # Notify about the workspace (if it needs it)
         #
-        if self.workspace.isFailed():
-            self.notifyWorkspace(run,self.workspace)
+        notification = self.logic.notification(self.workspace)
+        if notification:
+            self.notifyWorkspace(notification)
     
         # For all modules...
         for module in self.workspace.getModules():        
                 if not self.gumpSet.inModuleSequence(module): continue
 
-                if module.isFailed():
+                notification = self.logic.notification(module)
+                
+                if notification:
                     try:
                         log.info('Notify for module: ' + module.getName())
-                        self.notifyModule(module)   
+                        self.notifyModule(module,notification)   
                     
                     except Exception, details:
                         log.error("Failed to send notify e-mails for module " + module.getName()\
@@ -106,15 +113,16 @@ class Notifier(AbstractRunActor):
                     
                     #
                     # Notify for each project...
-                    #
-                    
+                    #                    
                     for project in module.getProjects():
-                        if project.isFailed() :
-                            if not self.gumpSet.inProjectSequence(project): continue                        
+                        if not self.gumpSet.inProjectSequence(project): continue    
                         
+                        # Do a notification, positive (fixed) or negative (failed)
+                        notification = self.logic.notification(project)                
+                        if notification:
                             try:                        
                                 log.info('Notify for project: ' + project.getName())                                                        
-                                self.notifyProject(project)                        
+                                self.notifyProject(project,notification)                        
                                 
                             except Exception, details:
                                 log.error("Failed to send notify e-mails for project " + project.getName()\
@@ -154,7 +162,7 @@ class Notifier(AbstractRunActor):
             self.unsents=0
         else:
             log.debug('No unsent notifys.')
-                
+
     def addUnwanted(self,subject,content):
         if self.unwanted:
             self.unwanted += SEPARATOR
@@ -220,25 +228,24 @@ The following %s notify%s should have been sent
         return 0
     
     
-    def notifyWorkspace(self):
+    def notifyWorkspace(self,notification):
         """ Notify for the workspace """
-        content=self.getGenericContent(self.workspace,'There is a workspace problem... \n')
         
-        self.sendEmail(self.workspace.mailinglist,	\
-                        self.workspace.email,	\
-                        self.workspace.prefix+': Gump Workspace Problem ',content)
+        content=notification.resolveContent(self.resolver)
+        
+        subject=self.workspace.prefix+': Gump Workspace ' + self.workspace.getName()
+        
+        self.sendEmail(self.workspace.mailinglist,
+                        self.workspace.email,
+                        subject,content)
     
-    def notifyModule(self,module):
+    def notifyModule(self,module,notification):
         """ Notify to a specific module's <notify entry """
         
-        #
         # Form the content...
-        #
-        content=self.getNamedTypedContent(module)
+        content=notification.resolveContent(self.resolver)
                 
-        #
         # Form the subject
-        #
         subject=self.workspace.prefix+	\
                 ': '+module.getName()+' '+	\
                 lower(stateDescription(module.getState()))
@@ -246,20 +253,20 @@ The following %s notify%s should have been sent
         self.sendEmails(self.getAddressPairs(module),subject,content)
             
     
-    def notifyProject(self,project):
+    def notifyProject(self,project,notification):
         """ Notify to a specific project's <notify entry """
         module=project.getModule()
     
         #
         # Form the content...
         #
-        content=self.getNamedTypedContent(project )        
+        content=notification.resolveContent(self.resolver)
                 
         #
         # Form the subject
         #
         subject=self.workspace.prefix+': '	\
-            +module.getName()+'/'+project.getName()	\
+            + module.getName() + '/' +project.getName()	\
             +' '+lower(stateDescription(project.getState()))
                     
         # Send those e-mails
@@ -310,9 +317,9 @@ The following %s notify%s should have been sent
         sent=0
         try:
                
-            log.info('Send Notify e-mail to: ' + str(toaddr) + \
-                ' from: ' + str(fromaddr) + \
-                'Subject: ' + str(subject))
+            log.info('Send Notify e-mail:\n To: ' + str(toaddr) + \
+                '\n From: ' + str(fromaddr) + \
+                '\n Subject: ' + str(subject))
            
             #
             # Form the user visable part ...
@@ -344,124 +351,7 @@ The following %s notify%s should have been sent
             log.error('Failed with to: ['+str(toaddr)+'] from: ['+str(fromaddr)+']' )
             
         return sent
-        
-    def getNamedTypedContent(self,object,message=None):
-        content="""To whom it may engage...
-        
-This is an automated request, but not an unsolicited one. For help 
-understanding the request please visit 
-http://gump.apache.org/nagged.html, 
-and/or contact general@gump.apache.org.
 
-"""
-    
-        # Get our facts straight.
-        name=object.getName()
-        type=object.__class__.__name__
-        affected=object.determineAffected()
-        duration=object.getStats().sequenceInState
-        
-        # Optional message
-        if message:
-            content+=message             
-            
-        content += type + ' ' + name + ' has an issue affecting its community integration'
-                
-        if affected:
-            content += '.\nThis issue affects ' + `affected` + ' projects'
-            
-        if duration and duration > 1:
-            content += ', and has been outstanding for ' + `duration` + ' runs'
-        
-        content += '.\n'
-        
-        if isinstance(object,Project) and affected:
-            affectedProjects=object.determineAffectedProjects()
-            if 1 or ((duration and duration > 3) and affectedProjects):
-                #
-                # Show those negatively affected
-                #
-                content += 'The following are affected:\n'
-            
-                for project in affectedProjects:
-                    content += '    - ' + project.getName() 
-                    
-                    if project.hasDescription():
-                        content += ' :  '
-                        content += project.getLimitedDescription()
-                        
-                    content += '\n'
-            
-                content += '\n'            
-            
-        content += self.getGenericContent(object)
-        
-        return content
-            
-    def getGenericContent(self,object,message=None):
-        content=''
-    
-        # Optional message
-        if message:
-            content=message             
-    
-        #
-        # Add State (and reason)
-        #
-        content += 'The current state is \'' + object.getStateDescription() + '\''
-    
-        if object.hasReason():
-            content +=  ', for reason \'' + object.getReasonDescription() + '\''
-        
-        content += '\n'
-                                 
-        #
-        # Link them back here...
-        #
-        url=self.run.getOptions().getResolver().getUrl(object)
-        content += "\nFull details are available at:\n    " 
-        content += url 
-        content += "\n"
-                
-        if object.annotations or object.worklist:
-            content += 'That said, some snippets follow:\n'
-            
-        content += '\n'
-        
-        #
-        # Add an info/error/etc...
-        #
-        if object.annotations:
-            #content += LINE
-            content += "\n"
-            content += "Gump provided these annotations:\n"
-            for note in object.annotations:      
-                content += (' - %s - %s\n' % (levelName(note.level), note.text))
-    
-        #
-        # Work
-        #
-        if object.worklist: 
-            content+="\n\n"
-            #content += LINE   
-            content += "Gump performed this work:\n"
-            for workitem in object.worklist:
-                workurl=self.run.getOptions().getResolver().getUrl(workitem)
-                content+=workurl+'\n'
-                content+=workitem.overview()+'\n'   
-                                
-        content += '\n\nTo subscribe to this information via syndicated feeds:\n'      
-            
-        #
-        # Link them back here...
-        #
-        rssurl=self.run.getOptions().getResolver().getUrl(object,'rss','.xml')
-        atomurl=self.run.getOptions().getResolver().getUrl(object,'atom','.xml')
-            
-        content += "RSS: " + rssurl + '\n'
-        content += "Atom: " + atomurl + '\n'         
-    
-        return content
     
 def notify(run):
     notifier=Notifier(run)

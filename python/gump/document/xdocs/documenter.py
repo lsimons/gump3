@@ -44,7 +44,7 @@ from gump.model.workspace import Workspace
 from gump.model.module import Module
 from gump.model.project import Project
 
-from gump.notify.notifier import Notifier
+from gump.notify.logic import NotificationLogic
 
 from gump.guru.stats import StatisticsGuru
 from gump.guru.xref import XRefGuru
@@ -67,7 +67,10 @@ class XDocDocumenter(Documenter):
     def __init__(self, run, dirBase, urlBase):
         Documenter.__init__(self, run)            
         
-        self.setResolver(XDocResolver(dirBase,urlBase))
+        resolver=XDocResolver(dirBase,urlBase)
+        self.setResolver(resolver)    
+            
+        self.notifyLogic=NotificationLogic(self.run)
     
     def prepareRun(self):
     
@@ -437,15 +440,11 @@ class XDocDocumenter(Documenter):
         for server in self.workspace.getServers():            
             self.documentServer(server)
             
-        #
         # Document individual trackers
-        #
         for tracker in self.workspace.getTrackers():            
             self.documentTracker(tracker)
             
-        #
         # Document individual modules
-        #
         for module in self.workspace.getModules():
             if not self.gumpSet.inModuleSequence(module): continue  
             self.documentModule(module)
@@ -1669,7 +1668,7 @@ This page helps Gumpmeisters (and others) observe community progress.
                                 gumpSafeName(project.getName()) + '_notify.html',
                                 'Contents')   
         elif not project.isPackaged() and project.hasBuildCommand():            
-            document.createWarning('This project does not utilize Gump nagging.')  
+            document.createWarning('This project does not utilize Gump notification.')  
                              
         metadataLocation=project.getMetadataLocation()
         metadataUrl=project.getMetadataViewUrl()
@@ -1829,18 +1828,26 @@ This page helps Gumpmeisters (and others) observe community progress.
         
         document.serialize()
         
-        if project.xml.nag and project.isFailed():
+        # Document notifications
+        notification = self.notifyLogic.notification(project)
+        if notification:
             document=XDocDocument('Project Details : ' + project.getName(),	\
-                    self.resolver.getFile(project, \
-                                    project.getName() + '_notify', \
-                                        '.xml'))     
+                        self.resolver.getFile(project, \
+                                        project.getName() + '_notify', \
+                                            '.xml'))     
+                                            
+            # If they don't ask for it, they won't see it.
+            part1='could'
+            part2=', if request in the metadata.'
+            if project.xml.nag:
+                part1='ought'
+                part2='.'
      
             nagSection=document.createSection('Notification')
-            nagSection.createParagraph('This is the notification mail that is to be sent')
-            nagger=Notifier(self.run)
-            content=nagger.getNamedTypedContent(project)            
-            nagSection.createSource(content)
-                    
+            nagSection.createParagraph(('This is the notification mail that %s have been sent%s') \
+                                            % (part1,part2))
+            nagSection.createSource(notification.resolveContent(self.resolver))
+            
             document.serialize()
         
         # Document the project XML

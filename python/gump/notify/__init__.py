@@ -15,4 +15,4 @@
 # limitations under the License.
 
 # tell Python what modules make up the gump.nofity package
-__all__ = ["notifier"]
+__all__ = ["notifier","notification","logic"]

@@ -24,9 +24,13 @@ import types, StringIO
 from gump import log
 import gump.core.config
 from gump.core.gumprun import GumpRun
+from gump.stats.statistician import Statistician
+
 from gump.test import getWorkedTestRun
 from gump.test.pyunit import UnitTestSuite
+
 from gump.notify.notifier import notify,Notifier
+from gump.notify.notification import PositiveNotification,NegativeNotification
 from gump.net.smtp import *
 
 class NotificationTestSuite(UnitTestSuite):
@@ -42,18 +46,32 @@ class NotificationTestSuite(UnitTestSuite):
         self.workspace=self.run.getWorkspace()          
         self.assertNotNone('Needed a workspace', self.workspace)
         
-    def testNotificationContents(self):
-    
-        notifier=Notifier(self.run)
+        # Prime the information..
+        stats=Statistician(self.run)
+        stats.updateStatistics()
         
+    def testNotificationContents(self):
+        
+        resolver=self.run.getOptions().getResolver()
+        content1=PositiveNotification(self.run, self.workspace).resolveContent(resolver)
+        content2=NegativeNotification(self.run, self.workspace).resolveContent(resolver)    
+        print content1
+        print content2
+    
         # For all modules...
         for module in self.workspace.getModules():                    
             #print 'Get Content For Module : ' + module.getName()
-            notifier.getNamedTypedContent(module,'test')
+            content1=PositiveNotification(self.run, module).resolveContent(resolver)
+            content2=NegativeNotification(self.run, module).resolveContent(resolver) 
+            print content1
+            print content2
             for project in module.getProjects():
                 #print 'Get Content For Project : ' + project.getName()
                 # print 
-                notifier.getNamedTypedContent(project,'test')
+                content1=PositiveNotification(self.run, project).resolveContent(resolver)
+                content2=NegativeNotification(self.run, project).resolveContent(resolver)
+                print content1
+                print content2
                 
     def testNotifyUnwantedUnsent(self):
     

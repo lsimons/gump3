@@ -27,7 +27,6 @@ from gump.model import *
 from gump.core.gumprun import *
 from gump.core.actor import *
 from gump.stats.statsdb import StatisticsDB
-        
 
 class Statistician(AbstractRunActor):
     def __init__(self,run):
@@ -35,22 +34,24 @@ class Statistician(AbstractRunActor):
         AbstractRunActor.__init__(self,run)        
         self.db=StatisticsDB()   
         
-        
-    def processOtherEvent(self,event):
-            
-        workspace=self.run.getWorkspace()        
-        
+    def processOtherEvent(self,event):                
         if isinstance(event,InitializeRunEvent):
-            #
-            # Load stats (and stash onto projects)
-            #    
-            self.db.loadStatistics(workspace) 
+            self.loadStatistics()                
+        elif isinstance(event,FinalizeRunEvent):          
+            if self.run.getOptions().isStatistics():          
+                self.updateStatistics()        
             
-        elif isinstance(event,FinalizeRunEvent):
+    def loadStatistics(self):
+            
+        #
+        # Load stats (and stash onto projects)
+        #    
+        self.db.loadStatistics(self.workspace) 
+        
+    def updateStatistics(self):
           
-            if self.run.getOptions().isStatistics():
-                #
-                # Update stats (and stash onto projects)
-                #
-                self.db.updateStatistics(workspace)            
-                self.db.sync()
+        #
+        # Update stats (and stash onto projects)
+        #
+        self.db.updateStatistics(self.workspace)            
+        self.db.sync()

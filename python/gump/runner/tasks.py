@@ -181,13 +181,8 @@ class SequentialTaskRunner(GumpRunner):
     
     def notify(self):
                 
-        #
-        # Only an 'all' is an official build, for them:
-        #
-        #	Send Naggin E-mails
-        #
-        if self.run.getOptions().isOfficial() \
-            and self.run.getGumpSet().isFull() \
+        # Anything but 'all' is likely debugging.
+        if self.run.getGumpSet().isFull() \
             and self.run.getWorkspace().isNotify():
   
             log.info('Notify about failures... ')            

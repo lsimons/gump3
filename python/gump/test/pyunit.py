@@ -337,9 +337,6 @@ if __name__=='__main__':
     from gump.test.unicode import UnicodeTestSuite  
     runner.addSuite(UnicodeTestSuite())
     
-    from gump.test.tasks import TasksTestSuite  
-    runner.addSuite(TasksTestSuite())
-    
     from gump.test.diagram import DiagramTestSuite  
     runner.addSuite(DiagramTestSuite())
     

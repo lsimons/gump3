@@ -22,6 +22,9 @@
   </description>
 
   <svn repository="apache-svn-sandbox" dir="gump-test"/>
+  
+  <nag 	from="Adam Jack &lt;ajack@trysybase.com&gt;"
+    		to="general@gump.apache.org"/>
 
   <project name="gump-test-maven1">
     <maven target="dist" basedir="maven-project1" debug="true"/>        
@@ -32,10 +35,8 @@
   <project name="gump-test-maven2">
     <maven target="dist" basedir="maven-project2" debug="true"/>       
     <home nested="maven-project2/target"/>    
-    <jar name="gump-test-maven2-0.1.jar"/>
-    
-    <depend project="gump-test-maven1"/>
-    
+    <jar name="gump-test-maven2-0.1.jar"/>    
+    <depend project="gump-test-maven1"/>    
   </project>
   
 </module>

@@ -49,24 +49,24 @@ class Statistics:
         self.sequenceInState=0
         self.lastModified=0
                 
-    #           
-    # FOG is (at pressent) effectively the
+      
+    # FOG is (at present) effectively the
     # 'odds of success' (based off historical results).
     #
     # We ought find a way to factor in durations and
     # age into this
-    #
     def getFOGFactor(self):
         return self.getHistoricalOddsOfSuccess()        
-        
-    #           
+               
     # 'odds of success' (based off historical results).
-    #
     def getHistoricalOddsOfSuccess(self):
         good=self.successes or 0
         bad=(self.failures+self.prereqs) or 0
         total=(good+bad) or 1
         return float(good)/float(total)
+        
+    def getTotalRuns(self):
+        return (self.successes+self.failures+self.prereqs)
         
     def getLastModified(self):
         return (self.lastModified)

@@ -27,8 +27,8 @@
   <project name="gump-test">
     <script name="gumpytest"/>
     <home nested="gumpytest"/>
-    <!-- nag 	from="Adam Jack &lt;ajack@trysybase.com&gt;"
-    		to="general@gump.apache.org"/ -->
+    <nag 	from="Adam Jack &lt;ajack@trysybase.com&gt;"
+    		to="general@gump.apache.org"/>
   </project>
   
   
