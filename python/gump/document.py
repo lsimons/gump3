@@ -425,7 +425,7 @@ def documentModule(workspace,wdir,modulename,modulecontext,db,projectFilterList=
     if not description:
         description='No description provided.'        
     if module.url:
-        description+=' For more information, see: ' + getLink(module.url)
+        description+=' For more information, see: ' + getLink(module.url.href)
     else:
         description+=' (No module URL provided).'
             
@@ -539,7 +539,7 @@ def documentProject(workspace,modulename,mdir,projectname,projectcontext,db):
     if not description:
         description='No description provided.'        
     if project.url:
-        description+=' For more information, see: ' + getLink(project.url)
+        description+=' For more information, see: ' + getLink(project.url.href)
     else:        
         description=' (No project URL provided.)'   
             
