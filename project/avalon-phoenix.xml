@@ -40,8 +40,6 @@
         <depend project="ant" runtime="true"/>
         <depend project="mx4j" runtime="true"/>
         <depend project="xml-xalan2"/>
-        <depend project="dist-bsf" runtime="true"/>
-        <depend project="rhino" runtime="true"/>
         <depend project="phoenix-qdox" runtime="true"/>
         <depend project="jakarta-site2" inherit="all"/>
         <option project="jakarta-servletapi-4" runtime="true"/>
