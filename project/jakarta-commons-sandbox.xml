@@ -171,7 +171,6 @@
     </ant>
     <depend project="jakarta-ant" inherit="runtime"/>
     <depend project="xml-xerces"/>
-    <depend project="jakarta-velocity"/>
     <depend project="commons-logging"/>
     <jar name="jexl/dist/commons-jexl.jar"/>
     <javadoc nested="jexl/dist/docs/api"/>
