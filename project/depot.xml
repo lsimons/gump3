@@ -152,19 +152,15 @@
            from="Adam Jack &lt;ajack@apache.org&gt;"/>
               
     </project>
-
-
-
-
-    
+   
     
     <project name="depot-update" fullname="Depot Update" >
 
         <package>org.apache.depot.update</package>
 
         <!-- Work dirs to be included in classpath  -->
-        <work nested="update/target/classes"/>
-        <home nested="update/target/dist"/>
+        <work nested="update/build/depot-home/classes"/>
+        <home nested="update/"/>
 
         <depend inherit="runtime" project="ant"/>
         <depend project="depot-version-antlet" inherit="runtime"/> 
@@ -175,7 +171,7 @@
         <depend project="commons-httpclient"/>
         <depend project="commons-vfs"/>
 
-        <jar name="jars/depot-update-gump-@@DATE@@.jar"/>
+        <jar name="dist/depot-update-gump-@@DATE@@.jar"/>
 
         <ant basedir="update" buildfile="build.xml" target="gump" vm="1.4">
           <property name="ant.home" project="ant" reference="home" />
@@ -193,7 +189,7 @@
         <package>org.apache.depot.update.test</package>
 
         <!-- Work dirs to be included in classpath  -->
-        <work nested="update/target/tests"/>
+        <work nested="update/build/junit/classes/"/>
         <home nested="update/dist"/>
 
         <depend project="depot-update" inherit="all"/>
