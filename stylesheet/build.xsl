@@ -214,8 +214,12 @@
               <xsl:variable name="jardir" select="/workspace/@jardir"/>
               <xsl:variable name="home" select="@home"/>
               <xsl:variable name="module" select="@module"/>
+              <xsl:variable name="srcdir" select="@srcdir"/>
               <xsl:for-each select="jar">
                 <copy file="{$home}/{@name}" todir="{$jardir}/{$module}"/>
+              </xsl:for-each>
+              <xsl:for-each select="license">
+                <copy file="{$srcdir}/{@name}" todir="{$jardir}/{$module}"/>
               </xsl:for-each>
             </xsl:if>
 

@@ -33,6 +33,8 @@
     <jar name="lib/ant-xalan2.jar" id="xalan2"/>
     <jar name="lib/nodeps.jar" id="nodeps"/>
 
+    <license name="LICENSE"/>
+
     <nag from="Diane Holt &lt;holtdl@apache.org&gt;"
          to="ant-dev@jakarta.apache.org"/>
   </project>

@@ -258,6 +258,24 @@
       </table>
     </subsection>
 
+    <subsection name="license">
+      <p>The filename of the license, relative to the src directory.
+      This file will accompany any redistributable jars.</p>
+
+      <table>
+        <tr>
+          <th>Attribute</th>
+          <th>Description</th>
+          <th>Required?</th>
+        </tr>
+        <tr>
+          <td>name</td>
+	  <td>The filename of the license file</td>
+          <td>Yes</td>
+        </tr>
+      </table>
+    </subsection>
+
     <subsection name="jar">
       <p>The name of an output jar, relative to the home directory.</p>
 
