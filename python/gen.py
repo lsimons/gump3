@@ -71,8 +71,8 @@ if __name__=='__main__':
   workspace=load(ws)
 
   try:
-   f=open(dir.base+'/'+default.merge, 'w')
-   xmlize('workspace',workspace,f)
+    f=open(dir.cache+'/'+default.merge, 'w')
+    xmlize('workspace',workspace,f)
   finally:
     # Since we may exit via an exception, close fp explicitly.
     if f:
