@@ -12,7 +12,7 @@
 
     <ant target="dist">
       <property name="version" value="@@DATE@@"/>
-
+<!-- Temporary standalone trial build
       <depend property="avalon-framework.jar" project="avalon-framework" id="combined"/>
       <depend property="jakarta-oro.jar" project="jakarta-oro"/>
       <depend property="junit.jar" project="junit"/>
@@ -23,8 +23,10 @@
       <depend property="jdom.jar" project="jdom"/>
       <depend property="js.jar" project="rhino"/>
       <depend property="soap.jar" project="xml-soap"/>
+-->
     </ant>
 
+<!-- Temporary standalone trial build
     <depend project="ant" />
     <depend project="commons-collections"/>
     <depend project="jakarta-velocity" />
@@ -38,6 +40,7 @@
     <work nested="build/core"/>
     <work nested="build/htmlparser"/>
     <work nested="build/jorphan"/>
+-->
     <!-- Allow http to build: -->
     <work nested="build/components"/>
 
@@ -49,6 +52,9 @@
     <work nested="lib/ext/ApacheJMeter_ftp.jar"/>
     <work nested="lib/ext/ApacheJMeter_jdbc.jar"/>
     <work nested="lib/ext/ApacheJMeter_java.jar"/>
+
+    <!-- Temporary standalone trial build -->
+    <work nested="lib"/>
 
     <!-- Export the JMeter jars -->
     <home nested="." />
