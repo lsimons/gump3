@@ -244,5 +244,20 @@
            
     </project>
     
+    <project name="depot-update-ant-sample" fullname="Depot Update Ant Sample">    	
+
+        <depend project="depot-update" inherit="all"/>
+        <depend project="ant" inherit="runtime"/>
+        
+        <ant  basedir="update" buildfile="build-ant-sample.xml" target="gump" vm="1.4">
+        	<property name="ant.home" project="ant" reference="home" />
+        </ant>
+
+	    <nag 
+           to="depot-dev@incubator.apache.org"
+           from="Adam Jack &lt;ajack@apache.org&gt;"/>
+           
+    </project>
+    
 </module>
 
