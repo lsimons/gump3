@@ -885,11 +885,41 @@
                 to="dev@avalon.apache.org"/>
     </project>
 
+    <project name="excalibur-meta-sourceresolve">
+        <package>org.apache.excalibur.source</package>
+
+        <ant basedir="sourceresolve">
+            <depend property="excalibur-fortress-tools.jar" project="excalibur-fortress" id="fortress-tools"/>
+            <depend property="qdox.jar" project="phoenix-qdox"/>
+            <depend property="excalibur-pool.jar" project="excalibur-pool" runtime="true"/>
+            <property name="package-version" value="@@DATE@@"/>
+            <property name="junit.failonerror" value="true"/>
+            <property name="do.checkstyle" value="true"/>
+            <property name="skip.dependencies" value="true"/>
+        </ant>
+
+        <depend project="ant" inherit="runtime"/>
+        <option project="checkstyle" inherit="runtime"/>
+        <depend project="junit"/>
+        <depend project="avalon" runtime="true"/>
+        <depend project="xml-xerces"/>
+        <depend project="xml-xalan2"/>
+
+        <work nested="sourceresolve/build/classes"/>
+        <work nested="sourceresolve/build/testclasses"/>
+
+        <home nested="sourceresolve"/>
+        <jar name="build/lib/excalibur-sourceresolve-@@DATE@@.jar"/>
+
+        <nag from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"
+                to="dev@avalon.apache.org"/>
+    </project>
+
     <project name="excalibur-store">
         <package>org.apache.excalibur.store</package>
 
         <ant basedir="store">
-            <depend property="excalibur-fortress-tools.jar" project="excalibur-fortress" reference="jarpath" id="fortress-tools"/>
+            <depend property="excalibur-fortress-tools.jar" project="excalibur-fortress" id="fortress-tools"/>
             <depend property="qdox.jar" project="phoenix-qdox"/>
             <property name="version" value="@@DATE@@"/>
             <property name="junit.failonerror" value="true"/>
