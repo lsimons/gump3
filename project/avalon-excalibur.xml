@@ -251,7 +251,7 @@
         <mkdir dir="event/api/target/classes" />
         <work nested="event/api/target/classes" />
         
-        <jar name="build/lib/excalibur-event-api-@@DATE@@.jar"/>
+        <jar name="target/excalibur-event-api-@@DATE@@.jar"/>
 
         <!--junitreport nested="event/target/docs/junitreports"/-->
 
