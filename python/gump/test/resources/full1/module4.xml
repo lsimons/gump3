@@ -12,7 +12,8 @@
 
 	<!-- Not, a list of space separated targets... -->
     <ant target="gump1 gump2 gump3">
-      <property name="ant.home" reference="home" project="project1"/>
+      <property name="project1.home" reference="home" project="project1"/>
+      <!-- property name="project1.src" project="project1" noclasspath=""/ -->
     </ant>
 
     <depend project="project1"/>

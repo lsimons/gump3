@@ -185,8 +185,7 @@ class GumpEngine:
         if run.getGumpSet().isFull() \
             and run.getWorkspace().isNag():
   
-            log.info('Nag about failures... ')
-            
+            log.info('Nag about failures... ')            
             
             #
             # Nag about failures

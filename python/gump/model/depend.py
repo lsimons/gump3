@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/model/depend.py,v 1.17 2004/03/11 16:13:50 ajack Exp $
-# $Revision: 1.17 $
-# $Date: 2004/03/11 16:13:50 $
+# $Header: /home/stefano/cvs/gump/python/gump/model/depend.py,v 1.18 2004/03/15 22:07:07 ajack Exp $
+# $Revision: 1.18 $
+# $Date: 2004/03/15 22:07:07 $
 #
 # ====================================================================
 #
@@ -108,7 +108,10 @@ def importXMLDependency(ownerProject,dependProject,xmldepend,optional):
     ids	=	xmldepend.ids
     
     annotation = None # 'Expressed Dependency'
-    
+        
+    noclasspath=0
+    if xmldepend.noclasspath: 	noclasspath=1
+        
     #
     # Construct the dependency
     #        
@@ -118,12 +121,12 @@ def importXMLDependency(ownerProject,dependProject,xmldepend,optional):
                                 runtime,		\
                                 optional,		\
                                 ids,			\
-                                annotation)
-                
+                                noclasspath,	\
+                                annotation)                
 
 class ProjectDependency(Annotatable):
     """ A dependency from one project to another """
-    def __init__(self,owner,project,inherit,runtime=0,optional=0,ids=None,annotation=None):
+    def __init__(self,owner,project,inherit,runtime=0,optional=0,ids=None,noclasspath=0,annotation=None):
         
         Annotatable.__init__(self)
         
@@ -133,6 +136,7 @@ class ProjectDependency(Annotatable):
         self.runtime=runtime
         self.optional=optional
         self.ids=ids
+        self.noclasspath=noclasspath
         if annotation:	self.addInfo(annotation)
     
     # :TODO: if same ids, but different order/spacing, it ought match..
@@ -187,11 +191,16 @@ class ProjectDependency(Annotatable):
         
     def getIds(self):
         return self.ids
+        
+    def isNoClasspath(self):
+    	return self.noclasspath
                 
     def dump(self, indent=0, output=sys.stdout):
         """ Display the contents of this object """
         output.write(getIndent(indent)+'Depend: ' + self.project.getName() + '\n')
         output.write(getIndent(indent)+'Inherit: ' + self.getInheritenceDescription() + '\n')
+        if self.isNoClasspath():
+            output.write(getIndent(indent)+'*NoClasspath*\n')
         if self.ids:
             output.write(getIndent(indent)+'Ids: ' + self.ids + '\n')
         
@@ -206,19 +215,23 @@ class ProjectDependency(Annotatable):
         result=[]
         
         #
-        # IDs is a space separated list of jar ids. If specified
-        # then return those that are listed, else all.
-        #
-        ids=(self.ids or '').split(' ')
-        try:
-            for jar in self.project.getJars():
-                if (not self.ids) or (jar.id in ids): result.append(jar)
-        except:
-            log.warn('Failed to access jars in dependency project [' + self.project + ']')
+		# Wants the dependency, but not the JARS
+		#
+        if not self.isNoClasspath():
+        
+            #
+            # IDs is a space separated list of jar ids. If specified
+            # then return those that are listed, else all.
+            #
+            ids=(self.ids or '').split(' ')
+            try:
+                for jar in self.project.getJars():
+                    if (not self.ids) or (jar.id in ids): result.append(jar)
+            except:
+                log.warn('Failed to access jars in dependency project [' + self.project + ']')
         
         return result
         
-
 class DependSet:
 
     """ A dependency set contains dependencies between projects """
@@ -263,6 +276,7 @@ class DependSet:
         
     def getUniqueProjectDependCount(self):
         return len(self.projectMap)
+    	
                 
 class Dependable:
     

@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/model/Attic/rawmodel.py,v 1.15 2004/02/17 21:54:20 ajack Exp $
-# $Revision: 1.15 $
-# $Date: 2004/02/17 21:54:20 $
+# $Header: /home/stefano/cvs/gump/python/gump/model/Attic/rawmodel.py,v 1.16 2004/03/15 22:07:08 ajack Exp $
+# $Revision: 1.16 $
+# $Date: 2004/03/15 22:07:08 $
 #
 # ====================================================================
 #
@@ -105,8 +105,9 @@ class GumpXMLModelObject(GumpXMLObject):
     
     # parse out '@@DATE@@'
     for (name,value) in attrs.items():
-      if not name == '@basedir' and not name == 'annotations':
-          self.__dict__[name]=value.replace('@@DATE@@',gump.default.date)
+        if value and isinstance(value,types.StringTypes):
+            if not name == '@basedir' and not name == 'annotations':
+                self.__dict__[name]=value.replace('@@DATE@@',gump.default.date)
       
 class XMLWorkspace(Named,GumpXMLModelObject):
   """Represents a <workspace/> element."""
@@ -121,6 +122,7 @@ class XMLWorkspace(Named,GumpXMLModelObject):
     self.server=Multiple(XMLServer)
     self.tracker=Multiple(XMLTracker)
     self.profile=Multiple(XMLProfile)
+    self.nag=Multiple(XMLWorkspaceNag)
     self.version=Single(GumpXMLModelObject)
 
     
@@ -229,6 +231,12 @@ class XMLMaven(GumpXMLModelObject):
     self.property=Multiple(XMLProperty)
     self.jvmarg=Multiple(GumpXMLModelObject)
 
+# represents a <nag/> element in the workspace
+class XMLWorkspaceNag(GumpXMLModelObject):
+  def init(self):
+    self.toaddr=Single()
+    self.fromaddr=Single()
+    
 # represents a <nag/> element
 class XMLNag(GumpXMLModelObject):
   def init(self):
@@ -254,8 +262,10 @@ class XMLProperty(GumpXMLModelObject):
 #
 #	Two depends are equal
 #
-class XMLDepend(GumpXMLModelObject): pass
- 
+class XMLDepend(GumpXMLModelObject):
+  def init(self):
+    self.noclasspath=Single(GumpXMLModelObject)
+    
 # represents a <description/> element
 class XMLDescription(GumpXMLModelObject): pass
 

@@ -1,21 +1,24 @@
 #!/usr/bin/python
+
+# Copyright 2003-2004 The Apache Software Foundation
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+# 
+#     http://www.apache.org/licenses/LICENSE-2.0
+# 
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
 """
-  This is the commandline entrypoint into gump.
 
-  It at the moment basically
-  calls gump.load() to get the workspace, then dumps
-  information about what it should be doing to stdout.
-
-  The main thing to do here is to clone dumpDeps to create a
-  build() method which executes the appropriate script
-  (probably only ant at the moment; would be nice to have
-  support for maven) for each of the dependencies.
+  Work in progress...
+  
 """
-
-import os.path
-import os
-import sys
-import logging
 
 from gump import log
 from gump.engine import GumpEngine
@@ -43,12 +46,6 @@ if __name__=='__main__':
     
     # get parsed workspace definition
     workspace=WorkspaceLoader().load(ws, options.isQuick())
-    
-    #
-    # Dated means add the date to the log dir...
-    #
-    if '-d' in args or '--dated' in args:
-        options.setDated(1)
     
     # The Run Details...
     run=GumpRun(workspace,ps,options)

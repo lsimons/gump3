@@ -10,7 +10,8 @@
   <project name="project5">
     <package>org.apache.project5</package>
 
-    <depend project="alias1"/>
+    <depend project="project4"><noclasspath/></depend>
+    <depend project="alias1"><noclasspath/></depend>
 
     <home nested="dist"/>
     <work nested="classes" />

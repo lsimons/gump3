@@ -10,4 +10,5 @@
 
   <profile href="profile.xml"/>
 
+  <nag/>
 </workspace>

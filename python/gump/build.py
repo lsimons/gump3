@@ -1,15 +1,27 @@
 #!/usr/bin/python
+
+# Copyright 2003-2004 The Apache Software Foundation
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+# 
+#     http://www.apache.org/licenses/LICENSE-2.0
+# 
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+
 """
-  This is the commandline entrypoint into gump.
+    This is one commandline entrypoint into gump.
 
-  It at the moment basically
-  calls gump.load() to get the workspace, then dumps
-  information about what it should be doing to stdout.
+    The workspace is metadata loaded then various
+    projects are built. No source control updates
+    are performed. 
 
-  The main thing to do here is to clone dumpDeps to create a
-  build() method which executes the appropriate script
-  (probably only ant at the moment; would be nice to have
-  support for maven) for each of the dependencies.
 """
 
 import os.path
@@ -22,11 +34,6 @@ from gump.engine import GumpEngine
 from gump.gumprun import GumpRun, GumpRunOptions, GumpSet
 from gump.utils.commandLine import handleArgv
 from gump.model.loader import WorkspaceLoader
-
-
-###############################################################################
-# Initialize
-###############################################################################
 
 
 ###############################################################################
@@ -43,29 +50,15 @@ if __name__=='__main__':
 
     # get parsed workspace definition
     workspace=WorkspaceLoader().load(ws, options.isQuick())
-      
-    #
-    # Check Environment (eventually not do this each time)
-    # Exit if problems...
-    #
-    #checkEnvironment(workspace,context,1)
-        
-    #
-    # Check projects (and such) in workspace...
-    # Store results in context, do not display
-    # to screen.
-    #
-    #check(workspace, ps, context, 0)    
+    
     
     # The Run Details...
     run=GumpRun(workspace,ps,options)
-    
-    engine=GumpEngine()
-    
+        
     #
     #    Perform this integration run...
     #
-    result = engine.build(run, '*' in args)
+    result = GumpEngine().build(run, '*' in args)
     
     #
     log.info('Gump Build complete. Exit code:' + str(result))

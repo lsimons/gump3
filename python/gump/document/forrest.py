@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/forrest.py,v 1.106 2004/03/14 20:16:30 ajack Exp $
-# $Revision: 1.106 $f
-# $Date: 2004/03/14 20:16:30 $
+# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/forrest.py,v 1.107 2004/03/15 22:07:07 ajack Exp $
+# $Revision: 1.107 $f
+# $Date: 2004/03/15 22:07:07 $
 #
 # ====================================================================
 #
@@ -220,16 +220,26 @@ class ForrestDocumenter(Documenter):
         workspace.performedWork(work)    
         
         # If ok move from staging to publish
-        if forrestResult.state==CMD_STATE_SUCCESS:
-            #
-            # Sync over public pages...
-            #
-            syncDirectories(outputDirectory,logDirectory)
-            # 
-            # Clean up
-            wipeDirectoryTree(outputDirectory)
-            wipeDirectoryTree(forrestWorkDir)
+        #
+        # :TODO: Forrest returns failure if the site isn't perfect
+        # let's not shoot so high.
+        #
+        success=1
+        if 1 or forrestResult.state==CMD_STATE_SUCCESS:
+            try:
+                #
+                # Sync over public pages...
+                #
+                syncDirectories(outputDirectory,logDirectory)
+                # 
+                # Clean up
+                wipeDirectoryTree(outputDirectory)
+                wipeDirectoryTree(forrestWorkDir)
+            except:        
+                log.error('--- Failed to sync or clean-up')
+                success=0
         
+        return success
          
     #####################################################################           
     #

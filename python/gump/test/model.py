@@ -1,7 +1,7 @@
 #!/usr/bin/env python
-# $Header: /home/stefano/cvs/gump/python/gump/test/model.py,v 1.15 2004/03/04 17:26:10 ajack Exp $
-# $Revision: 1.15 $
-# $Date: 2004/03/04 17:26:10 $
+# $Header: /home/stefano/cvs/gump/python/gump/test/model.py,v 1.16 2004/03/15 22:07:07 ajack Exp $
+# $Revision: 1.16 $
+# $Date: 2004/03/15 22:07:07 $
 #
 # ====================================================================
 #
@@ -102,6 +102,7 @@ class ModelTestSuite(UnitTestSuite):
         self.module2=self.workspace.getModule('module2')
         self.module3=self.workspace.getModule('module3')
         self.module4=self.workspace.getModule('module4')
+        self.module5=self.workspace.getModule('module5')
     
         
     def testWorkspace(self):
@@ -214,6 +215,21 @@ class ModelTestSuite(UnitTestSuite):
     def testMaven(self):
                 
         self.assertTrue('Maven project has a Maven object', self.maven1.hasMaven())
+                 
+    def testNoClasspath(self):
+        
+        tested=0
+        for depend in self.project5.getDirectDependencies():
+            if self.project4 == depend.getProject():
+                tested=1
+                self.assertTrue('NoClaspath', depend.isNoClasspath())
+        self.assertTrue('Did a NoClasspath test', tested)
+                
+        tested=0                
+        for depend in self.project4.getDirectDependencies():
+            tested=1                
+            self.assertFalse('Not NoClaspath', depend.isNoClasspath())
+        self.assertTrue('Did a NOT NoClasspath test', tested)
         
     def testJunitReport(self):
                 
@@ -240,5 +256,8 @@ class ModelTestSuite(UnitTestSuite):
         
     def testTrackers(self):
         self.assertNotEmpty('Some trackers ought be found', self.workspace.getTrackers())
+                        
+    def testNagging(self):
+        self.assertTrue('Ought allow nagging', self.workspace.isNag())
         
         

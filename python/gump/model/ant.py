@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/model/Attic/ant.py,v 1.15 2004/02/10 00:25:34 ajack Exp $
-# $Revision: 1.15 $
-# $Date: 2004/02/10 00:25:34 $
+# $Header: /home/stefano/cvs/gump/python/gump/model/Attic/ant.py,v 1.16 2004/03/15 22:07:07 ajack Exp $
+# $Revision: 1.16 $
+# $Date: 2004/03/15 22:07:07 $
 #
 # ====================================================================
 #
@@ -132,6 +132,12 @@ class Builder(ModelObject, PropertyContainer):
    
         projectName=property.project
         if workspace.hasProject(projectName): 
+                        
+            # A Property
+            noclasspath=1
+            if property.classpath:
+               noclasspath=0
+                        
             # Add a dependency (to bring property)
             dependency=ProjectDependency(project, 	\
                             workspace.getProject(property.project),	\
@@ -139,10 +145,8 @@ class Builder(ModelObject, PropertyContainer):
                             runtime,
                             0,	\
                             ids,
+                            noclasspath,
                             'Property Dependency for ' + property.name)
-                            
-            # :TODOs:
-            # if not property.classpath: depend['noclasspath']=Single({})
             
             
             # Add depend to project...
