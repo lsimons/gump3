@@ -131,20 +131,4 @@
          to="ant-dev@jakarta.apache.org"/>
   </project>
 -->
-  <project name="jakarta-ant-mutant">
-    <ant basedir="proposal/mutant"/>
-
-    <depend project="jakarta-ant"/>
-    <depend project="xml-xerces"/>
-    <option project="checkstyle"/>
-    <work nested="proposal/mutant/bin/common"/>
-    <work nested="proposal/mutant/bin/init"/>
-    <work nested="proposal/mutant/bin/antcore"/>
-    <work nested="proposal/mutant/bin/syslibs/system"/>
-    <work nested="proposal/mutant/bin/antlibs/system"/>
-
-    <nag from="Conor MacNeill &lt;conor@apache.org&gt;"
-         to="ant-dev@jakarta.apache.org"/>
-  </project>
-
 </module>
