@@ -294,6 +294,72 @@
         </tr>
       </table>
     </subsection>
+
+    <subsection name="nag">
+      <p>If this element is present, an entry for this project will be
+      created in the file naglist.  This enables email reports of
+      build failures.</p>
+
+      <table>
+        <tr>
+          <th>Attribute</th>
+          <th>Description</th>
+          <th>Required?</th>
+        </tr>
+        <tr>
+          <td>subject</td>
+          <td>value for the Subject header of the mail report.
+          Defaults to &quot;Build Failure - &quot; and the name of the
+          project.  Will be prefixed by the prefix defined in the <a
+          href="workspace.html#nag">workspace</a>.</td>
+          <td>No</td>
+        </tr>
+        <tr>
+          <td>from</td>
+          <td>Sender address for the email report.</td>
+          <td>Yes, unless there is a &quot;from&quot; attribute in
+          each nested regexp element.</td>
+        </tr>
+        <tr>
+          <td>to</td>
+          <td>Recipient of the email report.  Will be overridden by a
+          &quot;to&quot; attribute in the 
+          <a href="workspace.html#nag">workspace</a>.</td>
+          <td>Yes, unless there is a &quot;to&quot; attribute in each
+          nested regexp element.</td>
+        </tr>
+      </table>
+
+      <p>A build failure is detected by matching the output of the
+      build against Perl regular expressions, the default is
+      <code>/BUILD FAILED/</code>.  The regular expressions are
+      specified using nested regexp elements - you can associate
+      different email addresses and subjects with each expression.</p>
+
+      <p>The regexp element supports the same attributes as the nag
+      element with an additional (required) pattern attribute.  This
+      attribute specifies the Perl regular expression to be used when
+      looking for a build failure.</p>
+
+      <p>The nag element itself can be used to set default values for
+      nested child elements:</p>
+
+      <source><![CDATA[
+<nag from="from@example.org" to="to@example.org" />
+]]></source>
+
+      <p>is a short-cut for</p>
+
+      <source><![CDATA[
+<nag>
+  <regexp pattern="/BUILD FAILED/"
+          from="from@example.org" 
+          to="to@example.org" 
+          subject="Build Failure - @name of project element@"/>
+</nag>
+]]></source>
+
+    </subsection>
   </section>
 </body>
 </document>
