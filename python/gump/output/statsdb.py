@@ -303,7 +303,7 @@ class StatisticsDB:
                 self.putProjectStats(ps) 
                 
     def sync(self):
-        if not os.name == 'dos' and not os.name == 'nt':    
+        if hasattr(self.db, 'sync'):
             self.db.sync()
                 
 class WorkspaceStatisticsGuru:                        
