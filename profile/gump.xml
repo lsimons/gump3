@@ -39,6 +39,7 @@
   <module href="project/jakarta-slide.xml"/>
   <module href="project/jakarta-struts.xml"/>
   <module href="project/jakarta-taglibs.xml"/>
+  <module href="project/jakarta-turbine-2.xml"/>
   <module href="http://cvs.apache.org/viewcvs/~checkout~/jakarta-tomcat-4.0/gump.xml"/>
   <module href="http://cvs.apache.org/viewcvs/~checkout~/jakarta-tomcat-catalina/gump.xml"/>
   <module href="http://cvs.apache.org/viewcvs/~checkout~/jakarta-tomcat-5/gump.xml"/>
@@ -49,7 +50,6 @@
   <module href="project/jakarta-tools.xml"/>
 
   <!-- Turbine projects taken from cvs -->
-  <module href="http://cvs.apache.org/viewcvs/~checkout~/jakarta-turbine-2/gump.xml"/>
   <module href="http://cvs.apache.org/viewcvs/~checkout~/jakarta-turbine-3/Attic/gump.xml"/>
   <module href="http://cvs.apache.org/viewcvs/~checkout~/jakarta-turbine-fulcrum/gump.xml"/>
   <module href="project/jakarta-turbine-jcs.xml"/>
