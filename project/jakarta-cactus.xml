@@ -55,6 +55,7 @@
       <depend property="aspectjrt.jar" project="aspectj" id="aspectjrt"/>
       <depend property="junit.jar" project="junit"/>
       <property name="dist.dir" value="framework/dist-12"/>
+      <property name="target.dir" value="framework/target-12"/>
 
     </ant>
   
@@ -88,8 +89,8 @@
       <property name="test.port" value="8081"/>
       <property name="tomcat.home.33" reference="home" project="jakarta-tomcat"/>
       <property name="dist.dir" value="sample-servlet/dist-12"/>
-      <property name="cactus.framework.web"
-                value="framework/dist-12/web" />
+      <property name="target.dir" value="sample-servlet/target-12"/>
+      <property name="cactus.framework.web" value="framework/dist-12/web"/>
 
     </ant>
   
@@ -114,6 +115,7 @@
       <depend property="aspectjrt.jar" project="aspectj" id="aspectjrt"/>
       <depend property="junit.jar" project="junit"/>
       <property name="dist.dir" value="framework/dist-13"/>
+      <property name="target.dir" value="framework/target-13"/>
 
     </ant>
   
@@ -147,8 +149,8 @@
       <property name="test.port" value="8082"/>
       <property name="tomcat.home.40" reference="home" project="jakarta-tomcat-4.0"/>
       <property name="dist.dir" value="sample-servlet/dist-13"/>
-      <property name="cactus.framework.web"
-                value="framework/dist-13/web" />
+      <property name="target.dir" value="sample-servlet/target-13"/>
+      <property name="cactus.framework.web" value="framework/dist-13/web"/>
 
     </ant>
   
