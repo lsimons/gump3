@@ -40,7 +40,6 @@
     <depend project="excalibur-datasource"/>
     <depend project="excalibur-i18n"/>
     <depend project="excalibur-thread"/>
-    <depend project="excalibur-threadcontext"/>
     <depend project="avalon-phoenix" ids="client metagenerate" inherit="runtime"/>
     <depend project="ant" inherit="runtime"/>
     <depend project="jakarta-velocity" inherit="runtime"/>
