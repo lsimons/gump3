@@ -110,6 +110,7 @@
   <module href="project/junit.xml"/>
   <module href="project/jython.xml"/>
   <module href="project/krysalis-ruper.xml"/>
+  <module href="project/krysalis-ant-tasks.xml"/>
   <module href="project/mockobjects.xml"/>
   <module href="project/mx4j.xml"/>
   <!-- <module href="project/qdox.xml"/> -->
