@@ -43,4 +43,25 @@
          to="commons-dev@jakarta.apache.org"/>
   </project>
 
+  <project name="commons-jelly-tags-html">
+    <package>org.apache.commons.jelly.tags.html</package>
+    <description>These Jelly tags can scrub commons errors in HTML syntax.</description>
+
+    <mkdir dir="jelly/jelly-tags/html/lib"/>
+
+    <ant basedir="jelly/jelly-tags/html" target="jar">
+      <property name="final.name"  value="commons-jelly-tags-html-@@DATE@@"/>
+    </ant>
+
+    <depend project="commons-jelly" inherit="all"/>
+
+    <work nested="jelly/jelly-tags/html/target/classes"/>
+    <work nested="jelly/jelly-tags/html/target/test-classes"/>
+
+    <jar name="jelly/jelly-tags/html/target/commons-jelly-tags-html-@@DATE@@.jar"/>
+ 
+    <nag from="Morgan Delagrange &lt;mdelagra@yahoo.com&gt;"
+         to="commons-dev@jakarta.apache.org"/>
+  </project>
+
 </module>
