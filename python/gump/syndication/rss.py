@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/cvs/jakarta-gump/python/gump/rss.py,v 1.7 2003/09/11 21:11:42 ajack Exp $
-# $Revision: 1.7 $
-# $Date: 2003/09/11 21:11:42 $
+# $Header: /home/stefano/cvs/gump/python/gump/syndication/rss.py,v 1.1 2003/12/04 23:16:24 ajack Exp $
+# $Revision: 1.1 $
+# $Date: 2003/12/04 23:16:24 $
 #
 # ====================================================================
 #
@@ -70,6 +70,8 @@ from xml.sax.saxutils import escape
 from gump import log
 from gump.model.state import *
 from gump.model.project import ProjectStatistics
+
+from gump.syndication import Syndicator
 
 ###############################################################################
 
@@ -232,8 +234,9 @@ class RSS:
         if not channel: channel = self.getCurrentChannel()
         channel.addItem(item)
            
-class Syndicator:
+class RSSSyndicator(Syndicator):
     def __init__(self):
+        Syndicator.__init__(self)
         self.gumpImage=Image('http://jakarta.apache.org/gump/images/bench.png',	\
                     'Jakarta Gump', \
                     'http://jakarta.apache.org/gump/')
@@ -288,21 +291,11 @@ class Syndicator:
         s=project.getStats()
         datestr=time.strftime('%Y-%m-%d')
         timestr=time.strftime('%H:%M:%S')
-                    
-        content='Project ' + project.getName() \
-                                + ' : ' \
-                                + project.getStateDescription() \
-                                + ' ' \
-                                + project.getReasonDescription() \
-                                + '\n\n'
-                        
-        if not s.previousState == STATE_NONE and not s.previousState == STATE_UNSET:
-            content += 'Previous state: ' \
-                                    + stateName(s.previousState)  \
-                                    + '\n\n'
-                     
-        for note in project.annotations:
-                content += ("   - " + str(note) + "\n")
+         
+        #           
+        # Get a decent description
+        #
+        content=self.getProjectContent(project,self.run)
                         
         item=Item(('%s %s %s') % (project.getName(),project.getStateDescription(),datestr), \
                   projectURL, \
@@ -325,7 +318,3 @@ class Syndicator:
             mainRSS.addItem(item)
                                                         
         projectRSS.serialize()
-    
-def syndicate(run):
-    simple=Syndicator()
-    simple.syndicate(run)

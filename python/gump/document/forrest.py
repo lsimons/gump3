@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/forrest.py,v 1.28 2003/12/03 23:02:40 ajack Exp $
-# $Revision: 1.28 $f
-# $Date: 2003/12/03 23:02:40 $
+# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/forrest.py,v 1.29 2003/12/04 23:16:24 ajack Exp $
+# $Revision: 1.29 $f
+# $Date: 2003/12/04 23:16:24 $
 #
 # ====================================================================
 #
@@ -435,7 +435,7 @@ class ForrestDocumenter(Documenter):
         
         projectsSection=document.createSection('Projects with issues...')
         projectsTable=projectsSection.createTable(['Name','Affected',	\
-                    'Duration\nin state''Project State','Elapsed'])
+                    'Duration\nin state','Project State','Elapsed'])
         pcount=0
         for project in sortedProjectList:
             if not gumpSet.inSequence(project): continue       
@@ -1034,7 +1034,7 @@ class ForrestDocumenter(Documenter):
         annotationsSection=xdocNode.createSection('Annotations')
         
         if annotatable.containsNasties():
-            annotationsSection.createWarning('Some warnings and/ or errors are present')
+            annotationsSection.createWarning('Some warnings and/or errors are present within these annotations.')
         
         annotationsTable=annotationsSection.createTable()
         for note in annotations:      
@@ -1081,10 +1081,10 @@ class ForrestDocumenter(Documenter):
         
         for work in worklist:
             workRow=workTable.createRow()
-            workRow.createComment(workTypeName(work.type))
+            workRow.createComment(work.getName())
             
             self.insertLink(work,workable,workRow.createData())                             
-            workRow.createData(workTypeName(work.type)) 
+            workRow.createData(work.getName()) 
             workRow.createData(stateName(work.state))
             workRow.createData(secsToDate(work.result.start_time))
             workRow.createData(secsToElapsedString(work.getElapsedSecs()))

@@ -1,7 +1,7 @@
 #!/usr/bin/env python
-# $Header: /home/stefano/cvs/gump/python/gump/test/integrator.py,v 1.1 2003/12/01 17:34:08 ajack Exp $
-# $Revision: 1.1 $
-# $Date: 2003/12/01 17:34:08 $
+# $Header: /home/stefano/cvs/gump/python/gump/test/integrator.py,v 1.2 2003/12/04 23:16:24 ajack Exp $
+# $Revision: 1.2 $
+# $Date: 2003/12/04 23:16:24 $
 #
 # ====================================================================
 #
@@ -69,7 +69,7 @@ from gump import log
 import gump.config
 from gump.gumprun import GumpRun
 from gump.engine import GumpEngine
-from gump.output.rss import syndicate
+from gump.output.syndication import syndicate
 from gump.test import getWorkedTestWorkspace
 from gump.test.pyunit import UnitTestSuite
 

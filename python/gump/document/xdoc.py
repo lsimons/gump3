@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/xdoc.py,v 1.5 2003/12/03 18:36:13 ajack Exp $
-# $Revision: 1.5 $
-# $Date: 2003/12/03 18:36:13 $
+# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/xdoc.py,v 1.6 2003/12/04 23:16:24 ajack Exp $
+# $Revision: 1.6 $
+# $Date: 2003/12/04 23:16:24 $
 #
 # ====================================================================
 #
@@ -673,6 +673,9 @@ class XDocDocument(XDocPiece):
     
     def createParagraph(self,text=None,transient=0):
         return self.storePiece(XDocParagraph(self.createSubContext(transient),text))
+        
+    def createNote(self,text=None):
+        return self.storePiece(XDocNote(self.createSubContext(),text))  
         
     
     

@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/utils/note.py,v 1.2 2003/12/03 18:36:13 ajack Exp $
-# $Revision: 1.2 $
-# $Date: 2003/12/03 18:36:13 $
+# $Header: /home/stefano/cvs/gump/python/gump/utils/note.py,v 1.3 2003/12/04 23:16:24 ajack Exp $
+# $Revision: 1.3 $
+# $Date: 2003/12/04 23:16:24 $
 #
 # ====================================================================
 #
@@ -90,7 +90,13 @@ class Annotation:
         self.text=text
         
     def __str__(self):
-        return levelName(self.level) + ":" + self.text        
+        return levelName(self.level) + ":" + self.text      
+        
+    def getLevelName(self):
+        return levelName(self.level) 
+    
+    def getText(self):
+        return self.text
     
     def dump(self, indent=0, output=sys.stdout):        
         output.write(getIndent(indent)+str(self)+'\n')
@@ -132,9 +138,7 @@ class Annotatable:
             if note.level >= level:
                 return 1
         return 0
-        
-        
-        
+                
     def dump(self, indent=0, output=sys.stdout):
         """ Display the contents of this object """         
         if self.annotations:

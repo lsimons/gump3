@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/model/state.py,v 1.7 2003/11/26 01:26:28 ajack Exp $
-# $Revision: 1.7 $
-# $Date: 2003/11/26 01:26:28 $
+# $Header: /home/stefano/cvs/gump/python/gump/model/state.py,v 1.8 2003/12/04 23:16:24 ajack Exp $
+# $Revision: 1.8 $
+# $Date: 2003/12/04 23:16:24 $
 #
 # ====================================================================
 #
@@ -168,6 +168,7 @@ class StatePair:
         return self.reason
         
     def getReasonDescription(self):
+        if self.isReasonUnset(): return ''
         return reasonString(self.getReason())
         
     #
@@ -188,6 +189,9 @@ class StatePair:
     def isUnset(self):
         return STATE_NONE==self.state \
                 or STATE_UNSET==self.state
+                
+    def isReasonUnset(self):
+        return REASON_UNSET==self.reason
         
     def isUnsetOrOk(self):
         return self.isUnset() or self.isOk()           

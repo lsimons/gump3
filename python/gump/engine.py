@@ -32,7 +32,7 @@ from gump.document.forrest import ForrestDocumenter
 from gump.output.statsdb import *
 from gump.output.repository import JarRepository
 from gump.output.nag import nag
-from gump.output.rss import syndicate
+from gump.syndication import syndicate
 
 ###############################################################################
 # Initialize
@@ -493,10 +493,12 @@ class GumpEngine:
         #   
         # Display report output...
         #
-        for report in project.getReports():
-            reportDir=report.getResolvedPath() 
-            project.addInfo('Reports in: ' + reportDir)
-            catDirectoryContentsAsWork(project,reportDir)
+        if project.hasReport():
+            project.addInfo('Project produces reports')    
+            for report in project.getReports():
+                reportDir=report.getResolvedPath() 
+                project.addInfo('Reports in: ' + reportDir)
+                catDirectoryContentsAsWork(project,reportDir)
     
                 
     """

@@ -1,7 +1,7 @@
 #!/usr/bin/env python
-# $Header: /home/stefano/cvs/gump/python/gump/test/syndicator.py,v 1.1 2003/12/01 17:34:08 ajack Exp $
-# $Revision: 1.1 $
-# $Date: 2003/12/01 17:34:08 $
+# $Header: /home/stefano/cvs/gump/python/gump/test/syndicator.py,v 1.2 2003/12/04 23:16:24 ajack Exp $
+# $Revision: 1.2 $
+# $Date: 2003/12/04 23:16:24 $
 #
 # ====================================================================
 #
@@ -68,7 +68,8 @@ import types, StringIO
 from gump import log
 import gump.config
 from gump.gumprun import GumpRun
-from gump.output.rss import syndicate
+from gump.syndication import syndicate
+from gump.syndication.rss import RSSSyndicator
 from gump.test import getWorkedTestWorkspace
 from gump.test.pyunit import UnitTestSuite
 
@@ -85,5 +86,10 @@ class SyndicatorTestSuite(UnitTestSuite):
         self.run=GumpRun(self.workspace)
         
     def testRSS(self):
-        syndicate(self.run)
+        simple=RSSSyndicator()
+        simple.syndicate(self.run)
+        
+    #def testAtom(self):
+    #    simple=AtomSyndicator()
+    #    simple.syndicate(self.run)
         
