@@ -9,17 +9,19 @@
   <project name="directory-naming">
     <ant buildfile="build.xml" target="jar"/>
     <package>org.apache.directory.naming</package>
-    <depend project="commons-collections"/>
-    <depend project="commons-digester"/>
-    <depend project="commons-beanutils"/>
-    <depend project="commons-dbcp"/>
-    <depend project="commons-pool"/>
-    <depend project="commons-logging"/>
-    <option project="hsqldb"/>
     <depend project="ant" inherit="runtime"/>
+    <depend project="commons-beanutils"/>
+    <depend project="commons-collections"/>
+    <depend project="commons-dbcp"/>
+    <depend project="commons-digester"/>
+    <depend project="commons-lang"/>
+    <depend project="commons-logging"/>
+    <depend project="commons-pool"/>
+    <depend project="javamail"/>
     <depend project="junit"/>
     <depend project="mx4j"/>
     <depend project="xml-xerces"/>
+    <option project="hsqldb"/>
     <work nested="core/target/classes"/>
     <work nested="core/target/test-classes"/>
     <work nested="factory/target/classes"/>
