@@ -64,6 +64,8 @@
       <property name="jmx.home" reference="home" project="jmx"/>
       <property name="jmx.jar" project="jmx" path="jmx/lib/jmxri.jar" />
       <property name="jsse.home" reference="home" project="jsse"/>
+      <property name="tomcat40.home" reference="home" project="jakarta-tomcat-4.0" />
+      <property name="tomcat5.home" reference="home" project="jakarta-tomcat-catalina" />
       <depend property="commons-modeler.jar" project="commons-modeler"/>
     </ant>
 
