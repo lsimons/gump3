@@ -24,7 +24,7 @@
 
   <project name="avalon-tools-magic-bootstrap">
     <license name="central/system/license/LICENSE.TXT"/>
-    <ant basedir="tools/magic" buildfile=bootstrap.xml" target="gump">
+    <ant basedir="tools/magic" buildfile="bootstrap.xml" target="gump">
       <property name="gump.signature" value="@@DATE@@"/>
     </ant>
     <depend project="junit"/>
@@ -35,6 +35,34 @@
     <jar type="boot" name="jars/avalon-tools-magic-@@DATE@@.jar"/>
     <nag to="dev@avalon.apache.org"
        from="Gump Integration &lt;dev@avalon.apache.org&gt;"/>
+  </project>
+
+  <project name="avalon-tools-magic">
+    <license name="central/system/license/LICENSE.TXT"/>
+    <ant basedir="tools/magic" debug="true">
+      <!-- for magic -->
+      <property name="gump.signature" value="@@DATE@@"/>
+      <!-- external references -->
+      <depend property="gump.resource.ant" project="ant" id="ant">
+        <noclasspath/>
+      </depend>
+      <depend property="gump.resource.junit" project="junit">
+        <noclasspath/>
+      </depend>
+      <depend property="gump.resource.ant-junit" project="ant" id="junit">
+        <noclasspath/>
+      </depend>
+      <depend property="gump.resource.ant-nodeps" project="ant" id="nodeps">
+        <noclasspath/>
+      </depend>
+      <!-- end for -->
+    </ant>
+    <!-- magic -->
+    <depend project="avalon-tools-magic-bootstrap" inherit="true" runtime="true"/>
+    <home nested="tools/magic/target/deliverables"/>
+    <jar name="jars/avalon-tools-magic.jar"/>
+    <nag to="dev@avalon.apache.org"
+       from="Magic Integration &lt;dev@avalon.apache.org&gt;"/>
   </project>
 
 </module>
