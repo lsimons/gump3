@@ -90,6 +90,11 @@ def get_plugins(config):
     from gump.plugins.instrumentation import TimerPlugin
     pre_process_plugins.append(TimerPlugin("run_start"))
     
+    from gump.plugins.updater import CvsUpdater, SvnUpdater
+    pre_process_plugins.append(CvsUpdater(config.paths_work))
+    pre_process_plugins.append(SvnUpdater(config.paths_work))
+    
+    
     plugins = []
     # TODO: append more plugins here...
 

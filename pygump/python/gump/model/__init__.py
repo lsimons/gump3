@@ -112,6 +112,7 @@ class CvsRepository(Repository):
                  user = None,
                  password = None):
         Repository.__init__(self, workspace, name, title, home_page, cvsweb, redistributable)
+        
         self.hostname = hostname
         self.path     = path,
         self.method   = method,
@@ -119,10 +120,10 @@ class CvsRepository(Repository):
         self.password = password
     
     def to_url(self):
-        url = method + ':'
-        if user:
-            url += user + '@'
-        url += hostname + ':' + path
+        url = ":%s:" % self.method
+        if self.user:
+            url = "%s%s@" % (url, tuple(self.user)[0]) #TODO figure out where on earth this becomes a tuple!!!
+        url = "%s%s:%s" % (url, self.hostname, tuple(self.path)[0])
         
         return url
             

@@ -33,12 +33,12 @@ class ModuleUpdater(AbstractPlugin):
         self.workdir = workdir
 
     def visit_repository(self, repository):
-        repopath = self.get_repo_path()
+        repopath = self.get_repo_path(repository)
         if not os.path.exists(repopath):
             os.mkdir(repopath)
 
     def visit_module(self, module):
-        modulepath = self.get_module_path()
+        modulepath = self.get_module_path(module)
         if not os.path.exists(modulepath):
             os.mkdir(modulepath)
             
@@ -46,7 +46,7 @@ class ModuleUpdater(AbstractPlugin):
         return os.path.join(self.workdir, repository.name)
 
     def get_module_path(self, module):
-        return os.path.join(self.get_repo_path(), module.name)
+        return os.path.join(self.get_repo_path(module.repository), module.name)
 
 class CvsUpdater(ModuleUpdater):
     def __init__(self, workdir):
@@ -57,30 +57,29 @@ class CvsUpdater(ModuleUpdater):
             ModuleUpdater.visit_repository(self, repository)
     
     def visit_module(self, module):
-        if not isinstance(repository, CvsRepository): return
+        if not isinstance(module.repository, CvsRepository): return
 
         ModuleUpdater.visit_module(self, module)
 
-        modulepath = self.get_module_path()
+        repopath = self.get_repo_path(module)
         current = os.path.curdir
-        os.chdir(modulepath)
-        cvsdir = os.path.join(modulepath, 'CVS')
+        os.chdir(repopath)
+        cvsdir = os.path.join(repopath, module.name, 'CVS')
         if not os.path.exists(cvsdir):
             self.checkout(module)
         else:
             self.update(module)
         os.chdir(current)
     
-    def checkout(self, module, modulepath):
+    def checkout(self, module):
         repository = module.repository.to_url()
-        cmd = 'cvs -d %s checkout -P %s .' % (repository, module.name)
-        
+        cmd = 'cvs -d %s checkout %s' % (repository, module.name)
         (status, output) = commands.getstatusoutput(cmd)
         module.update_log = output
         module.update_exit_status = status
         module.update_type = UPDATE_TYPE_CHECKOUT
     
-    def update(self, module, modulepath):
+    def update(self, module):
         cmd = 'cvs up -Pd'
 
         (status, output) = commands.getstatusoutput(cmd)
@@ -97,11 +96,11 @@ class SvnUpdater(ModuleUpdater):
             ModuleUpdater.visit_repository(self, repository)
     
     def visit_module(self, module):
-        if not isinstance(repository, SvnRepository): return
+        if not isinstance(module.repository, SvnRepository): return
 
         ModuleUpdater.visit_module(self, module)
 
-        modulepath = self.get_module_path()
+        modulepath = self.get_module_path(module)
         current = os.path.curdir
         os.chdir(modulepath)
         svndir = os.path.join(modulepath, '.svn')
@@ -111,7 +110,7 @@ class SvnUpdater(ModuleUpdater):
             self.update(module)
         os.chdir(current)
     
-    def checkout(self, module, modulepath):
+    def checkout(self, module):
         repository = module.repository.url + '/' + module.path
         cmd = 'svn checkout %s .' % repository
         
@@ -120,7 +119,7 @@ class SvnUpdater(ModuleUpdater):
         module.update_exit_status = status
         module.update_type = UPDATE_TYPE_CHECKOUT
     
-    def update(self, module, modulepath):
+    def update(self, module):
         cmd = 'svn up'
 
         (status, output) = commands.getstatusoutput(cmd)
