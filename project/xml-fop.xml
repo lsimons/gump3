@@ -35,13 +35,12 @@
     <depend project="bsf"/>
     <depend project="fop-buildtools"/>
     <depend project="jfor"/>
+    <depend project="jakarta-servletapi"/>
+
     <home nested="build"/>
     <jar  name="fop.jar"/>
-    <nag from="Sam Ruby &lt;rubys@us.ibm.com&gt;">
-      <regexp  to="fop-dev@xml.apache.org"/>
-      <regexp pattern="/Fatal error during transformation/" 
-              to="xalan-dev@xml.apache.org"/>
-    </nag>
+
+    <nag from="Sam Ruby &lt;rubys@us.ibm.com&gt;"/>
   </project>
 
 </module>
