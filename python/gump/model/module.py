@@ -350,7 +350,7 @@ class Module(NamedModelObject, Statable, Resultable, Positioned):
         self.sortedProjects=createOrderedList(self.getProjects())
                             
         # Copy over any XML errors/warnings
-        transferAnnotations(self.xml, self)  
+        # :TODO:#1: transferAnnotations(self.xml, self)  
                 
         self.setComplete(1)            
         

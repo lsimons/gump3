@@ -176,9 +176,7 @@ class Builder(ModelObject, PropertyContainer):
     def dump(self, indent=0, output=sys.stdout):
         """ Display the contents of this object """
         i=getIndent(indent)
-        output.write(i+'Ant: ' + self.getTarget() + '\n')
-        output.write(i+'BuildFile: ' + self.getBuildFile() + '\n')
-        
+        output.write(i+self.__class__.__name__+'\n')
         #
         # Dump all properties...
         #
@@ -209,6 +207,13 @@ class Ant(Builder):
         
     def getBuildFile(self):
         return self.buildfile
+                
+    def dump(self, indent=0, output=sys.stdout):
+        """ Display the contents of this object """
+        Builder.dump(self)
+        i=getIndent(indent)
+        output.write(i+'Ant: ' + self.getTarget() + '\n')
+        output.write(i+'BuildFile: ' + self.getBuildFile() + '\n')
 
 # represents an <maven/> element
 class Maven(Builder):
@@ -224,6 +229,11 @@ class Maven(Builder):
     def getGoal(self):
         return self.goal
     	
+    def dump(self, indent=0, output=sys.stdout):
+        """ Display the contents of this object """
+        Builder.dump(self)
+        i=getIndent(indent)
+        output.write(i+'Maven: ' + self.getGoal() + '\n')
 
 # represents an <script/> element
 class Script(Builder):

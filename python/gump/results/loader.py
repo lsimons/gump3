@@ -64,4 +64,6 @@ class WorkspaceResultLoader:
       #
       workspaceResult.complete()
       
+      dom.unlink()
+      
       return workspaceResult      

@@ -184,7 +184,7 @@ class SvnUpdater(RunSpecific):
         (repository, url, command ) = self.getUpdateCommand(module,0)
         command.dump()
             
-        (repository, url, command ) = self.getStatusCommand(module)
+        command = self.getStatusCommand(module)
         command.dump()
             
         (repository, url, command ) = self.getUpdateCommand(module,1)

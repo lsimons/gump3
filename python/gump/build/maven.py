@@ -95,7 +95,7 @@ class MavenBuilder(AbstractJavaBuilder):
             projpFile=self.locateMavenProjectPropertiesFile(project) 
             if os.path.exists(projpFile):                                                
                 project.addDebug('Maven project properties in: ' + projpFile)                
-                catFileToFileHolder(project, pomFile, FILE_TYPE_CONFIG)                           
+                catFileToFileHolder(project, projpFile, FILE_TYPE_CONFIG)                           
   
     #
     # Build an ANT command for this project
@@ -178,7 +178,7 @@ class MavenBuilder(AbstractJavaBuilder):
         if project.okToPerformWork():
             try:
                 propertiesFile=self.generateMavenProperties(project)                                
-                project.addDebug('Maven Properties in: ' + propertiesFile)
+                project.addDebug('(Gump generated) Maven Properties in: ' + propertiesFile)
                 
                 try:
                     catFileToFileHolder(project,propertiesFile,	\

@@ -158,10 +158,8 @@ class CvsUpdater(RunSpecific):
         
     
     def getUpdateCommand(self,module,exists=0,nowork=0):
-        """
-        
-            Format a commandline for doing the CVS update
-            
+        """        
+            Format a commandline for doing the CVS update            
         """
         
         if nowork and not exists:

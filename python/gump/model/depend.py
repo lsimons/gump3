@@ -131,6 +131,9 @@ class ProjectDependency(Annotatable):
     def getProject(self):
         return self.project
         
+    def hasInheritence(self):
+        return self.inherit <> INHERIT_NONE
+        
     def getInheritence(self):
         return self.inherit
         
@@ -152,7 +155,9 @@ class ProjectDependency(Annotatable):
     def dump(self, indent=0, output=sys.stdout):
         """ Display the contents of this object """
         output.write(getIndent(indent)+'Depend: ' + self.project.getName() + '\n')
-        output.write(getIndent(indent)+'Inherit: ' + self.getInheritenceDescription() + '\n')
+        
+        if self.hasInheritence():
+            output.write(getIndent(indent)+'Inherit: ' + self.getInheritenceDescription() + '\n')            
         if self.isNoClasspath():
             output.write(getIndent(indent)+'*NoClasspath*\n')
         if self.ids:
@@ -233,6 +238,11 @@ class DependSet:
         
     def getUniqueProjectDependCount(self):
         return len(self.projectMap)
+                
+    def dump(self, indent=0, output=sys.stdout):
+        output.write(getIndent(indent)+'Depend Set\n')    
+        for dep in self.depends:
+            dep.dump(indent+1,output)
     	
 class DependencyPath(list):
     """ 'Path' of dependencies between two points """
@@ -438,3 +448,7 @@ class Dependable:
         """ Does this project exist as any dependee """
         for dependee in self.getFullDependees():
             if dependee.getOwnerProject()==project: return 1
+                        
+    def dump(self, indent=0, output=sys.stdout):
+        self.directDependencies.dump(indent+1,output)
+        self.directDependees.dump(indent+1,output)

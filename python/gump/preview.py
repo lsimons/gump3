@@ -15,7 +15,7 @@
 # limitations under the License.
 
 #
-# $Header: /home/stefano/cvs/gump/python/gump/preview.py,v 1.4 2004/06/02 15:59:11 ajack Exp $
+# $Header: /home/stefano/cvs/gump/python/gump/preview.py,v 1.5 2004/06/03 19:06:13 ajack Exp $
 # 
 
 """
@@ -36,20 +36,21 @@ from gump.core.gumprun import GumpRun, GumpRunOptions, GumpSet
 from gump.core.commandLine import handleArgv
 from gump.model.loader import WorkspaceLoader
 
+from gump.utils.note import Annotatable
+
 from gump.runner.runner import getRunner
 
 ###############################################################################
 # Initialize
 ###############################################################################
 
+SEPARATOR='-------------------------------------------------------------'
 
 ###############################################################################
 # Functions
 ###############################################################################
-
-# static void main()
-if __name__=='__main__':
-
+    
+def prun():
     gumpinit()    
     
     # Process command line
@@ -66,27 +67,56 @@ if __name__=='__main__':
     run=GumpRun(workspace,ps,options)    
     run.dump()
     
-    runner=getRunner(run)
+    debug=run.getOptions().isDebug()
+    verbose=run.getOptions().isVerbose()
+     
+    # :TODO: Show the environment
+     
+    if verbose:  
+        # Show the workings
+        runner=getRunner(run)
+        updater=runner.getUpdater()
+        builder=runner.getBuilder()
+            
     
-    updater=runner.getUpdater()
-    builder=runner.getBuilder()
-    
-    # Display some interesting things...
-    # E.g. command lines, env
-    # :TODO:
-        
-    for module in run.getGumpSet().getModules():
-        print "-------------------------------------------------------------"
-        print `module`
-        if module.isUpdatable():
-            updater.preview(module)
+        for module in run.getGumpSet().getModules():
+            print SEPARATOR
+            print `module`
+            if module.isUpdatable():
+                updater.preview(module)
                        
         
+        for project in run.getGumpSet().getProjects():
+            print SEPARATOR
+            print `project`
+            if project.hasBuildCommand():
+                builder.preview(project)
+    
+    # Show nasties...
+    if workspace.containsNasties():
+        print SEPARATOR    
+        print `workspace`    
+        Annotatable.dump(workspace)
+    for module in run.getGumpSet().getModules():
+        if module.containsNasties():
+            print SEPARATOR    
+            print `module`    
+            Annotatable.dump(module)
     for project in run.getGumpSet().getProjects():
-        print "-------------------------------------------------------------"
-        print `project`
-        if project.hasBuildCommand():
-            builder.preview(project)
+        if project.containsNasties():
+            print SEPARATOR    
+            print `project`    
+            Annotatable.dump(project)
             
     # bye!
     sys.exit(result)
+    
+    
+# static void main()
+if __name__=='__main__':
+
+    #print 'Profiling....'
+    #import profile
+    #profile.run('prun()', 'iprof')
+    prun()
+    

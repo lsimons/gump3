@@ -26,7 +26,7 @@ from gump.model.object import ModelObject, NamedModelObject, Jar,	\
                                  Mkdir, Delete, JunitReport, Work
 from gump.model.stats import Statable, Statistics
 from gump.model.property import Property
-from gump.model.ant import Ant,Maven,Script
+from gump.model.builder import Ant,Maven,Script
 from gump.model.rawmodel import Single
 from gump.utils import getIndent
 from gump.utils.file import *
@@ -370,21 +370,21 @@ class Project(NamedModelObject, Statable, Resultable, Dependable, Positioned):
             self.ant = Ant(self.xml.ant,self)
             
             # Copy over any XML errors/warnings
-            transferAnnotations(self.xml.ant, self)
+            # :TODO:#1: transferAnnotations(self.xml.ant, self)
         
         # Import any <maven part [if not packaged]
         if self.xml.maven and not packaged:
             self.maven = Maven(self.xml.maven,self)
             
             # Copy over any XML errors/warnings
-            transferAnnotations(self.xml.maven, self)
+            # :TODO:#1: transferAnnotations(self.xml.maven, self)
             
         # Import any <script part [if not packaged]
         if self.xml.script and not packaged:
             self.script = Script(self.xml.script,self)
             
             # Copy over any XML errors/warnings
-            transferAnnotations(self.xml.script, self)
+            # :TODO:#1: transferAnnotations(self.xml.script, self)
         
         # Set this up to be the base directory of this project,
         # if one is set
@@ -448,7 +448,7 @@ class Project(NamedModelObject, Statable, Resultable, Dependable, Positioned):
             if 1 == self.getJarCount():
                 jar=self.getJarAt(0)
                 if not jar.hasId():
-                    self.addInfo('Sole jar [' + os.path.basename(jar.getPath()) + '] identifier set to project name')
+                    self.addDebug('Sole jar [' + os.path.basename(jar.getPath()) + '] identifier set to project name')
                     jar.setId(self.getName())    
             else:
                 #
@@ -468,7 +468,7 @@ class Project(NamedModelObject, Statable, Resultable, Dependable, Positioned):
                             reduction=-1 * len(datePostfix)
                             newId=newId[:reduction]
                         # Assign...
-                        self.addInfo('Jar [' + basename + '] identifier set to jar basename: [' + newId + ']')    
+                        self.addDebug('Jar [' + basename + '] identifier set to jar basename: [' + newId + ']')    
                         jar.setId(newId)
         
         # Grab all the work
@@ -539,7 +539,7 @@ class Project(NamedModelObject, Statable, Resultable, Dependable, Positioned):
             self.addInfo("This is a packaged project, location: " + str(self.home))        
                                     
         # Copy over any XML errors/warnings
-        transferAnnotations(self.xml, self)  
+        # :TODO:#1: transferAnnotations(self.xml, self)  
         
         # Done, don't redo
         self.setComplete(1)

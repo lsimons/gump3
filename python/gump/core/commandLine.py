@@ -67,6 +67,7 @@ class CommandLine:
                 print " Not relevent to all scripts:"
                 print "  -O,  --official          Full run, publishing notifications, etc."
                 print "  -D,  --dated             Dated log files."
+                print "  -c,  --cache             Use local cache (do not download over HTTP)."
                 print "  -t,  --text              Use text not Forrest."
                 print "  -X,  --xdocs             Output xdocs, do not run Forrest."
                 
@@ -84,6 +85,7 @@ class CommandLine:
             if arg in ['-d','--debug']:
                 removers.append(arg) 
                 log.info('Setting log level to DEBUG')
+                self.options.setVerbose(1) # Sub-set of debug
                 self.options.setDebug(1)
                 log.setLevel(logging.DEBUG) 
             elif arg in ['-v','--verbose']: 
@@ -108,6 +110,10 @@ class CommandLine:
                 removers.append(arg)    
                 self.options.setOfficial(1)                    
                 log.info('Official run (publish notifications, etc.)')
+            elif arg in ['-c','--cache']:
+                removers.append(arg)        
+                self.options.setCache(1)
+                log.info('Use cache (do not download latest over HTTP).')
             elif arg in ['-t','--text']:
                 removers.append(arg)        
                 self.options.setText(1)
@@ -121,6 +127,7 @@ class CommandLine:
         for arg in removers:
             argv.remove(arg)
 
+        removers=[]
         if len(argv)>2 and argv[1] in ['-w','--workspace']:
             self.args.append(argv[2])
             del argv[1:3]
@@ -140,6 +147,7 @@ class CommandLine:
                         self.args.append('*')
                     else: 
                         self.args.append(arg)
+                    removers.append(arg)        
             else:
                 banner()
                 print
@@ -147,6 +155,11 @@ class CommandLine:
                 print " Project wildcards are accepted, e.g. \"jakarta-*\"."
                 sys.exit(1)
     
+             
+        # Remove 
+        for arg in removers:
+            argv.remove(arg)
+            
         for arg in argv:
             log.debug("Unused command line argument : " + arg)
             

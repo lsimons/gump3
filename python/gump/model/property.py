@@ -222,6 +222,6 @@ class PropertyContainer:
                         
     def dump(self, indent=0, output=sys.stdout):
         """ Display the properties """
-        self.properties.dump(self,indent,output)
-        self.sysproperties.dump(self,indent,output)
+        self.properties.dump(indent,output)
+        self.sysproperties.dump(indent,output)
         

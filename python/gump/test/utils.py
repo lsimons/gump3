@@ -22,7 +22,6 @@ from gump.utils.launcher import *
 from gump.test.pyunit import UnitTestSuite
 
 class TestBean:
-    #def __init__(self): pass
     def getX(self): return 1
     def isY(self): return 0
     def getYadaYada(self): return 'Yowzer'
@@ -141,8 +140,20 @@ class UtilsTestSuite(UnitTestSuite):
     def testInspectGarbageCollection(self):
         invokeGarbageCollection('testInspect')
         
-    def testGarbageCollection(self):
+    def testGarbageCollection1(self):
         invokeGarbageCollection('testCollect')
+        
+    def testGarbageCollection2(self):
+        invokeGarbageCollection('before add circular')
+        a=TestBean()
+        b=TestBean()
+        a.other=b
+        b.other=a
+        invokeGarbageCollection('after circular')     
+                
+    def testRefCounts(self):
+        getRefCounts()     
+        printTopRefs(100)       
         
     def testGoodLaunch(self):
         env=Cmd('env')

@@ -449,7 +449,7 @@ class Workspace(NamedModelObject, PropertyContainer, Statable, Resultable):
         self.sortedTrackers=createOrderedList(self.getTrackers())
         
         # Copy over any XML errors/warnings
-        transferAnnotations(self.xml, self)  
+        # :TODO:#1: transferAnnotations(self.xml, self)  
                 
         self.listener.handleEvent(ModelEvent())
             
@@ -631,7 +631,6 @@ class WorkspaceStatistics(Statistics):
     def getKeyBase(self):
         return 'workspace:'+ self.name        
     
-            
             
 class ModelEvent(Event):
     def __init__(self):		pass

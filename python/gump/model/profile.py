@@ -39,7 +39,7 @@ class Profile(NamedModelObject):
         if self.isComplete(): return
         
         # Copy over any XML errors/warnings
-        transferAnnotations(self.xml, workspace)  
+        # :TODO:#1: transferAnnotations(self.xml, workspace)  
         
         # :TODO: Until we document the profile
         # add these to workspace transferAnnotations(self.xml, self)  

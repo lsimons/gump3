@@ -46,7 +46,7 @@
         <ant target="gump">
             <property name="checkstyle.failOnError" value="true"/>
             <depend property="mx4j.jar" project="mx4j" id="mx4j"/>
-            <depend property="mx4j-tools.jar" project="mx4j-tools" id="tools"/>
+            <depend property="mx4j-tools.jar" project="mx4j-tools" id="mx4j-tools"/>
         </ant>
 
         <depend project="avalon-phoenix-dependencies"/>

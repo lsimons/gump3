@@ -412,12 +412,15 @@ def initializeGarbageCollection():
         import gc
         enabled = gc.isenabled()
         threshold = gc.get_threshold()
-        tracked = len(gc.get_objects())
+        tracked = len(gc.get_objects())        
     
         log.debug('GC: Enabled %s : Tracked %s : Threshold %s' \
                 % (`enabled`, `tracked`,`threshold`))
                 
-        #gc.set_debug(gc.DEBUG_LEAK)
+        gc.enable()
+        gc.set_threshold(10,10,10)
+                
+        # gc.set_debug(gc.DEBUG_LEAK)
     except:
         pass  
     return tracked    
@@ -427,10 +430,10 @@ def inspectGarbageCollection(marker=''):
     try:
         import gc
         tracked = len(gc.get_objects())
-        message=''
-        if marker:
-            message=' @ '
-            message+=marker
+        #message=''
+        #if marker:
+        #    message=' @ '
+        #    message+=marker
         #log.debug('Objects Tracked by GC %s : %s' \
         #        % (message,  `tracked`))
     except:
@@ -448,9 +451,33 @@ def invokeGarbageCollection(marker=''):
         
         # Curiousity..
         if unreachable:
-            log.warn('Objects Unreachable by GC : ' + `unreachable`)
+            message='Objects Unreachable by GC : ' + `unreachable`
+            if marker:
+                message+=' @ '
+                message+=marker
+            log.warn(message)
                         
         # See what GC thinks afterwards...
         # inspectGarbageCollection(marker)
     except:
         pass
+   
+def getRefCounts():
+    d = {}
+    sys.modules
+    # collect all classes
+    for m in sys.modules.values():
+        for sym in dir(m):
+            o = getattr (m, sym)
+            if type(o) is types.ClassType:
+                d[o] = sys.getrefcount (o)
+    # sort by refcount
+    pairs = map (lambda x: (x[1],x[0]), d.items())
+    pairs.sort()
+    pairs.reverse()
+    return pairs
+
+def printTopRefs(count,message=None):
+    if message: print 'References @ ', message
+    for n, c in getRefCounts()[:count]:
+        print '%10d %s - %s' % (n, c.__name__, `c`)

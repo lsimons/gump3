@@ -18,6 +18,7 @@
     This module contains information on
 """
 import os.path
+import time
 
 from gump import log
 from gump.model.rawmodel import XMLWorkspace,XMLProfile,	\
@@ -27,7 +28,7 @@ from gump.model.workspace import Workspace
 from gump.model.module import Module
 from gump.utils.xmlutils import SAXDispatcher
 from gump.utils.note import transferAnnotations, Annotatable
-from gump.utils import dump
+from gump.utils import dump,secsToElapsedTimeString
 
 from gump.core.config import dir, switch, setting
 
@@ -38,7 +39,8 @@ class WorkspaceLoader:
     def load(self,file,cache=0):
         """Builds a GOM in memory from the xml file. Return the generated GOM."""
 
-        #log.info('Start loading metadata...')
+        start_time=time.time()
+        log.info('Loading metadata from ' + file)
         
         if not os.path.exists(file):
             log.error('Workspace metadata file ['+file+'] not found')
@@ -80,7 +82,9 @@ class WorkspaceLoader:
             if not xmlworkspace:
                 raise IOError, 'Failed to load workspace: ' + file
     
-            #log.info('Loaded metadata...')
+            loaded_time=time.time()
+            loadElapsed=(loaded_time-start_time)
+            log.info('Loaded metadata [' + secsToElapsedTimeString(loadElapsed) + ']')
         
             # Construct object around XML.
             workspace=Workspace(xmlworkspace)
@@ -94,8 +98,10 @@ class WorkspaceLoader:
             workspace.complete(XMLProfile.map,XMLRepository.map,	\
                           XMLModule.map,XMLProject.map,	\
                           XMLServer.map, XMLTracker.map)
-                          
-            #log.info('Processed metadata...')
+                     
+            processed_time=time.time()     
+            processElapsed=(processed_time-loaded_time)
+            log.info('Processed metadata [' + secsToElapsedTimeString(processElapsed) + ']')
             
         finally:
             #

@@ -103,7 +103,6 @@ class Annotatable:
             for note in self.annotations:
                 note.dump(indent+1,output)    
                     
-    
     def getAnnotationsAsString(self,eol="\n"):
         notes=''
         

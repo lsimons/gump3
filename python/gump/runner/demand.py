@@ -28,7 +28,7 @@ from gump.runner.runner import *
 from gump.core.config import dir, default, basicConfig
 
 from gump.utils import dump, display, getIndent, logResourceUtilization, \
-                            invokeGarbageCollection
+                            invokeGarbageCollection, printTopRefs
 from gump.utils.note import Annotatable
 from gump.utils.work import *
 
@@ -57,6 +57,8 @@ class OnDemandRunner(GumpRunner):
         
         self.initialize(1)
         
+        printTopRefs(100,'Before Loop')
+        
         # In order...
         for project in self.run.getGumpSet().getProjectSequence():
 
@@ -70,8 +72,17 @@ class OnDemandRunner(GumpRunner):
             # Process
             self.builder.buildProject(project)   
             self.run.generateEvent(project)
-
+            
+            # Seems a nice place to peek/clean-up...    
+            printTopRefs(100,'Before Loop GC')
+            invokeGarbageCollection(self.__class__.__name__)
+            invokeGarbageCollection(self.__class__.__name__)
+            invokeGarbageCollection(self.__class__.__name__)
+            printTopRefs(100,'After GC')
+        
         self.finalize()    
+        
+        printTopRefs(100,'Done')
                 
         # Return an exit code based off success
         # :TODO: Move onto run

@@ -41,7 +41,6 @@ from gump.model.tracker import Tracker
 from gump.model.workspace import Workspace
 from gump.model.module import Module
 from gump.model.project import Project
-from gump.model.ant import Ant
 from gump.model.object import *
 from gump.model.state import *
 

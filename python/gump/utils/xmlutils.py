@@ -65,7 +65,7 @@ class SAXDispatcher(ContentHandler,ErrorHandler,Annotatable):
   def startElement (self, name, attrs):
     """See ContentHandler class."""
     if self.topOfStack:     
-        # Hack to pass thss context about..
+        # Hack to pass this context about..
         attributes=dict(attrs)
         attributes['@basedir']=self.basedir
         
@@ -117,7 +117,8 @@ class SAXDispatcher(ContentHandler,ErrorHandler,Annotatable):
 # allowing the actual model to be rather simple and compact. All
 # elements of the GOM should extend GumpXMLObject or a subclass of GumpXMLObject.
 ###############################################################################
-class GumpXMLObject(Annotatable,object):
+# :TODO:#1: class GumpXMLObject(Annotatable,object):
+class GumpXMLObject(object):
   """Helper XML Object.
 
     Attributes become properties.  Characters become the string value
@@ -128,13 +129,14 @@ class GumpXMLObject(Annotatable,object):
   def __init__(self,attrs):
     
     # Ensure we have an 'annotations' list
-    if not hasattr(self,'annotations') or not isinstance(self.annotations,list):
-        Annotatable.__init__(self)    
+    #if not hasattr(self,'annotations') or not isinstance(self.annotations,list):
+    #    Annotatable.__init__(self)    
     
     # Transfer attributes
     for (name,value) in attrs.items():
         if not name == '@basedir':
             self.__dict__[name]=value
+            
     # Setup internal character field
     if not '@text' in self.__dict__: self.init()
     self.__dict__['@text']=''
@@ -149,11 +151,15 @@ class GumpXMLObject(Annotatable,object):
       return self.__class__.__name__.lower().replace('xml','')
  
   def startElement(self, name, attrs):
-    """ Handles XML events via a series of delegations based upon
+    """ 
+    
+        Handles XML events via a series of delegations based upon
         the tag, and the 'metadata' (typed member data) on this
         object (i.e. the sub-class additions)        
     
-        See ContentHandler class."""
+        See ContentHandler class.
+        
+    """
     try:
       # If we are dealing with a Single or Multiple,
       # return an instance.
@@ -170,7 +176,7 @@ class GumpXMLObject(Annotatable,object):
       # It is OK if people extend the GOM...
       message="No metadata related to tag '%s' on %s" % \
                 (name, self.__class__.__name__)
-      self.addInfo(message)
+      # :TODO:#1: self.addInfo(message)
       log.debug(message)
 
   #

@@ -40,7 +40,7 @@ from gump.model.tracker import Tracker
 from gump.model.workspace import Workspace
 from gump.model.module import Module
 from gump.model.project import Project
-from gump.model.ant import Ant
+from gump.model.builder import Ant,Maven,Script
 from gump.model.object import *
 from gump.model.state import *
 
@@ -157,7 +157,9 @@ def getIndexForObject(object):
         isinstance(object, WorkItem)	or	\
         isinstance(object, FileReference):  
         index=None
-    elif isinstance(object, Ant):
+    elif isinstance(object, Ant) or \
+        isinstance(object, Maven) or \
+        isinstance(object, Script) :
         index='Build'
     else:
         index=None            
