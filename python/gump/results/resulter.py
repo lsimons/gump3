@@ -49,7 +49,8 @@ class ResultsSet(dict):
         for result in self.values():
             statePair=result.getStatePair()            
             if lastPair:
-                self.differeces=(lastPair <> statePair)                
+                if lastPair <> statePair:
+                    self.differeces=1
             lastPair=statePair
             
         self.calculated=1
