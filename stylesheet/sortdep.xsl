@@ -20,11 +20,13 @@
         <!-- treat unresolved options as done -->
         <xsl:with-param name="done">
           <xsl:text>:</xsl:text>
-          <xsl:for-each select= "//project/option">
+          <xsl:for-each select= "project/option">
             <xsl:sort select="@project"/>
             <xsl:variable name="project" select="@project"/>
-            <xsl:if test="not(preceding::option[@project=$project])">
-              <xsl:value-of select="concat(@project,':')"/>
+            <xsl:if test="not(/workspace/project[@name=$project])">
+              <xsl:if test="not(preceding::option[@project=$project])">
+                <xsl:value-of select="concat(@project,':')"/>
+              </xsl:if>
             </xsl:if>
           </xsl:for-each>
         </xsl:with-param>
@@ -44,7 +46,7 @@
     <xsl:variable name="nextset">
       <xsl:for-each
         select=
-          "//project[
+          "/workspace/project[
             not(contains($done,concat(':',@name,':')))
               and
             count(depend)=
@@ -64,7 +66,7 @@
     <xsl:if test="string-length($nextset)>0">
       <xsl:for-each
         select=
-          "//project[
+          "/workspace/project[
             contains(concat(':',$nextset),concat(':',@name,':'))
            ]">
           <xsl:text>&#10;</xsl:text>
@@ -85,12 +87,12 @@
 
       <!-- missing dependency? -->
 
-      <xsl:for-each select="//project">
+      <xsl:for-each select="/workspace/project">
         <xsl:if test="not(contains($done,concat(':',@name,':')))">
            <xsl:variable name="project" select="@name"/>
            <xsl:for-each select="depend|option">
              <xsl:variable name="depend" select="@project"/>
-             <xsl:if test="not(//project[@name=$depend])">
+             <xsl:if test="not(/workspace/project[@name=$depend])">
                <xsl:message terminate="yes">
                   <xsl:text>Dependency </xsl:text>
                   <xsl:value-of select="@project"/>
@@ -105,7 +107,7 @@
 
       <!-- recursion? -->
 
-      <xsl:for-each select="//project">
+      <xsl:for-each select="/workspace/project">
         <xsl:if test="not(contains($done,concat(':',@name,':')))">
            <xsl:message terminate="no">
               <xsl:text>Recursive dependency loop including project </xsl:text>
@@ -114,7 +116,7 @@
         </xsl:if>
       </xsl:for-each>
 
-      <xsl:for-each select="//project">
+      <xsl:for-each select="/workspace/project">
         <xsl:if test="not(contains($done,concat(':',@name,':')))">
            <xsl:message terminate="yes">
               <xsl:text>Processing terminated</xsl:text>
