@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/utils/work.py,v 1.10 2004/03/09 19:57:06 ajack Exp $
-# $Revision: 1.10 $
-# $Date: 2004/03/09 19:57:06 $
+# $Header: /home/stefano/cvs/gump/python/gump/utils/work.py,v 1.11 2004/03/11 16:13:50 ajack Exp $
+# $Revision: 1.11 $
+# $Date: 2004/03/11 16:13:50 $
 #
 # ====================================================================
 #
@@ -173,17 +173,17 @@ class CommandWorkItem(TimedWorkItem):
         self.command=command
         self.result=result
         
-    def overview(self,lines=50):
+    def overview(self,lines=50,wrapLen=0,eol=None,marker=None):
         overview=TimedWorkItem.overview(self)
         overview += self.command.overview()        
         if self.result:
             overview += "---------------------------------------------\n"                
-            overview+=self.result.tail(lines)            
+            overview+=self.result.tail(lines,wrapLen,eol,marker)            
             overview += "---------------------------------------------\n"
         return overview
         
-    def tail(self,lines=50):
-        return self.result.tail(lines)
+    def tail(self,lines=50,wrapLen=0,eol=None,marker=None):
+        return self.result.tail(lines,wrapLen,eol,marker)
         
     def clone(self):
         return CommandWorkItem(self.type,self.command,self.result,self.message)

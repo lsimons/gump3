@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/utils/tools.py,v 1.16 2004/03/09 19:57:06 ajack Exp $
-# $Revision: 1.16 $
-# $Date: 2004/03/09 19:57:06 $
+# $Header: /home/stefano/cvs/gump/python/gump/utils/tools.py,v 1.17 2004/03/11 16:13:50 ajack Exp $
+# $Revision: 1.17 $
+# $Date: 2004/03/11 16:13:50 $
 #
 # ====================================================================
 #
@@ -207,7 +207,7 @@ def syncDirectories(sourcedir,destdir,annotatable=None):
         if annotatable:
             transferAnnotations(sync, annotatable)    
     
-def tailFile(file,lines):
+def tailFile(file,lines,wrapLen=0,eol=None,marker=None):
     """ Return the last N lines of a file as a list """
     taillines=[]
     try:
@@ -217,14 +217,24 @@ def tailFile(file,lines):
             o=open(file, 'r')
             line=o.readline()
             
-            while line:
+            size=0
+            while line:      
+                #
+                # Wrap if requested
+                #
+                if wrapLen:
+                    wline=wrapLine(line,eol,marker,wrapLen)
+                else:
+                    wline=line
+                
                 # Store the lines
-                taillines.append(line)
+                taillines.append(wline)
             
                 # But dump any before 'lines'
-                size=len(taillines)
+                size+=len(wline)
                 if size > lines:
                     del taillines[0:(size-lines)]
+                    size=len(taillines)
                     
                 # Read next...
                 line=o.readline()
@@ -236,8 +246,8 @@ def tailFile(file,lines):
                             
     return taillines
 
-def tailFileToString(file,lines):
-    return "".join(tailFile(file,lines))
+def tailFileToString(file,lines,wrapLen=0,eol=None,marker=None):
+    return "".join(tailFile(file,lines,wrapLen,eol,marker))
     
 if __name__=='__main__':
 

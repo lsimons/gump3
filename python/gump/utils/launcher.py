@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/utils/Attic/launcher.py,v 1.13 2004/03/04 17:26:09 ajack Exp $
-# $Revision: 1.13 $
-# $Date: 2004/03/04 17:26:09 $
+# $Header: /home/stefano/cvs/gump/python/gump/utils/Attic/launcher.py,v 1.14 2004/03/11 16:13:50 ajack Exp $
+# $Revision: 1.14 $
+# $Date: 2004/03/11 16:13:50 $
 #
 # ====================================================================
 #
@@ -296,10 +296,10 @@ class CmdResult:
         
         return overview
         
-    def tail(self,lines):                
+    def tail(self,lines,wrapLen=0,eol=None,marker=None):                
         if self.output:
             from gump.utils.tools import tailFileToString            
-            tail = tailFileToString(self.output,lines)
+            tail = tailFileToString(self.output,lines,wrapLen,eol,marker)
         else:
             tail = "No output\n"
             

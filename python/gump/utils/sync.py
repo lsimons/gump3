@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/utils/sync.py,v 1.3 2004/03/09 19:57:06 ajack Exp $
-# $Revision: 1.3 $
-# $Date: 2004/03/09 19:57:06 $
+# $Header: /home/stefano/cvs/gump/python/gump/utils/sync.py,v 1.4 2004/03/11 16:13:50 ajack Exp $
+# $Revision: 1.4 $
+# $Date: 2004/03/11 16:13:50 $
 #
 # ====================================================================
 #
@@ -93,8 +93,8 @@ class Sync(Annotatable):
             action = 'copy'
         else:
             action = 'sync'
-        log.info('Starting %s  from [%s]' % (action,self.sourcedir))
-        log.info('        target dir [' + self.targetdir + ']')
+        log.debug('Starting %s from [%s]' % (action,self.sourcedir))
+        log.debug('          target dir [' + self.targetdir + ']')
         if not os.path.exists(self.sourcedir):
             log.error('Exiting sync, source directory does not exist [' + self.sourcedir + ']')
             raise IOError, 'source directory does not exist [' + self.sourcedir + ']'

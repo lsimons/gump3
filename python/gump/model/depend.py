@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/model/depend.py,v 1.16 2004/03/10 20:28:36 ajack Exp $
-# $Revision: 1.16 $
-# $Date: 2004/03/10 20:28:36 $
+# $Header: /home/stefano/cvs/gump/python/gump/model/depend.py,v 1.17 2004/03/11 16:13:50 ajack Exp $
+# $Revision: 1.17 $
+# $Date: 2004/03/11 16:13:50 $
 #
 # ====================================================================
 #
@@ -379,11 +379,11 @@ class Dependable:
 
     # determine if this project is a prereq of any project on the todo list
     def hasDirectDependencyOn(self,project):
-        for dependency in self.dependencies:
+        for dependency in self.getDirectDependencies():
             if dependency.getProject()==project: return 1
     
     def hasDirectDependee(self,project):
-        for dependee in self.dependees:
+        for dependee in self.getDirectDependees():
             if dependee.getOwnerProject()==project: return 1
             
     def hasDependee(self,project):

@@ -440,10 +440,13 @@ class GumpEngine:
                 log.debug(' ------ Building: [' + `projectNo` + '] ' + project.getName())
 
                 # Turn on --verbose or --debug if failing ...
-                if not STATE_SUCCESS == stats.currentState:
+                if (not STATE_SUCCESS == stats.currentState) and \
+                        not project.isVerboseOrDebug():
                     if stats.sequenceInState > 5:
+                        project.addInfo('Enable "debug" output, due to error.')
                         project.setDebug(1)
                     else:
+                        project.addInfo('Enable "verbose" output, due to error.')    
                         project.setVerbose(1)
 
                 #

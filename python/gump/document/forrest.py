@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/forrest.py,v 1.98 2004/03/09 20:31:02 ajack Exp $
-# $Revision: 1.98 $f
-# $Date: 2004/03/09 20:31:02 $
+# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/forrest.py,v 1.99 2004/03/11 16:13:50 ajack Exp $
+# $Revision: 1.99 $f
+# $Date: 2004/03/11 16:13:50 $
 #
 # ====================================================================
 #
@@ -114,8 +114,9 @@ class ForrestDocumenter(Documenter):
         self.seedForrest(workspace)
        
         self.documentWorkspace(run,workspace,gumpSet)    
-        self.documentStatistics(run,workspace,gumpSet)
-        self.documentXRef(run,workspace,gumpSet)
+        if gumpSet.isFull():
+            self.documentStatistics(run,workspace,gumpSet)
+            self.documentXRef(run,workspace,gumpSet)
 
         # Launch Forrest...
         self.executeForrest(workspace)
@@ -976,17 +977,17 @@ class ForrestDocumenter(Documenter):
         self.documentFileList(document,module,'Module-level Files')
         self.documentWorkList(document,module,'Module-level Work')
         
-        addnSection=document.createSection('Additional Details')
-        addnPara=addnSection.createParagraph()
-        addnPara.createLink('index_details.html',	\
-                            'More module details ...')
-                                                                            
-        document.serialize()
-        
-        document=XDocDocument('Module Details : ' + module.getName(),	\
-                    self.resolver.getFile(module, \
-                                    'index_details', \
-                                        '.xml'))
+        #addnSection=document.createSection('Additional Details')
+        #addnPara=addnSection.createParagraph()
+        #addnPara.createLink('index_details.html',	\
+        #                    'More module details ...')
+        #                                                                    
+        #document.serialize()
+        #
+        #document=XDocDocument('Module Details : ' + module.getName(),	\
+        #            self.resolver.getFile(module, \
+        #                            'index_details', \
+        #                                '.xml'))
             
         detailSection=document.createSection('Module Details')
         detailList=detailSection.createList()
@@ -1160,16 +1161,16 @@ class ForrestDocumenter(Documenter):
         self.documentFileList(document,project,'Project-level Files')  
         self.documentWorkList(document,project,'Project-level Work')  
                 
-        addnSection=document.createSection('Additional Details')
-        addnPara=addnSection.createParagraph()
-        addnPara.createLink(gumpSafeName(project.getName()) + '_details.html',	\
-                            'More project details ...')                                                                         
-        document.serialize()
-        
-        document=XDocDocument('Project Details : ' + project.getName(),	\
-                    self.resolver.getFile(project, \
-                                    project.getName() + '_details', \
-                                        '.xml'))     
+        #addnSection=document.createSection('Additional Details')
+        #addnPara=addnSection.createParagraph()
+        #addnPara.createLink(gumpSafeName(project.getName()) + '_details.html',	\
+        #                    'More project details ...')                                                                         
+        #document.serialize()
+        #
+        #document=XDocDocument('Project Details : ' + project.getName(),	\
+        #            self.resolver.getFile(project, \
+        #                            project.getName() + '_details', \
+        #                                '.xml'))     
  
     #    x.write('<p><strong>Project Config :</strong> <link href=\'%s\'>XML</link></p>' \
     #                % (getModuleProjectRelativeUrl(modulename,project.name)) )                     
@@ -1487,7 +1488,7 @@ class ForrestDocumenter(Documenter):
         for work in worklist:
             if isinstance(work,CommandWorkItem):      
                 if not STATE_SUCCESS == work.state:
-                    tail=work.tail()
+                    tail=work.tail(50,'...<br/>','    ',100)
                     if tail:
                         #
                         # Write out the 'tail'
