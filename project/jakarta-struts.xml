@@ -7,13 +7,19 @@
 
   <cvs repository="jakarta"/>
 
-  <ant target="dist"/>
+  <ant target="dist">
+    <property name="jdbc20ext.jar" reference="jar" id="stdext" project="jdbc"/>
+    <property name="servlet.jar"   reference="jar" id="servlet" 
+              project="jakarta-servletapi-4"/>
+    <property name="xerces.jar"    reference="jar" id="parser" 
+              project="xml-xerces"/>
+  </ant>
 
   <depend project="xml-xerces"/>
   <depend project="xml-xalan2"/>
   <depend project="jdbc"/>
   <depend project="jakarta-ant"/>
-  <depend project="jakarta-servletapi"/>
+  <depend project="jakarta-servletapi-4"/>
   <work nested="target/library/struts.jar"/>
 
 </project>

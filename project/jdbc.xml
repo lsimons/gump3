@@ -5,6 +5,6 @@
     JDBC Data Access API
   </description>
 
-  <jar name="jdbc2_0-stdext.jar"/>
+  <jar name="jdbc2_0-stdext.jar" id="stdext"/>
 
 </project>
