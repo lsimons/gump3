@@ -644,7 +644,7 @@ public class Project {
                 desc.setAttribute("source", fullpath + append);
 
                 if (url.equals("")) {
-                    desc.setAttribute("url", "file:///" + fullpath);
+                    desc.setAttribute("url", "file:///" + fullpath + append);
                 } else {
                     desc.setAttribute("url", url + path + append);
                 }

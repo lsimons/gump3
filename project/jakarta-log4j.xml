@@ -24,7 +24,6 @@
 
     <home nested="dist"/>
     <jar  name="lib/log4j-@@DATE@@.jar"/>
-    <javadoc nested="docs/api"/>
     
     <nag to="log4j-dev@jakarta.apache.org"
          from="Ceki Gülcü &lt;ceki@apache.org&gt;"/>

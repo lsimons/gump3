@@ -29,7 +29,7 @@
 
     <home nested="build"/>
     <jar name="xmlsec.jar"/>
-    <javadoc nested="doc/html/api"/>
+    <javadoc nested="build/doc/html/api"/>
 
     <nag from="Sam Ruby &lt;rubys@us.ibm.com&gt;"
          to="security-dev@xml.apache.org"/>
