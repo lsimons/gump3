@@ -24,7 +24,7 @@
   <depend project="commons-collections"/>
 
   <home nested="bin"/>
-  <jar  name="velocity-gump.jar"/>
+  <jar name="velocity-gump.jar" id="velocity"/>
 
   <project name="jakarta-velocity-test">
     <ant basedir="build" buildfile="testcases.xml"/>

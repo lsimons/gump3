@@ -13,5 +13,5 @@
   <depend project="xml-xerces"/>
 
   <home nested="bin"/>
-  <jar name="village-1.5.1.jar"/>
+  <jar name="village-1.5.1.jar" id="village"/>
 </project>

@@ -9,6 +9,12 @@
 
   <ant basedir="build">
     <property name="version" value="gump"/>
+    <property name="velocity.jar"
+       reference="jarpath" id="velocity" project="jakarta-velocity"/>
+    <property name="xerces.jar"
+       reference="jarpath" id="parser" project="xml-xerces"/>
+    <property name="village.jar"
+       reference="jarpath" id="village" project="village"/>
   </ant>
 
   <depend project="jakarta-ant"/>
