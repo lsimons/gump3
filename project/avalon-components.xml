@@ -131,9 +131,9 @@
         <!-- optional dependencies -->
         <option project="checkstyle" inherit="runtime"/>
 
-        <work nested="cornerstone/datasurces/api/target/classes"/>
+        <work nested="cornerstone/datasources/api/target/classes"/>
 
-        <home nested="cornerstone/datasurces/api"/>
+        <home nested="cornerstone/datasources/api"/>
         <jar name="target/cornerstone-datasources-api-@@DATE@@.jar" />
 
         <nag from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"
@@ -163,9 +163,9 @@
         <!-- optional dependencies -->
         <option project="checkstyle" inherit="runtime"/>
 
-        <work nested="cornerstone/datasurces/impl/target/classes"/>
+        <work nested="cornerstone/datasources/impl/target/classes"/>
 
-        <home nested="cornerstone/datasurces/impl"/>
+        <home nested="cornerstone/datasources/impl"/>
         <jar name="target/cornerstone-datasources-impl-@@DATE@@.jar" />
 
         <nag from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"
@@ -356,7 +356,7 @@
         </ant>
 
         <!-- runtime dependencies -->
-        <depend project="excalibur-thread-api" runtime="true"/>
+        <depend project="excalibur-thread-api" />
 
         <!-- build-time dependencies -->
         <depend project="ant" inherit="runtime"/>
