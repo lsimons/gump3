@@ -196,7 +196,34 @@ class Module(NamedModelObject, Statable, Resultable, Positioned):
         self.workspace=None
         self.workdir=None
         
+           
+    def getObjectForTag(self,tag,dom,name=None):
+        """
+        	Get a new (or spliced) object for this tag	
+        """
+        
+        object=None
+      
+        if 'project' == tag:
+            
+            owner=self.getOwner()
+            if self.hasProject(name):
+                object=self.getProject(name)
+                object.splice(dom)
+            elif owner.hasProject(name):
+                object=owner.getProject(name)
+                object.splice(dom)
+                self.addProject(object)
+            else:
+                from gump.model.project import Project    
+                object=Project(name,dom,self)
+                self.addProject(object)
+
+        return object                                          
+      
     def resolve(self):
+        
+        if self.isResolved(): return
         
         log.info('Resolve ' + `self`)
         
@@ -208,10 +235,7 @@ class Module(NamedModelObject, Statable, Resultable, Positioned):
                 
                 if owner.hasProject(name):
                     project=owner.getProject(name)
-                    
-                    # Hmm, safe even if duplicate?
-                    # Ought we detect before?
-                    project.splice(pdom)                    
+                            
                     if not self.hasProject(name):
                         if not project.inModule() or (project.getModule() == self):
                             self.addProject(project)
@@ -219,11 +243,16 @@ class Module(NamedModelObject, Statable, Resultable, Positioned):
                             pass 
                             # Duplicate project... Hmm
                             # :TODO:
-                            
+                    project.splice(pdom)
+                elif self.hasProject(name):                    
+                    project.splice(pdom)
                 else:
                     project=Project(name,pdom,self)
                     self.addProject(project)
+                    
         log.info('Resolved ' + `self`)
+        
+        self.setResolved()
                 
     # provide default elements when not defined in xml
     def complete(self,workspace):
@@ -401,11 +430,28 @@ class Module(NamedModelObject, Statable, Resultable, Positioned):
         return self.notifys
         
     def addProject(self,project):
-        project.setModule(self)
-        self.projects[project.getName()]=project
+        """
+        	Associate this module with this project, and vice verse.
+        """
+        name=project.getName()
         
-        if not self.getOwner().hasProject(project.getName()):
+        if self.hasProject(name):
+            raise RuntimeError, 'Attempt to add duplicate project: ' + name
+            
+        # Reference this module as owner
+        project.setModule(self)
+        
+        # Stash project
+        self.projects[name]=project
+        
+        # Teach workspace about this also...
+        if not self.getOwner().hasProject(name):
             self.getOwner().addProject(project)
+        else:
+            otherProject=self.getOwner().getProject(name)
+            
+            if not project is otherProject:
+                raise RuntimeError, 'Attempt to add duplicate project (in module): ' + name    
                      
     def hasProject(self,name):
         return self.projects.has_key(name)
@@ -521,17 +567,6 @@ class Module(NamedModelObject, Statable, Resultable, Positioned):
         # self.summary = summary
         
         return summary
-           
-    def getObjectForTag(self,tag,dom,name=None):
-        object=None
-      
-        if 'project' == tag:
-            from gump.model.project import Project
-            object=Project(name,dom,self)
-            self.addProject(object)
-
-        return object                                          
-        
     def dump(self, indent=0, output=sys.stdout):
         output.write(getIndent(indent)+'Module : ' + self.name + '\n')
         NamedModelObject.dump(self, indent+1, output)

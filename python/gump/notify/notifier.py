@@ -58,6 +58,8 @@ class Notifier(AbstractRunActor):
         
         self.resolver=self.options.getResolver()
         self.logic=NotificationLogic(self.run)
+        
+        self.id=0
                                         
     def processWorkspace(self):
         """
@@ -208,7 +210,7 @@ The following %s notify%s should have been sent
     def notifyWorkspace(self,notification):
         """ Notify for the workspace """
         
-        content=notification.resolveContent(self.resolver)
+        content=notification.resolveContent(self.resolver, self.id)
         
         subject=self.workspace.prefix+': Gump Workspace ' + self.workspace.getName()
         
@@ -220,7 +222,7 @@ The following %s notify%s should have been sent
         """ Notify to a specific module's <notify entry """
         
         # Form the content...
-        content=notification.resolveContent(self.resolver)
+        content=notification.resolveContent(self.resolver, self.id)
                 
         # Form the subject
         subject=self.workspace.prefix+	\
@@ -237,7 +239,7 @@ The following %s notify%s should have been sent
         #
         # Form the content...
         #
-        content=notification.resolveContent(self.resolver)
+        content=notification.resolveContent(self.resolver, self.id)
                 
         # Form the subject
         subject=self.workspace.prefix+': '	\
@@ -293,10 +295,10 @@ The following %s notify%s should have been sent
     
         sent=False
         try:
-               
-            log.info('Send Notify e-mail:\n To: ' + str(toaddr) + \
+            log.info('Send Notify e-mail (#' + `self.id` + ') :\n To: ' + str(toaddr) + \
                 '\n From: ' + str(fromaddr) + \
                 '\n Subject: ' + str(subject))
+            self.id+=1 
            
             # Form the user visable part ...
             email=EmailMessage( toaddrs, 
@@ -315,7 +317,6 @@ The following %s notify%s should have been sent
                         self.workspace.mailserver,	\
                         self.workspace.mailport)  
                    
-            
         except Exception, details:
             sent=False
             log.error('Failed to send notify e-mail: ' + str(details), \

@@ -15,7 +15,9 @@
 # limitations under the License.
 
 """
-    This module contains information on Project
+
+    The model for a 'Project'
+    
 """
 
 from time import localtime, strftime, tzname

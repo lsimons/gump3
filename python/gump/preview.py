@@ -15,7 +15,7 @@
 # limitations under the License.
 
 #
-# $Header: /home/stefano/cvs/gump/python/gump/preview.py,v 1.5.2.1 2004/06/11 20:46:10 ajack Exp $
+# $Header: /home/stefano/cvs/gump/python/gump/preview.py,v 1.5.2.2 2004/06/28 21:16:59 ajack Exp $
 # 
 
 """
@@ -81,18 +81,22 @@ def prun():
         for module in run.getGumpSet().getModules():
             print SEPARATOR
             print `module`
+            if debug:
+                print module.getXml()
             module.dump()
             if module.isUpdatable():
                 updater.preview(module)
                        
-        
         for project in run.getGumpSet().getProjects():
             print SEPARATOR
             print `project`
+            if debug:
+                print project.getXml()
+            project.dump()
             if project.hasBuildCommand():
                 builder.preview(project)
     
-    # Show nasties...
+    # Show any nasties...
     if workspace.containsNasties():
         print SEPARATOR    
         print `workspace`    

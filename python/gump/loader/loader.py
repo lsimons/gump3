@@ -214,7 +214,7 @@ class ModelLoader:
             if not task.isFailed():
                 dom=task.getResult().getDom()
                 
-                # What are we workign with
+                # What are we working with for this document
                 element=dom.documentElement
                 name=None
                 if element.hasAttribute('name'):            
@@ -231,6 +231,9 @@ class ModelLoader:
                 # Allow context instantiation, or we are root
                 if parentObject:
                     object=parentObject.getObjectForTag(element.tagName,dom,name)
+                    
+                    log.debug("Used parent: %s to get %s for <%s %s" %(`parentObject`,`object`,
+                                `element.tagName`,`name`))  
                 else:
                     if name: object=cls(name,dom)
                     else:    object.cls(dom)
@@ -240,11 +243,13 @@ class ModelLoader:
                     # Store the metadata
                     object.setMetadataLocation(task.getLocation())
                     # Resolve entities...
-                    object.resolve()                    
+                    if not object.isResolved():
+                        object.resolve()                    
                     task.getResult().setObject(object)
             
         if rootObject:
-            rootObject.resolve()
+            if not rootObject.isResolved():
+                rootObject.resolve()
             # Cook the raw model...                    
             rootObject.complete()
              

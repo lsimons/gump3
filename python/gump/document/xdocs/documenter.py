@@ -1598,7 +1598,7 @@ This page helps Gumpmeisters (and others) observe community progress.
     #    footerXDoc(x)
     #    endXDoc(x)
         
-    def documentProject(self,project,realTime=0): 
+    def documentProject(self,project,realTime=False): 
         
         spec=self.resolver.getFileSpec(project)
         document=XDocDocument('Project : ' + project.getName(),    
@@ -1664,6 +1664,9 @@ This page helps Gumpmeisters (and others) observe community progress.
         self.insertLink(project.getModule(),project,	\
                 detailsList.createEntry('Containing Module: '))        
         
+        if project.isSpliced():
+            detailsList.createEntry('XML Spliced: ', `project.isSpliced()`)
+            
         if project.hasHomeDirectory() and project.isVerboseOrDebug():
             detailsList.createEntry('Home Directory: ', project.getHomeDirectory())
             
@@ -1712,7 +1715,7 @@ This page helps Gumpmeisters (and others) observe community progress.
         
         statsTable=statsSection.createTable()           
         
-        if self.config.isXdocs():
+        if (not realTime) and self.config.isXdocs():
             # Generate an SVG for FOG:
             (file,title) = self.diagramFOG(project)
             if file:
@@ -1736,14 +1739,16 @@ This page helps Gumpmeisters (and others) observe community progress.
                 
         self.documentFileList(document,project,'Project-level Files')  
                 
-        addnSection=document.createSection('Additional Details')
-        addnPara=addnSection.createParagraph()
-        addnPara.createLink('details.html',	
-                              'For additional project details (including classpaths,dependencies) ...')
+        if not realTime:
+            addnSection=document.createSection('Additional Details')
+            addnPara=addnSection.createParagraph()
+            addnPara.createLink('details.html',	
+                                  'For additional project details (including classpaths,dependencies) ...')
                                 
         document.serialize()
         
-        self.documentProjectDetails(project,realTime)
+        if not realTime:
+            self.documentProjectDetails(project,realTime)
         
     def documentProjectDetails(self,project,realTime=0):         
         
@@ -2131,11 +2136,12 @@ This page helps Gumpmeisters (and others) observe community progress.
             stream.write('Failed to XML serialize the data. ' + str(details))
         stream.seek(0)
         xmldata=stream.read()
-        if len(xmldata) < 32000:
+        if (not self.config.isXdocs()) or (len(xmldata) < 32000):
             xmlSection.createSource(xmldata)
         else:
-            xmlSection.createParagraph('XML Data too large to display.')
+            xmlSection.createParagraph('XML Data too large to display via Forrest.')
         stream.close()
+        stream=None
             
     def documentSummary(self,xdocNode,summary,description='Project Summary'):
         if not summary or not summary.projects \

@@ -65,7 +65,8 @@ class ModelObject(Annotatable,Workable,FileHolder,Propogatable,Ownable):
     	self.verbose=False
     	self.metadata=None
     	
-    	self.completionPerformed=0
+        self.resolutionPerformed=False
+        self.completionPerformed=False
     	
     def __del__(self):
         Annotatable.__del__(self)
@@ -77,11 +78,34 @@ class ModelObject(Annotatable,Workable,FileHolder,Propogatable,Ownable):
         # No longer need this...
         self.dom=None
         
+    def shutdown(self):
+        """
+        
+        	Shut this object down to the bare minimim,
+        	to conserve memory after it is 'done with'.
+        	
+        """
+        if self.dom:
+            self.dom.unlink()
+            if self.element:
+                if not self.element is self.dom:
+                    self.element.unlink()
+                self.element=None
+            self.dom=None
+            
+        self.shutdownWork()
+        
+    def isResolved(self):
+        return self.resolutionPerformed
+        
+    def setResolved(self,resolved=True):
+       self.resolutionPerformed=resolved
+       
     def isComplete(self):
         return self.completionPerformed
         
-    def setComplete(self,complete):
-       self.completionPerformed=complete
+    def setComplete(self,complete=True):
+        self.completionPerformed=complete
        
     def setDebug(self,debug):
         self.debug=debug
@@ -113,6 +137,9 @@ class ModelObject(Annotatable,Workable,FileHolder,Propogatable,Ownable):
         # output.write(getIndent(indent)+'Class: ' + self.__class__.__name__ + '\n')
         if self.hasOwner():
             output.write(getIndent(indent)+'Owner: ' + `self.getOwner()` + '\n')
+        output.write(getIndent(indent)+'Id: ' + `id(self)` + '\n')
+        #output.write(getIndent(indent)+'Id DOM: ' + `id(self.dom)` + '\n')
+        #output.write(getIndent(indent)+'Id Element: ' + `id(self.element)` + '\n')
         if self.isSpliced():
             output.write(getIndent(indent)+'Was *Spliced*\n')
         Annotatable.dump(self,indent,output)
@@ -176,7 +203,7 @@ class ModelObject(Annotatable,Workable,FileHolder,Propogatable,Ownable):
     def writeXmlToFile(self, outputFile):
         try:            
             f=open(outputFile, 'w')
-            f.write(self.getXmlData())
+            self.writeXml(f)
         finally:
             # Since we may exit via an exception, close explicitly.
             if f: f.close()    
@@ -227,6 +254,8 @@ class ModelObject(Annotatable,Workable,FileHolder,Propogatable,Ownable):
         
     def splice(self,dom): 
         log.info('Splice ' + `self`)
+        if self.isComplete():
+            raise RuntimeError, "Can't splice a completed entity: " + `self`
         spliceDom(self.element,dom)
         self.setSpliced(True) 
                             	

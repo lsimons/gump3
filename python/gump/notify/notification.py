@@ -71,7 +71,7 @@ class Notification(RunSpecific):
         if self.intro: return 1
         return 0
         
-    def resolveContent(self,resolver,stream=None):
+    def resolveContent(self,resolver,id=None,stream=None):
         
         # If not passed, create temporary
         if not stream:
@@ -168,7 +168,7 @@ and/or contact folk at general@gump.apache.org.
 
         self.resolveSyndication(resolver, stream)
         
-        self.resolveFooter(resolver, stream)
+        self.resolveFooter(resolver, id, stream)
     
         # If passed (or created) a StringIO, return String
         # containing contents.
@@ -217,18 +217,18 @@ and/or contact folk at general@gump.apache.org.
         stream.write('To subscribe to this information via syndicated feeds:')
         stream.write('\n')
             
-        #
         # Link them back here...
-        #
         rssurl=resolver.getUrl(self.entity,'rss','.xml')
         atomurl=resolver.getUrl(self.entity,'atom','.xml')
             
         stream.write(' RSS: ' + rssurl + '\n')
         stream.write(' Atom: ' + atomurl + '\n')
         
-    def resolveFooter(self, resolver, stream):
+    def resolveFooter(self, resolver, id, stream):
         
         stream.write('\n\n--\n')
+        if id:
+            stream.write('Gump E-mail Identifier (within run) #%s.\n' % id )
         stream.write('Produced by Gump %s.\n[Run (%s, %s)]' %	\
                         (	setting.version, 
                             default.datetime, 

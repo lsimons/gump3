@@ -173,6 +173,10 @@ class WorkList(list,Ownable):
         self.nameIndex=None
         self.timing=None
         
+    def shutdown(self):
+        self.nameIndex=None
+        del self[:]
+        
     def add(self,item):
         
         if item.hasOwner():
@@ -259,4 +263,7 @@ class Workable(Stateful):
                
     def getElapsedSecs(self):
         return self.worklist.getElapsedSecs()
+        
+    def shutdownWork(self):
+        self.worklist.shutdown()
     

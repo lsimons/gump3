@@ -185,6 +185,8 @@ class Workspace(NamedModelObject, PropertyContainer, Statable, Resultable):
         return self.modules.has_key(mname)
         
     def addModule(self,module):
+        if self.hasModule(name):
+            raise RuntimeError, 'Attempt to add duplicate module: ' + name    
         self.modules[module.getName()]=module
         
     def getModule(self,mname):
@@ -203,7 +205,10 @@ class Workspace(NamedModelObject, PropertyContainer, Statable, Resultable):
         return self.projects.has_key(pname)
         
     def addProject(self,project):
-        self.projects[project.getName()]=project
+        name=project.getName()
+        if self.hasProject(name):
+            raise RuntimeError, 'Attempt to add duplicate project: ' + name    
+        self.projects[name]=project
         
     def getProject(self,pname):
         return self.projects[pname]
@@ -282,24 +287,19 @@ class Workspace(NamedModelObject, PropertyContainer, Statable, Resultable):
 
         # Complete the modules
         for module in self.getModules():
-            module.complete(self)
+            if not module.isComplete():
+                module.complete(self)
         
-        #
         # Check repositories, now modules have been imported,
         # so we can report those unused ones.
-        #
         for repository in self.getRepositories(): 
             repository.check(self)           
         
-        #
         # Check servers.
-        #
         for server in self.getServers(): 
             server.check(self)            
         
-        #
         # Check Trackers.
-        #
         for tracker in self.getTrackers(): 
             tracker.check(self)           
         
@@ -509,6 +509,8 @@ class Workspace(NamedModelObject, PropertyContainer, Statable, Resultable):
         
     def resolve(self):
         
+        if self.isResolved(): return
+        
         log.info('Resolve ' + `self`)
         
         for pdom in self.getDomChildIterator('project'):
@@ -522,7 +524,9 @@ class Workspace(NamedModelObject, PropertyContainer, Statable, Resultable):
                     project=Project(name,pdom,self)
                     self.addProject(project)   
         
-        log.info('Resolved ' + `self`)     
+        log.info('Resolved ' + `self`)   
+        
+        self.setResolved()  
 
 class WorkspaceStatistics(Statistics):
     """Statistics Holder"""

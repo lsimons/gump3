@@ -204,10 +204,10 @@ def spliceDom(targetElement,source):
     # (i.e. deep clone and copy into target) 
     if sourceElement.hasChildNodes():
         for childNode in sourceElement.childNodes:  
-            #clonedNode=childNode.cloneNode(True)
-            #targetElement.appendChild(clonedNode)
-            targetElement.appendChild(childNode)
-    
+            # Cloning seems to seriously abuse memory... :(
+            clonedNode=childNode.cloneNode(True)
+            targetElement.appendChild(clonedNode) 
+            #targetElement.appendChild(childNode) 
     
 #    
 #def getAttrValue(node,attrName):
