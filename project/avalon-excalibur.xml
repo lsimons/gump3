@@ -397,6 +397,7 @@
             <depend property="commons-collections.jar" project="commons-collections" runtime="true"/>
             <depend property="excalibur-event.jar" project="excalibur-event" runtime="true"/>
             <depend property="excalibur-instrument.jar" project="excalibur-instrument" runtime="true"/>
+            <depend property="excalibur-i18n.jar" project="excalibur-i18n" runtime="true"/>
             <depend property="excalibur-instrument-manager.jar" 
                     project="excalibur-instrument-manager"
                     runtime="true" id="main"/>
@@ -449,7 +450,7 @@
         <work nested="fortress/build/tools"/>
 
         <home nested="fortress"/>
-        <jar name="build/lib/excalibur-fortress-@@DATE@@.jar" id="fortress"/>
+        <jar name="build/lib/excalibur-fortress-complete-@@DATE@@.jar" id="fortress"/>
         <jar name="build/lib/excalibur-fortress-tools-@@DATE@@.jar" id="fortress-tools"/>
 
         <nag from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"
