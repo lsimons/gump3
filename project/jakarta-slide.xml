@@ -29,6 +29,7 @@
   <depend project="xml-xalan2"/>
   <depend project="jakarta-servletapi-4"/>
   <depend project="jta"/>
+  <option project="jdom"/>
   <option project="jmx"/>
   <option project="junit"/>
   <option project="jakarta-log4j"/>

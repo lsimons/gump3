@@ -7,7 +7,7 @@
 
   <cvs repository="tigris"/>
 
-  <ant basedir="build.xml"/>
+  <ant basedir="build"/>
 
   <depend project="jakarta-ant"/>
   <depend project="xml-xerces"/>
