@@ -1,8 +1,8 @@
 #!/usr/bin/python
 
-# $Header: /home/stefano/cvs/gump/python/gump/__init__.py,v 1.17 2003/10/29 18:36:31 ajack Exp $
-# $Revision: 1.17 $
-# $Date: 2003/10/29 18:36:31 $
+# $Header: /home/stefano/cvs/gump/python/gump/__init__.py,v 1.18 2003/11/17 22:10:51 ajack Exp $
+# $Revision: 1.18 $
+# $Date: 2003/11/17 22:10:51 $
 #
 # ====================================================================
 #
@@ -85,8 +85,6 @@ import shutil
 import string
 import sys
 import time
-import urllib
-import urlparse
 
 # python-2.3 or http://www.red-dove.com/python_logging.html
 import logging
@@ -94,206 +92,31 @@ import logging
 # base gump logger
 log = logging.getLogger(__name__)
 
-from gump.xmlutils import SAXDispatcher
-from gump.conf import dir, default, setting, switch
-from gump.utils import *
+from gump.config import dir, default, setting, switch
 
 ###############################################################################
 # Initialize
 ###############################################################################
 
 # tell Python what modules make up the gump package
-__all__ = ["conf", "launcher", "view", "build", "gen", "check", "update", 
-			"model", "xmlutils", "rss", "login", "statistics",
-			"document","tools"]
+__all__ = ["config", "integrate"]
 
+# init logging
+logging.basicConfig()
+
+#set verbosity to show all messages of severity >= default.logLevel
+log.setLevel(default.logLevel)
 
 # Ensure dirs exists,
-conf.basicConfig()
+config.basicConfig()
 
-
+#
 timestamp=os.path.join(dir.base,'.timestamp')
 if os.path.exists(timestamp):
   mtime=time.localtime(os.path.getmtime(timestamp))
   default.date = time.strftime('%Y%m%d',mtime)
-  
-#
-# Set the User Agent to be Gump...
-#
-class GumpURLopener(urllib.FancyURLopener):
-    def __init__(self, *args):
-        self.version = "Jakarta-Gump/"+setting.version
-        urllib.FancyURLopener.__init__(self, *args)
-
-urllib._urlopener = GumpURLopener()
 
 ###############################################################################
 # Functions
 ###############################################################################
-def gumpSafeName(name):
-  """returns a file system safe name"""
-  return urllib.quote_plus(name)
-  
-def gumpPath(path):
-  """returns the path absolutized relative to the base gump dir"""
 
-  return os.path.abspath(os.path.join(dir.base,path))
-
-def gumpCache(href):
-  """returns the path of the file in the href, cached if remote"""
-
-  #if it's a local file get it locally
-  if not href.startswith('http://'):
-    cachedHrefFile=gumpPath(href);
-  else:
-    log.debug('Cache url: ' + href)
-    if not os.path.exists(dir.cache):  os.mkdir(dir.cache)
-
-    #the name of the cached descriptor
-    quotedHref = urllib.quote_plus(href)
-    #the path of the cached descriptor
-    cachedHrefFile = dir.cache+'/'+quotedHref
-
-    #download the file if not present in the cache
-    usecached=0
-    if switch.optimize and switch.optimizenetwork:
-        if os.path.exists(cachedHrefFile):
-          log.info('Using cached descriptor for ' + href)
-          usecached=1
-          
-    if not usecached:
-      log.debug('Downloading (if date/timestamp changes) : '+href)      
-      try:
-        #
-        # urllib ought do some (timestamp oriented) caching also...
-        #
-        urllib.urlretrieve(href, cachedHrefFile)
-      except IOError, detail:
-        log.error('Failed to download ['+href+']. Details: ' + detail)
-        try:
-          os.remove(cachedHrefFile)
-        except:
-          log.debug('No faulty cached file to remove, or failed to remove.')
-      else: 
-         log.debug('...done')
-
-  return cachedHrefFile
-
-from gump.context import GumpContext
-
-def load(file, context=GumpContext()):
-  try:
-    return loadWorkspace(file, context)
-  except IOError, detail:
-    log.critical(detail)  
-    sys.exit(1)
-    
-def loadWorkspace(file, context=GumpContext()):
-  """Run a file through a saxdispatcher.
-
-    This builds a GOM in memory from the xml file. Return the generated GOM."""
-
-  if not os.path.exists(file):
-    log.error('workspace '+file+' not found')
-
-    raise IOError, """workspace %s not found!
-
-  You need to specify a valid workspace for Gump to run
-  If you are new to Gump, simply copy minimal-workspace.xml
-  to a file with the name of your computer (mycomputer.xml)
-  and rerun this program.""" % file 
-
-  from gump.model import Workspace, Repository, Module, Project, Profile
-  
-  Module.list={}
-  Project.list={}
-  Profile.list={}
-  Repository.list={}
-  
-  log.debug("SAXDispatcher on : " + file);
-    
-  workspace=SAXDispatcher(file,'workspace',Workspace).docElement
- 
-  if not workspace:
-    raise IOError, "Failed to load workspace" + file
-  
-  #
-  # Complete all entries
-  #
-  workspace.complete()
-  for repository in Repository.list.values(): repository.complete(workspace)
-  for module in Module.list.values(): module.complete(workspace)
-  for project in Project.list.values(): project.complete(workspace)
-  
-  
-    	# :TODO: Bad place for this, move?
-  context.buildMap()
-    
-  #context.tree()
-  #sys.exit(0)
-  
-  return workspace
-
-
-###############################################################################
-# Demonstration code
-###############################################################################
-
-if __name__=='__main__':
-  from gump.core import *
-
-  # init logging
-  logging.basicConfig()
-
-  #set verbosity to show all messages of severity >= default.logLevel
-  log.setLevel(default.logLevel)
-
-  print
-  print
-  print "               *** starting DEMO ***"
-
-  workspace=load(default.workspace)
-
-  print
-  print "workspace: "+default.workspace
-  print
-  print 'basedir:\t', workspace.basedir
-  print 'pkgdir:\t\t', workspace.pkgdir
-  for property in workspace.property: print 'Property:\t',property.name,property.value
-
-  print
-  print "*** JDBC ***"
-  print
-  jdbc=Project.list['jdbc']
-  print 'Package:\t', jdbc.package
-  for jar in jdbc.jar: print 'Jar:\t\t', jar.name, jar.id
-
-  print
-  print "*** Junit ***"
-  print
-
-  junit=Module.list['junit']
-  print 'Description:\t', junit.description
-  print 'Url:\t\t', junit.url.href
-  print 'Cvs:\t\t', junit.cvs.repository
-
-  junit=Project.list['junit']
-  print 'Package:\t', junit.package[0]
-  for depend in junit.depend: print 'Depend:\t\t',depend.project
-  for jar in junit.jar: print 'Jar:\t\t', jar.name, jar.id
-
-  print
-  print "*** Gump ***"
-  print
-  gump=Project.list['gump']
-  for depend in gump.depend: print 'Depend:\t\t',depend.project
-  ant=gump.ant
-  for property in ant.property: print 'Property:\t',property.name,property.value
-
-  print
-  print "*** krysalis-ruper-test ***"
-  print
-  krysalisrupertest=Project.list['krysalis-ruper-test']
-  for depend in krysalisrupertest.depend: print 'Depend:\t\t',depend.project
-  ant=krysalisrupertest.ant
-  for property in ant.property: print 'Property:\t',property.name,property.value

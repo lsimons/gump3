@@ -1,0 +1,31 @@
+<module name="module4">
+
+  <url  href="http://ant.apache.org/index.html"/>
+  <description>
+    Java based build tool
+  </description>
+
+  <cvs repository="repository1"/>
+
+  <project name="project4">
+    <package>org.apache.tools.ant</package>
+
+    <ant target="gump">
+      <property name="ant.home" reference="home" project="project1"/>
+    </ant>
+
+    <depend project="project1"/>
+    <depend project="project3"/>
+    <option project="random"/>
+
+    <home nested="dist"/>
+
+    <jar name="lib/output.jar" id="output"/>
+
+    <license name="LICENSE"/>
+
+    <nag from="Gump Integration Build &lt;dev@ant.apache.org&gt;"
+         to="dev@ant.apache.org"/>
+  </project>
+</module>
+

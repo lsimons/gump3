@@ -35,7 +35,7 @@ fi
 #
 # Calculated
 #
-export GUMPY_VERSION="1.0.4"
+export GUMPY_VERSION="1.0.5"
 export GUMP_PYTHON=$GUMP/python
 export GUMP_TMP=$GUMP/tmp
 export GUMP_WS_TMP=$GUMP_WS/tmp

@@ -1,0 +1,13 @@
+<profile name="gump">
+
+  <module href="project1.xml"/>
+  <module href="project2.xml"/>
+  <module href="project3.xml"/>
+  <module href="project4.xml"/>
+
+<!-- CVS Repository definitions -->
+
+  <repository href="repository.xml"/>
+
+</profile>
+

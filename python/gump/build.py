@@ -1,8 +1,8 @@
 #!/usr/bin/python
 
-# $Header: /home/stefano/cvs/gump/python/gump/build.py,v 1.35 2003/11/05 19:42:00 ajack Exp $
-# $Revision: 1.35 $
-# $Date: 2003/11/05 19:42:00 $
+# $Header: /home/stefano/cvs/gump/python/gump/build.py,v 1.36 2003/11/17 22:10:51 ajack Exp $
+# $Revision: 1.36 $
+# $Date: 2003/11/17 22:10:51 $
 #
 # ====================================================================
 #
@@ -77,12 +77,10 @@ from gump.logic import getBuildSequenceForProjects, getBuildCommand, \
         getMkDirCommand, getDeleteCommand, \
         getProjectsForProjectExpression, getModulesForProjectList, \
         hasOutputs
-from gump.repository import JarRepository
 from gump.conf import dir, default, handleArgv
 from gump.model import Workspace, Module, Project
 from gump.launcher import Cmd, CmdResult, execute
 from gump.utils import dump
-from gump.tools import listDirectoryAsWork, syncDirectories
 
 ###############################################################################
 # Initialize
@@ -92,204 +90,3 @@ from gump.tools import listDirectoryAsWork, syncDirectories
 ###############################################################################
 # Functions
 ###############################################################################
-
-def build(workspace, expr='*', context=GumpContext()):
-  """ Build a expression of projects """
-
-  projects=getProjectsForProjectExpression(expr)
-  
-  # if the project is not there, exit with error
-  if not projects:
-    print
-    print "The project expresion '"+expr+"' does not match the workspace's projects."
-    print "Available projects:"
-    for p in Project.list:
-        print "  - " + p
-    return 1
-
-  return buildProjectList(workspace,projects,context)
-  
-def buildProjectList(workspace, projects, context):
-  """ Build a expression of projects """
-        
-  log.debug('Requests Projects')
-  for p in projects:
-    log.debug('  Requested : ' + p.name)
-    
-  sequence=getBuildSequenceForProjects(projects)
-
-  return buildProjectSequence(workspace,sequence,context)
-  
-def buildProjectSequence(workspace,sequence,context):
-    
-  log.debug('Total Project Sequence (i.e. build order):');
-  for p in sequence:
-    log.debug('  Sequence : ' + p.name)
-
-  # build
-  buildProjects( workspace, sequence, context )
-  
-  return context.status
-
-
-def buildProjects( workspace, sequence, context ):
-  """actually perform the build of the specified project and its deps"""
-
-  log.debug('--- Building work directories with sources')
-
-  # Place repository in jardir (to be renamed to repodir)
-  repository=JarRepository(workspace.jardir)
-
-  # build all projects this project depends upon, then the project itself
-  for project in sequence:
-
-    (mctxt,pctxt) = context.getContextsForProject(project)
-    
-    if pctxt.okToPerformWork() and Module.list.has_key(project.module) :
-        
-        # Get the module object given the module name,
-        # which is gotten from the project
-        module=Module.list[project.module]
-
-        log.debug(' ------ Performing pre-Build Actions (mkdir/delete) for : '+ module.name + ':' + project.name)
-
-        performPreBuild( workspace, context, mctxt, module, pctxt, project )
-
-        if pctxt.okToPerformWork():
-        
-            log.debug(' ------ Building: '+ module.name + ':' + project.name)
-
-            cmd=getBuildCommand(workspace,module,project,context)
-
-            if cmd:
-                # Execute the command ....
-                cmdResult=execute(cmd,workspace.tmpdir)
-    
-                # Update Context    
-                work=CommandWorkItem(WORK_TYPE_BUILD,cmd,cmdResult)
-                pctxt.performedWork(work)
-            
-                # Update Context w/ Results  
-                if not cmdResult.status==CMD_STATUS_SUCCESS:
-                    reason=REASON_BUILD_FAILED
-                    if cmdResult.status==CMD_STATUS_TIMED_OUT:
-                        reason=REASON_BUILD_TIMEDOUT
-                    pctxt.propagateErrorState(STATUS_FAILED,reason)
-                else:
-                    if hasOutputs(project,pctxt):
-                        outputsOk=1
-                        for i in range(0,len(project.jar)):
-                            jar=os.path.normpath(project.jar[i].path)
-                            if jar:
-                                if not os.path.exists(jar):
-                                    pctxt.propagateErrorState(STATUS_FAILED,REASON_MISSING_OUTPUTS)
-                                    outputsOk=0
-                                    pctxt.addError("Missing Output: " + str(jar))
-                            
-                        if outputsOk: 
-                            for i in range(0,len(project.jar)):
-                                jar=os.path.normpath(project.jar[i].path)
-                                # Copy to repository
-                                repository.publish( module.name, jar )
-            
-                            pctxt.status=STATUS_SUCCESS  
-                    
-                            # For 'fun' list repository
-                            listDirectoryAsWork(pctxt,repository.getGroupDir(module.name), \
-                                                'list_repo_'+project.name) 
-                    
-                        else:
-                            #
-                            # List all directories that should've contained
-                            # outputs, to see what is there.
-                            #
-                            dirs=[]
-                            dircnt=0
-                            for i in range(0,len(project.jar)):
-                                jar=os.path.normpath(project.jar[i].path)
-                                if jar:
-                                    dir=os.path.dirname(jar)
-                                    if not dir in dirs and os.path.exists(dir):
-                                        dircnt += 1
-                                        listDirectoryAsWork(pctxt,dir,\
-                                            'list_'+project.name+'_dir'+str(dircnt)+'_'+os.path.basename(dir))
-                                        dirs.append(dir)
-                                    else:
-                                        pctxt.addWarning("No such directory (where output is expect) : " + dir)
-                    else:
-                        pctxt.status=STATUS_SUCCESS  
-    
-            if not pctxt.okToPerformWork():
-                log.warn('Failed to build project [' + pctxt.name + ']')
-            
-
-def performPreBuild( workspace, context, mctxt, module, pctxt, project ):
-    """ Perform pre-build Actions """
-    
-    # Deletes...
-    dels=0
-    for delete in project.delete:
-        cmd=getDeleteCommand(workspace,context,module,project,delete,dels)
-
-        # Execute the command ....
-        cmdResult=execute(cmd,workspace.tmpdir)
-    
-        # Update Context    
-        work=CommandWorkItem(WORK_TYPE_PREBUILD,cmd,cmdResult)
-        pctxt.performedWork(work)
-            
-        # Update Context w/ Results  
-        if not cmdResult.status==CMD_STATUS_SUCCESS:
-            pctxt.propagateErrorState(STATUS_FAILED,REASON_PREBUILD_FAILED)
-        else:
-            dels+=1
-            pctxt.status=STATUS_SUCCESS  
-                
-    # MkDirs...
-    mkdirs=0
-    for mkdir in project.mkdir:   
-        cmd=getMkDirCommand(workspace,context,module,project,mkdir,mkdirs)
-
-        # Execute the command ....
-        cmdResult=execute(cmd,workspace.tmpdir)
-    
-        # Update Context    
-        work=CommandWorkItem(WORK_TYPE_PREBUILD,cmd,cmdResult)
-        pctxt.performedWork(work)
-            
-        # Update Context w/ Results  
-        if not cmdResult.status==CMD_STATUS_SUCCESS:
-            pctxt.propagateErrorState(STATUS_FAILED,REASON_PREBUILD_FAILED)
-        else:
-            mkdirs+=1
-            pctxt.status=STATUS_SUCCESS  
-                
-    if not pctxt.okToPerformWork():
-        log.warn('Failed to perform prebuild on project [' + pctxt.name + ']')
-        
-# static void main()
-if __name__=='__main__':
-
-  # init logging
-  logging.basicConfig()
-
-  #set verbosity to show all messages of severity >= default.logLevel
-  log.setLevel(default.logLevel)
-
-  args = handleArgv(sys.argv)
-  ws=args[0]
-  ps=args[1]
-  
-  # A context to work into...
-  context=GumpContext()
-  
-  # get parsed workspace definition
-  workspace=load(ws,context)
-
-  #
-  # Perform build tasks
-  #
-  result = build(workspace, ps, context)
-
-  # bye!
-  sys.exit(result)

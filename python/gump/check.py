@@ -1,8 +1,8 @@
 #!/usr/bin/python
 
-# $Header: /home/stefano/cvs/gump/python/gump/check.py,v 1.32 2003/11/02 21:45:59 ajack Exp $
-# $Revision: 1.32 $
-# $Date: 2003/11/02 21:45:59 $
+# $Header: /home/stefano/cvs/gump/python/gump/check.py,v 1.33 2003/11/17 22:10:50 ajack Exp $
+# $Revision: 1.33 $
+# $Date: 2003/11/17 22:10:50 $
 #
 # ====================================================================
 #
@@ -68,14 +68,14 @@ import sys
 import traceback
 import logging
 
-from gump import log, load
+from gump import log
 from gump.logic import getBuildSequenceForProjects, getProjectsForProjectExpression
-from gump.conf import dir, default, handleArgv, banner
+from gump.config import dir, default, handleArgv,
 from gump.model import Workspace, Module, Project
-from gump.context import GumpContext, CommandWorkItem, WORK_TYPE_CHECK, STATUS_SUCCESS
+from gump.context import Workspace, CommandWorkItem, WORK_TYPE_CHECK, STATE_SUCCESS
 from gump.tools import tailFileToString
 
-from gump.launcher import getCmdFromString, execute, CMD_STATUS_SUCCESS
+from gump.launcher import getCmdFromString, execute
 
 ###############################################################################
 # Initialize
@@ -85,136 +85,7 @@ from gump.launcher import getCmdFromString, execute, CMD_STATUS_SUCCESS
 ###############################################################################
 # Functions
 ###############################################################################
-def checkEnvironment(workspace, context=GumpContext(), exitOnError=1):
-    """ Check Things That are Required """
-    
-    #
-    # :TODO: Complete this, it ought be an important early warning...
-    #
-    
-    
-    #:TODO: Take more from runAnt.py on:
-    # - ANT_OPTS?
-    # - How to ensure lib/tools.jar is in classpath
-    # - Others?
-    
-    #
-    #	Directories...
-    
-    
-    #
-    # JAVACMD can be set (perhaps for JRE verse JDK)
-    #
-    if os.environ.has_key('JAVACMD'):        
-        context.javaCommand  = os.environ['JAVACMD']
-        context.addInfo('JAVACMD environmental variable setting java command to ' \
-            + context.javaCommand )
-    
-    
-    #	Envs:
-    #	JAVA_HOME for bootstrap ant?
-    #	CLASSPATH
-    #	FORREST_HOME?
-    
-    if not checkEnvVariable(workspace, context, 'JAVA_HOME',0):    
-        context.noJavaHome=1    
-        context.addWarning('JAVA_HOME environmental variable not found. Might not be needed.')
-                
-    if not checkEnvVariable(workspace, context, 'CLASSPATH',0):    
-        context.noClasspath=1    
-        context.addWarning('CLASSPATH environmental variable not found. Might not be needed.')
-                
-    if not checkEnvVariable(workspace, context, 'FORREST_HOME',0): 
-        context.noForrest=1
-        context.addWarning('FORREST_HOME environmental variable not found, no xdoc output')
-        
-    #
-    # Check for executables:
-    #
-    #	java
-    #	javac (for bootstrap ant & beyond)
-    #	cvs
-    #
-    #	These ought set a switch..
-    #
-    #	rsync or cp
-    #	forrest (for documentation)
-    #
-    checkExecutable(workspace, context, 'env','',0)
-    checkExecutable(workspace, context, context.javaCommand,'-version',exitOnError,1)
-    checkExecutable(workspace, context, 'javac','-help',exitOnError)
-    checkExecutable(workspace, context, 'java com.sun.tools.javac.Main','-help',exitOnError,0,'check_java_compiler')    
-    checkExecutable(workspace, context, 'cvs','--version',exitOnError)
-    if not context.noForrest and not checkExecutable(workspace, context, 'forrest','-projecthelp',0): 
-        context.noForrest=1
-        context.addWarning('"forrest" command not found, no xdoc output')
-        
-    if not checkExecutable(workspace, context, 'rsync','-help',0): 
-        context.noRSync=1
-        context.addWarning('"rsync" command not found, so attempting recursive copy "cp -R"')
-        
-    if not checkExecutable(workspace, context, 'pgrep','-help',0): 
-        context.noPGrep=1
-        context.addWarning('"pgrep" command not found, no process clean-ups can occur')        
-    
-    context.setState(STATUS_SUCCESS);
-    
-def checkExecutable(workspace,context,command,options,mandatory,logOutput=0,name=None):
-    ok=0
-    try:
-        if not name: name='check_'+command
-        cmd=getCmdFromString(command+" "+options,name)
-        result=execute(cmd)
-        ok=result.status==CMD_STATUS_SUCCESS 
-        if not ok:
-            log.error('Failed to detect [' + command + ']')   
-    except Exception, details:
-        ok=0
-        log.error('Failed to detect [' + command + '] : ' + str(details))
-        result=None
-       
-    # Update Context
-    context.performedWork(CommandWorkItem(WORK_TYPE_CHECK,cmd,result))
-        
-    if not ok and mandatory:
-        banner()
-        print
-        print " Unable to detect/test mandatory [" + command+ "] in path (see next)."
-        for p in sys.path:
-            print "  " + str(os.path.normpath(p))
-        sys.exit(2)
-        
-    if logOutput and result.output:
-        out=tailFileToString(result.output,10)
-        context.addInfo(name + ' produced: \n' + out)
-            
-    return ok
-    
-def checkEnvVariable(workspace, context,env,mandatory=1):
-    ok=0
-    try:
-        ok=os.environ.has_key(env)
-        if not ok:
-            log.error('Failed to find environment variable [' + env + ']')
-        
-    except Exception, details:
-        ok=0
-        log.error('Failed to find environment variable [' + env + '] : ' + str(details))
-    
-    if not ok and mandatory:
-        banner()
-        print
-        print " Unable to find mandatory [" + env + "] in environment (see next)."
-        for e in os.environ.keys():
-            try:
-                v=os.environ[e]
-                print "  " + e + " = " + v
-            except:
-                print "  " + e 
-        sys.exit(3)
-    
-    return ok
-    
+
 def check(workspace, expr='*', context=GumpContext(),display=1):
   """dump all dependencies to build a project to the output"""
 

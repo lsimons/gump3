@@ -1,0 +1,411 @@
+#!/usr/bin/env python
+
+# $Header: /home/stefano/cvs/gump/python/gump/model/module.py,v 1.1 2003/11/17 22:10:49 ajack Exp $
+# $Revision: 1.1 $
+# $Date: 2003/11/17 22:10:49 $
+#
+# ====================================================================
+#
+# The Apache Software License, Version 1.1
+#
+# Copyright (c) 2003 The Apache Software Foundation.  All rights
+# reserved.
+#
+# Redistribution and use in source and binary forms, with or without
+# modification, are permitted provided that the following conditions
+# are met:
+#
+# 1. Redistributions of source code must retain the above copyright
+#    notice, this list of conditions and the following disclaimer.
+#
+# 2. Redistributions in binary form must reproduce the above copyright
+#    notice, this list of conditions and the following disclaimer in
+#    the documentation and/or other materials provided with the
+#    distribution.
+#
+# 3. The end-user documentation included with the redistribution, if
+#    any, must include the following acknowlegement:
+#       "This product includes software developed by the
+#        Apache Software Foundation (http://www.apache.org/)."
+#    Alternately, this acknowlegement may appear in the software itself,
+#    if and wherever such third-party acknowlegements normally appear.
+#
+# 4. The names "The Jakarta Project", "Alexandria", and "Apache Software
+#    Foundation" must not be used to endorse or promote products derived
+#    from this software without prior written permission. For written
+#    permission, please contact apache@apache.org.
+#
+# 5. Products derived from this software may not be called "Apache"
+#    nor may "Apache" appear in their names without prior written
+#    permission of the Apache Group.
+#
+# THIS SOFTWARE IS PROVIDED ``AS IS'' AND ANY EXPRESSED OR IMPLIED
+# WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
+# OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+# DISCLAIMED.  IN NO EVENT SHALL THE APACHE SOFTWARE FOUNDATION OR
+# ITS CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+# SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+# LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF
+# USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
+# ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
+# OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT
+# OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
+# SUCH DAMAGE.
+# ====================================================================
+#
+# This software consists of voluntary contributions made by many
+# individuals on behalf of the Apache Software Foundation.  For more
+# information on the Apache Software Foundation, please see
+# <http://www.apache.org/>.
+
+"""
+    This module contains information on
+"""
+
+from time import localtime, strftime, tzname
+from string import lower, capitalize
+
+from gump.model.state import *
+from gump.model.project import *
+from gump.model.object import NamedModelObject
+from gump.utils import getIndent
+
+class ModuleCVS(ModelObject):
+    def __init__(self,xml,repository):
+        ModelObject.__init__(self,xml)
+        
+        self.repository=repository
+        
+        # Extract settings
+        self.tag			=	xml.tag
+        self.module			=	xml.module
+        self.hostPrefix 	=   xml['host-prefix']
+        self.dir			=	xml.dir    
+                
+    def getCVSRoot(self):
+        # Form the CVS root
+        root=':' + str(self.repository.getMethod()) + ':'
+        if self.repository.hasUser(): root+=str(self.repository.getUser())
+        # Forge the hostname
+        if self.repository.hasHostname():
+            root+='@'
+            if self.hostPrefix: root+=self.hostPrefix+'.'      
+            root+=str(self.repository.getHostname()) + ':'
+            # :TODO: Allow users to override default port
+            if str(self.repository.getMethod())=='pserver': root+='2401'
+        root+=str(self.repository.getPath())
+        
+        # If a subdirect
+        if self.dir: root+='/'+str(self.dir)
+
+        return root
+    
+    def hasTag(self):
+        return self.getTag()
+        
+    def getTag(self):
+        return self.tag
+        
+    def hasHostPrefix(self):
+        return self.getHostPrefix()
+        
+    def getHostPrefix(self):
+        return self.tag
+        
+    def hasDir(self):
+        return self.getDir()
+        
+    def getDir(self):
+        return self.dir
+    
+    def hasModule(self):
+        return self.getModule()
+        
+    def getModule(self):
+        return self.module
+        
+ 
+def createUnnamedModule(workspace):
+    #
+    # Create an Unnamed Module (for projects not in modules)
+    #
+    from gump.model.rawmodel import XMLModule
+    unnamedXML=XMLModule({'name':'Anonymous'})
+    unnamedModule=Module(unnamedXML,workspace)
+    unnamedModule.complete(workspace)
+    return unnamedModule
+        
+class Module(NamedModelObject):
+    """Set of Modules (which contain projects)"""
+    def __init__(self,xml,workspace):
+    	NamedModelObject.__init__(self,xml.getName(),xml,workspace)
+            	
+    	self.totalDepends=[]
+    	self.totalDependees=[]
+    	
+    	self.workspace=workspace 
+    	self.projects={}
+    	
+    	self.repository=None
+
+    # provide default elements when not defined in xml
+    def complete(self,workspace):
+      
+        # We have a CVS entry, expand it...
+        if self.xml.cvs:
+            repoName=self.xml.cvs.repository
+            if workspace.hasRepository(repoName):
+                # It references this repository...
+                repo=workspace.getRepository(repoName)
+                self.repository=repo
+                repo.addModule(self)
+                self.cvs=ModuleCVS(self.xml.cvs,repo)
+      
+                    # Populate defaults...
+                if self.xml.tag: self.cvs.tag=self.xml.tag    
+                if not self.xml.cvs.module: self.cvs.module=self.name
+
+            else:
+                log.error(':TODO: No such repository in w/s ['+ repoName +'] on [' \
+                        + self.getName() + ']')
+            
+    
+        # Determine source directory
+        self.srcdir=self.xml.srcdir or self.xml.name        
+        self.absSrcDir=os.path.join(workspace.getBaseDirectory(),self.srcdir)
+        
+        # Claim ownership
+        for xmlproject in self.xml.project:
+            if workspace.hasProject(xmlproject.name):
+                project=workspace.getProject(xmlproject.name)
+                self.addProject(project)
+            else:
+                log.error(':TODO: No such project in w/s ['+ `xmlproject.name` +'] on [' \
+                        + self.getName() + ']')
+            
+
+
+    def addProject(self,project):
+        project.setModule(self)
+        self.projects[project.getName()]=project
+                     
+    def getProject(self,projectname):
+        return self.projects[projectname]
+        
+    def getProjects(self):
+        return self.projects.values()
+  
+    def getChildren(self):
+        return self.getProjects()
+        
+    #
+    # Get a full list of all the projects that depend
+    # upon projects in this module 
+    #
+    def getDependees(self):   
+        # Calculated once only...
+        if self.totalDependees: return self.totalDependees
+                
+        for project in self.getProjects():
+            if not project in self.totalDependees:
+                self.totalDependees.append(project)
+                for dependee in project.getDependees():
+                    dependeeProject=dependee.getProject()
+                    if not dependeeProject in self.totalDependees:
+                        self.totalDependees.append(dependeeProject)   
+                        
+        # Sort for prettiness...                     
+        self.totalDependees.sort()
+        return self.totalDependees
+            
+    def dependeeCount(self):         
+        return len(self.getDependees())   
+            
+    def getDepends(self):   
+        if self.totalDepends: return self.totalDepends
+                
+        for project in self.getProjects():
+            if not project in self.totalDepends:
+                self.totalDepends.append(project)
+                for depend in project.getDependencies():
+                    dependProject=depend.getProject()
+                    if not dependProject in self.totalDepends:
+                        self.totalDepends.append(dependProject)                        
+        self.totalDepends.sort()
+        return self.totalDepends
+            
+    def dependencyCount(self):         
+        return len(self.getDepends())   
+        
+    def getFOGFactor(self):
+        fogFactor=0
+        fogFactors=0
+        for project in self.getProjects():
+                projectFOGFactor = project.getFOGFactor()
+                fogFactor += projectFOGFactor
+                fogFactors += 1
+                
+        if not fogFactors:
+            fogFactors=1 # 0/1 is better than 0/0
+            
+        return round(fogFactor/fogFactors,2)
+         
+    # Get a summary of states for each project
+    def getProjectSummary(self,summary=None):  
+    
+        # Fails 'ocs count into other's summary
+        # if hasattr(self,'summary'): return self.summary
+        
+        if not summary: 
+            summary=ProjectSummary()
+        
+        #
+        # Subordinates are projects, so get their summary
+        #
+        for project in self.getProjects():
+            summary.addState(project.getStatePair())
+        
+        # Fails, see above.
+        # Store for later...
+        # self.summary = summary
+        
+        return summary
+           
+    def determineAffected(self):
+        affected=0
+        
+        # Get all dependenees (optional/otherwise)
+        dependees=self.getDependees()
+        
+        # Look through all dependees
+        for project in dependees:
+            cause=project.getCause()
+            #
+            # Something caused this some grief
+            #
+            if cause:
+                #
+                # The something was this module or one of it's projects
+                #
+                if cause == self or cause in self.getProjects():
+                    affected += 1            
+        
+        return affected
+                   
+    def getProjectStatistics(self,db=None):
+        if not hasattr(self,'stats'):
+            # Load the DB, if not loaded
+            if not db:
+                db=StatisticsDB()
+            # Extract from project statistics DB
+            stats=db.getProjectStats(pctxt.name)
+            self.stats=stats
+            
+        return self.stats                
+    
+    def dump(self, indent=0, output=sys.stdout):
+        output.write(getIndent(indent)+'Module : ' + self.name + '\n')
+        
+    def getSourceDirectory(self):
+        return self.absSrcDir
+        
+    def getSourceDirName(self):
+        return self.srcdir
+        
+    def hasURL(self):
+        return self.getURL()
+        
+    def getURL(self):
+        if self.xml.url and self.xml.url.href: return str(self.xml.url.href)
+        
+    def hasDescription(self):
+        return str(self.xml.description)   
+        
+    def getDescription(self):
+        return str(self.xml.description)        
+        
+    def getWorkspace(self):
+        return self.workspace
+    
+    def isCVS(self):
+        return hasattr(self,'cvs') and self.cvs
+    
+    def hasRepository(self):
+        return self.repository
+        
+    def getRepository(self):
+        return self.repository
+        
+    def getUpdateCommand(self,exists=0):
+        if self.isCVS():
+            return self.getCvsUpdateCommand(exists)
+        
+        #:TODO: SubVersion
+        pass
+           
+    def getCvsUpdateCommand(self,exists=0):
+        
+        log.debug("CVS Update Module " + self.getName() + \
+                       ", Repository Name: " + str(self.repository.getName()))
+                                        
+        root=self.cvs.getCVSRoot()
+      
+        log.debug("CVS Root " + root + " on Repository: " + self.repository.getName())
+     
+        #
+        # Prepare CVS checkout/update command...
+        # 
+        cmd=Cmd('cvs','update_'+self.getName(),self.getWorkspace().cvsdir)
+          
+        #
+        # Be 'quiet' (but not silent) unless requested otherwise.
+        #
+        if 	not self.isDebug() 	\
+            and not self.isVerbose() \
+            and not self.cvs.isDebug()	\
+            and not self.cvs.isVerbose():    
+            cmd.addParameter('-q')
+          
+        #
+        # Allow trace for debug
+        #
+        if self.isDebug():
+            cmd.addParameter('-t')
+          
+        #
+        # Request compression
+        #
+        cmd.addParameter('-z3')
+          
+        #
+        # Set the CVS root
+        #
+        cmd.addParameter('-d', root)
+    
+        if exists:
+
+            # do a cvs update
+            cmd.addParameter('update')
+            cmd.addParameter('-P')
+            cmd.addParameter('-d')
+            if self.cvs.hasTag():
+                cmd.addParameter('-r',self.cvs.getTag(),' ')
+            else:
+                cmd.addParameter('-A')
+                cmd.addParameter(self.getName())
+
+        else:
+
+            # do a cvs checkout
+            cmd.addParameter('checkout')
+            cmd.addParameter('-P')
+            if self.cvs.hasTag():
+                cmd.addParameter('-r',self.cvs.getTag(),' ')
+
+        if self.cvs.hasModule():
+            if self.cvs.getModule()<>self.getName(): 
+                cmd.addParameter('-d',self.getName(),' ')
+            cmd.addParameter(self.cvs.getModule())
+        
+        return (self.repository, root, cmd)
+   
