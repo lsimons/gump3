@@ -27,6 +27,13 @@ from xml.dom import minidom
 
 from gump.model import *
 
+import types # TODO: move into utility module
+try:
+    _StringTypes = [types.StringType, types.UnicodeType]
+except AttributeError:
+    _StringTypes = [types.StringType]
+
+
 class ModellerError(Exception):
     """Generic error thrown for all internal Modeller module exceptions."""
     pass
@@ -70,7 +77,7 @@ class Loader:
     
     Of course, other parts of the modeller package are not so tolerant!
     """
-    def __init__(self, log, vfs=None, mergefile=None, dropfile=None):
+    def __init__(self, log, vfs=None, merge_file_or_stream=None, drop_file_or_stream=None):
         """
         Create a new Loader.
 
@@ -82,15 +89,27 @@ class Loader:
                      any hrefs.
             - mergefile -- the full path to the file to write the merged
                            workspace xml to. If None, no such file will be
-                           written.
+                           written. Alternatively can be a stream.
             - dropfile -- the full path to the file to write the xml
                            describing dropped projects to. If None, no such
-                           file will be written.
+                           file will be written. Alternatively can be a
+                           stream.
         """
         self.log = log
         self.vfs = vfs
-        self.mergefile = mergefile
-        self.dropfile = dropfile
+        self.mergestream = self._open_file_or_stream(merge_file_or_stream)
+        self.dropstream = self._open_file_or_stream(drop_file_or_stream)
+    
+    def _open_file_or_stream(self, file_or_stream): # TODO: move into utility module
+        """Utility for accepting both filenames and streams.
+        
+        If the argument is a string, attempts to open the specified file and
+        return a reference to the open file. Otherwise, returns the argument.
+        """
+        if type(file_or_stream) in _StringTypes:
+            return open(file_or_stream, 'w')
+        else:
+            return file_or_stream
 
     def get_workspace_tree(self, workspace):
         """Parse the provided workspace, then resolve all hrefs.
@@ -290,20 +309,18 @@ class Loader:
         Also writes an XML file detailing any projects and modules that were
         dropped because of a HREF resolution issue.
         """
-        if self.mergefile:
-            merged = open(self.mergefile, 'w')
-            merged.write( wsdom.toprettyxml() )
-            merged.close()
+        if self.mergestream:
+            self.mergestream.write( wsdom.toprettyxml() )
+            self.mergestream.close()
         
-        if self.dropfile and len(dropped_nodes) > 0:
+        if self.dropstream and len(dropped_nodes) > 0:
             impl = dom.getDOMImplementation()
             dropdoc = impl.createDocument(None, "dropped-projects-and-modules", None)
             dropdocroot = dropdoc.documentElement
             for node in dropped_nodes:
                 dropdocroot.appendChild(node)
-            dropped = open(self.dropfile, 'w')
-            dropped.write( dropdoc.toprettyxml() )
-            dropped.close()        
+            self.dropstream.write( dropdoc.toprettyxml() )
+            self.dropstream.close()        
 
 class Objectifier:
     """Turns DOM workspace into Pythonified workspace."""
