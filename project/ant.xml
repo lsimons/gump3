@@ -55,7 +55,7 @@
 
     <license name="LICENSE"/>
 
-    <nag from="Gump Integration Build &lt;dev@ant.apache.org&gt;"
+    <nag from="Gump Integration Build &lt;bodewig@apache.org&gt;"
          to="dev@ant.apache.org"/>
   </project>
 
@@ -109,7 +109,7 @@
 
     <javadoc nested="build/javadocs" project="ant"/>
 
-    <nag from="Gump Integration Build &lt;dev@ant.apache.org&gt;"
+    <nag from="Gump Integration Build &lt;bodewig@apache.org&gt;"
          to="dev@ant.apache.org"/>
   </project>
 
@@ -124,7 +124,7 @@
     <home nested="build/lib"/>
     <jar name="ant-testutil.jar" id="ant-testutil"/>
 
-    <nag from="Gump Integration Build &lt;dev@ant.apache.org&gt;"
+    <nag from="Gump Integration Build &lt;bodewig@apache.org&gt;"
          to="dev@ant.apache.org"/>
   </project>
 
@@ -144,7 +144,7 @@
     <work nested="src/testcases"/>
     <work nested="src/etc/testcases"/>
 
-    <nag from="Gump Integration Build &lt;dev@ant.apache.org&gt;"
+    <nag from="Gump Integration Build &lt;bodewig@apache.org&gt;"
          to="dev@ant.apache.org"
          subject="Test Failure - Ant"/>
   </project>
@@ -158,7 +158,7 @@
     <jar name="lib/ant.jar"/>
     <jar name="lib/ant-launcher.jar" id="ant-launcher"/>
 
-    <nag from="Gump Integration Build &lt;dev@ant.apache.org&gt;"
+    <nag from="Gump Integration Build &lt;bodewig@apache.org&gt;"
          to="dev@ant.apache.org"
          subject="Bootstrap Failure - Ant">
       <regexp pattern="/error/"/>
