@@ -9,13 +9,15 @@
   
   <project name="xmlunit">
     <package>org.custommonkey.xmlunit</package>
-    <ant target="dist"/>
+    <ant target="dist">
+      <property name="version" value="@@DATE@@" />
+    </ant>
     <depend project="jakarta-ant"/>
     <depend project="xml-xerces"/>
     <depend project="xml-xalan2"/>
     <depend project="junit"/>
     <work nested="classes"/>
-    <jar name="lib/xmlunit.jar"/>
+    <jar name="lib/xmlunit@@DATE@@.jar"/>
     <nag from="Sam Ruby &lt;rubys@us.ibm.com&gt;"
          to="timbacon@users.sourceforge.net"/>
   </project>
