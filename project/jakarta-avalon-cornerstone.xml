@@ -25,8 +25,8 @@
   <depend project="jakarta-avalon-testlet"/>
   <depend project="jakarta-avalon-phoenix"/>
   <option project="jsse"/>
-  <depend project="xml-stylebook"/>
-  <depend project="xml-xalan1"/>
+  <depend project="xml-stylebook2"/>
+  <depend project="xml-xalan2"/>
 
   <home nested="build/lib"/>
   <jar name="cornerstone.bar"/>
