@@ -432,6 +432,7 @@
             <depend property="xalan.jar" project="xml-xalan2"/>
 
             <!-- optional dependencies -->
+            <property name="bcel.jar" project="jakarta-bcel" reference="jarpath"/>
             <property name="checkstyle.jar" project="checkstyle" reference="jarpath"/>
 
             <property name="version" value="@@DATE@@"/>
@@ -443,10 +444,10 @@
         <!-- build-time dependencies -->
         <depend project="ant" inherit="runtime"/>
         <depend project="xml-xerces"/>
-        <depend project="jakarta-bcel" inherit="runtime"/>
 
         <!-- optional dependencies -->
         <option project="checkstyle" inherit="runtime"/>
+        <option project="jakarta-bcel" inherit="runtime" runtime="true"/>
 
         <work nested="fortress/build/classes"/>
         <work nested="fortress/build/testclasses"/>

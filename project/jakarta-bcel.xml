@@ -14,7 +14,7 @@
 
     <depend project="bootstrap-ant" inherit="runtime"/>
     <depend project="xml-xerces"/>
-    <depend project="jakarta-regexp"/>
+    <depend project="jakarta-regexp" runtime="true"/>
 
     <jar name="bin/bcel.jar"/>
 
