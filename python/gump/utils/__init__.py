@@ -331,8 +331,7 @@ def getBeanAttributes(bean):
     for name in bean.__class__.__dict__:
         if name.startswith('__') and name.endswith('__'): continue
         accessor=getattr(bean,name)            
-        # avoid nulls, metadata, and methods other than (is|get)*
-        if not accessor: continue
+        # avoid metadata, non-methods, methods other than (is|get)*
         if isinstance(accessor,types.TypeType): continue
         # Ignore non-methods
         if not isinstance(accessor,types.MethodType): continue        

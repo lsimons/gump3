@@ -55,6 +55,8 @@ class GumpEnvironment(Annotatable,Workable,Propogatable):
         #
     	# Set to true if not found, see checkEnvironment
     	#
+    	self.checked=0
+    	
     	self.noForrest=0    
     	self.noMaven=0    	
     	self.noUpdate=0    	
@@ -80,6 +82,8 @@ class GumpEnvironment(Annotatable,Workable,Propogatable):
         
     def checkEnvironment(self,exitOnError=0):
         """ Check Things That are Required """
+        
+        if self.checked: return
     
         #
         # :TODO: Complete this, it ought be an important early warning...
@@ -179,12 +183,16 @@ class GumpEnvironment(Annotatable,Workable,Propogatable):
             self.noPGrep=1
             self.addWarning('"pgrep" command not found, no process clean-ups can occur')        
     
+    
+        self.checked=1
+        
         self.changeState(STATE_SUCCESS)
     
     def getJavaProperties(self):
         if self.javaProperties: return self.javaProperties
 
         self.checkEnvironment()
+        
         if self.noJavac: return {}
 
         import commands, re
