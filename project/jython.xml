@@ -10,7 +10,8 @@
   <cvs repository="sourceforge" host-prefix="cvs.jython" dir="jython"/>
 
   <project name="jython">
-    <ant>
+    <mkdir dir="dist" />
+    <ant target="jar">
       <property name="javaccHome2" project="javacc" path="bin/lib"/>
     </ant>
 
@@ -20,7 +21,7 @@
     <option project="jakarta-servletapi"/>
     <option project="jdbc"/>
 
-    <jar  name="jython.jar"/>
+    <jar  name="dist/jython.jar"/>
   </project>
 
 </module>
