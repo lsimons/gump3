@@ -242,13 +242,14 @@ class ForrestDocumenter(Documenter):
     def syncXDocs(self,workspace):
         
         
-        # The three dirs, work, output (staging), public
+        # The move contents/xdocs from work directory to log
         forrestWorkDir=self.getForrestWorkDirectory(workspace)
         logDirectory=workspace.getLogDirectory()
         
-        
-        workContents=os.path.abspath(os.path.join(forrestWorkDir,'contents'))
-        logContents=os.path.abspath(os.path.join(logDirectory,'contents'))
+        # .. but only the stuff under 'content', so as not to
+        # break the webapp.
+        workContents=os.path.abspath(os.path.join(forrestWorkDir,'content'))
+        logContents=os.path.abspath(os.path.join(logDirectory,'content'))
         
         log.info('Syncronize work->log, and clean-up...')
             
