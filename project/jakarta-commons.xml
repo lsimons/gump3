@@ -237,6 +237,8 @@
   <project name="commons-latka">
     <package>org.apache.commons.latka</package>
     <description>Functional Testing Suite</description>
+    <mkdir dir="latka/target/classes"/>
+    <mkdir dir="latka/target/test-classes"/>
     <ant basedir="latka" target="dist">
       <property name="jaxen.jar" reference="jar" project="jaxen"/>
     </ant>
@@ -252,6 +254,8 @@
     <depend project="dom4j"/>
     <depend project="commons-jelly"/>
     <option project="jaxen" inherit="runtime"/>
+    <work nested="latka/target/classes"/>
+    <work nested="latka/target/test-classes"/>
     <home nested="latka/dist"/>
     <jar name="commons-latka.jar"/>
     <javadoc nested="latka/build/docs/api"/>
