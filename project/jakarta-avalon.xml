@@ -38,15 +38,6 @@
     <jar name="lib/bytecode.jar"/>
   </project>
 
-  <project name="jakarta-avalon-clutil">
-    <depend project="jakarta-ant"/>
-    <depend project="jakarta-avalon-logkit"/>
-    <depend project="xml-xerces"/>
-    <ant target="jar-clutil"/>
-    <home nested="build/lib"/>
-    <jar name="clutil.jar"/>
-  </project>
-
   <project name="jakarta-avalon-exceptionutil">
     <depend project="jakarta-ant"/>
     <depend project="xml-xerces"/>
