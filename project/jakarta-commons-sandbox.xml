@@ -56,6 +56,7 @@
     <depend project="commons-collections"/>
     <depend project="commons-lang"/>
     <depend project="commons-logging"/>
+    <depend project="dom4j"/>
  
     <work nested="target/classes"/>
     <home nested="configuration/target"/>
