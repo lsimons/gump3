@@ -1,8 +1,8 @@
 #!/usr/bin/python
 
-# $Header: /home/stefano/cvs/gump/python/gump/utils/http.py,v 1.3 2004/01/09 19:57:19 ajack Exp $
-# $Revision: 1.3 $
-# $Date: 2004/01/09 19:57:19 $
+# $Header: /home/stefano/cvs/gump/python/gump/utils/http.py,v 1.4 2004/02/23 23:11:22 ajack Exp $
+# $Revision: 1.4 $
+# $Date: 2004/02/23 23:11:22 $
 #
 # ====================================================================
 #
@@ -91,9 +91,7 @@ import urlparse
 # python-2.3 or http://www.red-dove.com/python_logging.html
 import logging
 
-# base gump logger
-log = logging.getLogger(__name__)
-
+from gump import log
 from gump.config import dir, switch, setting
 
 ###############################################################################
@@ -105,7 +103,7 @@ from gump.config import dir, switch, setting
 #
 class GumpURLopener(urllib.FancyURLopener):
     def __init__(self, *args):
-        self.version = "Jakarta-Gump/"+setting.version
+        self.version = "Apache-Gump/"+setting.version
         urllib.FancyURLopener.__init__(self, *args)
 
 urllib._urlopener = GumpURLopener()

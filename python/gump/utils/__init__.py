@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/utils/__init__.py,v 1.21 2004/02/23 23:02:57 ajack Exp $
-# $Revision: 1.21 $
-# $Date: 2004/02/23 23:02:57 $
+# $Header: /home/stefano/cvs/gump/python/gump/utils/__init__.py,v 1.22 2004/02/23 23:11:22 ajack Exp $
+# $Revision: 1.22 $
+# $Date: 2004/02/23 23:11:22 $
 #
 # ====================================================================
 #
@@ -366,7 +366,7 @@ def formatException(ei):
     
 def logResourceUtilization(message=None,):
     try:
-        from resource import getrusage
+        import resource
         
         if not message:
             message=''
