@@ -8,26 +8,6 @@ import os.path,os,sys
 from gumpcore import *
 from gumpconf import *
 
-# cd into the base Gump dir; all dirs are relative to it
-os.chdir(dir.base)
-
-# file-wide properites
-debug=True #False
-
-# load commandline args or use default values
-if len(sys.argv)>1 :
-  ws=sys.argv[1]
-else:
-  ws=default.workspace
-
-if len(sys.argv)>2 :
-  ps=sys.argv[2]
-else:
-  # FIXME (nicolaken)
-  # first try to use the 'computername.xml' file as a
-  # workspace definition, as with the original Gump
-  ps=default.project
-
 # dump all dependencies to build a project to the output
 def dumpDeps(workspace, projectname):
 
@@ -96,6 +76,20 @@ def dumpDeps(workspace, projectname):
   
 # static void main()
 if __name__=='__main__':
+  # cd into the base Gump dir; all dirs are relative to it
+  os.chdir(dir.base)
+    
+  # load commandline args or use default values
+  if len(sys.argv)>1 :
+    ws=sys.argv[1]
+  else:
+    ws=default.workspace
+    
+  if len(sys.argv)>2 :
+    ps=sys.argv[2]
+  else:
+    ps=default.project    
+
   workspace=load(ws)
   dumpDeps(workspace, ps);          
   sys.exit(0)
