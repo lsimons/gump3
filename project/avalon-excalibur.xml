@@ -35,7 +35,7 @@
         -->
         <package>org.apache.avalon.excalibur</package>
 
-        <ant basedir="compatibility" target="jar">
+        <ant basedir="compatibility" target="jar" buildfile="gump-build.xml">
             <property name="project.version" value="@@DATE@@"/>
         </ant>
 
