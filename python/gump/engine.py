@@ -751,10 +751,6 @@ class GumpEngine:
     def checkWorkspace(self,run):
         """ Check a GumpRun's Projects """
         workspace=run.getWorkspace()
-        
-        log.debug('Total Project CheckList:');
-        for p in list:
-            log.debug('  To Check : ' + p.name)
 
         log.debug('--- Building work directories with sources')
         
@@ -772,6 +768,11 @@ class GumpEngine:
     def checkProjects(self,run):
         list=run.getGumpSet().getProjects()
         # Check all projects
+                
+        log.debug('Total Project CheckList:');
+        for p in list:
+            log.debug('  To Check : ' + p.name)
+            
         projectCount=len(list)
         projectNo=1
         for project in list:  
