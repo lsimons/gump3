@@ -1,0 +1,61 @@
+<?xml version="1.0" ?>
+<!--
+  Copyright 2001-2004 The Apache Software Foundation
+
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+-->
+<module name="scarab">
+
+  <url href="http://scarab.tigris.org/"/>
+  <description>
+    Issue Tracking Built for the Ages
+  </description>
+
+  <cvs repository="tigris"/>
+  
+  <project name="scarab">
+    <package>org.tigris.scarab</package>
+
+    <ant basedir="build" target="dist">
+      <property name="version" value="@@DATE@@"/>
+    </ant>
+
+    <depend project="ant" inherit="runtime"/>
+    <depend project="xml-xerces"/>
+    <depend project="jdbc"/>
+    <depend project="jakarta-velocity"/>
+    <depend project="jakarta-servletapi"/>
+    <depend project="jakarta-ecs"/>
+    <depend project="jakarta-turbine-3"/>
+    <depend project="village"/>
+    <depend project="db-torque"/>
+    <depend project="jaf"/>
+    <depend project="javamail"/>
+    <depend project="logging-log4j"/>
+    <option project="jakarta-lucene"/>
+    <!-- no idea which of the many projects that should be -->
+    <!--depend project="jakarta-turbine-fulcrum"/-->
+    <depend project="commons-collections"/>
+    <depend project="commons-digester"/>
+
+    <javadoc nested="scarab-@@DATE@@/webapps/scarab/api"/>
+    <home nested="scarab-@@DATE@@/webapps/scarab/WEB-INF"/>
+    <jar name="lib/scarab-@@DATE@@/jar"/>
+
+    <license name="LICENSE.txt"/>
+
+    <nag to="dev@scarab.tigris.org"
+         from="Jon Stevens &lt;jon@latchkey.com&gt;"/>
+  </project>
+
+</module>

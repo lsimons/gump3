@@ -1,0 +1,128 @@
+<?xml version="1.0" ?>
+<!--
+  Copyright 2001-2004 The Apache Software Foundation
+
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+-->
+<module name="mockobjects">
+
+  <url href="http://mockobjects.sourceforge.net/"/>
+  <description>
+    Mock Objects for Unit Tests
+  </description>
+
+  <cvs repository="sourceforge" 
+       dir="mockobjects" module="mockobjects-java"/>
+
+  <!-- Niclas Hedhman: This project has not built for a long time, and the
+       Sourceforge project is sort of 'gone', and I don't know how to contact
+       the developers.
+  <project name="mockobjects-cvs-head">
+    <package>com.mockobjects</package>
+    <mkdir dir="out/core/classes"/>
+    <mkdir dir="out/jdk/classes"/>
+
+    <ant>
+      <property name="project.version" value="@@DATE@@"/>
+    </ant>
+
+    <depend project="ant" inherit="runtime"/>
+    <depend project="xml-xerces"/>
+    <depend project="junit" runtime="true"/>
+
+    <work nested="out/core/classes"/>
+    <work nested="out/jdk/classes"/>
+
+    <home nested="out"/>
+    <jar name="mockobjects-core-@@DATE@@.jar" id="core"/>
+    <jar name="mockobjects-jdk1.4-@@DATE@@.jar" id="jdk"/>
+    <jar name="mockobjects-alt-jdk1.4-@@DATE@@.jar" id="alt-jdk"/>
+  </project>
+
+  <project name="mockobjects-j2ee-13-cvs-head">
+    <package>com.mockobjects</package>
+    <delete dir="out/j2ee/classes"/>
+    <mkdir dir="out/j2ee/classes"/>
+
+    <ant>
+      <property name="project.version" value="@@DATE@@"/>
+    </ant>
+
+    <depend project="ant" inherit="runtime"/>
+    <depend project="xml-xerces"/>
+    <depend project="junit" runtime="true"/>
+    <depend project="mockobjects-cvs-head" runtime="true"/>
+
+    <depend project="jaf"/>
+    <depend project="jakarta-servletapi-4"/>
+    <depend project="javamail"/>
+    <depend project="jms"/>
+
+    <work nested="out/core/classes"/>
+    <work nested="out/jdk/classes"/>
+
+    <home nested="out"/>
+    <jar name="mockobjects-jdk1.4-j2ee1.3-@@DATE@@.jar" id="j2ee"/>
+    <jar name="mockobjects-alt-jdk1.4-j2ee1.3-@@DATE@@.jar" id="alt-j2ee"/>
+  </project>
+
+  <project name="mockobjects-j2ee-14-cvs-head">
+    <package>com.mockobjects</package>
+    <delete dir="out/j2ee/classes"/>
+    <mkdir dir="out/j2ee/classes"/>
+
+    <ant>
+      <property name="project.version" value="@@DATE@@"/>
+    </ant>
+
+    <depend project="ant" inherit="runtime"/>
+    <depend project="xml-xerces"/>
+    <depend project="junit" runtime="true"/>
+    <depend project="mockobjects-cvs-head" runtime="true"/>
+
+    <depend project="jaf"/>
+    <depend project="jakarta-servletapi-5-jsp"/>
+    <depend project="jakarta-servletapi-5-servlet"/>
+    <depend project="javamail"/>
+    <depend project="jms"/>
+
+    <work nested="out/core/classes"/>
+    <work nested="out/jdk/classes"/>
+
+    <home nested="out"/>
+    <jar name="mockobjects-jdk1.4-j2ee1.4-@@DATE@@.jar" id="j2ee"/>
+    <jar name="mockobjects-alt-jdk1.4-j2ee1.4-@@DATE@@.jar" id="alt-j2ee"/>
+  </project>
+-->
+
+  <project name="mockobjects-with-groovy-compatible-jar-id">
+    <jar name="mockobjects-core-0.09.jar" id="mockobjects"/>
+  </project>
+
+  <project name="mockobjects">
+    <jar name="mockobjects-core-0.09.jar" id="mockobjects-core"/>
+    <jar name="mockobjects-jdk1.4-0.09.jar" id="mockobjects-jdk1.4"/>
+    <jar name="mockobjects-alt-jdk1.4-0.09.jar" id="mockobjects-alt-jdk1.4"/>
+  </project>
+
+  <project name="mockobjects-j2ee-13">
+    <jar name="mockobjects-jdk1.4-j2ee1.3-0.09.jar" id="mockobjects-jdk1.4-j2ee1.3"/>
+    <jar name="mockobjects-alt-jdk1.4-j2ee1.3-0.09.jar" id="mockobjects-jdk1.4-alt-j2ee"/>
+  </project>
+
+  <!--project name="mockobjects-j2ee-14">
+    <jar name="mockobjects-jdk1.4-j2ee1.4-0.09.jar" id="j2ee"/>
+    <jar name="mockobjects-alt-jdk1.4-j2ee1.4-0.09.jar" id="alt-j2ee"/>
+  </project-->
+
+</module>

@@ -1,0 +1,84 @@
+<?xml version="1.0" ?>
+<!--
+  Copyright 2001-2004 The Apache Software Foundation
+
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+-->
+<module name="ws-wsrp4j">
+
+  <url href="http://ws.apache.org/wsrp4j/"/>
+  <description>
+    Open Source implementation of OASIS WSRP
+  </description>
+
+  <cvs repository="ws"/>
+
+  <!-- build -->
+  <project name="ws-wsrp4j">
+    <package>org.apache.ws.wsrp4j</package>
+
+    <mkdir dir="bin/classes"/>
+
+    <ant basedir="build" target="all">
+      <property name="env.ANT_HOME" reference="home" project="ant"/>
+    </ant>
+
+    <depend project="ant" inherit="runtime"/>
+    <depend project="castor"/>
+    <depend project="junit"/>
+    <depend project="logging-log4j"/>
+    <depend project="jakarta-pluto"/>
+    <depend project="jakarta-regexp"/>
+    <depend project="jakarta-servletapi-4"/>
+    <depend project="my-axis"/>
+    <depend project="commons-discovery"/>
+    <depend project="commons-logging"/>
+    <depend project="tt-bytecode"/>
+    <depend project="wsdl4j"/>
+    <depend project="xml-apis"/>
+    <depend project="xml-xerces"/>
+    <depend project="my-jaxrpc"/>
+    <depend project="saaj"/>
+
+    <work nested="build/ant/lib/ForeachTask.jar"/>
+    <work nested="bin/classes"/>
+
+    <home nested="bin/lib"/>
+    <jar name="wsrp4j-consumer-0.3.jar"/>
+    <jar name="wsrp4j-producer-0.3.jar"/>
+    <jar name="wsrp4j-shared-0.3.jar"/>
+    <jar name="wsrp4j-swing-consumer-0.3.jar"/>
+
+    <license name="LICENSE"/>
+
+    <javadoc nested="docs/apidocs"/>
+
+    <nag from="Julie MacNaught &lt;jmacna@apache.org&gt;"
+         to="wsrp4j-dev@ws.apache.org">
+    </nag>
+  </project>
+  
+  <project name="tt-bytecode">
+  	<jar name="lib/tt-bytecode.jar"/>
+  </project>
+  <project name="my-axis">
+    <jar name="lib/axis.jar"/>
+  </project>
+  <project name="saaj">
+    <jar name="lib/saaj.jar"/>
+  </project>
+  <project name="my-jaxrpc">
+    <jar name="lib/jaxrpc.jar"/>
+  </project>
+  
+</module>

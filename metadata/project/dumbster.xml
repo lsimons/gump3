@@ -1,0 +1,50 @@
+<?xml version="1.0" ?>
+<!--
+  Copyright 2004 The Apache Software Foundation
+
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+-->
+
+<!-- $Id: dumbster.xml,v 1.7 2004/11/26 11:03:57 epugh Exp $ -->
+
+<module name="dumbster">
+
+  <url href="http://quintanasoft.com/dumbster/"/>
+  <description>
+  The Dumbster is a very simple fake SMTP server designed for unit and system testing applications that send email messages
+  </description>
+
+  <cvs repository="sourceforge" dir="dumbster" module="dumbster"/>
+
+  <project name="dumbster">
+    <package>com.dumbster.smtp</package>
+
+    <ant target="world"/>
+
+    <depend project="ant"/>
+    <depend project="jaf"/>
+    <depend project="junit"/>
+    <depend project="javamail"/>
+    <depend project="xml-xerces"/>
+
+    <work nested="build/classes"/>
+    <work nested="build/test"/>
+
+    <jar name="build/dumbster.jar"/>
+
+    <license name="license.txt"/>
+    
+    <nag from="Jason Kitchen &lt;jasonkitchen@users.sourceforge.net&gt;" to="jasonkitchen@users.sourceforge.net" />    
+  </project>
+
+</module>

@@ -1,0 +1,164 @@
+<?xml version="1.0" ?>
+<!--
+  Copyright 2001-2004 The Apache Software Foundation
+
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+-->
+<module name="jakarta-slide">
+
+  <url href="http://jakarta.apache.org/slide/index.html"/>
+  <description>
+    Content Management System based on WebDAV technology
+  </description>
+
+  <cvs repository="jakarta"/>
+  
+  <project name="jakarta-slide">
+    <package>org.apache.slide</package>
+
+    <ant target="full-dist">
+      <property name="version" value="@@DATE@@" />
+      <!--property name="ant.jar" reference="jarpath" project="dist-ant" 
+                id="ant" /-->
+      <!--depend property="xmlparser.jar" project="xml-xerces" id="parser"/-->
+      <!--depend property="antlr-tools.jar" project="antlr" id="antlr" /-->
+      <!--property name="jmx.jar" reference="jarpath" project="jmx" id="jmxri"/-->
+      <!--property name="struts.lib" project="jakarta-struts" path="dist/lib"/-->
+      <!--property name="jstl.jar" project="jakarta-taglibs-standard" 
+                id="jstl" reference="jarpath"/-->
+      <!--property name="taglibs-standard.jar" project="jakarta-taglibs-standard" 
+                id="standard" reference="jarpath"/-->
+      <!--property name="catalina.dist" project="jakarta-tomcat-4.0"
+                path="dist"/-->
+      <depend property="jaxp.jar" project="jaxp" id="jaxp-api"/>
+      <depend property="xmlapi.jar" project="xml-apis" />
+      <depend property="jdom.jar" project="jdom"/>
+      <depend property="jta.jar" project="jta"/>
+      <depend property="junit.jar" project="junit"/>
+      <depend property="log4j.jar" project="logging-log4j" id="log4j"/>
+      <depend property="servlet.jar" project="jakarta-servletapi-4"/>
+      <depend property="antlr.jar" project="antlr" id="antlr" />
+      <depend property="jdbc20ext.jar" project="jdbc"/>
+      <depend property="commons-modeler.jar" project="commons-modeler"/>
+      <depend property="jndi.jar" project="jndi"/>
+      <!-- Head of Commons Httpclient is changing too fast. -->
+      <depend property="commons-httpclient.jar" project="commons-httpclient-2.0-branch"/>
+    </ant>
+
+    <depend project="commons-codec"/>
+    <depend project="commons-collections"/>
+    <depend project="commons-dbcp"/>
+    <depend project="commons-pool"/>
+    <depend project="commons-transaction"/>
+    <depend project="commons-logging"/>
+    <depend project="jakarta-lucene"/>
+    <depend project="jaxen"/>
+    <depend project="dist-ant" />
+    <depend project="xml-xerces"/>
+    <depend project="xalan"/>
+    <depend project="j2ee-connector"/>
+    <option project="jmx"/>
+    <depend project="jakarta-tomcat-4.0"/>
+    <depend project="jakarta-struts"/>
+    <depend project="jakarta-oro"/>
+    <depend project="jakarta-poi"/>
+    <depend project="xml-im-exporter"/>
+    <depend project="xmlunit"/>
+    <depend project="slide-webdavclient" inherit="jars"/>
+    <option project="jakarta-taglibs-standard" ids="jstl standard"/>
+
+    <depend project="textmining-word-extractor"/>
+    <depend project="pdfbox"/>
+    <depend project="ehcache"/>
+    <depend project="commons-httpclient-contrib"/>
+
+    <work nested="build/classes"/>
+
+    <jar name="dist/slide/lib/slide-jaas-@@DATE@@.jar" id="jaas"/>
+    <jar name="dist/slide/lib/slide-jdk14logger-@@DATE@@.jar" id="jdk14logger"/>
+    <jar name="dist/slide/lib/slide-kernel-@@DATE@@.jar" id="kernel"/>
+    <jar name="dist/slide/lib/slide-log4jlogger-@@DATE@@.jar" id="log4jlogger"/>
+    <jar name="dist/slide/lib/slide-roles-@@DATE@@.jar" id="roles"/>
+    <jar name="dist/slide/lib/slide-stores-@@DATE@@.jar" id="stores"/>
+    <jar name="dist/slide/lib/slide-webdavservlet-@@DATE@@.jar" id="webdavservlet"/>
+
+    <jar name="dist/slide/wrappers/slide-catalinawrapper-@@DATE@@.jar" id="catalina-wrapper"/>
+
+    <license name="LICENSE"/>
+
+    <javadoc nested="dist/doc">
+      <description dir="javadoc">Slide API</description>
+    </javadoc>
+
+    <nag to="slide-dev@jakarta.apache.org"
+         from="Stefan Bodewig &lt;bodewig@apache.org&gt;"/>
+  </project>
+
+  <project name="textmining-word-extractor">
+    <url href="http://www.textmining.org/"/>
+    <description>TextMining.org Word 6.0/97/2000/XP/2003 Text Extractor</description>
+    <jar name="lib/tm-extractors-0.4.jar"/>
+  </project>
+
+  <project name="pdfbox">
+    <url href="http://www.pdfbox.org/"/>
+    <description>PDFBox is a Java PDF Library.</description>
+    <jar name="lib/PDFBox-0.6.5.jar"/>
+  </project>
+  
+  <!-- FIXME 
+
+       we need to find a way to build this from sources, but I don't
+       see an Ant or Maven build recipe for it in commons-httpclient's
+       CVS tree.
+  -->
+  <project name="commons-httpclient-contrib">
+    <jar name="webdavclient/lib/commons-httpclient-contrib.jar"/>
+  </project>
+
+  <project name="slide-webdavclient">
+    <package>org.apache.webdav</package>
+
+    <ant basedir="webdavclient" target="dist">
+      <property name="version" value="@@DATE@@" />
+    </ant>
+
+    <depend project="antlr"/>
+    <depend project="commons-httpclient-2.0-branch"/>
+    <depend project="commons-httpclient-contrib"/>
+    <depend project="commons-transaction"/>
+    <depend project="dist-ant"/>
+    <depend project="j2ee-connector"/>
+    <depend project="jakarta-servletapi-4"/>
+    <depend project="jdom"/>
+    <depend project="jta"/>
+    <depend project="xml-im-exporter"/>
+    <depend project="xml-xerces"/>
+
+    <work nested="webdavclient/build/clientlib/classes"/>
+
+    <home nested="webdavclient"/>
+    <jar name="dist/lib/jakarta-slide-commandline-@@DATE@@.jar" id="client"/>
+    <jar name="dist/lib/jakarta-slide-webdavlib-@@DATE@@.jar" id="client-webdavlib"/>
+
+    <license name="LICENSE"/>
+
+    <javadoc nested="webdavclient/dist/doc">
+      <description dir="clientjavadoc">WebDAV Client </description>
+    </javadoc>
+
+    <nag to="slide-dev@jakarta.apache.org"
+         from="Gump Integration Build &lt;general@gump.apache.org&gt;"/>
+  </project>
+  
+</module>

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Copyright 2004 The Apache Software Foundation
+
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+-->
+
+<module name="asm">
+  <description>A Java bytecode manipulation framework.</description>
+  <url href="http://asm.objectweb.org/"/>
+  <cvs module="asm" repository="objectweb" dir="asm"/>
+  
+  <project name="asm">
+    <package>org.objectweb.asm</package>
+
+    <ant target="jar">
+      <property name="product.version" value="@@DATE@@"/>
+    </ant>
+
+    <depend project="ant"/>
+    <depend project="ow_util_ant_tasks"/>
+    <depend project="xml-xerces"/>
+
+    <work nested="output/build/tmp"/>
+
+    <jar name="output/dist/lib/asm-@@DATE@@.jar" id="asm"/>
+    <jar name="output/dist/lib/asm-analysis-@@DATE@@.jar" id="asm-analysis"/>
+    <jar name="output/dist/lib/asm-attrs-@@DATE@@.jar" id="asm-attrs"/>
+    <jar name="output/dist/lib/asm-tree-@@DATE@@.jar" id="asm-tree"/>
+    <jar name="output/dist/lib/asm-util-@@DATE@@.jar" id="asm-util"/>
+    <jar name="output/dist/lib/asm-xml-@@DATE@@.jar" id="asm-xml"/>
+    <jar name="output/dist/lib/kasm-@@DATE@@.jar" id="kasm"/>
+    <license name="LICENSE.txt"/>
+  </project>
+
+  <project name="ow_util_ant_tasks">
+    <jar name="config/ow_util_ant_tasks.jar"/>
+  </project>
+
+</module>

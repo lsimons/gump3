@@ -1,0 +1,99 @@
+<?xml version="1.0"?>
+<!--
+  Copyright 2002-2004 The Apache Software Foundation
+
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+      http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+-->
+
+<!--+
+    | Gump descriptor for Apache Forrest 
+    +-->
+<module name="forrest">
+
+  <url href="http://forrest.apache.org/"/>
+
+  <svn repository="forrest" dir="trunk/"/>
+
+  <description>
+   Apache Forrest is an XML standards-oriented documentation framework
+   based upon Apache Cocoon.
+  </description>
+
+  <project name="forrest">
+    <package>org.apache.forrest</package>
+    <ant basedir="main" target="gump">
+      <property name="version" value="@@DATE@@"/>
+    </ant>
+
+    <!-- Project jars Forrest build strictly depends on -->
+    <!-- needed for build -->
+    <depend project="ant"/>
+    <depend project="ant-contrib"/>
+    <depend project="xml-xerces"/>
+    <depend project="xalan"/>
+    <depend project="cocoon" inherit="all"/>
+    <depend project="jakarta-oro"/>
+    <depend project="nekopull"/>
+
+    <!-- Work dirs to be included in classpath  -->
+    <work nested="build/components/classes"/>
+    <work nested="build/scratchpad/classes"/>
+
+    <home nested="build"/>
+
+    <!-- jars - the result of the build  -->
+    <jar id="components" name="xml-forrest.jar"/>
+    <jar id="scratchpad" name="xml-forrest-scratchpad.jar"/>
+
+    <nag from="Gump &lt;dev@forrest.apache.org&gt;" to="dev@forrest.apache.org"/>
+  </project>
+
+  <project name="forrest-forrestbar">
+    <ant basedir="tools/forrestbar" target="forrestbar">
+            <property name="version" value="@@DATE@@"/>
+    </ant>
+    <home nested="tools/forrestbar/build"/>
+    <depend project="ant"/>
+    <depend project="xml-xerces"/>
+    <jar id="forrestbar" name="forrestbar.xpi"/>
+    <nag from="Gump &lt;dev@forrest.apache.org&gt;" to="dev@forrest.apache.org"/>
+  </project>
+
+  <project name="forrest-whiteboard-forrestdoc">
+    <ant basedir="whiteboard/forrestdoc" target="jar" >
+      <property name="version" value="@@DATE@@"/>
+    </ant>
+    <work nested="whiteboard/forrestdoc/build/tools/ant"/>
+    <home nested="whiteboard/forrestdoc/dist"/>
+    <depend project="ant"/>
+    <depend project="ant-contrib"/>
+    <depend project="xml-xerces"/>
+    <depend project="xalan"/>
+    <depend project="antlr"/>
+    <jar id="forrestdoc-anttools" name="xml-forrest-scratchpad-forrestdoc-anttools-@@DATE@@.jar"/>
+    <jar id="forrestdoc" name="xml-forrest-scratchpad-forrestdoc-@@DATE@@.jar"/>
+    <nag from="Gump &lt;dev@forrest.apache.org&gt;" to="dev@forrest.apache.org"/>
+  </project>
+
+  <project name="forrest-whiteboard-forrestdoc-autotest">
+    <ant basedir="whiteboard/forrestdoc" target="project" />
+    <home nested="whiteboard/forrestdoc/build"/>
+    <depend project="forrest-whiteboard-forrestdoc"/>
+    <depend project="ant"/>
+    <depend project="ant-contrib"/>
+    <depend project="xml-xerces"/>
+    <depend project="xalan"/>
+    <depend project="antlr"/>
+    <nag from="Gump &lt;dev@forrest.apache.org&gt;" to="dev@forrest.apache.org"/>
+  </project>
+</module>

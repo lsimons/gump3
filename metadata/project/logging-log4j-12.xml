@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!--
+  Copyright 2004 The Apache Software Foundation
+
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+-->
+<module name="logging-log4j-12" tag="v1_2-branch">
+
+  <url href="http://logging.apache.org/log4j/index.html"/>
+  <description>
+    Fast and flexible logging package for Java
+  </description>
+
+  <cvs repository="logging" module="logging-log4j"/>
+  
+  <project name="logging-log4j-12">
+    <package>org.apache.log4j</package>
+
+    <ant target="jar">
+      <property name="version" value="@@DATE@@"/>
+    </ant>
+
+    <depend project="ant" inherit="runtime"/>
+    <depend project="xml-xerces"/>
+    <work nested="dist/classes"/>
+    <option project="jms"/>
+    <option project="jmx"/>
+    <option project="junit"/>
+    <option project="javamail"/>
+
+    <!--home nested="dist"/-->
+    <jar  name="dist/lib/log4j-@@DATE@@.jar" id="log4j"/>
+    
+    <!--nag to="log4j-dev@logging.apache.org"
+         subject="Build Failure 1.2 branch"
+         from="Ceki Gülcü &lt;ceki@apache.org&gt;"/-->
+    <nag to="log4j-dev@logging.apache.org"
+         subject="Build Failure 1.2 branch"
+         from="&lt;ceki@apache.org&gt;"/>
+  </project>
+
+  <!-- disable until it can work on JDK 1.4
+  <project name="log4j-tests-12">
+
+    <mkdir dir="tests/classes" />
+
+    <ant basedir="tests" target="regression" />
+
+    <depend project="ant" />
+    <depend project="xml-xerces" />
+    <depend project="junit" />
+    <depend project="logging-log4j-12" />
+    <depend project="jakarta-oro" />
+
+    <work nested="dist/classes" />
+    <work nested="tests/classes" />
+    <work nested="tests/resources" />
+
+    <nag to="log4j-dev@logging.apache.org"
+         subject="Test Failure 1.2 branch"
+         from="Ceki Gülcü &lt;ceki@apache.org&gt;"/>
+  </project>
+  -->
+</module>

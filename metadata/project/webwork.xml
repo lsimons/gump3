@@ -1,0 +1,75 @@
+<?xml version="1.0" ?>
+<!--
+  Copyright 2001-2004 The Apache Software Foundation
+
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+-->
+<module name="webwork">
+
+  <url href="http://opensymphony.com/webwork/"/>
+  <description>
+    WebWork web application framework.
+  </description>
+  <redistributable/>
+
+  <cvs repository="sourceforge" 
+       dir="opensymphony" module="webwork"/>
+  
+  <project name="webwork">
+    <package>webwork</package>
+
+    <ant/>
+    <depend project="ant" inherit="runtime"/>
+    <depend project="xml-xerces"/>
+    <depend project="javacc"/>
+    <depend project="logging-log4j"/>
+    <depend project="jakarta-servletapi-4"/>
+    <depend project="jakarta-velocity"/>
+    <depend project="bsf"/>
+    <depend project="jdom"/>
+    <depend project="jasperreports"/>
+    <depend project="db40"/>
+    <depend project="ws-axis"/>
+    <depend project="cos"/>
+    <depend project="commons-collections"/>
+    <depend project="commons-logging"/>
+    <depend project="mockobjects"/>
+    <depend project="mockobjects-j2ee-13"/>
+    <depend project="multipartrequest"/>
+    <depend project="junit"/>
+    <depend project="httpunit"/>
+    <work nested="lib/build/JavaCC.zip"/>
+    <jar id="webwork" name="build/result/web/WEB-INF/lib/webwork.jar"/>
+    <license name="src/docs/manual/license.txt"/>
+  </project>
+
+  <project name="db40">
+    <package>com.db4o</package>
+    <url href="http://www.db4o.com/"/>
+    <description>
+      Object Database Engine 
+    </description>
+    <home nested="lib/examples"/>
+    <jar name="db4o.jar"/>
+  </project>
+
+  <project name="jasperreports">
+    <package>dori.jasper.engine</package>
+    <url href="http://jasperreports.sourceforge.net"/>
+    <description>
+      
+    </description>
+    <home nested="lib/view"/>
+    <jar name="jasperreports.jar"/>
+  </project>
+</module>

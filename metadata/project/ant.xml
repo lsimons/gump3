@@ -1,0 +1,225 @@
+<?xml version="1.0" ?>
+<!--
+  Copyright 2001-2004 The Apache Software Foundation
+
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+-->
+<module name="ant">
+
+  <url  href="http://ant.apache.org/index.html"/>
+  <description>
+    Java based build tool
+  </description>
+
+  <cvs repository="ant"/>
+
+  <project name="jakarta-ant">
+    <depend project="ant" inherit="jars"/>
+  </project>
+
+  <project name="ant">
+    <package>org.apache.tools.ant</package>
+
+    <ant target="dist-lite">
+      <property name="ant.home" reference="home" project="ant"/>
+    </ant>
+
+    <depend project="bootstrap-ant"/>
+    <depend project="xml-xerces"/>
+    <depend project="xml-apis"/>
+    <option project="xalan" ids="xalan"/>
+    <option project="junit" runtime="true"/>
+
+    <!-- actually, we won't get here if resolver is not available
+    since Xerces won't build, so while this is an option, it will
+    always be satisfied -->
+    <option project="xml-resolver" runtime="true"/>
+
+    <home nested="dist"/>
+
+    <jar name="lib/ant.jar" id="ant"/>
+    <jar name="lib/ant-launcher.jar" id="ant-launcher"/>
+
+    <jar name="lib/ant-jmf.jar" id="ant-jmf"/>
+    <jar name="lib/ant-junit.jar" id="ant-junit"/>
+    <jar name="lib/ant-swing.jar" id="ant-swing"/>
+    <jar name="lib/ant-trax.jar" id="ant-trax"/>
+    <jar name="lib/ant-nodeps.jar" id="ant-nodeps"/>
+    <jar name="lib/ant-apache-resolver.jar" id="ant-apache-resolver"/>
+
+    <license name="LICENSE"/>
+
+    <nag from="Gump Integration Build &lt;general@gump.apache.org&gt;"
+         to="dev@ant.apache.org"/>
+  </project>
+
+  <project name="dist-ant">
+    <ant target="distribution">
+      <property name="chmod.fail" value="false"/>
+    </ant>
+
+    <depend project="ant" inherit="runtime"/>
+    <depend project="xml-xerces"/>
+    <depend project="xml-apis"/>
+    <option project="xalan" ids="xalan"/>
+
+    <option project="antlr" runtime="true"/>
+    <option project="commons-logging" runtime="true"/>
+    <option project="commons-net" runtime="true"/>
+    <option project="jaf" runtime="true"/>
+    <option project="bcel" runtime="true"/>
+    <option project="jakarta-bsf" runtime="true"/>
+    <option project="logging-log4j" runtime="true"/>
+    <option project="jakarta-oro" runtime="true"/>
+    <option project="jakarta-regexp" runtime="true"/>
+    <option project="jakarta-servletapi-4" runtime="true"/>
+    <option project="javamail" runtime="true"/>
+    <option project="jdepend" runtime="true"/>
+    <option project="jsch" runtime="true"/>
+    <option project="xml-stylebook2" runtime="true"/>
+    <option project="jai" runtime="true"/>
+
+    <home nested="build"/>
+
+    <jar name="lib/ant.jar" id="ant"/>
+    <jar name="lib/ant-launcher.jar" id="ant-launcher"/>
+
+    <jar name="lib/ant-antlr.jar" id="ant-antlr"/>
+    <jar name="lib/ant-apache-bcel.jar" id="ant-apache-bcel"/>
+    <jar name="lib/ant-apache-bsf.jar" id="ant-apache-bsf"/>
+    <jar name="lib/ant-apache-log4j.jar" id="ant-apache-log4j"/>
+    <jar name="lib/ant-apache-oro.jar" id="ant-apache-oro"/>
+    <jar name="lib/ant-apache-regexp.jar" id="jakarta-regexp"/>
+    <jar name="lib/ant-apache-resolver.jar" id="ant-apache-resolver"/>
+    <jar name="lib/ant-commons-logging.jar" id="ant-commons-logging"/>
+    <jar name="lib/ant-commons-net.jar" id="ant-commons-net"/>
+    <jar name="lib/ant-jai.jar" id="ant-jai"/>
+    <jar name="lib/ant-javamail.jar" id="ant-javamail"/>
+    <jar name="lib/ant-jdepend.jar" id="ant-jdepend"/>
+    <jar name="lib/ant-jmf.jar" id="ant-jmf"/>
+    <jar name="lib/ant-jsch.jar" id="ant-jsch"/>
+    <jar name="lib/ant-junit.jar" id="ant-junit"/>
+    <jar name="lib/ant-nodeps.jar" id="ant-nodeps"/>
+    <jar name="lib/ant-stylebook.jar" id="ant-stylebook"/>
+    <jar name="lib/ant-swing.jar" id="ant-swing"/>
+    <jar name="lib/ant-trax.jar" id="ant-trax"/>
+
+    <javadoc nested="build/javadocs" project="ant"/>
+
+    <nag from="Gump Integration Build &lt;general@gump.apache.org&gt;"
+         to="dev@ant.apache.org"/>
+  </project>
+
+  <project name="ant-testutil">
+    <ant target="test-jar"/>
+
+    <depend project="ant"/>
+    <depend project="junit"/>
+    <depend project="xml-xerces"/>
+    <depend project="xml-apis"/>
+
+    <home nested="build/lib"/>
+    <jar name="ant-testutil.jar" id="ant-testutil"/>
+
+    <nag from="Gump Integration Build &lt;general@gump.apache.org&gt;"
+         to="dev@ant.apache.org"/>
+  </project>
+
+  <project name="test-ant">
+    <ant target="run-tests">
+      <property name="test.haltonfailure" value="false"/>
+      <property name="ant.home" reference="home" project="ant"/>
+    </ant>
+
+    <depend project="dist-ant" inherit="runtime"/>
+    <depend project="xml-xerces"/>
+    <depend project="xml-apis"/>
+    <option project="xalan" ids="xalan serializer"/>
+    
+    <option project="jakarta-tomcat-4.0" ids="jasper-compiler jasper-runtime"/>
+    <option project="xml-commons-which"/>
+    <option project="rhino"/>
+    <option project="bsh"/>
+    <option project="commons-codec"/>
+
+    <work nested="build/testcases"/>
+    <work nested="src/testcases"/>
+    <work nested="src/etc/testcases"/>
+
+    <nag from="Gump Integration Build &lt;general@gump.apache.org&gt;"
+         to="dev@ant.apache.org"
+         subject="Test Failure - Ant"/>
+  </project>
+
+  <project name="bootstrap-ant">
+    <script name="bootstrap"/>
+
+    <option project="jaxp"/>
+
+    <home nested="bootstrap"/>
+    <jar name="lib/ant.jar"/>
+    <jar name="lib/ant-launcher.jar" id="ant-launcher"/>
+
+    <nag from="Gump Integration Build &lt;general@gump.apache.org&gt;"
+         to="dev@ant.apache.org"
+         subject="Bootstrap Failure - Ant">
+      <regexp pattern="/error/"/>
+      <regexp pattern="/Failed/"/>
+      <regexp />
+    </nag>
+  </project>
+
+  <project name="ant-embed-optional">
+    <package>org.apache.tools.ant</package>
+
+    <ant basedir="proposal/embed" target="embed-optional" >
+      <property name="ant.home" reference="home" project="ant"/>
+      <depend id="commons-logging-api" project="commons-logging"
+              property="commons-logging.jar"/>
+      <depend property="jxpath.jar" project="commons-jxpath"/>
+      <depend property="velocity.jar" project="jakarta-velocity"/>
+      <depend property="velocity-dep.jar" project="jakarta-velocity"/>
+      <depend property="jexl.jar" project="commons-jexl"/>
+      <depend property="commons-discovery.jar" project="commons-discovery"/>
+    </ant>
+
+    <depend project="ant" inherit="all"/>
+
+    <home nested="proposal/embed/build"/>
+    <jar name="optional-dynprop.jar" id="embed-optional"/>
+
+    <nag to="dev@ant.apache.org"
+         from="Gump Integration Build &lt;general@gump.apache.org&gt;"/>
+  </project>
+
+  <project name="ant-xdocs-proposal">
+    <mkdir dir="proposal/xdocs/build/classes"/>
+    <ant basedir="proposal/xdocs" target="docs-from-scratch">
+      <jvmarg value="-Xmx512m"/>
+      <property name="ant.home" reference="home" project="ant"/>
+    </ant>
+    <depend project="dist-ant" inherit="all"/>
+    <depend project="xml-xerces"/>
+    <depend project="xdoclet" inherit="runtime"/>
+    <depend project="xjavadoc"/>
+    <depend project="jakarta-velocity-dvsl" inherit="runtime"/>
+    <nag to="dev@ant.apache.org"
+         from="Gump Integration Build &lt;general@gump.apache.org&gt;"/>
+    <work nested="proposal/xdocs/build/classes"/>
+    <javadoc nested="proposal/xdocs/build/docs/manual"
+             project="Ant xdocs proposal">
+      <description>Ant Task Documentation Generated from Sources</description>
+    </javadoc>
+  </project>
+</module>
+

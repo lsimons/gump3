@@ -1,0 +1,82 @@
+<?xml version="1.0" ?>
+<!--
+  Copyright 2001-2004 The Apache Software Foundation
+
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+-->
+<module name="xml-xerces2">
+
+  <url href="http://xml.apache.org/xerces2-j/index.html"/>
+  <description>
+    Java XML Parser - the sequel with no equal
+  </description>
+
+  <cvs repository="xml" module="xml-xerces"/>
+
+  <!-- build bootstrap -->
+
+  <project name="xml-xerces">
+    <package>org.apache.xerces</package>
+
+    <ant basedir="java" target="jar"/>
+    <depend project="bootstrap-ant"/>
+    <depend project="xjavac"/>
+    <depend project="xml-commons-resolver"/>
+    <option project="jaxp" ids="jaxp-api dom sax" />
+    <home nested="java/build"/>
+    <jar name="xercesImpl.jar" id="xml-parser" type="boot"/>
+
+    <license name="java/LICENSE"/>
+
+    <nag from="Sam Ruby &lt;rubys@us.ibm.com&gt;"
+         to="xerces-j-dev@xml.apache.org"/>
+  </project>
+
+  <project name="xml-xercesImpl">
+    <package>org.apache.xerces</package>
+    <depend project="xml-xerces"/>
+    <home nested="java/build"/>
+    <jar name="xercesImpl.jar" id="xercesImpl"/>
+    <license name="java/LICENSE"/>
+  </project>
+
+  <!-- package up the distribution -->
+
+  <project name="dist-xerces">
+    <ant basedir="java" target="pack-bin">
+      <sysproperty name="build.clonevm" value="true"/>
+    </ant>
+    <depend project="ant" inherit="runtime"/>
+    <depend project="xjavac"/>
+    <depend project="xalan"/>
+    <depend project="xml-xerces"/>
+    <depend project="xml-stylebook2"/>
+    <depend project="xml-site"/>
+
+    <javadoc nested="java/build/docs/javadocs" project="xml-xerces2">
+      <description dir="api">XML Standard API</description>
+      <description dir="xni">Xerces Native Interface</description>
+      <description dir="xs">XML Schema API</description>
+      <description dir="xerces2">Xerces2 Implementation</description>
+      <description dir="other">Other Classes</description>
+    </javadoc>
+
+    <nag from="Sam Ruby &lt;rubys@us.ibm.com&gt;"
+         to="xerces-j-dev@xml.apache.org"/>
+  </project>
+
+  <project name="xjavac">
+    <home nested="java/tools"/>
+    <jar name="bin/xjavac.jar"/>
+  </project>
+</module>

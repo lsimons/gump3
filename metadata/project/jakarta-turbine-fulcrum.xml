@@ -1,0 +1,700 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Copyright 2001-2004 The Apache Software Foundation
+
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+-->
+
+<module name="jakarta-turbine-fulcrum">
+  <description>Services Framework</description>
+  <url href="http://jakarta.apache.org/turbine/fulcrum/"/>
+  <cvs module="jakarta-turbine-fulcrum" repository="jakarta"/>
+  
+  <project name="fulcrum-bsf">
+    <maven basedir="bsf" goal="jar" >
+      <property name="maven.jar.bsf" project="jakarta-bsf" />
+    </maven>
+    
+    <package>org.apache.fulcrum</package>
+    
+    <depend project="ant"/>
+    <depend project="avalon-framework-api"/>
+    <depend project="avalon-framework-impl"/>
+    <depend project="fulcrum-yaafi"/>
+    <depend project="fulcrum-testcontainer"/>
+    <depend project="xml-xerces"/>
+    
+    <depend project="jakarta-bsf"/>
+    
+    <work nested="bsf/target/classes"/>
+    <home nested="bsf" />
+    <jar name="target/fulcrum-bsf-1.0.2.jar" />
+    <nag to="turbine-dev@jakarta.apache.org" from="fulcrum-bsf development &lt;turbine-dev@jakarta.apache.org&gt;"/>
+  </project>
+
+  <project name="fulcrum-cache">
+    <maven basedir="cache" goal="jar">
+        <!-- Try and ignore long tests, take up resources on Gump -->
+        <property name="fulcrum.cache.skip.long.tests" value="true" />
+    </maven>
+    
+    <package>org.apache.fulcrum</package>
+    
+    <depend project="ant"/>
+    <depend project="avalon-framework-api"/>
+    <depend project="avalon-framework-impl"/>
+    <depend project="fulcrum-yaafi"/>
+    <depend project="fulcrum-testcontainer"/>
+    <depend project="xml-xerces"/>       
+    
+    <depend project="commons-logging"/>
+ 
+    
+    <work nested="cache/target/classes" />
+    <home nested="cache" />
+    <jar name="target/fulcrum-cache-1.0.5.jar" />
+    <nag to="turbine-dev@jakarta.apache.org" from="fulcrum-cache development &lt;turbine-dev@jakarta.apache.org&gt;" />
+  </project>
+
+  <project name="fulcrum-configuration-impl">
+    <maven basedir="configuration/impl" goal="jar" />
+    
+    <package>org.apache.fulcrum.configuration</package>
+    
+    <depend project="ant"/>
+    <depend project="avalon-framework-api"/>
+    <depend project="avalon-framework-impl"/>
+    <depend project="fulcrum-yaafi"/>
+    <depend project="fulcrum-testcontainer"/>
+    <depend project="xml-xerces"/>   
+    
+    <depend project="commons-beanutils"/>
+    <depend project="commons-collections"/>
+    <depend project="commons-configuration"/>
+    <depend project="commons-digester"/>
+    <depend project="commons-lang"/>
+    <depend project="commons-logging"/>
+    <depend project="dom4j"/>
+            
+    
+    <work nested="configuration/impl/target/classes"/>
+    <home nested="configuration/impl"/>
+    <jar name="target/fulcrum-configuration-impl-1.0.3-dev.jar"/>
+    <nag to="turbine-dev@jakarta.apache.org" from="fulcrum-configuration-impl development &lt;turbine-dev@jakarta.apache.org&gt;"/>
+  </project>
+
+  <project name="fulcrum-crypto">
+    <maven basedir="crypto" goal="jar" />
+    
+    <package>org.apache.fulcrum.crypto</package>
+    <depend project="ant"/>
+    <depend project="avalon-framework-api"/>
+    <depend project="avalon-framework-impl"/>
+    <depend project="fulcrum-yaafi"/>
+    <depend project="fulcrum-testcontainer"/>
+    <depend project="xml-xerces"/>
+    
+    <depend project="commons-codec"/>
+    <depend project="cryptix"/>
+    <depend project="javamail" ids="javamail"/>
+    
+    <work nested="crypto/target/classes"/>
+    <home nested="crypto"/>
+    <jar name="target/fulcrum-crypto-1.0.5.jar"/>
+    <nag to="turbine-dev@jakarta.apache.org" from="fulcrum-crypto development &lt;turbine-dev@jakarta.apache.org&gt;"/>
+  </project>
+  
+    <project name="fulcrum-dvsl">
+    <maven basedir="dvsl" goal="jar" />
+    
+    <package>org.apache.fulcrum</package>
+
+    <depend project="ant"/>
+    <depend project="avalon-framework-api"/>
+    <depend project="avalon-framework-impl"/>
+    <depend project="fulcrum-yaafi"/>
+    <depend project="fulcrum-testcontainer"/>
+    <depend project="xml-xerces"/>
+        
+    <depend project="dom4j"/>
+    <depend project="jaxen"/>
+    <depend project="commons-collections"/>
+    <depend project="logging-log4j"/>
+    <depend project="avalon-logkit"/>	
+    <depend project="jakarta-velocity"/>
+    <depend project="jakarta-velocity-dvsl"/>
+    
+    <work nested="dvsl/target/classes" />
+    <home nested="dvsl" />
+    <jar name="target/fulcrum-dvsl-1.0.6-dev.jar"/>
+    <nag to="turbine-dev@jakarta.apache.org" from="fulcrum-dvsl development &lt;turbine-dev@jakarta.apache.org&gt;"/>
+  </project> 
+  
+    <project name="fulcrum-factory">
+    <maven basedir="factory" goal="jar" />
+    
+    <package>org.apache.fulcrum</package>
+
+    <depend project="ant"/>
+    <depend project="avalon-framework-api"/>
+    <depend project="avalon-framework-impl"/>
+    <depend project="fulcrum-yaafi"/>
+    <depend project="fulcrum-testcontainer"/>
+    <depend project="xml-xerces"/>
+    
+    <work nested="factory/target/classes" />
+    <home nested="factory" />
+    <jar name="target/fulcrum-factory-1.0.3.jar"/>
+    <nag to="turbine-dev@jakarta.apache.org" from="fulcrum-factory development &lt;turbine-dev@jakarta.apache.org&gt;"/>
+  </project>
+
+  <project name="fulcrum-hsqldb">
+    <maven basedir="hsqldb" goal="jar" />
+
+    <package>org.apache.fulcrum</package>
+    
+    <depend project="ant"/>
+    <depend project="avalon-framework-api"/>
+    <depend project="avalon-framework-impl"/>
+    <depend project="fulcrum-yaafi"/>
+    <depend project="fulcrum-testcontainer"/>
+    <depend project="xml-xerces"/>
+        
+    <depend project="hsqldb"/>
+    
+    <work nested="hsqldb/target/classes"/>
+    <home nested="hsqldb"/>
+    <jar name="target/fulcrum-hsqldb-1.0-dev.jar"/>
+    <nag to="turbine-dev@jakarta.apache.org" from="fulcrum-hsqldb development &lt;turbine-dev@jakarta.apache.org&gt;"/>
+  </project>
+  
+  <project name="fulcrum-intake">
+    <maven basedir="intake" goal="jar" />
+
+    <package>org.apache.fulcrum</package>
+    
+    <depend project="ant"/>
+    <depend project="avalon-framework-api"/>
+    <depend project="avalon-framework-impl"/>
+    <depend project="fulcrum-yaafi"/>
+    <depend project="fulcrum-testcontainer"/>
+    <depend project="xml-xerces"/>
+        
+
+    <depend project="fulcrum-factory"/>
+    <depend project="fulcrum-localization"/>
+    <depend project="jakarta-turbine-2"/>
+    <depend project="commons-fileupload"/>
+    <depend project="commons-lang"/>
+    <depend project="commons-logging"/>
+    <depend project="commons-pool"/>
+    <depend project="jakarta-oro"/>
+    <depend project="jakarta-servletapi"/>
+    
+    <work nested="intake/target/classes"/>
+    <home nested="intake"/>
+    <jar name="target/fulcrum-intake-1.0.3.jar"/>
+    <nag to="turbine-dev@jakarta.apache.org" from="fulcrum-intake development &lt;turbine-dev@jakarta.apache.org&gt;"/>
+  </project>
+
+  <project name="fulcrum-localization">
+    <maven basedir="localization" goal="jar" />
+    
+    <package>org.apache.fulcrum</package>
+    
+    <depend project="ant"/>
+    <depend project="avalon-framework-api"/>
+    <depend project="avalon-framework-impl"/>
+    <depend project="fulcrum-yaafi"/>
+    <depend project="fulcrum-testcontainer"/>
+    <depend project="xml-xerces"/>
+        
+    <depend project="jakarta-servletapi"/>
+    <depend project="commons-lang"/>
+    <depend project="commons-logging"/>
+
+    <work nested="localization/target/classes"/>
+    <home nested="localization"/>
+    <jar name="target/fulcrum-localization-1.0.6-dev.jar"/>
+    <nag to="turbine-dev@jakarta.apache.org" from="fulcrum-localization development &lt;turbine-dev@jakarta.apache.org&gt;"/>
+  </project>
+
+  <project name="fulcrum-mimetype">
+    <maven basedir="mimetype" goal="jar" />
+
+    <package>org.apache.fulcrum</package>
+
+    <depend project="ant"/>
+    <depend project="avalon-framework-api"/>
+    <depend project="avalon-framework-impl"/>
+    <depend project="fulcrum-yaafi"/>
+    <depend project="fulcrum-testcontainer"/>
+    <depend project="xml-xerces"/>
+    
+    <work nested="mimetype/target/classes"/>
+    <home nested="mimetype"/>
+    <jar name="target/fulcrum-mimetype-1.0.4.jar"/>
+    <nag to="turbine-dev@jakarta.apache.org" from="fulcrum-mimetype development &lt;turbine-dev@jakarta.apache.org&gt;"/>
+  </project>
+
+  <project name="fulcrum-naming">
+    <maven basedir="naming" goal="jar" />
+
+    <package>org.apache.fulcrum</package>
+    
+    <depend project="ant"/>
+    <depend project="avalon-framework-api"/>
+    <depend project="avalon-framework-impl"/>
+    <depend project="fulcrum-yaafi"/>
+    <depend project="fulcrum-testcontainer"/>
+    <depend project="xml-xerces"/>
+    
+    <depend project="commons-lang"/>
+    <depend project="commons-io"/>
+    <depend project="commons-logging"/>
+    <depend project="commons-collections"/>
+    
+    <work nested="naming/target/classes"/>
+    <home nested="naming"/>
+    <jar name="target/fulcrum-naming-1.0.2.jar"/>
+    <nag to="turbine-dev@jakarta.apache.org" from="fulcrum-naming development &lt;turbine-dev@jakarta.apache.org&gt;"/>
+  </project>
+
+  <project name="fulcrum-osworkflow">
+    <maven basedir="osworkflow" goal="jar" />
+    
+    <package>org.apache.fulcrum</package>
+
+    <depend project="ant"/>
+    <depend project="avalon-framework-api"/>
+    <depend project="avalon-framework-impl"/>
+    <depend project="fulcrum-yaafi"/>
+    <depend project="fulcrum-testcontainer"/>
+    <depend project="xml-xerces"/>
+        
+    
+    <depend project="commons-lang"/>
+    <depend project="commons-io"/>
+    <depend project="commons-logging"/>
+    <depend project="commons-collections"/>
+    <depend project="logging-log4j"/>
+    
+    <depend project="osworkflow"/>
+    <depend project="oscore"/>
+    <depend project="propertyset"/>
+    <depend project="jaf"/>
+    <depend project="bsh" />
+    <depend project="bsf"/>
+        
+    <work nested="osworkflow/target/classes"/>
+    <home nested="osworkflow"/>
+    <jar name="target/fulcrum-osworkflow-1.0.1.jar"/>
+    <nag to="turbine-dev@jakarta.apache.org" from="fulcrum-osworkflow development &lt;turbine-dev@jakarta.apache.org&gt;"/>
+  </project>
+  
+  <project name="fulcrum-parser">
+    <maven basedir="parser" goal="jar" />
+    
+    <package>org.apache.fulcrum</package>
+
+    <depend project="ant"/>
+    <depend project="avalon-framework-api"/>
+    <depend project="avalon-framework-impl"/>
+    <depend project="fulcrum-yaafi"/>
+    <depend project="fulcrum-testcontainer"/>
+    <depend project="xml-xerces"/>
+        
+    
+    <depend project="commons-lang"/>
+    <depend project="commons-io"/>
+    <depend project="commons-logging"/>
+    <depend project="commons-collections"/>
+    <depend project="logging-log4j"/>
+    
+    <!-- branched 1.0 version of commons-config -->
+    <depend project="commons-configuration-10"/>
+    
+    <depend project="commons-fileupload"/>
+    <depend project="fulcrum-upload"/>
+    <depend project="fulcrum-pool"/>
+    <depend project="fulcrum-factory"/>
+    <depend project="jakarta-servletapi"/>
+    
+    <work nested="parser/target/classes"/>
+    <home nested="parser"/>
+    <jar name="target/fulcrum-parser-1.0.2-dev.jar"/>
+    <nag to="turbine-dev@jakarta.apache.org" from="fulcrum-parser development &lt;turbine-dev@jakarta.apache.org&gt;"/>
+  </project>
+
+  <project name="fulcrum-pool">
+    <maven basedir="pool" goal="jar" />
+    
+    <package>org.apache.fulcrum</package>
+
+    <depend project="ant"/>
+    <depend project="avalon-framework-api"/>
+    <depend project="avalon-framework-impl"/>
+    <depend project="fulcrum-yaafi"/>
+    <depend project="fulcrum-testcontainer"/>
+    <depend project="xml-xerces"/> 
+
+    <depend project="fulcrum-factory"/>
+    
+    <work nested="pool/target/classes"/>
+    <home nested="pool"/>
+    <jar name="target/fulcrum-pool-1.0.3.jar"/>
+    <nag to="turbine-dev@jakarta.apache.org" from="fulcrum-pool development &lt;turbine-dev@jakarta.apache.org&gt;"/>
+  </project>
+  
+  <project name="fulcrum-quartz">
+    <maven basedir="quartz" goal="jar" />
+    
+    <package>org.apache.fulcrum</package>
+
+    <depend project="ant"/>
+    <depend project="avalon-framework-api"/>
+    <depend project="avalon-framework-impl"/>
+    <depend project="fulcrum-yaafi"/>
+    <depend project="fulcrum-testcontainer"/>
+    <depend project="xml-xerces"/> 
+
+    <depend project="commons-lang"/>
+    <depend project="commons-logging"/>
+    <depend project="quartz"/>
+    <depend project="xstream"/>
+    
+    <work nested="quartz/target/classes"/>
+    <home nested="quartz"/>
+    <jar name="target/fulcrum-quartz-1.0.jar"/>
+    <nag to="turbine-dev@jakarta.apache.org" from="fulcrum-quartz development &lt;turbine-dev@jakarta.apache.org&gt;"/>
+  </project>  
+
+  <!--
+    Commented out until I can get a released version of OSUser.
+    -->
+  <!--project name="fulcrum-security-adapter-opensymphony">
+    <maven basedir="security/adapters/opensymphony" goal="jar" />
+    
+    <package>org.apache.fulcrum.security</package>
+    
+    <depend project="ant"/>
+    <depend project="avalon-framework-api"/>
+    <depend project="avalon-logkit"/>
+    <depend project="commons-lang"/>
+    <depend project="commons-io"/>
+    <depend project="commons-logging"/>
+    <depend project="commons-collections"/>
+    <depend project="logging-log4j"/>
+    <depend project="commons-configuration"/>
+    <depend project="excalibur-component"/>
+    <depend project="excalibur-instrument-api"/>
+    <depend project="excalibur-logger"/>
+    <depend project="excalibur-pool"/>
+    <depend project="commons-jelly"/>
+    <depend project="jakarta-velocity"/>
+    <depend project="xml-xerces"/>
+
+    <depend project="commons-beanutils"/>
+    <depend project="fulcrum-security-api"/>
+    <depend project="fulcrum-security-memory"/>
+    <depend project="fulcrum-crypto"/>
+    <depend project="cryptix"/>
+    <depend project="oscore"/>
+    <depend project="propertyset"/>
+    <depend project="osuser"/>
+    
+    <work nested="security/adapters/opensymphony/target/classes"/>
+    <home nested="security/adapters/opensymphony"/>
+    <jar name="target/fulcrum-security-adapter-opensymphony-1.0.5-dev.jar"/>
+    <nag to="turbine-dev@jakarta.apache.org" from="fulcrum-security-adapter-opensymphony development &lt;turbine-dev@jakarta.apache.org&gt;"/>
+  </project-->
+  
+  <project name="fulcrum-security-adapter-turbine">
+    <maven basedir="security/adapters/turbine" goal="jar" />
+    
+    <package>org.apache.fulcrum.security</package>
+    
+    <depend project="ant"/>
+    <depend project="avalon-framework-api"/>
+    <depend project="avalon-framework-impl"/>
+    <depend project="fulcrum-yaafi"/>
+    <depend project="fulcrum-testcontainer"/>
+    <depend project="xml-xerces"/>
+    
+    <depend project="commons-lang"/>
+    <depend project="commons-io"/>
+    <depend project="commons-logging"/>
+    <depend project="commons-collections"/>
+    <depend project="logging-log4j"/>
+    <depend project="commons-configuration"/>
+    <depend project="commons-beanutils"/>
+    <depend project="commons-codec"/>
+    <depend project="fulcrum-security-api"/>
+    <depend project="fulcrum-security-memory"/>
+    <depend project="fulcrum-crypto"/>
+    <depend project="jakarta-servletapi"/>
+    <depend project="jakarta-turbine-2"/>
+    <depend project="db-torque"/>
+    <depend project="mockobjects"/>
+    <depend project="mockobjects-j2ee-13"/>
+    <depend project="jakarta-ecs"/>
+
+    <work nested="security/adapters/turbine/target/classes"/>
+    <home nested="security/adapters/turbine"/>
+    <jar name="target/fulcrum-security-adapter-turbine-1.0.8-dev.jar"/>
+    <nag to="turbine-dev@jakarta.apache.org" from="fulcrum-security-adapter-turbine development &lt;turbine-dev@jakarta.apache.org&gt;"/>
+  </project>
+  
+  <project name="fulcrum-security-api">
+    <maven basedir="security/api" goal="jar" />
+    
+    <package>org.apache.fulcrum.security</package>
+    
+    <depend project="ant"/>
+    <depend project="avalon-framework-api"/>
+    <depend project="avalon-framework-impl"/>
+    <depend project="fulcrum-yaafi"/>
+    <depend project="fulcrum-testcontainer"/>
+    <depend project="xml-xerces"/>
+    
+    <depend project="commons-codec"/>
+    <depend project="commons-lang"/>
+    <depend project="commons-io"/>
+    <depend project="commons-logging"/>
+    <depend project="commons-collections"/>
+    <depend project="cryptix"/>
+    <depend project="fulcrum-crypto"/>
+    <depend project="fulcrum-testcontainer"/>
+    <depend project="junit"/>
+    <depend project="logging-log4j"/>
+    <depend project="xml-xerces"/>
+    
+    <work nested="security/api/target/classes"/>
+    <home nested="security/api"/>
+    <jar name="target/fulcrum-security-api-1.0.8-dev.jar"/>
+    <nag to="turbine-dev@jakarta.apache.org" from="fulcrum-security-api development &lt;turbine-dev@jakarta.apache.org&gt;"/>
+  </project>
+
+  <project name="fulcrum-security-memory">
+    <maven basedir="security/memory" goal="jar" />
+    
+    <package>org.apache.fulcrum.security</package>
+    
+    <depend project="ant"/>
+    <depend project="avalon-framework-api"/>
+    <depend project="avalon-framework-impl"/>
+    <depend project="fulcrum-yaafi"/>
+    <depend project="fulcrum-testcontainer"/>
+    <depend project="xml-xerces"/>
+        
+    <depend project="commons-lang"/>
+    <depend project="commons-logging"/>
+    <depend project="commons-collections"/>
+    <depend project="logging-log4j"/>
+    <depend project="commons-configuration"/>
+    
+    <depend project="cryptix"/>
+    <depend project="fulcrum-crypto"/>
+    <depend project="fulcrum-security-api"/>
+    <depend project="fulcrum-testcontainer"/>
+    
+    <work nested="security/memory/target/classes"/>
+    <home nested="security/memory"/>
+    <jar name="target/fulcrum-security-memory-1.0.8-dev.jar"/>
+    <nag to="turbine-dev@jakarta.apache.org" from="fulcrum-security-memory development &lt;turbine-dev@jakarta.apache.org&gt;"/>
+  </project>
+  
+  <project name="fulcrum-security-nt">
+    <maven basedir="security/nt" goal="jar" />
+    
+    <package>org.apache.fulcrum.security</package>
+    
+    <depend project="ant"/>
+    <depend project="avalon-framework-api"/>
+    <depend project="avalon-framework-impl"/>
+    <depend project="fulcrum-yaafi"/>
+    <depend project="fulcrum-testcontainer"/>
+    <depend project="xml-xerces"/>
+    
+    <depend project="commons-lang"/>
+    <depend project="commons-logging"/>
+    <depend project="commons-collections"/>
+    <depend project="logging-log4j"/>
+    
+    <depend project="cryptix"/>
+    <depend project="fulcrum-crypto"/>
+    <depend project="fulcrum-security-api"/>
+    <depend project="fulcrum-security-memory"/>
+    <depend project="fulcrum-testcontainer"/>
+    <depend project="tagishauth"/>
+    
+    <work nested="security/nt/target/classes"/>
+    <home nested="security/nt"/>
+    <jar name="target/fulcrum-security-nt-1.0.8-dev.jar"/>
+    <nag to="turbine-dev@jakarta.apache.org" from="fulcrum-security-nt development &lt;turbine-dev@jakarta.apache.org&gt;"/>
+  </project>
+
+  <project name="fulcrum-template">
+    <maven basedir="template" goal="jar" />
+    
+    <package>org.apache.fulcrum</package>
+    
+    <depend project="ant"/>
+    <depend project="avalon-framework-api"/>
+    <depend project="avalon-framework-impl"/>
+    <depend project="fulcrum-yaafi"/>
+    <depend project="fulcrum-testcontainer"/>
+    <depend project="xml-xerces"/>
+    
+    <depend project="commons-lang"/>
+    <depend project="commons-io"/>
+    <depend project="commons-logging"/>
+    <depend project="commons-collections"/>
+    <depend project="commons-configuration"/>
+    <depend project="logging-log4j"/>
+    <depend project="commons-email"/>
+    <depend project="javamail" ids="javamail"/>
+    <depend project="jaf"/>
+    <depend project="jakarta-velocity"/>
+    
+    <home nested="template"/>
+    <jar name="target/fulcrum-template-1.0.2-dev.jar"/>
+    <nag to="turbine-dev@jakarta.apache.org" from="fulcrum-template development &lt;turbine-dev@jakarta.apache.org&gt;"/>
+  </project>
+  
+  <project name="fulcrum-testcontainer">
+    <maven basedir="testcontainer" goal="jar" />
+    
+    <package>org.apache.fulcrum</package>
+    
+    <depend project="ant"/>
+    <depend project="avalon-framework-api"/>
+    <depend project="avalon-framework-impl"/>
+
+    <depend project="xml-xerces"/>
+    
+    <!-- ECM Dependencies are Required -->
+    <depend project="logging-log4j"/>
+    <depend project="excalibur-component"/>
+    <depend project="excalibur-instrument-api"/>
+    <depend project="excalibur-logger"/>
+    <depend project="excalibur-pool"/>
+
+    <depend project="commons-lang"/>
+    <depend project="commons-io"/>
+    <depend project="commons-logging"/>
+    <depend project="commons-collections"/>
+    <depend project="logging-log4j"/>
+    <depend project="junit"/>
+    <depend project="fulcrum-yaafi"/>    
+
+
+    
+    <work nested="testcontainer/target/classes"/>
+    <home nested="testcontainer"/>
+    <jar name="target/fulcrum-testcontainer-1.0.4.jar"/>
+    <nag to="turbine-dev@jakarta.apache.org" from="fulcrum-testcontainer development &lt;turbine-dev@jakarta.apache.org&gt;"/>
+  </project>
+
+  <project name="fulcrum-upload">
+    <maven basedir="upload" goal="jar" />
+    
+    <package>org.apache.fulcrum</package>
+    
+    <depend project="ant"/>
+    <depend project="avalon-framework-api"/>
+    <depend project="avalon-framework-impl"/>
+    <depend project="fulcrum-yaafi"/>
+    <depend project="fulcrum-testcontainer"/>
+    <depend project="xml-xerces"/>
+    
+    <depend project="commons-lang"/>
+    <depend project="commons-io"/>
+    <depend project="commons-logging"/>
+    <depend project="commons-collections"/>
+    <depend project="logging-log4j"/>
+    <depend project="xml-xerces"/>
+    <depend project="commons-fileupload"/>
+
+    <depend project="jakarta-servletapi"/>
+    
+    <work nested="upload/target/classes"/>
+    <home nested="upload"/>
+    <jar name="target/fulcrum-upload-1.0.3.jar"/>
+    <nag to="turbine-dev@jakarta.apache.org" from="fulcrum-upload development &lt;turbine-dev@jakarta.apache.org&gt;"/>
+  </project>
+  
+  <project name="fulcrum-xmlrpc">
+    <maven basedir="xmlrpc" goal="jar" />
+    
+    <package>org.apache.fulcrum</package>
+    
+    <depend project="ant"/>
+    <depend project="avalon-framework-api"/>
+    <depend project="avalon-framework-impl"/>
+    <depend project="fulcrum-yaafi"/>
+    <depend project="fulcrum-testcontainer"/>
+    <depend project="xml-xerces"/>
+    
+    <depend project="commons-codec"/>
+    <depend project="commons-collections"/>
+    <depend project="commons-io"/>
+    <depend project="commons-lang"/>
+    <depend project="commons-logging"/>
+    <depend project="logging-log4j"/>
+    <depend project="xmlrpc"/>
+    
+    <work nested="xmlrpc/target/classes"/>
+    <home nested="xmlrpc"/>
+    <jar name="target/fulcrum-xmlrpc-1.0.5.jar"/>
+    <nag to="turbine-dev@jakarta.apache.org" from="fulcrum-xmlrpc development &lt;turbine-dev@jakarta.apache.org&gt;"/>
+  </project>
+
+  <project name="fulcrum-xslt">
+    <maven basedir="xslt" goal="jar" />
+    
+    <package>org.apache.fulcrum</package>
+    
+    <depend project="ant"/>
+    <depend project="avalon-framework-api"/>
+    <depend project="avalon-framework-impl"/>
+    <depend project="fulcrum-yaafi"/>
+    <depend project="fulcrum-testcontainer"/>
+    <depend project="xml-xerces"/>
+    
+    <depend project="commons-lang"/>
+    <depend project="commons-logging"/>
+    
+    <work nested="xslt/target/classes"/>
+    <home nested="xslt"/>
+    <jar name="target/fulcrum-xslt-1.0.3.jar"/>
+    <nag to="turbine-dev@jakarta.apache.org" from="fulcrum-xslt development &lt;turbine-dev@jakarta.apache.org&gt;"/>
+  </project>
+
+  <project name="fulcrum-yaafi">
+    <maven basedir="yaafi" goal="jar" />
+    
+    <package>org.apache.fulcrum</package>
+    
+    <depend project="ant"/>
+    <depend project="avalon-framework-api"/>
+    <depend project="avalon-framework-impl"/>
+    <depend project="xml-xerces"/>
+    
+    
+    <work nested="yaafi/target/classes"/>
+    <home nested="yaafi"/>
+    <jar name="target/fulcrum-yaafi-1.0.3.jar"/>
+    <nag to="turbine-dev@jakarta.apache.org" from="fulcrum-yaafi development &lt;turbine-dev@jakarta.apache.org&gt;"/>
+  </project>  
+</module>

@@ -1,0 +1,297 @@
+<?xml version="1.0"?>
+<!--
+  Copyright 2001-2004 The Apache Software Foundation
+
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+-->
+<module name="depot" fullname="Apache Depot">
+
+    <url href="http://incubator.apache.org/depot"/>
+
+    <svn repository="apache-incubator-svn"
+    	dir="depot/trunk/"/>
+     
+    <description>
+      Depot -- repository tools and more...
+    </description>
+    
+<!-- Nicola is requesting that the Depot project is shut down, and it is
+     so dead that people don't even respond to that...
+     SO I am removing the projects that noone is depending on anyway. (Niclas).
+ 
+    <project name="depot-common" fullname="Depot Common" >
+
+        <package>org.apache.depot.common</package>
+
+        <work nested="common/build/depot-common/classes"/>
+        <home nested="common"/>
+
+        <depend project="ant" inherit="runtime"/>
+        <depend project="antworks-importer"/>
+        <depend project="antworks-antlets"/>
+
+        <jar name="dist/depot-common-gump-@@DATE@@.jar"/>
+
+        <ant basedir="common" buildfile="build.xml" target="gump" vm="1.4">
+          <property name="ant.home" project="ant" reference="home" />        
+          <property name="DSTAMP" value="@@DATE@@"/>        	  	
+        </ant>
+
+        <nag 
+           to="depot-dev@incubator.apache.org"
+           from="Adam Jack &lt;ajack@apache.org&gt;"/>
+              
+    </project>
+    
+    <project name="depot-common-test" fullname="Depot Common Test" >
+        <package>org.apache.depot.common.test</package>
+
+        <work nested="common/build/depot-common/junit/classes"/>
+        <home nested="common"/>
+
+        <depend project="depot-common" inherit="all"/>
+        <depend project="xml-xerces"/>
+        <depend project="ant-testutil"/>
+        <depend project="junit"/>
+        
+        <junitreport nested="common/build/depot-common/junit/results"/>
+        
+        <ant basedir="common" buildfile="build.xml" target="test" vm="1.4">
+          <property name="ant.home" project="ant" reference="home" />
+        </ant>
+
+        <nag 
+           to="depot-dev@incubator.apache.org"
+           from="Adam Jack &lt;ajack@apache.org&gt;"/>
+           
+    </project>
+    
+    
+    <project name="depot-version" fullname="Depot Version" >
+
+        <package>org.apache.depot.version</package>
+
+        <work nested="version/build/depot-version/classes"/>
+        <home nested="version"/>
+
+        <depend inherit="runtime" project="ant"/>
+        <depend project="depot-common" inherit="all"/>
+        <option project="jakarta-servletapi" />
+
+        <jar name="dist/depot-version-gump-@@DATE@@.jar"/>
+
+        <ant basedir="version" buildfile="build.xml" target="gump" vm="1.4">
+          <property name="ant.home" project="ant" reference="home" />        
+          <property name="DSTAMP" value="@@DATE@@"/>        	
+        </ant>
+
+        <nag 
+           to="depot-dev@incubator.apache.org"
+           from="Adam Jack &lt;ajack@apache.org&gt;"/>              
+    </project>
+    
+    
+    <project name="depot-version-test" fullname="Depot Version Test" >
+        <package>org.apache.depot.version.test</package>
+
+        <work nested="version/build/depot-version/junit/classes"/>
+        <home nested="version/"/>
+
+        <depend project="depot-version" inherit="all"/>
+        <depend project="xml-xerces"/>
+        <depend project="ant-testutil"/>
+        <depend project="junit"/>
+
+        <junitreport nested="version/build/depot-version/junit/results"/>
+        
+        <ant basedir="version" buildfile="build.xml" target="test" vm="1.4">
+          <property name="ant.home" project="ant" reference="home" />
+        </ant>
+
+        <nag 
+           to="depot-dev@incubator.apache.org"
+           from="Adam Jack &lt;ajack@apache.org&gt;"/>           
+    </project>
+
+
+    <project name="depot-version-ant-sample" fullname="Depot Version Ant Sample" >
+        <depend project="depot-version" inherit="all"/>
+        <depend project="ant" inherit="runtime"/>
+        <depend project="xml-xerces"/>
+
+        <ant basedir="version" buildfile="build-ant-sample.xml" target="gump" vm="1.4">
+          <property name="ant.home" project="ant" reference="home" />
+        </ant>
+
+        <nag 
+           to="depot-dev@incubator.apache.org"
+           from="Adam Jack &lt;ajack@apache.org&gt;"/>
+           
+    </project>
+
+    <project name="depot-version-ant-test-optional-missing" fullname="Depot Version Ant Test Optional Missing" >
+        <depend project="ant" inherit="runtime"/>
+        <depend project="xml-xerces"/>
+
+        <ant basedir="version" buildfile="build-ant-test-optional-missing.xml" target="gump" vm="1.4">
+          <property name="ant.home" project="ant" reference="home" />
+        </ant>
+
+        <nag 
+           to="depot-dev@incubator.apache.org"
+           from="Adam Jack &lt;ajack@apache.org&gt;"/>
+           
+    </project>
+
+
+    <project name="depot-version-antlet" fullname="Depot Version Antlet" >
+       <package>org.apache.depot.version</package>
+       <depend project="depot-version" inherit="all"/>
+       <depend project="antworks-antlets" inherit="runtime"/>
+        <ant basedir="version" buildfile="build.xml" target="install-antlet" vm="1.4">          
+          <property name="DSTAMP" value="@@DATE@@"/>        	
+        </ant>
+        <nag 
+           to="depot-dev@incubator.apache.org"
+           from="Adam Jack &lt;ajack@apache.org&gt;"/>
+              
+    </project>
+
+    <project name="depot-version-antlet-test" fullname="Depot Version Antlet" >
+       <package>org.apache.depot.version</package>
+       <depend project="depot-version-antlet" inherit="all"/>
+
+        <ant basedir="version" buildfile="src/test/antlet/build.xml" target="all" vm="1.4">
+          <property name="ant.home" project="ant" reference="home" />
+          <property name="DATE_STAMP" value="@@DATE@@"/>        	
+        </ant>
+        <nag 
+           to="depot-dev@incubator.apache.org"
+           from="Adam Jack &lt;ajack@apache.org&gt;"/>
+              
+    </project>
+   
+    
+    <project name="depot-update" fullname="Depot Update" >
+
+        <package>org.apache.depot.update</package>
+
+        <work nested="update/build/depot-home/classes"/>
+        <home nested="update/"/>
+
+        <depend project="ant" inherit="runtime"/>
+        <depend project="depot-version-antlet" inherit="runtime"/> 
+        <depend project="antworks-antlets" inherit="runtime"/> 
+        
+        <depend project="depot-version" runtime="true"/> 
+        <depend project="depot-common" runtime="true"/>
+        <depend project="jakarta-regexp" runtime="true"/>
+        <depend project="commons-httpclient" runtime="true"/>
+        <depend project="commons-codec" runtime="true"/>
+        <depend project="commons-logging" runtime="true"/>
+        <depend project="commons-vfs" runtime="true"/>
+
+        <jar name="dist/depot-update-0.1-gump-@@DATE@@.jar"/>
+
+        <ant basedir="update" buildfile="build.xml" target="gump" vm="1.4">
+          <property name="ant.home" project="ant" reference="home" />
+           <property name="project.version" value="0.1-gump-@@DATE@@"/>       	
+        </ant>
+
+        <nag 
+           to="depot-dev@incubator.apache.org"
+           from="Adam Jack &lt;ajack@apache.org&gt;"/>
+              
+    </project>
+    
+    <project name="depot-update-test" fullname="Depot Update Test">
+        <package>org.apache.depot.update.test</package>
+        <work nested="update/build/depot-update/junit/classes/"/>
+        <home nested="update"/>
+
+        <depend project="depot-update" inherit="all"/>
+        <depend project="ant-testutil"/>
+        <depend project="junit"/>
+        <depend project="xml-xerces"/>
+        <depend project="xmlunit"/>
+
+        <junitreport nested="update/build/depot-update/junit/results"/>
+        
+        <ant  basedir="update" buildfile="build.xml" target="test" vm="1.4">
+          <property name="ant.home" project="ant" reference="home" />
+        </ant>
+
+        <nag 
+           to="depot-dev@incubator.apache.org"
+           from="Adam Jack &lt;ajack@apache.org&gt;"/>
+           
+    </project>
+    
+    <project name="depot-update-ant-sample-vfs" fullname="Depot Update Ant Sample">    	
+
+        <depend project="depot-update" inherit="runtime"/>
+        <depend project="commons-codec" runtime="true"/>
+        <depend project="commons-logging" inherit="runtime"/>
+        <depend project="commons-httpclient" inherit="runtime"/>
+        <depend project="ant" inherit="runtime"/>
+        
+        <ant  basedir="update" buildfile="build-ant-sample.xml" target="gump" vm="1.4">
+          <property name="ant.home" project="ant" reference="home" />
+        </ant>
+
+        <nag 
+           to="depot-dev@incubator.apache.org"
+           from="Adam Jack &lt;ajack@apache.org&gt;"/>
+           
+    </project>
+    
+    <project name="depot-update-ant-sample-httpclient" fullname="Depot Update Ant Sample">    	
+
+        <depend project="depot-update"/>
+        <depend project="depot-version" inherit="runtime"/> 
+        <depend project="depot-common" inherit="runtime"/>
+        <depend project="jakarta-regexp" inherit="runtime"/>
+        
+        <depend project="commons-httpclient" inherit="runtime"/>
+        <depend project="ant" inherit="runtime"/>
+        
+        <ant  basedir="update" buildfile="build-ant-sample.xml" target="gump" vm="1.4">
+          <property name="ant.home" project="ant" reference="home" />
+        </ant>
+
+        <nag 
+           to="depot-dev@incubator.apache.org"
+           from="Adam Jack &lt;ajack@apache.org&gt;"/>
+           
+    </project>
+    
+    <project name="depot-update-ant-sample-jdk" fullname="Depot Update Ant Sample">    	
+
+        <depend project="depot-update"/>
+        <depend project="depot-version" inherit="runtime"/> 
+        <depend project="depot-common" inherit="runtime"/>
+        <depend project="jakarta-regexp" inherit="runtime"/>
+        <depend project="ant" inherit="runtime"/>
+        
+        <ant  basedir="update" buildfile="build-ant-sample.xml" target="gump" vm="1.4">
+          <property name="ant.home" project="ant" reference="home" />
+        </ant>
+
+        <nag 
+           to="depot-dev@incubator.apache.org"
+           from="Adam Jack &lt;ajack@apache.org&gt;"/>
+           
+    </project>
+-->    
+</module>
+

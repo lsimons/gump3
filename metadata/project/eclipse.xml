@@ -1,0 +1,45 @@
+<?xml version="1.0" ?>
+<!--
+  Copyright 2001-2004 The Apache Software Foundation
+
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+-->
+<module name="eclipse">
+
+  <url href="http://www.eclipse.org/"/>
+  <description>
+    The Eclipse jars
+  </description>
+
+  <project name="eclipse">
+
+    <package>org.eclipse</package>
+
+    <jar name="plugins/org.eclipse.ant.core_3.0.0/antsupport.jar" id="antsupport"/>
+    <jar name="plugins/org.eclipse.core.boot_3.0.0/boot.jar" id="boot"/>
+    <jar name="plugins/org.eclipse.core.resources_3.0.1/resources.jar" id="resources"/>
+    <jar name="plugins/org.eclipse.core.runtime_3.0.1/runtime.jar" id="runtime"/>
+    <jar name="plugins/org.eclipse.debug.core_3.0.1/dtcore.jar" id="dtcore"/>
+    <jar name="plugins/org.eclipse.debug.ui_3.0.1/dtui.jar" id="dtui"/>
+    <jar name="plugins/org.eclipse.jdt.core_3.0.1/jdtcore.jar" id="jdtcore"/>
+    <jar name="plugins/org.eclipse.jdt.junit_3.0.1/junitsupport.jar" id="jdtjunit"/>
+    <jar name="plugins/org.eclipse.jdt.launching_3.0.1/launching.jar" id="launching"/>
+    <jar name="plugins/org.eclipse.jdt.ui_3.0.1/jdt.jar" id="jdtui"/>
+    <jar name="plugins/org.eclipse.jface_3.0.0/jface.jar" id="jface"/>
+    <jar name="plugins/org.eclipse.swt.gtk_3.0.1/ws/gtk/swt.jar" id="swt"/>
+    <jar name="plugins/org.eclipse.ui.workbench_3.0.1/workbench.jar" id="workbench"/>
+    <jar name="plugins/org.eclipse.ui.externaltools_3.0.1/externaltools.jar" id="externaltools"/>
+
+  </project>
+
+</module>

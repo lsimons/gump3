@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+  Copyright 2004 The Apache Software Foundation
+
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+-->
+
+<!--
+  - This descriptor was automatically generated using Maven.
+  - To regenerate, run: "maven gump:multiproject"
+  -
+  - If you have a requirement that leads to hand editing, please consider filing
+  - a feature request at http://jira.codehaus.org/browse/MPGUMP
+-->
+<module name="directory-naming">
+  <description>Apache Directory Naming Component</description>
+  <url href="http://incubator.apache.org/directory/subprojects/directory-naming/"/>
+
+  <svn repository="apache-incubator-svn" dir="directory/naming/" />
+    
+  <project name="directory-naming-core">
+    <maven goal="jar" basedir="core">
+      <property name="maven.final.name" value="directory-naming-core-@@DATE@@"/>
+      <property name="maven.jar.mx4j-jmx" project="mx4j" id="mx4j-jmx" reference="jarpath"/>
+    </maven>
+
+    <depend project="commons-collections" />
+    <depend project="junit" />
+    <depend project="mx4j" id="mx4j-jmx" />
+    
+    <home nested="core" />
+
+    <jar name="target/directory-naming-core-@@DATE@@.jar" />
+      
+    <javadoc nested="core/target/docs/apidocs" />
+
+    <junitreport nested="core/target/test-reports" />
+  
+    <nag from="directory-naming-core development &lt;directory-dev@incubator.apache.org&gt;"
+         to="directory-dev@incubator.apache.org"/>
+  </project>
+    
+  <project name="directory-naming-factory">
+    <maven goal="jar" basedir="factory">
+      <property name="maven.final.name" value="directory-naming-factory-@@DATE@@"/>
+      <property name="maven.jar.geronimo-spec-jta" project="jta" id="jta" reference="jarpath"/>
+      <property name="maven.jar.geronimo-spec-javamail" project="javamail" id="javamail" reference="jarpath"/>
+    </maven>
+
+    <depend project="directory-naming-core" />
+    <depend project="jta" id="jta" />
+    <depend project="javamail" id="javamail" />
+    <depend project="commons-logging" />
+    <depend project="commons-lang" />
+    <depend project="commons-digester" />
+    <depend project="commons-beanutils" />
+    <depend project="commons-dbcp" />
+    <depend project="commons-pool" />
+    <depend project="hsqldb" />
+    <depend project="commons-collections" />
+    <depend project="junit" />
+    <depend project="mx4j" id="mx4j-jmx" />
+    
+    <home nested="factory" />
+
+    <jar name="target/directory-naming-factory-@@DATE@@.jar" />
+      
+    <javadoc nested="factory/target/docs/apidocs" />
+
+    <junitreport nested="factory/target/test-reports" />
+  
+    <nag from="directory-naming-factory development &lt;directory-dev@incubator.apache.org&gt;"
+         to="directory-dev@incubator.apache.org"/>
+  </project>
+</module>

@@ -1,0 +1,71 @@
+<?xml version="1.0" ?>
+<!--
+  Copyright 2001-2004 The Apache Software Foundation
+
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+-->
+<module name="jetty">
+
+  <url  href="http://jetty.mortbay.org/jetty/index.html"/>
+  <description>
+    Java HTTP Servlet Server
+  </description>
+  <redistributable/>
+
+  <cvs repository="sourceforge"  dir="jetty"
+    module="Jetty"/>
+  
+  <project name="jetty">
+    <package>org.mortbay.jetty</package>
+
+    <ant target="jars"/>
+
+    <depend project="ant"/>
+    <depend project="commons-logging" runtime="true"/>
+    <depend project="xml-xerces"/>
+    <depend project="mx4j"/>
+    <depend project="mx4j-tools-from-packaged-jetty"/>
+    <work nested="classes"/>
+
+    <jar name="lib/org.mortbay.jetty.jar" id="jetty"/>
+    <jar name="lib/org.mortbay.jmx.jar" id="jetty-jmx"/>
+    <license name="LICENSE.TXT"/>
+  </project>
+
+  <project name="jetty-plus">
+    <package>org.mortbay.jetty.plus</package>
+
+    <ant target="jars" basedir="extra/plus"/>
+
+    <depend project="ant"/>
+    <depend project="jetty" inherit="all"/>
+    <depend project="jetty-jotm"/>
+    <depend project="jetty-xapool"/>
+    <depend project="jta"/>
+
+    <work nested="extra/plus/classes"/>
+
+    <jar name="lib/org.mortbay.jetty.plus.jar" id="jetty-plus"/>
+    <jar name="lib/org.mortbay.jaas.jar" id="jetty-jaas"/>
+    <license name="LICENSE.TXT"/>
+  </project>
+
+  <project name="jetty-xapool">
+    <jar name="extra/ext/xapool.jar"/>
+  </project>
+
+  <project name="jetty-jotm">
+    <jar name="extra/ext/jotm.jar"/>
+  </project>
+
+</module>

@@ -1,0 +1,69 @@
+<?xml version="1.0"?>
+
+<!--+
+    | Copyright 2003-2004 The Apache Software Foundation
+    | Licensed under the Apache License, Version 2.0 (the "License");
+    | you may not use this file except in compliance with the License.
+    | You may obtain a copy of the License at
+    |
+    |    http://www.apache.org/licenses/LICENSE-2.0
+    |
+    | Unless required by applicable law or agreed to in writing, software
+    | distributed under the License is distributed on an "AS IS" BASIS,
+    | WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    | See the License for the specific language governing permissions and
+    | limitations under the License.
+    +-->
+
+<!--+
+    | This represents the combination of projects (either 
+    | referenced directly or indirectly, via profiles) that 
+    | are to be built together. By default, workspaces are 
+    | named after the hostname of the computer which you are 
+    | building on.
+    |
+    | For more information on what this file can contain
+    | read "http://gump.apache.org/metadata/workspace.html"
+    +-->  
+
+<workspace 
+    version="0.4" 
+    name="generic"
+    basedir="." 
+    pkgdir="./packages"
+    jardir="./jars"
+	>
+         
+ <!--+
+     | this tells Ant to completely ignore all classpath
+     | elements in build scripts. This makes sure we build
+     | the latest version of everything. Note you could
+     | comment out this line and gump would still run fine.
+     | The thing you loose then is the continuous integration.
+     | See: http://gump.apache.org/why.html for more
+     | background. 
+     +-->
+  <property name="build.sysclasspath" value="only"/>
+
+  <!--+
+      | this references your profile description. A profile is a
+      | collection of projects and repositories that are logically
+      | to be considered a unit. A profile can provide a consistent
+      | set of installable dependencies, or tagged versions of cvs
+	  | modules to be used.
+	  +-->
+  <profile href="profile/minimal-profile.xml"/>
+  
+  <!--+
+      | full gump profile
+      +--> 	     
+  <!-- profile href="profile/gump.xml"/-->
+
+  <!-- Project overrides -->
+
+  <!--+
+      | Repository overrides can be used to override the definitions
+      | found in the various files referenced above
+      +-->
+  
+</workspace>

@@ -1,0 +1,97 @@
+<?xml version="1.0"?>
+<!--
+  Copyright 1999-2004 The Apache Software Foundation
+
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+      http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+-->
+
+<!-- $Id: lenya.xml,v 1.18 2004/12/20 18:50:16 gregor Exp $ -->
+
+<module name="lenya">
+
+  <url href="http://lenya.apache.org/"/>
+  <description>Content Management System</description>
+
+  <svn repository="lenya" dir="trunk"/>
+
+  <!--
+    *******************************
+    ********  Lenya CORE  ********
+    *******************************
+  -->
+
+  <project name="lenya">
+    <package>org.apache.lenya</package>
+
+    <ant target="compile">
+      <property name="version" value="@@DATE@@"/>
+      <property name="build.dir" value="build/lenya-@@DATE@@"/>
+      <property name="build.webapp" value="build/lenya-@@DATE@@/webapp"/>
+      <property name="gump.skipcocoonbuild" value="true"/>
+    </ant>
+
+    <depend project="cocoon" inherit="runtime"/>
+
+<!--
+    These are runtime dependencies
+    
+    <depend project="cocoon-block-fop" inherit="runtime"/>
+    <depend project="cocoon-block-batik" inherit="runtime"/>
+    <depend project="cocoon-block-chaperon" inherit="runtime"/>
+    <depend project="cocoon-block-databases" inherit="runtime"/>
+    <depend project="cocoon-block-deli" inherit="runtime"/>
+    <depend project="cocoon-block-profiler" inherit="runtime"/>
+    <depend project="cocoon-block-serializers" inherit="runtime"/>
+-->
+    <depend project="cocoon-block-naming" inherit="runtime"/>
+    <depend project="cocoon-block-html" inherit="runtime"/>
+    <depend project="cocoon-block-lucene" inherit="runtime"/>
+    <depend project="cocoon-block-linkrewriter" inherit="runtime"/>
+    <depend project="cocoon-block-proxy" inherit="runtime"/>
+    <depend project="cocoon-block-forms" inherit="runtime"/>
+    <depend project="cocoon-block-xsp" inherit="runtime"/>
+    <depend project="cocoon-block-session-fw" inherit="runtime"/>
+
+    <depend project="commons-io"/>
+    <depend project="dom4j"/>
+    <depend project="excalibur-component"/>
+    <depend project="jakarta-lucene"/>
+    <depend project="jtidy"/>
+    <depend project="junit"/>
+    <depend project="quartz"/>
+    <depend project="websphinx"/>
+    <depend project="xmldb"/>
+
+    <work nested="tools/anttasks"/>
+    <work nested="build/lenya-@@DATE@@/tools/anttasks"/>
+    <work nested="build/lenya-@@DATE@@/classes"/>
+
+    <home nested="build/lenya-@@DATE@@"/>
+
+    <javadoc parent="build/lenya-@@DATE@@/javadocs"/>
+
+    <nag from="Gump" to="dev@lenya.apache.org">
+      <regexp pattern="/BUILD FAILED/" subject="Build Failure - Lenya"/>
+    </nag>
+  </project>
+
+ <project name="websphinx">
+    <package>websphinx</package>
+    
+    <jar name="lib/websphinx.jar"/>
+
+    <license name="legal/LICENSE.websphinx"/>
+    
+ </project>
+  
+</module>

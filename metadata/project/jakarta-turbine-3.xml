@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Copyright 2001-2004 The Apache Software Foundation
+
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+-->
+<module name="jakarta-turbine-3">
+
+
+  <description>A servlet based framework.</description>
+  <url href="http://jakarta.apache.org/turbine/turbine-3/"/>
+  
+  <cvs repository="jakarta"/>
+  
+  <!-- This is really the cvs module. We need to change this but -->
+  <!-- I will leave this for now until everything works.         -->
+  
+  <project name="jakarta-turbine-3">
+    
+    <!-- Standard Maven target to produce Javadocs, source -->
+    <!-- and binary distributions.                         -->
+    
+    <ant buildfile="build-gump.xml" target="jar">
+      <property name="final.name" value="turbine-@@DATE@@"/>
+    </ant>
+    
+    <!-- All Maven projects need Ant and Xerces to build. -->
+    <depend project="ant"/>
+    <depend project="xml-xerces"/>
+
+    <depend project="jaf"/>
+    <depend project="jakarta-cactus-framework-12"/>
+    <depend project="jakarta-cactus-integration-ant-12"/>
+    <depend project="commons-beanutils"/>
+    <depend project="commons-collections"/>
+    <depend project="commons-configuration"/>
+    <depend project="xstream"/>
+    <depend project="commons-lang"/>
+    <depend project="commons-logging"/>
+    <depend project="commons-io"/>
+    <depend project="commons-http"/>
+    <depend project="commons-fileupload"/>
+    <depend project="dom4j"/>
+    <!-- no idea which of the many projects that should be -->
+    <!--depend project="jakarta-turbine-fulcrum"/-->
+    <depend project="commons-httpclient"/>
+    <depend project="httpunit"/>
+    <depend project="jakarta-regexp"/>
+    <depend project="junit"/>
+    <depend project="logging-log4j"/>
+    <depend project="jakarta-servletapi"/>
+    <depend project="jakarta-turbine-stratum"/>
+    <depend project="jtidy"/>
+    <depend project="db-torque"/>
+    <depend project="jakarta-velocity"/>
+    <depend project="jakarta-velocity-dvsl"/>
+    <depend project="xml-xerces"/>
+    <depend project="xml-apis"/>
+    <depend project="commons-jxpath"/>
+    <depend project="jgen"/>
+
+    <work nested="target/classes"/>
+    <home nested="target"/>
+    <jar name="turbine-@@DATE@@.jar"/>
+    <javadoc nested="docs/apidocs"/>
+
+    <nag from="turbine-dev@jakarta.apache.org" to="turbine-dev@jakarta.apache.org"/>
+
+    
+  </project>
+  
+</module>

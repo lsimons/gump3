@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+  Copyright 2004 The Apache Software Foundation
+
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+-->
+
+<!--
+  - This descriptor was automatically generated using Maven.
+  - To regenerate, run: "maven gump:gump"
+  -
+  - If you have a requirement that leads to hand editing, please consider filing
+  - a feature request at http://jira.codehaus.org/browse/MPGUMP
+-->
+<module name="seda">
+  <description>An internet protocol server framework</description>
+  <url href="http://incubator.apache.org/directory"/>
+
+  <svn repository="apache-incubator-svn" dir="directory/seda/trunk" />
+    
+  <project name="seda">
+    <maven goal="jar" basedir=".">
+      <property name="maven.final.name" value="seda-@@DATE@@"/>
+    </maven>
+
+    <depend project="commons-logging" />
+    <depend project="snickers-codec" />
+    <depend project="commons-net" />
+    <depend project="junit" />
+    
+    <home nested="." />
+
+    <jar name="target/seda-@@DATE@@.jar" />
+      
+    <javadoc nested="target/docs/apidocs" />
+
+    <junitreport nested="./target/test-reports" />
+  
+    <nag from="seda development &lt;directory-dev@incubator.apache.org&gt;"
+         to="directory-dev@incubator.apache.org"/>
+  </project>
+</module>

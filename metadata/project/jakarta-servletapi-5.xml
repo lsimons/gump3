@@ -1,0 +1,79 @@
+<?xml version="1.0" ?>
+<!--
+  Copyright 2001-2004 The Apache Software Foundation
+
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+-->
+<module name="jakarta-servletapi-5">
+
+  <description>
+    JSRs 152 and 154
+  </description>
+
+  <cvs repository="jakarta"/>
+  
+  <project name="jakarta-servletapi-5-servlet">
+    <package>javax.servlet</package>
+    <package>javax.servlet.http</package>
+
+    <description>
+      JSR 154
+    </description>
+
+    <mkdir dir="jsr154/build/classes"/>
+    <ant basedir="jsr154" target="dist"/>
+    <depend project="xml-xerces"/>
+    <depend project="ant" inherit="runtime"/>
+    <work nested="jsr154/build/classes"/>
+    <home nested="jsr154/dist"/>
+    <jar name="lib/servlet-api.jar" id="servletapi"/>
+    <javadoc nested="jsr154/build/docs/api" module="jakarta-tomcat-5"/>
+  </project>
+
+  <project name="jakarta-servletapi-5-jsp">
+    <package>javax.servlet.jsp</package>
+
+    <description>
+      JSR 152
+    </description>
+
+    <mkdir dir="jsr152/build/classes"/>
+    <ant basedir="jsr152" target="dist">
+      <depend property="servlet-api.jar" 
+              project="jakarta-servletapi-5-servlet" />
+    </ant>
+    <depend project="xml-xerces"/>
+    <depend project="ant" inherit="runtime"/>
+    <depend project="javamail" />
+    <depend project="txt2html-task" />
+    <work nested="jsr152/build/classes"/>
+    <home nested="jsr152/dist"/>
+    <jar name="lib/jsp-api.jar"/>
+    <javadoc nested="jsr152/build/docs/api" module="jakarta-tomcat-5"/>
+  </project>
+
+  <project name="txt2html-task">
+    <package>task</package>
+
+    <mkdir dir="jsr152/build/ant"/>
+    <ant basedir="jsr152" target="ant"/>
+    <depend project="xml-xerces"/>
+    <depend project="ant" inherit="runtime"/>
+
+    <work nested="jsr152/build/ant"/>
+
+    <!-- not a jar, but I don't see a way to create one either -->
+    <jar name="jsr152/build/ant"/>
+  </project>
+
+</module>

@@ -1,0 +1,55 @@
+<?xml version="1.0" ?>
+<!--
+  Copyright 2001-2004 The Apache Software Foundation
+
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+-->
+<module name="beepcore">
+
+  <url  href="http://www.beepcore.org/"/>
+  <description>
+    BEEP is a new Internet standards-track protocol
+  </description>
+
+  <cvs repository="sourceforge" 
+    module="beepcore-java" dir="beepcore-java"/>
+  
+  <project name="beepcore">
+    <package>org.beepcore</package>
+
+    <ant>
+      <property name="version" value="@@DATE@@"/>
+    </ant>
+
+    <depend project="ant" inherit="runtime"/>
+    <depend project="xml-xerces"/>
+    <depend project="commons-logging"/>
+    <depend project="jsse"/>
+    <depend project="edu.concurrent"/>
+
+    <home nested="build/beepcore-@@DATE@@"/>
+    <jar name="lib/beepcore.jar"/>
+    <license name="LICENSE.txt"/>
+  </project>
+
+  <project name="edu.concurrent">
+    <url href="http://gee.cs.oswego.edu/dl/classes/EDU/oswego/cs/dl/util/concurrent/intro.html"/>
+    <description>
+      Doug Lea's concurrent programming classes, renamed from EDU to edu
+    </description>
+  
+    <package>edu.oswego.cs.dl.util.concurrent</package>
+    <jar name="lib/concurrent.jar"/>
+  </project>
+
+</module>

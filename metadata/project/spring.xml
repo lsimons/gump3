@@ -1,0 +1,36 @@
+<?xml version="1.0" ?>
+<!--
+  Copyright 2004 The Apache Software Foundation
+
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+-->
+<module name="spring">
+
+  <url  href="http://www.springframework.org/"/>
+  <description>Java/J2EE Application Framework</description>
+
+  <project name="spring">
+    <package>org.springframework</package>
+
+    <jar name="dist/spring-aop.jar" id="spring-aop"/>
+    <jar name="dist/spring-context.jar" id="spring-context"/>
+    <jar name="dist/spring-core.jar" id="spring-core"/>
+    <jar name="dist/spring-dao.jar" id="spring-dao"/>
+    <jar name="dist/spring.jar" id="spring"/>
+    <jar name="dist/spring-mock.jar" id="spring-mock"/>
+    <jar name="dist/spring-orm.jar" id="spring-orm"/>
+    <jar name="dist/spring-web.jar" id="spring-web"/>
+    <jar name="dist/spring-webmvc.jar" id="spring-webmvc"/>
+    <license name="license.txt"/>
+  </project>
+</module>

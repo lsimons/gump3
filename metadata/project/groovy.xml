@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Copyright 2004 The Apache Software Foundation
+
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+-->
+
+<module name="groovy">
+  <description>
+    New agile dynamic language using a Java-like syntax for the JVM combining
+    lots of great features from languages like Python, Ruby and Smalltalk.
+  </description>
+  <url href="http://groovy.codehaus.org/"/>
+  <cvs module="groovy/groovy-core" repository="groovy"/>
+  
+  <project name="groovy">
+    <package>org.codehaus.groovy</package>
+    <package>groovy</package>
+
+    <maven goal="jar"/>
+
+    <depend project="ant"/>
+    <depend project="asm"/>
+    <depend project="axion"/>
+    <depend project="classworlds"/>
+    <depend project="commons-cli"/>
+    <depend project="commons-collections"/>
+    <depend project="commons-httpclient"/>
+    <depend project="commons-logging"/>
+    <depend project="jakarta-bsf"/>
+    <depend project="jakarta-regexp"/>
+    <depend project="jakarta-servletapi-4"/>
+    <depend project="junit"/>
+    <depend project="mockobjects-with-groovy-compatible-jar-id"/>
+    <depend project="mx4j"/>
+    <depend project="nekohtml"/>
+    <depend project="openejb"/>
+    <depend project="qdox"/>
+    <depend project="radeox"/>
+    <depend project="xml-apis"/>
+    <depend project="xml-xerces"/>
+
+    <jar name="target/1.0-beta-8-SNAPSHOT.jar"/>
+    <license name="LICENSE.txt"/>
+  </project>
+</module>

@@ -1,0 +1,43 @@
+<?xml version="1.0" ?>
+<!--
+  Copyright 2004 The Apache Software Foundation
+
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+-->
+
+<!-- $Id: xml-im-exporter.xml,v 1.1 2004/07/27 13:25:49 bodewig Exp $ -->
+
+<module name="xml-im-exporter">
+
+  <url href="http://sourceforge.net/projects/xml-im-exporter/"/>
+  <description>
+    XML Im-/Exporter is a low level library to assist you in the straight forward process of importing and exporting XML from and to your Java classes.
+  </description>
+
+  <cvs repository="sourceforge"  dir="xml-im-exporter"
+       module="xml-im-exporter"/>
+
+  <project name="xml-im-exporter">
+    <package>de.zeigermann.xml</package>
+
+    <ant>
+      <property name="version" value="@@DATE@@"/>
+    </ant>
+
+    <depend project="ant" inherit="runtime"/>
+    <depend project="junit"/>
+
+    <jar name="lib/xml-im-exporter@@DATE@@.jar"/>
+  </project>
+
+</module>

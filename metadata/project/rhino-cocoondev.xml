@@ -1,0 +1,45 @@
+<?xml version="1.0" ?>
+<!--
+  Copyright 2001-2004 The Apache Software Foundation
+
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+-->
+<module name="rhino-cocoondev">
+
+  <url href="http://www.mozilla.org/rhino/"/>
+  <description>
+    JavaScript for Java + continuations
+  </description>
+  <redistributable/>
+
+  <svn repository="cocoondev" dir="repos/rhino+cont/trunk/rhino1_5R4pre"/>
+
+  <project name="rhino-cocoondev">
+    <package>org.mozilla.classfile</package>
+    <package>org.mozilla.javascript</package>
+
+    <ant target="dist">
+      <property name="version" value="_@@DATE@@"/>
+    </ant>
+
+    <depend project="ant" inherit="runtime"/>
+    <depend project="bsf"/>
+    <depend project="xml-xerces"/>
+
+    <home nested="build/rhino_@@DATE@@"/>
+    <jar name="js.jar"/>
+    <!-- license name="README.html"/ -->
+    <javadoc nested="build/rhino_@@DATE@@/docs/apidocs"/>
+  </project>
+
+</module>

@@ -1,0 +1,62 @@
+<?xml version="1.0" ?>
+<!--
+  Copyright 2001-2004 The Apache Software Foundation
+
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+-->
+
+<module name="avalon-logkit">
+
+    <url href="http://avalon.apache.org/"/>
+    <description>
+        Fast lightweight Logging toolkit
+    </description>
+
+    <cvs repository="avalon"/>
+
+    <project name="dist-avalon-logkit" >
+      <depend project="avalon-logkit" inherit="jars" />
+    </project>
+    
+    <project name="avalon-logkit">
+        <package>org.apache.log</package>
+        <ant target="jar" buildfile="buildsystem/gump-build.xml">
+            <property name="project.version" value="@@DATE@@"></property>
+            <property name="avalon.buildsystem"
+                      project="avalon-logkit" path="buildsystem"/>
+            <property name="basedir"
+                      project="avalon-logkit" path="."/>
+        </ant>
+        <depend project="ant" inherit="runtime"/>
+        <depend project="xml-xerces"/>
+        <depend project="junit"/>
+
+        <depend project="jdbc" runtime="true"/>
+        <depend project="jms" runtime="true"/>
+        <depend project="javamail" runtime="true"/>
+        <depend project="jaf" runtime="true"/>
+        <depend project="jakarta-servletapi-4" runtime="true"/>
+        <depend project="logging-log4j" runtime="true"/>
+
+        <work nested="target/classes"/>
+        <work nested="target/test-classes"/>
+
+        <home nested="target"/>
+        <jar name="avalon-logkit-@@DATE@@.jar" id="logkit"/>
+        
+        <javadoc nested="build/javadocs" module="avalon"/>
+        <license name="LICENSE.txt"/>
+        <nag from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"
+                    to="dev@avalon.apache.org"/>
+    </project>
+</module>

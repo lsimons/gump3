@@ -1,0 +1,45 @@
+<?xml version="1.0"?>
+
+<module name="ant-contrib">
+
+  <url  href="http://sourceforge.net/projects/ant-contrib/"/>
+  <description>
+    Useful little Ant tasks
+  </description>
+  <redistributable/>
+
+  <cvs repository="sourceforge" dir="ant-contrib"/>
+  
+  <project name="ant-contrib">
+    <ant>
+      <property name="jar.name"  value="ant-contrib-@@DATE@@.jar"/>
+    </ant>
+
+    <depend project="ant" inherit="runtime"/>
+    <depend project="xml-xerces"/>
+
+    <jar name="build/lib/ant-contrib-@@DATE@@.jar" />
+    <license name="manual/LICENSE.txt"/>
+    <javadoc nested="build/docs/api" project="ant-contrib"/>
+
+    <nag from="Gump Integration Build &lt;general@gump.apache.org&gt;"
+         to="ant-contrib-developers@lists.sourceforge.net"/>
+  </project>
+
+  <project name="ant-contrib-test">
+    <mkdir dir="test/classes"/>
+    <ant target="test">
+      <property name="version"  value="@@DATE@@"/>
+      <depend property="junit.jar.location" project="junit"/>
+      <depend property="testutil.jar.location" project="ant-testutil"/>
+    </ant>
+
+    <depend project="ant" inherit="runtime"/>
+    <depend project="xml-xerces"/>
+    <depend project="ant-contrib"/>
+    <work nested="test/classes"/>
+    <nag from="Gump Integration Build &lt;general@gump.apache.org&gt;"
+         to="ant-contrib-developers@lists.sourceforge.net"/>
+  </project>
+
+</module>
