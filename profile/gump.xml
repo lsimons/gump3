@@ -219,7 +219,6 @@
   <!--module href="project/jts.xml"/-->
   <module href="project/ldap.xml"/>
   <module href="project/msv.xml"/>
-  <module href="project/resolver.xml"/>
   <module href="project/tranquilo.xml"/>
 
 <!-- Installed packages -->
