@@ -18,7 +18,6 @@
     <depend project="xmlunit"/>
     <depend project="jakarta-log4j"/>
     <depend project="jakarta-bcel"/>
-    <depend project="jetty"/>
     <depend project="junit"/>
     <depend project="saxon"/>
     <depend project="commons-logging" />
