@@ -12,57 +12,28 @@
     <property name="build.dir" path="build"/>
     <property name="dist.dir" path="dist"/>
 
-    <property name="xerces.jar"
-       reference="jarpath" id="parser" project="xml-xerces"/>
+    <depend property="xerces.jar"  project="xml-xerces"/>
+    <depend property="crimson.jar" project="xml-xerces"/>
+    <depend property="jaxp.jar"    project="xml-xerces"/>
 
-    <property name="crimson.jar"
-       reference="jarpath" id="parser" project="xml-xerces"/>
+    <depend property="xalan1.jar"        project="xml-xalan1-compat"/>
+    <depend property="xalanj1compat.jar" project="xml-xalan1-compat"/>
+    <depend property="xalan.jar"         project="xml-xalan2"/>
 
-    <property name="jaxp.jar"
-       reference="jarpath" id="parser" project="xml-xerces"/>
+    <depend property="servlet.jar"   project="jakarta-servletapi-4"/>
+    <depend property="servlet23.jar" project="jakarta-servletapi-4"/>
 
-    <property name="dom4j.jar"
-       reference="jarpath" id="dom4j" project="dom4j"/>
+    <depend property="log4j-core.jar" project="jakarta-log4j" id="log4j-core"/>
 
-    <property name="xalan1.jar"
-       reference="jarpath" id="xalan1" project="xml-xalan1-compat"/>
-
-    <property name="xalanj1compat.jar"
-       reference="jarpath" id="xalan1" project="xml-xalan1-compat"/>
-
-    <property name="log4j-core.jar"
-       reference="jarpath" id="log4j-core" project="jakarta-log4j"/>
-
-    <property name="xalan.jar"
-       reference="jarpath" id="xalan" project="xml-xalan2"/>
-
-    <property name="jakarta-oro2.jar"
-       reference="jarpath" id="oro" project="jakarta-oro"/>
-
-    <property name="servlet.jar"
-       reference="jarpath" id="servlet" project="jakarta-servletapi-4"/>
-
-    <property name="servlet23.jar"
-       reference="jarpath" id="servlet" project="jakarta-servletapi-4"/>
-
-    <property name="jdbc2_0-stdext.jar"
-       reference="jarpath" id="stdext" project="jdbc"/>
+    <depend property="dom4j.jar"          project="dom4j"/>
+    <depend property="jakarta-oro2.jar"   project="jakarta-oro"/>
+    <depend property="jdbc2_0-stdext.jar" project="jdbc"/>
   </ant>
 
-  <depend project="xml-xerces"/>
-  <depend project="xml-xalan1-compat"/>
-  <depend project="xml-xalan2"/>
-  <depend project="jakarta-oro"/>
   <depend project="jakarta-ant"/>
-  <depend project="jakarta-servletapi-4"/>
-  <depend project="jdbc"/>
   <option project="bsf"/>
-  <option project="xml-xalan2"/>
   <option project="javamail"/>
-  <depend project="dom4j"/>
-  <depend project="jakarta-log4j"/>
   <depend project="jaf"/>
-  <depend project="jdbc"/>
 
   <work nested="build/jsptl/jsptl"/>
 </project>
