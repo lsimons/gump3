@@ -1,0 +1,23 @@
+<module name="aspectj-cvs">
+
+  <cvs repository="eclipse" module="org.aspectj/modules"/>
+
+  <url href="http://www.eclipse.org/aspectj/"/>
+  <description>
+    Aspect-oriented programming
+  </description>
+
+  <project name="aspectj-cvs">
+    <package>org.aspectj</package>
+
+    <ant basedir="build"/>
+
+    <depend project="ant"/>
+    <depend project="xml-xerces"/>
+
+    <jar name="lib/aspectjtools.jar"/>
+    <jar name="lib/aspectjrt.jar" id="aspectjrt"/>
+    <jar name="lib/aspectj-ant.jar"/>
+  </project>
+
+</module>
