@@ -310,7 +310,7 @@ public class Project {
                "Project \"" + projectName + "\" referenced by project " + 
                name + "defines no jars as output.");
 
-        };
+        }
 
     }
 
