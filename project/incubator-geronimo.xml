@@ -24,8 +24,7 @@
     <cvs repository="incubator"/>
 
     <project name="incubator-geronimo">
-        <maven goal="default">
-        </maven>
+        <maven  target="jar"/>
         <!-- Since Maven is installed, not built, this
         	isn't strictly neccessary. [yet]
         	depend project="maven" inherit="runtime"/ -->
