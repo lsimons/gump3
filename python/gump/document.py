@@ -825,7 +825,7 @@ def documentWork(workspace,work,dir):
             endSectionXDoc(x)
         
         startSectionXDoc(x,'Command Line')
-        sourceXDoc(x,'\t\n".join(work.command.formatCommandLine().split(' ')))
+        sourceXDoc(x,'\t\n'.join(work.command.formatCommandLine().split(' ')))
         endSectionXDoc(x)
         
         startSectionXDoc(x,'Output')
