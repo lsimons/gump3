@@ -15,7 +15,7 @@
     <depend project="jakarta-ant"/>
     <depend project="xml-xerces"/>
     <depend project="junit"/>
-    <home nested="beanutils/build"/>
+    <home nested="beanutils/dist"/>
     <jar name="commons-beanutils.jar"/>
   </project>
 
@@ -51,7 +51,7 @@
     <depend project="xml-xerces"/>
     <depend project="junit"/>
     <work nested="collections/dist/classes"/>
-    <home nested="collections/build"/>
+    <home nested="collections/dist"/>
     <jar name="commons-collections.jar"/>
   </project>
 
@@ -61,7 +61,9 @@
     <ant basedir="httpclient" target="dist"/>
     <depend project="jakarta-ant"/>
     <depend project="xml-xerces"/>
-    <home nested="httpclient/build"/>
+
+    <home nested="httpclient/dist"/>
+    <jar name="commons-httpclient.jar"/>
   </project>
 
   <project name="commons-dbcp">
