@@ -10,7 +10,7 @@
   <project name="jakarta-slide">
     <ant target="full-dist">
       <property name="ant.home" reference="home" project="jakarta-ant"/>
-      <property name="jaxp.home" reference="home" project="jaxp1.1"/>
+      <property name="jaxp.home" reference="home" project="jaxp"/>
       <property name="jmx.home" reference="home" project="jmx"/>
       <property name="jdom.home" reference="home" project="jdom"/>
       <property name="struts.home" reference="home" project="jakarta-struts"/>

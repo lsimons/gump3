@@ -11,7 +11,7 @@
     <ant target="dist">
       <property name="build.dir" value="build"/>
     </ant>
-    <depend project="jaxp1.1"/>
+    <depend project="xml-xerces"/>
     <depend project="bootstrap-ant"/>
     <home parent="build/crimson"/>
   </project>
