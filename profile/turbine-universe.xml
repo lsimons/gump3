@@ -62,6 +62,7 @@
   <module href="project/junit.xml"/>
   <module href="project/mx4j.xml"/>
   <module href="project/jgenerator.xml"/>
+  <module href="project/freemarker.xml"/>
   
   <!-- other -->
 
