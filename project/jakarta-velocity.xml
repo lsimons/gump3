@@ -33,10 +33,15 @@
     <depend project="junit"/>
     <depend project="jakarta-velocity"/>
     <depend project="jdom"/>
-    <depend project="antlr"/>
+    <depend project="antlr.runtime"/>
     <work nested="test/cpload/test1.jar"/>
     <work nested="test/cpload/test2.jar"/>
     <work nested="test/multiloader/test1.jar"/>
+  </project>
+
+  <project name="antlr.runtime">
+    <url href="http://www.antlr.org/"/>
+    <jar name="build/lib/antlr-runtime.jar"/>
   </project>
 
   <!-- not available via CVS -->
