@@ -8,12 +8,8 @@
   <cvs repository="jakarta"/>
 
   <ant target="dist">
-    <property name="oro.jar"
-       reference="jarpath" id="oro" project="jakarta-oro"/>
-    <property name="xalan.jar"
-       reference="jarpath" id="xalan" project="xml-xalan2"/>
-    <property name="env.SERVLET_JAR"
-       reference="jarpath" id="servlet" project="jakarta-servletapi-4"/>
+    <property name="build.dir" value="build"/>
+    <property name="dist.dir" value="dist"/>
   </ant>
 
   <depend project="xml-xerces"/>
