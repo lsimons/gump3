@@ -214,7 +214,7 @@
 
     <depend project="commons-digester"/>
     <depend project="commons-collections"/>
-    <depend project="commons-beanutils"/>
+    <depend project="commons-beanutils-core"/>
     <depend project="commons-logging"/>
     <depend project="jakarta-servletapi-4"/>
     <depend project="jms"/>
@@ -239,7 +239,7 @@
 
     <depend project="ant" inherit="runtime"/>
     <depend project="xml-xerces"/>
-    <depend project="commons-beanutils"/>
+    <depend project="commons-beanutils-core"/>
     <depend project="commons-collections"/>
     <depend project="commons-digester"/>
     <depend project="commons-discovery"/>
@@ -265,7 +265,7 @@
 
     <depend project="ant" inherit="runtime"/>
     <depend project="xml-xerces"/>
-    <depend project="commons-beanutils"/>
+    <depend project="commons-beanutils-core"/>
     <depend project="commons-collections"/>
     <depend project="commons-digester"/>
     <depend project="commons-logging"/>
@@ -314,7 +314,7 @@
     <depend project="xml-xerces"/>
 
     <depend project="dom4j"/>
-    <depend project="commons-beanutils"/>
+    <depend project="commons-beanutils-core"/>
     <depend project="commons-io"/>
     <depend project="commons-lang"/>
 

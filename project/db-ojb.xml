@@ -32,7 +32,7 @@
     <depend project="xml-xerces"/>
 
     <depend project="antlr"/>
-    <depend project="commons-beanutils"/>
+    <depend project="commons-beanutils-core"/>
     <depend project="commons-collections"/>
     <depend project="commons-dbcp"/>
     <depend project="commons-lang"/>
@@ -86,7 +86,7 @@
     <depend project="xml-xerces"/>
 
     <depend project="antlr"/>
-    <depend project="commons-beanutils"/>
+    <depend project="commons-beanutils-core"/>
     <depend project="commons-collections"/>
     <depend project="commons-dbcp"/>
     <depend project="commons-lang"/>

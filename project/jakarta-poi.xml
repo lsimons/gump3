@@ -28,7 +28,7 @@
         <depend project="dist-ant"/>
         <depend project="logging-log4j"/>
         <depend project="commons-logging"/>
-        <depend project="commons-beanutils"/>
+        <depend project="commons-beanutils-core"/>
         <depend project="commons-collections"/>
         <depend project="commons-lang"/>
         <depend project="junit"/>

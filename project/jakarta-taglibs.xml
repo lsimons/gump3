@@ -182,7 +182,7 @@
     <package>org.apache.taglibs.jms</package>
     <description>JMS Taglib</description>
     <ant basedir="jmstags" target="dist">
-      <depend property="commons-beanutils.jar" project="commons-beanutils"
+      <depend property="commons-beanutils-core.jar" project="commons-beanutils-core"
         runtime="true"/>
       <depend property="commons-collections.jar" project="commons-collections"
         runtime="true"/>

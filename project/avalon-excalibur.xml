@@ -358,7 +358,7 @@
         <depend project="excalibur-fortress-meta"/>
         <depend project="avalon-logkit"/>
         <depend project="commons-collections"/>
-        <depend project="commons-beanutils"/>
+        <depend project="commons-beanutils-core"/>
         <depend project="concurrent"/>
         <depend project="excalibur-instrument"/>
         <depend project="excalibur-instrument-manager"/>

@@ -39,7 +39,7 @@
     <depend project="jdbc"/>
     <depend project="jmx" id="jmxri"/>
     <depend project="jta"/>
-    <depend project="commons-beanutils"/>
+    <depend project="commons-beanutils-core"/>
     <depend project="commons-collections" />
     <depend project="commons-dbcp" />
     <depend project="commons-digester"/>

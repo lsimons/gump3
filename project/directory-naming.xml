@@ -27,7 +27,7 @@
     </ant>
     <package>org.apache.directory.naming</package>
     <depend project="ant" inherit="runtime"/>
-    <depend project="commons-beanutils"/>
+    <depend project="commons-beanutils-core"/>
     <depend project="commons-collections"/>
     <depend project="commons-dbcp"/>
     <depend project="commons-digester"/>

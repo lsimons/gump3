@@ -38,7 +38,7 @@
       <depend property="servlet.jar" project="jakarta-servletapi-4"/>
       <depend property="xerces.jar" project="xml-xerces" id="parser"/>
       <depend property="antlr.jar" project="antlr" id="antlr"/>
-      <depend property="commons-beanutils.jar"   project="commons-beanutils"/>
+      <depend property="commons-beanutils-core.jar"   project="commons-beanutils-core"/>
       <depend property="commons-digester-rss.jar"   project="commons-digester-rss"/>
       <depend property="commons-collections.jar" project="commons-collections"/>
       <depend property="commons-digester.jar"    project="commons-digester"/>

@@ -81,7 +81,7 @@
 
     <depend project="antlr"/>
     <depend project="checkstyle"/>
-    <depend project="commons-beanutils"/>
+    <depend project="commons-beanutils-core"/>
     <depend project="commons-betwixt"/>
     <depend project="commons-cli"/>
     <depend project="commons-collections"/>

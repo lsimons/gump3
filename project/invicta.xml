@@ -41,7 +41,7 @@
     <depend project="commons-logging"/>
     <depend project="commons-digester"/>
     <depend project="commons-lang"/>
-    <depend project="commons-beanutils"/>
+    <depend project="commons-beanutils-core"/>
     <depend project="commons-collections"/>
     <depend project="xml-xerces"/>
     
