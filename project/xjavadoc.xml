@@ -7,7 +7,7 @@
 
   <cvs repository="sourceforge" host-prefix="cvs.xdoclet" dir="xdoclet" />
 
-  <project name="xjavadoc-javacc-fails">
+  <project name="xjavadoc">
     <package>xjavadoc</package>
 
     <mkdir dir="target/classes"/>
@@ -16,7 +16,6 @@
     <ant target="jar">
       <property name="ant.home" project="ant" reference="home"/>
       <property name="version" value="@@DATE@@"/>
-      <property name="xjavadoc.unicode" value="true"/>
       <property name="javacchome" reference="home" project="javacc"/>
     </ant>
     <depend project="ant" inherit="runtime"/>
@@ -29,62 +28,22 @@
     <depend project="commons-collections" runtime="true"/>
 
     <!-- needed for unit tests only -->
-    <depend project="bootstrap-xdoclet"/>
+    <depend project="old-xdoclet"/>
     <work nested="target/classes"/>
     <work nested="target/test-classes"/>
 
-    <jar name="build/lib/xdoclet-xjavadoc-uc-@@DATE@@.jar"/>
-
-    <nag from="Stefan Bodewig &lt;bodewig@apache.org&gt;"
-         to="xdoclet-devel@lists.sourceforge.net"
-         subject="xjavadoc build failed (Issue XJD-21)">
-      <regexp pattern="m#NoClassDefFoundError: COM/sun/labs/#"/>
-    </nag>
-  </project>
-
-  <project name="xjavadoc">
-    <package>xjavadoc</package>
-
-    <mkdir dir="target/classes"/>
-    <mkdir dir="target/test-classes"/>
-
-    <ant target="jar">
-      <property name="ant.home" project="ant" reference="home"/>
-      <property name="version" value="@@DATE@@"/>
-      <property name="xjavadoc.unicode" value="true"/>
-    </ant>
-    <!-- 
-         give xjavadoc-javacc-fails a chance to fail first.  
-    
-         If xjavadoc gets built first, xjavadoc-javacc-fails will be 
-         turned into a no-op 
-    -->
-    <depend project="xjavadoc-javacc-fails"><noclasspath/></depend>
-    <depend project="ant" inherit="runtime"/>
-    <depend project="xml-xerces"/>
-    <depend project="old-javacc"/>
-    <depend project="jrefactory"/>
-    <depend project="jakarta-log4j"/>
-    <depend project="junit"/>
-    <depend project="commons-logging" runtime="true"/>
-    <depend project="commons-collections" runtime="true"/>
-
-    <!-- needed for unit tests only -->
-    <depend project="bootstrap-xdoclet"/>
-    <work nested="target/classes"/>
-    <work nested="target/test-classes"/>
-
-    <jar name="build/lib/xdoclet-xjavadoc-uc-@@DATE@@.jar"/>
+    <jar name="target/xjavadoc-@@DATE@@.jar"/>
 
     <nag from="Stefan Bodewig &lt;bodewig@apache.org&gt;"
          to="xdoclet-devel@lists.sourceforge.net"/>
   </project>
 
-  <project name="old-javacc">
-    <jar name="lib/JavaCC.zip"/>
-  </project>
-
-  <project name="bootstrap-xdoclet">
+  <!-- 
+       xjavadoc contains some tests that verify that it works the same
+       way as old javadoc.  Therefore it needs to run some tests on an
+       old, pre-xjavadoc version of xdoclet.
+  -->
+  <project name="old-xdoclet">
     <jar name="lib/xdoclet.jar"/>
   </project>
 
