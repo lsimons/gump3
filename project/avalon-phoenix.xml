@@ -38,7 +38,6 @@
     <depend project="excalibur-i18n" runtime="true"/>
     <depend project="excalibur-policy" runtime="true"/>
     <depend project="excalibur-monitor" runtime="true"/>
-    <depend project="excalibur-util" runtime="true"/>
     <depend project="ant" runtime="true"/>
     <depend project="mx4j" runtime="true"/>
     <depend project="xml-xalan2"/>
