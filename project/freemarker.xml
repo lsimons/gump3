@@ -19,8 +19,7 @@
     
     <depend project="jdom"/>
     <depend project="saxpath"/>
-    <depend project="jakarta-servletapi-5-servlet"/>
-    <depend project="jakarta-servletapi-5-jsp"/>
+    <depend project="jakarta-servletapi-4"/>
     <depend project="jaxen"/>
     <depend project="junit"/>
     <depend project="jython"/>
