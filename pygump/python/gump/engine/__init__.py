@@ -29,21 +29,21 @@ All required settings, as well as any other components a component may depend
 on are passed into the constructor when first creating the instance. This is
 all handled by the main() function. Doing things this way greatly decreases
 the amount of coupling between the different modules. For example, the
-gump.engine module is the only module that actually has an "import logging".
+gump.config module is the only module that actually has an "import logging".
 It creates all the log instances to pass into its helpers. This means that
 completely rewiring or disabling logging is a simple as modifying the
-_get_logger() function in this module.
+get_logger() function in the gump.config module.
 """
 
 __copyright__ = "Copyright (c) 2004-2005 The Apache Software Foundation"
 __license__   = "http://www.apache.org/licenses/LICENSE-2.0"
 
-import os
 import logging
 
 from xml import dom
 from xml.dom import minidom
 
+from gump.config import *
 from gump.util.io import open_file_or_stream
 
 def main(settings):
@@ -64,29 +64,31 @@ def main(settings):
     _banner(settings.version)
     
     # get engine config
-    config = _get_config(settings)
+    config = get_config(settings)
     
     # get engine dependencies
-    log = _get_logger(config.log_level, "engine")
-    db  = _get_db(config)
+    log = get_logger(config.log_level, "engine")
     
     vfsdir = os.path.join(config.paths_work, "vfs-cache")
     if not os.path.isdir(vfsdir):
         os.mkdir(vfsdir);
-    vfs = _get_vfs(config.paths_metadata, vfsdir)
+    vfs = get_vfs(config.paths_metadata, vfsdir)
     
-    modeller_log = _get_logger(config.log_level, "modeller")
-    modeller_loader = _get_modeller_loader(modeller_log, vfs)
-    modeller_normalizer = _get_modeller_normalizer()
-    modeller_objectifier = _get_modeller_objectifier(modeller_log)
-    modeller_verifier = _get_modeller_verifier()
+    modeller_log = get_logger(config.log_level, "modeller")
+    modeller_loader = get_modeller_loader(modeller_log, vfs)
+    modeller_normalizer = get_modeller_normalizer(modeller_log)
+    modeller_objectifier = get_modeller_objectifier(modeller_log)
+    modeller_verifier = get_modeller_verifier()
     
     mergefile = os.path.join(config.paths_work, "merge.xml")
     dropfile = os.path.join(config.paths_work, "dropped.xml")
-
+    
+    walker = get_walker()
+    visitor = get_plugin(config)
+    
     # create engine
-    engine = _Engine(log, db, modeller_loader, modeller_normalizer,
-                     modeller_objectifier, modeller_verifier,
+    engine = _Engine(log, modeller_loader, modeller_normalizer,
+                     modeller_objectifier, modeller_verifier, walker, visitor,
                      config.paths_workspace, mergefile, dropfile)
     
     # run it
@@ -109,120 +111,17 @@ def _banner(version):
 ### FACTORY METHODS
 ###
 
-def _get_config(settings):
-    """Convert the settings object into something more specific.
-
-    The reason we put this function and the Config
-    class in between is that we can change gump internals while keeping the CLI
-    interface the same more easily, with the integration point being isolated to
-    this method and the Config class definition.
-    """
-    config = _Config()
-    
-    if settings.debug:
-        config.log_level       = logging.DEBUG
-    else:
-        config.log_level       = logging.INFO
-
-    config.hostname        = settings.hostname
-    config.projects        = settings.projects
-    config.paths_home      = settings.homedir
-    config.paths_work      = settings.workdir
-    config.paths_logs      = settings.logdir
-    config.paths_workspace = settings.workspace
-    config.do_update       = not settings.no_updates
-    config.start_time      = settings.starttimeutc
-    
-    config.projects        = settings.projects
-    
-    config.mail_server     = settings.mailserver
-    config.mail_server_port = settings.mailport
-    config.mail_to         = settings.mailto
-    config.mail_from       = settings.mailfrom
-    
-    # TODO: set defaults in main.py instead
-    config.database_server = "localhost"
-    if hasattr(settings,"databaseserver"): config.database_server = settings.databaseserver
-    config.database_port   = 3306
-    if hasattr(settings,"databaseport"): config.database_port = settings.databaseport
-    config.database_name   = "gump"
-    if hasattr(settings,"databasename"): config.database_name = settings.databasename
-    config.database_user   = "gump"
-    if hasattr(settings,"databaseuser"): config.database_user = settings.databaseuser
-    config.database_password   = "gump"
-    if hasattr(settings,"databasepassword"): config.database_password = settings.databasepassword
-    
-    return config
-
-def _get_logger(level, name):
-    """Provide a logging implementation for the given level and name."""
-    logging.basicConfig()
-    log = logging.getLogger(name)
-    log.setLevel(level)
-    return log
-
-def _get_db(config):
-    """Provide a database implementation."""
-    from gump.util.mysql import Database
-    db = Database(config) #TODO!
-    return db
-
-def _get_vfs(filesystem_root, cache_dir):
-    """Provide a VFS implementation."""
-    from gump.util.io import VFS
-    return VFS(filesystem_root, cache_dir)
-
-def _get_modeller_loader(log, vfs=None, mergefile=None, dropfile=None):
-    """Provide a Loader implementation."""
-    from gump.engine.modeller import Loader
-    return Loader(log, vfs, mergefile, dropfile)
-
-def _get_modeller_normalizer():
-    """Provide a Normalizer implementation."""
-    from gump.engine.modeller import Normalizer
-    return Normalizer()
-
-def _get_modeller_objectifier(log):
-    """Provide a Objectifier implementation."""
-    from gump.engine.modeller import Objectifier
-    return Objectifier(log)
-
-def _get_modeller_verifier():
-    """Provide a Verifier implementation."""
-    from gump.engine.modeller import Verifier
-    return Verifier()
-
-###
-### Classes
-###
-
-class _Config:
-    def __getattr__(self,name):
-        """Calculate missing settings from other settings at runtime."""
-        if name == 'debug':
-            return self.loglevel >= logging.DEBUG
-        if name == 'paths_pygump':
-            return os.path.jion(self.paths_home, "pygump")
-        if name == 'paths_metadata':
-            return os.path.join(self.paths_home, "metadata")
-        if name == 'do_mail':
-            return self.mail_server and self.mail_server_port and self.mail_to and self.mail_from
-        
-        # unknown, raise error
-        raise AttributeError, name
-
 class _Engine:
     """This is the core of the core of the pygump application."""
     
-    def __init__(self, log, db, workspace_loader, workspace_normalizer,
-                 workspace_objectifier, workspace_verifier,
+    def __init__(self, log, workspace_loader, workspace_normalizer,
+                 workspace_objectifier, workspace_verifier, walker, visitor,
                  workspace, merge_to=None, drop_to=None):
         """Store all config and dependencies as properties.
         
         Arguments:
             
             - log -- the log to write debug and error messages to.
-            - db -- the database to store all activity in.
             - workspace_loader -- the component providing the dom tree.
             - workspace_normalizer -- the component transforming the dom tree
                 into a standard format
@@ -230,17 +129,22 @@ class _Engine:
                 object form
             - workspace_verifier -- the component making sure the object model
                 is correct
+            - walker -- the component that knows how to traverse the gump
+                model in dependency order
+            - visitor -- the component that gets called by the walker while
+                visiting parts of the model
 
             - workspace -- the resource containing the workspace xml.
             - merge_to -- the resource to write the merged workspace xml to.
             - drop_to -- the resource to write the dropped projects xml to.
         """
         self.log = log
-        self.db = db
         self.workspace_loader = workspace_loader
         self.workspace_normalizer = workspace_normalizer
         self.workspace_objectifier = workspace_objectifier
         self.workspace_verifier = workspace_verifier
+        self.walker = walker
+        self.visitor = visitor
 
         self.workspace = open_file_or_stream(workspace,'r')
         self.merge_to = open_file_or_stream(merge_to,'w')
@@ -251,32 +155,29 @@ class _Engine:
         try:
             # * merge workspace into big DOM tree
             (domtree, dropped_nodes) = self.workspace_loader.get_workspace_tree(self.workspace)
+            
             # * clean it up and structure it properly
-            self.workspace_normalizer.normalize(domtree)
+            domtree = self.workspace_normalizer.normalize(domtree)
+            
             # * write the merged, normalized tree out to a new xml file
             self._write_merge_files(domtree, dropped_nodes)
+            
             # * convert that DOM tree into python objects
             workspace = self.workspace_objectifier.get_workspace(domtree)
+            
             # * we're done with the xml stuff, allow GC
             domtree.unlink()
             for node in dropped_nodes:
                 node.unlink()
+                
             # * verify that our model is correct (for example, that it has
             #   no circular dependencies)
             self.workspace_verifier.verify(domtree)
-            # * store those objects in the database
-
-            raise RuntimeError, "Not Implemented!"
             
-            self.store_workspace(self.workspace) #TODO
-
-            # * determine the tasks to perform
-            self.tasks = self.create_ordered_tasklist() #TODO
+            # * Pfew! All done. Now actually start *doing* stuff.
+            self.walker.walk(workspace, self.visitor)
             
-            # * now make the workers perform those tasks
-            self.create_workers() #TODO
-            self.start_workers() #TODO
-            self.wait_for_workers() #TODO
+            # That's it? Yeah! All other functionality is in the visitors :-D
         except:
             self.log.exception("Fatal error during run!")
     
@@ -287,7 +188,7 @@ class _Engine:
         dropped because of a HREF resolution issue.
         """
         if self.merge_to:
-            self.merge_to.write( domtree.toprettyxml() )
+            self.merge_to.write( domtree.toxml() )
             self.merge_to.close()
         
         if self.drop_to and len(dropped_nodes) > 0:
@@ -297,5 +198,5 @@ class _Engine:
             dropdocroot = dropdoc.documentElement
             for node in dropped_nodes:
                 dropdocroot.appendChild(node)
-            self.drop_to.write( dropdoc.toprettyxml() )
+            self.drop_to.write( dropdoc.toxml() )
             self.drop_to.close()        

@@ -49,6 +49,54 @@ ERROR = 2
 CRITICAL = 1
 
 
+def get_parser(_homedir, _hostname, _projects, _workdir, _logdir, _workspace):
+    """Pygump uses the optparse package to provide the CLI.
+    
+    To add new options to pygump, change this method and document the changes
+    in the main 'gump' shell script, then change gump.config to interpret
+    those values and do something useful with them.
+    
+    Please be aware that other parts of main.py and of gump.config do set and
+    modify some of the results the option parser gives, so if somethin does
+    not work as expected, you may need to modify other parts of those files.
+    
+    The provided arguments are defaults retrieved from environment variables
+    and the like.
+    """
+    # TODO: make sure no CLI settings are overridden!
+    from optparse import OptionParser
+    parser = OptionParser()
+    parser.add_option("--debug",
+                      action="store_true",
+                      default=False)
+    parser.add_option("--homedir",
+                      action="store",
+                      default=_homedir)
+    parser.add_option("--hostname",
+                      action="store",
+                      default=_hostname)
+    parser.add_option("-p",
+                      "--project",
+                      action="append",
+                      dest="projects",
+                      default=_projects)
+    parser.add_option("--workdir",
+                      action="store",
+                      default=_workdir)
+    parser.add_option("--logdir",
+                      action="store",
+                      default=_logdir)
+    parser.add_option("-w",
+                      "--workspace",
+                      action="store",
+                      default=_workspace)
+    parser.add_option("--no-updates",
+                      action="store_true",
+                      dest="no_updates",
+                      default=False)
+    return parser
+
+
 class Error(Exception):
     """Generic error thrown for all internal pygump main module exceptions."""
     pass
@@ -153,6 +201,7 @@ def _parse_workspace(filename, options):
     put into the options instance. It doesn't merge in the profile or anything
     like that, that is left up to the engine.
     """
+    # TODO: remove core options from the workspace completely!
     domtree             = minidom.parse(filename)
     w                   = domtree.getElementsByTagName('workspace').item(0)
     options.name        = w.getAttribute('name')
@@ -327,36 +376,7 @@ def main():
     _workspace     = os.path.join(_homedir, "metadata", "%s.xml" % (_hostname))
     
     # get basic settings from commandline arguments
-    from optparse import OptionParser
-    parser = OptionParser()
-    parser.add_option("--debug",
-                      action="store_true",
-                      default=False)
-    parser.add_option("--homedir",
-                      action="store",
-                      default=_homedir)
-    parser.add_option("--hostname",
-                      action="store",
-                      default=_hostname)
-    parser.add_option("-p",
-                      "--project",
-                      action="append",
-                      dest="projects",
-                      default=_projects)
-    parser.add_option("--workdir",
-                      action="store",
-                      default=_workdir)
-    parser.add_option("--logdir",
-                      action="store",
-                      default=_logdir)
-    parser.add_option("-w",
-                      "--workspace",
-                      action="store",
-                      default=_workspace)
-    parser.add_option("--no-updates",
-                      action="store_true",
-                      dest="no_updates",
-                      default=False)
+    parser = get_parser(_homedir, _hostname, _projects, _workdir, _logdir, _workspace)
     options, args = parser.parse_args()
     
     options.starttime = time.strftime('%d %b %Y %H:%M:%S', time.localtime())
