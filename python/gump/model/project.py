@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/model/project.py,v 1.51 2004/02/17 21:54:20 ajack Exp $
-# $Revision: 1.51 $
-# $Date: 2004/02/17 21:54:20 $
+# $Header: /home/stefano/cvs/gump/python/gump/model/project.py,v 1.52 2004/02/23 15:43:06 ajack Exp $
+# $Revision: 1.52 $
+# $Date: 2004/02/23 15:43:06 $
 #
 # ====================================================================
 #
@@ -1334,7 +1334,12 @@ class ProjectStatistics(Statistics):
                                                 
 class ProjectSummary:
     """ Contains an overview """
-    def __init__(self,projects=0,successes=0,failures=0,prereqs=0,noworks=0,packages=0,others=0,statepairs=None):
+    def __init__(self,	\
+                    projects=0,successes=0,failures=0,	\
+                    prereqs=0,noworks=0,packages=0,	\
+                    others=0,statepairs=None):
+                        
+        # Counters
         self.projects=projects
         self.successes=successes
         self.failures=failures
@@ -1344,7 +1349,18 @@ class ProjectSummary:
         self.others=others
         self.statepairs=statepairs
         
+        # Percentages
+        self.successesPercentage=0
+        self.failuresPercentage=0
+        self.prereqsPercentage=0
+        self.noworksPercentage=0
+        self.packagesPercentage=0
+        self.othersPercentage=0
+        
+        #
         if not self.statepairs: self.statepairs=[]
+        
+        self.calculatePercentages()
         
     def addState(self,state):            
         # Stand up and be counted
@@ -1369,6 +1385,8 @@ class ProjectSummary:
         if not state.isUnset() and not state in self.statepairs: \
             self.statepairs.append(state)
         
+        self.calculatePercentages()
+        
     def addSummary(self,summary):
                  
         self.projects += summary.projects
@@ -1385,3 +1403,16 @@ class ProjectSummary:
             if not pair.isUnset() and not pair in self.statepairs: \
                 self.statepairs.append(pair)
                 
+        self.calculatePercentages()
+        
+    def calculatePercentages(self):
+    
+        if self.projects > 0:            
+            self.successesPercentage=round((self.successes/self.projects)*100,2)
+            self.failuresPercentage=round((self.failures/self.projects)*100,2)
+            self.prereqsPercentage=round((self.prereqs/self.projects)*100,2)
+            self.noworksPercentage=round((self.noworks/self.projects)*100,2)
+            self.packagesPercentage=round((self.packages/self.projects)*100,2)
+            self.othersPercentage=round((self.others/self.projects)*100,2)
+            
+            self.overalPercentage=(round(((self.successes + self.packages)/self.projects)*100),2)

@@ -1,7 +1,7 @@
 #!/usr/bin/env python
-# $Header: /home/stefano/cvs/gump/python/gump/test/resulting.py,v 1.1 2004/02/17 21:54:21 ajack Exp $
-# $Revision: 1.1 $
-# $Date: 2004/02/17 21:54:21 $
+# $Header: /home/stefano/cvs/gump/python/gump/test/resulting.py,v 1.2 2004/02/23 15:43:06 ajack Exp $
+# $Revision: 1.2 $
+# $Date: 2004/02/23 15:43:06 $
 #
 # ====================================================================
 #
@@ -125,7 +125,7 @@ class ResultingTestSuite(UnitTestSuite):
         
         self.checkWorkspaceResult(wsr)
                 
-        wsr.dump()
+        #wsr.dump()
         
     def testServers(self):
     

@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/forrest.py,v 1.75 2004/02/17 21:54:21 ajack Exp $
-# $Revision: 1.75 $f
-# $Date: 2004/02/17 21:54:21 $
+# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/forrest.py,v 1.76 2004/02/23 15:43:06 ajack Exp $
+# $Revision: 1.76 $f
+# $Date: 2004/02/23 15:43:06 $
 #
 # ====================================================================
 #
@@ -1418,9 +1418,12 @@ class ForrestDocumenter(Documenter):
         summaryTable=summarySection.createTable(['Projects','Successes','Failures','Prereqs',	\
             'No Works','Packages'])
         
-        summaryTable.createRow([ `summary.projects`, `summary.successes`, \
-                                `summary.failures`,	`summary.prereqs`, \
-                                `summary.noworks`, `summary.packages`] )
+        summaryTable.createRow([ `summary.projects`, \
+                                `summary.successes` + ' (' + `summary.successesPercentage` + '%)', \
+                                `summary.failures` + ' (' + `summary.failuresPercentage` + '%)',	\
+                                `summary.prereqs` + ' (' + `summary.prereqsPercentage` + '%)', \
+                                `summary.noworks` + ' (' + `summary.noworksPercentage` + '%)', \
+                                `summary.packages` + ' (' + `summary.packagesPercentage` + '%)'] )
         
       
     def documentWorkList(self,xdocNode,workable,description='Work'):

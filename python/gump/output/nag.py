@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/output/Attic/nag.py,v 1.13 2004/02/17 21:54:21 ajack Exp $
-# $Revision: 1.13 $
-# $Date: 2004/02/17 21:54:21 $
+# $Header: /home/stefano/cvs/gump/python/gump/output/Attic/nag.py,v 1.14 2004/02/23 15:43:06 ajack Exp $
+# $Revision: 1.14 $
+# $Date: 2004/02/23 15:43:06 $
 #
 # ====================================================================
 #
@@ -282,16 +282,18 @@ class Nagger:
         #
         toaddrs=[ toaddr ]
     
-        #
-        # Form the user visable part ...
-        #
-        email=EmailMessage( toaddrs, \
-                            fromaddr, \
-                            subject, \
-                            content)       
-                            
         try:
             
+            #
+            # Form the user visable part ...
+            #
+            email=EmailMessage( toaddrs, \
+                                fromaddr, \
+                                subject, \
+                                content)       
+              
+            log.info('Send Nag e-mail to: ' + str(toaddr) + ' from: ' + str(fromaddr) + ' subject: ' + str(subject))
+                        
             #print '-------------------------------------------------------------------'
             #print 'To:' + `toaddr`
             #print 'From:' + `fromaddr`

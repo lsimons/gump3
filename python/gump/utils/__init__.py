@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/utils/__init__.py,v 1.18 2004/02/04 01:43:02 ajack Exp $
-# $Revision: 1.18 $
-# $Date: 2004/02/04 01:43:02 $
+# $Header: /home/stefano/cvs/gump/python/gump/utils/__init__.py,v 1.19 2004/02/23 15:43:06 ajack Exp $
+# $Revision: 1.19 $
+# $Date: 2004/02/23 15:43:06 $
 #
 # ====================================================================
 #
@@ -178,7 +178,7 @@ def banner():
     print  
     print "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
     print
-    print "Copyright (C) 2003 Apache Software Foundation. All rights reserved."
+    print "Copyright (C) 2003/2004 Apache Software Foundation. All rights reserved."
     print "See the Apache Software License 1.1 for more details."
     print "http://www.apache.org/"
     print
