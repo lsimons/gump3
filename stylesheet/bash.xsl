@@ -165,32 +165,32 @@
 
     <xsl:text>#/bin/sh&#10;</xsl:text>
 
-    <xsl:text>test -e </xsl:text>
+    <xsl:text>test -d </xsl:text>
     <xsl:value-of select="$basedir"/>
     <xsl:text> || mkdir </xsl:text>
     <xsl:value-of select="$basedir"/>
     <xsl:text>&#10;</xsl:text>
 
-    <xsl:text>test -e </xsl:text>
+    <xsl:text>test -d </xsl:text>
     <xsl:value-of select="$basedir"/>
     <xsl:text>/log || mkdir </xsl:text>
     <xsl:value-of select="$basedir"/>
     <xsl:text>/log &#10;</xsl:text>
 
-    <xsl:text>test -e </xsl:text>
+    <xsl:text>test -d </xsl:text>
     <xsl:value-of select="$cvsdir"/>
     <xsl:text> || mkdir </xsl:text>
     <xsl:value-of select="$cvsdir"/>
     <xsl:text>&#10;</xsl:text>
 
-    <xsl:text>sh publish.sh $1 </xsl:text>
+    <xsl:text>bash publish.sh $1 </xsl:text>
     <xsl:value-of select="$basedir"/>
     <xsl:text>/log/source_index.html&#10;</xsl:text>
 
     <xsl:for-each select="project">
       <xsl:sort select="@name"/>
 
-      <xsl:text>sh publish.sh </xsl:text>
+      <xsl:text>bash publish.sh </xsl:text>
       <xsl:value-of select="translate(@href,'\','/')"/>
       <xsl:text> </xsl:text>
       <xsl:value-of select="$basedir"/>
@@ -200,12 +200,12 @@
     </xsl:for-each>
 
     <xsl:text>for i in ../stylesheet/*.xsl; do&#10;</xsl:text>
-    <xsl:text>  sh publish.sh stylesheet/`basename $i` </xsl:text>
+    <xsl:text>  bash publish.sh stylesheet/`basename $i` </xsl:text>
     <xsl:value-of select="$basedir"/>
     <xsl:text>/log/code_`basename $i`.html&#10;</xsl:text>
     <xsl:text>done&#10;</xsl:text>
 
-    <xsl:text>sh xref.sh&#10;</xsl:text>
+    <xsl:text>bash xref.sh&#10;</xsl:text>
 
     <xsl:text>cp update.sh </xsl:text>
     <xsl:value-of select="$basedir"/>
@@ -482,7 +482,7 @@
 
     <!-- update -->
 
-    <xsl:text>test -e </xsl:text>
+    <xsl:text>test -d </xsl:text>
     <xsl:value-of select="translate(@srcdir,'\','/')"/>
     <xsl:text> &amp;&amp; export CMD="cvs -z3 -d </xsl:text>
     <xsl:value-of select="@repository"/>
@@ -503,7 +503,7 @@
 
     <!-- checkout -->
 
-    <xsl:text>test -e </xsl:text>
+    <xsl:text>test -d </xsl:text>
     <xsl:value-of select="translate(@srcdir,'\','/')"/>
 
     <xsl:text> || export CMD="cvs -z3 -d </xsl:text>
