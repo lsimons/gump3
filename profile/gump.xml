@@ -6,14 +6,6 @@
   <module href="project/jakarta-ant.xml"/>
   <module href="project/jakarta-ant-antidote.xml"/>
   <module href="http://cvs.apache.org/viewcvs/~checkout~/jakarta-ant-myrmidon/gump.xml"/>
-  <module href="project/avalon-sandbox.xml"/> 
-  <module href="project/jakarta-avalon.xml"/> 
-  <module href="project/jakarta-avalon-apps.xml"/> 
-  <module href="project/jakarta-avalon-cornerstone.xml"/> 
-  <module href="http://cvs.apache.org/viewcvs/~checkout~/jakarta-avalon-excalibur/project-info.xml"/> 
-  <module href="project/jakarta-avalon-logkit.xml"/>
-  <module href="project/jakarta-avalon-phoenix.xml"/>
-  <module href="project/jakarta-avalon-site.xml"/>
   <module href="project/jakarta-bcel.xml"/>
   <module href="project/jakarta-bsf.xml"/>
   <module href="http://cvs.apache.org/viewcvs/~checkout~/jakarta-cactus/gump.xml"/>
@@ -91,6 +83,17 @@
   <module href="project/xml-xindice.xml"/>
   <module href="http://cvs.apache.org/viewcvs/~checkout~/xml-forrest/module.xml"/>
 
+  <!-- Apache.Avalon -->
+
+  <module href="project/avalon-sandbox.xml"/> 
+  <module href="project/jakarta-avalon.xml"/> 
+  <module href="project/jakarta-avalon-apps.xml"/> 
+  <module href="project/jakarta-avalon-cornerstone.xml"/> 
+  <module href="project/jakarta-avalon-excalibur.xml"/> 
+  <module href="project/jakarta-avalon-logkit.xml"/>
+  <module href="project/jakarta-avalon-phoenix.xml"/>
+  <module href="project/jakarta-avalon-site.xml"/>
+  
   <!-- SourceForge -->
 
   <module href="project/beanshell.xml"/>
