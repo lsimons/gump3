@@ -7,17 +7,21 @@
 
   <cvs repository="sourceforge" host-prefix="cvs.lucene" dir="lucene"/>
 
+  <depend project="jakarta-ant"/>
+  <depend project="xml-xerces"/>
   <depend project="javacc"/>
 
   <ant target="jar">
     <property name="version" value="gump"/>
+    <property name="javacc.home" reference="home" project="javacc"/>
   </ant>
 
   <jar name="lucene-gump.jar"/>
 
   <!-- not available via CVS -->
   <project name="javacc">
-    <jar name="lib/JavaCC.zip"/>
+    <home nested="lib"/>
+    <jar name="JavaCC.zip"/>
   </project>
 
 </project>

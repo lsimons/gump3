@@ -62,6 +62,7 @@
   <project href="project/jdom.xml"/>
   <project href="project/jtidy.xml"/>
   <project href="project/junit.xml"/>
+  <project href="project/lucene.xml"/>
   <project href="project/rhino.xml"/>
   <project href="project/scarab.xml"/>
   <project href="project/town.xml"/>
