@@ -50,6 +50,7 @@
     <depend project="cornerstone-store-api"/>
     <depend project="cornerstone-store-impl" inherit="runtime"/>
     <depend project="commons-net"/>
+    <depend project="commons-dbcp"/>
     <depend project="jakarta-oro"/>
     <depend project="town"/>
     <depend project="dnsjava"/>
