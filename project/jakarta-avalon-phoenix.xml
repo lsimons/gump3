@@ -41,7 +41,7 @@
     <depend project="dist-bsf"/>
     <depend project="rhino"/>
     <depend project="mx4j"/>
-    <depend project="qdox"/>
+    <depend project="phoenix-qdox"/>
     <depend project="jarv" runtime="true"/>
     <depend project="jakarta-site2" inherit="all" />
     <option project="jakarta-servletapi-4"/>
@@ -60,7 +60,7 @@
          to="avalon-phoenix-dev@jakarta.apache.org"/>
   </project>
 
-  <project name="qdox">
+  <project name="phoenix-qdox">
     <jar name="lib/qdox-1.0.jar"/>
   </project>
   
