@@ -23,6 +23,19 @@
     <jar id="util" name="util/dist/commons-util-gump.jar"/>
   </project>
 
+  <project name="commons-email">
+
+    <ant basedir="email" target="dist">
+      <property name="component.version"  value="gump"/>
+    </ant>
+
+    <depend project="jaf"/>
+    <depend project="javamail"/>
+    <depend project="commons-util"/>
+
+    <jar id="email" name="email/dist/commons-email-gump.jar"/>
+  </project>
+
   <project name="commons-jjar">
     <ant basedir="jjar" target="dist">
       <property name="minml2.jar" 

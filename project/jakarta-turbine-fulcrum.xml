@@ -21,6 +21,7 @@
     <depend property="torque.jar"   project="jakarta-turbine-torque"/>
     <depend property="village.jar"  project="village"/>
     <depend property="commons-util.jar" project="commons-util"/>
+    <depend property="commons-email.jar" project="commons-email"/>
 
     <property name="jakarta-site2" reference="home" project="jakarta-site2"/>
 
