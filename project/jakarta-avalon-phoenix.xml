@@ -53,8 +53,9 @@
     <javadoc nested="build/javadocs" module="jakarta-avalon"/>
 
     <nag>
-      <regexp pattern="/^$/" from="peter@apache.org" to="peter@apache.org"
-	      subject="PRE-REQ FAILED"/>
+    <regexp pattern="/^$/" from="peter@apache.org" 
+            to="avalon-phoenix-dev@jakarta.apache.org"
+            subject="PRE-REQ FAILED"/>
     </nag>
     <nag from="Peter Donald &lt;peter@apache.org&gt;"
          to="avalon-phoenix-dev@jakarta.apache.org"/>
