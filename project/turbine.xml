@@ -34,7 +34,7 @@
     <description>
       HTML template engine
     </description>
-    <jar name="lib/webmacro-jdk1.2.jar"/>
+    <jar name="lib/webmacro-0.94.jar"/>
   </project>
 
   <project name="xmlrpc">
