@@ -25,7 +25,7 @@
     <work nested="core/target/classes"/>
     <work nested="core/target/test-classes"/>
     <work nested="factory/target/classes"/>
-    <home nested="."/>
+    <work nested="factory/target/test-classes"/>
     <jar name="/core/dist/directory-naming-core-@@DATE@@.jar"/>
     <jar name="/factory/dist/directory-naming-factory-@@DATE@@.jar"/>
     <nag to="directory-dev@incubator.apache.org" 
