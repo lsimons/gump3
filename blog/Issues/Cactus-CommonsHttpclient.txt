@@ -1,7 +1,4 @@
-PREVIEW Cactus and Commons-Httpclient 
-Preview at 
-http://gump.chalko.com/gb/blog/Issues?permalink=Cactus-CommonsHttpclient.txt&preview=true&smm=y
-<hr/>
+Cactus and Commons-Httpclient 
 <!--
   Copyright 2004 The Apache Software Foundation
 
