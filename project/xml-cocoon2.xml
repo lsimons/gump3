@@ -8,7 +8,7 @@
   <cvs repository="xml"/>
   
   <project name="xml-cocoon2">
-    <ant target="dist-bin">
+    <ant target="package">
       <property name="version" value="gump"/>
       <depend property="logkit.jar"    project="dist-avalon-logkit"/>
       <depend property="avalonapi.jar" project="jakarta-avalon"/>
