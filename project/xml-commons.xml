@@ -1,7 +1,7 @@
 <module name="xml-commons">
 
   <description>
-    XML commons
+    XML commons($Revision: 1.3 $) externally defined standards - DOM,SAX,JAXP; plus xml utilities
   </description>
 
   <cvs repository="xml"/>
@@ -14,4 +14,11 @@
     <jar name="xml-apis.jar"/>
   </project>
 
+  <project name="xml-commons-which">
+    <ant basedir="java" buildfile="which.xml" target="jar"/>
+    <depend project="jaxp"/>
+    <depend project="bootstrap-ant"/>
+    <home nested="java/build"/>
+    <jar name="which.jar"/>
+  </project>
 </module>
