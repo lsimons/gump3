@@ -112,6 +112,30 @@
       </table>
     </subsection>
 
+    <subsection name="svn">
+
+      <p>References a <a href="http://subversion.tigris.org">Subversion</a> 
+      repository in which this project resides.</p>
+
+      <table>
+        <tr>
+          <th>Attribute</th>
+          <th>Description</th>
+          <th>Required?</th>
+        </tr>
+        <tr>
+          <td>url</td>
+          <td>The url of the repository in which this module resides.</td>
+          <td>Yes</td>
+        </tr>
+      </table>
+
+      <p>For example:</p>
+          <source><![CDATA[
+  <svn url="http://svn.collab.net/repos/svn/trunk" />
+]]></source>    
+    </subsection>
+
     <subsection name="project">
       <p>A definition of a <a href="project.html">project</a> which is
       physically contained in this module.</p>
