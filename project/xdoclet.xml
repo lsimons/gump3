@@ -19,6 +19,7 @@
     <depend project="jms"/>
     <depend project="jrefactory-pretty"/>
     <depend project="jakarta-servletapi-4"/>
+    <depend project="xjavadoc"/>
     <work nested="core/build/classes"/>
     <jar id="xdoclet" name="core/dist/lib/xdoclet.jar"/>
   </project>

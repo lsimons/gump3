@@ -87,6 +87,7 @@
   <module href="project/mx4j.xml"/>
   <module href="project/webwork.xml"/>
   <module href="project/xdoclet.xml"/>
+  <module href="project/xjavadoc.xml"/>
   <module href="project/xmlunit.xml"/>
   <module href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/*checkout*/ant-contrib/ant-contrib/src/etc/gump-descriptor.xml" />
   <module href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/*checkout*/ant-contrib/cpptasks/src/etc/gump-descriptor.xml" />

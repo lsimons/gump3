@@ -1,0 +1,22 @@
+<module name="xjavadoc">
+
+  <url href="http://xdoclet.sourceforge.net/"/>
+  <description>
+    Enhanced Doclet engine.
+  </description>
+
+  <cvs repository="sourceforge" host-prefix="cvs.xdoclet" dir="xdoclet"/>
+  
+  <project name="xjavadoc">
+    <package>xjavadoc</package>
+
+    <ant/>
+    <depend project="jakarta-ant"/>
+    <depend project="xml-xerces"/>
+    <depend project="javacc"/>
+    <depend project="jrefactory"/>
+    <depend project="jakarta-log4j"/>
+    <depend project="junit"/>
+    <jar name="xjavadoc.jar"/>
+  </project>
+</module>
