@@ -12,6 +12,7 @@
   <project href="project/jakarta-avalon-testlet.xml"/>
   <project href="project/jakarta-avalon.xml"/>
   <project href="project/jakarta-commons.xml"/>
+  <project href="project/jakarta-commons-sandbox.xml"/>
   <project href="project/jakarta-ecs.xml"/>
   <project href="project/jakarta-james.xml"/>
   <project href="project/jakarta-jetspeed.xml"/>
