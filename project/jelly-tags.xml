@@ -340,6 +340,9 @@
     <package>org.apache.commons.jelly.tags.log</package>
     <description>The Jelly Logging Tags</description>
 
+    <!-- maven-generated ant scripts don't work if there is no test directory -->
+    <mkdir dir="jelly/jelly-tags/log/src/test/"/>
+    
     <ant basedir="jelly/jelly-tags/log" target="jar">
       <property name="final.name"  value="commons-jelly-tags-log-@@DATE@@"/>
     </ant>
