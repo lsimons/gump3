@@ -55,7 +55,7 @@
         <package>org.apache.depot.common.test</package>
 
         <!-- Work dirs to be included in classpath  -->
-        <work nested="common/build/depot-common/classes"/>
+        <work nested="common/build/depot-common/junit/classes"/>
         <home nested="common"/>
 
         <depend project="depot-common" inherit="all"/>
@@ -106,7 +106,7 @@
         <package>org.apache.depot.version.test</package>
 
         <!-- Work dirs to be included in classpath  -->
-        <work nested="version/depot-version/junit/classes"/>
+        <work nested="version/build/depot-version/junit/classes"/>
         <home nested="version/"/>
 
         <depend project="depot-version" inherit="all"/>
