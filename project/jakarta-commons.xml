@@ -134,4 +134,19 @@
     <javadoc nested="pool/dist/docs/api"/>
   </project>
 
+  <project name="commons-validator">
+    <description>Validation Framework</description>
+    <ant basedir="validator" target="javadocs"/>
+    <depend project="jakarta-ant"/>
+    <depend project="xml-xerces"/>
+    <depend project="junit"/>
+    <depend project="commons-beanutils"/>
+    <depend project="commons-collections"/>
+    <depend project="commons-digester"/>
+    <depend project="jakarta-regexp"/>
+    <home nested="validator/dist"/>
+    <jar name="commons-validator.jar"/>
+    <javadoc nested="validator/dist/docs/api"/>
+  </project>
+
 </module>
