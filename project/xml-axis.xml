@@ -10,7 +10,9 @@
   <!-- build -->
 
   <project name="xml-axis">
-    <ant basedir="java" target="dist"/>
+    <ant basedir="java" target="dist">
+      <depend name="wsdl4j.jar" project="wsdl4j"/>
+    </ant>
 
     <depend project="xml-xerces"/>
     <depend project="jakarta-ant"/>

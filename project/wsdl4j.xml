@@ -16,5 +16,5 @@
   <depend project="jakarta-ant"/>
 
   <home nested="build"/>
-  <jar name="wsdl4j.jar"/>
+  <jar name="lib/wsdl4j.jar"/>
 </project>
