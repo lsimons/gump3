@@ -1,13 +1,32 @@
-JRefactory adapt their code to changes in jaxen/saxpath
+PREVIEW JRefactory adapt their code to changes in jaxen/saxpath
 
-<h1>
+Preview at 
+http://gump.chalko.com/gb/blog/SuccessStories?preview=true&smm=y&permalink=jrefactory.txt
+<hr/>
+<!--
+  Copyright 2004 The Apache Software Foundation
+
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+-->
+
+<h3>
 issue of line ending with PrettyPrinter task
-</h1>
+</h3>
 
 I had found a problem with the PrettyPrinter task supplied by JRefactory.
 Without any clear announcement, the JRefactory team had changed their PrettyPrinter
 task to delegate processing of line endings to the ant fixcrlf task - which is good.
-
+<more/>
 As a consequence, the acceptable values for the lineending setting of PrettyPrinter
 changed to become the one's of ant's fixcrlf task.
 
