@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<repository name="mozilla" type="cvs">
+  <title>Mozilla</title>
+  <home-page>http://www.mozilla.org/</home-page>
+  <cvsweb>http://lxr.mozilla.org/mozilla/source/</cvsweb>
+
+  <root>
+    <method>pserver</method>
+    <user>anonymous</user>
+    <password>anonymous</password>
+    <hostname>cvs-mirror.mozilla.org</hostname>
+    <path>/cvsroot</path>
+  </root>
+</repository>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<repository name="xml" type="cvs">
+  <title>Jakarta</title>
+  <home-page>http://xml.apache.org/</home-page>
+  <cvsweb>http://cvs.apache.org/viewcvs/</cvsweb>
+
+  <root>
+    <method>pserver</method>
+    <user>anoncvs</user>
+    <password>anoncvs</password>
+    <hostname>cvs.apache.org</hostname>
+    <path>/home/cvspublic</path>
+  </root>
+</repository>

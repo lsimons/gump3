@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<repository name="jdom" type="cvs">
+  <title>JDOM</title>
+  <home-page>http://www.jdom.org/</home-page>
+  <cvsweb>http://cvs.jdom.org/</cvsweb>
+
+  <root>
+    <method>pserver</method>
+    <user>anonymous</user>
+    <password>anonymous</password>
+    <hostname>cvs.jdom.org</hostname>
+    <path>/home/cvspublic</path>
+  </root>
+</repository>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<repository name="whichever" type="cvs">
+  <title>Whichever</title>
+  <home-page>http://share.shichever.org/</home-page>
+  <cvsweb>http://share.whichever.com/viewcvs.cgi/</cvsweb>
+
+  <root>
+    <method>pserver</method>
+    <user>anoncvs</user>
+    <password>anoncvs</password>
+    <hostname>share.whichever.com</hostname>
+    <path>/home/cvspublic</path>
+  </root>
+</repository>
