@@ -194,6 +194,7 @@
 
     <ant target="samples" />
     <depend project="xdoclet" inherit="all"/>
+    <depend project="ejb"/>
     <depend project="jakarta-struts"/>
     <depend project="webwork"/>
     <depend project="mx4j"/>
