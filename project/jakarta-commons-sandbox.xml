@@ -104,9 +104,11 @@
     <depend project="jakarta-ant" inherit="runtime"/>
     <depend project="junit"/>
     <home nested="functor/target/dist"/>
+    <work nested="functor/target/classes"/>
+    <work nested="functor/target/test-classes"/>
     <jar name="commons-functor.jar"/>
     <javadoc nested="functor/target/dist/docs/api"/>
-    <nag to="commons-dev@jakarta.apache.org"
+    <nag to="rwaldhoff@apache.org"
          from="Rod Waldhoff &lt;commons-dev@jakarta.apache.org&gt;"/>
   </project>
 
