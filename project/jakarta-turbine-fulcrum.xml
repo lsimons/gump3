@@ -13,7 +13,6 @@
       <depend property="log4j.jar"    project="jakarta-log4j" id="log4j"/>
       <depend property="xerces.jar"   project="xml-xerces"/>
       <depend property="bsf.jar"      project="bsf"/>
-      <depend property="torque.jar"   project="jakarta-turbine-torque"/>
       <depend property="servlet.jar"  project="jakarta-servletapi-4"/>
       <depend property="jndi.jar"     project="jndi"/>
       <depend property="xalan.jar"    project="xml-xalan2"/>
