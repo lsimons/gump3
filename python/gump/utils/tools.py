@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/utils/tools.py,v 1.12 2004/02/24 22:14:49 ajack Exp $
-# $Revision: 1.12 $
-# $Date: 2004/02/24 22:14:49 $
+# $Header: /home/stefano/cvs/gump/python/gump/utils/tools.py,v 1.13 2004/02/25 13:23:32 ajack Exp $
+# $Revision: 1.13 $
+# $Date: 2004/02/25 13:23:32 $
 #
 # ====================================================================
 #
@@ -125,10 +125,10 @@ def catFileAsWork(workable,file,name=None):
     
     return ok
 
-def listDirectoryToFileHolder(holder,directory,type=FILE_TYPE_MISC):
+def listDirectoryToFileHolder(holder,directory,type=FILE_TYPE_MISC,name=None):
        
     # Create a reference to the directory
-    reference=FileReference(directory,type)
+    reference=FileReference(directory,type,name)
     
     #
     # Update holder w/ reference to directory, 'listing'
