@@ -35,7 +35,9 @@
   <project name="james-server">
     <package>org.apache.james</package>
     <license name="LICENSE.txt"/>
-    <ant buildfile="gump.xml"/>
+    <ant buildfile="gump.xml">
+      <property name="build-version" value="@@DATE@@"/>
+    </ant>
     <depend project="ant"/>
     <depend project="xml-xerces"/>
     <depend project="avalon-framework" inherit="runtime"/>
