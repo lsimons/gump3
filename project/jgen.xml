@@ -19,13 +19,28 @@
     <depend project="jakarta-servletapi-4"/>
     <depend project="jakarta-log4j"/>
     <depend project="jaxen"/>
+    <depend project="junit"/>
+    <depend project="commons-jexl"/>
     <depend project="xml-batik"/>
     <depend project="xml-fop"/>
     <depend project="xml-xalan2"/>
     <depend project="xml-apis"/>
     <depend project="rhino"/>
+    <depend project="resin"/>
+    <depend project="enterprisedt.ftp"/>
 
     <jar name="lib/jgen.jar"/>
   </project>
 
+  <project name="resin">
+    <url href="http://www.caucho.com/"/>
+    <package>com.caucho</package>
+    <jar name="lib/resin.jar"/>
+  </project>
+
+  <project name="enterprisedt.ftp">
+    <url href="http://www.enterprisedt.com/downloads/ftp.html"/>
+    <package>com.enterprisedt.net.ftp</package>
+    <jar name="lib/ftp.jar"/>
+  </project>
 </module>
