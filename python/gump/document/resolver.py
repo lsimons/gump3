@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/document/resolver.py,v 1.8 2003/12/07 17:49:13 ajack Exp $
-# $Revision: 1.8 $
-# $Date: 2003/12/07 17:49:13 $
+# $Header: /home/stefano/cvs/gump/python/gump/document/resolver.py,v 1.9 2004/01/08 17:58:51 ajack Exp $
+# $Revision: 1.9 $
+# $Date: 2004/01/08 17:58:51 $
 #
 # ====================================================================
 #
@@ -360,8 +360,7 @@ class Resolver:
             self.makePath(location.getPath(),self.xdocsDir)
             file=concatenate(self.xdocsDir,location.serialize())
             
-        return file
-                    
+        return file                    
             
     def getAbsoluteDirectoryUrl(self,object):
         return concatenate(self.rootUrl,getPathForObject(object).serialize())
@@ -388,8 +387,7 @@ class Resolver:
         
     def getUrl(self,object,documentName=None,extn='.html'):
         return self.getAbsoluteUrl(object,documentName,extn)
-        
-        
+                
     def getRootUrl(self):
         return self.rootUrl
         

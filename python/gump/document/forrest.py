@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/forrest.py,v 1.41 2004/01/06 21:35:46 ajack Exp $
-# $Revision: 1.41 $f
-# $Date: 2004/01/06 21:35:46 $
+# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/forrest.py,v 1.42 2004/01/08 17:58:51 ajack Exp $
+# $Revision: 1.42 $f
+# $Date: 2004/01/08 17:58:51 $
 #
 # ====================================================================
 #
@@ -267,10 +267,12 @@ class ForrestDocumenter(Documenter):
         definitionTable.createEntry('Start Date/Time', workspace.startdatetime)
         definitionTable.createEntry('Timezone', workspace.timezone)
         
-        syndRow=definitionTable.createRow()
-        syndRow.createData('Syndication')
-        syndRow.createData().createFork('index.rss','RSS')
-        syndRow.createData().createFork('index.atom','Atom')
+        rssSyndRow=definitionTable.createRow()
+        rssSyndRow.createData('Syndication')
+        rssSyndRow.createData().createFork('index.rss','RSS')
+        atomSyndRow=definitionTable.createRow()
+        atomSyndRow.createData('Syndication')
+        atomSyndRow.createData().createFork('index.atom','Atom')
                 
         textRow=definitionTable.createRow()
         textRow.createData('Workspace Documentation')
@@ -891,8 +893,7 @@ class ForrestDocumenter(Documenter):
         if project.isPackaged():
             document.createNote('This is a packaged project, not Gumped.')
         elif not project.hasBuildCommand():
-            document.createNote('This project is not built by Gump.')
-        
+            document.createNote('This project is not built by Gump.')        
             
         stateSection=document.createSection('State')
         
@@ -941,7 +942,23 @@ class ForrestDocumenter(Documenter):
             statsTable.createEntry("First Success: ", secsToDate(stats.first))
         if stats.last:
             statsTable.createEntry("Last Success: ", secsToDate(stats.last))
-            
+                
+                
+        addnSection=document.createSection('Additional Details')
+        addnPara=addnSection.createParagraph()
+        addnPara.createLink( 	\
+            self.resolver.getUrl(project, \
+                                    project.getName() + '_details', \
+                                        '.xml'),	\
+                            'For more...')
+                                        
+                                        
+        document.serialize()
+        
+        document=XDocDocument('Project Details : ' + project.getName(),	\
+                    self.resolver.getFile(project, \
+                                    project.getName() + '_details', \
+                                        '.xml'))
             
         self.documentProjectList(detailsSection, "Project Dependencies",	\
                     project.getDependencies(), 0, project)  

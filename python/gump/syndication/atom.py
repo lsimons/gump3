@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/syndication/atom.py,v 1.5 2004/01/08 01:28:11 ajack Exp $
-# $Revision: 1.5 $
-# $Date: 2004/01/08 01:28:11 $
+# $Header: /home/stefano/cvs/gump/python/gump/syndication/atom.py,v 1.6 2004/01/08 17:58:52 ajack Exp $
+# $Revision: 1.6 $
+# $Date: 2004/01/08 17:58:52 $
 #
 # ====================================================================
 #
@@ -176,7 +176,7 @@ class AtomSyndicator(Syndicator):
         self.workspace=run.getWorkspace()   
         
         feedFile=self.run.getOptions().getResolver().getFile(self.workspace,'index','.atom')      
-        feedUrl=self.run.getOptions().getResolver().getUrl(self.workspace,'index','.atom')
+        feedUrl=self.run.getOptions().getResolver().getAbsoluteUrl(self.workspace,'index','.atom')
     
         self.feed=AtomFeed(feedUrl,feedFile,	\
                         'workspace',	\
@@ -194,7 +194,7 @@ class AtomSyndicator(Syndicator):
     def syndicateModule(self,module,mainFeed):
                 
         feedFile=self.run.getOptions().getResolver().getFile(module,'index','.atom')
-        feedUrl=self.run.getOptions().getResolver().getUrl(module,'index','.atom')
+        feedUrl=self.run.getOptions().getResolver().getAbsoluteUrl(module,'index','.atom')
         moduleUrl=self.run.getOptions().getResolver().getUrl(module)
         
         moduleFeed=AtomFeed(feedUrl,feedFile,	
@@ -236,7 +236,7 @@ class AtomSyndicator(Syndicator):
     def syndicateProject(self,project,moduleFeed,mainFeed):
         
         feedFile=self.run.getOptions().getResolver().getFile(project,project.getName(),'.atom')
-        feedUrl=self.run.getOptions().getResolver().getUrl(project,'index','.atom')
+        feedUrl=self.run.getOptions().getResolver().getAbsoluteUrl(project,'index','.atom')
         projectUrl=self.run.getOptions().getResolver().getUrl(project)
         
         projectFeed=AtomFeed(feedUrl, feedFile,	\
