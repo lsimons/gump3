@@ -315,7 +315,7 @@ class Summary:
                 self.failures+=1
             elif STATUS_NONE == status:
                 self.noworks+=1
-            elif STATUS_STATUS_COMPLETE == status:
+            elif STATUS_COMPLETE == status:
                 # :TODO: Accurate?
                 self.packages+=1
             else:
