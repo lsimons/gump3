@@ -18,5 +18,9 @@
 <xsl:template match="ant">
 	<xsl:comment>No build</xsl:comment>
 </xsl:template>
+<xsl:template match="cvs">
+	<xsl:comment>No cvs</xsl:comment>
+</xsl:template>
+
 
 </xsl:stylesheet>
