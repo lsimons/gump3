@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/model/module.py,v 1.17 2003/11/25 20:55:43 ajack Exp $
-# $Revision: 1.17 $
-# $Date: 2003/11/25 20:55:43 $
+# $Header: /home/stefano/cvs/gump/python/gump/model/module.py,v 1.18 2003/11/25 21:11:45 ajack Exp $
+# $Revision: 1.18 $
+# $Date: 2003/11/25 21:11:45 $
 #
 # ====================================================================
 #
@@ -586,7 +586,7 @@ class Module(NamedModelObject, Statable):
                     
             if self.cvs.hasModule():
                 cmd.addParameter(self.cvs.getModule())
-            else
+            else:
                 cmd.addParameter(self.getName())
             
         
