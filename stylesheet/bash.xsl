@@ -209,7 +209,7 @@
         <xsl:value-of select="@defined-in"/>
         <xsl:text>.xml </xsl:text>
         <xsl:value-of select="$basedir"/>
-        <xsl:text>\log\repository_</xsl:text>
+        <xsl:text>/log/repository_</xsl:text>
         <xsl:value-of select="@defined-in"/>
         <xsl:text>.html&#10;</xsl:text>
       </xsl:if>
@@ -222,7 +222,7 @@
       <xsl:value-of select="@defined-in"/>
       <xsl:text>.xml </xsl:text>
       <xsl:value-of select="$basedir"/>
-      <xsl:text>\log\profile_</xsl:text>
+      <xsl:text>/log/profile_</xsl:text>
       <xsl:value-of select="@defined-in"/>
       <xsl:text>.html&#10;</xsl:text>
     </xsl:for-each>
