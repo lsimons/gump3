@@ -14,88 +14,89 @@
   See the License for the specific language governing permissions and
   limitations under the License.
 -->
+
 <module name="avalon-logkit">
 
-  <url href="http://avalon.apache.org/"/>
-  <description>
-    Fast lightweight Logging toolkit
-  </description>
+    <url href="http://avalon.apache.org/"/>
+    <description>
+        Fast lightweight Logging toolkit
+    </description>
 
-  <cvs repository="avalon"/>
+    <cvs repository="avalon"/>
 
-  <project name="avalon-logkit">
-    <package>org.apache.log</package>
+    <project name="avalon-logkit">
+        <package>org.apache.log</package>
 
-    <ant>
-      <property name="jakarta-site.dir" project="jakarta-site2"
-          reference="srcdir" />
-    </ant>
-    <depend project="ant" inherit="runtime"/>
-    <depend project="xml-xerces"/>
-    <depend project="junit"/>
+        <ant>
+        <property name="jakarta-site.dir" project="jakarta-site2"
+            reference="srcdir" />
+        </ant>
+        <depend project="ant" inherit="runtime"/>
+        <depend project="xml-xerces"/>
+        <depend project="junit"/>
 
-    <option project="jdbc" runtime="true"/>
-    <option project="jms" runtime="true"/>
-    <option project="javamail" runtime="true"/>
-    <option project="jaf" runtime="true"/>
-    <option project="jakarta-servletapi-4" runtime="true"/>
-    <option project="logging-log4j" runtime="true"/>
+        <option project="jdbc" runtime="true"/>
+        <option project="jms" runtime="true"/>
+        <option project="javamail" runtime="true"/>
+        <option project="jaf" runtime="true"/>
+        <option project="jakarta-servletapi-4" runtime="true"/>
+        <option project="logging-log4j" runtime="true"/>
 
-    <home nested="build/lib"/>
-    <jar name="logkit.jar"/>
+        <home nested="build/lib"/>
+        <jar name="logkit.jar"/>
 
-    <javadoc nested="build/javadocs" module="avalon"/>
-    <license name="LICENSE.txt"/>
-    <nag from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"
-                to="dev@avalon.apache.org"/>
+        <javadoc nested="build/javadocs" module="avalon"/>
+        <license name="LICENSE.txt"/>
+        <nag from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"
+                    to="dev@avalon.apache.org"/>
 
-  </project>
+    </project>
 
-  <project name="dist-avalon-logkit">
-    <ant>
-      <property name="jakarta-site.dir" project="jakarta-site2"
-          reference="srcdir" />
-    </ant>
-    <depend project="avalon-logkit" inherit="all"/>
-    <depend project="avalon-framework" id="combined"/>
+    <project name="dist-avalon-logkit">
+        <ant>
+            <property name="jakarta-site.dir" project="jakarta-site2"
+                      reference="srcdir" />
+        </ant>
+        <depend project="avalon-logkit" inherit="all"/>
+        <depend project="avalon-framework" id="combined"/>
 
-    <home nested="build/lib"/>
-    <jar name="logkit.jar"/>
+        <home nested="build/lib"/>
+        <jar name="logkit.jar"/>
 
-    <nag from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"
-            to="dev@avalon.apache.org"/>
-  </project>
+        <nag from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"
+             to="dev@avalon.apache.org"/>
+    </project>
 
-  <project name="avalon-logkit-maven">
-    <package>org.apache.log</package>
+    <project name="avalon-logkit-maven">
+        <package>org.apache.log</package>
 
-    <ant basedir="." buildfile="gump-build.xml" target="dist">
-    </ant>
-    <depend project="ant" inherit="runtime"/>
-    <depend project="xml-xerces"/>
-    <depend project="junit"/>
+        <ant basedir="." buildfile="gump-build.xml" target="dist">
+        </ant>
+        <depend project="ant" inherit="runtime"/>
+        <depend project="xml-xerces"/>
+        <depend project="junit"/>
 
-    <depend project="avalon-framework" runtime="true"/>
-    <depend project="jdbc" runtime="true"/>
-    <depend project="jms" runtime="true"/>
-    <depend project="javamail" runtime="true"/>
-    <depend project="jaf" runtime="true"/>
-    <depend project="jakarta-servletapi-4" runtime="true"/>
-    <depend project="logging-log4j" runtime="true"/>
+        <depend project="avalon-framework" runtime="true"/>
+        <depend project="jdbc" runtime="true"/>
+        <depend project="jms" runtime="true"/>
+        <depend project="javamail" runtime="true"/>
+        <depend project="jaf" runtime="true"/>
+        <depend project="jakarta-servletapi-4" runtime="true"/>
+        <depend project="logging-log4j" runtime="true"/>
 
-    <home nested="build/lib"/>
-    <jar name="logkit.jar"/>
+        <home nested="build/lib"/>
+        <jar name="logkit.jar"/>
 
-    <work nested="target/classes"/>
-    <work nested="target/api-classes"/>
-    <work nested="target/impl-classes"/>
-    <work nested="target/test-classes"/>
+        <work nested="target/classes"/>
+        <work nested="target/api-classes"/>
+        <work nested="target/impl-classes"/>
+        <work nested="target/test-classes"/>
 
-    <javadoc nested="target/docs/apidocs" module="avalon"/>
-    <junitreport nested="target/docs/junitreports" module="avalon"/>
-    <license name="LICENSE.txt"/>
-    <nag from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"
-      to="dev@avalon.apache.org"/>
-  </project>
+        <javadoc nested="target/docs/apidocs" module="avalon"/>
+        <junitreport nested="target/docs/junitreports" module="avalon"/>
+        <license name="LICENSE.txt"/>
+        <nag from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"
+             to="dev@avalon.apache.org"/>
+    </project>
 
 </module>
