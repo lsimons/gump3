@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/model/module.py,v 1.32 2004/02/12 13:41:52 ajack Exp $
-# $Revision: 1.32 $
-# $Date: 2004/02/12 13:41:52 $
+# $Header: /home/stefano/cvs/gump/python/gump/model/module.py,v 1.33 2004/02/23 20:55:08 ajack Exp $
+# $Revision: 1.33 $
+# $Date: 2004/02/23 20:55:08 $
 #
 # ====================================================================
 #
@@ -437,7 +437,7 @@ class Module(NamedModelObject, Statable):
         if not fogFactors:
             fogFactors=1 # 0/1 is better than 0/0
             
-        return round(fogFactor/fogFactors,2)
+        return fogFactor/fogFactors
         
     def getLastUpdated(self):
         return self.getStats().getLastUpdated()                

@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/output/Attic/statsdb.py,v 1.13 2004/01/21 18:52:30 ajack Exp $
-# $Revision: 1.13 $
-# $Date: 2004/01/21 18:52:30 $
+# $Header: /home/stefano/cvs/gump/python/gump/output/Attic/statsdb.py,v 1.14 2004/02/23 20:55:08 ajack Exp $
+# $Revision: 1.14 $
+# $Date: 2004/02/23 20:55:08 $
 #
 # ====================================================================
 #
@@ -378,7 +378,7 @@ class WorkspaceStatisticsGuru:
         # Average Projects Per Module
         #
         self.averageProjectsPerModule=	\
-            round(self.projectsInWorkspace/self.modulesInWorkspace,2)
+            float(self.projectsInWorkspace)/self.modulesInWorkspace
             
 #
 # Module Comparisons
@@ -459,7 +459,7 @@ def compareProjectsByDependeeCount(project1,project2):
 def compareProjectsByFOGFactor(project1,project2):
     fog1=project1.getFOGFactor()
     fog2=project2.getFOGFactor()
-    c= int(round(fog2 - fog1,2))                  
+    c= int(round(fog2 - fog1,0))                  
     if not c: c=cmp(project1,project2)
     return c             
             

@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/forrest.py,v 1.77 2004/02/23 17:00:05 ajack Exp $
-# $Revision: 1.77 $f
-# $Date: 2004/02/23 17:00:05 $
+# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/forrest.py,v 1.78 2004/02/23 20:55:08 ajack Exp $
+# $Revision: 1.78 $f
+# $Date: 2004/02/23 20:55:08 $
 #
 # ====================================================================
 #
@@ -485,7 +485,7 @@ class ForrestDocumenter(Documenter):
             self.insertStateIcon(project,workspace,projectRow.createData())    
             projectRow.createData(secsToElapsedString(project.getElapsedSecs()))  
             
-            projectRow.createData(round(project.getFOGFactor(),2))
+            projectRow.createData('%02.2f' % project.getFOGFactor())
                 
         if not pcount: projectsTable.createLine('None')    
         document.serialize()
@@ -631,7 +631,7 @@ class ForrestDocumenter(Documenter):
             self.insertStateIcons(gumpSet,module,workspace,moduleRow.createData())
             
             moduleRow.createData(secsToElapsedString(module.getElapsedSecs()))
-            moduleRow.createData(round(module.getFOGFactor(),2))
+            moduleRow.createData('%02.2f' % module.getFOGFactor())
             
         if not mcount: modulesTable.createLine('None')
         
@@ -1152,7 +1152,7 @@ class ForrestDocumenter(Documenter):
                 'This project has existed in this failed state for a significant duration.')
         
         statsTable=statsSection.createTable()           
-        statsTable.createEntry("FOG Factor: ", round(stats.getFOGFactor(),2))
+        statsTable.createEntry("FOG Factor: ", '%02.2f' % stats.getFOGFactor())
         statsTable.createEntry("Successes: ", stats.successes)
         statsTable.createEntry("Failures: ", stats.failures)
         statsTable.createEntry("Prerequisite Failures: ", stats.prereqs)
@@ -1913,7 +1913,7 @@ class ForrestDocumenter(Documenter):
             if not gumpSet.inModules(module): continue    
             fogRow=fogTable.createRow()            
             self.insertLink( module, stats, fogRow.createData())                
-            fogRow.createData(round(module.getFOGFactor(),2))
+            fogRow.createData('%02.2f' % module.getFOGFactor())
             
         document.serialize()
         
@@ -2012,7 +2012,7 @@ class ForrestDocumenter(Documenter):
             fogRow.createData(pstats.successes)
             fogRow.createData(pstats.failures)
             fogRow.createData(pstats.prereqs)
-            fogRow.createData(round(pstats.getFOGFactor(),2))
+            fogRow.createData('%02.2f' % pstats.getFOGFactor())
             
         document.serialize()   
         

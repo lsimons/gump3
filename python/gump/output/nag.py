@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/output/Attic/nag.py,v 1.14 2004/02/23 15:43:06 ajack Exp $
-# $Revision: 1.14 $
-# $Date: 2004/02/23 15:43:06 $
+# $Header: /home/stefano/cvs/gump/python/gump/output/Attic/nag.py,v 1.15 2004/02/23 20:55:08 ajack Exp $
+# $Revision: 1.15 $
+# $Date: 2004/02/23 20:55:08 $
 #
 # ====================================================================
 #
@@ -152,7 +152,8 @@ class Nagger:
                 
         # Belt and braces (nag to us if not nag to them)
         if self.hasUnwanted():
-            log.info('Got some unwanted\'s to send to list...')
+            log.info('We have some unwanted\'s to send to list...')
+            
             self.sendEmail(self.workspace.mailinglist,self.workspace.email,	\
                         'All dressed up, with nowhere to go...',self.unwanted)
                         
@@ -164,7 +165,7 @@ class Nagger:
                 
         # Belt and braces (nag to us if not nag to them)
         if self.hasUnsent():
-            log.info('Got some unsented\'s to send to list...')    
+            log.info('We have some unsented\'s to send to list...')    
             self.sendEmail(self.workspace.mailinglist,self.workspace.email,	\
                         'Unable to send...',self.unsent)
                         
@@ -283,7 +284,9 @@ class Nagger:
         toaddrs=[ toaddr ]
     
         try:
-            
+               
+            log.info('Send Nag e-mail to: ' + str(toaddr) + ' from: ' + str(fromaddr))
+           
             #
             # Form the user visable part ...
             #
@@ -292,7 +295,7 @@ class Nagger:
                                 subject, \
                                 content)       
               
-            log.info('Send Nag e-mail to: ' + str(toaddr) + ' from: ' + str(fromaddr) + ' subject: ' + str(subject))
+            log.info('Subject: ' + str(subject))
                         
             #print '-------------------------------------------------------------------'
             #print 'To:' + `toaddr`
@@ -306,10 +309,12 @@ class Nagger:
                 self.workspace.mailport) 
             
         except Exception, details:
-            log.error('Failed to send nag e-mail ['+str(toaddr)+'] ['+str(fromaddr)+']: ' + str(details), \
+            log.error('Failed to send nag e-mail: ' + str(details), \
                         exc_info=1)
                         
             self.addUnsent(subject,content)                
+                        
+            log.error('Failed with to: ['+str(toaddr)+'] from: ['+str(fromaddr)+']' )
             
     def getNamedTypedContent(self,object,feedPrefix=None,message=None):
         content="""To whom it may engage...
