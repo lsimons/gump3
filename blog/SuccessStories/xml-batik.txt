@@ -1,6 +1,8 @@
 PREVIEW Rhino team provides fixes for batik
 <p>
-Thanks to the Rhino team for fixing the abstract class which was causing the build of batik to fail in gump.
+Thanks to the <a href="http://www.mozilla.org/rhino/">Rhino</a> team for 
+fixing the abstract class which was causing the build of 
+<a href="http://xml.apache.org/batik/index.html">batik</a> to fail in gump.
 
 </p>
 <p>
