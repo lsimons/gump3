@@ -21,6 +21,7 @@
   <option project="jakarta-servletapi-4"/>
   <depend project="dist-avalon-logkit"/>
   <depend project="jakarta-avalon"/>
+  <depend project="jakarta-avalon-excalibur"/>
   <option project="xml-fop"/>
   <depend project="jakarta-regexp"/>
   <depend project="jdom"/>
