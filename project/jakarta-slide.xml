@@ -9,6 +9,7 @@
   
   <project name="jakarta-slide">
     <package>org.apache.slide</package>
+    <package>org.apache.webdav</package>
 
     <ant target="full-dist">
       <property name="ant.jar" reference="jarpath" project="dist-ant" 
@@ -35,6 +36,7 @@
       <property name="catalina.dist" project="jakarta-tomcat-4.0"
                 path="dist"/>
       <property name="version" value="@@DATE@@" />
+      <depend property="commons-httpclient.jar" project="commons-httpclient"/>
     </ant>
 
     <depend project="dist-ant" />
@@ -42,20 +44,33 @@
     <depend project="xml-xalan2"/>
     <option project="jmx"/>
     <depend project="jakarta-tomcat-4.0"/>
-    <depend project="commons-httpclient"/>
     <depend project="jakarta-struts"/>
     <depend project="jakarta-oro"/>
     <option project="jakarta-taglibs" ids="jstl standard"/>
+
     <work nested="build/classes"/>
     <work nested="build/client/classes"/>
 
     <home nested="dist"/>
-    <jar name="client/lib/webdavlib.jar"/>
-    <jar name="lib/manager.jar"/>
-    <jar name="lib/roles.jar"/>
-    <jar name="lib/slide.jar"/>
-    <jar name="lib/slidestores.jar"/>
-    <jar name="lib/webdav.jar"/>
+
+    <jar name="client/lib/slide-anttasks.jar" id="client-anttasks"/>
+    <jar name="client/lib/slide-client.jar" id="client"/>
+    <jar name="client/lib/slide-swing.jar" id="client-swing"/>
+    <jar name="client/lib/slide-webdavlib.jar" id="client-webdavlib"/>
+
+    <jar name="slide/lib/slide-kernel.jar" id="kernel"/>
+    <jar name="slide/lib/slide-roles.jar" id="roles"/>
+    <jar name="slide/lib/slide-stores.jar" id="stores"/>
+    <jar name="slide/lib/slide-webdavservlet.jar" id="webdavservlet"/>
+
+    <jar name="slide/lib/slide-taglib-common.jar" id="taglib-common"/>
+    <jar name="slide/lib/slide-taglib-jstl.jar" id="taglib-jstl"/>
+    <jar name="slide/lib/slide-taglib-struts.jar" id="taglib-struts"/>
+
+    <jar name="slide/wrappers/slide-catalinawrapper.jar" id="catalina-wrapper"/>
+    <jar name="slide/wrappers/slide-jmxwrapper.jar" id="jmx-wrapper"/>
+    <jar name="slide/wrappers/slide-jndiwrapper.jar" id="jndi-wrapper"/>
+    <jar name="slide/wrappers/slide-log4jwrapper.jar" id="log4j-wrapper"/>
 
     <javadoc nested="dist/doc">
       <description dir="clientjavadoc">WebDAV Client </description>
