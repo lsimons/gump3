@@ -9,13 +9,13 @@
 
   <!-- Build the Cactus project ant tasks -->
   <project name="jakarta-cactus-ant">
-    <ant buildfile="build/build.xml" target="jar.ant"/>
+    <ant buildfile="anttasks/build.xml" target="nightly"/>
 
     <depend project="jakarta-ant"/>
     <depend project="xml-xerces"/>
 
-    <home nested="target"/>
-    <jar name="cactus-ant.jar"/>
+    <home nested="dist"/>
+    <jar name="lib/cactus-ant.jar"/>
   </project>
 
   <!-- Build the Cactus project for Servlet API 2.2 -->
@@ -24,12 +24,13 @@
       <property name="test.port" value="8081"/>
       <property name="tomcat.home.33" reference="home"
                 project="jakarta-tomcat"/>
-      <depend property="servlet22.jar" project="jakarta-servletapi"/>
-      <depend property="junit.jar"     project="junit"/>
-      <depend property="log4j.jar"     project="jakarta-log4j"/>
-      <depend property="httpunit.jar"  project="httpunit"/>
+      <depend property="cactus.ant.jar" project="jakarta-cactus-ant"/>
+      <depend property="servlet22.jar"  project="jakarta-servletapi"/>
+      <depend property="junit.jar"      project="junit"/>
+      <depend property="log4j.jar"      project="jakarta-log4j"/>
+      <depend property="httpunit.jar"   project="httpunit"/>
       <depend property="httpclient.jar" project="commons-httpclient"/>
-      <depend property="aspectjrt.jar" project="aspectj" id="aspectjrt"/>
+      <depend property="aspectjrt.jar"  project="aspectj" id="aspectjrt"/>
     </ant>
 
     <depend project="jakarta-ant"/>
@@ -37,7 +38,6 @@
     <depend project="xml-stylebook2"/>
     <depend project="xml-xalan2"/>
     <depend project="jakarta-tomcat"/>
-    <depend project="jakarta-cactus-ant"/>
     <depend project="aspectj"/>
 
     <work nested="target/classes"/>
@@ -54,12 +54,13 @@
       <property name="test.port" value="8082"/>
       <property name="tomcat.home.40" reference="home"
                 project="jakarta-tomcat-4.0"/>
-      <depend property="servlet23.jar" project="jakarta-servletapi-4"/>
-      <depend property="junit.jar" project="junit"/>
-      <depend property="log4j.jar" project="jakarta-log4j"/>
-      <depend property="httpunit.jar"  project="httpunit"/>
+      <depend property="cactus.ant.jar" project="jakarta-cactus-ant"/>
+      <depend property="servlet23.jar"  project="jakarta-servletapi-4"/>
+      <depend property="junit.jar"      project="junit"/>
+      <depend property="log4j.jar"      project="jakarta-log4j"/>
+      <depend property="httpunit.jar"   project="httpunit"/>
       <depend property="httpclient.jar" project="commons-httpclient"/>
-      <depend property="aspectjrt.jar" project="aspectj" id="aspectjrt"/>
+      <depend property="aspectjrt.jar"  project="aspectj" id="aspectjrt"/>
     </ant>
 
     <depend project="jakarta-ant"/>
@@ -67,7 +68,6 @@
     <depend project="xml-stylebook2"/>
     <depend project="xml-xalan2"/>
     <depend project="jakarta-tomcat-4.0" inherit="runtime"/>
-    <depend project="jakarta-cactus-ant"/>
     <depend project="aspectj"/>
 
     <work nested="target/classes"/>
