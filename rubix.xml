@@ -1,9 +1,19 @@
-<workspace basedir="/home/rubys/jakarta" cvsdir="/home/rubys/jakarta/cvs" 
+<workspace basedir="/home/rubys/jakarta" cvsdir="/home/rubys/jakarta/cvs"
            version="0.2">
 
   <build sysclasspath="only"/>
 
   <profile href="profile/gump.xml"/>
+
+  <!-- Additional dependencies -->
+
+  <project name="xml-cocoon2">
+    <option project="phpservlet"/>
+  </project>
+
+  <project name="phpservlet" home="/home/rubys/php">
+    <jar name="lib/php/phpsrvlt.jar"/>
+  </project>
 
   <!-- Installed packages -->
 

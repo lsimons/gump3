@@ -161,9 +161,9 @@ public class gen {
         collapse(new Hashtable(), workspace.getFirstChild());
 
         Node resolved = transform(workspace, "defaults.xsl");
-        Node sorted   = transform(resolved, "sortdep.xsl");
-
         output (resolved, "work/merge.xml");
+
+        Node sorted   = transform(resolved, "sortdep.xsl");
         output (sorted, "work/sorted.xml");
     }
 
