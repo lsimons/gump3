@@ -101,21 +101,35 @@
         <td>8 pm</td>
         <td>11 pm</td>
         <td>0400</td>
-        <td>3 pm</td>
+        <td>1 pm</td>
       </tr>
       <tr>
         <td><a href="http://nagoya.apache.org/~rubys/gump/">Nagoya</a></td>
-        <td>2 am</td>
+        <td>4 am</td>
         <td>7 am</td>
         <td>1200</td>
-        <td>11 pm</td>
+        <td>9 pm</td>
       </tr>
       <tr>
         <td><a href="http://gump.covalent.net/log/index.html">Covalent</a></td>
         <td>Noon</td>
         <td>3 pm</td>
         <td>2000</td>
-        <td>7 am</td>
+        <td>5 am</td>
+      </tr>
+      <tr>
+        <td><a href="http://gump.cocoondev.org/">CocoonDev</a></td>
+        <td>3 pm</td>
+        <td>6 pm</td>
+        <td>2300</td>
+        <td>8 am</td>
+      </tr>
+      <tr>
+        <td><a href="http://lsd.student.utwente.nl/gump/">LSD</a></td>
+        <td>5 pm</td>
+        <td>8 pm</td>
+        <td>0100</td>
+        <td>10 am</td>
       </tr>
     </table>
 
