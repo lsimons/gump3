@@ -389,12 +389,14 @@ def documentModule(workspace,wdir,modulename,modulecontext,db,projectFilterList=
     # Provide a description/link back to the module site.
     startSectionXDoc(x,'Description') 
     description=str(module.description)    
+    if not description.strip().endswith('.'):
+        description+='. '    
     if not description:
         description='No description provided.'        
-    if str(module.url):
-        description+=' For more information, see: ' + getLink(str(module.url))
+    if module.url:
+        description+=' For more information, see: ' + getLink(module.url)
     else:
-        description+=' No module URL provided.'
+        description+=' (No module URL provided).'
             
     paragraphXDoc(x,description)
     endSectionXDoc(x)
@@ -427,7 +429,11 @@ def documentModule(workspace,wdir,modulename,modulecontext,db,projectFilterList=
     startListXDoc(x)
     addItemXDoc(x,"Status: " + stateName(modulecontext.status))
     if modulecontext.cause and not modulecontext==modulecontext.cause:
-         addItemXDoc(x, "Root Cause: ", getTypedContextLink(modulecontext.cause))    
+         addItemXDoc(x, "Root Cause: ", getTypedContextLink(modulecontext.cause)) 
+    if module.cvs.repository:
+         addItemXDoc(x, "CVS Repository: ", module.cvs.repository) 
+    if module.cvs.module:
+         addItemXDoc(x, "CVS Module: ", module.cvs.module) 
     endListXDoc(x)
     endSectionXDoc(x)
        
@@ -464,12 +470,14 @@ def documentProject(workspace,modulename,mdir,projectname,projectcontext,db):
     # Provide a description/link back to the module site.
     startSectionXDoc(x,'Description') 
     description=str(project.description) or str(module.description)
+    if not description.strip().endswith('.'):
+        description+='. '
     if not description:
         description='No description provided.'        
-    if str(project.url):
-        description+=' For more information, see: ' + getLink(str(project.url))
+    if project.url:
+        description+=' For more information, see: ' + getLink(project.url)
     else:        
-        description='No project URL provided.'   
+        description=' (No project URL provided.)'   
             
     paragraphXDoc(x,description)
     endSectionXDoc(x)
@@ -559,7 +567,10 @@ def documentWorkList(x,workspace,worklist,description='Work',dir='.'):
         x.write('      <td><link href=\'%s\'>%s</link></td>' % (getWorkRelativeUrl(work.type,work.command.name),work.command.name))    
         x.write('      <td>%s</td>' % (workTypeName(work.type))) 
         x.write('      <td>%s</td><td>%s</td><td>%s</td>' \
-            % (stateName(work.status), str(work.result.start_time), secsToString(work.secs)))    
+            % ( stateName(work.status), \
+                time.strftime(setting.datetimeformat, \
+                    time.localtime(work.result.start_time)), \
+                secsToString(work.secs)))    
         x.write('     </tr>')
     x.write('    </table>\n')
     endSectionXDoc(x)

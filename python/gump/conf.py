@@ -1,8 +1,8 @@
 #!/usr/bin/python
 
-# $Header: /home/stefano/cvs/gump/python/gump/Attic/conf.py,v 1.15 2003/09/26 20:35:21 ajack Exp $
-# $Revision: 1.15 $
-# $Date: 2003/09/26 20:35:21 $
+# $Header: /home/stefano/cvs/gump/python/gump/Attic/conf.py,v 1.16 2003/09/28 15:05:43 ajack Exp $
+# $Revision: 1.16 $
+# $Date: 2003/09/28 15:05:43 $
 #
 # ====================================================================
 #
@@ -110,6 +110,8 @@ class setting:
     
     # :TODO: Add "minimum checks later..."
     ws_version="0.4"
+    
+    datetimeformat="%a, %d %b %Y %H:%M:%S (%Z)"
     
 class switch:
     """Configuration of switches """   

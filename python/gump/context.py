@@ -400,7 +400,7 @@ class Context:
         if self.subcontexts:
             for (cname,ctxt) in self.subcontexts.iteritems():
                 elapsedSecs += ctxt.elapsedSecs()
-        return round(elapsedSecs,2)
+        return int(round(elapsedSecs,0))
         
     def addInfo(self,text):
         self.addAnnotation(LEVEL_INFO, text)
@@ -648,7 +648,7 @@ class GumpContext(Context):
         self.debug=0	
         
         #    
-        self.startdatetime=time.strftime("%a, %d %b %Y %H:%M:%S (%Z)", \
+        self.startdatetime=time.strftime(setting.datetimeformat, \
                                 time.localtime())
         self.timezone=str(time.tzname)
         

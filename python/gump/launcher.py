@@ -360,7 +360,7 @@ def executeIntoResult(cmd,result,tmp=dir.tmp):
       end_time=time.time()
       result.start_time=start_time
       result.end_time=end_time
-      result.elapsed=round(end_time-start_time,2)
+      result.elapsed=int(round(end_time-start_time,0))
         
       # Restore environment.
       if cmd.cwd: os.chdir(originalCWD)
