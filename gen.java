@@ -18,6 +18,8 @@ import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.traversal.NodeIterator;
+import org.xml.sax.SAXParseException;
+
 
 // Java classes
 import java.io.FileOutputStream;
@@ -39,8 +41,14 @@ public class gen {
       * @return Node
       */
     private Document parse(String source) throws Exception {
-	DocumentBuilder dBuilder = dFactory.newDocumentBuilder();
-        return dBuilder.parse(new java.io.File(source));
+        try {
+	    DocumentBuilder dBuilder = dFactory.newDocumentBuilder();
+            return dBuilder.parse(new java.io.File(source));
+        } catch (SAXParseException e) {
+            System.err.print("Error parsing file " + source);
+            System.err.println(" line " + e.getLineNumber() + ": ");
+            throw e;
+        }
     }
 
     /**
