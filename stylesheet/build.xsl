@@ -47,6 +47,9 @@
                   <sync fromdir="{$cvsdir}/{@name}" todir="{@srcdir}"/>
                 </xsl:if>
               </xsl:for-each>
+              <xsl:if test="@jardir">
+                <delete dir="{@jardir}"/>
+              </xsl:if>
             </logic>
           </content>
         </html>
@@ -203,6 +206,16 @@
             </classpath>
 
             <xsl:apply-templates select="ant|script"/>
+
+            <!-- Optionally save any jars produced -->
+            <xsl:if test="/workspace/@jardir">
+              <xsl:variable name="jardir" select="/workspace/@jardir"/>
+              <xsl:variable name="home" select="@home"/>
+              <xsl:variable name="module" select="@module"/>
+              <xsl:for-each select="jar">
+                <copy file="{$home}/{@name}" todir="{$jardir}/{$module}"/>
+              </xsl:for-each>
+            </xsl:if>
 
             <chdir dir="{$basedir}"/>
           </logic>

@@ -26,6 +26,14 @@ public class Workspace {
     }
 
     /**
+     * Static property accessor for jardir attribute.
+     * @return Package directory associated with this workspace
+     */
+    public static String getJarDir() {
+        return element.getAttribute("jardir");
+    }
+
+    /**
      * Static property accessor for javadoc element.
      * @return Javadoc element (if any) associated with this workspace
      */

@@ -246,11 +246,14 @@ public class Project {
      * self contained.
      */
     private void expandDepends() throws Exception {
+        String jardir = Workspace.getJarDir();
+
         for (Enumeration e=dependsOn.keys(); e.hasMoreElements(); ) {
             String name = (String)e.nextElement();
-            Project target = (Project)projects.get(name);
-
             Element depend = (Element) dependsOn.get(name);
+            Project target = (Project)projects.get(name);
+            boolean buildable = false;
+
             if (!depend.getNodeName().equals("option")) {
                 require(target, "project", name);
             }
@@ -266,8 +269,23 @@ public class Project {
                     depend.appendChild(child.cloneNode(false));
                 } else if (child.getNodeName().equals("ant")) {
                     depend.appendChild(document.createElement("ant"));
+                    buildable = true;
                 } else if (child.getNodeName().equals("script")) {
                     depend.appendChild(document.createElement("script"));
+                    buildable = true;
+                }
+            }
+
+            if (buildable && !jardir.equals("")) {
+                String module = target.get("module");
+                depend.setAttribute("home", jardir + "/" + module);
+                child=depend.getFirstChild();
+                for (; child != null; child=child.getNextSibling()) {
+                  if (child.getNodeName().equals("jar")) {
+                      String jarname = ((Element)child).getAttribute("name");
+                      jarname = jarname.substring(jarname.lastIndexOf("/")+1);
+                      ((Element)child).setAttribute("name", jarname);
+                  }
                 }
             }
         }

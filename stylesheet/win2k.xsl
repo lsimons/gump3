@@ -413,11 +413,31 @@
   <!-- =================================================================== -->
 
   <xsl:template match="copy">
-    <xsl:text>xcopy /E /I /Q /R /K </xsl:text>
-    <xsl:value-of select="translate(@fromdir,'/','\')"/>
-    <xsl:text> </xsl:text>
-    <xsl:value-of select="translate(@todir,'/','\')"/>
-    <xsl:text> %OUT% 2&gt;&amp;1&#10;</xsl:text>
+    <xsl:if test="@fromdir">
+      <xsl:text>xcopy /E /I /Q /R /K </xsl:text>
+      <xsl:value-of select="translate(@fromdir,'/','\')"/>
+      <xsl:text> </xsl:text>
+      <xsl:value-of select="translate(@todir,'/','\')"/>
+      <xsl:text> %OUT% 2&gt;&amp;1&#10;</xsl:text>
+    </xsl:if>
+
+    <xsl:if test="@file">
+      <xsl:text>if exist </xsl:text>
+      <xsl:value-of select="translate(@file,'/','\')"/>
+      <xsl:text> if not exist </xsl:text>
+      <xsl:value-of select="translate(@todir,'/','\')"/>
+      <xsl:text> mkdir </xsl:text>
+      <xsl:value-of select="translate(@todir,'/','\')"/>
+      <xsl:text> %OUT% 2&gt;&amp;1&#10;</xsl:text>
+
+      <xsl:text>if exist </xsl:text>
+      <xsl:value-of select="translate(@file,'/','\')"/>
+      <xsl:text> copy /Y </xsl:text>
+      <xsl:value-of select="translate(@file,'/','\')"/>
+      <xsl:text> </xsl:text>
+      <xsl:value-of select="translate(@todir,'/','\')"/>
+      <xsl:text> %OUT% 2&gt;&amp;1&#10;</xsl:text>
+    </xsl:if>
   </xsl:template>
 
   <!-- =================================================================== -->

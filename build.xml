@@ -26,7 +26,6 @@
       <srcfiles dir="profile" includes="*.xml"/>
       <srcfiles dir="project" includes="*.xml"/>
       <srcfiles dir="repository" includes="*.xml"/>
-      <srcfiles dir="stylesheet" includes="*.xsl"/>
     </uptodate>
 
     <uptodate property="javadocs.uptodate" targetfile="javadocs/index.html">

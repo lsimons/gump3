@@ -50,6 +50,16 @@
         <td>No.  Defaults to ${basedir}/log</td>
       </tr>
       <tr>
+        <td>jardir</td>
+        <td>Directory into which the generated jars are copied.  This
+        May be useful for a number of reasons.  First, the results
+        themselves may be something worth publishing.  Second, it allows
+        an greater range of development - e.g., build clean won't affect
+        the availability of jars.  Finally, it may allow you to get further
+        without hitting command line length restrictions.</td>
+        <td>No.  If this option is not specified, the jars aren't copied.</td>
+      </tr>
+      <tr>
         <td>version</td>
         <td>Which version of the Gump dtd this workspace was defined against.
           The current version is "0.3".
