@@ -625,6 +625,8 @@
         <depend project="junit"/>
 
         <home nested="monitor"/>
+        <mkdir dir="monitor/target/classes"/>
+        <mkdir dir="monitor/target/test-classes"/>
         <work nested="monitor/target/classes"/>
         <work nested="monitor/target/test-classes"/>
 
