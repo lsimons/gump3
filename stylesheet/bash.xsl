@@ -544,6 +544,8 @@
     <xsl:text>eval "./</xsl:text>
     <xsl:value-of select="@name"/>
     <xsl:text>.sh $OUT 2&gt;&amp;1"&#10;</xsl:text>
+
+    <xsl:text>test $? -ge 1 &amp;&amp; export STATUS="FAILED"&#10;</xsl:text>
   </xsl:template>
 
   <!-- =================================================================== -->
