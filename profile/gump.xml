@@ -142,6 +142,7 @@
   <module href="project/invicta.xml"/>
   <module href="project/javagroups.xml"/>
   <module href="project/javassist.xml"/>
+  <module href="project/javasrv.xml"/>
   <module href="project/jaxen.xml"/>
   <module href="project/jetty.xml"/>
   <module href="project/jfor.xml"/>

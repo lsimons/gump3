@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
-<site label="Gump" href="" xmlns="http://apache.org/forrest/linkmap/1.0" tab="home">
+<site label="Gump" 
+	href="" 
+	xmlns="http://apache.org/forrest/linkmap/1.0" 
+	tab="home">
 
 	<gump label="Gump">
 	    <index href="index.html" label="Home"/>

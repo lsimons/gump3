@@ -4,7 +4,9 @@
 	Forrest site.xml
 -->
 
-<site label="Gump" href="" xmlns="http://apache.org/forrest/linkmap/1.0" tab="home">
+<site 	label="Gump" href="" 
+		xmlns="http://apache.org/forrest/linkmap/1.0" 
+		tab="home">
 
   <work label="Gump">
     <index label="Workspace" href="index.html"/>
@@ -22,6 +24,7 @@
   </work>
   
   <work label="Misc" tab="home">
+    <index label="Servers" href="servers.html"/>
     <index label="Repositories" href="repositories.html"/>
     <index label="Packages" href="packages.html"/>
     <index label="XML" href="workspace.html"/>

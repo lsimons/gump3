@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<module name="javasrc">
+
+  <url href="http://javasrc.sourceforge.net/"/>
+  <description>
+		Java Source -> HTML, Presentation Tool.
+  </description>
+
+  <cvs repository="sourceforge" 
+  	host-prefix="cvs.javasrc" 
+  	dir="javasrc"/>
+  
+  <project name="javasrc">
+    <package>javasrc</package>
+
+    <!-- Work dirs to be included in classpath  -->
+    <work nested="build"/>
+    <home nested="dist"/>
+    
+    <ant target="dist">
+      <property name="ant.home" reference="home" project="ant"/>
+    </ant>
+   
+    <depend project="ant" inherit="runtime"/>
+    <depend project="antlr"/>	
+    
+    <jar name="javasrc.jar"/>
+    
+    <javadoc nested="doc/api" project="javasrc"/>
+    
+  </project>  
+</module>

@@ -46,6 +46,14 @@
       <action context="usability" dev="community">
         Identify 'prebuilt' projects (visually, and in lists like 'Packages').
       </action>
+      
+      <action context="usability" dev="ajack">
+        Allow Cascading Gumps (downloading JARs via Ruper)
+      </action>
+            
+      <action context="usability" dev="ajack">
+      	Add 'server' entries, see mailing list for proposal...
+      </action>
             
       <action context="docs" dev="community">
         Document gumpy.[bat|sh] and gump.[bat|sh].
@@ -56,6 +64,10 @@
       <action context="scm" dev="community">
         Add more interfaces to source control, and clean up the XML metadata
         to be SCM agnostic.
+      </action>
+      
+      <action context="db" dev="community">
+        Historical database (probably RDBMS, not just a simple DBM like now).
       </action>
     </actions>
   </todo>
