@@ -169,11 +169,11 @@ From: Diane Holt <holtdl@apache.org>
 Subject: [GUMP] Build Failure - Mutant
 Regex: /BUILD FAILED/
 ------
-Project: jakarta-ant-myrmidon
-To: ant-dev@jakarta.apache.org
-From: Diane Holt <holtdl@apache.org>
-Subject: [GUMP] Build Failure - Myrmidon
-Regex: /BUILD FAILED/
+# Project: jakarta-ant-myrmidon
+# To: ant-dev@jakarta.apache.org
+# From: Diane Holt <holtdl@apache.org>
+# Subject: [GUMP] Build Failure - Myrmidon
+# Regex: /BUILD FAILED/
 ------
 Project: jakarta-avalon
 To: avalon-dev@jakarta.apache.org
