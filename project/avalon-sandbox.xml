@@ -7,7 +7,7 @@
 
     <cvs repository="jakarta"/>
 
-    <project name="avalon-lifecycle">
+    <project name="avalon-sandbox-lifecycle">
         <package>org.apache.avalon.lifecycle</package>
 
         <ant basedir="lifecycle">
@@ -29,7 +29,7 @@
              to="avalon-dev@jakarta.apache.org"/>
     </project>
 
-    <project name="avalon-meta">
+    <project name="avalon-sandbox-meta">
         <package>org.apache.avalon.meta</package>
 
         <ant basedir="meta">
@@ -54,7 +54,7 @@
              to="avalon-dev@jakarta.apache.org"/>
     </project>
 
-    <project name="avalon-assembly">
+    <project name="avalon-sandbox-assembly">
         <package>org.apache.avalon.assembly</package>
 
         <ant basedir="assembly" target="jar">
@@ -67,8 +67,8 @@
 
         <depend project="jakarta-ant" inherit="runtime"/>
         <depend project="jakarta-avalon" runtime="true"/>
-        <depend project="avalon-lifecycle" runtime="true"/>
-        <depend project="avalon-meta" runtime="true"/>
+        <depend project="avalon-sandbox-lifecycle" runtime="true"/>
+        <depend project="avalon-sandbox-meta" runtime="true"/>
         <depend project="excalibur-i18n" runtime="true"/>
         <depend project="excalibur-configuration" runtime="true"/>
         <depend project="excalibur-logger" runtime="true"/>
@@ -87,7 +87,7 @@
              to="avalon-dev@jakarta.apache.org"/>
     </project>
 
-    <project name="avalon-merlin">
+    <project name="avalon-sandbox-merlin">
         <package>org.apache.avalon.merlin</package>
 
         <ant basedir="assembly" target="jar">
@@ -100,9 +100,9 @@
 
         <depend project="jakarta-ant" inherit="runtime"/>
         <depend project="jakarta-avalon" runtime="true"/>
-        <depend project="avalon-lifecycle" runtime="true"/>
-        <depend project="avalon-meta" runtime="true"/>
-        <depend project="avalon-assembly" runtime="true"/>
+        <depend project="avalon-sandbox-lifecycle" runtime="true"/>
+        <depend project="avalon-sandbox-meta" runtime="true"/>
+        <depend project="avalon-sandbox-assembly" runtime="true"/>
         <depend project="excalibur-i18n" runtime="true"/>
         <depend project="excalibur-configuration" runtime="true"/>
         <depend project="excalibur-logger" runtime="true"/>
