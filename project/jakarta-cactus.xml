@@ -415,6 +415,8 @@
     <depend project="jakarta-tomcat" inherit="runtime"/>
     <depend project="aspectj"/>
     <depend project="jakarta-cactus-integration-ant-12"/>
+    <!-- needed by CVS HEAD of httpclient -->
+    <depend project="commons-codec"/>
 
     <work nested="samples/servlet/target-12/test/classes/java"/>
     <work nested="samples/servlet/target-12/test/classes/cactus"/>
@@ -479,6 +481,8 @@
     <depend project="jakarta-tomcat-4.0" inherit="runtime"/>
     <depend project="aspectj"/>
     <depend project="jakarta-cactus-integration-ant-13"/>
+    <!-- needed by CVS HEAD of httpclient -->
+    <depend project="commons-codec"/>
 
     <work nested="samples/servlet/target-13/test/classes/java"/>
     <work nested="samples/servlet/target-13/test/classes/cactus"/>
