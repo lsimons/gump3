@@ -318,6 +318,12 @@ From: Sam Ruby <rubys@us.ibm.com>
 Subject: [GUMP] Build Failure - Commons
 Regex: /BUILD FAILED/
 ------
+Project: xml-crimson
+To: crimson-cvs@xml.apache.org
+From: Sam Ruby <rubys@us.ibm.com>
+Subject: [GUMP] Build Failure - Crimson
+Regex: /BUILD FAILED/
+------
 Project: xml-fop
 To: fop-dev@xml.apache.org
 From: Sam Ruby <rubys@us.ibm.com>
