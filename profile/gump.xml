@@ -257,7 +257,7 @@
   <project name="nekohtml"       package="nekohtml-0.7.3"/>
   <project name="msv"            package="msv-20020414"/>
   <project name="multipartrequest"
-           package="MultipartRequest120"/>
+           package="MultipartRequest130b2"/>
   <project name="relaxng"        package="relaxngDatatype-1.0"/>
   <project name="resolver"       package="resolver-0_2"/>
   <project name="swt"            package="swt2.0.1"/>
