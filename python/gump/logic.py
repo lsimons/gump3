@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/Attic/logic.py,v 1.26 2003/10/15 21:12:28 ajack Exp $
-# $Revision: 1.26 $
-# $Date: 2003/10/15 21:12:28 $
+# $Header: /home/stefano/cvs/gump/python/gump/Attic/logic.py,v 1.27 2003/10/16 21:35:00 ajack Exp $
+# $Revision: 1.27 $
+# $Date: 2003/10/16 21:35:00 $
 #
 # ====================================================================
 #
@@ -398,8 +398,8 @@ def getClasspathList(project,workspace,context):
       if path:
           classpath.append(AnnotatedPath(path,pctxt))
 
-  visited=[]
   # Append dependent projects (including optional)
+  visited=[]
   
   # Does it have any depends?
   if project.depend:
@@ -444,6 +444,11 @@ def getDependOutputList(depend,context,visited):
   pctxt=context.getProjectContextForProject(project)
   
   #
+  # Are we asking for runtime dependencies only?
+  #
+  runtime=depend.runtime
+  
+  #
   # Append JARS for this project
   #
   # Note: This checks "id" in "<depend ids="
@@ -452,19 +457,22 @@ def getDependOutputList(depend,context,visited):
 
   #
   # inherit='ALL' or 'HARD'
+  # or inherit the runtime ones...
   #
   deepCopy=determineDeepCopy(depend)
-  
-  if deepCopy:      
+
+  if deepCopy or runtime:      
       # Append sub-projects outputs
       if project.depend:
-          for depend in project.depend:              
-            classpath += getDependOutputList(depend,context,visited)
+          for subdepend in project.depend:        
+            if not runtime or subdepend.inherit=="runtime":      
+                classpath += getDependOutputList(subdepend,context,visited)
   
       # Append optional sub-project's output (that may not exist)
       if project.option:
-          for option in project.option:
-            classpath += getDependOutputList(option,context,visited)
+          for suboption in project.option:
+            if not runtime or suboption.inherit=="runtime":      
+                classpath += getDependOutputList(suboption,context,visited)
 
   return classpath
   
