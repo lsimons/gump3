@@ -254,7 +254,7 @@
   <project name="jta"            package="jta-spec1_0_1"/>
   <project name="jts"            package="jts1_0"/>
   <project name="ldap"           package="ldap-1_2_3"/>
-  <project name="nekohtml"       package="nekohtml-0.7.2"/>
+  <project name="nekohtml"       package="nekohtml-0.7.3"/>
   <project name="msv"            package="msv-20020414"/>
   <project name="multipartrequest"
            package="MultipartRequest120"/>
