@@ -37,7 +37,6 @@
     <depend project="jmx"/>
     <depend project="jta"/>
     <depend project="junit"/>
-    <depend project="crossdb"/>
 
     <depend project="ojb-torque" />
     <depend project="ojb-jcs" />
@@ -91,7 +90,6 @@
     <depend project="jmx"/>
     <depend project="jta"/>
     <depend project="junit"/>
-    <depend project="crossdb"/>
 
     <depend project="db-torque" />
     <depend project="jakarta-turbine-jcs" />
@@ -129,11 +127,6 @@
 
   <project name="ojb-jcs">
     <jar name="lib/jcs.jar" />
-  </project>
-
-  <!-- Mavenized build, http://sourceforge.net/projects/crossdb/ -->
-  <project name="crossdb">
-    <jar name="lib/crossdb.jar" />
   </project>
 
   <!-- CVS is temporarily down, this seems to be the latest released version
