@@ -21,10 +21,10 @@
     <depend project="castor"/>
     <depend project="junit"/>
     <depend project="jakarta-log4j"/>
+    <depend project="jakarta-pluto"/>
     <depend project="jakarta-regexp"/>
-    <depend project="servletapi"/>
+    <depend project="jakarta-servletapi-4"/>
     <depend project="ws-axis"/>
-    <depend project="my-pluto"/>
     <depend project="commons-discovery"/>
     <depend project="commons-logging"/>
     <depend project="tt-bytecode"/>
@@ -52,17 +52,7 @@
     </nag>
   </project>
   
-  <project name="my-pluto">
-    <url href="http://jakarta.apache.org/pluto/"/>
-    <description>Reference implementation for JSR168 Portlet container</description>
-    <jar name="lib/shared/pluto-1.0.jar"/>
-    <jar name="provider/pluto/war/WEB-INF/lib/pluto-portal-impl.jar"/>
-    <jar name="lib/shared/portlet-api.jar"/>
-  </project>
   <project name="tt-bytecode">
   	<jar name="lib/tt-bytecode.jar"/>
-  </project>
-  <project name="servletapi">
-  	<jar name="lib/build_only/servlet.jar"/>
   </project>
 </module>
