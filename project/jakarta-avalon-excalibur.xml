@@ -26,6 +26,7 @@
     <option project="saxpath"/>
     <depend project="junitperf"/>
     <work nested="build/classes"/>
+    <work nested="build/scratchpad"/>
 
     <home nested="build/lib"/>
     <jar name="avalon-excalibur.jar" id="avalon-excalibur"/>
