@@ -35,8 +35,9 @@
     <depend project="jakarta-velocity" />
     <depend project="jtidy" />
     <depend project="excalibur-compatibility" />
-    <depend project="beanshell" ids="bsh-core"/>
 -->
+    <option project="beanshell" ids="bsh-core"/>
+    <option project="jakarta-bsf"/>
 
     <work nested="build/core"/>
     <work nested="build/htmlparser"/>
@@ -67,7 +68,7 @@
     <work nested="lib/logkit-1.2.jar"/>
     <work nested="lib/soap.jar"/>
     <work nested="lib/Tidy.jar"/>
-    <work nested="lib/velocity-1.4.jar"/>
+    <work nested="lib/velocity-1.4-dev.jar"/>
     <work nested="lib/xalan.jar"/>
     <work nested="lib/xercesImpl.jar"/>
     <work nested="lib/xml-apis.jar"/>
