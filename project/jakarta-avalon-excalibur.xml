@@ -87,7 +87,7 @@
         </ant>
 
         <depend project="jakarta-ant" inherit="runtime"/>
-        <depend project="checkstyle"/>
+        <option project="checkstyle" inherit="runtime"/>
         <depend project="junit"/>
         <depend project="jakarta-avalon" runtime="true"/>
         <depend project="xml-xerces"/>
@@ -153,7 +153,7 @@
         </ant>
 
         <depend project="jakarta-ant" inherit="runtime"/>
-        <depend project="checkstyle"/>
+        <option project="checkstyle" inherit="runtime"/>
         <depend project="junit"/>
         <depend project="xml-xerces"/>
         <depend project="xml-xalan2"/>
@@ -176,7 +176,7 @@
         </ant>
 
         <depend project="jakarta-ant" inherit="runtime"/>
-        <depend project="checkstyle"/>
+        <option project="checkstyle" inherit="runtime"/>
         <depend project="junit"/>
         <depend project="xml-xerces"/>
         <depend project="xml-xalan2"/>
@@ -200,7 +200,7 @@
         </ant>
 
         <depend project="jakarta-ant" inherit="runtime"/>
-        <depend project="checkstyle"/>
+        <option project="checkstyle" inherit="runtime"/>
         <depend project="junit"/>
         <depend project="jakarta-avalon" runtime="true"/>
         <depend project="xml-xerces"/>
@@ -225,7 +225,7 @@
         </ant>
 
         <depend project="jakarta-ant" inherit="runtime"/>
-        <depend project="checkstyle"/>
+        <option project="checkstyle" inherit="runtime"/>
         <depend project="junit"/>
         <depend project="xml-xerces"/>
         <depend project="xml-xalan2"/>
@@ -249,7 +249,7 @@
         </ant>
 
         <depend project="jakarta-ant" inherit="runtime"/>
-        <depend project="checkstyle"/>
+        <option project="checkstyle" inherit="runtime"/>
         <depend project="junit"/>
         <depend project="xml-xerces"/>
         <depend project="xml-xalan2"/>
@@ -284,7 +284,7 @@
         </ant>
 
         <depend project="jakarta-ant" inherit="runtime"/>
-        <depend project="checkstyle"/>
+        <option project="checkstyle" inherit="runtime"/>
         <depend project="junit"/>
         <depend project="jakarta-avalon" runtime="true"/>
         <depend project="xml-xerces"/>
@@ -309,7 +309,7 @@
         </ant>
 
         <depend project="jakarta-ant" inherit="runtime"/>
-        <depend project="checkstyle"/>
+        <option project="checkstyle" inherit="runtime"/>
         <depend project="junit"/>
         <depend project="xml-xerces"/>
         <depend project="xml-xalan2"/>
@@ -405,7 +405,7 @@
         </ant>
 
         <depend project="jakarta-ant" inherit="runtime"/>
-        <depend project="checkstyle"/>
+        <option project="checkstyle" inherit="runtime"/>
         <depend project="excalibur-info" runtime="true" inherit="runtime"/>
         <depend project="xml-xerces"/>
         <depend project="xml-xalan2"/>
@@ -429,7 +429,7 @@
         </ant>
 
         <depend project="jakarta-ant" inherit="runtime"/>
-        <depend project="checkstyle"/>
+        <option project="checkstyle" inherit="runtime"/>
         <depend project="junit"/>
         <depend project="xml-xerces"/>
         <depend project="excalibur-i18n" runtime="true"/>
@@ -459,7 +459,7 @@
         </ant>
 
         <depend project="jakarta-ant" inherit="runtime"/>
-        <depend project="checkstyle"/>
+        <option project="checkstyle" inherit="runtime"/>
         <depend project="junit"/>
         <depend project="jakarta-avalon" runtime="true"/>
         <depend project="xml-xerces"/>
@@ -490,7 +490,7 @@
         </ant>
 
         <depend project="jakarta-ant" inherit="runtime"/>
-        <depend project="checkstyle"/>
+        <option project="checkstyle" inherit="runtime"/>
         <depend project="junit"/>
         <depend project="jakarta-avalon" runtime="true"/>
         <depend project="xml-xerces"/>
@@ -515,7 +515,7 @@
         </ant>
 
         <depend project="jakarta-ant" inherit="runtime"/>
-        <depend project="checkstyle"/>
+        <option project="checkstyle" inherit="runtime"/>
         <depend project="junit"/>
         <depend project="xml-xerces"/>
         <depend project="xml-xalan2"/>
@@ -554,7 +554,7 @@
         <depend project="excalibur-sourceresolve" runtime="true"/>
         <depend project="excalibur-thread" runtime="true"/>
         <depend project="excalibur-util" runtime="true"/>
-        <depend project="checkstyle"/>
+        <option project="checkstyle" inherit="runtime"/>
         <depend project="junit"/>
         <depend project="xml-xerces"/>
         <depend project="xml-xalan2"/>
@@ -579,7 +579,7 @@
         </ant>
 
         <depend project="jakarta-ant" inherit="runtime"/>
-        <depend project="checkstyle"/>
+        <option project="checkstyle" inherit="runtime"/>
         <depend project="junit"/>
         <depend project="xml-xerces"/>
         <depend project="xml-xalan2"/>
@@ -603,7 +603,7 @@
         </ant>
 
         <depend project="jakarta-ant" inherit="runtime"/>
-        <depend project="checkstyle"/>
+        <option project="checkstyle" inherit="runtime"/>
         <depend project="junit"/>
         <depend project="xdoclet-ant15" runtime="true" inherit="runtime"/>
         <depend project="jakarta-avalon" runtime="true"/>
@@ -633,7 +633,7 @@
 
         <depend project="jakarta-ant" inherit="runtime"/>
         <depend project="jakarta-avalon" runtime="true"/>
-        <depend project="checkstyle"/>
+        <option project="checkstyle" inherit="runtime"/>
         <depend project="junit"/>
         <depend project="xml-xerces"/>
         <depend project="xml-xalan2"/>
@@ -662,7 +662,7 @@
         <depend project="jakarta-avalon" runtime="true"/>
         <depend project="excalibur-altrmi" runtime="true"/>
         <depend project="excalibur-instrument" runtime="true"/>
-        <depend project="checkstyle"/>
+        <option project="checkstyle" inherit="runtime"/>
         <depend project="junit"/>
         <depend project="xml-xerces"/>
         <depend project="xml-xalan2"/>
@@ -692,7 +692,7 @@
         <depend project="jakarta-avalon" runtime="true"/>
         <depend project="excalibur-altrmi" runtime="true"/>
         <depend project="excalibur-instrument-manager" runtime="true"/>
-        <depend project="checkstyle"/>
+        <option project="checkstyle" inherit="runtime"/>
         <depend project="junit"/>
         <depend project="xml-xerces"/>
         <depend project="xml-xalan2"/>
@@ -716,7 +716,7 @@
         </ant>
 
         <depend project="jakarta-ant" inherit="runtime"/>
-        <depend project="checkstyle"/>
+        <option project="checkstyle" inherit="runtime"/>
         <depend project="junit"/>
         <depend project="xml-xerces"/>
         <depend project="xml-xalan2"/>
@@ -740,7 +740,7 @@
         </ant>
 
         <depend project="jakarta-ant" inherit="runtime"/>
-        <depend project="checkstyle"/>
+        <option project="checkstyle" inherit="runtime"/>
         <depend project="junit"/>
         <depend project="excalibur-i18n" runtime="true"/>
         <depend project="excalibur-extension" runtime="true"/>
@@ -769,7 +769,7 @@
         </ant>
 
         <depend project="jakarta-ant" inherit="runtime"/>
-        <depend project="checkstyle"/>
+        <option project="checkstyle" inherit="runtime"/>
         <depend project="junit"/>
         <depend project="jakarta-avalon" runtime="true"/>
         <depend project="xml-xerces"/>
@@ -796,7 +796,7 @@
         </ant>
 
         <depend project="jakarta-ant" inherit="runtime"/>
-        <depend project="checkstyle"/>
+        <option project="checkstyle" inherit="runtime"/>
         <depend project="jakarta-avalon" runtime="true"/>
         <depend project="xml-xerces"/>
         <depend project="xml-xalan2"/>
@@ -820,7 +820,7 @@
         </ant>
 
         <depend project="jakarta-ant" inherit="runtime"/>
-        <depend project="checkstyle"/>
+        <option project="checkstyle" inherit="runtime"/>
         <depend project="junit"/>
         <depend project="xml-xerces"/>
         <depend project="xml-xalan2"/>
@@ -847,7 +847,7 @@
         </ant>
 
         <depend project="jakarta-ant" inherit="runtime"/>
-        <depend project="checkstyle"/>
+        <option project="checkstyle" inherit="runtime"/>
         <depend project="junit"/>
         <depend project="jakarta-avalon" runtime="true"/>
         <depend project="xml-xerces"/>
@@ -873,7 +873,7 @@
         </ant>
 
         <depend project="jakarta-ant" inherit="runtime"/>
-        <depend project="checkstyle"/>
+        <option project="checkstyle" inherit="runtime"/>
         <depend project="junit"/>
         <depend project="jakarta-avalon" runtime="true"/>
         <depend project="xml-xerces"/>
@@ -898,7 +898,7 @@
         </ant>
 
         <depend project="jakarta-ant" inherit="runtime"/>
-        <depend project="checkstyle"/>
+        <option project="checkstyle" inherit="runtime"/>
         <depend project="junit"/>
         <depend project="jakarta-avalon" runtime="true"/>
         <depend project="xml-xerces"/>
@@ -923,7 +923,7 @@
         </ant>
 
         <depend project="jakarta-ant" inherit="runtime"/>
-        <depend project="checkstyle"/>
+        <option project="checkstyle" inherit="runtime"/>
         <depend project="junit"/>
         <depend project="xml-xerces"/>
         <depend project="xml-xalan2"/>
@@ -950,7 +950,7 @@
         </ant>
 
         <depend project="jakarta-ant" inherit="runtime"/>
-        <depend project="checkstyle"/>
+        <option project="checkstyle" inherit="runtime"/>
         <depend project="junit"/>
         <depend project="jakarta-avalon" runtime="true"/>
        <depend project="xml-xerces"/>
@@ -980,7 +980,7 @@
         </ant>
 
         <depend project="jakarta-ant" inherit="runtime"/>
-        <depend project="checkstyle"/>
+        <option project="checkstyle" inherit="runtime"/>
         <depend project="junit"/>
         <depend project="jakarta-avalon" runtime="true"/>
         <depend project="xml-xerces"/>
@@ -1005,7 +1005,7 @@
         </ant>
 
         <depend project="jakarta-ant" inherit="runtime"/>
-        <depend project="checkstyle"/>
+        <option project="checkstyle" inherit="runtime"/>
         <depend project="junit"/>
         <depend project="xml-xerces"/>
         <depend project="xml-xalan2"/>
@@ -1030,7 +1030,7 @@
         </ant>
 
         <depend project="jakarta-ant" inherit="runtime"/>
-        <depend project="checkstyle"/>
+        <option project="checkstyle" inherit="runtime"/>
         <depend project="junit"/>
         <depend project="jakarta-avalon" runtime="true"/>
         <depend project="xml-xerces"/>
@@ -1061,7 +1061,7 @@
         </ant>
 
         <depend project="jakarta-ant" inherit="runtime"/>
-        <depend project="checkstyle"/>
+        <option project="checkstyle" inherit="runtime"/>
         <depend project="junit"/>
         <depend project="jakarta-avalon" runtime="true"/>
         <depend project="xml-xerces"/>
@@ -1086,7 +1086,7 @@
         </ant>
 
         <depend project="jakarta-ant" inherit="runtime"/>
-        <depend project="checkstyle"/>
+        <option project="checkstyle" inherit="runtime"/>
         <depend project="junit"/>
         <depend project="xml-xerces"/>
         <depend project="xml-xalan2"/>
