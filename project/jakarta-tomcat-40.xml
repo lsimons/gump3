@@ -26,7 +26,11 @@
         reference="home" project="jakarta-regexp"/>
       <property name="regexp.jar"
         reference="jarpath" id="regexp" project="jakarta-regexp"/>
+      <property name="mail.home" reference="home" project="javamail"/>
+      <depend property="mail.jar" project="javamail"/>
+      <property name="activation.home" reference="home" project="jaf"/>
     </ant>
+
     <depend project="xml-xerces"/>
     <depend project="xml-xalan2"/>
     <depend project="jsse"/>
@@ -34,9 +38,12 @@
     <depend project="jakarta-regexp"/>
     <depend project="jakarta-ant"/>
     <depend project="jakarta-servletapi-4"/>
+    <depend project="jaf"/>
+    <depend project="javamail"/>
     <option project="jakarta-avalon"/>
     <option project="jakarta-avalon-phoenix"/>
     <option project="tyrex"/>
+
     <home nested="dist"/>
     <jar name="bin/bootstrap.jar"/>
     <jar name="server/lib/catalina.jar"/>
