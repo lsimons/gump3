@@ -93,22 +93,27 @@ def transferDomNameValue(target,name,value,mapping=None):
     if hasattr(target,attrName):
         # Determine the type
         attrType=type(getattr(target,attrName))
-            
-        if attrType is bool:
-            if 'true' == value:
-                value=True
+        
+        try: 
+            if attrType is bool:
+                if 'true' == value:
+                    value=True
+                else:
+                    value=False
+            elif attrType is int:
+                value=int(value)            
+            elif attrType is str or attrType is unicode:
+                pass
             else:
-                value=False
-        elif attrType is int:
-            value=int(value)            
-        elif attrType is str or attrType is unicode:
-            pass
-        else:
-            log.warn('Unknown Type %s for Attribute %s' % (attrType, attrName))
+                log.warn('Unknown Type %s for Attribute %s' % (attrType, attrName))
+                
             
-        #print 'Transfer ', attrName, ' -> ', value, ' [', attrType, ']'
-        setattr(target,attrName,value)
-        set+=1
+            #print 'Transfer ', attrName, ' -> ', value, ' [', attrType, ']'
+            setattr(target,attrName,value)
+            set+=1
+        except:
+            log.warn('Error with Type %s for Attribute %s' % (attrType, attrName))
+            raise
             
     return set
 
