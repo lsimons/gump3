@@ -82,7 +82,7 @@
       <depend property="commons-logging.jar" project="commons-logging"
         runtime="true" id="commons-logging"/>
       <depend property="commons-logging-api.jar" project="commons-logging"
-        runtime="true" id="api"/>
+        runtime="true" id="commons-logging-api"/>
       <depend property="commons-launcher.jar" project="commons-launcher"/>
     </ant>
 
