@@ -28,4 +28,9 @@
     <jar name="lib/saxon.jar"/>
   </project>
 
+  <project name="xpp">
+    <url href="http://www.extreme.indiana.edu/soap/xpp/"/>
+    <jar name="lib/PullParser11.jar"/>
+  </project>
+
 </project>
