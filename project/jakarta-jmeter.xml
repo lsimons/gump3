@@ -41,6 +41,8 @@
     <work nested="build/htmlparser"/>
     <work nested="build/jorphan"/>
 -->
+    <depend project="ant" inherit="runtime"/>
+    
     <!-- Allow http to build: -->
     <work nested="build/components"/>
 
