@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/model/stats.py,v 1.6 2004/01/09 23:41:41 ajack Exp $
-# $Revision: 1.6 $
-# $Date: 2004/01/09 23:41:41 $
+# $Header: /home/stefano/cvs/gump/python/gump/model/stats.py,v 1.7 2004/01/13 00:01:20 ajack Exp $
+# $Revision: 1.7 $
+# $Date: 2004/01/13 00:01:20 $
 #
 # ====================================================================
 #
@@ -85,10 +85,9 @@ class Statistics:
         self.previousState=STATE_UNSET
         self.startOfState=0        
         self.sequenceInState=0
-        
-        
+                
     def getFOGFactor(self):
-        return (self.successes / (self.failures - self.prereqs))
+        return round((float(self.successes) / ((float(self.failures) + float(self.prereqs))), 2)
         
     def getLastUpdated(self):
         return (self.lastUpdated)
