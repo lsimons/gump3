@@ -119,7 +119,7 @@ class OnDemandRunner(GumpRunner):
         self.run.generateEvent(project)
         
         # Mark completed
-        gumpSet.setCompletedProject(project)
+        self.run.getGumpSet().setCompletedProject(project)
         
     ###########################################
 
