@@ -9,6 +9,7 @@
   
   <project name="jakarta-turbine-flux">
     <ant target="jar">
+      <property name="version" value="gump"/>
       <depend name="servlet.jar"  project="jakarta-servletapi"/>
       <depend name="turbine.jar"  project="jakarta-turbine-3"/>
       <depend name="fulcrum.jar"  project="jakarta-turbine-fulcrum"/>
@@ -22,7 +23,7 @@
     <depend project="xml-xerces"/>
 
     <home nested="bin"/>
-    <jar name="flux.jar"/>
+    <jar name="flux-gump.jar"/>
   </project>      
 
 </module>

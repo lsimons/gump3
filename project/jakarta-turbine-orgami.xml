@@ -1,0 +1,24 @@
+<module name="jakarta-turbine-orgami">
+
+  <url href="http://jakarta.apache.org/turbine/"/>
+  <description>
+    Your organizer friend
+  </description>
+
+  <cvs repository="jakarta"/>
+  
+  <project name="jakarta-turbine-orgami">
+    <ant basedir="build">
+    </ant>
+
+    <depend project="jakarta-ant"/>
+    <depend project="xml-xerces"/>
+    <depend project="jakarta-turbine-2"/>
+    <depend project="jakarta-velocity"/>
+    <depend project="jakarta-ecs"/>
+    <depend project="jakarta-servletapi"/>
+    <depend project="village"/>
+    <depend project="jdbc"/>
+  </project>    
+
+</module>

@@ -1,0 +1,21 @@
+<module name="jakarta-turbine-site">
+
+  <url href="http://jakarta.apache.org/turbine/"/>
+  <description>
+    Servlet based framework
+  </description>
+
+  <cvs repository="jakarta"/>
+  
+  <project name="jakarta-turbine-site">
+    <ant>
+      <property name="jakarta-site2" reference="home" project="jakarta-site2"/>
+    </ant>
+
+    <depend project="jakarta-ant"/>
+    <depend project="xml-xerces"/>
+    <depend project="jakarta-velocity"/>
+    <depend project="jdom"/>
+  </project>    
+
+</module>

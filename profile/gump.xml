@@ -36,6 +36,10 @@
   <module href="project/jakarta-turbine-3.xml"/>
   <module href="project/jakarta-turbine-flux.xml"/>
   <module href="project/jakarta-turbine-fulcrum.xml"/>
+  <module href="project/jakarta-turbine-jyve.xml"/>
+  <module href="project/jakarta-turbine-orgami.xml"/>
+  <module href="project/jakarta-turbine-site.xml"/>
+  <!-- module href="project/jakarta-turbine-tdk.xml"/ -->
   <module href="project/jakarta-turbine-torque.xml"/>
   <module href="project/jakarta-velocity.xml"/>
   <module href="project/jakarta-watchdog.xml"/>

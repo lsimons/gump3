@@ -1,0 +1,24 @@
+<module name="jakarta-turbine-jyve">
+
+  <url href="http://jakarta.apache.org/turbine/"/>
+  <description>
+    FAQ-O-Matic 
+  </description>
+
+  <cvs repository="jakarta"/>
+  
+  <project name="jakarta-turbine-jyve">
+    <ant basedir="build">
+    </ant>
+
+    <depend project="jakarta-ant"/>
+    <depend project="xml-xerces"/>
+    <depend project="jakarta-turbine-2"/>
+    <depend project="jakarta-velocity"/>
+    <depend project="village"/>
+    <depend project="jakarta-servletapi"/>
+    <depend project="jakarta-ecs"/>
+    <depend project="javamail"/>
+  </project>    
+
+</module>

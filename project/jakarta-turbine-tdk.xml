@@ -1,0 +1,49 @@
+<module name="jakarta-turbine-tdk">
+
+  <url href="http://jakarta.apache.org/turbine/"/>
+  <description>
+    Turbine Development Kit (TDK)
+  </description>
+
+  <cvs repository="jakarta"/>
+  
+  <project name="jakarta-turbine-tdk">
+    <ant>
+      <property name="tomcat.dist" 
+        reference="home" project="jakarta-tomcat-4.0"/>
+
+      <depend property="ant.jar" project="jakarta-ant"/>
+      <depend property="commons-cactus.jar" project="commons-cactus-23"/>
+      <depend property="commons-collections.jar" project="commons-collections"/>
+      <depend property="commons-email.jar" project="commons-email"/>
+      <depend property="commons-util.jar" project="commons-util"/>
+      <depend property="ecs.jar" project="jakarta-ecs"/>
+      <depend property="flux.jar" project="jakarta-turbine-flux"/>
+      <depend property="fulcrum.jar" project="jakarta-turbine-fulcrum"/>
+      <depend property="httpunit.jar" project="httpunit"/>
+      <depend property="jaf.jar" project="jaf"/>
+      <depend property="javamail.jar" project="javamail"/>
+      <depend property="jdbc.jar" project="jdbc"/>
+      <depend property="jndi.jar" project="jndi"/>
+      <depend property="jta.jar" project="jta"/>
+      <depend property="junit.jar" project="junit"/>
+      <depend property="log4j.jar" project="jakarta-log4j"/>
+      <depend property="regexp.jar" project="jakarta-regexp"/>
+      <depend property="tidy.jar" project="jtidy"/>
+      <depend property="torque.jar" project="jakarta-turbine-torque"/>
+      <depend property="velocity.jar" project="jakarta-velocity"/>
+      <depend property="village.jar" project="village"/>
+      <depend property="xalan.jar" project="xml-xalan2"/>
+      <depend property="xerces.jar" project="xml-xerces"/>
+      <depend property="xmlrpc.jar" project="xml-rpc"/>
+
+      <depend property="hsql.jar" project="hsqldb"/>
+      <depend property="httpunit.jar" project="httpunit"/>
+      <depend property="jstyle.jar" project="jstyle"/>
+    </ant>
+
+    <depend project="jakarta-ant"/>
+    <depend project="xml-xerces"/>
+  </project>    
+
+</module>
