@@ -303,12 +303,13 @@
   <!-- =================================================================== -->
 
   <xsl:template match="classpath">
-    <xsl:text>SET CLASSPATH=%CP%&#10;</xsl:text>
+    <xsl:text>SET CLASSPATH=.&#10;</xsl:text>
     <xsl:for-each select="pathelement">
       <xsl:text>SET CLASSPATH=%CLASSPATH%;</xsl:text>
       <xsl:value-of select="translate(@location,'/','\')"/>
       <xsl:text>&#10;</xsl:text>
     </xsl:for-each>
+    <xsl:text>SET CLASSPATH=$CLASSPATH%;%CP%&#10;</xsl:text>
   </xsl:template>
 
   <!-- =================================================================== -->

@@ -342,12 +342,13 @@
   <!-- =================================================================== -->
 
   <xsl:template match="classpath">
-    <xsl:text>export CLASSPATH=$CP&#10;</xsl:text>
+    <xsl:text>export CLASSPATH=.&#10;</xsl:text>
     <xsl:for-each select="pathelement">
       <xsl:text>export CLASSPATH=$CLASSPATH:</xsl:text>
       <xsl:value-of select="translate(@location,'\','/')"/>
       <xsl:text>&#10;</xsl:text>
     </xsl:for-each>
+    <xsl:text>export CLASSPATH=$CLASSPATH:$CP&#10;</xsl:text>
   </xsl:template>
 
   <!-- =================================================================== -->
