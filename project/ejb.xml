@@ -4,7 +4,7 @@
      Enterprise JavaBeans
    </description>
    
-   <project name="ebj">
+   <project name="ejb">
      <jar name="ejb.jar"/>
    </project>
    
