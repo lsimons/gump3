@@ -124,11 +124,11 @@
     <package>org.apache.commons.lang</package>
     <description>utilities for the classes that are in java.lang's hierarchy</description>
     <ant basedir="lang" target="dist">
-      <property name="component.version"  value="@@DATE@@"/>
+      <property name="component.version" value="@@DATE@@"/>
     </ant>
     <depend project="jakarta-ant"/>
     <depend project="xml-xerces"/>
-    <jar name="lang/dist/commons-lang.jar"/>
+    <jar name="lang/dist/commons-lang-@@DATE@@.jar"/>
     <javadoc nested="io/dist/docs/api"/>
   </project>
 
