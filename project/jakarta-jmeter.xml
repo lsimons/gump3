@@ -15,7 +15,7 @@
   limitations under the License.
 -->
 <module name="jakarta-jmeter">
-<!-- Version $Revision: 1.99 $ Last updated $Date: 2004/06/10 10:04:47 $ -->
+<!-- Version $Revision: 1.100 $ Last updated $Date: 2004/06/10 10:23:57 $ -->
   <url href="http://jakarta.apache.org/jmeter/" />
   <description>
     Pure Java load testing and performance measurement tool.
@@ -31,8 +31,8 @@
       <property name="jmeter.version" value="@@DATE@@"/>
       <property name="gump.run" value="true"/>
       <!-- The version of this file -->
-      <property name="version.projectfile" value="$Revision: 1.99 $"/>
-      <property name="date.projectfile" value="$Date: 2004/06/10 10:04:47 $"/>
+      <property name="version.projectfile" value="$Revision: 1.100 $"/>
+      <property name="date.projectfile" value="$Date: 2004/06/10 10:23:57 $"/>
       
       <!--
         These properties are passed to the build process, so the names need to agree with
@@ -118,8 +118,8 @@
       <property name="jmeter.version" value="@@DATE@@"/>
       <property name="gump.run" value="true"/>
       <!-- The version of this file -->
-      <property name="version.projectfile" value="$Revision: 1.99 $"/>
-      <property name="date.projectfile" value="$Date: 2004/06/10 10:04:47 $"/>
+      <property name="version.projectfile" value="$Revision: 1.100 $"/>
+      <property name="date.projectfile" value="$Date: 2004/06/10 10:23:57 $"/>
 
       <!-- Ensure work directories don't get dropped from classpath -->
       <mkdir dir="build/core"/>
@@ -158,6 +158,8 @@
     <work nested="build/protocol/http"/>
     <work nested="build/monitor/model"/>
     
+    <work nested="lib/batik-awt-util.jar"/>
+
     <work nested="lib/excalibur-logger-1.1.jar"/>
     <work nested="lib/excalibur-compatibility-1.1.jar"/>
     <work nested="lib/excalibur-i18n-1.1.jar"/>
@@ -212,8 +214,8 @@
       <!-- Temp hack to make up for missing workspace property ... -->
       <property name="java.awt.headless" value="true"/>
       <!-- The version of this file -->
-      <property name="version.projectfile" value="$Revision: 1.99 $"/>
-      <property name="date.projectfile" value="$Date: 2004/06/10 10:04:47 $"/>
+      <property name="version.projectfile" value="$Revision: 1.100 $"/>
+      <property name="date.projectfile" value="$Date: 2004/06/10 10:23:57 $"/>
     </ant>
 
     <depend project="ant" />
@@ -283,8 +285,8 @@
       <property name="jmeter.version" value="@@DATE@@"/>
       <property name="gump.run" value="true"/>
       <!-- The version of this file -->
-      <property name="version.projectfile" value="$Revision: 1.99 $"/>
-      <property name="date.projectfile" value="$Date: 2004/06/10 10:04:47 $"/>
+      <property name="version.projectfile" value="$Revision: 1.100 $"/>
+      <property name="date.projectfile" value="$Date: 2004/06/10 10:23:57 $"/>
     </ant>
 
     <depend project="ant" />
