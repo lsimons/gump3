@@ -33,11 +33,13 @@
     <depend project="jsse" />
     <depend project="jtidy" />
     <depend project="excalibur-compatibility" />
-    <depend project="beanshell" ids="bsh-core"/>
+    <optional project="beanshell" ids="bsh-core"/>
 
     <work nested="build/core"/>
     <work nested="build/htmlparser"/>
     <work nested="build/jorphan"/>
+    <!-- Allow http to build: -->
+    <work nested="build/components"/>
 
     <!-- These are necessary to run the tests: -->
     <work nested="lib/ext/ApacheJMeter_core.jar"/>
