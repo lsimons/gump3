@@ -68,12 +68,9 @@ class AbstractSyndicator(RunSpecific):
     
         content += '</p>'
         
-        if project.hasDescription or project.getModule().hasDescription():
+        if project.hasDescription():
             content+='<p>'           
-            if project.hasDescription(): 
-                content+=project.getDescription()
-            else:
-                content+=project.getModule().getDescription()
+            content+=project.getDescription()
             content+='<p>'
             
         content += self.getSundries(project)
