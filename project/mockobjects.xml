@@ -27,6 +27,9 @@
     <jar name="mockobjects-@@DATE@@-core.jar"/>
     <jar name="mockobjects-@@DATE@@-jdk1.4.jar"/>
     <jar name="alt-@@DATE@@-jdk1.4.jar"/>
+
+    <nag from="Jeff Martin&lt;jeff@custommonkey.org&gt;"
+      to="mockobjects-java-dev@lists.sourceforge.net"/>
   </project>
 
 </module>
