@@ -38,6 +38,7 @@
   <module href="project/jakarta-tomcat-5.xml"/>
   <module href="project/jakarta-tomcat-jasper_tc5.xml"/>
   <module href="project/jakarta-tomcat-connectors.xml"/>
+  <module href="project/jakarta-tomcat-connectors-coyote_10.xml"/>
   <module href="project/jakarta-tomcat-jasper_tc4.xml"/>
   <module href="project/jakarta-tomcat-33.xml"/>
   <module href="project/jakarta-tomcat-jasper.xml"/>

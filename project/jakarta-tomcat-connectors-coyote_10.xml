@@ -1,0 +1,59 @@
+<module name="jakarta-tomcat-connectors" tag="coyote_10">
+
+  <description>
+    Connectors to various web servers
+  </description>
+  <url href="http://jakarta.apache.org/tomcat/index.html"/>
+
+  <cvs repository="jakarta" />
+
+  <project name="jakarta-tomcat-connectors">
+    <!-- dummy to provide a "home" reference for the tomcat-catalina build -->
+  </project>
+
+  <project name="jakarta-tomcat-util-coyote_10">
+    <package>org.apache.tomcat.util</package>
+    <ant basedir="util">
+      <property name="jmx.home" reference="home" project="jmx"/>
+      <property name="jmx.jar" project="jmx" path="jmx/lib/jmxri.jar" />
+      <property name="jsse.home" reference="home" project="jsse"/>
+      <depend property="commons-modeler.jar" project="commons-modeler"/>
+    </ant>
+
+    <depend project="jakarta-ant"/>
+    <depend project="xml-xerces"/>
+    <depend project="commons-logging"/>
+    <depend project="jsse"/>
+
+    <home nested="util/build"/>
+    <jar name="lib/tomcat-util.jar"/>
+    <nag to="tomcat-dev@jakarta.apache.org"
+         from="Craig McClanahan &lt;craigmcc@apache.org&gt;"/>
+  </project>
+
+  <project name="jakarta-tomcat-coyote-coyote_10">
+    <package>org.apache.coyote</package>
+    <ant basedir="coyote">
+      <property name="jmx.home" reference="home" project="jmx"/>
+      <property name="jmx.jar" project="jmx" path="jmx/lib/jmxri.jar" />
+      <property name="catalina.home" reference="home" 
+        project="tomcat-catalina"/> 
+      <depend property="commons-modeler.jar" project="commons-modeler"/>
+    </ant>
+
+    <depend project="jakarta-ant"/>
+    <depend project="xml-xerces"/>
+    <depend project="jmx"/>
+    <depend project="jakarta-tomcat-util"/>
+    <depend project="jakarta-servletapi-4"/>
+    <depend project="tomcat-catalina"/>
+    <depend project="jakarta-tomcat"/>
+
+    <home nested="coyote"/>
+    <jar name="build/lib/tomcat-coyote.jar"/>
+
+    <nag to="tomcat-dev@jakarta.apache.org"
+         from="Craig McClanahan &lt;craigmcc@apache.org&gt;"/>
+  </project>
+  
+</module>
