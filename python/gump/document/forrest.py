@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/forrest.py,v 1.52 2004/01/16 21:39:57 ajack Exp $
-# $Revision: 1.52 $f
-# $Date: 2004/01/16 21:39:57 $
+# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/forrest.py,v 1.53 2004/01/16 23:11:24 ajack Exp $
+# $Revision: 1.53 $f
+# $Date: 2004/01/16 23:11:24 $
 #
 # ====================================================================
 #
@@ -911,10 +911,9 @@ class ForrestDocumenter(Documenter):
         stateSection=document.createSection('State')
         
         stateList=stateSection.createList()
-        stateList.createEntry("State: ", project.getStateDescription())  
+        stateList.createEntry("Current State: ", project.getStateDescription())  
         if not project.getReason() == REASON_UNSET:
-            stateList.createEntry("Reason: " + reasonString(project.getReason()))
-            
+            stateList.createEntry("Reason: " + reasonString(project.getReason()))            
         if project.cause and not project==project.cause:
              self.insertTypedLink( project.cause, project, stateList.createEntry( "Root Cause: ")) 
              
@@ -923,10 +922,6 @@ class ForrestDocumenter(Documenter):
         detailsSection=document.createSection('Details')
         
         detailsList=detailsSection.createList()
-        detailsList.createEntry("State: ", project.getStateDescription())  
-        if not project.getReason() == REASON_UNSET:
-            detailsList.createEntry("Reason: " + reasonString(project.getReason()))
-            
             
         self.insertLink(project.getModule(),project,detailsList.createEntry('Module: '))
         if project.hasCause() and not project==project.getCause():
@@ -1157,14 +1152,13 @@ class ForrestDocumenter(Documenter):
         if not worklist: return
         
         workSection=xdocNode.createSection(description)        
-        workTable=workSection.createTable(['Name','Type','State','Start','Elapsed'])
+        workTable=workSection.createTable(['Name','State','Start','Elapsed'])
         
         for work in worklist:
             workRow=workTable.createRow()
             workRow.createComment(work.getName())
             
-            self.insertLink(work,workable,workRow.createData())                             
-            workRow.createData(work.getName()) 
+            self.insertLink(work,workable,workRow.createData())  
             workRow.createData(stateName(work.state))
             workRow.createData(secsToDate(work.result.start_time))
             workRow.createData(secsToElapsedString(work.getElapsedSecs()))
@@ -1452,7 +1446,7 @@ class ForrestDocumenter(Documenter):
         document=XDocDocument('Statistics',self.resolver.getFile(stats))
         
         document.createParagraph("""
-        Statistics from Gump show the depth and health of relationship. 
+        Statistics from Gump show the depth and health of inter-relationships. 
         See side menu for choices.
         """)
         
