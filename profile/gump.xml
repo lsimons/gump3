@@ -288,6 +288,7 @@
   <repository href="repository/cocoon.xml"/>
   <repository href="repository/cocoondev.xml"/>
   <repository href="repository/codehaus.xml"/>
+  <repository href="repository/codehaus_scm.xml"/>
   <repository href="repository/db.xml"/>
   <repository href="repository/dbxml.xml"/>
   <repository href="repository/devworks.xml"/>
@@ -300,7 +301,6 @@
   <repository href="repository/mozilla.xml"/>
   <repository href="repository/tigris.xml"/>
   <repository href="repository/sourceforge.xml"/>
-  <repository href="repository/werken.xml"/>
   <repository href="repository/whichever.xml"/>
   <repository href="repository/ws.xml"/>
   <repository href="repository/xml.xml"/>
