@@ -91,6 +91,7 @@
     <depend project="jakarta-tomcat-util"/>
     <depend project="jakarta-servletapi-4"/>
     <depend project="jakarta-regexp"/>
+    <option project="junit" />
     <work nested="catalina/build/server/classes"/>
 
     <home nested="dist"/>

@@ -40,6 +40,7 @@
     <option project="javamail"/>
     <option project="jakarta-bcel"/>
     <option project="antlr"/>
+    <option project="jakarta-servletapi" />
 
     <home nested="build"/>
     <jar name="lib/ant.jar"/>
