@@ -7,9 +7,10 @@
 
   <cvs repository="bsf"/>
 
-  <ant/>
+  <ant target="samples"/>
   <depend project="xml-xerces"/>
   <depend project="jakarta-ant"/>
+  <work nested="build/classes"/>
 
   <home nested="build"/>
   <jar  name="lib/bsf.jar"/>
