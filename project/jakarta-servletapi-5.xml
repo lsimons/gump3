@@ -32,6 +32,7 @@
     </description>
 
     <mkdir dir="jsr152/build/classes"/>
+    <mkdir dir="jsr152/build/ant"/>
     <ant basedir="jsr152" target="dist">
       <depend property="servlet-api.jar" 
               project="jakarta-servletapi-5-servlet" />
@@ -40,6 +41,7 @@
     <depend project="ant" inherit="runtime"/>
     <depend project="javamail" />
     <work nested="jsr152/build/classes"/>
+    <work nested="jsr152/build/ant"/>
     <home nested="jsr152/dist"/>
     <jar name="lib/jsp-api.jar"/>
     <javadoc nested="jsr152/build/docs/api" module="jakarta-tomcat-5"/>
