@@ -15,7 +15,7 @@
   limitations under the License.
 -->
 <module name="jakarta-jmeter">
-<!-- Version $Revision: 1.86 $ Last updated $Date: 2004/03/20 11:20:01 $ -->
+<!-- Version $Revision: 1.87 $ Last updated $Date: 2004/03/20 11:52:57 $ -->
   <url href="http://jakarta.apache.org/jmeter/" />
   <description>
     Pure Java load testing and performance measurement tool.
@@ -31,7 +31,8 @@
       <property name="jmeter.version" value="@@DATE@@"/>
       <property name="gump.run" value="true"/>
       <!-- The version of this file -->
-      <property name="version.projectfile" value="$Revision: 1.86 $"/>
+      <property name="version.projectfile" value="$Revision: 1.87 $"/>
+      <property name="date.projectfile" value="$Date: 2004/03/20 11:52:57 $"/>
       
       <!--
       	These properties are passed to the build process, so the names need to agree with
@@ -77,6 +78,7 @@
     <work nested="build/components"/>
 
     <!-- Allow Monitor to build -->
+    <work nested="build/protocol/http"/>
     <work nested="build/monitor/model"/>
 
     <nag from="Sebb &lt;sebb@apache.org&gt;"
@@ -93,7 +95,8 @@
       <property name="jmeter.version" value="@@DATE@@"/>
       <property name="gump.run" value="true"/>
       <!-- The version of this file -->
-      <property name="version.projectfile" value="$Revision: 1.86 $"/>
+      <property name="version.projectfile" value="$Revision: 1.87 $"/>
+      <property name="date.projectfile" value="$Date: 2004/03/20 11:52:57 $"/>
     </ant>
 
     <depend project="ant" />
@@ -117,6 +120,7 @@
     <work nested="build/components"/>
 
     <!-- Allow Monitor to build -->
+    <work nested="build/protocol/http"/>
     <work nested="build/monitor/model"/>
     
     <work nested="lib/avalon-excalibur-4.1.jar"/>
@@ -163,7 +167,8 @@
       <property name="jmeter.version" value="@@DATE@@"/>
       <property name="gump.run" value="true"/>
       <!-- The version of this file -->
-      <property name="version.projectfile" value="$Revision: 1.86 $"/>
+      <property name="version.projectfile" value="$Revision: 1.87 $"/>
+      <property name="date.projectfile" value="$Date: 2004/03/20 11:52:57 $"/>
     </ant>
 
     <depend project="ant" />
@@ -224,7 +229,8 @@
       <property name="jmeter.version" value="@@DATE@@"/>
       <property name="gump.run" value="true"/>
       <!-- The version of this file -->
-      <property name="version.projectfile" value="$Revision: 1.86 $"/>
+      <property name="version.projectfile" value="$Revision: 1.87 $"/>
+      <property name="date.projectfile" value="$Date: 2004/03/20 11:52:57 $"/>
     </ant>
 
     <depend project="ant" />
