@@ -27,6 +27,7 @@
     <option project="jakarta-log4j"/>
       
     <work nested="build/jakarta-poi/classes"/>
+    <work nested="build/jakarta-poi/testcases"/>
     <work nested="tools/tmp/anttasks"/>
 
     <home nested="build/poi"/>
