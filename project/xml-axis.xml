@@ -13,7 +13,7 @@
   <depend project="jakarta-ant"/>
   <depend project="jakarta-servletapi"/>
   <option project="junit"/>
-  <work nested="java/build/lib/axis.jar"/>
+  <work nested="java/build/classes"/>
   <work nested="java/build"/>
 
   <home nested="java/build"/>
