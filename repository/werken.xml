@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<repository name="werken" type="cvs">
+  <title>Werken</title>
+  <home-page>http://www.werken.com/</home-page>
+  <cvsweb>http://cvs.werken.com/viewcvs.cgi/</cvsweb>
+
+  <root>
+    <method>pserver</method>
+    <user>anonymous</user>
+    <password/>
+    <hostname>cvs.werken.com</hostname>
+    <path>/cvsroot/werkz</path>
+  </root>
+</repository>

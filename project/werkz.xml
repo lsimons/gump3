@@ -1,14 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
 <module name="werkz">
-
-  <url  href="http://werkz.sourceforge.net/"/>
-  <description>
-    Light-Weight Goal-Oriented Process Framework
-  </description>
-
+  <description>werkz: Goal-Oriented Process (GOP) Framework</description>
+  <url href="http://werkz.werken.com/">
+  </url>
+  <cvs module="werkz" repository="werken">
+  </cvs>
   <project name="werkz">
+    <ant buildfile="build.xml" target="dist">
+      <property name="final.name" value="werkz-@@DATE@@">
+      </property>
+    </ant>
     <package>com.werken.werkz</package>
-
-    <jar name="werkz.jar"/>
+    <depend project="commons-logging">
+    </depend>
+    <depend project="jakarta-ant">
+    </depend>
+    <depend project="junit">
+    </depend>
+    <depend project="xml-xerces">
+    </depend>
+    <work nested="target/classes">
+    </work>
+    <home nested="target">
+    </home>
+    <jar name="werkz-@@DATE@@.jar">
+    </jar>
+    <javadoc nested="target/docs/apidocs">
+    </javadoc>
+    <nag to="bob@eng.werken.com" from="werkz development &lt;bob@eng.werken.com&gt;">
+    </nag>
   </project>
-
 </module>
