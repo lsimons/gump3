@@ -12,17 +12,17 @@ if [ -e  $HOST_LOCAL_ENV ] ; then
 	. $HOST_LOCAL_ENV
 fi
 if [ ! $GUMP ] ; then
-	echo "Set the \$GUMP variable to your gump install"
+	echo "Set the \$GUMP variable to your gump install (e.g. /opt/jakarta-gump)"
 	exit 1
 fi
 
 if [ ! $GUMP_WS ] ; then
-	echo "Set the \$GUMP_WS variable to your gump install"
+	echo "Set the \$GUMP_WS variable to your gump working area (e.g. /var/gump)"
 	exit 1
 fi
 
 if [ ! $GUMP_LOG_DIR ] ; then
-	echo "Set the \$GUMP_LOG_DIR variable to your gump install"
+	echo "Set the \$GUMP_LOG_DIR variable to your gump WWW diredtory (e.g. /var/www/html/gump)"
 	exit 1
 fi
 

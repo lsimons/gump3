@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/syndication/atom.py,v 1.10 2004/01/16 21:39:57 ajack Exp $
-# $Revision: 1.10 $
-# $Date: 2004/01/16 21:39:57 $
+# $Header: /home/stefano/cvs/gump/python/gump/syndication/atom.py,v 1.11 2004/01/20 21:55:23 ajack Exp $
+# $Revision: 1.11 $
+# $Date: 2004/01/20 21:55:23 $
 #
 # ====================================================================
 #
@@ -154,7 +154,7 @@ class AtomFeed:
 """)
                 
     def serialize(self):
-        log.info("Atom Feed to : " + self.file);         
+        log.debug("Atom Feed to : " + self.file);         
         
         stream = open(self.file,'w')
         
@@ -219,12 +219,12 @@ class AtomSyndicator(Syndicator):
         
         # Generate changes, only if the module had changed
         if module.isUpdated() and not module.getStatePair().isUnset():  
-            log.info("Add module to Atom Newsfeed for : " + module.getName())    
+            log.debug("Add module to Atom Newsfeed for : " + module.getName())    
             moduleFeed.addEntry(entry)  
             
         # State changes that are newsworthy...
         if 	self.moduleOughtBeWidelySyndicated(module):      
-            log.info("Add module to widely distributed Atom Newsfeed for : " + module.getName())      
+            log.debug("Add module to widely distributed Atom Newsfeed for : " + module.getName())      
             mainFeed.addEntry(entry)
             
         # Syndicate each project
@@ -259,13 +259,13 @@ class AtomSyndicator(Syndicator):
 
         # Generate changes, only if the project changed
         if project.getModule().isUpdated() and not project.getStatePair().isUnset():      
-            log.info("Add project to Atom Newsfeed for : " + project.getName())         
+            log.debug("Add project to Atom Newsfeed for : " + project.getName())         
             projectFeed.addEntry(entry)
             moduleFeed.addEntry(entry)  
 
         # State changes that are newsworthy...
         if 	self.projectOughtBeWidelySyndicated(project) :
-            log.info("Add project to widely distributed Atom Newsfeed for : " + project.getName())    
+            log.debug("Add project to widely distributed Atom Newsfeed for : " + project.getName())    
             mainFeed.addEntry(entry)
                                                         
         projectFeed.serialize()

@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/model/module.py,v 1.27 2004/01/19 23:53:24 ajack Exp $
-# $Revision: 1.27 $
-# $Date: 2004/01/19 23:53:24 $
+# $Header: /home/stefano/cvs/gump/python/gump/model/module.py,v 1.28 2004/01/20 21:55:23 ajack Exp $
+# $Revision: 1.28 $
+# $Date: 2004/01/20 21:55:23 $
 #
 # ====================================================================
 #
@@ -213,19 +213,18 @@ class Module(NamedModelObject, Statable):
       
         if self.isComplete(): return
            
-        if self.getName() == 'broken1':
-            print "------------------------------------------------------------------------"
-            print "COMPLETE MODULE"
-            self.xml.dump()
-            print "------------------------------------------------------------------------"        
-            print "COMPLETE MODULE"
-            dump(self.xml)
-            print "------------------------------------------------------------------------"
-            from gump.utils.xmlutils import xmlize
-            print xmlize('module',self.xml)
-            print "COMPLETED MODULE"
-            print "------------------------------------------------------------------------"
-        
+        #if self.getName() == 'broken1':
+        #    print "------------------------------------------------------------------------"
+        #    print "COMPLETE MODULE"
+        #    self.xml.dump()
+        #    print "------------------------------------------------------------------------"        
+        #    print "COMPLETE MODULE"
+        #    dump(self.xml)
+        #    print "------------------------------------------------------------------------"
+        #    from gump.utils.xmlutils import xmlize
+        #    print xmlize('module',self.xml)
+        #    print "COMPLETED MODULE"
+        #    print "------------------------------------------------------------------------"        
         
         packaged=0
                 

@@ -1,8 +1,8 @@
 #!/usr/bin/python
 
-# $Header: /home/stefano/cvs/gump/python/gump/utils/Attic/commandLine.py,v 1.5 2004/01/09 19:57:19 ajack Exp $
-# $Revision: 1.5 $
-# $Date: 2004/01/09 19:57:19 $
+# $Header: /home/stefano/cvs/gump/python/gump/utils/Attic/commandLine.py,v 1.6 2004/01/20 21:55:23 ajack Exp $
+# $Revision: 1.6 $
+# $Date: 2004/01/20 21:55:23 $
 #
 # ====================================================================
 #
@@ -146,7 +146,7 @@ class CommandLine:
             else:
                 banner()
                 print
-                print " No project specified, please supply a project expressions or 'all'."
+                print " No project specified, please supply a comma separated list of project expressions or 'all'."
                 print " Project wildcards are accepted, e.g. \"jakarta-*\"."
                 sys.exit(1)
     

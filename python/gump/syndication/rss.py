@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/syndication/rss.py,v 1.15 2004/01/16 17:37:16 ajack Exp $
-# $Revision: 1.15 $
-# $Date: 2004/01/16 17:37:16 $
+# $Header: /home/stefano/cvs/gump/python/gump/syndication/rss.py,v 1.16 2004/01/20 21:55:23 ajack Exp $
+# $Revision: 1.16 $
+# $Date: 2004/01/20 21:55:23 $
 #
 # ====================================================================
 #
@@ -234,10 +234,10 @@ class RSS:
     def endRSS(self):                    
         # complete the rss feed
         self.rssStream.write('</rss>\n')                
-        log.info("RSS Newsfeed written to : " + self.rssFile);          
+        log.debug("RSS Newsfeed written to : " + self.rssFile);          
         
     def serialize(self):
-        log.info("RSS Newsfeed to : " + self.rssFile);         
+        log.debug("RSS Newsfeed to : " + self.rssFile);         
         self.rssStream = open(self.rssFile,'w')
         
         self.startRSS()
@@ -318,12 +318,12 @@ class RSSSyndicator(Syndicator):
         
         # Generate changes, only if the module had changed
         if module.isUpdated() and not module.getStatePair().isUnset(): 
-            log.info("Add module to RSS Newsfeed for : " + module.getName())    
+            log.debug("Add module to RSS Newsfeed for : " + module.getName())    
             moduleRSS.addItem(item)  
             
         # State changes that are newsworthy...
         if 	self.moduleOughtBeWidelySyndicated(module):
-            log.info("Add module to widely distributed RSS Newsfeed for : " + module.getName())
+            log.debug("Add module to widely distributed RSS Newsfeed for : " + module.getName())
             mainRSS.addItem(item)
             
         for project in module.getProjects():  
@@ -361,13 +361,13 @@ class RSSSyndicator(Syndicator):
 
         # Generate changes, only if the module changed
         if project.getModule().isUpdated() and not project.getStatePair().isUnset():    
-            log.info("Add project to RSS Newsfeed for : " + project.getName())
+            log.debug("Add project to RSS Newsfeed for : " + project.getName())
             projectRSS.addItem(item)
             moduleRSS.addItem(item)  
 
         # State changes that are newsworthy...
         if self.projectOughtBeWidelySyndicated(project) :      
-            log.info("Add project to widely distributed RSS Newsfeed for : " + project.getName())
+            log.debug("Add project to widely distributed RSS Newsfeed for : " + project.getName())
             mainRSS.addItem(item)
                                                         
         projectRSS.serialize()

@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/model/repository.py,v 1.7 2004/01/09 19:57:18 ajack Exp $
-# $Revision: 1.7 $
-# $Date: 2004/01/09 19:57:18 $
+# $Header: /home/stefano/cvs/gump/python/gump/model/repository.py,v 1.8 2004/01/20 21:55:23 ajack Exp $
+# $Revision: 1.8 $
+# $Date: 2004/01/20 21:55:23 $
 #
 # ====================================================================
 #
@@ -94,7 +94,11 @@ class Repository(NamedModelObject, Statable):
             else:
                 raise RuntimeError, 'No URL on SVN repository: ' + self.getName()
         elif 'jars'==xml.type:
-            self.type='Java Arcvhives'
+            self.type='Java Archives'
+            if xml.url:
+                self.url=str(xml.url)
+            else:
+                raise RuntimeError, 'No URL on Jars repository: ' + self.getName()
         else:
             raise RuntimeError, 'Invalid Repository Type'            
             
