@@ -42,7 +42,7 @@ def crun():
     ps=args[1]
     
     # get parsed workspace definition
-    workspace=WorkspaceLoader().load(ws, options.isQuick())
+    workspace=WorkspaceLoader(options.isQuick()).load(ws)
     
     # 
     options.setObjectives(OBJECTIVE_CHECK)    

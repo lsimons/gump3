@@ -5,7 +5,7 @@
     Test of downloading a package
   </description>
 
-  <artifacts repository="artifact_repository1"/>
+  <artifacts repository="artifact_repository1" group="test"/>
 
   <project name="download1">
     <package>org.apache.download1</package>

@@ -159,13 +159,24 @@ class GumpUpdater(RunSpecific):
                                     'changes_to_'+gumpSafeName(module.getName())+'.txt'))
                     
             # Perform the operation.
-            modified=syncDirectories(sourcedir,destdir,module,changesFile)
+            (actions,modified,cleaned)=syncDirectories(sourcedir,destdir,module,changesFile)
                     
             # We are good to go...
             module.changeState(STATE_SUCCESS)
                     
             # Were the contents of the repository modified?                                        
-            if modified and os.path.exists(changesFile):                               
+            if modified: 
+            
+                #
+                # Use 'incoming changes' to note that the module
+                # was modified.
+                #
+                module.setModified(True)                                  
+                log.info('Update(s) received via on #[' \
+                                + `module.getPosition()` + \
+                                '] : ' + module.getName())
+                                
+                if os.path.exists(changesFile):  
                     catFileToFileHolder(module, changesFile, FILE_TYPE_LOG) 
                         
         except Exception, details:
@@ -176,7 +187,11 @@ class GumpUpdater(RunSpecific):
         
 
     def preview(self,module):
+        """
         
+            Preview what ought occur for this
+            
+        """
         
         if module.hasCvs():
             ok=self.cvs.preview(module)

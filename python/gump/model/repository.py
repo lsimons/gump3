@@ -41,11 +41,11 @@ class Repository(NamedModelObject, Statable):
                         self.getDomChildValue('web')                            
             if self.hasDomChild('root'):
                 root=self.getDomChild('root')
-                self.method=getDomAttributeValue(root,'method')  
-                self.user=getDomAttributeValue(root,'user')
-                self.password=getDomAttributeValue(root,'password')
-                self.path=getDomAttributeValue(root,'path')
-                self.hostname=getDomAttributeValue(root,'hostname')
+                self.method=getDomChildValue(root,'method')  
+                self.user=getDomChildValue(root,'user')
+                self.password=getDomChildValue(root,'password')
+                self.path=getDomChildValue(root,'path')
+                self.hostname=getDomChildValue(root,'hostname')
             else:
                 raise RuntimeError, 'No XML <root on repository: ' + self.getName()
         elif 'svn'==type:  

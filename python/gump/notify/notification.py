@@ -34,7 +34,7 @@ from gump.core.actor import AbstractRunActor
 from gump.model.project import *
 from gump.model.module import *
 from gump.model.state import *
-from gump.net.smtp import *
+from gump.utils.smtp import *
 from gump.utils import *
 
 LINE     ='--   --   --   --   --   --   --   --   --   --   --   --   G U M P'

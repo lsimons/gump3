@@ -15,7 +15,7 @@
 # limitations under the License.
 
 #
-# $Header: /home/stefano/cvs/gump/python/gump/integrate.py,v 1.28.2.2 2004/06/11 17:09:50 ajack Exp $
+# $Header: /home/stefano/cvs/gump/python/gump/integrate.py,v 1.28.2.3 2004/06/11 20:46:10 ajack Exp $
 # 
 
 """
@@ -61,7 +61,7 @@ def irun():
     logResourceUtilization('Before load workspace')
         
     # get parsed workspace definition
-    workspace=WorkspaceLoader().load(ws, 0)
+    workspace=WorkspaceLoader(False).load(ws)
 
     logResourceUtilization('Before create run')
     

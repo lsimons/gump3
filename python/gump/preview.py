@@ -15,7 +15,7 @@
 # limitations under the License.
 
 #
-# $Header: /home/stefano/cvs/gump/python/gump/preview.py,v 1.5 2004/06/03 19:06:13 ajack Exp $
+# $Header: /home/stefano/cvs/gump/python/gump/preview.py,v 1.5.2.1 2004/06/11 20:46:10 ajack Exp $
 # 
 
 """
@@ -34,7 +34,7 @@ from gump import log
 from gump.core.gumpinit import gumpinit
 from gump.core.gumprun import GumpRun, GumpRunOptions, GumpSet
 from gump.core.commandLine import handleArgv
-from gump.model.loader import WorkspaceLoader
+from gump.loader.loader import WorkspaceLoader
 
 from gump.utils.note import Annotatable
 
@@ -61,7 +61,7 @@ def prun():
     result=0
     
     # get parsed workspace definition
-    workspace=WorkspaceLoader().load(ws, options.isCache()) 
+    workspace=WorkspaceLoader(options.isCache()).load(ws) 
     
     # The Run Details...
     run=GumpRun(workspace,ps,options)    
@@ -78,10 +78,10 @@ def prun():
         updater=runner.getUpdater()
         builder=runner.getBuilder()
             
-    
         for module in run.getGumpSet().getModules():
             print SEPARATOR
             print `module`
+            module.dump()
             if module.isUpdatable():
                 updater.preview(module)
                        

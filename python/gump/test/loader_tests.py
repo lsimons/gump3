@@ -31,9 +31,6 @@ def testWorkspace(url):
    print "Workspace URL: " + str(url)
    return WorkspaceLoader().load(url)
 
-def testModule(url,ws):
-   print "Workspace URL: " + str(url)
-   return WorkspaceLoader().loadModule(url,ws)
 
 if __name__=='__main__':
 

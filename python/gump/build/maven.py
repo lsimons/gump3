@@ -120,14 +120,8 @@ class MavenBuilder(AbstractJavaBuilder):
         #
         (classpath,bootclasspath)=project.getClasspaths()
     
-        #
-        # Get properties
-        #
-        #jvmargs=project.getJVMArgs()
-   
-        #
+    
         # Run Maven...
-        #
         cmd=Cmd('maven','build_'+project.getModule().getName()+'_'+project.getName(),\
             basedir,{'CLASSPATH':classpath})
             

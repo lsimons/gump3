@@ -255,10 +255,12 @@ class ModelLoader:
         
 class WorkspaceLoader(ModelLoader):
     
-    def load(self,file,cache=True):
+    def __init__(self,cache):
+        ModelLoader.__init__(self,cache)
+    
+    def load(self,file):
         from gump.model.workspace import Workspace
-        loader=ModelLoader(cache)
-        return loader.loadFile(file,Workspace)
+        return self.loadFile(file,Workspace)
         
 # static void main()
 if __name__=='__main__':

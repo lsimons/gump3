@@ -15,7 +15,7 @@
 # limitations under the License.
 
 #
-# $Header: /home/stefano/cvs/gump/python/gump/update.py,v 1.29.2.2 2004/06/11 17:09:49 ajack Exp $
+# $Header: /home/stefano/cvs/gump/python/gump/update.py,v 1.29.2.3 2004/06/11 20:46:10 ajack Exp $
 # 
 
 """
@@ -58,7 +58,7 @@ if __name__=='__main__':
     ps=args[1]
     
     # get parsed workspace definition
-    workspace=WorkspaceLoader().load(ws, options.isCache()) 
+    workspace=WorkspaceLoader(options.isCache()).load(ws) 
     
     # Ensure we use text, not forrest...
     options.setText(1)

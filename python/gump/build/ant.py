@@ -124,7 +124,7 @@ class AntBuilder(AbstractJavaBuilder):
         #
         # Get properties
         #
-        jvmargs=self.getJVMArgs(antxml)
+        jvmargs=self.getJVMArgs(project)
    
         #
         # Run java on apache Ant...

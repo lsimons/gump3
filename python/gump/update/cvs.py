@@ -41,7 +41,7 @@ from gump.model.depend import  ProjectDependency
 from gump.model.stats import *
 from gump.model.state import *
 
-from gump.net.cvs import *
+from gump.integration.cvs import *
 
 
 ###############################################################################
@@ -144,8 +144,7 @@ class CvsUpdater(RunSpecific):
             
             # We run CVS as -q (quiet) so any output means
             # updates occured...
-            if cmdResult.hasOutput():
-                module.setModified(1)                        
+            if cmdResult.hasOutput():                       
                 log.info('Update(s) received via CVS on #[' \
                                 + `module.getPosition()` + \
                                 '] : ' + module.getName())
@@ -171,8 +170,7 @@ class CvsUpdater(RunSpecific):
             raise RuntimeException('Not coded for this combo.')            
         
         root=module.cvs.getCvsRoot()
-      
-     
+    
         #
         # Prepare CVS checkout/update command...
         #     

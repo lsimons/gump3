@@ -488,8 +488,7 @@ def executeIntoResult(cmd,result,tmp=dir.tmp):
       # Restore environment.
       if cmd.cwd: os.chdir(originalCWD)
       for envKey in originalENV.iterkeys():
-	    value=originalENV[envKey]
-	    os.environ[envKey]=value
+	    os.environ[envKey]=originalENV[envKey]
 	  
     return result
     

@@ -33,7 +33,7 @@ from gump.model.project import *
 from gump.model.module import *
 from gump.model.state import *
 from gump.model.misc import AddressPair
-from gump.net.smtp import *
+from gump.utils.smtp import *
 from gump.utils import *
 
 from gump.notify.logic import NotificationLogic

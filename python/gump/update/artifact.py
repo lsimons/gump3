@@ -41,6 +41,8 @@ from gump.model.depend import  ProjectDependency
 from gump.model.stats import *
 from gump.model.state import *
 
+from gump.integration.depot import *
+
 ###############################################################################
 # Classes
 ###############################################################################
@@ -73,7 +75,7 @@ class ArtifactUpdater(RunSpecific):
         #
         work=CommandWorkItem(WORK_TYPE_UPDATE,cmd,cmdResult)
         module.performedWork(work)  
-        repository.performedWork(work.clone())
+        module.getRepository().performedWork(work.clone())
       
         # Update Context w/ Results  
         if not cmdResult.state==CMD_STATE_SUCCESS:              
@@ -107,27 +109,28 @@ class ArtifactUpdater(RunSpecific):
         url=module.artifacts.getRootUrl()
         group=module.artifacts.getGroup()
       
-        log.debug("Artifact URL: [" + url + "] on Repository: " + module.repository.getName())
+        log.debug("Artifact URL/Group: [" + `url` + "," + `group` + "] on Repository: " + module.repository.getName())
      
         #
         # Prepare Artifact checkout/update command...
         # 
-        cmd=Cmd('update.py',	\
+        cmd=Cmd(getDepotUpdateCmd(),	\
                 'update_'+module.getName(),	\
                 module.getWorkspace().cvsdir)
-    
-        cmd.addParameter(url)
         
-        cmd.addParameter(group)
-          
-        #
         # Be 'quiet' (but not silent) unless requested otherwise.
-        #
         if 	not module.isDebug() 	\
             and not module.isVerbose() \
             and not module.artifacts.isDebug()	\
             and not module.artifacts.isVerbose():    
             cmd.addParameter('-q')
-
+    
+        # The URL (ought be optional)
+        if url:
+            cmd.addParameter(url)
+    
+        # Group (mandatory)
+        cmd.addParameter(group)
+   
         return cmd
      

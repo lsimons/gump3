@@ -444,6 +444,13 @@ finally:
     published=0
     if logdir:
         publishedLogFile=os.path.abspath(os.path.join(logdir,logFileName))
+        if '--xdocs' in args:
+            publishedLogFile=os.path.abspath(
+                                os.path.join(
+                                    os.path.abspath(
+                                        os.path.join(logdir,'content'),
+                                    logFileName)))
+                                
         try:
             publishedLog=open(publishedLogFile,'w',0) # Unbuffered...
             catFile(publishedLog, logFile, logTitle)    

@@ -167,7 +167,7 @@ class Project(NamedModelObject, Statable, Resultable, Dependable, Positioned):
         return self.license
         
     def getDeletes(self): return self.deletes
-    def getMkDirs(self): return self.mkdir
+    def getMkDirs(self): return self.mkdirs
         
     def hasJars(self):
         return self.jars

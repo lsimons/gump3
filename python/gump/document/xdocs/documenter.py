@@ -1676,7 +1676,9 @@ This page helps Gumpmeisters (and others) observe community progress.
                                                       
         # Display nag information
         if project.hasNotifys() and project.isVerboseOrDebug():
-            for (toaddr,fromaddr) in project.getNotifys():
+            for pair in project.getNotifys():
+                toaddr=pair.getToAddress()
+                fromaddr=pair.getFromAddress()
                 detailsList.createEntry('Notify To: ').createFork('mailto:'+toaddr,toaddr)
                 detailsList.createEntry('Notify From: ').createFork('mailto:'+fromaddr,fromaddr)
                     
@@ -1833,15 +1835,14 @@ This page helps Gumpmeisters (and others) observe community progress.
                 dependencySection.createNote('This project depends upon no others.')    
                  
         # Not ready for prime time...   
-        if 'gump.try' == project.getWorkspace().getName():                        
-            try:
-                # Generate an SVG for FOG:
-                (pngFile,pngTitle) = self.diagramDependencies(project)
-                if pngFile:
-                    para=dependencySection.createSection('Dependency Diagram').createParagraph()
-                    para.createFork(pngFile).createIcon(pngFile,pngTitle)
-            except:
-                log.error('Failed to diagram dependencies for [' + project.getName() + ']', exc_info=1)
+        try:
+            # Generate an SVG for Dependencies Diagram:
+            (pngFile,pngTitle) = self.diagramDependencies(project)
+            if pngFile:
+                para=dependencySection.createSection('Dependency Diagram').createParagraph()
+                para.createFork(pngFile).createIcon(pngFile,pngTitle)
+        except:
+            log.error('Failed to diagram dependencies for [' + project.getName() + ']', exc_info=1)
         
         document.serialize()
         

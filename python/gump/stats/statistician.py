@@ -23,7 +23,6 @@ import os
 
 from gump.core.config import *
 from gump import log
-from gump.model import *
 from gump.core.gumprun import *
 from gump.core.actor import *
 from gump.stats.statsdb import StatisticsDB

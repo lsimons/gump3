@@ -308,7 +308,7 @@ if __name__=='__main__':
     ps=args[1]
 
     # get parsed workspace definition
-    workspace=WorkspaceLoader().load(ws, options.isCache())    
+    workspace=WorkspaceLoader(options.isCache()).load(ws)    
         
     # Ensure we use text, not forrest...
     options.setText(1)

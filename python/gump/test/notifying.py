@@ -31,7 +31,7 @@ from gump.test.pyunit import UnitTestSuite
 
 from gump.notify.notifier import notify,Notifier
 from gump.notify.notification import PositiveNotification,NegativeNotification
-from gump.net.smtp import *
+from gump.utils.smtp import *
 
 class NotificationTestSuite(UnitTestSuite):
     def __init__(self):

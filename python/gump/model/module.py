@@ -338,9 +338,9 @@ class Module(NamedModelObject, Statable, Resultable, Positioned):
                         self.addError('No such repository ['+ str(repoName) +'] in workspace on [' \
                                 + self.getName() + ']')                 
                                                 
-            elif self.hasDomChild('artifact'):
-                adom=self.getDomChild('artifact')
-                repoName=getValue(adom,'repository')
+            elif self.hasDomChild('artifacts'):
+                adom=self.getDomChild('artifacts')
+                repoName=getDomAttributeValue(adom,'repository')
                 if repoName:
                     if workspace.hasRepository(repoName):
                         # It references this repository...

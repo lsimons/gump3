@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/env python
 
 # Copyright 2003-2004 The Apache Software Foundation
 #
@@ -15,13 +15,32 @@
 # limitations under the License.
 
 """
-  Gump Networking Utilities
+    Manage Depot Interactions
 """
+import os
 
-###############################################################################
-# Initialize
-###############################################################################
+from gump import log
+from gump.core.config import *
 
-# tell Python what modules make up the gump.net package
-__all__ = ["cvs","smtp"]
+def getDepotHome(visual=True):
+    if os.environ.has_key('DEPOT_UPDATE_HOME'):        
+        return os.environ['DEPOT_UPDATE_HOME']
+    if os.environ.has_key('DEPOT_HOME'):        
+        return os.environ['DEPOT_HOME']
+    if visual:
+        return '${DEPOT_HOME}'
+    
+def getDepotUpdatePath():
+    return os.path.join(
+            os.path.join(getDepotHome(),'bin'),
+            'update.py')
+    
+    
+def getDepotUpdateCmd():
+    return 'python '+getDepotUpdatePath()
+    
+    
 
+
+
+ 
