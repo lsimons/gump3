@@ -25,6 +25,7 @@
   <depend project="kawa"/>
   <option project="jdbc"/>
   <depend project="jdom"/>
+  <work nested="build/classes"/>
  
   <home nested="build/lib"/>
   <jar name="avalon-excalibur.jar" id="avalon-excalibur"/>
