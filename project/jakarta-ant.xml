@@ -72,6 +72,7 @@
     <depend project="jakarta-avalon"/>
     <depend project="jakarta-avalon-excalibur"/>
     <depend project="jakarta-avalon-logkit"/>
+    <depend project="xdoclet"/>
     <option project="xml-xalan2"/>
   </project>
   
