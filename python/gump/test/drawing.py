@@ -27,7 +27,7 @@ class DrawingTestSuite(UnitTestSuite):
         UnitTestSuite.__init__(self)
         
     def testDrawingContext(self):
-        context=StandardDrawingContext(rect=Rect(0,0,100,100))
+        context=StandardDrawingContext('Test', rect=Rect(0,0,100,100))
                 
     def testScaledDrawingContext(self):
         context=ScaledDrawingContext('TestScale',None,Rect(0,0,100,100),200,200)
@@ -50,7 +50,7 @@ class DrawingTestSuite(UnitTestSuite):
         self.assertEqual('Shifted & Scaled', 125, y)
         
     def testGridDrawingContext(self):
-        baseContext=StandardDrawingContext(rect=Rect(0,0,100,200))
+        baseContext=StandardDrawingContext('Test',rect=Rect(0,0,100,200))
         context=GridDrawingContext('TestGrid',baseContext,10,10)
         for row in [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 ]:
             for col in [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 ]:    

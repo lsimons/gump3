@@ -154,7 +154,7 @@ class Project(NamedModelObject, Statable, Resultable, Dependable):
     	
     	self.license=None
     	
-    	self.affected=0
+    	self.affectedProjects=[]
         
     	#############################################################
     	#
@@ -212,6 +212,14 @@ class Project(NamedModelObject, Statable, Resultable, Dependable):
         
     def getDescription(self):
         return str(self.xml.description) or self.getModule().getDescription()    
+        
+    def getLimitedDescription(self, limit=60):
+        desc=str(self.xml.description) or self.getModule().getDescription()    
+        if len(desc) > limit:
+            desc=desc[:limit]
+            desc+='...'
+        
+        return desc
         
     def getMetadataLocation(self):
         if self.xml.href and str(self.xml.href): return self.xml.href
@@ -277,8 +285,16 @@ class Project(NamedModelObject, Statable, Resultable, Dependable):
         return self.getModule().getStats().getLastUpdated()  
         
     def determineAffected(self):
-        if self.affected: return self.affected
+        if self.affectedProjects: return len(self.affectedProjects)
+        self.gatherAffected()        
+        return len(self.affectedProjects)
         
+    def determineAffectedProjects(self):
+        if self.affectedProjects: return self.affectedProjects
+        self.gatherAffected()        
+        return self.affectedProjects
+        
+    def gatherAffected(self):
         # Look through all dependees
         for project in self.getFullDependeeProjectList():
             cause=project.getCause()
@@ -286,9 +302,8 @@ class Project(NamedModelObject, Statable, Resultable, Dependable):
             if cause:
                 # The something was this project
                 if cause == self:
-                    self.affected += 1            
-        
-        return self.affected
+                    if not project in self.affectedProjects:
+                        self.affectedProjects.append[project]
         
     def propagateErrorStateChange(self,state,reason,cause,message):
         

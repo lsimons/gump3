@@ -44,6 +44,7 @@ from gump.model.workspace import Workspace
 from gump.model.module import Module
 from gump.model.project import Project
 
+from gump.output.nag import Nagger
 from gump.output.statsdb import StatisticsGuru
 from gump.output.xref import XRefGuru
 from gump.core.gumprun import *
@@ -1497,8 +1498,13 @@ This page helps Gumpmeisters (and others) observe community progress.
                 for nagEntry in project.xml.nag:
                     toaddr=getattr(nagEntry,'to') or workspace.mailinglist
                     fromaddr=getStringFromUnicode(getattr(nagEntry,'from') or workspace.email)
-                    detailsList.createEntry('Nag To: ').createFork('mailto:'+toaddr,toaddr)
-                    detailsList.createEntry('Nag From: ').createFork('mailto:'+fromaddr,fromaddr)
+                    detailsList.createEntry('Notify To: ').createFork('mailto:'+toaddr,toaddr)
+                    detailsList.createEntry('Notify From: ').createFork('mailto:'+fromaddr,fromaddr)
+                    
+            
+            detailsList.createEntry('Notify E-mail').createLink(
+                            gumpSafeName(project.getName()) + '_notify.html',
+                            'Contents')   
         elif not project.isPackaged() and project.hasBuildCommand():            
             document.createWarning('This project does not utilize Gump nagging.')  
                              
@@ -1653,6 +1659,20 @@ This page helps Gumpmeisters (and others) observe community progress.
                 log.error('Failed to diagram dependencies for [' + project.getName() + ']', exc_info=1)
         
         document.serialize()
+        
+        if project.xml.nag:
+            document=XDocDocument('Project Details : ' + project.getName(),	\
+                    self.resolver.getFile(project, \
+                                    project.getName() + '_notify', \
+                                        '.xml'))     
+     
+            nagSection=document.createSection('Notification')
+            nagSection.createParagraph('This is the notification mail that is to be sent')
+            nagger=Nagger(run)
+            content=nagger.getNamedTypedContent(project)            
+            nagSection.createSource(content)
+                    
+            document.serialize()
         
         # Document the project XML
     #    x=startXDoc(getProjectXMLDocument(workspace,modulename,project.name))

@@ -362,6 +362,25 @@ and/or contact general@gump.apache.org.
             content += ', and has been outstanding for ' + `duration` + ' runs'
         
         content += '. '
+        
+        if isinstance(object,Project) and affected:
+            affectedProjects=object.determineAffectedProjects()
+            if 1 or ((duration and duration > 3) and affectedProjects):
+                #
+                # Show those negatively affected
+                #
+                content += 'The following are affected:\n'
+            
+                for project in affectedProjects:
+                    content += '    - ' + project.getName() 
+                    
+                    if project.hasDescription():
+                        content += '  '
+                        content += project.getLimitedDescription()
+                        
+                    content += '\n'
+            
+                content += '\n'            
             
         content += self.getGenericContent(object,feedPrefix)
         
