@@ -189,7 +189,7 @@
 
     <xsl:for-each select="project">
       <xsl:sort select="@defined-in"/>
-      <xsl:if test="defined-in">
+      <xsl:if test="@defined-in">
         <xsl:variable name="defined-in" select="@defined-in"/>
         <xsl:if test="not(preceding::project[@defined-in=$defined-in])">
           <xsl:text>bash publish.sh project/</xsl:text>
