@@ -375,8 +375,10 @@
         <home nested="instrument-manager"/>
         <jar name="target/excalibur-instrument-manager-@@DATE@@.jar"
              id="main"/>
-        <jar name="target/excalibur-instrument-manager-interfaces-@@DATE@@.jar"
+        <jar name="target/excalibur-instrument-manager-@@DATE@@-api.jar"
              id="interfaces"/>
+        <jar name="target/excalibur-instrument-manager-@@DATE@@-impl.jar"
+             id="impl"/>
 
         <nag from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"
                 to="dev@avalon.apache.org"/>
@@ -665,6 +667,8 @@
         </ant>
 
         <depend project="excalibur-pool" inherit="all"/>
+        <!-- needed for tests -->
+        <depend project="excalibur-component"/>
 
         <work nested="pool/target/classes"/>
         <work nested="pool/target/test-classes"/>
