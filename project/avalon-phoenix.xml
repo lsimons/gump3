@@ -36,6 +36,8 @@
              id="spice-xmlpolicy"/>
         <jar name="spice-classman/spice-classman-1.0/spice-classman-1.0.jar"
              id="spice-classman"/>
+        <jar name="spice-classman/spice-classman-1.0/lib/excalibur-extension-1.0a.jar"
+             id="excalibur-extension"/>
     </project>
     
     <project name="avalon-phoenix">
