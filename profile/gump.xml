@@ -321,6 +321,7 @@
   <repository href="repository/tigris.xml"/>
   <repository href="repository/sourceforge.xml"/>
   <repository href="repository/whichever.xml"/>
+  <repository href="repository/w3c.xml"/>
   <repository href="repository/ws.xml"/>
   <repository href="repository/xml.xml"/>
 

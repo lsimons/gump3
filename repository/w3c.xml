@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<repository name="w3c" type="cvs">
+  <title>W3C</title>
+  <home-page>http://www.w3.org/</home-page>
+  <cvsweb>http://dev.w3.org/cvsweb/</cvsweb>
+
+  <root>
+    <method>pserver</method>
+    <user>anonymous</user>
+    <password>anonymous</password>
+    <hostname>dev.w3.org</hostname>
+    <path>/sources/public</path>
+  </root>
+</repository>
