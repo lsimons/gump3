@@ -22,11 +22,13 @@
       <property name="jaxp.home" reference="home" project="jaxp1.1"/>
       <property name="jmx.home" reference="home" project="jmx"/>
       <property name="jdom.home" reference="home" project="jdom"/>
+      <property name="struts.home" reference="home" project="jakarta-struts"/>
       <depend property="jta.jar"     project="jta"/>
       <depend property="junit.jar"   project="junit"/>
       <depend property="log4j.jar"   project="jakarta-log4j" id="log4j"/>
       <depend property="servlet.jar" project="jakarta-servletapi"/>
     </ant>
+
     <depend project="dist-ant"/>
     <depend project="xml-xerces"/>
     <depend project="xml-xalan2"/>
@@ -34,8 +36,10 @@
     <option project="jmx"/>
     <depend project="jakarta-tomcat-4.0"/>
     <depend project="commons-httpclient"/>
+    <depend project="jakarta-struts"/>
     <work nested="build/classes"/>
     <work nested="build/client/classes"/>
+
     <home nested="dist"/>
     <jar name="client/lib/webdavlib.jar"/>
     <jar name="lib/manager.jar"/>
