@@ -129,25 +129,35 @@ class OnDemandRunner(GumpRunner):
         
         printTopRefs(100,'Before Loop')
         
+        # The key information
         gumpSet=self.run.getGumpSet()
-        
+        gumpOptions=self.run.getOptions() 
         workspace = self.run.getWorkspace()
         
-        if workspace.isMultithreading() and workspace.hasUpdaters():
-            # Experimental...
-            self.spawnUpdateThreads(workspace.getUpdaters())
+        if gumpOptions.isUpdate():
+            if workspace.isMultithreading() and workspace.hasUpdaters():
+                # Experimental...
+                self.spawnUpdateThreads(workspace.getUpdaters())
+        
+        # The project TODO list...
+        if gumpOptions.isQuick():
+            sequence=gumpSet.getProjects()
+        else:
+            sequence=gumpSet.getProjectSequence()
         
         # In order...
-        for project in gumpSet.getProjectSequence():
+        for project in sequence:
 
             # Process the module, upon demand
             module=project.getModule()
-            if not module.isUpdated():
-                log.debug('Update module *inlined* ' + `module` + '.')     
-                self.performUpdate(module)
+            if gumpOptions.isUpdate():
+                if not module.isUpdated():
+                    log.debug('Update module *inlined* ' + `module` + '.')     
+                    self.performUpdate(module)
 
-            # Process the project
-            self.performBuild(project)
+            if gumpOptions.isBuild():
+                # Process the project
+                self.performBuild(project)
             
             # Seems a nice place to peek/clean-up...    
             #printTopRefs(100,'Before Loop GC')

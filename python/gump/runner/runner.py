@@ -160,7 +160,7 @@ class GumpRunner(RunSpecific):
         
         log.debug('Perform run using [' + `self` + ']')
         
-        self.performRun()
+        return self.performRun()
 
 def getRunner(run):
     from gump.runner.demand import OnDemandRunner
