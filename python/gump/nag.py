@@ -73,6 +73,7 @@ from gump.conf import *
 from gump.context import *
 from gump.model import *
 from gump.mailer import *
+from gump.document import getContextAbsoluteUrl
 
 def nag(workspace,context,moduleFilterList=None,projectFilterList=None):
     if STATUS_FAILED==context.status:
@@ -99,7 +100,7 @@ def nag(workspace,context,moduleFilterList=None,projectFilterList=None):
                 
 def nagWorkspace(workspace,context):
     """ Nag for the workspace """
-    content=getContext(context, "Workspace ... \n")
+    content=getContent(workspace, context, "Workspace ... \n")
     email=EmailMessage(workspace.prefix+': Gump Workspace Problem ',content)
     mail([ workspace.mailinglist ],workspace.email,email,workspace.mailserver)
   
@@ -111,9 +112,11 @@ def nagProject(workspace,context,module,mctxt,project,pctxt):
     # Form the content...
     #
     content+="----------------------------------------------------\n"
-    content+=getContent(mctxt,"Module: " + module.name + "\n")
-    content+=getContent(pctxt,"Project: " + project.name + "\n"    )
+    content+=getContent(workspace,mctxt,"Module: " + module.name + "\n")
+    content+="\n\n\n"
     content+="----------------------------------------------------\n"
+    content+=getContent(workspace,pctxt,"Project: " + project.name + "\n"    )
+    content+="\n\n\n"
         
     for nagEntry in project.nag:
         #
@@ -124,17 +127,17 @@ def nagProject(workspace,context,module,mctxt,project,pctxt):
         fromaddr=getattr(nagEntry,'from',workspace.mailinglist)
         
         # We send to a list, but a list of one is fine..
-        toaddrs=[ toaddr ]
+        toaddrs=[ 'ajack@trysybase.com' ]
         
         # Fire ...
         mail(toaddrs,fromaddr,email,workspace.mailserver) 
     
-def getContent(context,message=''):
+def getContent(workspace,context,message=''):
     content=''
     
     # Optional message
     if message:
-        content=message        
+        content=message             
     
     #
     # Add status (and reason)
@@ -159,5 +162,38 @@ def getContent(context,message=''):
         content+="\n\nWork Items:\n"
         for workitem in context.worklist:
             content+=workitem.overview()+"\n"
-            
+                           
+    #
+    # Link them back here...
+    #
+    url=getContextAbsoluteUrl(workspace.logurl,context)
+    content += "URL: " + url + "\n"
+    
     return content
+    
+    
+if __name__=='__main__':
+
+  # init logging
+  logging.basicConfig()
+
+  #set verbosity to show all messages of severity >= default.logLevel
+  log.setLevel(default.logLevel)
+
+  args = handleArgv(sys.argv,0)
+  ws=args[0]
+  ps=args[1]
+
+  context=GumpContext()
+      
+  # get parsed workspace definition
+  from gump import load
+  workspace=load(ws, context)
+  
+  nagWorkspace(workspace,context)
+  
+  module=Module.list['jakarta-gump']
+  project=Project.list['gump']
+  (mctxt,pctxt)=context.getContextsForProject(project)
+  nagProject(workspace,context,module,mctxt,project,pctxt)
+  

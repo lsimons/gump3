@@ -82,7 +82,7 @@ def mail(toaddrs,fromaddr,message,server='localhost'):
        		message.subject,
        		message.text,
        		default.signature))
-
+    
     try:
         server = smtplib.SMTP(server)
         server.set_debuglevel(1)

@@ -1135,6 +1135,9 @@ def getWorkDocument(rootdir,name,type,wdir=None):
     if not wdir: wdir=getWorkDir(rootdir,type)
     return os.path.join(wdir,wname+'.xml')
     
+def getContextAbsoluteUrl(root,context):
+    return root+getContextUrl(context,0);
+        
 def getContextUrl(context,depth=1):
     if isinstance(context,GumpContext):
         url=getWorkspaceRelativeUrl(depth)
