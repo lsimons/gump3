@@ -31,6 +31,10 @@
     <ant target="gump">
       <sysproperty name="build.clonevm" value="true"/>
       <property name="lib.jce" project="jce" reference="jarpath"/>
+      <property name="jce.download.md5"
+        value="85c64cd754719a4bc8da7e9aa0e113fd"/>
+      <property name="jce.download.sha1"
+        value="c1f0e975e8c8e0a0105787b249a50615b485d109"/>
     </ant>
 
     <depend project="ant" inherit="runtime"/>
