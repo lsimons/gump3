@@ -70,6 +70,9 @@
 
   <project name="java_cup">
     <url href="http://www.cs.princeton.edu/~appel/modern/java/CUP/"/>
+    <description>
+      Parser Generator for Java
+    </description>
     <home nested="java"/>
     <jar name="bin/java_cup.jar"/>
     <jar name="bin/runtime.jar"/>
@@ -77,6 +80,9 @@
 
   <project name="jlex">
     <url href="http://www.cs.princeton.edu/~appel/modern/java/JLex/"/>
+    <description>
+      Lexical Analyzer Generator for Java
+    </description>
     <home nested="java"/>
     <jar name="bin/JLex.jar"/>
   </project>

@@ -43,6 +43,11 @@
 
   <project name="minml2">
     <url href="http://www.wilson.co.uk/xml/minml2.htm"/>
+    <description>
+      Namespace aware minimal XML parser
+    </description>
+
+
     <jar name="jjar/lib/MinML2.jar"/>
   </project>
 

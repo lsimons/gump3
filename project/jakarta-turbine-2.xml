@@ -35,12 +35,18 @@
   
   <project name="webmacro">
     <url href="http://www.webmacro.org/"/>
+    <description>
+      Java servlet framework with a template script language.
+    </description>
     <home nested="lib"/>
     <jar name="webmacro-0.94.jar"/>
   </project>
 
   <project name="helma-xmlrpc">
     <url href="http://xmlrpc.helma.org/"/>
+    <description>
+      Java implementation of XML-RPC.  Superceeded by Apache xml-rpc.
+    </description>
     <home nested="lib"/>
     <jar name="xmlrpc.jar"/>
   </project>

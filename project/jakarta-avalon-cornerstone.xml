@@ -33,6 +33,11 @@
   </project>
 
   <project name="jesktop">
+    <url href="http://www.jesktop.org/"/>
+    <description>
+      The Java Desktop
+    </description>
+
     <home nested="apps/jesktop"/>
     <jar name="lib/jesktop-api.jar"/>
     <jar name="lib/jesktop-frimble.jar"/>

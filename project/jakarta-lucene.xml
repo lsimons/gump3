@@ -24,6 +24,12 @@
 
   <!-- not available via CVS -->
   <project name="javacc">
+    <url href="http://www.webgain.com/products/java_cc/"/>
+    <description>
+       Java Compiler Compiler - The Java Parser Generator
+       <font color="red">Potential license issues?</font>
+    </description>
+
     <jar name="lib/JavaCC.zip"/>
   </project>
 

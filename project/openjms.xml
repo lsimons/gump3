@@ -30,6 +30,11 @@
   </project>
 
   <project name="antlr">
+    <url href="http://www.antlr.org/"/>
+    <description>
+      ANother Tool for Language Recognition
+    </description>
+
     <jar name="lib/antlrall_2.7.1.jar"/>
     <jar name="lib/antlr_2.7.1.jar"/>
   </project>

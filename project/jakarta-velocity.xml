@@ -45,12 +45,21 @@
 
   <project name="antlr.runtime">
     <url href="http://www.antlr.org/"/>
+    <description>
+      ANother Tool for Language Recognition
+    </description>
+
     <jar name="build/lib/antlr-runtime.jar"/>
   </project>
 
   <!-- not available via CVS -->
 
   <project name="werken.xpath">
+    <description>
+      werken.xpath is an implementation of the W3C XPath Recommendation, 
+      on top of the JDOM library.
+      <font color="red">Note: werken.xpath will soon be deprecated</font>
+    </description>
     <url href="http://code.werken.com/"/>
     <jar name="build/lib/werken.xpath.jar"/>
   </project>

@@ -28,6 +28,10 @@
 
   <project name="dnsjava">
     <url href="http://enigma.xbill.org/dnsjava/"/>
+    <description>
+      An implementation of DNS in Java
+    </description>
+
     <jar name="lib/dnsjava-1.2.3.jar" />
   </project>
 

@@ -24,7 +24,11 @@
   </project>
 
   <project name="pngencoder">
-    <url href="http://catcode.com/pngencoder/" />
+    <url href="http://catcode.com/pngencoder/"/>
+    <description>
+      Convert a Java Image to PNG
+    </description>
+
     <jar name="lib/util.jar"/>
   </project>
 
