@@ -59,19 +59,15 @@ class Mock:
         pass
 
 class MockRun:
-    def __init__(self,workspace,options,gumpSet):
+    def __init__(self,workspace,options):
         self.workspace = workspace
         self.options = options
-        self.gumpSet = gumpSet
         
     def getWorkspace(self):
         return self.workspace
     
     def getOptions(self):
         return self.options
-    
-    def getGumpSet(self):
-        return self.gumpSet
 
 class MockDatabase:
     def __init__(self):
@@ -85,8 +81,7 @@ class MockObjects:
         self.log = MockLog()
         self.workspace = MockWorkspace()
         self.options = MockOptions()
-        self.gumpSet = MockGumpSet()
-        self.run = MockRun(self.workspace,self.options,self.gumpSet)
+        self.run = MockRun(self.workspace,self.options)
         self.cursor = MockCursor()
         self.conn = MockConnection(self.cursor)
         self.database = MockDatabase()

@@ -48,8 +48,11 @@ WARNING = 3
 ERROR = 2
 CRITICAL = 1
 
+def print_help():
+    parser = get_parser()
+    parser.print_help()
 
-def get_parser(_homedir, _hostname, _projects, _workdir, _logdir, _workspace):
+def get_parser(_homedir=None, _hostname=None, _projects=None, _workdir=None, _logdir=None, _workspace=None):
     """Pygump uses the optparse package to provide the CLI.
     
     To add new options to pygump, change this method and document the changes
@@ -65,35 +68,39 @@ def get_parser(_homedir, _hostname, _projects, _workdir, _logdir, _workspace):
     """
     # TODO: make sure no CLI settings are overridden!
     from optparse import OptionParser
-    parser = OptionParser()
+    usage = "$0 run [options ...]"
+
+    parser = OptionParser(usage=usage)
     parser.add_option("--debug",
                       action="store_true",
-                      default=False)
+                      default=False,
+                      help="print extra information")
     parser.add_option("--homedir",
                       action="store",
-                      default=_homedir)
+                      default=_homedir,
+                      help="the base directory for gump")
     parser.add_option("--hostname",
                       action="store",
-                      default=_hostname)
-    parser.add_option("-p",
-                      "--project",
-                      action="append",
-                      dest="projects",
-                      default=_projects)
+                      default=_hostname,
+                      help="the hostname gump will use")
     parser.add_option("--workdir",
                       action="store",
-                      default=_workdir)
+                      default=_workdir,
+                      help="the working directory gump will use")
     parser.add_option("--logdir",
                       action="store",
-                      default=_logdir)
+                      default=_logdir,
+                      help="the directory gump will write logs to")
     parser.add_option("-w",
                       "--workspace",
                       action="store",
-                      default=_workspace)
+                      default=_workspace,
+                      help="absolute path to the workspace gump will use")
     parser.add_option("--no-updates",
                       action="store_true",
                       dest="no_updates",
-                      default=False)
+                      default=False,
+                      help="skip cvs and svn updates")
     return parser
 
 

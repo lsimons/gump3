@@ -76,17 +76,9 @@ function usage
       ;;
     run)
       echo "
-      Run pygump.
-
-      Usage:
-        $0 run [gump.py-args ...]
-
-      See http://wiki.apache.org/gump/GumpCommandLineOptions for more
-      information about the options pygump accepts. The one mandatory
-      argument is the "project expression" detailing what to run. You
-      will usually want "all" here.
+Run pygump.
 "
-# TODO: document Pygump CLI args!
+      do_run "from main import print_help; print_help()" $@
       ;;
     kill)
       echo "
