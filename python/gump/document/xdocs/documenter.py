@@ -360,9 +360,22 @@ class XDocDocumenter(Documenter):
         
         optTable=optSection.createTable(['Name','Value'])
         opts=0
+               
+        descs={ 'Build':'Perform Build',
+                'XDocs':'Generate XDOCS',
+                'Statistics':'Update Statistics (to database)',
+                'Verbose':'Verbose Run',
+                'Cache':'Cache metadata (don\'t go to remote source)',
+                'Text':'Text Output',
+                'Official':'Official Run (e.g. nag notifies, etc.)',
+                'Results':'Generate Results' }
+                
         # iterate over this suites properties
         for (name,value) in getBeanAttributes(options).items():
-            optTable.createEntry(name,value)
+            desc=name
+            if descs.has_key(name):
+                desc = descs[name] + ' (' + name + ')'                
+            optTable.createEntry(desc,value)
             opts+=1
             
         if not opts: optTable.createEntry('None')
@@ -375,24 +388,13 @@ class XDocDocumenter(Documenter):
         envSection=document.createSection('Gump Environment')
         envSection.createParagraph(
             """The environment that this Gump run was within.""")     
-        
-        descs={ 'Build':'Perform Build',
-                'XDocs':'Generate XDOCS',
-                'Statistics':'Update Statistics (to database)',
-                'Verbose':'Verbose Run',
-                'Cache':'Cache metadata (don\'t go to remote source)',
-                'Text':'Text Output',
-                'Official':'Official Run (e.g. nag notifies, etc.)',
-                'Results':'Generate Results' }
+ 
         propertiesSection=envSection.createSection('Properties')
         envTable=propertiesSection.createTable(['Name/Description','Value'])
         envs=0
         # iterate over this suites properties
         for (name,value) in getBeanAttributes(environment).items():
-            desc=name
-            if descs.has_key(name):
-                desc = descs[name] + ' (' + name + ')'
-            envTable.createEntry(desc,str(value))
+            envTable.createEntry(name,str(value))
             envs+=1            
         if not envs: envTable.createEntry('None')
         
@@ -1758,12 +1760,11 @@ This page helps Gumpmeisters (and others) observe community progress.
                                                       
         # Display nag information
         if project.hasNotifys():
-            if project.isVerboseOrDebug():
-                for pair in project.getNotifys():
-                    toaddr=pair.getToAddress()
-                    fromaddr=pair.getFromAddress()
-                    detailsList.createEntry('Notify To: ').createFork('mailto:'+toaddr,toaddr)
-                    detailsList.createEntry('Notify From: ').createFork('mailto:'+fromaddr,fromaddr)
+            for pair in project.getNotifys():
+                toaddr=pair.getToAddress()
+                fromaddr=pair.getFromAddress()
+                detailsList.createEntry('Notify To: ').createFork('mailto:'+toaddr,toaddr)
+                detailsList.createEntry('Notify From: ').createFork('mailto:'+fromaddr,fromaddr)
                     
         elif not project.isPackaged() and project.hasBuilder():            
             document.createWarning('This project does not utilize Gump notification.')  

@@ -58,6 +58,8 @@ from gump.model.depend import  ProjectDependency
 from gump.model.stats import *
 from gump.model.state import *
 
+import gump.integration.depot
+
 import gump.java.helper
 
 
@@ -100,58 +102,52 @@ class GumpBuilder(gump.run.gumprun.RunSpecific):
         # :TODO: Code this nicer, perhaps...    
         if project.isPackaged():             
             self.performProjectPackageProcessing(project, languageHelper, stats)
-            return
-                
-        # Do this even if not ok
-        self.performPreBuild(project, languageHelper, stats)
+        else:
+            # Do this even if not ok
+            self.performPreBuild(project, languageHelper, stats)
 
-        if project.okToPerformWork():        
-            log.debug('Performing Build Upon: [' + `project.getPosition()` + '] ' + project.getName())
+            if project.okToPerformWork():        
+                log.debug('Performing Build Upon: [' + `project.getPosition()` + '] ' + project.getName())
 
-            # Turn on --verbose or --debug if failing ...
-            if stats:
-                if (not STATE_SUCCESS == stats.currentState) and \
-                        not project.isVerboseOrDebug():
-                    if stats.sequenceInState > SIGNIFICANT_DURATION:
-                        project.addInfo('Enable "debug" output, due to a sequence of %s previous errors.' % stats.sequenceInState)
-                        project.setDebug(True)
-                    else:
-                        project.addInfo('Enable "verbose" output, due to %s previous error(s).' % stats.sequenceInState)    
-                        project.setVerbose(True)
+                # Turn on --verbose or --debug if failing ...
+                #if stats:
+                #    if (not STATE_SUCCESS == stats.currentState) and \
+                #            not project.isVerboseOrDebug():
+                #        if stats.sequenceInState > SIGNIFICANT_DURATION:
+                #            project.addInfo('Enable "debug" output, due to a sequence of %s previous errors.' % stats.sequenceInState)
+                #            project.setDebug(True)
+                #        else:
+                #            project.addInfo('Enable "verbose" output, due to %s previous error(s).' % stats.sequenceInState)    
+                #            project.setVerbose(True)
 
-            # Pick your poison..
-            if project.hasScript():
-                self.script.buildProject(project, languageHelper, stats)
-            elif project.hasAnt():
-                self.ant.buildProject(project, languageHelper, stats)
-            elif project.hasMaven():
-                self.maven.buildProject(project, languageHelper, stats)
-            
-            if not project.okToPerformWork() and not project.isDebug():
-                # Display...
-                project.addInfo('Enable "debug" output, due to build failure.')
-                project.setDebug(1)
-                    
-        # Do this even if not ok
-        self.performPostBuild( project, languageHelper, stats )
+                # Pick your poison..
+                if project.hasScript():
+                    self.script.buildProject(project, languageHelper, stats)
+                elif project.hasAnt():
+                    self.ant.buildProject(project, languageHelper, stats)
+                elif project.hasMaven():
+                    self.maven.buildProject(project, languageHelper, stats)
+              
+            # Do this even if not ok
+            self.performPostBuild( project, languageHelper, stats )
+        
+            # If not ok, we might have some artifacts in the repository that
+            # are of value...
+            if not project.okToPerformWork() and project.hasOutputs():
+                self.extractFromRepository(project, languageHelper)
     
-        if project.isFailed():
-            log.warn('Failed to build project #[' + `project.getPosition()` + '] : [' + project.getName() + '], state:' \
-                    + project.getStateDescription())                                              
+            if project.isFailed():
+                log.warn('Failed to build project #[' + `project.getPosition()` + '] : [' + project.getName() + '], state:' \
+                        + project.getStateDescription())                                              
 
     def performDelete(self,project,delete,index=0):
-        """ Perform the delete command for a <delete entry """
+        """ 
+        Perform the delete command for a <delete entry 
         
-        return
+        no Return
+        """
         
-        # :TODO: Re-instate this some time, when can delete
-        # non-empty directories.
-        
-        basedir=os.path.abspath(project.getModule().getWorkingDirectory() or dir.base)
-    
-        #
         # Delete a directory and/or a file
-        #
         if delete.hasDirectory():
             dir=delete.getDirectory()
             try:
@@ -195,9 +191,12 @@ class GumpBuilder(gump.run.gumprun.RunSpecific):
             project.addError('   <mkdir without \'dir\' attribute.')
             raise RuntimeError('Bad <mkdir, missing \'dir\' attribute')
                
-    def performPreBuild( self, project, language, stats ):
+    def performPreBuild( self, project, languageHelper, stats ):
+        
         """ 
         	Perform pre-build Actions 
+        	
+        	No return.
         """
        
         log.debug(' ------ Performing pre-Build Actions (mkdir/delete) for : '+ project.getName())
@@ -235,11 +234,12 @@ class GumpBuilder(gump.run.gumprun.RunSpecific):
         if startedOk and not project.okToPerformWork():
             log.warn('Failed to perform pre-build on project [' + project.getName() + ']')
 
-    def performPostBuild(self, project, language, stats):
+    def performPostBuild(self, project, languageHelper, stats):
         """
         	Perform Post-Build Actions
+        	
+        	No return.
         """
-     
         log.debug(' ------ Performing post-Build Actions (check jars) for : '+ project.getName())
 
         if project.okToPerformWork():
@@ -247,7 +247,7 @@ class GumpBuilder(gump.run.gumprun.RunSpecific):
                 outputs = []
                     
                 # Ensure the jar output were all generated correctly.
-                outputsOk=1
+                outputsOk=True
                 for jar in project.getJars():
                     jarPath=os.path.abspath(jar.getPath())
                     # Add to list of outputs, in case we
@@ -268,7 +268,7 @@ class GumpBuilder(gump.run.gumprun.RunSpecific):
                                           
                         # Add to list of outputs, in case we
                         # fail to find, and need to go list 
-                        # directoiries
+                        # directories
                         outputs.append(licensePath)
                             
                         if not os.path.exists(licensePath):
@@ -319,7 +319,7 @@ class GumpBuilder(gump.run.gumprun.RunSpecific):
                 catDirectoryContentsToFileHolder(project, reportDir, FILE_TYPE_OUTPUT)
     
                         
-    def performProjectPackageProcessing(self, project, language, stats):
+    def performProjectPackageProcessing(self, project, languageHelper, stats):
         """
         	Perform Package Processing Actions
         """
@@ -394,7 +394,75 @@ class GumpBuilder(gump.run.gumprun.RunSpecific):
                 # List them, why not...
                 listDirectoryToFileHolder(project,project.getHomeDirectory(),
                     FILE_TYPE_PACKAGE, 'list_package_'+project.getName())                                                   
+
+    def extractFromRepository(self, project, languageHelper):
+        """
+            If failed to build, see if we have a copy in the repo...
+            
+            No return.
+        """
         
+        if not project.hasOutputs(): return
+     
+        log.info(' ------ Attempt Repository Search for : '+ project.getName())
+
+        # See if we have any...
+        artifacts = self.repository.extractMostRecentGroup(project.getArtifactGroup())
+        if not artifacts:
+            self.checkUpstreamRepositories(project)
+            # Then try again...
+            artifacts = self.repository.extractMostRecentGroup(project.getArtifactGroup())
+            
+        
+        # :TODO:
+        # If not artifacts, download using Depot?
+        
+        artifactsOk=True
+            
+        if artifacts:       
+        
+            # See if we can use 'stored' artifacts.
+            for jar in project.getJars():
+                id = jar.getId()
+                
+                # Use the repository one...
+                if artifacts.has_key(id):
+                    (aid,date,extn,path)=artifacts[id]                
+                    
+                    log.info('Utilize %s from Gump artifact repository for id' % (path, id))
+                    
+                    # Stash this fallback...
+                    jar.setPath(path)
+                else:
+                    log.info('Failed to find artifact for id %s (Gump Repo has %s)' % \
+                            (id, artifact.keys()))
+                            
+                    artifactsOk=False
+                    break
+                    
+            if artifactsOk:
+                log.debug(' ------ Extracted (fallback) artifacts from Repository : '+ project.getName())                                        
+       
+    def checkUpstreamRepositories(self,project):
+        """
+        
+        See if we can download something...
+        
+        """
+        if self.run.getEnvironment().noDepot: return
+        
+        log.info(' ------ Check upstream repositories for : '+ project.getName())    
+        
+        cmd=gump.integration.depot.getGroupUpdateCommand(project.getArtifactGroup(),
+                    self.repository.getRepositoryDir())
+        
+        # Execute the command ....
+        cmdResult=execute(cmd,self.run.getWorkspace().tmpdir)
+    
+        # Update context with the fact that this work was done
+        work=CommandWorkItem(WORK_TYPE_UPDATE,cmd,cmdResult)
+        project.performedWork(work)
+         
     def preview(self,project,languageHelper):
         """
         Preview what a build would do.

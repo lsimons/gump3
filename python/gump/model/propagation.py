@@ -54,9 +54,7 @@ class Propogatable(Stateful):
                 # List of things that caused issues...
                 self.addCause(cause)
                                    
-                #
                 # Describe the problem
-                #
                 if not message:
                     message = lower(stateDescription(state))
                     if not REASON_UNSET == reason:

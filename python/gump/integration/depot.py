@@ -23,6 +23,8 @@ import sys
 from gump import log
 from gump.core.config import *
 
+import gump.process.command
+
 def getDepotHome(visual=True):
     if os.environ.has_key('DEPOT_UPDATE_HOME'):        
         return os.environ['DEPOT_UPDATE_HOME']
@@ -37,6 +39,28 @@ def getDepotUpdatePath():
 def getDepotUpdateCmd():
     return sys.executable+' '+getDepotUpdatePath()+' update'
     
+def getGroupUpdateCommand(group,repository):
+    """
+    	Create the Depot command line for updating this group
+    	from an upstream repository.    	
+    """
+        
+    log.debug("Artifact Update Group: " + group)
+
+    # Prepare Artifact checkout/update command...
+    cmd=gump.process.command.Cmd(getDepotUpdateCmd(), 'update_'+group, repository)
+        
+    # Group (mandatory)
+    cmd.addParameter('-g',group)
+    
+    # Group (mandatory, if no URL)
+    cmd.addParameter('-rs','gump')
+        
+    # Target
+    cmd.addParameter('-t')
+    cmd.addParameter(repository)  
+   
+    return cmd    
     
 
 

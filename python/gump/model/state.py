@@ -24,14 +24,16 @@ STATE_UNSET=0
 STATE_NONE=1
 STATE_SUCCESS=2
 STATE_FAILED=3
-STATE_STALE=4
+STATE_STALE_SUCCESS=4
+STATE_STALE_FAILED=5
+STATE_FUZZY_SUCCESS=5
+STATE_FUZZY_FAILED=4
 STATE_PREREQ_FAILED=5
 STATE_COMPLETE=6
 
 stateNames = { STATE_UNSET : "Unset",
            STATE_NONE : "NoWork",
            STATE_SUCCESS : "Success",
-           STATE_STALE : "Stale",
            STATE_FAILED : "Failed",
            STATE_PREREQ_FAILED : "PrereqFailed",
            STATE_COMPLETE : "Complete" }
@@ -40,7 +42,6 @@ stateDescriptions = { STATE_UNSET : "Unset",
            STATE_NONE : "No Work Performed",
            STATE_SUCCESS : "Success",
            STATE_FAILED : "Failed",
-           STATE_STALE : "Stale",
            STATE_PREREQ_FAILED : "Prerequisite Failed",
            STATE_COMPLETE : "Complete" }
 
@@ -54,7 +55,6 @@ namedState = { "Unset" : STATE_UNSET,
            "NoWork" : STATE_NONE,
             "Success" : STATE_SUCCESS,
             "Failed" : STATE_FAILED,
-            "Stale" : STATE_STALE,
             "PrereqFailed" : STATE_PREREQ_FAILED,
             "Complete"  : STATE_COMPLETE}
             
@@ -62,7 +62,6 @@ describedState = { "Unset" : STATE_UNSET,
            "No Work Performed" : STATE_NONE,
             "Success" : STATE_SUCCESS,
             "Failed" : STATE_FAILED,
-            "Stale" : STATE_STALE,
             "Prerequisite Failed" : STATE_PREREQ_FAILED,
             "Complete"  : STATE_COMPLETE}
            
@@ -185,9 +184,7 @@ class StatePair:
         if self.isReasonUnset(): return ''
         return reasonDescription(self.getReason())
         
-    #
-    #
-    #
+    # Simple Tests
     def isSuccess(self):
         return STATE_SUCCESS == self.state
                 
@@ -196,7 +193,7 @@ class StatePair:
                 
     def isFailed(self):
         return STATE_FAILED == self.state
-        
+ 
     def isPrereqFailed(self):
         return STATE_PREREQ_FAILED == self.state
                 
@@ -211,11 +208,14 @@ class StatePair:
         return self.isUnset() or self.isOk()           
 
     def isOk(self):
-        return self.isSuccess() or self.isComplete()   
+        return self.isSuccess() or self.isComplete()
 
     def isNotOk(self):
-        return self.isFailed() or self.isPrereqFailed()
-               
+        return self.isFailed() 
+
+    def okToPerformWork(self):
+        return self.isUnsetOrOk() or self.isPrereqFailed()
+        
 class Stateful:
     def __init__(self):  
         """
@@ -241,8 +241,7 @@ class Stateful:
         return self.statePair.getStateDescription()
         
     def hasReason(self):
-        if self.statePair.isReasonUnset(): return 0
-        return 1
+        return self.statePair.isReasonUnset()
         
     def getReason(self):
         return self.statePair.reason
@@ -276,4 +275,8 @@ class Stateful:
 
     def isNotOk(self):
         return self.statePair.isNotOk() 
+        
+    def okToPerformWork(self):
+        return self.statePair.okToPerformWork() 
+        
                

@@ -111,8 +111,8 @@ class ArtifactUpdater(RunSpecific):
         #
         # Prepare Artifact checkout/update command...
         # 
-        cmd=Cmd(getDepotUpdateCmd(),	\
-                'update_'+module.getName(),	\
+        cmd=Cmd(getDepotUpdateCmd(),
+                'update_'+module.getName(),
                 module.getWorkspace().cvsdir)
         
         # Be 'quiet' (but not silent) unless requested otherwise.

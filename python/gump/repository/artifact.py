@@ -27,8 +27,13 @@ from gump.model import *
 
 from shutil import copyfile
 
+import re
 
 class ArtifactRepository:
+    
+    # Match {id}-gump-{date}.{extn} id=1, date=2, extn=3
+    ARTIFACT_RE=re.compile(r'^(.*)-gump-([0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]).(.*)$')
+    
     """
     	Represents a local (Gump produced) Artifacts Repository
     """
@@ -57,12 +62,13 @@ class ArtifactRepository:
         if not os.path.exists(rdir): os.makedirs(rdir)
         return rdir  
     
-    #
-    # Repository format is:
-    #
-    #	../{group}/jars/{output files}
-    #    
-    def getGroupDir(self,group,rdir=None):
+    def _getGroupDir(self,group,rdir=None):
+        """    
+        	Repository format is:
+    
+    		.../{group}/jars/{output files}
+        
+        """
         if not rdir: rdir=self.getRepositoryDir()
         gdir=os.path.abspath(os.path.join(rdir,group))
         if not os.path.exists(gdir): os.makedirs(gdir)
@@ -70,10 +76,38 @@ class ArtifactRepository:
         if not os.path.exists(jdir): os.makedirs(jdir)
         return jdir  
         
+    def getGroups(self):
+        """
+        Get all groups in the repository
+        """
+        return os.path.listdir(getRepositoryDir())
+        
+    def cleanRepository(self):
+        for group in self.getGroups():
+            try:
+                self.cleanRepositoryGroup(group)
+            except:
+                pass
+                
+    def cleanRepositoryGroup(self,group):
+        recent=self.extractMostRecentGroup(group)
+        if recent:
+            
+            # Locate (and make if needed) group.
+            gdir=self._getGroupDir(group)   
+        
+            for file in os.listdir(gdir):
+                match=ArtifactRepository.ARTIFACT_RE.match(file)
+                if match and not match.group(1) in recent.keys():
+                    print 'remove : ' + file
+                    
     def publish(self,group,artifact,id=None):
+        """
+        Publish an artifact ot the artifact repository.
+        """
         
         # Locate (and make if needed) group.
-        cdir=self.getGroupDir(group)
+        gdir=self.getGroupDir(group)
         
         # Extract name, to make relative to group
         artifactName=os.path.basename(artifact)
@@ -86,10 +120,57 @@ class ArtifactRepository:
             (artifactRoot, artifactExtn) = os.path.splitext(artifactName)
             artifactName=id + '-gump-' + default.date_s + artifactExtn
         
-        newArtifact=os.path.join(cdir,artifactName)
+        newArtifact=os.path.join(gdir,artifactName)
         
         # Do the file transfer..
         copyfile(artifact,newArtifact)
         
         log.info('Published %s to repository as %s at %s' % (artifact,artifactName, newArtifact))
+        
+        
+    def extractGroup(self,group):
+        """
+        Get all the sets of identifiers in this group
+        
+        Returns a tuple:
+        
+        1) map of list of tuples (id,date,extn,full name), keyed by date (string).
+        2) the latest date (most recent)
+        
+        """
+        
+        # Locate (and make if needed) group.
+        gdir=self._getGroupDir(group)   
+        
+        # See what we have
+        dates={}
+        mostRecent=''
+        for file in os.listdir(gdir):    
+            match=ArtifactRepository.ARTIFACT_RE.match(file) 
+            if match:
+                # Extract the pieces....
+                id=match.group(1)
+                date=match.group(2)
+                extn=match.group(3)
+                
+                # Group by date 
+                if not dates.has_key(date):
+                    dates[date]={}
+                dates[date][id]=(id,date,extn,match.group(0))
+                
+                # Keep track of latest...
+                if date > mostRecent:
+                    mostRecent=date
+                 
+        return (dates, mostRecent)
+        
+    def extractMostRecentGroup(self,group):
+         """
+         Get the newest set
+         
+         Returns a list of tuples (id,date,extn,full name)
+         """
+         (dates,mostRecent)=self.extractGroup(group)
+         if dates: return dates[mostRecent]
+         
         

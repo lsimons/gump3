@@ -441,11 +441,9 @@ class Dependable:
         
     def buildDependenciesMap(self,workspace):        
         
-        #
         # Provide backwards links  [Note: ant|maven might have added some
         # dependencies, so this is done here & not just with the direct
         # xml depend/option elements]
-        #
         for dependency in self.getDirectDependencies():
             dependProject=dependency.getProject()
             # Add us as a dependee on them
@@ -457,6 +455,14 @@ class Dependable:
             if dependency.getProject().getName()==name	\
                 and not dependency.isNoClasspath() :
                 return True            
+        return False
+
+    def uponFuzzy(self):
+        """
+        At least one of these dependencies is Fuzzy...
+        """
+        for dependency in self.getFullDependencies():
+            if dependency.getProject().isFuzzy(): return True
         return False
 
     # determine if this project is a prereq of any project on the todo list
