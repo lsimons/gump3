@@ -8,14 +8,18 @@
   <cvs repository="xml"/>
   
   <project name="xml-xindice">
-    <ant/>
+    <ant target="examples"/>
+
     <depend project="jakarta-ant"/>
     <depend project="xml-xerces"/>
     <depend project="xmldb"/>
     <depend project="infozone"/>
     <depend project="xml-xalan2"/>
     <depend project="openorb"/>
-    <jar name="java/lib/dbXML.jar"/>
+    <work nested="java/classes"/>
+
+    <home nested="java"/>
+    <jar name="lib/dbXML.jar"/>
   </project>
 
   <project name="xmldb">
