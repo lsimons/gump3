@@ -102,5 +102,180 @@
             to="avalon-dev@jakarta.apache.org"/>
     </project>
 
+    <project name="avalon-apps-httpproxy">
+        <package>org.apache.avalon.httpproxy</package>
+
+        <ant basedir="httpproxy"/>
+
+        <depend project="junit"/>
+        <depend project="jakarta-ant"/>
+        <depend project="jakarta-avalon"/>
+        <depend project="excalibur-i18n"/>
+        <depend project="jakarta-avalon-phoenix" inherit="runtime"/>
+        <depend project="jakarta-avalon-cornerstone"/>
+
+        <option project="checkstyle" inherit="runtime"/>
+
+        <home nested="httpproxy"/>
+
+        <jar name="build/lib/httpproxy-@@DATE@@.sar"/>
+
+        <nag from="Gump Integration Build &lt;avalon-dev@jakarta.apache.org&gt;"
+            to="avalon-dev@jakarta.apache.org"/>
+    </project>
+
+    <project name="avalon-apps-infomover">
+        <package>org.apache.avalon.infomover</package>
+
+        <ant basedir="infomover"/>
+
+        <depend project="junit"/>
+        <depend project="jakarta-ant"/>
+        <depend project="jakarta-avalon"/>
+        <depend project="jakarta-avalon-phoenix" inherit="runtime"/>
+        <depend project="jakarta-avalon-cornerstone"/>
+
+        <option project="checkstyle" inherit="runtime"/>
+
+        <home nested="infomover"/>
+
+        <jar name="build/lib/infomover-@@DATE@@.sar"/>
+
+        <nag from="Gump Integration Build &lt;avalon-dev@jakarta.apache.org&gt;"
+            to="avalon-dev@jakarta.apache.org"/>
+    </project>
+
+    <project name="avalon-apps-infomover">
+        <package>org.apache.avalon.infomover</package>
+
+        <ant basedir="infomover"/>
+
+        <depend project="junit"/>
+        <depend project="jakarta-ant"/>
+        <depend project="jakarta-avalon"/>
+        <depend project="jakarta-avalon-phoenix" inherit="runtime"/>
+        <depend project="jakarta-avalon-cornerstone"/>
+
+        <option project="checkstyle" inherit="runtime"/>
+
+        <home nested="infomover"/>
+
+        <jar name="build/lib/infomover-@@DATE@@.sar"/>
+
+        <nag from="Gump Integration Build &lt;avalon-dev@jakarta.apache.org&gt;"
+            to="avalon-dev@jakarta.apache.org"/>
+    </project>
+
+    <project name="avalon-apps-overlord">
+        <package>org.apache.avalon.overlord</package>
+
+        <ant basedir="overlord"/>
+
+        <depend project="junit"/>
+        <depend project="jakarta-ant"/>
+        <depend project="jakarta-avalon"/>
+        <depend project="jakarta-avalon-phoenix" inherit="runtime"/>
+        <depend project="jakarta-avalon-cornerstone"/>
+
+        <option project="checkstyle" inherit="runtime"/>
+
+        <home nested="overlord"/>
+
+        <jar name="build/lib/overlord-@@DATE@@.sar"/>
+
+        <nag from="Gump Integration Build &lt;avalon-dev@jakarta.apache.org&gt;"
+            to="avalon-dev@jakarta.apache.org"/>
+    </project>
+
+    <project name="avalon-apps-phyre">
+        <package>org.apache.avalon.phyre</package>
+
+        <ant basedir="phyre"/>
+
+        <depend project="junit"/>
+        <depend project="jakarta-ant"/>
+        <depend project="jakarta-avalon"/>
+        <depend project="jakarta-avalon-phoenix" inherit="runtime"/>
+        <depend project="jakarta-avalon-cornerstone"/>
+        <depend project="mx4j" runtime="true"/>
+
+        <option project="checkstyle" inherit="runtime"/>
+
+        <home nested="phyre"/>
+
+        <jar name="build/lib/phyre-@@DATE@@.sar"/>
+
+        <nag from="Gump Integration Build &lt;avalon-dev@jakarta.apache.org&gt;"
+            to="avalon-dev@jakarta.apache.org"/>
+    </project>
+
+    <project name="avalon-apps-sevak">
+        <package>org.apache.avalon.sevak</package>
+
+        <ant basedir="sevak"/>
+
+        <depend project="junit"/>
+        <depend project="jakarta-ant"/>
+        <depend project="jakarta-avalon"/>
+        <depend project="jakarta-avalon-phoenix" inherit="runtime"/>
+        <depend project="jakarta-avalon-cornerstone"/>
+        <depend project="jetty" runtime="true"/>
+        <depend project="jakarta-tomcat-catalina" runtime="true"/>
+	<!-- todo: build with jo! as well
+        <depend project="tagtraum-jo" runtime="true"/>-->
+
+        <option project="checkstyle" inherit="runtime"/>
+
+        <home nested="sevak"/>
+
+        <jar name="build/lib/sevak-@@DATE@@.sar"/>
+
+        <nag from="Gump Integration Build &lt;avalon-dev@jakarta.apache.org&gt;"
+            to="avalon-dev@jakarta.apache.org"/>
+    </project>
+
+    <project name="avalon-apps-simpleserver">
+        <package>org.apache.avalon.simpleserver</package>
+
+        <ant basedir="simpleserver"/>
+
+        <depend project="junit"/>
+        <depend project="jakarta-ant"/>
+        <depend project="jakarta-avalon"/>
+        <depend project="jakarta-avalon-phoenix" inherit="runtime"/>
+        <depend project="jakarta-avalon-cornerstone"/>
+        <depend project="excalibur-thread"/>
+
+        <option project="checkstyle" inherit="runtime"/>
+
+        <home nested="simpleserver"/>
+
+        <jar name="build/lib/simpleserver-@@DATE@@.sar"/>
+
+        <nag from="Gump Integration Build &lt;avalon-dev@jakarta.apache.org&gt;"
+            to="avalon-dev@jakarta.apache.org"/>
+    </project>
+
+    <project name="avalon-apps-simpleserver">
+        <package>org.apache.avalon.simpleserver</package>
+
+        <ant basedir="simpleserver"/>
+
+        <depend project="junit"/>
+        <depend project="jakarta-ant"/>
+        <depend project="jakarta-avalon"/>
+        <depend project="jakarta-avalon-phoenix" inherit="runtime"/>
+        <depend project="jakarta-avalon-cornerstone"/>
+        <depend project="excalibur-thread"/>
+
+        <option project="checkstyle" inherit="runtime"/>
+
+        <home nested="simpleserver"/>
+
+        <jar name="build/lib/simpleserver-@@DATE@@.sar"/>
+
+        <nag from="Gump Integration Build &lt;avalon-dev@jakarta.apache.org&gt;"
+            to="avalon-dev@jakarta.apache.org"/>
+    </project>
 </module>
 
