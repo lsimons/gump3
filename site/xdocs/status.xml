@@ -14,31 +14,23 @@
     release, in other cases they may represent an abject failure to
     communicate.</p>
 
-    <subsection name="dbxml">
-      <p>dbxml depended on an undocumented Xalan API which was subsequently
-      removed.  In October, dbxml removed its use of this API, and then
-      reintroduced it in November.  DOH!</p>
+    <subsection name="jakarta-avalon-excalibur">
+      <p>Unit test intermittently fails and times out.</p>
     </subsection>
 
-<!--
-    <subsection name="xml-fop">
-      <p>Batik is in the process of correcting what they have described as
-      a fairly fundamental design error.  This should only affect a small
-      minority of Batik users.  Unfortunately, xml-fop is one of the users
-      affected.</p>
-      <p>At the present time, there is a good line of communication between
-      the two projects, and the fop team understands and agrees to this change.
-      They have already resynched twice, and will try to track to the
-      release.</p>
+    <subsection name="jakarta-cactus">
+      <p>Generally 22, and *sometimes* 23, fail on solaris.</p>
     </subsection>
--->
 
     <subsection name="xml-security">
-      <p>Bug reports 
+      <p>Bug report
       <a href="http://nagoya.apache.org/bugzilla/show_bug.cgi?id=2650">2650</a>
-      and
-      <a href="http://nagoya.apache.org/bugzilla/show_bug.cgi?id=4336">4336</a>
-      are open on this issue.</p>
+      was reported and closed as "WONTFIX".  This lead to a
+      <a href="http://marc.theaimsgroup.com/?l=xalan-dev&amp;m=100704419630457&amp;w=2">proposal</a>
+      which seems to make progress torwards solving the goal, but two minor
+      tweaks to the API which are described in the following
+      <a href="http://marc.theaimsgroup.com/?l=xalan-dev&amp;m=100783705504759&amp;w=2">patch</a>
+      would appear to enable xml-security to solve the problem.</p>
     </subsection>
   </section>
 
