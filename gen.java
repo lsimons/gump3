@@ -113,6 +113,7 @@ public class gen {
 
 	   Element parent = (Element)node.getParentNode();
 	   if (node.getNodeName().equals("profile")) {
+               copy.removeAttribute("defined-in");
 	       copyChildren(copy, parent);
 	   } else {
 	       parent.replaceChild(copy,node);
@@ -142,12 +143,12 @@ public class gen {
 	NodeIterator nl = XPathAPI.selectNodeIterator(document, "//"+type);
 	for (Node child=nl.nextNode(); child!=null; child=nl.nextNode()) {
 	    Element element = (Element) child;
-	    String name = element.getAttributeNode("name").getValue();
+	    String name = element.getAttribute("name");
 
 	    Element priorDefinition = (Element)list.get(name);
 	    if (priorDefinition != null && priorDefinition != element) {
 	        Element parent  = (Element)priorDefinition.getParentNode();
-	        String definedIn = parent.getAttribute("name");
+	        String definedIn = parent.getAttribute("defined-in");
                 if (!definedIn.equals(""))
 	            element.setAttribute("defined-in",definedIn);
 	        copyChildren(priorDefinition, element);
@@ -176,7 +177,9 @@ public class gen {
 	   Element parent  = (Element)element.getParentNode();
 	   if (parent != root) {
 	       parent.removeChild(element);
-	       String definedIn = parent.getAttributeNode("name").getValue();
+	       String definedIn = parent.getAttribute("defined-in");
+               if (definedIn.equals(""))
+	           definedIn = parent.getAttribute("name");
 	       element.setAttribute("defined-in",definedIn);
 	       root.appendChild(element);
 	   }

@@ -189,15 +189,17 @@
 
     <xsl:for-each select="project">
       <xsl:sort select="@defined-in"/>
-      <xsl:variable name="defined-in" select="@defined-in"/>
-      <xsl:if test="not(preceding::project[@defined-in=$defined-in])">
-        <xsl:text>bash publish.sh project/</xsl:text>
-        <xsl:value-of select="@defined-in"/>
-        <xsl:text>.xml </xsl:text>
-        <xsl:value-of select="$basedir"/>
-        <xsl:text>/log/project_</xsl:text>
-        <xsl:value-of select="@defined-in"/>
-        <xsl:text>.html&#10;</xsl:text>
+      <xsl:if test="defined-in">
+        <xsl:variable name="defined-in" select="@defined-in"/>
+        <xsl:if test="not(preceding::project[@defined-in=$defined-in])">
+          <xsl:text>bash publish.sh project/</xsl:text>
+          <xsl:value-of select="@defined-in"/>
+          <xsl:text>.xml </xsl:text>
+          <xsl:value-of select="$basedir"/>
+          <xsl:text>/log/project_</xsl:text>
+          <xsl:value-of select="@defined-in"/>
+          <xsl:text>.html&#10;</xsl:text>
+        </xsl:if>
       </xsl:if>
     </xsl:for-each>
 
