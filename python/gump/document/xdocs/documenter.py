@@ -1960,7 +1960,7 @@ This page helps Gumpmeisters (and others) observe community progress.
         if stats.startOfState:
             statsTable.createEntry("Start of state: ", stats.startOfState.isoformat())
         if stats.previousState:
-            statsTable.createEntry("Previous State: ", stats.previousState.isoformat())
+            statsTable.createEntry("Previous State: ", stats.previousState)
         
         if stats.first:
             statsTable.createEntry("First Success: ", stats.first.isoformat())
