@@ -26,7 +26,7 @@
   <option project="jdbc"/>
   <depend project="jdom"/>
  
-  <work nested="build/classes"/>
+  <work nested="build/lib"/>
   <jar name="avalon-excalibur.jar" id="avalon-excalibur"/>
   <jar name="avalon-scratchpad.jar" id="avalon-scratchpad"/>
 
