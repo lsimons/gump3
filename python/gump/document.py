@@ -398,9 +398,7 @@ def documentModule(workspace,wdir,modulename,modulecontext,db,projectFilterList=
     startListXDoc(x)
     addItemXDoc(x,"Status: " + stateName(modulecontext.status))
     if modulecontext.cause and not modulecontext==modulecontext.cause:
-         addItemXDoc(x, "Root Cause:", "<link href='%s'>%s</link>" % \
-            (getContextUrl(modulecontext.cause), \
-                modulecontext.cause.name))    
+         addItemXDoc(x, "Root Cause: ", getTypedContextLink(modulecontext.cause))    
     endListXDoc(x)
     endSectionXDoc(x)
        
@@ -447,10 +445,8 @@ def documentProject(workspace,modulename,mdir,projectname,projectcontext,db):
     startSectionXDoc(x,'Details')
     startListXDoc(x)
     addItemXDoc(x,"Status: ", stateName(projectcontext.status))  
-    # Not Working if projectcontext.cause and not projectcontext==projectcontext.cause:
-    if projectcontext.cause:
-        addItemXDoc(x,"Root Cause:", "<link href='%s'>%s</link>" % \
-            (getContextUrl(projectcontext.cause), projectcontext.cause.name))
+    if projectcontext.cause and not projectcontext==projectcontext.cause:
+        addItemXDoc(x,"Root Cause: ", getTypedContextLink(projectcontext.cause))
     addItemXDoc(x,"Elapsed: ", str(projectcontext.elapsedSecs()))
     addItemXDoc(x,"FOG Factor: ", str(round(stats.getFOGFactor(),2)))
     addItemXDoc(x,"Successes: ", str(stats.successes))
@@ -899,8 +895,21 @@ def getContextUrl(context,depth=1):
         url=getModuleProjectRelativeUrl(context.parent.name,context.name,1)
     return url
 
-def getContextLink(context,depth=1):
-    return getLink(getContextUrl(context,depth),context.name)
+def getTypedContextLink(context,depth=1):
+    return getContextLink(context,depth,1)
+
+def getContextLink(context,depth=1,typed=0):
+    description=""
+    if typed:
+        if isinstance(context,GumpContext):
+            description="Gump: "
+        elif isinstance(context,ModuleContext):
+            description="Module: "
+        else:        
+            description="Project: "
+    description+=context.name
+    
+    return getLink(getContextUrl(context,depth),description)
     
 def getContextStateDescription(context):
     xdoc=stateName(context.status)
