@@ -12,11 +12,11 @@
   <option project="xml-xalan2"/>
   <option project="xml-stylebook2"/>
 
-  <ant>
+  <ant target="dist-lite">
     <property name="ant.home" reference="home" project="jakarta-ant"/>
   </ant>
 
-  <home nested="build"/>
+  <home nested="dist"/>
   <jar name="lib/ant.jar"/>
   <jar name="lib/optional.jar"/>
 
