@@ -543,7 +543,7 @@
   <xsl:template match="script">
     <xsl:text>eval "./</xsl:text>
     <xsl:value-of select="@name"/>
-    <xsl:text>.sh $OUT" 2&gt;&amp;1&#10;</xsl:text>
+    <xsl:text>.sh $OUT 2&gt;&amp;1"&#10;</xsl:text>
   </xsl:template>
 
   <!-- =================================================================== -->
