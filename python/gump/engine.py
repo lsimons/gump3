@@ -499,7 +499,7 @@ class GumpEngine:
         if project.okToPerformWork() and project.hasMaven():
             try:
                 propertiesFile=project.generateMavenProperties()                                
-                project.addInfo('Maven Properties in: ' + propertiesFile)
+                project.addDebug('Maven Properties in: ' + propertiesFile)
                 
                 try:
                     catFileAsWork(project,propertiesFile,	\
@@ -508,7 +508,7 @@ class GumpEngine:
                     log.error('Display Properties [ ' + propertiesFile + '] Failed', exc_info=1)   
                 
             except:
-                log.error('GenerateMavenProperties Failed', exc_info=1)    
+                log.error('Generate Maven Properties Failed', exc_info=1)    
                 project.changeState(STATE_FAILED,REASON_PREBUILD_FAILED)
             
         if not project.okToPerformWork():
@@ -577,6 +577,21 @@ class GumpEngine:
                 project.addInfo('Reports in: ' + reportDir)
                 catDirectoryContentsAsWork(project,reportDir)
     
+        # Maven generates a maven.log...
+        if project.hasMaven() and not project.isPackaged():
+            try:
+                logFile=project.locateMavenLog()                                
+                project.addDebug('Maven Log in: ' + logFile)                
+                try:
+                    catFileAsWork(project,logFile,	\
+                        project.getName() + ' ' + os.path.basename(logFile))
+                except:
+                    log.error('Display Log [ ' + logFile + '] Failed', exc_info=1)   
+                
+            except:
+                log.warning('Display Maven Log Failed', exc_info=1)    
+                # Not worth crapping out over...
+            
                 
     """
     

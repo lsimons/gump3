@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/model/project.py,v 1.48 2004/02/11 22:39:44 ajack Exp $
-# $Revision: 1.48 $
-# $Date: 2004/02/11 22:39:44 $
+# $Header: /home/stefano/cvs/gump/python/gump/model/project.py,v 1.49 2004/02/11 23:35:54 ajack Exp $
+# $Revision: 1.49 $
+# $Date: 2004/02/11 23:35:54 $
 #
 # ====================================================================
 #
@@ -1053,6 +1053,18 @@ maven.jar.override = on
 
         return propertiesFile
       
+    def locateMavenLog(self):
+        """Return Maven log location"""
+        
+        #
+        # Where to put this:
+        #
+        basedir = self.maven.getBaseDirectory() or self.getBaseDirectory()
+        logFile=os.path.abspath(os.path.join(\
+                    basedir,'maven.log'))
+        
+        return logFile
+        
     def dump(self, indent=0, output=sys.stdout):
         """ Display the contents of this object """
         output.write(getIndent(indent)+'Project: ' + self.getName() + '\n')
