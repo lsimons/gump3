@@ -1,6 +1,7 @@
 <workspace basedir="/data/gump"
            pkgdir="/data/gump/opt"
            sync="rsync -r -a --delete"
+           jardir="/data/gump/log/jars"
            version="0.3">
 
   <property name="build.sysclasspath" value="only"/>
