@@ -197,10 +197,10 @@ From: Geir Magnusson Jr. <geirm@apache.org>
 Subject: [GUMP] Test Failure - Velocity
 Regex: /BUILD FAILED/
 ------
-Project: test-ant
-To: ant-dev@jakarta.apache.org
-From: Diane Holt <holtdl@apache.org>
-Subject: [GUMP] Test Failure - Ant
+Project: lucene
+To: <lucene-dev@lists.sourceforge.net>
+From: Jon Stevens <jon@latchkey.com>
+Subject: [GUMP] Build Failure - Lucene
 Regex: /BUILD FAILED/
 ------
 Project: scarab
@@ -212,6 +212,12 @@ Subject: [GUMP] Prereq Failure - Scarab
 Regex: /^$/
 Subject: [GUMP] Build Log - Scarab
 Regex: /.*/
+------
+Project: test-ant
+To: ant-dev@jakarta.apache.org
+From: Diane Holt <holtdl@apache.org>
+Subject: [GUMP] Test Failure - Ant
+Regex: /BUILD FAILED/
 -------
 Project: xml-axis
 To: axis-dev@xml.apache.org
