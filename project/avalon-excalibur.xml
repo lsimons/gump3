@@ -339,7 +339,7 @@
 
         <ant basedir="instrument" target="jar">
             <!-- optional dependencies -->
-            <property name="avalon-framework.jar" project="avalon-framework" reference="jarpath" id="combined"/>
+            <depend property="avalon-framework.jar" project="avalon-framework" id="combined"/>
             <property name="checkstyle.jar" project="checkstyle" reference="jarpath"/>
 
             <!-- test-time dependencies -->
