@@ -10,14 +10,14 @@
   <project name="xmlunit">
     <package>org.custommonkey.xmlunit</package>
     <ant target="dist">
-      <property name="xmlunit.version" value="-@@DATE@@" />
-      <property name="xmlxsl.libdir" value="."/>
-      <property name="junit.libdir" value="."/>
+      <property name="xmlunit.version" value="@@DATE@@" />
+      <property name="xmlxsl.lib" value="."/>
+      <depend project="junit" property="junit.lib"/>
+      <property name="test.report.dir" value="testreports"/>
     </ant>
     <depend project="ant" inherit="runtime"/>
     <depend project="xml-xerces"/>
     <depend project="xml-xalan2"/>
-    <depend project="junit"/>
     <work nested="classes"/>
     <jar name="lib/xmlunit-@@DATE@@.jar"/>
     <license name="LICENSE.txt"/>
