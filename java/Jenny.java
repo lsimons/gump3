@@ -120,7 +120,16 @@ public class Jenny {
                node.setAttribute("defined-in", source);
 
                Document doc = node.getOwnerDocument();
-               Element copy=(Element)doc.importNode(sub.getFirstChild(), true);
+               Element copy = null;
+               Node first = sub.getFirstChild();
+               for (Node child=first; child!=null; 
+                    child=child.getNextSibling()) {
+                   if (child.getNodeType() == Node.ELEMENT_NODE) {
+                       copy = (Element)doc.importNode(child, true);
+                       break;
+                   }
+               }
+
                moveChildren(node, copy);
 
                node.getParentNode().replaceChild(copy,node);
