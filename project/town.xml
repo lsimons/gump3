@@ -5,7 +5,7 @@
     An extension of a Villiage
   </description>
 
-  <cvs repository="working-dogs" dir="town" />
+  <cvs repository="whichever"/>
   <ant />
 
   <depend project="jakarta-ant" />

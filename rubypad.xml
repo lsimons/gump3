@@ -107,8 +107,8 @@
 
     <tree name="xml" root=":pserver:rubys@localhost:/home/cvs"/>
 
-    <tree name="working-dogs"
-      root=":pserver:anon@cvs.working-dogs.com:/products/cvs"/>
+    <tree name="whichever"
+      root=":pserver:anoncvs@share.whichever.com:/home/cvspublic"/>
   </cvs-repository>
 
 </workspace>
