@@ -83,6 +83,7 @@ class ProjectStatistics:
         self.first=''
         self.last=''
         self.currentState=STATE_UNSET
+        self.previousState=STATE_UNSET
         self.sequenceInState=0
         
     def getFOGFactor(self):
@@ -109,6 +110,9 @@ class ProjectStatistics:
     def currentStateKey(self):
         return self.projectname + '-current-state'
         
+    def previousStateKey(self):
+        return self.projectname + '-previous-state'
+        
     def sequenceInStateKey(self):
         return self.projectname + '-state-seq'
         
@@ -131,13 +135,14 @@ class ProjectStatistics:
         #
         # Deal with states & changes...
         #
-        previousState=self.currentState
+        lastCurrentState=self.currentState
         self.currentState=project.getState()
         
-        if previousState==self.currentState:
+        if lastCurrentState==self.currentState:
             self.sequenceInState += 1
         else:
             self.sequenceInState = 1
+            self.previousState=lastCurrentState
          
 class StatisticsDB:
     """Statistics Interface"""
@@ -166,6 +171,7 @@ class StatisticsDB:
         s.first=self.getDate(s.firstKey())
         s.last=self.getDate(s.lastKey())
         s.currentState=stateForName(self.get(s.currentStateKey()))
+        s.previousState=stateForName(self.get(s.previousStateKey()))
         s.sequenceInState=self.getInt(s.sequenceInStateKey())
         return s
     
@@ -177,6 +183,7 @@ class StatisticsDB:
         self.putDate(s.firstKey(), s.first)
         self.putDate(s.lastKey(), s.last)
         self.put(s.currentStateKey(), stateName(s.currentState))
+        self.put(s.previousStateKey(), stateName(s.previousState))
         self.putInt(s.sequenceInStateKey(), s.sequenceInState)
         
     def delProjectStats(self,s):
@@ -206,6 +213,10 @@ class StatisticsDB:
             """ Hopefully means it wasn't there... """
         try:
             del self.db[s.currentStateKey()]
+        except:
+            """ Hopefully means it wasn't there... """        
+        try:
+            del self.db[s.previousStateKey()]
         except:
             """ Hopefully means it wasn't there... """        
         try:

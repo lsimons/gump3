@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/model/property.py,v 1.4 2003/11/18 19:37:38 ajack Exp $
-# $Revision: 1.4 $
-# $Date: 2003/11/18 19:37:38 $
+# $Header: /home/stefano/cvs/gump/python/gump/model/property.py,v 1.5 2003/11/18 22:52:17 ajack Exp $
+# $Revision: 1.5 $
+# $Date: 2003/11/18 22:52:17 $
 #
 # ====================================================================
 #
@@ -80,22 +80,27 @@ class Property(NamedModelObject):
     # provide default elements when not defined in xml
     def complete(self,parent,workspace):
         if self.isComplete(): return
-                 
+    
+        # Properties are either on the workspace, or on
+        # an ant entry within a project. Pick workspace or project.
+        responsibleParty=workspace
+        if isinstance(parent,Ant): responsibleParty=parent.getOwner()
+        
         if self.xml.reference=='home':
             if not workspace.hasProject(self.xml.project):
-                parent.addError('Cannot resolve homedir of *unknown* [' + self.xml.project + ']')                
+                responsibleParty.addError('Cannot resolve homedir of *unknown* [' + self.xml.project + ']')                
             else:
                 self.setValue(workspace.getProject(self.xml.project).getHomeDirectory())
                 
         elif self.xml.reference=='srcdir':
             if not workspace.hasProject(self.xml.project):
-                parent.addError('Cannot resolve srcdir of *unknown* [' + self.xml.project + ']')
+                responsibleParty.addError('Cannot resolve srcdir of *unknown* [' + self.xml.project + ']')
             else:
                 self.setValue(workspace.getProject(self.xml.project).getModule().getSourceDirectory())
                 
         elif self.xml.reference=='jarpath' or self.xml.reference=='jar':            
             if not workspace.hasProject(self.xml.project):
-                parent.addError('Cannot resolve jar/jarpath of *unknown* [' + self.xml.project + ']')
+                responsibleParty.addError('Cannot resolve jar/jarpath of *unknown* [' + self.xml.project + ']')
             else:
                 targetProject=workspace.getProject(self.xml.project)
                 
@@ -108,32 +113,32 @@ class Property(NamedModelObject):
                                 self.setValue(jar.getName())
                             break
                     else:
-                        self.value=("jar with id %s was not found in project %s " +
+                        responsibleParty.addError(	\
+                            "jar with id %s was not found in project %s " +
                                   "referenced by %s") % \
                             (self.xml.id, targetProject.getName(), project.getName())
-                        log.error(self.value)
                 elif targetProject.getJarCount()==1:
-                    self.value=targetProject.getJars()[0].getPath()
+                    self.setValue(targetProject.getJars()[0].getPath())
                 elif  targetProject.getJarCount()>1:
-                    self.value=("Multiple jars defined by project %s referenced by %s; " + \
+                    responsibleParty.addError(	\
+                        "Multiple jars defined by project %s referenced by %s; " + \
                         "an id attribute is required to select the one you want") % \
                           (targetProject.getName(), project.getName())
-                    log.error(self.value)
                 else:
-                    self.value=("Project %s referenced by %s defines no jars as output") % \
-                        (targetProject.getName(), project.getName())
-                    log.error(self.value)        
+                    responsibleParty.addError(	\
+                        'Project %s referenced by %s defines no jars as output') % \
+                        (targetProject.getName(), project.getName())      
                                 
         elif self.xml.path:
             #
-            # Path relative to module's srcdir 
+            # Path relative to module's srcdir (doesn't work in workspace)
             #        
             self.value=os.path.abspath(os.path.join(	\
                     parent.getOwner().getModule().getSourceDirectory(),	\
                     self.xml.path))
         
         if not hasattr(self,'value'):
-            log.error('Unhandled Property: ' + self.getName() + ' on: ' + \
+            responsibleParty.addError('Unhandled Property: ' + self.getName() + ' on: ' + \
                     str(parent))
                 
         self.setComplete(1)
