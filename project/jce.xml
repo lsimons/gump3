@@ -25,7 +25,7 @@
     <package>javax.crypto</package>
     <package>org.bouncycastle</package>
 
-    <jar  name="jce-jdk13-116.jar" type="boot"/>
+    <jar  name="bcprov-jdk14-122.jar" type="boot"/>
   </project>
 
 </module>
