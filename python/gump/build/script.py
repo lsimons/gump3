@@ -100,12 +100,13 @@ class ScriptBuilder(gump.run.gumprun.RunSpecific):
         # Where to run this:
         basedir = script.getBaseDirectory() or project.getBaseDirectory()
 
-        # Add .sh  or .bat as appropriate to platform
         scriptfullname=script.getName()
-        if not os.name == 'dos' and not os.name == 'nt':
-            scriptfullname += '.sh'
-        else:
-            scriptfullname += '.bat'
+        if not os.path.exists(os.path.join(basedir, scriptfullname)):
+            # Add .sh  or .bat as appropriate to platform
+            if not os.name == 'dos' and not os.name == 'nt':
+                scriptfullname += '.sh'
+            else:
+                scriptfullname += '.bat'
   
         # The script
         scriptfile=os.path.abspath(os.path.join(basedir, scriptfullname))
