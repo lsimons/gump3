@@ -430,7 +430,7 @@
 
                    <!-- Single javadoc -->
                    <a href="{javadoc/description/@url}/index.html">
-                     <xsl:value-of select="@name"/>
+                     <xsl:value-of select="javadoc/@project"/>
                    </a>
                    <xsl:text> - </xsl:text>
                    <xsl:value-of select="normalize-space(description)"/>
@@ -473,7 +473,7 @@
                <xsl:sort select="@name"/>
                <xsl:variable name="name" select="@name"/>
 
-               <xsl:if test="../project[ant and @module=$name]">
+               <xsl:if test="../project[ant and @module=$name] and not(/workspace/module/javadoc[@defined-in=$name])">
                  <li> <xsl:value-of select="$name"/> </li>
                </xsl:if>
              </xsl:for-each>

@@ -37,7 +37,7 @@ public class Project {
                 element = (Element)elements.nextElement();
                 new Project(element);
             } catch (Throwable t) {
-                System.err.println("Dropping "
+                System.err.println("Dropping project "
                                    + element.getAttribute("name")
                                    + " because of Exception " + t);
             }
@@ -51,7 +51,7 @@ public class Project {
                 p.expandDepends();
                 p.resolveProperties();
             } catch (Throwable t) {
-                System.err.println("Dropping " + p.get("name")
+                System.err.println("Dropping project " + p.get("name")
                                    + " because of Exception " + t);
                 p.remove();
             }
@@ -602,12 +602,13 @@ public class Project {
         Module module = Module.find(moduleName);
         require (module, "module", moduleName);
 
+        if (!moduleName.equals(this.get("module"))) {
+            javadoc.setAttribute("defined-in", this.get("module"));
+        }
+
         // if there are no child nodes, add this project's description
         if (!javadoc.hasChildNodes() && description!=null) {
             Element desc = (Element) description.cloneNode(true);
-            if (javadoc.getAttributeNode("title") != null) {
-               desc.setAttribute("title", javadoc.getAttribute("title"));
-            }
             javadoc.appendChild(desc);
         }
 
