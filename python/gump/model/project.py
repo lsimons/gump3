@@ -471,7 +471,7 @@ class Project(NamedModelObject, Statable, Resultable, Dependable, Positioned):
                         basename=os.path.basename(output.getPath())
                         newId=basename
                         # Strip off .jar or .lib (note: both same length)
-                        if newId.endswith('.jar') or newId.endsWith('.lib'):
+                        if newId.endswith('.jar') or newId.endswith('.lib'):
                             newId=newId[:-4]
                         # Strip off -@@DATE@@
                         datePostfix='-' + str(default.date_s)
