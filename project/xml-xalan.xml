@@ -49,7 +49,7 @@
     <depend project="jakarta-ant"/>
     <depend project="xml-xerces"/>
 
-    <home nested="java/build"/>
+    <home nested="test/java/build"/>
     <jar name="qetest.jar"/>
   </project>
 
