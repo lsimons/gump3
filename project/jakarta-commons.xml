@@ -219,6 +219,26 @@
          from="Ted Husted &lt;ted@husted.com&gt;"/>
   </project>
 
+  <project name="commons-digester-rss">
+    <package>org.apache.commons.digester.rss</package>
+    <description>Digester RSS Example</description>
+    <url href="http://jakarta.apache.org/commons/digester.html"/>
+    <ant basedir="digester/src/examples/rss" target="dist"/>
+    <depend project="ant" inherit="runtime"/>
+    <depend project="xml-xerces"/>
+    <depend project="junit"/>
+    <depend project="commons-beanutils"/>
+    <depend project="commons-digester"/>
+    <depend project="commons-collections"/>
+    <depend project="commons-logging"/>
+    <home nested="digester/src/examples/rss/dist"/>
+    <jar name="commons-digester-rss.jar"/>
+    <javadoc nested="digester/src/examples/rss/dist/docs/api"/>
+
+    <nag to="commons-dev@jakarta.apache.org"
+         from="Robert Burrell Donkin &lt;rdonkin@apache.org&gt;"/>
+  </project>
+  
   <project name="commons-el">
     <package>org.apache.commons.el</package>
     <description>Expression Language</description>
