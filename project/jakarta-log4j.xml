@@ -46,6 +46,7 @@
     <work nested="dist/classes" />
     <work nested="tests/classes" />
     <work nested="tests/resources" />
+    <work nested="examples/classes"/>
 
     <nag to="log4j-dev@jakarta.apache.org"
          subject="Test Failure"
