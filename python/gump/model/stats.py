@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/model/stats.py,v 1.13 2004/03/13 00:17:39 ajack Exp $
-# $Revision: 1.13 $
-# $Date: 2004/03/13 00:17:39 $
+# $Header: /home/stefano/cvs/gump/python/gump/model/stats.py,v 1.14 2004/03/13 02:39:21 ajack Exp $
+# $Revision: 1.14 $
+# $Date: 2004/03/13 02:39:21 $
 #
 # ====================================================================
 #
@@ -166,11 +166,11 @@ class Statistics:
         self.currentState=statable.getState()
         
         # See if it changed, and track...
-        if lastCurrentState==self.currentState:
-            self.startOfState = default.time            
+        if lastCurrentState==self.currentState:      
             self.sequenceInState += 1            
         else:
-            self.previousState=lastCurrentState            
+            self.previousState=lastCurrentState  
+            self.startOfState = default.time                
             self.sequenceInState = 1
            
     def dump(self, indent=0, output=sys.stdout):
