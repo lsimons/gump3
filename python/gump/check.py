@@ -72,6 +72,8 @@ def check(workspace, projectname):
     for missed in missing:
       print "  " + missed
 
+  #peekInGlobalProfile(missing);
+  
   print
   print " ***** RESULT ***** "  
   print
@@ -93,6 +95,16 @@ def check(workspace, projectname):
 
     
   return 0
+  
+def peekInGlobalProfile(missing):
+
+  workspace=load(default.globalws)
+  
+  for missed in missing:
+    print "  " + missed
+    if(missed in Project.list):
+      print "found: " , missed
+  
 
 # static void main()
 if __name__=='__main__':
