@@ -63,7 +63,7 @@
     <jar name="standard/standard/lib/jstl.jar" id="jstl" />
     <jar name="standard/standard/lib/standard.jar" id="standard" />
     <nag to="taglibs-dev@jakarta.apache.org"
-         from="Ted Husted &lt;ted@husted.com&gt;"/>
+         from="Martin Cooper &lt;martinc@apache.org&gt;"/>
   </project>
 
 </module>
