@@ -34,7 +34,7 @@ if not errorlevel 0 goto fail
 REM ********************************************************************
 
 echo Generating checkout instructions
-java org.apache.xalan.xslt.Process -xml -in work\sorted.xml -xsl stylesheet\update.xsl -out work\update.xml
+java org.apache.xalan.xslt.Process -xml -in work\merge.xml -xsl stylesheet\update.xsl -out work\update.xml
 if not errorlevel 0 goto fail
 
 echo Applying web site stylesheet
@@ -48,7 +48,7 @@ if not errorlevel 0 goto fail
 REM ********************************************************************
 
 echo Generating build definition
-java org.apache.xalan.xslt.Process -EDUMP -indent 2 -xml -in work\sorted.xml -xsl stylesheet\build.xsl -out work\build.xml
+java org.apache.xalan.xslt.Process -EDUMP -indent 2 -xml -in work\merge.xml -xsl stylesheet\build.xsl -out work\build.xml
 if not errorlevel 0 goto fail
 
 echo Applying web site stylesheet

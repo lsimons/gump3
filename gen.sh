@@ -39,7 +39,7 @@ java -classpath "$CLASSPATH" Jenny $JSOURCE || export FAIL=1
 
 echo Generate checkout instructions
 test -n "$FAIL" || \
-java org.apache.xalan.xslt.Process -xml -in work/sorted.xml -xsl stylesheet/update.xsl -out work/update.xml || \
+java org.apache.xalan.xslt.Process -xml -in work/merge.xml -xsl stylesheet/update.xsl -out work/update.xml || \
 export FAIL=1
 
 echo Applying web site stylesheet
@@ -56,7 +56,7 @@ export FAIL=1
 
 echo Generate build instructions
 test -n "$FAIL" || \
-java org.apache.xalan.xslt.Process -xml -in work/sorted.xml -xsl stylesheet/build.xsl -out work/build.xml || \
+java org.apache.xalan.xslt.Process -xml -in work/merge.xml -xsl stylesheet/build.xsl -out work/build.xml || \
 export FAIL=1
 
 echo Applying web site stylesheet
@@ -73,7 +73,7 @@ export FAIL=1
 
 echo Generate crossreference data
 test -n "$FAIL" || \
-java org.apache.xalan.xslt.Process -xml -in work/sorted.xml -xsl stylesheet/xref.xsl -out work/xref.xml || \
+java org.apache.xalan.xslt.Process -xml -in work/merge.xml -xsl stylesheet/xref.xsl -out work/xref.xml || \
 export FAIL=1
 
 echo Applying web site stylesheet
@@ -95,7 +95,7 @@ export FAIL=1
 
 echo Generate template for publishing an xml source file
 test -n "$FAIL" || \
-java org.apache.xalan.xslt.Process -xml -in work/sorted.xml -xsl stylesheet/publish.xsl -out work/publish.xml || \
+java org.apache.xalan.xslt.Process -xml -in work/merge.xml -xsl stylesheet/publish.xsl -out work/publish.xml || \
 export FAIL=1
 
 echo Applying web site stylesheet

@@ -5,8 +5,12 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
 // Java classes
+import java.util.Comparator;
 import java.util.Enumeration;
 import java.util.Hashtable;
+import java.util.Iterator;
+import java.util.Set;
+import java.util.TreeSet;
 
 public class Project {
 
@@ -15,7 +19,8 @@ public class Project {
     private Element element;
     private String name;
     private Element ant = null;
-    private Hashtable depends = new Hashtable();
+    private Hashtable dependsOn = new Hashtable();
+    private Hashtable referencedBy = new Hashtable();
     private Hashtable jars = new Hashtable();
     private Element description;
     private Element url;
@@ -36,6 +41,8 @@ public class Project {
             p.expandDepends();
             p.resolveProperties();
         }
+
+        sort();
     }
 
     /**
@@ -62,9 +69,9 @@ public class Project {
         Node child=element.getFirstChild();
         for (; child != null; child=child.getNextSibling()) {
             if (child.getNodeName().equals("depend")) {
-                depends.put(((Element)child).getAttribute("project"), child);
+                dependsOn.put(((Element)child).getAttribute("project"), child);
             } else if (child.getNodeName().equals("option")) {
-                depends.put(((Element)child).getAttribute("project"), child);
+                dependsOn.put(((Element)child).getAttribute("project"), child);
             } else if (child.getNodeName().equals("ant")) {
                 ant = (Element)child;
             } else if (child.getNodeName().equals("home")) {
@@ -150,7 +157,7 @@ public class Project {
             String dependency = property.getAttribute("project");
             if (dependency.equals("")) continue;
             if (dependency.equals(name)) continue;
-            if (depends.get(dependency) != null) continue;
+            if (dependsOn.get(dependency) != null) continue;
 
             if (property.getAttribute("reference").equals("srcdir")) continue;
 
@@ -160,7 +167,7 @@ public class Project {
                 depend.appendChild(document.createElement("noclasspath"));
 
             element.appendChild(depend);
-            depends.put(dependency, depend);
+            dependsOn.put(dependency, depend);
         }
     }
 
@@ -223,13 +230,17 @@ public class Project {
      * simplifies generation by essentially making project definitions
      * self contained.
      */
-    private void expandDepends() {
-        for (Enumeration e=depends.keys(); e.hasMoreElements(); ) {
+    private void expandDepends() throws Exception {
+        for (Enumeration e=dependsOn.keys(); e.hasMoreElements(); ) {
             String name = (String)e.nextElement();
             Project target = (Project)projects.get(name);
+
+            Element depend = (Element) dependsOn.get(name);
+            if (!depend.getNodeName().equals("option"))
+                require(target, "project", name);
             if (target == null) continue;
 
-            Element depend = (Element) depends.get(name);
+            target.referencedBy.put(this, depend);
             depend.setAttribute("home",target.get("home"));
             depend.setAttribute("defined-in",target.get("defined-in"));
 
@@ -244,6 +255,102 @@ public class Project {
                 }
             }
         }
+    }
+
+    /**
+     * Determine if this project has any unsatisfied dependencies left
+     * on the todo list.
+     * @param todo the list of projects yet to be done (includes this one).
+     * @return true if this project is ready to go
+     */
+    private boolean isReady(Set todo) {
+        for (Enumeration e=dependsOn.keys(); e.hasMoreElements();) {
+            if (todo.contains(e.nextElement())) return false;
+        }
+        return true;
+    }
+
+    /**
+     * Determine if this project is referenced by anything on the todo list.
+     * @param todo the list of projects yet to be done (includes this one).
+     * @return true if this project is holding up progress
+     */
+    private boolean isPrereq(Set todo) {
+        for (Enumeration e=referencedBy.keys(); e.hasMoreElements();) {
+            if (todo.contains(e.nextElement())) return true;
+        }
+        return false;
+    }
+
+    /**
+     * Move this element to the end of the parents set of children.
+     */
+    private void moveToLast() {
+        Element parent = (Element) element.getParentNode();
+        parent.removeChild(element);
+        parent.appendChild(element);
+    }
+
+    /**
+     * Implement a deterministing sort order.  Projects which are most
+     * referenced get priority.  After that, order is determined alphabetically.
+     */
+    private static class Ranker implements Comparator {
+        public int compare(Object o1, Object o2) {
+            Project p1 = (Project) projects.get(o1);
+            Project p2 = (Project) projects.get(o2);
+            if (p1 == p2) return 0;
+            if (p1 == null) return -1;
+            if (p2 == null) return 1;
+
+            int diff = p2.referencedBy.size() - p1.referencedBy.size();
+            if (diff != 0) return diff;
+
+            return ((String)o1).compareTo((String)o2);
+        }
+    }
+
+    /**
+     * Sort all projects in an order that respects the dependencies.  If such
+     * an order can not be determined, print out the ones that form a loop.
+     */
+    private static void sort() throws Exception {
+        TreeSet todo = new TreeSet(new Ranker());
+        todo.addAll(projects.keySet());
+
+        // As long as there are projects which are ready, put the next
+        // available one at the end of the list.
+        for (Iterator i=todo.iterator(); i.hasNext();) {
+            Project p = (Project) projects.get(i.next());
+            if (p.isReady(todo)) {
+                p.moveToLast();
+                todo.remove(p.name);
+                i=todo.iterator();
+            }
+        }
+            
+        // Did we succeed?
+        if (todo.isEmpty()) return;
+
+        // Remove all elements which are not prereqed by any projects
+        // remaining
+        if (todo.isEmpty()) return;
+        for (Iterator i=todo.iterator(); i.hasNext();) {
+            Project p = (Project) projects.get(i.next());
+            if (!p.isPrereq(todo)) {
+                todo.remove(p.name);
+                i=todo.iterator();
+            }
+        }
+
+
+        // Construct a list of the rest, and throw an exception
+        String message="Circular dependency loop involving:";
+        for (Iterator i=todo.iterator(); i.hasNext();) {
+            Project p = ((Project)(i.next()));
+            message += "\n  " + p.name;
+        }
+        throw new Exception(message);
     }
 
     /**

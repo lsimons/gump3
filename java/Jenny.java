@@ -183,9 +183,6 @@ public class Jenny {
         Module.load(merge("module",workspace).elements());
         Project.load(merge("project",workspace).elements());
         output (doc, "work/merge.xml");
-
-        Node sorted   = transform(doc, "sortdep.xsl");
-        output (sorted, "work/sorted.xml");
     }
 
     /**
