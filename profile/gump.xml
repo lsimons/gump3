@@ -245,7 +245,7 @@
   <project name="jaxr"             package="java_xml_pack-summer-02_01"/>
   <project name="jaxrpc"           package="java_xml_pack-summer-02_01"/>
   <project name="jce"              package="jce"/>
-  <project name="jcifs"            package="jcifs_0.7.5"/>
+  <project name="jcifs"            package="jcifs_0.7.12"/>
   <project name="jdbc"             package="jdbc2_0"/>
   <project name="jimi"             package="Jimi"/>
   <project name="jdepend"          package="jdepend-2.6"/>
@@ -294,9 +294,6 @@
   <repository href="repository/xml.xml"/>
 
 <!-- server definitions -->
-
-  <server href="server/daedalus.apache.org.xml"/>
-  <server href="server/icarus.apache.org.xml"/>
 
 </profile>
 
