@@ -10,11 +10,12 @@
   <!-- build bootstrap -->
 
   <project name="xml-xerces2">
-    <ant basedir="java" target="jar"/>
+    <ant basedir="java" target="jars"/>
     <depend project="jaxp"/>
     <depend project="bootstrap-ant"/>
     <home nested="java/build"/>
     <jar  name="xercesImpl.jar" id="parser"/>
+    <jar  name="xmlParserAPIs.jar"/>
   </project>
 
   <!-- package up the distribution -->
