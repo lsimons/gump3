@@ -23,6 +23,9 @@
     <depend project="jakarta-avalon-excalibur"/>
     <depend project="excalibur-cli"/>
     <depend project="excalibur-naming"/>
+    <depend project="excalibur-sourceresolve"/>
+    <depend project="excalibur-xmlbundle"/>
+    <depend project="excalibur-store"/>
     <depend project="jakarta-regexp"/>
     <depend project="commons-httpclient"/>
     <depend project="commons-collections"/>
