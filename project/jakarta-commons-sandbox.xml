@@ -37,6 +37,7 @@
     <url href="http://jakarta.apache.org/commons/betwixt.html"/>
     <ant basedir="betwixt" target="dist">
       <property name="component.version"  value="@@DATE@@"/>
+      <depend project="xml-xerces"/>
       <depend property="commons-digester.jar" project="commons-digester"/>
       <depend property="commons-collections.jar" project="commons-collections"/>
       <depend property="commons-beanutils.jar" project="commons-beanutils"/>
