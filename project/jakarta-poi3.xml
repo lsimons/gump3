@@ -6,7 +6,7 @@
     </url>
     <cvs module="jakarta-poi" repository="jakarta">
     </cvs>
-    <project name="jakarta-poi">
+    <project name="jakarta-poi-3">
         <ant buildfile="build.xml" target="gump">
         </ant>
         <package>org.apache.poi</package>
