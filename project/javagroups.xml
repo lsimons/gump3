@@ -19,6 +19,7 @@
     <depend project="xml-xerces"/>
     <depend project="junit"/>
     <depend project="jms"/>
+    <depend project="jakarta-log4j" />
     <jar name="dist/javagroups-all.jar"/>
     <javadoc nested="doc/javadoc"/>
   </project>
