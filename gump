@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 #
 # Copyright 2004-2005 The Apache Software Foundation
 #
@@ -225,7 +225,7 @@ function find_hostname
   fi
   
   local hostnamecommand=`which hostname`
-  if [[ -z "$hostnamecommand" ]]; then
+  if [[ -z "$hostnamecommand" || "$hostnamecommand" == "no*" ]]; then
     error "GUMP_HOSTNAME is not set and the hostname command is not
 available to determine it!"
   fi
@@ -298,16 +298,19 @@ function find_python
   fi
 
   local python=`which python2.4`
-  if [[ -z "$python" ]]; then
+  if [[ -z "$python" || "$python" == "no"* ]]; then
     python=`which python2.3`
   fi
-  if [[ -z "$python" ]]; then
+  if [[ -z "$python" || "$python" == "no"* ]]; then
+    python=`which python2.2`
+  fi
+  if [[ -z "$python" || "$python" == "no"* ]]; then
     python=`which python2`
   fi
-  if [[ -z "$python" ]]; then
+  if [[ -z "$python" || "$python" == "no"* ]]; then
     python=`which python`
   fi
-  if [[ -z "$python" ]]; then
+  if [[ -z "$python" || "$python" == "no"* ]]; then
     python="python" # hope for the best...
   fi
   
@@ -353,7 +356,7 @@ $1"
 function check_command
 {
   local cmd=`$GUMP_HOME/bin/PrintPath $1`;
-  if [[ -z "$cmd" ]]; then
+  if [[ -z "$cmd" && ! -x "$1" ]]; then
      error "Cannot find $1. Please retrieve it from 
 
      $2
@@ -419,7 +422,7 @@ and install it."
 function check_environment
 {
   # PrintPath doesn't deal with absolute paths properly
-  #check_command $GUMP_PYTHON "http://www.python.org/"
+  check_command $GUMP_PYTHON "http://www.python.org/"
   #check_command "pkill" "http://sourceforge.net/projects/proctools"
   check_command "mysql" "http://www.mysql.com/"
   check_command "mysqladmin" "http://www.mysql.com/"
@@ -476,8 +479,8 @@ function pycompile
   find $GUMP_HOME/pygump -type f -name '*.pyc' | xargs rm -Rf
 
   # compile everything
-  $GUMP_PYTHON -c "import re; from compileall import compile_dir; compile_dir('$GUMP_HOME/pygump/python', 10, '$GUMP_HOME', False, re.compile('\.svn'), True)"  
-  
+  $GUMP_PYTHON -c "import re; from compileall import compile_dir; compile_dir('$GUMP_HOME/pygump/python', 10, '$GUMP_HOME', False, re.compile('\.svn'), True)"
+
   # add pygump to python path
   local oldpythonpath="$PYTHONPATH"
   if [[ -z "$oldpythonpath" ]]; then
@@ -738,6 +741,7 @@ setup_env
 # when the user is asking for help...
 case $1 in
     help* | usage | --help | -help | -H | -h | '')
+      shift
       usage $@
       exit 0
 esac
