@@ -132,6 +132,12 @@ From: Sam Ruby <rubys@us.ibm.com>
 Subject: [GUMP] Build Failure - Xerces2 dist
 Regex: /BUILD FAILED/
 ------
+Project: eyebrowse
+To: dev@eyebrowse.tigris.org
+From: Daniel Rall <dlr@finemaltcoding.com>
+Subject: [GUMP] Build Failure - Eyebrowse
+Regex: /BUILD FAILED/
+------
 Project: jakarta-alexandria
 To: alexandria-dev@jakarta.apache.org
 From: Sam Ruby <rubys@us.ibm.com>
