@@ -1,0 +1,21 @@
+<project name="jakarta-turbine-torque">
+
+  <url href="http://jakarta.apache.org/turbine/"/>
+  <description>
+    Servlet based framework
+  </description>
+
+  <cvs repository="jakarta"/>
+
+  <ant basedir="build">
+    <property name="version" value="gump"/>
+  </ant>
+
+  <depend project="jakarta-ant"/>
+  <depend project="xml-xerces"/>
+  <depend project="jakarta-velocity"/>
+
+  <home nested="bin"/>
+  <jar name="torque-gump.jar"/>
+
+</project>

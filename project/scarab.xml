@@ -17,7 +17,7 @@
   <depend project="jakarta-ecs"/>
   <depend project="jakarta-turbine"/>
   <depend project="village"/>
-  <depend project="torque"/>
+  <depend project="jakarta-turbine-torque"/>
   <option project="lucene"/>
   <depend project="jaf"/>
   <depend project="jakarta-log4j"/>

@@ -21,6 +21,7 @@
   <depend project="jakarta-ecs"/>
   <depend project="jakarta-oro"/>
   <depend project="jakarta-velocity"/>
+  <depend project="jakarta-turbine-torque"/>
   <depend project="village"/>
   <depend project="javamail"/>
   <depend project="xmlrpc"/>
@@ -32,18 +33,6 @@
 
   <home nested="bin"/>
   <jar name="turbine-gump.jar"/>
-
-  <project name="torque">
-    <depend project="jakarta-ant"/>
-    <depend project="xml-xerces"/>
-    <depend project="jakarta-turbine"/>
-    <ant basedir="build" buildfile="build-torque.xml">
-      <property name="build.dir" value="../bin"/>
-      <property name="build.dest" value="../bin/classes"/>
-    </ant>
-    <home nested="bin/torque/torque"/>
-    <jar name="lib/torque.jar"/>
-  </project>
 
   <project name="xmlrpc">
     <url href="http://classic.helma.at/hannes/xmlrpc/"/>
