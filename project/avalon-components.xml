@@ -42,7 +42,7 @@
     <project name="cornerstone-connection-api">
         <package>org.apache.avalon.cornerstone.services.connection</package>
 
-        <ant basedir="connection-api" target="jar">
+        <ant basedir="cornerstone/connection/api" target="jar">
             <property name="project.version" value="@@DATE@@"/>
         </ant>
 
@@ -66,9 +66,9 @@
         <!-- optional dependencies -->
         <option project="checkstyle" inherit="runtime"/>
 
-        <work nested="connection-api/target/classes"/>
+        <work nested="cornerstone/connection/api/target/classes"/>
 
-        <home nested="connection-api"/>
+        <home nested="cornerstone/connection/api"/>
         <jar name="target/cornerstone-connection-api-@@DATE@@.jar" />
 
         <nag from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"
@@ -78,7 +78,7 @@
     <project name="cornerstone-connection-impl">
         <package>org.apache.avalon.cornerstone.blocks.connection</package>
 
-        <ant basedir="connection-impl" target="jar">
+        <ant basedir="cornerstone/connection/impl" target="jar">
             <property name="project.version" value="@@DATE@@"/>
         </ant>
 
@@ -103,9 +103,9 @@
         <!-- optional dependencies -->
         <option project="checkstyle" inherit="runtime"/>
 
-        <work nested="connection-impl/target/classes"/>
+        <work nested="cornerstone/connection/impl/target/classes"/>
 
-        <home nested="connection-impl"/>
+        <home nested="cornerstone/connection/impl"/>
         <jar name="target/cornerstone-connection-impl-@@DATE@@.jar" />
 
         <nag from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"
@@ -115,7 +115,7 @@
     <project name="cornerstone-datasources-api">
         <package>org.apache.avalon.cornerstone.services.datasources</package>
 
-        <ant basedir="datasources-api" target="jar">
+        <ant basedir="cornerstone/datasources/api" target="jar">
             <property name="project.version" value="@@DATE@@"/>
         </ant>
 
@@ -131,9 +131,9 @@
         <!-- optional dependencies -->
         <option project="checkstyle" inherit="runtime"/>
 
-        <work nested="datasurces-api/target/classes"/>
+        <work nested="cornerstone/datasurces/api/target/classes"/>
 
-        <home nested="datasources-api"/>
+        <home nested="cornerstone/datasurces/api"/>
         <jar name="target/cornerstone-datasources-api-@@DATE@@.jar" />
 
         <nag from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"
@@ -143,7 +143,7 @@
     <project name="cornerstone-datasources-impl">
         <package>org.apache.avalon.cornerstone.blocks.datasources</package>
 
-        <ant basedir="datasources-impl" target="jar">
+        <ant basedir="cornerstone/datasources/impl" target="jar">
             <property name="project.version" value="@@DATE@@"/>
         </ant>
 
@@ -163,9 +163,9 @@
         <!-- optional dependencies -->
         <option project="checkstyle" inherit="runtime"/>
 
-        <work nested="datasurces-impl/target/classes"/>
+        <work nested="cornerstone/datasurces/impl/target/classes"/>
 
-        <home nested="datasources-impl"/>
+        <home nested="cornerstone/datasurces/impl"/>
         <jar name="target/cornerstone-datasources-impl-@@DATE@@.jar" />
 
         <nag from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"
@@ -175,7 +175,7 @@
     <project name="cornerstone-scheduler-api">
         <package>org.apache.avalon.cornerstone.services.scheduler</package>
 
-        <ant basedir="scheduler-api" target="jar">
+        <ant basedir="cornerstone/scheduler/api" target="jar">
             <property name="project.version" value="@@DATE@@"/>
         </ant>
 
@@ -191,9 +191,9 @@
         <!-- optional dependencies -->
         <option project="checkstyle" inherit="runtime"/>
 
-        <work nested="scheduler-api/target/classes"/>
+        <work nested="cornerstone/scheduler/api/target/classes"/>
 
-        <home nested="scheduler-api"/>
+        <home nested="cornerstone/scheduler/api"/>
         <jar name="target/cornerstone-scheduler-api-@@DATE@@.jar" />
 
         <nag from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"
@@ -203,7 +203,7 @@
     <project name="cornerstone-scheduler-impl">
         <package>org.apache.avalon.cornerstone.blocks.scheduler</package>
 
-        <ant basedir="scheduler-impl" target="jar">
+        <ant basedir="cornerstone/scheduler/impl" target="jar">
             <property name="project.version" value="@@DATE@@"/>
         </ant>
 
@@ -223,9 +223,9 @@
         <!-- optional dependencies -->
         <option project="checkstyle" inherit="runtime"/>
 
-        <work nested="scheduler-impl/target/classes"/>
+        <work nested="cornerstone/scheduler/impl/target/classes"/>
 
-        <home nested="scheduler-impl"/>
+        <home nested="cornerstone/scheduler/impl"/>
         <jar name="target/cornerstone-scheduler-impl-@@DATE@@.jar" />
 
         <nag from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"
@@ -235,7 +235,7 @@
     <project name="cornerstone-sockets-api">
         <package>org.apache.avalon.cornerstone.services.sockets</package>
 
-        <ant basedir="sockets-api" target="jar">
+        <ant basedir="cornerstone/sockets/api" target="jar">
             <property name="project.version" value="@@DATE@@"/>
         </ant>
 
@@ -251,9 +251,9 @@
         <!-- optional dependencies -->
         <option project="checkstyle" inherit="runtime"/>
 
-        <work nested="sockets-api/target/classes"/>
+        <work nested="cornerstone/sockets/api/target/classes"/>
 
-        <home nested="sockets-api"/>
+        <home nested="cornerstone/sockets/api"/>
         <jar name="target/cornerstone-sockets-api-@@DATE@@.jar" />
 
         <nag from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"
@@ -263,7 +263,7 @@
     <project name="cornerstone-sockets-impl">
         <package>org.apache.avalon.cornerstone.blocks.sockets</package>
 
-        <ant basedir="sockets-impl" target="jar">
+        <ant basedir="cornerstone/sockets/impl" target="jar">
             <property name="project.version" value="@@DATE@@"/>
         </ant>
 
@@ -281,9 +281,9 @@
         <!-- optional dependencies -->
         <option project="checkstyle" inherit="runtime"/>
 
-        <work nested="sockets-impl/target/classes"/>
+        <work nested="cornerstone/sockets/impl/target/classes"/>
 
-        <home nested="sockets-impl"/>
+        <home nested="cornerstone/sockets/impl"/>
         <jar name="target/cornerstone-sockets-impl-@@DATE@@.jar" />
 
         <nag from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"
@@ -293,7 +293,7 @@
     <project name="cornerstone-store-api">
         <package>org.apache.avalon.cornerstone.services.store</package>
 
-        <ant basedir="store-api" target="jar">
+        <ant basedir="cornerstone/store/api" target="jar">
             <property name="project.version" value="@@DATE@@"/>
         </ant>
 
@@ -309,9 +309,9 @@
         <!-- optional dependencies -->
         <option project="checkstyle" inherit="runtime"/>
 
-        <work nested="store-api/target/classes"/>
+        <work nested="cornerstone/store/api/target/classes"/>
 
-        <home nested="store-api"/>
+        <home nested="cornerstone/store/api"/>
         <jar name="target/cornerstone-store-api-@@DATE@@.jar" />
 
         <nag from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"
@@ -321,7 +321,7 @@
     <project name="cornerstone-store-impl">
         <package>org.apache.avalon.cornerstone.blocks.store</package>
 
-        <ant basedir="store-impl" target="jar">
+        <ant basedir="cornerstone/store/impl" target="jar">
             <property name="project.version" value="@@DATE@@"/>
         </ant>
 
@@ -339,9 +339,9 @@
         <!-- optional dependencies -->
         <option project="checkstyle" inherit="runtime"/>
 
-        <work nested="store-impl/target/classes"/>
+        <work nested="cornerstone/store/impl/target/classes"/>
 
-        <home nested="store-impl"/>
+        <home nested="cornerstone/store/impl"/>
         <jar name="target/cornerstone-store-impl-@@DATE@@.jar" />
 
         <nag from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"
@@ -351,7 +351,7 @@
     <project name="cornerstone-threads-api">
         <package>org.apache.avalon.cornerstone.services.threads</package>
 
-        <ant basedir="threads-api" target="jar">
+        <ant basedir="cornerstone/threads/api" target="jar">
             <property name="project.version" value="@@DATE@@"/>
         </ant>
 
@@ -367,9 +367,9 @@
         <!-- optional dependencies -->
         <option project="checkstyle" inherit="runtime"/>
 
-        <work nested="threads-api/target/classes"/>
+        <work nested="cornerstone/threads/api/target/classes"/>
 
-        <home nested="threads-api"/>
+        <home nested="cornerstone/threads/api"/>
         <jar name="target/cornerstone-threads-api-@@DATE@@.jar" />
 
         <nag from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"
@@ -379,7 +379,7 @@
     <project name="cornerstone-threads-impl">
         <package>org.apache.avalon.cornerstone.blocks.threads</package>
 
-        <ant basedir="threads-impl" target="jar">
+        <ant basedir="cornerstone/threads/impl" target="jar">
             <property name="project.version" value="@@DATE@@"/>
         </ant>
 
@@ -400,9 +400,9 @@
         <!-- optional dependencies -->
         <option project="checkstyle" inherit="runtime"/>
 
-        <work nested="threads-impl/target/classes"/>
+        <work nested="cornerstone/threads/impl/target/classes"/>
 
-        <home nested="threads-impl"/>
+        <home nested="cornerstone/threads/impl"/>
         <jar name="target/cornerstone-threads-impl-@@DATE@@.jar" />
 
         <nag from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"
