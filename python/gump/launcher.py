@@ -246,8 +246,10 @@ class CmdResult:
     def tail(self,lines):
         tail = "---------------------------------------------"
         
+        
         if self.output:
-            tail += gump.tools.tailFileToString(self.output,lines)
+            from gump.tools import tailFileToString            
+            tail += tailFileToString(self.output,lines)
         else:
             tail += "No output"
             

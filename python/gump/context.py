@@ -201,7 +201,7 @@ class CommandWorkItem(TimedWorkItem):
         overview=TimedWorkItem.overview(self)
         overview += self.command.overview()
         
-        if not workitem.status == STATUS_SUCCESS:
+        if not self.status == STATUS_SUCCESS:
             overview+=self.result.tail(50)
             
         return overview

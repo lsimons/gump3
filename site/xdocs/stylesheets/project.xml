@@ -16,6 +16,8 @@
         href="/usage.html"/>
       <item name="FAQ"
         href="/faq.html"/>
+      <item name="Getting Started"
+        href="/gettingstarted.html"/>
     </menu>
 
     <menu name="Results">
@@ -62,6 +64,8 @@
         href="http://jakarta.apache.org/getinvolved/mail.html"/>
       <item name="Search mailing lists"
         href="http://marc.theaimsgroup.com/?l=alexandria-dev&amp;r=1&amp;w=2"/>
+      <item name="Wiki"
+      	href="http://nagoya.apache.org/wiki/apachewiki.cgi?GumpProjectPages"/>
     </menu>
 
   </body>

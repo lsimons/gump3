@@ -54,7 +54,6 @@
     <repository href="repository/mozilla.xml"/>
     <repository href="repository/tigris.xml"/>
     <repository href="repository/sourceforge.xml"/>
-    <repository href="repository/webmacro.xml"/>
     <repository href="repository/werken.xml"/>
     <repository href="repository/whichever.xml"/>
     <repository href="repository/xml.xml"/>

@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/Attic/logic.py,v 1.28 2003/10/17 03:48:14 ajack Exp $
-# $Revision: 1.28 $
-# $Date: 2003/10/17 03:48:14 $
+# $Header: /home/stefano/cvs/gump/python/gump/Attic/logic.py,v 1.29 2003/10/17 23:13:26 ajack Exp $
+# $Revision: 1.29 $
+# $Date: 2003/10/17 23:13:26 $
 #
 # ====================================================================
 #
@@ -318,9 +318,11 @@ def getScriptCommand(workspace,module,project,script,context):
 #
 class AnnotatedPath:
     """Contains a Path plus optional 'contributor' """
-    def __init__(self,path,context=None):
+    def __init__(self,path,context=None,pcontext=None,note=None):
         self.path=path
         self.context=context
+        self.pcontext=pcontext
+        self.note=note
         
     def __repr__(self):
         return self.path
@@ -329,7 +331,8 @@ class AnnotatedPath:
         return self.path
         
     def __eq__(self,other):
-        return self.path == other.path and self.context == other.context
+        return self.path == other.path \
+            and self.context == other.context
                 
     def __cmp__(self,other):
         cmp = self.path < other.path
@@ -345,7 +348,7 @@ def getOutputsList(project, pctxt):
         # :TODO: Hack to avoid a crash, don't know why it is needed...
         if project.jar[i].path:
             jar=os.path.normpath(project.jar[i].path)
-            outputs.append(AnnotatedPath(jar,pctxt))        
+            outputs.append(AnnotatedPath(jar,pctxt,None,"Project output"))        
             
     return outputs
                  
@@ -396,7 +399,7 @@ def getClasspathList(project,workspace,context):
               + project.name + " in " + project.module)
     
       if path:
-          classpath.append(AnnotatedPath(path,pctxt))
+          classpath.append(AnnotatedPath(path,pctxt,None,'Working Directory'))
 
   # Append dependent projects (including optional)
   visited=[]
@@ -445,6 +448,10 @@ def getDependOutputList(parent,parentctxt,depend,context,visited):
   pctxt=context.getProjectContextForProject(project)
   
   # The dependency drivers...
+  #
+  # runtime (i.e. this is a runtime dependency)
+  # inherit (i.e. inherit stuff from a dependency)
+  #
   runtime=depend.runtime
   inherit=depend.inherit
   if depend.ids:
@@ -453,13 +460,26 @@ def getDependOutputList(parent,parentctxt,depend,context,visited):
       ids=None
   
   #
+  # Explain..
+  #
+  dependStr=''
+  if inherit: 
+      if dependStr: dependStr += ','
+      dependStr += 'Inherit='+str(inherit)
+  if runtime: 
+      if dependStr: dependStr += ','
+      dependStr += ',Runtime'
+  if ids: dependStr += ', IDs [' + ' '.join(ids) + ']'
+  
+  #
   # Append JARS for this project
   #	(respect ids)
   #
   for jar in project.jar:
       # If 'all' or in ids list:
       if (not ids) or (jar.id in ids):   
-          path=AnnotatedPath(jar.path,pctxt)
+          if ids: dependStr += 'id = ' + jar.id
+          path=AnnotatedPath(jar.path,pctxt,parentctxt,dependStr)
           if not path in classpath:
               classpath.append(path)
 
@@ -469,22 +489,21 @@ def getDependOutputList(parent,parentctxt,depend,context,visited):
   #
   # Deep copy all/hard (or those for runtime)
   #
-  if inherit == 'all' or inherit=='hard' or runtime:      
-      # Append sub-projects outputs
-      if project.depend:
-          for subdepend in project.depend:        
-            if not runtime or subdepend.runtime:      
-                for path in getDependOutputList(project,pctxt,subdepend,context,visited):
-                    if not path in classpath:
-                        classpath.append(path)
+  # Append sub-projects outputs
+  if project.depend:
+    for subdepend in project.depend:            
+        if subdepend.inherit or ( runtime and subdepend.runtime ):      
+          for path in getDependOutputList(project,pctxt,subdepend,context,visited):
+            if not path in classpath:
+              classpath.append(path)
   
-      # Append optional sub-project's output (that may not exist)
-      if project.option:
-          for suboption in project.option:
-            if not runtime or suboption.runtime:      
-                for path in getDependOutputList(project,pctxt,suboption,context,visited):
-                    if not path in classpath:
-                        classpath.append(path)
+          # Append optional sub-project's output (that may not exist)
+  if project.option:
+    for suboption in project.option:
+        if suboption.inherit or ( runtime and suboption.runtime ):          
+          for path in getDependOutputList(project,pctxt,suboption,context,visited):
+            if not path in classpath:
+              classpath.append(path)
 
   return classpath
     
@@ -670,5 +689,12 @@ if __name__=='__main__':
       cp=getClasspathList(project,workspace,context)
       print "Project : " + project.name 
       for p in cp:
-          print " - " + str(p)
+          if isinstance(p,AnnotatedPath):
+              pp='Unnamed'
+              ppp='Unnamed'
+              if p.context: pp=p.context.name
+              if p.pcontext: ppp=p.pcontext.name
+              print " - " + str(p) + " : " + pp + " : " + ppp + " : " + str(p.note)
+          else:
+              print " + " + str(p)
 

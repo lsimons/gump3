@@ -681,17 +681,31 @@ def documentProject(workspace,context,modulename,mdir,projectname,projectcontext
 
     startSectionXDoc(x,'Classpath')
     startTableXDoc(x)
-    x.write('      <tr><th>Path Entry</th><th>Contributor</th></tr>')       
+    x.write('      <tr><th>Path Entry</th><th>Contributor</th><th>Instigator</th><th>Annotation</th></tr>')       
     classpath=getClasspathList(project,workspace,context)
     paths=0
     for path in classpath: 
         if isinstance(path,AnnotatedPath):
             pcontext=path.context
+            ppcontext=path.pcontext
+            note=path.note
         else:
             pcontext=context
+            ppcontext=None
+            note=''
         startTableRowXDoc(x)
         insertTableDataXDoc(x, path)
+        
+        # Contributor
         insertTableDataXDoc(x, getContextLink(pcontext))
+        
+        # Instigator (if not Gump)
+        link=''
+        if ppcontext: link=getContextLink(ppcontext)
+        insertTableDataXDoc(x, link)
+        
+        # Additional Notes...
+        insertTableDataXDoc(x, note)
         endTableRowXDoc(x)
         paths+=1
     if not paths:        
@@ -1378,7 +1392,7 @@ def addItemXDoc(f,t,i=''):
     
 def addXItemXDoc(f,t,i=None):
     if i:
-        f.write('      <li>%s - %s</li>\n' % (t, i))    
+        f.write('      <li><strong>%s</strong>%s</li>\n' % (t, i))    
     else:
         f.write('      <li>%s</li>\n' % (t))  
   

@@ -14,7 +14,7 @@
     <package>org.jaxen</package>
     <depend project="packaged-dom4j">
     </depend>
-    <depend project="jakarta-ant">
+    <depend project="ant">
     </depend>
     <depend project="jdom">
     </depend>
@@ -44,7 +44,7 @@
     <package>org.jaxen</package>
     <depend project="dom4j">
     </depend>
-    <depend project="jakarta-ant">
+    <depend project="ant">
     </depend>
     <depend project="jdom">
     </depend>
