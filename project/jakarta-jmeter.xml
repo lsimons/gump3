@@ -46,7 +46,7 @@
     <work nested="lib/ext/ApacheJMeter_jdbc.jar"/>
     <work nested="lib/ext/ApacheJMeter_java.jar"/>
 
-    <!-- JMeter doesn't currently export any JARs
+    <!-- JMeter doesn't currently export any JARs ...
     <home nested="bin" />
     <jar name="ApacheJMeter.jar" />
     <license name="LICENSE"/>
