@@ -21,6 +21,7 @@ import org.w3c.dom.NamedNodeMap;
 
 // Imported java classes
 import java.io.FileOutputStream;
+import java.util.Enumeration;
 import java.util.Hashtable;
 
 public class gen {
@@ -115,27 +116,59 @@ public class gen {
        }
     }
 
-    private void collapse(String type, Hashtable list, Node parent) {
+    /**
+      * Merge the contents of nodes with the same value for the name attribute.
+      * Attributes from later definitions get added (or overlay) prior
+      * definitions.  Elements get appended.
+      * @param type Element localname.  Typically project or repository.
+      * @param list Hashtable used for recursion.  Must initially be empty.
+      * @param Node Starting point for search.
+      */
+    private void merge(String type, Hashtable list, Node parent) {
        Node child=parent.getFirstChild();
        while (child != null) {
            Node next=child.getNextSibling();
            if (child.getNodeName().equals(type)) {
-               Element project = (Element) child;
-               String name = project.getAttributeNode("name").getValue();
+               Element element = (Element) child;
+               String name = element.getAttributeNode("name").getValue();
 
                Element priorDefinition = (Element)list.get(name);
                if (priorDefinition == null) {
-                   list.put(name, project);
+                   list.put(name, element);
                } else {
-                   copyChildren(project, priorDefinition);
-                   project.getParentNode().removeChild(project);
-                   project=priorDefinition;
+                   copyChildren(element, priorDefinition);
+                   element.getParentNode().removeChild(element);
+                   element=priorDefinition;
                }
 
-               collapse(type, list, project);
+               merge(type, list, element);
            }
            child=next;
        }
+    }
+
+    /**
+      * Unnest all elements of a given type by moving them all to become
+      * direct children of the specified root node.  In the process, merge
+      * all matching nodes which contain the same value for the name attribute.
+      * For elements that get "hoisted", an additional "defined-in" attribute
+      * is added indicating where the element was originally defined.
+      * @param type Element localname.  Typically project or repository.
+      * @param Node Root (workspace) node
+      */
+    private void flatten(String type, Node root) {
+        Hashtable list = new Hashtable();
+        merge(type, list, root);
+        for (Enumeration e=list.keys(); e.hasMoreElements();) {
+           Element element = (Element)list.get(e.nextElement());
+           Element parent  = (Element)element.getParentNode();
+           if (parent != root) {
+               parent.removeChild(element);
+               String definedIn = parent.getAttributeNode("name").getValue();
+               element.setAttribute("defined-in",definedIn);
+               root.appendChild(element);
+           }
+        }
     }
 
     /**
@@ -158,8 +191,8 @@ public class gen {
     private gen(String source) throws Exception {
         Node workspace = parse(source);
         expand((Element)workspace.getFirstChild());
-        collapse("project", new Hashtable(), workspace.getFirstChild());
-        collapse("repository", new Hashtable(), workspace.getFirstChild());
+        flatten("project", workspace.getFirstChild());
+        flatten("repository", workspace.getFirstChild());
 
         Node resolved = transform(workspace, "defaults.xsl");
         output (resolved, "work/merge.xml");

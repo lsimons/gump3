@@ -67,19 +67,8 @@
         </xsl:attribute>
       </xsl:if>
 
-      <xsl:copy-of select="@*"/>
-
-      <!-- pre-process each project -->
-      <xsl:for-each select="project[not(@href)]">
-        <xsl:call-template name="project">
-          <xsl:with-param name="home" select="@home"/>
-          <xsl:with-param name="basedir" select="$basedir"/>
-          <xsl:with-param name="defined-in" select="@defined-in"/>
-        </xsl:call-template>
-      </xsl:for-each>
-
       <!-- copy the rest -->
-      <xsl:apply-templates select="*[not(self::project)]"/>
+      <xsl:apply-templates select="* | @* | text()"/>
 
     </xsl:copy>
 
@@ -89,12 +78,9 @@
   <!--      resolve paths and add implicit dependencies to a project       -->
   <!-- =================================================================== -->
 
-  <xsl:template name="project">
-    <xsl:param name="home"/>
-    <xsl:param name="basedir"/>
-    <xsl:param name="tag"/>
-    <xsl:param name="defined-in"/>
+  <xsl:template match="project">
 
+    <xsl:variable name="basedir" select="../@basedir"/>
     <xsl:variable name="project" select="@name"/>
 
     <!-- determine the name of the source directory -->
@@ -104,11 +90,8 @@
         <xsl:when test="@srcdir">
           <xsl:value-of select="@srcdir"/>
         </xsl:when>
-        <xsl:when test="../@srcdir">
-          <xsl:value-of select="../@srcdir"/>
-        </xsl:when>
-        <xsl:when test="../@name">
-          <xsl:value-of select="../@name"/>
+        <xsl:when test="@defined-in">
+          <xsl:value-of select="@defined-in"/>
         </xsl:when>
         <xsl:otherwise>
           <xsl:value-of select="@name"/>
@@ -119,18 +102,8 @@
     <xsl:copy>
       <xsl:apply-templates select="@*[name()!='srcdir']"/>
 
-      <xsl:if test="$defined-in">
-        <xsl:attribute name="defined-in">
-          <xsl:value-of select="$defined-in"/>
-        </xsl:attribute>
-      </xsl:if>
-
       <xsl:attribute name="srcdir">
         <xsl:value-of select="$srcdir"/>
-      </xsl:attribute>
-
-      <xsl:attribute name="tag">
-        <xsl:value-of select="$tag"/>
       </xsl:attribute>
 
       <xsl:apply-templates select="*[not(self::home|self::project)] | text()"/>
@@ -139,8 +112,8 @@
 
       <home>
         <xsl:choose>
-          <xsl:when test="$home">
-             <xsl:value-of select="$home"/>
+          <xsl:when test="@home">
+             <xsl:value-of select="@home"/>
           </xsl:when>
           <xsl:when test="home/@parent">
              <xsl:value-of select="$basedir"/>
@@ -187,17 +160,6 @@
       </xsl:for-each>
 
     </xsl:copy>
-
-    <!-- process nested projects -->
-
-    <xsl:for-each select="project">
-      <xsl:text>&#10;&#10;</xsl:text>
-      <xsl:call-template name="project">
-        <xsl:with-param name="home" select="$home"/>
-        <xsl:with-param name="basedir" select="$basedir"/>
-        <xsl:with-param name="defined-in" select="$defined-in"/>
-      </xsl:call-template>
-    </xsl:for-each>
 
   </xsl:template>
 
