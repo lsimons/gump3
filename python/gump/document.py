@@ -194,11 +194,7 @@ def executeForrest(workspace,context):
     
     # Then generate...        
     forrest=Cmd('forrest','forrest',forrest)
-    
-    # Temporary
-    # Too verbose ... forrest.addParameter('-debug')
-    forrest.addParameter('-verbose')
-    
+  
     forrest.addPrefixedParameter('-D','java.awt.headless','true','=')
     #forrest.addPrefixedParameter('-D','project.content-dir',  \
     #    content, '=')    
@@ -220,6 +216,10 @@ def executeForrest(workspace,context):
 
     #forrest.addPrefixedParameter('-D','project.skinconf', \
     #    getWorkspaceSiteDir(workspace), '=' )
+      
+    # Temporary
+    # Too verbose ... forrest.addParameter('-debug')
+    #forrest.addParameter('-verbose')
     
     # A sneak preview ... 
     work=CommandWorkItem(WORK_TYPE_DOCUMENT,forrest)
