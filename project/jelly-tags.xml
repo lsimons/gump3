@@ -180,7 +180,6 @@
 
     <depend project="commons-jelly" inherit="all"/>
     
-    <!-- ant taglib and dependencies used in tests -->
     <depend project="jakarta-ojb"/>
     <depend project="commons-lang"/>
 
@@ -198,18 +197,44 @@
     <description>This is a Jelly interface for the Quartz Scheduler.</description>
 
     <ant basedir="jelly/jelly-tags/quartz" target="jar">
-      <property name="final.name"  value="commons-jelly-tags-ojb-@@DATE@@"/>
+      <property name="final.name"  value="commons-jelly-tags-quartz-@@DATE@@"/>
     </ant>
 
     <depend project="commons-jelly" inherit="all"/>
     
-    <!-- ant taglib and dependencies used in tests -->
     <depend project="quartz"/>
 
     <work nested="jelly/jelly-tags/quartz/target/classes"/>
     <work nested="jelly/jelly-tags/quartz/target/test-classes"/>
 
     <jar name="jelly/jelly-tags/quartz/target/commons-jelly-tags-quartz-@@DATE@@.jar"/>
+ 
+    <nag from="Morgan Delagrange &lt;mdelagra@yahoo.com&gt;"
+         to="commons-dev@jakarta.apache.org"/>
+  </project>
+  
+  <project name="commons-jelly-tags-soap">
+    <package>org.apache.commons.jelly.tags.soap</package>
+    <description>This is a Jelly interface for SOAP.</description>
+
+    <ant basedir="jelly/jelly-tags/soap" target="jar">
+      <property name="final.name"  value="commons-jelly-tags-soap-@@DATE@@"/>
+    </ant>
+
+    <depend project="commons-jelly" inherit="all"/>
+    
+    <depend project="xml-axis"/>
+    <!-- 
+      probably won't work right off the bat
+      maven lists dependencies on jaxrpc and saaj
+    <depend project="jaxrpc"/>
+    <depend project="saaj"/>
+    -->
+	
+    <work nested="jelly/jelly-tags/soap/target/classes"/>
+    <work nested="jelly/jelly-tags/soap/target/test-classes"/>
+
+    <jar name="jelly/jelly-tags/soap/target/commons-jelly-tags-soap-@@DATE@@.jar"/>
  
     <nag from="Morgan Delagrange &lt;mdelagra@yahoo.com&gt;"
          to="commons-dev@jakarta.apache.org"/>
