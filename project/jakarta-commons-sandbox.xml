@@ -149,6 +149,8 @@
     <depend project="xmlunit"/>
 
     <work nested="jelly/target/classes"/>
+    <work nested="jelly/target/test-classes"/>
+
     <home nested="jelly/target"/>
     <jar name="commons-jelly-1.0-dev.jar"/>
 
