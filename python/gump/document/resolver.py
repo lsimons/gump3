@@ -130,7 +130,7 @@ class Path(list):
    
 def getShortenedPath(path,index):
     """
-    	Trim a path
+    	Create a trimmed path (from index to end)
     """
     return Path(path[index:len(path)])
         

@@ -263,7 +263,7 @@ The following %s notify%s should have been sent
                         subject,content)
     
     def notifyModule(self,module,notification):
-        """ Notify to a specific module's <notify entry """
+        """ Notify to a specific module's <nag entries """
         
         # Form the content...
         content=notification.resolveContent(self.resolver, self.getNextIdentifier())
@@ -273,11 +273,14 @@ The following %s notify%s should have been sent
                 ': '+module.getName()+' '+	\
                 lower(stateDescription(module.getState()))
                     
+        if notification.isWarning():
+            subject += ', but with warnings.'
+            
         self.sendEmails(self.getAddressPairs(module),subject,content)
             
     
     def notifyProject(self,project,notification):
-        """ Notify to a specific project's <notify entry """
+        """ Notify to a specific project's <nag entries """
         module=project.getModule()
     
         #
@@ -289,6 +292,9 @@ The following %s notify%s should have been sent
         subject=self.workspace.prefix+': '	\
             + module.getName() + '/' +project.getName()	\
             +' '+lower(stateDescription(project.getState()))
+            
+        if notification.isWarning():
+            subject += ', but with warnings.'
                     
         # Send those e-mails
         self.sendEmails(self.getAddressPairs(project),subject,content)

@@ -199,6 +199,9 @@ and/or contact folk at general@gump.apache.org.
         
         
     def resolveAnnotations(self, resolver, stream):
+        """
+        Resolve any annotations on the entity
+        """
           
         #
         # Add an info/error/etc...
@@ -211,7 +214,10 @@ and/or contact folk at general@gump.apache.org.
                 stream.write(' -%s- %s\n' % (upper(levelName(note.level)), note.text))
         
     def resolveWork(self, resolver, stream):
-    
+        """
+        Resolve any work entries on the entity
+        """
+              
         #
         # Work
         #
@@ -227,11 +233,17 @@ and/or contact folk at general@gump.apache.org.
     
         
     def resolveStats(self, resolver, stream):
+        """
+        Resolve any stats on the entity
+        """
+          
         stats=self.entity.getStats()
         stream.write('\n\n')
         
-    def resolveSyndication(self, resolver, stream):
-        
+    def resolveSyndication(self, resolver, stream): 
+        """
+        Resolve syndication links on the entity
+        """
         stream.write('\n')
         stream.write('To subscribe to this information via syndicated feeds:')
         stream.write('\n')
@@ -243,8 +255,10 @@ and/or contact folk at general@gump.apache.org.
         stream.write(' RSS: ' + rssurl + '\n')
         stream.write(' Atom: ' + atomurl + '\n')
         
-    def resolveFooter(self, resolver, id, stream):
-        
+    def resolveFooter(self, resolver, id, stream):        
+        """
+        Resolve footer (Gump identification information)
+        """
         stream.write('\n\n--\n')
         if id:
             stream.write('Gump E-mail Identifier (within run) #%s.\n' % id )

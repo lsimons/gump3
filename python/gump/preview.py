@@ -15,7 +15,7 @@
 # limitations under the License.
 
 #
-# $Header: /home/stefano/cvs/gump/python/gump/preview.py,v 1.8 2004/07/19 16:07:53 ajack Exp $
+# $Header: /home/stefano/cvs/gump/python/gump/preview.py,v 1.9 2004/07/28 15:50:29 ajack Exp $
 # 
 
 """
@@ -77,8 +77,11 @@ def prun():
     if verbose:  
         # Show the workings
         runner=getRunner(run)
+        
+        #
         updater=runner.getUpdater()
         builder=runner.getBuilder()
+        languageHelper=runner.getJavaHelper()
             
         for module in run.getGumpSet().getModules():
             print SEPARATOR
@@ -96,7 +99,7 @@ def prun():
                 print project.getXml()
             project.dump()
             if project.hasBuilder():
-                builder.preview(project)
+                builder.preview(project, languageHelper)
     
     # Show any nasties...
     if workspace.containsNasties():

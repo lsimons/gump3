@@ -1818,7 +1818,7 @@ This page helps Gumpmeisters (and others) observe community progress.
             if project.hasAnt():                
                 self.documentProperties(miscSection, project.getAnt(), 'Ant Properties')
             
-            javaHelper=self.run.getBuilder().getJavaLanguageHelper()            
+            javaHelper=self.run.getJavaHelper()            
             (classpath,bootclasspath)=javaHelper.getClasspathObjects(project)            
             self.displayClasspath(miscSection, classpath, 'Classpath', project)        
             self.displayClasspath(miscSection, bootclasspath, 'Boot Classpath', project) 

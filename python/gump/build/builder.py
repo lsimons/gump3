@@ -75,20 +75,7 @@ class GumpBuilder(gump.run.gumprun.RunSpecific):
         self.script=ScriptBuilder(run)
 
         # Place repository in jardir (to be renamed to repodir)
-        self.repository=self.run.getOutputsRepository()
-        
-        # A helper per language/type
-        # Note: All are Java right now...
-        self.java=gump.java.helper.JavaHelper(run)
-
-
-    def getJavaLanguageHelper(self):
-        """
-        
-        Return the language specific helper
-         
-        """
-        return self.java
+        self.repository=self.run.getOutputsRepository()        
             
     def buildProject(self,project):
         """

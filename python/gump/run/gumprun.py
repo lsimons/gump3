@@ -120,6 +120,13 @@ class GumpRun(gump.utils.work.Workable,gump.utils.note.Annotatable,Stateful):
     def getUpdater(self):
         return self.updater
 
+    def setJavaHelper(self,javaHelper):
+        self.javaHelper=javaHelper
+        
+    def getJavaHelper(self):
+        return self.javaHelper
+        
+    
     def getRunGuid(self):
         return self.guid
         

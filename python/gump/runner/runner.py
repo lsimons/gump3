@@ -55,9 +55,15 @@ class GumpRunner(RunSpecific):
         self.updater=GumpUpdater(run)
         self.builder=GumpBuilder(run)
         
+        
+        # A helper per language/type
+        # Note: All are Java right now...
+        self.java=gump.java.helper.JavaHelper(run)
+        
         # Stash them for reference...
         run.setUpdater(self.updater)
-        run.setBuilder(self.builder)
+        run.setBuilder(self.builder)        
+        run.setJavaHelper(self.java)
         
     def initialize(self,exitOnError=True):
         
@@ -157,6 +163,15 @@ class GumpRunner(RunSpecific):
         
     def getBuilder(self):
         return self.builder
+        
+    def getJavaHelper(self):
+        """
+        
+        Return the language specific helper
+         
+        """
+        return self.java
+        
         
     #
     # Call a method called 'documentRun(run)'
