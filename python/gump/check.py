@@ -6,6 +6,7 @@
 import os.path
 import os
 import sys
+import traceback
 import logging
 
 from gump import load, buildSequence
@@ -72,8 +73,17 @@ def check(workspace, projectname):
     for missed in missing:
       print "  " + missed
 
-  #peekInGlobalProfile(missing);
-  
+  try:
+    peekInGlobalProfile(missing);
+  except:
+    print
+    print " ***** In Global Profile... ***** "  
+    print
+    print "  Rats, cannot load the global Gump profile, you have to install %\n  the jars by hand."  
+    print 
+    traceback.print_exc()    
+    print
+      
   print
   print " ***** RESULT ***** "  
   print
