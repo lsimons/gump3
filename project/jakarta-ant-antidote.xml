@@ -1,6 +1,6 @@
 <module name="jakarta-ant-antidote">
 
-  <url href="http://jakarta.apache.org/ant/index.html"/>
+  <url href="http://ant.apache.org/index.html"/>
   <description>
     GUI frontend to Ant
   </description>

@@ -1,6 +1,6 @@
 <module name="jakarta-ant">
 
-  <url  href="http://jakarta.apache.org/ant/index.html"/>
+  <url  href="http://ant.apache.org/index.html"/>
   <description>
     Java based build tool
   </description>
