@@ -12,9 +12,9 @@
     <ant target="dist"/>
     <depend project="xml-xerces"/>
     <depend project="jakarta-ant"/>
-    <home parent="dist/servletapi"/>
+    <home nested="dist"/>
     <jar  name="lib/servlet.jar"/>
-    <javadoc parent="build/servletapi/docs/api" module="jakarta-tomcat"/>
+    <javadoc nested="dist/docs/api" module="jakarta-tomcat"/>
   </project>
 
 </module>
