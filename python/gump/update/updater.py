@@ -175,7 +175,7 @@ class GumpUpdater(RunSpecific):
                 module.setModified(1)                        
                 log.info('Update(s) received via CVS/SVN/Jars on #[' \
                                 + `module.getPosition()` + \
-                                '] of [' + `moduleCount` + ']: ' + module.getName())
+                                '] : ' + module.getName())
                                 
                 # Log of changes...
                 if os.path.exists(changesFile):                               
