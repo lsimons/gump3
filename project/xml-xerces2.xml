@@ -1,6 +1,6 @@
 <module name="xml-xerces2">
 
-  <url href="http://xml.apache.org/~andyc/"/>
+  <url href="http://xml.apache.org/xerces2-j/index.html"/>
   <description>
     Java XML Parser - the sequel with no equal
   </description>
