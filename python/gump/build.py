@@ -18,7 +18,7 @@ import sys
 import logging
 
 from gump import load, buildSequence
-from gump.conf import dir, default
+from gump.conf import dir, default, handleArgv
 from gump.model import Workspace, Module, Project
 
 ###############################################################################
@@ -186,17 +186,10 @@ if __name__=='__main__':
   #set verbosity to show all messages of severity >= default.logLevel
   log.setLevel(default.logLevel)
 
-  # load commandline args or use default values
-  if len(sys.argv)>1 :
-    ws=sys.argv[1]
-  else:
-    ws=default.workspace
-
-  if len(sys.argv)>2 :
-    ps=sys.argv[2]
-  else:
-    ps=default.project
-
+  args = handleArgv(sys.argv)
+  ws=args[0]
+  ps=args[1]
+  
   # get parsed workspace definition
   workspace=load(ws)
   # run gump

@@ -10,7 +10,7 @@ import traceback
 import logging
 
 from gump import load, buildSequence
-from gump.conf import dir, default
+from gump.conf import dir, default, handleArgv
 from gump.model import Workspace, Module, Project
 
 ###############################################################################
@@ -128,11 +128,12 @@ def peekInGlobalProfile(missing):
       print "  ",currentmodule.description
       print
       print "   project url: " , currentproject.url.href
+      print "   module  url: " , currentmodule.url.href
       print "   module  cvs: " , currentmodule.cvsroot()
       if currentmodule.redistributable:
         print  
         print "   NOTE: You can also get it in the Gump jar repository." 
-        print "         See http://jakarta.apache.org/gump/ for details."
+        print "         See http://jakarta.apache,org/gump/ for details."
         
     else:
       print "   Gump doesn't know about it. Or it's wrong, or you have to "
@@ -148,16 +149,9 @@ if __name__=='__main__':
   #set verbosity to show all messages of severity >= default.logLevel
   log.setLevel(default.logLevel)
   
-  # load commandline args or use default values
-  if len(sys.argv)>1 :
-    ws=sys.argv[1]
-  else:
-    ws=default.workspace
-
-  if len(sys.argv)>2 :
-    ps=sys.argv[2]
-  else:
-    ps=default.project
+  args = handleArgv(sys.argv)
+  ws=args[0]
+  ps=args[1]
 
   # get parsed workspace definition
   workspace=load(ws)

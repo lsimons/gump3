@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/update.py,v 1.3 2003/05/05 18:54:49 rubys Exp $
-# $Revision: 1.3 $
-# $Date: 2003/05/05 18:54:49 $
+# $Header: /home/stefano/cvs/gump/python/gump/update.py,v 1.4 2003/05/08 06:35:41 nicolaken Exp $
+# $Revision: 1.4 $
+# $Date: 2003/05/08 06:35:41 $
 #
 # ====================================================================
 #
@@ -104,16 +104,13 @@ if __name__=='__main__':
   except:
     pass
 
+  args = handleArgv(sys.argv)
+  
   # load the workspace
-  if len(sys.argv)>2 and sys.argv[1] in ['-w','--workspace']:
-    workspace=load(sys.argv[2])
-    del sys.argv[1:3]
-  else:
-    workspace=load(default.workspace)
+  workspace=load(args[0])
 
   # determine which modules the user desires (wildcards are permitted)
-  selected=sys.argv[1:] or ['*']
-  if selected[0]=='all': selected[0]='*'
+  selected=args[1]
 
   # determine which modules are available
   modules=Module.list.keys()

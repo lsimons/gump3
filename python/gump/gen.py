@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/Attic/gen.py,v 1.6 2003/05/05 07:23:07 nicolaken Exp $
-# $Revision: 1.6 $
-# $Date: 2003/05/05 07:23:07 $
+# $Header: /home/stefano/cvs/gump/python/gump/Attic/gen.py,v 1.7 2003/05/08 06:35:41 nicolaken Exp $
+# $Revision: 1.7 $
+# $Date: 2003/05/08 06:35:41 $
 #
 # ====================================================================
 #
@@ -139,10 +139,8 @@ if __name__=='__main__':
   log.setLevel(default.logLevel)
 
   # load commandline args or use default values
-  if len(sys.argv)>1 :
-    ws=sys.argv[1]
-  else:
-    ws=default.workspace
+  args = handleArgv(sys.argv)
+  ws=args[0]
 
   workspace=load(ws)
 

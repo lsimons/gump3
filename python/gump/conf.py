@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/Attic/conf.py,v 1.4 2003/05/05 21:09:02 nicolaken Exp $
-# $Revision: 1.4 $
-# $Date: 2003/05/05 21:09:02 $
+# $Header: /home/stefano/cvs/gump/python/gump/Attic/conf.py,v 1.5 2003/05/08 06:35:41 nicolaken Exp $
+# $Revision: 1.5 $
+# $Date: 2003/05/08 06:35:41 $
 #
 # ====================================================================
 #
@@ -94,4 +94,26 @@ def basicConfig():
     if not os.path.exists(dir.work): os.mkdir(dir.work)
 
     if dir.base not in sys.path: sys.path.insert(0, dir.base)
+        
+def handleArgv(argv):
+  args = []  
+  # the workspace
+  if len(argv)>2 and argv[1] in ['-w','--workspace']:
+    args.append(argv[2])
+    del argv[1:3]
+  else:
+    args.append(default.workspace)
+    print
+    print " No workspace defined, using default:"
+    print "  " , default.workspace
+    print
+    
+  # determine which modules the user desires (wildcards are permitted)
+  if len(argv)>2:
+   args.append(argv[1] or '*')
+   if args[1]=='all': args[1]='*'
+  else:
+   args.append(default.project)  
+      
+  return args
     
