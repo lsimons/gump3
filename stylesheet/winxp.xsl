@@ -364,16 +364,9 @@
   <xsl:template match="classpath">
     <xsl:text>SET CLASSPATH=%CP%;%JAVA_HOME%\lib\tools.jar&#10;</xsl:text>
     <xsl:for-each select="pathelement">
-      <xsl:if test="not(@type='boot')">
-        <xsl:text>SET CLASSPATH=%CLASSPATH%;</xsl:text>
-        <xsl:value-of select="translate(@location,'/','\')"/>
-        <xsl:text>&#10;</xsl:text>
-      </xsl:if>
-      <xsl:if test="@type='boot'">
-        <xsl:text>SET CLASSPATH=</xsl:text>
-        <xsl:value-of select="translate(@location,'/','\')"/>
-        <xsl:text>;%CLASSPATH%&#10;</xsl:text>
-      </xsl:if>
+      <xsl:text>SET CLASSPATH=%CLASSPATH%;</xsl:text>
+      <xsl:value-of select="translate(@location,'/','\')"/>
+      <xsl:text>&#10;</xsl:text>
     </xsl:for-each>
   </xsl:template>
 

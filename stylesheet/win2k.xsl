@@ -370,16 +370,9 @@
     <xsl:text>del cp.properties &gt;nul&#10;</xsl:text>
     <xsl:text>echo cp0=%JAVA_HOME:\=/%/lib/tools.jar &gt;&gt;cp.properties &#10;</xsl:text>
     <xsl:for-each select="pathelement">
-      <xsl:if test="not(@type='boot')">
-        <xsl:text>echo cp</xsl:text><xsl:value-of select="position()"/><xsl:text>=</xsl:text>
-        <xsl:value-of select="translate(@location,'\','/')"/>
-        <xsl:text> &gt;&gt;cp.properties &#10;</xsl:text>
-      </xsl:if>
-      <xsl:if test="@type='boot'">
-        <xsl:text>echo cp</xsl:text><xsl:value-of select="position()"/><xsl:text>.boot=</xsl:text>
-        <xsl:value-of select="translate(@location,'\','/')"/>
-        <xsl:text> &gt;&gt;cp.properties &#10;</xsl:text>
-      </xsl:if>
+      <xsl:text>echo cp</xsl:text><xsl:value-of select="position()"/><xsl:text>=</xsl:text>
+      <xsl:value-of select="translate(@location,'\','/')"/>
+      <xsl:text> &gt;&gt;cp.properties &#10;</xsl:text>
     </xsl:for-each>
   </xsl:template>
 
