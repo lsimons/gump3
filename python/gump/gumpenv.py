@@ -57,6 +57,12 @@ class GumpEnvironment(Annotatable,Workable,Propogatable):
     	self.noRuper=0    	
     	self.noSvn=0    	
     	self.noCvs=0    	
+	self.noJavaHome=0
+	self.noClasspath=0
+	self.noJava=0
+	self.noJavac=0
+	self.noPGrep=0
+	self.javaProperties=0
     	
     	#
     	# JAVACMD can override this, see checkEnvironment
@@ -94,19 +100,19 @@ class GumpEnvironment(Annotatable,Workable,Propogatable):
         #	CLASSPATH
         #	FORREST_HOME?
     
-        if not self.checkEnvVariable('JAVA_HOME',0):    
+        if not self.noJavaHome and not self.checkEnvVariable('JAVA_HOME',0):    
             self.noJavaHome=1    
             self.addWarning('JAVA_HOME environmental variable not found. Might not be needed.')
                 
-        if not self.checkEnvVariable('CLASSPATH',0):    
+        if not self.noClasspath and not self.checkEnvVariable('CLASSPATH',0):
             self.noClasspath=1    
             self.addWarning('CLASSPATH environmental variable not found. Might not be needed.')
                 
-        if not self.checkEnvVariable('FORREST_HOME',0): 
+        if not self.noForrest and not self.checkEnvVariable('FORREST_HOME',0): 
             self.noForrest=1
             self.addWarning('FORREST_HOME environmental variable not found, no xdoc output.')
                 
-        if not self.checkEnvVariable('MAVEN_HOME',0): 
+        if not self.noMaven and not self.checkEnvVariable('MAVEN_HOME',0): 
             self.noMaven=1
             self.addWarning('MAVEN_HOME environmental variable not found, no maven builds.')
             
@@ -117,14 +123,19 @@ class GumpEnvironment(Annotatable,Workable,Propogatable):
         #	javac (for bootstrap ant & beyond)
         #	cvs
         #
-        #	These ought set a switch..
-        #
         #	forrest (for documentation)
         #
         self.checkExecutable('env','',0)
-        self.checkExecutable(self.javaCommand,'-version',exitOnError,1)
-        self.checkExecutable('javac','-help',0)
-        self.checkExecutable('java com.sun.tools.javac.Main','-help',0,0,'check_java_compiler')    
+
+	if not self.noJava and not self.checkExecutable(self.javaCommand,'-version',exitOnError,1):
+	    self.noJava=1
+	    self.noJavac=1
+
+	if not self.noJavac and not self.checkExecutable('javac','-help',0):
+	    self.noJavac=1
+
+	if not self.noJavac and not self.checkExecutable('java com.sun.tools.javac.Main','-help',0,0,'check_java_compiler'):
+	    self.noJavac=1
 
         if not self.noCvs and not self.checkExecutable('cvs','--version',0):
             self.noCvs=1
@@ -148,12 +159,51 @@ class GumpEnvironment(Annotatable,Workable,Propogatable):
             self.noMaven=1
             self.addWarning('"maven" command not found, no Maven builds')
         
-        if not self.checkExecutable('pgrep','-help',0): 
+        if not self.noPGrep and not self.checkExecutable('pgrep','-help',0): 
             self.noPGrep=1
             self.addWarning('"pgrep" command not found, no process clean-ups can occur')        
     
         self.changeState(STATE_SUCCESS)
     
+    def getJavaProperties(self):
+        if self.javaProperties: return self.javaProperties
+
+        self.checkEnvironment()
+        if self.noJavac: return {}
+
+        import commands, re
+
+        JAVA_SOURCE = dir.tmp + '/sysprop.java'
+
+        source=open(JAVA_SOURCE,'w')
+        source.write("""
+          import java.util.Enumeration;
+          public class sysprop {
+            public static void main(String [] args) {
+              Enumeration e=System.getProperties().propertyNames();
+              while (e.hasMoreElements()) {
+                String name = (String)e.nextElement();
+                System.out.print(name + ": ");
+                System.out.println(System.getProperty(name));
+              }
+            }
+          }
+        """)
+        source.close()
+    
+        os.system('javac ' + JAVA_SOURCE)
+        os.unlink(JAVA_SOURCE)
+    
+        cmd=self.javaCommand + ' -cp ' + dir.tmp + ' sysprop'
+        self.javaProperties = \
+	    dict(re.findall('(.*?): (.*)', commands.getoutput(cmd)))
+        os.unlink(JAVA_SOURCE.replace('.java','.class'))
+
+        for (name,value) in self.javaProperties.items():
+            log.info(name + " => " + value)
+
+        return self.javaProperties
+
     def checkExecutable(self,command,options,mandatory,logOutput=0,name=None):
         ok=0
         try:
@@ -214,3 +264,7 @@ class GumpEnvironment(Annotatable,Workable,Propogatable):
     def getJavaCommand(self):
         return self.javaCommand
         
+if __name__ == '__main__':
+  env = GumpEnvironment()
+  env.checkEnvironment()
+  env.getJavaProperties()

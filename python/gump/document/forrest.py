@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/forrest.py,v 1.125 2004/04/02 21:23:20 ajack Exp $
-# $Revision: 1.125 $f
-# $Date: 2004/04/02 21:23:20 $
+# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/forrest.py,v 1.126 2004/04/03 02:36:35 rubys Exp $
+# $Revision: 1.126 $f
+# $Date: 2004/04/03 02:36:35 $
 #
 # ====================================================================
 #
@@ -313,6 +313,13 @@ class ForrestDocumenter(Documenter):
         definitionTable.createEntry('@@DATE@@', str(default.date))
         definitionTable.createEntry('Start Date/Time', workspace.startdatetime)
         definitionTable.createEntry('Timezone', workspace.timezone)
+
+	javaproperties=run.getEnvironment().getJavaProperties()
+	for name in ['java.vendor', 'java.version', 'os.name', 'os.arch', 'os.version']:
+	  if name in javaproperties:
+            definitionTable.createEntry(name, javaproperties[name])
+	    
+	  
         
         rssSyndRow=definitionTable.createRow()
         rssSyndRow.createData('Syndication')
