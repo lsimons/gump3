@@ -31,7 +31,11 @@ mkdir classes
 javac -d classes java/*.java || export FAIL=1
 jar cf jenny.jar -C classes . || export FAIL=1
 echo
-java -classpath "$CLASSPATH" Jenny $SOURCE || export FAIL=1
+if ( [ $OSTYPE = "cygwin32" ] || [ $OSTYPE = "cygwin" ] ) && [ -L $SOURCE ] ; then
+      java -classpath "$CLASSPATH" Jenny `cygpath -a -w -p "$SOURCE"` || export FAIL=1
+else
+      java -classpath "$CLASSPATH" Jenny $SOURCE || export FAIL=1
+fi
 
 # ********************************************************************
 
