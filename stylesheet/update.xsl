@@ -133,6 +133,8 @@
 
       <xsl:attribute name="repository">
         <xsl:for-each select="//repository[@name=$repository]">
+
+          <!-- method -->
 	  <xsl:text>:</xsl:text>
           <xsl:choose>
             <xsl:when test="@method">
@@ -142,6 +144,8 @@
               <xsl:value-of select="root/method"/>
             </xsl:otherwise>
           </xsl:choose>
+
+          <!-- user -->
 	  <xsl:text>:</xsl:text>
           <xsl:choose>
             <xsl:when test="@user">
@@ -151,6 +155,8 @@
               <xsl:value-of select="root/user"/>
             </xsl:otherwise>
           </xsl:choose>
+
+          <!-- host -->
 	  <xsl:text>@</xsl:text>
           <xsl:if test="$host-prefix">
             <xsl:value-of select="$host-prefix"/>
@@ -164,6 +170,8 @@
               <xsl:value-of select="root/hostname"/>
             </xsl:otherwise>
           </xsl:choose>
+
+          <!-- path -->
 	  <xsl:text>:</xsl:text>
           <xsl:choose>
             <xsl:when test="@path">
@@ -178,23 +186,33 @@
             <xsl:value-of select="$dir"/>
           </xsl:if>
 	</xsl:for-each>
-
-        <xsl:if test="not(//repository[@name=$repository]/root)">
-          <xsl:value-of select="//cvs-repository/tree[@name=$repository]/@root"/>
-          <xsl:if test="@dir">
-            <xsl:text>/</xsl:text>
-            <xsl:value-of select="@dir"/>
-          </xsl:if>
-	</xsl:if>
       </xsl:attribute>
 
-      <xsl:apply-templates select="@*[not(name()='repository')]"/>
+      <!-- specify the module (defaults to project name) -->
+      <xsl:attribute name="module">
+        <xsl:choose>
+          <xsl:when test="@module">
+            <xsl:value-of select="@module"/>
+          </xsl:when>
+          <xsl:otherwise>
+            <xsl:value-of select="ancestor::project/@name"/>
+          </xsl:otherwise>
+        </xsl:choose>
+      </xsl:attribute>
 
-      <xsl:if test="not(@module)">
-        <xsl:attribute name="module">
-          <xsl:value-of select="ancestor::project/@name"/>
-        </xsl:attribute>
-      </xsl:if>
+      <!-- optionally add a tag -->
+      <xsl:choose>
+        <xsl:when test="ancestor::project/@tag">
+          <xsl:attribute name="tag">
+            <xsl:value-of select="ancestor::project/@tag"/>
+          </xsl:attribute>
+        </xsl:when>
+        <xsl:when test="@tag">
+          <xsl:attribute name="tag">
+            <xsl:value-of select="@tag"/>
+          </xsl:attribute>
+        </xsl:when>
+      </xsl:choose>
     </cvs>
   </xsl:template>
 
