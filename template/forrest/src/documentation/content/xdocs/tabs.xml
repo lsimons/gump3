@@ -13,8 +13,8 @@
     directory (ends in '/'), in which case /index.html will be added
   -->
 
-  <tab label="Home" dir="" indexfile="index.html"/>
-  <tab label="Stats" dir="" indexfile="gump_stats/index.html"/>
-  <tab label="XRef" dir="" indexfile="gump_xref/index.html"/>
+  <tab id="home" label="Home" dir=""/>
+  <tab id="stats" label="Statistics" dir="gump_stats"/>
+  <tab id="xref" label="XRef" dir="gump_xref"/>
 
 </tabs>

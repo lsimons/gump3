@@ -6,9 +6,16 @@ Forrest site.xml
 
 <site label="Gump" href="" xmlns="http://apache.org/forrest/linkmap/1.0">
 
-  <about label="Work">
+  <work label="Gump">
     <index label="Index" href="index.html"/>
-  </about>
+    <index label="TODOs" href="todos.html"/>
+    <index label="Modules" href="modules.html"/>
+    <index label="Packages" href="packages.html"/>
+  </work>
+
+  <stats label="Statistics">
+    <index label="Index" href="gump_stats/index.html"/>
+  </stats>
 
   <external-refs>
     <xml.apache.org href="http://xml.apache.org/">
