@@ -286,6 +286,7 @@ function run
   check_env_var "JAVA_HOME" "the location of the java jdk"
   
   check_env_pylib "rdflib" "http://rdflib.net/"
+  check_env_pylib "MySQLdb" "http://sourceforge.net/projects/mysql-python"
 
   cd cron
   ./gump.sh $@

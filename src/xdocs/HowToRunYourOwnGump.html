@@ -35,6 +35,8 @@ and xml. Python experience is not required.<br>
   <li>the Bash shell;<br>
   </li>
   <li>Python 2.3 or later;</li>
+  <li>MySQL 4.0 or later (client and server);</li>
+  <li>the MySQLdb python library for interfacing the above two;</li>
   <li>the pkill program;</li>
   <li>the hostname program;</li>
   <li>the cvs program;</li>
@@ -100,6 +102,16 @@ elsewhere, ie you could create the following as <code>~/bin/gump</code>
 <code>~/bin</code> is on your path):<br>
 </p>
 <pre>#!/bin/sh<br>#<br># Simple wrapper script which fires off gump<br>olddir=`pwd`<br>cd ~/local/gump<br>./gump $@<br>cd $olddir<br></pre>
+<h2>Setting up the mysql database</h2>
+<p>Gump uses a mysql database for storing lots of interesting data about
+the build results. Create a new database named "gump", then populate it
+with lots of tables by importing the <code>mysql/gump.sql</code> dump into
+your new database:</p>
+<pre>
+cd ~/gump/local
+mysqladmin -u root create gump
+mysql -u root gump < mysql/gump.sql
+</pre>
 <h2>Running the unit tests</h2>
 <p>Next, we'll run the gump unit tests using the command line
 interface. It would be nice if these tests would all always work, but
@@ -120,6 +132,10 @@ references a profile definition. The profile defines what stuff
 gump will build. The file referenced is <code>profile/minimal-profile.xml</code>,
 which builds Apache Ant, and nothing else.<br>
 </p>
+
+<p>Unless you're connecting to a database named "gump" as the root user
+without using a password, you'll need to customize the &lt;database&gt;
+field inside that profile to reflect your actual settings.</p>
 <h2>Running gump</h2>
 <p>Pfew. You're still here? Good. Let's do an actual "gump run":</p>
 <pre>cd ~/local/gump<br>./gump run<br></pre>
