@@ -14,7 +14,7 @@
   -->
 
   <tab label="Home" dir="" indexfile="index.html"/>
-  <tab label="Stats" dir="" indexfile="stats/index.html"/>
-  <tab label="XRef" dir="" indexfile="xref/index.html"/>
+  <tab label="Stats" dir="" indexfile="gump_stats/index.html"/>
+  <tab label="XRef" dir="" indexfile="gump_xref/index.html"/>
 
 </tabs>

@@ -234,7 +234,7 @@ def documentWorkspace(workspace,context,db,moduleFilterList=None,projectFilterLi
             titledDataInTableXDoc(x,'Description', workspace.description)
     if workspace.version: 
         titledDataInTableXDoc(x,'Workspace Version', workspace.version)
-    titledDataInTableXDoc(x,'Java Command', workspace.javaCommand)
+    titledDataInTableXDoc(x,'Java Command', context.javaCommand)
     endTableXDoc(x)
     endSectionXDoc(x)                
     
