@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/results/model.py,v 1.2 2004/02/28 00:08:49 ajack Exp $
-# $Revision: 1.2 $
-# $Date: 2004/02/28 00:08:49 $
+# $Header: /home/stefano/cvs/gump/python/gump/results/model.py,v 1.3 2004/02/28 00:11:39 ajack Exp $
+# $Revision: 1.3 $
+# $Date: 2004/02/28 00:11:39 $
 #
 # ====================================================================
 #
@@ -70,7 +70,6 @@ from gump.utils.note import *
 from gump.utils.work import *
 from gump.utils.owner import *
 from gump.model.state import *
-from gump.results.rawmodel import *
 
 class ResultModelObject(Annotatable,Ownable,Stateful):
     """Base model object for a single entity"""
