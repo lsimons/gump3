@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/forrest.py,v 1.100 2004/03/12 02:50:52 ajack Exp $
-# $Revision: 1.100 $f
-# $Date: 2004/03/12 02:50:52 $
+# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/forrest.py,v 1.101 2004/03/12 14:47:48 ajack Exp $
+# $Revision: 1.101 $f
+# $Date: 2004/03/12 14:47:48 $
 #
 # ====================================================================
 #
@@ -178,8 +178,11 @@ class ForrestDocumenter(Documenter):
         #
         logDirectory=workspace.getLogDirectory()
         if os.path.exists(logDirectory):
-            shutil.rmtree(logDirectory)            
-        os.makedirs(logDirectory)
+            try:
+                shutil.rmtree(logDirectory)  
+            except: pass
+        if not os.path.exists(logDirectory):          
+            os.makedirs(logDirectory)
         
         # Then generate...        
         forrest=Cmd('forrest','forrest',forrestDir)
