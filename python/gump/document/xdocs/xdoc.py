@@ -534,13 +534,13 @@ class XDocNote(XDocPiece):
             
     def start(self):
         if self.config.isXhtml():    
-            self.context.writeLineIndented('<table><tr><td class="NOTE">')
+            self.context.writeLineIndented('<p><table><tr><td class="NOTE">')
         else:
             self.context.writeLineIndented('<note>')    
         
     def end(self):
         if self.config.isXhtml():    
-            self.context.writeLine('</td></tr></table>')
+            self.context.writeLine('</td></tr></table></p>')
         else:
             self.context.writeLine('</note>')
         
@@ -570,13 +570,13 @@ class XDocWarning(XDocPiece):
         
     def start(self):
         if self.config.isXhtml():    
-            self.context.writeLineIndented('<table><tr><td class="WARN">')
+            self.context.writeLineIndented('<p><table><tr><td class="WARN">')
         else:
             self.context.writeLineIndented('<warning>')    
         
     def end(self):
         if self.config.isXhtml():    
-            self.context.writeLine('</td></tr></table>')
+            self.context.writeLine('</td></tr></table></p>')
         else:
             self.context.writeLine('</warning>')
         
@@ -601,13 +601,13 @@ class XDocSource(XDocPiece):
         
     def start(self):
         if self.config.isXhtml():    
-            self.context.writeIndented('<pre clas="CODE">')
+            self.context.writeIndented('<p><pre clas="CODE">')
         else:
             self.context.writeIndented('<source>')
         
     def end(self):
         if self.config.isXhtml():    
-            self.context.writeIndented('</pre>')
+            self.context.writeIndented('</pre></p>')
         else:
             self.context.writeIndented('</source>')
         

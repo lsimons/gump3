@@ -777,8 +777,8 @@ class XDocDocumenter(Documenter):
             It started at %s. As of this moment (%s), %s modules have been updated, and %s projects built.""" \
                 % (self.workspace.getStartDateTime(), time.strftime('%H:%M:%S'), modules, projects ))
                 
-            document.createNote("""Only projects with significant information 
-            (e.g a recent change of state, a failure, etc.) are listed at runtime.""")
+            #document.createNote("""Only projects with significant information 
+            #(e.g a recent change of state, a failure, etc.) are listed at runtime.""")
           	
         else:
             document.createNote("""This Gump run is complete. 
@@ -839,11 +839,11 @@ class XDocDocumenter(Documenter):
         pcount=0
         for project in self.gumpSet.getCompletedProjects():
                        
-            if realTime and \
-                (project.getState()==STATE_FAILED or \
-                    ((project.getState()<>STATE_PREREQ_FAILED) and \
-                     (project.getStats().sequenceInState < INSIGNIFICANT_DURATION))):
-                continue
+            #if realTime and \
+            #    (project.getState()==STATE_FAILED or \
+            #        ((project.getState()<>STATE_PREREQ_FAILED) and \
+            #         (project.getStats().sequenceInState < INSIGNIFICANT_DURATION))):
+            #    continue
                 
             pcount+=1
     
