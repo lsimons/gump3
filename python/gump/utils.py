@@ -203,12 +203,12 @@ def elapsedTimeToString(elapsed):
 def getStringFromUnicode(u):
     try:
         s = str(u)
-    except UnicodeException:
+    except UnicodeError:
         s = ''
         for uc in u:
             try:
                 sc = uc.encode('latin-1')            
-            except UnicodeException:
+            except UnicodeError:
                 sc = '_'
             # Add character by character
             s += sc
