@@ -6,9 +6,10 @@
 
         The main thing to do here is to clone dumpDeps to create a
         build() method which executes the appropriate script
-        (probably only ant at the moment; would be nice to have)
+        (probably only ant at the moment; would be nice to have
         support for maven) for each of the dependencies.        
 """
+
 
 import os.path,os,sys
 from gumpcore import *
@@ -19,7 +20,7 @@ def dumpDeps(workspace, projectname):
 
   # get the project object given the project name
   project=Project.list[projectname]
-  
+
   print 'PROJECTS TO BUILD:'
 
   # resolve the build sequence of the specified project
@@ -30,7 +31,8 @@ def dumpDeps(workspace, projectname):
 
   # build
   buildProjects( workspace, projectname, project, build_sequence )  
-    
+   
+
 def syncWorkDir( workspace, build_sequence ):
   print
   print ' ----- Synchronizing work directories with sources-----'
@@ -41,9 +43,11 @@ def syncWorkDir( workspace, build_sequence ):
     module=Module.list[project.module];
     sourcedir = os.path.normpath(os.path.join(workspace.cvsdir,module.name)) # todo allow override
     destdir = os.path.normpath(os.path.join(workspace.basedir,module.name))
+
     if not workspace.sync:
       workspace.sync = default.syncCommand
     execString = workspace.sync + ' ' + sourcedir + ' ' + destdir
+
     #if default.debug:
     print 'Synchronizing:', execString
     # TODO: don't just brag about it!
@@ -62,7 +66,7 @@ def buildProjects( workspace, projectname, project, build_sequence ):
 
   # for all the projects that this project depends upon, show relevant infos
   for project in build_sequence:
-    
+
     # get the module object given the module name,
     # which is gotten from the project
     module=Module.list[project.module]
