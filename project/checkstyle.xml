@@ -10,6 +10,7 @@
   <project name="checkstyle">
     <package>com.puppycrawl.tools.checkstyle</package>
   
+    <mkdir dir="classes/checkstyle"/>
     <ant target="gump">
       <property name="version" value="@@DATE@@"/>
     </ant>
