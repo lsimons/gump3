@@ -154,8 +154,8 @@
     
     <jar name="id/target/commons-id-0.1-dev.jar"/>
 
-    <!-- nag to="commons-dev@jakarta.apache.org"
-         from="Adam Jack &lt;ajack@apache.org&gt;"/ -->
+    <nag to="commons-dev@jakarta.apache.org"
+         from="Adam Jack &lt;ajack@apache.org&gt;"/>
   </project>
   
   <project name="commons-jjar">
@@ -292,6 +292,24 @@
     <nag to="commons-dev@jakarta.apache.org"
          from="Ted Husted &lt;ted@husted.com&gt;"/>
   </project>
+
+  <project name="commons-transaction">
+    <package>org.apache.commons.transaction</package>
+    <description>Commons Identifier Package</description>
+    <maven basedir="transaction" goal="jar">
+      <property name="component.version"  value="@@DATE@@"/>
+    </maven>
+    <depend project="logging-log4j"/>
+    <depend project="commons-codec"/>
+    <depend project="xml-xerces"/>
+    <depend project="junit"/>
+    
+    <jar name="transaction/target/commons-transaction-0.1-dev.jar"/>
+
+    <!-- nag to="commons-dev@jakarta.apache.org"
+         from="Adam Jack &lt;ajack@apache.org&gt;"/ -->
+  </project>
+
 
   <project name="commons-util">
     <!-- 
