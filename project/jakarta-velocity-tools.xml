@@ -2,47 +2,23 @@
 
   <url href="http://jakarta.apache.org/velocity/index.html"/>
   <description>
-    Velocity tools project
+    Velocity-Tools project
   </description>
 
-  <cvs  repository="jakarta"/>
+  <cvs repository="jakarta"/>
 
-  <project name="velocity-tools-struts">
-    <package>org.apache.velocity.tools.struts</package>
+  <project name="velocity-tools">
+    <package>org.apache.velocity.tools</package>
 
-    <ant basedir="struts">
+    <ant target="all">
       <property name="project.version" value="@@DATE@@"/>
     </ant>
     <depend project="ant" inherit="runtime"/>
-    <depend project="xml-xerces"/>
     <depend project="jakarta-servletapi-4"/>
     <depend project="jakarta-struts"/>
-    <depend project="velocity-tools-view"/>
     <depend project="jakarta-velocity" inherit="runtime"/>
     <depend project="jakarta-velocity-dvsl" inherit="runtime"/>
-    <depend project="jdbc"/>
-    <home nested="struts"/>
-    <jar name="velocity-tools-struts-@@DATE@@.jar"/>
-    <nag to="velocity-dev@jakarta.apache.org"
-         from="Geir Magnusson Jr. &lt;geirm@apache.org&gt;"/>
-  </project>
-
-  <project name="velocity-tools-view">
-    <package>org.apache.velocity.tools.view</package>
-
-    <ant basedir="view">
-      <property name="project.version" value="@@DATE@@"/>
-    </ant>
-    <depend project="ant" inherit="runtime"/>
-    <depend project="xml-xerces"/>
-    <depend project="dom4j"/>
-    <depend project="jdbc"/>
-    <depend project="jakarta-servletapi-4"/>
-    <depend project="jakarta-velocity" inherit="runtime"/>
-    <depend project="jakarta-velocity-dvsl" inherit="runtime"/>
-    <depend project="xml-xalan2"/>
-    <home nested="view"/>
-    <jar name="velocity-tools-view-@@DATE@@.jar"/>
+    <jar name="velocity-tools-@@DATE@@.jar"/>
     <nag to="velocity-dev@jakarta.apache.org"
          from="Geir Magnusson Jr. &lt;geirm@apache.org&gt;"/>
   </project>
