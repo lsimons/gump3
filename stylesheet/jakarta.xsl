@@ -18,18 +18,23 @@
         <style type="text/css">
           body {
             background-color: #ffffff;
-            color: #000000;
-            font-family: arial, helvetica, sanserif }
+            color: #000000 }
           :link { color: #525D76 }
           div.copyright {
             color: #525D76;
             font-size: 80%;
             text-align: center;
             font-weight: bold; }
+          td.sidebar {
+            font-family: arial, helvetica, sanserif }
           td.title {
             background-color: #525D76;
             color: #ffffff;
             font-weight: bold; }
+          td.note {
+            background-color: #B1B7C1;
+            color: #000000;
+            font-family: arial, helvetica, sanserif }
           td.fail {
             background-color: red;
             font-weight: bold; }
@@ -58,7 +63,7 @@
             </td>
           </tr>
           <tr>
-            <td valign="top" nowrap="true">
+            <td valign="top" nowrap="true" class="sidebar">
               <xsl:apply-templates select="sidebar/*"/>
             </td>
             <td align="left" valign="top">
@@ -69,7 +74,23 @@
                   </td>
                 </tr>
               </table>
+
               <xsl:apply-templates select="menu/*|menu/text()"/>
+
+              <xsl:if test="note">
+                <p/>
+                <table border="0" cellspacing="0" cellpadding="2" width="100%">
+                  <tr>
+                    <td class="note">
+                      <strong>
+                          Note:
+                      </strong>
+                      <xsl:apply-templates select="note/text()"/>
+                    </td>
+                  </tr>
+                </table>
+              </xsl:if>
+
               <xsl:apply-templates select="content/*"/>
             </td>
           </tr>

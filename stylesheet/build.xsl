@@ -95,6 +95,8 @@
           </xsl:if>
         </title>
 
+        <xsl:copy-of select="note"/>
+
         <sidebar>
           <strong><a href="index.html">Build logs</a></strong>
           <ul>
