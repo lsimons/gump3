@@ -404,7 +404,6 @@
                     runtime="true" id="interfaces"/>
             <depend property="excalibur-lifecycle.jar" project="excalibur-lifecycle" runtime="true"/>
             <depend property="excalibur-logger.jar" project="excalibur-logger" runtime="true"/>
-            <depend property="excalibur-pool.jar" project="excalibur-pool" runtime="true"/>
             <depend property="excalibur-sourceresolve.jar" project="excalibur-sourceresolve" runtime="true"/>
             <depend property="logkit.jar" project="avalon-logkit" runtime="true"/>
             <depend property="util.concurrent.jar" project="concurrent" runtime="true"/>
@@ -424,13 +423,6 @@
             <depend property="altrmi-client-impl.jar" project="excalibur-altrmi-0.9.2" id="client-impl"/>
             <depend property="altrmi-server-interfaces.jar" project="excalibur-altrmi-0.9.2" id="server-api"/>
             <depend property="altrmi-server-impl.jar" project="excalibur-altrmi-0.9.2" id="server-impl"/>
-            <depend property="excalibur-component.jar" project="excalibur-component" id="component"/>
-            <depend property="excalibur-datasource.jar" project="excalibur-datasource"/>
-            <depend property="excalibur-i18n.jar" project="excalibur-i18n"/>
-            <depend property="excalibur-monitor.jar" project="excalibur-monitor"/>
-            <depend property="excalibur-testcase.jar" project="excalibur-component" id="testcase"/>
-            <depend property="excalibur-xmlutil.jar" project="excalibur-xmlutil"/>
-            <depend property="jaxen-full.jar" project="jaxen"/>
             <depend property="xalan.jar" project="xml-xalan2" id="transformer"/>
 
             <!-- optional dependencies -->
