@@ -768,7 +768,6 @@ class XDocDocument(XDocPiece):
         if not self.config.isXhtml():
             self.context.writeLine('</document>')            
         else:
-            self.context.writeLine('</html>') 
             from gump.core.config import default
             self.context.writeLine('<p align="right">Last Updated: %s</p>' % default.datetime) 
             self.context.writeLine('</html>')            
