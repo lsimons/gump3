@@ -191,7 +191,7 @@ class StatisticsDB:
                             setattr(stats,attr,value)
                         else:
                             setattr(stats,attr,
-                                datetime.datetime.fromtimestamp(time.strptime(value,'%Y-%m-%d %H:%M:%S')))
+                                datetime.datetime.fromtimestamp(time.mktime(time.strptime(value,'%Y-%m-%d %H:%M:%S'))))
                     else:    
                         setattr(stats,attr,value)
         
