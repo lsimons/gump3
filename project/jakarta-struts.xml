@@ -23,7 +23,6 @@
       <depend property="commons-logging.jar"     project="commons-logging" id="all"/>
       <depend property="commons-pool.jar"        project="commons-pool"/>
       <depend property="commons-resources.jar"   project="commons-resources"/>
-      <depend property="commons-services.jar"    project="commons-services"/>
       <depend property="commons-validator.jar"   project="commons-validator"/>
       <depend property="jakarta-oro.jar"         project="jakarta-oro"/>
     </ant>
