@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# $Header: /home/cvs/jakarta-gump/gump.sh,v 1.3 2003/04/09 07:27:27 nickchalko Exp $
+# $Header: /home/cvs/jakarta-gump/gump.sh,v 1.4 2003/04/09 07:31:42 nickchalko Exp $
 
 if [ -e local-env.sh ] ; then
 	. local-env.sh
@@ -113,7 +113,7 @@ bash build.sh all   >> $GUMP_LOG 2>&1
 
 cd $GUMP
 echo $SEPARATOR >> $GUMP_LOG
-if [ -n $STARTED_FROM_CRON ] ; then 
+if [ -n "$STARTED_FROM_CRON" ] ; then 
 	perl nag.pl work/naglist >> $GUMP_LOG 2>&1
 fi;
 
@@ -121,6 +121,9 @@ echo \</XMP\> >> $GUMP_LOG
 pkill -P $$ 
 
 # $Log: gump.sh,v $
+# Revision 1.4  2003/04/09 07:31:42  nickchalko
+# Removed reference to tsbuild1
+#
 # Revision 1.3  2003/04/09 07:27:27  nickchalko
 # Moved user specific vars to local-env.sh which is not checked in.
 #
