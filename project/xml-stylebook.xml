@@ -13,4 +13,12 @@
   <depend project="xml-xalan1"/>
 
   <jar name="bin\stylebook-1.0-b2.jar"/>
+
+  <project name="xml-stylebook2">
+    <ant target="package2"/>
+    <depend project="jakarta-ant"/>
+    <depend project="xml-xerces"/>
+    <depend project="xml-xalan2"/>
+    <jar name="bin\stylebook-1.0-b3_xalan-2.jar"/>
+  </project>
 </project>

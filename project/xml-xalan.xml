@@ -86,6 +86,7 @@
     <depend project="xml-xerces"/>
     <depend project="jakarta-servletapi"/>
     <depend project="xml-xalan2"/>
+    <depend project="xml-stylebook2"/>
     <option project="bsf"/>
 
     <home nested="java/build/xalan-j_2_0_0"/>

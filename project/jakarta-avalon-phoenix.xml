@@ -9,9 +9,11 @@
 
   <ant target="dist"/>
 
-  <depend project="jakarta-ant"/>
+  <depend project="dist-ant"/>
   <depend project="xml-xerces"/>
   <depend project="jakarta-avalon"/>
+  <depend project="xml-stylebook"/>
+  <depend project="xml-xalan1"/>
 
   <home nested="build/lib"/>
   <jar name="phoenix-client.jar"/>
