@@ -87,7 +87,7 @@
         <depend inherit="runtime" project="ant"/>
         <depend project="depot-common" inherit="all"/>
 
-        <jar name="depot-version-@@DATE@@.jar"/>
+        <jar name="depot-version-gump-@@DATE@@.jar"/>
 
         <ant basedir="version" buildfile="build.xml" target="gump" vm="1.4">
           <property name="ant.home" project="ant" reference="home" />
@@ -173,7 +173,7 @@
         <depend project="commons-httpclient"/>
         <depend project="commons-vfs"/>
 
-        <jar name="jars/apache-depot-update-@@DATE@@.jar"/>
+        <jar name="jars/depot-update-gump-@@DATE@@.jar"/>
 
         <ant basedir="update" buildfile="build.xml" target="gump" vm="1.4">
           <property name="ant.home" project="ant" reference="home" />
