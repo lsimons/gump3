@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/forrest.py,v 1.93 2004/03/07 22:22:35 ajack Exp $
-# $Revision: 1.93 $f
-# $Date: 2004/03/07 22:22:35 $
+# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/forrest.py,v 1.94 2004/03/08 05:40:50 ajack Exp $
+# $Revision: 1.94 $f
+# $Date: 2004/03/08 05:40:50 $
 #
 # ====================================================================
 #
@@ -533,7 +533,7 @@ class ForrestDocumenter(Documenter):
                         
             projectRow.createData(affected)
             
-            projectRow.createData( project.getFullDependencyCount())
+            projectRow.createData( project.getFullDependeeCount())
             
             projectRow.createData(seq)
             
