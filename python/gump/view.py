@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/Attic/view.py,v 1.21 2003/05/04 21:50:54 nicolaken Exp $
-# $Revision: 1.21 $
-# $Date: 2003/05/04 21:50:54 $
+# $Header: /home/stefano/cvs/gump/python/gump/Attic/view.py,v 1.22 2003/05/04 21:56:22 nicolaken Exp $
+# $Revision: 1.22 $
+# $Date: 2003/05/04 21:56:22 $
 #
 # ====================================================================
 #
@@ -120,7 +120,7 @@ class gumpview(wxApp):
 
     # Create our toolbar
     self.frame.toolbar = self.frame.CreateToolBar(wxTB_HORIZONTAL |
-                                        wxNO_BORDER | wxTB_FLAT)
+                                        wxNO_BORDER | wxTB_FLAT )
 
     self.frame.toolbar.AddSimpleTool(self.menu_BACK,
                                      wxBitmap("gump/images/back.bmp",
@@ -139,6 +139,7 @@ class gumpview(wxApp):
                                      wxBitmap("gump/images/console.bmp",
                                               wxBITMAP_TYPE_BMP),
                                      shortHelp="Toggle this")
+    self.frame.toolbar.ToggleTool(self.menu_CONSOLE, TRUE);
     
     self.frame.toolbar.AddSimpleTool(self.menu_HELP,
                                      wxBitmap("gump/images/help.bmp",
@@ -250,9 +251,9 @@ class gumpview(wxApp):
   # help action
   def consoleAction(self,event):
    if event.IsChecked():
-     self.logsplitter.Unsplit(self.logview)
-   else:
      self.logsplitter.SplitHorizontally(self.mainsplit, self.logview)
+   else:
+     self.logsplitter.Unsplit(self.logview)
     
   # select a single feed and display titles from each item
   def selectTree(self, event):
