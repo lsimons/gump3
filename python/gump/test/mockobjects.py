@@ -17,6 +17,22 @@
 __copyright__ = "Copyright (c) 2004 The Apache Software Foundation"
 __license__   = "http://www.apache.org/licenses/LICENSE-2.0"
 
+class MockLog:
+    def __init__(self):
+        pass
+    
+    def debug(self,msg):
+        print "DEBUG: %s" % (msg)
+
+    def info(self,msg):
+        print "INFO: %s" % (msg)
+
+    def warning(self,msg):
+        print "WARNING: %s" % (msg)
+
+    def error(self,msg):
+        print "ERROR: %s" % (msg)
+        
 class MockConnection:
     def __init__(self,cursor):
         self._cursor = cursor
@@ -57,13 +73,20 @@ class MockRun:
     def getGumpSet(self):
         return self.gumpSet
 
+class MockDatabase:
+    def __init__(self):
+        self.lastCommand = ''
+    
+    def execute(self,command):
+        self.lastCommand = command
+
 class MockObjects:
     def __init__(self):
+        self.log = MockLog()
         self.workspace = MockWorkspace()
         self.options = MockOptions()
         self.gumpSet = MockGumpSet()
         self.run = MockRun(self.workspace,self.options,self.gumpSet)
         self.cursor = MockCursor()
         self.conn = MockConnection(self.cursor)
-
-mocks = MockObjects()
+        self.database = MockDatabase()

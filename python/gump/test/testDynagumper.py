@@ -25,31 +25,31 @@ from gump.test.mockobjects import *
 from gump.actor.mysql.dynagumper import *
 from gump.core.model.workspace import *
 
+mock = MockObjects()
 
 class DynagumperTestCase(TestCase):
     def setUp(self):
-        self.workspace = MockWorkspace()
-        self.options = MockOptions()
-        self.gumpSet = MockGumpSet()
-        self.run = MockRun(self.workspace,self.options,self.gumpSet)
-        self.cursor = MockCursor()
-        self.conn = MockConnection(self.cursor)
-        self.dynagumper = Dynagumper(self.run,self.conn)
+        self.dynagumper = Dynagumper(mock.run,mock.database,log=mock.log)
     
-    def tearDown(self):
-        self.cleanupDatabaseMess()
-        
-    def testExecute(self):
-        self.dynagumper._execute("blah")
-        self.assertEquals( self.cursor.lastCommand, "blah" )
-        # you can do anything inside a test
-        # use the assertXXX methods on TestCase
-        # to check conditions
-        #self.assert_( True )
-        #self.assertEquals( type({}), type({}) )
+    def testEnsureThisHostIsInDatabase(self):
+        #TODO actual tests
+        self.dynagumper.ensureThisHostIsInDatabase()
+
+    def testProcessOtherEvent(self):
+        #TODO
+        self.dynagumper.processOtherEvent("blah")
     
-    def cleanupDatabaseMess(self):
-        pass # TODO
+    def testProcessWorkSpace(self):
+        #TODO
+        self.dynagumper.processWorkspace()
+    
+    def testProcessModule(self):
+        #TODO
+        self.dynagumper.processModule("blah")
+    
+    def testProcessProject(self):
+        #TODO
+        self.dynagumper.processProject("blah")
 
 # this is used by testrunner.py to determine what tests to run
 def test_suite():

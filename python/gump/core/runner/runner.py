@@ -157,28 +157,14 @@ class GumpRunner(RunSpecific):
 
         # Add Dynagump database populator
         if self.run.getWorkspace().hasDatabaseInformation():
-            try:
-                conn = None
-                try:
-                    # create the database connection
-                    dbInfo = self.run.getWorkspace().getDatabaseInformation()
-                    import MySQLdb
-                    conn = MySQLdb.Connect(
-                        host=dbInfo.getHost(), 
-                        user=dbInfo.getUser(),
-                        passwd=dbInfo.getPasswd(), 
-                        db=dbInfo.getDatabase(),
-                        compress=1,
-                        cursorclass=MySQLdb.cursors.DictCursor)
-    
-                    # now create the Dynagumper
-                    import gump.actor.mysql.dynagumper
-                    self.run.registerActor(gump.actor.mysql.dynagumper.Dynagumper(self.run,conn))
-                finally:
-                    if conn: conn.close()
-            except Exception, details:
-                log.warning('Unable to register Dynagump Database Actor :  %s ' % details,
-                            exc_info=1)
+            # create the database helper
+            dbInfo = self.run.getWorkspace().getDatabaseInformation()
+            from gump.util.mysql import Database
+            database = new Database(dbInfo)
+
+            # now create the Dynagumper using that database
+            import gump.actor.mysql.dynagumper
+            self.run.registerActor(gump.actor.mysql.dynagumper.Dynagumper(self.run,database))
         
         # Document..
         # Use XDOCS if not overridden...
