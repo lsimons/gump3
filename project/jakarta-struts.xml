@@ -23,7 +23,7 @@
     <work nested="target/tiles/library/classes"/>
 
     <home nested="dist"/>
-    <jar name="struts.jar"/>
+    <jar name="lib/struts.jar"/>
   </project>
 
 </module>
