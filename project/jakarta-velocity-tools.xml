@@ -7,7 +7,7 @@
 
   <cvs repository="jakarta"/>
 
-  <project name="velocity-tools">
+  <project name="jakarta-velocity-tools">
     <package>org.apache.velocity.tools</package>
 
     <ant target="all">
