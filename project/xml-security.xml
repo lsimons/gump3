@@ -10,7 +10,7 @@
   <!-- build -->
 
   <project name="xml-security">
-    <ant target="javadocs"/>
+    <ant target="gump"/>
 
     <depend project="jakarta-ant"/>
     <depend project="xml-xerces"/>
@@ -18,7 +18,9 @@
     <depend project="jakarta-log4j"/>
     <depend project="jce"/>
     <option project="junit"/>
+    <work nested="classes"/>
 
+    <jar nested="xmlsec.jar"/>
     <javadoc nested="doc/html/api"/>
   </project>
 
