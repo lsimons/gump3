@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# $Header: /home/cvs/jakarta-gump/gump.sh,v 1.2 2003/04/08 19:18:58 nickchalko Exp $
+# $Header: /home/cvs/jakarta-gump/gump.sh,v 1.3 2003/04/09 07:27:27 nickchalko Exp $
 
 if [ -e local-env.sh ] ; then
 	. local-env.sh
@@ -78,7 +78,7 @@ ant check >> $GUMP_LOG 2>&1
 #
 cd $GUMP
 echo $SEPARATOR >> $GUMP_LOG
-bash gen.sh tsbuild1.xml >> $GUMP_LOG 2>&1 
+bash gen.sh ${GUMP_HOST}.xml >> $GUMP_LOG 2>&1 
 echo >> $GUMP_LOG
 
 #
@@ -121,6 +121,9 @@ echo \</XMP\> >> $GUMP_LOG
 pkill -P $$ 
 
 # $Log: gump.sh,v $
+# Revision 1.3  2003/04/09 07:27:27  nickchalko
+# Moved user specific vars to local-env.sh which is not checked in.
+#
 # Revision 1.2  2003/04/08 19:18:58  nickchalko
 # Here is adams rework.  I moved the cvs log to the bottom, and added a comment about using a local_env.sh file.
 #
