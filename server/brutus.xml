@@ -20,4 +20,5 @@
   <title>Brutus</title>
   <url>http://brutus.apache.org:8080/gump</url>
   <site>http://gump.apache.org</site>
+  <note>Primary Gump (sends notification e-mails).</note>
 </server>
