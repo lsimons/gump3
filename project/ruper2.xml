@@ -6,22 +6,24 @@
     ruper
   </description>
 
-  <cvs repository="sourceforge" host-prefix="cvs.krysalis" dir="krysalis" module="ruper2"/>
+  <cvs repository="sourceforge" 
+  	host-prefix="cvs.metamorphosis" 
+  	dir="metamorphosis" module="ruper2"/>
   
   <project name="krysalis-ruper2-core">
     <package>org.krysalis.ruper</package>
 
     <ant target="gump">
       <property name="ant.home" reference="home" project="ant"/>
-      <property name="project.name" value="krysalis-ruper"/>
+      <property name="project.name" value="krysalis-ruper2"/>
     </ant>
    
     <depend project="ant" inherit="runtime"/>
     <depend project="krysalis-version-core"/>
     <depend project="xml-xerces"/>
-    <depend project="commons-vfs"/>
-    <depend project="commons-logging"/>
-    <depend project="commons-httpclient"/>
+    <option project="commons-vfs"/>
+    <option project="commons-logging"/>
+    <option project="commons-httpclient"/>
     <depend project="jakarta-regexp"/>
     
     <jar name="build/krysalis-ruper2-core-@@DATE@@.jar"/>
@@ -38,7 +40,7 @@
 
     <ant target="gump">
       <property name="ant.home" reference="home" project="ant"/>
-      <property name="project.name" value="krysalis-ruper-ant"/>
+      <property name="project.name" value="krysalis-ruper2-ant"/>
       <property name="project.part" value="ant"/>
     </ant>
    
