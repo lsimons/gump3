@@ -1820,31 +1820,46 @@ This page helps Gumpmeisters (and others) observe community progress.
 #                                path, 0, 1, project, self.gumpSet)
 #
                 
-        depens += self.documentDependenciesList(dependencySection, 'Project Dependencies',	\
-                    project.getDirectDependencies(), 0, 0, project)
+        depens += self.documentDependenciesList(dependencySection, 
+                    'Project Dependencies',
+                    project.getDirectDependencies(), 
+                    False, False, 
+                    project)
                             
-        depees += self.documentDependenciesList(dependencySection, 'Project Dependees',		\
-                    project.getDirectDependees(), 1, 0, project)
+        depees += self.documentDependenciesList(dependencySection, 
+                    'Project Dependees',	
+                    project.getDirectDependees(), 
+                    True, False, 
+                    project)
 
-        if not realTime and project.isVerboseOrDebug():
-            self.documentDependenciesList(dependencySection, 'Full Project Dependencies',	\
-                    project.getFullDependencies(), 0, 1, project)
+        if False:
+            if project.isVerboseOrDebug():
+                self.documentDependenciesList(dependencySection, 
+                        'Full Project Dependencies',
+                        project.getFullDependencies(), 
+                        False, True, 
+                        project)
                                                 
-            self.documentDependenciesList(dependencySection, 'Full Project Dependees',		\
-                    project.getFullDependees(), 1, 1, project)
+                self.documentDependenciesList(dependencySection, 
+                        'Full Project Dependees',
+                        project.getFullDependees(),
+                        True, True, 
+                        project)
         
         deps = depees + depens
         
         if not deps:
             dependencySection.createNote(	\
-            """This project depends upon no others, and no others depend upon it. This project is an island...""")
+            """This project depends upon no others, and no others depend upon it. 
+            This project is an island...""")
         else:
             if realTime and not depees:
                 dependencySection.createNote('No projects depend upon this project.')    
             if not depens:
                 dependencySection.createNote('This project depends upon no others.')    
                  
-        if self.config.isXdocs():
+                  
+        if False and self.config.isXdocs():
             try:
                 # Generate an SVG for Dependencies Diagram:
                 (file,title) = self.diagramDependencies(project)
@@ -1855,6 +1870,7 @@ This page helps Gumpmeisters (and others) observe community progress.
                 log.error('Failed to diagram dependencies for [' + project.getName() + ']', exc_info=1)
         
         document.serialize()
+        document=None
         
         # Document notifications
         notification = self.notifyLogic.notification(project)
@@ -1878,6 +1894,7 @@ This page helps Gumpmeisters (and others) observe community progress.
             nagSection.createSource(notification.resolveContent(self.resolver))
             
             document.serialize()
+            document=None
         
         # Document the project XML
     #    x=startXDoc(getProjectXMLDocument(self.workspace,modulename,project.name))
