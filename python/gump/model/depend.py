@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/model/depend.py,v 1.15 2004/03/10 14:20:04 ajack Exp $
-# $Revision: 1.15 $
-# $Date: 2004/03/10 14:20:04 $
+# $Header: /home/stefano/cvs/gump/python/gump/model/depend.py,v 1.16 2004/03/10 20:28:36 ajack Exp $
+# $Revision: 1.16 $
+# $Date: 2004/03/10 20:28:36 $
 #
 # ====================================================================
 #
@@ -300,8 +300,8 @@ class Dependable:
                 if not self.fullDependencies.containsProject(dependProject):
                     # Get Sub Dependencies
                     for subdepend in dependProject.getFullDependencies():
-                        if not self.fullDependencies.containsDepend(subdepend):
-                            self.fullDependencies.addDepend(depend)
+                        if not self.fullDependencies.containsDepend(subdepend):   
+                            self.fullDependencies.addDepend(subdepend)
                                             
                 self.fullDependencies.addDepend(depend)
             
@@ -339,7 +339,7 @@ class Dependable:
                     # Get Sub Dependees
                     for subdepend in dependProject.getFullDependees():
                         if not self.fullDependees.containsDepend(subdepend):    
-                            self.fullDependees.addDepend(depend)
+                            self.fullDependees.addDepend(subdepend)
                                               
                 self.fullDependees.addDepend(depend)
             
