@@ -39,6 +39,7 @@
     <depend project="jdbc"/>
     <depend project="jakarta-servletapi-4"/>
     <depend project="jakarta-velocity" inherit="runtime"/>
+    <depend project="jakarta-velocity-dvsl" inherit="runtime"/>
     <depend project="xml-xalan2"/>
     <home nested="view"/>
     <jar name="velocity-tools-view-@@DATE@@.jar"/>
