@@ -33,6 +33,7 @@
   <depend project="commons-beanutils"/>
   <depend project="commons-collections"/>
   <depend project="commons-digester"/>
-  <work nested="target/library/struts.jar"/>
+  <work nested="target/library/classes"/>
+  <work nested="target/tiles/library/classes"/>
 
 </project>
