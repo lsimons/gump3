@@ -24,7 +24,7 @@ import types
 class Database:
     """
     Very simple database abstraction layer, basically adding some utilities
-    around MySQLdb and ability to parse the gump DatabaseInformation object.
+    and logging around MySQLdb.
     
     See http://www.python.org/peps/pep-0249.html for more on python and databases.
     This class adheres to the PEP 249 Connection interface.

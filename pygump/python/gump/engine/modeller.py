@@ -978,5 +978,5 @@ class Objectifier:
 
 
 class Verifier:
-    def verify(self, domtree):
+    def verify(self, workspace):
         pass # TODO!

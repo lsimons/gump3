@@ -46,6 +46,11 @@ from xml.dom import minidom
 from gump.config import *
 from gump.util.io import open_file_or_stream
 
+_ENGINE_LOGGER_NAME = "engine"
+_MODELLER_LOGGER_NAME = "modeller"
+_MERGE_FILE_NAME = "merge.xml"
+_DROPPED_FILE_NAME = "dropped.xml"
+
 def main(settings):
     """Controls the big pygump beast.
 
@@ -59,8 +64,18 @@ def main(settings):
     Arguments:
       - settings -- everything the engine needs to know about the environment.
     """
-    #TODO: normalize this so that main() isn't responsible for feeding specific
-    # arguments into the _get_xxx() methods. Its annoying.
+    # For those familiar with "inversion of control" containers; this is
+    # method is basically the "container". Since we're not doing any kind
+    # of "autowiring", this method and the config file must work together
+    # to get all the components wired up properly. However, that wiring
+    # responsibility really is isolated right there. If neccessary we can
+    # introduce some magic if we need to, but I do like that it is so very
+    # visible what is going on here.
+    #
+    # The downside is that config.py and this method are very hard to unit
+    # tests, since it all interacts in an ugly fashion. Oh well, this code
+    # gets exercised more than enough on any integration test since there
+    # is no if/else branching of any kind, no looping, etc.
     
     # ooh...ah...fancy :-D
     _banner(settings.version)
@@ -69,28 +84,26 @@ def main(settings):
     config = get_config(settings)
     
     # get engine dependencies
-    log = get_logger(config.log_level, "engine")
+    log = get_logger(config, _ENGINE_LOGGER_NAME)
     
-    vfsdir = os.path.join(config.paths_work, "vfs-cache")
-    if not os.path.isdir(vfsdir):
-        os.mkdir(vfsdir);
-    vfs = get_vfs(config.paths_metadata, vfsdir)
-    
-    modeller_log = get_logger(config.log_level, "modeller")
+    vfsdir = os.path.join(config)
+    modeller_log = get_logger(config, _MODELLER_LOGGER_NAME)
     modeller_loader = get_modeller_loader(modeller_log, vfs)
     modeller_normalizer = get_modeller_normalizer(modeller_log)
     modeller_objectifier = get_modeller_objectifier(modeller_log)
     modeller_verifier = get_modeller_verifier()
     
-    mergefile = os.path.join(config.paths_work, "merge.xml")
-    dropfile = os.path.join(config.paths_work, "dropped.xml")
+    mergefile = os.path.join(config.paths_work, _MERGE_FILE_NAME)
+    dropfile = os.path.join(config.paths_work, _DROPPED_FILE_NAME)
     
     walker = get_walker(config)
+    dom_implementation = get_dom_implementation()
     (pre_process_visitor, visitor, post_process_visitor) = get_plugin(config)
     
     # create engine
     engine = _Engine(log, modeller_loader, modeller_normalizer,
                      modeller_objectifier, modeller_verifier, walker,
+                     dom_implementation,
                      pre_process_visitor, visitor, post_process_visitor,
                      config.paths_workspace, mergefile, dropfile)
     
@@ -110,15 +123,15 @@ def _banner(version):
     print
     print
 
-###
-### FACTORY METHODS
-###
 
 class _Engine:
-    """This is the core of the core of the pygump application."""
+    """This is the core of the core of the pygump application. It interacts
+    with the other parts of the gump.engine package to transform the model
+    xml into an object model and let loose plugins on that model."""
     
     def __init__(self, log, workspace_loader, workspace_normalizer,
                  workspace_objectifier, workspace_verifier, walker,
+                 dom_implementation,
                  pre_process_visitor, visitor, post_process_visitor,
                  workspace, merge_to=None, drop_to=None):
         """Store all config and dependencies as properties.
@@ -143,17 +156,36 @@ class _Engine:
             - post_process_visitor -- the component that gets called by the
                 walker while visiting parts of the model during the
                 pre-processing stage
+            - dom_implementation -- a python dom implementation (for example
+                the one returned by xml.dom.getDOMImplementation())
 
             - workspace -- the resource containing the workspace xml.
             - merge_to -- the resource to write the merged workspace xml to.
             - drop_to -- the resource to write the dropped projects xml to.
         """
+        assert hasattr(log, "exception")
+        assert callable(log.exception)
+        assert hasattr(workspace_loader, "get_workspace_tree")
+        assert callable(workspace_loader.get_workspace_tree)
+        assert hasattr(workspace_normalizer, "normalize")
+        assert callable(workspace_normalizer.normalize)
+        assert hasattr(workspace_objectifier, "get_workspace")
+        assert callable(workspace_objectifier.get_workspace)
+        assert hasattr(workspace_verifier, "verify")
+        assert callable(workspace_verifier.verify)
+        assert hasattr(walker, "walk")
+        assert callable(walker.walk)
+        assert hasattr(dom_implementation, "createDocument")
+        assert callable(dom_implementation.createDocument)
+        assert workspace != None
+        
         self.log = log
         self.workspace_loader = workspace_loader
         self.workspace_normalizer = workspace_normalizer
         self.workspace_objectifier = workspace_objectifier
         self.workspace_verifier = workspace_verifier
         self.walker = walker
+        self.dom_implementation = dom_implementation
 
         self.pre_process_visitor = pre_process_visitor
         self.visitor = visitor
@@ -164,7 +196,8 @@ class _Engine:
         self.drop_to = open_file_or_stream(drop_to,'w')
 
     def run(self):
-        """Perform a run."""
+        """Perform a gump run. What actually goes on during a gump run is
+        largely determined by the components we're using."""
         try:
             # * merge workspace into big DOM tree
             (domtree, dropped_nodes) = self.workspace_loader.get_workspace_tree(self.workspace)
@@ -185,7 +218,7 @@ class _Engine:
                 
             # * verify that our model is correct (for example, that it has
             #   no circular dependencies)
-            self.workspace_verifier.verify(domtree)
+            self.workspace_verifier.verify(workspace)
             
             # * Pfew! All done. Now actually start *doing* stuff.
             self.walker.walk(workspace, self.pre_process_visitor)
@@ -208,9 +241,7 @@ class _Engine:
             self.merge_to.close()
         
         if self.drop_to and len(dropped_nodes) > 0:
-            from xml import dom
-            impl = dom.getDOMImplementation()
-            dropdoc = impl.createDocument(None, "dropped-projects-and-modules", None)
+            dropdoc = self.dom_implementation.createDocument(None, "dropped-projects-and-modules", None)
             dropdocroot = dropdoc.documentElement
             for node in dropped_nodes:
                 dropdocroot.appendChild(node)

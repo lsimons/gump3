@@ -176,11 +176,11 @@ class Config:
         raise AttributeError, name
 
 
-def get_logger(level, name):
+def get_logger(config, name):
     """Provide a logging implementation for the given level and name."""
     logging.basicConfig()
     log = logging.getLogger(name)
-    log.setLevel(level)
+    log.setLevel(config.log_level)
     return log
 
 
@@ -196,10 +196,16 @@ def get_db(log,config):
     return db
 
 
-def get_vfs(filesystem_root, cache_dir):
+_VFS_CACHE_DIR_NAME="vfs-cache"
+
+def get_vfs(config):
     """Provide a VFS implementation."""
     from gump.util.io import VFS
-    return VFS(filesystem_root, cache_dir)
+
+    cache_dir = os.path.join(config.paths_work, _VFS_CACHE_DIR_NAME)
+    if not os.path.isdir(cache_dir):
+        os.mkdir(cache_dir);
+    return VFS(config.paths_metadata, cache_dir)
 
 
 def get_modeller_loader(log, vfs=None, mergefile=None, dropfile=None):
@@ -232,6 +238,13 @@ def get_walker(config):
     
     log = get_logger(config.log_level, "walker")
     return Walker(log)
+
+
+def get_dom_implementation():
+    """Provide a DOM implementation."""
+    from xml import dom
+    impl = dom.getDOMImplementation()
+    return impl
 
 
 def get_plugin(config):

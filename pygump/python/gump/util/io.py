@@ -32,6 +32,7 @@ import urlparse
 import StringIO
 import types
 
+# we need to know what kind of instances we can pass to open()
 try:
     _StringTypes = [types.StringType, types.UnicodeType]
 except AttributeError:
@@ -40,17 +41,20 @@ except AttributeError:
 def open_file_or_stream(file_or_stream, mode='r'):
     """Utility for accepting both filenames and streams.
     
-    If the argument is a string, attempt to use it as a filename,
-    open the specified file and return a reference to the open file. If it is
-    not a valid filename, wrap the string as a stream-like object and return it.
-    
-    If the argument is not a string, returns the string.
+    If the argument is None, returns None. If the argument is a string,
+    attempt to use it as a filename, open the specified file and return
+    a reference to the open file. If it is not a valid filename, return
+    the string wrapped in an IO object. If the argument is not a string,
+    return the argument.
     """
+    if file_or_stream == None:
+        return file_or_stream
+    
     if type(file_or_stream) in _StringTypes:
-        #try:
-        return open(file_or_stream, mode)
-        #except:
-        #    StringIO.StringIO(file_or_stream)
+        try:
+            return open(file_or_stream, mode)
+        except:
+            return StringIO.StringIO(file_or_stream)
     else:
         return file_or_stream
 

@@ -50,6 +50,15 @@ class IOUtilTestCase(TestCase):
         result = file.read()
         file.close()
         self.assertEqual(contents, result)
+        
+        file = open_file_or_stream(contents)
+        result = file.read()
+        file.close()
+        self.assertEqual(contents, result)
+
+        result = open_file_or_stream(None)
+        self.assertEqual(None, result)
+        
     
     def test_error(self):
         from gump.util.io import Error
