@@ -248,6 +248,7 @@
     <project name="depot-update-ant-sample-vfs" fullname="Depot Update Ant Sample">    	
 
         <depend project="depot-update" inherit="runtime"/>
+		<depend project="commons-codec" runtime="true"/>
         <depend project="commons-logging" inherit="runtime"/>
         <depend project="ant" inherit="runtime"/>
         
