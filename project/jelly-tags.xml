@@ -157,6 +157,31 @@
          to="commons-dev@jakarta.apache.org"/>
   </project>
 
+  <project name="commons-jelly-tags-jsl">
+    <package>org.apache.commons.jelly.tags.jsl</package>
+    <description>The Jelly Stylesheet Library (JSL)</description>
+
+    <mkdir dir="jelly/jelly-tags/jsl/lib"/>
+
+    <ant basedir="jelly/jelly-tags/jsl" target="jar">
+      <property name="final.name"  value="commons-jelly-tags-jsl-@@DATE@@"/>
+    </ant>
+
+    <depend project="commons-jelly" inherit="all"/>
+    
+    <!-- ant taglib and dependencies used in tests -->
+    <depend project="commons-jelly-tags-ant"/>
+    <depend project="commons-grant"/>
+
+    <work nested="jelly/jelly-tags/jsl/target/classes"/>
+    <work nested="jelly/jelly-tags/jsl/target/test-classes"/>
+
+    <jar name="jelly/jelly-tags/jsl/target/commons-jelly-tags-jsl-@@DATE@@.jar"/>
+ 
+    <nag from="Morgan Delagrange &lt;mdelagra@yahoo.com&gt;"
+         to="commons-dev@jakarta.apache.org"/>
+  </project>  
+  
   <project name="commons-jelly-tags-util">
     <package>org.apache.commons.jelly.tags.util</package>
     <description>This is a set of Jelly utility tags.</description>
