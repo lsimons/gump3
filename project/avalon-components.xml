@@ -16,60 +16,384 @@
 -->
 <module name="avalon-components">
 
-  <url href="http://avalon.apache.org/"/>
-  <description>
-    A set of cause-grain components.
-  </description>
+    <url href="http://avalon.apache.org/cornerstone"/>
+    <description>
+        A set of cause-grain components.
+    </description>
 
-  <cvs repository="avalon"/>
+    <cvs repository="avalon"/>
   
-  <project name="avalon-components">
-    <package>org.apache.avalon.cornerstone</package>
+    <project name="avalon-components">
+        <depend project="cornerstone-connection-api" inherit="jars" />
+        <depend project="cornerstone-connection-impl" inherit="jars" />
+        <depend project="cornerstone-datasources-api" inherit="jars" />
+        <depend project="cornerstone-datasources-impl" inherit="jars" />
+        <depend project="cornerstone-scheduler-api" inherit="jars" />
+        <depend project="cornerstone-scheduler-impl" inherit="jars" />
+        <depend project="cornerstone-sockets-api" inherit="jars" />
+        <depend project="cornerstone-sockets-impl" inherit="jars" />
+        <depend project="cornerstone-store-api" inherit="jars" />
+        <depend project="cornerstone-store-impl" inherit="jars" />
+        <depend project="cornerstone-threads-api" inherit="jars" />
+        <depend project="cornerstone-threads-impl" inherit="jars" />
+    </project>
+    
+    <project name="cornerstone-connection-api">
+        <package>org.apache.avalon.cornerstone.services.connection</package>
 
-    <ant>
-      <property name="version" value="@@DATE@@"/>
-    </ant>
+        <ant basedir="connection-api" target="jar">
+            <property name="project.version" value="@@DATE@@"/>
+        </ant>
 
-    <depend project="avalon-framework" runtime="true" id="combined"/>
-    <depend project="avalon-logkit" runtime="true"/>
-    <depend project="xml-xerces" id="parser" runtime="true"/>
-    <depend project="junit"/>
-    <depend project="excalibur-datasource" runtime="true"/>
-    <depend project="excalibur-i18n" runtime="true"/>
-    <depend project="excalibur-thread" runtime="true"/>
-    <depend project="jakarta-ant" inherit="runtime"/>
-    <option project="excalibur-event"/>
-    <option project="jakarta-bcel"/>
-    <option project="jsse"/>
+        <!-- runtime dependencies -->
+        <depend project="avalon-framework" runtime="true" id="api"/>
+        <depend project="avalon-framework" runtime="true" id="impl"/>
+        
+        <depend project="cornerstone-threads-api" runtime="true"/>
+        <depend project="cornerstone-sockets-api" runtime="true"/>
+        
+        <depend project="excalibur-thread" runtime="true"/>
 
-    <!-- buildtime dependencies -->
-    <depend project="junit"/>
-    <depend project="excalibur-datasource"/>
-    <depend project="excalibur-i18n"/>
-    <depend project="excalibur-thread"/>
-    <option project="excalibur-event"/>
-    <depend project="ant" inherit="runtime"/>
-    <option project="jakarta-bcel"/>
-    <option project="jsse"/>
+        <!-- test-time dependencies -->
+        <depend property="junit.jar" project="junit"/>
 
-    <work nested="build/classes"/>
+        <!-- build-time dependencies -->
+        <depend project="ant" inherit="runtime"/>
+        <depend project="xml-xerces"/>
+        <depend project="xml-xalan2"/>
 
-    <home nested="build"/>
+        <!-- optional dependencies -->
+        <option project="checkstyle" inherit="runtime"/>
 
-    <jar name="cornerstone-@@DATE@@.jar"/>
+        <work nested="connection-api/target/classes"/>
 
-    <javadoc nested="build/docs/api" module="avalon"/>
-    <license name="LICENSE.txt"/>
+        <home nested="connection-api"/>
+        <jar name="target/connection-api-@@DATE@@.jar" />
 
-    <nag>
-      <regexp pattern="/Missing prereq/i"
-        from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"
-        to="dev@avalon.apache.org"
-        subject="PRE-REQ FAILED for avalon-components"/>
-    </nag>
-    <nag from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"
-      to="dev@avalon.apache.org"/>
-  </project>
+        <nag from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"
+                to="dev@avalon.apache.org"/>
+    </project>
+
+    <project name="cornerstone-connection-impl">
+        <package>org.apache.avalon.cornerstone.blocks.connection</package>
+
+        <ant basedir="connection-impl" target="jar">
+            <property name="project.version" value="@@DATE@@"/>
+        </ant>
+
+        <!-- runtime dependencies -->
+        <depend project="avalon-framework" runtime="true" id="api"/>
+        <depend project="avalon-framework" runtime="true" id="impl"/>
+        
+        <depend project="cornerstone-connection-api" runtime="true"/>
+        <depend project="cornerstone-threads-api" runtime="true"/>
+        <depend project="cornerstone-sockets-api" runtime="true"/>
+        
+        <depend project="excalibur-thread" runtime="true"/>
+
+        <!-- test-time dependencies -->
+        <depend property="junit.jar" project="junit"/>
+
+        <!-- build-time dependencies -->
+        <depend project="ant" inherit="runtime"/>
+        <depend project="xml-xerces"/>
+        <depend project="xml-xalan2"/>
+
+        <!-- optional dependencies -->
+        <option project="checkstyle" inherit="runtime"/>
+
+        <work nested="connection-impl/target/classes"/>
+
+        <home nested="connection-impl"/>
+        <jar name="target/connection-impl-@@DATE@@.jar" />
+
+        <nag from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"
+                to="dev@avalon.apache.org"/>
+    </project>
+    
+    <project name="cornerstone-datasources-api">
+        <package>org.apache.avalon.cornerstone.services.datasources</package>
+
+        <ant basedir="datasources-api" target="jar">
+            <property name="project.version" value="@@DATE@@"/>
+        </ant>
+
+        <!-- runtime dependencies -->
+        <depend project="avalon-framework" runtime="true" id="api"/>
+
+        <!-- build-time dependencies -->
+        <depend project="ant" inherit="runtime"/>
+        <depend project="xml-xerces"/>
+        <depend project="xml-xalan2"/>
+
+        <!-- optional dependencies -->
+        <option project="checkstyle" inherit="runtime"/>
+
+        <work nested="datasurces-api/target/classes"/>
+
+        <home nested="datasources-api"/>
+        <jar name="target/datasources-api-@@DATE@@.jar" />
+
+        <nag from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"
+                to="dev@avalon.apache.org"/>
+    </project>
+
+    <project name="cornerstone-datasources-impl">
+        <package>org.apache.avalon.cornerstone.blocks.datasources</package>
+
+        <ant basedir="datasources-impl" target="jar">
+            <property name="project.version" value="@@DATE@@"/>
+        </ant>
+
+        <!-- runtime dependencies -->
+        <depend project="avalon-framework" runtime="true" id="api"/>
+        <depend project="cornerstone-datasources-api" runtime="true"/>
+        <depend project="excalibur-datasource" runtime="true"/>
+        <depend project="excalibur-pool-api" runtime="true"/>
+        <depend project="excalibur-pool-impl" runtime="true"/>
+
+        <!-- build-time dependencies -->
+        <depend project="ant" inherit="runtime"/>
+        <depend project="xml-xerces"/>
+        <depend project="xml-xalan2"/>
+
+        <!-- optional dependencies -->
+        <option project="checkstyle" inherit="runtime"/>
+
+        <work nested="datasurces-impl/target/classes"/>
+
+        <home nested="datasources-impl"/>
+        <jar name="target/datasources-impl-@@DATE@@.jar" />
+
+        <nag from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"
+                to="dev@avalon.apache.org"/>
+    </project>
+
+    <project name="cornerstone-scheduler-api">
+        <package>org.apache.avalon.cornerstone.services.scheduler</package>
+
+        <ant basedir="scheduler-api" target="jar">
+            <property name="project.version" value="@@DATE@@"/>
+        </ant>
+
+        <!-- runtime dependencies -->
+        <depend project="avalon-framework" runtime="true" id="api"/>
+
+        <!-- build-time dependencies -->
+        <depend project="ant" inherit="runtime"/>
+        <depend project="xml-xerces"/>
+        <depend project="xml-xalan2"/>
+
+        <!-- optional dependencies -->
+        <option project="checkstyle" inherit="runtime"/>
+
+        <work nested="scheduler-api/target/classes"/>
+
+        <home nested="scheduler-api"/>
+        <jar name="target/scheduler-api-@@DATE@@.jar" />
+
+        <nag from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"
+                to="dev@avalon.apache.org"/>
+    </project>
+
+    <project name="cornerstone-scheduler-impl">
+        <package>org.apache.avalon.cornerstone.blocks.scheduler</package>
+
+        <ant basedir="scheduler-impl" target="jar">
+            <property name="project.version" value="@@DATE@@"/>
+        </ant>
+
+        <!-- runtime dependencies -->
+        <depend project="avalon-framework" runtime="true" id="api"/>
+        <depend project="avalon-framework" runtime="true" id="impl"/>
+        <depend project="cornerstone-scheduler-api" runtime="true"/>
+        <depend project="cornerstone-threads-api" runtime="true"/>
+        <depend project="excalibur-thread" runtime="true"/>
+
+        <!-- build-time dependencies -->
+        <depend project="ant" inherit="runtime"/>
+        <depend project="xml-xerces"/>
+        <depend project="xml-xalan2"/>
+
+        <!-- optional dependencies -->
+        <option project="checkstyle" inherit="runtime"/>
+
+        <work nested="scheduler-impl/target/classes"/>
+
+        <home nested="scheduler-impl"/>
+        <jar name="target/scheduler-impl-@@DATE@@.jar" />
+
+        <nag from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"
+                to="dev@avalon.apache.org"/>
+    </project>
+
+    <project name="cornerstone-sockets-api">
+        <package>org.apache.avalon.cornerstone.services.sockets</package>
+
+        <ant basedir="sockets-api" target="jar">
+            <property name="project.version" value="@@DATE@@"/>
+        </ant>
+
+        <!-- runtime dependencies -->
+        <depend project="avalon-framework" runtime="true" id="api"/>
+
+        <!-- build-time dependencies -->
+        <depend project="ant" inherit="runtime"/>
+        <depend project="xml-xerces"/>
+        <depend project="xml-xalan2"/>
+
+        <!-- optional dependencies -->
+        <option project="checkstyle" inherit="runtime"/>
+
+        <work nested="sockets-api/target/classes"/>
+
+        <home nested="sockets-api"/>
+        <jar name="target/sockets-api-@@DATE@@.jar" />
+
+        <nag from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"
+                to="dev@avalon.apache.org"/>
+    </project>
+
+    <project name="cornerstone-sockets-impl">
+        <package>org.apache.avalon.cornerstone.blocks.sockets</package>
+
+        <ant basedir="sockets-impl" target="jar">
+            <property name="project.version" value="@@DATE@@"/>
+        </ant>
+
+        <!-- runtime dependencies -->
+        <depend project="avalon-framework" runtime="true" id="api"/>
+        <depend project="avalon-framework" runtime="true" id="impl"/>
+        <depend project="cornerstone-sockets-api" runtime="true"/>
+
+        <!-- build-time dependencies -->
+        <depend project="ant" inherit="runtime"/>
+        <depend project="xml-xerces"/>
+        <depend project="xml-xalan2"/>
+
+        <!-- optional dependencies -->
+        <option project="checkstyle" inherit="runtime"/>
+
+        <work nested="sockets-impl/target/classes"/>
+
+        <home nested="sockets-impl"/>
+        <jar name="target/sockets-impl-@@DATE@@.jar" />
+
+        <nag from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"
+                to="dev@avalon.apache.org"/>
+    </project>
+
+    <project name="cornerstone-store-api">
+        <package>org.apache.avalon.cornerstone.services.store</package>
+
+        <ant basedir="store-api" target="jar">
+            <property name="project.version" value="@@DATE@@"/>
+        </ant>
+
+        <!-- runtime dependencies -->
+        <depend project="avalon-framework" runtime="true" id="api"/>
+
+        <!-- build-time dependencies -->
+        <depend project="ant" inherit="runtime"/>
+        <depend project="xml-xerces"/>
+        <depend project="xml-xalan2"/>
+
+        <!-- optional dependencies -->
+        <option project="checkstyle" inherit="runtime"/>
+
+        <work nested="store-api/target/classes"/>
+
+        <home nested="store-api"/>
+        <jar name="target/store-api-@@DATE@@.jar" />
+
+        <nag from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"
+                to="dev@avalon.apache.org"/>
+    </project>
+
+    <project name="cornerstone-store-impl">
+        <package>org.apache.avalon.cornerstone.blocks.store</package>
+
+        <ant basedir="store-impl" target="jar">
+            <property name="project.version" value="@@DATE@@"/>
+        </ant>
+
+        <!-- runtime dependencies -->
+        <depend project="avalon-framework" runtime="true" id="api"/>
+        <depend project="avalon-framework" runtime="true" id="impl"/>
+        <depend project="cornerstone-store-api" runtime="true"/>
+
+        <!-- build-time dependencies -->
+        <depend project="ant" inherit="runtime"/>
+        <depend project="xml-xerces"/>
+        <depend project="xml-xalan2"/>
+
+        <!-- optional dependencies -->
+        <option project="checkstyle" inherit="runtime"/>
+
+        <work nested="store-impl/target/classes"/>
+
+        <home nested="store-impl"/>
+        <jar name="target/store-impl-@@DATE@@.jar" />
+
+        <nag from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"
+                to="dev@avalon.apache.org"/>
+    </project>
+
+    <project name="cornerstone-threads-api">
+        <package>org.apache.avalon.cornerstone.services.threads</package>
+
+        <ant basedir="threads-api" target="jar">
+            <property name="project.version" value="@@DATE@@"/>
+        </ant>
+
+        <!-- runtime dependencies -->
+        <depend project="excalibur-thread-api" runtime="true"/>
+
+        <!-- build-time dependencies -->
+        <depend project="ant" inherit="runtime"/>
+        <depend project="xml-xerces"/>
+        <depend project="xml-xalan2"/>
+
+        <!-- optional dependencies -->
+        <option project="checkstyle" inherit="runtime"/>
+
+        <work nested="threads-api/target/classes"/>
+
+        <home nested="threads-api"/>
+        <jar name="target/threads-api-@@DATE@@.jar" />
+
+        <nag from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"
+                to="dev@avalon.apache.org"/>
+    </project>
+
+    <project name="cornerstone-threads-impl">
+        <package>org.apache.avalon.cornerstone.blocks.threads</package>
+
+        <ant basedir="threads-impl" target="jar">
+            <property name="project.version" value="@@DATE@@"/>
+        </ant>
+
+        <!-- runtime dependencies -->
+        <depend project="avalon-framework" runtime="true" id="api"/>
+        <depend project="avalon-framework" runtime="true" id="impl"/>
+        <depend project="cornerstone-store-api" runtime="true"/>
+
+        <!-- build-time dependencies -->
+        <depend project="ant" inherit="runtime"/>
+        <depend project="xml-xerces"/>
+        <depend project="xml-xalan2"/>
+
+        <!-- optional dependencies -->
+        <option project="checkstyle" inherit="runtime"/>
+
+        <work nested="threads-impl/target/classes"/>
+
+        <home nested="threads-impl"/>
+        <jar name="target/threads-impl-@@DATE@@.jar" />
+
+        <nag from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"
+                to="dev@avalon.apache.org"/>
+    </project>
 
 </module>
 
