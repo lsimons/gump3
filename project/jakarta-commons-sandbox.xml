@@ -118,6 +118,7 @@
 
     <depend project="jakarta-ant" inherit="runtime"/>
     <depend project="xml-xerces"/>
+    <depend project="commons-lang"/>
     <work nested="io/target/classes"/>
 
     <jar name="io/dist/commons-io.jar"/>
