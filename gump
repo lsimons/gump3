@@ -106,8 +106,12 @@ Run pygump.
       Run pygump its unit tests.
 
       Usage:
-        $0 test
-"
+        $0 test [OPTIONS]
+      
+      Available options include:"
+      # This is a little wacky way to get just the option list from the
+      # testrunner.py script. It works for now :-D
+      python $GUMP_HOME/bin/testrunner.py -h 2>&1 | grep '       '
         ;;
     dynagump)
       echo "
@@ -592,7 +596,7 @@ function test
   pycompile
   
   # Run the pygump tests
-  python ../../bin/testrunner.py -d ../python/gump/test $@
+  $GUMP_PYTHON $GUMP_HOME/bin/testrunner.py -d $GUMP_HOME/pygump/python/gump/test $@
   cd "$current"
   
   # restore python path

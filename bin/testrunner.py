@@ -1,14 +1,7 @@
 #!/usr/bin/env python2.3
 """testrunner - a Zope test suite utility.
 
-The testrunner utility is used to execute PyUnit test suites. This utility
-should be run from the root of your Zope source directory. It will set up the
-correct python path environment based on your source directory so that
-test suites can import Zope modules in a way that is fairly independent of
-the location of the test suite. It does *not* import the Zope package, so
-a test thats depend on dynamic aspects of the Zope environment (such as
-SOFTWARE_HOME being defined) may need to 'import Zope' as a part of the
-test suite.
+The testrunner utility is used to execute PyUnit test suites.
 
 Testrunner will look for and execute test suites that follow some simple
 conventions. Test modules should have a name prefixed with 'test', such as
@@ -23,15 +16,26 @@ a particular directory.
 -----
 This file was found at http://zope.org/Members/shh/TestRunner. Changes:
     * added Zope license header
+    
+    * added code coverage reporting switch based on the trace module
+      (not functional)
+    
+    * remove zope-specific path management
 -----
-This version of testrunner.py supports INSTANCE_HOME installations of Zope.
-
 (c) 2002-2004, Stefan H. Holek, stefan@epy.co.at
 -----
-Copyright (c) 2004 Zope Corporation and Contributors.All Rights Reserved.This software is subject to the provisions of the Zope Public License,Version 2.1 (ZPL). A copy of the ZPL should accompany this distribution.THIS SOFTWARE IS PROVIDED "AS IS" AND ANY AND ALL EXPRESS OR IMPLIEDWARRANTIES ARE DISCLAIMED, INCLUDING, BUT NOT LIMITED TO, THE IMPLIEDWARRANTIES OF TITLE, MERCHANTABILITY, AGAINST INFRINGEMENT, AND FITNESSFOR A PARTICULAR PURPOSE. 
+Copyright (c) 2004 Zope Corporation and Contributors.
+All Rights Reserved.
+
+This software is subject to the provisions of the Zope Public License,
+Version 2.1 (ZPL). A copy of the ZPL should accompany this distribution.
+THIS SOFTWARE IS PROVIDED "AS IS" AND ANY AND ALL EXPRESS OR IMPLIED
+WARRANTIES ARE DISCLAIMED, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+WARRANTIES OF TITLE, MERCHANTABILITY, AGAINST INFRINGEMENT, AND FITNESS
+FOR A PARTICULAR PURPOSE. 
 """
 
-__version__ = '0.4.0'
+__version__ = '0.4.1-LSD'
 
 import getopt
 import imp
@@ -40,87 +44,24 @@ import sys
 import time
 import traceback
 import unittest
-
+import trace
 VERBOSE = 2
 
 
 class TestRunner:
     """Test suite runner"""
 
-    def __init__(self, path, verbosity, mega_suite, verbose_on_error,
-                 zope_home='', instance_home='', detect_instance_home=0, 
-                 unstale_instance_home=0):
+    def __init__(self, path, verbosity, mega_suite, verbose_on_error):
         self.basepath = path
         self.verbosity = verbosity
         self.verbose_on_error = verbose_on_error
         self.results = []
         self.mega_suite = mega_suite
-        # initialize python path
-        pjoin = os.path.join
-        if zope_home:
-            if sys.platform == 'win32':
-                newpaths = [pjoin(zope_home, 'lib', 'python'),
-                            pjoin(zope_home, 'bin', 'lib'),
-                            pjoin(zope_home, 'bin', 'lib', 'plat-win'),
-                            pjoin(zope_home, 'bin', 'lib', 'win32'),
-                            pjoin(zope_home, 'bin', 'lib', 'win32', 'lib'),
-                            zope_home]
-            else:
-                newpaths = [pjoin(zope_home, 'lib', 'python'),
-                            zope_home]
-            sys.path[:0] = newpaths
-        # initialize instance home
-        if instance_home:
-            self.addInstanceHome(instance_home)
-            setconfig(instancehome=instance_home)
-            self.detect_instance_home = 0
-            self.unstale_instance_home = 0
-        else:
-            self.detect_instance_home = detect_instance_home
-            self.unstale_instance_home = unstale_instance_home
-
-    def detectInstanceHome(self):
-        """Tries to detect whether we run in an INSTANCE_HOME instance."""
-        # Note: SOFTWARE_HOME is set by main() below, even for Zope 2.7 
-        software_home = os.environ.get('SOFTWARE_HOME')
-        working_dir = realpath(os.getcwd())
-        if software_home and not working_dir.startswith(software_home): 
-            # Search upwards for a 'Products' directory
-            p = d = working_dir
-            while d:
-                if os.path.isdir(os.path.join(p, 'Products')):
-                    return p
-                p, d = os.path.split(p)
-        return None
-
-    def addInstanceHome(self, instpath):
-        """Extends the respective paths to include instance directories."""
-        import Products
-        # Add 'Products' to Products.__path__
-        products = os.path.join(instpath, 'Products')
-        if os.path.isdir(products) and products not in Products.__path__:
-            if self.verbosity > 1:
-                self.report("Adding %s to products path." % products)
-            Products.__path__.insert(0, products)
-        # Add 'lib/python' to sys.path
-        libpython = os.path.join(instpath, 'lib', 'python')
-        if os.path.isdir(libpython) and libpython not in sys.path:
-            if self.verbosity > 1:
-                self.report("Adding %s to sys.path." % libpython)
-            sys.path.insert(0, libpython)
 
     def beforeImportSuite(self):
         """Called before a test suite is imported from a module by
            getSuiteFromFile()."""
-        if self.detect_instance_home:
-            instpath = self.detectInstanceHome()
-            if instpath is not None:
-                self.addInstanceHome(instpath)
-                self.detect_instance_home = 0
-                if getconfig('testinghome'):
-                    setconfig(instancehome=instpath)
-                if self.unstale_instance_home:
-                    walk_with_symlinks(instpath, remove_stale_bytecode, None)
+        pass
 
     def getSuiteFromFile(self, filepath):
         if not os.path.isfile(filepath):
@@ -188,11 +129,6 @@ class TestRunner:
 
     def report(self, message):
         print >>sys.stderr, message
-
-    def runAllTests(self):
-        """Run all tests found in the current working directory and
-           all subdirectories."""
-        self.runPath(self.basepath)
 
     def listTestableNames(self, pathname):
         """Return a list of the names to be traversed to build tests."""
@@ -415,30 +351,6 @@ class TestTimer(TestRunner):
             self.report("%.1f %s\n" % item)
 
 
-def getconfig(key):
-    '''Reads a value from Zope configuration.'''
-    try:
-        import App.config
-    except ImportError:
-        pass
-    else:
-        config = App.config.getConfiguration()
-        return getattr(config, key, None)
-
-
-def setconfig(**kw):
-    '''Updates Zope configuration'''
-    try:
-        import App.config
-    except ImportError:
-        pass
-    else:
-        config = App.config.getConfiguration()
-        for key, value in kw.items():
-            setattr(config, key, value)
-        App.config.setConfiguration(config)
-
-
 def realpath(path):
     try:
         from os.path import realpath
@@ -488,18 +400,12 @@ def remove_stale_bytecode(arg, dirname, names):
 
 
 def main(args):
-    usage_msg = """Usage: python testrunner.py options
+    usage_msg = """Usage: python testrunner.py -d dir options
 
     If run without options, testrunner will display this usage
-    message. If you want to run all test suites found in all
-    subdirectories of the current working directory, use the
-    -a option.
+    message.
 
     options:
-
-       -a
-          Run all tests found in all subdirectories of the current
-          working directory.
 
        -m
           Run all tests in a single, giant suite (consolidates error
@@ -509,41 +415,10 @@ def main(args):
           Run each test file's suite separately (noisier output, may
           help in isolating global effects later).
 
-       -p
-          Add 'lib/python' to the Python search path.  [default]
-
-       -P
-          *Don't* add 'lib/python' to the Python search path.
-
-       -k 
-          Remove stale bytecode from ZOPE_HOME and INSTANCE_HOME.
-          Highly recommended after e.g. 'cvs update'.
-
-       -K
-          *Don't* remove stale bytecode.  [default]
-
-       -i 
-          Try to auto-detect INSTANCE_HOME installations.  This usually
-          works fine but may fail if your sandbox contains symbolic 
-          links.
-
-       -I instpath
-          Use the specified path as INSTANCE_HOME.  If auto-detection
-          fails or is not appropriate for your setup, you can use this
-          flag to specify the instance home directory.
-
-       -C filepath
-          Use the specified config file (zope.conf) to setup the test
-          instance.  Takes precedence over -i and -I.  [experimental]
-
        -d dirpath
           Run all tests found in the directory specified by dirpath,
           and recursively in all its subdirectories. The dirpath
           should be a full system path.
-
-       -f filepath
-          Run the test suite found in the file specified.  The filepath
-          should be a fully qualified path to the file to be run.
 
        -v level
           Set the Verbosity level to level.  Newer versions of
@@ -574,51 +449,35 @@ def main(args):
 
        -t N
           Report time taken by the most expensive N tests.
+    
+       -T
+          Generate coverage reports. Overrides and ignores -t.
 
        -h
           Display usage information.
     """
 
     pathname = None
-    filename = None
-    test_all = 0
     verbosity = VERBOSE
     mega_suite = 1
-    set_python_path = 1
     timed = 0
+    coverage = 0
     verbose_on_error = 0
-    zope_config = ''
-    instance_home = ''
-    detect_instance_home = 0
-    unstale_zope_home = 0
-    unstale_instance_home = 0
 
     try:
-        options, arg = getopt.getopt(args, 'aempPhd:f:v:qMo:t:iI:kKC:')
+        options, arg = getopt.getopt(args, 'Temhd:v:qMo:t:kKC:')
     except getopt.GetoptError, e:
         err_exit(e.msg)
     
     if not options:
         err_exit(usage_msg)
     for name, value in options:
-        if name == '-a':
-            test_all = 1
-        elif name == '-m':
+        if name == '-m':
             mega_suite = 1
         elif name == '-M':
             mega_suite = 0
-        elif name == '-p':
-            set_python_path = 1
-        elif name == '-P':
-            set_python_path = 0
-        elif name == '-i':
-            detect_instance_home = 1
-        elif name == '-I':
-            instance_home = value.strip()
         elif name == '-d':
             pathname = value.strip()
-        elif name == '-f':
-            filename = value.strip()
         elif name == '-h':
             err_exit(usage_msg, 0)
         elif name == '-e':
@@ -630,80 +489,39 @@ def main(args):
         elif name == '-t':
             timed = int(value)
             assert timed >= 0
+        elif name == '-T':
+            coverage = 1
         elif name == '-o':
             f = open(value.strip(), 'w')
             sys.stderr = f
-        elif name == '-k':
-            unstale_zope_home = 1
-            unstale_instance_home = 1
-        elif name == '-K':
-            unstale_zope_home = 0
-            unstale_instance_home = 0
-        elif name == '-C':
-            zope_config = value.strip()
         else:
             err_exit(usage_msg)
 
-    if not (test_all or pathname or filename):
-        err_exit('must specify one of: -a -d -f')
-
-    # testrunner.py lives in GUMP_HOME/utilities (or GUMP_HOME/bin)
-    script = sys.argv[0]
-    script_dir = os.path.dirname(realpath(script))
-    zope_home = os.path.dirname(script_dir)
-    if unstale_zope_home:
-        walk_with_symlinks(zope_home, remove_stale_bytecode, None)
-
-    software_home = os.path.join(zope_home, 'lib', 'python')
-    os.environ['SOFTWARE_HOME'] = software_home
-
-    if zope_config:
-        # Use instancehome from config
-        instance_home = ''
-        detect_instancehome = 0
-    else:
-        if instance_home:
-            instance_home = realpath(instance_home)
-            detect_instance_home = 0
-            if unstale_instance_home:
-                walk_with_symlinks(instance_home, remove_stale_bytecode, None)
-
-    if not set_python_path:
-        zope_home = ''
+    if not pathname:
+        err_exit('must specify -d')
 
     if timed:
         testrunner = TestTimer(realpath(os.getcwd()), verbosity, mega_suite,
-                               verbose_on_error, zope_home, instance_home, 
-                               detect_instance_home, unstale_instance_home)
+                               verbose_on_error)
     else:
         testrunner = TestRunner(realpath(os.getcwd()), verbosity, mega_suite,
-                                verbose_on_error, zope_home, instance_home, 
-                                detect_instance_home, unstale_instance_home)
+                                verbose_on_error)
 
-    if zope_config:
-        zope_config = realpath(zope_config)
-        if verbosity > 0:
-            print >>sys.stderr, 'Parsing', zope_config 
-        import Zope
-        Zope.configure(zope_config)
-        # Ignore softwarehome from config
-        setconfig(softwarehome=software_home)
-        if unstale_instance_home:
-            walk_with_symlinks(getconfig('instancehome'), remove_stale_bytecode, None)
+    #if coverage:
+    #    cmd = 'testrunner.runPath("%s")' % realpath(pathname)
+    #    print "Command to run:", cmd
 
-    try:
-        # Try to set up the testing environment (esp. INSTANCE_HOME,
-        # so we use the right custom_zodb.py.)
-        import Testing
-    except ImportError:
-        pass
-
-    if test_all:
-        testrunner.runAllTests()
-    elif pathname:
-        testrunner.runPath(realpath(pathname))
-    elif filename:
-        testrunner.runFile(realpath(filename))
+    #    import trace
+    #    t = trace.Trace(count=1, trace=0,
+    #                    ignoredirs=[sys.prefix, sys.exec_prefix],
+    #                    ignoremods=["testrunner"])
+    #    t.runctx(cmd, globals=globals(), locals=vars())
+    #    r = t.results()
+        #coverdir='%s/pygump/.coverage' % os.environ["GUMP_HOME"]
+        #r.write_results(show_missing=True, summary=True, coverdir=coverdir)
+    #    r.write_results(show_missing=True, summary=True)
+    #else:
+    testrunner.runPath(realpath(pathname))
 
     if timed:
         testrunner.reportTimes(timed)
