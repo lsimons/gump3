@@ -124,7 +124,7 @@
     <project name="depot-version-antlet" fullname="Depot Version Antlet" >
        <package>org.apache.depot.version</package>
        <depend project="depot-version" inherit="all"/>
-       <depend project="depot-antlets" inherit="runtime"/>
+       <depend project="antworks-antlets" inherit="runtime"/>
         <ant basedir="version" buildfile="build_antlet.xml" target="install-antlet" vm="1.4">
           <property name="ant.home" project="ant" reference="home" />
           <property name="DATE_STAMP" value="@@DATE@@"/>        	
