@@ -48,6 +48,7 @@
     <depend project="junitperf"/>
     <jar name="build/dom4j.jar" id="dom4j"/>
     <license name="LICENSE.txt"/>
+    <nag from="Maarten Coene &lt;MacBelgium@toughguy.net&gt;" to="dom4j-dev@lists.sourceforge.net" />
   </project>
 
   <project name="xpp">
