@@ -990,7 +990,8 @@ def documentXRef(workspace,context,moduleFilterList=None,projectFilterList=None)
     headerXDoc(x,'Cross Reference')
 
     # :TODO: Packages and such...
-    
+    x.write('<p>To be completed...</p>')
+   
     footerXDoc(x) 
     endXDoc(x)
     
