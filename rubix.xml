@@ -13,6 +13,7 @@
   <project href="project/jakarta-avalon-testlet.xml"/>
   <project href="project/jakarta-ecs.xml"/>
   <project href="project/jakarta-james.xml"/>
+  <project href="project/jakarta-jmeter.xml"/>
   <project href="project/jakarta-log4j.xml"/>
   <project href="project/jakarta-oro.xml"/>
   <project href="project/jakarta-regexp.xml"/>
@@ -44,7 +45,6 @@
   <!-- Apache.Java -->
 
   <project href="project/jetspeed.xml"/>
-  <project href="project/jmeter.xml"/>
   <project href="project/town.xml"/>
   <project href="project/turbine.xml"/>
 

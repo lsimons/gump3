@@ -1,11 +1,11 @@
-<project name="jmeter">
+<project name="jakarta-jmeter">
 
-  <url href="http://java.apache.org/jmeter" />
+  <url href="http://jakarta.apache.org/jmeter/" />
   <description>
     Pure Java load testing and performance measurement tool.
   </description>
 
-  <cvs repository="jservpub" />
+  <cvs repository="jakarta" />
   <ant />
 
   <home nested="bin" />
