@@ -4,14 +4,22 @@
 # Nag people and mailing lists upon particular build events,
 # typically failures.
 #
+# @author Sam Ruby, Jon Stevens
+#
+# naglist format:
+#
+#         project                    email                   nag regex
+#     jakarta-alexandria alexandria-dev@jakarta.apache.org /BUILD FAILED/
+#
 
 ($sec,$min,$hour,$mday,$mon,$year) = localtime;
 $date=sprintf("%d-%2.2d-%2.2d", $year+1900, $mon+1, $mday);
 $url = "http://jakarta.apache.org/builds/gump/$date";
 $home = "/www/jakarta.apache.org/builds/gump/$date";
 $from = "Sam Ruby <rubys\@apache.org>";
+$naglist = "/home/rubys/bin/naglist";
 
-open (LIST, "/home/rubys/bin/naglist");
+open (LIST, "$naglist");
 foreach (<LIST>) {
   next if /^#/;
   ($project, $mailto, $regexp) = / (\S*) \s* (\S*) \s* (\/.*\/) /x;
