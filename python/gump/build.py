@@ -32,7 +32,7 @@ from gump.core.gumpinit import gumpinit
 from gump.core.gumprun import *
 from gump.core.commandLine import handleArgv
 from gump.runner.runner import getRunner
-from gump.model.loader import WorkspaceLoader
+from gump.loader.loader import WorkspaceLoader
 
 
 ###############################################################################
@@ -49,10 +49,10 @@ if __name__=='__main__':
     ps=args[1]
 
     # get parsed workspace definition
-    workspace=WorkspaceLoader().load(ws, options.isCache())    
+    workspace=WorkspaceLoader(options.isCache()).load(ws)    
         
-    # Ensure we use text, not forrest...
-    options.setText(1)
+    # Ensure we use text, not xdocs...
+    options.setText(True)
     
     # 
     options.setObjectives(OBJECTIVE_BUILD)
@@ -63,7 +63,7 @@ if __name__=='__main__':
     #
     #    Perform this integration run...
     #
-    result = getRunner(run).performRun()
+    result = getRunner(run).perform()
     
     #
     log.info('Gump Build complete. Exit code:' + str(result))

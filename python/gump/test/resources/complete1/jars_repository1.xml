@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="ISO-8859-1"?>
-
-<repository name="jars_repository1" type="jars">
-  <title>Jars Repository 1</title>
-  <home-page>http://svn.apache.org/</home-page>
-  <web>http://jars.apache.org/</web>
-  <redistributable/>
-  <url>http://gump.dotnot.org/repository</url>
-</repository>

@@ -39,24 +39,24 @@ from gump.core.config import dir, switch, setting
 #
 # Set the User Agent to be Gump...
 #
-class GumpURLopener(urllib.FancyURLopener):
+class GumpUrlOpener(urllib.FancyURLopener):
     def __init__(self, *args):
         self.version = "Apache-Gump/"+setting.version
         urllib.FancyURLopener.__init__(self, *args)
 
-urllib._urlopener = GumpURLopener()
+urllib._urlopener = GumpUrlOpener()
 
 ###############################################################################
 # Functions
 ###############################################################################
 
   
-def cacheHTTP(href,cacheDir=dir.cache,optimize=0):
+def cacheHTTP(href,cacheDir=dir.cache,optimize=False):
     """returns the path of the file in the href, cached if remote"""
 
     #if its a local file get it locally
  
-    log.debug('Cache URL : ' + href)
+    log.debug('Cache URL (%s,%s): %s' % (cacheDir,optimize,href))
     if not os.path.exists(cacheDir):  os.mkdir(cacheDir)
 
     #the name of the cached descriptor
@@ -65,11 +65,13 @@ def cacheHTTP(href,cacheDir=dir.cache,optimize=0):
     cachedHrefFile = cacheDir+'/'+quotedHref
 
     #download the file if not present in the cache
-    usecached=0
+    usecached=False
     if optimize or (switch.optimize and switch.optimizenetwork):
         if os.path.exists(cachedHrefFile):
           log.debug('Using cached descriptor for ' + href)
-          usecached=1
+          usecached=True
+        else:          
+          log.debug('No locally cached descriptor for ' + href)
           
     if not usecached:
       log.debug('Downloading (if date/timestamp changes) : '+href)      

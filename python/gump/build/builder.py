@@ -150,12 +150,12 @@ class GumpBuilder(RunSpecific):
             if stats:
                 if (not STATE_SUCCESS == stats.currentState) and \
                         not project.isVerboseOrDebug():
-                    if stats.sequenceInState > INSIGNIFICANT_DURATION:
+                    if stats.sequenceInState > SIGNIFICANT_DURATION:
                         project.addInfo('Enable "debug" output, due to a sequence of %s previous errors.' % stats.sequenceInState)
-                        project.setDebug(1)
+                        project.setDebug(True)
                     else:
                         project.addInfo('Enable "verbose" output, due to %s previous error(s).' % stats.sequenceInState)    
-                        project.setVerbose(1)
+                        project.setVerbose(True)
 
             # Pick your poison..
             if project.hasScript():
@@ -188,20 +188,16 @@ class GumpBuilder(RunSpecific):
         #
         # Delete a directory and/or a file
         #
-        # :TODO: Before turning this on, we need to ensure that the command
-        # will not self.run wild. We need to ensure that there is no ";" and we
-        # need to ensure the directory/file is under the workspace.
-        #
-        if delete.dir:
-            dir=os.path.abspath(os.path.join(basedir,delete.dir))
+        if delete.hasDirectory():
+            dir=delete.getDirectory()
             try:
                 os.rmdir(dir)
                 project.addInfo('Deleted directory ['+dir+']')
             except:
                 project.addError('Failed to delete directory ['+dir+']')
                 raise
-        elif delete.file:
-            file=os.path.abspath(os.path.join(basedir,delete.file))
+        elif delete.hasFile():
+            file=delete.getFile()
             try:
                 os.remove(file)
                 project.addInfo('Deleted file ['+file+']')
@@ -219,9 +215,8 @@ class GumpBuilder(RunSpecific):
         #
         # Make a directory
         #
-        if mkdir.dir:
-            
-            dirToMake=os.path.abspath(os.path.join(basedir,mkdir.dir))
+        if mkdir.hasDirectory(): 
+            dirToMake=mkdir.getDirectory()
             try:
                 if not os.path.exists(dirToMake):
                     os.makedirs(dirToMake)
@@ -242,37 +237,34 @@ class GumpBuilder(RunSpecific):
         
         startedOk =  project.okToPerformWork()
             
-        #
-        #
-        # NOTE --------------- NOT TURNED ON YET!!!!!!
-        # Security concerns...
-        #
-        #
-        if 0 and project.okToPerformWork():        
+        if project.okToPerformWork():        
             # Deletes...
             dels=0
-            for delete in project.xml.delete:
+            for delete in project.getDeletes():
                 try:
                     self.performDelete(project,delete,dels)
                     dels+=1
                     project.changeState(STATE_SUCCESS)
-                except:
-                    log.error('PerformDelete Failed', exc_info=1)
+                except Exception, details:
+                    message='Failed to perform delete ' + `delete` + ':' + str(details)
+                    log.error(message, exc_info=1)
+                    project.addError(message)
                     project.changeState(STATE_FAILED,REASON_PREBUILD_FAILED)
                 
         if project.okToPerformWork():
             # MkDirs...
             mkdirs=0
-            for mkdir in project.xml.mkdir:                             
+            for mkdir in project.getMkDirs():                             
                 try:
                     self.performMkDir(project,mkdir,mkdirs)
                     mkdirs+=1
                     project.changeState(STATE_SUCCESS)
-                except:
-                    log.error('PerformMkdir Failed', exc_info=1)    
+                except Exception, details:
+                    message='Failed to perform mkdir ' + `mkdir` + ':' + str(details)
+                    log.error(message, exc_info=1)
+                    project.addError(message)
                     project.changeState(STATE_FAILED,REASON_PREBUILD_FAILED)
      
-            
         if startedOk and not project.okToPerformWork():
             log.warn('Failed to perform pre-build on project [' + project.getName() + ']')
 
@@ -297,7 +289,7 @@ class GumpBuilder(RunSpecific):
                     outputs.append(jarPath)
                     if not os.path.exists(jarPath):
                         project.changeState(STATE_FAILED,REASON_MISSING_OUTPUTS)
-                        outputsOk=0
+                        outputsOk=False
                         project.addError("Missing Output: " + str(jarPath))                            
                                  
                 if outputsOk: 
@@ -314,7 +306,7 @@ class GumpBuilder(RunSpecific):
                             
                         if not os.path.exists(licensePath):
                             project.changeState(STATE_FAILED,REASON_MISSING_OUTPUTS)
-                            outputsOk=0
+                            outputsOk=False
                             project.addError("Missing License Output: " + str(licensePath))
                         else:                      
                             try:
@@ -446,7 +438,7 @@ class GumpBuilder(RunSpecific):
                 if jarpath:
                     if not os.path.exists(jarpath):
                         project.changeState(STATE_FAILED,REASON_PACKAGE_BAD)
-                        outputsOk=0
+                        outputsOk=False
                         project.addError("Missing Packaged Jar: " + str(jarpath))
     
             if outputsOk:

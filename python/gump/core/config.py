@@ -88,7 +88,7 @@ class default:
 class setting:    
     """Configuration of hardcoded settings"""
     
-    version='2.0.3-alpha-0002'
+    version='2.1.0-alpha-0001'
     
     ws_version="0.4"
     ws_minimum_version="0.3"
@@ -99,13 +99,13 @@ class setting:
     utctimeformat='%H:%M:%S (UTC)'
     
     timeout=60*60 # 60 minutes (in seconds)
-    timeoutCommand=0
+    timeoutCommand=False
     
 class switch:
     """Configuration of switches """   
-    optimize=0 # Optimize (at risk to exact correctness) anywhere one can
-    optimizenetwork=1 # Do least network traffic 
-    debugging=0 # Not debugging..
+    optimize=False # Optimize (at risk to exact correctness) anywhere one can
+    optimizenetwork=False # Do least network traffic 
+    debugging=False # Not debugging..
     
 def basicConfig():
     if not os.path.exists(dir.cache): os.mkdir(dir.cache)
@@ -115,7 +115,6 @@ def basicConfig():
 
     if dir.base not in sys.path: 
         sys.path.insert(0, dir.base)
-
 
 if __name__ == '__main__':
   def dump(section):

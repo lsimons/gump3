@@ -23,6 +23,7 @@ from gump.model.object import NamedModelObject
 
 from gump.utils.note import *
 from gump.utils import getIndent
+from gump.utils.domutils import *
 
 # Inheritence
 INHERIT_NONE=0
@@ -40,35 +41,38 @@ inheritDescriptions = { INHERIT_NONE : "None",
 def inheritDescription(inherit):
     return inheritDescriptions.get(inherit,'Unknown Inherit:' + str(inherit))
            
-def importXMLDependency(ownerProject,dependProject,xmldepend,optional):
+def importDomDependency(ownerProject,dependProject,ddom,optional):
         
     # Is this a runtime dependency?
-    runtime = 0
-    if xmldepend.runtime: runtime = 1
+    runtime = hasDomAttribute(ddom,'runtime')
         
     # Inheritence
     inherit=INHERIT_NONE
-    if 'runtime' == xmldepend.inherit:
-        inherit=INHERIT_RUNTIME
-    elif 'all' == xmldepend.inherit:
-        inherit=INHERIT_ALL
-    elif 'hard' == xmldepend.inherit:
-        inherit=INHERIT_HARD
-    elif 'jars' == xmldepend.inherit:
-        inherit=INHERIT_JARS
-    elif 'none' == xmldepend.inherit:
-        inherit=INHERIT_NONE
+    if hasDomAttribute(ddom,'inherit'):
+        inherit=getDomAttributeValue(ddom,'inherit')
+        if 'runtime' == inherit:
+            inherit=INHERIT_RUNTIME
+        elif 'all' == inherit:
+            inherit=INHERIT_ALL
+        elif 'hard' == inherit:
+            inherit=INHERIT_HARD
+        elif 'jars' == inherit:
+            inherit=INHERIT_JARS
+        elif 'none' == inherit:
+            inherit=INHERIT_NONE
         
-    ids	=	xmldepend.ids
+    ids	=	getDomAttributeValue(ddom,'ids','')
     
     annotation = None # 'Expressed Dependency'
+    
+    # :TODO: I hate this line of code!!!!
+    # :TODO:#2: I really hate this code, we ought not be trying
+    # to acess the delegate. We do so to check for existence
+    # but w/o value. Not good. Really gotta re-write that XML
+    # loading/merging stuff.
+    noclasspath=hasDomChild(ddom,'noclasspath')    
         
-    noclasspath=0
-    if xmldepend.noclasspath: 	noclasspath=1
-        
-    #
     # Construct the dependency
-    #        
     return ProjectDependency( 	ownerProject,	\
                                 dependProject,	\
                                 inherit,		\
@@ -80,7 +84,9 @@ def importXMLDependency(ownerProject,dependProject,xmldepend,optional):
 
 class ProjectDependency(Annotatable):
     """ A dependency from one project to another """
-    def __init__(self,owner,project,inherit,runtime=0,optional=0,ids=None,noclasspath=0,annotation=None):
+    def __init__(self,owner,project,inherit,
+                    runtime=False,optional=False,ids=None,
+                    noclasspath=False,annotation=None):
         
         Annotatable.__init__(self)
         
@@ -92,6 +98,16 @@ class ProjectDependency(Annotatable):
         self.ids=ids
         self.noclasspath=noclasspath
         if annotation:	self.addInfo(annotation)
+        
+    def __del__(self):
+        
+        Annotatable.__init__(self)    
+        
+        self.owner=None
+        self.project=None
+        
+    def __hash__(self):
+        return hash(self.owner) + hash(self.project)
     
     # :TODO: if same ids, but different order/spacing, it ought match..
     def __eq__(self,other):
@@ -152,17 +168,22 @@ class ProjectDependency(Annotatable):
     def isNoClasspath(self):
     	return self.noclasspath
                 
-    def dump(self, indent=0, output=sys.stdout):
+    def dump(self, indent=0, output=sys.stdout,dependee=False):
         """ Display the contents of this object """
-        output.write(getIndent(indent)+'Depend: ' + self.project.getName() + '\n')
         
+        i=getIndent(indent)
+        i1=getIndent(indent+1)
+        
+        if dependee:
+            output.write(i+'Depend: ' + self.owner.getName() + '\n')        
+        else:
+            output.write(i+'Depend: ' + self.project.getName() + '\n')        
         if self.hasInheritence():
-            output.write(getIndent(indent)+'Inherit: ' + self.getInheritenceDescription() + '\n')            
+            output.write(i1+'Inherit: ' + self.getInheritenceDescription() + '\n')            
         if self.isNoClasspath():
-            output.write(getIndent(indent)+'*NoClasspath*\n')
+            output.write(i1+'*NoClasspath*\n')
         if self.ids:
-            output.write(getIndent(indent)+'Ids: ' + self.ids + '\n')
-        
+            output.write(i1+'Ids: ' + self.ids + '\n')        
         Annotatable.dump(self,indent+1,output)
                 
     #
@@ -240,9 +261,14 @@ class DependSet:
         return len(self.projectMap)
                 
     def dump(self, indent=0, output=sys.stdout):
-        output.write(getIndent(indent)+'Depend Set\n')    
-        for dep in self.depends:
-            dep.dump(indent+1,output)
+        if self.depends:
+            if self.dependees:
+                output.write(getIndent(indent)+'Dependees Set\n')    
+            else:
+                output.write(getIndent(indent)+'Dependancy Set\n')    
+                
+            for dep in self.depends:
+                dep.dump(indent+1,output,self.dependees)
     	
 class DependencyPath(list):
     """ 'Path' of dependencies between two points """
@@ -277,6 +303,12 @@ class Dependable:
         self.depth=0
         self.totalDepth=0
         
+    def __del__(self):
+        self.directDependencies=None
+        self.directDependees=None
+        self.fullDependencies=None
+        self.fullDependees=None
+        
     #
     # Dependencies
     # 
@@ -289,24 +321,26 @@ class Dependable:
     def getFullDependencies(self):
         if self.fullDependencies: return self.fullDependencies.getDepends()
         
-        #
         # Build (once) upon demand
-        #
-        self.fullDependencies=DependSet()
-        for depend in self.directDependencies.getDepends():
-            if not self.fullDependencies.containsDepend(depend):
-                
-                dependProject=depend.getProject()
-                if not self.fullDependencies.containsProject(dependProject):
-                    # Get Sub Dependencies
-                    for subdepend in dependProject.getFullDependencies():
-                        if not self.fullDependencies.containsDepend(subdepend):   
-                            self.fullDependencies.addDepend(subdepend)
-                                            
-                self.fullDependencies.addDepend(depend)
-            
+        self.fullDependencies=DependSet()       
+        self.resolveDependencies(self.getDirectDependencies())
+        
         return self.fullDependencies.getDepends()
+        
+    def resolveDependencies(self,dependList):
                 
+        for depend in dependList:
+            # Have we travelled here before?
+            dependProject=depend.getProject()
+            if not self.fullDependencies.containsProject(dependProject):
+                    
+                # Add it now, so we don't cover this again
+                self.fullDependencies.addDepend(depend)
+                
+                self.resolveDependencies(dependProject.getDirectDependencies())
+            else:
+                self.fullDependencies.addDepend(depend)    
+                                            
     def getDependencyCount(self):
         return self.directDependencies.getUniqueProjectDependCount()
         
@@ -318,7 +352,6 @@ class Dependable:
         self.getFullDependencies()
         return self.fullDependencies.getUniqueProjectDependList()        
         
-
     #
     # Depth
     #
@@ -331,7 +364,6 @@ class Dependable:
                 maxDepth=dependencyDepth
         self.depth=maxDepth
         return self.depth
-     
      
     #
     # Total Depth
@@ -377,25 +409,25 @@ class Dependable:
     def getFullDependees(self):
         if self.fullDependees: return self.fullDependees.getDepends()
         
-        #
         # Build (once) upon demand
-        #
-        self.fullDependees=DependSet(1)
-        
-        for depend in self.directDependees.getDepends():
-            if not self.fullDependees.containsDepend(depend):  
-                
-                dependProject=depend.getOwnerProject()
-                if not self.fullDependees.containsProject(dependProject):
-                    # Get Sub Dependees
-                    for subdepend in dependProject.getFullDependees():
-                        if not self.fullDependees.containsDepend(subdepend):    
-                            self.fullDependees.addDepend(subdepend)
-                                              
-                self.fullDependees.addDepend(depend)
-            
+        self.fullDependees=DependSet(True)
+        self.resolveDependees(self.getDirectDependees())             
         return self.fullDependees.getDepends()
         
+    def resolveDependees(self,dependList):
+                
+        for depend in dependList:
+            # Have we travelled here before?
+            dependProject=depend.getOwnerProject()
+            if not self.fullDependees.containsProject(dependProject):
+                    
+                # Add it now, so we don't cover this again
+                self.fullDependees.addDepend(depend)
+                
+                self.resolveDependees(dependProject.getDirectDependees())
+            else:
+                self.fullDependees.addDepend(depend)   
+                
     def getDependeeCount(self):
         return self.directDependees.getUniqueProjectDependCount()
                 
@@ -411,7 +443,7 @@ class Dependable:
         
         #
         # Provide backwards links  [Note: ant|maven might have added some
-        # dependencies, so this is done here * not just with the direct
+        # dependencies, so this is done here & not just with the direct
         # xml depend/option elements]
         #
         for dependency in self.getDirectDependencies():
@@ -424,30 +456,30 @@ class Dependable:
         for dependency in self.getDirectDependencies():
             if dependency.getProject().getName()==name	\
                 and not dependency.isNoClasspath() :
-                return 1            
-        return 0
+                return True            
+        return False
 
     # determine if this project is a prereq of any project on the todo list
     def hasDirectDependencyOn(self,project):
         """ Does this project exist as a dependency """    
         for dependency in self.getDirectDependencies():
-            if dependency.getProject()==project: return 1
+            if dependency.getProject()==project: return True
     
     # determine if this project is a prereq of any project on the todo sequence
     def hasDependencyOn(self,project):
         """ Does this project exist as any dependency """        
         for dependency in self.getFullDependencies():
-            if dependency.getProject()==project: return 1
+            if dependency.getProject()==project: return True
     
     def hasDirectDependee(self,project):
         """ Does this project exist as a direct dependee """    
         for dependee in self.getDirectDependees():
-            if dependee.getOwnerProject()==project: return 1
+            if dependee.getOwnerProject()==project: return True
             
     def hasDependee(self,project):
         """ Does this project exist as any dependee """
         for dependee in self.getFullDependees():
-            if dependee.getOwnerProject()==project: return 1
+            if dependee.getOwnerProject()==project: return True
                         
     def dump(self, indent=0, output=sys.stdout):
         self.directDependencies.dump(indent+1,output)

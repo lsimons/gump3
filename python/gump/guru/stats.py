@@ -72,22 +72,36 @@ class StatisticsGuru:
         # One for the whole workspace
         self.wguru=WorkspaceStatisticsGuru(workspace)      
         
-        # All Modules          
+        # All Modules            
+        log.debug('compareModulesByElapsed')
         self.modulesByElapsed=createOrderedList(workspace.getModules(),compareModulesByElapsed)
+        log.debug('compareModulesByProjectCount')
         self.modulesByProjectCount=createOrderedList(workspace.getModules(),compareModulesByProjectCount)
+        log.debug('compareModulesByDependencyCount')
         self.modulesByTotalDependencies=createOrderedList(workspace.getModules(),compareModulesByDependencyCount)
+        log.debug('compareModulesByDependeeCount')
         self.modulesByTotalDependees=createOrderedList(workspace.getModules(),compareModulesByDependeeCount)
+        log.debug('compareModulesByFOGFactor')
         self.modulesByFOGFactor=createOrderedList(workspace.getModules(),compareModulesByFOGFactor)
+        log.debug('compareModulesByLastModified')
         self.modulesByLastModified=createOrderedList(workspace.getModules(),compareModulesByLastModified)
         
         
         # All Projects                
+        log.debug('compareProjectsByElapsed')
         self.projectsByElapsed=createOrderedList(workspace.getProjects(),compareProjectsByElapsed)
+        log.debug('compareProjectsByDependencyCount')
         self.projectsByTotalDependencies=createOrderedList(workspace.getProjects(),compareProjectsByDependencyCount)
+        log.debug('compareProjectsByDependeeCount')
         self.projectsByTotalDependees=createOrderedList(workspace.getProjects(),compareProjectsByDependeeCount)
+        log.debug('compareProjectsByFOGFactor')
         self.projectsByFOGFactor=createOrderedList(workspace.getProjects(),compareProjectsByFOGFactor)
+        log.debug('compareProjectsByLastModified')
         self.projectsByLastModified=createOrderedList(workspace.getProjects(),compareProjectsByLastModified)
+        log.debug('compareProjectsBySequenceInState')
         self.projectsBySequenceInState=createOrderedList(workspace.getProjects(),compareProjectsBySequenceInState)
+        log.debug('compareProjectsByDependencyDepth')
         self.projectsByDependencyDepth=createOrderedList(workspace.getProjects(),compareProjectsByDependencyDepth)
+        log.debug('compareProjectsByTotalDependencyDepth')
         self.projectsByTotalDependencyDepth=createOrderedList(workspace.getProjects(),compareProjectsByTotalDependencyDepth)
         

@@ -53,7 +53,9 @@ class PathWalker(Annotatable):
         self.outputStream=None
         
         # Notice that actions occured        
-        self.actionsOccured=0
+        self.actionsOccured=False
+        self.inboundActions=False
+        self.cleanupActions=False
         
     def execute(self):
         log.debug('Starting %s from [%s]' % (self.actionString,self.sourcedir))
@@ -106,12 +108,17 @@ class PathWalker(Annotatable):
                             log.debug('No changes, removed  [' + self.output + ']')
                         except: pass
                 
-        return self.actionsOccured
+        return (self.actionsOccured, self.inboundActions, self.cleanupActions)
         
-    def outputAction(self,type,file,reason=''):
+    def displayAction(self,inbound,type,file,reason=''):
         
         # Mark something happened..
-        self.actionsOccured=1
+        self.actionsOccured=True
+        
+        if inbound:
+            self.inboundActions=True
+        else:
+            self.cleanupActions=True
         
         # Log it (if requested)
         if self.outputStream:
@@ -148,7 +155,7 @@ class PathWalker(Annotatable):
         # handle case where destinationStat exists but is not a directory    
         #
         if destinationStat and not S_ISDIR(destinationStat[ST_MODE]):
-            self.outputAction(' -F ', dst, 'Need a directory here, not a file.')        
+            self.displayAction(True,' -F ', dst, 'Need a directory here, not a file.')        
             os.remove(dst)
             destinationStat = None
          
@@ -157,7 +164,7 @@ class PathWalker(Annotatable):
         # a path of directories.)
         #   
         if not destinationStat:     
-            self.outputAction(' +D ', dst)    
+            self.displayAction(True,' +D ', dst)    
             os.makedirs(dst)
             
         if destinationStat:
@@ -207,11 +214,11 @@ class PathWalker(Annotatable):
                 destinationStat = os.stat(tobedeleted)
                 if S_ISDIR(destinationStat[ST_MODE]):
                     if self.isDebug(): log.debug('Attempting to remove directory [%s]' % (`tobedeleted`))
-                    self.outputAction(' -D ', tobedeleted)    
+                    self.displayAction(False,' -D ', tobedeleted)    
                     shutil.rmtree(tobedeleted)
                 else:    
                     if self.isDebug(): log.debug('Attempting to remove file [%s]' % (`tobedeleted`))   
-                    self.outputAction(' -F ', tobedeleted)    
+                    self.displayAction(False,' -F ', tobedeleted)    
                     os.remove(tobedeleted)
                     
     def removenonmatching(self, sourcedir, destdir, acceptablefiles, existingfiles):
@@ -238,13 +245,13 @@ class PathWalker(Annotatable):
                         log.debug('Removing file [%s] to be replaced by directory' 
                                 %(`fulldestfile`))
                     os.remove(fulldestfile)
-                    self.outputAction(' -F ', fulldestfile, 'Need a directory.')
+                    self.displayAction(True,' -F ', fulldestfile, 'Need a directory.')
                     removed.append(afile)
                 elif os.path.isfile(fullsourcefile) and os.path.isdir(fulldestfile):              
                     if self.isDebug(): 
                         log.debug('Removing directory [%s] to be replaced by file' 
                                 %(`fulldestfile`))
-                    self.outputAction(' -D ', fulldestfile, 'Need a file.')
+                    self.displayAction(True,' -D ', fulldestfile, 'Need a file.')
                     shutil.rmtree(fulldestfile)
                     removed.append(afile)
                     
@@ -272,7 +279,7 @@ class PathWalker(Annotatable):
             performCopy = 1
             reason='Did not exist.'
         elif S_ISDIR(destinationStat[ST_MODE]):
-            self.outputAction(' -D ', dstname, 'Need a file.')    
+            self.displayAction(True,' -D ', dstname, 'Need a file.')    
             shutil.rmtree(dstname)
             performCopy = 1
         elif sourceStat[ST_SIZE] != destinationStat[ST_SIZE]:
@@ -284,7 +291,7 @@ class PathWalker(Annotatable):
             
         if performCopy:
             if self.isDebug(): log.debug("Attempting copy from [%s] to [%s]" %(`srcname`, `dstname`))    
-            self.outputAction(' U> ', dstname, reason)    
+            self.displayAction(True,' U> ', dstname, reason)    
             shutil.copy2(srcname, dstname)    
         #else:
         #    log.debug("Do not copy from [%s:%s] to [%s:%s]" \

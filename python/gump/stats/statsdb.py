@@ -252,8 +252,6 @@ class StatisticsDB:
     def updateStatistics(self,workspace):
         log.debug('--- Updating Statistics')
         
-                  
-                        
         # Load the W/S statistics
         ws=self.getWorkspaceStats(workspace.getName())
         # Update for this workspace based off this run

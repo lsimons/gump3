@@ -41,7 +41,7 @@ if __name__=='__main__':
     #    
     result = 1
            
-    GumpEnvironment().checkEnvironment(1)
+    GumpEnvironment().checkEnvironment(True)
 
     #
     log.info('Gump Environment Check complete. Exit code:' + str(result))

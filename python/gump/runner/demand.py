@@ -41,44 +41,111 @@ from gump.model.depend import  ProjectDependency
 from gump.model.stats import *
 from gump.model.state import *
 
+from gump.threads.tools import *
+
 
 ###############################################################################
 # Classes
 ###############################################################################
-
+  
+class UpdateWork:
+    def __init__(self,runner,module):
+        self.runner=runner
+        self.module=module
+        
+    def __str__(self):
+        return 'UpdateWork:'+`self.module`
+        
+class UpdateWorker(WorkerThread):
+    def performWork(self,work):
+        # Do the work...
+        work.runner.performUpdate(work.module)
+        
 class OnDemandRunner(GumpRunner):
 
     def __init__(self,run):
         GumpRunner.__init__(self,run)
 
     ###########################################
+    def spawnUpdateThreads(self, updaters=1):
+        
+        self.workList=ThreadWorkList('Updates')
+        for module in self.run.gumpSet.getModuleSequence():
+            self.workList.addWork(UpdateWork(self,module))    
+            
+        # Create a group of workers...
+        self.group=WorkerThreadGroup('Update',updaters,self.workList,UpdateWorker)
+        self.group.start()
+        
+    def waitForThreads(self):
+        self.group.waitForAll()
+        
+    def performUpdate(self,module):
+        """
+        	Perform a module update (locking whilst doing it)	
+        """
+        
+        # Lock the module, while we work on it...
+        lock=module.getLock()
+        
+        try:
+            lock.acquire()
+        
+            if not module.isUpdated():
+                
+                # Perform Update
+                self.updater.updateModule(module)         
+        
+                # Fire event
+                self.run.generateEvent(module)
+        
+                # Mark done in set
+                self.run.gumpSet.setCompletedModule(module)
+                
+                # Mark Updated
+                module.setUpdated(True)
+        finally:
+            lock.release()
+        
+    ###########################################
 
     def performRun(self):
         
-        self.initialize(1)
+        self.initialize(True)
         
         printTopRefs(100,'Before Loop')
         
+        gumpSet=self.run.getGumpSet()
+        
+        workspace = self.run.getWorkspace()
+        
+        if workspace.isMultithreading() and workspace.hasUpdaters():
+            # Experimental...
+            self.spawnUpdateThreads(workspace.getUpdaters())
+        
         # In order...
-        for project in self.run.getGumpSet().getProjectSequence():
+        for project in gumpSet.getProjectSequence():
 
             # Process the module, upon demand
             module=project.getModule()
             if not module.isUpdated():
-                self.updater.updateModule(module)        
-                module.setUpdated(1) #:TODO: Move this...
-                self.run.generateEvent(module)
+                log.debug('Update module *inlined* ' + `module` + '.')     
+                self.performUpdate(module)
 
             # Process
             self.builder.buildProject(project)   
             self.run.generateEvent(project)
+            gumpSet.setCompletedProject(project)
             
             # Seems a nice place to peek/clean-up...    
-            printTopRefs(100,'Before Loop GC')
-            invokeGarbageCollection(self.__class__.__name__)
-            invokeGarbageCollection(self.__class__.__name__)
-            invokeGarbageCollection(self.__class__.__name__)
-            printTopRefs(100,'After GC')
+            #printTopRefs(100,'Before Loop GC')
+            #invokeGarbageCollection(self.__class__.__name__)
+            #invokeGarbageCollection(self.__class__.__name__)
+            #invokeGarbageCollection(self.__class__.__name__)
+            #printTopRefs(100,'After GC')
+        
+        if workspace.isMultithreading() and workspace.hasUpdaters():    
+            self.waitForThreads()
         
         self.finalize()    
         

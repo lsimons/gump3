@@ -30,11 +30,8 @@ class ScaleDiagram:
         self.vals=vals
         self.width=width
         self.height=height
-        
-        # Python 2.3 only ... self.total=sum(self.vals)
-        self.total=0
-        for val in self.vals:
-            self.total+=val
+    
+        self.total=sum(self.vals)
         
     def generateDiagram(self):
         

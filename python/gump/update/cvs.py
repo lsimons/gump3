@@ -41,7 +41,7 @@ from gump.model.depend import  ProjectDependency
 from gump.model.stats import *
 from gump.model.state import *
 
-from gump.net.cvs import *
+from gump.integration.cvs import *
 
 
 ###############################################################################
@@ -71,8 +71,9 @@ class CvsUpdater(RunSpecific):
         # Did we 'CVS checkout' already?
         exists	=	os.path.exists(module.getSourceControlStagingDirectory())
        
-        if exists:
-            self.performStatus(module)
+        # Doesn't tell us much...
+        #if exists:
+        #    self.performStatus(module)
                 
         self.performUpdate(module,exists)        
         
@@ -80,7 +81,7 @@ class CvsUpdater(RunSpecific):
         
     def performStatus(self,module):
         #  Get the Update Command
-        (repository, root, cmd ) = self.getUpdateCommand(module, 1, 1)
+        (repository, root, cmd ) = self.getUpdateCommand(module, True, True)
                 
         # Provide CVS logins, if not already there
         loginToRepositoryOnDemand(repository,root,self.logins)
@@ -144,25 +145,25 @@ class CvsUpdater(RunSpecific):
             
             # We run CVS as -q (quiet) so any output means
             # updates occured...
-            if cmdResult.hasOutput():
-                module.setModified(1)                        
+            if cmdResult.hasOutput():                       
                 log.info('Update(s) received via CVS on #[' \
                                 + `module.getPosition()` + \
                                 '] : ' + module.getName())
                                  
     def preview(self,module):
                 
-        (repository, root, command ) = self.getUpdateCommand(module,0)
+        (repository, root, command ) = self.getUpdateCommand(module,False)
         command.dump()
         
-        (repository, root, command ) = self.getUpdateCommand(module,1,1)
-        command.dump()
+        # Doesn't tell us much...
+        #(repository, root, command ) = self.getUpdateCommand(module,True,True)
+        #command.dump()
             
-        (repository, root, command ) = self.getUpdateCommand(module,1)
+        (repository, root, command ) = self.getUpdateCommand(module,True)
         command.dump()                       
         
     
-    def getUpdateCommand(self,module,exists=0,nowork=0):
+    def getUpdateCommand(self,module,exists=False,nowork=False):
         """        
             Format a commandline for doing the CVS update            
         """
@@ -171,11 +172,8 @@ class CvsUpdater(RunSpecific):
             raise RuntimeException('Not coded for this combo.')            
         
         root=module.cvs.getCvsRoot()
-      
-     
-        #
+    
         # Prepare CVS checkout/update command...
-        #     
         prefix='update'
         directory=module.getWorkspace().getSourceControlStagingDirectory()
         if exists:     
@@ -187,9 +185,7 @@ class CvsUpdater(RunSpecific):
                     prefix+'_'+module.getName(),
                     directory)
           
-        #
         # Be 'quiet' (but not silent) unless requested otherwise.
-        #
         if 	not module.isDebug() 	\
             and not module.isVerbose() \
             and not module.cvs.isDebug()	\
@@ -199,25 +195,17 @@ class CvsUpdater(RunSpecific):
         if nowork:
             cmd.addParameter('-n')
           
-        #
         # Allow trace for debug
-        #
         if module.isDebug():
             cmd.addParameter('-t')
           
-        #
         # Request compression
-        #
         cmd.addParameter('-z3')
           
-        #
         # Set the CVS root
-        #
         cmd.addParameter('-d', root)
     
-        #
         # Determine if a tag is set, on <cvs or on <module
-        #
         tag=None
         if module.cvs.hasTag():
             tag=module.cvs.getTag()
@@ -226,7 +214,7 @@ class CvsUpdater(RunSpecific):
             
         if exists:
 
-            # do a cvs update
+            # Do a cvs update
             cmd.addParameter('update')
             cmd.addParameter('-P')
             cmd.addParameter('-d')

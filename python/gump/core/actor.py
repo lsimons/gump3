@@ -17,7 +17,14 @@
 
 """
 
- A gump run (not 'run gump')
+	An actor works upon the context tree. Events (and in the future,
+	perhaps Requests) are passed to the Actor, and the Actor performs
+	it's work.
+	
+	Example actors are:
+	
+		Statistician (keeps track of statistics, in a DB)
+		
  
 """
 
@@ -127,8 +134,6 @@ class AbstractRunActor(RunActor):
         log.debug('Process Workspace [' + `workspace` + '] using [' + `self` + ']')        
         self.processWorkspace()
         
-            
-            
     #
     # Call a method called 'processModule(module)', if it
     # is available on the sub-class (i.e. if needed)
@@ -139,7 +144,6 @@ class AbstractRunActor(RunActor):
         log.debug('Process Module [' + `module` + '] using [' + `self` + ']')        
         self.processModule(module)
         
-            
             
     #
     # Call a method called 'processProject(Project)', if it

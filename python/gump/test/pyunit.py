@@ -18,7 +18,7 @@
 """
 import os
 import sys
-from types import NoneType, StringType, TypeType, MethodType
+from types import NoneType, StringTypes, TypeType, MethodType
 import types
 import logging
 
@@ -45,6 +45,10 @@ class Testable:
     def assertNotNone(self,message,object):        
         if isinstance(object,NoneType):
             self.raiseIssue(['Ought NOT be None', message, object])
+    
+    def assertNone(self,message,object):        
+        if not isinstance(object,NoneType):
+            self.raiseIssue(['Ought be None', message, object])
             
     def assertNonZero(self,message,object):
         self.assertNotNone(message,object)
@@ -52,11 +56,11 @@ class Testable:
             self.raiseIssue(['Ought evaluate to non-zero', message, object])
             
     def assertEqual(self,message,object1,object2):
-        if not object1 == object2:
+        if not (object1 == object2):
             self.raiseIssue(['Ought evaluate as equal', message, object1, object2])
             
     def assertGreater(self,message,object1,object2):
-        if not object1 > object2:
+        if not (object1 > object2):
             self.raiseIssue(['Ought evaluate as greater', message, object1, object2])
             
     def assertNotEqual(self,message,object1,object2):
@@ -65,7 +69,7 @@ class Testable:
             
     def assertTrue(self,message,object):
         if not object:
-            self.raiseIssue(['Ought evaluate as true', message, object])
+            self.raiseIssue(['Ought evaluate as True', message, object])
             
     def assertFalse(self,message,object):
         if object:
@@ -106,7 +110,7 @@ class Testable:
         self.assertEqual(message,object,sequence[posn] )
             
     def assertString(self,message,object):
-        if not type(object) == types.StringType:
+        if not isinstance(object,types.StringTypes):
             self.raiseIssue(['Ought be a String type', message, object, type(object)])
             
     def assertNonZeroString(self,message,object):
@@ -233,7 +237,7 @@ class UnitTestSuite(Testable):
         
             if hasattr(self,'suiteTearDown'):
                 self.suiteTearDown()
-    
+                
         return (len(tests), results)
 
       
@@ -246,8 +250,8 @@ class TestRunner:
         
     def run(self,args):
         
-        #log.setLevel(logging.DEBUG ) 
-        log.setLevel(logging.INFO ) 
+        log.setLevel(logging.DEBUG ) 
+        #log.setLevel(logging.INFO ) 
         initializeGarbageCollection()
         
         # Sort to resolve dependency order
@@ -281,6 +285,12 @@ class TestRunner:
         if not problems:
             log.info('No Problems Detected')
         
+        problems=None
+        self.suites=None
+        
+        # Seems a nice place to peek/clean-up...    
+        invokeGarbageCollection('Done Testing')
+                
         if problems:   sys.exit(1)
         sys.exit(0)
                     
@@ -343,8 +353,20 @@ if __name__=='__main__':
     from gump.test.svg import SvgTestSuite  
     runner.addSuite(SvgTestSuite())
     
+    from gump.test.timing import TimingTestSuite  
+    runner.addSuite(TimingTestSuite())
+    
     from gump.test.drawing import DrawingTestSuite  
     runner.addSuite(DrawingTestSuite())
+    
+    from gump.test.xdocs import XDocsTestSuite  
+    runner.addSuite(XDocsTestSuite())
+    
+    from gump.test.loading import LoadingTestSuite  
+    runner.addSuite(LoadingTestSuite())
+    
+    from gump.test.threads import ThreadingTestSuite  
+    runner.addSuite(ThreadingTestSuite())
     
     # Any args are pattern matches
     patterns=list(sys.argv)

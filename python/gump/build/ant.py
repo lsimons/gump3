@@ -91,17 +91,15 @@ class AntBuilder(AbstractJavaBuilder):
         
         # The original model information...
         ant=project.ant
-        antxml=project.xml.ant
-    
         # The ant target (or none == ant default target)
-        target= antxml.target or ''
+        target= ant.getTarget()
     
         # The ant build file (or none == build.xml)
-        buildfile = antxml.buildfile or ''
+        buildfile = ant.getBuildFile()
     
         # Optional 'verbose' or 'debug'
-        verbose=antxml.verbose
-        debug=antxml.debug
+        verbose=ant.isVerbose()
+        debug=ant.isDebug()
     
         #
         # Where to run this:
@@ -126,7 +124,7 @@ class AntBuilder(AbstractJavaBuilder):
         #
         # Get properties
         #
-        jvmargs=self.getJVMArgs(antxml)
+        jvmargs=self.getJVMArgs(project)
    
         #
         # Run java on apache Ant...

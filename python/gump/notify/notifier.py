@@ -32,7 +32,8 @@ from gump.core.actor import AbstractRunActor
 from gump.model.project import *
 from gump.model.module import *
 from gump.model.state import *
-from gump.net.smtp import *
+from gump.model.misc import AddressPair
+from gump.utils.smtp import *
 from gump.utils import *
 
 from gump.notify.logic import NotificationLogic
@@ -40,20 +41,6 @@ from gump.notify.notification import Notification
 
 LINE     ='--   --   --   --   --   --   --   --   --   --   --   --   G U M P'
 SEPARATOR='*********************************************************** G U M P'
-
-class AddressPair:
-    def __init__(self,toAddr,fromAddr):
-        self.toAddr=toAddr
-        self.fromAddr=fromAddr
-        
-    def __str__(self):
-        return '[To:' + self.toAddr + ', From:' + self.fromAddr + ']'
-        
-    def getToAddress(self):
-        return self.toAddr
-        
-    def getFromAddress(self):
-        return self.fromAddr
 
 class Notifier(AbstractRunActor):
     
@@ -69,66 +56,19 @@ class Notifier(AbstractRunActor):
         self.unwantedSubjects=''
         self.unwanteds=0
         
-        self.resolver=self.run.getOptions().getResolver()
+        self.resolver=self.options.getResolver()
         self.logic=NotificationLogic(self.run)
+        
+        self.id=0
                                         
-    def processOtherEvent(self,event):            
-        if isinstance(event,FinalizeRunEvent):          
-            # Notifications are wanted...
-            if self.options.isNotify():
-                # This workspace allows/wants notifications..
-                if self.workspace.isNotify():
-                    # Notify
-                    self.notify()
-                
-    def notify(self):
-    
-        # A bit paranoid, ought just rely upon object being
-        # destroyed,
-        self.unsent=''
-        self.unwanted=''
-            
-        #
-        # Notify about the workspace (if it needs it)
-        #
+    def processWorkspace(self):
+        """
+        	Notify about the workspace (if it needs it)
+       	"""
         notification = self.logic.notification(self.workspace)
         if notification:
-            self.notifyWorkspace(notification)
-    
-        # For all modules...
-        for module in self.workspace.getModules():        
-                if not self.gumpSet.inModuleSequence(module): continue
-
-                notification = self.logic.notification(module)
-                
-                if notification:
-                    try:
-                        log.info('Notify for module: ' + module.getName())
-                        self.notifyModule(module,notification)   
-                    
-                    except Exception, details:
-                        log.error("Failed to send notify e-mails for module " + module.getName()\
-                                    + " : " + str(details), exc_info=1)
-                else:
-                    
-                    #
-                    # Notify for each project...
-                    #                    
-                    for project in module.getProjects():
-                        if not self.gumpSet.inProjectSequence(project): continue    
-                        
-                        # Do a notification, positive (fixed) or negative (failed)
-                        notification = self.logic.notification(project)                
-                        if notification:
-                            try:                        
-                                log.info('Notify for project: ' + project.getName())                                                        
-                                self.notifyProject(project,notification)                        
-                                
-                            except Exception, details:
-                                log.error("Failed to send notify e-mails for project " + project.getName()\
-                                            + " : " + str(details), exc_info=1)
-                
-        
+            self.notifyWorkspace(notification)   
+         
         # Workspace can override...
         (wsTo, wsFrom) = self.workspace.getNotifyOverrides()        
                 
@@ -136,7 +76,7 @@ class Notifier(AbstractRunActor):
         if self.hasUnwanted():
             log.info('We have some unwanted\'s to send to list...')
             
-            self.sendEmail(wsTo or self.workspace.mailinglist,wsFrom or self.workspace.email,	\
+            self.sendEmail(wsTo or self.workspace.mailinglist,wsFrom or self.workspace.email,    \
                         'BATCH: All dressed up, with nowhere to go...',\
                         self.getUnwantedContent())
                         
@@ -151,7 +91,7 @@ class Notifier(AbstractRunActor):
         # Belt and braces (notify to us if not notify to them)
         if self.hasUnsent():
             log.info('We have some unsented\'s to send to list...')    
-            self.sendEmail(wsTo or self.workspace.mailinglist,wsFrom or self.workspace.email,	\
+            self.sendEmail(wsTo or self.workspace.mailinglist,wsFrom or self.workspace.email,    \
                         'BATCH: Unable to send...',\
                          self.getUnsentContent())
                         
@@ -162,8 +102,43 @@ class Notifier(AbstractRunActor):
             self.unsents=0
         else:
             log.debug('No unsent notifys.')
-
+            
+    def processModule(self,module):    
+        """
+            Notify about the module (if it needs it)
+        """
+        notification = self.logic.notification(module)
+                
+        if notification:
+            try:
+                log.info('Notify for module: ' + module.getName())
+                         
+                self.notifyModule(module,notification)   
+                    
+            except Exception, details:
+                log.error("Failed to send notify e-mails for module " + module.getName()\
+                                    + " : " + str(details), exc_info=1)
+                                     
+    def processProject(self,project):    
+        """
+            Notify about the project (if it needs it)
+        """
+        notification = self.logic.notification(project)
+                
+        if notification:
+            try:
+                log.info('Notify for project: ' + project.getName()) 
+                self.notifyProject(project,notification)   
+                    
+            except Exception, details:
+                log.error("Failed to send notify e-mails for project " + project.getName()\
+                                    + " : " + str(details), exc_info=1)
+ 
     def addUnwanted(self,subject,content):
+        """
+        	Add this notification to the 'unwanted' list, since
+        	no addresses were found for it.
+        """
         if self.unwanted:
             self.unwanted += SEPARATOR
             self.unwanted += '\n'
@@ -176,6 +151,10 @@ class Notifier(AbstractRunActor):
         self.unwanteds += 1
     
     def addUnsent(self,subject,content):
+        """
+            Add this notification to the 'unsent' list, since
+            it failed to be sent.
+        """    
         if self.unsent:
             self.unsent += SEPARATOR
             self.unsent += '\n'
@@ -231,7 +210,7 @@ The following %s notify%s should have been sent
     def notifyWorkspace(self,notification):
         """ Notify for the workspace """
         
-        content=notification.resolveContent(self.resolver)
+        content=notification.resolveContent(self.resolver, self.id)
         
         subject=self.workspace.prefix+': Gump Workspace ' + self.workspace.getName()
         
@@ -243,7 +222,7 @@ The following %s notify%s should have been sent
         """ Notify to a specific module's <notify entry """
         
         # Form the content...
-        content=notification.resolveContent(self.resolver)
+        content=notification.resolveContent(self.resolver, self.id)
                 
         # Form the subject
         subject=self.workspace.prefix+	\
@@ -260,11 +239,9 @@ The following %s notify%s should have been sent
         #
         # Form the content...
         #
-        content=notification.resolveContent(self.resolver)
+        content=notification.resolveContent(self.resolver, self.id)
                 
-        #
         # Form the subject
-        #
         subject=self.workspace.prefix+': '	\
             + module.getName() + '/' +project.getName()	\
             +' '+lower(stateDescription(project.getState()))
@@ -273,34 +250,32 @@ The following %s notify%s should have been sent
         self.sendEmails(self.getAddressPairs(project),subject,content)
     
     def getAddressPairs(self, object):
+        """
+        	Get a list of notification to/from pair, overridding
+        	them as needed (from the W/S).
+        """
         notifys=[]
         
         # Workspace can override...
         (wsTo, wsFrom) = self.workspace.getNotifyOverrides()
         
-        for notifyEntry in object.xml.nag:
-            #
-            # Determine where to send
-            #
-            toaddr=wsTo or getattr(notifyEntry,'to',self.workspace.mailinglist)
-            fromaddr=wsFrom or getattr(notifyEntry,'from',self.workspace.email)   
-            
-            # Somewhat bogus, but (I think) due to how the XML
-            # objects never admit to not having something
-            if not toaddr: toaddr =    self.workspace.mailinglist
-            if not fromaddr : fromaddr =  self.workspace.email
-                
-            notifys.append(AddressPair(getStringFromUnicode(toaddr),	\
-                                    getStringFromUnicode(fromaddr)))  
+        for pair in object.getNotifys():
+            toaddr=wsTo or pair.getToAddress()
+            fromaddr=wsFrom or pair.getFromAddress()
+            notifys.append(AddressPair(toaddr,fromaddr))  
 
         return notifys
         
-        
     def sendEmails(self, addressPairs, subject, content):
+        """
+        	Try to send them (if any to send, or store)
+        """
         if addressPairs:
             for pair in addressPairs:
-                self.sendEmail(pair.getToAddress(), pair.getFromAddress(),	\
-                                subject, content)
+                self.sendEmail(	pair.getToAddress(), 
+                                pair.getFromAddress(),
+                                subject, 
+                                content)
         else:
             #
             # This is a catch-all, for all project that
@@ -309,24 +284,26 @@ The following %s notify%s should have been sent
             self.addUnwanted(subject,content)
                     
     def sendEmail(self, toaddr, fromaddr, subject, content):
+        """
+        	Perform the SMTP send.
+        """
+        
         #
         # We send to a list, but a list of one is fine..
         #
         toaddrs=[ toaddr ]
     
-        sent=0
+        sent=False
         try:
-               
-            log.info('Send Notify e-mail:\n To: ' + str(toaddr) + \
+            log.info('Send Notify e-mail (#' + `self.id` + ') :\n To: ' + str(toaddr) + \
                 '\n From: ' + str(fromaddr) + \
                 '\n Subject: ' + str(subject))
+            self.id+=1 
            
-            #
             # Form the user visable part ...
-            #
-            email=EmailMessage( toaddrs, \
-                                fromaddr, \
-                                subject, \
+            email=EmailMessage( toaddrs, 
+                                fromaddr, 
+                                subject, 
                                 content)       
                         
             #print '-------------------------------------------------------------------'
@@ -338,25 +315,20 @@ The following %s notify%s should have been sent
             # Fire ...
             sent=mail(toaddrs,fromaddr,email,	\
                         self.workspace.mailserver,	\
-                        self.workspace.mailport) 
-            
+                        self.workspace.mailport)  
+                   
         except Exception, details:
-            sent=0
+            sent=False
             log.error('Failed to send notify e-mail: ' + str(details), \
                         exc_info=1)
                         
-            # :TODO: Find a way to include this log information in
-            # the content stored (and e-mailed) below.
+            # Add why unset along with content stored (and e-mailed) below.            
+            content = 'Failed to send notify e-mail: ' + str(details) + '\n' + content
                   
         if not sent:
-            self.addUnsent(subject,content)                
-                        
+            content = 'Failed with to: ['+str(toaddr)+'] from: ['+str(fromaddr)+']\n' + content
+            
+            self.addUnsent(subject,content)                                        
             log.error('Failed with to: ['+str(toaddr)+'] from: ['+str(fromaddr)+']' )
             
         return sent
-
-    
-def notify(run):
-    notifier=Notifier(run)
-    notifier.notify()
-    

@@ -24,6 +24,7 @@ from string import lower, capitalize
 from gump.model.state import *
 from gump.utils.owner import *
 from gump.utils.launcher import *
+from gump.utils.timing import *
 from gump.utils import *
 
                
@@ -54,8 +55,11 @@ class WorkItem(Ownable):
         self.name=name
         self.type=type
         self.state=state
-        self.message=message
-            
+        self.message=message            
+    	
+    def __del__(self):
+        Ownable.__del__(self)
+        
     def overview(self):
         overview='Work Name: ' + self.name +' (Type: ' + workTypeName(self.type)+')\n'
         overview+='State: ' + stateDescription(self.state)+'\n'
@@ -83,35 +87,39 @@ class TimedWorkItem(WorkItem):
     """ Unit of Work w/ times """
     def __init__(self,name,type,state,startSecs,endSecs,message=''):
         WorkItem.__init__(self,name,type,state,message)
-        self.startSecs=startSecs
-        self.endSecs=endSecs
+        self.timerange=TimeStampRange(name,
+                                TimeStamp(name,startSecs),
+                                TimeStamp(name,endSecs),
+                                True)
     
-    def hasTimes(self):
-        if self.startSecs and self.endSecs: return 1
-        return 0
+    def getStartSecs(self):   
+        return self.timerange.getStartTimeStamp().getTime()
         
-    def getStartTimeSecs(self):   
-        return self.startSecs
-        
-    def getEndTimeSecs(self):   
-        return self.endSecs
+    def getEndSecs(self):   
+        return self.timerange.getEndTimeStamp().getTime()
         
     def getElapsedSecs(self):   
-        if self.hasTimes():
-            return int(round(self.endSecs-self.startSecs,0))
+        if self.timerange.hasTimes():
+            return self.timerange.getElapsedSecs()
         return 0
+        
+    def getRange(self):
+        return self.timerange
          
     def overview(self):
         overview=WorkItem.overview(self)
-        (hours,mins,secs)=secsToElapsedTimeTriple(self.getElapsedSecs())
-        overview+='Elapsed: '
-        overview+=str(hours) + ' hours, ' 
-        overview+=str(mins) + ' minutes, ' 
-        overview+=str(secs) + " seconds\n"
+        
+        overview+='Elapsed: ' 
+        overview+=self.timerange.getElapsedTimeString()
+        overview+='\n'
+        
         return overview
         
     def clone(self):
-        return TimedWorkItem(self.name,self.type,self.state,self.startSecs,self.endSecs,self.message)
+        return TimedWorkItem(self.name,self.type,self.state,
+                                self.timerange.getStartTime(),
+                                self.timerange.getEndTime(),
+                                self.message)
         
 class CommandWorkItem(TimedWorkItem):
     """ Unit of Work"""
@@ -119,10 +127,15 @@ class CommandWorkItem(TimedWorkItem):
         if not result: result=CmdResult(command)
         TimedWorkItem.__init__(self,command.name,type,\
                 commandStateToWorkState(result.state),	\
-                result.getStartTimeSecs(),	\
-                result.getEndTimeSecs(),message)
+                result.getStartSecs(),	\
+                result.getEndSecs(),message)
         self.command=command
         self.result=result
+                
+    def __del__(self):
+        TimedWorkItem.__del__(self)
+        self.command=None
+        self.result=None
         
     def overview(self,lines=50,wrapLen=0,eol=None,marker=None):
         overview=TimedWorkItem.overview(self)
@@ -132,6 +145,9 @@ class CommandWorkItem(TimedWorkItem):
             overview+=self.result.tail(lines,wrapLen,eol,marker)            
             overview += "---------------------------------------------\n"
         return overview
+        
+    def hasOutput(self):
+        return self.result.hasOutput()
         
     def tail(self,lines=50,wrapLen=0,eol=None,marker=None):
         return self.result.tail(lines,wrapLen,eol,marker)
@@ -143,16 +159,28 @@ class WorkList(list,Ownable):
     
     """List of work (in order)"""
     def __init__(self,owner=None):
-        list.__init__(self)
+        list.__init__(self)     
         Ownable.__init__(self,owner)            
         
         # Organize by name
         self.nameIndex={}
         
+        # Timings
+        self.timing=TimeStampSet('Named Work')  
+            	
+    def __del__(self):
+        Ownable.__del__(self)
+        self.nameIndex=None
+        self.timing=None
+        
+    def shutdown(self):
+        self.nameIndex=None
+        del self[:]
+        
     def add(self,item):
         
         if item.hasOwner():
-            raise RuntimeError, 'WorkItem already owned, can\'t add to list'
+            raise RuntimeError, 'WorkItem already owned, can\'t add to list.'
         
         # Keep unique within the scope of this list
         name=item.getName()
@@ -168,6 +196,10 @@ class WorkList(list,Ownable):
         # Store in the list
         self.append(item)
         
+        # Register this time...
+        if isinstance(item,TimedWorkItem):
+            self.timing.registerRange(item.getRange())
+        
         # Let this item know its owner
         item.setOwner(self.getOwner())
     
@@ -175,8 +207,8 @@ class WorkList(list,Ownable):
         startSecs=0
         for item in self:
             if isinstance(item,TimedWorkItem): 
-                if not startSecs or item.getStartTimeSecs() < startSecs:
-                    startSecs=item.getStartTimeSecs()
+                if not startSecs or item.getStartSecs() < startSecs:
+                    startSecs=item.getStartSecs()
         if startSecs: return startSecs
         return -1
     
@@ -202,10 +234,17 @@ class WorkList(list,Ownable):
             cloned.add(item.clone())
         return cloned
         
+    def getTiming(self):
+        return timing
+        
 class Workable(Stateful):       
     def __init__(self):
         Stateful.__init__(self)
         self.worklist=WorkList(self)
+                
+    def __del__(self):
+        # None @ present ... Stateful.__del__(self)
+        self.worklist=None
         
     def getWorkList(self):
         return self.worklist
@@ -224,4 +263,7 @@ class Workable(Stateful):
                
     def getElapsedSecs(self):
         return self.worklist.getElapsedSecs()
+        
+    def shutdownWork(self):
+        self.worklist.shutdown()
     

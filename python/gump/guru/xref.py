@@ -25,6 +25,7 @@ from gump import log
 from gump.core.config import *
 from gump.model.project import Project
 from gump.model.state import *
+from gump.utils.domutils import *
             
 class XRefGuru:
     """ Know it all ... """
@@ -66,22 +67,21 @@ class XRefGuru:
         for module in self.workspace.getModules():
             for project in module.getProjects():
                 if project.isPackaged(): continue
-                for package in project.xml.package:
-                    if package:
-                        packageName=str(package)
+                for pdom in project.getDomChildIterator('package'):
+                    packageName=getDomTextValue(pdom)
             
-                        if not self.packageToModule.has_key(packageName):
-                                self.packageToModule[packageName]=[]
+                    if not self.packageToModule.has_key(packageName):
+                            self.packageToModule[packageName]=[]
             
-                        if not self.packageToProject.has_key(packageName):
-                                self.packageToProject[packageName]=[]
+                    if not self.packageToProject.has_key(packageName):
+                            self.packageToProject[packageName]=[]
                 
-                        # Store
-                        if not module in self.packageToModule[packageName]:
-                            self.packageToModule[packageName].append(module)
+                    # Store
+                    if not module in self.packageToModule[packageName]:
+                        self.packageToModule[packageName].append(module)
     
-                        if not project in self.packageToProject[packageName]:
-                            self.packageToProject[packageName].append(project)
+                    if not project in self.packageToProject[packageName]:
+                        self.packageToProject[packageName].append(project)
     
     def mapDescriptions(self):
         for module in self.workspace.getModules():

@@ -15,7 +15,7 @@
 # limitations under the License.
 
 #
-# $Header: /home/stefano/cvs/gump/python/gump/integrate.py,v 1.28 2004/05/21 23:14:59 ajack Exp $
+# $Header: /home/stefano/cvs/gump/python/gump/integrate.py,v 1.29 2004/07/08 20:33:05 ajack Exp $
 # 
 
 """
@@ -35,7 +35,7 @@ from gump.runner.runner import getRunner
 from gump.core.gumprun import *
 from gump.core.commandLine import handleArgv
 from gump.utils import logResourceUtilization
-from gump.model.loader import WorkspaceLoader
+from gump.loader.loader import WorkspaceLoader
 
 
 ###############################################################################
@@ -61,13 +61,13 @@ def irun():
     logResourceUtilization('Before load workspace')
         
     # get parsed workspace definition
-    workspace=WorkspaceLoader().load(ws, 0)
+    workspace=WorkspaceLoader(False).load(ws)
 
     logResourceUtilization('Before create run')
     
     # Has to be absolute latest descriptors, not quick/cached...
-    options.setQuick(0)
-    options.setCache(0)
+    options.setQuick(False)
+    options.setCache(False)
     
     # 
     options.setObjectives(OBJECTIVE_INTEGRATE)    
@@ -78,7 +78,7 @@ def irun():
     #
     #    Perform this integration run...
     #
-    result = getRunner(run).performRun()
+    result = getRunner(run).perform()
 
     logResourceUtilization('Before exit')
     

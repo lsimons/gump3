@@ -44,8 +44,21 @@ from gump.model.project import Project
 from gump.model.object import *
 from gump.model.state import *
 
+def concatenateUrl(root,part):
+    conc=''
+    if not '.'==root:
+        conc=root
+        if not conc.endswith('/'):
+            conc+='/'
+    conc+=part
+    return conc
+
 class Path(list):
+    """
     
+    	Path manipulable as a list of parts (from a root)
+    	
+    """
     def __init__(self,path=None):
     
         # Import other...
@@ -57,15 +70,20 @@ class Path(list):
         return self.serialize()
         
     def postfix(self,sub):
+        """
+            Add a path to the end of this one
+        """
         if sub:
             if isinstance(sub,list):
-                for s in sub:
-                    self.postfix(s)
+                for s in sub: self.postfix(s)
             else:
                 self.append(gumpSafeName(sub))   
         return self     
 
     def prefix(self,sub):
+        """
+        	Add a path to the front of this one
+        """
         if sub:
             if isinstance(sub,list):
                 rev=list(sub) # Clone
@@ -77,26 +95,49 @@ class Path(list):
         return self     
 
     def getPostfixed(self,sub):
+        """
+        	Add two paths,
+        """
         subPath=Path(self)
         subPath.postfix(sub)        
         return subPath
         
     def getPrefixed(self,sub):
+        """
+        	
+        """
         subPath=Path(self)
         subPath.prefix(sub)        
         return subPath
     
     def getPathUp(self):
-        return Path(getPathUp(len(self)))
+        """
+        	Get a path 'up' to the root, from here (e.g. ../..)
+        """
+        return getPathUp(self.getPathLength())
         
-    def serialize(self):
-        return '/'.join(self)
+    def getPathLength(self):
+        return len(self)
+        
+    def serialize(self,sep=os.sep):
+        """
+        	Represent as a string, using the appropriate
+        	separator
+        """
+        s=sep.join(self)
+        if not s: return '.'
+        return s
    
-
 def getShortenedPath(path,index):
+    """
+    	Trim a path
+    """
     return Path(path[index:len(path)])
         
 def getPathUp(depth):
+    """
+    	Get a path 'up' a given depth
+    """
     up=Path()
     i = 0
     while i < int(depth):
@@ -105,6 +146,11 @@ def getPathUp(depth):
     return up
     
 def getRelativePath(toPath,fromPath):
+    """
+    
+    	Get a path from one path to another path.
+    	
+    """
  
     # print "Get Relative TO:[" + `toPath` + "] FROM:[" + `fromPath` + "]"
     
@@ -130,18 +176,26 @@ def getRelativePath(toPath,fromPath):
     return Path(toPath)
 
 
-
-class Location:
-    def __init__(self,path,document,index=None):
+class FileSpecification:
+    """ 
+        A root (or None for relative), a relative path, and a document    
+    """
+    def __init__(self,root,path,document):
+        self.root=root
         self.path=path
         self.document=document
-        self.index=index
     
     def __repr__(self):
         return self.__str__()
         
     def __str__(self):
-        return `self.path`+':'+`self.document`+':'+`self.index`
+        return `self.root`+':'+`self.path`+':'+`self.document`
+        
+    def setRoot(self,root):
+        self.root=root
+        
+    def getRoot(self):
+        return self.root
         
     def getPath(self):
         return self.path
@@ -151,6 +205,42 @@ class Location:
         
     def getDocument(self):
         return self.document
+  
+    def serialize(self):
+        s=''
+        if self.path:
+            s+=self.path.serialize()
+            s+='/'
+        s+=self.document
+        return s
+        
+    def getFile(self):
+        if not self.root:
+            return  os.path.join(self.path.serialize(), self.document)
+          
+        return os.path.abspath(
+                    os.path.join(
+                        os.path.join(
+                            self.root, 
+                            self.path.serialize()),
+                        self.document))
+        
+    def getRootPath(self):
+        return self.path.getPathUp().serialize()
+    
+class Location(FileSpecification):
+    """ 
+    	A path, a document, and an index (into that document)	
+    """
+    def __init__(self,root,path,document,index=None):
+        FileSpecification.__init__(self,root,path,document)
+        self.index=index
+    
+    def __repr__(self):
+        return self.__str__()
+        
+    def __str__(self):
+        return FileSpecification.__str__(self)+':'+`self.index`
         
     def setIndex(self,index):
         self.index=index
@@ -159,28 +249,24 @@ class Location:
         return self.index
         
     def serialize(self):
-        s=''
-        if self.path:
-            s+=self.path.serialize()
-            s+='/'
-        s+=self.document
+        s=FileSpecification.serialize(self)
         if self.index:
             s+='#'
             s+=self.index
         return s
     
-def concatenate(root,part):
-    conc=root
-    if not conc.endswith('/'):
-        conc+='/'
-    conc+=part
-    return conc
-        
 class Resolver:
+    """
+    
+    	Resolve objects to paths/files/dirs/urls
+    	
+    """
     
     def __init__(self,rootDir,rootUrl):
         
+        # The root directory
         self.rootDir=rootDir
+        
         # The root URL
         self.rootUrl=rootUrl    
         
@@ -201,34 +287,55 @@ class Resolver:
     def getRootDir(self):
         return self.rootDir
         
-    # Bogus settings
-    def getAbsoluteDirectory(self,object):
-        return self.rootDir        
+    # Skeleton
+    
+    def getDirectoryRelativePath(self,object):
+        raise RuntimeError, 'Not Implemented on ' + self.__class__.__name__ + ': getDirectoryRelativePath.'
         
-    def getAbsoluteFile(self,object,documentName=None,extn='.xml',notXDocs=None):  
-        if not documentName: documentName='bogus'          
-        location=Location(Path(),documentName+extn)
-        file=concatenate(self.rootDir,location.serialize())
-        return file                    
-               
-    def getAbsoluteDirectoryUrl(self,object): 
-        return self.rootUrl                   
-    def getAbsoluteUrl(self,object,documentName=None,extn='.html'): 
-        return self.rootUrl
+    def getDirectoryPath(self,object):
+        path=self.getDirectoryRelativePath(object)
+        self.makePath(path)   
+        return path
+        
+    def getDirectory(self,object):
+        path=self.getDirectoryPath(object)    
+        return os.path.join(self.xdocsDir,path.serialize())
+        
+    def getFileSpec(self,object,documentName=None,extn=None,rawContent=False):  
+        raise RuntimeError, 'Not Implemented on ' + self.__class__.__name__ + ': getFileSpec.'
+        
+    def getFile(self,object,documentName=None,extn=None,rawContent=False):  
+        raise RuntimeError, 'Not Implemented on ' + self.__class__.__name__ + ': getFile.'
+        
     def getDirectory(self,object): 
-        return self.rootDir                
+        raise RuntimeError, 'Not Implemented on ' + self.__class__.__name__ + ': getDirectory.'
+        
     def getDirectoryUrl(self,object): 
-        return self.rootUrl                
+        raise RuntimeError, 'Not Implemented on ' + self.__class__.__name__ + ': getDirectoryUrl.'
+           
+    def getUrl(self,object,documentName=None,extn=None): 
+        raise RuntimeError, 'Not Implemented on ' + self.__class__.__name__ + ': getUrl.'
         
-    def getFile(self,object,documentName=None,extn='.xml',notXDocs=None): 
-        return self.getAbsoluteFile(object,documentName,extn,notXDocs)                        
-        
-    def getUrl(self,object,documentName=None,extn='.html'):
+    def getDirectoryUrl(self,object): 
         return self.rootUrl
     
-    def getAbsoluteUrlForRelative(self,relativeToRoot): 
-        return self.rootUrl              
+    def getAbsoluteUrlForRelative(self,relativeToRoot):
+        """
+            Get an absolute URL, relative to a root
+        """
+        return concatenateUrl(self.rootUrl,relativeToRoot)    
+        
     def getStateIconInformation(self,statePair): 
-        return (self.rootUrl, statePair.getStateDescription() )
-    def getImageUrl(self,name): 
-        return self.rootUrl              
+        raise RuntimeError, 'Not Implemented on ' + self.__class__.__name__ + ': getStateIconInformation.'
+         
+    def getAbsoluteImageUrl(self,name):
+        return self.getAbsoluteFromRelative(self.getImageUrl(name))
+        
+    def getImageUrl(self,name,depth=0): 
+        raise RuntimeError, 'Not Implemented on ' + self.__class__.__name__ + ': getImageUrl.'    
+           
+    def getAbsoluteIconUrl(self,name):
+        return self.getAbsoluteFromRelative(self.getIconUrl(name))
+        
+    def getIconUrl(self,name,depth=0): 
+        raise RuntimeError, 'Not Implemented on ' + self.__class__.__name__ + ': getIconUrl.'

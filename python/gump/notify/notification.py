@@ -14,7 +14,9 @@
 # limitations under the License.
 
 """
+
     'Nag' (notification) e-mail generation...
+    
 """
 
 import socket
@@ -34,7 +36,7 @@ from gump.core.actor import AbstractRunActor
 from gump.model.project import *
 from gump.model.module import *
 from gump.model.state import *
-from gump.net.smtp import *
+from gump.utils.smtp import *
 from gump.utils import *
 
 LINE     ='--   --   --   --   --   --   --   --   --   --   --   --   G U M P'
@@ -69,7 +71,7 @@ class Notification(RunSpecific):
         if self.intro: return 1
         return 0
         
-    def resolveContent(self,resolver,stream=None):
+    def resolveContent(self,resolver,id=None,stream=None):
         
         # If not passed, create temporary
         if not stream:
@@ -92,8 +94,8 @@ and/or contact folk at general@gump.apache.org.
         name=self.entity.getName()
         type=self.entity.__class__.__name__
         affected=0        
-        if not isinstance(self.entity,Workspace):
-            affected=self.entity.determineAffected()
+        if isinstance(self.entity,Project):
+            affected=self.entity.countAffectedProjects()
         duration=self.entity.getStats().sequenceInState        
                     
         stream.write(type + ' ' + name)
@@ -118,10 +120,10 @@ and/or contact folk at general@gump.apache.org.
         
         stream.write("\n")
         
-        # Show thos affected
-        if isinstance(self.entity,Project) and affected:
-            affectedProjects=self.entity.determineAffectedProjects()
-            if 1 or ((duration and duration > 3) and affectedProjects):
+        # Show those affected
+        if affected:
+            affectedProjects=self.entity.getAffectedProjects()
+            if True or ((duration and duration > 3) and affectedProjects):
                 # Show those negatively affected
                 stream.write('The following are affected:\n')
             
@@ -166,7 +168,7 @@ and/or contact folk at general@gump.apache.org.
 
         self.resolveSyndication(resolver, stream)
         
-        self.resolveFooter(resolver, stream)
+        self.resolveFooter(resolver, id, stream)
     
         # If passed (or created) a StringIO, return String
         # containing contents.
@@ -215,18 +217,18 @@ and/or contact folk at general@gump.apache.org.
         stream.write('To subscribe to this information via syndicated feeds:')
         stream.write('\n')
             
-        #
         # Link them back here...
-        #
         rssurl=resolver.getUrl(self.entity,'rss','.xml')
         atomurl=resolver.getUrl(self.entity,'atom','.xml')
             
         stream.write(' RSS: ' + rssurl + '\n')
         stream.write(' Atom: ' + atomurl + '\n')
         
-    def resolveFooter(self, resolver, stream):
+    def resolveFooter(self, resolver, id, stream):
         
         stream.write('\n\n--\n')
+        if id:
+            stream.write('Gump E-mail Identifier (within run) #%s.\n' % id )
         stream.write('Produced by Gump %s.\n[Run (%s, %s)]' %	\
                         (	setting.version, 
                             default.datetime, 

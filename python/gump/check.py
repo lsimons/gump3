@@ -31,10 +31,9 @@ from gump.core.gumpinit import gumpinit
 from gump.runner.runner import getRunner
 from gump.core.gumprun import *
 from gump.core.commandLine import handleArgv
-from gump.model.loader import WorkspaceLoader
+from gump.loader.loader import WorkspaceLoader
 
-# static void main()
-if __name__=='__main__':
+def crun():
     gumpinit()
     
     # Process command line
@@ -43,7 +42,7 @@ if __name__=='__main__':
     ps=args[1]
     
     # get parsed workspace definition
-    workspace=WorkspaceLoader().load(ws, options.isQuick())
+    workspace=WorkspaceLoader(options.isQuick()).load(ws)
     
     # 
     options.setObjectives(OBJECTIVE_CHECK)    
@@ -54,10 +53,20 @@ if __name__=='__main__':
     #
     #    Perform this check run...
     #
-    result = getRunner(run).performCheck()
+    result = getRunner(run).perform()
 
     #
     log.info('Gump Check complete. Exit code:' + str(result))
           
     # bye!
     sys.exit(result)
+    
+    
+# static void main()
+if __name__=='__main__':
+
+    print 'Profiling....'
+    import profile
+    profile.run('crun()', 'iprof')
+    # crun()
+    

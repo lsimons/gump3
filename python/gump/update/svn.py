@@ -62,8 +62,9 @@ class SvnUpdater(RunSpecific):
         # Did we 'SVN checkout' already?
         exists	=	os.path.exists(module.getSourceControlStagingDirectory())
        
-        if exists:
-            self.performStatus(module)
+        # Doesn't teach us much
+        #if exists:
+        #    self.performStatus(module)
             
         self.performUpdate(module, exists)
         
@@ -183,9 +184,10 @@ class SvnUpdater(RunSpecific):
     def preview(self,module):
         (repository, url, command ) = self.getUpdateCommand(module,0)
         command.dump()
-            
-        command = self.getStatusCommand(module)
-        command.dump()
+          
+        # Doesn't teach us much  
+        # command = self.getStatusCommand(module)
+        # command.dump()
             
         (repository, url, command ) = self.getUpdateCommand(module,1)
         command.dump()                                            

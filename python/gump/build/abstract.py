@@ -30,6 +30,7 @@ from gump.utils import dump, display, getIndent, logResourceUtilization, \
                             invokeGarbageCollection
 from gump.utils.note import Annotatable
 from gump.utils.work import *
+from gump.utils.domutils import *
 
 from gump.utils.tools import *
 
@@ -50,14 +51,13 @@ class AbstractJavaBuilder(RunSpecific):
     def __init__(self,run):
         RunSpecific.__init__(self,run)
 
-
-    def getJVMArgs(self,xml):
+    def getJVMArgs(self,project):
         """Get JVM arguments for a project"""
         args=Parameters()
         
-        for jvmarg in xml.jvmarg:
-            if jvmarg.value:
-                args.addParameter(jvmarg.value)
+        for jvmarg in project.getDomChildIterator('jvmarg'):
+            if hasDomAttribute(jvmarg,'value'):                
+                args.addParameter(getDomAttributeValue(jvmarg,'value'))
             else:
                 log.error('Bogus JVM Argument w/ Value')            
         

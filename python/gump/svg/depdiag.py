@@ -299,7 +299,7 @@ if __name__=='__main__':
         
     from gump.core.gumprun import GumpRun, GumpRunOptions, GumpSet
     from gump.core.commandLine import handleArgv
-    from gump.model.loader import WorkspaceLoader
+    from gump.loader.loader import WorkspaceLoader
     from gump.output.statsdb import *
 
     # Process command line
@@ -308,9 +308,9 @@ if __name__=='__main__':
     ps=args[1]
 
     # get parsed workspace definition
-    workspace=WorkspaceLoader().load(ws, options.isCache())    
+    workspace=WorkspaceLoader(options.isCache()).load(ws)    
         
-    # Ensure we use text, not forrest...
+    # Ensure we use text, not xdocs...
     options.setText(1)
     
     # The Run Details...

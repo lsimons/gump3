@@ -105,6 +105,9 @@ class GumpSet:
             self.repositories=self.getRepositoriesForModuleList(self.moduleSequence)
         else:
             self.repositories=repositories
+            
+        self.completedModules=[]
+        self.completedProjects=[]
                 
         self.validate()
         
@@ -141,8 +144,17 @@ class GumpSet:
         
     def getModuleSequence(self):
         return self.moduleSequence
+        
+    def getCompletedModules(self):
+        return self.completedModules
+        
+    def setCompletedModule(self,module):
+        self.completedModules.append(module)
             
     def inModuleSequence(self,module):
+        # Optimization
+        if self.isFull(): return True
+        # Go look
         return module in self.moduleSequence
         
     def getRepositories(self):
@@ -161,10 +173,19 @@ class GumpSet:
     def getProjectExpression(self):
         return self.projectexpression
         
+    def getCompletedProjects(self):
+        return self.completedProjects
+        
+    def setCompletedProject(self,project):
+        self.completedProjects.append(project)
+        
     def getProjectSequence(self):
         return self.projectSequence    
 
     def inProjectSequence(self,project):
+        # Optimization
+        if self.isFull(): return True    
+        # Go look...
         return project in self.projectSequence
     
     def getModuleNamesForProjectExpression(self,expr):
@@ -184,6 +205,9 @@ class GumpSet:
   
     def getModulesForProjectList(self,projects):
         sequence=[]
+        
+        moduleIndex=0
+        
         for project in projects:
             
             # Some projects are outside of sequence
@@ -192,13 +216,17 @@ class GumpSet:
                 module = project.getModule()
                 if not module in sequence: 
                     sequence.append(module)
-                    module.setPosition(len(sequence))
+                  
+                    # Identify the index within overall sequence
+                    moduleIndex+=1
+                    module.setPosition(moduleIndex)
 
-        # Hmm, see if we don't sort ...
-        # would be nice to get in same order as
-        # projects need 
-        # sequence.sort()
-        
+        # Identify the size of overall sequence
+        moduleTotal=len(sequence)
+        for module in sequence:
+            module.setTotal(moduleTotal)               
+            log.debug('Identify ' + module.getName() + ' at position #' + `module.getPosition()`)     
+          
         return sequence
   
     def getRepositoriesForModuleList(self,modules):
@@ -256,9 +284,13 @@ class GumpSet:
         """Determine the build sequence for a given list of projects."""
         todo=[]
         sequence=[]
+        
+        # These are the projects we are going to
         for project in projects:
             log.debug('Evaluate Seq for ['+project.getName()+']')                
             self.addToTodoList(project,todo)
+            
+        projectIndex=0
             
         while todo:
             # one by one, remove the first ready project and append 
@@ -269,8 +301,8 @@ class GumpSet:
                     todo.remove(todoProject)
                     if not todoProject in sequence:
                         sequence.append(todoProject)
-                        todoProject.setPosition(len(sequence))
-                        log.debug('#' + `todoProject.getPosition()` + ' -> ' + todoProject.getName())     
+                        projectIndex += 1
+                        todoProject.setPosition(projectIndex)
                     #else:
                     #    log.debug('Duplicate Result ['+todoProject.getName()+']')    
                     foundSome=1
@@ -284,7 +316,15 @@ class GumpSet:
                             break
                     else:
                         loop=", ".join([project.getName() for todoProject in todo])
-                        raise RuntimeError, "Circular Dependency Loop: " + str(loop)              
+                        raise RuntimeError, "Circular Dependency Loop: " + str(loop) 
+                        
+                        
+        # Identify the size of overall sequence
+        projectTotal=len(sequence)
+        for project in sequence:
+            project.setTotal(projectTotal)               
+            log.debug('Identify ' + project.getName() + ' at position #' + `project.getPosition()`)     
+                       
         return sequence
 
                 
@@ -345,8 +385,7 @@ OBJECTIVE_BUILD=0x02
 OBJECTIVE_CHECK=0x04
 OBJECTIVE_DOCUMENT=0x08
 
-OBJECTIVE_=OBJECTIVE_UPDATE | OBJECTIVE_BUILD
-
+OBJECTIVE_DEBUG=OBJECTIVE_UPDATE | OBJECTIVE_BUILD
 OBJECTIVE_INTEGRATE=OBJECTIVE_UPDATE | OBJECTIVE_BUILD | \
                         OBJECTIVE_DOCUMENT
 
@@ -359,8 +398,12 @@ FEATURE_DIAGRAM=0x08
 FEATURE_SYNDICATE=0x10
 FEATURE_DOCUMENT=0x20
 
-FEATURE_ALL=FEATURE_STATISTICS|FEATURE_RESULTS|FEATURE_NOTIFY|FEATURE_DIAGRAM|	\
+FEATURE_DEFAULT=FEATURE_DOCUMENT
+            
+FEATURE_ALL=FEATURE_STATISTICS|FEATURE_RESULTS|FEATURE_NOTIFY|FEATURE_DIAGRAM|    \
                 FEATURE_SYNDICATE|FEATURE_DOCUMENT
+            
+FEATURE_OFFICIAL=FEATURE_ALL
             
 class GumpRunOptions:
     """
@@ -369,26 +412,23 @@ class GumpRunOptions:
     
     """
     def __init__(self):
-        self.optimize=0
  
-        self.debug=0	
-        self.verbose=0	
-        self.cache=1	# Defaults to QUICK
-        self.quick=1	# Defaults to CACHE
-        self.dated=0	# Defaults to NOT dated.
-        self.optimize=0	# Do the least ammount of work...
-        self.official=0	# Do a full run (with publishing e-mail)
+        self.debug=False	
+        self.verbose=False	
+        self.cache=True	# Defaults to CACHE
+        self.quick=True	# Defaults to QUICK
+        self.dated=False	# Defaults to NOT dated.
+        self.optimize=False	# Do the least ammount of work...
+        self.official=False	# Do a full run (with publishing e-mail)
         
-        # Default is Text unless Forrest is in the environment,
-        # but can also force text with --text 
-        self.text=0        
+        # Default is XDOCS/XHTML, but can also force text with --text 
+        self.text=False        
         
-        # If using Forrest, this say leave xdocs, do NOT run
-        # the 'forrest' build inlined.
-        self.xdocs=0
+        # Defautl for XDOCS is XHTML
+        self.xdocs=False
         
         self.objectives=OBJECTIVE_INTEGRATE
-        self.features=FEATURE_ALL
+        self.features=FEATURE_DEFAULT
         
     def isDated(self):
         return self.dated
@@ -401,6 +441,7 @@ class GumpRunOptions:
         
     def setOfficial(self,official):
         self.official=official
+        self.features=FEATURE_OFFICIAL
         
     def isQuick(self):
         return self.quick
@@ -444,14 +485,13 @@ class GumpRunOptions:
     def getResolver(self):
         return self.resolver
         
-        
     # Objectives...
     def setObjectives(self,objectives):
         self.objectives=objectives
         
     def testObjectiveIsSet(self,objective):
-        if (self.objectives & objective): return 1
-        return 0    
+        if (self.objectives & objective): return True
+        return False
         
     def isUpdate(self):
         return self.testObjectiveIsSet(OBJECTIVE_UPDATE)        
@@ -476,8 +516,8 @@ class GumpRunOptions:
         self.features = (self.features | feature)
         
     def testFeatureIsSet(self,feature):
-        if (self.features & feature): return 1
-        return 0
+        if (self.features & feature): return True
+        return False
 
     def isNotify(self):
         return self.testFeatureIsSet(FEATURE_NOTIFY)
@@ -556,7 +596,7 @@ class RunRequest(RunEvent):
     def __init__(self, run, type):
         RunEvent.__init__(self,run)
         self.type=type
-        self.satisfied=0
+        self.satisfied=False
         
     def getType(self):
         return self.type
@@ -616,8 +656,8 @@ class GumpRun(Workable,Annotatable,Stateful):
         #
         # A repository interface...
         #
-        from gump.repository.jars import JarRepository
-        self.outputsRepository=JarRepository(workspace.jardir)
+        from gump.repository.artifact import ArtifactRepository
+        self.outputsRepository=ArtifactRepository(workspace.jardir)
                   
         # Generate a GUID (or close)
         import md5
@@ -667,7 +707,10 @@ class GumpRun(Workable,Annotatable,Stateful):
         log.debug('Register Actor : ' + `actor`)
         self.actors.append(actor)
         
-    def dispatchEvent(self,event):
+    def dispatchEvent(self,event):    	
+    	"""
+    		Perform the dispatch
+    	"""
         log.debug('Dispatch Event : ' + `event`)        
         for actor in self.actors:
             #log.debug('Dispatch Event : ' + `event` + ' to ' + `actor`)     
@@ -675,6 +718,9 @@ class GumpRun(Workable,Annotatable,Stateful):
         inspectGarbageCollection(`event`)
             
     def dispatchRequest(self,request):
+    	"""
+    		Perform the dispatch
+    	"""
         log.debug('Dispatch Request : ' + `request`)    
         for actor in self.actors:
             log.debug('Dispatch Request : ' + `request` + ' to ' + `actor`)       
@@ -682,8 +728,13 @@ class GumpRun(Workable,Annotatable,Stateful):
         inspectGarbageCollection(`request`)
             
     def generateEvent(self,entity):
+        """
+    		Fire off an entity event.
+    	"""
         self.dispatchEvent(EntityRunEvent(self, entity))
         
     def generateRequest(self,type):
+    	"""
+    		Fire off a typed request.
+    	"""
         self.dispatchRequest(RunRequest(self, type))
-                

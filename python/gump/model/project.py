@@ -15,131 +15,33 @@
 # limitations under the License.
 
 """
-    This module contains information on
+
+    The model for a 'Project'
+    
 """
 
 from time import localtime, strftime, tzname
 
 from gump.model.state import *
-from gump.model.object import ModelObject, NamedModelObject, Jar,	\
-                                Resultable, Positioned, \
-                                 Mkdir, Delete, JunitReport, Work
+from gump.model.object import ModelObject, NamedModelObject
+from gump.model.misc import Jar,Resultable, Positioned, \
+                            Mkdir, Delete, JunitReport, Work, \
+                            AddressPair
 from gump.model.stats import Statable, Statistics
 from gump.model.property import Property
 from gump.model.builder import Ant,Maven,Script
-from gump.model.rawmodel import Single
 from gump.utils import getIndent
 from gump.utils.file import *
 from gump.model.depend import *
+from gump.model.cp import *
 from gump.utils.note import transferAnnotations, Annotatable
+from gump.utils.domutils import *
 
-#
-# An annotated path has a path entry, plus the context
-# of the contributor (i.e. project of Gump.)
-#
-class AnnotatedPath:
-    """Contains a Path plus optional 'contributor' """
-    def __init__(self,id,path,contributor=None,instigator=None,note=None):
-        self.id=id
-        self.path=path
-        self.contributor=contributor
-        self.instigator=instigator
-        self.note=note
-        
-    def __repr__(self):
-        return self.path
-        
-    def __str__(self):
-        return self.path
-        
-    # Equal if same string
-    def __eq__(self,other):
-        if not isinstance(other,AnnotatedPath):
-            otherPath = other
-        else:
-            otherPath = other.path             
-        return self.path == otherPath
-                
-    # Equal if same string
-    def __cmp__(self,other):
-        if not isinstance(other,AnnotatedPath):
-            otherPath = other
-        else:
-            otherPath = other.path                         
-        c = cmp(self.path,otherPath)
-        return c
-        
-    def hasContributor(self):
-        if self.contributor: return 1
-        return 0
-        
-    def getContributor(self):
-        return self.contributor
-        
-    def hasId(self):
-        if self.id: return 1
-        return 0
-        
-    def getId(self):
-        return self.id
-        
-    def hasInstigator(self):
-        if self.instigator: return 1
-        return 0
-        
-    def getInstigator(self):
-        return self.instigator
-        
-    def getPath(self):
-        return self.path
-        
-class Classpath(Annotatable):
-    def __init__(self,name):
-        Annotatable.__init__(self)
-        self.name=name
-        self.parts=[]
-    
-    def getName(self):
-        return self.name
-        
-    def addPathPart(self,part):
-        if part in self.parts:
-            self.addDebug('Duplicate Path Part [' + `part` + ']')
-        else:
-            self.parts.append(part)
-        
-    def importFlattenedParts(self,parts):
-        for part in split(parts,os.pathsep):
-            self.addPathPart(part)
-            
-    def importClasspath(self,cp):
-        for part in cp.getPathParts():
-            self.addPathPart(part)
-    
-    def getPathParts(self):
-        return self.parts
-                        
-    #
-    # Convert path and AnnotatedPath to simple paths.
-    # 
-    def getSimpleClasspathList(self):
-        """ Return simple string list """
-        simple=[]
-        for p in self.parts:
-            if isinstance(p,AnnotatedPath):
-                simple.append(p.path)
-            else:
-                simple.append(p)
-        return simple
-        
-    def getFlattened(self):
-        return os.pathsep.join(self.getSimpleClasspathList())
-            
 
 class Project(NamedModelObject, Statable, Resultable, Dependable, Positioned):
     """A single project"""
-    def __init__(self,xml,workspace):
-    	NamedModelObject.__init__(self,xml.getName(),xml,workspace)
+    def __init__(self,name,xml,owner):
+    	NamedModelObject.__init__(self,name,xml,owner)
     	
     	Statable.__init__(self)
     	Resultable.__init__(self)
@@ -148,7 +50,7 @@ class Project(NamedModelObject, Statable, Resultable, Dependable, Positioned):
     	
     	# Navigation
         self.module=None # Module has to claim ownership
-        self.workspace=workspace
+        self.workspace=None
     	
     	self.home=None
     	self.basedir=None
@@ -169,7 +71,11 @@ class Project(NamedModelObject, Statable, Resultable, Dependable, Positioned):
     	self.mkdirs=[]
     	self.deletes=[]
     	self.reports=[]
-    	
+        self.notifys=[]
+    
+        self.url=None
+        self.desc=''
+        
     	#############################################################
     	# Outputs
     	#
@@ -182,17 +88,31 @@ class Project(NamedModelObject, Statable, Resultable, Dependable, Positioned):
         
         self.built=0
         
+    def __del__(self):
+        NamedModelObject.__del__(self)
+        Statable.__del__(self)
+        Resultable.__del__(self)
+        Dependable.__del__(self)
+        Positioned.__del__(self)
+        
+    def hasNotifys(self):
+        if self.notifys: return True
+        return False
+        
+    def getNotifys(self):
+        return self.notifys
+        
     def hasAnt(self):
-        if hasattr(self,'ant') and self.ant: return 1
-        return 0
+        if self.ant: return True
+        return False
         
     def hasMaven(self):
-        if hasattr(self,'maven') and self.maven: return 1
-        return 0
+        if self.maven: return True
+        return False
         
     def hasScript(self):
-        if hasattr(self,'script') and self.script: return 1
-        return 0
+        if self.script: return True
+        return False
     
     def getAnt(self):
         return self.ant
@@ -203,34 +123,33 @@ class Project(NamedModelObject, Statable, Resultable, Dependable, Positioned):
     def getScript(self):
         return self.script
     
-    def hasURL(self):
-        return self.getURL()
-    
-    def getURL(self):
-        if self.xml.url and self.xml.url.href: return str(self.xml.url.href)
-        return self.getModule().getURL()            
+    def hasUrl(self):
+        if self.url or self.getModule().hasUrl(): return True
+        return False
+            
+    def getUrl(self):
+        return self.url or self.getModule().getUrl()            
         
     def hasDescription(self):
-        return str(self.xml.description) or self.getModule().hasDescription()  
+        if self.desc or self.getModule().hasDescription(): return True
+        return False
         
     def getDescription(self):
-        return str(self.xml.description) or self.getModule().getDescription()    
+        return self.desc or self.getModule().getDescription()    
         
     def getLimitedDescription(self, limit=60):
-        desc=str(self.xml.description) or self.getModule().getDescription()    
+        desc=self.getDescription()    
         if len(desc) > limit:
             desc=desc[:limit]
-            desc+='...'
-        
+            desc+='...'        
         return desc
         
     def getMetadataLocation(self):
-        if self.xml.href and str(self.xml.href): return self.xml.href
-        return self.getModule().getMetadataLocation()
+        return self.metadata or self.getModule().getMetadataLocation()
                      
     def getMetadataViewUrl(self):
-        if self.xml.href and str(self.xml.href):
-            location=str(self.xml.href)
+        if self.metadata:
+            location=self.metadata
             if location.startswith('http'): return location
             # :TODO: Make configurable
             return 'http://cvs.apache.org/viewcvs.cgi/gump/' + location
@@ -250,14 +169,19 @@ class Project(NamedModelObject, Statable, Resultable, Dependable, Positioned):
         return self.jars.has_key(id)
         
     def hasLicense(self):
-        if self.license: return 1
-        return 0
+        if self.license: return True
+        return False
         
     def getLicense(self):
         return self.license
         
+    def getDeletes(self): return self.deletes
+    def getMkDirs(self): return self.mkdirs
+    def getWorks(self): return self.works
+        
     def hasJars(self):
-        return self.jars
+        if self.jars: return True
+        return False
         
     def getJars(self):
         return self.jars.values()
@@ -267,10 +191,10 @@ class Project(NamedModelObject, Statable, Resultable, Dependable, Positioned):
                 
     def isRedistributable(self):
         # Existence means 'true'
-        return hasattr(self.xml,'redistributable') \
-            or (self.module and self.module.isRedistributable())
+        if self.hasDomAttribute('redistributable'): return True
+        if self.module: return self.module.isRedistributable()
+        return False
         
-    
     def wasBuilt(self):
         """ Was a build attempt made? """
         return self.built
@@ -279,8 +203,8 @@ class Project(NamedModelObject, Statable, Resultable, Dependable, Positioned):
         self.built=built
         
     def hasReports(self):
-        if self.reports: return 1
-        return 0
+        if self.reports: return True
+        return False
         
     def getReports(self):
         return self.reports
@@ -295,27 +219,14 @@ class Project(NamedModelObject, Statable, Resultable, Dependable, Positioned):
     def getLastModified(self):
         return self.getModule().getStats().getLastModified()  
         
-    def determineAffected(self):
-        if self.affectedProjects: return len(self.affectedProjects)
-        self.gatherAffected()        
+    def countAffectedProjects(self):
         return len(self.affectedProjects)
         
-    def determineAffectedProjects(self):
-        if self.affectedProjects: return self.affectedProjects
-        self.gatherAffected()        
+    def getAffectedProjects(self):
         return self.affectedProjects
         
-    def gatherAffected(self):
-        # Look through all dependees
-        for project in self.getFullDependeeProjectList():
-            # Something caused that some grief
-            # The something was this project
-            cause=project.getCause()
-            if cause and cause == self:
-                if not project in self.affectedProjects:
-                    self.affectedProjects.append(project)
-    
-        # Sort whatever we got
+    def addAffected(self,project):
+        self.affectedProjects.append(project)
         self.affectedProjects.sort()
         
     def propagateErrorStateChange(self,state,reason,cause,message):
@@ -337,14 +248,16 @@ class Project(NamedModelObject, Statable, Resultable, Dependable, Positioned):
     #
     # We have a potential clash between the <project package attribute and
     # the <project <package element. The former indicates a packages install
-    # the latter the (Java) package name for the project contents. As such
-    # we test the attribute for type.
+    # the latter the (Java) package name for the project contents. 
     #                                      
     def isPackaged(self):
         return self.isPackageMarked() or self.honoraryPackage
     
     def isPackageMarked(self):
-        return (type(self.xml.package) in types.StringTypes)
+        return self.hasDomAttribute('package')
+        
+    def getPackageMarker(self):        
+        return self.getDomAttributeValue('package')
                   
     def setHonoraryPackage(self,honorary):
         self.honoraryPackage=honorary
@@ -353,12 +266,18 @@ class Project(NamedModelObject, Statable, Resultable, Dependable, Positioned):
         return (not self.isPackaged()) and self.hasBuildCommand()
         
     # provide elements when not defined in xml
-    def complete(self,workspace):
+    def complete(self,workspace): 
         if self.isComplete(): return
 
         if not self.inModule():
             self.addWarning("Not in a module")
             return
+         
+        # :TODO: hacky   
+        self.workspace=workspace
+        
+        # Import overrides from DOM
+        transferDomInfo(self.element, self, {})        
     
         #
         # Packaged Projects don't need the full treatment..
@@ -366,84 +285,100 @@ class Project(NamedModelObject, Statable, Resultable, Dependable, Positioned):
         packaged=self.isPackaged()
 
         # Import any <ant part [if not packaged]
-        if self.xml.ant and not packaged:
-            self.ant = Ant(self.xml.ant,self)
+        if self.hasDomChild('ant') and not packaged:
+            self.ant = Ant(self.getDomChild('ant'),self)
             
             # Copy over any XML errors/warnings
             # :TODO:#1: transferAnnotations(self.xml.ant, self)
         
         # Import any <maven part [if not packaged]
-        if self.xml.maven and not packaged:
-            self.maven = Maven(self.xml.maven,self)
+        if self.hasDomChild('maven') and not packaged:
+            self.maven = Maven(self.getDomChild('maven'),self)
             
             # Copy over any XML errors/warnings
             # :TODO:#1: transferAnnotations(self.xml.maven, self)
             
         # Import any <script part [if not packaged]
-        if self.xml.script and not packaged:
-            self.script = Script(self.xml.script,self)
+        if self.hasDomChild('script') and not packaged:
+            self.script = Script(self.getDomChild('script'),self)
             
             # Copy over any XML errors/warnings
             # :TODO:#1: transferAnnotations(self.xml.script, self)
         
         # Set this up to be the base directory of this project,
         # if one is set
-        if self.xml.basedir:
-            self.basedir = os.path.abspath(os.path.join(	\
-                                self.getModule().getWorkingDirectory() or dir.base,	\
-                                self.xml.basedir))
+        self.basedir = os.path.abspath(os.path.join(	\
+                            self.getModule().getWorkingDirectory() or dir.base,	\
+                            self.getDomAttributeValue('basedir','')))
          
         # Compute home directory
         if self.isPackaged():
             # Installed below package directory
             if self.isPackageMarked():
-                self.home=os.path.abspath(	\
-                    os.path.join(workspace.xml.pkgdir,	self.xml.package))
+                self.home=os.path.abspath(
+                    os.path.join(
+                        workspace.pkgdir,
+                        self.getDomAttributeValue('package')))
             else:
-                self.home=os.path.abspath(workspace.xml.pkgdir)
-        elif self.xml.home and isinstance(self.xml.home,Single):
-            if self.xml.home.nested:
-                module=self.getModule()    
-                self.home=os.path.abspath(\
-                    os.path.join(module.getWorkingDirectory(),\
-                        self.xml.home.nested))
-            elif self.xml.home.parent:
-                self.home=os.path.abspath(	\
-                    os.path.join(workspace.getBaseDirectory(),	\
-                        self.xml.home.parent))
+                self.home=os.path.abspath(workspace.pkgdir)
+        elif self.hasDomChild('home'):
+            home=self.getDomChild('home')
+            if hasDomAttribute(home,'nested'):
+                nested=self.expandVariables(
+                    getDomAttributeValue(home,'nested'))
+                self.home=os.path.abspath(
+                    os.path.join(self.getModule().getWorkingDirectory(),
+                                    nested))
+            elif hasDomAttribute(home,'parent'):
+                parent=self.expandVariables(
+                    getDomAttributeValue(home,'parent'))
+                self.home=os.path.abspath(
+                    os.path.join(workspace.getBaseDirectory(),parent))
             else:
-                message='Unable to complete project.home for [not nested/parent]: ' + self.name
+                message=('Unable to complete project.home for %s [not nested/parent] : %s') \
+                            % (self.name, home)
                 self.addError(message)
+                log.warning(message)
                 self.home=None        
-        elif not self.xml.home:
+        else:
             if self.module:
                 module=self.getModule()    
                 self.home=os.path.abspath(module.getWorkingDirectory())
             else:
-                self.home=os.path.abspath(os.path.join(workspace.getBaseDirectory(),self.name))
-        else:
-            message='Unable to complete project.home for: ' + self.name 
-            self.addError(message)
-            self.home=None
+                self.home=os.path.abspath(
+                            os.path.join(
+                                workspace.getBaseDirectory(),
+                                self.name))
+        # Forget how this could be possible...
+        #else:
+        #    message='Unable to complete project.home for: ' + self.name 
+        #    self.addError(message)
+        #    self.home=None
 
         # Extract license 
-        if self.xml.license and self.xml.license.name:
-            self.license = self.xml.license.name
+        if self.hasDomChild('license'):
+            license=self.getDomChild('license')
+            if hasDomAttribute(license,'name'):
+                self.license = getDomAttributeValue(license,'name')
+            else:
+                self.addError('Missing \'name\' on <license')
         
         #
         # Resolve jars (outputs)
         #
-        for j in self.xml.jar:
-            if self.home and j.getName():
-                jar=Jar(j,self)
-                jar.setPath(os.path.abspath(os.path.join(self.home,j.name)))
+        for jdom in self.getDomChildIterator('jar'):
+            name=self.expandVariables(
+                    getDomAttributeValue(jdom,'name'))
+                    
+            if self.home and name:  
+                jar=Jar(name,jdom,self)
+                jar.complete()
+                jar.setPath(os.path.abspath(os.path.join(self.home,name)))
                 self.addJar(jar)
             else:
-                self.addError('Found a <jar with no name...')
+                self.addError('Missing \'name\' on <jar')
                 
-        #
         # Fix 'ids' on all Jars which don't have them
-        #
         if self.hasJars():
             if 1 == self.getJarCount():
                 jar=self.getJarAt(0)
@@ -472,24 +407,36 @@ class Project(NamedModelObject, Statable, Resultable, Dependable, Positioned):
                         jar.setId(newId)
         
         # Grab all the work
-        for w in self.xml.work:
+        for w in self.getDomChildIterator('work'):
             work=Work(w,self)
             self.works.append(work)
 
         # Grab all the mkdirs
-        for m in self.xml.mkdir:
+        for m in self.getDomChildIterator('mkdir'):
             mkdir=Mkdir(m,self)
             self.mkdirs.append(mkdir)
 
         # Grab all the deleted
-        for d in self.xml.delete:
+        for d in self.getDomChildIterator('delete'):
             delete=Delete(d,self)
             self.deletes.append(delete)
 
         # Grab all the reports (junit for now)
-        if self.xml.junitreport:
-            report=JunitReport(self.xml.junitreport,self)
+        if self.hasDomChild('junitreport'):
+            junitreport=self.getDomChild('junitreport')
+            report=JunitReport(junitreport,self)
             self.reports.append(report)
+            
+        # Grab all notifications
+        for notifyEntry in self.getDomChildIterator('nag'):
+            # Determine where to send
+            toaddr=getDomAttributeValue(notifyEntry,'to',workspace.mailinglist)
+            fromaddr=getDomAttributeValue(notifyEntry,'from',workspace.email)   
+            self.notifys.append(
+                    AddressPair(
+                        getStringFromUnicode(toaddr),	\
+                        getStringFromUnicode(fromaddr)))  
+        
 
         # Build Dependencies Map [including depends from <ant|maven/<property/<depend
         if not packaged:
@@ -498,15 +445,25 @@ class Project(NamedModelObject, Statable, Resultable, Dependable, Positioned):
         # Expand <ant <depends/<properties...
         if self.ant: self.ant.expand(self,workspace)
         if self.maven: self.maven.expand(self,workspace)
+        if self.script: self.script.expand(self,workspace)
 
         if not packaged:
             # Complete dependencies so properties can reference the,
             # completed metadata within a dependent project
             for dependency in self.getDirectDependencies():
-                dependency.getProject().complete(workspace)
+                depProject=dependency.getProject()
+                if not depProject.isComplete():
+                    depProject.complete(workspace)
 
             self.buildDependenciesMap(workspace)                        
         
+        if self.hasDomChild('url'):
+            url=self.getDomChild('url')
+            self.url=getDomAttributeValue(url,'href')
+            
+        if self.hasDomChild('description'):
+            self.desc=self.getDomChildValue('description')   
+            
         #
         # complete properties
         #
@@ -530,63 +487,66 @@ class Project(NamedModelObject, Statable, Resultable, Dependable, Positioned):
                 for xmldepend in badDepends:
                     self.changeState(STATE_FAILED,REASON_CONFIG_FAILED)
                     self.addError("Bad Dependency. Project: " \
-                            + xmldepend.project + " unknown to *this* workspace")
+                            + getDomAttributeValue(xmldepend,'project') + " unknown to *this* workspace")
 
                 for xmloption in badOptions:                
                     self.addWarning("Bad *Optional* Dependency. Project: " \
-                            + xmloption.project + " unknown to *this* workspace")
+                            + getDomAttributeValue(xmloption,'project') + " unknown to *this* workspace")
         else:
-            self.addInfo("This is a packaged project, location: " + str(self.home))        
+            self.addInfo("This is a packaged project, location: " + self.home)        
                                     
         # Copy over any XML errors/warnings
         # :TODO:#1: transferAnnotations(self.xml, self)  
         
+        #if not self.home:
+        #    raise RuntimeError, 'A home directory is needed on ' + `self`
+        
         # Done, don't redo
-        self.setComplete(1)
+        self.setComplete(True)
 
     def importDependencies(self,workspace):        
         badDepends=[]
-        # Walk the XML parts converting
-        for xmldepend in self.xml.depend:
-            dependProjectName=xmldepend.project
+        # Walk the DOM parts converting
+        for ddom in self.getDomChildIterator('depend'):
+            dependProjectName=getDomAttributeValue(ddom,'project')
             if workspace.hasProject(dependProjectName):
                 dependProject=workspace.getProject(dependProjectName)
                 
                 # Import the dependency
-                dependency=importXMLDependency(self, dependProject, xmldepend, 0)
+                dependency=importDomDependency(self, dependProject, ddom, 0)
                                 
                 # Add a dependency
                 self.addDependency(dependency)
             else:
-                badDepends.append(xmldepend)    
+                badDepends.append(ddom)    
                 
         # Walk the XML parts converting
         badOptions=[]
-        for xmloption in self.xml.option:
-            optionProjectName=xmloption.project
+        for odom in self.getDomChildIterator('option'):
+            optionProjectName=getDomAttributeValue(odom,'project')
             if workspace.hasProject(optionProjectName):
                 optionProject=workspace.getProject(optionProjectName)
                                 
                 # Import the dependency
-                dependency=importXMLDependency(self, optionProject, xmloption, 1)
+                dependency=importDomDependency(self, optionProject, odom, 1)
                                 
                 # Add a dependency
                 self.addDependency(dependency)                    
             else:
-                badOptions.append(xmloption)
+                badOptions.append(odom)
 
         return (badDepends, badOptions)
         
     def hasBaseDirectory(self):
-        if hasattr(self,'basedir') and self.basedir: return 1
-        return 0
+        if self.basedir: return True
+        return False
         
     def getBaseDirectory(self):
          return self.basedir
          
     def hasHomeDirectory(self):
-        if hasattr(self,'home') and self.home: return 1
-        return 0
+        if self.home: return True
+        return False
         
     def getHomeDirectory(self):
         return self.home
@@ -595,7 +555,7 @@ class Project(NamedModelObject, Statable, Resultable, Dependable, Positioned):
         return hasattr(self,'module') and self.module
         
     def setModule(self,module):
-        if hasattr(self,'module') and self.module:
+        if self.module:
             raise RuntimeError, 'Project [' + self.name + '] already has a module set'
         self.module=module
         
@@ -609,14 +569,19 @@ class Project(NamedModelObject, Statable, Resultable, Dependable, Positioned):
     def hasBuildCommand(self):
         hasBuild=0
         # I.e has an <ant or <script element
-        if self.xml.ant or self.xml.script or self.xml.maven: hasBuild=1    
+        if self.ant or self.script or self.maven: hasBuild=1    
         return hasBuild      
         
     def dump(self, indent=0, output=sys.stdout):
         """ Display the contents of this object """
-        output.write(getIndent(indent)+'Project: ' + self.getName() + '\n')
+        i=getIndent(indent)
+        i1=getIndent(indent+1)
+        output.write(i+'Project: ' + self.getName() + '\n')
         NamedModelObject.dump(self, indent+1, output)
                 
+        if self.isPackageMarked():
+            output.write(i1+'Packaged: ' + self.getPackageMarker() + '\n')
+        
         Dependable.dump(self,indent,output)
                         
         if self.ant:
@@ -625,6 +590,12 @@ class Project(NamedModelObject, Statable, Resultable, Dependable, Positioned):
             self.maven.dump(indent+1,output)
         if self.script:
             self.script.dump(indent+1,output)
+            
+        for work in self.works:
+            work.dump(indent+1,output)
+            
+        for jar in self.getJars():
+            jar.dump(indent+1,output)
             
     #
     # Return a list of the outputs this project generates
@@ -700,19 +671,28 @@ class Project(NamedModelObject, Statable, Resultable, Dependable, Positioned):
         #
         # Add the work directories
         #
-        for work in self.xml.work:
-            path=None
-            if work.nested:
-                path=os.path.abspath(os.path.join(workdir,work.nested))
-            elif work.parent:
-                path=os.path.abspath(os.path.join(self.getWorkspace().getBaseDirectory(),work.parent))
-            else:
-                log.error("<work element without nested or parent attributes on " \
-                  + self.getName() + " in " + self.getModule().getName())
-
+        #for wdom in self.getDomChildIterator('work'):
+        #    path=None
+        #    if hasDomAttribute(wdom,'nested'):
+        #        nested=getDomAttributeValue(wdom,'nested')
+        #        path=os.path.abspath(os.path.join(workdir,nested))
+        #    elif hasDomAttribute(wdom,'parent'):
+        #        parent=getDomAttributeValue(wdom,'parent')
+        #        path=os.path.abspath(os.path.join(self.getWorkspace().getBaseDirectory(),parent))
+        #    else:
+        #        log.error("<work element with neither 'nested' nor 'parent' attribute on " \
+        #            + self.getName() + " in " + self.getModule().getName())
+        #
+        #        if path:
+        #            if debug: print "Work Entity:   " + path               
+        #            classpath.addPathPart(AnnotatedPath('',path,self,None,'Work Entity'))
+        for work in self.getWorks():
+            path=work.getResolvedPath()
             if path:
-                if debug: print "Work Entity:   " + path               
-                classpath.addPathPart(AnnotatedPath('',path,self,None,'Work Entity'))
+                classpath.addPathPart(AnnotatedPath('',path,self,None,'Work Entity'))   
+            else:
+                log.error("<work element with neither 'nested' nor 'parent' attribute on " \
+                        + self.getName() + " in " + self.getModule().getName()) 
               
         # Append dependent projects (including optional)
         visited=[]

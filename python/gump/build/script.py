@@ -84,7 +84,6 @@ class ScriptBuilder(RunSpecific):
     def getScriptCommand(self,project):
         """ Return the command object for a <script entry """
         script=project.script
-        scriptxml=project.xml.script 
            
         #
         # Where to run this:
@@ -92,15 +91,15 @@ class ScriptBuilder(RunSpecific):
         basedir = script.getBaseDirectory() or project.getBaseDirectory()
 
         # Add .sh  or .bat as appropriate to platform
-        scriptfullname=scriptxml.name
+        scriptfullname=script.getName()
         if not os.name == 'dos' and not os.name == 'nt':
             scriptfullname += '.sh'
         else:
             scriptfullname += '.bat'
       
         # Optional 'verbose' or 'debug'
-        # verbose=scriptxml.verbose
-        # debug=scriptxml.debug
+        #verbose=script.isVerbose()
+        #debug=script.isDebug()
        
         scriptfile=os.path.abspath(os.path.join(basedir, scriptfullname))
         
@@ -139,5 +138,3 @@ class ScriptBuilder(RunSpecific):
     def preview(self,project,stats):        
         command=self.getScriptCommand(project) 
         command.dump()
- 
-    

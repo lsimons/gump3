@@ -16,7 +16,7 @@
 
 
 """
-    XDOC generation, for Forrest
+    XDOC generation.
 """
 
 import socket
@@ -27,6 +27,8 @@ import logging
 from string import lower,replace
 from xml.sax.saxutils import escape
 
+from shutil import copyfile
+
 from gump import log
 from gump.core.config import *
 from gump.document.documenter import Documenter
@@ -34,7 +36,7 @@ from gump.document.text.documenter import TextDocumenter
 from gump.document.xdocs.xdoc import *
 from gump.document.xdocs.resolver import *
 from gump.utils import *
-from gump.utils.xmlutils import xmlize
+from gump.utils.timing import *
 from gump.utils.tools import syncDirectories,copyDirectories,wipeDirectoryTree
 
 from gump.model.stats import *
@@ -43,6 +45,7 @@ from gump.model.state import *
 from gump.model.workspace import Workspace
 from gump.model.module import Module
 from gump.model.project import Project
+from gump.model.misc import Resultable
 
 from gump.notify.logic import NotificationLogic
 
@@ -53,25 +56,22 @@ from gump.core.gumprun import *
 from gump.core.actor import AbstractRunActor
 
 from gump.shared.comparator import *
-
-def getUpUrl(depth):
-    url=''
-    i = 0
-    while i < int(depth):
-        url+='../'
-        i += 1
-    return url
     
 class XDocDocumenter(Documenter):
     
     def __init__(self, run, dirBase, urlBase):
         Documenter.__init__(self, run)            
         
-        resolver=XDocResolver(dirBase,urlBase)
+        # Configuration can be overridden to be
+        # XDOCS, not the default of XHTML.
+        self.config=XDocConfig(not run.getOptions().isXDocs()) 
+        
+        resolver=XDocResolver(dirBase,urlBase,self.config)
         self.setResolver(resolver)    
-            
+        
+        # A utility    
         self.notifyLogic=NotificationLogic(self.run)
-    
+        
     def prepareRun(self):
     
         log.debug('--- Prepare for Documenting Results')
@@ -81,14 +81,20 @@ class XDocDocumenter(Documenter):
     def processModule(self,module):
         verbose=self.run.getOptions().isVerbose()
         debug=self.run.getOptions().isDebug()
-        self.documentModule(module,1)  
-        self.documentBuildLog(1)     
+        self.documentModule(module,True)    
+        self.syncObject(module)
          
     def processProject(self,project):
         verbose=self.run.getOptions().isVerbose()
         debug=self.run.getOptions().isDebug()
-        self.documentProject(project,1) 
-        self.documentBuildLog(1)
+        self.documentProject(project,True)
+        
+        self.syncObject(project)
+        
+        # Do once every ...
+        if 0 == (project.getPositionIndex() % 5):
+            self.documentBuildLog(True)  
+            self.syncBuildLog()
             
     def documentRun(self):
     
@@ -101,42 +107,56 @@ class XDocDocumenter(Documenter):
         self.documentWorkspace()  
         self.documentEverythingElse()
         
-        # Document these (even if not a full build)
-        self.documentStatistics()
-        self.documentXRef()
+        # Once a day...
+        if self.run.getOptions().isOfficial():
+            self.documentStatistics()
+            self.documentXRef()
 
-        #
-        # Launch Forrest, if we aren't just leaving xdocs...
-        #
-        ret=0
+        # Synchronize xdocs...
+        return self.syncXDocs()
         
-        if not self.options.isXDocs():
-            ret=self.executeForrest()
-        else:
-            ret=self.syncXDocs()
-            
-        return ret
-
     #####################################################################
     #
     # XDocing...
     def getXDocWorkDirectory(self):
-        fdir=os.path.abspath(os.path.join(self.workspace.getBaseDirectory(),'forrest-work'))
-        return fdir
+        if hasattr(self,'workDir'): return self.workDir        
+        wdir=os.path.abspath(os.path.join(
+                    self.workspace.getBaseDirectory(),'xdocs-work'))        
+        if self.config.isXdocs():
+            wdir=os.path.abspath(os.path.join(wdir,'content'))            
+        if not os.path.exists(wdir):
+            os.makedirs(wdir)         
+        self.workDir=wdir        
+        return self.workDir
         
-    def getXDocStagingDirectory(self):
-        """ Staging Area for built output """
-        fdir=os.path.abspath(os.path.join(self.workspace.getBaseDirectory(),'forrest-staging'))
-        return fdir
+    def getXDocLogDirectory(self):
+        if hasattr(self,'logDir'): return self.logDir        
+        ldir=self.workspace.getLogDirectory()        
+        if self.config.isXdocs():
+            ldir=os.path.abspath(os.path.join(ldir,'content'))            
+        if not os.path.exists(ldir):
+            os.makedirs(ldir)            
+        self.logDir=ldir        
+        return self.logDir
         
     def getXDocTemplateDirectory(self):
-        """ Template (XDoc skin/config) """
-        fdir=os.path.abspath(os.path.join(dir.template,'forrest'))
+        """ Template (XDoc skin/config) """   
+        templateName='forrest'
+        if self.config.isXhtml():
+            templateName='xhtml'
+        fdir=os.path.abspath(os.path.join(dir.template,templateName))
+        if self.config.isXdocs():
+            fdir=os.path.abspath(os.path.join(fdir,'content'))
         return fdir  
         
     def getXDocSiteTemplateDirectory(self):
         """ Site Template (XDoc skin/config tweaks) """    
-        fdir=os.path.abspath(os.path.join(dir.template,'site-forrest'))
+        templateName='site-forrest'
+        if self.config.isXhtml():
+            templateName='site-xhtml'
+        fdir=os.path.abspath(os.path.join(dir.template,templateName))
+        if self.config.isXdocs():
+            fdir=os.path.abspath(os.path.join(fdir,'content'))
         return fdir  
     
     def prepareXDoc(self):   
@@ -145,11 +165,10 @@ class XDocDocumenter(Documenter):
         Copy the main template (perhaps with site tweaks) to prepare
         
         """                
-        log.info('Prepare XDoc work with template')
+        log.info('Prepare XDoc work with template') 
+        xdocLogDir=self.getXDocLogDirectory()
         
-        #
         # First deleted the work tree (if exists), then ensure created
-        #
         xdocWorkDir=self.getXDocWorkDirectory()
         wipeDirectoryTree(xdocWorkDir)
                     
@@ -165,108 +184,103 @@ class XDocDocumenter(Documenter):
             log.info('Prepare XDoc work with *site* template')            
             copyDirectories(xdocSiteTemplate,	\
                             xdocWorkDir,	\
-                            self.workspace)                               
-                             
-        #    
-        # Wipe the staging tree (to produce into).
-        #   
-        wipeDirectoryTree(self.getXDocStagingDirectory())
-                 
-    def executeForrest(self):
-        # The project tree
-        xdocs=self.resolver.getDirectory(self.workspace)      
+                            self.workspace)      
+                            
+    def syncObject(self,object):                         
+
+        # Get relative path
+        objDir=self.resolver.getDirectoryRelativePath(object).serialize()
         
-        # The three dirs, work, output (staging), public
+        # Get relative to (1) work [source] (2) log [target] & sync
+                
+        # Move xdocs from work directory to log
         xdocWorkDir=self.getXDocWorkDirectory()
-        stagingDirectory=self.getXDocStagingDirectory()
-        logDirectory=self.workspace.getLogDirectory()
+        logDirectory=self.getXDocLogDirectory()
         
-        # Generate...        
-        forrest=Cmd('forrest','forrest',xdocWorkDir)
-      
-        forrest.addPrefixedParameter('-D','java.awt.headless','true','=')
-        forrest.addPrefixedParameter('-D','project.content-dir',  \
-            '.', '=')
-        forrest.addPrefixedParameter('-D','project.site-dir',  \
-            stagingDirectory, '=')
-                
-        # Temporary:   
-        # Too verbose ... forrest.addParameter('-debug')
-        #forrest.addParameter('-verbose')
+        workContents=os.path.abspath(os.path.join(xdocWorkDir,objDir))
+        logContents=os.path.abspath(os.path.join(logDirectory,objDir))
         
-        # A sneak preview ... 
-        work=CommandWorkItem(WORK_TYPE_DOCUMENT,forrest)
-        self.workspace.performedWork(work)
-        
-        #
-        # Do the actual work...
-        #
-        forrestResult=execute(forrest)
-    
-        # Update Context    
-        work=CommandWorkItem(WORK_TYPE_DOCUMENT,forrest,forrestResult)
-        self.workspace.performedWork(work)    
-        
-        # If ok move from staging to publish
-        #
-        # :TODO: XDoc returns failure if the site isn't perfect
-        # let's not shoot so high.
-        #
-        success=1
-        if 1 or (forrestResult.state==CMD_STATE_SUCCESS):
-            try:
-                #
+        success=True
+        try:
+            if os.path.exists(workContents):    
                 # Sync over public pages...
-                #
-                syncDirectories(stagingDirectory,logDirectory)
-                
-                cleanUp=1                
-                if cleanUp:
-                    # 
-                    # Clean up
-                    wipeDirectoryTree(stagingDirectory)
-                
-                    # Clean only if successful.
-                    if  (forrestResult.state==CMD_STATE_SUCCESS):
-                        wipeDirectoryTree(xdocWorkDir)
+                copyDirectories(workContents,logContents) 
+        except:        
+            log.error('--- Failed to sync ['+`objDir`+'] (work->log)', exc_info=1)
+            success=False
+            
+        if self.config.isXdocs():  
+            # Move contents/xdocs from work directory to log
+            # (Note: Forrest has contents/X and contents/xdocs/X)
+            xdocWorkDir=os.path.abspath(os.path.join(xdocWorkDir,'xdocs'))
+            logDirectory=os.path.abspath(os.path.join(logDirectory,'xdocs'))
+        
+            workContents=os.path.abspath(os.path.join(xdocWorkDir,objDir))
+            logContents=os.path.abspath(os.path.join(logDirectory,objDir))
+        
+            try:
+                if os.path.exists(workContents):    
+                    # Sync over public pages...
+                    copyDirectories(workContents,logContents) 
             except:        
-                log.error('--- Failed to staging->log sync and/or clean-up', exc_info=1)
-                success=0
+                log.error('--- Failed to sync xdocs ['+`objDir`+'] (work->log)', exc_info=1)
+                success=False    
         
         return success
-                            
+        
+    def syncBuildLog(self): 
+        
+        logSpec=self.resolver.getFileSpec(self.workspace, 'buildLog')
+        
+        xdocWorkDir=self.getXDocWorkDirectory()
+        logDirectory=self.getXDocLogDirectory()
+        
+        if self.config.isXdocs():  
+            # Move contents/xdocs from work directory to log
+            # (Note: Forrest has contents/X and contents/xdocs/X)
+            xdocWorkDir=os.path.abspath(os.path.join(xdocWorkDir,'xdocs'))
+            logDirectory=os.path.abspath(os.path.join(logDirectory,'xdocs'))
+                                                        
+        # Current status
+        logSource=os.path.abspath(
+                    os.path.join(xdocWorkDir,logSpec.getDocument()))
+        logTarget=os.path.abspath(
+                    os.path.join(logDirectory,logSpec.getDocument()))
+                    
+        # Do the transfer..
+        success=True
+        try:
+            log.debug('Copy %s to %s' % ( logSource, logTarget))    
+            copyfile(logSource,logTarget)    
+        except:        
+            log.error('--- Failed to sync buildLog work->log', exc_info=1)
+            success=False
+        
+        return success
+        
     def syncXDocs(self):
         
-        
         # The move contents/xdocs from work directory to log
-        XDocWorkDir=self.getXDocWorkDirectory()
-        logDirectory=self.workspace.getLogDirectory()
-        
-        # .. but only the stuff under 'content', so as not to
-        # break the webapp.
-        workContents=os.path.abspath(os.path.join(XDocWorkDir,'content'))
-        logContents=os.path.abspath(os.path.join(logDirectory,'content'))
+        xdocWorkDir=self.getXDocWorkDirectory()
+        logDirectory=self.getXDocLogDirectory()
         
         log.info('Syncronize work->log, and clean-up...')
             
-        success=1
+        success=True
         try:
             #
             # Sync over public pages...
             #
-            syncDirectories(workContents,logContents)
+            syncDirectories(xdocWorkDir,logDirectory)
             
-            cleanUp=1                
+            cleanUp=True       
             if cleanUp:
-                    
-                # 
-                # Clean up
-                #
-                wipeDirectoryTree(XDocWorkDir)
+                # Clean-up work area
+                wipeDirectoryTree(xdocWorkDir)
             
         except:        
             log.error('--- Failed to work->log sync and/or clean-up', exc_info=1)
-            success=0
+            success=False
         
         return success
               
@@ -283,20 +297,32 @@ class XDocDocumenter(Documenter):
         #
         # env.xml
         #
+        spec=self.resolver.getFileSpec(self.workspace, 'environment')
         
         document=XDocDocument('Gump Environment',	\
-                self.resolver.getFile(self.workspace, 'environment.xml'))       
+                spec.getFile(),self.config,spec.getRootPath())       
                         
         envSection=document.createSection('Gump Environment')
         envSection.createParagraph(
             """The environment that this Gump run was within.""")     
         
+        descs={ 'Build':'Perform Build',
+                'XDocs':'Generate XDOCS',
+                'Statistics':'Update Statistics (to database)',
+                'Verbose':'Verbose Run',
+                'Cache':'Cache metadata (don\'t go to remote source)',
+                'Text':'Text Output',
+                'Official':'Official Run (e.g. nag notifies, etc.)',
+                'Results':'Generate Results' }
         propertiesSection=envSection.createSection('Properties')
-        envTable=propertiesSection.createTable(['Name','Value'])
+        envTable=propertiesSection.createTable(['Name/Description','Value'])
         envs=0
         # iterate over this suites properties
         for (name,value) in getBeanAttributes(environment).items():
-            envTable.createEntry(str(name),str(value))
+            desc=name
+            if descs.has_key(name):
+                desc = descs[name] + ' (' + name + ')'
+            envTable.createEntry(desc,str(value))
             envs+=1            
         if not envs: envTable.createEntry('None')
         
@@ -306,6 +332,8 @@ class XDocDocumenter(Documenter):
         self.documentWorkList(document,environment,'Environment-level Work')
      
         document.serialize()
+        
+        return spec
                 
     #####################################################################           
     #
@@ -318,11 +346,14 @@ class XDocDocumenter(Documenter):
         #
         # ----------------------------------------------------------------------
         #
-        # env.xml
+        # options.xml
         #
+        spec=self.resolver.getFileSpec(self.workspace, 'options')
         
         document=XDocDocument('Run Options',	\
-                self.resolver.getFile(self.workspace, 'options.xml'))       
+                spec.getFile(),
+                self.config,
+                spec.getRootPath())       
                         
         optSection=document.createSection('Gump Run Options')
         optSection.createParagraph(
@@ -340,6 +371,8 @@ class XDocDocumenter(Documenter):
         if not opts: optTable.createEntry('None')
      
         document.serialize()
+        
+        return spec
                 
     #####################################################################           
     #
@@ -352,10 +385,13 @@ class XDocDocumenter(Documenter):
         # ----------------------------------------------------------------------
         #
         # Index.xml
-        #
+        # 
+        spec=self.resolver.getFileSpec(self.run)
         
-        document=XDocDocument('Gump Run',	\
-                self.resolver.getFile(self.run))    
+        document=XDocDocument('Gump Run',  
+                spec.getFile() ,
+                self.config,
+                spec.getRootPath())
         
         definitionSection=document.createSection('Run Details')    
         
@@ -374,7 +410,6 @@ class XDocDocumenter(Documenter):
             for project in self.gumpSet.projects:
                 notice.createText(project.name)
                 notice.createText(' ')
-                
                 
         definitionTable=definitionSection.createTable()
         definitionTable.createEntry('Gump Run GUID', self.run.getRunGuid())
@@ -407,9 +442,10 @@ class XDocDocumenter(Documenter):
         javaTable=javaSection.createTable()
         javaTable.createEntry('Java Command', self.run.getEnvironment().javaCommand)
         javaproperties=self.run.getEnvironment().getJavaProperties()
-        for name in ['java.vendor', 'java.version', 'os.name', 'os.arch', 'os.version']:
-            if name in javaproperties:
-                javaTable.createEntry(name, javaproperties[name])	  
+        if javaproperties:
+            for name in ['java.vendor', 'java.version', 'os.name', 'os.arch', 'os.version']:
+                if name in javaproperties:
+                    javaTable.createEntry(name, javaproperties[name])	  
                             
         self.documentSummary(document,self.workspace.getProjectSummary())        
         self.documentAnnotations(document,self.run)
@@ -417,20 +453,21 @@ class XDocDocumenter(Documenter):
         document.serialize()    
         document=None
         
-        
     def documentEverythingElse(self):
         
         self.documentRepositories()
         self.documentServers()
         self.documentTrackers()
+        
         self.documentBuildLog()
         self.documentNotesLog()
         self.documentDiffsLog()
+        
         self.documentProjects()
         self.documentModules()
+        
         self.documentPackages()
             
-   
         #
         # Document individual repositories
         #
@@ -449,12 +486,15 @@ class XDocDocumenter(Documenter):
             self.documentTracker(tracker)
             
         # Document individual modules
-        for module in self.workspace.getModules():
-            if not self.gumpSet.inModuleSequence(module): continue  
+        for module in self.gumpSet.getCompletedModules():  
             self.documentModule(module)
             
         # Document workspace 'Text'
-        document=XDocDocument('Context',self.resolver.getFile(self.workspace,'context.xml'))
+        spec=self.resolver.getFileSpec(self.workspace, 'context')
+        document=XDocDocument('Context',    
+                spec.getFile() ,
+                self.config,
+                spec.getRootPath())
         stream=StringIO.StringIO() 
         texter=TextDocumenter(self.run,stream)  
         texter.document()
@@ -462,12 +502,19 @@ class XDocDocumenter(Documenter):
         document.createSource(stream.read())
         stream.close()
         document.serialize()
-            
+        
         if not self.workspace.private:
             # Document the workspace XML    
-            document=XDocDocument('Definition',self.resolver.getFile(self.workspace,'workspace_defn.xml'))
+            spec=self.resolver.getFileSpec(self.workspace, 'workspace_defn')
+            document=XDocDocument('Definition',    
+                spec.getFile() ,
+                self.config,
+                spec.getRootPath())
             stream=StringIO.StringIO() 
-            xmlize('workspace',self.workspace.xml,stream)
+            try:
+                self.workspace.dom.writexml(stream,indent='   ',newl='\n')
+            except Exception, details:
+                stream.write('Failed to XML serialize the data. ' + str(details))
             stream.seek(0)
             document.createSource(stream.read())
             stream.close()
@@ -486,21 +533,30 @@ class XDocDocumenter(Documenter):
         # Index.xml
         #
         
-        document=XDocDocument('Workspace',	\
-                self.resolver.getFile(self.workspace))    
+        spec=self.resolver.getFileSpec(self.workspace,)
+        document=XDocDocument('Workspace',    
+                spec.getFile() ,
+                self.config,
+                spec.getRootPath())
         
         definitionSection=document.createSection('Workspace Definition')    
         
         definitionSection.createNote('This install runs Python Gump, not Traditional Gump.') 
         
         definitionTable=definitionSection.createTable()
-        definitionTable.createEntry('Workspace Name', self.workspace.getName())
-        if self.workspace.xml.description:
-                definitionTable.createEntry('Description', self.workspace.xml.description)
-        if self.workspace.xml.version: 
-            definitionTable.createEntry('Workspace Version', self.workspace.xml.version)
-        if not self.workspace.xml.version or not self.workspace.xml.version == setting.ws_version:
-            definitionTable.createEntry('Gump Preferred Workspace Version', setting.ws_version)
+        definitionTable.createEntry('Workspace Name', 
+            self.workspace.getName())
+        if self.workspace.hasDomChild('description'):
+            definitionTable.createEntry('Description', 
+                self.workspace.getDomChildValue('description'))
+        if self.workspace.hasDomChild('version'): 
+            definitionTable.createEntry('Workspace Version', 
+                self.workspace.getDomAttributeValue('version'))
+        if not self.workspace.hasDomAttribute('version') \
+            or not self.workspace.getDomAttributeValue('version') \
+                    == setting.ws_version:
+            definitionTable.createEntry('Gump Preferred Workspace Version', 
+                                        setting.ws_version)
         definitionTable.createEntry('@@DATE@@', str(default.date))
         definitionTable.createEntry('Start Date/Time (UTC)', self.workspace.getStartDateTimeUtc())
         definitionTable.createEntry('Start Date/Time', self.workspace.getStartDateTime())
@@ -554,7 +610,12 @@ class XDocDocumenter(Documenter):
         self.documentProperties(detailsSection, self.workspace, 'Workspace Properties')
         
         # Does this self.workspace send notification (nag) mails?
-        detailsTable.createEntry("Send Notification E-mails: ", getBooleanString(self.workspace.isNotify()))
+        detailsTable.createEntry("Send Notification E-mails: ", `self.workspace.isNotify()`)
+        
+        detailsTable.createEntry("Multi-threading: ", `self.workspace.isMultithreading()`)
+        if self.workspace.isMultithreading():
+            detailsTable.createEntry("Updater Threads: ", `self.workspace.getUpdaters()`)    
+            detailsTable.createEntry("Builder Threads: ", `self.workspace.getBuilders()`)     
         
         #document.createRaw('<p><strong>Context Tree:</strong> <link href=\'workspace.html\'>workspace</link></p>')
         # x.write('<p><strong>Workspace Config:</strong> <link href=\'xml.txt\'>XML</link></p>')
@@ -574,8 +635,11 @@ class XDocDocumenter(Documenter):
         #
         # Repositories.xml
         #
-        document=XDocDocument( 'All Repositories',	\
-            self.resolver.getFile(self.workspace,'repositories'))
+        spec=self.resolver.getFileSpec(self.workspace, 'repositories')
+        document=XDocDocument( 'All Repositories',    
+                spec.getFile() ,
+                self.config,
+                spec.getRootPath())
         
         
         reposSection=document.createSection('All Repositories')
@@ -607,8 +671,11 @@ class XDocDocumenter(Documenter):
         #
         # Servers.xml
         #
-        document=XDocDocument( 'All Servers',	\
-            self.resolver.getFile(self.workspace,'servers'))
+        spec=self.resolver.getFileSpec(self.workspace, 'servers')
+        document=XDocDocument( 'All Servers',    
+                spec.getFile() ,
+                self.config,
+                spec.getRootPath())
                 
         serversSection=document.createSection('All Servers')
         serversTable=serversSection.createTable(['Name','Status','Notes','Results','Start (Local)','Start (UTC)','End (UTC)','Offset (from UTC)'])
@@ -664,8 +731,11 @@ class XDocDocumenter(Documenter):
         #
         # Trackers.xml
         #
-        document=XDocDocument( 'All Trackers',	\
-            self.resolver.getFile(self.workspace,'trackers'))
+        spec=self.resolver.getFileSpec(self.workspace, 'trackers')
+        document=XDocDocument( 'All Trackers',    
+                spec.getFile() ,
+                self.config,
+                spec.getRootPath())
                 
         trackersSection=document.createSection('All Trackers')
         trackersTable=trackersSection.createTable(['Name'])
@@ -686,72 +756,87 @@ class XDocDocumenter(Documenter):
         
         document.serialize()
        
-    def documentBuildLog(self,realTime=0): 
-        #
-        # ----------------------------------------------------------------------
+    def documentBuildLog(self,realTime=False): 
         #
         # buildLog.xml -- Modules/Projects in build order
         #
-        document=XDocDocument('Gump Build Log',	\
-                self.resolver.getFile(self.workspace,'buildLog'))        
-        
-        self.documentSummary(document, self.workspace.getProjectSummary())                
-        
-        #
-        # Modules...
-        #        
-        modulesSection=document.createSection('Modules (in update order)')
-        modulesTable=modulesSection.createTable(['Updated','Name','State','Duration\nin state','Last Modified','Notes'])
-        mcount=0
-        for module in self.gumpSet.getModuleSequence():
-            # :TODO: Next line irrelevent?
-            if not self.gumpSet.inModuleSequence(module): continue               
-            if realTime and module.isUnset(): continue
-            
-            mcount+=1
-    
-            moduleRow=modulesTable.createRow()            
-            moduleRow.createComment(module.getName())  
-            
-            moduleRow.createData(secsToTime(module.getStartSecs()))         
-                        
-            self.insertLink(module,self.workspace,moduleRow.createData())   
-            self.insertStateIcon(module,self.workspace,moduleRow.createData())      
-            moduleRow.createData(module.getStats().sequenceInState)    
-            moduleRow.createData(	\
-                getGeneralSinceDescription(	\
-                    module.getStats().getLastModified()))
-                    
-            notes=''
-            if module.isVerbose():
-                if notes: notes += ' '
-                notes += 'Verbose'
-            if module.isDebug():
-                if notes: notes += ' '
-                notes += 'Debug'            
-            moduleRow.createData(notes) 
+        spec=self.resolver.getFileSpec(self.workspace, 'buildLog')
+        document=XDocDocument('Gump Build Log',    
+                spec.getFile() ,
+                self.config,
+                spec.getRootPath())
                 
-        if not mcount: modulesTable.createLine('None')
+        if realTime: 
+            document.createWarning("""This Gump run is currently in progress.
+            It started at %s."""
+                % self.workspace.getStartDateTime() )
+        else:
+            document.createNote("""This Gump run is complete. 
+            It started at %s and ended at %s.""" 
+                % ( self.workspace.getStartDateTime(),
+                    self.workspace.getEndDateTime()))
+                    
+        if not realTime: 
+            self.documentSummary(document, self.workspace.getProjectSummary())                
+        
+        if not realTime: 
+            #
+            # Modules...
+            #        
+            modulesSection=document.createSection('Modules (in update order)')
+            modulesTable=modulesSection.createTable(['Index','Updated','Name','State','Duration\nin state','Last Modified','Notes'])
+            mcount=0
+            for module in self.gumpSet.getCompletedModules():        
+            
+                mcount+=1
+    
+                moduleRow=modulesTable.createRow()            
+                moduleRow.createComment(module.getName())  
+            
+                self.setStyleFromState(moduleRow,module.getStatePair())
+                
+                moduleRow.createData(module.getPositionIndex())    
+            
+                startData=moduleRow.createData(secsToTime(module.getStartSecs()))          
+                self.setStyleFromState(startData,module.getStatePair())
+                        
+                self.insertLink(module,self.workspace,moduleRow.createData())   
+                self.insertStateIcon(module,self.workspace,moduleRow.createData())      
+                moduleRow.createData(module.getStats().sequenceInState)    
+                moduleRow.createData(	\
+                    getGeneralSinceDescription(	\
+                        module.getStats().getLastModified()))
+                    
+                notes=''
+                if module.isVerbose():
+                    if notes: notes += ' '
+                    notes += 'Verbose'
+                if module.isDebug():
+                    if notes: notes += ' '
+                    notes += 'Debug'            
+                moduleRow.createData(notes) 
+                
+            if not mcount: modulesTable.createLine('None')
         
         #
         # Projects...
         #
         projectsSection=document.createSection('Projects (in build order)')
-        projectsTable=projectsSection.createTable(['Time','Name','State','Duration\nin state','Last Modified','Notes'])
+        projectsTable=projectsSection.createTable(['Index','Time','Name','State','Duration\nin state','Last Modified','Notes'])
         pcount=0
-        for project in self.gumpSet.getProjectSequence():
-            # :TODO: Next line irrelevent?
-            if not self.gumpSet.inProjectSequence(project): continue               
-            if realTime and project.isUnset(): continue
+        for project in self.gumpSet.getCompletedProjects():
             
             pcount+=1
     
             projectRow=projectsTable.createRow()            
             projectRow.createComment(project.getName())  
             
+            self.setStyleFromState(projectRow,project.getStatePair())
+            
+            projectRow.createData(project.getPositionIndex())    
+            
             projectRow.createData(secsToTime(project.getStartSecs()))  
                       
-                        
             self.insertLink(project,self.workspace,projectRow.createData())   
             self.insertStateIcon(project,self.workspace,projectRow.createData())      
             projectRow.createData(project.getStats().sequenceInState)    
@@ -779,16 +864,18 @@ class XDocDocumenter(Documenter):
         #
         # notesLog.xml -- Notes log
         #
-        document=XDocDocument('Annotations',	\
-                self.resolver.getFile(self.workspace,'notesLog'))  
+        spec=self.resolver.getFileSpec(self.workspace, 'notesLog')
+        document=XDocDocument('Annotations',    
+                spec.getFile() ,
+                self.config,
+                spec.getRootPath())
                     
         notesSection=document.createSection('Negative Annotations')
         notesSection.createParagraph(
             """This page displays entities with errors and/or warning annotations.""")
             
         ncount=0
-        for module in self.gumpSet.getModuleSequence():
-            if not self.gumpSet.inModuleSequence(module): continue               
+        for module in self.gumpSet.getCompletedModules():                
                                 
             moduleSection=None
  
@@ -828,16 +915,18 @@ class XDocDocumenter(Documenter):
         #
         # diffsLog.xml -- Server Differences log
         #
-        document=XDocDocument('Server Differences',	\
-                self.resolver.getFile(self.workspace,'diffsLog'))  
+        spec=self.resolver.getFileSpec(self.workspace, 'diffsLog')
+        document=XDocDocument('Server Differences',    
+                spec.getFile() ,
+                self.config,
+                spec.getRootPath())
                     
         diffsSection=document.createSection('Server Differences')
         diffsSection.createParagraph(
             """This page displays entities with different states on different servers.""")
             
         dcount=0
-        for module in self.gumpSet.getModuleSequence():
-            if not self.gumpSet.inModuleSequence(module): continue               
+        for module in self.gumpSet.getCompletedModules():              
                                 
             moduleSection=None
             if module.hasServerResults() \
@@ -876,42 +965,17 @@ class XDocDocumenter(Documenter):
     def documentProjects(self): 
     
         sortedProjectList=createOrderedList(self.gumpSet.getProjectSequence())
-        
-        #
-        # ----------------------------------------------------------------------
-        #
-        # projects.xml -- Projects in aphanumeric order
-        #
-        document=XDocDocument('All Projects',	\
-                self.resolver.getFile(self.workspace,'projects'))        
-        self.documentSummary(document, self.workspace.getProjectSummary())
-        
-        projectsSection=document.createSection('Projects')
-        projectsTable=projectsSection.createTable(['Name','Project State','Elapsed Time','FOG Factor'])
-        pcount=0
-        for project in sortedProjectList:
-            if not self.gumpSet.inProjectSequence(project): continue    
-            
-            pcount+=1
-    
-            projectRow=projectsTable.createRow()            
-            projectRow.createComment(project.getName())          
-            self.insertLink(project,self.workspace,projectRow.createData())     
-            self.insertStateIcon(project,self.workspace,projectRow.createData())    
-            projectRow.createData(secsToElapsedTimeString(project.getElapsedSecs()))  
-            
-            projectRow.createData('%02.2f' % project.getFOGFactor())
-                
-        if not pcount: projectsTable.createLine('None')    
-        document.serialize()
-           
+       
         #
         # ----------------------------------------------------------------------
         #
         # project_todos.xml -- Projects w/ issues in build order
         #
-        document=XDocDocument('Projects with issues',	\
-            self.resolver.getFile(self.workspace,'project_todos'))        
+        spec=self.resolver.getFileSpec(self.workspace, 'project_todos')
+        document=XDocDocument('Projects with issues',    
+                spec.getFile() ,
+                self.config,
+                spec.getRootPath())
         self.documentSummary(document, self.workspace.getProjectSummary())
         
         totalAffected=0
@@ -939,7 +1003,7 @@ The count of affected indicates relative importance of fixing this project.""")
             # Determine the number of projects this module (or its projects)
             # cause not to be run.
             #
-            affected=project.determineAffected()
+            affected=project.countAffectedProjects()
             
             totalAffected += affected
             
@@ -972,8 +1036,11 @@ The count of affected indicates relative importance of fixing this project.""")
         #
         # project_fixes.xml -- Projects w/ fixes in build order
         #
-        document=XDocDocument('Project Fixes',	\
-            self.resolver.getFile(self.workspace,'project_fixes'))        
+        spec=self.resolver.getFileSpec(self.workspace, 'project_fixes')
+        document=XDocDocument('Project Fixes',    
+                spec.getFile() ,
+                self.config,
+                spec.getRootPath())
         self.documentSummary(document, self.workspace.getProjectSummary())
         
         projectsSection=document.createSection('Projects recently fixed...')
@@ -1014,28 +1081,27 @@ This page helps Gumpmeisters (and others) observe community progress.
                     
         document.serialize()
            
-    def documentModules(self): 
-    
-        sortedModuleList=createOrderedList(self.gumpSet.getModuleSequence())
+    def documentModules(self):  
      
         #
         # ----------------------------------------------------------------------
         #
         # module_todos.xml
         #
-        document=XDocDocument('Modules with issues',
-                    self.resolver.getFile(self.workspace,'module_todos'),)   
+        spec=self.resolver.getFileSpec(self.workspace, 'module_todos')
+        document=XDocDocument('Modules with issues',    
+                spec.getFile() ,
+                self.config,
+                spec.getRootPath())
         
         modulesSection=document.createSection('Modules with TODOs')               
         modulesSection.createParagraph("""These are the modules that need 'fixing', or contained projects that need fixing.
-This page helps Gumpmeisters (and others) locate the main areas to focus attention. 
-The count of affected indicates relative importance of fixing this module.""")        
-        modulesTable=modulesSection.createTable(['Name','Affected','Duration\nin state','Module State',	\
+This page helps Gumpmeisters (and others) locate the main areas to focus attention.""")        
+        modulesTable=modulesSection.createTable(['Name','Duration\nin state','Module State',	\
                                     'Project State(s)','Elapsed'])
         
         mcount=0
-        for module in sortedModuleList:      
-            if not self.gumpSet.inModuleSequence(module): continue
+        for module in self.gumpSet.getCompletedModules():  
             
             #
             # Determine if there are todos, otherwise continue
@@ -1056,18 +1122,14 @@ The count of affected indicates relative importance of fixing this module.""")
                     stats=project.getStats()        
                     if stats.sequenceInState > seq: seq = stats.sequenceInState
     
-            #
             # Determine the number of projects this module (or its projects)
             # cause not to be run.
-            #
-            affected=module.determineAffected()
             
             # Display
             moduleRow=modulesTable.createRow()
             moduleRow.createComment(module.getName())     
             self.insertLink(module,self.workspace,moduleRow.createData())
             
-            moduleRow.createData(affected)
             moduleRow.createData(seq)
                         
             self.insertStateIcon(module,self.workspace,moduleRow.createData())
@@ -1085,8 +1147,11 @@ The count of affected indicates relative importance of fixing this module.""")
         #
         # module_fixes.xml
         #
-        document=XDocDocument('Modules with fixes',
-                    self.resolver.getFile(self.workspace,'module_fixes'),)     
+        spec=self.resolver.getFileSpec(self.workspace, 'module_fixes')
+        document=XDocDocument('Modules with fixes',    
+                spec.getFile() ,
+                self.config,
+                spec.getRootPath())
         
         modulesSection=document.createSection('Modules recently fixed')           
         modulesSection.createParagraph("""These are the modules that were 'fixed' (state changed to success), or contained projects that were fixed, within %s runs.
@@ -1097,8 +1162,7 @@ This page helps Gumpmeisters (and others) observe community progress.
                                     'Project State(s)','Elapsed'])
         
         mcount=0
-        for module in sortedModuleList:      
-            if not self.gumpSet.inModuleSequence(module): continue
+        for module in self.gumpSet.getCompletedModules():  
             
             #
             # Determine if there are mcount, otherwise continue
@@ -1137,37 +1201,7 @@ This page helps Gumpmeisters (and others) observe community progress.
         if not mcount: modulesTable.createLine('None')
     
         document.serialize()
-        
-        #
-        # ----------------------------------------------------------------------
-        #
-        # Modules.xml
-        #
-        document=XDocDocument( 'All Modules',	\
-            self.resolver.getFile(self.workspace,'modules'))        
-        
-        modulesSection=document.createSection('All Modules')
-        modulesTable=modulesSection.createTable(['Name','Module State','Project State(s)','Elapsed','FOG Factor'])
-
-        mcount=0
-        for module in sortedModuleList:
-            if not self.gumpSet.inModuleSequence(module): continue
-            
-            mcount+=1
-                    
-            moduleRow=modulesTable.createRow()
-            moduleRow.createComment(module.getName())
-                       
-            self.insertLink( module, self.workspace, moduleRow.createData())
-            self.insertStateIcon(module,self.workspace,moduleRow.createData())
-            self.insertStateIcons(module,self.workspace,moduleRow.createData())
-            
-            moduleRow.createData(secsToElapsedTimeString(module.getElapsedSecs()))
-            moduleRow.createData('%02.2f' % module.getFOGFactor())
-            
-        if not mcount: modulesTable.createLine('None')
-        
-        document.serialize()
+ 
        
     def documentPackages(self):
         
@@ -1176,14 +1210,16 @@ This page helps Gumpmeisters (and others) observe community progress.
         #
         # Packages.xml
         #
-        document=XDocDocument('Packages',	\
-                self.resolver.getFile(self.workspace,'packages'))
+        spec=self.resolver.getFileSpec(self.workspace, 'packages')
+        document=XDocDocument('Packages',    
+                spec.getFile() ,
+                self.config,
+                spec.getRootPath())
         
         mpkgSection=document.createSection('Packaged Modules')
         mpkgTable=mpkgSection.createTable(['Name','State','Project State(s)'])
         mcount=0
-        for module in self.gumpSet.getModuleSequence():           
-            if not self.gumpSet.inModuleSequence(module): continue
+        for module in self.gumpSet.getCompletedModules():  
             
             packaged=0
             #
@@ -1228,8 +1264,11 @@ This page helps Gumpmeisters (and others) observe community progress.
       
     def documentRepository(self,repo):
         
-        document=XDocDocument( 'Repository : ' + repo.getName(),	\
-                self.resolver.getFile(repo))   
+        spec=self.resolver.getFileSpec(repo)
+        document=XDocDocument( 'Repository : ' + repo.getName(),    
+                spec.getFile() ,
+                self.config,
+                spec.getRootPath())
             
         # Provide a description/link back to the repo site.
 #        descriptionSection=document.createSection('Description') 
@@ -1241,7 +1280,7 @@ This page helps Gumpmeisters (and others) observe community progress.
 #        if not description:
 #            description='No description provided.'        
 #        if repo.hasURL():
-#            description+=' For more information, see: ' + self.getFork(repo.getURL())
+#            description+=' For more information, see: ' + self.getFork(repo.getUrl())
 #        else:
 #            description+=' (No repo URL provided).'
 #                
@@ -1262,9 +1301,9 @@ This page helps Gumpmeisters (and others) observe community progress.
             detailList.createEntry('Homepage: ') \
                 .createLink(repo.getHomePage(),repo.getHomePage())
             
-        if repo.hasCvsWeb():
+        if repo.hasWeb():
             detailList.createEntry('Web Interface: ') \
-                .createLink(repo.getCvsWeb(),repo.getCvsWeb())
+                .createLink(repo.getWeb(),repo.getWeb())
             
         detailList.createEntry('State: ' + repo.getStateDescription())
         if not repo.getReason() == REASON_UNSET:
@@ -1282,7 +1321,7 @@ This page helps Gumpmeisters (and others) observe community progress.
         if repo.hasHostname():
             detailList.createEntry('Hostname: ', repo.getHostname())
             
-        detailList.createEntry('Redistributable: ', getBooleanString(repo.isRedistributable()))
+        detailList.createEntry('Redistributable: ', `repo.isRedistributable()`)
     
         self.documentXML(document,repo)
         
@@ -1293,8 +1332,11 @@ This page helps Gumpmeisters (and others) observe community progress.
       
     def documentServer(self,server):
         
-        document=XDocDocument( 'Server : ' + server.getName(),	\
-                self.resolver.getFile(server))   
+        spec=self.resolver.getFileSpec(server)
+        document=XDocDocument( 'Server : ' + server.getName(),    
+                spec.getFile() ,
+                self.config,
+                spec.getRootPath())
             
         # Provide a description/link back to the server site.
 #        descriptionSection=document.createSection('Description') 
@@ -1306,7 +1348,7 @@ This page helps Gumpmeisters (and others) observe community progress.
 #        if not description:
 #            description='No description provided.'        
 #        if server.hasURL():
-#            description+=' For more information, see: ' + self.getFork(server.getURL())
+#            description+=' For more information, see: ' + self.getFork(server.getUrl())
 #        else:
 #            description+=' (No server URL provided).'
 #                
@@ -1372,8 +1414,11 @@ This page helps Gumpmeisters (and others) observe community progress.
              
     def documentTracker(self,tracker):
         
-        document=XDocDocument( 'Tracker : ' + tracker.getName(),	\
-                self.resolver.getFile(tracker))   
+        spec=self.resolver.getFileSpec(tracker)
+        document=XDocDocument( 'Tracker : ' + tracker.getName(),    
+                spec.getFile() ,
+                self.config,
+                spec.getRootPath())
             
         # Provide a description/link back to the tracker site.
 #        descriptionSection=document.createSection('Description') 
@@ -1385,7 +1430,7 @@ This page helps Gumpmeisters (and others) observe community progress.
 #        if not description:
 #            description='No description provided.'        
 #        if tracker.hasURL():
-#            description+=' For more information, see: ' + self.getFork(tracker.getURL())
+#            description+=' For more information, see: ' + self.getFork(tracker.getUrl())
 #        else:
 #            description+=' (No tracker URL provided).'
 #                
@@ -1421,10 +1466,13 @@ This page helps Gumpmeisters (and others) observe community progress.
         document.serialize()
       
         
-    def documentModule(self,module,realtime=0):
+    def documentModule(self,module,realTime=False):
         
-        document=XDocDocument( 'Module : ' + module.getName(),	\
-                self.resolver.getFile(module))   
+        spec=self.resolver.getFileSpec(module)
+        document=XDocDocument( 'Module : ' + module.getName(),    
+                spec.getFile() ,
+                self.config,
+                spec.getRootPath())
             
         # Provide a description/link back to the module site.
         descriptionSection=document.createSection('Description') 
@@ -1435,8 +1483,8 @@ This page helps Gumpmeisters (and others) observe community progress.
                 description+='. '    
         if not description:
             description='No description provided.'        
-        if module.hasURL():
-            description+=' For more information, see: ' + self.getFork(module.getURL())
+        if module.hasUrl():
+            description+=' For more information, see: ' + self.getFork(module.getUrl())
         else:
             description+=' (No module URL provided).'
                 
@@ -1465,7 +1513,7 @@ This page helps Gumpmeisters (and others) observe community progress.
         self.documentAnnotations(document,module)                
         self.documentServerLinks(document,module)     
         
-        if not realtime:
+        if not realTime:
             projectsSection=document.createSection('Projects') 
             if (len(module.getProjects()) > 1):
                 self.documentSummary(projectsSection,module.getProjectSummary())
@@ -1525,8 +1573,7 @@ This page helps Gumpmeisters (and others) observe community progress.
         #
         #document=XDocDocument('Module Details : ' + module.getName(),	\
         #            self.resolver.getFile(module, \
-        #                            'index_details', \
-        #                                '.xml'))            
+        #                            'index_details'))            
              
         detailsSection=document.createSection('Details')
         
@@ -1559,7 +1606,7 @@ This page helps Gumpmeisters (and others) observe community progress.
                 repoList.createEntry( "SVN URL: ", module.svn.getRootUrl())                 
 
 
-            repoList.createEntry('Redistributable: ', getBooleanString(module.isRedistributable()))
+            repoList.createEntry('Redistributable: ', `module.isRedistributable()`)
                 
             if module.isRedistributable():
                 if module.hasJars():
@@ -1573,7 +1620,7 @@ This page helps Gumpmeisters (and others) observe community progress.
         document.serialize()
         document=None
         
-        if not realtime:    
+        if not realTime:    
             # Document Projects
             for project in module.getProjects():
                 if not self.run.getGumpSet().inProjectSequence(project): continue      
@@ -1590,10 +1637,13 @@ This page helps Gumpmeisters (and others) observe community progress.
     #    footerXDoc(x)
     #    endXDoc(x)
         
-    def documentProject(self,project,realtime=0): 
+    def documentProject(self,project,realTime=False): 
         
-        document=XDocDocument('Project : ' + project.getName(),	\
-                self.resolver.getFile(project))       
+        spec=self.resolver.getFileSpec(project)
+        document=XDocDocument('Project : ' + project.getName(),    
+                spec.getFile() ,
+                self.config,
+                spec.getRootPath())
          
         # Provide a description/link back to the module site.
         projectsSection=document.createSection('Description') 
@@ -1604,8 +1654,8 @@ This page helps Gumpmeisters (and others) observe community progress.
             description+='. '
         if not description:
             description='No description provided.'        
-        if project.hasURL():
-            description+=' For more information, see: ' + self.getFork(project.getURL())
+        if project.hasUrl():
+            description+=' For more information, see: ' + self.getFork(project.getUrl())
         else:        
             description=' (No project URL provided.)'   
                 
@@ -1653,6 +1703,9 @@ This page helps Gumpmeisters (and others) observe community progress.
         self.insertLink(project.getModule(),project,	\
                 detailsList.createEntry('Containing Module: '))        
         
+        if project.isSpliced():
+            detailsList.createEntry('XML Spliced: ', `project.isSpliced()`)
+            
         if project.hasHomeDirectory() and project.isVerboseOrDebug():
             detailsList.createEntry('Home Directory: ', project.getHomeDirectory())
             
@@ -1665,18 +1718,16 @@ This page helps Gumpmeisters (and others) observe community progress.
         e = secsToElapsedTimeString(project.getElapsedSecs())
         if e and project.isVerboseOrDebug(): detailsList.createEntry("Elapsed: ", e)
                 
-        detailsList.createEntry('Redistributable: ', getBooleanString(project.isRedistributable()))                
+        detailsList.createEntry('Redistributable: ', `project.isRedistributable()`)                
                                                       
         # Display nag information
-        if project.xml.nag:
-            if project.isVerboseOrDebug():
-                for nagEntry in project.xml.nag:
-                    toaddr=getattr(nagEntry,'to') or self.workspace.mailinglist
-                    fromaddr=getStringFromUnicode(getattr(nagEntry,'from') or self.workspace.email)
-                    detailsList.createEntry('Notify To: ').createFork('mailto:'+toaddr,toaddr)
-                    detailsList.createEntry('Notify From: ').createFork('mailto:'+fromaddr,fromaddr)
+        if project.hasNotifys() and project.isVerboseOrDebug():
+            for pair in project.getNotifys():
+                toaddr=pair.getToAddress()
+                fromaddr=pair.getFromAddress()
+                detailsList.createEntry('Notify To: ').createFork('mailto:'+toaddr,toaddr)
+                detailsList.createEntry('Notify From: ').createFork('mailto:'+fromaddr,fromaddr)
                     
-            
             if project.isFailed() :            
                 detailsList.createEntry('Notification E-mail: ').createLink(
                                 gumpSafeName(project.getName()) + '_notify.html',
@@ -1703,10 +1754,11 @@ This page helps Gumpmeisters (and others) observe community progress.
         
         statsTable=statsSection.createTable()           
         
-        # Generate an SVG for FOG:
-        #(pngFile,pngTitle) = self.diagramFOG(project)
-        #if pngFile:
-        #    statsTable.createEntry("FOG Factor: ").createData().createIcon(pngFile,pngTitle)
+        if (not realTime) and self.config.isXdocs():
+            # Generate an SVG for FOG:
+            (file,title) = self.diagramFOG(project)
+            if file:
+                statsTable.createEntry("FOG Factor: ").createData().createIcon(file,title)
             
         statsTable.createEntry("FOG Factor: ", '%02.2f' % stats.getFOGFactor())
         statsTable.createEntry('Dependency Depth: ', project.getDependencyDepth())        
@@ -1716,35 +1768,38 @@ This page helps Gumpmeisters (and others) observe community progress.
         statsTable.createEntry("Prerequisite Failures: ", stats.prereqs)
         statsTable.createEntry("Current State: ", stateDescription(stats.currentState))
         statsTable.createEntry("Duration in state: ", stats.sequenceInState)
-        statsTable.createEntry("Start of state: ", secsToDate(stats.startOfState))
+        statsTable.createEntry("Start of state: ", secsToDateTime(stats.startOfState))
         statsTable.createEntry("Previous State: ", stateDescription(stats.previousState))
         
         if stats.first:
-            statsTable.createEntry("First Success: ", secsToDate(stats.first))
+            statsTable.createEntry("First Success: ", secsToDateTime(stats.first))
         if stats.last:
-            statsTable.createEntry("Last Success: ", secsToDate(stats.last))
+            statsTable.createEntry("Last Success: ", secsToDateTime(stats.last))
                 
         self.documentFileList(document,project,'Project-level Files')  
                 
-        addnSection=document.createSection('Additional Details')
-        addnPara=addnSection.createParagraph()
-        addnPara.createLink('details.html',	
-                              'For additional project details (including classpaths,dependencies) ...')
+        if not realTime:
+            addnSection=document.createSection('Additional Details')
+            addnPara=addnSection.createParagraph()
+            addnPara.createLink('details.html',	
+                                  'For additional project details (including classpaths,dependencies) ...')
                                 
         document.serialize()
         
-        self.documentProjectDetails(project,realtime)
+        if not realTime:
+            self.documentProjectDetails(project,realTime)
         
-    def documentProjectDetails(self,project,realtime=0):         
+    def documentProjectDetails(self,project,realTime=0):         
         
-        document=XDocDocument('Project Details : ' + project.getName(),	\
-                    self.resolver.getFile(project, \
-                                    'details', '.xml'))     
+        spec=self.resolver.getFileSpec(project,'details')
+        document=XDocDocument('Project Details : ' + project.getName(),    
+                spec.getFile() ,
+                self.config,
+                spec.getRootPath())
  
     #    x.write('<p><strong>Project Config :</strong> <link href=\'%s\'>XML</link></p>' \
     #                % (getModuleProjectRelativeUrl(modulename,project.name)) )                     
-           
-           
+            
         miscSection=document.createSection('Miscellaneous')
         
         #
@@ -1764,7 +1819,7 @@ This page helps Gumpmeisters (and others) observe community progress.
                 id=jar.getId() or 'N/A'
                 outputRow.createData(id)    
         else:
-            miscSection.createParagraph('No outputs (e.g. jars) produced')
+            miscSection.createWarning('No outputs (e.g. jars) produced')
         
         if project.hasBuildCommand():
             
@@ -1804,56 +1859,71 @@ This page helps Gumpmeisters (and others) observe community progress.
 #                                path, 0, 1, project, self.gumpSet)
 #
                 
-        depens += self.documentDependenciesList(dependencySection, 'Project Dependencies',	\
-                    project.getDirectDependencies(), 0, 0, project)
+        depens += self.documentDependenciesList(dependencySection, 
+                    'Project Dependencies',
+                    project.getDirectDependencies(), 
+                    False, False, 
+                    project)
                             
-        depees += self.documentDependenciesList(dependencySection, 'Project Dependees',		\
-                    project.getDirectDependees(), 1, 0, project)
+        depees += self.documentDependenciesList(dependencySection, 
+                    'Project Dependees',	
+                    project.getDirectDependees(), 
+                    True, False, 
+                    project)
 
-        
-        if not realtime and project.isVerboseOrDebug():
-            self.documentDependenciesList(dependencySection, 'Full Project Dependencies',	\
-                    project.getFullDependencies(), 0, 1, project)
+        if False:
+            if project.isVerboseOrDebug():
+                self.documentDependenciesList(dependencySection, 
+                        'Full Project Dependencies',
+                        project.getFullDependencies(), 
+                        False, True, 
+                        project)
                                                 
-            self.documentDependenciesList(dependencySection, 'Full Project Dependees',		\
-                    project.getFullDependees(), 1, 1, project)
+                self.documentDependenciesList(dependencySection, 
+                        'Full Project Dependees',
+                        project.getFullDependees(),
+                        True, True, 
+                        project)
         
         deps = depees + depens
         
         if not deps:
             dependencySection.createNote(	\
-            """This project depends upon no others, and no others depend upon it. This project is an island...""")
+            """This project depends upon no others, and no others depend upon it. 
+            This project is an island...""")
         else:
-            if realtime and not depees:
+            if realTime and not depees:
                 dependencySection.createNote('No projects depend upon this project.')    
             if not depens:
                 dependencySection.createNote('This project depends upon no others.')    
                  
-        # Not ready for prime time...   
-        if 'gump.try' == project.getWorkspace().getName():                        
+                  
+        if False and self.config.isXdocs():
             try:
-                # Generate an SVG for FOG:
-                (pngFile,pngTitle) = self.diagramDependencies(project)
-                if pngFile:
+                # Generate an SVG for Dependencies Diagram:
+                (file,title) = self.diagramDependencies(project)
+                if file:
                     para=dependencySection.createSection('Dependency Diagram').createParagraph()
-                    para.createFork(pngFile).createIcon(pngFile,pngTitle)
+                    para.createFork(file).createIcon(file,title)
             except:
                 log.error('Failed to diagram dependencies for [' + project.getName() + ']', exc_info=1)
         
         document.serialize()
+        document=None
         
         # Document notifications
         notification = self.notifyLogic.notification(project)
         if notification:
-            document=XDocDocument('Project Details : ' + project.getName(),	\
-                        self.resolver.getFile(project, \
-                                        project.getName() + '_notify', \
-                                            '.xml'))     
+            nspec=self.resolver.getFileSpec(project,project.getName() + '_notify')    
+            document=XDocDocument('Project Details : ' + project.getName(),
+                    nspec.getFile(),
+                    self.config,
+                    nspec.getRootPath())
                                             
             # If they don't ask for it, they won't see it.
             part1='could'
             part2=', if request in the metadata.'
-            if project.xml.nag:
+            if project.hasNotifys():
                 part1='ought'
                 part2='.'
      
@@ -1863,6 +1933,7 @@ This page helps Gumpmeisters (and others) observe community progress.
             nagSection.createSource(notification.resolveContent(self.resolver))
             
             document.serialize()
+            document=None
         
         # Document the project XML
     #    x=startXDoc(getProjectXMLDocument(self.workspace,modulename,project.name))
@@ -2016,13 +2087,15 @@ This page helps Gumpmeisters (and others) observe community progress.
         
         annotationsSection=xdocNode.createSection('Annotations')
         
-        if annotatable.containsNasties() and not noWarn:
-            annotationsSection.createWarning(	\
-                'Some warnings and/or errors are present within these annotations.')
+        if not self.config.isXhtml():
+            if annotatable.containsNasties() and not noWarn:
+                annotationsSection.createWarning(	\
+                    'Some warnings and/or errors are present within these annotations.')
         
         annotationsTable=annotationsSection.createTable()
         for note in annotations:      
             noteRow=annotationsTable.createRow()
+            noteRow.setStyle(levelName(note.level).upper())
             noteRow.createData(levelName(note.level))
             # TODO if 'text' is a list go through list and
             # when not string get the object link and <link it...
@@ -2094,7 +2167,7 @@ This page helps Gumpmeisters (and others) observe community progress.
                 syspropertyRow=syspropertiesTable.createRow()
                 syspropertyRow.createData(sysproperty.getName())
                 syspropertyRow.createData(sysproperty.getValue())
-                syspropertyRow.createData(sysproperty.getXMLData())
+                syspropertyRow.createData(sysproperty.getXmlData())
         
         if properties:
             # Standard Properties
@@ -2104,26 +2177,27 @@ This page helps Gumpmeisters (and others) observe community progress.
                 propertyRow=propertiesTable.createRow()
                 propertyRow.createData(property.getName())
                 propertyRow.createData(property.getValue())
-                propertyRow.createData(property.getXMLData())
+                propertyRow.createData(property.getXmlData())
                         
     def documentXML(self,xdocNode,xmlOwner):
         
-        xml=xmlOwner.xml
-        if not xml: return        
+        dom=xmlOwner.dom
+        if not dom: return        
         
         xmlSection=xdocNode.createSection('Definition')
         stream=StringIO.StringIO() 
         try:
-            xmlize(xml.getTagName(),xml,stream)
+            dom.writexml(stream,indent='   ',newl='\n')
         except Exception, details:
             stream.write('Failed to XML serialize the data. ' + str(details))
         stream.seek(0)
         xmldata=stream.read()
-        if len(xmldata) < 32000:
+        if (not self.config.isXdocs()) or (len(xmldata) < 32000):
             xmlSection.createSource(xmldata)
         else:
-            xmlSection.createParagraph('XML Data too large to display.')
+            xmlSection.createParagraph('XML Data too large to display via Forrest.')
         stream.close()
+        stream=None
             
     def documentSummary(self,xdocNode,summary,description='Project Summary'):
         if not summary or not summary.projects \
@@ -2134,20 +2208,35 @@ This page helps Gumpmeisters (and others) observe community progress.
         summarySection.createParagraph('Overall project success : ' +	\
                 '%02.2f' % summary.overallPercentage + '%')
         
-        summaryTable=summarySection.createTable(['Projects','Successes','Failures','Prereqs',	\
-            'No Works','Packages'])
+        successStyle=stateName(STATE_SUCCESS).upper()
+        failedStyle=stateName(STATE_FAILED).upper()
+        prereqStyle=stateName(STATE_PREREQ_FAILED).upper()
+        noworkStyle=stateName(STATE_UNSET).upper()
+        completeStyle=stateName(STATE_COMPLETE).upper()
         
-        summaryTable.createRow([ '%02d' % summary.projects, \
-                                '%02d' % summary.successes + \
-                                ' (' + '%02.2f' % summary.successesPercentage + '%)', \
-                                '%02d' % summary.failures + \
-                                ' (' + '%02.2f' % summary.failuresPercentage + '%)',	\
-                                '%02d' % summary.prereqs + \
-                                ' (' + '%02.2f' % summary.prereqsPercentage + '%)', \
-                                '%02d' % summary.noworks + \
-                                ' (' + '%02.2f' % summary.noworksPercentage + '%)', \
-                                '%02d' % summary.packages + \
-                                ' (' + '%02.2f' % summary.packagesPercentage + '%)'] )
+        summaryTable=summarySection.createTable(['Projects',
+                                ('Successes', successStyle),
+                                ('Failures',failedStyle),
+                                ('Prereqs', prereqStyle),
+                                ('No Works', noworkStyle),
+                                ('Packages', completeStyle) ])
+        
+        summaryTable.createRow([ '%02d' % summary.projects,
+                                ('%02d' % summary.successes +  \
+                                ' (' + '%02.2f' % summary.successesPercentage + '%)',
+                                    successStyle), 
+                                ('%02d' % summary.failures +   \
+                                ' (' + '%02.2f' % summary.failuresPercentage + '%)',
+                                    failedStyle),
+                                ('%02d' % summary.prereqs + \
+                                ' (' + '%02.2f' % summary.prereqsPercentage + '%)',
+                                    prereqStyle),
+                                ('%02d' % summary.noworks + \
+                                ' (' + '%02.2f' % summary.noworksPercentage + '%)',
+                                    noworkStyle),
+                                ('%02d' % summary.packages + \
+                                ' (' + '%02.2f' % summary.packagesPercentage + '%)',
+                                    completeStyle) ])
         
       
     def documentWorkList(self,xdocNode,workable,description='Work',tailFail=1,note='',warn=''):
@@ -2171,8 +2260,12 @@ This page helps Gumpmeisters (and others) observe community progress.
             
             self.insertLink(work,workable,workRow.createData())  
             workRow.createData(stateDescription(work.state))
+            
+            # Colour...
+            workRow.setStyle(stateName(work.state).upper())
+                
             if isinstance(work,TimedWorkItem):      
-                workRow.createData(secsToDate(work.result.start_time))
+                workRow.createData(secsToDateTime(work.result.start_time))
                 workRow.createData(secsToElapsedTimeString(work.getElapsedSecs()))
             else:
                 workRow.createData('N/A')
@@ -2185,22 +2278,23 @@ This page helps Gumpmeisters (and others) observe community progress.
             for work in worklist:
                 if isinstance(work,CommandWorkItem):      
                     if not STATE_SUCCESS == work.state:
-                        tail=work.tail(20,80,'...\n','    ')
-                        if tail:
-                            #
-                            # Write out the 'tail'
-                            #
-                            tailSection=	\
-                                workSection.createSection(
-                                    'Tail of ' + workTypeName(work.type) + \
-                                        ' : ' + work.command.name)
+                        if work.hasOutput():
+                            tail=work.tail(20,80,'...\n','    ')
+                            if tail:
+                                #
+                                # Write out the 'tail'
+                                #
+                                tailSection=	\
+                                    workSection.createSection(
+                                        'Tail of ' + workTypeName(work.type) + \
+                                            ' : ' + work.command.name)
                                             
-                            # Attempt to ensure they don't
-                            para=tailSection.createParagraph(
-                                'This is a very short tail of the log at ')                                
-                            self.insertLink(work,workable,para) 
+                                # Attempt to ensure they don't
+                                para=tailSection.createParagraph(
+                                    'This is a very short tail of the log at ')                                
+                                self.insertLink(work,workable,para) 
                                 
-                            tailSection.createSource(tail)
+                                tailSection.createSource(tail)
                 
         
         #
@@ -2211,9 +2305,12 @@ This page helps Gumpmeisters (and others) observe community progress.
             
     def documentWork(self,work):
         if isinstance(work,CommandWorkItem):    
+            spec=self.resolver.getFileSpec(work)
             wdocument=XDocDocument(	\
-                workTypeName(work.type) + ' : ' + work.command.name,	\
-                    self.resolver.getFile(work))
+                workTypeName(work.type) + ' : ' + work.command.name,    
+                spec.getFile() ,
+                self.config,
+                spec.getRootPath())
                     
             workSection=wdocument.createSection('Details')
             
@@ -2236,8 +2333,8 @@ This page helps Gumpmeisters (and others) observe community progress.
                 workList.createEntry("Termination Signal: ", str(work.result.signal))
             workList.createEntry("Exit Code: ", str(work.result.exit_code))
                                 
-            workList.createEntry("Start Time: ", secsToDate(work.result.start_time))
-            workList.createEntry("End Time: ", secsToDate(work.result.end_time))
+            workList.createEntry("Start Time: ", secsToDateTime(work.result.start_time))
+            workList.createEntry("End Time: ", secsToDateTime(work.result.end_time))
             e = secsToElapsedTimeString(work.getElapsedSecs())
             if e : workList.createEntry("Elapsed Time: ", e)
                    
@@ -2317,7 +2414,6 @@ This page helps Gumpmeisters (and others) observe community progress.
                         #
                         # This is *big* just copy/point to it
                         #
-                        from shutil import copyfile
                         # Extract name, to make relative to group
                         outputBaseName=os.path.basename(output)
                         (outputName,outputExtn)=os.path.splitext(outputBaseName)
@@ -2383,9 +2479,12 @@ This page helps Gumpmeisters (and others) observe community progress.
             
     def documentFile(self,fileReference):
         
+        spec=self.resolver.getFileSpec(fileReference)
         fdocument=XDocDocument(	\
-                fileReference.getTypeDescription() + ' : ' + fileReference.getName(),	\
-                self.resolver.getFile(fileReference))
+                fileReference.getTypeDescription() + ' : ' + fileReference.getName(),    
+                spec.getFile() ,
+                self.config,
+                spec.getRootPath())
                     
         fileSection=fdocument.createSection('Details')
             
@@ -2469,7 +2568,7 @@ This page helps Gumpmeisters (and others) observe community progress.
                 else:
                     outputSection.createParagraph('No contents in this file.')
         else:
-            fdocument.createParagraph('No such file or directory.')
+            fdocument.createWarning('No such file or directory.')
            
         fdocument.serialize()
         fdocument=None
@@ -2485,12 +2584,17 @@ This page helps Gumpmeisters (and others) observe community progress.
         #
         if stats.successes+stats.failures+stats.prereqs > 0:
             svgFile=self.resolver.getFile(base,name+'_FOG','.svg')
-            pngFile=os.path.basename(svgFile).replace('.svg','.png')
+            svgBasename=os.path.basename(svgFile)
+            pngBasename=svgBasename.replace('.svg','.png')
             from gump.svg.scale import ScaleDiagram
             diagram=ScaleDiagram([stats.successes,stats.prereqs,stats.failures])
             diagram.generateDiagram().serializeToFile(svgFile)
             
-            return (pngFile, 'FOG Factor')
+            fileBasename=pngBasename
+            if self.config.isXhtml():
+                fileBasename=svgBasename
+            
+            return (fileBasename, 'FOG Factor')
             
         return (None, None)
                 
@@ -2500,13 +2604,18 @@ This page helps Gumpmeisters (and others) observe community progress.
         if not base: base=project
     
         svgFile=self.resolver.getFile(base,name+'_depend','.svg')
-        pngFile=os.path.basename(svgFile).replace('.svg','.png')
+        svgBasename=os.path.basename(svgFile)
+        pngBasename=svgBasename.replace('.svg','.png')
         from gump.svg.depdiag import DependencyDiagram
         diagram=DependencyDiagram(project)
         diagram.compute()
         diagram.generateDiagram().serializeToFile(svgFile)
         
-        return (pngFile, 'Dependency Diagram')
+        fileBasename=pngBasename
+        if self.config.isXhtml():
+           fileBasename=svgBasename
+                
+        return (fileBasename, 'Dependency Diagram')
                 
     #####################################################################           
     #
@@ -2607,10 +2716,15 @@ This page helps Gumpmeisters (and others) observe community progress.
             if fromObject:
                 url=getRelativeLocation(toObject,fromObject,'.html').serialize()
             else:
-                url=self.resolver.getAbsoluteUrl(toObject)
+                url=self.resolver.getUrl(toObject)
             
         return url + postfix
     
+    def setStyleFromState(self,xdocNode,statePair):
+        # Set the style from the state name (right now)
+        # maybe later do different for reason code.
+        xdocNode.setStyle(statePair.getStateName().upper())
+            
     def insertStatePairIcon(self,xdocNode,toObject,fromObject):
         pair=toObject.getStatePair()
         depth=getDepthForObject(fromObject)
@@ -2629,7 +2743,7 @@ This page helps Gumpmeisters (and others) observe community progress.
         
         # Build the URL to the icon
         iconName=gumpSafeName(lower(replace(uniqueName,' ','_')))
-        url = getUpUrl(depth)+"gump_icons/"+iconName+".png";
+        url = self.resolver.getIconUrl(iconName+'.png',depth)
         
         # Build the <icon tag at location...
         return xdocNode.createIcon(url,description)
@@ -2643,7 +2757,11 @@ This page helps Gumpmeisters (and others) observe community progress.
         log.info('Generate Statistic Guru')
         stats=StatisticsGuru(self.workspace)
         
-        document=XDocDocument('Statistics',self.resolver.getFile(stats))
+        spec=self.resolver.getFileSpec(stats)
+        document=XDocDocument('Statistics',    
+                spec.getFile() ,
+                self.config,
+                spec.getRootPath())
         
         document.createParagraph("""
         Statistics from Gump show the depth and health of inter-relationships. 
@@ -2745,8 +2863,11 @@ This page helps Gumpmeisters (and others) observe community progress.
     
     def documentModulesByElapsed(self,stats):
         fileName='module_elapsed'
-        documentFile=self.resolver.getFile(stats,fileName)
-        document=XDocDocument('Modules By Elapsed Time', documentFile)
+        spec=self.resolver.getFileSpec(stats,fileName)
+        document=XDocDocument('Modules By Elapsed Time',    
+                spec.getFile() ,
+                self.config,
+                spec.getRootPath())
         
         elapsedTable=document.createTable(['Modules By Elapsed'])
         for module in stats.modulesByElapsed:        
@@ -2761,8 +2882,11 @@ This page helps Gumpmeisters (and others) observe community progress.
     
     def documentModulesByProjects(self,stats):
         fileName='module_projects'
-        documentFile=self.resolver.getFile(stats,fileName)
-        document=XDocDocument('Modules By Project Count',	documentFile)
+        spec=self.resolver.getFileSpec(stats,fileName)
+        document=XDocDocument('Modules By Project Count',    
+                spec.getFile() ,
+                self.config,
+                spec.getRootPath())
         
         mprojsTable=document.createTable(['Modules By Project Count'])
         for module in stats.modulesByProjectCount:         
@@ -2787,8 +2911,11 @@ This page helps Gumpmeisters (and others) observe community progress.
      
     def documentModulesByDependencies(self,stats):
         fileName='module_dependencies'
-        documentFile=self.resolver.getFile(stats,fileName)
-        document=XDocDocument('Modules By Dependency Count', documentFile)
+        spec=self.resolver.getFileSpec(stats,fileName)
+        document=XDocDocument('Modules By Dependency Count',    
+                spec.getFile() ,
+                self.config,
+                spec.getRootPath())
         
         dependenciesTable=document.createTable(['Module','Full Dependency Count'])
         for module in stats.modulesByTotalDependencies:         
@@ -2810,8 +2937,11 @@ This page helps Gumpmeisters (and others) observe community progress.
      
     def documentModulesByDependees(self,stats):
         fileName='module_dependees'
-        documentFile=self.resolver.getFile(stats,fileName)    
-        document=XDocDocument('Modules By Dependee Count', documentFile)
+        spec=self.resolver.getFileSpec(stats,fileName)  
+        document=XDocDocument('Modules By Dependee Count',    
+                spec.getFile() ,
+                self.config,
+                spec.getRootPath())
         
         dependeesTable=document.createTable(['Module','Full Dependee Count'])
         for module in stats.modulesByTotalDependees:         
@@ -2832,8 +2962,11 @@ This page helps Gumpmeisters (and others) observe community progress.
         
     def documentModulesByFOGFactor(self,stats):
         fileName='module_fogfactor'
-        documentFile=self.resolver.getFile(stats,fileName)    
-        document=XDocDocument('Modules By FOG Factor',	documentFile)        
+        spec=self.resolver.getFileSpec(stats,fileName)   
+        document=XDocDocument('Modules By FOG Factor',    
+                spec.getFile() ,
+                self.config,
+                spec.getRootPath())
         fogTable=document.createTable(['Module','FOG Factor'])
         for module in stats.modulesByFOGFactor:        
             if not self.gumpSet.inModuleSequence(module): continue    
@@ -2847,8 +2980,11 @@ This page helps Gumpmeisters (and others) observe community progress.
     
     def documentModulesByLastModified(self,stats):
         fileName='module_modified'
-        documentFile=self.resolver.getFile(stats,fileName)    
-        document=XDocDocument('Modules By Last Modified', documentFile)        
+        spec=self.resolver.getFileSpec(stats,fileName)  
+        document=XDocDocument('Modules By Last Modified',    
+                spec.getFile() ,
+                self.config,
+                spec.getRootPath())
         updTable=document.createTable(['Module','Last Modified Date','Last Modified'])
         modules=0
         for module in stats.modulesByLastModified:        
@@ -2856,7 +2992,7 @@ This page helps Gumpmeisters (and others) observe community progress.
             if module.isPackaged(): continue 
             updRow=updTable.createRow()            
             self.insertLink( module, stats, updRow.createData())                
-            updRow.createData(secsToDate(module.getLastModified()))
+            updRow.createData(secsToDateTime(module.getLastModified()))
             updRow.createData(	\
                 getGeneralSinceDescription(module.getLastModified()))
             modules+=1                    
@@ -2868,8 +3004,11 @@ This page helps Gumpmeisters (and others) observe community progress.
     
     def documentProjectsByElapsed(self,stats):
         fileName='project_elapsed'
-        documentFile=self.resolver.getFile(stats,fileName)    
-        document=XDocDocument('Projects By Elapsed Time',	documentFile)
+        spec=self.resolver.getFileSpec(stats,fileName)  
+        document=XDocDocument('Projects By Elapsed Time',    
+                spec.getFile() ,
+                self.config,
+                spec.getRootPath())
         
         elapsedTable=document.createTable(['Projects By Elapsed'])
         for project in stats.projectsByElapsed:        
@@ -2884,8 +3023,11 @@ This page helps Gumpmeisters (and others) observe community progress.
      
     def documentProjectsByDependencies(self,stats):
         fileName='project_dependencies'
-        documentFile=self.resolver.getFile(stats,fileName)    
-        document=XDocDocument('Projects By Dependency Count',	 documentFile)
+        spec=self.resolver.getFileSpec(stats,fileName)  
+        document=XDocDocument('Projects By Dependency Count',    
+                spec.getFile() ,
+                self.config,
+                spec.getRootPath())
         
         dependenciesTable=document.createTable(['Project','Direct Dependency Count', 'Full Dependency Count'])
         for project in stats.projectsByTotalDependencies:         
@@ -2908,8 +3050,11 @@ This page helps Gumpmeisters (and others) observe community progress.
      
     def documentProjectsByDependees(self,stats):
         fileName='project_dependees'
-        documentFile=self.resolver.getFile(stats,fileName)    
-        document=XDocDocument('Projects By Dependee Count', documentFile)
+        spec=self.resolver.getFileSpec(stats,fileName)  
+        document=XDocDocument('Projects By Dependee Count',    
+                spec.getFile() ,
+                self.config,
+                spec.getRootPath())
         
         dependeesTable=document.createTable(['Project','Direct Dependee Count', 'Full Dependee Count'])
         for project in stats.projectsByTotalDependees:         
@@ -2931,8 +3076,11 @@ This page helps Gumpmeisters (and others) observe community progress.
         
     def documentProjectsByFOGFactor(self,stats):
         fileName='project_fogfactor'
-        documentFile=self.resolver.getFile(stats,fileName)    
-        document=XDocDocument('Projects By FOG Factor',	 documentFile)        
+        spec=self.resolver.getFileSpec(stats,fileName) 
+        document=XDocDocument('Projects By FOG Factor',    
+                spec.getFile() ,
+                self.config,
+                spec.getRootPath())
         #fogTable=document.createTable(['Project','Successes','Failures','Preq-Failures','FOG Factor'])
         fogTable=document.createTable(['Project','Successes','Failures','Preq-Failures'])
         for project in stats.projectsByFOGFactor:        
@@ -2960,8 +3108,11 @@ This page helps Gumpmeisters (and others) observe community progress.
         
     def documentProjectsBySequenceInState(self,stats):
         fileName='project_durstate'
-        documentFile=self.resolver.getFile(stats,fileName)    
-        document=XDocDocument('Projects By Duration In State',	documentFile)        
+        spec=self.resolver.getFileSpec(stats,fileName) 
+        document=XDocDocument('Projects By Duration In State',    
+                spec.getFile() ,
+                self.config,
+                spec.getRootPath())
         durTable=document.createTable(['Project','Duration\nIn State','State'])
         for project in stats.projectsBySequenceInState:        
             if not self.gumpSet.inProjectSequence(project): continue    
@@ -2984,8 +3135,11 @@ This page helps Gumpmeisters (and others) observe community progress.
         else:
             title='Projects By Dependency Depth'
             fileName='project_depdepth'       
-        documentFile=self.resolver.getFile(stats,fileName)    
-        document=XDocDocument(title, documentFile)        
+        spec=self.resolver.getFileSpec(stats,fileName)   
+        document=XDocDocument(title,    
+                spec.getFile() ,
+                self.config,
+                spec.getRootPath()) 
         durTable=document.createTable(['Project','Dependency Depth','Total Dependency Depth'])
         if total: 
             list = stats.projectsByTotalDependencyDepth
@@ -3013,8 +3167,10 @@ This page helps Gumpmeisters (and others) observe community progress.
                     
         log.info('Generate XRef Guru')
         xref=XRefGuru(self.workspace)    
-        
-        document=XDocDocument('Cross Reference',self.resolver.getFile(xref))
+   
+        spec=self.resolver.getFileSpec(xref)
+        document=XDocDocument('Cross Reference',self.resolver.getFile(xref),
+                self.config)
     
         document.createParagraph("""
         Obscure views into projects/modules... 
@@ -3083,8 +3239,11 @@ This page helps Gumpmeisters (and others) observe community progress.
         
     def documentModulesByRepository(self,xref):
         fileName='repo_module'
-        documentFile=self.resolver.getFile(xref,fileName)        
-        document=XDocDocument('Modules By Repository',	documentFile)
+        spec=self.resolver.getFileSpec(xref,fileName)
+        document=XDocDocument('Modules By Repository',    
+                spec.getFile() ,
+                self.config,
+                spec.getRootPath())
         
         repoMap=xref.getRepositoryToModuleMap()
         repoList=createOrderedList(repoMap.keys())
@@ -3114,8 +3273,11 @@ This page helps Gumpmeisters (and others) observe community progress.
         
     def documentModulesByPackage(self,xref):
         fileName='package_module'
-        documentFile=self.resolver.getFile(xref,fileName)            
-        document=XDocDocument('Modules By Package',	documentFile)
+        spec=self.resolver.getFileSpec(xref,fileName)
+        document=XDocDocument('Modules By Package',    
+                spec.getFile() ,
+                self.config,
+                spec.getRootPath())
         
         packageTable=document.createTable(['Modules By Package'])
         
@@ -3146,8 +3308,11 @@ This page helps Gumpmeisters (and others) observe community progress.
         
     def documentModulesByDescription(self,xref):
         fileName='description_module'
-        documentFile=self.resolver.getFile(xref,fileName)            
-        document=XDocDocument('Modules By Description',	documentFile)
+        spec=self.resolver.getFileSpec(xref,fileName)
+        document=XDocDocument('Modules By Description',    
+                spec.getFile() ,
+                self.config,
+                spec.getRootPath())
         
         descriptionTable=document.createTable(['Modules By Description'])
         
@@ -3177,8 +3342,11 @@ This page helps Gumpmeisters (and others) observe community progress.
         
     def documentProjectsByPackage(self,xref):
         fileName='package_project'
-        documentFile=self.resolver.getFile(xref,fileName)            
-        document=XDocDocument('Projects By Package',	documentFile)
+        spec=self.resolver.getFileSpec(xref,fileName)
+        document=XDocDocument('Projects By Package',	
+                spec.getFile(),
+                self.config,
+                spec.getRootPath())
         
         packageTable=document.createTable(['Projects By Package'])
         
@@ -3208,8 +3376,11 @@ This page helps Gumpmeisters (and others) observe community progress.
 
     def documentProjectsByDescription(self,xref):
         fileName='description_project'
-        documentFile=self.resolver.getFile(xref,fileName)            
-        document=XDocDocument('Projects By Description',	documentFile)
+        spec=self.resolver.getFileSpec(xref,fileName)
+        document=XDocDocument('Projects By Description',
+                spec.getFile(),
+                self.config,
+                spec.getRootPath())
         
         descriptionTable=document.createTable(['Projects By Description'])
         
@@ -3240,8 +3411,11 @@ This page helps Gumpmeisters (and others) observe community progress.
         
     def documentProjectsByOutput(self,xref):
         fileName='output_project'
-        documentFile=self.resolver.getFile(xref,fileName)            
-        document=XDocDocument('Projects By Outputs (e.g. Jars)',	documentFile)
+        spec=self.resolver.getFileSpec(xref,fileName)
+        document=XDocDocument('Projects By Outputs (e.g. Jars)',	
+                spec.getFile() ,
+                self.config,
+                spec.getRootPath())
         
         outputTable=document.createTable(['Projects By Outputs (e.g. Jars)'])
         
@@ -3271,8 +3445,11 @@ This page helps Gumpmeisters (and others) observe community progress.
         
     def documentProjectsByOutputId(self,xref):
         fileName='output_id_project'
-        documentFile=self.resolver.getFile(xref,fileName)            
-        document=XDocDocument('Projects By Output Identifiers',	documentFile)
+        spec=self.resolver.getFileSpec(xref,fileName)
+        document=XDocDocument('Projects By Output Identifiers',    
+                spec.getFile() ,
+                self.config,
+                spec.getRootPath())
         
         outputTable=document.createTable(['Projects By Output Identifiers'])
         
@@ -3302,8 +3479,11 @@ This page helps Gumpmeisters (and others) observe community progress.
         
     def documentProjectsByDescriptorLocation(self,xref):
         fileName='descriptor_project'
-        documentFile=self.resolver.getFile(xref,fileName)            
-        document=XDocDocument('Projects By Descriptor Location',	documentFile)
+        spec=self.resolver.getFileSpec(xref,fileName)
+        document=XDocDocument('Projects By Descriptor Location',    
+                spec.getFile() ,
+                self.config,
+                spec.getRootPath())
         
         descLocnTable=document.createTable(['Projects By Descriptor Location'])
         
@@ -3331,5 +3511,3 @@ This page helps Gumpmeisters (and others) observe community progress.
         
         return fileName + '.html'
  
-        
-        

@@ -45,12 +45,18 @@ from gump.model.object import *
 from gump.model.state import *
 
 from gump.document.resolver import *
+from gump.document.xdocs.config import *
 
 from gump.guru.stats import *
 from gump.guru.xref import *
 
-
 def getPathForObject(object,visited=None):
+    """
+    	Get the path to a given object, recursing where
+    	neccessary (e.g. to get path of project under
+    	path for module). Ensure no infinite recursion
+    	using a dynamic list of visited objects.
+    """
     if not visited:visited=[] 
     visited.append(object)
            
@@ -89,31 +95,41 @@ def getPathForObject(object,visited=None):
     return path
         
 def getDepthForObject(object):
+    """
+    	How 'deep' is this object (under the root)
+    """
     return len(getPathForObject(object))
 
-def getRelativeLocation(toObject,fromObject,extn='.xml'):
-        
-    #
-    # Get the target location, get the from path
-    # and get relative...
-    #
+def getRelativeLocation(toObject,fromObject,extn):
+    """
+    Give the location relative to another
+    """
     toLocation=getLocationForObject(toObject,extn)
     toPath=toLocation.getPath()
     fromPath=getPathForObject(fromObject)
         
     relativePath=getRelativePath( toPath, fromPath )
         
-    return Location( 	relativePath,
+    return Location( 	None,
+                        relativePath,
                         toLocation.getDocument(),
                         toLocation.getIndex() )
         
         
-def getLocationForObject(object,extn='.xml'):
-    return Location(getPathForObject(object),
+def getLocationForObject(object,extn):
+    """
+    	Get the *relative* location for an object
+    	[relative to root]
+    """
+    return Location(None,
+                    getPathForObject(object),
                     getDocumentForObject(object,extn),
                     getIndexForObject(object))
                     
-def getDocumentForObject(object, extn='.xml', visited=None):
+def getDocumentForObject(object, extn, visited=None):
+    """
+    	What document describes this object?
+    """
     if not visited:visited=[] 
     visited.append(object)
             
@@ -141,10 +157,15 @@ def getDocumentForObject(object, extn='.xml', visited=None):
     return document
 
 def getLinkBetween(toObject,fromObject):
-    return getRelativeLocation(toObject,fromObject).serialize()
+    """
+    	Link from one to another
+    """
+    return getRelativeLocation(toObject,fromObject,'.html').serialize()
                         
 def getIndexForObject(object):
-    
+    """
+    	Get the index (into a document) for an object
+    """
     if 	isinstance(object, Workspace)	or	\
         isinstance(object, GumpEnvironment)	or	\
         isinstance(object, Server)	or	\
@@ -168,78 +189,103 @@ def getIndexForObject(object):
 
 class XDocResolver(Resolver):
     
-    def __init__(self,rootDir,rootUrl):
+    def __init__(self,rootDir,rootUrl,config=None):
         
         Resolver.__init__(self,rootDir,rootUrl)
 
+        if not config:
+            config=XDocConfig()
+        self.config=config
+        
         # Content
-        #contentSubPath=Path(['forrest-work','src','documentation','content'])
-        contentSubPath=Path(['forrest-work','content'])
+        #contentSubPath=Path(['xdocs-work','src','documentation','content'])
+        if not self.config.isXhtml():
+            contentSubPath=Path(['xdocs-work','content'])
+        else:
+            contentSubPath=Path(['xdocs-work'])
         self.makePath(contentSubPath,rootDir)                
-        self.contentDir=concatenate(rootDir,contentSubPath.serialize())
-        
-        # XDocs
-        #xdocsSubPath=Path(['forrest-work','src','documentation','content','xdocs'])
-        xdocsSubPath=Path(['forrest-work','content','xdocs'])
-        self.makePath(xdocsSubPath,rootDir)                
-        self.xdocsDir=concatenate(rootDir,xdocsSubPath.serialize())
+        self.contentDir=os.path.join(rootDir,contentSubPath.serialize())
+            
+        if not self.config.isXhtml():
+            
+            # XDocs
+            #xdocsSubPath=Path(['xdocs-work','src','documentation','content','xdocs'])
+            xdocsSubPath=Path(['xdocs-work','content','xdocs'])
+            self.makePath(xdocsSubPath,rootDir)                
+            self.xdocsDir=os.path.join(rootDir,xdocsSubPath.serialize())
+        else:
+            # :TODO: Clean-up this. Don't set xdocsDir, just don't use it...
+            self.xdocsDir=self.contentDir
     
-   # :TODO: Do we need to also have this for content not xdocs?
-    def getAbsoluteDirectory(self,object):
-        path=getPathForObject(object)
-        self.makePath(path)
-        return concatenate(self.xdocsDir,path.serialize())
+    def getDirectoryRelativePath(self,object):
+        return getPathForObject(object)
+
         
-    def getAbsoluteFile(self,object,documentName=None,extn='.xml',notXDocs=None):
-        location=getLocationForObject(object)
+    def getFileSpec(self,object,documentName=None,extn=None,rawContent=False):
+        # Could be configured for .html (XHTML) or .xml (XDOCS)
+        if not extn:
+            extn=self.config.getExtension()
+            
+        # Ascertain the location (path/document/index)
+        location=getLocationForObject(object,extn)
         if documentName: 
             if not documentName.endswith(extn):
                 documentName += extn
             location.setDocument(documentName)
             
-        # XDocs in one place, content in another...
-        if (not extn == '.xml' and not extn == '.svg') or notXDocs:
+        # XDocs in one place, raw content/XHTML in another...
+        if self.config.isXdocs() and (not extn == '.xml' and not extn == '.svg') or rawContent:
             self.makePath(location.getPath(),self.contentDir)
-            file=concatenate(self.contentDir,location.serialize())
+            file=os.path.join(self.contentDir,location.serialize())
+            # Stash the root (that this path is relative to)
+            location.setRoot(self.contentDir)    
         else:
             self.makePath(location.getPath(),self.xdocsDir)
-            file=concatenate(self.xdocsDir,location.serialize())
+            file=os.path.join(self.xdocsDir,location.serialize())
+            # Stash the root (that this path is relative to)
+            location.setRoot(self.xdocsDir)    
+            
+        return location                    
+        
+    def getFile(self,object,documentName=None,extn=None,rawContent=False):
+        # Could be configured for .html (XHTML) or .xml (XDOCS)
+        if not extn:
+            extn=self.config.getExtension()
+            
+        # Ascertain the location (path/document/index)
+        location=getLocationForObject(object,extn)
+        if documentName: 
+            if not documentName.endswith(extn):
+                documentName += extn
+            location.setDocument(documentName)
+            
+        location.setRoot(self.xdocsDir)
+        
+        # XDocs in one place, raw content/XHTML in another...
+        if self.config.isXdocs() and (not extn == '.xml' and not extn == '.svg') or rawContent:
+            self.makePath(location.getPath(),self.contentDir)
+            file=os.path.join(self.contentDir,location.serialize())
+        else:
+            self.makePath(location.getPath(),self.xdocsDir)
+            file=os.path.join(self.xdocsDir,location.serialize())
             
         return file                    
             
-    def getAbsoluteDirectoryUrl(self,object):
-        return concatenate(self.rootUrl,getPathForObject(object).serialize())
+    def getDirectoryUrl(self,object):
+        return concatenateUrl(self.rootUrl,getPathForObject(object).serialize('/'))
            
-    def getAbsoluteUrl(self,object,documentName=None,extn='.html'):
+    def getUrl(self,object,documentName=None,extn='.html'):
         location=getLocationForObject(object,extn)
         if documentName:         
             if not documentName.endswith(extn):
                 documentName += extn
             location.setDocument(documentName)
-        return concatenate(self.rootUrl,location.serialize())
-        
-    #
-    # Object stuff...
-    #
-    def getDirectory(self,object):
-        return self.getAbsoluteDirectory(object)
-        
-    def getDirectoryUrl(self,object):
-        return self.getAbsoluteDirectory(object)
-        
-    def getFile(self,object,documentName=None,extn='.xml',notXDocs=None):
-        return self.getAbsoluteFile(object,documentName,extn,notXDocs)
-        
-    def getUrl(self,object,documentName=None,extn='.html'):
-        return self.getAbsoluteUrl(object,documentName,extn)
-                
-    def getRootUrl(self):
-        return self.rootUrl
-        
-    def getAbsoluteUrlForRelative(self,relativeToRoot):
-        return concatenate(self.rootUrl,relativeToRoot)
+        return concatenateUrl(self.rootUrl,location.serialize()) 
         
     def getStateIconInformation(self,statePair):
+        """
+        	Get the URL (and ALT description) for a state pair
+        """
         
         # :TODO: Move this to some resolver, and share with RSS
         sname=statePair.getStateDescription()  
@@ -251,9 +297,18 @@ class XDocResolver(Resolver):
         
         # Build the URL to the icon
         iconName=gumpSafeName(lower(replace(sname,' ','_')))
-        url = self.getAbsoluteUrlForRelative('gump_icons/'+iconName+'.png')
+        url = self.getIconUrl(iconName+'.png')
         
         return (url, description)
         
-    def getImageUrl(self,name):
-        return self.getAbsoluteUrlForRelative('images/'+name)
+    def getImageUrl(self,name,depth=0):
+        """
+            Get URL for a given image
+        """
+        return getPathUp(depth).postfix(Path(['images',name])).serialize('/')
+        
+    def getIconUrl(self,name,depth=0):
+        """
+            Get URL for a given icon
+        """
+        return getPathUp(depth).postfix(Path(['gump_icons',name])).serialize('/')

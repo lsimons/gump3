@@ -15,7 +15,7 @@
 # limitations under the License.
 
 #
-# $Header: /home/stefano/cvs/gump/python/gump/update.py,v 1.29 2004/05/21 23:14:59 ajack Exp $
+# $Header: /home/stefano/cvs/gump/python/gump/update.py,v 1.30 2004/07/08 20:33:04 ajack Exp $
 # 
 
 """
@@ -35,7 +35,7 @@ from gump.core.gumpinit import gumpinit
 from gump.runner.runner import getRunner
 from gump.core.gumprun import *
 from gump.core.commandLine import handleArgv
-from gump.model.loader import WorkspaceLoader
+from gump.loader.loader import WorkspaceLoader
 
 
 ###############################################################################
@@ -58,10 +58,10 @@ if __name__=='__main__':
     ps=args[1]
     
     # get parsed workspace definition
-    workspace=WorkspaceLoader().load(ws, options.isCache()) 
+    workspace=WorkspaceLoader(options.isCache()).load(ws) 
     
-    # Ensure we use text, not forrest...
-    options.setText(1)
+    # Ensure we use text, not xdocs...
+    options.setText(True)
     
     # 
     options.setObjectives(OBJECTIVE_UPDATE)    
@@ -72,7 +72,7 @@ if __name__=='__main__':
     #
     #    Perform this integration run...
     #
-    result = getRunner(run).performUpdate()
+    result = getRunner(run).perform()
 
     #
     log.info('Gump Update complete. Exit code:' + str(result))

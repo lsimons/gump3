@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/test/model.py,v 1.21 2004/05/21 23:15:00 ajack Exp $
-# $Revision: 1.21 $
+# $Header: /home/stefano/cvs/gump/python/gump/test/model.py,v 1.22 2004/07/08 20:33:08 ajack Exp $
+# $Revision: 1.22 $
 #!/usr/bin/env python
 # Copyright 2003-2004 The Apache Software Foundation
 #
@@ -27,7 +27,6 @@ import types, StringIO
 from gump import log
 import gump.core.config
 from gump.model.state import *
-from gump.model.loader import WorkspaceLoader
 from gump.utils import *
 from gump.test import getWorkedTestWorkspace
 from gump.test.pyunit import UnitTestSuite
@@ -62,25 +61,43 @@ class ModelTestSuite(UnitTestSuite):
         self.module3=self.workspace.getModule('module3')
         self.module4=self.workspace.getModule('module4')
         self.module5=self.workspace.getModule('module5')
-
         
+    def setTearDown(self):
+        self.workspace=None
+        self.repo1=None
+
     def testWorkspace(self):
         self.assertNonZero('Has Log Directory',	\
                     self.workspace.getLogDirectory() )
                     
     def testPackages(self):
+        
+        self.package1.dump()
+        
+        self.assertTrue('Is a package marked', self.package1.isPackageMarked())
         self.assertTrue('Is a package', self.package1.isPackaged())
+        self.assertTrue('Has Jars', self.package1.hasJars())
         self.assertTrue('Is a package', self.packagedModule1.isPackaged())
+        
+        
         
     def testRepository(self):
         repo1 = self.repo1
         
-        self.assertNonZero('Repository CVSWEB',repo1.getCvsWeb())
-        self.assertNonZeroString('Repository CVSWEB',repo1.getCvsWeb())        
+        #self.web=xml.root.transfer('web')
+        #self.assertTrue('Repository WEB',getattr(repo1.xml,'cvsweb').hasString())
+        #self.assertNonZeroString('Repository WEB str attr',str(getattr(repo1.xml,'cvsweb')))
+        
+        self.assertTrue('Repository has WEB',repo1.hasWeb())
+        
+        self.assertNonZero('Repository WEB',repo1.getWeb())
+        self.assertNonZeroString('Repository WEB',repo1.getWeb())        
+        
         self.assertTrue('Repository has Modules', repo1.hasModules())
         
         repo2 = self.workspace.getRepository('svn_repository1')  
         self.assertNonZeroString('Repository SVN URL',repo2.getUrl())
+        self.assertNonZeroString('Repository Web URL',repo2.getWeb())
 
     def testComparisons(self):
         project1 = self.project1
@@ -171,38 +188,42 @@ class ModelTestSuite(UnitTestSuite):
         #print "Classpath:" + classpath     
         #print "Bootclasspath:" + bootclasspath
         
-    def testMaven(self):
-                
+    def testMaven(self):                
         self.assertTrue('Maven project has a Maven object', self.maven1.hasMaven())
                  
     def testNoClasspath(self):
         
-        tested=0
+        tested=False
         for depend in self.project5.getDirectDependencies():
             if self.project4 == depend.getProject():
-                tested=1
-                self.assertTrue('NoClaspath', depend.isNoClasspath())
+                tested=True
+                self.assertTrue('NoClasspath', depend.isNoClasspath())
         self.assertTrue('Did a NoClasspath test', tested)
                 
-        tested=0                
+        tested=False          
         for depend in self.project4.getDirectDependencies():
-            tested=1                
-            self.assertFalse('Not NoClaspath', depend.isNoClasspath())
+            tested=True           
+            self.assertFalse('Not NoClasspath', depend.isNoClasspath())
         self.assertTrue('Did a NOT NoClasspath test', tested)
         
-    def testNoClasspathOnProperty(self):
+    def testNoClasspathOnProperty(self):  
         self.assertFalse('<ant <property does NOT gives full dependency (noclasspath)',	\
                 self.project3.hasFullDependencyOnNamedProject('project2'))
-                
                 
         (classpath,bootclasspath)=self.project3.getClasspathObjects()
         
         for pathPart in classpath.getSimpleClasspathList():
+            #print "pathPart:" + `pathPart`
             self.assertNotSubstring('Ought not get output2.jar from project2',	\
                     'output2.jar',	\
                     pathPart)
         
-    def testNoClasspathOnDepend(self):
+    def testClasspathOnDepend(self):
+        for depend in self.project3.getDirectDependencies():
+            print "Depend:" + `depend`        
+        else:
+            print 'No p3 deps:'
+            
         self.assertTrue('<ant <depend gives full dependency (classpath)', \
                 self.project3.hasFullDependencyOnNamedProject('project1'))
                 

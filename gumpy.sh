@@ -33,11 +33,19 @@ if [ -e  $HOST_LOCAL_ENV ] ; then
 	. $HOST_LOCAL_ENV
 fi
 
+export GUMP_PYTHON="`which python2.3`"
+if [ "" == "$GUMP_PYTHON" ] ; then
+ export GUMP_PYTHON="`which python`"
+ if [ "" == "$GUMP_PYTHON" ] ; then
+ 	echo "No Python (python2.3 nor python) found in path."
+ 	exit 1
+ fi
+fi
 
 #
 # Perform the run (passing on any arguments)
 #
-python gumpy.py $*
+$GUMP_PYTHON gumpy.py $*
 
 #
 # Ensure nothing we started (directly) is left running after we end...
@@ -46,5 +54,8 @@ python gumpy.py $*
 if [ "" != "`which pkill`" ] ; then
 	pkill -KILL -P $$ 
 fi
+
+# See if this tells us much.
+#times
 
 # $Log: gumpy.sh,v $

@@ -15,7 +15,9 @@
 # limitations under the License.
 
 """
-    This module contains information on
+
+    This module contains information on builders (ant/maven/script)
+    
 """
 
 from time import localtime, strftime, tzname
@@ -25,133 +27,147 @@ from gump.utils.note import *
 
 from gump.model.state import *
 from gump.model.object import *
+from gump.model.misc import *
 from gump.model.depend import *
 from gump.model.property import *
-
-from gump.model.rawmodel import XMLProperty
-       
+    
+from xml.dom import getDOMImplementation
 
 # represents an <ant/> element
 class Builder(ModelObject, PropertyContainer):
     """ An Ant command (within a project)"""
-    def __init__(self,xml,project):
-    	ModelObject.__init__(self,xml,project)
+    def __init__(self,dom,project):
+    	ModelObject.__init__(self,dom,project)
     	PropertyContainer.__init__(self)
             
         self.basedir=None
         
         # Store owning project
         self.project=project
-    	
+            	
     #
     # expand properties - in other words, do everything to complete the
     # entry that does NOT require referencing another project
     #
     def expand(self,project,workspace):
-        self.expandDependencies(project,workspace)
-        self.expandProperties(project,workspace)
+        self.expandDomDependencies(project,workspace)
+        self.expandDomProperties(project,workspace)
         
-    def expandProperties(self,project,workspace):
+    def expandDomDependencies(self,project,workspace):
+        """
+            Convert all depend elements into property elements, and
+            move the dependency onto the project
+        """
+        impl=getDOMImplementation()
+        
+        for ddom in self.getDomChildIterator('depend'):
+             
+            pdom = impl.createDocument(None, 'property', None)
+            pelement = pdom.documentElement
+        
+            # Transfer depend attributes over as a basis for
+            # the property
+            transferDomAttributes(ddom,pelement)
+                
+            # Fix the reference to a jarpath
+            pelement.setAttribute('reference','jarpath')
+
+            # Name the xmlproperty...
+            if hasDomAttribute(ddom,'property'):
+                pelement.setAttribute('name',getDomAttributeValue(ddom,'property'))
+            elif not hasDomAttribute(pelement,'name'):                   
+                # :TODO: Reconsider later, but default to project name for now...
+                pname=getDomAttributeValue(ddom,'project')
+                pelement.setAttribute('name',pname)
+                project.addWarning('Unnamed property for [' + project.name + '] in depend on: ' + pname )
+        
+            # :TODO: AJ added this, no idea if it is right/needed.
+            if hasDomAttribute(ddom,'id'):
+                pelement.setAttribute('ids',getDomAttributeValue(ddom,'id'))
+            
+            # <depend wants the classpath, unless <noclasspath/> stated
+            # as a child element or attribute.
+            if not hasDomChild(ddom,'noclasspath') and not hasDomAttribute(ddom,'noclasspath'):
+                pelement.setAttribute('classpath','add')
+            
+            # Store it
+            self.expandDomProperty(pelement,project,workspace)            
+            self.importProperty(pelement) 
+            
+            # Stash the constructed property DOM (the doc above the element)
+            if not hasattr(project,'extraDoms'):
+                project.extraDoms=[]
+            project.extraDoms.append(pdom)
+        
+    def expandDomProperties(self,project,workspace):
         #
         # convert Ant property elements which reference a project 
         # into dependencies
         #
-        for property in self.xml.property:
-            self.expandProperty(property,project,workspace)       
-            self.importProperty(property)
+        for pdom in self.getDomChildIterator('property'):
+            self.expandDomProperty(pdom,project,workspace)       
+            self.importProperty(pdom)
             
         #
         # convert Ant sysproperty elements which reference a project 
         # into dependencies
         #
-        for sysproperty in self.xml.sysproperty:
-            self.expandProperty(sysproperty,project,workspace)       
-            self.importSysProperty(sysproperty)
+        for spdom in self.getDomChildIterator('sysproperty'):
+            self.expandDomProperty(spdom,project,workspace)       
+            self.importSysProperty(spdom)
     
     #
     # Expands
     #
-    def expandProperty(self,property,project,workspace):
+    def expandDomProperty(self,pdom,project,workspace):
         
         # :TODO: Cleanup this Workaround
-        if not property.name and property.project:
-            property.name=property.project
+        name=getDomAttributeValue(pdom,'name',getDomAttributeValue(pdom,'project'))
             
-        # Check if the property comes from another project
-        if not property.project: return      
+        # Check if the pdom comes from another project
+        if not hasDomAttribute(pdom,'project'): return          
+        projectName=getDomAttributeValue(pdom,'project')           
         # If that project is the one we have in hand
-        if property.project==project.getName(): return
-        # If the property is not as simple as srcdir
-        if property.reference=="srcdir": return
+        if projectName==project.getName(): return
+        
+        # If the pdom is not as simple as srcdir
+        reference=getDomAttributeValue(pdom,'reference') 
+        if reference=='srcdir': return
+        
         # If it isn't already a classpath dependency
-        if project.hasFullDependencyOnNamedProject(property.project): 
-            self.addInfo('Dependency on ' + property.project + \
+        if project.hasFullDependencyOnNamedProject(projectName): 
+            self.addDebug('Dependency on ' + projectName + \
                     ' exists, no need to add for property ' + \
-                        property.name + '.')
+                        name + '.')
             return
             
         # If there are IDs specified
-        ids=''
-        if property.id: ids= property.id
+        ids=getDomAttributeValue(pdom,'id','')
 
         # Runtime?
-        runtime=0
-        if property.runtime: property.runtime=1
-   
-        projectName=property.project
+        runtime=hasDomAttribute(pdom,'runtime')
+
         if workspace.hasProject(projectName): 
                         
             # A Property
-            noclasspath=1
-            if property.classpath:
-               noclasspath=0
+            noclasspath=not hasDomAttribute(pdom,'classpath')
                         
             # Add a dependency (to bring property)
             dependency=ProjectDependency(project, 	\
-                            workspace.getProject(property.project),	\
+                            workspace.getProject(projectName),	\
                             INHERIT_NONE,	\
                             runtime,
-                            0,	\
+                            False,	\
                             ids,
                             noclasspath,
-                            'Property Dependency for ' + property.name)
+                            'Property Dependency for ' + name)
             
             
             # Add depend to project...
             # :TODO: Convert to ModelObject
             project.addDependency(dependency)
         else:
-            project.addError('No such project [' + projectName + '] for property')
-
-    def expandDependencies(self,project,workspace):
-        #
-        # convert all depend elements into property elements, and
-        # move the dependency onto the project
-        #
-        for depend in self.xml.depend:
-            # Generate the property
-            xmlproperty=XMLProperty(depend.__dict__)
-            xmlproperty['reference']='jarpath'
-      
-            # Name the xmlproperty...
-            if depend.property:
-                xmlproperty['name']=depend.property
-            elif not hasattr(xmlproperty,'name') or not xmlproperty['name']:
-                # :TODO: Reconsider later, but default to project name for now...
-                xmlproperty['name']=depend.project
-                project.addWarning('Unnamed property for [' + project.name + '] in depend on: ' + depend.project )
-        
-            # :TODO: AJ added this, no idea if it is right/needed.
-            if depend.id: xmlproperty['ids']= depend.id
-            
-            # <depend wants the classpath
-            if not xmlproperty.noclasspath:
-                xmlproperty['classpath']='add'
-            
-            # Store it
-            self.expandProperty(xmlproperty,project,workspace)            
-            self.importProperty(xmlproperty) 
-
+            project.addError('No such project [' + projectName + '] for property.')
         
     #
     # complete the definition - it is safe to reference other projects
@@ -161,84 +177,95 @@ class Builder(ModelObject, PropertyContainer):
         if self.isComplete(): return
         
         # Import the properties..
-    	PropertyContainer.importProperties(self,self.xml)
+    	PropertyContainer.importProperties(self,self.dom)
     	
     	# Complete them all
         self.completeProperties(workspace)
         
         # Set this up...
-        self.basedir = os.path.abspath(os.path.join(	\
-                                self.project.getModule().getWorkingDirectory() or dir.base,	\
-                                self.xml.basedir or self.project.getBaseDirectory() or ''))
+        if self.hasDomAttribute('basedir'):
+            self.basedir = os.path.abspath(	\
+                                os.path.join(	\
+                                    self.project.getModule().getWorkingDirectory() or dir.base,	\
+                                    self.getDomAttributeValue('basedir')))
+        else:
+            self.basedir=self.project.getBaseDirectory()
                 
-        self.setComplete(1)
+        self.setComplete(True)
                     
     def dump(self, indent=0, output=sys.stdout):
         """ Display the contents of this object """
         i=getIndent(indent)
         output.write(i+self.__class__.__name__+'\n')
-        #
+        ModelObject.dump(self,indent+1,output)
         # Dump all properties...
-        #
         PropertyContainer.dump(self,indent+1,output)
 
     def getBaseDirectory(self):
          return self.basedir
-       
-
+    
 # represents an <ant/> element
 class Ant(Builder):
     """ An Ant command (within a project)"""
-    def __init__(self,xml,project):
-    	Builder.__init__(self,xml,project)
+    def __init__(self,dom,project):
+    	Builder.__init__(self,dom,project)
       
         # Import the target
-    	self.target='gump'
-    	if xml.target:
-    	    self.target=xml.target
-    	    
+        self.target=self.getDomAttributeValue('target') # :TODO: Soon add ... ,'gump')    	    
         # Import the buildfile
-    	self.buildfile='build.xml'
-    	if xml.buildfile:
-    	    self.buildfile=xml.buildfile    
+        self.buildfile=self.getDomAttributeValue('buildfile') # :TODO: Soon add ... ,'build.xml')
     	    
+    def hasTarget(self):
+        if self.target: return True
+        return False
+        
     def getTarget(self):
         return self.target
+        
+    def hasBuildFile(self):
+        if self.buildfile: return True
+        return False
         
     def getBuildFile(self):
         return self.buildfile
                 
     def dump(self, indent=0, output=sys.stdout):
         """ Display the contents of this object """
-        Builder.dump(self)
-        i=getIndent(indent)
-        output.write(i+'Ant: ' + self.getTarget() + '\n')
-        output.write(i+'BuildFile: ' + self.getBuildFile() + '\n')
+        Builder.dump(self,indent,output)
+        i=getIndent(indent+1)
+        if self.hasTarget():
+            output.write(i+'Target: ' + self.getTarget() + '\n')
+        if self.hasBuildFile():
+            output.write(i+'BuildFile: ' + self.getBuildFile() + '\n')
 
 # represents an <maven/> element
 class Maven(Builder):
     """ A Maven command (within a project)"""
-    def __init__(self,xml,project):
-    	Builder.__init__(self,xml,project)
+    def __init__(self,dom,project):
+    	Builder.__init__(self,dom,project)
     	
         # Import the goal
-    	self.goal='jar'
-    	if xml.goal:
-    	    self.goal=xml.goal
+        self.goal=self.getDomAttributeValue('goal','jar')
             	    
     def getGoal(self):
         return self.goal
     	
     def dump(self, indent=0, output=sys.stdout):
         """ Display the contents of this object """
-        Builder.dump(self)
-        i=getIndent(indent)
-        output.write(i+'Maven: ' + self.getGoal() + '\n')
+        Builder.dump(self,indent,output)
+        i=getIndent(indent+1)
+        output.write(i+'Goal: ' + self.getGoal() + '\n')
 
 # represents an <script/> element
 class Script(Builder):
     """ A script command (within a project)"""
-    def __init__(self,xml,project):
-    	Builder.__init__(self,xml,project)
+    def __init__(self,dom,project):
+    	Builder.__init__(self,dom,project)
+    	
+    	# Get the name
+    	self.name=self.getDomAttributeValue('name','unset')
+    	
+    def getName(self):
+        return self.name
     
     	

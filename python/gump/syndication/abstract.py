@@ -33,22 +33,36 @@ from gump.model.project import ProjectStatistics
 class AbstractSyndicator(RunSpecific):
     def __init__(self,run):
         RunSpecific.__init__(self,run)
+      
+    # Call a method called 'prepareRun(run)'
+    def prepare(self):
+        if not hasattr(self,'prepareRun'):
+            raise RuntimeError, 'Complete [' + `self.__class__` + '] with prepareRun(self)'
         
-    #
-    # Populate a method called 'syndicateRun(run)'
-    #
-    def syndicate(self):
-        if not hasattr(self,'syndicateRun'):
-            raise RuntimeError, 'Complete [' + `self.__class__` + '] with syndicateRun(self)'
-        
-        if not callable(self.syndicateRun):
-            raise RuntimeException, 'Complete [' + `self.__class__` + '] with a callable syndicateRun(self)'
+        if not callable(self.prepareRun):
+            raise RuntimeException, 'Complete [' + `self.__class__` + '] with a callable prepareRun()'
         
         log.info('Syndicate run using [' + `self` + ']')
         
-        self.syndicateRun()
+        self.prepareRun()
+
+    # Call a method called 'completeRun(run)'
+    def complete(self):
+        if not hasattr(self,'completeRun'):
+            raise RuntimeError, 'Complete [' + `self.__class__` + '] with completeRun(self)'
+        
+        if not callable(self.completeRun):
+            raise RuntimeException, 'Complete [' + `self.__class__` + '] with a callable completeRun()'
+        
+        log.info('Syndicate run using [' + `self` + ']')
+        
+        self.completeRun()
 
     def getProjectContent(self,project,run):
+        """
+            Construct the generic (HTML) contents for the 
+            feed item/entry.
+        """    
         
         resolver=run.getOptions().getResolver()
         
@@ -68,12 +82,9 @@ class AbstractSyndicator(RunSpecific):
     
         content += '</p>'
         
-        if project.hasDescription or project.getModule().hasDescription():
+        if project.hasDescription():
             content+='<p>'           
-            if project.hasDescription(): 
-                content+=project.getDescription()
-            else:
-                content+=project.getModule().getDescription()
+            content+=project.getDescription()
             content+='<p>'
             
         content += self.getSundries(project)
@@ -81,8 +92,11 @@ class AbstractSyndicator(RunSpecific):
         return content
 
     
-
     def getModuleContent(self,module,run):
+        """
+        	Construct the generic (HTML) contents for the 
+        	feed item/entry.
+        """
         
         resolver=self.run.getOptions().getResolver()
         
@@ -112,6 +126,9 @@ class AbstractSyndicator(RunSpecific):
         return content
 
     def getStateContent(self,statePair):
+        """
+            Construct the generic (HTML) contents for state
+        """    
         
         resolver=self.run.getOptions().getResolver()    
         
@@ -129,6 +146,9 @@ class AbstractSyndicator(RunSpecific):
         return content
         
     def getSundries(self,object):
+        """
+            Construct the generic extra (HTML) contents
+        """        
         
         content = ''
         
@@ -149,7 +169,7 @@ class AbstractSyndicator(RunSpecific):
         #if object.worklist:
         #    content += '<p><table>'    
         #    for work in object.worklist:
-        #        url=resolver.getAbsoluteUrl(work)
+        #        url=resolver.getUrl(work)
         #        state=stateDescription(work.state)                 
         #        content += ('<tr><td><a href=\'' + 	\
         #            url + '\'>' + work.getName() + 	\

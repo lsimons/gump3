@@ -29,7 +29,7 @@ from gump.core.config import dir, default, basicConfig
 
 from gump.update.cvs import CvsUpdater
 from gump.update.svn import SvnUpdater
-from gump.update.jars import JarsUpdater
+from gump.update.artifact import ArtifactUpdater
 
 from gump.utils import dump, display, getIndent, logResourceUtilization, \
                             invokeGarbageCollection
@@ -57,7 +57,7 @@ class GumpUpdater(RunSpecific):
         
         self.cvs=CvsUpdater(run)
         self.svn=SvnUpdater(run)
-        self.jars=JarsUpdater(run)
+        self.artifact=ArtifactUpdater(run)
 
     """
     
@@ -99,7 +99,7 @@ class GumpUpdater(RunSpecific):
     
         workspace = self.run.getWorkspace()
         
-        log.debug("Workspace CVS|SVN|Jars Directory: " + workspace.getSourceControlStagingDirectory())
+        log.debug("Workspace CVS|SVN|artifacts Directory: " + workspace.getSourceControlStagingDirectory())
 
         # Update all the modules that have CVS repositories
         for module in list: 
@@ -125,8 +125,8 @@ class GumpUpdater(RunSpecific):
                 ok=self.cvs.updateModule(module)
             elif module.hasSvn():
                 ok=self.svn.updateModule(module)
-            elif module.hasJars():
-                ok=self.jars.updateModule(module)        
+            elif module.hasArtifacts():
+                ok=self.artifact.updateModule(module)        
             else:
                 # :TODO: Now what?
                 pass
@@ -159,13 +159,24 @@ class GumpUpdater(RunSpecific):
                                     'changes_to_'+gumpSafeName(module.getName())+'.txt'))
                     
             # Perform the operation.
-            modified=syncDirectories(sourcedir,destdir,module,changesFile)
+            (actions,modified,cleaned)=syncDirectories(sourcedir,destdir,module,changesFile)
                     
             # We are good to go...
             module.changeState(STATE_SUCCESS)
                     
             # Were the contents of the repository modified?                                        
-            if modified and os.path.exists(changesFile):                               
+            if modified: 
+            
+                #
+                # Use 'incoming changes' to note that the module
+                # was modified.
+                #
+                module.setModified(True)                                  
+                log.info('Update(s) received via on #[' \
+                                + `module.getPosition()` + \
+                                '] : ' + module.getName())
+                                
+                if os.path.exists(changesFile):  
                     catFileToFileHolder(module, changesFile, FILE_TYPE_LOG) 
                         
         except Exception, details:
@@ -176,13 +187,17 @@ class GumpUpdater(RunSpecific):
         
 
     def preview(self,module):
+        """
         
+            Preview what ought occur for this
+            
+        """
         
         if module.hasCvs():
             ok=self.cvs.preview(module)
         elif module.hasSvn():
             ok=self.svn.preview(module)
-        elif module.hasJars():
-            ok=self.jars.preview(module)        
+        elif module.hasArtifacts():
+            ok=self.artifact.preview(module)        
         else:
             print 'No updater for module: ' + module.getName()            

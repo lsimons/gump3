@@ -32,48 +32,7 @@ class UtilsTestSuite(UnitTestSuite):
         
     def suiteSetUp(self):
         self.now=default.time
-        
-    def testDateTimeUtils(self):
-        oneHourBefore=self.now - (60*60)
-        twoHoursBefore=self.now - (60*60*2)
-        oneDayBefore=self.now - (60*60*24)
-        twoDaysBefore=self.now - (60*60*24*2)
-        oneWeekBefore=self.now - (60*60*24*7)
-        twoWeeksBefore=self.now - (60*60*24*7*2)
-        oneMonthBefore=self.now - (60*60*24*31)
-        twoMonthsBefore=self.now - (60*60*24*31*2)
-        oneYearBefore=self.now - (60*60*24*365)
-        twoYearsBefore=self.now - (60*60*24*365*2)
-        
-        rough=getGeneralDifferenceDescription(self.now, oneHourBefore)
-        self.assertInString('Date Diff String', '1 hour', rough)
-        
-        rough=getGeneralDifferenceDescription(self.now, twoHoursBefore)
-        self.assertInString('Date Diff String', '2 hours', rough)
-      
-        rough=getGeneralDifferenceDescription(self.now, oneDayBefore)
-        self.assertInString('Date Diff String', '1 day', rough)
-        
-        rough=getGeneralDifferenceDescription(self.now, twoDaysBefore)
-        self.assertInString('Date Diff String', '2 days', rough)
-      
-        rough=getGeneralDifferenceDescription(self.now, oneWeekBefore)
-        self.assertInString('Date Diff String', '1 week', rough)
-        
-        rough=getGeneralDifferenceDescription(self.now, twoWeeksBefore)
-        self.assertInString('Date Diff String', '2 weeks', rough)
-      
-        rough=getGeneralDifferenceDescription(self.now, oneMonthBefore)
-        self.assertInString('Date Diff String', '1 month', rough)
-        
-        rough=getGeneralDifferenceDescription(self.now, twoMonthsBefore)
-        self.assertInString('Date Diff String', '2 months', rough)        
-        
-        rough=getGeneralDifferenceDescription(self.now, oneYearBefore)
-        self.assertInString('Date Diff String', '1 year', rough)
-        
-        rough=getGeneralDifferenceDescription(self.now, twoYearsBefore)
-        self.assertInString('Date Diff String', '2 years', rough)
+    
         
     def testSpacesInCommandLines(self):
         params=Parameters()
@@ -126,11 +85,6 @@ class UtilsTestSuite(UnitTestSuite):
         self.assertNotNone('Ought be one called X', attrs['X'])
         
     def testRandomStuff(self):
-        # :TODO: Clean this up, just moved it here so as not to loose it.
-        secsToElapsedTimeTriple(1340)
-        secsToElapsedTimeString(1340)
-        secsToTime(1340)
-        elapsedTimeTripleToString(secsToElapsedTimeTriple(1340))
         getIndent(5)
         logResourceUtilization()
   

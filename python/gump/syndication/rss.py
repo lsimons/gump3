@@ -196,7 +196,7 @@ class RSS:
         log.debug("RSS Newsfeed written to : " + self.rssFile);          
         
     def serialize(self):
-        log.info("RSS Newsfeed to : " + self.rssFile);         
+        log.debug("RSS Newsfeed to : " + self.rssFile);         
         self.rssStream = open(self.rssFile,'w')
         
         self.startRSS()
@@ -226,7 +226,7 @@ class RSSSyndicator(AbstractSyndicator):
                     'Apache Gump', \
                     'http://gump.apache.org/')
         
-    def syndicate(self):
+    def prepareRun(self):
         
         # Main syndication document
         self.workspace=self.run.getWorkspace()   
@@ -238,16 +238,11 @@ class RSSSyndicator(AbstractSyndicator):
                     self.workspace.logurl,	\
                     """Life is like a box of chocolates""", \
                 self.gumpImage))
-        
-        # build information 
-        for module in self.workspace.getModules():
-            if not self.run.getGumpSet().inModuleSequence(module): continue               
-            
-            self.syndicateModule(module,self.rss)
-            
+       
+    def completeRun(self):
         self.rss.serialize()
     
-    def syndicateModule(self,module,mainRSS):
+    def syndicateModule(self,module):
         
         rssFile=self.run.getOptions().getResolver().getFile(module,'rss','.xml',1)
         rssUrl=self.run.getOptions().getResolver().getUrl(module,'rss','.xml')
@@ -256,20 +251,16 @@ class RSSSyndicator(AbstractSyndicator):
         moduleRSS=RSS(rssUrl,rssFile,	\
             Channel('Gump : Module ' + escape(module.getName()),	\
                     moduleUrl,	\
-                    escape(module.getDescription()), \
+                    escape(module.getDescription() or ''), \
                     self.gumpImage))
                     
         datestr=time.strftime('%Y-%m-%d')
         timestr=time.strftime('%H:%M:%S')
          
-        #           
         # Get a decent description
-        #
         content=self.getModuleContent(module,self.run)
                         
-        #
-        #
-        #
+        # Create the item
         item=Item(('%s %s') % (module.getName(),module.getStateDescription()), \
                   moduleUrl, \
                   content, \
@@ -284,16 +275,16 @@ class RSSSyndicator(AbstractSyndicator):
         # State changes that are newsworthy...
         if 	self.moduleOughtBeWidelySyndicated(module):
             log.debug("Add module to widely distributed RSS Newsfeed for : " + module.getName())
-            mainRSS.addItem(item)
+            self.rss.addItem(item)
             
         for project in module.getProjects():  
             if not self.run.getGumpSet().inProjectSequence(project): continue               
             
-            self.syndicateProject(project,moduleRSS,mainRSS)      
+            self.syndicateProject(project,moduleRSS)      
                   
         moduleRSS.serialize()        
     
-    def syndicateProject(self,project,moduleRSS,mainRSS):
+    def syndicateProject(self,project,moduleRSS=None):
                 
         rssFile=self.run.getOptions().getResolver().getFile(project,'rss','.xml',1)
         rssUrl=self.run.getOptions().getResolver().getUrl(project,'rss','.xml')
@@ -302,7 +293,7 @@ class RSSSyndicator(AbstractSyndicator):
         projectRSS=RSS(rssUrl, rssFile,	\
             Channel('Gump : Project ' + escape(project.getName()),	\
                     projectUrl,	\
-                    escape(project.getDescription()), \
+                    escape(project.getDescription() or ''), \
                     self.gumpImage))
                     
         datestr=time.strftime('%Y-%m-%d')
@@ -325,11 +316,12 @@ class RSSSyndicator(AbstractSyndicator):
         if project.getModule().isModified() and not project.getStatePair().isUnset():    
             log.debug("Add project to RSS Newsfeed for : " + project.getName())
             projectRSS.addItem(item)
-            moduleRSS.addItem(item)  
+            if moduleRSS: 
+                moduleRSS.addItem(item)  
 
         # State changes that are newsworthy...
         if self.projectOughtBeWidelySyndicated(project) :      
             log.debug("Add project to widely distributed RSS Newsfeed for : " + project.getName())
-            mainRSS.addItem(item)
+            self.rss.addItem(item)
                                                         
         projectRSS.serialize()

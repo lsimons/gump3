@@ -57,7 +57,7 @@ class ResolvingTestSuite(UnitTestSuite):
         #    ' -> ' + `rpath` + ', length ' + `len(rpath)`
     
     def checkLocation(self,object1):
-        location=getLocationForObject(object1)
+        location=getLocationForObject(object1,'.test')
         #printSeparator()
         self.assertNotNone('Location: ', location)
         self.assertNotNone('Location: ', location.serialize())
@@ -65,9 +65,9 @@ class ResolvingTestSuite(UnitTestSuite):
     def checkRelativeLocation(self,object1,object2):  
         self.assertNotNone('To               : ', object1)
         self.assertNotNone('From             : ', object2)  
-        location1=getLocationForObject(object1)    
-        location2=getLocationForObject(object2)
-        location=getRelativeLocation(object1,object2)
+        location1=getLocationForObject(object1,'.test')    
+        location2=getLocationForObject(object2,'.test')
+        location=getRelativeLocation(object1,object2,'.test')
         #printSeparator()
         self.assertNotNone('To       Location: ', location1)
         self.assertNotNone('From     Location: ', location2)
@@ -86,6 +86,10 @@ class ResolvingTestSuite(UnitTestSuite):
     def testPaths(self):
 
         path=Path()
+        
+        print path.getPathUp()
+        self.assertNotNone('Ought be period.', path.getPathUp())
+        
         path1=path.getPostfixed('ABC')
         path2=path1.getPostfixed('DEF')
         path3=path2.getPostfixed(['GHI','JKL'])

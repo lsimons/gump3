@@ -28,42 +28,42 @@ from string import lower, capitalize
 from gump import log
 from gump.core.gumprun import *
 from gump.core.actor import AbstractRunActor
+from gump.syndication.rss import RSSSyndicator
+from gump.syndication.atom import AtomSyndicator
 
 class Syndicator(AbstractRunActor):
     
     def __init__(self,run):              
-        AbstractRunActor.__init__(self,run)              
+        AbstractRunActor.__init__(self,run)    
+        
+        self.rss=RSSSyndicator(self.run)      
+        self.atom=AtomSyndicator(self.run)
         
     def processOtherEvent(self,event):            
-        if isinstance(event,FinalizeRunEvent):
-          
-            #
-            # Update stats (and stash onto projects)
-            #
-            self.syndicate()
-            
-    def syndicate(self):
-
-        #
-        # Produce an RSS Feed
-        #
-        try:    
-            from gump.syndication.rss import RSSSyndicator
-            simple=RSSSyndicator(self.run)
-            simple.syndicate()    
-        except:
-            log.error('Failed to generate RSS Feeds', exc_info=1)    
-        
-        #
-        # Produce an Atom Feed
-        #
-        try:
-            from gump.syndication.atom import AtomSyndicator
-            atom=AtomSyndicator(self.run)
-            atom.syndicate()
-        except:
-            log.error('Failed to generate Atom Feeds', exc_info=1)  
-            
-def syndicate(self,run):
-    s=Syndicator(run)
-    s.syndicate()
+        if isinstance(event,InitializeRunEvent):     
+            self.rss.prepare()
+            self.atom.prepare()
+        elif isinstance(event,FinalizeRunEvent):    
+            self.rss.complete()
+            self.atom.complete()
+                      
+    def processWorkspace(self):
+        """
+        Syndicate information about the workspace (if it needs it)
+        """
+        pass
+    
+    def processModule(self,module):    
+        """
+        Syndicate information about the module (if it needs it)
+        """
+        self.rss.syndicateModule(module)
+        self.atom.syndicateModule(module)
+    
+    def processProject(self,project):    
+        """
+        Syndicate information about the project (if it needs it)
+        """
+        self.rss.syndicateProject(project)
+        self.atom.syndicateProject(project)
+           

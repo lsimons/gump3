@@ -16,7 +16,9 @@
 
 
 """
+
     Statistics manipulation [e.g. reseting, etc.]
+    
 """
 
 import time
@@ -47,6 +49,4 @@ if __name__=='__main__':
         
     tool=StatisticsTool()
     
-    tool.dump()
-            
-        
+    tool.dump()        

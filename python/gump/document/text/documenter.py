@@ -47,7 +47,6 @@ class TextDocumenter(Documenter):
         self.output=output        
         self.setResolver(TextResolver(dirBase,urlBase))
         
-        
     def processModule(self,module):
         verbose=self.run.getOptions().isVerbose()
         debug=self.run.getOptions().isDebug()

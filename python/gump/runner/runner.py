@@ -54,7 +54,7 @@ class GumpRunner(RunSpecific):
         self.updater=GumpUpdater(run)
         self.builder=GumpBuilder(run)
         
-    def initialize(self,exitOnError=1):
+    def initialize(self,exitOnError=True):
         
         logResourceUtilization('Before initialize')
         
@@ -91,7 +91,7 @@ class GumpRunner(RunSpecific):
             
         # Write workspace to a 'merge' file        
         if not self.run.getOptions().isQuick():
-            workspace.writeXMLToFile(default.merge)
+            workspace.writeXmlToFile(default.merge)
             workspace.setMergeFile(default.merge)
                  
         # :TODO: Put this somewhere else, and/or make it depend upon something...
@@ -115,11 +115,10 @@ class GumpRunner(RunSpecific):
         self.run.registerActor(Resulter(self.run))            
               
         # Document..
-        # Use Forrest if available & not overridden...
+        # Use XDOCS if not overridden...
         #
         documenter=None
-        if self.run.getEnvironment().noForrest \
-            or self.run.getOptions().isText() :
+        if self.run.getOptions().isText() :
             documenter=TextDocumenter(self.run)
         else:
             documenter=XDocDocumenter(	self.run,	\
@@ -128,12 +127,12 @@ class GumpRunner(RunSpecific):
         self.run.getOptions().setResolver(documenter.getResolver())                                                  
         self.run.registerActor(documenter)    
         
-        
         # Syndicate once documented
         self.run.registerActor(Syndicator(self.run))   
             
         # Notify last
-        self.run.registerActor(Notifier(self.run))         
+        if self.run.getOptions().isNotify() and self.run.getWorkspace().isNotify():
+            self.run.registerActor(Notifier(self.run))         
                     
     def finalize(self):            
         # About to shutdown...
@@ -144,6 +143,22 @@ class GumpRunner(RunSpecific):
         
     def getBuilder(self):
         return self.builder
+        
+    #
+    # Call a method called 'documentRun(run)'
+    #
+    def perform(self):
+        if not hasattr(self,'performRun'):
+            raise RuntimeError, \
+                    'Class [' + `self.__class__` + '] needs a performRun(self,run)'
+        
+        if not callable(self.performRun):
+            raise RuntimeError, \
+                    'Class [' + `self.__class__` + '] needs a callable performRun(self,run)'
+        
+        log.debug('Perform run using [' + `self` + ']')
+        
+        self.performRun()
 
 def getRunner(run):
     from gump.runner.demand import OnDemandRunner

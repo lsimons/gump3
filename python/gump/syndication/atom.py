@@ -111,7 +111,7 @@ class AtomFeed:
 """)
                 
     def serialize(self):
-        log.info("Atom Feed to : " + self.file);         
+        log.debug("Atom News Feed to : " + self.file);         
         stream = open(self.file,'w')
         
         modified=time.strftime('%Y-%m-%dT%H:%M:%SZ', gmtime())
@@ -125,50 +125,40 @@ class AtomSyndicator(AbstractSyndicator):
     def __init__(self,run):
         AbstractSyndicator.__init__(self,run)
         
-    def syndicate(self):
+    def prepareRun(self):
         
         # Main syndication document
         self.workspace=self.run.getWorkspace()   
         
         feedFile=self.run.getOptions().getResolver().getFile(self.workspace,'atom','.xml',1)      
-        feedUrl=self.run.getOptions().getResolver().getAbsoluteUrl(self.workspace,'atom','.xml')
+        feedUrl=self.run.getOptions().getResolver().getUrl(self.workspace,'atom','.xml')
     
         self.feed=AtomFeed(feedUrl,feedFile,	\
                         'workspace',	\
                        'Apache Gump',		\
                         self.workspace.logurl,	\
                         """Life is like a box of chocolates""")
-                    
-        # build information 
-        for module in self.workspace.getModules():
-            if not self.run.getGumpSet().inModuleSequence(module): continue               
             
-            self.syndicateModule(module,self.feed)
-            
+    def completeRun(self):
         self.feed.serialize()
             
-        
-    def syndicateModule(self,module,mainFeed):
+    def syndicateModule(self,module):
                 
         feedFile=self.run.getOptions().getResolver().getFile(module,'atom','.xml',1)
-        feedUrl=self.run.getOptions().getResolver().getAbsoluteUrl(module,'atom','.xml')
+        feedUrl=self.run.getOptions().getResolver().getUrl(module,'atom','.xml')
         moduleUrl=self.run.getOptions().getResolver().getUrl(module)
         
         moduleFeed=AtomFeed(feedUrl,feedFile,	
                         'module',	\
                         'Gump : Module ' + escape(module.getName()),	\
                         moduleUrl,	\
-                        escape(module.getDescription()))
+                        escape(module.getDescription() or ''))
                     
-         
-        #           
+          
         # Get a decent description
-        #
         content=self.getModuleContent(module,self.run)
                         
-        #
         # Entry
-        #
         entry=Entry(('%s %s') % (module.getName(),module.getStateDescription()), \
                   moduleUrl, \
                   module.getName(), \
@@ -182,27 +172,27 @@ class AtomSyndicator(AbstractSyndicator):
         # State changes that are newsworthy...
         if 	self.moduleOughtBeWidelySyndicated(module):      
             log.debug("Add module to widely distributed Atom Newsfeed for : " + module.getName())      
-            mainFeed.addEntry(entry)
+            self.feed.addEntry(entry)
             
         # Syndicate each project
         for project in module.getProjects():  
             if not self.run.getGumpSet().inProjectSequence(project): continue               
             
-            self.syndicateProject(project,moduleFeed,mainFeed)      
+            self.syndicateProject(project,moduleFeed)      
                   
         moduleFeed.serialize()        
     
-    def syndicateProject(self,project,moduleFeed,mainFeed):
+    def syndicateProject(self,project,moduleFeed=None):
         
         feedFile=self.run.getOptions().getResolver().getFile(project,'atom','.xml',1)
-        feedUrl=self.run.getOptions().getResolver().getAbsoluteUrl(project,'atom','.xml')
+        feedUrl=self.run.getOptions().getResolver().getUrl(project,'atom','.xml')
         projectUrl=self.run.getOptions().getResolver().getUrl(project)
         
         projectFeed=AtomFeed(feedUrl, feedFile,	\
                         'project',	\
                     'Gump : Project ' + escape(project.getName()),	\
                     projectUrl,	\
-                    escape(project.getDescription()))
+                    escape(project.getDescription() or ''))
          
         #           
         # Get a decent description
@@ -220,11 +210,12 @@ class AtomSyndicator(AbstractSyndicator):
         if project.getModule().isModified() and not project.getStatePair().isUnset():      
             log.debug("Add project to Atom Newsfeed for : " + project.getName())         
             projectFeed.addEntry(entry)
-            moduleFeed.addEntry(entry)  
+            if moduleFeed:
+                moduleFeed.addEntry(entry)  
 
         # State changes that are newsworthy...
         if 	self.projectOughtBeWidelySyndicated(project) :
             log.debug("Add project to widely distributed Atom Newsfeed for : " + project.getName())    
-            mainFeed.addEntry(entry)
+            self.feed.addEntry(entry)
                                                         
         projectFeed.serialize()
