@@ -8,12 +8,28 @@
 
   <cvs repository="jakarta"/>
 
-  <!-- Build the Cactus project for J2EE 1.2 -->
-  <project name="jakarta-cactus-12">
+  <!-- Build the Cactus Ant Custom Tasks -->
+  <project name="jakarta-cactus-ant">
+
+    <package>org.apache.cactus.ant</package>
+
+    <ant buildfile="anttasks/build.xml" target="dist"/>
+  
+    <depend project="jakarta-ant"/>
+    <depend project="xml-xerces"/>
+
+    <home nested="anttasks/dist"/>
+    <jar name="lib/cactus-ant.jar"/>
+    <javadoc nested="doc/api" title="Cactus Custom Ant tasks API"/>
+
+  </project>
+
+  <!-- Build the Cactus Framework for J2EE 1.2 -->
+  <project name="jakarta-cactus-framework-12">
 
     <package>org.apache.cactus</package>
 
-    <ant buildfile="build.xml" target="nightly">
+    <ant buildfile="framework/build.xml" target="dist">
 
       <depend property="j2ee.jar" project="jakarta-servletapi"/>
       <depend property="log4j.jar" project="jakarta-log4j"/>
@@ -21,6 +37,35 @@
       <depend property="httpunit.jar" project="httpunit"/>
       <depend property="aspectjrt.jar" project="aspectj" id="aspectjrt"/>
       <depend property="junit.jar" project="junit"/>
+
+    </ant>
+  
+    <depend project="jakarta-ant"/>
+    <depend project="xml-xerces"/>
+    <depend project="aspectj"/>
+
+    <work nested="framework/target/classes/java"/>
+    <work nested="framework/target/classes/test"/>
+
+    <home nested="dist"/>
+    <jar name="lib/cactus.jar"/>
+    <javadoc nested="doc/api" title="Cactus Framework for J2EE 1.2 API"/>
+  </project>
+
+  <!-- Build the Cactus Servlet Sample for J2EE 1.2 -->
+  <project name="jakarta-cactus-servlet-sample-12">
+
+    <ant buildfile="sample-servlet/build.xml" target="dist">
+
+      <depend property="j2ee.jar" project="jakarta-servletapi"/>
+      <depend property="log4j.jar" project="jakarta-log4j"/>
+      <depend property="commons.httpclient.jar" project="commons-httpclient"/>
+      <depend property="httpunit.jar" project="httpunit"/>
+      <depend property="aspectjrt.jar" project="aspectj" id="aspectjrt"/>
+      <depend property="junit.jar" project="junit"/>
+      <depend property="cactus.framework.jar" project="jakarta-cactus-framework-12"/>
+      <depend property="cactus.ant.jar" project="jakarta-cactus-ant"/>
+      <property name="cactus.framework.web" value="framework/dist/web"/>
       <property name="test.port" value="8081"/>
       <property name="tomcat.home.33" reference="home" project="jakarta-tomcat"/>
 
@@ -28,27 +73,19 @@
   
     <depend project="jakarta-ant"/>
     <depend project="xml-xerces"/>
-    <depend project="xml-stylebook2"/>
-    <depend project="xml-xalan2"/>
-    <depend project="jakarta-tomcat"/>
     <depend project="aspectj"/>
-
-    <work nested="framework/target/classes/java"/>
-    <work nested="framework/target/classes/test"/>
+    <depend project="jakarta-tomcat"/>
 
     <home nested="dist"/>
-    <jar name="lib/cactus-ant.jar"/>
-    <jar name="lib/cactus.jar"/>
-    <javadoc nested="doc/api/anttasks" title="Cactus Custom Ant tasks API"/>
-    <javadoc nested="doc/api/framework" title="Cactus J2EE 1.2 API"/>
+
   </project>
 
-  <!-- Build the Cactus project for J2EE 1.3 -->
-  <project name="jakarta-cactus-13">
+  <!-- Build the Cactus Framework for J2EE 1.3 -->
+  <project name="jakarta-cactus-framework-13">
 
     <package>org.apache.cactus</package>
 
-    <ant buildfile="build.xml" target="nightly">
+    <ant buildfile="framework/build.xml" target="dist">
 
       <depend property="j2ee.jar" project="jakarta-servletapi-4"/>
       <depend property="log4j.jar" project="jakarta-log4j"/>
@@ -56,26 +93,62 @@
       <depend property="httpunit.jar" project="httpunit"/>
       <depend property="aspectjrt.jar" project="aspectj" id="aspectjrt"/>
       <depend property="junit.jar" project="junit"/>
-      <property name="test.port" value="8082"/>
-      <property name="tomcat.home.40" reference="home" project="jakarta-tomcat-4.0"/>
-
     </ant>
   
     <depend project="jakarta-ant"/>
     <depend project="xml-xerces"/>
-    <depend project="xml-stylebook2"/>
-    <depend project="xml-xalan2"/>
-    <depend project="jakarta-tomcat-4.0" inherit="runtime"/>
     <depend project="aspectj"/>
 
     <work nested="framework/target/classes/java"/>
     <work nested="framework/target/classes/test"/>
 
     <home nested="dist"/>
-    <jar name="lib/cactus-ant.jar"/>
     <jar name="lib/cactus.jar"/>
-    <javadoc nested="doc/api/anttasks" title="Cactus Custom Ant tasks API"/>
-    <javadoc nested="doc/api/framework" title="Cactus J2EE 1.3 API"/>
+    <javadoc nested="doc/api" title="Cactus Framework for J2EE 1.3 API"/>
+  </project>
+
+  <!-- Build the Cactus Servlet Sample for J2EE 1.3 -->
+  <project name="jakarta-cactus-servlet-sample-13">
+
+    <ant buildfile="servlet-sample/build.xml" target="dist">
+
+      <depend property="j2ee.jar" project="jakarta-servletapi-4"/>
+      <depend property="log4j.jar" project="jakarta-log4j"/>
+      <depend property="commons.httpclient.jar" project="commons-httpclient"/>
+      <depend property="httpunit.jar" project="httpunit"/>
+      <depend property="aspectjrt.jar" project="aspectj" id="aspectjrt"/>
+      <depend property="junit.jar" project="junit"/>
+      <depend property="cactus.framework.jar" project="jakarta-cactus-framework-13"/>
+      <depend property="cactus.ant.jar" project="jakarta-cactus-ant"/>
+      <property name="cactus.framework.web" value="framework/dist/web"/>
+      <property name="test.port" value="8082"/>
+      <property name="tomcat.home.40" reference="home" project="jakarta-tomcat-4.0"/>
+    </ant>
+  
+    <depend project="jakarta-ant"/>
+    <depend project="xml-xerces"/>
+    <depend project="jakarta-tomcat-4.0" inherit="runtime"/>
+    <depend project="aspectj"/>
+
+    <home nested="dist"/>
+
+  </project>
+
+  <!-- Build the Cactus Documentation -->
+  <project name="jakarta-cactus-documentation">
+
+    <ant buildfile="documentation/build.xml" target="dist">
+      <depend property="cactus.ant.jar" project="jakarta-cactus-ant"/>
+    </ant>
+  
+    <depend project="jakarta-ant"/>
+    <depend project="xml-xerces"/>
+    <depend project="xml-stylebook2"/>
+    <depend project="xml-xalan2"/>
+
+    <home nested="documentation/dist"/>
+    <javadoc nested="doc" title="Cactus Documentation"/>
+
   </project>
 
 </module>
