@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/Attic/view.py,v 1.2 2003/04/28 21:38:02 rubys Exp $
-# $Revision: 1.2 $
-# $Date: 2003/04/28 21:38:02 $
+# $Header: /home/stefano/cvs/gump/python/gump/Attic/view.py,v 1.3 2003/04/28 21:49:31 rubys Exp $
+# $Revision: 1.3 $
+# $Date: 2003/04/28 21:49:31 $
 #
 # ====================================================================
 #
@@ -214,8 +214,7 @@ class gumpview(wxApp):
     # add in work directories
     srcdir=Module.list[project.module].srcdir
     for work in project.work:
-      jarpath=os.path.normpath(os.path.join(srcdir,work.nested))
-      self.classpath.InsertStringItem(i,jarpath)
+      self.classpath.InsertStringItem(i,jar.path)
       i=i+1
 
     # add in depends and options
@@ -243,6 +242,7 @@ class gumpview(wxApp):
         i=i+1
 
     self.property.SetColumnWidth(0,wxLIST_AUTOSIZE_USEHEADER)
+    self.property.SetColumnWidth(1,wxLIST_AUTOSIZE_USEHEADER)
 
   # show the xml description for a single item
   def selectItem(self, event):
