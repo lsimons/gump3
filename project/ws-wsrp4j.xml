@@ -74,9 +74,6 @@
   <project name="my-axis">
     <jar name="lib/axis.jar"/>
   </project>
-  <project name="jaxrpc">
-    <jar name="lib/jaxrpc.jar"/>
-  </project>
   <project name="saaj">
     <jar name="lib/saaj.jar"/>
   </project>
