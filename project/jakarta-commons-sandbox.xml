@@ -31,7 +31,7 @@
     </ant>
     <depend project="jakarta-ant"/>
     <depend project="xml-xerces"/>
-    <jar name="codec/dist/commons-codec-@@DATE@@.jar"/>
+    <jar name="codec/dist/commons-codec.jar"/>
     <javadoc nested="codec/dist/docs/api"/>
   </project>
 
