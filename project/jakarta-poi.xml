@@ -15,6 +15,9 @@
     <depend project="commons-jjar"/>
     <depend project="ant-contrib"/>
             
+    <jar name="jakarta-poi.jar" id="poi"/>
+    <javadoc parent="build/jakarta-poi/docs/apidocs"/>
+
     <nag to="poi-dev@jakarta.apache.org"
          from="Gump :-( &lt;gump@jakarta.apache.org&gt;"/>
          
