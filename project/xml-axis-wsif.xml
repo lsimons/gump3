@@ -35,7 +35,7 @@
     <javadoc nested="java/build/javadocs"/>
 
     <nag from="Sam Ruby &lt;rubys@us.ibm.com&gt;"
-         to="axis-dev@xml.apache.org"/>
+         to="wsif-dev@ws.apache.org"/>
   </project>
 
   <project name="soaprmi">
