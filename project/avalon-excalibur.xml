@@ -366,6 +366,8 @@
         <depend project="excalibur-instrument-manager"/>
         <depend project="excalibur-event-api"/>
         <depend project="excalibur-event-impl"/>
+        <depend project="excalibur-pool-api"/>
+        <depend project="excalibur-pool-impl"/>
         <depend project="jakarta-bcel"/>
         <depend project="excalibur-logger"/>
         <depend project="excalibur-sourceresolve"/>
