@@ -3,7 +3,7 @@
 # This script will self-test Gump (Python) Capabilities
 #
 #
-# $Header: $
+# $Header$
 
 export
 pwd
