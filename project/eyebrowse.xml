@@ -14,7 +14,7 @@
 
     <depend project="jakarta-ant"/>
     <depend project="xml-xerces"/>
-    <depend project="javamaivamail"/>
+    <depend project="javamail"/>
     <depend project="jakarta-log4j"/>
     <depend project="jakarta-oro"/>
     <depend project="jakarta-lucene"/>
