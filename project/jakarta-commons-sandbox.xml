@@ -110,11 +110,11 @@
     <depend project="junit"/>
     <work nested="functor/target/classes"/>
     <work nested="functor/target/test-classes"/>
-    <home nested="functor/target/dist"/>
+    <home nested="functor/dist"/>
     <jar name="commons-functor.jar"/>
-    <javadoc nested="functor/target/dist/docs/api"/>
+    <javadoc nested="functor/dist/docs/api"/>
     <nag to="commons-dev@jakarta.apache.org"
-         from="commons-functor development &lt;commons-dev@jakarta.apache.org&gt;"/>
+         from="commons-functor development team &lt;commons-dev@jakarta.apache.org&gt;"/>
   </project>
 
   <project name="commons-graph">
@@ -208,11 +208,11 @@
     <depend project="junit"/>
     <work nested="jux/target/classes"/>
     <work nested="jux/target/test-classes"/>
-    <home nested="jux/target/dist"/>
+    <home nested="jux/dist"/>
     <jar name="commons-jux.jar"/>
-    <javadoc nested="jux/target/dist/docs/api"/>
-    <nag to="rwaldhoff@apache.org"
-         from="rwaldhoff@apache.org"/>
+    <javadoc nested="jux/dist/docs/api"/>
+    <nag to="commons-dev@jakarta.apache.org"
+         from="commons-jux development team &lt;commons-dev@jakarta.apache.org&gt;"/>
   </project>
 
   <project name="commons-messenger">
