@@ -411,7 +411,7 @@
         <depend project="excalibur-fortress-bean" />
         
         <depend project="commons-collections"/>
-        <depend project="commons-beanutils"/>
+        <depend project="commons-beanutils-core"/>
         <depend project="concurrent"/>
         <depend project="excalibur-instrument"/>
         <depend project="excalibur-instrument-spi" />
