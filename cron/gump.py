@@ -280,6 +280,7 @@ logdir=None
         
 args=sys.argv
 result=0
+svnExit = -1
 cvsExit = -1
 integrationExit = -1
         
