@@ -16,7 +16,7 @@
 
     <depend project="ant"/>
     <depend project="xml-xerces"/>
-    <option project="jmx"/>
+    <depend project="mx4j"/>
     <work nested="classes"/>
 
     <jar name="lib/org.mortbay.jetty.jar"/>
