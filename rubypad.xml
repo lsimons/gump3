@@ -6,6 +6,7 @@
 
   <project href="project/jakarta-alexandria.xml"/>
   <project href="project/jakarta-ant.xml"/>
+  <project href="project/jakarta-avalon-cornerstone.xml"/>
   <project href="project/jakarta-avalon-logkit.xml"/>
   <project href="project/jakarta-avalon-testlet.xml"/>
   <project href="project/jakarta-ecs.xml"/>

@@ -33,10 +33,4 @@
     <home nested="build/lib"/>
     <jar name="clutil.jar"/>
   </project>
-
-  <project name="cornerstone">
-    <depend project="framework"/>
-    <home nested="build/lib"/>
-    <jar name="cornerstone.bar"/>
-  </project>
 </project>

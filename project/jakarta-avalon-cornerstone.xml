@@ -1,0 +1,21 @@
+<project name="jakarta-avalon-cornerstone">
+
+  <url href="http://java.apache.org/framework/"/>
+  <description>
+    Avalon framework
+  </description>
+
+  <cvs repository="jakarta"/>
+
+  <ant/>
+
+  <depend project="jakarta-ant"/>
+  <depend project="xml-xerces"/>
+  <depend project="framework"/>
+  <depend project="jakarta-avalon-testlet"/>
+
+  <home nested="build/lib"/>
+  <jar name="cornerstone.bar"/>
+
+</project>
+

@@ -15,7 +15,7 @@
   <depend project="xml-xerces" />
   <depend project="javamail" />
   <depend project="framework" />
-  <depend project="cornerstone" />
+  <depend project="jakarta-avalon-cornerstone" />
   <depend project="town" />
   <depend project="dnsjava" />
   <depend project="jaf" />
