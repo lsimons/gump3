@@ -2,7 +2,7 @@
 
   <url href="http://www.mozilla.org/rhino/"/>
   <description>
-    JavaScript for Java * with continuations
+    JavaScript for Java + continuations
   </description>
   <redistributable/>
 
