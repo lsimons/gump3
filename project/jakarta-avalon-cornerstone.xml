@@ -7,7 +7,12 @@
 
   <cvs repository="jakarta"/>
 
-  <ant target="dist"/>
+  <ant target="dist">
+    <property name="avalonapi.jar"
+       reference="jarpath" id="avalonapi" project="jakarta-avalon"/>
+    <property name="phoenix-client.jar"
+       reference="jarpath" id="client" project="jakarta-avalon-phoenix"/>
+  </ant>
 
   <depend project="jakarta-ant"/>
   <depend project="xml-xerces"/>

@@ -7,7 +7,12 @@
 
   <cvs repository="jakarta"/>
 
-  <ant target="dist"/>
+  <ant target="dist">
+    <property name="xerces.jar"
+       reference="jarpath" id="parser" project="xml-xerces"/>
+    <property name="logkit.jar"
+       reference="jarpath" id="logkit" project="jakarta-avalon-logkit"/>
+  </ant>
 
   <depend project="jakarta-ant"/>
   <depend project="jakarta-avalon-logkit"/>
@@ -19,7 +24,7 @@
   <depend project="xml-stylebook"/>
 
   <home nested="build/lib"/>
-  <jar name="avalonapi.jar"/>
+  <jar name="avalonapi.jar" id="avalonapi"/>
 
   <!-- Anybody want to contribute an ant build.xml to Kawa ;-) -->
   <project name="kawa">

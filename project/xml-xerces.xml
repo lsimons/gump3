@@ -12,7 +12,7 @@
   <depend project="bootstrap-ant"/>
 
   <home nested="java/build"/>
-  <jar  name="xerces.jar"/>
+  <jar  name="xerces.jar" id="parser"/>
 
   <!-- package up the distrution -->
 

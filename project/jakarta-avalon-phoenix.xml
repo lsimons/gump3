@@ -16,6 +16,6 @@
   <depend project="xml-xalan1"/>
 
   <home nested="build/lib"/>
-  <jar name="phoenix-client.jar"/>
+  <jar name="phoenix-client.jar" id="client"/>
 
 </project>

@@ -15,6 +15,6 @@
   <depend project="xml-xalan1"/>
 
   <home nested="build/lib"/>
-  <jar name="logkit.jar"/>
+  <jar name="logkit.jar" id="logkit"/>
 
 </project>
