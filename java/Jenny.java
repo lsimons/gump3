@@ -1,7 +1,7 @@
 /*
- * $Header: /home/stefano/cvs/gump/java/Jenny.java,v 1.22 2003/01/17 06:46:31 bodewig Exp $
- * $Revision: 1.22 $
- * $Date: 2003/01/17 06:46:31 $
+ * $Header: /home/stefano/cvs/gump/java/Jenny.java,v 1.23 2003/02/16 13:25:55 rubys Exp $
+ * $Revision: 1.23 $
+ * $Date: 2003/02/16 13:25:55 $
  *
  * ====================================================================
  *
@@ -392,7 +392,7 @@ public class Jenny {
 
         // process documents
         Document doc = parse(source);
-        Element workspace = (Element)doc.getFirstChild();
+        Element workspace = doc.getDocumentElement();
         Workspace.init(workspace);
         expand(workspace);
         replaceDate(workspace, dstamp);

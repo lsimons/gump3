@@ -1,7 +1,7 @@
 /*
- * $Header: /home/stefano/cvs/gump/java/LocalCheck.java,v 1.3 2003/01/27 08:51:10 bodewig Exp $
- * $Revision: 1.3 $
- * $Date: 2003/01/27 08:51:10 $
+ * $Header: /home/stefano/cvs/gump/java/LocalCheck.java,v 1.4 2003/02/16 13:25:55 rubys Exp $
+ * $Revision: 1.4 $
+ * $Date: 2003/02/16 13:25:55 $
  *
  * ====================================================================
  *
@@ -78,7 +78,7 @@ import org.xml.sax.SAXParseException;
  * gump build.
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bent</a>
- * @version $Id: LocalCheck.java,v 1.3 2003/01/27 08:51:10 bodewig Exp $
+ * @version $Id: LocalCheck.java,v 1.4 2003/02/16 13:25:55 rubys Exp $
  */
 public class LocalCheck {
     
@@ -99,7 +99,7 @@ public class LocalCheck {
         this.workspaceFile = workSpace;
         Document doc = parse(workSpace);
         Workspace space = new Workspace();
-        space.init((Element)doc.getFirstChild());
+        space.init(doc.getDocumentElement());
         this.pkgDir = space.getPkgDir();
         this.pkgDir+=((pkgDir.endsWith(File.separator))?"":File.separator);
         currentDir = new File(workspaceFile).getAbsoluteFile().getParent()+File.separator;
