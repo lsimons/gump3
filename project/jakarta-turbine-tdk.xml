@@ -18,7 +18,7 @@
   <project name="jakarta-turbine-tdk">
     <package>org.apache.turbine.tdk</package>
 
-    <ant target="jar"/>
+    <ant/>
 
     <depend project="ant" inherit="runtime"/>
     <depend project="xml-xerces"/>
