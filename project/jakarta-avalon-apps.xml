@@ -25,6 +25,8 @@
 
         <home nested="db"/>
 
+        <work nested="build/classes"/>
+
         <jar name="build/lib/avalon-db-@@DATE@@.jar"/>
 
         <nag from="Gump Integration Build &lt;avalon-dev@jakarta.apache.org&gt;"
@@ -48,6 +50,8 @@
 
         <home nested="demo"/>
 
+        <work nested="build/classes"/>
+
         <jar name="build/lib/avalon-demo-@@DATE@@.jar"/>
 
         <nag from="Gump Integration Build &lt;avalon-dev@jakarta.apache.org&gt;"
@@ -67,7 +71,7 @@
         <depend project="jakarta-avalon"/>
         <depend project="jakarta-avalon-phoenix" inherit="runtime"/>
         <depend project="jakarta-avalon-cornerstone"/>
-        <depend project="hsqldb"/>        
+        <depend project="hsqldb" inherit="all" runtime="true"/>
 
         <home nested="hsql"/>
 
