@@ -254,7 +254,7 @@
         <work nested="sockets-api/target/classes"/>
 
         <home nested="sockets-api"/>
-        <jar name="target/sockets-api-@@DATE@@.jar" />
+        <jar name="target/cornerstone-sockets-api-@@DATE@@.jar" />
 
         <nag from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"
                 to="dev@avalon.apache.org"/>
@@ -312,7 +312,7 @@
         <work nested="store-api/target/classes"/>
 
         <home nested="store-api"/>
-        <jar name="target/store-api-@@DATE@@.jar" />
+        <jar name="target/cornerstone-store-api-@@DATE@@.jar" />
 
         <nag from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"
                 to="dev@avalon.apache.org"/>
