@@ -8,6 +8,9 @@
 
   <profile href="profile/gump.xml"/>
 
+  <!-- experimental! -->
+  <module href="http://cvs.apache.org/viewcvs.cgi/*checkout*/avalon/buildsystem/gump-integration/project/avalon.xml"/>
+
   <javadoc dir="/data/gump/log/javadoc" url="http://lsd.student.utwente.nl/gump/javadoc"/>
   <junitreport dir="/data/gump/log/junitreport" url="http://lsd.student.utwente.nl/gump/junitreport"/>
 
