@@ -128,7 +128,7 @@ class GumpUpdater(RunSpecific):
             ok = 0
                 
             if module.hasCvs():
-                ok =self.cvs.updateModule(module)
+                ok=self.cvs.updateModule(module)
             elif module.hasSvn():
                 ok=self.svn.updateModule(module)
             elif module.hasJars():
@@ -171,14 +171,7 @@ class GumpUpdater(RunSpecific):
             module.changeState(STATE_SUCCESS)
                     
             # Were the contents of the repository modified?                                        
-            if modified:
-                module.setModified(1)                        
-                log.info('Update(s) received via CVS/SVN/Jars on #[' \
-                                + `module.getPosition()` + \
-                                '] : ' + module.getName())
-                                
-                # Log of changes...
-                if os.path.exists(changesFile):                               
+            if modified and os.path.exists(changesFile):                               
                     catFileToFileHolder(module, changesFile, FILE_TYPE_LOG) 
                         
         except Exception, details:

@@ -183,7 +183,7 @@ class MavenBuilder(AbstractJavaBuilder):
         # Maven requires a build.properties to be generated...
         if project.okToPerformWork():
             try:
-                propertiesFile=project.generateMavenProperties()                                
+                propertiesFile=self.generateMavenProperties(project)                                
                 project.addDebug('Maven Properties in: ' + propertiesFile)
                 
                 try:

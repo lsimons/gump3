@@ -100,6 +100,9 @@ class CvsUpdater(RunSpecific):
      
         
     def performUpdate(self,module,exists):
+        """
+            Update this module (checking out if needed)
+        """
         #  Get the Update Command
         (repository, root, cmd ) = self.getCvsUpdateCommand(module, exists)
                 
@@ -132,9 +135,16 @@ class CvsUpdater(RunSpecific):
                 # Kinda bogus, but better than nowt (for now)
                 module.changeState(STATE_SUCCESS,REASON_UPDATE_FAILED)
         else:
-            module.changeState(STATE_SUCCESS)       
-                                                            
-    
+            module.changeState(STATE_SUCCESS)      
+            
+            # We run CVS as -q (quiet) so any output means
+            # updates occured...
+            if cmdResult.hasOutput():
+                module.setModified(1)                        
+                log.info('Update(s) received via CVS on #[' \
+                                + `module.getPosition()` + \
+                                '] : ' + module.getName())
+                                 
      
     def getCvsUpdateCommand(self,module,exists=0,nowork=0):
         """
@@ -143,6 +153,9 @@ class CvsUpdater(RunSpecific):
             
         """
         
+        if nowork and not exists:
+            raise RuntimeException('Not coded for this combo.')
+            
         log.debug("CVS Update Module " + module.getName() + \
                        ", Repository Name: " + str(module.repository.getName()))
                                         
@@ -155,9 +168,10 @@ class CvsUpdater(RunSpecific):
         #     
         prefix='update'
         directory=module.getWorkspace().getSourceControlStagingDirectory()
+        if exists:     
+            directory=module.getSourceControlStagingDirectory()            
         if nowork:
-            prefix='status'        
-            directory=module.getSourceControlStagingDirectory()
+            prefix='status'       
                 
         cmd=Cmd(	'cvs',
                     prefix+'_'+module.getName(),
@@ -210,7 +224,7 @@ class CvsUpdater(RunSpecific):
                 cmd.addParameter('-r',tag,' ')
             else:
                 cmd.addParameter('-A')
-            cmd.addParameter(module.getName())
+            #cmd.addParameter(module.getName())
 
         else:
 
