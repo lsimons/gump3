@@ -151,7 +151,7 @@
     <description>This is a Jelly interface to the user.</description>
     
     <!-- maven-generated ant scripts don't work if there is no test directory -->
-    <mkdir dir="jelly/jelly-tags/ojb/src/test/"/>
+    <mkdir dir="jelly/jelly-tags/interaction/src/test/"/>
 
     <ant basedir="jelly/jelly-tags/interaction" target="jar">
       <property name="final.name"  value="commons-jelly-tags-http-@@DATE@@"/>
