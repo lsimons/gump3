@@ -9,7 +9,17 @@
 
   <ant target="dist">
     <property name="build.dir" value="build"/>
-    <property name="dist.dir" value="dist"/>
+
+    <property name="dist.dir" reference="home" project="jakarta-taglibs"/>
+
+    <property name="xalan.jar"
+       reference="jarpath" id="xalan" project="xml-xalan2"/>
+
+    <property name="jakarta-oro2.jar"
+       reference="jarpath" id="oro" project="jakarta-oro"/>
+
+    <property name="servlet.jar"
+       reference="jarpath" id="servlet" project="jakarta-servletapi-4"/>
   </ant>
 
   <depend project="xml-xerces"/>
@@ -27,6 +37,8 @@
 
   <!-- for backwards compatibility with WebLogic 6.0 -->
   <depend project="xml-xalan1"/>
+
+  <home nested="dist"/>
 
   <project name="xml-xalan1">
     <jar name="xtags/lib/xalan.jar"/>
