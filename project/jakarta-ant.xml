@@ -108,7 +108,7 @@
   <project name="bootstrap-ant">
     <script name="bootstrap"/>
 
-    <depend project="jaxp"/>
+    <option project="jaxp"/>
 
     <home nested="bootstrap"/>
     <jar name="lib/ant.jar"/>
@@ -118,18 +118,18 @@
          subject="Bootstrap Failure - Ant">
       <regexp pattern="/error/"/>
       <regexp pattern="/Failed/"/>
-      <regexp />      
+      <regexp />
     </nag>
   </project>
-  
+
   <project name="jakarta-ant-embed">
     <package>org.apache.tools.ant</package>
 
     <ant basedir="proposal/embed">
       <property name="ant.home" reference="home" project="jakarta-ant"/>
-      <depend id="api" project="commons-logging" 
+      <depend id="api" project="commons-logging"
               property="commons-logging.jar"/>
-      <depend property="jxpath.jar" project="commons-jxpath"/> 
+      <depend property="jxpath.jar" project="commons-jxpath"/>
       <depend property="velocity.jar" project="jakarta-velocity"/>
       <depend property="velocity-dep.jar" project="jakarta-velocity"/>
       <depend property="jexl.jar" project="commons-jexl"/>
@@ -137,23 +137,23 @@
     </ant>
 
     <depend project="jakarta-ant" inherit="all"/>
-    
+
     <home nested="proposal/embed/build"/>
     <jar name="ant-sax2.jar" id="embed"/>
 
     <nag to="ant-dev@jakarta.apache.org"
-         from="Nicola Ken Barozzi &lt;nicolaken@apache.org&gt;"/>    
-         
+         from="Nicola Ken Barozzi &lt;nicolaken@apache.org&gt;"/>
+
   </project>
-  
+
   <project name="jakarta-ant-embed-optional">
     <package>org.apache.tools.ant</package>
 
     <ant basedir="proposal/embed" target="embed-optional" >
       <property name="ant.home" reference="home" project="jakarta-ant"/>
-      <depend id="api" project="commons-logging" 
+      <depend id="api" project="commons-logging"
               property="commons-logging.jar"/>
-      <depend property="jxpath.jar" project="commons-jxpath"/> 
+      <depend property="jxpath.jar" project="commons-jxpath"/>
       <depend property="velocity.jar" project="jakarta-velocity"/>
       <depend property="velocity-dep.jar" project="jakarta-velocity"/>
       <depend property="jexl.jar" project="commons-jexl"/>
@@ -161,13 +161,13 @@
     </ant>
 
     <depend project="jakarta-ant" inherit="all"/>
-    
+
     <home nested="proposal/embed/build"/>
     <jar name="optional-dynprop.jar" id="embed-optional"/>
 
     <nag to="ant-dev@jakarta.apache.org"
-         from="Nicola Ken Barozzi &lt;nicolaken@apache.org&gt;"/>    
-  </project>  
-   
+         from="Nicola Ken Barozzi &lt;nicolaken@apache.org&gt;"/>
+  </project>
+
 </module>
 

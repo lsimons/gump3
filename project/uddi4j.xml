@@ -6,7 +6,7 @@
   </description>
 
   <cvs repository="devworks" dir="uddi4j"/>
-  
+
   <project name="uddi4j">
     <package>org.uddi4j</package>
 
@@ -16,7 +16,7 @@
     <depend project="jakarta-ant" inherit="runtime"/>
     <option project="xml-soap"/>
     <option project="xml-axis"/>
-    <depend project="jsse"/>
+    <option project="jsse"/>
     <work nested="build/classes"/>
 
     <home nested="build"/>

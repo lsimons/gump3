@@ -363,7 +363,7 @@
       <depend property="dom.jar" project="jaxp" id="dom"/>
       <depend property="jdbc2_0-stdext.jar" project="jdbc"/>
       <depend property="jaxen-full.jar" project="jaxen"/>
-      <depend property="jaxp-api.jar" project="jaxp" id="jaxp-api"/>
+      <option property="jaxp-api.jar" project="jaxp" id="jaxp-api"/>
       <depend property="jxpath.jar" project="commons-jxpath"/>
       <depend property="sax.jar" project="jaxp" id="sax"/>
       <depend property="saxpath.jar" project="saxpath"/>
@@ -428,7 +428,7 @@
     <ant basedir="xtags" target="dist">
       <depend property="crimson.jar" project="xml-xerces" id="parser"/>
       <depend property="dom4j.jar" project="dom4j"/>
-      <depend property="jaxp.jar" project="xml-xerces" id="apis"/>
+      <option property="jaxp.jar" project="xml-xerces" id="apis"/>
       <depend property="servlet.jar" project="jakarta-servletapi-4"/>
       <depend property="xalan.jar" project="xml-xalan2"/>
       <property name="build.dir" path="build"/>

@@ -31,15 +31,15 @@
     <package>org.apache.commons.betwixt</package>
     <description>Commons Betwixt Package</description>
     <url href="http://jakarta.apache.org/commons/betwixt/"/>
-    
+
     <!-- Standard Maven target to produce Javadocs, source -->
     <!-- and binary distributions.                         -->
-    
+
     <ant basedir="betwixt" target="jar">
       <property name="final.name" value="commons-betwixt-@@DATE@@"/>
       <property name="resourcedir" path="betwixt"/>
     </ant>
-    
+
     <!-- All Maven projects need Ant and Xerces to build. -->
     <depend project="jakarta-ant" inherit="runtime"/>
     <depend project="xml-xerces"/>
@@ -63,14 +63,14 @@
     <package>org.apache.commons.cli</package>
     <description>Commons CLI Package</description>
     <url href="http://jakarta.apache.org/commons/cli/"/>
-    
+
     <!-- Standard Maven target to produce Javadocs, source -->
     <!-- and binary distributions.                         -->
-    
+
     <ant basedir="cli" buildfile="build-gump.xml" target="jar">
       <property name="maven.final.name" value="commons-cli-@@DATE@@"/>
     </ant>
-    
+
     <!-- All Maven projects need Ant and Xerces to build. -->
     <depend project="jakarta-ant" inherit="runtime"/>
     <depend project="xml-xerces"/>
@@ -169,7 +169,7 @@
     <depend project="commons-beanutils"/>
     <depend project="jakarta-servletapi"/>
     <depend project="jaf"/>
- 
+
     <work nested="fileupload/target/classes"/>
     <home nested="fileupload/target"/>
 
@@ -187,7 +187,7 @@
     <ant basedir="httpclient" target="dist"/>
     <depend project="jakarta-ant" inherit="runtime"/>
     <depend project="xml-xerces"/>
-    <depend project="jsse"/>
+    <option project="jsse"/>
     <depend project="jakarta-log4j"/>
     <depend project="commons-logging"/>
     <!-- included in JDK 1.4 depend project="jce"/-->

@@ -2,18 +2,18 @@
 
   <url href="http://xml.apache.org/crimson/index.html"/>
   <description>
-    A Java XML parser derived from the Sun Project X 
+    A Java XML parser derived from the Sun Project X
   </description>
 
   <cvs repository="xml"/>
-  
+
   <project name="xml-crimson">
     <package>org.apache.crimson</package>
 
     <ant target="dist">
       <property name="build.dir" value="build"/>
     </ant>
-    <depend project="jaxp" ids="jaxp-api dom sax parser" />
+    <option project="jaxp" ids="jaxp-api dom sax parser" />
     <depend project="bootstrap-ant"/>
     <javadoc nested="build/docs/api"/>
     <home nested="build"/>
