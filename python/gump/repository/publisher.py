@@ -26,6 +26,7 @@ from gump import log
 import gump.core.gumprun
 import gump.core.actor
 
+import gump.utils.file
 from gump.utils.tools import listDirectoryToFileHolder
 
 
@@ -77,7 +78,7 @@ class RepositoryPublisher(gump.core.actor.AbstractRunActor):
             # For 'fun' list repository
             listDirectoryToFileHolder( project,
                                    self.repository.getGroupDir(groupName),
-                                   FILE_TYPE_REPO, 
+                                   gump.utils.file.FILE_TYPE_REPO, 
                                    'list_repo_'+project.getName())
         
   
