@@ -75,7 +75,7 @@
   
   <!-- we haven't been able to build torque for weeks -->
   <project name="ojb-torque">
-    <jar name="lib/torque-3.0-b4.jar" />
+    <jar name="lib/torque-3.0-rc1.jar" />
   </project>
   
   <!-- Mavenized build, http://sourceforge.net/projects/crossdb/ -->
