@@ -114,14 +114,17 @@
     <package>org.apache.commons.collections</package>
     <description>Collections</description>
     <url href="http://jakarta.apache.org/commons/collections.html"/>
-    <ant basedir="collections" target="dist"/>
+    <ant basedir="collections" target="dist">
+      <property name="component.version" value="@@DATE@@"/>
+    </ant>
     <depend project="ant" inherit="runtime"/>
     <depend project="xml-xerces"/>
     <depend project="junit"/>
-    <work nested="collections/dist/classes"/>
-    <home nested="collections/dist"/>
-    <jar name="commons-collections.jar"/>
-    <javadoc nested="collections/dist/docs/api"/>
+    <work nested="collections/build/classes"/>
+    <work nested="collections/build/tests"/>
+    <home nested="collections/build"/>
+    <jar name="commons-collections-@@DATE@@.jar"/>
+    <javadoc nested="collections/build/docs/apidocs"/>
 
     <nag to="commons-dev@jakarta.apache.org"
          from="Ted Husted &lt;ted@husted.com&gt;"/>
