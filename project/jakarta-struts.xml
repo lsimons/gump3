@@ -19,6 +19,7 @@
       <depend property="commons-dbcp.jar"        project="commons-dbcp"/>
       <depend property="commons-digester.jar"    project="commons-digester"/>
       <depend property="commons-fileupload.jar"  project="commons-fileupload"/>
+      <depend property="commons-lang.jar"        project="commons-lang"/>
       <depend property="commons-logging.jar"     project="commons-logging" id="all"/>
       <depend property="commons-pool.jar"        project="commons-pool"/>
       <depend property="commons-resources.jar"   project="commons-resources"/>
