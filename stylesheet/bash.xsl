@@ -423,11 +423,6 @@
       <xsl:text> &amp;&amp; rm -rf </xsl:text>
       <xsl:value-of select="$dir"/>
       <xsl:text>&#10;</xsl:text>
-      <xsl:text>test ! -d </xsl:text>
-      <xsl:value-of select="$dir"/>
-      <xsl:text> &amp;&amp; mkdir </xsl:text>
-      <xsl:value-of select="$dir"/>
-      <xsl:text>&#10;</xsl:text>
     </xsl:if>
     <xsl:text>test -d </xsl:text>
     <xsl:value-of select="$dir"/>
@@ -669,4 +664,3 @@
   </xsl:template>
 
 </xsl:stylesheet>
-
