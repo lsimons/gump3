@@ -2,7 +2,7 @@
 
   <url href="http://ws.apache.org/axis/"/>
   <description>
-    Simple Object Access Protocol
+    Apache eXtensible Interaction System
   </description>
 
   <cvs repository="ws"/>
@@ -51,7 +51,7 @@
 
     <javadoc nested="java/build/javadocs"/>
     
-    <nag from="Sam Ruby &lt;rubys@us.ibm.com&gt;"
+    <nag from="Davanum Srinivas &lt;dims@yahoo.com&gt;"
          to="axis-dev@ws.apache.org">
       <regexp  subject="Build Failure - Axis"/>
       <regexp pattern="/timed out/" subject="Build timed out - Axis"/>
@@ -63,7 +63,7 @@
   <project name="ws-axis-test">
     <package>org.apache.axis</package>
 
-    <ant basedir="java" target="junit">
+    <ant basedir="java" target="all-tests">
       <property name="axis.lib.dir" value="lib"/>
       <property name="env.ANT_HOME" reference="home" project="ant"/>
       <depend name="wsdl4j.jar" project="wsdl4j" id="wsdl4j"/>
@@ -80,9 +80,9 @@
 
     <home nested="java/build"/>
 
-	<junitreport nested="java/testreports"/>
+	<junitreport nested="java/test-reports"/>
     
-    <nag from="Sam Ruby &lt;rubys@us.ibm.com&gt;"
+    <nag from="Davanum Srinivas &lt;dims@yahoo.com&gt;"
          to="axis-dev@ws.apache.org">
       <regexp  subject="Build Failure - Axis"/>
       <regexp pattern="/timed out/" subject="Build timed out - Axis"/>
