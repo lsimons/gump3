@@ -1,5 +1,5 @@
 <module name="jakarta-jmeter">
-<!-- Version $Revision: 1.65 $ Last updated $Date: 2004/01/02 16:55:16 $ -->
+<!-- Version $Revision: 1.66 $ Last updated $Date: 2004/01/03 12:49:39 $ -->
   <url href="http://jakarta.apache.org/jmeter/" />
   <description>
     Pure Java load testing and performance measurement tool.
@@ -8,13 +8,14 @@
   <cvs repository="jakarta" />
   
   	<project name="jakarta-jmeter">
+  	<!-- Compile from latest versions of dependencies -->
     <package>org.apache.jmeter</package>
 
-    <ant target="gump-build">
+    <ant target="gump-compile">
       <property name="version" value="@@DATE@@"/>
       <property name="gump.run" value="true"/>
       <!-- The version of this file -->
-      <property name="version.projectfile" value="$Revision: 1.65 $"/>
+      <property name="version.projectfile" value="$Revision: 1.66 $"/>
       
       <!--
       	These properties are passed to the build process, so the names need to agree with
@@ -86,7 +87,7 @@
       <property name="version" value="@@DATE@@"/>
       <property name="gump.run" value="true"/>
       <!-- The version of this file -->
-      <property name="version.projectfile" value="$Revision: 1.65 $"/>
+      <property name="version.projectfile" value="$Revision: 1.66 $"/>
     </ant>
 
     <depend project="ant" />
@@ -142,12 +143,12 @@
       <property name="version" value="@@DATE@@"/>
       <property name="gump.run" value="true"/>
       <!-- The version of this file -->
-      <property name="version.projectfile" value="$Revision: 1.65 $"/>
+      <property name="version.projectfile" value="$Revision: 1.66 $"/>
     </ant>
 
     <depend project="ant" />
 
-    <depend project="jakarta-jmeter" inherit="all"/>
+    <depend project="jakarta-jmeter-cvs" inherit="all"/>
 
 <!-- are these needed ? -->
     <work nested="lib/avalon-excalibur-4.1.jar"/>
@@ -189,7 +190,7 @@
       <property name="version" value="@@DATE@@"/>
       <property name="gump.run" value="true"/>
       <!-- The version of this file -->
-      <property name="version.projectfile" value="$Revision: 1.65 $"/>
+      <property name="version.projectfile" value="$Revision: 1.66 $"/>
     </ant>
 
     <depend project="ant" />
