@@ -23,6 +23,7 @@
     <depend project="xml-fop"/>
     <depend project="xml-xalan2"/>
     <depend project="xml-apis"/>
+    <depend project="rhino"/>
 
     <jar name="lib/jgen.jar"/>
   </project>
