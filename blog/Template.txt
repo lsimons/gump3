@@ -2,6 +2,10 @@ PREVIEW Sample Title
 Preview at 
 http://gump.chalko.com/gb/blog/?preview=true&smm=y&permalink=Template.txt
 <hr/>
+<p>
+This a a sample post for you to copy to a subdirectory and rename.
+Make your first paragraph a good catch summary.  Many aggregators will only show this.
+</p><more/>
 <!--
   Copyright 2004 The Apache Software Foundation
 
