@@ -10,6 +10,31 @@
     <!-- need to review - lifecycle package is being been moved to 
          Excalibur or Avalon CVS -->
 
+    <project name="avlon-cache">
+        <package>org.apache.avalon.excalibur.cache</package>
+
+        <ant basedir="cache">
+            <property name="version" value="@@DATE@@"/>
+            <property name="junit.failonerror" value="true"/>
+            <property name="do.checkstyle" value="true"/>
+            <property name="skip.dependencies" value="true"/>
+        </ant>
+
+        <depend project="ant" inherit="runtime"/>
+        <option project="checkstyle" inherit="runtime"/>
+        <depend project="junit"/>
+        <depend project="avalon" runtime="true"/>
+        <depend project="xml-xerces"/>
+        <depend project="xml-xalan2"/>
+        <work nested="cache/build/classes"/>
+
+        <home nested="cache"/>
+        <jar name="build/lib/avalon-cache-@@DATE@@.jar"/>
+
+        <nag from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"
+                to="dev@avalon.apache.org"/>
+    </project>
+
     <project name="avalon-sandbox-lifecycle">
         <package>org.apache.avalon.lifecycle</package>
 

@@ -101,80 +101,7 @@
                 to="dev@avalon.apache.org"/>
     </project>
 
-    <project name="excalibur-cache">
-        <package>org.apache.avalon.excalibur.cache</package>
 
-        <ant basedir="cache">
-            <property name="version" value="@@DATE@@"/>
-            <property name="junit.failonerror" value="true"/>
-            <property name="do.checkstyle" value="true"/>
-            <property name="skip.dependencies" value="true"/>
-        </ant>
-
-        <depend project="ant" inherit="runtime"/>
-        <option project="checkstyle" inherit="runtime"/>
-        <depend project="junit"/>
-        <depend project="avalon" runtime="true"/>
-        <depend project="xml-xerces"/>
-        <depend project="xml-xalan2"/>
-        <work nested="cache/build/classes"/>
-
-        <home nested="cache"/>
-        <jar name="build/lib/excalibur-cache-@@DATE@@.jar"/>
-
-        <nag from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"
-                to="dev@avalon.apache.org"/>
-    </project>
-    <!--
-    <project name="excalibur-cli">
-        <package>org.apache.avalon.excalibur.cli</package>
-
-        <ant basedir="cli">
-            <property name="version" value="@@DATE@@"/>
-            <property name="junit.failonerror" value="true"/>
-            <property name="do.checkstyle" value="true"/>
-            <property name="skip.dependencies" value="true"/>
-        </ant>
-
-        <depend project="ant" inherit="runtime"/>
-        <option project="checkstyle" inherit="runtime"/>
-        <depend project="junit"/>
-        <depend project="xml-xerces"/>
-        <depend project="xml-xalan2"/>
-        <work nested="cli/build/classes"/>
-
-        <home nested="cli"/>
-        <jar name="build/lib/excalibur-cli-@@DATE@@.jar"/>
-
-        <nag from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"
-                to="dev@avalon.apache.org"/>
-</project>
--->
-    <!--
-    <project name="excalibur-collections">
-        <package>org.apache.avalon.excalibur.collections</package>
-
-        <ant basedir="collections">
-            <property name="version" value="@@DATE@@"/>
-            <property name="junit.failonerror" value="true"/>
-            <property name="do.checkstyle" value="true"/>
-            <property name="skip.dependencies" value="true"/>
-        </ant>
-
-        <depend project="ant" inherit="runtime"/>
-        <option project="checkstyle" inherit="runtime"/>
-        <depend project="junit"/>
-        <depend project="xml-xerces"/>
-        <depend project="xml-xalan2"/>
-        <work nested="collections/build/classes"/>
-
-        <home nested="collections"/>
-        <jar name="build/lib/excalibur-collections-@@DATE@@.jar"/>
-
-        <nag from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"
-                to="dev@avalon.apache.org"/>
-    </project>
-    -->
     <project name="excalibur-component">
         <package>org.apache.avalon.excalibur.component</package>
 
@@ -207,31 +134,7 @@
         <nag from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"
                 to="dev@avalon.apache.org"/>
     </project>
-    <!--
-    <project name="excalibur-concurrent">
-        <package>org.apache.avalon.excalibur.concurrent</package>
 
-        <ant basedir="concurrent">
-            <property name="version" value="@@DATE@@"/>
-            <property name="junit.failonerror" value="true"/>
-            <property name="do.checkstyle" value="true"/>
-            <property name="skip.dependencies" value="true"/>
-        </ant>
-
-        <depend project="ant" inherit="runtime"/>
-        <option project="checkstyle" inherit="runtime"/>
-        <depend project="junit"/>
-        <depend project="xml-xerces"/>
-        <depend project="xml-xalan2"/>
-        <work nested="concurrent/build/classes"/>
-
-        <home nested="concurrent"/>
-        <jar name="build/lib/excalibur-concurrent-@@DATE@@.jar"/>
-
-        <nag from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"
-                to="dev@avalon.apache.org"/>
-    </project>
-    -->
     <project name="excalibur-configuration">
         <package>org.apache.excalibur.configuration</package>
 
