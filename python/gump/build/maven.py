@@ -32,8 +32,6 @@ from gump import log
 from gump.run.gumprun import *
 from gump.core.config import dir, default, basicConfig
 
-import gump.build
-
 from gump.utils import dump, display, getIndent, logResourceUtilization, \
                             invokeGarbageCollection
 from gump.utils.note import Annotatable

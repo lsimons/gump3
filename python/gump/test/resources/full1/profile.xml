@@ -15,6 +15,7 @@
   
   <module href="svn_module1.xml"/>
   <module href="maven1.xml"/>
+  <module href="nant1.xml"/>
 
   <server href="server1.xml"/>  
   <server href="server2.xml"/>

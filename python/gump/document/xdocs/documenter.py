@@ -39,7 +39,7 @@ from gump.utils import *
 from gump.utils.timing import *
 from gump.utils.tools import syncDirectories,copyDirectories,wipeDirectoryTree
 
-from gump.java.cp import AnnotatedPath
+from gump.language.path import AnnotatedPath
 
 from gump.model.stats import *
 from gump.model.project import ProjectStatistics
@@ -1814,12 +1814,19 @@ This page helps Gumpmeisters (and others) observe community progress.
                 self.documentProperties(miscSection, project.getNAnt(), 'NAnt Properties')
             # :TODO: Maven?
             
-            javaHelper=self.run.getJavaHelper()            
-            (classpath,bootclasspath)=javaHelper.getClasspathObjects(project)            
-            self.displayClasspath(miscSection, classpath, 'Classpath', project)        
-            self.displayClasspath(miscSection, bootclasspath, 'Boot Classpath', project) 
+            language=project.getLanguageType()            
+            helper=self.run.getLanguageHelper(language)
+            if Project.JAVA_LANGUAGE == language:            
+                javaHelper=helper
+                (classpath,bootclasspath)=javaHelper.getClasspathObjects(project)            
+                self.displayClasspath(miscSection, classpath, 'Classpath', project)        
+                self.displayClasspath(miscSection, bootclasspath, 'Boot Classpath', project) 
+            elif Project.CSHARP_LANGUAGE == language:
+                csharpHelper=helper
+                libpath=csharpHelper.getAssemlyPathObject(project)            
+                self.displayClasspath(miscSection, libpath, 'Assemblies', project)     
         else:
-            miscSection.createParagraph('No build command (so classpaths irrelevant)')
+            miscSection.createParagraph('No build command (so classpaths/assembly path irrelevant)')
        
         if project.isDebug():
             self.documentXML(miscSection,project)

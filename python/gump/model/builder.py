@@ -251,7 +251,7 @@ class Ant(BaseAnt):
     pass
     
 # represents a <nant/> element
-class NAnt(Builder):
+class NAnt(BaseAnt):
     """ A NAnt command (within a project) """
     pass
     

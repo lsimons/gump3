@@ -32,8 +32,6 @@ from gump import log
 from gump.run.gumprun import *
 from gump.core.config import dir, default, basicConfig
 
-import gump.build.builder
-
 from gump.utils.note import Annotatable
 from gump.utils.work import *
 
@@ -67,7 +65,7 @@ class NAntBuilder(gump.run.gumprun.RunSpecific):
         log.info('Run NAnt on Project: #[' + `project.getPosition()` + '] : ' + project.getName())
     
         # Get the appropriate build command...
-        cmd=self.getNAntCommand(project, language, self.run.getEnvironment().getJavaCommand())
+        cmd=self.getNAntCommand(project, language)
 
         if cmd:
             # Execute the command ....
@@ -76,7 +74,7 @@ class NAntBuilder(gump.run.gumprun.RunSpecific):
             # Update context with the fact that this work was done
             work=CommandWorkItem(WORK_TYPE_BUILD,cmd,cmdResult)
             project.performedWork(work)
-            project.setBuilt(1)
+            project.setBuilt(True)
                     
             # Update context state based of the result  
             if not cmdResult.state==CMD_STATE_SUCCESS:
@@ -88,7 +86,7 @@ class NAntBuilder(gump.run.gumprun.RunSpecific):
                 # For now, things are going good...
                 project.changeState(STATE_SUCCESS)
     
-    def getNAntCommand(self,project,language):
+    def getNAntCommand(self,project,languageHelper):
         """
         	Build an ANT command for this project, based on the <nant metadata
    			select targets and build files as appropriate.     	
@@ -117,26 +115,22 @@ class NAntBuilder(gump.run.gumprun.RunSpecific):
    
         # Get system properties
         sysproperties=self.getNAntSysProperties(project)
+        
+        # Library Path
+        libpath=languageHelper.getAssemblyPath(project)
    
         # Run java on apache NAnt...
-        cmd=Cmd(javaCommand,'build_'+project.getModule().getName()+'_'+project.getName(),
-            basedir,{'CLASSPATH':classpath})
+        cmd=Cmd('NAnt.exe','build_'+project.getModule().getName()+'_'+project.getName(),
+            basedir,{'LIBPATH':libpath})
             
         # These are workspace + project system properties
         cmd.addNamedParameters(sysproperties)
         
-        # Add BOOTCLASSPATH
-        #if bootclasspath:
-        #    cmd.addPrefixedParameter('-X','bootclasspath/p',bootclasspath,':')
-            
         # Get/set JVM properties
         #jvmargs=language.getJVMArgs(project)
         #if jvmargs:
         #    cmd.addParameters(jvmargs)
-            
-        # The NAnt interface
-        cmd.addParameter('org.apache.tools.ant.Main')  
-    
+       
         # Allow ant-level debugging...
         if project.getWorkspace().isDebug() or project.isDebug() or debug: 
             cmd.addParameter('-debug')  

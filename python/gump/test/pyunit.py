@@ -329,6 +329,9 @@ if __name__=='__main__':
     from gump.test.maven import MavenTestSuite  
     runner.addSuite(MavenTestSuite())
     
+    from gump.test.nant import NAntTestSuite  
+    runner.addSuite(NAntTestSuite())
+    
     from gump.test.xref import XRefTestSuite  
     runner.addSuite(XRefTestSuite())
     

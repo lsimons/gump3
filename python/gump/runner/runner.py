@@ -27,6 +27,9 @@ from gump import log
 from gump.update.updater import *
 from gump.build.builder import *
 
+import gump.language.java
+import gump.language.csharp
+
 from gump.document.text.documenter import TextDocumenter
 from gump.document.xdocs.documenter import XDocDocumenter
 from gump.document.xdocs.synchronizer import Synchronizer
@@ -59,13 +62,14 @@ class GumpRunner(RunSpecific):
         
         # A helper per language/type
         self.java=gump.language.java.JavaHelper(run)
-        self.java=gump.language.csharp.CSharpHelper(run)
+        self.csharp=gump.language.csharp.CSharpHelper(run)
         
         # Stash them for reference...
         run.setUpdater(self.updater)
-        run.setBuilder(self.builder)        
-        run.setJavaHelper(self.java)  
-        run.setJavaHelper(self.csharp)
+        run.setBuilder(self.builder)    
+            
+        run.addLanguageHelper(Project.JAVA_LANGUAGE,self.java)  
+        run.addLanguageHelper(Project.CSHARP_LANGUAGE,self.csharp)
         
     def initialize(self,exitOnError=True):
         
@@ -192,15 +196,7 @@ class GumpRunner(RunSpecific):
         
     def getBuilder(self):
         return self.builder
-        
-    def getJavaHelper(self):
-        """
-        
-        Return the language specific helper
-         
-        """
-        return self.java
-        
+   
     #
     # Call a method called 'documentRun(run)'
     #

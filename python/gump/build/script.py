@@ -80,7 +80,7 @@ class ScriptBuilder(gump.run.gumprun.RunSpecific):
             # Update Context    
             work=CommandWorkItem(WORK_TYPE_BUILD,cmd,cmdResult)
             project.performedWork(work)
-            project.setBuilt(1)
+            project.setBuilt(True)
                     
             # Update Context w/ Results  
             if not cmdResult.state==CMD_STATE_SUCCESS:

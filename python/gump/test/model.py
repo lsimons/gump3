@@ -31,6 +31,8 @@ from gump.utils import *
 from gump.test import getWorkedTestRun
 from gump.test.pyunit import UnitTestSuite
 
+import gump.model.project
+
 class ModelTestSuite(UnitTestSuite):
     def __init__(self):
         UnitTestSuite.__init__(self)
@@ -55,6 +57,7 @@ class ModelTestSuite(UnitTestSuite):
         self.project5=self.workspace.getProject('project5')
         self.alias1=self.workspace.getProject('alias1')
         self.maven1=self.workspace.getProject('maven1')
+        self.nant1=self.workspace.getProject('nant1')
         
         self.packagedModule1=self.workspace.getModule('package1')        
         self.module1=self.workspace.getModule('module1')
@@ -86,6 +89,17 @@ class ModelTestSuite(UnitTestSuite):
         self.assertTrue('Module1 has notifications', self.module1.hasNotifys())
         self.assertTrue('Project2 has notifications', self.project2.hasNotifys())
         self.assertFalse('Module2 has NO notifications', self.module2.hasNotifys())
+        
+        
+    def testProject(self):
+        
+        self.assertEqual('Project1 is type JAVA', 
+                            self.project1.getLanguageType(),
+                            gump.model.project.Project.JAVA_LANGUAGE)
+        
+        self.assertEqual('NAnt1 is type CSHARP', 
+                            self.nant1.getLanguageType(),
+                            gump.model.project.Project.CSHARP_LANGUAGE)
         
     def testProperties(self):
         properties=project2.getProperties()
@@ -196,6 +210,9 @@ class ModelTestSuite(UnitTestSuite):
     
     def testMaven(self):                
         self.assertTrue('Maven project has a Maven object', self.maven1.hasMaven())
+     
+    def testNAnt(self):                
+        self.assertTrue('NAnt project has a NAnt object', self.nant1.hasNAnt())
  
         
     def testJunitReport(self):

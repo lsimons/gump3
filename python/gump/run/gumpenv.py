@@ -69,7 +69,8 @@ class GumpEnvironment(Annotatable,Workable,Propogatable):
         self.checked=False
         self.set=False
     	
-    	self.noMaven=False    	 
+        self.noNAnt=False    
+        self.noMaven=False    	 
     	self.noDepot=False    	
     	self.noUpdate=False    
     	self.noSvn=False    	
@@ -177,6 +178,11 @@ class GumpEnvironment(Annotatable,Workable,Propogatable):
             not self._checkExecutable('maven','--version',False,False,'check_maven'): 
             self.noMaven=True
             self.addWarning('"maven" command not found, no Maven builds')
+       
+        if not self.noNAnt and \
+            not self._checkExecutable('NAnt','--help',False,False,'check_NAnt'): 
+            self.noNAnt=True
+            self.addWarning('"NAnt" command not found, no NAnt builds')
        
         self.checked=True
         

@@ -39,7 +39,17 @@ from gump.utils.domutils import *
 
 
 class Project(NamedModelObject, Statable, Resultable, Dependable, Positioned):
-    """A single project"""
+    
+    UNSET_LANGUAGE=0
+    JAVA_LANGUAGE=1
+    CSHARP_LANGUAGE=2
+    
+    LANGUAGE_MAP= {
+        'java':JAVA_LANGUAGE,
+        'csharp':CSHARP_LANGUAGE
+    }
+
+    """ A Single project """
     def __init__(self,name,xml,owner):
     	NamedModelObject.__init__(self,name,xml,owner)
     	
@@ -56,7 +66,9 @@ class Project(NamedModelObject, Statable, Resultable, Dependable, Positioned):
     	self.basedir=None
     	
     	self.license=None
-    	
+        
+        self.languageType=Project.JAVA_LANGUAGE    	
+        
     	self.affectedProjects=[]
         
     	#############################################################
@@ -64,6 +76,7 @@ class Project(NamedModelObject, Statable, Resultable, Dependable, Positioned):
     	# Sub-Components
     	#
     	self.ant=None
+        self.nant=None
     	self.maven=None
     	self.script=None
 
@@ -237,7 +250,7 @@ class Project(NamedModelObject, Statable, Resultable, Dependable, Positioned):
         """ Was a build attempt made? """
         return self.built
         
-    def setBuilt(self,built):
+    def setBuilt(self,built=True):
         self.built=built
         
     def hasReports(self):
@@ -402,6 +415,12 @@ class Project(NamedModelObject, Statable, Resultable, Dependable, Positioned):
         #    message='Unable to complete project.home for: ' + self.name 
         #    self.addError(message)
         #    self.home=None
+        
+        
+        # The language type java or CSharp or ...
+        if self.hasDomAttribute('language'):
+            self.setLanguageTypeFromString(self.getDomAttributeValue('language'))
+        
 
         # Extract license 
         if self.hasDomChild('license'):
@@ -689,7 +708,20 @@ class Project(NamedModelObject, Statable, Resultable, Dependable, Positioned):
         Does this project generate outputs (currently JARs)
         """
         return self.hasJars() or self.hasLicense()
-
+        
+    def setLanguageTypeFromString(self,lang=None):
+        try:
+            self.languageType=Project.LANGUAGE_MAP[lang]
+        except:
+            message='Language %s not in supported %s.' % (lang, Project.LANGUAGE_MAP.keys())
+            self.addWarning(message)
+            log.warning(message)
+            
+    def getLanguageType(self):
+        return self.languageType
+        
+    def setLanguageType(self,langType):
+        self.languageType=langType
 
 class ProjectStatistics(Statistics):
     """Statistics Holder"""

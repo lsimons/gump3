@@ -17,7 +17,7 @@
 
 """
 
-	Generates Classpaths for projects w/ dependencies
+	Generates paths for projects w/ dependencies
 
 """
 
@@ -36,77 +36,50 @@ import gump.language.path
 # Classes
 ###############################################################################
 
-class JavaHelper(gump.run.gumprun.RunSpecific):
+class CSharpHelper(gump.run.gumprun.RunSpecific):
     
     def __init__(self,run):
         gump.run.gumprun.RunSpecific.__init__(self,run)
         
-        # Caches for classpaths
-        self.classpaths={}
-        self.bootclasspaths={}       
+        # Caches for paths
+        self.paths={}     
         
-    def getJVMArgs(self,project):
-        
-        """ 
-        
-        Get JVM arguments for a project 
-        
-        """
-        return project.jvmargs
-       
-    def getClasspaths(self,project,debug=False):
+    def getAssemblyPath(self,project,debug=False):
         """
         Get boot and regular classpaths for a project.
         
-        Return a (classpath, bootclaspath) tuple for this project
+        Return a path for this project
         """
-        # Calculate classpath and bootclasspath
-        (classpath, bootclasspath) = self.getClasspathObjects(project,debug)
+        # Calculate path
+        libpath = self.getAssemblyPathObject(project,debug)
         
         # Return them simple/flattened
-        return ( classpath.getFlattened(), bootclasspath.getFlattened() )
+        return libpath.getFlattened()
 
-   
-    def getBaseClasspath(self):
+    def getAssemblyPathObject(self,project,debug=False):
         """
+        Get a TOTAL path for a project (including its dependencies)
         
-        The basic classpath needs to include a compiler...
-        
-        Return a system classpath (to include $JAVA_HOME/lib/tools.jar'
-        for a compiler).
-        """
-        sysClasspath=gump.language.path.Classpath('System Classpath')
-        javaHome=self.run.getEnvironment().getJavaHome()
-        syscp=os.path.join(os.path.join(javaHome,'lib'),'tools.jar')
-        sysClasspath.importFlattenedParts(syscp)        
-        return sysClasspath
-
-    def getClasspathObjects(self,project,debug=False):
-        """
-        Get a TOTAL classpath for a project (including its dependencies)
-        
-        A tuple of (CLASSPATH, BOOTCLASSPATH) for a project
+        A path object for a project
         """
 
         #
         # Do this once only... storing it on the context. Not as nice as 
         # doing it OO (each project context stores its own, but a step..)
         #
-        if self.classpaths.has_key(project) and self.bootclasspaths.has_key(project) :
-          if debug: print "Classpath/Bootclasspath previously resolved..."
-          return ( self.classpaths[project], self.bootclasspaths[project] )
+        if self.paths.has_key(project) :
+          if debug: print "Path previously resolved..."
+          return self.paths[project]
   
         # Start with the system classpath (later remove this)
-        classpath=self.getBaseClasspath()
-        bootclasspath=gump.language.path.Classpath('Boot Classpath')
+        libpath=gump.language.path.AssemblyPath('Assembly Path')
 
-        # Add this project's work directories (these go into
-        # CLASSPATH, never BOOTCLASSPATH)
+        # Add this project's work directories
         workdir=project.getModule().getWorkingDirectory()          
         for work in project.getWorks():
             path=work.getResolvedPath()
             if path:
-                classpath.addPathPart(gump.language.path.AnnotatedPath('',path,project,None,'Work Entity'))   
+                libpath.addPathPart(gump.language.path.AnnotatedPath('',path,project,None,'Work Entity'))   
             else:
                 log.error("<work element with neither 'nested' nor 'parent' attribute on " \
                         + project.getName() + " in " + project.getModule().getName()) 
@@ -116,14 +89,13 @@ class JavaHelper(gump.run.gumprun.RunSpecific):
   
         # Does it have any depends? Process all of them...
         for dependency in project.getDirectDependencies():
-            (subcp, subbcp) = self._getDependOutputList(project,dependency,visited,1,debug)
-            self._importClasspaths(classpath,bootclasspath,subcp,subbcp)
+            subp = self._getDependOutputList(project,dependency,visited,1,debug)
+            if subp:  libpath.importPath(subp)   
     
         # Store so we don't do this twice.
-        self.classpaths[project] = classpath
-        self.bootclasspaths[project] = bootclasspath
+        self.paths[project] = libpath
         
-        return ( classpath, bootclasspath )
+        return libpath
 
     def _getDependOutputList(self,project,dependency,visited,depth=0,debug=0):      
         """
@@ -140,7 +112,7 @@ class JavaHelper(gump.run.gumprun.RunSpecific):
    
         # Skip ones that aren't here to affect the classpath
         if dependency.isNoClasspath():  
-            return (None,None)
+            return None
             
         # Don't loop
         if (dependency in visited):
@@ -150,7 +122,7 @@ class JavaHelper(gump.run.gumprun.RunSpecific):
                 print str(depth) + ") Previously Visits  : "
                 for v in visited:
                     print str(depth) + ")  - " + str(v)
-            return (None,None)
+            return None
             
         visited.append(dependency)
         
@@ -158,8 +130,7 @@ class JavaHelper(gump.run.gumprun.RunSpecific):
             print str(depth) + ") Perform : " + `dependency`
                   
         # 
-        classpath=gump.language.path.Classpath('Classpath for ' + `dependency`)
-        bootclasspath=gump.language.path.Classpath('Bootclasspath for ' + `dependency`)
+        libpath=gump.language.path.AssemblyPath('Assembly Path for ' + `dependency`)
 
         # Context for this dependecy project...
         project=dependency.getProject()
@@ -203,13 +174,8 @@ class JavaHelper(gump.run.gumprun.RunSpecific):
                 path=gump.language.path.AnnotatedPath(jar.getId(),jar.path,project,dependency.getOwnerProject(),dependStr) 
           
                 # Add to CLASSPATH
-                if not jar.getType() == 'boot':
-                    if debug:   print str(depth) + ') Append JAR : ' + str(path)
-                    classpath.addPathPart(path)
-                else:
-                    # Add to BOOTCLASSPATH
-                    if debug:   print str(depth) + ') Append *BOOTCLASSPATH* JAR : ' + str(path)
-                    bootclasspath.addPathPart(path)    
+                if debug:   print str(depth) + ') Append JAR : ' + str(path)
+                libpath.addPathPart(path)
 
         # Double check IDs (to reduce stale ids in metadata)
         if ids:
@@ -226,18 +192,11 @@ class JavaHelper(gump.run.gumprun.RunSpecific):
             if        (inherit==gump.model.depend.INHERIT_ALL or inherit==gump.model.depend.INHERIT_HARD) \
                     or (inherit==gump.model.depend.INHERIT_RUNTIME and subdependency.isRuntime()) \
                     or (subdependency.inherit > gump.model.depend.INHERIT_NONE):      
-                (subcp, subbcp) = self._getDependOutputList(project,subdependency,visited,depth+1,debug)
-                self._importClasspaths(classpath,bootclasspath,subcp,subbcp)   
+                subp = self._getDependOutputList(project,subdependency,visited,depth+1,debug)                
+                if subp:  libpath.importPath(subp)   
             elif debug:
                 print str(depth) + ') Skip : ' + str(subdependency) + ' in ' + project.name
 
-        return (classpath, bootclasspath)
-    
-    def _importClasspaths(self,classpath,bootclasspath,cp,bcp):
-        """    
-        Import cp and bcp into classpath and bootclasspath,
-        but do not accept duplicates. Report duplicates.
-        """
-        if cp:  classpath.importPath(cp)                
-        if bcp: bootclasspath.importPath(bcp)                      
+        return libpath
+                  
         

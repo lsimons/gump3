@@ -32,8 +32,6 @@ from gump import log
 from gump.run.gumprun import *
 from gump.core.config import dir, default, basicConfig
 
-import gump.build.builder
-
 from gump.utils.note import Annotatable
 from gump.utils.work import *
 
@@ -76,7 +74,7 @@ class AntBuilder(gump.run.gumprun.RunSpecific):
             # Update context with the fact that this work was done
             work=CommandWorkItem(WORK_TYPE_BUILD,cmd,cmdResult)
             project.performedWork(work)
-            project.setBuilt(1)
+            project.setBuilt(True)
                     
             # Update context state based of the result  
             if not cmdResult.state==CMD_STATE_SUCCESS:

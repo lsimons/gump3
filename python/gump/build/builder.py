@@ -97,8 +97,7 @@ class GumpBuilder(gump.run.gumprun.RunSpecific):
         log.info('Build Project: #[' + `project.getPosition()` + '] : ' + project.getName() + ' :  [state:' \
                         + project.getStateDescription() + ']')
                   
-        # Right now everything is Java..
-        languageHelper=self.run.getJavaHelper()
+        languageHelper=self.run.getLanguageHelper(project.getLanguageType())
           
         # Extract stats (in case we want to do conditional processing)            
         stats=None
