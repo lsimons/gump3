@@ -1,7 +1,7 @@
 /*
- * $Header: /home/stefano/cvs/gump/java/Module.java,v 1.22 2003/02/07 01:09:25 rubys Exp $
- * $Revision: 1.22 $
- * $Date: 2003/02/07 01:09:25 $
+ * $Header: /home/stefano/cvs/gump/java/Module.java,v 1.23 2003/11/26 14:14:40 bodewig Exp $
+ * $Revision: 1.23 $
+ * $Date: 2003/11/26 14:14:40 $
  *
  * ====================================================================
  *
@@ -120,6 +120,7 @@ public class Module {
                 System.err.println("Dropping module "
                                    + element.getAttribute("name")
                                    + " because of Exception " + t);
+                t.printStackTrace();
             }
         }
 
@@ -152,6 +153,7 @@ public class Module {
         computeSrcDir();
         promoteProjects();
         resolveCvsroot();
+        resolveSubversionUrl();
         
         Node child=element.getFirstChild();
         for (; child != null; child=child.getNextSibling()) {
@@ -159,9 +161,6 @@ public class Module {
                 description = (Element) child;
             } else if (child.getNodeName().equals("url")) {
                 url = (Element) child;
-            } else if (child.getNodeName().equals("svn")) {
-                Element svn = (Element) child;
-                svn.setAttribute("srcdir", name);
             } else if (child.getNodeName().equals("redistributable")) {
                 redistributable = true;
             }
@@ -323,6 +322,45 @@ public class Module {
         }
     }
 
+    /**
+     * Resolves repository information - and possibly the dir
+     * attribute - for svn.
+     */
+    private void resolveSubversionUrl() throws Exception {
+        Element svn = null;
+        Node child = element.getFirstChild();
+        for (; child != null; child = child.getNextSibling()) {
+            if (!child.getNodeName().equals("svn")) continue;
+            if (svn == null) {
+                svn = (Element) child;
+            } else {
+                Jenny.moveChildren((Element) child, svn);
+            }
+        }
+
+        if (svn != null) {
+            svn.setAttribute("srcdir", name);
+            String svnurl = svn.getAttribute("url");
+            if (svnurl == null || svnurl.equals("")) {
+                String value = svn.getAttribute("repository");
+                Repository r = Repository.find(value);
+                if (r == null) {
+                    throw new Exception("repository \"" + value + 
+                                        "\" not found processing module " 
+                                        + name);
+                }
+                svnurl = r.get("url");
+                if (svn.getAttributeNode("dir") != null) {
+                    if (!svnurl.endsWith("/")) {
+                        svnurl += "/";
+                    }
+                    
+                    svnurl += svn.getAttribute("dir");
+                }
+                svn.setAttribute("url", svnurl);
+            }
+        }
+    }
 
     /**
      * Add entries to cvspass, as necessary, to simulate logon to 

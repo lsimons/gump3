@@ -1,7 +1,7 @@
 /*
- * $Header: /home/stefano/cvs/gump/java/Repository.java,v 1.5 2003/02/07 01:09:25 rubys Exp $
- * $Revision: 1.5 $
- * $Date: 2003/02/07 01:09:25 $
+ * $Header: /home/stefano/cvs/gump/java/Repository.java,v 1.6 2003/11/26 14:14:40 bodewig Exp $
+ * $Revision: 1.6 $
+ * $Date: 2003/11/26 14:14:40 $
  *
  * ====================================================================
  *
@@ -111,6 +111,13 @@ public class Repository {
         for (; child != null; child=child.getNextSibling()) {
             if (child.getNodeName().equals("redistributable")) {
                 redistributable = true;
+            } else if (child.getNodeName().equals("url")
+                       && element.getAttribute("type").equals("svn")) {
+                Node grandChild = child.getFirstChild();
+                if (grandChild != null 
+                    && grandChild.getNodeType() == Node.TEXT_NODE) {
+                    element.setAttribute("url", grandChild.getNodeValue());
+                }
             }
         }
 
