@@ -70,3 +70,6 @@ welcome to contribute!
 
 Gump is available under the Apache License, version 2.0, which you can find in
 the LICENSE file.
+
+The file bin/testrunner.py is available under Zope Public License, version 2.1,
+which you can find in the LICENSE.ZPL.txt file.
