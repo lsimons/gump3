@@ -60,9 +60,11 @@
     <package>javax.management</package>
 
     <ant basedir="build" target="release"/>
+    <depend project="xml-xalan2"/>
     <depend project="mx4j" inherit="all"/>
 
     <work nested="classes/core"/>
+    <work nested="classes/tools"/>
     <depend project="jetty"/>
  
     <home nested="dist"/>
@@ -78,6 +80,8 @@
     <depend project="mx4j" inherit="all"/>
 
     <work nested="classes/core"/>
+    <work nested="classes/tools"/>
+    <depend project="xml-xalan2"/>
     <depend project="packaged-jetty"/>
  
     <home nested="dist"/>
