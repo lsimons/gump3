@@ -793,8 +793,7 @@
         <!-- test-time dependencies -->
         <depend project="commons-collections" inherit="runtime"/>
         <depend project="excalibur-i18n" inherit="runtime"/>
-        <depend project="excalibur-testcase" inherit="runtime"/>
-        <depend project="excalibur-component" inherit="runtime"/>
+        <depend project="excalibur-component" inherit="runtime"/> <!-- for testcase -->
         <depend project="excalibur-compatibility" inherit="runtime"/>
         <depend project="excalibur-instrument" inherit="runtime"/>
         <depend project="junit"/>
@@ -896,11 +895,6 @@
 
         <nag from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"
                 to="dev@avalon.apache.org"/>
-    </project>
-
-    <!-- deprecated! Testcase merged into component -->
-    <project name="excalibur-testcase">
-        <depend project="excalibur-component" inherit="jars"/>
     </project>
 
     <project name="excalibur-thread">
