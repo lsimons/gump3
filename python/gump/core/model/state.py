@@ -214,7 +214,7 @@ class StatePair:
         return self.isFailed() 
 
     def okToPerformWork(self):
-        return self.isUnsetOrOk() or self.isPrereqFailed()
+        return self.isUnsetOrOk()
         
 class Stateful:
     def __init__(self):  
