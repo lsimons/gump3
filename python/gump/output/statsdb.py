@@ -172,19 +172,13 @@ class StatisticsDB:
             """ Hopefully means it wasn't there... """
         
     def get(self,key):
-        val=''
-        if self.db.has_key(key): val=self.db[key]
-        return val
+        return self.db.get(str(key),'')
         
     def getInt(self,key):
-        val=0
-        if self.db.has_key(key): val=self.db[key]
-        return int(val)
+        return int(self.db.get(str(key),0))
         
     def getFloat(self,key):
-        val=0
-        if self.db.has_key(key): val=self.db[key]
-        return float(val)
+        return float(self.db.get(str(key),0.0))
         
     def getDate(self,key):
         dateF=self.getFloat(key)
@@ -197,13 +191,13 @@ class StatisticsDB:
         return dateF
         
     def put(self,key,val=''):
-        self.db[key]=val
+        self.db[str(key)]=val
         
     def putInt(self,key,val=0):
-        self.db[key]=str(val)
+        self.db[str(key)]=str(val)
         
     def putDate(self,key,val=-1):
-        self.putInt(key,val)
+        self.putInt(str(key),val)
         
     def loadStatistics(self,workspace):
         log.debug('--- Loading Statistics')
