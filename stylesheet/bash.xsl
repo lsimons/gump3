@@ -160,25 +160,27 @@
   <!-- =================================================================== -->
 
   <xsl:template match="workspace">
-    <xsl:variable name="basedir" select="@basedir"/>
+    <xsl:variable name="basedir" select="translate(@basedir, '\', '/')"/>
+    <xsl:variable name="cvsdir"  select="translate(@cvsdir,  '\', '/')"/>
+
     <xsl:text>#/bin/sh&#10;</xsl:text>
 
     <xsl:text>test -e </xsl:text>
-    <xsl:value-of select="translate($basedir,'\','/')"/>
+    <xsl:value-of select="$basedir"/>
     <xsl:text> || mkdir </xsl:text>
-    <xsl:value-of select="translate($basedir,'\','/')"/>
+    <xsl:value-of select="$basedir"/>
     <xsl:text>&#10;</xsl:text>
 
     <xsl:text>test -e </xsl:text>
-    <xsl:value-of select="translate($basedir,'\','/')"/>
+    <xsl:value-of select="$basedir"/>
     <xsl:text>/log || mkdir </xsl:text>
-    <xsl:value-of select="translate($basedir,'\','/')"/>
+    <xsl:value-of select="$basedir"/>
     <xsl:text>/log &#10;</xsl:text>
 
     <xsl:text>test -e </xsl:text>
-    <xsl:value-of select="translate(@cvsdir,'\','/')"/>
+    <xsl:value-of select="$cvsdir"/>
     <xsl:text> || mkdir </xsl:text>
-    <xsl:value-of select="translate(@cvsdir,'\','/')"/>
+    <xsl:value-of select="$cvsdir"/>
     <xsl:text>&#10;</xsl:text>
 
     <xsl:text>sh publish.sh $1 </xsl:text>

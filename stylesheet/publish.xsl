@@ -10,7 +10,7 @@
 
     <publish>
 
-      <html>
+      <html banner-image="{@banner-image}" banner-link="{@banner-link}">
         <title>
           <xsl:text>Source: </xsl:text>
           <code><arg/></code>

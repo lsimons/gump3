@@ -12,6 +12,28 @@
     <xsl:variable name="basedir" select="@basedir"/>
     <xsl:copy>
 
+      <!-- default banner-image, if not present -->
+      <xsl:if test="not(@banner-image)">
+        <xsl:attribute name="banner-image">
+          <xsl:text>http://jakarta.apache.org/images/jakarta-logo.gif</xsl:text>
+        </xsl:attribute>
+      </xsl:if>
+
+      <!-- default banner-link, if not present -->
+      <xsl:if test="not(@banner-link)">
+        <xsl:attribute name="banner-link">
+          <xsl:text>http://jakarta.apache.org</xsl:text>
+        </xsl:attribute>
+      </xsl:if>
+
+      <!-- default log directory, if not present -->
+      <xsl:if test="not(@logdir)">
+        <xsl:attribute name="logdir">
+          <xsl:value-of select="$basedir"/>
+          <xsl:text>/log</xsl:text>
+        </xsl:attribute>
+      </xsl:if>
+
       <xsl:copy-of select="@*"/>
       <xsl:copy-of select="*[not(self::project)]"/>
 

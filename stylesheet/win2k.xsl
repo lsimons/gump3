@@ -1,22 +1,6 @@
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0">
   <xsl:strip-space elements="*"/>
 
-  <xsl:variable name="basedir"
-    select="translate(/workspace/@basedir, '/', '\')"/>
-
-  <xsl:variable name="cvsdir"
-		select="translate(/workspace/@cvsdir, '/', '\')"/>
-
-	<xsl:variable name="logdir">
-		<xsl:choose>
-			<xsl:when test="/workspace/@logdir"><xsl:value-of
-				select="translate(/workspace/@logdir, '/', '\')"/></xsl:when>
-			<xsl:otherwise><xsl:value-of select="$basedir"/>
-				<xsl:text>\log</xsl:text>
-			</xsl:otherwise>
-		</xsl:choose>
-	</xsl:variable>
-
   <!-- =================================================================== -->
   <!--                               build                                 -->
   <!-- =================================================================== -->
@@ -96,7 +80,7 @@
     <xsl:text>if not "%1"=="" goto top&#10;</xsl:text>
 
     <xsl:text>chdir /d </xsl:text>
-    <xsl:value-of select="$basedir"/>
+    <xsl:value-of select="@basedir"/>
     <xsl:text>&#10;</xsl:text>
 
     <xsl:text>ENDLOCAL&#10;</xsl:text>
@@ -145,6 +129,9 @@
   <!-- =================================================================== -->
 
   <xsl:template match="workspace">
+    <xsl:variable name="basedir" select="translate(@basedir, '/', '\')"/>
+    <xsl:variable name="cvsdir"  select="translate(@cvsdir,  '/', '\')"/>
+
     <xsl:text>@echo off&#10;</xsl:text>
 
     <xsl:text>if not exist </xsl:text>
@@ -160,13 +147,13 @@
     <xsl:text>\log &#10;</xsl:text>
 
     <xsl:text>if not exist </xsl:text>
-    <xsl:value-of select="translate(@cvsdir,'/','\')"/>
+    <xsl:value-of select="$cvsdir"/>
     <xsl:text>  mkdir </xsl:text>
-    <xsl:value-of select="translate(@cvsdir,'/','\')"/>
+    <xsl:value-of select="$cvsdir"/>
     <xsl:text>&#10;</xsl:text>
 
     <xsl:text>call publish.bat %1 </xsl:text>
-    <xsl:value-of select="@basedir"/>
+    <xsl:value-of select="$basedir"/>
     <xsl:text>\log\source_index.html&#10;</xsl:text>
 
     <xsl:for-each select="project">
@@ -175,7 +162,7 @@
       <xsl:text>call publish </xsl:text>
       <xsl:value-of select="translate(@href,'/','\\')"/>
       <xsl:text> </xsl:text>
-      <xsl:value-of select="../@basedir"/>
+      <xsl:value-of select="$basedir"/>
       <xsl:text>\log\source_</xsl:text>
       <xsl:value-of select="substring-before(substring-after(@href,'/'),'.')"/>
       <xsl:text>.html&#10;</xsl:text>
@@ -183,17 +170,17 @@
 
     <xsl:text>for %%i in (..\stylesheet\*.xsl) do </xsl:text>
     <xsl:text>call publish stylesheet\%%~nxi </xsl:text>
-    <xsl:value-of select="@basedir"/>
+    <xsl:value-of select="$basedir"/>
     <xsl:text>\log\code_%%~ni.html&#10;</xsl:text>
 
     <xsl:text>call xref.bat&#10;</xsl:text>
 
     <xsl:text>copy update.bat </xsl:text>
-    <xsl:value-of select="@basedir"/>
+    <xsl:value-of select="$basedir"/>
     <xsl:text>&#10;</xsl:text>
 
     <xsl:text>copy build.bat </xsl:text>
-    <xsl:value-of select="@basedir"/>
+    <xsl:value-of select="$basedir"/>
     <xsl:text>&#10;</xsl:text>
 
     <xsl:text>echo.&#10;</xsl:text>

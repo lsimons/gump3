@@ -1,22 +1,10 @@
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0">
 
-  <xsl:output indent="yes"/>
+  <xsl:variable name="basedir" select="/workspace/@basedir"/>
+  <xsl:variable name="logdir"  select="/workspace/@logdir"/>
 
-  <xsl:variable name="basedir"
-    select="translate(/workspace/@basedir, '\', '/')"/>
-
-  <xsl:variable name="cvsdir"
-		select="translate(/workspace/@cvsdir, '\', '/')"/>
-
-	<xsl:variable name="logdir">
-		<xsl:choose>
-			<xsl:when test="/workspace/@logdir"><xsl:value-of
-				select="translate(/workspace/@logdir, '\', '/')"/></xsl:when>
-			<xsl:otherwise><xsl:value-of select="$basedir"/>
-				<xsl:text>/log</xsl:text>
-			</xsl:otherwise>
-		</xsl:choose>
-	</xsl:variable>
+  <xsl:variable name="banner-link"  select="/workspace/@banner-link"/>
+  <xsl:variable name="banner-image" select="/workspace/@banner-image"/>
 
   <xsl:template match="*|@*">
     <xsl:copy>
@@ -35,9 +23,11 @@
 
       <mkdir dir="{$basedir}"/>
       <mkdir dir="{$logdir}"/>
-      <mkdir dir="{$cvsdir}"/>
+      <mkdir dir="{@cvsdir}"/>
 
-      <html log="{$logdir}/cvs_index.html">
+      <html log="{$logdir}/cvs_index.html" 
+        banner-image="{$banner-image}" banner-link="{$banner-link}">
+
         <title>
           <xsl:text>CVS update - </xsl:text>
           <date/>
@@ -83,7 +73,9 @@
     <xsl:copy>
       <xsl:copy-of select="@*"/>
 
-      <html log="{$logdir}/cvs_{@name}.html">
+      <html log="{$logdir}/cvs_{@name}.html" 
+        banner-image="{$banner-image}" banner-link="{$banner-link}">
+
         <title>
           <xsl:text>cvs update </xsl:text>
           <xsl:value-of select="@name"/>

@@ -8,21 +8,12 @@
     </xsl:copy>
   </xsl:template>
 
-  <xsl:variable name="basedir"
-    select="translate(/workspace/@basedir, '\', '/')"/>
+  <xsl:variable name="basedir" select="/workspace/@basedir"/>
+  <xsl:variable name="cvsdir"  select="/workspace/@cvsdir"/>
+  <xsl:variable name="logdir"  select="/workspace/@logdir"/>
 
-  <xsl:variable name="cvsdir"
-		select="translate(/workspace/@cvsdir, '\', '/')"/>
-
-	<xsl:variable name="logdir">
-		<xsl:choose>
-			<xsl:when test="/workspace/@logdir"><xsl:value-of
-				select="translate(/workspace/@logdir, '\', '/')"/></xsl:when>
-			<xsl:otherwise><xsl:value-of select="$basedir"/>
-				<xsl:text>/log</xsl:text>
-			</xsl:otherwise>
-		</xsl:choose>
-	</xsl:variable>
+  <xsl:variable name="banner-link"  select="/workspace/@banner-link"/>
+  <xsl:variable name="banner-image" select="/workspace/@banner-image"/>
 
   <!-- =================================================================== -->
   <!-- provide support for specifying desired projects on the command line -->
@@ -43,7 +34,9 @@
               todir="{$basedir}/{@name}"/>
       </xsl:for-each>
 
-      <html log="{$logdir}/index.html">
+      <html log="{$logdir}/index.html" 
+        banner-image="{$banner-image}" banner-link="{$banner-link}">
+
         <title>
           <xsl:text>Build status - </xsl:text>
           <date/>
@@ -90,7 +83,9 @@
       <xsl:copy-of select="@*"/>
       <xsl:variable name="srcdir" select="@srcdir"/>
 
-      <html log="{$logdir}/{@name}.html">
+      <html log="{$logdir}/{@name}.html" 
+        banner-image="{$banner-image}" banner-link="{$banner-link}">
+
         <title>
           <xsl:text>Build </xsl:text>
           <xsl:value-of select="@name"/>
