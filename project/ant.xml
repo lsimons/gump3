@@ -36,7 +36,7 @@
     <jar name="lib/ant-swing.jar" id="swing"/>
     <jar name="lib/ant-trax.jar" id="trax"/>
     <jar name="lib/ant-xalan2.jar" id="xalan2"/>
-    <jar name="lib/nodeps.jar" id="nodeps"/>
+    <jar name="lib/ant-nodeps.jar" id="nodeps"/>
 
     <license name="LICENSE"/>
 
@@ -74,7 +74,7 @@
     <jar name="lib/ant-antlr.jar" id="antlr"/>
     <jar name="lib/ant-apache-bsf.jar" id="bsf"/>
     <jar name="lib/ant-apache-resolver.jar" id="resolver"/>
-    <jar name="lib/ant-bcel.jar" id="bcel"/>
+    <jar name="lib/ant-jakarta-bcel.jar" id="bcel"/>
     <jar name="lib/ant-commons-logging.jar" id="commons-logging"/>
     <jar name="lib/ant-commons-net.jar" id="commons-net"/>
     <jar name="lib/ant-jakarta-regexp.jar" id="jakarta-regexp"/>
@@ -83,13 +83,13 @@
     <jar name="lib/ant-jmf.jar" id="jmf"/>
     <jar name="lib/ant-jsch.jar" id="jsch"/>
     <jar name="lib/ant-junit.jar" id="junit"/>
-    <jar name="lib/ant-log4j.jar" id="log4j"/>
-    <jar name="lib/ant-oro.jar" id="oro"/>
+    <jar name="lib/ant-jakarta-log4j.jar" id="log4j"/>
+    <jar name="lib/ant-jakarta-oro.jar" id="oro"/>
     <jar name="lib/ant-stylebook.jar" id="stylebook"/>
     <jar name="lib/ant-swing.jar" id="swing"/>
     <jar name="lib/ant-trax.jar" id="trax"/>
     <jar name="lib/ant-xalan2.jar" id="xalan2"/>
-    <jar name="lib/nodeps.jar" id="nodeps"/>
+    <jar name="lib/ant-nodeps.jar" id="nodeps"/>
 
     <javadoc nested="build/javadocs" project="ant"/>
 
