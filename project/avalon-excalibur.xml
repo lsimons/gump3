@@ -562,24 +562,22 @@
                 to="dev@avalon.apache.org"/>
     </project>
 
-    <!-- no dependency on altrmi here. The ant buildfile knows to exclude the
-         altrmi-related classes if altrmi is unavailable -->
-    <project name="excalibur-instrument-manager">
-        <package>org.apache.avalon.excalibur.instrument.manager</package>
+    <project name="excalibur-instrument-spi">
+        <package>org.apache.avalon.excalibur.instrument.manager.interfaces</package>
 
-        <mkdir dir="instrument-manager/target/classes"/>
+        <mkdir dir="instrument-manager/spi/target/classes"/>
 
-        <ant basedir="instrument-manager" target="jar" buildfile="gump-build.xml">
+        <ant basedir="instrument-manager/spi" target="jar" buildfile="gump-build.xml">
             <!-- optional dependencies -->
             <property name="checkstyle.jar" project="checkstyle" reference="jarpath"/>
             <!-- test-time dependencies -->
             <depend property="junit.jar" project="junit"/>
             <property name="project.version" value="@@DATE@@"/>
-            <property name="src.exclude.pattern" value="**/package.html, **/altrmi/*"/>
+            <property name="src.exclude.pattern" value="**/package.html"/>
         </ant>
 
         <!-- runtime dependencies -->
-        <depend project="avalon-framework" runtime="true" id="combined"/>
+        <depend project="avalon-framework" runtime="true" id="api"/>
         <depend property="excalibur-instrument.jar" project="excalibur-instrument" runtime="true"/>
 
         <!-- build-time dependencies -->
@@ -591,56 +589,136 @@
         <!-- optional dependencies -->
         <option project="checkstyle" inherit="runtime"/>
 
-        <work nested="instrument-manager/target/classes"/>
-        <work nested="instrument-manager/target/test-classes"/>
+        <work nested="instrument-manager/spi/target/classes"/>
+        <work nested="instrument-manager/spi/target/test-classes"/>
 
-        <home nested="instrument-manager"/>
-        <jar name="target/excalibur-instrument-manager-@@DATE@@.jar"
-             id="main"/>
-        <jar name="target/excalibur-instrument-manager-@@DATE@@-api.jar"
-             id="interfaces"/>
-        <jar name="target/excalibur-instrument-manager-@@DATE@@-impl.jar"
-             id="impl"/>
-
+        <home nested="instrument-manager/spi"/>
+        <jar name="target/excalibur-instrument-spi-@@DATE@@.jar"/>
         <nag from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"
                 to="dev@avalon.apache.org"/>
     </project>
 
-    <!-- This is instrument-manager + altrmi. Should only be depended upon by
-         projects which altrmi does not depend on. -->
-    <project name="excalibur-instrument-manager-altrmi">
+    <project name="excalibur-instrument-impl">
         <package>org.apache.avalon.excalibur.instrument.manager</package>
 
-        <mkdir dir="instrument-manager/target/classes"/>
+        <mkdir dir="instrument-manager/impl/target/classes"/>
 
-        <ant basedir="instrument-manager" target="jar" buildfile="gump-build.xml">
-            <!-- runtime dependencies -->
-            <depend property="altrmi-common.jar" project="incubator-altrmi" id="common"/>
-            <depend property="altrmi-client-interfaces.jar" project="incubator-altrmi" id="client-api"/>
-            <depend property="altrmi-client-impl.jar" project="incubator-altrmi" id="client-impl"/>
-            <depend property="altrmi-server-interfaces.jar" project="incubator-altrmi" id="server-api"/>
-            <depend property="altrmi-server-impl.jar" project="incubator-altrmi" id="server-impl"/>
-
+        <ant basedir="instrument-manager/impl" target="jar" buildfile="gump-build.xml">
+            <!-- optional dependencies -->
+            <property name="checkstyle.jar" project="checkstyle" reference="jarpath"/>
+            <!-- test-time dependencies -->
+            <depend property="junit.jar" project="junit"/>
             <property name="project.version" value="@@DATE@@"/>
+            <property name="src.exclude.pattern" value="**/package.html"/>
         </ant>
 
-        <depend project="excalibur-instrument-manager" inherit="all" runtime="true"/>
+        <depend project="avalon-framework" runtime="true" id="api"/>
+        <depend project="avalon-framework" runtime="true" id="impl"/>
+        <depend project="excalibur-instrument" runtime="true"/>
+        <depend project="excalibur-instrument-spi" runtime="true"/>
+
+        <!-- build-time dependencies -->
         <depend project="ant" inherit="runtime"/>
         <depend project="junit"/>
         <depend project="xml-xerces"/>
         <depend project="xml-xalan2"/>
 
-        <work nested="instrument-manager/target/classes"/>
-        <work nested="instrument-manager/target/test-classes"/>
+        <!-- optional dependencies -->
+        <option project="checkstyle" inherit="runtime"/>
 
-        <home nested="instrument-manager"/>
-        <jar name="target/excalibur-instrument-manager-@@DATE@@.jar"/>
-        <jar name="target/excalibur-instrument-manager-interfaces-@@DATE@@.jar"/>
+        <work nested="instrument-manager/impl/target/classes"/>
+        <work nested="instrument-manager/impl/target/test-classes"/>
 
-        <junitreport nested="instrument-manager/target/docs/junitreports"/>
-
+        <home nested="instrument-manager/impl"/>
+        <jar name="target/excalibur-instrument-impl-@@DATE@@.jar"/>
         <nag from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"
                 to="dev@avalon.apache.org"/>
+    </project>
+
+    <project name="excalibur-instrument-http">
+        <package>org.apache.avalon.excalibur.instrument.manager.http</package>
+
+        <mkdir dir="instrument-manager/http/target/classes"/>
+
+        <ant basedir="instrument-manager/http" target="jar" buildfile="gump-build.xml">
+            <!-- optional dependencies -->
+            <property name="checkstyle.jar" project="checkstyle" reference="jarpath"/>
+            <!-- test-time dependencies -->
+            <property name="project.version" value="@@DATE@@"/>
+            <property name="src.exclude.pattern" value="**/package.html"/>
+        </ant>
+
+        <depend project="avalon-framework" runtime="true" id="api"/>
+        <depend project="avalon-framework" runtime="true" id="impl"/>
+        <depend project="excalibur-instrument" runtime="true"/>
+        <depend project="excalibur-instrument-spi" runtime="true"/>
+        <depend project="excalibur-instrument-impl" runtime="true"/>
+
+        <!-- build-time dependencies -->
+        <depend project="ant" inherit="runtime"/>
+        <depend project="junit"/>
+        <depend project="xml-xerces"/>
+        <depend project="xml-xalan2"/>
+
+        <!-- optional dependencies -->
+        <option project="checkstyle" inherit="runtime"/>
+
+        <work nested="instrument-manager/http/target/classes"/>
+
+        <home nested="instrument-manager/http"/>
+        <jar name="target/excalibur-instrument-http-@@DATE@@.jar"/>
+        <nag from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"
+                to="dev@avalon.apache.org"/>
+    </project>
+
+    <project name="excalibur-instrument-altrmi">
+        <package>org.apache.avalon.excalibur.instrument.manager.altrmi</package>
+
+        <mkdir dir="instrument-manager/altrmi/target/classes"/>
+
+        <ant basedir="instrument-manager/altrmi" target="jar" buildfile="gump-build.xml">
+            <!-- optional dependencies -->
+            <property name="checkstyle.jar" project="checkstyle" reference="jarpath"/>
+            <!-- test-time dependencies -->
+            <property name="project.version" value="@@DATE@@"/>
+            <property name="src.exclude.pattern" value="**/package.html"/>
+        </ant>
+
+        <depend project="avalon-framework" runtime="true" id="api"/>
+        <depend project="avalon-framework" runtime="true" id="impl"/>
+        <depend project="excalibur-instrument" runtime="true"/>
+        <depend project="excalibur-instrument-spi" runtime="true"/>
+        <depend project="excalibur-instrument-impl" runtime="true"/>
+        <depend project="incubator-altrmi" id="common"/>
+        <depend project="incubator-altrmi" id="client-api"/>
+        <depend project="incubator-altrmi" id="client-impl"/>
+        <depend project="incubator-altrmi" id="server-api"/>
+        <depend project="incubator-altrmi" id="server-impl"/>
+
+        <!-- build-time dependencies -->
+        <depend project="ant" inherit="runtime"/>
+        <depend project="xml-xerces"/>
+        <depend project="xml-xalan2"/>
+
+        <!-- optional dependencies -->
+        <option project="checkstyle" inherit="runtime"/>
+
+        <work nested="instrument-manager/altrmi/target/classes"/>
+
+        <home nested="instrument-manager/altrmi"/>
+        <jar name="target/excalibur-instrument-http-@@DATE@@.jar"/>
+        <nag from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"
+                to="dev@avalon.apache.org"/>
+    </project>
+
+    <project name="excalibur-instrument-manager">
+      <depend project="excalibur-instrument-spi" inherit="jars"/>
+      <depend project="excalibur-instrument-impl" inherit="jars"/>
+      <depend project="excalibur-instrument-http" inherit="jars"/>
+    </project>
+
+    <project name="excalibur-instrument-manager-altrmi">
+      <depend project="excalibur-instrument-altrmi" inherit="jars"/>
     </project>
 
     <project name="excalibur-instrument-client">
