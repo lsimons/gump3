@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/Attic/view.py,v 1.39 2003/05/08 09:44:10 nicolaken Exp $
-# $Revision: 1.39 $
-# $Date: 2003/05/08 09:44:10 $
+# $Header: /home/stefano/cvs/gump/python/gump/Attic/view.py,v 1.40 2003/05/08 22:01:05 nicolaken Exp $
+# $Revision: 1.40 $
+# $Date: 2003/05/08 22:01:05 $
 #
 # ====================================================================
 #
@@ -160,6 +160,17 @@ class gumpview(wxApp):
     self.mainsplit = wxSplitterWindow(self.logsplitter,-1,style=wxSP_NOBORDER)
     split2 = wxSplitterWindow(self.mainsplit,-1,style=wxSP_NOBORDER)
     notebook = wxNotebook(split2, -1, style=wxCLIP_CHILDREN )
+    
+    #notebook images
+    notebookil = wxImageList(16, 16)
+    idx_referenced = notebookil.Add(wxImage("gump/images/referenced.bmp").ConvertToBitmap())
+    idx_dependencies = notebookil.Add(wxImage("gump/images/dependencies.bmp").ConvertToBitmap())
+    idx_prereqs = notebookil.Add(wxImage("gump/images/prereqs.bmp").ConvertToBitmap())
+    idx_classpath = notebookil.Add(wxImage("gump/images/classpath.bmp").ConvertToBitmap())
+    idx_property = notebookil.Add(wxImage("gump/images/property.bmp").ConvertToBitmap())    
+    idx_exports = notebookil.Add(wxImage("gump/images/exports.bmp").ConvertToBitmap())    
+    notebook.AssignImageList(notebookil)
+    #self.SetImageList(self.il, wxIMAGE_LIST_SMALL)
 
     # panes
     self.tree=wxTreeCtrl(self.mainsplit,-1)
@@ -186,11 +197,18 @@ class gumpview(wxApp):
     self.logsplitter.SplitHorizontally(self.mainsplit, self.logview)
     self.mainsplit.SplitVertically(self.tree, split2)
     notebook.AddPage(self.list, 'referenced')
+    notebook.SetPageImage(0, idx_referenced)
     notebook.AddPage(self.dependencies, 'dependencies')
+    notebook.SetPageImage(1, idx_dependencies)
     notebook.AddPage(self.prereqs, 'prereqs')
+    notebook.SetPageImage(2, idx_prereqs)
     notebook.AddPage(self.classpath, 'classpath')
+    notebook.SetPageImage(3, idx_classpath)
     notebook.AddPage(self.property, 'property')
+    notebook.SetPageImage(4, idx_property)
     notebook.AddPage(self.exports, 'exports')
+    notebook.SetPageImage(5, idx_exports)
+    
     split2.SplitHorizontally(notebook, self.data)
     self.SetTopWindow(self.frame)
     self.logsplitter.Unsplit(self.logview)
@@ -201,7 +219,7 @@ class gumpview(wxApp):
     self.mainsplit.SetMinimumPaneSize(20)
     split2.SetMinimumPaneSize(20)
     self.logsplitter.SetSashPosition(350,true)
-    self.mainsplit.SetSashPosition(300,true)
+    self.mainsplit.SetSashPosition(250,true)
     split2.SetSashPosition(130)
 
     # wire up the events
