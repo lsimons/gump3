@@ -18,7 +18,7 @@
 
   <url href="http://logging.apache.org/log4j/index.html"/>
   <description>
-    Fast and flexible logging package for Java
+    Reliable, fast and flexible logging package for Java
   </description>
 
   <cvs repository="logging"/>
@@ -36,8 +36,8 @@
 
     <depend project="ant" inherit="runtime"/>
     <depend project="xml-xerces"/>
-    <depend project="jakarta-servletapi-4"/>
     <work nested="dist/classes"/>
+    <option project="jakarta-servletapi-4"/>
     <option project="jms"/>
     <option project="jmx"/>
     <option project="junit"/>
@@ -47,10 +47,8 @@
     <jar  name="log4j-lf5-@@DATE@@.jar" id="lf5"/>
     <jar  name="log4j-chainsaw-@@DATE@@.jar" id="chainsaw"/>
     
-    <!--nag to="log4j-dev@logging.apache.org"
-         from="Ceki Gülcü &lt;ceki@apache.org&gt;"/-->
     <nag to="log4j-dev@logging.apache.org"
-         from="&lt;ceki@apache.org&gt;"/>
+         from="&lt;noreply@qos.ch&gt;"/>
   </project>
 
   <project name="log4j-tests">
@@ -70,11 +68,8 @@
     <work nested="tests/resources" />
     <work nested="examples/classes"/>
 
-    <!--nag to="log4j-dev@logging.apache.org"
-         subject="Test Failure"
-         from="Ceki Gülcü &lt;ceki@apache.org&gt;"/-->
     <nag to="log4j-dev@logging.apache.org"
          subject="Test Failure"
-         from="&lt;ceki@apache.org&gt;"/>
+         from="&lt;noreply@qos.ch&gt;"/>
   </project>
 </module>
