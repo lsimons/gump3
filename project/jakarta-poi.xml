@@ -8,14 +8,25 @@
   
     <package>org.apache.poi</package>
     
-    <ant/>
-        
-    <depend project="xml-xerces"/>
-    <depend project="jakarta-ant"/>
-    <depend project="commons-jjar"/>
+    <ant target="dist">
+      <property name="cents.dir" value="tools/cents"/>
+      <property name="cent.dir.suffix" value="cent"/>    
+      <property name="package-name" value="jakarta-poi"/>
+      <property name="package-name-suffix" value="@@DATE@@"/>
+    </ant>
+
+    <depend project="ant"/>
     <depend project="ant-contrib"/>
-            
-    <jar name="jakarta-poi.jar" id="poi"/>
+    <depend project="commons-beanutils"/>
+    <depend project="commons-jjar"/>
+    <depend project="commons-lang"/>
+    <depend project="commons-logging"/>
+    <depend project="jakarta-log4j"/>
+    <depend project="junit"/>
+    <depend project="xml-xerces"/>
+
+    <work nested="build/classes"/>
+    <jar name="build/jakarta-poi-@@DATE@@.jar" id="poi"/>
     <javadoc parent="build/jakarta-poi/docs/apidocs"/>
 
     <nag to="poi-dev@jakarta.apache.org"
