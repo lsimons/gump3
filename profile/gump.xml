@@ -60,7 +60,6 @@
 
   <project href="project/bsf.xml"/>
   <project href="project/dom4j.xml"/>
-  <project href="project/freemarker.xml"/>
   <project href="project/jdom.xml"/>
   <project href="project/jtidy.xml"/>
   <project href="project/junit.xml"/>
