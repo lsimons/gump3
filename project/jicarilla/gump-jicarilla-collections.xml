@@ -41,6 +41,6 @@
     <!--<javadoc nested="platform/components/collections/target/docs/apidocs"/>
     <junitreport nested="platform/components/collections/target/docs/junitreports"/>-->
 
-    <nag from="Gump Integration Build &lt;jicarilla-devel@lists.sourceforge.net&gt;"
+    <nag from="Gump Integration Build &lt;general@gump.apache.org&gt;"
         to="jicarilla-devel@lists.sourceforge.net"/>
 </project>

@@ -40,6 +40,8 @@
     <depend project="jicarilla-dna-api" runtime="true" inherit="runtime" optional="false"/>
     <depend project="jicarilla-dna-impl" runtime="true" inherit="runtime" optional="false"/>
     <depend project="jicarilla-dna-tools" runtime="true" inherit="runtime" optional="false"/>
+    <depend project="jicarilla-spice-metaclass" runtime="true" inherit="runtime" optional="false"/>
+    <depend project="jicarilla-spice-configkit" runtime="true" inherit="runtime" optional="false"/>
 
 
     <mkdir dir="platform/container-integration/target/classes"/>
@@ -52,6 +54,6 @@
     <!--<javadoc nested="platform/container-integration/target/docs/apidocs"/>
     <junitreport nested="platform/container-integration/target/docs/junitreports"/>-->
 
-    <nag from="Gump Integration Build &lt;jicarilla-devel@lists.sourceforge.net&gt;"
+    <nag from="Gump Integration Build &lt;general@gump.apache.org&gt;"
             to="jicarilla-devel@lists.sourceforge.net"/>
 </project>

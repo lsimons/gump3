@@ -24,6 +24,6 @@
     <depend project="jicarilla-plumbing-api" runtime="true" inherit="jars" optional="false"/>
     <depend project="jicarilla-plumbing-impl" runtime="true" inherit="jars" optional="false"/>
 
-    <nag from="Gump Integration Build &lt;jicarilla-devel@lists.sourceforge.net&gt;"
+    <nag from="Gump Integration Build &lt;general@gump.apache.org&gt;"
             to="jicarilla-devel@lists.sourceforge.net"/>
 </project>
