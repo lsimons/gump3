@@ -99,7 +99,7 @@ def main(argv):
     elif (argv[1] in commands.__all__):
         options = []
         arguments = []
-        for arg in argv:
+        for arg in argv[2:]:
             if (arg[:1] == '='): 
                 options.append(arg[1:])
             else:

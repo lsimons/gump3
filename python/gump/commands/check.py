@@ -15,38 +15,35 @@
 # limitations under the License.
 
 """
-usage: build [options] [project]
+usage: check [workspace]
 
   Perform the integration build.
 
 Valid options:
-  [TODO]  
+  workspace
 """
 
-__description__ = "Check the integration"
+__description__ = "Check the gump metadata for validity and consistency"
 
 __revision__  = "$Rev: 54600 $"
 __date__      = "$Date: 2004-10-11 12:50:02 -0400 (Mon, 11 Oct 2004) $"
 __copyright__ = "Copyright (c) 1999-2004 Apache Software Foundation"
 __license__   = "http://www.apache.org/licenses/LICENSE-2.0"
 
-
-import gump.core.run.gumprun
-import gump.core.run.options
-from gump.core.runner.runner import getRunner
+import socket
+import logging
+from gump import log
 from gump.core.loader.loader import WorkspaceLoader
 
-def process(options,arguments):    
+def process(options,arguments):
 
-    # get parsed workspace definition
-    workspace = WorkspaceLoader(options.isQuick()).load(ws)    
-        
-    # Set objectives
-    options.setObjectives(options.OBJECTIVE_CHECK)
+    if len(arguments) > 0:
+        ws = arguments[0]
+    else:
+        ws = "./metadata/" + socket.gethostname() + ".xml"
+
+    log.setLevel(logging.DEBUG)
     
-    # The Run Details...
-    run = gumprun.GumpRun(workspace,ps,options)
-        
-    # Perform this integration run...
-    return getRunner(run).perform()
+    workspace = WorkspaceLoader().load(ws)    
     
+    workspace.dump()
