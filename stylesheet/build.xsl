@@ -21,7 +21,7 @@
 
   <xsl:template match="workspace">
 
-    <build sync="{@sync}">
+    <build sync="{@sync}" basedir="{$basedir}" >
 
       <scorecard file="{$logdir}/results.txt"/>
 

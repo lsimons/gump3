@@ -266,10 +266,6 @@
     <xsl:value-of select="$basedir"/>
     <xsl:text>&#10;</xsl:text>
 
-    <xsl:text>copy ..\jenny.jar </xsl:text>
-    <xsl:value-of select="$basedir"/>
-    <xsl:text>&#10;</xsl:text>
-
     <xsl:text>echo.&#10;</xsl:text>
     <xsl:text>goto :eof&#10;</xsl:text>
   </xsl:template>
@@ -350,19 +346,17 @@
   <!-- =================================================================== -->
 
   <xsl:template match="classpath">
-    <xsl:text>set CLASSPATH=%CP%;</xsl:text><xsl:value-of select="translate(/build/@basedir,'/','\')"/><xsl:text>\jenny.jar&#10;</xsl:text>
-    <xsl:text>del cp.properties &gt;nul&#10;</xsl:text>
-    <xsl:text>echo cp0=%JAVA_HOME:\=/%/lib/tools.jar &gt;&gt;cp.properties &#10;</xsl:text>
+    <xsl:text>SET CLASSPATH=%CP%;%JAVA_HOME%\lib\tools.jar&#10;</xsl:text>
     <xsl:for-each select="pathelement">
       <xsl:if test="not(@type='boot')">
-        <xsl:text>echo cp</xsl:text><xsl:value-of select="position()"/><xsl:text>=</xsl:text>
-        <xsl:value-of select="translate(@location,'\','/')"/>
-        <xsl:text> &gt;&gt;cp.properties &#10;</xsl:text>
+        <xsl:text>SET CLASSPATH=%CLASSPATH%;</xsl:text>
+        <xsl:value-of select="translate(@location,'/','\')"/>
+        <xsl:text>&#10;</xsl:text>
       </xsl:if>
       <xsl:if test="@type='boot'">
-        <xsl:text>echo cp</xsl:text><xsl:value-of select="position()"/><xsl:text>.boot=</xsl:text>
-        <xsl:value-of select="translate(@location,'\','/')"/>
-        <xsl:text> &gt;&gt;cp.properties &#10;</xsl:text>
+        <xsl:text>SET CLASSPATH=</xsl:text>
+        <xsl:value-of select="translate(@location,'/','\')"/>
+        <xsl:text>;%CLASSPATH%&#10;</xsl:text>
       </xsl:if>
     </xsl:for-each>
   </xsl:template>
@@ -391,7 +385,7 @@
       <xsl:value-of select="@value"/>
     </xsl:for-each>
 
-    <xsl:text> Launcher </xsl:text><xsl:value-of select="translate(../initdir/@dir,'/','\')"/><xsl:text>\cp.properties org.apache.tools.ant.Main</xsl:text>
+    <xsl:text> org.apache.tools.ant.Main</xsl:text>
 
     <xsl:if test="@buildfile">
       <xsl:text> -buildfile </xsl:text>
