@@ -32,7 +32,7 @@
     <depend project="jakarta-ant"/>
     <depend project="xml-xerces"/>
     <depend project="commons-logging"/>
-    <jar name="betwixt/dist/commons-betwixt-@@DATE@@.jar"/>
+    <jar name="betwixt/dist/commons-betwixt.jar"/>
     <javadoc nested="betwixt/dist/docs/api"/>
 
     <nag to="commons-dev@jakarta.apache.org"
@@ -273,7 +273,7 @@
     <depend project="commons-lang"/>
 
     <work nested="target/classes"/>
-    <home nested="target"/>
+    <home nested="util/target"/>
     <jar name="commons-util-@@DATE@@.jar"/>
     <javadoc nested="docs/apidocs"/>
 
