@@ -15,7 +15,7 @@
   limitations under the License.
 -->
 <module name="jakarta-jmeter">
-<!-- Version $Revision: 1.84 $ Last updated $Date: 2004/03/19 13:19:30 $ -->
+<!-- Version $Revision: 1.85 $ Last updated $Date: 2004/03/19 13:23:53 $ -->
   <url href="http://jakarta.apache.org/jmeter/" />
   <description>
     Pure Java load testing and performance measurement tool.
@@ -31,7 +31,7 @@
       <property name="version" value="@@DATE@@"/>
       <property name="gump.run" value="true"/>
       <!-- The version of this file -->
-      <property name="version.projectfile" value="$Revision: 1.84 $"/>
+      <property name="version.projectfile" value="$Revision: 1.85 $"/>
       
       <!--
       	These properties are passed to the build process, so the names need to agree with
@@ -76,23 +76,8 @@
     <!-- Allow http to build: -->
     <work nested="build/components"/>
 
-    <!-- Export the JMeter jars -->
-    <home nested="." />
-<!--
-    <jar name="bin/ApacheJMeter.jar" />
-    <jar name="lib/ext/ApacheJMeter_components.jar" />
-    <jar name="lib/ext/ApacheJMeter_core.jar" />
-    <jar name="lib/ext/ApacheJMeter_ftp.jar" />
-    <jar name="lib/ext/ApacheJMeter_functions.jar" />
-    <jar name="lib/ext/ApacheJMeter_http.jar" />
-    <jar name="lib/ext/ApacheJMeter_java.jar" />
-    <jar name="lib/ext/ApacheJMeter_jdbc.jar" />
-    <jar name="lib/ext/ApacheJMeter_ldap.jar" />
-    <jar name="dist/jakarta-jmeter-@@DATE@@_bin.zip" />
-    <jar name="dist/jakarta-jmeter-@@DATE@@_src.zip" />
-    <jar name="dist/jakarta-jmeter-@@DATE@@_lib.zip" />
-    <license name="LICENSE"/>
--->
+    <!-- Allow Monitor to build -->
+    <work nested="build/monitor/model"/>
 
     <nag from="Sebb &lt;sebb@apache.org&gt;"
          to="jmeter-dev@jakarta.apache.org">
@@ -108,7 +93,7 @@
       <property name="version" value="@@DATE@@"/>
       <property name="gump.run" value="true"/>
       <!-- The version of this file -->
-      <property name="version.projectfile" value="$Revision: 1.84 $"/>
+      <property name="version.projectfile" value="$Revision: 1.85 $"/>
     </ant>
 
     <depend project="ant" />
@@ -131,6 +116,9 @@
     <!-- Allow http to build: -->
     <work nested="build/components"/>
 
+    <!-- Allow Monitor to build -->
+    <work nested="build/monitor/model"/>
+    
     <work nested="lib/avalon-excalibur-4.1.jar"/>
     <work nested="lib/avalon-framework-4.1.4.jar"/>
     <work nested="lib/commons-collections.jar"/>
@@ -175,7 +163,7 @@
       <property name="version" value="@@DATE@@"/>
       <property name="gump.run" value="true"/>
       <!-- The version of this file -->
-      <property name="version.projectfile" value="$Revision: 1.84 $"/>
+      <property name="version.projectfile" value="$Revision: 1.85 $"/>
     </ant>
 
     <depend project="ant" />
@@ -236,7 +224,7 @@
       <property name="version" value="@@DATE@@"/>
       <property name="gump.run" value="true"/>
       <!-- The version of this file -->
-      <property name="version.projectfile" value="$Revision: 1.84 $"/>
+      <property name="version.projectfile" value="$Revision: 1.85 $"/>
     </ant>
 
     <depend project="ant" />
