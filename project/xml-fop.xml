@@ -34,6 +34,7 @@
     <depend project="jakarta-avalon" runtime="true"/>
     <depend project="bsf"/>
     <depend project="fop-buildtools"/>
+    <depend project="jfor"/>
     <home nested="build"/>
     <jar  name="fop.jar"/>
     <nag from="Sam Ruby &lt;rubys@us.ibm.com&gt;">
