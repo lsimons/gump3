@@ -247,7 +247,8 @@
     </project>
     
     <!-- Exercise Repository Code with VFS in the environment -->
-    <project name="depot-update-ant-sample-vfs" fullname="Depot Update Ant Sample">    	
+    <project name="depot-update-ant-sample-vfs" fullname="Depot Update Ant Sample"
+    	debug="true">    	
 
         <depend project="depot-update" inherit="runtime"/>
         <depend project="ant" inherit="runtime"/>
@@ -263,7 +264,8 @@
     </project>
     
 	<!-- Exercise Repository Code with HTTP-Client in the environment -->
-    <project name="depot-update-ant-sample-httpclient" fullname="Depot Update Ant Sample">    	
+    <project name="depot-update-ant-sample-httpclient" fullname="Depot Update Ant Sample"
+    	debug="true">    	
 
         <depend project="depot-update"/>
         <depend project="commons-httpclient" inherit="runtime"/>
@@ -280,7 +282,8 @@
     </project>
     
 	<!-- Exercise Repository Code with JDK HTTP in the environment -->
-    <project name="depot-update-ant-sample-jdk" fullname="Depot Update Ant Sample">    	
+    <project name="depot-update-ant-sample-jdk" fullname="Depot Update Ant Sample"
+    	debug="true">    	
 
         <depend project="depot-update"/>
         <depend project="ant" inherit="runtime"/>
