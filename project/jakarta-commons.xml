@@ -9,7 +9,7 @@
   <project name="commons-beanutils">
     <url href="http://jakarta.apache.org/commons/beanutils.html"/>
 
-    <ant basedir="beanutils/build" target="dist">
+    <ant basedir="beanutils" target="dist">
       <property name="junit.home" reference="homepath" project="junit"/>
     </ant>
     <depend project="jakarta-ant"/>
@@ -41,6 +41,43 @@
     <depend project="jakarta-tomcat-4.0"/>
     <work nested="out/servlet23/classes/"/>
 
+  </project>
+
+  <project name="commons-collections">
+    <url href="http://jakarta.apache.org/commons/"/>
+
+    <ant basedir="collections" target="dist"/>
+    <depend project="jakarta-ant"/>
+    <depend project="xml-xerces"/>
+    <depend project="junit"/>
+    <work nested="collections/build/classes"/>
+    <home nested="collections/build"/>
+    <jar name="commons-collections.jar"/>
+  </project>
+
+  <project name="commons-dbcp">
+    <url href="http://jakarta.apache.org/commons/"/>
+
+    <ant basedir="dbcp" target="dist"/>
+    <depend project="jakarta-ant"/>
+    <depend project="xml-xerces"/>
+    <depend project="jdbc"/>
+    <depend project="junit"/>
+    <depend project="commons-pool"/>
+    <home nested="dbcp/build"/>
+    <jar name="commons-dbcp.jar"/>
+  </project>
+
+  <project name="commons-pool">
+    <url href="http://jakarta.apache.org/commons/"/>
+
+    <ant basedir="pool" target="dist"/>
+    <depend project="jakarta-ant"/>
+    <depend project="xml-xerces"/>
+    <depend project="junit"/>
+    <depend project="commons-collections"/>
+    <home nested="pool/build"/>
+    <jar name="commons-pool.jar"/>
   </project>
 
 </project>
