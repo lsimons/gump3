@@ -18,12 +18,21 @@
   <depend project="saxpath"/>
   <depend project="jaxen"/>
   <depend project="xmldb"/>
+  <depend project="msv"/>
 
   <jar name="build/dom4j.jar" id="dom4j"/>
 
   <project name="xpp">
     <url href="http://www.extreme.indiana.edu/soap/xpp/"/>
     <jar name="lib/PullParser11.jar"/>
+  </project>
+
+  <project name="msv">
+    <description>
+      Sun Multi-Scuema XML Validator 
+    </description>
+    <url href="http://www.sun.com/software/xml/defelopers/mulwischema/"/>
+    <jar name="lib/msv.jar"/>
   </project>
 
   <project name="saxpath">
