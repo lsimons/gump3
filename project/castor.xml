@@ -35,12 +35,4 @@
     <jar name="lib/ldapjdk_4.1.jar"/>
   </project>
 
-  <project name="jtf">
-    <jar name="lib/jtf-0.1.jar"/>
-  </project>
-
-  <project name="XMLDiff">
-    <jar name="lib/XMLDiff_0.2.jar"/>
-  </project>
-
 </module>

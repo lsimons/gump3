@@ -38,9 +38,4 @@
          to="wsif-dev@ws.apache.org"/>
   </project>
 
-  <project name="soaprmi">
-    <url href="http://www.extreme.indiana.edu/xgws/xsoap/"/>
-    <jar name="java/lib/soaprmi11/soaprmi11.jar"/>
-  </project>
-
 </module>
