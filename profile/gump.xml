@@ -147,7 +147,7 @@
   <module href="project/xml-xerces2.xml"/>
   <module href="project/xml-xindice.xml"/>
   <module href="project/xml-xmlbeans.xml"/>
-  <module href="http://cvs.apache.org/viewcvs/~checkout~/xml-forrest/module.xml"/>
+  <module href="http://svn.apache.org/repos/asf/xml/forrest/trunk/module.xml"/>
 
 <!-- SourceForge -->
 
