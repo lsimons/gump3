@@ -83,6 +83,14 @@ if [ ! -d $GUMP_LOG_DIR ] ; then
 	exit 1
 fi
 
+if [ ! -d $GUMP_WS_TMP ] ; then
+	mkdir -p $GUMP_WS_TMP;
+fi
+if [ ! -d $GUMP_WS_TMP ] ; then
+	echo "Failed to create the directory \$GUMP_WS_TMP variable, can't continue."
+	exit 1
+fi
+
 
 #
 # Generate gumpy.html from this (into the WWW site)
