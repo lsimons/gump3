@@ -29,8 +29,10 @@
   
   <project name="krysalis-ruper-test">
 
-    <ant target="test"/>
-
+    <ant target="test">
+      <property name="ant.home" reference="home" project="jakarta-ant"/>
+    </ant>
+    
     <depend project="krysalis-ruper" inherit="all"/>
     <depend project="junit"/>
     
