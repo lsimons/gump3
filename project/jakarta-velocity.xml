@@ -33,6 +33,7 @@
     <depend project="xml-xerces"/>
     <depend project="junit"/>
     <depend project="jakarta-velocity"/>
+    <depend project="commons-collections"/>
     <depend project="jdom"/>
     <depend project="werken.xpath"/>
     <depend project="antlr.runtime"/>

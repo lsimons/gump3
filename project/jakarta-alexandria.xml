@@ -40,7 +40,9 @@
     </ant>
 
     <depend project="jakarta-ant"/>
+    <depend project="commons-collections"/>
     <depend project="jakarta-velocity"/>
+    <depend project="jakarta-avalon-logkit"/>
     <depend project="jdom"/>
     <depend project="xml-xerces"/>
     <depend project="xml-batik-rasterizer"/>
