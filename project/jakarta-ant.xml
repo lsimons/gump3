@@ -41,6 +41,7 @@
     <option project="jakarta-bcel"/>
     <option project="antlr"/>
     <option project="jakarta-servletapi" />
+    <option project="commons-logging" />
 
     <home nested="build"/>
     <jar name="lib/ant.jar"/>
