@@ -23,6 +23,8 @@
     <depend project="jakarta-regexp" runtime="true"/>
     <depend project="jakarta-bcel" runtime="true"/>
     <depend project="commons-beanutils" runtime="true"/>
+    <depend project="commons-collections" runtime="true"/>
+    <depend project="commons-logging" runtime="true"/>
     <work nested="target/checkstyle"/>
     <work nested="target/tests"/>
 
