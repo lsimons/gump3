@@ -10,15 +10,15 @@
         <ant buildfile="build.xml" target="dist">
         </ant>
         <package>org.apache.poi</package>
-        <depend project="jakarta-ant"/>
+        <depend project="dist-ant"/>
         <depend project="jakarta-log4j"/>
         <depend project="commons-logging"/>
         <depend project="commons-beanutils"/>
         <depend project="commons-collections"/>
         <depend project="commons-lang"/>
         <depend project="junit"/>
-	<depend project="xml-xerces"/>
-	<depend project="jdepend"/>
+        <depend project="xml-xerces"/>
+        <depend project="jdepend"/>
         <work nested="build/classes"/>
         <work nested="build/contrib-classes"/>
         <work nested="build/scratchpad-classes"/>
