@@ -127,8 +127,8 @@ def peekInGlobalProfile(missing):
       currentmodule = Module.list[currentproject.module]
       print "  ",currentmodule.description
       print
-      print "   project url: " , currentproject.url
-      print "   module  url: " , currentmodule.url
+      print "   project url: " , currentproject.url.href
+      print "   module  url: " , currentmodule.url.href
       print "   module  cvs: " , currentmodule.cvsroot()
       if currentmodule.redistributable:
         print  
