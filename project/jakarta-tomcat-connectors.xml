@@ -29,7 +29,7 @@
     <home nested="util/build"/>
     <jar name="lib/tomcat-util.jar"/>
     <nag to="tomcat-dev@jakarta.apache.org"
-         from="Tomcat Developers List &lt;tomcat-dev@jakarta.apache.org&gt;"/>
+         from="Bill Barker &lt;billbarker@jakarta.apache.org&gt;"/>
   </project>
 
   <project name="jakarta-tomcat-coyote">
@@ -54,7 +54,7 @@
     <jar name="build/lib/tomcat-coyote.jar"/>
 
     <nag to="tomcat-dev@jakarta.apache.org"
-         from="Tomcat Developers List &lt;tomcat-dev@jakarta.apache.org&gt;"/>
+         from="Bill Barker &lt;billbarker@jakarta.apache.org&gt;"/>
   </project>
 
   <project name="jakarta-tomcat-jk">
@@ -82,7 +82,7 @@
     <jar name="lib/tomcat-jk2.jar"/>
     <jar name="lib/tomcat-jni.jar"/>
     <nag to="tomcat-dev@jakarta.apache.org"
-         from="Tomcat Developers List &lt;tomcat-dev@jakarta.apache.org&gt;"/>
+         from="Bill Barker &lt;billbarker@jakarta.apache.org&gt;"/>
   </project>
 
   <project name="jakarta-tomcat-jk-ant">
@@ -94,7 +94,7 @@
 
     <jar name="jk/build/lib/jkant.jar"/>
     <nag to="tomcat-dev@jakarta.apache.org"
-         from="Tomcat Developers List &lt;tomcat-dev@jakarta.apache.org&gt;"/>
+         from="Bill Barker &lt;billbarker@jakarta.apache.org&gt;"/>
   </project>
   
   <project name="jakarta-tomcat-jk-native2">
@@ -107,7 +107,7 @@
     <depend project="ant-contrib-cpptasks" />
 
     <nag to="tomcat-dev@jakarta.apache.org"
-         from="Tomcat Developers List &lt;tomcat-dev@jakarta.apache.org&gt;">
+         from="Bill Barker &lt;billbarker@jakarta.apache.org&gt;">
       <regexp  subject="Build Failure - jk2"/>
       <regexp pattern="/timed out/" subject="Build timed out - jk2"/>
     </nag>
@@ -123,7 +123,7 @@
     <depend project="ant-contrib-cpptasks" />
 
     <nag to="tomcat-dev@jakarta.apache.org"
-         from="Tomcat Developers List &lt;tomcat-dev@jakarta.apache.org&gt;">
+         from="Bill Barker &lt;billbarker@jakarta.apache.org&gt;">
       <regexp  subject="Build Failure - jk"/>
       <regexp pattern="/timed out/" subject="Build timed out - jk"/>
     </nag>
