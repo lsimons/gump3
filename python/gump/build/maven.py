@@ -68,7 +68,7 @@ class MavenBuilder(gump.run.gumprun.RunSpecific):
             #
             # Get the appropriate build command...
             #
-            cmd=self.getMavenCommand(languageHelper, project)
+            cmd=self.getMavenCommand(project,languageHelper)
 
             if cmd:
                 # Execute the command ....
