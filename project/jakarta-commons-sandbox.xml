@@ -322,6 +322,7 @@
     <depend project="xml-xerces"/>
 
     <!-- test time dependencies -->
+    <depend project="axion"/>
     <depend project="junit"/>
     <work nested="sql/target/classes"/>
     <work nested="sql/target/test-classes"/>

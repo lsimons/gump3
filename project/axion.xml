@@ -14,17 +14,15 @@
   See the License for the specific language governing permissions and
   limitations under the License.
 -->
-<module name="jetty4">
+<module name="axion">
+  <url href="http://axion.tigris.org/"/>
 
-  <url  href="http://jetty.mortbay.org/jetty/index.html"/>
-  <description>
-    Java HTTP Servlet Server
-  </description>
+  <description>Axion is a small, fast, open source relational database
+    system (RDBMS) supporting SQL and JDBC written in and for the Java
+    programming language.</description>
 
-  <project name="jetty4">
-    <package>org.mortbay</package>
-    <jar name="lib/org.mortbay.jetty.jar"/>
-    <license name="LICENSE.html"/>
+  <project name="axion">
+    <jar name="axion-1.0-M2.jar"/>
+    <license name="LICENSE.txt"/>
   </project>
-
 </module>
