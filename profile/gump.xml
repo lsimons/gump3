@@ -122,7 +122,6 @@
   <module href="project/javacc.xml"/>
   <module href="project/jce.xml"/>
   <module href="project/jdom.xml"/>
-  <module href="project/openorb.xml"/>
   <module href="project/rhino.xml"/>
   <module href="project/scarab.xml"/>
   <module href="project/town.xml"/>
