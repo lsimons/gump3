@@ -18,7 +18,6 @@
     <depend project="junit"/>
     <depend project="nekohtml"/>
     <jar id="httpunit" name="lib/httpunit.jar"/>
-    <license name="doc/license.html"/>
   </project>
 
 </module>

@@ -25,9 +25,8 @@
     <work nested='v1/build/private/lib/xstypes.jar'/>
     <jar name="lib/xbean.jar"/> 
     <jar name="lib/xmlpublic.jar"/>
-    <license name="v1/src/license/license.txt"/>
-      <nag to="xmlbean-dev@xml.apache.org"
-                       from="Robert Burrell Donkin &lt;rdonkin@apache.org&gt;"/>
+    <nag to="xmlbean-dev@xml.apache.org"
+      from="Robert Burrell Donkin &lt;rdonkin@apache.org&gt;"/>
   </project>
 
 </module>
