@@ -25,13 +25,6 @@
       The reason for the change is to support DTM, however the change is
       apparently not being made in a backwards compatbile manner.</p>
     </subsection>
-
-    <subsection name="scarab">
-      <p>For a while, scarab was trying to keep up with the evolution of
-      the torque component of turbine-3.  Eventually, this became too disruptive
-      and work has continued using a snapshot of turbine.  This snapshot does
-      not correspond to any public release or the current HEAD.</p>
-    </subsection>
   </section>
 
   <section name="Other Issues">
@@ -55,7 +48,7 @@
       <p>Based on inspection, I don't believe that turbine-2 and turbine-3 can
       coexist in a classpath.  The jakarta-jetspeed, jakarta-turbine-jyve, and
       jakarta-turbine-orgami projects depend on turbine-2.  The
-      jakarta-turbine-flux and scarab projects depend on turbine-3.</p>
+      jakarta-turbine-flux project depends on turbine-3.</p>
     </subsection>
   </section>
 

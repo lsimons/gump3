@@ -82,7 +82,6 @@
   <module href="project/jtidy.xml"/>
   <module href="project/junit.xml"/>
   <module href="project/rhino.xml"/>
-  <module href="project/scarab.xml"/>
   <module href="project/town.xml"/>
   <module href="project/village.xml"/>
   <module href="project/wsdl4j.xml"/>
@@ -133,7 +132,6 @@
   <repository href="repository/jdom.xml"/>
   <repository href="repository/mozilla.xml"/>
   <repository href="repository/sourceforge.xml"/>
-  <repository href="repository/tigris.xml"/>
   <repository href="repository/whichever.xml"/>
   <repository href="repository/xml.xml"/>
 
