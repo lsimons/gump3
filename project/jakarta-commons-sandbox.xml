@@ -194,7 +194,6 @@
     <depend project="junit"/>
     <depend project="msv"/>
     <depend project="nekohtml"/>
-    <depend project="quartz"/>
     <depend project="swt"/>
     <depend project="xml-axis"/>
     <depend project="xmlunit"/>
