@@ -19,7 +19,7 @@
   <depend project="jakarta-avalon-logkit"/>
 
   <home nested="bin"/>
-  <jar  name="velocity-0.75.jar"/>
+  <jar  name="velocity-0.76.jar"/>
 
   <!-- not available via CVS -->
 
