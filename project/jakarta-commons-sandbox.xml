@@ -378,7 +378,7 @@
     <depend project="junit"></depend> 
     <depend project="commons-net"></depend> 
     <depend project="commons-logging"></depend> 
-    <!-- depend project="jcifs"></depend --> 
+    <depend project="jcifs"></depend> 
 
     <work nested="vfs/target/classes"></work>
     <home nested="vfs/target"></home>

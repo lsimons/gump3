@@ -1,0 +1,11 @@
+<module name="jcifs">
+
+  <url href="http://jcifs.samba.org"/>
+
+  <project name="jcifs">
+    <package>jcifs</package>
+
+    <jar name="jcifs-0.7.0b5.jar"/>
+  </project>
+
+</module>
