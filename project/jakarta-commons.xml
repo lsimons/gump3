@@ -101,6 +101,7 @@
     <depend project="jakarta-ant"/>
     <depend project="xml-xerces"/>
     <depend project="jsse"/>
+    <depend project="jakarta-log4j"/>
 
     <home nested="httpclient/dist"/>
     <jar name="commons-httpclient.jar"/>
