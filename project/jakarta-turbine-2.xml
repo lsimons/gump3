@@ -50,7 +50,7 @@
     <depend project="db-torque" runtime="true"/>
     <depend project="jakarta-velocity"/>
     <depend project="village"/>
-    <depend project="xml-rpc"/>
+    <depend project="ws-xmlrpc"/>
     <depend project="xml-xerces"/>
     <depend project="xml-apis"/>
     <depend project="xml-xalan2"/>

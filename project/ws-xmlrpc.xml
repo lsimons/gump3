@@ -1,13 +1,13 @@
-<module name="xml-rpc">
+<module name="ws-xmlrpc">
 
-  <url href="http://xml.apache.org/xmlrpc/"/>
+  <url href="http://ws.apache.org/xmlrpc/"/>
   <description>
     A Java implementation of XML-RPC
   </description>
 
-  <cvs repository="xml"/>
+  <cvs repository="ws"/>
 
-  <project name="xml-rpc">
+  <project name="ws-xmlrpc">
     <package>org.apache.xmlrpc</package>
 
     <ant>

@@ -84,7 +84,7 @@
     </depend>
     <depend project="xml-xerces">
     </depend>
-    <depend project="xml-rpc">
+    <depend project="ws-xmlrpc">
     </depend>
     <work nested="target/classes">
     </work>

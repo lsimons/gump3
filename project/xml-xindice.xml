@@ -20,7 +20,7 @@
     <depend project="xmldb"/>
     <depend project="junitperf"/>
     <depend project="xml-xalan2"/>
-    <depend project="xml-rpc"/>
+    <depend project="ws-xmlrpc"/>
     <depend project="commons-logging"/>
     <depend project="jakarta-servletapi"/>
     <depend project="junit"/>
