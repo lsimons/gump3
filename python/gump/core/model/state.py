@@ -241,7 +241,7 @@ class Stateful:
         return self.statePair.getStateDescription()
         
     def hasReason(self):
-        return self.statePair.isReasonUnset()
+        return not self.statePair.isReasonUnset()
         
     def getReason(self):
         return self.statePair.reason
