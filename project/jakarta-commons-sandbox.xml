@@ -110,8 +110,8 @@
     <home nested="functor/target/dist"/>
     <jar name="commons-functor.jar"/>
     <javadoc nested="functor/target/dist/docs/api"/>
-    <nag to="rwaldhoff@apache.org"
-         from="Rod Waldhoff &lt;commons-dev@jakarta.apache.org&gt;"/>
+    <nag to="commons-dev@jakarta.apache.org"
+         from="commons-functor development &lt;commons-dev@jakarta.apache.org&gt;"/>
   </project>
 
   <project name="commons-graph">
