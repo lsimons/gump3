@@ -373,10 +373,10 @@
 
   <server href="server/brutus.xml"/>
   <server href="server/covalent.xml"/>
-  <server href="server/dotnot.xml"/>
+  <!--server href="server/dotnot.xml"/>
   <server href="server/hermes.xml"/>
   <server href="server/lsd.xml"/>
-  <server href="server/try.xml"/>
+  <server href="server/try.xml"/-->
 
 <!-- tracker definitions -->
 
