@@ -7,7 +7,9 @@
   <svn repository="apache-incubator-svn" dir="directory/naming/trunk/"/>
   
   <project name="directory-naming">
-    <ant buildfile="build.xml" target="jar"/>
+    <ant buildfile="build.xml" target="jar">
+      <property name="DATE_STAMP" value="@@DATE@@"/>
+    </ant>
     <package>org.apache.directory.naming</package>
     <depend project="ant" inherit="runtime"/>
     <depend project="commons-beanutils"/>
