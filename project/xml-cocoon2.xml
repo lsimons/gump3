@@ -35,6 +35,7 @@
     <depend project="excalibur-component"/>
     <depend project="excalibur-logger"/>
     <depend project="excalibur-collections"/>
+    <depend project="jakarta-slide"/>
  
     <depend project="jdom"/>
     <depend project="bsf"/>
