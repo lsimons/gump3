@@ -33,10 +33,10 @@
     <depend project="bootstrap-ant"/>
     <depend project="xjavac"/>
     <home nested="java/build"/>
-    <jar  name="xercesImpl.jar" id="parser" type="boot"/>
-    <jar  name="xmlParserAPIs.jar" id="apis" type="boot"/>
+    <jar name="xercesImpl.jar" id="parser" type="boot"/>
+    <jar name="xml-apis.jar" id="apis" type="boot"/>
 
-    <license name="LICENSE"/>
+    <license name="java/LICENSE"/>
 
     <nag from="Sam Ruby &lt;rubys@us.ibm.com&gt;"
          to="xerces-j-dev@xml.apache.org"/>
@@ -58,6 +58,7 @@
     <javadoc nested="java/build/docs/javadocs" project="xml-xerces2">
       <description dir="api">XML Standard API</description>
       <description dir="xni">Xerces Native Interface</description>
+      <description dir="xs">XML Schema API</description>
       <description dir="xerces2">Xerces2 Implementation</description>
       <description dir="other">Other Classes</description>
     </javadoc>
