@@ -1,8 +1,8 @@
 #!/usr/bin/python
 
-# $Header: /home/stefano/cvs/gump/python/gump/Attic/conf.py,v 1.21 2003/10/14 16:12:38 ajack Exp $
-# $Revision: 1.21 $
-# $Date: 2003/10/14 16:12:38 $
+# $Header: /home/stefano/cvs/gump/python/gump/Attic/conf.py,v 1.22 2003/10/15 20:40:02 ajack Exp $
+# $Revision: 1.22 $
+# $Date: 2003/10/15 20:40:02 $
 #
 # ====================================================================
 #
@@ -100,6 +100,7 @@ class default:
     bannerimage = 'http://jakarta.apache.org/images/jakarta-logo.gif'
     
     email = 'gump@lists.apache.org'
+    mailinglist = 'gump@lists.apache.org'
     mailserver = 'mail.apache.org'
     prefix = '[GUMPY@' + gumphost + ']'
     signature="\r\n--\r\nGump http://jakarta.apache.org/gump\n" \

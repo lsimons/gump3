@@ -98,7 +98,7 @@ def nagWorkspace(workspace,context):
     """ Nag for the workspace """
     content=getContext(context, "Workspace ... \n")
     email=EmailMessage(workspace.prefix+': Gump Workspace Problem ',content)
-    mail([ workspace.email ],workspace.email,email,workspace.mailserver)
+    mail([ workspace.mailinglist ],workspace.email,email,workspace.mailserver)
   
 def nagProject(workspace,context,module,mctxt,project,pctxt):
     """ Nag to a specific project's <nag entry """
@@ -116,9 +116,9 @@ def nagProject(workspace,context,module,mctxt,project,pctxt):
     # Form and send the e-mail...
     #
     email=EmailMessage(workspace.prefix+':'+module.name+'/'+project.name+' '+stateName(pctxt.status),content)
-    toaddr=project.nag.toaddr or workspace.email
-    fromaddr=project.nag.fromaddr or workspace.email
-    toaddrs=[ toaddr or workspace.email ]
+    toaddr=project.nag.toaddr or workspace.mailinglist
+    fromaddr=project.nag.fromaddr or workspace.mailinglist
+    toaddrs=[ toaddr or workspace.mailinglist ]
     mail(toaddrs,fromaddr,email,workspace.mailserver) 
     
 def getContent(context,message=''):
@@ -126,26 +126,29 @@ def getContent(context,message=''):
     
     # Optional message
     if message:
-        content=message
+        content=message        
     
     #
     # Add status (and reason)
     #
-    content += "Status: " + stateName(context.status)
+    content += "Status: " + stateName(context.status) + "\n"
     
     if not context.reason == REASON_UNSET:
-        content +=  "Reason: " + reasonString(context.reason)
+        content +=  "Reason: " + reasonString(context.reason) + "\n"
+        
     #
     # Add an info/error/etc...
     #
-    for note in context.annotations:      
-        content += (' - %s - %s' % (levelName(note.level), note.text))
+    if context.annotations:
+        content += "\n\nAnnotations:\n"
+        for note in context.annotations:      
+            content += (' - %s - %s\n' % (levelName(note.level), note.text))
     
     #
     # Work
     #
     if context.worklist:
-        content+="\n"
+        content+="\n\nWork Items:\n"
         for workitem in context.worklist:
             content+=workitem.overview()+"\n"
             

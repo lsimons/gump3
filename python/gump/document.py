@@ -298,6 +298,7 @@ def documentWorkspace(workspace,context,db,moduleFilterList=None,projectFilterLi
     titledDataInTableXDoc(x,"Jars Repository : ", str(workspace.jardir))
     titledDataInTableXDoc(x,"CVS Directory : ", str(workspace.cvsdir))
     titledDataInTableXDoc(x,"Package Directory : ", str(workspace.pkgdir))
+    titledDataInTableXDoc(x,"List Address: ", str(workspace.mailinglist))
     titledDataInTableXDoc(x,"Email Address: ", str(workspace.email))
     titledDataInTableXDoc(x,"Email Server: ", str(workspace.mailserver))
     titledDataInTableXDoc(x,"Prefix: ", str(workspace.prefix))
@@ -757,14 +758,14 @@ def documentWork(workspace,work,dir):
         x=startXDoc(getWorkDocument(dir,work.command.name,work.type))
         headerXDoc(x, workTypeName(work.type) + ' : ' + work.command.name)
         startSectionXDoc(x,'Details')
-        paragraphXDoc(x,"Status: " + stateName(work.status))
-        paragraphXDoc(x,"Start Time" + time.strftime(setting.datetimeformat, \
-                    time.localtime(work.result.start_time)))
-        paragraphXDoc(x,"End Time" + time.strftime(setting.datetimeformat, \
-                    time.localtime(work.result.end_time)))
-        endSectionXDoc(x)
         
-        startListXDoc(x)
+        startListXDoc(x) 
+        addItemXDoc(x,"Status: ", stateName(work.status))
+        addItemXDoc(x,"Start Time: ", time.strftime(setting.datetimeformat, \
+                    time.localtime(work.result.start_time)))
+        addItemXDoc(x,"End Time: ", time.strftime(setting.datetimeformat, \
+                    time.localtime(work.result.end_time)))
+        
         addItemXDoc(x,"Command: ", work.command.name)
         if work.command.cwd:
             addItemXDoc(x,"Working Directory: ", work.command.cwd)
@@ -775,7 +776,8 @@ def documentWork(workspace,work,dir):
             
         addItemXDoc(x,"Exit Code: ", str(work.result.exit_code))
         endListXDoc(x)
-        
+        endSectionXDoc(x)
+       
         if work.command.params:
             startSectionXDoc(x,'Parameter')    
             x.write('<table><tr><th>Prefix</th><th>Name</th><th>Value</th></tr>')

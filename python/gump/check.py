@@ -1,8 +1,8 @@
 #!/usr/bin/python
 
-# $Header: /home/stefano/cvs/gump/python/gump/check.py,v 1.25 2003/10/13 18:51:20 ajack Exp $
-# $Revision: 1.25 $
-# $Date: 2003/10/13 18:51:20 $
+# $Header: /home/stefano/cvs/gump/python/gump/check.py,v 1.26 2003/10/15 20:40:02 ajack Exp $
+# $Revision: 1.26 $
+# $Date: 2003/10/15 20:40:02 $
 #
 # ====================================================================
 #
@@ -289,6 +289,7 @@ def check(workspace, expr='*', context=GumpContext()):
   print " ***** WORKSPACE RESULT ***** "  
   print
   if len(missing)>0:
+    context.addError("Some projects that were referenced are missing in the workspace.")
     print
     print "  - ERROR - Some projects that were referenced are missing in the workspace. "  
     print "    See the above messages for more detailed info."
@@ -296,6 +297,7 @@ def check(workspace, expr='*', context=GumpContext()):
     print "  -  OK - All projects that are referenced are present in the workspace."  
 
   if len(optionalOnlyMissing)>0:
+    context.addWarning("Some projects that were referenced as optional are missing in the workspace.");
     print  
     print "  - WARNING - Some projects that were referenced as optional only are "
     print "    missing in the workspace. "  

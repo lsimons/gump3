@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/Attic/model.py,v 1.26 2003/10/14 16:12:38 ajack Exp $
-# $Revision: 1.26 $
-# $Date: 2003/10/14 16:12:38 $
+# $Header: /home/stefano/cvs/gump/python/gump/Attic/model.py,v 1.27 2003/10/15 20:40:02 ajack Exp $
+# $Revision: 1.27 $
+# $Date: 2003/10/15 20:40:02 $
 #
 # ====================================================================
 #
@@ -143,6 +143,7 @@ class Workspace(GumpModelObject):
 
     if not self.logurl: self.logurl = default.logurl
     if not self.email: self.email = default.email
+    if not self.mailinglist: self.mailinglist = default.mailinglist
     if not self.mailserver: self.mailserver = default.mailserver
     if not self.prefix: self.prefix = default.prefix
     if not self.signature: self.signature = default.signature
