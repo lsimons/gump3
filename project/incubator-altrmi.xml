@@ -47,6 +47,8 @@
         <jar id="server-api" name="altrmi-server-interfaces-@@DATE@@.jar"/>
         <nag from="Gump Integration Build &lt;general@incubator.apache.org&gt;"
                 to="projects@incubator.apache.org"/>
+        <nag from="Gump Integration Build &lt;general@incubator.apache.org&gt;"
+            to="peter@apache.org"/>
     </project>
 
     <project name="excalibur-altrmi">
