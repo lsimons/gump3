@@ -1,8 +1,8 @@
 #!/usr/bin/python
 
-# $Header: /home/stefano/cvs/gump/python/gump/Attic/conf.py,v 1.19 2003/10/13 18:51:20 ajack Exp $
-# $Revision: 1.19 $
-# $Date: 2003/10/13 18:51:20 $
+# $Header: /home/stefano/cvs/gump/python/gump/Attic/conf.py,v 1.20 2003/10/13 22:37:12 ajack Exp $
+# $Revision: 1.20 $
+# $Date: 2003/10/13 22:37:12 $
 #
 # ====================================================================
 #
@@ -109,7 +109,7 @@ class default:
 class setting:    
     """Configuration of hardcoded settings"""
     
-    version="2.0.1-alpha-0004"
+    version="2.0.1-alpha-0005"
     
     # :TODO: Add "minimum checks later..."
     ws_version="0.4"

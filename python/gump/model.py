@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/Attic/model.py,v 1.23 2003/10/13 21:19:03 ajack Exp $
-# $Revision: 1.23 $
-# $Date: 2003/10/13 21:19:03 $
+# $Header: /home/stefano/cvs/gump/python/gump/Attic/model.py,v 1.24 2003/10/13 22:37:12 ajack Exp $
+# $Revision: 1.24 $
+# $Date: 2003/10/13 22:37:12 $
 #
 # ====================================================================
 #
@@ -175,7 +175,10 @@ class Module(Named):
     if repository.root.hostname:
       root+='@'
       if self.cvs['host-prefix']: root+=self.cvs['host-prefix']+'.'
-      root+=str(repository.root.hostname) + ':2401'
+      
+      # :TODO: Allow users to override default port
+      root+=str(repository.root.hostname) + ':'
+    if str(repository.root.method)=='pserver': root+='2401'
     root+=str(repository.root.path)
     if self.cvs.dir: root+='/'+str(self.cvs.dir)
 

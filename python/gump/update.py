@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/update.py,v 1.16 2003/10/13 18:51:20 ajack Exp $
-# $Revision: 1.16 $
-# $Date: 2003/10/13 18:51:20 $
+# $Header: /home/stefano/cvs/gump/python/gump/update.py,v 1.17 2003/10/13 22:37:12 ajack Exp $
+# $Revision: 1.17 $
+# $Date: 2003/10/13 22:37:12 $
 #
 # ====================================================================
 #
@@ -92,7 +92,7 @@ shifts = [
 
 # encode a password in the same way that cvs does
 def mangle(passwd):
-  return 'A' +''.join(map(chr,[shifts[ord(c)] for c in str(passwd or '')]))
+  return 'A' + ''.join(map(chr,[shifts[ord(c)] for c in str(passwd or '')]))
 
 def update(workspace, expr='*', context=GumpContext()):
         
@@ -152,7 +152,7 @@ def loginToRepositoryOnDemand(repository,root,logins):
                 except Exception, detail:
                     log.error('Failed to append to ~/.cvspass. Details: ' + str(detail))
             else:
-                log.warn('Login already available for: ' + str(repository.name) \
+                log.debug('Login already available for: ' + str(repository.name) \
                     + ' @ ' + root)            
         else:
             log.warn('Unable to provide login for CVS repository: ' + str(repository.name) \
