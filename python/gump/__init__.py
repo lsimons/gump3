@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/__init__.py,v 1.3 2003/04/28 21:49:31 rubys Exp $
-# $Revision: 1.3 $
-# $Date: 2003/04/28 21:49:31 $
+# $Header: /home/stefano/cvs/gump/python/gump/__init__.py,v 1.4 2003/04/28 21:51:38 rubys Exp $
+# $Revision: 1.4 $
+# $Date: 2003/04/28 21:51:38 $
 #
 # ====================================================================
 #
@@ -88,7 +88,7 @@ import time
 import urllib
 import urlparse
 
-# python-2.3 or http://www.red-dove.com/python_logging.html 
+# python-2.3 or http://www.red-dove.com/python_logging.html
 import logging
 
 from xml.sax import parse
@@ -193,19 +193,19 @@ class GumpBase(object):
 
     self.__dict__['@text']+=string
 
-  def __setitem__(self,name,value): 
+  def __setitem__(self,name,value):
     self.__dict__[name]=value
 
-  def __getitem__(self,name): 
+  def __getitem__(self,name):
     if name in self.__dict__: return self.__dict__[name]
 
-  def __delitem__(self,name): 
+  def __delitem__(self,name):
     del self.__dict__[name]
 
-  def __getattr__(self,name): 
+  def __getattr__(self,name):
     pass
 
-  def __str__(self): 
+  def __str__(self):
     """String representation of the element is the element content."""
 
     return self.__dict__['@text'].strip()
@@ -223,7 +223,7 @@ class DocRoot(GumpBase):
     self.element=None
 
   def startElement(self, name, attrs):
-    if name<>self.name: 
+    if name<>self.name:
       raise "Incorrect element, expected %s, found %s" % (self.name,name)
     self.element=self.cls(attrs)
     return self.element
@@ -245,7 +245,7 @@ class Named(GumpBase):
       log.debug('opening: ' + newHref + '\n')
       element=SAXDispatcher(open(newHref),cls.__name__.lower(),cls).docElement
     else:
-      name=attrs.get('name')      
+      name=attrs.get('name')
       try:
         element=cls.list[name]
       except:
@@ -258,19 +258,19 @@ class Single(object):
 
   def __init__(self,cls=GumpBase):
     """The cls passed in determines what type the delegate instance will have."""
-    
+
     self.delegate=None
     self.cls=cls
 
   def __call__(self,attrs):
-    if self.delegate: 
+    if self.delegate:
       self.delegate.__dict__.update(dict(attrs))
     else:
       self.delegate=self.cls(attrs)
     return self.delegate
 
   def __getattr__(self,name):
-    if self.delegate: 
+    if self.delegate:
       try:
         return self.delegate.__getattribute__(name)
       except:
@@ -288,7 +288,7 @@ class Multiple(list):
 
   def __init__(self,cls=GumpBase):
     """The cls passed in determines what type the delegate instances will have."""
-    
+
     list.__init__(self)
     self.cls=cls
 
@@ -328,7 +328,7 @@ class Workspace(GumpBase):
 # represents a <profile/> element
 class Profile(Named):
   list={}
-  def init(self): 
+  def init(self):
     self.project=Multiple(Project)
     self.module=Multiple(Module)
     self.repository=Multiple(Repository)
@@ -336,7 +336,7 @@ class Profile(Named):
 # represents a <module/> element
 class Module(Named):
   list={}
-  def init(self): 
+  def init(self):
     self.cvs=Single()
     self.url=Single()
     self.description=Single()
@@ -346,7 +346,7 @@ class Module(Named):
   # provide default elements when not defined in xml
   def complete(self,workspace):
     self.srcdir=os.path.join(str(workspace.basedir),self.srcdir or self.name)
-    for project in self.project: 
+    for project in self.project:
       if not project.module: project.module=self.name
 
 # represents a <repository/> element
@@ -361,7 +361,7 @@ class Repository(Named):
 
 # represents a <root/> element within a <repository/> element
 class RepositoryRoot(GumpBase):
-  def init(self): 
+  def init(self):
     self.method=Single()
     self.user=Single()
     self.password=Single()
@@ -371,7 +371,7 @@ class RepositoryRoot(GumpBase):
 # represents a <project/> element
 class Project(Named):
   list={}
-  def init(self): 
+  def init(self):
     self.isComplete=0
     self.ant=Single(Ant)
     self.script=Single()
@@ -433,7 +433,7 @@ class Project(Named):
       if Project.list.get(depend.project,None) in todo: return 0
     return 1
 
-  # add this element and all of it's dependencies to a todo list 
+  # add this element and all of it's dependencies to a todo list
   def addToTodoList(self,todo):
     todo.append(self)
     for depend in self.depend+self.option:
@@ -444,7 +444,7 @@ class Project(Named):
   def isPrereq(self,todo):
     for project in todo:
       for depend in project.depend+project.option:
-	if depend.project==self.name: return 1
+        if depend.project==self.name: return 1
 
   # determine if this project is a prereq of any project on the todo list
   def hasFullDependencyOn(self,name):
@@ -459,31 +459,31 @@ class Project(Named):
       if not project: continue
       inherit=d1.inherit
       for d2 in project.depend+project.option:
-	if self.hasFullDependencyOn(d2.project): continue
+        if self.hasFullDependencyOn(d2.project): continue
 
-	# include the dependency if:
-	#   inherit="all"
-	#   inherit="hard"
-	#   inherit="runtime" and the matching dependency is listed as runtime
-	#   if the dependency indicates that the jars are to be inherited
+        # include the dependency if:
+        #   inherit="all"
+        #   inherit="hard"
+        #   inherit="runtime" and the matching dependency is listed as runtime
+        #   if the dependency indicates that the jars are to be inherited
         include=0
-	if inherit=="all" or inherit=="hard":
-	  include=1
-	elif inherit=="runtime" and d2.runtime:
-	  include=1
-	elif d2.inherit=="jars":
-	  include=1
+        if inherit=="all" or inherit=="hard":
+          include=1
+        elif inherit=="runtime" and d2.runtime:
+          include=1
+        elif d2.inherit=="jars":
+          include=1
 
         # if the dependency is to be inherited, add it to the appropriate list
         if include:
-	  if inherit=="hard" or d2 in project.depend:
-	    self.depend.append(d2)
-	  else:
-	    self.option.append(d2)
+          if inherit=="hard" or d2 in project.depend:
+            self.depend.append(d2)
+          else:
+            self.option.append(d2)
 
 # represents an <ant/> element
-class Ant(GumpBase): 
-  def init(self): 
+class Ant(GumpBase):
+  def init(self):
     self.depend=Multiple(Depend)
     self.property=Multiple(Property)
     self.jvmarg=Multiple()
@@ -520,17 +520,17 @@ class Ant(GumpBase):
     for property in self.property: property.complete(project)
 
 # represents a <nag/> element
-class Nag(GumpBase): 
-  def init(self): 
+class Nag(GumpBase):
+  def init(self):
     self.regexp=Multiple()
 
 # represents a <javadoc/> element
-class Javadoc(GumpBase): 
-  def init(self): 
+class Javadoc(GumpBase):
+  def init(self):
     self.description=Multiple()
 
 # represents a <property/> element
-class Property(GumpBase): 
+class Property(GumpBase):
   # provide default elements when not defined in xml
   def complete(self,project):
     if self.reference=='home':
@@ -543,22 +543,22 @@ class Property(GumpBase):
     elif self.reference=='jarpath':
       target=Project.list[self.project]
       if self.id:
-	for jar in target.jar:
-	  if jar.id==self.id:
-	    self.value=jar.path
-	    break
-	else:
-	  raise str(("jar with id %s was not found in project %s "
-	     "referenced by %s") % (self.id, target.name, project.name))
+        for jar in target.jar:
+          if jar.id==self.id:
+            self.value=jar.path
+            break
+        else:
+          raise str(("jar with id %s was not found in project %s "
+             "referenced by %s") % (self.id, target.name, project.name))
       elif len(target.jar)==1:
-	self.value=target.jar[0].path
+        self.value=target.jar[0].path
       elif len(target.jar)>1:
-	raise str(("Multiple jars defined by project %s referenced by %s; " +
-	   "an id attribute is required to select the one you want") %
-	   (target.name, project.name))
+        raise str(("Multiple jars defined by project %s referenced by %s; " +
+           "an id attribute is required to select the one you want") %
+           (target.name, project.name))
       else:
-	raise str("Project %s referenced by %s defines no jars as output" %
-	  (target.name, project.name))
+        raise str("Project %s referenced by %s defines no jars as output" %
+          (target.name, project.name))
 
       module=Project.list[self.project].module
       self.value=Module.list[module].srcdir
@@ -593,7 +593,7 @@ class Work(GumpBase): pass
 
 def gumpPath(path):
   """returns the path absolutized relative to the base gump dir"""
-  
+
   return os.path.normpath(os.path.join(dir.base,path))
 
 def gumpCache(href):
@@ -644,25 +644,25 @@ def load(file):
 
 def buildSequence(todo):
   """Determine the build sequence for a given list of projects."""
-  
+
   result=[]
   while todo:
     # one by one, remove the first ready project and append it to the result
     for project in todo:
       if project.isReady(todo):
         todo.remove(project)
-	if project.ant or project.script: result.append(project)
-	break
+        if project.ant or project.script: result.append(project)
+        break
     else:
       # we have a circular dependency, remove all innocent victims
       while todo:
-	for project in todo:
-	  if not project.isPrereq(todo):
-	    todo.remove(project)
-	    break
+        for project in todo:
+          if not project.isPrereq(todo):
+            todo.remove(project)
+            break
         else:
-	  loop=", ".join([project.name for project in todo])
-	  raise "circular dependency loop: " + str(loop)
+          loop=", ".join([project.name for project in todo])
+          raise "circular dependency loop: " + str(loop)
   return result
 
 ###############################################################################
@@ -671,8 +671,8 @@ def buildSequence(todo):
 
 if __name__=='__main__':
   from gump.core import *
-  
-  print 
+
+  print
   print
   print "               *** starting DEMO ***"
 

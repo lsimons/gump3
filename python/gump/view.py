@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/Attic/view.py,v 1.3 2003/04/28 21:49:31 rubys Exp $
-# $Revision: 1.3 $
-# $Date: 2003/04/28 21:49:31 $
+# $Header: /home/stefano/cvs/gump/python/gump/Attic/view.py,v 1.4 2003/04/28 21:51:38 rubys Exp $
+# $Revision: 1.4 $
+# $Date: 2003/04/28 21:51:38 $
 #
 # ====================================================================
 #
@@ -223,8 +223,8 @@ class gumpview(wxApp):
       srcdir=Module.list[p.module].srcdir
       for jar in p.jar:
         jarpath=os.path.normpath(os.path.join(srcdir,jar.name))
-	self.classpath.InsertStringItem(i,jarpath)
-	i=i+1
+        self.classpath.InsertStringItem(i,jarpath)
+        i=i+1
 
     self.classpath.SetColumnWidth(0,wxLIST_AUTOSIZE_USEHEADER)
 
@@ -238,7 +238,7 @@ class gumpview(wxApp):
     if project.ant:
       for property in self.workspace.property+project.ant.property:
         self.property.InsertStringItem(i,property.name or '')
-	self.property.SetStringItem(i,1,property.value or '')
+        self.property.SetStringItem(i,1,property.value or '')
         i=i+1
 
     self.property.SetColumnWidth(0,wxLIST_AUTOSIZE_USEHEADER)
