@@ -132,9 +132,14 @@
     </section>
 
     <section><title>Defining your workspace</title>
-      <p>Sample workspaces are provided, 'gump' and 'minimal-workspace'.  Find 
-      take one an edit it to fit your environment/needs.  The suggested
+      <p>A sample workspace is provided, in 'workspace.xml', with some relative
+		paths (and a basedir of '.').  
+		Edit this to fit your environment/needs.  The suggested
       name for the file you create is your host name.</p>
+	  
+	  <p>'workspace.xml' comes referencing profile/minimal-profile.xml, a very small
+		profile (containing things up to Ant). Edit the workspace to point to 'profile/gump.xml'
+		for a full Gump.</p>
 
       <p>Again, reference the <link href="site:om/overview">overview</link> to see
       how you can add projects, define your own profiles, and the modify

@@ -104,7 +104,7 @@ class Notification(RunSpecific):
         
 This is an automated request, but not an unsolicited one. For 
 more information please visit http://gump.apache.org/nagged.html, 
-and/or contact folk at general@gump.apache.org.
+and/or contact the folk at general@gump.apache.org.
 
 """)
     
@@ -126,24 +126,22 @@ and/or contact folk at general@gump.apache.org.
                 stream.write('.\nThis issue affects %s projects' % affected)
             
             if duration and duration > 1:
-                stream.write(', and has been outstanding for %s runs' % duration)
+                stream.write(',\n and has been outstanding for %s runs' % duration)
         
         stream.write('.\n')
         
         # Add State (and reason)
-        stream.write(type + ' State : \'' + self.entity.getStateDescription() + '\'')
-    
+        stream.write('The current state of this %s is \'%s\'' % (lower(type), self.entity.getStateDescription()))   
         if self.entity.hasReason():
-            stream.write(', Reason \'' + self.entity.getReasonDescription() + '\'')
-        
-        stream.write("\n")
+            stream.write(', with reason \'' + self.entity.getReasonDescription() + '\'')        
+        stream.write('.\n')
         
         # Show those affected
         if affected:
             affectedProjects=self.entity.getAffectedProjects()
             if True or ((duration and duration > 3) and affectedProjects):
                 # Show those negatively affected
-                stream.write('The following are affected:\n')
+                stream.write('For reference only, the following projects are affected by this:\n')
             
                 for project in affectedProjects:
                     stream.write('    - ' + project.getName())
@@ -158,7 +156,7 @@ and/or contact folk at general@gump.apache.org.
                                 
         # Link them back here...
         url=resolver.getUrl(self.entity)
-        stream.write('\nFull details are available at:\n\n    ')
+        stream.write('\nFull details are available at:\n    ')
         stream.write(url)
         stream.write('\n')
         
@@ -171,9 +169,7 @@ and/or contact folk at general@gump.apache.org.
                 snippets=1
             
         if snippets:
-            stream.write('\nThat said, some snippets follow:\n')
-            
-        stream.write('\n')
+            stream.write('\nThat said, some information snippets are provided here.\n')            
       
         if isinstance(self.entity,Annotatable):
             self.resolveAnnotations(resolver,stream)
@@ -207,10 +203,11 @@ and/or contact folk at general@gump.apache.org.
         #
         if self.entity.annotations:
             stream.write("\n")
-            stream.write("The following annotations were provided:")
+            stream.write("The following annotations (debug/informational/warning/error messages) were provided:")
             stream.write("\n")
             for note in self.entity.annotations:      
                 stream.write(' -%s- %s\n' % (upper(levelName(note.level)), note.text))
+            stream.write("\n")
         
     def resolveWork(self, resolver, stream):
         """
@@ -234,16 +231,15 @@ and/or contact folk at general@gump.apache.org.
     def resolveStats(self, resolver, stream):
         """
         Resolve any stats on the entity
-        """
-          
+        """          
         stats=self.entity.getStats()
-        stream.write('\n\n')
+        # :TODO:
+        # stream.write('\n\n')
         
     def resolveSyndication(self, resolver, stream): 
         """
         Resolve syndication links on the entity
         """
-        stream.write('\n')
         stream.write('To subscribe to this information via syndicated feeds:')
         stream.write('\n')
             
@@ -251,28 +247,26 @@ and/or contact folk at general@gump.apache.org.
         rssurl=resolver.getUrl(self.entity,'rss','.xml')
         atomurl=resolver.getUrl(self.entity,'atom','.xml')
             
-        stream.write(' RSS: ' + rssurl + '\n')
-        stream.write(' Atom: ' + atomurl + '\n')
+        stream.write('- RSS: ' + rssurl + '\n')
+        stream.write('- Atom: ' + atomurl + '\n')
         
     def resolveFooter(self, resolver, id, stream):        
         """
         Resolve footer (Gump identification information)
         """
-        stream.write('\n\n--\n')
+        stream.write('\n============================== Gump Tracking Only ===\n')
+        stream.write('Produced by Gump version %s.\n' % setting.VERSION)
+        stream.write('Gump Run %s, %s\n' %    \
+                        (   default.datetime_s, self.run.getRunGuid() ))
         if id:
-            stream.write('Gump E-mail Identifier (within run) #%s.\n' % id )
-        stream.write('Produced by Gump %s.\n[Run (%s, %s)]' %	\
-                        (	setting.VERSION, 
-                            default.datetime_s, 
-                            self.run.getRunGuid() ))
-        stream.write('\n')
-
-        topurl=resolver.getUrl(self.run)
-        opturl=resolver.getUrl(self.run,'options')
-        stream.write(topurl)
-        stream.write('\n')
-        stream.write(opturl)
-        stream.write('\n')
+            stream.write('Gump E-mail Identifier (unique within run) #%s.\n' % id )
+         
+        #topurl=resolver.getUrl(self.run)
+        #opturl=resolver.getUrl(self.run,'options')
+        #stream.write(topurl)
+        #stream.write('\n')
+        #stream.write(opturl)
+        #stream.write('\n')
         
 class SuccessNotification(Notification):
     """

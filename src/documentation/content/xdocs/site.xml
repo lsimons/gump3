@@ -30,8 +30,8 @@
             <license href="http://www.apache.org/licenses/LICENSE-2.0.txt" label="License"/>
 	</gump>
 	<results label="Results">
-	    <nightly href="http://gump.covalent.net/log/" label="Nightly"/>
-	    <jars href="http://gump.covalent.net/jars/" label="Jars"/>
+	    <nightly href="http://brutus.apache.org/gump/public/" label="Nightly"/>
+	    <jars href="http://brutus.apache.org/gump/public-jars/" label="Jars"/>
 	<!--     <index href="http://nagoya.apache.org/~rubys/gump/javadoc.html" label="Javadoc"/> -->
 	</results>
 	<!--
