@@ -159,7 +159,7 @@ class PropertySet(Ownable):
         return self.properties.values()
             
     def importProperty(self,xmlproperty):
-        self.addProperty(Property(xmlproperty,self))
+        self.addProperty(Property(xmlproperty,self.getOwner()))
             
     def completeProperties(self,workspace):   
         for property in self.getProperties(): 
@@ -169,7 +169,6 @@ class PropertySet(Ownable):
         """ Display the properties """
         for property in self.getProperties():
             property.dump(indent+1,output)
-
 
 class PropertyContainer:
     """ 
@@ -206,11 +205,11 @@ class PropertyContainer:
     def importProperties(self,xml):
         if xml.property:
             for xmlproperty in xml.property:
-                self.properties.importProperty(xmlproperty)
+                self.importProperty(xmlproperty)
                 
         if xml.sysproperty:
             for xmlproperty in xml.sysproperty:
-                self.sysproperties.importProperty(xmlproperty)
+                self.importSysProperty(xmlproperty)
             
     def completeProperties(self,workspace=None):        
         if not workspace: workspace=self
