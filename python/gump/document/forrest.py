@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/forrest.py,v 1.43 2004/01/08 20:46:59 ajack Exp $
-# $Revision: 1.43 $f
-# $Date: 2004/01/08 20:46:59 $
+# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/forrest.py,v 1.44 2004/01/08 23:48:16 ajack Exp $
+# $Revision: 1.44 $f
+# $Date: 2004/01/08 23:48:16 $
 #
 # ====================================================================
 #
@@ -946,10 +946,8 @@ class ForrestDocumenter(Documenter):
                 
         addnSection=document.createSection('Additional Details')
         addnPara=addnSection.createParagraph()
-        addnPara.createLink( 	\
-            self.resolver.getUrl(project, \
-                                    project.getName() + '_details'),	\
-                            'For more...')
+        addnPara.createLink(gumpSafeName(project.getName()) + '_details.xml',	\
+                            'More project details ...')
                                         
                                         
         document.serialize()
