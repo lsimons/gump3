@@ -53,7 +53,8 @@
         <depend project="cornerstone-threads-api" runtime="true"/>
         <depend project="cornerstone-sockets-api" runtime="true"/>
         
-        <depend project="excalibur-thread" runtime="true"/>
+        <depend project="excalibur-pool-api" runtime="true"/>
+        <depend project="excalibur-thread-api" runtime="true"/>
 
         <!-- test-time dependencies -->
         <depend property="junit.jar" project="junit"/>
@@ -90,7 +91,7 @@
         <depend project="cornerstone-threads-api" runtime="true"/>
         <depend project="cornerstone-sockets-api" runtime="true"/>
         
-        <depend project="excalibur-thread" runtime="true"/>
+        <depend project="excalibur-thread-api" runtime="true"/>
 
         <!-- test-time dependencies -->
         <depend property="junit.jar" project="junit"/>
@@ -212,7 +213,7 @@
         <depend project="avalon-framework" runtime="true" id="impl"/>
         <depend project="cornerstone-scheduler-api" runtime="true"/>
         <depend project="cornerstone-threads-api" runtime="true"/>
-        <depend project="excalibur-thread" runtime="true"/>
+        <depend project="excalibur-thread-api" runtime="true"/>
 
         <!-- build-time dependencies -->
         <depend project="ant" inherit="runtime"/>
@@ -386,6 +387,8 @@
         <!-- runtime dependencies -->
         <depend project="avalon-framework" runtime="true" id="api"/>
         <depend project="avalon-framework" runtime="true" id="impl"/>
+        <depend project="excalibur-pool-api" runtime="true"/>
+        <depend project="excalibur-pool-impl" runtime="true"/>
         <depend project="excalibur-thread-api" runtime="true"/>
         <depend project="excalibur-thread-impl" runtime="true"/>
         <depend project="cornerstone-store-api" runtime="true"/>
