@@ -17,7 +17,7 @@
   <depend project="commons-collections"/>
   <depend project="jakarta-servletapi"/>
   <depend project="jakarta-regexp"/>
-  <option project="jakarta-log4j"/>
+  <depend project="jakarta-log4j"/>
   <depend project="jakarta-ecs"/>
   <depend project="jakarta-oro"/>
   <depend project="jakarta-velocity"/>
