@@ -636,7 +636,7 @@ class Project(NamedModelObject, Statable, Resultable, Dependable, Positioned):
 
     # turn the <jvmarg> children of domchild into jvmargs
     def addJVMArgs(self,domChild):        
-        for jvmarg in domChild.getDomChildIterator('jvmarg'):
+        for jvmarg in getDomChildIterator(domChild,'jvmarg'):
             if hasDomAttribute(jvmarg, 'value'):                
                 self.jvmargs.addParameter(getDomAttributeValue(jvmarg, 'value'))
             else:
