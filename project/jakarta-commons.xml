@@ -123,6 +123,7 @@
     <depend project="jdbc"/>
     <depend project="junit"/>
     <depend project="commons-pool"/>
+    <depend project="commons-lang"/>
     <depend project="commons-collections"/>
     <work nested="dbcp/dist/classes"/>
 
