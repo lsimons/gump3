@@ -28,6 +28,7 @@
     <home nested="dist"/>
 
     <jar name="lib/ant.jar" id="ant"/>
+    <jar name="lib/ant-launcher.jar" id="ant-launcher"/>
 
     <jar name="lib/ant-jmf.jar" id="jmf"/>
     <jar name="lib/ant-junit.jar" id="junit"/>
@@ -68,6 +69,7 @@
     <home nested="build"/>
 
     <jar name="lib/ant.jar" id="ant"/>
+    <jar name="lib/ant-launcher.jar" id="ant-launcher"/>
 
     <jar name="lib/ant-antlr.jar" id="antlr"/>
     <jar name="lib/ant-apache-bsf.jar" id="bsf"/>
@@ -135,6 +137,7 @@
 
     <home nested="bootstrap"/>
     <jar name="lib/ant.jar"/>
+    <jar name="lib/ant-launcher.jar" id="ant-launcher"/>
 
     <nag from="Diane Holt &lt;holtdl@apache.org&gt;"
          to="dev@ant.apache.org"
