@@ -31,6 +31,28 @@
 #
 # This version found in Apache Portable Runtime CVS under "build"
 
+
+##
+# Hack to have at least some support for cygwin...
+##
+cygwin=false;
+case "`uname`" in
+  CYGWIN*) cygwin=true ;;
+esac
+
+if $cygwin; then
+  for args in $*; do
+    case $args in
+	-s) echo="no";;
+	-p*) pathname="" ;;
+	*) programs="$programs $args" ;;
+    esac
+  done
+  echo `which $programs 2>/dev/null`
+  exit 0
+fi
+
+
 ##
 # Some "constants"
 ##

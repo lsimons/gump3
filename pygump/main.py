@@ -375,7 +375,7 @@ def main():
         _homedir   = os.environ["GUMP_HOME"]
         _hostname  = os.environ["GUMP_HOSTNAME"]
         try:
-            _workdir   = os.environ["GUMP_WORKDIR"]
+            _workdir = os.environ["GUMP_WORKDIR"]
         except:
             _workdir = os.path.join(_homedir, "pygump", "work")
             

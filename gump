@@ -289,6 +289,18 @@ function find_env_file
   export GUMP_ENV_FILE="$GUMP_HOME/$GUMP_HOSTNAME-settings.sh"
 }
 
+# Determine whether we're running under cygwin
+function find_cygwin
+{
+  local cygwin=false
+  case "`uname`" in
+    CYGWIN*) cygwin=true ;;
+  esac
+  if $cygwin; then
+    export GUMP_CYGWIN=true
+  fi
+}
+
 # Determine the python command to use
 function find_python
 {
@@ -296,18 +308,18 @@ function find_python
     return
   fi
 
-  local python=`which python2.4`
+  local python=`which python2.4 2>/dev/null`
   if [[ -z "$python" || "$python" == "no"* ]]; then
-    python=`which python2.3`
+    python=`which python2.3 2>/dev/null`
   fi
   if [[ -z "$python" || "$python" == "no"* ]]; then
-    python=`which python2.2`
+    python=`which python2.2 2>/dev/null`
   fi
   if [[ -z "$python" || "$python" == "no"* ]]; then
-    python=`which python2`
+    python=`which python2 2>/dev/null`
   fi
   if [[ -z "$python" || "$python" == "no"* ]]; then
-    python=`which python`
+    python=`which python 2>/dev/null`
   fi
   if [[ -z "$python" || "$python" == "no"* ]]; then
     python="python" # hope for the best...
@@ -327,7 +339,9 @@ function setup_env
   if [[ -f "$GUMP_ENV_FILE" ]]; then
     . "$GUMP_ENV_FILE"
   fi
-  
+
+
+  find_cygwin
   find_python
   find_workdir
 }
@@ -403,7 +417,11 @@ try:
 except:
   print "error"
 ENDCOMMAND
-  local cmd=`$GUMP_PYTHON "$GUMP_HOME/pycmd.tmp.py"`
+  if $GUMP_CYGWIN; then
+    local cmd="$GUMP_PYTHON `cygpath -w $GUMP_HOME/pycmd.tmp.py`"
+  else
+    local cmd="$GUMP_PYTHON '$GUMP_HOME/pycmd.tmp.py'"
+  fi
   result=`$cmd`
   rm -f "$GUMP_HOME/pycmd.tmp.py"
 
@@ -421,7 +439,7 @@ and install it."
 function check_environment
 {
   # PrintPath doesn't deal with absolute paths properly
-  check_command $GUMP_PYTHON "http://www.python.org/"
+  #check_command $GUMP_PYTHON "http://www.python.org/"
   #check_command "pkill" "http://sourceforge.net/projects/proctools"
   check_command "mysql" "http://www.mysql.com/"
   check_command "mysqladmin" "http://www.mysql.com/"
@@ -480,14 +498,26 @@ function pycompile
   find $GUMP_HOME/pygump -type f -name '*.pyc' | xargs rm -Rf
 
   # compile everything
-  $GUMP_PYTHON -c "import re; from compileall import compile_dir; compile_dir('$GUMP_HOME/pygump/python', 10, '$GUMP_HOME', False, re.compile('\.svn'), True)"
-
+  if $GUMP_CYGWIN; then
+    $GUMP_PYTHON -c "import re; import os; from compileall import compile_dir; compile_dir(os.path.join('`cygpath -w $GUMP_HOME`', 'pygump', 'python'), 10, '`cygpath -w $GUMP_HOME`', False, re.compile('\.svn'), True)"
+  else
+    $GUMP_PYTHON -c "import re; import os; from compileall import compile_dir; compile_dir(os.path.join('$GUMP_HOME', 'pygump', 'python'), 10, '$GUMP_HOME', False, re.compile('\.svn'), True)"
+  fi
+  
   # add pygump to python path
   local oldpythonpath="$PYTHONPATH"
   if [[ -z "$oldpythonpath" ]]; then
-    export PYTHONPATH="$GUMP_HOME/pygump/python:$GUMP_HOME/pygump"
+    if $GUMP_CYGWIN; then
+      export PYTHONPATH="`cygpath -w $GUMP_HOME/pygump/python`;`cygpath -w $GUMP_HOME/pygump`"
+    else
+      export PYTHONPATH="$GUMP_HOME/pygump/python:$GUMP_HOME/pygump"
+    fi
   else
-    export PYTHONPATH="$GUMP_HOME/pygump/python:$GUMP_HOME/pygump:$PYTHONPATH"
+    if $GUMP_CYGWIN; then
+      export PYTHONPATH="`cygpath -w $GUMP_HOME/pygump/python`;`cygpath -w $GUMP_HOME/pygump`:$PYTHONPATH"
+    else
+      export PYTHONPATH="$GUMP_HOME/pygump/python:$GUMP_HOME/pygump:$PYTHONPATH"
+    fi
   fi
   
   # import all modules, one by one, to check syntax
@@ -513,20 +543,43 @@ function do_run
   # add pygump to python path
   local oldpythonpath="$PYTHONPATH"
   if [[ -z "$oldpythonpath" ]]; then
-    export PYTHONPATH="$GUMP_HOME/pygump/python:$GUMP_HOME/pygump"
+    if $GUMP_CYGWIN; then
+      export PYTHONPATH="`cygpath -w $GUMP_HOME/pygump/python`;`cygpath -w $GUMP_HOME/pygump`"
+    else
+      export PYTHONPATH="$GUMP_HOME/pygump/python:$GUMP_HOME/pygump"
+    fi
   else
-    export PYTHONPATH="$GUMP_HOME/pygump/python:$GUMP_HOME/pygump:$PYTHONPATH"
+    if $GUMP_CYGWIN; then
+      export PYTHONPATH="`cygpath -w $GUMP_HOME/pygump/python`;`cygpath -w $GUMP_HOME/pygump`:$PYTHONPATH"
+    else
+      export PYTHONPATH="$GUMP_HOME/pygump/python:$GUMP_HOME/pygump:$PYTHONPATH"
+    fi
   fi
-  
+
   local command="$1"
   shift
   
   # run pygump
   local current=`pwd`
-  cd "$GUMP_HOME/pygump"
   pycompile
 
+  if $GUMP_CYGWIN; then
+    local old_gump_home=$GUMP_HOME
+    local old_gump_workdir=$GUMP_WORKDIR
+    local old_java_home=$JAVA_HOME
+    export GUMP_HOME=`cygpath -w $GUMP_HOME`
+    export GUMP_WORKDIR=`cygpath -w $GUMP_WORKDIR`
+    export JAVA_HOME=`cygpath -w $JAVA_HOME`
+    cd "$GUMP_HOME\pygump"
+  else
+    cd "$GUMP_HOME/pygump"
+  fi
   $GUMP_PYTHON -c "$command" $@
+  if $GUMP_CYGWIN; then
+    export GUMP_HOME=$old_gump_home
+    export GUMP_WORKDIR=$old_gump_workdir
+    export JAVA_HOME=$old_java_home
+  fi
   cd "$current"
 
   # restore python path
@@ -584,20 +637,30 @@ function test
   lock
   
   # add pygump to python path
-  local oldpythonpath="$PYTHONPATH"
   if [[ -z "$oldpythonpath" ]]; then
-    export PYTHONPATH="$GUMP_HOME/pygump/python:$GUMP_HOME/pygump"
+    if $GUMP_CYGWIN; then
+      export PYTHONPATH="`cygpath -w $GUMP_HOME/pygump/python`;`cygpath -w $GUMP_HOME/pygump`"
+    else
+      export PYTHONPATH="$GUMP_HOME/pygump/python:$GUMP_HOME/pygump"
+    fi
   else
-    export PYTHONPATH="$GUMP_HOME/pygump/python:$GUMP_HOME/pygump:$PYTHONPATH"
+    if $GUMP_CYGWIN; then
+      export PYTHONPATH="`cygpath -w $GUMP_HOME/pygump/python`;`cygpath -w $GUMP_HOME/pygump`:$PYTHONPATH"
+    else
+      export PYTHONPATH="$GUMP_HOME/pygump/python:$GUMP_HOME/pygump:$PYTHONPATH"
+    fi
   fi
-  
 
   local current=`pwd`
   cd "$GUMP_HOME/pygump/python"
   pycompile
   
   # Run the pygump tests
-  $GUMP_PYTHON $GUMP_HOME/bin/testrunner.py -d $GUMP_HOME/pygump/python/gump/test $@
+  if $GUMP_CYGWIN; then
+    $GUMP_PYTHON `cygpath -w $GUMP_HOME/bin/testrunner.py` -d `cygpath -w $GUMP_HOME/pygump/python/gump/test` $@
+  else
+    $GUMP_PYTHON $GUMP_HOME/bin/testrunner.py -d $GUMP_HOME/pygump/python/gump/test $@
+  fi
   cd "$current"
   
   # restore python path
