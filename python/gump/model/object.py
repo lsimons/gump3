@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/model/object.py,v 1.5 2003/11/19 19:43:53 ajack Exp $
-# $Revision: 1.5 $
-# $Date: 2003/11/19 19:43:53 $
+# $Header: /home/stefano/cvs/gump/python/gump/model/object.py,v 1.6 2003/11/19 23:58:27 ajack Exp $
+# $Revision: 1.6 $
+# $Date: 2003/11/19 23:58:27 $
 #
 # ====================================================================
 #
@@ -194,7 +194,7 @@ class ModelObject(Annotatable,Workable,Propogatable,Ownable):
         
         pair=self.getStatePair()
         # Add state, if not already there
-        if not stateUnset(pair.state) and not pair in states: \
+        if not pair.stateUnset() and not pair in states: \
             states.append(pair)
         
         return self.getSubbordinateStates(states);

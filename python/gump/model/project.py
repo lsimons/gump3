@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/model/project.py,v 1.7 2003/11/19 23:27:17 ajack Exp $
-# $Revision: 1.7 $
-# $Date: 2003/11/19 23:27:17 $
+# $Header: /home/stefano/cvs/gump/python/gump/model/project.py,v 1.8 2003/11/19 23:58:27 ajack Exp $
+# $Revision: 1.8 $
+# $Date: 2003/11/19 23:58:27 $
 #
 # ====================================================================
 #
@@ -1026,6 +1026,6 @@ class ProjectSummary:
         
         # Add state pair, if not already there
         for pair in summary.statepairs:
-            if not stateUnset(pair.state) and not pair in self.statepairs: \
+            if not pair.isUnset() and not pair in self.statepairs: \
                 self.statepairs.append(pair)
                 
