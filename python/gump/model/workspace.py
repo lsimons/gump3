@@ -122,7 +122,7 @@ class Workspace(NamedModelObject, PropertyContainer, Statable, Resultable):
     def getEndDateTime(self):
         return self.endDateTime
         
-    def getStartDateTimeUtc(self):
+    def getEndDateTimeUtc(self):
         return self.endDateTimeUtc
         
     def getChildren(self):

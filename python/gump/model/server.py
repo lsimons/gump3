@@ -65,7 +65,7 @@ class Server(NamedModelObject):
         return str(self.xml.url)
         
     def hasResultsUrl(self):
-        return self.hasUrl()
+        return self.isPython() and self.hasUrl()
         
     def getResultsUrl(self):
         return self.getUrl() + '/results.xml'

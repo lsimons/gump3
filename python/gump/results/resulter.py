@@ -179,6 +179,13 @@ class Resulter:
         
         # Create
         workspaceResults = WorkspaceResult(self.workspace.getName())
+        
+        # :TODO: Find nicer way to transfer (or just reference)
+        workspaceResults.startDateTime=self.workspace.getStartDateTime()
+        workspaceResults.startDateTimeUtc=self.workspace.getStartDateTimeUtc()
+        workspaceResults.endDateTime=self.workspace.getEndDateTime()
+        workspaceResults.endDateTimeUtc=self.workspace.getEndDateTimeUtc()
+        workspaceResults.timezone=self.workspace.getTimezone()
     
         # For all modules...
         for module in self.workspace.getModules():        

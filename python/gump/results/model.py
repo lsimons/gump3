@@ -247,8 +247,10 @@ class WorkspaceResult(ResultModelObject):
         # Timing
         self.startDateTime=self.dom.documentElement.getAttribute('start')
         self.startDateTimeUtc=self.dom.documentElement.getAttribute('startUtc')
+        
         self.endDateTime=self.dom.documentElement.getAttribute('end')
         self.endDateTimeUtc=self.dom.documentElement.getAttribute('endUtc')
+        
         self.timezone=self.dom.documentElement.getAttribute('tzone')
         
         #

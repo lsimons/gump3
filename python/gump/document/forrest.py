@@ -466,8 +466,8 @@ class ForrestDocumenter(Documenter):
             
             if server.hasResultsUrl():
                 serverRow.createData().createFork(	\
-                            'Results',	\
-                            server.getResultsUrl())
+                            server.getResultsUrl(),	\
+                            'Results')
             else:
                 serverRow.createData('Not Available')
                 
