@@ -309,6 +309,7 @@
     <depend project="commons-beanutils"/>
     <depend project="commons-collections"/>
     <depend project="commons-digester"/>
+    <depend project="commons-discovery"/>
     <depend project="commons-logging"/>
     <depend project="jakarta-servletapi-4"/>
     <depend project="xml-xalan2"/>
