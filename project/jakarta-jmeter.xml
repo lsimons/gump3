@@ -29,7 +29,7 @@
     <depend project="javamail" />
     <depend project="jsse" />
     <depend project="jtidy" />
-    <depend project="excalibur-cli" />
+    <depend project="excalibur-compatibility" />
     <depend project="rhino" />
 
     <work nested="build/core"/>

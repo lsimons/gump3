@@ -38,7 +38,7 @@
     </depend>
     <depend project="dom4j">
     </depend>
-    <depend project="excalibur-collections">
+    <depend project="excalibur-compatibility">
     </depend>
     <depend project="excalibur-component">
     </depend>

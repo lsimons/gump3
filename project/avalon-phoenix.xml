@@ -28,8 +28,8 @@
     <depend property="framework.jar" project="avalon" runtime="true"/>
     <depend project="bsf" runtime="true"/>
     <depend project="excalibur-configuration" runtime="true"/>
-    <depend project="excalibur-io" runtime="true"/>
-    <depend project="excalibur-cli" runtime="true"/>
+    <depend project="excalibur-compatibility" runtime="true"/>
+    <!--    <depend project="excalibur-cli" runtime="true"/> -->
     <depend project="excalibur-extension" runtime="true"/>
     <depend project="excalibur-threadcontext" runtime="true"/>
     <depend project="excalibur-loader" runtime="true"/>

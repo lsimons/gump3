@@ -27,7 +27,7 @@
     <depend project="avalon" runtime="true"/>
     <depend project="avalon-logkit" runtime="true"/>
     <depend project="xml-xerces" id="parser" runtime="true"/>
-    <depend project="excalibur-io" runtime="true"/>
+    <depend project="excalibur-compatibility" runtime="true"/>
     <depend project="excalibur-datasource" runtime="true"/>
     <depend project="excalibur-i18n" runtime="true"/>
     <depend project="excalibur-thread" runtime="true"/>
@@ -37,7 +37,7 @@
 
     <!-- buildtime dependencies -->
     <depend project="junit"/>
-    <depend project="excalibur-io"/>
+    <depend project="excalibur-compatibility"/>
     <depend project="excalibur-datasource"/>
     <depend project="excalibur-i18n"/>
     <depend project="excalibur-thread"/>

@@ -26,7 +26,7 @@
         <depend project="xml-xalan2"/>
         <depend project="jakarta-bcel"/>
         <depend project="commons-attributes" inherit="runtime"/>
-        <depend project="excalibur-container"/>
+        <depend project="excalibur-lifecycle"/>
         <depend project="avalon-cornerstone"/>
         <depend project="avalon-phoenix"/>
         <!-- inserting the dependencies of phoenix-metagenerate.jar by hand here

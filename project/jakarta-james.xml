@@ -17,10 +17,10 @@
     <depend project="javamail" />
     <depend project="avalon" />
     <depend project="avalon-cornerstone" />
-    <depend project="excalibur-io"/>
-    <depend project="excalibur-cli"/>
-    <depend project="excalibur-concurrent"/>
-    <depend project="excalibur-collections"/>
+    <depend project="excalibur-compatibility"/>
+    <!--    <depend project="excalibur-cli"/> -->
+    <!-- <depend project="excalibur-concurrent"/> -->
+    <!-- <depend project="excalibur-collections"/> -->
     <depend project="excalibur-datasource"/>
     <depend project="excalibur-extension"/>
     <depend project="excalibur-pool"/>
