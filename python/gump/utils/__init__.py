@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/utils/__init__.py,v 1.17 2004/01/28 00:13:39 ajack Exp $
-# $Revision: 1.17 $
-# $Date: 2004/01/28 00:13:39 $
+# $Header: /home/stefano/cvs/gump/python/gump/utils/__init__.py,v 1.18 2004/02/04 01:43:02 ajack Exp $
+# $Revision: 1.18 $
+# $Date: 2004/02/04 01:43:02 $
 #
 # ====================================================================
 #
@@ -377,7 +377,7 @@ if __name__=='__main__':
   print "secsToElapsedString(1340) : " + secsToElapsedString(1340)
   print "secsToTime(1340) : " + secsToTime(1340)
   print "elapsedTimeTripleToString(secsToElapsedTimeTriple(1340)) : " + elapsedTimeTripleToString(secsToElapsedTimeTriple(1340))
-  
+  print "Date (for SMTP) : " + time.strftime('%d %b %y %H:%M:%S')
   print "str = " + getStringFromUnicode("Ceki Gülcü")
   
   print "indent = [" + getIndent(5) + "]"

@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/net/Attic/mailer.py,v 1.4 2004/02/01 18:44:44 ajack Exp $
-# $Revision: 1.4 $
-# $Date: 2004/02/01 18:44:44 $
+# $Header: /home/stefano/cvs/gump/python/gump/net/Attic/mailer.py,v 1.5 2004/02/04 01:43:02 ajack Exp $
+# $Revision: 1.5 $
+# $Date: 2004/02/04 01:43:02 $
 #
 # ====================================================================
 #
@@ -98,8 +98,9 @@ class EmailMessage:
     def getSerialized(self):
         """E-mail"""
         # Add the From: and To: headers at the start!
-        data = ("From: %s\r\nTo: %s\r\nSubject: %s\r\n\r\n%s%s"
-           	% (	self.fromaddr, 
+        data = ("Date: %s\r\nFrom: %s\r\nTo: %s\r\nSubject: %s\r\n\r\n%s%s"
+           	% (	time.strftime('%d %b %y %H:%M:%S'),
+           	    self.fromaddr, 
            		string.join(self.toaddrs, ", "),
                 self.subject,
            		self.text,
