@@ -613,7 +613,7 @@
 
         <mkdir dir="instrument-manager/target/classes"/>
 
-        <ant basedir="instrument-manager" target="jar">
+        <ant basedir="instrument-manager" target="jar" buildfile="gump-build.xml">
             <!-- runtime dependencies -->
             <depend property="altrmi-common.jar" project="incubator-altrmi" id="common"/>
             <depend property="altrmi-client-interfaces.jar" project="incubator-altrmi" id="client-api"/>
@@ -871,7 +871,7 @@
     <project name="excalibur-pool-impl" >
         <package>org.apache.avalon.excalibur.pool</package>
 
-        <ant basedir="pool/impl" target="jar">
+        <ant basedir="pool/impl" target="jar" buildfile="gump-build.xml">
             <property name="package-version" value="@@DATE@@"/>
             <property name="junit.failonerror" value="true"/>
             <property name="do.checkstyle" value="true"/>
@@ -905,7 +905,7 @@
     <project name="excalibur-pool-instrumented" >
         <package>org.apache.avalon.excalibur.pool</package>
 
-        <ant basedir="pool/instrumented" target="jar">
+        <ant basedir="pool/instrumented" target="jar" buildfile="gump-build.xml">
             <property name="package-version" value="@@DATE@@"/>
             <property name="junit.failonerror" value="true"/>
             <property name="do.checkstyle" value="true"/>
