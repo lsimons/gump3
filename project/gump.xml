@@ -1,9 +1,11 @@
-<module name="gump">
+<module name="jakarta-gump">
 
   <url href="http://jakarta.apache.org/gump/"/>
   <description>
     Cross project build tool
   </description>
+
+  <cvs repository="jakarta"/>
 
   <project name="gump">
     <ant target="all">
