@@ -30,7 +30,7 @@ from gump.model.state import *
 from gump.results.model import *
 from gump.results.resulter import generateResults,Resulter
 from gump.results.loader import WorkspaceResultLoader
-from gump.net.mailer import *
+from gump.net.smtp import *
 
 class ResultingTestSuite(UnitTestSuite):
     def __init__(self):

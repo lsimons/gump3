@@ -160,7 +160,7 @@ def getIndexForObject(object):
         
     return index  
 
-class ForrestResolver(Resolver):
+class XDocResolver(Resolver):
     
     def __init__(self,rootDir,rootUrl):
         

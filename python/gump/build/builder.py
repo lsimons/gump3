@@ -48,10 +48,10 @@ from gump.model.state import *
 # Classes
 ###############################################################################
 
-class GumpBuilder(Runnable):
+class GumpBuilder(RunSpecific):
     
     def __init__(self,run):
-        Runnable.__init__(self,run)
+        RunSpecific.__init__(self,run)
         
         self.ant=AntBuilder(run)
         #self.maven=MavenBuilder(run)
@@ -168,13 +168,10 @@ class GumpBuilder(Runnable):
     
         if project.isFailed():
             log.warn('Failed to build project #[' + `project.getPosition()` + '] : [' + project.getName() + '], state:' \
-                    + project.getStateDescription())
-                           
-            
-        # Incremental documentation...
-        documenter=self.run.getOptions().getDocumenter()        
-        if documenter :
-            documenter.entity(project,self.run)
+                    + project.getStateDescription())                           
+                    
+        # Generate/process the project event...
+        self.run.generateEvent(project)      
 
 
     def performDelete(self,project,delete,index=0):

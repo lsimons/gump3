@@ -45,8 +45,10 @@ from gump.model.module import Module
 from gump.model.project import Project
 
 from gump.output.notify import Notifier
-from gump.output.statsdb import StatisticsGuru
-from gump.output.xref import XRefGuru
+
+from gump.guru.stats import StatisticsGuru
+from gump.guru.xref import XRefGuru
+
 from gump.core.gumprun import *
 
 from gump.shared.comparator import *
@@ -59,13 +61,13 @@ def getUpUrl(depth):
         i += 1
     return url
     
-class ForrestDocumenter(Documenter):
+class XDocDocumenter(Documenter):
     
     def __init__(self, dirBase, urlBase):
         Documenter.__init__(self)            
-        self.resolver=ForrestResolver(dirBase,urlBase)
+        self.resolver=XDocResolver(dirBase,urlBase)
         
-    def getResolverForRun(self,run):
+    def getResolver(self,run):
         return self.resolver
     
     def prepareRun(self, run):
@@ -76,7 +78,7 @@ class ForrestDocumenter(Documenter):
         gumpSet=run.getGumpSet()
     
         # Seed with default/site skins/etc.
-        self.prepareForrest(workspace)
+        self.prepareXDoc(workspace)
         
     def documentEntity(self, entity, run):
         
@@ -115,12 +117,12 @@ class ForrestDocumenter(Documenter):
         self.documentXRef(run,workspace,gumpSet)
 
         #
-        # Launch Forrest, if we aren't just leaving xdocs...
+        # Launch XDoc, if we aren't just leaving xdocs...
         #
         ret=0
         
         if not runOptions.isXDocs():
-            ret=self.executeForrest(workspace)
+            ret=self.executeXDoc(workspace)
         else:
             ret=self.syncXDocs(workspace)
             
@@ -128,101 +130,101 @@ class ForrestDocumenter(Documenter):
 
     #####################################################################
     #
-    # Forresting...
-    def getForrestWorkDirectory(self,workspace):
-        fdir=os.path.abspath(os.path.join(workspace.getBaseDirectory(),'forrest-work'))
+    # XDocing...
+    def getXDocWorkDirectory(self,workspace):
+        fdir=os.path.abspath(os.path.join(workspace.getBaseDirectory(),'XDoc-work'))
         return fdir
         
-    def getForrestStagingDirectory(self,workspace):
+    def getXDocStagingDirectory(self,workspace):
         """ Staging Area for built output """
-        fdir=os.path.abspath(os.path.join(workspace.getBaseDirectory(),'forrest-staging'))
+        fdir=os.path.abspath(os.path.join(workspace.getBaseDirectory(),'XDoc-staging'))
         return fdir
         
-    def getForrestTemplateDirectory(self):
-        """ Template (forrest skin/config) """
-        fdir=os.path.abspath(os.path.join(dir.template,'forrest'))
+    def getXDocTemplateDirectory(self):
+        """ Template (XDoc skin/config) """
+        fdir=os.path.abspath(os.path.join(dir.template,'XDoc'))
         return fdir  
         
-    def getForrestSiteTemplateDirectory(self):
-        """ Site Template (forrest skin/config tweaks) """    
-        fdir=os.path.abspath(os.path.join(dir.template,'site-forrest'))
+    def getXDocSiteTemplateDirectory(self):
+        """ Site Template (XDoc skin/config tweaks) """    
+        fdir=os.path.abspath(os.path.join(dir.template,'site-XDoc'))
         return fdir  
     
-    def prepareForrest(self,workspace):   
+    def prepareXDoc(self,workspace):   
         """ 
         
         Copy the main template (perhaps with site tweaks) to prepare
         
         """                
-        log.info('Prepare Forrest work with template')
+        log.info('Prepare XDoc work with template')
         
         #
         # First deleted the work tree (if exists), then ensure created
         #
-        forrestWorkDir=self.getForrestWorkDirectory(workspace)
-        wipeDirectoryTree(forrestWorkDir)
+        XDocWorkDir=self.getXDocWorkDirectory(workspace)
+        wipeDirectoryTree(XDocWorkDir)
                     
         # Sync in the defaults [i.e. cleans also]
-        forrestTemplate=self.getForrestTemplateDirectory()   
-        syncDirectories(	forrestTemplate,	\
-                            forrestWorkDir,	\
+        XDocTemplate=self.getXDocTemplateDirectory()   
+        syncDirectories(	XDocTemplate,	\
+                            XDocWorkDir,	\
                             workspace)    
                                     
         # Copy over the local site defaults (if any)        
-        forrestSiteTemplate=self.getForrestSiteTemplateDirectory()  
-        if os.path.exists(forrestSiteTemplate):
-            log.info('Prepare Forrest work with *site* template')            
-            copyDirectories(forrestSiteTemplate,	\
-                            forrestWorkDir,	\
+        XDocSiteTemplate=self.getXDocSiteTemplateDirectory()  
+        if os.path.exists(XDocSiteTemplate):
+            log.info('Prepare XDoc work with *site* template')            
+            copyDirectories(XDocSiteTemplate,	\
+                            XDocWorkDir,	\
                             workspace)                               
                              
         #    
         # Wipe the staging tree (to produce into).
         #   
-        wipeDirectoryTree(self.getForrestStagingDirectory(workspace))
+        wipeDirectoryTree(self.getXDocStagingDirectory(workspace))
                  
-    def executeForrest(self,workspace):
+    def executeXDoc(self,workspace):
         # The project tree
         xdocs=self.resolver.getDirectory(workspace)      
         
         # The three dirs, work, output (staging), public
-        forrestWorkDir=self.getForrestWorkDirectory(workspace)
-        stagingDirectory=self.getForrestStagingDirectory(workspace)
+        XDocWorkDir=self.getXDocWorkDirectory(workspace)
+        stagingDirectory=self.getXDocStagingDirectory(workspace)
         logDirectory=workspace.getLogDirectory()
         
         # Generate...        
-        forrest=Cmd('forrest','forrest',forrestWorkDir)
+        XDoc=Cmd('XDoc','XDoc',XDocWorkDir)
       
-        forrest.addPrefixedParameter('-D','java.awt.headless','true','=')
-        forrest.addPrefixedParameter('-D','project.content-dir',  \
+        XDoc.addPrefixedParameter('-D','java.awt.headless','true','=')
+        XDoc.addPrefixedParameter('-D','project.content-dir',  \
             '.', '=')
-        forrest.addPrefixedParameter('-D','project.site-dir',  \
+        XDoc.addPrefixedParameter('-D','project.site-dir',  \
             stagingDirectory, '=')
                 
         # Temporary:   
-        # Too verbose ... forrest.addParameter('-debug')
-        #forrest.addParameter('-verbose')
+        # Too verbose ... XDoc.addParameter('-debug')
+        #XDoc.addParameter('-verbose')
         
         # A sneak preview ... 
-        work=CommandWorkItem(WORK_TYPE_DOCUMENT,forrest)
+        work=CommandWorkItem(WORK_TYPE_DOCUMENT,XDoc)
         workspace.performedWork(work)
         
         #
         # Do the actual work...
         #
-        forrestResult=execute(forrest)
+        XDocResult=execute(XDoc)
     
         # Update Context    
-        work=CommandWorkItem(WORK_TYPE_DOCUMENT,forrest,forrestResult)
+        work=CommandWorkItem(WORK_TYPE_DOCUMENT,XDoc,XDocResult)
         workspace.performedWork(work)    
         
         # If ok move from staging to publish
         #
-        # :TODO: Forrest returns failure if the site isn't perfect
+        # :TODO: XDoc returns failure if the site isn't perfect
         # let's not shoot so high.
         #
         success=1
-        if 1 or (forrestResult.state==CMD_STATE_SUCCESS):
+        if 1 or (XDocResult.state==CMD_STATE_SUCCESS):
             try:
                 #
                 # Sync over public pages...
@@ -236,8 +238,8 @@ class ForrestDocumenter(Documenter):
                     wipeDirectoryTree(stagingDirectory)
                 
                     # Clean only if successful.
-                    if  (forrestResult.state==CMD_STATE_SUCCESS):
-                        wipeDirectoryTree(forrestWorkDir)
+                    if  (XDocResult.state==CMD_STATE_SUCCESS):
+                        wipeDirectoryTree(XDocWorkDir)
             except:        
                 log.error('--- Failed to staging->log sync and/or clean-up', exc_info=1)
                 success=0
@@ -248,12 +250,12 @@ class ForrestDocumenter(Documenter):
         
         
         # The move contents/xdocs from work directory to log
-        forrestWorkDir=self.getForrestWorkDirectory(workspace)
+        XDocWorkDir=self.getXDocWorkDirectory(workspace)
         logDirectory=workspace.getLogDirectory()
         
         # .. but only the stuff under 'content', so as not to
         # break the webapp.
-        workContents=os.path.abspath(os.path.join(forrestWorkDir,'content'))
+        workContents=os.path.abspath(os.path.join(XDocWorkDir,'content'))
         logContents=os.path.abspath(os.path.join(logDirectory,'content'))
         
         log.info('Syncronize work->log, and clean-up...')
@@ -271,7 +273,7 @@ class ForrestDocumenter(Documenter):
                 # 
                 # Clean up
                 #
-                wipeDirectoryTree(forrestWorkDir)
+                wipeDirectoryTree(XDocWorkDir)
             
         except:        
             log.error('--- Failed to work->log sync and/or clean-up', exc_info=1)

@@ -1,7 +1,5 @@
 #!/usr/bin/env python
 
-
-
 # Copyright 2003-2004 The Apache Software Foundation
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,32 +14,5 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-
-"""
-
-    Generic Listener
-    
-"""
-
-import socket
-import time
-import os
-import sys
-import logging
-
-from gump import log
-
-class Event:
-    def __init__(self):		pass
-
-class Listener:
-    def __init__(self):  	pass
-    
-    #
-    # Call a method called 'notify(event)', if needed
-    #
-    def handleEvent(self,event):
-        if not hasattr(self,'notify'): return        
-        if not callable(self.notify):  return        
-        #log.debug('Prepare to notify using [' + `self` + ']')        
-        self.notify(event)
+# tell Python what modules make up the gump.output package
+__all__ = ["statsdb"]

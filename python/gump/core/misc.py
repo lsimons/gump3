@@ -43,7 +43,7 @@ from gump.model.state import *
 from gump.net.cvs import *
 
 from gump.document.text.documenter import TextDocumenter
-from gump.document.forrest.documenter import ForrestDocumenter
+from gump.document.xdocs.documenter import XDocDocumenter
 
 from gump.output.statsdb import *
 from gump.output.repository import JarRepository
@@ -56,71 +56,11 @@ from gump.syndication.syndicator import syndicate
 # Classes
 ###############################################################################
 
-class GumpMiscellaneous(Runnable):
+class GumpMiscellaneous(RunSpecific):
     
     def __init__(self,run):
-        Runnable.__init__(self,run)
+        RunSpecific.__init__(self,run)
 
-    def preprocess(self,exitOnError=1):
-        
-        logResourceUtilization('Before preprocess')
-        
-        #
-        # Perform start-up logic 
-        #
-        workspace = self.run.getWorkspace()
-                
-        #
-        #
-        #
-        if not self.run.getOptions().isQuick():
-            logResourceUtilization('Before check environment')            
-            self.run.getEnvironment().checkEnvironment(exitOnError)
-            logResourceUtilization('After check environment')
-        
-        #
-        # Modify the log location on the fly, if --dated
-        #
-        if self.run.getOptions().isDated():
-            workspace.setDatedDirectories()
-        
-        #
-        # Use forrest if available & not overridden...
-        #
-        if self.run.getEnvironment().noForrest \
-            or self.run.getOptions().isText() :
-            documenter=TextDocumenter()
-        else:
-            documenter=ForrestDocumenter(workspace.getBaseDirectory(), \
-                                         workspace.getLogUrl())                        
-        self.run.getOptions().setDocumenter(documenter)
-                    
-        # Check the workspace
-        if not workspace.getVersion() >= setting.ws_version:
-            message='Workspace version ['+str(workspace.getVersion())+'] below preferred [' + setting.ws_version + ']'
-            workspace.addWarning(message)
-            log.warn(message)   
-            
-        # Check the workspace
-        if not workspace.getVersion() >= setting.ws_minimum_version:
-            message='Workspace version ['+str(workspace.getVersion())+'] below minimum [' + setting.ws_minimum_version + ']'
-            workspace.addError(message)
-            log.error(message)   
-            
-        # Write workspace to a 'merge' file        
-        if not self.run.getOptions().isQuick():
-            workspace.writeXMLToFile(default.merge)
-            workspace.setMergeFile(default.merge)
-                 
-        # :TODO: Put this somewhere else, and/or make it depend upon something...
-        workspace.changeState(STATE_SUCCESS)
-
-                    
-    def setEndTime(self):
-        
-        logResourceUtilization('Set End Time')
-        # :TODO: Move this to run
-        self.run.getWorkspace().setEndTime()
         
     """
     

@@ -50,8 +50,6 @@ from gump.output.repository import JarRepository
 ###############################################################################
 # Functions
 ###############################################################################
-def isAllProjects(pexpr):
-    return pexpr=='all' or pexpr=='*'
 
 ###############################################################################
 # Classes
@@ -125,7 +123,7 @@ class GumpSet:
         
     # All Projects
     def isFull(self):
-        return isAllProjects(self.projectexpression)
+        return self.projectexpression=='all' or self.projectexpression=='*'    
         
 #  if not projects:
 #    print
@@ -364,7 +362,7 @@ class GumpRunOptions:
         self.xdocs=0
         
         # The implementation that will do it...
-        self.documenter=TextDocumenter()
+        self.documenter=TextDocumenter()      
 
     def setDocumenter(self, documenter):
         self.documenter = documenter
@@ -424,7 +422,41 @@ class GumpRunOptions:
         
     def setVerbose(self,verbose):
         self.verbose=verbose
+
+
+class RunSpecific:
+    
+    def __init__(self, run):
+        self.run	=	run
         
+    def getRun(self):
+        return self.run
+
+class RunEvent(RunSpecific):
+            
+    def __init__(self, run, entity):
+        RunSpecific.__init(self,run)
+        
+        self.entity=entity
+        
+    def getEntity(self):
+        return self.entity        
+        
+class  RunActor(RunSpecific):     
+    
+    def __init__(self, run):
+        RunSpecific.__init(self,run)
+        
+    #
+    # Call a method called 'prepareRun(run)', if it
+    # is available on the sub-class (i.e. if needed)
+    #
+    def _processEvent(self,event):
+        if not hasattr(self,'processEvent'): return        
+        if not callable(self.processEvent):  return        
+        log.debug('Process event [' + `event` + '] using [' + `self` + ']')        
+        self.processEvent()
+                
 class GumpRun(Workable,Annotatable,Stateful):
     def __init__(self,workspace,expr=None,options=None,env=None):
         
@@ -462,6 +494,24 @@ class GumpRun(Workable,Annotatable,Stateful):
         # A repository interface...
         #
         self.outputsRepository=JarRepository(workspace.jardir)
+                  
+        # Generate a GUID (or close)
+        import md5
+        import socket        
+        m=md5.new()
+        self.guid = `socket.gethostname()`  + ':' + workspace.getName() + ':' + default.datetime
+        m.append(self.guid)
+        self.hexguid=m.hexdigest()     
+        log.debug('Run GUID [' + `self.guid` + '] using [' + `self.hexguid` + ']')    
+        
+        # Actor Queue
+        self.actors=list()
+
+    def getRunGuid(self):
+        return self.id
+        
+    def getRunHexGuid(self):
+        return self.hexguid
         
     def getWorkspace(self):
         return self.workspace
@@ -487,15 +537,16 @@ class GumpRun(Workable,Annotatable,Stateful):
         i=getIndent(indent)
         #output.write(i+'Expression: ' + self.gumpSet. + '\n')
         output.write(i+'Gump Set:\n')
-        
         self.gumpSet.dump(indent+1,output)
+       
+    def registerActor(self,actor):
+        log.debug('Registor Actor : ' + `actor`)
+        self.actors.append(actor)
         
-class Runnable:
-    
-    def __init__(self, run):
-        self.run	=	run
-        
-    def getRun(self):
-        return self.run
-        
-        
+    def processEvent(self,event):
+        for actor in self.actors:
+            actor._processEvent(event)
+            
+    def generateEvent(self,entity):
+        self.processEvent(RunEvent(entity))
+                

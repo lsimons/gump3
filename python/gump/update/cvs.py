@@ -48,10 +48,10 @@ from gump.net.cvs import *
 # Classes
 ###############################################################################
 
-class CvsUpdater(Runnable):
+class CvsUpdater(RunSpecific):
     
     def __init__(self,run):
-        Runnable.__init__(self,run)
+        RunSpecific.__init__(self,run)
 
         #
         # A stash of known logins.

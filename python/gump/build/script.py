@@ -45,10 +45,10 @@ from gump.model.state import *
 # Classes
 ###############################################################################
 
-class AntBuilder(Runnable):
+class AntBuilder(RunSpecific):
     
     def __init__(self,run):
-        Runnable.__init__(self,run)
+        RunSpecific.__init__(self,run)
 
     def buildProject(self,project,stats)
         

@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/syndication/atom.py,v 1.16.2.1 2004/05/17 21:41:21 ajack Exp $
-# $Revision: 1.16.2.1 $
-# $Date: 2004/05/17 21:41:21 $
+# $Header: /home/stefano/cvs/gump/python/gump/syndication/atom.py,v 1.16.2.2 2004/05/17 23:45:50 ajack Exp $
+# $Revision: 1.16.2.2 $
+# $Date: 2004/05/17 23:45:50 $
 #
 # ====================================================================
 #
@@ -73,7 +73,7 @@ from gump.model.project import ProjectStatistics
 
 from gump.core.config import setting
 
-from gump.syndication.syndicator import Syndicator
+from gump.syndication.abstract import AbstractSyndicator
 
 ###############################################################################
 

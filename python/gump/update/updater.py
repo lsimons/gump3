@@ -48,10 +48,10 @@ from gump.model.state import *
 # Classes
 ###############################################################################
 
-class GumpUpdater(Runnable):
+class GumpUpdater(RunSpecific):
     
     def __init__(self,run):
-        Runnable.__init__(self, run)
+        RunSpecific.__init__(self, run)
         
         self.cvs=CvsUpdater(run)
         #self.svn=SvnUpdater(run)
@@ -141,10 +141,8 @@ class GumpUpdater(Runnable):
             if ok:
                 self.syncModule(module)     
                     
-        # Incremental documentation...
-        documenter=self.run.getOptions().getDocumenter()        
-        if documenter :
-            documenter.entity(module,self.run)      
+        # Generate/process the module event...
+        self.run.generateEvent(module)      
 
     
     def syncModule(self,module):

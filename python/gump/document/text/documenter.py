@@ -48,7 +48,7 @@ class TextDocumenter(Documenter):
         # Hack, ought return a non-hierarchical one
         self.resolver=TextResolver(dirBase,urlBase)
         
-    def getResolverForRun(self,run):
+    def getResolver(self,run):
         return self.resolver
         
     def documentEntity(self, entity, run):

@@ -38,10 +38,11 @@ from gump.results.model import *
 from gump.results.loader import *
 
                
-class Resulter:
+class Resulter(RunActor):
     
     def __init__(self,run):        
-        self.run = run
+        RunActor.__init__(self,run)
+        
         self.workspace=run.getWorkspace()
         self.gumpSet=run.getGumpSet()
         

@@ -12,6 +12,7 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+
 """
     'Nag' (notification) e-mail generation...
 """
@@ -29,7 +30,7 @@ from gump.core.config import *
 from gump.model.project import *
 from gump.model.module import *
 from gump.model.state import *
-from gump.net.mailer import *
+from gump.net.smtp import *
 from gump.utils import *
 
 LINE     ='--   --   --   --   --   --   --   --   --   --   --   --   G U M P'
@@ -49,10 +50,12 @@ class AddressPair:
     def getFromAddress(self):
         return self.fromAddr
 
-class Notifier:
+class Notifier(RunActor):
     
-    def __init__(self,run):        
-        self.run = run
+    def __init__(self,run):      
+        
+        RunActor.__init__(self,run)
+        
         self.workspace=run.getWorkspace()
         self.gumpSet=run.getGumpSet()
     

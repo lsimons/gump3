@@ -86,8 +86,6 @@ class SequentialTaskRunner(GumpRunner):
         
     # A few proxies...
     
-    def preprocess(self): self.misc.preprocess()
-    
     def loadStatistics(self): self.misc.loadStatistics()
     def updateStatistics(self): self.misc.updateStatistics()
     
@@ -103,8 +101,6 @@ class SequentialTaskRunner(GumpRunner):
     def notify(self): self.misc.notify()
     
     def syndicate(self): self.misc.syndicate()
-    
-    def setEndTime(self): self.misc.setEndTime()
     
     ###########################################
     
