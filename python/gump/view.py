@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/Attic/view.py,v 1.29 2003/05/05 12:21:51 nicolaken Exp $
-# $Revision: 1.29 $
-# $Date: 2003/05/05 12:21:51 $
+# $Header: /home/stefano/cvs/gump/python/gump/Attic/view.py,v 1.30 2003/05/05 12:23:14 nicolaken Exp $
+# $Revision: 1.30 $
+# $Date: 2003/05/05 12:23:14 $
 #
 # ====================================================================
 #
@@ -461,7 +461,7 @@ class ViewHandler(logging.Handler):
         #INFO = 20
         #DEBUG = 10
         #NOTSET = 0
-        print "EMIT"
+
         msg = "%s\n" % self.format(record)
         
         textStyle = None;
