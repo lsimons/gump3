@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/model/state.py,v 1.11 2004/02/17 21:54:20 ajack Exp $
-# $Revision: 1.11 $
-# $Date: 2004/02/17 21:54:20 $
+# $Header: /home/stefano/cvs/gump/python/gump/model/state.py,v 1.12 2004/03/01 18:58:00 ajack Exp $
+# $Revision: 1.12 $
+# $Date: 2004/03/01 18:58:00 $
 #
 # ====================================================================
 #
@@ -148,6 +148,19 @@ reasonCodeNames = { 	REASON_UNSET : "NotSet",
                     REASON_BUILD_TIMEDOUT : "BuildTimedOut",
                     REASON_MISSING_OUTPUTS : "MissingBuildOutputs" }    
                     
+namedReasonCode = { "NotSet" : REASON_UNSET,
+                    "CompletePackageInstall" : REASON_PACKAGE,
+                    "BadPackageInstallation" : REASON_PACKAGE_BAD,
+                    "CircularDependency" : REASON_CIRCULAR,
+                    "ConfigurationFailed" : REASON_CONFIG_FAILED,
+                    "UpdateFailed" : REASON_UPDATE_FAILED,
+                    "SynchronizeFailed" : REASON_SYNC_FAILED,
+                    "Pre-BuildFailed" : REASON_PREBUILD_FAILED,
+                    "BuildFailed" : REASON_BUILD_FAILED,
+                    "Post-BuildFailed" : REASON_POSTBUILD_FAILED,
+                    "BuildTimedOut" : REASON_BUILD_TIMEDOUT,
+                    "MissingBuildOutputs" : REASON_MISSING_OUTPUTS }    
+                    
 reasonCodeDescriptions = { 	REASON_UNSET : "Not Set",
                     REASON_PACKAGE : "Complete Package Install",
                     REASON_PACKAGE_BAD : "Bad Package Installation",
@@ -166,6 +179,14 @@ def reasonName(reasonCode):
     
 def reasonDescription(reasonCode):
     return reasonCodeDescriptions.get(reasonCode,'Unknown Reason:' + str(reasonCode))
+    
+def reasonForName(name):
+    return namedReasonCode.get(name,STATE_UNSET)    
+    
+def getStatePairFromNames(stateName,reasonName):
+    state=stateForName(stateName)
+    reason=reasonForName(reasonName)    
+    return StatePair(state,reason)
           
 class StatePair:
     """Contains a State Plus Reason"""

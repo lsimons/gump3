@@ -353,6 +353,10 @@
   <server href="server/lsd.xml"/>
   <server href="server/dotnot.xml"/>
   <server href="server/covalent.xml"/>
+
+<!-- tracker definitions -->
+
+  <tracker href="tracker/apache-jira.xml"/>
   
 </profile>
 

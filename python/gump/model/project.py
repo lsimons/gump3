@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/model/project.py,v 1.57 2004/02/29 19:16:19 ajack Exp $
-# $Revision: 1.57 $
-# $Date: 2004/02/29 19:16:19 $
+# $Header: /home/stefano/cvs/gump/python/gump/model/project.py,v 1.58 2004/03/01 18:58:00 ajack Exp $
+# $Revision: 1.58 $
+# $Date: 2004/03/01 18:58:00 $
 #
 # ====================================================================
 #
@@ -66,6 +66,7 @@ from time import localtime, strftime, tzname
 
 from gump.model.state import *
 from gump.model.object import ModelObject, NamedModelObject, Jar,	\
+                                Resultable, \
                                  Mkdir, Delete, JunitReport, Work
 from gump.model.stats import Statable, Statistics
 from gump.model.property import Property
@@ -178,10 +179,13 @@ class Classpath(Annotatable):
         return os.pathsep.join(self.getSimpleClasspathList())
             
 
-class Project(NamedModelObject, Statable):
+class Project(NamedModelObject, Statable, Resultable):
     """A single project"""
     def __init__(self,xml,workspace):
     	NamedModelObject.__init__(self,xml.getName(),xml,workspace)
+    	
+    	Statable.__init__(self)
+    	Resultable.__init__(self)
     	
     	# Navigation
         self.module=None # Module has to claim ownership

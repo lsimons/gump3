@@ -123,7 +123,7 @@ class GumpEngine:
         self.preprocess(run)
         
         #
-        # Laod the statistics (so we can use them during
+        # Load the statistics (so we can use them during
         # other operations).
         #
         logResourceUtilization('Before load statistics')
@@ -134,32 +134,38 @@ class GumpEngine:
         #
         logResourceUtilization('Before update')
         self.update(run)
-
-        logResourceUtilization('Before build')
         
         #
         # Run the build commands
         #
+        logResourceUtilization('Before build')
         self.buildAll(run)
   
+        #
+        # Gather results.xml from other servers/workspaces
+        #
+        logResourceUtilization('Before generate results')
+        gatherResults(run)
+        
+  
+        # Update Statistics/Results on full runs            
         if run.getGumpSet().isFull():
+            
             logResourceUtilization('Before statistics update')
-        
-            # Update Statistics
             self.updateStatistics(run)
-              
-        
+            
+            #
+            # Generate results.xml for this run, on this server/workspace
+            #
+            logResourceUtilization('Before generate results')
+            generateResults(run)
+                    
         #
         # Provide a news feed (or few)
         #
         logResourceUtilization('Before syndicate')
         syndicate(run)
-                 
-        #
-        # Generate results.xml
-        #
-        generateResults(run)
-        
+                        
         #   
         # Build HTML Result (via Forrest or ...)
         #
@@ -569,8 +575,7 @@ class GumpEngine:
                     if not os.path.exists(jarPath):
                         project.changeState(STATE_FAILED,REASON_MISSING_OUTPUTS)
                         outputsOk=0
-                        project.addError("Missing Output: " + str(jarPath))
-                            
+                        project.addError("Missing Output: " + str(jarPath))                            
                                  
                 if outputsOk: 
                     # If we have a <license name='...

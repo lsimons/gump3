@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/model/object.py,v 1.18 2004/02/24 19:32:28 ajack Exp $
-# $Revision: 1.18 $
-# $Date: 2004/02/24 19:32:28 $
+# $Header: /home/stefano/cvs/gump/python/gump/model/object.py,v 1.19 2004/03/01 18:58:00 ajack Exp $
+# $Revision: 1.19 $
+# $Date: 2004/03/01 18:58:00 $
 #
 # ====================================================================
 #
@@ -270,7 +270,42 @@ class NamedModelObject(ModelObject):
         """ Display the contents of this object """
         output.write(getIndent(indent)+'Name: ' + self.name + '\n')
         ModelObject.dump(self,indent+1,output)
-
+          
+class Resultable:
+    def __init__(self): 
+        pass
+    
+    # Stats are loaded separately and cached on here,
+    # hence they may exist on an object at all times.
+    def hasServerResults(self):
+        return hasattr(self,'serverResults')
+        
+    def setServerResults(self,serverResults):
+        self.serverResults=serverResults
+        
+    def getServerResults(self):
+        if not self.hasServerResults():
+            raise RuntimeError, "ServerResults not available [yet]: " \
+                    + self.getName()
+        return self.serverResults
+        
+    
+    # Stats are loaded separately and cached on here,
+    # hence they may exist on an object at all times.
+    def hasResults(self):
+        return hasattr(self,'results')
+        
+    def setResults(self,results):
+        self.results=results
+        
+    def getResults(self):
+        if not self.hasResults():
+            raise RuntimeError, "Results not available [yet]: " \
+                    + self.getName()
+        return self.results
+        
+        
+        
 # represents a <nag/> element
 class Nag(ModelObject):
     def __init__(self,toaddr,fromaddr):

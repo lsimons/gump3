@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/model/module.py,v 1.33 2004/02/23 20:55:08 ajack Exp $
-# $Revision: 1.33 $
-# $Date: 2004/02/23 20:55:08 $
+# $Header: /home/stefano/cvs/gump/python/gump/model/module.py,v 1.34 2004/03/01 18:58:00 ajack Exp $
+# $Revision: 1.34 $
+# $Date: 2004/03/01 18:58:00 $
 #
 # ====================================================================
 #
@@ -67,7 +67,7 @@ from time import localtime, strftime, tzname
 from gump.model.state import *
 from gump.model.stats import Statable, Statistics
 from gump.model.project import *
-from gump.model.object import NamedModelObject
+from gump.model.object import NamedModelObject, Resultable
 from gump.utils import getIndent
 from gump.utils.note import transferAnnotations, Annotatable
 
@@ -192,11 +192,14 @@ def createUnnamedModule(workspace):
     unnamedModule.complete(workspace)
     return unnamedModule
         
-class Module(NamedModelObject, Statable):
+class Module(NamedModelObject, Statable, Resultable):
     """Set of Modules (which contain projects)"""
     def __init__(self,xml,workspace):
     	NamedModelObject.__init__(self,xml.getName(),xml,workspace)
             	
+    	Statable.__init__(self)
+    	Resultable.__init__(self)
+    	
     	self.totalDepends=[]
     	self.totalDependees=[]
     	

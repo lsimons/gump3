@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/results/resulter.py,v 1.4 2004/02/28 00:24:32 ajack Exp $
-# $Revision: 1.4 $
-# $Date: 2004/02/28 00:24:32 $
+# $Header: /home/stefano/cvs/gump/python/gump/results/resulter.py,v 1.5 2004/03/01 18:58:00 ajack Exp $
+# $Revision: 1.5 $
+# $Date: 2004/03/01 18:58:00 $
 #
 # ====================================================================
 #
@@ -82,11 +82,41 @@ class Resulter:
         self.gumpSet=run.getGumpSet()
         
         self.serverResults = {}
+        self.serversLoaded = 0
         
-    #def getResultsFor(self, object):
-    #    for server in self.workspace.getServers():
+    def getServerResultFor(sefl, server, object):
+        results=self.getResultsForAllServers(object)
+        if results.has_key(server):
+            return results[server]
+        
+    def getResultsForAllServers(self, object):
+        results = {}
+        
+        # Loda on demand
+        if not self.seerversLoaded:
+            self.loadResultsForServers()
             
+        # For all servers, extract any result
+        for server in self.workspace.getServers():
+            result=None
+            if self.serverResults.has_key(server):
+                serverResults=self.serverResults[server]
+                if isinstance(object,NamedObject):
+                    name=object.getName()
+                    if isinstance(object,Workspace):                    
+                        result=serverResults
+                    elif isinstance(object,Module):                    
+                        result=serverResults.getModuleResult(name)
+                    elif isinstance(object,Project):
+                        result=serverResults.getProjectResult(name)
+                    else:
+                        raise RuntimeError('Not understood')
+                
+            if result:
+                results[server] = result
         
+        return results
+            
     def loadResultsForServers(self):
         for server in self.workspace.getServers():       
             if not server in self.serverResults:
@@ -105,22 +135,52 @@ class Resulter:
         loader =  WorkspaceResultLoader()        
         return loader.loadFromUrl(url)
         
+    def gatherResults(self):
+        """
+        Gather results from servers and set onto workspace/modules/projects
+        """
+      
+        # For all modules...
+        for module in self.workspace.getModules():        
+                if not self.gumpSet.inModules(module): continue
+                
+                #
+                # Gather results for this module
+                #
+                moduleResults = self.getResultsForAllServers(module)
+
+                if moduleResults:
+                    module.setServerResults(moduleResults)
+                
+                # Add projects
+                for project in module.getProjects():
+                    if not self.gumpSet.inSequence(project): continue    
+                    
+                    #
+                    # Gather results for this project
+                    #
+                    projectResults = self.getResultsForAllServers(project)
+
+                    if projectResults:
+                        project.setServerResults(projectResults)
+                
     def generateResults(self,where=None):
-        """
-        Generate a results file
-        """
-        
+        """ Generate a results file """
         workspaceResults = self.constructResults()
         
         # If not told where to stick it, contstruct...
         if not where: where=workspaceResults.getName()+'.xml'
         
         workspaceResults.writeXMLToFile(where)
-        
+
     def constructResults(self):
         """
-        Generate a results file
+        Construct result objects from tree of states
         """
+        
+        if self.workspace.hasResults():
+            return self.workspace.getResults()
+        
         # Create
         workspaceResults = WorkspaceResult(self.workspace.getName())
     
@@ -138,6 +198,8 @@ class Resulter:
                 # Stats?
                 moduleResults.setStatePair(module.getStatePair())
                 
+                module.setResults(moduleResults)
+                
                 # Add projects
                 for project in module.getProjects():
                     if not self.gumpSet.inSequence(project): continue    
@@ -149,6 +211,9 @@ class Resulter:
                     
                     # Set attributes:
                     projectResults.setStatePair(project.getStatePair())
+                                    
+                    # Stash on project
+                    project.setResults(projectResults)                
                 
                     # Stash on moduleResult
                     moduleResults.setProjectResult(projectResults)
@@ -158,6 +223,9 @@ class Resulter:
                     
                 # Stash moduleResult on workspaceResult
                 workspaceResults.setModuleResult(moduleResults)
+                
+        # Stash on workspace
+        self.workspace.setResults(workspaceResults)
                 
         return workspaceResults
             
@@ -171,4 +239,12 @@ def generateResults(run):
     
     # Generate the output...
     resulter.generateResults(where)
+    
+def gatherResults(run):
+    
+    # Generate results around this run...
+    resulter=Resulter(run)
+    
+    # Generate the output...
+    resulter.gatherResults()
     

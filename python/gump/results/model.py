@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/results/model.py,v 1.3 2004/02/28 00:11:39 ajack Exp $
-# $Revision: 1.3 $
-# $Date: 2004/02/28 00:11:39 $
+# $Header: /home/stefano/cvs/gump/python/gump/results/model.py,v 1.4 2004/03/01 18:58:00 ajack Exp $
+# $Revision: 1.4 $
+# $Date: 2004/03/01 18:58:00 $
 #
 # ====================================================================
 #
@@ -100,6 +100,12 @@ class ResultModelObject(Annotatable,Ownable,Stateful):
     def setComplete(self,complete):
        self.completionPerformed=complete
          
+    def completeState(self,node=None):
+        if not node: node=self.dom
+        stateName=node.getAttribute('state')
+        reasonName=node.getAttribute('reason')
+        self.setStatePair(getStatePairFromNames(stateName,reasonName))
+        
     #
     # Same if same type, and same name
     # i.e project context X is not equals to module context X
@@ -220,6 +226,10 @@ class WorkspaceResult(ResultModelObject):
                     
     def complete(self): 
         if self.isComplete() or not self.hasDom(): return
+                
+        # Workspace dom is document, but stuff on first
+        # element
+        self.completeState(self.dom.documentElement)
         
         #
         # Import all modules
@@ -276,7 +286,9 @@ class ModuleResult(ResultModelObject):
             
     def complete(self): 
         if self.isComplete() or not self.hasDom(): return
-            
+                        
+        self.completeState()
+        
         for domprojectresult in self.dom.getElementsByTagName('projectResult'):            
             projectResult=ProjectResult(domprojectresult.getAttribute('name'),domprojectresult,self)
             projectResult.complete()
@@ -309,6 +321,6 @@ class ProjectResult(ResultModelObject):
         
     def complete(self): 
         if self.isComplete(): return
-    
+        self.completeState()
         self.setComplete(1)
         

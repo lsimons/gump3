@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/model/property.py,v 1.12 2004/02/10 00:43:19 ajack Exp $
-# $Revision: 1.12 $
-# $Date: 2004/02/10 00:43:19 $
+# $Header: /home/stefano/cvs/gump/python/gump/model/property.py,v 1.13 2004/03/01 18:58:00 ajack Exp $
+# $Revision: 1.13 $
+# $Date: 2004/03/01 18:58:00 $
 #
 # ====================================================================
 #
@@ -137,6 +137,7 @@ class Property(NamedModelObject):
             # If a property on a project..
             #
             if not parent==workspace: 
+                relativeProject=None
                 # If on a referenced project
                 if self.xml.project:
                     if not workspace.hasProject(self.xml.project):
@@ -148,13 +149,14 @@ class Property(NamedModelObject):
                 else:
                     # Relative to this project...
                     relativeProject=responsibleParty
-                                        
-                #
-                # Path relative to module's srcdir (doesn't work in workspace)
-                #        
-                self.value=os.path.abspath(os.path.join(	\
-                        relativeProject.getModule().getSourceDirectory(),	\
-                        self.xml.path))
+                
+                if relativeProject:                        
+                    #
+                    # Path relative to module's srcdir (doesn't work in workspace)
+                    #        
+                    self.value=os.path.abspath(os.path.join(	\
+                            relativeProject.getModule().getSourceDirectory(),	\
+                            self.xml.path))
             else:
                 responsibleParty.addError('Can\'t have path on property on workspace: ' + \
                     + self.getName())

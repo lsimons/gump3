@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/forrest.py,v 1.86 2004/02/26 19:15:01 ajack Exp $
-# $Revision: 1.86 $f
-# $Date: 2004/02/26 19:15:01 $
+# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/forrest.py,v 1.87 2004/03/01 18:58:00 ajack Exp $
+# $Revision: 1.87 $f
+# $Date: 2004/03/01 18:58:00 $
 #
 # ====================================================================
 #
@@ -1387,18 +1387,36 @@ class ForrestDocumenter(Documenter):
         serversSection.createParagraph('These links represent this location on other servers.')      
         serversTable=serversSection.createTable()
         serverRow=serversTable.createRow()
+        
+        serverResults=None
+        if isinstance(linkable,Resultable):
+            serverResults=linkable.getServerResults()
+            
         for server in servers: 
+        
+            # If we know state on the other server.
+            statePair=None
+            if serverResults and serverResults.has_key(server):
+                results=serverResults[server]
+                statePair=results.getStatePair()
+                                
             # If we can resolve this object to a URL, then do
+            xdocNode=None
+                        
             if server.hasResolver():
-                serverRow.createData().createFork(	\
-                        server.getResolver().getUrl(linkable), \
-                        'On ' + server.getName() )
+                xdocNode=serverRow.createData().createFork(	\
+                        server.getResolver().getUrl(linkable))
             else:
                 # Else just link to the server.
                 if server.hasUrl():
-                    serverRow.createData().createFork(	\
-                            server.getUrl(), \
-                            '~ ' + server.getName() )    
+                    xdocNode=serverRow.createData().createFork(	\
+                            server.getUrl())  
+            
+            if xdocNode and statePair:
+                depth=getDepthForObject(linkable)
+                self.insertStatePairIconAtDepth(xdocNode, statePair,depth)
+            else:
+                xdocNode.createText('On ' + server.getName())
                 
                         
     def documentProperties(self,xdocNode,propertyContainer,title='Properties'):
@@ -1837,7 +1855,9 @@ class ForrestDocumenter(Documenter):
     def insertStatePairIcon(self,xdocNode,toObject,fromObject):
         pair=toObject.getStatePair()
         depth=getDepthForObject(fromObject)
-        
+        self.insertStatePairIconAtDepth(xdocNode,pair,depth)
+                
+    def insertStatePairIconAtDepth(self,xdocNode,pair,depth):
         # :TODO: Move this to some resolver, and share with RSS
         sname=stateDescription(pair.state)
         rstring=reasonDescription(pair.reason)    

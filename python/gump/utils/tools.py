@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/utils/tools.py,v 1.13 2004/02/25 13:23:32 ajack Exp $
-# $Revision: 1.13 $
-# $Date: 2004/02/25 13:23:32 $
+# $Header: /home/stefano/cvs/gump/python/gump/utils/tools.py,v 1.14 2004/03/01 18:58:00 ajack Exp $
+# $Revision: 1.14 $
+# $Date: 2004/03/01 18:58:00 $
 #
 # ====================================================================
 #
@@ -143,6 +143,8 @@ def listDirectoryToFileHolder(holder,directory,type=FILE_TYPE_MISC,name=None):
     
 def catDirectoryContentsToFileHolder(holder,directory,type=FILE_TYPE_MISC,name=None):
     try:
+        listDirectoryToFileHolder(holder,directory,type,name)
+        
         if os.path.exists(directory) and  os.path.isdir(directory):
             for fileName in os.listdir(directory):
                 baseName=name    
