@@ -236,8 +236,15 @@
     <project name="excalibur-configuration">
         <package>org.apache.excalibur.configuration</package>
 
-        <ant basedir="configuration">
-            <!-- runtime dependencies -->
+	<ant basedir="configuration" target="dist">
+            <property name="project.name" value="excalibur-configuration"/>
+            <property name="project.version" value="@@DATE@@"/>
+            <property name="package-version" value="@@DATE@@"/>
+            <property name="junit.failonerror" value="true"/>
+            <property name="do.checkstyle" value="false"/>
+	    <property name="skip.dependencies" value="true"/>
+	    
+	    <!-- runtime dependencies -->
             <depend property="avalon-framework.jar" project="avalon-framework" runtime="true" id="combined"/>
             <depend property="isorelax.jar" project="iso-relax" runtime="true"/>
             <depend property="jing.jar" project="jing" runtime="true"/>
@@ -247,11 +254,6 @@
 
             <!-- optional dependencies -->
             <property name="checkstyle.jar" project="checkstyle" reference="jarpath"/>
-
-            <property name="package-version" value="@@DATE@@"/>
-            <property name="junit.failonerror" value="true"/>
-            <property name="do.checkstyle" value="false"/>
-            <property name="skip.dependencies" value="true"/>
         </ant>
 
         <!-- build-time dependencies -->
