@@ -14,7 +14,7 @@
 #   See the License for the specific language governing permissions and
 #   limitations under the License.
 #
-# $Header: /home/stefano/cvs/gump/python/gmp.py,v 1.7 2004/04/24 15:25:18 ajack Exp $
+# $Header: /home/stefano/cvs/gump/python/gmp.py,v 1.8 2004/04/26 01:00:33 ajack Exp $
 
 """
   This is the commandline entrypoint into Python Gump as a
@@ -118,7 +118,7 @@ result=0
         
 args=sys.argv
 try:
-    print 'Apache Gump (A multi-project builder)'
+    # print 'Apache Gump (A multi-project builder)'
     
     try:
         # Process Environment

@@ -148,10 +148,10 @@ class CommandLine:
                 sys.exit(1)
     
         for arg in argv:
-            log.warn("Unused command line argument : " + arg)
+            log.debug("Unused command line argument : " + arg)
             
         for arg in self.args:
-            log.warn("Argument : " + arg)
+            log.debug("Argument : " + arg)
 
     def getArguments(self):
         return self.args

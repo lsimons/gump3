@@ -203,17 +203,21 @@ class DependencyDiagram:
         for node in self.matrix.getNodes():
             (row, col) = node.getRowCol()
             
-            # rowWidth=self.matrix.getRowWidth(row+1)
+            rowColumns=self.matrix.getRowWidth(row)
             
             # Center...
-            #centeredCol = (float(rowWidth)/cols) * (1+col)
+            centeredCol = (float(cols)/float(rowColumns)) * col
             
-            #print cols,rowWidth,row,col,' -> ',centeredCol
             
             #print 'NODE (ROW,COL) : ' + `(row, col)`
-            (x,y) = context.realPoint(row,col)
-            #print '(X,Y) : ' + `(x, y)`
+            (x,y) = context.realPoint(row,centeredCol)
+            (x1,y1) = context.realPoint(row,col)
+            if y1 <> y:	
+                print 'Cols:',cols,'Row Cols',rowColumns,' COLS:', col,' -> ',centeredCol            
+                print '(X,Y) : ' + `(x, y)`
+                print '(X1,Y1) : ' + `(x1, y1)`
             node.setPoint(Point(x,y))            
+            node.setRowCol(row,centeredCol)
                 
         #
         # Draw dependency lines
