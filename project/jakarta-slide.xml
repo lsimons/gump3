@@ -57,26 +57,26 @@
     <work nested="build/client/classes"/>
     <work nested="webdavclient/build/clientlib/classes"/>
 
-    <home nested="dist"/>
+    <!--home nested="dist"/-->
 
-    <jar name="client/lib/slide-anttasks.jar" id="client-anttasks"/>
-    <jar name="client/lib/slide-client.jar" id="client"/>
-    <jar name="client/lib/slide-swing.jar" id="client-swing"/>
-    <jar name="client/lib/slide-webdavlib.jar" id="client-webdavlib"/>
+    <jar name="webdavclient/dist/lib/jakarta-slide-commandline-@@DATE@@.jar" id="client"/>
+    <jar name="webdavclient/dist/lib/jakarta-slide-webdavlib-@@DATE@@.jar" id="client-webdavlib"/>
 
-    <jar name="slide/lib/slide-kernel-@@DATE@@.jar" id="kernel"/>
-    <jar name="slide/lib/slide-roles-@@DATE@@.jar" id="roles"/>
-    <jar name="slide/lib/slide-stores-@@DATE@@.jar" id="stores"/>
-    <jar name="slide/lib/slide-webdavservlet-@@DATE@@.jar" id="webdavservlet"/>
+    <jar name="dist/slide/lib/slide-jdk14logger-@@DATE@@.jar" id="jdk14logger"/>
+    <jar name="dist/slide/lib/slide-kernel-@@DATE@@.jar" id="kernel"/>
+    <jar name="dist/slide/lib/slide-log4jlogger-@@DATE@@.jar" id="log4jlogger"/>
+    <jar name="dist/slide/lib/slide-roles-@@DATE@@.jar" id="roles"/>
+    <jar name="dist/slide/lib/slide-stores-@@DATE@@.jar" id="stores"/>
+    <jar name="dist/slide/lib/slide-webdavservlet-@@DATE@@.jar" id="webdavservlet"/>
 
-    <jar name="slide/lib/slide-taglib-common.jar" id="taglib-common"/>
+    <!--jar name="slide/lib/slide-taglib-common.jar" id="taglib-common"/-->
     <!--jar name="slide/lib/slide-taglib-jstl.jar" id="taglib-jstl"/-->
-    <jar name="slide/lib/slide-taglib-struts.jar" id="taglib-struts"/>
+    <!--jar name="slide/lib/slide-taglib-struts.jar" id="taglib-struts"/-->
 
-    <jar name="slide/wrappers/slide-catalinawrapper-@@DATE@@.jar" id="catalina-wrapper"/>
-    <jar name="slide/wrappers/slide-jmxwrapper.jar" id="jmx-wrapper"/>
-    <jar name="slide/wrappers/slide-jndiwrapper.jar" id="jndi-wrapper"/>
-    <jar name="slide/wrappers/slide-log4jwrapper.jar" id="log4j-wrapper"/>
+    <jar name="dist/slide/wrappers/slide-catalinawrapper-@@DATE@@.jar" id="catalina-wrapper"/>
+    <!--jar name="slide/wrappers/slide-jmxwrapper.jar" id="jmx-wrapper"/-->
+    <!--jar name="slide/wrappers/slide-jndiwrapper.jar" id="jndi-wrapper"/-->
+    <!--jar name="slide/wrappers/slide-log4jwrapper.jar" id="log4j-wrapper"/-->
 
     <license name="LICENSE"/>
 
