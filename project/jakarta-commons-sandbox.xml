@@ -83,7 +83,7 @@
     <depend project="xml-xerces"/>
     <depend project="jakarta-servletapi-4"/>
     <depend project="jms"/>
-    <jar name="messenger/commons-messenger.jar"/>
+    <jar name="messenger/dist/commons-messenger.jar"/>
     <javadoc nested="messenger/dist/doc/api"/>
   </project>
 
