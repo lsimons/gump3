@@ -1620,7 +1620,7 @@ This page helps Gumpmeisters (and others) observe community progress.
                 self.insertStateIcon(project,referencingObject,dependencyRow.createData())
                 
                 # FOG Factor
-                dependencyRow.createData(project.getFOGFactor())
+                dependencyRow.createData('%02.2f' % project.getFOGFactor())
                 
                 if full:
                     # Contributor

@@ -146,7 +146,7 @@ def printSeparator(indent=''):
     printSeparatorToFile(None,indent)
     
 def printSeparatorToFile(f=None,indent=''):    
-    if not f: f = sys.stdout
+    if not f: f=sys.stdout
     f.write( '%s\n' % (indent + ' ---------------------------------------------------- Gump'))
 
 def secsToElapsedTimeTriple(secs):   

@@ -337,6 +337,15 @@ if __name__=='__main__':
     from gump.test.thomas import EngineTestSuite  
     runner.addSuite(EngineTestSuite())
     
+    from gump.test.depdiag import DependencyDiagramTestSuite  
+    runner.addSuite(DependencyDiagramTestSuite())
+    
+    from gump.test.svg import SvgTestSuite  
+    runner.addSuite(SvgTestSuite())
+    
+    from gump.test.drawing import DrawingTestSuite  
+    runner.addSuite(DrawingTestSuite())
+    
     # Any args are pattern matches
     patterns=list(sys.argv)
     del patterns[0:1]
