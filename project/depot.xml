@@ -203,8 +203,8 @@
         <depend project="depot-version"/> 
         <depend project="depot-common"/>
         <depend project="jakarta-regexp"/>
-        <depend project="commons-httpclient"/>
-        <depend project="commons-vfs"/>
+        <depend project="commons-httpclient" inherit="runtime"/>
+        <depend project="commons-vfs" inherit="runtime"/>
 
         <jar name="dist/depot-update-gump-@@DATE@@.jar"/>
 
