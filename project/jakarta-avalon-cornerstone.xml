@@ -8,6 +8,8 @@
   <cvs repository="jakarta"/>
 
   <ant target="dist">
+    <property name="xerces.jar"
+       reference="jarpath" id="parser" project="xml-xerces"/>
     <property name="logkit.jar"
        reference="jarpath" id="logkit" project="jakarta-avalon-logkit"/>
     <property name="avalonapi.jar"
