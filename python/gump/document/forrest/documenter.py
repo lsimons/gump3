@@ -1516,6 +1516,12 @@ This page helps Gumpmeisters (and others) observe community progress.
                 'This project has existed in this failed state for a significant duration.')
         
         statsTable=statsSection.createTable()           
+        
+        # Generate an SVG for FOG:
+        (pngFile,pngTitle) = self.documentFOG(project)
+        if pngFile:
+            statsTable.createEntry('FOG Factor').createData().createIcon(pngFile,pngTitle)
+            
         statsTable.createEntry("FOG Factor: ", '%02.2f' % stats.getFOGFactor())
         statsTable.createEntry('Dependency Depth: ', project.getDependencyDepth())        
         statsTable.createEntry('Total Dependency Depth: ', project.getTotalDependencyDepth())        
@@ -2188,6 +2194,26 @@ This page helps Gumpmeisters (and others) observe community progress.
         fdocument.serialize()
         fdocument=None
             
+    def documentFOG(self,object,base=None):
+    
+        stats = object.getStats()
+        name=object.getName()
+        if not base: base=object
+    
+        #
+        # Generate an SVG: 'FOG'
+        #
+        if stats.successes+stats.failures+stats.prereqs > 0:
+            svgFile=self.resolver.getFile(base,name+'_FOG','.svg')
+            pngFile=os.path.basename(svgFile).replace('.svg','.png')
+            from gump.svg.scale import ScaleDiagram
+            diagram=ScaleDiagram([stats.successes,stats.prereqs,stats.failures])
+            diagram.generateDiagram().serializeToFile(svgFile)
+            
+            return (pngFile, 'FOG Factor')
+            
+        return (None, None)
+                
     #####################################################################           
     #
     # Helper Methods
@@ -2614,15 +2640,11 @@ This page helps Gumpmeisters (and others) observe community progress.
             fogRow.createData(pstats.prereqs)
             fogRow.createData('%02.2f' % pstats.getFOGFactor())
             
-            # Generate an SVG:
-            # ,'FOG'
-            if pstats.successes+pstats.failures+pstats.prereqs > 0:
-                svgFile=self.resolver.getFile(stats,project.getName()+'_FOG','.svg')
-                pngFile=os.path.basename(svgFile).replace('.svg','.png')
-                from gump.svg.scale import ScaleDiagram
-                diagram=ScaleDiagram([pstats.successes,pstats.prereqs,pstats.failures])
-                diagram.generateDiagram().serializeToFile(svgFile)
-                fogRow.createData().createIcon(pngFile,'FOG Factor')
+            
+            # Generate an SVG for FOG:
+            (pngFile,pngTitle) = self.documentFOG(project,stats)
+            if pngFile:
+                fogRow.createData().createIcon(pngFile,pngTitle)
             else:
                 fogRow.createData('Not Available')    
                 
