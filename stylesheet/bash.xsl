@@ -549,13 +549,13 @@
     </xsl:if>
 
     <xsl:if test="@file">
-      <xsl:text>test -f </xsl:text>
+      <xsl:text>test -e </xsl:text>
       <xsl:value-of select="translate(@file,'\','/')"/>
       <xsl:text> &amp;&amp; eval "mkdir -p </xsl:text>
       <xsl:value-of select="translate(@todir,'\','/')"/>
       <xsl:text> $OUT 2&gt;&amp;1"&#10;</xsl:text>
 
-      <xsl:text>test -f </xsl:text>
+      <xsl:text>test -e </xsl:text>
       <xsl:value-of select="translate(@file,'\','/')"/>
       <xsl:text> &amp;&amp; eval "cp -r </xsl:text>
       <xsl:value-of select="translate(@file,'\','/')"/>
