@@ -45,7 +45,7 @@ fi
 #
 # Perform the run (passing on any arguments)
 #
-GUMP_PYTHON gumpy.py $*
+$GUMP_PYTHON gumpy.py $*
 
 #
 # Ensure nothing we started (directly) is left running after we end...

@@ -2548,16 +2548,17 @@ This page helps Gumpmeisters (and others) observe community progress.
         #
         if stats.successes+stats.failures+stats.prereqs > 0:
             svgFile=self.resolver.getFile(base,name+'_FOG','.svg')
-            pngFile=os.path.basename(svgFile).replace('.svg','.png')
+            svgBasename=os.path.basename(svgFile)
+            pngBasename=svgBasename.replace('.svg','.png')
             from gump.svg.scale import ScaleDiagram
             diagram=ScaleDiagram([stats.successes,stats.prereqs,stats.failures])
             diagram.generateDiagram().serializeToFile(svgFile)
             
-            file=pngFile
+            fileBasename=pngBaseName
             if self.config.isXhtml():
-                file=svgFile
+                fileBasename=svgBasename
             
-            return (file, 'FOG Factor')
+            return (fileBasename, 'FOG Factor')
             
         return (None, None)
                 
@@ -2567,17 +2568,18 @@ This page helps Gumpmeisters (and others) observe community progress.
         if not base: base=project
     
         svgFile=self.resolver.getFile(base,name+'_depend','.svg')
-        pngFile=os.path.basename(svgFile).replace('.svg','.png')
+        svgBasename=os.path.basename(svgFile)
+        pngBasename=svgBasename.replace('.svg','.png')
         from gump.svg.depdiag import DependencyDiagram
         diagram=DependencyDiagram(project)
         diagram.compute()
         diagram.generateDiagram().serializeToFile(svgFile)
         
-        file=pngFile
+        fileBasename=pngBasename
         if self.config.isXhtml():
-           file=svgFile
+           fileBasename=svgBasename
                 
-        return (file, 'Dependency Diagram')
+        return (fileBasename, 'Dependency Diagram')
                 
     #####################################################################           
     #
