@@ -77,12 +77,12 @@ from wxPython.wx import *
 from gump import log
 from gump.core.config import dir, default
 from gump.core.commandLine import handleArgv
-from gump.model.module import Module
-from gump.model.project import Project
-from gump.model.workspace import Workspace
-from gump.loader.loader import WorkspaceLoader
+from gump.core.model.module import Module
+from gump.core.model.project import Project
+from gump.core.model.workspace import Workspace
+from gump.core.loader.loader import WorkspaceLoader
 from gump.core.runner import GumpRunner
-from gump.run.gumpset import GumpSet
+from gump.core.run.gumpset import GumpSet
 
 ###############################################################################
 # Initialize

@@ -20,8 +20,8 @@
 from time import localtime, strftime, tzname
 from string import lower, capitalize
 
-from gump.model.state import *
-from gump.utils.work import *
+from gump.core.model.state import *
+from gump.util.work import *
 
 class Propogatable(Stateful):
     
@@ -82,7 +82,7 @@ class Propogatable(Stateful):
     def addCause(self,cause):
         if not self.cause: 
             self.cause=cause
-            from gump.model.project import Project
+            from gump.core.model.project import Project
             if isinstance(cause,Project):
                 cause.addAffected(self)
         self.causes.append(cause)

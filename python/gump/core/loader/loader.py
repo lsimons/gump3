@@ -25,9 +25,9 @@ import time
 import xml.dom.minidom
 
 from gump import log
-from gump.utils.tasks import *
-from gump.utils.note import transferAnnotations, Annotatable
-from gump.utils.timing import TimeStampSet
+from gump.util.tasks import *
+from gump.util.note import transferAnnotations, Annotatable
+from gump.util.timing import TimeStampSet
         
 class XmlLoader:
     def __init__(self,basedir='.',cache=False):
@@ -53,7 +53,7 @@ class XmlLoader:
             from gump.core.config import gumpPath
             urlFile=gumpPath(url,basedir);
         else:
-            from gump.utils.http import cacheHTTP
+            from gump.util.http import cacheHTTP
             urlFile=cacheHTTP(url,optimize=self.cache)
         
         log.debug('Launch XML/DOM parser onto \'URL\' [%s] [Base:%s] ' \
@@ -292,7 +292,7 @@ class WorkspaceLoader(ModelLoader):
         ModelLoader.__init__(self,cache)
     
     def load(self,file):
-        from gump.model.workspace import Workspace
+        from gump.core.model.workspace import Workspace
         return self.loadFile(file,Workspace)
         
 # static void main()
@@ -303,6 +303,6 @@ if __name__=='__main__':
     gumpinit(logging.DEBUG)   
     
     import sys
-    from gump.model.workspace import Workspace
+    from gump.core.model.workspace import Workspace
     loader=ModelLoader()
     loader.loadFile(sys.argv[1] or 'workspace.xml',Workspace).dump()

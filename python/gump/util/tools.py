@@ -23,12 +23,12 @@ import types, StringIO
 import shutil
 
 from gump import log
-from gump.utils.note import *
-from gump.utils.work import *
-from gump.utils.file import *
-from gump.utils.sync import *
-from gump.process.command import *
-from gump.process.launcher import *
+from gump.util.note import *
+from gump.util.work import *
+from gump.util.file import *
+from gump.util.sync import *
+from gump.util.process.command import *
+from gump.util.process.launcher import *
     
 def listDirectoryAsWork(workable,directory,name=None):
     ok=0
@@ -36,7 +36,7 @@ def listDirectoryAsWork(workable,directory,name=None):
     cmd=getCmdFromString("ls -l "+directory,name)
     try:
         result=execute(cmd)
-        ok=result.state==gump.process.command.CMD_STATE_SUCCESS 
+        ok=result.state==gump.util.process.command.CMD_STATE_SUCCESS 
         if not ok:
             log.error('Failed to list [' + directory + ']')     
     except Exception, details:

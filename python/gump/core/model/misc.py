@@ -23,12 +23,12 @@
 from time import localtime, strftime, tzname
 from string import lower, capitalize
 
-#from gump.utils.note import *
-#from gump.utils.work import *
-#from gump.utils.file import *
-#from gump.utils.owner import *
-from gump.utils.domutils import *
-from gump.model.object import *
+#from gump.util.note import *
+#from gump.util.work import *
+#from gump.util.file import *
+#from gump.util.owner import *
+from gump.util.domutils import *
+from gump.core.model.object import *
 
 class Positioned:
     def __init__(self): 

@@ -41,7 +41,3 @@ log = logging.getLogger(__name__)
 
 #set verbosity to show all messages of severity >= default.logLevel
 log.setLevel(logging.INFO) # logging.DEBUG
-
-
-# tell Python what modules make up the gump package
-__all__ = ["build","check","redo","env","integrate","preview","update"]

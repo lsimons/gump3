@@ -21,14 +21,14 @@
 
 from gump import log
 
-from gump.utils.tools import syncDirectories,copyDirectories,wipeDirectoryTree
-from gump.run.gumprun import *
-import gump.run.actor
+from gump.util.tools import syncDirectories,copyDirectories,wipeDirectoryTree
+from gump.core.run.gumprun import *
+import gump.core.run.actor
     
-class Synchronizer(gump.run.actor.AbstractRunActor):
+class Synchronizer(gump.core.run.actor.AbstractRunActor):
     
     def __init__(self, run, documenter):
-        gump.run.actor.AbstractRunActor.__init__(self, run)            
+        gump.core.run.actor.AbstractRunActor.__init__(self, run)            
         self.documenter=documenter
         
     def processOtherEvent(self,event):

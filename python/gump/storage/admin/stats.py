@@ -36,10 +36,10 @@ import anydbm
 from gump import log
 from gump.core.config import *
 from gump.output.stats import Project, ProjectStatistics
-from gump.model.module import Module, ModuleStatistics
-from gump.model.repository import Repository, RepositoryStatistics
+from gump.core.model.module import Module, ModuleStatistics
+from gump.core.model.repository import Repository, RepositoryStatistics
 from gump.output.stats import StatisticsDB
-from gump.model.state import *
+from gump.core.model.state import *
   
 class StatisticsTools:
     """Statistics Interface"""

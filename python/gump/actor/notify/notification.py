@@ -30,15 +30,15 @@ from string import lower, upper, capitalize
 
 from gump import log
 from gump.core.config import *
-from gump.run.gumprun import *
-from gump.run.actor import AbstractRunActor
-from gump.model.project import *
-from gump.model.module import *
-from gump.model.state import *
-from gump.utils.smtp import *
-from gump.utils import *
-from gump.utils.work import *
-from gump.utils.note import *
+from gump.core.run.gumprun import *
+from gump.core.run.actor import AbstractRunActor
+from gump.core.model.project import *
+from gump.core.model.module import *
+from gump.core.model.state import *
+from gump.util.smtp import *
+from gump.util import *
+from gump.util.work import *
+from gump.util.note import *
 
 LINE     ='--   --   --   --   --   --   --   --   --   --   --   --   G U M P'
 SEPARATOR='*********************************************************** G U M P'

@@ -27,14 +27,14 @@ import logging
 
 from gump import log
 
-from gump.run.gumprun import *
-import gump.run.actor
+from gump.core.run.gumprun import *
+import gump.core.run.actor
 
-class Documenter(gump.run.actor.AbstractRunActor):
+class Documenter(gump.core.run.actor.AbstractRunActor):
 
     def __init__(self, run):        
         #
-        gump.run.actor.AbstractRunActor.__init__(self, run)    
+        gump.core.run.actor.AbstractRunActor.__init__(self, run)    
         
     def processOtherEvent(self,event):
             

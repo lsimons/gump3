@@ -18,30 +18,30 @@
 # tell Python what modules make up the gump.test package
 #__all__ = ["",""]
 
-from gump.loader.loader import WorkspaceLoader
+from gump.core.loader.loader import WorkspaceLoader
 
 import gump
 import gump.core.config
 
-import gump.run.gumprun
-import gump.run.gumpset
-import gump.run.options
+import gump.core.run.gumprun
+import gump.core.run.gumpset
+import gump.core.run.options
 
-from gump.model.state import *
-from gump.model.workspace import Workspace
+from gump.core.model.state import *
+from gump.core.model.workspace import Workspace
 
 from gump.stats.statistician import Statistician
-from gump.utils.tools import listDirectoryToFileHolder
-from gump.utils.work import *
+from gump.util.tools import listDirectoryToFileHolder
+from gump.util.work import *
 
 def getTestRun(workspaceXml=None):
     workspace=getTestWorkspace(workspaceXml)
-    return gump.run.gumprun.GumpRun(workspace,'*',getConfiguredOptions())
+    return gump.core.run.gumprun.GumpRun(workspace,'*',getConfiguredOptions())
     
 def getWorkedTestRun(workspaceXml=None):
     workspace=getTestWorkspace(workspaceXml)
     
-    run = gump.run.gumprun.GumpRun(workspace,'*',getConfiguredOptions())
+    run = gump.core.run.gumprun.GumpRun(workspace,'*',getConfiguredOptions())
     
     # Load statistics for this workspace
     stats=Statistician(run)  
@@ -93,7 +93,7 @@ def getWorkedTestRun(workspaceXml=None):
     return run
     
 def getConfiguredOptions():
-    options=gump.run.options.GumpRunOptions()
+    options=gump.core.run.options.GumpRunOptions()
     from gump.document.xdocs.resolver import XDocResolver
     options.setResolver(XDocResolver('./test/bogus','http://bogus.org/'))
     return options

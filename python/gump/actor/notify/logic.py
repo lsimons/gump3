@@ -29,11 +29,11 @@ import logging
 
 from gump import log
 from gump.core.config import *
-from gump.run.gumprun import *
-from gump.model.project import *
-from gump.model.module import *
-from gump.model.state import *
-from gump.utils import *
+from gump.core.run.gumprun import *
+from gump.core.model.project import *
+from gump.core.model.module import *
+from gump.core.model.state import *
+from gump.util import *
 
 import gump.notify.notification
 

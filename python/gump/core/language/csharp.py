@@ -25,21 +25,21 @@ from gump import log
 
 import os.path
 
-import gump.run.gumprun
-import gump.process.command
+import gump.core.run.gumprun
+import gump.util.process.command
 
-import gump.model.depend
+import gump.core.model.depend
 
-import gump.language.path
+import gump.core.language.path
 
 ###############################################################################
 # Classes
 ###############################################################################
 
-class CSharpHelper(gump.run.gumprun.RunSpecific):
+class CSharpHelper(gump.core.run.gumprun.RunSpecific):
     
     def __init__(self,run):
-        gump.run.gumprun.RunSpecific.__init__(self,run)
+        gump.core.run.gumprun.RunSpecific.__init__(self,run)
         
         # Caches for paths
         self.paths={}     
@@ -72,14 +72,14 @@ class CSharpHelper(gump.run.gumprun.RunSpecific):
           return self.paths[project]
   
         # Start with the system classpath (later remove this)
-        libpath=gump.language.path.AssemblyPath('Assembly Path')
+        libpath=gump.core.language.path.AssemblyPath('Assembly Path')
 
         # Add this project's work directories
         workdir=project.getModule().getWorkingDirectory()          
         for work in project.getWorks():
             path=work.getResolvedPath()
             if path:
-                libpath.addPathPart(gump.language.path.AnnotatedPath('',path,project,None,'Work Entity'))   
+                libpath.addPathPart(gump.core.language.path.AnnotatedPath('',path,project,None,'Work Entity'))   
             else:
                 log.error("<work element with neither 'nested' nor 'parent' attribute on " \
                         + project.getName() + " in " + project.getModule().getName()) 
@@ -130,7 +130,7 @@ class CSharpHelper(gump.run.gumprun.RunSpecific):
             print str(depth) + ") Perform : " + `dependency`
                   
         # 
-        libpath=gump.language.path.AssemblyPath('Assembly Path for ' + `dependency`)
+        libpath=gump.core.language.path.AssemblyPath('Assembly Path for ' + `dependency`)
 
         # Context for this dependecy project...
         project=dependency.getProject()
@@ -171,7 +171,7 @@ class CSharpHelper(gump.run.gumprun.RunSpecific):
             # If 'all' or in ids list:
             if (not ids) or (output.getId() in ids):   
                 if ids: dependStr += ' Id = ' + output.getId()
-                path=gump.language.path.AnnotatedPath(output.getId(),output.path,project,dependency.getOwnerProject(),dependStr) 
+                path=gump.core.language.path.AnnotatedPath(output.getId(),output.path,project,dependency.getOwnerProject(),dependStr) 
           
                 # Add to CLASSPATH
                 if debug:   print str(depth) + ') Append JAR : ' + str(path)
@@ -189,9 +189,9 @@ class CSharpHelper(gump.run.gumprun.RunSpecific):
             #    If the dependency is set to 'all' (or 'hard') we inherit all dependencies
             # If the dependency is set to 'runtime' we inherit all runtime dependencies
             # If the dependent project inherited stuff, we inherit that...
-            if        (inherit==gump.model.depend.INHERIT_ALL or inherit==gump.model.depend.INHERIT_HARD) \
-                    or (inherit==gump.model.depend.INHERIT_RUNTIME and subdependency.isRuntime()) \
-                    or (subdependency.inherit > gump.model.depend.INHERIT_NONE):      
+            if        (inherit==gump.core.model.depend.INHERIT_ALL or inherit==gump.core.model.depend.INHERIT_HARD) \
+                    or (inherit==gump.core.model.depend.INHERIT_RUNTIME and subdependency.isRuntime()) \
+                    or (subdependency.inherit > gump.core.model.depend.INHERIT_NONE):      
                 subp = self._getDependOutputList(project,subdependency,visited,depth+1,debug)                
                 if subp:  libpath.importPath(subp)   
             elif debug:

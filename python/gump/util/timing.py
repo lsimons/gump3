@@ -29,7 +29,7 @@ import os.path
 import time
 import datetime
 
-from gump.utils import getIndent
+from gump.util import getIndent
 from gump.core.config import default, setting
 
 ZERO = datetime.timedelta(0)

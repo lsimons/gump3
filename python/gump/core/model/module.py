@@ -22,14 +22,14 @@
 
 from time import localtime, strftime, tzname
 
-from gump.model.state import *
-from gump.model.stats import Statable, Statistics
-from gump.model.project import *
-from gump.model.object import NamedModelObject
-from gump.model.misc import Resultable, Positioned, AddressPair
-from gump.utils import getIndent
-from gump.utils.note import transferAnnotations, Annotatable
-from gump.utils.domutils import *
+from gump.core.model.state import *
+from gump.core.model.stats import Statable, Statistics
+from gump.core.model.project import *
+from gump.core.model.object import NamedModelObject
+from gump.core.model.misc import Resultable, Positioned, AddressPair
+from gump.util import getIndent
+from gump.util.note import transferAnnotations, Annotatable
+from gump.util.domutils import *
 
 class ModuleCvs(ModelObject):
     def __init__(self,dom,repository):
@@ -274,7 +274,7 @@ class Module(NamedModelObject, Statable, Resultable, Positioned):
                 object.splice(dom)
                 self.addProject(object)
             else:
-                from gump.model.project import Project    
+                from gump.core.model.project import Project    
                 object=Project(name,dom,self)
                 self.addProject(object)
 

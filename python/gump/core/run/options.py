@@ -17,7 +17,7 @@
 
 """
 
- A gump run (not 'run gump')
+ A gump.core.run (not 'run gump')
  
 """
 
@@ -28,17 +28,17 @@ import fnmatch
 
 from gump import log
 from gump.core.config import dir, default, basicConfig
-from gump.run.gumpenv import GumpEnvironment
+from gump.core.run.gumpenv import GumpEnvironment
 
-import gump.utils
-import gump.utils.work
-import gump.utils.note
+import gump.util
+import gump.util.work
+import gump.util.note
 
-from gump.model.workspace import Workspace
-from gump.model.module import Module
-from gump.model.project import Project
-from gump.model.depend import  ProjectDependency
-from gump.model.state import *
+from gump.core.model.workspace import Workspace
+from gump.core.model.module import Module
+from gump.core.model.project import Project
+from gump.core.model.depend import  ProjectDependency
+from gump.core.model.state import *
     
 ###############################################################################
 # Init

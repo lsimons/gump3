@@ -25,9 +25,9 @@ from stat import *
 import shutil
 
 from gump import log
-from gump.utils.work import *
-from gump.utils.file import *
-from gump.utils.note import *
+from gump.util.work import *
+from gump.util.file import *
+from gump.util.note import *
 
 SYNC_ACTION=1
 COPY_ACTION=2

@@ -31,12 +31,12 @@ from string import lower, capitalize
 
 from gump import log
 
-from gump.run.actor import *
+from gump.core.run.actor import *
 
-from gump.model.object import NamedModelObject
-from gump.model.workspace import *
-from gump.model.module import *
-from gump.model.project import *
+from gump.core.model.object import NamedModelObject
+from gump.core.model.workspace import *
+from gump.core.model.module import *
+from gump.core.model.project import *
 from gump.results.model import *
 from gump.results.loader import *
 

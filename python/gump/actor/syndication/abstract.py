@@ -25,9 +25,9 @@ import time
 from xml.sax.saxutils import escape
 
 from gump import log
-from gump.run.gumprun import *
-from gump.model.state import *
-from gump.model.project import ProjectStatistics
+from gump.core.run.gumprun import *
+from gump.core.model.state import *
+from gump.core.model.project import ProjectStatistics
 
 from gump.document.xdocs.resolver import getDepthForObject
 

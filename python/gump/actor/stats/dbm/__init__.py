@@ -14,5 +14,5 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# tell Python what modules make up the gump.shared package
+# tell Python what modules make up the gump.tool.shared package
 __all__ = ["statsdb"]

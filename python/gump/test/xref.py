@@ -23,10 +23,10 @@ import types, StringIO
 
 from gump import log
 import gump.core.config
-from gump.model.state import *
-from gump.loader.loader import WorkspaceLoader
-from gump.guru.xref import XRefGuru
-from gump.utils import *
+from gump.core.model.state import *
+from gump.core.loader.loader import WorkspaceLoader
+from gump.tool.guru.xref import XRefGuru
+from gump.util import *
 from gump.test import getWorkedTestRun
 from gump.test.pyunit import UnitTestSuite
 

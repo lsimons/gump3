@@ -29,32 +29,32 @@ import os.path
 import sys
 
 from gump import log
-from gump.run.gumprun import *
+from gump.core.run.gumprun import *
 from gump.core.config import dir, default, basicConfig
 
-from gump.utils import dump, display, getIndent, logResourceUtilization, \
+from gump.util import dump, display, getIndent, logResourceUtilization, \
                             invokeGarbageCollection
-from gump.utils.note import Annotatable
-from gump.utils.work import *
+from gump.util.note import Annotatable
+from gump.util.work import *
 
-from gump.utils.tools import *
+from gump.util.tools import *
 
-from gump.model.workspace import *
-from gump.model.module import Module
-from gump.model.project import Project
-from gump.model.depend import  ProjectDependency
-from gump.model.stats import *
-from gump.model.state import *
+from gump.core.model.workspace import *
+from gump.core.model.module import Module
+from gump.core.model.project import Project
+from gump.core.model.depend import  ProjectDependency
+from gump.core.model.stats import *
+from gump.core.model.state import *
 
 
 ###############################################################################
 # Classes
 ###############################################################################
 
-class MavenBuilder(gump.run.gumprun.RunSpecific):
+class MavenBuilder(gump.core.run.gumprun.RunSpecific):
     
     def __init__(self,run):
-        gump.run.gumprun.RunSpecific.__init__(self,run)
+        gump.core.run.gumprun.RunSpecific.__init__(self,run)
 
     def buildProject(self,project,languageHelper,stats):
         """
@@ -250,7 +250,7 @@ maven.jar.override = on
         
         # :TODO: write...
         for annotatedPath in classpath.getPathParts()+bootclasspath.getPathParts():
-            if isinstance(annotatedPath,gump.language.path.AnnotatedPath):
+            if isinstance(annotatedPath,gump.core.language.path.AnnotatedPath):
                 props.write(('# Contributor: %s\nmaven.jar.%s=%s\n') % \
                     (	annotatedPath.getContributor(),	
                         annotatedPath.getId(),	

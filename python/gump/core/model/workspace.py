@@ -20,22 +20,22 @@
 from time import localtime, strftime, tzname
 from string import lower, capitalize
 
-from gump.utils.work import *
-from gump.utils.tools import *
+from gump.util.work import *
+from gump.util.tools import *
 
-from gump.model.state import *
-from gump.model.repository import Repository
-from gump.model.server import Server
-from gump.model.tracker import Tracker
-from gump.model.module import Module
-from gump.model.project import Project, ProjectSummary
-from gump.model.profile import Profile
-from gump.model.object import NamedModelObject,ModelObject
-from gump.model.misc import Resultable
-from gump.model.property import PropertyContainer
-from gump.model.stats import Statable, Statistics
-from gump.utils.note import transferAnnotations, Annotatable
-from gump.utils.domutils import *
+from gump.core.model.state import *
+from gump.core.model.repository import Repository
+from gump.core.model.server import Server
+from gump.core.model.tracker import Tracker
+from gump.core.model.module import Module
+from gump.core.model.project import Project, ProjectSummary
+from gump.core.model.profile import Profile
+from gump.core.model.object import NamedModelObject,ModelObject
+from gump.core.model.misc import Resultable
+from gump.core.model.property import PropertyContainer
+from gump.core.model.stats import Statable, Statistics
+from gump.util.note import transferAnnotations, Annotatable
+from gump.util.domutils import *
 
 import gump.core.config
 

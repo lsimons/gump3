@@ -30,8 +30,8 @@ from string import split
 
 from gump import log
 from gump.core.config import *
-from gump.utils import *
-from gump.utils.timing import *
+from gump.util import *
+from gump.util.timing import *
 
 CMD_STATE_NOT_YET_RUN=0
 CMD_STATE_SUCCESS=1
@@ -260,7 +260,7 @@ class CmdResult:
         
     def tail(self,lines,wrapLen=0,eol=None,marker=None):                
         if self.output:
-            from gump.utils.tools import tailFileToString            
+            from gump.util.tools import tailFileToString            
             tail = tailFileToString(self.output,lines,wrapLen,eol,marker)
         else:
             tail = "No output\n"

@@ -19,7 +19,7 @@
     This module contains information on an object's owner
 """
 from gump import log
-from gump.utils import getIndent
+from gump.util import getIndent
 
 class Ownable:
     """Contains ownership """

@@ -24,8 +24,8 @@ import os.path
 from time import localtime, strftime, tzname
 from string import lower, capitalize
 
-from gump.utils.note import *
-from gump.utils.owner import *
+from gump.util.note import *
+from gump.util.owner import *
                
 FILE_TYPE_MISC=1
 FILE_TYPE_CONFIG=2
@@ -79,7 +79,7 @@ class FileReference(Ownable,Annotatable):
         
         if self.path and os.path.exists(self.path):
             overview += "---------------------------------------------\n" 
-            from gump.utils.tools import tailFileToString            
+            from gump.util.tools import tailFileToString            
             overview += tailFileToString(self.path,lines)
             overview += "---------------------------------------------\n"
             

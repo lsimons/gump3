@@ -26,8 +26,8 @@ import logging
 from string import lower, capitalize
 
 from gump import log
-from gump.run.gumprun import *
-from gump.run.actor import AbstractRunActor
+from gump.core.run.gumprun import *
+from gump.core.run.actor import AbstractRunActor
 from gump.syndication.rss import RSSSyndicator
 from gump.syndication.atom import AtomSyndicator
 

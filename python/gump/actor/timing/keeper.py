@@ -17,16 +17,16 @@
     Times
 """
 
-import gump.run.gumprun
-import gump.run.actor
+import gump.core.run.gumprun
+import gump.core.run.actor
 
-class TimeKeeper(gump.run.actor.AbstractRunActor):
+class TimeKeeper(gump.core.run.actor.AbstractRunActor):
     
     def __init__(self,run):          
         """
         The TimeKeeper extracts elapsed time information.    
         """
-        gump.run.actor.AbstractRunActor.__init__(self,run)              
+        gump.core.run.actor.AbstractRunActor.__init__(self,run)              
         
     def processOtherEvent(self,event):      
         """
@@ -34,8 +34,8 @@ class TimeKeeper(gump.run.actor.AbstractRunActor):
         	timstamp the start and end of the
         	run.      
         """
-        if isinstance(event,gump.run.gumprun.InitializeRunEvent):
+        if isinstance(event,gump.core.run.gumprun.InitializeRunEvent):
             self.run.setStart()
-        elif isinstance(event,gump.run.gumprun.FinalizeRunEvent):  
+        elif isinstance(event,gump.core.run.gumprun.FinalizeRunEvent):  
             self.run.setEnd() 
             

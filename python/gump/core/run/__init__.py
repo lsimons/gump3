@@ -15,7 +15,7 @@
 # limitations under the License.
 
 #
-# $Header: /home/stefano/cvs/gump/python/gump/run/__init__.py,v 1.1 2004/07/19 16:07:54 ajack Exp $
+# $Header: /home/stefano/cvs/gump/python/gump.core.run/__init__.py,v 1.1 2004/07/19 16:07:54 ajack Exp $
 # 
 
 """

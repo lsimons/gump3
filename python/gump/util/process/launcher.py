@@ -29,15 +29,15 @@ from string import split
 
 from gump import log
 from gump.core.config import dir
-from gump.utils import *
-from gump.utils.timing import *
+from gump.util import *
+from gump.util.timing import *
 
-import gump.process.command
+import gump.util.process.command
 
 LAUNCHER=os.path.join(os.path.join(os.path.join('python','gump'),'process'),'launcher.py')
 
 def execute(cmd,tmp=dir.tmp):
-    res=gump.process.command.CmdResult(cmd)
+    res=gump.util.process.command.CmdResult(cmd)
     return executeIntoResult(cmd,res,tmp)
 	
 def executeIntoResult(cmd,result,tmp=dir.tmp):
@@ -126,20 +126,20 @@ def executeIntoResult(cmd,result,tmp=dir.tmp):
         # Assume timed out if signal terminated
         #
         if result.signal > 0:
-            result.state=gump.process.command.CMD_STATE_TIMED_OUT
+            result.state=gump.util.process.command.CMD_STATE_TIMED_OUT
             log.warn('Command timed out. [' + execString + '] [' + str(timeout) + '] seconds.')
         # Process Outputs (exit_code and stderr/stdout)
         elif result.exit_code > 0:    
-            result.state=gump.process.command.CMD_STATE_FAILED
+            result.state=gump.util.process.command.CMD_STATE_FAILED
             log.warn('Command failed. [' + execString + ']. ExitCode: ' + str(result.exit_code))
         else:
-            result.state=gump.process.command.CMD_STATE_SUCCESS                
+            result.state=gump.util.process.command.CMD_STATE_SUCCESS                
      
       except Exception, details :
         log.error('Failed to launch command. Details: ' + str(details))
         
         result.exit_code=-1
-        result.state=gump.process.command.CMD_STATE_FAILED
+        result.state=gump.util.process.command.CMD_STATE_FAILED
         
     finally:
       # Clean Up Empty Output Files

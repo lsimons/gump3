@@ -29,28 +29,28 @@ import os.path
 import sys
 
 from gump import log
-from gump.run.gumprun import *
+from gump.core.run.gumprun import *
 from gump.core.config import dir, default, basicConfig
 
-from gump.utils.note import Annotatable
-from gump.utils.work import *
+from gump.util.note import Annotatable
+from gump.util.work import *
 
-from gump.utils.tools import *
+from gump.util.tools import *
 
-from gump.model.workspace import *
-from gump.model.module import Module
-from gump.model.project import Project
-from gump.model.depend import  ProjectDependency
-from gump.model.stats import *
-from gump.model.state import *
+from gump.core.model.workspace import *
+from gump.core.model.module import Module
+from gump.core.model.project import Project
+from gump.core.model.depend import  ProjectDependency
+from gump.core.model.stats import *
+from gump.core.model.state import *
 
-class NAntBuilder(gump.run.gumprun.RunSpecific):
+class NAntBuilder(gump.core.run.gumprun.RunSpecific):
     
     def __init__(self,run):
         """
         	The NAnt Builder is a Java Builder
     	""" 
-        gump.run.gumprun.RunSpecific.__init__(self,run)
+        gump.core.run.gumprun.RunSpecific.__init__(self,run)
 
     def buildProject(self,project,language,stats):
         """

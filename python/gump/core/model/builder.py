@@ -22,14 +22,14 @@
 
 from time import localtime, strftime, tzname
 
-from gump.utils.work import *
-from gump.utils.note import *
+from gump.util.work import *
+from gump.util.note import *
 
-from gump.model.state import *
-from gump.model.object import *
-from gump.model.misc import *
-from gump.model.depend import *
-from gump.model.property import *
+from gump.core.model.state import *
+from gump.core.model.object import *
+from gump.core.model.misc import *
+from gump.core.model.depend import *
+from gump.core.model.property import *
     
 from xml.dom import getDOMImplementation
 

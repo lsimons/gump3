@@ -29,14 +29,14 @@ from string import lower, capitalize
 
 from gump import log
 from gump.core.config import *
-from gump.run.gumprun import *
-from gump.run.actor import AbstractRunActor
-from gump.model.project import *
-from gump.model.module import *
-from gump.model.state import *
-from gump.model.misc import AddressPair
-from gump.utils.smtp import *
-from gump.utils import *
+from gump.core.run.gumprun import *
+from gump.core.run.actor import AbstractRunActor
+from gump.core.model.project import *
+from gump.core.model.module import *
+from gump.core.model.state import *
+from gump.core.model.misc import AddressPair
+from gump.util.smtp import *
+from gump.util import *
 
 from gump.notify.logic import NotificationLogic
 from gump.notify.notification import Notification

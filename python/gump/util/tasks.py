@@ -22,9 +22,9 @@
 import os.path
 import sys
 
-from gump.utils.timing import TimeStampRange
-from gump.utils.owner import Ownable
-from gump.utils import dump, display, getIndent
+from gump.util.timing import TimeStampRange
+from gump.util.owner import Ownable
+from gump.util import dump, display, getIndent
 
 class Task(Ownable):       
     def __init__(self,name,id=None,parentTask=None):

@@ -20,7 +20,7 @@
 
 import sys
 
-from gump.utils import *
+from gump.util import *
 
 LEVEL_UNSET=0
 LEVEL_DEBUG=1

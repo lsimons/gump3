@@ -26,13 +26,13 @@ import MySQLdb
 import MySQLdb.cursors
 
 from gump import log
-from gump.run.gumprun import *
-import gump.run.actor
+from gump.core.run.gumprun import *
+import gump.core.run.actor
 
-class Databaser(gump.run.actor.AbstractRunActor):
+class Databaser(gump.core.run.actor.AbstractRunActor):
     
     def __init__(self,run):              
-        gump.run.actor.AbstractRunActor.__init__(self,run)    
+        gump.core.run.actor.AbstractRunActor.__init__(self,run)    
         self.dbInfo=self.workspace.getDatabaseInformation()
         
     def processOtherEvent(self,event):   
@@ -52,7 +52,7 @@ class Databaser(gump.run.actor.AbstractRunActor):
         helper=None
         try:
             conn=self.getConnected()
-            helper=gump.utils.mysql.DbHelper(conn,self.dbInfo.getDatabase())
+            helper=gump.util.mysql.DbHelper(conn,self.dbInfo.getDatabase())
             
             # Prepare the data
             settings = {}
@@ -82,7 +82,7 @@ class Databaser(gump.run.actor.AbstractRunActor):
         helper=None
         try:
             conn=self.getConnected()
-            helper=gump.utils.mysql.DbHelper(conn,self.dbInfo.getDatabase())
+            helper=gump.util.mysql.DbHelper(conn,self.dbInfo.getDatabase())
             
             # Prepare the data
             settings = {}

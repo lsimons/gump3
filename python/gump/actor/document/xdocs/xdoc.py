@@ -31,7 +31,7 @@ from types import NoneType, TupleType
 from xml.sax.saxutils import escape
 
 from gump import log
-from gump.utils import *
+from gump.util import *
 
 #
 # MAP anything outside 32..128 to _

@@ -28,21 +28,21 @@ from string import lower,replace
 
 from gump import log
 from gump.core.config import *
-from gump.utils import *
+from gump.util import *
 
-from gump.utils.work import *
-from gump.utils.file import *
+from gump.util.work import *
+from gump.util.file import *
 
-from gump.run.gumpenv import GumpEnvironment
+from gump.core.run.gumpenv import GumpEnvironment
 
-from gump.model.repository import Repository
-from gump.model.server import Server
-from gump.model.tracker import Tracker
-from gump.model.workspace import Workspace
-from gump.model.module import Module
-from gump.model.project import Project
-from gump.model.object import *
-from gump.model.state import *
+from gump.core.model.repository import Repository
+from gump.core.model.server import Server
+from gump.core.model.tracker import Tracker
+from gump.core.model.workspace import Workspace
+from gump.core.model.module import Module
+from gump.core.model.project import Project
+from gump.core.model.object import *
+from gump.core.model.state import *
 
 def concatenateUrl(root,part):
     conc=''

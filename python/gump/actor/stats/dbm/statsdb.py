@@ -25,13 +25,13 @@ import anydbm
 
 from gump import log
 from gump.core.config import *
-from gump.model.project import Project, ProjectStatistics
-from gump.model.module import Module, ModuleStatistics
-from gump.model.repository import Repository, RepositoryStatistics
-from gump.model.workspace import Workspace, WorkspaceStatistics
-from gump.model.state import *
+from gump.core.model.project import Project, ProjectStatistics
+from gump.core.model.module import Module, ModuleStatistics
+from gump.core.model.repository import Repository, RepositoryStatistics
+from gump.core.model.workspace import Workspace, WorkspaceStatistics
+from gump.core.model.state import *
 
-from gump.shared.comparator import *
+from gump.tool.shared.comparator import *
   
 class StatisticsDB:
     """

@@ -30,14 +30,14 @@ import MySQLdb.cursors
 
 from gump import log
 from gump.core.config import *
-from gump.model.project import Project, ProjectStatistics
-from gump.model.module import Module, ModuleStatistics
-from gump.model.repository import Repository, RepositoryStatistics
-from gump.model.workspace import Workspace, WorkspaceStatistics
-from gump.model.state import *
+from gump.core.model.project import Project, ProjectStatistics
+from gump.core.model.module import Module, ModuleStatistics
+from gump.core.model.repository import Repository, RepositoryStatistics
+from gump.core.model.workspace import Workspace, WorkspaceStatistics
+from gump.core.model.state import *
 
-import gump.utils.mysql
-import gump.utils.timing
+import gump.util.mysql
+import gump.util.timing
   
 class StatisticsDB:
     """
@@ -77,7 +77,7 @@ class StatisticsDB:
             
         # print 'ThreadSafe : ' + `MySQLdb.threadsafety`
         
-        self.helper=gump.utils.mysql.DbHelper(self.conn,dbInfo.getDatabase())
+        self.helper=gump.util.mysql.DbHelper(self.conn,dbInfo.getDatabase())
  
     # Workspace
     def getWorkspaceStats(self,workspaceName):

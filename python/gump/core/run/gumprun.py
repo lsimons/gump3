@@ -17,7 +17,7 @@
 
 """
 
- A gump run (not 'run gump')
+ A gump.core.run (not 'run gump')
  
  This is the root container for information for a run.
  
@@ -35,20 +35,20 @@ import fnmatch
 
 from gump import log
 from gump.core.config import dir, default, basicConfig
-from gump.run.gumpenv import GumpEnvironment
+from gump.core.run.gumpenv import GumpEnvironment
 
-import gump.run.gumpset
-import gump.run.options
+import gump.core.run.gumpset
+import gump.core.run.options
 
-import gump.utils
-import gump.utils.work
-import gump.utils.note
+import gump.util
+import gump.util.work
+import gump.util.note
 
-from gump.model.workspace import Workspace
-from gump.model.module import Module
-from gump.model.project import Project
-from gump.model.depend import  ProjectDependency
-from gump.model.state import *
+from gump.core.model.workspace import Workspace
+from gump.core.model.module import Module
+from gump.core.model.project import Project
+from gump.core.model.depend import  ProjectDependency
+from gump.core.model.state import *
     
 ###############################################################################
 # Init
@@ -59,28 +59,28 @@ from gump.model.state import *
 ###############################################################################
 
 
-class GumpRun(gump.utils.timing.Timeable,gump.utils.work.Workable,gump.utils.note.Annotatable,Stateful):
+class GumpRun(gump.util.timing.Timeable,gump.util.work.Workable,gump.util.note.Annotatable,Stateful):
     """
     The container for all information for this run
     """
     def __init__(self,workspace,expr=None,options=None,env=None):
         
-        gump.utils.work.Workable.__init__(self)
-        gump.utils.note.Annotatable.__init__(self)
+        gump.util.work.Workable.__init__(self)
+        gump.util.note.Annotatable.__init__(self)
         Stateful.__init__(self)
-        gump.utils.timing.Timeable.__init__(self, workspace.getName())
+        gump.util.timing.Timeable.__init__(self, workspace.getName())
         
         # The workspace being worked upon
         self.workspace=workspace
         
         # The set of modules/projects/repos in use
-        self.gumpSet=gump.run.gumpset.GumpSet(self.workspace,expr)
+        self.gumpSet=gump.core.run.gumpset.GumpSet(self.workspace,expr)
         
         # The run options
         if options:
             self.options=options
         else:
-            self.options=gump.run.options.GumpRunOptions()
+            self.options=gump.core.run.options.GumpRunOptions()
         
         # The environment
         if env:
@@ -156,7 +156,7 @@ class GumpRun(gump.utils.timing.Timeable,gump.utils.work.Workable,gump.utils.not
     def dump(self, indent=0, output=sys.stdout):
         """ Display the contents of this object """
         
-        i=gump.utils.getIndent(indent)
+        i=gump.util.getIndent(indent)
         #output.write(i+'Expression: ' + self.gumpSet. + '\n')
         output.write(i+'Gump Set:\n')
         self.gumpSet.dump(indent+1,output)
@@ -179,7 +179,7 @@ class GumpRun(gump.utils.timing.Timeable,gump.utils.work.Workable,gump.utils.not
         for actor in self.actors:
             #log.debug('Dispatch Event : ' + `event` + ' to ' + `actor`)     
             actor._processEvent(event)
-        gump.utils.inspectGarbageCollection(`event`)
+        gump.util.inspectGarbageCollection(`event`)
             
     def _dispatchRequest(self,request):
     	"""
@@ -189,7 +189,7 @@ class GumpRun(gump.utils.timing.Timeable,gump.utils.work.Workable,gump.utils.not
         for actor in self.actors:
             #log.debug('Dispatch Request : ' + `request` + ' to ' + `actor`)       
             actor._processRequest(request)
-        gump.utils.inspectGarbageCollection(`request`)
+        gump.util.inspectGarbageCollection(`request`)
             
     def generateEvent(self,entity):
         """

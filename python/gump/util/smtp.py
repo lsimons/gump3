@@ -21,7 +21,7 @@
 """
 from gump import log
 from gump.core.config import *
-from gump.utils import *
+from gump.util import *
 from email.Header import Header
 
 import smtplib, string

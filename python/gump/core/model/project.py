@@ -22,21 +22,21 @@
 
 from time import localtime, strftime, tzname
 
-from gump.model.state import *
-from gump.model.object import ModelObject, NamedModelObject
-from gump.model.misc import Jar, Assembly, BaseOutput, \
+from gump.core.model.state import *
+from gump.core.model.object import ModelObject, NamedModelObject
+from gump.core.model.misc import Jar, Assembly, BaseOutput, \
                             Resultable, Positioned, \
                             Mkdir, Delete, JunitReport, Work, \
                             AddressPair
-from gump.model.stats import Statable, Statistics
-from gump.model.property import Property
-from gump.model.builder import Ant,NAnt,Maven,Script
-from gump.utils import getIndent
-from gump.utils.file import *
-from gump.model.depend import *
-from gump.utils.note import transferAnnotations, Annotatable
-import gump.process.command
-from gump.utils.domutils import *
+from gump.core.model.stats import Statable, Statistics
+from gump.core.model.property import Property
+from gump.core.model.builder import Ant,NAnt,Maven,Script
+from gump.util import getIndent
+from gump.util.file import *
+from gump.core.model.depend import *
+from gump.util.note import transferAnnotations, Annotatable
+import gump.util.process.command
+from gump.util.domutils import *
 
 
 class Project(NamedModelObject, Statable, Resultable, Dependable, Positioned):
@@ -92,7 +92,7 @@ class Project(NamedModelObject, Statable, Resultable, Dependable, Positioned):
         
         self.redistributable=False
         self.packageMarker=None
-        self.jvmargs=gump.process.command.Parameters()
+        self.jvmargs=gump.util.process.command.Parameters()
         self.packageNames=None
         
     	#############################################################
@@ -709,7 +709,7 @@ class Project(NamedModelObject, Statable, Resultable, Dependable, Positioned):
         outputs=[]
         for output in self.getOutputs():
             path=output.getPath()
-            outputs.append(gump.language.path.AnnotatedPath(output.getId(),path,self,None,"Project output"))                    
+            outputs.append(gump.core.language.path.AnnotatedPath(output.getId(),path,self,None,"Project output"))                    
         return outputs
                         
     def setLanguageTypeFromString(self,lang=None):

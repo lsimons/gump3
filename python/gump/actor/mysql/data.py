@@ -23,7 +23,7 @@ def configureState(conn):
     """
     Install the appropriate state codes.
     """
-    from gump.model.state import stateNames,stateDescriptions
+    from gump.core.model.state import stateNames,stateDescriptions
     for (code, name) in stateNames.items():
         try: 
             cursor = conn.cursor()
@@ -44,7 +44,7 @@ def configureReasonCode(conn):
     """
     Install the appropriate reason codes.
     """    
-    from gump.model.state import reasonCodeNames,reasonCodeDescriptions
+    from gump.core.model.state import reasonCodeNames,reasonCodeDescriptions
     for (code, name) in reasonCodeNames.items():
         try: 
             cursor = conn.cursor()

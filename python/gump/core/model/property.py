@@ -18,8 +18,8 @@
     This module contains information on
 """
 
-from gump.model.object import *
-from gump.utils.domutils import *
+from gump.core.model.object import *
+from gump.util.domutils import *
 from types import NoneType
 
 # represents a <property/> element

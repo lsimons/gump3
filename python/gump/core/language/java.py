@@ -25,21 +25,21 @@ from gump import log
 
 import os.path
 
-import gump.run.gumprun
-import gump.process.command
+import gump.core.run.gumprun
+import gump.util.process.command
 
-import gump.model.depend
+import gump.core.model.depend
 
-import gump.language.path
+import gump.core.language.path
 
 ###############################################################################
 # Classes
 ###############################################################################
 
-class JavaHelper(gump.run.gumprun.RunSpecific):
+class JavaHelper(gump.core.run.gumprun.RunSpecific):
     
     def __init__(self,run):
-        gump.run.gumprun.RunSpecific.__init__(self,run)
+        gump.core.run.gumprun.RunSpecific.__init__(self,run)
         
         # Caches for classpaths
         self.classpaths={}
@@ -75,7 +75,7 @@ class JavaHelper(gump.run.gumprun.RunSpecific):
         Return a system classpath (to include $JAVA_HOME/lib/tools.jar'
         for a compiler).
         """
-        sysClasspath=gump.language.path.Classpath('System Classpath')
+        sysClasspath=gump.core.language.path.Classpath('System Classpath')
         javaHome=self.run.getEnvironment().getJavaHome()
         syscp=os.path.join(os.path.join(javaHome,'lib'),'tools.jar')
         sysClasspath.importFlattenedParts(syscp)        
@@ -98,7 +98,7 @@ class JavaHelper(gump.run.gumprun.RunSpecific):
   
         # Start with the system classpath (later remove this)
         classpath=self.getBaseClasspath()
-        bootclasspath=gump.language.path.Classpath('Boot Classpath')
+        bootclasspath=gump.core.language.path.Classpath('Boot Classpath')
 
         # Add this project's work directories (these go into
         # CLASSPATH, never BOOTCLASSPATH)
@@ -106,7 +106,7 @@ class JavaHelper(gump.run.gumprun.RunSpecific):
         for work in project.getWorks():
             path=work.getResolvedPath()
             if path:
-                classpath.addPathPart(gump.language.path.AnnotatedPath('',path,project,None,'Work Entity'))   
+                classpath.addPathPart(gump.core.language.path.AnnotatedPath('',path,project,None,'Work Entity'))   
             else:
                 log.error("<work element with neither 'nested' nor 'parent' attribute on " \
                         + project.getName() + " in " + project.getModule().getName()) 
@@ -158,8 +158,8 @@ class JavaHelper(gump.run.gumprun.RunSpecific):
             print str(depth) + ") Perform : " + `dependency`
                   
         # 
-        classpath=gump.language.path.Classpath('Classpath for ' + `dependency`)
-        bootclasspath=gump.language.path.Classpath('Bootclasspath for ' + `dependency`)
+        classpath=gump.core.language.path.Classpath('Classpath for ' + `dependency`)
+        bootclasspath=gump.core.language.path.Classpath('Bootclasspath for ' + `dependency`)
 
         # Context for this dependecy project...
         project=dependency.getProject()
@@ -200,7 +200,7 @@ class JavaHelper(gump.run.gumprun.RunSpecific):
             # If 'all' or in ids list:
             if (not ids) or (jar.getId() in ids):   
                 if ids: dependStr += ' Id = ' + jar.getId()
-                path=gump.language.path.AnnotatedPath(jar.getId(),jar.path,project,dependency.getOwnerProject(),dependStr) 
+                path=gump.core.language.path.AnnotatedPath(jar.getId(),jar.path,project,dependency.getOwnerProject(),dependStr) 
           
                 # Add to CLASSPATH
                 if not jar.getType() == 'boot':
@@ -223,9 +223,9 @@ class JavaHelper(gump.run.gumprun.RunSpecific):
             #    If the dependency is set to 'all' (or 'hard') we inherit all dependencies
             # If the dependency is set to 'runtime' we inherit all runtime dependencies
             # If the dependent project inherited stuff, we inherit that...
-            if        (inherit==gump.model.depend.INHERIT_ALL or inherit==gump.model.depend.INHERIT_HARD) \
-                    or (inherit==gump.model.depend.INHERIT_RUNTIME and subdependency.isRuntime()) \
-                    or (subdependency.inherit > gump.model.depend.INHERIT_NONE):      
+            if        (inherit==gump.core.model.depend.INHERIT_ALL or inherit==gump.core.model.depend.INHERIT_HARD) \
+                    or (inherit==gump.core.model.depend.INHERIT_RUNTIME and subdependency.isRuntime()) \
+                    or (subdependency.inherit > gump.core.model.depend.INHERIT_NONE):      
                 (subcp, subbcp) = self._getDependOutputList(project,subdependency,visited,depth+1,debug)
                 self._importClasspaths(classpath,bootclasspath,subcp,subbcp)   
             elif debug:

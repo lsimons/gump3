@@ -24,7 +24,7 @@ import sys
 
 from gump import log
 
-from gump.run.gumprun import *
+from gump.core.run.gumprun import *
 from gump.core.config import dir, default, basicConfig
 
 from gump.update.cvs import CvsUpdater
@@ -32,19 +32,19 @@ from gump.update.svn import SvnUpdater
 from gump.update.p4 import P4Updater
 from gump.update.artifact import ArtifactUpdater
 
-from gump.utils import dump, display, getIndent, logResourceUtilization, \
+from gump.util import dump, display, getIndent, logResourceUtilization, \
                             invokeGarbageCollection
-from gump.utils.note import Annotatable
-from gump.utils.work import *
+from gump.util.note import Annotatable
+from gump.util.work import *
 
-from gump.utils.tools import *
+from gump.util.tools import *
 
-from gump.model.workspace import *
-from gump.model.module import Module
-from gump.model.project import Project
-from gump.model.depend import  ProjectDependency
-from gump.model.stats import *
-from gump.model.state import *
+from gump.core.model.workspace import *
+from gump.core.model.module import Module
+from gump.core.model.project import Project
+from gump.core.model.depend import  ProjectDependency
+from gump.core.model.stats import *
+from gump.core.model.state import *
 
 
 ###############################################################################

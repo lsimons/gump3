@@ -31,18 +31,18 @@ from gump import log
 
 from gump.core.config import *
 
-from gump.utils.note import Annotatable
-from gump.utils.work import *
+from gump.util.note import Annotatable
+from gump.util.work import *
 
-import gump.process.command
-import gump.process.launcher
+import gump.util.process.command
+import gump.util.process.launcher
 
-from gump.utils.tools import *
+from gump.util.tools import *
 
-from gump.model.state import *
-from gump.model.propagation import *
+from gump.core.model.state import *
+from gump.core.model.propagation import *
 
-from gump.integration.depot import *
+from gump.tool.integration.depot import *
     
 ###############################################################################
 # Classes
@@ -270,7 +270,7 @@ class GumpEnvironment(Annotatable,Workable,Propogatable):
         ok=False
         try:
             if not name: name='check_'+command
-            cmd=gump.process.command.getCmdFromString(command+" "+options,name)
+            cmd=gump.util.process.command.getCmdFromString(command+" "+options,name)
             result=execute(cmd)
             ok=result.isOk()
             if not ok:

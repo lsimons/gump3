@@ -17,7 +17,7 @@
     Sync Testing
 """
 
-from gump.utils.sync import Sync,Copy
+from gump.util.sync import Sync,Copy
 from gump.test.pyunit import UnitTestSuite
 from gump import log
 import os.path

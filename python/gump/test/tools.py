@@ -18,9 +18,9 @@
     Utils Testing
 """
 
-from gump.utils.tools import *
-from gump.utils.work import *
-from gump.utils.file import *
+from gump.util.tools import *
+from gump.util.work import *
+from gump.util.file import *
 from gump.test.pyunit import UnitTestSuite
 
 class TestFileHolder(FileHolder):

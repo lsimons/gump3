@@ -35,26 +35,26 @@ from gump.document.documenter import Documenter
 from gump.document.text.documenter import TextDocumenter
 from gump.document.xdocs.xdoc import *
 from gump.document.xdocs.resolver import *
-from gump.utils import *
-from gump.utils.timing import *
-from gump.utils.tools import syncDirectories,copyDirectories,wipeDirectoryTree
+from gump.util import *
+from gump.util.timing import *
+from gump.util.tools import syncDirectories,copyDirectories,wipeDirectoryTree
 
-from gump.language.path import AnnotatedPath
+from gump.core.language.path import AnnotatedPath
 
-from gump.model.stats import *
-from gump.model.project import ProjectStatistics
-from gump.model.state import *
-from gump.model.workspace import Workspace
-from gump.model.module import Module
-from gump.model.project import Project
-from gump.model.misc import Resultable
+from gump.core.model.stats import *
+from gump.core.model.project import ProjectStatistics
+from gump.core.model.state import *
+from gump.core.model.workspace import Workspace
+from gump.core.model.module import Module
+from gump.core.model.project import Project
+from gump.core.model.misc import Resultable
 
-from gump.guru.stats import StatisticsGuru
-from gump.guru.xref import XRefGuru
+from gump.tool.guru.stats import StatisticsGuru
+from gump.tool.guru.xref import XRefGuru
 
-from gump.run.gumprun import *
+from gump.core.run.gumprun import *
 
-from gump.shared.comparator import *
+from gump.tool.shared.comparator import *
     
 class XDocDocumenter(Documenter):
     
@@ -1993,7 +1993,7 @@ This page helps Gumpmeisters (and others) observe community progress.
         pathTable=pathSection.createTable(['Path Entry','Contributor','Instigator','Id','Annotation'])       
         paths=0
         for path in classpath.getPathParts(): 
-            if isinstance(path,gump.language.path.AnnotatedPath):
+            if isinstance(path,gump.core.language.path.AnnotatedPath):
                 pathStr=path.getPath()
                 contributor=path.getContributor()
                 instigator=path.getInstigator()
@@ -2640,7 +2640,7 @@ This page helps Gumpmeisters (and others) observe community progress.
             svgFile=self.resolver.getFile(base,name+'_FOG','.svg')
             svgBasename=os.path.basename(svgFile)
             pngBasename=svgBasename.replace('.svg','.png')
-            from gump.svg.scale import ScaleDiagram
+            from gump.tool.svg.scale import ScaleDiagram
             diagram=ScaleDiagram([stats.successes,stats.prereqs,stats.failures])
             diagram.generateDiagram().serializeToFile(svgFile)
             
@@ -2660,7 +2660,7 @@ This page helps Gumpmeisters (and others) observe community progress.
         svgFile=self.resolver.getFile(base,name+'_depend','.svg')
         svgBasename=os.path.basename(svgFile)
         pngBasename=svgBasename.replace('.svg','.png')
-        from gump.svg.depdiag import DependencyDiagram
+        from gump.tool.svg.depdiag import DependencyDiagram
         diagram=DependencyDiagram(project)
         diagram.compute()
         diagram.generateDiagram().serializeToFile(svgFile)

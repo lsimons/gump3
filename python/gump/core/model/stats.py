@@ -25,7 +25,7 @@ import logging
 
 import gump
 from gump.core.config import *
-from gump.model.state import *
+from gump.core.model.state import *
 
 #
 # Durations (in 'runs')
@@ -136,7 +136,7 @@ class Statistics:
             self.sequenceInState = 1
            
     def dump(self, indent=0, output=sys.stdout):
-        gump.utils.dump(self)
+        gump.util.dump(self)
              
 class Statable:
     def __init__(self): pass

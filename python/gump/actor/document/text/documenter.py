@@ -34,13 +34,13 @@ import logging
 
 from gump import log
 
-from gump.utils.tools import catFile
-from gump.utils.work import *
+from gump.util.tools import catFile
+from gump.util.work import *
 
-from gump.model.state import *
-from gump.model.workspace import Workspace
-from gump.model.module import Module
-from gump.model.project import Project
+from gump.core.model.state import *
+from gump.core.model.workspace import Workspace
+from gump.core.model.module import Module
+from gump.core.model.project import Project
 
 from gump.document.documenter import Documenter
 from gump.document.text.resolver import TextResolver

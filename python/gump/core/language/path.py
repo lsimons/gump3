@@ -22,7 +22,7 @@
 
 import os
 from string import split
-from gump.utils.note import transferAnnotations, Annotatable
+from gump.util.note import transferAnnotations, Annotatable
 
 #
 # An annotated path has a path entry, plus the context

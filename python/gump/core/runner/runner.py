@@ -25,22 +25,21 @@ import sys
 from gump import log
 
 from gump.update.updater import *
-from gump.build.builder import *
+from gump.core.build.builder import *
 
-import gump.language.java
-import gump.language.csharp
+import gump.core.language.java
+import gump.core.language.csharp
 
-from gump.document.text.documenter import TextDocumenter
-from gump.document.xdocs.documenter import XDocDocumenter
-from gump.document.xdocs.synchronizer import Synchronizer
+from gump.actor.document.text.documenter import TextDocumenter
+from gump.actor.document.xdocs.documenter import XDocDocumenter
+from gump.actor.document.xdocs.synchronizer import Synchronizer
 
-from gump.timing.keeper import TimeKeeper
-from gump.stats.statistician import Statistician
-from gump.repository.publisher import RepositoryPublisher
-from gump.notify.notifier import Notifier
-from gump.results.resulter import Resulter
-from gump.syndication.syndicator import Syndicator
-from gump.repository.publisher import RepositoryPublisher
+from gump.actor.timing.keeper import TimeKeeper
+from gump.actor.stats.statistician import Statistician
+from gump.actor.repository.publisher import RepositoryPublisher
+from gump.actor.notify.notifier import Notifier
+from gump.actor.results.resulter import Resulter
+from gump.actor.syndication.syndicator import Syndicator
 
 ###############################################################################
 # Classes
@@ -61,8 +60,8 @@ class GumpRunner(RunSpecific):
         
         
         # A helper per language/type
-        self.java=gump.language.java.JavaHelper(run)
-        self.csharp=gump.language.csharp.CSharpHelper(run)
+        self.java=gump.core.language.java.JavaHelper(run)
+        self.csharp=gump.core.language.csharp.CSharpHelper(run)
         
         # Stash them for reference...
         run.setUpdater(self.updater)
@@ -214,5 +213,5 @@ class GumpRunner(RunSpecific):
         return self.performRun()
 
 def getRunner(run):
-    from gump.runner.demand import OnDemandRunner
+    from gump.core.runner.demand import OnDemandRunner
     return OnDemandRunner(run)

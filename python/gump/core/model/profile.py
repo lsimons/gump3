@@ -21,14 +21,14 @@
 from time import localtime, strftime, tzname
 from string import lower, capitalize
 
-from gump.utils.work import *
-from gump.utils.tools import *
+from gump.util.work import *
+from gump.util.tools import *
 
-from gump.model.state import *
-from gump.model.object import NamedModelObject
-from gump.model.project import Project
-from gump.utils.note import transferAnnotations, Annotatable
-from gump.utils.domutils import *
+from gump.core.model.state import *
+from gump.core.model.object import NamedModelObject
+from gump.core.model.project import Project
+from gump.util.note import transferAnnotations, Annotatable
+from gump.util.domutils import *
 
 
 class Profile(NamedModelObject):

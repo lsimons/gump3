@@ -26,12 +26,12 @@ import types, StringIO
 
 from gump import log
 import gump.core.config
-from gump.model.state import *
-from gump.utils import *
+from gump.core.model.state import *
+from gump.util import *
 from gump.test import getWorkedTestRun
 from gump.test.pyunit import UnitTestSuite
 
-import gump.model.project
+import gump.core.model.project
 
 class ModelTestSuite(UnitTestSuite):
     def __init__(self):
@@ -100,11 +100,11 @@ class ModelTestSuite(UnitTestSuite):
         
         self.assertEqual('Project1 is type JAVA', 
                             self.project1.getLanguageType(),
-                            gump.model.project.Project.JAVA_LANGUAGE)
+                            gump.core.model.project.Project.JAVA_LANGUAGE)
         
         self.assertEqual('NAnt1 is type CSHARP', 
                             self.nant1.getLanguageType(),
-                            gump.model.project.Project.CSHARP_LANGUAGE)
+                            gump.core.model.project.Project.CSHARP_LANGUAGE)
         
     def testProperties(self):
         properties=project2.getProperties()

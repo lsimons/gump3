@@ -19,8 +19,8 @@
 """
 
 from gump import log
-from gump.svg.drawing import *
-from gump.svg.svg import *
+from gump.tool.svg.drawing import *
+from gump.tool.svg.svg import *
 from gump.test.pyunit import UnitTestSuite
 
 import StringIO

@@ -27,12 +27,12 @@ import types, StringIO
 from gump import log
 
 import gump.core.config
-import gump.build.builder
-import gump.language.java
-import gump.language.csharp
+import gump.core.build.builder
+import gump.core.language.java
+import gump.core.language.csharp
 
-from gump.model.state import *
-from gump.utils import *
+from gump.core.model.state import *
+from gump.util import *
 from gump.test import getWorkedTestRun
 from gump.test.pyunit import UnitTestSuite
 
@@ -68,8 +68,8 @@ class LanguageTestSuite(UnitTestSuite):
         self.module4=self.workspace.getModule('module4')
         self.module5=self.workspace.getModule('module5')
         
-        self.builder=gump.build.builder.GumpBuilder(self.run)
-        self.java=gump.language.java.JavaHelper(self.run)
+        self.builder=gump.core.build.builder.GumpBuilder(self.run)
+        self.java=gump.core.language.java.JavaHelper(self.run)
         
     def suiteTearDown(self):
         self.run=None

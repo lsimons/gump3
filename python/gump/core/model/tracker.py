@@ -18,14 +18,14 @@
     This module contains information on
 """
 
-from gump.model.state import *
-from gump.model.stats import *
+from gump.core.model.state import *
+from gump.core.model.stats import *
 
 
-from gump.model.object import NamedModelObject
+from gump.core.model.object import NamedModelObject
 
-from gump.utils import getIndent
-from gump.utils.domutils import *
+from gump.util import getIndent
+from gump.util.domutils import *
 
 class Tracker(NamedModelObject):
     """A named Tracker"""

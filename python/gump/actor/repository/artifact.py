@@ -23,7 +23,7 @@ import os
 
 from gump.core.config import *
 from gump import log
-from gump.model import *
+from gump.core.model import *
 
 from shutil import copyfile
 

@@ -18,12 +18,12 @@
     This module contains information on
 """
 
-from gump.model.state import *
-from gump.model.object import NamedModelObject
+from gump.core.model.state import *
+from gump.core.model.object import NamedModelObject
 
-from gump.utils.note import *
-from gump.utils import getIndent
-from gump.utils.domutils import *
+from gump.util.note import *
+from gump.util import getIndent
+from gump.util.domutils import *
 
 # Inheritence
 INHERIT_NONE=0

@@ -25,9 +25,9 @@ import xml.dom.minidom
 from gump import log
 from gump.results.model import WorkspaceResult
 
-from gump.utils.note import transferAnnotations, Annotatable
-from gump.utils.http import cacheHTTP
-from gump.utils import dump
+from gump.util.note import transferAnnotations, Annotatable
+from gump.util.http import cacheHTTP
+from gump.util import dump
 from gump.core.config import gumpPath
 
 class WorkspaceResultLoader:

@@ -31,7 +31,7 @@
 
   Then there's some basic procedures to work with the GOM, like load().
 
-  For basic usage patterns, look at the gump.view module or the gump.build
+  For basic usage patterns, look at the gump.view module or the gump.core.build
   module.
 """
 
@@ -39,7 +39,7 @@
 # Initialize
 ###############################################################################
 
-# tell Python what modules make up the gump.model package
+# tell Python what modules make up the gump.core.model package
 __all__ = ["misc","state", \
     "object","project","module","workspace","repository", \
     "builder","profile",]

@@ -42,40 +42,40 @@ import sys
 
 from gump import log
 
-from gump.run.gumprun import *
+from gump.core.run.gumprun import *
 from gump.core.config import dir, default, basicConfig
 
-from gump.build.script import ScriptBuilder
-from gump.build.ant import AntBuilder
-from gump.build.nant import NAntBuilder
-from gump.build.maven import MavenBuilder
+from gump.core.build.script import ScriptBuilder
+from gump.core.build.ant import AntBuilder
+from gump.core.build.nant import NAntBuilder
+from gump.core.build.maven import MavenBuilder
 
-from gump.utils import dump, display, getIndent, logResourceUtilization, \
+from gump.util import dump, display, getIndent, logResourceUtilization, \
                             invokeGarbageCollection
                             
-from gump.utils.note import Annotatable
-from gump.utils.work import *
+from gump.util.note import Annotatable
+from gump.util.work import *
 
-from gump.utils.tools import *
+from gump.util.tools import *
 
-from gump.model.workspace import *
-from gump.model.module import Module
-from gump.model.project import Project
-from gump.model.depend import  ProjectDependency
-from gump.model.stats import *
-from gump.model.state import *
+from gump.core.model.workspace import *
+from gump.core.model.module import Module
+from gump.core.model.project import Project
+from gump.core.model.depend import  ProjectDependency
+from gump.core.model.stats import *
+from gump.core.model.state import *
 
-import gump.integration.depot
+import gump.tool.integration.depot
 
 
 ###############################################################################
 # Classes
 ###############################################################################
 
-class GumpBuilder(gump.run.gumprun.RunSpecific):
+class GumpBuilder(gump.core.run.gumprun.RunSpecific):
     
     def __init__(self,run):
-        gump.run.gumprun.RunSpecific.__init__(self,run)
+        gump.core.run.gumprun.RunSpecific.__init__(self,run)
         
         self.ant=AntBuilder(run)
         self.nant=NAntBuilder(run)
@@ -468,7 +468,7 @@ class GumpBuilder(gump.run.gumprun.RunSpecific):
         
         log.info(' ------ Check upstream repositories for : '+ project.getName())    
         
-        cmd=gump.integration.depot.getGroupUpdateCommand(project.getArtifactGroup(),
+        cmd=gump.tool.integration.depot.getGroupUpdateCommand(project.getArtifactGroup(),
                     self.repository.getRepositoryDir())
         
         # Execute the command ....

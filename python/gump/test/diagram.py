@@ -19,9 +19,9 @@
 """
 
 from gump import log
-from gump.svg.drawing import *
-from gump.svg.scale import ScaleDiagram
-from gump.svg.depdiag import DependencyDiagram
+from gump.tool.svg.drawing import *
+from gump.tool.svg.scale import ScaleDiagram
+from gump.tool.svg.depdiag import DependencyDiagram
 from gump.test import getWorkedTestRun
 from gump.test.pyunit import UnitTestSuite
 

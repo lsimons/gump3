@@ -35,19 +35,19 @@ from fnmatch import fnmatch
 
 from gump import log
 from gump.core.config import dir, default, basicConfig
-from gump.run.gumpenv import GumpEnvironment
-from gump.run.gumprun import *
+from gump.core.run.gumpenv import GumpEnvironment
+from gump.core.run.gumprun import *
 
 
-from gump.utils.work import *
-from gump.utils import dump, display, getIndent
-from gump.utils.note import Annotatable
+from gump.util.work import *
+from gump.util import dump, display, getIndent
+from gump.util.note import Annotatable
 
-from gump.model.workspace import Workspace
-from gump.model.module import Module
-from gump.model.project import Project
-from gump.model.depend import  ProjectDependency
-from gump.model.state import *
+from gump.core.model.workspace import Workspace
+from gump.core.model.module import Module
+from gump.core.model.project import Project
+from gump.core.model.depend import  ProjectDependency
+from gump.core.model.state import *
 
 
     

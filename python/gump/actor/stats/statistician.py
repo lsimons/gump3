@@ -23,8 +23,8 @@ import os
 
 from gump.core.config import *
 from gump import log
-from gump.run.gumprun import *
-from gump.run.actor import *
+from gump.core.run.gumprun import *
+from gump.core.run.actor import *
 
 class Statistician(AbstractRunActor):
     def __init__(self,run,db=None):

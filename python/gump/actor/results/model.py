@@ -25,11 +25,11 @@ from time import localtime, strftime, tzname
 from string import lower, capitalize
 from xml.dom import getDOMImplementation
         
-from gump.utils.note import *
-from gump.utils.work import *
-from gump.utils.owner import *
-from gump.utils.domutils import *
-from gump.model.state import *
+from gump.util.note import *
+from gump.util.work import *
+from gump.util.owner import *
+from gump.util.domutils import *
+from gump.core.model.state import *
 
 class ResultModelObject(Annotatable,Ownable,Stateful):
     """Base model object for a single entity"""
