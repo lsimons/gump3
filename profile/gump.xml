@@ -130,6 +130,7 @@
   <module href="project/eyebrowse.xml"/>
   <module href="project/javacc.xml"/>
   <module href="project/jce.xml"/>
+  <module href="project/jcifs.xml"/>
   <module href="project/jdom.xml"/>
   <module href="project/rhino.xml"/>
   <module href="project/scarab.xml"/>
@@ -184,6 +185,7 @@
   <project name="jaxrpc"         package="java_xml_pack-summer-02"/>
   <!-- project name="jaxp"           package="jaxp-1.1"/ -->
   <project name="jce"            package="jce"/>
+  <project name="jcifs"          package="jcifs_0.7.0b5"/>
   <project name="jdbc"           package="jdbc2_0"/>
   <project name="jimi"           package="Jimi"/>
   <project name="jdo"            package="jdori-1_0-fcs"/>
