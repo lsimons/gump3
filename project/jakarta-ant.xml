@@ -94,6 +94,7 @@
     <depend project="jakarta-ant-testutil" inherit="all"/>
     <option project="xml-commons-which"/>
     <option project="rhino"/>
+    <option project="beanshell"/>
 
     <work nested="build/testcases"/>
     <work nested="src/testcases"/>
