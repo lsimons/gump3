@@ -13,5 +13,6 @@
   <depend project="xml-xerces"/>
   <depend project="jdom"/>
   <depend project="jakarta-velocity"/>
+  <depend project="jakarta-avalon-logkit"/>
 
 </project>
