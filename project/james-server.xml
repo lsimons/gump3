@@ -55,7 +55,7 @@
     <javadoc nested="www/mailet"/>
 
     <nag from="Gump Build Robot &lt;general@gump.apache.org&gt;"
-         to="james-dev@jakarta.apache.org"/>
+         to="server-dev@james.apache.org"/>
   </project>
 
   <project name="dnsjava">
