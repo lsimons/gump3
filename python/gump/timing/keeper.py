@@ -36,10 +36,6 @@ class TimeKeeper(gump.run.actor.AbstractRunActor):
         """
         if isinstance(event,gump.run.gumprun.InitializeRunEvent):
             self.run.setStart()
-            print 'KEEPER: START'
         elif isinstance(event,gump.run.gumprun.FinalizeRunEvent):  
-            self.run.setEnd()
-            print 'KEEPER: STOP'
-            
-        self.run.times.dump()
+            self.run.setEnd() 
             
