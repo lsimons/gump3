@@ -10,9 +10,9 @@
   <project name="jakarta-jetspeed">
     <ant basedir="build" target="release_binary">
       <property name="JAVAC" value="classic"/>
-      <depend name="cactus.ant.jar" project="commons-cactus-ant"/>
-      <depend name="cactus-22.jar" project="commons-cactus-22"/>
-      <depend name="cactus-23.jar" project="commons-cactus-23"/>
+      <depend name="cactus.ant.jar" project="jakarta-cactus-ant"/>
+      <depend name="cactus-22.jar" project="jakarta-cactus-22"/>
+      <depend name="cactus-23.jar" project="jakarta-cactus-23"/>
       <depend name="junit.jar" project="junit"/>
     </ant>
     <depend project="jakarta-ant"/>
