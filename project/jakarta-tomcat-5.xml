@@ -17,13 +17,10 @@
       <property name="ant.home" reference="home" project="ant"/>
       <property name="jsse.home" reference="home" project="jsse"/>
       <property name="jmx.home" reference="home" project="jmx"/>
-      <property name="jmx.jar" project="jmx" path="jmx/lib/jmxri.jar" />
-      <property name="jmxtools.jar" project="jmx" path="jmx/lib/jmxtools.jar" />
-      <!-- property name="jmx.jar" reference="jarpath"
-                project="mx4j" id="jmx"/>
+      <property name="jmx.jar" reference="jarpath"
+                project="jmx" id="jmxri"/>
       <property name="jmxtools.jar" reference="jarpath"
-        project="mx4j" id="tools"/>
-       -->
+                project="jmx" id="jmxtools"/>
       <property name="jndi.home" reference="home" project="jndi"/>
       <property name="site2.home" reference="home" project="jakarta-site2"/>
       <property name="regexp.home"
