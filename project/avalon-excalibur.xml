@@ -75,8 +75,6 @@
         <depend project="excalibur-instrument-manager" runtime="true" inherit="jars"/>
         <depend project="excalibur-logger" runtime="true" inherit="jars"/>
         <depend project="excalibur-monitor" runtime="true" inherit="jars"/>
-        <!--depend project="excalibur-naming" runtime="true" inherit="jars"/-->
-        <depend project="excalibur-policy" runtime="true" inherit="jars"/>
         <depend project="excalibur-pool" runtime="true" inherit="jars"/>
         <depend project="excalibur-sourceresolve" runtime="true" inherit="jars"/>
         <depend project="excalibur-store" runtime="true" inherit="jars"/>
@@ -800,33 +798,6 @@
         <depend project="excalibur-compatibility" inherit="runtime"/>
         <depend project="excalibur-instrument" inherit="runtime"/>
         <depend project="junit"/>
-    </project>
-
-    <project name="excalibur-policy">
-        <package>org.apache.excalibur.policy</package>
-
-        <ant basedir="policy">
-            <property name="version" value="@@DATE@@"/>
-            <property name="junit.failonerror" value="true"/>
-            <property name="do.checkstyle" value="true"/>
-            <property name="skip.dependencies" value="true"/>
-        </ant>
-
-        <depend project="ant" inherit="runtime"/>
-        <option project="checkstyle" inherit="runtime"/>
-        <depend project="junit"/>
-        <depend project="excalibur-i18n" runtime="true"/>
-        <depend project="xml-xerces"/>
-        <depend project="xml-xalan2"/>
-
-        <work nested="policy/build/classes"/>
-        <work nested="policy/build/testclasses"/>
-
-        <home nested="policy"/>
-        <jar name="build/lib/excalibur-policy-@@DATE@@.jar"/>
-
-        <nag from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"
-                to="dev@avalon.apache.org"/>
     </project>
 
     <project name="excalibur-pool">
