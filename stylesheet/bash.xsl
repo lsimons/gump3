@@ -28,7 +28,8 @@
 
     <xsl:text>all)&#10;</xsl:text>
     <xsl:text>  export all=1&#10;</xsl:text>
-    <xsl:for-each select=".//project">
+    <xsl:for-each select=".//project | .//module">
+      <xsl:value-of select="@name"/>
       <xsl:text>  export </xsl:text>
       <xsl:value-of select="translate(@name,'-.','__')"/>
       <xsl:text>=1&#10;</xsl:text>
