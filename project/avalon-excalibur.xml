@@ -758,6 +758,12 @@
 
         <nag from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"
                 to="dev@avalon.apache.org"/>
+        <nag>
+          <regexp pattern="/Missing prereq/i"
+            from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"
+            to="dev@avalon.apache.org"
+            subject="PRE-REQ FAILED for excalibur-pool"/>
+        </nag>
     </project>
 
     <project name="excalibur-sourceresolve">
