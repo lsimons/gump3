@@ -1,8 +1,8 @@
 <project name="jakarta-avalon-phoenix">
 
-  <url href="http://java.apache.org/framework/"/>
+  <url href="http://jakarta.apache.org/avalon/"/>
   <description>
-    Avalon framework
+    The Avalon Application Server Kernel
   </description>
 
   <cvs repository="jakarta"/>

@@ -1,8 +1,8 @@
 <project name="jakarta-avalon-logkit">
 
-  <url href="http://java.apache.org/framework/"/>
+  <url href="http://jakarta.apache.org/avalon/"/>
   <description>
-    Avalon framework
+    Fast, well designed, lightweight Logging toolkit
   </description>
 
   <cvs repository="jakarta"/>
