@@ -56,23 +56,32 @@ function usage
         JAVA_HOME     -- the location of a java development kit. Gump tries to
                          work with any JDK, but results may vary (for example,
                          both ant and maven require jdk 1.2 at least).
+        
+      These varialbes are only used by dynagump:
+
+        JAVA_OPTIONS  -- Extra options to pass to the JVM.
+        JETTY_PORT    -- Override the default port for Jetty. Defaults to 8080.
+        JETTY_ADMIN_PORT -- The port where the jetty web administration should
+                         bind. Defaults to 8081.
+        JAVA_DEBUG_PORT -- The port the JVM debug server should listen to.
+                         Defaults to 8082.
 "
     run)
       echo "
-      Run Gumpy.
+      Run Pygump.
 
       Usage:
         $0 run [gump.py-args ...]
 
       See http://wiki.apache.org/gump/GumpCommandLineOptions for more
-      information about the options Gumpy accepts. The one mandatory
+      information about the options pygump accepts. The one mandatory
       argument is the "project expression" detailing what to run. You
       will usually want "all" here.
 "
         ;;
     debug)
       echo "
-      Run Gumpy in debug mode.
+      Run pygump in debug mode.
       
       Usage:
         $0 debug [gump.py-args ...]
@@ -83,7 +92,7 @@ function usage
         ;;
     test)
       echo "
-      Run Gumpy its unit tests.
+      Run pygump its unit tests.
 
       Usage:
         $0 test
@@ -116,6 +125,19 @@ function usage
       behaviour.
 "
       ;;
+    dynagump)
+      echo "
+      Run Dynagump.
+
+      Usage:
+        $0 dynagump dynagump-action [dynagump-args ...]
+
+      Run
+        $0 dynagump help
+      for more information about the options dynagump accepts. If no action is
+      specified, gump passes run as the action to execute.
+"
+        ;;
   esac
 }
 
@@ -335,7 +357,7 @@ function run
   fi
 }
 
-# Run gumpy unit tests
+# Run pygump unit tests
 function test
 {
   # add pygump to python path
@@ -356,6 +378,22 @@ function test
   if [[ ! -z "$oldpythonpath" ]]; then
     export PYTHONPATH="$oldpythonpath"
   fi
+}
+
+# Run dynagump
+function dynagump
+{
+  # "run" is the default command
+  local command="$1"
+  shift
+  if [[ -z "$command" ]]; then
+    $command="run"
+  fi
+  
+  local current=`pwd`
+  cd "$GUMP_HOME/dynagump"
+  ./dynagump.sh $command $@
+  cd "$current"
 }
 
 #############################################################################
@@ -385,6 +423,9 @@ function delegate
       ;;
     test)
       test $@
+      ;;
+    dynagump)
+      dynagump $@
       ;;
     help* | usage | --help | -help | -H | -h)
       usage $@
