@@ -1,0 +1,45 @@
+<module name="ws-wsrp4j">
+
+  <url href="http://jakarta.apache.org/pluto/"/>
+  <description>
+    JSR168 Container
+  </description>
+
+  <cvs repository="jakarta"/>
+
+  <!-- build -->
+  <project name="jakarta-pluto">
+    <package>org.apache.pluto</package>
+
+    <ant basedir="build" target="all">
+      <property name="env.ANT_HOME" reference="home" project="ant"/>
+    </ant>
+
+    <depend project="ant" inherit="runtime"/>
+    <depend project="castor"/>
+    <depend project="junit"/>
+    <depend project="jakarta-regexp"/>
+    <depend project="jakarta-servletapi"/>
+    <depend project="xml-apis"/>
+    <depend project="xml-xerces"/>
+
+    <work nested="build/ant/lib/ForeachTask.jar"/>
+
+    <home nested="temp"/>
+    <jar name="container/pluto-container.jar"/>
+    <jar name="api/portlet-api.jar"/>
+    <jar name="portal/pluto-portal-impl.jar"/>
+
+    <license name="LICENSE"/>
+
+    <javadoc nested="docs/apidocs"/>
+
+    <nag from="Julie MacNaught &lt;jmacna@apache.org&gt;"
+         to="pluto-dev@jakarta.apache.org">
+      <regexp  subject="Build Failure - pluto"/>
+      <regexp pattern="/timed out/" subject="Build timed out - pluto"/>
+    </nag>
+  </project>
+  
+
+</module>
