@@ -23,6 +23,7 @@
 
         <!-- 'internal deps'. Should be full list of all excalibur-* projects -->
         <depend project="excalibur-altrmi" inherit="runtime"/>
+        <depend project="excalibur-cli" runtime="true"/>
         <depend project="excalibur-component" runtime="true"/>
         <depend project="excalibur-collections" runtime="true"/>
         <depend project="excalibur-container" runtime="true"/>
@@ -37,6 +38,7 @@
         <depend project="excalibur-io"/>
         <depend project="excalibur-logger" runtime="true"/>
         <depend project="excalibur-meta" runtime="true"/>
+        <depend project="excalibur-monitor" runtime="true"/>
         <depend project="excalibur-pool" runtime="true"/>
         <depend project="excalibur-sourceresolve"/>
         <depend project="excalibur-testcase"/>
@@ -67,11 +69,6 @@
         <option project="jdbc"/>
         <option project="jaxen"/>
         <option project="saxpath"/>
-
-        <!-- additional classpaths for projects not currently depended upon
-             TODO: use project descriptions instead -->
-        <work nested="cli/build/classes"/>
-        <work nested="monitor/build/classes"/>
 
         <jar name="avalon-excalibur-@@DATE@@.jar"/>
 
