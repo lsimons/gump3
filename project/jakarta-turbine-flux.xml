@@ -17,7 +17,6 @@
       <depend name="fulcrum.jar"  project="jakarta-turbine-fulcrum"/>
       <depend name="velocity.jar" project="jakarta-velocity"/>
       <depend name="torque.jar"   project="jakarta-turbine-torque"/>
-      <depend name="commons-util.jar" project="commons-util"/>
       <depend name="jaf.jar"      project="jaf"/>
     </ant>
 

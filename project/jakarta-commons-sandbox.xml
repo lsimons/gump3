@@ -82,7 +82,6 @@
     <depend project="jakarta-ant" inherit="runtime"/>
     <depend project="xml-xerces"/>
 
-    <depend project="commons-util"/>
     <depend project="javamail"/>
     <depend project="jaf"/>
 
@@ -346,30 +345,10 @@
   </project>
 
   <project name="commons-util">
-    <package>org.apache.commons.util</package>
-    <description>Commons Utility Package</description>
-
-    <!-- Standard Maven target to produce Javadocs, source -->
-    <!-- and binary distributions.                         -->
-    
-    <ant basedir="util" buildfile="build-gump.xml" target="jar">
-      <property name="final.name" value="commons-util-@@DATE@@"/>
-    </ant>
-    
-    <!-- All Maven projects need Ant and Xerces to build. -->
-    <depend project="jakarta-ant" inherit="runtime"/>
-    <depend project="xml-xerces"/>
-    <depend project="jakarta-servletapi"/>
-    <depend project="commons-lang"/>
-
-    <work nested="target/classes"/>
-    <home nested="util/target"/>
-    <jar name="commons-util-@@DATE@@.jar"/>
-    <javadoc nested="docs/apidocs"/>
-
-    <nag to="commons-dev@jakarta.apache.org"
-         from="Ted Husted &lt;ted@husted.com&gt;"/>
-  
+    <!-- 
+         dead project, keep entry here until all dependencies in
+         external descriptors have disappeared.
+    -->
   </project>
   
   <project name="commons-xo">
