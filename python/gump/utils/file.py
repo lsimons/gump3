@@ -81,7 +81,7 @@ FILE_TYPE_LOG=8
 
 fileTypeDescriptions = { 	FILE_TYPE_MISC : "Miscellaneous",
                 FILE_TYPE_CONFIG : "Config",
-                FILE_TYPE_PACKAGE : "Source",
+                FILE_TYPE_SOURCE : "Source",
                 FILE_TYPE_PACKAGE : "Package",
                 FILE_TYPE_OUTPUT : "Output",
                 FILE_TYPE_REPORT : "Report",
