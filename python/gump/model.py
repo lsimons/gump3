@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/Attic/model.py,v 1.27 2003/10/15 20:40:02 ajack Exp $
-# $Revision: 1.27 $
-# $Date: 2003/10/15 20:40:02 $
+# $Header: /home/stefano/cvs/gump/python/gump/Attic/model.py,v 1.28 2003/10/17 03:48:14 ajack Exp $
+# $Revision: 1.28 $
+# $Date: 2003/10/17 03:48:14 $
 #
 # ====================================================================
 #
@@ -470,14 +470,26 @@ class Depend(GumpModelObject):
     def __eq__(self,other):
         return 	self.project == other.project \
                 and self.inherit == other.inherit \
+                and self.runtime == other.runtime \
                 and self.ids == other.ids
                 
     def __cmp__(self,other):
         cmp = self.project < other.project
         if not cmp: cmp = self.inherit < other.inherit
-        if not cmp: cmp = self.ids == other.ids
+        if not cmp: cmp = self.runtime < other.runtime
+        if not cmp: cmp = self.ids < other.ids
         return cmp
     
+    def __str__(self):
+        output=self.project
+        if self.inherit:
+            output+=' inherit="' + self.inherit + '"'
+        if self.runtime:
+            output+=' runtime="' + self.runtime + '"'
+        if self.ids:
+            output+=' ids="' + self.ids + '"'
+        return output
+        
     #
     # Return the jars for the dependent project (matching
     # ids, etc.)

@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/Attic/logic.py,v 1.27 2003/10/16 21:35:00 ajack Exp $
-# $Revision: 1.27 $
-# $Date: 2003/10/16 21:35:00 $
+# $Header: /home/stefano/cvs/gump/python/gump/Attic/logic.py,v 1.28 2003/10/17 03:48:14 ajack Exp $
+# $Revision: 1.28 $
+# $Date: 2003/10/17 03:48:14 $
 #
 # ====================================================================
 #
@@ -388,9 +388,9 @@ def getClasspathList(project,workspace,context):
   for work in project.work:
       path=None
       if work.nested:
-          path=os.path.normpath(os.path.join(srcdir,work.nested))
+          path=os.path.abspath(os.path.join(srcdir,work.nested))
       elif work.parent:
-          path=os.path.normpath(os.path.join(workspace.basedir,work.parent))
+          path=os.path.abspath(os.path.join(workspace.basedir,work.parent))
       else:
           log.error("<work element without nested or parent attributes on " \
               + project.name + " in " + project.module)
@@ -405,19 +405,19 @@ def getClasspathList(project,workspace,context):
   if project.depend:
     # For each
     for depend in project.depend:
-        classpath += getDependOutputList(depend,context,visited)  
+        classpath += getDependOutputList(project,pctxt,depend,context,visited)  
               
   # Same as above, but for optional...
   if project.option:    
     for option in project.option:
-        classpath += getDependOutputList(option,context,visited)
+        classpath += getDependOutputList(project,pctxt,option,context,visited)
       
   return classpath
 
 #
-# :TODO: Runtime Dependncy?
+# :TODO: Runtime Dependency?
 #
-def getDependOutputList(depend,context,visited):      
+def getDependOutputList(parent,parentctxt,depend,context,visited):      
   """Get a classpath of outputs for a project (including it's dependencies)"""            
    
   # Don't loop...
@@ -431,59 +431,62 @@ def getDependOutputList(depend,context,visited):
   projectname=depend.project
   if not Project.list.has_key(projectname):
       if projectname:
-          log.error("Unknown project (in acquiring classpath) " + projectname )
+          parentctxt.addError("Unknown project (in acquiring classpath) [" + projectname \
+                  + "] for [" + str(depend) + "]")
       return []
       
   # 
   classpath=[]
 
   #
-  # Context for this project...
+  # Context for this dependecy project...
   #
   project=Project.list[projectname]
   pctxt=context.getProjectContextForProject(project)
   
-  #
-  # Are we asking for runtime dependencies only?
-  #
+  # The dependency drivers...
   runtime=depend.runtime
+  inherit=depend.inherit
+  if depend.ids:
+      ids=depend.ids.split(' ')
+  else:
+      ids=None
   
   #
   # Append JARS for this project
+  #	(respect ids)
   #
-  # Note: This checks "id" in "<depend ids="
-  for jar in depend.jars():
-    classpath.append(AnnotatedPath(jar.path,pctxt)) 
+  for jar in project.jar:
+      # If 'all' or in ids list:
+      if (not ids) or (jar.id in ids):   
+          path=AnnotatedPath(jar.path,pctxt)
+          if not path in classpath:
+              classpath.append(path)
+
+  # :TODO: List all jar ids and check ones we asked for exists
+  # and log if not as warning
 
   #
-  # inherit='ALL' or 'HARD'
-  # or inherit the runtime ones...
+  # Deep copy all/hard (or those for runtime)
   #
-  deepCopy=determineDeepCopy(depend)
-
-  if deepCopy or runtime:      
+  if inherit == 'all' or inherit=='hard' or runtime:      
       # Append sub-projects outputs
       if project.depend:
           for subdepend in project.depend:        
-            if not runtime or subdepend.inherit=="runtime":      
-                classpath += getDependOutputList(subdepend,context,visited)
+            if not runtime or subdepend.runtime:      
+                for path in getDependOutputList(project,pctxt,subdepend,context,visited):
+                    if not path in classpath:
+                        classpath.append(path)
   
       # Append optional sub-project's output (that may not exist)
       if project.option:
           for suboption in project.option:
-            if not runtime or suboption.inherit=="runtime":      
-                classpath += getDependOutputList(suboption,context,visited)
+            if not runtime or suboption.runtime:      
+                for path in getDependOutputList(project,pctxt,suboption,context,visited):
+                    if not path in classpath:
+                        classpath.append(path)
 
   return classpath
-  
-def determineDeepCopy(depend):
-    """Determine if we ought deepCopy to inherit"""
-    deep=0
-    inherit=depend.inherit
-    # :TODO: The 'jars' is a temporary hack.
-    if inherit == 'all' or inherit=='hard' or inherit=='jars':
-        deep=1
-    return deep
     
 # BOOTCLASSPATH?
 def getClasspath(project,workspace,context):
@@ -643,24 +646,29 @@ if __name__=='__main__':
   printSeparator()
   
   projects=getProjectsForProjectExpression(ps)
-  print "Resolved Projects : " + str(len(projects))
-  for p in projects: print "Project " + str(p.name)
-  modules=getModulesForProjectExpression(ps)
-  print "Resolved Modules : " + str(len(modules))
-  for m in modules: print "Module " + str(m.name) + " : " + str(m.cvs.repository)
+  #print "Resolved Projects : " + str(len(projects))
+  #for p in projects: print "Project " + str(p.name)
+  #modules=getModulesForProjectExpression(ps)
+  #print "Resolved Modules : " + str(len(modules))
+  #for m in modules: print "Module " + str(m.name) + " : " + str(m.cvs.repository)
   
-  projects=getBuildSequenceForProjects(getProjectsForProjectExpression(ps))
-  print "Resolved Project Tree : " + str(len(projects))
-  for p in projects: print "Project " + str(p.name)
-  modules=getModulesForProjectList(projects)
-  print "Resolved Module Tree : " + str(len(modules))
-  for m in modules: print "Module " + str(m.name) + " : " + str(m.cvs.repository)
+  #projects=getBuildSequenceForProjects(getProjectsForProjectExpression(ps))
+  #print "Resolved Project Tree : " + str(len(projects))
+  #for p in projects: print "Project " + str(p.name)
+  #modules=getModulesForProjectList(projects)
+  #print "Resolved Module Tree : " + str(len(modules))
+  #for m in modules: print "Module " + str(m.name) + " : " + str(m.cvs.repository)
   
   printSeparator()
   
-  preprocessContext(workspace, context)
+  # preprocessContext(workspace, context)
   
-  from gump.document import documentText
+  # from gump.document import documentText
+  # documentText(workspace, context, ps)
   
-  documentText(workspace, context, ps)
+  for project in projects:
+      cp=getClasspathList(project,workspace,context)
+      print "Project : " + project.name 
+      for p in cp:
+          print " - " + str(p)
 

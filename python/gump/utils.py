@@ -63,6 +63,7 @@
 """
 
 import logging
+import sys
 import types, StringIO
 
 from gump  import log
