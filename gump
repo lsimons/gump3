@@ -1,6 +1,6 @@
 #!/bin/sh
 #
-# Copyright 2004 The Apache Software Foundation
+# Copyright 2004-2005 The Apache Software Foundation
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -57,7 +57,7 @@ function usage
                          work with any JDK, but results may vary (for example,
                          both ant and maven require jdk 1.2 at least).
         
-      These varialbes are only used by dynagump:
+      These variables are only used by dynagump:
 
         JAVA_OPTIONS  -- Extra options to pass to the JVM.
         JETTY_PORT    -- Override the default port for Jetty. Defaults to 8080.
@@ -65,7 +65,13 @@ function usage
                          bind. Defaults to 8081.
         JAVA_DEBUG_PORT -- The port the JVM debug server should listen to.
                          Defaults to 8082.
+      
+      Of course, the various commands that gump issues may also behave
+      differently based on environment variables. For example, maven reacts to
+      MAVEN_HOME, many make-based build scripts respect the CC environment
+      variable, etc etc.
 "
+      ;;
     run)
       echo "
       Run Pygump.
@@ -78,7 +84,7 @@ function usage
       argument is the "project expression" detailing what to run. You
       will usually want "all" here.
 "
-        ;;
+      ;;
     debug)
       echo "
       Run pygump in debug mode.
@@ -89,7 +95,7 @@ function usage
       This is the same as executing the 'run' command with a '--debug'
       parameter.
 "
-        ;;
+      ;;
     test)
       echo "
       Run pygump its unit tests.
@@ -110,7 +116,25 @@ function usage
       for more information about the options dynagump accepts. If no action is
       specified, gump passes run as the action to execute.
 "
-        ;;
+      ;;
+    update-host)
+      echo "
+      Updates the gump installation on the specified host.
+      
+      Usage:
+        $0 update-host hostname [hostname-script-args ...]
+      
+      Some gump hosts are managed by keeping some of their config data in
+      our subversion repository, under the $GUMP_HOME/hosts/
+      directory. This command will attempt to ssh into the specified host
+      machine and perform the neccessary svn update commands to bring the host
+      in sync with the material in the subversion repository.
+      
+      A custom script named $GUMP_HOME/hosts/hostname-update.sh is
+      ran for each host. See each of these scripts for information on the
+      custom settings available with a particular host.
+"
+      ;;
     create-database)
       echo "
       Create a new MySQL database with the gump database schema.
@@ -127,7 +151,7 @@ function usage
       
       This command will fail if the specifed database already exists.
 "
-        ;;
+      ;;
     *)
       echo "
       Utility commandline interface for Gump.
@@ -137,9 +161,12 @@ function usage
      
       Available commands are:
      
-        run -- run pygump
-        debug -- run pygump in debug mode
-        test -- run the pygump unit tests
+        run             -- run pygump
+        debug           -- run pygump in debug mode
+        test            -- run the pygump unit tests
+        dynagump        -- run the dynagump web application server
+        update-host     -- update the configuration of a gump host
+        create-database -- create a new gump MySQL database
      
       Run
      
@@ -154,7 +181,7 @@ function usage
       for more information about the environment variables that alter gump its
       behaviour.
 "
-        ;;
+      ;;
   esac
 }
 
@@ -173,7 +200,7 @@ function find_hostname
   fi
   
   local hostnamecommand=`which hostname`
-  if [[ ! -z "$hostnamecommand" ]]; then
+  if [[ -z "$hostnamecommand" ]]; then
     error "GUMP_HOSTNAME is not set and the hostname command is not
 available to determine it!"
   fi
@@ -202,11 +229,21 @@ function find_home
   if [[ -f "$thisscript" ]]; then
     # guess...
     export GUMP_HOME="$current"
-  else
-    # complain!
-    error "GUMP_HOME is not set and failed to determine it. Please set it to
-the root of your svn checkout!"
+    return
   fi
+  
+  # look for the path to this file
+  local homedir=`dirname $0`
+  local thisscript="$homedir/gump"
+  if [[ -f "$thisscript" ]]; then
+    # guess...
+    export GUMP_HOME="$homedir"
+    return
+  fi
+  
+  # not found - complain!
+  error "GUMP_HOME is not set and failed to determine it. Please set it to
+the root of your svn checkout!"
 }
 
 # Determine the location of the environment variables script
@@ -218,7 +255,7 @@ function find_env_file
 # Determine the python command to use
 function find_python
 {
-  if [[ ! -z "$GUMP_PYTHON ]]; then
+  if [[ ! -z "$GUMP_PYTHON" ]]; then
     return
   fi
 
@@ -263,7 +300,9 @@ function setup_env
 # Print an error message and then exit.
 function error
 {
-  echo "$0: $1"
+  echo "$0: Fatal error!
+
+$1"
   exit 1
 }
 
@@ -282,7 +321,9 @@ function check_command
      
 and install it. If it is already installed, modify your $PATH variable
 to point to it. You can customize the $PATH variable inside a file named
+
   $GUMP_ENV_FILE
+
 if you wish."
   fi
 }
@@ -298,9 +339,12 @@ function check_env_var
   if [[ -z "$dereferenced" ]]; then
     error "The variable $1 has not been set. It should be set to
 $2.
+
 You can either set this before invoking gump, or set it in a file
 named
+
   $GUMP_ENV_FILE
+
 if you wish."
   fi
 }
@@ -335,10 +379,12 @@ and install it."
 # Print a friendly error message if the environment is not set up correctly.
 function check_environment
 {
-  check_command "$GUMP_PYTHON" "http://www.python.org/"
+  # PrintPath doesn't deal with absolute paths properly
+  #check_command $GUMP_PYTHON "http://www.python.org/"
   check_command "pkill" "http://sourceforge.net/projects/proctools"
   check_command "mysql" "http://www.mysql.com/"
   check_command "mysqladmin" "http://www.mysql.com/"
+  check_command "ssh" "http://www.openssh.org/"
 
   check_env_var "JAVA_HOME" "the location of the java jdk"
   
@@ -415,6 +461,7 @@ function dynagump
   cd "$current"
 }
 
+# Create the gump database
 function create_database
 {
   local db="$1"
@@ -440,6 +487,31 @@ $mysqladminresult"
 
 $mysqlresult"
   fi
+}
+
+# Update the gump-related svn checkouts on a particular server
+function update_host
+{
+  local host="$1"
+  shift
+  if [[ -z "$host" ]]; then
+    error "Please specify the host to update."
+  fi
+  
+  local hostscript="$GUMP_HOME/hosts/$host-update.sh"
+  if [[ ! -f "$hostscript" ]]; then
+    error "Unknown host $host. Please create a file
+
+  $hostscript
+
+to handle the update."
+  fi
+  
+  # execute the script
+  local $current=`pwd`
+  cd $GUMP_HOME/hosts
+  . $hostscript
+  cd $current
 }
 
 #############################################################################
@@ -474,11 +546,17 @@ function delegate
       dynagump $@
       ;;
     create-database)
-      create-database $@
+      create_database $@
       ;;
-    help* | usage | --help | -help | -H | -h)
-      usage $@
+    update-host)
+      update_host $@
       ;;
+    # this is short-circuited below because we don't really
+    # want to load complain about missing environment settings
+    # when the user is asking for help...
+    #help* | usage | --help | -help | -H | -h)
+    #  usage $@
+    #  ;;
     '')
       error "Please specify a command"
       ;;
@@ -490,6 +568,15 @@ function delegate
 
 # Load environment variables
 setup_env
+
+# short circuit the help function because we don't really
+# want to load complain about missing environment settings
+# when the user is asking for help...
+case $1 in
+    help* | usage | --help | -help | -H | -h | '')
+      usage $@
+      exit 0
+esac
 
 # Check we have everything we need
 check_environment
