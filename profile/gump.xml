@@ -19,7 +19,7 @@
 
 <!-- Apache.Cocoon -->
 
-  <module href="http://cvs.apache.org/viewcvs/~checkout~/xml-cocoon2/gump.xml"/>
+  <module href="http://cvs.apache.org/viewcvs/~checkout~/cocoon-2.1/gump.xml"/>
 
 <!-- Apache.DB -->
 
