@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/model/project.py,v 1.39 2004/02/10 01:30:48 ajack Exp $
-# $Revision: 1.39 $
-# $Date: 2004/02/10 01:30:48 $
+# $Header: /home/stefano/cvs/gump/python/gump/model/project.py,v 1.40 2004/02/10 01:31:17 ajack Exp $
+# $Revision: 1.40 $
+# $Date: 2004/02/10 01:31:17 $
 #
 # ====================================================================
 #
@@ -977,7 +977,7 @@ class Project(NamedModelObject, Statable):
         #
         basedir = self.maven.getBaseDirectory() or self.getBaseDirectory()
         propertiesFile=os.path.abspath(os.path.join(\
-                self.getModule().getSourceDirectory(),'build.properties'))
+                    basedir,'build.properties'))
         
         if os.path.exists(propertiesFile):
             self.addWarning('Overriding Maven properties: ['+propertiesFile+']')
