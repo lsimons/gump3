@@ -1,7 +1,7 @@
 #!/usr/bin/env python
-# $Header: /home/stefano/cvs/gump/python/gump/test/Attic/nagging.py,v 1.6 2004/03/03 00:49:52 ajack Exp $
-# $Revision: 1.6 $
-# $Date: 2004/03/03 00:49:52 $
+# $Header: /home/stefano/cvs/gump/python/gump/test/Attic/nagging.py,v 1.7 2004/03/15 16:12:23 ajack Exp $
+# $Revision: 1.7 $
+# $Date: 2004/03/15 16:12:23 $
 #
 # ====================================================================
 #

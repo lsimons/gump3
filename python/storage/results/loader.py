@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/storage/results/Attic/loader.py,v 1.1 2004/02/28 00:08:48 ajack Exp $
-# $Revision: 1.1 $
-# $Date: 2004/02/28 00:08:48 $
+# $Header: /home/stefano/cvs/gump/python/storage/results/Attic/loader.py,v 1.2 2004/03/15 16:12:23 ajack Exp $
+# $Revision: 1.2 $
+# $Date: 2004/03/15 16:12:23 $
 #
 # ====================================================================
 #

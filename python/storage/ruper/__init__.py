@@ -62,9 +62,9 @@ Ruper == Resource UPdatER
 """
 
 __author__  = "Apache Software Foundation"
-__status__  = "$Header: /home/stefano/cvs/gump/python/storage/ruper/__init__.py,v 1.1 2003/11/17 22:10:56 ajack Exp $"
-__version__ = "$Revision: 1.1 $"
-__date__    = "$Date: 2003/11/17 22:10:56 $"
+__status__  = "$Header: /home/stefano/cvs/gump/python/storage/ruper/__init__.py,v 1.2 2004/03/15 16:12:23 ajack Exp $"
+__version__ = "$Revision: 1.2 $"
+__date__    = "$Date: 2004/03/15 16:12:23 $"
 
 import os, os.path, sys, urllib, logging
 

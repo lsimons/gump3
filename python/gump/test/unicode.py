@@ -1,7 +1,7 @@
 #!/usr/bin/env python
-# $Header: /home/stefano/cvs/gump/python/gump/test/unicode.py,v 1.1 2004/03/12 02:50:52 ajack Exp $
-# $Revision: 1.1 $
-# $Date: 2004/03/12 02:50:52 $
+# $Header: /home/stefano/cvs/gump/python/gump/test/unicode.py,v 1.2 2004/03/15 16:12:23 ajack Exp $
+# $Revision: 1.2 $
+# $Date: 2004/03/15 16:12:23 $
 #
 # ====================================================================
 #
