@@ -1,0 +1,32 @@
+<project name="james">
+
+  <url href="http://java.apache.org/james/index.html" />
+  <description>
+    Java Apache Mail Enterprise Server 
+  </description>
+
+  <cvs repository="jservpub" />
+  <ant />
+
+  <home nested="bin" />
+  <jar name="ApacheJMeter.jar" />
+
+  <depend project="jakarta-ant" />
+  <depend project="xml-xerces" />
+  <depend project="javamail" />
+  <depend project="framework" />
+  <depend project="cornerstone" />
+  <depend project="town" />
+  <depend project="dnsjava" />
+  <depend project="jaf" />
+
+  <project name="town">
+    <url href="http://www.working-dogs.com/town/"/>
+    <jar name="lib/town.jar" />
+  </project>
+
+  <project name="dnsjava">
+    <url href="http://enigma.xbill.org/dnsjava/"/>
+    <jar name="lib/dnsjava.jar" />
+  </project>
+</project>

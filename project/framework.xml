@@ -23,4 +23,9 @@
     <jar name="lib/bytecode.jar"/>
   </project>
 
+  <project name="cornerstone">
+    <depend project="framework"/>
+    <home nested="build/lib"/>
+    <jar name="cornerstone.bar"/>
+  </project>
 </project>
