@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/model/module.py,v 1.26 2004/01/19 23:44:22 ajack Exp $
-# $Revision: 1.26 $
-# $Date: 2004/01/19 23:44:22 $
+# $Header: /home/stefano/cvs/gump/python/gump/model/module.py,v 1.27 2004/01/19 23:53:24 ajack Exp $
+# $Revision: 1.27 $
+# $Date: 2004/01/19 23:53:24 $
 #
 # ====================================================================
 #
@@ -170,6 +170,12 @@ class ModuleJars(ModelObject):
         elif self.repository.hasUrl():
             self.url 	=  self.repository.getUrl()
     
+    def getRootUrl(self):
+        url=self.repository.getUrl()
+        if self.hasUrl():
+            url+=self.getUrl()
+        return url
+        
     def hasUrl(self):
         return (hasattr(self,'url') and self.url)
         
@@ -678,8 +684,8 @@ class Module(NamedModelObject, Statable):
         
         log.debug("Jars Update Module " + self.getName() + \
                        ", Repository Name: " + str(self.repository.getName()))
-                                        
-        url=self.jars.getUrl()
+
+        url=self.jars.getRootUrl()
       
         log.debug("Jars URL: [" + url + "] on Repository: " + self.repository.getName())
      
@@ -690,8 +696,7 @@ class Module(NamedModelObject, Statable):
                 'update_'+self.getName(),	\
                 self.getWorkspace().cvsdir)
     
-        if self.jars.hasUrl():
-            cmd.addParameter(self.jars.getUrl())
+        cmd.addParameter(url)
           
         #
         # Be 'quiet' (but not silent) unless requested otherwise.
