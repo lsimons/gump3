@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/syndication/syndicator.py,v 1.5 2003/12/07 17:49:13 ajack Exp $
-# $Revision: 1.5 $
-# $Date: 2003/12/07 17:49:13 $
+# $Header: /home/stefano/cvs/gump/python/gump/syndication/syndicator.py,v 1.6 2003/12/07 18:15:45 ajack Exp $
+# $Revision: 1.6 $
+# $Date: 2003/12/07 18:15:45 $
 #
 # ====================================================================
 #
@@ -101,7 +101,7 @@ class Syndicator:
                                 
         content += self.getStateContent(project.getStatePair())
                         
-        content += 'Sequence in state: ' + stats.sequenceInState
+        content += 'Sequence in state: ' + `stats.sequenceInState`
         
         if not stats.previousState == STATE_NONE \
             and not stats.previousState == STATE_UNSET:
@@ -125,7 +125,7 @@ class Syndicator:
                                     
         content += self.getStateContent(module.getStatePair())
         
-        content += 'Sequence in state: ' + stats.sequenceInState
+        content += 'Sequence in state: ' + `stats.sequenceInState`
                         
         if not stats.previousState == STATE_NONE \
             and not stats.previousState == STATE_UNSET:
