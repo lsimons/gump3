@@ -10,7 +10,7 @@
       Depot -- repository tools and more...
     </description>
 
-    <project name="depot-version" fullname="Depot Version" basedir="version">
+    <project name="depot-version" fullname="Depot Version" >
 
         <package>org.apache.version</package>
 
@@ -22,7 +22,7 @@
 
         <jar name="version-@@DATE@@.jar"/>
 
-        <ant basedir="." buildfile="build.xml" target="gump" vm="1.4">
+        <ant basedir="version" buildfile="build.xml" target="gump" vm="1.4">
           <property name="ant.home" project="ant" reference="home" />
           <property name="DATE_STAMP" value="@@DATE@@"/>        	
         </ant>
