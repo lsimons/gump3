@@ -36,7 +36,7 @@
     <!-- and binary distributions.                         -->
     
     <ant basedir="betwixt" target="jar">
-      <property name="maven.final.name" value="commons-betwixt-@@DATE@@"/>
+      <property name="final.name" value="commons-betwixt-@@DATE@@"/>
     </ant>
     
     <!-- All Maven projects need Ant and Xerces to build. -->
