@@ -119,4 +119,25 @@
       <regexp />      
     </nag>
   </project>
+  
+  <project name="jakarta-ant-embed">
+    <package>org.apache.tools.ant</package>
+
+    <ant basedir="proposal/embed" />
+
+    <depend project="jakarta-ant" inherit="all"/>
+    <depend project="commons-jxpath"/>
+    <depend project="commons-jexl"/>    
+    <depend project="jakarta-velocity"/>   
+    <depend project="commons-discovery"/>   
+    <depend project="commons-logging"/>   
+    
+    <jar name="build/ant-sax2.jar" id="embed"/>
+
+    <nag to="ant-dev@jakarta.apache.org"
+         from="Nicola Ken Barozzi &lt;nicolaken@apache.org&gt;"/>    
+         
+  </project>
+  
+   
 </module>
