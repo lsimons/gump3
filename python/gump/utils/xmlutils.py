@@ -166,9 +166,10 @@ class GumpXMLObject(Annotatable,object):
       return attr # :TODO: Get this checked out
     except AttributeError:
       # It is OK if people extend the GOM...
-      log.debug("No metadata related to " +
-                "name '%s' on %s" % \
-                (name, self.__class__.__name__))
+      message="No metadata related to tag '%s' on %s" % \
+                (name, self.__class__.__name__)
+      self.addInfo(message)
+      log.debug(message)
 
   #
   # Process characters...
