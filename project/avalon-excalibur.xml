@@ -73,7 +73,6 @@
         <depend project="excalibur-instrument" runtime="true" inherit="jars"/>
         <depend project="excalibur-instrument-client" runtime="true" inherit="jars"/>
         <depend project="excalibur-instrument-manager" runtime="true" inherit="jars"/>
-        <depend project="excalibur-loader" runtime="true" inherit="jars"/>
         <depend project="excalibur-logger" runtime="true" inherit="jars"/>
         <depend project="excalibur-monitor" runtime="true" inherit="jars"/>
         <depend project="excalibur-naming" runtime="true" inherit="jars"/>
@@ -713,36 +712,6 @@
 
         <home nested="lifecycle"/>
         <jar name="build/lib/excalibur-lifecycle-@@DATE@@.jar"/>
-
-        <nag from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"
-                to="dev@avalon.apache.org"/>
-    </project>
-
-    <project name="excalibur-loader">
-        <package>org.apache.excalibur.loader</package>
-
-        <ant basedir="loader">
-            <property name="version" value="@@DATE@@"/>
-            <property name="junit.failonerror" value="true"/>
-            <property name="do.checkstyle" value="true"/>
-            <property name="skip.dependencies" value="true"/>
-        </ant>
-
-        <depend project="ant" inherit="runtime"/>
-        <option project="checkstyle" inherit="runtime"/>
-        <depend project="junit"/>
-        <depend project="excalibur-i18n" runtime="true"/>
-        <depend project="excalibur-extension" runtime="true"/>
-        <depend project="avalon" runtime="true"/>
-        <depend project="xml-xerces"/>
-        <depend project="xml-xalan2"/>
-        <depend project="jakarta-oro"/>
-
-        <work nested="loader/build/classes"/>
-        <work nested="loader/build/testclasses"/>
-
-        <home nested="loader"/>
-        <jar name="build/lib/excalibur-loader-@@DATE@@.jar"/>
 
         <nag from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"
                 to="dev@avalon.apache.org"/>
