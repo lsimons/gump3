@@ -1,0 +1,19 @@
+<project name="j2eeunit">
+
+  <url  href="http://j2eeunit.sourceforge.net/"/>
+  <description>
+    Unit test framework for J2EE server-side java code
+  </description>
+
+  <cvs repository="j2eeunit"/>
+
+  <ant buildfile="build/build.xml">
+    <property name="servlet.api" value="23"/>
+  </ant>
+
+  <depend project="jakarta-ant"/>
+  <depend project="xml-xerces"/>
+  <depend project="jakarta-servletapi-4"/>
+  <depend project="junit"/>
+
+</project>

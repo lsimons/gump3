@@ -53,6 +53,7 @@
   <project href="project/castor.xml"/>
   <project href="project/jdom.xml"/>
   <project href="project/junit.xml"/>
+  <project href="project/j2eeunit.xml"/>
   <project href="project/freemarker.xml"/>
   <project href="project/rhino.xml"/>
   <project href="project/scarab.xml"/>
@@ -90,6 +91,9 @@
 
     <tree name="junit"
       root=":pserver:anonymous@cvs.JUnit.sourceforge.net:/cvsroot/junit"/>
+
+    <tree name="j2eeunit"
+      root=":pserver:anonymous@cvs.j2eeunit.sourceforge.net:/cvsroot/j2eeunit"/>
 
     <tree name="mozilla"
       root=":pserver:anonymous@cvs-mirror.mozilla.org:/cvsroot"/>
