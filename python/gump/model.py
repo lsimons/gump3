@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/Attic/model.py,v 1.15 2003/09/05 05:25:54 ajack Exp $
-# $Revision: 1.15 $
-# $Date: 2003/09/05 05:25:54 $
+# $Header: /home/stefano/cvs/gump/python/gump/Attic/model.py,v 1.16 2003/09/11 21:11:42 ajack Exp $
+# $Revision: 1.16 $
+# $Date: 2003/09/11 21:11:42 $
 #
 # ====================================================================
 #
@@ -137,6 +137,7 @@ class Workspace(GumpModelObject):
     if self.deliver:
       if not self.scratchdir: self.scratchdir=os.path.join(self.basedir,"scratch")
 
+    if not self.logurl: self.logurl = default.logurl
     if not self.email: self.email = default.email
     if not self.mailserver: self.mailserver = default.mailserver
     if not self.prefix: self.prefix = default.prefix

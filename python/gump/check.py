@@ -1,8 +1,8 @@
 #!/usr/bin/python
 
-# $Header: /home/stefano/cvs/gump/python/gump/check.py,v 1.14 2003/09/07 20:59:34 ajack Exp $
-# $Revision: 1.14 $
-# $Date: 2003/09/07 20:59:34 $
+# $Header: /home/stefano/cvs/gump/python/gump/check.py,v 1.15 2003/09/11 21:11:42 ajack Exp $
+# $Revision: 1.15 $
+# $Date: 2003/09/11 21:11:42 $
 #
 # ====================================================================
 #
@@ -134,7 +134,7 @@ def checkEnvironment(workspace, context=GumpContext(), exitOnError=1):
     checkExecutable(workspace, context, context.javaCommand,'-version',exitOnError)
     checkExecutable(workspace, context, 'javac','-help',exitOnError)
     checkExecutable(workspace, context, 'cvs','--version',exitOnError)
-    if not context.noForrest and not checkExecutable(workspace, context, 'forrest','-version',0): 
+    if not context.noForrest and not checkExecutable(workspace, context, 'forrest','-help',0): 
         context.noForrest=1
         context.addWarning('"forrest" command not found, no xdoc output')
         

@@ -1,8 +1,8 @@
 #!/usr/bin/python
 
-# $Header: /home/stefano/cvs/gump/python/gump/Attic/conf.py,v 1.10 2003/09/05 23:08:49 ajack Exp $
-# $Revision: 1.10 $
-# $Date: 2003/09/05 23:08:49 $
+# $Header: /home/stefano/cvs/gump/python/gump/Attic/conf.py,v 1.11 2003/09/11 21:11:42 ajack Exp $
+# $Revision: 1.11 $
+# $Date: 2003/09/11 21:11:42 $
 #
 # ====================================================================
 #
@@ -95,6 +95,7 @@ class default:
     logLevel   = logging.INFO
     classpath = (os.getenv('CLASSPATH') or '').split(os.pathsep)  
     
+    logurl		=	'http://cvs.apache.org/builds/gump/nightly/'
     bannerimage = 'http://jakarta.apache.org/images/jakarta-logo.gif'
     
     email = 'gump@lists.apache.org'

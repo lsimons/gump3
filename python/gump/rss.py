@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/Attic/rss.py,v 1.6 2003/09/10 21:43:54 ajack Exp $
-# $Revision: 1.6 $
-# $Date: 2003/09/10 21:43:54 $
+# $Header: /home/stefano/cvs/gump/python/gump/Attic/rss.py,v 1.7 2003/09/11 21:11:42 ajack Exp $
+# $Revision: 1.7 $
+# $Date: 2003/09/11 21:11:42 $
 #
 # ====================================================================
 #
@@ -65,13 +65,12 @@
 import os
 import time
 
+from gump import gumpSafeName
 from gump.context import *
 from gump.statistics import StatisticsDB,ProjectStatistics
 
 ###############################################################################
 
-# Where to find the historical data
-gumproot='http://cvs.apache.org/builds/gump/'
 
 # Local time zone, in offset from GMT
 TZ='%+.2d:00' % (-time.timezone/3600)
@@ -84,17 +83,17 @@ def rss(workspace,context):
     
     db=StatisticsDB()       
             
-    rssFile=os.path.normpath(os.path.join(workspace.logdir,'index.rss'))
+    rssFile=os.path.abspath(os.path.join(workspace.logdir,'index.rss'))
     
     gumprss = open(rssFile,'w')
-    gumprss.write("""<rss version="2.0"
+    gumprss.write(("""<rss version="2.0"
   xmlns:admin="http://webns.net/mvcb/" 
   xmlns:dc="http://purl.org/dc/elements/1.1/" 
   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" 
   xmlns:sy="http://purl.org/rss/1.0/modules/syndication/">
 
   <channel>
-    <title>Gump</title>
+    <title>Jakarta Gump : %s</title>
     <link>http://jakarta.apache.org/gump/</link>
     <description>Life is like a box of chocolates</description>
 
@@ -102,9 +101,9 @@ def rss(workspace,context):
     <admin:errorReportsTo rdf:resource="mailto:gump@jakarta.apache.org"/>
 
     <sy:updateFrequency>1</sy:updateFrequency>
-    <sy:updatePeriod>daily</sy:updatePeriod>""")
-    
-    
+    <sy:updatePeriod>daily</sy:updatePeriod>""") % \
+        ( workspace.prefix ) )
+        
     for mctxt in context:
         if not STATUS_SUCCESS == mctxt.status:
             if Module.list.has_key(mctxt.name):
@@ -121,12 +120,24 @@ def rss(workspace,context):
                             
                         log.info("RSS written for " + pctxt.name); 
     
-                        link = gumproot + '/' + mctxt.name + '/' + pctxt.name + 'index.html'                       
+                        link = workspace.logurl + '/' + gumpSafeName(mctxt.name) + '/' + gumpSafeName(pctxt.name) + '.html'                       
                         datestr=time.strftime('%Y-%m-%d')
                         timestr=time.strftime('%H%M')
                     
-                        content='Project ' + pctxt.name + ' : ' + stateName(pctxt.status)
-                    
+                        content='Project ' + pctxt.name \
+                                + ' : ' \
+                                + stateName(pctxt.status) \
+                                + ' ' \
+                                + reasonString(pctxt.reason) \
+                                + "\n\n"
+                        
+                        content += 'Previous state: ' \
+                                + stateName(s.previousState)  \
+                                + "\n\n"
+                     
+                        for note in pctxt.annotations:
+                            content += ("   - " + str(note) + "\n")
+                        
                         # write out the item to the rss feed
                         gumprss.write("""
                             <item>
@@ -148,7 +159,7 @@ def rss(workspace,context):
     """)
     gumprss.close()                                 
     
-    log.info("RSS Newsfeed written" + rssFile);           
+    log.info("RSS Newsfeed written to : " + rssFile);           
     
              
 
