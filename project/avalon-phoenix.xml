@@ -28,7 +28,6 @@
     <depend property="framework.jar" project="avalon" runtime="true"/>
     <depend project="bsf" runtime="true"/>
     <depend project="excalibur-configuration" runtime="true"/>
-    <depend project="spice-converter" runtime="true"/>
     <depend project="excalibur-io" runtime="true"/>
     <depend project="excalibur-cli" runtime="true"/>
     <depend project="excalibur-extension" runtime="true"/>
@@ -54,7 +53,7 @@
     <home nested="target/lib"/>
     <jar name="phoenix-client.jar" id="client"/>
 
-    <jar name="phoenix-metagenerate.jar" id="metagenerate"/>
+    <jar name="phoenix-tools.jar" id="metagenerate"/>
     <jar name="phoenix-loader.jar" id="loader"/>
     <jar name="phoenix-engine.jar" id="metagenerate"/>
     <jar name="phoenix-punit.jar" id="punit"/>
