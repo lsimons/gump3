@@ -38,5 +38,6 @@
 
     <home nested="bin"/>
     <jar name="fulcrum-@@DATE@@.jar"/>
+    <javadoc nested="bin/docs/api"/>
   </project>    
 </module>
