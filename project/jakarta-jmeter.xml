@@ -15,7 +15,7 @@
   limitations under the License.
 -->
 <module name="jakarta-jmeter">
-<!-- Version $Revision: 1.97 $ Last updated $Date: 2004/05/20 22:14:47 $ -->
+<!-- Version $Revision: 1.98 $ Last updated $Date: 2004/06/10 00:05:40 $ -->
   <url href="http://jakarta.apache.org/jmeter/" />
   <description>
     Pure Java load testing and performance measurement tool.
@@ -31,8 +31,8 @@
       <property name="jmeter.version" value="@@DATE@@"/>
       <property name="gump.run" value="true"/>
       <!-- The version of this file -->
-      <property name="version.projectfile" value="$Revision: 1.97 $"/>
-      <property name="date.projectfile" value="$Date: 2004/05/20 22:14:47 $"/>
+      <property name="version.projectfile" value="$Revision: 1.98 $"/>
+      <property name="date.projectfile" value="$Date: 2004/06/10 00:05:40 $"/>
       
       <!--
         These properties are passed to the build process, so the names need to agree with
@@ -85,6 +85,8 @@
     <depend project="excalibur-pool"/>
     <depend project="excalibur-instrument"/>
 
+    <depend project="batik-awt-util"/>
+
     <depend project="commons-logging"/>
     <depend project="commons-httpclient"/>
 
@@ -116,8 +118,8 @@
       <property name="jmeter.version" value="@@DATE@@"/>
       <property name="gump.run" value="true"/>
       <!-- The version of this file -->
-      <property name="version.projectfile" value="$Revision: 1.97 $"/>
-      <property name="date.projectfile" value="$Date: 2004/05/20 22:14:47 $"/>
+      <property name="version.projectfile" value="$Revision: 1.98 $"/>
+      <property name="date.projectfile" value="$Date: 2004/06/10 00:05:40 $"/>
 
       <!-- Ensure work directories don't get dropped from classpath -->
       <mkdir dir="build/core"/>
@@ -210,8 +212,8 @@
       <!-- Temp hack to make up for missing workspace property ... -->
       <property name="java.awt.headless" value="true"/>
       <!-- The version of this file -->
-      <property name="version.projectfile" value="$Revision: 1.97 $"/>
-      <property name="date.projectfile" value="$Date: 2004/05/20 22:14:47 $"/>
+      <property name="version.projectfile" value="$Revision: 1.98 $"/>
+      <property name="date.projectfile" value="$Date: 2004/06/10 00:05:40 $"/>
     </ant>
 
     <depend project="ant" />
@@ -227,6 +229,8 @@
 
     <option project="beanshell" ids="bsh-core"/>
     <option project="jakarta-bsf"/>
+
+    <work nested="lib/batik-awt-util.jar"/>
 
     <work nested="lib/excalibur-logger-1.1.jar"/>
     <work nested="lib/excalibur-compatibility-1.1.jar"/>
@@ -279,8 +283,8 @@
       <property name="jmeter.version" value="@@DATE@@"/>
       <property name="gump.run" value="true"/>
       <!-- The version of this file -->
-      <property name="version.projectfile" value="$Revision: 1.97 $"/>
-      <property name="date.projectfile" value="$Date: 2004/05/20 22:14:47 $"/>
+      <property name="version.projectfile" value="$Revision: 1.98 $"/>
+      <property name="date.projectfile" value="$Date: 2004/06/10 00:05:40 $"/>
     </ant>
 
     <depend project="ant" />
@@ -292,6 +296,8 @@
 
     <option project="beanshell" ids="bsh-core"/>
     <option project="jakarta-bsf"/>
+
+    <work nested="lib/batik-awt-util.jar"/>
 
     <work nested="lib/excalibur-logger-1.1.jar"/>
     <work nested="lib/excalibur-compatibility-1.1.jar"/>
