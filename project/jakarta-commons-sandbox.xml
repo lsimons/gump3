@@ -334,6 +334,7 @@
     <depend project="logging-log4j"/>
     <depend project="commons-codec"/>
     <depend project="xml-xerces"/>
+    <depend project="j2ee-connector"/>
     <depend project="jta"/>
     <depend project="junit"/>
     
