@@ -1,6 +1,6 @@
 <module name="webwork">
 
-  <url href="http://webwork.sourceforge.net/"/>
+  <url href="http://opensymphony.com/webwork/"/>
   <description>
     WebWork web application framework.
   </description>
