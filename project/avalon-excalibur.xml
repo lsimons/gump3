@@ -56,7 +56,6 @@
         <depend project="excalibur-pool" runtime="true" inherit="jars"/>
         <depend project="excalibur-sourceresolve" runtime="true" inherit="jars"/>
         <depend project="excalibur-store" runtime="true" inherit="jars"/>
-        <depend project="excalibur-testcase" runtime="true" inherit="jars"/>
         <depend project="excalibur-thread" runtime="true" inherit="jars"/>
         <depend project="excalibur-threadcontext" runtime="true" inherit="jars"/>
         <depend project="excalibur-xmlutil" runtime="true" inherit="jars"/>
@@ -293,7 +292,7 @@
             <depend property="excalibur-pool.jar" project="excalibur-pool" runtime="true"/>
             <depend property="excalibur-logger.jar" project="excalibur-logger"/>
             <depend property="excalibur-component.jar" project="excalibur-component"/>
-            <depend property="excalibur-testcase.jar" project="excalibur-testcase"/>
+            <depend property="excalibur-testcase.jar" project="excalibur-component"/>
             <depend property="logkit.jar" project="avalon-logkit"/>
             <property name="version" value="@@DATE@@"/>
             <property name="junit.failonerror" value="true"/>
@@ -810,32 +809,9 @@
                 to="dev@avalon.apache.org"/>
     </project>
 
+    <!-- deprecated! Testcase merged into component -->
     <project name="excalibur-testcase">
-        <package>org.apache.avalon.excalibur.testcase</package>
-
-        <ant basedir="testcase">
-            <depend property="excalibur-component.jar" project="excalibur-component" runtime="true"/>
-            <depend property="excalibur-logger.jar" project="excalibur-logger" runtime="true"/>
-            <depend property="logkit.jar" project="avalon-logkit" runtime="true"/>
-            <property name="version" value="@@DATE@@"/>
-            <property name="junit.failonerror" value="true"/>
-            <property name="do.checkstyle" value="true"/>
-            <property name="skip.dependencies" value="true"/>
-        </ant>
-
-        <depend project="ant" inherit="runtime"/>
-        <option project="checkstyle" inherit="runtime"/>
-        <depend project="junit"/>
-        <depend project="avalon" runtime="true"/>
-       <depend project="xml-xerces"/>
-        <depend project="xml-xalan2"/>
-        <work nested="testcase/build/classes"/>
-
-        <home nested="testcase"/>
-        <jar name="build/lib/excalibur-testcase-@@DATE@@.jar"/>
-
-        <nag from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"
-                to="dev@avalon.apache.org"/>
+        <depend project="excalibur-component" inherit="jars"/>
     </project>
 
     <project name="excalibur-thread">
