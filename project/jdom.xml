@@ -9,6 +9,7 @@
 
   <project name="jdom">
     <package>org.jdom</package>
+    <redistributable/>
 
     <ant/>
     <depend project="jakarta-ant" inherit="runtime"/>

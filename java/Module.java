@@ -1,7 +1,7 @@
 /*
- * $Header: /home/stefano/cvs/gump/java/Module.java,v 1.21 2003/01/14 15:49:50 rubys Exp $
- * $Revision: 1.21 $
- * $Date: 2003/01/14 15:49:50 $
+ * $Header: /home/stefano/cvs/gump/java/Module.java,v 1.22 2003/02/07 01:09:25 rubys Exp $
+ * $Revision: 1.22 $
+ * $Date: 2003/02/07 01:09:25 $
  *
  * ====================================================================
  *
@@ -82,6 +82,7 @@ public class Module {
     private String srcdir;
     private Element description;
     private Element url;
+    private boolean redistributable = false;
 
     private static String cvspass = System.getProperty("user.home")+"/.cvspass";
 
@@ -161,6 +162,8 @@ public class Module {
             } else if (child.getNodeName().equals("svn")) {
                 Element svn = (Element) child;
                 svn.setAttribute("srcdir", name);
+            } else if (child.getNodeName().equals("redistributable")) {
+                redistributable = true;
             }
         }
         
@@ -177,7 +180,6 @@ public class Module {
 
     /**
      * Property accessor for description attribute.
-     * @param name attribute name
      * @return Value of the specified attribute.
      */
     public Element getDescription() {
@@ -186,11 +188,18 @@ public class Module {
 
     /**
      * Property accessor for url attribute.
-     * @param name attribute name
      * @return Value of the specified attribute.
      */
     public Element getUrl() {
         return url;
+    }
+
+    /**
+     * Property accessor for redistributable attribute.
+     * @return Value of the specified attribute.
+     */
+    public boolean getRedistributable() {
+        return redistributable;
     }
 
     /**
@@ -309,6 +318,8 @@ public class Module {
             if (cvs.getAttributeNode("compress") == null) {
                 cvs.setAttribute("compress", r.get("compress"));
             }
+
+            redistributable |= r.getRedistributable();
         }
     }
 

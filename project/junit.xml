@@ -4,6 +4,7 @@
   <description>
     Unit test framework
   </description>
+  <redistributable/>
 
   <cvs repository="sourceforge" host-prefix="cvs.JUnit" dir="junit"/>
   

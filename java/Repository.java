@@ -1,7 +1,7 @@
 /*
- * $Header: /home/stefano/cvs/gump/java/Repository.java,v 1.4 2003/01/14 15:49:51 rubys Exp $
- * $Revision: 1.4 $
- * $Date: 2003/01/14 15:49:51 $
+ * $Header: /home/stefano/cvs/gump/java/Repository.java,v 1.5 2003/02/07 01:09:25 rubys Exp $
+ * $Revision: 1.5 $
+ * $Date: 2003/02/07 01:09:25 $
  *
  * ====================================================================
  *
@@ -72,6 +72,7 @@ public class Repository {
     static private Hashtable repositories = new Hashtable();
     private Element element;
     private String name;
+    private boolean redistributable = false;
 
     /**
      * Create a set of Repository definitions based on XML nodes.
@@ -106,7 +107,22 @@ public class Repository {
 
         resolve(element);
 
+        Node child=element.getFirstChild();
+        for (; child != null; child=child.getNextSibling()) {
+            if (child.getNodeName().equals("redistributable")) {
+                redistributable = true;
+            }
+        }
+
         repositories.put(name, this);
+    }
+
+    /**
+     * Property accessor for redistributable attribute.
+     * @return Value of the specified attribute.
+     */
+    public boolean getRedistributable() {
+        return redistributable;
     }
 
     /**

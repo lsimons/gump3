@@ -4,6 +4,7 @@
   <title>Apache Avalon</title>
   <home-page>http://avalon.apache.org/</home-page>
   <cvsweb>http://cvs.apache.org/viewcvs/</cvsweb>
+  <redistributable/>
 
   <root>
     <method>pserver</method>

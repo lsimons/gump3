@@ -4,6 +4,7 @@
   <title>Apache DB Project</title>
   <home-page>http://db.apache.org/</home-page>
   <cvsweb>http://cvs.apache.org/viewcvs/</cvsweb>
+  <redistributable/>
 
   <root>
     <method>pserver</method>

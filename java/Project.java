@@ -1,7 +1,7 @@
 /*
- * $Header: /home/stefano/cvs/gump/java/Project.java,v 1.48 2003/01/27 09:00:52 bodewig Exp $
- * $Revision: 1.48 $
- * $Date: 2003/01/27 09:00:52 $
+ * $Header: /home/stefano/cvs/gump/java/Project.java,v 1.49 2003/02/07 01:09:25 rubys Exp $
+ * $Revision: 1.49 $
+ * $Date: 2003/02/07 01:09:25 $
  *
  * ====================================================================
  *
@@ -85,6 +85,7 @@ public class Project {
     private Hashtable dependsOn = new Hashtable();
     private Hashtable referencedBy = new Hashtable();
     private Hashtable jars = new Hashtable();
+    private boolean redistributable = false;
     private Element description;
     private Element url;
     private Vector deliver = new Vector();
@@ -177,6 +178,8 @@ public class Project {
                 deliver.add(child);
             } else if (child.getNodeName().equals("nag")) {
                 expandNag((Element) child);
+            } else if (child.getNodeName().equals("redistributable")) {
+                redistributable = true;
             }
         }
 
@@ -327,6 +330,8 @@ public class Project {
         } else {
             element.setAttribute("srcdir", result);
         }
+
+        redistributable |= module.getRedistributable();
     }
 
     /**
@@ -336,6 +341,12 @@ public class Project {
      */
     private void expandDepends() throws Exception {
         String jardir = Workspace.getJarDir();
+
+        if (redistributable) {
+            element.setAttribute("redistributable","true");
+        } else {
+            jardir = "";
+        }
 
         for (Enumeration e=dependsOn.keys(); e.hasMoreElements(); ) {
             String name = (String)e.nextElement();

@@ -497,6 +497,12 @@
 </nag>
 ]]></source>
     </subsection>
+
+    <subsection name="redistributable">
+      <p>If present, indicates that outputs of builds from this module
+      are redistributable.  Defaults to the redistributable value for
+      the repository.</p>
+    </subsection>
   </section>
 </body>
 </document>

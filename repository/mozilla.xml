@@ -4,6 +4,7 @@
   <title>Mozilla</title>
   <home-page>http://www.mozilla.org/</home-page>
   <cvsweb>http://lxr.mozilla.org/mozilla/source/</cvsweb>
+  <redistributable/>
 
   <root>
     <method>pserver</method>

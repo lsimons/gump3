@@ -210,7 +210,7 @@
             <xsl:apply-templates select="ant|script"/>
 
             <!-- Optionally save any jars produced -->
-            <xsl:if test="/workspace/@jardir">
+            <xsl:if test="@redistributable and /workspace/@jardir">
               <xsl:variable name="jardir" select="/workspace/@jardir"/>
               <xsl:variable name="home" select="@home"/>
               <xsl:variable name="module" select="@module"/>

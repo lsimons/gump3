@@ -59,6 +59,11 @@
         <td>Web interface to the repository</td>
         <td>No</td>
       </tr>
+      <tr>
+        <td>redistributable</td>
+        <td>Are the outputs of this build redistributable?</td>
+        <td>No</td>
+      </tr>
     </table>
     <p/>
 

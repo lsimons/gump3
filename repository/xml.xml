@@ -4,6 +4,7 @@
   <title>XML</title>
   <home-page>http://xml.apache.org/</home-page>
   <cvsweb>http://cvs.apache.org/viewcvs/</cvsweb>
+  <redistributable/>
 
   <root>
     <method>pserver</method>

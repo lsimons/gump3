@@ -146,6 +146,12 @@
       <p>A definition of a <a href="project.html">project</a> which is
       physically contained in this module.</p>
     </subsection>
+
+    <subsection name="redistributable">
+      <p>If present, indicates that outputs of builds from this module
+      are redistributable.  Defaults to the redistributable value for
+      the repository.</p>
+    </subsection>
   </section>
 </body>
 </document>
