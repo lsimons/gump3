@@ -16,7 +16,7 @@
 -->
 <module name="avalon-tools">
 
-  <url href="http://avalon.apache.org/"/>
+  <url href="http://avalon.apache.org/central/tools/index.html"/>
 
   <description>Avalon Tools.</description>
 
