@@ -1,3 +1,9 @@
 PREVIEW Test Post
-Add your changes here try it out
-leave the PREVIEW in the subject so it does not show up by default
+<p>Add your changes here try it out.
+</p><p>Leave the PREVIEW in the subject so it does not show up by default.
+</p>
+<p>
+You can view the post at 
+<a href="http://gump.chalko.com/gb/blog/?permalink=TestPost.txt&preview=true"
+>http://gump.chalko.com/gb/blog/?permalink=TestPost.txt&preview=true</a>
+.</p>
