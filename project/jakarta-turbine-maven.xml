@@ -27,6 +27,7 @@
     <depend project="commons-cli"/>
     <depend project="commons-collections"/>
     <depend project="commons-grant"/>
+    <depend project="commons-graph2"/>
     <depend project="commons-io"/>
     <!-- depend project="commons-jelly"/ -->
     <depend project="commons-jexl"/>
