@@ -104,6 +104,7 @@
     <depend project="xml-xerces"/>
     <depend project="dist-xalan2"/>
     <work nested="test/java/build"/>
+    <work nested="test/java/src"/>
   </project>
 
 </project>
