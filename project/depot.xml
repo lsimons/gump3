@@ -15,8 +15,8 @@
         <package>org.apache.version</package>
 
         <!-- Work dirs to be included in classpath  -->
-        <work nested="version/build/classes"/>
-        <home nested="version/build"/>
+        <work nested="version/target/classes"/>
+        <home nested="version/dist"/>
 
         <depend inherit="runtime" project="ant"/>
 
@@ -38,8 +38,8 @@
         <package>org.apache.version.test</package>
 
         <!-- Work dirs to be included in classpath  -->
-        <work nested="version/build/unit/classes"/>
-        <home nested="version/build"/>
+        <work nested="version/target/unit/classes"/>
+        <home nested="version/dist"/>
 
         <depend project="depot-version" inherit="all"/>
         <depend project="junit"/>
@@ -60,8 +60,8 @@
         <package>org.apache.ruper</package>
 
         <!-- Work dirs to be included in classpath  -->
-        <work nested="ruper/build/classes"/>
-        <home nested="ruper/build"/>
+        <work nested="ruper/target/classes"/>
+        <home nested="ruper/dist"/>
 
         <depend inherit="runtime" project="ant"/>
         <depend project="depot-version"/>
@@ -84,8 +84,8 @@
         <package>org.apache.ruper.test</package>
 
         <!-- Work dirs to be included in classpath  -->
-        <work nested="ruper/build/unit/classes"/>
-        <home nested="ruper/build"/>
+        <work nested="ruper/target/unit/classes"/>
+        <home nested="ruper/dist"/>
 
         <depend project="depot-ruper" inherit="all"/>
         <depend project="junit"/>
