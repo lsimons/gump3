@@ -1,0 +1,31 @@
+<module name="xml-xmlbeans">
+
+  <description>
+          XML Beans Object &lt;-&gt; Java Binding Tool
+  </description>
+
+  <cvs repository="xml"/>
+  
+  <project name="xml-xmlbeans-v1">
+    <ant basedir="v1" buildfile="build.xml" target="bootstrap"/>
+    <url href='http://xml.apache.org/xmlbeans/'/>         
+    <depend project="bootstrap-ant"/>
+    <depend project="xml-xerces"/>
+    <depend project='junit'/>
+    <home nested="v1/build"/>
+    <work nested="v1/build/classes/xmlinputstream"/>
+    <work nested="v1/build/classes/xmlpublic"/>    
+    <work nested="v1/external/lib/oldxbean.jar"/>
+    <work nested="v1/build/private/lib/easypo.jar"/>
+    <work nested="v1/build/private/lib/schemas.jar"/>
+    <work nested='v1/build/private/lib/enumtest.jar'/>
+    <work nested='v1/build/private/lib/drt.jar'/>
+    <work nested='v1/build/private/lib/xstypes.jar'/>
+    <jar name="lib/xbean.jar"/> 
+    <jar name="lib/xmlpublic.jar"/>
+    <license name="v1/src/license/license.txt"/>
+      <nag to="xmlbean-dev@xml.apache.org"
+                       from="Robert Burrell Donkin &lt;rdonkin@apache.org&gt;"/>
+  </project>
+
+</module>
