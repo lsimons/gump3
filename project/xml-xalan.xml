@@ -17,6 +17,16 @@
     <jar  name="xalan.jar" id="xalan"/>
   </project>
 
+  <project name="xml-xalan1-compat">
+    <ant basedir="java" target="compat.jar"/>
+
+    <depend project="bootstrap-ant"/>
+    <depend project="xml-xerces"/>
+
+    <home nested="java/build"/>
+    <jar  name="xalanj1compat.jar" id="xalan1"/>
+  </project>
+
   <project name="dist-xalan2">
     <url href="http://xml.apache.org/xalan-j/index.html"/>
     <description>
