@@ -32,21 +32,6 @@
     <depend project="junit"/>
     <work nested="collections/dist/classes"/>
     <home nested="collections/dist"/>
-  <project name="commons-betwixt">
-    <description>Commons Betwixt Package</description>
-    <url href="http://jakarta.apache.org/commons/betwixt.html"/>
-    <ant basedir="betwixt" target="dist">
-      <property name="component.version"  value="@@DATE@@"/>
-      <depend property="commons-digester.jar" project="commons-digester"/>
-      <depend property="commons-collections.jar" project="commons-collections"/>
-      <depend property="commons-beanutils.jar" project="commons-beanutils"/>
-      <depend property="junit.jar"  project="junit"/>
-    </ant>
-    <depend project="jakarta-ant"/>
-    <jar name="betwixt/dist/commons-betwixt-@@DATE@@.jar"/>
-    <javadoc nested="betwixt/dist/docs/api"/>
-  </project>
-
     <jar name="commons-collections.jar"/>
     <javadoc nested="collections/dist/docs/api"/>
   </project>

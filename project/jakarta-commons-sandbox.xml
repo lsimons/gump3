@@ -32,6 +32,21 @@
     <javadoc nested="codec/dist/docs/api"/>
   </project>
 
+  <project name="commons-betwixt">
+    <description>Commons Betwixt Package</description>
+    <url href="http://jakarta.apache.org/commons/betwixt.html"/>
+    <ant basedir="betwixt" target="dist">
+      <property name="component.version"  value="@@DATE@@"/>
+      <depend property="commons-digester.jar" project="commons-digester"/>
+      <depend property="commons-collections.jar" project="commons-collections"/>
+      <depend property="commons-beanutils.jar" project="commons-beanutils"/>
+      <depend property="junit.jar"  project="junit"/>
+    </ant>
+    <depend project="jakarta-ant"/>
+    <jar name="betwixt/dist/commons-betwixt-@@DATE@@.jar"/>
+    <javadoc nested="betwixt/dist/docs/api"/>
+  </project>
+
   <project name="commons-email">
     <description>Commons Email Package</description>
     <ant basedir="email" target="dist">
