@@ -1,0 +1,35 @@
+<module name="beanshell">
+
+  <url  href="http://www.beanshell.org/"/>
+  <description>
+    
+  </description>
+
+  <cvs repository="sourceforge" host-prefix="cvs.beanshell" 
+       module="BeanShell" dir="beanshell"/>
+  
+  <project name="beanshell">
+    <package>bsh</package>
+
+    <ant target="dist">
+      <property name="javacc-lib" project="javacc" path="bin/lib/JavaCC.zip"/>
+      <property name="version" value="@@DATE@@"/>
+    </ant>
+
+    <depend project="jakarta-ant"/>
+    <depend project="xml-xerces"/>
+    <depend project="xml-xalan2"/>
+    <depend project="bsf"/>
+    <depend project="jakarta-servletapi"/>
+
+    <jar name="bsh-@@DATE@@.jar" id="all"/>
+    <jar name="bsh-bsf-@@DATE@@.jar" id="bsh-bsf"/>
+    <jar name="bsh-classpath-@@DATE@@.jar" id="bsh-classpath"/>
+    <jar name="bsh-commands-@@DATE@@.jar" id="bsh-commands"/>
+    <jar name="bsh-core-@@DATE@@.jar" id="bsh-core"/>
+    <jar name="bsh-reflect-@@DATE@@.jar" id="bsh-reflect"/>
+    <jar name="bsh-util-@@DATE@@.jar" id="bsh-util"/>
+    <javadoc nested="javadoc" />
+  </project>
+
+</module>
