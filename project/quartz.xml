@@ -18,6 +18,7 @@
     </ant>
 
     <depend project="ant" inherit="runtime"/>
+    <depend project="ejb"/>
     <depend project="xml-xerces"/>
     <depend project="jdbc"/>
     <depend project="jta"/>
@@ -28,6 +29,7 @@
     <depend project="jakarta-log4j"/>
     <depend project="jakarta-servletapi-5-servlet"/>
     <depend project="jakarta-struts"/>
+    <depend project="javamail"/>
     <depend project="junit"/>
     <jar name="lib/quartz.jar"/>
 
