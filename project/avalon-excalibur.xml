@@ -934,8 +934,4 @@
                 to="dev@avalon.apache.org"/>
     </project>
 
-    <project name="jing">
-        <jar name="configuration/lib/jing.jar"/>
-    </project>
-
 </module>
