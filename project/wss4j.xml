@@ -11,7 +11,7 @@
   <project name="wss4j">
     <package>org.apache.ws.security</package>
 
-    <ant target="gump">
+    <ant target="gump" debug="true">
         <property name="jar.library" value="wss4j-@DATE@.jar"/>
     </ant>
 
