@@ -84,7 +84,7 @@
          from="Craig McClanahan &lt;craigmcc@apache.org&gt;"/>
   </project>
 
-  <project name="antlr">
+  <!--project name="antlr">
     <url href="http://www.antlr.org/"/>
     <description>
       ANother Tool for Language Recognition
@@ -92,5 +92,5 @@
 
     <jar name="lib/antlr-tools.jar" id="antlr-tools"/>
     <jar name="lib/antlr.jar" id="antlr"/>
-  </project>
+  </project-->
 </module>

@@ -192,6 +192,7 @@
 
 <!-- other -->
 
+  <module href="project/antlr.xml"/>
   <module href="project/aspectj.xml"/>
   <module href="project/bsf.xml"/>
   <module href="project/castor.xml"/>
@@ -243,6 +244,7 @@
 
 <!-- Installed packages -->
 
+  <project name="antlr"            package="antlr-2.7.2"/>
   <project name="aspectj"          package="aspectj1.0"/>
   <project name="concurrent"       package="dougLea"/>
   <project name="cos"              package="cos-09May2002"/>

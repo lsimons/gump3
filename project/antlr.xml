@@ -1,0 +1,15 @@
+<module name="antlr">
+
+  <url href="http://www.antlr.org/"/>
+  <description>
+    ANTLR Translator generator
+  </description>
+  
+  <project name="antlr">
+    <package>antlr</package>
+    <!-- untpack antlr 2.7.2, run ./configure; make antlrall.jar -->
+
+    <jar name="antlrall.jar" id="antlr-tools"/>
+    <jar name="antlr.jar" id="antlr"/>
+  </project>
+</module>
