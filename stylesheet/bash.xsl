@@ -263,7 +263,7 @@
   <xsl:template match="td[@class='status']">
     <xsl:text>case $STATUS in &#10;</xsl:text>
     <xsl:text> SUCCESS) eval "echo \&lt;td\>\;\; $OUT"&#10;</xsl:text>
-    <xsl:text> FAILED) eval<xsl:text>
+    <xsl:text> FAILED) eval</xsl:text>
     <xsl:text> "echo \&lt;td class="fail"\>\;\; $OUT"&#10;</xsl:text>
     <xsl:text> *) eval "echo \&lt;td class="warn"\>\;\; $OUT"&#10;</xsl:text>
     <xsl:text>esac&#10;</xsl:text>
