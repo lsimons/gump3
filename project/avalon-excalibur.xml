@@ -97,9 +97,9 @@
 
         <home nested="component"/>
         <jar name="target/excalibur-component-@@DATE@@.jar" id="component"/>
-        <jar name="target/excalibur-component-api-@@DATE@@.jar"
+        <jar name="target/excalibur-component-@@DATE@@-api.jar"
              id="component-api"/>
-        <jar name="target/excalibur-component-impl-@@DATE@@.jar"
+        <jar name="target/excalibur-component-@@DATE@@-impl.jar"
              id="component-impl"/>
         <!--jar name="target/excalibur-testcase-@@DATE@@.jar" id="testcase"/-->
 
