@@ -226,6 +226,7 @@
 
     <ant basedir="resources" target="dist">
       <property name="final.name" value="commons-resources-@@DATE@@" />
+      <sysproperty name="build.clonevm" value="true"/>
     </ant>
 
     <depend project="ant" inherit="runtime"/>
