@@ -39,6 +39,7 @@
     <home nested="build/lib"/>
     <jar name="cornerstone.jar"/>
 
+    <javadoc nested="docs/api" module="avalon"/>
     <license name="LICENSE.txt"/>
 
     <nag from="Peter Donald &lt;peter@apache.org&gt;"

@@ -28,6 +28,7 @@
     <home nested="target/lib"/>
     <jar name="avalon-framework.jar"/>
 
+    <javadoc nested="target/javadocs" module="avalon"/>
     <license name="LICENSE.txt"/>
 
     <nag from="Peter Donald &lt;peter@apache.org&gt;"

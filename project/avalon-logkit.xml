@@ -32,6 +32,8 @@
 
     <home nested="build/lib"/>
     <jar name="logkit.jar"/>
+
+    <javadoc nested="build/javadocs" module="avalon"/>
     <license name="LICENSE"/>
     <nag from="Peter Donald &lt;peter@apache.org&gt;"
             to="dev@avalon.apache.org"/>
