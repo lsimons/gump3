@@ -19,6 +19,7 @@
     <depend project="bsf"/>
     <depend project="ejb"/>
     <depend project="javamail"/>
+    <depend project="commons-logging"/>
     <depend project="jms"/>
     <depend project="wsdl4j"/>
     <depend project="xml-axis"/>
