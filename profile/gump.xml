@@ -189,6 +189,7 @@
   <module href="project/bsf.xml"/>
   <module href="project/castor.xml"/>
   <module href="project/cryptix.xml"/>
+  <module href="http://dev.w3.org/cvsweb/~checkout~/2001/DOM-Test-Suite/domts.xml?content-type=text/xml"/>
   <module href="project/dougLea.xml"/>
   <module href="project/eyebrowse.xml"/>
   <module href="project/javacc.xml"/>
