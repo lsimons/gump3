@@ -16,9 +16,9 @@
       <property name="tomcat33.home" value=""/>
       <property name="ant.home" reference="home" project="ant"/>
       <property name="jsse.home" reference="home" project="jsse"/>
-      <property name="jmx.home" reference="home" project="jmx"/>
+      <property name="jmx.home" reference="home" project="mx4j"/>
       <property name="jmxtools.jar" reference="jarpath"
-        project="jmx" id="jmxtools"/>
+        project="mx4j" id="tools"/>
       <property name="jndi.home" reference="home" project="jndi"/>
       <property name="site2.home" reference="home" project="jakarta-site2"/>
       <property name="regexp.home"
@@ -36,7 +36,7 @@
       <depend property="jdbc20ext.jar" project="jdbc"/>
       <depend property="jndi.jar" project="jndi"/>
       <depend property="jaas.jar" project="jaas"/>
-      <depend property="jmx.jar" project="jmx" reference="jarpath" id="jmxri"/>
+      <depend property="jmx.jar" project="mx4j" reference="jarpath" id="jmx"/>
       <depend property="jta.jar" project="jta"/>
       <depend property="ldap.jar" project="ldap"/>
       <depend property="servlet-api.jar"
