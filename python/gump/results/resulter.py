@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/results/resulter.py,v 1.9 2004/03/03 00:54:43 ajack Exp $
-# $Revision: 1.9 $
-# $Date: 2004/03/03 00:54:43 $
+# $Header: /home/stefano/cvs/gump/python/gump/results/resulter.py,v 1.10 2004/03/03 01:01:27 ajack Exp $
+# $Revision: 1.10 $
+# $Date: 2004/03/03 01:01:27 $
 #
 # ====================================================================
 #
@@ -71,6 +71,10 @@ import logging
 from string import lower, capitalize
 
 from gump import log
+from gump.model.object import NamedModelObject
+from gump.model.workspace import *
+from gump.model.module import *
+from gump.model.project import *
 from gump.results.model import *
 from gump.results.loader import *
 
@@ -101,7 +105,7 @@ class Resulter:
             result=None
             if self.serverResults.has_key(server):
                 serverResults=self.serverResults[server]
-                if isinstance(object,NamedObject):
+                if isinstance(object,NamedModelObject):
                     name=object.getName()
                     if isinstance(object,Workspace):                    
                         result=serverResults
