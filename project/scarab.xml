@@ -19,5 +19,7 @@
   <depend project="village"/>
   <depend project="torque"/>
   <option project="lucene"/>
+  <depend project="jaf"/>
+  <depend project="jakarta-log4j"/>
 
 </project>
