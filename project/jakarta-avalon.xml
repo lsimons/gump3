@@ -28,7 +28,7 @@
   <work nested="build/classes"/>
 
   <home nested="build/lib"/>
-  <jar name="avalonapi.jar" id="avalonapi"/>
+  <jar name="avalon-framework.jar" id="avalonapi"/>
   <jar name="avalon-scratchpad.jar"/>
 
   <!-- Anybody want to contribute an ant build.xml to Kawa ;-) -->
