@@ -81,7 +81,7 @@ class Databaser(gump.run.actor.AbstractRunActor):
         helper=None
         try:
             conn=self.getConnected()
-            helper=gump.utils.mysql.DbHelper(conn)
+            helper=gump.utils.mysql.DbHelper(conn,self.dbInfo.getDatabase())
             
             # Prepare the data
             settings = {}
