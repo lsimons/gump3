@@ -117,7 +117,7 @@ Regex: /BUILD FAILED/
 ------
 Project: dist-avalon-logkit
 To: avalon-dev@jakarta.apache.org
-From: Peter Donald <donaldp@apache.org>
+From: Peter Donald <peter@apache.org>
 Subject: [GUMP] Build Failure - Logkit
 Regex: /BUILD FAILED/
 ------
@@ -183,13 +183,13 @@ Regex: /BUILD FAILED/
 ------
 Project: jakarta-avalon
 To: avalon-dev@jakarta.apache.org
-From: Peter Donald <donaldp@apache.org>
+From: Peter Donald <peter@apache.org>
 Subject: [GUMP] Build Failure - Avalon
 Regex: /BUILD FAILED/
 ------
 Project: excalibur-cli
 To: avalon-dev@jakarta.apache.org
-From: Peter Donald <donaldp@apache.org>
+From: Peter Donald <peter@apache.org>
 Subject: [GUMP] Build Failure - Excalibur CLI
 Regex: /BUILD FAILED/
 Subject: [GUMP] Empty jar - CLI
@@ -197,19 +197,19 @@ Regex: /Note: creating empty jar/
 ------
 Project: jakarta-avalon-cornerstone
 To: avalon-apps-dev@jakarta.apache.org
-From: Peter Donald <donaldp@apache.org>
+From: Peter Donald <peter@apache.org>
 Subject: [GUMP] Build Failure - Cornerstone
 Regex: /BUILD FAILED/
 ------
 Project: jakarta-avalon-exceptionutil
 To: avalon-dev@jakarta.apache.org
-From: Peter Donald <donaldp@apache.org>
+From: Peter Donald <peter@apache.org>
 Subject: [GUMP] Build Failure - ExceptionUtil
 Regex: /BUILD FAILED/
 ------
 Project: jakarta-avalon-excalibur
 To: avalon-dev@jakarta.apache.org
-From: Peter Donald <donaldp@apache.org>
+From: Peter Donald <peter@apache.org>
 Subject: [GUMP] Build Failure - Excalibur
 Regex: /BUILD FAILED/
 Subject: [GUMP] Build Timeout - Excalibur
@@ -217,19 +217,19 @@ Regex: /timed out/
 ------
 Project: jakarta-avalon-logkit
 To: avalon-dev@jakarta.apache.org
-From: Peter Donald <donaldp@apache.org>
+From: Peter Donald <peter@apache.org>
 Subject: [GUMP] Build Failure - Logkit
 Regex: /BUILD FAILED/
 ------
 Project: jakarta-avalon-phoenix
 To: avalon-phoenix-dev@jakarta.apache.org
-From: Peter Donald <donaldp@apache.org>
+From: Peter Donald <peter@apache.org>
 Subject: [GUMP] Build Failure - Phoenix
 Regex: /BUILD FAILED/
 ------
 Project: jakarta-avalon-testlet
 To: avalon-dev@jakarta.apache.org
-From: Peter Donald <donaldp@apache.org>
+From: Peter Donald <peter@apache.org>
 Subject: [GUMP] Build Failure - Testlet
 Regex: /BUILD FAILED/
 ------
@@ -265,7 +265,7 @@ Regex: /BUILD FAILED/
 ------
 Project: jakarta-james
 To: james-dev@jakarta.apache.org
-From: Peter Donald <donaldp@apache.org>
+From: Peter Donald <peter@apache.org>
 Subject: [GUMP] Build Failure - James
 Regex: /BUILD FAILED/
 ------
