@@ -22,6 +22,7 @@
         <work nested="build/contrib-classes"/>
         <work nested="build/scratchpad-classes"/>
         <work nested="build/test-classes"/>
+        <work nested="build/scratchpad-test-classes"/>
         <home nested="build/dist"/>
         <jar name="poi-1.10.0-dev-@@DATE@@.jar"/>
         <jar name="poi-contrib-1.10.0-dev-@@DATE@@.jar"/>
