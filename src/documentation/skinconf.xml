@@ -19,6 +19,7 @@
 Skin configuration file. This file contains details of your project, which will
 be used to configure the chosen Forrest skin.
 -->
+
 <!DOCTYPE skinconfig [
 
   <!ENTITY % links.att 'name CDATA #REQUIRED'>
@@ -72,8 +73,10 @@ be used to configure the chosen Forrest skin.
   ]>
 
 <skinconfig>
+  <!-- Do we want to disable the Lucene search box? -->
+  <disable-lucene>true</disable-lucene>
   <!-- Do we want to disable the Google search box? -->
-  <disable-search>true</disable-search>
+  <disable-search>false</disable-search>
   <!-- Do we want to disable the print link? -->
   <disable-print-link>true</disable-print-link>  
   <!-- Do we want to disable the PDF link? -->
@@ -82,14 +85,16 @@ be used to configure the chosen Forrest skin.
   <disable-xml-link>true</disable-xml-link>
   <!-- Do we want to disable w3c compliance links? -->
   <disable-compliance-links>false</disable-compliance-links>
+  <!-- Whether to render mailto: links unrecognisable by spam harvesters -->
+  <obfuscate-mail-links>true</obfuscate-mail-links>
 
-  <searchsite-domain>jakarta.apache.org</searchsite-domain>  
-  <searchsite-name>Jakarta Gump</searchsite-name>  
+  <searchsite-domain>apache.org</searchsite-domain>  
+  <searchsite-name>Apache</searchsite-name>  
 
   <!-- mandatory project logo
        skin: forrest-site renders it at the top -->
-  <project-name>Jakarta Gump</project-name>
-  <project-url>http://jakarta.apache.org/gump</project-url>
+  <project-name>Apache Gump</project-name>
+  <project-url>http://gump.apache.org</project-url>
   <project-logo>images/gump-logo.png</project-logo>
 
   <!-- optional group logo
@@ -102,6 +107,9 @@ be used to configure the chosen Forrest skin.
        skin: forrest-site renders it at the bottom-left corner -->
   <host-url></host-url>
   <host-logo></host-logo>
+  
+  <!-- relative url of a favicon file, normally favicon.ico -->
+  <!-- favicon-url>favicon.ico</favicon-url -->
 
   <!-- The following are used to construct a copyright statement -->
   <year>2003-2004</year>
@@ -111,11 +119,17 @@ be used to configure the chosen Forrest skin.
   want these, set the attributes to blank. The DTD purposefully requires them.
   -->
   <trail>
-    <link1 name="Jakarta" href="http://jakarta.apache.org/"/>
+    <link1 name="Apache Gump" href="http://gump.apache.org/"/>
     <!-- link2 name="Jakarta Gump" href="http://jakarta.apache.org/gump/"/ -->
     <link2 name="" href=""/>
     <link3 name="" href=""/>
   </trail>
+
+  <!-- Configure how many "section" levels need to be included in the
+  generated Table of Contents (TOC). By default, if no toc element is provided
+  below, then 2 levels are included. Level 0 does not generate any TOC at all.
+  -->
+  <toc level="2"/>
 
   <!-- Credits are typically rendered as a set of small clickable images in the
   page footer -->
@@ -130,5 +144,4 @@ be used to configure the chosen Forrest skin.
     <!-- A credit with @role='pdf' will have its name and url displayed in the
     PDF page's footer. -->
   </credits>
-
 </skinconfig>
