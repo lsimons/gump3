@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/model/object.py,v 1.8 2003/11/20 20:51:48 ajack Exp $
-# $Revision: 1.8 $
-# $Date: 2003/11/20 20:51:48 $
+# $Header: /home/stefano/cvs/gump/python/gump/model/object.py,v 1.9 2003/11/26 20:01:16 ajack Exp $
+# $Revision: 1.9 $
+# $Date: 2003/11/26 20:01:16 $
 #
 # ====================================================================
 #
@@ -68,6 +68,7 @@ from string import lower, capitalize
 from gump.utils.note import *
 from gump.utils.work import *
 from gump.utils.owner import *
+from gump.utils.xmlutils import xmlize
 
 from gump.model.state import *
 
@@ -180,8 +181,20 @@ class ModelObject(Annotatable,Workable,Propogatable,Ownable):
     def dump(self, indent=0, output=sys.stdout):
         """ Display the contents of this object """
         Annotatable.dump(self,indent,output)
-                
-                
+    
+    def hasViewData(self):
+        return hasattr(self,'viewdata')
+        
+    def getViewData(self):
+        if not self.hasViewData():
+            stream=StringIO.StringIO() 
+            xmlize(self.xml.getTagName(),self.xml,stream)
+            stream.seek(0)
+            self.viewdata=stream.read()
+            stream.close()
+    
+        return self.viewdata
+        
     # Somewhat bogus...
     
     def elapsedSecs(self):

@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/forrest.py,v 1.18 2003/11/26 17:03:51 ajack Exp $
-# $Revision: 1.18 $f
-# $Date: 2003/11/26 17:03:51 $
+# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/forrest.py,v 1.19 2003/11/26 20:01:16 ajack Exp $
+# $Revision: 1.19 $f
+# $Date: 2003/11/26 20:01:16 $
 #
 # ====================================================================
 #
@@ -275,16 +275,20 @@ class ForrestDocumenter(Documenter):
         syndRow.createData().createLink('workspace.html','XML')
                 
         if not gumpSet.isFull():
-            note="""This output does not represent the a complete workspace,
-            but a partial one.         
-            Only projects, and their dependents, matching this regular expression """ + \
-                "<strong>[" + gumpSet.projectexpression + "]</strong>."
+            note=definitionSection.createNote()
             
-            note+="\n\nRequested Projects:\n"
+            note.createText("""This output does not represent the a complete workspace,
+            but a partial one.         
+            Only projects, and their dependents, matching this regular expression """)
+            note.createStrong(gumpSet.projectexpression)
+            note.createBreak()
+            note.createBreak()            
+            note.createText('Requested Projects:')
+            note.createBreak()
             for project in gumpSet.projects:
-                note += project.name + " "
+                note.createText(project.name)
+                note.createText(' ')
                             
-            definitionSection.createNote(note)
         
         self.documentSummary(document,workspace.getProjectSummary())        
         self.documentAnnotations(document,workspace)

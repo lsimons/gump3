@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/xdoc.py,v 1.2 2003/11/20 20:51:50 ajack Exp $
-# $Revision: 1.2 $
-# $Date: 2003/11/20 20:51:50 $
+# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/xdoc.py,v 1.3 2003/11/26 20:01:16 ajack Exp $
+# $Revision: 1.3 $
+# $Date: 2003/11/26 20:01:16 $
 #
 # ====================================================================
 #
@@ -290,6 +290,9 @@ class XDocParagraph(XDocPiece):
     def createText(self,text=None,transient=0):
         return self.storePiece(XDocText(self.createSubContext(transient),text))
         
+    def createBreak(self):
+        return self.storePiece(XDocBreak(self.createSubContext()))
+        
     def createStrong(self,text=None,transient=0):
         return self.storePiece(XDocStrong(self.createSubContext(transient),text))
 
@@ -311,6 +314,16 @@ class XDocComment(XDocPiece):
         
     def createText(self,text=None,transient=0):
         return self.storePiece(XDocText(self.createSubContext(transient),text))
+                                
+class XDocBreak(XDocPiece):
+    def __init__(self,context):
+        XDocPiece.__init__(self,context)
+        
+    def start(self):
+        self.context.writeIndented('<br/>')
+        
+    def end(self):   pass
+    def middle(self): pass      
                                 
 class XDocStrong(XDocPiece):
     def __init__(self,context,text):
@@ -363,7 +376,10 @@ class XDocItem(XDocPiece):
         return self.storePiece(XDocStrong(self.createSubContext(),text))
         
     def createText(self,text=None):
-        return self.storePiece(XDocText(self.createSubContext(),text))          
+        return self.storePiece(XDocText(self.createSubContext(),text))  
+        
+    def createBreak(self):
+        return self.storePiece(XDocBreak(self.createSubContext()))        
         
     def createLink(self,href,text=None):
         return self.storePiece(XDocLink(self.createSubContext(),href,text))              
@@ -442,6 +458,9 @@ class XDocTableHeader(XDocPiece):
         
     def createText(self,text=None):
         return self.storePiece(XDocText(self.createSubContext(),text))
+        
+    def createBreak(self):
+        return self.storePiece(XDocBreak(self.createSubContext()))
                           
 class XDocTableData(XDocPiece):
     def __init__(self,context,text):
@@ -460,6 +479,9 @@ class XDocTableData(XDocPiece):
         
     def createText(self,text=None):
         return self.storePiece(XDocText(self.createSubContext(),text))    
+        
+    def createBreak(self):
+        return self.storePiece(XDocBreak(self.createSubContext()))
         
     def createLink(self,href,text=None):
         return self.storePiece(XDocLink(self.createSubContext(),href,text))              
@@ -483,7 +505,10 @@ class XDocNote(XDocPiece):
         self.context.writeLine('</note>')
         
     def createText(self,text=None):
-        return self.storePiece(XDocText(self.createSubContext(),text))              
+        return self.storePiece(XDocText(self.createSubContext(),text))          
+        
+    def createBreak(self):
+        return self.storePiece(XDocBreak(self.createSubContext()))    
         
 class XDocSource(XDocPiece):
     def __init__(self,context,text=None):
@@ -498,7 +523,10 @@ class XDocSource(XDocPiece):
         self.context.writeLine('</source>')
         
     def createText(self,text=None):
-        return self.storePiece(XDocText(self.createSubContext(),text))              
+        return self.storePiece(XDocText(self.createSubContext(),text))     
+        
+    def createBreak(self):
+        return self.storePiece(XDocBreak(self.createSubContext()))         
         
 class XDocLink(XDocPiece):
     def __init__(self,context,href,text=None):
@@ -514,7 +542,10 @@ class XDocLink(XDocPiece):
         self.context.write('</link>')
         
     def createText(self,text):
-        return self.storePiece(XDocText(self.createSubContext(),text))         
+        return self.storePiece(XDocText(self.createSubContext(),text))     
+        
+    def createBreak(self):
+        return self.storePiece(XDocBreak(self.createSubContext()))    
         
     def createIcon(self,href,alt=None):
         return self.storePiece(XDocIcon(self.createSubContext(),href,alt))              
@@ -533,7 +564,10 @@ class XDocFork(XDocPiece):
         self.context.write('</fork>')
         
     def createText(self,text=None):
-        return self.storePiece(XDocText(self.createSubContext(),text))              
+        return self.storePiece(XDocText(self.createSubContext(),text))    
+        
+    def createBreak(self):
+        return self.storePiece(XDocBreak(self.createSubContext()))          
         
 class XDocIcon(XDocPiece):
     def __init__(self,context,href,alt):

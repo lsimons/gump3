@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/gui/view.py,v 1.2 2003/11/24 01:45:16 ajack Exp $
-# $Revision: 1.2 $
-# $Date: 2003/11/24 01:45:16 $
+# $Header: /home/stefano/cvs/gump/python/gump/gui/view.py,v 1.3 2003/11/26 20:01:16 ajack Exp $
+# $Revision: 1.3 $
+# $Date: 2003/11/26 20:01:16 $
 #
 # ====================================================================
 #
@@ -83,6 +83,7 @@ from gump.model.project import Project
 from gump.model.workspace import Workspace
 from gump.model.loader import WorkspaceLoader
 from gump.engine import GumpEngine
+from gump.gumprun import GumpSet
 
 ###############################################################################
 # Initialize
@@ -367,36 +368,32 @@ class gumpview(wxApp):
 
     # display the project definition
     self.data.Clear()
-    if project.viewdata:
-      self.data.AppendText(project.viewdata)
-    else:
-      self.data.AppendText(xmlize('project',project))
-      self.data.ShowPosition(0)
+    #if project.viewdata:
+    #  self.data.AppendText(project.viewdata)
+    #else:
+    #  self.data.AppendText(xmlize('project',project))
+    #  self.data.ShowPosition(0)
+    
+    self.data.AppendText(project.getViewData())
+    self.data.ShowPosition(0)
 
     # gather a list of project dependencies unrolled to build
-    self.build_sequence = []
-    try:
-      todo=[]
-      project.addToTodoList(todo)
-      todo.sort()
-      self.build_sequence = getBuildSequenceForProjects(todo)
-    except:
-      message=str(sys.exc_type)
-      if sys.exc_value: message+= ": " + str(sys.exc_value)
-      self.msgbox(message, "Error")
-
+    run=GumpSet(self.workspace,project.getName())
+    self.build_sequence = run.getSequence()
+    
     # display the project dependencies
     self.dependencies.DeleteAllItems()
     if not self.dependencies.GetColumn(0):
       self.dependencies.InsertColumn(0, 'Build sequence')
 
-    for i in range(0,len(self.build_sequence)):
-      build=Project.list[self.build_sequence[i].name]
-      row=self.dependencies.InsertStringItem(i,build.name)
+    i=0
+    for build in self.build_sequence:
+      row=self.dependencies.InsertStringItem(i,build.getName())
       self.dependencies.SetItemData(row,i)
-      for jar in build.jar:
-        if jar.path and not os.path.exists(jar.path):
+      for jar in build.getJars():
+        if jar.path and not os.path.exists(jar.getPath()):
           self.dependencies.SetItemBackgroundColour(row,wxRED)
+      i+=1
 
     self.dependencies.SetColumnWidth(0,wxLIST_AUTOSIZE_USEHEADER)
 
@@ -406,14 +403,14 @@ class gumpview(wxApp):
       self.prereqs.InsertColumn(0, 'Prerequisites')
 
     i=0
-    for depend in project.depend+project.option:
-      prereq=Project.list[depend.project]
-      if prereq.ant or prereq.script: continue
-      row=self.prereqs.InsertStringItem(i,prereq.name)
-      for jar in prereq.jar:
-        if not os.path.exists(jar.path):
+    for dependency in project.getDependencies():
+      prereq=dependency.getProject()
+      #if prereq.ant or prereq.script: continue
+      row=self.prereqs.InsertStringItem(i,prereq.getName())
+      for jar in prereq.getJars():
+        if not os.path.exists(jar.getPath()):
           self.prereqs.SetItemBackgroundColour(row,wxRED)
-      i=i+1
+      i+=1
 
     self.prereqs.SetColumnWidth(0,wxLIST_AUTOSIZE_USEHEADER)
 
@@ -422,7 +419,7 @@ class gumpview(wxApp):
     if not self.classpath.GetColumn(0):
       self.classpath.InsertColumn(0, 'Path')
 
-    classpath=getClasspathList(project,self.workspace)
+    (classpath, bootclasspath)=project.getClasspathLists()
     for i in range(0,len(classpath)):
       self.classpath.InsertStringItem(i,classpath[i])
 
@@ -463,7 +460,7 @@ class gumpview(wxApp):
   # show the xml description for a single item
   def selectProject(self, event):
     projname=event.GetEventObject().GetItem(event.GetIndex(),0).GetText()
-    project=Project.list[projname]
+    project=self.workspace.getProject(projname)
     self.showProject(project)
     self.history.append(project)
 

@@ -4,21 +4,31 @@
 	Forrest site.xml
 -->
 
-<site label="Gump" href="" xmlns="http://apache.org/forrest/linkmap/1.0">
+<site label="Gump" href="" xmlns="http://apache.org/forrest/linkmap/1.0" tab="home">
 
   <work label="Gump">
     <index label="Workspace" href="index.html"/>
+  </work>
+
+  <work label="Projects">
     <index label="Build Log" href="buildLog.html"/>
+    <index label="Projects" href="projects.html"/>
+    <index label="Project TODOs" href="project_todos.html"/>
+  </work>
+  
+  <work label="Modules">
     <index label="Modules" href="modules.html"/>
     <index label="Module TODOs" href="module_todos.html"/>
-    <index label="Projects" href="projects.html"/>
+  </work>
+  
+  <work label="Misc">
     <index label="Project TODOs" href="project_todos.html"/>
     <index label="Repositories" href="repositories.html"/>
     <index label="Packages" href="packages.html"/>
     <index label="XML" href="workspace.html"/>
   </work>
-
-  <stats label="Statistics">
+  
+  <stats label="Statistics" tab="statistics">
     <index label="Index" href="gump_stats/index.html"/>
     <index label="by FOG Factor" href="gump_stats/fogfactor.html"/>
     <index label="by Elapsed" href="gump_stats/elapsed.html"/>
@@ -27,7 +37,7 @@
     <index label="by Dependees #" href="gump_stats/dependees.html"/>
   </stats>
 
-  <stats label="XRef">
+  <stats label="XRef" tab="xref">
     <index label="Index" href="gump_xref/index.html"/>
     <index label="by Repository" href="gump_xref/repo_module.html"/>
   </stats>

@@ -1,7 +1,7 @@
 #!/usr/bin/env python
-# $Header: /home/stefano/cvs/gump/python/gump/test/Attic/xdoc_tests.py,v 1.1 2003/11/17 22:10:53 ajack Exp $
-# $Revision: 1.1 $
-# $Date: 2003/11/17 22:10:53 $
+# $Header: /home/stefano/cvs/gump/python/gump/test/Attic/xdoc_tests.py,v 1.2 2003/11/26 20:01:16 ajack Exp $
+# $Revision: 1.2 $
+# $Date: 2003/11/26 20:01:16 $
 #
 # ====================================================================
 #
@@ -93,7 +93,7 @@ if __name__=='__main__':
     list1.createItem('Item2').createLink('http://somewhere','Link')
     list1.createItem('Item3').createLink('http://somewhere').createIcon('http://somewhere','Alt')
     list1.createItem('Item4').createIcon('http://somewhere','Alt')
-    list1.createEntry('Title1:','Item1')    
+    list1.createEntry('Title1:','Item1').createBreak()
     list1.createEntry('Item5').createLink('http://somewhere','Link')
     
     table1=section1.createTable(['H1','H2'])

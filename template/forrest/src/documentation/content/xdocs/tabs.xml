@@ -14,7 +14,7 @@
   -->
 
   <tab id="home" label="Home" dir=""/>
-  <tab id="stats" label="Statistics" dir="gump_stats"/>
+  <tab id="statistics" label="Statistics" dir="gump_stats"/>
   <tab id="xref" label="XRef" dir="gump_xref"/>
 
 </tabs>

@@ -337,6 +337,7 @@ class GumpEngine:
             dir=os.path.abspath(os.path.join(basedir,delete.dir))
             try:
                 os.rmdir(dir)
+                project.addInfo('Deleted directory ['+dir+']')
             except:
                 project.addError('Failed to delete directory ['+dir+']')
                 raise
@@ -344,6 +345,7 @@ class GumpEngine:
             file=os.path.abspath(os.path.join(basedir,delete.file))
             try:
                 os.remove(file)
+                project.addInfo('Deleted file ['+file+']')
             except:
                 project.addError('Failed to delete file ['+file+']')
                 raise           
@@ -375,6 +377,7 @@ class GumpEngine:
            
                 try:
                     os.makedirs(dirToMake)
+                    project.addInfo('Made directory ['+dirToMake+']')
                 except:
                     project.addError('Failed to make directory ['+dirToMake+']')
                     raise           
