@@ -59,7 +59,7 @@
   <module href="project/jakarta-site2.xml"/>
   <module href="project/jakarta-slide.xml"/>
   <module href="project/jakarta-struts.xml"/>
-  <module href="project/jakarta-tapestry.xml"/>
+  <module href="http://cvs.apache.org/viewcvs/~checkout~/jakarta-tapestry/support/gump.xml"/>
   <module href="project/jakarta-taglibs.xml"/>
   <module href="project/jakarta-turbine-2.xml"/>
   <module href="project/jakarta-turbine-fulcrum.xml"/>
