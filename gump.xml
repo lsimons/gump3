@@ -11,7 +11,7 @@
 
   <!-- After the bootstrap -->
   <module href="project/gump.xml"/>
-  <project name="gump" home="/home/gump/jakarta-gump">
+  <project name="gump">
     <ant>
       <property name="workspace" value="gump.xml"/>
       <property name="webstyle" value="stylesheet/jakarta.xsl"/>
