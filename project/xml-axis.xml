@@ -13,6 +13,7 @@
   <depend project="jakarta-ant"/>
   <depend project="jakarta-servletapi"/>
   <option project="junit"/>
+  <depend project="xml-xalan2"/>
   <work nested="java/build/classes"/>
   <work nested="java/build"/>
 

@@ -88,6 +88,8 @@
     <depend project="xml-xalan2"/>
     <depend project="xml-stylebook2"/>
     <option project="bsf"/>
+    <depend project="java_cup"/>
+    <work nested="java/build/classes"/>
 
     <home nested="java/build/xalan-j_2_0_1"/>
     <jar  name="bin/xalan.jar"/>
@@ -105,6 +107,13 @@
     <depend project="dist-xalan2"/>
     <work nested="test/java/build"/>
     <work nested="test/java/src"/>
+  </project>
+
+  <project name="java_cup">
+    <url href="http://www.cs.princeton.edu/~appel/modern/java/CUP/"/>
+    <home nested="java"/>
+    <jar name="bin/java_cup.jar"/>
+    <jar name="bin/runtime.jar"/>
   </project>
 
 </project>
