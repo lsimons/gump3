@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/Attic/view.py,v 1.16 2003/05/03 10:13:51 nicolaken Exp $
-# $Revision: 1.16 $
-# $Date: 2003/05/03 10:13:51 $
+# $Header: /home/stefano/cvs/gump/python/gump/Attic/view.py,v 1.17 2003/05/04 08:50:40 nicolaken Exp $
+# $Revision: 1.17 $
+# $Date: 2003/05/04 08:50:40 $
 #
 # ====================================================================
 #
@@ -90,26 +90,63 @@ class gumpview(wxApp):
   build_sequence=None
   history=[]
 
+  # item IDs:
+  menu_BACK=10001 
+  menu_RUN=10002
+  menu_HELP=10003
+  
   # view
   frame=None
   tree=None
   list=None
   data=None
+  logview=None
 
+  # action views
+  toolbar=None
+  runbutton=None
+  
   # tree index
   mItem={}
   pItem={}
 
   def OnInit(self):
-    # layout
+    
+    # The main frame
     self.frame = wxFrame(NULL, -1, "Gump Workspace Viewer")
-    split1 = wxSplitterWindow(self.frame,-1)
+
+    # Create our toolbar
+    self.frame.toolbar = self.frame.CreateToolBar(wxTB_HORIZONTAL |
+                                        wxNO_BORDER | wxTB_FLAT)
+
+    self.frame.toolbar.AddSimpleTool(self.menu_BACK,
+                                     wxBitmap("gump/images/back.bmp",
+                                              wxBITMAP_TYPE_BMP),
+                                     "Back")
+      
+    self.frame.toolbar.AddSimpleTool(self.menu_RUN,
+                                     wxBitmap("gump/images/run.bmp",
+                                              wxBITMAP_TYPE_BMP),
+                                     "Run")
+
+    self.frame.toolbar.AddSeparator()
+    
+    self.frame.toolbar.AddSimpleTool(self.menu_HELP,
+                                     wxBitmap("gump/images/help.bmp",
+                                              wxBITMAP_TYPE_BMP),
+                                     "Help")
+    
+    self.frame.toolbar.Realize()
+        
+    # layout
+    split0 = wxSplitterWindow(self.frame,-1)    
+    split1 = wxSplitterWindow(split0,-1)
     split2 = wxSplitterWindow(split1,-1)
     notebook = wxNotebook(split2, -1, style=wxCLIP_CHILDREN)
 
     # panes
     self.tree=wxTreeCtrl(split1,-1)
-
+    
     self.list=wxListCtrl(notebook,-1,style=wxLC_REPORT|wxSUNKEN_BORDER)
     self.dependencies=wxListCtrl(notebook,-1,style=wxLC_REPORT|wxSUNKEN_BORDER)
     self.prereqs=wxListCtrl(notebook,-1,style=wxLC_REPORT|wxSUNKEN_BORDER)
@@ -119,7 +156,10 @@ class gumpview(wxApp):
 
     self.data=wxTextCtrl(split2,-1,style=wxTE_MULTILINE)
 
+    self.logview=wxTextCtrl(split0,-1,style=wxTE_MULTILINE)    
+
     # attach the panes to the frame
+    split0.SplitHorizontally(split1, self.logview)
     split1.SplitVertically(self.tree, split2)
     notebook.AddPage(self.list, 'referenced')
     notebook.AddPage(self.dependencies, 'dependencies')
@@ -132,17 +172,26 @@ class gumpview(wxApp):
     self.frame.Show(true)
 
     # resize
+    split0.SetMinimumPaneSize(20)
     split1.SetMinimumPaneSize(20)
     split2.SetMinimumPaneSize(20)
+    split0.SetSashPosition(350,true)
     split1.SetSashPosition(300,true)
-    split2.SetSashPosition(200)
+    split2.SetSashPosition(130)
 
     # wire up the events
     EVT_TREE_SEL_CHANGED(self, self.tree.GetId(), self.selectTree)
+    
     EVT_LIST_ITEM_SELECTED(self, self.list.GetId(), self.selectProject)
     EVT_LIST_ITEM_SELECTED(self, self.dependencies.GetId(), self.selectProject)
     EVT_LIST_ITEM_SELECTED(self, self.prereqs.GetId(), self.selectProject)
+    
     EVT_KEY_UP(self, self.OnKeyUp)
+
+    EVT_MENU(self, self.menu_BACK, self.backAction)
+    EVT_MENU(self, self.menu_RUN,  self.runAction )
+    EVT_MENU(self, self.menu_HELP, self.helpAction)
+    
     return true
 
   # list all modules and their projects
@@ -163,17 +212,30 @@ class gumpview(wxApp):
 
   def OnKeyUp(self,event):
     if event.GetKeyCode()==WXK_BACK:
-      if len(self.history)>1:
-        self.history.pop()
-        self.showProject(self.history[-1])
+      self.backAction(event)
 
     if event.GetKeyCode()==WXK_F5:
-      if not self.history: return
-      project=self.history[-1]
-      if not project.ant: return
+      self.runAction(event)
 
-      compileThread(project,self).Start()
 
+  # back action
+  def backAction(self,event):
+    if len(self.history)>1:
+      self.history.pop()
+      self.showProject(self.history[-1])
+    
+  # run the selected project
+  def runAction(self,event):
+    if not self.history: return
+    project=self.history[-1]
+    if not project.ant: return
+
+    compileThread(project,self).Start()
+
+  # help action
+  def helpAction(self,event):
+    msgbox("TODO")
+    
   # select a single feed and display titles from each item
   def selectTree(self, event):
     project=self.tree.GetPyData(event.GetItem())
