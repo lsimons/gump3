@@ -223,6 +223,7 @@
     <depend project="jakarta-servletapi-4"/>
     <depend project="jdom"/>
     <depend project="junit"/>
+    <depend project="dom4j"/>
     <!-- option project="commons-jelly"/ -->
     <option project="jaxen" inherit="runtime"/>
     <home nested="latka/dist"/>
