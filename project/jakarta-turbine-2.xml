@@ -8,7 +8,7 @@
   <cvs repository="jakarta"/>
 
   <project name="jakarta-turbine-2">
-    <ant basedir="build" target="package">
+    <ant target="package">
       <property name="version" value="@@DATE@@"/>
     </ant>
     <depend project="jakarta-ant" version="1.3"/>
