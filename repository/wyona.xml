@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="ISO-8859-1"?> 
+
+<repository name="wyona" type="cvs">
+  <title>Wyona</title>
+  <home-page>http://www.wyona.org/</home-page>
+  <cvsweb>http://cvs.wyona.org/</cvsweb>
+
+  <root>
+    <method>pserver</method>
+    <user>anonwyonacms</user>
+    <hostname>cvs.wyona.org</hostname>
+    <path>/repository</path>
+  </root>
+</repository>
+
