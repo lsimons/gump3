@@ -1,4 +1,4 @@
-<project name="xml-xalan">
+<module name="xml-xalan">
 
   <cvs repository="xml"/>
 
@@ -116,4 +116,4 @@
     <jar name="bin/JLex.jar"/>
   </project>
 
-</project>
+</module>

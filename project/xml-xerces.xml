@@ -1,4 +1,4 @@
-<project name="xml-xerces">
+<module name="xml-xerces">
 
   <url href="http://xml.apache.org/xerces-j/index.html"/>
   <description>
@@ -7,12 +7,16 @@
 
   <cvs repository="xml"/>
 
-  <ant basedir="java" target="jar"/>
-  <depend project="jaxp1.1"/>
-  <depend project="bootstrap-ant"/>
+  <!-- build bootstrap -->
 
-  <home nested="java/build"/>
-  <jar  name="xerces.jar" id="parser"/>
+  <project name="xml-xerces">
+    <ant basedir="java" target="jar"/>
+    <depend project="jaxp1.1"/>
+    <depend project="bootstrap-ant"/>
+  
+    <home nested="java/build"/>
+    <jar  name="xerces.jar" id="parser"/>
+  </project>
 
   <!-- package up the distribution -->
 
@@ -25,4 +29,4 @@
     <depend project="xml-site"/>
   </project>
 
-</project>
+</module>

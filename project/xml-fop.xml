@@ -1,4 +1,4 @@
-<project name="xml-fop">
+<module name="xml-fop">
 
   <url href="http://xml.apache.org/fop/index.html"/>
   <description>
@@ -7,26 +7,32 @@
 
   <cvs repository="xml"/>
 
-  <ant target="dist"/>
-
-  <depend project="xml-xerces"/>
-  <depend project="xml-xalan2"/>
-  <depend project="jakarta-ant"/>
-  <depend project="xml-batik"/>
-  <depend project="bsf"/>
-  <depend project="fop-buildtools"/>
-
-  <!-- extra task definitions -->
-
-  <home nested="build"/>
-  <jar  name="fop.jar"/>
+  <!-- task definitions used by the build process -->
 
   <project name="fop-buildtools">
+    <ant buildfile="buildtools.xml"/>
+
     <depend project="xml-xerces"/>
     <depend project="jakarta-ant"/>
     <option project="xml-xalan2"/>
-    <ant buildfile="buildtools.xml"/>
+
     <jar name="lib/buildtools.jar"/>
   </project>
 
-</project>
+  <!-- main project -->
+
+  <project name="xml-fop">
+    <ant target="dist"/>
+
+    <depend project="xml-xerces"/>
+    <depend project="xml-xalan2"/>
+    <depend project="jakarta-ant"/>
+    <depend project="xml-batik"/>
+    <depend project="bsf"/>
+    <depend project="fop-buildtools"/>
+
+    <home nested="build"/>
+    <jar  name="fop.jar"/>
+  </project>
+
+</module>

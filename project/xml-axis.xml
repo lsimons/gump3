@@ -1,4 +1,4 @@
-<project name="xml-axis">
+<module name="xml-axis">
 
   <url href="http://xml.apache.org/soap/index.html"/>
   <description>
@@ -7,17 +7,23 @@
 
   <cvs repository="xml"/>
 
-  <ant basedir="java" target="dist"/>
+  <!-- build -->
 
-  <depend project="xml-xerces"/>
-  <depend project="jakarta-ant"/>
-  <depend project="jakarta-servletapi"/>
-  <option project="junit"/>
-  <work nested="java/build/classes"/>
-  <work nested="java/build"/>
+  <project name="xml-axis">
+    <ant basedir="java" target="dist"/>
 
-  <home nested="java/build"/>
-  <jar name="lib/axis.jar"/>
+    <depend project="xml-xerces"/>
+    <depend project="jakarta-ant"/>
+    <depend project="jakarta-servletapi"/>
+    <option project="junit"/>
+    <work nested="java/build/classes"/>
+    <work nested="java/build"/>
+  
+    <home nested="java/build"/>
+    <jar name="lib/axis.jar"/>
+  </project>
+
+  <!-- test -->
 
   <project name="test-axis">
     <ant basedir="java" target="functional-tests">
@@ -31,7 +37,6 @@
     <depend project="xml-axis"/>
     <work nested="java/build/classes"/>
     <work nested="java/build"/>
-
   </project>
 
-</project>
+</module>

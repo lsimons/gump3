@@ -23,6 +23,7 @@ import org.w3c.dom.traversal.NodeIterator;
 import java.io.FileOutputStream;
 import java.util.Enumeration;
 import java.util.Hashtable;
+import java.util.Vector;
 
 // Apache xpath
 import org.apache.xpath.XPathAPI;
@@ -37,7 +38,7 @@ public class gen {
       * @param name of source file
       * @return Node
       */
-    private Node parse(String source) throws Exception {
+    private Document parse(String source) throws Exception {
 	DocumentBuilder dBuilder = dFactory.newDocumentBuilder();
         return dBuilder.parse(new java.io.File(source));
     }
@@ -138,13 +139,12 @@ public class gen {
                Element priorDefinition = (Element)list.get(name);
                if (priorDefinition == null) {
                    list.put(name, element);
-               } else {
-                   copyChildren(element, priorDefinition);
+                   merge(type, list, element);
+               } else if (priorDefinition != element) {
                    element.getParentNode().removeChild(element);
+                   copyChildren(element, priorDefinition);
                    element=priorDefinition;
                }
-
-               merge(type, list, element);
            }
            child=next;
        }
@@ -217,17 +217,43 @@ public class gen {
     }
 
     /**
+      * Rename <module> to <project>.  This is a transitional convenience
+      * as I move from the nested project approach to a simple declaration
+      * of the projects (or perhaps, instead the targets) contained within
+      * a module.
+      * @param document to be transformed
+      */
+    private void renameModuleToProject(Document document) throws Exception {
+
+        // safely get a list of all modules
+        NodeIterator nl = XPathAPI.selectNodeIterator(document, "//module");
+        Vector list = new Vector();
+        for (Node module=nl.nextNode(); module!=null; module=nl.nextNode()) {
+           list.add(module);
+        }
+
+        // replace all elements in that list with projects
+        for (Enumeration e=list.elements(); e.hasMoreElements();) {
+           Element module = (Element)e.nextElement();
+           Element project = document.createElement("project");
+           copyChildren(module, project);
+           module.getParentNode().replaceChild(project, module);
+        }
+    }
+
+    /**
       * merge, sort, and insert defaults into a workspace
       * @param DOM to be transformed
       * @param sheet to be used 
       * @return Node
       */
     private gen(String source) throws Exception {
-        Node workspace = parse(source);
+        Document workspace = parse(source);
         expand((Element)workspace.getFirstChild());
+        renameModuleToProject(workspace);
         flatten("project", workspace.getFirstChild());
         flatten("repository", workspace.getFirstChild());
-        antDependsToProperties((Document)workspace);
+        antDependsToProperties(workspace);
 
         Node resolved = transform(workspace, "defaults.xsl");
         output (resolved, "work/merge.xml");
