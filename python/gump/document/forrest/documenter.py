@@ -1597,7 +1597,7 @@ This page helps Gumpmeisters (and others) observe community progress.
                 
         addnSection=document.createSection('Additional Details')
         addnPara=addnSection.createParagraph()
-        addnPara.createLink(gumpSafeName('details.html'),	\
+        addnPara.createLink('details.html',	
                               'For additional project details (including dependencies) ...')
                                 
         document.serialize()
