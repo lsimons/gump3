@@ -20,13 +20,17 @@
     <depend project="jms"/>
     <depend project="jrefactory-pretty"/>
     <depend project="jakarta-servletapi-4"/>
-    <depend project="incvs-xjavadoc" inherit="jars" runtime="true"/>
+    <depend project="xjavadoc" inherit="jars" runtime="true"/>
     <depend project="jakarta-bcel" runtime="true"/>
     <depend project="junit"/>
     <work nested="core/build/classes"/>
     <jar id="xdoclet" name="core/dist/lib/xdoclet.jar"/>
+    <!--
     <nag from="Peter Donald &lt;peter@apache.org&gt;"
          to="xdoclet-devel@lists.sourceforge.net"/>
+    --> 
+    <nag from="Peter Donald &lt;peter@apache.org&gt;"
+         to="peter@apache.org"/>
    </project>
 
   <project name="xdoclet-examples">
@@ -44,10 +48,6 @@
 
   <project name="ejb2">
     <jar id="xdoclet" name="lib/ejb.jar"/>
-  </project>
-
-  <project name="incvs-xjavadoc">
-    <jar id="xdoclet" name="lib/xjavadoc.jar"/>
   </project>
 
 </module>
