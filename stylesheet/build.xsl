@@ -21,7 +21,7 @@
 
   <xsl:template match="workspace">
 
-    <build>
+    <build sync="{@sync}">
 
       <chdir dir="{$basedir}"/>
       <mkdir dir="{$logdir}"/>
@@ -30,20 +30,39 @@
 
       <!-- clean up old build directories -->
       <project name="clean">
-        <logic name="clean">
-          <mkdir dir="trashbin"/>
-          <xsl:for-each select="module[cvs]">
-            <move file="{@srcdir}" todir="trashbin" quiet="true"/>
-          </xsl:for-each>
-          <delete dir="trashbin"/>
-        </logic>
+        <html log="{$logdir}/clean.html"
+          banner-image="{$banner-image}" banner-link="{$banner-link}">
+          <content>
+            <logic name="clean">
+              <mkdir dir="trashbin"/>
+              <xsl:for-each select="module[cvs]">
+                <move file="{@srcdir}" todir="trashbin" quiet="true"/>
+              </xsl:for-each>
+              <delete dir="trashbin"/>
+            </logic>
+          </content>
+        </html>
       </project>
 
       <!-- initialize new build directories -->
-      <xsl:for-each select="module[cvs]">
-        <delete dir="{@srcdir}"/>
-        <copy fromdir="{$cvsdir}/{@name}" todir="{@srcdir}"/>
-      </xsl:for-each>
+      <project name="sync">
+        <html log="{$logdir}/sync.html"
+          banner-image="{$banner-image}" banner-link="{$banner-link}">
+          <content>
+            <logic name="sync">
+              <xsl:for-each select="module[cvs]">
+                <xsl:if test="not(/workspace/@sync)">
+                  <delete dir="{@srcdir}"/>
+                  <copy fromdir="{$cvsdir}/{@name}" todir="{@srcdir}"/>
+                </xsl:if>
+                <xsl:if test="/workspace/@sync">
+                  <sync fromdir="{$cvsdir}/{@name}" todir="{@srcdir}"/>
+                </xsl:if>
+              </xsl:for-each>
+            </logic>
+          </content>
+        </html>
+      </project>
 
       <html log="{$logdir}/index.html"
         banner-image="{$banner-image}" banner-link="{$banner-link}">

@@ -33,13 +33,21 @@
   </xsl:template>
 
   <xsl:template match="build//project">
-    <xsl:if test="@name='clean'">
-      <xsl:text>if "%1"=="all" goto end_clean&#10;</xsl:text>
-    </xsl:if>
+    <xsl:choose>
+      <xsl:when test="@name='clean'">
+        <xsl:text>&#10;if "%1"=="all" goto end_clean&#10;</xsl:text>
+      </xsl:when>
 
-    <xsl:text>&#10;echo Building </xsl:text>
-    <xsl:value-of select="@name"/>
-    <xsl:text>&#10;</xsl:text>
+      <xsl:when test="@name='sync'">
+        <xsl:text>&#10;echo Synchronizing&#10;</xsl:text>
+      </xsl:when>
+
+      <xsl:otherwise>
+        <xsl:text>&#10;echo Building </xsl:text>
+        <xsl:value-of select="@name"/>
+        <xsl:text>&#10;</xsl:text>
+      </xsl:otherwise>
+    </xsl:choose>
 
     <xsl:if test="count(.//ant)=1">
       <xsl:text>SET TARGET=</xsl:text>
@@ -393,7 +401,7 @@
     <xsl:value-of select="translate(@fromdir,'/','\')"/>
     <xsl:text> </xsl:text>
     <xsl:value-of select="translate(@todir,'/','\')"/>
-    <xsl:text>&#10;</xsl:text>
+    <xsl:text> %OUT% 2&gt;&amp;1&#10;</xsl:text>
   </xsl:template>
 
   <!-- =================================================================== -->
@@ -411,6 +419,19 @@
     <xsl:text> </xsl:text>
     <xsl:value-of select="translate(@todir,'/','\')"/>
     <xsl:text>&#10;</xsl:text>
+  </xsl:template>
+
+  <!-- =================================================================== -->
+  <!--                         Synch a directory                           -->
+  <!-- =================================================================== -->
+
+  <xsl:template match="sync">
+    <xsl:value-of select="/build/@sync"/>
+    <xsl:text> </xsl:text>
+    <xsl:value-of select="translate(@fromdir,'/','\')"/>
+    <xsl:text>\ </xsl:text>
+    <xsl:value-of select="translate(@todir,'/','\')"/>
+    <xsl:text> $OUT 2&gt;&amp;1"&#10;</xsl:text>
   </xsl:template>
 
   <!-- =================================================================== -->

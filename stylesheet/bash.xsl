@@ -77,14 +77,22 @@
   </xsl:template>
 
   <xsl:template match="build//project">
-    <xsl:if test="@name='clean'">
-      <xsl:text>fi&#10;</xsl:text>
-      <xsl:text>&#10;if test $all; then&#10;</xsl:text>
-    </xsl:if>
+    <xsl:choose>
+      <xsl:when test="@name='clean'">
+        <xsl:text>fi&#10;</xsl:text>
+        <xsl:text>&#10;if test $all; then&#10;</xsl:text>
+      </xsl:when>
 
-    <xsl:text>echo Building </xsl:text>
-    <xsl:value-of select="@name"/>
-    <xsl:text>&#10;</xsl:text>
+      <xsl:when test="@name='sync'">
+        <xsl:text>echo Synchronizing&#10;</xsl:text>
+      </xsl:when>
+
+      <xsl:otherwise>
+        <xsl:text>echo Building </xsl:text>
+        <xsl:value-of select="@name"/>
+        <xsl:text>&#10;</xsl:text>
+      </xsl:otherwise>
+    </xsl:choose>
 
     <xsl:if test="count(.//ant)=1">
       <xsl:text>export TARGET="</xsl:text>
@@ -439,11 +447,11 @@
   <!-- =================================================================== -->
 
   <xsl:template match="copy">
-    <xsl:text>cp -r </xsl:text>
+    <xsl:text>eval "cp -r </xsl:text>
     <xsl:value-of select="translate(@fromdir,'\','/')"/>
     <xsl:text> </xsl:text>
     <xsl:value-of select="translate(@todir,'\','/')"/>
-    <xsl:text>&#10;</xsl:text>
+    <xsl:text> $OUT 2&gt;&amp;1"&#10;</xsl:text>
   </xsl:template>
 
   <!-- =================================================================== -->
@@ -456,11 +464,25 @@
       <xsl:value-of select="translate(@file,'\','/')"/>
       <xsl:text> &amp;&amp; </xsl:text>
     </xsl:if>
-    <xsl:text>mv </xsl:text>
+    <xsl:text>eval "mv </xsl:text>
     <xsl:value-of select="translate(@file,'\','/')"/>
     <xsl:text> </xsl:text>
     <xsl:value-of select="translate(@todir,'\','/')"/>
-    <xsl:text>&#10;</xsl:text>
+    <xsl:text> $OUT 2&gt;&amp;1"&#10;</xsl:text>
+  </xsl:template>
+
+  <!-- =================================================================== -->
+  <!--                         Synch a directory                           -->
+  <!-- =================================================================== -->
+
+  <xsl:template match="sync">
+    <xsl:text>eval "</xsl:text>
+    <xsl:value-of select="/build/@sync"/>
+    <xsl:text> </xsl:text>
+    <xsl:value-of select="translate(@fromdir,'\','/')"/>
+    <xsl:text>/ </xsl:text>
+    <xsl:value-of select="translate(@todir,'\','/')"/>
+    <xsl:text> $OUT 2&gt;&amp;1"&#10;</xsl:text>
   </xsl:template>
 
   <!-- =================================================================== -->
