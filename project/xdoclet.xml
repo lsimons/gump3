@@ -32,6 +32,7 @@
     <depend project="xdoclet" inherit="all"/>
     <depend project="jakarta-struts"/>
     <depend project="webwork"/>
+    <depend project="mx4j"/>
     <work nested="core/build/jmx"/>
     <work nested="core/build/ejb/classes"/>
     <work nested="core/build/web/WEB-INF/classes"/>
