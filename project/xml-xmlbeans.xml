@@ -16,6 +16,7 @@
     <work nested="v1/build/classes/xmlinputstream"/>
     <work nested="v1/build/classes/xmlpublic"/>    
     <work nested="v1/external/lib/oldxbean.jar"/>
+    <work nested="v1/build/private/classes/"/>
     <work nested="v1/build/private/lib/easypo.jar"/>
     <work nested="v1/build/private/lib/schemas.jar"/>
     <work nested='v1/build/private/lib/enumtest.jar'/>
