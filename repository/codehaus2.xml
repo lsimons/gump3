@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 
-<repository name="codehaus" type="cvs">
-  <title>codehaus</title>
+<repository name="codehaus2" type="cvs">
+  <title>codehaus2</title>
   <home-page>http://www.codehaus.org/</home-page>
   <cvsweb>http://cvs.codehaus.org/viewcvs.cgi/</cvsweb>
 
