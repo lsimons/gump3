@@ -20,6 +20,6 @@
     <depend project="xml-xerces"/>
     <depend project="jakarta-ant"/>
     <depend project="bsf"/>
-    <depend project="rhino"/>
+    <option project="rhino"/>
   </project>
 </project>
