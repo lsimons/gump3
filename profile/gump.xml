@@ -25,6 +25,7 @@
   <module href="project/jakarta-jmeter.xml"/>
   <module href="project/jakarta-log4j.xml"/>
   <module href="project/jakarta-lucene.xml"/>
+  <module href="project/jakarta-ojb.xml"/>
   <module href="project/jakarta-oro.xml"/>
   <module href="project/jakarta-poi.xml"/>
   <module href="project/jakarta-regexp.xml"/>
@@ -138,6 +139,7 @@
   <module href="project/javamail.xml"/>
   <module href="project/jaxp.xml"/>
   <module href="project/jdbc.xml"/>
+  <module href="project/jdo.xml"/>
   <module href="project/jms.xml"/>
   <module href="project/jmx.xml"/>
   <module href="project/jndi.xml"/>
@@ -156,7 +158,7 @@
   <project name="cos"            package="cos-09May2002"/>
   <project name="ejb"            package="ejb-2_0-fr"/>
   <project name="iso-relax"      package="isorelax-dev-20020320"/>
-  <project name="j2ee-connector" package="j2ee_connector-1_0-pfd2"/>
+  <project name="j2ee-connector" package="j2ee_connector-1_0-fr"/>
   <project name="jaas"           package="jaas1_0"/>
   <project name="jaf"            package="jaf-1.0.1"/>
   <project name="javacc"         package="javacc2.1"/>
@@ -164,6 +166,7 @@
   <project name="jaxp"           package="jaxp-1.1"/>
   <project name="jce"            package="jce"/>
   <project name="jdbc"           package="jdbc2_0"/>
+  <project name="jdo"            package="jdori-1_0-fcs"/>
   <project name="jms"            package="jms1.0.2"/>
   <project name="jmx"            package="jmx-1_0_1-ri_bin"/>
   <project name="jndi"           package="jndi1_2_1"/>

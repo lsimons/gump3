@@ -1,0 +1,15 @@
+<module name="jdo">
+
+  <url  href="http://access1.sun.com/jdo/"/>
+  <description>
+    Java Data Objects
+  </description>
+
+  <project name="jdo">
+    <package>javax.jdo</package>
+
+    <jar  name="src/jdo.jar" id="jdo"/>
+    <jar  name="src/jdori.jar" id="ri"/>
+  </project>
+
+</module>

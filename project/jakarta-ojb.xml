@@ -1,0 +1,39 @@
+<module name="jakarta-ojb">
+  <description>
+    ObjectRelationalBridge
+  </description>
+
+  <cvs repository="jakarta"/>
+  <project name="jakarta-ojb">
+    <package>org.apache.ojb</package>
+
+    <ant />
+
+    <depend project="jakarta-ant"/>
+    <depend project="xml-xerces"/>
+
+    <depend project="antlr"/>
+    <depend project="commons-beanutils"/>
+    <depend project="commons-logging"/>
+    <depend project="hsqldb"/>
+    <depend project="j2ee-connector" />
+    <depend project="jaas" />
+    <depend project="jakarta-log4j"/>
+    <depend project="jakarta-regexp"/>
+    <depend project="jakarta-servletapi"/>
+    <depend project="jdbc"/>
+    <depend project="jdo" ids="jdo"/>
+    <depend project="jmx"/>
+    <depend project="jta"/>
+    <depend project="junit"/>
+
+    <depend project="ojb-jboss" />
+
+  </project>
+
+  <project name="ojb-jboss">
+    <jar name="lib/jboss-common.jar" />
+    <jar name="lib/jboss-system.jar" />
+  </project>
+  
+</module>
