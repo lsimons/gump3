@@ -8,7 +8,8 @@
   <cvs repository="j2eeunit"/>
 
   <ant basedir="build" target="all">
-    <property name="servlet.api" value="23"/>
+    <property name="servlet23.jar" reference="jarpath" id="servlet"
+              project="jakarta-servletapi-4"/>
   </ant>
 
   <depend project="jakarta-ant"/>
