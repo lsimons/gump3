@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/Attic/model.py,v 1.8 2003/05/04 19:39:50 rubys Exp $
-# $Revision: 1.8 $
-# $Date: 2003/05/04 19:39:50 $
+# $Header: /home/stefano/cvs/gump/python/gump/Attic/model.py,v 1.9 2003/05/04 21:02:57 nicolaken Exp $
+# $Revision: 1.9 $
+# $Date: 2003/05/04 21:02:57 $
 #
 # ====================================================================
 #
@@ -58,7 +58,7 @@
 # information on the Apache Software Foundation, please see
 # <http://www.apache.org/>.
 
-import os,types,logging
+import os,types,traceback,logging
 
 from gump import GumpBase, Named, Single, Multiple
 from gump.conf import dir, default
@@ -362,6 +362,7 @@ class Property(GumpBase):
       try:
         self.value=Project.list[self.project].home
       except:
+        log.debug( traceback.format_stack() )
         log.warn( "Cannot resolve homedir of " + self.project + " for " + project.name)
 
     elif self.reference=='srcdir':
@@ -369,6 +370,7 @@ class Property(GumpBase):
         module=Project.list[self.project].module
         self.value=Module.list[module].srcdir
       except:
+        log.debug( traceback.format_stack() )
         log.warn( "Cannot resolve srcdir of " + self.project + " for " + project.name)
         
     elif self.reference=='jarpath':
@@ -393,6 +395,7 @@ class Property(GumpBase):
             (target.name, project.name))
         
       except:
+        log.debug( traceback.format_stack() )
         log.warn( "Cannot resolve jarpath of " + self.project + " for " + project.name)
 
 # TODO: set up the below elements with defaults using complete()
