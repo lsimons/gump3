@@ -100,22 +100,20 @@ class GumpEngine:
         #
         self.build(run)
   
+        # Update [or load if not 'all'] Statistics
+        self.updateStatistics(run)
+    
+        # Build HTML Result (via Forrest)
+        documenter=run.getOptions().getDocumenter()
+        if documenter :
+            documenter.document(run)
+            
         #
         # Only an 'all' is an official build, for them:
         #
-        #	Update statistics
-        #	Provide Documentation
-        #	Nag
-        #	Provide RSS
+        #	Nag and provide RSS
         #
         if run.getGumpSet().isFull():
-            # Update Statistics
-            self.updateStatistics(run)
-    
-            # Build HTML Result (via Forrest)
-            documenter=run.getOptions().getDocumenter()
-            if documenter :
-                documenter.document(run)
   
             #
             # Nag about failures -- only if we are allowed to
@@ -322,68 +320,100 @@ class GumpEngine:
             if not project.okToPerformWork():
                 log.warn('Failed to build project [' + project.getName() + '], state:' \
                         + project.getStateDescription())
-            
+
+
+    def performDelete(self,project,delete,index=0):
+        """ Return the delete command for a <delete entry """
+        basedir=os.path.abspath(project.getModule().getSourceDirectory() or dir.base)
+    
+        #
+        # Delete a directory and/or a file
+        #
+        # :TODO: Before turning this on, we need to ensure that the command
+        # will not run wild. We need to ensure that there is no ";" and we
+        # need to ensure the directory/file is under the workspace.
+        #
+        if delete.dir:
+            dir=os.path.abspath(os.path.join(basedir,delete.dir)
+            try:
+                os.rmdir(dir))
+            except:
+                project.addError('Failed to delete directory ['+dir+'])
+                raise
+        elif delete.file:
+            file=os.path.abspath(os.path.join(basedir,delete.file)
+            try:
+                os.remove(file))
+            except:
+                project.addError('Failed to delete file ['+file+'])
+                raise           
+        else:
+            project.addError('   <delete without \'file\' or \'dir\' attributes.')
+            raise RuntimeError('Bad <delete')
+    
+    def performMkDir(self,project,mkdir,index=0):
+        """ Return the mkdir comment for a <mkdir entry """
+        basedir=os.path.abspath(self.getModule().getSourceDirectory() or dir.base)
+    
+        # ----------------------------------------------------------------
+        # :TODO: HACK HACK HACK HACK HACK HACK HACK
+        # :TODO: HACK HACK HACK HACK HACK HACK HACK
+        # :TODO: HACK HACK HACK HACK HACK HACK HACK
+        # Rsync should delete these things, not allow
+        # them to exist. We should NOT do this.
+        dirToMake=os.path.abspath(os.path.join(basedir,mkdir.dir))
+        if not os.path.exists(dirToMake): 
+            # :TODO: HACK HACK HACK HACK HACK HACK HACK
+            # :TODO: HACK HACK HACK HACK HACK HACK HACK
+            # :TODO: HACK HACK HACK HACK HACK HACK HACK
+            # ----------------------------------------------------------------  
+                
+            #
+            # Make a directory
+            #
+            if mkdir.dir:
+                try:
+                    os.makedirs(dirToMake)
+                except:
+                    project.addError('Failed to make directory ['+dirToMake+'])
+                    raise           
+            else:
+                project.addError('   <mkdir without \'dir\' attribute.')
+                raise RuntimeError('Bad <mkdir, missing \'dir\' attribute')
+               
     def performPreBuild( self, run, project ):
         """ Perform pre-build Actions """
         
-        workspace = run.getWorkspace()
         
-        log.debug(' ------ Performing pre-Build Actions (mkdir/delete) for : '+ project.getName())
+        #
+        #
+        # NOTE --------------- NOT TURNED ON YET!!!!!!
+        #
+        #
+        if 0 and project.okToPerformWork():
+        
+            log.debug(' ------ Performing pre-Build Actions (mkdir/delete) for : '+ project.getName())
+            
+            # Deletes...
+            dels=0
+            for delete in project.xml.delete:
+                try:
+                    self.performDelete(project,delete,dels)
+                    dels+=1
+                    project.changeState(STATE_SUCCESS)
+                except:
+                    project.changeState(STATE_FAILED,REASON_PREBUILD_FAILED)
                 
-        # Deletes...
-        dels=0
-        for delete in project.xml.delete:
-            cmd=project.getDeleteCommand(delete,dels)
-
-            # Execute the command ....
-            cmdResult=execute(cmd,workspace.tmpdir)
-    
-            # Update Context    
-            work=CommandWorkItem(WORK_TYPE_PREBUILD,cmd,cmdResult)
-            project.performedWork(work)
-            
-            # Update Context w/ Results  
-            if not cmdResult.state==CMD_STATE_SUCCESS:
-                project.changeState(STATE_FAILED,REASON_PREBUILD_FAILED)
-            else:
-                dels+=1
-                project.changeState(STATE_SUCCESS)
-                
-        # MkDirs...
-        mkdirs=0
-        for mkdir in project.xml.mkdir:   
-        
-            # ----------------------------------------------------------------
-            # :TODO: HACK HACK HACK HACK HACK HACK HACK
-            # :TODO: HACK HACK HACK HACK HACK HACK HACK
-            # :TODO: HACK HACK HACK HACK HACK HACK HACK
-            # Rsync should delete these things, not allow
-            # them to exist. We should NOT do this.
-            basedir=os.path.abspath(project.getModule().getSourceDirectory() \
-                                        or dir.base)
-            dirToMake=os.path.abspath(os.path.join(basedir,mkdir.dir))
-            if os.path.exists(dirToMake): continue
-            # :TODO: HACK HACK HACK HACK HACK HACK HACK
-            # :TODO: HACK HACK HACK HACK HACK HACK HACK
-            # :TODO: HACK HACK HACK HACK HACK HACK HACK
-            # ----------------------------------------------------------------
-            
-        
-            cmd=project.getMkDirCommand(mkdir,mkdirs)
-    
-            # Execute the command ....
-            cmdResult=execute(cmd,workspace.tmpdir)
-    
-            # Update Context    
-            work=CommandWorkItem(WORK_TYPE_PREBUILD,cmd,cmdResult)
-            project.performedWork(work)
-            
-            # Update Context w/ Results  
-            if not cmdResult.state==CMD_STATE_SUCCESS:
-                project.changeState(STATE_FAILED,REASON_PREBUILD_FAILED)
-            else:
-                mkdirs+=1
-                project.changeState(STATE_SUCCESS)
+        if project.okToPerformWork():
+            # MkDirs...
+            mkdirs=0
+            for mkdir in project.xml.mkdir:                             
+                try:
+                    self.performMkdir(project,mkdir,mkdirs)
+                    mkdirs+=1
+                    project.changeState(STATE_SUCCESS)
+                except:
+                    project.changeState(STATE_FAILED,REASON_PREBUILD_FAILED)
                 
         if not project.okToPerformWork():
             log.warn('Failed to perform prebuild on project [' + project.getName() + ']')
@@ -452,8 +482,16 @@ class GumpEngine:
     
         db=StatisticsDB()   
         
-        #
-        # Update stats (and stash onto projects)
-        #
-        db.updateStatistics(run.getWorkspace())
+        workspace=run.getWorkspace()        
+        
+        if run.getGumpSet().isFull():
+            #
+            # Update stats (and stash onto projects)
+            #
+            db.updateStatistics(workspace)
+        else:
+            #
+            # Load stats (and stash onto projects)
+            #    
+            db.loadStatistics(workspace)
             

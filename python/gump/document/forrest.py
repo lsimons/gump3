@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/forrest.py,v 1.15 2003/11/24 18:42:08 ajack Exp $
-# $Revision: 1.15 $f
-# $Date: 2003/11/24 18:42:08 $
+# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/forrest.py,v 1.16 2003/11/26 01:26:28 ajack Exp $
+# $Revision: 1.16 $f
+# $Date: 2003/11/26 01:26:28 $
 #
 # ====================================================================
 #
@@ -364,7 +364,8 @@ class ForrestDocumenter(Documenter):
         projectsSection=document.createSection('Projects (in build order)')
         projectsTable=projectsSection.createTable(['Name','Project State','Duration\nin state','Last Updated','Elapsed'])
         pcount=0
-        for project in sortedProjectList:
+        for project in gumpSet.getSequence():
+            # :TODO: Next line irrelevent?
             if not gumpSet.inSequence(project): continue       
             
             pcount+=1
@@ -866,8 +867,8 @@ class ForrestDocumenter(Documenter):
         for nagEntry in project.xml.nag:
             toaddr=getattr(nagEntry,'to') or workspace.mailinglist
             fromaddr=getStringFromUnicode(getattr(nagEntry,'from') or workspace.email)
-            detailsList.createEntry("Nag To: ", toaddr)
-            detailsList.createEntry("Nag From: ", fromaddr)     
+            detailsList.createEntry("Nag To: ").createFork('mailto:'+toaddr,toaddr)
+            detailsList.createEntry("Nag From: ").createFork('mailto:'+fromaddr,fromaddr)
             
         self.documentProjectList(document, "Project Dependencies",	project.getDependencies(), 0, project)  
         self.documentProjectList(document, "Project Dependees",		project.getDependees(), 1, project)

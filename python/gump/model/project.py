@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/model/project.py,v 1.16 2003/11/24 01:45:15 ajack Exp $
-# $Revision: 1.16 $
-# $Date: 2003/11/24 01:45:15 $
+# $Header: /home/stefano/cvs/gump/python/gump/model/project.py,v 1.17 2003/11/26 01:26:28 ajack Exp $
+# $Revision: 1.17 $
+# $Date: 2003/11/26 01:26:28 $
 #
 # ====================================================================
 #
@@ -726,53 +726,6 @@ class Project(NamedModelObject, Statable):
         
         return cmd
     
-    def getDeleteCommand(self,delete,index=0):
-        """ Return the delete command for a <delete entry """
-        basedir=os.path.abspath(self.getModule().getSourceDirectory() or dir.base)
-      
-        cmd=Cmd('echo rm','delete_'+	\
-                    self.getModule().getName()+'_'	\
-                    +self.getName()+'_'+str(index+1),\
-            basedir)
-
-        #
-        # Delete a directory and/or a file
-        #
-        # :TODO: Before turning this on, we need to ensure that the command
-        # will not run wild. We need to ensure that there is no ";" and we
-        # need to ensure the directory/file is under the workspace.
-        #
-        if delete.dir:
-            cmd.addParameter('-rf')  
-            cmd.addParameter(os.path.abspath(os.path.join(basedir,delete.dir)))
-        elif delete.file:
-            cmd.addParameter('-f')  
-            cmd.addParameter(os.path.abspath(os.path.join(basedir,delete.file)))
-        else:
-            log.info('   <delete without \'file\' or \'dir\' attributes.')
-            return None
-        
-        return cmd
-    
-    def getMkDirCommand(self,mkdir,index=0):
-        """ Return the mkdir comment for a <mkdir entry """
-        basedir=os.path.abspath(self.getModule().getSourceDirectory() or dir.base)
-      
-        cmd=Cmd('mkdir','mkdir_'+self.getModule().getName()+'_'	\
-                            +self.getName()+'_'	\
-                            +str(index+1),\
-            basedir)
-
-        #
-        # Make a directory
-        #
-        if mkdir.dir:
-            cmd.addParameter(os.path.abspath(os.path.join(basedir,mkdir.dir)))
-        else:
-            log.info('   <mkdir without \'dir\' attribute.')
-            return None
-        
-        return cmd
                 
     def dump(self, indent=0, output=sys.stdout):
         """ Display the contents of this object """
@@ -962,7 +915,7 @@ class Project(NamedModelObject, Statable):
             # If 'all' or in ids list:
             if (not ids) or (jar.getId() in ids):   
                 if ids: dependStr += ' Id = ' + jar.getId()
-                path=AnnotatedPath(jar.path,self,dependency.getOwnerProject(),dependStr) 
+                path=AnnotatedPath(jar.path,project,dependency.getOwnerProject(),dependStr) 
           
                 # Add to CLASSPATH
                 if not jar.getType() == 'boot':

@@ -18,6 +18,7 @@
     <option project="random"/>
 
     <home nested="dist"/>
+    <mkdir dir="mkdir"/>
 
     <jar name="lib/output2.jar" id="output2"/>
 

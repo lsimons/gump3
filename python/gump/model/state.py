@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/model/state.py,v 1.6 2003/11/19 19:56:10 ajack Exp $
-# $Revision: 1.6 $
-# $Date: 2003/11/19 19:56:10 $
+# $Header: /home/stefano/cvs/gump/python/gump/model/state.py,v 1.7 2003/11/26 01:26:28 ajack Exp $
+# $Revision: 1.7 $
+# $Date: 2003/11/26 01:26:28 $
 #
 # ====================================================================
 #
@@ -112,8 +112,9 @@ REASON_UPDATE_FAILED=5
 REASON_SYNC_FAILED=6
 REASON_PREBUILD_FAILED=7
 REASON_BUILD_FAILED=8
-REASON_BUILD_TIMEDOUT=9
-REASON_MISSING_OUTPUTS=10
+REASON_POSTBUILD_FAILED=9
+REASON_BUILD_TIMEDOUT=10
+REASON_MISSING_OUTPUTS=11
 
 reasonCodeDescriptions = { 	REASON_UNSET : "Not Set",
                     REASON_PACKAGE : "Complete Package Install",
@@ -122,9 +123,10 @@ reasonCodeDescriptions = { 	REASON_UNSET : "Not Set",
                     REASON_CONFIG_FAILED : "Configuration Failed",
                     REASON_UPDATE_FAILED : "Update Failed",
                     REASON_SYNC_FAILED : "Synchronize Failed",
-                    REASON_BUILD_FAILED : "Pre-Build Failed",
-                    REASON_BUILD_TIMEDOUT : "Build Timed Out",
+                    REASON_PREBUILD_FAILED : "Pre-Build Failed",
                     REASON_BUILD_FAILED : "Build Failed",
+                    REASON_POSTBUILD_FAILED : "Post-Build Failed",
+                    REASON_BUILD_TIMEDOUT : "Build Timed Out",
                     REASON_MISSING_OUTPUTS : "Missing Build Outputs" }    
     
 def reasonString(reasonCode):

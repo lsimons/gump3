@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/test/pyunit.py,v 1.8 2003/11/23 06:16:39 ajack Exp $
-# $Revision: 1.8 $
-# $Date: 2003/11/23 06:16:39 $
+# $Header: /home/stefano/cvs/gump/python/gump/test/pyunit.py,v 1.9 2003/11/26 01:26:28 ajack Exp $
+# $Revision: 1.9 $
+# $Date: 2003/11/26 01:26:28 $
 #
 # ====================================================================
 #
@@ -282,7 +282,7 @@ class TestRunner:
            
         printSeparator()
         
-        log.info('Performed [' + `testsRun` + '] with [' + `len(problems)` + '] issues.')
+        log.info('Performed [' + `testsRun` + '] tests with [' + `len(problems)` + '] issues.')
         
         for problem in problems:
             log.error('PROBLEM: ' + str(problem))
