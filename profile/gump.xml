@@ -282,6 +282,7 @@
   
   <repository href="repository/ant.xml"/>
   <repository href="repository/avalon.xml"/>
+  <repository href="repository/cocoon.xml"/>
   <repository href="repository/db.xml"/>
   <repository href="repository/dbxml.xml"/>
   <repository href="repository/devworks.xml"/>
