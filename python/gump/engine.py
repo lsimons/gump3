@@ -349,7 +349,7 @@ class GumpEngine:
             # them to exist. We should NOT do this.
             basedir=os.path.abspath(project.getModule().getSourceDirectory() \
                                         or dir.base)
-            dirToMake=os.path.abspath(os.path.join(basedir,mkdir.dir)
+            dirToMake=os.path.abspath(os.path.join(basedir,mkdir.dir))
             if os.path.exists(dirToMake): continue
             # :TODO: HACK HACK HACK HACK HACK HACK HACK
             
