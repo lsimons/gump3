@@ -2200,22 +2200,23 @@ This page helps Gumpmeisters (and others) observe community progress.
             for work in worklist:
                 if isinstance(work,CommandWorkItem):      
                     if not STATE_SUCCESS == work.state:
-                        tail=work.tail(20,80,'...\n','    ')
-                        if tail:
-                            #
-                            # Write out the 'tail'
-                            #
-                            tailSection=	\
-                                workSection.createSection(
-                                    'Tail of ' + workTypeName(work.type) + \
-                                        ' : ' + work.command.name)
+                        if work.hasOutput():
+                            tail=work.tail(20,80,'...\n','    ')
+                            if tail:
+                                #
+                                # Write out the 'tail'
+                                #
+                                tailSection=	\
+                                    workSection.createSection(
+                                        'Tail of ' + workTypeName(work.type) + \
+                                            ' : ' + work.command.name)
                                             
-                            # Attempt to ensure they don't
-                            para=tailSection.createParagraph(
-                                'This is a very short tail of the log at ')                                
-                            self.insertLink(work,workable,para) 
+                                # Attempt to ensure they don't
+                                para=tailSection.createParagraph(
+                                    'This is a very short tail of the log at ')                                
+                                self.insertLink(work,workable,para) 
                                 
-                            tailSection.createSource(tail)
+                                tailSection.createSource(tail)
                 
         
         #

@@ -713,7 +713,13 @@
           <td>dir</td>
           <td>The directory to create, relative to srcdir of the
           module containing this project.</td>
-          <td>Yes</td>
+          <td>Yes, unless <em>file</em> is specified.</td>
+        </tr>
+        <tr>
+          <td>file</td>
+          <td>The file to delete, relative to srcdir of the
+          module containing this project.</td>
+          <td>Yes, unless <em>dir</em> is specified</td>
         </tr>
       </table>
     </section>

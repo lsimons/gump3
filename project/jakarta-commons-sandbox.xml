@@ -62,10 +62,9 @@
     <depend project="junit" />
     <depend project="xml-xerces" />
 
-    <work nested="target/classes" />
     <home nested="compress/target" />
 
-    <jar name="compress/target/commons-compress-@@DATE@@.jar" />
+    <jar name="commons-compress-0.1-dev.jar" />
 
     <javadoc nested="target/docs/apidocs" />
 

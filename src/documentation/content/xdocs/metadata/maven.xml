@@ -45,6 +45,12 @@
     </p>
     
     <p>
+    	 Gump generates a <strong>build.properties</strong> file for Maven, in which is specifies the jar
+		 overrides, and also any <link href="project.html#property">properties</link> that are passes into
+		 the &lt;maven element.
+    </p>
+    
+    <p>
     	Currently Gump does <strong>not</strong> read the Maven project.xml (POM) to attempt to determine
     	dependencies, the Gump descriptor needs to have them. The 'gump' goal in Maven
     	ought generate such a file.

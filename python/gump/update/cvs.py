@@ -171,9 +171,7 @@ class CvsUpdater(RunSpecific):
         
         root=module.cvs.getCvsRoot()
     
-        #
         # Prepare CVS checkout/update command...
-        #     
         prefix='update'
         directory=module.getWorkspace().getSourceControlStagingDirectory()
         if exists:     
@@ -185,9 +183,7 @@ class CvsUpdater(RunSpecific):
                     prefix+'_'+module.getName(),
                     directory)
           
-        #
         # Be 'quiet' (but not silent) unless requested otherwise.
-        #
         if 	not module.isDebug() 	\
             and not module.isVerbose() \
             and not module.cvs.isDebug()	\
@@ -197,25 +193,17 @@ class CvsUpdater(RunSpecific):
         if nowork:
             cmd.addParameter('-n')
           
-        #
         # Allow trace for debug
-        #
         if module.isDebug():
             cmd.addParameter('-t')
           
-        #
         # Request compression
-        #
         cmd.addParameter('-z3')
           
-        #
         # Set the CVS root
-        #
         cmd.addParameter('-d', root)
     
-        #
         # Determine if a tag is set, on <cvs or on <module
-        #
         tag=None
         if module.cvs.hasTag():
             tag=module.cvs.getTag()
@@ -224,7 +212,7 @@ class CvsUpdater(RunSpecific):
             
         if exists:
 
-            # do a cvs update
+            # Do a cvs update
             cmd.addParameter('update')
             cmd.addParameter('-P')
             cmd.addParameter('-d')

@@ -7,6 +7,8 @@ work
 bodewig.xml
 .classpath
 .project
+.settings
+.clover
 target
 javadocs
 velocity.log

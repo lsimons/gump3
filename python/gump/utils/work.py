@@ -146,6 +146,9 @@ class CommandWorkItem(TimedWorkItem):
             overview += "---------------------------------------------\n"
         return overview
         
+    def hasOutput(self):
+        return self.result.hasOutput()
+        
     def tail(self,lines=50,wrapLen=0,eol=None,marker=None):
         return self.result.tail(lines,wrapLen,eol,marker)
         

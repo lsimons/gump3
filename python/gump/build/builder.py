@@ -150,12 +150,12 @@ class GumpBuilder(RunSpecific):
             if stats:
                 if (not STATE_SUCCESS == stats.currentState) and \
                         not project.isVerboseOrDebug():
-                    if stats.sequenceInState > INSIGNIFICANT_DURATION:
+                    if stats.sequenceInState > SIGNIFICANT_DURATION:
                         project.addInfo('Enable "debug" output, due to a sequence of %s previous errors.' % stats.sequenceInState)
-                        project.setDebug(1)
+                        project.setDebug(True)
                     else:
                         project.addInfo('Enable "verbose" output, due to %s previous error(s).' % stats.sequenceInState)    
-                        project.setVerbose(1)
+                        project.setVerbose(True)
 
             # Pick your poison..
             if project.hasScript():
