@@ -57,7 +57,6 @@
   <module href="project/xml-crimson.xml"/>
   <module href="project/xml-fop.xml"/>
   <module href="project/xml-rpc.xml"/>
-  <module href="project/xml-security.xml"/>
   <module href="project/xml-site.xml"/>
   <module href="project/xml-soap.xml"/>
   <module href="project/xml-stylebook.xml"/>
@@ -87,6 +86,7 @@
   <module href="project/junit.xml"/>
   <module href="project/rhino.xml"/>
   <module href="project/town.xml"/>
+  <module href="project/uddi4j.xml"/>
   <module href="project/village.xml"/>
   <module href="project/wsdl4j.xml"/>
 

@@ -26,6 +26,8 @@
     <depend project="xml-xalan2"/>
     <depend project="javamail"/>
     <depend project="jdbc"/>
+    <depend project="xml-soap"/>
+    <depend project="uddi4j"/>
 
     <javadoc nested="proposals">
       <description dir="persistence/javadoc">PersistenceService</description>

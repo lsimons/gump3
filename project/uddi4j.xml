@@ -1,0 +1,24 @@
+<module name="uddi4j">
+
+  <url href="http://oss.software.ibm.com/developerworks/projects/uddi4j"/>
+  <description>
+    UDDI client
+  </description>
+
+  <cvs repository="devworks" dir="uddi4j"/>
+  
+  <project name="uddi4j">
+    <ant target="dist"/>
+
+    <depend project="xml-xerces"/>
+    <depend project="jakarta-ant"/>
+    <depend project="xml-soap"/>
+    <depend project="jsse"/>
+    <work nested="build/classes"/>
+
+    <home nested="build"/>
+    <jar name="lib/uddi4j.jar"/>
+    <javadoc nested="build/javadocs"/>
+  </project>
+
+</module>
