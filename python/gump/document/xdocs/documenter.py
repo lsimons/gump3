@@ -379,8 +379,7 @@ class XDocDocumenter(Documenter):
     # Workspace Pieces
     #      
     def documentRunDetails(self):
-        
-        
+               
         #
         # ----------------------------------------------------------------------
         #
@@ -396,21 +395,8 @@ class XDocDocumenter(Documenter):
         definitionSection=document.createSection('Run Details')    
         
         if not self.gumpSet.isFull():
-            notice=definitionSection.createWarning()
-            
-            notice.createText("""This output does not represent the complete workspace,
-            but part of it.         
-            Only projects, and their dependents, matching this regular expression """)
-            notice.createStrong(self.gumpSet.projectexpression)
-            notice.createBreak()
-            notice.createBreak()            
-            notice.createStrong('Requested Projects: ')
-            notice.createBreak()
-            notice.createBreak()  
-            for project in self.gumpSet.projects:
-                notice.createText(project.name)
-                notice.createText(' ')
-                
+            self.documentPartial(definitionSection)
+
         definitionTable=definitionSection.createTable()
         definitionTable.createEntry('Gump Run GUID', self.run.getRunGuid())
         definitionTable.createEntry('Gump Run (Hex) GUID', self.run.getRunHexGuid())
@@ -453,6 +439,22 @@ class XDocDocumenter(Documenter):
         document.serialize()    
         document=None
         
+    def documentPartial(self,node):
+            notice=node.createWarning()
+            
+            notice.createText("""This output does not represent the complete workspace,
+            but part of it.         
+            Only projects, and their dependents, matching this regular expression """)
+            notice.createStrong(self.gumpSet.projectexpression)
+            notice.createBreak()
+            notice.createBreak()            
+            notice.createStrong('Requested Projects: ')
+            notice.createBreak()
+            notice.createBreak()  
+            for project in self.gumpSet.projects:
+                notice.createText(project.name)
+                notice.createText(' ')
+                        
     def documentEverythingElse(self):
         
         self.documentRepositories()
@@ -767,15 +769,24 @@ class XDocDocumenter(Documenter):
                 spec.getRootPath())
                 
         if realTime: 
+        
+            # Work done...
+            modules = len(self.gumpSet.getCompletedModules())
+            projects = len(self.gumpSet.getCompletedProjects())
+        
             document.createWarning("""This Gump run is currently in progress.
-            It started at %s."""
-                % self.workspace.getStartDateTime() )
+            It started at %s. So far %s modules have been updated, and %s projects built.""" \
+                % (self.workspace.getStartDateTime(), modules, projects ))
+            
         else:
             document.createNote("""This Gump run is complete. 
             It started at %s and ended at %s.""" 
                 % ( self.workspace.getStartDateTime(),
                     self.workspace.getEndDateTime()))
                     
+        if not self.gumpSet.isFull():
+                self.documentPartial(document)
+             
         if not realTime: 
             self.documentSummary(document, self.workspace.getProjectSummary())                
         

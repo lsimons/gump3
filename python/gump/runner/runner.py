@@ -112,7 +112,8 @@ class GumpRunner(RunSpecific):
         self.run.registerActor(Statistician(self.run))
         
         # Generate results
-        self.run.registerActor(Resulter(self.run))            
+        if self.run.getOptions().isResults():
+            self.run.registerActor(Resulter(self.run))            
               
         # Document..
         # Use XDOCS if not overridden...
@@ -128,7 +129,8 @@ class GumpRunner(RunSpecific):
         self.run.registerActor(documenter)    
         
         # Syndicate once documented
-        self.run.registerActor(Syndicator(self.run))   
+        if self.run.getOptions().isSyndicate():
+            self.run.registerActor(Syndicator(self.run))   
             
         # Notify last
         if self.run.getOptions().isNotify() and self.run.getWorkspace().isNotify():
