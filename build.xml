@@ -160,7 +160,7 @@
   <target name="scripts" depends="website"
     description="Generate the update and build scripts">
 
-    <style basedir="work" destdir="work" includes="*.site" excludes="xref.*" 
+    <style basedir="work" destdir="work" includes="*.site" excludes="xref.*"
            extension=".${extension}" style="stylesheet/${target}.xsl"/>
   </target>
 
@@ -192,6 +192,12 @@
   <target name="pubdocs" depends="gen">
     <style in="work/merge.xml" out="work/pubdoc.pl"
            style="stylesheet/pubdocs.xsl"/>
+  </target>
+
+  <!-- Generate publish instructions for the junit reports -->
+  <target name="pubreport" depends="gen">
+    <style in="work/merge.xml" out="work/pubreport.pl"
+           style="stylesheet/pubreport.xsl"/>
   </target>
 
   <!-- Produce the gump web site -->

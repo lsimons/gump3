@@ -16,7 +16,7 @@ case "`uname`" in
   CYGWIN*) cygwin=true ;;
   *) cygwin=false ;;
 esac
- 
+
 # For Cygwin, ensure paths are in UNIX format before anything is touched
 if $cygwin ; then
   export CLASSPATH=`cygpath --path --unix "$CLASSPATH"`
@@ -156,6 +156,16 @@ export FAIL=1
 echo Generate move script for cached files
 test -n "$FAIL" || \
 java org.apache.xalan.xslt.Process -text -in work/move.xml -xsl stylesheet/bash.xsl -out work/move.sh || \
+export FAIL=1
+
+echo Generating publish script for javadocs
+test -n "$FAIL" || \
+java org.apache.xalan.xslt.Process -text -in work/merge.xml -xsl stylesheet/pubdocs.xsl -out work/pubdoc.pl || \
+export FAIL=1
+
+echo Generating publish script for junit reports
+test -n "$FAIL" || \
+java org.apache.xalan.xslt.Process -text -in work/merge.xml -xsl stylesheet/pubreport.xsl -out work/pubreport.pl || \
 export FAIL=1
 
 # **** publish ***
