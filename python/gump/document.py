@@ -559,7 +559,7 @@ def documentWorkList(x,workspace,worklist,description='Work',dir='.'):
         x.write('      <td><link href=\'%s\'>%s</link></td>' % (getWorkRelativeUrl(work.type,work.command.name),work.command.name))    
         x.write('      <td>%s</td>' % (workTypeName(work.type))) 
         x.write('      <td>%s</td><td>%s</td><td>%s</td>' \
-            % (stateName(work.status), str(work.start_time), secsToString(work.secs)))    
+            % (stateName(work.status), str(work.result.start_time), secsToString(work.secs)))    
         x.write('     </tr>')
     x.write('    </table>\n')
     endSectionXDoc(x)
