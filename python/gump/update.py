@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/update.py,v 1.2 2003/05/05 18:07:04 rubys Exp $
-# $Revision: 1.2 $
-# $Date: 2003/05/05 18:07:04 $
+# $Header: /home/stefano/cvs/gump/python/gump/update.py,v 1.3 2003/05/05 18:54:49 rubys Exp $
+# $Revision: 1.3 $
+# $Date: 2003/05/05 18:54:49 $
 #
 # ====================================================================
 #
@@ -101,7 +101,7 @@ if __name__=='__main__':
     for line in cvspass.readlines():
       password.update(dict([line.strip().split(' ',1)]))
     cvspass.close()
-  except: 
+  except:
     pass
 
   # load the workspace
@@ -135,7 +135,7 @@ if __name__=='__main__':
 
     repository=Repository.list[module.cvs.repository]
     root=module.cvsroot()
-  
+
     # log into the cvs repository
     if repository.root.method=='pserver':
       newpass=mangle(repository.root.password)
@@ -148,7 +148,7 @@ if __name__=='__main__':
 
       # do a cvs update
       cmd='cvs -d '+ root + ' update'
-      if module.cvs.tag: 
+      if module.cvs.tag:
         cmd+=' -r ' + module.cvs.tag
       else:
         cmd+=' -A'
@@ -164,10 +164,9 @@ if __name__=='__main__':
 
     #execute the command
     print
-    from popen2 import popen2
-    (stdout,stdin)=popen2(cmd + " 2>&1")
-    stdin.close()
+    stdout=os.popen(cmd + " 2>&1")
     line=cmd
     while line:
       print line
+      sys.stdout.flush()
       line=stdout.read()
