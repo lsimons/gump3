@@ -83,6 +83,7 @@
   <project href="project/jsse.xml"/>
   <project href="project/jta.xml"/>
   <project href="project/jts.xml"/>
+  <project href="project/tranquilo.xml"/>
 
   <!-- CVS Repository overrides -->
   <repository href="repository/exolab.xml"/>

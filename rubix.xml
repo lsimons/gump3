@@ -27,6 +27,7 @@
   <project name="jsse"           home="/opt/jsse1.0.2"/>
   <project name="jta"            home="/opt/jta-spec1_0_1"/>
   <project name="jts"            home="/opt/jts1_0"/>
+  <project name="tranquilo"      home="/opt/dlib-20010424"/>
 
   <cvs-repository>
     <tree name="bsf"

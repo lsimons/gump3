@@ -20,6 +20,7 @@
   <project name="jsse"           home="C:\jsse1.0.2"/>
   <project name="jta"            home="C:\jta-spec1_0_1"/>
   <project name="jts"            home="C:\jts1_0"/>
+  <project name="tranquilo"      home="C:\xsdlib-20010424"/>
 
   <cvs-repository>
     <tree name="bsf"
