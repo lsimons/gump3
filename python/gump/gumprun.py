@@ -24,11 +24,10 @@ from gump.model.project import Project
 from gump.model.depend import  ProjectDependency
 from gump.model.state import *
 
+from gump.document.text import TextDocumenter
 
 from gump.output.statsdb import *
 from gump.output.repository import JarRepository
-from gump.output.nag import nag
-from gump.output.rss import rss
 
 ###############################################################################
 # Initialize
@@ -312,13 +311,16 @@ class GumpRunOptions:
         self.verbose=0	
         
         
-        self.documenter=None
+        self.documenter=TextDocumenter()
 
     def setDocumenter(self, documenter):
         self.documenter = documenter
     
     def getDocumenter(self):
         return self.documenter
+
+    def getResolver(self):
+        return self.getDocumenter().getResolver(self)
         
 class GumpRun(Workable,Annotatable,Stateful):
     def __init__(self,workspace,expr=None,options=None):
@@ -335,7 +337,10 @@ class GumpRun(Workable,Annotatable,Stateful):
         #
         # The run options
         #
-        self.options=options
+        if options:
+            self.options=options
+        else:
+            self.options=GumpRunOptions()
         
         #
         # A repository interface...

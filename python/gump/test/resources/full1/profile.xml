@@ -2,13 +2,16 @@
 
   <module href="package1.xml"/>
   <module href="download1.xml"/>
+  
   <module href="alias1.xml"/>
   <module href="module1.xml"/>
   <module href="module2.xml"/>
   <module href="module3.xml"/>
   <module href="module4.xml"/>
   <module href="module5.xml"/>
+  
   <module href="svn_module1.xml"/>
+  <module href="maven1.xml"/>
 
   <!-- Repository definitions -->
 

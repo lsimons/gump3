@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/forrest.py,v 1.19 2003/11/26 20:01:16 ajack Exp $
-# $Revision: 1.19 $f
-# $Date: 2003/11/26 20:01:16 $
+# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/forrest.py,v 1.20 2003/12/01 17:34:07 ajack Exp $
+# $Revision: 1.20 $f
+# $Date: 2003/12/01 17:34:07 $
 #
 # ====================================================================
 #
@@ -97,6 +97,9 @@ class ForrestDocumenter(Documenter):
     def __init__(self, dirBase, urlBase):
         Documenter.__init__(self)            
         self.resolver=Resolver(dirBase,urlBase)
+        
+    def getResolverForRun(self,run):
+        return self.resolver
     
     def documentRun(self, run):
     

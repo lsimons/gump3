@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/model/module.py,v 1.18 2003/11/25 21:11:45 ajack Exp $
-# $Revision: 1.18 $
-# $Date: 2003/11/25 21:11:45 $
+# $Header: /home/stefano/cvs/gump/python/gump/model/module.py,v 1.19 2003/12/01 17:34:07 ajack Exp $
+# $Revision: 1.19 $
+# $Date: 2003/12/01 17:34:07 $
 #
 # ====================================================================
 #
@@ -606,7 +606,22 @@ class Module(NamedModelObject, Statable):
         # Prepare SVN checkout/update command...
         # 
         cmd=Cmd('svn','update_'+self.getName(),self.getWorkspace().cvsdir)
-    
+       
+        #
+        # Be 'quiet' (but not silent) unless requested otherwise.
+        #
+        if 	not self.isDebug() 	\
+            and not self.isVerbose() \
+            and not self.svn.isDebug()	\
+            and not self.svn.isVerbose():    
+            cmd.addParameter('--quiet')
+                  
+        #
+        # Allow trace for debug
+        #
+        if self.isDebug() or  self.svn.isDebug():
+            cmd.addParameter('--verbose')
+            
         if exists:
 
             # do a cvs update
@@ -617,23 +632,7 @@ class Module(NamedModelObject, Statable):
             # do a cvs checkout
             cmd.addParameter('checkout')
             cmd.addParameter(url)
-          
-        #
-        # Be 'quiet' (but not silent) unless requested otherwise.
-        #
-        if 	not self.isDebug() 	\
-            and not self.isVerbose() \
-            and not self.svn.isDebug()	\
-            and not self.svn.isVerbose():    
-            cmd.addParameter('--quiet')
-          
-          
-        #
-        # Allow trace for debug
-        #
-        if self.isDebug() or  self.svn.isDebug():
-            cmd.addParameter('--verbose')
-            
+       
         #
         # Request non-interactive
         #

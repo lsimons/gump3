@@ -1,7 +1,7 @@
 #!/usr/bin/env python
-# $Header: /home/stefano/cvs/gump/python/gump/test/model.py,v 1.7 2003/11/24 23:05:37 ajack Exp $
-# $Revision: 1.7 $
-# $Date: 2003/11/24 23:05:37 $
+# $Header: /home/stefano/cvs/gump/python/gump/test/model.py,v 1.8 2003/12/01 17:34:08 ajack Exp $
+# $Revision: 1.8 $
+# $Date: 2003/12/01 17:34:08 $
 #
 # ====================================================================
 #
@@ -95,6 +95,7 @@ class ModelTestSuite(UnitTestSuite):
         self.project4=self.workspace.getProject('project4')
         self.project5=self.workspace.getProject('project5')
         self.alias1=self.workspace.getProject('alias1')
+        self.maven1=self.workspace.getProject('maven1')
         
         self.packagedModule1=self.workspace.getModule('package1')        
         self.module1=self.workspace.getModule('module1')
@@ -199,4 +200,9 @@ class ModelTestSuite(UnitTestSuite):
         (classpath,bootclasspath)=self.project5.getClasspaths(1)        
         print "Classpath:" + classpath     
         print "Bootclasspath:" + bootclasspath
+        
+    def testMaven(self):
+                
+        self.assertTrue('Maven project has a Maven object', self.maven1.hasMaven())
+        
         

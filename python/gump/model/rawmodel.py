@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/model/Attic/rawmodel.py,v 1.5 2003/11/23 06:16:39 ajack Exp $
-# $Revision: 1.5 $
-# $Date: 2003/11/23 06:16:39 $
+# $Header: /home/stefano/cvs/gump/python/gump/model/Attic/rawmodel.py,v 1.6 2003/12/01 17:34:07 ajack Exp $
+# $Revision: 1.6 $
+# $Date: 2003/12/01 17:34:07 $
 #
 # ====================================================================
 #
@@ -165,6 +165,7 @@ class XMLProject(Named):
   list={}
   def init(self):
     self.ant=Single(XMLAnt)
+    self.maven=Single(XMLAnt)
     self.script=Single(XMLScript)
     self.depend=Multiple(XMLDepend)
     self.description=Single(GumpXMLModelObject)
@@ -189,6 +190,13 @@ class XMLScript(GumpXMLModelObject):
   
 # represents an <ant/> element
 class XMLAnt(GumpXMLModelObject):
+  def init(self):  
+    self.depend=Multiple(XMLDepend)
+    self.property=Multiple(XMLProperty)
+    self.jvmarg=Multiple(GumpXMLModelObject)
+
+# represents a <maven/> element
+class XMLMaven(GumpXMLModelObject):
   def init(self):  
     self.depend=Multiple(XMLDepend)
     self.property=Multiple(XMLProperty)

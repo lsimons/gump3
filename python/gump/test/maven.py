@@ -1,8 +1,7 @@
 #!/usr/bin/env python
-
-# $Header: /home/stefano/cvs/gump/python/gump/document/documenter.py,v 1.6 2003/12/01 17:34:07 ajack Exp $
-# $Revision: 1.6 $
-# $Date: 2003/12/01 17:34:07 $
+# $Header: /home/stefano/cvs/gump/python/gump/test/maven.py,v 1.1 2003/12/01 17:34:08 ajack Exp $
+# $Revision: 1.1 $
+# $Date: 2003/12/01 17:34:08 $
 #
 # ====================================================================
 #
@@ -59,39 +58,39 @@
 # <http://www.apache.org/>.
 
 """
-    xdoc generation, for forrest
+    Model Testing
 """
 
-import socket
-import time
 import os
-import sys
 import logging
+import types, StringIO
 
 from gump import log
+import gump.config
+from gump.model.state import *
+from gump.model.loader import WorkspaceLoader
+from gump.utils import *
+from gump.test import getWorkedTestWorkspace
+from gump.test.pyunit import UnitTestSuite
 
-class Documenter:
-    def __init__(self):  pass
-    
-    #
-    # Populate a method called 'document(run)'
-    #
-    def document(self,run):
-        if not hasattr(self,'documentRun'):
-            raise RuntimeException, 'Complete [' + self.__class__ + '] with documentRun(self,run)'
+class MavenTestSuite(UnitTestSuite):
+    def __init__(self):
+        UnitTestSuite.__init__(self)
         
-        if not callable(self.documentRun):
-            raise RuntimeException, 'Complete [' + self.__class__ + '] with a callable documentRun(self,run)'
+    def suiteSetUp(self):
+        #
+        # Load a decent Workspace
+        #
+        self.workspace=getWorkedTestWorkspace() 
+         
+        self.assertNotNone('Needed a workspace', self.workspace)            
+        self.maven1=self.workspace.getProject('maven1')            
         
-        log.info('Document run using [' + `self` + ']')
         
-        self.documentRun(run)
+    def testMavenProperties(self):
+                
+        self.assertTrue('Maven project has a Maven object', self.maven1.hasMaven())
         
-    def getResolver(self,run):
-        if not hasattr(self,'getResolverForRun'):
-            raise RuntimeException, 'Complete [' + self.__class__ + '] with getResolverForRun(self,run)'
+        self.maven1.generateMavenProperties()
         
-        if not callable(self.getResolverForRun):
-            raise RuntimeException, 'Complete [' + self.__class__ + '] with a callable getResolverForRun(self,run)'
-            
-        return self.getResolverForRun(run)
+        

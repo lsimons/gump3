@@ -32,7 +32,7 @@ from gump.document.forrest import ForrestDocumenter
 from gump.output.statsdb import *
 from gump.output.repository import JarRepository
 from gump.output.nag import nag
-from gump.output.rss import rss
+from gump.output.rss import syndicate
 
 ###############################################################################
 # Initialize
@@ -122,7 +122,7 @@ class GumpEngine:
             nag(run)
   
             # Provide a news feed
-            rss(run)
+            syndicate(run)
 
         # Return an exit code based off success
         # :TODO: Move onto run
@@ -421,6 +421,14 @@ class GumpEngine:
                     log.error('PerformMkdir Failed', exc_info=1)    
                     project.changeState(STATE_FAILED,REASON_PREBUILD_FAILED)
                 
+                
+        if project.okToPerformWork() and project.hasMaven():
+            try:
+                project.generateMavenProperties()
+            except:
+                log.error('GenerateMavenProperties Failed', exc_info=1)    
+                project.changeState(STATE_FAILED,REASON_PREBUILD_FAILED)
+            
         if not project.okToPerformWork():
             log.warn('Failed to perform prebuild on project [' + project.getName() + ']')
 

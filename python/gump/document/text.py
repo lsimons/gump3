@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/text.py,v 1.2 2003/11/20 20:51:50 ajack Exp $
-# $Revision: 1.2 $
-# $Date: 2003/11/20 20:51:50 $
+# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/text.py,v 1.3 2003/12/01 17:34:07 ajack Exp $
+# $Revision: 1.3 $
+# $Date: 2003/12/01 17:34:07 $
 #
 # ====================================================================
 #
@@ -75,12 +75,19 @@ from gump.utils.work import *
 from gump.model.state import *
 
 from gump.document.documenter import Documenter
+from gump.document.resolver import *
 
 class TextDocumenter(Documenter):
     
-    def __init__(self,output=sys.stdout):
+    def __init__(self,output=sys.stdout, dirBase='.', urlBase='.'):
         Documenter.__init__(self)
         self.output=output
+        
+        # Hack, ought return a non-hierarchical one
+        self.resolver=Resolver(dirBase,urlBase)
+        
+    def getResolverForRun(self,run):
+        return self.resolver
     
     def documentRun(self, run):    
         indent=' '

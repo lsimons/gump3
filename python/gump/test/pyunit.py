@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/test/pyunit.py,v 1.9 2003/11/26 01:26:28 ajack Exp $
-# $Revision: 1.9 $
-# $Date: 2003/11/26 01:26:28 $
+# $Header: /home/stefano/cvs/gump/python/gump/test/pyunit.py,v 1.10 2003/12/01 17:34:08 ajack Exp $
+# $Revision: 1.10 $
+# $Date: 2003/12/01 17:34:08 $
 #
 # ====================================================================
 #
@@ -319,6 +319,15 @@ if __name__=='__main__':
     
     from gump.test.updater import UpdaterTestSuite  
     runner.addSuite(UpdaterTestSuite())
+    
+    from gump.test.syndicator import SyndicatorTestSuite  
+    runner.addSuite(SyndicatorTestSuite())
+    
+    from gump.test.maven import MavenTestSuite  
+    runner.addSuite(MavenTestSuite())
+    
+    #from gump.test.integrator import IntegratorTestSuite  
+    #runner.addSuite(IntegratorTestSuite())
     
     # Any args are pattern matches
     patterns=list(sys.argv)

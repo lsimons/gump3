@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/document/resolver.py,v 1.3 2003/11/20 20:51:50 ajack Exp $
-# $Revision: 1.3 $
-# $Date: 2003/11/20 20:51:50 $
+# $Header: /home/stefano/cvs/gump/python/gump/document/resolver.py,v 1.4 2003/12/01 17:34:07 ajack Exp $
+# $Revision: 1.4 $
+# $Date: 2003/12/01 17:34:07 $
 #
 # ====================================================================
 #
@@ -354,9 +354,9 @@ class Resolver:
     def getDirectoryUrl(self,object):
         return self.getAbsoluteDirectory(object)
         
-    def getFile(self,object,documentName=None):
-        return self.getAbsoluteFile(object,documentName)
+    def getFile(self,object,documentName=None,extn='.xml'):
+        return self.getAbsoluteFile(object,documentName,extn)
         
-    def getUrl(self,object,documentName=None):
-        return self.getAbsoluteUrl(object,documentName=None)
+    def getUrl(self,object,documentName=None,extn='.html'):
+        return self.getAbsoluteUrl(object,documentName,extn)
         

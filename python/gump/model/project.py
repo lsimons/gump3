@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/model/project.py,v 1.17 2003/11/26 01:26:28 ajack Exp $
-# $Revision: 1.17 $
-# $Date: 2003/11/26 01:26:28 $
+# $Header: /home/stefano/cvs/gump/python/gump/model/project.py,v 1.18 2003/12/01 17:34:07 ajack Exp $
+# $Revision: 1.18 $
+# $Date: 2003/12/01 17:34:07 $
 #
 # ====================================================================
 #
@@ -68,7 +68,7 @@ from gump.model.state import *
 from gump.model.object import ModelObject, NamedModelObject, Jar
 from gump.model.stats import Statable, Statistics
 from gump.model.property import Property
-from gump.model.ant import Ant
+from gump.model.ant import Ant,Maven
 from gump.model.rawmodel import Single
 from gump.utils import getIndent
 from gump.model.depend import *
@@ -79,7 +79,8 @@ from gump.model.depend import *
 #
 class AnnotatedPath:
     """Contains a Path plus optional 'contributor' """
-    def __init__(self,path,contributor=None,instigator=None,note=None):
+    def __init__(self,id,path,contributor=None,instigator=None,note=None):
+        self.id=id
         self.path=path
         self.contributor=contributor
         self.instigator=instigator
@@ -109,13 +110,22 @@ class AnnotatedPath:
         return c
         
     def hasContributor(self):
-        return self.contributor
+        if self.contributor: return 1
+        return 0
         
     def getContributor(self):
         return self.contributor
         
+    def hasId(self):
+        if self.id: return 1
+        return 0
+        
+    def getId(self):
+        return self.id
+        
     def hasInstigator(self):
-        return self.instigator
+        if self.instigator: return 1
+        return 0
         
     def getInstigator(self):
         return self.instigator
@@ -196,6 +206,7 @@ class Project(NamedModelObject, Statable):
     	# Sub-Components
     	#
     	self.ant=None
+    	self.maven=None
     	self.script=None
 
     	
@@ -209,8 +220,24 @@ class Project(NamedModelObject, Statable):
     	#        
         self.honoraryPackage=0
         
+    def hasAnt(self):
+        if hasattr(self,'ant'): return 1
+        return 0
+        
+    def hasMaven(self):
+        if hasattr(self,'maven'): return 1
+        return 0
+        
+    def hasScript(self):
+        if hasattr(self,'script'): return 1
+        return 0
+    
+      
     def getAnt(self):
         return self.ant
+        
+    def getMaven(self):
+        return self.maven
         
     def getScript(self):
         return self.script
@@ -347,6 +374,10 @@ class Project(NamedModelObject, Statable):
         if self.xml.ant and not packaged:
             self.ant = Ant(self.xml.ant,self)
         
+        # Import any <maven part [if not packaged]
+        if self.xml.maven and not packaged:
+            self.maven = Maven(self.xml.maven,self)
+        
         # :TODO: Scripts
         
         # Compute home directory
@@ -394,8 +425,9 @@ class Project(NamedModelObject, Statable):
 
         # Expand <ant <depends/<properties...
         if self.ant: self.ant.expand(self,workspace)
+        if self.maven: self.maven.expand(self,workspace)
 
-        # Build Dependencies Map [including depends from <ant/<property/<depend
+        # Build Dependencies Map [including depends from <ant|maven/<property/<depend
         if not packaged:
             (badDepends, badOptions) = self.buildDependenciesMap(workspace)
         
@@ -405,6 +437,7 @@ class Project(NamedModelObject, Statable):
         
             # complete properties
             if self.ant: self.ant.complete(self,workspace)
+            if self.maven: self.maven.complete(self,workspace)
     
             #
             # TODO -- move these back?
@@ -481,7 +514,7 @@ class Project(NamedModelObject, Statable):
                 badOptions.append(xmloption)
         
         #
-        # Provide backwards links  [Note: ant might have added some
+        # Provide backwards links  [Note: ant|maven might have added some
         # dependencies, so this is done here * not just with the direct
         # xml depend/option elements]
         #
@@ -556,7 +589,7 @@ class Project(NamedModelObject, Statable):
     def hasBuildCommand(self):
         hasBuild=0
         # I.e has an <ant or <script element
-        if self.xml.ant or self.xml.script: hasBuild=1    
+        if self.xml.ant or self.xml.script or self.xml.maven: hasBuild=1    
         return hasBuild
 
     def getBuildCommand(self):
@@ -564,15 +597,20 @@ class Project(NamedModelObject, Statable):
         # get the ant element (if it exests)
         ant=self.xml.ant
 
+        # get the maven element (if it exests)
+        maven=self.xml.maven
+
         # get the script element (if it exists)
         script=self.xml.script
 
-        if not (script or ant):
-          #  log.debug('Not building ' + project.name + ' (no <ant/> or <script/> specified)')
+        if not (script or ant or maven):
+          #  log.debug('Not building ' + project.name + ' (no <ant/> or <maven/> or <script/> specified)')
           return None
 
         if script and script.name:
             return self.getScriptCommand()
+        elif maven :
+            return self.getMavenCommand()
         else:
             return self.getAntCommand()
         
@@ -661,6 +699,77 @@ class Project(NamedModelObject, Statable):
     
         return cmd
 
+    #
+    # Build an ANT command for this project
+    #        
+    def getMavenCommand(self):
+        maven=self.xml.maven
+    
+        # The ant goal (or none == ant default goal)
+        goal=maven.goal or ''
+    
+        # Optional 'verbose' or 'debug'
+        verbose=maven.verbose
+        debug=maven.debug
+    
+        #
+        # Where to run this:
+        #
+        #	The module src directory (if exists) or Gump base
+        #	plus:
+        #	The specifier for ANT, or nothing.
+        #
+        basedir = os.path.normpath(os.path.join(self.getModule().getSourceDirectory() or dir.base,	\
+                                                    maven.basedir or ''))
+    
+        #
+        # Build a classpath (based upon dependencies)
+        #
+        (classpath,bootclasspath)=self.getClasspaths()
+    
+        #
+        # Get properties
+        #
+        jvmargs=self.getJVMArgs()
+   
+        #
+        # Run java on apache Ant...
+        #
+        cmd=Cmd(self.getWorkspace().getJavaCommand(),'build_'+self.getModule().getName()+'_'+self.getName(),\
+            basedir,{'CLASSPATH':classpath})
+            
+        # Set this as a system property. Setting it here helps JDK1.4+
+        # AWT implementations cope w/o an X11 server running (e.g. on
+        # Linux)
+        cmd.addPrefixedParameter('-D','java.awt.headless','true','=')
+    
+        #
+        # Add BOOTCLASSPATH
+        #
+        if bootclasspath:
+            cmd.addPrefixedParameter('-X','bootclasspath/p',bootclasspath,':')
+            
+        if jvmargs:
+            cmd.addParameters(jvmargs)
+            
+        cmd.addParameter('org.apache.tools.ant.Main')  
+    
+        #
+        # Allow ant-level debugging...
+        #
+        if debug: cmd.addParameter('--debug')  
+        if verbose: cmd.addParameter('--exception')  
+        
+        #
+        #	This sets the *defaults*, a workspace could override them.
+        #
+        cmd.addPrefixedParameter('-D','build.sysclasspath','only','=')
+    
+        # End with the goal...
+        if goal: cmd.addParameter(goal)
+    
+        return cmd
+
 
     def getJVMArgs(self):
         """Get JVM arguments for a project"""
@@ -679,6 +788,52 @@ class Project(NamedModelObject, Statable):
         for property in self.getWorkspace().getProperties()+self.getAnt().getProperties():
             properties.addPrefixedNamedParameter('-D',property.name,property.value,'=')
         return properties
+
+    def generateMavenProperties(self):
+        """Set properties for a project"""
+        
+        propertiesFile=os.path.abspath(os.path.join(\
+                self.getModule().getSourceDirectory(),'build.properties'))
+        
+        if os.path.exists(propertiesFile):
+            self.addWarning('Overriding Maven properties: ['+propertiesFile+']')
+    
+        
+        props=open(propertiesFile,'w')
+        
+        props.write("""# ------------------------------------------------------------------------
+# Gump generated properties file
+# ------------------------------------------------------------------------
+""")
+        
+        #
+        # Output basic properties
+        #
+        for property in self.getWorkspace().getProperties()+self.getMaven().getProperties():
+            props.write(('%s=%s\n') % (property.name,property.value))            
+        
+        #
+        # Output classpath properties
+        #
+        props.write("""
+        # ------------------------------------------------------------------------
+# M A V E N  J A R  O V E R R I D E
+# ------------------------------------------------------------------------
+maven.jar.override = on
+
+# ------------------------------------------------------------------------
+# Jars set explicity by path.
+# ------------------------------------------------------------------------
+        """)
+        
+        (classpath,bootclasspath)=self.getClasspathLists()
+        # :TODO: write...
+        for annotatedPath in classpath.getPathParts():
+            if isinstance(annotatedPath,AnnotatedPath):
+                id=annotatedPath.getId()
+                path=annotatedPath.getPath()
+                props.write(('maven.jar.%s=%s') % (id,path))
+
 
     def getScriptCommand(self):
         """ Return the command object for a <script entry """
@@ -744,7 +899,7 @@ class Project(NamedModelObject, Statable):
         outputs=[]
         for jar in self.getJars():
             jarpath=jar.getPath()
-            outputs.append(AnnotatedPath(jar,self,None,"Project output"))                    
+            outputs.append(AnnotatedPath(jar.getId(),jarpath,self,None,"Project output"))                    
         return outputs
                  
     #
@@ -824,7 +979,7 @@ class Project(NamedModelObject, Statable):
 
             if path:
                 if debug: print "Work Entity:   " + path               
-                classpath.addPathPart(AnnotatedPath(path,self,None,'Work Entity'))
+                classpath.addPathPart(AnnotatedPath('',path,self,None,'Work Entity'))
               
         # Append dependent projects (including optional)
         visited=[]
@@ -915,7 +1070,7 @@ class Project(NamedModelObject, Statable):
             # If 'all' or in ids list:
             if (not ids) or (jar.getId() in ids):   
                 if ids: dependStr += ' Id = ' + jar.getId()
-                path=AnnotatedPath(jar.path,project,dependency.getOwnerProject(),dependStr) 
+                path=AnnotatedPath(jar.getId(),jar.path,project,dependency.getOwnerProject(),dependStr) 
           
                 # Add to CLASSPATH
                 if not jar.getType() == 'boot':

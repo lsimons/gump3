@@ -65,6 +65,8 @@
 import os
 import time
 
+from xml.sax.saxutils import escape
+
 from gump import log
 from gump.model.state import *
 from gump.model.project import ProjectStatistics
@@ -77,85 +79,246 @@ TZ='%+.2d:00' % (-time.timezone/3600)
 
 ###############################################################################
 
-def rss(run):
-    
-    workspace=run.getWorkspace() 
+class Image:
+    def __init__(self,url,title,link):
+        self.url=url    
+        self.title=title
+        self.link=link
+                
+    def startItem(self):
+        self.rssStream.write('   <image>\n')
+        
+        # Mandatory Fields
+        self.rssStream.write(('  <url>%s</url>\n') %(escape(self.url)))
+        self.rssStream.write(('  <link>%s</link>\n') %(escape(self.link)))
+        self.rssStream.write(('  <title>%s</title>\n') %(escape(self.title)))
             
-    rssFile=os.path.abspath(os.path.join(workspace.logdir,'index.rss'))
+    def endItem(self):
+        self.rssStream.write('  </image>\n')
+        
+    def serialize(self,rssStream):
+        self.rssStream = rssStream
+        
+        self.rssStream.write('   <image>\n')
+        
+        # Mandatory Fields
+        self.rssStream.write(('  <url>%s</url>\n') %(escape(self.url)))
+        self.rssStream.write(('  <link>%s</link>\n') %(escape(self.link)))
+        self.rssStream.write(('  <title>%s</title>\n') %(escape(self.title)))
+            
+        self.rssStream.write('  </image>\n')
+
+class Item:
+    def __init__(self,title,link,description,subject,date,url=None,image=None):
+        self.title=title
+        self.link=link
+        self.description=description
+        self.subject=subject
+        self.date=date
+        self.url=url
+        self.image=image
+        
+    def serialize(self,rssStream):
+        self.rssStream = rssStream       
+        
+        self.rssStream.write('   <item>\n')
+        
+        # Mandatory Fields
+        self.rssStream.write(('    <title>Jakarta Gump: %s</title>\n') %(escape(self.title)))
+        self.rssStream.write(('    <link>%s</link>\n') %(escape(self.link)))
+        self.rssStream.write(('    <description>%s</description>\n') %(escape(self.description)))
+        self.rssStream.write(('      <dc:subject>%s</dc:subject>\n') %(escape(self.subject)))
+        self.rssStream.write(('      <dc:date>%s</dc:date>\n') %(escape(self.date)))
+        
+        # Optional Fields
+        if self.image:
+            self.rssStream.write(('  <image>%s</image>\n') %(escape(self.image)))
+        if self.url:
+            self.rssStream.write(('  <url>%s</url>\n') %(escape(self.url)))
+            
+        self.rssStream.write('  </item>\n')
     
-    gumprss = open(rssFile,'w')
-    gumprss.write(("""<rss version="2.0"
-  xmlns:admin="http://webns.net/mvcb/" 
-  xmlns:dc="http://purl.org/dc/elements/1.1/" 
-  xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" 
-  xmlns:sy="http://purl.org/rss/1.0/modules/syndication/">
-
-  <channel>
-    <title>Jakarta Gump : %s</title>
-    <link>http://jakarta.apache.org/gump/</link>
-    <description>Life is like a box of chocolates</description>
-
+class Channel:
+    def __init__(self,title,link,description,image=None):
+        self.title=title
+        self.link=link
+        self.description=description
+        self.image=image
+        
+        self.items=[]
+            
+        
+    def startChannel(self): 
+        
+        self.rssStream.write('  <channel>\n')
+        
+        # Mandatory Fields
+        self.rssStream.write(('  <title>Jakarta Gump: %s</title>\n') %(escape(self.title)))
+        self.rssStream.write(('  <link>%s</link>\n') %(escape(self.link)))
+        self.rssStream.write(('  <description>%s</description>\n') %(escape(self.description)))
+        
+        # Optional Fields
+        if self.image:
+            self.image.serialize(self.rssStream)
+        
+        # Admin stuff
+        self.rssStream.write("""
     <admin:generatorAgent rdf:resource="http://cvs.apache.org/viewcvs/jakarta-gump/python/gump/output/rss.py"/>
     <admin:errorReportsTo rdf:resource="mailto:gump@jakarta.apache.org"/>
 
     <sy:updateFrequency>1</sy:updateFrequency>
-    <sy:updatePeriod>daily</sy:updatePeriod>""") % \
-        ( workspace.prefix ) )
+    <sy:updatePeriod>daily</sy:updatePeriod>
+""")
+            
+    def endChannel(self):
+        self.rssStream.write('  </channel>\n')
         
-    for module in workspace.getModules():
-        if not module.isSuccess():
-                for project in module.getProjects():                            
-                
-                    s=project.getStats()
-                    
-                    # State changes that are newsworthy...
-                    if 	s.sequenceInState == 1	\
-                        and not s.currentState == STATE_PREREQ_FAILED \
-                        and not s.currentState == STATE_NONE \
-                        and not s.currentState == STATE_COMPLETE :
-                            
-                        log.info("RSS written for " + project.getName()); 
+    def serialize(self,rssStream):
+        self.rssStream = rssStream
+        
+        self.startChannel()
+        
+        # Serialize all items
+        for item in self.items:
+            item.serialize(self.rssStream)
+            
+        self.endChannel()
+        
+    def addItem(self,item):
+        self.items.append(item)
     
-                        link = workspace.logurl + '/' + gumpSafeName(module.getName()) + '/' + gumpSafeName(project.getName()) + '.html'                       
-                        datestr=time.strftime('%Y-%m-%d')
-                        timestr=time.strftime('%H%M')
+class RSS:
+    def __init__(self,file,channel=None):
+        self.rssFile=file
+        
+        self.channels=[]
+        
+        if channel: self.addChannel(channel)
+
+    def startRSS(self):
+        self.rssStream.write("""<rss version="2.0"
+  xmlns:admin="http://webns.net/mvcb/" 
+  xmlns:dc="http://purl.org/dc/elements/1.1/" 
+  xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" 
+  xmlns:sy="http://purl.org/rss/1.0/modules/syndication/">""")
+                
+    def endRSS(self):                    
+        # complete the rss feed
+        self.rssStream.write('</rss>')
+                
+        log.info("RSS Newsfeed written to : " + self.rssFile);          
+        
+    def serialize(self):
+        log.info("RSS Newsfeed to : " + self.rssFile);         
+        self.rssStream = open(self.rssFile,'w')
+        
+        self.startRSS()
+        
+        for channel in self.channels:
+            channel.serialize(self.rssStream)
+        
+        self.endRSS()
+        
+        # Close the file.
+        self.rssStream.close()  
+  
+    def addChannel(self,channel):
+        self.channels.append(channel)
+        
+    def getCurrentChannel(self):
+        return self.channels[len(self.channels)-1]
+        
+    def addItem(self,item,channel=None):
+        if not channel: channel = self.getCurrentChannel()
+        channel.addItem(item)
+           
+class Syndicator:
+    def __init__(self):
+        pass
+        
+    def syndicate(self,run):
+        
+        # Main syndication document
+        self.run = run
+        self.workspace=run.getWorkspace()   
+        self.rssFile=os.path.abspath(os.path.join(	\
+                    self.workspace.logdir,'index.rss'))
+    
+        self.rss=RSS(self.rssFile,	\
+            Channel(self.workspace.logurl,	\
+                    'Jakarta Gump',		\
+                    """Life is like a box of chocolates""", \
+                Image('http://jakarta.apache.org/images/bench.png',	\
+                    'Jakarta Gump', \
+                    'http://jakarta.apache.org/')))
+        
+        # build information 
+        for module in self.workspace.getModules():
+            self.syndicateModule(module,self.rss)
+            
+        self.rss.serialize()
+        
+    def syndicateModule(self,module,mainRSS):
+        
+        rssFile=self.run.getOptions().getResolver().getFile(module,'index','.rss')
+        moduleURL=self.run.getOptions().getResolver().getFile(module)
+        
+        moduleRSS=RSS(rssFile,	\
+            Channel(moduleURL,\
+                    'Jakarta Gump : Module ' + escape(module.getName()),	\
+                    escape(module.getDescription())))
+        
+        for project in module.getProjects():  
+            self.syndicateProject(project,moduleRSS,mainRSS)      
+                  
+        moduleRSS.serialize()        
+    
+    def syndicateProject(self,project,moduleRSS,mainRSS):
+                
+        rssFile=self.run.getOptions().getResolver().getFile(project,project.getName(),'.rss')
+        projectURL=self.run.getOptions().getResolver().getFile(project)
+        
+        projectRSS=RSS(rssFile,	\
+            Channel(projectURL,\
+                    'Jakarta Gump : Project ' + escape(project.getName()),	\
+                    escape(project.getDescription())))
                     
-                        content='Project ' + project.getName() \
+        s=project.getStats()
+        datestr=time.strftime('%Y-%m-%d')
+        timestr=time.strftime('%H%M')
+                    
+        content='Project ' + project.getName() \
                                 + ' : ' \
                                 + project.getStateDescription() \
                                 + ' ' \
                                 + project.getReasonDescription() \
-                                + "\n\n"
+                                + '\n\n'
                         
-                        content += 'Previous state: ' \
+        content += 'Previous state: ' \
                                 + stateName(s.previousState)  \
-                                + "\n\n"
+                                + '\n\n'
                      
-                        for note in project.annotations:
-                            content += ("   - " + str(note) + "\n")
+        for note in project.annotations:
+                content += ("   - " + str(note) + "\n")
                         
-                        # write out the item to the rss feed
-                        gumprss.write("""
-                            <item>
-                              <title>%s %s %s</title>
-                              <link>%s</link>
-                              <description>&lt;pre&gt;%s&lt;/pre;&gt;</description>
-                              <dc:subject>%s</dc:subject>
-                              <dc:date>%sT%s%s</dc:date>
-                            </item>""" % \
-                          (project.getName(),project.getStateDescription(),datestr, link, \
-                               content, \
-                               module.getName() + ":" + project.getName(), \
-                               datestr,timestr,TZ))
-                        
-    # complete the rss feed
-    gumprss.write("""
-      </channel>
-    </rss>
-    """)
-    gumprss.close()                                 
+        item=Item(('%s %s %s') % (project.getName(),project.getStateDescription(),datestr), \
+                  projectURL, \
+                  content, \
+                  project.getModule().getName() + ":" + project.getName(), \
+                  ('%sT%s%s') % (datestr,timestr,TZ))
+
+        projectRSS.addItem(item)
+        moduleRSS.addItem(item)  
+
+        # State changes that are newsworthy...
+        if 	s.sequenceInState == 1	\
+            and not s.currentState == STATE_PREREQ_FAILED \
+            and not s.currentState == STATE_NONE \
+            and not s.currentState == STATE_COMPLETE :       
+            mainRSS.addItem(item)
+                                                        
+        projectRSS.serialize()
     
-    log.info("RSS Newsfeed written to : " + rssFile);          
-    
-    return rssFile 
-    
+def syndicate(run):
+    simple=Syndicator()
+    simple.syndicate(run)

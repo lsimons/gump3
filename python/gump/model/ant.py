@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/model/Attic/ant.py,v 1.7 2003/11/20 20:51:48 ajack Exp $
-# $Revision: 1.7 $
-# $Date: 2003/11/20 20:51:48 $
+# $Header: /home/stefano/cvs/gump/python/gump/model/Attic/ant.py,v 1.8 2003/12/01 17:34:07 ajack Exp $
+# $Revision: 1.8 $
+# $Date: 2003/12/01 17:34:07 $
 #
 # ====================================================================
 #
@@ -76,21 +76,15 @@ from gump.model.rawmodel import XMLProperty
        
 
 # represents an <ant/> element
-class Ant(ModelObject, PropertyContainer):
+class AntBuilder(ModelObject, PropertyContainer):
     """ An Ant command (within a project)"""
     def __init__(self,xml,project):
     	ModelObject.__init__(self,xml,project)
     	PropertyContainer.__init__(self)
-    
-        # Import the target
-    	self.target='gump'
-    	if xml.target:
-    	    self.target=xml.target
+        	    
     	    
-        # Import the buildfile
-    	self.buildfile='build.xml'
-    	if xml.buildfile:
-    	    self.buildfile=xml.buildfile    	
+        # Store owning project
+        self.project=project
     	
     	
     #
@@ -173,11 +167,6 @@ class Ant(ModelObject, PropertyContainer):
             # Store it
             self.expandProperty(property,project,workspace)      
 
-    def getTarget(self):
-        return self.target
-        
-    def getBuildFile(self):
-        return self.buildfile
         
     #
     # complete the definition - it is safe to reference other projects
@@ -206,3 +195,41 @@ class Ant(ModelObject, PropertyContainer):
         PropertyContainer.dump(self,indent+1,output)
  
  
+       
+
+# represents an <ant/> element
+class Ant(AntBuilder):
+    """ An Ant command (within a project)"""
+    def __init__(self,xml,project):
+    	AntBuilder.__init__(self,xml,project)
+      
+        # Import the target
+    	self.target='gump'
+    	if xml.target:
+    	    self.target=xml.target
+    	    
+        # Import the buildfile
+    	self.buildfile='build.xml'
+    	if xml.buildfile:
+    	    self.buildfile=xml.buildfile    
+    	    
+    def getTarget(self):
+        return self.target
+        
+    def getBuildFile(self):
+        return self.buildfile
+
+# represents an <maven/> element
+class Maven(AntBuilder):
+    """ A Maven command (within a project)"""
+    def __init__(self,xml,project):
+    	AntBuilder.__init__(self,xml,project)
+    	
+        # Import the goal
+    	self.goal='gump'
+    	if xml.goal:
+    	    self.goal=xml.goal
+            	    
+    def getGoal(self):
+        return self.goal
+    	

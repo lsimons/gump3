@@ -1,0 +1,27 @@
+<module name="maven1">
+
+  <url  href="http://ant.apache.org/index.html"/>
+  <description>
+    Java based build tool
+  </description>
+
+  <cvs repository="repository1"/>
+
+  <project name="maven1">
+    <package>org.apache.tools.ant</package>
+
+    <maven target="gump"/>
+
+    <option project="random"/>
+
+    <home nested="dist"/>
+
+    <jar name="lib/output1.jar" id="output1"/>
+
+    <license name="LICENSE"/>
+
+    <nag from="Gump Integration Build &lt;dev@ant.apache.org&gt;"
+         to="dev@ant.apache.org"/>
+  </project>
+</module>
+
