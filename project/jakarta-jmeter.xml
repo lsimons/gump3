@@ -36,6 +36,7 @@
     <depend project="beanshell" ids="bsh-core"/>
 
     <work nested="build/core"/>
+    <work nested="build/htmlparser"/>
     <work nested="build/jorphan"/>
 
     <!-- These are necessary to run the tests: -->
