@@ -15,7 +15,7 @@
 </xsl:template>
 
 
-<xsl:template match="ant | script | nag | javadoc | cvs">
+<xsl:template match="ant | script | nag | javadoc | cvs| home">
 	<xsl:comment>No build</xsl:comment>
 </xsl:template>
 

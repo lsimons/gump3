@@ -241,5 +241,19 @@
   				<include  name="*.xml" />
   			
   		</style>
+		
+		 <replace dir="project/nobuild" token="-@@DATE@@" value="">
+		 	<include name="*.xml"/>
+		 </replace>
+		 
+  </target>
+  
+  <target name="undate-pkgs" >
+  	<move  todir="${pkg.dir}">
+		<fileset dir="${pkg.dir}">
+			<include name="*/*.jar" />
+		</fileset>
+		<mapper type="regexp" from="^(.*)-[0-9]*\.jar$$" to="\1.jar"/>
+	</move>
   </target>
 </project>
