@@ -21,6 +21,7 @@
     <depend project="commons-logging"/>
     <depend project="jakarta-servletapi"/>
     <depend project="junit"/>
+    <depend project="junit-addons"/>
     <work nested="build/classes"/>
 
     <home nested="java"/>
