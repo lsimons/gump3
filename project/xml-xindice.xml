@@ -10,6 +10,7 @@
   <project name="xml-xindice">
     <package>org.apache.xindice</package>
 
+    <mdir dir="build/classes"/>
     <ant/>
 
     <depend project="ant" inherit="runtime"/>
@@ -20,7 +21,7 @@
     <depend project="commons-logging"/>
     <depend project="jakarta-servletapi"/>
     <depend project="junit"/>
-    <work nested="java/classes"/>
+    <work nested="build/classes"/>
 
     <home nested="java"/>
     <jar name="lib/dbXML.jar"/>
