@@ -25,5 +25,8 @@
     <work nested="target/tests"/>
 
     <jar name="target/dist/checkstyle-@@DATE@@/checkstyle-@@DATE@@.jar"/>
+
+    <nag from="Conor MacNeill &lt;conor@apache.org&gt;"
+         to="oli-gump@puppycrawl.com"/>
   </project>
 </module>
