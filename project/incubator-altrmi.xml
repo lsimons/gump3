@@ -1,0 +1,51 @@
+<module name="incubator-altrmi">
+
+    <url href="http://incubator.apache.org/projects/index.html"/>
+    <description>
+      Replacement for rmi
+    </description>
+
+    <cvs repository="incubator"/>
+
+    <project name="incubator-altrmi">
+        <package>org.apache.excalibur.altrmi</package>
+
+        <ant>
+            <property name="version" value="@@DATE@@"/>
+            <property name="junit.failonerror" value="true"/>
+            <property name="do.checkstyle" value="true"/>
+            <property name="skip.dependencies" value="true"/>
+            <depend property="excalibur-pool.jar" project="excalibur-pool"/>
+        </ant>
+
+        <depend project="ant" inherit="runtime"/>
+        <option project="checkstyle" inherit="runtime"/>
+        <depend project="jetty" runtime="true"/>
+        <depend project="jakarta-servletapi-4"/>
+        <depend project="junit"/>
+        <depend project="jakarta-avalon" runtime="true"/>
+        <depend project="xml-xerces"/>
+        <depend project="xml-xalan2"/>
+        <depend project="jakarta-bcel"/>
+        <depend project="commons-attributes" inherit="runtime"/>
+        <depend project="commons-httpclient"/>
+        <depend project="excalibur-container"/>
+        <depend project="jsch"/>
+        <work nested="altrmi/build/classes"/>
+
+        <home nested="altrmi"/>
+        <jar id="client-impl" name="build/lib/excalibur-altrmi-client-impl-@@DATE@@.jar"/>
+        <jar id="client-api" name="build/lib/excalibur-altrmi-client-interfaces-@@DATE@@.jar"/>
+        <jar id="common" name="build/lib/excalibur-altrmi-common-@@DATE@@.jar"/>
+        <jar id="generator" name="build/lib/excalibur-altrmi-generator-@@DATE@@.jar"/>
+        <jar id="server-impl" name="build/lib/excalibur-altrmi-server-impl-@@DATE@@.jar"/>
+        <jar id="server-api" name="build/lib/excalibur-altrmi-server-interfaces-@@DATE@@.jar"/>
+        <nag from="Gump Integration Build &lt;general@incubator.apache.org&gt;"
+                to="dev@avalon.apache.org"/>
+    </project>
+
+    <project name="excalibur-altrmi">
+      <depend project="incubator-altrmi" inherit="jars"/>
+    </project>
+
+</module>

@@ -22,7 +22,7 @@
         </ant>
 
         <!-- 'internal deps'. Should be full list of all excalibur-* projects -->
-        <depend project="excalibur-altrmi" inherit="runtime"/>
+        <depend project="incubator-altrmi" inherit="runtime"/>
         <depend project="excalibur-cli" runtime="true"/>
         <depend project="excalibur-component" runtime="true"/>
         <depend project="excalibur-collections" runtime="true"/>
@@ -82,43 +82,6 @@
             <regexp pattern="/Checkstyle Failure/"/>
         </nag>
 
-        <nag from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"
-                to="dev@avalon.apache.org"/>
-    </project>
-
-    <project name="excalibur-altrmi">
-        <package>org.apache.excalibur.altrmi</package>
-
-        <ant basedir="altrmi">
-            <property name="version" value="@@DATE@@"/>
-            <property name="junit.failonerror" value="true"/>
-            <property name="do.checkstyle" value="true"/>
-            <property name="skip.dependencies" value="true"/>
-            <depend property="excalibur-pool.jar" project="excalibur-pool"/>
-        </ant>
-
-        <depend project="ant" inherit="runtime"/>
-        <option project="checkstyle" inherit="runtime"/>
-        <depend project="jetty" runtime="true"/>
-        <depend project="jakarta-servletapi-4"/>
-        <depend project="junit"/>
-        <depend project="jakarta-avalon" runtime="true"/>
-        <depend project="xml-xerces"/>
-        <depend project="xml-xalan2"/>
-        <depend project="jakarta-bcel"/>
-        <depend project="commons-attributes" inherit="runtime"/>
-        <depend project="commons-httpclient"/>
-        <depend project="excalibur-container"/>
-        <depend project="jsch"/>
-        <work nested="altrmi/build/classes"/>
-
-        <home nested="altrmi"/>
-        <jar id="client-impl" name="build/lib/excalibur-altrmi-client-impl-@@DATE@@.jar"/>
-        <jar id="client-api" name="build/lib/excalibur-altrmi-client-interfaces-@@DATE@@.jar"/>
-        <jar id="common" name="build/lib/excalibur-altrmi-common-@@DATE@@.jar"/>
-        <jar id="generator" name="build/lib/excalibur-altrmi-generator-@@DATE@@.jar"/>
-        <jar id="server-impl" name="build/lib/excalibur-altrmi-server-impl-@@DATE@@.jar"/>
-        <jar id="server-api" name="build/lib/excalibur-altrmi-server-interfaces-@@DATE@@.jar"/>
         <nag from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"
                 to="dev@avalon.apache.org"/>
     </project>
@@ -231,11 +194,11 @@
             <depend property="excalibur-instrument.jar" project="excalibur-instrument"/>
             <depend property="excalibur-instrument-manager.jar" project="excalibur-instrument-manager"/>
             <depend property="excalibur-instrument-manager-interfaces.jar" project="excalibur-instrument-manager"/>
-            <depend id="common" property="excalibur-altrmi-common.jar" project="excalibur-altrmi"/>
+            <depend id="common" property="excalibur-altrmi-common.jar" project="incubator-altrmi"/>
             <depend id="server-impl" property="excalibur-altrmi-server-impl.jar"
-                 project="excalibur-altrmi"/>
+                 project="incubator-altrmi"/>
             <depend id="server-api" property="excalibur-altrmi-server-interfaces.jar"
-                 project="excalibur-altrmi"/>
+                 project="incubator-altrmi"/>
             <depend property="logkit.jar" project="jakarta-avalon-logkit"/>
             <property name="version" value="@@DATE@@"/>
             <property name="junit.failonerror" value="true"/>
@@ -460,7 +423,7 @@
 
         <depend project="ant" inherit="runtime"/>
         <depend project="jakarta-avalon" runtime="true"/>
-        <depend project="excalibur-altrmi" runtime="true"/>
+        <depend project="incubator-altrmi" runtime="true"/>
         <depend project="excalibur-instrument" runtime="true"/>
         <depend project="excalibur-instrument-manager"/>
         <depend project="commons-collections" runtime="true"/>
@@ -568,7 +531,7 @@
 
         <depend project="ant" inherit="runtime"/>
         <depend project="jakarta-avalon" runtime="true"/>
-        <option project="excalibur-altrmi" runtime="true"/>
+        <option project="incubator-altrmi" runtime="true"/>
         <depend project="excalibur-instrument" runtime="true"/>
         <option project="checkstyle" inherit="runtime"/>
         <depend project="junit"/>
@@ -598,7 +561,7 @@
 
         <depend project="ant" inherit="runtime"/>
         <depend project="jakarta-avalon" runtime="true"/>
-        <depend project="excalibur-altrmi" runtime="true"/>
+        <depend project="incubator-altrmi" runtime="true"/>
         <depend project="excalibur-instrument-manager" runtime="true"/>
         <option project="checkstyle" inherit="runtime"/>
         <depend project="junit"/>
