@@ -236,7 +236,7 @@ class Syndicator:
     def __init__(self):
         self.gumpImage=Image('http://jakarta.apache.org/gump/images/bench.png',	\
                     'Jakarta Gump', \
-                    'http://jakarta.apache.org/')
+                    'http://jakarta.apache.org/gump/')
         
     def syndicate(self,run):
         
@@ -287,7 +287,7 @@ class Syndicator:
                     
         s=project.getStats()
         datestr=time.strftime('%Y-%m-%d')
-        timestr=time.strftime('%H%M')
+        timestr=time.strftime('%H:%M:%S')
                     
         content='Project ' + project.getName() \
                                 + ' : ' \
@@ -310,6 +310,7 @@ class Syndicator:
                   project.getModule().getName() + ":" + project.getName(), \
                   ('%sT%s%s') % (datestr,timestr,TZ))
 
+        # Generate changes
         if not s.currentState == STATE_NONE and	\
             not s.currentState == STATE_UNSET:           
             projectRSS.addItem(item)

@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/forrest.py,v 1.27 2003/12/03 19:27:53 ajack Exp $
-# $Revision: 1.27 $f
-# $Date: 2003/12/03 19:27:53 $
+# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/forrest.py,v 1.28 2003/12/03 23:02:40 ajack Exp $
+# $Revision: 1.28 $f
+# $Date: 2003/12/03 23:02:40 $
 #
 # ====================================================================
 #
@@ -732,6 +732,9 @@ class ForrestDocumenter(Documenter):
                 
         descriptionSection.createParagraph().createRaw(description)
 
+        if module.isPackaged():
+            document.createNote('This is a packaged module, not Gumped.')
+            
         stateSection=document.createSection('State')
         stateList=stateSection.createList()
         stateList.createEntry("State: " + module.getStateDescription())
@@ -877,7 +880,10 @@ class ForrestDocumenter(Documenter):
             description=' (No project URL provided.)'   
                 
         projectsSection.createParagraph().createRaw(description)
-           
+        
+        if project.isPackaged():
+            document.createNote('This is a packaged project, not Gumped.')
+            
         stateSection=document.createSection('State')
         
         stateList=stateSection.createList()
