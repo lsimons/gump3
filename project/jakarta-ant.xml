@@ -51,10 +51,10 @@
 
     <depend project="dist-ant"/>
     <depend project="xml-xerces"/>
-    <option project="xml-xalan2"/>
-    <option project="junit"/>
-    <option project="jakarta-regexp"/>
-    <option project="jakarta-oro"/>
+    <depend project="xml-xalan2"/>
+    <depend project="junit"/>
+    <depend project="jakarta-regexp"/>
+    <depend project="jakarta-oro"/>
 
     <work nested="build/classes"/>
     <work nested="build/testcases"/>
