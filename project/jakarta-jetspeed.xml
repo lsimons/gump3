@@ -22,5 +22,7 @@
   <depend project="xml-xalan2"/>
   <depend project="javamail"/>
   <depend project="jdbc"/>
+  <depend project="commons-cactus"/>
+  <depend project="junit"/>
 
 </project>
