@@ -25,9 +25,10 @@
       <depend property="soap.jar" project="xml-soap"/>
     </ant>
 
+<!-- Temporarily make some depends optional -->
     <depend project="ant" />
-    <depend project="commons-collections"/>
-    <depend project="jakarta-velocity" />
+    <optional project="commons-collections"/>
+    <optional project="jakarta-velocity" />
     <depend project="jaf" />
     <depend project="javamail" />
     <depend project="jsse" />
