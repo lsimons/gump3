@@ -71,8 +71,9 @@ class CvsUpdater(RunSpecific):
         # Did we 'CVS checkout' already?
         exists	=	os.path.exists(module.getSourceControlStagingDirectory())
        
-        if exists:
-            self.performStatus(module)
+        # Doesn't tell us much...
+        #if exists:
+        #    self.performStatus(module)
                 
         self.performUpdate(module,exists)        
         
@@ -154,8 +155,9 @@ class CvsUpdater(RunSpecific):
         (repository, root, command ) = self.getUpdateCommand(module,False)
         command.dump()
         
-        (repository, root, command ) = self.getUpdateCommand(module,True,True)
-        command.dump()
+        # Doesn't tell us much...
+        #(repository, root, command ) = self.getUpdateCommand(module,True,True)
+        #command.dump()
             
         (repository, root, command ) = self.getUpdateCommand(module,True)
         command.dump()                       

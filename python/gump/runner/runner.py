@@ -54,7 +54,7 @@ class GumpRunner(RunSpecific):
         self.updater=GumpUpdater(run)
         self.builder=GumpBuilder(run)
         
-    def initialize(self,exitOnError=1):
+    def initialize(self,exitOnError=True):
         
         logResourceUtilization('Before initialize')
         
@@ -143,7 +143,6 @@ class GumpRunner(RunSpecific):
         
     def getBuilder(self):
         return self.builder
-        
         
     #
     # Call a method called 'documentRun(run)'

@@ -41,25 +41,88 @@ from gump.model.depend import  ProjectDependency
 from gump.model.stats import *
 from gump.model.state import *
 
+from gump.threads.tools import *
+
 
 ###############################################################################
 # Classes
 ###############################################################################
-
+  
+class UpdateWork:
+    def __init__(self,runner,module):
+        self.runner=runner
+        self.module=module
+        
+    def __str__(self):
+        return 'UpdateWork:'+`self.module`
+        
+class UpdateWorker(WorkerThread):
+    def performWork(self,work):
+        # Do the work...
+        work.runner.performUpdate(work.module)
+        
 class OnDemandRunner(GumpRunner):
 
     def __init__(self,run):
         GumpRunner.__init__(self,run)
 
     ###########################################
+    def spawnUpdateThreads(self):
+        
+        self.workList=ThreadWorkList('Updates')
+        for module in self.run.gumpSet.getModuleSequence():
+            self.workList.addWork(UpdateWork(self,module))    
+            
+        # Create a group of workers...
+        self.group=WorkerThreadGroup('Update',5,self.workList,UpdateWorker)
+        self.group.start()
+        
+    def waitForThreads(self):
+        self.group.waitForAll()
+        
+    def performUpdate(self,module):
+        """
+        	Perform
+ 	
+        """
+        
+        # Lock the module, while we work on it...
+        lock=module.getLock()
+        
+        try:
+            lock.acquire()
+        
+            if not module.isUpdated():
+                
+                # Perform Update
+                self.updater.updateModule(module)        
+        
+                # Mark Updated
+                module.setUpdated(True) #:TODO: Move this...
+        
+                # Fire event
+                self.run.generateEvent(module)
+        
+                # Mark done in set
+                self.run.gumpSet.setCompletedModule(module)
+                
+        finally:
+            
+            if lock:
+                lock.release()
+        
+    ###########################################
 
     def performRun(self):
         
-        self.initialize(1)
+        self.initialize(True)
         
         printTopRefs(100,'Before Loop')
         
         gumpSet=self.run.getGumpSet()
+        
+        # Experimental...
+        self.spawnUpdateThreads()
         
         # In order...
         for project in gumpSet.getProjectSequence():
@@ -67,10 +130,7 @@ class OnDemandRunner(GumpRunner):
             # Process the module, upon demand
             module=project.getModule()
             if not module.isUpdated():
-                self.updater.updateModule(module)        
-                module.setUpdated(1) #:TODO: Move this...
-                self.run.generateEvent(module)
-                gumpSet.setCompletedModule(module)
+                self.performUpdate(module)
 
             # Process
             self.builder.buildProject(project)   
@@ -83,6 +143,8 @@ class OnDemandRunner(GumpRunner):
             #invokeGarbageCollection(self.__class__.__name__)
             #invokeGarbageCollection(self.__class__.__name__)
             #printTopRefs(100,'After GC')
+        
+        self.waitForThreads()
         
         self.finalize()    
         

@@ -283,12 +283,23 @@ class XDocDocumenter(Documenter):
         envSection.createParagraph(
             """The environment that this Gump run was within.""")     
         
+        descs={ 'Build':'Perform Build',
+                'XDocs':'Generate XDOCS',
+                'Statistics':'Update Statistics (to database)',
+                'Verbose':'Verbose Run',
+                'Cache':'Cache metadata (don\'t go to remote source)',
+                'Text':'Text Output',
+                'Official':'Official Run (e.g. nag notifies, etc.)',
+                'Results':'Generate Results' }
         propertiesSection=envSection.createSection('Properties')
-        envTable=propertiesSection.createTable(['Name','Value'])
+        envTable=propertiesSection.createTable(['Name/Description','Value'])
         envs=0
         # iterate over this suites properties
         for (name,value) in getBeanAttributes(environment).items():
-            envTable.createEntry(str(name),str(value))
+            desc=name
+            if descs.has_key(name):
+                desc = descs[name] + ' (' + name + ')'
+            envTable.createEntry(desc,str(value))
             envs+=1            
         if not envs: envTable.createEntry('None')
         
@@ -1780,7 +1791,7 @@ This page helps Gumpmeisters (and others) observe community progress.
                 id=jar.getId() or 'N/A'
                 outputRow.createData(id)    
         else:
-            miscSection.createParagraph('No outputs (e.g. jars) produced')
+            miscSection.createWarning('No outputs (e.g. jars) produced')
         
         if project.hasBuildCommand():
             

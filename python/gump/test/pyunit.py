@@ -365,6 +365,9 @@ if __name__=='__main__':
     from gump.test.loading import LoadingTestSuite  
     runner.addSuite(LoadingTestSuite())
     
+    from gump.test.threads import ThreadingTestSuite  
+    runner.addSuite(ThreadingTestSuite())
+    
     # Any args are pattern matches
     patterns=list(sys.argv)
     del patterns[0:1]

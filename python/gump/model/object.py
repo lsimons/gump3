@@ -67,6 +67,9 @@ class ModelObject(Annotatable,Workable,FileHolder,Propogatable,Ownable):
     	
         self.resolutionPerformed=False
         self.completionPerformed=False
+        
+        from threading import Lock
+        self.lock=Lock()
     	
     def __del__(self):
         Annotatable.__del__(self)
@@ -95,6 +98,9 @@ class ModelObject(Annotatable,Workable,FileHolder,Propogatable,Ownable):
             
         self.shutdownWork()
         
+    def getLock(self):
+        return self.lock
+    
     def isResolved(self):
         return self.resolutionPerformed
         

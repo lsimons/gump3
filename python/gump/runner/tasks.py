@@ -19,6 +19,57 @@
 
 """
 
+
+
+
+
+
+        # OBSOLETE MODULE LEFT HERE FOR SPARE PARTS
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 import os.path
 import sys
 
