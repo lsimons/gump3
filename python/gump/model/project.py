@@ -660,6 +660,11 @@ class Project(NamedModelObject, Statable, Resultable, Dependable):
         #
         # Get properties
         #
+        sysproperties=self.getAntSysProperties()
+   
+        #
+        # Get properties
+        #
         jvmargs=self.getJVMArgs()
    
         #
@@ -668,15 +673,23 @@ class Project(NamedModelObject, Statable, Resultable, Dependable):
         cmd=Cmd(javaCommand,'build_'+self.getModule().getName()+'_'+self.getName(),\
             basedir,{'CLASSPATH':classpath})
             
+        # These are workspace + project system properties
+        cmd.addNamedParameters(sysproperties)
+        
+        
+        # :NOTE: Commented out since <sysproperty was implemented.
+        #
         # Set this as a system property. Setting it here helps JDK1.4+
         # AWT implementations cope w/o an X11 server running (e.g. on
         # Linux)
-        cmd.addPrefixedParameter('-D','java.awt.headless','true','=')
+        # cmd.addPrefixedParameter('-D','java.awt.headless','true','=')
     
+    
+        # :NOTE: Commented out since <sysproperty was implemented.
         #
         # This helps ant maintain VM information for sub-VMs it launches.
         #
-        cmd.addPrefixedParameter('-D','build.clonevm','true','=')
+        # cmd.addPrefixedParameter('-D','build.clonevm','true','=')
         
         #
         # Add BOOTCLASSPATH
@@ -699,14 +712,16 @@ class Project(NamedModelObject, Statable, Resultable, Dependable):
         
         #
         #	This sets the *defaults*, a workspace could override them.
-        #
-        cmd.addPrefixedParameter('-D','build.sysclasspath','only','=')
+        #        
+        # :NOTE: Commented out since <property on workspace works.
+        # cmd.addPrefixedParameter('-D','build.sysclasspath','only','=')
     
         mergeFile=self.getWorkspace().getMergeFile()
         if mergeFile:
             cmd.addPrefixedParameter('-D','gump.merge',str(mergeFile),'=')        
     
-        # These are module level plus project level
+        # These are from the project and/or workspace
+        # These are 'normal' properties.
         cmd.addNamedParameters(properties)
     
         # Pass the buildfile
@@ -870,9 +885,18 @@ class Project(NamedModelObject, Statable, Resultable, Dependable):
             properties.addPrefixedNamedParameter('-D',property.name,property.value,'=')
         return properties
 
+    def getAntSysProperties(self):
+        """Get sysproperties for a project"""
+        properties=Parameters()
+        for property in self.getWorkspace().getSysProperties()+self.getAnt().getSysProperties():
+            properties.addPrefixedNamedParameter('-D',property.name,property.value,'=')
+        return properties
+
     # The propertiesFile parameter is primarily for testing.
     def generateMavenProperties(self,propertiesFile=None):
         """Set properties/overrides for a Maven project"""
+        
+        #:TODO: Does Maven have the idea of system properties?
         
         #
         # Where to put this:

@@ -1,7 +1,7 @@
 #!/usr/bin/env python
-# $Header: /home/stefano/cvs/gump/python/gump/test/model.py,v 1.17 2004/03/19 18:19:18 ajack Exp $
-# $Revision: 1.17 $
-# $Date: 2004/03/19 18:19:18 $
+# $Header: /home/stefano/cvs/gump/python/gump/test/model.py,v 1.18 2004/03/28 18:58:05 ajack Exp $
+# $Revision: 1.18 $
+# $Date: 2004/03/28 18:58:05 $
 #
 # ====================================================================
 #
@@ -266,15 +266,27 @@ class ModelTestSuite(UnitTestSuite):
             
     def testProperties(self):
         self.assertTrue('Has <ant <property', self.project2.getAnt().hasProperties())
-        
+        self.assertTrue('Has <workspace <property', self.workspace.hasProperties())
+        self.assertTrue('Has <workspace <sysproperty', self.workspace.hasSysProperties())
+                
+        #print 'Normal Properties:'
         #for property in self.project2.getAnt().getProperties():
         #    print `property`
+            
+        #print 'Workspace Normal Properties:'
+        #for property in self.workspace.getProperties():
+        #    print `property`
+        
+        #print 'Workspace System Properties:'
+        #for sysproperty in self.workspace.getSysProperties():
+        #    print `sysproperty`
         
         commandLine=self.project2.getBuildCommand().formatCommandLine()        
         self.assertInString('Need ant.home', 'ant.home', commandLine)
         self.assertInString('Need project1.jar', 'project1.jar', commandLine)      
         
-        # print commandLine  
+        #print 'Command Line:'
+        #print commandLine  
         
     def testServers(self):
         self.assertNotEmpty('Some servers ought be found', self.workspace.getServers())

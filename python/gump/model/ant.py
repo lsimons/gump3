@@ -59,6 +59,14 @@ class Builder(ModelObject, PropertyContainer):
         for property in self.xml.property:
             self.expandProperty(property,project,workspace)       
             self.importProperty(property)
+            
+        #
+        # convert Ant sysproperty elements which reference a project 
+        # into dependencies
+        #
+        for sysproperty in self.xml.sysproperty:
+            self.expandProperty(sysproperty,project,workspace)       
+            self.importSystemProperty(sysproperty)
     
     #
     # Expands

@@ -7,6 +7,7 @@
            sync="rsync -r -a --delete" version="0.3">
 
   <property name="build.sysclasspath" value="only"/>
+  <sysproperty name="build.clonevm" value="true"/>
 
   <profile href="profile.xml"/>
 

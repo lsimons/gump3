@@ -127,9 +127,12 @@ class Property(NamedModelObject):
         """ Display the property """
         output.write(getIndent(indent)+'Property: ' + self.getName() + ' ' + self.getValue()+ '\n')
 
-class PropertyContainer(object):
+class PropertySet(Ownable):
     """ Can hold properties """
-    def __init__(self,properties=None):
+    def __init__(self,owner,properties=None):
+        
+        Ownable.__init__(self,owner)
+        
         self.properties={}
         
         # Any starting properties..
@@ -154,17 +157,11 @@ class PropertyContainer(object):
         
     def getProperties(self):
         return self.properties.values()
-        
-    def importProperties(self,xml):
-        if xml.property:
-            for xmlproperty in xml.property:
-                self.importProperty(xmlproperty)
             
     def importProperty(self,xmlproperty):
         self.addProperty(Property(xmlproperty,self))
             
-    def completeProperties(self,workspace=None):        
-        if not workspace: workspace=self
+    def completeProperties(self,workspace):   
         for property in self.getProperties(): 
             property.complete(self,workspace)
                         
@@ -172,4 +169,56 @@ class PropertyContainer(object):
         """ Display the properties """
         for property in self.getProperties():
             property.dump(indent+1,output)
+
+
+class PropertyContainer:
+    """ 
+    
+    Can hold properties 
+    
+    Note: This depends upon the 'user' class being 'Ownable'.
+    
+    """
+    def __init__(self,properties=None,sysproperties=None):
+        self.properties=PropertySet(self.getOwner, properties)    
+        self.sysproperties=PropertySet(self.getOwner(), sysproperties)
+        
+    def hasProperties(self):
+        if self.properties: return 1
+        return 0
+                
+    def getProperties(self):
+        return self.properties.getProperties()
+        
+    def hasSysProperties(self):
+        if self.sysproperties: return 1
+        return 0                
+        
+    def getSysProperties(self):
+        return self.sysproperties.getProperties()
+        
+    def importProperty(self,xmlproperty):
+        self.properties.importProperty(xmlproperty)
+        
+    def importSysProperty(self,xmlproperty):
+        self.sysproperties.importProperty(xmlproperty)
+                
+    def importProperties(self,xml):
+        if xml.property:
+            for xmlproperty in xml.property:
+                self.properties.importProperty(xmlproperty)
+                
+        if xml.sysproperty:
+            for xmlproperty in xml.sysproperty:
+                self.sysproperties.importProperty(xmlproperty)
+            
+    def completeProperties(self,workspace=None):        
+        if not workspace: workspace=self
+        self.properties.completeProperties(workspace)
+        self.sysproperties.completeProperties(workspace)
+                        
+    def dump(self, indent=0, output=sys.stdout):
+        """ Display the properties """
+        self.properties.dump(self,indent,output)
+        self.sysproperties.dump(self,indent,output)
         

@@ -72,6 +72,7 @@ class XMLWorkspace(Named,GumpXMLModelObject):
   
   def init(self):
     self.property=Multiple(XMLProperty)
+    self.sysproperty=Multiple(XMLProperty)
     self.project=Multiple(XMLProject)
     self.module=Multiple(XMLModule)
     self.repository=Multiple(XMLRepository)
@@ -172,12 +173,14 @@ class XMLScript(GumpXMLModelObject):
   def init(self):
     self.arg=Multiple(GumpXMLModelObject)
     self.property=Multiple(XMLProperty)
+    self.sysproperty=Multiple(XMLProperty)
   
 # represents an <ant/> element
 class XMLAnt(GumpXMLModelObject):
   def init(self):  
     self.depend=Multiple(XMLDepend)
     self.property=Multiple(XMLProperty)
+    self.sysproperty=Multiple(XMLProperty)
     self.jvmarg=Multiple(GumpXMLModelObject)
 
 # represents a <maven/> element
@@ -185,6 +188,7 @@ class XMLMaven(GumpXMLModelObject):
   def init(self):  
     self.depend=Multiple(XMLDepend)
     self.property=Multiple(XMLProperty)
+    self.sysproperty=Multiple(XMLProperty)
     self.jvmarg=Multiple(GumpXMLModelObject)
 
 # represents a <nag/> element in the workspace
@@ -205,7 +209,7 @@ class XMLJavadoc(GumpXMLModelObject):
   def init(self):
     self.description=Multiple(GumpXMLModelObject)
 
-# represents a <property/> element
+# represents a <property/> or <sysproperty/> element
 class XMLProperty(GumpXMLModelObject):
     
   def getName(self):

@@ -71,9 +71,7 @@ class Workspace(NamedModelObject, PropertyContainer, Statable, Resultable):
         
         #
     	PropertyContainer.importProperties(self,self.xml)    	
-    	                 	
- 
-        
+                    
         #    
         self.startdatetime=time.strftime(setting.datetimeformat, \
                                 time.localtime())
