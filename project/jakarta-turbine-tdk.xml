@@ -49,6 +49,11 @@
       <depend property="bcel.jar" project="bcel"/>
       <depend property="digester.jar" project="commons-digester"/>
       <depend property="oro.jar" project="jakarta-oro"/>
+
+      <depend property="idb.jar" project="hsqldb"/>
+      <depend property="mysql.jar" project="hsqldb"/>
+      <depend property="postgresql.jar" project="hsqldb"/>
+      <depend property="sapdbc.jar" project="hsqldb"/>
     </ant>
 
     <depend project="jakarta-ant"/>
