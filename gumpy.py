@@ -212,7 +212,7 @@ try:
         if os.environ.has_key('GUMP_WORKSPACE'):        
             workspaceName = os.environ['GUMP_WORKSPACE'] + '.xml'
         
-        workspacePath = os.path.abspath(os.path.join('python',workspaceName))
+        workspacePath = os.path.abspath(workspaceName)
             
         projectsExpr='*'
         if os.environ.has_key('GUMP_PROJECTS'):        
