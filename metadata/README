@@ -1,0 +1,3 @@
+Note: Currently Gump code resides in SVN, yet Gump metadata still resides in CVS.
+
+As such gump will update itself from SVN, then update metadata/ from CVS.

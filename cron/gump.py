@@ -391,19 +391,27 @@ try:
                     # log.write('- Remove PYC : ' + fullname + '\n')    
                     os.remove(fullname)       
         
-        #
-        # Update Gump from CVS
-        #    
-        if not os.environ.has_key('GUMP_NO_CVS_UPDATE'):
-            cvsroot=':pserver:anoncvs@cvs.apache.org:/home/cvspublic'
-            os.environ['CVSROOT']=cvsroot
-            # :TODO: ??? delete os.environ['CVS_RSH']
-            cvsExit = runCommand('cvs -q update -dP')
+        # Update Gump code from SVN
+        if not os.environ.has_key('GUMP_NO_SVN_UPDATE'):
+            svnExit = runCommand('svn','update --non-interactive')
         else:
-            log.write('CVS update skipped per environment setting.\n')
-            cvsExit=0
-        if cvsExit:
-            result=1
+            log.write('SVN update skipped per environment setting.\n')
+            svnExit=0
+        if svnExit:
+            result=1     
+        
+        if not result:
+            # Update Gump metadata from CVS
+            if not os.environ.has_key('GUMP_NO_CVS_UPDATE'):
+                cvsroot=':pserver:anoncvs@cvs.apache.org:/home/cvspublic'
+                os.environ['CVSROOT']=cvsroot
+                # :TODO: ??? delete os.environ['CVS_RSH']
+                cvsExit = runCommand('cvs','-q update -dP','metadata')
+            else:
+                log.write('CVS update skipped per environment setting.\n')
+                cvsExit=0
+            if cvsExit:
+                result=1
             
         # :TODO: Need to remove all *.pyc (other than this one)
         # because a Gump refactor can leave old/stale compiled
@@ -525,7 +533,7 @@ finally:
             print 'Unable to mail failure report : ' + `[mailserver,mailport,mailto,mailfrom]`
             
             
-    writeRunLogEntry('Complete [%s cvs:%s,run:%s]' % (result, cvsExit, integrationExit))
+    writeRunLogEntry('Complete [%s svn:%s,cvs:%s,run:%s]' % (result, svnExit, cvsExit, integrationExit))
 
 # bye!
 sys.exit(result)
