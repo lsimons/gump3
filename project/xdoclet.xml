@@ -73,6 +73,7 @@
     <work nested="core/build/classes" />
     <work nested="modules/build/xdoclet/classes"/>
     <work nested="modules/build/ejb/classes"/>
+    <work nested="modules/build/jdo/classes"/>
     <work nested="modules/build/jmx/classes"/>
     <work nested="modules/build/web/classes"/>
 
