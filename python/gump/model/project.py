@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/model/project.py,v 1.37 2004/02/10 00:43:19 ajack Exp $
-# $Revision: 1.37 $
-# $Date: 2004/02/10 00:43:19 $
+# $Header: /home/stefano/cvs/gump/python/gump/model/project.py,v 1.38 2004/02/10 00:50:48 ajack Exp $
+# $Revision: 1.38 $
+# $Date: 2004/02/10 00:50:48 $
 #
 # ====================================================================
 #
@@ -433,7 +433,7 @@ class Project(NamedModelObject, Statable):
         if self.xml.basedir:
             self.basedir = os.path.abspath(os.path.join(	\
                                 self.getModule().getSourceDirectory() or dir.base,	\
-                                self.xml.asedir))
+                                self.xml.basedir))
          
         # Compute home directory
         if self.isPackaged():
