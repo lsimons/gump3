@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# $Header: /home/cvs/jakarta-gump/gump.sh,v 1.6 2003/05/30 22:02:56 nickchalko Exp $
+# $Header: /home/cvs/jakarta-gump/gump.sh,v 1.7 2003/06/02 18:18:44 nickchalko Exp $
 
 if [ -e local-env.sh ] ; then
 	. local-env.sh
@@ -78,6 +78,8 @@ cp $GUMP/gump.sh $GUMP_PROFILE_LOG_DIR
 cp $GUMP_HOST.xml  $GUMP_PROFILE_LOG_DIR
 cp `grep profile $GUMP_HOST.xml  | cut -d\" -f2` $GUMP_PROFILE_LOG_DIR
 
+
+
 #
 # Do a CVS update
 #
@@ -86,6 +88,12 @@ cd $GUMP
 cvs -q update -dP >> $GUMP_LOG 2>&1 
 rm -f .timestamp
 
+#
+# generate nobuild projects
+#
+cd $GUMP
+echo $SEPARATOR >> $GUMP_LOG
+ant nobuild-projects >> $GUMP_LOG 2>&1
 
 #
 # Check the projects
@@ -133,6 +141,13 @@ echo \</XMP\> >> $GUMP_LOG
 pkill -P $$ 
 
 # $Log: gump.sh,v $
+# Revision 1.7  2003/06/02 18:18:44  nickchalko
+# Fixed typo.  $ should be inside the ""
+# PR:
+# Obtained from: Adam Jack ajack@TrySybase.com
+# Submitted by:
+# Reviewed by:
+#
 # Revision 1.6  2003/05/30 22:02:56  nickchalko
 # Fixing incomplete update from Adam
 # PR:
