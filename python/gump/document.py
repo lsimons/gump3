@@ -245,6 +245,13 @@ def executeForrest(workspace,context):
 def documentWorkspace(workspace,context,db,moduleFilterList=None,projectFilterList=None):
     
     wdir=getWorkspaceDir(workspace)
+    
+    //
+    // ----------------------------------------------------------------------
+    //
+    // Index.xml
+    //
+    
     x=startXDoc(getWorkspaceDocument(workspace,wdir))
     headerXDoc(x,'Workspace')    
         
@@ -277,6 +284,41 @@ def documentWorkspace(workspace,context,db,moduleFilterList=None,projectFilterLi
         noteXDoc(x,note)
     
     documentAnnotations(x,context.annotations)
+    
+    startSectionXDoc(x,'Details')
+    startTableXDoc(x,'Details')
+    titledDataInTableXDoc(x,"Status : ", stateName(context.status))    
+    (hours, mins, secs) 	= context.elapsedTime();
+    titledDataInTableXDoc(x,"Elapsed Time : ", str(hours) + ':' + str(mins) + ':' + str(secs))
+    titledDataInTableXDoc(x,"Base Directory : ", str(workspace.basedir))
+    titledDataInTableXDoc(x,"Temporary Directory : ", str(workspace.tmpdir))
+    titledDataInTableXDoc(x,"Scratch Directory : ", str(workspace.scratchdir))    
+    # :TODO: We have duplicate dirs? tmp = scratch?
+    titledDataInTableXDoc(x,"Log Directory : ", str(workspace.logdir))
+    titledDataInTableXDoc(x,"CVS Directory : ", str(workspace.cvsdir))
+    titledDataInTableXDoc(x,"Package Directory : ", str(workspace.pkgdir))
+    titledDataInTableXDoc(x,"Email Address: ", str(workspace.email))
+    titledDataInTableXDoc(x,"Email Server: ", str(workspace.mailserver))
+    titledDataInTableXDoc(x,"Prefix: ", str(workspace.prefix))
+    titledDataInTableXDoc(x,"Signature: ", str(workspace.signature))
+    endTableXDoc(x)
+    endSectionXDoc(x)       
+    
+    x.write('<p><strong>Context Tree:</strong> <link href=\'context.html\'>context</link></p>')
+    # x.write('<p><strong>Workspace Config:</strong> <link href=\'xml.txt\'>XML</link></p>')
+    # x.write('<p><strong>RSS :</strong> <link href=\'index.rss\'>News Feed</link></p>')
+    
+    documentWorkList(x,workspace,context.worklist,'Workspace-level Work',wdir)
+        
+    footerXDoc(x)
+    endXDoc(x)
+    
+    //
+    // ----------------------------------------------------------------------
+    //
+    // Modules.xml
+    //
+    x=startXDoc(getWorkspaceDocument(workspace,wdir,'modules'))
     
     startSectionXDoc(x,'Modules with TODOs')
     startTableXDoc(x)
@@ -331,31 +373,17 @@ def documentWorkspace(workspace,context,db,moduleFilterList=None,projectFilterLi
     endTableXDoc(x)
     endSectionXDoc(x)
     
-    startSectionXDoc(x,'Details')
-    startTableXDoc(x,'Details')
-    titledDataInTableXDoc(x,"Status : ", stateName(context.status))    
-    (hours, mins, secs) 	= context.elapsedTime();
-    titledDataInTableXDoc(x,"Elapsed Time : ", str(hours) + ':' + str(mins) + ':' + str(secs))
-    titledDataInTableXDoc(x,"Base Directory : ", str(workspace.basedir))
-    titledDataInTableXDoc(x,"Temporary Directory : ", str(workspace.tmpdir))
-    titledDataInTableXDoc(x,"Scratch Directory : ", str(workspace.scratchdir))    
-    # :TODO: We have duplicate dirs? tmp = scratch?
-    titledDataInTableXDoc(x,"Log Directory : ", str(workspace.logdir))
-    titledDataInTableXDoc(x,"CVS Directory : ", str(workspace.cvsdir))
-    titledDataInTableXDoc(x,"Package Directory : ", str(workspace.pkgdir))
-    titledDataInTableXDoc(x,"Email Address: ", str(workspace.email))
-    titledDataInTableXDoc(x,"Email Server: ", str(workspace.mailserver))
-    titledDataInTableXDoc(x,"Prefix: ", str(workspace.prefix))
-    titledDataInTableXDoc(x,"Signature: ", str(workspace.signature))
-    endTableXDoc(x)
-    endSectionXDoc(x)       
+
+    footerXDoc(x)
+    endXDoc(x)
     
-    x.write('<p><strong>Context Tree:</strong> <link href=\'context.html\'>context</link></p>')
-    # x.write('<p><strong>Workspace Config:</strong> <link href=\'xml.txt\'>XML</link></p>')
-    # x.write('<p><strong>RSS :</strong> <link href=\'index.rss\'>News Feed</link></p>')
+    //
+    // ----------------------------------------------------------------------
+    //
+    // Packages.xml
+    //
+    x=startXDoc(getWorkspaceDocument(workspace,wdir,'packages'))
     
-    documentWorkList(x,workspace,context.worklist,'Workspace-level Work',wdir)
-       
     startSectionXDoc(x,'Packaged Modules')
     startTableXDoc(x)
     x.write('     <tr>')        
@@ -978,9 +1006,11 @@ def getWorkDir(rootdir,type):
     if not os.path.exists(wdir): os.mkdir(wdir)
     return wdir    
  
-def getWorkspaceDocument(workspace,workspacedir=None):
+def getWorkspaceDocument(workspace,workspacedir=None,document=None):
+    if not document: document='index.xml'
+    if not document.endwith('.xml): document += '.xml'
     if not workspacedir: workspacedir = getWorkspaceDir(workspace)    
-    return os.path.join(workspacedir,'index.xml')
+    return os.path.join(workspacedir,document)
     
 def getWorkspaceContextDocument(workspace,workspacedir=None):
     if not workspacedir: workspacedir = getWorkspaceDir(workspace)    
