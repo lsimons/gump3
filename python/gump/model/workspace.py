@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/model/workspace.py,v 1.19 2003/12/16 17:13:48 ajack Exp $
-# $Revision: 1.19 $
-# $Date: 2003/12/16 17:13:48 $
+# $Header: /home/stefano/cvs/gump/python/gump/model/workspace.py,v 1.20 2003/12/17 00:52:11 ajack Exp $
+# $Revision: 1.20 $
+# $Date: 2003/12/17 00:52:11 $
 #
 # ====================================================================
 #
@@ -339,8 +339,7 @@ class Workspace(ModelObject,PropertyContainer):
                                                              
         # Complete the properies
         self.completeProperties()
-                                      
-                                      
+                                     
         # Sort contents (for 'prettiness')
         
         # Pretty sorting...

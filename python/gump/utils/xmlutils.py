@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/utils/Attic/xmlutils.py,v 1.6 2003/12/16 17:13:48 ajack Exp $
-# $Revision: 1.6 $
-# $Date: 2003/12/16 17:13:48 $
+# $Header: /home/stefano/cvs/gump/python/gump/utils/Attic/xmlutils.py,v 1.7 2003/12/17 00:52:11 ajack Exp $
+# $Revision: 1.7 $
+# $Date: 2003/12/17 00:52:11 $
 #
 # ====================================================================
 #
@@ -331,13 +331,13 @@ class Named(GumpXMLObject):
           # We've this already?
           element=cls.map[name]
         except:
-          # Store in class map
           if name: 
-              log.debug(str(cls) + ' : ' + name + ' ... not downloaded from HREF first')        
               # Create it first time...
               element=GumpXMLObject.__new__(cls,attrs)
-      
+              # Store in class map
               cls.map[name]=element
+          else:
+              log.error('Not downloaded, not named: [' + str(cls) + ' : ' + `attrs` + ']')
       
     return element
                 
