@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/test/pyunit.py,v 1.18 2004/01/28 00:13:39 ajack Exp $
-# $Revision: 1.18 $
-# $Date: 2004/01/28 00:13:39 $
+# $Header: /home/stefano/cvs/gump/python/gump/test/pyunit.py,v 1.19 2004/02/13 22:12:37 ajack Exp $
+# $Revision: 1.19 $
+# $Date: 2004/02/13 22:12:37 $
 #
 # ====================================================================
 #
@@ -306,7 +306,7 @@ class TestRunner:
             log.info('No Problems Detected')
         
         if problems:   sys.exit(1)
-        sys.exit()
+        sys.exit(0)
                     
 if __name__=='__main__':
     

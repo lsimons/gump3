@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/output/Attic/repository.py,v 1.3 2004/01/09 19:57:18 ajack Exp $
-# $Revision: 1.3 $
-# $Date: 2004/01/09 19:57:18 $
+# $Header: /home/stefano/cvs/gump/python/gump/output/Attic/repository.py,v 1.4 2004/02/13 22:12:37 ajack Exp $
+# $Revision: 1.4 $
+# $Date: 2004/02/13 22:12:37 $
 #
 # ====================================================================
 #
@@ -106,13 +106,16 @@ class JarRepository:
         if not os.path.exists(jdir): os.mkdir(jdir)
         return jdir  
         
-    def publish(self,group,jar):
+    def publish(self,group,artefact):
+        
+        # Locate (and make if needed) group.
         cdir=self.getGroupDir(group)
-        jarname=os.path.basename(jar)
-        newjar=os.path.join(cdir,jarname)
-        try:
-            copyfile(jar,newjar)
-        except Exception, details:
-            log.error('Failed to copy [' + str(jar) + '] to [' + str(newjar) + '] : ' + str(details))
+        
+        # Extract name, to make relative to group
+        artefactName=os.path.basename(artefact)
+        newArtefact=os.path.join(cdir,artefactName)
+        
+        # Do the transfer..
+        copyfile(artefact,newArtefact)
         
   

@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/output/Attic/nag.py,v 1.10 2004/02/12 00:24:16 ajack Exp $
-# $Revision: 1.10 $
-# $Date: 2004/02/12 00:24:16 $
+# $Header: /home/stefano/cvs/gump/python/gump/output/Attic/nag.py,v 1.11 2004/02/13 22:12:37 ajack Exp $
+# $Revision: 1.11 $
+# $Date: 2004/02/13 22:12:37 $
 #
 # ====================================================================
 #
@@ -78,7 +78,7 @@ from gump.model.state import *
 from gump.net.mailer import *
 from gump.utils import *
 
-LINE='- - - - ----------------------------------------- G U M P Y\n'
+LINE='-  -  -  -  - -- -- ------------------------------------ G U M P'
 
 class AddressPair:
     def __init__(self,toAddr,fromAddr):
@@ -115,7 +115,7 @@ class Nagger:
     
         # A bit paranoid, ought just rely upon object being
         # destroyed,
-        self.sent=''
+        self.unsent=''
         self.unwanted=''
             
         #
@@ -152,27 +152,33 @@ class Nagger:
                 
         # Belt and braces (nag to us if not nag to them)
         if self.unwanted:
+            log.info('Got some unwanted\'s to send to list...')
             self.sendEmail(self.workspace.mailinglist,self.workspace.email,	\
                         'All dressed up, with nowhere to go...',self.unwanted)
                         
             # A bit paranoid, ought just rely upon object being
             # destroyed,
-            self.unwanted=''            
+            self.unwanted=''      
+        else:
+            log.debug('No unwanted nags.')
                 
         # Belt and braces (nag to us if not nag to them)
-        if self.sent:
+        if self.unsent:
+            log.info('Got some unsented\'s to send to list...')    
             self.sendEmail(self.workspace.mailinglist,self.workspace.email,	\
                         'Unable to send...',self.unsent)
                         
             # A bit paranoid, ought just rely upon object being
             # destroyed,
-            self.sent=''
+            self.unsent=''
+        else:
+            log.debug('No unsent nags.')
                 
     def addUnwanted(self,subject,content):
         self.addStuff(self.unwanted,subject,content)
     
     def addUnsent(self,subject,content):
-        self.addStuff(self.sent,subject,content)
+        self.addStuff(self.unsent,subject,content)
     
     def addStuff(self,store,subject,content):
         if store:
@@ -192,12 +198,11 @@ class Nagger:
     
     def nagModule(self,module):
         """ Nag to a specific module's <nag entry """
-        content=''
-    
+        
         #
         # Form the content...
         #
-        content+=self.getNamedTypedContent(module,'index')
+        content=self.getNamedTypedContent(module,'index')
                 
         #
         # Form the subject
@@ -211,22 +216,12 @@ class Nagger:
     
     def nagProject(self,project):
         """ Nag to a specific project's <nag entry """
-        content=''
-    
         module=project.getModule()
     
         #
         # Form the content...
         #
-        displayedModule=0
-        displayedProject=0
-        if not module.isSuccess():
-            displayedModule=1
-            content+=self.getNamedTypedContent(module,'index')
-        
-        if not project.isSuccess():
-            displayedProject=1    
-            content+=self.getNamedTypedContent(project, project.getName() )        
+        content=self.getNamedTypedContent(project, project.getName() )        
                 
         #
         # Form the subject
@@ -246,8 +241,13 @@ class Nagger:
             # Determine where to send
             #
             toaddr=getattr(nagEntry,'to',self.workspace.mailinglist)
-            fromaddr=getattr(nagEntry,'from',self.workspace.email)      
-                  
+            fromaddr=getattr(nagEntry,'from',self.workspace.email)   
+            
+            # Somewhat bogus, but (I think) due to how the XML
+            # objects never admit to not having something
+            if not toaddr: toaddr =    self.workspace.mailinglist
+            if not fromaddr : fromaddr =  self.workspace.email
+                
             nags.append(AddressPair(toaddr,fromaddr))  
 
         return nags
@@ -259,6 +259,10 @@ class Nagger:
                 self.sendEmail(pair.getToAddress(), pair.getFromAddress(),	\
                                 subject, content)
         else:
+            #
+            # This is a catch-all, for all project that
+            # don't have <nag's assigned.
+            #
             self.addUnwanted(subject,content)
                     
     def sendEmail(self, toaddr, fromaddr, subject, content):
@@ -289,28 +293,38 @@ class Nagger:
                 self.workspace.mailport) 
             
         except Exception, details:
-            log.error("Failed to send nag e-mail: " + str(details), \
+            log.error('Failed to send nag e-mail ['+str(toaddr)+'] ['+str(fromaddr)+']: ' + str(details), \
                         exc_info=1)
                         
-            self.addUnsent(subject,content)
-                
+            self.addUnsent(subject,content)                
             
     def getNamedTypedContent(self,object,feedPrefix=None,message=None):
-        content='To whom is may concern,\n\nThis is an automated request, but not an unsolicited one. Please see: http://jakarta.apache.org/gump/nagged.html\n\n'
+        content="""To whom it may engage...
+        
+This is an automated request, but not an unsolicited one. For help understanding the request please visit http://jakarta.apache.org/gump/nagged.html
+and/or contact gump@jakarta.apache.org.
+
+"""
     
+        # Get our facts straight.
         name=object.getName()
         type=object.__class__.__name__
         affected=object.determineAffected()
+        duration=object.getStats().sequenceInState
         
         # Optional message
         if message:
             content+=message             
             
-        content += type + ': ' + name + ' has an issue affecting it\'s community integration.'
+        content += type + ' ' + name + ' has an issue affecting it\'s community integration'
+                
         if affected:
-            content += ' This issue affects ' + `affected` + ' projects.\n'
-        else:
-            content += '\n'
+            content += '. This issue affects ' + `affected` + ' projects'
+            
+        if duration and duration > 1:
+            content += ', and has been outstanding for ' + `duration` + ' runs'
+        
+        content += '.\n'
             
         content += self.getGenericContent(object,feedPrefix)
         
@@ -326,18 +340,23 @@ class Nagger:
         #
         # Add State (and reason)
         #
-        content += "State: " + object.getStateDescription()
+        content += 'The current state is \'' + object.getStateDescription() + '\''
     
-        if not object.hasReason():
-            content +=  ', Reason: ' + object.getReasonDescription() + '\n'
-        else:
-            content += '\n'
+        if object.hasReason():
+            content +=  ', for reason ' + object.getReasonDescription() + '\''
+        
+        content += '\n'
                                  
         #
         # Link them back here...
         #
         url=self.run.getOptions().getResolver().getUrl(object)
-        content += "\nThe URL for full details is: " + url + "\n"
+        content += "\nFull details are available at: " + url 
+        
+        
+        if object.annotations or object.worklist:
+            content += ', however some snippets follow:\n'
+            
         content += '\n'
         
         #
@@ -358,11 +377,9 @@ class Nagger:
             content += "\nGump performed this work:\n\n"
             for workitem in object.worklist:
                 content+=workitem.overview()+'\n\n'   
-                
-                
-    
+                                
         if feedPrefix:
-            content += '\n\nTo subscribe to this information via syndication:\n'      
+            content += '\n\nTo subscribe to this information via syndicated feeds:\n'      
             
             #
             # Link them back here...

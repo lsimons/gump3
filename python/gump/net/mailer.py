@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/net/Attic/mailer.py,v 1.5 2004/02/04 01:43:02 ajack Exp $
-# $Revision: 1.5 $
-# $Date: 2004/02/04 01:43:02 $
+# $Header: /home/stefano/cvs/gump/python/gump/net/Attic/mailer.py,v 1.6 2004/02/13 22:12:37 ajack Exp $
+# $Revision: 1.6 $
+# $Date: 2004/02/13 22:12:37 $
 #
 # ====================================================================
 #
@@ -99,7 +99,7 @@ class EmailMessage:
         """E-mail"""
         # Add the From: and To: headers at the start!
         data = ("Date: %s\r\nFrom: %s\r\nTo: %s\r\nSubject: %s\r\n\r\n%s%s"
-           	% (	time.strftime('%d %b %y %H:%M:%S'),
+           	% (	time.strftime('%d %b %y %H:%M:%S', time.gmtime()),
            	    self.fromaddr, 
            		string.join(self.toaddrs, ", "),
                 self.subject,
@@ -140,12 +140,9 @@ def mail(toaddrs,fromaddr,message,server='localhost',port=25):
         server.quit()
         
     except Exception, details:
-        log.error("Failed to send e-mail: " + str(details))
-        log.error("Server :" + str(server))
-        log.error("From   :" + str(fromaddr))
-        log.error("To     :" + str(toaddrs))
-        log.error("------------------------------------------------------")
+        log.error('Failed to send e-mail: ' + str(details))
         log.error(data, exc_info=1)
+        log.error('Server :' + str(server) + ' From   :' + str(fromaddr) + ' To     :' + str(toaddrs))
     
 def sanitizeAddress(addr):
     parts=addr.split('<')

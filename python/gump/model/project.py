@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/model/project.py,v 1.49 2004/02/11 23:35:54 ajack Exp $
-# $Revision: 1.49 $
-# $Date: 2004/02/11 23:35:54 $
+# $Header: /home/stefano/cvs/gump/python/gump/model/project.py,v 1.50 2004/02/13 22:12:38 ajack Exp $
+# $Revision: 1.50 $
+# $Date: 2004/02/13 22:12:38 $
 #
 # ====================================================================
 #
@@ -190,6 +190,8 @@ class Project(NamedModelObject, Statable):
     	self.home=None
     	self.basedir=None
     	
+    	self.license=None
+    	
     	#############################################################
     	# Dependency Trees
     	#
@@ -271,6 +273,13 @@ class Project(NamedModelObject, Statable):
         
     def hasJarWithId(self,id):
         return self.jars.has_key(id)
+        
+    def hasLicense(self):
+        if self.license: return 1
+        return 0
+        
+    def getLicense(self):
+        return self.license
         
     def hasJars(self):
         return self.jars
@@ -471,6 +480,10 @@ class Project(NamedModelObject, Statable):
             self.addError(message)
             self.home=None
 
+        # Extract license 
+        if self.xml.license and self.xml.license.name:
+            self.license = self.xml.license.name
+        
         #
         # Resolve jars (outputs)
         #
@@ -1090,7 +1103,7 @@ maven.jar.override = on
     # Does this project generate outputs (currently JARs)
     #                  
     def hasOutputs(self):
-        return self.hasJars()
+        return self.hasJars() or self.hasLicense()
     
     #
     # Return a (classpath, bootclaspath) tuple for this project

@@ -522,6 +522,9 @@ class GumpEngine:
 
         if project.okToPerformWork():
             if project.hasOutputs():
+                #
+                # Ensure the output were all generated correctly.
+                #
                 outputsOk=1
                 for jar in project.getJars():
                     jarPath=os.path.abspath(jar.getPath())
@@ -531,17 +534,45 @@ class GumpEngine:
                         project.addError("Missing Output: " + str(jarPath))
                             
                 if outputsOk: 
+                    # Publish them all (if distributable)
+                    # :TODO: check for distributable...
                     for jar in project.getJars():
                         jarPath=os.path.abspath(jar.getPath())
                         # Copy to repository
-                        repository.publish( project.getModule().getName(), jarPath )
-            
+                        try:
+                            repository.publish( project.getModule().getName(), jarPath )           
+                        except Exception, details:
+                            message='Failed to publish [' + jarPath + '] to repository : ' + str(details)
+                            project.addError(message)
+                            log.error(message)
+                        
+                    # If we have a <license name='...
+                    if project.hasLicense():
+                        licensePath=os.path.abspath(	\
+                                        os.path.join( project.getModule().getSourceDirectory(),	\
+                                                project.getLicense() ) )
+                                                  
+                        if not os.path.exists(licensePath):
+                            project.changeState(STATE_FAILED,REASON_MISSING_OUTPUTS)
+                            outputsOk=0
+                            project.addError("Missing License Output: " + str(licensePath))
+                        else                      
+                            try:
+                                repository.publish( project.getModule().getName(), licensePath )            
+                            except Exception, details:
+                                message='Failed to publish license [' + licensePath + '] to repository : ' + str(details)
+                                project.addError(message)
+                                log.error(message)                     
+                    else:
+                        project.addWarning('No license on project with outputs.')                                        
+                                    
                     project.changeState(STATE_SUCCESS)
                     
                     # For 'fun' list repository
                     listDirectoryAsWork(project,repository.getGroupDir(project.getModule().getName()), \
                                         'list_repo_'+project.getName())                     
-                else:
+                                        
+                if not outputsOk:
                     #
                     # List all directories that should've contained
                     # outputs, to see what is there.
