@@ -178,6 +178,7 @@
   <module href="project/relaxng.xml"/>
   <module href="project/saxon.xml"/>
   <module href="project/saxon6.xml"/>
+  <module href="project/struts-sslext.xml"/>
   <module href="project/webwork.xml"/>
   <module href="project/wss4j.xml"/>
   <module href="project/xdoclet.xml"/>
