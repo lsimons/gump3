@@ -177,13 +177,13 @@ Regex: /BUILD FAILED/
 ------
 Project: jakarta-ant-myrmidon
 To: ant-dev@jakarta.apache.org
-From: Diane Holt <peter@apache.org>
+From: Peter Donald <peter@apache.org>
 Subject: [GUMP] Build Failure - Myrmidon
 Regex: /BUILD FAILED/
 ------
 Project: jakarta-ant-myrmidon-test
 To: ant-dev@jakarta.apache.org
-From: Diane Holt <peter@apache.org>
+From: Peter Donald <peter@apache.org>
 Subject: [GUMP] Build Failure - Myrmidon Test
 Regex: /BUILD FAILED/
 ------
