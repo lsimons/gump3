@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 #
-# $Header: /home/stefano/cvs/gump/python/gump/test/sync.py,v 1.1 2004/03/04 21:38:47 antoine Exp $
-# $Revision: 1.1 $
-# $Date: 2004/03/04 21:38:47 $
+# $Header: /home/stefano/cvs/gump/python/gump/test/sync.py,v 1.2 2004/03/09 14:14:33 antoine Exp $
+# $Revision: 1.2 $
+# $Date: 2004/03/09 14:14:33 $
 #
 # ====================================================================
 #
@@ -116,21 +116,21 @@ class SyncTestSuite(UnitTestSuite):
         try:
             result = os.stat(self.destination)
         except Exception, details:
-            raiseIssue(['destination directory was not created', self.destination])
+            self.raiseIssue(['destination directory was not created', self.destination])
         try:
             result = os.stat(self.destination_subdir1)
         except Exception, details:
-            raiseIssue(['destination_subdir1 directory was not created', self.destination_subdir1])
+            self.raiseIssue(['destination_subdir1 directory was not created', self.destination_subdir1])
         result_source = None
         result_destination = None    
         try:
             result_source = os.stat(self.source_alphatxt)    
         except Exception, details:
-            raiseIssue(['file was not created', self.source_alphatxt])
+            self.raiseIssue(['file was not created', self.source_alphatxt])
         try:
             result_destination = os.stat(self.destination_alphatxt)
         except Exception, details:
-            raiseIssue(['file was not created', self.destination_alphatxt])
+            self.raiseIssue(['file was not created', self.destination_alphatxt])
         log.debug("size of file [%s] is %i" % (`self.destination_alphatxt`,
         result_destination[stat.ST_SIZE]))    
         log.debug("modification date of file [%s] is %s" % 
@@ -166,17 +166,17 @@ class SyncTestSuite(UnitTestSuite):
         os.utime(self.destination_alphatxt, (epoch_sometime, epoch_sometime))
         mySync.execute()
         if os.path.exists(destination_junktxt):
-            raiseIssue(['junk file was not deleted', destination_junktxt])
+            self.raiseIssue(['junk file was not deleted', destination_junktxt])
         result_source = None
         result_destination = None    
         try:
             result_source = os.stat(self.source_alphatxt)    
         except Exception, details:
-            raiseIssue(['file was not created', self.source_alphatxt])
+            self.raiseIssue(['file was not created', self.source_alphatxt])
         try:
             result_destination = os.stat(self.destination_alphatxt)
         except Exception, details:
-            raiseIssue(['file was not created', self.destination_alphatxt])
+            self.raiseIssue(['file was not created', self.destination_alphatxt])
         log.debug("size of file [%s] is %i" % (`self.destination_alphatxt`,
         result_destination[stat.ST_SIZE]))    
         log.debug("modification date of file [%s] is %s" % 
@@ -208,18 +208,18 @@ class SyncTestSuite(UnitTestSuite):
         shutil.copy2(self.source_alphatxt, junk_file2)
         mySync.execute()
         if os.path.isdir(self.destination_alphatxt):
-            raiseIssue(['destination text file remained a directory',
+            self.raiseIssue(['destination text file remained a directory',
              self.destination_alphatxt])
         result_source = None
         result_destination = None    
         try:
             result_source = os.stat(self.source_alphatxt)    
         except Exception, details:
-            raiseIssue(['file was not created', self.source_alphatxt])
+            self.raiseIssue(['file was not created', self.source_alphatxt])
         try:
             result_destination = os.stat(self.destination_alphatxt)
         except Exception, details:
-            raiseIssue(['file was not created', self.destination_alphatxt])
+            self.raiseIssue(['file was not created', self.destination_alphatxt])
         log.debug("size of file [%s] is %i" % (`self.destination_alphatxt`,
         result_destination[stat.ST_SIZE]))    
         log.debug("modification date of file [%s] is %s" % 
@@ -253,18 +253,66 @@ class SyncTestSuite(UnitTestSuite):
         shutil.copy2(junk_source_file1, junk_source_file2)
         mySync.execute()
         if os.path.isfile(self.destination_alphatxt):
-            raiseIssue(['destination text file remained a file',
+            self.raiseIssue(['destination text file remained a file',
              self.destination_alphatxt])
         self.genericCompare(self.source_alphatxt, self.destination_alphatxt)
-        log.debug('finished')     
+    def testSymbolicLink(self):
+        """
+        this test only runs on operating systems where os.name will return
+        posix
+        the setUp gets done
+        a symbolic link sl pointing to source_subdir1 gets created
+        the sync gets done
+        we want to check whether sl exists on the destination side
+        as a symbolic link
+        """
+        if os.name == 'posix': 
+            dstname = os.path.join(self.source_subdir1, 'myfirstlink')
+            os.symlink('subdir1', dstname)    
+            mySync = Sync(self.source, self.destination)
+            mySync.execute()
+            self.genericCompare(self.source, self.destination)
+    def testCopy1(self):
+        """
+        the setUp gets done
+        a sync runs
+        then source_alphatxt is deleted
+        another file source_betatxt is created
+        a sync with the copy flag runs
+        the test will check that :
+            alphatxt remains on the destination side
+            betatxt gets copied
+        """    
+        mySync = Sync(self.source, self.destination)
+        mySync.execute()
+        os.remove(self.source_alphatxt)
+        betatxt = "beta.txt"
+        source_betatxt = os.path.join(self.source_subdir1, betatxt)
+        destination_betatxt = os.path.join(self.destination_subdir1, betatxt)
+        myfile = file(source_betatxt, 'w+')
+        myfile.write('Hello World')
+        myfile.close()
+        # Sat, 20 May 2000 12:07:40 +0000
+        sometime=[2000,5,20,12,7,40,5,141,-1]
+        epoch_sometime = time.mktime(sometime)
+        os.utime(source_betatxt, (epoch_sometime, epoch_sometime))
+        mySync = Sync(self.source, self.destination, 1)
+        mySync.execute()
+        # check that alpha.txt was preserved on the destination side
+        if not os.path.exists(self.destination_alphatxt):
+            self.raiseIssue(['file was deleted on the destination side in a copy'
+            + 'operation', self.source_alphatxt])
+        # check that beta.txt was copied    
+        self.compareFiles(source_betatxt, destination_betatxt)    
+             
     def genericCompare(self, mysource, mydestination):
         """
         compare 2 directories source and destination
         """ 
         if not os.path.isdir(mysource):
-            raiseIssue([mysource, ' not a directory'])
+            self.raiseIssue([mysource, ' not a directory'])
         if not os.path.isdir(mydestination):
-            raiseIssue([mydestination, ' not a directory'])
+            self.raiseIssue([mydestination, ' not a directory'])
         names = os.listdir(mysource)
         for aname in names:
             inode_source = os.path.join(mysource, aname)
@@ -273,7 +321,7 @@ class SyncTestSuite(UnitTestSuite):
                 self.compareFiles(inode_source, inode_dest)
             elif os.path.islink(inode_source):
                 if not os.path.islink(inode_dest):
-                    raiseIssue([inode_dest, ' not a symbolic link'])
+                    self.raiseIssue([inode_dest, ' not a symbolic link'])
                 linkto_source = os.readlink(inode_source)
                 linkto_dest = os.readlink(inode_dest)
                 self.assertTrue([inode_dest, ' points to ', linkto_source ],
@@ -291,11 +339,11 @@ class SyncTestSuite(UnitTestSuite):
         try:
             result_source = os.stat(inode_source)
         except Exception, details:
-            raiseIssue(['could not stat ', inode_source])
+            self.raiseIssue(['could not stat ', inode_source])
         try:
             result_dest = os.stat(inode_dest)
         except Exception, details:
-            raiseIssue(['could not stat ', inode_dest])
+            self.raiseIssue(['could not stat ', inode_dest])
         self.assertTrue("modtime is equal for [%s] compared to [%s]"
         %(`inode_source`,`inode_dest`),
         result_source[stat.ST_MTIME]==result_dest[stat.ST_MTIME])
