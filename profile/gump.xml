@@ -230,9 +230,9 @@
   <module href="project/packaged-jaxen.xml"/>
   <module href="project/packaged-jetty.xml"/>
   <module href="project/packaged-dom4j.xml"/>
-  <module href="http://cvs.sourceforge.net/viewcvs.py/*checkout*/jicarilla/jicarilla-sandbox/platform/gump/gump-module.xml?content-type=text/xml&amp;rev=HEAD"/>
-  <module href="http://cvs.sourceforge.net/viewcvs.py/*checkout*/jicarilla/jicarilla-maven-repository/gump-module.xml?content-type=text/xml&amp;rev=HEAD"/>
-  <module href="project/jicarilla-suf.xml"/>
+  <module href="project/jicarilla/jicarilla-sandbox.xml"/>
+  <module href="project/jicarilla/jicarilla-maven-repository.xml"/>
+  <module href="project/jicarilla/jicarilla-suf.xml"/>
 
 <!-- CodeHaus -->
 
