@@ -1,0 +1,30 @@
+<project name="dom4j">
+
+  <url href="http://www.dom4j.org"/>
+  <description>
+    The flexible XML framework for Java
+  </description>
+
+  <cvs repository="sourceforge" host-prefix="cvs.dom4j" dir="dom4j"/>
+
+  <ant/>
+
+  <depend project="jakarta-ant"/>
+  <depend project="xml-xerces"/>
+  <depend project="antlr.3"/>
+  <depend project="junit"/>
+  <depend project="xml-xalan2"/>
+  <depend project="saxon"/>
+
+  <jar name="build/dom4j.jar"/>
+
+  <project name="antlr.3">
+    <jar name="lib/antlr-runtime.jar"/>
+    <jar name="lib/antlr.jar"/>
+  </project>
+
+  <project name="saxon">
+    <jar name="lib/saxon.jar"/>
+  </project>
+
+</project>
