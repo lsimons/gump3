@@ -29,6 +29,7 @@
 
     <home nested="build"/>
     <jar  name="fop.jar"/>
+    <javadoc nested="build/javadocs"/>
 
     <nag from="Sam Ruby &lt;rubys@us.ibm.com&gt;" to="fop-dev@xml.apache.org"/>
   </project>
