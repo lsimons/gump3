@@ -69,8 +69,6 @@
     <package>org.apache.commons.jelly.tags.util</package>
     <description>This is a set of Jelly utility tags.</description>
 
-    <mkdir dir="jelly/jelly-tags/util/lib"/>
-
     <ant basedir="jelly/jelly-tags/util" target="jar">
       <property name="final.name"  value="commons-jelly-tags-util-@@DATE@@"/>
     </ant>
