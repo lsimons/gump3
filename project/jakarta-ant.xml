@@ -38,6 +38,7 @@
     <option project="jakarta-log4j"/>
     <option project="jaf"/>
     <option project="javamail"/>
+    <option project="jakarta-bcel"/>
 
     <home nested="build"/>
     <jar name="lib/ant.jar"/>
