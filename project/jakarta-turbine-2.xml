@@ -27,8 +27,8 @@
     <depend project="xml-xerces"/>
 
     <depend project="commons-collections"/>
-    <depend project="commons-configuration"/>
-    <depend project="commons-lang"/>
+    <depend project="commons-configuration" runtime="true"/>
+    <depend project="commons-lang" runtime="true"/>
     <depend project="commons-logging"/>
     <depend project="commons-pool"/>
     <depend project="jakarta-ecs"/>
@@ -37,10 +37,10 @@
     <depend project="jaf"/>
     <depend project="jdbc"/>
     <depend project="jndi"/>
-    <depend project="jakarta-log4j"/>
+    <depend project="jakarta-log4j" runtime="true"/>
     <depend project="jakarta-servletapi"/>
-    <depend project="jakarta-turbine-stratum"/>
-    <depend project="jakarta-turbine-torque"/>
+    <depend project="jakarta-turbine-stratum" runtime="true"/>
+    <depend project="jakarta-turbine-torque" runtime="true"/>
     <depend project="jakarta-velocity"/>
     <depend project="village"/>
     <depend project="xml-rpc"/>

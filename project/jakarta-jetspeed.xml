@@ -19,17 +19,20 @@
     </ant>
     <depend project="jakarta-ant" inherit="runtime"/>
     <depend project="xml-xerces"/>
-    <depend project="jakarta-turbine-2"/>
+    <depend project="jakarta-turbine-2" inherit="runtime"/>
     <depend project="castor"/>
     <depend project="village"/>
+    <depend project="jakarta-regexp"/>
     <depend project="jakarta-servletapi"/>
-    <depend project="jakarta-velocity"/>
+    <depend project="jakarta-velocity" inherit="runtime"/>
     <depend project="jakarta-ecs"/>
     <depend project="xml-xalan2"/>
     <depend project="javamail"/>
     <depend project="jdbc"/>
     <depend project="xml-soap"/>
     <depend project="uddi4j"/>
+
+    <work nested="build/torque/templates.scratch"/>
 
     <javadoc nested="proposals">
       <description dir="persistence/javadoc">PersistenceService</description>
