@@ -316,39 +316,34 @@ public class Project {
             Project p = (Project) projects.get(depend.getAttribute("project"));
             if (p == null) continue;
 
-            // if inherit="all" is specified on a depends element, then all
-            // of the optional and depends elements on the referenced project
-            // are inherited by this project.
-            //
-            // if inherit="hard", the same thing happens except that all 
-            // optional dependencies are converted to "hard" dependencies in 
-            // the copy.
-            if (inherit.equals("all") || inherit.equals("hard")) {
-                for (Enumeration d=p.dependsOn.keys(); d.hasMoreElements(); ) {
-                    String name = (String) d.nextElement();
-                    if (dependsOn.get(name) == null) {
-                        Element source = (Element) p.dependsOn.get(name);
-                        String type = source.getNodeName();
-                        Element clone = (Element) source.cloneNode(true);
-                        if (inherit.equals("hard") && type.equals("option")) {
-                            Element renamed = document.createElement("depend");
-                            Jenny.moveChildren(clone, renamed);
-                            clone = renamed;
-                        }
-                        clone.setAttribute("inherited", "true");
-                        dependsOn.put(name,clone);
-                        element.appendChild(clone);
+            for (Enumeration d=p.dependsOn.keys(); d.hasMoreElements(); ) {
+                String name = (String) d.nextElement();
+                if (dependsOn.get(name) != null) continue;
+                Element source = (Element) p.dependsOn.get(name);
+                String type = source.getNodeName();
+
+                // if inherit="all" is specified on a depends element, then all
+                // of the optional and depends elements on the referenced 
+                // project are inherited by this project.
+                //
+                // if inherit="hard", the same thing happens except that all 
+                // optional dependencies are converted to "hard" dependencies
+                // in the copy.
+                if (inherit.equals("all") || inherit.equals("hard")) {
+                    Element clone = (Element) source.cloneNode(true);
+                    if (inherit.equals("hard") && type.equals("option")) {
+                        Element renamed = document.createElement("depend");
+                        Jenny.moveChildren(clone, renamed);
+                        clone = renamed;
                     }
-                }
-            } else if (inherit.equals("runtime")) {
+                    clone.setAttribute("inherited", "true");
+                    dependsOn.put(name,clone);
+                    element.appendChild(clone);
+
                 // look for runtime="true" dependencies in the referenced
                 // project.  Convert depends to options if the reference to
                 // the project is an option.
-                String type = depend.getNodeName();
-                for (Enumeration d=p.dependsOn.keys(); d.hasMoreElements(); ) {
-                    String name = (String) d.nextElement();
-                    if (dependsOn.get(name) != null) continue;
-                    Element source = (Element) p.dependsOn.get(name);
+                } else if (inherit.equals("runtime")) {
                     if (source.getAttribute("runtime").equals("true")) {
                         Element clone = (Element) source.cloneNode(true);
                         if (type.equals("option")) {
@@ -361,21 +356,16 @@ public class Project {
                         element.appendChild(clone);
                     }
                 }
-            } else {
+
                 // if this project depends on any project which in turn has
                 // a dependency which specifies inherit="jars", then inherit
                 // that dependency.
-                for (Enumeration d=p.dependsOn.keys(); d.hasMoreElements(); ) {
-                    String name = (String) d.nextElement();
-                    if (dependsOn.get(name) != null) continue;
-                    Element source = (Element) p.dependsOn.get(name);
-                    if (source.getAttribute("inherit").equals("jars")) {
-                        Element clone = (Element) source.cloneNode(true);
-                        clone.setAttribute("inherited", "true");
-                        clone.removeAttribute("inherit");
-                        dependsOn.put(name,clone);
-                        element.appendChild(clone);
-                    }
+                if (source.getAttribute("inherit").equals("jars")) {
+                    Element clone = (Element) source.cloneNode(true);
+                    clone.setAttribute("inherited", "true");
+                    clone.removeAttribute("inherit");
+                    dependsOn.put(name,clone);
+                    element.appendChild(clone);
                 }
             }
         }
