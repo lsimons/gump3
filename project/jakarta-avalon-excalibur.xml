@@ -64,7 +64,7 @@
         <work nested="cli/build/classes"/>
         <work nested="monitor/build/classes"/>
 
-        <jar name="avalon-excalibur.jar"/>
+        <jar name="avalon-excalibur-@@DATE@@.jar"/>
 
         <javadoc nested="build/javadocs" module="jakarta-avalon"/>
 
@@ -144,7 +144,7 @@
         <work nested="assembly/build/classes"/>
 
         <home nested="assembly"/>
-        <jar name="build/lib/merlin-@@DATE@@.jar"/>
+        <jar name="build/lib/excalibur-merlin-@@DATE@@.jar"/>
 
         <nag from="Stephen McConnell &lt;mcconnell@apache.org&gt;"
             to="avalon-dev@jakarta.apache.org"/>
