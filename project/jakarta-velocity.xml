@@ -10,6 +10,8 @@
   <ant basedir="build" target="dist">
     <property name="log.jar"
        reference="jarpath" id="logkit" project="jakarta-avalon-logkit"/>
+    <property name="oro.jar"
+       reference="jarpath" id="oro" project="jakarta-oro"/>
     <property name="version" value="gump"/>
   </ant>
 
