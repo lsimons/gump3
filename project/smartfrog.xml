@@ -29,8 +29,9 @@
     <package>org.smartfrog</package>
 
     <mkdir dir="smartfrog/build"/>
-    <ant basedir="." target="dist" />
-    <!-- <ant basedir="smartfrog" target="dist" /> -->    
+    <ant basedir="." target="dist" >		
+	  <property name="ant.home" reference="home" project="ant"/>
+	</ant>
     <depend project="ant" runtime="false"/>
     <depend project="junit" runtime="true"/>
     <depend project="javacc" runtime="false"/> 
@@ -44,7 +45,7 @@
     <license name="smartfrog/LICENSE.txt"/>
     <!-- <javadoc nested="doc/javadocs"/> -->
     <nag from="Smartfrog &lt;smartfrog@users.sf.net&gt;"
-        to="smartfrog-developer@lists.sourceforge.net.">
+        to="smartfrog-developer@lists.sourceforge.net">
       <regexp subject="[Gump:Smartfrog] Build Failure"/>
     </nag>
 
@@ -53,7 +54,9 @@
   <!-- ant tasks -->
   <project name="smartfrog-tasks">
     <package>org.smartfrog.tools.ant</package>
-    <ant basedir="extras/ant" target="dist" />
+    <ant basedir="extras/ant" target="dist">		
+	  <property name="ant.home" reference="home" project="ant"/>
+	</ant>
     <depend project="ant" runtime="true"/>
     <depend project="junit" runtime="true"/>
     <depend project="smartfrog" runtime="true"/> 
@@ -65,7 +68,7 @@
     <license name="smartfrog/LICENSE.txt"/>
     <!-- <javadoc nested="doc/javadocs"/> -->
     <nag from="Smartfrog &lt;smartfrog@users.sf.net&gt;"
-        to="smartfrog-developer@lists.sourceforge.net.">
+        to="smartfrog-developer@lists.sourceforge.net">
       <regexp subject="[Gump:Smartfrog] Build Failure"/>
     </nag>
   </project>
@@ -74,6 +77,7 @@
   <project name="smartfrog-tasks-test">
     <package>org.smartfrog.tools.ant</package>
     <ant basedir="extras/ant" target="test" >
+	  <property name="ant.home" reference="home" project="ant"/>      
       <property name="system.tests" value="false" /> 
     </ant>    
     <depend project="ant" runtime="true"/>
@@ -88,7 +92,7 @@
     <junitreport nested="extras/ant/build/test/reports"/>
     
     <nag from="Smartfrog &lt;smartfrog@users.sf.net&gt;"
-        to="smartfrog-developer@lists.sourceforge.net.">
+        to="smartfrog-developer@lists.sourceforge.net">
       <regexp subject="[Gump:Smartfrog] Build Failure"/>
     </nag>
   </project>
@@ -101,7 +105,8 @@
       -->
   <project name="smartfrog-test">
     <package>org.smartfrog</package>
-    <ant basedir="testharness" target="test" >
+    <ant basedir="testharness" target="test" >>		
+	  <property name="ant.home" reference="home" project="ant"/>
       <property name="system.tests" value="false" /> 
     </ant>
     <depend project="ant" runtime="true"/>
@@ -115,7 +120,7 @@
     <junitreport nested="testharness/build/test/reports"/>
     
     <nag from="Smartfrog &lt;smartfrog@users.sf.net&gt;"
-        to="smartfrog-developer@lists.sourceforge.net.">
+        to="smartfrog-developer@lists.sourceforge.net">
       <regexp subject="[Gump:Smartfrog] Build Failure"/>
     </nag>
   </project>
