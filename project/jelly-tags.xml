@@ -1,4 +1,4 @@
-<module name="jakarta-commons-sandbox-jelly">
+<module name="jakarta-commons-sandbox-jelly-tags">
 
   <project name="commons-jelly-tags-ant">
     <package>org.apache.commons.jelly.tags.ant</package>
