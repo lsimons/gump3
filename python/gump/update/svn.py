@@ -197,12 +197,14 @@ class SvnUpdater(RunSpecific):
             Build the appropriate SVN command for checkout/update
         """
         
+        repository=module.repository
+        
         log.debug("SubVersion  Module Update : " + module.getName() + \
-                       ", Repository Name: " + str(module.repository.getName()))
+                       ", Repository Name: " + str(repository.getName()))
                                         
         url=module.svn.getRootUrl()
       
-        log.debug("SVN URL: [" + url + "] on Repository: " + module.repository.getName())
+        log.debug("SVN URL: [" + url + "] on Repository: " + repository.getName())
      
         #
         # Prepare SVN checkout/update command...
@@ -232,14 +234,19 @@ class SvnUpdater(RunSpecific):
             cmd.addParameter('update')
         else:
             # do an SVN checkout
-            cmd.addParameter('checkout')
-            cmd.addParameter(url)
+            cmd.addParameter('checkout', url)
        
         #
         # Request non-interactive
         #
         cmd.addParameter('--non-interactive')
 
+        # Optional username/password
+        if repository.hasUser():
+            cmd.addParameter('--username', repository.getUser())    
+        if repository.hasPassword():
+            cmd.addParameter('--password', repository.getPassword())
+            
         #
         # If module name != SVN directory, tell SVN to put it into
         # a directory named after our module
@@ -248,7 +255,6 @@ class SvnUpdater(RunSpecific):
             if not module.svn.getDir() == module.getName():
                 cmd.addParameter(module.getName())
         
-
         return (module.repository, url, cmd)
          
     

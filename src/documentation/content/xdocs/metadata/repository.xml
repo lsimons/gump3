@@ -134,6 +134,41 @@
       </table>
     </section>
 	</section>
+		<section>
+		<title>SVN Usage</title><note>This is for type='svn' only.</note>
+			<p>This specifies all of the elements which are combined to form
+      an SVN command line  They are split out into separate entities so that each
+      can be individually overridden in a workspace definition.  When an
+      entity is listed as required below, it means that when all of the
+      definitions are combined the entity must have a value - a workspace
+      or profile, for example, only needs to contain the values which it
+      overrides.</p>
+
+      <table>
+        <tr>
+          <th>Entity</th>
+          <th>Description</th>
+          <th>Required?</th>
+        </tr>
+        <tr>
+          <td>url</td>
+          <td>This is the base URL for all modules that reside within this repository. 
+			The <link href="module.html">module</link>'s &lt;svn <strong>dir</strong> attribute
+			if appended to this base url.</td>
+          <td>Yes</td>
+        </tr>
+        <tr>
+          <td>user</td>
+          <td>The username for this SVN repository. If blank, defaults to 'anonymous' access.</td>
+          <td>No</td>
+        </tr>
+        <tr>
+          <td>password</td>
+          <td>The password (in plain text, use cautiously!). If blank, defaults to 'anonymous' access.</td>
+          <td>No</td>
+        </tr>
+      </table>
+	</section>
 	<section>
 		<title>Perforce Usage</title>
 		<section><title>root</title>

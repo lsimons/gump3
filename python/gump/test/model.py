@@ -132,6 +132,10 @@ class ModelTestSuite(UnitTestSuite):
         repo2 = self.workspace.getRepository('svn_repository1')  
         self.assertNonZeroString('Repository SVN URL',repo2.getUrl())
         self.assertNonZeroString('Repository Web URL',repo2.getWeb())
+        self.assertFalse('Repository has Username',repo2.hasUser())
+        self.assertNone('Repository Username',repo2.getUser())
+        self.assertFalse('Repository has Password',repo2.hasPassword())
+        self.assertNone('Repository Password',repo2.getPassword())
 
     def testComparisons(self):
         project1 = self.project1
