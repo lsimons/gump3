@@ -64,7 +64,7 @@
  <project name="krysalis-ruper-ant-test">
     <package>org.krysalis.ruper.test</package>
 
-    <ant target="gump" buildfile="build-ant-test.xml">
+    <ant buildfile="build-ant-test.xml">
       <property name="ant.home" reference="home" project="ant"/>
       <property name="project.name" value="krysalis-ruper-ant-test"/>
     </ant>
