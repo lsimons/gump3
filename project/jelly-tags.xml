@@ -553,6 +553,7 @@
 
     <ant basedir="swing" target="jar">
       <property name="final.name"  value="commons-jelly-tags-swing-@@DATE@@"/>
+      <sysproperty name="build.clonevm" value="true"/>
     </ant>
 
     <depend project="commons-jelly" inherit="all"/>
