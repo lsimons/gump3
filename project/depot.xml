@@ -36,7 +36,7 @@
         <depend project="antworks-importer"/>
         <depend project="antworks-antlets"/>
 
-        <jar name="depot-common-@@DATE@@.jar"/>
+        <jar name="depot-common-0.1-dev-@@DATE@@.jar"/>
 
         <ant basedir="common" buildfile="build.xml" target="gump" vm="1.4">
           <property name="ant.home" project="ant" reference="home" />
