@@ -36,7 +36,7 @@
     <jar name="jakarta-poi-contrib.jar"    id="contrib"/>
     <jar name="jakarta-poi-examples.jar"   id="examples"/>
     
-    <javadoc parent="build/jakarta-poi/docs/apidocs"/>
+    <javadoc parent="build/jakarta-poi/javadocs"/>
 
   </project>
 
