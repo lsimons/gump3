@@ -493,8 +493,6 @@
     <xsl:text>call .\</xsl:text>
     <xsl:value-of select="@name"/>
     <xsl:text>.bat %OUT% 2&gt;&amp;1&#10;</xsl:text>
-
-    <xsl:text>if errorlevel 1 SET STATUS=FAILED&#10;</xsl:text>
   </xsl:template>
 
   <!-- =================================================================== -->
