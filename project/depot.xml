@@ -70,7 +70,7 @@
         <option project="commons-httpclient"/>
         <option project="commons-vfs"/>
 
-        <jar name="apache-depot-ruper-@@DATE@@.jar"/>
+        <jar name="jars/apache-depot-ruper-@@DATE@@.jar"/>
 
         <ant basedir="ruper" buildfile="build.xml" target="gump" vm="1.4">
           <property name="ant.home" project="ant" reference="home" />
