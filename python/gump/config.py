@@ -95,6 +95,7 @@ class setting:
     timeformat='%H:%M:%S (%Z)'
     
     timeout=60*60 # 60 minutes (in seconds)
+    timeoutCommand=0
     
 class switch:
     """Configuration of switches """   

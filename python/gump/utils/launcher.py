@@ -366,7 +366,7 @@ def executeIntoResult(cmd,result,tmp=dir.tmp):
               # Log the problem and re-raise
               log.error('Failed to create CWD [' + cwdpath + ']. Details: ' + str(details))
               raise
-        
+              
         # The command line
         execString=cmd.formatCommandLine()        
         
@@ -401,12 +401,16 @@ def executeIntoResult(cmd,result,tmp=dir.tmp):
             
         #############################################################                
         log.debug('Executing: ' + execString + ' (Output to ' + str(outputFile) + ')')
-    
-        # Set the signal handler and an N-second alarm
-        timeout=cmd.timeout or setting.timeout
-        timer = Timer(timeout, killChildProcesses)
-        timer.setDaemon(1)
-        timer.start()
+            
+        # Allow use of 'timeout N cmd args'
+        if setting.timeoutCommand:
+            execString='timeout ' + str(timeout) + ' ' + execString
+        else:
+            # Set the signal handler and an N-second alarm
+            timeout=cmd.timeout or setting.timeout
+            timer = Timer(timeout, killChildProcesses)
+            timer.setDaemon(1)
+            timer.start()
 
         #
         # Execute Command & Wait

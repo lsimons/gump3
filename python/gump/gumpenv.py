@@ -55,14 +55,15 @@ class GumpEnvironment(Annotatable,Workable,Propogatable):
     	self.noForrest=0    
     	self.noMaven=0    	
     	self.noRuper=0    	
+    	self.noTimeout=0
     	self.noSvn=0    	
     	self.noCvs=0    	
-	self.noJavaHome=0
-	self.noClasspath=0
-	self.noJava=0
-	self.noJavac=0
-	self.noPGrep=0
-	self.javaProperties=0
+        self.noJavaHome=0
+        self.noClasspath=0
+        self.noJava=0
+        self.noJavac=0
+        self.noPGrep=0
+        self.javaProperties=0
     	
     	#
     	# JAVACMD can override this, see checkEnvironment
@@ -149,6 +150,12 @@ class GumpEnvironment(Annotatable,Workable,Propogatable):
             self.noForrest=1
             self.addWarning('"forrest" command not found, no xdoc output')
         
+        if not self.noTimeout and not self.checkExecutable('timeout','60 env',0): 
+            self.noTimeout=1
+            self.addWarning('"timeout" command not found, no in-line command time outs')
+        else:
+            setting.timeoutCommand=1
+            
         if not self.noRuper and \
             not self.checkExecutable('ruper','-version',0,0,'check_ruper'): 
             self.noRuper=1
