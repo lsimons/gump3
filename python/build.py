@@ -25,9 +25,40 @@ def dumpDeps(workspace, projectname):
   # resolve the build sequence of the specified project
   build_sequence = dependencies(projectname, project.depend)
 
+  # synchronize
+  syncWorkDir( workspace, build_sequence )
+
+  # build
+  buildProjects( workspace, projectname, project, build_sequence )  
+    
+def syncWorkDir( workspace, build_sequence ):
+  print
+  print ' ----- Synchronizing work directories with sources-----'
+  print
+
+  # copy the raw project materials from source to work dir (hopefully using rsync, cp is fallback)
+  for project in build_sequence:
+    module=Module.list[project.module];
+    sourcedir = os.path.normpath(os.path.join(workspace.cvsdir,module.name)) # todo allow override
+    destdir = os.path.normpath(os.path.join(workspace.basedir,module.name))
+    if not workspace.sync:
+      workspace.sync = default.syncCommand
+    execString = workspace.sync + ' ' + sourcedir + ' ' + destdir
+    #if default.debug:
+    print 'Synchronizing:', execString
+    # TODO: don't just brag about it!
+    #exec( execString )
+
+def buildProjects( workspace, projectname, project, build_sequence ):
   print
   print ' ----- Build sequence for ' + projectname + ' -----'
   print
+
+  # restore classpath when done
+  try:
+    oldPath = os.environ['CLASSPATH']
+  except:
+    oldPath = ''
 
   # for all the projects that this project depends upon, show relevant infos
   for project in build_sequence:
@@ -41,33 +72,40 @@ def dumpDeps(workspace, projectname):
     # get the ant element
     ant=project.ant
 
-    if ant:  
+    if ant:
+      target=''
+
+      # debug info      
       if ant.target:
         print ' ANT TARGET '
         print '   ',ant.target
+        target = ant.target
       else:
         print ' ANT TARGET '
-        print '   [default]'    
+        print '   [default]'
 
     # get the script element
     script=project.script
 
     if script:
       print ' BUILD WITH SCRIPT '
-      print '   ?', script
+      print '   ', script.name
 
     if not (script or ant):
       print ' THIS PROJECT IS NOT TO BE BUILT '
       
     print ' SRCDIR'
-    print '   ',os.path.normpath(os.path.join(module.srcdir,ant.basedir or ''))
+    buildbasedir = os.path.normpath(os.path.join(module.srcdir,ant.basedir or ''))
+    print '   ',buildbasedir
 
     print ' CLASSPATH'          #FIXME (nicolaken) has to use this too
+    classpath=''
     for depend in project.depend:#+project.option:
       p=Project.list[depend.project]
       srcdir=Module.list[p.module].srcdir
 
       for jar in p.jar:
+        classpath = classpath + os.path.normpath(os.path.join(srcdir,jar.name)) + ';'
         print '  ',os.path.normpath(os.path.join(srcdir,jar.name))
 
     print
@@ -75,11 +113,40 @@ def dumpDeps(workspace, projectname):
     for property in workspace.property:#+ant.property:
       print '  ',property.name,'=',property.value
 
+    print ' ------------------------------------------------------- '
+    print
+
+    if ant:
+      execString=default.antCommand + ' ' + target
+      print 'Building using ant!'
+      print '    cd', buildbasedir
+      print '    export CLASSPATH=' + classpath
+      print '   ', execString
+
+      # TODO: don't just brag about it!
+      #os.environ['CLASSPATH']=classpath
+      #os.chdir( buildbasedir )
+      #exec( execString )
+
+    if script:
+      scriptfile = os.path.normpath(os.path.join(module.srcdir, script.name))
+      print 'Building using ant!'
+      print '    cd', buildbasedir
+      print '    export CLASSPATH=' + classpath
+      print '   ', scriptfile
+
+      # TODO: don't just brag about it!
+      #os.environ['CLASSPATH']=classpath
+      #os.chdir( buildbasedir )
+      #exec( scriptfile )
+      
     print
     print ' ------------------------------------------------------- '
-    print    
+    print
 
-  
+  os.environ['CLASSPATH'] = oldPath
+
+
 # static void main()
 if __name__=='__main__':
   # cd into the base Gump dir; all dirs are relative to it

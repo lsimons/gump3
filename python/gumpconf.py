@@ -15,5 +15,7 @@ class default:
   project    = "krysalis-ruper-test"
   merge      = "merge.xml"
   date       = time.strftime('%Y%m%d')
-  debug      = false
+  debug      = 1
+  antCommand = 'java org.apache.tools.ant.Main -Dbuild.sysclasspath=only'
+  syncCommand= 'cp -Rf'
   
