@@ -104,14 +104,17 @@ class GumpRunner(RunSpecific):
         self.run.dispatchEvent(InitializeRunEvent(self.run))
     
     def initializeActors(self):
+        
+        # Stamp times
         self.run.registerActor(TimeKeeper(self.run))
+        
+        # Update statistics
         self.run.registerActor(Statistician(self.run))
         
-        
-        self.run.registerActor(Resulter(self.run))    
-        self.run.registerActor(Syndicator(self.run))   
+        # Generate results
+        self.run.registerActor(Resulter(self.run))            
               
-        #
+        # Document..
         # Use Forrest if available & not overridden...
         #
         documenter=None
@@ -124,7 +127,12 @@ class GumpRunner(RunSpecific):
                                         self.run.getWorkspace().getLogUrl())  
         self.run.getOptions().setResolver(documenter.getResolver())                                                  
         self.run.registerActor(documenter)    
-                
+        
+        
+        # Syndicate once documented
+        self.run.registerActor(Syndicator(self.run))   
+            
+        # Notify last
         self.run.registerActor(Notifier(self.run))         
                     
     def finalize(self):            

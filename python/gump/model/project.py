@@ -180,6 +180,8 @@ class Project(NamedModelObject, Statable, Resultable, Dependable, Positioned):
     	#        
         self.honoraryPackage=0
         
+        self.built=0
+        
     def hasAnt(self):
         if hasattr(self,'ant') and self.ant: return 1
         return 0
@@ -267,6 +269,14 @@ class Project(NamedModelObject, Statable, Resultable, Dependable, Positioned):
         # Existence means 'true'
         return hasattr(self.xml,'redistributable') \
             or (self.module and self.module.isRedistributable())
+        
+    
+    def wasBuilt(self):
+        """ Was a build attempt made? """
+        return self.built
+        
+    def setBuilt(self,built):
+        self.built=built
         
     def hasReports(self):
         if self.reports: return 1

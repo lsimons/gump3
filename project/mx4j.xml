@@ -24,7 +24,7 @@
 
   <cvs repository="sourceforge"  dir="mx4j"/>
   
-  <nag from="Gump &lt;general@gump.apache.org&gt;"
+  <nag from="Simone Bordet &lt;simone.bordet@hp.com&gt;"
          to="mx4j-devel@lists.sourceforge.net"/>
 
   <project name="mx4j">

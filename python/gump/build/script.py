@@ -54,7 +54,7 @@ class ScriptBuilder(RunSpecific):
         
         workspace=self.run.getWorkspace()
                  
-        log.info(' ------ Script-ing: #[' + `project.getPosition()` + '] : ' + project.getName())
+        log.info('Run Project (as a script): #[' + `project.getPosition()` + '] : ' + project.getName())
                 
         #
         # Get the appropriate build command...
@@ -68,6 +68,7 @@ class ScriptBuilder(RunSpecific):
             # Update Context    
             work=CommandWorkItem(WORK_TYPE_BUILD,cmd,cmdResult)
             project.performedWork(work)
+            project.setBuilt(1)
                     
             # Update Context w/ Results  
             if not cmdResult.state==CMD_STATE_SUCCESS:

@@ -17,7 +17,7 @@
 <site label="Gump" 
 	href="" 
 	xmlns="http://apache.org/forrest/linkmap/1.0" 
-	tab="home">
+	tab="gump">
 
 	<gump label="Gump">
 	    <index href="index.html" label="Home"/>

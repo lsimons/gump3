@@ -128,7 +128,7 @@ class GumpBuilder(RunSpecific):
         
         workspace=self.run.getWorkspace()
                  
-        log.info(' Project: #[' + `project.getPosition()` + '] : ' + project.getName())
+        log.info('Build Project: #[' + `project.getPosition()` + '] : ' + project.getName())
                     
         # Extract stats (in case we want to do conditional processing)            
         stats=None
@@ -143,9 +143,8 @@ class GumpBuilder(RunSpecific):
         # Do this even if not ok
         self.performPreBuild(project, stats)
 
-        wasBuilt=0
         if project.okToPerformWork():        
-            log.debug(' ------ Building: [' + `project.getPosition()` + '] ' + project.getName())
+            log.debug('Performing Build Upon: [' + `project.getPosition()` + '] ' + project.getName())
 
             # Turn on --verbose or --debug if failing ...
             if stats:
@@ -166,8 +165,6 @@ class GumpBuilder(RunSpecific):
             elif project.hasMaven():
                 self.maven.buildProject(project, stats)
             
-            # A build attempt was made...
-            wasBuilt=1
             
             if not project.okToPerformWork() and not project.isDebug():
                 # Display...
@@ -175,7 +172,7 @@ class GumpBuilder(RunSpecific):
                 project.setDebug(1)
                     
         # Do this even if not ok
-        self.performPostBuild( project, wasBuilt, stats )
+        self.performPostBuild( project, stats )
     
         if project.isFailed():
             log.warn('Failed to build project #[' + `project.getPosition()` + '] : [' + project.getName() + '], state:' \
@@ -280,7 +277,7 @@ class GumpBuilder(RunSpecific):
         if startedOk and not project.okToPerformWork():
             log.warn('Failed to perform pre-build on project [' + project.getName() + ']')
 
-    def performPostBuild(self, project, wasBuilt, stats):
+    def performPostBuild(self, project, stats):
         """Perform Post-Build Actions"""
      
         log.debug(' ------ Performing post-Build Actions (check jars) for : '+ project.getName())
@@ -385,7 +382,7 @@ class GumpBuilder(RunSpecific):
         #   
         # Display report output, even if failed...
         #
-        if project.hasReports() and wasBuilt:
+        if project.hasReports() and project.wasBuilt():
             #project.addInfo('Project produces reports')    
             for report in project.getReports():
                 reportDir=report.getResolvedPath() 

@@ -1461,52 +1461,53 @@ This page helps Gumpmeisters (and others) observe community progress.
         self.documentAnnotations(document,module)                
         self.documentServerLinks(document,module)     
         
-        projectsSection=document.createSection('Projects') 
-        if (len(module.getProjects()) > 1):
-            self.documentSummary(projectsSection,module.getProjectSummary())
+        if not realtime:
+            projectsSection=document.createSection('Projects') 
+            if (len(module.getProjects()) > 1):
+                self.documentSummary(projectsSection,module.getProjectSummary())
                                             
-        if (len(module.getProjects()) > 1):
-            ptodosSection=projectsSection.createSection('Projects with Issues')
-            ptodosTable=ptodosSection.createTable(['Name','State','Elapsed'])
+            if (len(module.getProjects()) > 1):
+                ptodosSection=projectsSection.createSection('Projects with Issues')
+                ptodosTable=ptodosSection.createTable(['Name','State','Elapsed'])
+                pcount=0
+                for project in module.getProjects():     
+                    if not self.gumpSet.inProjectSequence(project): continue  
+            
+                    #
+	                # Determine if there are todos, otherwise continue
+	                #
+                    todos=0
+                    for pair in project.aggregateStates():
+	                    if pair.state==STATE_FAILED:
+	                        todos=1
+	                    
+                    if not todos: continue
+	             
+                    pcount+=1
+            
+                    projectRow=ptodosTable.createRow()
+                    projectRow.createComment(project.getName())
+                    self.insertLink(project,module,projectRow.createData())  
+                    self.insertStateIcon(project,module,projectRow.createData())                        
+                    projectRow.createData(secsToElapsedTimeString(project.getElapsedSecs())) 
+	            
+	            if not pcount: ptodosTable.createLine('None')
+	        
+            pallSection=projectsSection.createSection('All Projects')
+            pallTable=pallSection.createTable(['Name','State','Elapsed'])
+        
             pcount=0
             for project in module.getProjects():     
-                if not self.gumpSet.inProjectSequence(project): continue  
-            
-                #
-	            # Determine if there are todos, otherwise continue
-	            #
-                todos=0
-                for pair in project.aggregateStates():
-	                if pair.state==STATE_FAILED:
-	                    todos=1
-	                    
-                if not todos: continue
-	             
+                if not self.run.getGumpSet().inProjectSequence(project): continue  
                 pcount+=1
             
-                projectRow=ptodosTable.createRow()
+                projectRow=pallTable.createRow()
                 projectRow.createComment(project.getName())
-                self.insertLink(project,module,projectRow.createData())  
+                self.insertLink(project,module,projectRow.createData())
                 self.insertStateIcon(project,module,projectRow.createData())                        
                 projectRow.createData(secsToElapsedTimeString(project.getElapsedSecs())) 
-	            
-	        if not pcount: ptodosTable.createLine('None')
-	        
-        pallSection=projectsSection.createSection('All Projects')
-        pallTable=pallSection.createTable(['Name','State','Elapsed'])
-        
-        pcount=0
-        for project in module.getProjects():     
-            if not self.run.getGumpSet().inProjectSequence(project): continue  
-            pcount+=1
             
-            projectRow=pallTable.createRow()
-            projectRow.createComment(project.getName())
-            self.insertLink(project,module,projectRow.createData())
-            self.insertStateIcon(project,module,projectRow.createData())                        
-            projectRow.createData(secsToElapsedTimeString(project.getElapsedSecs())) 
-            
-        if not pcount: pallTable.createLine('None')
+            if not pcount: pallTable.createLine('None')
                            
         self.documentFileList(document,module,'Module-level Files')
         self.documentWorkList(document,module,'Module-level Work')
@@ -1535,45 +1536,44 @@ This page helps Gumpmeisters (and others) observe community progress.
                                 
             if module.hasCvs():
                 if module.cvs.hasModule():
-                     repoList.createEntry( "CVS Module: ", module.cvs.getModule()) 
+                    repoList.createEntry( "CVS Module: ", module.cvs.getModule()) 
                      
                 if module.cvs.hasTag():
-                     repoList.createEntry( "CVS Tag: ", module.cvs.getTag()) 
+                    repoList.createEntry( "CVS Tag: ", module.cvs.getTag()) 
                     
                 if module.cvs.hasDir():
-                     repoList.createEntry( "CVS Dir: ", module.cvs.getDir()) 
+                    repoList.createEntry( "CVS Dir: ", module.cvs.getDir()) 
                     
                 if module.cvs.hasHostPrefix():
-                     repoList.createEntry( "CVS Host Prefix: ", module.cvs.getHostPrefix()) 
+                    repoList.createEntry( "CVS Host Prefix: ", module.cvs.getHostPrefix()) 
                      
                 repoList.createEntry( "CVSROOT: ", module.cvs.getCvsRoot()) 
 
             if module.hasSvn():
                 if module.svn.hasDir():
-                     repoList.createEntry( "SVN Directory: ", module.svn.getDir()) 
+                    repoList.createEntry( "SVN Directory: ", module.svn.getDir()) 
                 repoList.createEntry( "SVN URL: ", module.svn.getRootUrl())                 
 
 
             repoList.createEntry('Redistributable: ', getBooleanString(module.isRedistributable()))
                 
             if module.isRedistributable():
-        
                 if module.hasJars():
                     if module.jars.hasUrl():
-                         repoList.createEntry( "Jars URL: ", module.jars.getUrl())                 
-                
+                            repoList.createEntry( "Jars URL: ", module.jars.getUrl())                 
            
-    #   x.write('<p><strong>Module Config :</strong> <link href=\'xml.html\'>XML</link></p>')
+        #   x.write('<p><strong>Module Config :</strong> <link href=\'xml.html\'>XML</link></p>')
             
         self.documentXML(detailsSection,module)
 
         document.serialize()
         document=None
-      
-        # Document Projects
-        for project in module.getProjects():
-            if not self.run.getGumpSet().inProjectSequence(project): continue      
-            self.documentProject(project)
+        
+        if not realtime:    
+            # Document Projects
+            for project in module.getProjects():
+                if not self.run.getGumpSet().inProjectSequence(project): continue      
+                self.documentProject(project)
        
     # Document the module XML
     #    x=startXDoc(getModuleXMLDocument(self.workspace,modulename,mdir))
@@ -1628,8 +1628,14 @@ This page helps Gumpmeisters (and others) observe community progress.
         if project.cause and not project==project.cause:
              self.insertTypedLink( project.cause, project, stateList.createEntry( "Root Cause: ")) 
              
+              
         self.documentAnnotations(document,project)             
-        self.documentWorkList(document,project,'Project-level Work',0)  
+        
+        note=''
+        if project.wasBuilt():
+            note='Project build output found here...'
+        self.documentWorkList(document,project,'Project-level Work',0,	\
+                note)  
         self.documentServerLinks(document,project)        
             
         # Project Details (main ones)
@@ -2136,12 +2142,16 @@ This page helps Gumpmeisters (and others) observe community progress.
                                 ' (' + '%02.2f' % summary.packagesPercentage + '%)'] )
         
       
-    def documentWorkList(self,xdocNode,workable,description='Work',tailFail=1):
+    def documentWorkList(self,xdocNode,workable,description='Work',tailFail=1,note=''):
         worklist=workable.getWorkList()
         
         if not worklist: return
         
         workSection=xdocNode.createSection(description)        
+        
+        if note:
+           workSection.createNote(note)
+        
         workTable=workSection.createTable(['Name','State','Start','Elapsed'])
         
         for work in worklist:

@@ -620,7 +620,7 @@ class GumpRun(Workable,Annotatable,Stateful):
         import md5
         import socket        
         m=md5.new()
-        self.guid = socket.gethostname()  + ':' + workspace.getName() + ':' + default.datetime
+        self.guid = socket.getfqdn()  + ':' + workspace.getName() + ':' + default.datetime
         m.update(self.guid)
         self.hexguid=m.hexdigest().upper()     
         log.debug('Run GUID [' + `self.guid` + '] using [' + `self.hexguid` + ']')    

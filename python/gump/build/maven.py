@@ -56,11 +56,10 @@ class MavenBuilder(AbstractJavaBuilder):
         
         workspace=self.run.getWorkspace()
                 
-        log.debug(' ------ Maven-ing: #[' + `project.getPosition()` + '] ' + project.getName())
+        log.debug('Run Maven on Project: #[' + `project.getPosition()` + '] ' + project.getName())
         
         self.performPreBuild(project, stats)
           
-        wasBuilt=0
         if project.okToPerformWork():
 
             #
@@ -75,7 +74,7 @@ class MavenBuilder(AbstractJavaBuilder):
                 # Update Context    
                 work=CommandWorkItem(WORK_TYPE_BUILD,cmd,cmdResult)
                 project.performedWork(work)
-                wasBuilt=1
+                project.setBuilt(1)
                     
                 # Update Context w/ Results  
                 if not cmdResult.state==CMD_STATE_SUCCESS:
@@ -87,7 +86,7 @@ class MavenBuilder(AbstractJavaBuilder):
                     # For now, things are going good...
                     project.changeState(STATE_SUCCESS)
                     
-        if wasBuilt:
+        if project.wasBuilt():
             pomFile=self.locateMavenProjectFile(project) 
             if os.path.exists(pomFile):                               
                 project.addDebug('Maven POM in: ' + pomFile) 

@@ -162,9 +162,11 @@ class Parameters:
       
 class Cmd:
     """Command Line (executable plus parameters)"""
-    def __init__(self,command,name,cwd=None,env=None,timeout=None):
+    def __init__(self,command,name=None,cwd=None,env=None,timeout=None):
         self.cmdpath=command
         self.name=name
+        if not self.name:
+            self.name=command
         self.params=Parameters()
         self.env=env
         if not env: self.env={}

@@ -16,9 +16,9 @@
 -->
       <!DOCTYPE tabs PUBLIC "-//APACHE//DTD Cocoon Documentation Tab V1.0//EN" "tab-cocoon-v10.dtd">
 
-      <tabs software="MyProj"
-        title="MyProj"
-        copyright="Foo"
+      <tabs software="Apache Gump"
+        title="Apache Gump"
+        copyright="2002-@year@ Apache Software Foundation"
         xmlns:xlink="http://www.w3.org/1999/xlink">
 
         <tab id="home" label="Home" dir=""/>
