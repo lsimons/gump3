@@ -125,6 +125,13 @@
 
     <ant basedir="proposal/embed">
       <property name="ant.home" reference="home" project="jakarta-ant"/>
+      <depend id="api" project="commons-logging" 
+              property="commons-logging.jar"/>
+      <property name="jxpath.jar" project="commons-jxpath"/> 
+      <property name="velocity.jar" project="jakarta-velocity"/>
+      <property name="velocity-dep.jar" project="jakarta-velocity"/>
+      <property name="jexl.jar" project="commons-jexl"/>
+      <property name="commons-discovery.jar" project="commons-discovery"/>
     </ant>
 
     <depend project="jakarta-ant" inherit="all"/>
@@ -141,21 +148,21 @@
 
     <ant basedir="proposal/embed" target="embed-optional" >
       <property name="ant.home" reference="home" project="jakarta-ant"/>
+      <depend id="api" project="commons-logging" 
+              property="commons-logging.jar"/>
+      <property name="jxpath.jar" project="commons-jxpath"/> 
+      <property name="velocity.jar" project="jakarta-velocity"/>
+      <property name="velocity-dep.jar" project="jakarta-velocity"/>
+      <property name="jexl.jar" project="commons-jexl"/>
+      <property name="commons-discovery.jar" project="commons-discovery"/>
     </ant>
 
     <depend project="jakarta-ant" inherit="all"/>
-    <depend project="commons-jxpath"/>
-    <depend project="commons-jexl"/>    
-    <depend project="jakarta-velocity"/>   
-    <depend project="commons-discovery"/>   
-    <depend project="commons-logging"/>   
 
     <jar name="build/optional-dynprop.jar" id="embed-optional"/>
 
     <nag to="ant-dev@jakarta.apache.org"
          from="Nicola Ken Barozzi &lt;nicolaken@apache.org&gt;"/>    
-         
-
   </project>  
    
 </module>
