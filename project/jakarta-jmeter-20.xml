@@ -14,15 +14,15 @@
   See the License for the specific language governing permissions and
   limitations under the License.
 -->
-<module name="jakarta-jmeter" tag="rel-2_0">
-<!-- Version $Revision: 1.5 $ Last updated $Date: 2004/05/22 09:30:49 $ -->
+<module name="jakarta-jmeter-20" tag="rel-2_0">
+<!-- Version $Revision: 1.6 $ Last updated $Date: 2004/05/24 09:43:52 $ -->
   <url href="http://jakarta.apache.org/jmeter/" />
   <description>
     Pure Java load testing and performance measurement tool.
     Release branch 2_0
   </description>
 
-  <cvs repository="jakarta" />
+  <cvs repository="jakarta" module="jakarta-jmeter"/>
   
 
   <project name="jakarta-jmeter-20-cvs">
@@ -33,8 +33,8 @@
       <property name="jmeter.version" value="2_0_@@DATE@@"/>
       <property name="gump.run" value="true"/>
       <!-- The version of this file -->
-      <property name="version.projectfile" value="$Revision: 1.5 $"/>
-      <property name="date.projectfile" value="$Date: 2004/05/22 09:30:49 $"/>
+      <property name="version.projectfile" value="$Revision: 1.6 $"/>
+      <property name="date.projectfile" value="$Date: 2004/05/24 09:43:52 $"/>
 
 		<!-- Ensure work directories don't get dropped from classpath -->
 		<mkdir dir="build/core"/>
@@ -121,8 +121,8 @@
       <property name="jmeter.version" value="2_0_@@DATE@@"/>
       <property name="gump.run" value="true"/>
       <!-- The version of this file -->
-      <property name="version.projectfile" value="$Revision: 1.5 $"/>
-      <property name="date.projectfile" value="$Date: 2004/05/22 09:30:49 $"/>
+      <property name="version.projectfile" value="$Revision: 1.6 $"/>
+      <property name="date.projectfile" value="$Date: 2004/05/24 09:43:52 $"/>
     </ant>
 
     <depend project="ant" />
