@@ -163,7 +163,7 @@
                           </xsl:if>
                         </td>
                         <td class="content">
-                          <xsl:value-of select="normalize-space(description)"/>
+                          <xsl:apply-templates select="description"/>
                         </td>
                       </tr>
                     </xsl:for-each>
@@ -240,7 +240,7 @@
                        <xsl:value-of select="$package"/>
                      </td>
                      <td class="content">
-                       <xsl:value-of select="normalize-space(description)"/>
+                       <xsl:apply-templates select="description"/>
                      </td>
                    </tr>
                  </xsl:for-each>
@@ -286,7 +286,7 @@
                      <xsl:value-of select="@module"/>
                    </td>
                    <td class="content">
-                     <xsl:value-of select="normalize-space(description)"/>
+                     <xsl:apply-templates select="description"/>
                    </td>
                  </tr>
 
@@ -299,6 +299,10 @@
       </html>
     </xref>
 
+  </xsl:template>
+
+  <xsl:template match="description">
+    <xsl:copy-of select="* | text()"/>
   </xsl:template>
 
 </xsl:stylesheet>
