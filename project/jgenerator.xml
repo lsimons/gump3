@@ -1,0 +1,30 @@
+<module name="jgen">
+
+  <url href="http://sourceforge.net/projects/jgen/"/>
+  <description>
+    Flash 5 Content Generation
+  </description>
+
+  <cvs repository="sourceforge" host-prefix="cvs.jgen" dir="jgen"/>
+  
+  <project name="jgen">
+    <package>com.iv.flash</package>
+
+    <ant target="jar"/>
+
+    <depend project="jakarta-ant"/>
+    <depend project="xml-xerces"/>
+    
+    <depend project="commons-jxpath"/>
+    <depend project="jakarta-servletapi-4"/>
+    <depend project="jakarta-log4j"/>
+    <depend project="jaxen"/>
+    <depend project="xml-batik"/>
+    <depend project="xml-fop"/>
+    <depend project="xml-xalan2"/>
+    <depend project="xml-apis"/>
+
+    <jar name="lib/jgen.jar"/>
+  </project>
+
+</module>
