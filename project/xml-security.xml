@@ -24,7 +24,7 @@
     <depend project="xml-xerces"/>
     <depend project="jce"/>
     <depend project="xml-xalan2" runtime="true"/>
-    <depend project="jakarta-log4j"/>
+    <depend project="commons-logging"/>
     <!-- included in JDK 1.4 depend project="jce" runtime="true"/-->
     <option project="junit"/>
     <work nested="build/classes"/>
