@@ -91,7 +91,7 @@
     <depend project="commons-logging"/>
     <depend project="commons-pool"/>
 
-    <jar name="services/dist/commons-digester.jar"/>
+    <jar name="services/dist/commons-services.jar"/>
     <javadoc nested="services/dist/docs/api"/>
   </project>
 
