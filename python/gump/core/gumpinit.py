@@ -15,7 +15,7 @@
 # limitations under the License.
 
 #
-# $Header: /home/stefano/cvs/gump/python/gump/core/gumpinit.py,v 1.2.2.2 2004/05/19 16:01:56 ajack Exp $
+# $Header: /home/stefano/cvs/gump/python/gump/core/gumpinit.py,v 1.2.2.3 2004/05/21 00:09:45 ajack Exp $
 # 
 
 """
@@ -56,5 +56,5 @@ def gumpinit():
 
     default.ltime=time.localtime(default.time)
     default.date = time.strftime('%Y%m%d',default.ltime)
-    default.datetime = time.strftime('%Y%m%d% %H:%M:%S',default.ltime)
+    default.datetime = time.strftime('%Y%m%d %H:%M:%S',default.ltime)
     

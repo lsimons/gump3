@@ -66,7 +66,7 @@ class MavenBuilder(AbstractJavaBuilder):
             #
             # Get the appropriate build command...
             #
-            cmd=project.getBuildCommand(self.run.getEnvironment().getJavaCommand())
+            cmd=self.getMavenCommand(project)
 
             if cmd:
                 # Execute the command ....

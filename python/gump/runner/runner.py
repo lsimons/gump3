@@ -24,12 +24,17 @@ import sys
 
 from gump import log
 
-from gump.core.misc import *
 from gump.update.updater import *
 from gump.build.builder import *
 
-from gump.syndication.syndicator import *
-from gump.results.resulter import *
+from gump.document.text.documenter import TextDocumenter
+from gump.document.xdocs.documenter import XDocDocumenter
+
+from gump.stats.statistician import Statistician
+from gump.repository.publisher import RepositoryPublisher
+from gump.notify.notifier import Notifier
+from gump.results.resulter import Resulter
+from gump.syndication.syndicator import Syndicator
 
 ###############################################################################
 # Classes
@@ -43,8 +48,8 @@ class GumpRunner(RunSpecific):
         #
         RunSpecific.__init__(self, run)
         
-        # Main players
-        self.misc=GumpMiscellaneous(run)            
+        # Main players (soon we ought make
+        # them into actors, like the others).         
         self.updater=GumpUpdater(run)
         self.builder=GumpBuilder(run)
         
@@ -113,9 +118,9 @@ class GumpRunner(RunSpecific):
             documenter=XDocDocumenter(	self.run,	\
                                         self.run.getWorkspace().getBaseDirectory(), \
                                         self.run.getWorkspace().getLogUrl())  
-        self.run.getOptions().setResolver(documenter.getResolver())
-                                                              
+        self.run.getOptions().setResolver(documenter.getResolver())                                                  
         self.run.registerActor(documenter)    
+        
         self.run.registerActor(Syndicator(self.run))
         
     def setEndTime(self):

@@ -39,6 +39,13 @@ from gump.model.workspace import *
 from gump.model.state import *
 
 
+from gump.document.text.documenter import TextDocumenter
+from gump.document.xdocs.documenter import XDocDocumenter
+
+from gump.results.resulter import gatherResults,generateResults
+from gump.syndication.syndicator import syndicate
+
+
 ###############################################################################
 # Classes
 ###############################################################################
@@ -71,21 +78,189 @@ class SequentialTaskRunner(GumpRunner):
         
     # A few proxies...
     
-    def loadStatistics(self): self.misc.loadStatistics()
-    def updateStatistics(self): self.misc.updateStatistics()
-    
     def build(self): self.builder.build()
     def update(self): self.updater.update()
     
-    def prepareDocumentation(self): self.misc.prepareDocumentation()
-    def document(self): self.misc.document()
     
-    def generateResults(self): self.misc.generateResults()
-    def gatherResults(self): self.misc.gatherResults()
+        
+    """
     
-    def notify(self): self.misc.notify()
+        ******************************************************************
+        
+           CHECK WORKSPACE
+        
+        ******************************************************************
     
-    def syndicate(self): self.misc.syndicate()
+    """
+    
+    def checkWorkspace(self):
+        """ Check a GumpRun's Projects """
+        workspace=self.run.getWorkspace()
+
+        log.debug('--- Building work directories with sources')
+        
+        # :TODO: Check the workspace?
+        
+        self.checkModules()
+        self.checkProjects()
+        
+    def checkModules(self):
+        # Check all the modules
+        list=self.run.getGumpSet().getModuleSequence()
+        moduleCount=len(list)
+        moduleNo=1
+        for module in list:      
+        
+            log.info(' ------ Check Module: #[' + `moduleNo` + '] of [' + `moduleCount` + '] : ' + module.getName())
+                        
+            module.changeState(STATE_SUCCESS)        
+            moduleNo+=1
+
+    def checkProjects(self):
+        list=self.run.getGumpSet().getProjects()
+        # Check all projects
+                
+        projectCount=len(list)
+        projectNo=1
+        for project in list:  
+        
+            log.info(' ------ Check Project: #[' + `projectNo` + '] of [' + `projectCount` + '] : ' + project.getName())
+            
+            # :TODO: Do some actualy checking...
+        
+            if project.okToPerformWork():        
+                # For now, things are going good...
+                project.changeState(STATE_SUCCESS)
+        
+            if not project.okToPerformWork():
+                log.warn('Failed to check project #[' + `projectNo` + '] [' + project.getName() + '], state:' \
+                        + project.getStateDescription())
+            
+            projectNo+=1
+                                   
+    """
+    
+        ******************************************************************
+        
+            THE DOCUMENTATION INTERFACE
+        
+        ******************************************************************
+    
+    """
+
+    def prepareDocumentation(self):
+        
+        logResourceUtilization('Before document preparation')
+        
+        # Prepare for documentation        
+        #documenter=self.run.getOptions().getDocumenter()        
+        #if documenter :
+        #    documenter.prepare(self.run)            
+            
+    def document(self):
+        
+        #   
+        # Build HTML Result (via Forrest or ...)
+        #
+        logResourceUtilization('Before document')
+        
+        #documenter=self.run.getOptions().getDocumenter()        
+        #if documenter :
+        #    documenter.document(self.run)
+                              
+                
+    """
+    
+        ******************************************************************
+        
+           MISC STUFF
+        
+        ******************************************************************
+    
+    """
+    
+    def notify(self):
+                
+        #
+        # Only an 'all' is an official build, for them:
+        #
+        #	Send Naggin E-mails
+        #
+        if self.run.getOptions().isOfficial() \
+            and self.run.getGumpSet().isFull() \
+            and self.run.getWorkspace().isNotify():
+  
+            log.info('Notify about failures... ')            
+            
+            #
+            # Notify about failures
+            #
+            logResourceUtilization('Before notify')
+            notify(self.run)  
+        
+    def gatherResults(self):
+        #
+        # Gather results.xml from other servers/workspaces
+        #
+        logResourceUtilization('Before gather results')
+        gatherResults(self.run)
+        
+    def generateResults(self):
+            
+        logResourceUtilization('Before generate results')
+        # Update Statistics/Results on full self.runs            
+        if self.run.getGumpSet().isFull():
+            
+            #
+            # Generate results.xml for this self.run, on this server/workspace
+            #
+            logResourceUtilization('Before generate results')
+            generateResults(self.run)
+            
+        
+    def syndicate(self):
+        logResourceUtilization('Before syndicate')
+        #
+        # Provide a news feed (or few)
+        #
+        if self.run.getOptions().isOfficial():
+            syndicate(self.run)
+                
+    def loadStatistics(self):   
+        """ Load Statistics into the self.run (to get current values) """
+        logResourceUtilization('Before load statistics')
+        self.processStatistics(1)
+         
+    def updateStatistics(self):        
+        """ Update Statistics into the self.run (to set current values) """
+        logResourceUtilization('Before update statistics')
+        self.processStatistics(0)
+        
+    def processStatistics(self,load):
+    
+        if load:
+            log.debug('--- Loading Project Statistics')
+        else:
+            log.debug('--- Updating Project Statistics')
+    
+        from gump.stats.statsdb import StatisticsDB
+        db=StatisticsDB()   
+        
+        workspace=self.run.getWorkspace()        
+        
+        if not load:
+            #
+            # Update stats (and stash onto projects)
+            #
+            db.updateStatistics(workspace)
+            
+            db.sync()
+        else:
+            #
+            # Load stats (and stash onto projects)
+            #    
+            db.loadStatistics(workspace)            
+    
     
     ###########################################
     

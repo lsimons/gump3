@@ -60,6 +60,8 @@ class default:
     globalws   = os.path.abspath('%s/%s' % (dir.base, 'global-workspace.xml'))
     merge      = os.path.abspath('%s/%s' % (dir.work, 'merge.xml'))
     date       = time.strftime('%Y%m%d')
+    datetime   = time.strftime('%Y%m%d %H:%M:%S')
+    
     logLevel   = logging.INFO # logging.DEBUG
     classpath = (os.getenv('CLASSPATH') or '').split(os.pathsep)  
     

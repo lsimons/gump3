@@ -33,6 +33,7 @@ from gump.build.maven import MavenBuilder
 
 from gump.utils import dump, display, getIndent, logResourceUtilization, \
                             invokeGarbageCollection
+                            
 from gump.utils.note import Annotatable
 from gump.utils.work import *
 
@@ -133,10 +134,11 @@ class GumpBuilder(RunSpecific):
         stats=None
         if project.hasStats():
             stats=project.getStats()
-            
-        #if project.isPackaged():             
-        #    self.performProjectPackageProcessing(project, stats)
-        #    continue
+        
+        # Code this nicer, perhaps...    
+        if project.isPackaged():             
+            self.performProjectPackageProcessing(project, stats)
+            return
                 
         # Do this even if not ok
         self.performPreBuild(project, stats)
@@ -401,10 +403,7 @@ class GumpBuilder(RunSpecific):
         if project.hasOutputs():                
             outputs = []
                     
-            #
             # Ensure the jar output were all generated correctly.
-            #
-            outputsOk=1
             for jar in project.getJars():
                 jarPath=os.path.abspath(jar.getPath())
                 # Add to list of outputs, in case we
@@ -441,7 +440,7 @@ class GumpBuilder(RunSpecific):
             
 
     def  checkPackage(self,project):
-        if self.okToPerformWork():
+        if project.okToPerformWork():
             #
             # Check the package was installed correctly...
             #
@@ -461,175 +460,7 @@ class GumpBuilder(RunSpecific):
                 # jars to check
                 project.changeState(STATE_FAILED,REASON_PACKAGE_BAD)
                 
-                #
                 # List them, why not...
-                #            
-                from gump.utils.tools import listDirectoryToFileHolder
                 listDirectoryToFileHolder(project,project.getHomeDirectory(),	\
                     FILE_TYPE_PACKAGE, 'list_package_'+project.getName())                                            
         
-
-    def getBuildCommand(self,javaCommand='java'):
-
-        # get the ant element (if it exists)
-        ant=self.xml.ant
-
-        # get the maven element (if it exists)
-        maven=self.xml.maven
-
-        # get the script element (if it exists)
-        script=self.xml.script
-
-        if not (script or ant or maven):
-          #  log.debug('Not building ' + project.name + ' (no <ant/> or <maven/> or <script/> specified)')
-          return None
-
-        if self.hasScript():
-            return self.getScriptCommand()
-        elif self.hasMaven() :
-            return self.getMavenCommand()
-        else:
-            return self.getAntCommand(javaCommand)
-        
-    #
-    # Build an ANT command for this project
-    #        
-    def getAntCommand(self,javaCommand='java'):
-        
-        ant=self.ant
-        antxml=self.xml.ant
-    
-        # The ant target (or none == ant default target)
-        target= antxml.target or ''
-    
-        # The ant build file (or none == build.xml)
-        buildfile = antxml.buildfile or ''
-    
-        # Optional 'verbose' or 'debug'
-        verbose=antxml.verbose
-        debug=antxml.debug
-    
-        #
-        # Where to run this:
-        #
-        basedir = ant.getBaseDirectory() or self.getBaseDirectory()
-    
-        #
-        # Build a classpath (based upon dependencies)
-        #
-        (classpath,bootclasspath)=self.getClasspaths()
-    
-        #
-        # Get properties
-        #
-        properties=self.getAntProperties()
-   
-        #
-        # Get properties
-        #
-        sysproperties=self.getAntSysProperties()
-   
-        #
-        # Get properties
-        #
-        jvmargs=self.getJVMArgs()
-   
-        #
-        # Run java on apache Ant...
-        #
-        cmd=Cmd(javaCommand,'build_'+self.getModule().getName()+'_'+self.getName(),\
-            basedir,{'CLASSPATH':classpath})
-            
-        # These are workspace + project system properties
-        cmd.addNamedParameters(sysproperties)
-        
-        
-        # :NOTE: Commented out since <sysproperty was implemented.
-        #
-        # Set this as a system property. Setting it here helps JDK1.4+
-        # AWT implementations cope w/o an X11 server running (e.g. on
-        # Linux)
-        # cmd.addPrefixedParameter('-D','java.awt.headless','true','=')
-    
-    
-        # :NOTE: Commented out since <sysproperty was implemented.
-        #
-        # This helps ant maintain VM information for sub-VMs it launches.
-        #
-        # cmd.addPrefixedParameter('-D','build.clonevm','true','=')
-        
-        #
-        # Add BOOTCLASSPATH
-        #
-        if bootclasspath:
-            cmd.addPrefixedParameter('-X','bootclasspath/p',bootclasspath,':')
-            
-        if jvmargs:
-            cmd.addParameters(jvmargs)
-            
-        cmd.addParameter('org.apache.tools.ant.Main')  
-    
-        #
-        # Allow ant-level debugging...
-        #
-        if self.getWorkspace().isDebug() or self.isDebug() or debug: 
-            cmd.addParameter('-debug')  
-        if self.getWorkspace().isVerbose()  or self.isVerbose() or verbose: 
-            cmd.addParameter('-verbose')  
-        
-        #
-        #	This sets the *defaults*, a workspace could override them.
-        #        
-        # :NOTE: Commented out since <property on workspace works.
-        # cmd.addPrefixedParameter('-D','build.sysclasspath','only','=')
-    
-        mergeFile=self.getWorkspace().getMergeFile()
-        if mergeFile:
-            cmd.addPrefixedParameter('-D','gump.merge',str(mergeFile),'=')        
-    
-        # These are from the project and/or workspace
-        # These are 'normal' properties.
-        cmd.addNamedParameters(properties)
-    
-        # Pass the buildfile
-        if buildfile: cmd.addParameter('-f',buildfile)
-    
-        # End with the target...
-        if target: 
-            for targetParam in target.split():
-                cmd.addParameter(targetParam)
-    
-        return cmd
-
-                
-
-    def getJVMArgs(self):
-        """Get JVM arguments for a project"""
-        args=Parameters()
-        
-        if self.hasAnt():
-            jvmargs=self.getAnt().xml.jvmarg
-        elif self.hasMaven():
-            jvmargs=self.getMaven().xml.jvmarg
-                
-        for jvmarg in jvmargs:
-            if jvmarg.value:
-                args.addParameter(jvmarg.value)
-            else:
-                log.error('Bogus JVM Argument w/ Value')            
-        
-        return args
-  
-    def getAntProperties(self):
-        """Get properties for a project"""
-        properties=Parameters()
-        for property in self.getWorkspace().getProperties()+self.getAnt().getProperties():
-            properties.addPrefixedNamedParameter('-D',property.name,property.value,'=')
-        return properties
-
-    def getAntSysProperties(self):
-        """Get sysproperties for a project"""
-        properties=Parameters()
-        for property in self.getWorkspace().getSysProperties()+self.getAnt().getSysProperties():
-            properties.addPrefixedNamedParameter('-D',property.name,property.value,'=')
-        return properties
