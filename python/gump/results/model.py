@@ -130,7 +130,7 @@ class ResultModelObject(Annotatable,Ownable,Stateful):
             
         
     def getTimezone(self):
-        if not hasattr(self,'timzone') : 
+        if not hasattr(self,'timezone') : 
             return self.getOwner().getTimezone()    
         return self.timezone
         
