@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/forrest.py,v 1.76 2004/02/23 15:43:06 ajack Exp $
-# $Revision: 1.76 $f
-# $Date: 2004/02/23 15:43:06 $
+# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/forrest.py,v 1.77 2004/02/23 17:00:05 ajack Exp $
+# $Revision: 1.77 $f
+# $Date: 2004/02/23 17:00:05 $
 #
 # ====================================================================
 #
@@ -1418,12 +1418,17 @@ class ForrestDocumenter(Documenter):
         summaryTable=summarySection.createTable(['Projects','Successes','Failures','Prereqs',	\
             'No Works','Packages'])
         
-        summaryTable.createRow([ `summary.projects`, \
-                                `summary.successes` + ' (' + `summary.successesPercentage` + '%)', \
-                                `summary.failures` + ' (' + `summary.failuresPercentage` + '%)',	\
-                                `summary.prereqs` + ' (' + `summary.prereqsPercentage` + '%)', \
-                                `summary.noworks` + ' (' + `summary.noworksPercentage` + '%)', \
-                                `summary.packages` + ' (' + `summary.packagesPercentage` + '%)'] )
+        summaryTable.createRow([ '%02d' % summary.projects, \
+                                '%02d' % summary.successes + \
+                                ' (' + '%02.2f' % summary.successesPercentage + '%)', \
+                                '%02d' % summary.failures + \
+                                ' (' + '%02.2f' % summary.failuresPercentage + '%)',	\
+                                '%02d' % summary.prereqs + \
+                                ' (' + '%02.2f' % summary.prereqsPercentage + '%)', \
+                                '%02d' % summary.noworks + \
+                                ' (' + '%02.2f' % summary.noworksPercentage + '%)', \
+                                '%02d' % summary.packages + \
+                                ' (' + '%02.2f' % summary.packagesPercentage + '%)'] )
         
       
     def documentWorkList(self,xdocNode,workable,description='Work'):
