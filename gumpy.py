@@ -63,7 +63,7 @@ def runCommand(command,args='',dir=None,outputFile=None):
         
         #
         if not outputFile:
-            outputFile='out.tmp'
+            outputFile='out.txt'
         
         fullCommand = command + ' ' + args + ' >' + outputFile + ' 2>&1'    
         log.write('Execute : ' + fullCommand + '\n')
@@ -156,7 +156,7 @@ lock.write(`os.getpid()`)
 lock.close()
 
 # Enable a log
-logFile=os.path.abspath('gumpy.log')
+logFile=os.path.abspath('gumpy_log.txt')
 log=open(logFile,'w',0) # Unbuffered...
 
 result=0
@@ -327,7 +327,7 @@ finally:
         # Cat log if failed...
         published=0
         if logdir:
-            publishedLogFile=os.path.abspath(os.path.join(logdir,'gumpy.log'))
+            publishedLogFile=os.path.abspath(os.path.join(logdir,'gumpy_log.txt'))
             try:
                 publishedLog=open(publishedLogFile,'w',0) # Unbuffered...
                 catFile(publishedLog, logFile, logTitle)    

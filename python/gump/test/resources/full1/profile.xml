@@ -18,6 +18,7 @@
 
   <server href="server1.xml"/>  
   <server href="server2.xml"/>
+  <server href="server3.xml"/>
   
   <tracker href="tracker1.xml"/>
   

@@ -138,6 +138,12 @@ class WorkspaceResult(ResultModelObject):
     	#
     	self.moduleResults 	=	{}
     	self.projectResults 	=	{}
+    	
+    	self.startDateTimeUtc=''
+    	self.startDateTime=''
+    	self.endDateTimeUtc=''
+    	self.endDateTime=''
+    	self.timezone=''
 
     #
     # Lists...
@@ -155,7 +161,22 @@ class WorkspaceResult(ResultModelObject):
         
     def getProjectResults(self):
         return self.projectResults.values()    
-    
+        
+    def getTimezone(self):
+        return self.timezone
+        
+    def getStartDateTime(self):
+        return self.startDateTime
+        
+    def getStartDateTimeUtc(self):
+        return self.startDateTimeUtc
+        
+    def getEndDateTime(self):
+        return self.endDateTime
+        
+    def getEndDateTimeUtc(self):
+        return self.endDateTimeUtc
+        
     #
     # Named...
     #
@@ -194,6 +215,12 @@ class WorkspaceResult(ResultModelObject):
         topElement.setAttribute('name',self.getName())
         topElement.setAttribute('state',self.getStateName())
         topElement.setAttribute('reason',self.getReasonName())
+        
+        topElement.setAttribute('startUtc',self.getStartDateTimeUtc())
+        topElement.setAttribute('start',self.getStartDateTime())
+        topElement.setAttribute('endUtc',self.getEndDateTimeUtc())
+        topElement.setAttribute('end',self.getEndDateTime())
+        topElement.setAttribute('tzone',self.getTimezone())
             
         for moduleResult in self.moduleResults.values():
             moduleResult.createDom(self.dom,topElement)        
@@ -204,6 +231,13 @@ class WorkspaceResult(ResultModelObject):
         # Workspace dom is document, but stuff on first
         # element
         self.completeState(self.dom.documentElement)
+                
+        # Timing
+        self.startDateTime=self.dom.documentElement.getAttribute('start')
+        self.startDateTimeUtc=self.dom.documentElement.getAttribute('startUtc')
+        self.endDateTime=self.dom.documentElement.getAttribute('end')
+        self.endDateTimeUtc=self.dom.documentElement.getAttribute('endUtc')
+        self.timezone=self.dom.documentElement.getAttribute('tzone')
         
         #
         # Import all modules

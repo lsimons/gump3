@@ -329,7 +329,8 @@ class ForrestDocumenter(Documenter):
         definitionTable.createEntry('Python', str(sys.version))
         definitionTable.createEntry('Operating System (Name)', str(os.name))
         definitionTable.createEntry('@@DATE@@', str(default.date))
-        definitionTable.createEntry('Start Date/Time', workspace.startdatetime)
+        definitionTable.createEntry('Start Date/Time (UTC)', workspace.getStartDateTimeUtc())
+        definitionTable.createEntry('Start Date/Time', workspace.getStartDateTime())
         definitionTable.createEntry('Timezone', workspace.timezone)
 
         javaproperties=run.getEnvironment().getJavaProperties()
@@ -451,7 +452,7 @@ class ForrestDocumenter(Documenter):
             self.resolver.getFile(workspace,'servers'))
                 
         serversSection=document.createSection('All Servers')
-        serversTable=serversSection.createTable(['Name'])
+        serversTable=serversSection.createTable(['Name','Results','Start (Local)','Start (UTC)','End (UTC)'])
 
         scount=0
         for server in sortedServerList:
@@ -463,6 +464,24 @@ class ForrestDocumenter(Documenter):
                        
             self.insertLink( server, workspace, serverRow.createData())
             
+            if server.hasResultsUrl():
+                serverRow.createData().createFork(	\
+                            'Results',	\
+                            server.getResultsUrl())
+            else:
+                serverRow.createData('Not Available')
+                
+            if server.hasResults():
+                serverRow.createData(server.getResults().getStartDateTime() + ' ' + \
+                                        server.getResults().getTimeZone())
+                serverRow.createData(server.getResults().getStartDateTimeUtc())
+                serverRow.createData(server.getResults().getEndDateTimeUtc())
+            else:
+                serverRow.createData('N/A')
+                serverRow.createData('N/A')
+                serverRow.createData('N/A')
+        
+                        
         if not scount: serversTable.createLine('None')
         
         document.serialize()
@@ -573,6 +592,54 @@ class ForrestDocumenter(Documenter):
                 ncount+=1
                 
         if not ncount: notesSection.createParagraph('None.')
+        
+        document.serialize()
+           
+        
+        #
+        # ----------------------------------------------------------------------
+        #
+        # diffsLog.xml -- Notes log
+        #
+        document=XDocDocument('Server Differences',	\
+                self.resolver.getFile(workspace,'diffsLog'))  
+                    
+        diffsSection=document.createSection('Server Differences')
+        diffsSection.createParagraph(
+            """This page displays entities with different states on different servers.""")
+            
+        dcount=0
+        for module in gumpSet.getModuleSequence():
+            if not gumpSet.inModuleSequence(module): continue               
+                                
+            moduleSection=None
+            if module.hasServerResults() and module.getServerResults().hasDifferences():
+                moduleSection=document.createSection('Module : ' + module.getName())                
+                # Link to the module
+                self.insertLink(module,workspace,moduleSection.createParagraph()) 
+            
+                # Display the module server links
+                self.documentServerLinks(moduleSection,module,workspace)   
+                
+            for project in module.getProjects():
+                if not gumpSet.inProjectSequence(project): continue         
+                if not project.hasServerResults(): continue
+                if not project.getServerResults().hasDifferences(): continue
+            
+                if not moduleSection:				
+                    moduleSection=document.createSection('Module : ' + module.getName())
+
+                projectSection=moduleSection.createSection('Project : ' + project.getName())
+        
+                # Link to the project
+                self.insertLink(project,workspace,projectSection.createParagraph())    
+            
+                # Display the project server links
+                self.documentServerLinks(projectSection,project,workspace)      
+        
+                dcount+=1
+                
+        if not dcount: diffsSection.createParagraph('None.')
         
         document.serialize()
            
@@ -1069,6 +1136,26 @@ This page helps Gumpmeisters (and others) observe community progress.
             if server.hasSite() and not server.getSite() == server.getUrl():
                 detailList.createEntry('Site: ').createFork(	\
                         server.getSite(), server.getSite())
+                        
+        if server.hasResults():
+            # :TODO: Do a lot more ....
+            if server.hasResultsUrl():
+                detailList.createEntry('Results URL: ').createFork(	\
+                        server.getResultsUrl(),server.getResultsUrl())    
+                                                
+                detailList.createEntry('Start Time: ',	\
+                        server.getResults().getStartDateTime() + ' ' + \
+                        server.getResults().getTimeZone())
+                                                
+                detailList.createEntry('End Time: ',	\
+                        server.getResults().getEndDateTime() + ' ' + \
+                        server.getResults().getTimeZone())
+                        
+                detailList.createEntry('Start Time (UTC): ',	\
+                        server.getResults().getStartDateTimeUtc())
+                detailList.createEntry('End Time (UTC): ',	\
+                        server.getResults().getEndDateTimeUtc())
+        
             
         self.documentXML(document,server)
         
@@ -1682,10 +1769,12 @@ This page helps Gumpmeisters (and others) observe community progress.
         
             # If we know state on the other server.
             statePair=None
+            utcTime=None
             if serverResults and serverResults.has_key(server):
                 results=serverResults[server]
                 if results:
                     statePair=results.getStatePair()
+                    utcTime=results.getStartDateTimeUtc()
                                 
             # If we can resolve this object to a URL, then do                        
             if server.hasResolver():
@@ -1700,8 +1789,11 @@ This page helps Gumpmeisters (and others) observe community progress.
                     xdocNode.createBreak()
                     # Insert the Icon...
                     depth=getDepthForObject(linkable)
-                    self.insertStatePairIconAtDepth(dataNode,statePair,depth)                
-                
+                    self.insertStatePairIconAtDepth(dataNode,statePair,depth)      
+                    
+                if utcTime:
+                    xdocNode.createBreak()    
+                    xdocNode.createText('At ' + utcTime)                                    
                         
     def documentProperties(self,xdocNode,propertyContainer,title='Properties'):
         

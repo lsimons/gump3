@@ -736,6 +736,12 @@ class GumpEngine:
                     dirs.append(dir)          
                     
                           
+    def setEndTime(self,run):
+        
+        logResourceUtilization('Set End Time')
+        # :TODO: Move this to run
+        run.getWorkspace().setEndTime()
+        
     """
     
         ******************************************************************
@@ -1026,9 +1032,12 @@ class GumpTaskList(list):
         elif 'gatherResults'==name:
             # Gather results.xml from other servers 
             task=GumpTask(name,['preprocess'])   
+        elif 'setEndTime'==name:
+            # Gather results.xml from other servers 
+            task=GumpTask(name,['preprocess'])   
         elif 'generateResults'==name:
             # Generate the results.xml for this server/workspace
-            task=GumpTask(name,['preprocess','loadStatistics','prepareDocumentation'])   
+            task=GumpTask(name,['preprocess','loadStatistics','setEndTime','prepareDocumentation'])   
         else:
             raise RuntimeError, 'Unknown task name ['+name+']'            
         return task

@@ -64,6 +64,21 @@ class Server(NamedModelObject):
     def getUrl(self):
         return str(self.xml.url)
         
+    def hasResultsUrl(self):
+        return self.hasUrl()
+        
+    def getResultsUrl(self):
+        return self.getUrl() + '/results.xml'
+        
+    def hasResults(self):
+        return hasattr(self,'results') and self.results
+    
+    def setResults(self,results):
+        self.results=results
+        
+    def getResults(self,results):
+        return self.results
+        
     def hasTitle(self): 
         return hasattr(self.xml,'title') and self.xml.title
         

@@ -35,6 +35,26 @@ from gump.model.project import *
 from gump.results.model import *
 from gump.results.loader import *
 
+class ResultsSet(dict):
+    def __init__(self):
+        dict.__init__(self)
+        
+        self.calculated=0
+        self.differences=0
+        
+    def hasDifferences(self):
+        if self.calculated: return self.differences
+        
+        lastPair=None
+        for result in self.values():
+            statePair=result.getStatePair()            
+            if lastPair:
+                self.differeces=(lastPair <> statePair)                
+            lastPair=statePair
+            
+        self.calculated=1
+        return self.differences
+                    
 class Resulter:
     
     def __init__(self,run):        
@@ -51,9 +71,9 @@ class Resulter:
             return results[server]
         
     def getResultsForAllServers(self, object):
-        results = {}
+        results = ResultsSet()
         
-        # Loda on demand
+        # Load on demand
         if not self.serversLoaded:
             self.loadResultsForServers()
             
@@ -98,10 +118,14 @@ class Resulter:
                     log.debug('Loaded results for server [' + str(server) + ']')
                     self.serverResults[server]=results
                     
+                    # Probably a hack, but might as well (for now)
+                    # just wire the server with iht's latest results
+                    server.setResults(results)
+                    
         self.serversLoaded=1
             
     def loadResultsForServer(self, server):
-        return self.loadResults(server.getUrl() + '/results.xml')
+        return self.loadResults(server.getResultsUrl())
         
     def loadResults(self, url):    
         loader =  WorkspaceResultLoader()
@@ -206,6 +230,7 @@ def generateResults(run):
     # Generate results around this run...
     resulter=Resulter(run)
     
+    # In the root.
     where=run.getOptions().getResolver().getFile(run.getWorkspace(),'results','.xml',1)
     
     # Generate the output...
