@@ -147,9 +147,11 @@ echo $SEPARATOR >> $GUMP_LOG
 python gump/integrate.py -w ../${GUMP_WORKSPACE}.xml ${GUMP_TARGET} >> $GUMP_LOG 2>&1 
 export INTEGRATION_EXIT=$?
 echo "Integration completed with exit code : " ${INTEGRATION_EXIT} >> $GUMP_LOG
-if [ ! ${INTEGRATION_EXIT} ] ; then
-        echo "Failed to integrate, exited with [$?], exiting..." >> $GUMP_LOG
-        echo "Failed to integrate, exited with [$?], exiting..."
+if [ ${INTEGRATION_EXIT} -gt 0 ] ; then
+        echo "Failed to integrate, exited with [${INTEGRATION_EXIT}], exiting..." >> $GUMP_LOG
+        echo "Failed to integrate, exited with [${INTEGRATION_EXIT}], exiting..."
+        # For cron to mail to owner...
+        cat $GUMP_LOG
         exit 1
 fi;
 
