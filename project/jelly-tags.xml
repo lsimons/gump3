@@ -369,6 +369,8 @@
 
     <ant basedir="jms" target="jar">
       <property name="final.name"  value="commons-jelly-tags-jms-@@DATE@@"/>
+      <property name="commons-beanutils.jar" project="commons-beanutitls-core"
+                reference="jar"/>
     </ant>
 
     <depend project="commons-jelly" inherit="all"/>
