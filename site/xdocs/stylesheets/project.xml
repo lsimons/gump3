@@ -20,7 +20,7 @@
 
     <menu name="Results">
       <item name="Nightly"
-        href="http://jakarta.apache.org/builds/gump/latest/"/>
+        href="http://cvs.apache.org/builds/gump/latest/"/>
       <item name="Java 1.4"
         href="http://nagoya.apache.org/~rubys/gump/java14/"/>
       <item name="Jars"     
@@ -31,15 +31,15 @@
 
     <menu name="Cross Reference">
       <item name="By dependency"     
-        href="http://jakarta.apache.org/builds/gump/latest/xref.html"/>
+        href="http://cvs.apache.org/builds/gump/latest/xref.html"/>
       <item name="Modules by repository"  
-        href="http://jakarta.apache.org/builds/gump/latest/modxref.html"/>
+        href="http://cvs.apache.org/builds/gump/latest/modxref.html"/>
       <item name="Installed packages"  
-        href="http://jakarta.apache.org/builds/gump/latest/packages.html"/>
+        href="http://cvs.apache.org/builds/gump/latest/packages.html"/>
       <item name="Jars by module"  
-        href="http://jakarta.apache.org/builds/gump/latest/cvsjars.html"/>
+        href="http://cvs.apache.org/builds/gump/latest/cvsjars.html"/>
       <item name="By Java package Name"
-        href="http://jakarta.apache.org/builds/gump/latest/bypackage.html"/>
+        href="http://cvs.apache.org/builds/gump/latest/bypackage.html"/>
     </menu>
 
     <menu name="Data Definitions">
