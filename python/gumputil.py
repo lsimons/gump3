@@ -38,3 +38,20 @@ def gumpCache(href):
       if debug: print '...done' 
 
   return newHref
+
+# display an error message in standard formatting
+def gumpMessage(type, error, description):
+  print
+  print
+  print ' ****************************************************************'
+  print '     ',type
+  print ' ****************************************************************'
+  print ' **                                                            **'
+  print '   ',error
+  print
+  print description
+  print
+  print ' **                                                            **'
+  print ' ****************************************************************'
+  print
+  print
