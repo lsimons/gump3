@@ -24,13 +24,13 @@ import logging
 from gump import log
 import gump.core.config
 from gump.core.gumprun import GumpRun
-from gump.test import getWorkedTestWorkspace
+from gump.test import getWorkedTestRun
 from gump.test.pyunit import UnitTestSuite
 from gump.model.state import *
 from gump.results.model import *
 from gump.results.resulter import generateResults,Resulter
 from gump.results.loader import WorkspaceResultLoader
-from gump.net.mailer import *
+from gump.net.smtp import *
 
 class ResultingTestSuite(UnitTestSuite):
     def __init__(self):
@@ -38,14 +38,16 @@ class ResultingTestSuite(UnitTestSuite):
         
         self.testFile = 'test/test.xml'
         
+            
     def suiteSetUp(self):
         #
-        # Load a decent Workspace
+        # Load a decent Run/Workspace
         #
-        self.workspace=getWorkedTestWorkspace()          
+        self.run=getWorkedTestRun()  
+        self.assertNotNone('Needed a run', self.run)
+        self.workspace=self.run.getWorkspace()          
         self.assertNotNone('Needed a workspace', self.workspace)
-        self.run=GumpRun(self.workspace)
-        
+    
     def checkWorkspaceResult(self,wsr):
         self.assertTrue('Has some ModuleResults', wsr.hasModuleResults())
         self.assertTrue('Has some ProjectResults', wsr.hasProjectResults())

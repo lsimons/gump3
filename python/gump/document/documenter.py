@@ -27,32 +27,40 @@ import logging
 
 from gump import log
 
-class Documenter:
-    def __init__(self):  pass
+from gump.core.gumprun import *
+from gump.core.actor import AbstractRunActor
+
+class Documenter(AbstractRunActor):
+
+    def __init__(self, run):        
+        #
+        AbstractRunActor.__init__(self, run)
     
+        
+    def processOtherEvent(self,event):
+            
+        workspace=self.run.getWorkspace()        
+        
+        if isinstance(event,InitializeRunEvent):
+            self.prepareRun()
+        elif isinstance(event,FinalizeRunEvent):
+            if self.run.getOptions().isDocument():
+                self.documentRun()
+            
     #
     # Call a method called 'prepareRun(run)', if it
     # is available on the sub-class (i.e. if needed)
     #
-    def prepare(self,run):
+    def prepare(self):
         if not hasattr(self,'prepareRun'): return        
         if not callable(self.prepareRun):  return        
         log.debug('Prepare to document run using [' + `self` + ']')        
-        self.prepareRun(run)
-        
-    #
-    # Call a method called 'documentEntity(entity,run)'
-    #
-    def entity(self,entity,run):
-        if not hasattr(self,'documentEntity'): return
-        if not callable(self.documentEntity): return        
-        log.debug('Document entity [' + `entity` + '] using [' + `self` + ']')        
-        self.documentEntity(entity,run)
-    
+        self.prepareRun()       
+
     #
     # Call a method called 'documentRun(run)'
     #
-    def document(self,run):
+    def document(self):
         if not hasattr(self,'documentRun'):
             raise RuntimeError, \
                     'Class [' + `self.__class__` + '] needs a documentRun(self,run)'
@@ -63,16 +71,11 @@ class Documenter:
         
         log.debug('Document run using [' + `self` + ']')
         
-        self.documentRun(run)
+        self.documentRun()
         
-    #
-    # Get a Resolver (specifically for this run)
-    #
-    def getResolver(self,run):
-        if not hasattr(self,'getResolverForRun'):
-            raise RuntimeError, 'Class [' + `self.__class__` + '] needs a getResolverForRun(self,run)'
-        
-        if not callable(self.getResolverForRun):
-            raise RuntimeError, 'Class [' + `self.__class__` + '] needs a callable getResolverForRun(self,run)'
-            
-        return self.getResolverForRun(run)
+
+    def setResolver(self,resolver):
+        self.resolver=resolver        
+
+    def getResolver(self):
+        return self.resolver

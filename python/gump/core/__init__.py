@@ -15,7 +15,7 @@
 # limitations under the License.
 
 #
-# $Header: /home/stefano/cvs/gump/python/gump/core/__init__.py,v 1.1 2004/04/16 17:28:41 ajack Exp $
+# $Header: /home/stefano/cvs/gump/python/gump/core/__init__.py,v 1.2 2004/05/21 23:15:02 ajack Exp $
 # 
 
 """
@@ -25,4 +25,6 @@
 """
 
 # tell Python what modules make up the gump.core package
-__all__ = ["init","commandLine","config","engine","gumpenv","gumprun"]
+__all__ = ["init","commandLine","config","runner",	\
+            "misc","builder","updater",	\
+            "tasks","gumpenv","gumprun"]

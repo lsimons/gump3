@@ -2,7 +2,7 @@
 
 <repository name="repository1" type="cvs">
   <title>Repository 1</title>
-  <home-page>http://jakarta.apache.org/gump</home-page>
+  <home-page>http://gump.apache.org</home-page>
   <cvsweb>http://cvs.apache.org/viewcvs/</cvsweb>
   <redistributable/>
 

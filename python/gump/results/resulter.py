@@ -30,6 +30,9 @@ import logging
 from string import lower, capitalize
 
 from gump import log
+
+from gump.core.actor import *
+
 from gump.model.object import NamedModelObject
 from gump.model.workspace import *
 from gump.model.module import *
@@ -37,18 +40,36 @@ from gump.model.project import *
 from gump.results.model import *
 from gump.results.loader import *
 
-               
-class Resulter:
+class Resulter(AbstractRunActor):
     
     def __init__(self,run):        
-        self.run = run
+        AbstractRunActor.__init__(self,run)
+        
         self.workspace=run.getWorkspace()
         self.gumpSet=run.getGumpSet()
         
         self.serverResults = {}
         self.serversLoaded = 0
         
-    def getServerResultFor(sefl, server, object):
+        
+    def processOtherEvent(self,event):
+            
+        workspace=self.run.getWorkspace()        
+        
+        if isinstance(event,InitializeRunEvent):
+            
+            self.gatherResults()
+            
+        elif isinstance(event,FinalizeRunEvent):   
+            if self.run.getGumpSet().isFull() and \
+                self.run.getOptions().isResults() :     
+                # In the root.
+                where=self.run.getOptions().getResolver().getFile(	\
+                    self.run.getWorkspace(),'results','.xml',1)    
+                # Generate the output...
+                self.generateResults(where)
+            
+    def getServerResultFor(self, server, object):
         results=self.getResultsForAllServers(object)
         if results.has_key(server):
             return results[server]

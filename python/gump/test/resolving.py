@@ -26,8 +26,7 @@ from gump import log
 import gump.core.config
 from gump.test import *
 from gump.document.text.resolver import *
-from gump.document.forrest.resolver import *
-from gump.document.template.resolver import *
+from gump.document.xdocs.resolver import *
 
 from gump.test.pyunit import UnitTestSuite
 
@@ -47,7 +46,7 @@ class ResolvingTestSuite(UnitTestSuite):
         self.module2=self.workspace.getModule('module2')    
         self.project1=self.workspace.getProject('project1')    
         self.project2=self.workspace.getProject('project2')    
-        self.ant1=self.project1.getAnt()
+        self.ant2=self.project2.getAnt()
         
     def checkRelativePath(self,path1,path2):      
         rpath=gump.document.resolver.getRelativePath(path1,path2)
@@ -63,7 +62,9 @@ class ResolvingTestSuite(UnitTestSuite):
         self.assertNotNone('Location: ', location)
         self.assertNotNone('Location: ', location.serialize())
     
-    def checkRelativeLocation(self,object1,object2):    
+    def checkRelativeLocation(self,object1,object2):  
+        self.assertNotNone('To               : ', object1)
+        self.assertNotNone('From             : ', object2)  
         location1=getLocationForObject(object1)    
         location2=getLocationForObject(object2)
         location=getRelativeLocation(object1,object2)
@@ -115,14 +116,12 @@ class ResolvingTestSuite(UnitTestSuite):
         self.checkRelativeLocation(self.project1,self.project1)
         self.checkRelativeLocation(self.project1,self.module1)
         self.checkRelativeLocation(self.module1,self.module2)
-        self.checkRelativeLocation(self.module1,self.ant1)
-        self.checkRelativeLocation(self.ant1,self.module1)
+        self.checkRelativeLocation(self.module1,self.ant2)
+        self.checkRelativeLocation(self.ant2,self.module1)
     
     def testResolving(self):
-        for resolver in [	TextResolver('./test','http://somewhere/something'),	\
-                            ForrestResolver('./test','http://somewhere/something'),	\
-                            TemplateResolver('./test','http://somewhere/something') ] :
-
+        for resolver in [	TextResolver('./test/bogus','http://somewhere/something'),	\
+                            XDocResolver('./test/bogus','http://somewhere/something') ] :
 
             #print `resolver`            
             #printSeparator()

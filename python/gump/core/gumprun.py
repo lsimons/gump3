@@ -40,18 +40,10 @@ from gump.model.module import Module
 from gump.model.project import Project
 from gump.model.depend import  ProjectDependency
 from gump.model.state import *
-
-from gump.document.text.documenter import TextDocumenter
-
-from gump.output.statsdb import *
-from gump.output.repository import JarRepository
-
     
 ###############################################################################
 # Functions
 ###############################################################################
-def isAllProjects(pexpr):
-    return pexpr=='all' or pexpr=='*'
 
 ###############################################################################
 # Classes
@@ -125,7 +117,7 @@ class GumpSet:
         
     # All Projects
     def isFull(self):
-        return isAllProjects(self.projectexpression)
+        return self.projectexpression=='all' or self.projectexpression=='*'    
         
 #  if not projects:
 #    print
@@ -189,18 +181,23 @@ class GumpSet:
                 self.getProjectsForProjectExpression(expr))
   
     def getModulesForProjectList(self,projects):
-        modules=[]
+        sequence=[]
         for project in projects:
             
-            # Some projects are outside of modules
+            # Some projects are outside of sequence
             if project.inModule():
                 # Get the module this project is in
                 module = project.getModule()
-                if not module in modules: 
-                    modules.append(module)
+                if not module in sequence: 
+                    sequence.append(module)
+                    module.setPosition(len(sequence))
 
-        modules.sort()
-        return modules
+        # Hmm, see if we don't sort ...
+        # would be nice to get in same order as
+        # projects need 
+        # sequence.sort()
+        
+        return sequence
   
     def getRepositoriesForModuleList(self,modules):
         repositories=[]
@@ -256,22 +253,22 @@ class GumpSet:
     def getBuildSequenceForProjects(self,projects):
         """Determine the build sequence for a given list of projects."""
         todo=[]
-        result=[]
+        sequence=[]
         for project in projects:
             log.debug('Evaluate Seq for ['+project.getName()+']')                
             self.addToTodoList(project,todo)
-            log.debug('TODOS ['+`len(todo)`+']')
             
         while todo:
             # one by one, remove the first ready project and append 
-            # it to the result
+            # it to the sequence
             foundSome=0
             for todoProject in todo:
                 if self.isReady(todoProject,todo):
                     todo.remove(todoProject)
-                    if not todoProject in result:
-                        result.append(todoProject)
-                        #log.debug('Next Project ['+todoProject.getName()+'] is #' + str(len(result)))     
+                    if not todoProject in sequence:
+                        sequence.append(todoProject)
+                        todoProject.setPosition(len(sequence))
+                        log.debug('#' + `todoProject.getPosition()` + ' -> ' + todoProject.getName())     
                     #else:
                     #    log.debug('Duplicate Result ['+todoProject.getName()+']')    
                     foundSome=1
@@ -286,7 +283,7 @@ class GumpSet:
                     else:
                         loop=", ".join([project.getName() for todoProject in todo])
                         raise RuntimeError, "Circular Dependency Loop: " + str(loop)              
-        return result
+        return sequence
 
                 
     #
@@ -336,7 +333,31 @@ class GumpSet:
         for object in list:
             idx+=1
             output.write(i+str(idx)+': '+object.getName() + '\n')
-            
+     
+
+# Overall objectives
+OBJECTIVE_UNSET=0
+OBJECTIVE_UPDATE=0x01
+OBJECTIVE_BUILD=0x02
+OBJECTIVE_CHECK=0x04
+OBJECTIVE_DOCUMENT=0x08
+
+OBJECTIVE_=OBJECTIVE_UPDATE | OBJECTIVE_BUILD
+
+OBJECTIVE_INTEGRATE=OBJECTIVE_UPDATE | OBJECTIVE_BUILD | \
+                        OBJECTIVE_DOCUMENT
+
+# Features            
+FEATURE_UNSET=0
+FEATURE_STATISTICS=0x01
+FEATURE_RESULTS=0x02
+FEATURE_NOTIFY=0x04
+FEATURE_DIAGRAM=0x08
+FEATURE_SYNDICATE=0x10
+FEATURE_DOCUMENT=0x20
+
+FEATURE_ALL=FEATURE_STATISTICS|FEATURE_RESULTS|FEATURE_NOTIFY|FEATURE_DIAGRAM|	\
+                FEATURE_SYNDICATE|FEATURE_DOCUMENT
             
 class GumpRunOptions:
     """
@@ -357,27 +378,14 @@ class GumpRunOptions:
         
         # Default is Text unless Forrest is in the environment,
         # but can also force text with --text 
-        self.text=0      
-        # A new alternative is Template --template
-        self.template=0      
+        self.text=0        
         
         # If using Forrest, this say leave xdocs, do NOT run
         # the 'forrest' build inlined.
         self.xdocs=0
         
-        # The implementation that will do it...
-        self.documenter=TextDocumenter()
-
-    def setDocumenter(self, documenter):
-        self.documenter = documenter
-    
-    def getDocumenter(self):
-        return self.documenter
-
-    # Different Documenter have different resolvers 'cos
-    # they may vary the layout
-    def getResolver(self):
-        return self.getDocumenter().getResolver(self)
+        self.objectivse=OBJECTIVE_INTEGRATE
+        self.features=FEATURE_ALL
         
     def isDated(self):
         return self.dated
@@ -403,12 +411,6 @@ class GumpRunOptions:
     def setText(self,text):
         self.text=text
         
-    def isTemplate(self):
-        return self.template
-        
-    def setTemplate(self,template):
-        self.template=template
-        
     def isXDocs(self):
         return self.xdocs
         
@@ -432,7 +434,149 @@ class GumpRunOptions:
         
     def setVerbose(self,verbose):
         self.verbose=verbose
+
+    def setResolver(self,resolver):
+        self.resolver=resolver        
+
+    def getResolver(self):
+        return self.resolver
         
+        
+    # Objectives...
+    def setObjectives(self,objectives):
+        self.objectives=objectives
+        
+    def testObjectiveIsSet(self,objective):
+        if (self.objectives & objective): return 1
+        return 0    
+        
+    def isUpdate(self):
+        return self.testObjectiveIsSet(OBJECTIVE_UPDATE)        
+        
+    def isBuild(self):
+        return self.testObjectiveIsSet(OBJECTIVE_BUILD)
+              
+    def isCheck(self):
+        return self.testObjectiveIsSet(OBJECTIVE_CHECK)
+        
+    def isDocument(self):
+        return self.testObjectiveIsSet(OBJECTIVE_DOCUMENT)
+        
+    # Features...
+    def setFeatures(self,features):
+        self.features=features
+        
+    def disableFeature(self,feature):
+        self.features = (self.features ^ feature)
+        
+    def enableFeature(self,feature):
+        self.features = (self.features | feature)
+        
+    def testFeatureIsSet(self,feature):
+        if (self.features & feature): return 1
+        return 0
+
+    def isNotify(self):
+        return self.testFeatureIsSet(FEATURE_NOTIFY)
+
+    def isResults(self):
+        return self.testFeatureIsSet(FEATURE_RESULTS)
+
+    def isStatistics(self):
+        return self.testFeatureIsSet(FEATURE_STATISTICS)
+
+    def isDocument(self):
+        return self.testFeatureIsSet(FEATURE_DOCUMENT)
+
+    def isSyndicate(self):
+        return self.testFeatureIsSet(FEATURE_SYNDICATE)
+
+    def isDiagram(self):
+        return self.testFeatureIsSet(FEATURE_DIAGRAM)
+
+        
+class RunSpecific:
+    """
+    
+        A class that is it specific to an instance of a run
+        
+    """
+    def __init__(self, run):
+        self.run	=	run
+        
+    def getRun(self):
+        return self.run
+
+
+
+class RunEvent(RunSpecific):
+    """
+        An event to actors (e.g. a project built, a module updated)
+    """
+            
+    def __init__(self, run):
+        RunSpecific.__init__(self,run)
+        
+    def __repr__(self):
+        return self.__class__.__name__
+        
+class InitializeRunEvent(RunEvent): pass
+class FinalizeRunEvent(RunEvent): pass
+        
+class EntityRunEvent(RunEvent):
+    """
+    
+        An event to actors (e.g. a project built, a module updated)
+        
+    """
+            
+    def __init__(self, run, entity, realtime=0):
+        RunEvent.__init__(self,run)
+        
+        self.entity=entity
+        self.realtime=realtime
+            
+    def __repr__(self):
+        return self.__class__.__name__ + ':' + `self.entity`
+        
+    def getEntity(self):
+        return self.entity 
+        
+    def isRealtime(self):
+        return self.realtime    
+        
+                
+class RunRequest(RunEvent):
+    """
+
+    """            
+    def __init__(self, run, type):
+        RunEvent.__init__(self,run)
+        self.type=type
+        self.satisfied=0
+        
+    def getType(self):
+        return self.type
+        
+    def isSatisfied(self):
+        return self.satisfied  
+        
+class EntityRunRequest(RunEvent):
+    """
+
+    """
+            
+    def __init__(self, run, type, entity):
+        RunEvent.__init__(self, run, type)
+        
+        self.entity=entity
+        
+    def __repr__(self):
+        return self.__class__.__name__ + ':' + `self.entity`
+        
+    def getEntity(self):
+        return self.entity 
+                
 class GumpRun(Workable,Annotatable,Stateful):
     def __init__(self,workspace,expr=None,options=None,env=None):
         
@@ -446,7 +590,7 @@ class GumpRun(Workable,Annotatable,Stateful):
         self.workspace=workspace
         
         #
-        # The set of 
+        # The set of modules/projects/repos in use
         #
         self.gumpSet=GumpSet(self.workspace,expr)
         
@@ -469,7 +613,26 @@ class GumpRun(Workable,Annotatable,Stateful):
         #
         # A repository interface...
         #
+        from gump.repository.jars import JarRepository
         self.outputsRepository=JarRepository(workspace.jardir)
+                  
+        # Generate a GUID (or close)
+        import md5
+        import socket        
+        m=md5.new()
+        self.guid = socket.gethostname()  + ':' + workspace.getName() + ':' + default.datetime
+        m.update(self.guid)
+        self.hexguid=m.hexdigest().upper()     
+        log.debug('Run GUID [' + `self.guid` + '] using [' + `self.hexguid` + ']')    
+        
+        # Actor Queue
+        self.actors=list()
+
+    def getRunGuid(self):
+        return self.guid
+        
+    def getRunHexGuid(self):
+        return self.hexguid
         
     def getWorkspace(self):
         return self.workspace
@@ -495,8 +658,29 @@ class GumpRun(Workable,Annotatable,Stateful):
         i=getIndent(indent)
         #output.write(i+'Expression: ' + self.gumpSet. + '\n')
         output.write(i+'Gump Set:\n')
-        
         self.gumpSet.dump(indent+1,output)
+       
+    def registerActor(self,actor):
+        log.debug('Register Actor : ' + `actor`)
+        self.actors.append(actor)
         
+    def dispatchEvent(self,event):
+        log.debug('Dispatch Event : ' + `event`)        
+        for actor in self.actors:
+            #log.debug('Dispatch Event : ' + `event` + ' to ' + `actor`)     
+            actor._processEvent(event)
+        inspectGarbageCollection(`event`)
+            
+    def dispatchRequest(self,request):
+        log.debug('Dispatch Request : ' + `request`)    
+        for actor in self.actors:
+            log.debug('Dispatch Request : ' + `request` + ' to ' + `actor`)       
+            actor._processRequest(request)
+        inspectGarbageCollection(`request`)
+            
+    def generateEvent(self,entity):
+        self.dispatchEvent(EntityRunEvent(self, entity))
         
-        
+    def generateRequest(self,type):
+        self.dispatchRequest(RunRequest(self, type))
+                

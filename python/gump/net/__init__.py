@@ -22,6 +22,6 @@
 # Initialize
 ###############################################################################
 
-# tell Python what modules make up the gump.model package
-__all__ = ["cvs","mailer"]
+# tell Python what modules make up the gump.net package
+__all__ = ["cvs","smtp"]
 

@@ -22,7 +22,7 @@ from time import localtime, strftime, tzname
 
 from gump.model.state import *
 from gump.model.object import ModelObject, NamedModelObject, Jar,	\
-                                Resultable, \
+                                Resultable, Positioned, \
                                  Mkdir, Delete, JunitReport, Work
 from gump.model.stats import Statable, Statistics
 from gump.model.property import Property
@@ -136,7 +136,7 @@ class Classpath(Annotatable):
         return os.pathsep.join(self.getSimpleClasspathList())
             
 
-class Project(NamedModelObject, Statable, Resultable, Dependable):
+class Project(NamedModelObject, Statable, Resultable, Dependable, Positioned):
     """A single project"""
     def __init__(self,xml,workspace):
     	NamedModelObject.__init__(self,xml.getName(),xml,workspace)
@@ -144,6 +144,7 @@ class Project(NamedModelObject, Statable, Resultable, Dependable):
     	Statable.__init__(self)
     	Resultable.__init__(self)
     	Dependable.__init__(self)
+    	Positioned.__init__(self)
     	
     	# Navigation
         self.module=None # Module has to claim ownership
@@ -280,9 +281,9 @@ class Project(NamedModelObject, Statable, Resultable, Dependable):
     def getHistoricalOddsOfSuccess(self):
         return self.getStats().getHistoricalOddsOfSuccess()
         
-    # Only modules get updated.
-    def getLastUpdated(self):
-        return self.getModule().getStats().getLastUpdated()  
+    # Only modules get Modified.
+    def getLastModified(self):
+        return self.getModule().getStats().getLastModified()  
         
     def determineAffected(self):
         if self.affectedProjects: return len(self.affectedProjects)
@@ -379,7 +380,7 @@ class Project(NamedModelObject, Statable, Resultable, Dependable):
         # if one is set
         if self.xml.basedir:
             self.basedir = os.path.abspath(os.path.join(	\
-                                self.getModule().getSourceDirectory() or dir.base,	\
+                                self.getModule().getWorkingDirectory() or dir.base,	\
                                 self.xml.basedir))
          
         # Compute home directory
@@ -394,7 +395,7 @@ class Project(NamedModelObject, Statable, Resultable, Dependable):
             if self.xml.home.nested:
                 module=self.getModule()    
                 self.home=os.path.abspath(\
-                    os.path.join(module.getSourceDirectory(),\
+                    os.path.join(module.getWorkingDirectory(),\
                         self.xml.home.nested))
             elif self.xml.home.parent:
                 self.home=os.path.abspath(	\
@@ -407,7 +408,7 @@ class Project(NamedModelObject, Statable, Resultable, Dependable):
         elif not self.xml.home:
             if self.module:
                 module=self.getModule()    
-                self.home=os.path.abspath(module.getSourceDirectory())
+                self.home=os.path.abspath(module.getWorkingDirectory())
             else:
                 self.home=os.path.abspath(os.path.join(workspace.getBaseDirectory(),self.name))
         else:
@@ -533,34 +534,6 @@ class Project(NamedModelObject, Statable, Resultable, Dependable):
         # Done, don't redo
         self.setComplete(1)
 
-    def  checkPackage(self):
-        if self.okToPerformWork():
-            #
-            # Check the package was installed correctly...
-            #
-            outputsOk=1
-            for jar in self.getJars():
-                jarpath=jar.getPath()
-                if jarpath:
-                    if not os.path.exists(jarpath):
-                        self.changeState(STATE_FAILED,REASON_PACKAGE_BAD)
-                        outputsOk=0
-                        self.addError("Missing Packaged Jar: " + str(jarpath))
-    
-            if outputsOk:
-                self.changeState(STATE_COMPLETE,REASON_PACKAGE)
-            else:
-                # Just in case it was so bad it thought it had no
-                # jars to check
-                self.changeState(STATE_FAILED,REASON_PACKAGE_BAD)
-                
-                #
-                # List them, why not...
-                #            
-                from gump.utils.tools import listDirectoryToFileHolder
-                listDirectoryToFileHolder(self,self.getHomeDirectory(),	\
-                    FILE_TYPE_PACKAGE, 'list_package_'+self.getName())                                            
-        
     def importDependencies(self,workspace):        
         badDepends=[]
         # Walk the XML parts converting
@@ -627,382 +600,7 @@ class Project(NamedModelObject, Statable, Resultable, Dependable):
         hasBuild=0
         # I.e has an <ant or <script element
         if self.xml.ant or self.xml.script or self.xml.maven: hasBuild=1    
-        return hasBuild
-
-    def getBuildCommand(self,javaCommand='java'):
-
-        # get the ant element (if it exists)
-        ant=self.xml.ant
-
-        # get the maven element (if it exists)
-        maven=self.xml.maven
-
-        # get the script element (if it exists)
-        script=self.xml.script
-
-        if not (script or ant or maven):
-          #  log.debug('Not building ' + project.name + ' (no <ant/> or <maven/> or <script/> specified)')
-          return None
-
-        if self.hasScript():
-            return self.getScriptCommand()
-        elif self.hasMaven() :
-            return self.getMavenCommand()
-        else:
-            return self.getAntCommand(javaCommand)
-        
-    #
-    # Build an ANT command for this project
-    #        
-    def getAntCommand(self,javaCommand='java'):
-        
-        ant=self.ant
-        antxml=self.xml.ant
-    
-        # The ant target (or none == ant default target)
-        target= antxml.target or ''
-    
-        # The ant build file (or none == build.xml)
-        buildfile = antxml.buildfile or ''
-    
-        # Optional 'verbose' or 'debug'
-        verbose=antxml.verbose
-        debug=antxml.debug
-    
-        #
-        # Where to run this:
-        #
-        basedir = ant.getBaseDirectory() or self.getBaseDirectory()
-    
-        #
-        # Build a classpath (based upon dependencies)
-        #
-        (classpath,bootclasspath)=self.getClasspaths()
-    
-        #
-        # Get properties
-        #
-        properties=self.getAntProperties()
-   
-        #
-        # Get properties
-        #
-        sysproperties=self.getAntSysProperties()
-   
-        #
-        # Get properties
-        #
-        jvmargs=self.getJVMArgs()
-   
-        #
-        # Run java on apache Ant...
-        #
-        cmd=Cmd(javaCommand,'build_'+self.getModule().getName()+'_'+self.getName(),\
-            basedir,{'CLASSPATH':classpath})
-            
-        # These are workspace + project system properties
-        cmd.addNamedParameters(sysproperties)
-        
-        
-        # :NOTE: Commented out since <sysproperty was implemented.
-        #
-        # Set this as a system property. Setting it here helps JDK1.4+
-        # AWT implementations cope w/o an X11 server running (e.g. on
-        # Linux)
-        # cmd.addPrefixedParameter('-D','java.awt.headless','true','=')
-    
-    
-        # :NOTE: Commented out since <sysproperty was implemented.
-        #
-        # This helps ant maintain VM information for sub-VMs it launches.
-        #
-        # cmd.addPrefixedParameter('-D','build.clonevm','true','=')
-        
-        #
-        # Add BOOTCLASSPATH
-        #
-        if bootclasspath:
-            cmd.addPrefixedParameter('-X','bootclasspath/p',bootclasspath,':')
-            
-        if jvmargs:
-            cmd.addParameters(jvmargs)
-            
-        cmd.addParameter('org.apache.tools.ant.Main')  
-    
-        #
-        # Allow ant-level debugging...
-        #
-        if self.getWorkspace().isDebug() or self.isDebug() or debug: 
-            cmd.addParameter('-debug')  
-        if self.getWorkspace().isVerbose()  or self.isVerbose() or verbose: 
-            cmd.addParameter('-verbose')  
-        
-        #
-        #	This sets the *defaults*, a workspace could override them.
-        #        
-        # :NOTE: Commented out since <property on workspace works.
-        # cmd.addPrefixedParameter('-D','build.sysclasspath','only','=')
-    
-        mergeFile=self.getWorkspace().getMergeFile()
-        if mergeFile:
-            cmd.addPrefixedParameter('-D','gump.merge',str(mergeFile),'=')        
-    
-        # These are from the project and/or workspace
-        # These are 'normal' properties.
-        cmd.addNamedParameters(properties)
-    
-        # Pass the buildfile
-        if buildfile: cmd.addParameter('-f',buildfile)
-    
-        # End with the target...
-        if target: 
-            for targetParam in target.split():
-                cmd.addParameter(targetParam)
-    
-        return cmd
-
-    #
-    # Build an ANT command for this project
-    #        
-    def getMavenCommand(self):
-        maven=self.maven
-        mavenxml=self.xml.maven
-    
-        # The ant goal (or none == ant default goal)
-        goal=maven.getGoal()
-    
-        # Optional 'verbose' or 'debug'
-        verbose=mavenxml.verbose
-        debug=mavenxml.debug
-    
-        #
-        # Where to run this:
-        #
-        basedir = maven.getBaseDirectory() or self.getBaseDirectory()
-    
-        #
-        # Build a classpath (based upon dependencies)
-        #
-        (classpath,bootclasspath)=self.getClasspaths()
-    
-        #
-        # Get properties
-        #
-        #jvmargs=self.getJVMArgs()
-   
-        #
-        # Run Maven...
-        #
-        cmd=Cmd('maven','build_'+self.getModule().getName()+'_'+self.getName(),\
-            basedir,{'CLASSPATH':classpath})
-            
-        # Set this as a system property. Setting it here helps JDK1.4+
-        # AWT implementations cope w/o an X11 server running (e.g. on
-        # Linux)
-        # cmd.addPrefixedParameter('-D','java.awt.headless','true','=')
-    
-        #
-        # Add BOOTCLASSPATH
-        #
-        #if bootclasspath:
-        #    cmd.addPrefixedParameter('-X','bootclasspath/p',bootclasspath,':')
-            
-        #if jvmargs:
-        #    cmd.addParameters(jvmargs)
-            
-        # cmd.addParameter('org.apache.maven.cli.App')  
-    
-        #
-        # Allow maven-level debugging...
-        #
-        if self.getWorkspace().isDebug() or self.isDebug() or debug: 
-            cmd.addParameter('--debug')  
-        if self.getWorkspace().isVerbose()  or self.isVerbose() or verbose: 
-            cmd.addParameter('--exception') 
-        
-        #
-        # Suppress downloads
-        #          
-        cmd.addParameter('--offline')  
-        
-        #
-        #	This sets the *defaults*, a workspace could override them.
-        #
-        #cmd.addPrefixedParameter('-D','build.sysclasspath','only','=')
-    
-        # End with the goal...
-        cmd.addParameter(goal)
-    
-        return cmd
-  
-    def getScriptCommand(self):
-        """ Return the command object for a <script entry """
-        script=self.script
-        scriptxml=self.xml.script 
-           
-        #
-        # Where to run this:
-        #
-        basedir = script.getBaseDirectory() or self.getBaseDirectory()
-
-        # Add .sh  or .bat as appropriate to platform
-        scriptfullname=scriptxml.name
-        if not os.name == 'dos' and not os.name == 'nt':
-            scriptfullname += '.sh'
-        else:
-            scriptfullname += '.bat'
-      
-        # Optional 'verbose' or 'debug'
-        # verbose=scriptxml.verbose
-        # debug=scriptxml.debug
-       
-        scriptfile=os.path.abspath(os.path.join(basedir, scriptfullname))
-        
-        # Not sure this is relevent...
-        (classpath,bootclasspath)=self.getClasspaths()
-
-        cmd=Cmd(scriptfile,'buildscript_'+self.getModule().getName()+'_'+self.getName(),\
-            basedir,{'CLASSPATH':classpath})    
-            
-        # Set this as a system property. Setting it here helps JDK1.4+
-        # AWT implementations cope w/o an X11 server running (e.g. on
-        # Linux)
-        #    
-        # Per GUMP-48 scripts do not want this.
-        # cmd.addPrefixedParameter('-D','java.awt.headless','true','=')
-    
-        #
-        # Add BOOTCLASSPATH
-        #
-        # Per GUMP-48 scripts do not want this.
-        #if bootclasspath:
-        #    cmd.addPrefixedParameter('-X','bootclasspath/p',bootclasspath,':')
-                    
-        #
-        # Allow script-level debugging...
-        #
-        # Per GUMP-48 scripts do not want this.        
-        #if self.getWorkspace().isDebug() or self.isDebug() or debug:
-        #    cmd.addParameter('-debug')  
-        #if self.getWorkspace().isVerbose()  or self.isVerbose() or verbose:
-        #    cmd.addParameter('-verbose')  
-        
-        return cmd
-    
-                
-
-    def getJVMArgs(self):
-        """Get JVM arguments for a project"""
-        args=Parameters()
-        
-        if self.hasAnt():
-            jvmargs=self.getAnt().xml.jvmarg
-        elif self.hasMaven():
-            jvmargs=self.getMaven().xml.jvmarg
-                
-        for jvmarg in jvmargs:
-            if jvmarg.value:
-                args.addParameter(jvmarg.value)
-            else:
-                log.error('Bogus JVM Argument w/ Value')            
-        
-        return args
-  
-    def getAntProperties(self):
-        """Get properties for a project"""
-        properties=Parameters()
-        for property in self.getWorkspace().getProperties()+self.getAnt().getProperties():
-            properties.addPrefixedNamedParameter('-D',property.name,property.value,'=')
-        return properties
-
-    def getAntSysProperties(self):
-        """Get sysproperties for a project"""
-        properties=Parameters()
-        for property in self.getWorkspace().getSysProperties()+self.getAnt().getSysProperties():
-            properties.addPrefixedNamedParameter('-D',property.name,property.value,'=')
-        return properties
-
-    # The propertiesFile parameter is primarily for testing.
-    def generateMavenProperties(self,propertiesFile=None):
-        """Set properties/overrides for a Maven project"""
-        
-        #:TODO: Does Maven have the idea of system properties?
-        
-        #
-        # Where to put this:
-        #
-        basedir = self.maven.getBaseDirectory() or self.getBaseDirectory()
-        if not propertiesFile: 
-            propertiesFile=os.path.abspath(os.path.join(	\
-                    basedir,'build.properties'))
-        
-        if os.path.exists(propertiesFile):
-            self.addWarning('Overriding Maven properties: ['+propertiesFile+']')
-    
-        
-        props=open(propertiesFile,'w')
-        
-        props.write(("""# ------------------------------------------------------------------------
-# DO NOT EDIT  DO NOT EDIT  DO NOT EDIT  DO NOT EDIT  DO NOT EDIT  DO NOT EDIT  DO NOT EDIT 
-#
-# File Automatically Generated by Gump, see http://gump.apache.org/
-#
-# Generated For : %s
-# Generated At  : %s
-#
-#
-# DO NOT EDIT  DO NOT EDIT  DO NOT EDIT  DO NOT EDIT  DO NOT EDIT  DO NOT EDIT  DO NOT EDIT
-# ------------------------------------------------------------------------
-""")	%	(self.getName(), time.strftime('%Y-%m-%d %H:%M:%S')) )
-        
-        #
-        # Output basic properties
-        #
-        for property in self.getWorkspace().getProperties()+self.getMaven().getProperties():
-            # build.sysclasspath makes Maven sick.
-            if not 'build.sysclasspath' == property.name:
-                props.write(('%s=%s\n') % (property.name,property.value))            
-        
-        #
-        # Output classpath properties
-        #
-        props.write("""
-# ------------------------------------------------------------------------
-# M A V E N  J A R  O V E R R I D E
-# ------------------------------------------------------------------------
-maven.jar.override = on
-
-# ------------------------------------------------------------------------
-# Jars set explicity by path.
-# ------------------------------------------------------------------------
-""")
-        
-        (classpath,bootclasspath)=self.getClasspathObjects()
-        
-        # :TODO: write...
-        for annotatedPath in classpath.getPathParts():
-            if isinstance(annotatedPath,AnnotatedPath):
-                props.write(('# Contributor: %s\nmaven.jar.%s=%s\n') % \
-                    (	annotatedPath.getContributor(),	\
-                        annotatedPath.getId(),	\
-                        annotatedPath.getPath()))
-
-        return propertiesFile
-      
-    def locateMavenLog(self):
-        """Return Maven log location"""  
-        basedir = self.maven.getBaseDirectory() or self.getBaseDirectory()
-        return os.path.abspath(os.path.join(basedir,'maven.log'))
-      
-    def locateMavenProjectPropertiesFile(self):
-        """Return Maven project properties file location""" 
-        basedir = self.maven.getBaseDirectory() or self.getBaseDirectory()
-        return os.path.abspath(os.path.join(basedir,'project.properties'))
-        
-    def locateMavenProjectFile(self):
-        """Return Maven project file location"""      
-        basedir = self.maven.getBaseDirectory() or self.getBaseDirectory()
-        return os.path.abspath(os.path.join(basedir,'project.xml'))        
+        return hasBuild      
         
     def dump(self, indent=0, output=sys.stdout):
         """ Display the contents of this object """
@@ -1013,6 +611,10 @@ maven.jar.override = on
                         
         if self.ant:
             self.ant.dump(indent+1,output)
+        if self.maven:
+            self.maven.dump(indent+1,output)
+        if self.script:
+            self.script.dump(indent+1,output)
             
     #
     # Return a list of the outputs this project generates
@@ -1083,7 +685,7 @@ maven.jar.override = on
         # Add this project's work directories (these go into
         # CLASSPATH, never BOOTCLASSPATH)
         #
-        srcdir=self.getModule().getSourceDirectory()
+        workdir=self.getModule().getWorkingDirectory()
           
         #
         # Add the work directories
@@ -1091,7 +693,7 @@ maven.jar.override = on
         for work in self.xml.work:
             path=None
             if work.nested:
-                path=os.path.abspath(os.path.join(srcdir,work.nested))
+                path=os.path.abspath(os.path.join(workdir,work.nested))
             elif work.parent:
                 path=os.path.abspath(os.path.join(self.getWorkspace().getBaseDirectory(),work.parent))
             else:

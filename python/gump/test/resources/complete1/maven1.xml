@@ -1,0 +1,24 @@
+<module name="maven1">
+
+  <url  href="http://jakarta.apache.org/gump/index.html"/>
+  <description>
+    Test of Gump using Maven...
+  </description>
+
+  <svn repository="svn_repository1" dir="gump-test"/>
+  
+  <project name="maven1">
+    <maven target="dist" basedir="maven-project1" debug="true"/>        
+    <home nested="maven-project1/target"/>    
+    <jar name="gump-test-maven1-0.1.jar"/>
+  </project>
+  
+  <project name="maven2">
+    <maven target="dist" basedir="maven-project2" debug="true"/>       
+    <home nested="maven-project2/target"/>    
+    <jar name="gump-test-maven2-0.1.jar"/>    
+    <depend project="maven1"/>    
+  </project>
+  
+</module>
+

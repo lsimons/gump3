@@ -27,31 +27,45 @@ from gump import log
 import gump.core.config
 from gump.model.state import *
 from gump.model.loader import WorkspaceLoader
+from gump.build.maven import MavenBuilder
+
 from gump.utils import *
-from gump.test import getWorkedTestWorkspace
+from gump.test import getWorkedTestRun
 from gump.test.pyunit import UnitTestSuite
 
 class MavenTestSuite(UnitTestSuite):
+    """
+    
+        Maven Test suite
+        
+    """
     def __init__(self):
         UnitTestSuite.__init__(self)
         
+      
     def suiteSetUp(self):
         #
-        # Load a decent Workspace
+        # Load a decent Run/Workspace
         #
-        self.workspace=getWorkedTestWorkspace() 
-         
-        self.assertNotNone('Needed a workspace', self.workspace)            
-        self.maven1=self.workspace.getProject('maven1')            
+        self.run=getWorkedTestRun()  
+        self.assertNotNone('Needed a run', self.run)
+        self.workspace=self.run.getWorkspace()          
+        self.assertNotNone('Needed a workspace', self.workspace)
         
+        self.maven1=self.workspace.getProject('maven1')            
+        self.assertNotNone('Needed a maven project', self.maven1)
+        
+        self.mavenBuilder=MavenBuilder(self.run)
         
     def testMavenProperties(self):
                 
-        self.assertTrue('Maven project has a Maven object', self.maven1.hasMaven())
+        self.assertTrue('Maven project has a Maven object', self.maven1.hasMaven())        
+        self.mavenBuilder.generateMavenProperties(self.maven1, 'test/unit-testing-maven.properties')
         
-        self.maven1.generateMavenProperties('test/unit-testing-maven.properties')
-        
-        cmd=self.maven1.getMavenCommand()
+    def testMavenCommand(self):                
+        self.assertTrue('Maven project has a Maven object', self.maven1.hasMaven())        
+  
+        cmd=self.mavenBuilder.getMavenCommand(self.maven1)
         
         # cmd.dump()
         

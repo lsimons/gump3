@@ -153,10 +153,10 @@ class NamedModelObject(ModelObject):
         return hash(self.name)
         
     def __repr__(self):
-        return str(self.__class__)+':'+self.name
+        return str(self)
         
     def __str__(self):
-        return str(self.__class__)+':'+self.name
+        return self.__class__.__name__+':'+self.name
 
     def getName(self):
         return self.name
@@ -165,6 +165,18 @@ class NamedModelObject(ModelObject):
         """ Display the contents of this object """
         output.write(getIndent(indent)+'Name: ' + self.name + '\n')
         ModelObject.dump(self,indent+1,output)
+
+          
+class Positioned:
+    def __init__(self): 
+        self.posn=-1
+        
+    def setPosition(self,posn):
+        self.posn=posn
+
+    def getPosition(self):
+        return self.posn
+
           
 class Resultable:
     def __init__(self): 
@@ -249,7 +261,7 @@ class Resolvable(ModelObject):
         path=None
         if self.xml.nested:
             path=os.path.abspath(	\
-                    os.path.join(	self.owner.getModule().getSourceDirectory(),	\
+                    os.path.join(	self.owner.getModule().getWorkingDirectory(),	\
                                     self.xml.nested))
         elif self.xml.parent:
             path=os.path.abspath(	\

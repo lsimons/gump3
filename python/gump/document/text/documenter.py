@@ -41,41 +41,36 @@ from gump.document.text.resolver import TextResolver
 
 class TextDocumenter(Documenter):
     
-    def __init__(self,output=sys.stdout, dirBase='.', urlBase='.'):
-        Documenter.__init__(self)
-        self.output=output
+    def __init__(self, run, output=sys.stdout, dirBase='.', urlBase='.'):
+        Documenter.__init__(self, run)
         
-        # Hack, ought return a non-hierarchical one
-        self.resolver=TextResolver(dirBase,urlBase)
+        self.output=output        
+        self.setResolver(TextResolver(dirBase,urlBase))
         
-    def getResolverForRun(self,run):
-        return self.resolver
         
-    def documentEntity(self, entity, run):
+    def processModule(self,module):
+        verbose=self.run.getOptions().isVerbose()
+        debug=self.run.getOptions().isDebug()
+        self.documentModule('',module,1,debug,verbose)       
+         
+    def processProject(self,project):
+        verbose=self.run.getOptions().isVerbose()
+        debug=self.run.getOptions().isDebug()
+        self.documentProject('',project,1,debug,verbose)  
         
-        verbose=run.getOptions().isVerbose()
-        debug=run.getOptions().isDebug()
-        
-        if isinstance(entity,Workspace):
-            pass
-        elif isinstance(entity,Module):
-            self.documentModule('',entity,1,debug,verbose)   
-        elif  isinstance(entity,Project):
-            self.documentProject('',entity,1,debug,verbose)        
-    
-    def documentRun(self, run):    
+    def documentRun(self):    
         indent=' '
         
-        workspace = run.getWorkspace()
-        gumpSet = run.getGumpSet()
-        gumpEnv = run.getEnvironment()
+        workspace = self.run.getWorkspace()
+        gumpSet = self.run.getGumpSet()
+        gumpEnv = self.run.getEnvironment()
         
         #
         # 
         #
-        quick=run.getOptions().isQuick()
-        verbose=run.getOptions().isVerbose()
-        debug=run.getOptions().isDebug()
+        quick=self.run.getOptions().isQuick()
+        verbose=self.run.getOptions().isVerbose()
+        debug=self.run.getOptions().isDebug()
         
         #
         # Where to write this.

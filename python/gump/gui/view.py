@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/gui/view.py,v 1.10 2004/04/16 17:28:42 ajack Exp $
-# $Revision: 1.10 $
-# $Date: 2004/04/16 17:28:42 $
+# $Header: /home/stefano/cvs/gump/python/gump/gui/view.py,v 1.11 2004/05/21 23:15:10 ajack Exp $
+# $Revision: 1.11 $
+# $Date: 2004/05/21 23:15:10 $
 #
 # ====================================================================
 #
@@ -82,7 +82,7 @@ from gump.model.module import Module
 from gump.model.project import Project
 from gump.model.workspace import Workspace
 from gump.model.loader import WorkspaceLoader
-from gump.core.engine import GumpEngine
+from gump.core.runner import GumpRunner
 from gump.core.gumprun import GumpSet
 
 ###############################################################################
@@ -656,7 +656,7 @@ class compileThread:
   def Run(self):
     module=Module.list[self.project.module]
 
-    os.chdir(os.path.join(module.srcdir,self.project.ant.basedir or ''))
+    os.chdir(os.path.join(module.workdir,self.project.ant.basedir or ''))
     os.environ['CLASSPATH']=os.pathsep.join(default.classpath+self.project.classpath())
     cmd="java org.apache.tools.ant.Main"
     for property in self.view.workspace.property+self.project.ant.property:

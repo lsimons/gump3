@@ -168,8 +168,6 @@ class UnitTestSuite(Testable):
     
         tests=[]
         results=[]
-        
-        log.setLevel(logging.DEBUG ) 
                 
         # Give a place to work in..
         if not os.path.exists('./test'): os.mkdir('./test')
@@ -208,8 +206,7 @@ class UnitTestSuite(Testable):
             for test in tests:
                 # Call the test...
                 try:
-                    log.info('Perform [' + self.getName() + '::' + \
-                        str(test) + ']')
+                    log.info('Perform [' + self.__class__.__name__+':'+test.__name__ + ']')
                         
                     if hasattr(self,'setUp'):
                         self.setUp()
@@ -220,7 +217,7 @@ class UnitTestSuite(Testable):
                         self.tearDown()
         
                 except Exception, details:
-                    log.error('Failed')    
+                    log.error('Test [' + self.__class__.__name__+':'+test.__name__ + '] Failed', exc_info=1)    
                     
                     # Log the traceback    
                     import traceback
@@ -231,8 +228,8 @@ class UnitTestSuite(Testable):
                     # Record the problem
                     results.append(Problem(self,name,message))
                 
-                # Seems a nice place to clean up...    
-                invokeGarbageCollection()
+                # Seems a nice place to peek/clean-up...    
+                invokeGarbageCollection(self.__class__.__name__+':'+test.__name__)
         
             if hasattr(self,'suiteTearDown'):
                 self.suiteTearDown()
@@ -248,6 +245,11 @@ class TestRunner:
         self.suites.append(suite)
         
     def run(self,args):
+        
+        #log.setLevel(logging.DEBUG ) 
+        log.setLevel(logging.INFO ) 
+        initializeGarbageCollection()
+        
         # Sort to resolve dependency order
         runOrder=createOrderedList(self.suites)
         
@@ -273,6 +275,7 @@ class TestRunner:
         log.info('Performed [' + `testsRun` + '] tests with [' + `len(problems)` + '] issues.')
         
         for problem in problems:
+            log.error('------------------------------------------------------------------------')
             log.error('PROBLEM: ' + str(problem))
             
         if not problems:
@@ -322,8 +325,8 @@ if __name__=='__main__':
     from gump.test.tools import ToolsTestSuite  
     runner.addSuite(ToolsTestSuite())
     
-    from gump.test.nagging import NaggingTestSuite  
-    runner.addSuite(NaggingTestSuite())
+    from gump.test.notifying import NotificationTestSuite  
+    runner.addSuite(NotificationTestSuite())
     
     from gump.test.resulting import ResultingTestSuite  
     runner.addSuite(ResultingTestSuite())
@@ -334,8 +337,8 @@ if __name__=='__main__':
     from gump.test.unicode import UnicodeTestSuite  
     runner.addSuite(UnicodeTestSuite())
     
-    from gump.test.thomas import EngineTestSuite  
-    runner.addSuite(EngineTestSuite())
+    from gump.test.tasks import TasksTestSuite  
+    runner.addSuite(TasksTestSuite())
     
     from gump.test.diagram import DiagramTestSuite  
     runner.addSuite(DiagramTestSuite())

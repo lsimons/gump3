@@ -23,7 +23,7 @@ import types, StringIO
 
 from gump import log
 import gump.core.config
-from gump.output.statsdb import *
+from gump.stats.statsdb import *
 from gump.test import getWorkedTestWorkspace
 from gump.test.pyunit import UnitTestSuite
 
@@ -101,17 +101,17 @@ class StatsTestSuite(UnitTestSuite):
     def testLoadAndUpdateStats(self):
         self.statsDB.loadStatistics(self.workspace)
         
-        # Mark Updated (so we get an updated reading)
-        self.module1.setUpdated(1)
+        # Mark Modified (so we get an Modified reading)
+        self.module1.setModified(1)
         
         self.statsDB.updateStatistics(self.workspace)   
         
-        lastUpdated=self.module1.getLastUpdated()
+        lastModified=self.module1.getLastModified()
         
         # Give some padding.
-        lastUpdated -= (60*60*7)
+        lastModified -= (60*60*7)
         
-        rough=getGeneralDifferenceDescription(default.time, lastUpdated)
+        rough=getGeneralDifferenceDescription(default.time, lastModified)
         self.assertNonZeroString('Date Diff String', rough)
         self.assertNotSubstring('Date Diff String', 'year', rough)        
      

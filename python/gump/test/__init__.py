@@ -23,13 +23,29 @@ from gump.model.loader import WorkspaceLoader
 import gump
 import gump.core.config
 
+from gump.core.gumprun import *
+
 from gump.model.state import *
 from gump.model.rawmodel import XMLWorkspace
 from gump.model.workspace import Workspace
 
-from gump.output.statsdb import StatisticsDB
+from gump.stats.statsdb import StatisticsDB
 from gump.utils.tools import listDirectoryToFileHolder
 from gump.utils.work import *
+
+def getTestRun(workspaceXml=None):
+    workspace=getTestWorkspace(workspaceXml)
+    return GumpRun(workspace,'*',getConfiguredOptions())
+    
+def getWorkedTestRun(workspaceXml=None):
+    workspace=getWorkedTestWorkspace(workspaceXml)
+    return GumpRun(workspace,'*',getConfiguredOptions())
+    
+def getConfiguredOptions():
+    options=GumpRunOptions()
+    from gump.document.xdocs.resolver import XDocResolver
+    options.setResolver(XDocResolver('./test/bogus','http://bogus.org/'))
+    return options
 
 def getTestWorkspace(xml=None):
     if not xml: xml='gump/test/resources/full1/workspace.xml'    
@@ -47,7 +63,7 @@ def getWorkedTestWorkspace(xml=None):
     # Some file items...
     listDirectoryToFileHolder(workspace,workspace.getBaseDirectory())        
     for module in workspace.getModules():        
-        listDirectoryToFileHolder(module,module.getSourceDirectory())
+        listDirectoryToFileHolder(module,module.getWorkingDirectory())
         for project in module.getProjects():
             listDirectoryToFileHolder(project,project.getHomeDirectory())  
 
@@ -74,7 +90,7 @@ def getWorkedTestWorkspace(xml=None):
             module.changeState(STATE_FAILED)
         else:
             if m % 2 == 0:
-                module.setUpdated(1)
+                module.setModified(1)
             module.changeState(STATE_SUCCESS)
         p=0
         for project in module.getProjects(): 
@@ -88,8 +104,6 @@ def getWorkedTestWorkspace(xml=None):
                 project.changeState(STATE_SUCCESS)
 
     return workspace
-    
-
     
 def createTestWorkspace():
     xmlworkspace=XMLWorkspace({})

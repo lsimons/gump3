@@ -9,9 +9,10 @@
 		tab="home">
 
   <work label="Gump">
-    <index label="Workspace" href="index.html"/>
+    <index label="Run" href="index.html"/>
+    <index label="Run Options" href="options.html"/>
     <index label="Environment" href="environment.html"/>
-    <index label="Options" href="options.html"/>
+    <index label="Workspace" href="workspace.html"/>
     <index label="Build Log" href="buildLog.html"/>
     <index label="Notes Log" href="notesLog.html"/>
     <index label="Diffs Log" href="diffsLog.html"/>
@@ -47,7 +48,7 @@
     <index label="by Project #" href="gump_stats/module_projects.html"/>
     <index label="by Depends #" href="gump_stats/module_dependencies.html"/>
     <index label="by Dependees #" href="gump_stats/module_dependees.html"/>
-    <index label="by Updated" href="gump_stats/module_updated.html"/>
+    <index label="by Modified" href="gump_stats/module_modified.html"/>
   </stats>
  
   <stats label="Projects" tab="statistics">

@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/test/model.py,v 1.20 2004/04/16 17:28:35 ajack Exp $
-# $Revision: 1.20 $
+# $Header: /home/stefano/cvs/gump/python/gump/test/model.py,v 1.21 2004/05/21 23:15:00 ajack Exp $
+# $Revision: 1.21 $
 #!/usr/bin/env python
 # Copyright 2003-2004 The Apache Software Foundation
 #
@@ -62,7 +62,7 @@ class ModelTestSuite(UnitTestSuite):
         self.module3=self.workspace.getModule('module3')
         self.module4=self.workspace.getModule('module4')
         self.module5=self.workspace.getModule('module5')
-    
+
         
     def testWorkspace(self):
         self.assertNonZero('Has Log Directory',	\
@@ -240,9 +240,9 @@ class ModelTestSuite(UnitTestSuite):
         #for sysproperty in self.workspace.getSysProperties():
         #    print `sysproperty`
         
-        commandLine=self.project2.getBuildCommand().formatCommandLine()        
-        self.assertInString('Need ant.home', 'ant.home', commandLine)
-        self.assertInString('Need project1.jar', 'project1.jar', commandLine)      
+        #commandLine=self.builder.getBuildCommand(project2).formatCommandLine()        
+        #self.assertInString('Need ant.home', 'ant.home', commandLine)
+        #self.assertInString('Need project1.jar', 'project1.jar', commandLine)      
         
         #print 'Command Line:'
         #print commandLine  
@@ -253,7 +253,7 @@ class ModelTestSuite(UnitTestSuite):
     def testTrackers(self):
         self.assertNotEmpty('Some trackers ought be found', self.workspace.getTrackers())
                         
-    def testNagging(self):
-        self.assertTrue('Ought allow nagging', self.workspace.isNag())
+    def testNotification(self):
+        self.assertTrue('Ought allow notify', self.workspace.isNotify())
         
         

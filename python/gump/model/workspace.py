@@ -85,6 +85,16 @@ class Workspace(NamedModelObject, PropertyContainer, Statable, Resultable):
     def initializeTimes(self):
         # Store timezone
         self.timezone=str(time.tzname)    
+        
+        self.startDateTimeUtc=''
+        self.startDateTime=''
+                                 
+        self.endDateTimeUtc=''
+        self.endDateTime=''
+                
+    # :TODO: Move these to run, like much dynamic stuff on W/S
+
+    def setStartTime(self):                
                 
         # :TODO: Ensure no clock ticks between these two,
         # i.e. make one.
@@ -399,7 +409,7 @@ class Workspace(NamedModelObject, PropertyContainer, Statable, Resultable):
             self.listener.handleEvent(ModelEvent())
         
         #
-        # Check trackers.
+        # Check Trackers.
         #
         for tracker in self.getTrackers(): 
             tracker.check(self)           
@@ -424,13 +434,6 @@ class Workspace(NamedModelObject, PropertyContainer, Statable, Resultable):
             project.complete(self)   
         
             self.listener.handleEvent(ModelEvent())
-        
-        # Check they are complete...
-        for project in self.getProjects():
-            if not project.isPackaged(): continue
-            project.checkPackage()          
-        
-            self.listener.handleEvent(ModelEvent())         
                                                              
         # Complete the properies
         self.completeProperties()
@@ -448,7 +451,6 @@ class Workspace(NamedModelObject, PropertyContainer, Statable, Resultable):
         # Copy over any XML errors/warnings
         transferAnnotations(self.xml, self)  
                 
-        
         self.listener.handleEvent(ModelEvent())
             
         self.setComplete(1)
@@ -560,36 +562,36 @@ class Workspace(NamedModelObject, PropertyContainer, Statable, Resultable):
         for project in self.getProjects():
             project.dump(indent+1,output)
 
-    def isNag(self):
+    def isNotify(self):
         return self.xml.nag
         
-    def hasNagToOverride(self):
-        return self.isNag() and hasattr(self.xml.nag,'to')
+    def hasNotifyToOverride(self):
+        return self.isNotify() and hasattr(self.xml.nag,'to')
         
-    def getNagToOverride(self):
+    def getNotifyToOverride(self):
         return getattr(self.xml.nag,'to')
         
-    def hasNagFromOverride(self):
-        return self.isNag() and hasattr(self.xml.nag,'from')
+    def hasNotifyFromOverride(self):
+        return self.isNotify() and hasattr(self.xml.nag,'from')
         
-    def getNagFromOverride(self):
+    def getNotifyFromOverride(self):
         return getattr(self.xml.nag,'from')
         
-    def getNagOverrides(self):
+    def getNotifyOverrides(self):
           
         #
         # Nag Overrides
         #
-        wsNagToOverrideAddr=None
-        wsNagFromOverrideAddr=None
+        wsNotifyToOverrideAddr=None
+        wsNotifyFromOverrideAddr=None
         
-        if self.hasNagToOverride():
-            wsNagToOverrideAddr=self.getNagToOverride()
+        if self.hasNotifyToOverride():
+            wsNotifyToOverrideAddr=self.getNotifyToOverride()
             
-        if self.hasNagFromOverride():
-            wsNagFromOverrideAddr=self.getNagFromOverride()
+        if self.hasNotifyFromOverride():
+            wsNotifyFromOverrideAddr=self.getNotifyFromOverride()
         
-        return ( wsNagToOverrideAddr, wsNagFromOverrideAddr)
+        return ( wsNotifyToOverrideAddr, wsNotifyFromOverrideAddr)
              
     def getVersion(self):
         return self.xml.version
@@ -617,7 +619,7 @@ class Workspace(NamedModelObject, PropertyContainer, Statable, Resultable):
     def getModuleIterator(self):
         return AlphabeticDictionaryIterator(self.modules)    
         
-    def getCvsDirectory(self):
+    def getSourceControlStagingDirectory(self):
         return self.cvsdir
 
 
@@ -625,15 +627,15 @@ class WorkspaceStatistics(Statistics):
     """Statistics Holder"""
     def __init__(self):
         Statistics.__init__(self,'workspace')    
-        self.lastUpdated=-1        
+        self.lastModified=-1        
         
-    def getLastUpdated(self):
-        return (self.lastUpdated)
+    def getLastModified(self):
+        return (self.lastModified)
         
     def getKeyBase(self):
         return self.name
         
-    def lastUpdatedKey(self):
+    def lastModifiedKey(self):
         return self.getKeyBase() + '-last-updated'
 
     def update(self,module):      
@@ -642,8 +644,8 @@ class WorkspaceStatistics(Statistics):
         #
         # Track code updates/changes
         # 
-        if module.isUpdated():
-            self.lastUpdated=default.time        
+        if module.isModified():
+            self.lastModified=default.time        
             
             
 class ModelEvent(Event):

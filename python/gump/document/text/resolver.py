@@ -30,8 +30,6 @@ from gump import log
 from gump.core.config import *
 from gump.utils import *
 
-from gump.output.statsdb import StatisticsGuru
-from gump.output.xref import XRefGuru
 from gump.utils.work import *
 from gump.utils.file import *
 

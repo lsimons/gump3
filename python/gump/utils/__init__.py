@@ -404,21 +404,43 @@ def logResourceUtilization(message=None): pass
 #    except Exception, details:        
 #        if not os.name == 'dos' and not os.name == 'nt':
 #            log.error("Failed get resource utilization." \
-#                   
-def inspectGarbageCollection():
+#        
+           
+def initializeGarbageCollection():
+    tracked = 0
+    try:
+        import gc
+        enabled = gc.isenabled()
+        threshold = gc.get_threshold()
+        tracked = len(gc.get_objects())
+    
+        log.info('GC: Enabled %s : Tracked %s : Threshold %s' \
+                % (`enabled`, `tracked`,`threshold`))
+                
+        #gc.set_debug(gc.DEBUG_LEAK)
+    except:
+        pass  
+    return tracked    
+           
+def inspectGarbageCollection(marker=''):
     tracked = 0
     try:
         import gc
         tracked = len(gc.get_objects())
-        log.debug('Objects Tracked by GC : ' + `tracked`)
+        message=''
+        if marker:
+            message=' @ '
+            message+=marker
+        log.debug('Objects Tracked by GC %s : %s' \
+                % (message,  `tracked`))
     except:
         pass  
     return tracked
                     
-def invokeGarbageCollection():
+def invokeGarbageCollection(marker=''):
     try:
         # See what GC thinks
-        inspectGarbageCollection()
+        inspectGarbageCollection(marker)
         
         # Perform GC
         import gc        
@@ -426,6 +448,9 @@ def invokeGarbageCollection():
         
         # Curiousity..
         if unreachable:
-            log.debug('Objects Unreachable by GC : ' + `unreachable`)
+            log.warn('Objects Unreachable by GC : ' + `unreachable`)
+                        
+        # See what GC thinks afterwards...
+        # inspectGarbageCollection(marker)
     except:
         pass

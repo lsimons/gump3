@@ -52,7 +52,7 @@ class Property(NamedModelObject):
             if not workspace.hasProject(self.xml.project):
                 responsibleParty.addError('Cannot resolve srcdir of *unknown* [' + self.xml.project + ']')
             else:
-                self.setValue(workspace.getProject(self.xml.project).getModule().getSourceDirectory())
+                self.setValue(workspace.getProject(self.xml.project).getModule().getWorkingDirectory())
                 
         elif self.xml.reference=='jarpath' or self.xml.reference=='jar':            
             if not workspace.hasProject(self.xml.project):
@@ -111,7 +111,7 @@ class Property(NamedModelObject):
                     # Path relative to module's srcdir (doesn't work in workspace)
                     #        
                     self.value=os.path.abspath(os.path.join(	\
-                            relativeProject.getModule().getSourceDirectory(),	\
+                            relativeProject.getModule().getWorkingDirectory(),	\
                             self.xml.path))
             else:
                 responsibleParty.addError('Can\'t have path on property on workspace: ' + \

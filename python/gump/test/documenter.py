@@ -25,39 +25,33 @@ import gump.core.config
 from gump.core.gumprun import GumpRun
 from gump.document.documenter import Documenter
 from gump.document.text.documenter import TextDocumenter
-from gump.document.template.documenter import TemplateDocumenter
-from gump.document.forrest.documenter import ForrestDocumenter
-from gump.output.statsdb import *
-from gump.test import getWorkedTestWorkspace
+from gump.document.xdocs.documenter import XDocDocumenter
+from gump.stats.statsdb import *
+from gump.test import getWorkedTestRun
 from gump.test.pyunit import UnitTestSuite
 
 class DocumenterTestSuite(UnitTestSuite):
     def __init__(self):
         UnitTestSuite.__init__(self)
-        
+          
     def suiteSetUp(self):
         #
-        # Load a decent Workspace
+        # Load a decent Run/Workspace
         #
-        self.workspace=getWorkedTestWorkspace()          
+        self.run=getWorkedTestRun()  
+        self.assertNotNone('Needed a run', self.run)
+        self.workspace=self.run.getWorkspace()          
         self.assertNotNone('Needed a workspace', self.workspace)
-        self.run=GumpRun(self.workspace)
-        
+   
     def testText(self):
         out=StringIO.StringIO()
-        documenter=TextDocumenter(out)
-        documenter.document(self.run)
+        documenter=TextDocumenter(self.run,out)
+        documenter.document()
         out.close()
         
-    def testTemplate(self):
-        out=StringIO.StringIO()
-        documenter=TemplateDocumenter(out)
-        documenter.document(self.run)
-        out.close()
-        
-    def testForrest(self):
-        ftest=os.path.join(dir.test,'forrest')
-        if not os.path.exists(ftest): os.mkdir(ftest)
-        documenter=ForrestDocumenter(ftest,'http://someplace')
-        documenter.document(self.run)
+    def testXDocs(self):
+        xtest=os.path.join(dir.test,'xdocs')
+        if not os.path.exists(xtest): os.mkdir(xtest)
+        documenter=XDocDocumenter(self.run,xtest,'http://someplace')
+        documenter.document()
         
