@@ -110,7 +110,7 @@
     <depend project="jakarta-ant"/>
     <depend project="jakarta-site2" inherit="all"/>
     <home nested="jxpath/dist"/>
-    <jar name="commons-JXPath-@@DATE@@.jar"/>
+    <jar name="commons-jxpath.jar"/>
     <javadoc nested="jxpath/dist/docs/api"/>
 
     <nag to="commons-dev@jakarta.apache.org"
