@@ -1,0 +1,24 @@
+<module name="jetty">
+
+  <url  href="http://jetty.mortbay.org/jetty/index.html"/>
+  <description>
+    Java HTTP Servlet Server
+  </description>
+
+  <cvs repository="sourceforge" host-prefix="cvs.jetty" dir="jetty"
+    module="Jetty"/>
+  
+  <project name="jetty">
+    <package>org.mortbay</package>
+
+    <ant target="jetty1.4.jar"/>
+
+    <depend project="jakarta-ant"/>
+    <depend project="xml-xerces"/>
+    <option project="jmx"/>
+    <work nested="classes"/>
+
+    <jar name="lib/org.mortbay.jetty.jar"/>
+  </project>
+
+</module>

@@ -7,6 +7,6 @@
   <project name="iso-relax">
     <package>org.iso_relax</package>
 
-    <jar name="iso-relax.jar" />
+    <jar name="isorelax.jar" />
   </project>
 </module>

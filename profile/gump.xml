@@ -102,6 +102,7 @@
   <module href="project/iso-relax.xml"/>
   <module href="project/javagroups.xml"/>
   <module href="project/jaxen.xml"/>
+  <module href="project/jetty.xml"/>
   <module href="project/jfor.xml"/>
   <module href="project/jgen.xml"/>
   <module href="project/jrefactory.xml"/>

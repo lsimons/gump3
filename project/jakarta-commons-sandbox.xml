@@ -144,6 +144,7 @@
     <depend project="relaxng"/>
     <depend project="werkz"/>
     <depend project="xml-axis"/>
+    <depend project="jetty"/>
 
     <work nested="jelly/target/classes"/>
     <home nested="jelly/target"/>
