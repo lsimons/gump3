@@ -15,7 +15,7 @@
 #   See the License for the specific language governing permissions and
 #   limitations under the License.
 #
-__revision__  = "$Revision$"
+__revision__  = "$Rev$"
 __date__      = "$Date$"
 __copyright__ = "Copyright (c) 1999-2004 Apache Software Foundation"
 __license__   = "http://www.apache.org/licenses/LICENSE-2.0"
@@ -23,9 +23,10 @@ __license__   = "http://www.apache.org/licenses/LICENSE-2.0"
 """
 
   This is the commandline entrypoint into Python Gump,
-  used *primarily* by nightly cron jobs.
+  for full integrations. See cron/gump.py for the same
+  but used *primarily* by nightly cron jobs.
   
-  It updates Gump (from CVS) to ensure it (itself) is 
+  It updates Gump (from soruce control) to ensure it (itself) is 
   latest, does some environment twiddling, and runs the
   main gump/integration.py. Bit more twiddling with 
   outputs afterwards...
