@@ -1,5 +1,6 @@
 #!/usr/bin/python
 
+
 # Copyright 2003-2004 The Apache Software Foundation
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,14 +15,11 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-
 """
-    This is one commandline entrypoint into gump.
+  This is one commandline entrypoint into Gump.
 
-    The workspace is metadata loaded then various
-    projects are built. No source control updates
-    are performed. 
-
+  It loads the workspace, then updates the specified modules.
+  
 """
 
 import os.path
@@ -32,8 +30,13 @@ import logging
 from gump import log
 from gump.engine import GumpEngine
 from gump.gumprun import GumpRun, GumpRunOptions, GumpSet
-from gump.commandLine import handleArgv
+from gump.utils.commandLine import handleArgv
 from gump.model.loader import WorkspaceLoader
+
+
+###############################################################################
+# Initialize
+###############################################################################
 
 
 ###############################################################################
@@ -47,23 +50,23 @@ if __name__=='__main__':
     (args,options) = handleArgv(sys.argv)
     ws=args[0]
     ps=args[1]
-
+    
     # get parsed workspace definition
-    workspace=WorkspaceLoader().load(ws, options.isCache())    
-        
-    # Ensure we use text, not forrest...
+    workspace=WorkspaceLoader().load(ws, options.isCache()) 
+    
+    # Ensure we use text, not forrest...    
     options.setText(1)
     
     # The Run Details...
     run=GumpRun(workspace,ps,options)
-        
+    
     #
     #    Perform this integration run...
     #
-    result = GumpEngine().performBuild(run)
-    
+    result = GumpEngine().performDebug(run)
+
     #
-    log.info('Gump Build complete. Exit code:' + str(result))
+    log.info('Gump Update complete. Exit code:' + str(result))
           
     # bye!
     sys.exit(result)

@@ -68,16 +68,19 @@ class GumpEngine:
     ###########################################
         
     def performUpdate(self,run):
-        return self.perform(run, GumpTaskList(['update']) )
+        return self.perform(run, GumpTaskList(['update','document']) )
     
     def performBuild(self,run):
-        return self.perform(run, GumpTaskList(['build']) )
+        return self.perform(run, GumpTaskList(['build','document']) )
+    
+    def performDebug(self,run):
+        return self.perform(run, GumpTaskList(['update','build','document']) )
     
     def performIntegrate(self,run):
-        return self.perform(run, GumpTaskList(['update','build','document','syndicate']) )
+        return self.perform(run, GumpTaskList(['update','build','document','outputs','notify']) )
         
     def performCheck(self,run):
-        return self.perform(run, GumpTaskList(['update','check','document','syndicate']) )
+        return self.perform(run, GumpTaskList(['update','check','document']) )
         
     ###########################################
     
@@ -167,15 +170,26 @@ class GumpEngine:
     def update(self, run):        
         logResourceUtilization('Before update')
         
+        
+        #
+        # Doing a full build?
+        #
+        all=not run.getOptions().isQuick()
+        
+        if all:
+            modules=run.getGumpSet().getModuleSequence()
+        else:
+            modules=run.getGumpSet().getModules()
+        
         #
         # Checkout from source code repositories
         #
-        self.updateModules(run)
+        self.updateModules(run,modules)
   
         #
         # Checkout from source code repositories
         #
-        self.syncWorkDirs(run)  
+        self.syncWorkDirs(run,modules)  
   
         # Return an exit code based off success
         # :TODO: Move onto run
@@ -186,15 +200,7 @@ class GumpEngine:
         
         return result
   
-    def updateModules(self, run):
-        return self.performUpdateModules( run, \
-                                run.getGumpSet().getModules())
-        
-    def updateModulesAll(self, run):    
-        return self.performUpdateModules( run, \
-                                run.getGumpSet().getModuleSequence())
-
-    def performUpdateModules(self, run, list):    
+    def updateModules(self, run, list):    
     
         workspace = run.getWorkspace()
         
@@ -269,14 +275,14 @@ class GumpEngine:
                     # Were the contents of the repository modified?                                        
                     module.setUpdated(cmdResult.hasOutput())
                 
-    def syncWorkDirs( self, run ):
+    def syncWorkDirs( self, run,list  ):
         """copy the raw module (project) materials from source to work dir"""
 
         workspace = run.getWorkspace()
 
         log.debug('--- Synchronizing work directories with sources')  
 
-        for module in run.getGumpSet().getModuleSequence():
+        for module in list:
     
             # If no CVS/SVN, nothing to sync   
             if not module.hasCvs() \
@@ -924,13 +930,15 @@ class GumpTask:
         
         
     def bind(self,engine):
-        self.method=getattr(engine,self.name)            
-         
-        if not (isinstance(self.method,types.MethodType) and callable(self.method)): 
-            raise RuntimeError, 'Failed to bind task name [' + self.name + '] to engine [' + `engine` + ']'
+        self.method=getattr(engine,self.name,None)            
+        
+        # For debugging ...        
+        #if not (isinstance(self.method,types.MethodType) and callable(self.method)): 
+        #    raise RuntimeError, 'Failed to bind task name [' + self.name + '] to engine [' + `engine` + ']'
         
     def invoke(self,run):
-        return self.method(run)
+        if self.method:
+            return self.method(run)
                                 
 class GumpTaskList(list):
     
@@ -958,28 +966,45 @@ class GumpTaskList(list):
         # The rules (the bare minimum of what needs
         # to have run, for a task to run w/o crashing).
         #
+        
+        
         if 'preprocess'==name:
+            # Everything needs this ...
             task=GumpTask(name,[])            
         elif 'loadStatistics'==name:
+            # The minimum to load stats onto the tree
             task=GumpTask(name,['preprocess'])  
         elif 'updateStatistics'==name:
-            task=GumpTask(name,['preprocess','gatherResults'])           
+            # Publish results to the statistics database
+            # NB: Not really true to depend upon load, but cleaner..
+            task=GumpTask(name,['preprocess','gatherResults','loadStatistics'])           
         elif 'update'==name:
+            # Update from CVS|SVN repositories
             task=GumpTask(name,['preprocess','loadStatistics'])                    
         elif 'build'==name:
+            # Build using Ant|Maven|...
             task=GumpTask(name,['preprocess','loadStatistics'])             
         elif 'prepareDocumentation'==name:
+            # Prepare documentation (e.g. create forest templates)
             task=GumpTask(name,['preprocess',])   
         elif 'document'==name:
+            # Perform actual documentation
             task=GumpTask(name,['preprocess','loadStatistics','prepareDocumentation','gatherResults'])    
         elif 'notify'==name:
+            # Was once called 'nag'...
             task=GumpTask(name,['preprocess','loadStatistics'])  
         elif 'syndicate'==name:
+            # Syndicate to news feeds
             task=GumpTask(name,['preprocess','loadStatistics'])  
         elif 'gatherResults'==name:
+            # Gather results.xml from other servers 
             task=GumpTask(name,['preprocess'])   
         elif 'generateResults'==name:
+            # Generate the results.xml for this server/workspace
             task=GumpTask(name,['preprocess','loadStatistics'])  
+        elif 'outputs'==name:
+            # Publish the stuff out the door            
+            task=GumpTask(name,['syndicate','generateResults','updateStatistics','notify'])  
         else:
             raise RuntimeError, 'Unknown task name ['+name+']'            
         return task
