@@ -28,7 +28,7 @@
     <description>Commons Encoding/Decoding Package</description>
     <url href="http://jakarta.apache.org/commons/codec/"/>
 
-    <ant basedir="codec" target="dist">
+    <ant target="dist">
       <property name="component.version"  value="@@DATE@@"/>
     </ant>
     <depend project="ant" inherit="runtime"/>
