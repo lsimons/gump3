@@ -159,11 +159,11 @@ class SimpleSvg:
         if content:
             element+='>'
             element+=content 
-            element+='<'
-            element+=type        
-            
-        element+='/>'
-            
+            element+='</'
+            element+=type    
+            element+='>'
+        else:                
+            element+='/>'            
         
         return element
         

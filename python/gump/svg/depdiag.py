@@ -191,8 +191,8 @@ class DependencyDiagram:
                 depNode=self.matrix.getNodeForProject(dependProject)
                 (depRow,depCol) = depNode.getRowCol()                
                 
-                (x,y) = context.realPoint(col,row)
-                (x1,y1) = context.realPoint(depCol,depRow)
+                (x,y) = context.realPoint(col,rows-row)
+                (x1,y1) = context.realPoint(depCol,rows-depRow)
                 
                 print 'VIRTUAL LINE: %s,%s -> %s,%s' % (row,col,depRow,depCol),
                 print 'LINE: %s,%s -> %s,%s' % (x,y,x1,y1)
@@ -205,8 +205,8 @@ class DependencyDiagram:
             project = node.getProject()
             (row,col) = node.getRowCol()    
             
-            (x,y) = context.realPoint(col-0.25,row-0.25)
-            (x1,y1) = context.realPoint(col+0.25,row+0.25)
+            (x,y) = context.realPoint(col-0.25,(rows-row)-0.25)
+            (x1,y1) = context.realPoint(col+0.25,(rows-row)+0.25)
             
             print 'RECTANGLE %s,%s -> %s,%s' % (x,y,x1,y1)
                 
@@ -218,8 +218,7 @@ class DependencyDiagram:
             project = node.getProject()
             (row,col) = node.getRowCol()    
             
-             
-            (x,y) = context.realPoint(col,row)
+            (x,y) = context.realPoint(col,rows-row)
                 
             print 'TEXT %s,%s' % (x,y)
             

@@ -1,4 +1,5 @@
 *.pyc
+*.svg
 *.hap
 *.opt
 cache
@@ -12,5 +13,5 @@ x.txt
 build
 *.log
 bogus
-gumpy.log
+gumpy_log.txt
 gumpy.lock
