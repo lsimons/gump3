@@ -29,11 +29,24 @@
     <option project="jakarta-regexp"/>
     <option project="jakarta-oro"/>
 
-    <ant target="distribution"/>
+    <ant target="dist distribution"/>
 
     <home nested="dist"/>
     <jar  name="lib/ant.jar"/>
     <jar  name="lib/optional.jar"/>
+  </project>
+
+  <project name="test-ant">
+    <depend project="dist-ant"/>
+    <depend project="xml-xerces"/>
+    <option project="xml-xalan2"/>
+    <option project="junit"/>
+    <option project="jakarta-regexp"/>
+    <option project="jakarta-oro"/>
+    <work nested="build/classes"/>
+    <work nested="build/testcases"/>
+
+    <ant target="run-tests"/>
   </project>
 
   <project name="bootstrap-ant">
