@@ -211,7 +211,7 @@ class Ant(Builder):
     	Builder.__init__(self,dom,project)
       
         # Import the target
-        self.target=self.getDomAttributeValue('target','gump')    	    
+        self.target=self.getDomAttributeValue('target') # :TODO: Soon add ..,'gump')    	    
         # Import the buildfile
         self.buildfile=self.getDomAttributeValue('buildfile','build.xml')
     	    
