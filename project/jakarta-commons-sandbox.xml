@@ -8,12 +8,13 @@
 
   <project name="commons-altrmi">
     <description>Commons Email Package</description>
-    <ant basedir="altrmi" target="dist">
-      <property name="component.version"  value="gump"/>
-    </ant>
+    <ant basedir="altrmi" target="dist"/>
     <depend project="jakarta-ant"/>
     <depend project="xml-xerces"/>
-    <jar name="altrmi/dist/commons-altrmi-gump.jar"/>
+    <home nested="altrmi/dist"/>
+    <jar name="commons-altrmi-common.jar"/>
+    <jar name="commons-altrmi-client-interfaces.jar"/>
+    <jar name="commons-altrmi-server-interfaces.jar"/>
     <javadoc nested="altrmi/dist/docs/api"/>
   </project>
 
