@@ -137,11 +137,11 @@ def document(workspace,context,full=None,moduleFilterList=None,projectFilterList
         #documentXRef(workspace,context)
         
     forrest=Cmd('forrest','forrest',dir.docs)
-    forrest.addPrefixedParameter('-D','java.awt.headless','true')
+    forrest.addPrefixedParameter('-D','java.awt.headless','true','=')
     forrest.addPrefixedParameter('-D','project.context',  \
-        getWorkspaceDir(workspace))
+        workspace.logdir, '=')
     forrest.addPrefixedParameter('-D','project.site-dir', \
-        getWorkspaceSiteDir(workspace) ) # :TODO: Fixme
+        getWorkspaceSiteDir(workspace), '=' )
     forrestResult=execute(forrest)
 
     # Update Context    
