@@ -648,7 +648,7 @@ def documentProject(workspace,context,modulename,mdir,projectname,projectcontext
     addItemXDoc(x,"Status: ", stateName(projectcontext.status))  
     if not projectcontext.reason == REASON_UNSET:
         addItemXDoc(x,"Reason: " + reasonString(projectcontext.reason))
-    addItemXDoc(x,"Module: ", getContextLink(projectcontext.parent))
+    addXItemXDoc(x,"Module: ", getContextLink(projectcontext.parent))
     if projectcontext.cause and not projectcontext==projectcontext.cause:
         addItemXDoc(x,"Root Cause: ", getTypedContextLink(projectcontext.cause))
     addItemXDoc(x,"Elapsed: ", str(projectcontext.elapsedSecs()))
@@ -745,11 +745,13 @@ def documentAnnotations(x,annotations):
 def documentWorkList(x,workspace,worklist,description='Work',dir='.'):
     if not worklist: return
     startSectionXDoc(x,description)
+    
     x.write('    <table>\n')
     x.write('      <tr><th>Name</th><th>Type</th><th>State</th><th>Start Time</th><th>Elapsed Time</th></tr>')
     for work in worklist:
         x.write('     <tr><!-- %s -->' % (workTypeName(work.type)))       
-        x.write('      <td><link href=\'%s\'>%s</link></td>' % (getWorkRelativeUrl(work.type,work.command.name),work.command.name))    
+        x.write('      <td><link href=\'%s\'>%s</link></td>' % \
+            (getWorkRelativeUrl(work.type,work.command.name),work.command.name))    
         x.write('      <td>%s</td>' % (workTypeName(work.type))) 
         x.write('      <td>%s</td><td>%s</td><td>%s</td>' \
             % ( stateName(work.status), \
@@ -758,6 +760,32 @@ def documentWorkList(x,workspace,worklist,description='Work',dir='.'):
                 secsToString(work.secs)))    
         x.write('     </tr>')
     x.write('    </table>\n')
+    
+    #
+    # Do a tail on work that failed...
+    #
+    shown=0
+    for work in worklist:
+        if isinstance(work,CommandWorkItem):      
+            if not STATUS_SUCCESS == work.status:
+                tail=work.tail()
+                if tail:
+                    #
+                    # Write the header once only...
+                    #
+                    if not shown:
+                        shown=1
+                        x.write('    <table>\n')
+                    
+                    #
+                    # Write out the 'tail'
+                    #
+                    x.write('<tr><td><strong>Name:</strong> %s</td></tr><tr><td>%s</td></tr>' %
+                            ( workTypeName(work.type), tail ) )
+   
+    if shown:
+        x.write('    </table>\n')
+            
     endSectionXDoc(x)
     
     for work in worklist:

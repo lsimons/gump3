@@ -205,6 +205,9 @@ class CommandWorkItem(TimedWorkItem):
             overview+=self.result.tail(50)
             
         return overview
+        
+    def tail(self,lines=50):
+        return self.result.tail(lines)
             
 class WorkList(list):
     """List of work (in order)"""
