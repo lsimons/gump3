@@ -51,6 +51,9 @@
     <depend project="cornerstone-store-impl" inherit="runtime"/>
     <depend project="commons-net"/>
     <depend project="commons-dbcp"/>
+    <depend project="commons-pool"/>
+    <depend project="commons-lang"/>
+    <depend project="commons-collections"/>
     <depend project="jakarta-oro"/>
     <depend project="town"/>
     <depend project="dnsjava"/>
