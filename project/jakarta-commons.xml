@@ -248,6 +248,27 @@
          from="Stefan Bodewig &lt;bodewig@apache.org&gt;"/>
   </project>
 
+  <project name="commons-jexl">
+    <package>org.apache.commons.jexl</package>
+    <description>Commons Jexl Package</description>
+    <mkdir dir="jexl/target/classes"/>
+    <mkdir dir="jexl/target/test-classes"/>
+    <ant basedir="jexl" target="dist">
+      <property name="final.name"  value="commons-jexl-@@DATE@@"/>
+    </ant>
+    <depend project="jakarta-ant" inherit="runtime"/>
+    <depend project="xml-xerces"/>
+    <depend project="junit"/>
+    <depend project="commons-logging"/>
+    <work nested="jexl/target/classes"/>
+    <work nested="jexl/target/test-classes"/>
+    <jar name="jexl/dist/commons-jexl-@@DATE@@.jar"/>
+    <javadoc nested="jexl/dist/docs/api"/>
+
+    <nag to="commons-dev@jakarta.apache.org"
+         from="Ted Husted &lt;ted@husted.com&gt;"/>
+  </project>
+
   <project name="commons-jxpath">
     <package>org.apache.commons.jxpath</package>
     <description>XPath traversal of JavaBeans</description>
