@@ -436,6 +436,8 @@ def documentWorkspace(workspace,context,db,moduleList=None,projectList=None):
     endTableXDoc(x)
     endSectionXDoc(x)
     
+    footerXDoc(x)
+    endXDoc(x)
    
     #
     # ----------------------------------------------------------------------
@@ -471,8 +473,8 @@ def documentWorkspace(workspace,context,db,moduleList=None,projectList=None):
         endTableXDoc(x)
         endSectionXDoc(x)    
 
-    footerXDoc(x)
-    endXDoc(x)
+        footerXDoc(x)
+        endXDoc(x)
     
     #
     # ----------------------------------------------------------------------
