@@ -118,6 +118,7 @@ public class gen {
                copy.removeAttribute("defined-in");
 	       copyChildren(copy, parent);
 	   } else {
+
 	       parent.replaceChild(copy,node);
 	   }
        }
@@ -153,6 +154,7 @@ public class gen {
 	        String definedIn = parent.getAttribute("defined-in");
                 if (!definedIn.equals(""))
 	            element.setAttribute("defined-in",definedIn);
+
 	        copyChildren(priorDefinition, element);
 	        parent.removeChild(priorDefinition);
 	    }
@@ -177,12 +179,20 @@ public class gen {
 	for (Enumeration e=list.keys(); e.hasMoreElements();) {
 	   Element element = (Element)list.get(e.nextElement());
 	   Element parent  = (Element)element.getParentNode();
+
 	   if (parent != root) {
-	       parent.removeChild(element);
 	       String definedIn = parent.getAttribute("defined-in");
                if (definedIn.equals(""))
 	           definedIn = parent.getAttribute("name");
 	       element.setAttribute("defined-in",definedIn);
+
+               if (parent.getNodeName().equals("module")) {
+                   if (element.getAttributeNode("module") == null) {
+                       element.setAttribute("module",parent.getAttribute("name"));
+                   }
+               }
+
+	       parent.removeChild(element);
 	       root.appendChild(element);
 	   }
 	}
