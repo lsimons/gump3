@@ -384,6 +384,7 @@ public class Project {
             path = javadoc.getAttribute("parent");
             fullpath = Workspace.getBaseDir() + "/" + path;
         }
+        path = moduleName + "/" + path;
 
         // for each description entry, resolve source, url, and dest attrs.
         Node child=javadoc.getFirstChild();
