@@ -14,7 +14,7 @@
     <depend project="jakarta-ant"/>
     <depend project="xml-xerces"/>
 
-    <home nested="dist"/>
+    <home nested="anttasks/dist"/>
     <jar name="lib/cactus-ant.jar"/>
   </project>
 
