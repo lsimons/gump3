@@ -232,9 +232,14 @@
   
   
   <target name="nobuild-projects" description="Create nobuild version of all projects">
-  		<style basedir="project" 
+  		<style  basedir="project"
   			   destdir="project/nobuild"
+  			   
   			   extension=".xml" 
-  			   style="stylesheet/nobuild-projects.xsl"/>
+  			   style="stylesheet/nobuild-projects.xsl">
+  			
+  				<include  name="*.xml" />
+  			
+  		</style>
   </target>
 </project>
