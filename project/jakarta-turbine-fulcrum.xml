@@ -1,54 +1,65 @@
 <module name="jakarta-turbine-fulcrum">
 
-  <url href="http://jakarta.apache.org/turbine/"/>
-  <description>
-    Services Framework
-  </description>
 
+  <description>Services Framework</description>
+  <url href="http://jakarta.apache.org/turbine/fulcrum/"/>
+  
   <cvs repository="jakarta"/>
   
+  <!-- This is really the cvs module. We need to change this but -->
+  <!-- I will leave this for now until everything works.         -->
+  
   <project name="jakarta-turbine-fulcrum">
-    <package>org.apache.fulcrum</package>
-
-    <ant target="dist">
-      <depend property="velocity.jar" project="jakarta-velocity" version="1.2"/>
-      <depend property="log4j.jar" project="jakarta-log4j" version="1.1"/>
-      <depend property="xerces.jar" project="xml-xerces" id="parser" version="1.3.0"/>
-      <depend property="bsf.jar" project="bsf" version="2.2"/>
-      <depend property="servlet.jar" project="jakarta-servletapi-4" version="2.3"/>
-      <depend property="jndi.jar" project="jndi" version="1.2.1"/>
-      <depend property="xalan.jar" project="xml-xalan2" version="2.1.0"/>
-      <depend property="xmlrpc.jar" project="xml-rpc" version="1.0"/>
-      <depend property="stratum.jar" project="jakarta-turbine-stratum"/>
-      <depend property="torque.jar" project="jakarta-turbine-torque" version="1.0"/>
-      <depend property="village.jar" project="village" version="1.5.2"/>
-      <depend property="jdbc.jar" project="jdbc" version="2.0"/>
-      <depend property="javamail.jar" project="javamail" version="1.2"/>
-      <depend property="jaf.jar" project="jaf" version="1.0.1"/>
-      <depend property="commons-collections.jar" project="commons-collections" version="1.0"/>
-      <depend property="commons-lang.jar" project="commons-lang"/>
-      <depend property="commons-codec.jar" project="commons-codec"/>
-      <depend property="commons-fileupload.jar"
-              project="commons-fileupload" />
-      <depend property="commons-util.jar" project="commons-util" version="1.0"/>
-      <depend property="regexp.jar" project="jakarta-regexp" version="1.3-dev"/>
-      <depend property="commons-email.jar" project="commons-email" version="0.1-dev"/>
-      <depend property="torque.jar" project="jakarta-turbine-torque"/>
-
-      <property name="jakarta-site2" reference="home" project="jakarta-site2"/>
+    
+    <!-- Standard Maven target to produce Javadocs, source -->
+    <!-- and binary distributions.                         -->
+    
+    <ant buildfile="build-gump.xml" target="jar">
       <property name="final.name" value="fulcrum-@@DATE@@"/>
-      <property name="deprecation" value="on"/>
     </ant>
+    
+    <!-- All Maven projects need Ant and Xerces to build. -->
+    <depend project="jakarta-ant"/>
+    <depend project="xml-xerces"/>
 
-    <depend project="jakarta-ant" version="1.3"/>
-    <depend project="jdom" version="b6"/>
-    <depend project="jakarta-velocity-dvsl" version="0.3.1" inherit="runtime"/>
+    <depend project="bsf"/>
+    <depend project="commons-collections"/>
+    <depend project="commons-codec"/>
+    <depend project="commons-email"/>
+    <depend project="commons-email"/>
+    <depend project="commons-lang"/>
+    <depend project="commons-pool"/>
+    <depend project="commons-fileupload"/>
+    <depend project="dom4j"/>
+    <depend project="jaf"/>
+    <depend project="jakarta-regexp"/>
+    <depend project="javamail"/>
+    <depend project="jdbc"/>
+    <depend project="jndi"/>
+    <depend project="jakarta-log4j"/>
+    <depend project="jakarta-servletapi"/>
+    <depend project="jakarta-turbine-stratum"/>
+    <depend project="jakarta-turbine-torque"/>
+    <depend project="jakarta-velocity"/>
+    <depend project="jakarta-velocity-dvsl"/>
+    <depend project="village"/>
+    <depend project="xml-xerces"/>
+    <depend project="xml-apis"/>
+    <depend project="xml-rpc"/>
+    <depend project="xml-xalan2"/>
 
-    <home nested="bin"/>
+    <work nested="target/classes"/>
+    <home nested="target"/>
     <jar name="fulcrum-@@DATE@@.jar"/>
-    <javadoc nested="bin/docs/api"/>
+    <javadoc nested="docs/apidocs"/>
+    
+  </project>
+  
+  <!-- Transform the Maven project descriptor into a form -->
+  <!-- that can be digested by Gump.                      -->
+  
+  <project name="jakarta-turbine-fulcrum-gump-descriptor">
+    <ant buildfile="build-maven.xml" target="gump-descriptor"/>
+  </project>
 
-    <nag to="turbine-dev@jakarta.apache.org"
-         from="Jason van Zyl &lt;jvanzyl@apache.org&gt;"/>
-  </project>    
 </module>

@@ -1,0 +1,14 @@
+<module name="jython">
+
+  <url href="http://www.jython.org/"/>
+  <description>
+    Java Python
+  </description>
+
+  <package>org.jython</package>
+
+  <project name="jython">
+    <jar  name="jython.jar"/>
+  </project>
+
+</module>

@@ -1,59 +1,58 @@
 <module name="jakarta-turbine-stratum">
 
-  <url href="http://jakarta.apache.org/turbine/"/>
-  <description>
-    Refactored Turbine Code. This code will eventually be moved to
-    the commons.
-  </description>
 
+  <description>Turbine Components</description>
+  <url href="http://jakarta.apache.org/turbine/stratum/"/>
+  
   <cvs repository="jakarta"/>
   
+  <!-- This is really the cvs module. We need to change this but -->
+  <!-- I will leave this for now until everything works.         -->
+  
   <project name="jakarta-turbine-stratum">
-    <package>org.apache.stratum</package>
-
-    <ant>
-      <depend property="dom4j.jar" project="dom4j" version="1.1"/>
-      <depend property="commons-collections.jar" project="commons-collections"/>
-      <depend property="commons-util.jar" project="commons-util" version="1.0"/>
-      <depend property="commons-beanutils.jar" project="commons-beanutils" version="1.0"/>
-      <depend property="junit.jar" version="3.7" project="junit"/>
-
+    
+    <!-- Standard Maven target to produce Javadocs, source -->
+    <!-- and binary distributions.                         -->
+    
+    <ant buildfile="build-gump.xml" target="jar">
       <property name="final.name" value="stratum-@@DATE@@"/>
-      <property name="deprecation" value="on"/>
     </ant>
-
-    <depend project="jakarta-ant" version="1.3"/>
-    <depend project="commons-lang"/>
-    <depend project="commons-logging" version="1.0"/>
-    <depend project="commons-io"/>
-    <depend project="commons-util"/>
-    <depend project="xml-rpc" version="1.0"/>
-    <depend project="jakarta-log4j" version="1.1.3"/>
-    <depend project="xml-xerces" version="1.3.0"/>
-    <depend project="jakarta-servletapi" version="2.2"/>
-    <depend project="jakarta-tomcat"/>
-    <depend project="jaf" version="1.0.1"/>
-    <depend project="javamail" version="1.2"/>
-    <depend project="dom4j" version="1.1"/>
-    <depend project="jisp"/>
-    <depend project="javagroups"/>
-    <depend project="hsqldb"/>
-    <depend project="concurrent"/>
-
-    <home nested="bin"/>
-    <jar name="stratum-@@DATE@@.jar"/>
-
-    <nag to="turbine-dev@jakarta.apache.org"
-         from="Jason van Zyl &lt;jvanzyl@apache.org&gt;"/>
-  </project>    
-
-  <project name="jakarta-turbine-repo">
-    <mkdir dir="lib.repo"/>
-    <ant target="update-jars">
-      <property name="lib.repo" path="lib.repo"/>
-    </ant>
+    
+    <!-- All Maven projects need Ant and Xerces to build. -->
     <depend project="jakarta-ant"/>
     <depend project="xml-xerces"/>
-    <depend project="jakarta-turbine-tdk"/>
+
+    <depend project="commons-beanutils"/>
+    <depend project="commons-collections"/>
+    <depend project="commons-codec"/>
+    <depend project="commons-io"/>
+    <depend project="commons-lang"/>
+    <depend project="commons-logging"/>
+    <depend project="concurrent"/>
+    <depend project="dom4j"/>
+    <depend project="hsqldb"/>
+    <depend project="jakarta-log4j"/>
+    <depend project="jakarta-servletapi"/>
+    <depend project="jakarta-velocity"/>
+    <depend project="javagroups"/>
+    <depend project="javamail"/>
+    <depend project="jisp"/>
+    <depend project="jakarta-tomcat-util"/>
+    <depend project="jakarta-tomcat"/>
+    <depend project="xml-rpc"/>
+
+    <work nested="target/classes"/>
+    <home nested="target"/>
+    <jar name="stratum-@@DATE@@.jar"/>
+    <javadoc nested="docs/apidocs"/>
+    
   </project>
+  
+  <!-- Transform the Maven project descriptor into a form -->
+  <!-- that can be digested by Gump.                      -->
+  
+  <project name="jakarta-turbine-stratum-gump-descriptor">
+    <ant buildfile="build-maven.xml" target="gump-descriptor"/>
+  </project>
+
 </module>
