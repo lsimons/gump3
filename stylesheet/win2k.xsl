@@ -6,6 +6,9 @@
   <!--                               build                                 -->
   <!-- =================================================================== -->
 
+  <xsl:template match="scorecard">
+  </xsl:template>
+
   <xsl:template match="build">
     <xsl:text>@echo off&#10;</xsl:text>
     <xsl:text>@if "%GUMP_ECHO%" == "on" echo %GUMP_ECHO%&#10;</xsl:text>
@@ -569,7 +572,7 @@
   <!--                             cvs update                              -->
   <!-- =================================================================== -->
 
-  <xsl:template match="cvs">
+  <xsl:template match="cvs[@srcdir]">
     <xsl:text>SET STATUS=SUCCESS&#10;</xsl:text>
 
     <!-- update -->
