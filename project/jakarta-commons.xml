@@ -20,9 +20,45 @@
     <jar name="commons-beanutils.jar" id="beanutils"/>
   </project>
 
-  <project name="commons-cactus">
+  <!-- Build the Cactus project for Servlet API 2.2 -->
+  <project name="commons-cactus-22">
 
-    <url  href="http://jakarta.apache.org/commons/cactus/index.html"/>
+    <url href="http://jakarta.apache.org/commons/cactus/index.html"/>
+    <description>
+      Unit test framework for J2EE server-side java code
+    </description>
+
+    <ant basedir="cactus" buildfile="build/build.xml" target="all">
+      <property name="tomcat.home.33" reference="home"
+                project="jakarta-tomcat"/>
+      <property name="servlet22.jar" reference="jarpath" id="servlet"
+                project="jakarta-servletapi"/>
+      <property name="junit.jar" reference="jarpath" id="junit"
+                project="junit"/>
+      <property name="log4j.jar" reference="jarpath" id="log4j-core"
+                project="jakarta-log4j"/>
+    </ant>
+
+    <depend project="jakarta-ant"/>
+    <depend project="xml-xerces"/>
+    <depend project="jakarta-servletapi"/>
+    <depend project="junit"/>
+    <depend project="xml-stylebook2"/>
+    <depend project="xml-xalan2"/>
+    <depend project="jakarta-log4j"/>
+    <depend project="jakarta-tomcat"/>
+    <work nested="cactus/out/servlet22/classes/"/>
+    <work nested="cactus/out/classes/"/>
+
+    <home nested="cactus/out"/>
+    <jar name="commons-cactus-ant.jar"/>
+    <jar name="servlet22/dist/lib/commons-cactus.jar"/>
+  </project>
+
+  <!-- Build the Cactus project for Servlet API 2.3 -->
+  <project name="commons-cactus-23">
+
+    <url href="http://jakarta.apache.org/commons/cactus/index.html"/>
     <description>
       Unit test framework for J2EE server-side java code
     </description>

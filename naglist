@@ -18,7 +18,13 @@ From: Ted Husted <ted@husted.com>
 Subject: [GUMP] Build Failure - beanutils
 Regex: /BUILD FAILED/
 ------
-Project: commons-cactus
+Project: commons-cactus-22
+To: jakarta-commons@jakarta.apache.org
+From: Ted Husted <ted@husted.com>
+Subject: [GUMP] Build Failure - cactus
+Regex: /BUILD FAILED/
+------
+Project: commons-cactus-23
 To: jakarta-commons@jakarta.apache.org
 From: Ted Husted <ted@husted.com>
 Subject: [GUMP] Build Failure - cactus
