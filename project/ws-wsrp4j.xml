@@ -11,6 +11,8 @@
   <project name="ws-wsrp4j">
     <package>org.apache.ws.wsrp4j</package>
 
+    <mkdir dir="bin/classes"/>
+
     <ant basedir="build" target="all">
       <property name="env.ANT_HOME" reference="home" project="ant"/>
     </ant>
@@ -31,6 +33,7 @@
     <depend project="xml-xerces"/>
 
     <work nested="build/ant/lib/ForeachTask.jar"/>
+    <work nested="bin/classes"/>
 
     <home nested="bin/lib"/>
     <jar name="wsrp4j-consumer-0.3.jar"/>
