@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/model/project.py,v 1.40 2004/02/10 01:31:17 ajack Exp $
-# $Revision: 1.40 $
-# $Date: 2004/02/10 01:31:17 $
+# $Header: /home/stefano/cvs/gump/python/gump/model/project.py,v 1.41 2004/02/10 04:07:24 ajack Exp $
+# $Revision: 1.41 $
+# $Date: 2004/02/10 04:07:24 $
 #
 # ====================================================================
 #
@@ -903,7 +903,7 @@ class Project(NamedModelObject, Statable):
         basedir = script.getBaseDirectory() or self.getBaseDirectory()
 
         # Add .sh  or .bat as appropriate to platform
-        scriptfullname=script.getName()
+        scriptfullname=scriptxml.name
         if not os.name == 'dos' and not os.name == 'nt':
             scriptfullname += '.sh'
         else:
