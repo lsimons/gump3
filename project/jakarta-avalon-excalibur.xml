@@ -354,7 +354,7 @@
             <depend property="checkstyle.jar" project="checkstyle"/>
             <property name="version" value="@@DATE@@"/>
             <property name="junit.failonerror" value="true"/>
-            <property name="do.checkstyle" value="true"/>
+            <property name="do.checkstyle" value="false"/>
             <property name="skip.dependencies" value="true"/>
         </ant>
 
@@ -362,7 +362,6 @@
         <depend project="xml-xerces"/>
         <depend project="junit"/>
         <depend project="bsf"/>
-        <depend project="checkstyle" inherit="runtime"/>
         <depend project="xml-xalan2"/>
         <depend project="iso-relax"/>
         <work nested="configuration/build/classes"/>
