@@ -98,13 +98,15 @@
     <package>org.apache.commons.functor</package>
     <description>Functor: Function Objects</description>
     <url href="http://jakarta.apache.org/commons/sandbox/functor/"/>
+    <mkdir dir="functor/target/classes"/>
+    <mkdir dir="functor/target/tests"/>
     <ant basedir="functor" target="dist">
       <property name="junit.home" reference="home" project="junit"/>
     </ant>
     <depend project="jakarta-ant" inherit="runtime"/>
     <depend project="junit"/>
     <work nested="functor/target/classes"/>
-    <work nested="functor/target/test-classes"/>
+    <work nested="functor/target/tests"/>
     <home nested="functor/target/dist"/>
     <jar name="commons-functor.jar"/>
     <javadoc nested="functor/target/dist/docs/api"/>
