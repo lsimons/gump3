@@ -9,19 +9,24 @@
   
   <project name="bsf">
     <ant target="samples"/>
+
     <depend project="xml-xerces"/>
     <depend project="jakarta-ant"/>
     <work nested="build/classes"/>
+
     <home nested="build"/>
     <jar  name="lib/bsf.jar"/>
   </project>
 
   <project name="dist-bsf">
     <ant target="dist"/>
+
     <depend project="xml-xerces"/>
     <depend project="jakarta-ant"/>
     <depend project="bsf"/>
     <option project="rhino"/>
+
+    <jar  name="lib/bsf.jar"/>
     <javadoc nested="build/javadocs"/>
   </project>
 
