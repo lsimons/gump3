@@ -15,13 +15,14 @@
     <ant target="gump">
       <property name="lib.jce" project="jce" reference="jarpath"/>
       <property name="jce.download.md5"
-        value="38C40AA5C386E3BA5FAC70916BCC5B0D"/>
+        value="85C64CD754719A4BC8DA7E9AA0E113FD"/>
       <property name="jce.download.sha1"
-        value="15F5AF7FC73E4FF5C059F83F47509B9720E129E7"/>
+        value="C1F0E975E8C8E0A0105787B249A50615B485D109"/>
     </ant>
 
     <depend project="jakarta-ant" inherit="runtime"/>
     <depend project="xml-xerces"/>
+    <depend project="jce"/>
     <depend project="xml-xalan2" runtime="true"/>
     <depend project="jakarta-log4j"/>
     <!-- included in JDK 1.4 depend project="jce" runtime="true"/-->
