@@ -14,7 +14,7 @@
     <depend project="xml-xalan2"/>
     <depend project="junit"/>
     <work nested="classes"/>
-    <jar id="xmlunit" name="lib/xmlunit.jar"/>
+    <jar name="lib/xmlunit.jar"/>
   </project>
 
 </module>
