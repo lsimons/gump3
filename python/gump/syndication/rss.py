@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/syndication/rss.py,v 1.6 2003/12/07 17:49:13 ajack Exp $
-# $Revision: 1.6 $
-# $Date: 2003/12/07 17:49:13 $
+# $Header: /home/stefano/cvs/gump/python/gump/syndication/rss.py,v 1.7 2003/12/08 16:34:14 ajack Exp $
+# $Revision: 1.7 $
+# $Date: 2003/12/08 16:34:14 $
 #
 # ====================================================================
 #
@@ -136,7 +136,7 @@ class Item:
         </a><br clear><hr>""") % (self.rssUrl)
         
         # Mandatory Fields
-        self.rssStream.write(('    <title>Gump: %s</title>\n') %(escape(self.title)))
+        self.rssStream.write(('    <title>%s</title>\n') %(escape(self.title)))
         self.rssStream.write(('    <link>%s</link>\n') %(escape(self.link)))
         self.rssStream.write(('    <description>%s%s</description>\n') \
                 %(escape(self.description),escape(tagOn)))

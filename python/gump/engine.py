@@ -216,8 +216,19 @@ class GumpEngine:
       
                 # Update Context w/ Results  
                 if not cmdResult.state==CMD_STATE_SUCCESS:              
-                    log.error('Failed to update module: ' + module.name)        
-                    module.changeState(STATE_FAILED,REASON_UPDATE_FAILED)
+                    log.error('Failed to checkout/update module: ' + module.name)   
+                    if not exists:     
+                        module.changeState(STATE_FAILED,REASON_UPDATE_FAILED)
+                    else:
+                        module.addError('*** Failed to update from source control. Stale contents ***')
+                        
+                        # Black mark for this repository
+                        repository=module.getRepository()
+                        repository.addError('*** Failed to update %s from source control. Stale contents ***'	\
+                                        % module.getName())
+                                        
+                        # Kinda bogus, but better than nowt (for now)
+                        module.changeState(STATE_SUCCESS,REASON_UPDATE_FAILED)
                 else:
                     module.changeState(STATE_SUCCESS)
                     

@@ -5,7 +5,11 @@
   <header>
     
     <title>Gump</title>
-  <authors><person name="Sam Ruby" email="rubys@us.ibm.com"/></authors></header>
+  	<authors>
+  	<person name="Sam Ruby" email="rubys@us.ibm.com"/>
+  	<person name="Adam R. B. Jack" email="ajack@apache.org"/>
+  	</authors>
+  </header>
 
 <body>
 
@@ -28,7 +32,7 @@
       </tr>
       <tr>
         <td>buildfile</td>
-        <td>The ant build file to execute.  Defaults to build.xml.
+        <td>The ant build file to execute.  Defaults to <strong>build.xml</strong>.
         </td>
         <td>No</td>
       </tr>
@@ -37,9 +41,15 @@
         <td>The ant target to invoke.</td>
         <td>No</td>
       </tr>
+      <tr>
+        <td>debug</td>
+        <td>Set to "true" to turn on ant debugging.</td>
+        <td>No</td>
+      </tr>
     </table>
-    <p/>
-
+    
+    <warning>Only Python Gump supports &lt;ant debug=&quot;true&quot;</warning>
+     
     <section><title>property</title>
       <p>Property overrides to be passed to the Ant command</p>
 

@@ -6,12 +6,13 @@
     <title>GOM :  Project</title>
   	<authors>
   		<person name="Sam Ruby" email="rubys@us.ibm.com"/>
+  		<person name="Adam R. B. Jack" email="ajack@apache.org"/>
   	</authors>
   </header>
 
 
 <body>
-  <section><title>project"</title>
+  <section><title>project</title>
     <p>A project is the atomic unit of integration.  It can describe an
     installable package or a buildable product.  The nested elements of
     a project definition fall into three different "groups", each optional:</p>
@@ -63,7 +64,7 @@
       </tr>
     </table>
 
-    <p/>
+    <warning>vm is not currently implemented</warning>
 
     <section><title>ant</title>
       <p>Identifies this project as "buildable", and specifies the

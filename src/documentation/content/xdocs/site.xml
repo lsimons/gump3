@@ -38,6 +38,7 @@
     	<index href="metadata/module.html" label="Module"/>
 	    <index href="metadata/project.html" label="Project"/>
 	    <index href="metadata/ant.html" label="Ant"/>
+	    <index href="metadata/practices.html" label="Good Practices"/>
 	</menu>
 
 	<menu label="Traditional" tab="traditional">

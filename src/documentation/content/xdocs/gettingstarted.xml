@@ -5,7 +5,9 @@
   <header>
     
     <title>Gump: Getting Started</title>
-  <authors><person name="Adam R. B. Jack" email="ajack@apache.org"/></authors></header>
+  <authors>
+  	<person name="Adam R. B. Jack" email="ajack@apache.org"/>
+  </authors></header>
 
 <body>
 

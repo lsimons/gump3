@@ -35,7 +35,7 @@ fi
 #
 # Calculated
 #
-export GUMPY_VERSION="1.0.5"
+export GUMPY_VERSION="1.0.6"
 export GUMP_PYTHON=$GUMP/python
 export GUMP_TMP=$GUMP/tmp
 export GUMP_WS_TMP=$GUMP_WS/tmp
@@ -146,6 +146,14 @@ echo $SEPARATOR >> $GUMP_LOG
 export >> $GUMP_LOG
 # Capture Python Version
 python -V >> $GUMP_LOG 2>&1
+
+#
+#
+#
+cd $GUMP_PYTHON
+echo $SEPARATOR >> $GUMP_LOG
+echo "Clean *.pyc files." >> $GUMP_LOG
+find $GUMP_PYTHON -name '*.pyc' -exec rm {} \;
 
 #
 # Do the integration run

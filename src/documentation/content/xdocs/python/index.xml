@@ -12,11 +12,18 @@
 <body>
   <section><title>Python Gump</title>
   <p>
-    <link href="http://nagoya.apache.org/wiki/apachewiki.cgi?GumpPython">
-    See Background</link>.
+    See the <link href="http://nagoya.apache.org/wiki/apachewiki.cgi?GumpPython">background</link> on why
+    the Python Gump re-write was initiated.
   </p>
-      <section><title>GUI</title>
-      	<p>The Python viewer.</p>
+  
+  <note>
+  	Python Gump has matured to the point it is live, and generating builds. Current activity is
+  	primarily towards maturing the outputs (documentation, syndicated micro-content, etc.) Next
+  	phases are increasing the capabilities of Gump.
+  </note>
+  
+      <section><title>Python GUI</title>
+      	<p>The Python Gump metadata viewer/UI.</p>
       	<p>
       		<img alt="GUI" src="../graphics/view.jpg"/>
       	</p>

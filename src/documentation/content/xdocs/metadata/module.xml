@@ -28,9 +28,14 @@
         <td>Override the <link href="#cvs">cvs</link> tag to be used.</td>
         <td>No</td>
       </tr>
+      <tr>
+        <td>debug</td>
+        <td>Set to "true" to turn on module debugging.</td>
+        <td>No</td>
+      </tr>
     </table>
 
-    <p/>
+    <warning>Only Python Gump supports &lt;module debug=&quot;true&quot;</warning>
 
     <section><title>url</title>
       <p>This is the homepage for the collection of projects contained in
