@@ -1633,9 +1633,12 @@ This page helps Gumpmeisters (and others) observe community progress.
         
         note=''
         if project.wasBuilt():
-            note='Project build output found here...'
+            if project.getreason() == REASON_BUILD_FAILED:
+                warn='Project build output (failure) found here...'
+            else:
+                note='Project build output found here...'
         self.documentWorkList(document,project,'Project-level Work',0,	\
-                note)  
+                note,warn)  
         self.documentServerLinks(document,project)        
             
         # Project Details (main ones)
@@ -2142,7 +2145,7 @@ This page helps Gumpmeisters (and others) observe community progress.
                                 ' (' + '%02.2f' % summary.packagesPercentage + '%)'] )
         
       
-    def documentWorkList(self,xdocNode,workable,description='Work',tailFail=1,note=''):
+    def documentWorkList(self,xdocNode,workable,description='Work',tailFail=1,note='',warn=''):
         worklist=workable.getWorkList()
         
         if not worklist: return
@@ -2151,6 +2154,9 @@ This page helps Gumpmeisters (and others) observe community progress.
         
         if note:
            workSection.createNote(note)
+           
+        if warn:
+           workSection.createWarning(warn)
         
         workTable=workSection.createTable(['Name','State','Start','Elapsed'])
         

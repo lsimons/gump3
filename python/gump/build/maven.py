@@ -95,12 +95,7 @@ class MavenBuilder(AbstractJavaBuilder):
             projpFile=self.locateMavenProjectPropertiesFile(project) 
             if os.path.exists(projpFile):                                                
                 project.addDebug('Maven project properties in: ' + projpFile)                
-                catFileToFileHolder(project, pomFile, FILE_TYPE_CONFIG) 
-            
-            logFile=self.locateMavenLog(project)
-            if os.path.exists(logFile):
-                project.addDebug('Maven Log in: ' + logFile)                
-                catFileToFileHolder(project, logFile, FILE_TYPE_LOG)                                
+                catFileToFileHolder(project, pomFile, FILE_TYPE_CONFIG)                           
   
     #
     # Build an ANT command for this project
@@ -262,11 +257,6 @@ maven.jar.override = on
                         annotatedPath.getPath()))
 
         return propertiesFile
-      
-    def locateMavenLog(self,project):
-        """Return Maven log location"""  
-        basedir = project.maven.getBaseDirectory() or project.getBaseDirectory()
-        return os.path.abspath(os.path.join(basedir,'maven.log'))
       
     def locateMavenProjectPropertiesFile(self,project):
         """Return Maven project properties file location""" 
