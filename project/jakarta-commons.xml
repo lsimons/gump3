@@ -27,6 +27,62 @@
          from="Ted Husted &lt;ted@husted.com&gt;"/>
   </project>
 
+  <project name="commons-betwixt">
+    <package>org.apache.commons.betwixt</package>
+    <description>Commons Betwixt Package</description>
+    <url href="http://jakarta.apache.org/commons/betwixt/"/>
+    
+    <!-- Standard Maven target to produce Javadocs, source -->
+    <!-- and binary distributions.                         -->
+    
+    <ant basedir="betwixt" buildfile="build-gump.xml" target="jar">
+      <property name="maven.final.name" value="commons-betwixt-@@DATE@@"/>
+    </ant>
+    
+    <!-- All Maven projects need Ant and Xerces to build. -->
+    <depend project="jakarta-ant"/>
+    <depend project="xml-xerces"/>
+
+    <depend project="commons-digester"/>
+    <depend project="commons-collections"/>
+    <depend project="commons-beanutils"/>
+    <depend project="commons-logging"/>
+
+    <work nested="target/classes"/>
+    <home nested="target"/>
+    <jar name="betwixt/commons-betwixt-@@DATE@@.jar"/>
+
+    <nag to="commons-dev@jakarta.apache.org"
+         from="James Strachan &lt;jstrachan@apache.org&gt;"/>
+  </project>
+
+  <project name="commons-cli">
+    <package>org.apache.commons.cli</package>
+    <description>Commons CLI Package</description>
+    <url href="http://jakarta.apache.org/commons/cli/"/>
+    
+    <!-- Standard Maven target to produce Javadocs, source -->
+    <!-- and binary distributions.                         -->
+    
+    <ant basedir="cli" buildfile="build-gump.xml" target="jar">
+      <property name="maven.final.name" value="commons-cli-@@DATE@@"/>
+    </ant>
+    
+    <!-- All Maven projects need Ant and Xerces to build. -->
+    <depend project="jakarta-ant"/>
+    <depend project="xml-xerces"/>
+
+    <depend project="commons-logging"/>
+
+    <work nested="target/classes"/>
+    <home nested="cli/target"/>
+    <jar name="commons-cli-@@DATE@@.jar"/>
+    <javadoc nested="cli/docs/apidocs"/>
+
+    <nag to="commons-dev@jakarta.apache.org"
+         from="James Strachan &lt;jstrachan@apache.org&gt;"/>
+  </project>
+
   <project name="commons-collections">
     <package>org.apache.commons.collections</package>
     <description>Collections</description>
