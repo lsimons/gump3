@@ -20,7 +20,7 @@
   <depend project="jakarta-log4j"/>
 
   <home nested="bin"/>
-  <jar  name="velocity-1.0b2-dev.jar"/>
+  <jar  name="velocity-1.0b3-dev.jar"/>
 
   <project name="jakarta-velocity-test">
     <ant basedir="build" buildfile="testcases.xml"/>

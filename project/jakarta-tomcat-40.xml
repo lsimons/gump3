@@ -41,6 +41,7 @@
   <option project="jakarta-avalon"/>
   <option project="jakarta-avalon-phoenix"/>
 
-  <home nested="build"/>
+  <home nested="dist"/>
+  <jar name="bin/bootstrap.jar"/>
   <jar name="server/lib/catalina.jar"/>
 </project>

@@ -7,7 +7,8 @@
 
   <cvs repository="j2eeunit"/>
 
-  <ant basedir="build" target="all">
+  <ant basedir="build" target="jar">
+    <property name="tomcat.home.40" reference="homepath"/>
     <property name="servlet23.jar" reference="jarpath" id="servlet"
               project="jakarta-servletapi-4"/>
   </ant>
@@ -18,6 +19,7 @@
   <depend project="junit"/>
   <depend project="xml-stylebook2"/>
   <depend project="xml-xalan2"/>
+  <depend project="jakarta-tomcat-4.0"/>
   <work nested="out/servlet23/classes/"/>
 
 </project>
