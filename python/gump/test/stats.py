@@ -23,7 +23,8 @@ import types, StringIO
 
 from gump import log
 import gump.core.config
-from gump.stats.statsdb import *
+from gump.stats.dbm.statsdb import StatisticsDB
+from gump.stats.statistician import Statistician
 from gump.utils import *
 from gump.utils.timing import *
 from gump.test import getWorkedTestRun
@@ -42,12 +43,12 @@ class StatsTestSuite(UnitTestSuite):
         self.workspace=self.run.getWorkspace()          
         self.assertNotNone('Needed a workspace', self.workspace)
         
-        
         self.repo1=self.workspace.getRepository('repository1')                  
         self.project1=self.workspace.getProject('project1')        
         self.module1=self.workspace.getModule('module1')
     
-        self.statsDB=StatisticsDB(dir.test,'test.db')
+        self.statsDB=StatisticsDB(gump.core.config.dir.test,'test.db')
+        self.stats=Statistician(self.run,self.statsDB)
         
     def testGetStats(self):
         self.statsDB.getProjectStats(self.project1.getName())
@@ -104,17 +105,17 @@ class StatsTestSuite(UnitTestSuite):
         self.statsDB.sync()
         
     def testLoadAndUpdateStats(self):
-        self.statsDB.loadStatistics(self.workspace)
+        self.stats.loadStatistics()
         
         # Mark Modified (so we get an Modified reading)
-        self.module1.setModified(1)
+        self.module1.setModified(True)
         
-        self.statsDB.updateStatistics(self.workspace)   
+        self.stats.updateStatistics()   
         
         lastModified=self.module1.getLastModified()
         
         # Give some padding.
-        lastModified -= (60*60*7)
+        lastModified -= datetime.timedelta(seconds=60*60*7)
         
         rough=getGeneralDifferenceDescription(default.datetime, lastModified)
         self.assertNonZeroString('Date Diff String', rough)

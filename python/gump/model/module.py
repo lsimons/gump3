@@ -361,9 +361,14 @@ class Module(NamedModelObject, Statable, Resultable, Positioned):
         # Must be one to be all
         if not packageCount: allPackaged=False
     
+        log.debug('Packaged? ' + `self` + ':' + `packageCount`)
+            
         # Give this module a second try,  if some are packaged, and
         # check if the others have no outputs, then call them good.
         if packageCount and not allPackaged:
+            
+            log.debug('Packaged? ' + `self` + ':' + `packageCount`)
+        
             allPackaged=True
             for project in self.getProjects():
                 if not project.isPackaged():
@@ -391,7 +396,6 @@ class Module(NamedModelObject, Statable, Resultable, Positioned):
             self.addInfo("\'Packaged\' Module. (Packaged projects: " + \
                                     `packageCount` + '.)')                                            
 
-    
         # Determine source directory
         self.absWorkingDir=	\
                 os.path.abspath(
@@ -495,7 +499,7 @@ class Module(NamedModelObject, Statable, Resultable, Positioned):
         # Copy over any XML errors/warnings
         # :TODO:#1: transferAnnotations(self.xml, self)  
                 
-        self.setComplete(1)            
+        self.setComplete(True)            
         
     def hasNotifys(self):
         if self.notifys: return True
@@ -657,6 +661,8 @@ class Module(NamedModelObject, Statable, Resultable, Positioned):
     def dump(self, indent=0, output=sys.stdout):
         output.write(getIndent(indent)+'Module : ' + self.name + '\n')
         NamedModelObject.dump(self, indent+1, output)
+        if self.isPackaged():
+            output.write(getIndent(indent+1)+'Packaged Module\n')
         
     def hasTag(self):
         if self.tag: return True

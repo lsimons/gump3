@@ -389,7 +389,7 @@ class gumpview(wxApp):
     for build in self.build_sequence:
       row=self.dependencies.InsertStringItem(i,build.getName())
       self.dependencies.SetItemData(row,i)
-      for jar in build.getJars():
+      for jar in build.getOutputs():
         if jar.path and not os.path.exists(jar.getPath()):
           self.dependencies.SetItemBackgroundColour(row,wxRED)
       i+=1

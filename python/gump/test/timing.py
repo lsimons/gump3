@@ -101,7 +101,7 @@ class TimingTestSuite(UnitTestSuite):
         range2.setExternal(False)
         set.registerRange(range2)
         
-        set.dump()
+        #set.dump()
         set.getTotalTimes()
         
         self.assertGreater('Time passes', range1.getStart(), range1.getEnd())        

@@ -223,7 +223,6 @@ class XDocResolver(Resolver):
     def getDirectoryRelativePath(self,object):
         return getPathForObject(object)
 
-        
     def getFileSpec(self,object,documentName=None,extn=None,rawContent=False):
         # Could be configured for .html (XHTML) or .xml (XDOCS)
         if not extn:

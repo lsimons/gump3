@@ -106,7 +106,7 @@ class LanguageTestSuite(UnitTestSuite):
                 
         (classpath,bootclasspath)=self.java.getClasspathObjects(self.project3)
         
-        for pathPart in classpath.getSimpleClasspathList():
+        for pathPart in classpath.getSimplePathList():
             #print "pathPart:" + `pathPart`
             self.assertNotSubstring('Ought not get output2.jar from project2',	\
                     'output2.jar',	\
@@ -124,7 +124,7 @@ class LanguageTestSuite(UnitTestSuite):
         (classpath,bootclasspath)=self.java.getClasspathObjects(self.project3)
         
         found=0
-        for pathPart in classpath.getSimpleClasspathList():
+        for pathPart in classpath.getSimplePathList():
             if not -1 == pathPart.find('output1.jar'):
                 found=1
             

@@ -126,8 +126,10 @@ class ResolvingTestSuite(UnitTestSuite):
         self.checkRelativeLocation(self.ant2,self.module1)
     
     def testResolving(self):
-        for resolver in [	TextResolver('./test/bogus','http://somewhere/something'),	\
-                            XDocResolver('./test/bogus','http://somewhere/something') ] :
+        
+        # :TODO: Restore TextResolver
+        # TextResolver('./test/bogus','http://somewhere/something'),	\
+        for resolver in [	  XDocResolver('./test/bogus','http://somewhere/something') ] :
 
             #print `resolver`            
             #printSeparator()

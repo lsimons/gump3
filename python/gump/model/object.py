@@ -265,6 +265,7 @@ class ModelObject(Annotatable,Workable,FileHolder,Propogatable,Ownable):
     def splice(self,dom): 
         if self.isComplete():
             raise RuntimeError, "Can't splice a completed entity: " + `self`
+        # log.debug("Splice: " + `dom`) 
         spliceDom(self.element,dom)
         self.setSpliced(True) 
                             	

@@ -183,13 +183,14 @@ class Resulter(AbstractRunActor):
         workspaceResults = WorkspaceResult(self.workspace.getName())
         
         # :TODO: Find nicer way to transfer (or just reference)
-        workspaceResults.startDateTime=self.run.getStartDateTime()
-        workspaceResults.startDateTimeUtc=self.run.getStartDateTimeUtc()
-        workspaceResults.endDateTime=self.run.getEndDateTime()
-        workspaceResults.endDateTimeUtc=self.run.getEndDateTimeUtc()
+        workspaceResults.startDateTime=self.run.getStart().getLocal()
+        workspaceResults.startDateTimeUtc=self.run.getStart().getUtc()
+        workspaceResults.endDateTime=self.run.getEnd().getLocal()
+        workspaceResults.endDateTimeUtc=self.run.getEnd().getUtc()
         
-        workspaceResults.timezone=self.run.getEnvironment().getTimezone()
-        workspaceResults.timezoneOffset=self.run.getEnvironment().getTimezoneOffset()
+        # Take just one string for each.
+        (workspaceResults.timezone, dst)=self.run.getEnvironment().getTimezone()
+        workspaceResults.timezoneOffset=`self.run.getEnvironment().getTimezoneOffset()`
     
         # For all modules...
         for module in self.workspace.getModules():        

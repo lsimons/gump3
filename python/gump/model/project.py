@@ -699,17 +699,17 @@ class Project(NamedModelObject, Statable, Resultable, Dependable, Positioned):
         for work in self.works:
             work.dump(indent+1,output)
             
-        for jar in self.getJars():
-            jar.dump(indent+1,output)
+        for out in self.getOutputs():
+            out.dump(indent+1,output)
             
     def getAnnotatedOutputsList(self): 
         """
         Return a list of the outputs this project generates
         """
         outputs=[]
-        for jar in self.getJars():
-            jarpath=jar.getPath()
-            outputs.append(gump.language.path.AnnotatedPath(jar.getId(),jarpath,self,None,"Project output"))                    
+        for output in self.getOutputs():
+            path=output.getPath()
+            outputs.append(gump.language.path.AnnotatedPath(output.getId(),path,self,None,"Project output"))                    
         return outputs
                         
     def setLanguageTypeFromString(self,lang=None):

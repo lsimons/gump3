@@ -92,8 +92,8 @@ class ArtifactsTestSuite(UnitTestSuite):
         
         (dated, latest)=self.repo.extractGroup('test')
         
-        import pprint
-        pprint.pprint(dated)
+        #import pprint
+        #pprint.pprint(dated)
         
         self.assertNotNone('Extracted something', dated)
         self.assertEqual('Extracted correct groups', len(dated.keys()), 3)

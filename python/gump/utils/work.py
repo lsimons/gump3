@@ -89,8 +89,8 @@ class TimedWorkItem(WorkItem):
     def __init__(self,name,type,state,start,end,message=''):
         WorkItem.__init__(self,name,type,state,message)
         self.timerange=TimeStampRange(name,
-                                TimeStamp('Start of ' + name, start),
-                                TimeStamp('End of ' + name,   end),
+                                start,
+                                end,
                                 True)
                                 
         # Proxy some methods...

@@ -64,5 +64,5 @@ class NAntTestSuite(UnitTestSuite):
   
         cmd=self.nantBuilder.getNAntCommand(self.nant1,self.csharpHelper)
         
-        cmd.dump()
+        #cmd.dump()
         

@@ -16,7 +16,9 @@
 # limitations under the License.
 
 """
-    This module contains file (dir/plain) references
+
+    This module contains file (dir/plain) references.
+    
 """
 
 import sys
@@ -224,7 +226,9 @@ def getGeneralDifferenceDescription(newer,older):
     
 class TimeStamp: 
     """
+    
     A simple timestamp (a wrapper around datetime.datetime)
+    
     """
     def __init__(self,name,stamp=None):
         self.name=name               
@@ -245,6 +249,9 @@ class TimeStamp:
         self.local=self.timestamp.strftime(setting.DATETIME_PRESENTATION_FORMAT)
         return self.local
     
+    def setTimestamp(self,timestamp):
+        self.timestamp=timestamp
+        
     def getTimestamp(self):
         return self.timestamp
      
@@ -258,21 +265,22 @@ class TimeStamp:
     def __cmp__(self,other):
         return (self.timestamp < other.timestamp)
         
-class TimeStampRange:       
+class TimeStampRange(TimeStamp):       
     """
-    A set of two TimeStamps (start -> end)
+    
+    A set of two TimeStamps (start -> end), but which is also
+    a single TimeStamp (= start)
+    
+    The 'external' flag means if the time was spent "outside" gump,
+    e.g. in CVS or similar.
+    
     """
     def __init__(self,name,start=None,end=None,external=False):
         
-        self.name=name
+        TimeStamp.__init__(self,name,start)
         
-        if not start:
-            start=TimeStamp(name)
-        self.startTimeStamp=start
-          
-        if not end: end=start
-        self.endTimeStamp=end
-        
+        if not end: end=self.getTimestamp()
+        self.endTimeStamp=TimeStamp(end)
         self.external=external
     
     def __nonzero__(self):
@@ -288,11 +296,10 @@ class TimeStampRange:
         self.endTimeStamp=end
         
     def hasStart(self):
-        if self.startTimeStamp: return True
-        return False
+        return self.hasTimestamp()
         
     def getStart(self):
-        return self.startTimeStamp
+        return self
          
     def getEnd(self):
         return self.endTimeStamp
@@ -305,7 +312,7 @@ class TimeStampRange:
         return self.hasStart() and self.hasEnd()
         
     def getElapsedSecs(self):
-        return deltaToSecs(self.endTimeStamp.getTimestamp() - self.startTimeStamp.getTimestamp())
+        return deltaToSecs(self.endTimeStamp.getTimestamp() - self.getTimestamp())
         
     def getElapsedTimeString(self):
         return secsToElapsedTimeString(self.getElapsedSecs()) 

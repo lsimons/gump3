@@ -228,13 +228,14 @@ class ModelLoader:
                 if parent:
                     parentObject=parent.getResult().getObject()
                 
-                # Allow context instantiation, or we are root
+                # Allow context-sensetive instantiation, or we are root
                 if parentObject:
                     object=parentObject.getObjectForTag(element.tagName,dom,name)
                     
                     log.debug("Used parent: %s to get %s for <%s %s" %(`parentObject`,`object`,
                                 `element.tagName`,`name`))  
                 else:
+                    # Just construct
                     if name: object=cls(name,dom)
                     else:    object.cls(dom)
                     rootObject=object

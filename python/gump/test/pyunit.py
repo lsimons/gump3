@@ -34,6 +34,10 @@ class Testable:
         pass
         
     def raiseIssue(self, stuff):
+        """
+        Raise an issue (with a message and objects)
+        :TODO: Look at Python varargs
+        """
         message=''
         for s in stuff:
             message += '['
@@ -253,8 +257,8 @@ class TestRunner:
         
     def run(self,args):
         
-        log.setLevel(logging.DEBUG ) 
-        #log.setLevel(logging.INFO ) 
+        #log.setLevel(logging.DEBUG ) 
+        log.setLevel(logging.INFO ) 
         initializeGarbageCollection()
         
         # Sort to resolve dependency order
