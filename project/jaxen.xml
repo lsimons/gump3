@@ -19,7 +19,8 @@
   <description>Universal Java XPath Engine</description>
   <url href="http://jaxen.org/">
   </url>
-  <cvs module="jaxen" repository="codehaus" dir="jaxen">
+  <cvs module="jaxen" repository="codehaus" dir="jaxen"
+       host-prefix="cvs.jaxen">
   </cvs>
   
   <project name="jaxen-from-packaged-dom4j">
