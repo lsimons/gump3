@@ -1,7 +1,7 @@
 
 #!/bin/bash
 #
-# $Header: /home/cvspublic/jakarta-gump/gump.sh,v 1.8 2003/06/26 06:39:55 nickchalko Exp $
+# $Header: /home/cvs/jakarta-gump/gump.sh,v 1.9 2003/07/19 21:55:19 nickchalko Exp $
 
 if [ -e local-env.sh ] ; then
 	. local-env.sh
@@ -93,19 +93,25 @@ cd $GUMP
 cvs -q update -dP >> $GUMP_LOG 2>&1 
 rm -f .timestamp
 
-#
-# generate nobuild projects
-#
-cd $GUMP
-echo $SEPARATOR >> $GUMP_LOG
-ant nobuild-projects >> $GUMP_LOG 2>&1
+export ANT=`which ant 2>/dev/null`
+if [ -n "$ANT" ] ; then
+	#
+	# generate nobuild projects
+	#
+	cd $GUMP
+	echo $SEPARATOR >> $GUMP_LOG
+	$ANT -Dworkspace=${GUMP_WORKSPACE}.xml nobuild-projects >> $GUMP_LOG 2>&1
+	
+	#
+	# Check the projects
+	#
+	cd $GUMP
+	echo $SEPARATOR >> $GUMP_LOG
+	$ANT -Dworkspace=${GUMP_WORKSPACE}.xml check >> $GUMP_LOG 2>&1
+else
+	echo "Ant was not found in the environment, steps skipped." >> $GUMP_LOG
+fi
 
-#
-# Check the projects
-#
-cd $GUMP
-echo $SEPARATOR >> $GUMP_LOG
-ant check >> $GUMP_LOG 2>&1
 
 #
 # Do a gen
@@ -113,7 +119,12 @@ ant check >> $GUMP_LOG 2>&1
 cd $GUMP
 echo $SEPARATOR >> $GUMP_LOG
 bash gen.sh ${GUMP_WORKSPACE}.xml >> $GUMP_LOG 2>&1 
+if [ $? -ge 1 ] ; then
+	echo "Gump failed in generation, can't continue."
+	exit 1
+fi
 echo >> $GUMP_LOG
+
 
 #
 # Do a clean
@@ -146,6 +157,28 @@ echo \</XMP\> >> $GUMP_LOG
 pkill -P $$ 
 
 # $Log: gump.sh,v $
+# Revision 1.9  2003/07/19 21:55:19  nickchalko
+# Added GUMP_WORKSPACE variable
+# PR:
+# Obtained from:
+# Submitted by:	Adam Jack ajack@trysybase.com
+# Reviewed by:	
+# CVS: ----------------------------------------------------------------------
+# CVS: PR:
+# CVS:   If this change addresses a PR in the problem report tracking
+# CVS:   database, then enter the PR number(s) here.
+# CVS: Obtained from:
+# CVS:   If this change has been taken from another system, such as NCSA,
+# CVS:   then name the system in this line, otherwise delete it.
+# CVS: Submitted by:
+# CVS:   If this code has been contributed to Apache by someone else; i.e.,
+# CVS:   they sent us a patch or a new module, then include their name/email
+# CVS:   address here. If this is your work then delete this line.
+# CVS: Reviewed by:
+# CVS:   If we are doing pre-commit code reviews and someone else has
+# CVS:   reviewed your changes, include their name(s) here.
+# CVS:   If you have not had it reviewed then delete this line.
+#
 # Revision 1.8  2003/06/26 06:39:55  nickchalko
 # Add ant nobuild-project to the gump sequence.
 
