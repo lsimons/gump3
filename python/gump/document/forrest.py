@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/forrest.py,v 1.97 2004/03/09 19:57:06 ajack Exp $
-# $Revision: 1.97 $f
-# $Date: 2004/03/09 19:57:06 $
+# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/forrest.py,v 1.98 2004/03/09 20:31:02 ajack Exp $
+# $Revision: 1.98 $f
+# $Date: 2004/03/09 20:31:02 $
 #
 # ====================================================================
 #
@@ -1217,10 +1217,11 @@ class ForrestDocumenter(Documenter):
         depees += self.documentDependenciesList(dependencySection, "Project Dependees",		\
                     project.getDirectDependees(), 1, project)
                     
-        depens += self.documentDependenciesList(dependencySection, "Full Project Dependencies",	\
+        if project.isVerboseOrDebug():
+            self.documentDependenciesList(dependencySection, "Full Project Dependencies",	\
                     project.getFullDependencies(), 0, project)
                                                 
-        depees += self.documentDependenciesList(dependencySection, "Full Project Dependees",		\
+            self.documentDependenciesList(dependencySection, "Full Project Dependees",		\
                     project.getFullDependees(), 1, project)
         
         deps = depees + depens
