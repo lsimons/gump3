@@ -11,7 +11,6 @@
     <ant/>
     <depend project="jakarta-ant"/>
     <depend project="xml-xerces"/>
-    <depend project="jakarta-avalon-testlet"/>
     <option project="jakarta-servletapi-4"/>
     <depend project="jdbc"/>
     <depend project="jms"/>
@@ -26,7 +25,6 @@
     <depend project="jakarta-avalon-exceptionutil"/>
     <depend project="xml-xerces"/>
     <depend project="jakarta-avalon"/>
-    <depend project="jakarta-avalon-testlet"/>
     <option project="jakarta-servletapi-4"/>
     <depend project="xml-stylebook2"/>
     <depend project="xml-xalan2"/>

@@ -12,7 +12,6 @@
       <depend property="xerces.jar"    project="xml-xerces"/>
       <depend property="framework.jar" project="jakarta-avalon"/>
       <depend property="logkit.jar"    project="jakarta-avalon-logkit"/>
-      <depend property="testlet.jar"   project="jakarta-avalon-testlet"/>
     </ant>
 
     <depend project="jakarta-ant"/>

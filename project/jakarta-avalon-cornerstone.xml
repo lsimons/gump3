@@ -13,7 +13,6 @@
       <depend property="logkit.jar" project="jakarta-avalon-logkit"/>
       <depend property="avalon-framework.jar" project="jakarta-avalon"/>
       <depend property="phoenix-client.jar" project="jakarta-avalon-phoenix"/>
-      <depend property="testlet.jar" project="jakarta-avalon-testlet"/>
       <depend property="avalon-excalibur.jar" 
         project="jakarta-avalon-excalibur" id="avalon-excalibur"/>
       <depend property="avalon-scratchpad.jar" 
