@@ -22,23 +22,9 @@
   <project name="jts"            home="C:\jts1_0"/>
   <project name="tranquilo"      home="C:\xsdlib-20010424"/>
 
-  <cvs-repository>
-    <tree name="bsf"
-      root=":pserver:bsfadmin@oss.software.ibm.com:/usr/cvs/bsf"/>
+  <!-- CVS Repository overrides -->
 
-    <tree name="jakarta" root=":ext:rubys@cvs.apache.org:/home/cvs"/>
-
-    <tree name="jdom" root=":pserver:anonymous@cvs.jdom.org:/home/cvspublic"/>
-
-    <tree name="mozilla"
-      root=":pserver:anonymous@cvs-mirror.mozilla.org:/cvsroot"/>
-
-    <tree name="tigris" root=":pserver:guest@cvs.tigris.org:/cvs"/>
-
-    <tree name="whichever"
-      root=":pserver:anoncvs@share.whichever.com:/home/cvspublic"/>
-
-    <tree name="xml" root=":ext:rubys@cvs.apache.org:/home/cvs"/>
-  </cvs-repository>
+  <repository name="jakarta" method="ext" user="rubys" path="/home/cvs"/>
+  <repository name="xml" method="ext" user="rubys" path="/home/cvs"/>
 
 </workspace>

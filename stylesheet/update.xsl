@@ -132,19 +132,47 @@
       <xsl:variable name="host-prefix" select="@host-prefix"/>
 
       <xsl:attribute name="repository">
-        <xsl:for-each select="//repository[@name=$repository]/root">
+        <xsl:for-each select="//repository[@name=$repository]">
 	  <xsl:text>:</xsl:text>
-          <xsl:value-of select="method"/>
+          <xsl:choose>
+            <xsl:when test="@method">
+              <xsl:value-of select="@method"/>
+            </xsl:when>
+            <xsl:otherwise>
+              <xsl:value-of select="root/method"/>
+            </xsl:otherwise>
+          </xsl:choose>
 	  <xsl:text>:</xsl:text>
-          <xsl:value-of select="user"/>
+          <xsl:choose>
+            <xsl:when test="@user">
+              <xsl:value-of select="@user"/>
+            </xsl:when>
+            <xsl:otherwise>
+              <xsl:value-of select="root/user"/>
+            </xsl:otherwise>
+          </xsl:choose>
 	  <xsl:text>@</xsl:text>
           <xsl:if test="$host-prefix">
             <xsl:value-of select="$host-prefix"/>
             <xsl:text>.</xsl:text>
           </xsl:if>
-          <xsl:value-of select="hostname"/>
+          <xsl:choose>
+            <xsl:when test="@hostname">
+              <xsl:value-of select="@hostname"/>
+            </xsl:when>
+            <xsl:otherwise>
+              <xsl:value-of select="root/hostname"/>
+            </xsl:otherwise>
+          </xsl:choose>
 	  <xsl:text>:</xsl:text>
-          <xsl:value-of select="path"/>
+          <xsl:choose>
+            <xsl:when test="@path">
+              <xsl:value-of select="@path"/>
+            </xsl:when>
+            <xsl:otherwise>
+              <xsl:value-of select="root/path"/>
+            </xsl:otherwise>
+          </xsl:choose>
           <xsl:if test="$dir">
             <xsl:text>/</xsl:text>
             <xsl:value-of select="$dir"/>

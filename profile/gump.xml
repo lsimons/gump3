@@ -95,10 +95,16 @@
   <project href="project/jts.xml"/>
   <project href="project/tranquilo.xml"/>
 
-  <!-- CVS Repository overrides -->
+  <!-- CVS Repository definitions -->
+  <repository href="repository/dbxml.xml"/>
   <repository href="repository/devworks.xml"/>
   <repository href="repository/exolab.xml"/>
-  <repository href="repository/dbxml.xml"/>
+  <repository href="repository/jakarta.xml"/>
+  <repository href="repository/jdom.xml"/>
+  <repository href="repository/mozilla.xml"/>
   <repository href="repository/sourceforge.xml"/>
+  <repository href="repository/tigris.xml"/>
+  <repository href="repository/whichever.xml"/>
+  <repository href="repository/xml.xml"/>
 
 </profile>

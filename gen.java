@@ -115,24 +115,24 @@ public class gen {
        }
     }
 
-    private void collapse(Hashtable projects, Node parent) {
+    private void collapse(String type, Hashtable list, Node parent) {
        Node child=parent.getFirstChild();
        while (child != null) {
            Node next=child.getNextSibling();
-           if (child.getNodeName().equals("project")) {
+           if (child.getNodeName().equals(type)) {
                Element project = (Element) child;
                String name = project.getAttributeNode("name").getValue();
 
-               Element priorDefinition = (Element)projects.get(name);
+               Element priorDefinition = (Element)list.get(name);
                if (priorDefinition == null) {
-                   projects.put(name, project);
+                   list.put(name, project);
                } else {
                    copyChildren(project, priorDefinition);
                    project.getParentNode().removeChild(project);
                    project=priorDefinition;
                }
 
-               collapse(projects, project);
+               collapse(type, list, project);
            }
            child=next;
        }
@@ -158,7 +158,8 @@ public class gen {
     private gen(String source) throws Exception {
         Node workspace = parse(source);
         expand((Element)workspace.getFirstChild());
-        collapse(new Hashtable(), workspace.getFirstChild());
+        collapse("project", new Hashtable(), workspace.getFirstChild());
+        collapse("repository", new Hashtable(), workspace.getFirstChild());
 
         Node resolved = transform(workspace, "defaults.xsl");
         output (resolved, "work/merge.xml");

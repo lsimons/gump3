@@ -5,7 +5,7 @@
     Bean Scripting Framework
   </description>
 
-  <cvs repository="bsf"/>
+  <cvs repository="devworks" dir="bsf"/>
 
   <ant target="samples"/>
   <depend project="xml-xerces"/>
