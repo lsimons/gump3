@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/syndication/rss.py,v 1.4 2003/12/06 01:42:29 ajack Exp $
-# $Revision: 1.4 $
-# $Date: 2003/12/06 01:42:29 $
+# $Header: /home/stefano/cvs/gump/python/gump/syndication/rss.py,v 1.5 2003/12/06 18:01:48 ajack Exp $
+# $Revision: 1.5 $
+# $Date: 2003/12/06 18:01:48 $
 #
 # ====================================================================
 #
@@ -122,15 +122,24 @@ class Item:
         self.url=url
         self.image=image
         
-    def serialize(self,rssStream):
-        self.rssStream = rssStream       
+    def serialize(self,rssStream,rssUrl):
+        self.rssStream = rssStream    
+        self.rssUrl=rssUrl   
         
         self.rssStream.write('   <item>\n')
+        
+        # Tag on description
+        tagOn=("""
+        <a href="http://feedvalidator.org/check?url=%s">
+            <img align="right" src="http://feedvalidator.org/images/valid-rss.png" 
+                alt="[Valid RSS]" title="Validate my RSS feed" width="88" height="31" />
+        </a>""") % (self.rssUrl)
         
         # Mandatory Fields
         self.rssStream.write(('    <title>Gump: %s</title>\n') %(escape(self.title)))
         self.rssStream.write(('    <link>%s</link>\n') %(escape(self.link)))
-        self.rssStream.write(('    <description>%s</description>\n') %(escape(self.description)))
+        self.rssStream.write(('    <description>%s%s</description>\n') \
+                %(escape(self.description),escape(tagOn)))
         self.rssStream.write('    <author>gump@jakarta.apache.org</author>\n')                
         
         self.rssStream.write(('      <dc:subject>%s</dc:subject>\n') %(escape(self.subject)))
@@ -178,7 +187,6 @@ class Channel:
         self.rssStream.write("""
     <gump:version>%s</gump:version>
     
-    <admin:generatorAgent rdf:resource="http://cvs.apache.org/viewcvs/jakarta-gump/python/gump/output/rss.py"/>
     <admin:errorReportsTo rdf:resource="mailto:gump@jakarta.apache.org"/>
 
     <sy:updateFrequency>1</sy:updateFrequency>
@@ -188,14 +196,15 @@ class Channel:
     def endChannel(self):
         self.rssStream.write('  </channel>\n')
         
-    def serialize(self,rssStream):
+    def serialize(self,rssStream,rssUrl):
         self.rssStream = rssStream
+        self.rssUrl=rssUrl
         
         self.startChannel()
         
         # Serialize all items
         for item in self.items:
-            item.serialize(self.rssStream)
+            item.serialize(self.rssStream,self.rssUrl)
             
         self.endChannel()
         
@@ -203,7 +212,8 @@ class Channel:
         self.items.append(item)
     
 class RSS:
-    def __init__(self,file,channel=None):
+    def __init__(self,url,file,channel=None):
+        self.rssUrl=url
         self.rssFile=file
         
         self.channels=[]
@@ -231,7 +241,7 @@ class RSS:
         self.startRSS()
         
         for channel in self.channels:
-            channel.serialize(self.rssStream)
+            channel.serialize(self.rssStream,self.rssUrl)
         
         self.endRSS()
         
@@ -260,10 +270,10 @@ class RSSSyndicator(Syndicator):
         # Main syndication document
         self.run = run
         self.workspace=run.getWorkspace()   
-        self.rssFile=os.path.abspath(os.path.join(	\
-                    self.workspace.logdir,'index.rss'))
+        self.rssFile=self.run.getOptions().getResolver().getFile(self.workspace,'index','.rss')      
+        self.rssUrl=self.run.getOptions().getResolver().getUrl(self.workspace,'index','.rss')
     
-        self.rss=RSS(self.rssFile,	\
+        self.rss=RSS(self.rssUrl,self.rssFile,	\
             Channel('Jakarta Gump',		\
                     self.workspace.logurl,	\
                     """Life is like a box of chocolates""", \
@@ -278,11 +288,12 @@ class RSSSyndicator(Syndicator):
     def syndicateModule(self,module,mainRSS):
         
         rssFile=self.run.getOptions().getResolver().getFile(module,'index','.rss')
-        moduleURL=self.run.getOptions().getResolver().getUrl(module)
+        rssUrl=self.run.getOptions().getResolver().getUrl(module,'index','.rss')
+        moduleUrl=self.run.getOptions().getResolver().getUrl(module)
         
-        moduleRSS=RSS(rssFile,	\
+        moduleRSS=RSS(rssUrl,rssFile,	\
             Channel('Gump : Module ' + escape(module.getName()),	\
-                    moduleURL,	\
+                    moduleUrl,	\
                     escape(module.getDescription()), \
                     self.gumpImage))
                       
@@ -299,7 +310,7 @@ class RSSSyndicator(Syndicator):
         #
         #
         item=Item(('%s %s %s') % (module.getName(),module.getStateDescription(),datestr), \
-                  moduleURL, \
+                  moduleUrl, \
                   content, \
                   module.getName(), \
                   ('%sT%s%s') % (datestr,timestr,TZ))
@@ -309,6 +320,15 @@ class RSSSyndicator(Syndicator):
             not s.currentState == STATE_UNSET:   
             moduleRSS.addItem(item)  
             
+        # State changes that are newsworthy...
+        if 	s.sequenceInState == 1	\
+            and not s.currentState == STATE_PREREQ_FAILED \
+            and not s.currentState == STATE_UNSET \
+            and not s.currentState == STATE_NONE \
+            and not s.currentState == STATE_COMPLETE  \
+            and not module.isPackaged() :       
+            mainRSS.addItem(item)
+            
         for project in module.getProjects():  
             self.syndicateProject(project,moduleRSS,mainRSS)      
                   
@@ -317,11 +337,12 @@ class RSSSyndicator(Syndicator):
     def syndicateProject(self,project,moduleRSS,mainRSS):
                 
         rssFile=self.run.getOptions().getResolver().getFile(project,project.getName(),'.rss')
-        projectURL=self.run.getOptions().getResolver().getUrl(project)
+        rssUrl=self.run.getOptions().getResolver().getUrl(project,'index','.rss')
+        projectUrl=self.run.getOptions().getResolver().getUrl(project)
         
-        projectRSS=RSS(rssFile,	\
+        projectRSS=RSS(rssUrl, rssFile,	\
             Channel('Gump : Project ' + escape(project.getName()),	\
-                    projectURL,	\
+                    projectUrl,	\
                     escape(project.getDescription()), \
                     self.gumpImage))
                     
@@ -338,7 +359,7 @@ class RSSSyndicator(Syndicator):
         #
         #
         item=Item(('%s %s %s') % (project.getName(),project.getStateDescription(),datestr), \
-                  projectURL, \
+                  projectUrl, \
                   content, \
                   project.getModule().getName() + ":" + project.getName(), \
                   ('%sT%s%s') % (datestr,timestr,TZ))
@@ -354,7 +375,8 @@ class RSSSyndicator(Syndicator):
             and not s.currentState == STATE_PREREQ_FAILED \
             and not s.currentState == STATE_UNSET \
             and not s.currentState == STATE_NONE \
-            and not s.currentState == STATE_COMPLETE :       
+            and not s.currentState == STATE_COMPLETE 	\
+            and not project.isPackaged() :       
             mainRSS.addItem(item)
                                                         
         projectRSS.serialize()

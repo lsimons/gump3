@@ -65,7 +65,15 @@ class GumpEngine:
         workspace = run.getWorkspace()
         
         #
+        #
+        #
         workspace.checkEnvironment(exitOnError)
+        
+        #
+        # Modify the log on the fly, if --dated
+        #
+        if run.getOptions().isDated():
+            workspace.setDatedDirectories()
         
         #
         # Use forrest if available...

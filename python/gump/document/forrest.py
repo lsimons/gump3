@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/forrest.py,v 1.30 2003/12/05 15:13:21 ajack Exp $
-# $Revision: 1.30 $f
-# $Date: 2003/12/05 15:13:21 $
+# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/forrest.py,v 1.31 2003/12/06 18:01:48 ajack Exp $
+# $Revision: 1.31 $f
+# $Date: 2003/12/06 18:01:48 $
 #
 # ====================================================================
 #
@@ -1339,6 +1339,8 @@ class ForrestDocumenter(Documenter):
     def insertStatePairIcon(self,xdocNode,toObject,fromObject):
         pair=toObject.getStatePair()
         depth=getDepthForObject(fromObject)
+        
+        # :TODO: Move this to some resolver, and share with RSS
         sname=stateName(pair.state)
         rstring=reasonString(pair.reason)    
 

@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/document/resolver.py,v 1.6 2003/12/02 22:36:46 ajack Exp $
-# $Revision: 1.6 $
-# $Date: 2003/12/02 22:36:46 $
+# $Header: /home/stefano/cvs/gump/python/gump/document/resolver.py,v 1.7 2003/12/06 18:01:48 ajack Exp $
+# $Revision: 1.7 $
+# $Date: 2003/12/06 18:01:48 $
 #
 # ====================================================================
 #
@@ -68,6 +68,7 @@ import os
 import sys
 import logging
 from xml.sax.saxutils import escape
+from string import lower,replace
 
 from gump import log
 from gump.config import *
@@ -81,6 +82,7 @@ from gump.model.module import Module
 from gump.model.project import Project
 from gump.model.ant import Ant
 from gump.model.object import *
+from gump.model.state import *
 
 class Path(list):
     
@@ -384,3 +386,25 @@ class Resolver:
     def getUrl(self,object,documentName=None,extn='.html'):
         return self.getAbsoluteUrl(object,documentName,extn)
         
+        
+    def getRootUrl(self):
+        return self.rootUrl
+        
+    def getAbsoluteUrlForRelative(self,relativeToRoot):
+        return concatenate(self.rootUrl,relativeToRoot)
+        
+    def getStateIconInformation(self,statePair):
+        
+        # :TODO: Move this to some resolver, and share with RSS
+        sname=statePair.getStateDescription()  
+        rdesc=statePair.getReasonDescription()
+            
+        description=sname    
+        if rdesc: 
+            description+=' with reason '+rdesc
+        
+        # Build the URL to the icon
+        iconName=gumpSafeName(lower(replace(sname,' ','_')))
+        url = self.getAbsoluteUrlForRelative("gump_icons/"+iconName+".png")
+        
+        return (url, description)

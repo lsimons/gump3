@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/model/workspace.py,v 1.14 2003/11/26 16:08:39 ajack Exp $
-# $Revision: 1.14 $
-# $Date: 2003/11/26 16:08:39 $
+# $Header: /home/stefano/cvs/gump/python/gump/model/workspace.py,v 1.15 2003/12/06 18:01:48 ajack Exp $
+# $Revision: 1.15 $
+# $Date: 2003/12/06 18:01:48 $
 #
 # ====================================================================
 #
@@ -163,8 +163,6 @@ class Workspace(ModelObject,PropertyContainer):
     def getSortedProjects(self):
         return self.sortedProjects       
         
-        
-        
     def complete(self, xmlprofiles, xmlrepositories, xmlmodules, xmlprojects):        
         if self.isComplete(): return
         
@@ -181,53 +179,9 @@ class Workspace(ModelObject,PropertyContainer):
             self.bannerLink="http://jakarta.apache.org"
         else:
             self.bannerLink=self.xml['banner-link']
-    
-        # Construct tmp on demand
-        if not self.xml.tmpdir: 
-            self.tmpdir=os.path.join(self.getBaseDirectory(),"tmp")
-        else:
-            self.tmpdir=self.xml.tmpdir
-            
-        if not os.path.exists(self.tmpdir): 
-            print "TMPDIR: " + self.tmpdir
-            os.makedirs(self.tmpdir)    
-    
-        # Construct logdir on demand
-        if not self.xml.logdir: 
-            self.logdir=os.path.join(self.getBaseDirectory(),"log")
-        else:
-            self.logdir=self.xml.logdir
-        
-        if not os.path.exists(self.logdir): os.makedirs(self.logdir)
-    
-        # Construct repository dir on demand
-        if not self.xml.jardir: 
-            self.jardir=os.path.join(self.getBaseDirectory(),"repo")
-        else:
-            self.jardir=self.xml.jardir
-                
-        if not os.path.exists(self.jardir): os.makedirs(self.jardir)
-    
-        # Construct CVS directory on demand
-        if not self.xml.cvsdir: 
-            self.cvsdir=os.path.join(self.getBaseDirectory(),"cvs")
-        else:
-            self.cvsdir=self.xml.cvsdir
 
-        if not os.path.exists(self.cvsdir): os.makedirs(self.cvsdir)
-    
-        # Package Dir Ought Exist
-        if not self.xml.pkgdir: 
-            self.pkgdir=self.getBaseDirectory()
-        else:
-            self.pkgdir=self.xml.pkgdir
+        self.completeDirectories()
         
-        if self.xml.deliver:
-            if not self.xml.scratchdir: 
-                self.scratchdir=os.path.join(self.getBaseDirectory(),"scratch")
-            else:
-                self.scratchdir=self.xml.scratchdir
-
         # Allow per workspace overrides
     
         if not self.xml.logurl: 
@@ -352,6 +306,68 @@ class Workspace(ModelObject,PropertyContainer):
         self.sortedRepositories=createOrderedList(self.getRepositories())
         
         self.setComplete(1)
+
+    def completeDirectories(self):
+            
+        # Construct tmp on demand
+        if not self.xml.tmpdir: 
+            self.tmpdir=os.path.join(self.getBaseDirectory(),"tmp")
+        else:
+            self.tmpdir=self.xml.tmpdir
+            
+        if not os.path.exists(self.tmpdir): 
+            os.makedirs(self.tmpdir)    
+    
+        # Construct logdir on demand
+        if not self.xml.logdir: 
+            self.logdir=os.path.join(self.getBaseDirectory(),"log")
+        else:
+            self.logdir=self.xml.logdir
+        
+        if not os.path.exists(self.logdir): os.makedirs(self.logdir)
+    
+        # Construct repository dir on demand
+        if not self.xml.jardir: 
+            self.jardir=os.path.join(self.getBaseDirectory(),"repo")
+        else:
+            self.jardir=self.xml.jardir
+                
+        if not os.path.exists(self.jardir): os.makedirs(self.jardir)
+    
+        # Construct CVS directory on demand
+        if not self.xml.cvsdir: 
+            self.cvsdir=os.path.join(self.getBaseDirectory(),"cvs")
+        else:
+            self.cvsdir=self.xml.cvsdir
+
+        if not os.path.exists(self.cvsdir): os.makedirs(self.cvsdir)
+    
+        # Package Dir Ought Exist
+        if not self.xml.pkgdir: 
+            self.pkgdir=self.getBaseDirectory()
+        else:
+            self.pkgdir=self.xml.pkgdir
+        
+        if self.xml.deliver:
+            if not self.xml.scratchdir: 
+                self.scratchdir=os.path.join(self.getBaseDirectory(),"scratch")
+            else:
+                self.scratchdir=self.xml.scratchdir
+        
+   
+    def setDatedDirectories(self,date=None):
+        
+        # This build date
+        if not date: date = gump.default.date
+            
+        # Construct tmp on demand
+        self.tmpdir=os.path.join(self.tmpdir,date)            
+        if not os.path.exists(self.tmpdir): 
+            os.makedirs(self.tmpdir)    
+    
+        # Construct logdir on demand
+        self.logdir=os.path.join(self.logdir,date)
+        if not os.path.exists(self.logdir): os.makedirs(self.logdir)
 
             
     def addModule(self,module):

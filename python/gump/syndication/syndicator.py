@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/syndication/syndicator.py,v 1.3 2003/12/06 01:42:29 ajack Exp $
-# $Revision: 1.3 $
-# $Date: 2003/12/06 01:42:29 $
+# $Header: /home/stefano/cvs/gump/python/gump/syndication/syndicator.py,v 1.4 2003/12/06 18:01:48 ajack Exp $
+# $Revision: 1.4 $
+# $Date: 2003/12/06 18:01:48 $
 #
 # ====================================================================
 #
@@ -97,15 +97,9 @@ class Syndicator:
         
         stats=project.getStats()
         
-        content='Project ' + project.getName() \
-                                + ' : ' \
-                                + project.getStateDescription()
-                            
-        if not project.getStatePair().isReasonUnset():
-           content += ' with reason ' \
-                + project.getReasonDescription()
-            
-        content += '\n\n'
+        content='Project ' + project.getName() 
+                                
+        content += self.getStateContent(project.getStatePair())
                         
         if not stats.previousState == STATE_NONE \
             and not stats.previousState == STATE_UNSET:
@@ -113,7 +107,7 @@ class Syndicator:
                                     + stateName(stats.previousState)  \
                                     + '\n\n'
     
-        content += self.addSundries(project)
+        content += self.getSundries(project)
                 
         return content
 
@@ -125,15 +119,9 @@ class Syndicator:
         
         stats=module.getStats()
         
-        content='Module ' + module.getName() \
-                                + ' : ' \
-                                + module.getStateDescription()	
-                            
-        if not module.getStatePair().isReasonUnset():
-           content += ' with reason ' \
-                + module.getReasonDescription()
-            
-        content += '\n\n'
+        content='Module ' + module.getName()
+                                    
+        content += self.getStateContent(module.getStatePair())
                         
         if not stats.previousState == STATE_NONE \
             and not stats.previousState == STATE_UNSET:
@@ -141,26 +129,43 @@ class Syndicator:
                                     + stateName(stats.previousState)  \
                                     + '\n\n'
     
-        content += self.addSundries(module)
+        content += self.getSundries(module)
                 
         return content
 
-    def addSundries(self,object):
+    def getStateContent(self,statePair):
+        
+        resolver=self.run.getOptions().getResolver()    
+        
+        content = 'Gump State: ' + statePair.getStateDescription()	
+                            
+        if not statePair.isReasonUnset():
+           content += ' with reason ' \
+                + statePair.getReasonDescription()
+        
+        content += ( '&nbsp;<img href=\'%s\' alt=\'%s\'/>' ) % \
+            resolver.getStateIconInformation(statePair)
+            
+        content += '<br><br>'
+        
+        return content
+        
+    def getSundries(self,object):
         
         content = ''
         
         resolver=self.run.getOptions().getResolver()    
         
         if object.annotations:
-            content += '<table>'
+            content += '<p><table>'
             for note in object.annotations:
                     content += ('<tr><td>' \
                         + note.getLevelName() + '</td><td>' \
                         + note.getText() + '</td></tr>\n')                
-            content += '<table>'
+            content += '<table></p>'
             
         if object.worklist:
-            content += '<table>'    
+            content += '<p><table>'    
             for work in object.worklist:
                 url=resolver.getAbsoluteUrl(work)
                 state=stateName(work.state)                 
@@ -168,11 +173,13 @@ class Syndicator:
                     url + '\'>' + work.getName() + 	\
                     '</a></td><td>' + state + 		\
                     '</td></tr>\n')                   
-            content += '<table>'
+            content += '<table></p>'
             
-        content += '\n\n\n<img alt=\'Brought to you by Jakarta Gump\' src=\'http://jakarta.apache.org/gump/images/bench.png\'/>'
+        content += '\n\n<hr>\n<img align=\'left\' alt=\'Brought to you by Jakarta Gump\' src=\'http://jakarta.apache.org/gump/images/bench.png\'/>'
         
         return content
+
+        
               
 def syndicate(run):
     

@@ -44,21 +44,15 @@ if __name__=='__main__':
     # get parsed workspace definition
     workspace=WorkspaceLoader().load(ws)
       
-    #
-    # Check Environment (eventually not do this each time)
-    # Exit if problems...
-    #
-    #checkEnvironment(workspace,context,1)
-        
-    #
-    # Check projects (and such) in workspace...
-    # Store results in context, do not display
-    # to screen.
-    #
-    #check(workspace, ps, context, 0)    
     
     # TODO populate...
     options=GumpRunOptions()
+  
+    #
+    # Dated means add the date to the log dir...
+    #
+    if '-d' in args or '--dated' in args:
+        options.setDated(1)
     
     # The Run Details...
     run=GumpRun(workspace,ps,options)

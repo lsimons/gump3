@@ -300,17 +300,11 @@ class GumpRunOptions:
     def __init__(self):
         self.optimize=0
  
-        #
-        # Turns on ant '-debug'
-        #
         self.debug=0	
-        
-        #
-        # Turns on ant '-verbose'
-        #
         self.verbose=0	
+        self.dated=0	# Defaults to NOT dated.
         
-        
+        # Default is Text        
         self.documenter=TextDocumenter()
 
     def setDocumenter(self, documenter):
@@ -319,8 +313,16 @@ class GumpRunOptions:
     def getDocumenter(self):
         return self.documenter
 
+    # Different Documenter have different resolvers 'cos
+    # they may vary the layout
     def getResolver(self):
         return self.getDocumenter().getResolver(self)
+        
+    def isDated(self):
+        return self.dated
+        
+    def setDated(self,dated):
+        self.dated=dated
         
 class GumpRun(Workable,Annotatable,Stateful):
     def __init__(self,workspace,expr=None,options=None):
