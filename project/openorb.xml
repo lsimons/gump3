@@ -15,4 +15,7 @@
 
   <work nested="build/main"/>
 
+  <home nested="dist"/>
+  <jar name="openorb-1.0.2.jar"/>
+
 </project>

@@ -21,6 +21,8 @@
   <depend project="opentools.jedi"/>
   <depend project="opentools.proxies"/>
   <depend project="tyrex"/>
+  <depend project="openorb"/>
+  <depend project="junit"/>
   <work nested="build/openejb/classes"/>
 
   <project name="opentools.minerva">
