@@ -35,7 +35,7 @@
     <!-- Standard Maven target to produce Javadocs, source -->
     <!-- and binary distributions.                         -->
     
-    <ant basedir="betwixt" buildfile="build-gump.xml" target="jar">
+    <ant basedir="betwixt" target="jar">
       <property name="maven.final.name" value="commons-betwixt-@@DATE@@"/>
     </ant>
     
