@@ -19,7 +19,7 @@
     <work nested="lib/normalizer.jar"/>
     <jar name="build/xom-@@DATE@@.jar"/>
     <nag from="Elliotte Harold &lt;elharo@metalab.unc.edu&gt;"
-         to="elharo@metalb.unc.edu"/>
+         to="elharo@metalab.unc.edu"/>
   </project>
 
 </module>
