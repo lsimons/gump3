@@ -38,7 +38,7 @@
         </xsl:for-each>
       </xsl:if>
 
-      <html log="{$logdir}/index.html" 
+      <html log="{$logdir}/index.html"
         banner-image="{$banner-image}" banner-link="{$banner-link}">
 
         <title>
@@ -87,7 +87,7 @@
       <xsl:copy-of select="@*"/>
       <xsl:variable name="srcdir" select="@srcdir"/>
 
-      <html log="{$logdir}/{@name}.html" 
+      <html log="{$logdir}/{@name}.html"
         banner-image="{$banner-image}" banner-link="{$banner-link}">
 
         <title>
@@ -221,6 +221,10 @@
   <xsl:template match="project[not(ant) and not(script)]"/>
 
   <xsl:template match="ant">
+    <xsl:if test="@basedir">
+      <chdir dir="{../../@basedir}/{../@srcdir}/{@basedir}"/>
+    </xsl:if>
+
     <xsl:copy>
       <xsl:apply-templates select="@*"/>
       <xsl:apply-templates select="*[name()!='property']"/>

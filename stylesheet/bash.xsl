@@ -360,9 +360,9 @@
     </xsl:if>
     <xsl:text>"java org.apache.tools.ant.Main</xsl:text>
 
-    <xsl:if test="@buildfile | @basedir">
+    <xsl:if test="@buildfile">
       <xsl:text> -buildfile </xsl:text>
-      <xsl:value-of select="translate(@buildpath,'\','/')"/>
+      <xsl:value-of select="translate(@buildfile,'\','/')"/>
     </xsl:if>
 
     <xsl:for-each select="property">

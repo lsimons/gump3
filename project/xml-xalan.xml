@@ -88,7 +88,9 @@
     <depend project="xml-xalan2"/>
     <depend project="xml-stylebook2"/>
     <option project="bsf"/>
+    <depend project="bcel"/>
     <depend project="java_cup"/>
+    <depend project="jlex"/>
     <work nested="java/build/classes"/>
 
     <home nested="java/build/xalan-j_2_0_1"/>
@@ -109,11 +111,23 @@
     <work nested="test/java/src"/>
   </project>
 
+  <project name="bcel">
+    <url href="http://bcel.sourceforge.net/"/>
+    <home nested="java"/>
+    <jar name="bin/BCEL.jar"/>
+  </project>
+
   <project name="java_cup">
     <url href="http://www.cs.princeton.edu/~appel/modern/java/CUP/"/>
     <home nested="java"/>
     <jar name="bin/java_cup.jar"/>
     <jar name="bin/runtime.jar"/>
+  </project>
+
+  <project name="jlex">
+    <url href="http://www.cs.princeton.edu/~appel/modern/java/JLex/"/>
+    <home nested="java"/>
+    <jar name="bin/JLex.jar"/>
   </project>
 
 </project>

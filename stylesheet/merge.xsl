@@ -250,28 +250,4 @@ Hmm, looks like the wrong version <xsl:value-of select="@version"/>, expecting <
 
   </xsl:template>
 
-  <!-- =================================================================== -->
-  <!--                         resolve buildpath                           -->
-  <!-- =================================================================== -->
-
-  <xsl:template match="ant">
-    <xsl:copy>
-      <xsl:attribute name="buildpath">
-        <xsl:if test="@basedir">
-          <xsl:value-of select="@basedir"/>
-          <xsl:text>/</xsl:text>
-        </xsl:if>
-
-        <xsl:if test="@buildfile">
-          <xsl:value-of select="@buildfile"/>
-        </xsl:if>
-        <xsl:if test="not(@buildfile)">
-          <xsl:text>build.xml</xsl:text>
-        </xsl:if>
-      </xsl:attribute>
-
-      <xsl:copy-of select="@* | * | text()"/>
-    </xsl:copy>
-  </xsl:template>
-
 </xsl:stylesheet>
