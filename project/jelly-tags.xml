@@ -192,6 +192,28 @@
     <nag from="Morgan Delagrange &lt;mdelagra@yahoo.com&gt;"
          to="commons-dev@jakarta.apache.org"/>
   </project>  
+
+  <project name="commons-jelly-tags-quartz">
+    <package>org.apache.commons.jelly.tags.quartz</package>
+    <description>This is a Jelly interface for the Quartz Scheduler.</description>
+
+    <ant basedir="jelly/jelly-tags/quartz" target="jar">
+      <property name="final.name"  value="commons-jelly-tags-ojb-@@DATE@@"/>
+    </ant>
+
+    <depend project="commons-jelly" inherit="all"/>
+    
+    <!-- ant taglib and dependencies used in tests -->
+    <depend project="quartz"/>
+
+    <work nested="jelly/jelly-tags/quartz/target/classes"/>
+    <work nested="jelly/jelly-tags/quartz/target/test-classes"/>
+
+    <jar name="jelly/jelly-tags/quartz/target/commons-jelly-tags-quartz-@@DATE@@.jar"/>
+ 
+    <nag from="Morgan Delagrange &lt;mdelagra@yahoo.com&gt;"
+         to="commons-dev@jakarta.apache.org"/>
+  </project>
   
   <project name="commons-jelly-tags-util">
     <package>org.apache.commons.jelly.tags.util</package>
