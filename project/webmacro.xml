@@ -16,6 +16,7 @@
     <depend project="ant" inherit="runtime"/>
     <depend project="xml-xerces"/>
     
+    <depend project="concurrent"/>
     <depend project="jakarta-regexp"/>
     <depend project="jakarta-servletapi"/>
     <depend project="junit"/>
