@@ -1,8 +1,8 @@
 #!/usr/bin/python
 
-# $Header: /home/stefano/cvs/gump/python/gump/Attic/conf.py,v 1.16 2003/09/28 15:05:43 ajack Exp $
-# $Revision: 1.16 $
-# $Date: 2003/09/28 15:05:43 $
+# $Header: /home/stefano/cvs/gump/python/gump/Attic/conf.py,v 1.17 2003/10/06 14:04:15 ajack Exp $
+# $Revision: 1.17 $
+# $Date: 2003/10/06 14:04:15 $
 #
 # ====================================================================
 #
@@ -112,6 +112,8 @@ class setting:
     ws_version="0.4"
     
     datetimeformat="%a, %d %b %Y %H:%M:%S (%Z)"
+    
+    timeout=60*30 # 30 minutes (in seconds)
     
 class switch:
     """Configuration of switches """   

@@ -1,8 +1,8 @@
 #!/usr/bin/python
 
-# $Header: /home/stefano/cvs/gump/python/gump/check.py,v 1.23 2003/09/29 22:50:07 ajack Exp $
-# $Revision: 1.23 $
-# $Date: 2003/09/29 22:50:07 $
+# $Header: /home/stefano/cvs/gump/python/gump/check.py,v 1.24 2003/10/06 14:04:15 ajack Exp $
+# $Revision: 1.24 $
+# $Date: 2003/10/06 14:04:15 $
 #
 # ====================================================================
 #
@@ -152,6 +152,9 @@ def checkEnvironment(workspace, context=GumpContext(), exitOnError=1):
         context.noRSync=1
         context.addWarning('"rsync" command not found, so attempting recursive copy "cp -R"')
         
+    if not checkExecutable(workspace, context, 'pkill','-help',0): 
+        context.noPKill=1
+        context.addWarning('"pkill" command not found, no process clean-ups can occur')        
     
     # :TODO:
     # Need to check javac classes are on CLASSPATH
@@ -169,6 +172,7 @@ def checkExecutable(workspace,context,command,options,mandatory,name=None):
     except Exception, details:
         ok=0
         log.error('Failed to detect [' + command + '] : ' + str(details))
+        result=None
        
     # Update Context
     context.performedWork(CommandWorkItem(WORK_TYPE_CHECK,cmd,result))

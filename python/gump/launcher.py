@@ -65,7 +65,8 @@
 import os
 import sys
 import logging
-
+import signal
+    
 from string import split
 
 from gump import log, gumpSafeName
@@ -255,6 +256,16 @@ def dummyExecuteIntoResult(cmd,result,tmp=dir.tmp):
     result.exit_code=0
     result.status=CMD_STATUS_SUCCESS  
     return result
+
+def killChildren():
+    pid=os.getpid()
+    log.info('Kill all children for ' + str(pid))    
+    os.system('pkill -P ' + str(pid))
+    
+def timeoutHandler(signum, frame):
+    log.info('Signal handler called with signal: ' + str(signum))
+    killChildren()
+    raise Error, "Timeout"
     
 def execute(cmd,tmp=dir.tmp):
     res=CmdResult(cmd)
@@ -323,9 +334,17 @@ def executeIntoResult(cmd,result,tmp=dir.tmp):
         #############################################################                
         log.info('Executing: ' + execString + ' (Output to ' + str(outputFile) + ')')
     
+        # Set the signal handler and an N-second alarm
+        if not os.name == 'dos' and not os.name == 'nt':
+            signal.signal(signal.SIGALRM, timeoutHandler)
+            signal.alarm(setting.timeout)
+
         # Execute Command & Wait
         result.exit_code=os.system(execString + ' >>' + str(outputFile) + ' 2>&1')
     
+        if not os.name == 'dos' and not os.name == 'nt':
+            signal.alarm(0)          # Disable the alarm
+
         # Process Outputs (exit_code and stderr/stdout)
         if result.exit_code < 0:
           result.status=CMD_STATUS_TIMED_OUT
@@ -344,7 +363,7 @@ def executeIntoResult(cmd,result,tmp=dir.tmp):
                 result.output=outputFile
             else:
                 os.remove(outputFile)
-    
+                
       except Exception, details :
         log.error('Failed to launch command. Details: ' + str(details))
         
