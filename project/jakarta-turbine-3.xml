@@ -37,6 +37,7 @@
     <work nested="bin/classes"/>
     <home nested="target"/>
     <jar name="turbine-@@DATE@@.jar"/>
+    <javadoc nested="bin/docs/api"/>
   </project>    
 
 </module>

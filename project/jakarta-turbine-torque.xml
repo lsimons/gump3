@@ -24,6 +24,7 @@
     <depend project="jakarta-ant" version="1.3"/>
     <home nested="bin"/>
     <jar id="torque" name="torque-@@DATE@@.jar"/>
+    <javadoc nested="bin/docs/api"/>
   </project>    
 
 </module>
