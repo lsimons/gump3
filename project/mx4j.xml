@@ -22,7 +22,7 @@
   </description>
   <redistributable/>
 
-  <cvs repository="sourceforge" host-prefix="cvs.mx4j" dir="mx4j"/>
+  <cvs repository="sourceforge"  dir="mx4j"/>
 
   <project name="mx4j">
     <package>mx4j</package>

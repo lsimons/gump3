@@ -22,7 +22,7 @@
   </description>
   <redistributable/>
 
-  <cvs repository="sourceforge" host-prefix="cvs.opensymphony" 
+  <cvs repository="sourceforge" 
        dir="opensymphony" module="webwork"/>
   
   <project name="webwork">

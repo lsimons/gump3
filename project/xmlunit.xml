@@ -21,7 +21,7 @@
     JUnit extension for XML unit tests.
   </description>
 
-  <cvs repository="sourceforge" host-prefix="cvs.xmlunit" dir="xmlunit"/>
+  <cvs repository="sourceforge"  dir="xmlunit"/>
   
   <project name="xmlunit">
     <package>org.custommonkey.xmlunit</package>

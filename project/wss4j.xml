@@ -22,7 +22,7 @@
   </description>
   <redistributable/>
 
-  <cvs repository="sourceforge" host-prefix="cvs.wss4j" dir="wss4j"/>
+  <cvs repository="sourceforge"  dir="wss4j"/>
   
   <project name="wss4j">
     <package>org.apache.ws.security</package>

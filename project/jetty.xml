@@ -22,7 +22,7 @@
   </description>
   <redistributable/>
 
-  <cvs repository="sourceforge" host-prefix="cvs.jetty" dir="jetty"
+  <cvs repository="sourceforge"  dir="jetty"
     module="Jetty"/>
   
   <project name="jetty">

@@ -22,8 +22,7 @@
   </description>
 
   <cvs repository="sourceforge" 
-  	host-prefix="cvs.invicta" 
-  	dir="invicta"/>
+  	   dir="invicta"/>
   
   <project name="invicta">
     <package>net.sf.invicta</package>

@@ -21,7 +21,7 @@
     Mock Objects for Unit Tests
   </description>
 
-  <cvs repository="sourceforge" host-prefix="cvs.mockobjects" 
+  <cvs repository="sourceforge" 
        dir="mockobjects" module="mockobjects-java"/>
 
   <project name="mockobjects-cvs-head">

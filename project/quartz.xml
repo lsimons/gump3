@@ -21,7 +21,7 @@
     Job Scheduler
   </description>
 
-  <cvs repository="sourceforge" host-prefix="cvs.quartz" dir="quartz"
+  <cvs repository="sourceforge" dir="quartz"
 	  module="Quartz"/>
 
   <project name="quartz">

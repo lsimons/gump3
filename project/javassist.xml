@@ -15,7 +15,7 @@
   limitations under the License.
 -->
 
-<!-- $Id: javassist.xml,v 1.3 2004/02/27 09:22:56 bodewig Exp $ -->
+<!-- $Id: javassist.xml,v 1.4 2004/05/06 16:03:40 nickchalko Exp $ -->
 
 <module name="javassist">
 
@@ -24,7 +24,7 @@
     Bytecode enhancement and AOP framework
   </description>
 
-  <cvs repository="sourceforge" host-prefix="cvs.jboss" dir="jboss"
+  <cvs repository="sourceforge"  dir="jboss"
 	  module="javassist"/>
 
   <project name="javassist">

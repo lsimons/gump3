@@ -22,7 +22,7 @@
   </description>
   <redistributable/>
 
-  <cvs repository="sourceforge" host-prefix="cvs.httpunit" dir="httpunit"/>
+  <cvs repository="sourceforge"  dir="httpunit"/>
   
   <project name="httpunit">
     <package>com.meterware</package>

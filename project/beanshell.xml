@@ -21,7 +21,7 @@
 
   </description>
 
-  <cvs repository="sourceforge" host-prefix="cvs.beanshell"
+  <cvs repository="sourceforge" 
        module="BeanShell" dir="beanshell"/>
 
   <project name="beanshell">

@@ -22,7 +22,7 @@
   </description>
   <redistributable/>
 
-  <cvs repository="sourceforge" host-prefix="cvs.JUnit" dir="junit"/>
+  <cvs repository="sourceforge"  dir="junit"/>
   
   <project name="junit">
     <package>org.junit</package>

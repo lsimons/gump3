@@ -22,7 +22,7 @@
   </description>
   <redistributable/>
 
-  <cvs repository="sourceforge" host-prefix="cvs.dom4j" dir="dom4j"/>
+  <cvs repository="sourceforge"  dir="dom4j"/>
   
   <project name="dom4j">
     <package>org.dom4j</package>

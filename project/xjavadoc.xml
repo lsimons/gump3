@@ -21,7 +21,7 @@
     Enhanced Doclet engine.
   </description>
 
-  <cvs repository="sourceforge" host-prefix="cvs.xdoclet" dir="xdoclet" />
+  <cvs repository="sourceforge"  dir="xdoclet" />
 
   <project name="xjavadoc">
     <package>xjavadoc</package>

@@ -23,7 +23,7 @@
 
   <package>org.jython</package>
 
-  <cvs repository="sourceforge" host-prefix="cvs.jython" dir="jython"/>
+  <cvs repository="sourceforge"  dir="jython"/>
 
   <project name="jython">
     <mkdir dir="dist" />

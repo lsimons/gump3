@@ -22,7 +22,6 @@
   </description>
   
   <cvs repository="sourceforge" 
-  	host-prefix="cvs.checkstyle" 
   	dir="checkstyle"/>
 
   <project name="checkstyle">

@@ -22,8 +22,7 @@
   </description>
 
   <cvs repository="sourceforge" 
-  	host-prefix="cvs.javasrc" 
-  	dir="javasrc"/>
+       dir="javasrc"/>
   
   <project name="javasrc">
     <package>javasrc</package>

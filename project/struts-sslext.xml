@@ -21,7 +21,7 @@
     The Struts SSL Extension for HTTP/HTTPS switching
   </description>
 
-  <cvs repository="sourceforge" host-prefix="cvs.sslext" 
+  <cvs repository="sourceforge"  
     dir="sslext" module="sslext110"/>
 
   <project name="struts-sslext">

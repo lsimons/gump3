@@ -17,7 +17,7 @@
 <module name="antworks-antlets">
     <url href="http://antworks.sourceforge.xml/antlets"/>
     <description> Generate and publish all the antlets </description>
-    <cvs repository="sourceforge" host-prefix="cvs" dir="antworks" module="antlets"/>
+    <cvs repository="sourceforge"  dir="antworks" module="antlets"/>
     <project name="antworks-antlets" fullname="Antworks Antlets">
         <package>org.krysalis.antworks.antlets</package>
         <ant buildfile="build-bootstrap.xml" target="gump">

@@ -21,7 +21,7 @@
     <site hostname="barcode4j.sourceforge.net"
         remotedir="/home/groups/b/ba/barcode4j/htdocs"/>
 
-    <cvs repository="sourceforge" host-prefix="cvs.barcode4j" 
+    <cvs repository="sourceforge" 
         dir="barcode4j"/>
       
     <description>

@@ -21,7 +21,7 @@
     A refactoring tool for the Java programming language.
   </description>
 
-  <cvs repository="sourceforge" host-prefix="cvs.JRefactory" dir="jrefactory" 
+  <cvs repository="sourceforge"  dir="jrefactory" 
        module="JRefactory"/>
   <project name="jai">
     <jar name="jar/jai_codec.jar"/>

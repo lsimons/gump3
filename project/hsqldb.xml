@@ -21,7 +21,7 @@
     hsql Database Engine
   </description>
 
-  <cvs repository="sourceforge" host-prefix="cvs.hsqldb" dir="hsqldb" 
+  <cvs repository="sourceforge"  dir="hsqldb" 
        module="hsqldb-dev"/>
   
   <project name="hsqldb">

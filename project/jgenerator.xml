@@ -21,7 +21,7 @@
     Flash 5 Content Generation
   </description>
 
-  <cvs repository="sourceforge" host-prefix="cvs.jgen" dir="jgen"/>
+  <cvs repository="sourceforge" dir="jgen"/>
   
   <project name="jgen">
     <package>com.iv.flash</package>

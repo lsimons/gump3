@@ -21,7 +21,7 @@
     Various JUnit addons and helper classes.
   </description>
 
-  <cvs repository="sourceforge" host-prefix="cvs.junit-addons" dir="junit-addons"/>
+  <cvs repository="sourceforge"  dir="junit-addons"/>
   
   <redistributable/>
 

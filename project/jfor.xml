@@ -21,7 +21,7 @@
     Java xsl-FO to Rtf converter
   </description>
 
-  <cvs dir="jfor" host-prefix="cvs.jfor" repository="sourceforge"/>
+  <cvs dir="jfor" repository="sourceforge"/>
 
   <project name="jfor">
     <ant>

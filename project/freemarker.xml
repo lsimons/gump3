@@ -21,7 +21,7 @@
     Templating Language
   </description>
   
-  <cvs repository="sourceforge" host-prefix="cvs.freemarker" dir="freemarker"/>
+  <cvs repository="sourceforge"  dir="freemarker"/>
 
   <project name="freemarker">
     <package>freemarker</package>

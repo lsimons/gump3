@@ -22,7 +22,7 @@
   </description>
   <redistributable/>
 
-  <cvs repository="sourceforge" host-prefix="cvs.jtidy" dir="jtidy"/>
+  <cvs repository="sourceforge"  dir="jtidy"/>
   
   <project name="jtidy">
     <package>org.w3c.tidy</package>

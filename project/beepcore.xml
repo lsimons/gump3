@@ -21,7 +21,7 @@
     BEEP is a new Internet standards-track protocol
   </description>
 
-  <cvs repository="sourceforge" host-prefix="cvs.beepcore" 
+  <cvs repository="sourceforge" 
     module="beepcore-java" dir="beepcore-java"/>
   
   <project name="beepcore">
