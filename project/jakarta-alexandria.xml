@@ -15,20 +15,12 @@
     <depend project="xml-xerces"/>
     <depend project="jakarta-ant" inherit="runtime"/>
     <depend project="jakarta-site2"/>
-    <depend project="alexandria-castor"/>
+    <depend project="castor"/>
 
     <nag from="Sam Ruby &lt;rubys@us.ibm.com&gt;"
          to="alexandria-dev@jakarta.apache.org"/>
   </project>
 
-  <!-- 
-  ugly hack that should go away if alexandria ever gets
-  actively developed again.
-  -->
-  <project name="alexandria-castor">
-    <jar name="lib/castor-0.9.3.jar"/>
-  </project>
-  
   <project name="vindico">
     <package>org.apache.alexandria</package>
 
