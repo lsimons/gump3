@@ -210,7 +210,7 @@ class XDocDocumenter(Documenter):
         try:
             if os.path.exists(workContents):    
                 # Sync over public pages...
-                syncDirectories(workContents,logContents) 
+                copyDirectories(workContents,logContents) 
         except:        
             log.error('--- Failed to sync ['+`objDir`+'] (work->log)', exc_info=1)
             success=False
@@ -227,7 +227,7 @@ class XDocDocumenter(Documenter):
             try:
                 if os.path.exists(workContents):    
                     # Sync over public pages...
-                    syncDirectories(workContents,logContents) 
+                    copyDirectories(workContents,logContents) 
             except:        
                 log.error('--- Failed to sync xdocs ['+`objDir`+'] (work->log)', exc_info=1)
                 success=False    
@@ -240,6 +240,12 @@ class XDocDocumenter(Documenter):
         
         xdocWorkDir=self.getXDocWorkDirectory()
         logDirectory=self.getXDocLogDirectory()
+        
+        if self.config.isXdocs():  
+            # Move contents/xdocs from work directory to log
+            # (Note: Forrest has contents/X and contents/xdocs/X)
+            xdocWorkDir=os.path.abspath(os.path.join(xdocWorkDir,'xdocs'))
+            logDirectory=os.path.abspath(os.path.join(logDirectory,'xdocs'))
                                                         
         # Current status
         logSource=os.path.abspath(
