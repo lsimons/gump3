@@ -9,7 +9,7 @@
                                 dir="cruisecontrol"/>
   
   <project name="cruisecontrol">
-    <ant/>
+    <ant target="war"/>
     <depend project="dist-ant"/>
     <depend project="xml-xerces"/>
     <depend project="xml-xalan2"/>
