@@ -8,10 +8,10 @@
 <head>
  <title><xsl:value-of select="title"/></title>
  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
- <link rel="stylesheet" type="text/css" href="/styles/print.css" media="print"/> <link rel="stylesheet" type="text/css" href="/styles/base/content.css" media="all"/> <link rel="stylesheet" type="text/css" href="/styles/cavendish/content.css" title="Cavendish" media="all"/> <link rel="stylesheet" type="text/css" href="/styles/base/template.css" media="screen"/> <link rel="stylesheet" type="text/css" href="/styles/cavendish/template.css" title="Cavendish" media="screen"/>
- <link rel="icon" href="/images/icon.png" type="image/png"/>
+ <link rel="stylesheet" type="text/css" href="/gump3/styles/print.css" media="print"/> <link rel="stylesheet" type="text/css" href="/gump3/styles/base/content.css" media="all"/> <link rel="stylesheet" type="text/css" href="/gump3/styles/cavendish/content.css" title="Cavendish" media="all"/> <link rel="stylesheet" type="text/css" href="/gump3/styles/base/template.css" media="screen"/> <link rel="stylesheet" type="text/css" href="/gump3/styles/cavendish/template.css" title="Cavendish" media="screen"/>
+ <link rel="icon" href="/gump3/images/icon.png" type="image/png"/>
  <xsl:apply-templates select="style"/>
- <script src="/scripts/search.js" type="text/javascript">//</script>
+ <script src="/gump3/scripts/search.js" type="text/javascript">//</script>
 </head>
 
 <body>
@@ -25,7 +25,7 @@
 <div id="center">
 
 <div id="header">
- <h1><a href="/" title="Apache Gump" accesskey="1">Apache Gump</a></h1>
+ <h1><a href="/gump3/" title="Apache Gump" accesskey="1">Apache Gump</a></h1>
  <ul>
   <xsl:apply-templates select="tabs"/>
  </ul>
