@@ -1,0 +1,31 @@
+<project name="jakarta-turbine-fulcrum">
+
+  <url href="http://jakarta.apache.org/turbine/"/>
+  <description>
+    Services Framework
+  </description>
+
+  <cvs repository="jakarta"/>
+
+  <ant>
+    <property name="velocity.jar"
+       reference="jarpath" id="velocity" project="jakarta-velocity"/>
+    <property name="log4j.jar"
+       reference="jarpath" id="log4j" project="jakarta-log4j"/>
+    <property name="jdom.jar"
+       reference="jarpath" id="jdom" project="jdom"/>
+    <property name="jakarta-site2"
+       reference="home" project="jakarta-site2"/>
+
+    <property name="final.name" value="fulcrum-gump"/>
+    <property name="deprecation" path="on"/>
+  </ant>
+
+  <depend project="jakarta-ant"/>
+  <depend project="jakarta-velocity"/>
+  <depend project="jakarta-log4j"/>
+
+  <home nested="bin"/>
+  <jar name="fulcrum-gump.jar"/>
+
+</project>
