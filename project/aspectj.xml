@@ -10,7 +10,6 @@
 
     <jar name="lib/aspectjtools.jar"/>
     <jar name="lib/aspectjrt.jar" id="aspectjrt"/>
-    <jar name="lib/aspectj-ant.jar"/>
   </project>
 
 </module>
