@@ -30,7 +30,7 @@
     <option project="commons-httpclient"/>
     <depend project="jakarta-regexp"/>
     
-    <jar name="build/krysalis-ruper2-core-@@DATE@@.jar"/>
+    <jar name="krysalis-ruper2-core-@@DATE@@.jar"/>
     
     <javadoc nested="doc/api" project="krysalis-ruper2"/>
         
@@ -54,7 +54,7 @@
     <depend project="krysalis-ruper2-core" inherit="all"/>
     <depend project="krysalis-version-ant" inherit="all"/>
     
-    <jar name="build/krysalis-ruper2-ant-@@DATE@@.jar"/>
+    <jar name="krysalis-ruper2-ant-@@DATE@@.jar"/>
     
     <javadoc nested="doc/api" project="krysalis-ruper"/>
         
