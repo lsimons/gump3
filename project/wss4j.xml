@@ -32,6 +32,7 @@
 
     <work nested="build/classes"/>
     <work nested="lib/axis-ant.jar"/>
+    <work nested="lib/jce-jdk13-121.jar"/>
 
     <jar name="build/wss4j-@DATE@.jar"/>
 
