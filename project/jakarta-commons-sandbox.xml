@@ -88,6 +88,7 @@
     <depend project="jakarta-ant"/>
     <depend project="xml-xerces"/>
     <depend project="jakarta-servletapi"/>
+    <depend project="jaf"/>
     <jar name="fileupload/dist/commons-fileupload-@@DATE@@.jar"/>
     <javadoc nested="fileupload/dist/docs/api"/>
 
