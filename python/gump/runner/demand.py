@@ -189,7 +189,7 @@ class OnDemandRunner(GumpRunner):
             if gumpOptions.isUpdate():
                 # W/ multiple project in one module, it may be done
                 if not module.isUpdated():
-                    log.debug('Update module *inlined* ' + `module` + '.')     
+                    log.debug('Update module *inlined* (not in background thread) ' + `module` + '.')     
                     inlined+=1
                     self.performUpdate(module)
 

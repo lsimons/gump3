@@ -80,7 +80,7 @@ class ArtifactRepository:
         """
         Get all groups in the repository
         """
-        return os.path.listdir(getRepositoryDir())
+        return os.listdir(self.getRepositoryDir())
         
     def cleanRepository(self):
         for group in self.getGroups():
@@ -173,4 +173,3 @@ class ArtifactRepository:
          (dates,mostRecent)=self.extractGroup(group)
          if dates: return dates[mostRecent]
          
-        

@@ -406,14 +406,15 @@ class GumpBuilder(gump.run.gumprun.RunSpecific):
      
         log.info(' ------ Attempt Repository Search for : '+ project.getName())
 
+        group=project.getArtifactGroup()
+        
         # See if we have any...
-        artifacts = self.repository.extractMostRecentGroup(project.getArtifactGroup())
+        artifacts = self.repository.extractMostRecentGroup(group)
         if not artifacts:
             self.checkUpstreamRepositories(project)
             # Then try again...
-            artifacts = self.repository.extractMostRecentGroup(project.getArtifactGroup())
+            artifacts = self.repository.extractMostRecentGroup(group)
             
-        
         # :TODO:
         # If not artifacts, download using Depot?
         
@@ -434,8 +435,8 @@ class GumpBuilder(gump.run.gumprun.RunSpecific):
                     # Stash this fallback...
                     jar.setPath(path)
                 else:
-                    log.info('Failed to find artifact for id %s (Gump Repo has %s)' % \
-                            (id, artifacts.keys()))
+                    log.info('Failed to find artifact for id %s (Gump Repo has %s in %s)' % \
+                            (id, artifacts.keys(), group))
                             
                     artifactsOk=False
                     break
