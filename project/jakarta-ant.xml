@@ -1,4 +1,4 @@
-<module name="jakarta-ant">
+<module name="jakarta-ant" tag="ANT_15_BRANCH">
 
   <url  href="http://jakarta.apache.org/ant/index.html"/>
   <description>
