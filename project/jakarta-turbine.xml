@@ -30,7 +30,13 @@
   <jar name="turbine-2.1-dev-unreleased.jar"/>
 
   <project name="torque">
+    <depend project="jakarta-ant"/>
+    <depend project="xml-xerces"/>
     <depend project="jakarta-turbine"/>
+    <ant buildfile="build/build-torque.xml">
+      <property name="build.dir" value="../bin"/>
+      <property name="build.dest" value="../bin/classes"/>
+    </ant>
     <home nested="bin/torque/torque"/>
     <jar name="lib/torque.jar"/>
   </project>
