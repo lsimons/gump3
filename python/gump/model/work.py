@@ -201,7 +201,7 @@ class Workable(Stateful):
     	self.worklist.add(item)   
         	
     def okToPerformWork(self):
-        return self.stateUnsetOrOk()        
+        return self.isUnset() or self.isSuccess()        
                
     #
     # Return a triple of hours/minutes/seconds for total

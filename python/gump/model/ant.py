@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/model/Attic/ant.py,v 1.5 2003/11/19 15:42:16 ajack Exp $
-# $Revision: 1.5 $
-# $Date: 2003/11/19 15:42:16 $
+# $Header: /home/stefano/cvs/gump/python/gump/model/Attic/ant.py,v 1.6 2003/11/19 19:43:53 ajack Exp $
+# $Revision: 1.6 $
+# $Date: 2003/11/19 19:43:53 $
 #
 # ====================================================================
 #
@@ -165,7 +165,7 @@ class Ant(ModelObject, PropertyContainer):
             elif not hasattr(property,'name') or not property['name']:
                 # :TODO: Reconsider later, but default to project name for now...
                 property['name']=depend.project
-                project.addWarn('Unnamed property for [' + project.name + '] in depend on: ' + depend.project )
+                project.addWarning('Unnamed property for [' + project.name + '] in depend on: ' + depend.project )
         
             # :TODO: AJ added this, no idea if it is right/needed.
             if depend.id: property['ids']= depend.id

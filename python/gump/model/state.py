@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/model/state.py,v 1.4 2003/11/19 15:42:16 ajack Exp $
-# $Revision: 1.4 $
-# $Date: 2003/11/19 15:42:16 $
+# $Header: /home/stefano/cvs/gump/python/gump/model/state.py,v 1.5 2003/11/19 19:43:53 ajack Exp $
+# $Revision: 1.5 $
+# $Date: 2003/11/19 19:43:53 $
 #
 # ====================================================================
 #
@@ -102,15 +102,7 @@ stateMap = {   CMD_STATE_NOT_YET_RUN : STATE_UNSET,
 def commandStateToWorkState(state):
     return stateMap[state]
            
-def stateUnset(state):
-    return state==STATE_NONE or state==STATE_UNSET 
-        
-def stateOk(state):
-    return state==STATE_SUCCESS
-        
-def stateUnsetOrOk(state):
-    return stateUnset(state) or stateOk(state)           
-    
+
 REASON_UNSET=0
 REASON_PACKAGE=1
 REASON_PACKAGE_BAD=2
@@ -162,7 +154,7 @@ class StatePair:
         return c
          
     def __hash__(self):
-        return hash(self.state)+has(self.reason)
+        return hash(self.state)+hash(self.reason)
              
     def getState(self):
         return self.state
@@ -175,7 +167,35 @@ class StatePair:
         
     def getReasonDescription(self):
         return reasonString(self.getState())
-           
+        
+    #
+    #
+    #
+    def isSuccess(self):
+        return STATE_SUCCESS == self.state
+                
+    def isComplete(self):
+        return STATE_COMPLETE == self.state
+                
+    def isFailed(self):
+        return STATE_FAILED == self.state
+        
+    def isPrereqFailed(self):
+        return STATE_PREREQ_FAILED == self.state
+                
+    def isUnset(self):
+        return STATE_NONE==self.state \
+                or STATE_UNSET==self.state
+        
+    def isUnsetOrOk(self):
+        return self.isUnset() or self.isOk()           
+
+    def isOk(self):
+        return self.isSuccess() or self.isComplete()   
+
+    def isNotOk(self):
+        return self.isFailed() or self.isPrereqFailed()
+               
 class Stateful:
     def __init__(self):        
         self.statePair=StatePair()
@@ -198,15 +218,27 @@ class Stateful:
     def getReasonDescription(self):
         return self.statePair.getReasonDescription()
         
-    def stateUnsetOrOk(self):
-        return stateUnsetOrOk(self.statePair.state)
-        
     def isSuccess(self):
-        return STATE_SUCCESS == self.statePair.state
+        return self.statePair.isSuccess()
+        
+    def isComplete(self):
+        return self.statePair.isComplete()
                 
     def isFailed(self):
-        return STATE_FAILED == self.statePair.state
+        return self.statePair.isFailed()
         
-    def isPrereqFailure(self):
-        return STATE_PREREQ_FAILED == self.statePair.state
+    def isPrereqFailed(self):
+        return self.statePair.isPrereqFailed()
+                
+    def isUnset(self):
+        return self.statePair.isUnset()
         
+    def isUnsetOrOk(self):
+        return self.statePair.isUnsetOrOk()          
+
+    def isOk(self):
+        return self.statePair.isOk()    
+
+    def isNotOk(self):
+        return self.statePair.isNotOk() 
+               

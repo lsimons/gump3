@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/model/object.py,v 1.4 2003/11/19 15:42:16 ajack Exp $
-# $Revision: 1.4 $
-# $Date: 2003/11/19 15:42:16 $
+# $Header: /home/stefano/cvs/gump/python/gump/model/object.py,v 1.5 2003/11/19 19:43:53 ajack Exp $
+# $Revision: 1.5 $
+# $Date: 2003/11/19 19:43:53 $
 #
 # ====================================================================
 #
@@ -84,15 +84,18 @@ class Propogatable(Stateful):
         self.causes=[]
             
     def changeState(self,state,reason=REASON_UNSET,cause=None,message=None):  
+          
         #
         # Do NOT over-write a pre-determined condition
         #            
-        if self.stateUnsetOrOk():
+        if self.isUnsetOrOk():
 
-            # Store it...
-            Stateful.setStatePair(self,StatePair(state,reason))        
+            # Store it...        
+            newState=StatePair(state,reason)
+            Stateful.setStatePair(self,newState)        
                 
-            if not stateOk(state): 
+            # If we are having something bad going on...
+            if not newState.isOk(): 
                 #
                 # If no-one else to point the finger at ...
                 # ... step up.

@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/model/project.py,v 1.5 2003/11/19 15:42:16 ajack Exp $
-# $Revision: 1.5 $
-# $Date: 2003/11/19 15:42:16 $
+# $Header: /home/stefano/cvs/gump/python/gump/model/project.py,v 1.6 2003/11/19 19:43:53 ajack Exp $
+# $Revision: 1.6 $
+# $Date: 2003/11/19 19:43:53 $
 #
 # ====================================================================
 #
@@ -313,7 +313,7 @@ class Project(NamedModelObject):
         # Mark depend*ee*s as failed for this cause...
         # Warn option*ee*s
         #
-        for dependee in self.getFullDependees():  
+        for dependee in self.getDependees():  
     
             # This is a backwards link, so use the owner
             dependeeProject=dependee.getOwnerProject()
@@ -990,18 +990,17 @@ class ProjectSummary:
         
         if not self.statepairs: self.statepairs=[]
         
-    def addState(self,pair):            
-        state=pair.state
+    def addState(self,state):            
         # Stand up and be counted
-        if stateOk(state):
+        if state.isSuccess():
             self.successes+=1
-        elif STATE_PREREQ_FAILED == state:
+        elif state.isPreqFailed():
             self.prereqs+=1
-        elif STATE_FAILED == state:
+        elif state.isFailed():
             self.failures+=1
-        elif STATE_NONE == state:
+        elif state.isUnset():
             self.noworks+=1
-        elif STATE_COMPLETE == state:
+        elif state.isComplete():
             # :TODO: Accurate?
             self.packages+=1
         else:
@@ -1011,8 +1010,8 @@ class ProjectSummary:
         self.projects += 1
                 
         # Add state, if not already there
-        if not stateUnset(pair.state) and not pair in self.statepairs: \
-            self.statepairs.append(pair)
+        if not state.isUnset() and not state in self.statepairs: \
+            self.statepairs.append(state)
         
     def addSummary(self,summary):
                  

@@ -85,10 +85,17 @@ class ModelTestSuite(UnitTestSuite):
          
         self.assertNotNone('Needed a workspace', self.workspace)
         
-        self.repo1=self.workspace.getRepository('repository1')              
+        self.repo1=self.workspace.getRepository('repository1')  
+                    
         self.project1=self.workspace.getProject('project1')
-        self.project2=self.workspace.getProject('project2')
+        self.project2=self.workspace.getProject('project2')             
+        self.project3=self.workspace.getProject('project3')
+        self.project4=self.workspace.getProject('project4')
+        
         self.module1=self.workspace.getModule('module1')
+        self.module2=self.workspace.getModule('module2')
+        self.module3=self.workspace.getModule('module3')
+        self.module4=self.workspace.getModule('module4')
     
         
     def testWorkspace(self):
@@ -131,19 +138,35 @@ class ModelTestSuite(UnitTestSuite):
         
         self.assertTrue('Module is CVS', module1.isCVS())
         self.assertNonZeroString('CVSROOT',module1.cvs.getCVSRoot())
+    
+    def testDependencyMapping(self):
         
-    def testStatePropogation(self):
-        module1=self.module1
         project1=self.project1
         project2=self.project2
-        
-        module1.changeState(STATE_FAILED)
         
         self.assertTrue('Project2 depends upon Project1', project2.hasDirectDependencyOn(project1))
         self.assertTrue('Project1 has Project2 as a Dependee', project1.hasDirectDependee(project2))
         self.assertFalse('Project1 ought NOT have Project1 as a Dependee', project1.hasDirectDependee(project1))
         
-        self.assertEqual('State ought propagate down', project1.getState(), STATE_FAILED)
-        self.assertEqual('State ought propagate to here', project2.getState(), STATE_PREREQ_FAILED)
-        self.assertNotEqual('State ought NOT propagate like this', project2.getState(), STATE_FAILED)
+    def testStatePropogation(self):
+        module1=self.module1
+        module2=self.module2
+        module3=self.module3
+        module4=self.module4
+        
+        project1=self.project1
+        project2=self.project2
+        project3=self.project3
+        project4=self.project4
+        
+        # Make one 'packaged'
+        module1.changeState(STATE_COMPLETE,REASON_PACKAGE)
+        
+        # Make one 'failed'
+        module3.changeState(STATE_FAILED)
+        
+        self.assertNotEqual('Complete State ought NOT propagate down', project1.getState(), STATE_COMPLETE)
+        
+        self.assertEqual('State ought propagate to here', project4.getState(), STATE_PREREQ_FAILED)
+        self.assertNotEqual('State ought NOT propagate like this', project4.getState(), STATE_FAILED)
         

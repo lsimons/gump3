@@ -386,7 +386,8 @@ class GumpEngine:
                 self.performPostBuild( run, project, repository )
     
             if not project.okToPerformWork():
-                log.warn('Failed to build project [' + project.getName() + ']')
+                log.warn('Failed to build project [' + project.getName() + '], state:' \
+                        + project.getStateDescription())
             
     def performPreBuild( self, run, project ):
         """ Perform pre-build Actions """

@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/document/documenter.py,v 1.1 2003/11/17 22:10:55 ajack Exp $
-# $Revision: 1.1 $
-# $Date: 2003/11/17 22:10:55 $
+# $Header: /home/stefano/cvs/gump/python/gump/document/documenter.py,v 1.2 2003/11/19 19:43:53 ajack Exp $
+# $Revision: 1.2 $
+# $Date: 2003/11/19 19:43:53 $
 #
 # ====================================================================
 #
@@ -81,6 +81,8 @@ class Documenter:
         
         if not callable(self.documentRun):
             raise RuntimeException, 'Complete [' + self.__class__ + '] with a callable documentRun(self,run)'
+        
+        log 'Document run using [' + `self` + ']'
         
         self.documentRun(run)
     

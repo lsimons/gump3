@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/net/Attic/cvs.py,v 1.1 2003/11/17 22:10:52 ajack Exp $
-# $Revision: 1.1 $
-# $Date: 2003/11/17 22:10:52 $
+# $Header: /home/stefano/cvs/gump/python/gump/net/Attic/cvs.py,v 1.2 2003/11/19 19:43:53 ajack Exp $
+# $Revision: 1.2 $
+# $Date: 2003/11/19 19:43:53 $
 #
 # ====================================================================
 #
@@ -95,23 +95,24 @@ def readLogins():
     logins={}
     cvspassfile=os.path.expanduser(os.path.join('~','.cvspass'))
     # print 'CVS Password File : ' + cvspassfile
-    cvspass=open(cvspassfile)
-    for line in cvspass.readlines():
-        clean=line.strip()
-        parts=clean.split(' ')
+    if os.path.exists(cvspassfile):
+        cvspass=open(cvspassfile)
+        for line in cvspass.readlines():
+            clean=line.strip()
+            parts=clean.split(' ')
       
-        # Cope with new format .cvspass 
-        rootPart=0
-        if '/1' == parts[0]:
-            rootPart=1
-        root=parts[rootPart]
+            # Cope with new format .cvspass 
+            rootPart=0
+            if '/1' == parts[0]:
+                rootPart=1
+            root=parts[rootPart]
         
-        # Cope w/ spaces in mangles
-        mangle=' '.join(parts[rootPart+1:])
+            # Cope w/ spaces in mangles
+            mangle=' '.join(parts[rootPart+1:])
         
-        # Stash this mangle for this root               
-        logins[root]=mangle
-    cvspass.close()    
+            # Stash this mangle for this root               
+            logins[root]=mangle
+        cvspass.close()    
     return logins
  
 def loginToRepositoryOnDemand(repository,root,logins):
