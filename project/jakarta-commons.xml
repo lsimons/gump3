@@ -17,7 +17,7 @@
     <depend project="commons-collections"/>
     <depend project="junit"/>
     <home nested="beanutils/dist"/>
-    <jar name="commons-beanutils.jar"/>
+    <jar name="commons-beanutils.jar" id="beanutils"/>
   </project>
 
   <project name="commons-cactus">
@@ -63,7 +63,7 @@
     <depend project="junit"/>
     <work nested="collections/dist/classes"/>
     <home nested="collections/dist"/>
-    <jar name="commons-collections.jar"/>
+    <jar name="commons-collections.jar" id="collections"/>
   </project>
 
   <project name="commons-dbcp">
@@ -90,8 +90,8 @@
     <depend project="junit"/>
     <depend project="commons-beanutils"/>
     <depend project="commons-collections"/>
-    <home nested="digester/build"/>
-    <jar name="commons-digester.jar"/>
+    <home nested="digester/dist"/>
+    <jar name="commons-digester.jar" id="digester"/>
   </project>
 
   <project name="commons-httpclient">

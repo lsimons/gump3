@@ -14,6 +14,15 @@
               id="servlet" project="jakarta-servletapi-4"/>
     <property name="xerces.jar"    reference="jarpath" 
               id="parser" project="xml-xerces"/>
+
+    <property name="commons-beanutils.jar" reference="jarpath"
+              id="beanutils" project="commons-beanutils"/>
+
+    <property name="commons-collections.jar" reference="jarpath"
+              id="collections" project="commons-collections"/>
+
+    <property name="commons-digester.jar" reference="jarpath"
+              id="digester" project="commons-digester"/>
   </ant>
 
   <depend project="xml-xerces"/>
