@@ -171,6 +171,9 @@ class TextDocumenter(Documenter):
                 output.write(indent+"Work Cmd  : " + work.command.formatCommandLine() + "\n")
                 if work.command.cwd:
                     output.write(indent+"Work Cwd  : " + work.command.cwd + "\n")
+                if work.command.env:
+                    for envKey in work.command.env.keys():
+                        output.write(indent+"Work Env  : " + envKey + ' : '+self.env[envKey])        
                 if work.result.signal:
                     output.write(indent+"Work Signal  : " + `work.result.signal` + "\n")
                 output.write(indent+"Work Exit : " + str(work.result.exit_code) + "\n")
@@ -178,7 +181,6 @@ class TextDocumenter(Documenter):
                 if realtime and work.result.hasOutput():
                     catFile(output,work.result.getOutput(),work.result.getOutput())
                     
-        
 
     def documentAnnotations(self, indent, annotatable): 
         indent += ' '

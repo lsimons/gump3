@@ -40,6 +40,8 @@ from xml.dom import minidom
 
 LINE=' - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - GUMP'
 
+GUMPY_VERSION='2.0.2-alpha-0001'
+
 def ignoreHangup(signum):
     pass
     
@@ -258,6 +260,7 @@ try:
         log.write('- GUMP run on host   : ' + hostname + '\n')
         log.write('- GUMP run @         : ' + time.strftime('%d %b %y %H:%M:%S', time.gmtime()) + '\n')
         log.write('- GUMP run by Python : ' + `sys.version` + '\n')
+        log.write('- GUMP run by Gumpy  : ' + GUMPY_VERSION + '\n')
         log.write('- GUMP run on OS     : ' + `os.name` + '\n')
         log.write('- GUMP run in env    : \n')
         
@@ -456,6 +459,12 @@ finally:
                 mailData += tailData
             except:
                 pass
+                
+            # Tack a version on there
+            maildata += '--\n'
+            maildata += 'Gumpy Version: '
+            maildata += GUMPY_VERSION
+            maildata += '\n'
             
             sendEmail(mailto,mailfrom,logTitle,mailData,mailserver,mailport)
 

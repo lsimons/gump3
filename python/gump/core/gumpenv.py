@@ -224,7 +224,7 @@ class GumpEnvironment(Annotatable,Workable,Propogatable):
         os.unlink(JAVA_SOURCE.replace('.java','.class'))
 
         for (name,value) in self.javaProperties.items():
-            log.info(name + " => " + value)
+            log.debug("Java Property: " + name + " => " + value)
 
         return self.javaProperties
 

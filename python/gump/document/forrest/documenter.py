@@ -409,19 +409,20 @@ class ForrestDocumenter(Documenter):
             syndRow.createData().createLink('workspace.html','XML')
                 
         if not gumpSet.isFull():
-            warning=definitionSection.createWarning()
+            notice=definitionSection.createWarning()
             
-            warning.createText("""This output does not represent the a complete workspace,
-            but a partial one.         
+            notice.createText("""This output does not represent the complete workspace,
+            but part of it.         
             Only projects, and their dependents, matching this regular expression """)
-            warning.createStrong(gumpSet.projectexpression)
-            warning.createBreak()
-            warning.createBreak()            
-            warning.createText('Requested Projects:')
-            warning.createBreak()
+            notice.createStrong(gumpSet.projectexpression)
+            notice.createBreak()
+            notice.createBreak()            
+            notice.createStrong('Requested Projects: ')
+            notice.createBreak()
+            notice.createBreak()  
             for project in gumpSet.projects:
-                warning.createText(project.name)
-                warning.createText(' ')
+                notice.createText(project.name)
+                notice.createText(' ')
                             
         
         self.documentSummary(document,workspace.getProjectSummary())        
@@ -2149,9 +2150,6 @@ This page helps Gumpmeisters (and others) observe community progress.
                         o=open(output, 'r')
                         line=o.readline()
                         while line:
-                            
-                            line=wrapLine(line,100,'...\n','    ')
-                            
                             length = len(line)
                             size += length
                             # Crude to 'ensure' that escaped
