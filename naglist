@@ -88,6 +88,8 @@ To: avalon-dev@jakarta.apache.org
 From: Peter Donald <donaldp@apache.org>
 Subject: [GUMP] Build Failure - Clutil
 Regex: /BUILD FAILED/
+Subject: [GUMP] Empty jar - Clutil
+Regex: /Note: creating empty jar/
 ------
 Project: jakarta-avalon-cornerstone
 To: avalon-dev@jakarta.apache.org
