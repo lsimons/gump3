@@ -173,10 +173,10 @@
     <depend project="jakarta-ant" inherit="runtime"/>
     
     <!-- core jelly build dependencies -->
-    <depend project="commons-beanutils"/>
-    <depend project="commons-collections"/>
+    <depend project="commons-beanutils" runtime="true"/>
+    <depend project="commons-collections" runtime="true"/>
     <depend project="commons-jexl"/>
-    <depend project="commons-logging"/>
+    <depend project="commons-logging" runtime="true"/>
     <depend project="dom4j"/>
     <depend project="junit"/>
     <depend project="xml-xerces"/>

@@ -189,7 +189,7 @@
     <depend project="xml-xerces"/>
     <option project="jsse"/>
     <depend project="jakarta-log4j"/>
-    <depend project="commons-logging"/>
+    <depend project="commons-logging" runtime="true"/>
     <!-- included in JDK 1.4 depend project="jce"/-->
     <home nested="httpclient/dist"/>
     <jar name="commons-httpclient.jar"/>
@@ -245,14 +245,14 @@
     <depend project="jakarta-ant" inherit="runtime"/>
     <depend project="xml-xerces"/>
     <depend project="xml-xalan2"/>
-    <depend project="commons-httpclient"/>
+    <depend project="commons-httpclient" inherit="runtime"/>
     <depend project="jakarta-log4j"/>
     <depend project="jakarta-regexp"/>
     <depend project="jakarta-servletapi-4"/>
     <depend project="jdom"/>
     <depend project="junit"/>
     <depend project="dom4j"/>
-    <depend project="commons-jelly"/>
+    <depend project="commons-jelly" inherit="runtime"/>
     <option project="jaxen" inherit="runtime"/>
     <work nested="latka/target/classes"/>
     <work nested="latka/target/test-classes"/>
