@@ -1009,6 +1009,9 @@
                 to="dev@avalon.apache.org"/>
     </project>
 
+    <!-- DUMMY, remove once Cocoon has removed its dependency -->
+    <project name="excalibur-naming"/>
+
     <!-- ===================================================================
           Binary packages
 
