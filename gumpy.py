@@ -214,7 +214,7 @@ try:
         
         workspacePath = os.path.abspath(workspaceName)
             
-        projectsExpr='*'
+        projectsExpr='all'
         if os.environ.has_key('GUMP_PROJECTS'):        
             projectsExpr = os.environ['GUMP_PROJECTS']       
             
