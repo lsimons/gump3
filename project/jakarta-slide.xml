@@ -81,7 +81,6 @@
     <depend project="commons-httpclient-contrib"/>
 
     <work nested="build/classes"/>
-    <work nested="build/client/classes"/>
     <work nested="webdavclient/build/clientlib/classes"/>
 
     <jar name="webdavclient/dist/lib/jakarta-slide-commandline-@@DATE@@.jar" id="client"/>
