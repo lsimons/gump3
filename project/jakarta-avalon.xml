@@ -5,7 +5,7 @@
     Avalon framework
   </description>
 
-  <package>org.apache.avalon</package>
+  <package>org.apache.avalon.framework</package>
 
   <cvs repository="jakarta"/>
   

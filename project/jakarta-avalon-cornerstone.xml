@@ -5,7 +5,7 @@
     Set of default services for Avalon/Phoenix
   </description>
 
-  <package>org.apache.avalone.cornerstone</package>
+  <package>org.apache.avalon.cornerstone</package>
 
   <cvs repository="jakarta"/>
   
