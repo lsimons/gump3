@@ -570,7 +570,7 @@
         <depend project="avalon-framework" id="impl" />
         <work nested="meta/api/target/classes"/>
         <home nested="meta/api"/>
-        <jar name="target/jars/avalon-meta-api-@@DATE@@.jar" id="api"/>
+        <jar name="target/avalon-meta-api-@@DATE@@.jar" id="api"/>
         <javadoc nested="meta/api/target/docs/apidocs"/>
         <junitreport nested="meta/api/target/test-reports"/>
         <nag to="dev@avalon.apache.org" from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"/>
@@ -588,7 +588,7 @@
         <depend project="avalon-meta-api" />
         <work nested="meta/spi/target/classes"/>
         <home nested="meta/spi"/>
-        <jar name="target/jars/avalon-meta-spi-@@DATE@@.jar" id="spi"/>
+        <jar name="target/avalon-meta-spi-@@DATE@@.jar" id="spi"/>
         <javadoc nested="meta/spi/target/docs/apidocs"/>
         <junitreport nested="meta/spi/target/test-reports"/>
         <nag to="dev@avalon.apache.org" from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"/>
@@ -612,7 +612,7 @@
 
         <work nested="meta/tools/target/classes"/>
         <home nested="meta/tools"/>
-        <jar name="target/jars/avalon-meta-tools-@@DATE@@.jar" id="tools"/>
+        <jar name="target/avalon-meta-tools-@@DATE@@.jar" id="tools"/>
         <javadoc nested="meta/tools/target/docs/apidocs"/>
         <junitreport nested="meta/tools/target/test-reports"/>
         <nag to="dev@avalon.apache.org" from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"/>
@@ -643,7 +643,7 @@
         -->    
         <work nested="meta/plugin/target/classes"></work>
         <home nested="meta/plugin"></home>
-        <jar name="target/jars/avalon-meta-plugin-@@DATE@@.jar" id="plugin"/>
+        <jar name="target/avalon-meta-plugin-@@DATE@@.jar" id="plugin"/>
         <javadoc nested="meta/plugin/target/docs/apidocs"/>
         <junitreport nested="meta/plugin/target/test-reports"/>
         <nag to="dev@avalon.apache.org" from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"></nag>
@@ -666,7 +666,7 @@
 
         <work nested="meta/impl/target/classes"/>
         <home nested="meta/impl"/>
-        <jar name="target/jars/avalon-meta-impl-@@DATE@@.jar" id="impl"/>
+        <jar name="target/avalon-meta-impl-@@DATE@@.jar" id="impl"/>
         <javadoc nested="meta/impl/target/docs/apidocs"/>
         <junitreport nested="meta/impl/target/test-reports"/>
         <nag to="dev@avalon.apache.org" from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"/>
@@ -682,7 +682,7 @@
         <depend project="xml-xerces"/>
         <work nested="repository/api/target/classes"/>
         <home nested="repository/api"/>
-        <jar name="target/jars/avalon-repository-api-@@DATE@@.jar" id="api"/>
+        <jar name="target/avalon-repository-api-@@DATE@@.jar" id="api"/>
         <javadoc nested="repository/api/target/docs/apidocs"/>
         <junitreport nested="repository/api/target/test-reports"/>
         <nag to="dev@avalon.apache.org" from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"/>
@@ -701,7 +701,7 @@
         <depend project="avalon-util-i18n" />
         <work nested="repository/cli/target/classes"/>
         <home nested="repository/cli"/>
-        <jar name="target/jars/avalon-repository-cli-@@DATE@@.jar" id="api"/>
+        <jar name="target/avalon-repository-cli-@@DATE@@.jar" id="api"/>
         <javadoc nested="repository/cli/target/docs/apidocs"/>
         <junitreport nested="repository/cli/target/test-reports"/>
         <nag to="dev@avalon.apache.org" from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"/>
@@ -727,7 +727,7 @@
         
         <work nested="repository/impl/target/classes"/>
         <home nested="repository/impl"/>
-        <jar name="target/jars/avalon-repository-impl-@@DATE@@.jar" id="api"/>
+        <jar name="target/avalon-repository-impl-@@DATE@@.jar" id="api"/>
         <javadoc nested="repository/impl/target/docs/apidocs"/>
         <junitreport nested="repository/impl/target/test-reports"/>
         <nag to="dev@avalon.apache.org" from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"/>
@@ -752,7 +752,7 @@
         <depend project="avalon-util-env" />
         <work nested="repository/main/target/classes"/>
         <home nested="repository/main"/>
-        <jar name="target/jars/avalon-repository-main-@@DATE@@.jar" id="api"/>
+        <jar name="target/avalon-repository-main-@@DATE@@.jar" id="api"/>
         <javadoc nested="repository/main/target/docs/apidocs"/>
         <junitreport nested="repository/main/target/test-reports"/>
         <nag to="dev@avalon.apache.org" from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"/>
@@ -769,7 +769,7 @@
         <depend project="avalon-repository-api" />
         <work nested="repository/spi/target/classes"/>
         <home nested="repository/spi"/>
-        <jar name="target/jars/avalon-repository-spi-@@DATE@@.jar" id="api"/>
+        <jar name="target/avalon-repository-spi-@@DATE@@.jar" id="api"/>
         <javadoc nested="repository/spi/target/docs/apidocs"/>
         <junitreport nested="repository/spi/target/test-reports"/>
         <nag to="dev@avalon.apache.org" from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"/>
@@ -786,7 +786,7 @@
         <depend project="avalon-repository-api" />
         <work nested="repository/util/target/classes"/>
         <home nested="repository/util"/>
-        <jar name="target/jars/avalon-repository-util-@@DATE@@.jar" id="api"/>
+        <jar name="target/avalon-repository-util-@@DATE@@.jar" id="api"/>
         <javadoc nested="repository/util/target/docs/apidocs"/>
         <junitreport nested="repository/util/target/test-reports"/>
         <nag to="dev@avalon.apache.org" from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"/>
@@ -802,7 +802,7 @@
         <depend project="xml-xerces"/>
         <work nested="util/criteria/target/classes"/>
         <home nested="util/criteria"/>
-        <jar name="target/jars/avalon-util-criteria-@@DATE@@.jar"/>
+        <jar name="target/avalon-util-criteria-@@DATE@@.jar"/>
         <javadoc nested="util/criteria/target/docs/apidocs"/>
         <junitreport nested="util/criteria/target/test-reports"/>
         <nag to="dev@avalon.apache.org" from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"/>
@@ -819,7 +819,7 @@
         <depend project="avalon-util-env" />
         <work nested="util/defaults/target/classes"/>
         <home nested="util/defaults"/>
-        <jar name="target/jars/avalon-util-defaults-@@DATE@@.jar"/>
+        <jar name="target/avalon-util-defaults-@@DATE@@.jar"/>
         <javadoc nested="util/defaults/target/docs/apidocs"/>
         <junitreport nested="util/defaults/target/test-reports"/>
         <nag to="dev@avalon.apache.org" from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"/>
@@ -835,7 +835,7 @@
         <depend project="xml-xerces"/>
         <work nested="util/env/target/classes"/>
         <home nested="util/env"/>
-        <jar name="target/jars/avalon-util-env-@@DATE@@.jar"/>
+        <jar name="target/avalon-util-env-@@DATE@@.jar"/>
         <javadoc nested="util/env/target/docs/apidocs"/>
         <junitreport nested="util/env/target/test-reports"/>
         <nag to="dev@avalon.apache.org" from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"/>
@@ -851,7 +851,7 @@
         <depend project="xml-xerces"/>
         <work nested="util/exception/target/classes"/>
         <home nested="util/exception"/>
-        <jar name="target/jars/avalon-util-exception-@@DATE@@.jar"/>
+        <jar name="target/avalon-util-exception-@@DATE@@.jar"/>
         <javadoc nested="util/exception/target/docs/apidocs"/>
         <junitreport nested="util/exception/target/test-reports"/>
         <nag to="dev@avalon.apache.org" from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"/>
@@ -867,7 +867,7 @@
         <depend project="xml-xerces"/>
         <work nested="util/extension/api/target/classes"/>
         <home nested="util/extension/api"/>
-        <jar name="target/jars/avalon-util-extension-api-@@DATE@@.jar"/>
+        <jar name="target/avalon-util-extension-api-@@DATE@@.jar"/>
         <javadoc nested="util/extension/api/target/docs/apidocs"/>
         <junitreport nested="util/extension/api/target/test-reports"/>
         <nag to="dev@avalon.apache.org" from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"/>
@@ -884,7 +884,7 @@
         <depend project="avalon-util-extension-api" />
         <work nested="util/extension/impl/target/classes"/>
         <home nested="util/extension/impl"/>
-        <jar name="target/jars/avalon-util-extension-impl-@@DATE@@.jar"/>
+        <jar name="target/avalon-util-extension-impl-@@DATE@@.jar"/>
         <javadoc nested="util/extension/impl/target/docs/apidocs"/>
         <junitreport nested="util/extension/impl/target/test-reports"/>
         <nag to="dev@avalon.apache.org" from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"/>
@@ -900,7 +900,7 @@
         <depend project="xml-xerces"/>
         <work nested="util/i18n/target/classes"/>
         <home nested="util/i18n"/>
-        <jar name="target/jars/avalon-util-i18n-@@DATE@@.jar"/>
+        <jar name="target/avalon-util-i18n-@@DATE@@.jar"/>
         <javadoc nested="util/i18n/target/docs/apidocs"/>
         <junitreport nested="util/i18n/target/test-reports"/>
         <nag to="dev@avalon.apache.org" from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"/>
