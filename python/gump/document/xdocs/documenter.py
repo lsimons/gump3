@@ -1632,6 +1632,7 @@ This page helps Gumpmeisters (and others) observe community progress.
         self.documentAnnotations(document,project)             
         
         note=''
+        warn=''
         if project.wasBuilt():
             if project.getReason() == REASON_BUILD_FAILED:
                 warn='Project build output (failure) found here...'
