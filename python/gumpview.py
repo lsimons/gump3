@@ -147,7 +147,13 @@ class gumpview(wxApp):
     self.tree.Expand(self.mItem[project.module])
     self.tree.SelectItem(self.pItem[project.name])
 
+  # make sure that the tree items don't outlive the view
+  def unload(self):
+    self.mItem.clear()
+    self.pItem.clear()
+
 if __name__ == '__main__':
   app = gumpview(0)
   app.load(sys.argv[1:] or [default.workspace])
   app.MainLoop()
+  app.unload()
