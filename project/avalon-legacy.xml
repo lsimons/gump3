@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+  Copyright 2001-2004 The Apache Software Foundation
+
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+-->
+
+<module name="avalon-legacy">
+    <url href="http://avalon.apache.org/"/>
+    <description>
+        Avalon's main repository.
+    </description>
+    <cvs repository="avalon"/>
+
+    <project name="avalon-fortress-container">
+        <package>org.apache.avalon.fortress</package>
+        <ant target="dist" basedir="fortress/container">
+            <property name="project.version" value="@@DATE@@"></property>
+        </ant>
+
+        <depend project="ant" inherit="runtime"></depend>
+        <depend project="xml-xalan2"></depend>
+        <depend project="xml-xerces"></depend>
+        <depend runtime="true" project="jakarta-bcel"></depend>
+        <depend runtime="true" project="commons-beanutils"></depend>
+        <depend runtime="true" project="commons-collections"></depend>
+        <depend runtime="true" project="concurrent"></depend>
+        <depend runtime="true" project="excalibur-event"></depend>
+        <depend runtime="true" project="excalibur-i18n"></depend>
+        <depend runtime="true" project="excalibur-instrument"></depend>
+        <depend runtime="true" project="excalibur-instrument-manager"></depend>
+        <depend runtime="true" project="excalibur-lifecycle-api"></depend>
+        <depend runtime="true" project="excalibur-lifecycle-impl"></depend>
+        <depend runtime="true" project="excalibur-logger"></depend>
+        <depend runtime="true" project="excalibur-sourceresolve"></depend>
+        <depend runtime="true" project="avalon-framework"></depend>
+        <depend runtime="true" project="junit"></depend>
+        <depend runtime="true" project="avalon-logkit"></depend>
+        <depend runtime="true" project="qdox"></depend>
+
+        <work nested="fortress/container/target/classes"></work>
+        <work nested="fortress/container/target/api-classes"></work>
+        <work nested="fortress/container/target/impl-classes"></work>
+        <work nested="fortress/container/target/test-classes"></work>
+
+        <home nested="fortress/container"></home>
+
+        <jar name="target/avalon-fortress-container-@@DATE@@.jar" id="combined"></jar>
+        <jar name="target/avalon-fortress-container-@@DATE@@-api.jar" id="api"></jar>
+        <jar name="target/avalon-fortress-container-@@DATE@@-impl.jar" id="impl"></jar>
+        <javadoc nested="fortress/container/target/docs/apidocs"></javadoc>
+        <junitreport nested="fortress/container/target/docs/junitreports"></junitreport>
+
+        <nag to="dev@avalon.apache.org" from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"></nag>
+    </project>
+
+    <project name="avalon-fortress-tools">
+        <package>org.apache.avalon.fortress.tools</package>
+        <ant target="dist" basedir="fortress/tools">
+            <property name="project.version" value="@@DATE@@"></property>
+        </ant>
+
+        <depend project="ant" inherit="runtime"></depend>
+        <depend project="xml-xalan2"></depend>
+        <depend project="xml-xerces"></depend>
+
+        <depend runtime="true" inherit="runtime" project="avalon-fortress-container"></depend>
+        <depend runtime="true" project="junit"></depend>
+        <depend runtime="true" project="qdox"></depend>
+
+        <work nested="fortress/tools/target/classes"></work>
+
+        <home nested="fortress/tools"></home>
+        <jar name="target/avalon-fortress-tools-@@DATE@@.jar"></jar>
+
+        <javadoc nested="fortress/tools/target/docs/apidocs"></javadoc>
+
+        <nag to="dev@avalon.apache.org" from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"></nag>
+    </project>
+
+    <project name="avalon-fortress-examples">
+        <package>org.apache.avalon.fortress.examples</package>
+        <ant target="dist" basedir="fortress/examples">
+            <property name="project.version" value="@@DATE@@"></property>
+        </ant>
+
+        <depend project="ant" inherit="runtime"></depend>
+        <depend project="xml-xalan2"></depend>
+        <depend project="xml-xerces"></depend>
+
+        <depend runtime="true" project="avalon-fortress-container"></depend>
+        <depend runtime="true" project="jakarta-bcel"></depend>
+        <depend runtime="true" project="commons-collections"></depend>
+        <depend runtime="true" project="concurrent"></depend>
+        <depend runtime="true" project="excalibur-event"></depend>
+        <depend runtime="true" project="excalibur-i18n"></depend>
+        <depend runtime="true" project="excalibur-instrument"></depend>
+        <depend runtime="true" project="excalibur-lifecycle-api"></depend>
+        <depend runtime="true" project="excalibur-logger"></depend>
+        <depend runtime="true" project="excalibur-sourceresolve"></depend>
+        <depend runtime="true" project="avalon-framework"></depend>
+        <depend runtime="true" project="junit"></depend>
+        <depend runtime="true" project="avalon-logkit"></depend>
+        <depend runtime="true" project="qdox"></depend>
+        <depend runtime="true" project="jakarta-servletapi-4"></depend>
+
+        <work nested="fortress/examples/target/classes"></work>
+
+        <home nested="fortress/examples"></home>
+        <jar name="target/avalon-fortress-examples-@@DATE@@.jar"></jar>
+
+        <javadoc nested="fortress/examples/target/docs/apidocs"></javadoc>
+
+        <nag to="dev@avalon.apache.org" from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"></nag>
+    </project>
+    
+</module>
+
