@@ -84,7 +84,7 @@
       <tr>
         <td>version</td>
         <td>Which version of the Gump dtd this workspace was defined against.
-          The current version is "0.3".
+          The current version is "0.4".
         </td>
         <td>Yes</td>
       </tr>
@@ -95,8 +95,9 @@
           a <em>considerable</em> performance advantage over the default action
           which is to recursively remove the directory and copy the entire
           directory tree.  Recommended value for this parameter is
-          <code>"rsync -r -a --delete"</code>.
-        </td>
+          <code>"rsync -r -a --delete"</code>. <em>Note:</em> Not used ny Python Gump,
+          which builds this in.
+         </td>
         <td>No</td>
       </tr>
       <tr>
