@@ -139,8 +139,8 @@ def establishLock(lockFile):
                 
         try:            
             lock=open(lockFile,'a+')
-            fcntl.flock(lock.fileno(), fcntl.LOCK_EX | fnctl.LOCK_NB)
-        except:
+            fcntl.flock(lock.fileno(), fcntl.LOCK_EX | fcntl.LOCK_NB)
+        except:            
             failed=1
         
     else:
