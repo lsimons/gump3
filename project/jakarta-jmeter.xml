@@ -26,8 +26,8 @@
 -->
     </ant>
 
-<!-- Temporary standalone trial build
     <depend project="ant" />
+<!-- Temporary standalone trial build
     <depend project="commons-collections"/>
     <depend project="jakarta-velocity" />
     <depend project="jaf" />
@@ -36,12 +36,13 @@
     <depend project="jtidy" />
     <depend project="excalibur-compatibility" />
     <depend project="beanshell" ids="bsh-core"/>
+-->
 
     <work nested="build/core"/>
     <work nested="build/htmlparser"/>
     <work nested="build/jorphan"/>
--->
-    <depend project="ant" inherit="runtime"/>
+
+    <!--depend project="ant" inherit="runtime"/-->
     
     <!-- Allow http to build: -->
     <work nested="build/components"/>
@@ -56,7 +57,20 @@
     <work nested="lib/ext/ApacheJMeter_java.jar"/>
 
     <!-- Temporary standalone trial build -->
-    <work nested="lib"/>
+    <work nested="lib/avalon-excalibur-4.1.jar"/>
+    <work nested="lib/avalon-framework-4.1.4.jar"/>
+    <work nested="lib/commons-collections.jar"/>
+    <work nested="lib/jakarta-oro-2.0.7.jar"/>
+    <work nested="lib/jdom-b8.jar"/>
+    <work nested="lib/junit.jar"/>
+    <work nested="lib/js.jar"/>
+    <work nested="lib/logkit-1.2.jar"/>
+    <work nested="lib/soap.jar"/>
+    <work nested="lib/Tidy.jar"/>
+    <work nested="lib/velocity-1.4.jar"/>
+    <work nested="lib/xalan.jar"/>
+    <work nested="lib/xercesImpl.jar"/>
+    <work nested="lib/xml-apis.jar"/>
 
     <!-- Export the JMeter jars -->
     <home nested="." />
