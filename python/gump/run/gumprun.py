@@ -90,7 +90,7 @@ class GumpRun(gump.utils.timing.Timeable,gump.utils.work.Workable,gump.utils.not
         
         # A repository interface...
         from gump.repository.artifact import ArtifactRepository
-        self.outputsRepository=ArtifactRepository(workspace.jardir)
+        self.outputsRepository=ArtifactRepository(workspace.repodir)
                   
         # Generate a GUID (or close)
         import md5
@@ -108,6 +108,8 @@ class GumpRun(gump.utils.timing.Timeable,gump.utils.work.Workable,gump.utils.not
         self.builder=None
         self.updater=None
         
+        # Language Helpers
+        self.languages={}
         
     def setBuilder(self,builder):
         self.builder=builder
@@ -121,13 +123,12 @@ class GumpRun(gump.utils.timing.Timeable,gump.utils.work.Workable,gump.utils.not
     def getUpdater(self):
         return self.updater
 
-    def setJavaHelper(self,javaHelper):
-        self.javaHelper=javaHelper
+    def addLanguageHelper(self,language,helper):
+        self.languages[language]=helper
         
-    def getJavaHelper(self):
-        return self.javaHelper
+    def getLanguageHelper(self,language):
+        return self.languages[language]
         
-    
     def getRunGuid(self):
         return self.guid
         

@@ -64,6 +64,32 @@ class DatabaseInformation(ModelObject):
     def getUser(self): return self.user
     def getPasswd(self): return self.passwd
     def getDatabase(self): return self.database
+    
+class DotNetInformation(ModelObject):
+    def __init__(self,dom):    
+        ModelObject.__init__(self,dom)  
+        
+        # Some defaults...
+        self.framework=None
+        
+    def complete(self,workspace): 
+        if self.isComplete(): return
+        
+        # In case we care
+        self.workspace=workspace
+        
+        # Import DOM attributes into self as attributes
+        transferDomInfo(self.element, self, {})   
+        
+        self.setComplete()
+        
+    def hasFramework(self): 
+        if self.framework: return True
+        return False
+        
+    def getFramework(self):
+        return self.framework
+
         
 class Workspace(NamedModelObject, PropertyContainer, Statable, Resultable):
     """
@@ -99,10 +125,12 @@ class Workspace(NamedModelObject, PropertyContainer, Statable, Resultable):
         # Database Informaton
         self.dbInfo=None
 
+        # DotNet Informaton
+        self.dotnetInfo=None
+
         # Where the merged XML was put
         self.mergeFile=None
  
-        
     def getChildren(self):
         return self.getModules() 
     
@@ -217,6 +245,13 @@ class Workspace(NamedModelObject, PropertyContainer, Statable, Resultable):
     def getDatabaseInformation(self):
         return self.dbInfo
         
+    def hasDotNetInformation(self):
+        if self.dotnetInfo: return True
+        return False
+        
+    def getDotNetInformation(self):
+        return self.dotnetInfo
+        
     def isMultithreading(self):
         return self.hasUpdaters() or self.hasBuilders()
         
@@ -244,7 +279,7 @@ class Workspace(NamedModelObject, PropertyContainer, Statable, Resultable):
         
         self.tmpdir=''
         self.logdir=''
-        self.jardir=''
+        self.repodir=''
         self.cvsdir=''
         self.pkgdir=''
         
@@ -261,7 +296,8 @@ class Workspace(NamedModelObject, PropertyContainer, Statable, Resultable):
         # Import overrides from DOM
         transferDomInfo(self.element, 
                         self, 
-                        {	'banner-image':'bannerImage',
+                        {	'jardir':'repodir',
+                            'banner-image':'bannerImage',
                             'banner-link' :'bannerLink'})
     
         if not self.basedir:
@@ -269,14 +305,14 @@ class Workspace(NamedModelObject, PropertyContainer, Statable, Resultable):
             
         if not self.tmpdir: self.tmpdir=os.path.join(self.getBaseDirectory(),"tmp")
         if not self.logdir: self.logdir=os.path.join(self.getBaseDirectory(),"log")
-        if not self.jardir: self.jardir=os.path.join(self.getBaseDirectory(),"repo") 
+        if not self.repodir: self.repodir=os.path.join(self.getBaseDirectory(),"repo") 
         if not self.cvsdir: self.cvsdir=os.path.join(self.getBaseDirectory(),"cvs")
         if not self.pkgdir: self.pkgdir=self.getBaseDirectory()
             
         # Construct dirs on demand         
         if not os.path.exists(self.tmpdir): os.makedirs(self.tmpdir)    
         if not os.path.exists(self.logdir): os.makedirs(self.logdir)
-        if not os.path.exists(self.jardir): os.makedirs(self.jardir)
+        if not os.path.exists(self.repodir): os.makedirs(self.repodir)
         if not os.path.exists(self.cvsdir): os.makedirs(self.cvsdir)
     
         # Get all properties
@@ -337,6 +373,10 @@ class Workspace(NamedModelObject, PropertyContainer, Statable, Resultable):
         if self.hasDomChild('database'):
             self.dbInfo=DatabaseInformation(self.getDomChild('database'))
             self.dbInfo.complete(self)
+                                                             
+        if self.hasDomChild('dotnet'):
+            self.dotnetInfo=DotNetInformation(self.getDomChild('dotnet'))
+            self.dotnetInfo.complete(self)
                                                              
         # Complete the properies
         self.completeProperties()

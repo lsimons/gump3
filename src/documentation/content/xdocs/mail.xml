@@ -55,6 +55,19 @@
         notices of each and every code/metadata change, build results,
         testing notices, etc.</p>
       </section>
+
+      <section><title>Commits List</title>
+
+        <p>
+          <strong>Low Traffic</strong>
+          <link href="mailto:commits-subscribe@gump.apache.org">Subscribe</link>
+          <link href="mailto:commits-unsubscribe@gump.apache.org">Unsubscribe</link>
+          <link href="http://nagoya.apache.org/eyebrowse/SummarizeList?listId=279">Archive</link>
+         </p>
+
+        <p>This is the list where software and metadata commit messages (from CVS and SVN)
+			are sent.</p>
+      </section>
     </section>
   </body>
 </document>

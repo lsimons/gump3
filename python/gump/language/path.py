@@ -16,7 +16,7 @@
 
 """
 
-    Classpaths
+    Paths (e.g. Java Classpaths, CSharp Assembly Paths, etc.)
     
 """
 
@@ -88,7 +88,7 @@ class AnnotatedPath:
     def getPath(self):
         return self.path
         
-class Classpath(Annotatable):
+class ArtifactPath(Annotatable):
     def __init__(self,name):
         Annotatable.__init__(self)
         self.name=name
@@ -111,8 +111,8 @@ class Classpath(Annotatable):
         for part in split(parts,os.pathsep):
             self.addPathPart(part)
             
-    def importClasspath(self,cp):
-        for part in cp.getPathParts():
+    def importPath(self,p):
+        for part in p.getPathParts():
             self.addPathPart(part)
     
     def getPathParts(self):
@@ -121,7 +121,7 @@ class Classpath(Annotatable):
     #
     # Convert path and AnnotatedPath to simple paths.
     # 
-    def getSimpleClasspathList(self):
+    def getSimplePathList(self):
         """ Return simple string list """
         simple=[]
         for p in self.parts:
@@ -132,5 +132,7 @@ class Classpath(Annotatable):
         return simple
         
     def getFlattened(self):
-        return os.pathsep.join(self.getSimpleClasspathList())
+        return os.pathsep.join(self.getSimplePathList())
             
+class Classpath(ArtifactPath): pass
+class AssemblyPath(ArtifactPath): pass

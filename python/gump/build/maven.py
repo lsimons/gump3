@@ -32,8 +32,6 @@ from gump import log
 from gump.run.gumprun import *
 from gump.core.config import dir, default, basicConfig
 
-import gump.build
-
 from gump.utils import dump, display, getIndent, logResourceUtilization, \
                             invokeGarbageCollection
 from gump.utils.note import Annotatable
@@ -252,7 +250,7 @@ maven.jar.override = on
         
         # :TODO: write...
         for annotatedPath in classpath.getPathParts():
-            if isinstance(annotatedPath,gump.java.cp.AnnotatedPath):
+            if isinstance(annotatedPath,gump.language.path.AnnotatedPath):
                 props.write(('# Contributor: %s\nmaven.jar.%s=%s\n') % \
                     (	annotatedPath.getContributor(),	
                         annotatedPath.getId(),	

@@ -27,25 +27,30 @@ from gump.run.gumprun import *
 from gump.run.actor import *
 
 class Statistician(AbstractRunActor):
-    def __init__(self,run):
+    def __init__(self,run,db=None):
         
         AbstractRunActor.__init__(self,run)        
-        self.db=None
         
-        # MySQL is optional...
-        if self.run.getWorkspace().hasDatabaseInformation():
-            try:
-                import gump.stats.mysql.statsdb   
-                # Figure out what DB this workspace uses 
-                dbInfo=self.run.getWorkspace().getDatabaseInformation()
-                self.db=gump.stats.mysql.statsdb.StatisticsDB(dbInfo)   
-            except Exception, details:
-                log.error('Failed to load MySQL database driver : %s' % (details), exc_info=1)
-            
+        self.db=db        
         if not self.db:
-            # DBM is the fallback...
-            import gump.stats.dbm.statsdb            
-            self.db=gump.stats.dbm.statsdb.StatisticsDB()   
+        
+            # MySQL is optional...
+            if self.run.getWorkspace().hasDatabaseInformation():
+                try:
+                    import gump.stats.mysql.statsdb   
+                    # Figure out what DB this workspace uses 
+                    dbInfo=self.run.getWorkspace().getDatabaseInformation()
+                    self.db=gump.stats.mysql.statsdb.StatisticsDB(dbInfo)   
+                except Exception, details:
+                    log.error('Failed to load MySQL database driver : %s' % (details), exc_info=1)
+            
+            if not self.db:
+                # DBM is the fallback...
+                import gump.stats.dbm.statsdb            
+                self.db=gump.stats.dbm.statsdb.StatisticsDB()   
+            
+    def getDatabase(self):
+        return self.db
         
     def processOtherEvent(self,event):                
         """

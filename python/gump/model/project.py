@@ -24,12 +24,13 @@ from time import localtime, strftime, tzname
 
 from gump.model.state import *
 from gump.model.object import ModelObject, NamedModelObject
-from gump.model.misc import Jar,Resultable, Positioned, \
+from gump.model.misc import Jar, Assembly, BaseOutput, \
+                            Resultable, Positioned, \
                             Mkdir, Delete, JunitReport, Work, \
                             AddressPair
 from gump.model.stats import Statable, Statistics
 from gump.model.property import Property
-from gump.model.builder import Ant,Maven,Script
+from gump.model.builder import Ant,NAnt,Maven,Script
 from gump.utils import getIndent
 from gump.utils.file import *
 from gump.model.depend import *
@@ -39,7 +40,17 @@ from gump.utils.domutils import *
 
 
 class Project(NamedModelObject, Statable, Resultable, Dependable, Positioned):
-    """A single project"""
+    
+    UNSET_LANGUAGE=0
+    JAVA_LANGUAGE=1
+    CSHARP_LANGUAGE=2
+    
+    LANGUAGE_MAP= {
+        'java':JAVA_LANGUAGE,
+        'csharp':CSHARP_LANGUAGE
+    }
+
+    """ A Single project """
     def __init__(self,name,xml,owner):
     	NamedModelObject.__init__(self,name,xml,owner)
     	
@@ -56,7 +67,9 @@ class Project(NamedModelObject, Statable, Resultable, Dependable, Positioned):
     	self.basedir=None
     	
     	self.license=None
-    	
+        
+        self.languageType=Project.JAVA_LANGUAGE    	
+        
     	self.affectedProjects=[]
         
     	#############################################################
@@ -64,6 +77,7 @@ class Project(NamedModelObject, Statable, Resultable, Dependable, Positioned):
     	# Sub-Components
     	#
     	self.ant=None
+        self.nant=None
     	self.maven=None
     	self.script=None
 
@@ -82,9 +96,9 @@ class Project(NamedModelObject, Statable, Resultable, Dependable, Positioned):
         self.packageNames=None
         
     	#############################################################
-    	# Outputs
+    	# Outputs (Jars, Assemblies)
     	#
-        self.jars={}        
+        self.outputs={}      
         
     	#############################################################
     	# Misc
@@ -133,6 +147,10 @@ class Project(NamedModelObject, Statable, Resultable, Dependable, Positioned):
         if self.ant: return True
         return False
         
+    def hasNAnt(self):
+        if self.nant: return True
+        return False
+        
     def hasMaven(self):
         if self.maven: return True
         return False
@@ -143,6 +161,9 @@ class Project(NamedModelObject, Statable, Resultable, Dependable, Positioned):
     
     def getAnt(self):
         return self.ant
+        
+    def getNAnt(self):
+        return self.nant
         
     def getMaven(self):
         return self.maven
@@ -186,14 +207,14 @@ class Project(NamedModelObject, Statable, Resultable, Dependable, Positioned):
         # :TODO: if a basedir then offset?
         return self.getModule().getViewUrl()
             
-    def addJar(self,jar):
-        self.jars[jar.getName()]=jar
+    def addOutput(self,output):
+        self.outputs[output.getName()]=output
         
-    def getJarCount(self):
-        return len(self.jars)
+    def getOutputCount(self):
+        return len(self.outputs)
         
-    def hasJarWithId(self,id):
-        return self.jars.has_key(id)
+    def hasOutputWithId(self,id):
+        return self.outputs.has_key(id)
         
     def hasLicense(self):
         if self.license: return True
@@ -206,12 +227,18 @@ class Project(NamedModelObject, Statable, Resultable, Dependable, Positioned):
     def getMkDirs(self): return self.mkdirs
     def getWorks(self): return self.works
         
-    def hasJars(self):
-        if self.jars: return True
+    def hasOutputs(self):
+        if self.outputs: return True
         return False
         
-    def getJars(self):
-        return self.jars.values()
+    def getOutputs(self):
+        return self.outputs.values()
+
+    def hasAnyOutputs(self):
+        """
+        Does this project generate outputs (currently JARs)
+        """
+        return self.hasOutputs() or self.hasLicense()
         
     def hasPackageNames(self):
         if self.packageNames: return True
@@ -220,8 +247,8 @@ class Project(NamedModelObject, Statable, Resultable, Dependable, Positioned):
     def getPackageNames(self):
         return self.packageNames
         
-    def getJarAt(self,index):
-        return self.jars.values()[index]
+    def getOutputAt(self,index):
+        return self.outputs.values()[index]
                 
     def isRedistributable(self):
         return self.redistributable or (self.module and self.module.isRedistributable())
@@ -230,7 +257,7 @@ class Project(NamedModelObject, Statable, Resultable, Dependable, Positioned):
         """ Was a build attempt made? """
         return self.built
         
-    def setBuilt(self,built):
+    def setBuilt(self,built=True):
         self.built=built
         
     def hasReports(self):
@@ -325,6 +352,13 @@ class Project(NamedModelObject, Statable, Resultable, Dependable, Positioned):
             # Copy over any XML errors/warnings
             # :TODO:#1: transferAnnotations(self.xml.ant, self)
         
+        # Import any <nant part [if not packaged]
+        if self.hasDomChild('nant') and not packaged:
+            self.nant = NAnt(self.getDomChild('nant'),self)
+            
+            # Copy over any XML errors/warnings
+            # :TODO:#1: transferAnnotations(self.xml.nant, self)
+        
         # Import any <maven part [if not packaged]
         if self.hasDomChild('maven') and not packaged:
             self.maven = Maven(self.getDomChild('maven'),self)
@@ -388,6 +422,12 @@ class Project(NamedModelObject, Statable, Resultable, Dependable, Positioned):
         #    message='Unable to complete project.home for: ' + self.name 
         #    self.addError(message)
         #    self.home=None
+        
+        
+        # The language type java or CSharp or ...
+        if self.hasDomAttribute('language'):
+            self.setLanguageTypeFromString(self.getDomAttributeValue('language'))
+        
 
         # Extract license 
         if self.hasDomChild('license'):
@@ -398,38 +438,40 @@ class Project(NamedModelObject, Statable, Resultable, Dependable, Positioned):
                 self.addError('Missing \'name\' on <license')
         
         #
-        # Resolve jars (outputs)
+        # Resolve jars/assemblies/outputs        
         #
-        for jdom in self.getDomChildIterator('jar'):
-            name=self.expandVariables(
-                    getDomAttributeValue(jdom,'name'))
+        outputTypes={'jar':Jar, 'assembly':Assembly, 'output':BaseOutput}
+        
+        for (tag, clazz) in outputTypes.iteritems():
+            for tdom in self.getDomChildIterator(tag):
+                name=self.expandVariables(
+                        getDomAttributeValue(tdom,'name'))
                     
-            if self.home and name:  
-                jar=Jar(name,jdom,self)
-                jar.complete()
-                jar.setPath(os.path.abspath(os.path.join(self.home,name)))
-                self.addJar(jar)
-            else:
-                self.addError('Missing \'name\' on <jar')
+                if self.home and name:  
+                    output=clazz(name,tdom,self)
+                    output.complete()
+                    output.setPath(os.path.abspath(os.path.join(self.home,name)))
+                    self.addOutput(output)
+                else:
+                    self.addError('Missing \'name\' on <' + tag)
                 
-        # Fix 'ids' on all Jars which don't have them
-        if self.hasJars():
-            if 1 == self.getJarCount():
-                jar=self.getJarAt(0)
-                if not jar.hasId():
-                    self.addDebug('Sole jar [' + os.path.basename(jar.getPath()) + '] identifier set to project name')
-                    jar.setId(self.getName())    
+                
+        # Fix 'ids' on all Jars/Assemblies/Outputs which don't have them
+        if self.hasOutputs():
+            if 1 == self.getOutputCount():
+                output=self.getOutputAt(0)
+                if not output.hasId():
+                    self.addDebug('Sole output [' + os.path.basename(output.getPath()) + '] identifier set to project name')
+                    output.setId(self.getName())    
             else:
-                #
                 # :TODO: A work in progress, not sure how
                 # we ought 'construct' ids.
-                #
-                for jar in self.getJars():
-                    if not jar.hasId():
-                        basename=os.path.basename(jar.getPath())
+                for output in self.getOutputs():
+                    if not output.hasId():
+                        basename=os.path.basename(output.getPath())
                         newId=basename
-                        # Strip off .jar
-                        if newId.endswith('.jar'):
+                        # Strip off .jar or .lib (note: both same length)
+                        if newId.endswith('.jar') or newId.endswith('.lib'):
                             newId=newId[:-4]
                         # Strip off -@@DATE@@
                         datePostfix='-' + str(default.date_s)
@@ -437,8 +479,8 @@ class Project(NamedModelObject, Statable, Resultable, Dependable, Positioned):
                             reduction=-1 * len(datePostfix)
                             newId=newId[:reduction]
                         # Assign...
-                        self.addDebug('Jar [' + basename + '] identifier set to jar basename: [' + newId + ']')    
-                        jar.setId(newId)
+                        self.addDebug('Output [' + basename + '] identifier set to output basename: [' + newId + ']')    
+                        output.setId(newId)
         
         # Grab all the work
         for w in self.getDomChildIterator('work'):
@@ -657,25 +699,32 @@ class Project(NamedModelObject, Statable, Resultable, Dependable, Positioned):
         for work in self.works:
             work.dump(indent+1,output)
             
-        for jar in self.getJars():
-            jar.dump(indent+1,output)
+        for out in self.getOutputs():
+            out.dump(indent+1,output)
             
     def getAnnotatedOutputsList(self): 
         """
         Return a list of the outputs this project generates
         """
         outputs=[]
-        for jar in self.getJars():
-            jarpath=jar.getPath()
-            outputs.append(gump.java.cp.AnnotatedPath(jar.getId(),jarpath,self,None,"Project output"))                    
+        for output in self.getOutputs():
+            path=output.getPath()
+            outputs.append(gump.language.path.AnnotatedPath(output.getId(),path,self,None,"Project output"))                    
         return outputs
                         
-    def hasOutputs(self):
-        """
-        Does this project generate outputs (currently JARs)
-        """
-        return self.hasJars() or self.hasLicense()
-
+    def setLanguageTypeFromString(self,lang=None):
+        try:
+            self.languageType=Project.LANGUAGE_MAP[lang]
+        except:
+            message='Language %s not in supported %s.' % (lang, Project.LANGUAGE_MAP.keys())
+            self.addWarning(message)
+            log.warning(message)
+            
+    def getLanguageType(self):
+        return self.languageType
+        
+    def setLanguageType(self,langType):
+        self.languageType=langType
 
 class ProjectStatistics(Statistics):
     """Statistics Holder"""

@@ -27,14 +27,15 @@ from gump.utils.domutils import *
 
 # Inheritence
 INHERIT_NONE=0
-INHERIT_JARS=1
+INHERIT_OUTPUTS=1
+INHERIT_JARS=INHERIT_OUTPUTS # Deprecated term, use outputs not jars
 INHERIT_RUNTIME=2
 INHERIT_ALL=3
 INHERIT_HARD=4
 
 inheritDescriptions = { INHERIT_NONE : "None",
            INHERIT_RUNTIME : "Runtime",
-           INHERIT_JARS : "Jars",
+           INHERIT_OUTPUTS : "Outputs",
            INHERIT_ALL : "All",
            INHERIT_HARD : "Hard" }
 
@@ -187,11 +188,11 @@ class ProjectDependency(Annotatable):
         Annotatable.dump(self,indent+1,output)
                 
     #
-    # Return the jars for the dependent project (matching
+    # Return the outputs for the dependent project (matching
     # ids, etc.)
     #
-    def jars(self):
-        """ Return the jars reference by this dependency """
+    def outputs(self):
+        """ Return the outputs reference by this dependency """
         result=[]
         
         #
@@ -200,15 +201,15 @@ class ProjectDependency(Annotatable):
         if not self.isNoClasspath():
         
             #
-            # IDs is a space separated list of jar ids. If specified
+            # IDs is a space separated list of output ids. If specified
             # then return those that are listed, else all.
             #
             ids=(self.ids or '').split(' ')
             try:
-                for jar in self.project.getJars():
-                    if (not self.ids) or (jar.id in ids): result.append(jar)
+                for output in self.project.getOutputs():
+                    if (not self.ids) or (output.id in ids): result.append(output)
             except:
-                log.warn('Failed to access jars in dependency project [' + self.project + ']')
+                log.warn('Failed to access outputs in dependency project [' + self.project + ']')
         
         return result
         

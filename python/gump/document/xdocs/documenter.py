@@ -39,7 +39,7 @@ from gump.utils import *
 from gump.utils.timing import *
 from gump.utils.tools import syncDirectories,copyDirectories,wipeDirectoryTree
 
-from gump.java.cp import AnnotatedPath
+from gump.language.path import AnnotatedPath
 
 from gump.model.stats import *
 from gump.model.project import ProjectStatistics
@@ -311,6 +311,7 @@ class XDocDocumenter(Documenter):
         dtTable.createEntry('Timezone', self.run.getEnvironment().getTimezone())
         dtTable.createEntry('Start Date/Time', self.run.getStart().getLocal())
         dtTable.createEntry('End Date/Time', self.run.getEnd().getLocal())
+        dtTable.createEntry('Elapsed Time', self.run.getElapsedTimeString())
 
         pythonSection=definitionSection.createSection('Python Information')            
         pythonTable=pythonSection.createTable()
@@ -540,7 +541,7 @@ class XDocDocumenter(Documenter):
         detailsTable.createEntry("State : ", 
                 self.workspace.getStateDescription()) 
 
-        e = secsToElapsedTimeString(self.workspace.getElapsedSecs())
+        e = self.workspace.getElapsedTimeString()
         if e : detailsTable.createEntry("Elapsed Time : ", e)
         detailsTable.createEntry("Base Directory : ", self.workspace.getBaseDirectory())
         detailsTable.createEntry("Temporary Directory : ", self.workspace.tmpdir)
@@ -548,7 +549,7 @@ class XDocDocumenter(Documenter):
         #    detailsTable.createEntry("Scratch Directory : ", self.workspace.scratchdir))    
         # :TODO: We have duplicate dirs? tmp = scratch?
         detailsTable.createEntry("Log Directory : ", self.workspace.logdir)
-        detailsTable.createEntry("Jars Repository : ", self.workspace.jardir)
+        detailsTable.createEntry("Outputs Repository : ", self.workspace.repodir)
         detailsTable.createEntry("CVS Directory : ", self.workspace.cvsdir)
         detailsTable.createEntry("Package Directory : ", self.workspace.pkgdir)
         if not self.workspace.private:
@@ -1636,7 +1637,7 @@ This page helps Gumpmeisters (and others) observe community progress.
 
             if module.hasArtifacts():
                 if module.artifacts.hasUrl():
-                    repoList.createEntry( "Jars URL: ", module.jars.getUrl())   
+                    repoList.createEntry( "Jars URL: ", module.artifacts.getUrl())   
 
             repoList.createEntry('Redistributable: ', module.isRedistributable())              
            
@@ -1788,35 +1789,45 @@ This page helps Gumpmeisters (and others) observe community progress.
         miscSection=document.createSection('Miscellaneous')
         
         #
-        #	Outputs (e.g. Jars)
+        #	Outputs (e.g. Outputs)
         #
-        if project.hasJars():
+        if project.hasOutputs():
             outputSection = miscSection.createSection('Output Artifacts')
             outputTable = outputSection.createTable(['Name','Artifact Id'])
             
-            for jar in project.getJars():
+            for output in project.getOutputs():
                 outputRow=outputTable.createRow()
                 
-                # The name (path) of the jar
-                outputRow.createData(jar.getName())
+                # The name (path) of the output
+                outputRow.createData(output.getName())
                 
-                # The jar id
-                id=jar.getId() or 'N/A'
+                # The output id
+                id=output.getId() or 'N/A'
                 outputRow.createData(id)    
         else:
-            miscSection.createWarning('No output artifacts (e.g. jars) produced')
+            miscSection.createWarning('No output artifacts (e.g. outputs) produced')
         
         if project.hasBuilder():
             
             if project.hasAnt():                
                 self.documentProperties(miscSection, project.getAnt(), 'Ant Properties')
+            elif project.hasNAnt():                
+                self.documentProperties(miscSection, project.getNAnt(), 'NAnt Properties')
+            # :TODO: Maven?
             
-            javaHelper=self.run.getJavaHelper()            
-            (classpath,bootclasspath)=javaHelper.getClasspathObjects(project)            
-            self.displayClasspath(miscSection, classpath, 'Classpath', project)        
-            self.displayClasspath(miscSection, bootclasspath, 'Boot Classpath', project) 
+            language=project.getLanguageType()            
+            helper=self.run.getLanguageHelper(language)
+            if Project.JAVA_LANGUAGE == language:            
+                javaHelper=helper
+                (classpath,bootclasspath)=javaHelper.getClasspathObjects(project)            
+                self.displayClasspath(miscSection, classpath, 'Classpath', project)        
+                self.displayClasspath(miscSection, bootclasspath, 'Boot Classpath', project) 
+            elif Project.CSHARP_LANGUAGE == language:
+                csharpHelper=helper
+                libpath=csharpHelper.getAssemlyPathObject(project)            
+                self.displayClasspath(miscSection, libpath, 'Assemblies', project)     
         else:
-            miscSection.createParagraph('No build command (so classpaths irrelevant)')
+            miscSection.createParagraph('No build command (so classpaths/assembly path irrelevant)')
        
         if project.isDebug():
             self.documentXML(miscSection,project)
@@ -1962,7 +1973,7 @@ This page helps Gumpmeisters (and others) observe community progress.
         pathTable=pathSection.createTable(['Path Entry','Contributor','Instigator','Id','Annotation'])       
         paths=0
         for path in classpath.getPathParts(): 
-            if isinstance(path,gump.java.cp.AnnotatedPath):
+            if isinstance(path,gump.language.path.AnnotatedPath):
                 pathStr=path.getPath()
                 contributor=path.getContributor()
                 instigator=path.getInstigator()
@@ -2288,7 +2299,7 @@ This page helps Gumpmeisters (and others) observe community progress.
             workRow.setStyle(stateName(work.state).upper())
                 
             if isinstance(work,TimedWorkItem):      
-                workRow.createData(work.result.start.isoformat())
+                workRow.createData(work.getStart().getLocal())
                 workRow.createData(secsToElapsedTimeString(work.getElapsedSecs()))
             else:
                 workRow.createData('N/A')
@@ -2356,8 +2367,8 @@ This page helps Gumpmeisters (and others) observe community progress.
                 workList.createEntry("Termination Signal: ", str(work.result.signal))
             workList.createEntry("Exit Code: ", str(work.result.exit_code))
                                 
-            workList.createEntry("Start Time: ", work.result.start.isoformat())
-            workList.createEntry("End Time: ", work.result.end.isoformat())
+            workList.createEntry("Start Time: ", work.getStart().getLocal())
+            workList.createEntry("End Time: ", work.getEnd().getLocal())
             e = secsToElapsedTimeString(work.getElapsedSecs())
             if e : workList.createEntry("Elapsed Time: ", e)
                    
@@ -3251,13 +3262,13 @@ This page helps Gumpmeisters (and others) observe community progress.
         pByO=self.documentProjectsByOutput(xref)                
         pxrefRow=pxrefTable.createRow()
         pxrefRow.createData().createLink(pByO, 'Projects By Output')
-        pxrefRow.createData('The outputs for the project, e.g. jars.')
+        pxrefRow.createData('The outputs for the project, e.g. outputs.')
              
         # Projects By Output Ids
         pByOI=self.documentProjectsByOutputId(xref)                
         pxrefRow=pxrefTable.createRow()
         pxrefRow.createData().createLink(pByOI, 'Projects By Output Identifier')
-        pxrefRow.createData('The identifiers for outputs for the project, e.g. jars.')
+        pxrefRow.createData('The identifiers for outputs for the project, e.g. outputs.')
              
         # Projects By Descriptor Location
         pByDL=self.documentProjectsByDescriptorLocation(xref)                
@@ -3442,12 +3453,12 @@ This page helps Gumpmeisters (and others) observe community progress.
     def documentProjectsByOutput(self,xref):
         fileName='output_project'
         spec=self.resolver.getFileSpec(xref,fileName)
-        document=XDocDocument('Projects By Outputs (e.g. Jars)',	
+        document=XDocDocument('Projects By Outputs (e.g. Outputs)',	
                 spec.getFile() ,
                 self.config,
                 spec.getRootPath())
         
-        outputTable=document.createTable(['Projects By Outputs (e.g. Jars)'])
+        outputTable=document.createTable(['Projects By Outputs (e.g. Outputs)'])
         
         outputMap=xref.getOutputToProjectMap()
         for output in createOrderedList(outputMap.keys()):

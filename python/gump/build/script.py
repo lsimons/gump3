@@ -80,7 +80,7 @@ class ScriptBuilder(gump.run.gumprun.RunSpecific):
             # Update Context    
             work=CommandWorkItem(WORK_TYPE_BUILD,cmd,cmdResult)
             project.performedWork(work)
-            project.setBuilt(1)
+            project.setBuilt(True)
                     
             # Update Context w/ Results  
             if not cmdResult.state==CMD_STATE_SUCCESS:
@@ -100,24 +100,33 @@ class ScriptBuilder(gump.run.gumprun.RunSpecific):
         # Where to run this:
         basedir = script.getBaseDirectory() or project.getBaseDirectory()
 
-        # Add .sh  or .bat as appropriate to platform
         scriptfullname=script.getName()
-        if not os.name == 'dos' and not os.name == 'nt':
-            scriptfullname += '.sh'
-        else:
-            scriptfullname += '.bat'
-  
+        
         # The script
         scriptfile=os.path.abspath(os.path.join(basedir, scriptfullname))
         
+        # If the script exists (and is a plain file, i.e. not a dir)
+        # use it's exact name, else add a platform specific extension.
+        if not os.path.exists(scriptfile) \
+            or not os.path.isfile(scriptfile):
+            # Add .sh  or .bat as appropriate to platform
+            if not os.name in ['dos', 'nt']:
+                scriptfullname += '.sh'
+            else:
+                scriptfullname += '.bat'
+                                
+            # Recalculate with the script extension
+            scriptfile=os.path.abspath(os.path.join(basedir, scriptfullname))
+  
         # Needed for (at least) a compiler...
         (classpath,bootclasspath)=languageHelper.getClasspaths(project)
 
-        cmd=Cmd(scriptfile,'buildscript_'+project.getModule().getName()+'_'+project.getName(),\
-            basedir,{'CLASSPATH':classpath})    
+        cmd=Cmd( scriptfile,
+                 'buildscript_'+project.getModule().getName()+'_'+project.getName(),
+                 basedir,
+                 {'CLASSPATH':classpath})    
         
         return cmd
-        
         
     def preview(self,project,languageHelper,stats):        
         """

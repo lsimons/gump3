@@ -15,7 +15,9 @@
 # limitations under the License.
 
 """
+
     Executing processes (CVS, ant, etc.) and capturing results
+    
 """
 
 import os
@@ -46,7 +48,7 @@ def executeIntoResult(cmd,result,tmp=dir.tmp):
    	"""	
     
     outputFile=None
-    start=datetime.datetime.now()
+    start=getLocalNow()
     try:
       try:          
  
@@ -92,7 +94,7 @@ def executeIntoResult(cmd,result,tmp=dir.tmp):
         fullExec = sys.executable + ' ' + LAUNCHER + ' ' + execFile + \
                                     ' >>' + str(outputFile) + ' 2>&1'
                                     
-        log.debug('Executing: ' + execString)
+        #log.debug('Executing: ' + execString)
         #log.debug('     Exec: ' + str(execFile))
         #log.debug('   Output: ' + str(outputFile))
         #log.debug('Full Exec: ' + fullExec)
@@ -148,7 +150,7 @@ def executeIntoResult(cmd,result,tmp=dir.tmp):
               os.remove(outputFile)
         
       # Keep time information
-      end=datetime.datetime.now()
+      end=getLocalNow()
       result.start=start
       result.end=end 
 	  
@@ -219,7 +221,7 @@ def runProcess(execFilename):
         # Stop timer (if still running)
         if timer: timer.cancel() 
         
-        if not os.name == 'dos' and not os.name == 'nt':
+        if not os.name in ['dos','nt']:
             waitcode=systemReturn
         
             #

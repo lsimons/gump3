@@ -77,7 +77,7 @@ class ArtifactsTestSuite(UnitTestSuite):
         # Create a repository & populate it
         self.repo=gump.repository.artifact.ArtifactRepository(self.testRepo)   
         
-        gdir=self.repo._getGroupDir('test')
+        gdir=self.repo.getGroupDir('test')
         
         file(os.path.join(gdir,'id1-gump-20030221.jar'),'w').close()
         file(os.path.join(gdir,'id1-gump-20040221.jar'),'w').close()
@@ -92,8 +92,8 @@ class ArtifactsTestSuite(UnitTestSuite):
         
         (dated, latest)=self.repo.extractGroup('test')
         
-        import pprint
-        pprint.pprint(dated)
+        #import pprint
+        #pprint.pprint(dated)
         
         self.assertNotNone('Extracted something', dated)
         self.assertEqual('Extracted correct groups', len(dated.keys()), 3)

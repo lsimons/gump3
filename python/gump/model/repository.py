@@ -42,7 +42,7 @@ class Repository(NamedModelObject, Statable):
         if 'cvs'==type:
             self.type='CVS'    
             self.web=self.getDomChildValue('cvsweb') or \
-                        self.getDomChildValue('web')                            
+                        self.getDomChildValue('web')
             if self.hasDomChild('root'):
                 root=self.getDomChild('root')
                 self.method=getDomChildValue(root,'method')  
@@ -59,12 +59,22 @@ class Repository(NamedModelObject, Statable):
             else:
                 raise RuntimeError, 'No URL on SVN repository: ' + self.getName()
             self.web=self.getDomChildValue('web')
+            self.user=self.getDomChildValue('user')            
+            self.password=self.getDomChildValue('password')
         elif 'artifact'==type:
             self.type='Artifacts'
             if self.hasDomChild('url'):
                 self.url=self.getDomChildValue('url')
             else:
                 raise RuntimeError, 'No URL on Jars repository: ' + self.getName()                
+            self.web=self.getDomChildValue('web')
+        elif 'p4'==type:
+            self.type='Perforce'
+            if self.hasDomChild('root'):
+                root=self.getDomChild('root')
+                self.p4port=getDomChildValue(root,'hostname')
+            else:
+                raise RuntimeError, 'No Perforce server on P4 repository: ' + self.getName()
             self.web=self.getDomChildValue('web')
         else:
             raise RuntimeError, 'Invalid Repository Type:' + str(xml.type)         
@@ -110,11 +120,29 @@ class Repository(NamedModelObject, Statable):
         # Existence means 'true'
         return self.hasDomChild('redistributable')
         
-    def hasUser(self): return hasattr(self,'user')
-    def hasPassword(self): return hasattr(self,'password')
-    def hasPath(self): return hasattr(self,'path')
-    def hasMethod(self): return hasattr(self,'method')
-    def hasHostname(self): return hasattr(self,'hostname')   
+    def hasUser(self): 
+        if hasattr(self,'user'):
+            if self.user: return True            
+        return False
+    def hasPassword(self):        
+        if hasattr(self,'password'):
+            if self.password: return True            
+        return False
+        
+    def hasPath(self): 
+        if hasattr(self,'path'):
+            if self.path: return True            
+        return False
+        
+    def hasMethod(self):
+        if hasattr(self,'method'):
+            if self.method: return True            
+        return False
+        
+    def hasHostname(self): 
+        if hasattr(self,'hostname'):
+            if self.hostname: return True            
+        return False
     
     def getTitle(self): return self.getDomAttributeValue('title')
     def getHomePage(self): return self.getDomAttributeValue('home-page')

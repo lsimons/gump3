@@ -48,9 +48,6 @@ from gump.integration.depot import *
 # Classes
 ###############################################################################
 
-# Local time zone, in offset from UTC
-TZ='%+.2d:00' % (-time.timezone/3600)
-
 class GumpEnvironment(Annotatable,Workable,Propogatable):
     """
     	Represents the environment that Gump is running within.
@@ -69,11 +66,14 @@ class GumpEnvironment(Annotatable,Workable,Propogatable):
         self.checked=False
         self.set=False
     	
-    	self.noMaven=False    	 
+        self.noMono=False
+        self.noNAnt=False    
+        self.noMaven=False    	 
     	self.noDepot=False    	
     	self.noUpdate=False    
     	self.noSvn=False    	
     	self.noCvs=False   
+    	self.noP4=False   
         self.noJava=False
         self.noJavac=False
         
@@ -90,8 +90,8 @@ class GumpEnvironment(Annotatable,Workable,Propogatable):
         self.depotHome = None
         
         # Timezone and offset from UTC
-        self.timezone=time.timezone
-        self.timezoneOffset=TZ
+        self.timezone=time.tzname
+        self.timezoneOffset=time.timezone
         
     def checkEnvironment(self,exitOnError=False):
         """ 
@@ -168,6 +168,10 @@ class GumpEnvironment(Annotatable,Workable,Propogatable):
             self.noSvn=True
             self.addWarning('"svn" command not found, no SVN repository updates')
           
+        if not self.noP4 and not self._checkExecutable('p4','-V',False):
+            self.noP4=True
+            self.addWarning('"p4" command not found, no Perforce repository updates')
+          
         if not self.noUpdate and \
             not self._checkExecutable(getDepotUpdateCmd(),'-version',False,False,'check_depot_update'): 
             self.noUpdate=True
@@ -177,6 +181,16 @@ class GumpEnvironment(Annotatable,Workable,Propogatable):
             not self._checkExecutable('maven','--version',False,False,'check_maven'): 
             self.noMaven=True
             self.addWarning('"maven" command not found, no Maven builds')
+       
+        if not self.noNAnt and \
+            not self._checkExecutable('NAnt','-help',False,False,'check_NAnt'): 
+            self.noNAnt=True
+            self.addWarning('"NAnt" command not found, no NAnt builds')
+       
+        if not self.noMono and \
+            not self._checkExecutable('mono','--help',False,False,'check_mono'): 
+            self.noMono=True
+            self.addWarning('"Mono" command not found, no Mono runtime')
        
         self.checked=True
         

@@ -28,7 +28,8 @@ from gump import log
 
 import gump.core.config
 import gump.build.builder
-import gump.java.helper
+import gump.language.java
+import gump.language.csharp
 
 from gump.model.state import *
 from gump.utils import *
@@ -68,7 +69,7 @@ class LanguageTestSuite(UnitTestSuite):
         self.module5=self.workspace.getModule('module5')
         
         self.builder=gump.build.builder.GumpBuilder(self.run)
-        self.java=gump.java.helper.JavaHelper(self.run)
+        self.java=gump.language.java.JavaHelper(self.run)
         
     def suiteTearDown(self):
         self.run=None
@@ -105,7 +106,7 @@ class LanguageTestSuite(UnitTestSuite):
                 
         (classpath,bootclasspath)=self.java.getClasspathObjects(self.project3)
         
-        for pathPart in classpath.getSimpleClasspathList():
+        for pathPart in classpath.getSimplePathList():
             #print "pathPart:" + `pathPart`
             self.assertNotSubstring('Ought not get output2.jar from project2',	\
                     'output2.jar',	\
@@ -123,7 +124,7 @@ class LanguageTestSuite(UnitTestSuite):
         (classpath,bootclasspath)=self.java.getClasspathObjects(self.project3)
         
         found=0
-        for pathPart in classpath.getSimpleClasspathList():
+        for pathPart in classpath.getSimplePathList():
             if not -1 == pathPart.find('output1.jar'):
                 found=1
             

@@ -1,0 +1,27 @@
+<module name="nant1">
+
+  <url  href="http://jakarta.apache.org/gump/index.html"/>
+  <description>
+    Test of Gump using NAnt...
+  </description>
+
+  <cvs repository="repository1"/>
+
+  <project name="nant1" language="csharp">
+    <package>org.apache.nant</package>
+
+    <nant target="gump"/>
+
+    <depend project="alias1"/>
+
+    <home nested="dist"/>
+
+    <jar name="lib/nant1.jar" id="nant1"/>
+
+    <license name="LICENSE"/>
+
+    <nag from="Gump Integration Build &lt;general@gump.apache.org&gt;"
+         to="general@gump.apache.org"/>
+  </project>
+</module>
+

@@ -58,7 +58,6 @@ class ResultModelObject(Annotatable,Ownable,Stateful):
             self.dom=None
             self.element=None
  
- 
         # Internals...
     	self.completionPerformed=False
     	
@@ -84,6 +83,9 @@ class ResultModelObject(Annotatable,Ownable,Stateful):
         return self.__class__ == other.__class__ and self.name == other.name
         
     def __cmp__(self,other):
+        """
+        Compare by name
+        """
         return cmp(self.name,other.name)
         
     def __hash__(self):

@@ -71,8 +71,7 @@ class Profile(NamedModelObject):
         self.getOwner().addModule(module)
                       
     def hasProject(self,name):
-        # Somewhat of a hack
-        self.getOwner().addProject(name)
+        return self.getOwner().hasProject(name)
             
     def getProject(self,name):
         return self.getOwner().getProject(name)

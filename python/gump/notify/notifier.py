@@ -351,7 +351,7 @@ The following %s notify%s should have been sent
             log.info('Send Notify To: ' + str(toaddr) + 
                 ' From: ' + str(fromaddr) + ' Subject: ' + str(subject))
            
-            # Form the user visable part ...
+            # Form the user visible part ...
             email=EmailMessage( toaddrs, 
                                 fromaddr, 
                                 subject, 

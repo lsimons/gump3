@@ -62,7 +62,7 @@ class ArtifactRepository:
         if not os.path.exists(rdir): os.makedirs(rdir)
         return rdir  
     
-    def _getGroupDir(self,group,rdir=None):
+    def getGroupDir(self,group,rdir=None):
         """    
         	Repository format is:
     
@@ -94,7 +94,7 @@ class ArtifactRepository:
         if recent:
             
             # Locate (and make if needed) group.
-            gdir=self._getGroupDir(group)   
+            gdir=self.getGroupDir(group)   
         
             for file in os.listdir(gdir):
                 match=ArtifactRepository.ARTIFACT_RE.match(file)
@@ -103,7 +103,7 @@ class ArtifactRepository:
                     
     def publish(self,group,artifact,id=None):
         """
-        Publish an artifact ot the artifact repository.
+        Publish an artifact at the artifact repository.
         """
         
         # Locate (and make if needed) group.
@@ -140,7 +140,7 @@ class ArtifactRepository:
         """
         
         # Locate (and make if needed) group.
-        gdir=self._getGroupDir(group)   
+        gdir=self.getGroupDir(group)   
         
         # See what we have
         dates={}

@@ -43,7 +43,7 @@
       <tr>
         <td>type</td>
         <td>Type of repository.</td>
-        <td><strong>cvs</strong>,<strong>svn</strong>,<strong>jars</strong> currently supported.</td>
+        <td><strong>cvs</strong>,<strong>svn</strong>,<strong>jars</strong>,<strong>p4</strong> currently supported.</td>
       </tr>
       <tr>
         <td>compress</td>
@@ -77,7 +77,7 @@
       </tr>
       <tr>
         <td>web</td>
-        <td>Web interface to the repository. (More approprice for multiple types).</td>
+        <td>Web interface to the repository. (More appropriate for multiple types).</td>
         <td>No</td>
       </tr>
       <tr>
@@ -95,7 +95,7 @@
 			<p>This specifies all of the elements which are combined to form
       a CVSROOT.  They are split out into separate entities so that each
       can be individually overridden in a workspace definition.  When an
-      entity is listed a required below, it means that when all of the
+      entity is listed as required below, it means that when all of the
       definitions are combined the entity must have a value - a workspace
       or profile, for example, only needs to contain the values which it
       overrides.</p>
@@ -134,6 +134,82 @@
       </table>
     </section>
 	</section>
-  </section>
+		<section>
+		<title>SVN Usage</title><note>This is for type='svn' only.</note>
+			<p>This specifies all of the elements which are combined to form
+      an SVN command line  They are split out into separate entities so that each
+      can be individually overridden in a workspace definition.  When an
+      entity is listed as required below, it means that when all of the
+      definitions are combined the entity must have a value - a workspace
+      or profile, for example, only needs to contain the values which it
+      overrides.</p>
+
+      <table>
+        <tr>
+          <th>Entity</th>
+          <th>Description</th>
+          <th>Required?</th>
+        </tr>
+        <tr>
+          <td>url</td>
+          <td>This is the base URL for all modules that reside within this repository. 
+			The <link href="module.html">module</link>'s &lt;svn <strong>dir</strong> attribute
+			if appended to this base url.</td>
+          <td>Yes</td>
+        </tr>
+        <tr>
+          <td>user</td>
+          <td>The username for this SVN repository. If blank, defaults to 'anonymous' access.</td>
+          <td>No</td>
+        </tr>
+        <tr>
+          <td>password</td>
+          <td>The password (in plain text, use cautiously!). If blank, defaults to 'anonymous' access.</td>
+          <td>No</td>
+        </tr>
+      </table>
+	</section>
+	<section>
+		<title>Perforce Usage</title>
+		<section><title>root</title>
+			<note>This is for type='p4' only.</note>
+			<p>This specifies all of the elements which are combined to communicate
+      with a Perforce server.  They are split out into separate entities
+      so that each can be individually overridden in a workspace definition.
+      When an entity is listed as required below, it means that when all of
+      the definitions are combined the entity must have a value - a workspace
+      or profile, for example, only needs to contain the values which it
+      overrides.</p>
+
+      <table>
+        <tr>
+          <th>Entity</th>
+          <th>Description</th>
+          <th>Required?</th>
+        </tr>
+        <tr>
+          <td>clientspec</td>
+          <td>A Perforce clientspec is a set of mappings from server paths to local paths.  The Perforce server keeps track of what files are "current" in a particular clientspec; as a result, a clientspec cannot be shared across Gump instances.  It is recommended to set the &lt;samp&gt;allwrite&lt;/samp&gt; option in the clientspec.</td>
+          <td>Yes</td>
+        </tr>
+        <tr>
+          <td>user</td>
+          <td>Defaults to user running Gump</td>
+          <td>No</td>
+        </tr>
+        <tr>
+          <td>password</td>
+          <td/>
+          <td>No</td>
+        </tr>
+        <tr>
+          <td>hostname</td>
+          <td>Defaults to perforce:1666</td>
+          <td>No</td>
+        </tr>
+      </table>
+    </section>
+	</section>
+	</section>
 </body>
 </document>

@@ -16,7 +16,7 @@
 
 
 """
-    Maven Testing
+    NAnt Testing
 """
 
 import os
@@ -26,18 +26,18 @@ import types, StringIO
 from gump import log
 import gump.core.config
 from gump.model.state import *
-from gump.build.maven import MavenBuilder
+from gump.build.nant import NAntBuilder
 
-import gump.language.java
+import gump.language.csharp
 
 from gump.utils import *
 from gump.test import getWorkedTestRun
 from gump.test.pyunit import UnitTestSuite
 
-class MavenTestSuite(UnitTestSuite):
+class NAntTestSuite(UnitTestSuite):
     """
     
-        Maven Test suite
+        NAnt Test suite
         
     """
     def __init__(self):
@@ -53,21 +53,16 @@ class MavenTestSuite(UnitTestSuite):
         self.workspace=self.run.getWorkspace()          
         self.assertNotNone('Needed a workspace', self.workspace)
         
-        self.maven1=self.workspace.getProject('maven1')            
-        self.assertNotNone('Needed a maven project', self.maven1)
+        self.nant1=self.workspace.getProject('nant1')            
+        self.assertNotNone('Needed a nant project', self.nant1)
         
-        self.mavenBuilder=MavenBuilder(self.run)
-        self.javaHelper=gump.language.java.JavaHelper(self.run)
-        
-    def testMavenProperties(self):
-                
-        self.assertTrue('Maven project has a Maven object', self.maven1.hasMaven())        
-        self.mavenBuilder.generateMavenProperties(self.maven1, self.javaHelper, 'test/unit-testing-maven.properties')
-        
-    def testMavenCommand(self):                
-        self.assertTrue('Maven project has a Maven object', self.maven1.hasMaven())        
+        self.nantBuilder=NAntBuilder(self.run)
+        self.csharpHelper=gump.language.csharp.CSharpHelper(self.run)
+   
+    def testNAntCommand(self):                
+        self.assertTrue('NAnt project has a NAnt object', self.nant1.hasNAnt())        
   
-        cmd=self.mavenBuilder.getMavenCommand(self.maven1,self.javaHelper)
+        cmd=self.nantBuilder.getNAntCommand(self.nant1,self.csharpHelper)
         
-        # cmd.dump()
+        #cmd.dump()
         

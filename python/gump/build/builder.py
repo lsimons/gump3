@@ -32,7 +32,7 @@ __license__   = "http://www.apache.org/licenses/LICENSE-2.0"
 	project work is done (based of 'stat's, so --debug can be set in
 	a series of failures)
 	
-	3) Post build tasks (verifying jars exist, publishing to repositories,
+	3) Post build tasks (verifying outputs exist, publishing to repositories,
 	etc).
 
 """
@@ -47,6 +47,7 @@ from gump.core.config import dir, default, basicConfig
 
 from gump.build.script import ScriptBuilder
 from gump.build.ant import AntBuilder
+from gump.build.nant import NAntBuilder
 from gump.build.maven import MavenBuilder
 
 from gump.utils import dump, display, getIndent, logResourceUtilization, \
@@ -66,8 +67,6 @@ from gump.model.state import *
 
 import gump.integration.depot
 
-import gump.java.helper
-
 
 ###############################################################################
 # Classes
@@ -79,10 +78,11 @@ class GumpBuilder(gump.run.gumprun.RunSpecific):
         gump.run.gumprun.RunSpecific.__init__(self,run)
         
         self.ant=AntBuilder(run)
+        self.nant=NAntBuilder(run)
         self.maven=MavenBuilder(run)
         self.script=ScriptBuilder(run)
 
-        # Place repository in jardir (to be renamed to repodir)
+        # Place repository in repodir
         self.repository=self.run.getOutputsRepository()        
             
     def buildProject(self,project):
@@ -97,8 +97,7 @@ class GumpBuilder(gump.run.gumprun.RunSpecific):
         log.info('Build Project: #[' + `project.getPosition()` + '] : ' + project.getName() + ' :  [state:' \
                         + project.getStateDescription() + ']')
                   
-        # Right now everything is Java..
-        languageHelper=self.run.getJavaHelper()
+        languageHelper=self.run.getLanguageHelper(project.getLanguageType())
           
         # Extract stats (in case we want to do conditional processing)            
         stats=None
@@ -134,6 +133,8 @@ class GumpBuilder(gump.run.gumprun.RunSpecific):
                     self.script.buildProject(project, languageHelper, stats)
                 elif project.hasAnt():
                     self.ant.buildProject(project, languageHelper, stats)
+                elif project.hasNAnt():
+                    self.nant.buildProject(project, languageHelper, stats)
                 elif project.hasMaven():
                     self.maven.buildProject(project, languageHelper, stats)
               
@@ -249,24 +250,24 @@ class GumpBuilder(gump.run.gumprun.RunSpecific):
         	
         	No return.
         """
-        log.debug(' ------ Performing post-Build Actions (check jars) for : '+ project.getName())
+        log.debug(' ------ Performing post-Build Actions (check outputs) for : '+ project.getName())
 
         if project.okToPerformWork():
-            if project.hasOutputs():                
+            if project.hasAnyOutputs():                
                 outputs = []
                     
-                # Ensure the jar output were all generated correctly.
+                # Ensure the outputs were all generated correctly.
                 outputsOk=True
-                for jar in project.getJars():
-                    jarPath=os.path.abspath(jar.getPath())
+                for output in project.getOutputs():
+                    outputPath=os.path.abspath(output.getPath())
                     # Add to list of outputs, in case we
                     # fail to find, and need to go list 
                     # directories
-                    outputs.append(jarPath)
-                    if not os.path.exists(jarPath):
+                    outputs.append(outputPath)
+                    if not os.path.exists(outputPath):
                         project.changeState(STATE_FAILED,REASON_MISSING_OUTPUTS)
                         outputsOk=False
-                        project.addError("Missing Output: " + str(jarPath))                            
+                        project.addError("Missing Output: " + str(outputPath))                            
                                  
                 if outputsOk: 
                     # If we have a <license name='...
@@ -337,16 +338,16 @@ class GumpBuilder(gump.run.gumprun.RunSpecific):
 
         self.checkPackage(project)
         
-        if project.hasOutputs():                
+        if project.hasAnyOutputs():                
             outputs = []
                     
-            # Ensure the jar output were all generated correctly.
-            for jar in project.getJars():
-                jarPath=os.path.abspath(jar.getPath())
+            # Ensure the output output were all generated correctly.
+            for output in project.getOutputs():
+                outputPath=os.path.abspath(output.getPath())
                 # Add to list of outputs, in case we
                 # fail to find, and need to go list 
                 # directories
-                outputs.append(jarPath)
+                outputs.append(outputPath)
                 
             # If we have a <license name='...
             if project.hasLicense():
@@ -383,19 +384,19 @@ class GumpBuilder(gump.run.gumprun.RunSpecific):
         if project.okToPerformWork():
             # Check the package was installed correctly...
             outputsOk=1
-            for jar in project.getJars():
-                jarpath=jar.getPath()
-                if jarpath:
-                    if not os.path.exists(jarpath):
+            for output in project.getOutputs():
+                outputpath=output.getPath()
+                if outputpath:
+                    if not os.path.exists(outputpath):
                         project.changeState(STATE_FAILED,REASON_PACKAGE_BAD)
                         outputsOk=False
-                        project.addError("Missing Packaged Jar: " + str(jarpath))
+                        project.addError("Missing Packaged Output: " + str(outputpath))
     
             if outputsOk:
                 project.changeState(STATE_COMPLETE,REASON_PACKAGE)
             else:
                 # Just in case it was so bad it thought it had no
-                # jars to check
+                # outputs to check
                 project.changeState(STATE_FAILED,REASON_PACKAGE_BAD)
                 
                 # List them, why not...
@@ -432,8 +433,8 @@ class GumpBuilder(gump.run.gumprun.RunSpecific):
             artifactsOk=True   
         
             # See if we can use 'stored' artifacts.
-            for jar in project.getJars():
-                id = jar.getId()
+            for output in project.getOutputs():
+                id = output.getId()
                 
                 # Use the repository one...
                 if artifacts.has_key(id):
@@ -442,7 +443,7 @@ class GumpBuilder(gump.run.gumprun.RunSpecific):
                     log.info('Utilize %s from Gump artifact repository for id: %s' % (path, id))
                     
                     # Stash this fallback...
-                    jar.setPath(path)
+                    output.setPath(path)
                 else:
                     log.info('Failed to find artifact for id %s (Gump Repo has %s in %s)' % \
                             (id, artifacts.keys(), group))
@@ -495,6 +496,8 @@ class GumpBuilder(gump.run.gumprun.RunSpecific):
             self.script.preview(project, languageHelper, stats)
         elif project.hasAnt():
             self.ant.preview(project,  languageHelper, stats)
+        elif project.hasNAnt():
+            self.nant.preview(project,  languageHelper, stats)
         elif project.hasMaven():
             self.maven.preview(project,  languageHelper, stats)
         else:

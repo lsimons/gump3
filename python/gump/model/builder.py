@@ -33,9 +33,9 @@ from gump.model.property import *
     
 from xml.dom import getDOMImplementation
 
-# represents an <ant/> element
+# represents a generic build (e.g. <ant/>) element
 class Builder(ModelObject, PropertyContainer):
-    """ An Ant command (within a project)"""
+    """ A build command (within a project)"""
     def __init__(self,dom,project):
     	ModelObject.__init__(self,dom,project)
     	PropertyContainer.__init__(self)
@@ -78,8 +78,8 @@ class Builder(ModelObject, PropertyContainer):
             # the property
             transferDomAttributes(ddom,pelement)
                 
-            # Fix the reference to a jarpath
-            pelement.setAttribute('reference','jarpath')
+            # Fix the reference to a outputpath
+            pelement.setAttribute('reference','outputpath')
 
             # Name the xmlproperty...
             if hasDomAttribute(ddom,'property'):
@@ -213,16 +213,16 @@ class Builder(ModelObject, PropertyContainer):
          return self.basedir
     
 # represents an <ant/> element
-class Ant(Builder):
+class BaseAnt(Builder):
     """ An Ant command (within a project)"""
     def __init__(self,dom,project):
-    	Builder.__init__(self,dom,project)
+        Builder.__init__(self,dom,project)
       
         # Import the target
-        self.target=self.getDomAttributeValue('target') # :TODO: Soon add ... ,'gump')    	    
+        self.target=self.getDomAttributeValue('target') # :TODO: Soon add ... ,'gump')            
         # Import the buildfile
         self.buildfile=self.getDomAttributeValue('buildfile') # :TODO: Soon add ... ,'build.xml')
-    	    
+            
     def hasTarget(self):
         if self.target: return True
         return False
@@ -246,6 +246,15 @@ class Ant(Builder):
         if self.hasBuildFile():
             output.write(i+'BuildFile: ' + self.getBuildFile() + '\n')
 
+class Ant(BaseAnt): 
+    """ An Ant command (within a project) """
+    pass
+    
+# represents a <nant/> element
+class NAnt(BaseAnt):
+    """ A NAnt command (within a project) """
+    pass
+    
 # represents an <maven/> element
 class Maven(Builder):
     """ A Maven command (within a project)"""

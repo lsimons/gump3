@@ -34,6 +34,10 @@ class Testable:
         pass
         
     def raiseIssue(self, stuff):
+        """
+        Raise an issue (with a message and objects)
+        :TODO: Look at Python varargs
+        """
         message=''
         for s in stuff:
             message += '['
@@ -253,8 +257,8 @@ class TestRunner:
         
     def run(self,args):
         
-        log.setLevel(logging.DEBUG ) 
-        #log.setLevel(logging.INFO ) 
+        #log.setLevel(logging.DEBUG ) 
+        log.setLevel(logging.INFO ) 
         initializeGarbageCollection()
         
         # Sort to resolve dependency order
@@ -328,6 +332,9 @@ if __name__=='__main__':
     
     from gump.test.maven import MavenTestSuite  
     runner.addSuite(MavenTestSuite())
+    
+    from gump.test.nant import NAntTestSuite  
+    runner.addSuite(NAntTestSuite())
     
     from gump.test.xref import XRefTestSuite  
     runner.addSuite(XRefTestSuite())

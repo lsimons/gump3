@@ -22,7 +22,7 @@ __license__   = "http://www.apache.org/licenses/LICENSE-2.0"
 
 
 """
-	An Ant builder (uses ant to build projects)
+	A NAnt builder (uses nant to build projects)
 """
 
 import os.path
@@ -44,17 +44,17 @@ from gump.model.depend import  ProjectDependency
 from gump.model.stats import *
 from gump.model.state import *
 
-class AntBuilder(gump.run.gumprun.RunSpecific):
+class NAntBuilder(gump.run.gumprun.RunSpecific):
     
     def __init__(self,run):
         """
-        	The Ant Builder is a Java Builder
+        	The NAnt Builder is a Java Builder
     	""" 
         gump.run.gumprun.RunSpecific.__init__(self,run)
 
     def buildProject(self,project,language,stats):
         """
-        	Build a project using Ant, based off the <ant metadata.
+        	Build a project using NAnt, based off the <nant metadata.
         	
         	Note: switch on -verbose|-debug based of the stats for this
         	project, i.e. how long in a state of failure.
@@ -62,10 +62,10 @@ class AntBuilder(gump.run.gumprun.RunSpecific):
         
         workspace=self.run.getWorkspace()
                  
-        log.info('Run Ant on Project: #[' + `project.getPosition()` + '] : ' + project.getName())
+        log.info('Run NAnt on Project: #[' + `project.getPosition()` + '] : ' + project.getName())
     
         # Get the appropriate build command...
-        cmd=self.getAntCommand(project, language, self.run.getEnvironment().getJavaCommand())
+        cmd=self.getNAntCommand(project, language)
 
         if cmd:
             # Execute the command ....
@@ -86,55 +86,59 @@ class AntBuilder(gump.run.gumprun.RunSpecific):
                 # For now, things are going good...
                 project.changeState(STATE_SUCCESS)
     
-    def getAntCommand(self,project,language,javaCommand='java'):
+    def getNAntCommand(self,project,languageHelper):
         """
-        	Build an ANT command for this project, based on the <ant metadata
+        	Build an ANT command for this project, based on the <nant metadata
    			select targets and build files as appropriate.     	
         """
         
         # The original model information...
-        ant=project.ant
-        # The ant target (or none == ant default target)
-        target= ant.getTarget()
+        nant=project.nant
+        # The nant target (or none == nant default target)
+        target= nant.getTarget()
     
-        # The ant build file (or none == build.xml)
-        buildfile = ant.getBuildFile()
+        # The nant build file (or none == build.xml)
+        buildfile = nant.getBuildFile()
     
         # Optional 'verbose' or 'debug'
-        verbose=ant.isVerbose()
-        debug=ant.isDebug()
+        verbose=nant.isVerbose()
+        debug=nant.isDebug()
     
         # Where to run this:
-        basedir = ant.getBaseDirectory() or project.getBaseDirectory()
+        basedir = nant.getBaseDirectory() or project.getBaseDirectory()
     
         # Build a classpath (based upon dependencies)
-        (classpath,bootclasspath)=language.getClasspaths(project)
+        #(classpath,bootclasspath)=language.getClasspaths(project)
     
         # Get properties
-        properties=self.getAntProperties(project)
+        properties=self.getNAntProperties(project)
    
         # Get system properties
-        sysproperties=self.getAntSysProperties(project)
+        sysproperties=self.getNAntSysProperties(project)
+        
+        # Library Path
+        libpath=languageHelper.getAssemblyPath(project)
+        
+        # Run java on apache NAnt...
+        cmd=Cmd('NAnt.exe','build_'+project.getModule().getName()+'_'+project.getName(),
+            basedir,{'DEVPATH':libpath})
+        
+        # Launch with specified framework (e.g. mono-1.0.1) if
+        # required.
+        workspace=self.run.getWorkspace()
+        if workspace.hasDotNetInformation():
+            dotnetInfo=workspace.getDotNetInformation()
+            if dotnetInfo.hasFramework():                
+                cmd.addParameter('-t:',dotnetInfo.getFramework(),'')
    
-        # Run java on apache Ant...
-        cmd=Cmd(javaCommand,'build_'+project.getModule().getName()+'_'+project.getName(),
-            basedir,{'CLASSPATH':classpath})
-            
         # These are workspace + project system properties
         cmd.addNamedParameters(sysproperties)
         
-        # Add BOOTCLASSPATH
-        if bootclasspath:
-            cmd.addPrefixedParameter('-X','bootclasspath/p',bootclasspath,':')
-            
         # Get/set JVM properties
-        jvmargs=language.getJVMArgs(project)
-        if jvmargs:
-            cmd.addParameters(jvmargs)
-            
-        # The Ant interface
-        cmd.addParameter('org.apache.tools.ant.Main')  
-    
+        #jvmargs=language.getJVMArgs(project)
+        #if jvmargs:
+        #    cmd.addParameters(jvmargs)
+       
         # Allow ant-level debugging...
         if project.getWorkspace().isDebug() or project.isDebug() or debug: 
             cmd.addParameter('-debug')  
@@ -146,7 +150,7 @@ class AntBuilder(gump.run.gumprun.RunSpecific):
         # within.
         mergeFile=project.getWorkspace().getMergeFile()
         if mergeFile:
-            cmd.addPrefixedParameter('-D','gump.merge',str(mergeFile),'=')        
+            cmd.addPrefixedParameter('-D:','gump.merge',str(mergeFile),'=')        
     
         # These are from the project and/or workspace
         # These are 'normal' properties.
@@ -162,24 +166,24 @@ class AntBuilder(gump.run.gumprun.RunSpecific):
     
         return cmd
   
-    def getAntProperties(self,project):
+    def getNAntProperties(self,project):
         """ Get properties for a project """
         properties=Parameters()
-        for property in project.getWorkspace().getProperties()+project.getAnt().getProperties():
-            properties.addPrefixedNamedParameter('-D',property.name,property.value,'=')
+        for property in project.getWorkspace().getProperties()+project.getNAnt().getProperties():
+            properties.addPrefixedNamedParameter('-D:',property.name,property.value,'=')
         return properties
 
-    def getAntSysProperties(self,project):
+    def getNAntSysProperties(self,project):
         """ Get sysproperties for a project """
         properties=Parameters()
-        for property in project.getWorkspace().getSysProperties()+project.getAnt().getSysProperties():
-            properties.addPrefixedNamedParameter('-D',property.name,property.value,'=')
+        for property in project.getWorkspace().getSysProperties()+project.getNAnt().getSysProperties():
+            properties.addPrefixedNamedParameter('-D:',property.name,property.value,'=')
         return properties
                 
     def preview(self,project,language,stats):        
         """
-        	Preview what an Ant build would look like.
+        	Preview what an NAnt build would look like.
         """
-        command=self.getAntCommand(project,language) 
+        command=self.getNAntCommand(project,language) 
         command.dump()
  

@@ -103,13 +103,13 @@ class Description(ModelObject): pass
 # represents a <home/> element
 class Home(ModelObject): pass
 
-# represents a <jar/> element
-class Jar(NamedModelObject):
+# represents an <output/> element
+class BaseOutput(NamedModelObject):
     def __init__(self,name,dom,owner):
-    	NamedModelObject.__init__(self,name,dom,owner)
-    	self.id=''
-    	self.type=''
-    	
+        NamedModelObject.__init__(self,name,dom,owner)
+        self.id=''
+        self.type=''
+        
     def setPath(self,path):
         self.path=path
     
@@ -128,6 +128,15 @@ class Jar(NamedModelObject):
         
     def getType(self):
         return self.type
+        
+# represents a <jar/> element
+class Jar(BaseOutput): 
+    """ Represents a <jar/> element."""
+    pass
+    
+class Assembly(BaseOutput): 
+    """ Represents an <assembly/> element."""
+    pass
 
 class Resolvable(ModelObject):
     """

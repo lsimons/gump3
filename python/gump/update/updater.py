@@ -29,6 +29,7 @@ from gump.core.config import dir, default, basicConfig
 
 from gump.update.cvs import CvsUpdater
 from gump.update.svn import SvnUpdater
+from gump.update.p4 import P4Updater
 from gump.update.artifact import ArtifactUpdater
 
 from gump.utils import dump, display, getIndent, logResourceUtilization, \
@@ -57,6 +58,7 @@ class GumpUpdater(RunSpecific):
         
         self.cvs=CvsUpdater(run)
         self.svn=SvnUpdater(run)
+        self.p4=P4Updater(run)
         self.artifact=ArtifactUpdater(run)
 
     """
@@ -99,7 +101,7 @@ class GumpUpdater(RunSpecific):
     
         workspace = self.run.getWorkspace()
         
-        log.debug("Workspace CVS|SVN|artifacts Directory: " + workspace.getSourceControlStagingDirectory())
+        log.debug("Workspace CVS|SVN|P4|artifacts Directory: " + workspace.getSourceControlStagingDirectory())
 
         # Update all the modules that have CVS repositories
         for module in list: 
@@ -125,6 +127,8 @@ class GumpUpdater(RunSpecific):
                 ok=self.cvs.updateModule(module)
             elif module.hasSvn():
                 ok=self.svn.updateModule(module)
+            if module.hasP4():
+                ok=self.p4.updateModule(module)
             elif module.hasArtifacts():
                 ok=self.artifact.updateModule(module)        
             else:
@@ -195,6 +199,8 @@ class GumpUpdater(RunSpecific):
             ok=self.cvs.preview(module)
         elif module.hasSvn():
             ok=self.svn.preview(module)
+        elif module.hasP4():
+            ok=self.p4.preview(module)
         elif module.hasArtifacts():
             ok=self.artifact.preview(module)        
         else:

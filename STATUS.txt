@@ -68,3 +68,5 @@ Proposed board resolution to create an Apache Gump Project
        RESOLVED, that all responsibility pertaining to the Jakarta
        Gump sub-project encumbered upon the Gump PMC
        be hereafter discharged. 
+
+       

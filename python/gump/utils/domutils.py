@@ -87,7 +87,7 @@ def transferDomNameValue(target,name,value,mapping=None):
     
     # See what attribute we'd like to set with this
     attrName=name
-    if mapping and mapping.has_key(attrName): attrName=mapping[tag]
+    if mapping and mapping.has_key(name): attrName=mapping[name]
         
     # We have somewhere to put this value... 
     if hasattr(target,attrName):
@@ -209,10 +209,8 @@ def spliceDom(targetElement,source):
     # (i.e. deep clone and copy into target) 
     if sourceElement.hasChildNodes():
         for childNode in sourceElement.childNodes:  
-            # Cloning seems to seriously abuse memory... :(
             clonedNode=childNode.cloneNode(True)
             targetElement.appendChild(clonedNode) 
-            #targetElement.appendChild(childNode) 
     
 #    
 #def getAttrValue(node,attrName):
