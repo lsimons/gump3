@@ -17,7 +17,7 @@
     <depend project="commons-collections"/>
     <depend project="junit"/>
     <home nested="beanutils/dist"/>
-    <jar name="commons-beanutils.jar" id="beanutils"/>
+    <jar name="commons-beanutils.jar"/>
   </project>
 
   <!-- Build the Cactus project for Servlet API 2.2 -->
@@ -31,25 +31,17 @@
     <ant basedir="cactus" buildfile="build/build.xml" target="all">
       <property name="tomcat.home.33" reference="home"
                 project="jakarta-tomcat"/>
-      <property name="servlet22.jar" reference="jarpath" id="servlet"
-                project="jakarta-servletapi"/>
-      <property name="junit.jar" reference="jarpath" id="junit"
-                project="junit"/>
-      <property name="log4j.jar" reference="jarpath" id="log4j-core"
-                project="jakarta-log4j"/>
-      <property name="httpunit.jar" reference="jarpath" id="httpunit"
-                project="httpunit"/>
+      <depend property="servlet22.jar" project="jakarta-servletapi"/>
+      <depend property="junit.jar"     project="junit"/>
+      <depend property="log4j.jar"     project="jakarta-log4j" id="log4j-core"/>
+      <depend property="httpunit.jar"  project="httpunit"/>
     </ant>
 
     <depend project="jakarta-ant"/>
     <depend project="xml-xerces"/>
-    <depend project="jakarta-servletapi"/>
-    <depend project="junit"/>
     <depend project="xml-stylebook2"/>
     <depend project="xml-xalan2"/>
-    <depend project="jakarta-log4j"/>
     <depend project="jakarta-tomcat"/>
-    <depend project="httpunit"/>
     <work nested="cactus/out/servlet22/classes/"/>
     <work nested="cactus/out/classes/"/>
 
@@ -69,21 +61,15 @@
     <ant basedir="cactus" buildfile="build/build.xml" target="all">
       <property name="tomcat.home.40" reference="home"
                 project="jakarta-tomcat-4.0"/>
-      <property name="servlet23.jar" reference="jarpath" id="servlet"
-                project="jakarta-servletapi-4"/>
-      <property name="junit.jar" reference="jarpath" id="junit"
-                project="junit"/>
-      <property name="log4j.jar" reference="jarpath" id="log4j-core"
-                project="jakarta-log4j"/>
+      <depend property="servlet23.jar" project="jakarta-servletapi-4"/>
+      <depend property="junit.jar" project="junit"/>
+      <depend property="log4j.jar" project="jakarta-log4j" id="log4j-core"/>
     </ant>
 
     <depend project="jakarta-ant"/>
     <depend project="xml-xerces"/>
-    <depend project="jakarta-servletapi-4"/>
-    <depend project="junit"/>
     <depend project="xml-stylebook2"/>
     <depend project="xml-xalan2"/>
-    <depend project="jakarta-log4j"/>
     <depend project="jakarta-tomcat-4.0"/>
     <work nested="cactus/out/servlet23/classes/"/>
     <work nested="cactus/out/classes/"/>
@@ -102,7 +88,7 @@
     <depend project="junit"/>
     <work nested="collections/dist/classes"/>
     <home nested="collections/dist"/>
-    <jar name="commons-collections.jar" id="collections"/>
+    <jar name="commons-collections.jar"/>
   </project>
 
   <project name="commons-dbcp">
@@ -130,7 +116,7 @@
     <depend project="commons-beanutils"/>
     <depend project="commons-collections"/>
     <home nested="digester/dist"/>
-    <jar name="commons-digester.jar" id="digester"/>
+    <jar name="commons-digester.jar"/>
   </project>
 
   <project name="commons-httpclient">

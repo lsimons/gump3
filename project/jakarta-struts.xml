@@ -8,31 +8,17 @@
   <cvs repository="jakarta"/>
 
   <ant target="dist">
-    <property name="jdbc20ext.jar" reference="jarpath" 
-              id="stdext" project="jdbc"/>
-    <property name="servlet.jar"   reference="jarpath" 
-              id="servlet" project="jakarta-servletapi-4"/>
-    <property name="xerces.jar"    reference="jarpath" 
-              id="parser" project="xml-xerces"/>
+    <depend property="jdbc20ext.jar" project="jdbc"/>
+    <depend property="servlet.jar"   project="jakarta-servletapi-4"/>
+    <depend property="xerces.jar"    project="xml-xerces"/>
 
-    <property name="commons-beanutils.jar" reference="jarpath"
-              id="beanutils" project="commons-beanutils"/>
-
-    <property name="commons-collections.jar" reference="jarpath"
-              id="collections" project="commons-collections"/>
-
-    <property name="commons-digester.jar" reference="jarpath"
-              id="digester" project="commons-digester"/>
+    <depend property="commons-beanutils.jar"   project="commons-beanutils"/>
+    <depend property="commons-collections.jar" project="commons-collections"/>
+    <depend property="commons-digester.jar"    project="commons-digester"/>
   </ant>
 
-  <depend project="xml-xerces"/>
   <depend project="xml-xalan2"/>
-  <depend project="jdbc"/>
   <depend project="jakarta-ant"/>
-  <depend project="jakarta-servletapi-4"/>
-  <depend project="commons-beanutils"/>
-  <depend project="commons-collections"/>
-  <depend project="commons-digester"/>
   <work nested="target/library/classes"/>
   <work nested="target/tiles/library/classes"/>
 

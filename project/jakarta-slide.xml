@@ -21,23 +21,17 @@
     <property name="jaxp.home" reference="home" project="jaxp1.1"/>
     <property name="jmx.home" reference="home" project="jmx"/>
     <property name="jdom.home" reference="home" project="jdom"/>
-    <property name="jta.jar" reference="jarpath" id="jta" project="jta"/>
-    <property name="junit.jar" reference="jarpath" id="junit" project="junit"/>
-    <property name="log4j.jar" reference="jarpath" id="log4j" 
-              project="jakarta-log4j"/>
-    <property name="servlet.jar" reference="jarpath" id="servlet" 
-              project="jakarta-servletapi"/>
+    <depend property="jta.jar"     project="jta"/>
+    <depend property="junit.jar"   project="junit"/>
+    <depend property="log4j.jar"   project="jakarta-log4j" id="log4j"/>
+    <depend property="servlet.jar" project="jakarta-servletapi"/>
   </ant>
 
   <depend project="dist-ant"/>
   <depend project="xml-xerces"/>
   <depend project="xml-xalan2"/>
-  <depend project="jakarta-servletapi"/>
-  <depend project="jta"/>
   <depend project="jdom"/>
   <option project="jmx"/>
-  <option project="junit"/>
-  <option project="jakarta-log4j"/>
   <depend project="jakarta-tomcat-4.0"/>
   <depend project="commons-httpclient"/>
 
