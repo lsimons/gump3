@@ -20,6 +20,7 @@
     <option project="junit"/>
     <work nested="build/classes"/>
 
+    <home nested="build"/>
     <jar name="xmlsec.jar"/>
     <javadoc nested="doc/html/api"/>
   </project>
