@@ -324,8 +324,10 @@ class GumpEngine:
                         # Log of changes...
                         if os.path.exists(changesFile):                               
                             catFileToFileHolder(module, changesFile, FILE_TYPE_LOG) 
-                except:
+                 except Exception, details:
                     module.changeState(STATE_FAILED,REASON_SYNC_FAILED)
+                    log.error('Synchronize Failed ' + str(details), exc_info=1)
+     
                     
             # Incremental documentation...
             documenter=run.getOptions().getDocumenter()        
