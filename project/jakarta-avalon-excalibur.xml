@@ -699,8 +699,6 @@
         <depend project="ant" inherit="runtime"/>
         <depend project="jakarta-avalon" runtime="true"/>
         <depend project="excalibur-pool" inherit="runtime"/>
-        <depend project="excalibur-testcase" inherit="runtime"/>
-        <depend project="excalibur-component" inherit="runtime"/>
         <depend project="excalibur-sourceresolve" inherit="runtime"/>
         <depend project="xml-xerces"/>
         <depend project="xml-xalan2"/>
