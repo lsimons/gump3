@@ -1,0 +1,15 @@
+PREVIEW Gump is now an Apache Top Level Project
+
+Preparing the blog annoucnement of Gump as a TLP<br/>
+Please expand and edit <br/>
+view at 
+http://gump.chalko.com/gb/blog/News?permalink=TLP.txt&preview=true
+<hr/>
+<p>
+http://gump.apache.org
+</p>
+<p>The Board voted ...
+</p>
+<blockquote>
+Quote the board and link
+</blockquote>
