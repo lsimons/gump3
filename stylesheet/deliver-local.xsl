@@ -9,8 +9,8 @@
 
   <xsl:template match="text()|@*" />
 
-  <xsl:template match="site">
-    <xsl:if test="not(preceding::site)">
+  <xsl:template match="site[@username]">
+    <xsl:if test="not(preceding::site[@username])">
       <xsl:text>#!/bin/sh&#10;</xsl:text>
       <xsl:text>&#10;</xsl:text>
       <xsl:text>rm -rf </xsl:text>
