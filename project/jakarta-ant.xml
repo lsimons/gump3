@@ -138,8 +138,8 @@
 
     <depend project="jakarta-ant" inherit="all"/>
     
-    <home nested="proposal/embed"/>
-    <jar name="build/ant-sax2.jar" id="embed"/>
+    <home nested="proposal/embed/build"/>
+    <jar name="ant-sax2.jar" id="embed"/>
 
     <nag to="ant-dev@jakarta.apache.org"
          from="Nicola Ken Barozzi &lt;nicolaken@apache.org&gt;"/>    
@@ -161,8 +161,9 @@
     </ant>
 
     <depend project="jakarta-ant" inherit="all"/>
-
-    <jar name="build/optional-dynprop.jar" id="embed-optional"/>
+    
+    <home nested="proposal/embed/build"/>
+    <jar name="optional-dynprop.jar" id="embed-optional"/>
 
     <nag to="ant-dev@jakarta.apache.org"
          from="Nicola Ken Barozzi &lt;nicolaken@apache.org&gt;"/>    
