@@ -16,7 +16,7 @@
     <depend project="xml-xerces" />
     <depend project="javamail" />
     <depend project="avalon-framework" id="combined"/>
-    <depend project="avalon-cornerstone" />
+    <depend project="avalon-components" />
     <depend project="excalibur-compatibility"/>
     <!--    <depend project="excalibur-cli"/> -->
     <!-- <depend project="excalibur-concurrent"/> -->

@@ -81,7 +81,7 @@
         <option project="checkstyle" inherit="runtime"/>
         <depend project="avalon-framework" id="combined"/>
         <depend project="avalon-phoenix" inherit="all"/>
-        <depend project="avalon-cornerstone"/>
+        <depend project="avalon-components"/>
 
         <home nested="examples/demo"/>
         <work nested="examples/demo/target/classes"/>
@@ -133,7 +133,7 @@
         <depend project="xml-xerces"/>
         <depend project="avalon-framework" id="combined"/>
         <depend project="avalon-phoenix" inherit="all"/>
-        <depend project="avalon-cornerstone"/>
+        <depend project="avalon-components"/>
         <depend project="excalibur-thread"/>
 
         <option project="checkstyle" inherit="runtime"/>

@@ -28,7 +28,7 @@
         <depend project="jakarta-log4j"/>
         <depend project="commons-attributes" inherit="runtime"/>
         <depend project="excalibur-lifecycle"/>
-        <depend project="avalon-cornerstone"/>
+        <depend project="avalon-components"/>
         <depend project="avalon-phoenix"/>
         <depend project="commons-betwixt"/>
         <depend project="commons-digester"/>

@@ -1,9 +1,9 @@
-<module name="avalon-cornerstone">
+<module name="avalon-components">
 
-  <!-- cornerstone has been partially split into seperate
+  <!-- components has been partially split into seperate
        projects, and this needs to be updated to reflect
        that to allow more granular depenencies. But as we
-       might be further integrating cornerstone and
+       might be further integrating components and
        excalibur this is on hold -->
 
   <url href="http://avalon.apache.org/"/>
@@ -13,7 +13,7 @@
 
   <cvs repository="avalon"/>
 
-  <project name="avalon-cornerstone">
+  <project name="avalon-components">
     <package>org.apache.avalon.cornerstone</package>
 
     <ant />

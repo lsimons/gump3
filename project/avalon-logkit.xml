@@ -50,4 +50,29 @@
             to="dev@avalon.apache.org"/>
   </project>
 
+  <project name="avalon-logkit-maven">
+    <package>org.apache.log</package>
+
+    <ant file="gump-build.xml" target="dist">
+    </ant>
+    <depend project="ant" inherit="runtime"/>
+    <depend project="xml-xerces"/>
+    <depend project="junit"/>
+
+    <depend project="jdbc" runtime="true"/>
+    <depend project="jms" runtime="true"/>
+    <depend project="javamail" runtime="true"/>
+    <depend project="jaf" runtime="true"/>
+    <depend project="jakarta-servletapi-4" runtime="true"/>
+    <depend project="jakarta-log4j" runtime="true"/>
+
+    <home nested="build/lib"/>
+    <jar name="logkit.jar"/>
+
+    <javadoc nested="build/javadocs" module="avalon"/>
+    <license name="LICENSE"/>
+        <nag from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"
+                to="dev@avalon.apache.org"/>
+  </project>
+
 </module>
