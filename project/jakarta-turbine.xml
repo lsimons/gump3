@@ -7,7 +7,9 @@
 
   <cvs repository="jakarta"/>
 
-  <ant basedir="build" target="package"/>
+  <ant basedir="build" target="package">
+    <property name="version" value="gump"/>
+  </ant>
 
   <depend project="jakarta-ant"/>
   <depend project="xml-xerces"/>
@@ -28,8 +30,8 @@
   <depend project="jdbc"/>
   <option project="jta"/> <!-- needed for javadoc purposes only -->
 
-  <home nested="turbine-2.1-dev-unreleased"/>
-  <jar name="turbine-2.1-dev-unreleased.jar"/>
+  <home nested="bin"/>
+  <jar name="turbine-gump"/>
 
   <project name="torque">
     <depend project="jakarta-ant"/>

@@ -20,6 +20,7 @@
     <property name="ant.home" reference="home" project="jakarta-ant"/>
     <property name="jaxp.home" reference="home" project="jaxp1.1"/>
     <property name="jmx.home" reference="home" project="jmx"/>
+    <property name="jdom.home" reference="home" project="jdom"/>
     <property name="jta.jar" reference="jarpath" id="jta" project="jta"/>
     <property name="junit.jar" reference="jarpath" id="junit" project="junit"/>
     <property name="log4j.jar" reference="jarpath" id="log4j" 
