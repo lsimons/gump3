@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/output/Attic/nag.py,v 1.7 2004/01/28 22:54:50 ajack Exp $
-# $Revision: 1.7 $
-# $Date: 2004/01/28 22:54:50 $
+# $Header: /home/stefano/cvs/gump/python/gump/output/Attic/nag.py,v 1.8 2004/01/29 05:16:12 ajack Exp $
+# $Revision: 1.8 $
+# $Date: 2004/01/29 05:16:12 $
 #
 # ====================================================================
 #
@@ -290,7 +290,9 @@ class Nagger:
             #print 'Server:' + `self.workspace.mailserver`
             #print 'e-mail:' + `email`    
             # Fire ...
-            mail(toaddrs,fromaddr,email,self.workspace.mailserver) 
+            mail(toaddrs,fromaddr,email,	\
+                self.workspace.mailserver,	\
+                self.workspace.mailport) 
             
         except Exception, details:
             log.error("Failed to send nag e-mail: " + str(details), \
