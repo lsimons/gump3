@@ -40,7 +40,7 @@
     </ant>
 
     <depend project="jakarta-ant" inherit="all"/>
-    <option project="bsf"/>
+    <option project="jakarta-bsf"/>
     <option project="jakarta-regexp"/>
     <option project="jakarta-oro"/>
     <option project="jakarta-log4j"/>
@@ -58,7 +58,7 @@
     <jar name="lib/ant-antlr.jar" id="antlr"/>
     <jar name="lib/ant-apache-resolver.jar" id="resolver"/>
     <jar name="lib/ant-bcel.jar" id="bcel"/>
-    <jar name="lib/ant-bsf.jar" id="bsf"/>
+    <jar name="lib/ant-apache-bsf.jar" id="bsf"/>
     <jar name="lib/ant-commons-logging.jar" id="commons-logging"/>
     <jar name="lib/ant-jakarta-regexp.jar" id="jakarta-regexp"/>
     <jar name="lib/ant-javamail.jar" id="javamail"/>
