@@ -159,11 +159,11 @@ class PropertySet(Ownable):
         return self.properties.values()
             
     def importProperty(self,xmlproperty):
-        self.addProperty(Property(xmlproperty,self))
+        self.addProperty(Property(xmlproperty,self.getOwner()))
             
     def completeProperties(self,workspace):   
         for property in self.getProperties(): 
-            property.complete(self,workspace)
+            property.complete(self.getOwner(),workspace)
                         
     def dump(self, indent=0, output=sys.stdout):
         """ Display the properties """
@@ -179,7 +179,7 @@ class PropertyContainer:
     
     """
     def __init__(self,properties=None,sysproperties=None):
-        self.properties=PropertySet(self.getOwner, properties)    
+        self.properties=PropertySet(self.getOwner(), properties)    
         self.sysproperties=PropertySet(self.getOwner(), sysproperties)
         
     def hasProperties(self):
