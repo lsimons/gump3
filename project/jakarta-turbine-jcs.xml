@@ -42,6 +42,7 @@
     <depend project="ant"/>
     <depend project="xml-xerces"/>
 
+    <depend project="commons-collections"/>
     <depend project="commons-configuration"/>
     <depend project="commons-logging"/>
     <depend project="commons-lang"/>
@@ -49,7 +50,8 @@
     <depend project="hsqldb"/>
     <depend project="logging-log4j"/>
     <depend project="jakarta-servletapi"/>
-    <depend project="javagroups"/>
+    <depend project="jakarta-struts"/>
+    <depend project="jgroups"/>
     <depend project="jisp"/>
     <depend project="jakarta-tomcat-util"/>
     <depend project="jakarta-tomcat"/>
