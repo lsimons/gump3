@@ -394,7 +394,6 @@
     <project name="excalibur-fortress-container-test">
         <package>org.apache.avalon.fortress</package>
         <ant basedir="fortress/container-test" target="jar" buildfile="gump-build.xml">
-            <property name="project.name" value="excalibur-i18n"/>
             <property name="project.version" value="@@DATE@@"/>
         </ant>
         <!-- build-time dependencies -->
@@ -442,7 +441,6 @@
     <project name="excalibur-fortress-bean">
         <package>org.apache.avalon.fortress</package>
         <ant basedir="fortress/bean" target="jar" buildfile="gump-build.xml">
-            <property name="project.name" value="excalibur-i18n"/>
             <property name="project.version" value="@@DATE@@"/>
         </ant>
         <!-- build-time dependencies -->
@@ -493,7 +491,6 @@
     <project name="excalibur-fortress-meta">
         <package>org.apache.avalon.fortress</package>
         <ant basedir="fortress/meta" target="jar" buildfile="gump-build.xml">
-            <property name="project.name" value="excalibur-i18n"/>
             <property name="project.version" value="@@DATE@@"/>
         </ant>
         <!-- build-time dependencies -->
