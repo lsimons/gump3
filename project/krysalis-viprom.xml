@@ -8,7 +8,7 @@
 
   <cvs repository="sourceforge" 
   	host-prefix="cvs.metamorphosis" 
-  	dir="metamorphosis" module="viprom"/>
+  	dir="metamorphosis"/>
   
   <project name="krysalis-viprom-core">
     <package>org.krysalis.viprom</package>
