@@ -1,8 +1,8 @@
 <module name="incubator-altrmi">
 
-    <url href="http://incubator.apache.org/projects/index.html"/>
+    <url href="http://incubator.apache.org/projects/altrmi/index.html"/>
     <description>
-      Replacement for rmi
+      Alternative to RMI
     </description>
 
     <cvs repository="incubator"/>
@@ -44,7 +44,7 @@
         <jar id="server-impl" name="altrmi-server-impl-@@DATE@@.jar"/>
         <jar id="server-api" name="altrmi-server-interfaces-@@DATE@@.jar"/>
         <nag from="Gump Integration Build &lt;general@incubator.apache.org&gt;"
-                to="general@incubator.apache.org"/>
+                to="projects@incubator.apache.org"/>
     </project>
 
     <project name="excalibur-altrmi">
