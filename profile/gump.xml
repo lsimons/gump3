@@ -281,7 +281,7 @@
   <project name="ldap"             package="ldap-1_2_4"/>
   <project name="nekohtml"         package="nekohtml-0.7.3"/>
   <project name="msv"              package="msv-20020414"/>
-  <project name="multipartrequest" package="MultipartRequest130b2"/>
+  <project name="multipartrequest" package="MultipartRequest-1.30b4"/>
   <project name="relaxng"          package="relaxngDatatype-1.0"/>
   <project name="resolver"         package="resolver-0_2"/>
   <project name="eclipse"          package="eclipse-2.1"/>
