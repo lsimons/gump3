@@ -112,7 +112,7 @@ if [ -d $GUMP_TMP ] ; then
 fi
 # Gump work tmp
 if [ -d $GUMP_WS_TMP ] ; then
-	cd $GUMP_WS/tmp
+	cd $GUMP_WS_TMP/tmp
 	rm -f *.txt
 fi
 # Clear the forrest build area...
