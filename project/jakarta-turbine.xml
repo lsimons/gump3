@@ -1,6 +1,6 @@
 <project name="turbine">
 
-  <url href="http://java.apache.org/turbine/index.html"/>
+  <url href="http://jakarta.apache.org/turbine/"/>
   <description>
     Servlet based framework
   </description>
@@ -34,7 +34,7 @@
     <description>
       HTML template engine
     </description>
-    <jar name="lib/webmacro-0.94.jar"/>
+    <jar name="lib/webmacro-jdk1.2.jar"/>
   </project>
 
   <project name="xmlrpc">
