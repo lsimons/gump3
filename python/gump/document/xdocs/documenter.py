@@ -1710,7 +1710,7 @@ This page helps Gumpmeisters (and others) observe community progress.
         
         statsTable=statsSection.createTable()           
         
-        if self.config.isXDocs():
+        if self.config.isXdocs():
             # Generate an SVG for FOG:
             (file,title) = self.diagramFOG(project)
             if file:
