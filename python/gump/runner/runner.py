@@ -157,6 +157,15 @@ class GumpRunner(RunSpecific):
         if self.run.getOptions().isSyndicate():
             self.run.registerActor(Syndicator(self.run))   
             
+        # Describe [once documented]
+        if self.run.getOptions().isDescribe():
+            try:
+                import gump.rdf.describer
+                self.run.registerActor(gump.rdf.describer.RDFDescriber(self.run))   
+            except Exception, details:
+                log.warning('Unable to register RDF Describer :  %s ' % details,
+                            exc_info=1)
+            
         # Publish artifacts
         if self.run.getOptions().isPublish():
             self.run.registerActor(RepositoryPublisher(self.run))   

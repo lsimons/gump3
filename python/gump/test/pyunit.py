@@ -380,6 +380,9 @@ if __name__=='__main__':
     from gump.test.language import LanguageTestSuite  
     runner.addSuite(LanguageTestSuite())
  
+    from gump.test.describer import RDFDescriberTestSuite  
+    runner.addSuite(RDFDescriberTestSuite())
+ 
     
     # Any args are pattern matches
     patterns=list(sys.argv)
