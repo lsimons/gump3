@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/output/Attic/nag.py,v 1.25 2004/03/08 22:28:09 ajack Exp $
-# $Revision: 1.25 $
-# $Date: 2004/03/08 22:28:09 $
+# $Header: /home/stefano/cvs/gump/python/gump/output/Attic/nag.py,v 1.26 2004/03/09 10:58:51 bodewig Exp $
+# $Revision: 1.26 $
+# $Date: 2004/03/09 10:58:51 $
 #
 # ====================================================================
 #
@@ -135,7 +135,7 @@ class Nagger:
 
                 if module.isFailed():
                     try:
-                        log.info('Nag for module: ' + module.getName())                                        
+                        log.info('Nag for module: ' + module.getName())
                         self.nagModule(module)   
                     
                     except Exception, details:

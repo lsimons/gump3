@@ -26,6 +26,7 @@
 	    <faq href="faq.html" label="FAQ"/>
 	    <gettingstarted href="gettingstarted.html" label="Getting Started"/>
 	    <todo href="todo.html" label="Help Wanted"/>
+            <license href="http://www.apache.org/licenses/LICENSE-2.0.txt" label="License"/>
 	</gump>
 	<results label="Results">
 	    <nightly href="http://gump.covalent.net/log/" label="Nightly"/>
@@ -41,10 +42,13 @@
 	    <index href="http://cvs.apache.org/builds/gump/latest/bypackage.html" label="By Java package Name"/>
 	</menu>
 	-->
-	<getinvolved label="Get Involved">
+	<getinvolved label="Community">
             <mail href="mail.html" label="Mailing Lists"/>
+            <source href="index.html#Where+is+Gump%3F" label="Source"/>
 	    <wiki href="http://wiki.apache.org/gump" label="Wiki"/>
 	    <issues href="http://nagoya.apache.org/jira/secure/BrowseProject.jspa?id=10457" label="Issues"/>
+            <howtocontribute href="http://jakarta.apache.org/site/getinvolved.html" label="Get Involved"/>
+            <whoweare href="whoweare.html" label="Who We Are"/>
 	</getinvolved>
 
 	<om label="Object Model" tab="metadata">
@@ -52,7 +56,7 @@
 	    <workspace href="metadata/workspace.html" label="Workspace"/>
 	    <profile href="metadata/profile.html" label="Profile"/>
 	    <repository href="metadata/repository.html" label="Repository"/>
-    	<module href="metadata/module.html" label="Module"/>
+    	    <module href="metadata/module.html" label="Module"/>
 	    <project href="metadata/project.html" label="Project"/>
 	    <ant href="metadata/ant.html" label="Ant"/>
 	    <goodpractices href="metadata/practices.html" label="Good Practices"/>
@@ -63,7 +67,7 @@
 	    <index href="metadata/workspace.html" label="Workspace"/>
 	    <index href="metadata/profile.html" label="Profile"/>
 	    <index href="metadata/repository.html" label="Repository"/>
-    	<index href="metadata/module.html" label="Module"/>
+    	    <index href="metadata/module.html" label="Module"/>
 	    <index href="metadata/project.html" label="Project"/>
 	    <index href="metadata/ant.html" label="Ant"/>
 	</menu>

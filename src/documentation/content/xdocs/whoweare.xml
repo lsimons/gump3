@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!--
+  Copyright 2004 The Apache Software Foundation
+
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+-->
+<!DOCTYPE document PUBLIC "-//APACHE//DTD Documentation V1.1//EN" "document-v11.dtd">
+<document>
+
+  <header>
+    
+    <title>Gump Team Page</title>
+    <authors>
+      <person name="Community" email="general AT gump DOT apache DOT org"/>
+    </authors>
+  </header>
+  <body>
+
+    <section><title>Committers</title>
+
+      <p>All Apache committers have commit access to the Gump
+        module.</p>
+    </section>
+
+    <section><title>Project Managment Committee</title>
+
+      <ul>
+        <li>Nicola Ken Barozzi</li>
+        <li>Stefan Bodewig</li>
+        <li>Nick Chalko</li>
+        <li>Adam Jack</li>
+        <li>Stefano Mazzocchi</li>
+        <li>Scott Sanders</li>
+        <li>Leo Simons</li>
+        <li>Davanum Srinivas</li>
+        <li>Martin van den Bemt</li>
+      </ul>
+
+      <p>The Apache Gump Project Managment Committee can be contacted
+        at pmc@gump.apache.org.</p>
+    </section>
+  </body>
+</document>
