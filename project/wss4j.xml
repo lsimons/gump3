@@ -18,7 +18,7 @@
     <depend project="ant" inherit="runtime"/>
     <depend project="jaf"/>
     <depend project="ws-axis" inherit="runtime"/>
-    <depend project="xml-xerces"/>
+    <depend project="xml-xerces" inherit="runtime"/>
     <depend project="commons-discovery"/>
     <depend project="commons-logging"/>
     <depend project="cryptix"/>
