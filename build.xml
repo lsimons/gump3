@@ -1,7 +1,7 @@
 <!--
 
   Build the scripts and/or site for http://jakarta.apache.org/gump/
-  
+
   If you need to bootstrap this, see gen.sh or gen.bat.
 
   Important targets:
@@ -21,7 +21,7 @@
     <property name="onlineflag" value="-offline"/>
   </target>
 
-  
+
   <target name="platform_props">
     <condition property="target" value="bash">
         <os family="unix"/>
@@ -34,7 +34,7 @@
         </not>
       </and>
     </condition>
-    
+
     <condition property="extension" value="sh">
         <os family="unix"/>
     </condition>
@@ -46,8 +46,20 @@
         </not>
       </and>
     </condition>
+
+    <condition property="shell" value="/bin/sh">
+        <os family="unix"/>
+    </condition>
+    <condition property="shell" value="cmd.exe">
+      <and>
+        <os family="windows"/>
+        <not>
+          <os family="win9x"/>
+        </not>
+      </and>
+    </condition>
   </target>
-          
+
   <!-- Build the code used to generate the merged xml scripts -->
   <target name="compile" depends="platform_props">
     <mkdir dir="classes"/>
@@ -83,40 +95,40 @@
 
   <!-- Extract the info necessary to produce the update script -->
   <target name="update" depends="gen">
-    <style in="work/merge.xml" out="work/update.def" 
+    <style in="work/merge.xml" out="work/update.def"
            style="stylesheet/update.xsl"/>
   </target>
 
   <!-- Extract the info necessary to produce the build script -->
   <target name="build" depends="gen">
-    <style in="work/merge.xml" out="work/build.def" 
+    <style in="work/merge.xml" out="work/build.def"
            style="stylesheet/build.xsl"/>
   </target>
 
   <!-- Extract the info necessary to produce the xref script -->
   <target name="xref" depends="gen">
-    <style in="work/merge.xml" out="work/xref.def" 
+    <style in="work/merge.xml" out="work/xref.def"
            style="stylesheet/xref.xsl"/>
   </target>
 
   <!-- Extract the info necessary to produce the publish script -->
   <target name="publish" depends="gen">
     <copy file="work/merge.xml" tofile="work/puball.site"/>
-    <style in="work/merge.xml" out="work/publish.def" 
+    <style in="work/merge.xml" out="work/publish.def"
            style="stylesheet/publish.xsl"/>
-    <style in="work/merge.xml" out="work/map.pl" 
+    <style in="work/merge.xml" out="work/map.pl"
            style="stylesheet/sedmap.xsl"/>
   </target>
 
   <!-- Extract the info necessary to produce the deliver script -->
   <target name="deliver" depends="gen">
-    <style in="work/merge.xml" out="work/deliver-local.sh" 
+    <style in="work/merge.xml" out="work/deliver-local.sh"
            style="stylesheet/deliver-local.xsl"/>
   </target>
 
   <!-- Extract the info necessary to produce the naglist -->
   <target name="naglist" depends="gen">
-    <style in="work/merge.xml" out="work/naglist" 
+    <style in="work/merge.xml" out="work/naglist"
            style="stylesheet/nag.xsl"/>
   </target>
 
@@ -131,8 +143,16 @@
     <style basedir="work" destdir="work" includes="*.site"
            extension=".${extension}" style="stylesheet/${target}.xsl"/>
   </target>
- 
-  <!-- Generate javadocs -->
+
+  <!-- generate and publish scripts to work area -->
+  <target name="exec-scripts" depends="scripts">
+    <exec dir="work" executable="${shell}">
+      <arg value="puball.${extension}"/>
+      <arg value="../${workspace}"/>
+    </exec>
+   </target>
+
+   <!-- Generate javadocs -->
   <target name="javadocs" depends="compile" unless="javadocs.uptodate">
     <mkdir dir="javadocs"/>
     <javadoc sourcepath="java" destdir="javadocs" classpath="jenny.jar">
@@ -147,7 +167,7 @@
 
   <!-- Generate publish instructions for the javadocs -->
   <target name="pubdocs" depends="gen">
-    <style in="work/merge.xml" out="work/pubdoc.pl" 
+    <style in="work/merge.xml" out="work/pubdoc.pl"
            style="stylesheet/pubdocs.xsl"/>
   </target>
 
