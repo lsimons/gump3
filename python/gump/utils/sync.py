@@ -104,11 +104,15 @@ class PathWalker(Annotatable):
         return self.actionsOccured
         
     def outputAction(self,type,file,reason=''):
+        
+        # Mark something happened..
         self.actionsOccured=1
+        
+        # Log it (if requested)
         if self.outputStream:
             reasonSep=''
             if reason: reasonSep=' - '
-            self.outputStream.write('%s : %s%s%s\n' % ( type , str(file), reasonSep, reasonString ))
+            self.outputStream.write('%s : %s%s%s\n' % ( type , str(file), reasonSep, reason ))
         
     def isCopy(self): return (COPY_ACTION == self.action)
     def isSync(self): return (SYNC_ACTION == self.action)
