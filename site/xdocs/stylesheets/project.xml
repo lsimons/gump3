@@ -21,12 +21,12 @@
     <menu name="Results">
       <item name="Nightly"
         href="http://jakarta.apache.org/builds/gump/latest/"/>
-      <item name="Interim"
-        href="http://nagoya.apache.org/~rubys/gump/"/>
       <item name="Xerces2"
         href="http://nagoya.apache.org/~rubys/gump/xerces2/"/>
       <item name="Java 1.4"
         href="http://nagoya.apache.org/~rubys/gump/java14/"/>
+      <item name="Jars"     
+        href="http://gump.covalent.net/jars/"/>
       <item name="Javadoc"     
         href="http://nagoya.apache.org/~rubys/gump/javadoc.html"/>
     </menu>

@@ -83,10 +83,10 @@
 
     <p>The results exceeded my expectations.  People who claimed that version
     incompatibility problems were rare and easily addressed could now see
-    that it was a daily event - in fact to this day, I have never seen a clean
-    run.  I could provide timely feedback on the impact of their changes on
-    others, and in turn help them make their case against changes that would
-    affect them.</p>
+    that it was a daily event - in fact to this day, I have only seen a
+    clean run a mere handful of times.  But what I could provide to developers
+    was timely feedback on the impact of their changes on others, and in turn 
+    help them make their case against changes that would affect them.</p>
 
     <p>Most telling of all were the changes to three projects: Ant, Turbine,
     and Avalon.  All three were notorious for making changes which broke
