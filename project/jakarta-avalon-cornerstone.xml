@@ -1,0 +1,44 @@
+<module name="jakarta-avalon-cornerstone">
+
+  <url href="http://jakarta.apache.org/avalon/"/>
+  <description>
+    Set of default services for Avalon/Phoenix
+  </description>
+
+  <cvs repository="jakarta"/>
+  
+  <project name="jakarta-avalon-cornerstone">
+    <package>org.apache.avalon.cornerstone</package>
+
+    <ant />
+
+    <depend project="jakarta-avalon"/>
+    <depend project="jakarta-avalon-logkit"/>
+    <depend project="xml-xerces" id="parser"/>
+    <depend project="junit"/>
+    <depend project="excalibur-io"/>
+    <depend project="excalibur-datasource"/>
+    <depend project="excalibur-i18n"/>
+    <depend project="excalibur-thread"/>
+    <depend project="excalibur-threadcontext"/>
+    <depend project="jakarta-avalon-phoenix" inherit="runtime"/>
+    <depend project="xdoclet-ant15" inherit="runtime"/>
+    <depend project="jakarta-ant" inherit="runtime"/>
+    <depend project="jakarta-velocity" inherit="runtime"/>
+
+    <option project="excalibur-event"/>
+    <option project="excalibur-altrmi" inherit="runtime"/>
+    <option project="jakarta-bcel"/>
+    <option project="jsse"/>
+
+    <work nested="build/classes"/>
+
+    <home nested="build/lib"/>
+    <jar name="cornerstone.jar"/>
+
+    <nag from="Peter Donald &lt;peter@apache.org&gt;"
+         to="avalon-apps-dev@jakarta.apache.org"/>
+  </project>
+
+</module>
+
