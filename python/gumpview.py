@@ -73,8 +73,8 @@ class gumpview(wxApp):
       parent=self.mItem[name]=self.tree.AppendItem(root,name)
       self.tree.SetPyData(parent,module)
       for project in module.project:
-	self.pItem[project.name]=self.tree.AppendItem(parent,project.name)
-	self.tree.SetPyData(self.pItem[project.name],project)
+        self.pItem[project.name]=self.tree.AppendItem(parent,project.name)
+        self.tree.SetPyData(self.pItem[project.name],project)
 
     self.tree.Expand(root)
 
@@ -91,7 +91,7 @@ class gumpview(wxApp):
       list=parent.depend+parent.option
       if parent.ant: list+=parent.ant.depend
       for depend in list:
-	if depend.project==project.name:
+        if depend.project==project.name:
           self.items.append(parent.name)
 
     # display the list, sorted by name

@@ -112,10 +112,10 @@ class Named(GumpBase):
     else:
       name=attrs.get('name')      
       try:
-	element=cls.list[name]
+          element=cls.list[name]
       except:
-	element=GumpBase.__new__(cls,attrs)
-	if name: cls.list[name]=element
+          element=GumpBase.__new__(cls,attrs)
+      if name: cls.list[name]=element
     return element
 
 # properties which are only ever expected to hold a single value 
@@ -235,8 +235,8 @@ class Project(Named):
     if self.home and isinstance(self.home,Single):
       if self.home.nested:
         srcdir=Module.list[self.module].srcdir
-	self.home=srcdir +'/' + self.home.nested
-	
+        self.home=srcdir +'/' + self.home.nested
+
     # complete properties
     if self.ant: self.ant.complete(self)
 

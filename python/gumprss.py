@@ -13,7 +13,7 @@ gumproot='http://cvs.apache.org/builds/gump/'
 # Format of index files entries
 summary=re.compile('<td>\s(\d\d:\d\d:\d\d)\s</td>\s' +
                    '<td.*?>\s<a href="(.*?)">([-\w]*)</a>\s</td>\s' +
-		   '<td.*?>\s(\w+)\s</td>\s')
+                   '<td.*?>\s(\w+)\s</td>\s')
 
 # Local time zone, in offset from GMT
 TZ='%+.2d:00' % (-time.timezone/3600)
@@ -28,11 +28,11 @@ class Workspace(ContentHandler):
     if name=='workspace':
       attrs=dict(attrs)
       if 'logdir' in attrs:
-	Workspace.logdir=attrs['logdir']
+        Workspace.logdir=attrs['logdir']
     if name=='project':
       attrs=dict(attrs)
       if 'name' in attrs and 'module' in attrs:
-	module[attrs['name']]=attrs['module']
+        module[attrs['name']]=attrs['module']
 
 parse(open('work/merge.xml'),Workspace())
 
