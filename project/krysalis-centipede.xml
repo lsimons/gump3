@@ -109,7 +109,7 @@
 		<depend project="xml-xalan2" inherit="all"  />
         <depend project="xml-xerces" inherit="all" />
 
-		<jar name="build/krysalis-centipede.jar"  />
+		<jar name="lib/krysalis-centipede.jar"  />
         <!-- Work dirs to be included in classpath  -->
         <!--
           <work nested="tools/tmp"/>
