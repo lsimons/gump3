@@ -370,8 +370,8 @@
       <depend property="jxpath.jar" project="commons-jxpath"/>
       <depend property="sax.jar" project="jaxp" id="sax"/>
       <depend property="saxpath.jar" project="saxpath"/>
-      <depend property="servlet.jar" project="jakarta-servletapi-4"/>
-      <depend property="servlet23.jar" project="jakarta-servletapi-4"/>
+      <depend property="jsp20.jar" project="jakarta-servletapi-5-jsp"/>
+      <depend property="servlet24.jar" project="jakarta-servletapi-5-servlet"/>
       <depend property="xalan.jar" project="xml-xalan2"/>
       <depend property="xercesImpl.jar" project="xml-xerces" id="parser"/>
       <property name="build.dir" path="build"/>
