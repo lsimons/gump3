@@ -78,7 +78,7 @@
   <project name="jakarta-ant-testutil">
     <ant target="test-jar"/>
 
-    <depend project="dist-ant" inherit="hard"/>
+    <depend project="dist-ant" inherit="all"/>
     <option project="jakarta-tomcat-4.0" ids="jasper-compiler jasper-runtime"/>
 
     <home nested="build/lib"/>
