@@ -296,6 +296,7 @@ def documentWorkspace(workspace,context,db,moduleFilterList=None,projectFilterLi
     endSectionXDoc(x)       
     
     x.write('<p><strong>Context Tree:</strong> <link href=\'context.html\'>context</link></p>')
+    x.write('<p><strong>RSS :</strong> <link href=\'index.rss\'>News Feed</link></p>')
     
     documentWorkList(x,workspace,context.worklist,'Workspace-level Work',wdir)
      
@@ -848,7 +849,7 @@ def getProjectRelativeUrl(name,depth=0):
     return getUp(depth)+gumpSafeName(name)+'.html'
     
 def getModuleProjectRelativeUrl(mname,pname,depth=0):
-    return getUp(depth)+gumpSafeName(mname)+'/'+gumpSafeName(pname)+'/index.html'
+    return getUp(depth)+gumpSafeName(mname)+'/'+gumpSafeName(pname)+'.html'
     
 def getModuleProjectRelativeUrlFromModule(mname,pname):
     return getProjectRelativeUrl(mname,pname,1)
