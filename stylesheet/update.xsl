@@ -108,10 +108,10 @@
         <td>
           <start-time/>
         </td>
-        <td>
+        <td class="status">
           <a href="cvs_{@name}.html"><xsl:value-of select="@name"/></a>
         </td>
-        <td>
+        <td class="status">
           <status/>
         </td>
       </tr>

@@ -230,6 +230,16 @@
     <xsl:text>echo at %START:~0,8% %OUT%&#10;</xsl:text>
   </xsl:template>
 
+  <xsl:template match="td[@class='status']">
+    <xsl:text>SET STYLE= class="warn"&#10;</xsl:text>
+    <xsl:text>IF "%STATUS%"=="SUCCESS" SET STYLE=&#10;</xsl:text>
+    <xsl:text>IF "%STATUS%"=="FAILED" </xsl:text>
+    <xsl:text>SET STYLE= class="fail"&#10;</xsl:text>
+    <xsl:text>echo ^&lt;td%STYLE%^> %OUT%&#10;</xsl:text>
+    <xsl:apply-templates/>
+    <xsl:text>echo ^&lt;/td^> %OUT%&#10;</xsl:text>
+  </xsl:template>
+
   <!-- =================================================================== -->
   <!--                         check for prereqs                           -->
   <!-- =================================================================== -->
@@ -293,7 +303,7 @@
     </xsl:choose>
 
     <xsl:text> %OUT% 2&gt;&amp;1&#10;</xsl:text>
-    <xsl:text>if errorlevel 1 SET STATUS=BUILD FAILED&#10;</xsl:text>
+    <xsl:text>if errorlevel 1 SET STATUS=FAILED&#10;</xsl:text>
 
   </xsl:template>
 

@@ -30,6 +30,11 @@
             background-color: #525D76;
             color: #ffffff;
             font-weight: bold; }
+          td.fail {
+            background-color: red;
+            font-weight: bold; }
+          td.warn {
+            background-color: yellow }
           a.title { font-weight: bold; }
         </style>
       </head>

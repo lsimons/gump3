@@ -260,6 +260,17 @@
     <xsl:text>eval "date $OUT"&#10;</xsl:text>
   </xsl:template>
 
+  <xsl:template match="td[@class='status']">
+    <xsl:text>case $STATUS in &#10;</xsl:text>
+    <xsl:text> SUCCESS) eval "echo \&lt;td\>\;\; $OUT"&#10;</xsl:text>
+    <xsl:text> FAILED) eval<xsl:text>
+    <xsl:text> "echo \&lt;td class="fail"\>\;\; $OUT"&#10;</xsl:text>
+    <xsl:text> *) eval "echo \&lt;td class="warn"\>\;\; $OUT"&#10;</xsl:text>
+    <xsl:text>esac&#10;</xsl:text>
+    <xsl:apply-templates/>
+    <xsl:text>eval "echo \&lt;/td\> $OUT"&#10;</xsl:text>
+  </xsl:template>
+
   <!-- =================================================================== -->
   <!--                         check for prereqs                           -->
   <!-- =================================================================== -->
@@ -345,7 +356,7 @@
 
     <xsl:text> $OUT 2&gt;&amp;1"&#10;</xsl:text>
     <xsl:text>test $? -ge 1 &amp;&amp; </xsl:text>
-    <xsl:text>export STATUS="BUILD FAILED"&#10;</xsl:text>
+    <xsl:text>export STATUS="FAILED"&#10;</xsl:text>
     <xsl:text>fi&#10;</xsl:text>
 
   </xsl:template>
