@@ -13,8 +13,8 @@
 
   <ant target="jars"/>
 
-  <depend project="jaxp1.1"/>
   <depend project="jakarta-ant"/>
+  <depend project="xml-xerces"/>
   <depend project="rhino"/>
   <depend project="xml-xalan1"/>
 

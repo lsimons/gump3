@@ -12,8 +12,8 @@
   <depend project="jakarta-ant"/>
   <depend project="xml-xerces"/>
   <depend project="jakarta-avalon"/>
-  <depend project="xml-stylebook2"/>
-  <depend project="xml-xalan2"/>
+  <depend project="xml-stylebook"/>
+  <depend project="xml-xalan1"/>
 
   <home nested="build/lib"/>
   <jar name="phoenix-client.jar"/>
