@@ -1,5 +1,6 @@
 <profile name="test">
 
-  <project href="project/jakarta-ant.xml"/>
+  <module href="project/jakarta-ant.xml"/>
+  <module href="project/jakarta-turbine-3.xml"/>
 
 </profile>

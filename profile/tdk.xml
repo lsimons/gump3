@@ -2,67 +2,67 @@
 
   <!-- Apache.Jakarta -->
 
-  <project href="project/jakarta-ant.xml"/>
-  <project href="project/jakarta-commons.xml"/>
-  <project href="project/jakarta-commons-sandbox.xml"/>
-  <project href="project/jakarta-ecs.xml"/>
-  <project href="project/jakarta-log4j.xml"/>
-  <project href="project/jakarta-oro.xml"/>
-  <project href="project/jakarta-regexp.xml"/>
-  <project href="project/jakarta-servletapi.xml"/>
-  <project href="project/jakarta-servletapi-4.xml"/>
-  <project href="project/jakarta-site2.xml"/>
-  <project href="project/jakarta-tomcat-40.xml"/>
-  <project href="project/jakarta-tomcat-jasper.xml"/>
-  <project href="project/jakarta-turbine-3.xml"/>
-  <project href="project/jakarta-turbine-flux.xml"/>
-  <project href="project/jakarta-turbine-fulcrum.xml"/>
-  <project href="project/jakarta-turbine-torque.xml"/>
-  <project href="project/jakarta-velocity.xml"/>
-  <project href="project/jakarta-avalon.xml"/>
-  <project href="project/jakarta-avalon-logkit.xml"/>
-  <project href="project/jakarta-avalon-phoenix.xml"/>
-  <project href="project/jakarta-avalon-testlet.xml"/>
-  <project href="project/jakarta-avalon-excalibur.xml"/>
-  <project href="project/jakarta-tomcat.xml"/>
-  <project href="project/jakarta-tomcat-connectors.xml"/>
+  <module href="project/jakarta-ant.xml"/>
+  <module href="project/jakarta-commons.xml"/>
+  <module href="project/jakarta-commons-sandbox.xml"/>
+  <module href="project/jakarta-ecs.xml"/>
+  <module href="project/jakarta-log4j.xml"/>
+  <module href="project/jakarta-oro.xml"/>
+  <module href="project/jakarta-regexp.xml"/>
+  <module href="project/jakarta-servletapi.xml"/>
+  <module href="project/jakarta-servletapi-4.xml"/>
+  <module href="project/jakarta-site2.xml"/>
+  <module href="project/jakarta-tomcat-40.xml"/>
+  <module href="project/jakarta-tomcat-jasper.xml"/>
+  <module href="project/jakarta-turbine-3.xml"/>
+  <module href="project/jakarta-turbine-flux.xml"/>
+  <module href="project/jakarta-turbine-fulcrum.xml"/>
+  <module href="project/jakarta-turbine-torque.xml"/>
+  <module href="project/jakarta-velocity.xml"/>
+  <module href="project/jakarta-avalon.xml"/>
+  <module href="project/jakarta-avalon-logkit.xml"/>
+  <module href="project/jakarta-avalon-phoenix.xml"/>
+  <module href="project/jakarta-avalon-testlet.xml"/>
+  <module href="project/jakarta-avalon-excalibur.xml"/>
+  <module href="project/jakarta-tomcat.xml"/>
+  <module href="project/jakarta-tomcat-connectors.xml"/>
 
   <!-- Apache.XML -->
 
-  <project href="project/xml-rpc.xml"/>
-  <project href="project/xml-xalan.xml"/>
-  <project href="project/xml-xerces.xml"/>
-  <project href="project/xml-site.xml"/>
+  <module href="project/xml-rpc.xml"/>
+  <module href="project/xml-xalan.xml"/>
+  <module href="project/xml-xerces.xml"/>
+  <module href="project/xml-site.xml"/>
 
   <!-- other -->
 
-  <project href="project/bsf.xml"/>
-  <project href="project/dom4j.xml"/>
-  <project href="project/httpunit.xml"/>
-  <project href="project/jdom.xml"/>
-  <project href="project/junit.xml"/>
-  <project href="project/lucene.xml"/>
-  <project href="project/village.xml"/>
-  <project href="project/dbxml.xml"/>
-  <project href="project/jtidy.xml"/>
-  <project href="project/castor.xml"/>
+  <module href="project/bsf.xml"/>
+  <module href="project/dom4j.xml"/>
+  <module href="project/httpunit.xml"/>
+  <module href="project/jdom.xml"/>
+  <module href="project/junit.xml"/>
+  <module href="project/lucene.xml"/>
+  <module href="project/village.xml"/>
+  <module href="project/dbxml.xml"/>
+  <module href="project/jtidy.xml"/>
+  <module href="project/castor.xml"/>
 
   <!-- Sun -->
 
-  <project href="project/jaf.xml"/>
-  <project href="project/javamail.xml"/>
-  <project href="project/jaxp.xml"/>
-  <project href="project/jaxp11.xml"/>
-  <project href="project/jdbc.xml"/>
-  <project href="project/jms.xml"/>
-  <project href="project/jmx.xml"/>
-  <project href="project/jndi.xml"/>
-  <project href="project/jsse.xml"/>
-  <project href="project/jta.xml"/>
-  <project href="project/jts.xml"/>
+  <module href="project/jaf.xml"/>
+  <module href="project/javamail.xml"/>
+  <module href="project/jaxp.xml"/>
+  <module href="project/jaxp11.xml"/>
+  <module href="project/jdbc.xml"/>
+  <module href="project/jms.xml"/>
+  <module href="project/jmx.xml"/>
+  <module href="project/jndi.xml"/>
+  <module href="project/jsse.xml"/>
+  <module href="project/jta.xml"/>
+  <module href="project/jts.xml"/>
 
-  <project href="project/tyrex.xml"/>
-  <project href="project/xml-stylebook.xml"/>
+  <module href="project/tyrex.xml"/>
+  <module href="project/xml-stylebook.xml"/>
 
 
   <!-- Installed packages -->
