@@ -28,6 +28,7 @@
     <depend project="jakarta-tomcat-4.0"/>
     <depend project="commons-httpclient"/>
     <depend project="jakarta-struts"/>
+    <depend project="commons-modeler"/>
     <work nested="build/classes"/>
     <work nested="build/client/classes"/>
 

@@ -34,6 +34,20 @@
     <javadoc nested="jjar/dist/docs/api"/>
   </project>
 
+  <project name="commons-modeler">
+    <description>Modeler MBeans</description>
+    <ant basedir="modeler" target="dist">
+    </ant>
+
+    <depend project="jakarta-ant"/>
+    <depend project="xml-xerces"/>
+    <depend project="commons-digester"/>
+    <depend project="jmx"/>
+
+    <jar name="modeler/dist/commons-modeler.jar"/>
+    <javadoc nested="modeler/dist/docs/api"/>
+  </project>
+
   <project name="commons-util">
     <description>Commons Utility Package</description>
     <ant basedir="util" target="dist">
@@ -52,7 +66,6 @@
     <description>
       Namespace aware minimal XML parser
     </description>
-
 
     <jar name="jjar/lib/MinML2.jar"/>
   </project>
