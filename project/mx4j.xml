@@ -1,4 +1,4 @@
-<module name="openjmx">
+<module name="mx4j">
 
   <url href="http://mx4j.sourceforge.net/"/>
   <description>
@@ -27,8 +27,8 @@
     <work nested="classes/tools"/>
  
     <home nested="dist"/>
-    <jar name="lib/mx4j.jar"/>
-    <jar name="lib/mx4j-tools.jar"/>
+    <jar name="lib/openjmx.jar"/>
+    <jar name="lib/openjmx-tools.jar"/>
   </project>
 
   <project name="mx4j-release">
