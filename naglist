@@ -65,6 +65,12 @@ From: Jon Stevens <jon@latchkey.com>
 Subject: [GUMP] Build Failure - James
 Regex: /BUILD FAILED/
 ------
+Project: jakarta-struts
+To: struts-dev@jakarta.apache.org
+From: Sam Ruby <rubys@us.ibm.com>
+Subject: [GUMP] Build Failure - Struts
+Regex: /BUILD FAILED/
+------
 Project: jakarta-tomcat
 To: tomcat-dev@jakarta.apache.org
 From: Sam Ruby <rubys@us.ibm.com>
