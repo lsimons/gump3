@@ -229,11 +229,11 @@ function find_hostname
 available to determine it!"
   fi
   
-  local cygwin=false;
+  local cygwin="no";
   case "`uname`" in
-    CYGWIN*) cygwin=true ;;
+    CYGWIN*) cygwin="yes" ;;
   esac
-  if $cygwin; then
+  if [[ "x$cygwin" == "xyes" ]]; then
     export GUMP_HOSTNAME=`hostname`
   else
     export GUMP_HOSTNAME=`hostname -s`
@@ -289,15 +289,15 @@ function find_env_file
   export GUMP_ENV_FILE="$GUMP_HOME/$GUMP_HOSTNAME-settings.sh"
 }
 
-# Determine whether we're running under cygwin
+# Determine whether we are running under cygwin
 function find_cygwin
 {
-  local cygwin=false
+  local cygwin="no";
   case "`uname`" in
-    CYGWIN*) cygwin=true ;;
+    CYGWIN*) cygwin="yes" ;;
   esac
-  if $cygwin; then
-    export GUMP_CYGWIN=true
+  if [[ "x$cygwin" == "xyes" ]]; then
+    export GUMP_CYGWIN="yes"
   fi
 }
 
@@ -327,6 +327,7 @@ function find_python
   
   export GUMP_PYTHON="$python"
 }
+
 
 # Load the environment variables script if it exists, then fill out missing
 # but required variables
@@ -417,10 +418,10 @@ try:
 except:
   print "error"
 ENDCOMMAND
-  if $GUMP_CYGWIN; then
+  if [[ ! -z "$GUMP_CYGWIN" ]]; then
     local cmd="$GUMP_PYTHON `cygpath -w $GUMP_HOME/pycmd.tmp.py`"
   else
-    local cmd="$GUMP_PYTHON '$GUMP_HOME/pycmd.tmp.py'"
+    local cmd="$GUMP_PYTHON $GUMP_HOME/pycmd.tmp.py"
   fi
   result=`$cmd`
   rm -f "$GUMP_HOME/pycmd.tmp.py"
@@ -498,7 +499,7 @@ function pycompile
   find $GUMP_HOME/pygump -type f -name '*.pyc' | xargs rm -Rf
 
   # compile everything
-  if $GUMP_CYGWIN; then
+  if [[ ! -z "$GUMP_CYGWIN" ]]; then
     $GUMP_PYTHON -c "import re; import os; from compileall import compile_dir; compile_dir(os.path.join('`cygpath -w $GUMP_HOME`', 'pygump', 'python'), 10, '`cygpath -w $GUMP_HOME`', False, re.compile('\.svn'), True)"
   else
     $GUMP_PYTHON -c "import re; import os; from compileall import compile_dir; compile_dir(os.path.join('$GUMP_HOME', 'pygump', 'python'), 10, '$GUMP_HOME', False, re.compile('\.svn'), True)"
@@ -507,13 +508,13 @@ function pycompile
   # add pygump to python path
   local oldpythonpath="$PYTHONPATH"
   if [[ -z "$oldpythonpath" ]]; then
-    if $GUMP_CYGWIN; then
+    if [[ ! -z "$GUMP_CYGWIN" ]]; then
       export PYTHONPATH="`cygpath -w $GUMP_HOME/pygump/python`;`cygpath -w $GUMP_HOME/pygump`"
     else
       export PYTHONPATH="$GUMP_HOME/pygump/python:$GUMP_HOME/pygump"
     fi
   else
-    if $GUMP_CYGWIN; then
+    if [[ ! -z "$GUMP_CYGWIN" ]]; then
       export PYTHONPATH="`cygpath -w $GUMP_HOME/pygump/python`;`cygpath -w $GUMP_HOME/pygump`:$PYTHONPATH"
     else
       export PYTHONPATH="$GUMP_HOME/pygump/python:$GUMP_HOME/pygump:$PYTHONPATH"
@@ -543,13 +544,13 @@ function do_run
   # add pygump to python path
   local oldpythonpath="$PYTHONPATH"
   if [[ -z "$oldpythonpath" ]]; then
-    if $GUMP_CYGWIN; then
+    if [[ ! -z "$GUMP_CYGWIN" ]]; then
       export PYTHONPATH="`cygpath -w $GUMP_HOME/pygump/python`;`cygpath -w $GUMP_HOME/pygump`"
     else
       export PYTHONPATH="$GUMP_HOME/pygump/python:$GUMP_HOME/pygump"
     fi
   else
-    if $GUMP_CYGWIN; then
+    if [[ ! -z "$GUMP_CYGWIN" ]]; then
       export PYTHONPATH="`cygpath -w $GUMP_HOME/pygump/python`;`cygpath -w $GUMP_HOME/pygump`:$PYTHONPATH"
     else
       export PYTHONPATH="$GUMP_HOME/pygump/python:$GUMP_HOME/pygump:$PYTHONPATH"
@@ -563,7 +564,7 @@ function do_run
   local current=`pwd`
   pycompile
 
-  if $GUMP_CYGWIN; then
+  if [[ ! -z "$GUMP_CYGWIN" ]]; then
     local old_gump_home=$GUMP_HOME
     local old_gump_workdir=$GUMP_WORKDIR
     local old_java_home=$JAVA_HOME
@@ -575,7 +576,7 @@ function do_run
     cd "$GUMP_HOME/pygump"
   fi
   $GUMP_PYTHON -c "$command" $@
-  if $GUMP_CYGWIN; then
+  if [[ ! -z "$GUMP_CYGWIN" ]]; then
     export GUMP_HOME=$old_gump_home
     export GUMP_WORKDIR=$old_gump_workdir
     export JAVA_HOME=$old_java_home
@@ -638,13 +639,13 @@ function test
   
   # add pygump to python path
   if [[ -z "$oldpythonpath" ]]; then
-    if $GUMP_CYGWIN; then
+    if [[ ! -z "$GUMP_CYGWIN" ]]; then
       export PYTHONPATH="`cygpath -w $GUMP_HOME/pygump/python`;`cygpath -w $GUMP_HOME/pygump`"
     else
       export PYTHONPATH="$GUMP_HOME/pygump/python:$GUMP_HOME/pygump"
     fi
   else
-    if $GUMP_CYGWIN; then
+  if [[ ! -z "$GUMP_CYGWIN" ]]; then
       export PYTHONPATH="`cygpath -w $GUMP_HOME/pygump/python`;`cygpath -w $GUMP_HOME/pygump`:$PYTHONPATH"
     else
       export PYTHONPATH="$GUMP_HOME/pygump/python:$GUMP_HOME/pygump:$PYTHONPATH"
@@ -656,7 +657,7 @@ function test
   pycompile
   
   # Run the pygump tests
-  if $GUMP_CYGWIN; then
+  if [[ ! -z "$GUMP_CYGWIN" ]]; then
     $GUMP_PYTHON `cygpath -w $GUMP_HOME/bin/testrunner.py` -d `cygpath -w $GUMP_HOME/pygump/python/gump/test` $@
   else
     $GUMP_PYTHON $GUMP_HOME/bin/testrunner.py -d $GUMP_HOME/pygump/python/gump/test $@
