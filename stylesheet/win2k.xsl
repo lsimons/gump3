@@ -402,7 +402,7 @@
 
   <xsl:template match="move">
     <xsl:if test="@quiet">
-      <xsl:text>if not exist </xsl:text>
+      <xsl:text>if exist </xsl:text>
       <xsl:value-of select="translate(@file,'/','\')"/>
       <xsl:text> </xsl:text>
     </xsl:if>
