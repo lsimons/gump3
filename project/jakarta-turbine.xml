@@ -14,13 +14,13 @@
   <depend project="xml-xalan1"/>
   <depend project="jakarta-servletapi"/>
   <depend project="jakarta-regexp"/>
-  <depend project="jakarta-log4j"/>
+  <option project="jakarta-log4j"/>
   <depend project="jakarta-ecs"/>
   <depend project="jakarta-velocity"/>
   <depend project="webmacro"/>
   <option project="freemarker"/>
   <depend project="village"/>
-  <depend project="castor"/>
+  <option project="castor"/>
   <depend project="javamail"/>
   <depend project="xmlrpc"/>
   <depend project="jaf"/>
