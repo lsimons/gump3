@@ -251,7 +251,7 @@ class RSSSyndicator(AbstractSyndicator):
         moduleRSS=RSS(rssUrl,rssFile,	\
             Channel('Gump : Module ' + escape(module.getName()),	\
                     moduleUrl,	\
-                    escape(module.getDescription()), \
+                    escape(module.getDescription() or ''), \
                     self.gumpImage))
                     
         datestr=time.strftime('%Y-%m-%d')
@@ -293,7 +293,7 @@ class RSSSyndicator(AbstractSyndicator):
         projectRSS=RSS(rssUrl, rssFile,	\
             Channel('Gump : Project ' + escape(project.getName()),	\
                     projectUrl,	\
-                    escape(project.getDescription()), \
+                    escape(project.getDescription() or ''), \
                     self.gumpImage))
                     
         datestr=time.strftime('%Y-%m-%d')

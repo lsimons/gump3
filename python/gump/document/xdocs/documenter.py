@@ -91,7 +91,7 @@ class XDocDocumenter(Documenter):
         
         self.syncObject(project)
         
-        # Do once every 5...
+        # Do once every ...
         if 0 == (project.getPositionIndex() % 5):
             self.documentBuildLog(True)  
             self.syncBuildLog()
