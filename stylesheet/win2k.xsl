@@ -391,6 +391,20 @@
       <xsl:value-of select="@value"/>
     </xsl:for-each>
 
+    <xsl:for-each select="sysproperty">
+      <xsl:text> -D</xsl:text>
+      <xsl:value-of select="@name"/>
+      <xsl:text>=</xsl:text>
+      <xsl:choose>
+        <xsl:when test="@type='path'">
+          <xsl:value-of select="translate(@value,'/','\')"/>
+        </xsl:when>
+        <xsl:otherwise>
+          <xsl:value-of select="@value"/>
+        </xsl:otherwise>
+      </xsl:choose>
+    </xsl:for-each>
+
     <xsl:text> Launcher </xsl:text><xsl:value-of select="translate(../initdir/@dir,'/','\')"/><xsl:text>\cp.properties org.apache.tools.ant.Main</xsl:text>
 
     <xsl:if test="@buildfile">

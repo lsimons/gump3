@@ -446,6 +446,20 @@
       <xsl:value-of select="@value"/>
     </xsl:for-each>
 
+    <xsl:for-each select="sysproperty">
+      <xsl:text> -D</xsl:text>
+      <xsl:value-of select="@name"/>
+      <xsl:text>=</xsl:text>
+      <xsl:choose>
+        <xsl:when test="@type = 'path' and $cygwin = 1">
+          <xsl:text>'`cygpath --path --windows "</xsl:text>
+          <xsl:value-of select="@value"/>
+          <xsl:text>"`'</xsl:text>
+        </xsl:when>
+        <xsl:otherwise><xsl:value-of select="@value"/></xsl:otherwise>
+      </xsl:choose>
+    </xsl:for-each>
+
     <xsl:text> </xsl:text><xsl:value-of select="$ant-cmd"/>
 
     <xsl:if test="@buildfile">

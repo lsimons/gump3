@@ -253,6 +253,7 @@
 
     <xsl:copy>
       <xsl:apply-templates select="@*"/>
+      <xsl:apply-templates select="/workspace/sysproperty"/>
       <xsl:apply-templates select="/workspace/property"/>
       <xsl:apply-templates select="*"/>
 

@@ -6,6 +6,7 @@
            sync="rsync -r -a --delete" version="0.3">
 
   <property name="build.sysclasspath" value="only"/>
+  <sysproperty name="java.awt.headless" value="true"/>
 
   <profile href="profile/gump.xml"/>
 
