@@ -16,7 +16,8 @@
 
 
 """
-    xdoc generation, for forrest
+    XDOC generation, for Forrest.
+    XHTML generation
 """
 
 import socket
@@ -54,7 +55,7 @@ STRING_MAP_TABLE=''.join(MAP)
 UNICODE_MAP_TABLE=unicode('').join(UMAP)
 
 class XDocContext(Ownable):
-    def __init__(self,stream=None,pretty=1,depth=0):        
+    def __init__(self,stream=None,pretty=True,depth=0):        
         Ownable.__init__(self)
         
         self.depth=depth
@@ -70,7 +71,7 @@ class XDocContext(Ownable):
         Ownable.__del__(self)
         self.stream=None  
         
-    def createSubContext(self,transient=0):
+    def createSubContext(self,transient=False):
         if not transient:
             sub = XDocContext(self.stream,self.pretty,self.depth+1)
         else:
@@ -154,14 +155,15 @@ class XDocContext(Ownable):
         return escape(raw.translate(STRING_MAP_TABLE))
         
 class XDocPiece(Ownable):
-    def __init__(self,context=None,config=None):
+    def __init__(self,context=None,config=None,style=None):
         Ownable.__init__(self)            
         if not context:
             context=XDocContext()
         self.context=context
         self.subpieces=[]
-        self.keeper=1
-        self.emptyOk=0        
+        self.style=style
+        self.keeper=True
+        self.emptyOk=False        
         
         self.config=config
         
@@ -176,10 +178,8 @@ class XDocPiece(Ownable):
     def __str__(self):
         return self.__class__.__name__
         
-    def createSubContext(self,transient=0):
-        #
+    def createSubContext(self,transient=False):
         # Create a new context
-        #
         return self.context.createSubContext(transient)
 
     def storePiece(self,piece):
@@ -190,10 +190,6 @@ class XDocPiece(Ownable):
         
         # Capture Ownership
         piece.setOwner(self)
-        
-        # Transfer Configuration
-        if self.config:
-            piece.config=self.config
         
         return piece
 
@@ -225,10 +221,10 @@ class XDocPiece(Ownable):
             piece.end()    
                         
     def createRaw(self,raw=None):
-        return self.storePiece(XDocRaw(self.createSubContext(),raw))     
+        return self.storePiece(XDocRaw(self.createSubContext(),self.config,raw))     
                         
     def createComment(self,raw=None):
-        return self.storePiece(XDocComment(self.createSubContext(),raw))                     
+        return self.storePiece(XDocComment(self.createSubContext(),self.config,raw))                     
             
     def close(self):
         self.context.close()
@@ -258,10 +254,21 @@ class XDocPiece(Ownable):
         
         # Unlink oneself
         self.setOwner(None)
+        
+    def setStyle(self,style):
+        self.style=style
+        
+    def getStyle(self,style):
+        return self.style
+    
+    def getStyleAttribute(self):
+        if self.style:
+            return ' class="' + self.style + '"' 
+        return ''
                 
 class XDocSection(XDocPiece):
-    def __init__(self,context,title):
-        XDocPiece.__init__(self,context)
+    def __init__(self,context,config,title):
+        XDocPiece.__init__(self,context,config)
         self.title=title
         
     def __repr__(self):
@@ -281,32 +288,32 @@ class XDocSection(XDocPiece):
         if not self.config.isXhtml():      
             self.context.writeLineIndented('</section>')
         else:
-            self.context.writeLineIndented('<br/>')    
+            self.context.writeLineIndented('<hr/>')    
         
-    def createParagraph(self,text=None,transient=0):
-        return self.storePiece(XDocParagraph(self.createSubContext(transient),text))
+    def createParagraph(self,text=None,transient=False):
+        return self.storePiece(XDocParagraph(self.createSubContext(transient),self.config,text))
         
-    def createTable(self,headings=None,transient=0):
-        return self.storePiece(XDocTable(self.createSubContext(transient),headings))
+    def createTable(self,headings=None,transient=False):
+        return self.storePiece(XDocTable(self.createSubContext(transient),self.config,headings))
         
-    def createList(self,transient=0):
-        return self.storePiece(XDocList(self.createSubContext(transient)))
+    def createList(self,transient=False):
+        return self.storePiece(XDocList(self.createSubContext(transient),self.config))
             
     def createNote(self,text=None):
-        return self.storePiece(XDocNote(self.createSubContext(),text))         
+        return self.storePiece(XDocNote(self.createSubContext(),self.config,text))         
             
     def createWarning(self,text=None):
-        return self.storePiece(XDocWarning(self.createSubContext(),text))         
+        return self.storePiece(XDocWarning(self.createSubContext(),self.config,text))         
             
     def createSource(self,text=None):
-        return self.storePiece(XDocSource(self.createSubContext(),text))         
+        return self.storePiece(XDocSource(self.createSubContext(),self.config,text))         
          
-    def createSection(self,title,transient=0):
-        return self.storePiece(XDocSection(self.createSubContext(transient),title))
+    def createSection(self,title,transient=False):
+        return self.storePiece(XDocSection(self.createSubContext(transient),self.config,title))
                                
 class XDocParagraph(XDocPiece):
-    def __init__(self,context,text):
-        XDocPiece.__init__(self,context)
+    def __init__(self,context,config,text):
+        XDocPiece.__init__(self,context,config)
         if text:
             self.createText(text)
         
@@ -316,30 +323,30 @@ class XDocParagraph(XDocPiece):
     def end(self):
         self.context.writeLine('</p>')
         
-    def createText(self,text=None,transient=0):
-        return self.storePiece(XDocText(self.createSubContext(transient),text))
+    def createText(self,text=None,transient=False):
+        return self.storePiece(XDocText(self.createSubContext(transient),self.config,text))
         
     def createBreak(self):
         return self.storePiece(XDocBreak(self.createSubContext()))
         
-    def createStrong(self,text=None,transient=0):
-        return self.storePiece(XDocStrong(self.createSubContext(transient),text))
+    def createStrong(self,text=None,transient=False):
+        return self.storePiece(XDocStrong(self.createSubContext(transient),self.config,text))
 
-    def createEmphasis(self,text=None,transient=0):
-        return self.storePiece(XDocEmphasis(self.createSubContext(transient),text))
+    def createEmphasis(self,text=None,transient=False):
+        return self.storePiece(XDocEmphasis(self.createSubContext(transient),self.config,text))
 
     def createLink(self,href,text=None):
-        return self.storePiece(XDocLink(self.createSubContext(),href,text))                    
+        return self.storePiece(XDocLink(self.createSubContext(),self.config,href,text))                    
         
     def createFork(self,href,text=None):
-        return self.storePiece(XDocFork(self.createSubContext(),href,text))  
+        return self.storePiece(XDocFork(self.createSubContext(),self.config,href,text))  
         
     def createIcon(self,href,alt=None):
-        return self.storePiece(XDocIcon(self.createSubContext(),href,alt))             
+        return self.storePiece(XDocIcon(self.createSubContext(),self.config,href,alt))             
       
 class XDocComment(XDocPiece):
-    def __init__(self,context,text):
-        XDocPiece.__init__(self,context)
+    def __init__(self,context,config,text):
+        XDocPiece.__init__(self,context,config)
         if text:
             self.createText(text)
         
@@ -349,12 +356,12 @@ class XDocComment(XDocPiece):
     def end(self):
         self.context.writeLine(' -->')
         
-    def createText(self,text=None,transient=0):
-        return self.storePiece(XDocText(self.createSubContext(transient),text))
+    def createText(self,text=None,transient=False):
+        return self.storePiece(XDocText(self.createSubContext(transient),self.config,text))
                                 
 class XDocBreak(XDocPiece):
-    def __init__(self,context):
-        XDocPiece.__init__(self,context)
+    def __init__(self,context,config):
+        XDocPiece.__init__(self,context,config)
         
     def start(self):
         self.context.writeIndented('<br/>')
@@ -363,8 +370,8 @@ class XDocBreak(XDocPiece):
     def middle(self): pass      
                                 
 class XDocStrong(XDocPiece):
-    def __init__(self,context,text):
-        XDocPiece.__init__(self,context)
+    def __init__(self,context,config,text):
+        XDocPiece.__init__(self,context,config)
         if text:
             self.createText(text)
         
@@ -374,12 +381,12 @@ class XDocStrong(XDocPiece):
     def end(self):
         self.context.write('</strong>')
         
-    def createText(self,text=None,transient=0):
-        return self.storePiece(XDocText(self.createSubContext(transient),text))
+    def createText(self,text=None,transient=False):
+        return self.storePiece(XDocText(self.createSubContext(transient),self.config,text))
             
 class XDocEmphasis(XDocPiece):
-    def __init__(self,context,text):
-        XDocPiece.__init__(self,context)
+    def __init__(self,context,config,text):
+        XDocPiece.__init__(self,context,config)
         if text:
             self.createText(text)
         
@@ -389,12 +396,12 @@ class XDocEmphasis(XDocPiece):
     def end(self):
         self.context.write('</em>')
         
-    def createText(self,text=None,transient=0):
-        return self.storePiece(XDocText(self.createSubContext(transient),text))
+    def createText(self,text=None,transient=False):
+        return self.storePiece(XDocText(self.createSubContext(transient),self.config,text))
             
 class XDocList(XDocPiece):
-    def __init__(self,context):
-        XDocPiece.__init__(self,context)
+    def __init__(self,context,config):
+        XDocPiece.__init__(self,context,config)
         
     def start(self):
         self.context.writeLineIndented('<ul>')
@@ -403,7 +410,7 @@ class XDocList(XDocPiece):
         self.context.writeLineIndented('</ul>')
         
     def createItem(self,text=None):
-        return self.storePiece(XDocItem(self.createSubContext(),text))  
+        return self.storePiece(XDocItem(self.createSubContext(),self.config,text))  
                 
     def createEntry(self,title,text=None):
         item=self.createItem()
@@ -413,8 +420,8 @@ class XDocList(XDocPiece):
         return item
                        
 class XDocItem(XDocPiece):
-    def __init__(self,context,text=None):
-        XDocPiece.__init__(self,context)
+    def __init__(self,context,config,text=None):
+        XDocPiece.__init__(self,context,config)
         if text:
             self.createText(text)
         
@@ -425,29 +432,29 @@ class XDocItem(XDocPiece):
         self.context.writeLine('</li>')
         
     def createStrong(self,text=None):
-        return self.storePiece(XDocStrong(self.createSubContext(),text))
+        return self.storePiece(XDocStrong(self.createSubContext(),self.config,text))
 
-    def createEmphasis(self,text=None,transient=0):
-        return self.storePiece(XDocEmphasis(self.createSubContext(transient),text))
+    def createEmphasis(self,text=None,transient=False):
+        return self.storePiece(XDocEmphasis(self.createSubContext(transient),self.config,text))
         
     def createText(self,text=None):
-        return self.storePiece(XDocText(self.createSubContext(),text))  
+        return self.storePiece(XDocText(self.createSubContext(),self.config,text))  
         
     def createBreak(self):
-        return self.storePiece(XDocBreak(self.createSubContext()))        
+        return self.storePiece(XDocBreak(self.createSubContext(),self.config))        
         
     def createLink(self,href,text=None):
-        return self.storePiece(XDocLink(self.createSubContext(),href,text))              
+        return self.storePiece(XDocLink(self.createSubContext(),self.config,href,text))              
         
     def createFork(self,href,text=None):
-        return self.storePiece(XDocFork(self.createSubContext(),href,text))    
+        return self.storePiece(XDocFork(self.createSubContext(),self.config,href,text))    
                 
     def createIcon(self,href,alt=None):
-        return self.storePiece(XDocIcon(self.createSubContext(),href,alt))     
+        return self.storePiece(XDocIcon(self.createSubContext(),self.config,href,alt))     
             
 class XDocTable(XDocPiece):
-    def __init__(self,context,headings=None):
-        XDocPiece.__init__(self,context)        
+    def __init__(self,context,config,headings=None):
+        XDocPiece.__init__(self,context,config)        
         if headings:
             headerRow=self.createRow()
             for heading in headings:
@@ -461,7 +468,7 @@ class XDocTable(XDocPiece):
         
     def createRow(self,datum=None):
         if not datum:
-            return self.storePiece(XDocRow(self.createSubContext()))
+            return self.storePiece(XDocRow(self.createSubContext(),self.config))
         else:
             row=self.createRow()
             if isinstance(datum,list):
@@ -484,24 +491,24 @@ class XDocTable(XDocPiece):
         return dataData
                        
 class XDocRow(XDocPiece):
-    def __init__(self,context):
-        XDocPiece.__init__(self,context)
+    def __init__(self,context,config):
+        XDocPiece.__init__(self,context,config)
         
     def start(self):
-        self.context.writeLineIndented('<tr>')
+        self.context.writeLineIndented('<tr' + self.getStyleAttribute() + '>')
         
     def end(self):
         self.context.writeLineIndented('</tr>')
         
     def createHeader(self,text=None):
-        return self.storePiece(XDocTableHeader(self.createSubContext(),text))
+        return self.storePiece(XDocTableHeader(self.createSubContext(),self.config,text))
         
     def createData(self,text=None):
-        return self.storePiece(XDocTableData(self.createSubContext(),text))
+        return self.storePiece(XDocTableData(self.createSubContext(),self.config,text))
                           
 class XDocTableHeader(XDocPiece):
-    def __init__(self,context,text):
-        XDocPiece.__init__(self,context)
+    def __init__(self,context,config,text):
+        XDocPiece.__init__(self,context,config)
         if text:
             self.createText(text)
         
@@ -512,14 +519,14 @@ class XDocTableHeader(XDocPiece):
         self.context.writeLine('</th>')
         
     def createText(self,text=None):
-        return self.storePiece(XDocText(self.createSubContext(),text))
+        return self.storePiece(XDocText(self.createSubContext(),self.config,text))
         
     def createBreak(self):
-        return self.storePiece(XDocBreak(self.createSubContext()))
+        return self.storePiece(XDocBreak(self.createSubContext(),self.config))
                           
 class XDocTableData(XDocPiece):
-    def __init__(self,context,text):
-        XDocPiece.__init__(self,context)
+    def __init__(self,context,config,text):
+        XDocPiece.__init__(self,context,config)
         if not isinstance(text,NoneType):
             self.createText(str(text))
         
@@ -533,29 +540,29 @@ class XDocTableData(XDocPiece):
         self.context.writeLine('</td>')
         
     def createText(self,text=None):
-        return self.storePiece(XDocText(self.createSubContext(),text))    
+        return self.storePiece(XDocText(self.createSubContext(),self.config,text))    
         
     def createBreak(self):
-        return self.storePiece(XDocBreak(self.createSubContext()))
+        return self.storePiece(XDocBreak(self.createSubContext(),self.config))
         
     def createLink(self,href,text=None):
-        return self.storePiece(XDocLink(self.createSubContext(),href,text))              
+        return self.storePiece(XDocLink(self.createSubContext(),self.config,href,text))              
         
     def createFork(self,href,text=None):
-        return self.storePiece(XDocFork(self.createSubContext(),href,text))            
+        return self.storePiece(XDocFork(self.createSubContext(),self.config,href,text))            
         
     def createStrong(self,text=None):
-        return self.storePiece(XDocStrong(self.createSubContext(),text))  
+        return self.storePiece(XDocStrong(self.createSubContext(),self.config,text))  
 
-    def createEmphasis(self,text=None,transient=0):
-        return self.storePiece(XDocEmphasis(self.createSubContext(transient),text))
+    def createEmphasis(self,text=None,transient=False):
+        return self.storePiece(XDocEmphasis(self.createSubContext(transient),self.config,text))
                 
     def createIcon(self,href,alt=None):
-        return self.storePiece(XDocIcon(self.createSubContext(),href,alt))   
+        return self.storePiece(XDocIcon(self.createSubContext(),self.config,href,alt))   
 
 class XDocNote(XDocPiece):
-    def __init__(self,context,text):
-        XDocPiece.__init__(self,context)
+    def __init__(self,context,config,text):
+        XDocPiece.__init__(self,context,config)
         if text:
             self.createText(text)
         
@@ -566,69 +573,81 @@ class XDocNote(XDocPiece):
         self.context.writeLine('</note>')
         
     def createText(self,text=None):
-        return self.storePiece(XDocText(self.createSubContext(),text))          
+        return self.storePiece(XDocText(self.createSubContext(),self.config,text))          
         
     def createBreak(self):
-        return self.storePiece(XDocBreak(self.createSubContext()))    
+        return self.storePiece(XDocBreak(self.createSubContext(),self.config))    
 
-    def createStrong(self,text=None,transient=0):
-        return self.storePiece(XDocStrong(self.createSubContext(transient),text))
+    def createStrong(self,text=None,transient=False):
+        return self.storePiece(XDocStrong(self.createSubContext(transient),self.config,text))
 
-    def createEmphasis(self,text=None,transient=0):
-        return self.storePiece(XDocEmphasis(self.createSubContext(transient),text))
+    def createEmphasis(self,text=None,transient=False):
+        return self.storePiece(XDocEmphasis(self.createSubContext(transient),self.config,text))
         
     def createLink(self,href,text=None):
-        return self.storePiece(XDocLink(self.createSubContext(),href,text))              
+        return self.storePiece(XDocLink(self.createSubContext(),self.config,href,text))              
         
     def createFork(self,href,text=None):
-        return self.storePiece(XDocFork(self.createSubContext(),href,text))
+        return self.storePiece(XDocFork(self.createSubContext(),self.config,href,text))
         
 class XDocWarning(XDocPiece):
-    def __init__(self,context,text):
-        XDocPiece.__init__(self,context)
+    def __init__(self,context,config,text):
+        XDocPiece.__init__(self,context,config)
         if text:
             self.createText(text)
         
     def start(self):
-        self.context.writeLineIndented('<warning>')
+        if not self.config.isXhtml():    
+            self.context.writeLineIndented('<p class="WARN">')
+        else:
+            self.context.writeLineIndented('<warning>')    
         
     def end(self):
-        self.context.writeLine('</warning>')
+        if not self.config.isXhtml():    
+            self.context.writeLine('</p>')
+        else:
+            self.context.writeLine('</warning>')
         
     def createText(self,text=None):
-        return self.storePiece(XDocText(self.createSubContext(),text))          
+        return self.storePiece(XDocText(self.createSubContext(),self.config,text))          
         
     def createBreak(self):
-        return self.storePiece(XDocBreak(self.createSubContext()))    
+        return self.storePiece(XDocBreak(self.createSubContext(),self.config))    
 
-    def createStrong(self,text=None,transient=0):
-        return self.storePiece(XDocStrong(self.createSubContext(transient),text))
+    def createStrong(self,text=None,transient=False):
+        return self.storePiece(XDocStrong(self.createSubContext(transient),self.config,text))
 
-    def createEmphasis(self,text=None,transient=0):
-        return self.storePiece(XDocEmphasis(self.createSubContext(transient),text))
+    def createEmphasis(self,text=None,transient=False):
+        return self.storePiece(XDocEmphasis(self.createSubContext(transient),self.config,text))
 
             
 class XDocSource(XDocPiece):
-    def __init__(self,context,text=None):
-        XDocPiece.__init__(self,context)
+    def __init__(self,context,config,text=None):
+        XDocPiece.__init__(self,context,config)
         if text:
             self.createText(text)
         
     def start(self):
-        self.context.writeIndented('<source>')
+        if not self.config.isXhtml():    
+            self.context.writeIndented('<pre clas="CODE">')
+        else:
+            self.context.writeIndented('<source>')
         
     def end(self):
-        self.context.writeLine('</source>')
+        if not self.config.isXhtml():    
+            self.context.writeIndented('</pre>')
+        else:
+            self.context.writeIndented('</source>')
         
     def createText(self,text=None):
-        return self.storePiece(XDocText(self.createSubContext(),text))     
+        return self.storePiece(XDocText(self.createSubContext(),self.config,text))     
         
     def createBreak(self):
-        return self.storePiece(XDocBreak(self.createSubContext()))         
+        return self.storePiece(XDocBreak(self.createSubContext(),self.config))         
         
 class XDocLink(XDocPiece):
-    def __init__(self,context,href,text=None):
-        XDocPiece.__init__(self,context)
+    def __init__(self,context,config,href,text=None):
+        XDocPiece.__init__(self,context,config)
         self.href=href
         if text: 
             self.createText(text)
@@ -646,18 +665,18 @@ class XDocLink(XDocPiece):
             self.context.write('</a>')
         
     def createText(self,text):
-        return self.storePiece(XDocText(self.createSubContext(),text))     
+        return self.storePiece(XDocText(self.createSubContext(),self.config,text))     
         
     def createBreak(self):
-        return self.storePiece(XDocBreak(self.createSubContext()))    
+        return self.storePiece(XDocBreak(self.createSubContext(),self.config))    
         
     def createIcon(self,href,alt=None):
-        return self.storePiece(XDocIcon(self.createSubContext(),href,alt))              
+        return self.storePiece(XDocIcon(self.createSubContext(),self.config,href,alt))              
         
                 
 class XDocFork(XDocPiece):
-    def __init__(self,context,href,text=None):
-        XDocPiece.__init__(self,context)
+    def __init__(self,context,config,href,text=None):
+        XDocPiece.__init__(self,context,config)
         if not href: raise RuntimeError, 'Can not fork with nowhere to go.'
         self.href=href
         if text:
@@ -676,18 +695,18 @@ class XDocFork(XDocPiece):
             self.context.write('</a>')
         
     def createText(self,text=None):
-        return self.storePiece(XDocText(self.createSubContext(),text))    
+        return self.storePiece(XDocText(self.createSubContext(),self.config,text))    
         
     def createBreak(self):
-        return self.storePiece(XDocBreak(self.createSubContext()))          
+        return self.storePiece(XDocBreak(self.createSubContext(),self.config))          
             
     def createIcon(self,href,alt=None):
-        return self.storePiece(XDocIcon(self.createSubContext(),href,alt))               
+        return self.storePiece(XDocIcon(self.createSubContext(),self.config,href,alt))               
         
 class XDocIcon(XDocPiece):
     
-    def __init__(self,context,href,alt):
-        XDocPiece.__init__(self,context)
+    def __init__(self,context,config,href,alt):
+        XDocPiece.__init__(self,context,config)
         self.href=href
         if alt:
             self.alt=alt
@@ -705,8 +724,8 @@ class XDocIcon(XDocPiece):
     def middle(self): pass          
         
 class XDocText(XDocPiece):
-    def __init__(self,context,text):
-        XDocPiece.__init__(self,context)
+    def __init__(self,context,config,text):
+        XDocPiece.__init__(self,context,config)
         self.text = text
         
     def middle(self):
@@ -720,13 +739,13 @@ class XDocText(XDocPiece):
 # Some raw xdocs (for when too lazy to create classes)
 #
 class XDocRaw(XDocPiece):
-    def __init__(self,context,raw):
-        XDocPiece.__init__(self,context)
+    def __init__(self,context,config,raw):
+        XDocPiece.__init__(self,context,config)
         self.raw = raw
         
     def middle(self):
         self.context.writeLine(str(self.raw))
-       
+        
 class XDocDocument(XDocPiece):
     
     def __init__(self,title,output=None,config=None,rootpath='.'):
@@ -740,6 +759,7 @@ class XDocDocument(XDocPiece):
         self.context=XDocContext(self.output)
         self.title=title
         self.rootpath=rootpath
+        # :DEV: if not self.rootpath: raise RuntimeError, 'Bad rootpath'
                 
     def start(self):
         
@@ -753,10 +773,12 @@ class XDocDocument(XDocPiece):
             self.context.writeLine('  <meta name="author" content="general@gump.apache.org"/>')
             self.context.writeLine('  <meta name="copyright" content="Apache Software Foundation"/>')
             
-            self.context.writeLine('  <link rel="stylesheet" type="text/css" href="%s/style.css" title="Style"/>' % self.rootpath)
+            self.context.writeLine('  <link rel="stylesheet" type="text/css" href="%s/css/style.css" title="Style"/>' % self.rootpath)
             
             self.context.writeLine(' </head>')
             self.context.writeLine('<body>')  
+            self.context.writeLine('<img align="right" src="%s/images/gump-logo.png" alt="Logo"/>' % self.rootpath) 
+            self.context.writeLine('<br clear="all"/>')   
             self.context.writeLine('<table>')  
             self.context.writeLine(' <tr>')  
             self.context.writeLine(' <td><a href="%s/index.html">Index</a></td><td>|</td>' % self.rootpath) 
@@ -765,7 +787,8 @@ class XDocDocument(XDocPiece):
             self.context.writeLine(' <td><a href="%s/gump_stats/index.html">Stats</a></td><td>|</td>' % self.rootpath)  
             self.context.writeLine(' <td><a href="%s/gump_xref/index.html">XRef</a></td><td>|</td>' % self.rootpath)  
             self.context.writeLine(' </tr>')  
-            self.context.writeLine('</table>')    
+            self.context.writeLine('</table>')  
+            self.context.writeLine('<hr/>')     
         else: 
             self.context.writeLine('<?xml version="1.0" encoding="ISO-8859-1"?>')
             self.context.writeLine('<!DOCTYPE document PUBLIC "-//APACHE//DTD Documentation V1.1//EN" "./dtd/document-v11.dtd">')
@@ -777,7 +800,7 @@ class XDocDocument(XDocPiece):
             self.context.writeLine('   <person id="gump" name="Gump" email="gump@lists.apache.org"/>')
             self.context.writeLine('  </authors>')
             self.context.writeLine(' </header>')
-            self.context.writeLine('<body>')    
+            self.context.writeLine('<body>')     
             
         
     def end(self):
@@ -785,6 +808,9 @@ class XDocDocument(XDocPiece):
         if not self.config.isXhtml():
             self.context.writeLine('</document>')            
         else:
+            self.context.writeLine('</html>') 
+            from gump.core.config import default
+            self.context.writeLine('<p align="right">Last Updated: %s</p>' % default.datetime) 
             self.context.writeLine('</html>')            
         self.close()  
         
@@ -792,23 +818,20 @@ class XDocDocument(XDocPiece):
         self.unlink()
         
 
-    def createSection(self,title,transient=0):
-        return self.storePiece(XDocSection(self.createSubContext(transient),title))
+    def createSection(self,title,transient=False):
+        return self.storePiece(XDocSection(self.createSubContext(transient),self.config,title))
                 
-    def createTable(self,headings=None,transient=0):
-        return self.storePiece(XDocTable(self.createSubContext(transient),headings))
+    def createTable(self,headings=None,transient=False):
+        return self.storePiece(XDocTable(self.createSubContext(transient),self.config,headings))
 
     def createSource(self,text=None):
-        return self.storePiece(XDocSource(self.createSubContext(),text))         
+        return self.storePiece(XDocSource(self.createSubContext(),self.config,text))         
     
-    def createParagraph(self,text=None,transient=0):
-        return self.storePiece(XDocParagraph(self.createSubContext(transient),text))
+    def createParagraph(self,text=None,transient=False):
+        return self.storePiece(XDocParagraph(self.createSubContext(transient),self.config,text))
         
     def createNote(self,text=None):
-        return self.storePiece(XDocNote(self.createSubContext(),text))  
+        return self.storePiece(XDocNote(self.createSubContext(),self.config,text))  
         
     def createWarning(self,text=None):
-        return self.storePiece(XDocWarning(self.createSubContext(),text))      
-        
-    
-    
+        return self.storePiece(XDocWarning(self.createSubContext(),self.config,text))      

@@ -49,4 +49,31 @@ from gump.document.resolver import *
 class TextResolver(Resolver):
     
     def __init__(self,rootDir,rootUrl):        
-        Resolver.__init__(self,rootDir,rootUrl)
+        Resolver.__init__(self,rootDir,rootUrl)   
+        
+    def getDirectory(self,object):
+        return self.getRootDir()
+        
+    def getFile(self,object,documentName=None,extn=None,rawContent=False):  
+        raise RuntimeError, 'Not Implemented on ' + self.__class__.__name__ + ': getFile.'
+        
+    def getDirectory(self,object): 
+        raise RuntimeError, 'Not Implemented on ' + self.__class__.__name__ + ': getDirectory.'
+        
+    def getDirectoryUrl(self,object): 
+        raise RuntimeError, 'Not Implemented on ' + self.__class__.__name__ + ': getDirectoryUrl.'
+           
+    def getUrl(self,object,documentName=None,extn=None): 
+        raise RuntimeError, 'Not Implemented on ' + self.__class__.__name__ + ': getUrl.'
+        
+    def getDirectoryUrl(self,object): 
+        return self.rootUrl
+   
+    def getStateIconInformation(self,statePair): 
+        raise RuntimeError, 'Not Implemented on ' + self.__class__.__name__ + ': getStateIconInformation.'
+        
+    def getImageUrl(self,name,depth=0): 
+        raise RuntimeError, 'Not Implemented on ' + self.__class__.__name__ + ': getIconUrl.'   
+             
+    def getIconUrl(self,name,depth=0): 
+        raise RuntimeError, 'Not Implemented on ' + self.__class__.__name__ + ': getImageUrl.'

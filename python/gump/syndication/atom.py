@@ -131,7 +131,7 @@ class AtomSyndicator(AbstractSyndicator):
         self.workspace=self.run.getWorkspace()   
         
         feedFile=self.run.getOptions().getResolver().getFile(self.workspace,'atom','.xml',1)      
-        feedUrl=self.run.getOptions().getResolver().getAbsoluteUrl(self.workspace,'atom','.xml')
+        feedUrl=self.run.getOptions().getResolver().getUrl(self.workspace,'atom','.xml')
     
         self.feed=AtomFeed(feedUrl,feedFile,	\
                         'workspace',	\
@@ -151,7 +151,7 @@ class AtomSyndicator(AbstractSyndicator):
     def syndicateModule(self,module,mainFeed):
                 
         feedFile=self.run.getOptions().getResolver().getFile(module,'atom','.xml',1)
-        feedUrl=self.run.getOptions().getResolver().getAbsoluteUrl(module,'atom','.xml')
+        feedUrl=self.run.getOptions().getResolver().getUrl(module,'atom','.xml')
         moduleUrl=self.run.getOptions().getResolver().getUrl(module)
         
         moduleFeed=AtomFeed(feedUrl,feedFile,	
@@ -195,7 +195,7 @@ class AtomSyndicator(AbstractSyndicator):
     def syndicateProject(self,project,moduleFeed,mainFeed):
         
         feedFile=self.run.getOptions().getResolver().getFile(project,'atom','.xml',1)
-        feedUrl=self.run.getOptions().getResolver().getAbsoluteUrl(project,'atom','.xml')
+        feedUrl=self.run.getOptions().getResolver().getUrl(project,'atom','.xml')
         projectUrl=self.run.getOptions().getResolver().getUrl(project)
         
         projectFeed=AtomFeed(feedUrl, feedFile,	\

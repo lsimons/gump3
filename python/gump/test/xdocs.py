@@ -14,7 +14,7 @@
 # limitations under the License.
 
 """
-    Model Testing
+    XDOCS|XHTML Testing
 """
 
 import os
@@ -63,6 +63,5 @@ class XDocsTestSuite(UnitTestSuite):
     
         doc1.serialize()
     
-        
         stream.seek(0)
         return stream.read()

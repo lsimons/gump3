@@ -149,7 +149,7 @@ class AbstractSyndicator(RunSpecific):
         #if object.worklist:
         #    content += '<p><table>'    
         #    for work in object.worklist:
-        #        url=resolver.getAbsoluteUrl(work)
+        #        url=resolver.getUrl(work)
         #        state=stateDescription(work.state)                 
         #        content += ('<tr><td><a href=\'' + 	\
         #            url + '\'>' + work.getName() + 	\

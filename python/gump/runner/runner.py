@@ -115,11 +115,10 @@ class GumpRunner(RunSpecific):
         self.run.registerActor(Resulter(self.run))            
               
         # Document..
-        # Use Forrest if available & not overridden...
+        # Use XDOCS if not overridden...
         #
         documenter=None
-        if self.run.getEnvironment().noForrest \
-            or self.run.getOptions().isText() :
+        if self.run.getOptions().isText() :
             documenter=TextDocumenter(self.run)
         else:
             documenter=XDocDocumenter(	self.run,	\

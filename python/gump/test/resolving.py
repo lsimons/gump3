@@ -86,6 +86,10 @@ class ResolvingTestSuite(UnitTestSuite):
     def testPaths(self):
 
         path=Path()
+        
+        print path.getPathUp()
+        self.assertNotNone('Ought be period.', path.getPathUp())
+        
         path1=path.getPostfixed('ABC')
         path2=path1.getPostfixed('DEF')
         path3=path2.getPostfixed(['GHI','JKL'])

@@ -16,7 +16,7 @@
 
 """
 
-    Forrest Documentation (XDOCS and such)
+    Documentation (Forrest XDOCS or XHTML)
     
 """
 

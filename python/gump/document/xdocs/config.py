@@ -16,15 +16,24 @@
 
 
 """
-    XDOC generation, for Forrest
+    XDOC generation, for Forrest.
+    XHTML generation.
 """
 class XDocConfig:
  
     def __init__(self,xhtml=True):
         self.xhtml=xhtml
         
+    def __repr__(self): return str(self)
+    def __str__(self):
+        if self.isXhtml(): return 'XHTML:html'
+        return 'XDOCS:xml'
+        
     def isXhtml(self):
         return self.xhtml
+        
+    def isXdocs(self):
+        return not self.xhtml
         
     def getExtension(self):
         if self.isXhtml():

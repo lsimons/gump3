@@ -51,7 +51,7 @@ if __name__=='__main__':
     # get parsed workspace definition
     workspace=WorkspaceLoader(options.isCache()).load(ws)    
         
-    # Ensure we use text, not forrest...
+    # Ensure we use text, not xdocs...
     options.setText(1)
     
     # 

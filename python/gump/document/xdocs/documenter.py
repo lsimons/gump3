@@ -16,7 +16,7 @@
 
 
 """
-    XDOC generation, for Forrest
+    XDOC generation.
 """
 
 import socket
@@ -54,27 +54,22 @@ from gump.core.gumprun import *
 from gump.core.actor import AbstractRunActor
 
 from gump.shared.comparator import *
-
-def getUpUrl(depth):
-    url=''
-    i = 0
-    while i < int(depth):
-        url+='../'
-        i += 1
-    return url
     
 class XDocDocumenter(Documenter):
     
     def __init__(self, run, dirBase, urlBase):
         Documenter.__init__(self, run)            
         
-        self.config=XDocConfig() 
+        # Configuration can be overridden to be
+        # XDOCS, not the default of XHTML.
+        self.config=XDocConfig(not run.getOptions().isXDocs()) 
+        
         resolver=XDocResolver(dirBase,urlBase,self.config)
         self.setResolver(resolver)    
-            
+        
+        # A utility    
         self.notifyLogic=NotificationLogic(self.run)
         
-    
     def prepareRun(self):
     
         log.debug('--- Prepare for Documenting Results')
@@ -84,14 +79,16 @@ class XDocDocumenter(Documenter):
     def processModule(self,module):
         verbose=self.run.getOptions().isVerbose()
         debug=self.run.getOptions().isDebug()
-        self.documentModule(module,1)  
-        self.documentBuildLog(1)     
+        self.documentModule(module,True)  
+        self.documentBuildLog(True)     
+        self.syncObject(module)
          
     def processProject(self,project):
         verbose=self.run.getOptions().isVerbose()
         debug=self.run.getOptions().isDebug()
-        self.documentProject(project,1) 
-        self.documentBuildLog(1)
+        self.documentProject(project,True) 
+        self.documentBuildLog(True)  
+        self.syncObject(project)
             
     def documentRun(self):
     
@@ -108,15 +105,10 @@ class XDocDocumenter(Documenter):
         self.documentStatistics()
         self.documentXRef()
 
-        #
-        # Launch Forrest, if we aren't just leaving xdocs...
-        #
+        # Synchronize xdocs...
         ret=0
         
-        if not self.options.isXDocs():
-            ret=self.executeForrest()
-        else:
-            ret=self.syncXDocs()
+        ret=self.syncXDocs()
             
         return ret
 
@@ -125,11 +117,6 @@ class XDocDocumenter(Documenter):
     # XDocing...
     def getXDocWorkDirectory(self):
         fdir=os.path.abspath(os.path.join(self.workspace.getBaseDirectory(),'xdocs-work'))
-        return fdir
-        
-    def getXDocStagingDirectory(self):
-        """ Staging Area for built output """
-        fdir=os.path.abspath(os.path.join(self.workspace.getBaseDirectory(),'xdocs-staging'))
         return fdir
         
     def getXDocTemplateDirectory(self):
@@ -174,108 +161,83 @@ class XDocDocumenter(Documenter):
             log.info('Prepare XDoc work with *site* template')            
             copyDirectories(xdocSiteTemplate,	\
                             xdocWorkDir,	\
-                            self.workspace)                               
-                             
-        #    
-        # Wipe the staging tree (to produce into).
-        #   
-        wipeDirectoryTree(self.getXDocStagingDirectory())
-                 
-    def executeForrest(self):
-        # The project tree
-        xdocs=self.resolver.getDirectory(self.workspace)      
+                            self.workspace)      
+                            
+    def syncObject(self,object):                         
+
+        # Get relative path
+        objDir=self.resolver.getDirectoryRelativePath(object).serialize()
         
-        # The three dirs, work, output (staging), public
+        # Get relative to (1) work [source] (2) log [target] & sync
+                
+        # The move contents/xdocs from work directory to log
         xdocWorkDir=self.getXDocWorkDirectory()
-        stagingDirectory=self.getXDocStagingDirectory()
         logDirectory=self.workspace.getLogDirectory()
         
-        # Generate...        
-        forrest=Cmd('forrest','forrest',xdocWorkDir)
-      
-        forrest.addPrefixedParameter('-D','java.awt.headless','true','=')
-        forrest.addPrefixedParameter('-D','project.content-dir',  \
-            '.', '=')
-        forrest.addPrefixedParameter('-D','project.site-dir',  \
-            stagingDirectory, '=')
+        if self.config.isXdocs():
+            # .. but only the stuff under 'content', so as not to
+            # break the webapp.
+            xdocWorkDir=os.path.abspath(
+                            os.path.join(xdocWorkDir,'content'))
+            logDirectory=os.path.abspath(
+                            os.path.join(logDirectory,'content'))
+        
+        workContents=os.path.abspath(
+                        os.path.join(xdocWorkDir,objDir))
+                        
+        logContents=os.path.abspath(
+                        os.path.join(logDirectory,objDir))
+        
+        success=True
+        try:
+            #
+            # Sync over public pages...
+            #
+            syncDirectories(workContents,logContents)
+         
+        except:        
+            log.error('--- Failed to work->log sync and/or clean-up', exc_info=1)
+            success=False
+        
+        if success:
+            # Current status
+            buildLog=self.resolver.getFile(self.workspace,'buildLog'),
                 
-        # Temporary:   
-        # Too verbose ... forrest.addParameter('-debug')
-        #forrest.addParameter('-verbose')
-        
-        # A sneak preview ... 
-        work=CommandWorkItem(WORK_TYPE_DOCUMENT,forrest)
-        self.workspace.performedWork(work)
-        
-        #
-        # Do the actual work...
-        #
-        forrestResult=execute(forrest)
-    
-        # Update Context    
-        work=CommandWorkItem(WORK_TYPE_DOCUMENT,forrest,forrestResult)
-        self.workspace.performedWork(work)    
-        
-        # If ok move from staging to publish
-        #
-        # :TODO: XDoc returns failure if the site isn't perfect
-        # let's not shoot so high.
-        #
-        success=1
-        if 1 or (forrestResult.state==CMD_STATE_SUCCESS):
-            try:
-                #
-                # Sync over public pages...
-                #
-                syncDirectories(stagingDirectory,logDirectory)
-                
-                cleanUp=1                
-                if cleanUp:
-                    # 
-                    # Clean up
-                    wipeDirectoryTree(stagingDirectory)
-                
-                    # Clean only if successful.
-                    if  (forrestResult.state==CMD_STATE_SUCCESS):
-                        wipeDirectoryTree(xdocWorkDir)
-            except:        
-                log.error('--- Failed to staging->log sync and/or clean-up', exc_info=1)
-                success=0
-        
         return success
-                            
+        
     def syncXDocs(self):
         
         
         # The move contents/xdocs from work directory to log
-        XDocWorkDir=self.getXDocWorkDirectory()
+        xdocWorkDir=self.getXDocWorkDirectory()
         logDirectory=self.workspace.getLogDirectory()
         
-        # .. but only the stuff under 'content', so as not to
-        # break the webapp.
-        workContents=os.path.abspath(os.path.join(XDocWorkDir,'content'))
-        logContents=os.path.abspath(os.path.join(logDirectory,'content'))
+        if self.config.isXdocs():
+            # .. but only the stuff under 'content', so as not to
+            # break the webapp.
+            workContents=os.path.abspath(os.path.join(xdocWorkDir,'content'))
+            logContents=os.path.abspath(os.path.join(logDirectory,'content'))
+        else:
+            workContents=xdocWorkDir
+            logContents=logDirectory
         
         log.info('Syncronize work->log, and clean-up...')
             
-        success=1
+        success=True
         try:
             #
             # Sync over public pages...
             #
             syncDirectories(workContents,logContents)
             
-            cleanUp=1                
+            cleanUp=True       
             if cleanUp:
-                    
-                # 
-                # Clean up
-                #
-                wipeDirectoryTree(XDocWorkDir)
+                # Clean-up work area
+                wipeDirectoryTree(xdocWorkDir)
             
         except:        
             log.error('--- Failed to work->log sync and/or clean-up', exc_info=1)
-            success=0
+            success=False
         
         return success
               
@@ -292,10 +254,10 @@ class XDocDocumenter(Documenter):
         #
         # env.xml
         #
+        spec=self.resolver.getFileSpec(self.workspace, 'environment')
         
         document=XDocDocument('Gump Environment',	\
-                self.resolver.getFile(self.workspace, 'environment'),
-                self.config)       
+                spec.getFile(),self.config,spec.getRootPath())       
                         
         envSection=document.createSection('Gump Environment')
         envSection.createParagraph(
@@ -316,6 +278,8 @@ class XDocDocumenter(Documenter):
         self.documentWorkList(document,environment,'Environment-level Work')
      
         document.serialize()
+        
+        return spec
                 
     #####################################################################           
     #
@@ -328,12 +292,14 @@ class XDocDocumenter(Documenter):
         #
         # ----------------------------------------------------------------------
         #
-        # env.xml
+        # options.xml
         #
+        spec=self.resolver.getFileSpec(self.workspace, 'options')
         
         document=XDocDocument('Run Options',	\
-                self.resolver.getFile(self.workspace, 'options'),
-                self.config)       
+                spec.getFile(),
+                self.config,
+                spec.getRootPath())       
                         
         optSection=document.createSection('Gump Run Options')
         optSection.createParagraph(
@@ -351,6 +317,8 @@ class XDocDocumenter(Documenter):
         if not opts: optTable.createEntry('None')
      
         document.serialize()
+        
+        return spec
                 
     #####################################################################           
     #
@@ -363,11 +331,13 @@ class XDocDocumenter(Documenter):
         # ----------------------------------------------------------------------
         #
         # Index.xml
-        #
+        # 
+        spec=self.resolver.getFileSpec(self.run)
         
-        document=XDocDocument('Gump Run',	\
-                self.resolver.getFile(self.run),
-                self.config)    
+        document=XDocDocument('Gump Run',  
+                spec.getFile() ,
+                self.config,
+                spec.getRootPath())
         
         definitionSection=document.createSection('Run Details')    
         
@@ -433,14 +403,16 @@ class XDocDocumenter(Documenter):
         self.documentRepositories()
         self.documentServers()
         self.documentTrackers()
+        
         self.documentBuildLog()
         self.documentNotesLog()
         self.documentDiffsLog()
+        
         self.documentProjects()
         self.documentModules()
+        
         self.documentPackages()
             
-   
         #
         # Document individual repositories
         #
@@ -464,8 +436,11 @@ class XDocDocumenter(Documenter):
             self.documentModule(module)
             
         # Document workspace 'Text'
-        document=XDocDocument('Context',self.resolver.getFile(self.workspace,'context'),
-                self.config)
+        spec=self.resolver.getFileSpec(self.workspace, 'context')
+        document=XDocDocument('Context',    
+                spec.getFile() ,
+                self.config,
+                spec.getRootPath())
         stream=StringIO.StringIO() 
         texter=TextDocumenter(self.run,stream)  
         texter.document()
@@ -476,8 +451,11 @@ class XDocDocumenter(Documenter):
         
         if not self.workspace.private:
             # Document the workspace XML    
-            document=XDocDocument('Definition',self.resolver.getFile(self.workspace,'workspace_defn'),
-                self.config)
+            spec=self.resolver.getFileSpec(self.workspace, 'workspace_defn')
+            document=XDocDocument('Definition',    
+                spec.getFile() ,
+                self.config,
+                spec.getRootPath())
             stream=StringIO.StringIO() 
             try:
                 self.workspace.dom.writexml(stream,indent='   ',newl='\n')
@@ -501,9 +479,11 @@ class XDocDocumenter(Documenter):
         # Index.xml
         #
         
-        document=XDocDocument('Workspace',	\
-                self.resolver.getFile(self.workspace),
-                self.config)    
+        spec=self.resolver.getFileSpec(self.workspace,)
+        document=XDocDocument('Workspace',    
+                spec.getFile() ,
+                self.config,
+                spec.getRootPath())
         
         definitionSection=document.createSection('Workspace Definition')    
         
@@ -596,9 +576,11 @@ class XDocDocumenter(Documenter):
         #
         # Repositories.xml
         #
-        document=XDocDocument( 'All Repositories',	\
-            self.resolver.getFile(self.workspace,'repositories'),
-                self.config)
+        spec=self.resolver.getFileSpec(self.workspace, 'repositories')
+        document=XDocDocument( 'All Repositories',    
+                spec.getFile() ,
+                self.config,
+                spec.getRootPath())
         
         
         reposSection=document.createSection('All Repositories')
@@ -630,9 +612,11 @@ class XDocDocumenter(Documenter):
         #
         # Servers.xml
         #
-        document=XDocDocument( 'All Servers',	\
-            self.resolver.getFile(self.workspace,'servers'),
-                self.config)
+        spec=self.resolver.getFileSpec(self.workspace, 'servers')
+        document=XDocDocument( 'All Servers',    
+                spec.getFile() ,
+                self.config,
+                spec.getRootPath())
                 
         serversSection=document.createSection('All Servers')
         serversTable=serversSection.createTable(['Name','Status','Notes','Results','Start (Local)','Start (UTC)','End (UTC)','Offset (from UTC)'])
@@ -688,9 +672,11 @@ class XDocDocumenter(Documenter):
         #
         # Trackers.xml
         #
-        document=XDocDocument( 'All Trackers',	\
-            self.resolver.getFile(self.workspace,'trackers'),
-                self.config)
+        spec=self.resolver.getFileSpec(self.workspace, 'trackers')
+        document=XDocDocument( 'All Trackers',    
+                spec.getFile() ,
+                self.config,
+                spec.getRootPath())
                 
         trackersSection=document.createSection('All Trackers')
         trackersTable=trackersSection.createTable(['Name'])
@@ -717,9 +703,11 @@ class XDocDocumenter(Documenter):
         #
         # buildLog.xml -- Modules/Projects in build order
         #
-        document=XDocDocument('Gump Build Log',	\
-                self.resolver.getFile(self.workspace,'buildLog'),
-                self.config)        
+        spec=self.resolver.getFileSpec(self.workspace, 'buildLog')
+        document=XDocDocument('Gump Build Log',    
+                spec.getFile() ,
+                self.config,
+                spec.getRootPath())
         
         self.documentSummary(document, self.workspace.getProjectSummary())                
         
@@ -738,6 +726,8 @@ class XDocDocumenter(Documenter):
     
             moduleRow=modulesTable.createRow()            
             moduleRow.createComment(module.getName())  
+            
+            self.setStyleFromState(moduleRow,module.getStatePair())
             
             moduleRow.createData(secsToTime(module.getStartSecs()))         
                         
@@ -775,9 +765,10 @@ class XDocDocumenter(Documenter):
             projectRow=projectsTable.createRow()            
             projectRow.createComment(project.getName())  
             
+            self.setStyleFromState(projectRow,project.getStatePair())
+            
             projectRow.createData(secsToTime(project.getStartSecs()))  
                       
-                        
             self.insertLink(project,self.workspace,projectRow.createData())   
             self.insertStateIcon(project,self.workspace,projectRow.createData())      
             projectRow.createData(project.getStats().sequenceInState)    
@@ -805,9 +796,11 @@ class XDocDocumenter(Documenter):
         #
         # notesLog.xml -- Notes log
         #
-        document=XDocDocument('Annotations',	\
-                self.resolver.getFile(self.workspace,'notesLog'),
-                self.config)  
+        spec=self.resolver.getFileSpec(self.workspace, 'notesLog')
+        document=XDocDocument('Annotations',    
+                spec.getFile() ,
+                self.config,
+                spec.getRootPath())
                     
         notesSection=document.createSection('Negative Annotations')
         notesSection.createParagraph(
@@ -855,9 +848,11 @@ class XDocDocumenter(Documenter):
         #
         # diffsLog.xml -- Server Differences log
         #
-        document=XDocDocument('Server Differences',	\
-                self.resolver.getFile(self.workspace,'diffsLog'),
-                self.config)  
+        spec=self.resolver.getFileSpec(self.workspace, 'diffsLog')
+        document=XDocDocument('Server Differences',    
+                spec.getFile() ,
+                self.config,
+                spec.getRootPath())
                     
         diffsSection=document.createSection('Server Differences')
         diffsSection.createParagraph(
@@ -910,9 +905,11 @@ class XDocDocumenter(Documenter):
         #
         # projects.xml -- Projects in aphanumeric order
         #
-        document=XDocDocument('All Projects',	\
-                self.resolver.getFile(self.workspace,'projects'),
-                self.config)        
+        spec=self.resolver.getFileSpec(self.workspace, 'projects')
+        document=XDocDocument('All Projects',    
+                spec.getFile() ,
+                self.config,
+                spec.getRootPath())
         self.documentSummary(document, self.workspace.getProjectSummary())
         
         projectsSection=document.createSection('Projects')
@@ -939,9 +936,11 @@ class XDocDocumenter(Documenter):
         #
         # project_todos.xml -- Projects w/ issues in build order
         #
-        document=XDocDocument('Projects with issues',	\
-            self.resolver.getFile(self.workspace,'project_todos'),
-                self.config)        
+        spec=self.resolver.getFileSpec(self.workspace, 'project_todos')
+        document=XDocDocument('Projects with issues',    
+                spec.getFile() ,
+                self.config,
+                spec.getRootPath())
         self.documentSummary(document, self.workspace.getProjectSummary())
         
         totalAffected=0
@@ -1002,9 +1001,11 @@ The count of affected indicates relative importance of fixing this project.""")
         #
         # project_fixes.xml -- Projects w/ fixes in build order
         #
-        document=XDocDocument('Project Fixes',	\
-            self.resolver.getFile(self.workspace,'project_fixes'),
-                self.config)        
+        spec=self.resolver.getFileSpec(self.workspace, 'project_fixes')
+        document=XDocDocument('Project Fixes',    
+                spec.getFile() ,
+                self.config,
+                spec.getRootPath())
         self.documentSummary(document, self.workspace.getProjectSummary())
         
         projectsSection=document.createSection('Projects recently fixed...')
@@ -1054,9 +1055,11 @@ This page helps Gumpmeisters (and others) observe community progress.
         #
         # module_todos.xml
         #
-        document=XDocDocument('Modules with issues',
-                    self.resolver.getFile(self.workspace,'module_todos'),
-                self.config)   
+        spec=self.resolver.getFileSpec(self.workspace, 'module_todos')
+        document=XDocDocument('Modules with issues',    
+                spec.getFile() ,
+                self.config,
+                spec.getRootPath())
         
         modulesSection=document.createSection('Modules with TODOs')               
         modulesSection.createParagraph("""These are the modules that need 'fixing', or contained projects that need fixing.
@@ -1117,9 +1120,11 @@ The count of affected indicates relative importance of fixing this module.""")
         #
         # module_fixes.xml
         #
-        document=XDocDocument('Modules with fixes',
-                    self.resolver.getFile(self.workspace,'module_fixes'),
-                self.config)     
+        spec=self.resolver.getFileSpec(self.workspace, 'module_fixes')
+        document=XDocDocument('Modules with fixes',    
+                spec.getFile() ,
+                self.config,
+                spec.getRootPath())
         
         modulesSection=document.createSection('Modules recently fixed')           
         modulesSection.createParagraph("""These are the modules that were 'fixed' (state changed to success), or contained projects that were fixed, within %s runs.
@@ -1176,9 +1181,11 @@ This page helps Gumpmeisters (and others) observe community progress.
         #
         # Modules.xml
         #
-        document=XDocDocument( 'All Modules',	\
-            self.resolver.getFile(self.workspace,'modules'),
-                self.config)        
+        spec=self.resolver.getFileSpec(self.workspace, 'modules')
+        document=XDocDocument( 'All Modules',    
+                spec.getFile() ,
+                self.config,
+                spec.getRootPath())
         
         modulesSection=document.createSection('All Modules')
         modulesTable=modulesSection.createTable(['Name','Module State','Project State(s)','Elapsed','FOG Factor'])
@@ -1210,9 +1217,11 @@ This page helps Gumpmeisters (and others) observe community progress.
         #
         # Packages.xml
         #
-        document=XDocDocument('Packages',	\
-                self.resolver.getFile(self.workspace,'packages'),
-                self.config)
+        spec=self.resolver.getFileSpec(self.workspace, 'packages')
+        document=XDocDocument('Packages',    
+                spec.getFile() ,
+                self.config,
+                spec.getRootPath())
         
         mpkgSection=document.createSection('Packaged Modules')
         mpkgTable=mpkgSection.createTable(['Name','State','Project State(s)'])
@@ -1263,9 +1272,11 @@ This page helps Gumpmeisters (and others) observe community progress.
       
     def documentRepository(self,repo):
         
-        document=XDocDocument( 'Repository : ' + repo.getName(),	\
-                self.resolver.getFile(repo),
-                self.config)   
+        spec=self.resolver.getFileSpec(repo)
+        document=XDocDocument( 'Repository : ' + repo.getName(),    
+                spec.getFile() ,
+                self.config,
+                spec.getRootPath())
             
         # Provide a description/link back to the repo site.
 #        descriptionSection=document.createSection('Description') 
@@ -1329,9 +1340,11 @@ This page helps Gumpmeisters (and others) observe community progress.
       
     def documentServer(self,server):
         
-        document=XDocDocument( 'Server : ' + server.getName(),	\
-                self.resolver.getFile(server),
-                self.config)   
+        spec=self.resolver.getFileSpec(server)
+        document=XDocDocument( 'Server : ' + server.getName(),    
+                spec.getFile() ,
+                self.config,
+                spec.getRootPath())
             
         # Provide a description/link back to the server site.
 #        descriptionSection=document.createSection('Description') 
@@ -1409,9 +1422,11 @@ This page helps Gumpmeisters (and others) observe community progress.
              
     def documentTracker(self,tracker):
         
-        document=XDocDocument( 'Tracker : ' + tracker.getName(),	\
-                self.resolver.getFile(tracker),
-                self.config)   
+        spec=self.resolver.getFileSpec(tracker)
+        document=XDocDocument( 'Tracker : ' + tracker.getName(),    
+                spec.getFile() ,
+                self.config,
+                spec.getRootPath())
             
         # Provide a description/link back to the tracker site.
 #        descriptionSection=document.createSection('Description') 
@@ -1461,9 +1476,11 @@ This page helps Gumpmeisters (and others) observe community progress.
         
     def documentModule(self,module,realtime=0):
         
-        document=XDocDocument( 'Module : ' + module.getName(),	\
-                self.resolver.getFile(module),
-                self.config)   
+        spec=self.resolver.getFileSpec(module)
+        document=XDocDocument( 'Module : ' + module.getName(),    
+                spec.getFile() ,
+                self.config,
+                spec.getRootPath())
             
         # Provide a description/link back to the module site.
         descriptionSection=document.createSection('Description') 
@@ -1630,9 +1647,11 @@ This page helps Gumpmeisters (and others) observe community progress.
         
     def documentProject(self,project,realtime=0): 
         
-        document=XDocDocument('Project : ' + project.getName(),	\
-                self.resolver.getFile(project),
-                self.config)       
+        spec=self.resolver.getFileSpec(project)
+        document=XDocDocument('Project : ' + project.getName(),    
+                spec.getFile() ,
+                self.config,
+                spec.getRootPath())
          
         # Provide a description/link back to the module site.
         projectsSection=document.createSection('Description') 
@@ -1774,9 +1793,11 @@ This page helps Gumpmeisters (and others) observe community progress.
         
     def documentProjectDetails(self,project,realtime=0):         
         
-        document=XDocDocument('Project Details : ' + project.getName(),	\
-                    self.resolver.getFile(project,'details'),
-                self.config)     
+        spec=self.resolver.getFileSpec(project,'details')
+        document=XDocDocument('Project Details : ' + project.getName(),    
+                spec.getFile() ,
+                self.config,
+                spec.getRootPath())
  
     #    x.write('<p><strong>Project Config :</strong> <link href=\'%s\'>XML</link></p>' \
     #                % (getModuleProjectRelativeUrl(modulename,project.name)) )                     
@@ -1846,7 +1867,6 @@ This page helps Gumpmeisters (and others) observe community progress.
         depees += self.documentDependenciesList(dependencySection, 'Project Dependees',		\
                     project.getDirectDependees(), 1, 0, project)
 
-        
         if not realtime and project.isVerboseOrDebug():
             self.documentDependenciesList(dependencySection, 'Full Project Dependencies',	\
                     project.getFullDependencies(), 0, 1, project)
@@ -1880,10 +1900,11 @@ This page helps Gumpmeisters (and others) observe community progress.
         # Document notifications
         notification = self.notifyLogic.notification(project)
         if notification:
-            document=XDocDocument('Project Details : ' + project.getName(),	\
-                        self.resolver.getFile(project, \
-                                        project.getName() + '_notify'),
-                self.config)     
+            nspec=self.resolver.getFileSpec(project,project.getName() + '_notify')    
+            document=XDocDocument('Project Details : ' + project.getName(),
+                    nspec.getFile(),
+                    self.config,
+                    nspec.getRootPath())
                                             
             # If they don't ask for it, they won't see it.
             part1='could'
@@ -2058,6 +2079,7 @@ This page helps Gumpmeisters (and others) observe community progress.
         annotationsTable=annotationsSection.createTable()
         for note in annotations:      
             noteRow=annotationsTable.createRow()
+            noteRow.setStyle(levelName(note.level).upper())
             noteRow.createData(levelName(note.level))
             # TODO if 'text' is a list go through list and
             # when not string get the object link and <link it...
@@ -2246,10 +2268,12 @@ This page helps Gumpmeisters (and others) observe community progress.
             
     def documentWork(self,work):
         if isinstance(work,CommandWorkItem):    
+            spec=self.resolver.getFileSpec(work)
             wdocument=XDocDocument(	\
-                workTypeName(work.type) + ' : ' + work.command.name,	\
-                    self.resolver.getFile(work),
-                self.config)
+                workTypeName(work.type) + ' : ' + work.command.name,    
+                spec.getFile() ,
+                self.config,
+                spec.getRootPath())
                     
             workSection=wdocument.createSection('Details')
             
@@ -2419,10 +2443,12 @@ This page helps Gumpmeisters (and others) observe community progress.
             
     def documentFile(self,fileReference):
         
+        spec=self.resolver.getFileSpec(fileReference)
         fdocument=XDocDocument(	\
-                fileReference.getTypeDescription() + ' : ' + fileReference.getName(),	\
-                self.resolver.getFile(fileReference),
-                self.config)
+                fileReference.getTypeDescription() + ' : ' + fileReference.getName(),    
+                spec.getFile() ,
+                self.config,
+                spec.getRootPath())
                     
         fileSection=fdocument.createSection('Details')
             
@@ -2644,10 +2670,15 @@ This page helps Gumpmeisters (and others) observe community progress.
             if fromObject:
                 url=getRelativeLocation(toObject,fromObject,'.html').serialize()
             else:
-                url=self.resolver.getAbsoluteUrl(toObject)
+                url=self.resolver.getUrl(toObject)
             
         return url + postfix
     
+    def setStyleFromState(self,xdocNode,statePair):
+        # Set the style from the state name (right now)
+        # maybe later do different for reason code.
+        xdocNode.setStyle(statePair.getStateName().upper())
+            
     def insertStatePairIcon(self,xdocNode,toObject,fromObject):
         pair=toObject.getStatePair()
         depth=getDepthForObject(fromObject)
@@ -2666,7 +2697,7 @@ This page helps Gumpmeisters (and others) observe community progress.
         
         # Build the URL to the icon
         iconName=gumpSafeName(lower(replace(uniqueName,' ','_')))
-        url = getUpUrl(depth)+"gump_icons/"+iconName+".png";
+        url = self.resolver.getIconUrl(iconName+'.png',depth)
         
         # Build the <icon tag at location...
         return xdocNode.createIcon(url,description)
@@ -2680,8 +2711,11 @@ This page helps Gumpmeisters (and others) observe community progress.
         log.info('Generate Statistic Guru')
         stats=StatisticsGuru(self.workspace)
         
-        document=XDocDocument('Statistics',self.resolver.getFile(stats),
-                self.config)
+        spec=self.resolver.getFileSpec(stats)
+        document=XDocDocument('Statistics',    
+                spec.getFile() ,
+                self.config,
+                spec.getRootPath())
         
         document.createParagraph("""
         Statistics from Gump show the depth and health of inter-relationships. 
@@ -2783,9 +2817,11 @@ This page helps Gumpmeisters (and others) observe community progress.
     
     def documentModulesByElapsed(self,stats):
         fileName='module_elapsed'
-        documentFile=self.resolver.getFile(stats,fileName)
-        document=XDocDocument('Modules By Elapsed Time', documentFile,
-                self.config)
+        spec=self.resolver.getFileSpec(stats,fileName)
+        document=XDocDocument('Modules By Elapsed Time',    
+                spec.getFile() ,
+                self.config,
+                spec.getRootPath())
         
         elapsedTable=document.createTable(['Modules By Elapsed'])
         for module in stats.modulesByElapsed:        
@@ -2800,9 +2836,11 @@ This page helps Gumpmeisters (and others) observe community progress.
     
     def documentModulesByProjects(self,stats):
         fileName='module_projects'
-        documentFile=self.resolver.getFile(stats,fileName)
-        document=XDocDocument('Modules By Project Count',	documentFile,
-                self.config)
+        spec=self.resolver.getFileSpec(stats,fileName)
+        document=XDocDocument('Modules By Project Count',    
+                spec.getFile() ,
+                self.config,
+                spec.getRootPath())
         
         mprojsTable=document.createTable(['Modules By Project Count'])
         for module in stats.modulesByProjectCount:         
@@ -2827,9 +2865,11 @@ This page helps Gumpmeisters (and others) observe community progress.
      
     def documentModulesByDependencies(self,stats):
         fileName='module_dependencies'
-        documentFile=self.resolver.getFile(stats,fileName)
-        document=XDocDocument('Modules By Dependency Count', documentFile,
-                self.config)
+        spec=self.resolver.getFileSpec(stats,fileName)
+        document=XDocDocument('Modules By Dependency Count',    
+                spec.getFile() ,
+                self.config,
+                spec.getRootPath())
         
         dependenciesTable=document.createTable(['Module','Full Dependency Count'])
         for module in stats.modulesByTotalDependencies:         
@@ -2851,9 +2891,11 @@ This page helps Gumpmeisters (and others) observe community progress.
      
     def documentModulesByDependees(self,stats):
         fileName='module_dependees'
-        documentFile=self.resolver.getFile(stats,fileName)    
-        document=XDocDocument('Modules By Dependee Count', documentFile,
-                self.config)
+        spec=self.resolver.getFileSpec(stats,fileName)  
+        document=XDocDocument('Modules By Dependee Count',    
+                spec.getFile() ,
+                self.config,
+                spec.getRootPath())
         
         dependeesTable=document.createTable(['Module','Full Dependee Count'])
         for module in stats.modulesByTotalDependees:         
@@ -2874,9 +2916,11 @@ This page helps Gumpmeisters (and others) observe community progress.
         
     def documentModulesByFOGFactor(self,stats):
         fileName='module_fogfactor'
-        documentFile=self.resolver.getFile(stats,fileName)    
-        document=XDocDocument('Modules By FOG Factor',	documentFile,
-                self.config)        
+        spec=self.resolver.getFileSpec(stats,fileName)   
+        document=XDocDocument('Modules By FOG Factor',    
+                spec.getFile() ,
+                self.config,
+                spec.getRootPath())
         fogTable=document.createTable(['Module','FOG Factor'])
         for module in stats.modulesByFOGFactor:        
             if not self.gumpSet.inModuleSequence(module): continue    
@@ -2890,9 +2934,11 @@ This page helps Gumpmeisters (and others) observe community progress.
     
     def documentModulesByLastModified(self,stats):
         fileName='module_modified'
-        documentFile=self.resolver.getFile(stats,fileName)    
-        document=XDocDocument('Modules By Last Modified', documentFile,
-                self.config)        
+        spec=self.resolver.getFileSpec(stats,fileName)  
+        document=XDocDocument('Modules By Last Modified',    
+                spec.getFile() ,
+                self.config,
+                spec.getRootPath())
         updTable=document.createTable(['Module','Last Modified Date','Last Modified'])
         modules=0
         for module in stats.modulesByLastModified:        
@@ -2912,9 +2958,11 @@ This page helps Gumpmeisters (and others) observe community progress.
     
     def documentProjectsByElapsed(self,stats):
         fileName='project_elapsed'
-        documentFile=self.resolver.getFile(stats,fileName)    
-        document=XDocDocument('Projects By Elapsed Time',	documentFile,
-                self.config)
+        spec=self.resolver.getFileSpec(stats,fileName)  
+        document=XDocDocument('Projects By Elapsed Time',    
+                spec.getFile() ,
+                self.config,
+                spec.getRootPath())
         
         elapsedTable=document.createTable(['Projects By Elapsed'])
         for project in stats.projectsByElapsed:        
@@ -2929,9 +2977,11 @@ This page helps Gumpmeisters (and others) observe community progress.
      
     def documentProjectsByDependencies(self,stats):
         fileName='project_dependencies'
-        documentFile=self.resolver.getFile(stats,fileName)    
-        document=XDocDocument('Projects By Dependency Count',	 documentFile,
-                self.config)
+        spec=self.resolver.getFileSpec(stats,fileName)  
+        document=XDocDocument('Projects By Dependency Count',    
+                spec.getFile() ,
+                self.config,
+                spec.getRootPath())
         
         dependenciesTable=document.createTable(['Project','Direct Dependency Count', 'Full Dependency Count'])
         for project in stats.projectsByTotalDependencies:         
@@ -2954,9 +3004,11 @@ This page helps Gumpmeisters (and others) observe community progress.
      
     def documentProjectsByDependees(self,stats):
         fileName='project_dependees'
-        documentFile=self.resolver.getFile(stats,fileName)    
-        document=XDocDocument('Projects By Dependee Count', documentFile,
-                self.config)
+        spec=self.resolver.getFileSpec(stats,fileName)  
+        document=XDocDocument('Projects By Dependee Count',    
+                spec.getFile() ,
+                self.config,
+                spec.getRootPath())
         
         dependeesTable=document.createTable(['Project','Direct Dependee Count', 'Full Dependee Count'])
         for project in stats.projectsByTotalDependees:         
@@ -2978,9 +3030,11 @@ This page helps Gumpmeisters (and others) observe community progress.
         
     def documentProjectsByFOGFactor(self,stats):
         fileName='project_fogfactor'
-        documentFile=self.resolver.getFile(stats,fileName)    
-        document=XDocDocument('Projects By FOG Factor',	 documentFile,
-                self.config)        
+        spec=self.resolver.getFileSpec(stats,fileName) 
+        document=XDocDocument('Projects By FOG Factor',    
+                spec.getFile() ,
+                self.config,
+                spec.getRootPath())
         #fogTable=document.createTable(['Project','Successes','Failures','Preq-Failures','FOG Factor'])
         fogTable=document.createTable(['Project','Successes','Failures','Preq-Failures'])
         for project in stats.projectsByFOGFactor:        
@@ -3008,9 +3062,11 @@ This page helps Gumpmeisters (and others) observe community progress.
         
     def documentProjectsBySequenceInState(self,stats):
         fileName='project_durstate'
-        documentFile=self.resolver.getFile(stats,fileName)    
-        document=XDocDocument('Projects By Duration In State',	documentFile,
-                self.config)        
+        spec=self.resolver.getFileSpec(stats,fileName) 
+        document=XDocDocument('Projects By Duration In State',    
+                spec.getFile() ,
+                self.config,
+                spec.getRootPath())
         durTable=document.createTable(['Project','Duration\nIn State','State'])
         for project in stats.projectsBySequenceInState:        
             if not self.gumpSet.inProjectSequence(project): continue    
@@ -3033,9 +3089,11 @@ This page helps Gumpmeisters (and others) observe community progress.
         else:
             title='Projects By Dependency Depth'
             fileName='project_depdepth'       
-        documentFile=self.resolver.getFile(stats,fileName)    
-        document=XDocDocument(title, documentFile,
-                self.config)        
+        spec=self.resolver.getFileSpec(stats,fileName)   
+        document=XDocDocument(title,    
+                spec.getFile() ,
+                self.config,
+                spec.getRootPath()) 
         durTable=document.createTable(['Project','Dependency Depth','Total Dependency Depth'])
         if total: 
             list = stats.projectsByTotalDependencyDepth
@@ -3063,7 +3121,8 @@ This page helps Gumpmeisters (and others) observe community progress.
                     
         log.info('Generate XRef Guru')
         xref=XRefGuru(self.workspace)    
-        
+   
+        spec=self.resolver.getFileSpec(xref)
         document=XDocDocument('Cross Reference',self.resolver.getFile(xref),
                 self.config)
     
@@ -3134,9 +3193,11 @@ This page helps Gumpmeisters (and others) observe community progress.
         
     def documentModulesByRepository(self,xref):
         fileName='repo_module'
-        documentFile=self.resolver.getFile(xref,fileName)        
-        document=XDocDocument('Modules By Repository',	documentFile,
-                self.config)
+        spec=self.resolver.getFileSpec(xref,fileName)
+        document=XDocDocument('Modules By Repository',    
+                spec.getFile() ,
+                self.config,
+                spec.getRootPath())
         
         repoMap=xref.getRepositoryToModuleMap()
         repoList=createOrderedList(repoMap.keys())
@@ -3166,9 +3227,11 @@ This page helps Gumpmeisters (and others) observe community progress.
         
     def documentModulesByPackage(self,xref):
         fileName='package_module'
-        documentFile=self.resolver.getFile(xref,fileName)            
-        document=XDocDocument('Modules By Package',	documentFile,
-                self.config)
+        spec=self.resolver.getFileSpec(xref,fileName)
+        document=XDocDocument('Modules By Package',    
+                spec.getFile() ,
+                self.config,
+                spec.getRootPath())
         
         packageTable=document.createTable(['Modules By Package'])
         
@@ -3199,9 +3262,11 @@ This page helps Gumpmeisters (and others) observe community progress.
         
     def documentModulesByDescription(self,xref):
         fileName='description_module'
-        documentFile=self.resolver.getFile(xref,fileName)            
-        document=XDocDocument('Modules By Description',	documentFile,
-                self.config)
+        spec=self.resolver.getFileSpec(xref,fileName)
+        document=XDocDocument('Modules By Description',    
+                spec.getFile() ,
+                self.config,
+                spec.getRootPath())
         
         descriptionTable=document.createTable(['Modules By Description'])
         
@@ -3231,9 +3296,11 @@ This page helps Gumpmeisters (and others) observe community progress.
         
     def documentProjectsByPackage(self,xref):
         fileName='package_project'
-        documentFile=self.resolver.getFile(xref,fileName)            
-        document=XDocDocument('Projects By Package',	documentFile,
-                self.config)
+        spec=self.resolver.getFileSpec(xref,fileName)
+        document=XDocDocument('Projects By Package',	
+                spec.getFile(),
+                self.config,
+                spec.getRootPath())
         
         packageTable=document.createTable(['Projects By Package'])
         
@@ -3263,9 +3330,11 @@ This page helps Gumpmeisters (and others) observe community progress.
 
     def documentProjectsByDescription(self,xref):
         fileName='description_project'
-        documentFile=self.resolver.getFile(xref,fileName)            
-        document=XDocDocument('Projects By Description',	documentFile,
-                self.config)
+        spec=self.resolver.getFileSpec(xref,fileName)
+        document=XDocDocument('Projects By Description',
+                spec.getFile(),
+                self.config,
+                spec.getRootPath())
         
         descriptionTable=document.createTable(['Projects By Description'])
         
@@ -3296,9 +3365,11 @@ This page helps Gumpmeisters (and others) observe community progress.
         
     def documentProjectsByOutput(self,xref):
         fileName='output_project'
-        documentFile=self.resolver.getFile(xref,fileName)            
-        document=XDocDocument('Projects By Outputs (e.g. Jars)',	documentFile,
-                self.config)
+        spec=self.resolver.getFileSpec(xref,fileName)
+        document=XDocDocument('Projects By Outputs (e.g. Jars)',	
+                spec.getFile() ,
+                self.config,
+                spec.getRootPath())
         
         outputTable=document.createTable(['Projects By Outputs (e.g. Jars)'])
         
@@ -3328,9 +3399,11 @@ This page helps Gumpmeisters (and others) observe community progress.
         
     def documentProjectsByOutputId(self,xref):
         fileName='output_id_project'
-        documentFile=self.resolver.getFile(xref,fileName)            
-        document=XDocDocument('Projects By Output Identifiers',	documentFile,
-                self.config)
+        spec=self.resolver.getFileSpec(xref,fileName)
+        document=XDocDocument('Projects By Output Identifiers',    
+                spec.getFile() ,
+                self.config,
+                spec.getRootPath())
         
         outputTable=document.createTable(['Projects By Output Identifiers'])
         
@@ -3360,9 +3433,11 @@ This page helps Gumpmeisters (and others) observe community progress.
         
     def documentProjectsByDescriptorLocation(self,xref):
         fileName='descriptor_project'
-        documentFile=self.resolver.getFile(xref,fileName)            
-        document=XDocDocument('Projects By Descriptor Location',	documentFile,
-                self.config)
+        spec=self.resolver.getFileSpec(xref,fileName)
+        document=XDocDocument('Projects By Descriptor Location',    
+                spec.getFile() ,
+                self.config,
+                spec.getRootPath())
         
         descLocnTable=document.createTable(['Projects By Descriptor Location'])
         
@@ -3390,5 +3465,3 @@ This page helps Gumpmeisters (and others) observe community progress.
         
         return fileName + '.html'
  
-        
-        

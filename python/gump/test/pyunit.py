@@ -362,6 +362,9 @@ if __name__=='__main__':
     from gump.test.xdocs import XDocsTestSuite  
     runner.addSuite(XDocsTestSuite())
     
+    from gump.test.loading import LoadingTestSuite  
+    runner.addSuite(LoadingTestSuite())
+    
     # Any args are pattern matches
     patterns=list(sys.argv)
     del patterns[0:1]

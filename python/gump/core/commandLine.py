@@ -68,8 +68,8 @@ class CommandLine:
                 print "  -O,  --official          Full run, publishing notifications, etc."
                 print "  -D,  --dated             Dated log files."
                 print "  -c,  --cache             Use local cache (do not download over HTTP)."
-                print "  -t,  --text              Use text not Forrest."
-                print "  -X,  --xdocs             Output xdocs, do not run Forrest."
+                print "  -t,  --text              Use text not xdocs."
+                print "  -X,  --xdocs             Output xdocs, not XHTML."
                 
                 print
                 print
@@ -117,11 +117,11 @@ class CommandLine:
             elif arg in ['-t','--text']:
                 removers.append(arg)        
                 self.options.setText(1)
-                log.info('Use text (not forrest).')
+                log.info('Use text (not xdocs).')
             elif arg in ['-x','--xdocs']:
                 removers.append(arg)        
                 self.options.setXDocs(1)
-                log.info('Output xdocs (do not run forrest).')
+                log.info('Output xdocs (not XHTML).')
                 
         # Remove 
         for arg in removers:

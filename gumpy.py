@@ -417,9 +417,6 @@ try:
             if integrationExit:
                 result=1
 
-            # :TODO: Copy outputs (especially forrest) into log dir
-            # for remote debuging.         
-
     except KeyboardInterrupt:    
         log.write('Terminated by user interrupt...\n')
         result = 1

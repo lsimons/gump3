@@ -378,12 +378,10 @@ class GumpRunOptions:
         self.optimize=0	# Do the least ammount of work...
         self.official=0	# Do a full run (with publishing e-mail)
         
-        # Default is Text unless Forrest is in the environment,
-        # but can also force text with --text 
+        # Default is XDOCS/XHTML, but can also force text with --text 
         self.text=0        
         
-        # If using Forrest, this say leave xdocs, do NOT run
-        # the 'forrest' build inlined.
+        # Defautl for XDOCS is XHTML
         self.xdocs=0
         
         self.objectives=OBJECTIVE_INTEGRATE

@@ -59,7 +59,6 @@ class GumpEnvironment(Annotatable,Workable,Propogatable):
     	#
     	self.checked=False
     	
-    	self.noForrest=False    
     	self.noMaven=False    	 
     	self.noDepot=False    	
     	self.noUpdate=False    	
@@ -116,7 +115,6 @@ class GumpEnvironment(Annotatable,Workable,Propogatable):
         #	Envs:
         #	JAVA_HOME for bootstrap ant?
         #	CLASSPATH
-        #	FORREST_HOME?
     
         if not self.noJavaHome and not self.checkEnvVariable('JAVA_HOME',False):    
             self.noJavaHome=True    
@@ -125,10 +123,6 @@ class GumpEnvironment(Annotatable,Workable,Propogatable):
         if not self.noClasspath and not self.checkEnvVariable('CLASSPATH',False):
             self.noClasspath=True    
             self.addWarning('CLASSPATH environmental variable not found. Might not be needed.')
-                
-        if not self.noForrest and not self.checkEnvVariable('FORREST_HOME',False): 
-            self.noForrest=True
-            self.addWarning('FORREST_HOME environmental variable not found, no xdoc output.')
                 
         if not self.noMaven and not self.checkEnvVariable('MAVEN_HOME',False): 
             self.noMaven=True
@@ -147,8 +141,7 @@ class GumpEnvironment(Annotatable,Workable,Propogatable):
         #	java
         #	javac (for bootstrap ant & beyond)
         #	cvs
-        #
-        #	forrest (for documentation)
+        #	svn
         #
         self.checkExecutable('env','',False)
 
@@ -169,10 +162,6 @@ class GumpEnvironment(Annotatable,Workable,Propogatable):
         if not self.noSvn and not self.checkExecutable('svn','--version',False):
             self.noSvn=True
             self.addWarning('"svn" command not found, no SVN repository updates')
-        
-        if not self.noForrest and not self.checkExecutable('forrest','-projecthelp',False): 
-            self.noForrest=True
-            self.addWarning('"forrest" command not found, no xdoc output')
         
         if not self.noTimeout:
             if	not self.checkExecutable('timeout','60 env',False): 
