@@ -8,16 +8,30 @@
   <cvs repository="jakarta"/>
   
   <project name="jakarta-avalon">
+    <ant>
+      <depend property="xerces.jar"  project="xml-xerces"/>
+      <depend property="logkit.jar"  project="jakarta-avalon-logkit"/>
+      <depend property="testlet.jar" project="jakarta-avalon-testlet"/>
+    </ant>
+    <depend project="jakarta-ant"/>
+    <depend project="xml-xalan2"/>
+
+    <home nested="build/lib"/>
+    <jar name="avalon-framework.jar"/>
+  </project>
+
+  <project name="jakarta-avalon-dist">
     <ant target="dist">
       <depend property="xerces.jar"  project="xml-xerces"/>
       <depend property="logkit.jar"  project="jakarta-avalon-logkit"/>
       <depend property="testlet.jar" project="jakarta-avalon-testlet"/>
     </ant>
     <depend project="jakarta-ant"/>
-    <depend project="xml-stylebook2"/>
+    <depend project="xml-cocoon2"/>
     <depend project="xml-xalan2"/>
-    <home nested="build/lib"/>
-    <jar name="avalon-framework.jar"/>
+    <depend project="bsf"/>
+    <depend project="rhino"/>
+    <depend project="jakarta-avalon-site"/>
   </project>
 
   <project name="jakarta-avalon-exceptionutil">
