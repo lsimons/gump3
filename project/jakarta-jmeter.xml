@@ -22,6 +22,7 @@
       <depend property="xml-apis.jar" project="xml-apis"/>
       <depend property="jdom.jar" project="jdom"/>
       <depend property="js.jar" project="rhino"/>
+      <depend property="soap.jar" project="xml-soap"/>
     </ant>
 
     <depend project="ant" />
@@ -32,7 +33,6 @@
     <depend project="jsse" />
     <depend project="jtidy" />
     <depend project="excalibur-compatibility" />
-    <depend project="rhino" />
 
     <work nested="build/core"/>
     <work nested="build/jorphan"/>
