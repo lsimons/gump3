@@ -307,12 +307,6 @@ To: velocity-dev@jakarta.apache.org
 From: Geir Magnusson Jr. <geirm@apache.org>
 Subject: [GUMP] Test Failure - Velocity
 Regex: /BUILD FAILED/
-------
-Project: jakarta-lucene
-To: lucene-dev@jakarta.apache.org
-From: Jason van Zyl <jvanzyl@apache.org>
-Subject: [GUMP] Build Failure - Lucene
-Regex: /BUILD FAILED/
 #------
 #Project: scarab
 #To: dev@scarab.tigris.org
