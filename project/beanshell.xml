@@ -20,7 +20,7 @@
     <depend project="ant" inherit="runtime"/>
     <depend project="xml-xerces"/>
     <depend project="xml-xalan2"/>
-    <depend project="bsf"/>
+    <depend project="jakarta-bsf"/>
     <depend project="jakarta-servletapi"/>
 
     <home nested="dist"/>
