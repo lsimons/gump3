@@ -40,6 +40,7 @@
       <depend property="commons-modeler.jar" project="commons-modeler"/>
       <depend property="commons-dbcp.jar" project="commons-dbcp"/>
       <depend property="commons-pool.jar" project="commons-pool"/>
+      <depend property="commons-logging.jar" project="commons-logging"/>
     </ant>
 
     <depend project="jaf"/>
