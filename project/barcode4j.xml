@@ -86,7 +86,7 @@
 
         <jar name="barcode4j.jar"/>
         
-        <nag to="krysalis-developers@lists.sourceforge.net"
+        <nag to="barcode4j-developers@lists.sourceforge.net"
             from="Jeremias Maerki &lt;dev.jeremias@greenmail.ch&gt;"/>
     </project>
 
