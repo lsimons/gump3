@@ -1,82 +1,81 @@
 <module name="avalon-phoenix">
 
-  <url href="http://avalon.apache.org/"/>
-  <description>
-    The Avalon Application Server Kernel
-  </description>
+    <url href="http://avalon.apache.org/phoenix"/>
+    <description>
+        The Avalon Application Server Kernel
+    </description>
 
-  <cvs repository="avalon"/>
+    <cvs repository="avalon"/>
 
     <!-- deprecated! -->
     <project name="jakarta-avalon-phoenix">
-      <depend project="avalon-phoenix" inherit="jars"/>
+        <depend project="avalon-phoenix" inherit="jars"/>
     </project>
 
+    <project name="avalon-phoenix">
+        <package>org.apache.avalon.phoenix</package>
 
-  <project name="avalon-phoenix">
-    <package>org.apache.avalon.phoenix</package>
+        <ant target="jars">
+            <property name="checkstyle.failOnError" value="true"/>
+            <property name="jakarta-site.dir" project="jakarta-site2"
+                reference="home"/>
+            <depend property="mx4j.jar" project="mx4j" id="jmx"/>
+            <depend property="mx4j-tools.jar" project="mx4j" id="tools"/>
+        </ant>
 
-    <ant target="jars">
-      <property name="checkstyle.failOnError" value="true"/>
-      <property name="jakarta-site.dir" project="jakarta-site2"
-                reference="home" />
-      <depend property="mx4j.jar" project="mx4j" id="jmx"/>
-      <depend property="mx4j-tools.jar" project="mx4j" id="tools"/>
-    </ant>
+        <depend property="xerces.jar" project="xml-xerces" id="parser" runtime="true"/>
+        <depend property="logkit.jar" project="avalon-logkit" runtime="true"/>
+        <depend property="framework.jar" project="avalon" runtime="true"/>
+        <depend project="bsf" runtime="true"/>
+        <depend project="excalibur-configuration" runtime="true"/>
+        <depend project="excalibur-compatibility" runtime="true"/>
+        <depend project="spice-cli" runtime="true"/>
+        <depend project="spice-configkit" runtime="true" inherit="runtime"/>
+        <depend project="excalibur-extension" runtime="true"/>
+        <depend project="excalibur-threadcontext" runtime="true"/>
+        <depend project="excalibur-loader" runtime="true"/>
+        <depend project="excalibur-logger" runtime="true"/>
+        <depend project="excalibur-i18n" runtime="true"/>
+        <depend project="excalibur-instrument-manager" runtime="true"/>
+        <depend project="excalibur-instrument" runtime="true"/>
+        <depend project="excalibur-policy" runtime="true"/>
+        <depend project="excalibur-monitor" runtime="true"/>
+        <depend project="ant" runtime="true"/>
+        <depend project="mx4j" runtime="true"/>
+        <depend project="xml-xalan2"/>
+        <depend project="dist-bsf" runtime="true"/>
+        <depend project="rhino" runtime="true"/>
+        <depend project="phoenix-qdox" runtime="true"/>
+        <depend project="jakarta-site2" inherit="all"/>
+        <option project="jakarta-servletapi-4" runtime="true"/>
+        <depend project="junit"/>
+        <depend project="jakarta-log4j"/>
 
-    <depend property="xerces.jar" project="xml-xerces" id="parser" runtime="true"/>
-    <depend property="logkit.jar" project="avalon-logkit" runtime="true"/>
-    <depend property="framework.jar" project="avalon" runtime="true"/>
-    <depend project="bsf" runtime="true"/>
-    <depend project="excalibur-configuration" runtime="true"/>
-    <depend project="excalibur-compatibility" runtime="true"/>
-    <depend project="spice-cli" runtime="true"/>
-    <depend project="spice-configkit" runtime="true" inherit="runtime"/>
-    <depend project="excalibur-extension" runtime="true"/>
-    <depend project="excalibur-threadcontext" runtime="true"/>
-    <depend project="excalibur-loader" runtime="true"/>
-    <depend project="excalibur-logger" runtime="true"/>
-    <depend project="excalibur-i18n" runtime="true"/>
-    <depend project="excalibur-instrument-manager" runtime="true"/>
-    <depend project="excalibur-instrument" runtime="true"/>
-    <depend project="excalibur-policy" runtime="true"/>
-    <depend project="excalibur-monitor" runtime="true"/>
-    <depend project="ant" runtime="true"/>
-    <depend project="mx4j" runtime="true"/>
-    <depend project="xml-xalan2"/>
-    <depend project="dist-bsf" runtime="true"/>
-    <depend project="rhino" runtime="true"/>
-    <depend project="phoenix-qdox" runtime="true"/>
-    <depend project="jakarta-site2" inherit="all" />
-    <option project="jakarta-servletapi-4" runtime="true"/>
-    <depend project="junit"/>
-    <depend project="jakarta-log4j"/>
+        <work nested="target/classes"/>
 
-    <work nested="target/classes"/>
+        <home nested="target/lib"/>
+        <jar name="phoenix-client.jar" id="client"/>
 
-    <home nested="target/lib"/>
-    <jar name="phoenix-client.jar" id="client"/>
+        <jar name="phoenix-tools.jar" id="metagenerate"/>
+        <jar name="phoenix-loader.jar" id="loader"/>
+        <jar name="phoenix-engine.jar" id="metagenerate"/>
+        <jar name="phoenix-punit.jar" id="punit"/>
 
-    <jar name="phoenix-tools.jar" id="metagenerate"/>
-    <jar name="phoenix-loader.jar" id="loader"/>
-    <jar name="phoenix-engine.jar" id="metagenerate"/>
-    <jar name="phoenix-punit.jar" id="punit"/>
+        <license name="LICENSE.txt"/>
+        <javadoc nested="target/javadocs" module="avalon"/>
 
-    <license name="LICENSE.txt"/>
-    <javadoc nested="target/javadocs" module="avalon"/>
-
-    <nag>
-    <regexp pattern="/^$/" from="peter@apache.org"
-            to="avalon-phoenix-dev@jakarta.apache.org"
-            subject="PRE-REQ FAILED for avalon-phoenix"/>
-    </nag>
-    <nag from="Peter Donald &lt;peter@apache.org&gt;"
+        <nag>
+            <regexp pattern="/^$/" from="peter@apache.org"
+                to="avalon-phoenix-dev@jakarta.apache.org"
+                subject="PRE-REQ FAILED for avalon-phoenix"/>
+        </nag>
+        <nag from="Peter Donald &lt;peter@apache.org&gt;"
             to="dev@avalon.apache.org"/>
-  </project>
+    </project>
 
-  <project name="phoenix-qdox">
-    <jar name="lib/tools/qdox-1.1.jar"/>
-  </project>
+    <project name="phoenix-qdox">
+        <jar name="lib/tools/qdox-1.1.jar"/>
+    </project>
 
     <project name="phoenix-example-demo">
         <package>org.apache.avalon.demos</package>

@@ -24,7 +24,7 @@
         <jar name="build/lib/ftp-server-@@DATE@@.sar"/>
 
         <nag from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"
-                to="dev@avalon.apache.org"/>
+            to="dev@avalon.apache.org"/>
     </project>
 
     <project name="avalon-apps-httpproxy">
@@ -47,36 +47,36 @@
         <jar name="build/lib/httpproxy-@@DATE@@.sar"/>
 
         <nag from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"
-                to="dev@avalon.apache.org"/>
+            to="dev@avalon.apache.org"/>
     </project>
 
-<!--
-    <project name="avalon-apps-sevak">
-        <package>org.apache.avalon.sevak</package>
+    <!--
+        <project name="avalon-apps-sevak">
+            <package>org.apache.avalon.sevak</package>
 
-        <ant basedir="sevak"/>
+            <ant basedir="sevak"/>
 
-        <depend project="junit"/>
-        <depend project="ant"/>
-        <depend project="xml-xerces"/>
-        <depend project="avalon"/>
-        <depend project="avalon-phoenix" inherit="all"/>
-        <depend project="avalon-cornerstone"/>
-        <depend project="jetty" runtime="true"/>
-        <depend project="jakarta-tomcat-catalina" runtime="true"/>
-        <depend project="commons-digester"/>
-        <depend project="tagtraum-jo" runtime="true"/>
+            <depend project="junit"/>
+            <depend project="ant"/>
+            <depend project="xml-xerces"/>
+            <depend project="avalon"/>
+            <depend project="avalon-phoenix" inherit="all"/>
+            <depend project="avalon-cornerstone"/>
+            <depend project="jetty" runtime="true"/>
+            <depend project="jakarta-tomcat-catalina" runtime="true"/>
+            <depend project="commons-digester"/>
+            <depend project="tagtraum-jo" runtime="true"/>
 
-        <option project="checkstyle" inherit="runtime"/>
+            <option project="checkstyle" inherit="runtime"/>
 
-        <home nested="sevak"/>
+            <home nested="sevak"/>
 
-        <jar name="build/lib/sevak-@@DATE@@.sar"/>
+            <jar name="build/lib/sevak-@@DATE@@.sar"/>
 
-        <nag from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"
-                to="dev@avalon.apache.org"/>
-    </project>
-    -->
+            <nag from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"
+                    to="dev@avalon.apache.org"/>
+        </project>
+        -->
 
 </module>
 
