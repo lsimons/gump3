@@ -246,6 +246,8 @@ class ForrestDocumenter(Documenter):
         forrestWorkDir=self.getForrestWorkDirectory(workspace)
         logDirectory=workspace.getLogDirectory()
         
+        log.info('Syncronize work->log, and clean-up...')
+            
         success=1
         try:
             #

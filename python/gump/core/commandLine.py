@@ -79,42 +79,46 @@ class CommandLine:
         # 
         # Process global arguments
         #
+        removers=[]
         for arg in argv:
             if arg in ['-d','--debug']:
-                argv.remove(arg) 
+                removers.append(arg) 
                 log.info('Setting log level to DEBUG')
                 self.options.setDebug(1)
                 log.setLevel(logging.DEBUG) 
             elif arg in ['-v','--verbose']: 
-                argv.remove(arg) 
+                removers.append(arg) 
                 log.info('Setting log level to VERBOSE')
                 self.options.setVerbose(1)
                 # :TODO: VERBOSE doesn't exist within logging...
                 log.setLevel(logging.DEBUG)  
             elif arg in ['-l','--latest']:
-                argv.remove(arg)
+                removers.append(arg)
                 self.options.setCache(0)
                 self.options.setQuick(0)
                 log.info('Absolute Latest [no use of cache, don\'t skip stack]')
             elif arg in ['-D','--dated']:
-                argv.remove(arg)    
+                removers.append(arg)    
                 #
                 # Dated means add the date to the log dir...
                 #
                 self.options.setDated(1)                    
                 log.info('Dated Operation (add date to log dir)')
             elif arg in ['-t','--text']:
-                argv.remove(arg)        
+                removers.append(arg)        
                 self.options.setText(1)
                 log.info('Use text (not forrest).')
             elif arg in ['-x','--xdocs']:
-                argv.remove(arg)        
+                removers.append(arg)        
                 self.options.setXDocs(1)
                 log.info('Output xdocs (do not run forrest).')
             elif arg in ['-t','--template']:
-                argv.remove(arg)        
+                removers.append(arg)        
                 self.options.setTemplate(1)
                 log.info('Use template (not forrest).')
+                
+        for arg in removers:
+            argv.remove(arg)
 
         if len(argv)>2 and argv[1] in ['-w','--workspace']:
             self.args.append(argv[2])
