@@ -850,7 +850,7 @@
         <work nested="merlin/build/classes"/>
 
         <home nested="merlin"/>
-        <jar name="build/lib/excalibur-merlin-@@DATE@@.jar"/>
+        <jar name="build/lib/merlin.jar"/>
 
         <nag from="Peter Donald &lt;peter@apache.org&gt;"
             to="avalon-dev@jakarta.apache.org"/>
