@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/Attic/view.py,v 1.13 2003/05/02 12:26:41 rubys Exp $
-# $Revision: 1.13 $
-# $Date: 2003/05/02 12:26:41 $
+# $Header: /home/stefano/cvs/gump/python/gump/Attic/view.py,v 1.14 2003/05/02 12:32:57 rubys Exp $
+# $Revision: 1.14 $
+# $Date: 2003/05/02 12:32:57 $
 #
 # ====================================================================
 #
@@ -221,9 +221,7 @@ class gumpview(wxApp):
     except:
       message=str(sys.exc_type)
       if sys.exc_value: message+= ": " + str(sys.exc_value)
-      dlg=wxMessageDialog(None, message, "Error", wx.wxOK)
-      dlg.ShowModal()
-      dlg.Destroy()
+      self.msgbox(message, "Error")
 
     # display the project dependencies
     self.dependencies.DeleteAllItems()
@@ -290,10 +288,13 @@ class gumpview(wxApp):
       self.exports.InsertColumn(0, 'Exports')
 
     for i in range(0,len(project.jar)):
-      jar=project.jar[i].path or 'UNNAMED'
-      row=self.exports.InsertStringItem(i,jar)
-      if not os.path.exists(jar):
-        self.exports.SetItemBackgroundColour(row,wxRED)
+      jar=project.jar[i].path
+      if jar:
+        row=self.exports.InsertStringItem(i,jar)
+        if not os.path.exists(jar):
+          self.exports.SetItemBackgroundColour(row,wxRED)
+      else:
+	self.msgbox('Invalid element: ' + xmlize('jar',project.jar[i]))
 
     self.exports.SetColumnWidth(0,wxLIST_AUTOSIZE_USEHEADER)
 
@@ -312,6 +313,12 @@ class gumpview(wxApp):
   def unload(self):
     self.mItem.clear()
     self.pItem.clear()
+
+  # display a modal dialog box
+  def msgbox(self,message,title="Warning"):
+    dlg=wxMessageDialog(None, message, title, wx.wxOK)
+    dlg.ShowModal()
+    dlg.Destroy()
 
 class compileThread:
   def __init__(self,project,view):
