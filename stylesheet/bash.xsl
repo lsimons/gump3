@@ -478,13 +478,13 @@
       <xsl:value-of select="translate(@file,'\','/')"/>
       <xsl:text> -a ! -d </xsl:text>
       <xsl:value-of select="translate(@todir,'\','/')"/>
-      <xsl:text> mkdir </xsl:text>
+      <xsl:text> &amp;&amp; mkdir </xsl:text>
       <xsl:value-of select="translate(@todir,'\','/')"/>
       <xsl:text> $OUT 2&gt;&amp;1"&#10;</xsl:text>
 
       <xsl:text>eval "test -f </xsl:text>
       <xsl:value-of select="translate(@file,'\','/')"/>
-      <xsl:text> cp </xsl:text>
+      <xsl:text> &amp;&amp; cp </xsl:text>
       <xsl:value-of select="translate(@file,'\','/')"/>
       <xsl:text> </xsl:text>
       <xsl:value-of select="translate(@todir,'\','/')"/>
