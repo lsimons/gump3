@@ -25,6 +25,7 @@
     <depend project="junit"/>
     <depend project="bsf"/>
     <depend project="rhino"/>
+    <depend project="jsse"/>
     <work nested="build/classes"/>
   </project>
 
