@@ -60,7 +60,7 @@
     </project>
 
     <project name="avalon-fortress-container">
-        <package>org.apache.avalon</package>
+        <package>org.apache.avalon.fortress</package>
         <ant target="dist" basedir="fortress/container">
             <property name="project.version" value="@@DATE@@"></property>
         </ant>
@@ -100,7 +100,7 @@
     </project>
 
     <project name="avalon-fortress-tools">
-        <package>org.apache.avalon</package>
+        <package>org.apache.avalon.fortress.tools</package>
         <ant target="dist" basedir="fortress/tools">
             <property name="project.version" value="@@DATE@@"></property>
         </ant>
@@ -124,7 +124,7 @@
     </project>
 
     <project name="avalon-fortress-examples">
-        <package>org.apache.avalon</package>
+        <package>org.apache.avalon.fortress.examples</package>
         <ant target="dist" basedir="fortress/examples">
             <property name="project.version" value="@@DATE@@"></property>
         </ant>
@@ -160,7 +160,7 @@
     </project>
     
     <project name="avalon-logging-api">
-        <package>org.apache.avalon.logging.data</package>
+        <package>org.apache.avalon.logging</package>
 
         <ant basedir="logging/api" target="jar">
             <property name="project.version" value="@@DATE@@"/>
@@ -287,7 +287,7 @@
     </project>
     
     <project name="avalon-logging-logkit-api">
-        <package>org.apache.avalon.lifecycle</package>
+        <package>org.apache.avalon.logging.logkit</package>
 
         <ant basedir="logging/logkit/api" >
             <property name="project.version" value="@@DATE@@"/>
@@ -332,7 +332,7 @@
     </project>
     
     <project name="avalon-logging-logkit-impl">
-        <package>org.apache.avalon.lifecycle</package>
+        <package>org.apache.avalon.logging.logkit</package>
 
         <ant basedir="logging/logkit/impl" target="jar">
             <property name="project.version" value="@@DATE@@"/>
@@ -377,7 +377,7 @@
     </project>
     
     <project name="avalon-logging-logkit-datagram">
-        <package>org.apache.avalon.lifecycle</package>
+        <package>org.apache.avalon.logging.logkit.factory.datagram</package>
 
         <ant basedir="logging/logkit/plugins/datagram" target="jar">
             <property name="project.version" value="@@DATE@@"/>
@@ -422,7 +422,7 @@
     </project>
     
     <project name="avalon-logging-logkit-socket">
-        <package>org.apache.avalon.lifecycle</package>
+        <package>org.apache.avalon.logging.logkit.factory.socket</package>
 
         <ant basedir="logging/logkit/plugins/socket" target="jar">
             <property name="project.version" value="@@DATE@@"/>
@@ -467,7 +467,7 @@
     </project>
     
     <project name="avalon-logging-logkit-syslog">
-        <package>org.apache.avalon.lifecycle</package>
+        <package>org.apache.avalon.logging.logkit.factory.syslog</package>
 
         <ant basedir="logging/logkit/plugins/syslog" target="jar">
             <property name="project.version" value="@@DATE@@"/>
@@ -512,7 +512,7 @@
     </project>
     
     <project name="avalon-logging-log4j">
-        <package>org.apache.avalon.lifecycle</package>
+        <package>org.apache.avalon.logging.log4j</package>
 
         <ant basedir="logging/log4j" target="jar">
             <property name="project.version" value="@@DATE@@"/>
