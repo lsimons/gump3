@@ -10,7 +10,7 @@
   <project name="jakarta-regexp">
     <package>org.apache.regexp</package>
 
-    <ant basedir="build" buildfile="build.xml" target="jar">
+    <ant target="jar">
       <property name="version" value="@@DATE@@"/>
     </ant>
     <depend project="bootstrap-ant" inherit="runtime"/>
@@ -18,14 +18,18 @@
     <home nested="bin"/>
     <jar name="jakarta-regexp-@@DATE@@.jar" id="regexp"/>
     <license name="LICENSE.txt"/>
+    <nag from="Stefan Bodewig &lt;bodewig@apache.org&gt;"
+         to="regexp-dev@jakarta.apache.org"/>
   </project>
   
   <project name="jakarta-regexp-package">
-    <ant basedir="build" buildfile="build.xml" target="package"/>
+    <ant target="package"/>
     <depend project="ant" inherit="runtime"/>
     <depend project="jakarta-site2"/>
     <depend project="xml-xerces"/>
     <javadoc nested="jakarta-regexp-1.3-dev/docs/api"/>
+    <nag from="Stefan Bodewig &lt;bodewig@apache.org&gt;"
+         to="regexp-dev@jakarta.apache.org"/>
   </project>
 
 </module>
