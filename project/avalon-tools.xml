@@ -28,9 +28,7 @@
       <property name="gump.signature" value="@@DATE@@"/>
     </ant>
     <depend project="junit"/>
-    <depend project="ant" id="ant"/>
-    <depend project="ant" id="junit"/>
-    <depend project="ant" id="nodeps"/>
+    <depend project="ant" ids="ant junit nodeps"/>
     <home nested="tools/magic/target/deliverables"/>
     <jar type="boot" name="jars/avalon-tools-magic-@@DATE@@.jar"/>
     <nag to="dev@avalon.apache.org"
