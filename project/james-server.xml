@@ -38,9 +38,7 @@
     <ant buildfile="gump.xml"/>
     <depend project="ant"/>
     <depend project="xml-xerces"/>
-    <depend project="avalon-framework-api"/>
-    <depend project="avalon-framework-impl"  inherit="runtime"/>
-    <depend project="avalon-framework-legacy"  inherit="runtime"/>
+    <depend project="avalon-framework" inherit="runtime"/>
     <depend project="cornerstone-threads-api"/>
     <depend project="cornerstone-threads-impl" inherit="runtime"/>
     <depend project="cornerstone-connection-api"/>
