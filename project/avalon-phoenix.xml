@@ -75,7 +75,7 @@
   </project>
 
   <project name="phoenix-qdox">
-    <jar name="lib/qdox-1.1.jar"/>
+    <jar name="lib/tools/qdox-1.1.jar"/>
   </project>
 
   <project name="jarv">
