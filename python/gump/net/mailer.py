@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/net/Attic/mailer.py,v 1.6 2004/02/13 22:12:37 ajack Exp $
-# $Revision: 1.6 $
-# $Date: 2004/02/13 22:12:37 $
+# $Header: /home/stefano/cvs/gump/python/gump/net/Attic/mailer.py,v 1.7 2004/03/03 16:24:48 bodewig Exp $
+# $Revision: 1.7 $
+# $Date: 2004/03/03 16:24:48 $
 #
 # ====================================================================
 #
@@ -64,6 +64,7 @@
 from gump import log
 from gump.config import *
 from gump.utils import *
+from email.Header import Header
 
 import smtplib, string
         
@@ -80,9 +81,9 @@ class EmailMessage:
 	# The subject
     # The text of the message (the main bodypart)
     def __init__(self,toaddrs,fromaddr,subject,text,signature=None):
-        self.toaddrs=toaddrs
-        self.fromaddr=fromaddr
-        self.subject=subject
+        self.toaddrs = toaddrs
+        self.fromaddr = Header(fromaddr, 'iso-8859-1')
+        self.subject = Header(subject, 'iso-8859-1')
         self.text=text
 		
 		# The signature
@@ -100,9 +101,9 @@ class EmailMessage:
         # Add the From: and To: headers at the start!
         data = ("Date: %s\r\nFrom: %s\r\nTo: %s\r\nSubject: %s\r\n\r\n%s%s"
            	% (	time.strftime('%d %b %y %H:%M:%S', time.gmtime()),
-           	    self.fromaddr, 
+           	    self.fromaddr.encode(), 
            		string.join(self.toaddrs, ", "),
-                self.subject,
+                self.subject.encode(),
            		self.text,
            		default.signature))
            		
