@@ -241,23 +241,21 @@ public class Project {
 
             String reference = property.getAttribute("reference");
             String projectName = property.getAttribute("project");
-            Project project = (Project) projects.get(projectName);
 
             String value = null;
 
             if (reference.equals("home")) {
+                Project project = (Project) projects.get(projectName);
                 require (project, "project", projectName);
                 value = project.get("home");
                 property.setAttribute("type", "path");
             } else if (reference.equals("jar")) {
                 String id = property.getAttribute("id");
-                require (project, "project", projectName);
-                Element jar = (Element)project.jars.get(id);
+                Element jar = getJar (projectName, property.getAttribute("id"));
                 value = jar.getAttribute("name"); 
             } else if (reference.equals("jarpath")) {
-                String id = property.getAttribute("id");
-                require (project, "project", projectName);
-                Element jar = (Element)project.jars.get(id);
+                Project project = (Project) projects.get(projectName);
+                Element jar = getJar (projectName, property.getAttribute("id"));
                 value = project.get("home") + "/" + jar.getAttribute("name"); 
                 property.setAttribute("type", "path");
             } else if (reference.equals("srcdir")) {
@@ -277,6 +275,53 @@ public class Project {
         }
     }
 
+    /**
+     * Locate a specific jar from a dependency, issuing an exception if 
+     * the jar can not be found.
+     * @param projectName the name of the project
+     * @param id the identifier for which jar is desired
+     * @return Value of the specified attribute.
+     */
+    private Element getJar(String projectName, String id) 
+        throws Exception 
+    {
+        Project project = (Project) projects.get(projectName);
+        require (project, "project", projectName);
+
+        Element jar = (Element)project.jars.get(id);
+        if (jar != null) return jar;
+
+        if (!id.equals("")) {
+
+            throw new Exception(
+               "A jar with id \"" + id + "\" was not found in project \"" + 
+               project + "\" referenced by project " + name);
+
+        } else if (project.jars.size() > 1) {
+
+            throw new Exception(
+               "Multiple jars defined by project \"" + project + "\" " + 
+               "referenced by project \"" + name + "\"; " +
+               "an id attribute is required to select the one you want.");
+
+        } else {
+
+            throw new Exception(
+               "Project \"" + project + "\" referenced by project " + name +
+               "defines no jars as output.");
+
+        };
+
+    }
+
+    /**
+     * Require that a specified object not be null, otherwise produce an error
+     * message indicating what attribute the problem occurred on.
+     * @param object the object which must not be null
+     * @param attr the attribute from which this value was derived
+     * @param value the value of this attribute
+     * @return Value of the specified attribute.
+     */
     private void require(Object object, String attr, String value) 
         throws Exception 
     {
