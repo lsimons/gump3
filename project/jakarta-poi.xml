@@ -1,0 +1,21 @@
+<module name="jakarta-poi">
+
+  <url href="http://jakarta.apache.org/poi/index.html"/>
+  <description>
+    Java Regular Expression package
+  </description>
+
+  <cvs repository="jakarta"/>
+  
+  <project name="jakarta-poi">
+    <ant/>
+    <depend project="jakarta-ant"/>
+    <depend project="xml-xerces"/>
+    <depend project="jtidy"/>
+    <depend project="jakarta-log4j"/>
+
+    <jar  name="jakarta-poi-@@DATE@@.jar" id="poi"/>
+    <javadoc nested="jakarta-poi-@@DATE@@/docs/api"/>
+  </project>
+
+</module>

@@ -287,6 +287,12 @@ From: Daniel Savarese <dfs@apache.org>
 Subject: [GUMP] Build Failure - ORO
 Regex: /BUILD FAILED/
 ------
+Project: jakarta-poi
+To: poi-dev@jakarta.apache.org
+From: Sam Ruby <rubys@us.ibm.com>
+Subject: [GUMP] Build Failure - Poi
+Regex: /BUILD FAILED/
+------
 Project: jakarta-jetspeed
 To: jetspeed-dev@jakarta.apache.org
 From: Jason van Zyl <jvanzyl@apache.org>
