@@ -780,7 +780,7 @@ def documentAnnotations(x,annotations):
 def documentSummary(x,summary,description='Project(s) Summary'):
     if not summary or not summary.projects: return
     startSectionXDoc(x,description)
-    startTableXDoc(x,'Project Statistics')
+    startTableXDoc(x)
     
     startTableRowXDoc(x)        
     insertTableHeaderXDoc(x, 'Projects')

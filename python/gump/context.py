@@ -783,9 +783,10 @@ class GumpContext(Context):
         if not summary: 
             summary=Summary()
         
-        # Subordinates are projects
+        # Subordinates are modules, get their simmary
+        # information into this summary
         for ctxt in self:
-            summary.addSummary(ctxt.getProjectSummary(summary))
+            ctxt.getProjectSummary(summary)
             
         return summary
                     
