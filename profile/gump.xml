@@ -59,7 +59,6 @@
   <module href="project/jakarta-bsf.xml"/>
   <module href="project/jakarta-cactus.xml"/>
   <module href="project/jakarta-commons.xml"/>
-  <module href="project/commons-logging2.xml"/>
   <module href="project/commons-httpclient-2.0-branch.xml"/>
   <module href="project/jakarta-commons-sandbox.xml"/>
   <module href="http://cvs.apache.org/viewcvs/~checkout~/jakarta-commons-sandbox/grant/gump.xml"/>
