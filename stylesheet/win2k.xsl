@@ -392,7 +392,7 @@
     </xsl:for-each>
 
     <xsl:for-each select="sysproperty">
-      <xsl:text> -D</xsl:text>
+      <xsl:text> "-D</xsl:text>
       <xsl:value-of select="@name"/>
       <xsl:text>=</xsl:text>
       <xsl:choose>
@@ -403,6 +403,7 @@
           <xsl:value-of select="@value"/>
         </xsl:otherwise>
       </xsl:choose>
+      <xsl:text>"</xsl:text>
     </xsl:for-each>
 
     <xsl:text> Launcher </xsl:text><xsl:value-of select="translate(../initdir/@dir,'/','\')"/><xsl:text>\cp.properties org.apache.tools.ant.Main</xsl:text>
@@ -413,7 +414,7 @@
     </xsl:if>
 
     <xsl:for-each select="property">
-      <xsl:text> -D</xsl:text>
+      <xsl:text> "-D</xsl:text>
       <xsl:value-of select="@name"/>
       <xsl:text>=</xsl:text>
       <xsl:choose>
@@ -424,6 +425,7 @@
           <xsl:value-of select="@value"/>
         </xsl:otherwise>
       </xsl:choose>
+      <xsl:text>"</xsl:text>
     </xsl:for-each>
 
     <xsl:choose>
