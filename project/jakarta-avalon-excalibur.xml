@@ -100,6 +100,8 @@
         <depend project="jakarta-bcel"/>
         <depend project="commons-attributes" inherit="runtime"/>
         <depend project="commons-httpclient"/>
+        <depend project="excalibur-container"/>
+        <depend project="jsch"/>
         <work nested="altrmi/build/classes"/>
 
         <home nested="altrmi"/>
