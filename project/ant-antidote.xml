@@ -7,10 +7,6 @@
 
   <cvs repository="ant"/>
 
-  <project name="jakarta-ant-antidote">
-    <depend project="ant-antidote" inherit="jars"/>
-  </project>
-
   <project name="ant-antidote">
     <package>org.apache.tools.ant.gui</package>
 

@@ -145,34 +145,6 @@
     </nag>
   </project>
 
-  <project name="ant-embed">
-    <package>org.apache.tools.ant</package>
-
-    <ant basedir="proposal/embed">
-      <property name="ant.home" reference="home" project="ant"/>
-      <depend id="api" project="commons-logging"
-              property="commons-logging.jar"/>
-      <depend property="jxpath.jar" project="commons-jxpath"/>
-      <depend property="velocity.jar" project="jakarta-velocity"/>
-      <depend property="velocity-dep.jar" project="jakarta-velocity"/>
-      <depend property="jexl.jar" project="commons-jexl"/>
-      <depend property="commons-discovery.jar" project="commons-discovery"/>
-    </ant>
-
-    <depend project="ant" inherit="all"/>
-
-    <home nested="proposal/embed/build"/>
-    <jar name="ant-sax2.jar" id="embed"/>
-
-    <nag to="dev@ant.apache.org"
-         from="Nicola Ken Barozzi &lt;nicolaken@apache.org&gt;"/>
-
-  </project>
-
-  <project name="jakarta-ant-embed-optional">
-    <depend project="ant-embed-optional" inherit="jars"/>
-  </project>
-
   <project name="ant-embed-optional">
     <package>org.apache.tools.ant</package>
 
