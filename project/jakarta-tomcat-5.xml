@@ -62,6 +62,7 @@
       <depend property="commons-logging-api.jar" project="commons-logging"
         runtime="true" id="api"/>
       <property name="commons-modeler.home" project="commons-modeler" path="modeler"/>
+      <depend property="commons-modeler.jar" project="commons-modeler" runtime="true"/>
     </ant>
 
     <depend project="ant"/>
