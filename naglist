@@ -355,7 +355,7 @@ Regex: /BUILD FAILED/
 Project: jakarta-velocity-dvsl
 To: velocity-dev@jakarta.apache.org
 From: Geir Magnusson Jr. <geirm@apache.org>
-Subject: [GUMP] Test Failure - Velocity
+Subject: [GUMP] Build Failure - Velocity DVSL
 Regex: /BUILD FAILED/
 -------
 Project: jakarta-velocity-test
