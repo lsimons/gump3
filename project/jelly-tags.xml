@@ -81,6 +81,27 @@
     <nag from="Morgan Delagrange &lt;mdelagra@yahoo.com&gt;"
          to="commons-dev@jakarta.apache.org"/>
   </project>
+
+  <project name="commons-jelly-tags-email">
+    <package>org.apache.commons.jelly.tags.email</package>
+    <description>This is a Jelly interface for Email</description>
+
+    <ant basedir="jelly/jelly-tags/email" target="jar">
+      <property name="final.name"  value="commons-jelly-tags-email-@@DATE@@"/>
+    </ant>
+
+    <depend project="commons-jelly" inherit="all"/>
+    <depend project="jaf"/>
+    <depend project="javamail"/>
+
+    <work nested="jelly/jelly-tags/email/target/classes"/>
+    <work nested="jelly/jelly-tags/email/target/test-classes"/>
+
+    <jar name="jelly/jelly-tags/email/target/commons-jelly-tags-email-@@DATE@@.jar"/>
+ 
+    <nag from="Morgan Delagrange &lt;mdelagra@yahoo.com&gt;"
+         to="commons-dev@jakarta.apache.org"/>
+  </project>
   
   <project name="commons-jelly-tags-html">
     <package>org.apache.commons.jelly.tags.html</package>
