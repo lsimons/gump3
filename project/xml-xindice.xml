@@ -32,8 +32,8 @@
   <project name="xmldb">
     <url href="http://www.xmldb.org/xapi/index.html"/>
     <home nested="java/lib"/>
-    <jar name="xmldb-api-20021026.jar"/>
-    <jar name="xmldb-api-sdk-20021026.jar"/>
+    <jar name="xmldb-api-20021118.jar"/>
+    <jar name="xmldb-api-sdk-20021118.jar"/>
     <jar name="xmldb-xupdate.jar"/>
   </project>
 
