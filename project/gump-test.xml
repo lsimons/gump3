@@ -8,13 +8,13 @@
   <svn repository="apache-svn-sandbox" dir="gump-test"/>
 
   <project name="gump-test-maven1">
-    <maven target="dist" basedir="maven-project1"/>        
+    <maven target="dist" basedir="maven-project1" debug="true"/>        
     <home nested="maven-project1/target"/>    
     <jar name="gump-test-maven1-0.1.jar"/>
   </project>
   
   <project name="gump-test-maven2">
-    <maven target="dist" basedir="maven-project2"/>       
+    <maven target="dist" basedir="maven-project2" debug="true"/>       
     <home nested="maven-project2/target"/>    
     <jar name="gump-test-maven2-0.2.jar"/>
     
