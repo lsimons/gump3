@@ -146,6 +146,7 @@
     <depend project="werkz"/>
     <depend project="xml-axis"/>
     <depend project="jetty"/>
+    <depend project="xmlunit"/>
 
     <work nested="jelly/target/classes"/>
     <home nested="jelly/target"/>
