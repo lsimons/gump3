@@ -71,6 +71,9 @@
             <classpath refid="classpath"/>
         </taskdef>
         
+        <copy file="${site.dir}/xdocs/stylesheets/site.vsl"
+           todir="${docs.src}/stylesheets"/>
+
         <anakia basedir="${docs.src}" destdir="${docs.dest}/"
              extension=".html" style="./site.vsl"
              projectFile="${project.file}"
@@ -99,6 +102,7 @@
     <target name="clean">
         <delete dir="${docs.dest}"/>
         <delete file="${docs.src}/asf-logo.svg"/>
+        <delete file="${docs.src}/stylesheets/site.vsl"/>
         <delete file="velocity.log"/>
     </target>
 </project>
