@@ -35,7 +35,9 @@
   </project>
 
   <project name="dist-ant">
-    <ant target="distribution"/>
+    <ant target="distribution">
+      <property name="chmod.fail" value="false"/>
+    </ant>
 
     <depend project="jakarta-ant" inherit="all"/>
     <option project="bsf"/>
