@@ -10,7 +10,9 @@
   <project name="xjavadoc">
     <package>xjavadoc</package>
 
-    <ant target="jar"/>
+    <ant target="jar">
+      <property name="ant.home" project="jakarta-ant" reference="home"/>
+    </ant>
     <depend project="jakarta-ant" inherit="runtime"/>
     <depend project="xml-xerces"/>
     <depend project="javacc"/>
@@ -18,6 +20,7 @@
     <depend project="jakarta-log4j"/>
     <depend project="junit"/>
     <depend project="commons-logging" />
+    <depend project="commons-collections"/>
     <jar name="build/lib/xjavadoc.jar"/>
   </project>
 
