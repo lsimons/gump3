@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/__init__.py,v 1.5 2003/04/28 23:43:52 rubys Exp $
-# $Revision: 1.5 $
-# $Date: 2003/04/28 23:43:52 $
+# $Header: /home/stefano/cvs/gump/python/gump/__init__.py,v 1.6 2003/05/02 01:31:10 rubys Exp $
+# $Revision: 1.6 $
+# $Date: 2003/05/02 01:31:10 $
 #
 # ====================================================================
 #
@@ -158,6 +158,11 @@ class SAXDispatcher(ContentHandler):
 # allowing the actual model to be rather simple and compact. All
 # elements of the GOM should extend GumpBase or a subclass of GumpBase.
 ###############################################################################
+
+timestamp=os.path.join(dir.base,'.timestamp')
+if os.path.exists(timestamp):
+  mtime=time.localtime(os.path.getmtime(timestamp))
+  default.date = time.strftime('%Y%m%d',mtime)
 
 class GumpBase(object):
   """Base class for the entire Gump object model.
