@@ -58,7 +58,8 @@ def load(file):
   workspace=SAXDispatcher(file,'workspace',Workspace).docElement
   workspace.complete()
   for module in Module.list.values(): module.complete(workspace)
-  for project in Project.list.values(): project.complete(workspace)
+  for project in buildSequence(Project.list.values()):
+    project.complete(workspace)
   return workspace
 
 #########################################################################
@@ -279,6 +280,9 @@ class Project(Named):
         srcdir=Module.list[self.module].srcdir
         self.home=srcdir +'/' + self.home.nested
 
+    # inherit dependencies:
+    self.inheritDependencies()
+
     # complete properties
     if self.ant: self.ant.complete(self)
 
@@ -286,7 +290,7 @@ class Project(Named):
   # on the todo list.
   def isReady(self,todo):
     for depend in self.depend+self.option:
-      if Project.list[depend.project] in todo: return 0
+      if Project.list.get(depend.project,None) in todo: return 0
     return 1
 
   # add this element and all of it's dependencies to a todo list 
@@ -301,7 +305,41 @@ class Project(Named):
     for project in todo:
       for depend in project.depend+project.option:
 	if depend.project==self.name: return 1
-    return 0
+
+  # determine if this project is a prereq of any project on the todo list
+  def hasFullDependencyOn(self,name):
+    for depend in self.depend+self.option:
+      if depend.project==name and not depend.noclasspath: return 1
+
+  # process all inherited dependencies
+  def inheritDependencies(self):
+
+    for d1 in self.depend+self.option:
+      project=Project.list.get(d1.project,None)
+      if not project: continue
+      inherit=d1.inherit
+      for d2 in project.depend+project.option:
+	if self.hasFullDependencyOn(d2.project): continue
+
+	# include the dependency if:
+	#   inherit="all"
+	#   inherit="hard"
+	#   inherit="runtime" and the matching dependency is listed as runtime
+	#   if the dependency indicates that the jars are to be inherited
+        include=0
+	if inherit=="all" or inherit=="hard":
+	  include=1
+	elif inherit=="runtime" and d2.runtime:
+	  include=1
+	elif d2.inherit=="jars":
+	  include=1
+
+        # if the dependency is to be inherited, add it to the appropriate list
+        if include:
+	  if inherit=="hard" or d2 in project.depend:
+	    self.depend.append(d2)
+	  else:
+	    self.option.append(d2)
 
 # determine the build sequence
 def buildSequence(todo):
