@@ -23,7 +23,7 @@
     <property name="jakarta-site2"
        reference="home" project="jakarta-site2"/>
 
-    <property name="version" value="gump"/>
+    <property name="final.name" value="torque-gump"/>
     <property name="deprecation" path="on"/>
   </ant>
 
