@@ -237,7 +237,7 @@
     <package>org.apache.commons.resources</package>
     <description>Commons resources</description>
 
-    <ant basedir="resources">
+    <ant basedir="resources" target="dist">
       <property name="component.version" value="@@DATE@@" />
     </ant>
 
@@ -248,6 +248,7 @@
     <depend project="commons-digester"/>
     <depend project="commons-logging"/>
     <depend project="jakarta-servletapi-4"/>
+    <depend project="xml-xalan2"/>
 
     <jar name="resources/dist/commons-resources.jar"/>
     <javadoc nested="resources/dist/docs/api"/>
