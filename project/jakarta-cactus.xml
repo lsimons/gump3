@@ -64,6 +64,9 @@
     <depend project="xml-xalan2"/>
     <depend project="jakarta-tomcat-4.0"/>
     <depend project="jakarta-cactus-ant"/>
+    <depend project="commons-beanutils"/>
+    <depend project="commons-collections"/>
+    <depend project="commons-digester"/>
 
     <work nested="target/classes"/>
     <work nested="target/servlet23/classes"/>
