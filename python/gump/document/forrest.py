@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/forrest.py,v 1.48 2004/01/09 23:02:32 ajack Exp $
-# $Revision: 1.48 $f
-# $Date: 2004/01/09 23:02:32 $
+# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/forrest.py,v 1.49 2004/01/12 18:01:36 ajack Exp $
+# $Revision: 1.49 $f
+# $Date: 2004/01/12 18:01:36 $
 #
 # ====================================================================
 #
@@ -306,8 +306,9 @@ class ForrestDocumenter(Documenter):
                     
         detailsTable=detailsSection.createTable()
         detailsTable.createEntry("State : ", workspace.getStateDescription()) 
-        
-        detailsTable.createEntry("Elapsed Time : ", secsToElapsedString(workspace.getElapsedSecs()))
+
+        e = secsToElapsedString(workspace.getElapsedSecs())
+        if e : detailsTable.createEntry("Elapsed Time : ", e)
         detailsTable.createEntry("Base Directory : ", workspace.getBaseDirectory())
         detailsTable.createEntry("Temporary Directory : ", workspace.tmpdir)
         #if workspace.scratchdir:
@@ -929,7 +930,8 @@ class ForrestDocumenter(Documenter):
         self.insertLink(project.getModule(),project,detailsList.createEntry('Module: '))
         if project.hasCause() and not project==project.getCause():
             self.insertTypedLink(project.getCause(),project,detailsList.createEntry('Root Cause: '))
-        detailsList.createEntry("Elapsed: ", secsToElapsedString(project.getElapsedSecs()))
+        e = secsToElapsedString(project.getElapsedSecs())
+        if e: detailsList.createEntry("Elapsed: ", e)
                                                       
         # Display nag information
         for nagEntry in project.xml.nag:
@@ -966,12 +968,7 @@ class ForrestDocumenter(Documenter):
         document=XDocDocument('Project Details : ' + project.getName(),	\
                     self.resolver.getFile(project, \
                                     project.getName() + '_details', \
-                                        '.xml'))
-            
-        self.documentProjectList(detailsSection, "Project Dependencies",	\
-                    project.getDependencies(), 0, project)  
-        self.documentProjectList(detailsSection, "Project Dependees",		\
-                    project.getDependees(), 1, project)
+                                        '.xml'))     
  
     #    x.write('<p><strong>Project Config :</strong> <link href=\'%s\'>XML</link></p>' \
     #                % (getModuleProjectRelativeUrl(modulename,project.name)) )                     
@@ -979,15 +976,29 @@ class ForrestDocumenter(Documenter):
         miscSection=document.createSection('Miscellaneous')
             
         if project.hasBuildCommand():
+            
             if project.hasAnt():                
                 self.documentProperties(miscSection, project.getAnt(), 'Ant Properties')
             
             (classpath,bootclasspath)=project.getClasspathLists()            
             self.displayClasspath(miscSection, classpath,'Classpath',project)        
             self.displayClasspath(miscSection, bootclasspath,'Boot Classpath',project) 
-               
-           
+       
         self.documentXML(miscSection,project)
+        
+        dependencySection=document.createSection('Dependency')
+        
+        self.documentProjectList(dependencySection, "Project Dependencies",	\
+                    project.getDependencies(), 0, project)  
+                    
+        self.documentProjectList(dependencySection, "Project Dependees",		\
+                    project.getDependees(), 1, project)
+                    
+        self.documentProjectList(dependencySection, "Full Project Dependencies",	\
+                    project.getFullDependencies(), 0, project)  
+                    
+        self.documentProjectList(dependencySection, "Full Project Dependees",		\
+                    project.getFullDependees(), 1, project)                          
         
         document.serialize()
         
@@ -1192,7 +1203,8 @@ class ForrestDocumenter(Documenter):
                                 
             workList.createEntry("Start Time: ", secsToDate(work.result.start_time))
             workList.createEntry("End Time: ", secsToDate(work.result.end_time))
-            workList.createEntry("Elapsed Time: ", secsToElapsedString(work.getElapsedSecs()))
+            e = secsToElapsedString(work.getElapsedSecs())
+            if e : workList.createEntry("Elapsed Time: ", e)
                    
             #
             # Show parameters
@@ -1487,7 +1499,7 @@ class ForrestDocumenter(Documenter):
         document=XDocDocument('Modules By Dependency Count',	\
             self.resolver.getFile(stats,'module_dependencies.xml'))
         
-        dependenciesTable=document.createTable(['Modules By Dependency Count'])
+        dependenciesTable=document.createTable(['Module','Full Dependency Count'])
         for module in stats.modulesByTotalDependencies:         
             if not gumpSet.inModules(module): continue   
             dependenciesRow=dependenciesTable.createRow()
@@ -1507,7 +1519,7 @@ class ForrestDocumenter(Documenter):
         document=XDocDocument('Modules By Dependee Count',
                     self.resolver.getFile(stats,'module_dependees.xml'))
         
-        dependeesTable=document.createTable(['Modules By Dependee Count'])
+        dependeesTable=document.createTable(['Module','Full Dependee Count'])
         for module in stats.modulesByTotalDependees:         
             if not gumpSet.inModules(module): continue   
             dependeesRow=dependeesTable.createRow()
@@ -1551,12 +1563,13 @@ class ForrestDocumenter(Documenter):
         document=XDocDocument('Projects By Dependency Count',	\
             self.resolver.getFile(stats,'project_dependencies.xml'))
         
-        dependenciesTable=document.createTable(['Projects By Dependency Count'])
+        dependenciesTable=document.createTable(['Project','Direct Dependency Count', 'Full Dependency Count'])
         for project in stats.projectsByTotalDependencies:         
             if not gumpSet.inSequence(project): continue   
             dependenciesRow=dependenciesTable.createRow()
             self.insertLink( project, stats, dependenciesRow.createData())
             dependenciesRow.createData( project.getDependencyCount())
+            dependenciesRow.createData( project.getFullDependencyCount())
             
             #projectsString=''
             #for project in module.getDepends():

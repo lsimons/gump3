@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/model/project.py,v 1.26 2004/01/09 19:57:18 ajack Exp $
-# $Revision: 1.26 $
-# $Date: 2004/01/09 19:57:18 $
+# $Header: /home/stefano/cvs/gump/python/gump/model/project.py,v 1.27 2004/01/12 18:01:36 ajack Exp $
+# $Revision: 1.27 $
+# $Date: 2004/01/12 18:01:36 $
 #
 # ====================================================================
 #
@@ -315,7 +315,7 @@ class Project(NamedModelObject, Statable):
         # Return stored
         return self.totalDepends
                     
-    def getFullDependenciesCount(self):         
+    def getFullDependencyCount(self):         
         return len(self.getFullDependencies())                      
     
     def getFullDependees(self):   

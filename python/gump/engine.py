@@ -505,14 +505,15 @@ class GumpEngine:
                     for jar in project.getJars():
                         jarPath=os.path.abspath(jar.getPath())
                         dir=os.path.dirname(jarPath)
-                        if not dir in dirs and os.path.exists(dir):
-                            dircnt += 1
-                            listDirectoryAsWork(project,dir,\
-                                'list_'+project.getName()+'_dir'+str(dircnt)+'_'+os.path.basename(dir))
-                            dirs.append(dir)
-                            listed += 1
-                        else:
-                            project.addWarning("No such directory (where output is expect) : " + dir)
+                        if not dir in dirs:                        
+                            dircnt += 1            
+                            if os.path.exists(dir):
+                                listDirectoryAsWork(project,dir,\
+                                    'list_'+project.getName()+'_dir'+str(dircnt)+'_'+os.path.basename(dir))
+                                dirs.append(dir)
+                                listed += 1
+                            else:
+                                project.addError("No such directory (where output is expected) : " + dir)
                             
                     if listed:
                         project.addError("See Directory Listing Work for Missing Outputs")

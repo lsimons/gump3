@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/syndication/atom.py,v 1.8 2004/01/11 18:42:32 ajack Exp $
-# $Revision: 1.8 $
-# $Date: 2004/01/11 18:42:32 $
+# $Header: /home/stefano/cvs/gump/python/gump/syndication/atom.py,v 1.9 2004/01/12 18:01:36 ajack Exp $
+# $Revision: 1.9 $
+# $Date: 2004/01/12 18:01:36 $
 #
 # ====================================================================
 #
@@ -112,7 +112,7 @@ class Entry:
                 modified, modified) )
 
         if self.content:
-            stream.write("""<content type='text/html'>%s</content>"""	\
+            stream.write("""<content type='text/html' mode='escaped'>%s</content>"""	\
             % (escape(self.content)) )
             
         # Write the trailer part...
