@@ -481,6 +481,7 @@
     <description>Commons Net</description>
     <ant basedir="net" target="dist">
       <property name="final.name" value="commons-net-@@DATE@@" />
+      <sysproperty name="build.clonevm" value="true"/>
     </ant>
     <depend project="ant" inherit="runtime"/>
     <depend project="xml-xerces"/>
