@@ -24,6 +24,8 @@
   <depend project="jdbc"/>
   <depend project="xml-stylebook1"/>
 
+  <work nested="build/classes"/>
+
   <home nested="build/lib"/>
   <jar name="avalonapi.jar" id="avalonapi"/>
 
