@@ -315,7 +315,6 @@
 
         <ant basedir="configuration">
             <depend property="avalon-framework.jar" project="jakarta-avalon" runtime="true"/>
-            <depend property="checkstyle.jar" project="checkstyle"/>
             <property name="version" value="@@DATE@@"/>
             <property name="junit.failonerror" value="true"/>
             <property name="do.checkstyle" value="false"/>
