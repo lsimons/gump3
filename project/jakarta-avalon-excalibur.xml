@@ -72,7 +72,7 @@
 
         <jar name="avalon-excalibur-@@DATE@@.jar"/>
 
-        <javadoc nested="build/javadocs" module="jakarta-avalon"/>
+        <javadoc nested="build/javadocs" module="avalon"/>
 
         <nag from="Gump Integration Build &lt;avalon-dev@jakarta.apache.org&gt;"
             to="avalon-dev@jakarta.apache.org"

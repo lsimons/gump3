@@ -54,7 +54,7 @@
     <home nested="build/lib"/>
     <jar name="phoenix-client.jar"/>
     <jar name="phoenix-metagenerate.jar"/>
-    <javadoc nested="build/javadocs" module="jakarta-avalon"/>
+    <javadoc nested="build/javadocs" module="avalon"/>
 
     <nag>
     <regexp pattern="/^$/" from="peter@apache.org" 
