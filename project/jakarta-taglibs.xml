@@ -15,6 +15,9 @@
     <property name="xerces.jar"
        reference="jarpath" id="parser" project="xml-xerces"/>
 
+    <property name="xalan1.jar"
+       reference="jarpath" id="xalan" project="xml-xalan1"/>
+
     <property name="xalan.jar"
        reference="jarpath" id="xalan" project="xml-xalan2"/>
 
@@ -41,7 +44,7 @@
   <!-- for backwards compatibility with WebLogic 6.0 -->
   <depend project="xml-xalan1"/>
   <project name="xml-xalan1">
-    <jar name="xtags/lib/xalan.jar"/>
+    <jar name="xtags/lib/xalan.jar" id="xalan"/>
   </project>
 
   <!-- Emulate the "do not change" portion of build.properties.sample -->
