@@ -231,6 +231,7 @@
         <depend project="ant-testutil"/>
         <depend project="junit"/>
         <depend project="xml-xerces"/>
+        <depend project="xmlunit"/>
 
         <junitreport nested="update/build/depot-update/junit/results"/>
         
