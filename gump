@@ -144,7 +144,7 @@ and install it."
 function check_env_var
 {
   local host=`hostname -s`
-  local envfile="$GUMP_HOME/cron/local-env-$host.sh"
+  local envfile="$GUMP_HOME/$host-settings.sh"
 
   local dereferenced=${!1}
   if [[ -z "$dereferenced" ]]; then
