@@ -1050,10 +1050,8 @@ maven.jar.override = on
         try:
             syscp=os.environ['CLASSPATH']
         except:
-            syscp=''
-            
-        sysClasspath.importFlattenedParts(syscp)
-        
+            syscp=''            
+        sysClasspath.importFlattenedParts(syscp)        
         return sysClasspath
 
     #

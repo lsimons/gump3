@@ -15,7 +15,7 @@
 # limitations under the License.
 
 #
-# $Header: /home/stefano/cvs/gump/python/gump/preview.py,v 1.2 2004/04/16 17:28:38 ajack Exp $
+# $Header: /home/stefano/cvs/gump/python/gump/preview.py,v 1.3 2004/04/30 18:55:07 ajack Exp $
 # 
 
 """
@@ -62,9 +62,29 @@ if __name__=='__main__':
     workspace=WorkspaceLoader().load(ws, options.isCache()) 
     
     # The Run Details...
-    run=GumpRun(workspace,ps,options)
-    
+    run=GumpRun(workspace,ps,options)    
     run.dump()
-          
+    
+    # Display some interesting things...
+    # E.g. command lines, env
+    # :TODO:
+        
+    for module in run.getGumpSet().getModules():
+        print "-------------------------------------------------------------"
+        print "Module : " + `module` + "\n"
+        if module.isUpdatable():
+            (repository, root, command ) = module.getUpdateCommand(0)
+            command.dump()
+            
+            (repository, root, command ) = module.getUpdateCommand(1)
+            command.dump()                                  
+        
+    for project in run.getGumpSet().getProjects():
+        print "-------------------------------------------------------------"
+        print "Project : " + `project` + "\n"
+        if project.hasBuildCommand():
+            command=project.getBuildCommand() 
+            command.dump()
+            
     # bye!
     sys.exit(result)

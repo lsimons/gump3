@@ -1773,6 +1773,9 @@ This page helps Gumpmeisters (and others) observe community progress.
     
         if not paths:        
             pathTable.createLine('No ' + title + ' entries')
+            
+            
+        self.documentAnnotations(pathSection,classpath)    
                      
     def documentDependenciesPath(self,xdocNode,title,path,dependees,full,referencingObject,gumpSet):        
         # :TODO: show start and end?

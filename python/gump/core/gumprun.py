@@ -330,6 +330,7 @@ class GumpSet:
     def dumpList(self,list,title,indent=0,output=sys.stdout):
         """ Display a single list """  
         i=getIndent(indent)              
+        output.write('\n')
         output.write(i + title + '[' + str(len(list)) + '] : \n') 
         idx=0  
         for object in list:

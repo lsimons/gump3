@@ -520,6 +520,9 @@ class Module(NamedModelObject, Statable, Resultable):
             # :TODO: Make configurable
             return 'http://cvs.apache.org/viewcvs.cgi/gump/' + location
         
+    def isUpdatable(self):
+        return self.hasCvs() or self.hasSvn() or self.hasJars()
+                
     def hasCvs(self):
         if hasattr(self,'cvs') and self.cvs: return 1
         return 0
