@@ -1,0 +1,106 @@
+<workspace basedir="D:\jakarta" cvsdir="D:\jakarta\cvs">
+
+  <build sysclasspath="only"/>
+
+  <!-- Apache.Jakarta -->
+
+  <project href="project/jakarta-ant.xml"/>
+  <project href="project/jakarta-alexandria.xml"/>
+  <project href="project/jakarta-ecs.xml"/>
+  <project href="project/jakarta-oro.xml"/>
+  <project href="project/jakarta-log4j.xml"/>
+  <project href="project/jakarta-regexp.xml"/>
+  <project href="project/jakarta-slide.xml"/>
+  <project href="project/jakarta-servletapi-40.xml"/>
+  <project href="project/jakarta-servletapi.xml"/>
+  <project href="project/jakarta-struts.xml"/>
+  <project href="project/jakarta-taglibs.xml"/>
+  <project href="project/jakarta-tomcat.xml"/>
+  <project href="project/jakarta-tomcat-40.xml"/>
+  <project href="project/jakarta-tomcat-41.xml"/>
+  <project href="project/jakarta-velocity.xml"/>
+         
+  <!-- Apache.XML -->
+
+  <project href="project/xml-axis.xml"/>
+  <project href="project/xml-batik.xml"/>
+  <project href="project/xml-cocoon.xml"/>
+  <project href="project/xml-cocoon2.xml"/>
+  <project href="project/xml-fop.xml"/>
+  <project href="project/xml-soap.xml"/>
+  <project href="project/xml-site.xml"/>
+  <project href="project/xml-stylebook.xml"/>
+  <project href="project/xml-xalan.xml"/>
+  <project href="project/xml-xerces.xml"/>
+         
+  <!-- Apache.Java -->
+
+  <project href="project/framework.xml"/>
+  <project href="project/jetspeed.xml"/>
+  <project href="project/jmeter.xml"/>
+  <project href="project/turbine.xml"/>
+
+  <!-- other -->
+
+  <project href="project/bsf.xml"/>
+  <project href="project/castor.xml"/>
+  <project href="project/jdom.xml"/>
+  <project href="project/junit.xml" home="C:\junit3.5"/>
+  <project href="project/freemarker.xml"/>
+  <project href="project/rhino.xml"/>
+  <project href="project/village.xml"/>
+
+  <!-- Sun -->
+
+  <project href="project/ejb.xml"      home="C:\ejb-1_1"/>
+  <project href="project/jaf.xml"      home="C:\jaf-1.0.1"/>
+  <project href="project/javamail.xml" home="C:\javamail-1.2"/>
+  <project href="project/jaxp.xml"     home="C:\jaxp1.0.1"/>
+  <project href="project/jaxp11.xml"   home="C:\jaxp-1.1ea2"/>
+  <project href="project/jdbc.xml"     home="C:\jdbc2_0"/>
+  <project href="project/jms.xml"      home="C:\jms1.0.2"/>
+  <project href="project/jmx.xml"      home="C:\jmx-1_0"/>
+  <project href="project/jsse.xml"     home="C:\jsse1.0.2"/>
+  <project href="project/jta.xml"      home="C:\jta-spec1_0_1"/>
+
+  <!-- CVS Repository overrides -->
+
+  <cvs-repository>
+    <tree name="alexandria" 
+      root=":pserver:anon@cvs.working-dogs.com:/products/cvs/alexandria"/>
+
+    <tree name="bsf" 
+      root=":pserver:bsfadmin@oss.software.ibm.com:/usr/cvs/bsf"/>
+
+    <tree name="castor" 
+      root=":pserver:anoncvs@castor.exolab.org:/cvs/castor"/>
+
+    <tree name="freemarker" 
+      root=":pserver:anonymous@cvs.freemarker.sourceforge.net:/cvsroot/freemarker"/>
+
+    <tree name="jetspeed" 
+      root=":pserver:anon@cvs.working-dogs.com:/products/cvs/jetspeed"/>
+
+    <tree name="jakarta" root=":pserver:rubys@localhost:/home/cvs"/>
+
+    <tree name="jdom" root=":pserver:anonymous@cvs.jdom.org:/home/cvspublic"/>
+
+    <tree name="junit" 
+      root=":pserver:anonymous@cvs.JUnit.sourceforge.net:/cvsroot/junit"/>
+
+    <tree name="mozilla" 
+      root=":pserver:anonymous@cvs-mirror.mozilla.org:/cvsroot"/>
+
+    <tree name="jservpub" 
+      root=":pserver:jservpub@cvs.working-dogs.com:/products/cvs/master"/>
+
+    <tree name="turbine" 
+      root=":pserver:anon@cvs.working-dogs.com:/products/cvs/turbine"/>
+
+    <tree name="xml" root=":pserver:rubys@localhost:/home/cvs"/>
+
+    <tree name="working-dogs" 
+      root=":pserver:anon@cvs.working-dogs.com:/products/cvs/external"/>
+  </cvs-repository>
+         
+</workspace>
