@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/output/Attic/xref.py,v 1.6 2004/01/23 23:32:27 ajack Exp $
-# $Revision: 1.6 $
-# $Date: 2004/01/23 23:32:27 $
+# $Header: /home/stefano/cvs/gump/python/gump/output/Attic/xref.py,v 1.7 2004/01/28 00:13:39 ajack Exp $
+# $Revision: 1.7 $
+# $Date: 2004/01/28 00:13:39 $
 #
 # ====================================================================
 #
@@ -153,34 +153,28 @@ class XRefGuru:
     
     
     def mapOutputs(self):
-        for module in self.workspace.getModules():
-            
-            for project in module.getProjects():
-                
+        for module in self.workspace.getModules():            
+            for project in module.getProjects():                
                 if project.hasJars():
-
-                    for jar in project.getJars():      
-                        jarName=jar.getName()                 
+                    for jar in project.getJars():  
+                        jarName=os.path.basename(jar.getName())            
                         if not self.outputToProject.has_key(jarName):
                             self.outputToProject[jarName]=[]
                     
-                    if not project in self.outputToProject[jarName]:
-                        self.outputToProject[jarName].append(project)
-    
+                        if not project in self.outputToProject[jarName]:
+                            self.outputToProject[jarName].append(project)
     
     def mapDescriptorLocations(self):
-        for module in self.workspace.getModules():
-            
-            for project in module.getProjects():
-                
-                locn=str(project.xml.href)
+        for module in self.workspace.getModules():            
+            for project in module.getProjects():                
+                metadataLocation=str(project.xml.href)
                     
-                if locn:          
-                    if not self.outputToProject.has_key(locn):
-                        self.outputToProject[locn]=[]
+                if metadataLocation:          
+                    if not self.descriptorLocationToProject.has_key(metadataLocation):
+                        self.descriptorLocationToProject[metadataLocation]=[]
                     
-                    if not project in self.outputToProject[locn]:
-                        self.outputToProject[locn].append(project)
+                    if not project in self.descriptorLocationToProject[metadataLocation]:
+                        self.descriptorLocationToProject[metadataLocation].append(project)
     
     def getRepositoryToModuleMap(self):
         return self.repositoryToModule

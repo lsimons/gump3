@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/test/pyunit.py,v 1.17 2004/01/09 23:41:41 ajack Exp $
-# $Revision: 1.17 $
-# $Date: 2004/01/09 23:41:41 $
+# $Header: /home/stefano/cvs/gump/python/gump/test/pyunit.py,v 1.18 2004/01/28 00:13:39 ajack Exp $
+# $Revision: 1.18 $
+# $Date: 2004/01/28 00:13:39 $
 #
 # ====================================================================
 #
@@ -347,8 +347,11 @@ if __name__=='__main__':
     from gump.test.tools import ToolsTestSuite  
     runner.addSuite(ToolsTestSuite())
     
-    #from gump.test.integrator import IntegratorTestSuite  
-    #runner.addSuite(IntegratorTestSuite())
+    from gump.test.tools import ToolsTestSuite  
+    runner.addSuite(ToolsTestSuite())
+    
+    from gump.test.nagging import NaggingTestSuite  
+    runner.addSuite(NaggingTestSuite())
     
     # Any args are pattern matches
     patterns=list(sys.argv)

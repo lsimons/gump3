@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/forrest.py,v 1.57 2004/01/23 23:32:27 ajack Exp $
-# $Revision: 1.57 $f
-# $Date: 2004/01/23 23:32:27 $
+# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/forrest.py,v 1.58 2004/01/28 00:13:39 ajack Exp $
+# $Revision: 1.58 $f
+# $Date: 2004/01/28 00:13:39 $
 #
 # ====================================================================
 #
@@ -444,6 +444,8 @@ class ForrestDocumenter(Documenter):
             self.resolver.getFile(workspace,'project_todos'))        
         self.documentSummary(document, workspace.getProjectSummary())
         
+        totalAffected=0
+        
         projectsSection=document.createSection('Projects with issues...')
         projectsTable=projectsSection.createTable(['Name','Affected',	\
                     'Duration\nin state','Project State','Elapsed'])
@@ -462,6 +464,8 @@ class ForrestDocumenter(Documenter):
             #
             affected=project.determineAffected()
             
+            totalAffected += affected
+            
             # How long been like this
             seq=stats=project.getStats().sequenceInState
                     
@@ -476,7 +480,12 @@ class ForrestDocumenter(Documenter):
             self.insertStateIcon(project,workspace,projectRow.createData())
             projectRow.createData(secsToElapsedString(project.getElapsedSecs())) 
                 
-        if not pcount: projectsTable.createLine('None')    
+        if not pcount: 
+            projectsTable.createLine('None')    
+        else:
+            projectsSection.createParagraph(
+                    'Total Affected Projects: ' + str(totalAffected))
+                    
         document.serialize()
            
         #
@@ -982,6 +991,24 @@ class ForrestDocumenter(Documenter):
     #                % (getModuleProjectRelativeUrl(modulename,project.name)) )                     
            
         miscSection=document.createSection('Miscellaneous')
+        
+        #
+        #	Outputs (e.g. Jars)
+        #
+        if project.hasJars():
+            outputSection = miscSection.createSection('Outputs')
+            outputTable = outputSection.createTable(['Name','Id'])
+            
+            for jar in project.getJars():
+                outputRow=outputTable.createRow()
+                
+                # The name (path) of the jar
+                outputRow.createData(jar.getName())
+                
+                # The jar id
+                id=jar.getId() or 'N/A'
+                outputRow.createData(id)                                
+        
             
         if project.hasBuildCommand():
             

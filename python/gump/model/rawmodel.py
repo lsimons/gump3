@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/model/Attic/rawmodel.py,v 1.10 2004/01/09 19:57:18 ajack Exp $
-# $Revision: 1.10 $
-# $Date: 2004/01/09 19:57:18 $
+# $Header: /home/stefano/cvs/gump/python/gump/model/Attic/rawmodel.py,v 1.11 2004/01/28 00:13:39 ajack Exp $
+# $Revision: 1.11 $
+# $Date: 2004/01/28 00:13:39 $
 #
 # ====================================================================
 #
@@ -138,6 +138,7 @@ class XMLModule(Named):
     self.url=Single(GumpXMLModelObject)
     self.description=Single(GumpXMLModelObject)
     self.redistributable=Single(GumpXMLModelObject)
+    self.nag=Multiple(XMLNag)
     self.project=Multiple(XMLProject)
 
 # represents a <repository/> element

@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/utils/Attic/launcher.py,v 1.8 2004/01/09 19:57:19 ajack Exp $
-# $Revision: 1.8 $
-# $Date: 2004/01/09 19:57:19 $
+# $Header: /home/stefano/cvs/gump/python/gump/utils/Attic/launcher.py,v 1.9 2004/01/28 00:13:39 ajack Exp $
+# $Revision: 1.9 $
+# $Date: 2004/01/28 00:13:39 $
 #
 # ====================================================================
 #
@@ -288,7 +288,7 @@ class CmdResult:
         if self.output:
           overview += indent+"Output: " + self.output
         if self.hasTimes():
-          overview += indent+"Elapsed: " + str(self.getElapsedTime())
+          overview += indent+"Elapsed: " + self.getElapsedTimeString()
         if self.signal:
           overview += indent+"Termination Signal: " + str(self.signal)
         if self.exit_code:

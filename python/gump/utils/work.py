@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/utils/work.py,v 1.6 2004/01/09 19:57:19 ajack Exp $
-# $Revision: 1.6 $
-# $Date: 2004/01/09 19:57:19 $
+# $Header: /home/stefano/cvs/gump/python/gump/utils/work.py,v 1.7 2004/01/28 00:13:39 ajack Exp $
+# $Revision: 1.7 $
+# $Date: 2004/01/28 00:13:39 $
 #
 # ====================================================================
 #
@@ -147,12 +147,15 @@ class TimedWorkItem(WorkItem):
             return int(round(self.endSecs-self.startSecs,0))
         return 0
         
-    def getElapsedTime(self):   
-        return secsToElapsedTime(self.getElapsedSecs())
+    def getElapsedTimeString(self):   
+        return secsToElapsedTimeString(self.getElapsedSecs())
+        
+    def getElapsedTimeTriple(self):   
+        return secsToElapsedTimeTriple(self.getElapsedSecs())
          
     def overview(self):
         overview=WorkItem.overview(self)
-        (hours,mins,secs)=self.getElapsedTime()
+        (hours,mins,secs)=self.getElapsedTimeTriple()
         overview+='Elapsed: '
         overview+=str(hours) + ' hours, ' 
         overview+=str(mins) + ' minutes, ' 

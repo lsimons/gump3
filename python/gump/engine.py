@@ -137,8 +137,10 @@ class GumpEngine:
         #
         #	Nag and provide RSS
         #
-        if run.getGumpSet().isFull():
+        if run.getGumpSet().isFull() and run.getWorkspace().isNag():
   
+            log.info('Nag about failures... ')
+            
             #
             # Nag about failures
             #

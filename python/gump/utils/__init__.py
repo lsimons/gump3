@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/utils/__init__.py,v 1.16 2004/01/21 18:52:30 ajack Exp $
-# $Revision: 1.16 $
-# $Date: 2004/01/21 18:52:30 $
+# $Header: /home/stefano/cvs/gump/python/gump/utils/__init__.py,v 1.17 2004/01/28 00:13:39 ajack Exp $
+# $Revision: 1.17 $
+# $Date: 2004/01/28 00:13:39 $
 #
 # ====================================================================
 #
@@ -376,7 +376,7 @@ if __name__=='__main__':
   print "secsToElapsedTimeTriple(1340) : " + str(secsToElapsedTimeTriple(1340))
   print "secsToElapsedString(1340) : " + secsToElapsedString(1340)
   print "secsToTime(1340) : " + secsToTime(1340)
-  print "elapsedTimeToString(secsToElapsedTime(1340)) : " + elapsedTimeTripleToString(secsToElapsedTimeTriple(1340))
+  print "elapsedTimeTripleToString(secsToElapsedTimeTriple(1340)) : " + elapsedTimeTripleToString(secsToElapsedTimeTriple(1340))
   
   print "str = " + getStringFromUnicode("Ceki Gülcü")
   
