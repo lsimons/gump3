@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/Attic/view.py,v 1.8 2003/05/01 02:56:42 rubys Exp $
-# $Revision: 1.8 $
-# $Date: 2003/05/01 02:56:42 $
+# $Header: /home/stefano/cvs/gump/python/gump/Attic/view.py,v 1.9 2003/05/01 11:52:00 rubys Exp $
+# $Revision: 1.9 $
+# $Date: 2003/05/01 11:52:00 $
 #
 # ====================================================================
 #
@@ -173,6 +173,7 @@ class gumpview(wxApp):
 
   def showProject(self,project):
     if not project or not isinstance(project,Project): return
+    if self.project: self.project['viewdata']=self.data.GetValue()
     self.project=project
     self.frame.SetTitle(project.name)
 
@@ -196,13 +197,16 @@ class gumpview(wxApp):
     self.list.SetColumnWidth(0,wxLIST_AUTOSIZE_USEHEADER)
 
     # display the project definition
-    import StringIO
-    data = StringIO.StringIO()
-    xmlize('project',project,data,)
     self.data.Clear()
-    data.seek(0)
-    self.data.AppendText(data.read())
-    self.data.ShowPosition(0)
+    if project.viewdata:
+      self.data.AppendText(project.viewdata)
+    else:
+      import StringIO
+      data = StringIO.StringIO()
+      xmlize('project',project,data,)
+      data.seek(0)
+      self.data.AppendText(data.read())
+      self.data.ShowPosition(0)
 
     # gather a list of project dependencies unrolled to build
     self.build_sequence = []
