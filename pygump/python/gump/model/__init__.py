@@ -117,6 +117,15 @@ class CvsRepository(Repository):
         self.method   = method,
         self.user     = user,
         self.password = password
+    
+    def to_url(self):
+        url = method + ':'
+        if user:
+            url += user + '@'
+        url += hostname + ':' + path
+        
+        return url
+            
 
 class SvnRepository(Repository):
     """Model a subversion repository.
