@@ -1,0 +1,14 @@
+<module name="nekohtml">
+
+  <url href="http://www.apache.org/~andyc/neko/doc/html/index.html"/>
+  <description>
+    CyberNeko HTML Parser
+  </description>
+  
+  <project name="nekohtml">
+    <package>org.cyberneko.html</package>
+    <jar name="nekohtml.jar"/>
+    <jar name="nekohtmlXni.jar"/>
+  </project>
+
+</module>

@@ -139,7 +139,7 @@
     <depend project="antlr"/>
     <depend project="beanshell"/>
     <depend project="bsf"/>
-    <!-- depend project="cyberneko"/ -->
+    <depend project="nekohtml"/>
     <depend project="commons-beanutils"/>
     <depend project="commons-betwixt"/>
     <depend project="commons-cli"/>

@@ -15,6 +15,7 @@
     <depend project="xml-xerces"/>
     <depend project="jtidy"/>
     <depend project="junit"/>
+    <depend project="nekohtml"/>
     <jar id="httpunit" name="lib/httpunit.jar"/>
   </project>
 
