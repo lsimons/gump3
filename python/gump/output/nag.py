@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/output/Attic/nag.py,v 1.20 2004/03/03 00:49:52 ajack Exp $
-# $Revision: 1.20 $
-# $Date: 2004/03/03 00:49:52 $
+# $Header: /home/stefano/cvs/gump/python/gump/output/Attic/nag.py,v 1.21 2004/03/03 15:29:48 ajack Exp $
+# $Revision: 1.21 $
+# $Date: 2004/03/03 15:29:48 $
 #
 # ====================================================================
 #
@@ -175,7 +175,8 @@ class Nagger:
         if self.hasUnsent():
             log.info('We have some unsented\'s to send to list...')    
             self.sendEmail(self.workspace.mailinglist,self.workspace.email,	\
-                        'BATCH: Unable to send...',self.unsent)
+                        'BATCH: Unable to send...',\
+                         self.getUnsentContent())
                         
             # A bit paranoid, ought just rely upon object being
             # destroyed,
