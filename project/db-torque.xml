@@ -62,11 +62,17 @@
       <property name="maven.final.name" value="torque-gen-@@DATE@@"/>
     </ant>
 
+    <depend project="commons-beanutils"/>
     <depend project="commons-collections"/>
+    <depend project="commons-configuration"/>
+    <depend project="commons-dbcp"/>
     <depend project="commons-lang"/>
+    <depend project="commons-pool"/>
     <depend project="ant"/>
 
     <depend project="jakarta-log4j"/>
+    <depend project="jakarta-turbine-jcs"/>
+    <depend project="jakarta-turbine-stratum"/>
     <depend project="jakarta-velocity"/>
     <depend project="jdbc"/>
     <depend project="village"/>
