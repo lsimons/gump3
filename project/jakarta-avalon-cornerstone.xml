@@ -8,7 +8,7 @@
   <cvs repository="jakarta"/>
   
   <project name="jakarta-avalon-cornerstone">
-    <ant target="dist">
+    <ant>
       <depend property="xerces.jar" project="xml-xerces"/>
       <depend property="logkit.jar" project="jakarta-avalon-logkit"/>
       <depend property="avalon-framework.jar" project="jakarta-avalon"/>
