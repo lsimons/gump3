@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/Attic/model.py,v 1.10 2003/05/05 07:23:07 nicolaken Exp $
-# $Revision: 1.10 $
-# $Date: 2003/05/05 07:23:07 $
+# $Header: /home/stefano/cvs/gump/python/gump/Attic/model.py,v 1.11 2003/05/05 17:46:00 rubys Exp $
+# $Revision: 1.11 $
+# $Date: 2003/05/05 17:46:00 $
 #
 # ====================================================================
 #
@@ -135,6 +135,7 @@ class Module(Named):
   # provide default elements when not defined in xml
   def complete(self,workspace):
     if self.tag and self.cvs: self.cvs.tag=self.tag
+    if self.cvs and not self.cvs.module: self.cvs.module=self.name
     self.srcdir=os.path.join(str(workspace.basedir),self.srcdir or self.name)
     for project in self.project:
       if not project.module: project.module=self.name
