@@ -257,13 +257,31 @@ From: Ted Husted <ted@husted.com>
 Subject: [GUMP] Build Failure - cactus-ant
 Regex: /BUILD FAILED/
 ------
-Project: jakarta-cactus-22
+Project: jakarta-cactus-documentation
 To: cactus-dev@jakarta.apache.org
 From: Ted Husted <ted@husted.com>
 Subject: [GUMP] Build Failure - cactus-22
 Regex: /BUILD FAILED/
 ------
-Project: jakarta-cactus-23
+Project: jakarta-cactus-framework-12
+To: cactus-dev@jakarta.apache.org
+From: Ted Husted <ted@husted.com>
+Subject: [GUMP] Build Failure - cactus-23
+Regex: /BUILD FAILED/
+------
+Project: jakarta-cactus-framework-13
+To: cactus-dev@jakarta.apache.org
+From: Ted Husted <ted@husted.com>
+Subject: [GUMP] Build Failure - cactus-23
+Regex: /BUILD FAILED/
+------
+Project: jakarta-cactus-sample-servlet-12
+To: cactus-dev@jakarta.apache.org
+From: Ted Husted <ted@husted.com>
+Subject: [GUMP] Build Failure - cactus-23
+Regex: /BUILD FAILED/
+------
+Project: jakarta-cactus-sample-servlet-13
 To: cactus-dev@jakarta.apache.org
 From: Ted Husted <ted@husted.com>
 Subject: [GUMP] Build Failure - cactus-23
