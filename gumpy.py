@@ -418,8 +418,14 @@ finally:
                 published=1
             except:
                 published=0
-                
-        if not published:
+              
+        # Cat to screen (if running to screen)
+        tty=0
+        try:
+            tty=sys.stdout.isatty()  
+        except:
+            pass
+        if tty or not published:
             catFile(sys.stdout, logFile, logTitle)
         
         if mailserver and mailport and mailto and mailfrom and logurl:
