@@ -13,6 +13,7 @@
 
 <project name="gump" default="scripts" basedir=".">
 
+  <property file="local.properties"/>
   <!-- Default properties. Define them before to override them.-->
   <property name="workspace" value="rubypad.xml"/>
   <property name="webstyle" value="stylesheet/jakarta.xsl"/>
