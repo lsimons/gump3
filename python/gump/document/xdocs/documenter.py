@@ -119,34 +119,24 @@ class XDocDocumenter(Documenter):
     #
     # XDocing...
     def getXDocWorkDirectory(self):
-        if hasattr(self,'workDir'): return self.workDir
-        
+        if hasattr(self,'workDir'): return self.workDir        
         wdir=os.path.abspath(os.path.join(
-                    self.workspace.getBaseDirectory(),'xdocs-work'))
-        
+                    self.workspace.getBaseDirectory(),'xdocs-work'))        
         if self.config.isXdocs():
-            wdir=os.path.abspath(os.path.join(wdir,'content'))
-            
+            wdir=os.path.abspath(os.path.join(wdir,'content'))            
         if not os.path.exists(wdir):
-            os.makedirs(wdir)
-            
-        self.workDir=wdir
-        
+            os.makedirs(wdir)         
+        self.workDir=wdir        
         return self.workDir
         
     def getXDocLogDirectory(self):
-        if hasattr(self,'logDir'): return self.logDir
-        
-        ldir=self.workspace.getLogDirectory()
-        
+        if hasattr(self,'logDir'): return self.logDir        
+        ldir=self.workspace.getLogDirectory()        
         if self.config.isXdocs():
-            ldir=os.path.abspath(os.path.join(ldir,'content'))
-            
+            ldir=os.path.abspath(os.path.join(ldir,'content'))            
         if not os.path.exists(ldir):
-            os.makedirs(ldir)
-            
-        self.logDir=ldir
-        
+            os.makedirs(ldir)            
+        self.logDir=ldir        
         return self.logDir
         
     def getXDocTemplateDirectory(self):
@@ -155,6 +145,8 @@ class XDocDocumenter(Documenter):
         if self.config.isXhtml():
             templateName='xhtml'
         fdir=os.path.abspath(os.path.join(dir.template,templateName))
+        if self.config.isXdocs():
+            fdir=os.path.abspath(os.path.join(fdir,'content'))
         return fdir  
         
     def getXDocSiteTemplateDirectory(self):
@@ -163,6 +155,8 @@ class XDocDocumenter(Documenter):
         if self.config.isXhtml():
             templateName='site-xhtml'
         fdir=os.path.abspath(os.path.join(dir.template,templateName))
+        if self.config.isXdocs():
+            fdir=os.path.abspath(os.path.join(fdir,'content'))
         return fdir  
     
     def prepareXDoc(self):   
