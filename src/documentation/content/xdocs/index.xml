@@ -19,12 +19,12 @@
 
   <header>
     
-    <title>Gump</title>
+    <title>Apache Gump</title>
 
   	<authors>
   		<person name="Sam Ruby" email="rubys AT us.ibm DOT com"/>
   		<person name="Adam Jack" email="ajack AT sybase DOT com"/>
-  		<person name="Community" email="gump AT jakarta DOT apache DOT org"/>
+  		<person name="Community" email="general AT gump DOT apache DOT org"/>
   	</authors>
   </header>
 <body>
@@ -53,14 +53,14 @@
   		you could help with.<br/>
   	
   	Contact us on the
-  	Gump <link href="mailto:gump@jakarta.apache.org">mailing list</link>
+  	Gump <link href="mailto:general@gump.apache.org">mailing list</link>
   </fixme>
   </section>
 
   <section><title>How does Gump work?</title>
 
     <p>
-      With Traditional Gump, <link href="http://cvs.apache.org/viewcvs/jakarta-gump/project">
+      With Traditional Gump, <link href="http://cvs.apache.org/viewcvs/gump/project">
       project</link> definitions are converted from XML to scripts native to the
       platform on which you are running.  With Python Gump the XML is mapped into in memory
       objects for processing. Scripts execute cvs or svn update

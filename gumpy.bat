@@ -128,7 +128,7 @@ REM
 IF NOT "" == "%GUMP_WITHOUT_CVS_UPDATE" GOTO skipCVSUpdate
 ECHO %SEPARATOR% >> %GUMP_LOG%
 CD %GUMP%
-ECHO "Update Jakarta Gump from CVS" >> %GUMP_LOG%
+ECHO "Update Gump from CVS" >> %GUMP_LOG%
 cvs -q update -dP >> %GUMP_LOG% 2>&1 
 REMOVE -f .timestamp
 :skipCVSUpdate

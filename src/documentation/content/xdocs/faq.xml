@@ -63,8 +63,8 @@
     	
 <section><title>Question: How do I get nagging to stop (or start)?</title>
     		<p><strong>Answer: </strong>If there is consensus on your project, send an e-mail to
-              <link href="mailto:gump@jakarta.apache.org">
-              gump@jakarta.apache.org</link> letting us know what
+              <link href="mailto:general@gump.apache.org">
+              general@gump.apache.org</link> letting us know what
               the outcome was, and it will be respected.</p>
     	</section>
     	
@@ -83,7 +83,7 @@
               definition for a project I'm a committer on...how do I get
               the change to be made?</title>
     		<p><strong>Answer: </strong>The 
-              <link href="http://cvs.apache.org/viewcvs/jakarta-gump/">
+              <link href="http://cvs.apache.org/viewcvs/gump/">
               gump cvs repository</link> is open to all ASF committers.
               Simply check it out and commit your changes.  It is highly
               recommended that you build the "gen" target first of the
@@ -96,8 +96,8 @@
               <section><title>Question: How do I get a project to be added to Gump?  Must it
               be an Apache project?</title>
     		<p><strong>Answer: </strong>Send an e-mail (preferably a patch) to
-              <link href="mailto:gump@jakarta.apache.org">
-              gump@jakarta.apache.org</link>.  Being Apache related
+              <link href="mailto:general@gump.apache.org">
+              general@gump.apache.org</link>.  Being Apache related
               (i.e, used by or a consumer of other Apache projects) helps,
               but is not required.  What is important is that your code be
               publicly accessible via cvs and that it be buildable in an
@@ -109,7 +109,7 @@
     		<p><strong>Answer: </strong>That's supported too, as long as your project supports
               viewcvs or equivalent.  Simply put the URL of the project
               definition in the 
-              <link href="http://cvs.apache.org/viewcvs/jakarta-gump/profile/gump.xml?rev=HEAD&amp;content-type=text/vnd.viewcvs-markup">
+              <link href="http://cvs.apache.org/viewcvs/gump/profile/gump.xml?rev=HEAD&amp;content-type=text/vnd.viewcvs-markup">
               gump profile</link>.  However, if you are an ASF committer, why
               not consider leaving it in the gump cvs repository, that
               way others can also help out too?

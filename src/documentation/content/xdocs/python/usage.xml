@@ -55,8 +55,8 @@
 		</li>
 	</ul>		
 		<source>
-SET PYTHONPATH=C:\jakarta-gump\python
-CD /d C:\jakarta-gump\python
+SET PYTHONPATH=C:\gump\python
+CD /d C:\gump\python
 python gump\gui\view.py -w ..\myworkspace.xml
 		</source>
 		<source>
@@ -86,12 +86,12 @@ More detailed information on what is being done can be found in the console wind
 		</li>
 	</ul>		
 		<source>
-SET PYTHONPATH=C:\jakarta-gump\python
-CD /d C:\jakarta-gump\python
+SET PYTHONPATH=C:\gump\python
+CD /d C:\gump\python
 python gump\build.py -w ..\myworkspace.xml all
 		</source>
 		<source>
-cd /jakarta-gump/python
+cd /gump/python
 export PYTHONPATH=`pwd`
 python gump/build.py -w ../myworkspace.xml all
 		</source>
@@ -108,18 +108,18 @@ python gump/build.py -w ../myworkspace.xml all
 <!--
 == Automating the "integration process" using integrate.py ==
 
-* install 'regular' gump as per http://jakarta.apache.org/gump/usage.html
+* install 'regular' gump as per http://gump.apache.org/usage.html
 * install [http://www.activestate.com/Products/ActivePython/ Python 2.3]
 * open a shell and do something similar to:
 <source>
-SET PYTHONPATH=C:\jakarta-gump\python
-CD /d C:\jakarta-gump\python
-python jakarta-gump\integrate.py -w ..\myworkspace.xml all
+SET PYTHONPATH=C:\gump\python
+CD /d C:\gump\python
+python gump\integrate.py -w ..\myworkspace.xml all
 </source>
 <source>
-cd /jakarta-gump/python
+cd /gump/python
 export PYTHONPATH=`pwd`
-python jakarta-gump/integrate.py -w ../myworkspace.xml krysalis-*
+python gump/integrate.py -w ../myworkspace.xml krysalis-*
 </source>
 
 This tool is intended for use from cron, or similar scheduling software. It does:

@@ -22,7 +22,7 @@
 	<gump label="Gump">
 	    <index href="index.html" label="Home"/>
 	    <status href="status.html" label="Status"/>
-	    <source href="http://cvs.apache.org/viewcvs/jakarta-gump/" label="Source"/>
+	    <source href="http://cvs.apache.org/viewcvs/gump/" label="Source"/>
 	    <faq href="faq.html" label="FAQ"/>
 	    <gettingstarted href="gettingstarted.html" label="Getting Started"/>
 	    <todo href="todo.html" label="Help Wanted"/>
@@ -42,8 +42,8 @@
 	</menu>
 	-->
 	<getinvolved label="Get Involved">
-	    <overview href="http://jakarta.apache.org/site/getinvolved.html" label="Overview"/>
-	    <joinmailinglists href="http://jakarta.apache.org/getinvolved/mail.html" label="Mailing List"/>
+	    <!-- overview href="http://www.apache.org/site/getinvolved.html" label="Overview"/ -->
+	    <!-- joinmailinglists href="http://www.apache.org/getinvolved/mail.html" label="Mailing List"/ -->
 	    <searchmailinglists href="http://marc.theaimsgroup.com/?l=alexandria-dev&amp;r=1&amp;w=2" label="Search List"/>
 	    <browsemailinglists href="http://nagoya.apache.org/eyebrowse/SummarizeList?listId=198" label="Browse List"/>
 	    <wiki href="http://wiki.apache.org/gump" label="Wiki"/>

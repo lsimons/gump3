@@ -332,6 +332,7 @@
   <repository href="repository/dbxml.xml"/>
   <repository href="repository/devworks.xml"/>
   <repository href="repository/exolab.xml"/>
+  <repository href="repository/gump.xml"/>
   <repository href="repository/incubator.xml"/>
   <repository href="repository/jakarta.xml"/>
   <repository href="repository/james.xml"/>

@@ -33,7 +33,7 @@ if [ -e  $HOST_LOCAL_ENV ] ; then
 	. $HOST_LOCAL_ENV
 fi
 if [ ! $GUMP ] ; then
-	echo "Set the \$GUMP variable to your gump install (e.g. /opt/jakarta-gump)"
+	echo "Set the \$GUMP variable to your gump install (e.g. /opt/gump)"
 	exit 1
 fi
 
