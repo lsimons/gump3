@@ -28,9 +28,9 @@
       <depend project="avalon-logkit" inherit="jars" />
     </project>
     
-    <project name="avalon-logkit" buildfile="buildsystem/gump-build.xml" target="jar">
+    <project name="avalon-logkit" buildfile="buildsystem/gump-build.xml">
         <package>org.apache.log</package>
-        <ant>
+        <ant target="jar" >
             <property name="project.version" value="@@DATE@@"></property>
         </ant>
         <depend project="ant" inherit="runtime"/>

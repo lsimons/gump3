@@ -282,20 +282,182 @@
                 to="dev@avalon.apache.org"/>
     </project>
 
+    <project name="excalibur-fortress-container-api">
+        <package>org.apache.avalon.fortress</package>
+        <ant basedir="fortress/container-api" target="jar">
+            <property name="project.name" value="excalibur-i18n"/>
+            <property name="project.version" value="@@DATE@@"/>
+        </ant>
+
+        <!-- build-time dependencies -->
+        <depend project="ant" inherit="runtime"/>
+        <depend project="xml-xerces"/>
+        <depend project="xml-xalan2"/>
+        <depend project="junit"/>
+
+        <!-- optional dependencies -->
+        <option project="checkstyle" inherit="runtime"/>
+
+        <mkdir dir="fortress/container-api/target/classes"/>
+        <mkdir dir="fortress/container-api/target/test-classes"/>
+        <work nested="fortress/container-api/target/classes"/>
+        <work nested="fortress/container-api/target/test-classes"/>
+
+        <home nested="fortress/container-api"/>
+        <jar name="target/excalibur-fortress-container-api-@@DATE@@.jar"/>
+
+        <junitreport nested="fortress/container-api/target/test-reports"/>
+
+        <nag from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"
+                to="dev@avalon.apache.org"/>
+    </project>
+    
+    <project name="excalibur-fortress-container-impl">
+        <package>org.apache.avalon.fortress</package>
+        <ant basedir="fortress/container-impl" target="jar">
+            <property name="project.name" value="excalibur-i18n"/>
+            <property name="project.version" value="@@DATE@@"/>
+        </ant>
+        <!-- build-time dependencies -->
+        <depend project="ant" inherit="runtime"/>
+        <depend project="xml-xerces"/>
+        <depend project="xml-xalan2"/>
+        <depend project="junit"/>
+
+        <!-- optional dependencies -->
+        <option project="checkstyle" inherit="runtime"/>
+
+        <mkdir dir="fortress/container-impl/target/classes"/>
+        <mkdir dir="fortress/container-impl/target/test-classes"/>
+        <work nested="fortress/container-impl/target/classes"/>
+        <work nested="fortress/container-impl/target/test-classes"/>
+
+        <home nested="fortress/container-impl"/>
+        <jar name="target/excalibur-fortress-container-impl-@@DATE@@.jar"/>
+
+        <junitreport nested="fortress/container-impl/target/test-reports"/>
+
+        <nag from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"
+                to="dev@avalon.apache.org"/>
+
+    </project>
+    
+    <project name="excalibur-fortress-container-test">
+        <package>org.apache.avalon.fortress</package>
+        <ant basedir="fortress/container-test" target="jar">
+            <property name="project.name" value="excalibur-i18n"/>
+            <property name="project.version" value="@@DATE@@"/>
+        </ant>
+        <!-- build-time dependencies -->
+        <depend project="ant" inherit="runtime"/>
+        <depend project="xml-xerces"/>
+        <depend project="xml-xalan2"/>
+        <depend project="junit"/>
+
+        <!-- optional dependencies -->
+        <option project="checkstyle" inherit="runtime"/>
+
+        <mkdir dir="fortress/container-test/target/classes"/>
+        <mkdir dir="fortress/container-test/target/test-classes"/>
+        <work nested="fortress/container-test/target/classes"/>
+        <work nested="fortress/container-test/target/test-classes"/>
+
+        <home nested="fortress/container-test"/>
+        <jar name="target/excalibur-fortress-container-test-@@DATE@@.jar"/>
+
+        <junitreport nested="fortress/container-test/target/test-reports"/>
+
+        <nag from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"
+                to="dev@avalon.apache.org"/>
+
+    </project>
+    
+    <project name="excalibur-fortress-bean">
+        <package>org.apache.avalon.fortress</package>
+        <ant basedir="fortress/bean" target="jar">
+            <property name="project.name" value="excalibur-i18n"/>
+            <property name="project.version" value="@@DATE@@"/>
+        </ant>
+        <!-- build-time dependencies -->
+        <depend project="ant" inherit="runtime"/>
+        <depend project="xml-xerces"/>
+        <depend project="xml-xalan2"/>
+        <depend project="junit"/>
+        
+        <depend project="excalibur-fortress-container-api"/>
+        <depend project="excalibur-fortress-container-impl"/>
+        <depend project="avalon-framework"/>
+        <depend project="excalibur-logger"/>
+        <depend project="excalibur-event-api"/>
+        <depend project="excalibur-event-impl"/>
+        <depend project="excalibur-lifecycle-api"/>
+        <depend project="excalibur-instrument"/>
+        <depend project="excalibur-instrument-manager"/>
+        <depend project="excalibur-sourceresolve"/>
+        <depend project="excalibur-i18n"/>
+        <depend project="excalibur-xmlutil"/>
+        <depend project="excalibur-pool-api"/>
+        <depend project="excalibur-monitor"/>
+        <depend project="commons-collections"/>
+        <depend project="concurrent"/>
+        <depend project="avalon-logkit"/>
+        <depend project="qdox"/>
+        <depend project="xml-apis"/>
+        <depend project="commons-logging"/>
+
+        <!-- optional dependencies -->
+        <option project="checkstyle" inherit="runtime"/>
+
+        <mkdir dir="fortress/bean/target/classes"/>
+        <mkdir dir="fortress/bean/target/test-classes"/>
+        <work nested="fortress/bean/target/classes"/>
+        <work nested="fortress/bean/target/test-classes"/>
+
+        <home nested="fortress/bean"/>
+        <jar name="target/excalibur-fortress-bean-@@DATE@@.jar"/>
+
+        <junitreport nested="fortress/bean/target/test-reports"/>
+
+        <nag from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"
+                to="dev@avalon.apache.org"/>
+
+    </project>
+    
+    <project name="excalibur-fortress-meta">
+        <package>org.apache.avalon.fortress</package>
+        <ant basedir="fortress/meta" target="jar">
+            <property name="project.name" value="excalibur-i18n"/>
+            <property name="project.version" value="@@DATE@@"/>
+        </ant>
+        <!-- build-time dependencies -->
+        <depend project="ant" inherit="runtime"/>
+        <depend project="xml-xerces"/>
+        <depend project="xml-xalan2"/>
+        <depend project="junit"/>
+
+        <!-- optional dependencies -->
+        <option project="checkstyle" inherit="runtime"/>
+
+        <mkdir dir="fortress/meta/target/classes"/>
+        <mkdir dir="fortress/meta/target/test-classes"/>
+        <work nested="fortress/meta/target/classes"/>
+        <work nested="fortress/meta/target/test-classes"/>
+
+        <home nested="fortress/meta"/>
+        <jar name="target/excalibur-fortress-meta-@@DATE@@.jar"/>
+
+        <junitreport nested="fortress/meta/target/test-reports"/>
+
+        <nag from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"
+                to="dev@avalon.apache.org"/>
+
+    </project>
+    
     <project name="excalibur-i18n">
         <package>org.apache.avalon.excalibur.i18n</package>
 
         <ant basedir="i18n" target="dist">
             <property name="project.name" value="excalibur-i18n"/>
-            <!-- optional dependencies -->
-            <property name="checkstyle.jar" project="checkstyle" reference="jarpath"/>
-
-            <!-- test-time dependencies -->
-
-            <property name="package-version" value="@@DATE@@"/>
-            <property name="junit.failonerror" value="true"/>
-            <property name="do.checkstyle" value="true"/>
-            <property name="skip.dependencies" value="true"/>
             <property name="project.version" value="@@DATE@@"/>
         </ant>
 
