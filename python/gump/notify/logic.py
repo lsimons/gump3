@@ -67,9 +67,9 @@ class NotificationLogic(RunSpecific):
                     if stats.getTotalRuns() > 1:    
                         notification=PositiveNotification(self.run,entity)
                         
-        elif entity.isPrereqFailed():
-            if (stats.sequenceInState == 1):            
-                if not STATE_PREREQ_FAILED == stats.previousState:
-                    notification=PositiveNotification(self.run,entity)
+        #elif entity.isPrereqFailed():
+        #    if (stats.sequenceInState == 1):            
+        #        if not STATE_PREREQ_FAILED == stats.previousState:
+        #            notification=PositiveNotification(self.run,entity)
                         
         return notification        
