@@ -347,6 +347,7 @@
   <repository href="repository/w3c.xml"/>
   <repository href="repository/ws.xml"/>
   <repository href="repository/xml.xml"/>
+  <repository href="repository/xml-svn.xml"/>
 
 <!-- server definitions -->
 
