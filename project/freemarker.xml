@@ -20,7 +20,13 @@
     <depend project="junit"/>
     <depend project="jakarta-log4j"/>
     <depend project="jakarta-oro"/>
-
+    
+    <!-- FIX: This has been lifted from the JAR that velocity
+         has checked in but this should be split out.
+    -->
+    <depend project="werken.xpath"/>
+    
+    <work nested="build"/>
     <jar name="lib/freemarker.jar"/>
   </project>
 </module>
