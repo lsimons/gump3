@@ -31,7 +31,7 @@
 
 <!-- Apache.James -->
 
-  <module href="project/jakarta-james.xml"/>
+  <module href="project/james-server.xml"/>
 
 <!-- Apache.Jakarta -->
 

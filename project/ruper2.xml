@@ -91,7 +91,7 @@
     </ant>
    
     <depend project="krysalis-ruper2-ant" inherit="all"/>
-      <depend project="ant-testutil"/>
+    <depend project="ant-testutil"/>
     <depend project="junit"/>
         
     <nag to="krysalis-developers@lists.sourceforge.net"

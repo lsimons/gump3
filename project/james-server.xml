@@ -1,4 +1,4 @@
-<module name="jakarta-james">
+<module name="james-server">
 
   <url href="http://jakarta.apache.org/james/index.html" />
   <description>
@@ -7,7 +7,7 @@
 
   <cvs repository="jakarta" />
 
-  <project name="jakarta-james">
+  <project name="james-server">
     <package>org.apache.james</package>
 
     <ant/>
