@@ -1,6 +1,7 @@
 <module name="jakarta-poi">
 
   <url href="http://jakarta.apache.org/poi/"/>
+  
   <description>
     Ports of file formats based on Microsoft's OLE 2 Compound Document 
     Format (tm) to pure Java (tm). 
@@ -16,29 +17,43 @@
     
     <!-- script name="build"/> -->
     
+    <!-- Project jars POI *build* strictly depends on -->
+    <!-- needed for build -->
     <depend project="jakarta-ant"/>
     <depend project="xml-xerces"/>
     <depend project="xml-xalan2"/>
+    <depend project="xml-cocoon2"/>
     <depend project="jtidy"/>
     <depend project="junit"/>
-    <depend project="commons-logging"/>
     <depend project="IzPress"/>
+    <!-- needed for POI -->
+    <depend project="commons-logging"/>
     
+    <!-- Project jars POI build can use  -->    
     <option project="jakarta-log4j"/>
-      
+ 
+    <!-- Work dirs to be included in classpath  -->          
     <work nested="build/jakarta-poi/classes"/>
     <work nested="build/jakarta-poi/testcases"/>
     <work nested="tools/tmp/anttasks"/>
 
-    <home nested="build/poi"/>
-    
+    <home nested="build/jakarta-poi"/>
+
+    <!-- POI jars - the result of the build  -->        
     <jar name="jakarta-poi.jar"            id="poi"/>
     <jar name="jakarta-poi-scratchpad.jar" id="scratchpad"/>
     <jar name="jakarta-poi-contrib.jar"    id="contrib"/>
     <jar name="jakarta-poi-examples.jar"   id="examples"/>
     
+    <!-- POI Javadocs - location in the build dirs  -->         
     <javadoc parent="build/jakarta-poi/javadocs"/>
-
+    
+    <!-- Getting ready for automatic site updates
+    <deliver fromdir="build/jakarta-poi/docs" 
+             tosite="jakarta-apache-org"
+             todir="poi/" />    
+    -->         
+            
   </project>
 
   <project name="IzPress">
