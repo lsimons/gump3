@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/output/Attic/nag.py,v 1.19 2004/03/02 21:11:39 ajack Exp $
-# $Revision: 1.19 $
-# $Date: 2004/03/02 21:11:39 $
+# $Header: /home/stefano/cvs/gump/python/gump/output/Attic/nag.py,v 1.20 2004/03/03 00:49:52 ajack Exp $
+# $Revision: 1.20 $
+# $Date: 2004/03/03 00:49:52 $
 #
 # ====================================================================
 #
@@ -210,28 +210,34 @@ class Nagger:
         self.unsents += 1
         
     def getUnwantedContent(self):
+        return self.getBatchContent(self.unwanteds,self.unwantedSubjects,self.unwanted)
+             
+    def getUnsentContent(self):
+        return self.getBatchContent(self.unsents,self.unsentSubjects,self.unsent)
+             
+    def getBatchContent(self,count,subjects,batch):
         content = ''
         
-        if self.unwanteds:
+        if count:
             plural=''
-            if self.unwanted > 0:
+            if count > 0:
                 plural='s'
                 
             content = """Dear Gumpmeisters,
             
-The following %s nag%s could have been sent (if requested)
+The following %s nag%s should have been sent
 
 """ % (`self.unwanteds`, plural)
             
             content += SEPARATOR
             content += '\n'
             
-            content += self.unwantedSubjects
+            content += subjects
             
             content += SEPARATOR
             content += '\n'
             
-            content += self.unwanted
+            content += batch
             
         return content
             

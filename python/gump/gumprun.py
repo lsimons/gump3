@@ -114,6 +114,7 @@ class GumpSet:
     def getWorkspace(self):
         return self.workspace
         
+    # :TODO: Need ModuleSequence [tree] separate from ModuleList
     def getModules(self):
         return self.modules
             
@@ -238,8 +239,8 @@ class GumpSet:
                 if self.isReady(todoProject,todo):
                     todo.remove(todoProject)
                     if not todoProject in result:
-                        log.debug('New Result ['+todoProject.getName()+']')     
                         result.append(todoProject)
+                        log.debug('Next Project ['+todoProject.getName()+'] is #' + str(len(result)))     
                     #else:
                     #    log.debug('Duplicate Result ['+todoProject.getName()+']')    
                     foundSome=1

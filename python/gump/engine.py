@@ -214,6 +214,11 @@ class GumpEngine:
         logResourceUtilization('Before load statistics')
         self.loadStatistics(run)        
         
+        #
+        # Gather results.xml from other servers/workspaces
+        #
+        logResourceUtilization('Before generate results')
+        gatherResults(run)
         
         #
         # Check the metadata
@@ -743,6 +748,46 @@ class GumpEngine:
     
     """
     
-    def checkWorkspace(self,run): pass
+    def checkWorkspace(self,run):
+        """ Check a GumpRun's Projects """
+        workspace=run.getWorkspace()
+        
+        log.debug('Total Project CheckList:');
+        for p in list:
+            log.debug('  To Check : ' + p.name)
+
+        log.debug('--- Building work directories with sources')
+        
+        
+        # :TODO: Check the workspace?
+        
+        self.checkModules(run)
+        self.checkProjects(run)
+        
+    def checkModules(self,run):
+        # Check all the modules
+        for module in run.getGumpSet().getModules():                  
+            module.changeState(STATE_SUCCESS)        
+
+    def checkProjects(self,run):
+        list=run.getGumpSet().getProjects()
+        # Check all projects
+        projectCount=len(list)
+        projectNo=1
+        for project in list:  
+        
+            log.info(' ------ Project: #[' + `projectNo` + '] of [' + `projectCount` + '] : ' + project.getName())
+            
+            # :TODO: Do some actualy checking...
+        
+            if project.okToPerformWork():        
+                # For now, things are going good...
+                project.changeState(STATE_SUCCESS)
+        
+            if not project.okToPerformWork():
+                log.warn('Failed to check project #[' + `projectNo` + '] [' + project.getName() + '], state:' \
+                        + project.getStateDescription())
+
+        
     
         

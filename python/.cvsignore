@@ -10,3 +10,5 @@ x.txt
 build
 *.log
 bogus
+gumpy.log
+gumpy.lock
