@@ -150,6 +150,7 @@
     <depend project="commons-logging"/>
     <depend project="commons-codec"/>
     <depend project="xml-xerces"/>
+        <depend project="junit"/>
     
     <jar name="io/dist/commons-io.jar"/>
 
