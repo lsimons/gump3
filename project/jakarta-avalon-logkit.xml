@@ -15,6 +15,7 @@
   <option project="jakarta-servletapi-4"/>
   <depend project="jdbc"/>
   <depend project="jms"/>
+  <depend project="junit"/>
 
   <home nested="build/lib"/>
   <jar name="logkit.jar"/>
