@@ -134,6 +134,12 @@ From: Peter Donald <donaldp@apache.org>
 Subject: [GUMP] Build Failure - James
 Regex: /BUILD FAILED/
 ------
+Project: jakarta-jmeter
+To: jmeter-dev@jakarta.apache.org
+From: Geir Magnusson Jr. <geirm@apache.org>
+Subject: [GUMP] Build Failure - Jmeter
+Regex: /BUILD FAILED/
+------
 Project: jakarta-log4j
 To: log4j-dev@jakarta.apache.org
 From: Ceki Gülcü <ceki@apache.org>
