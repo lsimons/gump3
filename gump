@@ -378,7 +378,7 @@ function check_command
 and install it. If it is already installed, modify your \$PATH variable
 to point to it. You can customize the \$PATH variable inside a file named
 
-  \$GUMP_ENV_FILE
+  $GUMP_ENV_FILE
 
 if you wish."
   fi
