@@ -1,5 +1,5 @@
 <module name="jakarta-jmeter">
-<!-- Version $Revision: 1.58 $ Last updated $Date: 2003/12/14 01:48:37 $ -->
+<!-- Version $Revision: 1.59 $ Last updated $Date: 2003/12/15 11:49:08 $ -->
   <url href="http://jakarta.apache.org/jmeter/" />
   <description>
     Pure Java load testing and performance measurement tool.
@@ -14,7 +14,8 @@
       <property name="version" value="@@DATE@@"/>
       <property name="gump.run" value="true"/>
       <!-- The version of this file -->
-      <property name="version.projectfile" value="1.57"/>
+      <property name="version.projectfile" value="$Revision: 1.59 $"/>
+      
 <!-- Temporary standalone trial build
       <depend property="avalon-framework.jar" project="avalon-framework" id="combined"/>
       <depend property="jakarta-oro.jar" project="jakarta-oro"/>
@@ -49,8 +50,11 @@
     <!-- Allow http to build: -->
     <work nested="build/components"/>
 
-    <!-- Are these necessary to run the tests ? -->
-<!-- See if really needed
+    <!--
+    	Add jars needed to run JUnit tests
+    	Note that bin/ApacheJMeter.jar is not currently needed,
+    	as there are no tests for the only class (NewDriver) in it.
+     -->
     <work nested="lib/ext/ApacheJMeter_components.jar"/>
     <work nested="lib/ext/ApacheJMeter_core.jar"/>
     <work nested="lib/ext/ApacheJMeter_ftp.jar"/>
@@ -60,7 +64,7 @@
     <work nested="lib/ext/ApacheJMeter_jdbc.jar"/>
     <work nested="lib/ext/ApacheJMeter_ldap.jar"/>
     <work nested="lib/ext/ApacheJMeter_tcp.jar"/>
--->
+
     <!-- Temporary standalone trial build -->
     <work nested="lib/avalon-excalibur-4.1.jar"/>
     <work nested="lib/avalon-framework-4.1.4.jar"/>
