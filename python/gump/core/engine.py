@@ -808,7 +808,6 @@ class GumpEngine:
                         + project.getStateDescription())
             
             projectNo+=1
-
                                    
     """
     
@@ -819,8 +818,6 @@ class GumpEngine:
         ******************************************************************
     
     """
-    
-    
 
     def prepareDocumentation(self,run):
         
@@ -860,7 +857,8 @@ class GumpEngine:
         #
         #	Send Naggin E-mails
         #
-        if run.getGumpSet().isFull() \
+        if run.getOptions().isOfficial() \
+            and run.getGumpSet().isFull() \
             and run.getWorkspace().isNag():
   
             log.info('Nag about failures... ')            
@@ -896,9 +894,9 @@ class GumpEngine:
         #
         # Provide a news feed (or few)
         #
-        syndicate(run)
+        if run.getOptions().isOfficial():
+            syndicate(run)
                 
-    
     def loadStatistics(self,run):   
         """ Load Statistics into the run (to get current values) """
         logResourceUtilization('Before load statistics')
@@ -907,7 +905,8 @@ class GumpEngine:
     def updateStatistics(self,run):        
         """ Update Statistics into the run (to set current values) """
         logResourceUtilization('Before update statistics')
-        self.processStatistics(run,0)
+        if run.getOptions().isOfficial():
+            self.processStatistics(run,0)
         
     def processStatistics(self,run,load):
     
@@ -932,9 +931,7 @@ class GumpEngine:
             # Load stats (and stash onto projects)
             #    
             db.loadStatistics(workspace)            
-          
-
-    
+        
 class GumpTask:
     
     def __init__(self, name, dependencyNames):

@@ -15,9 +15,10 @@
   limitations under the License.
 -->
 
-<server name="hermes" type="python" status="up">
+<server name="hermes" type="python" status="down">
   <attribution>The Apache Software Foundation</attribution>
   <title>Hermes</title>
   <url>http://hermes.apache.org/gump/public</url>
   <site>http://gump.apache.org</site>
+  <note>Might soon be deleted...</note>
 </server>

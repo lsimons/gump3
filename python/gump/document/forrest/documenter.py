@@ -513,7 +513,7 @@ class ForrestDocumenter(Documenter):
             self.resolver.getFile(workspace,'servers'))
                 
         serversSection=document.createSection('All Servers')
-        serversTable=serversSection.createTable(['Name','Notes','Results','Start (Local)','Start (UTC)','End (UTC)','Offset (from UTC)'])
+        serversTable=serversSection.createTable(['Name','Status','Notes','Results','Start (Local)','Start (UTC)','End (UTC)','Offset (from UTC)'])
 
         scount=0
         for server in sortedServerList:
@@ -524,7 +524,12 @@ class ForrestDocumenter(Documenter):
             serverRow.createComment(server.getName())
                        
             self.insertLink( server, workspace, serverRow.createData())
-                                        
+                
+            if server.isUp():   
+                serverRow.createData('Up')
+            else:
+                serverRow.createData().createStrong('Down')                     
+                                                
             if server.hasNote():
                 serverRow.createData(server.getNote())
             else:
@@ -1206,6 +1211,11 @@ This page helps Gumpmeisters (and others) observe community progress.
         
         detailList.createEntry('Name: ', server.getName())
     
+        if server.isUp():
+            detailList.createEntry('Status: ', 'Up')
+        else:
+            detailList.createEntry('Status: ', 'Down')
+    
         if server.hasType():
             detailList.createEntry('Type: ', server.getType())
     
@@ -1608,7 +1618,7 @@ This page helps Gumpmeisters (and others) observe community progress.
         addnSection=document.createSection('Additional Details')
         addnPara=addnSection.createParagraph()
         addnPara.createLink('details.html',	
-                              'For additional project details (including dependencies) ...')
+                              'For additional project details (including classpaths,dependencies) ...')
                                 
         document.serialize()
         
@@ -1641,9 +1651,10 @@ This page helps Gumpmeisters (and others) observe community progress.
                 
                 # The jar id
                 id=jar.getId() or 'N/A'
-                outputRow.createData(id)                                
+                outputRow.createData(id)    
+        else:
+            miscSection.createParagraph('No outputs (e.g. jars) produced')
         
-            
         if project.hasBuildCommand():
             
             if project.hasAnt():                
@@ -1652,6 +1663,8 @@ This page helps Gumpmeisters (and others) observe community progress.
             (classpath,bootclasspath)=project.getClasspathObjects()            
             self.displayClasspath(miscSection, classpath,'Classpath',project)        
             self.displayClasspath(miscSection, bootclasspath,'Boot Classpath',project) 
+        else:
+            miscSection.createParagraph('No build command (so classpaths irrelevant)')
        
         if project.isDebug():
             self.documentXML(miscSection,project)
@@ -1789,8 +1802,8 @@ This page helps Gumpmeisters (and others) observe community progress.
         if not paths:        
             pathTable.createLine('No ' + title + ' entries')
             
-            
-        self.documentAnnotations(pathSection,classpath)    
+        if classpath.containsNasties():
+            self.documentAnnotations(pathSection,classpath)    
                      
     def documentDependenciesPath(self,xdocNode,title,path,dependees,full,referencingObject,gumpSet):        
         # :TODO: show start and end?
@@ -1922,7 +1935,7 @@ This page helps Gumpmeisters (and others) observe community progress.
                     utcTime=results.getStartDateTimeUtc()
                                 
             # If we can resolve this object to a URL, then do                        
-            if server.hasResolver():
+            if server.hasResolver() and server.isUp():
                 dataNode=serverRow.createData()    
             
                 xdocNode=dataNode.createFork(	\

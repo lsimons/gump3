@@ -65,6 +65,7 @@ class CommandLine:
                 print "  -d,  --debug             debug logging."
                 print
                 print " Not relevent to all scripts:"
+                print "  -O,  --official          Full run, publishing notifications, etc."
                 print "  -D,  --dated             Dated log files."
                 print "  -t,  --text              Use text not Forrest."
                 print "  -T,  --templates         Use temapltes not Forrest."
@@ -104,6 +105,10 @@ class CommandLine:
                 #
                 self.options.setDated(1)                    
                 log.info('Dated Operation (add date to log dir)')
+            elif arg in ['-O','--official']:
+                removers.append(arg)    
+                self.options.setOfficial(1)                    
+                log.info('Official run (publish notifications, etc.)')
             elif arg in ['-t','--text']:
                 removers.append(arg)        
                 self.options.setText(1)

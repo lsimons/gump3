@@ -353,6 +353,7 @@ class GumpRunOptions:
         self.quick=1	# Defaults to CACHE
         self.dated=0	# Defaults to NOT dated.
         self.optimize=0	# Do the least ammount of work...
+        self.official=0	# Do a full run (with publishing e-mail)
         
         # Default is Text unless Forrest is in the environment,
         # but can also force text with --text 
@@ -383,6 +384,12 @@ class GumpRunOptions:
         
     def setDated(self,dated):
         self.dated=dated
+        
+    def isOfficial(self):
+        return self.official
+        
+    def setOfficial(self,official):
+        self.official=official
         
     def isQuick(self):
         return self.quick

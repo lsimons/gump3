@@ -52,6 +52,15 @@ class Server(NamedModelObject):
     def getType(self):
         return str(self.xml.type)
         
+    def hasStatus(self):
+        return hasattr(self.xml,'status') and self.xml.status
+           
+    def getStatus(self):
+        return str(self.xml.status)
+        
+    def isUp(self):
+        return self.hasStatus() and 'up' == self.getStatus()
+        
     def hasSite(self):
         return hasattr(self.xml,'site') and self.xml.site
            
