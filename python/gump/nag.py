@@ -80,25 +80,24 @@ def nag(workspace,context,moduleFilterList=None,projectFilterList=None):
         nagWorkspace(workspace,context)
     
     for mctxt in context:
-        if not STATUS_SUCCESS == mctxt.status:
-            mname=mctxt.name
-            if Module.list.has_key(mname):
-                # :TODO: Something doesn't work w/ this.
-                # if moduleFilterList and not mname in moduleFilterList: continue    
-                module=Module.list[mname]
-        for pctxt in mctxt:
-            pname=pctxt.name
-            if STATUS_FAILED == pctxt.status :
-                if Project.list.has_key(pname):
-                    # :TODO: Something doesn't work w/ this.
-                    # if projectFilterList and not pctxt.project in projectFilterList: continue
-                    project=Project.list[pname]
-                    try:
-                        nagProject(workspace,context,module,mctxt,project,pctxt)
-                    except:
-                        log.error("Failed to send nag e-mail for project " + pname)
-                else:
-                    log.error("Unknown project " + pname)
+        mname=mctxt.name
+        if Module.list.has_key(mname):
+            # :TODO: Something doesn't work w/ this.
+            # if moduleFilterList and not mname in moduleFilterList: continue    
+            module=Module.list[mname]
+            for pctxt in mctxt:
+                pname=pctxt.name
+                if STATUS_FAILED == pctxt.status :
+                    if Project.list.has_key(pname):
+                        # :TODO: Something doesn't work w/ this.
+                        # if projectFilterList and not pctxt.project in projectFilterList: continue
+                        project=Project.list[pname]
+                        try:
+                            nagProject(workspace,context,module,mctxt,project,pctxt)
+                        except:
+                            log.error("Failed to send nag e-mail for project " + pname)
+                    else:
+                        log.error("Unknown project " + pname)
                 
                 
 def nagWorkspace(workspace,context):
