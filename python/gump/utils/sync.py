@@ -221,10 +221,10 @@ class PathWalker(Annotatable):
         if performCopy:
             log.debug("Attempting copy from [%s] to [%s]" %(`srcname`, `dstname`))    
             shutil.copy2(srcname, dstname)    
-        else:
-            log.debug("Do not copy from [%s:%s] to [%s:%s]" \
-                        %(`srcname`, `sourceStat`, `dstname`,`destinationStat`))
-                
+        #else:
+        #    log.debug("Do not copy from [%s:%s] to [%s:%s]" \
+        #                %(`srcname`, `sourceStat`, `dstname`,`destinationStat`))
+        #        
 
 
 
