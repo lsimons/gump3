@@ -111,8 +111,10 @@ class JarRepository:
         cdir=self.getGroupDir(group)
         jarname=os.path.basename(jar)
         newjar=os.path.join(cdir,jarname)
-        copyfile(jar,newjar)
-        
+        try:
+            copyfile(jar,newjar)
+        except Exception, details:
+            log.error('Failed to copy [' + str(jar) + '] to [' + str(newjar) + '] : ' + str(details))
         
 
 # static void main()
