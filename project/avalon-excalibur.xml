@@ -499,6 +499,7 @@
         <depend project="ant" inherit="runtime"/>
         <depend project="xml-xerces"/>
         <depend project="xml-xalan2"/>
+        <depend project="junit"/>
 
         <!-- optional dependencies -->
         <option project="checkstyle" inherit="runtime"/>
@@ -736,7 +737,7 @@
         <depend project="jakarta-oro"/>
 
         <work nested="loader/build/classes"/>
-        <work nested="logger/build/testclasses"/>
+        <work nested="loader/build/testclasses"/>
 
         <home nested="loader"/>
         <jar name="build/lib/excalibur-loader-@@DATE@@.jar"/>
@@ -1013,6 +1014,7 @@
         <depend project="excalibur-component" id="testcase"/>
 
         <work nested="thread/build/classes"/>
+        <work nested="thread/build/testclasses"/>
 
         <home nested="thread"/>
         <jar name="build/lib/excalibur-thread-@@DATE@@.jar"/>
@@ -1037,6 +1039,7 @@
         <depend project="xml-xerces"/>
         <depend project="xml-xalan2"/>
         <work nested="threadcontext/build/classes"/>
+        <work nested="threadcontext/build/testclasses"/>
 
         <home nested="threadcontext"/>
         <jar name="build/lib/excalibur-threadcontext-@@DATE@@.jar"/>
@@ -1077,6 +1080,7 @@
         <depend project="jtidy"/>
         <depend project="xml-commons-resolver"/>
         <work nested="xmlutil/build/classes"/>
+        <work nested="xmlutil/build/testclasses"/>
 
         <home nested="xmlutil"/>
         <jar name="build/lib/excalibur-xmlutil-@@DATE@@.jar"/>
