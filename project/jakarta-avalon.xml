@@ -50,7 +50,7 @@
     <depend project="jakarta-ant" inherit="runtime"/>
     <depend project="xml-xerces"/>
     <ant target="jar-exceptionutil"/>
-    <home nested="build/lib"/>
+    <home nested="target/lib"/>
     <jar name="exceptionutil.jar"/>
     <nag from="Peter Donald &lt;peter@apache.org&gt;"
          to="avalon-dev@jakarta.apache.org"/>
