@@ -13,6 +13,6 @@
   <depend project="xml-xerces"/>
 
   <home nested="build/lib"/>
-  <jar name="log.jar"/>
+  <jar name="logkit.jar"/>
 
 </project>
