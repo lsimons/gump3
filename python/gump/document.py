@@ -201,8 +201,8 @@ def executeForrest(workspace,context):
     #forrest.addPrefixedParameter('-D','project.xdocs-dir',  \
     #    xdocs, '=')
         
-    #forrest.addPrefixedParameter('-D','project.site-dir',  \
-    #    workspace.logdir, '=')
+    forrest.addPrefixedParameter('-D','project.site-dir',  \
+        workspace.logdir, '=')
      
     #   
     # Do we just tweak forrest.properties?
