@@ -21,7 +21,6 @@
     <depend project="ant" inherit="runtime"/>
     <depend project="xml-xerces"/>
     <depend project="javacc"/>
-    <depend project="jrefactory"/>
     <depend project="jakarta-log4j"/>
     <depend project="junit"/>
     <depend project="commons-logging" runtime="true"/>
