@@ -273,7 +273,7 @@ def executeIntoResult(cmd,result,tmp=dir.tmp):
       except:
         originalENV[envKey]=''
       os.environ[envKey]=cmd.env[envKey]
-    
+    outputFile=None
     start_time=time.time()
     try:
       try:          
