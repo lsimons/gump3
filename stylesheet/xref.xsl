@@ -441,6 +441,44 @@
 
       </html>
 
+      <!-- =============================================================== -->
+      <!--         Produce a listing of modules WITHOUT javadocs           -->
+      <!-- =============================================================== -->
+
+      <html log="{@logdir}/nojavadoc.html"
+        banner-image="{@banner-image}" banner-link="{@banner-link}">
+
+        <title>List of modules WITHOUT javadocs</title>
+
+        <sidebar>
+          <strong><a href="index.html">Build logs</a></strong>
+          <ul>
+            <xsl:for-each select="project[ant|script]">
+              <xsl:sort select="@name"/>
+              <li>
+                <a href="{@name}.html"><xsl:value-of select="@name"/></a>
+              </li>
+            </xsl:for-each>
+          </ul>
+        </sidebar>
+
+        <content>
+
+          <ul>
+             <xsl:for-each select="/workspace/module[not(javadoc)]">
+               <xsl:sort select="@name"/>
+               <xsl:variable name="name" select="@name"/>
+
+               <xsl:if test="../project[ant and @module=$name]">
+                 <li> <xsl:value-of select="$name"/> </li>
+               </xsl:if>
+             </xsl:for-each>
+          </ul>
+
+        </content>
+
+      </html>
+
     </xref>
 
   </xsl:template>
