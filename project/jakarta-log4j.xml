@@ -22,7 +22,9 @@
     <option project="junit"/>
     <option project="javamail"/>
 
-    <jar  name="log4j-@@DATE@@.jar"/>
+    <jar  name="log4j-@@DATE@@.jar" id="log4j"/>
+    <jar  name="log4j-lf5-@@DATE@@.jar" id="lf5"/>
+    <jar  name="log4j-chainsaw-@@DATE@@.jar" id="chainsaw"/>
     
     <nag to="log4j-dev@jakarta.apache.org"
          from="Ceki Gülcü &lt;ceki@apache.org&gt;"/>

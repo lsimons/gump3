@@ -16,7 +16,7 @@
       <depend property="jaf.jar" project="jaf"/>
       <depend property="jakarta-oro.jar" project="jakarta-oro"/>
       <depend property="javamail.jar" project="javamail"/>
-      <depend property="log4j.jar" project="jakarta-log4j"/>
+      <depend property="log4j.jar" project="jakarta-log4j" id="log4j"/>
       <depend property="lucene.jar" project="jakarta-lucene"/>
       <depend property="velocity.jar" project="jakarta-velocity"/>
     </ant>
