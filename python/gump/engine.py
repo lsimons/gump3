@@ -32,7 +32,7 @@ from gump.document.forrest import ForrestDocumenter
 from gump.output.statsdb import *
 from gump.output.repository import JarRepository
 from gump.output.nag import nag
-from gump.results.resulter import generateResults
+from gump.results.resulter import gatherResults,generateResults
 from gump.syndication.syndicator import syndicate
 
     
