@@ -42,6 +42,10 @@
     <!-- Allow http to build: -->
     <work nested="build/components"/>
 
+<!-- Temporary change to include optional libraries in the class path -->
+    <work nested="lib/commons-collections.jar"/>
+    <work nested="lib/velocity-1.4-dev.jar"/>
+
     <!-- These are necessary to run the tests: -->
     <work nested="lib/ext/ApacheJMeter_core.jar"/>
     <work nested="lib/ext/ApacheJMeter_components.jar"/>
