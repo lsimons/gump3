@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/syndication/syndicator.py,v 1.15 2004/01/15 22:57:13 ajack Exp $
-# $Revision: 1.15 $
-# $Date: 2004/01/15 22:57:13 $
+# $Header: /home/stefano/cvs/gump/python/gump/syndication/syndicator.py,v 1.16 2004/01/16 17:37:16 ajack Exp $
+# $Revision: 1.16 $
+# $Date: 2004/01/16 17:37:16 $
 #
 # ====================================================================
 #
@@ -109,12 +109,12 @@ class Syndicator:
     
         content += '</p>'
         
-        if project.hasDescription or module.hasDescription():
+        if project.hasDescription or project.getModule().hasDescription():
             content+='<p>'           
             if project.hasDescription(): 
                 content+=project.getDescription()
             else:
-                content+=module.getDescription()
+                content+=project.getModule().getDescription()
             content+='<p>'
             
         content += self.getSundries(project)

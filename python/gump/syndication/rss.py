@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/syndication/rss.py,v 1.14 2004/01/09 19:57:20 ajack Exp $
-# $Revision: 1.14 $
-# $Date: 2004/01/09 19:57:20 $
+# $Header: /home/stefano/cvs/gump/python/gump/syndication/rss.py,v 1.15 2004/01/16 17:37:16 ajack Exp $
+# $Revision: 1.15 $
+# $Date: 2004/01/16 17:37:16 $
 #
 # ====================================================================
 #
@@ -310,7 +310,7 @@ class RSSSyndicator(Syndicator):
         #
         #
         #
-        item=Item(('%s %s %s') % (module.getName(),module.getStateDescription(),datestr), \
+        item=Item(('%s %s') % (module.getName(),module.getStateDescription()), \
                   moduleUrl, \
                   content, \
                   module.getName(), \
@@ -353,7 +353,7 @@ class RSSSyndicator(Syndicator):
                         
         #
         #
-        item=Item(('%s %s %s') % (project.getName(),project.getStateDescription(),datestr), \
+        item=Item(('%s %s') % (project.getName(),project.getStateDescription()), \
                   projectUrl, \
                   content, \
                   project.getModule().getName() + ":" + project.getName(), \
