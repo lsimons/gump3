@@ -3,7 +3,7 @@
     Global configuration settings for gump, done as Python classes
 """
 
-import socket, time, os.path, sys
+import socket, time, os, os.path, sys
 
 class dir:
     cmdpath   = os.path.abspath(sys.argv[0])
@@ -11,8 +11,8 @@ class dir:
     cache     = os.path.normpath('%s/%s' % (base,'cache'))
     work      = os.path.normpath('%s/%s' % (base,'work'))
 
-    if not os.path.exists(cache): os.path.mkdir(cache)
-    if not os.path.exists(work): os.path.mkdir(work)
+    if not os.path.exists(cache): os.mkdir(cache)
+    if not os.path.exists(work): os.mkdir(work)
     
     if base not in sys.path: sys.path.insert(0, base)
     

@@ -26,7 +26,7 @@ def gumpCache(href):
     newHref=gumpPath(href);
   else:
    if debug: print 'url: ' + href
-   if not os.path.exists(dir.cache):  mkdir(dir.cache)
+   if not os.path.exists(dir.cache):  os.mkdir(dir.cache)
 
    #the name of the cached descriptor
    quotedHref = urllib.quote_plus(href)
