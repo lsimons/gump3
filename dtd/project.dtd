@@ -6,6 +6,7 @@
 <!ELEMENT cvs           EMPTY >
 <!ELEMENT ant         ( property | depend )* >
 <!ELEMENT depend        EMPTY >
+<!ELEMENT property      EMPTY >
 <!ELEMENT work          EMPTY >
 <!ELEMENT home          EMPTY >
 <!ELEMENT jar           EMPTY >
@@ -31,6 +32,10 @@
   property  CDATA #IMPLIED
   version   CDATA #IMPLIED
   id        CDATA #IMPLIED >
+
+<!ATTLIST property
+  name  CDATA #REQUIRED
+  value CDATA #REQUIRED >
 
 <!ATTLIST work
   nested    CDATA #REQUIRED >
