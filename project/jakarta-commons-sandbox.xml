@@ -187,7 +187,6 @@
     <depend project="dom4j"/>
     <depend project="iso-relax"/>
     <depend project="jaf"/>
-    <depend project="jakarta-ojb"/>
     <depend project="jakarta-servletapi-4"/>
     <depend project="javamail"/>
     <depend project="jms"/>
