@@ -30,6 +30,9 @@
   <depend project="jdbc"/>
   <depend project="jakarta-ant"/>
   <depend project="jakarta-servletapi-4"/>
+  <depend project="commons-beanutils"/>
+  <depend project="commons-collections"/>
+  <depend project="commons-digester"/>
   <work nested="target/library/struts.jar"/>
 
 </project>
