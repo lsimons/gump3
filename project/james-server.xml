@@ -60,9 +60,9 @@
     <depend project="javamail"/>
     <depend project="jaf"/>
     <home nested="target/deliverables" />
-    <jar name="jars/james-@@DATE@@.bar" id="server"/>
-    <jar name="jars/mailet-@@DATE@@.bar" id="impl"/>
-    <jar name="jars/mailet-api-@@DATE@@.bar" id="api"/>
+    <jar name="jars/james-@@DATE@@.jar" id="server"/>
+    <jar name="jars/mailet-@@DATE@@.jar" id="impl"/>
+    <jar name="jars/mailet-api-@@DATE@@.jar" id="api"/>s
     <nag from="Gump Build Robot &lt;general@gump.apache.org&gt;"
          to="server-dev@james.apache.org"/>
   </project>
