@@ -46,7 +46,7 @@ Proposed board resolution to create an Apache Gump Project
        * Sam Ruby (still has to accept nomination)
          +1 nicolaken,stefano,leosimons
        * Stefan Bodewig (still has to accept nomination)
-         +1 nicolaken,stefano,leosimons
+         +1 nicolaken,stefano,leosimons,sanders
        * Stefano Mazzocchi
        
        * others ?
