@@ -11,10 +11,16 @@
     <index label="TODOs" href="todos.html"/>
     <index label="Modules" href="modules.html"/>
     <index label="Packages" href="packages.html"/>
+    <index label="Context" href="context.html"/>
   </work>
 
   <stats label="Statistics">
     <index label="Index" href="gump_stats/index.html"/>
+    <index label="by FOG Factor" href="gump_stats/fogfactor.html"/>
+    <index label="by Elapsed" href="gump_stats/elapsed.html"/>
+    <index label="by Project #" href="gump_stats/projects.html"/>
+    <index label="by Depends #" href="gump_stats/dependencies.html"/>
+    <index label="by Dependees #" href="gump_stats/dependees.html"/>
   </stats>
 
   <external-refs>

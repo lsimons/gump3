@@ -778,9 +778,20 @@ def documentWork(workspace,work,dir):
         if output:
             try:
                 try:
+                    # Keep a length count to not exceed 32K
+                    size=0
                     o=open(output, 'r')
                     line=o.readline()
                     while line:
+                        length = len(line)
+                        size += length
+                        # Crude to 'ensure' that escaped
+                        # it doesn't exceed 32K.
+                        if size > 20000:
+                            x.write('</source>')
+                            x.write('<p>Continuation...</p>')
+                            x.write('<source>')
+                            size = length
                         x.write(escape(line))                
                         line=o.readline()
                 finally:
@@ -814,24 +825,7 @@ def documentStatistics(workspace,context,db,moduleFilterList=None,projectFilterL
     addItemXDoc(x,'Projects: ', stats.wguru.projectsInWorkspace)
     addItemXDoc(x,'Avg Projects Per Module: ', stats.wguru.averageProjectsPerModule)
     endListXDoc(x)
-    endSectionXDoc(x)
-    
-    
-    x.write('    <p>\n')
-    addLinkXDoc(x, 'fogfactor.html', 'Modules By FOG Factor') 
-    x.write('    </p>\n')
-    x.write('    <p>\n')
-    addLinkXDoc(x, 'elapsed.html', 'Modules By Elapsed Time') 
-    x.write('    </p>\n')
-    x.write('    <p>\n')
-    addLinkXDoc(x, 'projects.html', 'Modules By Project Count') 
-    x.write('    </p>\n')
-    x.write('    <p>\n')
-    addLinkXDoc(x, 'dependencies.html', 'Modules By Dependency Count') 
-    x.write('    </p>\n')
-    x.write('    <p>\n')
-    addLinkXDoc(x, 'dependees.html', 'Modules By Dependee Count')    
-    x.write('    </p>\n')
+    endSectionXDoc(x)    
     
     footerXDoc(x) 
     endXDoc(x)
