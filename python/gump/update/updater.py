@@ -183,7 +183,9 @@ class GumpUpdater(RunSpecific):
                         
         except Exception, details:
             module.changeState(STATE_FAILED,REASON_SYNC_FAILED)
-            log.error('Synchronize Failed ' + str(details), exc_info=1)
+            message='Synchronize Failed: ' + str(details)
+            module.addError(message)
+            log.error(message, exc_info=1)
            
         return module.okToPerformWork()
         

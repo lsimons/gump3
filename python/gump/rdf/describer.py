@@ -191,7 +191,7 @@ class RDFDescriber(AbstractRunActor):
         """
         Write to the generate store
         """
-        log.info('RDF : %s %s %s [%s]' % (subject,verb,predicate,comment))
+        log.debug('RDF : %s %s %s [%s]' % (subject,verb,predicate,comment))
         # Add to this store
         store.add((subject,verb,predicate))
         # Add globally

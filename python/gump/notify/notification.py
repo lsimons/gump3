@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # Copyright 2003-2004 The Apache Software Foundation
-#
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
 # You may obtain a copy of the License at
@@ -124,10 +123,10 @@ and/or contact folk at general@gump.apache.org.
         
         if self.isFailure():        
             if affected:
-                stream.write('.\nThis issue affects ' + `affected` + ' projects')
+                stream.write('.\nThis issue affects %s projects' % affected)
             
             if duration and duration > 1:
-                stream.write(', and has been outstanding for ' + `duration` + ' runs')
+                stream.write(', and has been outstanding for %s runs' % duration)
         
         stream.write('.\n')
         

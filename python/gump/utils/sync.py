@@ -176,9 +176,10 @@ class PathWalker(Annotatable):
         #
         #
         for name in names:
-            srcname = os.path.join(src, name)
-            dstname = os.path.join(dst, name)
-            try:
+            try:    
+                srcname = os.path.join(src, name)
+                dstname = os.path.join(dst, name)
+                
                 if symlinks and os.path.islink(srcname):
                     linkto = os.readlink(srcname)
                     os.symlink(linkto, dstname)
