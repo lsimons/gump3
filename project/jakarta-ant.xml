@@ -89,6 +89,7 @@
     <depend project="excalibur-cli"/>
     <depend project="excalibur-io"/>
     <depend project="excalibur-tar"/>
+    <depend project="excalibur-zip"/>
     <depend project="excalibur-extension"/>
     <depend project="excalibur-i18n"/>
     <depend project="jakarta-avalon-excalibur"/>
