@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/model/object.py,v 1.13 2003/12/15 19:36:51 ajack Exp $
-# $Revision: 1.13 $
-# $Date: 2003/12/15 19:36:51 $
+# $Header: /home/stefano/cvs/gump/python/gump/model/object.py,v 1.14 2004/01/09 19:57:18 ajack Exp $
+# $Revision: 1.14 $
+# $Date: 2004/01/09 19:57:18 $
 #
 # ====================================================================
 #

@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/forrest.py,v 1.45 2004/01/09 19:37:54 ajack Exp $
-# $Revision: 1.45 $f
-# $Date: 2004/01/09 19:37:54 $
+# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/forrest.py,v 1.46 2004/01/09 19:57:20 ajack Exp $
+# $Revision: 1.46 $f
+# $Date: 2004/01/09 19:57:20 $
 #
 # ====================================================================
 #

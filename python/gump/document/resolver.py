@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/document/resolver.py,v 1.9 2004/01/08 17:58:51 ajack Exp $
-# $Revision: 1.9 $
-# $Date: 2004/01/08 17:58:51 $
+# $Header: /home/stefano/cvs/gump/python/gump/document/resolver.py,v 1.10 2004/01/09 19:57:20 ajack Exp $
+# $Revision: 1.10 $
+# $Date: 2004/01/09 19:57:20 $
 #
 # ====================================================================
 #

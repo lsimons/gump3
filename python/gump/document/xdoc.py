@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/xdoc.py,v 1.6 2003/12/04 23:16:24 ajack Exp $
-# $Revision: 1.6 $
-# $Date: 2003/12/04 23:16:24 $
+# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/xdoc.py,v 1.7 2004/01/09 19:57:20 ajack Exp $
+# $Revision: 1.7 $
+# $Date: 2004/01/09 19:57:20 $
 #
 # ====================================================================
 #

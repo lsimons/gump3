@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/syndication/rss.py,v 1.13 2004/01/07 18:57:00 ajack Exp $
-# $Revision: 1.13 $
-# $Date: 2004/01/07 18:57:00 $
+# $Header: /home/stefano/cvs/gump/python/gump/syndication/rss.py,v 1.14 2004/01/09 19:57:20 ajack Exp $
+# $Revision: 1.14 $
+# $Date: 2004/01/09 19:57:20 $
 #
 # ====================================================================
 #

@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/syndication/__init__.py,v 1.4 2004/01/07 17:47:25 ajack Exp $
-# $Revision: 1.4 $
-# $Date: 2004/01/07 17:47:25 $
+# $Header: /home/stefano/cvs/gump/python/gump/syndication/__init__.py,v 1.5 2004/01/09 19:57:20 ajack Exp $
+# $Revision: 1.5 $
+# $Date: 2004/01/09 19:57:20 $
 #
 # ====================================================================
 #

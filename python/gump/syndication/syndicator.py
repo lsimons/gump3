@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/syndication/syndicator.py,v 1.11 2004/01/08 01:28:11 ajack Exp $
-# $Revision: 1.11 $
-# $Date: 2004/01/08 01:28:11 $
+# $Header: /home/stefano/cvs/gump/python/gump/syndication/syndicator.py,v 1.12 2004/01/09 19:57:20 ajack Exp $
+# $Revision: 1.12 $
+# $Date: 2004/01/09 19:57:20 $
 #
 # ====================================================================
 #

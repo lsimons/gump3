@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/utils/Attic/xmlutils.py,v 1.7 2003/12/17 00:52:11 ajack Exp $
-# $Revision: 1.7 $
-# $Date: 2003/12/17 00:52:11 $
+# $Header: /home/stefano/cvs/gump/python/gump/utils/Attic/xmlutils.py,v 1.8 2004/01/09 19:57:19 ajack Exp $
+# $Revision: 1.8 $
+# $Date: 2004/01/09 19:57:19 $
 #
 # ====================================================================
 #

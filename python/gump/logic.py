@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/Attic/logic.py,v 1.47 2003/11/17 22:10:51 ajack Exp $
-# $Revision: 1.47 $
-# $Date: 2003/11/17 22:10:51 $
+# $Header: /home/stefano/cvs/gump/python/gump/Attic/logic.py,v 1.48 2004/01/09 19:57:19 ajack Exp $
+# $Revision: 1.48 $
+# $Date: 2004/01/09 19:57:19 $
 #
 # ====================================================================
 #

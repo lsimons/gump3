@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/output/Attic/nag.py,v 1.4 2003/11/19 19:43:53 ajack Exp $
-# $Revision: 1.4 $
-# $Date: 2003/11/19 19:43:53 $
+# $Header: /home/stefano/cvs/gump/python/gump/output/Attic/nag.py,v 1.5 2004/01/09 19:57:18 ajack Exp $
+# $Revision: 1.5 $
+# $Date: 2004/01/09 19:57:18 $
 #
 # ====================================================================
 #

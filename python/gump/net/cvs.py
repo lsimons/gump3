@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/net/Attic/cvs.py,v 1.2 2003/11/19 19:43:53 ajack Exp $
-# $Revision: 1.2 $
-# $Date: 2003/11/19 19:43:53 $
+# $Header: /home/stefano/cvs/gump/python/gump/net/Attic/cvs.py,v 1.3 2004/01/09 19:57:19 ajack Exp $
+# $Revision: 1.3 $
+# $Date: 2004/01/09 19:57:19 $
 #
 # ====================================================================
 #

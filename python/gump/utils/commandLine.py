@@ -1,8 +1,8 @@
 #!/usr/bin/python
 
-# $Header: /home/stefano/cvs/gump/python/gump/utils/Attic/commandLine.py,v 1.4 2003/12/19 00:23:02 dims Exp $
-# $Revision: 1.4 $
-# $Date: 2003/12/19 00:23:02 $
+# $Header: /home/stefano/cvs/gump/python/gump/utils/Attic/commandLine.py,v 1.5 2004/01/09 19:57:19 ajack Exp $
+# $Revision: 1.5 $
+# $Date: 2004/01/09 19:57:19 $
 #
 # ====================================================================
 #

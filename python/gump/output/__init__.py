@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/output/Attic/__init__.py,v 1.3 2003/12/04 23:16:24 ajack Exp $
-# $Revision: 1.3 $
-# $Date: 2003/12/04 23:16:24 $
+# $Header: /home/stefano/cvs/gump/python/gump/output/Attic/__init__.py,v 1.4 2004/01/09 19:57:18 ajack Exp $
+# $Revision: 1.4 $
+# $Date: 2004/01/09 19:57:18 $
 #
 # ====================================================================
 #

@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/utils/tools.py,v 1.8 2003/12/19 00:23:02 dims Exp $
-# $Revision: 1.8 $
-# $Date: 2003/12/19 00:23:02 $
+# $Header: /home/stefano/cvs/gump/python/gump/utils/tools.py,v 1.9 2004/01/09 19:57:19 ajack Exp $
+# $Revision: 1.9 $
+# $Date: 2004/01/09 19:57:19 $
 #
 # ====================================================================
 #
