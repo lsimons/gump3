@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<!ELEMENT repository ( title, home-page, cvsweb, root) >
+<!ELEMENT title      ( #PCDATA ) >
+<!ELEMENT home-page  ( #PCDATA ) >
+<!ELEMENT cvsweb     ( #PCDATA ) >
+<!ELEMENT root       ( method, user, hostname, password, path ) >
+<!ELEMENT method     ( #PCDATA ) >
+<!ELEMENT user       ( #PCDATA ) >
+<!ELEMENT hostname   ( #PCDATA ) >
+<!ELEMENT password   ( #PCDATA ) >
+<!ELEMENT path       ( #PCDATA ) >
+
+<!ATTLIST repository 
+  name CDATA #REQUIRED >
+  type CDATA #REQUIRED >
