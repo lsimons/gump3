@@ -235,6 +235,30 @@ class ModelTestCase(TestCase):
         self.assertRaises(AssertionError, m.add_project, "blaaaa")
         self.assertRaises(AssertionError, m.add_project, p)
         self.assertEqual(1,len(m.projects))
+    
+    def test_module_is_added_to_workspace_by_repository(self):
+        wname = "blah"
+        w = Workspace(wname)
+        rname = "booh"
+        r = Repository(w,rname)
+        r2name = "booh2"
+        r2 = Repository(w,r2name)
+        
+        url = "http://www.somewhere.org/bweh/"
+        description = "Bweh is foo bar blah."
+        name = "bweh"
+        m = Module(r,name,url,description)
+
+        url2 = "http://www.somewhere.org/bweh2/"
+        description2 = "Bweh2 is foo bar blah."
+        name = "bweh"
+        m2 = Module(r,name,url,description)
+        
+        r.add_module(m)
+        self.assert_(w.modules.has_key(name))
+        self.assert_(m, w.modules.get(name))
+        
+        self.assertRaises(AssertionError,r.add_module,m2)
         
     def test_cvs_module(self):
         wname = "blah"
@@ -322,6 +346,28 @@ class ModelTestCase(TestCase):
     
         self.assertRaises(AssertionError,p.add_output,None)
         self.assertRaises(AssertionError,p.add_output,"jarfile!")
+        
+    def test_project_is_added_to_workspace_by_module(self):
+        wname = "blah"
+        w = Workspace(wname)
+        rname = "booh"
+        r = Repository(w,rname)
+        url = "http://www.somewhere.org/bweh/"
+        description = "Bweh is foo bar blah."
+        mname = "bweh"
+        m = Module(r,mname,url,description)
+        m2name = "bweh2"
+        m2 = Module(r,m2name,url,description)
+
+        name = "ugh"
+        p = Project(m,name)
+        p2 = Project(m2,name)
+        
+        m.add_project(p)
+        self.assert_(w.projects.has_key(name))
+        self.assert_(p, w.projects.get(name))
+        
+        self.assertRaises(AssertionError,m2.add_project,p2)
         
     def test_dependencies(self):
         wname = "blah"

@@ -92,10 +92,11 @@ class Repository(ModelObject):
     def add_module(self, module):
         assert isinstance(module, Module)
         assert not self.modules.has_key(module.name)
+        assert not self.workspace.modules.has_key(module.name)
         assert self == module.repository
         
         self.modules[module.name] = module
-    
+        self.workspace.modules[module.name] = module
 
 CVS_METHOD_PSERVER="pserver"
 
@@ -200,9 +201,11 @@ class Module(ModelObject):
     def add_project(self, project):
         assert isinstance(project, Project)
         assert not self.projects.has_key(project.name)
+        assert not self.repository.workspace.projects.has_key(project.name)
         assert self == project.module
         
         self.projects[project.name] = project
+        self.repository.workspace.projects[project.name] = project
 
 class CvsModule(Module):
     """Model a module within a cvs repository.
