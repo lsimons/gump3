@@ -36,24 +36,19 @@ class Workspace(ModelObject):
         
         - name     -- per-host unique identifier
         - repositories -- dictionary of contained repositories
-        - servers  -- list of servers gump knows about (TODO: remove)
-        - trackers -- list of issue trackers gump knows about (TODO: remove)
+        - modules -- dictionary of contained modules
+        - projects -- dictionary of contained projects
+        - dependencies -- list of all dependencies between projects
     """
     def __init__(self, name):
         self.name = name
-        self.repositories={}
-
-        self.servers={}
-        self.trackers={}
+        self.repositories = {}
+        self.modules = {}
+        self.projects = {}
+        self.dependencies = []
     
     def add_repository(self, repository):
         self.repositories[repository.name] = repository
-    
-    def add_server(self, server):
-        self.servers[server.name] = server
-    
-    def add_tracker(self, tracker):
-        self.trackers[tracker.name] = tracker
 
 class Repository(ModelObject):
     """Model a source control repository.
@@ -148,6 +143,8 @@ class SvnRepository(Repository):
         self.user     = user,
         self.password = password
 
+#TODO: class PerforceRepository
+
 class Module(ModelObject):
     """Model a module within a source control repository.
 
@@ -155,20 +152,18 @@ class Module(ModelObject):
         
         - repository  -- the containing repository
         - name        -- per-run unique identifier
-        - directory   -- base directory within the containing repository
-                         for this module
         - url         -- web address of associated project
         - description -- human-readable description
+    
+    TODO: doesn't fully support the current GOM mess. Figure out what to do.
     """
     def __init__(self,
                  repository,
                  name,
-                 directory = None,
                  url = None,
                  description = None):
         self.repository  = repository
         self.name        = name
-        self.directory   = directory
         self.url         = url
         self.description = description
         
@@ -176,6 +171,43 @@ class Module(ModelObject):
 
     def add_project(self, project):
         self.projects[project.name] = project
+
+class CvsModule(Module):
+    """Model a module within a cvs repository.
+    
+    TODO: doesn't fully support the current mess that the GOM spec
+          supports. Figure out what to do.
+    """
+    def __init__(self,
+                 repository,
+                 name,
+                 tag = None,
+                 url = None,
+                 description = None):
+        Module.__init__(self, repository, name, url, description)
+        self.tag = tag
+
+class SvnModule(Module):
+    """Model a module within a svn repository.
+    
+    Since subversion doesn't have modules, this element in some ways seems
+    rather silly. What we do is represent an actually seperate subversion
+    repository with a single Repository element, and then we use the
+    "path" property to refer to locations within that repository.
+    
+    TODO: current GOM spec uses absolute URL instead of path. Figure out what
+          to do.
+    """
+    def __init__(self,
+                 repository,
+                 name,
+                 path, # path within the repository to this module
+                 url = None,
+                 description = None):
+        Module.__init__(self, repository, name, url, description)
+        self.directory = directory
+
+#TODO: class PerforceModule
 
 class Project(ModelObject):
     """Model a "project".
@@ -206,8 +238,11 @@ class Project(ModelObject):
         self.outputs=[]
     
     def add_dependency(self, dependency):
+        self.module.repository.workspace.dependencies.append(dependency)
         self.dependencies.append(dependency)
-        dependency.dependee.add_dependee(dependency)
+        if type(dependency.dependee) == Project: # might be a string for a bad
+                                                 # dependency
+            dependency.dependee.add_dependee(dependency)
     
     def add_dependee(self, dependee):
         self.dependees.append(dependee)
@@ -216,7 +251,7 @@ class Project(ModelObject):
         self.commands.append(command)
     
     def add_output(self, output):
-        self.outputs.append(command)
+        self.outputs.append(output)
 
 DEPENDENCY_INHERIT_NONE          = "none"
 DEPENDENCY_INHERIT_RUNTIME       = "runtime"
@@ -239,13 +274,16 @@ class Dependency(ModelObject):
         
         - dependency -- the project that is depending on the other project
         - dependee   -- the project that is being depended on by the
-                        other project
+                        other project, or the name of that project if
+                        it doesn't actually exist (ie that's an error
+                        condition).
         - optional   -- flag indicating whether the dependee can be built and
                         used if this dependency cannot be satisfied
         - runtime    -- flag indicating whether the dependee needs this
                         dependency at runtime or just for building
     """
-    def __init__(dependency,
+    def __init__(self,
+                 dependency,
                  dependee,
                  optional = False,
                  runtime  = False,
@@ -308,12 +346,16 @@ class Script(Command):
         
         - all the properties a Command has
         - name -- the name of the script to run
-        - args -- a list of arguments to the command
+        - args -- a list of arguments to the command,
+                  where each element is a (name, value)
+                  tuple
     """
     def __init__(self, project, name, args=[]):
         Command.__init__(self, project)
         self.name = name
         self.args = args
+
+#TODO: more Commands
 
 OUTPUT_ID_HOME = "homedir"
 
@@ -360,3 +402,5 @@ class Jar(Output):
         Output.__init__(self, project, id)
         self.name = name
         self.add_to_bootclass_path = add_to_bootclass_path
+
+#TODO: more outputs
