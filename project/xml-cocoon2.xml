@@ -34,7 +34,7 @@
     <option project="xt"/>
     <option project="rhino"/>
     <option project="jstyle"/>
-    <work nested="bin"/>
+    <work nested="build/cocoon/classes"/>
     <work nested="bin/anttasks"/>  <!-- no build instructions? -->
 
     <home nested="dist/cocoon-gump"/>
