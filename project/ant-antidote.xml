@@ -18,7 +18,7 @@
     <license name="LICENSE.txt"/>
     <javadoc nested="dist/docs/api" module="ant"/>
 
-    <nag from="Diane Holt &lt;holtdl@apache.org&gt;"
+    <nag from="Gump Integration Build &lt;dev@ant.apache.org&gt;"
          to="dev@ant.apache.org"/>
   </project>
 
