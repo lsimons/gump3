@@ -6,7 +6,7 @@
   </description>
 
   <cvs repository="sourceforge" host-prefix="cvs.xdoclet" dir="xdoclet" />
-  
+
   <project name="xjavadoc">
     <package>xjavadoc</package>
 
@@ -18,13 +18,17 @@
     </ant>
     <depend project="ant" inherit="runtime"/>
     <depend project="xml-xerces"/>
-    <depend project="javacc"/>
+    <depend project="xjavadoc-javacc"/>
     <depend project="jrefactory"/>
     <depend project="jakarta-log4j"/>
     <depend project="junit"/>
     <depend project="commons-logging" runtime="true"/>
     <depend project="commons-collections" runtime="true"/>
     <jar name="build/lib/xdoclet-xjavadoc-uc-@@DATE@@.jar"/>
+  </project>
+
+  <project name="xjavadoc-javacc">
+      <jar name="lib/JavaCC.zip"/>
   </project>
 
 </module>
