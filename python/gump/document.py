@@ -79,7 +79,7 @@ from gump.model import *
 from gump.statistics import StatisticsDB,ProjectStatistics,StatisticsGuru
 from gump.logic import getPackagedProjectContexts, getBuildSequenceForProjects,\
      getProjectsForProjectExpression, getModuleNamesForProjectList, \
-     isFullGumpSet
+     isFullGumpSet, getClasspathList
 
 def documentText(workspace,context,moduleFilterList=None,projectFilterList=None):    
     documentTextToFile(sys.stdout,workspace,context,moduleFilterList,projectFilterList)
