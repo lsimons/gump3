@@ -132,7 +132,7 @@
 
           <a href="project_{@defined-in}.html">definition</a>
 
-          <xsl:for-each select="/workspace/project[cvs and @module=$module]">
+          <xsl:for-each select="/workspace/module[cvs and @name=$module]">
             <a href="cvs_{@name}.html">cvs</a>
           </xsl:for-each>
 
