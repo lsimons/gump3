@@ -47,7 +47,7 @@
     <depend project="wsdl4j"/>
     <depend project="xml-apis"/>
     <depend project="xml-xerces"/>
-    <depend project="jaxrpc"/>
+    <depend project="my-jaxrpc"/>
     <depend project="saaj"/>
 
     <work nested="build/ant/lib/ForeachTask.jar"/>
@@ -76,6 +76,9 @@
   </project>
   <project name="saaj">
     <jar name="lib/saaj.jar"/>
+  </project>
+  <project name="my-jaxrpc">
+    <jar name="lib/jaxrpc.jar"/>
   </project>
   
 </module>
