@@ -129,6 +129,7 @@
 
         <home nested="component"/>
         <jar name="build/lib/excalibur-component-@@DATE@@.jar"/>
+        <jar name="build/lib/excalibur-testcase-@@DATE@@.jar"/>
 
         <nag from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"
                 to="dev@avalon.apache.org"/>
