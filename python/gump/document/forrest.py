@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/forrest.py,v 1.17 2003/11/26 16:08:39 ajack Exp $
-# $Revision: 1.17 $f
-# $Date: 2003/11/26 16:08:39 $
+# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/forrest.py,v 1.18 2003/11/26 17:03:51 ajack Exp $
+# $Revision: 1.18 $f
+# $Date: 2003/11/26 17:03:51 $
 #
 # ====================================================================
 #
@@ -278,10 +278,10 @@ class ForrestDocumenter(Documenter):
             note="""This output does not represent the a complete workspace,
             but a partial one.         
             Only projects, and their dependents, matching this regular expression """ + \
-                "<strong>[" + workspace.gumpset.projectexpression + "]</strong>."
+                "<strong>[" + gumpSet.projectexpression + "]</strong>."
             
             note+="\n\nRequested Projects:\n"
-            for project in workspace.gumpset.projects:
+            for project in gumpSet.projects:
                 note += project.name + " "
                             
             definitionSection.createNote(note)
