@@ -23,7 +23,7 @@
     <option project="junit"/>
     <option project="jaf"/>
     <option project="javamail"/>
-    <option project="xml-security"/>
+    <option project="xml-security" inherit="runtime"/>
     <work nested="java/build/classes"/>
 
     <home nested="java/build"/>
