@@ -25,7 +25,6 @@
     <depend project="commons-discovery"/>
     <depend project="commons-logging"/>
     <depend project="jakarta-servletapi"/>
-    <depend project="tt-bytecode"/>
     <depend project="httpunit"/>
     <option project="commons-httpclient"/>
     <option project="junit"/>
@@ -73,15 +72,6 @@
       <regexp  subject="Build Failure - Axis Security"/>
       <regexp pattern="/timed out/" subject="Build timed out - Axis security"/>
     </nag>
-  </project>
-
-  <project name="tt-bytecode">
-    <url href="http://tt-bytecode.sourceforge.net/"/>
-    <description>
-      TechTrader Bytecode Toolkit
-    </description>
-    <home nested="java"/>
-    <jar name="lib/tt-bytecode.jar"/>
   </project>
 
 </module>
