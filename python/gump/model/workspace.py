@@ -415,6 +415,11 @@ class Workspace(NamedModelObject, PropertyContainer, Statable, Resultable):
 
     def completeDirectories(self):
             
+        if self.xml.basedir:
+            self.basedir=self.xml.basedir
+        else:
+            raise RuntimeError, "A workspace cannot operate without a 'basedir'."
+            
         # Construct tmp on demand
         if not self.xml.tmpdir: 
             self.tmpdir=os.path.join(self.getBaseDirectory(),"tmp")
@@ -474,7 +479,10 @@ class Workspace(NamedModelObject, PropertyContainer, Statable, Resultable):
         # Construct logdir on demand
         self.logdir=os.path.join(self.logdir,date)
         if not os.path.exists(self.logdir): os.makedirs(self.logdir)
-
+        
+        # Extend Log URL
+        if not self.logurl,endswith('/'): self.logurl+='/'
+        self.logurl+=date
             
     def addModule(self,module):
         self.modules[module.getName()]=module                         
@@ -547,11 +555,10 @@ class Workspace(NamedModelObject, PropertyContainer, Statable, Resultable):
         return self.xml.version
 
     def getBaseDirectory(self):
-        return self.xml.basedir
+        return self.basedir
             
     def getLogDirectory(self):
-        return self.xml.logdir or \
-            os.path.abspath(os.path.join(self.getBaseDirectory(),'log'))
+        return self.logdir
             
     def getLogUrl(self):
         return self.logurl            

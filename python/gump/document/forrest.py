@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/forrest.py,v 1.120 2004/03/29 21:19:45 ajack Exp $
-# $Revision: 1.120 $f
-# $Date: 2004/03/29 21:19:45 $
+# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/forrest.py,v 1.121 2004/03/30 19:19:34 ajack Exp $
+# $Revision: 1.121 $f
+# $Date: 2004/03/30 19:19:34 $
 #
 # ====================================================================
 #
@@ -141,11 +141,8 @@ class ForrestDocumenter(Documenter):
     #####################################################################
     #
     # Forresting...
-    def getForrestParentDirectory(self,workspace):
-        return workspace.getBaseDirectory()
-        
-    def getForrestDirectory(self,workspace):
-        fdir=os.path.abspath(os.path.join(workspace.getBaseDirectory(),'forrest'))
+    def getForrestWorkDirectory(self,workspace):
+        fdir=os.path.abspath(os.path.join(workspace.getBaseDirectory(),'forrest-work'))
         return fdir
         
     def getForrestStagingDirectory(self,workspace):
@@ -172,7 +169,7 @@ class ForrestDocumenter(Documenter):
         #
         # First deleted the work tree (if exists), then ensure created
         #
-        forrestWorkDir=self.getForrestDirectory(workspace)
+        forrestWorkDir=self.getForrestWorkDirectory(workspace)
         wipeDirectoryTree(forrestWorkDir)
                     
         # Sync in the defaults [i.e. cleans also]
@@ -199,7 +196,7 @@ class ForrestDocumenter(Documenter):
         xdocs=self.resolver.getDirectory(workspace)      
         
         # The three dirs, work, output (staging), public
-        forrestWorkDir=self.getForrestDirectory(workspace)
+        forrestWorkDir=self.getForrestWorkDirectory(workspace)
         stagingDirectory=self.getForrestStagingDirectory(workspace)
         logDirectory=workspace.getLogDirectory()
         
@@ -514,12 +511,11 @@ class ForrestDocumenter(Documenter):
         # notesLog.xml -- Notes log
         #
         document=XDocDocument('Annotations',	\
-                self.resolver.getFile(workspace,'notesLog'))        
-        self.documentSummary(document, workspace.getProjectSummary())
-        
+                self.resolver.getFile(workspace,'notesLog'))  
+                    
         notesSection=document.createSection('Negative Annotations')
         notesSection.createParagraph(
-            """Entities with errors and warnings.""")
+            """This page displays entities with errors and/or warning annotations.""")
             
         ncount=0
         for module in gumpSet.getModuleSequence():
@@ -527,13 +523,13 @@ class ForrestDocumenter(Documenter):
                                 
             moduleSection=None
  
-            if not module.containsNasties():              
+            if module.containsNasties():              
                 moduleSection=document.createSection('Module : ' + module.getName())                
                 # Link to the module
                 self.insertLink(module,workspace,moduleSection.createParagraph()) 
             
-                # Display the annotations
-                self.documentAnnotations(moduleSection,project,1)     
+                # Display the module annotations
+                self.documentAnnotations(moduleSection,module,1)     
                 
             for project in module.getProjects():
                 if not gumpSet.inProjectSequence(project): continue               

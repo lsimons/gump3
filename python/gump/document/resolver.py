@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/document/resolver.py,v 1.18 2004/03/30 14:40:59 ajack Exp $
-# $Revision: 1.18 $
-# $Date: 2004/03/30 14:40:59 $
+# $Header: /home/stefano/cvs/gump/python/gump/document/resolver.py,v 1.19 2004/03/30 19:19:34 ajack Exp $
+# $Revision: 1.19 $
+# $Date: 2004/03/30 19:19:34 $
 #
 # ====================================================================
 #
@@ -338,12 +338,12 @@ class Resolver:
         self.rootDir=rootDir
         
         # Content
-        contentSubPath=Path(['forrest','src','documentation','content'])
+        contentSubPath=Path(['forrest-work','src','documentation','content'])
         self.makePath(contentSubPath,rootDir)                
         self.contentDir=concatenate(rootDir,contentSubPath.serialize())
         
         # XDocs
-        xdocsSubPath=Path(['forrest','src','documentation','content','xdocs'])
+        xdocsSubPath=Path(['forrest-work','src','documentation','content','xdocs'])
         self.makePath(xdocsSubPath,rootDir)                
         self.xdocsDir=concatenate(rootDir,xdocsSubPath.serialize())
         
