@@ -28,6 +28,7 @@
 <!-- Apache.Incubator -->
 
   <module href="project/incubator-altrmi.xml"/>
+  <module href="project/incubator-geronimo.xml"/>
   <module href="project/directory-naming.xml"/>
   <module href="project/depot.xml"/>
 

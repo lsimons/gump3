@@ -1,0 +1,22 @@
+<module name="incubator-geronimo">
+
+    <url href="http://incubator.apache.org/projects/geronimo.html"/>
+    <description>
+       Apache Geronimo is a an effort coordinated by the Apache Software Foundation to make a J2EE compatible container.
+    </description>
+
+    <cvs repository="incubator"/>
+
+    <project name="incubator-geronimo">
+        <maven goal="default">
+        </maven>
+        <depend project="maven" inherit="runtime"/>
+        <package>org.apache.geronimo</package>
+        <depend project="junit"/>
+        <depend project="mx4j"/>
+        <depend project="xml-xerces"/>
+        <nag to="geronimo-dev@incobator.apache.org" 
+    	    from="Davanum Srinivas &lt;dims@yahoo.com&gt;"/>
+    </project>
+
+</module>
