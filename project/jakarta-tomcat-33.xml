@@ -26,7 +26,7 @@
     <depend project="jakarta-servletapi"/>
     <depend project="jakarta-tomcat-util-coyote_10"/>
     <depend project="jsse"/>
-    <depend project="mx4j"/>
+    <depend project="jmx"/>
     <option project="jakarta-log4j" />
     <work nested="build/tomcat/classes"/>
     <home nested="build/tomcat"/>
