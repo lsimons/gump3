@@ -61,9 +61,9 @@
     <xsl:text>&#10;</xsl:text>
 
     <xsl:if test="count(.//ant)=1">
-      <xsl:text>export TARGET=</xsl:text>
+      <xsl:text>export TARGET="</xsl:text>
       <xsl:value-of select=".//ant/@target"/>
-      <xsl:text>&#10;</xsl:text>
+      <xsl:text>"&#10;</xsl:text>
     </xsl:if>
 
     <xsl:apply-templates/>
