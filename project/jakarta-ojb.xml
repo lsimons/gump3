@@ -4,6 +4,59 @@
   </description>
 
   <cvs repository="jakarta"/>
+  <project name="bootstrap-ojb">
+    <package>org.apache.ojb</package>
+
+    <mkdir dir="target/classes" />
+    <ant target="snapshot">
+      <property name="archive" value="jakarta-ojb-@@DATE@@" />
+    </ant>
+
+    <depend project="jakarta-ant" inherit="runtime"/>
+    <depend project="xml-xerces"/>
+
+    <depend project="antlr"/>
+    <depend project="commons-beanutils"/>
+    <depend project="commons-collections"/>
+    <depend project="commons-lang"/>
+    <depend project="commons-logging"/>
+    <depend project="commons-pool"/>
+    <depend project="hsqldb"/>
+    <depend project="j2ee-connector" />
+    <depend project="jaas" />
+    <depend project="jakarta-avalon"/>
+    <depend project="jakarta-velocity"/>
+    <depend project="excalibur-component"/>
+    <depend project="jakarta-avalon-logkit"/>
+    <depend project="jakarta-log4j"/>
+    <depend project="jakarta-regexp"/>
+    <depend project="jakarta-servletapi"/>
+    <depend project="jdbc"/>
+    <depend project="jdo"/>
+    <depend project="jmx"/>
+    <depend project="jta"/>
+    <depend project="junit"/>
+    <depend project="crossdb"/>
+
+    <depend project="ojb-jboss" />
+    <depend project="ojb-torque" />
+    <depend project="ojb-jcs" />
+
+    <!-- needed by test sources -->
+    <depend project="ejb" />
+
+    <!-- needed for documentation -->
+    <depend project="xml-xalan2"/>
+
+    <work nested="target/classes" />
+
+    <jar name="dist/jakarta-ojb-@@DATE@@.jar" />
+    <javadoc nested="target/doc/api" />
+
+    <nag from="Stefan Bodewig &lt;bodewig@apache.org&gt;"
+         to="ojb-dev@jakarta.apache.org"/>
+  </project>
+
   <project name="jakarta-ojb">
     <package>org.apache.ojb</package>
 
@@ -39,8 +92,8 @@
     <depend project="crossdb"/>
 
     <depend project="ojb-jboss" />
-    <!-- replace with jakarta-turbine-torque if we ever manage to build it -->
-    <depend project="ojb-torque" />
+    <depend project="jakarta-turbine-torque" />
+    <depend project="jakarta-turbine-jcs" />
 
     <!-- needed by test sources -->
     <depend project="ejb" />
@@ -73,9 +126,12 @@
     <jar name="lib/jboss-system.jar" />
   </project>
   
-  <!-- we haven't been able to build torque for weeks -->
   <project name="ojb-torque">
     <jar name="lib/torque-3.0-rc1.jar" />
+  </project>
+  
+  <project name="ojb-jcs">
+    <jar name="lib/jcs.jar" />
   </project>
   
   <!-- Mavenized build, http://sourceforge.net/projects/crossdb/ -->
