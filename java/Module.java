@@ -1,7 +1,7 @@
 /*
- * $Header: /home/stefano/cvs/gump/java/Module.java,v 1.23 2003/11/26 14:14:40 bodewig Exp $
- * $Revision: 1.23 $
- * $Date: 2003/11/26 14:14:40 $
+ * $Header: /home/stefano/cvs/gump/java/Module.java,v 1.24 2003/11/26 14:24:19 bodewig Exp $
+ * $Revision: 1.24 $
+ * $Date: 2003/11/26 14:24:19 $
  *
  * ====================================================================
  *
@@ -120,7 +120,6 @@ public class Module {
                 System.err.println("Dropping module "
                                    + element.getAttribute("name")
                                    + " because of Exception " + t);
-                t.printStackTrace();
             }
         }
 

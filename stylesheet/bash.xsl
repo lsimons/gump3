@@ -743,7 +743,7 @@
 
     <xsl:text> || export CMD="svn checkout </xsl:text>
     <xsl:value-of select="@url"/>
-    <xsl:text> -d </xsl:text>
+    <xsl:text> </xsl:text>
     <xsl:value-of select="@srcdir"/>
     <xsl:text>"&#10;</xsl:text>
 
