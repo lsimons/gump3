@@ -81,9 +81,10 @@
 
   <project name="commons-services">
     <description>Basic Services Architecture</description>
-    <ant basedir="services" target="dist">
-    </ant>
+    <ant basedir="services" target="dist"/>
 
+    <depend project="jakarta-ant"/>
+    <depend project="xml-xerces"/>
     <depend project="commons-beanutils"/>
     <depend project="commons-collections"/>
     <depend project="commons-digester"/>
