@@ -35,7 +35,8 @@
     <depend project="commons-collections"/>
     <depend project="commons-logging"/>
     <depend project="junit"/>
-    <home nested="beanutils/dist"/>
+    <home nested="beanutils/dist"/>    
+    <work nested="beanutils/target/classes"/>
     <jar name="commons-beanutils.jar"/>
     <license name="LICENSE"/>
     <javadoc nested="beanutils/dist/docs/api"/>
