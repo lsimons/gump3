@@ -169,7 +169,7 @@ class UnitTestSuite(Testable):
         tests=[]
         results=[]
         
-        # log.setLevel(logging.DEBUG ) 
+        log.setLevel(logging.DEBUG ) 
                 
         # Give a place to work in..
         if not os.path.exists('./test'): os.mkdir('./test')
@@ -230,6 +230,9 @@ class UnitTestSuite(Testable):
                     
                     # Record the problem
                     results.append(Problem(self,name,message))
+                
+                # Seems a nice place to clean up...    
+                invokeGarbageCollection()
         
             if hasattr(self,'suiteTearDown'):
                 self.suiteTearDown()

@@ -210,7 +210,7 @@ class Resolver:
         
     def getAbsoluteFile(self,object,documentName=None,extn='.xml',notXDocs=None):  
         if not documentName: documentName='bogus'          
-        location=Location(Path(),documentName,extn)
+        location=Location(Path(),documentName+extn)
         file=concatenate(self.rootDir,location.serialize())
         return file                    
                

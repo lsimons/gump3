@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/syndication/atom.py,v 1.14 2004/05/05 13:58:24 ajack Exp $
-# $Revision: 1.14 $
-# $Date: 2004/05/05 13:58:24 $
+# $Header: /home/stefano/cvs/gump/python/gump/syndication/atom.py,v 1.15 2004/05/05 15:08:53 ajack Exp $
+# $Revision: 1.15 $
+# $Date: 2004/05/05 15:08:53 $
 #
 # ====================================================================
 #
@@ -154,7 +154,7 @@ class AtomFeed:
 """)
                 
     def serialize(self):
-        log.inf("Atom Feed to : " + self.file);         
+        log.info("Atom Feed to : " + self.file);         
         stream = open(self.file,'w')
         
         modified=time.strftime('%Y-%m-%dT%H:%M:%SZ', gmtime())

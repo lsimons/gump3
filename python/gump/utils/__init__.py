@@ -400,6 +400,8 @@ def logResourceUtilization(message=None): pass
 def invokeGarbageCollection():
     try:
         import gc
+        tracked = len(gc.get_objects())
+        log.debug('Objects Tracked by GC : ' + `tracked`)
         unreachable = gc.collect()
         if unreachable:
             log.debug('Objects Unreachable by GC : ' + `unreachable`)

@@ -182,16 +182,11 @@ class XDocPiece(Ownable):
         piece.setOwner(self)
         
         return piece
-  
-        
+
     def serialize(self):
         self.callStart()        
         self.middle()
         self.callEnd()
-        
-        # Probably ought do this higher up
-        self.unlink()
-        invokeGarbageCollection()
         
     def callStart(self,piece=None):
         if not piece: piece = self
@@ -238,8 +233,15 @@ class XDocPiece(Ownable):
         
     def unlink(self):
         # Unlink subpieces...
-        for subpiece in self.subpieces:
-            subpiece.unlink()
+        if self.subpieces:
+            for subpiece in self.subpieces:
+                subpiece.unlink()
+        
+        # Then destroy the list
+        self.subpieces=None
+        
+        self.context=None
+        
         # Unlink oneself
         self.setOwner(None)
                 
@@ -717,6 +719,11 @@ class XDocDocument(XDocPiece):
         self.context.writeLine('</body>')
         self.context.writeLine('</document>')            
         self.close()  
+        
+        # Probably ought do this higher up
+        self.unlink()
+        invokeGarbageCollection()
+        
 
     def createSection(self,title,transient=0):
         return self.storePiece(XDocSection(self.createSubContext(transient),title))
