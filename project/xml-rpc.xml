@@ -14,7 +14,7 @@
   <option project="jakarta-servletapi"/>
   <option project="jsse"/>
 
-  <home nested="build"/>
+  <home nested="bin"/>
   <jar name="xmlrpc.jar"/>
 
 </project>
