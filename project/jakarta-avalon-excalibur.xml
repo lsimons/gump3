@@ -654,7 +654,7 @@
     </project>
 
     <project name="excalibur-qdox">
-        <jar name="info/lib/qdox-20021112.jar"/>
+        <jar name="info/lib/qdox-20021116-patched.jar"/>
     </project>
 
     <project name="excalibur-instrument">
