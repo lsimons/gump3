@@ -1,7 +1,7 @@
 #!/bin/bash
-
+ 
 if [ -z "$XALAN" ]; then
-    export XALAN=/opt/packages/xalan-j_2_3_1
+    export XALAN=/data/package/xalan-j_2_2_D13
 fi
 
 if test "$1" = "-cp"; then
@@ -25,7 +25,7 @@ esac
 if $cygwin ; then
   export CLASSPATH=`cygpath --path --unix "$CLASSPATH"`
   export CLASSPATH=$XALAN/bin/xml-apis.jar:$XALAN/bin/xalan.jar:$CLASSPATH
-  export CLASSPATH=$XALAN/bin/xercesImpl.jar:$CLASSPATH
+  export CLASSPATH=$XALAN/bin/xerces.jar:$CLASSPATH
   export CLASSPATH=.:jenny.jar:$CLASSPATH
   export CLASSPATH=`cygpath --path --windows "$CLASSPATH"`
 
@@ -36,7 +36,7 @@ if $cygwin ; then
   JSOURCE=`cygpath -a -w -p "$SOURCE"`
 else
   export CLASSPATH=$XALAN/bin/xml-apis.jar:$XALAN/bin/xalan.jar:$CLASSPATH
-  export CLASSPATH=$XALAN/bin/xercesImpl.jar:$CLASSPATH
+  export CLASSPATH=$XALAN/bin/xerces.jar:$CLASSPATH
   export CLASSPATH=.:jenny.jar:$CLASSPATH
   JSOURCE=$SOURCE
 fi
