@@ -576,7 +576,15 @@
     <xsl:value-of select="translate(@file,'/','\')"/>
     <xsl:text>&#10;</xsl:text>
 
+    <xsl:text>echo ^&lt;!-- </xsl:text>
+    <xsl:value-of select="translate(@file,'/','\')"/>
+    <xsl:text> --^%OUT%&#10;</xsl:text>
+
     <xsl:apply-templates/>
+
+    <xsl:text>echo ^&lt;/!-- </xsl:text>
+    <xsl:value-of select="translate(@file,'/','\')"/>
+    <xsl:text> --^&gt; %OUT%&#10;</xsl:text>
   </xsl:template>
 
   <xsl:template match="include">
