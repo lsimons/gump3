@@ -43,6 +43,8 @@
     <depend project="relaxng"/>
     <depend project="stax" ids="api"/>
     <depend project="xml-fop" inherit="runtime"/>
+    <depend project="jtidy"/>
+    <depend project="junitperf"/>
     <jar name="build/dom4j.jar" id="dom4j"/>
     <license name="LICENSE.txt"/>
   </project>
