@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/Attic/logic.py,v 1.30 2003/10/18 22:20:27 ajack Exp $
-# $Revision: 1.30 $
-# $Date: 2003/10/18 22:20:27 $
+# $Header: /home/stefano/cvs/gump/python/gump/Attic/logic.py,v 1.31 2003/10/18 22:24:56 ajack Exp $
+# $Revision: 1.31 $
+# $Date: 2003/10/18 22:24:56 $
 #
 # ====================================================================
 #
@@ -353,17 +353,17 @@ class AnnotatedPath:
     # Equal if same string
     def __eq__(self,other):
         if not isinstance(other,AnnotatedPath):
-            otherPath == other
+            otherPath = other
         else:
-            otherPath == other.path             
-        return self.path = otherPath
+            otherPath = other.path             
+        return self.path == otherPath
                 
     # Equal if same string
     def __cmp__(self,other):
         if not isinstance(other,AnnotatedPath):
-            otherPath == other
+            otherPath = other
         else:
-            otherPath == other.path                         
+            otherPath = other.path                         
         cmp = self.path < otherPath        
         return cmp
         

@@ -873,7 +873,7 @@ def documentWork(workspace,work,dir):
         line=''
         commandLine=''
         for part in parts:
-            if (len(line) + len(part)) > 80
+            if (len(line) + len(part)) > 80:
                 commandLine += line
                 commandLine += '\n        '
                 line=part
