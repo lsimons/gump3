@@ -14,23 +14,26 @@
     release, in other cases they may represent an abject failure to
     communicate.</p>
 
-    <subsection name="jakarta-avalon-excalibur">
-      <p>Unit test intermittently fails and times out.</p>
-    </subsection>
-
     <subsection name="jakarta-cactus">
-      <p>Generally 22, and *sometimes* 23, fail on solaris.</p>
+      <p>Generally the Tomcat tests for 22, and *sometimes* 23, fail on 
+      Solaris.  Current status can be found
+      <a href="http://gump.covalent.net/log/jakarta-cactus-22.html">here</a>.
+      </p>
     </subsection>
 
-    <subsection name="xml-security">
-      <p>Bug report
-      <a href="http://nagoya.apache.org/bugzilla/show_bug.cgi?id=2650">2650</a>
-      was reported and closed as "WONTFIX".  This lead to a
-      <a href="http://marc.theaimsgroup.com/?l=xalan-dev&amp;m=100704419630457&amp;w=2">proposal</a>
-      which seems to make progress torwards solving the goal, but two minor
-      tweaks to the API which are described in the following
-      <a href="http://marc.theaimsgroup.com/?l=xalan-dev&amp;m=100783705504759&amp;w=2">patch</a>
-      would appear to enable xml-security to solve the problem.</p>
+    <subsection name="jakarta-turbine">
+      <p>The various turbine implementations are coded directly to the
+      xml-xerces1 API and will not survive intact to Xerces 2.  A
+      <a href="http://marc.theaimsgroup.com/?l=turbine-dev&amp;m=100673562207077&amp;w=2">patch</a>
+      enabling pluggable parser support for one such component (torque) was
+      prepared in November, but has never been applied.</p>
+    </subsection>
+
+    <subsection name="xml-xerces2">
+      <p>The tests for xml-security and xml-xalan2, both of which pass cleanly
+      with xerces1, fail with xerces2.</p>
+      <p>A complete gump run using xerces2 can be found
+      <a href="http://nagoya.apache.org/~rubys/gump/xerces2/">here</a>.</p>
     </subsection>
   </section>
 
@@ -83,6 +86,15 @@
       replaced the Category class.  This was originally done in a manner which
       was thought to be backwards compatible, but there was subtle reasons why
       this was not the case.</p>
+    </subsection>
+
+    <subsection name="jakarta-ant">
+      <p>December 2001: a manifest task was added to Ant which collided with
+      the manifest task contained within xml-fop.  What followed was the most
+      impressive cooperation between projects I have ever witnessed.  The fop
+      project removed their manifest task, and the Ant project changed their
+      code so that the manifest task that fop previous had would have
+      overridden the one provided with Ant.</p>
     </subsection>
   </section>
 
