@@ -38,6 +38,8 @@ from gump.model.module import *
 from gump.model.state import *
 from gump.utils.smtp import *
 from gump.utils import *
+from gump.utils.work import *
+from gump.utils.note import *
 
 LINE     ='--   --   --   --   --   --   --   --   --   --   --   --   G U M P'
 SEPARATOR='*********************************************************** G U M P'
