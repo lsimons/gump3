@@ -7,6 +7,8 @@
   <cvs repository="jakarta"/>
 
   <project name="commons-beanutils">
+    <url href="http://jakarta.apache.org/commons/beanutils.html"/>
+
     <ant basedir="beanutils" target="dist">
       <property name="junit.home" reference="homepath" project="junit"/>
     </ant>
@@ -15,6 +17,30 @@
     <depend project="junit"/>
     <home nested="beanutils/dist"/>
     <jar name="commons-beanutils.jar"/>
+  </project>
+
+  <project name="commons-cactus">
+
+    <url  href="http://jakarta.apache.org/commons/cactus/index.html"/>
+    <description>
+      Unit test framework for J2EE server-side java code
+    </description>
+
+    <ant basedir="cactus/build" target="jar">
+      <property name="tomcat.home.40" reference="homepath"/>
+      <property name="servlet23.jar" reference="jarpath" id="servlet"
+                project="jakarta-servletapi-4"/>
+    </ant>
+
+    <depend project="jakarta-ant"/>
+    <depend project="xml-xerces"/>
+    <depend project="jakarta-servletapi-4"/>
+    <depend project="junit"/>
+    <depend project="xml-stylebook2"/>
+    <depend project="xml-xalan2"/>
+    <depend project="jakarta-tomcat-4.0"/>
+    <work nested="out/servlet23/classes/"/>
+
   </project>
 
 </project>

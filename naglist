@@ -11,6 +11,12 @@ From: Ted Husted <ted@husted.com>
 Subject: [GUMP] Build Failure - beanutils
 Regex: /BUILD FAILED/
 ------
+Project: commons-cactus
+To: jakarta-commons@jakarta.apache.org
+From: Ted Husted <ted@husted.com>
+Subject: [GUMP] Build Failure - cactus
+Regex: /BUILD FAILED/
+------
 Project: dist-ant
 To: ant-dev@jakarta.apache.org
 From: Sam Ruby <rubys@us.ibm.com>
@@ -27,12 +33,6 @@ Project: dist-xalan2
 To: xalan-dev@xml.apache.org
 From: Sam Ruby <rubys@us.ibm.com>
 Subject: [GUMP] Build Failure - Xalan2 dist
-Regex: /BUILD FAILED/
-------
-Project: j2eeunit
-To: j2eeunit-dev@lists.sourceforge.net
-From: Sam Ruby <rubys@us.ibm.com>
-Subject: [GUMP] Build Failure - j2eeunit
 Regex: /BUILD FAILED/
 ------
 Project: jakarta-alexandria
