@@ -60,7 +60,7 @@
       </p>
 
       <p>A list of some of the packages you might want to install can be found
-      <a href="http://jakarta.apache.org/builds/gump/latest/packages.html">
+      <a href="http://cvs.apache.org/builds/gump/latest/packages.html">
       here</a>.</p>
 
       <p><b>JDK 1.4</b> includes both <code>jaxp</code> and <code>jsse</code>
