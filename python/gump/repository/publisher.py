@@ -21,6 +21,8 @@
 
 import os
 
+from gump import log
+
 import gump.core.gumprun
 import gump.core.actor
 
