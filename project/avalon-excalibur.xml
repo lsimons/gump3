@@ -101,7 +101,7 @@
         <depend project="excalibur-compatibility" runtime="true"/>
 
         <!-- this should go -->
-        <depend project="excalibur-altrmi-0.9.2" inherit="runtime" runtime="true"/>
+        <depend project="incubator-altrmi" inherit="runtime" runtime="true"/>
         <depend project="xml-xerces" id="parser" runtime="true"/>
 
         <!-- optional dependencies -->
@@ -515,16 +515,11 @@
 
         <ant basedir="instrument-manager">
             <!-- runtime dependencies -->
-<!--            <depend property="altrmi-common.jar" project="incubator-altrmi" id="common"/>
+            <depend property="altrmi-common.jar" project="incubator-altrmi" id="common"/>
             <depend property="altrmi-client-interfaces.jar" project="incubator-altrmi" id="client-api"/>
             <depend property="altrmi-client-impl.jar" project="incubator-altrmi" id="client-impl"/>
             <depend property="altrmi-server-interfaces.jar" project="incubator-altrmi" id="server-api"/>
-            <depend property="altrmi-server-impl.jar" project="incubator-altrmi" id="server-impl"/>-->
-            <depend property="altrmi-common.jar" project="excalibur-altrmi-0.9.2" id="common"/>
-            <depend property="altrmi-client-interfaces.jar" project="excalibur-altrmi-0.9.2" id="client-api"/>
-            <depend property="altrmi-client-impl.jar" project="excalibur-altrmi-0.9.2" id="client-impl"/>
-            <depend property="altrmi-server-interfaces.jar" project="excalibur-altrmi-0.9.2" id="server-api"/>
-            <depend property="altrmi-server-impl.jar" project="excalibur-altrmi-0.9.2" id="server-impl"/>
+            <depend property="altrmi-server-impl.jar" project="incubator-altrmi" id="server-impl"/>
 
             <property name="version" value="@@DATE@@"/>
             <property name="junit.failonerror" value="true"/>
@@ -552,16 +547,11 @@
 
         <ant basedir="instrument-client">
             <!-- runtime dependencies -->
-<!--            <depend property="altrmi-common.jar" project="incubator-altrmi" id="common"/>
+            <depend property="altrmi-common.jar" project="incubator-altrmi" id="common"/>
             <depend property="altrmi-client-interfaces.jar" project="incubator-altrmi" id="client-api"/>
             <depend property="altrmi-client-impl.jar" project="incubator-altrmi" id="client-impl"/>
             <depend property="altrmi-server-interfaces.jar" project="incubator-altrmi" id="server-api"/>
-            <depend property="altrmi-server-impl.jar" project="incubator-altrmi" id="server-impl"/>-->
-            <depend property="altrmi-common.jar" project="excalibur-altrmi-0.9.2" id="common"/>
-            <depend property="altrmi-client-interfaces.jar" project="excalibur-altrmi-0.9.2" id="client-api"/>
-            <depend property="altrmi-client-impl.jar" project="excalibur-altrmi-0.9.2" id="client-impl"/>
-            <depend property="altrmi-server-interfaces.jar" project="excalibur-altrmi-0.9.2" id="server-api"/>
-            <depend property="altrmi-server-impl.jar" project="excalibur-altrmi-0.9.2" id="server-impl"/>
+            <depend property="altrmi-server-impl.jar" project="incubator-altrmi" id="server-impl"/>
             <depend property="avalon-framework.jar" project="avalon-framework" runtime="true" id="combined"/>
             <depend property="excalibur-instrument-manager.jar"
                     project="excalibur-instrument-manager"
@@ -956,12 +946,12 @@
     <project name="excalibur-altrmi-0.9.2">
         <package>org.apache.altrmi</package>
 
-        <jar id="client-impl" name="lib/altrmi-client-impl-0.9.2.jar"/>
-        <jar id="client-api" name="lib/altrmi-client-interfaces-0.9.2.jar"/>
-        <jar id="common" name="lib/altrmi-common-0.9.2.jar"/>
-        <jar id="generator" name="lib/altrmi-generator-0.9.2.jar"/>
-        <jar id="server-impl" name="lib/altrmi-server-impl-0.9.2.jar"/>
-        <jar id="server-api" name="lib/altrmi-server-interfaces-0.9.2.jar"/>
+        <jar id="client-impl" name="lib/altrmi-client-impl-0.9.6.jar"/>
+        <jar id="client-api" name="lib/altrmi-client-interfaces-0.9.6.jar"/>
+        <jar id="common" name="lib/altrmi-common-0.9.6.jar"/>
+        <jar id="generator" name="lib/altrmi-generator-0.9.6.jar"/>
+        <jar id="server-impl" name="lib/altrmi-server-impl-0.9.6.jar"/>
+        <jar id="server-api" name="lib/altrmi-server-interfaces-0.9.6.jar"/>
 
         <nag from="Gump Integration Build &lt;general@incubator.apache.org&gt;"
                 to="dev@avalon.apache.org"/>
