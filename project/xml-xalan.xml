@@ -10,7 +10,9 @@
   <project name="xml-xalan2">
     <package>org.apache.xalan</package>
 
-    <ant basedir="java"/>
+    <ant basedir="java">
+      <property name="bcel.jar" reference="jarpath" project="jakarta-bcel"/>
+    </ant>
 
     <depend project="bootstrap-ant"/>
     <depend project="xml-xerces"/>
@@ -32,6 +34,7 @@
       <depend property="bsf.jar" project="bsf"/>
       <depend property="xercesImpl.jar" project="xml-xerces" id="parser"/>
       <property name="version" value="@@DATE@@"/>
+      <property name="bcel.jar" reference="jarpath" project="jakarta-bcel"/>
     </ant>
 
     <depend project="ant" inherit="runtime"/>
