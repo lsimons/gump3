@@ -182,6 +182,7 @@
     <jar id="xdoclet-objectweb" name="lib/xdoclet-objectweb-module-@@DATE@@.jar"/>
     <jar id="xdoclet-oracle" name="lib/xdoclet-oracle-module-@@DATE@@.jar"/>
     <jar id="xdoclet-orion" name="lib/xdoclet-orion-module-@@DATE@@.jar"/>
+    <jar id="xdoclet-portlet" name="lib/xdoclet-portlet-module-@@DATE@@.jar"/>
     <jar id="xdoclet-pramati" name="lib/xdoclet-pramati-module-@@DATE@@.jar"/>
     <jar id="xdoclet-solarmetric" name="lib/xdoclet-solarmetric-module-@@DATE@@.jar"/>
     <jar id="xdoclet-sun" name="lib/xdoclet-sun-module-@@DATE@@.jar"/>
