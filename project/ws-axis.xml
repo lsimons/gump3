@@ -25,7 +25,7 @@
       <depend name="log4j-core.jar" project="jakarta-log4j" id="log4j"/>
     </ant>
 
-    <depend project="xml-xerces"/>
+    <depend project="xml-xerces" inherit="runtime" runtime="true"/>
     <depend project="jakarta-oro"/>
     <depend project="ant" inherit="runtime"/>
     <depend project="commons-discovery"/>
@@ -70,6 +70,7 @@
       <depend name="log4j-core.jar" project="jakarta-log4j" id="log4j"/>
     </ant>
 
+    <depend project="xml-xerces" inherit="runtime" runtime="true"/>
     <depend project="ws-axis" inherit="all"/>
     <depend project="xmlunit"/>
     <depend project="httpunit"/>
