@@ -33,6 +33,7 @@ class Databaser(gump.run.actor.AbstractRunActor):
     
     def __init__(self,run):              
         gump.run.actor.AbstractRunActor.__init__(self,run)    
+        self.dbInfo=self.workspace.getDatabaseInformation()
         
     def processOtherEvent(self,event):   
         pass
@@ -51,7 +52,7 @@ class Databaser(gump.run.actor.AbstractRunActor):
         helper=None
         try:
             conn=self.getConnected()
-            helper=gump.utils.mysql.DbHelper(conn)
+            helper=gump.utils.mysql.DbHelper(conn,self.dbInfo.getDatabase())
             
             # Prepare the data
             settings = {}
@@ -106,13 +107,12 @@ class Databaser(gump.run.actor.AbstractRunActor):
         """
         Get a database connection.
         """
-        dbInfo=self.workspace.getDatabaseInformation()
                 
         return MySQLdb.Connect(
-                    host=dbInfo.getHost(), 
-                    user=dbInfo.getUser(),
-                    passwd=dbInfo.getPasswd(), 
-                    db=dbInfo.getDatabase(),
+                    host=self.dbInfo.getHost(), 
+                    user=self.dbInfo.getUser(),
+                    passwd=self.dbInfo.getPasswd(), 
+                    db=self.dbInfo.getDatabase(),
                     compress=1,
                     cursorclass=MySQLdb.cursors.DictCursor)
         

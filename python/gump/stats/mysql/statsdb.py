@@ -76,7 +76,7 @@ class StatisticsDB:
             
         # print 'ThreadSafe : ' + `MySQLdb.threadsafety`
         
-        self.helper=gump.utils.mysql.DbHelper(self.conn)
+        self.helper=gump.utils.mysql.DbHelper(self.conn,dbInfo.getDatabase())
  
     # Workspace
     def getWorkspaceStats(self,workspaceName):

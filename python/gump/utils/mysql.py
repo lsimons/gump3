@@ -29,8 +29,9 @@ class DbHelper:
     	MySQL Statistics Database Interface
     """
 
-    def __init__(self,conn):
+    def __init__(self,conn,database='gump'):
         self.conn=conn
+        self.database=database
         
     def __del__(self):
         if self.conn:
@@ -41,7 +42,7 @@ class DbHelper:
         """
         Generate a select statement, index is a single name
         """ 
-        statement="SELECT * FROM gump.gump_%s WHERE %s='%s'" % (table_name, column_name, entity_name) 
+        statement="SELECT * FROM %s.gump_%s WHERE %s='%s'" % (self.database, table_name, column_name, entity_name) 
         return statement
         
     def select(self,table_name,column_name,entity_name,columns):
@@ -85,7 +86,7 @@ class DbHelper:
         """ 
         Perform an SQL INSERT 
         """
-        statement = "INSERT INTO gump.gump_%s (" % table_name
+        statement = "INSERT INTO %s.gump_%s (" % (self.database, table_name)
         keys=settings.keys()
         statement += ", ".join(keys)
         statement += ") VALUES ("
@@ -120,7 +121,7 @@ class DbHelper:
         Take a dictionary of settings (column names/types) and 
         generate an update statement. Note: The index is a single name.        
         """
-        statement = "UPDATE gump.gump_%s SET " % table_name
+        statement = "UPDATE %s.gump_%s SET " % (self.database, table_name)
         keys=settings.keys()
         keys.remove(column_name)
         statement += ", ".join([key + '=' + str(settings[key]) for key in keys])
@@ -154,8 +155,8 @@ class DbHelper:
         Perform an SQL DELETE 
         Index is single name
         """
-        statement = "DELETE FROM gump.gump_%s WHERE %s='%s'" \
-                        % (table_name, column_name, entity_name)
+        statement = "DELETE FROM %s.gump_%s WHERE %s='%s'" \
+                        % (self.database, table_name, column_name, entity_name)
         return statement
 
     def delete(self,table_name,column_name,entity_name):       
