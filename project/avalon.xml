@@ -562,7 +562,7 @@
     </project>
   
     <project name="avalon-meta-impl">
-        <package>org.apache.avalon.impl</package>
+        <package>org.apache.avalon.meta.impl</package>
         <ant basedir="meta/impl" target="jar">
             <property name="project.version" value="@@DATE@@"/>
         </ant>
