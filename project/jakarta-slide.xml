@@ -86,7 +86,7 @@
     </javadoc>
 
     <nag to="slide-dev@jakarta.apache.org"
-         from="Craig McClanahan &lt;craigmcc@apache.org&gt;"/>
+         from="Stefan Bodewig &lt;bodewig@apache.org&gt;"/>
   </project>
 
 </module>

@@ -29,7 +29,7 @@
     <home nested="util/build"/>
     <jar name="lib/tomcat-util.jar"/>
     <nag to="tomcat-dev@jakarta.apache.org"
-         from="Craig McClanahan &lt;craigmcc@apache.org&gt;"/>
+         from="Stefan Bodewig &lt;bodewig@apache.org&gt;"/>
   </project>
 
   <project name="jakarta-tomcat-coyote_10">
@@ -54,7 +54,7 @@
     <jar name="build/lib/tomcat-coyote.jar"/>
 
     <nag to="tomcat-dev@jakarta.apache.org"
-         from="Craig McClanahan &lt;craigmcc@apache.org&gt;"/>
+         from="Stefan Bodewig &lt;bodewig@apache.org&gt;"/>
   </project>
   
 </module>

@@ -49,7 +49,7 @@
     <javadoc nested="build/tomcat/webapps/ROOT/javadoc"/>
 
     <nag to="tomcat-dev@jakarta.apache.org"
-         from="Craig McClanahan &lt;craigmcc@apache.org&gt;"
+         from="Stefan Bodewig &lt;bodewig@apache.org&gt;"
          subject="Build Failure - Tomcat 3.x"/>
   </project>
 
