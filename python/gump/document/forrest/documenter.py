@@ -2172,7 +2172,7 @@ This page helps Gumpmeisters (and others) observe community progress.
                         
                         # Do the transfer..
                         copyfile(output,displayedOutput)                        
-                        outputSection.createParagraph().createLink(outputBaseName)
+                        outputSection.createParagraph().createLink(outputBaseName,'Output File')
                         
                     else: 
                         #
@@ -2289,7 +2289,7 @@ This page helps Gumpmeisters (and others) observe community progress.
                         
                             # Do the transfer..
                             copyfile(output,displayedOutput)                        
-                            outputSection.createParagraph().createLink(outputBaseName)
+                            outputSection.createParagraph().createLink(outputBaseName,'Output File')
                         else:
                             outputSource=outputSection.createSource()    
                             o=None
