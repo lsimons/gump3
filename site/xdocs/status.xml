@@ -1,0 +1,101 @@
+<?xml version="1.0"?>
+<document>
+
+  <properties>
+    <author email="rubys@us.ibm.com">Sam Ruby</author>
+    <title>Gump</title>
+  </properties>
+
+<body>
+
+  <section name="Recurring build problems">
+    <p>These represent "known problems".  In some cases, they represent a
+    temporary problem that will be synched up at the point of the next
+    release, in other cases they represent an abject failure to communicate</p>
+
+    <subsection name="commons-latka">
+      <p>Latka depends on function which was subsequently rolled back from
+      httpclient.  Latka development continues with a snapshot of a jar which
+      does not correspond to any release of latka or the current cvs head.</p>
+    </subsection>
+
+    <subsection name="dbxml">
+      <p>The Xalan team is in the process of changing an API that dbxml uses.
+      The reason for the change is to support DTM, however the change is
+      apparently not being made in a backwards compatbile manner.</p>
+    </subsection>
+
+    <subsection name="tyrex">
+      <p>Tyrex will compile cleanly with Ant 1.3 and log4j 1.0.4.  It also have
+      every indication that it would compile (albeit with deprecation warnings)
+      and work with the latest release of log4j (1.1.3).</p>
+      <p>Most of the errors are due to a Ant bug fix made during the development
+      of the 1.4 release.  the Tyrex source tree contains files which will not
+      compile, but are to be excluded from the build.  The excludes attribute
+      is coded as excludes="tyrex/corba/*", but this really should be
+      excludes="tyrex/corba/**" as the files to be excluded are contained in
+      subdirectories</p>
+      <p>The remaining errors are due to usages of interfaces which were
+      deprecated in various releases of log4j and now have been removed.</p>
+      <p>Three attempts have been made to contact the tyrex development team.
+      On the third attempt, I received a response that these problems are
+      temporary.</p>
+    </subsection>
+
+    <subsection name="scarab">
+      <p>For a while, scarab was trying to keep up with the evolution of
+      the torque component of turbine-3.  Eventually, this became too disruptive
+      and work has continued using a snapshot of turbine.  This snapshot does
+      not correspond to any public release or the current HEAD.</p>
+    </subsection>
+
+    <subsection name="xml-fop">
+      <p>Batik is in the process of correcting what they have described as
+      a fairly fundamental design error.  This should only affect a small
+      minority of batik users.  Unfortunately, xml-fop is one of the users
+      affects.</p>
+      <p>At the present time, there is a good line of communication between
+      the two projects, and the fop team understands and agrees to this change.
+       They plan to step up once the changes are released.</p>
+    </subsection>
+
+    <subsection name="xml-xalan2-smoketest">
+      <p>StylesheetTestlet namespace70.xsl has failed since 2001-09-21.  At
+      the present time, I expect that this problem will be correctedly quickly
+      as the Xalan team has consistently been responsive to reports of Gump
+      errors.</p>
+    </subsection>
+  </section>
+
+  <section name="Other Issues">
+    <p>These represent versioning issues that will not show up in any
+    gump run, but you may need to be aware.</p>
+
+    <subsection name="jakarta-avalon">
+      <p>Despite the relatively recent release of Ant, most Avalon projects
+      will not build with that version of Ant.  They require a small but
+      important change in the jar task.  Of course, they build with the version
+      of Ant checked into their respective cvs's, but the question is: do we
+      really want or need a separate version of Ant for every component?</p>
+    </subsection>
+
+    <subsection name="jakarta-tomcat-4.0">
+      <p>Tomcat4 integration with tyrex depends on interfaces which tyrex
+      removed over six months ago.</p>
+    </subsection>
+
+    <subsection name="jakarta-turbine">
+      <p>Based on inspection, I don't believe that turbine-2 and turbine-3 can
+      coexist in a classpath.  The jakarta-jetspeed, jakarta-turbine-jyve, and
+      jakarta-turbine-orgami projects depend on turbine-2.  The
+      jakarta-turbine-flux and scarab projects depend on turbine-3.</p>
+    </subsection>
+  </section>
+
+  <section name="Recent success stories">
+    <p>TBD</p>
+  </section>
+
+</body>
+</document>
+

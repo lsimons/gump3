@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<project name="Jakarta Site"
+        href="http://jakarta.apache.org/gump/">
+
+    <title>The Jakarta Site</title>
+    <logo href="images/bench.png">Gump</logo>
+    
+    <body>
+    <menu name="Gump">
+        <item name="Front Page" href="/index.html"/>
+        <item name="Results"    href="http://jakarta.apache.org/builds/gump/latest/"/>
+        <item name="Status"     href="/status.html"/>
+        <item name="Source"     href="http://cvs.apache.org/viewcvs/jakarta-alexandria/proposal/gump/"/>
+    </menu>
+
+    <menu name="Sources">
+        <item name="dbxml"     href="http://www.dbxml.org/"/>
+        <item name="devworks"  href="http://oss.software.ibm.com/developerworks/opensource/"/>
+        <item name="exolab"    href="http://www.exolab.org/"/>
+        <item name="jakarta"   href="http://jakarta.apache.org/"/>
+        <item name="jdom"      href="http://www.jdom.org/"/>
+        <item name="mozilla"   href="http://www.mozilla.org/"/>
+        <item name="sourceforge" href="http://sourceforge.net/"/>
+        <item name="tigris"    href="http://www.tigris.org/"/>
+        <item name="whichever" href="http://share.shichever.org/"/>
+        <item name="xml"       href="http://xml.apache.org/"/>
+    </menu>
+
+    <menu name="Get Involved">
+        <item name="Overview"              href="/site/getinvolved.html"/>
+        <item name="Join Mailing lists"    href="http://jakarta.apache.org/getinvolved/mail.html"/>
+        <item name="Search Mailing lists"  href="http://marc.theaimsgroup.com/?l=alexandria-dev&amp;r=1&amp;w=2"/>
+    </menu>
+
+    </body>
+</project>

@@ -1,0 +1,138 @@
+<?xml version="1.0"?>
+<document>
+
+  <properties>
+    <author email="rubys@us.ibm.com">Sam Ruby</author>
+    <title>Gump</title>
+  </properties>
+
+<body>
+
+  <section name="What is Gump?">
+
+  <p>
+    Gump is a social experiment.  The primary goal of Gump is to get diverse
+    projects to communicate early and often about integration, dependencies,
+    and versioning management.  One way to think about it is that some of the
+    concepts of
+    <a href="http://www.extremeprogramming.org/">Extreme programming</a>
+    applied to
+    <a href="http://www.martinfowler.com/articles/continuousIntegration.html">
+    Continuous Integration</a> on an unprecedented scale.
+  </p>
+
+  <p>
+    Essentially, the reasoning goes like this - if continuous integration is a
+    good thing on a small project, why not apply it recursively and include all
+    dependencies for which access to source is provided?
+  </p>
+
+  </section>
+
+  <section name="How does Gump work?">
+    <p>
+      <a href="http://cvs.apache.org/viewcvs/jakarta-alexandria/proposal/gump/project">
+      Project</a> definitions are converted from XML to scripts native to the
+      platform on which you are running.  These scripts execute cvs update
+      commands for every module which contains a project being built, and
+      invoke builds for each project in an order that ensures that dependencies
+      are satisfied.
+    </p>
+
+    <p>
+      The commands use the actual build.xml files from the projects, but do
+      not use the scripts or jar files checked into CVS.  Instead, the
+      CLASSPATH is set and properties are passed on the command line.
+    </p>
+
+    <p>
+      The net effect is that every project is built every day with the latest
+      version of every dependency - including the latest Ant, latest JUnit,
+      latest XML parser.
+    </p>
+
+    <p>
+      The results are captured into html pages that largely are consistent
+      with the style of the Jakarta project.  An extensive amount of hypertext
+      links are added to allow quick and easy navigation, and failures are
+      color coded on the main build page.
+    </p>
+
+    <p>
+      A Perl script which is driven off of a naglist will optionally send
+      e-mails to various newsgroups upon matching strings being found in the
+      build output.  This is typically used to alert developers of build
+      failures.
+    </p>
+  </section>
+
+  <section name="Where is Gump?">
+    <ul>
+      <li><a href="http://cvs.apache.org/viewcvs/jakarta-alexandria/proposal/gump/">Source</a></li>
+      <li><a href="http://jakarta.apache.org/builds/gump/latest/">Latest Results</a></li>
+      <li><a href="http://nagoya.apache.org/~rubys/gump/">Experimental runs</a></li>
+    </ul>
+  </section>
+
+  <section name="When does Gump run?">
+    <p>
+      For Gump to have the desired social affects, it must be predictable.
+      For now, I have chosen to run Gump daily - with kickoff being midnight
+      Pacific time.  Given the global scale of open source development, there
+      is clearly no one time when everyone is inactive, but at least this
+      catches most of the North American continent napping, and is early in
+      the business day for most of Europe.
+    </p>
+
+    <p>
+      Recently, I have been experimenting with a second server kindly donated
+      by Sun and administered by Pier Fumagalli and Justyna Horwat.  After
+      I'd complained quite a bit, Pier took pitty on my and made available
+      a LOT of tmp space - backed by 3 gigs of RAM.  Doing my builds from
+      there positively flies!.  For now, I've timed
+      an automated run to be kicked off at noon Pacific time - exactly the
+      midpoint between "official" runs.  Note that I often kick off partial
+      builds and may even do a full run out of cycle, so the cvs updates logs
+      may not capture all of the activity that has taken place since the
+      previous run.
+    </p>
+  </section>
+
+  <section name="Who is Gump?">
+    <p>
+      Gump was named after
+      <a href="http://www.ionet.net/~lesinokc/gump/gump.html">Forrest Gump</a>,
+      the title character in a movie.  The process for building was to do a
+      "Generate", followed by cvs "Updates", followed by a "Build All".  This
+      was repetitive, so a command was created to combine these operations -
+      and it was named "guba".  This sound this made when spoken reminded me
+      of "Bubba Gump".
+    </p>
+
+    <p>
+      This seemed oddly appropriate to me as much of the motivation I had
+      derived from the frustrations I had building a project that I was and
+      continue to be a big fan of - Cocoon.  The
+      <a href="http://xml.apache.org/cocoon/faqs.html#faq-whyname">FAQ</a> for
+      that project indicate that the project was named after a movie that the
+      creator of that project was particularly fond of, so it seemed fitting
+      that this effort would be named after a movie that I am fond of.
+    </p>
+
+    <p>
+      A number of other fortunate coincidences have convinced me that this
+      was the right choice for a name.  From the role of the feather in the
+      opening and closing scenes (something I have adapted to the Apache
+      feature for the Gump icon), the catch phase of "Stupid is as Stupid
+      does" - something that captures the spirit of a large number of build
+      errors caught by this process.  And most significantly to me - the
+      wisdom passed on from Gump's mother that "Life is like a box of
+      chocolates - you never know what you are going to get!".  I can think
+      of no more apt description of a build process which takes the absolute
+      latest versions of almost everything and attempts to build them together!
+    </p>
+  </section>
+
+</body>
+</document>
+
