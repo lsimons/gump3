@@ -26,8 +26,10 @@
 
     <depend project="jakarta-ant" inherit="runtime" version="supplied"/>
     <depend project="ant-contrib" inherit="runtime" version="supplied"/>
+    
     <depend project="xml-xerces" version="supplied"/>
     <depend project="xml-xalan2" version="supplied"/>
+    
     <depend project="excalibur-cli" version="supplied"/>
     <depend project="excalibur-instrument" version="supplied"/>
     <depend project="excalibur-instrument-manager" version="supplied"/>    
@@ -35,15 +37,20 @@
     <depend project="excalibur-sourceresolve" version="supplied"/>
     <depend project="excalibur-xmlutil" version="supplied"/>
     <depend project="excalibur-store" version="supplied"/>
-    <depend project="jakarta-regexp" version="supplied"/>
-    <depend project="commons-httpclient" version="supplied"/>
-    <depend project="commons-collections" version="supplied"/>
-    <depend project="commons-jxpath" version="supplied"/>
     <depend project="excalibur-pool" version="supplied"/>
     <depend project="excalibur-datasource" version="supplied"/>
     <depend project="excalibur-component" version="supplied"/>
     <depend project="excalibur-logger" version="supplied"/>
     <depend project="excalibur-collections" version="supplied"/>
+
+    <depend project="jakarta-avalon-cornerstone" version="supplied"/>        
+        
+    <depend project="jakarta-regexp" version="supplied"/>    
+    
+    <depend project="commons-httpclient" version="supplied"/>
+    <depend project="commons-collections" version="supplied"/>
+    <depend project="commons-jxpath" version="supplied"/>
+    
     <depend project="jakarta-servletapi-4" version="supplied"/>
      
     <depend project="jdom" version="supplied"/>
