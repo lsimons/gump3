@@ -128,6 +128,7 @@
         <content>
           <logic name="{@name}">
             <xsl:apply-templates select="cvs"/>
+            <xsl:apply-templates select="svn"/>
           </logic>
         </content>
       </html>
@@ -146,6 +147,6 @@
     </xsl:copy>
   </xsl:template>
 
-  <xsl:template match="module[not(cvs)]"/>
+  <xsl:template match="module[not(cvs) and not(svn)]"/>
 
 </xsl:stylesheet>

@@ -624,6 +624,42 @@
   </xsl:template>
 
   <!-- =================================================================== -->
+  <!--                             svn update                              -->
+  <!-- =================================================================== -->
+
+  <xsl:template match="svn">
+    <xsl:text>SET STATUS=SUCCESS&#10;</xsl:text>
+
+    <!-- update -->
+
+    <xsl:text>if exist </xsl:text>
+    <xsl:value-of select="translate(@srcdir,'/','\')"/>
+    <xsl:text> SET CMD=svn update </xsl:text>
+    <xsl:value-of select="@srcdir"/>
+    <xsl:text>&#10;</xsl:text>
+
+    <!-- checkout -->
+
+    <xsl:text>if not exist </xsl:text>
+    <xsl:value-of select="translate(@srcdir,'/','\')"/>
+
+    <xsl:text> SET CMD=svn checkout </xsl:text>
+    <xsl:value-of select="@url"/>
+    <xsl:text> -d </xsl:text>
+    <xsl:value-of select="@srcdir"/>
+    <xsl:text>&#10;</xsl:text>
+
+    <!-- execute -->
+
+    <xsl:text>@echo %CMD% %OUT%&#10;</xsl:text>
+    <xsl:text>@echo. %OUT%&#10;</xsl:text>
+    <xsl:text>%CMD% %OUT% 2&gt;&amp;1&#10;</xsl:text>
+    <xsl:text>if errorlevel 1 SET STATUS=FAILED&#10;</xsl:text>
+    <xsl:text>if not "%1"=="all" goto eoj&#10;</xsl:text>
+
+  </xsl:template>
+
+  <!-- =================================================================== -->
   <!--          support for capturing and including static text            --> 
   <!-- =================================================================== -->
 
