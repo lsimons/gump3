@@ -1264,7 +1264,7 @@ def startSectionXDoc(f, title):
     f.write('    <section><title>%s</title>\n' % (title))
     
 def paragraphXDoc(f, content):
-    f.write('    <p>%s</p>\n' % (content))
+    f.write('    <p>%s</p>\n' % (escape(content)))
     
 def endSectionXDoc(f):
     f.write('    </section>\n')
