@@ -247,7 +247,7 @@ def tailFileToString(file,lines,eol=None,marker=None):
     return "".join(tailFile(file,lines,eol,marker))
 
 # Ensure we start in the correct directory
-gumppath=os.path.joinpath(os.getcwd(),'..')
+gumppath=os.path.join(os.getcwd(),'..')
 os.chdir(gumppath)
 
 # Starting up...
