@@ -188,6 +188,8 @@ class ForrestDocumenter(Documenter):
         forrest=Cmd('forrest','forrest',forrestWorkDir)
       
         forrest.addPrefixedParameter('-D','java.awt.headless','true','=')
+        forrest.addPrefixedParameter('-D','project.content-dir',  \
+            '.', '=')
         forrest.addPrefixedParameter('-D','project.site-dir',  \
             stagingDirectory, '=')
                 
@@ -551,7 +553,7 @@ class ForrestDocumenter(Documenter):
         self.documentSummary(document, workspace.getProjectSummary())
         
         projectsSection=document.createSection('Projects (in build order)')
-        projectsTable=projectsSection.createTable(['Time','Updated','Name','Project State','Duration\nin state','Last Modified','Elapsed'])
+        projectsTable=projectsSection.createTable(['Time','Updated','Name','Project State','Duration\nin state','Last Modified','Notes'])
         pcount=0
         for project in gumpSet.getProjectSequence():
             # :TODO: Next line irrelevent?
@@ -572,7 +574,11 @@ class ForrestDocumenter(Documenter):
             projectRow.createData(	\
                 getGeneralSinceDescription(	\
                     project.getModule().getStats().getLastUpdated()))
-            projectRow.createData(secsToElapsedTimeString(project.getElapsedSecs())) 
+                    
+            notes=''
+            if project.isVerbose(): notes += 'Verbose'
+            if project.isDebug(): notes += 'Debug'            
+            projectRow.createData(notes) 
                 
         if not pcount: projectsTable.createLine('None')
         

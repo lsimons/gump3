@@ -168,14 +168,15 @@ class ForrestResolver(Resolver):
         
         Resolver.__init__(self,rootDir,rootUrl)
 
-        
         # Content
-        contentSubPath=Path(['forrest-work','src','documentation','content'])
+        #contentSubPath=Path(['forrest-work','src','documentation','content'])
+        contentSubPath=Path(['forrest-work','content'])
         self.makePath(contentSubPath,rootDir)                
         self.contentDir=concatenate(rootDir,contentSubPath.serialize())
         
         # XDocs
-        xdocsSubPath=Path(['forrest-work','src','documentation','content','xdocs'])
+        #xdocsSubPath=Path(['forrest-work','src','documentation','content','xdocs'])
+        xdocsSubPath=Path(['forrest-work','content','xdocs'])
         self.makePath(xdocsSubPath,rootDir)                
         self.xdocsDir=concatenate(rootDir,xdocsSubPath.serialize())
     

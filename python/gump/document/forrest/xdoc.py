@@ -303,6 +303,9 @@ class XDocParagraph(XDocPiece):
     def createStrong(self,text=None,transient=0):
         return self.storePiece(XDocStrong(self.createSubContext(transient),text))
 
+    def createEmphasis(self,text=None,transient=0):
+        return self.storePiece(XDocEmphasis(self.createSubContext(transient),text))
+
     def createLink(self,href,text=None):
         return self.storePiece(XDocLink(self.createSubContext(),href,text))                    
         
@@ -352,6 +355,21 @@ class XDocStrong(XDocPiece):
     def createText(self,text=None,transient=0):
         return self.storePiece(XDocText(self.createSubContext(transient),text))
             
+class XDocEmphasis(XDocPiece):
+    def __init__(self,context,text):
+        XDocPiece.__init__(self,context)
+        if text:
+            self.createText(text)
+        
+    def start(self):
+        self.context.write('<em>')
+        
+    def end(self):
+        self.context.write('</em>')
+        
+    def createText(self,text=None,transient=0):
+        return self.storePiece(XDocText(self.createSubContext(transient),text))
+            
 class XDocList(XDocPiece):
     def __init__(self,context):
         XDocPiece.__init__(self,context)
@@ -386,6 +404,9 @@ class XDocItem(XDocPiece):
         
     def createStrong(self,text=None):
         return self.storePiece(XDocStrong(self.createSubContext(),text))
+
+    def createEmphasis(self,text=None,transient=0):
+        return self.storePiece(XDocEmphasis(self.createSubContext(transient),text))
         
     def createText(self,text=None):
         return self.storePiece(XDocText(self.createSubContext(),text))  
@@ -430,7 +451,7 @@ class XDocTable(XDocPiece):
                     
     def createEntry(self,title,data=None):
         row=self.createRow()
-        titleData=row.createData(title)
+        titleData=row.createData().createStrong(title)
         if not isinstance(data,NoneType):
             dataData=row.createData(str(data))
         return row
@@ -503,6 +524,9 @@ class XDocTableData(XDocPiece):
         
     def createStrong(self,text=None):
         return self.storePiece(XDocStrong(self.createSubContext(),text))  
+
+    def createEmphasis(self,text=None,transient=0):
+        return self.storePiece(XDocEmphasis(self.createSubContext(transient),text))
                 
     def createIcon(self,href,alt=None):
         return self.storePiece(XDocIcon(self.createSubContext(),href,alt))   
@@ -527,6 +551,9 @@ class XDocNote(XDocPiece):
 
     def createStrong(self,text=None,transient=0):
         return self.storePiece(XDocStrong(self.createSubContext(transient),text))
+
+    def createEmphasis(self,text=None,transient=0):
+        return self.storePiece(XDocEmphasis(self.createSubContext(transient),text))
         
     def createLink(self,href,text=None):
         return self.storePiece(XDocLink(self.createSubContext(),href,text))              
@@ -554,6 +581,9 @@ class XDocWarning(XDocPiece):
 
     def createStrong(self,text=None,transient=0):
         return self.storePiece(XDocStrong(self.createSubContext(transient),text))
+
+    def createEmphasis(self,text=None,transient=0):
+        return self.storePiece(XDocEmphasis(self.createSubContext(transient),text))
 
             
 class XDocSource(XDocPiece):
