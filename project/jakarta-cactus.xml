@@ -126,9 +126,10 @@
     <package>org.apache.cactus.integration.ant</package>
     <description>Cactus Ant Integration (J2EE 1.2)</description>
 
-    <ant buildfile="integration/ant/build.xml" target="dist" debug="true">
+    <ant buildfile="integration/ant/build.xml" target="dist">
 
       <property name="project.version" value="@@DATE@@"/>
+      <sysproperty name="build.clonevm" value="true"/>
 
       <depend property="j2ee.jar" project="jakarta-servletapi"/>
       <depend property="servlet.jar" project="jakarta-servletapi"/>
@@ -174,8 +175,9 @@
     <package>org.apache.cactus.integration.ant</package>
     <description>Cactus Ant Integration (J2EE 1.3)</description>
 
-    <ant buildfile="integration/ant/build.xml" target="dist" debug="true">
+    <ant buildfile="integration/ant/build.xml" target="dist">
 
+      <sysproperty name="build.clonevm" value="true"/>
       <property name="project.version" value="@@DATE@@"/>
 
       <depend property="j2ee.jar" project="jakarta-servletapi-4"/>
