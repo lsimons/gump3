@@ -19,5 +19,4 @@
   <depend project="jakarta-servletapi"/>
   <work parent="build/tomcat/classes"/>
 
-  <home parent="dist/tomcat-4.0"/>
 </project>
