@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/utils/tools.py,v 1.14 2004/03/01 18:58:00 ajack Exp $
-# $Revision: 1.14 $
-# $Date: 2004/03/01 18:58:00 $
+# $Header: /home/stefano/cvs/gump/python/gump/utils/tools.py,v 1.15 2004/03/07 22:22:35 ajack Exp $
+# $Revision: 1.15 $
+# $Date: 2004/03/07 22:22:35 $
 #
 # ====================================================================
 #
@@ -66,6 +66,7 @@ import logging
 import types, StringIO
 
 from gump import log
+from gump.utils.note import *
 from gump.utils.work import *
 from gump.utils.file import *
 from gump.utils.launcher import *
@@ -89,8 +90,14 @@ def listDirectoryAsWork(workable,directory,name=None):
     return ok
     
 def catDirectoryContentsAsWork(workable,directory,name=None):
+    
+    # Chances are a workable is also annotatable...
+    annotatable=None
+    if isinstance(workable,Annotatable):
+        annotatable=workable
+        
     try:
-        if os.path.exists(directory) and  os.path.isdir(directory):
+        if os.path.exists(directory) and os.path.isdir(directory):
             for fileName in os.listdir(directory):
                 baseName=name    
                 file=os.path.abspath(os.path.join(directory,fileName))                
@@ -100,12 +107,11 @@ def catDirectoryContentsAsWork(workable,directory,name=None):
                     else:
                         workName=fileName
                     catFileAsWork(workable,	file, workName)
+        elif annotatable:
+                annotatable.addWarning('No directory [' + str(directory) + ']')
     except:
-        try:
-            workable.addWarning('No such directory [' + str(directory) + ']')
-        except:
-            pass
-    
+        if annotatable:
+            annotatable.addWarning('Failed to display directory contents [' + str(directory) + ']')    
         
 def catFileAsWork(workable,file,name=None):
     ok=0
@@ -142,6 +148,12 @@ def listDirectoryToFileHolder(holder,directory,type=FILE_TYPE_MISC,name=None):
     return reference.exists() and reference.isDirectory()
     
 def catDirectoryContentsToFileHolder(holder,directory,type=FILE_TYPE_MISC,name=None):
+    
+    # Chances are a holder is also annotatable...
+    annotatable=None
+    if isinstance(holder,Annotatable):
+        annotatable=holder
+        
     try:
         listDirectoryToFileHolder(holder,directory,type,name)
         
@@ -149,17 +161,16 @@ def catDirectoryContentsToFileHolder(holder,directory,type=FILE_TYPE_MISC,name=N
             for fileName in os.listdir(directory):
                 baseName=name    
                 file=os.path.abspath(os.path.join(directory,fileName))                
-                if os.path.exists(file) and os.path.isfile(file):
-                    if baseName: 
-                        workName=baseName+'_'+fileName
-                    else:
-                        workName=fileName
-                    catFileToFileHolder(holder,	file, type, workName)
+                if baseName: 
+                    workName=baseName+'_'+fileName
+                else:
+                    workName=fileName
+                catFileToFileHolder(holder,	file, type, workName)
+        elif annotatable:
+                annotatable.addWarning('No directory [' + str(directory) + ']')
     except:
-        try:
-            holder.addWarning('No such directory [' + str(directory) + ']')
-        except:
-            pass
+        if annotatable:
+            annotatable.addError('Failed to display directory [' + str(directory) + ']')
     
         
 def catFileToFileHolder(holder,file,type=FILE_TYPE_MISC,name=None):

@@ -72,14 +72,16 @@ from gump.utils.owner import *
                
 FILE_TYPE_MISC=1
 FILE_TYPE_CONFIG=2
-FILE_TYPE_PACKAGE=3
-FILE_TYPE_OUTPUT=4
-FILE_TYPE_REPORT=5
-FILE_TYPE_REPO=6
-FILE_TYPE_LOG=7
+FILE_TYPE_SOURCE=3
+FILE_TYPE_PACKAGE=4
+FILE_TYPE_OUTPUT=5
+FILE_TYPE_REPORT=6
+FILE_TYPE_REPO=7
+FILE_TYPE_LOG=8
 
 fileTypeDescriptions = { 	FILE_TYPE_MISC : "Miscellaneous",
                 FILE_TYPE_CONFIG : "Config",
+                FILE_TYPE_PACKAGE : "Source",
                 FILE_TYPE_PACKAGE : "Package",
                 FILE_TYPE_OUTPUT : "Output",
                 FILE_TYPE_REPORT : "Report",

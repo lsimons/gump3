@@ -419,15 +419,30 @@ class GumpEngine:
         
             log.debug(' ------ Project: #[' + `projectNo` + '] of [' + `projectCount` + '] : ' + project.getName())
         
-            if project.isPackaged(): continue
+            if project.isPackaged():             
+                self.performPackageProcessing( run, project, stats)
+                continue
             
+            # Extract stats (in case we want to do conditional processing)            
+            stats=project.getStats()
+                
             # Do this even if not ok
-            self.performPreBuild( run, project )
+            self.performPreBuild( run, project, stats )
 
             wasBuilt=0
             if project.okToPerformWork():        
                 log.debug(' ------ Building: [' + `projectNo` + '] ' + project.getName())
 
+                # Turn on --verbose or --debug if failing ...
+                if not STATE_SUCCESS == stats.currentState:
+                    if stats.sequenceInState > 5:
+                        project.setDebug(1)
+                    else:
+                        project.setVerbose(1)
+
+                #
+                # Get the appropriate build command...
+                #
                 cmd=project.getBuildCommand()
 
                 if cmd:
@@ -450,13 +465,12 @@ class GumpEngine:
                         project.changeState(STATE_SUCCESS)
                     
             # Do this even if not ok
-            self.performPostBuild( run, project, repository, wasBuilt )
+            self.performPostBuild( run, project, repository, wasBuilt, stats )
     
             if project.isFailed():
                 log.warn('Failed to build project #[' + `projectNo` + '] [' + project.getName() + '], state:' \
                         + project.getStateDescription())
-                        
-                        
+                                                
             projectNo+=1
 
 
@@ -523,7 +537,7 @@ class GumpEngine:
             project.addError('   <mkdir without \'dir\' attribute.')
             raise RuntimeError('Bad <mkdir, missing \'dir\' attribute')
                
-    def performPreBuild( self, run, project ):
+    def performPreBuild( self, run, project, stats ):
         """ Perform pre-build Actions """
        
         log.debug(' ------ Performing pre-Build Actions (mkdir/delete) for : '+ project.getName())
@@ -578,8 +592,7 @@ class GumpEngine:
         if not project.okToPerformWork():
             log.warn('Failed to perform prebuild on project [' + project.getName() + ']')
 
-
-    def performPostBuild(self, run, project, repository, wasBuilt):
+    def performPostBuild(self, run, project, repository, wasBuilt, stats):
         """Perform Post-Build Actions"""
      
         log.debug(' ------ Performing post-Build Actions (check jars) for : '+ project.getName())
@@ -596,7 +609,7 @@ class GumpEngine:
                     jarPath=os.path.abspath(jar.getPath())
                     # Add to list of outputs, in case we
                     # fail to find, and need to go list 
-                    # directoiries
+                    # directories
                     outputs.append(jarPath)
                     if not os.path.exists(jarPath):
                         project.changeState(STATE_FAILED,REASON_MISSING_OUTPUTS)
@@ -674,7 +687,11 @@ class GumpEngine:
                         project.addError("See Directory Listing Work for Missing Outputs")
             else:
                 project.changeState(STATE_SUCCESS)
-         
+        else:
+            # List source directory (when failed) in case it helps debugging...
+            listDirectoryToFileHolder(project,project.getModule().getSourceDirectory(), \
+                                        FILE_TYPE_SOURCE, 'list_source_'+project.getName())           
+                                        
         #   
         # Display report output, even if failed...
         #
@@ -701,6 +718,56 @@ class GumpEngine:
                 log.warning('Display Maven Log Failed', exc_info=1)    
                 # Not worth crapping out over...
             
+                        
+    def performPackageProcessing(self, run, project, stats):
+        """Perform Package Processing Actions"""
+     
+        log.debug(' ------ Performing Package Processing for : '+ project.getName())
+
+        if project.hasOutputs():                
+            outputs = []
+                    
+            #
+            # Ensure the jar output were all generated correctly.
+            #
+            outputsOk=1
+            for jar in project.getJars():
+                jarPath=os.path.abspath(jar.getPath())
+                # Add to list of outputs, in case we
+                # fail to find, and need to go list 
+                # directories
+                outputs.append(jarPath)
+                
+            # If we have a <license name='...
+            if project.hasLicense():
+                licensePath=os.path.abspath(	\
+                                os.path.join( project.getModule().getSourceDirectory(),	\
+                                                project.getLicense() ) )
+                                          
+                # Add to list of outputs, in case we
+                # fail to find, and need to go list 
+                # directories
+                outputs.append(licensePath)
+                                                            
+                #
+                # List all directories that should've contained
+                # outputs, to see what is there.
+                #
+                dirs=[]
+                dircnt=0
+                listed=0
+                for output in outputs:
+                    dir=os.path.dirname(output)
+                    if not dir in dirs:                        
+                        dircnt += 1            
+                        if os.path.exists(dir):
+                            listDirectoryToFileHolder(project,dir,\
+                                FILE_TYPE_PACKAGE,
+                                'list_'+project.getName()+'_dir'+str(dircnt)+'_'+os.path.basename(dir))
+                            dirs.append(dir)
+                            listed += 1
+                        else:
+                            project.addError("No such directory (where package output is expected) : " + dir)                                
                 
     """
     

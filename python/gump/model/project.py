@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/model/project.py,v 1.60 2004/03/05 23:42:22 ajack Exp $
-# $Revision: 1.60 $
-# $Date: 2004/03/05 23:42:22 $
+# $Header: /home/stefano/cvs/gump/python/gump/model/project.py,v 1.61 2004/03/07 22:22:35 ajack Exp $
+# $Revision: 1.61 $
+# $Date: 2004/03/07 22:22:35 $
 #
 # ====================================================================
 #
@@ -283,7 +283,7 @@ class Project(NamedModelObject, Statable, Resultable):
         return self.getModule().getMetadataViewUrl()
                         
     def getViewUrl(self):
-        # :TODO: if a basedir the offset?
+        # :TODO: if a basedir then offset?
         return self.getModule().getViewUrl()
             
     def addJar(self,jar):
@@ -855,8 +855,10 @@ class Project(NamedModelObject, Statable, Resultable):
         #
         # Allow ant-level debugging...
         #
-        if debug: cmd.addParameter('-debug')  
-        if verbose: cmd.addParameter('-verbose')  
+        if self.getWorkspace().isDebug() or self.isDebug() or debug: 
+            cmd.addParameter('-debug')  
+        if self.getWorkspace().isVerbose()  or self.isVerbose() or verbose: 
+            cmd.addParameter('-verbose')  
         
         #
         #	This sets the *defaults*, a workspace could override them.
@@ -934,8 +936,10 @@ class Project(NamedModelObject, Statable, Resultable):
         #
         # Allow maven-level debugging...
         #
-        if debug: cmd.addParameter('--debug')  
-        if verbose: cmd.addParameter('--exception') 
+        if self.getWorkspace().isDebug() or self.isDebug() or debug: 
+            cmd.addParameter('--debug')  
+        if self.getWorkspace().isVerbose()  or self.isVerbose() or verbose: 
+            cmd.addParameter('--exception') 
         
         #
         # Suppress downloads
@@ -994,11 +998,11 @@ class Project(NamedModelObject, Statable, Resultable):
             cmd.addPrefixedParameter('-X','bootclasspath/p',bootclasspath,':')
                     
         #
-        # Allow ant-level debugging...
+        # Allow script-level debugging...
         #
-        if self.getWorkspace().isDebug() or debug:
+        if self.getWorkspace().isDebug() or self.isDebug() or debug:
             cmd.addParameter('-debug')  
-        if self.getWorkspace().isVerbose() or verbose:
+        if self.getWorkspace().isVerbose()  or self.isVerbose() or verbose:
             cmd.addParameter('-verbose')  
         
         return cmd

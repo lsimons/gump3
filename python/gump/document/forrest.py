@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/forrest.py,v 1.92 2004/03/05 23:42:22 ajack Exp $
-# $Revision: 1.92 $f
-# $Date: 2004/03/05 23:42:22 $
+# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/forrest.py,v 1.93 2004/03/07 22:22:35 ajack Exp $
+# $Revision: 1.93 $f
+# $Date: 2004/03/07 22:22:35 $
 #
 # ====================================================================
 #
@@ -504,7 +504,8 @@ class ForrestDocumenter(Documenter):
         
         projectsSection=document.createSection('Projects with issues...')
         projectsTable=projectsSection.createTable(['Name','Affected',	\
-                    'Duration\nin state','Project State','Elapsed'])
+                    'Dependencies',	\
+                    'Duration\nin state','Project State'])
         pcount=0
         for project in sortedProjectList:
             if not gumpSet.inSequence(project): continue       
@@ -531,10 +532,12 @@ class ForrestDocumenter(Documenter):
             self.insertLink(project,workspace,projectRow.createData())   
                         
             projectRow.createData(affected)
+            
+            projectRow.createData( project.getFullDependencyCount())
+            
             projectRow.createData(seq)
             
             self.insertStateIcon(project,workspace,projectRow.createData())
-            projectRow.createData(secsToElapsedString(project.getElapsedSecs())) 
                 
         if not pcount: 
             projectsTable.createLine('None')    

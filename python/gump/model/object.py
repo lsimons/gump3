@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/model/object.py,v 1.19 2004/03/01 18:58:00 ajack Exp $
-# $Revision: 1.19 $
-# $Date: 2004/03/01 18:58:00 $
+# $Header: /home/stefano/cvs/gump/python/gump/model/object.py,v 1.20 2004/03/07 22:22:35 ajack Exp $
+# $Revision: 1.20 $
+# $Date: 2004/03/07 22:22:35 $
 #
 # ====================================================================
 #
@@ -168,6 +168,9 @@ class ModelObject(Annotatable,Workable,FileHolder,Propogatable,Ownable):
         # The XML model
     	self.xml=xml
     	
+    	self.debug=None
+    	self.verbose=None
+    	
     	self.completionPerformed=0
     	
     def isComplete(self):
@@ -176,11 +179,17 @@ class ModelObject(Annotatable,Workable,FileHolder,Propogatable,Ownable):
     def setComplete(self,complete):
        self.completionPerformed=complete
        
+    def setDebug(self,debug):
+        self.debug=debug
+       
     def isDebug(self):
-        return self.xml.debug
+        return self.debug or self.xml.debug
         
+    def setVerbose(self,verbose):
+        self.verbose=verbose
+       
     def isVerbose(self):
-        return self.xml.verbose      
+        return self.verbose or self.xml.verbose      
         
     def dump(self, indent=0, output=sys.stdout):
         """ Display the contents of this object """
