@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 
-<repository name="jakarta" type="cvs">
+<repository name="ant" type="cvs">
   <title>Ant</title>
   <home-page>http://ant.apache.org/</home-page>
   <cvsweb>http://cvs.apache.org/viewcvs/</cvsweb>

@@ -5,8 +5,7 @@
     GUI frontend to Ant
   </description>
 
-  <!--cvs repository="ant"/-->
-  <cvs repository="jakarta" module="jakarta-ant-antidote"/>
+  <cvs repository="ant"/>
 
   <project name="jakarta-ant-antidote">
     <depend project="ant-antidote" inherit="jars"/>

@@ -5,8 +5,7 @@
     Java based build tool
   </description>
 
-  <!--cvs repository="ant"/-->
-  <cvs repository="jakarta" module="jakarta-ant"/>
+  <cvs repository="ant"/>
 
   <project name="jakarta-ant">
     <depend project="ant" inherit="jars"/>
