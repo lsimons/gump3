@@ -22,6 +22,8 @@
       <property name="regexp.jar"
         reference="jarpath" id="regexp" project="jakarta-regexp"/>
       <property name="mail.home" reference="home" project="javamail"/>
+      <property name="tomcat-coyote.home" reference="home" 
+        project="jakarta-tomcat-coyote"/>
       <depend property="mail.jar" project="javamail"/>
       <property name="activation.home" reference="home" project="jaf"/>
       <depend property="activation.jar" project="jaf"/>
@@ -57,6 +59,7 @@
     <depend project="xml-xalan2"/>
     <option project="jakarta-avalon"/>
     <option project="jakarta-avalon-phoenix"/>
+    <depend project="jakarta-tomcat-coyote"/>
     <work nested="catalina/build/server/classes"/>
 
     <home nested="dist"/>
