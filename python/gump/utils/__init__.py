@@ -431,8 +431,8 @@ def inspectGarbageCollection(marker=''):
         if marker:
             message=' @ '
             message+=marker
-        log.debug('Objects Tracked by GC %s : %s' \
-                % (message,  `tracked`))
+        #log.debug('Objects Tracked by GC %s : %s' \
+        #        % (message,  `tracked`))
     except:
         pass  
     return tracked

@@ -41,7 +41,7 @@ from xml.dom import minidom
 
 LINE=' - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - GUMP'
 
-GUMPY_VERSION='2.0.2-alpha-0002'
+GUMPY_VERSION='2.0.2-alpha-0003'
 
 def ignoreHangup(signum):
     pass
@@ -133,6 +133,27 @@ def sendEmail(toaddr,fromaddr,subject,data,server,port=25):
         
     except Exception, details:
         print 'Failed to send mail: ' + str(details)
+        
+def writeRunLogEntry(entry):
+    # Enable a run log
+    runlogFileName='gumpy_runlog.txt'
+    runlogFile=os.path.abspath(runlogFileName)
+    runlog=None
+    try:
+        runlog=open(runlogFile,'a',0) # Unbuffered...
+        try:
+            runlog.write(time.strftime('%d %b %y %H:%M:%S'))
+            runlog.write(' : ')
+            runlog.write(`os.getpid()`)
+            runlog.write(' : ')
+            runlog.write(entry)
+            runlog.write('\n')
+        except Exception, details:
+            print 'Failed to write to runlog : ' + str(details)
+    finally:
+        if runlog:
+            runlog.close()
+    
 
             
 def establishLock(lockFile):
@@ -157,6 +178,8 @@ def establishLock(lockFile):
         lock=open(lockFile,'w')
             
     if failed:
+        writeRunLogEntry('False Start. The lock file [%s] exists%s' % (lockFile, info))
+        
         print """The lock file [%s] exists%s. 
 Either Gump is still running, or it terminated very abnormally.    
 Please resolve this (waiting or removing the lock file) before retrying.
@@ -222,7 +245,11 @@ def tailFile(file,lines,eol=None,marker=None):
 
 def tailFileToString(file,lines,eol=None,marker=None):
     return "".join(tailFile(file,lines,eol,marker))
-    
+
+
+# Starting up...
+writeRunLogEntry('Gump Start-up. Arguments [%s]' % sys.argv)
+
 # Allow a lock    
 lockFile=os.path.abspath('gumpy.lock')
 lock=establishLock(lockFile)        
@@ -241,8 +268,6 @@ logFileName='gumpy_log.txt'
 logFile=os.path.abspath(logFileName)
 log=open(logFile,'w',0) # Unbuffered...
 
-result=0
-
 hostname='Unknown'
 workspaceName='Unknown'
         
@@ -254,6 +279,10 @@ logurl=None
 logdir=None
         
 args=sys.argv
+result=0
+cvsExit = -1
+integrationExit = -1
+        
 try:
 
     try:
@@ -262,7 +291,8 @@ try:
         hostname = socket.gethostname()
 
         log.write('- GUMP run on host   : ' + hostname + '\n')
-        log.write('- GUMP run @         : ' + time.strftime('%d %b %y %H:%M:%S', time.gmtime()) + '\n')
+        log.write('- GUMP run @         : ' + time.strftime('%d %b %y %H:%M:%S', time.localtime()) + '\n')
+        log.write('- GUMP run @  UTC    : ' + time.strftime('%d %b %y %H:%M:%S', time.gmtime()) + '\n')
         log.write('- GUMP run by Python : ' + `sys.version` + '\n')
         log.write('- GUMP run by Gumpy  : ' + GUMPY_VERSION + '\n')
         log.write('- GUMP run on OS     : ' + `os.name` + '\n')
@@ -344,7 +374,6 @@ try:
         #
         # Update Gump from CVS
         #    
-        cvsExit = 0
         if not os.environ.has_key('GUMP_NO_CVS_UPDATE'):
             cvsroot=':pserver:anoncvs@cvs.apache.org:/home/cvspublic'
             os.environ['CVSROOT']=cvsroot
@@ -352,6 +381,7 @@ try:
             cvsExit = runCommand('cvs -q update -dP')
         else:
             log.write('CVS update skipped per environment setting.\n')
+            cvsExit=0
         if cvsExit:
             result=1
             
@@ -468,6 +498,9 @@ finally:
             
         else:
             print 'Unable to mail failure report : ' + `[mailserver,mailport,mailto,mailfrom]`
+            
+            
+    writeRunLogEntry('Complete [%s cvs:%s,run:%s]' % (result, cvsExit, integrationExit))
 
 # bye!
 sys.exit(result)

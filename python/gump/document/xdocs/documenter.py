@@ -359,36 +359,41 @@ class XDocDocumenter(Documenter):
         
         definitionSection=document.createSection('Run Details')    
         
-        definitionSection.createNote('This install runs Python Gump, not Traditional Gump.') 
-        
         definitionTable=definitionSection.createTable()
         definitionTable.createEntry('Gump Run GUID', self.run.getRunGuid())
         definitionTable.createEntry('Gump Run (Hex) GUID', self.run.getRunHexGuid())
         definitionTable.createEntry('Gump Version', setting.version)
-        definitionTable.createEntry('Java Command', self.run.getEnvironment().javaCommand)
         definitionTable.createEntry('Python', str(sys.version))
         definitionTable.createEntry('Operating System (Name)', str(os.name))
-        definitionTable.createEntry('@@DATE@@', str(default.date))
-        definitionTable.createEntry('Start Date/Time (UTC)', self.workspace.getStartDateTimeUtc())
-        definitionTable.createEntry('Start Date/Time', self.workspace.getStartDateTime())
-        definitionTable.createEntry('Timezone', self.workspace.timezone)
-
-        javaproperties=self.run.getEnvironment().getJavaProperties()
-        for name in ['java.vendor', 'java.version', 'os.name', 'os.arch', 'os.version']:
-            if name in javaproperties:
-                definitionTable.createEntry(name, javaproperties[name])	  
-
+        
         tracked=inspectGarbageCollection()
         if tracked:
             definitionTable.createEntry('Garbage Collector Tracked', tracked)    
             
         rssSyndRow=definitionTable.createRow()
-        rssSyndRow.createData('Syndication')
+        rssSyndRow.createData().createStrong('Syndication')
         rssSyndRow.createData().createFork('rss.xml','RSS')
         atomSyndRow=definitionTable.createRow()
-        atomSyndRow.createData('Syndication')
+        atomSyndRow.createData().createStrong('Syndication')
         atomSyndRow.createData().createFork('atom.xml','Atom')
                 
+        dtSection=document.createSection('Dates/Times')            
+        dtTable=dtSection.createTable()        
+        dtTable.createEntry('@@DATE@@', str(default.date))
+        dtTable.createEntry('Start Date/Time (UTC)', self.workspace.getStartDateTimeUtc())
+        dtTable.createEntry('End Date/Time (UTC)', self.workspace.getEndDateTimeUtc())
+        dtTable.createEntry('Timezone', self.workspace.timezone)
+        dtTable.createEntry('Start Date/Time', self.workspace.getStartDateTime())
+        dtTable.createEntry('End Date/Time', self.workspace.getEndDateTime())
+
+        javaSection=document.createSection('Java Information')            
+        javaTable=javaSection.createTable()
+        javaTable.createEntry('Java Command', self.run.getEnvironment().javaCommand)
+        javaproperties=self.run.getEnvironment().getJavaProperties()
+        for name in ['java.vendor', 'java.version', 'os.name', 'os.arch', 'os.version']:
+            if name in javaproperties:
+                javaTable.createEntry(name, javaproperties[name])	  
+
         if not self.gumpSet.isFull():
             notice=definitionSection.createWarning()
             
@@ -405,11 +410,9 @@ class XDocDocumenter(Documenter):
                 notice.createText(project.name)
                 notice.createText(' ')
                             
-        
         self.documentSummary(document,self.workspace.getProjectSummary())        
         self.documentAnnotations(document,self.run)
     
-     
         document.serialize()    
         document=None
         
