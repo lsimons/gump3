@@ -35,7 +35,7 @@
     </jar>
     <javadoc module="jaxen" nested="target/docs/apidocs">
     </javadoc>
-    <nag to="scott@dotnot.org" from="Jaxen Gump &lt;scott@dotnot.org&gt;">
+    <nag to="jaxen-interest@lists.codehaus.org" from="Jaxen Gump &lt;scott@dotnot.org&gt;">
     </nag>
   </project>
 </module>
