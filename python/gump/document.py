@@ -268,6 +268,9 @@ def documentWorkspace(workspace,context,db,moduleFilterList=None,projectFilterLi
     
     startSectionXDoc(x,'Modules')
     startTableXDoc(x)
+    x.write('     <tr>')        
+    x.write('      <th>Name</th><th>State</th><th>Project State(s)</th><th>Elapsed Time</th>')
+    x.write('     </tr>')
     mcount=0
     for mctxt in context:
         mname=mctxt.name
@@ -276,8 +279,8 @@ def documentWorkspace(workspace,context,db,moduleFilterList=None,projectFilterLi
         mcount+=1
         (mhours, mmins, msecs) 	= mctxt.elapsedTime();
         x.write('     <tr><!-- %s -->' % (mname))        
-        x.write('      <td><link href=\'%s\'>%s</link></td><td>%s</td>' % \
-          (getModuleRelativeUrl(mname),mname,str(mctxt.aggregateStates())))    
+        x.write('      <td><link href=\'%s\'>%s</link></td><td>%s</td><td>%s</td>' % \
+          (getModuleRelativeUrl(mname),mname,stateName(mctxt.status),str(mctxt.aggregateStates())))    
         x.write('      <td>%s:%s:%s</td>' % (str(mhours),str(mmins),str(msecs)))    
         x.write('     </tr>')
     if not mcount: x.write('	<tr><td>None</td></tr>')
@@ -313,6 +316,7 @@ def documentWorkspace(workspace,context,db,moduleFilterList=None,projectFilterLi
     packages=getPackagedProjects()
     if packages:
         startTableXDoc(x)
+        x.write('      <tr><th>Name</th><th>Location</th></tr>')
         for project in packages:
             x.write('     <tr><!-- %s -->' % (project.name))        
             x.write('      <td>%s</td><td>%s</td>' % (project.name, project.home))    
@@ -370,6 +374,9 @@ def documentModule(workspace,wdir,modulename,modulecontext,db,projectFilterList=
     
     startSectionXDoc(x,'Projects')
     x.write('    <table>\n')
+    x.write('     <tr>')        
+    x.write('      <th>Name</th><th>State</th><th>Reason</th><th>Elapsed Time</th>')
+    x.write('     </tr>')
     pcount=0
     for pctxt in modulecontext:     
         if projectFilterList and not pctxt.project in projectFilterList: continue  
@@ -391,7 +398,7 @@ def documentModule(workspace,wdir,modulename,modulecontext,db,projectFilterList=
     startListXDoc(x)
     addItemXDoc(x,"Status: " + stateName(modulecontext.status))
     if modulecontext.cause and not modulecontext==modulecontext.cause:
-        addItemXDoc(x, "Cause:", "<link href='%s'>%s</link>" % \
+         addItemXDoc(x, "Root Cause:", "<link href='%s'>%s</link>" % \
             (getContextUrl(modulecontext.cause), \
                 modulecontext.cause.name))    
     endListXDoc(x)
@@ -441,7 +448,7 @@ def documentProject(workspace,modulename,mdir,projectname,projectcontext,db):
     startListXDoc(x)
     addItemXDoc(x,"Status: ", stateName(projectcontext.status))  
     if projectcontext.cause and not projectcontext==projectcontext.cause:
-        addItemXDoc(x,"Cause:", "<link href='%s'>%s</link>" % \
+        addItemXDoc(x,"Root Cause:", "<link href='%s'>%s</link>" % \
             (getContextUrl(projectcontext.cause), projectcontext.cause.name))
     addItemXDoc(x,"Elapsed: ", str(projectcontext.elapsedSecs()))
     addItemXDoc(x,"FOG Factor: ", str(round(stats.getFOGFactor(),2)))
@@ -461,8 +468,7 @@ def documentProject(workspace,modulename,mdir,projectname,projectcontext,db):
         startSectionXDoc(x,"Project Dependencies")
         startListXDoc(x)
         for depend in projectcontext.depends:
-          addItemXDoc(x,"<link href='%s'>%s</link>" % \
-                (getContextUrl(depend), depend.name))
+            addXItemXDoc(x,getContextLink(depend))
         endListXDoc(x)
         endSectionXDoc(x)
             
@@ -470,8 +476,7 @@ def documentProject(workspace,modulename,mdir,projectname,projectcontext,db):
         startSectionXDoc(x,"Optional Project Dependencies")
         startListXDoc(x)
         for option in projectcontext.options:
-           addItemXDoc(x,"<link href='%s'>%s</link>" % \
-                (getContextUrl(option), option.name))
+            addXItemXDoc(x,getContextLink(option))
         endListXDoc(x)
         endSectionXDoc(x)
                       
@@ -479,17 +484,15 @@ def documentProject(workspace,modulename,mdir,projectname,projectcontext,db):
         startSectionXDoc(x,"Project Dependees")
         startListXDoc(x)
         for depend in projectcontext.dependees:
-          addItemXDoc(x,"<link href='%s'>%s</link>" % \
-                (getContextUrl(depend), depend.name))
+            addXItemXDoc(x,getContextLink(depend))
         endListXDoc(x)
         endSectionXDoc(x)
             
     if projectcontext.optionees:
         startSectionXDoc(x,"Optional Project Dependees")
         startListXDoc(x)
-        for option in projectcontext.optionees:        
-           addItemXDoc(x,"<link href='%s'>%s</link>" % \
-                (getContextUrl(option), option.name))
+        for option in projectcontext.optionees:     
+            addXItemXDoc(x,getContextLink(option))
         endListXDoc(x)
         endSectionXDoc(x)
                   
@@ -526,10 +529,11 @@ def documentWorkList(x,workspace,worklist,description='Work',dir='.'):
     if not worklist: return
     startSectionXDoc(x,description)
     x.write('    <table>\n')
+    x.write('      <tr><th>Name</th><th>Type</th><th>State</th><th>Elapsed Time</th></tr>')
     for work in worklist:
         x.write('     <tr><!-- %s -->' % (workTypeName(work.type)))       
-        x.write('      <td>%s</td>' % (workTypeName(work.type))) 
         x.write('      <td><link href=\'%s\'>%s</link></td>' % (getWorkRelativeUrl(work.type,work.command.name),work.command.name))    
+        x.write('      <td>%s</td>' % (workTypeName(work.type))) 
         x.write('      <td>%s</td><td>%s</td>' % (stateName(work.status), str(work.secs)))    
         x.write('     </tr>')
     x.write('    </table>\n')
@@ -672,7 +676,7 @@ def documentModulesByElapsed(stats,sdir,moduleFilterList=None):
         if moduleFilterList and not mctxt.module in moduleFilterList: continue
         (hours,mins,secs)=mctxt.elapsedTime()
         timeFormat=str(hours)+":"+str(mins)+":"+str(secs)
-        titledDataInTableXDoc(x,mctxt.name, timeFormat)
+        titledXDataInTableXDoc(x,getContextLink(mctxt), timeFormat)
 
     endTableXDoc(x)
     
@@ -688,12 +692,12 @@ def documentModulesByProjects(stats,sdir,moduleFilterList=None):
         if moduleFilterList and not mctxt.module in moduleFilterList: continue    
         startTableRowXDoc(x)
         
-        insertTableDataXDoc(x, mctxt.name)
+        insertTableDataXDoc(x, getContextLink(mctxt))
         insertTableDataXDoc(x,len(mctxt.subcontexts))
         
         projectsString=''
         for pctxt in mctxt.subcontexts.values():
-            projectsString+=pctxt.name
+            projectsString+=getContextLink(pctxt)
             projectsString+=' '            
         insertTableDataXDoc(x, projectsString)
         
@@ -711,12 +715,12 @@ def documentModulesByDependencies(stats,sdir,moduleFilterList=None):
     for mctxt in stats.modulesByTotalDependencies:        
         if moduleFilterList and not mctxt.module in moduleFilterList: continue    
         startTableRowXDoc(x)
-        insertTableHeaderXDoc(x,mctxt.name)
+        insertTableDataXDoc(x, getContextLink(mctxt))
         insertTableDataXDoc(x, mctxt.dependencyCount())
         
         projectsString=''
         for pctxt in mctxt.getDepends():
-            projectsString+=pctxt.name
+            projectsString+=getContextLink(pctxt)
             projectsString+=' '            
         insertTableDataXDoc(x, projectsString)
        
@@ -736,12 +740,12 @@ def documentModulesByDependees(stats,sdir,moduleFilterList=None):
     for mctxt in stats.modulesByTotalDependees:        
         if moduleFilterList and not mctxt.module in moduleFilterList: continue    
         startTableRowXDoc(x)
-        insertTableHeaderXDoc(x,mctxt.name)
+        insertTableDataXDoc(x, getContextLink(mctxt))
         insertTableDataXDoc(x, mctxt.dependeeCount())
         
         projectsString=''
         for pctxt in mctxt.getDependees():
-            projectsString+=pctxt.name
+            projectsString+=getContextLink(pctxt)
             projectsString+=' '            
         insertTableDataXDoc(x, projectsString)
         
@@ -759,12 +763,12 @@ def documentModulesByFOGFactor(stats,sdir,moduleFilterList=None):
     for mctxt in stats.modulesByFOGFactor:        
         if moduleFilterList and not mctxt.module in moduleFilterList: continue    
         startTableRowXDoc(x)
-        insertTableHeaderXDoc(x,mctxt.name)
+        insertTableDataXDoc(x,getContextLink(mctxt))
         insertTableDataXDoc(x, str(round(mctxt.getFOGFactor(),2)))
         
         projectsString=''
         for pctxt in mctxt.getDependees():
-            projectsString+=pctxt.name
+            projectsString+=getContextLink(pctxt)
             projectsString+='='            
             projectsString+=str(round(pctxt.getFOGFactor(),2))
             projectsString+='  '            
@@ -893,6 +897,9 @@ def getContextUrl(context,depth=1):
     else:        
         url=getModuleProjectRelativeUrl(context.parent.name,context.name,1)
     return url
+
+def getContextLink(context,depth=1):
+    return getLink(getContextUrl(context,depth),context.name)
     
 def getWorkspaceRelativeUrl(depth=0):
     return getUp(depth)+'index.html'
@@ -938,6 +945,10 @@ def getUp(depth):
         url+='../'
         i += 1
     return url
+           
+def getLink(href,name):
+    link='<link href=\'%s\'>%s</link>' % (href,name)
+    return link
            
 #####################################################################           
 #
@@ -1005,6 +1016,12 @@ def titledDataInTableXDoc(f,title,data):
     insertTableDataXDoc(f, escape(data))
     endTableRowXDoc(f)
     
+def titledXDataInTableXDoc(f,title,data):
+    startTableRowXDoc(f)
+    insertTableDataXDoc(f, title)
+    insertTableDataXDoc(f, escape(data))
+    endTableRowXDoc(f)
+    
 def endTableXDoc(f):
     f.write('    </table>\n')
     
@@ -1015,6 +1032,9 @@ def startListXDoc(f, title=None):
     
 def addItemXDoc(f,t,i=''):
     f.write('      <li><strong>%s</strong>%s</li>\n' % (t,i))
+    
+def addXItemXDoc(f,t):
+    f.write('      <li>%s</li>\n' % (t))
     
 def addLinkXDoc(f,url,title):
     f.write('       <link href=\'%s\'>%s</link>' % (url,title))    

@@ -571,7 +571,8 @@ class ModuleContext(Context):
         fogFactor=0
         fogFactors=0
         for ctxt in self:
-                subFOGFactor = ctxt.getFOGFactor()
+                projectFOGFactor = ctxt.getFOGFactor()
+                fogFactor += projectFOGFactor
                 fogFactors += 1
                 
         if not fogFactors:
