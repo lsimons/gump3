@@ -10,7 +10,7 @@
   <project name="xjavadoc">
     <package>xjavadoc</package>
 
-    <ant/>
+    <ant target="jar"/>
     <depend project="jakarta-ant"/>
     <depend project="xml-xerces"/>
     <depend project="javacc"/>
