@@ -536,7 +536,7 @@
 
       <xsl:text>test -f </xsl:text>
       <xsl:value-of select="translate(@file,'\','/')"/>
-      <xsl:text> &amp;&amp; eval "cp </xsl:text>
+      <xsl:text> &amp;&amp; eval "cp -r </xsl:text>
       <xsl:value-of select="translate(@file,'\','/')"/>
       <xsl:text> </xsl:text>
       <xsl:value-of select="translate(@todir,'\','/')"/>
