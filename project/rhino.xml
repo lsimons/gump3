@@ -36,7 +36,8 @@
     <depend project="bsf"/>
     <depend project="xml-xerces"/>
 
-    <home nested="build/rhino_@@DATE@@"/>
+    <home nested="build/rhino_@@DATE@@"/>    
+    <work nested="build/classes"/>
     <jar name="js.jar"/>
     <license name="README.html"/>
     <javadoc nested="build/rhino_@@DATE@@/docs/apidocs"/>
