@@ -12,6 +12,7 @@
 
     <ant target="gump"/>
 
+    <depend project="random"/>
     <option project="random"/>
 
     <home nested="dist"/>
@@ -22,6 +23,13 @@
 
     <nag from="Gump Integration Build &lt;dev@ant.apache.org&gt;"
          to="dev@ant.apache.org"/>
+  </project>
+  
+  <project name="honorary1">
+    <package>org.apache.tools.ant</package>
+    <depend project="random"/>
+    <option project="random"/>
+    <home nested="dist"/>
   </project>
 </module>
 

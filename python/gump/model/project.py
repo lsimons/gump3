@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/model/project.py,v 1.14 2003/11/21 04:41:22 ajack Exp $
-# $Revision: 1.14 $
-# $Date: 2003/11/21 04:41:22 $
+# $Header: /home/stefano/cvs/gump/python/gump/model/project.py,v 1.15 2003/11/21 05:06:37 ajack Exp $
+# $Revision: 1.15 $
+# $Date: 2003/11/21 05:06:37 $
 #
 # ====================================================================
 #
@@ -322,9 +322,11 @@ class Project(NamedModelObject, Statable):
     # we test the attribute for type.
     #                                      
     def isPackaged(self):
-        return (type(self.xml.package) in types.StringTypes)	\
-                    or self.honoraryPackage
-                    
+        return self.isPackageMarked() or self.honoraryPackage
+    
+    def isPackageMarked(self):
+        return (type(self.xml.package) in types.StringTypes)
+                  
     def setHonoraryPackage(self,honorary):
         self.honoraryPackage=honorary
     
@@ -341,7 +343,7 @@ class Project(NamedModelObject, Statable):
         #
         packaged=self.isPackaged()
 
-        # Import any <ant part
+        # Import any <ant part [if not packaged]
         if self.xml.ant and not packaged:
             self.ant = Ant(self.xml.ant,self)
         
@@ -350,7 +352,11 @@ class Project(NamedModelObject, Statable):
         # Compute home directory
         if self.isPackaged():
             # Installed below package directory
-            self.home=os.path.abspath(os.path.join(workspace.xml.pkgdir,self.xml.package))
+            if self.isPackageMarked():
+                self.home=os.path.abspath(	\
+                    os.path.join(workspace.xml.pkgdir,	self.xml.package))
+            else:
+                self.home=os.path.abspath(workspace.xml.pkgdir)
         elif self.xml.home and isinstance(self.xml.home,Single):
             if self.xml.home.nested:
                 module=self.getModule()    
