@@ -81,32 +81,32 @@
       <description dir="xtags-doc/javadoc">xtags</description>
     </javadoc>
 
-    <jar name="dist/application/application.jar" id="application" />
-    <jar name="dist/benchmark/benchmark.jar" id="benchmark" />
-    <jar name="dist/bsf/bsf.jar" id="bsf" />
-    <jar name="dist/cache/cache.jar" id="cache" />
-    <jar name="dist/datetime/datetime.jar" id="datetime" />
-    <jar name="dist/dbtags/dbtags.jar" id="dbtags" />
-    <jar name="dist/i18n/i18n.jar" id="i18n" />
-    <jar name="dist/input/input.jar" id="input" />
-    <jar name="dist/io/io.jar" id="io" />
-    <jar name="dist/jmstags/jmstags.jar" id="jmstags" />
-    <jar name="dist/jndi/jndi.jar" id="jndi" />
+    <jar name="dist/application/taglibs-application.jar" id="application" />
+    <jar name="dist/benchmark/taglibs-benchmark.jar" id="benchmark" />
+    <jar name="dist/bsf/taglibs-bsf.jar" id="bsf" />
+    <jar name="dist/cache/taglibs-cache.jar" id="cache" />
+    <jar name="dist/datetime/taglibs-datetime.jar" id="datetime" />
+    <jar name="dist/dbtags/taglibs-dbtags.jar" id="dbtags" />
+    <jar name="dist/i18n/taglibs-i18n.jar" id="i18n" />
+    <jar name="dist/input/taglibs-input.jar" id="input" />
+    <jar name="dist/io/taglibs-io.jar" id="io" />
+    <jar name="dist/jmstags/taglibs-jmstags.jar" id="jmstags" />
+    <jar name="dist/jndi/taglibs-jndi.jar" id="jndi" />
     <jar name="dist/jsp20el/jsp20el.jar" id="jsp20el" />
-    <jar name="dist/log/log.jar" id="log" />
-    <jar name="dist/mailer/mailer.jar" id="mailer" />
-    <jar name="dist/page/page.jar" id="page" />
-    <jar name="dist/random/random.jar" id="random" />
-    <jar name="dist/regexp/regexp.jar" id="regexp" />
-    <jar name="dist/request/request.jar" id="request" />
-    <jar name="dist/response/response.jar" id="response" />
-    <jar name="dist/scrape/scrape.jar" id="scrape" />
-    <jar name="dist/session/session.jar" id="session" />
+    <jar name="dist/log/taglibs-log.jar" id="log" />
+    <jar name="dist/mailer/taglibs-mailer.jar" id="mailer" />
+    <jar name="dist/page/taglibs-page.jar" id="page" />
+    <jar name="dist/random/taglibs-random.jar" id="random" />
+    <jar name="dist/regexp/taglibs-regexp.jar" id="regexp" />
+    <jar name="dist/request/taglibs-request.jar" id="request" />
+    <jar name="dist/response/taglibs-response.jar" id="response" />
+    <jar name="dist/scrape/taglibs-scrape.jar" id="scrape" />
+    <jar name="dist/session/taglibs-session.jar" id="session" />
     <jar name="dist/standard/lib/jstl.jar" id="jstl" />
     <jar name="dist/standard/lib/standard.jar" id="standard" />
-    <jar name="dist/string/string.jar" id="string" />
-    <jar name="dist/utility/utility.jar" id="utility" />
-    <jar name="dist/xtags/xtags.jar" id="xtags" />
+    <jar name="dist/string/taglibs-string.jar" id="string" />
+    <jar name="dist/utility/taglibs-utility.jar" id="utility" />
+    <jar name="dist/xtags/taglibs-xtags.jar" id="xtags" />
 
     <nag to="taglibs-dev@jakarta.apache.org"
          from="Ted Husted &lt;ted@husted.com&gt;"/>
