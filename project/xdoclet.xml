@@ -23,6 +23,8 @@
     <depend project="xjavadoc" inherit="jars" runtime="true"/>
     <depend project="jakarta-bcel" runtime="true"/>
     <depend project="junit"/>
+    <depend project="javacc" />
+    <depend project="commons-logging" />
     <work nested="core/build/classes"/>
     <jar id="xdoclet" name="core/dist/lib/xdoclet.jar"/>
     <!--
