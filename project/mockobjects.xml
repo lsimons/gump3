@@ -75,8 +75,8 @@
     <jar name="mockobjects-core-@@DATE@@.jar" id="core"/>
     <jar name="mockobjects-jdk1.4-@@DATE@@.jar" id="jdk"/>
     <jar name="mockobjects-alt-jdk1.4-@@DATE@@.jar" id="alt-jdk"/>
-    <jar name="mockobjects-jdk1.4-j2ee1.3-@@DATE@@.jar" id="j2ee"/>
-    <jar name="mockobjects-alt-jdk1.4-j2ee1.3-@@DATE@@.jar" id="alt-j2ee"/>
+    <jar name="mockobjects-jdk1.4-j2ee1.4-@@DATE@@.jar" id="j2ee"/>
+    <jar name="mockobjects-alt-jdk1.4-j2ee1.4-@@DATE@@.jar" id="alt-j2ee"/>
 
     <nag from="Jeff Martin&lt;jeff@custommonkey.org&gt;"
       to="mockobjects-java-dev@lists.sourceforge.net"/>
