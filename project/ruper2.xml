@@ -19,7 +19,7 @@
     
     <ant target="gump">
       <property name="ant.home" reference="home" project="ant"/>
-      <property name="project.name" value="krysalis-ruper2"/>
+      <property name="project.name" value="krysalis-ruper2-core"/>
     </ant>
    
     <depend project="ant" inherit="runtime"/>
