@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/syndication/rss.py,v 1.11 2004/01/06 21:35:45 ajack Exp $
-# $Revision: 1.11 $
-# $Date: 2004/01/06 21:35:45 $
+# $Header: /home/stefano/cvs/gump/python/gump/syndication/rss.py,v 1.12 2004/01/07 18:12:50 ajack Exp $
+# $Revision: 1.12 $
+# $Date: 2004/01/07 18:12:50 $
 #
 # ====================================================================
 #
@@ -318,7 +318,7 @@ class RSSSyndicator(Syndicator):
                   ('%sT%s%s') % (datestr,timestr,TZ))
         
         # Generate changes, only if the module had changed
-        if module.isUpdated() and not module.getState().isUnset():
+        if module.isUpdated() and not module.getStatePair().isUnset():
                 moduleRSS.addItem(item)  
             
         # State changes that are newsworthy...
@@ -359,9 +359,9 @@ class RSSSyndicator(Syndicator):
                   ('%sT%s%s') % (datestr,timestr,TZ))
 
         # Generate changes, only if the module changed
-        if project.getModule().isUpdated() and not project.getState().isUnset():           
-                projectRSS.addItem(item)
-                moduleRSS.addItem(item)  
+        if project.getModule().isUpdated() and not project.getStatePair().isUnset():           
+            projectRSS.addItem(item)
+            moduleRSS.addItem(item)  
 
         # State changes that are newsworthy...
         if self.projectOughtBeWidelySyndicated(project) :    

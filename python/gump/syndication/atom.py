@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/syndication/atom.py,v 1.2 2004/01/06 23:44:25 ajack Exp $
-# $Revision: 1.2 $
-# $Date: 2004/01/06 23:44:25 $
+# $Header: /home/stefano/cvs/gump/python/gump/syndication/atom.py,v 1.3 2004/01/07 18:12:50 ajack Exp $
+# $Revision: 1.3 $
+# $Date: 2004/01/07 18:12:50 $
 #
 # ====================================================================
 #
@@ -246,11 +246,9 @@ class AtomSyndicator(Syndicator):
                   content )
 
         # Generate changes, only if the project changed
-        if project.getModule().isUpdated():
-            if not s.currentState == STATE_NONE and	\
-                not s.currentState == STATE_UNSET:           
-                projectFeed.addEntry(entry)
-                moduleFeed.addEntry(entry)  
+        if project.getModule().isUpdated() and not project.getStatePair().isUnset():            
+            projectFeed.addEntry(entry)
+            moduleFeed.addEntry(entry)  
 
         # State changes that are newsworthy...
         if 	self.projectOughtBeWidelySyndicated(project) :
