@@ -11,26 +11,32 @@
     <ant>
       <depend property="velocity.jar" project="jakarta-velocity"/>
       <depend property="log4j.jar"    project="jakarta-log4j" id="log4j"/>
-      <depend property="torque.jar"   project="jakarta-turbine-torque"/>
-      <depend property="jdom.jar"     project="jdom"/>
+      <depend property="xerces.jar"   project="xml-xerces"/>
       <depend property="bsf.jar"      project="bsf"/>
+      <depend property="torque.jar"   project="jakarta-turbine-torque"/>
       <depend property="servlet.jar"  project="jakarta-servletapi-4"/>
-      <depend property="javamail.jar" project="javamail"/>
-      <depend property="jaf.jar"      project="jaf"/>
+      <depend property="jndi.jar"     project="jndi"/>
       <depend property="xalan.jar"    project="xml-xalan2"/>
       <depend property="xmlrpc.jar"   project="xml-rpc"/>
       <depend property="torque.jar"   project="jakarta-turbine-torque"/>
       <depend property="village.jar"  project="village"/>
+      <depend property="jdbc.jar"     project="jdbc"/>
+      <depend property="javamail.jar" project="javamail"/>
+      <depend property="jaf.jar"      project="jaf"/>
+      <depend property="commons-collections.jar" project="commons-collections"/>
       <depend property="commons-util.jar" project="commons-util"/>
+      <depend property="regexp.jar"   project="jakarta-regexp"/>
       <depend property="commons-email.jar" project="commons-email"/>
-      <depend property="xerces.jar"   project="xml-xerces"/>
-      <depend property="jdbc.jar"   project="jdbc"/>
+
       <property name="jakarta-site2" reference="home" project="jakarta-site2"/>
       <property name="turbine.dir" reference="srcdir" project="jakarta-turbine-3"/>
       <property name="final.name" value="fulcrum-gump"/>
       <property name="deprecation" value="on"/>
     </ant>
+
     <depend project="jakarta-ant"/>
+    <depend project="jdom"/>
+
     <home nested="bin"/>
     <jar name="fulcrum-gump.jar"/>
   </project>    
