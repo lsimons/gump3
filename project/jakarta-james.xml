@@ -19,6 +19,7 @@
   <depend project="jakarta-avalon-logkit" />
   <depend project="jakarta-avalon-cornerstone" />
   <depend project="jakarta-avalon-phoenix" />
+  <depend project="jakarta-oro"/>
   <depend project="town" />
   <depend project="dnsjava" />
   <depend project="jaf" />
