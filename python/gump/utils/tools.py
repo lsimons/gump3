@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/utils/tools.py,v 1.6 2003/12/05 04:41:05 ajack Exp $
-# $Revision: 1.6 $
-# $Date: 2003/12/05 04:41:05 $
+# $Header: /home/stefano/cvs/gump/python/gump/utils/tools.py,v 1.7 2003/12/06 00:12:54 ajack Exp $
+# $Revision: 1.7 $
+# $Date: 2003/12/06 00:12:54 $
 #
 # ====================================================================
 #
@@ -109,7 +109,7 @@ def catDirectoryContentsAsWork(workable,directory,name=None):
 def catFileAsWork(workable,file,name=None):
     ok=0
     if not name: name='cat_'+os.path.basename(file)
-    cmd=getCmdFromString("cat "+str(file),name)
+    cmd=getCmdFromString('cat '+str(file),'display_file_'+name)
     try:
         result=execute(cmd)
         ok=result.state==CMD_STATE_SUCCESS 
