@@ -1,7 +1,7 @@
 #!/bin/bash
- 
+
 if [ -z "$XALAN" ]; then
-    export XALAN=/data/package/xalan-j_2_2_D13
+    export XALAN=/opt/java/xalan-j_2_2_D13
 fi
 
 if test "$1" = "-cp"; then
@@ -161,7 +161,7 @@ export FAIL=1
 # **** publish ***
 if test -z "$FAIL"; then
   echo
-  echo Publishing
+  echo Publishing $SOURCE
   cd work
   chmod +x *.sh
   bash puball.sh ../$SOURCE
@@ -170,6 +170,13 @@ fi
 
 echo saving cached files
 test -n "$FAIL" || bash work/move.sh
+
+echo
+echo Checking for local dependencies in $JSOURCE
+echo NOTE: This will not let the generation fail!
+echo
+java -classpath "$CLASSPATH" LocalCheck $JSOURCE
+echo
 
 test -z "$FAIL" || echo "*** FAILED ***"
 
