@@ -67,7 +67,7 @@
            
 
         <nag>
-            <regexp pattern="/missing prereq/i"
+            <regexp pattern="/Missing prereq/i"
                 from="Peter Donald &lt;peter@apache.org&gt;"
                 to="dev@avalon.apache.org"
                 subject="PRE-REQ FAILED for avalon-phoenix"/>
