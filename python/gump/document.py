@@ -292,9 +292,10 @@ def documentWorkspace(workspace,context,db,moduleFilterList=None,projectFilterLi
     titledDataInTableXDoc(x,"Email Server: ", str(workspace.mailserver))
     titledDataInTableXDoc(x,"Prefix: ", str(workspace.prefix))
     titledDataInTableXDoc(x,"Signature: ", str(workspace.signature))
-    titledDataInTableXDoc(x,"Context Tree: ", '<link href=\'context.html\'>context</link>')
     endTableXDoc(x)
     endSectionXDoc(x)       
+    
+    x.write('<p><strong>Context Tree:</strong> <link href=\'context.html\'>context</link></p>')
     
     documentWorkList(x,workspace,context.worklist,'Workspace-level Work',wdir)
      
@@ -823,7 +824,7 @@ def getContextUrl(context,depth=1):
         url=getModuleRelativeUrl(context.name,depth)
     else:        
         url=getModuleProjectRelativeUrl(context.parent.name,context.name,1)
-    return 
+    return url
     
 def getWorkspaceRelativeUrl(depth=0):
     return getUp(depth)+'index.html'
