@@ -617,7 +617,7 @@
         <depend project="avalon-meta-spi" />
         <depend project="avalon-meta-impl" />
         <depend project="avalon-meta-tools" />
-        <depend project="commons-collection" />
+        <depend project="commons-collections" />
         <depend project="commons-logging" />
         <depend project="logging-log4j" />
         <depend project="xdoclet" />
