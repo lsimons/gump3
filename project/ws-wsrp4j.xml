@@ -52,7 +52,7 @@
   <project name="jakarta-pluto">
     <url href="http://jakarta.apache.org/pluto/"/>
     <description>Reference implementation for JSR168 Portlet container</description>
-    <jar name="lib/shared/pluto-0.1-dev-unreleased.jar"/>
+    <jar name="lib/shared/pluto-1.0.jar"/>
     <jar name="provider/pluto/war/WEB-INF/lib/pluto-portal-impl.jar"/>
     <jar name="lib/shared/portlet-api.jar"/>
   </project>
