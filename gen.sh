@@ -19,7 +19,7 @@ if test "$OSTYPE" = "cygwin32" -o "$OSTYPE" = "cygwin"; then
   export CLASSPATH=`cygpath --path --windows "$CLASSPATH"`
 else
   export CLASSPATH=.:$XALAN/bin/xerces.jar:$XALAN/bin/xalan.jar:$CLASSPATH
-  test -z "$1" && export SOURCE=`hostname -s`.xml
+  test -z "$1" && export SOURCE=`hostname`.xml
 fi
 
 test -d work && rm -rf work
@@ -28,9 +28,12 @@ mkdir work
 # ********************************************************************
 
 echo Merging projects into workspace
-javac gen.java || export FAIL=1
+rm -rf classes
+mkdir classes
+javac -d classes java/*.java || export FAIL=1
+jar cf jenny.jar -C classes . || export FAIL=1
 echo
-java gen $SOURCE || export FAIL=1
+java -classpath jenny.jar:$CLASSPATH Jenny $SOURCE || export FAIL=1
 
 # ********************************************************************
 
