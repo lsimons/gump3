@@ -178,22 +178,7 @@ class TimedWorkItem(WorkItem):
         self.secs=secs
                  
     def elapsedTime(self):   
-        secs 	= self.secs or 0;
-        if secs > 3600:
-            hours	=	int(secs / 3600)
-            secs	%=	3600
-        else:
-            hours	=	0
-            
-        if secs > 60:
-            mins	=	int(secs / 60)
-            secs	%=	60
-        else:
-            mins 	= 	0
-        
-        secs 	=	int(round(secs,0))
-            
-        return (hours, mins, secs)
+        return secsToElapsedTime(self.secs or 0)
          
     def overview(self):
         overview=WorkItem.overview(self)

@@ -350,8 +350,10 @@ def executeIntoResult(cmd,result,tmp=dir.tmp):
       if os.path.exists(outputFile):
           result.output=outputFile
         
-        # Keep time information
+      # Keep time information
       end_time=time.time()
+      result.start_time=start_time
+      result.end_time=end_time
       result.elapsed=round(end_time-start_time,2)
         
       # Restore environment.

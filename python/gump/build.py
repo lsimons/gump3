@@ -1,8 +1,8 @@
 #!/usr/bin/python
 
-# $Header: /home/stefano/cvs/gump/python/gump/build.py,v 1.15 2003/09/26 21:47:22 ajack Exp $
-# $Revision: 1.15 $
-# $Date: 2003/09/26 21:47:22 $
+# $Header: /home/stefano/cvs/gump/python/gump/build.py,v 1.16 2003/09/27 05:35:05 ajack Exp $
+# $Revision: 1.16 $
+# $Date: 2003/09/27 05:35:05 $
 #
 # ====================================================================
 #
@@ -159,7 +159,7 @@ def syncWorkDir( workspace, sequence, context=GumpContext() ):
         mctxt.performedWork(work)
 
         # Update Context w/ Results  
-        if not cmdResult.status==CMD_STATUS_SUCCESS:
+        if not work.result.status==CMD_STATUS_SUCCESS:
             mctxt.propagateErrorState(STATUS_FAILED,REASON_SYNC_FAILED)
         else:
             mctxt.status=STATUS_SUCCESS
