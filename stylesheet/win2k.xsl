@@ -232,7 +232,7 @@
   <!-- =================================================================== -->
 
   <xsl:template match="logic">
-    <xsl:text>echo ^&lt;XMP^> %OUT%&#10;</xsl:text>
+    <xsl:text>echo ^&lt;XMP^&gt; %OUT%&#10;</xsl:text>
 
     <xsl:text>:</xsl:text>
     <xsl:value-of select="@name"/>
@@ -241,7 +241,7 @@
     <xsl:apply-templates/>
 
     <xsl:text>if not "%1"=="all" goto eoj&#10;</xsl:text>
-    <xsl:text>echo ^&lt;/XMP^> %OUT%&#10;</xsl:text>
+    <xsl:text>echo ^&lt;/XMP^&gt; %OUT%&#10;</xsl:text>
 
     <xsl:text>:end_</xsl:text>
     <xsl:value-of select="@name"/>
@@ -275,9 +275,9 @@
     <xsl:text>IF "%STATUS%"=="SUCCESS" SET STYLE=&#10;</xsl:text>
     <xsl:text>IF "%STATUS%"=="FAILED" </xsl:text>
     <xsl:text>SET STYLE= class="fail"&#10;</xsl:text>
-    <xsl:text>echo ^&lt;td%STYLE%^> %OUT%&#10;</xsl:text>
+    <xsl:text>echo ^&lt;td%STYLE%^&gt; %OUT%&#10;</xsl:text>
     <xsl:apply-templates/>
-    <xsl:text>echo ^&lt;/td^> %OUT%&#10;</xsl:text>
+    <xsl:text>echo ^&lt;/td^&gt; %OUT%&#10;</xsl:text>
   </xsl:template>
 
   <!-- =================================================================== -->
@@ -568,6 +568,26 @@
   </xsl:template>
 
   <!-- =================================================================== -->
+  <!--          support for capturing and including static text            --> 
+  <!-- =================================================================== -->
+
+  <xsl:template match="output">
+    <xsl:text>SET OUT=^&gt;^&gt;</xsl:text>
+    <xsl:value-of select="translate(@file,'/','\')"/>
+    <xsl:text>&#10;</xsl:text>
+
+    <xsl:apply-templates/>
+  </xsl:template>
+
+  <xsl:template match="include">
+    <xsl:text>type </xsl:text>
+    <xsl:value-of select="translate(@file,'/','\')"/>
+    <xsl:text> %OUT%&#10;</xsl:text>
+
+    <xsl:apply-templates/>
+  </xsl:template>
+
+  <!-- =================================================================== -->
   <!--                 default catchers for html and text                  -->
   <!-- =================================================================== -->
 
@@ -580,7 +600,7 @@
 
     <xsl:text>echo ^&lt;html^%OUT%&#10;</xsl:text>
     <xsl:apply-templates/>
-    <xsl:text>echo ^&lt;/html^> %OUT%&#10;</xsl:text>
+    <xsl:text>echo ^&lt;/html^&gt; %OUT%&#10;</xsl:text>
 
     <xsl:if test="ancestor::html/@log">
       <xsl:text>SET OUT=^&gt;^&gt;</xsl:text>
@@ -607,7 +627,7 @@
       <xsl:text>="</xsl:text>
       <xsl:call-template name="escape">
          <xsl:with-param name="string">
-           <xsl:value-of select="."/>
+           <xsl:value-of select="normalize-space(.)"/>
          </xsl:with-param>
        </xsl:call-template>
       <xsl:text>"</xsl:text>
@@ -623,7 +643,7 @@
         <xsl:text>^&gt;</xsl:text>
         <xsl:call-template name="escape">
           <xsl:with-param name="string">
-            <xsl:value-of select="."/>
+            <xsl:value-of select="normalize-space(.)"/>
           </xsl:with-param>
         </xsl:call-template>
         <xsl:text>^&lt;/</xsl:text>
@@ -654,44 +674,31 @@
 
   <xsl:template name="escape">
     <xsl:param name="string"/>
-    <xsl:call-template name="escape-percent">
-      <xsl:with-param name="string">
-        <xsl:call-template name="escape-ampersand">
-          <xsl:with-param name="string">
-            <xsl:value-of select="normalize-space($string)"/>
-          </xsl:with-param>
-        </xsl:call-template>
-      </xsl:with-param>
-    </xsl:call-template>
-  </xsl:template>
 
-  <xsl:template name="escape-percent">
-    <xsl:param name="string"/>
-    <xsl:choose>
-      <xsl:when test="contains($string,'%')">
-        <xsl:value-of select="substring-before($string, '%')"/>
-        <xsl:text>%%</xsl:text>
-        <xsl:call-template name="escape-percent">
-           <xsl:with-param name="string">
-             <xsl:value-of select="substring-after($string, '%')"/>
-           </xsl:with-param>
-        </xsl:call-template>
-      </xsl:when>
-      <xsl:otherwise>
-        <xsl:value-of select="$string"/>
-      </xsl:otherwise>
-    </xsl:choose>
-  </xsl:template>
+    <xsl:variable name="special"><![CDATA[%&]]></xsl:variable>
+    <xsl:variable name="work" select="translate($string,$special,'%%')"/>
 
-  <xsl:template name="escape-ampersand">
-    <xsl:param name="string"/>
     <xsl:choose>
-      <xsl:when test="contains($string,'&amp;')">
-        <xsl:value-of select="substring-before($string, '&amp;')"/>
-        <xsl:text>^&amp;</xsl:text>
-        <xsl:call-template name="escape-ampersand">
+      <xsl:when test="contains($work,'%')">
+
+        <xsl:variable name="pre" select="substring-before($work, '%')"/>
+        <xsl:variable name="char"
+           select="substring($string, string-length($pre)+1,1)"/>
+
+        <xsl:value-of select="$pre"/>
+
+        <xsl:choose>
+          <xsl:when test="$char='%'">
+            <xsl:text>%%</xsl:text>
+          </xsl:when>
+          <xsl:otherwise>
+            <xsl:text>^&amp;</xsl:text>
+          </xsl:otherwise>
+        </xsl:choose>
+
+        <xsl:call-template name="escape">
            <xsl:with-param name="string">
-             <xsl:value-of select="substring-after($string, '&amp;')"/>
+             <xsl:value-of select="substring-after($string, $char)"/>
            </xsl:with-param>
         </xsl:call-template>
       </xsl:when>

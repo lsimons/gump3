@@ -51,7 +51,7 @@
   <!-- =================================================================== -->
 
   <xsl:template match="build">
-    <xsl:text>#/bin/bash&#10;</xsl:text>
+    <xsl:text>#!/bin/bash&#10;</xsl:text>
 
     <xsl:if test="$cygwin=1">
       <xsl:text>export CP=`cygpath --path --unix "$CLASSPATH"`&#10;</xsl:text>
@@ -103,7 +103,7 @@
   <!-- =================================================================== -->
 
   <xsl:template match="update">
-    <xsl:text>#/bin/bash&#10;</xsl:text>
+    <xsl:text>#!/bin/bash&#10;</xsl:text>
 
     <xsl:text>cd </xsl:text>
     <xsl:value-of select="translate(@cvsdir,'\','/')"/>
@@ -138,7 +138,7 @@
   <!-- =================================================================== -->
 
   <xsl:template match="xref">
-    <xsl:text>#/bin/bash&#10;</xsl:text>
+    <xsl:text>#!/bin/bash&#10;</xsl:text>
     <xsl:apply-templates/>
   </xsl:template>
 
@@ -147,7 +147,7 @@
   <!-- =================================================================== -->
 
   <xsl:template match="publish">
-    <xsl:text>#/bin/bash&#10;</xsl:text>
+    <xsl:text>#!/bin/bash&#10;</xsl:text>
     <xsl:text>echo - $1&#10;</xsl:text>
     <xsl:text>export OUT=\&gt;\&gt;$2&#10;</xsl:text>
     <xsl:apply-templates/>
@@ -172,7 +172,7 @@
     <xsl:variable name="cvsdir"  select="translate(@cvsdir,  '\', '/')"/>
     <xsl:variable name="logdir"  select="translate(@logdir,  '\', '/')"/>
 
-    <xsl:text>#/bin/bash&#10;</xsl:text>
+    <xsl:text>#!/bin/bash&#10;</xsl:text>
 
     <xsl:text>test -d </xsl:text>
     <xsl:value-of select="$basedir"/>
@@ -262,7 +262,7 @@
   <!-- =================================================================== -->
 
   <xsl:template match="logic">
-    <xsl:text>eval "echo \&lt;XMP\> $OUT"&#10;</xsl:text>
+    <xsl:text>eval "echo \&lt;XMP\&gt; $OUT"&#10;</xsl:text>
 
     <xsl:text>fi&#10;</xsl:text>
     <xsl:text>&#10;if test $</xsl:text>
@@ -273,7 +273,7 @@
 
     <xsl:text>fi&#10;</xsl:text>
     <xsl:text>&#10;if test $all; then&#10;</xsl:text>
-    <xsl:text>eval "echo \&lt;/XMP\> $OUT"&#10;</xsl:text>
+    <xsl:text>eval "echo \&lt;/XMP\&gt; $OUT"&#10;</xsl:text>
 
   </xsl:template>
 
@@ -301,13 +301,13 @@
 
   <xsl:template match="td[@class='status']">
     <xsl:text>case $STATUS in &#10;</xsl:text>
-    <xsl:text> SUCCESS) eval "echo \&lt;td\> $OUT" ;;&#10;</xsl:text>
+    <xsl:text> SUCCESS) eval "echo \&lt;td\&gt; $OUT" ;;&#10;</xsl:text>
     <xsl:text> FAILED) eval</xsl:text>
-    <xsl:text> "echo \&lt;td class="fail"\> $OUT" ;;&#10;</xsl:text>
-    <xsl:text> *) eval "echo \&lt;td class="warn"\>$OUT" ;;&#10;</xsl:text>
+    <xsl:text> "echo \&lt;td class="fail"\&gt; $OUT" ;;&#10;</xsl:text>
+    <xsl:text> *) eval "echo \&lt;td class="warn"\&gt;$OUT" ;;&#10;</xsl:text>
     <xsl:text>esac&#10;</xsl:text>
     <xsl:apply-templates/>
-    <xsl:text>eval "echo \&lt;/td\> $OUT"&#10;</xsl:text>
+    <xsl:text>eval "echo \&lt;/td\&gt; $OUT"&#10;</xsl:text>
   </xsl:template>
 
   <!-- =================================================================== -->
@@ -401,7 +401,9 @@
       <xsl:text>=</xsl:text>
       <xsl:choose>
         <xsl:when test="@type = 'path' and $cygwin = 1">
-          <xsl:text>'`cygpath --path --windows "</xsl:text><xsl:value-of select="@value"/><xsl:text>"`'</xsl:text>
+          <xsl:text>'`cygpath --path --windows "</xsl:text>
+          <xsl:value-of select="@value"/>
+          <xsl:text>"`'</xsl:text>
         </xsl:when>
         <xsl:otherwise><xsl:value-of select="@value"/></xsl:otherwise>
       </xsl:choose>
@@ -636,6 +638,26 @@
   </xsl:template>
 
   <!-- =================================================================== -->
+  <!--          support for capturing and including static text            --> 
+  <!-- =================================================================== -->
+
+  <xsl:template match="output">
+    <xsl:text>export OUT=\&gt;\&gt;</xsl:text>
+    <xsl:value-of select="translate(@file,'\','/')"/>
+    <xsl:text>&#10;</xsl:text>
+
+    <xsl:apply-templates/>
+  </xsl:template>
+
+  <xsl:template match="include">
+    <xsl:text>eval "cat </xsl:text>
+    <xsl:value-of select="translate(@file,'\','/')"/>
+    <xsl:text> $OUT"&#10;</xsl:text>
+
+    <xsl:apply-templates/>
+  </xsl:template>
+
+  <!-- =================================================================== -->
   <!--                 default catchers for html and text                  -->
   <!-- =================================================================== -->
 
@@ -648,7 +670,7 @@
 
     <xsl:text>eval "echo \&lt;html\\$OUT"&#10;</xsl:text>
     <xsl:apply-templates/>
-    <xsl:text>eval "echo \&lt;/html\> $OUT"&#10;</xsl:text>
+    <xsl:text>eval "echo \&lt;/html\&gt; $OUT"&#10;</xsl:text>
 
     <xsl:if test="ancestor::html/@log">
       <xsl:text>export OUT=\&gt;\&gt;</xsl:text>

@@ -25,6 +25,18 @@
       <mkdir dir="{$logdir}"/>
       <mkdir dir="{@cvsdir}"/>
 
+      <output file="{$logdir}/cvslog.list">
+        <strong><a href="index.html">Cvs logs</a></strong>
+        <ul>
+          <xsl:for-each select="module">
+            <xsl:sort select="@name"/>
+            <li>
+              <a href="cvs_{@name}.html"><xsl:value-of select="@name"/></a>
+            </li>
+          </xsl:for-each>
+        </ul>
+      </output>
+
       <html log="{$logdir}/cvs_index.html"
         banner-image="{$banner-image}" banner-link="{$banner-link}">
 
@@ -87,15 +99,7 @@
         </title>
 
         <sidebar>
-          <strong><a href="index.html">Cvs logs</a></strong>
-          <ul>
-            <xsl:for-each select="../module">
-              <xsl:sort select="@name"/>
-              <li>
-                <a href="cvs_{@name}.html"><xsl:value-of select="@name"/></a>
-              </li>
-            </xsl:for-each>
-          </ul>
+          <include file="{$logdir}/cvslog.list"/>
         </sidebar>
 
         <menu>

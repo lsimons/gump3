@@ -52,6 +52,18 @@
         </html>
       </project>
 
+      <output file="{$logdir}/buildlog.list">
+        <strong><a href="index.html">Build logs</a></strong>
+        <ul>
+          <xsl:for-each select="project[ant|script]">
+            <xsl:sort select="@name"/>
+            <li>
+              <a href="{@name}.html"><xsl:value-of select="@name"/></a>
+            </li>
+          </xsl:for-each>
+        </ul>
+      </output>
+
       <html log="{$logdir}/index.html"
         banner-image="{$banner-image}" banner-link="{$banner-link}">
 
@@ -61,15 +73,7 @@
         </title>
 
         <sidebar>
-          <strong><a href="index.html">Build logs</a></strong>
-          <ul>
-            <xsl:for-each select="project[ant|script]">
-              <xsl:sort select="@name"/>
-              <li>
-                <a href="{@name}.html"><xsl:value-of select="@name"/></a>
-              </li>
-            </xsl:for-each>
-          </ul>
+          <include file="{$logdir}/buildlog.list"/>
         </sidebar>
 
         <menu>
@@ -116,15 +120,7 @@
         <xsl:copy-of select="note"/>
 
         <sidebar>
-          <strong><a href="index.html">Build logs</a></strong>
-          <ul>
-            <xsl:for-each select="../project[ant|script]">
-              <xsl:sort select="@name"/>
-              <li>
-                <a href="{@name}.html"><xsl:value-of select="@name"/></a>
-              </li>
-            </xsl:for-each>
-          </ul>
+          <include file="{$logdir}/buildlog.list"/>
         </sidebar>
 
         <menu>
