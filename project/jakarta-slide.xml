@@ -53,6 +53,7 @@
 
     <work nested="build/classes"/>
     <work nested="build/client/classes"/>
+    <work nested="lib/commons-httpclient.jar"/>
 
     <home nested="dist"/>
 
