@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/syndication/atom.py,v 1.9 2004/01/12 18:01:36 ajack Exp $
-# $Revision: 1.9 $
-# $Date: 2004/01/12 18:01:36 $
+# $Header: /home/stefano/cvs/gump/python/gump/syndication/atom.py,v 1.10 2004/01/16 21:39:57 ajack Exp $
+# $Revision: 1.10 $
+# $Date: 2004/01/16 21:39:57 $
 #
 # ====================================================================
 #
@@ -107,8 +107,8 @@ class Entry:
         <modified>%s</modified>        
         """	\
         % (	    uri, modified, id, \
-                self.link, \
                 self.description, \
+                self.link, \
                 modified, modified) )
 
         if self.content:
