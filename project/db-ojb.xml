@@ -38,6 +38,7 @@
     <depend project="commons-lang"/>
     <depend project="commons-logging"/>
     <depend project="commons-pool"/>
+    <depend project="commons-sql"/>
     <depend project="hsqldb"/>
     <depend project="j2ee-connector" />
     <depend project="jaas" />
@@ -92,6 +93,7 @@
     <depend project="commons-lang"/>
     <depend project="commons-logging"/>
     <depend project="commons-pool"/>
+    <depend project="commons-sql"/>
     <depend project="hsqldb"/>
     <depend project="j2ee-connector" />
     <depend project="jaas" />
