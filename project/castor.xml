@@ -30,13 +30,14 @@
       <property name="version" value="@@DATE@@"/>
     </ant>
     <depend project="ant" inherit="runtime"/>
-    <work nested="lib/xerces-J_1.4.0.jar"/>
+    <depend project="xerces-1.4.0"/>
     <depend project="ldapsdk"/>
     <depend project="jdbc"/>
     <depend project="jta"/>
     <depend project="jakarta-regexp"/>
     <depend project="jakarta-oro"/>
     <depend project="commons-logging"/>
+    <work nested="build/classes"/>
     <home nested="dist"/>
     <jar name="castor-@@DATE@@.jar"/>
     <jar name="castor-@@DATE@@-xml.jar"/>
@@ -50,6 +51,11 @@
       Netscape Directory SDK for Java
     </description>
     <jar name="lib/ldapjdk_4.1.jar"/>
+  </project>
+
+  <!-- only until xml-xerces1 builds on LSD -->
+  <project name="xerces-1.4.0">
+    <jar name="lib/xerces-J_1.4.0.jar"/>
   </project>
 
 </module>
