@@ -39,6 +39,24 @@
          from="Ted Husted &lt;ted@husted.com&gt;"/>
   </project>
 
+  <project name="commons-cli">
+    <package>org.apache.commons.cli</package>
+    <description>Commons CLI Package</description>
+    <url href="http://jakarta.apache.org/commons/cli.html"/>
+    <ant basedir="cli" target="dist">
+      <property name="component.version"  value="@@DATE@@"/>
+      <depend property="junit.jar"  project="junit"/>
+    </ant>
+    <depend project="jakarta-ant"/>
+    <depend project="xml-xerces"/>
+    <depend project="commons-logging"/>
+    <jar name="cli/dist/commons-cli-@@DATE@@.jar"/>
+    <javadoc nested="cli/dist/docs/api"/>
+
+    <nag to="commons-dev@jakarta.apache.org"
+         from="Ted Husted &lt;ted@husted.com&gt;"/>
+  </project>
+
   <project name="commons-email">
     <package>org.apache.commons.email</package>
     <description>Commons Email Package</description>
