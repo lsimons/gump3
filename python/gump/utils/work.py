@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/utils/work.py,v 1.1 2003/11/20 20:51:49 ajack Exp $
-# $Revision: 1.1 $
-# $Date: 2003/11/20 20:51:49 $
+# $Header: /home/stefano/cvs/gump/python/gump/utils/work.py,v 1.2 2003/12/02 17:36:40 ajack Exp $
+# $Revision: 1.2 $
+# $Date: 2003/12/02 17:36:40 $
 #
 # ====================================================================
 #
@@ -93,14 +93,16 @@ def workTypeName(type):
                    
 class WorkItem(Ownable):
     """ Unit of Work"""
-    def __init__(self,type,state,message=''):
+    def __init__(self,name,type,state,message=''):
         Ownable.__init__(self)
         
+        self.name=name
         self.type=type
         self.state=state
         self.message=message
             
     def overview(self):
+        overview='Work Name: ' + self.name +'\n'
         overview='Work Type: ' + workTypeName(self.type)+'\n'
         overview+='State: ' + stateName(self.state)+'\n'
         if self.message:
@@ -110,13 +112,23 @@ class WorkItem(Ownable):
     def getType(self):
         return self.type
 
-    def getName(self):
+    def getTypeName(self):
         return workTypeName(self.type)
+        
+    def getName(self):
+        return self.name
+        
+    def setName(self,name):
+        self.name=name
+        
+    def clone(self):
+        return WorkItem(self.name,self.type,self.state,self.message)
+        
 
 class TimedWorkItem(WorkItem):
     """ Unit of Work w/ times """
-    def __init__(self,type,state,secs,message=''):
-        WorkItem.__init__(self,type,state,message)
+    def __init__(self,name,type,state,secs,message=''):
+        WorkItem.__init__(self,name,type,state,message)
         self.secs=secs
                  
     def elapsedTime(self):   
@@ -131,11 +143,15 @@ class TimedWorkItem(WorkItem):
         overview+=str(secs) + " seconds\n"
         return overview
         
+    def clone(self):
+        return TimedWorkItem(self.name,self.type,self.state,self.secs,self.message)
+        
 class CommandWorkItem(TimedWorkItem):
     """ Unit of Work"""
     def __init__(self,type,command,result=None,message=''):
         if not result: result=CmdResult(command)
-        TimedWorkItem.__init__(self,type,commandStateToWorkState(result.state),result.elapsed,message)
+        TimedWorkItem.__init__(self,command.name,type,\
+                commandStateToWorkState(result.state),result.elapsed,message)
         self.command=command
         self.result=result
         
@@ -151,18 +167,38 @@ class CommandWorkItem(TimedWorkItem):
     def tail(self,lines=50):
         return self.result.tail(lines)
         
-    def getName(self):
-        return self.command.name
+    def clone(self):
+        return CommandWorkItem(self,type,self.command,self.result,self.message)
             
 class WorkList(list,Ownable):
+    
     """List of work (in order)"""
     def __init__(self,owner=None):
         Ownable.__init__(self,owner)            
-        self.index={}
+        
+        # Organize by name
+        self.nameIndex={}
         
     def add(self,item):
-        self.index[item.type]=item
+        
+        if item.hasOwner():
+            raise RuntimeError, 'WorkItem already owned, can\'t add to list'
+        
+        # Keep unique within the scope of this list
+        name=item.getName()
+        uniquifier=1
+        while self.nameIndex.has_key(name):
+            name=item.getName()+str(uniquifier)
+            uniquifier+=1
+        item.setName(name)
+        
+        # Store by name
+        self.nameIndex[name]=item
+        
+        # Store in the list
         self.append(item)
+        
+        # Let this item know it's owner
         item.setOwner(self.getOwner())
     
     def elapsedSecs(self):

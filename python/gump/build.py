@@ -40,6 +40,7 @@ if __name__=='__main__':
     args = handleArgv(sys.argv)
     ws=args[0]
     ps=args[1]
+    quick=args[2]
     
     # get parsed workspace definition
     workspace=WorkspaceLoader().load(ws)
@@ -63,10 +64,15 @@ if __name__=='__main__':
     # The Run Details...
     run=GumpRun(workspace,ps,options)
     
+    engine=GumpEngine()
+    
     #
     #    Perform this integration run...
     #
-    result = GumpEngine().build(run)
+    if not quick:
+        result = engine.buildAll(run)
+    else:
+        result = engine.buildProjects(run)
 
     #
     log.info('Gump Build complete. Exit code:' + str(result))

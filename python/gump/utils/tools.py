@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/utils/tools.py,v 1.3 2003/11/20 20:51:49 ajack Exp $
-# $Revision: 1.3 $
-# $Date: 2003/11/20 20:51:49 $
+# $Header: /home/stefano/cvs/gump/python/gump/utils/tools.py,v 1.4 2003/12/02 17:36:40 ajack Exp $
+# $Revision: 1.4 $
+# $Date: 2003/12/02 17:36:40 $
 #
 # ====================================================================
 #
@@ -84,7 +84,40 @@ def listDirectoryAsWork(workable,directory,name=None):
        
     # Update workable
     workable.performedWork(CommandWorkItem(WORK_TYPE_DOCUMENT,cmd,result))
+    
+    return ok
+    
+def catDirectoryContentsAsWork(workable,directory,name=None):
+    try:
+        if os.path.exists(directory) and  os.path.isdir(directory):
+            for fileName in os.listdir(directory):
+                file=os.path.abspath(os.path.join(directory,fileName))                
+                if os.path.exists(file) and os.path.isfile(file):
+                    catFileAsWork(workable,	file, name+'_'+fileName)
+    except:
+        try:
+            workable.addWarning('No such directory [' + str(directory) + ']')
+        except:
+            pass
+    
+        
+def catFileAsWork(workable,file,name=None):
+    ok=0
+    if not name: name='cat_'+os.path.basename(file)
+    cmd=getCmdFromString("cat "+str(file),name)
+    try:
+        result=execute(cmd)
+        ok=result.state==CMD_STATE_SUCCESS 
+        if not ok:
+            log.error('Failed to cat [' + str(file) + ']')     
+    except Exception, details:
+        ok=0
+        log.error('Failed to cat [' + str(file) + '] : ' + str(details))
        
+    # Update workable
+    workable.performedWork(CommandWorkItem(WORK_TYPE_DOCUMENT,cmd,result))    
+    
+    return ok
 
    
 def syncDirectories(noRSync,type,cwddir,tmpdir,sourcedir,destdir,name=None):                

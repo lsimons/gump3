@@ -6,6 +6,6 @@ import py2exe
 # 1 - install py2exe [http://starship.python.net/crew/theller/py2exe/]
 # 2 - run: python exedist.py py2exe
 
-setup(name="build",
-      scripts=["build.py"],
+setup(name="integrate",
+      scripts=["integrate.py"],
 )

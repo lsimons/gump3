@@ -261,7 +261,7 @@ class Syndicator:
     def syndicateModule(self,module,mainRSS):
         
         rssFile=self.run.getOptions().getResolver().getFile(module,'index','.rss')
-        moduleURL=self.run.getOptions().getResolver().getFile(module)
+        moduleURL=self.run.getOptions().getResolver().getUrl(module)
         
         moduleRSS=RSS(rssFile,	\
             Channel(moduleURL,\
@@ -276,7 +276,7 @@ class Syndicator:
     def syndicateProject(self,project,moduleRSS,mainRSS):
                 
         rssFile=self.run.getOptions().getResolver().getFile(project,project.getName(),'.rss')
-        projectURL=self.run.getOptions().getResolver().getFile(project)
+        projectURL=self.run.getOptions().getResolver().getUrl(project)
         
         projectRSS=RSS(rssFile,	\
             Channel(projectURL,\

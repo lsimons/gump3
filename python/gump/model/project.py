@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/model/project.py,v 1.20 2003/12/02 00:45:41 ajack Exp $
-# $Revision: 1.20 $
-# $Date: 2003/12/02 00:45:41 $
+# $Header: /home/stefano/cvs/gump/python/gump/model/project.py,v 1.21 2003/12/02 17:36:40 ajack Exp $
+# $Revision: 1.21 $
+# $Date: 2003/12/02 17:36:40 $
 #
 # ====================================================================
 #
@@ -65,7 +65,8 @@
 from time import localtime, strftime, tzname
 
 from gump.model.state import *
-from gump.model.object import ModelObject, NamedModelObject, Jar
+from gump.model.object import ModelObject, NamedModelObject, Jar,	\
+                                 Mkdir, Delete, JunitReport, Work
 from gump.model.stats import Statable, Statistics
 from gump.model.property import Property
 from gump.model.ant import Ant,Maven
@@ -209,6 +210,10 @@ class Project(NamedModelObject, Statable):
     	self.maven=None
     	self.script=None
 
+    	self.works=[]
+    	self.mkdirs=[]
+    	self.deletes=[]
+    	self.reports=[]
     	
     	#############################################################
     	# Outputs
@@ -269,6 +274,9 @@ class Project(NamedModelObject, Statable):
         
     def getJars(self):
         return self.jars.values()
+        
+    def getReports(self):
+        return self.reports
     
     def getDependencies(self):
         return self.depends
@@ -422,6 +430,26 @@ class Project(NamedModelObject, Statable):
             else:
                 #:TODO: Warn .. no name
                 pass
+        
+        # Grab all the work
+        for w in self.xml.work:
+            work=Work(w,self)
+            self.works.append(work)
+
+        # Grab all the mkdirs
+        for m in self.xml.mkdir:
+            mkdir=Mkdir(m,self)
+            self.mkdirs.append(mkdir)
+
+        # Grab all the deleted
+        for d in self.xml.delete:
+            delete=Delete(d,self)
+            self.deletes.append(delete)
+
+        # Grab all the reports (junit for now)
+        if self.xml.junitreport:
+            report=JunitReport(self.xml.junitreport,self)
+            self.reports.append(report)
 
         # Expand <ant <depends/<properties...
         if self.ant: self.ant.expand(self,workspace)
@@ -450,8 +478,8 @@ class Project(NamedModelObject, Statable):
                 for xmloption in badOptions:                
                     self.addWarning("Bad *Optional* Dependency. Project: " + xmloption.project + " unknown to *this* workspace")
         else:
-            self.addInfo("This is a packaged project, location: " + str(self.home))
-        
+            self.addInfo("This is a packaged project, location: " + str(self.home))        
+            
         self.setComplete(1)
 
     def  checkPackage(self):

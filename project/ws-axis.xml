@@ -53,7 +53,8 @@
     <license name="LICENSE"/>
 
     <javadoc nested="java/build/javadocs"/>
-
+	<junitreport nested="java/testreports"/>
+    
     <nag from="Sam Ruby &lt;rubys@us.ibm.com&gt;"
          to="axis-dev@ws.apache.org">
       <regexp  subject="Build Failure - Axis"/>

@@ -98,7 +98,7 @@ class GumpEngine:
         #
         # Run the build commands
         #
-        self.build(run)
+        self.buildAll(run)
   
         # Update [or load if not 'all'] Statistics
         self.updateStatistics(run)
@@ -202,9 +202,9 @@ class GumpEngine:
       
                 work=CommandWorkItem(WORK_TYPE_UPDATE,cmd,cmdResult)
     
-                # Update Contexts                    
-                repository.performedWork(work)
-                module.performedWork(work)
+                # Update Contexts                  
+                module.performedWork(work)  
+                repository.performedWork(work.clone())
       
                 # Update Context w/ Results  
                 if not cmdResult.state==CMD_STATE_SUCCESS:              
@@ -264,19 +264,25 @@ class GumpEngine:
     
     """
     
-    def build(self,run):
-        """ Build a GumpRun """
+    def buildAll(self,run):
+        """ Build a GumpRun's Full Project Stack """
         sequence=run.getGumpSet().getSequence()
 
-        return self.buildProjectSequence(run,sequence)
+        return self.buildProjectList(run,sequence)
   
-    def buildProjectSequence(self,run,sequence):
+    def buildProjects(self,run):
+        """ Build a GumpRun's Projects """
+        list=run.getGumpSet().getProjects()
+
+        return self.buildProjectList(run,list)
+  
+    def buildProjectList(self,run,list):
     
         workspace=run.getWorkspace()
         
         log.debug('Total Project Sequence (i.e. build order):');
-        for p in sequence:
-            log.debug('  Sequence : ' + p.name)
+        for p in list:
+            log.debug('  To Build : ' + p.name)
 
         log.debug('--- Building work directories with sources')
 
@@ -284,7 +290,7 @@ class GumpEngine:
         repository=run.getOutputsRepository()
 
         # build all projects this project depends upon, then the project itself
-        for project in sequence:  
+        for project in list:  
             if project.isPackaged(): continue
             
             if project.okToPerformWork():     
@@ -478,6 +484,13 @@ class GumpEngine:
                         project.addWarning("No such directory (where output is expect) : " + dir)
         else:
             project.changeState(STATE_SUCCESS)
+         
+        #   
+        # Display report output...
+        #
+        for report in project.getReports():
+            reportDir=report.getResolvedPath()
+            catDirectoryContentsAsWork(project,reportDir)
     
                 
     """

@@ -18,7 +18,9 @@
     <option project="random"/>
 
     <home nested="dist"/>
-
+	
+	<junitreport nested="docs/junitreports3"/>
+    
     <jar name="lib/output3.jar" id="output3"/>
 
     <license name="LICENSE"/>

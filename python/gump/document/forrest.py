@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/forrest.py,v 1.21 2003/12/02 00:45:41 ajack Exp $
-# $Revision: 1.21 $f
-# $Date: 2003/12/02 00:45:41 $
+# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/forrest.py,v 1.22 2003/12/02 17:36:39 ajack Exp $
+# $Revision: 1.22 $f
+# $Date: 2003/12/02 17:36:39 $
 #
 # ====================================================================
 #
@@ -1459,13 +1459,20 @@ class ForrestDocumenter(Documenter):
         packageMap=xref.getPackageToModuleMap()
         for package in packageMap.keys():
             
-            packageTable.createRow().createHeader('Package: ' + package)
-            
             moduleList=createOrderedList(packageMap.get(package)) 
             
+            hasSome=0
             for module in moduleList:        
                 if not gumpSet.inModules(module): continue
-                self.insertLink( module, xref,packageTable.createRow().createData())
+                hasSome=1
+                
+            if hasSome:
+                packageRow=packageTable.createRow()
+                packageRow.createData(package)
+            
+                for module in moduleList:        
+                    if not gumpSet.inModules(module): continue                
+                    self.insertLink(module, xref, packageRow.createData())
           
         document.serialize()
  
