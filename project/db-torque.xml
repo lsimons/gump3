@@ -35,6 +35,7 @@
       <property name="maven.final.name" value="torque-@@DATE@@"/>
     </ant>
 
+    <depend project="avalon-framework"/>
     <depend project="commons-beanutils-core"/>
     <depend project="commons-collections"/>
     <depend project="commons-configuration"/>
