@@ -16,6 +16,9 @@
     <depend project="jakarta-servletapi" />
     <home nested="build"/>
     <jar name="town.jar"/>
+
+    <nag from="Sam Ruby &lt;rubys@apache.org&gt;"
+         to="jon@apache.org"/>
   </project>
 
 </module>
