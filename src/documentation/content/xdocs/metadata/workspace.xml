@@ -38,10 +38,16 @@
       </tr>
       <tr>
         <td>basedir</td>
-        <td>Fully qualified directory into which all projects will be
+        <td>Fully qualified directory into which all projects will be 
           extracted built.
         </td>
         <td>No</td>
+      </tr>
+      <tr>
+        <td>name</td>
+        <td>Name of this workspace.
+        </td>
+        <td>Required by Python Gump</td>
       </tr>
       <tr>
         <td>pkgdir</td>
