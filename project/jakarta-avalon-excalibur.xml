@@ -1059,6 +1059,7 @@
         <depend project="jakarta-avalon" runtime="true"/>
         <depend project="xml-xerces"/>
         <depend project="xml-xalan2"/>
+        <depend project="jtidy"/>
         <work nested="xmlutil/build/classes"/>
 
         <home nested="xmlutil"/>
