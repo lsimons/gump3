@@ -181,6 +181,11 @@ if __name__=='__main__':
           if not os.path.exists(cwdpath): os.makedirs(cwdpath)
           os.chdir(cwdpath)
        
+        # Write ENV over-writes...
+        for envKey in execInfo.iterkeys():
+            if not envKen in ['CMD','TMP','CWD']:
+                os.environ[envKey]=execInfo[envKey]
+                
         systemReturn=os.system(cmd)
         
         if not os.name == 'dos' and not os.name == 'nt':
