@@ -326,12 +326,14 @@ class Project(NamedModelObject, Statable, Resultable, Dependable, Positioned):
         elif self.hasDomChild('home'):
             home=self.getDomChild('home')
             if hasDomAttribute(home,'nested'):
-                nested=getDomAttributeValue(home,'nested')
+                nested=self.expandVariables(
+                    getDomAttributeValue(home,'nested'))
                 self.home=os.path.abspath(
                     os.path.join(self.getModule().getWorkingDirectory(),
                                     nested))
             elif hasDomAttribute(home,'parent'):
-                parent=getDomAttributeValue(home,'parent')    
+                parent=self.expandVariables(
+                    getDomAttributeValue(home,'parent'))
                 self.home=os.path.abspath(
                     os.path.join(workspace.getBaseDirectory(),parent))
             else:
