@@ -421,9 +421,18 @@
   <!-- =================================================================== -->
 
   <xsl:template match="delete">
-    <xsl:text>eval "rm -rf </xsl:text>
-    <xsl:value-of select="translate(@dir,'\','/')"/>
-    <xsl:text> $OUT 2&gt;&amp;1"&#10;</xsl:text>
+    <xsl:choose>
+      <xsl:when test="@fork='yes'">
+        <xsl:text>rm -rf </xsl:text>
+        <xsl:value-of select="translate(@dir,'\','/')"/>
+        <xsl:text>&amp;&#10;</xsl:text>
+      </xsl:when>
+      <xsl:otherwise>
+        <xsl:text>eval "rm -rf </xsl:text>
+        <xsl:value-of select="translate(@dir,'\','/')"/>
+        <xsl:text> $OUT 2&gt;&amp;1"&#10;</xsl:text>
+      </xsl:otherwise>
+    </xsl:choose>
   </xsl:template>
 
   <!-- =================================================================== -->
@@ -433,6 +442,18 @@
   <xsl:template match="copy">
     <xsl:text>cp -r </xsl:text>
     <xsl:value-of select="translate(@fromdir,'\','/')"/>
+    <xsl:text> </xsl:text>
+    <xsl:value-of select="translate(@todir,'\','/')"/>
+    <xsl:text>&#10;</xsl:text>
+  </xsl:template>
+
+  <!-- =================================================================== -->
+  <!--                      Move a file or directory                       -->
+  <!-- =================================================================== -->
+
+  <xsl:template match="move">
+    <xsl:text>move </xsl:text>
+    <xsl:value-of select="translate(@file,'\','/')"/>
     <xsl:text> </xsl:text>
     <xsl:value-of select="translate(@todir,'\','/')"/>
     <xsl:text>&#10;</xsl:text>

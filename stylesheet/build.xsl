@@ -30,12 +30,17 @@
       <delete dir="build"/>
       <delete dir="dist"/>
 
-      <xsl:if test="$build-sequence = 'bulk'">
-        <xsl:for-each select="module[cvs]">
-          <delete dir="{@srcdir}"/>
-          <copy fromdir="{$cvsdir}/{@name}" todir="{@srcdir}"/>
-        </xsl:for-each>
-      </xsl:if>
+      <!-- clean up old build directories -->
+      <mkdir dir="trashbin"/>
+      <xsl:for-each select="module[cvs]">
+        <move file="{@srcdir}" todir="trashbin"/>
+      </xsl:for-each>
+      <delete dir="trashbin" fork="yes"/>
+
+      <!-- initialize new build directories -->
+      <xsl:for-each select="module[cvs]">
+        <copy fromdir="{$cvsdir}/{@name}" todir="{@srcdir}"/>
+      </xsl:for-each>
 
       <html log="{$logdir}/index.html"
         banner-image="{$banner-image}" banner-link="{$banner-link}">
