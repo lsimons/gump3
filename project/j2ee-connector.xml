@@ -16,7 +16,7 @@
 -->
 <module name="j2ee-connector">
 
-  <url href="http://java.sun.com/j2ee/download.html#connectorspec"/>
+  <url href="http://java.sun.com/j2ee/connector/download.html"/>
   <description>
     J2EE Connector Architecture 
   </description>
@@ -24,7 +24,7 @@
   <package>javax.resource</package>
 
   <project name="j2ee-connector">
-    <jar  name="connector.jar"/>
+    <jar  name="connector-api.jar"/>
   </project>
 
 </module>
