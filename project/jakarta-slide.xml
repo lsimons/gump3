@@ -6,8 +6,12 @@
   </description>
 
   <note>
-     Jakarta-slide's build.xml checks for the Liaison for Xalan 1, but will
-     happily use Xalan 2.  Hence the dependency on dist-ant.
+     <ul>
+     <li>Jakarta-slide's build.xml checks for the Liaison for Xalan 1, but will
+     happily use Xalan 2.  Hence the dependency on dist-ant.</li>
+     <li>Apparently slide is now incompatible by design with servlet API 2.3,
+     but has support for Catalina.  Weird.</li>
+     </ul>
   </note>
 
   <cvs repository="jakarta"/>
@@ -21,20 +25,18 @@
     <property name="log4j.jar" reference="jarpath" id="log4j" 
               project="jakarta-log4j"/>
     <property name="servlet.jar" reference="jarpath" id="servlet" 
-              project="jakarta-servletapi-4"/>
+              project="jakarta-servletapi"/>
   </ant>
 
   <depend project="dist-ant"/>
   <depend project="xml-xerces"/>
   <depend project="xml-xalan2"/>
-  <depend project="jakarta-servletapi-4"/>
+  <depend project="jakarta-servletapi"/>
   <depend project="jta"/>
   <option project="jdom"/>
   <option project="jmx"/>
   <option project="junit"/>
   <option project="jakarta-log4j"/>
-  <option project="jakarta-avalon"/>
-  <option project="jakarta-avalon-phoenix"/>
   <option project="jakarta-tomcat-4.0"/>
 
   <work nested="build/classes"/>
