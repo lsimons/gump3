@@ -28,6 +28,7 @@
     <depend property="framework.jar" project="avalon" runtime="true"/>
     <depend project="bsf" runtime="true"/>
     <depend project="excalibur-configuration" runtime="true"/>
+    <depend project="excalibur-compatibility" runtime="true"/>
     <depend project="spice-cli" runtime="true"/>
     <depend project="excalibur-extension" runtime="true"/>
     <depend project="excalibur-threadcontext" runtime="true"/>
