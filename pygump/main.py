@@ -110,6 +110,18 @@ class Logger:
             print message,
         if self.level >= ERROR:
             self.target.write(message);
+    
+    def exception(self, msg):
+        info = sys.exc_info()
+        self.error(msg)
+
+        import traceback
+        from StringIO import StringIO
+        buf = StringIO()
+        traceback.print_exception( info[0], info[1], info[2], file=buf)
+        self.error(buf.getvalue())
+        buf.close()
+
 
     def critical(self, msg):
         message = 'CRITICAL: %s\n' % (msg)
@@ -255,7 +267,7 @@ The full run log of this run:
         except Exception, details:
             if not log.target:
                 log.target = open(log.filename, 'w', 0)
-            log.error("Exception occurred reading log file: %s: %s" % (Exception, details))
+            log.exception("Exception occurred reading log file")
             if logfile: logfile.close()
             if logbody == "":
                 logbody = "ERROR: unable to read logfile!"
@@ -275,7 +287,7 @@ def start_engine(log,options):
     """
     Fire up the core pygump engine to do its thing.
     """
-    import gump.engine
+    from gump import engine
     engine.main(options)
 
 def main():
@@ -313,7 +325,7 @@ def main():
     
     # and some basic settings calculated from those
     _logdir        = os.path.join(_workdir, "log")
-    _workspace     = os.path.join(_homedir, "pygump", "metadata", "%s.xml" % (_hostname))
+    _workspace     = os.path.join(_homedir, "metadata", "%s.xml" % (_hostname))
     
     # get basic settings from commandline arguments
     from optparse import OptionParser
@@ -393,14 +405,13 @@ def main():
             # finally: fire us up!
             start_engine(log, options)
             log.info("Run completed!")
-            raise GumpConfigError, "Sample error"
         except Exception, details:
             # this is not good. Send e-mail to the admin, complaining rather loudly.
-            log.error("an uncaught exception occurred: %s: %s" % (Exception, details))
+            log.exception("an uncaught exception occurred")
             try:
                 send_error_email(Exception, details, options, log)
             except Exception, details:
-                log.error("Unable to send e-mail to administrator: %s: %s" % (Exception, details))
+                log.exception("Unable to send e-mail to administrator")
                 pass
             
             sys.exit(1)

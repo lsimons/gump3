@@ -22,7 +22,7 @@ class VFS:
     Provides homogenized access to local files, as well as files residing
     on remote servers (HTTP or FTP or ...).
     """
-    def __init__(filesystem_root = None, cachedir = None):
+    def __init__(self, filesystem_root = None, cachedir = None):
         self.filesystem_root = filesystem_root
         self.cachedir = cachedir
     

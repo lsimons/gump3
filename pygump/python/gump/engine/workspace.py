@@ -32,7 +32,7 @@ class WorkspaceLoader:
     """
     Parses XML, resolves HREFs, creates a big DOM tree.
     """
-    def __init__(self,vfs,log,workspace):
+    def __init__(self,vfs,log):
         self.log = log
         self.vfs = vfs
 
@@ -52,7 +52,7 @@ class WorkspaceLoader:
         return (dom, dropped_nodes)
     
     def _resolve_hrefs_in_workspace(self, dom, dropped_nodes):
-        self._resolve_hrefs_in_children(self, dom, dropped_nodes)
+        self._resolve_hrefs_in_children(dom, dropped_nodes)
     
     def _resolve_hrefs_in_children(self, node, dropped_nodes):
         """
@@ -61,9 +61,9 @@ class WorkspaceLoader:
         The resolution is done in a resolve-then-recurse manner, so the end
         result is a dom tree without hrefs.
         """
-        for child in node.documentElement.childNodes:
+        for child in node.childNodes:
             # retrieve the referenced document and merge it in
-            if child.nodeType == node.Node.ELEMENT_NODE:
+            if child.nodeType == dom.Node.ELEMENT_NODE:
                 if child.hasAttribute('href'):
                     if not 'url' == child.tagName: # make exception for the <url/> tag, which
                                                    # documents an url for a project
@@ -138,13 +138,13 @@ class WorkspaceLoader:
 
         if not parent:
             # TODO provide more info
-            raise WorkspaceError, "Unresolvable HREF found outside a <project/> or <module/>."
+            raise WorkspaceError, "Unresolvable HREF found outside a <project/> or <module/>: %s." % (node)
         
         # remove that project or module from its parent
         node_to_remove_element_from = parent.parentNode
         if not node_to_remove_element_from:
             # TODO provide more info
-            raise WorkspaceError, "Rogue <project/> or <module/> (without a parent)."
+            raise WorkspaceError, "Rogue <project/> or <module/> (without a parent): %s." % (parent)
         node_to_remove_element_from.removeChild(parent)
         
         # but save it off for error reporting

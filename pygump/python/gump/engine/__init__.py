@@ -24,6 +24,7 @@ from xml import dom
 from xml.dom import minidom
 
 from gump.engine.workspace import WorkspaceLoader, WorkspaceObjectifier
+from gump.engine.vfs import VFS
        
 def main(settings):
     """
@@ -39,20 +40,20 @@ def main(settings):
     """
     
     # get engine config
-    config = get_settings(settings)
+    config = get_config(settings)
     
     # get engine dependencies
     log = get_logger(config.log_level, "engine")
     db  = get_db(config)
-    vfsdir = os.path.join(config.workdir, "vfs-cache" )
+    vfsdir = os.path.join(config.paths_work, "vfs-cache" )
     if not os.path.isdir(vfsdir):
         os.mkdir(vfsdir);
-    vfs = get_vfs(config.homedir, vfsdir)
+    vfs = get_vfs(config.paths_home, vfsdir)
     workspace_loader = get_workspace_loader(vfs, log)
     workspace_objectifier = get_workspace_objectifier()
     
     # create engine
-    engine = Engine(config, log, db, workspace_loader)
+    engine = Engine(config, log, db, workspace_loader, workspace_objectifier)
     
     # run it
     engine.initialize()
@@ -105,14 +106,17 @@ def get_config(settings):
     if hasattr(settings,"databaseuser"): config.database_user = settings.databaseuser
     config.database_password   = "gump"
     if hasattr(settings,"databasepassword"): config.database_password = settings.databasepassword
+    
+    return config
 
 def get_logger(level, name):
-    log = logging.Logger(name)
+    logging.basicConfig()
+    log = logging.getLogger(name)
     log.setLevel(level)
-    return logger
+    return log
 
 def get_db(config):
-    from gump.util.database import Database
+    from gump.util.mysql import Database
     db = Database(config) #TODO!
     return db
 
@@ -158,9 +162,9 @@ class Engine:
         """
         self.config = config
         self.log = log
+        self.db = db
         self.workspace_loader = workspace_loader
         self.workspace_objectifier = workspace_objectifier
-        self.db = db
     
     def initialize(self):
         """
@@ -174,7 +178,7 @@ class Engine:
         """
         try:
             # 1) merge workspace into big DOM tree
-            (dom, dropped_nodes) = self.workspace_loader.get_workspace_tree(self.config.path_workspace)
+            (dom, dropped_nodes) = self.workspace_loader.get_workspace_tree(self.config.paths_workspace)
             # 2) convert that DOM tree into python objects
             workspace = self.workspace_objectifier.get_workspace(dom)
             # 3) store those objects in the database
