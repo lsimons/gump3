@@ -42,5 +42,5 @@
 # tell Python what modules make up the gump.model package
 __all__ = ["rawmodel","loader","state", \
     "object","project","module","workspace","repository", \
-    "ant"]
+    "builder"]
 
