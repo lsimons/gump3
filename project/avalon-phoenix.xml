@@ -7,11 +7,6 @@
 
     <cvs repository="avalon"/>
 
-    <!-- deprecated! -->
-    <project name="jakarta-avalon-phoenix">
-        <depend project="avalon-phoenix" inherit="jars"/>
-    </project>
-
     <project name="avalon-phoenix">
         <package>org.apache.avalon.phoenix</package>
 
