@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/results/loader.py,v 1.1 2004/02/17 21:54:21 ajack Exp $
-# $Revision: 1.1 $
-# $Date: 2004/02/17 21:54:21 $
+# $Header: /home/stefano/cvs/gump/python/gump/results/loader.py,v 1.2 2004/02/28 00:08:49 ajack Exp $
+# $Revision: 1.2 $
+# $Date: 2004/02/28 00:08:49 $
 #
 # ====================================================================
 #
@@ -63,11 +63,11 @@
 """
 import os, os.path
 
+import xml.dom.minidom
+
 from gump import log
-from gump.results.rawmodel import XMLWorkspaceResult,XMLProfileResult,	\
-            XMLModuleResult, XMLProjectResult
 from gump.results.model import WorkspaceResult
-from gump.utils.xmlutils import SAXDispatcher
+
 from gump.utils.note import transferAnnotations, Annotatable
 from gump.utils import dump
 from gump.config import gumpPath
@@ -94,38 +94,16 @@ class WorkspaceResultLoader:
         log.error('WorkspaceResult metadata file ['+file+'] not found')
         raise IOError, """WorkspaceResult %s not found!""" % file 
     
-      #
-      # Clear out the maps
-      #
-    
-      log.debug("Launch SAX Dispatcher onto : " + file);
+      log.debug("Launch DOM Parser onto : " + file);
               
-      parser=SAXDispatcher(file,'workspaceresult',XMLWorkspaceResult)
-    
-      # Extract the root XML
-      xmlworkspace=parser.docElement
-    
-      if not xmlworkspace:
-        raise IOError, "Failed to load workspace result: " + file
+      dom=xml.dom.minidom.parse(file)
     
       # Construct object around XML.
-      workspaceResult=WorkspaceResult(xmlworkspace.name, xmlworkspace)
-      
-      # Copy over any XML errors/warnings
-      transferAnnotations(parser, workspaceResult)
+      workspaceResult=WorkspaceResult(dom.documentElement.getAttribute('name'),dom)
   
       #
       # Cook the raw model...
       #
-      workspaceResult.complete(XMLProfileResult.map,	\
-                          XMLModuleResult.map,	\
-                          XMLProjectResult.map	)
-
-      #
-      # Clear out the maps [so don't continue to use them]
-      #
-      XMLProfileResult.map.clear()
-      XMLModuleResult.map.clear()
-      XMLProjectResult.map.clear()
+      workspaceResult.complete()
       
       return workspaceResult      

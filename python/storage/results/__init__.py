@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/cvs/jakarta-gump/python/gump/model/rawmodel.py,v 1.13 2004/02/10 00:43:19 ajack Exp $
-# $Revision: 1.13 $
-# $Date: 2004/02/10 00:43:19 $
+# $Header: /home/stefano/cvs/gump/python/storage/results/Attic/__init__.py,v 1.1 2004/02/28 00:08:48 ajack Exp $
+# $Revision: 1.1 $
+# $Date: 2004/02/28 00:08:48 $
 #
 # ====================================================================
 #
@@ -58,60 +58,6 @@
 # information on the Apache Software Foundation, please see
 # <http://www.apache.org/>.
 
-import os,types
 
-import logging
-
-from gump.utils.xmlutils import SAXDispatcher, GumpXMLObject, \
-                            Single, Multiple, Named
-
-"""
-  Gump XML metadata loading depends on this object model.
-
-  An instance of this object model is imported from a set of XML files.
-  
-  Gump uses a SAX dispatcher tool, a dependency walker, and this 
-  object model (GOM).
-
-  The idea is that a subclass of GumpModelObject is used for each of the various
-  xml tags which can appear in a gump profile, with a saxdispatcher
-  generating a tree of GumpModelObject objects from the profile, dynamically
-  merging as it finds href references.
-
-  Then there's some basic procedures to work with the GOM, like load().
-
-"""
-from gump import log
-
-###############################################################################
-# Initialize
-###############################################################################
-      
-class XMLWorkspaceResult(GumpXMLObject):
-  """Represents a <workspaceResult/> element."""  
-  #map={}
-  def init(self):
-    self.projectResult=Multiple(XMLProjectResult)
-    self.moduleResult=Multiple(XMLModuleResult)
-
-    
-# represents a <profile/> element
-class XMLProfileResult(Named,GumpXMLObject):
-  map={}
-  def init(self):
-    self.projectResult=Multiple(XMLProjectResult)
-    self.moduleResult=Multiple(XMLModuleResult)
-
-# represents a <module/> element
-class XMLModuleResult(Named):
-  map={}
-  def init(self):
-    self.projectResult=Multiple(XMLProjectResult)
-
-
-# represents a <project/> element
-class XMLProjectResult(Named):
-  map={}
-  def init(self):
-    #self.state=Single(GumpXMLObject)
-    pass
+# tell Python what modules make up the gump.output package
+__all__ = ["resulter","module","loader"]

@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/output/Attic/nag.py,v 1.16 2004/02/23 21:55:35 ajack Exp $
-# $Revision: 1.16 $
-# $Date: 2004/02/23 21:55:35 $
+# $Header: /home/stefano/cvs/gump/python/gump/output/Attic/nag.py,v 1.17 2004/02/28 00:08:49 ajack Exp $
+# $Revision: 1.17 $
+# $Date: 2004/02/28 00:08:49 $
 #
 # ====================================================================
 #
@@ -320,7 +320,10 @@ class Nagger:
     def getNamedTypedContent(self,object,feedPrefix=None,message=None):
         content="""To whom it may engage...
         
-This is an automated request, but not an unsolicited one. For help understanding the request please visit http://jakarta.apache.org/gump/nagged.html, and/or contact gump@jakarta.apache.org.
+This is an automated request, but not an unsolicited one. For help 
+understanding the request please visit 
+http://jakarta.apache.org/gump/nagged.html, 
+and/or contact gump@jakarta.apache.org.
 
 """
     

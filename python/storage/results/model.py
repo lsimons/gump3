@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/results/model.py,v 1.2 2004/02/28 00:08:49 ajack Exp $
-# $Revision: 1.2 $
-# $Date: 2004/02/28 00:08:49 $
+# $Header: /home/stefano/cvs/gump/python/storage/results/Attic/model.py,v 1.1 2004/02/28 00:08:48 ajack Exp $
+# $Revision: 1.1 $
+# $Date: 2004/02/28 00:08:48 $
 #
 # ====================================================================
 #
@@ -64,17 +64,17 @@
 
 from time import localtime, strftime, tzname
 from string import lower, capitalize
-from xml.dom.minidom import getDOMImplementation
-        
+import xml.dom.minidom
+
 from gump.utils.note import *
 from gump.utils.work import *
 from gump.utils.owner import *
 from gump.model.state import *
-from gump.results.rawmodel import *
+
 
 class ResultModelObject(Annotatable,Ownable,Stateful):
     """Base model object for a single entity"""
-    def __init__(self,name,dom=None,owner=None):
+    def __init__(self,name,owner=None):
                 
         # Can scribble on this thing...
     	Annotatable.__init__(self)
@@ -87,10 +87,6 @@ class ResultModelObject(Annotatable,Ownable,Stateful):
     	
     	# Named
     	self.name=name
-    	
-        # The Dom model
-        if dom:
-        	self.dom=dom    
  
         # Internals...
     	self.completionPerformed=0
@@ -126,40 +122,28 @@ class ResultModelObject(Annotatable,Ownable,Stateful):
         """ Display the contents of this object """
         output.write(getIndent(indent)+'Name: ' + self.name + '\n')
         Annotatable.dump(self,indent,output)
-    
-    def hasDom(self):
-        if hasattr(self,'dom') and self.dom: return 1
-        return 0
         
-    def getDom(self):
-        return self.dom
-        
-    def hasXMLData(self):
-        if hasattr(self,'xmldata') and self.xmldata: return 1
-        return 0        
-    
-    def getXMLData(self):
-        if not self.hasXMLData():
+    def getDomData(self):
+        if not self.hasDomData():
             stream=StringIO.StringIO() 
             
             # Create on demand (push object attributes
-            # into XML form)
+            # into Dom form)
             if not self.hasDom():
                 self.createDom()
                 
-            self.dom.writexml(stream)
-            
+            xmlize(self.xml.getTagName(),self.xml,stream)
             stream.seek(0)
             self.xmldata=stream.read()
             stream.close()
     
         return self.xmldata
         
-    def writeXMLToFile(self, outputFile):
+    def writeDomToFile(self, outputFile):
         """ Serialize to a file """
         try:            
             f=open(outputFile, 'w')
-            f.write(self.getXMLData())
+            f.write(self.getDomData())
         finally:
             # Since we may exit via an exception, close explicitly.
             if f: f.close()            
@@ -173,7 +157,6 @@ class WorkspaceResult(ResultModelObject):
     	# Results per module
     	#
     	self.moduleResults 	=	{}
-    	self.projectResults 	=	{}
 
     def hasModuleResults(self):
         if self.moduleResults.values(): return 1
@@ -182,53 +165,42 @@ class WorkspaceResult(ResultModelObject):
     def getModuleResults(self):
         return self.moduleResults.values()
         
-    def hasProjectResults(self):
-        if self.projectResults.values(): return 1
-        return 0    
-        
-    def getProjectResults(self):
-        return self.projectResults.values()
-    
-    def hasProjectResult(self,name):
-        if name in self.projectResults: return 1
-        return 0
-        
-    def getProjectResult(self,name):
-        return self.projectResults[name]
-        
     def setModuleResult(self,moduleResult):
         self.moduleResults[moduleResult.getName()] = moduleResult
-                
-        # Snarf these also, into an ubber map..
-        for projectResult in moduleResult.getProjectResults():
-            self.setProjectResult(projectResult)
         
-    def setProjectResult(self,projectResult):
-        self.projectResults[projectResult.getName()] = projectResult
-        
-    def createDom(self):
+    def createDOM(self):
         if self.hasDom(): return
         
-        self.dom = getDOMImplementation().createDocument(None, 'workspaceResult', None)
-        topElement = self.dom.documentElement
-        
-        topElement.setAttribute('name',self.getName())
-        topElement.setAttribute('state',self.getStateName())
-        topElement.setAttribute('reason',self.getReasonName())
+    
             
         for moduleResult in self.moduleResults.values():
-            moduleResult.createDom(self.dom,topElement)        
+            moduleResult.createDom(self.xml)        
                     
-    def complete(self): 
-        if self.isComplete() or not self.hasDom(): return
+    def complete(self, dom): 
+        if self.isComplete(): return
         
         #
         # Import all modules
         #  
-        for dommoduleresult in self.dom.getElementsByTagName('moduleResult'): 
-            moduleResult=ModuleResult(dommoduleresult.getAttribute('name'),dommoduleresult,self)
-            moduleResult.complete()                    
-            self.setModuleResult(moduleResult)     
+        for xmlmoduleresult in xmlmoduleresults.values(): 
+            moduleResult=ModuleResult(xmlmoduleresult.name,xmlmoduleresult,self)
+            self.setModuleResult(moduleResult)
+                
+        #
+        # Import all projects
+        #  
+        for xmlprojectresult in xmlprojectresults.values():             
+            projectResult=ProjectResult(xmlprojectresult.name,xmlprojectresult,self)
+            self.setProjectResult(projectResult)
+
+        # Complete the modules
+        for moduleResult in self.getModuleResults():
+            moduleResult.complete(self)
+                        
+        # Complete the projects  
+        for projectResult in self.getProjectResults():
+            # Complete the project
+            projectResult.complete(self)           
         
         self.setComplete(1)
         
@@ -241,8 +213,8 @@ class WorkspaceResult(ResultModelObject):
         
 # represents a <moduleResult/> element
 class ModuleResult(ResultModelObject):
-    def __init__(self,name,dom=None,owner=None):
-    	ResultModelObject.__init__(self,name,dom,owner)    
+    def __init__(self,name,xml=None,owner=None):
+    	ResultModelObject.__init__(self,name,xml,owner)    
     	
     	# 
     	# Results per project
@@ -252,7 +224,7 @@ class ModuleResult(ResultModelObject):
     def setProjectResult(self,projectResult):
         self.projectResults[projectResult.getName()] = projectResult
         # Attach oneself as owner...
-        projectResult.setOwner(self)
+        projectResult.setModuleResult(self)
                 
     def hasProjectResults(self):
         if self.projectResults.values(): return 1
@@ -261,27 +233,37 @@ class ModuleResult(ResultModelObject):
     def getProjectResults(self):
         return self.projectResults.values()
         
-    def createDom(self, document, element):
+    def createDom(self, workspaceResultDom):
         if self.hasDom(): return
         
-        self.dom = document.createElement('moduleResult')
-        
-        self.dom.setAttribute('name',self.getName())
-        self.dom.setAttribute('state',self.getStateName())
-        self.dom.setAttribute('reason',self.getReasonName())
-        
-        element.appendChild(self.dom)
+        # This call constructs a new one...
+        self.xml=workspaceResultDom.moduleResult(	\
+            {	\
+                'name':self.getName(),	\
+                'state':self.getStateName(),	\
+                'reason':self.getReasonName()	\
+            })
             
         for projectResult in self.getProjectResults():
-            projectResult.createDom(document,self.dom)        
+            print "CREATE Dom FOR :" + `projectResult`
+            projectResult.createDom(self.xml)
             
-    def complete(self): 
-        if self.isComplete() or not self.hasDom(): return
-            
-        for domprojectresult in self.dom.getElementsByTagName('projectResult'):            
-            projectResult=ProjectResult(domprojectresult.getAttribute('name'),domprojectresult,self)
-            projectResult.complete()
-            self.setProjectResult(projectResult)     
+    def complete(self, workspaceResult): 
+        if self.isComplete(): return
+        
+        for xmlprojectresult in self.xml.projectResult:
+            if workspaceResult.hasProjectResult(xmlprojectresult.name):
+                
+                #
+                # The project pretty much better be in the
+                # workspace, but avoid crashing...
+                #
+                projectResult=workspaceResult.getProjectResult(xmlprojectresult.name)
+                
+                #
+                # Claim ownership
+                #
+                self.setProjectResult(projectResult)
                 
         self.setComplete(1)
         
@@ -294,22 +276,26 @@ class ModuleResult(ResultModelObject):
             
 # represents a <projectResult/> element
 class ProjectResult(ResultModelObject):
-    def __init__(self,name,dom=None,owner=None):
-    	ResultModelObject.__init__(self,name,dom,owner)    
+    def __init__(self,name,xml=None,owner=None):
+    	ResultModelObject.__init__(self,name,xml,owner)
+    	
+    	self.moduleResult = None
 
-    def createDom(self, document, element):
+    def createDom(self, moduleResultDom):
         if self.hasDom(): return
         
-        self.dom = document.createElement('projectResult')
+        self.xml=moduleResultDom.projectResult(	\
+            {	\
+                'name':self.getName(),	\
+                'state':self.getStateName(),	\
+                'reason':self.getReasonName()	\
+            })
+                
+    def setModuleResult(self,moduleResult):
+        self.moduleResult=moduleResult
         
-        self.dom.setAttribute('name',self.getName())
-        self.dom.setAttribute('state',self.getStateName())
-        self.dom.setAttribute('reason',self.getReasonName())
-            
-        element.appendChild(self.dom)
-        
-    def complete(self): 
+    def complete(self,workspaceResult): 
         if self.isComplete(): return
-    
+        
         self.setComplete(1)
         

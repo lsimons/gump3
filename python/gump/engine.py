@@ -32,6 +32,7 @@ from gump.document.forrest import ForrestDocumenter
 from gump.output.statsdb import *
 from gump.output.repository import JarRepository
 from gump.output.nag import nag
+from gump.result.resulter import generateResults
 from gump.syndication.syndicator import syndicate
 
     
@@ -154,6 +155,10 @@ class GumpEngine:
         logResourceUtilization('Before syndicate')
         syndicate(run)
                  
+        #
+        # Generate results.xml
+        #
+        generateResults(run)
         
         #   
         # Build HTML Result (via Forrest or ...)

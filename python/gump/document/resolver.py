@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/document/resolver.py,v 1.14 2004/02/24 19:32:28 ajack Exp $
-# $Revision: 1.14 $
-# $Date: 2004/02/24 19:32:28 $
+# $Header: /home/stefano/cvs/gump/python/gump/document/resolver.py,v 1.15 2004/02/28 00:08:49 ajack Exp $
+# $Revision: 1.15 $
+# $Date: 2004/02/28 00:08:49 $
 #
 # ====================================================================
 #
@@ -359,17 +359,15 @@ class Resolver:
         self.makePath(path)
         return concatenate(self.xdocsDir,path.serialize())
         
-    def getAbsoluteFile(self,object,documentName=None,extn='.xml'):
+    def getAbsoluteFile(self,object,documentName=None,extn='.xml',notXDocs=None):
         location=getLocationForObject(object)
         if documentName: 
             if not documentName.endswith(extn):
                 documentName += extn
             location.setDocument(documentName)
             
-        # XDocs in one place, content in another
-        # This is a tad lame, not a great way to detect
-        # xdocs, but ok for now.
-        if not extn == '.xml':
+        # XDocs in one place, content in another...
+        if not extn == '.xml' or notXDocs:
             self.makePath(location.getPath(),self.contentDir)
             file=concatenate(self.contentDir,location.serialize())
         else:
@@ -398,8 +396,8 @@ class Resolver:
     def getDirectoryUrl(self,object):
         return self.getAbsoluteDirectory(object)
         
-    def getFile(self,object,documentName=None,extn='.xml'):
-        return self.getAbsoluteFile(object,documentName,extn)
+    def getFile(self,object,documentName=None,extn='.xml',notXDocs=None):
+        return self.getAbsoluteFile(object,documentName,extn,notXDocs)
         
     def getUrl(self,object,documentName=None,extn='.html'):
         return self.getAbsoluteUrl(object,documentName,extn)

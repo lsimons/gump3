@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/results/__init__.py,v 1.2 2004/02/28 00:08:49 ajack Exp $
-# $Revision: 1.2 $
-# $Date: 2004/02/28 00:08:49 $
+# $Header: /home/stefano/cvs/gump/python/storage/results/Attic/loader.py,v 1.1 2004/02/28 00:08:48 ajack Exp $
+# $Revision: 1.1 $
+# $Date: 2004/02/28 00:08:48 $
 #
 # ====================================================================
 #
@@ -58,6 +58,51 @@
 # information on the Apache Software Foundation, please see
 # <http://www.apache.org/>.
 
+"""
+    This module contains information on
+"""
+import os, os.path
+import xml.dom.minidom
 
-# tell Python what modules make up the gump.output package
-__all__ = ["resulter","module","loader"]
+from gump import log
+from gump.results.model import WorkspaceResult
+from gump.utils.xmlutils import SAXDispatcher
+from gump.utils.note import transferAnnotations, Annotatable
+from gump.utils import dump
+from gump.config import gumpPath
+
+class WorkspaceResultLoader:
+    def __init__(self):
+        self.annotations=[]
+        
+    def loadFromUrl(self,url):
+        """Builds in memory from the xml file. Return the generated objects."""
+      
+        # Download (relative to base)
+        if not url.startswith('http://'):
+            newurl=gumpPath(url,'.');
+        else:
+            newurl=cacheHTTP(url)
+            
+        return self.load(newurl)
+        
+    def load(self,file):
+        """Builds in memory from the xml file. Return the generated objects."""
+
+        if not os.path.exists(file):
+            log.error('WorkspaceResult metadata file ['+file+'] not found')
+            raise IOError, """WorkspaceResult %s not found!""" % file 
+    
+        input=open(file,'r')
+    
+        dom=minidom.parse(input)
+    
+        # Construct object around DOM.
+        workspaceResult=WorkspaceResult()
+  
+        #
+        # Cook the raw model...
+        #
+        workspaceResult.complete(dom)
+
+        return workspaceResult      
