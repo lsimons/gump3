@@ -337,8 +337,8 @@ class Workspace(NamedModelObject, PropertyContainer, Statable, Resultable):
                 project.complete(self)   
                 
         # Mutlithreading
-        if self.hasChildElement('threads'):
-            threads=self.getChildElement('threads')
+        if self.hasDomChildElement('threads'):
+            threads=self.getDomChildElement('threads')
             if hasDomAttribute(threads,'updaters'):
                 self.updaters=int(getDomAttribute(threads,'updaters'))
             if hasDomAttribute(threads,'builders'):
