@@ -64,11 +64,6 @@
 	    <goodpractices href="metadata/practices.html" label="Good Practices"/>
 	</om>
 
-	<traditional label="Traditional" tab="traditional">
-	    <overview href="traditional/index.html" label="Overview"/>
-	    <usage href="traditional/usage.html" label="Usage"/>
-	</traditional>
-	
 	<python label="Python" tab="python">
 	    <overview href="python/index.html" label="Overview"/>
 	    <usage href="python/usage.html" label="Usage"/>
