@@ -123,9 +123,5 @@ if test -z "$FAIL"; then
   cd ..
 fi
 
-# Automatic login to each :pserver: cvsroot
-test -n "$FAIL" || \
-perl perl/cvslogin.pl work/merge.xml
-
 test -z "$FAIL" || echo "*** FAILED ***"
 

@@ -8,7 +8,12 @@ SET XALAN=C:\xalan-j_2_2_D8
 SET CLASSPATH=%XALAN%\bin\xalan.jar;%XALAN%\bin\xerces.jar;%CLASSPATH%
 
 SET SOURCE=%1
+
 IF "%1"=="" SET SOURCE=%COMPUTERNAME%.xml
+
+IF "%HOME%"=="" SET HOME=%USERPROFILE%
+IF "%HOME%"=="" SET HOME=%HOMEDRIVE%%HOMEPATH%
+IF "%HOME%"=="" SET HOME=C:\
 
 if exist work rmdir /s /q work
 mkdir work
@@ -23,7 +28,7 @@ if errorlevel 1 goto fail
 jar cf jenny.jar -C classes .
 if errorlevel 1 goto fail
 echo.
-java -classpath jenny.jar;%CLASSPATH% Jenny %SOURCE%
+java -Duser.home=%HOME% -classpath jenny.jar;%CLASSPATH% Jenny %SOURCE%
 if not errorlevel 0 goto fail
 
 REM ********************************************************************
@@ -96,9 +101,6 @@ echo Publishing
 cd work
 puball %SOURCE%
 cd ..
-
-REM Automatic login to each :pserver: cvsroot
-perl perl\cvslogin.pl work\merge.xml
 
 goto eof
 :fail
