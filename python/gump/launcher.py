@@ -286,21 +286,27 @@ def dummyExecuteIntoResult(cmd,result,tmp=dir.tmp):
 def killChildProcesses():
     gumpid=default.gumpid
     log.warn('Kill all child processed (anything launched by Gumpy) [PID' + str(gumpid) + ']')    
-    command='pgrep -P ' + str(gumpid) + ' -l'
-    ids=os.popen(command)   
-    try:     
-        line=ids.readline()
-        while line:            
-            parts=line.split(' ')
-            pid=parts[0]
-            process=parts[1]
-            if not process=='python':
-                os.kill(childPID,signal.SIGKILL)
+    output = dir.tmp + '/childPIDs.txt'
+    command='pgrep -P ' + str(gumpid) + ' -l > ' + output
+    if os.system(command):
+        ids=None
+        try:     
+            ids=open(output,'r')
+    
+            line=ids.readline()
+            while line:            
+                parts=line.split(' ')
+                childPID=int(parts[0])
+                process=parts[1]
+                if not process=='python':
+                    log.warn('Terminate PID' + str(childPID) + '] Process: [' + process + ']')            
+                    os.kill(childPID,signal.SIGKILL)
             
-            # Get next PID/process combination
-            line=o.readline()
-    finally:
-        if ids: ids.close()
+                # Get next PID/process combination
+                line=ids.readline()
+        finally:
+            if ids: ids.close()
+    log.warn('Terminated All.')                            
     
 def execute(cmd,tmp=dir.tmp):
     res=CmdResult(cmd)
@@ -372,6 +378,7 @@ def executeIntoResult(cmd,result,tmp=dir.tmp):
         # Set the signal handler and an N-second alarm
         timeout=cmd.timeout or setting.timeout
         timer = Timer(timeout, killChildProcesses)
+        timer.setDaemon(1)
         timer.start()
 
         # Execute Command & Wait
@@ -457,5 +464,6 @@ if __name__=='__main__':
   result = execute(cmd)  
 #  dump(result);
   
+  exit(0)
   
   
