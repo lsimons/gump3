@@ -24,7 +24,7 @@
     <cvs repository="avalon"/>
 
     <project name="avalon-phoenix-dependencies">
-        <ant target="get-spice-dependencies" />
+        <ant target="get-dependencies-for-gump" />
         <depend project="ant"/>
         <depend project="xml-xerces"/>
         <home nested="lib/repo"/>
@@ -38,6 +38,10 @@
              id="spice-classman"/>
         <jar name="spice-classman/spice-classman-1.0/lib/excalibur-extension-1.0a.jar"
              id="excalibur-extension"/>
+        <jar name="mx4j/mx4j-1.1.1/lib/mx4j-jmx.jar"
+             id="mx4j.jar"/>
+        <jar name="mx4j/mx4j-1.1.1/lib/mx4j-tools.jar"
+             id="mx4j-tools.jar"/>
     </project>
     
     <project name="avalon-phoenix">
@@ -60,8 +64,15 @@
         <depend project="excalibur-instrument" runtime="true"/>
         <depend project="phoenix-excalibur-monitor" runtime="true"/>
         <depend project="ant" runtime="true"/>
+<!--        
+  This must be version 1.1.1, and not the 2.0 that gets used.
+  
         <depend project="mx4j" runtime="true"/>
+<<<<<<< avalon-phoenix.xml
+-->
+=======
         <depend project="mx4j-tools" runtime="true"/>
+>>>>>>> 1.61
         <depend project="xml-xalan2"/>
         <depend project="phoenix-qdox" runtime="true"/>
         <option project="jakarta-servletapi-4" runtime="true"/>
@@ -82,14 +93,6 @@
         <license name="LICENSE.txt"/>
         <javadoc nested="target/javadocs" module="avalon"/>
 
-<!--
-        <nag>
-            <regexp pattern="/Missing prereq/i"
-                from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"
-                to="dev@avalon.apache.org"
-                subject="PRE-REQ FAILED for avalon-phoenix"/>
-        </nag>
- -->
         <nag from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"
             to="dev@avalon.apache.org"/>
     </project>
