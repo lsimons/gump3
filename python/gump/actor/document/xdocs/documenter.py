@@ -1784,11 +1784,10 @@ This page helps Gumpmeisters (and others) observe community progress.
                 
         self.documentFileList(document,project,'Project-level Files')  
                 
-        if not realTime:
-            addnSection=document.createSection('Additional Details')
-            addnPara=addnSection.createParagraph()
-            addnPara.createLink('details.html',	
-                                  'For additional project details (including classpaths,dependencies) ...')
+        addnSection=document.createSection('Additional Details')
+        addnPara=addnSection.createParagraph()
+        addnPara.createLink('details.html',	
+             'For additional project details (including classpaths,dependencies) ...')
                                 
         document.serialize()
         
