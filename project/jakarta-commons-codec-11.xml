@@ -21,7 +21,7 @@
     Jakarta Commons Codec 1.1
   </description>
 
-  <project name="commons-codec-11" package="commons-codec-1.1">  	
+  <project name="commons-codec-11">  	
     <package>org.apache.commons.codec</package>
     <description>Commons Encoding/Decoding Package</description>
     <url href="http://jakarta.apache.org/commons/codec/"/>
