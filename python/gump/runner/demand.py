@@ -59,8 +59,10 @@ class OnDemandRunner(GumpRunner):
         
         printTopRefs(100,'Before Loop')
         
+        gumpSet=self.run.getGumpSet()
+        
         # In order...
-        for project in self.run.getGumpSet().getProjectSequence():
+        for project in gumpSet.getProjectSequence():
 
             # Process the module, upon demand
             module=project.getModule()
@@ -68,17 +70,19 @@ class OnDemandRunner(GumpRunner):
                 self.updater.updateModule(module)        
                 module.setUpdated(1) #:TODO: Move this...
                 self.run.generateEvent(module)
+                gumpSet.setCompletedModule(module)
 
             # Process
             self.builder.buildProject(project)   
             self.run.generateEvent(project)
+            gumpSet.setCompletedProject(project)
             
             # Seems a nice place to peek/clean-up...    
-            printTopRefs(100,'Before Loop GC')
-            invokeGarbageCollection(self.__class__.__name__)
-            invokeGarbageCollection(self.__class__.__name__)
-            invokeGarbageCollection(self.__class__.__name__)
-            printTopRefs(100,'After GC')
+            #printTopRefs(100,'Before Loop GC')
+            #invokeGarbageCollection(self.__class__.__name__)
+            #invokeGarbageCollection(self.__class__.__name__)
+            #invokeGarbageCollection(self.__class__.__name__)
+            #printTopRefs(100,'After GC')
         
         self.finalize()    
         

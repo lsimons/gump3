@@ -105,6 +105,9 @@ class GumpSet:
             self.repositories=self.getRepositoriesForModuleList(self.moduleSequence)
         else:
             self.repositories=repositories
+            
+        self.completedModules=[]
+        self.completedProjects=[]
                 
         self.validate()
         
@@ -141,6 +144,12 @@ class GumpSet:
         
     def getModuleSequence(self):
         return self.moduleSequence
+        
+    def getCompletedModules(self):
+        return self.completedModules
+        
+    def setCompletedModule(self,module):
+        self.completedModules.append(module)
             
     def inModuleSequence(self,module):
         return module in self.moduleSequence
@@ -160,6 +169,12 @@ class GumpSet:
       
     def getProjectExpression(self):
         return self.projectexpression
+        
+    def getCompletedProjects(self):
+        return self.completedProjects
+        
+    def setCompletedProject(self,project):
+        self.completedProjects.append(project)
         
     def getProjectSequence(self):
         return self.projectSequence    

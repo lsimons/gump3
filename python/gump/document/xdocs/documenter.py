@@ -708,8 +708,6 @@ class XDocDocumenter(Documenter):
        
     def documentBuildLog(self,realTime=False): 
         #
-        # ----------------------------------------------------------------------
-        #
         # buildLog.xml -- Modules/Projects in build order
         #
         spec=self.resolver.getFileSpec(self.workspace, 'buildLog')
@@ -736,10 +734,7 @@ class XDocDocumenter(Documenter):
         modulesSection=document.createSection('Modules (in update order)')
         modulesTable=modulesSection.createTable(['Updated','Name','State','Duration\nin state','Last Modified','Notes'])
         mcount=0
-        for module in self.gumpSet.getModuleSequence():
-            # :TODO: Next line irrelevent?
-            if not self.gumpSet.inModuleSequence(module): continue               
-            if realTime and module.isUnset(): continue
+        for module in self.gumpSet.getCompletedModules():        
             
             mcount+=1
     
@@ -775,10 +770,7 @@ class XDocDocumenter(Documenter):
         projectsSection=document.createSection('Projects (in build order)')
         projectsTable=projectsSection.createTable(['Time','Name','State','Duration\nin state','Last Modified','Notes'])
         pcount=0
-        for project in self.gumpSet.getProjectSequence():
-            # :TODO: Next line irrelevent?
-            if not self.gumpSet.inProjectSequence(project): continue               
-            if realTime and project.isUnset(): continue
+        for project in self.gumpSet.getCompletedProjects():
             
             pcount+=1
     
