@@ -58,6 +58,8 @@
             <property name="skip.dependencies" value="true"/>
             <property name="jakarta-site.dir" project="jakarta-site2"
                       reference="home" />
+            <property name="forrest.home" project="xml-forrest"
+                      path="build/dist/shbat/"/>
         </ant>
 
         <!-- 'internal deps'. Should be full list of all excalibur-* projects -->
@@ -91,7 +93,7 @@
         <depend project="jdom"/>
         <depend project="junit"/>
         <depend project="rhino"/>
-        <depend project="xml-forrest"/>
+        <depend project="xml-forrest" inherit="runtime"/>
         <depend project="xml-xalan2"/>
 
         <!-- runtime dependencies -->
