@@ -15,7 +15,7 @@
     <depend project="bootstrap-ant"/>
   
     <home nested="java/build"/>
-    <jar  name="xerces.jar" id="parser"/>
+    <jar  name="xerces.jar" id="parser" type="boot"/>
   </project>
 
   <!-- package up the distribution -->
