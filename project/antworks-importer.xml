@@ -35,7 +35,7 @@
     <depend project="ant" inherit="runtime"/>
 
 
-    <jar  name="antworks-importer-0.1-gump-@@DATE@@.jar" />
+    <jar  name="dist/antworks-importer-0.1-gump-@@DATE@@.jar" />
 \    
 
     <nag to="antworks-developers@lists.sourceforge.net"
