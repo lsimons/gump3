@@ -106,6 +106,11 @@ class CvsUpdater(RunSpecific):
         #  Get the Update Command
         (repository, root, cmd ) = self.getUpdateCommand(module, exists)
                 
+        log.debug("CVS Update Module " + module.getName() + \
+                       ", Repository Name: " + str(module.repository.getName()))
+                                        
+        log.debug("CVS Root " + root + " on Repository: " + module.repository.getName())
+        
         # Provide CVS logins, if not already there
         loginToRepositoryOnDemand(repository,root,self.logins)
                
@@ -163,14 +168,10 @@ class CvsUpdater(RunSpecific):
         """
         
         if nowork and not exists:
-            raise RuntimeException('Not coded for this combo.')
-            
-        log.debug("CVS Update Module " + module.getName() + \
-                       ", Repository Name: " + str(module.repository.getName()))
-                                        
+            raise RuntimeException('Not coded for this combo.')            
+        
         root=module.cvs.getCvsRoot()
       
-        log.debug("CVS Root " + root + " on Repository: " + module.repository.getName())
      
         #
         # Prepare CVS checkout/update command...

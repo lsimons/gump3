@@ -83,7 +83,7 @@ class SAXDispatcher(ContentHandler,ErrorHandler,Annotatable):
             else:
                 self.addError(message)
                 
-            # log.warn('Failed to parse XML : ' + message, exc_info=1)
+            log.warn('Failed to parse XML : ' + message, exc_info=1)
             
     self.elementStack.append(self.topOfStack)
 

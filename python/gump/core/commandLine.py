@@ -149,12 +149,12 @@ class CommandLine:
                         self.args.append(arg)
                     removers.append(arg)        
             else:
-                banner()
-                print
-                print " No project specified, please supply a comma separated list of project expressions or 'all'."
-                print " Project wildcards are accepted, e.g. \"jakarta-*\"."
-                sys.exit(1)
-    
+                #banner()
+                #print
+                #print " No project specified, please supply a comma separated list of project expressions or 'all'."
+                #print " Project wildcards are accepted, e.g. \"jakarta-*\"."
+                #sys.exit(1)
+                self.args.append('*')
              
         # Remove 
         for arg in removers:
