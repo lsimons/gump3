@@ -10,9 +10,7 @@
   <project name="jakarta-bsf">
     <package>org.apache.bsf</package>
 
-    <mkdir dir="src/bsf-2.3/bsf_debug/build/classes"/>
-    <mkdir dir="src/bsf-2.3/bsf/build/classes"/>
-    <ant basedir="src/bsf-2.3" target="bindist"/>
+    <ant target="bindist"/>
 
     <depend project="ant" inherit="runtime"/>
     <depend project="xml-xerces"/>
@@ -24,11 +22,11 @@
     <option project="rhino"/>
     <option project="xml-xalan2"/>
 
-    <work nested="src/bsf-2.3/bsf_debug/build/classes"/>
-    <work nested="src/bsf-2.3/bsf/build/classes"/>
+    <work nested="build/classes"/>
 
-    <home nested="src/bsf-2.3/build"/>
+    <home nested="build"/>
     <jar  name="lib/bsf.jar"/>
+    <javadoc nested="build/javadocs"/>
 
     <nag from="Stefan Bodewig &lt;bodewig@apache.org&gt;"
          to="bsf-dev@jakarta.apache.org"/>
