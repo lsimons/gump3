@@ -85,7 +85,10 @@
     <option project="jakarta-avalon"/>
     <option project="jakarta-avalon-phoenix"/>
     <depend project="jakarta-tomcat-coyote"/>
-    <depend project="tomcat-catalina" inherit="all"/>
+    <depend project="tomcat-catalina"/>
+    <depend project="jakarta-tomcat-util"/>
+    <depend project="jakarta-servletapi-4"/>
+    <depend project="jakarta-regexp"/>
     <work nested="catalina/build/server/classes"/>
 
     <home nested="dist"/>
