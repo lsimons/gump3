@@ -51,10 +51,12 @@
       <depend property="xerces.jar"  project="xml-xerces" id="parser"/>
       <depend property="logkit.jar"  project="avalon-logkit"/>
       <depend property="junit.jar"   project="junit"/>
+      <property name="forrest.home" project="xml-forrest"
+                path="build/dist/shbat/"/>
     </ant>
     <depend project="ant" inherit="runtime"/>
     <!--uses forrest now <depend project="xml-cocoon2"/>-->
-    <depend project="xml-forrest"/>
+    <depend project="xml-forrest" inherit="runtime"/>
     <depend project="avalon"/>
     <depend project="dist-avalon-logkit"/>
     <depend project="xml-xalan2"/>
