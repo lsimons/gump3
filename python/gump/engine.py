@@ -32,7 +32,7 @@ from gump.document.forrest import ForrestDocumenter
 from gump.output.statsdb import *
 from gump.output.repository import JarRepository
 from gump.output.nag import nag
-from gump.syndication import syndicate
+from gump.syndication.syndicator import syndicate
 
     
 ###############################################################################
@@ -119,8 +119,15 @@ class GumpEngine:
   
         # Update [or load if not 'all'] Statistics
         self.updateStatistics(run)
-    
-        # Build HTML Result (via Forrest)
+        
+        #
+        # Provide a news feed (or few)
+        #
+        syndicate(run)
+         
+        #   
+        # Build HTML Result (via Forrest or ...)
+        #
         documenter=run.getOptions().getDocumenter()
         if documenter :
             documenter.document(run)
@@ -135,11 +142,7 @@ class GumpEngine:
             #
             # Nag about failures
             #
-            nag(run)
-  
-        # Provide a news feed
-        syndicate(run)
-            
+            nag(run)  
 
         # Return an exit code based off success
         # :TODO: Move onto run

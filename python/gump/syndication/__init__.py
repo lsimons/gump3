@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/syndication/__init__.py,v 1.3 2003/12/05 00:51:49 ajack Exp $
-# $Revision: 1.3 $
-# $Date: 2003/12/05 00:51:49 $
+# $Header: /home/stefano/cvs/gump/python/gump/syndication/__init__.py,v 1.4 2004/01/07 17:47:25 ajack Exp $
+# $Revision: 1.4 $
+# $Date: 2004/01/07 17:47:25 $
 #
 # ====================================================================
 #
@@ -72,14 +72,4 @@ from gump.model.state import *
 from gump.model.project import ProjectStatistics
 
 # tell Python what modules make up the gump.syndication package
-__all__ = ["rss","atom"]
-
-    
-def syndicate(run):
-    
-    from gump.syndication.rss import RSSSyndicator
-    simple=RSSSyndicator()
-    simple.syndicate(run)
-    
-    #atom=AtomSyndicator()
-    #atom.syndicate(run)
+__all__ = ["syndicator","rss","atom"]

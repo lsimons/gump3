@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/syndication/syndicator.py,v 1.9 2004/01/06 23:44:25 ajack Exp $
-# $Revision: 1.9 $
-# $Date: 2004/01/06 23:44:25 $
+# $Header: /home/stefano/cvs/gump/python/gump/syndication/syndicator.py,v 1.10 2004/01/07 17:47:25 ajack Exp $
+# $Revision: 1.10 $
+# $Date: 2004/01/07 17:47:25 $
 #
 # ====================================================================
 #
@@ -71,8 +71,6 @@ from gump import log
 from gump.model.state import *
 from gump.model.project import ProjectStatistics
 
-# tell Python what modules make up the gump.syndication package
-__all__ = ["rss","atom"]
 
 class Syndicator:
     def __init__(self):     pass        
