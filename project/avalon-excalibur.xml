@@ -421,7 +421,7 @@
         <work nested="i18n/target/test-classes"/>
 
         <home nested="i18n"/>
-        <jar name="build/target/excalibur-i18n-@@DATE@@.jar"/>
+        <jar name="target/excalibur-i18n-@@DATE@@.jar"/>
 
         <nag from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"
                 to="dev@avalon.apache.org"/>
