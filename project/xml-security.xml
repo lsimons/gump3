@@ -19,6 +19,9 @@
     <depend project="jce" runtime="true"/>
     <option project="junit"/>
     <work nested="build/classes"/>
+   
+    <!-- UGLY way to define their own tasks --> 
+    <work nested="."/>
 
     <home nested="build"/>
     <jar name="xmlsec.jar"/>
