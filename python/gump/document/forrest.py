@@ -200,7 +200,10 @@ class ForrestDocumenter(Documenter):
                 # 
                 # Clean up
                 wipeDirectoryTree(stagingDirectory)
-                wipeDirectoryTree(forrestWorkDir)
+                
+                # Clean only if successful.
+                if  (forrestResult.state==CMD_STATE_SUCCESS):
+                    wipeDirectoryTree(forrestWorkDir)
             except:        
                 log.error('--- Failed to staging->log sync and/or clean-up', exc_info=1)
                 success=0
