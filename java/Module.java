@@ -48,8 +48,23 @@ public class Module {
      * @param moudules list of &lt;module&gt; elements
      */
     public static void load(Enumeration modules) throws Exception {
+        Vector dropThem = new Vector();
         while (modules.hasMoreElements()) {
-            new Module((Element)modules.nextElement());
+            Element element = (Element)modules.nextElement();
+            try {
+                new Module(element);
+            } catch (Throwable t) {
+                dropThem.addElement(element);
+                System.err.println("Dropping module "
+                                   + element.getAttribute("name")
+                                   + " because of Exception " + t);
+            }
+        }
+
+        Enumeration enum = dropThem.elements();
+        while (enum.hasMoreElements()) {
+            Element element = (Element)enum.nextElement();
+            element.getParentNode().removeChild(element);
         }
 
         cvslogin();
@@ -71,11 +86,11 @@ public class Module {
     public Module(Element element) throws Exception {
         this.element = element;
         name = element.getAttribute("name");
-
+        
         computeSrcDir();
         promoteProjects();
         resolveCvsroot();
-
+        
         Node child=element.getFirstChild();
         for (; child != null; child=child.getNextSibling()) {
             if (child.getNodeName().equals("description")) {
@@ -84,7 +99,7 @@ public class Module {
                 url = (Element) child;
             }
         }
-
+        
         modules.put(name, this);
     }
 
