@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/model/project.py,v 1.27 2004/01/12 18:01:36 ajack Exp $
-# $Revision: 1.27 $
-# $Date: 2004/01/12 18:01:36 $
+# $Header: /home/stefano/cvs/gump/python/gump/model/project.py,v 1.28 2004/01/16 23:12:10 ajack Exp $
+# $Revision: 1.28 $
+# $Date: 2004/01/16 23:12:10 $
 #
 # ====================================================================
 #
@@ -200,8 +200,8 @@ class Project(NamedModelObject, Statable):
     	#
     	# Fully expanded
     	#
-    	self.totalDepends=[]
-    	self.totalDependees=[]    
+    	self.fullDepends=[]
+    	self.fullDependees=[]    
         
     	#############################################################
     	#
@@ -301,37 +301,37 @@ class Project(NamedModelObject, Statable):
         #
         # Build a set of dependencies (once only)
         #
-        if self.totalDepends: 
-            return self.totalDepends
+        if self.fullDepends: 
+            return self.fullDepends
         
         for dependency in self.depends:
-            if not dependency in self.totalDepends: 
-                self.totalDepends.append(dependency)
+            if not dependency in self.fullDepends: 
+                self.fullDepends.append(dependency)
                 for subdepend in dependency.getProject().getFullDependencies():
-                    if not subdepend in self.totalDepends:
-                        self.totalDepends.append(subdepend)
-        self.totalDepends.sort()
+                    if not subdepend in self.fullDepends:
+                        self.fullDepends.append(subdepend)
+        self.fullDepends.sort()
         
         # Return stored
-        return self.totalDepends
+        return self.fullDepends
                     
     def getFullDependencyCount(self):         
         return len(self.getFullDependencies())                      
     
     def getFullDependees(self):   
-        if self.totalDependees: return self.totalDependees
+        if self.fullDependees: return self.fullDependees
         
         for dependee in self.dependees:
-            if not dependee in self.totalDependees: 
+            if not dependee in self.fullDependees: 
                 # We have a new dependee
-                self.totalDependees.append(dependee)
+                self.fullDependees.append(dependee)
                 for subdependee in dependee.getProject().getFullDependees():
-                    if not subdependee in self.totalDependees:
-                        self.totalDependees.append(subdependee)
-        self.totalDependees.sort()
+                    if not subdependee in self.fullDependees:
+                        self.fullDependees.append(subdependee)
+        self.fullDependees.sort()
         
         # Store once
-        return self.totalDependees            
+        return self.fullDependees            
                         
     def getFullDependeeCount(self):         
         return len(self.getFullDependees())             
