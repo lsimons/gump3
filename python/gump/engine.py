@@ -556,7 +556,7 @@ class GumpEngine:
                             project.changeState(STATE_FAILED,REASON_MISSING_OUTPUTS)
                             outputsOk=0
                             project.addError("Missing License Output: " + str(licensePath))
-                        else                      
+                        else:                      
                             try:
                                 repository.publish( project.getModule().getName(), licensePath )            
                             except Exception, details:
