@@ -28,7 +28,6 @@
     <depend project="javamail" version="1.2"/>
     <depend project="dom4j" version="1.1"/>
     <depend project="jisp"/>
-    <depend project="jgl"/>
     <depend project="hsqldb"/>
 
     <home nested="bin"/>
@@ -43,15 +42,5 @@
     <depend project="jakarta-ant"/>
     <depend project="xml-xerces"/>
     <depend project="jakarta-turbine-tdk"/>
-  </project>
-
-  <project name="jgl">
-    <url href="http://www.recursionsw.com/products/jgl/"/>
-    <description>
-       Advanced collections and more than 50 generic algorithms
-    </description>
-    <depend project="jakarta-turbine-repo"/>
-    <home nested="lib.repo"/>
-    <jar name="jgl3.1.0.jar"/>
   </project>
 </module>

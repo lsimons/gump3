@@ -383,6 +383,12 @@ From: Jason van Zyl <jvanzyl@apache.org>
 Subject: [GUMP] Build Failure - Site
 Regex: /BUILD FAILED/
 -------
+Project: jakarta-turbine-tdk
+To: turbine-dev@jakarta.apache.org
+From: Jason van Zyl <jvanzyl@apache.org>
+Subject: [GUMP] Build Failure - TDK
+Regex: /BUILD FAILED/
+-------
 Project: jakarta-velocity
 To: velocity-dev@jakarta.apache.org
 From: Geir Magnusson Jr. <geirm@apache.org>

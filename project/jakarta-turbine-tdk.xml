@@ -24,6 +24,7 @@
     <depend project="commons-util"/>
     <depend project="commons-digester"/>
     <depend project="jakarta-oro"/>
+    <depend project="jakarta-turbine-stratum"/>
     <jar name="bin/tdk.jar"/>
   </project>    
 
