@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/Attic/logic.py,v 1.17 2003/10/06 19:58:37 ajack Exp $
-# $Revision: 1.17 $
-# $Date: 2003/10/06 19:58:37 $
+# $Header: /home/stefano/cvs/gump/python/gump/Attic/logic.py,v 1.18 2003/10/06 21:22:27 ajack Exp $
+# $Revision: 1.18 $
+# $Date: 2003/10/06 21:22:27 $
 #
 # ====================================================================
 #
@@ -311,7 +311,6 @@ def hasOutputs(project,pctxt):
     return (len(getOutputsList(project,pctxt)) > 0)
 
 
-    
 #
 # Maybe this is dodgy (it is inefficient) but we need some
 # way to get the sun tools for a javac compiler for ant and
@@ -350,7 +349,8 @@ def getClasspathList(project,workspace,context):
       elif work.parent:
           path=os.path.normpath(os.path.join(workspace.basedir,work.parent))
       else:
-          log.error("<work element without nested or parent attributes on " + project.name )
+          log.error("<work element without nested or parent attributes on " \
+              + project.name + " in " + project.module)
     
       if path:
           classpath.append(AnnotatedPath(path,pctxt))
@@ -358,45 +358,58 @@ def getClasspathList(project,workspace,context):
   # Append dependent projects (including optional)
   if project.depend:
       for depend in project.depend:
-          classpath += getProjectTreeOutputList(depend,context)  
+          classpath += getDependOutputList(depend,context)  
   if project.option:    
       for option in project.option:
-          classpath += getProjectTreeOutputList(option,context)
+          classpath += getDependOutputList(option,context)
       
   return classpath
   
-def getProjectTreeOutputList(project,context):      
+def getDependOutputList(depend,context,logIssues=None):      
   """Get a classpath of outputs for a project (including it's dependencies)"""            
-  classpath=[]
+  projectname=depend.project
   
-  if not Project.list.has_key(project):
-      if project and project.name:
-          log.error("Unknown project (in acquiring classpath) " + project.name )
-      return classpath
+  if not Project.list.has_key(projectname):
+      if projectname:
+          log.error("Unknown project (in acquiring classpath) " + projectname )
+      return []
       
+  classpath=[]
+
   # Context for this project...
+  project=Project.list[projectname]
   pctxt=context.getProjectContextForProject(project)
   
   # Append JARS for this project
-  for jar in project.jars():
+  for jar in depend.jars():
       classpath.append(AnnotatedPath(jar.path,pctxt)) 
       
   # Append sub-projects outputs
   if project.depend:
       for depend in project.depend:
-        classpath += getProjectTreeOutputList(depend,context)
+        classpath += getDependOutputList(depend,context,logIssues)
   
   # Append optional sub-project's output (that may not exist)
   if project.option:
       for option in project.option:
-        classpath += getProjectTreeOutputList(option,context)
+        classpath += getDependOutputList(option,context,logIssues)
 
   return classpath
   
 # BOOTCLASSPATH?
 def getClasspath(project,workspace,context):
-  return os.pathsep.join(getClasspathList(project,workspace,context))
+  return os.pathsep.join(getSimpleClasspathList(getClasspathList(project,workspace,context)))
 
+def getSimpleClasspathList(cp):
+    """ Return simple string list """
+    classpath=[]
+    for p  in cp:
+        if isinstance(p,AnnotatedPath):
+            classpath.append(p.path)
+        else:
+            classpath.append(p)
+    return classpath
+            
   
 def getAntProperties(workspace,ant):
   """Get properties for a project"""

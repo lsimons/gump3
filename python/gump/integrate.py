@@ -97,6 +97,8 @@ def integrate(workspace,expr='*',context=GumpContext()):
         result = 0 
     else: 
         result = 1
+        
+    return result
 
 # static void main()
 if __name__=='__main__':
@@ -124,7 +126,7 @@ if __name__=='__main__':
     #
     result = integrate(workspace, ps, context)
 
-    log.info('Gump Integration complete. Exit code:' + result)
+    log.info('Gump Integration complete. Exit code:' + str(result))
           
     # bye!
     sys.exit(result)
