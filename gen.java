@@ -32,6 +32,8 @@ import org.apache.xpath.XPathAPI;
 
 public class gen {
 
+    static final String GUMP_VERSION = "0.3";
+
     DocumentBuilderFactory dFactory = DocumentBuilderFactory.newInstance();
     TransformerFactory tFactory = TransformerFactory.newInstance();
 
@@ -246,20 +248,58 @@ public class gen {
     }
 
     /**
+      * Default and verify various workspace attributes.
+      * If not specified:
+      *   banner-image="http://jakarta.apache.org/images/jakarta-logo.gif"
+      *   banner-link="http://jakarta.apache.org"
+      *   logdir=basedir+"/log"
+      *   cvsdir=basedir+"/cvs"
+      * @param Workspace element to be updated
+      */
+    private void workspaceDefaults(Element workspace) throws Exception {
+        if (!workspace.getAttribute("version").equals(GUMP_VERSION)) {
+            throw new Exception("workspace version " + GUMP_VERSION + 
+                                " required.");
+        }
+
+        String basedir = workspace.getAttribute("basedir");
+
+        if (workspace.getAttribute("banner-image").equals("")) {
+            workspace.setAttribute("banner-image", 
+                "http://jakarta.apache.org/images/jakarta-logo.gif");
+        }
+
+        if (workspace.getAttribute("banner-link").equals("")) {
+            workspace.setAttribute("banner-link", "http://jakarta.apache.org");
+        }
+
+        if (workspace.getAttribute("logdir").equals("")) {
+            workspace.setAttribute("logdir", basedir + "/log");
+        }
+
+        if (workspace.getAttribute("cvsdir").equals("")) {
+            workspace.setAttribute("cvsdir", basedir + "/cvs");
+        }
+    }
+
+    /**
       * merge, sort, and insert defaults into a workspace
       * @param DOM to be transformed
       * @param sheet to be used
       * @return Node
       */
     private gen(String source) throws Exception {
-	Document workspace = parse(source);
-	expand((Element)workspace.getFirstChild());
-	flatten("project", workspace.getFirstChild());
-	flatten("repository", workspace.getFirstChild());
-	antDependsToProperties(workspace);
-        computeSrcdir((Element) workspace.getFirstChild());
+	Document doc = parse(source);
+	Element workspace = (Element)doc.getFirstChild();
+        workspaceDefaults(workspace);
 
-	Node resolved = transform(workspace, "defaults.xsl");
+	expand((Element)workspace);
+	flatten("project", workspace);
+	flatten("repository", workspace);
+	antDependsToProperties(doc);
+        computeSrcdir((Element) workspace);
+
+	Node resolved = transform(doc, "defaults.xsl");
 	output (resolved, "work/merge.xml");
 
 	Node sorted   = transform(resolved, "sortdep.xsl");
