@@ -10,7 +10,7 @@
   <project name="jakarta-turbine-site">
     <ant>
       <property name="jakarta-site2" reference="home" project="jakarta-site2"/>
-      <property name="turbine2.home" reference="home" project="jakarta-turbine-2"/>
+      <property name="turbine2.home" reference="srcdir" project="jakarta-turbine-2"/>
     </ant>
 
     <depend project="jakarta-ant"/>
