@@ -34,6 +34,7 @@
     <depend project="commons-discovery"/>
     <depend project="commons-logging"/>
     <depend project="jakarta-servletapi-4"/>
+    <depend project="junit"/>
     <option project="commons-httpclient"/>
     <option project="jimi"/>
     <option project="jaf"/>
@@ -82,7 +83,7 @@
     <depend project="ws-axis" inherit="all"/>
     <depend project="xmlunit"/>
     <depend project="httpunit"/>
-    <option project="junit"/>
+    <depend project="junit"/>
 
     <work nested="java/build/lib/axis-ant.jar"/>
     <work nested="java/build/classes"/>
