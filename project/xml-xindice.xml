@@ -45,12 +45,4 @@
     <jar name="xmldb-xupdate.jar"/>
   </project>
 
-  <project name="junitperf">
-    <url href="http://www.clarkware.com/software/JUnitPerf.html"/>
-    <package>com.clarkware.junitperf</package>
-
-    <jar name="java/lib/junitperf-1.8.jar"/>
-    <license name="java/lib/junitperf.LICENSE"/>
-  </project>
-
 </module>

@@ -1,0 +1,14 @@
+<module name="junitperf">
+
+  <url href="http://www.clarkware.com/software/JUnitPerf.html"/>
+  <description>JUnitPerf is a collection of JUnit test decorators used
+  to measure the performance and scalability of functionality
+  contained within existing JUnit tests.</description>
+
+  <project name="junitperf">
+    <package>com.clarkware.junitperf</package>
+
+    <jar name="lib/junitperf.jar"/>
+    <license name="LICENSE"/>
+  </project>
+</module>

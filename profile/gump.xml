@@ -185,6 +185,7 @@
   <module href="project/jdom.xml"/>
   <module href="project/jsch.xml"/>
   <module href="project/jdepend.xml"/>
+  <module href="project/junitperf.xml"/>
   <module href="project/nekohtml.xml"/>
   <module href="project/nsuml.xml"/>
   <module href="project/rhino.xml"/>
@@ -252,6 +253,7 @@
   <project name="jsch"             package="jsch-0.1.4"/>
   <project name="jsse"             package="jsse1.0.3"/>
   <project name="jta"              package="jta-spec1_0_1"/>
+  <project name="junitperf"        package="junitperf-1.8"/>
   <!--project name="jts"              package="jts1_0"/-->
   <project name="ldap"             package="ldap-1_2_4"/>
   <project name="nekohtml"         package="nekohtml-0.7.3"/>
