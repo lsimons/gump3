@@ -21,6 +21,8 @@
     <depend project="jakarta-ant"/>
     <depend project="jakarta-servletapi"/>
     <option project="junit"/>
+    <option project="jaf"/>
+    <option project="javamail"/>
     <work nested="java/build/classes"/>
 
     <home nested="java/build"/>
