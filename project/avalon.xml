@@ -904,7 +904,12 @@
         <depend project="junit"/>
         <depend project="xml-xerces"/>
         <depend project="avalon-util-extension-api" />
+
+        <mkdir dir="util/extension/impl/target/classes"/>
+        <work nested="util/extension/impl/target/test-classes"/>
+        <mkdir dir="util/extension/impl/target/test-classes"/>
         <work nested="util/extension/impl/target/classes"/>
+
         <home nested="util/extension/impl"/>
         <jar name="target/avalon-util-extension-impl-@@DATE@@.jar"/>
         <javadoc nested="util/extension/impl/target/docs/apidocs"/>
