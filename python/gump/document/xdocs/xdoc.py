@@ -779,7 +779,8 @@ class XDocDocument(XDocPiece):
             self.context.writeLine('</document>')            
         else:
             from gump.core.config import default
-            self.context.writeLine('<p align="right">Last Updated: %s.<img align="right" src="%s/images/PythonPowered.gif" alt="Python Logo"/></p>' % default.datetime) 
+            self.context.writeLine('<p align="right">Last Updated: %s.<img align="right" src="%s/images/PythonPowered.gif" alt="Python Logo"/></p>' \
+                                    % (default.datetime, self.rootpath)) 
             self.context.writeLine('</html>')            
         self.close()                  
             
