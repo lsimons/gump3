@@ -33,7 +33,7 @@
         <logic name="clean">
           <mkdir dir="trashbin"/>
           <xsl:for-each select="module[cvs]">
-            <move file="{@srcdir}" todir="trashbin"/>
+            <move file="{@srcdir}" todir="trashbin" quiet="true"/>
           </xsl:for-each>
           <delete dir="trashbin"/>
         </logic>

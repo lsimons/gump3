@@ -446,6 +446,11 @@
   <!-- =================================================================== -->
 
   <xsl:template match="move">
+    <xsl:if test="not(@quiet)">
+      <xsl:text>test -d </xsl:text>
+      <xsl:value-of select="translate(@file,'\','/')"/>
+      <xsl:text> || </xsl:text>
+    </xsl:if>
     <xsl:text>mv </xsl:text>
     <xsl:value-of select="translate(@file,'\','/')"/>
     <xsl:text> </xsl:text>
