@@ -305,7 +305,7 @@
         
         <work nested="event/impl/target/classes" />
         
-        <jar name="build/lib/excalibur-event-@@DATE@@.jar"/>
+        <jar name="target/excalibur-event-impl-@@DATE@@.jar"/>
 
         <!--junitreport nested="event/target/docs/junitreports"/-->
 
