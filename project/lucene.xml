@@ -1,11 +1,11 @@
 <module name="lucene">
 
-  <url  href="http://www.lucene.com/"/>
+  <url  href="http://jakarta.apache.org/lucene/"/>
   <description>
      Java Based Search Engine
   </description>
 
-  <cvs repository="sourceforge" host-prefix="cvs.lucene" dir="lucene"/>
+  <cvs repository="jakarta"/>
   
   <project name="lucene">
     <depend project="jakarta-ant"/>
