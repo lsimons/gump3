@@ -52,7 +52,7 @@
     <jar name="lib/mx4j-impl.jar"/>
     <jar name="lib/mx4j.jar"/>
 
-    <jar name="lib/mx4j-rjmx.jar/>
+    <jar name="lib/mx4j-rjmx.jar"/>
     <jar name="lib/mx4j-rimpl.jar"/>
     <jar name="lib/mx4j-remote.jar"/>
     <license name="src/docs/english/license.xml"/>
