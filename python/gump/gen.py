@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/Attic/gen.py,v 1.2 2003/04/28 21:38:02 rubys Exp $
-# $Revision: 1.2 $
-# $Date: 2003/04/28 21:38:02 $
+# $Header: /home/stefano/cvs/gump/python/gump/Attic/gen.py,v 1.3 2003/04/28 23:32:37 rubys Exp $
+# $Revision: 1.3 $
+# $Date: 2003/04/28 23:32:37 $
 #
 # ====================================================================
 #
@@ -65,7 +65,7 @@ Not even sure if this is needed!!!
 """
 
 import os.path,os,sys,logging
-from gump import Single
+from gump import Single, load
 from gump.conf import *
 
 # init logging
