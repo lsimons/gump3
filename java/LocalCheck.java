@@ -1,7 +1,7 @@
 /*
- * $Header: /home/stefano/cvs/gump/java/LocalCheck.java,v 1.2 2003/01/27 08:39:53 bodewig Exp $
- * $Revision: 1.2 $
- * $Date: 2003/01/27 08:39:53 $
+ * $Header: /home/stefano/cvs/gump/java/LocalCheck.java,v 1.3 2003/01/27 08:51:10 bodewig Exp $
+ * $Revision: 1.3 $
+ * $Date: 2003/01/27 08:51:10 $
  *
  * ====================================================================
  *
@@ -78,7 +78,7 @@ import org.xml.sax.SAXParseException;
  * gump build.
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bent</a>
- * @version $Id: LocalCheck.java,v 1.2 2003/01/27 08:39:53 bodewig Exp $
+ * @version $Id: LocalCheck.java,v 1.3 2003/01/27 08:51:10 bodewig Exp $
  */
 public class LocalCheck {
     
@@ -104,7 +104,11 @@ public class LocalCheck {
         this.pkgDir+=((pkgDir.endsWith(File.separator))?"":File.separator);
         currentDir = new File(workspaceFile).getAbsoluteFile().getParent()+File.separator;
         String profileFile = doc.getElementsByTagName("profile").item(0).getAttributes().getNamedItem("href").getNodeValue();
-        this.profile = parse(currentDir+profileFile);
+        if ((new File(profileFile)).isAbsolute()) {
+            this.profile = parse(profileFile);
+        } else {
+            this.profile = parse(currentDir+profileFile);
+        }
         parseProfile();
     }
     
