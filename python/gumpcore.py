@@ -205,11 +205,11 @@ class Workspace(GumpBase):
     if not self['banner-image']:
       self['banner-image']="http://jakarta.apache.org/images/jakarta-logo.gif"
     if not self['banner-link']: self['banner-link']="http://jakarta.apache.org"
-    if not self.logdir: self.logdir=self.basedir+"/log"
-    if not self.cvsdir: self.cvsdir=self.basedir+"/cvs"
+    if not self.logdir: self.logdir=os.path.join(self.basedir,"log")
+    if not self.cvsdir: self.cvsdir=os.path.join(self.basedir,"cvs")
     if not self.pkgdir: self.pkgdir=self.basedir
     if self.deliver:
-      if not self.scratchdir: self.scratchdir=self.basedir+"/scratch"
+      if not self.scratchdir: self.scratchdir=os.path.join(self.basedir,"scratch")
 
 # represents a <profile/> element
 class Profile(Named):
@@ -280,8 +280,22 @@ class Project(Named):
   def complete(self,workspace):
     if self.isComplete: return
 
-    # complete properties
-    if self.ant: self.ant.complete(self)
+    # compute home directory
+    if self.home and isinstance(self.home,Single):
+      if self.home.nested:
+        srcdir=Module.list[self.module].srcdir
+        self.home=os.path.normpath(os.path.join(srcdir,self.home.nested))
+      elif self.home.parent:
+        self.home=os.path.normpath(os.path.join(workspace.basedir,self.home.parent))
+    elif not self.home: self.home=os.path.join(workspace.basedir,self.name)
+
+    # resolve jars
+    for jar in self.jar:
+      if self.home and jar.name:
+        jar.path=os.path.normpath(os.path.join(self.home,jar.name))
+
+    # expand properties
+    if self.ant: self.ant.expand(self)
 
     # ensure that every project that this depends on is complete
     self.isComplete=1
@@ -289,11 +303,8 @@ class Project(Named):
       project=Project.list.get(depend.project,None)
       if project: project.complete(workspace)
 
-    # compute home directory
-    if self.home and isinstance(self.home,Single):
-      if self.home.nested:
-        srcdir=Module.list[self.module].srcdir
-        self.home=srcdir + os.sep + self.home.nested
+    # complete properties
+    if self.ant: self.ant.complete(self)
 
     # inherit dependencies:
     self.inheritDependencies()
@@ -382,8 +393,9 @@ class Ant(GumpBase):
     self.property=Multiple(Property)
     self.jvmarg=Multiple()
 
-  # provide default elements when not defined in xml
-  def complete(self,project):
+  # expand properties - in other words, do everything to complete the
+  # entry that does NOT require referencing another project
+  def expand(self,project):
 
     # convert property elements which reference a project into dependencies
     for property in self.property:
@@ -392,8 +404,7 @@ class Ant(GumpBase):
       if property.reference=="srcdir": continue
       if project.hasFullDependencyOn(property.project): continue
 
-      depend=Depend({})
-      depend['project']=property.project
+      depend=Depend({'project':property.project})
       if not property.classpath: depend['noclasspath']=Single({})
       if property.runtime: depend['runtime']=property.runtime
       project.depend.append(depend)
@@ -403,10 +414,13 @@ class Ant(GumpBase):
       property=Property(depend.__dict__)
       property['reference']='jarpath'
       property['name']=depend.project
-      del property['project']
       self.property.append(property)
       project.depend.append(depend)
     self.depend=None
+
+  # complete the definition - it is safe to reference other projects
+  # at this point
+  def complete(self,project):
 
     for property in self.property: property.complete(project)
 
@@ -426,9 +440,30 @@ class Property(GumpBase):
   def complete(self,project):
     if self.reference=='home':
       self.value=Project.list[self.project].home
-    if self.reference=='srcdir':
+
+    elif self.reference=='srcdir':
       module=Project.list[self.project].module
       self.value=Module.list[module].srcdir
+
+    elif self.reference=='jarpath':
+      target=Project.list[self.project]
+      if self.id:
+	for jar in target.jar:
+	  if jar.id==self.id:
+	    self.value=jar.path
+	    break
+	else:
+	  raise str(("jar with id %s was not found in project %s "
+	     "referenced by %s") % (self.id, target.name, project.name))
+      elif len(target.jar)==1:
+	self.value=target.jar[0].path
+      elif len(target.jar)>1:
+	raise str(("Multiple jars defined by project %s referenced by %s; " +
+	   "an id attribute is required to select the one you want") %
+	   (target.name, project.name))
+      else:
+	raise str("Project %s referenced by %s defines no jars as output" %
+	  (target.name, project.name))
 
 
 # TODO: set up the below elements with defaults using complete()

@@ -166,8 +166,7 @@ class gumpview(wxApp):
       p=Project.list[depend.project]
       srcdir=Module.list[p.module].srcdir
       for jar in p.jar:
-        jarpath=os.path.normpath(os.path.join(srcdir,jar.name))
-	self.classpath.InsertStringItem(i,jarpath)
+	self.classpath.InsertStringItem(i,jar.path)
 	i=i+1
 
     self.classpath.SetColumnWidth(0,wxLIST_AUTOSIZE_USEHEADER)
@@ -186,6 +185,7 @@ class gumpview(wxApp):
         i=i+1
 
     self.property.SetColumnWidth(0,wxLIST_AUTOSIZE_USEHEADER)
+    self.property.SetColumnWidth(1,wxLIST_AUTOSIZE_USEHEADER)
 
   # show the xml description for a single item
   def selectItem(self, event):
