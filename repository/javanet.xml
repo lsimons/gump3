@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<repository name="java.net" type="cvs">
+  <title>dev.java.net</title>
+  <home-page>http://dev.java.net/</home-page>
+  <cvsweb>http://dev.java.net/</cvsweb>
+
+  <root>
+    <method>pserver</method>
+    <user>guest</user>
+    <password></password>
+    <hostname>cvs.dev.java.net</hostname>
+    <path>/cvs</path>
+  </root>
+</repository>
