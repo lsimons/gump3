@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/Attic/logic.py,v 1.8 2003/09/29 22:28:53 ajack Exp $
-# $Revision: 1.8 $
-# $Date: 2003/09/29 22:28:53 $
+# $Header: /home/stefano/cvs/gump/python/gump/Attic/logic.py,v 1.9 2003/09/29 22:50:07 ajack Exp $
+# $Revision: 1.9 $
+# $Date: 2003/09/29 22:50:07 $
 #
 # ====================================================================
 #
@@ -441,7 +441,7 @@ def preprocessContext(workspace,context=GumpContext()):
             mctxt.state=STATUS_COMPLETE
             mctxt.reason=REASON_PACKAGE
             mctxt.addInfo("\'Packaged\' Module. (Packaged projects: " + \
-                                    packageCount + '.)')   
+                                    str(packageCount) + '.)')   
                         
 # static void main()
 if __name__=='__main__':

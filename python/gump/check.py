@@ -1,8 +1,8 @@
 #!/usr/bin/python
 
-# $Header: /home/stefano/cvs/gump/python/gump/check.py,v 1.22 2003/09/29 22:28:53 ajack Exp $
-# $Revision: 1.22 $
-# $Date: 2003/09/29 22:28:53 $
+# $Header: /home/stefano/cvs/gump/python/gump/check.py,v 1.23 2003/09/29 22:50:07 ajack Exp $
+# $Revision: 1.23 $
+# $Date: 2003/09/29 22:50:07 $
 #
 # ====================================================================
 #
@@ -251,10 +251,7 @@ def check(workspace, expr='*', context=GumpContext()):
     if projectmissing>0:
       print "  total errors: " , projectmissing
 
-  if len(optionalMissing)>0:      
-    if not printed_header: 
-      printHeader(project)
-      printed_header=1
+  if len(optionalMissing)>0:     
     print
     print " ***** MISSING OPTIONAL *ONLY* PROJECTS THAT ARE REFERENCED ***** "
     print
@@ -262,11 +259,7 @@ def check(workspace, expr='*', context=GumpContext()):
       if missed not in missing:
         optionalOnlyMissing.append(missed)
         print "  " + missed
-           
-  if not printed_header: 
-      printHeader(project)
-      printed_header=1
-      
+              
   if len(missing)>0:
     print
     print " ***** MISSING PROJECTS THAT ARE REFERENCED ***** "
@@ -307,7 +300,7 @@ def check(workspace, expr='*', context=GumpContext()):
   return 0
   
 def printHeader(project):
-    print "  *****************************************************"       
+    print " *****************************************************"       
     print " Project: " + project.name
     
 def peekInGlobalProfile(missing):
