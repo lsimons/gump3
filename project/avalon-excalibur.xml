@@ -497,7 +497,7 @@
         </ant>
 
         <depend project="ant" inherit="runtime"/>
-        <depend project="avalon" runtime="true"/>
+        <option project="avalon" runtime="true"/>
         <option project="checkstyle" inherit="runtime"/>
         <depend project="junit"/>
         <depend project="xml-xerces"/>
