@@ -34,6 +34,22 @@
     <javadoc nested="jjar/dist/docs/api"/>
   </project>
 
+  <project name="commons-messenger">
+    <description>A web based JMS framework</description>
+    <url href="http://jakarta.apache.org/commons/messenger.html"/>
+    <ant basedir="messenger" target="dist">
+      <depend property="commons-digester.jar" project="commons-digester"/>
+      <depend property="commons-collections.jar" project="commons-collections"/>
+      <depend property="commons-beanutils.jar" project="commons-beanutils"/>
+    </ant>
+    <depend project="jakarta-ant"/>
+    <depend project="xml-xerces"/>
+    <depend project="jakarta-servletapi-4"/>
+    <depend project="jms"/>
+    <jar name="messenger/commons-messenger.jar"/>
+    <javadoc nested="messenger/dist/docs/api"/>
+  </project>
+
   <project name="commons-modeler">
     <description>Modeler MBeans</description>
     <ant basedir="modeler" target="dist">

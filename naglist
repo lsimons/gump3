@@ -48,6 +48,18 @@ From: Ted Husted <ted@husted.com>
 Subject: [GUMP] Build Failure - latka
 Regex: /BUILD FAILED/
 ------
+Project: commons-logging
+To: commons-dev@jakarta.apache.org
+From: Ted Husted <ted@husted.com>
+Subject: [GUMP] Build Failure - logging
+Regex: /BUILD FAILED/
+------
+Project: commons-messenger
+To: commons-dev@jakarta.apache.org
+From: Ted Husted <ted@husted.com>
+Subject: [GUMP] Build Failure - messenger
+Regex: /BUILD FAILED/
+------
 Project: commons-pool
 To: commons-dev@jakarta.apache.org
 From: Ted Husted <ted@husted.com>
