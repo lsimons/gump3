@@ -20,6 +20,7 @@
 
   <repository href="repository/avalon.xml"/>
 
+  <module href="project/avalon-tools.xml"/>
   <module href="project/avalon-sandbox.xml"/>
   <module href="project/avalon.xml"/>
   <module href="project/avalon-components.xml"/>
