@@ -9,18 +9,18 @@
 
     <package>org.eclipse</package>
 
-    <jar name="junit-3.8.1.jar"/>
-    <jar name="boot-2.1.0.jar"/>
-    <jar name="resources-2.1.0.jar"/>
-    <jar name="runtime-2.1.0.jar"/>
-    <jar name="dtcore-2.1.0.jar"/>
-    <jar name="dtui-2.1.0.jar"/>
-    <jar name="jdtcore-2.1.0.jar"/>
-    <jar name="launching-2.1.0.jar"/>
-    <jar id="swt" name="swt-2.1.0.jar"/>
-    <jar name="jface-2.1.0.jar"/>
-    <jar name="antsupport-2.1.0.jar"/>
-    <jar name="workbench-2.1.0.jar"/>
+    <jar name="plugins/org.junit_3.8.1/junit.jar"/>
+    <jar name="plugins/org.eclipse.core.boot_2.1.0/boot.jar"/>
+    <jar name="plugins/org.eclipse.core.resources_2.1.0/resources.jar"/>
+    <jar name="plugins/org.eclipse.core.runtime_2.1.0/runtime.jar"/>
+    <jar name="plugins/org.eclipse.debug.core_2.1.0/dtcore.jar"/>
+    <jar name="plugins/org.eclipse.debug.ui_2.1.0/dtui.jar"/>
+    <jar name="plugins/org.eclipse.jdt.core_2.1.0/jdtcore.jar"/>
+    <jar name="plugins/org.eclipse.jdt.launching_2.1.0/launching.jar"/>
+    <jar name="plugins/org.eclipse.swt.win32_2.1.0/ws/win32/swt.jar" id="swt"/>
+    <jar name="plugins/org.eclipse.jface_2.1.0/jface.jar"/>
+    <jar name="plugins/org.eclipse.ant.core_2.1.0/antsupport.jar"/>
+    <jar name="plugins/org.eclipse.ui.workbench_2.1.0/workbench.jar"/>
 
   </project>
 
