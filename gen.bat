@@ -29,7 +29,7 @@ if errorlevel 1 goto fail
 jar cf jenny.jar -C classes .
 if errorlevel 1 goto fail
 echo.
-java -Duser.home=%HOME% -classpath jenny.jar;%CLASSPATH% Jenny %SOURCE%
+java "-Duser.home=%HOME%" -classpath jenny.jar;%CLASSPATH% Jenny %SOURCE%
 if not errorlevel 0 goto fail
 
 REM ********************************************************************
