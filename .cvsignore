@@ -20,5 +20,6 @@ tsws1.xml
 test
 x.txt
 gumpy.log
+*_log.txt
 gumpy.lock
 out.tmp

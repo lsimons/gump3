@@ -27,6 +27,24 @@ import logging
 from gump import log
 from gump.utils import *
 
+class Point:
+    """ A point """
+    def __init__(self,x,y):
+        self.x=x
+        self.y=y
+        
+    def getX(self): return self.x
+    def getY(self): return self.y
+        
+    def dump(self, indent=0, output=sys.stdout):
+        """ Display the contents of this object """
+        output.write(getIndent(indent)+'Point : ' \
+                    + `self.x` + ',' 	\
+                    + `self.y` + '\n')
+                	             	                
+    def __str__(self):
+        return '(' 	+ `self.x` + ',' + `self.y` + ')'
+    
 class Rect:
     """ A rectangle """
     def __init__(self,x,y,w,h):

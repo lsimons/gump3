@@ -337,7 +337,7 @@ finally:
             except:
                 published=0
                 
-        if not published:
+        if 1 or not published:
             catFile(sys.stdout, logFile, logTitle)
         
         if mailserver and mailport and mailto and mailfrom and logurl:

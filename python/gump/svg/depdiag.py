@@ -177,7 +177,9 @@ class DependencyDiagram:
         # context rectangle.
         svg=SimpleSvg(rect.getWidth(),rect.getHeight())
 
-        # Draw ...
+        #
+        # Draw dependency lines
+        #
         for node in self.matrix.getNodes():
             project = node.getProject()
             (row, col) = node.getRowCol()
@@ -197,10 +199,25 @@ class DependencyDiagram:
                 print 'VIRTUAL LINE: %s,%s -> %s,%s' % (row,col,depRow,depCol),
                 print 'LINE: %s,%s -> %s,%s' % (x,y,x1,y1)
                 
+                width=1+(dependProject.getFOGFactor()*3)
+                # Shape color
+                color='black'
+                if project.isPackaged(): 
+                    color='blue'
+                elif not project.hasBuildCommand():
+                    color='purple'
+                elif project.getFOGFactor() < 0.1:
+                    color='red'
+                    
                 svg.addLine(x,y,x1,y1, \
-                    { 'stroke':'black', \
+                    { 'stroke':color, \
+                      'stroke-width':width, \
                       'comment': project.getName() + ' to ' + dependProject.getName() } )
-                            
+                      
+                      
+        #
+        # The shapes and text
+        #                            
         for node in self.matrix.getNodes():
             project = node.getProject()
             (row,col) = node.getRowCol()    
@@ -209,17 +226,20 @@ class DependencyDiagram:
             (x1,y1) = context.realPoint(col+0.25,(rows-row)+0.25)
             
             print 'RECTANGLE %s,%s -> %s,%s' % (x,y,x1,y1)
+            
+            # Shape color
+            color='green'
+            if project.isPackaged(): 
+                color='blue'
+            elif not project.hasBuildCommand():
+                color='purple'
+            elif project.getFOGFactor() < 0.1:
+                color='red'
                 
             svg.addRect(x,y,(x1-x),(y1-y),  \
-                    { 	'fill':'green', \
+                    { 	'fill':color, \
                         'comment':project.getName() } )
-            
-        for node in self.matrix.getNodes():
-            project = node.getProject()
-            (row,col) = node.getRowCol()    
-            
-            (x,y) = context.realPoint(col,rows-row)
-                
+                        
             print 'TEXT %s,%s' % (x,y)
             
             svg.addText(x,y,project.getName(),  \
