@@ -33,6 +33,7 @@
     <depend project="jtidy"/>
     <depend project="junit"/>
     <depend project="nekohtml"/>
+    <depend project="jakarta-servletapi-5-servlet"/>
     <jar id="httpunit" name="lib/httpunit.jar"/>
   </project>
 
