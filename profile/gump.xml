@@ -231,7 +231,6 @@
   <module href="project/multipartrequest.xml"/>
   <module href="project/packaged-jaxen.xml"/>
   <module href="project/packaged-dom4j.xml"/>
-  <module href="project/packaged-dom4j.xml"/>
   <module href="http://cvs.sourceforge.net/viewcvs.py/*checkout*/jicarilla/jicarilla-sandbox/platform/gump/gump-module.xml?content-type=text/xml&amp;rev=HEAD"/>
 
 <!-- CodeHaus -->
