@@ -464,7 +464,7 @@ class ForrestDocumenter(Documenter):
             self.insertLink( server, workspace, serverRow.createData())
                                         
             if server.hasNote():
-                serverTow.createData(server.getNote())
+                serverRow.createData(server.getNote())
             else:
                 serverRow.createData('')
             
@@ -2588,6 +2588,11 @@ This page helps Gumpmeisters (and others) observe community progress.
             fogRow.createData(pstats.failures)
             fogRow.createData(pstats.prereqs)
             fogRow.createData('%02.2f' % pstats.getFOGFactor())
+            
+            # Generate an SVG:
+            # ,'FOG'
+            #svgFile=self.resolver.getFile(stats,project.getName()+'_FOG','.svg')
+            #fogRow.createData().createIcon(svgName.replace('.svg','.png'),'FOG Factor')
             
         document.serialize()   
         
