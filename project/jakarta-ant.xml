@@ -23,6 +23,9 @@
     <home nested="dist"/>
     <jar name="lib/ant.jar" id="ant"/>
     <jar name="lib/optional.jar" id="optional"/>
+
+    <nag from="Diane Holt &lt;holtdl@apache.org&gt;"
+         to="ant-dev@jakarta.apache.org"/>
   </project>
 
   <project name="dist-ant">
@@ -69,6 +72,10 @@
     <work nested="build/testcases"/>
     <work nested="src/testcases"/>
     <work nested="src/etc/testcases"/>
+
+    <nag from="Diane Holt &lt;holtdl@apache.org&gt;"
+         to="ant-dev@jakarta.apache.org"
+         subject="[GUMP] Test Failure - Ant"/>
   </project>
 
   <project name="bootstrap-ant">
@@ -78,6 +85,14 @@
 
     <home nested="bootstrap"/>
     <jar name="lib/ant.jar"/>
+
+    <nag from="Diane Holt &lt;holtdl@apache.org&gt;"
+         to="ant-dev@jakarta.apache.org"
+         subject="[GUMP] Bootstrap Failure - Ant">
+      <regex pattern="/error/"/>
+      <regex pattern="/Failed/"/>
+      <regex pattern="/BUILD FAILED/"/>      
+    </nag>
   </project>
 
   <project name="jakarta-ant-myrmidon">

@@ -107,6 +107,8 @@ public class Project {
                 jars.put(((Element)child).getAttribute("id"), child);
             } else if (child.getNodeName().equals("deliver")) {
                 deliver.add(child);
+            } else if (child.getNodeName().equals("nag")) {
+                expandNag((Element) child);
             }
         }
 
@@ -696,6 +698,22 @@ public class Project {
                 deliver.setAttribute("fromdir", srcdir + "/" + fromdir);
                 site.appendChild(deliver);
             }
+        }
+    }
+
+    /**
+     * Add default values for subjects and regexp if none have been
+     * specified.
+     */
+    private void expandNag(Element nag) {
+        if (nag.getAttribute("subject").equals("")) {
+            nag.setAttribute("subject", "[GUMP] Build Failure - "+name);
+        }
+        
+        if (!nag.hasChildNodes()) {
+            Element regexp = nag.getOwnerDocument().createElement("regexp");
+            regexp.setAttribute("pattern", "/BUILD FAILED/");
+            nag.appendChild(regexp);
         }
     }
 }
