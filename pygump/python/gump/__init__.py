@@ -33,7 +33,7 @@ a mysql database, for sending and formatting e-mail, etc.
 The gump.model module provides an object-oriented way to represent all the
 gump metadata.
 
-The gump.plugin module provides several utilities which can be plugged into
+The gump.plugins module provides several utilities which can be plugged into
 the gump engine for additional functionality. Plugins are responsible for all
 "side effects" of a gump run. For example, there are plugins to push data into
 database, plugins to send e-mails, etc.
