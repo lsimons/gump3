@@ -22,13 +22,6 @@
     <work nested="classes"/>
 
     <jar name="lib/hsqldb.jar" id="hsqldb"/>
-
-    <!-- 
-         not a jar but a directory.  OJB needs
-         org.hsqldb.util.CodeSwitcher which is not part of any jar that
-         build.xml would produce 
-    -->
-    <jar name="classes" id="codeswitcher"/>
   </project>
 
 </module>
