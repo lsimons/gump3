@@ -7,6 +7,9 @@
 
   <profile href="profile/gump.xml"/>
 
+  <javadoc dir="/data/gump/log/javadoc" href="http://lsd.student.utwente.nl/gump/javadoc"/>
+  <junitreport dir="/data/gump/log/junitreport" href="http://lsd.student.utwente.nl/gump/junitreport"/>
+
   <!-- After the bootstrap -->
   <module href="project/gump.xml"/>
   <project name="gump" home="/data/gump/jakarta-gump">
