@@ -95,7 +95,7 @@
     <xsl:text>if not "%1"=="" goto top&#10;</xsl:text>
 
     <xsl:text>chdir /d </xsl:text>
-    <xsl:value-of select="@basedir"/>
+    <xsl:value-of select="translate(@basedir,'/','\')"/>
     <xsl:text>&#10;</xsl:text>
 
     <xsl:text>ENDLOCAL&#10;</xsl:text>
