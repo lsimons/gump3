@@ -4,6 +4,7 @@
   <description>
     WebWork web application framework.
   </description>
+  <redistributable/>
 
   <cvs repository="sourceforge" host-prefix="cvs.opensymphony" 
        dir="opensymphony" module="webwork"/>
@@ -29,6 +30,7 @@
     <depend project="junit"/>
     <depend project="httpunit"/>
     <jar id="webwork" name="build/result/web/WEB-INF/lib/webwork.jar"/>
+    <license name="src/docs/manual/license.txt"/>
   </project>
 
   <project name="db40">

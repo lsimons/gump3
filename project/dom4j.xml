@@ -4,6 +4,7 @@
   <description>
     The flexible XML framework for Java
   </description>
+  <redistributable/>
 
   <cvs repository="sourceforge" host-prefix="cvs.dom4j" dir="dom4j"/>
   

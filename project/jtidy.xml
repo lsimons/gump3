@@ -4,6 +4,7 @@
   <description>
     HTML Templates
   </description>
+  <redistributable/>
 
   <cvs repository="sourceforge" host-prefix="cvs.jtidy" dir="jtidy"/>
   
