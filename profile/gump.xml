@@ -77,6 +77,7 @@
   <!-- other -->
 
   <module href="project/aspectj.xml"/>
+  <module href="project/bcel.xml"/>
   <module href="project/bsf.xml"/>
   <module href="project/dom4j.xml"/>
   <module href="project/eyebrowse.xml"/>
