@@ -284,11 +284,23 @@ def dummyExecuteIntoResult(cmd,result,tmp=dir.tmp):
     return result
 
 def killChildProcesses():
-    pid=os.getpid()
-    log.warn('Kill all child processed (anything launched by Gumpy) [PID' + str(pid) + ']')    
-    command='pkill -KILL -P ' + str(pid)
-    exitcode=os.system(command)
-    log.warn('Command: [' + command + '] exited with [' + str(exitcode) + ']')    
+    gumpid=default.gumpid
+    log.warn('Kill all child processed (anything launched by Gumpy) [PID' + str(gumpid) + ']')    
+    command='pgrep -P ' + str(gumpid) + ' -l'
+    ids=os.popen(command)   
+    try:     
+        line=ids.readline()
+        while line:            
+            parts=line.split(' ')
+            pid=parts[0]
+            process=parts[1]
+            if not process=='python':
+                os.kill(childPID,signal.SIGKILL)
+            
+            # Get next PID/process combination
+            line=o.readline()
+    finally:
+        if ids: ids.close()
     
 def execute(cmd,tmp=dir.tmp):
     res=CmdResult(cmd)
@@ -421,28 +433,29 @@ if __name__=='__main__':
   #set verbosity to show all messages of severity >= default.logLevel
   log.setLevel(default.logLevel)
    
-  cmd=Cmd('test','testoutput')
-  cmd.addParameter("A","a")
-  cmd.addPrefixedParameter("-D","B","b")
-  cmd.addParameter("C")
-  cmd.addParameter("A","aa") # Override for earlier
+
+#  cmd=Cmd('test','testoutput')
+#  cmd.addParameter("A","a")
+#  cmd.addPrefixedParameter("-D","B","b")
+#  cmd.addParameter("C")
+#  cmd.addParameter("A","aa") # Override for earlier
   
-  params=Parameters()
-  params.addParameter("D")
-  cmd.addParameters(params)
+#  params=Parameters()
+#  params.addParameter("D")
+#  cmd.addParameters(params)
   
-  result = execute(cmd)  
-  dump(result);
+#  result = execute(cmd)  
+#  dump(result);
   
-  cmd=Cmd('ls','ls-test')
-  result = execute(cmd)  
-  dump(result);
+#  cmd=Cmd('ls','ls-test')
+#  result = execute(cmd)  
+#  dump(result);
   
   cmd=Cmd('sleep','sleep-test')
-  cmd.addParameter("30")
+  cmd.addParameter("300")
   cmd.timeout=10
   result = execute(cmd)  
-  dump(result);
+#  dump(result);
   
   
   

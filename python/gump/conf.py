@@ -1,8 +1,8 @@
 #!/usr/bin/python
 
-# $Header: /home/stefano/cvs/gump/python/gump/Attic/conf.py,v 1.28 2003/10/20 14:20:10 ajack Exp $
-# $Revision: 1.28 $
-# $Date: 2003/10/20 14:20:10 $
+# $Header: /home/stefano/cvs/gump/python/gump/Attic/conf.py,v 1.29 2003/10/20 18:20:34 ajack Exp $
+# $Revision: 1.29 $
+# $Date: 2003/10/20 18:20:34 $
 #
 # ====================================================================
 #
@@ -89,6 +89,7 @@ class default:
     
     gumpfullhost   = socket.gethostname()   
     gumphost   = socket.gethostname().split('.')[0]
+    gumpid	   = os.getpid()    
     workspace  = os.path.normpath('%s/%s.xml' % (dir.base, gumphost))
     globalws   = os.path.normpath('%s/%s' % (dir.base, 'global-workspace.xml'))
     merge      = os.path.normpath('%s/%s' % (dir.work, 'merge.xml'))

@@ -1,8 +1,8 @@
 #!/usr/bin/python
 
-# $Header: /home/stefano/cvs/gump/python/gump/check.py,v 1.26 2003/10/15 20:40:02 ajack Exp $
-# $Revision: 1.26 $
-# $Date: 2003/10/15 20:40:02 $
+# $Header: /home/stefano/cvs/gump/python/gump/check.py,v 1.27 2003/10/20 18:20:34 ajack Exp $
+# $Revision: 1.27 $
+# $Date: 2003/10/20 18:20:34 $
 #
 # ====================================================================
 #
@@ -152,9 +152,9 @@ def checkEnvironment(workspace, context=GumpContext(), exitOnError=1):
         context.noRSync=1
         context.addWarning('"rsync" command not found, so attempting recursive copy "cp -R"')
         
-    if not checkExecutable(workspace, context, 'pkill','-help',0): 
-        context.noPKill=1
-        context.addWarning('"pkill" command not found, no process clean-ups can occur')        
+    if not checkExecutable(workspace, context, 'pgrep','-help',0): 
+        context.noPGrep=1
+        context.addWarning('"pgrep" command not found, no process clean-ups can occur')        
     
     context.setState(STATUS_SUCCESS);
     
