@@ -69,7 +69,7 @@
   <section name="Where is Gump?">
     <ul>
       <li><a href="http://cvs.apache.org/viewcvs/jakarta-alexandria/proposal/gump/">Source</a></li>
-      <li><a href="http://jakarta.apache.org/builds/gump/latest/">Latest Results</a></li>
+      <li><a href="http://cvs.apache.org/builds/gump/latest/">Latest Results</a></li>
       <li><a href="http://nagoya.apache.org/~rubys/gump/">Experimental runs</a></li>
     </ul>
   </section>
@@ -97,7 +97,7 @@
         <th>Melbourne</th>
       </tr>
       <tr>
-        <td><a href="http://jakarta.apache.org/builds/gump/latest">Rubix</a></td>
+        <td><a href="http://cvs.apache.org/builds/gump/latest">Rubix</a></td>
         <td>Midnight</td>
         <td>3 am</td>
         <td>0800</td>
