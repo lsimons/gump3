@@ -7,7 +7,7 @@
 
   <cvs repository="sourceforge" host-prefix="cvs.xdoclet" dir="xdoclet" />
 
-  <project name="xjavadoc">
+  <project name="xjavadoc-javacc-fails">
     <package>xjavadoc</package>
 
     <ant target="jar">
@@ -28,7 +28,42 @@
 
     <nag from="Stefan Bodewig &lt;bodewig@apache.org&gt;"
          to="xdoclet-devel@lists.sourceforge.net"
-         subject="xjavadoc build faild (Issue XJD-21)"/>
+         subject="xjavadoc build faild (Issue XJD-21)">
+      <regexp pattern="#NoClassDefFoundError: COM/sun/labs/#"/>
+    </nag>
+  </project>
+
+  <project name="xjavadoc">
+    <package>xjavadoc</package>
+
+    <ant target="jar">
+      <property name="ant.home" project="ant" reference="home"/>
+      <property name="version" value="@@DATE@@"/>
+      <property name="xjavadoc.unicode" value="true"/>
+    </ant>
+    <!-- 
+         give xjavadoc-javacc-fails a chance to fail first.  
+    
+         If xjavadoc gets built first, xjavadoc-javacc-fails will be 
+         turned into a no-op 
+    -->
+    <depend project="xjavadoc-javacc-fails"><noclasspath/></depend>
+    <depend project="ant" inherit="runtime"/>
+    <depend project="xml-xerces"/>
+    <depend project="old-javacc"/>
+    <depend project="jrefactory"/>
+    <depend project="jakarta-log4j"/>
+    <depend project="junit"/>
+    <depend project="commons-logging" runtime="true"/>
+    <depend project="commons-collections" runtime="true"/>
+    <jar name="build/lib/xdoclet-xjavadoc-uc-@@DATE@@.jar"/>
+
+    <nag from="Stefan Bodewig &lt;bodewig@apache.org&gt;"
+         to="xdoclet-devel@lists.sourceforge.net"/>
+  </project>
+
+  <project name="old-javacc">
+    <jar name="lib/JavaCC.zip"/>
   </project>
 
 </module>
