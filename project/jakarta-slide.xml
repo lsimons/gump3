@@ -65,6 +65,7 @@
     <depend project="dist-ant" />
     <depend project="xml-xerces"/>
     <depend project="xml-xalan2"/>
+    <depend project="j2ee-connector"/>
     <option project="jmx"/>
     <depend project="jakarta-tomcat-4.0"/>
     <depend project="jakarta-struts"/>
