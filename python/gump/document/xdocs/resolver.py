@@ -160,7 +160,7 @@ def getLinkBetween(toObject,fromObject):
     """
     	Link from one to another
     """
-    return getRelativeLocation(toObject,fromObject).serialize()
+    return getRelativeLocation(toObject,fromObject,'.html').serialize()
                         
 def getIndexForObject(object):
     """

@@ -67,7 +67,7 @@ class ResolvingTestSuite(UnitTestSuite):
         self.assertNotNone('From             : ', object2)  
         location1=getLocationForObject(object1,'.test')    
         location2=getLocationForObject(object2,'.test')
-        location=getRelativeLocation(object1,object2)
+        location=getRelativeLocation(object1,object2,'.test')
         #printSeparator()
         self.assertNotNone('To       Location: ', location1)
         self.assertNotNone('From     Location: ', location2)

@@ -57,9 +57,6 @@ class TextResolver(Resolver):
     def getFile(self,object,documentName=None,extn=None,rawContent=False):  
         raise RuntimeError, 'Not Implemented on ' + self.__class__.__name__ + ': getFile.'
         
-    def getDirectory(self,object): 
-        raise RuntimeError, 'Not Implemented on ' + self.__class__.__name__ + ': getDirectory.'
-        
     def getDirectoryUrl(self,object): 
         raise RuntimeError, 'Not Implemented on ' + self.__class__.__name__ + ': getDirectoryUrl.'
            

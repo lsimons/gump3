@@ -184,6 +184,29 @@ def getDomValue(element,name,default=None):
     return value
     
 
+def spliceDom(targetElement,source):
+    # The DOM model
+    if source.nodeType==xml.dom.Node.DOCUMENT_NODE:
+        sourceElement=source.documentElement
+    else:
+        sourceElement=source    
+
+    # Splice Attributes
+    # (i.e. copy over any we don't already have) 
+    if sourceElement.hasAttributes():
+        attrs=sourceElement.attributes    
+        for attrIndex in range(attrs.length):
+            attr=attrs.item(attrIndex)
+            if not targetElement.hasAttribute(attr.name):
+                targetElement.setAttribute(attr.name,attr.value)    
+                
+    # Splice Children 
+    # (i.e. deep clone and copy into target) 
+    if sourceElement.hasChildNodes():
+        for childNode in sourceElement.childNodes:  
+            clonedNode=childNode.cloneNode(True)
+            targetElement.appendChild(clonedNode)
+    
     
 #    
 #def getAttrValue(node,attrName):

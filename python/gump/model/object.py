@@ -226,15 +226,8 @@ class ModelObject(Annotatable,Workable,FileHolder,Propogatable,Ownable):
         self.spliced=spliced
         
     def splice(self,dom): 
-        # Import overrides from DOM
-        print 'PRE=SPLICE'
-        self.dump()
-        print self.getXml()
-        transferDomInfo(dom, self, {})   
+        spliceDom(self.element,dom)
         self.setSpliced(True) 
-        print 'POST=SPLICE'
-        self.dump()
-        print self.getXml()
                             	
     def complete(self):
         if self.isComplete(): return    

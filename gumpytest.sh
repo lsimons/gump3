@@ -22,15 +22,17 @@
 export
 
 #
-# Determine the Python to use...
+# Determine the Python to use... (if not told)
 # 
-export GUMP_PYTHON="`which python2.3`"
 if [ "" == "$GUMP_PYTHON" ] ; then
- export GUMP_PYTHON="`which python`"
- if [ "" == "$GUMP_PYTHON" ] ; then
- 	echo "No Python (python2.3 nor python) found in path."
- 	exit 1
- fi
+  export GUMP_PYTHON="`which python2.3`"
+  if [ "" == "$GUMP_PYTHON" ] ; then
+    export GUMP_PYTHON="`which python`"
+	if [ "" == "$GUMP_PYTHON" ] ; then
+	  echo "No Python (python2.3 nor python) found in path."
+	  exit 1
+	fi
+  fi
 fi
 
 #

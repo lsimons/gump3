@@ -294,7 +294,6 @@ class Project(NamedModelObject, Statable, Resultable, Dependable, Positioned):
         # Packaged Projects don't need the full treatment..
         #
         packaged=self.isPackaged()
-        if packaged: print 'PACKAGE ?????' + `self`
 
         # Import any <ant part [if not packaged]
         if self.hasDomChild('ant') and not packaged:
@@ -373,10 +372,6 @@ class Project(NamedModelObject, Statable, Resultable, Dependable, Positioned):
             else:
                 self.addError('Missing \'name\' on <license')
         
-        if packaged: 
-            print 'PACKAGE w/ JARS?????'+ `self`
-            print self.getXml()
-        
         #
         # Resolve jars (outputs)
         #
@@ -384,10 +379,7 @@ class Project(NamedModelObject, Statable, Resultable, Dependable, Positioned):
             name=self.expandVariables(
                     getDomAttributeValue(jdom,'name'))
                     
-            if packaged:   print 'NAME: ' + name
-            
-            if self.home and name:
-                if packaged: print 'NAME2: ' + self.home + ':' + name    
+            if self.home and name:  
                 jar=Jar(name,jdom,self)
                 jar.complete()
                 jar.setPath(os.path.abspath(os.path.join(self.home,name)))
