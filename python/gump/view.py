@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/Attic/view.py,v 1.35 2003/05/07 08:34:58 nicolaken Exp $
-# $Revision: 1.35 $
-# $Date: 2003/05/07 08:34:58 $
+# $Header: /home/stefano/cvs/gump/python/gump/Attic/view.py,v 1.36 2003/05/07 15:53:11 nicolaken Exp $
+# $Revision: 1.36 $
+# $Date: 2003/05/07 15:53:11 $
 #
 # ====================================================================
 #
@@ -492,7 +492,7 @@ class GumpLogView(wxListCtrl):
 
     def add(self, message, record):
       self.log.insert(0,record)
-      self.logmsg.append(message)
+      self.logmsg.insert(0,message)
       self.SetItemCount(len(self.log))
 
     def OnItemActivated(self, event):
