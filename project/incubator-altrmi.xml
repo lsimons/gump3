@@ -37,12 +37,12 @@
         <work nested="build/classes"/>
 
         <home nested="build/lib"/>
-        <jar id="client-impl" name="build/lib/altrmi-client-impl-@@DATE@@.jar"/>
-        <jar id="client-api" name="build/lib/altrmi-client-interfaces-@@DATE@@.jar"/>
-        <jar id="common" name="build/lib/altrmi-common-@@DATE@@.jar"/>
-        <jar id="generator" name="build/lib/altrmi-generator-@@DATE@@.jar"/>
-        <jar id="server-impl" name="build/lib/altrmi-server-impl-@@DATE@@.jar"/>
-        <jar id="server-api" name="build/lib/altrmi-server-interfaces-@@DATE@@.jar"/>
+        <jar id="client-impl" name="altrmi-client-impl-@@DATE@@.jar"/>
+        <jar id="client-api" name="altrmi-client-interfaces-@@DATE@@.jar"/>
+        <jar id="common" name="altrmi-common-@@DATE@@.jar"/>
+        <jar id="generator" name="altrmi-generator-@@DATE@@.jar"/>
+        <jar id="server-impl" name="altrmi-server-impl-@@DATE@@.jar"/>
+        <jar id="server-api" name="altrmi-server-interfaces-@@DATE@@.jar"/>
         <nag from="Gump Integration Build &lt;general@incubator.apache.org&gt;"
                 to="dev@avalon.apache.org"/>
     </project>
