@@ -274,10 +274,10 @@ def dummyExecuteIntoResult(cmd,result,tmp=dir.tmp):
 
 def killChildren():
     pid=os.getpid()
-    log.warning('Kill all children (anything launched by Gumpy) [PID' + str(pid) + ']')    
+    log.warn('Kill all children (anything launched by Gumpy) [PID' + str(pid) + ']')    
     command='pkill -KILL -P ' + str(pid)
     exitcode=os.system(command)
-    log.warning('Command: [' + command + '] exited with [' + str(exitcode) + ']')
+    log.warn('Command: [' + command + '] exited with [' + str(exitcode) + ']')
     
 #
 # Kill the children 
