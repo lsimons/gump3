@@ -44,7 +44,6 @@
   <module href="project/jakarta-turbine-flux.xml"/>
   <module href="project/jakarta-turbine-fulcrum.xml"/>
   <module href="project/jakarta-turbine-jyve.xml"/>
-  <module href="http://cvs.apache.org/viewcvs/~checkout~/jakarta-turbine-maven/jakarta-turbine-maven.xml"/>
   <module href="project/jakarta-turbine-orgami.xml"/>
   <module href="project/jakarta-turbine-site.xml"/>
   <module href="project/jakarta-turbine-stratum.xml"/>
@@ -79,10 +78,12 @@
   <module href="project/checkstyle.xml"/>
   <module href="project/beepcore.xml"/>
   <module href="project/dom4j.xml"/>
+  <module href="project/freemarker.xml"/>
   <module href="project/hsqldb.xml"/>
   <module href="project/httpunit.xml"/>
   <module href="project/javagroups.xml"/>
   <module href="project/jaxen.xml"/>
+  <module href="project/jgen.xml"/>
   <module href="project/jrefactory.xml"/>
   <module href="project/jtidy.xml"/>
   <module href="project/junit.xml"/>
@@ -105,12 +106,14 @@
   <module href="project/javacc.xml"/>
   <module href="project/jce.xml"/>
   <module href="project/jdom.xml"/>
+  <module href="project/jython.xml"/>
   <module href="project/openorb.xml"/>
   <module href="project/rhino.xml"/>
   <module href="project/scarab.xml"/>
   <module href="project/town.xml"/>
   <module href="project/uddi4j.xml"/>
   <module href="project/village.xml"/>
+  <module href="project/webmacro.xml"/>
   <module href="project/wsdl4j.xml"/>
 
   <!-- Sun -->
@@ -151,6 +154,7 @@
   <project name="jsse"           package="jsse1.0.2"/>
   <project name="jta"            package="jta-spec1_0_1"/>
   <project name="jts"            package="jts1_0"/>
+  <project name="jython"         package="jython-2.1"/>
   <project name="ldap"           package="ldap-1_2_3"/>
   <project name="resolver"       package="resolver-0_2"/>
   <project name="tranquilo"      package="xsdlib-20010424"/>
@@ -164,6 +168,7 @@
   <repository href="repository/mozilla.xml"/>
   <repository href="repository/tigris.xml"/>
   <repository href="repository/sourceforge.xml"/>
+  <repository href="repository/webmacro.xml"/>
   <repository href="repository/whichever.xml"/>
   <repository href="repository/xml.xml"/>
 
