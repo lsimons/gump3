@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/storage/random/results/Attic/model.py,v 1.1 2004/04/02 16:48:07 ajack Exp $
-# $Revision: 1.1 $
-# $Date: 2004/04/02 16:48:07 $
+# $Header: /home/stefano/cvs/gump/python/storage/random/results/Attic/model.py,v 1.1.4.1 2004/06/08 21:36:37 ajack Exp $
+# $Revision: 1.1.4.1 $
+# $Date: 2004/06/08 21:36:37 $
 #
 # ====================================================================
 #
@@ -91,6 +91,9 @@ class ResultModelObject(Annotatable,Ownable,Stateful):
         # Internals...
     	self.completionPerformed=0
     	
+    def __del__(self):
+        Ownable.__del__(self)
+        
     def isComplete(self):
         return self.completionPerformed
         

@@ -25,7 +25,7 @@ class Property(NamedModelObject):
     
     def __init__(self,xml,parent):
     	NamedModelObject.__init__(self,xml.getName(),xml,parent)
-    	self.value=xml.value or '*Unset*' 
+    	self.value=xml.transfer('value','*Unset*')
     	
     def setValue(self,value):
         self.value = value
@@ -42,60 +42,64 @@ class Property(NamedModelObject):
         responsibleParty=workspace
         if not parent==workspace: responsibleParty=parent.getOwner()
         
-        if self.xml.reference=='home':
+        reference=self.xml.transfer('reference')
+        if reference=='home':
             if not workspace.hasProject(self.xml.project):
                 responsibleParty.addError('Cannot resolve homedir of *unknown* [' + self.xml.project + ']')                
             else:
                 self.setValue(workspace.getProject(self.xml.project).getHomeDirectory())
                 
-        elif self.xml.reference=='srcdir':
+        elif reference=='srcdir':
             if not workspace.hasProject(self.xml.project):
                 responsibleParty.addError('Cannot resolve srcdir of *unknown* [' + self.xml.project + ']')
             else:
                 self.setValue(workspace.getProject(self.xml.project).getModule().getWorkingDirectory())
                 
-        elif self.xml.reference=='jarpath' or self.xml.reference=='jar':            
-            if not workspace.hasProject(self.xml.project):
-                responsibleParty.addError('Cannot resolve jar/jarpath of *unknown* [' \
+        elif reference=='jarpath' or reference=='jar':            
+            if hasattr(self.xml,'project'):
+                if not workspace.hasProject(self.xml.project):
+                    responsibleParty.addError('Cannot resolve jar/jarpath of *unknown* [' \
                         + self.xml.project + ']')
-            else:
-                targetProject=workspace.getProject(self.xml.project)
+                else:
+                    targetProject=workspace.getProject(self.xml.project)
                 
-                if self.xml.id:
-                    # Find the referenced id
-                    for jar in targetProject.getJars():
-                        if jar.getId()==self.xml.id:
-                            if self.xml.reference=='jarpath':
-                                self.setValue(jar.getPath())
-                            else:
-                                self.setValue(jar.getName())
-                            break
+                    if hasattr(self.xml,'id'):
+                        # Find the referenced id
+                        for jar in targetProject.getJars():
+                            if jar.getId()==self.xml.id:
+                                if self.xml.reference=='jarpath':
+                                    self.setValue(jar.getPath())
+                                else:
+                                    self.setValue(jar.getName())
+                                break
+                        else:
+                            responsibleParty.addError(	\
+                               ("jar with id %s was not found in project %s ") % \
+                                (self.xml.id, targetProject.getName()))
+                    elif targetProject.getJarCount()==1:
+                        # There is only one, so pick it...
+                        self.setValue(targetProject.getJars()[0].getPath())
+                    elif  targetProject.getJarCount()>1:
+	                    # Don't know which....
+	                    responsibleParty.addError(	\
+                            ("Multiple jars defined by project %s; " + \
+                            "an id attribute is required to select the one you want") % \
+                              (targetProject.getName()))
                     else:
                         responsibleParty.addError(	\
-                            ("jar with id %s was not found in project %s ") % \
-                            (self.xml.id, targetProject.getName()))
-                elif targetProject.getJarCount()==1:
-                    # There is only one, so pick it...
-                    self.setValue(targetProject.getJars()[0].getPath())
-                elif  targetProject.getJarCount()>1:
-                    # Don't know which....
-                    responsibleParty.addError(	\
-                        ("Multiple jars defined by project %s; " + \
-                        "an id attribute is required to select the one you want") % \
-                          (targetProject.getName()))
-                else:
-                    responsibleParty.addError(	\
-                        ('Project %s defines no jars as output') % \
-                        (targetProject.getName()))      
+                            ('Project %s defines no jars as output') % \
+                            (targetProject.getName()))      
+            else:
+                responsibleParty.addError('No project specified.')      
                                 
-        elif self.xml.path:
+        elif hasattr(self.xml,'path'):
             #
             # If a property on a project..
             #
             if not parent==workspace: 
                 relativeProject=None
                 # If on a referenced project
-                if self.xml.project:
+                if hasattr(self.xml,'project'):
                     if not workspace.hasProject(self.xml.project):
                         responsibleParty.addError('Cannot resolve relative to *unknown* [' + self.xml.project + '] for ' + \
                                     self.getName())                
@@ -139,6 +143,10 @@ class PropertySet(Ownable):
         if properties:
             self.properties=properties
             
+    	
+    def __del__(self):
+        Ownable.__del__(self)
+        
     def addProperty(self,property):
         self.properties[property.getName()]=property
         
@@ -204,11 +212,11 @@ class PropertyContainer:
                 
     def importProperties(self,xml):
         """ Import all properties (from XML to model). """
-        if xml.property:
+        if hasattr(xml,'property'):
             for xmlproperty in xml.property:
                 self.importProperty(xmlproperty)
                 
-        if xml.sysproperty:
+        if hasattr(xml,'sysproperty'):
             for xmlproperty in xml.sysproperty:
                 self.importSysProperty(xmlproperty)
             

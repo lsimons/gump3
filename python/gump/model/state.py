@@ -173,7 +173,9 @@ class StatePair:
         return c
          
     def __hash__(self):
-        return hash(self.state)+hash(self.reason)
+        # These are 'enum'-like, so self hash,
+        # but separate the two
+        return (self.state << 8)+self.reason
              
     def getState(self):
         return self.state

@@ -34,10 +34,10 @@ class ModuleCvs(ModelObject):
         self.repository=repository
         
         # Extract settings
-        self.tag			=	xml.tag
-        self.module			=	xml.module
-        self.hostPrefix 	=   xml['host-prefix']
-        self.dir			=	xml.dir    
+        self.tag			=	xml.transfer('tag')
+        self.module			=	xml.transfer('module')
+        self.hostPrefix 	=   xml.transfer('host-prefix')
+        self.dir			=	xml.transfer('dir')
         
     def getCvsRoot(self):
         """Construct the CVS root for this set of information"""
@@ -93,10 +93,10 @@ class ModuleCvs(ModelObject):
     def getViewUrl(self):
         url=None
         if self.repository.hasCvsWeb():
-            if self.dir and str(self.dir):
+            if self.dir:
                  url=self.repostory.getCvsWeb()+'/'+str(self.dir)+'/'
             else:
-                 url=self.module.getName()+'/'+str(self.dir)+'/'
+                 url=self.repostory.getCvsWeb()+'/'+self.module.getName()
         return url
         
 class ModuleSvn(ModelObject):
@@ -117,7 +117,8 @@ class ModuleSvn(ModelObject):
         return url
         
     def hasDir(self):
-        return (hasattr(self,'dir') and self.dir)
+        if self.dir: return True
+        return False
         
     def getDir(self):
         return self.dir
@@ -125,7 +126,7 @@ class ModuleSvn(ModelObject):
     def getViewUrl(self):
         return self.getRootUrl()
          
-class ModuleJars(ModelObject):
+class ModuleArtefacts(ModelObject):
     def __init__(self,xml,repository):
         ModelObject.__init__(self,xml)
         
@@ -133,10 +134,8 @@ class ModuleJars(ModelObject):
         self.repository=repository
         
         # Extract settings
-        if xml.url:
-            self.url	=	str(xml.url)
-        elif self.repository.hasUrl():
-            self.url 	=  self.repository.getUrl()
+        self.url = xml.transfer('url')
+        self.group=xml.transfer('group')
     
     def getRootUrl(self):
         url=self.repository.getUrl()
@@ -145,10 +144,14 @@ class ModuleJars(ModelObject):
         return url
         
     def hasUrl(self):
-        return (hasattr(self,'url') and self.url)
+        if self.url: return True
+        return False
         
     def getUrl(self):
         return self.url
+        
+    def getGroup(self):
+        return self.group
          
 def createUnnamedModule(workspace):
     #
@@ -188,7 +191,7 @@ class Module(NamedModelObject, Statable, Resultable, Positioned):
     	self.affected		=	0
         	
         # Extract settings
-        self.tag			=	xml.tag
+        self.tag=xml.transfer('tag')
 
     # provide default elements when not defined in xml
     def complete(self,workspace):
@@ -287,7 +290,7 @@ class Module(NamedModelObject, Statable, Resultable, Positioned):
 
     
         # Determine source directory
-        self.workdir=self.xml.srcdir or self.xml.name        
+        self.workdir=self.xml.transfer('srcdir') or self.xml.getName()
         self.absWorkingDir=	\
                 os.path.abspath(
                         os.path.join(workspace.getBaseDirectory(),	\
@@ -331,20 +334,19 @@ class Module(NamedModelObject, Statable, Resultable, Positioned):
                         self.addError('No such repository in w/s ['+ str(repoName) +'] on [' \
                                 + self.getName() + ']')                 
                                                 
-            elif self.xml.jars:                
-                repoName=self.xml.jars.repository
+            elif self.xml.artefacts:                
+                repoName=self.xml.artefacts.repository
                 if repoName:
                     if workspace.hasRepository(repoName):
                         # It references this repository...
                         repo=workspace.getRepository(repoName)	
                         self.repository=repo	
                         repo.addModule(self)
-                        self.jars=ModuleJars(self.xml.jars,repo)
+                        self.artefacts=ModuleArtefacts(self.xml.artefacts,repo)
                     else:
                         self.changeState(STATE_FAILED,REASON_CONFIG_FAILED)               
                         self.addError('No such repository in w/s ['+ str(repoName) +'] on [' \
                                 + self.getName() + ']')                 
-
 
         # For prettiness
         self.sortedProjects=createOrderedList(self.getProjects())
@@ -537,7 +539,7 @@ class Module(NamedModelObject, Statable, Resultable, Positioned):
             return 'http://cvs.apache.org/viewcvs.cgi/gump/' + location
         
     def isUpdatable(self):
-        return self.hasCvs() or self.hasSvn() or self.hasJars()
+        return self.hasCvs() or self.hasSvn() or self.hasArtefacts()
                 
     def hasCvs(self):
         if hasattr(self,'cvs') and self.cvs: return 1
@@ -547,8 +549,8 @@ class Module(NamedModelObject, Statable, Resultable, Positioned):
         if hasattr(self,'svn') and self.svn: return 1
         return 0
         
-    def hasJars(self):
-        if hasattr(self,'jars') and self.jars: return 1
+    def hasArtefacts(self):
+        if hasattr(self,'artefacts') and self.artefacts: return 1
         return 0
         
     # Where the contents (at the repository) Modified?

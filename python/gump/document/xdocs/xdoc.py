@@ -55,8 +55,7 @@ STRING_MAP_TABLE=''.join(MAP)
 UNICODE_MAP_TABLE=unicode('').join(UMAP)
 
 class XDocContext(Ownable):
-    def __init__(self,stream=None,pretty=1,depth=0):
-        
+    def __init__(self,stream=None,pretty=1,depth=0):        
         Ownable.__init__(self)
         
         self.depth=depth
@@ -67,7 +66,11 @@ class XDocContext(Ownable):
         else:
             log.debug('Create transient stream ['+`self.depth`+']...')
             self.stream=StringIO.StringIO()
-                
+                    	
+    def __del__(self):  
+        Ownable.__del__(self)
+        self.stream=None  
+        
     def createSubContext(self,transient=0):
         if not transient:
             sub = XDocContext(self.stream,self.pretty,self.depth+1)
@@ -152,14 +155,20 @@ class XDocContext(Ownable):
         return escape(raw.translate(STRING_MAP_TABLE))
         
 class XDocPiece(Ownable):
-    def __init__(self,context=XDocContext()):
-        Ownable.__init__(self)    
-        
+    def __init__(self,context=None):
+        Ownable.__init__(self)            
+        if not context:
+            context=XDocContext()
         self.context=context
         self.subpieces=[]
         self.keeper=1
         self.emptyOk=0        
         
+    def __del__(self):
+        Ownable.__del__(self)
+        self.subpieces=None        
+        self.context=None
+                
     def __repr__(self):
         return self.__class__.__name__
         

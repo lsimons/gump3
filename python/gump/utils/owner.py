@@ -25,6 +25,9 @@ class Ownable:
     """Contains ownership """
     def __init__(self,owner=None):
         self.setOwner(owner)
+    
+    def __del__(self):
+        self.owner=None
 
     def hasOwner(self):
         return self.owner

@@ -66,6 +66,10 @@ class NotificationLogic(RunSpecific):
                 if not STATE_PREREQ_FAILED == stats.previousState:
                     if stats.getTotalRuns() > 1:    
                         notification=PositiveNotification(self.run,entity)
+            else:
+                if self.run.getOptions().isOfficial() \
+                    and entity.containsNasties():
+                    notification=NegativeNotification(self.run,entity,'Contains warning/error annotations.')    
                         
         #elif entity.isPrereqFailed():
         #    if (stats.sequenceInState == 1):            

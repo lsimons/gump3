@@ -80,7 +80,7 @@ class CvsUpdater(RunSpecific):
         
     def performStatus(self,module):
         #  Get the Update Command
-        (repository, root, cmd ) = self.getUpdateCommand(module, 1, 1)
+        (repository, root, cmd ) = self.getUpdateCommand(module, True, True)
                 
         # Provide CVS logins, if not already there
         loginToRepositoryOnDemand(repository,root,self.logins)
@@ -152,17 +152,17 @@ class CvsUpdater(RunSpecific):
                                  
     def preview(self,module):
                 
-        (repository, root, command ) = self.getUpdateCommand(module,0)
+        (repository, root, command ) = self.getUpdateCommand(module,False)
         command.dump()
         
-        (repository, root, command ) = self.getUpdateCommand(module,1,1)
+        (repository, root, command ) = self.getUpdateCommand(module,True,True)
         command.dump()
             
-        (repository, root, command ) = self.getUpdateCommand(module,1)
+        (repository, root, command ) = self.getUpdateCommand(module,True)
         command.dump()                       
         
     
-    def getUpdateCommand(self,module,exists=0,nowork=0):
+    def getUpdateCommand(self,module,exists=False,nowork=False):
         """        
             Format a commandline for doing the CVS update            
         """

@@ -45,6 +45,10 @@ class Testable:
     def assertNotNone(self,message,object):        
         if isinstance(object,NoneType):
             self.raiseIssue(['Ought NOT be None', message, object])
+    
+    def assertNone(self,message,object):        
+        if not isinstance(object,NoneType):
+            self.raiseIssue(['Ought be None', message, object])
             
     def assertNonZero(self,message,object):
         self.assertNotNone(message,object)
@@ -52,11 +56,11 @@ class Testable:
             self.raiseIssue(['Ought evaluate to non-zero', message, object])
             
     def assertEqual(self,message,object1,object2):
-        if not object1 == object2:
+        if not (object1 == object2):
             self.raiseIssue(['Ought evaluate as equal', message, object1, object2])
             
     def assertGreater(self,message,object1,object2):
-        if not object1 > object2:
+        if not (object1 > object2):
             self.raiseIssue(['Ought evaluate as greater', message, object1, object2])
             
     def assertNotEqual(self,message,object1,object2):
@@ -65,7 +69,7 @@ class Testable:
             
     def assertTrue(self,message,object):
         if not object:
-            self.raiseIssue(['Ought evaluate as true', message, object])
+            self.raiseIssue(['Ought evaluate as True', message, object])
             
     def assertFalse(self,message,object):
         if object:
@@ -345,6 +349,9 @@ if __name__=='__main__':
     
     from gump.test.drawing import DrawingTestSuite  
     runner.addSuite(DrawingTestSuite())
+    
+    from gump.test.xmlutils import XmlTestSuite  
+    runner.addSuite(XmlTestSuite())
     
     # Any args are pattern matches
     patterns=list(sys.argv)

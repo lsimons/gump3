@@ -15,7 +15,7 @@
 # limitations under the License.
 
 #
-# $Header: /home/stefano/cvs/gump/python/gump/integrate.py,v 1.28 2004/05/21 23:14:59 ajack Exp $
+# $Header: /home/stefano/cvs/gump/python/gump/integrate.py,v 1.28.2.1 2004/06/08 21:36:35 ajack Exp $
 # 
 
 """
@@ -78,7 +78,7 @@ def irun():
     #
     #    Perform this integration run...
     #
-    result = getRunner(run).performRun()
+    result = getRunner(run).perform()
 
     logResourceUtilization('Before exit')
     

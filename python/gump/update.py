@@ -15,7 +15,7 @@
 # limitations under the License.
 
 #
-# $Header: /home/stefano/cvs/gump/python/gump/update.py,v 1.29 2004/05/21 23:14:59 ajack Exp $
+# $Header: /home/stefano/cvs/gump/python/gump/update.py,v 1.29.2.1 2004/06/08 21:36:35 ajack Exp $
 # 
 
 """
@@ -72,7 +72,7 @@ if __name__=='__main__':
     #
     #    Perform this integration run...
     #
-    result = getRunner(run).performUpdate()
+    result = getRunner(run).perform()
 
     #
     log.info('Gump Update complete. Exit code:' + str(result))

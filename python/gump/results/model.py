@@ -53,6 +53,9 @@ class ResultModelObject(Annotatable,Ownable,Stateful):
         # Internals...
     	self.completionPerformed=0
     	
+    def __del__(self):
+        Ownable.__del__(self)
+        
     def isComplete(self):
         return self.completionPerformed
         

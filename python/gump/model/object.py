@@ -56,6 +56,16 @@ class ModelObject(Annotatable,Workable,FileHolder,Propogatable,Ownable):
     	
     	self.completionPerformed=0
     	
+    def __del__(self):
+        Annotatable.__del__(self)
+        Workable.__del__(self)
+        FileHolder.__del__(self)
+        Propogatable.__del__(self)
+        Ownable.__del__(self)
+        
+        # No longer need this...
+        self.xml=None
+        
     def isComplete(self):
         return self.completionPerformed
         
@@ -66,13 +76,13 @@ class ModelObject(Annotatable,Workable,FileHolder,Propogatable,Ownable):
         self.debug=debug
        
     def isDebug(self):
-        return self.debug or self.xml.debug
+        return self.debug or hasattr(self.xml,'debug')
         
     def setVerbose(self,verbose):
         self.verbose=verbose
        
     def isVerbose(self):
-        return self.verbose or self.xml.verbose  
+        return self.verbose or hasattr(self.xml,'verbose')
          
     def isVerboseOrDebug(self):
         return self.isVerbose() or self.isDebug()
@@ -241,8 +251,8 @@ class Jar(NamedModelObject):
         return self.path;
         
     def hasId(self):
-        if self.id: return 1
-        return 0
+        if self.id: return True
+        return False
         
     def setId(self,id):
         self.id = id
@@ -251,7 +261,7 @@ class Jar(NamedModelObject):
         return self.id
         
     def getType(self):
-        return self.xml.type
+        return self.xml.transfer('type')
 
 class Resolvable(ModelObject):
     def __init__(self,xml,owner):
@@ -290,4 +300,3 @@ class Work(Resolvable):
     def __init__(self,xml,owner):
         Resolvable.__init__(self,xml,owner)    
         
- 

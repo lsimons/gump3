@@ -42,7 +42,7 @@ class Builder(ModelObject, PropertyContainer):
         
         # Store owning project
         self.project=project
-    	
+            	
     #
     # expand properties - in other words, do everything to complete the
     # entry that does NOT require referencing another project
@@ -56,17 +56,19 @@ class Builder(ModelObject, PropertyContainer):
         # convert Ant property elements which reference a project 
         # into dependencies
         #
-        for property in self.xml.property:
-            self.expandProperty(property,project,workspace)       
-            self.importProperty(property)
+        if hasattr(self.xml,'property'):
+            for property in self.xml.property:
+                self.expandProperty(property,project,workspace)       
+                self.importProperty(property)
             
         #
         # convert Ant sysproperty elements which reference a project 
         # into dependencies
         #
-        for sysproperty in self.xml.sysproperty:
-            self.expandProperty(sysproperty,project,workspace)       
-            self.importSysProperty(sysproperty)
+        if hasattr(self.xml,'sysproperty'):
+            for sysproperty in self.xml.sysproperty:
+                self.expandProperty(sysproperty,project,workspace)       
+                self.importSysProperty(sysproperty)
     
     #
     # Expands
@@ -74,44 +76,41 @@ class Builder(ModelObject, PropertyContainer):
     def expandProperty(self,property,project,workspace):
         
         # :TODO: Cleanup this Workaround
-        if not property.name and property.project:
+        if not hasattr(property,'name') and hasattr(property,'project'):
             property.name=property.project
             
         # Check if the property comes from another project
-        if not property.project: return      
+        if not hasattr(property,'project'): return      
         # If that project is the one we have in hand
         if property.project==project.getName(): return
         # If the property is not as simple as srcdir
-        if property.reference=="srcdir": return
+        if hasattr(property,'reference') and property.reference=="srcdir": return
         # If it isn't already a classpath dependency
         if project.hasFullDependencyOnNamedProject(property.project): 
-            self.addInfo('Dependency on ' + property.project + \
+            self.addDebug('Dependency on ' + property.project + \
                     ' exists, no need to add for property ' + \
                         property.name + '.')
             return
             
         # If there are IDs specified
         ids=''
-        if property.id: ids= property.id
+        if hasattr(property,'id'): ids= property.id
 
         # Runtime?
-        runtime=0
-        if property.runtime: property.runtime=1
+        runtime=hasattr(property,'runtime')
    
         projectName=property.project
         if workspace.hasProject(projectName): 
                         
             # A Property
-            noclasspath=1
-            if property.classpath:
-               noclasspath=0
+            noclasspath=not hasattr(property,'classpath')
                         
             # Add a dependency (to bring property)
             dependency=ProjectDependency(project, 	\
                             workspace.getProject(property.project),	\
                             INHERIT_NONE,	\
                             runtime,
-                            0,	\
+                            False,	\
                             ids,
                             noclasspath,
                             'Property Dependency for ' + property.name)
@@ -124,33 +123,37 @@ class Builder(ModelObject, PropertyContainer):
             project.addError('No such project [' + projectName + '] for property')
 
     def expandDependencies(self,project,workspace):
-        #
-        # convert all depend elements into property elements, and
-        # move the dependency onto the project
-        #
-        for depend in self.xml.depend:
-            # Generate the property
-            xmlproperty=XMLProperty(depend.__dict__)
-            xmlproperty['reference']='jarpath'
+        if hasattr(self.xml,'depend'):
+            #
+            # convert all depend elements into property elements, and
+            # move the dependency onto the project
+            #
+            for depend in self.xml.depend:
+                # Generate the property
+                xmlproperty=XMLProperty(depend.__dict__)
+                xmlproperty['reference']='jarpath'
       
-            # Name the xmlproperty...
-            if depend.property:
-                xmlproperty['name']=depend.property
-            elif not hasattr(xmlproperty,'name') or not xmlproperty['name']:
-                # :TODO: Reconsider later, but default to project name for now...
-                xmlproperty['name']=depend.project
-                project.addWarning('Unnamed property for [' + project.name + '] in depend on: ' + depend.project )
+                # Name the xmlproperty...
+                if hasattr(depend,'property'):
+                    xmlproperty['name']=depend.property
+                elif not hasattr(xmlproperty,'name') or not xmlproperty['name']:
+                    # :TODO: Reconsider later, but default to project name for now...
+                    xmlproperty['name']=depend.project
+                    project.addWarning('Unnamed property for [' + project.name + '] in depend on: ' + depend.project )
         
-            # :TODO: AJ added this, no idea if it is right/needed.
-            if depend.id: xmlproperty['ids']= depend.id
+                # :TODO: AJ added this, no idea if it is right/needed.
+                if hasattr(depend,'id'): xmlproperty['ids']= depend.id
             
-            # <depend wants the classpath
-            if not xmlproperty.noclasspath:
-                xmlproperty['classpath']='add'
+                # <depend wants the classpath
+                #:TODO:#2: I really hate this code, we ought not be trying
+                # to acess the delegate. We do so to check for existence
+                # but w/o value.
+                if not hasattr(depend,'noclasspath') or None==depend.noclasspath.delegate:
+                    xmlproperty['classpath']='add'
             
-            # Store it
-            self.expandProperty(xmlproperty,project,workspace)            
-            self.importProperty(xmlproperty) 
+                # Store it
+                self.expandProperty(xmlproperty,project,workspace)            
+                self.importProperty(xmlproperty) 
 
         
     #
@@ -167,9 +170,13 @@ class Builder(ModelObject, PropertyContainer):
         self.completeProperties(workspace)
         
         # Set this up...
-        self.basedir = os.path.abspath(os.path.join(	\
-                                self.project.getModule().getWorkingDirectory() or dir.base,	\
-                                self.xml.basedir or self.project.getBaseDirectory() or ''))
+        if self.xml.hasAttr('basedir'):
+            self.basedir = os.path.abspath(	\
+                                os.path.join(	\
+                                    self.project.getModule().getWorkingDirectory() or dir.base,	\
+                                    self.xml.transfer('basedir')))
+        else:
+            self.basedir=self.project.getBaseDirectory()
                 
         self.setComplete(1)
                     
@@ -193,14 +200,9 @@ class Ant(Builder):
     	Builder.__init__(self,xml,project)
       
         # Import the target
-    	self.target='gump'
-    	if xml.target:
-    	    self.target=xml.target
-    	    
+        self.target=xml.transfer('target','gump')    	    
         # Import the buildfile
-    	self.buildfile='build.xml'
-    	if xml.buildfile:
-    	    self.buildfile=xml.buildfile    
+        self.buildfile=xml.transfer('buildfile','build.xml')
     	    
     def getTarget(self):
         return self.target
@@ -222,9 +224,7 @@ class Maven(Builder):
     	Builder.__init__(self,xml,project)
     	
         # Import the goal
-    	self.goal='jar'
-    	if xml.goal:
-    	    self.goal=xml.goal
+        self.goal=xml.transfer('goal','jar')
             	    
     def getGoal(self):
         return self.goal
@@ -240,5 +240,11 @@ class Script(Builder):
     """ A script command (within a project)"""
     def __init__(self,xml,project):
     	Builder.__init__(self,xml,project)
+    	
+    	# Get the name
+    	self.name=xml.transfer('name','unset')
+    	
+    def getName(self):
+        return self.name
     
     	

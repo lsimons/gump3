@@ -345,12 +345,13 @@ The following %s notify%s should have been sent
             log.error('Failed to send notify e-mail: ' + str(details), \
                         exc_info=1)
                         
-            # :TODO: Find a way to include this log information in
-            # the content stored (and e-mailed) below.
+            # Add why unset along with content stored (and e-mailed) below.            
+            content = 'Failed to send notify e-mail: ' + str(details) + '\n' + content
                   
         if not sent:
-            self.addUnsent(subject,content)                
-                        
+            content = 'Failed with to: ['+str(toaddr)+'] from: ['+str(fromaddr)+']\n' + content
+            
+            self.addUnsent(subject,content)                                        
             log.error('Failed with to: ['+str(toaddr)+'] from: ['+str(fromaddr)+']' )
             
         return sent

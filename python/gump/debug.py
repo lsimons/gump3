@@ -67,7 +67,7 @@ if __name__=='__main__':
     #
     #    Perform this integration run...
     #
-    result = getRunner(run).performRun()
+    result = getRunner(run).run()
 
     #
     log.info('Gump Debug complete. Exit code:' + str(result))

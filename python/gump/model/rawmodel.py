@@ -55,7 +55,6 @@ class GumpXMLModelObject(GumpXMLObject):
   def __init__(self,attrs):
     GumpXMLObject.__init__(self,attrs)
     
-    
     # :TODO: This is too low level, do later/higher (somehow)
     
     # parse out '@@DATE@@'
@@ -98,7 +97,7 @@ class XMLModule(Named):
   def init(self):
     self.cvs=Single(GumpXMLModelObject)
     self.svn=Single(GumpXMLModelObject)
-    self.jars=Single(GumpXMLModelObject)
+    self.artefacts=Single(GumpXMLModelObject)
     self.url=Single(GumpXMLModelObject)
     self.description=Single(GumpXMLModelObject)
     self.redistributable=Single(GumpXMLModelObject)
@@ -131,6 +130,7 @@ class XMLRepository(Named):
     self['home-page']=Single(GumpXMLModelObject)
     self.title=Single(GumpXMLModelObject)
     self.cvsweb=Single(GumpXMLModelObject)
+    self.web=Single(GumpXMLModelObject)
     self.url=Single(GumpXMLModelObject)
     self.root=Single(XMLRepositoryRoot)
     self.redistributable=Single(GumpXMLModelObject)

@@ -32,31 +32,32 @@ class Repository(NamedModelObject, Statable):
             
         if 'cvs'==xml.type:
             self.type='CVS'
-            if xml.root:
-                if xml.root.method: 
-                    self.method=xml.root.method
-                # :TODO: And if not? Default?            
-            
-                if xml.root.user: self.user=xml.root.user
-                if xml.root.password: self.password=xml.root.password
-                if xml.root.path: self.path=xml.root.path
-                if xml.root.hostname: self.hostname=self.xml.root.hostname
+            if hasattr(xml,'root'):
+                self.method=xml.root.transfer('method')  
+                self.user=xml.root.transfer('user')
+                self.password=xml.root.transfer('password')
+                self.path=xml.root.transfer('path')
+                self.hostname=xml.root.transfer('hostname')
+                self.web=xml.transfer('cvsweb') or \
+                        xml.transfer('web')
             else:
                 raise RuntimeError, 'No XML <root on repository: ' + self.getName()
         elif 'svn'==xml.type:  
             self.type='Subversion'
-            if xml.url:
+            if hasattr(xml,'url'):
                 self.url=str(xml.url)
             else:
                 raise RuntimeError, 'No URL on SVN repository: ' + self.getName()
-        elif 'jars'==xml.type:
+            self.web=xml.transfer('web')
+        elif 'artefact'==xml.type:
             self.type='Java Archives'
-            if xml.url:
+            if hasattr(xml,'url'):
                 self.url=str(xml.url)
             else:
-                raise RuntimeError, 'No URL on Jars repository: ' + self.getName()
+                raise RuntimeError, 'No URL on Jars repository: ' + self.getName()                
+            self.web=xml.transfer('web')
         else:
-            raise RuntimeError, 'Invalid Repository Type'            
+            raise RuntimeError, 'Invalid Repository Type:' + str(xml.type)         
             
         # Modules referencing this repository
         self.modules=[]
@@ -92,8 +93,8 @@ class Repository(NamedModelObject, Statable):
     def hasHomePage(self): 
         return hasattr(self.xml,'home-page') and getattr(self.xml,'home-page')
         
-    def hasCvsWeb(self): 
-        return hasattr(self.xml,'cvsweb') and self.xml.cvsweb
+    def hasWeb(self): 
+        return self.web
 
     def isRedistributable(self):
         # Existence means 'true'
@@ -106,9 +107,9 @@ class Repository(NamedModelObject, Statable):
     def hasHostname(self): return hasattr(self,'hostname')   
     
     
-    def getTitle(self): return str(self.xml.title)
-    def getHomePage(self): return str(getattr(self.xml,'home-page'))
-    def getCvsWeb(self): return str(self.xml.cvsweb)
+    def getTitle(self): return self.xml.transfer('title')
+    def getHomePage(self): return self.xml.transfer('home-page')
+    def getWeb(self): return self.web
     
     def getUser(self): return str(self.user)
     def getPassword(self): return str(self.password)

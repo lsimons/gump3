@@ -54,8 +54,11 @@ class WorkItem(Ownable):
         self.name=name
         self.type=type
         self.state=state
-        self.message=message
-            
+        self.message=message            
+    	
+    def __del__(self):
+        Ownable.__del__(self)
+        
     def overview(self):
         overview='Work Name: ' + self.name +' (Type: ' + workTypeName(self.type)+')\n'
         overview+='State: ' + stateDescription(self.state)+'\n'
@@ -123,6 +126,11 @@ class CommandWorkItem(TimedWorkItem):
                 result.getEndTimeSecs(),message)
         self.command=command
         self.result=result
+                
+    def __del__(self):
+        TimedWorkItem.__del__(self)
+        self.command=None
+        self.result=None
         
     def overview(self,lines=50,wrapLen=0,eol=None,marker=None):
         overview=TimedWorkItem.overview(self)
@@ -148,6 +156,10 @@ class WorkList(list,Ownable):
         
         # Organize by name
         self.nameIndex={}
+            	
+    def __del__(self):
+        Ownable.__del__(self)
+        self.nameIndex=None
         
     def add(self,item):
         
@@ -206,6 +218,10 @@ class Workable(Stateful):
     def __init__(self):
         Stateful.__init__(self)
         self.worklist=WorkList(self)
+                
+    def __del__(self):
+        Stateful.__del__(self)
+        self.worklist=None
         
     def getWorkList(self):
         return self.worklist

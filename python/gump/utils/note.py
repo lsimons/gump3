@@ -62,6 +62,9 @@ class Annotatable:
     def __init__(self):
         self.annotations=[]
 
+    def __del__(self):
+        self.annotations=None
+
     def addDebug(self,text):
         self.addAnnotation(LEVEL_DEBUG, text)        
 

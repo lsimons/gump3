@@ -144,6 +144,23 @@ class GumpRunner(RunSpecific):
         
     def getBuilder(self):
         return self.builder
+        
+        
+    #
+    # Call a method called 'documentRun(run)'
+    #
+    def perform(self):
+        if not hasattr(self,'performRun'):
+            raise RuntimeError, \
+                    'Class [' + `self.__class__` + '] needs a performRun(self,run)'
+        
+        if not callable(self.performRun):
+            raise RuntimeError, \
+                    'Class [' + `self.__class__` + '] needs a callable performRun(self,run)'
+        
+        log.debug('Perform run using [' + `self` + ']')
+        
+        self.performRun()
 
 def getRunner(run):
     from gump.runner.demand import OnDemandRunner

@@ -65,7 +65,11 @@ class FileReference(Ownable,Annotatable):
             
         if message:
             self.addInfo(message)
-            
+    
+    def __del__(self):
+        Ownable.__del__(self)
+        Annotatable.__del__(self)
+        
     def overview(self, lines=50):
         overview='File Name: ' + self.name +' (Type: ' + fileTypeDescription(self.type)+')\n'
         
@@ -119,6 +123,9 @@ class FileList(list,Ownable):
         
         # Organize by name
         self.nameIndex={}
+        
+    def __del__(self):
+        Ownable.__del__(self)
         
     def add(self,reference):
         

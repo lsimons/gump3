@@ -495,12 +495,14 @@ class XDocDocumenter(Documenter):
         
         definitionTable=definitionSection.createTable()
         definitionTable.createEntry('Workspace Name', self.workspace.getName())
-        if self.workspace.xml.description:
-                definitionTable.createEntry('Description', self.workspace.xml.description)
-        if self.workspace.xml.version: 
+        if hasattr(self.workspace.xml,'description'):
+            definitionTable.createEntry('Description', self.workspace.xml.description)
+        if hasattr(self.workspace.xml,'version'): 
             definitionTable.createEntry('Workspace Version', self.workspace.xml.version)
-        if not self.workspace.xml.version or not self.workspace.xml.version == setting.ws_version:
-            definitionTable.createEntry('Gump Preferred Workspace Version', setting.ws_version)
+        if not hasattr(self.workspace.xml,'version') \
+            or not self.workspace.xml.version == setting.ws_version:
+            definitionTable.createEntry('Gump Preferred Workspace Version', 
+                                        setting.ws_version)
         definitionTable.createEntry('@@DATE@@', str(default.date))
         definitionTable.createEntry('Start Date/Time (UTC)', self.workspace.getStartDateTimeUtc())
         definitionTable.createEntry('Start Date/Time', self.workspace.getStartDateTime())
@@ -1262,9 +1264,9 @@ This page helps Gumpmeisters (and others) observe community progress.
             detailList.createEntry('Homepage: ') \
                 .createLink(repo.getHomePage(),repo.getHomePage())
             
-        if repo.hasCvsWeb():
+        if repo.hasWeb():
             detailList.createEntry('Web Interface: ') \
-                .createLink(repo.getCvsWeb(),repo.getCvsWeb())
+                .createLink(repo.getWeb(),repo.getWeb())
             
         detailList.createEntry('State: ' + repo.getStateDescription())
         if not repo.getReason() == REASON_UNSET:

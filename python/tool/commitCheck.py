@@ -14,7 +14,7 @@
 #   See the License for the specific language governing permissions and
 #   limitations under the License.
 #
-# $Header: /home/stefano/cvs/gump/Attic/commitCheck.py,v 1.3 2004/04/16 17:28:42 ajack Exp $
+# $Header: /home/stefano/cvs/gump/python/tool/commitCheck.py,v 1.1.2.1 2004/06/08 21:36:36 ajack Exp $
 
 """
   Used to do Python testing prior to commiting a code change.

@@ -16,3 +16,5 @@ bogus
 gumpy_log.txt
 gumpy.lock
 *.svg
+*.xml
+iprof

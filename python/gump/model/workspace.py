@@ -236,66 +236,39 @@ class Workspace(NamedModelObject, PropertyContainer, Statable, Resultable):
         # provide default elements when not defined in xml
         # expand those in XML
         #
-        if not self.xml['banner-image']:
+        if not hasattr(self.xml,'banner-image'):
             self.bannerImage=default.bannerimage
         else:
-            self.bannerImage=self.xml['banner-image']
+            self.bannerImage=getattr(self.xml,'banner-image')
             
-        if not self.xml['banner-link']: 
+        if not hasattr(self.xml,'banner-link'): 
             self.bannerLink="http://gump.apache.org"
         else:
-            self.bannerLink=self.xml['banner-link']
+            self.bannerLink=getattr(self.xml,'banner-link')
 
         self.completeDirectories()
         
         # Allow per workspace overrides
-    
-        if not self.xml.logurl: 
-            self.logurl = default.logurl
-        else:
-            self.logurl = self.xml.logurl
+        self.logurl = self.xml.transfer('logurl',default.logurl)
             
         # Keep some details private, if requested...
-        if self.xml.private:
-            self.private=1
-        else:
-            self.private=0
+        self.private=hasattr(self.xml,'private')
             
         # Sending e-mail address
-        if not self.xml.email: 
-            self.email = default.email
-        else:
-            self.email = self.xml.email
-            
+        self.email = self.xml.transfer('email', default.email)            
         # Gump List...
-        if not self.xml.mailinglist: 
-            self.mailinglist = default.mailinglist    
-        else:
-            self.mailinglist = self.xml.mailinglist
-                    
+        self.mailinglist = self.xml.transfer('mailinglist',default.mailinglist)        
         # Mail server
-        if not self.xml.mailserver: 
-            self.mailserver = default.mailserver
-        else:
-            self.mailserver = self.xml.mailserver
+        self.mailserver = self.xml.transfer('mailserver',default.mailserver)
             
         # Get mailport as an int
-        if not self.xml.mailport: 
-            self.mailport = default.mailport
-        else:
-            self.mailport = int(self.xml.mailport)
+        self.mailport = int(self.xml.transfer('mailport',default.mailport))
             
         # Mail subject prefix
-        if not self.xml.prefix: 
-            self.prefix = default.prefix
-        else:
-            self.prefix = self.xml.prefix
+        self.prefix = self.xml.transfer('prefix',default.prefix)
             
         # Mail .sig
-        if not self.xml.signature: 
-            self.signature = default.signature
-        else:
-            self.signature=self.xml.signature          
+        self.signature = self.xml.transfer('signature',default.signature)        
       
         #
         # Import all profiles
@@ -463,50 +436,27 @@ class Workspace(NamedModelObject, PropertyContainer, Statable, Resultable):
             raise RuntimeError, "A workspace cannot operate without a 'basedir'."
             
         # Construct tmp on demand
-        if not self.xml.tmpdir: 
-            self.tmpdir=os.path.join(self.getBaseDirectory(),"tmp")
-        else:
-            self.tmpdir=self.xml.tmpdir
-            
+        self.tmpdir=self.xml.transfer('tmpdir',os.path.join(self.getBaseDirectory(),"tmp"))            
         if not os.path.exists(self.tmpdir): 
             os.makedirs(self.tmpdir)    
     
         # Construct logdir on demand
-        if not self.xml.logdir: 
-            self.logdir=os.path.join(self.getBaseDirectory(),"log")
-        else:
-            self.logdir=self.xml.logdir
-        
+        self.logdir=self.xml.transfer('logdir',os.path.join(self.getBaseDirectory(),"log"))        
         if not os.path.exists(self.logdir): os.makedirs(self.logdir)
     
         # Construct repository dir on demand
-        if not self.xml.jardir: 
-            self.jardir=os.path.join(self.getBaseDirectory(),"repo")
-        else:
-            self.jardir=self.xml.jardir
-                
+        self.jardir=self.xml.transfer('jardir',os.path.join(self.getBaseDirectory(),"repo"))   
         if not os.path.exists(self.jardir): os.makedirs(self.jardir)
     
         # Construct CVS directory on demand
-        if not self.xml.cvsdir: 
-            self.cvsdir=os.path.join(self.getBaseDirectory(),"cvs")
-        else:
-            self.cvsdir=self.xml.cvsdir
-
+        self.cvsdir=self.xml.transfer('cvsdir',os.path.join(self.getBaseDirectory(),"cvs"))
         if not os.path.exists(self.cvsdir): os.makedirs(self.cvsdir)
     
         # Package Dir Ought Exist
-        if not self.xml.pkgdir: 
-            self.pkgdir=self.getBaseDirectory()
-        else:
-            self.pkgdir=self.xml.pkgdir
+        self.pkgdir=self.xml.transfer('pkgdir',self.getBaseDirectory())
         
-        if self.xml.deliver:
-            if not self.xml.scratchdir: 
-                self.scratchdir=os.path.join(self.getBaseDirectory(),"scratch")
-            else:
-                self.scratchdir=self.xml.scratchdir
-        
+        if not hasattr(self.xml,'deliver'):
+            self.scratchdir=self.xml.transfer('scratchdir',os.path.join(self.getBaseDirectory(),"scratch"))
    
     def setDatedDirectories(self,date=None):
         
@@ -563,7 +513,7 @@ class Workspace(NamedModelObject, PropertyContainer, Statable, Resultable):
             project.dump(indent+1,output)
 
     def isNotify(self):
-        return self.xml.nag
+        return hasattr(self.xml,'nag')
         
     def hasNotifyToOverride(self):
         return self.isNotify() and hasattr(self.xml.nag,'to')
@@ -594,7 +544,8 @@ class Workspace(NamedModelObject, PropertyContainer, Statable, Resultable):
         return ( wsNotifyToOverrideAddr, wsNotifyFromOverrideAddr)
              
     def getVersion(self):
-        return self.xml.version
+        if hasattr(self.xml,'version'):
+            return self.xml.version.value()
 
     def getBaseDirectory(self):
         return self.basedir

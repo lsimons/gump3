@@ -616,8 +616,8 @@ class GumpRun(Workable,Annotatable,Stateful):
         #
         # A repository interface...
         #
-        from gump.repository.jars import JarRepository
-        self.outputsRepository=JarRepository(workspace.jardir)
+        from gump.repository.artefact import ArtefactRepository
+        self.outputsRepository=ArtefactRepository(workspace.jardir)
                   
         # Generate a GUID (or close)
         import md5

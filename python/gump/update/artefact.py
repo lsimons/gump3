@@ -45,27 +45,25 @@ from gump.model.state import *
 # Classes
 ###############################################################################
 
-class JarsUpdater(RunSpecific):
+class ArtefactUpdater(RunSpecific):
     
     def __init__(self,run):
         RunSpecific.__init__(self,run)
 
-
     def updateModule(self,module):
         """
         
-            Perform a Jars update on a module
+            Perform an Artefact update on a module
             
-        """
-            
-        log.info('Perform Jars Update on #[' + `module.getPosition()` + \
+        """            
+        log.info('Perform Artefact Update on #[' + `module.getPosition()` + \
                         '] : ' + module.getName())
     
-        # Did we 'Jars checkout' already?
+        # Did we 'downlaod artefacts' already?
         exists	=	os.path.exists(module.getSourceControlStagingDirectory())
        
         #  Get the Update Command
-        (repository, url, cmd ) = self.getJarsUpdateCommand(module, exists)
+        cmd = self.getArtefactUpdateCommand(module)
                                
         # Execute the command and capture results        
         cmdResult=execute(cmd, module.getWorkspace().tmpdir)
@@ -96,40 +94,40 @@ class JarsUpdater(RunSpecific):
             module.changeState(STATE_SUCCESS)       
                 
         return module.okToPerformWork()                                                 
-    
-     
-    def preview(self,module):
-            
-        (repository, url, command ) = self.getUpdateCommand(module,1)
+         
+    def preview(self,module):            
+        command = self.getArtefactUpdateCommand(module)
         command.dump()                                            
-    
-     
-    def getJarsUpdateCommand(self,module,exists=0):
+         
+    def getArtefactUpdateCommand(self,module):
         
-        log.debug("Jars Update Module " + module.getName() + \
+        log.debug("Artefact Update Module " + module.getName() + \
                        ", Repository Name: " + str(module.repository.getName()))
 
-        url=module.jars.getRootUrl()
+        url=module.artefacts.getRootUrl()
+        group=module.artefacts.getGroup()
       
-        log.debug("Jars URL: [" + url + "] on Repository: " + module.repository.getName())
+        log.debug("Artefact URL: [" + url + "] on Repository: " + module.repository.getName())
      
         #
-        # Prepare Jars checkout/update command...
+        # Prepare Artefact checkout/update command...
         # 
         cmd=Cmd('update.py',	\
                 'update_'+module.getName(),	\
                 module.getWorkspace().cvsdir)
     
         cmd.addParameter(url)
+        
+        cmd.addParameter(group)
           
         #
         # Be 'quiet' (but not silent) unless requested otherwise.
         #
         if 	not module.isDebug() 	\
             and not module.isVerbose() \
-            and not module.jars.isDebug()	\
-            and not module.jars.isVerbose():    
+            and not module.artefacts.isDebug()	\
+            and not module.artefacts.isVerbose():    
             cmd.addParameter('-q')
 
-        return (module.repository, url, cmd)
+        return cmd
      

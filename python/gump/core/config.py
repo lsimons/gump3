@@ -103,9 +103,9 @@ class setting:
     
 class switch:
     """Configuration of switches """   
-    optimize=0 # Optimize (at risk to exact correctness) anywhere one can
-    optimizenetwork=1 # Do least network traffic 
-    debugging=0 # Not debugging..
+    optimize=False # Optimize (at risk to exact correctness) anywhere one can
+    optimizenetwork=True # Do least network traffic 
+    debugging=False # Not debugging..
     
 def basicConfig():
     if not os.path.exists(dir.cache): os.mkdir(dir.cache)

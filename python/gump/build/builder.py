@@ -297,7 +297,7 @@ class GumpBuilder(RunSpecific):
                     outputs.append(jarPath)
                     if not os.path.exists(jarPath):
                         project.changeState(STATE_FAILED,REASON_MISSING_OUTPUTS)
-                        outputsOk=0
+                        outputsOk=False
                         project.addError("Missing Output: " + str(jarPath))                            
                                  
                 if outputsOk: 
@@ -314,7 +314,7 @@ class GumpBuilder(RunSpecific):
                             
                         if not os.path.exists(licensePath):
                             project.changeState(STATE_FAILED,REASON_MISSING_OUTPUTS)
-                            outputsOk=0
+                            outputsOk=False
                             project.addError("Missing License Output: " + str(licensePath))
                         else:                      
                             try:
@@ -446,7 +446,7 @@ class GumpBuilder(RunSpecific):
                 if jarpath:
                     if not os.path.exists(jarpath):
                         project.changeState(STATE_FAILED,REASON_PACKAGE_BAD)
-                        outputsOk=0
+                        outputsOk=False
                         project.addError("Missing Packaged Jar: " + str(jarpath))
     
             if outputsOk:

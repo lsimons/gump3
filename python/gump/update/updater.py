@@ -29,7 +29,7 @@ from gump.core.config import dir, default, basicConfig
 
 from gump.update.cvs import CvsUpdater
 from gump.update.svn import SvnUpdater
-from gump.update.jars import JarsUpdater
+from gump.update.artefact import ArtefactUpdater
 
 from gump.utils import dump, display, getIndent, logResourceUtilization, \
                             invokeGarbageCollection
@@ -57,7 +57,7 @@ class GumpUpdater(RunSpecific):
         
         self.cvs=CvsUpdater(run)
         self.svn=SvnUpdater(run)
-        self.jars=JarsUpdater(run)
+        self.artefact=ArtefactUpdater(run)
 
     """
     
@@ -99,7 +99,7 @@ class GumpUpdater(RunSpecific):
     
         workspace = self.run.getWorkspace()
         
-        log.debug("Workspace CVS|SVN|Jars Directory: " + workspace.getSourceControlStagingDirectory())
+        log.debug("Workspace CVS|SVN|artefacts Directory: " + workspace.getSourceControlStagingDirectory())
 
         # Update all the modules that have CVS repositories
         for module in list: 
@@ -125,8 +125,8 @@ class GumpUpdater(RunSpecific):
                 ok=self.cvs.updateModule(module)
             elif module.hasSvn():
                 ok=self.svn.updateModule(module)
-            elif module.hasJars():
-                ok=self.jars.updateModule(module)        
+            elif module.hasArtefacts():
+                ok=self.artefact.updateModule(module)        
             else:
                 # :TODO: Now what?
                 pass
@@ -182,7 +182,7 @@ class GumpUpdater(RunSpecific):
             ok=self.cvs.preview(module)
         elif module.hasSvn():
             ok=self.svn.preview(module)
-        elif module.hasJars():
-            ok=self.jars.preview(module)        
+        elif module.hasArtefacts():
+            ok=self.artefact.preview(module)        
         else:
             print 'No updater for module: ' + module.getName()            

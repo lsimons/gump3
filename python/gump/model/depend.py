@@ -43,28 +43,31 @@ def inheritDescription(inherit):
 def importXMLDependency(ownerProject,dependProject,xmldepend,optional):
         
     # Is this a runtime dependency?
-    runtime = 0
-    if xmldepend.runtime: runtime = 1
+    runtime = hasattr(xmldepend,'runtime')
         
     # Inheritence
     inherit=INHERIT_NONE
-    if 'runtime' == xmldepend.inherit:
-        inherit=INHERIT_RUNTIME
-    elif 'all' == xmldepend.inherit:
-        inherit=INHERIT_ALL
-    elif 'hard' == xmldepend.inherit:
-        inherit=INHERIT_HARD
-    elif 'jars' == xmldepend.inherit:
-        inherit=INHERIT_JARS
-    elif 'none' == xmldepend.inherit:
-        inherit=INHERIT_NONE
+    if hasattr(xmldepend,'inherit'):
+        if 'runtime' == xmldepend.inherit:
+            inherit=INHERIT_RUNTIME
+        elif 'all' == xmldepend.inherit:
+            inherit=INHERIT_ALL
+        elif 'hard' == xmldepend.inherit:
+            inherit=INHERIT_HARD
+        elif 'jars' == xmldepend.inherit:
+            inherit=INHERIT_JARS
+        elif 'none' == xmldepend.inherit:
+            inherit=INHERIT_NONE
         
-    ids	=	xmldepend.ids
-    
+    ids	=	xmldepend.transfer('ids','')
     annotation = None # 'Expressed Dependency'
-        
-    noclasspath=0
-    if xmldepend.noclasspath: 	noclasspath=1
+    
+    # :TODO: I hate this line of code!!!!
+    # :TODO:#2: I really hate this code, we ought not be trying
+    # to acess the delegate. We do so to check for existence
+    # but w/o value. Not good. Really gotta re-write that XML
+    # loading/merging stuff.
+    noclasspath=hasattr(xmldepend,'noclasspath') and not (None==xmldepend.noclasspath.delegate)    
         
     #
     # Construct the dependency
@@ -80,7 +83,9 @@ def importXMLDependency(ownerProject,dependProject,xmldepend,optional):
 
 class ProjectDependency(Annotatable):
     """ A dependency from one project to another """
-    def __init__(self,owner,project,inherit,runtime=0,optional=0,ids=None,noclasspath=0,annotation=None):
+    def __init__(self,owner,project,inherit,
+                    runtime=False,optional=False,ids=None,
+                    noclasspath=False,annotation=None):
         
         Annotatable.__init__(self)
         
@@ -92,6 +97,13 @@ class ProjectDependency(Annotatable):
         self.ids=ids
         self.noclasspath=noclasspath
         if annotation:	self.addInfo(annotation)
+        
+    def __del__(self):
+        
+        Annotatable.__init__(self)    
+        
+        self.owner=None
+        self.project=None
     
     # :TODO: if same ids, but different order/spacing, it ought match..
     def __eq__(self,other):
@@ -424,8 +436,8 @@ class Dependable:
         for dependency in self.getDirectDependencies():
             if dependency.getProject().getName()==name	\
                 and not dependency.isNoClasspath() :
-                return 1            
-        return 0
+                return True            
+        return False
 
     # determine if this project is a prereq of any project on the todo list
     def hasDirectDependencyOn(self,project):

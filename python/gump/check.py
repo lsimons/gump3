@@ -33,8 +33,7 @@ from gump.core.gumprun import *
 from gump.core.commandLine import handleArgv
 from gump.model.loader import WorkspaceLoader
 
-# static void main()
-if __name__=='__main__':
+def crun():
     gumpinit()
     
     # Process command line
@@ -54,10 +53,19 @@ if __name__=='__main__':
     #
     #    Perform this check run...
     #
-    result = getRunner(run).performCheck()
+    result = getRunner(run).perform()
 
     #
     log.info('Gump Check complete. Exit code:' + str(result))
           
     # bye!
     sys.exit(result)
+    
+    
+# static void main()
+if __name__=='__main__':
+
+    print 'Profiling....'
+    import profile
+    profile.run('crun()', 'iprof')
+    #crun()

@@ -74,9 +74,8 @@ class WorkspaceLoader:
                 switch.optimize=1 
                 switch.optimizenetwork=1
           
-            parser=SAXDispatcher(file,'workspace',XMLWorkspace)
-    
-            # Extract the root XML
+            parser=SAXDispatcher('workspace',XMLWorkspace)
+            parser.parse(file)
             xmlworkspace=parser.docElement
     
             if not xmlworkspace:
@@ -84,7 +83,15 @@ class WorkspaceLoader:
     
             loaded_time=time.time()
             loadElapsed=(loaded_time-start_time)
-            log.info('Loaded metadata [' + secsToElapsedTimeString(loadElapsed) + ']')
+            log.info("""Loaded metadata [%s]""" \
+                % (	secsToElapsedTimeString(loadElapsed)))
+            log.info("""Loaded [Profiles:%s, Repos:%s, Modules:%s, Project:%s, Servers:%s, Trackers:%s]""" \
+                % (	len(XMLProfile.map),
+                    len(XMLRepository.map),
+                    len(XMLModule.map),
+                    len(XMLProject.map),
+                    len(XMLServer.map),
+                    len(XMLTracker.map)))
         
             # Construct object around XML.
             workspace=Workspace(xmlworkspace)
@@ -129,8 +136,10 @@ class WorkspaceLoader:
         XMLModule.map={}
         XMLProject.map={}
       
-        xmlmodule=SAXDispatcher(url,'module',XMLModule).docElement
-    
+        parser=SAXDispatcher('module',XMLModule)
+        parser.parse(url)
+        xmlmodule=parser.docElement
+        
         if not xmlmodule:
             raise IOError, "Failed to load module: " + url
 

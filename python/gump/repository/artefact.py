@@ -14,7 +14,9 @@
 # limitations under the License.
 
 """
-    A Jar Repository 
+
+    An Artefact Repository 
+    
 """
 
 import os
@@ -26,7 +28,7 @@ from gump.model import *
 from shutil import copyfile
 
 
-class JarRepository:
+class ArtefactRepository:
     """Contains Repository Contents"""
     def __init__(self,root):
         self.root=root
