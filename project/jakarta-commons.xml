@@ -73,6 +73,7 @@
     <depend project="xml-xerces"/>
 
     <depend project="commons-logging"/>
+    <depend project="commons-lang"/>
 
     <work nested="target/classes"/>
     <home nested="cli/target"/>
