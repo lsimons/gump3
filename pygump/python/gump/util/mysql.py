@@ -20,8 +20,6 @@ __copyright__ = "Copyright (c) 2004-2005 The Apache Software Foundation"
 __license__   = "http://www.apache.org/licenses/LICENSE-2.0"
 
 import types
-import MySQLdb
-import MySQLdb.cursors
 
 class Database:
     """
@@ -85,6 +83,8 @@ class Database:
         Get a connection to the actual database, setting one up if neccessary.
         """
         if not self._conn:
+            import MySQLdb
+            import MySQLdb.cursors
             self._conn = MySQLdb.Connect(
                     host=self._dbInfo.getHost(), 
                     user=self._dbInfo.getUser(),
