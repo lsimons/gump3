@@ -7,10 +7,11 @@
   <cvs repository="jakarta"/>
 
   <project name="commons-altrmi">
-    <description>Commons Email Package</description>
+    <description>Alternate RMI Package</description>
     <ant basedir="altrmi" target="dist"/>
     <depend project="jakarta-ant"/>
     <depend project="xml-xerces"/>
+    <depend project="beepcore"/>
     <home nested="altrmi/dist"/>
     <jar name="commons-altrmi-common.jar"/>
     <jar name="commons-altrmi-client-interfaces.jar"/>
@@ -19,6 +20,10 @@
     <jar name="commons-altrmi-server-impl.jar"/>
     <jar name="commons-altrmi-generator.jar"/>
     <javadoc nested="altrmi/dist/docs/api"/>
+  </project>
+  
+  <project name="beepcore">
+    <jar name="altrmi/lib/beepcore.jar"/>
   </project>
 
   <project name="commons-codec">
