@@ -121,7 +121,7 @@ class NAntBuilder(gump.run.gumprun.RunSpecific):
         
         # Run java on apache NAnt...
         cmd=Cmd('NAnt.exe','build_'+project.getModule().getName()+'_'+project.getName(),
-            basedir,{'LIBPATH':libpath})
+            basedir,{'DEVPATH':libpath})
         
         # Launch with specified framework (e.g. mono-1.0.1) if
         # required.
