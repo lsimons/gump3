@@ -8,12 +8,15 @@
 
     my %map = (<xsl:apply-templates select="*"/>);
 
-    foreach $source (keys %map) {
+    foreach $source (sort keys %map) {
       if (-d $source) {
         $dest = $map{$source};
         rmtree $dest, 0, 0;
         mkpath $dest, 0, 0775;
         system "cp -r $source $dest";
+        print "+ $source\n";
+      } else {
+        print "! $source\n";
       }
     }
     </script>
