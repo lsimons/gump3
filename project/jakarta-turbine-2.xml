@@ -24,9 +24,10 @@
     <depend project="javamail" version="1.2"/>
     <depend project="jaf" version="1.0.1"/>
     <depend project="jdbc" version="2.0"/>
+    <depend project="jndi" version="1.2.1"/>
     <depend project="webmacro" version="0.94"/>
     <depend project="helma-xmlrpc" version="0.9"/>
-    <option project="jta"/> <!-- needed for javadoc purposes only -->
+    <option project="jta" version="1.0.1"/> <!-- needed for javadoc purposes only -->
     <work nested="bin/classes"/>
     <home nested="bin"/>
     <jar name="turbine-@@DATE@@.jar"/>
