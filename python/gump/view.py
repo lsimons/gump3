@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/Attic/view.py,v 1.26 2003/05/05 08:25:12 nicolaken Exp $
-# $Revision: 1.26 $
-# $Date: 2003/05/05 08:25:12 $
+# $Header: /home/stefano/cvs/gump/python/gump/Attic/view.py,v 1.27 2003/05/05 09:31:59 nicolaken Exp $
+# $Revision: 1.27 $
+# $Date: 2003/05/05 09:31:59 $
 #
 # ====================================================================
 #
@@ -78,6 +78,9 @@ from gump import load, buildSequence, log
 from gump.conf import dir, default
 from gump.gen import xmlize
 from gump.model import Module, Project
+
+# init logging
+log = logging.getLogger(__name__)
 
 classpath = os.getenv('CLASSPATH')
 if(classpath):
@@ -165,7 +168,10 @@ class gumpview(wxApp):
 
     self.data=wxTextCtrl(split2,-1,style=wxTE_MULTILINE)
 
-    self.logview=wxTextCtrl(self.logsplitter,-1,style=wxTE_MULTILINE)    
+    self.logview=wxTextCtrl(self.logsplitter,-1,style=wxTE_MULTILINE|wxTE_RICH2)   
+    self.logview.SetEditable(False)
+
+    
 
     # attach the panes to the frame
     self.logsplitter.SplitHorizontally(self.mainsplit, self.logview)
@@ -400,9 +406,12 @@ class gumpview(wxApp):
 
   # display a modal dialog box
   def msgbox(self,message,title="Warning"):
-    dlg=wxMessageDialog(None, message, title, wx.wxOK)
-    dlg.ShowModal()
-    dlg.Destroy()
+    if self.logview.IsShown():
+      log.error(title + ": "+message)
+    else:
+      dlg=wxMessageDialog(None, message, title, wx.wxOK)
+      dlg.ShowModal()
+      dlg.Destroy()
 
 class ViewHandler(logging.Handler):
 
@@ -422,8 +431,51 @@ class ViewHandler(logging.Handler):
         """
         Emit a record.
         """
+        
+        #record.name
+        #record.msg
+        #record.args
+        #record.levelname 
+        #record.levelno
+        #record.pathname
+        #record.filename
+        #record.module
+        #record.exc_info
+        #record.lineno 
+        #record.created 
+        #record.msecs
+        #record.relativeCreated
+        #record.thread
+
+        #CRITICAL = 50
+        #FATAL = CRITICAL
+        #ERROR = 40
+        #WARN = 30
+        #INFO = 20
+        #DEBUG = 10
+        #NOTSET = 0
+
         msg = "%s\n" % self.format(record)
+        
+        textStyle = None;
+        
+        if(record.levelno == logging.FATAL):
+         textStyle = wx.wxTextAttr("YELLOW", "RED")
+        elif(record.levelno ==logging.ERROR):     
+         textStyle = wx.wxTextAttr("RED", "YELLOW")
+        elif(record.levelno == logging.WARN):     
+         textStyle = wx.wxTextAttr("RED", "GRAY")
+        elif(record.levelno == logging.INFO):     
+         textStyle = wx.wxTextAttr("BLACK", "WHITE")
+        elif(record.levelno == logging.DEBUG):    
+         textStyle = wx.wxTextAttr("GRAY", "WHITE")
+        else:
+         textStyle = wx.wxTextAttr("WHITE", "BLACK")
+         
+        self.view.SetDefaultStyle( textStyle ) 
+
         self.view.AppendText(msg)
+        
         
 class GumpSplashScreen(wxSplashScreen):
   def __init__(self):
