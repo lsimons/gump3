@@ -11,7 +11,7 @@
   <project name="ws-wsrp4j">
     <package>org.apache.ws.wsrp4j</package>
 
-    <ant basedir="java" target="all">
+    <ant basedir="build" target="all">
       <property name="env.ANT_HOME" reference="home" project="ant"/>
     </ant>
 
