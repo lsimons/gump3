@@ -12,6 +12,10 @@
     <package>org.apache.ws.jaxme</package>
 
     <mkdir dir="build/js/classes"/>
+    <mkdir dir="build/api/classes"/>
+    <mkdir dir="build/xs/classes"/>
+    <mkdir dir="build/jm/classes"/>
+
     <ant target="all">
       <property name="env.ANT_HOME" reference="home" project="ant"/>
     </ant>
@@ -20,6 +24,7 @@
     <depend project="ant" inherit="runtime"/>
     <depend project="hsqldb"/>
     <depend project="jakarta-log4j"/>
+    <depend project="xmldb"/>
     <option project="junit"/>
 
     <work nested="build/js/classes"/>
