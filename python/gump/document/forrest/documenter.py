@@ -1071,7 +1071,7 @@ This page helps Gumpmeisters (and others) observe community progress.
             mcount=0
             for pair in module.aggregateStates():
                 if pair.state == STATE_SUCCESS \
-                    and project.getStats().sequenceInState < INSIGNIFICANT_DURATION:
+                    and module.getStats().sequenceInState < INSIGNIFICANT_DURATION:
                     mcount=1
                     
             if not mcount: continue
