@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 #
-# $Header: /home/stefano/cvs/gump/python/gump/test/utils.py,v 1.4 2004/02/13 22:12:37 ajack Exp $
-# $Revision: 1.4 $
-# $Date: 2004/02/13 22:12:37 $
+# $Header: /home/stefano/cvs/gump/python/gump/test/utils.py,v 1.5 2004/02/17 21:54:21 ajack Exp $
+# $Revision: 1.5 $
+# $Date: 2004/02/17 21:54:21 $
 #
 # ====================================================================
 #
@@ -86,34 +86,34 @@ class UtilsTestSuite(UnitTestSuite):
         twoYearsBefore=self.now - (60*60*24*365*2)
         
         rough=getGeneralDifferenceDescription(self.now, oneHourBefore)
-        self.assertIn('Date Diff String', '1 hour', rough)
+        self.assertInString('Date Diff String', '1 hour', rough)
         
         rough=getGeneralDifferenceDescription(self.now, twoHoursBefore)
-        self.assertIn('Date Diff String', '2 hours', rough)
+        self.assertInString('Date Diff String', '2 hours', rough)
       
         rough=getGeneralDifferenceDescription(self.now, oneDayBefore)
-        self.assertIn('Date Diff String', '1 day', rough)
+        self.assertInString('Date Diff String', '1 day', rough)
         
         rough=getGeneralDifferenceDescription(self.now, twoDaysBefore)
-        self.assertIn('Date Diff String', '2 days', rough)
+        self.assertInString('Date Diff String', '2 days', rough)
       
         rough=getGeneralDifferenceDescription(self.now, oneWeekBefore)
-        self.assertIn('Date Diff String', '1 week', rough)
+        self.assertInString('Date Diff String', '1 week', rough)
         
         rough=getGeneralDifferenceDescription(self.now, twoWeeksBefore)
-        self.assertIn('Date Diff String', '2 weeks', rough)
+        self.assertInString('Date Diff String', '2 weeks', rough)
       
         rough=getGeneralDifferenceDescription(self.now, oneMonthBefore)
-        self.assertIn('Date Diff String', '1 month', rough)
+        self.assertInString('Date Diff String', '1 month', rough)
         
         rough=getGeneralDifferenceDescription(self.now, twoMonthsBefore)
-        self.assertIn('Date Diff String', '2 months', rough)        
+        self.assertInString('Date Diff String', '2 months', rough)        
         
         rough=getGeneralDifferenceDescription(self.now, oneYearBefore)
-        self.assertIn('Date Diff String', '1 year', rough)
+        self.assertInString('Date Diff String', '1 year', rough)
         
         rough=getGeneralDifferenceDescription(self.now, twoYearsBefore)
-        self.assertIn('Date Diff String', '2 years', rough)
+        self.assertInString('Date Diff String', '2 years', rough)
         
     def testSpacesInCommandLines(self):
         params=Parameters()
@@ -123,7 +123,7 @@ class UtilsTestSuite(UnitTestSuite):
         params.addParameter('WithQuotesAndSpaces', 'aa \' \" aa a','=')
         params.addParameter('WithEscapes', 'aa\\a','=')
         
-        print params.formatCommandLine()
+        #print params.formatCommandLine()
         
         params=Parameters()
         params.addPrefixedParameter('-D','X', 'aaaaa','=')
@@ -131,11 +131,11 @@ class UtilsTestSuite(UnitTestSuite):
         params.addPrefixedParameter('-D','Z', 'aa \' aa a','=')
         params.addPrefixedParameter('-D','Z', 'aa \" aa a','=')
         
-        print params.formatCommandLine()
+        #print params.formatCommandLine()
         
     def testWrap(self):
         line='xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'
-        print wrapLine(line)
+        #print wrapLine(line)
         line='1234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890'
-        print wrapLine(line)
+        #print wrapLine(line)
         

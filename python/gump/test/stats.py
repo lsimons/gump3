@@ -1,7 +1,7 @@
 #!/usr/bin/env python
-# $Header: /home/stefano/cvs/gump/python/gump/test/stats.py,v 1.7 2004/01/09 23:28:40 ajack Exp $
-# $Revision: 1.7 $
-# $Date: 2004/01/09 23:28:40 $
+# $Header: /home/stefano/cvs/gump/python/gump/test/stats.py,v 1.8 2004/02/17 21:54:21 ajack Exp $
+# $Revision: 1.8 $
+# $Date: 2004/02/17 21:54:21 $
 #
 # ====================================================================
 #
@@ -138,7 +138,7 @@ class StatsTestSuite(UnitTestSuite):
             self.assertGreater('Incremented Prereqs', ps2.prereqs, ps1p )
             self.assertGreater('Incremented SequenceInState', ps2.sequenceInState, ps1seq )
         
-        print str(ps1s) + ' : ' + str(ps1f) + ' : ' + str(ps1p) + ' : ' + str(ps1seq)
+        #print str(ps1s) + ' : ' + str(ps1f) + ' : ' + str(ps1p) + ' : ' + str(ps1seq)
         
         self.statsDB.sync()
         

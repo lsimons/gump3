@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/output/Attic/nag.py,v 1.12 2004/02/15 17:32:05 ajack Exp $
-# $Revision: 1.12 $
-# $Date: 2004/02/15 17:32:05 $
+# $Header: /home/stefano/cvs/gump/python/gump/output/Attic/nag.py,v 1.13 2004/02/17 21:54:21 ajack Exp $
+# $Revision: 1.13 $
+# $Date: 2004/02/17 21:54:21 $
 #
 # ====================================================================
 #
@@ -151,7 +151,7 @@ class Nagger:
                 
                 
         # Belt and braces (nag to us if not nag to them)
-        if self.unwanted:
+        if self.hasUnwanted():
             log.info('Got some unwanted\'s to send to list...')
             self.sendEmail(self.workspace.mailinglist,self.workspace.email,	\
                         'All dressed up, with nowhere to go...',self.unwanted)
@@ -160,10 +160,10 @@ class Nagger:
             # destroyed,
             self.unwanted=''      
         else:
-            log.debug('No unwanted nags.')
+            log.info('No unwanted nags.')
                 
         # Belt and braces (nag to us if not nag to them)
-        if self.unsent:
+        if self.hasUnsent():
             log.info('Got some unsented\'s to send to list...')    
             self.sendEmail(self.workspace.mailinglist,self.workspace.email,	\
                         'Unable to send...',self.unsent)
@@ -172,21 +172,32 @@ class Nagger:
             # destroyed,
             self.unsent=''
         else:
-            log.debug('No unsent nags.')
+            log.info('No unsent nags.')
                 
     def addUnwanted(self,subject,content):
-        self.addStuff(self.unwanted,subject,content)
+        if self.unwanted:
+            self.unwanted += '-------------------------------------------------------------\n'
+        self.unwanted += subject
+        self.unwanted += '\n'
+        self.unwanted += content
+        self.unwanted += '\n'
     
     def addUnsent(self,subject,content):
-        self.addStuff(self.unsent,subject,content)
+        if self.unsent:
+            self.unsent += '-------------------------------------------------------------\n'
+        self.unsent += subject
+        self.unsent += '\n'
+        self.unsent += content
+        self.unsent += '\n'
+                    
+    def hasUnwanted(self):
+        if self.unwanted: return 1
+        return 0
     
-    def addStuff(self,store,subject,content):
-        if store:
-            store += '-------------------------------------------------------------\n'
-        store += subject
-        store += "\n"
-        store += content
-        store += "\n"
+    def hasUnsent(self):
+        if self.unsent: return 1
+        return 0
+    
     
     def nagWorkspace(self):
         """ Nag for the workspace """
@@ -209,7 +220,7 @@ class Nagger:
         #
         subject=self.workspace.prefix+	\
                 ': '+module.getName()+' '+	\
-                lower(stateName(module.getState()))
+                lower(stateDescription(module.getState()))
                     
         self.sendEmails(self.getAddressPairs(module),subject,content)
             
@@ -228,7 +239,7 @@ class Nagger:
         #
         subject=self.workspace.prefix+': '	\
             +module.getName()+'/'+project.getName()	\
-            +' '+lower(stateName(project.getState()))
+            +' '+lower(stateDescription(project.getState()))
                     
         # Send those e-mails
         self.sendEmails(self.getAddressPairs(project),subject,content)
@@ -387,7 +398,7 @@ This is an automated request, but not an unsolicited one. For help understanding
             atomurl=self.run.getOptions().getResolver().getUrl(object,feedPrefix,'.atom')
             
             content += "RSS: " + rssurl + " | "
-            content += "Atom: " + atomurl + "\n"         
+            content += "Atom: " + atomurl + '\n'         
     
         return content
     

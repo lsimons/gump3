@@ -1,7 +1,7 @@
 #!/usr/bin/env python
-# $Header: /home/stefano/cvs/gump/python/gump/test/Attic/xdoc_tests.py,v 1.3 2004/01/09 19:57:19 ajack Exp $
-# $Revision: 1.3 $
-# $Date: 2004/01/09 19:57:19 $
+# $Header: /home/stefano/cvs/gump/python/gump/test/Attic/xdoc_tests.py,v 1.4 2004/02/17 21:54:21 ajack Exp $
+# $Revision: 1.4 $
+# $Date: 2004/02/17 21:54:21 $
 #
 # ====================================================================
 #
@@ -98,7 +98,7 @@ if __name__=='__main__':
     
     table1=section1.createTable(['H1','H2'])
     
-    #dump(doc1)
+    dump(doc1)
     doc1.serialize()
     
     stream.seek(0)

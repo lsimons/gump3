@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/model/workspace.py,v 1.28 2004/02/15 17:32:05 ajack Exp $
-# $Revision: 1.28 $
-# $Date: 2004/02/15 17:32:05 $
+# $Header: /home/stefano/cvs/gump/python/gump/model/workspace.py,v 1.29 2004/02/17 21:54:20 ajack Exp $
+# $Revision: 1.29 $
+# $Date: 2004/02/17 21:54:20 $
 #
 # ====================================================================
 #
@@ -76,7 +76,7 @@ from gump.model.tracker import Tracker
 from gump.model.module import Module, createUnnamedModule
 from gump.model.project import Project, ProjectSummary
 from gump.model.profile import Profile
-from gump.model.object import ModelObject
+from gump.model.object import NamedModelObject
 from gump.model.property import PropertyContainer
 from gump.model.stats import Statable, Statistics
 from gump.utils.note import transferAnnotations, Annotatable
@@ -91,10 +91,17 @@ MISSING_UTILITY=2
 BAD_ENVIRONMENT=3
 
 
-class Workspace(ModelObject,PropertyContainer, Statable):
+class Workspace(NamedModelObject, PropertyContainer, Statable):
     """Gump Workspace"""
     def __init__(self,xmlworkspace):
-    	ModelObject.__init__(self,xmlworkspace)    	
+    
+        # Workspaces
+        name='Unnamed'
+        if xmlworkspace:
+            if xmlworkspace.getName():
+                name=xmlworkspace.getName()
+            
+    	NamedModelObject.__init__(self,name,xmlworkspace)    	
     	PropertyContainer.__init__(self)
     	
     	#

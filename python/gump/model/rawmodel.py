@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/model/Attic/rawmodel.py,v 1.14 2004/02/15 17:32:05 ajack Exp $
-# $Revision: 1.14 $
-# $Date: 2004/02/15 17:32:05 $
+# $Header: /home/stefano/cvs/gump/python/gump/model/Attic/rawmodel.py,v 1.15 2004/02/17 21:54:20 ajack Exp $
+# $Revision: 1.15 $
+# $Date: 2004/02/17 21:54:20 $
 #
 # ====================================================================
 #
@@ -108,9 +108,11 @@ class GumpXMLModelObject(GumpXMLObject):
       if not name == '@basedir' and not name == 'annotations':
           self.__dict__[name]=value.replace('@@DATE@@',gump.default.date)
       
-class XMLWorkspace(GumpXMLModelObject):
+class XMLWorkspace(Named,GumpXMLModelObject):
   """Represents a <workspace/> element."""
 
+  map={}
+  
   def init(self):
     self.property=Multiple(XMLProperty)
     self.project=Multiple(XMLProject)
@@ -124,7 +126,7 @@ class XMLWorkspace(GumpXMLModelObject):
     
 # represents a <profile/> element
 class XMLProfile(Named,GumpXMLModelObject):
-  list={}
+  map={}
   def init(self):
     self.project=Multiple(XMLProject)
     self.module=Multiple(XMLModule)
@@ -134,7 +136,7 @@ class XMLProfile(Named,GumpXMLModelObject):
 
 # represents a <module/> element
 class XMLModule(Named):
-  list={}
+  map={}
   def init(self):
     self.cvs=Single(GumpXMLModelObject)
     self.svn=Single(GumpXMLModelObject)
@@ -147,7 +149,7 @@ class XMLModule(Named):
 
 # represents a <server/> element
 class XMLServer(Named):
-  list={}
+  map={}
   def init(self):
     self.attribution=Single(GumpXMLModelObject)
     self.title=Single(GumpXMLModelObject)
@@ -156,7 +158,7 @@ class XMLServer(Named):
     
 # represents a <tracker/> element
 class XMLTracker(Named):
-  list={}
+  map={}
   def init(self):
     self.attribution=Single(GumpXMLModelObject)
     self.title=Single(GumpXMLModelObject)
@@ -165,7 +167,7 @@ class XMLTracker(Named):
 
 # represents a <repository/> element
 class XMLRepository(Named):
-  list={}
+  map={}
   def init(self):
     self['home-page']=Single(GumpXMLModelObject)
     self.title=Single(GumpXMLModelObject)
@@ -186,7 +188,7 @@ class XMLRepositoryRoot(GumpXMLModelObject):
 
 # represents a <project/> element
 class XMLProject(Named):
-  list={}
+  map={}
   def init(self):
     self.ant=Single(XMLAnt)
     self.maven=Single(XMLAnt)

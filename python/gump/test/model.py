@@ -1,7 +1,7 @@
 #!/usr/bin/env python
-# $Header: /home/stefano/cvs/gump/python/gump/test/model.py,v 1.13 2004/02/12 13:41:52 ajack Exp $
-# $Revision: 1.13 $
-# $Date: 2004/02/12 13:41:52 $
+# $Header: /home/stefano/cvs/gump/python/gump/test/model.py,v 1.14 2004/02/17 21:54:21 ajack Exp $
+# $Revision: 1.14 $
+# $Date: 2004/02/17 21:54:21 $
 #
 # ====================================================================
 #
@@ -201,8 +201,8 @@ class ModelTestSuite(UnitTestSuite):
         (classpath,bootclasspath)=self.project4.getClasspaths()
         (classpath,bootclasspath)=self.alias1.getClasspaths()
         (classpath,bootclasspath)=self.project5.getClasspaths(1)        
-        print "Classpath:" + classpath     
-        print "Bootclasspath:" + bootclasspath
+        #print "Classpath:" + classpath     
+        #print "Bootclasspath:" + bootclasspath
         
     def testMaven(self):
                 
@@ -223,7 +223,15 @@ class ModelTestSuite(UnitTestSuite):
         #    print `property`
         
         commandLine=self.project2.getBuildCommand().formatCommandLine()        
-        self.assertIn('Need ant.home', 'ant.home', commandLine)
-        self.assertIn('Need project1.jar', 'project1.jar', commandLine)      
+        self.assertInString('Need ant.home', 'ant.home', commandLine)
+        self.assertInString('Need project1.jar', 'project1.jar', commandLine)      
         
-        print commandLine  
+        # print commandLine  
+        
+    def testServers(self):
+        self.assertNotEmpty('Some servers ought be found', self.workspace.getServers())
+        
+    def testTrackers(self):
+        self.assertNotEmpty('Some trackers ought be found', self.workspace.getTrackers())
+        
+        

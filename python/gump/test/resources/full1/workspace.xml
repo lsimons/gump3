@@ -1,5 +1,6 @@
 <?xml version="1.0" ?>
-<workspace basedir="./test/gump" 
+<workspace name="test"
+	       basedir="./test/gump" 
            jardir="./test/gump/jars"
            logdir="./test/gump/log"
            pkgdir="./test/package"

@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/test/pyunit.py,v 1.19 2004/02/13 22:12:37 ajack Exp $
-# $Revision: 1.19 $
-# $Date: 2004/02/13 22:12:37 $
+# $Header: /home/stefano/cvs/gump/python/gump/test/pyunit.py,v 1.20 2004/02/17 21:54:21 ajack Exp $
+# $Revision: 1.20 $
+# $Date: 2004/02/17 21:54:21 $
 #
 # ====================================================================
 #
@@ -61,6 +61,7 @@
 """
     This module contains information on unit testing
 """
+import os
 import sys
 from types import NoneType, StringType, TypeType, MethodType
 import types
@@ -114,6 +115,10 @@ class Testable:
         if object:
             self.raiseIssue(['Ought evaluate as false', message, object])
             
+    def assertInString(self,message,substr,str):
+        if not -1 == str.find(substr):
+            self.raiseIssue(['Ought evaluate as in', message, substr, str])
+            
     def assertIn(self,message,object,sequence):
         if not object in sequence:
             self.raiseIssue(['Ought evaluate as in', message, object, sequence])
@@ -122,6 +127,10 @@ class Testable:
         if -1 == mainString.find(subString):
             self.raiseIssue(['Ought evaluate as a substring', \
                 message, subString, mainString, mainString.find(subString)])
+            
+    def assertNotEmpty(self,message,sequence):
+        if not sequence or not len(sequence) > 0:
+            self.raiseIssue(['Ought NOT evaluate as empty', message, sequence])
             
     def assertNotIn(self,message,object,sequence):
         if object in sequence:
@@ -203,6 +212,11 @@ class UnitTestSuite(Testable):
     
         tests=[]
         results=[]
+        
+        # log.setLevel(logging.DEBUG ) 
+                
+        # Give a place to work in..
+        if not os.path.exists('./test'): os.mkdir('./test')
         
         # iterate over this suites properties
         for name in self.__class__.__dict__:
@@ -352,6 +366,9 @@ if __name__=='__main__':
     
     from gump.test.nagging import NaggingTestSuite  
     runner.addSuite(NaggingTestSuite())
+    
+    from gump.test.resulting import ResultingTestSuite  
+    runner.addSuite(ResultingTestSuite())
     
     # Any args are pattern matches
     patterns=list(sys.argv)

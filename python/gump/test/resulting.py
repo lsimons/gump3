@@ -1,6 +1,6 @@
 #!/usr/bin/env python
-# $Header: /home/stefano/cvs/gump/python/gump/test/Attic/nagging.py,v 1.4 2004/02/17 21:54:21 ajack Exp $
-# $Revision: 1.4 $
+# $Header: /home/stefano/cvs/gump/python/gump/test/resulting.py,v 1.1 2004/02/17 21:54:21 ajack Exp $
+# $Revision: 1.1 $
 # $Date: 2004/02/17 21:54:21 $
 #
 # ====================================================================
@@ -63,19 +63,21 @@
 
 import os
 import logging
-import types, StringIO
 
 from gump import log
 import gump.config
 from gump.gumprun import GumpRun
 from gump.test import getWorkedTestWorkspace
 from gump.test.pyunit import UnitTestSuite
-from gump.output.nag import nag,Nagger
+from gump.results.resulter import generateResults,Resulter
+from gump.results.loader import WorkspaceResultLoader
 from gump.net.mailer import *
 
-class NaggingTestSuite(UnitTestSuite):
+class ResultingTestSuite(UnitTestSuite):
     def __init__(self):
         UnitTestSuite.__init__(self)
+        
+        self.testFile = 'test/test.xml'
         
     def suiteSetUp(self):
         #
@@ -85,66 +87,50 @@ class NaggingTestSuite(UnitTestSuite):
         self.assertNotNone('Needed a workspace', self.workspace)
         self.run=GumpRun(self.workspace)
         
-    def testNagContents(self):
-    
-        nagger=Nagger(self.run)
+    def checkWorkspaceResult(self,wsr):
+        self.assertTrue('Has some ModuleResults', wsr.hasModuleResults())
+        self.assertTrue('Has some ProjectResults', wsr.hasProjectResults())
         
-        # For all modules...
-        for module in self.workspace.getModules():                    
-            #print 'Get Content For Module : ' + module.getName()
-            nagger.getNamedTypedContent(module,'test')
-            for project in module.getProjects():
-                #print 'Get Content For Project : ' + project.getName()
-                nagger.getNamedTypedContent(project,'test')
+        for moduleResult in wsr.getModuleResults():
+            self.assertTrue('Has some ProjectResults', moduleResult.hasProjectResults())
+            
+    def testResultContents(self):
+    
+        resulter=Resulter(self.run)
+        
+        # Construct from run
+        wsr = resulter.constructResults()
+        
+        # Check out these results
+        self.checkWorkspaceResult(wsr)
+        
+    def testResultWrite(self):
+    
+        resulter=Resulter(self.run)
+        
+        # Write to file...
+        resulter.generateResults(self.testFile)   
+        
+        self.assertTrue('Wrote a file', os.path.exists(self.testFile))       
+        
+    def testResultRead(self):
+    
+        resulter=Resulter(self.run)
+
+        # Write to file...
+        resulter.generateResults(self.testFile)        
+        
+        # Read the file...      
+        wsr = resulter.loadResults(self.testFile)
+        
+        self.checkWorkspaceResult(wsr)
                 
-    def testNagUnwantedUnsent(self):
-    
-        nagger=Nagger(self.run)
+        wsr.dump()
         
-        self.assertFalse( 'No Unwanted', nagger.hasUnwanted() )
-        self.assertFalse( 'No Unsent', nagger.hasUnsent() )
-        
-        nagger.addUnwanted('test subject','test content')
-        nagger.addUnsent('test subject','test content')
-        
-        self.assertTrue( 'Has Unwanted', nagger.hasUnwanted() )
-        self.assertTrue( 'Has Unsent', nagger.hasUnsent() )
-                
-    def testNagAddresses(self):
+    def testServers(self):
     
-        nagger=Nagger(self.run)
-           
-        # For all modules...
-        for module in self.workspace.getModules():                    
-            #print 'Get Addresses For Module : ' + module.getName()
-            addresses=nagger.getAddressPairs(module)
-            for addr in addresses:
-                #print 'AddressPair : ' + str(addr)
-                pass
-            for project in module.getProjects():
-                #print 'Get Addresses For Project : ' + project.getName()
-                addresses=nagger.getAddressPairs(project)
-                for addr in addresses:
-                    #print 'AddressPair : ' + str(addr)      
-                    pass   
-                             
-    def testNagEmails(self):
-    
-        nagger=Nagger(self.run)
-           
-        # For all modules...
-        for module in self.workspace.getModules(): 
-            for project in module.getProjects():
-                #print 'Get E-mail For Project : ' + project.getName()
-                addresses=nagger.getAddressPairs(project)
-                for addr in addresses:   
-                    toAddrs=[ addr.getToAddress() ]
-                    email=EmailMessage( toAddrs, \
-                            addr.getFromAddress(), \
-                            'Test Subject', \
-                            'Test Content')       
-                    #print str(email)
-                
-    def testNag(self):  
-        nag(self.run)
+        resulter=Resulter(self.run)
+
+        # Load for all servers...
+        resulter.loadResultsForServers()        
         

@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/document/documenter.py,v 1.8 2004/02/10 20:18:40 ajack Exp $
-# $Revision: 1.8 $
-# $Date: 2004/02/10 20:18:40 $
+# $Header: /home/stefano/cvs/gump/python/gump/document/documenter.py,v 1.9 2004/02/17 21:54:21 ajack Exp $
+# $Revision: 1.9 $
+# $Date: 2004/02/17 21:54:21 $
 #
 # ====================================================================
 #
@@ -78,10 +78,10 @@ class Documenter:
     #
     def document(self,run):
         if not hasattr(self,'documentRun'):
-            raise RuntimeException, 'Complete [' + `self.__class__` + '] with documentRun(self,run)'
+            raise RuntimeError, 'Complete [' + `self.__class__` + '] with documentRun(self,run)'
         
         if not callable(self.documentRun):
-            raise RuntimeException, 'Complete [' + `self.__class__` + '] with a callable documentRun(self,run)'
+            raise RuntimeError, 'Complete [' + `self.__class__` + '] with a callable documentRun(self,run)'
         
         log.info('Document run using [' + `self` + ']')
         
@@ -89,9 +89,9 @@ class Documenter:
         
     def getResolver(self,run):
         if not hasattr(self,'getResolverForRun'):
-            raise RuntimeException, 'Complete [' + `self.__class__` + '] with getResolverForRun(self,run)'
+            raise RuntimeError, 'Complete [' + `self.__class__` + '] with getResolverForRun(self,run)'
         
         if not callable(self.getResolverForRun):
-            raise RuntimeException, 'Complete [' + `self.__class__` + '] with a callable getResolverForRun(self,run)'
+            raise RuntimeError, 'Complete [' + `self.__class__` + '] with a callable getResolverForRun(self,run)'
             
         return self.getResolverForRun(run)

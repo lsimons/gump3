@@ -18,6 +18,8 @@
 
   <server href="server1.xml"/>
   
+  <server href="tracker1.xml"/>
+  
   <!-- Repository definitions -->
 
   <repository href="repository1.xml"/>

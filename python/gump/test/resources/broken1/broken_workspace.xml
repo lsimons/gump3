@@ -1,5 +1,6 @@
 <?xml version="1.0" ?>
-<workspace basedir="/data/gump" 
+<workspace name="test"
+	       basedir="/data/gump" 
            jardir="/data/gump/jars/latest"
            pkgdir="/data/package"
            sync="rsync -r -a --delete" version="0.3">

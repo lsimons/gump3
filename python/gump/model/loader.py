@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/model/Attic/loader.py,v 1.6 2004/02/15 17:32:05 ajack Exp $
-# $Revision: 1.6 $
-# $Date: 2004/02/15 17:32:05 $
+# $Header: /home/stefano/cvs/gump/python/gump/model/Attic/loader.py,v 1.7 2004/02/17 21:54:20 ajack Exp $
+# $Revision: 1.7 $
+# $Date: 2004/02/17 21:54:20 $
 #
 # ====================================================================
 #
@@ -92,6 +92,7 @@ class WorkspaceLoader:
       #
       # Clear out the maps
       #
+      XMLWorkspace.map={}
       XMLProfile.map={}
       XMLRepository.map={}
       XMLModule.map={}
@@ -125,6 +126,7 @@ class WorkspaceLoader:
       #
       # Clear out the maps [so don't continue to use them]
       #
+      XMLWorkspace.map={}
       XMLModule.map={}
       XMLProject.map={}
       XMLProfile.map={}

@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/model/project.py,v 1.50 2004/02/13 22:12:38 ajack Exp $
-# $Revision: 1.50 $
-# $Date: 2004/02/13 22:12:38 $
+# $Header: /home/stefano/cvs/gump/python/gump/model/project.py,v 1.51 2004/02/17 21:54:20 ajack Exp $
+# $Revision: 1.51 $
+# $Date: 2004/02/17 21:54:20 $
 #
 # ====================================================================
 #
@@ -1004,14 +1004,16 @@ class Project(NamedModelObject, Statable):
             properties.addPrefixedNamedParameter('-D',property.name,property.value,'=')
         return properties
 
-    def generateMavenProperties(self):
+    # The propertiesFile parameter is primarily for testing.
+    def generateMavenProperties(self,propertiesFile=None):
         """Set properties/overrides for a Maven project"""
         
         #
         # Where to put this:
         #
         basedir = self.maven.getBaseDirectory() or self.getBaseDirectory()
-        propertiesFile=os.path.abspath(os.path.join(\
+        if not propertiesFile: 
+            propertiesFile=os.path.abspath(os.path.join(	\
                     basedir,'build.properties'))
         
         if os.path.exists(propertiesFile):

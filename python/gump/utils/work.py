@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/utils/work.py,v 1.8 2004/01/29 18:11:56 ajack Exp $
-# $Revision: 1.8 $
-# $Date: 2004/01/29 18:11:56 $
+# $Header: /home/stefano/cvs/gump/python/gump/utils/work.py,v 1.9 2004/02/17 21:54:21 ajack Exp $
+# $Revision: 1.9 $
+# $Date: 2004/02/17 21:54:21 $
 #
 # ====================================================================
 #
@@ -103,7 +103,7 @@ class WorkItem(Ownable):
             
     def overview(self):
         overview='Work Name: ' + self.name +' (Type: ' + workTypeName(self.type)+')\n'
-        overview+='State: ' + stateName(self.state)+'\n'
+        overview+='State: ' + stateDescription(self.state)+'\n'
         if self.message:
             overview+=message+'\n'
         return overview

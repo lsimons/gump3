@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/model/state.py,v 1.10 2004/01/28 00:13:39 ajack Exp $
-# $Revision: 1.10 $
-# $Date: 2004/01/28 00:13:39 $
+# $Header: /home/stefano/cvs/gump/python/gump/model/state.py,v 1.11 2004/02/17 21:54:20 ajack Exp $
+# $Revision: 1.11 $
+# $Date: 2004/02/17 21:54:20 $
 #
 # ====================================================================
 #
@@ -73,6 +73,13 @@ STATE_FAILED=3
 STATE_PREREQ_FAILED=4
 STATE_COMPLETE=5
 
+stateNames = { STATE_UNSET : "Unset",
+           STATE_NONE : "NoWork",
+           STATE_SUCCESS : "Success",
+           STATE_FAILED : "Failed",
+           STATE_PREREQ_FAILED : "PrereqFailed",
+           STATE_COMPLETE : "Complete" }
+
 stateDescriptions = { STATE_UNSET : "Unset",
            STATE_NONE : "No Work Performed",
            STATE_SUCCESS : "Success",
@@ -81,9 +88,18 @@ stateDescriptions = { STATE_UNSET : "Unset",
            STATE_COMPLETE : "Complete" }
 
 def stateName(state):
-    return stateDescriptions.get(state,'Unknown State:' + str(state))
-    
+    return stateNames.get(state,'Unknown:' + str(state)) 
+       
+def stateDescription(state):
+    return stateDescriptions.get(state,'Unknown State:' + str(state))    
 
+namedState = { "Unset" : STATE_UNSET,
+           "NoWork" : STATE_NONE,
+            "Success" : STATE_SUCCESS,
+            "Failed" : STATE_FAILED,
+            "PrereqFailed" : STATE_PREREQ_FAILED,
+            "Complete"  : STATE_COMPLETE}
+            
 describedState = { "Unset" : STATE_UNSET,
            "No Work Performed" : STATE_NONE,
             "Success" : STATE_SUCCESS,
@@ -92,6 +108,9 @@ describedState = { "Unset" : STATE_UNSET,
             "Complete"  : STATE_COMPLETE}
            
 def stateForName(name):
+    return namedState.get(name,STATE_UNSET)
+    
+def stateForDescription(name):
     return describedState.get(name,STATE_UNSET)
 
 stateMap = {   CMD_STATE_NOT_YET_RUN : STATE_UNSET,
@@ -116,6 +135,19 @@ REASON_POSTBUILD_FAILED=9
 REASON_BUILD_TIMEDOUT=10
 REASON_MISSING_OUTPUTS=11
 
+reasonCodeNames = { 	REASON_UNSET : "NotSet",
+                    REASON_PACKAGE : "CompletePackageInstall",
+                    REASON_PACKAGE_BAD : "BadPackageInstallation",
+                    REASON_CIRCULAR : "CircularDependency",
+                    REASON_CONFIG_FAILED : "ConfigurationFailed",
+                    REASON_UPDATE_FAILED : "UpdateFailed",
+                    REASON_SYNC_FAILED : "SynchronizeFailed",
+                    REASON_PREBUILD_FAILED : "Pre-BuildFailed",
+                    REASON_BUILD_FAILED : "BuildFailed",
+                    REASON_POSTBUILD_FAILED : "Post-BuildFailed",
+                    REASON_BUILD_TIMEDOUT : "BuildTimedOut",
+                    REASON_MISSING_OUTPUTS : "MissingBuildOutputs" }    
+                    
 reasonCodeDescriptions = { 	REASON_UNSET : "Not Set",
                     REASON_PACKAGE : "Complete Package Install",
                     REASON_PACKAGE_BAD : "Bad Package Installation",
@@ -129,7 +161,10 @@ reasonCodeDescriptions = { 	REASON_UNSET : "Not Set",
                     REASON_BUILD_TIMEDOUT : "Build Timed Out",
                     REASON_MISSING_OUTPUTS : "Missing Build Outputs" }    
     
-def reasonString(reasonCode):
+def reasonName(reasonCode):
+    return reasonCodeNames.get(reasonCode,'Unknown:' + str(reasonCode))
+    
+def reasonDescription(reasonCode):
     return reasonCodeDescriptions.get(reasonCode,'Unknown Reason:' + str(reasonCode))
           
 class StatePair:
@@ -142,9 +177,9 @@ class StatePair:
         return str(self)
         
     def __str__(self):
-        result=stateName(self.state)
+        result=stateDescription(self.state)
         if not self.reason == REASON_UNSET:
-            result += ":" + reasonString(self.reason)
+            result += ":" + reasonDescription(self.reason)
         return result
         
     def __eq__(self,other):
@@ -162,14 +197,20 @@ class StatePair:
         return self.state
         
     def getStateDescription(self):
+        return stateDescription(self.getState())
+        
+    def getStateName(self):
         return stateName(self.getState())
         
     def getReason(self):
         return self.reason
         
+    def getReasonName(self):
+        return reasonName(self.getReason())
+        
     def getReasonDescription(self):
         if self.isReasonUnset(): return ''
-        return reasonString(self.getReason())
+        return reasonDescription(self.getReason())
         
     #
     #
@@ -215,6 +256,9 @@ class Stateful:
     def getState(self):
         return self.statePair.state
         
+    def getStateName(self):
+        return self.statePair.getStateName()
+        
     def getStateDescription(self):
         return self.statePair.getStateDescription()
         
@@ -227,6 +271,9 @@ class Stateful:
         
     def getReasonDescription(self):
         return self.statePair.getReasonDescription()
+        
+    def getReasonName(self):
+        return self.statePair.getReasonName()
         
     def isSuccess(self):
         return self.statePair.isSuccess()

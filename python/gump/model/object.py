@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/model/object.py,v 1.16 2004/02/10 22:48:52 ajack Exp $
-# $Revision: 1.16 $
-# $Date: 2004/02/10 22:48:52 $
+# $Header: /home/stefano/cvs/gump/python/gump/model/object.py,v 1.17 2004/02/17 21:54:20 ajack Exp $
+# $Revision: 1.17 $
+# $Date: 2004/02/17 21:54:20 $
 #
 # ====================================================================
 #
@@ -112,9 +112,9 @@ class Propogatable(Stateful):
                 # Describe the problem
                 #
                 if not message:
-                    message = lower(stateName(state))
+                    message = lower(stateDescription(state))
                     if not REASON_UNSET == reason:
-                        message += " with reason " + lower(reasonString(reason))            
+                        message += " with reason " + lower(reasonDescription(reason))            
                 self.addError(capitalize(message))
         
                 # Send on the changes...

@@ -1,7 +1,7 @@
 #!/usr/bin/env python
-# $Header: /home/stefano/cvs/gump/python/gump/test/maven.py,v 1.4 2004/01/09 19:57:19 ajack Exp $
-# $Revision: 1.4 $
-# $Date: 2004/01/09 19:57:19 $
+# $Header: /home/stefano/cvs/gump/python/gump/test/maven.py,v 1.5 2004/02/17 21:54:21 ajack Exp $
+# $Revision: 1.5 $
+# $Date: 2004/02/17 21:54:21 $
 #
 # ====================================================================
 #
@@ -91,7 +91,7 @@ class MavenTestSuite(UnitTestSuite):
                 
         self.assertTrue('Maven project has a Maven object', self.maven1.hasMaven())
         
-        self.maven1.generateMavenProperties()
+        self.maven1.generateMavenProperties('test/unit-testing-maven.properties')
         
         cmd=self.maven1.getMavenCommand()
         

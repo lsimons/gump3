@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/forrest.py,v 1.74 2004/02/15 17:32:05 ajack Exp $
-# $Revision: 1.74 $f
-# $Date: 2004/02/15 17:32:05 $
+# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/forrest.py,v 1.75 2004/02/17 21:54:21 ajack Exp $
+# $Revision: 1.75 $f
+# $Date: 2004/02/17 21:54:21 $
 #
 # ====================================================================
 #
@@ -976,7 +976,6 @@ class ForrestDocumenter(Documenter):
         pcount=0
         for project in module.getProjects():     
             if not gumpSet.inSequence(project): continue  
-            pname=project.getName()
             pcount+=1
             
             projectRow=pallTable.createRow()
@@ -1100,7 +1099,7 @@ class ForrestDocumenter(Documenter):
         stateList=stateSection.createList()
         stateList.createEntry("Current State: ", project.getStateDescription())  
         if not project.getReason() == REASON_UNSET:
-            stateList.createEntry("Reason: " + reasonString(project.getReason()))            
+            stateList.createEntry("Reason: " + reasonDescription(project.getReason()))            
         if project.cause and not project==project.cause:
              self.insertTypedLink( project.cause, project, stateList.createEntry( "Root Cause: ")) 
              
@@ -1157,10 +1156,10 @@ class ForrestDocumenter(Documenter):
         statsTable.createEntry("Successes: ", stats.successes)
         statsTable.createEntry("Failures: ", stats.failures)
         statsTable.createEntry("Prerequisite Failures: ", stats.prereqs)
-        statsTable.createEntry("Current State: ", stateName(stats.currentState))
+        statsTable.createEntry("Current State: ", stateDescription(stats.currentState))
         statsTable.createEntry("Duration in state: ", stats.sequenceInState)
         statsTable.createEntry("Start of state: ", secsToDate(stats.startOfState))
-        statsTable.createEntry("Previous State: ", stateName(stats.previousState))
+        statsTable.createEntry("Previous State: ", stateDescription(stats.previousState))
         
         if stats.first:
             statsTable.createEntry("First Success: ", secsToDate(stats.first))
@@ -1437,7 +1436,7 @@ class ForrestDocumenter(Documenter):
             workRow.createComment(work.getName())
             
             self.insertLink(work,workable,workRow.createData())  
-            workRow.createData(stateName(work.state))
+            workRow.createData(stateDescription(work.state))
             workRow.createData(secsToDate(work.result.start_time))
             workRow.createData(secsToElapsedString(work.getElapsedSecs()))
         
@@ -1472,7 +1471,7 @@ class ForrestDocumenter(Documenter):
             workSection=wdocument.createSection('Details')
             
             workList=workSection.createList() 
-            workList.createEntry("State: ", stateName(work.state))
+            workList.createEntry("State: ", stateDescription(work.state))
             
             self.insertTypedLink(work.getOwner(),	\
                     work,	\
@@ -1607,9 +1606,9 @@ class ForrestDocumenter(Documenter):
         return '<fork href=\'%s\'>%s</fork>' % (escape(href),escape(name))
             
     def insertStateDescription(self,toObject,fromObject,xdocNode):
-        node=xdocNode.createText(stateName(toObject.getState()))
+        node=xdocNode.createText(stateDescription(toObject.getState()))
         if not toObject.getReason()==REASON_UNSET: 
-            xdocNode.createText(' with reason '+reasonString(toObject.getReason()))
+            xdocNode.createText(' with reason '+reasonDescription(toObject.getReason()))
             
         if toObject.cause and not toObject.cause == toObject:
         
@@ -1697,8 +1696,8 @@ class ForrestDocumenter(Documenter):
         depth=getDepthForObject(fromObject)
         
         # :TODO: Move this to some resolver, and share with RSS
-        sname=stateName(pair.state)
-        rstring=reasonString(pair.reason)    
+        sname=stateDescription(pair.state)
+        rstring=reasonDescription(pair.reason)    
 
         description=sname    
         uniqueName=sname
@@ -2024,7 +2023,7 @@ class ForrestDocumenter(Documenter):
             pstats=project.getStats()
             
             durRow.createData(pstats.sequenceInState)
-            durRow.createData(stateName(pstats.currentState))
+            durRow.createData(stateDescription(pstats.currentState))
             
         document.serialize()
         

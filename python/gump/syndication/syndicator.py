@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/syndication/syndicator.py,v 1.18 2004/02/10 20:18:40 ajack Exp $
-# $Revision: 1.18 $
-# $Date: 2004/02/10 20:18:40 $
+# $Header: /home/stefano/cvs/gump/python/gump/syndication/syndicator.py,v 1.19 2004/02/17 21:54:21 ajack Exp $
+# $Revision: 1.19 $
+# $Date: 2004/02/17 21:54:21 $
 #
 # ====================================================================
 #
@@ -80,7 +80,7 @@ class Syndicator:
     #
     def syndicate(self,run):
         if not hasattr(self,'syndicateRun'):
-            raise RuntimeException, 'Complete [' + `self.__class__` + '] with syndicateRun(self,run)'
+            raise RuntimeError, 'Complete [' + `self.__class__` + '] with syndicateRun(self,run)'
         
         if not callable(self.syndicateRun):
             raise RuntimeException, 'Complete [' + `self.__class__` + '] with a callable syndicateRun(self,run)'
@@ -104,7 +104,7 @@ class Syndicator:
         if not stats.previousState == STATE_NONE \
             and not stats.previousState == STATE_UNSET:
             content += ', Previous state: <b>' \
-                                    + stateName(stats.previousState)  \
+                                    + stateDescription(stats.previousState)  \
                                     + '</b>'
     
         content += '</p>'
@@ -138,7 +138,7 @@ class Syndicator:
         if not stats.previousState == STATE_NONE \
             and not stats.previousState == STATE_UNSET:
             content += ', Previous state: <b>' \
-                                    + stateName(stats.previousState) \
+                                    + stateDescription(stats.previousState) \
                                     + '</b>'
                                     
         content += '</p>'
@@ -191,7 +191,7 @@ class Syndicator:
         #    content += '<p><table>'    
         #    for work in object.worklist:
         #        url=resolver.getAbsoluteUrl(work)
-        #        state=stateName(work.state)                 
+        #        state=stateDescription(work.state)                 
         #        content += ('<tr><td><a href=\'' + 	\
         #            url + '\'>' + work.getName() + 	\
         #            '</a></td><td>' + state + 		\

@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/utils/Attic/launcher.py,v 1.10 2004/01/29 18:11:56 ajack Exp $
-# $Revision: 1.10 $
-# $Date: 2004/01/29 18:11:56 $
+# $Header: /home/stefano/cvs/gump/python/gump/utils/Attic/launcher.py,v 1.11 2004/02/17 21:54:21 ajack Exp $
+# $Revision: 1.11 $
+# $Date: 2004/02/17 21:54:21 $
 #
 # ====================================================================
 #
@@ -283,7 +283,7 @@ class CmdResult:
         self.end_time=None
         
     def overview(self,indent):
-        overview + indent+"State: " + states[self.state]
+        overview = indent+"State: " + states[self.state]
         overview += self.cmd.overview(indent)
         if self.output:
           overview += indent+"Output: " + self.output

@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/text.py,v 1.8 2004/02/15 17:32:05 ajack Exp $
-# $Revision: 1.8 $
-# $Date: 2004/02/15 17:32:05 $
+# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/text.py,v 1.9 2004/02/17 21:54:21 ajack Exp $
+# $Revision: 1.9 $
+# $Date: 2004/02/17 21:54:21 $
 #
 # ====================================================================
 #
@@ -150,7 +150,7 @@ class TextDocumenter(Documenter):
                 + "] [" + str(workable.getElapsedSecs()) + "] secs."  + "\n")
     
         for work in workable.worklist:
-            output.write(indent+"Work : " + stateName(work.state) + "\n")
+            output.write(indent+"Work : " + stateDescription(work.state) + "\n")
             if isinstance(work,CommandWorkItem):
                 output.write(indent+"Work Name : " + work.command.name + "\n")
                 output.write(indent+"Work Cmd  : " + work.command.formatCommandLine() + "\n")
