@@ -187,12 +187,12 @@ From: Peter Donald <donaldp@apache.org>
 Subject: [GUMP] Build Failure - Avalon
 Regex: /BUILD FAILED/
 ------
-Project: jakarta-avalon-clutil
+Project: excalibur-cli
 To: avalon-dev@jakarta.apache.org
 From: Peter Donald <donaldp@apache.org>
-Subject: [GUMP] Build Failure - Clutil
+Subject: [GUMP] Build Failure - Excalibur CLI
 Regex: /BUILD FAILED/
-Subject: [GUMP] Empty jar - Clutil
+Subject: [GUMP] Empty jar - CLI
 Regex: /Note: creating empty jar/
 ------
 Project: jakarta-avalon-cornerstone

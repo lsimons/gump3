@@ -34,12 +34,12 @@
     <javadoc nested="build/javadocs" module="jakarta-avalon"/>
   </project>
 
-  <project name="jakarta-avalon-clutil">
+  <project name="excalibur-cli">
     <depend project="jakarta-ant"/>
     <depend project="xml-xerces"/>
-    <ant target="jar-clutil"/>
+    <ant target="jar-cli"/>
     <home nested="build/lib"/>
-    <jar name="clutil.jar"/>
+    <jar name="excalibur-cli.jar"/>
   </project>
 
 </module>
