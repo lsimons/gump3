@@ -12,6 +12,7 @@
     <package>com.mockobjects</package>
     <mkdir dir="out/core/classes"/>
     <mkdir dir="out/jdk/classes"/>
+    <mkdir dir="out/j2ee/classes"/>
 
     <ant>
       <property name="project.version" value="@@DATE@@"/>
@@ -45,10 +46,16 @@
     <package>com.mockobjects</package>
     <mkdir dir="out/core/classes"/>
     <mkdir dir="out/jdk/classes"/>
+    <!-- clean up earlier build -->
+    <delete dir="out/j2ee/classes"/>
+    <mkdir dir="out/j2ee/classes"/>
 
     <ant>
       <property name="project.version" value="@@DATE@@"/>
     </ant>
+
+    <!-- ensure mockobjects has been built before -->
+    <depend project="mockobjects"><noclasspath/></depend>
 
     <depend project="ant" inherit="runtime"/>
     <depend project="xml-xerces"/>
