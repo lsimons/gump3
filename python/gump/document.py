@@ -197,6 +197,7 @@ def executeForrest(workspace,context):
     
     # Temporary
     # Too verbose ... forrest.addParameter('-debug')
+    forrest.addParameter('-verbose')
     
     forrest.addPrefixedParameter('-D','java.awt.headless','true','=')
     #forrest.addPrefixedParameter('-D','project.content-dir',  \
@@ -965,14 +966,14 @@ def getWorkRelativeUrl(type,name):
     
 def getStatePairIcon(pair,depth=0):
 
-    stateName=stateName(pair.status)
-    reasonString=reasonString(pair.reason)    
+    sname=stateName(pair.status)
+    rstring=reasonString(pair.reason)    
     
-    description=stateName    
-    uniqueName=stateName
+    description=sname    
+    uniqueName=sname
     if not pair.reason==REASON_UNSET: 
-        description+=' '+reasonString
-        uniqueName+='_'+reasonString
+        description+=' '+rstring
+        uniqueName+='_'+rstring
     
     # Build the URL
     iconName=gumpSafeName(uniqueName)
