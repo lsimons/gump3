@@ -19,6 +19,12 @@
     <option project="jsse"/>
     <home nested="bin"/>
     <jar name="xmlrpc-@@DATE@@.jar"/>
+
+    <nag from="Sam Ruby &lt;rubys@apache.org&gt;"
+         to="turbine-maven-dev@jakarta.apache.org"
+         subject="Build failure - XMLRPC">
+      <regexp pattern="/maven/"/>
+    </nag>
   </project>
 
 </module>
