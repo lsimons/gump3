@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/model/property.py,v 1.1 2003/11/17 22:10:50 ajack Exp $
-# $Revision: 1.1 $
-# $Date: 2003/11/17 22:10:50 $
+# $Header: /home/stefano/cvs/gump/python/gump/model/property.py,v 1.2 2003/11/18 17:29:17 ajack Exp $
+# $Revision: 1.2 $
+# $Date: 2003/11/18 17:29:17 $
 #
 # ====================================================================
 #
@@ -79,16 +79,21 @@ class Property(NamedModelObject):
         
     # provide default elements when not defined in xml
     def complete(self,parent,workspace):
+        if self.isComplete(): return
+                 
         if self.xml.reference=='home':
             try:
-                self.setValue(workspace.getProject(self.xml.project).getHomeDirectory())
+                targetProject=workspace.getProject(self.xml.project)
+                self.setValue(targetProject.getHomeDirectory())
             except Exception, details:
-                log.warn( "Cannot resolve homedir of " + self.xml.project + " for " + `parent` + ' : ' + `details`)
+                log.warn( "Cannot resolve homedir of " + self.xml.project + " for " + `parent` + ' : ' + `details`,exc_info=1)                
         elif self.xml.reference=='srcdir':
             try:
-                self.setValue(workspace.getProject(self.xml.project).getModule().getSoruceDirectory())
+                targetProject=workspace.getProject(self.xml.project)
+                
+                self.setValue(targetProject.getModule().getSourceDirectory())
             except Exception, details:
-                log.warn( "Cannot resolve srcdir of " + self.xml.project + " for " + `parent` + ' : ' + `details`)
+                log.warn( "Cannot resolve srcdir of " + self.xml.project + " for " + `parent` + ' : ' + `details`,exc_info=1)
         elif self.xml.reference=='jarpath' or self.xml.reference=='jar':
             try:
                 targetProject=workspace.getProject(self.xml.project)
@@ -118,7 +123,7 @@ class Property(NamedModelObject):
                     log.error(self.value)
             except Exception, details:
                 log.warn( "Cannot resolve jar/jarpath of " + self.xml.project + \
-                  " for " + `parent` + ". Details: " + str(details))
+                  " for " + `parent` + ". Details: " + str(details),exc_info=1)
         elif self.xml.path:
             #
             # Path relative to module's srcdir 
@@ -129,7 +134,9 @@ class Property(NamedModelObject):
         
         if not hasattr(self,'value'):
             log.error('Unhandled Property: ' + self.getName() + ' on: ' + \
-                    `parent`)
+                    str(parent))
+                
+        self.setComplete(1)
         
     def dump(self, indent=0, output=sys.stdout):
         """ Display the property """

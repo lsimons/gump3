@@ -1,8 +1,8 @@
 #!/usr/bin/python
 
-# $Header: /home/stefano/cvs/gump/python/gump/Attic/config.py,v 1.1 2003/11/17 22:10:51 ajack Exp $
-# $Revision: 1.1 $
-# $Date: 2003/11/17 22:10:51 $
+# $Header: /home/stefano/cvs/gump/python/gump/Attic/config.py,v 1.2 2003/11/18 17:29:18 ajack Exp $
+# $Revision: 1.2 $
+# $Date: 2003/11/18 17:29:18 $
 #
 # ====================================================================
 #
@@ -99,7 +99,7 @@ class default:
     globalws   = os.path.normpath('%s/%s' % (dir.base, 'global-workspace.xml'))
     merge      = os.path.normpath('%s/%s' % (dir.work, 'merge.xml'))
     date       = time.strftime('%Y%m%d')
-    logLevel   = logging.DEBUG # logging.INFO 
+    logLevel   = logging.INFO # logging.DEBUG
     classpath = (os.getenv('CLASSPATH') or '').split(os.pathsep)  
     
     logurl		=	'http://cvs.apache.org/builds/gump/nightly/'

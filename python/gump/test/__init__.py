@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/test/__init__.py,v 1.1 2003/11/17 22:10:53 ajack Exp $
-# $Revision: 1.1 $
-# $Date: 2003/11/17 22:10:53 $
+# $Header: /home/stefano/cvs/gump/python/gump/test/__init__.py,v 1.2 2003/11/18 17:29:18 ajack Exp $
+# $Revision: 1.2 $
+# $Date: 2003/11/18 17:29:18 $
 #
 # ====================================================================
 #
@@ -76,8 +76,7 @@ def getTestWorkspace(xml=None):
     print "Workspace File: " + str(xml)
     #
     workspace = WorkspaceLoader().load(xml)
-   
-    
+
     return workspace
     
 def getWorkedTestWorkspace(xml=None):
@@ -93,9 +92,12 @@ def getWorkedTestWorkspace(xml=None):
         listDirectoryAsWork(module,module.getSourceDirectory())
         for project in module.getProjects():
             listDirectoryAsWork(project,project.getHomeDirectory())        
-            
+
+    return workspace
+    
 def createTestWorkspace():
     xmlworkspace=XMLWorkspace({})
     workspace=Workspace(xmlworkspace)
     return workspace
+  
     

@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/model/workspace.py,v 1.2 2003/11/18 01:15:26 ajack Exp $
-# $Revision: 1.2 $
-# $Date: 2003/11/18 01:15:26 $
+# $Header: /home/stefano/cvs/gump/python/gump/model/workspace.py,v 1.3 2003/11/18 17:29:17 ajack Exp $
+# $Revision: 1.3 $
+# $Date: 2003/11/18 17:29:17 $
 #
 # ====================================================================
 #
@@ -107,9 +107,7 @@ class Workspace(ModelObject,PropertyContainer):
         #    
         self.startdatetime=time.strftime(setting.datetimeformat, \
                                 time.localtime())
-        self.timezone=str(time.tzname)
-    
-        
+        self.timezone=str(time.tzname)    
     
     def hasRepository(self,rname):
         return self.repositories.has_key(rname)
@@ -132,7 +130,9 @@ class Workspace(ModelObject,PropertyContainer):
     def getProject(self,pname):
         return self.projects[pname]
         
-    def complete(self, xmlprofiles, xmlrepositories, xmlmodules, xmlprojects):
+    def complete(self, xmlprofiles, xmlrepositories, xmlmodules, xmlprojects):        
+        if self.isComplete(): return
+        
         #
         # provide default elements when not defined in xml
         # expand those in XML
@@ -260,13 +260,6 @@ class Workspace(ModelObject,PropertyContainer):
                 self.error("Duplicate Module name [" + moduleName + "]")
             else:        
                 self.modules[moduleName] = module
-
-        #
-        # Check repositories now modules have been imported
-        #
-        for repository in self.getRepositories(): 
-            repository.check(self)
-       
         #
         # Import all projects
         #  
@@ -282,8 +275,12 @@ class Workspace(ModelObject,PropertyContainer):
         # Complete the modules
         for module in self.getModules():
             module.complete(self)
-    
-        
+            
+        #
+        # Check repositories now modules have been imported
+        #
+        for repository in self.getRepositories(): 
+            repository.check(self)            
         
         # Complete the projects   
         haveUnnamedModule=0
@@ -304,6 +301,8 @@ class Workspace(ModelObject,PropertyContainer):
                                                              
         # Complee the properies
         self.completeProperties()
+                                        
+        self.setComplete(1)
             
     def addModule(self,module):
         self.modules[module.getName()]=module                         

@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/model/Attic/rawmodel.py,v 1.1 2003/11/17 22:10:50 ajack Exp $
-# $Revision: 1.1 $
-# $Date: 2003/11/17 22:10:50 $
+# $Header: /home/stefano/cvs/gump/python/gump/model/Attic/rawmodel.py,v 1.2 2003/11/18 17:29:17 ajack Exp $
+# $Revision: 1.2 $
+# $Date: 2003/11/18 17:29:17 $
 #
 # ====================================================================
 #
@@ -268,6 +268,8 @@ class XMLProperty(GumpXMLModelObject):
         
   # provide default elements when not defined in xml
   def complete(self,project):
+    if self.isComplete(): return    
+        
     if self.reference=='home':
       try:
         self.value=Project.list[self.project].home
@@ -324,6 +326,9 @@ class XMLProperty(GumpXMLModelObject):
     elif not hasattr(self,'value'):
         log.error('Unhandled Property: ' + self.name + ' on project: ' + \
                     project.name)
+                      
+
+    self.setComplete(1)
         
         
 # TODO: set up the below elements with defaults using complete()

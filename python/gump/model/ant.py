@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/model/Attic/ant.py,v 1.2 2003/11/18 00:29:50 ajack Exp $
-# $Revision: 1.2 $
-# $Date: 2003/11/18 00:29:50 $
+# $Header: /home/stefano/cvs/gump/python/gump/model/Attic/ant.py,v 1.3 2003/11/18 17:29:17 ajack Exp $
+# $Revision: 1.3 $
+# $Date: 2003/11/18 17:29:17 $
 #
 # ====================================================================
 #
@@ -107,45 +107,48 @@ class Ant(ModelObject, PropertyContainer):
         # into dependencies
         #
         for property in self.xml.property:
-        
-            # Check if the property comes from another project
-            if not property.project: continue      
-            # If that project is the one we have in hand
-            if property.project==project.getName(): continue
-            # If the property is not as simple as srcdir
-            if property.reference=="srcdir": continue
-            # If it isn't already a classpath dependency
-            if project.hasFullDependencyOn(property.project): continue
+            self.expandProperty(property,project,workspace)        
+    
+    def expandProperty(self,property,project,workspace):
             
-            # If there are IDs specified
-            ids=''
-            if property.id: ids= property.id
+        # Check if the property comes from another project
+        if not property.project: return      
+        # If that project is the one we have in hand
+        if property.project==project.getName(): return
+        # If the property is not as simple as srcdir
+        if property.reference=="srcdir": return
+        # If it isn't already a classpath dependency
+        if project.hasFullDependencyOn(property.project): return
+            
+        # If there are IDs specified
+        ids=''
+        if property.id: ids= property.id
 
-            # Runtime?
-            runtime=0
-            if property.runtime: property.runtime=1
+        # Runtime?
+        runtime=0
+        if property.runtime: property.runtime=1
    
-            projectName=property.project
-            if workspace.hasProject(projectName): 
-                # Add a dependency (to bring property)
-                dependency=ProjectDependency(project, 	\
-                                workspace.getProject(property.project),	\
-                                INHERIT_ALL,	\
-                                runtime,
-                                0,	\
-                                ids)
+        projectName=property.project
+        if workspace.hasProject(projectName): 
+            # Add a dependency (to bring property)
+            dependency=ProjectDependency(project, 	\
+                            workspace.getProject(property.project),	\
+                            INHERIT_ALL,	\
+                            runtime,
+                            0,	\
+                            ids)
                             
-                dependency.addInfo("Property Based Dependency " + `property`)
+            dependency.addInfo("Property Based Dependency " + `property`)
             
-                # :TODOs:
-                # if not property.classpath: depend['noclasspath']=Single({})
+            # :TODOs:
+            # if not property.classpath: depend['noclasspath']=Single({})
             
             
-                # Add depend to project...
-                # :TODO: Convert to ModelObject
-                project.addDependency(dependency)
-            else:
-                log.error('No such project [' + projectName + '] for property')
+            # Add depend to project...
+            # :TODO: Convert to ModelObject
+            project.addDependency(dependency)
+        else:
+            log.error('No such project [' + projectName + '] for property')
 
     def expandDependencies(self,project,workspace):
         #
@@ -168,11 +171,7 @@ class Ant(ModelObject, PropertyContainer):
             # :TODO: AJ added this, no idea if it is right/needed.
             if depend.id: property['ids']= depend.id
             # Store it
-            self.xml.property.append(property)      
-            # Move onto project
-            project.xml.depend.append(depend)
-      
-        self.xml.depend=None
+            self.expandProperty(property,project,workspace)      
 
     def getTarget(self):
         return self.target
@@ -185,12 +184,15 @@ class Ant(ModelObject, PropertyContainer):
     # at this point
     #
     def complete(self,project,workspace):
+        if self.isComplete(): return
         
         # Import the properties..
     	PropertyContainer.importProperties(self,self.xml)
     	
     	# Compelte them all
         self.completeProperties(workspace)
+                
+        self.setComplete(1)
                     
     def dump(self, indent=0, output=sys.stdout):
         """ Display the contents of this object """

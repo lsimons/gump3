@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/model/repository.py,v 1.1 2003/11/17 22:10:50 ajack Exp $
-# $Revision: 1.1 $
-# $Date: 2003/11/17 22:10:50 $
+# $Header: /home/stefano/cvs/gump/python/gump/model/repository.py,v 1.2 2003/11/18 17:29:17 ajack Exp $
+# $Revision: 1.2 $
+# $Date: 2003/11/18 17:29:17 $
 #
 # ====================================================================
 #
@@ -90,11 +90,19 @@ class Repository(NamedModelObject):
         pass
                      
     def check(self,workspace):
-        if not self.modules:
+        if not self.hasModules():
             self.addWarning('Unused Repository (not referenced by modules)')
+    
+    def hasModules(self):
+        if self.modules: return 1
+        return 0
             
+    def getModules(self):
+        return self.modules
+    
     def dump(self, indent=0, output=sys.stdout):
         output.write(getIndent(indent)+'Repository : ' + self.name + '\n')   
+        NamedModelObject.dump(self)
         
     def hasTitle(self): 
         return hasattr(self.xml,'title') and self.xml.title

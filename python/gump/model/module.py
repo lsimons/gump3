@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/model/module.py,v 1.2 2003/11/18 01:15:26 ajack Exp $
-# $Revision: 1.2 $
-# $Date: 2003/11/18 01:15:26 $
+# $Header: /home/stefano/cvs/gump/python/gump/model/module.py,v 1.3 2003/11/18 17:29:17 ajack Exp $
+# $Revision: 1.3 $
+# $Date: 2003/11/18 17:29:17 $
 #
 # ====================================================================
 #
@@ -151,6 +151,8 @@ class Module(NamedModelObject):
     # provide default elements when not defined in xml
     def complete(self,workspace):
       
+        if self.isComplete(): return
+        
         # We have a CVS entry, expand it...
         if self.xml.cvs:
             repoName=self.xml.cvs.repository
@@ -177,6 +179,8 @@ class Module(NamedModelObject):
             else:
                 log.error(':TODO: No such project in w/s ['+ `xmlproject.name` +'] on [' \
                         + self.getName() + ']')
+                    
+        self.setComplete(1)
             
 
 

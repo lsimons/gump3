@@ -12,6 +12,7 @@
 
     <ant target="gump">
       <property name="ant.home" reference="home" project="project1"/>
+      <property name="ant.home" reference="home" project="ant"/> 
     </ant>
 
     <depend project="project1"/>

@@ -69,51 +69,64 @@ from gump import log
 import gump.config
 from gump.model.loader import WorkspaceLoader
 from gump.utils import *
+from gump.test import getWorkedTestWorkspace
+from gump.test.pyunit import UnitTestSuite
 
-if __name__=='__main__':
+class ModelTestSuite(UnitTestSuite):
+    def __init__(self):
+        UnitTestSuite.__init__(self)
+        
+    def setUp(self):
+        #
+        # Load a decent Workspace
+        #
+        self.workspace=getWorkedTestWorkspace() 
+         
+        self.assertNotNone('Needed a workspace', self.workspace)
+        
+        self.repo1=self.workspace.getRepository('repository1')              
+        self.project1=self.workspace.getProject('project1')
+        self.project2=self.workspace.getProject('project2')
+        self.module1=self.workspace.getModule('module1')
     
-    # init logging
-    logging.basicConfig()
+        
+    def testWorkspace(self):
+        self.assertNonZero('Has Log Directory',	\
+                    self.workspace.getLogDirectory() )
+        
+    def testRepository(self):
+        repo1 = self.repo1
+        
+        self.assertNonZero('Repository CVSWEB',repo1.getCvsWeb())
+        self.assertNonZeroString('Repository CVSWEB',repo1.getCvsWeb())        
+        self.assertTrue('Repository has Modules', repo1.hasModules())
 
-    #set verbosity to show all messages of severity >= default.logLevel
-    log.setLevel(gump.default.logLevel)
-    
-    ws=WorkspaceLoader().load('gump/test/resources/simple2/workspace.xml')
-    
-    printSeparator()
-    print ws.getLogDirectory()
-    
-    repo1=ws.getRepository('repository1')
-    print "Repository CVSWEB:" + str(repo1.getCvsWeb())
-    
-    project1=ws.getProject('project1')
-    project2=ws.getProject('project2')
-    
-    if project1 == project2:
-        log.error("Different projects match!!!")
+    def testComparisons(self):
+        project1 = self.project1
+        project2 = self.project2
         
-    if not project1 == project1:
-        log.error("Same project not matching!!!")
+        if project1 == project2:
+            log.error("Different projects match!!!")
         
-    projects=[]
-    projects.append(project1)
-    
-    if not project1 in projects:
-        log.error("project not in list!!!")
+        if not project1 == project1:
+            log.error("Same project not matching!!!")
         
-    if project2 in projects:
-        log.error("project not in list!!!")
+        projects=[]
+        projects.append(project1)
+   
         
-    printSeparator()
-    
-    print getTerseClassName(ws)
-    print getTerseClassName(project1)
-    
-    printSeparator()
-    for p in createOrderedList([ project2, project1, project2, project1]):
-        print p
+        self.assertIn('Project in list',project1,projects)
+        self.assertNotIn('Project NOT in list',project2,projects)
         
+        ordered=createOrderedList([ project2, project1, project2, project1])
+        
+        self.assertAt('Project First', project1, ordered, 0)
+        self.assertAt('Project Second', project1, ordered, 1)
+        self.assertAt('Project Third', project2, ordered, 2)
+        self.assertAt('Project Fourth', project2, ordered, 3)        
     
-    module1=ws.getModule('module1')
-    if module1.isCVS():
-        print "CVSROOT = " + module1.cvs.getCVSRoot()
+    def testCVS(self):
+        module1=self.module1
+        
+        self.assertTrue('Module is CVS', module1.isCVS())
+        self.assertNonZeroString('CVSROOT',module1.cvs.getCVSRoot())

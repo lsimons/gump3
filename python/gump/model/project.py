@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/model/project.py,v 1.2 2003/11/18 00:29:50 ajack Exp $
-# $Revision: 1.2 $
-# $Date: 2003/11/18 00:29:50 $
+# $Header: /home/stefano/cvs/gump/python/gump/model/project.py,v 1.3 2003/11/18 17:29:17 ajack Exp $
+# $Revision: 1.3 $
+# $Date: 2003/11/18 17:29:17 $
 #
 # ====================================================================
 #
@@ -203,11 +203,7 @@ class Project(NamedModelObject):
     	# Outputs
     	#
         self.jars={}
-    	
-    	# Transient settings...
-    	
-    	self.isComplete=0
-    
+        
     def getAnt(self):
         return self.ant
         
@@ -345,7 +341,7 @@ class Project(NamedModelObject):
     
     # provide elements when not defined in xml
     def complete(self,workspace):
-        if self.isComplete: return
+        if self.isComplete(): return
 
         if not self.inModule():
             self.addWarning("Not in a module")
@@ -354,7 +350,6 @@ class Project(NamedModelObject):
         # Import any <ant part
         if self.xml.ant:
             self.ant = Ant(self.xml.ant,self)
-            self.ant.complete(self, workspace)
         
         # :TODO: Scripts
         
@@ -397,13 +392,13 @@ class Project(NamedModelObject):
                 #:TODO: Warn .. no name
                 pass
 
-        # expand properties
+        # Expand <ant <depends/<properties...
         if self.ant: self.ant.expand(self,workspace)
 
-        # Build Dependencies Map
+        # Build Dependencies Map [including depends from <ant/<property/<depend
         (badDepends, badOptions) = self.buildDependenciesMap(workspace)
         
-        # Hmm, why complete these first? Does it matter?
+        # Complete dependencies so properties can reference the,
         for dependency in self.getDependencies():
             dependency.getProject().complete(workspace)
         
@@ -423,7 +418,7 @@ class Project(NamedModelObject):
                 self.addWarning("Bad *Optional* Dependency. Project: " + xmloption.project + " unknown to *this* workspace")
                 log.warn("Unknown *Optional* Dependency [" + xmloption.project + "] on [" + self.getName() + "]")    
         
-        self.isComplete=1
+        self.setComplete(1)
 
     def buildDependenciesMap(self,workspace):        
         badDepends=[]
@@ -433,6 +428,7 @@ class Project(NamedModelObject):
             if workspace.hasProject(dependProjectName):
                 dependProject=workspace.getProject(dependProjectName)
                 
+                # Import the dependency
                 dependency=importXMLDependency(self, dependProject, xmldepend, 0)
                                 
                 # Add a dependency

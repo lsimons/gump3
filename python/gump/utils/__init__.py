@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/utils/__init__.py,v 1.1 2003/11/17 22:10:55 ajack Exp $
-# $Revision: 1.1 $
-# $Date: 2003/11/17 22:10:55 $
+# $Header: /home/stefano/cvs/gump/python/gump/utils/__init__.py,v 1.2 2003/11/18 17:29:18 ajack Exp $
+# $Revision: 1.2 $
+# $Date: 2003/11/18 17:29:18 $
 #
 # ====================================================================
 #
@@ -250,10 +250,16 @@ def getIndent(depth=0):
             indent = indent + '  '
             depth = depth -1
     return indent
-    
-         
-def getTerseClassName(object):
-    return object.__class__.__name__
+                  
+def formatException(ei):
+    import traceback
+    sio = StringIO.StringIO()
+    traceback.print_exception(ei[0], ei[1], ei[2], None, sio)
+    s = sio.getvalue()
+    sio.close()
+    if s[-1] == "\n":
+        s = s[:-1]
+    return s
         
 if __name__=='__main__':
 

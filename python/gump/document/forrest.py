@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/forrest.py,v 1.3 2003/11/18 01:15:26 ajack Exp $
-# $Revision: 1.3 $
-# $Date: 2003/11/18 01:15:26 $
+# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/forrest.py,v 1.4 2003/11/18 17:29:18 ajack Exp $
+# $Revision: 1.4 $
+# $Date: 2003/11/18 17:29:18 $
 #
 # ====================================================================
 #
@@ -1193,7 +1193,7 @@ class ForrestDocumenter(Documenter):
     def insertLink(self,toObject,fromObject,xdocNode,typed=0,state=0):
         description=''
         if typed:
-           description=getTerseClassName(toObject)
+           description=toObject.__class__.__name__
                 
         try: # Add a name, if present
             name=toObject.getName()             
@@ -1201,7 +1201,7 @@ class ForrestDocumenter(Documenter):
             description+=name
         except: 
             if not description:
-                description=getTerseClassName(toObject)
+                description=toObject.__class__.__name__
         
         # If showing 'state' then find the 
         link=self.getLink(toObject,fromObject,state)  

@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/model/object.py,v 1.2 2003/11/18 00:29:50 ajack Exp $
-# $Revision: 1.2 $
-# $Date: 2003/11/18 00:29:50 $
+# $Header: /home/stefano/cvs/gump/python/gump/model/object.py,v 1.3 2003/11/18 17:29:17 ajack Exp $
+# $Revision: 1.3 $
+# $Date: 2003/11/18 17:29:17 $
 #
 # ====================================================================
 #
@@ -148,6 +148,14 @@ class ModelObject(Annotatable,Workable,Propogatable,Ownable):
 
         # The XML model
     	self.xml=xml
+    	
+    	self.completionPerformed=0
+    	
+    def isComplete(self):
+        return self.completionPerformed
+        
+    def setComplete(self,complete):
+       self.completionPerformed=complete
        
     def isDebug(self):
         return self.xml.debug
