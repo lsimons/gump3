@@ -295,6 +295,10 @@
         <depend project="xml-xalan2"/>
         <depend project="junit"/>
 
+        <depend project="avalon-framework"/>
+        <depend project="excalibur-event-api"/>
+        <depend project="excalibur-event-impl"/>
+        
         <!-- optional dependencies -->
         <option project="checkstyle" inherit="runtime"/>
 
@@ -324,6 +328,24 @@
         <depend project="xml-xalan2"/>
         <depend project="junit"/>
 
+        <depend project="avalon-framework"/>
+        <depend project="excalibur-fortress-container-api"/>
+        <depend project="excalibur-fortress-meta"/>
+        <depend project="avalon-logkit"/>
+        <depend project="commons-collections"/>
+        <depend project="commons-beanutils"/>
+        <depend project="concurrent"/>
+        <depend project="excalibur-instrument"/>
+        <depend project="excalibur-instrument-manager"/>
+        <depend project="excalibur-event-api"/>
+        <depend project="excalibur-event-impl"/>
+        <depend project="bcel"/>
+        <depend project="excalibur-logger"/>
+        <depend project="excalibur-sourceresolve"/>
+        <depend project="excalibur-lifecycle-api"/>
+        <depend project="excalibur-lifecycle-impl"/>
+        <depend project="excalibur-i18n"/>
+        
         <!-- optional dependencies -->
         <option project="checkstyle" inherit="runtime"/>
 
@@ -354,6 +376,23 @@
         <depend project="xml-xalan2"/>
         <depend project="junit"/>
 
+        <depend project="avalon-framework"/>
+        <depend project="avalon-logkit"/>
+        <depend project="commons-collections"/>
+        <depend project="commons-beanutils"/>
+        <depend project="concurrent"/>
+        <depend project="excalibur-instrument"/>
+        <depend project="excalibur-instrument-manager"/>
+        <depend project="excalibur-event-api"/>
+        <depend project="excalibur-event-impl"/>
+        <depend project="bcel"/>
+        <depend project="excalibur-logger"/>
+        <depend project="excalibur-sourceresolve"/>
+        <depend project="excalibur-lifecycle"/>
+        <depend project="excalibur-i18n"/>
+        <depend project="excalibur-fortress-tools"/>
+        <depend project="qdox"/>
+        
         <!-- optional dependencies -->
         <option project="checkstyle" inherit="runtime"/>
 
@@ -387,9 +426,9 @@
         <depend project="excalibur-fortress-container-api"/>
         <depend project="excalibur-fortress-container-impl"/>
         <depend project="avalon-framework"/>
-        <depend project="excalibur-logger"/>
         <depend project="excalibur-event-api"/>
         <depend project="excalibur-event-impl"/>
+        <depend project="excalibur-logger"/>
         <depend project="excalibur-lifecycle-api"/>
         <depend project="excalibur-instrument"/>
         <depend project="excalibur-instrument-manager"/>
@@ -435,9 +474,13 @@
         <depend project="xml-xalan2"/>
         <depend project="junit"/>
 
+        <depend project="excalibur-fortress-container-api" />
+        <depend project="avalon-framework" />
+        <depend project="qdox" />
+        
         <!-- optional dependencies -->
         <option project="checkstyle" inherit="runtime"/>
-
+        
         <mkdir dir="fortress/meta/target/classes"/>
         <mkdir dir="fortress/meta/target/test-classes"/>
         <work nested="fortress/meta/target/classes"/>
