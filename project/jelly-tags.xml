@@ -21,6 +21,26 @@
          to="commons-dev@jakarta.apache.org"/>
   </project>
 
+  <project name="commons-jelly-tags-antlr">
+    <package>org.apache.commons.jelly.tags.antlr</package>
+    <description>This is a Jelly interface for Antlr.</description>
+
+    <ant basedir="jelly/jelly-tags/antlr" target="jar">
+      <property name="final.name"  value="commons-jelly-tags-antlr-@@DATE@@"/>
+    </ant>
+
+    <depend project="commons-jelly" inherit="all"/>
+    <depend project="antlr"/>
+
+    <work nested="jelly/jelly-tags/antlr/target/classes"/>
+    <work nested="jelly/jelly-tags/antlr/target/test-classes"/>
+
+    <jar name="jelly/jelly-tags/antlr/target/commons-jelly-tags-antlr-@@DATE@@.jar"/>
+ 
+    <nag from="Morgan Delagrange &lt;mdelagra@yahoo.com&gt;"
+         to="commons-dev@jakarta.apache.org"/>
+  </project>
+  
   <project name="commons-jelly-tags-betwixt">
     <package>org.apache.commons.jelly.tags.betwixt</package>
     <description>This is a Jelly interface for Betwixt.</description>
@@ -60,6 +80,78 @@
     <work nested="jelly/jelly-tags/html/target/test-classes"/>
 
     <jar name="jelly/jelly-tags/html/target/commons-jelly-tags-html-@@DATE@@.jar"/>
+ 
+    <nag from="Morgan Delagrange &lt;mdelagra@yahoo.com&gt;"
+         to="commons-dev@jakarta.apache.org"/>
+  </project>
+
+  <project name="commons-jelly-tags-http">
+    <package>org.apache.commons.jelly.tags.http</package>
+    <description>These Jelly tags provide a simple XML syntax for HttpClient.</description>
+
+    <mkdir dir="jelly/jelly-tags/http/lib"/>
+
+    <ant basedir="jelly/jelly-tags/http" target="jar">
+      <property name="final.name"  value="commons-jelly-tags-http-@@DATE@@"/>
+    </ant>
+
+    <depend project="commons-jelly" inherit="all"/>
+    
+    <depend project="commons-httpclient"/>
+
+    <work nested="jelly/jelly-tags/http/target/classes"/>
+    <work nested="jelly/jelly-tags/http/target/test-classes"/>
+
+    <jar name="jelly/jelly-tags/http/target/commons-jelly-tags-http-@@DATE@@.jar"/>
+ 
+    <nag from="Morgan Delagrange &lt;mdelagra@yahoo.com&gt;"
+         to="commons-dev@jakarta.apache.org"/>
+  </project>
+
+  <project name="commons-jelly-tags-jetty">
+    <package>org.apache.commons.jelly.tags.jetty</package>
+    <description>These are Jelly tags that can set up an in-process web server.</description>
+
+    <mkdir dir="jelly/jelly-tags/jetty/lib"/>
+
+    <ant basedir="jelly/jelly-tags/jetty" target="jar">
+      <property name="final.name"  value="commons-jelly-tags-jetty-@@DATE@@"/>
+    </ant>
+
+    <depend project="commons-jelly" inherit="all"/>
+    
+    <depend project="commons-httpclient"/>
+    <depend project="jetty"/>
+    <depend project="commons-jelly-tags-http"/>
+
+    <work nested="jelly/jelly-tags/jetty/target/classes"/>
+    <work nested="jelly/jelly-tags/jetty/target/test-classes"/>
+
+    <jar name="jelly/jelly-tags/jetty/target/commons-jelly-tags-jetty-@@DATE@@.jar"/>
+ 
+    <nag from="Morgan Delagrange &lt;mdelagra@yahoo.com&gt;"
+         to="commons-dev@jakarta.apache.org"/>
+  </project>
+  
+  <project name="commons-jelly-tags-jms">
+    <package>org.apache.commons.jelly.tags.jms</package>
+    <description>This is a Jelly interface for the Java Message Service.</description>
+
+    <mkdir dir="jelly/jelly-tags/jms/lib"/>
+
+    <ant basedir="jelly/jelly-tags/jms" target="jar">
+      <property name="final.name"  value="commons-jelly-tags-jms-@@DATE@@"/>
+    </ant>
+
+    <depend project="commons-jelly" inherit="all"/>
+    
+    <depend project="commons-messenger"/>
+    <depend project="jms"/>
+
+    <work nested="jelly/jelly-tags/jms/target/classes"/>
+    <work nested="jelly/jelly-tags/jms/target/test-classes"/>
+
+    <jar name="jelly/jelly-tags/jms/target/commons-jelly-tags-jms-@@DATE@@.jar"/>
  
     <nag from="Morgan Delagrange &lt;mdelagra@yahoo.com&gt;"
          to="commons-dev@jakarta.apache.org"/>
