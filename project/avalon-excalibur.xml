@@ -415,8 +415,8 @@
         <!-- optional dependencies -->
         <option project="checkstyle" inherit="runtime"/>
 
-        <work nested="i18n/build/classes"/>
-        <work nested="i18n/build/testclasses"/>
+        <work nested="i18n/target/classes"/>
+        <work nested="i18n/target/test-classes"/>
 
         <home nested="i18n"/>
         <jar name="build/lib/excalibur-i18n-@@DATE@@.jar"/>
