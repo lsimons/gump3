@@ -17,7 +17,27 @@
 #
 # $Header: /home/stefano/cvs/gump/python/gump/shared/comparator.py,v 1.5 2004/07/08 20:33:11 ajack Exp $
 # 
-            
+       
+def compareObjects(o1,o2):     
+    """
+    Compare two objects, but be ware of Nones...   
+    """
+     
+    if o1:
+        if o2:
+            if o1 > o2:
+                return 1
+            elif o1 == o2:
+                return 0
+            else:
+                return -1
+        else:
+            return 1 # 02 none
+    else:
+        if o2:  return -1 # o1 none
+    
+    return 0 # Both none
+    
 #
 # Module Comparisons
 #            
@@ -61,13 +81,9 @@ def compareModulesByFOGFactor(module1,module2):
     return c             
             
 def compareModulesByLastModified(module1,module2):
-    lu1=module1.getLastModified()
-    lu2=module2.getLastModified()
-    if not lu1: lu1 = -1
-    if not lu2: lu2 = -1
-    c= int(round(lu2 - lu1,0))                  
-    if not c: c=cmp(module1,module2)
-    return c             
+    lm1=module1.getLastModified()
+    lm2=module2.getLastModified()
+    return compareObjects(lm1,lm2)
             
 #
 # Project Comparisons
@@ -105,13 +121,9 @@ def compareProjectsByFOGFactor(project1,project2):
     return c             
             
 def compareProjectsByLastModified(project1,project2):
-    lu1=project1.getLastModified()
-    lu2=project2.getLastModified()
-    if not lu1: lu1 = -1
-    if not lu2: lu2 = -1
-    c= int(round(lu2 - lu1,0))                  
-    if not c: c=cmp(project1,project2)
-    return c              
+    lm1=project1.getLastModified()
+    lm2=project2.getLastModified()
+    return compareObjects(lm1,lm2)
             
 def compareProjectsBySequenceInState(project1,project2):
     seq1=project1.getStats().sequenceInState
