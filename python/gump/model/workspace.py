@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/model/workspace.py,v 1.9 2003/11/21 21:43:12 ajack Exp $
-# $Revision: 1.9 $
-# $Date: 2003/11/21 21:43:12 $
+# $Header: /home/stefano/cvs/gump/python/gump/model/workspace.py,v 1.10 2003/11/23 15:17:51 ajack Exp $
+# $Revision: 1.10 $
+# $Date: 2003/11/23 15:17:51 $
 #
 # ====================================================================
 #
@@ -380,7 +380,7 @@ class Workspace(ModelObject,PropertyContainer):
     def getModuleIterator(self):
         return AlphabeticDictionaryIterator(self.modules)    
         
-    def getCVSDirectory(self):
+    def getCvsDirectory(self):
         return self.cvsdir
 
     def checkEnvironment(self,exitOnError=0):
