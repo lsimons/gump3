@@ -14,16 +14,22 @@
   See the License for the specific language governing permissions and
   limitations under the License.
 -->
-<module name="jakarta-struts">
+<module name="struts">
 
-  <url href="http://jakarta.apache.org/struts/index.html"/>
+  <url href="http://struts.apache.org/"/>
   <description>
     Model 2 Model-View-Controller framework for Servlets and JSP
   </description>
 
+  <!-- we'll see -->
   <cvs repository="jakarta"/>
   
   <project name="jakarta-struts">
+    <depend project="struts" inherit="jars"/>
+  </project>
+
+  <project name="struts">
+
     <package>org.apache.struts</package>
 
     <ant target="dist">
