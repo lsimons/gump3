@@ -158,6 +158,12 @@ From: Peter Donald <donaldp@apache.org>
 Subject: [GUMP] Build Failure - Testlet
 Regex: /BUILD FAILED/
 ------
+Project: jakarta-bcel
+To: bcel-dev@jakarta.apache.org
+From: Jason van Zyl <jvanzyl@apache.org>
+Subject: [GUMP] Build Failure - bcel
+Regex: /BUILD FAILED/
+------
 Project: jakarta-cactus-ant
 To: cactus-dev@jakarta.apache.org
 From: Ted Husted <ted@husted.com>
@@ -354,6 +360,12 @@ Project: xml-fop
 To: fop-dev@xml.apache.org
 From: Sam Ruby <rubys@us.ibm.com>
 Subject: [GUMP] Build Failure - Fop
+Regex: /BUILD FAILED/
+------
+Project: xml-security
+To: security-dev@xml.apache.org
+From: Sam Ruby <rubys@us.ibm.com>
+Subject: [GUMP] Build Failure - Security
 Regex: /BUILD FAILED/
 ------
 Project: xml-soap
