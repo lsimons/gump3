@@ -23,6 +23,7 @@
     <depend project="jakarta-bsf" runtime="true" inherit="jars"/>
     <depend project="rhino" runtime="true" inherit="jars"/>
     <depend project="xml-xerces" runtime="true" inherit="jars"/>
+    <depend project="xml-xalan2" runtime="true" inherit="jars"/>
 
     <home nested="buildsystem/install"/>
 
