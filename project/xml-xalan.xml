@@ -46,10 +46,8 @@
     </description>
 
     <ant basedir="java" target="dist">
-      <property name="bsf.jar"
-         reference="jarpath" id="bsf" project="bsf"/>
-      <property name="xerces.jar"
-         reference="jarpath" id="xerces" project="xml-xerces"/>
+      <depend property="bsf.jar" project="bsf"/>
+      <depend property="xerces.jar" project="xml-xerces"/>
       <property name="version" value="gump"/>
     </ant>
 
