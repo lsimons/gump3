@@ -8,7 +8,7 @@
   <cvs repository="jakarta"/>
   
   <project name="jakarta-poi">
-    <ant/>
+    <ant target="all"/>
     <depend project="jakarta-ant"/>
     <depend project="xml-xerces"/>
     <depend project="jtidy"/>
