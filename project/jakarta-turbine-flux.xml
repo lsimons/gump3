@@ -7,9 +7,7 @@
 
   <cvs repository="jakarta"/>
 
-  <ant basedir="build">
-    <property name="version" value="gump"/>
-  </ant>
+  <ant basedir="build" target="jar"/>
 
   <depend project="jakarta-ant"/>
   <depend project="xml-xerces"/>
@@ -18,6 +16,6 @@
   <depend project="jakarta-servletapi"/>
 
   <home nested="bin"/>
-  <jar name="flux-gump.jar"/>
+  <jar name="flux.jar"/>
 
 </project>
