@@ -42,7 +42,7 @@ public class gen {
       */
     private Document parse(String source) throws Exception {
         try {
-	    DocumentBuilder dBuilder = dFactory.newDocumentBuilder();
+            DocumentBuilder dBuilder = dFactory.newDocumentBuilder();
             return dBuilder.parse(new java.io.File(source));
         } catch (SAXParseException e) {
             System.err.print("Error parsing file " + source);
@@ -54,7 +54,7 @@ public class gen {
     /**
       * transform a DOM given a stylesheet
       * @param DOM to be transformed
-      * @param sheet to be used 
+      * @param sheet to be used
       * @return Node
       */
     private Node transform(Node dom, String sheet) throws Exception {
@@ -98,10 +98,10 @@ public class gen {
            String source=href.getValue();
            Node sub = parse(source);
 
-           if (source.lastIndexOf(".")>0) 
+           if (source.lastIndexOf(".")>0)
                source=source.substring(0,source.lastIndexOf("."));
 
-           if (source.lastIndexOf("/")>0) 
+           if (source.lastIndexOf("/")>0)
                source=source.substring(source.lastIndexOf("/")+1);
 
            node.removeAttribute("href");
@@ -252,7 +252,7 @@ public class gen {
     /**
       * merge, sort, and insert defaults into a workspace
       * @param DOM to be transformed
-      * @param sheet to be used 
+      * @param sheet to be used
       * @return Node
       */
     private gen(String source) throws Exception {
@@ -272,7 +272,7 @@ public class gen {
 
     public static void main(String[] args) {
         try {
-            if (args.length == 1) 
+            if (args.length == 1)
                 new gen(args[0]);
             else
                 System.out.println("Usage: gen workspace.xml");
