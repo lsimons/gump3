@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/cvspublic/jakarta-gump/python/gump/conf.py,v 1.7 2003/05/10 18:20:36 nicolaken Exp $
-# $Revision: 1.7 $
-# $Date: 2003/05/10 18:20:36 $
+# $Header: /home/stefano/cvs/gump/python/gump/output/Attic/statsdb.py,v 1.1 2003/11/20 20:51:48 ajack Exp $
+# $Revision: 1.1 $
+# $Date: 2003/11/20 20:51:48 $
 #
 # ====================================================================
 #
@@ -70,97 +70,18 @@ import anydbm
 
 from gump import log
 from gump.config import *
-from gump.model.project import Project
+from gump.model.project import Project, ProjectStatistics
+from gump.model.module import Module, ModuleStatistics
+from gump.model.repository import Repository, RepositoryStatistics
 from gump.model.state import *
-
-class ProjectStatistics:
-    """Statistics Holder"""
-    def __init__(self,projectname):
-        self.projectname=projectname
-        self.successes=0
-        self.failures=0
-        self.prereqs=0
-        self.first=''
-        self.last=''
-        self.currentState=STATE_UNSET
-        self.previousState=STATE_UNSET
-        self.sequenceInState=0
-        
-    def getFOGFactor(self):
-        return (self.successes - self.failures - self.prereqs)
-        
-    def getLastModified(self):
-        return (self.lastModified)
-        
-    def nameKey(self):
-        return self.projectname + '-pname'
-        
-    def successesKey(self):
-        return self.projectname + '-successes'
-        
-    def failuresKey(self):
-        return self.projectname + '-failures'
-        
-    def prereqsKey(self):
-        return self.projectname + '-prereqs'
-        
-    def firstKey(self):
-        return self.projectname + '-first'
-        
-    def lastKey(self):
-        return self.projectname + '-last'
-        
-    def lastModifiedKey(self):
-        return self.projectname + '-last-modified'
-        
-    def currentStateKey(self):
-        return self.projectname + '-current-state'
-        
-    def previousStateKey(self):
-        return self.projectname + '-previous-state'
-        
-    def sequenceInStateKey(self):
-        return self.projectname + '-state-seq'
-        
-    def update(self,project):        
-        #
-        # Update based off current run
-        #
-        if project.isSuccess():
-            self.successes += 1
-            self.last = time.time()
-            
-            # A big event...
-            if not self.first:
-                self.first=self.last
-            elif project.isFailed():
-                s.failures += 1    
-            elif project.isPrereqFailed():                        
-                s.prereqs  += 1
-                
-        #
-        # Track code updates/changes
-        # 
-        if project.getModule().isModified():
-            self.lastModified=time.time()
-            
-        #
-        # Deal with states & changes...
-        #
-        lastCurrentState=self.currentState
-        self.currentState=project.getState()
-        
-        if lastCurrentState==self.currentState:
-            self.sequenceInState += 1
-        else:
-            self.sequenceInState = 1
-            self.previousState=lastCurrentState
-         
+  
 class StatisticsDB:
     """Statistics Interface"""
 
-    def __init__(self):
-        self.dbpath    = os.path.normpath('%s/%s' % (dir.work,'stats.db'))
+    def __init__(self,dbdir=None,name=None):
+        if not name: name='stats.db'
+        if not dbdir: dbdir=dir.work
+        self.dbpath    = os.path.normpath('%s/%s' % (dir,name))
         log.debug('Open Statistic Database:' + self.dbpath)
         if not os.name == 'dos' and not os.name == 'nt':
             self.db		=	anydbm.open(self.dbpath,'c')
@@ -175,70 +96,108 @@ class StatisticsDB:
                 s=self.getProjectStats(pname)
                 dump(s)
             
-    def getProjectStats(self,projectname):
-        s=ProjectStatistics(projectname)
-        s.successes=self.getInt(s.successesKey())
-        s.failures=self.getInt(s.failuresKey())
-        s.prereqs=self.getInt(s.prereqsKey())
-        s.first=self.getDate(s.firstKey())
-        s.last=self.getDate(s.lastKey())
-        s.lastModified=self.getDate(s.lastKey())
-        s.currentState=stateForName(self.get(s.currentStateKey()))
-        s.previousState=stateForName(self.get(s.previousStateKey()))
-        s.sequenceInState=self.getInt(s.sequenceInStateKey())
-        return s
+
+    # Project
     
-    def putProjectStats(self,s):
-        self.put(s.nameKey(), s.projectname)
-        self.putInt(s.successesKey(), s.successes)
-        self.putInt(s.failuresKey(), s.failures)
-        self.putInt(s.prereqsKey(), s.prereqs)
-        self.putDate(s.firstKey(), s.first)
-        self.putDate(s.lastKey(), s.last)
-        self.putDate(s.lastKey(), s.lastModified)
-        self.put(s.currentStateKey(), stateName(s.currentState))
-        self.put(s.previousStateKey(), stateName(s.previousState))
-        self.putInt(s.sequenceInStateKey(), s.sequenceInState)
+    def getProjectStats(self,projectName):
+        stats=ProjectStatistics(projectName)        
+        self.getBaseStats(stats)
+        return stats
+                
+    def putProjectStats(self,stats):
+        self.putBaseStats(stats)
+
+    def delProjectStats(self,stats):
+        self.delBaseStats(stats)          
+
+    # Repository
+    
+    def getRepositoryStats(self,projectName):
+        stats=RepositoryStatistics(projectName)        
+        self.getBaseStats(stats)
+        return stats
+                
+    def putRepositoryStats(self,stats):
+        self.putBaseStats(stats)
+
+    def delRepositoryStats(self,stats):
+        self.delBaseStats(stats)          
+
+    # Module
+    
+    def getModuleStats(self,moduleName):
+        stats=ModuleStatistics(moduleName)        
+        self.getBaseStats(stats)
+        stats.lastUpdated=self.getDate(stats.lastUpdatedKey())
+        return stats
+                
+    def putModuleStats(self,stats):
+        self.putBaseStats(stats)
+        self.putDate(stats.lastUpdatedKey(), stats.lastUpdated)
+
+    def delModuleStats(self,stats):
+        self.delBaseStats(stats)
+        try:
+            del self.db[stats.lastUpdatedKey()]
+        except:
+            """ Hopefully means it wasn't there... """                
+
+    def getBaseStats(self,stats):
+        stats.successes=self.getInt(stats.successesKey())
+        stats.failures=self.getInt(stats.failuresKey())
+        stats.prereqs=self.getInt(stats.prereqsKey())
+        stats.first=self.getDate(stats.firstKey())
+        stats.last=self.getDate(stats.lastKey())
+        stats.currentState=stateForName(self.get(stats.currentStateKey()))
+        stats.previousState=stateForName(self.get(stats.previousStateKey()))
+        stats.startOfState=self.getDate(stats.startOfStateKey())
         
-    def delProjectStats(self,s):
+    def putBaseStats(self,stats):        
+        self.put(stats.nameKey(), stats.name)
+        self.putInt(stats.successesKey(), stats.successes)
+        self.putInt(stats.failuresKey(), stats.failures)
+        self.putInt(stats.prereqsKey(), stats.prereqs)
+        self.putDate(stats.firstKey(), stats.first)
+        self.putDate(stats.lastKey(), stats.last)
+        self.put(stats.currentStateKey(), stateName(stats.currentState))
+        self.put(stats.previousStateKey(), stateName(stats.previousState))
+        self.putDate(stats.startOfStateKey(), stats.startOfState)
+
+    def delBaseStats(self,stats):
         try:
-            del self.db[s.nameKey()]
+            del self.db[stats.nameKey()]
         except:
             """ Hopefully means it wasn't there... """
         try:
-            del self.db[s.successesKey()]
+            del self.db[stats.successesKey()]
         except:
             """ Hopefully means it wasn't there... """
         try:
-            del self.db[s.failuresKey()]
+            del self.db[stats.failuresKey()]
         except:
             """ Hopefully means it wasn't there... """
         try:
-            del self.db[s.prereqsKey()]
+            del self.db[stats.prereqsKey()]
         except:
             """ Hopefully means it wasn't there... """
         try:
-            del self.db[s.firstKey()]
+            del self.db[stats.firstKey()]
         except:
             """ Hopefully means it wasn't there... """
         try:
-            del self.db[s.lastKey()]
+            del self.db[stats.lastKey()]
         except:
             """ Hopefully means it wasn't there... """
         try:
-            del self.db[s.lastModifiedKey()]
-        except:
-            """ Hopefully means it wasn't there... """
-        try:
-            del self.db[s.currentStateKey()]
+            del self.db[stats.currentStateKey()]
         except:
             """ Hopefully means it wasn't there... """        
         try:
-            del self.db[s.previousStateKey()]
+            del self.db[stats.previousStateKey()]
         except:
             """ Hopefully means it wasn't there... """        
         try:
-            del self.db[s.sequenceInStateKey()]
+            del self.db[stats.startOfStateKey()]
         except:
             """ Hopefully means it wasn't there... """
         
@@ -271,43 +230,98 @@ class StatisticsDB:
         
   
     def loadStatistics(self,workspace):
-        log.debug('--- Loading Project Statistics')
-          
+        log.debug('--- Loading Statistics')
+                  
+        for repo in workspace.getRepositories():
+                        
+            # Load the statistics
+            rs=self.getRepositoryStats(repo.getName())
+                
+            #
+            # Stash for later...
+            #
+            repo.setStats(rs)    
+                      
         for module in workspace.getModules():
+            #
+            # Load the statistics...
+            #
+            ms=self.getModuleStats(module.getName())        
+                
+            #
+            # Stash for later...
+            #
+            module.setStats(ms)     
+            
             for project in module.getProjects():
                 #
                 # Load the statistics...
                 #
-                s=self.getProjectStats(project.getName())        
+                ps=self.getProjectStats(project.getName())        
                 
                 #
                 # Stash for later...
                 #
-                project.setStats(s)            
+                project.setStats(ps)            
             
                        
     def updateStatistics(self,workspace):
-        log.debug('--- Updating Project Statistics')
-          
+        log.debug('--- Updating Statistics')
+                  
+        for repo in workspace.getRepositories():
+                        
+            # Load the statistics
+            rs=self.getRepositoryStats(repo.getName())
+            
+            #
+            # Update for this repo based off this run
+            #
+            rs.update(repo)
+                
+            #
+            # Stash for later...
+            #
+            repo.setStats(rs)    
+              
         for module in workspace.getModules():
+                        
+            # Load the statistics
+            ms=self.getModuleStats(module.getName())
+            
+            #
+            # Update for this project based off this run
+            #
+            ms.update(module)
+                
+            #
+            # Stash for later...
+            #
+            module.setStats(ms)            
+                
+            #
+            # Write out the updates
+            #
+            self.putModuleStats(ms)     
+            
             for project in module.getProjects():
+                
                 # Load the statistics
-                s=self.getProjectStats(project.getName())
+                ps=self.getProjectStats(project.getName())
             
                 #
                 # Update for this project based off this run
                 #
-                s.update(project)
+                ps.update(project)
                 
                 #
                 # Stash for later...
                 #
-                project.setStats(s)            
+                project.setStats(ps)            
                 
                 #
                 # Write out the updates
                 #
-                self.putProjectStats(s) 
+                self.putProjectStats(ps) 
                 
 class WorkspaceStatisticsGuru:                        
     """ Know it all for a workspace... """
@@ -384,9 +398,9 @@ def sortByFOGFactor(module1,module2):
     if not c: c=cmp(module1,module2)
     return c             
             
-def sortByLastModified(module1,module2):
-    fog1=module1.getLastModified()
-    fog2=module2.getLastModified()
+def sortByLastUpdated(module1,module2):
+    fog1=module1.getLastUpdated()
+    fog2=module2.getLastUpdated()
     c= int(round(fog2 - fog1,0))                  
     if not c: c=cmp(module1,module2)
     return c             
@@ -404,5 +418,5 @@ class StatisticsGuru:
         self.modulesByTotalDependencies=createOrderedList(workspace.getModules(),sortByDependencyCount)
         self.modulesByTotalDependees=createOrderedList(workspace.getModules(),sortByDependeeCount)
         self.modulesByFOGFactor=createOrderedList(workspace.getModules(),sortByFOGFactor)
-        self.modulesByLastModified=createOrderedList(workspace.getModules(),sortByLastModified)
+        self.modulesByLastUpdated=createOrderedList(workspace.getModules(),sortByLastUpdated)
         

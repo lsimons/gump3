@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/model/workspace.py,v 1.4 2003/11/18 21:49:12 ajack Exp $
-# $Revision: 1.4 $
-# $Date: 2003/11/18 21:49:12 $
+# $Header: /home/stefano/cvs/gump/python/gump/model/workspace.py,v 1.5 2003/11/20 20:51:48 ajack Exp $
+# $Revision: 1.5 $
+# $Date: 2003/11/20 20:51:48 $
 #
 # ====================================================================
 #
@@ -65,15 +65,17 @@
 from time import localtime, strftime, tzname
 from string import lower, capitalize
 
+from gump.utils.work import *
+from gump.utils.launcher import *
+from gump.utils.tools import *
+
 from gump.model.state import *
-from gump.model.work import *
 from gump.model.repository import Repository
 from gump.model.module import Module, createUnnamedModule
 from gump.model.project import Project, ProjectSummary
 from gump.model.object import ModelObject
 from gump.model.property import PropertyContainer
-from gump.utils.launcher import *
-from gump.utils.tools import *
+
 
 class Workspace(ModelObject,PropertyContainer):
     """Gump Workspace"""

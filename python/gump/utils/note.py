@@ -1,7 +1,8 @@
 #!/usr/bin/env python
-# $Header:  1.7 2003/05/10 18:20:36 nicolaken Exp $
-# $Revision: 1.7 $
-# $Date: 2003/05/10 18:20:36 $
+
+# $Header: /home/stefano/cvs/gump/python/gump/utils/note.py,v 1.1 2003/11/20 20:51:49 ajack Exp $
+# $Revision: 1.1 $
+# $Date: 2003/11/20 20:51:49 $
 #
 # ====================================================================
 #
@@ -58,27 +59,77 @@
 # <http://www.apache.org/>.
 
 """
-    Model Testing
+    This module contains information on
 """
 
-import os
-import logging
-import types, StringIO
+import sys
 
-from gump import log
-import gump.config
-from gump.model.loader import WorkspaceLoader
-from gump.engine.document.text import documentText
+from gump.utils import *
 
+LEVEL_UNSET=0
+LEVEL_DEBUG=1
+LEVEL_INFO=2
+LEVEL_WARNING=3
+LEVEL_ERROR=4
+LEVEL_FATAL=5
 
-if __name__=='__main__':
+levelDescriptions = { 	LEVEL_UNSET : "Not Set",
+                    LEVEL_DEBUG : "Debug",
+                    LEVEL_INFO : "Info",
+                    LEVEL_WARNING : "Warning",
+                    LEVEL_ERROR : "Error",
+                    LEVEL_FATAL : "Fatal" }               
 
-    # init logging
-    logging.basicConfig()
-
-    #set verbosity to show all messages of severity >= default.logLevel
-    log.setLevel(gump.default.logLevel)
-
-    ws = WorkspaceLoader().load('gump/test/resources/simple2/workspace.xml')
-    documentText(ws)
+def levelName(level):
+    return levelDescriptions.get(level,'Unknown Level:' + str(level))
     
+class Annotation:
+    """ An annotation ... a log entry on the object ..."""
+    def __init__(self,level,text):
+        self.level=level
+        self.text=text
+        
+    def __str__(self):
+        return levelName(self.level) + ":" + self.text        
+    
+    def dump(self, indent=0, output=sys.stdout):        
+        output.write(getIndent(indent)+str(self)+'\n')
+        
+class Annotatable:
+    
+    def __init__(self):
+        self.annotations=[]
+
+    def addDebug(self,text):
+        self.addAnnotation(LEVEL_DEBUG, text)        
+
+    def addInfo(self,text):
+        self.addAnnotation(LEVEL_INFO, text)
+        
+    def addWarning(self,text):
+        self.addAnnotation(LEVEL_WARNING, text)
+        
+    def addError(self,text):
+        self.addAnnotation(LEVEL_ERROR, text)
+        
+    def addFatal(self,text):
+        self.addAnnotation(LEVEL_FATAL, text)
+        
+    def addAnnotation(self,level,text):
+        self.addAnnotationObject(Annotation(level,text))
+        
+    def addAnnotationObject(self,message):
+        self.annotations.append(message)
+        
+    def getAnnotations(self):
+        return self.annotations
+        
+    def dump(self, indent=0, output=sys.stdout):
+        """ Display the contents of this object """         
+        if self.annotations:
+            output.write(getIndent(indent)+'Annotations:\n')
+       
+            for note in self.annotations:
+                note.dump(indent+1,output)
+  
+        

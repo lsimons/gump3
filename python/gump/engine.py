@@ -11,22 +11,25 @@ from fnmatch import fnmatch
 from gump import log
 from gump.gumprun import *
 from gump.config import dir, default, basicConfig
-from gump.net.cvs import *
+
+from gump.utils import dump, display, getIndent
+from gump.utils.note import Annotatable
+from gump.utils.work import *
+
+from gump.utils.tools import listDirectoryAsWork,syncDirectories
+
 from gump.model.workspace import Workspace
 from gump.model.module import Module
 from gump.model.project import Project
 from gump.model.depend import  ProjectDependency
-from gump.model.work import *
 from gump.model.state import *
-from gump.model.note import Annotatable
 
-from gump.utils import dump, display, getIndent
-from gump.utils.tools import listDirectoryAsWork,syncDirectories
+from gump.net.cvs import *
 
 from gump.document.text import TextDocumenter
 from gump.document.forrest import ForrestDocumenter
 
-from gump.output.statistics import *
+from gump.output.statsdb import *
 from gump.output.repository import JarRepository
 from gump.output.nag import nag
 from gump.output.rss import rss
@@ -297,7 +300,7 @@ class GumpEngine:
                     module.changeState(STATE_SUCCESS)
                     
                     # Were the contents of the repository modified?                                        
-                    module.setModified(cmdResult.hasOutput())
+                    module.setUpdated(cmdResult.hasOutput())
                 
     def syncWorkDirs( self, run ):
         """copy the raw module (project) materials from source to work dir 

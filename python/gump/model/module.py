@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/model/module.py,v 1.6 2003/11/20 00:57:39 ajack Exp $
-# $Revision: 1.6 $
-# $Date: 2003/11/20 00:57:39 $
+# $Header: /home/stefano/cvs/gump/python/gump/model/module.py,v 1.7 2003/11/20 20:51:48 ajack Exp $
+# $Revision: 1.7 $
+# $Date: 2003/11/20 20:51:48 $
 #
 # ====================================================================
 #
@@ -65,6 +65,7 @@
 from time import localtime, strftime, tzname
 
 from gump.model.state import *
+from gump.model.stats import Statable, Statistics
 from gump.model.project import *
 from gump.model.object import NamedModelObject
 from gump.utils import getIndent
@@ -136,7 +137,7 @@ def createUnnamedModule(workspace):
     unnamedModule.complete(workspace)
     return unnamedModule
         
-class Module(NamedModelObject):
+class Module(NamedModelObject, Statable):
     """Set of Modules (which contain projects)"""
     def __init__(self,xml,workspace):
     	NamedModelObject.__init__(self,xml.getName(),xml,workspace)
@@ -149,7 +150,7 @@ class Module(NamedModelObject):
     	
     	self.repository=None
     	
-    	self.modified=0
+    	self.updated=0
 
     # provide default elements when not defined in xml
     def complete(self,workspace):
@@ -252,16 +253,9 @@ class Module(NamedModelObject):
             fogFactors=1 # 0/1 is better than 0/0
             
         return round(fogFactor/fogFactors,2)
-    
-    def getLastModified(self):
-        moduleLastModified=-1
-        for project in self.getProjects():
-            projectLastModified = project.getLastModified()
-            if projectLastModified > moduleLastModified:
-                moduleLastModified=projectLastModified
-               
-        return moduleLastModified
-                
+        
+    def getLastUpdated(self):
+        return self.getStats().getLastUpdated()                
     
     # Get a summary of states for each project
     def getProjectSummary(self,summary=None):  
@@ -343,12 +337,12 @@ class Module(NamedModelObject):
     def isCVS(self):
         return hasattr(self,'cvs') and self.cvs
         
-    # Where the contents (at the repository) modified?
-    def isModified(self):
-        return self.modified
+    # Where the contents (at the repository) updated?
+    def isUpdated(self):
+        return self.updated
         
-    def setModified(self,modified):
-        self.modified=modified
+    def setUpdated(self,updated):
+        self.updated=updated
     
     def hasRepository(self):
         return self.repository
@@ -428,4 +422,28 @@ class Module(NamedModelObject):
             cmd.addParameter(self.cvs.getModule())
         
         return (self.repository, root, cmd)
-   
+     
+     
+class ModuleStatistics(Statistics):
+    """Statistics Holder"""
+    def __init__(self,moduleName):
+        Statistics.__init__(self,moduleName)    
+        self.lastUpdated=-1        
+        
+    def getLastUpdated(self):
+        return (self.lastUpdated)
+        
+    def getKeyBase(self):
+        return 'module:'+ self.name
+        
+    def lastUpdatedKey(self):
+        return self.getKeyBase() + '-last-updated'
+
+    def update(self,module):      
+        Statistics.update(self,module)
+
+        #
+        # Track code updates/changes
+        # 
+        if module.isUpdated():
+            self.lastUpdated=default.time

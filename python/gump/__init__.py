@@ -1,8 +1,8 @@
 #!/usr/bin/python
 
-# $Header: /home/stefano/cvs/gump/python/gump/__init__.py,v 1.19 2003/11/18 00:29:49 ajack Exp $
-# $Revision: 1.19 $
-# $Date: 2003/11/18 00:29:49 $
+# $Header: /home/stefano/cvs/gump/python/gump/__init__.py,v 1.20 2003/11/20 20:51:49 ajack Exp $
+# $Revision: 1.20 $
+# $Date: 2003/11/20 20:51:49 $
 #
 # ====================================================================
 #
@@ -113,8 +113,13 @@ config.basicConfig()
 #
 timestamp=os.path.join(dir.base,'.timestamp')
 if os.path.exists(timestamp):
-  mtime=time.localtime(os.path.getmtime(timestamp))
-  default.date = time.strftime('%Y%m%d',mtime)
+    default.time = os.path.getmtime(timestamp)
+else:
+    default.time = time.time()
+
+default.ltime=time.localtime(default.time)
+default.date = time.strftime('%Y%m%d',default.ltime)
+    
 
 ###############################################################################
 # Functions

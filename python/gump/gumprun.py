@@ -12,18 +12,20 @@ from fnmatch import fnmatch
 
 from gump import log
 from gump.config import dir, default, basicConfig
-from gump.net.cvs import *
+
+
+from gump.utils.work import *
+from gump.utils import dump, display, getIndent
+from gump.utils.note import Annotatable
+
 from gump.model.workspace import Workspace
 from gump.model.module import Module
 from gump.model.project import Project
 from gump.model.depend import  ProjectDependency
-from gump.model.work import *
 from gump.model.state import *
-from gump.model.note import Annotatable
 
-from gump.utils import dump, display, getIndent
 
-from gump.output.statistics import *
+from gump.output.statsdb import *
 from gump.output.repository import JarRepository
 from gump.output.nag import nag
 from gump.output.rss import rss

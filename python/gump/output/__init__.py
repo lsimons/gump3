@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/output/Attic/__init__.py,v 1.1 2003/11/17 22:10:54 ajack Exp $
-# $Revision: 1.1 $
-# $Date: 2003/11/17 22:10:54 $
+# $Header: /home/stefano/cvs/gump/python/gump/output/Attic/__init__.py,v 1.2 2003/11/20 20:51:48 ajack Exp $
+# $Revision: 1.2 $
+# $Date: 2003/11/20 20:51:48 $
 #
 # ====================================================================
 #
@@ -60,4 +60,4 @@
 
 
 # tell Python what modules make up the gump.model package
-__all__ = ["forrest","text"]
+__all__ = ["nag","repository","rss","statsdb","xref"]

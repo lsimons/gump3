@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/text.py,v 1.1 2003/11/17 22:10:55 ajack Exp $
-# $Revision: 1.1 $
-# $Date: 2003/11/17 22:10:55 $
+# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/text.py,v 1.2 2003/11/20 20:51:50 ajack Exp $
+# $Revision: 1.2 $
+# $Date: 2003/11/20 20:51:50 $
 #
 # ====================================================================
 #
@@ -69,8 +69,11 @@ import sys
 import logging
 
 from gump import log
+
+from gump.utils.work import *
+
 from gump.model.state import *
-from gump.model.work import *
+
 from gump.document.documenter import Documenter
 
 class TextDocumenter(Documenter):

@@ -1,8 +1,8 @@
 #!/usr/bin/python
 
-# $Header: /home/stefano/cvs/gump/python/gump/Attic/config.py,v 1.3 2003/11/18 21:49:12 ajack Exp $
-# $Revision: 1.3 $
-# $Date: 2003/11/18 21:49:12 $
+# $Header: /home/stefano/cvs/gump/python/gump/Attic/config.py,v 1.4 2003/11/20 20:51:49 ajack Exp $
+# $Revision: 1.4 $
+# $Date: 2003/11/20 20:51:49 $
 #
 # ====================================================================
 #
@@ -75,14 +75,14 @@ class dir:
     """Configuration of paths"""
 
     cmdpath   = os.path.abspath(sys.argv[0])
-    if 1: # 0 was for unit testing, lazy...
-      base      = os.path.normpath('%s/%s' % (os.path.dirname(cmdpath),'../..'))
-    else:
-      base		= os.path.normpath('.')
+    base      = os.path.normpath('%s/%s' % (os.path.dirname(cmdpath),'../..'))
+    
     cache     = os.path.normpath('%s/%s' % (base,'cache'))
     work      = os.path.normpath('%s/%s' % (base,'work'))
     tmp       = os.path.normpath('%s/%s' % (base,'tmp'))
     template  = os.path.normpath('%s/%s' % (base,'template'))
+        
+    test      = os.path.normpath('%s/%s' % (base,'test'))
 
 def gumpPath(path,basedir=None):
   """returns the path absolutized relative to the base gump dir"""
@@ -135,6 +135,7 @@ def basicConfig():
     if not os.path.exists(dir.cache): os.mkdir(dir.cache)
     if not os.path.exists(dir.work): os.mkdir(dir.work)
     if not os.path.exists(dir.tmp): os.mkdir(dir.tmp)
+    if not os.path.exists(dir.test): os.mkdir(dir.test)
 
     if dir.base not in sys.path: sys.path.insert(0, dir.base)
 

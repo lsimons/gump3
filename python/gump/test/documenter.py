@@ -1,8 +1,7 @@
 #!/usr/bin/env python
-
-# $Header: /home/cvspublic/jakarta-gump/python/gump/conf.py,v 1.7 2003/05/10 18:20:36 nicolaken Exp $
-# $Revision: 1.7 $
-# $Date: 2003/05/10 18:20:36 $
+# $Header: /home/stefano/cvs/gump/python/gump/test/documenter.py,v 1.1 2003/11/20 20:51:49 ajack Exp $
+# $Revision: 1.1 $
+# $Date: 2003/11/20 20:51:49 $
 #
 # ====================================================================
 #
@@ -59,34 +58,44 @@
 # <http://www.apache.org/>.
 
 """
-    This module contains information on an object's owner
+    Model Testing
 """
+
+import os
+import logging
+import types, StringIO
+
 from gump import log
-from gump.utils import getIndent
+import gump.config
+from gump.gumprun import GumpRun
+from gump.document.documenter import Documenter
+from gump.document.text import TextDocumenter
+from gump.document.forrest import ForrestDocumenter
+from gump.output.statsdb import *
+from gump.test import getWorkedTestWorkspace
+from gump.test.pyunit import UnitTestSuite
 
-class Ownable:
-    """Contains ownership """
-    def __init__(self,owner=None):
-        self.setOwner(owner)
-
-    def hasOwner(self):
-        return self.owner
+class DocumenterTestSuite(UnitTestSuite):
+    def __init__(self):
+        UnitTestSuite.__init__(self)
         
-    def setOwner(self,owner):
-        if self == owner:
-            raise RuntimeError, "Can set owner to self on " + `self`
-        self.owner=owner
+    def suiteSetUp(self):
+        #
+        # Load a decent Workspace
+        #
+        self.workspace=getWorkedTestWorkspace()          
+        self.assertNotNone('Needed a workspace', self.workspace)
+        self.run=GumpRun(self.workspace)
         
-    def getOwner(self):
-        return self.owner or self
+    def testText(self):
+        out=StringIO.StringIO()
+        documenter=TextDocumenter(out)
+        documenter.document(self.run)
+        out.close()
         
-    def displayOwnership(self,visited=None):
-        if not visited: visited=[]
-        if self in visited: 
-            log.error('Circular path @ ' + `self`)
-            return
-        visited.append(self)
-        log.info(getIndent(len(visited))+str(self))
-        if self.hasOwner():
-            self.getOwner().displayOwnership(visited)
-        return         
+    def testForrest(self):
+        ftest=os.path.join(dir.test,'forrest')
+        if not os.path.exists(ftest): os.mkdir(ftest)
+        documenter=ForrestDocumenter(ftest,'http://someplace')
+        documenter.document(self.run)
+        

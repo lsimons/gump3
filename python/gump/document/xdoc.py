@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/xdoc.py,v 1.1 2003/11/17 22:10:55 ajack Exp $
-# $Revision: 1.1 $
-# $Date: 2003/11/17 22:10:55 $
+# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/xdoc.py,v 1.2 2003/11/20 20:51:50 ajack Exp $
+# $Revision: 1.2 $
+# $Date: 2003/11/20 20:51:50 $
 #
 # ====================================================================
 #
@@ -74,7 +74,7 @@ from xml.sax.saxutils import escape
 from gump import log
 from gump.utils import *
 from gump.utils.xmlutils import xmlize
-from gump.model.owner import *
+from gump.utils.owner import *
 
 class XDocContext(Ownable):
     def __init__(self,stream=None,pretty=1,depth=0):

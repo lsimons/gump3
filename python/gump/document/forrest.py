@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/forrest.py,v 1.8 2003/11/20 02:01:37 ajack Exp $
-# $Revision: 1.8 $
-# $Date: 2003/11/20 02:01:37 $
+# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/forrest.py,v 1.9 2003/11/20 20:51:50 ajack Exp $
+# $Revision: 1.9 $f
+# $Date: 2003/11/20 20:51:50 $
 #
 # ====================================================================
 #
@@ -79,8 +79,8 @@ from gump.document.resolver import *
 from gump.utils import *
 from gump.utils.xmlutils import xmlize
 from gump.model import *
-from gump.model.project import AnnotatedPath
-from gump.output.statistics import ProjectStatistics, StatisticsGuru
+from gump.model.project import AnnotatedPath,  ProjectStatistics
+from gump.output.statsdb import StatisticsGuru
 from gump.output.xref import XRefGuru
 from gump.gumprun import *
 
@@ -95,8 +95,7 @@ def getUpUrl(depth):
 class ForrestDocumenter(Documenter):
     
     def __init__(self, dirBase, urlBase):
-        Documenter.__init__(self)    
-        
+        Documenter.__init__(self)            
         self.resolver=Resolver(dirBase,urlBase)
     
     def documentRun(self, run):
@@ -267,6 +266,14 @@ class ForrestDocumenter(Documenter):
         syndRow.createData('Syndication')
         syndRow.createData().createFork('index.rss','RSS')
                 
+        textRow=definitionTable.createRow()
+        textRow.createData('Workspace Documentation')
+        textRow.createData().createLink('context.xml','Text')
+                
+        syndRow=definitionTable.createRow()
+        syndRow.createData('Definition')
+        syndRow.createData().createLink('workspace.html','XML')
+                
         if not gumpSet.isFull():
             note="""This output does not represent the a complete workspace,
             but a partial one.         
@@ -355,7 +362,7 @@ class ForrestDocumenter(Documenter):
         self.documentSummary(document, workspace.getProjectSummary())
         
         projectsSection=document.createSection('Projects (in build order)')
-        projectsTable=projectsSection.createTable(['Name','Project State','Duration\nin state','Last Modified','Elapsed'])
+        projectsTable=projectsSection.createTable(['Name','Project State','Duration\nin state','Last Updated','Elapsed'])
         pcount=0
         for project in sortedProjectList:
             if not gumpSet.inSequence(project): continue       
@@ -367,7 +374,9 @@ class ForrestDocumenter(Documenter):
             self.insertLink(project,workspace,projectRow.createData())   
             self.insertStateIcon(project,workspace,projectRow.createData())      
             projectRow.createData(project.getStats().sequenceInState)    
-            projectRow.createData(secsToDate(project.getStats().lastModified))
+            projectRow.createData(	\
+                getGeneralSinceDescription(	\
+                    project.getModule().getStats().getLastUpdated()))
             projectRow.createData(elapsedTimeToString(project.elapsedTime())) 
                 
         if not pcount: projectsTable.createLine('None')
@@ -603,10 +612,13 @@ class ForrestDocumenter(Documenter):
         document.serialize()
             
         # Document the workspace XML    
-        #f=open(getWorkspaceXMLAsTextDocument(workspace), 'w')
-        #xml = xmlize('workspace',workspace,f)
-        #f.close()  
-        
+        document=XDocDocument('Definition',self.resolver.getFile(workspace,'workspace.xml'))
+        stream=StringIO.StringIO() 
+        xmlize('workspace',workspace,stream)
+        stream.seek(0)
+        document.createSource(stream.read())
+        stream.close()
+        document.serialize()
       
     def documentRepository(self,repo,workspace,gumpSet):
         

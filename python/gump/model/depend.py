@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/model/depend.py,v 1.2 2003/11/19 15:42:16 ajack Exp $
-# $Revision: 1.2 $
-# $Date: 2003/11/19 15:42:16 $
+# $Header: /home/stefano/cvs/gump/python/gump/model/depend.py,v 1.3 2003/11/20 20:51:48 ajack Exp $
+# $Revision: 1.3 $
+# $Date: 2003/11/20 20:51:48 $
 #
 # ====================================================================
 #
@@ -63,9 +63,11 @@
 """
 
 from gump.model.state import *
-from gump.model.note import *
 from gump.model.object import NamedModelObject
 from gump.model.property import Property, PropertyContainer
+
+
+from gump.utils.note import *
 from gump.utils import getIndent
 
 # Inheritence

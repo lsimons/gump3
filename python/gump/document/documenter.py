@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/document/documenter.py,v 1.4 2003/11/19 20:44:46 ajack Exp $
-# $Revision: 1.4 $
-# $Date: 2003/11/19 20:44:46 $
+# $Header: /home/stefano/cvs/gump/python/gump/document/documenter.py,v 1.5 2003/11/20 20:51:50 ajack Exp $
+# $Revision: 1.5 $
+# $Date: 2003/11/20 20:51:50 $
 #
 # ====================================================================
 #
@@ -71,8 +71,7 @@ import logging
 from gump import log
 
 class Documenter:
-    def __init__(self): 
-        pass
+    def __init__(self):  pass
     
     #
     # Populate a method called 'document(run)'
@@ -87,4 +86,3 @@ class Documenter:
         log.info('Document run using [' + `self` + ']')
         
         self.documentRun(run)
-    

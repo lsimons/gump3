@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/test/pyunit.py,v 1.3 2003/11/19 15:42:16 ajack Exp $
-# $Revision: 1.3 $
-# $Date: 2003/11/19 15:42:16 $
+# $Header: /home/stefano/cvs/gump/python/gump/test/pyunit.py,v 1.4 2003/11/20 20:51:49 ajack Exp $
+# $Revision: 1.4 $
+# $Date: 2003/11/20 20:51:49 $
 #
 # ====================================================================
 #
@@ -274,8 +274,17 @@ if __name__=='__main__':
     
     #:TODO: Figure out Python search/introspection to find these...
     
-    from gump.test.model_tests import ModelTestSuite  
+    from gump.test.utils import UtilsTestSuite  
+    runner.addSuite(UtilsTestSuite())
+    
+    from gump.test.model import ModelTestSuite  
     runner.addSuite(ModelTestSuite())
+    
+    from gump.test.stats import StatsTestSuite  
+    runner.addSuite(StatsTestSuite())
+    
+    from gump.test.documenter import DocumenterTestSuite  
+    runner.addSuite(DocumenterTestSuite())
     
     # Perform the tests...
     runner.run()

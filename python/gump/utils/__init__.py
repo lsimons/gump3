@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/utils/__init__.py,v 1.2 2003/11/18 17:29:18 ajack Exp $
-# $Revision: 1.2 $
-# $Date: 2003/11/18 17:29:18 $
+# $Header: /home/stefano/cvs/gump/python/gump/utils/__init__.py,v 1.3 2003/11/20 20:51:49 ajack Exp $
+# $Revision: 1.3 $
+# $Date: 2003/11/20 20:51:49 $
 #
 # ====================================================================
 #
@@ -91,7 +91,7 @@ def dump(obj,indent=""):
         var=obj.__dict__[name]
 
         # avoid nulls, metadata, and methods
-        if not var: continue
+        if type(var) == types.NoneType: continue
         if isinstance(var,types.TypeType): continue
         if isinstance(var,types.MethodType): continue
 
@@ -220,7 +220,44 @@ def elapsedTimeToString(elapsed):
     
 def secsToDate(secs):
     return time.strftime(setting.datetimeformat, \
-                    time.localtime(secs))
+                    time.localtime(secs))                    
+                
+def getGeneralSinceDescription(secs, since=None):
+    if not since: since = default.time
+    return getGeneralDifferenceDescription( since, secs )
+            
+def getGeneralDifferenceDescription(newerSecs,olderSecs):
+    if not -1 == olderSecs and not olderSecs >= newerSecs:
+        diffString='~ '
+        diffSecs=newerSecs - olderSecs
+        
+        diffHours	=	int(diffSecs / 3600)
+        diffDays	=	int(diffHours / 24)
+        diffWeeks	=	int(diffDays / 7)
+        diffMonths	=	int(diffDays / 31)
+        diffYears	=	int(diffDays / 365)
+        
+        if diffYears:
+            diffString += str(diffYears) + ' year'
+            if diffYears > 1: diffString += 's'
+        elif diffMonths:
+            diffString += str(diffMonths) + ' month'
+            if diffMonths > 1: diffString += 's'
+        elif diffWeeks:
+            diffString += str(diffWeeks) + ' week'
+            if diffWeeks > 1: diffString += 's'
+        elif diffDays:
+            diffString += str(diffDays) + ' day'
+            if diffDays > 1: diffString += 's'
+        elif diffHours:
+            diffString += str(diffHours) + ' hour'
+            if diffHours > 1: diffString += 's'
+        else:
+            diffString = ''
+    else:
+        diffString = ''
+    
+    return diffString
     
 #
 # Get into ASCII, but make an attempt at coping with

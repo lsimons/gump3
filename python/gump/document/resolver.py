@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/document/resolver.py,v 1.2 2003/11/19 15:42:16 ajack Exp $
-# $Revision: 1.2 $
-# $Date: 2003/11/19 15:42:16 $
+# $Header: /home/stefano/cvs/gump/python/gump/document/resolver.py,v 1.3 2003/11/20 20:51:50 ajack Exp $
+# $Revision: 1.3 $
+# $Date: 2003/11/20 20:51:50 $
 #
 # ====================================================================
 #
@@ -73,7 +73,7 @@ from gump import log
 from gump.config import *
 from gump.utils import *
 
-from gump.output.statistics import StatisticsGuru
+from gump.output.statsdb import StatisticsGuru
 from gump.output.xref import XRefGuru
 from gump.model.repository import Repository
 from gump.model.workspace import Workspace

@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/model/project.py,v 1.9 2003/11/20 00:57:39 ajack Exp $
-# $Revision: 1.9 $
-# $Date: 2003/11/20 00:57:39 $
+# $Header: /home/stefano/cvs/gump/python/gump/model/project.py,v 1.10 2003/11/20 20:51:48 ajack Exp $
+# $Revision: 1.10 $
+# $Date: 2003/11/20 20:51:48 $
 #
 # ====================================================================
 #
@@ -66,6 +66,7 @@ from time import localtime, strftime, tzname
 
 from gump.model.state import *
 from gump.model.object import ModelObject, NamedModelObject, Jar
+from gump.model.stats import Statable, Statistics
 from gump.model.property import Property
 from gump.model.ant import Ant
 from gump.model.rawmodel import Single
@@ -165,7 +166,7 @@ class Classpath(Annotatable):
         return os.pathsep.join(self.getSimpleClasspathList())
             
 
-class Project(NamedModelObject):
+class Project(NamedModelObject, Statable):
     """A single project"""
     def __init__(self,xml,workspace):
     	NamedModelObject.__init__(self,xml.getName(),xml,workspace)
@@ -290,25 +291,8 @@ class Project(NamedModelObject):
     def getFullDependeesCount(self):         
         return len(self.getFullDependees())             
         
-    # Stats are loaded separately and cached on here,
-    # hence they may exist on an object at all times.
-    def hasStats(self):
-        return hasattr(self,'stats')
-        
-    def setStats(self,stats):
-        self.stats=stats
-        
-    def getStats(self):
-        if not self.hasStats():
-            raise RuntimeError, "Statistics not calculated/updated yet: " \
-                    + self.getName()
-        return self.stats
-        
     def getFOGFactor(self):
         return self.getStats().getFOGFactor()
-        
-    def getLastModified(self):
-        return self.getStats().getLastModified()
         
     def propagateErrorStateChange(self,state,reason,cause,message):
         
@@ -978,6 +962,20 @@ class Project(NamedModelObject):
             classpath.importClasspath(cp)                
         if bcp:
             bootclasspath.importClasspath(bcp)                      
+
+class ProjectStatistics(Statistics):
+    """Statistics Holder"""
+    def __init__(self,projectName):
+        Statistics.__init__(self,projectName)
+        
+    def getFOGFactor(self):
+        good=self.successes
+        bad=(self.failures+self.prereqs) or 1
+        return good/bad
+
+    def getKeyBase(self):
+        return 'project:'+ self.name        
+
                                                 
 class ProjectSummary:
     """ Contains an overview """

@@ -67,7 +67,7 @@ import time
 
 from gump import log
 from gump.model.state import *
-from gump.output.statistics import ProjectStatistics
+from gump.model.project import ProjectStatistics
 
 ###############################################################################
 

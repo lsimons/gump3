@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/model/object.py,v 1.7 2003/11/20 00:38:26 ajack Exp $
-# $Revision: 1.7 $
-# $Date: 2003/11/20 00:38:26 $
+# $Header: /home/stefano/cvs/gump/python/gump/model/object.py,v 1.8 2003/11/20 20:51:48 ajack Exp $
+# $Revision: 1.8 $
+# $Date: 2003/11/20 20:51:48 $
 #
 # ====================================================================
 #
@@ -65,10 +65,12 @@
 from time import localtime, strftime, tzname
 from string import lower, capitalize
 
+from gump.utils.note import *
+from gump.utils.work import *
+from gump.utils.owner import *
+
 from gump.model.state import *
-from gump.model.note import *
-from gump.model.work import *
-from gump.model.owner import *
+
 
 INHERIT_NONE=1
 INHERIT_ALL=2

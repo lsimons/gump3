@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/model/repository.py,v 1.2 2003/11/18 17:29:17 ajack Exp $
-# $Revision: 1.2 $
-# $Date: 2003/11/18 17:29:17 $
+# $Header: /home/stefano/cvs/gump/python/gump/model/repository.py,v 1.3 2003/11/20 20:51:48 ajack Exp $
+# $Revision: 1.3 $
+# $Date: 2003/11/20 20:51:48 $
 #
 # ====================================================================
 #
@@ -63,10 +63,13 @@
 """
 
 from gump.model.state import *
+from gump.model.stats import *
+
 from gump.model.object import NamedModelObject
+
 from gump.utils import getIndent
 
-class Repository(NamedModelObject):
+class Repository(NamedModelObject, Statable):
     """A named repository"""
     def __init__(self,xml,workspace):
     	NamedModelObject.__init__(self,xml.getName(),xml,workspace)
@@ -136,3 +139,16 @@ class Repository(NamedModelObject):
         
     def getModules(self): 
         return self.modules    
+        
+class RepositoryStatistics(Statistics):
+    """Statistics Holder"""
+    def __init__(self,repositoryName):
+        Statistics.__init__(self,repositoryName)
+        
+    def getFOGFactor(self):
+        return (self.successes / (self.failures - self.prereqs))
+
+    def getKeyBase(self):
+        return 'repository:'+ self.name        
+        
+    

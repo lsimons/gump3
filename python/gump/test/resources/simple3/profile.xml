@@ -1,5 +1,6 @@
 <profile name="gump">
 
+  <module href="package1.xml"/>
   <module href="project1.xml"/>
   <module href="project2.xml"/>
   <module href="project3.xml"/>
@@ -9,5 +10,7 @@
 
   <repository href="repository.xml"/>
 
+  <project name='package1' package='package1' />
+  
 </profile>
 

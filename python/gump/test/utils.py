@@ -1,8 +1,7 @@
-#!/usr/bin/python
-
-# $Header: /home/stefano/cvs/gump/python/gump/model/__init__.py,v 1.2 2003/11/20 20:51:48 ajack Exp $
-# $Revision: 1.2 $
-# $Date: 2003/11/20 20:51:48 $
+#!/usr/bin/env python
+# $Header: /home/stefano/cvs/gump/python/gump/test/utils.py,v 1.1 2003/11/20 20:51:49 ajack Exp $
+# $Revision: 1.1 $
+# $Date: 2003/11/20 20:51:49 $
 #
 # ====================================================================
 #
@@ -59,32 +58,58 @@
 # <http://www.apache.org/>.
 
 """
-  Gump XML model.
-
-  It contains a sax dispatcher tool, a dependency
-  walker, and an object model (GOM) which is built from an xmlfile using
-  the sax dispatcher.
-
-  The idea is that a subclass of GumpModelObject is used for each of the various
-  xml tags which can appear in a gump profile, with a saxdispatcher
-  generating a tree of GumpModelObject objects from the profile, dynamically
-  merging as it finds href references.
-
-  You can then use the dependencies() method to get an ordered, flat vector
-  of the projects in the profile.
-
-  Then there's some basic procedures to work with the GOM, like load().
-
-  For basic usage patterns, look at the gump.view module or the gump.build
-  module.
+    Utils Testing
 """
 
-###############################################################################
-# Initialize
-###############################################################################
+from gump.utils import *
+from gump.test.pyunit import UnitTestSuite
 
-# tell Python what modules make up the gump.model package
-__all__ = ["rawmodel","loader","state", \
-    "object","project","module","workspace","repository", \
-    "ant"]
-
+class UtilsTestSuite(UnitTestSuite):
+    def __init__(self):
+        UnitTestSuite.__init__(self)
+        
+    def suiteSetUp(self):
+        self.now=default.time
+        
+    def testDateTimeUtils(self):
+        oneHourBefore=self.now - (60*60)
+        twoHoursBefore=self.now - (60*60*2)
+        oneDayBefore=self.now - (60*60*24)
+        twoDaysBefore=self.now - (60*60*24*2)
+        oneWeekBefore=self.now - (60*60*24*7)
+        twoWeeksBefore=self.now - (60*60*24*7*2)
+        oneMonthBefore=self.now - (60*60*24*31)
+        twoMonthsBefore=self.now - (60*60*24*31*2)
+        oneYearBefore=self.now - (60*60*24*365)
+        twoYearsBefore=self.now - (60*60*24*365*2)
+        
+        rough=getGeneralDifferenceDescription(self.now, oneHourBefore)
+        self.assertIn('Date Diff String', '1 hour', rough)
+        
+        rough=getGeneralDifferenceDescription(self.now, twoHoursBefore)
+        self.assertIn('Date Diff String', '2 hours', rough)
+      
+        rough=getGeneralDifferenceDescription(self.now, oneDayBefore)
+        self.assertIn('Date Diff String', '1 day', rough)
+        
+        rough=getGeneralDifferenceDescription(self.now, twoDaysBefore)
+        self.assertIn('Date Diff String', '2 days', rough)
+      
+        rough=getGeneralDifferenceDescription(self.now, oneWeekBefore)
+        self.assertIn('Date Diff String', '1 week', rough)
+        
+        rough=getGeneralDifferenceDescription(self.now, twoWeeksBefore)
+        self.assertIn('Date Diff String', '2 weeks', rough)
+      
+        rough=getGeneralDifferenceDescription(self.now, oneMonthBefore)
+        self.assertIn('Date Diff String', '1 month', rough)
+        
+        rough=getGeneralDifferenceDescription(self.now, twoMonthsBefore)
+        self.assertIn('Date Diff String', '2 months', rough)        
+        
+        rough=getGeneralDifferenceDescription(self.now, oneYearBefore)
+        self.assertIn('Date Diff String', '1 year', rough)
+        
+        rough=getGeneralDifferenceDescription(self.now, twoYearsBefore)
+        self.assertIn('Date Diff String', '2 years', rough)
+        

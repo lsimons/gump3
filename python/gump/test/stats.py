@@ -1,7 +1,7 @@
 #!/usr/bin/env python
-# $Header:  1.7 2003/05/10 18:20:36 nicolaken Exp $
-# $Revision: 1.7 $
-# $Date: 2003/05/10 18:20:36 $
+# $Header: /home/stefano/cvs/gump/python/gump/test/stats.py,v 1.1 2003/11/20 20:51:49 ajack Exp $
+# $Revision: 1.1 $
+# $Date: 2003/11/20 20:51:49 $
 #
 # ====================================================================
 #
@@ -67,21 +67,45 @@ import types, StringIO
 
 from gump import log
 import gump.config
-from gump.test import *
-from gump.document.forrest import ForrestDocumenter
-from gump.gumprun import GumpRun
+from gump.output.statsdb import *
+from gump.test import getWorkedTestWorkspace
+from gump.test.pyunit import UnitTestSuite
 
-if __name__=='__main__':
-
-    # init logging
-    logging.basicConfig()
-
-    #set verbosity to show all messages of severity >= default.logLevel
-    log.setLevel(gump.default.logLevel)
-
-    workspace=getWorkedTestWorkspace() 
-    run=GumpRun(workspace)
-    documenter=ForrestDocumenter('.','http://someplace')
-    documenter.document(run)
+class StatsTestSuite(UnitTestSuite):
+    def __init__(self):
+        UnitTestSuite.__init__(self)
+        
+    def suiteSetUp(self):
+        #
+        # Load a decent Workspace
+        #
+        self.workspace=getWorkedTestWorkspace()          
+        self.assertNotNone('Needed a workspace', self.workspace)
+        
+        self.repo1=self.workspace.getRepository('repository1')                  
+        self.project1=self.workspace.getProject('project1')        
+        self.module1=self.workspace.getModule('module1')
     
-    
+        self.statsDB=StatisticsDB(dir.test,'test.db')
+        
+    def testGetStats(self):
+        self.statsDB.getProjectStats(self.project1.getName())
+        self.statsDB.getModuleStats(self.module1.getName())
+        self.statsDB.getRepositoryStats(self.repo1.getName())
+        
+        
+    def testPutStats(self):
+        ps1=self.statsDB.getProjectStats(self.project1.getName())
+        ms1=self.statsDB.getModuleStats(self.module1.getName())
+        rs1=self.statsDB.getRepositoryStats(self.repo1.getName())
+                
+        self.statsDB.putProjectStats(ps1)
+        self.statsDB.putModuleStats(ms1)
+        self.statsDB.putRepositoryStats(rs1)
+        
+    def testLoadAndUpdateStats(self):
+        self.statsDB.loadStatistics(self.workspace)
+        self.statsDB.updateStatistics(self.workspace)
+        
+        self.module1.getLastUpdated()
+        

@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/test/__init__.py,v 1.2 2003/11/18 17:29:18 ajack Exp $
-# $Revision: 1.2 $
-# $Date: 2003/11/18 17:29:18 $
+# $Header: /home/stefano/cvs/gump/python/gump/test/__init__.py,v 1.3 2003/11/20 20:51:49 ajack Exp $
+# $Revision: 1.3 $
+# $Date: 2003/11/20 20:51:49 $
 #
 # ====================================================================
 #
@@ -64,10 +64,13 @@
 
 from gump.model.loader import WorkspaceLoader
 
+import gump
+import gump.config
+
 from gump.model.rawmodel import XMLWorkspace
 from gump.model.workspace import Workspace
 
-from gump.output.statistics import StatisticsDB
+from gump.output.statsdb import StatisticsDB
 from gump.utils.tools import listDirectoryAsWork
 
 def getTestWorkspace(xml=None):
@@ -83,11 +86,11 @@ def getWorkedTestWorkspace(xml=None):
     workspace=getTestWorkspace(xml)
        
     # Load statistics for this workspace
-    db=StatisticsDB()  
+    db=StatisticsDB(gump.dir.test,'test.db')  
     db.loadStatistics(workspace)
 
-    listDirectoryAsWork(workspace,workspace.getBaseDirectory())
-        
+    # Some work items...
+    listDirectoryAsWork(workspace,workspace.getBaseDirectory())        
     for module in workspace.getModules():        
         listDirectoryAsWork(module,module.getSourceDirectory())
         for project in module.getProjects():

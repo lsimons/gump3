@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/cvspublic/jakarta-gump/python/gump/conf.py,v 1.7 2003/05/10 18:20:36 nicolaken Exp $
-# $Revision: 1.7 $
-# $Date: 2003/05/10 18:20:36 $
+# $Header: /home/stefano/cvs/gump/python/gump/utils/owner.py,v 1.1 2003/11/20 20:51:49 ajack Exp $
+# $Revision: 1.1 $
+# $Date: 2003/11/20 20:51:49 $
 #
 # ====================================================================
 #
@@ -59,77 +59,34 @@
 # <http://www.apache.org/>.
 
 """
-    This module contains information on
+    This module contains information on an object's owner
 """
+from gump import log
+from gump.utils import getIndent
 
-import sys
+class Ownable:
+    """Contains ownership """
+    def __init__(self,owner=None):
+        self.setOwner(owner)
 
-from gump.utils import *
-
-LEVEL_UNSET=0
-LEVEL_DEBUG=1
-LEVEL_INFO=2
-LEVEL_WARNING=3
-LEVEL_ERROR=4
-LEVEL_FATAL=5
-
-levelDescriptions = { 	LEVEL_UNSET : "Not Set",
-                    LEVEL_DEBUG : "Debug",
-                    LEVEL_INFO : "Info",
-                    LEVEL_WARNING : "Warning",
-                    LEVEL_ERROR : "Error",
-                    LEVEL_FATAL : "Fatal" }               
-
-def levelName(level):
-    return levelDescriptions.get(level,'Unknown Level:' + str(level))
-    
-class Annotation:
-    """ An annotation ... a log entry on the object ..."""
-    def __init__(self,level,text):
-        self.level=level
-        self.text=text
+    def hasOwner(self):
+        return self.owner
         
-    def __str__(self):
-        return levelName(self.level) + ":" + self.text        
-    
-    def dump(self, indent=0, output=sys.stdout):        
-        output.write(getIndent(indent)+str(self)+'\n')
+    def setOwner(self,owner):
+        if self == owner:
+            raise RuntimeError, "Can set owner to self on " + `self`
+        self.owner=owner
         
-class Annotatable:
-    
-    def __init__(self):
-        self.annotations=[]
-
-    def addDebug(self,text):
-        self.addAnnotation(LEVEL_DEBUG, text)        
-
-    def addInfo(self,text):
-        self.addAnnotation(LEVEL_INFO, text)
+    def getOwner(self):
+        return self.owner or self
         
-    def addWarning(self,text):
-        self.addAnnotation(LEVEL_WARNING, text)
-        
-    def addError(self,text):
-        self.addAnnotation(LEVEL_ERROR, text)
-        
-    def addFatal(self,text):
-        self.addAnnotation(LEVEL_FATAL, text)
-        
-    def addAnnotation(self,level,text):
-        self.addAnnotationObject(Annotation(level,text))
-        
-    def addAnnotationObject(self,message):
-        self.annotations.append(message)
-        
-    def getAnnotations(self):
-        return self.annotations
-        
-    def dump(self, indent=0, output=sys.stdout):
-        """ Display the contents of this object """         
-        if self.annotations:
-            output.write(getIndent(indent)+'Annotations:\n')
-       
-            for note in self.annotations:
-                note.dump(indent+1,output)
-  
-        
+    def displayOwnership(self,visited=None):
+        if not visited: visited=[]
+        if self in visited: 
+            log.error('Circular path @ ' + `self`)
+            return
+        visited.append(self)
+        log.info(getIndent(len(visited))+str(self))
+        if self.hasOwner():
+            self.getOwner().displayOwnership(visited)
+        return         

@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/model/Attic/ant.py,v 1.6 2003/11/19 19:43:53 ajack Exp $
-# $Revision: 1.6 $
-# $Date: 2003/11/19 19:43:53 $
+# $Header: /home/stefano/cvs/gump/python/gump/model/Attic/ant.py,v 1.7 2003/11/20 20:51:48 ajack Exp $
+# $Revision: 1.7 $
+# $Date: 2003/11/20 20:51:48 $
 #
 # ====================================================================
 #
@@ -64,9 +64,10 @@
 
 from time import localtime, strftime, tzname
 
+from gump.utils.work import *
+from gump.utils.note import *
+
 from gump.model.state import *
-from gump.model.note import *
-from gump.model.work import *
 from gump.model.object import *
 from gump.model.depend import *
 from gump.model.property import *

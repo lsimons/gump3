@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/cvspublic/jakarta-gump/python/gump/conf.py,v 1.7 2003/05/10 18:20:36 nicolaken Exp $
-# $Revision: 1.7 $
-# $Date: 2003/05/10 18:20:36 $
+# $Header: /home/stefano/cvs/gump/python/gump/utils/work.py,v 1.1 2003/11/20 20:51:49 ajack Exp $
+# $Revision: 1.1 $
+# $Date: 2003/11/20 20:51:49 $
 #
 # ====================================================================
 #
@@ -66,7 +66,7 @@ from time import localtime, strftime, tzname
 from string import lower, capitalize
 
 from gump.model.state import *
-from gump.model.owner import *
+from gump.utils.owner import *
 from gump.utils.launcher import *
 
                
