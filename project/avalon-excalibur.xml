@@ -631,17 +631,9 @@
     </project>
 
     <project name="excalibur-pool">
-      <depend project="excalibur-pool-api" inherit="jars"/>
-      <depend project="excalibur-pool-impl" inherit="jars"/>
-      <depend project="excalibur-pool-instrumented" inherit="jars"/>
       <depend project="excalibur-pool-legacy" inherit="jars"/>
     </project>
 
-    <!-- 
-    HELP
-    need to turn this into an id="legacy" project and update
-    the dependees as required 
-    -->
     <project name="excalibur-pool-legacy" >
         <package>org.apache.avalon.excalibur.pool</package>
 
