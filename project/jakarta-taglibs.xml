@@ -17,5 +17,8 @@
   <depend project="jakarta-oro"/>
   <depend project="jakarta-ant"/>
   <depend project="jakarta-servletapi"/>
+  <depend project="jdbc"/>
+  <option project="bsf"/>
+  <option project="xml-xalan1"/>
 
 </project>
