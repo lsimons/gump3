@@ -29,8 +29,8 @@ the cause was found. The hunt is over!
 The cause was: <a href="http://jakarta.apache.org/commons/httpclient/">commons-httpclient</a>
 </p><p>
 It works fine with version 2.0 of commons-httpclient but not with the
-latest version from HEAD. 
-httpclient HEAD (i.e. v3.x) is not going to be backward compatible
+latest version from HEAD. </p><p>
+It turns out that commons-httpclient HEAD (i.e. v3.x) is not going to be backward compatible
 with v2.x and thus several APIs will be broken. The question has been
 asked on 
 <a href="http://www.mail-archive.com/cactus-dev%40jakarta.apache.org/">Cactus dev mailing list</a>
