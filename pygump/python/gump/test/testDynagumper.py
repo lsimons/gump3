@@ -21,21 +21,21 @@ import unittest
 
 from gump.test.mockobjects import *
 from gump.plugins.dynagumper import Dynagumper
+from gump.model import Project
 
 mock = MockObjects()
 
 class DynagumperTestCase(unittest.TestCase):
     def setUp(self):
-        self.dynagumper = Dynagumper(mock.run,mock.database,mock.log)
+        self.dynagumper = Dynagumper(mock.database,mock.log)
+        self.project = Project("blah", "blah")
+        self.project.startdate = "21 June 2005"
+        self.project.enddate = "22 June 2005"
     
     def testEnsureThisHostIsInDatabase(self):
         #TODO actual tests
         self.dynagumper.ensureThisHostIsInDatabase()
 
-    def testVisitOtherEvent(self):
-        #TODO
-        self.dynagumper.VisitOtherEvent("blah")
-    
     def testVisitWorkSpace(self):
         #TODO
         self.dynagumper.visit_workspace("blah")
@@ -46,7 +46,7 @@ class DynagumperTestCase(unittest.TestCase):
     
     def testVisitProject(self):
         #TODO
-        self.dynagumper.visit_project("blah")
+        self.dynagumper.visit_project(self.project)
 
 # this is used by testrunner.py to determine what tests to run
 def test_suite():
