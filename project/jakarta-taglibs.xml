@@ -8,9 +8,9 @@
   <cvs repository="jakarta"/>
 
   <ant target="dist">
-    <property name="build.dir" value="build"/>
-
-    <property name="dist.dir" reference="home" project="jakarta-taglibs"/>
+    <property name="base.dir" reference="home" project="jakarta-taglibs"/>
+    <property name="build.dir" reference="home" project="taglibs.build"/>
+    <property name="dist.dir" reference="home" project="taglibs.dist"/>
 
     <property name="xerces.jar"
        reference="jarpath" id="parser" project="xml-xerces"/>
@@ -40,10 +40,16 @@
 
   <!-- for backwards compatibility with WebLogic 6.0 -->
   <depend project="xml-xalan1"/>
-
-  <home nested="dist"/>
-
   <project name="xml-xalan1">
     <jar name="xtags/lib/xalan.jar"/>
+  </project>
+
+  <!-- Emulate the "do not change" portion of build.properties.sample -->
+  <project name="taglibs.build">
+    <home nested="build"/>
+  </project>
+
+  <project name="taglibs.dist">
+    <home nested="dist"/>
   </project>
 </project>
