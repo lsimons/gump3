@@ -296,8 +296,8 @@ class XDocDocumenter(Documenter):
         rdfSyndRow=definitionTable.createRow()
         rdfSyndRow.createData().createStrong('Metadata')
         rdfArea=rdfSyndRow.createData()
-        rdfArea.createFork('atom.rdf','RDF')
-        rdfUrl=self.resolver.getUrl(self.workspace,'gump','.rdf')
+        rdfArea.createFork('gump.rdf','RDF')
+        #rdfUrl=self.resolver.getUrl(self.workspace,'gump','.rdf')
         #rdfArea.createFork('http://www.feedvalidator.org/check.cgi?url=' + rdfUrl) \
         #        .createIcon(self.resolver.getImageUrl('valid-rdf.png'), alt='[Valid Atom]') #, title='Validate my Atom feed', width='88', height='31')
         
