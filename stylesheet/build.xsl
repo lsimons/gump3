@@ -301,7 +301,7 @@
           </xsl:when>
 
           <xsl:when test="@path">
-            <property name="{$name}" value="$srcdir/{@path}" type="path"/>
+            <property name="{$name}" value="{$srcdir}/{@path}" type="path"/>
           </xsl:when>
 
           <xsl:otherwise>

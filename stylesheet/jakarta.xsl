@@ -70,7 +70,7 @@
               <table border="0" cellspacing="0" cellpadding="2" width="100%">
                 <tr>
                   <td class="title">
-                    <xsl:apply-templates select="title"/>
+                    <xsl:apply-templates select="title/*|title/text()"/>
                   </td>
                 </tr>
               </table>
