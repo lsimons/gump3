@@ -52,7 +52,7 @@
     <depend project="commons-digester"/>
     <depend project="commons-lang"/>
     <depend project="commons-logging"/>
-    <depend project="dom4j"/>
+    <depend project="packaged-dom4j"/>
  
     <work nested="target/classes"/>
     <home nested="configuration/target"/>

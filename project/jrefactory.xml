@@ -25,13 +25,13 @@
   <project name="jrefactory-pretty">
     <package>org.acm.seguin.pretty</package>
     <ant target="pretty">
-      <property name="version" value="@@DATE@@"/>
+      <property name="version" value="@@DATE@@.0.0"/>
     </ant>
     <depend project="ant" inherit="runtime"/>
     <depend project="xml-xerces"/>
     <depend project="junit"/>
     <work nested="ant.build/classes"/>
-    <jar name="ant.build/lib/PrettyPrinter-@@DATE@@.jar"/>
+    <jar name="ant.build/lib/PrettyPrinter-@@DATE@@.0.0.jar"/>
   </project>
 
 </module>

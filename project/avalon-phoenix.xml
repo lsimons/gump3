@@ -12,8 +12,8 @@
 
         <ant target="jars">
             <property name="checkstyle.failOnError" value="true"/>
-            <depend property="mx4j.jar" project="mx4j" id="jmx"/>
-            <depend property="mx4j-tools.jar" project="mx4j" id="tools"/>
+            <depend property="mx4j.jar" project="mx4j" id="mx4j"/>
+            <depend property="mx4j-tools.jar" project="mx4j-tools" id="tools"/>
         </ant>
 
         <depend property="xerces.jar" project="xml-xerces" id="parser" runtime="true"/>

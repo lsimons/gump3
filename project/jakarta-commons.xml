@@ -270,7 +270,7 @@
     <depend project="commons-collections" runtime="true"/>
     <depend project="commons-jexl"/>
     <depend project="commons-logging" runtime="true"/>
-    <depend project="dom4j"/>
+    <depend project="packaged-dom4j"/>
     <depend project="junit"/>
     <depend project="xml-xerces"/>
 
