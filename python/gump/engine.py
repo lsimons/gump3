@@ -227,6 +227,11 @@ class GumpEngine:
         # Update all the modules that have CVS repositories
         for module in list: 
         
+            if module.isPackaged(): 
+                # Not sure we have anything to do right now
+                # self.performModulePackageProcessing(module)
+                continue
+            
             if not module.hasCvs() \
                 and not module.hasSvn()	\
                 and not module.hasJars(): continue
@@ -290,7 +295,12 @@ class GumpEngine:
         log.debug('--- Synchronizing work directories with sources')  
 
         for module in list:
-    
+        
+            # Packaged modules override CVS/SVN (so folks can have local
+            # Gumps that don't build everything).
+            if module.isPackaged(): 
+                continue
+            
             # If no CVS/SVN, nothing to sync   
             if not module.hasCvs() \
                 and not module.hasSvn(): continue
@@ -375,15 +385,14 @@ class GumpEngine:
         for project in list:  
         
             log.debug(' ------ Project: #[' + `projectNo` + '] of [' + `projectCount` + '] : ' + project.getName())
-        
-            
+                    
             # Extract stats (in case we want to do conditional processing)            
             stats=None
             if project.hasStats():
                 stats=project.getStats()
             
             if project.isPackaged():             
-                self.performPackageProcessing(run, project, stats)
+                self.performProjectPackageProcessing(run, project, stats)
                 continue
                 
             # Do this even if not ok
@@ -681,7 +690,7 @@ class GumpEngine:
                 # Not worth crapping out over...
             
                         
-    def performPackageProcessing(self, run, project, stats):
+    def performProjectPackageProcessing(self, run, project, stats):
         """Perform Package Processing Actions"""
      
         log.debug(' ------ Performing Package Processing for : '+ project.getName())
