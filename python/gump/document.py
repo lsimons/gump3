@@ -379,11 +379,15 @@ def documentModule(workspace,wdir,modulename,modulecontext,db,projectFilterList=
     x=startXDoc(getModuleDocument(workspace,modulename,mdir))
     headerXDoc(x,'Module : ' + modulename)
     
-    if module.description:
+    if module.description or module.url:
         startSectionXDoc(x,'Description')     
-        paragraphXDoc(x,module.description)
+        if module.description
+            paragraphXDoc(x,module.description)
+        if module.url
+            paragraphXDoc(x,getLink(module.url))
         endSectionXDoc(x)
     
+        
     documentAnnotations(x,modulecontext.annotations)
     
     startSectionXDoc(x,'Projects')
@@ -990,7 +994,8 @@ def getUp(depth):
         i += 1
     return url
            
-def getLink(href,name):
+def getLink(href,name=None):
+    if not name: name = fref
     link='<link href=\'%s\'>%s</link>' % (href,name)
     return link
            
