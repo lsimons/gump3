@@ -29,7 +29,14 @@ class Synchronizer(gump.run.actor.AbstractRunActor):
     def __init__(self, run, documenter):
         gump.run.actor.AbstractRunActor.__init__(self, run)            
         self.documenter=documenter
- 
+        
+    def processOtherEvent(self,event):
+            
+        workspace=self.run.getWorkspace()        
+        
+        if isinstance(event,FinalizeRunEvent):
+            self.synchronizeRun()
+                
     def synchronizeRun(self):
     
         log.debug('--- Synchronize Results')
