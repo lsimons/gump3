@@ -40,7 +40,6 @@ from gump.model.project import *
 from gump.results.model import *
 from gump.results.loader import *
 
-               
 class Resulter(AbstractRunActor):
     
     def __init__(self,run):        
@@ -52,7 +51,23 @@ class Resulter(AbstractRunActor):
         self.serverResults = {}
         self.serversLoaded = 0
         
-    def getServerResultFor(sefl, server, object):
+        
+    def processOtherEvent(self,event):
+            
+        workspace=self.run.getWorkspace()        
+        
+        if isinstance(event,InitializeRunEvent):
+            
+            self.gatherResults()
+            
+        elif isinstance(event,FinalizeRunEvent):        
+            # In the root.
+            where=self.run.getOptions().getResolver().getFile(	\
+                    self.run.getWorkspace(),'results','.xml',1)    
+            # Generate the output...
+            self.generateResults(where)
+            
+    def getServerResultFor(self, server, object):
         results=self.getResultsForAllServers(object)
         if results.has_key(server):
             return results[server]

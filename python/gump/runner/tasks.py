@@ -113,7 +113,7 @@ class SequentialTaskRunner(GumpRunner):
             task.invoke()
             
             # Seems a nice place to clean up...    
-            invokeGarbageCollection()
+            invokeGarbageCollection('Task ' + task.getName())
    
         
 class GumpTask:

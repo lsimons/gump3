@@ -45,6 +45,9 @@ from gump.model.state import *
 
 from gump.document.resolver import *
 
+from gump.guru.stats import *
+from gump.guru.xref import *
+
 
 def getPathForObject(object,visited=None):
     if not visited:visited=[] 

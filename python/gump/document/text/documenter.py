@@ -47,31 +47,33 @@ class TextDocumenter(Documenter):
         self.output=output        
         self.setResolver(TextResolver(dirBase,urlBase))
         
-    def documentEntity(self, entity, run):
         
-        verbose=run.getOptions().isVerbose()
-        debug=run.getOptions().isDebug()
+    def processModule(self,module):
+        verbose=self.run.getOptions().isVerbose()
+        debug=self.run.getOptions().isDebug()
+        self.documentModule('',entity,1,debug,verbose)       
+         
+    def processProject(self,project):
+        verbose=self.run.getOptions().isVerbose()
+        debug=self.run.getOptions().isDebug()
+        self.documentModule('',project,1,debug,verbose)  
         
-        if isinstance(entity,Workspace):
-            pass
-        elif isinstance(entity,Module):
-            self.documentModule('',entity,1,debug,verbose)   
-        elif  isinstance(entity,Project):
-            self.documentProject('',entity,1,debug,verbose)        
+        
+            
     
-    def documentRun(self, run):    
+    def documentRun(self):    
         indent=' '
         
-        workspace = run.getWorkspace()
-        gumpSet = run.getGumpSet()
-        gumpEnv = run.getEnvironment()
+        workspace = self.run.getWorkspace()
+        gumpSet = self.run.getGumpSet()
+        gumpEnv = self.run.getEnvironment()
         
         #
         # 
         #
-        quick=run.getOptions().isQuick()
-        verbose=run.getOptions().isVerbose()
-        debug=run.getOptions().isDebug()
+        quick=self.run.getOptions().isQuick()
+        verbose=self.run.getOptions().isVerbose()
+        debug=self.run.getOptions().isDebug()
         
         #
         # Where to write this.

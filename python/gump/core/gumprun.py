@@ -403,7 +403,12 @@ class GumpRunOptions:
     def setVerbose(self,verbose):
         self.verbose=verbose
 
+    def setResolver(self,resolver):
+        self.resolver=resolver        
 
+    def getResolver(self):
+        return self.resolver
+        
 class RunSpecific:
     """
     
@@ -577,14 +582,16 @@ class GumpRun(Workable,Annotatable,Stateful):
     def dispatchEvent(self,event):
         log.debug('Dispatch Event : ' + `event`)        
         for actor in self.actors:
-            log.debug('Dispatch Event : ' + `event` + ' to ' + `actor`)     
+            #log.debug('Dispatch Event : ' + `event` + ' to ' + `actor`)     
             actor._processEvent(event)
+        inspectGarbageCollection(`event`)
             
     def dispatchRequest(self,request):
         log.debug('Dispatch Request : ' + `request`)    
         for actor in self.actors:
             log.debug('Dispatch Request : ' + `request` + ' to ' + `actor`)       
             actor._processRequest(request)
+        inspectGarbageCollection(`request`)
             
     def generateEvent(self,entity):
         self.dispatchEvent(EntityRunEvent(self, entity))

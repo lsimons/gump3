@@ -24,12 +24,12 @@ import sys
 
 from gump import log
 
-
-
 from gump.core.misc import *
 from gump.update.updater import *
 from gump.build.builder import *
 
+from gump.syndication.syndicator import *
+from gump.results.resulter import *
 
 ###############################################################################
 # Classes
@@ -69,20 +69,7 @@ class GumpRunner(RunSpecific):
         # Modify the log location on the fly, if --dated
         #
         if self.run.getOptions().isDated():
-            workspace.setDatedDirectories()
-        
-        #
-        # Use Forrest if available & not overridden...
-        #
-        documenter=None
-        if self.run.getEnvironment().noForrest \
-            or self.run.getOptions().isText() :
-            documenter=TextDocumenter(self.run)
-        else:
-            documenter=XDocDocumenter(	self.run,	\
-                                        workspace.getBaseDirectory(), \
-                                        workspace.getLogUrl())                        
-        self.run.registerActor(documenter)
+            workspace.setDatedDirectories()     
                     
         # Check the workspace
         if not workspace.getVersion() >= setting.ws_version:
@@ -104,17 +91,41 @@ class GumpRunner(RunSpecific):
         # :TODO: Put this somewhere else, and/or make it depend upon something...
         workspace.changeState(STATE_SUCCESS)
  
+        # Initialize Actors
+        self.initializeActors()             
+ 
         # Let's get going...
-        self.run.dispatchEvent(InitializeRunEvent())
-                    
-    def finalize(self):            
-        # About to shutdown...
-        self.run.dispatchEvent(FinalizeRunEvent())
+        self.run.dispatchEvent(InitializeRunEvent(self.run))
+    
+    def initializeActors(self):
+        self.run.registerActor(Statistician(self.run))
+        self.run.registerActor(Resulter(self.run))
+        self.run.registerActor(Notifier(self.run))
+              
+        #
+        # Use Forrest if available & not overridden...
+        #
+        documenter=None
+        if self.run.getEnvironment().noForrest \
+            or self.run.getOptions().isText() :
+            documenter=TextDocumenter(self.run)
+        else:
+            documenter=XDocDocumenter(	self.run,	\
+                                        self.run.getWorkspace().getBaseDirectory(), \
+                                        self.run.getWorkspace().getLogUrl())  
+        self.run.getOptions().setResolver(documenter.getResolver())
+                                                              
+        self.run.registerActor(documenter)    
+        self.run.registerActor(Syndicator(self.run))
         
     def setEndTime(self):
         logResourceUtilization('Set End Time')
         # :TODO: Move this to run
         self.run.getWorkspace().setEndTime()
+                    
+    def finalize(self):            
+        # About to shutdown...
+        self.run.dispatchEvent(FinalizeRunEvent(self.run))
 
 def getRunner(run):
     #from gump.runner.tasks import SequentialTaskRunner

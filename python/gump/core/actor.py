@@ -64,6 +64,9 @@ class  RunActor(RunSpecific):
     def __init__(self, run):
         RunSpecific.__init__(self,run)
         
+    def __repr__(self):
+        return self.__class__.__name__
+        
     #
     # Call a method called 'processEvent(event)', if it
     # is available on the sub-class (i.e. if needed)
@@ -94,6 +97,8 @@ class AbstractRunActor(RunActor):
                 self._processModule(entity)
             elif  isinstance(entity,Project):
                 self._processProject(entity)
+        else:
+            self._processOtherEvent(event)
             
             
     #
@@ -140,5 +145,16 @@ class AbstractRunActor(RunActor):
         if not callable(self.processProject):  return        
         log.debug('Process Project [' + `project` + '] using [' + `self` + ']')        
         self.processProject(project)
+        
+            
+    #
+    # Call a method called 'processOtherEvent(event)', if it
+    # is available on the sub-class (i.e. if needed)
+    #
+    def _processOtherEvent(self,event):
+        if not hasattr(self,'processOtherEvent'): return        
+        if not callable(self.processOtherEvent):  return        
+        log.debug('Process Event [' + `event` + '] using [' + `self` + ']')        
+        self.processOtherEvent(event)
         
             

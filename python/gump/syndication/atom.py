@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/syndication/atom.py,v 1.16.2.2 2004/05/17 23:45:50 ajack Exp $
-# $Revision: 1.16.2.2 $
-# $Date: 2004/05/17 23:45:50 $
+# $Header: /home/stefano/cvs/gump/python/gump/syndication/atom.py,v 1.16.2.3 2004/05/18 22:37:27 ajack Exp $
+# $Revision: 1.16.2.3 $
+# $Date: 2004/05/18 22:37:27 $
 #
 # ====================================================================
 #
@@ -164,9 +164,9 @@ class AtomFeed:
         # Close the file.
         stream.close()  
         
-class AtomSyndicator(Syndicator):
+class AtomSyndicator(AbstractSyndicator):
     def __init__(self):
-        Syndicator.__init__(self)
+        AbstractSyndicator.__init__(self)
         
     def syndicate(self,run):
         

@@ -397,23 +397,6 @@ class GumpBuilder(RunSpecific):
                 project.addInfo('Project Reports in: ' + reportDir)
                 catDirectoryContentsToFileHolder(project, reportDir, FILE_TYPE_OUTPUT)
     
-        # Maven generates a maven.log...
-        if project.hasMaven() and not project.isPackaged():
-            pomFile=project.locateMavenProjectFile() 
-            if os.path.exists(pomFile):                               
-                project.addDebug('Maven POM in: ' + pomFile) 
-                catFileToFileHolder(project, pomFile, FILE_TYPE_CONFIG) 
-                    
-            projpFile=project.locateMavenProjectPropertiesFile() 
-            if os.path.exists(projpFile):                                                
-                project.addDebug('Maven project properties in: ' + projpFile)                
-                catFileToFileHolder(project, pomFile, FILE_TYPE_CONFIG) 
-            
-            logFile=project.locateMavenLog()                                
-            if os.path.exists(logFile):
-                project.addDebug('Maven Log in: ' + logFile)                
-                catFileToFileHolder(project, logFile, FILE_TYPE_LOG)
-            
                         
     def performProjectPackageProcessing(self, project, stats):
         """Perform Package Processing Actions"""

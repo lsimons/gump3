@@ -44,16 +44,7 @@ class Documenter(AbstractRunActor):
         if not callable(self.prepareRun):  return        
         log.debug('Prepare to document run using [' + `self` + ']')        
         self.prepareRun()       
-        
-    #
-    # Call a method called 'documentEntity(entity,run)'
-    #
-    def entity(self,entity):
-        if not hasattr(self,'documentEntity'): return
-        if not callable(self.documentEntity): return        
-        log.debug('Document entity [' + `entity` + '] using [' + `self` + ']')        
-        self.documentEntity(entity)
-    
+
     #
     # Call a method called 'documentRun(run)'
     #
@@ -74,5 +65,5 @@ class Documenter(AbstractRunActor):
     def setResolver(self,resolver):
         self.resolver=resolver        
 
-    def getResolver(self,resolver):
+    def getResolver(self):
         return self.resolver

@@ -69,13 +69,21 @@ class XDocDocumenter(Documenter):
         
         self.setResolver(XDocResolver(dirBase,urlBase))
         
+    def processOtherEvent(self,event):
+            
+        workspace=self.run.getWorkspace()        
+        
+        if isinstance(event,InitializeRunEvent):
+            self.prepareRun()
+        elif isinstance(event,FinalizeRunEvent):
+            self.documentRun()
     
     def prepareRun(self):
     
         log.debug('--- Prepare for Documenting Results')
 
-        workspace=run.getWorkspace()
-        gumpSet=run.getGumpSet()
+        workspace=self.run.getWorkspace()
+        gumpSet=self.run.getGumpSet()
     
         # Seed with default/site skins/etc.
         self.prepareXDoc(workspace)
@@ -88,8 +96,8 @@ class XDocDocumenter(Documenter):
         # 3) update build log        
         # 4) sync biuld log
         
-        verbose=run.getOptions().isVerbose()
-        debug=run.getOptions().isDebug()
+        verbose=self.run.getOptions().isVerbose()
+        debug=self.run.getOptions().isDebug()
         
         if isinstance(entity,Workspace):
             pass
@@ -104,25 +112,25 @@ class XDocDocumenter(Documenter):
         log.debug('--- Documenting Results')
 
         workspace=self.run.getWorkspace()
-        gumpSet=run.getGumpSet()
-        runOptions=run.getOptions()
+        gumpSet=self.run.getGumpSet()
+        runOptions=self.run.getOptions()
         
         # Document...
-        self.documentEnvironment(run,workspace)    
-        self.documentWorkspace(run,workspace,gumpSet)  
-        self.documentRunOptions(run,workspace)    
+        self.documentEnvironment(workspace)    
+        self.documentWorkspace(workspace,gumpSet)  
+        self.documentRunOptions(workspace)    
         
         # Document these (even if not a full build)
-        self.documentStatistics(run,workspace,gumpSet)
-        self.documentXRef(run,workspace,gumpSet)
+        self.documentStatistics(workspace,gumpSet)
+        self.documentXRef(workspace,gumpSet)
 
         #
-        # Launch XDoc, if we aren't just leaving xdocs...
+        # Launch Forrest, if we aren't just leaving xdocs...
         #
         ret=0
         
         if not runOptions.isXDocs():
-            ret=self.executeXDoc(workspace)
+            ret=self.executeForrest(workspace)
         else:
             ret=self.syncXDocs(workspace)
             
@@ -132,22 +140,22 @@ class XDocDocumenter(Documenter):
     #
     # XDocing...
     def getXDocWorkDirectory(self,workspace):
-        fdir=os.path.abspath(os.path.join(workspace.getBaseDirectory(),'XDoc-work'))
+        fdir=os.path.abspath(os.path.join(workspace.getBaseDirectory(),'forrest-work'))
         return fdir
         
     def getXDocStagingDirectory(self,workspace):
         """ Staging Area for built output """
-        fdir=os.path.abspath(os.path.join(workspace.getBaseDirectory(),'XDoc-staging'))
+        fdir=os.path.abspath(os.path.join(workspace.getBaseDirectory(),'forrest-staging'))
         return fdir
         
     def getXDocTemplateDirectory(self):
         """ Template (XDoc skin/config) """
-        fdir=os.path.abspath(os.path.join(dir.template,'XDoc'))
+        fdir=os.path.abspath(os.path.join(dir.template,'forrest'))
         return fdir  
         
     def getXDocSiteTemplateDirectory(self):
         """ Site Template (XDoc skin/config tweaks) """    
-        fdir=os.path.abspath(os.path.join(dir.template,'site-XDoc'))
+        fdir=os.path.abspath(os.path.join(dir.template,'site-forrest'))
         return fdir  
     
     def prepareXDoc(self,workspace):   
@@ -161,21 +169,21 @@ class XDocDocumenter(Documenter):
         #
         # First deleted the work tree (if exists), then ensure created
         #
-        XDocWorkDir=self.getXDocWorkDirectory(workspace)
-        wipeDirectoryTree(XDocWorkDir)
+        xdocWorkDir=self.getXDocWorkDirectory(workspace)
+        wipeDirectoryTree(xdocWorkDir)
                     
         # Sync in the defaults [i.e. cleans also]
-        XDocTemplate=self.getXDocTemplateDirectory()   
-        syncDirectories(	XDocTemplate,	\
-                            XDocWorkDir,	\
+        xdocTemplate=self.getXDocTemplateDirectory()   
+        syncDirectories(	xdocTemplate,	\
+                            xdocWorkDir,	\
                             workspace)    
                                     
         # Copy over the local site defaults (if any)        
-        XDocSiteTemplate=self.getXDocSiteTemplateDirectory()  
-        if os.path.exists(XDocSiteTemplate):
+        xdocSiteTemplate=self.getXDocSiteTemplateDirectory()  
+        if os.path.exists(xdocSiteTemplate):
             log.info('Prepare XDoc work with *site* template')            
-            copyDirectories(XDocSiteTemplate,	\
-                            XDocWorkDir,	\
+            copyDirectories(xdocSiteTemplate,	\
+                            xdocWorkDir,	\
                             workspace)                               
                              
         #    
@@ -183,39 +191,39 @@ class XDocDocumenter(Documenter):
         #   
         wipeDirectoryTree(self.getXDocStagingDirectory(workspace))
                  
-    def executeXDoc(self,workspace):
+    def executeForrest(self,workspace):
         # The project tree
         xdocs=self.resolver.getDirectory(workspace)      
         
         # The three dirs, work, output (staging), public
-        XDocWorkDir=self.getXDocWorkDirectory(workspace)
+        xdocWorkDir=self.getXDocWorkDirectory(workspace)
         stagingDirectory=self.getXDocStagingDirectory(workspace)
         logDirectory=workspace.getLogDirectory()
         
         # Generate...        
-        XDoc=Cmd('XDoc','XDoc',XDocWorkDir)
+        forrest=Cmd('forrest','forrest',xdocWorkDir)
       
-        XDoc.addPrefixedParameter('-D','java.awt.headless','true','=')
-        XDoc.addPrefixedParameter('-D','project.content-dir',  \
+        forrest.addPrefixedParameter('-D','java.awt.headless','true','=')
+        forrest.addPrefixedParameter('-D','project.content-dir',  \
             '.', '=')
-        XDoc.addPrefixedParameter('-D','project.site-dir',  \
+        forrest.addPrefixedParameter('-D','project.site-dir',  \
             stagingDirectory, '=')
                 
         # Temporary:   
-        # Too verbose ... XDoc.addParameter('-debug')
-        #XDoc.addParameter('-verbose')
+        # Too verbose ... forrest.addParameter('-debug')
+        #forrest.addParameter('-verbose')
         
         # A sneak preview ... 
-        work=CommandWorkItem(WORK_TYPE_DOCUMENT,XDoc)
+        work=CommandWorkItem(WORK_TYPE_DOCUMENT,forrest)
         workspace.performedWork(work)
         
         #
         # Do the actual work...
         #
-        XDocResult=execute(XDoc)
+        forrestResult=execute(forrest)
     
         # Update Context    
-        work=CommandWorkItem(WORK_TYPE_DOCUMENT,XDoc,XDocResult)
+        work=CommandWorkItem(WORK_TYPE_DOCUMENT,forrest,forrestResult)
         workspace.performedWork(work)    
         
         # If ok move from staging to publish
@@ -224,7 +232,7 @@ class XDocDocumenter(Documenter):
         # let's not shoot so high.
         #
         success=1
-        if 1 or (XDocResult.state==CMD_STATE_SUCCESS):
+        if 1 or (forrestResult.state==CMD_STATE_SUCCESS):
             try:
                 #
                 # Sync over public pages...
@@ -238,8 +246,8 @@ class XDocDocumenter(Documenter):
                     wipeDirectoryTree(stagingDirectory)
                 
                     # Clean only if successful.
-                    if  (XDocResult.state==CMD_STATE_SUCCESS):
-                        wipeDirectoryTree(XDocWorkDir)
+                    if  (forrestResult.state==CMD_STATE_SUCCESS):
+                        wipeDirectoryTree(xdocWorkDir)
             except:        
                 log.error('--- Failed to staging->log sync and/or clean-up', exc_info=1)
                 success=0
@@ -285,9 +293,9 @@ class XDocDocumenter(Documenter):
     #
     # Environment
     #      
-    def documentEnvironment(self,run,workspace):
+    def documentEnvironment(self,workspace):
         
-        environment=run.getEnvironment()
+        environment=self.run.getEnvironment()
            
         #
         # ----------------------------------------------------------------------
@@ -314,8 +322,8 @@ class XDocDocumenter(Documenter):
         
         
         self.documentAnnotations(document,environment)        
-        #self.documentFileList(run,document,environment,'Environment-level Files')        
-        self.documentWorkList(run,document,environment,'Environment-level Work')
+        #self.documentFileList(document,environment,'Environment-level Files')        
+        self.documentWorkList(document,environment,'Environment-level Work')
      
         document.serialize()
                 
@@ -323,9 +331,9 @@ class XDocDocumenter(Documenter):
     #
     # Options
     #      
-    def documentRunOptions(self,run,workspace):
+    def documentRunOptions(self,workspace):
         
-        options=run.getOptions()
+        options=self.run.getOptions()
            
         #
         # ----------------------------------------------------------------------
@@ -357,7 +365,7 @@ class XDocDocumenter(Documenter):
     #
     # Model Pieces
     #      
-    def documentWorkspace(self,run,workspace,gumpSet):
+    def documentWorkspace(self,workspace,gumpSet):
         
         
         #
@@ -381,7 +389,7 @@ class XDocDocumenter(Documenter):
             definitionTable.createEntry('Workspace Version', workspace.xml.version)
         if not workspace.xml.version or not workspace.xml.version == setting.ws_version:
             definitionTable.createEntry('Gump Preferred Workspace Version', setting.ws_version)
-        definitionTable.createEntry('Java Command', run.getEnvironment().javaCommand)
+        definitionTable.createEntry('Java Command', self.run.getEnvironment().javaCommand)
         definitionTable.createEntry('Python', str(sys.version))
         definitionTable.createEntry('Operating System (Name)', str(os.name))
         definitionTable.createEntry('@@DATE@@', str(default.date))
@@ -389,7 +397,7 @@ class XDocDocumenter(Documenter):
         definitionTable.createEntry('Start Date/Time', workspace.getStartDateTime())
         definitionTable.createEntry('Timezone', workspace.timezone)
 
-        javaproperties=run.getEnvironment().getJavaProperties()
+        javaproperties=self.run.getEnvironment().getJavaProperties()
         for name in ['java.vendor', 'java.version', 'os.name', 'os.arch', 'os.version']:
             if name in javaproperties:
                 definitionTable.createEntry(name, javaproperties[name])	  
@@ -468,22 +476,22 @@ class XDocDocumenter(Documenter):
         # x.write('<p><strong>Workspace Config:</strong> <link href=\'xml.txt\'>XML</link></p>')
         # x.write('<p><strong>RSS :</strong> <link href=\'index.rss\'>News Feed</link></p>')
         
-        self.documentFileList(run,document,workspace,'Workspace-level Files')
-        self.documentWorkList(run,document,workspace,'Workspace-level Work')
+        self.documentFileList(document,workspace,'Workspace-level Files')
+        self.documentWorkList(document,workspace,'Workspace-level Work')
      
         document.serialize()
     
         document=None
         
-        self.documentRepositories(run,workspace,gumpSet)
-        self.documentServers(run,workspace,gumpSet)
-        self.documentTrackers(run,workspace,gumpSet)
-        self.documentBuildLog(run,workspace,gumpSet)
-        self.documentNotesLog(run,workspace,gumpSet)
-        self.documentDiffsLog(run,workspace,gumpSet)
-        self.documentProjects(run,workspace,gumpSet)
-        self.documentModules(run,workspace,gumpSet)
-        self.documentPackages(run,workspace,gumpSet)
+        self.documentRepositories(workspace,gumpSet)
+        self.documentServers(workspace,gumpSet)
+        self.documentTrackers(workspace,gumpSet)
+        self.documentBuildLog(workspace,gumpSet)
+        self.documentNotesLog(workspace,gumpSet)
+        self.documentDiffsLog(workspace,gumpSet)
+        self.documentProjects(workspace,gumpSet)
+        self.documentModules(workspace,gumpSet)
+        self.documentPackages(workspace,gumpSet)
             
    
         #
@@ -491,32 +499,32 @@ class XDocDocumenter(Documenter):
         #
         for repo in workspace.getRepositories():            
             if not gumpSet.inRepositories(repo): continue
-            self.documentRepository(run,repo,workspace,gumpSet)
+            self.documentRepository(repo,workspace,gumpSet)
             
         #
         # Document individual servers
         #
         for server in workspace.getServers():            
-            self.documentServer(run,server,workspace,gumpSet)
+            self.documentServer(server,workspace,gumpSet)
             
         #
         # Document individual trackers
         #
         for tracker in workspace.getTrackers():            
-            self.documentTracker(run,tracker,workspace,gumpSet)
+            self.documentTracker(tracker,workspace,gumpSet)
             
         #
         # Document individual modules
         #
         for module in workspace.getModules():
             if not gumpSet.inModuleSequence(module): continue  
-            self.documentModule(run,module,workspace,gumpSet)
+            self.documentModule(module,workspace,gumpSet)
             
         # Document workspace 'Text'
         document=XDocDocument('Context',self.resolver.getFile(workspace,'context.xml'))
         stream=StringIO.StringIO() 
-        texter=TextDocumenter(stream)  
-        texter.document(run)
+        texter=TextDocumenter(self.run,stream)  
+        texter.document()
         stream.seek(0)
         document.createSource(stream.read())
         stream.close()
@@ -532,7 +540,7 @@ class XDocDocumenter(Documenter):
             stream.close()
             document.serialize()            
             
-    def documentRepositories(self,run,workspace,gumpSet):        
+    def documentRepositories(self,workspace,gumpSet):        
           
         #
         # ----------------------------------------------------------------------
@@ -564,7 +572,7 @@ class XDocDocumenter(Documenter):
         
         document.serialize()
        
-    def documentServers(self,run,workspace,gumpSet):   
+    def documentServers(self,workspace,gumpSet):   
     
         #
         # ----------------------------------------------------------------------
@@ -622,7 +630,7 @@ class XDocDocumenter(Documenter):
         
         document.serialize()
        
-    def documentTrackers(self,run,workspace,gumpSet): 
+    def documentTrackers(self,workspace,gumpSet): 
         #
         # ----------------------------------------------------------------------
         #
@@ -650,7 +658,7 @@ class XDocDocumenter(Documenter):
         
         document.serialize()
        
-    def documentBuildLog(self,run,workspace,gumpSet,realTime=0): 
+    def documentBuildLog(self,workspace,gumpSet,realTime=0): 
         #
         # ----------------------------------------------------------------------
         #
@@ -738,7 +746,7 @@ class XDocDocumenter(Documenter):
         
         document.serialize()
       
-    def documentNotesLog(self,run,workspace,gumpSet): 
+    def documentNotesLog(self,workspace,gumpSet): 
         #
         # ----------------------------------------------------------------------
         #
@@ -786,7 +794,7 @@ class XDocDocumenter(Documenter):
         
         document.serialize()
            
-    def documentDiffsLog(self,run,workspace,gumpSet): 
+    def documentDiffsLog(self,workspace,gumpSet): 
         
         #
         # ----------------------------------------------------------------------
@@ -838,7 +846,7 @@ class XDocDocumenter(Documenter):
         
         document.serialize()
            
-    def documentProjects(self,run,workspace,gumpSet): 
+    def documentProjects(self,workspace,gumpSet): 
     
         sortedProjectList=createOrderedList(gumpSet.getProjectSequence())
         
@@ -979,7 +987,7 @@ This page helps Gumpmeisters (and others) observe community progress.
                     
         document.serialize()
            
-    def documentModules(self,run,workspace,gumpSet): 
+    def documentModules(self,workspace,gumpSet): 
     
         sortedModuleList=createOrderedList(gumpSet.getModuleSequence())
      
@@ -1138,7 +1146,7 @@ This page helps Gumpmeisters (and others) observe community progress.
         
         document.serialize()
        
-    def documentPackages(self,run,workspace,gumpSet):
+    def documentPackages(self,workspace,gumpSet):
         
         #
         # ----------------------------------------------------------------------
@@ -1195,7 +1203,7 @@ This page helps Gumpmeisters (and others) observe community progress.
         document.serialize()
      
       
-    def documentRepository(self,run,repo,workspace,gumpSet):
+    def documentRepository(self,repo,workspace,gumpSet):
         
         document=XDocDocument( 'Repository : ' + repo.getName(),	\
                 self.resolver.getFile(repo))   
@@ -1255,12 +1263,12 @@ This page helps Gumpmeisters (and others) observe community progress.
     
         self.documentXML(document,repo)
         
-        self.documentFileList(run,document,repo,'Repository-level Files')
-        self.documentWorkList(run,document,repo,'Repository-level Work')
+        self.documentFileList(document,repo,'Repository-level Files')
+        self.documentWorkList(document,repo,'Repository-level Work')
 
         document.serialize()
       
-    def documentServer(self,run,server,workspace,gumpSet):
+    def documentServer(self,server,workspace,gumpSet):
         
         document=XDocDocument( 'Server : ' + server.getName(),	\
                 self.resolver.getFile(server))   
@@ -1333,13 +1341,13 @@ This page helps Gumpmeisters (and others) observe community progress.
             
         self.documentXML(document,server)
         
-        self.documentFileList(run,document,server,'Server-level Files')
-        self.documentWorkList(run,document,server,'Server-level Work')
+        self.documentFileList(document,server,'Server-level Files')
+        self.documentWorkList(document,server,'Server-level Work')
 
         document.serialize()
       
              
-    def documentTracker(self,run,tracker,workspace,gumpSet):
+    def documentTracker(self,tracker,workspace,gumpSet):
         
         document=XDocDocument( 'Tracker : ' + tracker.getName(),	\
                 self.resolver.getFile(tracker))   
@@ -1384,13 +1392,13 @@ This page helps Gumpmeisters (and others) observe community progress.
             
         self.documentXML(document,tracker)
         
-        self.documentFileList(run,document,tracker,'Tracker-level Files')
-        self.documentWorkList(run,document,tracker,'Tracker-level Work')
+        self.documentFileList(document,tracker,'Tracker-level Files')
+        self.documentWorkList(document,tracker,'Tracker-level Work')
 
         document.serialize()
       
         
-    def documentModule(self,run,module,workspace,gumpSet):
+    def documentModule(self,module,workspace,gumpSet):
         
         document=XDocDocument( 'Module : ' + module.getName(),	\
                 self.resolver.getFile(module))   
@@ -1481,8 +1489,8 @@ This page helps Gumpmeisters (and others) observe community progress.
             
         if not pcount: pallTable.createLine('None')
                            
-        self.documentFileList(run,document,module,'Module-level Files')
-        self.documentWorkList(run,document,module,'Module-level Work')
+        self.documentFileList(document,module,'Module-level Files')
+        self.documentWorkList(document,module,'Module-level Work')
         
         #addnSection=document.createSection('Additional Details')
         #addnPara=addnSection.createParagraph()
@@ -1551,7 +1559,7 @@ This page helps Gumpmeisters (and others) observe community progress.
         # Document Projects
         for project in module.getProjects():
             if not gumpSet.inProjectSequence(project): continue      
-            self.documentProject(run,project,workspace,gumpSet)
+            self.documentProject(project,workspace,gumpSet)
        
     # Document the module XML
     #    x=startXDoc(getModuleXMLDocument(workspace,modulename,mdir))
@@ -1564,7 +1572,7 @@ This page helps Gumpmeisters (and others) observe community progress.
     #    footerXDoc(x)
     #    endXDoc(x)
         
-    def documentProject(self,run,project,workspace,gumpSet): 
+    def documentProject(self,project,workspace,gumpSet): 
         
         document=XDocDocument('Project : ' + project.getName(),	\
                 self.resolver.getFile(project))       
@@ -1688,8 +1696,8 @@ This page helps Gumpmeisters (and others) observe community progress.
         if stats.last:
             statsTable.createEntry("Last Success: ", secsToDate(stats.last))
                 
-        self.documentFileList(run,document,project,'Project-level Files')  
-        self.documentWorkList(run,document,project,'Project-level Work')  
+        self.documentFileList(document,project,'Project-level Files')  
+        self.documentWorkList(document,project,'Project-level Work')  
                 
                 
         addnSection=document.createSection('Additional Details')
@@ -1699,9 +1707,9 @@ This page helps Gumpmeisters (and others) observe community progress.
                                 
         document.serialize()
         
-        self.documentProjectDetails(run,project,workspace,gumpSet)
+        self.documentProjectDetails(project,workspace,gumpSet)
         
-    def documentProjectDetails(self,run,project,workspace,gumpSet):         
+    def documentProjectDetails(self,project,workspace,gumpSet):         
         
         document=XDocDocument('Project Details : ' + project.getName(),	\
                     self.resolver.getFile(project, \
@@ -1815,7 +1823,7 @@ This page helps Gumpmeisters (and others) observe community progress.
      
             nagSection=document.createSection('Notification')
             nagSection.createParagraph('This is the notification mail that is to be sent')
-            nagger=Notifier(run)
+            nagger=Notifier(self.run)
             content=nagger.getNamedTypedContent(project)            
             nagSection.createSource(content)
                     
@@ -2107,7 +2115,7 @@ This page helps Gumpmeisters (and others) observe community progress.
                                 ' (' + '%02.2f' % summary.packagesPercentage + '%)'] )
         
       
-    def documentWorkList(self,run,xdocNode,workable,description='Work'):
+    def documentWorkList(self,xdocNode,workable,description='Work'):
         worklist=workable.getWorkList()
         
         if not worklist: return
@@ -2148,7 +2156,7 @@ This page helps Gumpmeisters (and others) observe community progress.
         # Go document the others...
         #
         for work in worklist:
-            self.documentWork(run.getWorkspace(),work)
+            self.documentWork(self.run.getWorkspace(),work)
             
     def documentWork(self,workspace,work):
         if isinstance(work,CommandWorkItem):    
@@ -2301,7 +2309,7 @@ This page helps Gumpmeisters (and others) observe community progress.
             wdocument.serialize()
             wdocument=None
           
-    def documentFileList(self,run,xdocNode,holder,description='Files'):
+    def documentFileList(self,xdocNode,holder,description='Files'):
         filelist=holder.getFileList()
         
         if not filelist: return
@@ -2320,7 +2328,7 @@ This page helps Gumpmeisters (and others) observe community progress.
         # Go document the others...
         #
         for fileReference in filelist:
-            self.documentFile(run.getWorkspace(),fileReference)
+            self.documentFile(self.run.getWorkspace(),fileReference)
             
     def documentFile(self,workspace,fileReference):
         
@@ -2579,7 +2587,7 @@ This page helps Gumpmeisters (and others) observe community progress.
     #
     # Statistics Pages
     #           
-    def documentStatistics(self,run,workspace,gumpSet):
+    def documentStatistics(self,workspace,gumpSet):
                 
         log.info('Generate Statistic Guru')
         stats=StatisticsGuru(workspace)
@@ -2602,37 +2610,37 @@ This page helps Gumpmeisters (and others) observe community progress.
         mstatsTable=mstatsSection.createTable(['Page','Description'])
                 
         # Modules By Elapsed Time
-        mByE=self.documentModulesByElapsed(stats, run, workspace, gumpSet)                
+        mByE=self.documentModulesByElapsed(stats, workspace, gumpSet)                
         mstatsRow=mstatsTable.createRow()
         mstatsRow.createData().createLink(mByE, 'Modules By Elapsed Time')
         mstatsRow.createData('Time spent working on this module.')
                 
         # Modules By Project #
-        mByP=self.documentModulesByProjects(stats, run, workspace, gumpSet)           
+        mByP=self.documentModulesByProjects(stats, workspace, gumpSet)           
         mstatsRow=mstatsTable.createRow()
         mstatsRow.createData().createLink(mByP, 'Modules By Project #')
         mstatsRow.createData('Number of projects within the module.')
         
         # Modules By Dependencies
-        mByDep=self.documentModulesByDependencies(stats, run, workspace, gumpSet)           
+        mByDep=self.documentModulesByDependencies(stats, workspace, gumpSet)           
         mstatsRow=mstatsTable.createRow()
         mstatsRow.createData().createLink(mByDep, 'Modules By Dependencies #')
         mstatsRow.createData('Number of dependencies within the module.')        
         
         # Modules By Dependees
-        mByDepees=self.documentModulesByDependees(stats, run, workspace, gumpSet)           
+        mByDepees=self.documentModulesByDependees(stats, workspace, gumpSet)           
         mstatsRow=mstatsTable.createRow()
         mstatsRow.createData().createLink(mByDepees, 'Modules By Dependees #')
         mstatsRow.createData('Number of dependees on the module.')
         
         # Modules By FOG Factor
-        mByFOG=self.documentModulesByFOGFactor(stats, run, workspace, gumpSet)           
+        mByFOG=self.documentModulesByFOGFactor(stats, workspace, gumpSet)           
         mstatsRow=mstatsTable.createRow()
         mstatsRow.createData().createLink(mByFOG, 'Modules By FOG Factor')
         mstatsRow.createData('Friend of Gump (FOG) Factor. A measure of dependability (for other Gumpers).')
                 
         # Modules By Last Modified
-        mByLU=self.documentModulesByLastModified(stats, run, workspace, gumpSet)           
+        mByLU=self.documentModulesByLastModified(stats, workspace, gumpSet)           
         mstatsRow=mstatsTable.createRow()
         mstatsRow.createData().createLink(mByLU, 'Modules By Last Modified')
         mstatsRow.createData('Best guess at last code change (in source control).')
@@ -2641,50 +2649,50 @@ This page helps Gumpmeisters (and others) observe community progress.
         pstatsTable=pstatsSection.createTable(['Page','Description'])
         
         # Projects By Elapsed
-        pByE=self.documentProjectsByElapsed(stats, run, workspace, gumpSet)           
+        pByE=self.documentProjectsByElapsed(stats, workspace, gumpSet)           
         pstatsRow=pstatsTable.createRow()
         pstatsRow.createData().createLink(pByE, 'Projects By Elapsed Time')
         pstatsRow.createData('Time spent working on this project.')
                                         
         # Projects By Dependencies
-        pByDep=self.documentProjectsByDependencies(stats, run, workspace, gumpSet)           
+        pByDep=self.documentProjectsByDependencies(stats, workspace, gumpSet)           
         pstatsRow=pstatsTable.createRow()
         pstatsRow.createData().createLink(pByDep, 'Projects By Dependencies')
         pstatsRow.createData('Number of dependencies for the project.')
                                         
         # Projects By Dependees
-        pByDepees=self.documentProjectsByDependees(stats, run, workspace, gumpSet)           
+        pByDepees=self.documentProjectsByDependees(stats, workspace, gumpSet)           
         pstatsRow=pstatsTable.createRow()
         pstatsRow.createData().createLink(pByDepees, 'Projects By Dependees')
         pstatsRow.createData('Number of dependees for the project.')
                                         
         # Projects By FOG Factor
-        pByFOG=self.documentProjectsByFOGFactor(stats, run, workspace, gumpSet)           
+        pByFOG=self.documentProjectsByFOGFactor(stats, workspace, gumpSet)           
         pstatsRow=pstatsTable.createRow()
         pstatsRow.createData().createLink(pByFOG, 'Projects By FOG Factor')
         pstatsRow.createData('Friend of Gump (FOG) Factor. A measure of dependability (for other Gumpers).')
                                         
         # Projects By Sequence
-        pBySeq=self.documentProjectsBySequenceInState(stats, run, workspace, gumpSet)           
+        pBySeq=self.documentProjectsBySequenceInState(stats, workspace, gumpSet)           
         pstatsRow=pstatsTable.createRow()
         pstatsRow.createData().createLink(pBySeq, 'Projects By Duration in state')
         pstatsRow.createData('Duration in current state.')
         
         # Projects By Dependency Depth
-        pByDepD=self.documentProjectsByDependencyDepth(stats, run, workspace, gumpSet)           
+        pByDepD=self.documentProjectsByDependencyDepth(stats, workspace, gumpSet)           
         pstatsRow=pstatsTable.createRow()
         pstatsRow.createData().createLink(pByDepD, 'Projects By Dependency Depth')
         pstatsRow.createData('Depth (in dependency tree) of the project.')
         
         # Projects By Dependency Depth
-        pByTotDepD=self.documentProjectsByDependencyDepth(stats, run, workspace, gumpSet, 1)           
+        pByTotDepD=self.documentProjectsByDependencyDepth(stats, workspace, gumpSet, 1)           
         pstatsRow=pstatsTable.createRow()
         pstatsRow.createData().createLink(pByTotDepD, 'Projects By Total Dependency Depth')
         pstatsRow.createData('Total Depth (sum of direct dependencies depths) of the project.')
         
         document.serialize()  
     
-    def documentModulesByElapsed(self,stats,run,workspace,gumpSet):
+    def documentModulesByElapsed(self,stats,workspace,gumpSet):
         fileName='module_elapsed'
         documentFile=self.resolver.getFile(stats,fileName)
         document=XDocDocument('Modules By Elapsed Time', documentFile)
@@ -2700,7 +2708,7 @@ This page helps Gumpmeisters (and others) observe community progress.
         
         return fileName + '.html'
     
-    def documentModulesByProjects(self,stats,run,workspace,gumpSet):
+    def documentModulesByProjects(self,stats,workspace,gumpSet):
         fileName='module_projects'
         documentFile=self.resolver.getFile(stats,fileName)
         document=XDocDocument('Modules By Project Count',	documentFile)
@@ -2726,7 +2734,7 @@ This page helps Gumpmeisters (and others) observe community progress.
         
         return fileName + '.html'
      
-    def documentModulesByDependencies(self,stats,run,workspace,gumpSet):
+    def documentModulesByDependencies(self,stats,workspace,gumpSet):
         fileName='module_dependencies'
         documentFile=self.resolver.getFile(stats,fileName)
         document=XDocDocument('Modules By Dependency Count', documentFile)
@@ -2749,7 +2757,7 @@ This page helps Gumpmeisters (and others) observe community progress.
         return fileName + '.html'
              
      
-    def documentModulesByDependees(self,stats,run,workspace,gumpSet):
+    def documentModulesByDependees(self,stats,workspace,gumpSet):
         fileName='module_dependees'
         documentFile=self.resolver.getFile(stats,fileName)    
         document=XDocDocument('Modules By Dependee Count', documentFile)
@@ -2771,7 +2779,7 @@ This page helps Gumpmeisters (and others) observe community progress.
         
         return fileName + '.html'
         
-    def documentModulesByFOGFactor(self,stats,run,workspace,gumpSet):
+    def documentModulesByFOGFactor(self,stats,workspace,gumpSet):
         fileName='module_fogfactor'
         documentFile=self.resolver.getFile(stats,fileName)    
         document=XDocDocument('Modules By FOG Factor',	documentFile)        
@@ -2786,7 +2794,7 @@ This page helps Gumpmeisters (and others) observe community progress.
         
         return fileName + '.html'
     
-    def documentModulesByLastModified(self,stats,run,workspace,gumpSet):
+    def documentModulesByLastModified(self,stats,workspace,gumpSet):
         fileName='module_modified'
         documentFile=self.resolver.getFile(stats,fileName)    
         document=XDocDocument('Modules By Last Modified', documentFile)        
@@ -2807,7 +2815,7 @@ This page helps Gumpmeisters (and others) observe community progress.
         
         return fileName + '.html'
     
-    def documentProjectsByElapsed(self,stats,run,workspace,gumpSet):
+    def documentProjectsByElapsed(self,stats,workspace,gumpSet):
         fileName='project_elapsed'
         documentFile=self.resolver.getFile(stats,fileName)    
         document=XDocDocument('Projects By Elapsed Time',	documentFile)
@@ -2823,7 +2831,7 @@ This page helps Gumpmeisters (and others) observe community progress.
         
         return fileName + '.html'
      
-    def documentProjectsByDependencies(self,stats,run,workspace,gumpSet):
+    def documentProjectsByDependencies(self,stats,workspace,gumpSet):
         fileName='project_dependencies'
         documentFile=self.resolver.getFile(stats,fileName)    
         document=XDocDocument('Projects By Dependency Count',	 documentFile)
@@ -2847,7 +2855,7 @@ This page helps Gumpmeisters (and others) observe community progress.
         return fileName + '.html'
              
      
-    def documentProjectsByDependees(self,stats,run,workspace,gumpSet):
+    def documentProjectsByDependees(self,stats,workspace,gumpSet):
         fileName='project_dependees'
         documentFile=self.resolver.getFile(stats,fileName)    
         document=XDocDocument('Projects By Dependee Count', documentFile)
@@ -2870,7 +2878,7 @@ This page helps Gumpmeisters (and others) observe community progress.
         
         return fileName + '.html'
         
-    def documentProjectsByFOGFactor(self,stats,run,workspace,gumpSet):
+    def documentProjectsByFOGFactor(self,stats,workspace,gumpSet):
         fileName='project_fogfactor'
         documentFile=self.resolver.getFile(stats,fileName)    
         document=XDocDocument('Projects By FOG Factor',	 documentFile)        
@@ -2899,7 +2907,7 @@ This page helps Gumpmeisters (and others) observe community progress.
         
         return fileName + '.html'
         
-    def documentProjectsBySequenceInState(self,stats,run,workspace,gumpSet):
+    def documentProjectsBySequenceInState(self,stats,workspace,gumpSet):
         fileName='project_durstate'
         documentFile=self.resolver.getFile(stats,fileName)    
         document=XDocDocument('Projects By Duration In State',	documentFile)        
@@ -2918,7 +2926,7 @@ This page helps Gumpmeisters (and others) observe community progress.
         
         return fileName + '.html'
 
-    def documentProjectsByDependencyDepth(self,stats,run,workspace,gumpSet,total=0):
+    def documentProjectsByDependencyDepth(self,stats,workspace,gumpSet,total=0):
         if total:
             title='Projects By Total Dependency Depth'
             fileName='project_totdepdepth'       
@@ -2950,7 +2958,7 @@ This page helps Gumpmeisters (and others) observe community progress.
     #
     # XRef Pages
     #           
-    def documentXRef(self,run,workspace,gumpSet):
+    def documentXRef(self,workspace,gumpSet):
                     
         log.info('Generate XRef Guru')
         xref=XRefGuru(workspace)    
@@ -2967,19 +2975,19 @@ This page helps Gumpmeisters (and others) observe community progress.
         mxrefTable=mxrefSection.createTable(['Page','Description'])
                 
         # Modules By Repository
-        mByR=self.documentModulesByRepository(xref, run, workspace, gumpSet)                
+        mByR=self.documentModulesByRepository(xref, workspace, gumpSet)                
         mxrefRow=mxrefTable.createRow()
         mxrefRow.createData().createLink(mByR, 'Modules By Repository')
         mxrefRow.createData('The repository that contains the module.')
         
         # Modules By Package
-        mByP=self.documentModulesByPackage(xref, run, workspace, gumpSet)                
+        mByP=self.documentModulesByPackage(xref, workspace, gumpSet)                
         mxrefRow=mxrefTable.createRow()
         mxrefRow.createData().createLink(mByP, 'Modules By Package')
         mxrefRow.createData('The package(s) contained in the module.')
         
         # Modules By Description
-        mByD=self.documentModulesByDescription(xref, run, workspace, gumpSet)                
+        mByD=self.documentModulesByDescription(xref, workspace, gumpSet)                
         mxrefRow=mxrefTable.createRow()
         mxrefRow.createData().createLink(mByD, 'Modules By Description')
         mxrefRow.createData('The descriptions for the module.')
@@ -2991,38 +2999,38 @@ This page helps Gumpmeisters (and others) observe community progress.
         pxrefTable=pxrefSection.createTable(['Page','Description'])
                         
         # Projects By Package
-        pByP=self.documentProjectsByPackage(xref, run, workspace, gumpSet)                
+        pByP=self.documentProjectsByPackage(xref, workspace, gumpSet)                
         pxrefRow=pxrefTable.createRow()
         pxrefRow.createData().createLink(pByP, 'Projects By Package')
         pxrefRow.createData('The package(s) contained in the project.')
         
         # Projects By Description
-        pByD=self.documentProjectsByDescription(xref, run, workspace, gumpSet)                
+        pByD=self.documentProjectsByDescription(xref, workspace, gumpSet)                
         pxrefRow=pxrefTable.createRow()
         pxrefRow.createData().createLink(pByD, 'Projects By Description')
         pxrefRow.createData('The descriptions for the project.')
                 
         # Projects By Outputs
-        pByO=self.documentProjectsByOutput(xref, run, workspace, gumpSet)                
+        pByO=self.documentProjectsByOutput(xref, workspace, gumpSet)                
         pxrefRow=pxrefTable.createRow()
         pxrefRow.createData().createLink(pByO, 'Projects By Output')
         pxrefRow.createData('The outputs for the project, e.g. jars.')
              
         # Projects By Output Ids
-        pByOI=self.documentProjectsByOutputId(xref, run, workspace, gumpSet)                
+        pByOI=self.documentProjectsByOutputId(xref, workspace, gumpSet)                
         pxrefRow=pxrefTable.createRow()
         pxrefRow.createData().createLink(pByOI, 'Projects By Output Identifier')
         pxrefRow.createData('The identifiers for outputs for the project, e.g. jars.')
              
         # Projects By Descriptor Location
-        pByDL=self.documentProjectsByDescriptorLocation(xref, run, workspace, gumpSet)                
+        pByDL=self.documentProjectsByDescriptorLocation(xref, workspace, gumpSet)                
         pxrefRow=pxrefTable.createRow()
         pxrefRow.createData().createLink(pByDL, 'Projects By Descriptor Location')
         pxrefRow.createData('The descriptor for the project.')
         
         document.serialize()
         
-    def documentModulesByRepository(self,xref,run,workspace,gumpSet):
+    def documentModulesByRepository(self,xref,workspace,gumpSet):
         fileName='repo_module'
         documentFile=self.resolver.getFile(xref,fileName)        
         document=XDocDocument('Modules By Repository',	documentFile)
@@ -3053,7 +3061,7 @@ This page helps Gumpmeisters (and others) observe community progress.
         
         return fileName + '.html'
         
-    def documentModulesByPackage(self,xref,run,workspace,gumpSet):
+    def documentModulesByPackage(self,xref,workspace,gumpSet):
         fileName='package_module'
         documentFile=self.resolver.getFile(xref,fileName)            
         document=XDocDocument('Modules By Package',	documentFile)
@@ -3085,7 +3093,7 @@ This page helps Gumpmeisters (and others) observe community progress.
         return fileName + '.html'
         
         
-    def documentModulesByDescription(self,xref,run,workspace,gumpSet):
+    def documentModulesByDescription(self,xref,workspace,gumpSet):
         fileName='description_module'
         documentFile=self.resolver.getFile(xref,fileName)            
         document=XDocDocument('Modules By Description',	documentFile)
@@ -3116,7 +3124,7 @@ This page helps Gumpmeisters (and others) observe community progress.
         
         return fileName + '.html'
         
-    def documentProjectsByPackage(self,xref,run,workspace,gumpSet):
+    def documentProjectsByPackage(self,xref,workspace,gumpSet):
         fileName='package_project'
         documentFile=self.resolver.getFile(xref,fileName)            
         document=XDocDocument('Projects By Package',	documentFile)
@@ -3147,7 +3155,7 @@ This page helps Gumpmeisters (and others) observe community progress.
         
         return fileName + '.html'
 
-    def documentProjectsByDescription(self,xref,run,workspace,gumpSet):
+    def documentProjectsByDescription(self,xref,workspace,gumpSet):
         fileName='description_project'
         documentFile=self.resolver.getFile(xref,fileName)            
         document=XDocDocument('Projects By Description',	documentFile)
@@ -3179,7 +3187,7 @@ This page helps Gumpmeisters (and others) observe community progress.
         return fileName + '.html'
  
         
-    def documentProjectsByOutput(self,xref,run,workspace,gumpSet):
+    def documentProjectsByOutput(self,xref,workspace,gumpSet):
         fileName='output_project'
         documentFile=self.resolver.getFile(xref,fileName)            
         document=XDocDocument('Projects By Outputs (e.g. Jars)',	documentFile)
@@ -3210,7 +3218,7 @@ This page helps Gumpmeisters (and others) observe community progress.
         
         return fileName + '.html'
         
-    def documentProjectsByOutputId(self,xref,run,workspace,gumpSet):
+    def documentProjectsByOutputId(self,xref,workspace,gumpSet):
         fileName='output_id_project'
         documentFile=self.resolver.getFile(xref,fileName)            
         document=XDocDocument('Projects By Output Identifiers',	documentFile)
@@ -3241,7 +3249,7 @@ This page helps Gumpmeisters (and others) observe community progress.
         
         return fileName + '.html'
         
-    def documentProjectsByDescriptorLocation(self,xref,run,workspace,gumpSet):
+    def documentProjectsByDescriptorLocation(self,xref,workspace,gumpSet):
         fileName='descriptor_project'
         documentFile=self.resolver.getFile(xref,fileName)            
         document=XDocDocument('Projects By Descriptor Location',	documentFile)

@@ -63,32 +63,20 @@ class OnDemandRunner(GumpRunner):
             # Process the module, upon demand
             module=project.getModule()
             if not module.isUpdated():
-                self.processModule(module)
+                self.updater.updateModule(module)        
                 module.setUpdated(1) #:TODO: Move this...
+                self.run.generateEvent(module)
 
             # Process
-            self.processProject(project)
+            self.builder.buildProject(project)   
+            self.run.generateEvent(project)
 
-            # Keep track of progress...
-            #documentBuildList()
-
-        self.finalize()
-        
-    def processModule(self,module):
-        
-        # Update Module
-        self.updater.updateModule(module)
-        #module.updateStats()
-        #module.document()
-        #module.syndicate()
-        #module.notify()
+        self.finalize()    
                 
-    def processProject(self,project):
-        
-        # Build project
-        self.builder.buildProject(project)
-        #product.publishArtefacts()
-        #project.updateStats()
-        #project.document()
-        #project.syndicate()
-        #project.notify()
+        # Return an exit code based off success
+        # :TODO: Move onto run
+        if self.run.getWorkspace().isSuccess():
+            result = EXIT_CODE_SUCCESS 
+        else: 
+            result = EXIT_CODE_FAILED
+        return result  

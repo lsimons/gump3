@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/syndication/rss.py,v 1.23.2.2 2004/05/17 23:45:50 ajack Exp $
-# $Revision: 1.23.2.2 $
-# $Date: 2004/05/17 23:45:50 $
+# $Header: /home/stefano/cvs/gump/python/gump/syndication/rss.py,v 1.23.2.3 2004/05/18 22:37:27 ajack Exp $
+# $Revision: 1.23.2.3 $
+# $Date: 2004/05/18 22:37:27 $
 #
 # ====================================================================
 #
@@ -262,9 +262,9 @@ class RSS:
         if not channel: channel = self.getCurrentChannel()
         channel.addItem(item)
            
-class RSSSyndicator(Syndicator):
+class RSSSyndicator(AbstractSyndicator):
     def __init__(self):
-        Syndicator.__init__(self)
+        AbstractSyndicator.__init__(self)
         self.gumpImage=Image('http://gump.apache.org/images/bench.png',	\
                     'Apache Gump', \
                     'http://gump.apache.org/')

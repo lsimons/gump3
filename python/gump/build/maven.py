@@ -113,6 +113,22 @@ class MavenBuilder(AbstractJavaBuilder):
                 else:                         
                     # For now, things are going good...
                     project.changeState(STATE_SUCCESS)
+                    
+        if wasBuilt:
+            pomFile=self.locateMavenProjectFile(project) 
+            if os.path.exists(pomFile):                               
+                project.addDebug('Maven POM in: ' + pomFile) 
+                catFileToFileHolder(project, pomFile, FILE_TYPE_CONFIG) 
+                    
+            projpFile=self.locateMavenProjectPropertiesFile(project) 
+            if os.path.exists(projpFile):                                                
+                project.addDebug('Maven project properties in: ' + projpFile)                
+                catFileToFileHolder(project, pomFile, FILE_TYPE_CONFIG) 
+            
+            logFile=self.locateMavenLog(project)
+            if os.path.exists(logFile):
+                project.addDebug('Maven Log in: ' + logFile)                
+                catFileToFileHolder(project, logFile, FILE_TYPE_LOG)                                
   
     #
     # Build an ANT command for this project
@@ -256,17 +272,17 @@ maven.jar.override = on
 
         return propertiesFile
       
-    def locateMavenLog(self):
+    def locateMavenLog(self,project):
         """Return Maven log location"""  
-        basedir = self.maven.getBaseDirectory() or self.getBaseDirectory()
+        basedir = project.maven.getBaseDirectory() or project.getBaseDirectory()
         return os.path.abspath(os.path.join(basedir,'maven.log'))
       
-    def locateMavenProjectPropertiesFile(self):
+    def locateMavenProjectPropertiesFile(self,project):
         """Return Maven project properties file location""" 
-        basedir = self.maven.getBaseDirectory() or self.getBaseDirectory()
+        basedir = project.maven.getBaseDirectory() or project.getBaseDirectory()
         return os.path.abspath(os.path.join(basedir,'project.properties'))
         
-    def locateMavenProjectFile(self):
+    def locateMavenProjectFile(self,project):
         """Return Maven project file location"""      
-        basedir = self.maven.getBaseDirectory() or self.getBaseDirectory()
+        basedir = project.maven.getBaseDirectory() or project.getBaseDirectory()
         return os.path.abspath(os.path.join(basedir,'project.xml'))  
