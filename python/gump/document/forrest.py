@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/forrest.py,v 1.102 2004/03/12 16:10:39 ajack Exp $
-# $Revision: 1.102 $f
-# $Date: 2004/03/12 16:10:39 $
+# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/forrest.py,v 1.103 2004/03/12 18:25:28 ajack Exp $
+# $Revision: 1.103 $f
+# $Date: 2004/03/12 18:25:28 $
 #
 # ====================================================================
 #
@@ -157,7 +157,8 @@ class ForrestDocumenter(Documenter):
             
         # Copy in the defaults        
         forrestTemplate=self.getForrestTemplateDirectory()           
-        syncDirectories(	forrestTemplate,	\
+        # :TODO: We need to sync, but we write to contents...
+        copyDirectories(	forrestTemplate,	\
                             forrestDir,	\
                             workspace)    
                                     
@@ -174,15 +175,22 @@ class ForrestDocumenter(Documenter):
         forrestDir=self.getForrestDirectory(workspace)      
         
         #
-        # First deleted the tree (if exists), then ensure created
+        # :TODO:
+        #	1)	We need to do this sooner ('cos things write into content before this module)
+        #	2)	We need a staging area that we write to, then we Sync to the real output
+        #		so we have less of a window of missing public files.
         #
-        logDirectory=workspace.getLogDirectory()
-        if os.path.exists(logDirectory):
-            try:
-                shutil.rmtree(logDirectory)  
-            except: pass
-        if not os.path.exists(logDirectory):          
-            os.makedirs(logDirectory)
+        #
+        #    #
+        #    # First deleted the tree (if exists), then ensure created
+        #    #
+        #    logDirectory=workspace.getLogDirectory()
+        #    if os.path.exists(logDirectory):
+        #        try:
+        #            shutil.rmtree(logDirectory)  
+        #        except: pass
+        #    if not os.path.exists(logDirectory):          
+        #        os.makedirs(logDirectory)
         
         # Then generate...        
         forrest=Cmd('forrest','forrest',forrestDir)
@@ -630,13 +638,11 @@ The count of affected indicates relative importance of fixing this module.""")
             #
             # Determine if there are todos, otherwise continue
             #
-            mcount=0
+            todos=0
             for pair in module.aggregateStates():
                 if pair.state==STATE_FAILED:
-                    mcount=1
-                    
-            if not mcount: continue
-    
+                    todos=1                    
+            if not todos: continue    
             # Shown something...
             mcount+=1
             
