@@ -9,7 +9,11 @@
   
   <project name="xmlunit">
     <ant target="dist"/>
+    <depend project="jakarta-ant"/>
     <depend project="xml-xerces"/>
+    <depend project="xml-xalan2"/>
+    <depend project="junit"/>
+    <work nested="classes"/>
     <jar id="xmlunit" name="lib/xmlunit.jar"/>
   </project>
 
