@@ -26,6 +26,7 @@
     <jar name="lib/batik-css.jar"/>
     <jar name="lib/batik-dom.jar"/>
     <jar name="lib/batik-extension.jar"/>
+    <jar name="lib/batik-ext.jar"/>
     <jar name="lib/batik-gui-util.jar"/>
     <jar name="lib/batik-gvt.jar"/>
     <jar name="lib/batik-parser.jar"/>
