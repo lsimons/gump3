@@ -31,8 +31,8 @@
     <depend project="xml-apis"/>
     <depend project="xml-xerces"/>
 
-    <work nested="temp/api/classes/"/>
-    <work nested="temp/container/classes/"/>
+    <work nested="api/target/classes/"/>
+    <work nested="container/target/classes/"/>
     <work nested="build/ant/lib/ForeachTask.jar"/>
 
     <home nested="temp"/>
