@@ -28,7 +28,7 @@
         <depend project="excalibur-i18n" runtime="true"/>
         <depend project="excalibur-instrument-manager" runtime="true"/>
         <depend project="excalibur-instrument" runtime="true"/>
-        <depend project="excalibur-monitor" runtime="true"/>
+        <depend project="phoenix-excalibur-monitor" runtime="true"/>
         <depend project="ant" runtime="true"/>
         <depend project="mx4j" runtime="true"/>
         <depend project="xml-xalan2"/>
@@ -62,6 +62,10 @@
 
     <project name="phoenix-qdox">
         <jar name="lib/tools/qdox-1.1.jar"/>
+    </project>
+
+    <project name="phoenix-excalibur-monitor">
+        <jar name="lib/container/excalibur-monitor-1.0.jar"/>
     </project>
 
     <project name="phoenix-example-demo">
