@@ -4,7 +4,7 @@
   <description>Universal Java XPath Engine</description>
   <url href="http://jaxen.org/">
   </url>
-  <cvs module="jaxen" repository="codehaus_scm" dir="jaxen">
+  <cvs module="jaxen" repository="codehaus" dir="jaxen">
   </cvs>
   <project name="jaxen-from-packaged-dom4j">
     <ant buildfile="build.xml" target="dist">

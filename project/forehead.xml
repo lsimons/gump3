@@ -4,7 +4,7 @@
   <description>forehead: framework to assist in controlling the run-time ClassLoader hierarchy of Java applications</description>
   <url href="http://forehead.werken.com/">
   </url>
-  <cvs module="forehead" repository="codehaus_scm" dir="forehead">
+  <cvs module="forehead" repository="codehaus" dir="forehead">
   </cvs>
   <project name="forehead">
     <package>com.werken.forehead</package>
