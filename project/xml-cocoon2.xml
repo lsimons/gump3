@@ -44,7 +44,7 @@
     <option project="xmldb"/>
     <option project="xml-axis"/>
     <option project="jisp"/>
-    <option project="jakarta-poi"/>
+    <!-- <option project="jakarta-poi"/> -->
     <option project="commons-logging"/>
 
     <work nested="build/cocoon/classes"/>
