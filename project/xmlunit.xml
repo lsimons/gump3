@@ -11,6 +11,8 @@
     <package>org.custommonkey.xmlunit</package>
     <ant target="dist">
       <property name="xmlunit.version" value="@@DATE@@" />
+      <property name="xmlxsl.libdir" value="."/>
+      <property name="junit.libdir" value="."/>
     </ant>
     <depend project="jakarta-ant" inherit="runtime"/>
     <depend project="xml-xerces"/>
