@@ -1,5 +1,5 @@
 export ROOT=/data/gump
-export GUMP=$ROOT/jakarta-gump
+export GUMP=$ROOT/gump
 export GUMP_WS=$ROOT/
 export GUMP_LOG_DIR=$ROOT/log
 
