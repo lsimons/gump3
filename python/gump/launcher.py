@@ -286,27 +286,33 @@ def dummyExecuteIntoResult(cmd,result,tmp=dir.tmp):
 def killChildProcesses():
     gumpid=default.gumpid
     log.warn('Kill all child processed (anything launched by Gumpy) [PID' + str(gumpid) + ']')    
-    output = dir.tmp + '/childPIDs.txt'
-    command='pgrep -P ' + str(gumpid) + ' -l > ' + output
-    if os.system(command):
-        ids=None
-        try:     
-            ids=open(output,'r')
+    pidsFile = dir.tmp + '/childPIDs.txt'
+    command='pgrep -P ' + str(gumpid) + ' -l > ' + pidsFile
+    os.system(command):
     
-            line=ids.readline()
-            while line:            
-                parts=line.split(' ')
-                childPID=int(parts[0])
-                process=parts[1]
-                if not process=='python':
-                    log.warn('Terminate PID' + str(childPID) + '] Process: [' + process + ']')            
-                    os.kill(childPID,signal.SIGKILL)
+    ids=None
+    try:     
+        ids=open(pidsFile,'r')
+    
+        line=ids.readline()
+        while line:            
+            parts=line.split()
+            childPID=int(parts[0])
+            process=parts[1]
+            if not process=='python':
+                log.warn('Terminate PID [' + str(childPID) + '] Process: [' + process + ']')            
+                os.kill(childPID,signal.SIGKILL)
             
-                # Get next PID/process combination
-                line=ids.readline()
-        finally:
-            if ids: ids.close()
-    log.warn('Terminated All.')                            
+            # Get next PID/process combination
+            line=ids.readline()
+    finally:
+        if ids: ids.close()
+    
+    if os.path.exists(pidsFile):
+        os.remove(pidsFile)    
+    
+    log.warn('Terminated All.')   
+    sys.exit(0)                         
     
 def execute(cmd,tmp=dir.tmp):
     res=CmdResult(cmd)
@@ -384,8 +390,6 @@ def executeIntoResult(cmd,result,tmp=dir.tmp):
         # Execute Command & Wait
         result.exit_code=os.system(execString + ' >>' + str(outputFile) + ' 2>&1')
         
-        log.info('Executed. ExitCode: ' + str(result.exit_code))
-    
         # Stop it (if still running)
         timer.cancel()              
 
@@ -464,6 +468,6 @@ if __name__=='__main__':
   result = execute(cmd)  
 #  dump(result);
   
-  exit(0)
+  sys.exit(0)
   
   
