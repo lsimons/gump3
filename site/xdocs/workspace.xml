@@ -67,6 +67,15 @@
         </td>
         <td>No</td>
       </tr>
+      <tr>
+        <td>bootclass</td>
+        <td>If this value is set to "yes", it will enable placing jars on the
+          bootclasspath.  Default is "no".  Consider this function 
+          experimental at this time.  See the description for
+          <a href="project.html">project</a> for details.
+        </td>
+        <td>No</td>
+      </tr>
     </table>
     <p/>
 

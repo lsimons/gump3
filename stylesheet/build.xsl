@@ -265,15 +265,17 @@
 
       <xsl:apply-templates select="@*[name()!='target']"/>
       <xsl:apply-templates select="/workspace/property"/>
-      <xsl:apply-templates select="*[name()!='bootclass']"/>
+      <xsl:apply-templates select="*"/>
 
-      <xsl:for-each select="../depend/jar[@type='boot']">
-        <bootclass location="{../@home}/{@name}"/>
-      </xsl:for-each>
+      <xsl:if test="/workspace[@bootclass='yes']">
+        <xsl:for-each select="../depend/jar[@type='boot']">
+          <bootclass location="{../@home}/{@name}"/>
+        </xsl:for-each>
 
-      <xsl:for-each select="../option/jar[@type='boot']">
-        <bootclass location="{../@home}/{@name}"/>
-      </xsl:for-each>
+        <xsl:for-each select="../option/jar[@type='boot']">
+          <bootclass location="{../@home}/{@name}"/>
+        </xsl:for-each>
+     </xsl:if>
     </xsl:copy>
   </xsl:template>
 

@@ -213,7 +213,8 @@
           <td>type</td>
           <td>If the value of this attribute is "boot" then the jar is
           prepended to the bootclasspath instead of being appended to the 
-          classpath.</td>
+          classpath.  This attribute is ignored unless bootclass="yes"
+          is specified on the <a href="workspace.html">workspace</a>.</td>
           <td>No</td>
         </tr>
       </table>
