@@ -30,6 +30,7 @@
     <depend project="resolver"/>
     <depend project="jakarta-lucene"/>
     <depend project="hsqldb"/>
+    <depend project="castor"/>
     <option project="xml-fop"/>
     <option project="jtidy"/>
     <option project="phpservlt"/>
