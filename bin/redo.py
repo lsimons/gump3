@@ -34,10 +34,10 @@ import logging
 
 from gump import log
 from gump.core.gumpinit import gumpinit
-from gump.runner.runner import getRunner
-from gump.run.gumprun import *
+from gump.core.runner.runner import getRunner
+from gump.core.run.gumprun import *
 from gump.core.commandLine import handleArgv
-from gump.loader.loader import WorkspaceLoader
+from gump.core.loader.loader import WorkspaceLoader
 
 
 ###############################################################################
@@ -65,7 +65,7 @@ if __name__=='__main__':
     options.setText(True)
     
     # 
-    options.setObjectives(gump.run.options.OBJECTIVE_REDO)    
+    options.setObjectives(gump.core.run.options.OBJECTIVE_REDO)    
     
     # The Run Details...
     run=GumpRun(workspace,ps,options)

@@ -34,7 +34,7 @@ from gump.util.timing import *
 
 import gump.util.process.command
 
-LAUNCHER=os.path.join(os.path.join(os.path.join('python','gump'),'process'),'launcher.py')
+LAUNCHER=os.path.join(os.path.join(os.path.join(os.path.join('python','gump'),'util'),'process'),'launcher.py')
 
 def execute(cmd,tmp=dir.tmp):
     res=gump.util.process.command.CmdResult(cmd)

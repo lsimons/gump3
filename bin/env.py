@@ -29,7 +29,7 @@ import sys
 
 from gump import log
 from gump.core.gumpinit import gumpinit
-from gump.run.gumpenv import GumpEnvironment
+from gump.core.run.gumpenv import GumpEnvironment
 from gump.core.commandLine import handleArgv
 
 # static void main()

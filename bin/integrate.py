@@ -37,12 +37,12 @@ import sys
 
 from gump import log
 from gump.core.gumpinit import gumpinit
-from gump.runner.runner import getRunner
-import gump.run.options
-import gump.run.gumprun
+from gump.core.runner.runner import getRunner
+import gump.core.run.options
+import gump.core.run.gumprun
 from gump.core.commandLine import handleArgv
-from gump.utils import logResourceUtilization
-from gump.loader.loader import WorkspaceLoader
+from gump.util import logResourceUtilization
+from gump.core.loader.loader import WorkspaceLoader
 
 
 ###############################################################################
@@ -77,10 +77,10 @@ def irun():
     options.setCache(False)
     
     # 
-    options.setObjectives(gump.run.options.OBJECTIVE_INTEGRATE)    
+    options.setObjectives(gump.core.run.options.OBJECTIVE_INTEGRATE)    
     
     # The Run Details...
-    run=gump.run.gumprun.GumpRun(workspace,ps,options)
+    run=gump.core.run.gumprun.GumpRun(workspace,ps,options)
     
     #    Perform this integration run...
     result = getRunner(run).perform()
