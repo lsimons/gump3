@@ -160,7 +160,7 @@ class GumpRunner(RunSpecific):
             # create the database helper
             dbInfo = self.run.getWorkspace().getDatabaseInformation()
             from gump.util.mysql import Database
-            database = new Database(dbInfo)
+            database = Database(dbInfo)
 
             # now create the Dynagumper using that database
             import gump.actor.mysql.dynagumper
