@@ -43,6 +43,9 @@ from gump.model.loader import WorkspaceLoader
 # Functions
 ###############################################################################
 
+def ignoreHangup(signum):
+    pass
+    
 def irun():
     
     # Process command line
@@ -79,6 +82,15 @@ def irun():
     
 # static void main()
 if __name__=='__main__':
+    
+    # Set the signal handler to ignore hangups
+    try:
+        # Not supported by all OSs
+        signal.signal(signal.SIG_HUP, ignoreHangup)
+    except:
+        pass
+    
+
     #print 'Profiling....'
     #import profile
     #profile.run('irun()', 'iprof')

@@ -75,12 +75,16 @@ import os
 import sys
 import socket
 import time
+import signal
 import smtplib
 import StringIO
 from xml.dom import minidom
 
 LINE=' - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - GUMP'
 
+def ignoreHangup(signum):
+    pass
+    
 def runCommand(command,args='',dir=None,outputFile=None):
     """ Run a command, and check the result... """
     
@@ -176,6 +180,15 @@ Either Gump is still running, or it terminated very abnormally.
 Please resolve this (waiting or removing the lock file) before retrying.
     """ % lockFile
     sys.exit(1)
+    
+# Set the signal handler to ignore hangups
+try:
+    # Not supported by all OSs
+    signal.signal(signal.SIG_HUP, ignoreHangup)
+except:
+    pass
+    
+    
 lock=open(lockFile,'w')
 lock.write(`os.getpid()`)
 lock.close()
