@@ -31,6 +31,7 @@
     <option project="jaf"/>
     <option project="javamail"/>
     <option project="jsse"/>
+    <option project="jms"/>
     <work nested="java/build/lib/axis-ant.jar"/>
     <work nested="java/build/classes"/>
 
