@@ -1,9 +1,12 @@
 @echo off
 SETLOCAL
-SET JAXP=C:\jaxp-1.1
+REM SET JAXP=C:\jaxp-1.1
+REM 
+REM SET CLASSPATH=%JAXP%\crimson.jar;%JAXP%\jaxp.jar;%JAXP%\xalan.jar;%CLASSPATH%
 
-SET CLASSPATH=%JAXP%\crimson.jar;%JAXP%\jaxp.jar;%JAXP%\xalan.jar;%CLASSPATH%
-SET CLASSPATH=D:\jakarta\xml-xalan\java\build\xalan.jar;%CLASSPATH%
+SET XALAN=C:\xalan-j_2_2_D8
+SET CLASSPATH=%XALAN%\bin\xalan.jar;%XALAN%\bin\xerces.jar;%CLASSPATH%
+echo %CLASSPATH%
 
 SET SOURCE=%1
 IF "%1"=="" SET SOURCE=%COMPUTERNAME%.xml
