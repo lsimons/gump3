@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/syndication/rss.py,v 1.16 2004/01/20 21:55:23 ajack Exp $
-# $Revision: 1.16 $
-# $Date: 2004/01/20 21:55:23 $
+# $Header: /home/stefano/cvs/gump/python/gump/syndication/rss.py,v 1.17 2004/01/28 22:54:50 ajack Exp $
+# $Revision: 1.17 $
+# $Date: 2004/01/28 22:54:50 $
 #
 # ====================================================================
 #
@@ -334,7 +334,7 @@ class RSSSyndicator(Syndicator):
     def syndicateProject(self,project,moduleRSS,mainRSS):
                 
         rssFile=self.run.getOptions().getResolver().getFile(project,project.getName(),'.rss')
-        rssUrl=self.run.getOptions().getResolver().getUrl(project,'index','.rss')
+        rssUrl=self.run.getOptions().getResolver().getUrl(project,project.getName(),'.rss')
         projectUrl=self.run.getOptions().getResolver().getUrl(project)
         
         projectRSS=RSS(rssUrl, rssFile,	\

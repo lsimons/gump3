@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/net/Attic/mailer.py,v 1.2 2004/01/09 19:57:19 ajack Exp $
-# $Revision: 1.2 $
-# $Date: 2004/01/09 19:57:19 $
+# $Header: /home/stefano/cvs/gump/python/gump/net/Attic/mailer.py,v 1.3 2004/01/28 22:54:50 ajack Exp $
+# $Revision: 1.3 $
+# $Date: 2004/01/28 22:54:50 $
 #
 # ====================================================================
 #
@@ -68,6 +68,12 @@ from gump.utils import *
 import smtplib, string
         
 class EmailMessage:
+    
+    def __repr__(self):
+        return str(self)
+    
+    def __str__(self):
+        return self.getSerialized()
         
 	# A *list* if recipients
 	# A single sender

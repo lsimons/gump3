@@ -135,9 +135,11 @@ class GumpEngine:
         #
         # Only an 'all' is an official build, for them:
         #
-        #	Nag and provide RSS
+        #	Send Naggin E-mails
         #
-        if run.getGumpSet().isFull() and run.getWorkspace().isNag():
+        if 1:
+#        if run.getGumpSet().isFull() \
+#            and run.getWorkspace().isNag():
   
             log.info('Nag about failures... ')
             

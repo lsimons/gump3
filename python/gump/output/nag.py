@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/output/Attic/nag.py,v 1.6 2004/01/28 00:13:39 ajack Exp $
-# $Revision: 1.6 $
-# $Date: 2004/01/28 00:13:39 $
+# $Header: /home/stefano/cvs/gump/python/gump/output/Attic/nag.py,v 1.7 2004/01/28 22:54:50 ajack Exp $
+# $Revision: 1.7 $
+# $Date: 2004/01/28 22:54:50 $
 #
 # ====================================================================
 #
@@ -78,201 +78,282 @@ from gump.model.state import *
 from gump.net.mailer import *
 from gump.utils import *
 
-def nag(run):
+LINE='------------------------------------------------- G U M P Y\n'
 
-    workspace=run.getWorkspace()
-    gumpSet=run.getGumpSet()
+class AddressPair:
+    def __init__(self,toAddr,fromAddr):
+        self.toAddr=toAddr
+        self.fromAddr=fromAddr
+        
+    def __str__(self):
+        return '[To:' + self.toAddr + ', From:' + self.fromAddr + ']'
+        
+    def getToAddress(self):
+        return self.toAddr
+        
+    def getFromAddress(self):
+        return self.fromAddr
+
+class Nagger:
     
-    #
-    # Belt and braces...
-    #
-    if not workspace.isNag():
-        return
-
-    #
-    # Nag about the workspace (if it needs it)
-    #
-    if workspace.isFailed():
-        nagWorkspace(run,workspace)
+    def __init__(self,run):        
+        self.run = run
+        self.workspace=run.getWorkspace()
+        self.gumpSet=run.getGumpSet()
     
-    # For all modules...
-    for module in workspace.getModules():        
-            if not gumpSet.inModules(module): continue
+        self.unsent=''
+        self.unwanted=''
+        
+        
+    def nag(self):
+    
+        #
+        # Belt and braces...
+        #
+        if not self.workspace.isNag():
+            return
+    
+        # A bit paranoid, ought just rely upon object being
+        # destroyed,
+        self.sent=''
+        self.unwanted=''
+            
+        #
+        # Nag about the workspace (if it needs it)
+        #
+        if self.workspace.isFailed():
+            self.nagWorkspace(run,self.workspace)
+    
+        # For all modules...
+        for module in self.workspace.getModules():        
+                if not self.gumpSet.inModules(module): continue
 
-            if module.isFailed():
-                try:
-                    log.info('Nag for module: ' + module.getName())                        
+                if module.isFailed():
+                    try:
+                        log.info('Nag for module: ' + module.getName())                                        
+                        self.nagModule(module)   
                     
-                    nagModule(run,workspace,module)   
-                                         
-                except Exception, details:
-                    log.error("Failed to send nag e-mails for module " + module.getName()\
-                                + " : " + str(details), exc_info=1)
-            else:
-                for project in module.getProjects():
-                    if project.isFailed() :
-                        if not gumpSet.inSequence(project): continue                        
+                    except Exception, details:
+                        log.error("Failed to send nag e-mails for module " + module.getName()\
+                                    + " : " + str(details), exc_info=1)
+                else:
+                    for project in module.getProjects():
+                        if project.isFailed() :
+                            if not self.gumpSet.inSequence(project): continue                        
                         
-                        try:
-                        
-                            log.info('Nag for project: ' + project.getName())                        
-                            nagProject(run,workspace,project)                        
-                        except Exception, details:
-                            log.error("Failed to send nag e-mails for project " + project.getName()\
+                            try:                        
+                                log.info('Nag for project: ' + project.getName())                                                        
+                                self.nagProject(project)                        
+                                
+                            except Exception, details:
+                                log.error("Failed to send nag e-mails for project " + project.getName()\
                                             + " : " + str(details), exc_info=1)
                 
                 
-def nagWorkspace(run,workspace):
-    """ Nag for the workspace """
-    content=getContent(workspace, "There is a workspace problem... \n")
-    sendEmail(workspace,workspace.mailinglist,workspace.email,workspace.prefix+': Gump Workspace Problem ',content)
-    
-def nagModule(run,workspace,module):
-    """ Nag to a specific module's <nag entry """
-    content=''
-    
-    #
-    # Form the content...
-    #
-    content+=getContent(run,workspace,module,"Module: " + module.getName() + "\n")
-                
-    #
-    # Form the sujhect
-    #
-    subject=workspace.prefix+': '+module.getName()+' '+lower(stateName(module.getState()))
-    
-    nags=0
-    for nagEntry in module.xml.nag:
-        try:
-            #
-            # Form and send the e-mail...
-            #
-            toaddr=getattr(nagEntry,'to',workspace.mailinglist)
-            fromaddr=getattr(nagEntry,'from',workspace.mailinglist)
-            
-            sendEmail(workspace,toaddr,fromaddr,subject,content)
-            
-            nags+=1
-        except Exception, details:
-            log.error("Failed to send nag e-mail for module " + module.name \
-                    + " : " + str(details))
-            log.error(content, exc_info=1)
-            
-    # Belt and braces (nag to us if not nag to them)
-    if not nags:
-        sendEmail(workspace,workspace.mailinglist,workspace.mailinglist,subject,content)
-    
-    
-def nagProject(run,workspace,project):
-    """ Nag to a specific project's <nag entry """
-    content=''
-    
-    module=project.getModule()
-    
-    #
-    # Form the content...
-    #
-    displayedModule=0
-    displayedProject=0
-    if not module.isSuccess():
-        displayedModule=1
-        content+=getContent(run,workspace,module,"Module: " + module.getName() + "\n")
-        
-    if not project.isSuccess():
-        displayedProject=1    
-        content+=getContent(run,workspace,project,"Project: " + project.getName() + "\n"    )
-        
-    # No clue why this would happen, but fallback safe...
-    if not displayedModule and not displayedProject:
-        content+=getContent(run,workspace,module,"Module: " + module.getName() + "\n") 
-        content+=getContent(run,workspace,project,"Project: " + project.getName() + "\n")
-                
-    #
-    # Form the sujhect
-    #
-    subject=workspace.prefix+': '+module.getName()+'/'+project.getName()+' '+lower(stateName(project.getState()))
-    
-    nags=0
-    for nagEntry in project.xml.nag:
-        try:
-            #
-            # Form and send the e-mail...
-            #
-            toaddr=getattr(nagEntry,'to',workspace.mailinglist)
-            fromaddr=getattr(nagEntry,'from',workspace.mailinglist)
-            
-            sendEmail(workspace,toaddr,fromaddr,subject,content)
-            
-            nags+=1
-        except Exception, details:
-            log.error("Failed to send nag e-mail for project " + project.name \
-                    + " : " + str(details))
-            log.error(content, exc_info=1)
-            
-    # Belt and braces (nag to us if not nag to them)
-    if not nags:
-        sendEmail(workspace,workspace.mailinglist,workspace.mailinglist,subject,content)
-            
-def sendEmail(workspace, toaddr, fromaddr, subject, content):
-    #
-    # We send to a list, but a list of one is fine..
-    #
-    toaddrs=[ toaddr ]
-            
-    #
-    # Form the user visable part ...
-    #
-    email=EmailMessage( toaddrs, \
-                        fromaddr, \
-                        subject, \
-                        content)       
+        # Belt and braces (nag to us if not nag to them)
+        if self.unwanted:
+            self.sendEmail(self.workspace.mailinglist,self.workspace.email,	\
+                        'All dressed up, with nowhere to go...',self.unwanted)
                         
-    print 'To:' + `toaddrs`
-    print 'From:' + `toaddrs`
-    print 'Subject:' + `toaddrs`
-    print 'Server:' + `workspace.mailserver`
-    print 'e-mail:' + `email`
+            # A bit paranoid, ought just rely upon object being
+            # destroyed,
+            self.unwanted=''            
+                
+        # Belt and braces (nag to us if not nag to them)
+        if self.sent:
+            self.sendEmail(self.workspace.mailinglist,self.workspace.email,	\
+                        'Unable to send...',self.unsent)
+                        
+            # A bit paranoid, ought just rely upon object being
+            # destroyed,
+            self.sent=''
+                
+    def addUnwanted(self,subject,content):
+        self.addStuff(self.unwanted,subject,content)
     
-    # Fire ...
-    #mail(toaddrs,fromaddr,email,workspace.mailserver) 
+    def addUnsent(self,subject,content):
+        self.addStuff(self.sent,subject,content)
+    
+    def addStuff(self,store,subject,content):
+        if store:
+            store += '-------------------------------------------------------------\n'
+        store += subject
+        store += "\n"
+        store += content
+        store += "\n"
+    
+    def nagWorkspace(self):
+        """ Nag for the workspace """
+        content=self.getContent(self.workspace,'index',"There is a workspace problem... \n")
+        
+        self.sendEmail(self.workspace.mailinglist,	\
+                        self.workspace.email,	\
+                        self.workspace.prefix+': Gump Workspace Problem ',content)
+    
+    def nagModule(self,module):
+        """ Nag to a specific module's <nag entry """
+        content=''
+    
+        #
+        # Form the content...
+        #
+        content+=self.getContent(module,'index',"Module: " + module.getName() + "\n")
+                
+        #
+        # Form the subject
+        #
+        subject=self.workspace.prefix+	\
+                ': '+module.getName()+' '+	\
+                lower(stateName(module.getState()))
+                    
+        self.sendEmails(self.getAddressPairs(module),subject,content)
             
-def getContent(run,workspace,object,message=''):
-    content=''
     
-    # Optional message
-    if message:
-        content=message             
+    def nagProject(self,project):
+        """ Nag to a specific project's <nag entry """
+        content=''
     
-    #
-    # Add State (and reason)
-    #
-    content += "State: " + object.getStateDescription() + "\n"
+        module=project.getModule()
     
-    if not object.hasReason():
-        content +=  "Reason: " + object.getReasonDescription() + "\n"
+        #
+        # Form the content...
+        #
+        displayedModule=0
+        displayedProject=0
+        if not module.isSuccess():
+            displayedModule=1
+            content+=self.getContent(module,'index',"Module: " + module.getName() + "\n")
+        
+        if not project.isSuccess():
+            displayedProject=1    
+            content+=self.getContent(project, project.getName(), "Project: " + project.getName() + "\n"    )
+        
+        # No clue why this would happen, but fallback safe...
+        if not displayedModule and not displayedProject:
+            content+=self.getContent(module,'index',"Module: " + module.getName() + "\n") 
+            content+="\n"
+            content+=self.getContent(project,project.getName(), "Project: " + project.getName() + "\n")
+                
+        #
+        # Form the subject
+        #
+        subject=self.workspace.prefix+': '	\
+            +module.getName()+'/'+project.getName()	\
+            +' '+lower(stateName(project.getState()))
+                    
+        # Send those e-mails
+        self.sendEmails(self.getAddressPairs(project),subject,content)
+    
+    def getAddressPairs(self, object):
+        nags=[]
+        
+        for nagEntry in object.xml.nag:
+            #
+            # Determine where to send
+            #
+            toaddr=getattr(nagEntry,'to',self.workspace.mailinglist)
+            fromaddr=getattr(nagEntry,'from',self.workspace.email)      
+                  
+            nags.append(AddressPair(toaddr,fromaddr))  
+
+        return nags
+        
+        
+    def sendEmails(self, addressPairs, subject, content):
+        if addressPairs:
+            for pair in addressPairs:
+                self.sendEmail(pair.getToAddress(), pair.getFromAddress(),	\
+                                subject, content)
+        else:
+            self.addUnwanted(subject,content)
+                    
+    def sendEmail(self, toaddr, fromaddr, subject, content):
+        #
+        # We send to a list, but a list of one is fine..
+        #
+        toaddrs=[ toaddr ]
+    
+        #
+        # Form the user visable part ...
+        #
+        email=EmailMessage( toaddrs, \
+                            fromaddr, \
+                            subject, \
+                            content)       
+                            
+        try:
+            
+            #print '-------------------------------------------------------------------'
+            #print 'To:' + `toaddr`
+            #print 'From:' + `fromaddr`
+            #print 'Subject:' + `subject`
+            #print 'Server:' + `self.workspace.mailserver`
+            #print 'e-mail:' + `email`    
+            # Fire ...
+            mail(toaddrs,fromaddr,email,self.workspace.mailserver) 
+            
+        except Exception, details:
+            log.error("Failed to send nag e-mail: " + str(details), \
+                        exc_info=1)
+                        
+            self.addUnsent(subject,content)
+                
+            
+    def getContent(self,object,feedPrefix=None,message=None):
+        content=''
+    
+        # Optional message
+        if message:
+            content=message             
+    
+        #
+        # Add State (and reason)
+        #
+        content += "State: " + object.getStateDescription() + "\n"
+    
+        if not object.hasReason():
+            content +=  "Reason: " + object.getReasonDescription() + "\n"
                                  
-    #
-    # Link them back here...
-    #
-    url=run.getOptions().getResolver().getUrl(object)
-    content += "URL: " + url + "\n"
+        #
+        # Link them back here...
+        #
+        url=self.run.getOptions().getResolver().getUrl(object)
+        content += "URL: " + url + "\n"
     
-    #
-    # Add an info/error/etc...
-    #
-    #if object.annotations:
-    #    content += "\n\nAnnotations:\n"
-    #    for note in object.annotations:      
-    #        content += (' - %s - %s\n' % (levelName(note.level), note.text))
+        if feedPrefix:
+            #
+            # Link them back here...
+            #
+            rssurl=self.run.getOptions().getResolver().getUrl(object,feedPrefix,'.rss')
+            content += "RSS: " + rssurl + "\n"
     
-    #
-    # Work
-    #
-    #if object.worklist:
-    #    content+="\n\nWork Items:\n"
-    #    for workitem in object.worklist:
-    #        content+=workitem.overview()+"\n"            
+            #
+            # Link them back here...
+            #
+            atomurl=self.run.getOptions().getResolver().getUrl(object,feedPrefix,'.atom')
+            content += "Atom: " + atomurl + "\n"
     
-    return content
+        #
+        # Add an info/error/etc...
+        #
+        if object.annotations:
+            content += LINE
+            content += "\n\nAnnotations:\n"
+            for note in object.annotations:      
+                content += (' - %s - %s\n' % (levelName(note.level), note.text))
     
+        #
+        # Work
+        #
+        if object.worklist: 
+            content+="\n\n"
+            for workitem in object.worklist:
+                content += LINE   
+                content+=workitem.overview()+"\n"            
+    
+        return content
+    
+def nag(run):
+    nagger=Nagger(run)
+    nagger.nag()
     

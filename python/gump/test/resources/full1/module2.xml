@@ -26,8 +26,8 @@
 
     <license name="LICENSE"/>
 
-    <nag from="Gump Integration Build &lt;gump@jakarta.apache.org&gt;"
-         to="gump@jakarta.apache.org"/>
+    <nag from="Mr Dev 2 &lt;dev2@jakarta.apache.org&gt;"
+         to="project2@jakarta.apache.org"/>
   </project>
 </module>
 

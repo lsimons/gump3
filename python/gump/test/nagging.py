@@ -1,7 +1,7 @@
 #!/usr/bin/env python
-# $Header: /home/stefano/cvs/gump/python/gump/test/Attic/nagging.py,v 1.1 2004/01/28 00:13:39 ajack Exp $
-# $Revision: 1.1 $
-# $Date: 2004/01/28 00:13:39 $
+# $Header: /home/stefano/cvs/gump/python/gump/test/Attic/nagging.py,v 1.2 2004/01/28 22:54:49 ajack Exp $
+# $Revision: 1.2 $
+# $Date: 2004/01/28 22:54:49 $
 #
 # ====================================================================
 #
@@ -70,7 +70,8 @@ import gump.config
 from gump.gumprun import GumpRun
 from gump.test import getWorkedTestWorkspace
 from gump.test.pyunit import UnitTestSuite
-from gump.output.nag import nag,getContent
+from gump.output.nag import nag,Nagger
+from gump.net.mailer import *
 
 class NaggingTestSuite(UnitTestSuite):
     def __init__(self):
@@ -86,14 +87,49 @@ class NaggingTestSuite(UnitTestSuite):
         
     def testNagContents(self):
     
+        nagger=Nagger(self.run)
+        
         # For all modules...
         for module in self.workspace.getModules():                    
             print 'Get Content For Module : ' + module.getName()
-            print getContent(self.run,self.workspace,module,'Testing Module...')
+            print nagger.getContent(module,'test','Testing Module...')
             for project in module.getProjects():
                 print 'Get Content For Project : ' + project.getName()
-                print getContent(self.run,self.workspace,project,'Testing Project...')
+                print nagger.getContent(project,'test','Testing Project...')
                 
-    def testNag(self):
+    def testNagAddresses(self):
+    
+        nagger=Nagger(self.run)
+           
+        # For all modules...
+        for module in self.workspace.getModules():                    
+            print 'Get Addresses For Module : ' + module.getName()
+            addresses=nagger.getAddressPairs(module)
+            for addr in addresses:
+                print 'AddressPair : ' + str(addr)
+            for project in module.getProjects():
+                print 'Get Addresses For Project : ' + project.getName()
+                addresses=nagger.getAddressPairs(project)
+                for addr in addresses:
+                    print 'AddressPair : ' + str(addr)         
+                             
+    def testNagEmails(self):
+    
+        nagger=Nagger(self.run)
+           
+        # For all modules...
+        for module in self.workspace.getModules(): 
+            for project in module.getProjects():
+                print 'Get E-mail For Project : ' + project.getName()
+                addresses=nagger.getAddressPairs(project)
+                for addr in addresses:   
+                    toAddrs=[ addr.getToAddress() ]
+                    email=EmailMessage( toAddrs, \
+                            addr.getFromAddress(), \
+                            'Test Subject', \
+                            'Test Content')       
+                    print str(email)
+                
+    def testNag(self):  
         nag(self.run)
         

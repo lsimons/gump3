@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/output/Attic/xref.py,v 1.7 2004/01/28 00:13:39 ajack Exp $
-# $Revision: 1.7 $
-# $Date: 2004/01/28 00:13:39 $
+# $Header: /home/stefano/cvs/gump/python/gump/output/Attic/xref.py,v 1.8 2004/01/28 22:54:50 ajack Exp $
+# $Revision: 1.8 $
+# $Date: 2004/01/28 22:54:50 $
 #
 # ====================================================================
 #
@@ -168,7 +168,9 @@ class XRefGuru:
         for module in self.workspace.getModules():            
             for project in module.getProjects():                
                 metadataLocation=str(project.xml.href)
-                    
+                
+                print project.getName() + ' : ' + metadataLocation + "\n";
+                
                 if metadataLocation:          
                     if not self.descriptorLocationToProject.has_key(metadataLocation):
                         self.descriptorLocationToProject[metadataLocation]=[]

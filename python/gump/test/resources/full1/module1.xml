@@ -7,6 +7,9 @@
 
   <cvs repository="repository1"/>
 
+  <nag from="Ms. Dev 1 &lt;dev1@jakarta.apache.org&gt;"
+         to="project1@jakarta.apache.org"/>
+         
   <project name="project1">
     <package>org.apache.project1</package>
 
@@ -20,8 +23,8 @@
 
     <license name="LICENSE"/>
 
-    <nag from="Gump Integration Build &lt;gump@jakarta.apache.org&gt;"
-         to="gump@jakarta.apache.org"/>
+    <nag from="Ms. Dev 1 &lt;dev1@jakarta.apache.org&gt;"
+         to="project1@jakarta.apache.org"/>
   </project>
 </module>
 
