@@ -53,15 +53,13 @@
         runtime="true"/>
       <depend property="commons-el.jar" project="commons-el"
         runtime="true"/>
-      <property name="commons-modeler.home" reference="home"
-          project="commons-modeler" />
-      <depend property="commons-modeler.jar" project="commons-modeler"/>
       <depend property="commons-dbcp.jar" project="commons-dbcp"/>
       <depend property="commons-pool.jar" project="commons-pool"/>
       <depend property="commons-logging.jar" project="commons-logging"
         runtime="true" id="all"/>
       <depend property="commons-logging-api.jar" project="commons-logging"
         runtime="true" id="api"/>
+      <property name="commons-modeler.home" project="commons-modeler" path="modeler"/>
     </ant>
 
     <depend project="ant"/>
@@ -81,6 +79,7 @@
     <depend project="jakarta-servletapi-5-jsp"/>
     <depend project="jakarta-regexp"/>
     <depend project="commons-el"/>
+    <depend project="commons-modeler"/>
     <option project="junit" />
     <work nested="catalina/build/server/classes"/>
 
