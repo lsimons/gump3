@@ -12,6 +12,7 @@
   <jar name="james.bar" />
 
   <depend project="jakarta-ant" />
+  <depend project="jakarta-site2" />
   <depend project="xml-xerces" />
   <depend project="javamail" />
   <depend project="jakarta-avalon" />
