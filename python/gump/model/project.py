@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/model/project.py,v 1.36 2004/02/10 00:32:09 ajack Exp $
-# $Revision: 1.36 $
-# $Date: 2004/02/10 00:32:09 $
+# $Header: /home/stefano/cvs/gump/python/gump/model/project.py,v 1.37 2004/02/10 00:43:19 ajack Exp $
+# $Revision: 1.37 $
+# $Date: 2004/02/10 00:43:19 $
 #
 # ====================================================================
 #
@@ -516,7 +516,9 @@ class Project(NamedModelObject, Statable):
 
             self.buildDependenciesMap(workspace)                        
         
+        #
         # complete properties
+        #
         if self.ant: 
             self.ant.complete(self,workspace)
             transferAnnotations(self.ant, self)  

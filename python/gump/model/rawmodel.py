@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/model/Attic/rawmodel.py,v 1.12 2004/02/01 18:44:44 ajack Exp $
-# $Revision: 1.12 $
-# $Date: 2004/02/01 18:44:44 $
+# $Header: /home/stefano/cvs/gump/python/gump/model/Attic/rawmodel.py,v 1.13 2004/02/10 00:43:19 ajack Exp $
+# $Revision: 1.13 $
+# $Date: 2004/02/10 00:43:19 $
 #
 # ====================================================================
 #
@@ -200,6 +200,7 @@ class XMLProject(Named):
 class XMLScript(GumpXMLModelObject):
   def init(self):
     self.arg=Multiple(GumpXMLModelObject)
+    self.property=Multiple(XMLProperty)
   
 # represents an <ant/> element
 class XMLAnt(GumpXMLModelObject):
