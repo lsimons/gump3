@@ -212,12 +212,23 @@
       (e.g., tests which import the project itself).  This is necessary when
       using the Ant build.sysclasspath="ignore".</p>
 
-      <p>It generally is OK if the directory is not present prior to the
-      build.  However, if this directory is deleted during the course of
-      the build, the behavior of the JVM may become unpredictable.</p>
+      <p>If the directory is not present prior to the build, some VMs
+      may drop it from the CLASSPATH.  If this happens, use a <link
+      href="#mkdir">&lt;mkdir&gt;</link> element to create it before
+      building the project.
+
+      <p>If this directory is deleted during the course of the build,
+      the behavior of the JVM may become unpredictable.  The same is
+      true if the element points to a jar file and that file is
+      modified during the build.</p>
 
       <p>If neither the parent nor the nested attributes are present, then
       the srcdir for the module is added to the classpath.</p>
+
+      <p>Note that the entries specified by &lt;work&gt; elements are
+      prepended to the class path.  If a class can be found both in a
+      &lt;work&gt; entry and a jar refered to by &lt;depend&gt;, the
+      one from the &lt;work&gt; entry will be loaded.</p>
 
       <table>
         <tr>
@@ -657,6 +668,46 @@
       <p>If present, indicates that outputs of builds from this module
       are redistributable.  Defaults to the redistributable value for
       the repository.</p>
+    </section>
+
+    <section><title>mkdir</title>
+
+      <p>Creates a directory before starting the build.  This is
+      sometimes needed in conjunction with <link
+      href="#work">&lt;work&gt;</link>.</p>
+
+      <table>
+        <tr>
+          <th>Attribute</th>
+          <th>Description</th>
+          <th>Required?</th>
+        </tr>
+        <tr>
+          <td>dir</td>
+          <td>The directory to create, relative to srcdir of the
+          module containing this project.</td>
+          <td>Yes</td>
+          </tr>
+      </table>
+    </section>
+
+    <section><title>delete</title>
+
+      <p>Deletes a directory before starting the build.</p>
+
+      <table>
+        <tr>
+          <th>Attribute</th>
+          <th>Description</th>
+          <th>Required?</th>
+        </tr>
+        <tr>
+          <td>dir</td>
+          <td>The directory to create, relative to srcdir of the
+          module containing this project.</td>
+          <td>Yes</td>
+          </tr>
+      </table>
     </section>
   </section>
 </body>
