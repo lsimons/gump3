@@ -53,7 +53,7 @@
   <project name="avalon-logkit-maven">
     <package>org.apache.log</package>
 
-    <ant file="gump-build.xml" target="dist">
+    <ant basedir="." buildfile="gump-build.xml" target="dist">
     </ant>
     <depend project="ant" inherit="runtime"/>
     <depend project="xml-xerces"/>
