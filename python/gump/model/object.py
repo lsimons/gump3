@@ -182,7 +182,7 @@ class ModelObject(Annotatable,Workable,FileHolder,Propogatable,Ownable):
    
     # Serialization:
     def writeXml(self,stream,indent='    ',newl='\n') :
-        self.dom.writexml(stream,indent=i,newl=n) 
+        self.dom.writexml(stream,indent=indent,newl=newl) 
         
     def getXml(self,indent='    ',newl='\n'):
         return self.dom.toprettyxml(indent=indent,newl=newl)
