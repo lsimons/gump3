@@ -38,25 +38,26 @@ def xmlize(nodeName,object,f,indent='',delta='  '):
     else:
         elements.append((name,var))
 
-    # format for display
-    if not elements:
-       # use compact form for elements without children
-       if text.strip():
-           f.write( '%s<%s>%s</%s>\n' % (indent.encode(encoding),' '.join(attrs).encode(encoding),text.strip().encode(encoding),nodeName))
-       else:
-           f.write( '%s<%s/>\n' % (indent.encode(encoding),' '.join(attrs).encode(encoding)))
+  # format for display
+  if not elements:
+    # use compact form for elements without children
+    if text.strip():
+      f.write( '%s<%s>%s</%s>\n' % (indent,' '.join(attrs).encode(encoding),
+        text.strip().encode(encoding),nodeName))
     else:
-       # use full form for elements with children
-       f.write( '%s<%s>\n' % (indent.encode(encoding),' '.join(attrs).encode(encoding)))
-       newindent=indent+delta
-       for (name,var) in elements:
-         if isinstance(var,list):
-            # multiple valued elements
-            for e in var: xmlize(name,e,f,newindent,delta)
-         elif isinstance(var,Single):
-            # single valued elements
-            xmlize(name,var.delegate,f,newindent,delta)
-            f.write( '%s</%s>\n' % (indent.encode(encoding),nodeName.encode(encoding)))
+      f.write( '%s<%s/>\n' % (indent,' '.join(attrs).encode(encoding)))
+  else:
+   # use full form for elements with children
+   f.write( '%s<%s>\n' % (indent,' '.join(attrs).encode(encoding)))
+   newindent=indent+delta
+   for (name,var) in elements:
+     if isinstance(var,list):
+       # multiple valued elements
+       for e in var: xmlize(name,e,f,newindent,delta)
+     elif isinstance(var,Single):
+       # single valued elements
+       xmlize(name,var.delegate,f,newindent,delta)
+   f.write( '%s</%s>\n' % (indent,nodeName.encode(encoding)))
 
 
 if __name__=='__main__':
@@ -85,4 +86,4 @@ if __name__=='__main__':
 
 
 
-                                                                 
+
