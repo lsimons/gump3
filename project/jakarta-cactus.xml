@@ -25,6 +25,22 @@
 
   </project>
 
+  <!-- Build the Cactus Documentation -->
+  <project name="jakarta-cactus-documentation">
+
+    <ant buildfile="documentation/build.xml" target="dist">
+      <depend property="cactus.ant.jar" project="jakarta-cactus-ant"/>
+    </ant>
+  
+    <depend project="jakarta-ant"/>
+    <depend project="xml-xerces"/>
+    <depend project="xml-stylebook2"/>
+    <depend project="xml-xalan2"/>
+
+    <javadoc nested="documentation/dist/doc" title="Cactus Documentation"/>
+
+  </project>
+
   <!-- Build the Cactus Framework for J2EE 1.2 -->
   <project name="jakarta-cactus-framework-12">
 
@@ -38,6 +54,7 @@
       <depend property="httpunit.jar" project="httpunit"/>
       <depend property="aspectjrt.jar" project="aspectj" id="aspectjrt"/>
       <depend property="junit.jar" project="junit"/>
+      <property name="dist.dir" value="framework/dist-12"/>
 
     </ant>
   
@@ -48,14 +65,14 @@
     <work nested="framework/target/classes/java"/>
     <work nested="framework/target/classes/test"/>
 
-    <home nested="framework/dist"/>
+    <home nested="framework/dist-12"/>
     <jar name="lib/cactus.jar"/>
-    <javadoc nested="framework/dist/doc/api"
+    <javadoc nested="framework/dist-12/doc/api"
              title="Cactus Framework for J2EE 1.2 API"/>
   </project>
 
   <!-- Build the Cactus Servlet Sample for J2EE 1.2 -->
-  <project name="jakarta-cactus-servlet-sample-12">
+  <project name="jakarta-cactus-sample-servlet-12">
 
     <ant buildfile="sample-servlet/build.xml" target="dist">
 
@@ -70,6 +87,9 @@
       <property name="cactus.framework.web" value="framework/dist/web"/>
       <property name="test.port" value="8081"/>
       <property name="tomcat.home.33" reference="home" project="jakarta-tomcat"/>
+      <property name="dist.dir" value="sample-servlet/dist-12"/>
+      <property name="cactus.framework.web"
+                value="framework/dist-12/web" />
 
     </ant>
   
@@ -77,8 +97,6 @@
     <depend project="xml-xerces"/>
     <depend project="aspectj"/>
     <depend project="jakarta-tomcat"/>
-
-    <home nested="dist"/>
 
   </project>
 
@@ -95,6 +113,8 @@
       <depend property="httpunit.jar" project="httpunit"/>
       <depend property="aspectjrt.jar" project="aspectj" id="aspectjrt"/>
       <depend property="junit.jar" project="junit"/>
+      <property name="dist.dir" value="framework/dist-13"/>
+
     </ant>
   
     <depend project="jakarta-ant"/>
@@ -104,16 +124,16 @@
     <work nested="framework/target/classes/java"/>
     <work nested="framework/target/classes/test"/>
 
-    <home nested="framework/dist"/>
+    <home nested="framework/dist-13"/>
     <jar name="lib/cactus.jar"/>
-    <javadoc nested="framework/dist/doc/api"
+    <javadoc nested="framework/dist-13/doc/api"
              title="Cactus Framework for J2EE 1.3 API"/>
   </project>
 
   <!-- Build the Cactus Servlet Sample for J2EE 1.3 -->
-  <project name="jakarta-cactus-servlet-sample-13">
+  <project name="jakarta-cactus-sample-servlet-13">
 
-    <ant buildfile="servlet-sample/build.xml" target="dist">
+    <ant buildfile="sample-servlet/build.xml" target="dist">
 
       <depend property="j2ee.jar" project="jakarta-servletapi-4"/>
       <depend property="log4j.jar" project="jakarta-log4j"/>
@@ -126,31 +146,16 @@
       <property name="cactus.framework.web" value="framework/dist/web"/>
       <property name="test.port" value="8082"/>
       <property name="tomcat.home.40" reference="home" project="jakarta-tomcat-4.0"/>
+      <property name="dist.dir" value="sample-servlet/dist-13"/>
+      <property name="cactus.framework.web"
+                value="framework/dist-13/web" />
+
     </ant>
   
     <depend project="jakarta-ant"/>
     <depend project="xml-xerces"/>
     <depend project="jakarta-tomcat-4.0" inherit="runtime"/>
     <depend project="aspectj"/>
-
-    <home nested="dist"/>
-
-  </project>
-
-  <!-- Build the Cactus Documentation -->
-  <project name="jakarta-cactus-documentation">
-
-    <ant buildfile="documentation/build.xml" target="dist">
-      <depend property="cactus.ant.jar" project="jakarta-cactus-ant"/>
-    </ant>
-  
-    <depend project="jakarta-ant"/>
-    <depend project="xml-xerces"/>
-    <depend project="xml-stylebook2"/>
-    <depend project="xml-xalan2"/>
-
-    <home nested="documentation/dist"/>
-    <javadoc nested="documentation/dist/doc" title="Cactus Documentation"/>
 
   </project>
 
