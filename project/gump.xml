@@ -18,5 +18,6 @@
     <option project="xml-batik"/>
     <option project="xml-batik-rasterizer"/>
     <work nested="classes"/>
+    <javadoc nested="javadocs"/>
   </project>
 </module>

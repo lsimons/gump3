@@ -28,6 +28,10 @@
       <srcfiles dir="repository" includes="*.xml"/>
       <srcfiles dir="stylesheet" includes="*.xsl"/>
     </uptodate>
+
+    <uptodate property="javadocs.uptodate" targetfile="javadocs/index.html">
+      <srcfiles dir="java" includes="*.java"/>
+    </uptodate>
   </target>
 
   <!-- Merge the xml sources, resolving references -->
@@ -76,13 +80,20 @@
            extension=".${extension}" style="stylesheet/${target}.xsl"/>
   </target>
  
+  <!-- Generate javadocs -->
+  <target name="javadocs" depends="compile" unless="javadocs.uptodate">
+    <mkdir dir="javadocs"/>
+    <javadoc sourcepath="java" sourcefiles="java/*.java" destdir="javadocs" 
+      classpath="jenny.jar"/>
+  </target>
+
   <!-- Produce the gump web site -->
   <target name="site">
     <ant dir="site"/>
   </target>
 
   <!-- Do everything -->
-  <target name="all" depends="scripts,site"/>
+  <target name="all" depends="scripts,javadocs,site"/>
 
   <!-- Remove all outputs and intermediate results -->
   <target name="clean">
