@@ -795,7 +795,7 @@ def documentWorkList(x,workspace,worklist,description='Work',dir='.'):
                     # Write out the 'tail'
                     #
                     x.write('<tr><td><strong>Name:</strong> %s</td></tr><tr><td>%s</td></tr>' %
-                            ( workTypeName(work.type), tail ) )
+                            ( workTypeName(work.type), escapse(tail) ) )
    
     if shown:
         x.write('    </table>\n')
