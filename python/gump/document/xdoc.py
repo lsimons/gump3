@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/xdoc.py,v 1.13 2004/02/29 19:16:20 ajack Exp $
-# $Revision: 1.13 $
-# $Date: 2004/02/29 19:16:20 $
+# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/xdoc.py,v 1.14 2004/03/03 01:36:01 ajack Exp $
+# $Revision: 1.14 $
+# $Date: 2004/03/03 01:36:01 $
 #
 # ====================================================================
 #
@@ -594,6 +594,7 @@ class XDocLink(XDocPiece):
         
     def createIcon(self,href,alt=None):
         return self.storePiece(XDocIcon(self.createSubContext(),href,alt))              
+        
                 
 class XDocFork(XDocPiece):
     def __init__(self,context,href,text=None):
@@ -613,6 +614,9 @@ class XDocFork(XDocPiece):
         
     def createBreak(self):
         return self.storePiece(XDocBreak(self.createSubContext()))          
+            
+    def createIcon(self,href,alt=None):
+        return self.storePiece(XDocIcon(self.createSubContext(),href,alt))               
         
 class XDocIcon(XDocPiece):
     def __init__(self,context,href,alt):
