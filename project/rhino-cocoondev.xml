@@ -38,7 +38,7 @@
 
     <home nested="build/rhino_@@DATE@@"/>
     <jar name="js.jar"/>
-    <license name="README.html"/>
+    <!-- license name="README.html"/ -->
     <javadoc nested="build/rhino_@@DATE@@/docs/apidocs"/>
   </project>
 
