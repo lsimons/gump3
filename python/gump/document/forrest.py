@@ -473,7 +473,7 @@ class ForrestDocumenter(Documenter):
                 
             if server.hasResults():
                 serverRow.createData(server.getResults().getStartDateTime() + ' ' + \
-                                        server.getResults().getTimeZone())
+                                        server.getResults().getTimezone())
                 serverRow.createData(server.getResults().getStartDateTimeUtc())
                 serverRow.createData(server.getResults().getEndDateTimeUtc())
             else:
@@ -1145,11 +1145,11 @@ This page helps Gumpmeisters (and others) observe community progress.
                                                 
                 detailList.createEntry('Start Time: ',	\
                         server.getResults().getStartDateTime() + ' ' + \
-                        server.getResults().getTimeZone())
+                        server.getResults().getTimezone())
                                                 
                 detailList.createEntry('End Time: ',	\
                         server.getResults().getEndDateTime() + ' ' + \
-                        server.getResults().getTimeZone())
+                        server.getResults().getTimezone())
                         
                 detailList.createEntry('Start Time (UTC): ',	\
                         server.getResults().getStartDateTimeUtc())
